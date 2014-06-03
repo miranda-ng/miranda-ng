@@ -3,11 +3,14 @@
 CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CSteamProto>(protoName, userName),
 	hAuthProcess(1),
-	hMessageProcess(1)
+	hMessageProcess(1),
+	requestsQueue(1)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
 	InitializeCriticalSection(&this->contact_search_lock);
+
+	InitQueue();
 
 	// icons
 	wchar_t filePath[MAX_PATH];
@@ -41,6 +44,8 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 
 CSteamProto::~CSteamProto()
 {
+	UninitQueue();
+
 	DeleteCriticalSection(&this->contact_search_lock);
 }
 
@@ -53,15 +58,21 @@ MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		ptrA steamId(mir_u2a(psr->id));
 		if (!FindContact(steamId))
 		{
-			hContact = AddContact(steamId, true);
-			ForkThread(&CSteamProto::UpdateContactsThread, (void*)mir_strdup(steamId));
+			//hContact = AddContact(steamId, true);
+			//ForkThread(&CSteamProto::UpdateContactsThread, (void*)mir_strdup(steamId));
+
+			ptrA token(getStringA("TokenSecret"));
+
+			PushRequest(
+				new SteamWebApi::GetUserSummariesRequest(token, steamId),
+				&CSteamProto::OnGotUserSummaries);
 		}
 	}
 	else if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT))
 	{
 		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
 		hContact = AddContact(ssr->contact->GetSteamId(), true);
-		UpdateContact(hContact, ssr->contact);
+		UpdateContact(hContact, ssr->data);
 	}
 
 	return hContact;
@@ -80,7 +91,17 @@ int __cdecl CSteamProto::Authorize(HANDLE hDbEvent)
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
 
-		ForkThread(&CSteamProto::AuthAllowThread, (void*)hContact);
+		//ForkThread(&CSteamProto::AuthAllowThread, (void*)hContact);
+
+		ptrA token(getStringA("TokenSecret"));
+		ptrA sessionId(getStringA("SessionID"));
+		ptrA steamId(getStringA("SteamID"));
+		char *who = getStringA(hContact, "SteamID");
+
+		PushRequest(
+			new SteamWebApi::ApprovePendingRequest(token, sessionId, steamId, who),
+			&CSteamProto::OnPendingApproved,
+			who);
 
 		return 0;
 	}
@@ -96,7 +117,17 @@ int __cdecl CSteamProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
 
-		ForkThread(&CSteamProto::AuthDenyThread, (void*)hContact);
+		//ForkThread(&CSteamProto::AuthDenyThread, (void*)hContact);
+
+		ptrA token(getStringA("TokenSecret"));
+		ptrA sessionId(getStringA("SessionID"));
+		ptrA steamId(getStringA("SteamID"));
+		char *who = getStringA(hContact, "SteamID");
+
+		PushRequest(
+			new SteamWebApi::IgnorePendingRequest(token, sessionId, steamId, who),
+			&CSteamProto::OnPendingIgnoreded,
+			who);
 
 		return 0;
 	}
@@ -119,7 +150,17 @@ int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 		param->hContact = hContact;
 		param->hAuth = (HANDLE)hAuth;
 
-		ForkThread(&CSteamProto::AddContactThread, param);
+		//ForkThread(&CSteamProto::AddContactThread, param);
+
+		ptrA token(getStringA("TokenSecret"));
+		ptrA sessionId(getStringA("SessionID"));
+		ptrA steamId(getStringA("SteamID"));
+		ptrA who(getStringA(hContact, "SteamID"));
+
+		PushRequest(
+			new SteamWebApi::AddFriendRequest(token, sessionId, steamId, who),
+			&CSteamProto::OnFriendAdded,
+			param);
 
 		return hAuth;
 	}
@@ -175,7 +216,15 @@ HANDLE __cdecl CSteamProto::SearchBasic(const TCHAR* id)
 	if (!this->IsOnline())
 		return 0;
 
-	ForkThread(&CSteamProto::SearchByIdThread, mir_wstrdup(id));
+	//ForkThread(&CSteamProto::SearchByIdThread, mir_wstrdup(id));
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA steamId(mir_u2a(id));
+
+	PushRequest(
+		new SteamWebApi::GetUserSummariesRequest(token, steamId),
+		&CSteamProto::OnSearchByIdEnded,
+		mir_wstrdup(id));
 
 	return (HANDLE)STEAM_SEARCH_BYID;
 }
@@ -187,8 +236,10 @@ HANDLE __cdecl CSteamProto::SearchByEmail(const TCHAR* email)
 
 HANDLE __cdecl CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
 {
-	if (!this->IsOnline())
+	//if (!this->IsOnline())
 		return 0;
+
+	ptrA token(getStringA("TokenSecret"));
 
 	CMString keywords;
 	keywords.AppendFormat(L" %s", nick);
@@ -196,7 +247,10 @@ HANDLE __cdecl CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstNa
 	keywords.AppendFormat(L" %s", lastName);
 	keywords.Trim();
 
-	ForkThread(&CSteamProto::SearchByNameThread, mir_wstrdup(keywords));
+	//ForkThread(&CSteamProto::SearchByNameThread, mir_wstrdup(keywords));
+	PushRequest(
+		new SteamWebApi::SearchRequest(token, mir_utf8encodeW(keywords)),
+		&CSteamProto::OnSearchByNameStarted);
 
 	return (HANDLE)STEAM_SEARCH_BYNAME;
 }
@@ -238,10 +292,19 @@ int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 
 	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
 	param->hContact = hContact;
-	param->text = mir_utf8encode(msg);
+	//param->text = mir_utf8encode(msg);
 	param->hMessage = (HANDLE)hMessage;
 
-	ForkThread(&CSteamProto::SendMessageThread, param);
+	//ForkThread(&CSteamProto::SendMessageThread, param);
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA umqid(getStringA("UMQID"));
+	ptrA steamId(getStringA(hContact, "SteamId"));
+
+	PushRequest(
+		new SteamWebApi::SendMessageRequest(token, umqid, steamId, ptrA(mir_utf8encode(msg))),
+		&CSteamProto::OnMessageSent,
+		param);
 
 	return hMessage;
 }
@@ -252,21 +315,23 @@ int __cdecl CSteamProto::SetApparentMode(MCONTACT hContact, int mode) { return 0
 
 int CSteamProto::SetStatus(int new_status)
 {
-	debugLogA("CSteamProto::SetStatus: from %i to %i", m_iStatus, new_status);
-
 	if (new_status == m_iDesiredStatus)
 		return 0;
+
+	debugLogA("CSteamProto::SetStatus: changing status from %i to %i", m_iStatus, new_status);
 
 	int old_status = m_iStatus;
 	m_iDesiredStatus = new_status;
 
 	if (new_status == ID_STATUS_OFFLINE)
 	{
-		m_bTerminated = true;
-		ForkThread(&CSteamProto::LogOutThread, NULL);
+		//isTerminated = true;
+		//ForkThread(&CSteamProto::LogOutThread, NULL);
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		StopQueue();
 
 		if (!Miranda_Terminated())
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
@@ -276,7 +341,8 @@ int CSteamProto::SetStatus(int new_status)
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		ForkThread(&CSteamProto::LogInThread, NULL);
+		//ForkThread(&CSteamProto::LogInThread, NULL);
+		StartQueue();
 	}
 
 	return 0;
@@ -305,7 +371,20 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 		return this->OnOptionsInit(wParam, lParam);*/
 
 	case EV_PROTO_ONCONTACTDELETED:
-		ForkThread(&CSteamProto::RemoveContactThread, (void*)getStringA(wParam, "SteamID"));
+		if (IsOnline())
+		{
+			//ForkThread(&CSteamProto::RemoveContactThread, (void*)getStringA(wParam, "SteamID"));
+
+			ptrA token(getStringA("TokenSecret"));
+			ptrA sessionId(getStringA("SessionID"));
+			ptrA steamId(getStringA("SteamID"));
+			char *who = getStringA(wParam, "SteamID");
+
+			PushRequest(
+				new SteamWebApi::RemoveFriendRequest(token, sessionId, steamId, who),
+				&CSteamProto::OnFriendRemoved,
+				who);
+		}
 		return 0;
 
 	/*case EV_PROTO_ONMENU:

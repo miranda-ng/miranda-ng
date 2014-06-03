@@ -31,7 +31,7 @@ namespace SteamWebApi
 		{
 			avatar->success = false;
 
-			HttpGetRequest request(hConnection, avatarUrl);
+			/*HttpGetRequest request(hConnection, avatarUrl);
 			request.ResetFlags(NLHRF_HTTP11 | NLHRF_NODUMP);
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
@@ -43,7 +43,7 @@ namespace SteamWebApi
 
 			avatar->size = response->dataLength;
 			avatar->data = (BYTE*)mir_alloc(avatar->size);
-			memcpy(avatar->data, response->pData, avatar->size);
+			memcpy(avatar->data, response->pData, avatar->size);*/
 
 			avatar->success = true;
 		}

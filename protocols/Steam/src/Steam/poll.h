@@ -94,7 +94,7 @@ namespace SteamWebApi
 
 			SecureHttpPostRequest request(hConnection, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001");
 			request.SetData(data, strlen(data));
-			request.SetTimeout(90000); // may need to encrease timeout
+			request.SetTimeout(30000); // may need to encrease timeout
 
 			mir_ptr<NETLIBHTTPREQUEST> response(request.Send());
 			if (!response)
@@ -224,6 +224,23 @@ namespace SteamWebApi
 			}
 
 			pollResult->success = true;
+		}
+	};
+
+	class PollRequest : public HttpsPostRequest
+	{
+	public:
+		PollRequest(const char *token, const char *umqId, UINT32 messageId) :
+			HttpsPostRequest(STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001")
+		{
+			timeout = 30000;
+			flags |= NLHRF_PERSISTENT;
+
+			char data[256];
+			mir_snprintf(data, SIZEOF(data), "access_token=%s&umqid=%s&message=%u", token, umqId, messageId);
+
+			SetData(data, strlen(data));
+			AddHeader("Connection", "keep-alive");
 		}
 	};
 }

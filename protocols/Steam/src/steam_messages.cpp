@@ -34,3 +34,18 @@ void CSteamProto::SendTypingThread(void *arg)
 	debugLogA("CSteamProto::SendTypingThread: call SteamWebApi::PollApi::SteamWebApi::MessageApi::SendMessage");
 	SteamWebApi::MessageApi::SendTyping(m_hNetlibUser, token, umqId, steamId, &sendResult);
 }
+
+void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
+{
+	SendMessageParam *param = (SendMessageParam*)arg;
+
+	int status = response->resultCode == HTTP_STATUS_OK ? ACKRESULT_SUCCESS : ACKRESULT_FAILED;
+
+	ProtoBroadcastAck(
+		param->hContact,
+		ACKTYPE_MESSAGE,
+		status,
+		param->hMessage, 0);
+
+	mir_free(param);
+}

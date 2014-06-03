@@ -44,9 +44,8 @@ int CSteamProto::MirandaToSteamState(int status)
 	}
 }
 
-int CSteamProto::RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const char *data, DWORD dataSize, BYTE *encryptedData, DWORD &encryptedSize)
+int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encryptedData, DWORD &encryptedSize)
 {
-	const char *pszModulus = rsaKey.GetModulus();
 	DWORD cchModulus = (DWORD)strlen(pszModulus);
 
 	// convert hex string to byte array
@@ -99,6 +98,8 @@ int CSteamProto::RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const 
 	HCRYPTKEY phKey = 0;
 	if (!CryptImportKey(hCSP, pKeyBlob, cbKeyBlob, 0, 0, &phKey))
 		return GetLastError();
+
+	DWORD dataSize = strlen(data);
 
 	// if data is not allocated just renurn size
 	if (encryptedData == NULL)

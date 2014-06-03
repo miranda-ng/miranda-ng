@@ -103,6 +103,24 @@ namespace SteamWebApi
 			sendResult->success = true;
 		}
 	};
+
+	class SendMessageRequest : public HttpsPostRequest
+	{
+	public:
+		SendMessageRequest(const char *token, const char *umqId, const char *steamId, const char *text) :
+			HttpsPostRequest(STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001")
+		{
+			char data[1024];
+			mir_snprintf(data, SIZEOF(data),
+				"access_token=%s&umqid=%s&steamid_dst=%s&type=saytext&text=%s",
+				token,
+				umqId,
+				steamId,
+				ptrA(mir_urlEncode(text)));
+
+			SetData(data, strlen(data));
+		}
+	};
 }
 
 

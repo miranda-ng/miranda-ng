@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}</ProjectGuid>
+    <ProjectGuid>{F5282DBC-756B-4071-B186-3E82C0E8E1F7}</ProjectGuid>
     <ProjectName>Steam</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -196,13 +196,13 @@
     <ClInclude Include="src\http_request.h" />
     <ClInclude Include="src\Steam\authorization.h" />
     <ClInclude Include="src\Steam\avatar.h" />
-    <ClInclude Include="src\Steam\crypto.h" />
     <ClInclude Include="src\Steam\friend.h" />
     <ClInclude Include="src\Steam\friend_list.h" />
     <ClInclude Include="src\Steam\pending.h" />
     <ClInclude Include="src\Steam\login.h" />
     <ClInclude Include="src\Steam\message.h" />
     <ClInclude Include="src\Steam\poll.h" />
+    <ClInclude Include="src\Steam\rsa_key.h" />
     <ClInclude Include="src\Steam\session.h" />
     <ClInclude Include="src\Steam\steam.h" />
     <ClInclude Include="src\steam_proto.h" />
@@ -222,7 +222,8 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\steam_thread.cpp" />
+    <ClCompile Include="src\steam_queue.cpp" />
+    <ClCompile Include="src\steam_pooling.cpp" />
     <ClCompile Include="src\steam_utils.cpp" />
   </ItemGroup>
   <ItemGroup>

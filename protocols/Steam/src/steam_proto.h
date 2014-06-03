@@ -34,6 +34,7 @@ struct STEAM_SEARCH_RESULT
 {
 	PROTOSEARCHRESULT hdr;
 	const SteamWebApi::FriendApi::Summary *contact;
+	JSONNODE *data;
 };
 
 enum
@@ -46,6 +47,26 @@ enum
 	CMI_MAX   // this item shall be the last one
 };
 
+typedef void (CSteamProto::*RESPONSE)(const NETLIBHTTPREQUEST *response, void *arg);
+
+struct QueueItem
+{
+	SteamWebApi::HttpRequest *request;
+	void *arg;
+	RESPONSE responseCallback;
+	RESPONSE responseFailedCallback;
+
+	QueueItem(SteamWebApi::HttpRequest *request) : 
+		request(request), arg(NULL), responseCallback(NULL), responseFailedCallback(NULL) { }
+	
+	QueueItem(SteamWebApi::HttpRequest *request, RESPONSE response) : 
+		request(request), arg(NULL), responseCallback(response), responseFailedCallback(NULL) { }
+	
+	QueueItem(SteamWebApi::HttpRequest *request, RESPONSE response, RESPONSE responseFailedCallback) : 
+		request(request), arg(NULL), responseCallback(response), responseFailedCallback(responseFailedCallback) { }
+
+	~QueueItem() { delete request; responseCallback = NULL; }
+};
 
 class CSteamProto : public PROTO<CSteamProto>
 {
@@ -55,48 +76,48 @@ public:
 	~CSteamProto();
 
 	// PROTO_INTERFACE
-	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-	virtual	MCONTACT  __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
+	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
+	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
 
-	virtual	int       __cdecl Authorize( HANDLE hDbEvent );
-	virtual	int       __cdecl AuthDeny( HANDLE hDbEvent, const TCHAR* szReason );
-	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR* szMessage );
+	virtual	int       __cdecl Authorize(HANDLE hDbEvent);
+	virtual	int       __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
+	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT *);
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR * szMessage);
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath );
-	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer );
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason );
-	virtual	int       __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename );
+	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath);
+	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
+	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason);
+	virtual	int       __cdecl FileResume(HANDLE hTransfer, int *action, const TCHAR** szFilename);
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, MCONTACT hContact = NULL );
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType );
+	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic( const TCHAR* id );
-	virtual	HANDLE    __cdecl SearchByEmail( const TCHAR* email );
-	virtual	HANDLE    __cdecl SearchByName( const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName );
-	virtual	HWND      __cdecl SearchAdvanced( HWND owner );
-	virtual	HWND      __cdecl CreateExtendedSearchUI( HWND owner );
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
+	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *email);
+	virtual	HANDLE    __cdecl SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName);
+	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
+	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET* );
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT* );
-	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT* );
+	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
+	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 
 	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles );
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg );
-	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url );
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles);
+	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
+	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url);
 
-	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode );
-	virtual	int       __cdecl SetStatus( int iNewStatus );
+	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
+	virtual	int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact );
-	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt );
-	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const TCHAR* msg );
+	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
+	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt);
+	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR* msg);
 
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type );
+	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
-	virtual	int       __cdecl OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam );
+	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	// instances
 	static CSteamProto* InitProtoInstance(const char* protoName, const wchar_t* userName);
@@ -110,18 +131,37 @@ public:
 	static void UninitMenus();
 
 protected:
-	bool m_bTerminated;
-	HANDLE m_hPollingThread;
+	bool isTerminated;
+	HANDLE m_evRequestsQueue, m_hQueueThread;
+	HANDLE m_pollingConnection, m_hPollingThread;
 	ULONG  hAuthProcess;
 	ULONG  hMessageProcess;
 	CRITICAL_SECTION contact_search_lock;
+	CRITICAL_SECTION requests_queue_lock;
+	LIST<QueueItem> requestsQueue;
 
 	// instances
 	static LIST<CSteamProto> InstanceList;
 	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
 
+	// queue
+	void InitQueue();
+	void UninitQueue();
+	
+	void StartQueue();
+	void StopQueue();
+
+	void PushRequest(SteamWebApi::HttpRequest *request);
+	void PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response);
+	void PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response, void *arg);
+
+	void ExecuteRequest(QueueItem *requestItem);
+
+	void __cdecl QueueThread(void*);
+
 	// pooling thread
 	void PollServer(const char *sessionId, const char *steamId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult);
+	void ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);
 
 	// account
@@ -133,6 +173,13 @@ protected:
 	void __cdecl LogOutThread(void*);
 	void __cdecl SetServerStatusThread(void*);
 
+	void OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg);
+	
+	void OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnGotSession(const NETLIBHTTPREQUEST *response, void *arg);
+
+	void OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg);
+
 	// contacts
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
@@ -142,8 +189,26 @@ protected:
 	void UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *summary);
 	void __cdecl UpdateContactsThread(void*);
 
+	void UpdateContact(MCONTACT hContact, JSONNODE *data);
+
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const char *steamId, bool isTemporary = false);
+
+	void OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *arg);
+
+	void OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg);
+
+	void OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg);
+
+	void OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *arg);
+
+	void OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg);
+
+	void OnSearchByNameStarted(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnSearchByNameFinished(const NETLIBHTTPREQUEST *response, void *arg);
 
 	void __cdecl RaiseAuthRequestThread(void*);
 	void __cdecl AuthAllowThread(void*);
@@ -160,6 +225,8 @@ protected:
 	// messages
 	void __cdecl SendMessageThread(void*);
 	void __cdecl SendTypingThread(void*);
+
+	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
 
 	// menus
 	HGENMENU m_hMenuRoot;
@@ -191,7 +258,7 @@ protected:
 	static WORD SteamToMirandaStatus(int state);
 	static int MirandaToSteamState(int status);
 
-	static int RsaEncrypt(const SteamWebApi::RsaKeyApi::RsaKey &rsaKey, const char *data, DWORD dataSize, BYTE *encrypted, DWORD &encryptedSize);
+	static int RsaEncrypt(const char *pszModulus, const char *data, BYTE *encrypted, DWORD &encryptedSize);
 
 	HANDLE AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 

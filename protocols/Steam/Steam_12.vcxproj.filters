@@ -36,9 +36,6 @@
     <ClCompile Include="src\steam_instances.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\steam_thread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\steam_contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +49,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\steam_menus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steam_queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steam_pooling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Steam\authorization.h">
-      <Filter>Header Files\Steam</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Steam\crypto.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
     <ClInclude Include="src\Steam\friend.h">
@@ -102,6 +102,9 @@
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
     <ClInclude Include="src\Steam\session.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\rsa_key.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
   </ItemGroup>

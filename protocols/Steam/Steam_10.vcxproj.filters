@@ -39,9 +39,6 @@
     <ClCompile Include="src\steam_account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\steam_thread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\steam_messages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +49,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\steam_menus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steam_pooling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steam_queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

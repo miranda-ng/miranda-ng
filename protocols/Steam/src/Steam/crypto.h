@@ -1,13 +1,13 @@
 ﻿#ifndef _STEAM_CRYPTO_H_
 #define _STEAM_CRYPTO_H_
 
-		#include <openssl/rsa.h>
-		#include <openssl/bio.h>
-		#include <openssl/bn.h>
-		#include <openssl/err.h>
-		#include <openssl/evp.h>
-		#include <openssl/rand.h>
-		#include <openssl/engine.h>
+#include <openssl/rsa.h>
+#include <openssl/bio.h>
+#include <openssl/bn.h>
+#include <openssl/err.h>
+#include <openssl/evp.h>
+#include <openssl/rand.h>
+#include <openssl/engine.h>
 
 namespace SteamWebApi
 {

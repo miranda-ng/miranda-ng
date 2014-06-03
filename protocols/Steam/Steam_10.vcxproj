@@ -215,11 +215,12 @@
     <ClCompile Include="src\steam_dialogs.cpp" />
     <ClCompile Include="src\steam_menus.cpp" />
     <ClCompile Include="src\steam_messages.cpp" />
+    <ClCompile Include="src\steam_pooling.cpp" />
     <ClCompile Include="src\steam_proto.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\steam_thread.cpp" />
+    <ClCompile Include="src\steam_queue.cpp" />
     <ClCompile Include="src\steam_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
