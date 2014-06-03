@@ -32,6 +32,7 @@ public:
 		szResultDescr = NULL;
 		flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
 		requestType = request;
+		timeout = 0;
 
 		m_hNetlibUser = hNetlibUser;
 		szUrl = NULL;
@@ -104,9 +105,9 @@ public:
 			m_szUrl.append("&").append(szValue);
 	}
 
-	void SetTimeout(int timeout)
+	void SetTimeout(int msecs)
 	{
-		timeout = timeout;
+		timeout = msecs;
 	}
 
 	NETLIBHTTPREQUEST *Send()
