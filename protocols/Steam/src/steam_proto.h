@@ -27,13 +27,11 @@ struct SendMessageParam
 {
 	MCONTACT hContact;
 	HANDLE hMessage;
-	const char *text;
 };
 
 struct STEAM_SEARCH_RESULT
 {
 	PROTOSEARCHRESULT hdr;
-	const SteamWebApi::FriendApi::Summary *contact;
 	JSONNODE *data;
 };
 
@@ -45,6 +43,21 @@ enum
 	//CMI_BLOCK,
 	CMI_JOIN_GAME,
 	CMI_MAX   // this item shall be the last one
+};
+
+enum HTTP_STATUS
+{
+	HTTP_STATUS_NONE = 0,
+	HTTP_STATUS_OK = 200,
+	HTTP_STATUS_FOUND = 302,
+	HTTP_STATUS_BAD_REQUEST = 400,
+	HTTP_STATUS_UNAUTHORIZED = 401,
+	HTTP_STATUS_FORBIDDEN = 403,
+	HTTP_STATUS_NOT_FOUND = 404,
+	HTTP_STATUS_METHOD_NOT_ALLOWED = 405,
+	HTTP_STATUS_TOO_MANY_REQUESTS = 429,
+	HTTP_STATUS_SERVICE_UNAVAILABLE = 503,
+	HTTP_STATUS_INSUFICIENTE_STORAGE = 507
 };
 
 typedef void (CSteamProto::*RESPONSE)(const NETLIBHTTPREQUEST *response, void *arg);
@@ -160,18 +173,12 @@ protected:
 	void __cdecl QueueThread(void*);
 
 	// pooling thread
-	void PollServer(const char *sessionId, const char *steamId, UINT32 messageId, SteamWebApi::PollApi::PollResult *pollResult);
 	void ParsePollData(JSONNODE *data);
 	void __cdecl PollingThread(void*);
 
 	// account
 	bool IsOnline();
 	bool IsMe(const char *steamId);
-	void SetServerStatus(WORD status);
-	void Authorize(SteamWebApi::AuthorizationApi::AuthResult *authResult);
-	void __cdecl LogInThread(void*);
-	void __cdecl LogOutThread(void*);
-	void __cdecl SetServerStatusThread(void*);
 
 	void OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg);
 	
@@ -186,9 +193,6 @@ protected:
 
 	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
 
-	void UpdateContact(MCONTACT hContact, const SteamWebApi::FriendApi::Summary *summary);
-	void __cdecl UpdateContactsThread(void*);
-
 	void UpdateContact(MCONTACT hContact, JSONNODE *data);
 
 	MCONTACT FindContact(const char *steamId);
@@ -196,6 +200,7 @@ protected:
 
 	void OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg);
 	void OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg);
 
 	void OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg);
 	void OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg);
@@ -210,22 +215,7 @@ protected:
 	void OnSearchByNameStarted(const NETLIBHTTPREQUEST *response, void *arg);
 	void OnSearchByNameFinished(const NETLIBHTTPREQUEST *response, void *arg);
 
-	void __cdecl RaiseAuthRequestThread(void*);
-	void __cdecl AuthAllowThread(void*);
-	void __cdecl AuthDenyThread(void*);
-
-	void __cdecl AddContactThread(void*);
-	void __cdecl RemoveContactThread(void*);
-
-	void __cdecl LoadContactListThread(void*);
-	
-	void __cdecl SearchByIdThread(void*);
-	void __cdecl SearchByNameThread(void*);
-
 	// messages
-	void __cdecl SendMessageThread(void*);
-	void __cdecl SendTypingThread(void*);
-
 	void OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg);
 
 	// menus

@@ -6,29 +6,6 @@ namespace SteamWebApi
 	#define STEAM_API_URL "https://api.steampowered.com"
 	#define STEAM_COM_URL "https://steamcommunity.com"
 
-	class FriendListApi;
-	class PendingApi;
-
-	class BaseApi
-	{
-	public:
-		class Result
-		{
-			friend FriendListApi;
-			friend PendingApi;
-
-		protected:
-			bool success;
-			HTTP_STATUS status;
-
-		public:
-			Result() : success(false), status(HTTP_STATUS_NONE) { }
-
-			bool IsSuccess() const { return success; }
-			HTTP_STATUS GetStatus() const { return status; }
-		};
-	};
-
 	class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	{
 	public:

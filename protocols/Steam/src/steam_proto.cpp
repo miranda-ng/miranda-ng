@@ -52,10 +52,9 @@ CSteamProto::~CSteamProto()
 MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	MCONTACT hContact = NULL;
-
+	ptrA steamId(mir_u2a(psr->id));
 	if (psr->cbSize == sizeof(PROTOSEARCHRESULT))
 	{
-		ptrA steamId(mir_u2a(psr->id));
 		if (!FindContact(steamId))
 		{
 			//hContact = AddContact(steamId, true);
@@ -71,7 +70,7 @@ MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	else if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT))
 	{
 		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
-		hContact = AddContact(ssr->contact->GetSteamId(), true);
+		hContact = AddContact(steamId, true);
 		UpdateContact(hContact, ssr->data);
 	}
 

@@ -36,8 +36,6 @@
 class CSteamProto;
 extern HINSTANCE g_hInstance;
 
-#include "http_request.h"
-
 #include "Steam\steam.h"
 
 #include "steam_proto.h"
