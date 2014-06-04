@@ -108,8 +108,6 @@ public:
 
 	template<typename T> static size_t TSAPI CopyToClipBoard(T* _t, const HWND hwndOwner)
 	{
-		HGLOBAL	hData;
-
 		if (!OpenClipboard(hwndOwner) || _t == 0)
 			return 0;
 
@@ -118,7 +116,7 @@ public:
 		size_t i = _s * (s->length() + 1);
 
 		EmptyClipboard();
-		hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
+		HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
 
 		CopyMemory((void*)GlobalLock(hData), (void*)_t, i);
 		GlobalUnlock(hData);

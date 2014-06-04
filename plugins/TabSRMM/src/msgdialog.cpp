@@ -2569,10 +2569,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				dat->cache->saveHistory(0, 0);
 				if (dat->iCurrentQueueError >= 0 && dat->iCurrentQueueError < SendQueue::NR_SENDJOBS) {
 					SendJob *job = sendQueue->getJobByIndex(dat->iCurrentQueueError);
-					if (job->hSendId == 0 && job->hOwner == 0)
+					if (job->hSendId == 0 && job->hContact == 0)
 						break;
 
-					job->hSendId = (HANDLE)CallContactService(job->hOwner, PSS_MESSAGE,
+					job->hSendId = (HANDLE)CallContactService(job->hContact, PSS_MESSAGE,
 						(dat->sendMode & SMODE_FORCEANSI) ? (job->dwFlags & ~PREF_UNICODE) : job->dwFlags, (LPARAM)job->szSendBuffer);
 					resent++;
 				}
@@ -3435,7 +3435,7 @@ quote_from_last:
 			SendJob *jobs = sendQueue->getJobByIndex(0);
 
 			for (int i = 0; i < SendQueue::NR_SENDJOBS; i++) {
-				if (jobs[i].hOwner == dat->hContact) {
+				if (jobs[i].hContact == dat->hContact) {
 					if (jobs[i].iStatus >(unsigned)SendQueue::SQ_INPROGRESS)
 						sendQueue->clearJob(i);
 
@@ -3443,7 +3443,7 @@ quote_from_last:
 					// the hwndOwner is set to 0 because the window handle is now no longer valid.
 					// Response for such a job is still silently handled by AckMessage() (sendqueue.c)
 					if (jobs[i].iStatus == (unsigned)SendQueue::SQ_INPROGRESS)
-						jobs[i].hwndOwner = 0;
+						jobs[i].hOwnerWnd = 0;
 				}
 			}
 		}

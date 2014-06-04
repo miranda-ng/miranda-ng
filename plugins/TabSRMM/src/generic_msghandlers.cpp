@@ -35,33 +35,25 @@
  */
 void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 {
-	TCHAR szFilename[MAX_PATH];
-	OPENFILENAME ofn = {0};
-	EDITSTREAM stream = { 0 };
-	TCHAR szFilter[MAX_PATH];
-
 	if (dat && dat->hwndIEView != 0) {
-		IEVIEWEVENT event = {0};
-
-		event.cbSize = sizeof(IEVIEWEVENT);
+		IEVIEWEVENT event = { sizeof(event) };
 		event.hwnd = dat->hwndIEView;
 		event.hContact = dat->hContact;
 		event.iType = IEE_SAVE_DOCUMENT;
-		event.dwFlags = 0;
-		event.count = 0;
-		event.codepage = 0;
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
 	}
 	else if (dat) {
-		TCHAR  szInitialDir[MAX_PATH + 2];
-
+		TCHAR szFilter[MAX_PATH], szFilename[MAX_PATH];
 		mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s%c*.rtf%c%c"), TranslateT("Rich Edit file"), 0, 0, 0);
 		mir_sntprintf(szFilename, MAX_PATH, _T("%s.rtf"), dat->cache->getNick());
 
 		Utils::sanitizeFilename(szFilename);
 
+		TCHAR szInitialDir[MAX_PATH + 2];
 		mir_sntprintf(szInitialDir, MAX_PATH, _T("%s%s\\"), M.getDataPath(), _T("\\Saved message logs"));
 		CreateDirectoryTreeT(szInitialDir);
+
+		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = dat->hwnd;
 		ofn.lpstrFile = szFilename;
@@ -71,6 +63,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 		ofn.Flags = OFN_HIDEREADONLY;
 		ofn.lpstrDefExt = _T("rtf");
 		if (GetSaveFileName(&ofn)) {
+			EDITSTREAM stream = { 0 };
 			stream.dwCookie = (DWORD_PTR)szFilename;
 			stream.dwError = 0;
 			stream.pfnCallback = Utils::StreamOut;

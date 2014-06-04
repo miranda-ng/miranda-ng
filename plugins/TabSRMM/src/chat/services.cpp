@@ -42,7 +42,6 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, _T("default"), 6)) {
 		if ((pContainer = FindMatchingContainer(_T("default"), hContact)) == NULL) {
 			TCHAR szName[CONTAINER_NAMELEN + 1];
-
 			mir_sntprintf(szName, CONTAINER_NAMELEN, _T("default"));
 			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
 				return 0;

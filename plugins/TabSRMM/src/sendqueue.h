@@ -44,8 +44,8 @@ struct SendJob
 	char    *szSendBuffer;
 	int		iSendLength;	// length of message in utf-8 octets (used to check maxlen)
 	int      sendCount;
-	MCONTACT hOwner;
-	HWND     hwndOwner;
+	MCONTACT hContact;
+	HWND     hOwnerWnd;
 	unsigned iStatus;
 	TCHAR    szErrorMsg[128];
 	DWORD    dwFlags;

@@ -44,7 +44,7 @@ int SendQueue::findNextFailed(const TWindowData *dat) const
 {
 	if (dat)
 		for (int i=0; i < NR_SENDJOBS; i++)
-			if (m_jobs[i].hOwner == dat->hContact && m_jobs[i].iStatus == SQ_ERROR)
+			if (m_jobs[i].hContact == dat->hContact && m_jobs[i].iStatus == SQ_ERROR)
 				return i;
 
 	return -1;
@@ -82,9 +82,9 @@ int SendQueue::addTo(TWindowData *dat, const int iLen, int dwFlags)
 	 * find a mir_free entry in the send queue...
 	 */
 	for (i=0; i < NR_SENDJOBS; i++) {
-		if (m_jobs[i].hOwner != 0 || m_jobs[i].iStatus != 0) {
+		if (m_jobs[i].hContact != 0 || m_jobs[i].iStatus != 0) {
 			// this entry is used, check if it's orphaned and can be removed...
-			if (m_jobs[i].hwndOwner && IsWindow(m_jobs[i].hwndOwner))           // window exists, do not reuse it
+			if (m_jobs[i].hOwnerWnd && IsWindow(m_jobs[i].hOwnerWnd))           // window exists, do not reuse it
 				continue;
 			if (time(NULL) - m_jobs[i].dwTime < 120)                              // non-acked entry, but not old enough, don't re-use it
 				continue;
@@ -152,7 +152,7 @@ static void DoSplitSendW(LPVOID param)
 	WCHAR   *wszSaved, savedChar;
 	int      iCur = 0, iSavedCur = 0, i;
 	BOOL     fSplitting = TRUE;
-	MCONTACT hContact = job->hOwner;
+	MCONTACT hContact = job->hContact;
 	DWORD    dwFlags = job->dwFlags;
 	int      chunkSize = job->chunkSize / 2;
 	char    *szProto = GetContactProto(hContact);
@@ -227,7 +227,7 @@ static void DoSplitSendA(LPVOID param)
 	char    *szBegin, *szTemp, *szSaved, savedChar;
 	int      iLen, iCur = 0, iSavedCur = 0, i;
 	BOOL     fSplitting = TRUE;
-	MCONTACT hContact = job->hOwner;
+	MCONTACT hContact = job->hContact;
 	DWORD    dwFlags = job->dwFlags;
 	int      chunkSize = job->chunkSize;
 
@@ -318,9 +318,9 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		int iJobs = 0;
 		int iMinLength = 0;
 
-		m_jobs[iEntry].hOwner = ccActive->getActiveContact();
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
-		m_jobs[iEntry].hwndOwner = hwndDlg;
+		m_jobs[iEntry].hContact = ccActive->getActiveContact();
+		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 
 		int iSendLength = getSendLength(iEntry, dat->sendMode);
 
@@ -374,8 +374,8 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		if (!fSplit)
 			goto send_unsplitted;
 
-		m_jobs[iEntry].hOwner = ccActive->getActiveContact();
-		m_jobs[iEntry].hwndOwner = hwndDlg;
+		m_jobs[iEntry].hContact = ccActive->getActiveContact();
+		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
 		m_jobs[iEntry].chunkSize = dat->nMax;
@@ -394,8 +394,8 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 send_unsplitted:
 
-		m_jobs[iEntry].hOwner = ccActive->getActiveContact();
-		m_jobs[iEntry].hwndOwner = hwndDlg;
+		m_jobs[iEntry].hContact = ccActive->getActiveContact();
+		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
 		m_jobs[iEntry].iAcksNeeded = 1;
 		if (dat->sendMode & SMODE_SENDLATER) {
@@ -554,7 +554,7 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 	DM_ScrollToBottom(dat, 0, 1);
-	if (m_jobs[0].hOwner != 0)
+	if (m_jobs[0].hContact != 0)
 		EnableSending(dat, TRUE);
 }
 
@@ -678,10 +678,8 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				showErrorControls(dat, FALSE);
 			}
 		}
-		/*
-		 * we must discard this job, because there is no message window open to handle the
-		 * error properly. But we display a tray notification to inform the user about the problem.
-		 */
+		// we must discard this job, because there is no message window open to handle the
+		// error properly. But we display a tray notification to inform the user about the problem.
 		else goto inform_and_discard;
 	}
 
@@ -689,10 +687,8 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 	if (ack->result == ACKRESULT_FAILED) {
 		if (dat) {
-			/*
-			 * "hard" errors are handled differently in multisend. There is no option to retry - once failed, they
-			 * are discarded and the user is notified with a small log message.
-			 */
+			// "hard" errors are handled differently in multisend. There is no option to retry - once failed, they
+			// are discarded and the user is notified with a small log message.
 			if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 				SkinPlaySound("SendError");
 
@@ -707,7 +703,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		}
 
 inform_and_discard:
-		_DebugPopup(job.hOwner, TranslateT("A message delivery has failed after the contacts chat window was closed. You may want to resend the last message"));
+		_DebugPopup(job.hContact, TranslateT("A message delivery has failed after the contacts chat window was closed. You may want to resend the last message"));
 		clearJob(iFound);
 		return 0;
 	}
@@ -715,16 +711,16 @@ inform_and_discard:
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
-	dbei.szModule = GetContactProto(job.hOwner);
+	dbei.szModule = GetContactProto(job.hContact);
 	dbei.timestamp = time(NULL);
 	dbei.cbBlob = lstrlenA(job.szSendBuffer) + 1;
 
 	if (dat)
 		dat->cache->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
 	else {
-		CContactCache *c = CContactCache::getContactCache(job.hOwner);
-		if (c)
-			c->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
+		CContactCache *cc = CContactCache::getContactCache(job.hContact);
+		if (cc)
+			cc->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
 	}
 
 	if (job.dwFlags & PREF_UNICODE)
@@ -735,17 +731,17 @@ inform_and_discard:
 		dbei.flags |= DBEF_UTF;
 	dbei.pBlob = (PBYTE)job.szSendBuffer;
 
-	MessageWindowEvent evt = { sizeof(evt), (int)job.hSendId, job.hOwner, &dbei };
+	MessageWindowEvent evt = { sizeof(evt), (int)job.hSendId, job.hContact, &dbei };
 	NotifyEventHooks(PluginConfig.m_event_WriteEvent, 0, (LPARAM)&evt);
 
 	job.szSendBuffer = (char*)dbei.pBlob;
-	HANDLE hNewEvent = db_event_add(job.hOwner, &dbei);
+	HANDLE hNewEvent = db_event_add(job.hContact, &dbei);
 
 	if (m_pContainer)
 		if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 			SkinPlaySound("SendMsg");
 
-	if (dat && (job.hOwner == dat->hContact))
+	if (dat && job.hContact == dat->hContact)
 		if (dat->hDbEventFirst == NULL) {
 			dat->hDbEventFirst = hNewEvent;
 			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
@@ -770,7 +766,6 @@ inform_and_discard:
 		int iNextFailed = findNextFailed(dat);
 		if (iNextFailed >= 0 && !(dat->dwFlags & MWF_ERRORSTATE))
 			handleError(dat, iNextFailed);
-		//MAD: close on send mode
 		else {
 			if (M.GetByte("AutoClose", 0)) {
 				if (M.GetByte("adv_AutoClose_2", 0))
@@ -779,7 +774,6 @@ inform_and_discard:
 					SendMessage(dat->pContainer->hwnd, WM_CLOSE, 0, 0);
 			}
 		}
-		//MAD_
 	}
 	return 0;
 }
@@ -861,7 +855,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 
 			if (fIsSendLater) {
 				mir_snprintf(tszMsg, required, "%s%s", job->szSendBuffer, utf_header);
-				db_set_s(hContact ? hContact : job->hOwner, "SendLater", szKeyName, tszMsg);
+				db_set_s(hContact ? hContact : job->hContact, "SendLater", szKeyName, tszMsg);
 			}
 			else {
 				mir_snprintf(tszMsg, required, "%s%s", utf_header, job->szSendBuffer);
@@ -883,19 +877,19 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 				mir_sntprintf(tszMsg, required, _T("%s%s"), tszHeader, wszMsg);
 			char *utf = mir_utf8encodeT(tszMsg);
 			if (fIsSendLater)
-				db_set_s(hContact ? hContact : job->hOwner, "SendLater", szKeyName, utf);
+				db_set_s(hContact ? hContact : job->hContact, "SendLater", szKeyName, utf);
 			else
 				sendLater->addJob(utf, hContact);
 			mir_free(utf);
 			mir_free(tszMsg);
 		}
 		if (fIsSendLater) {
-			int iCount = db_get_dw(hContact ? hContact : job->hOwner, "SendLater", "count", 0);
+			int iCount = db_get_dw(hContact ? hContact : job->hContact, "SendLater", "count", 0);
 			iCount++;
-			db_set_dw(hContact ? hContact : job->hOwner, "SendLater", "count", iCount);
-			sendLater->addContact(hContact ? hContact : job->hOwner);
+			db_set_dw(hContact ? hContact : job->hContact, "SendLater", "count", iCount);
+			sendLater->addContact(hContact ? hContact : job->hContact);
 		}
-		return(iJobIndex);
+		return iJobIndex;
 	}
 	return -1;
 }

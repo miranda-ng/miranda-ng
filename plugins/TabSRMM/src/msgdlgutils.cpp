@@ -72,10 +72,8 @@ BOOL TSAPI IsCustomEvent(int eventType)
 	return TRUE;
 }
 
-/*
- * reorder tabs within a container. fSavePos indicates whether the new position should be saved to the
- * contacts db record (if so, the container will try to open the tab at the saved position later)
- */
+// reorder tabs within a container. fSavePos indicates whether the new position should be saved to the
+// contacts db record (if so, the container will try to open the tab at the saved position later)
 
 void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fSavePos)
 {
@@ -131,11 +129,9 @@ static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
-/*
- * saves a contact picture to disk
- * takes hbm (bitmap handle) and bool isOwnPic (1 == save the picture as your own avatar)
- * requires AVS and ADVAIMG services (Miranda 0.7+)
- */
+// saves a contact picture to disk
+// takes hbm (bitmap handle) and bool isOwnPic (1 == save the picture as your own avatar)
+// requires AVS and ADVAIMG services (Miranda 0.7+)
 
 static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 {
@@ -168,21 +164,19 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 		mir_sntprintf(szBaseName, MAX_PATH, _T("%s_%s"), dat->cache->getNick(), szTimestamp);
 
 	mir_sntprintf(szFinalFilename, MAX_PATH, _T("%s.png"), szBaseName);
-	OPENFILENAME ofn = {0};
-	ofn.lpstrDefExt = _T("png");
 
-	/*
-	 * do not allow / or \ or % in the filename
-	 */
+	// do not allow / or \ or % in the filename
 	Utils::sanitizeFilename(szFinalFilename);
 
 	TCHAR filter[MAX_PATH];
 	mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.bmp;*.png;*.jpg;*.gif%c%c"), TranslateT("Image files"), 0, 0, 0);
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lpstrDefExt = _T("png");
 	ofn.lpstrFilter = filter;
 	ofn.Flags = OFN_HIDEREADONLY | OFN_EXPLORER | OFN_ENABLESIZING | OFN_ENABLEHOOK;
 	ofn.lpfnHook = OpenFileSubclass;
 	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = 0;
 	ofn.lpstrFile = szFinalFilename;
 	ofn.lpstrInitialDir = szFinalPath;
 	ofn.nMaxFile = MAX_PATH;
@@ -204,10 +198,8 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	}
 }
 
-/*
- * flash a tab icon if mode = true, otherwise restore default icon
- * store flashing state into bState
- */
+// flash a tab icon if mode = true, otherwise restore default icon
+// store flashing state into bState
 
 void TSAPI FlashTab(TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *bState, BOOL mode, HICON origImage)
 {
@@ -224,10 +216,8 @@ void TSAPI FlashTab(TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *bState,
 		dat->pContainer->SideBar->updateSession(dat);
 }
 
-/*
- * calculates avatar layouting, based on splitter position to find the optimal size
- * for the avatar w/o disturbing the toolbar too much.
- */
+// calculates avatar layouting, based on splitter position to find the optimal size
+// for the avatar w/o disturbing the toolbar too much.
 
 void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 {
@@ -253,7 +243,7 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	GetClientRect(dat->hwnd, &rc);
 
 	if (dat->dwFlags & MWF_WASBACKGROUNDCREATE || dat->pContainer->dwFlags & CNT_DEFERREDCONFIGURE || dat->pContainer->dwFlags & CNT_CREATE_MINIMIZED || IsIconic(dat->pContainer->hwnd))
-		return;                 // at this stage, the layout is not yet ready...
+		return;  // at this stage, the layout is not yet ready...
 
 	if (bminfo->bmWidth == 0 || bminfo->bmHeight == 0)
 		picAspect = 1.0;
@@ -2388,11 +2378,11 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 		}
 	}
 	if (filename[0] == 0) {	// prompting to save
-		OPENFILENAME dlg;
-		dlg.lStructSize = sizeof(dlg);
-		dlg.hwndOwner = NULL; //dat->hwnd;
 		TCHAR filter[MAX_PATH];
 		mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.jpg%c%c"), TranslateT("JPEG-compressed images"), 0, 0, 0);
+
+		OPENFILENAME dlg;
+		dlg.lStructSize = sizeof(dlg);
 		dlg.lpstrFilter = filter;
 		dlg.nFilterIndex = 1;
 		dlg.lpstrFile = filename;
@@ -2402,6 +2392,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 		if (!GetSaveFileName(&dlg))
 			return;
 	}
+
 	IMGSRVC_INFO ii;
 	ii.cbSize = sizeof(ii);
 	ii.hbm = hbmp;

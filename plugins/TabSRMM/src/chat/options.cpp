@@ -829,80 +829,73 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			|| LOWORD(wParam) == IDC_LOGTIMESTAMP)
 			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))	return 0;
 
+		// open the base directory for MUC logs, using a standard file selector
+		// dialog. Simply allows the user to view what log files are there
+		// and possibly delete archived logs.
 		switch (LOWORD(wParam)) {
-			/*
-			* open the base directory for MUC logs, using a standard file selector
-			* dialog. Simply allows the user to view what log files are there
-			* and possibly delete archived logs.
-			*/
-		case IDC_MUC_OPENLOGBASEDIR: {
-			OPENFILENAME ofn = {0};
-			TCHAR	tszReturnName[MAX_PATH];
-			TCHAR	tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
-			TCHAR	tszTemp[MAX_PATH + 20], *p = 0, *p1 = 0;
+		case IDC_MUC_OPENLOGBASEDIR:
+			{
+				TCHAR	tszTemp[MAX_PATH + 20];
+				mir_sntprintf(tszTemp, MAX_PATH + 20, _T("%s"), g_Settings.pszLogDir);
 
-			mir_sntprintf(tszTemp, MAX_PATH + 20, _T("%s"), g_Settings.pszLogDir);
+				TCHAR *p = tszTemp;
+				while(*p && (*p == '\\' || *p == '.'))
+					p++;
 
-			p = tszTemp;
-			while(*p && (*p == '\\' || *p == '.'))
-				p++;
+				if (*p)
+					if (TCHAR *p1 = _tcschr(p, '\\'))
+						*p1 = 0;
 
-			if (*p) {
-				if ((p1 = _tcschr(p, '\\')))
-					*p1 = 0;
-			}
+				TCHAR	tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
+				mir_sntprintf(tszInitialDir, MAX_PATH, _T("%s%s"), M.getChatLogPath(), p);
+				if (!PathFileExists(tszInitialDir))
+					mir_sntprintf(tszInitialDir, MAX_PATH, _T("%s"), M.getChatLogPath());
 
-			mir_sntprintf(tszInitialDir, MAX_PATH, _T("%s%s"), M.getChatLogPath(), p);
-			if (PathFileExists(tszInitialDir))
+				TCHAR	tszReturnName[MAX_PATH]; tszReturnName[0] = 0;
+				mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%s%c*.*%c%c"), TranslateT("All Files"), 0, 0, 0);
+
+				OPENFILENAME ofn = { 0 };
 				ofn.lpstrInitialDir = tszInitialDir;
-			else {
-				mir_sntprintf(tszInitialDir, MAX_PATH, _T("%s"), M.getChatLogPath());
-				ofn.lpstrInitialDir = tszInitialDir;
+				ofn.lpstrFilter = tszTemp;
+				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+				ofn.lpstrFile = tszReturnName;
+				ofn.nMaxFile = MAX_PATH;
+				ofn.nMaxFileTitle = MAX_PATH;
+				ofn.Flags = OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
+				ofn.lpstrDefExt = _T("log");
+				GetOpenFileName(&ofn);
 			}
-
-			tszReturnName[0] = 0;
-			mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%s%c*.*%c%c"), TranslateT("All Files"), 0, 0, 0);
-
-			ofn.lpstrFilter = tszTemp;
-			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-			ofn.hwndOwner = 0;
-			ofn.lpstrFile = tszReturnName;
-			ofn.nMaxFile = MAX_PATH;
-			ofn.nMaxFileTitle = MAX_PATH;
-			ofn.Flags = OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-			ofn.lpstrDefExt = _T("log");
-			GetOpenFileName(&ofn);
 			break;
-		}
 
-		case IDC_FONTCHOOSE: {
-			TCHAR tszDirectory[MAX_PATH];
-			LPITEMIDLIST idList;
-			LPMALLOC psMalloc;
-			BROWSEINFO bi = {0};
+		case IDC_FONTCHOOSE:
+			{
+				TCHAR tszDirectory[MAX_PATH];
+				LPMALLOC psMalloc;
 
-			if (SUCCEEDED(CoGetMalloc(1, &psMalloc))) {
-				TCHAR tszTemp[MAX_PATH];
-				bi.hwndOwner = hwndDlg;
-				bi.pszDisplayName = tszDirectory;
-				bi.lpszTitle = TranslateT("Select Folder");
-				bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
-				bi.lpfn = BrowseCallbackProc;
-				bi.lParam = (LPARAM)tszDirectory;
+				if (SUCCEEDED(CoGetMalloc(1, &psMalloc))) {
+					BROWSEINFO bi = { 0 };
+					bi.hwndOwner = hwndDlg;
+					bi.pszDisplayName = tszDirectory;
+					bi.lpszTitle = TranslateT("Select Folder");
+					bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
+					bi.lpfn = BrowseCallbackProc;
+					bi.lParam = (LPARAM)tszDirectory;
 
-				idList = SHBrowseForFolder(&bi);
-				if (idList) {
-					const TCHAR *szUserDir = M.getUserDir();
-					SHGetPathFromIDList(idList, tszDirectory);
-					lstrcat(tszDirectory, _T("\\"));
-					M.pathToRelative(tszDirectory, tszTemp, const_cast<TCHAR *>(szUserDir));
-					SetWindowText(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), lstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+					LPITEMIDLIST idList = SHBrowseForFolder(&bi);
+					if (idList) {
+						const TCHAR *szUserDir = M.getUserDir();
+						SHGetPathFromIDList(idList, tszDirectory);
+						lstrcat(tszDirectory, _T("\\"));
+
+						TCHAR tszTemp[MAX_PATH];
+						M.pathToRelative(tszDirectory, tszTemp, const_cast<TCHAR *>(szUserDir));
+						SetWindowText(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), lstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+					}
+					psMalloc->Free(idList);
+					psMalloc->Release();
 				}
-				psMalloc->Free(idList);
-				psMalloc->Release();
 			}
 			break;
-		}
 
 		case IDC_LOGGING:
 			Utils::enableDlgControl(hwndDlg, IDC_LOGDIRECTORY, IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED ? TRUE : FALSE);
@@ -950,28 +943,32 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				pszText = (char *)mir_realloc(pszText, iLen + 1);
 				GetDlgItemTextA(hwndDlg, IDC_LOGTIMESTAMP, pszText, iLen + 1);
 				db_set_s(NULL, CHAT_MODULE, "LogTimestamp", pszText);
-			} else db_unset(NULL, CHAT_MODULE, "LogTimestamp");
+			}
+			else db_unset(NULL, CHAT_MODULE, "LogTimestamp");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_TIMESTAMP));
 			if (iLen > 0) {
 				pszText = (char *)mir_realloc(pszText, iLen + 1);
 				GetDlgItemTextA(hwndDlg, IDC_TIMESTAMP, pszText, iLen + 1);
 				db_set_s(NULL, CHAT_MODULE, "HeaderTime", pszText);
-			} else db_unset(NULL, CHAT_MODULE, "HeaderTime");
+			}
+			else db_unset(NULL, CHAT_MODULE, "HeaderTime");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_INSTAMP));
 			if (iLen > 0) {
 				pszText = (char *)mir_realloc(pszText, iLen + 1);
 				GetDlgItemTextA(hwndDlg, IDC_INSTAMP, pszText, iLen + 1);
 				db_set_s(NULL, CHAT_MODULE, "HeaderIncoming", pszText);
-			} else db_unset(NULL, CHAT_MODULE, "HeaderIncoming");
+			}
+			else db_unset(NULL, CHAT_MODULE, "HeaderIncoming");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_OUTSTAMP));
 			if (iLen > 0) {
 				pszText = (char *)mir_realloc(pszText, iLen + 1);
 				GetDlgItemTextA(hwndDlg, IDC_OUTSTAMP, pszText, iLen + 1);
 				db_set_s(NULL, CHAT_MODULE, "HeaderOutgoing", pszText);
-			} else db_unset(NULL, CHAT_MODULE, "HeaderOutgoing");
+			}
+			else db_unset(NULL, CHAT_MODULE, "HeaderOutgoing");
 
 			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
 			db_set_w(NULL, CHAT_MODULE, "LogLimit", (WORD)iLen);

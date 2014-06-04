@@ -515,14 +515,14 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendJob *job = sendQueue->getJobByIndex((int)wParam);
 
 			ACKDATA ack = {0};
-			ack.hContact = job->hOwner;
+			ack.hContact = job->hContact;
 			ack.hProcess = job->hSendId;
 			ack.type = ACKTYPE_MESSAGE;
 			ack.result = ACKRESULT_SUCCESS;
 
-			if (job->hOwner && job->iAcksNeeded && job->hOwner && job->iStatus == SendQueue::SQ_INPROGRESS) {
-				if (IsWindow(job->hwndOwner))
-					::SendMessage(job->hwndOwner, HM_EVENTSENT, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
+			if (job->hContact && job->iAcksNeeded && job->hContact && job->iStatus == SendQueue::SQ_INPROGRESS) {
+				if (IsWindow(job->hOwnerWnd))
+					::SendMessage(job->hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
 				else
 					sendQueue->ackMessage(0, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
 			}

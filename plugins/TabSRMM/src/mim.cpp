@@ -442,13 +442,13 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 		MCONTACT hMeta = db_mc_getMeta(pAck->hContact);
 		for (int j = 0; j < SendQueue::NR_SENDJOBS; j++) {
 			SendJob &p = jobs[j];
-			if (pAck->hProcess == p.hSendId && pAck->hContact == p.hOwner) {
-				TWindowData *dat = p.hwndOwner ? (TWindowData*)GetWindowLongPtr(p.hwndOwner, GWLP_USERDATA) : NULL;
+			if (pAck->hProcess == p.hSendId && pAck->hContact == p.hContact) {
+				TWindowData *dat = p.hOwnerWnd ? (TWindowData*)GetWindowLongPtr(p.hOwnerWnd, GWLP_USERDATA) : NULL;
 				if (dat == NULL) {
 					sendQueue->ackMessage(NULL, (WPARAM)MAKELONG(j, i), lParam);
 					return 0;
 				}
-				if (dat->hContact == p.hOwner || dat->hContact == hMeta) {
+				if (dat->hContact == p.hContact || dat->hContact == hMeta) {
 					iFound = j;
 					break;
 				}
@@ -459,7 +459,7 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 		if (iFound == SendQueue::NR_SENDJOBS)     // no matching send info found in the queue
 			sendLater->processAck(pAck);
 		else                                      // try to find the process handle in the list of open send later jobs
-			SendMessage(jobs[iFound].hwndOwner, HM_EVENTSENT, (WPARAM)MAKELONG(iFound, i), lParam);
+			SendMessage(jobs[iFound].hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(iFound, i), lParam);
 	}
 	return 0;
 }
@@ -596,10 +596,9 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		bAllowAutoCreate = true;
 	else {
 		char *szProto = GetContactProto(hContact);
-		if (szProto && !strcmp(szProto, META_PROTO)) {
-			MCONTACT hSubconttact = db_mc_getMostOnline(hContact);
-			szProto = GetContactProto(hSubconttact);
-		}
+		if (szProto && !strcmp(szProto, META_PROTO))
+			szProto = GetContactProto(db_mc_getMostOnline(hContact));
+
 		if (szProto) {
 			DWORD dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & dwStatusMask))           // should never happen, but...
