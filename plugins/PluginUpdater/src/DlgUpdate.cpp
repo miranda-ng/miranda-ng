@@ -378,6 +378,7 @@ static void DlgUpdateSilent(void *lParam)
 				// interrupt update as we require all components to be updated
 				Netlib_CloseHandle(nlc);
 				SkinPlaySound("updatefailed");
+				delete &UpdateFiles;
 				return;
 			}
 			count++;

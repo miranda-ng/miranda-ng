@@ -39,6 +39,7 @@ Boston, MA 02111-1307, USA.
 #include <m_hotkeys.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
+#include <m_skin.h>
 #include <win2k.h>
 #include "m_pluginupdater.h"
 
@@ -201,9 +202,9 @@ void  __stdcall OpenPluginOptions(void*);
 BOOL  AllowUpdateOnStartup();
 void  InitTimer(int type = 0);
 
-INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
-INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam);
-INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
+INT_PTR MenuCommand(WPARAM,LPARAM);
+INT_PTR ShowListCommand(WPARAM,LPARAM);
+INT_PTR EmptyFolder(WPARAM,LPARAM);
 
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
