@@ -140,6 +140,10 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+
+	//add sounds
+	SkinAddNewSoundEx("updatecompleted",LPGEN("Plugin Updater"),LPGEN("Update completed"));
+	SkinAddNewSoundEx("updatefailed",LPGEN("Plugin Updater"),LPGEN("Update failed"));
 	return 0;
 }
 

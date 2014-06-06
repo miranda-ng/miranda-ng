@@ -1048,10 +1048,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_UPDATEICON:
 		{
 			TitleBarData tbd = {0};
-			TabControlData tcd;
 			tbd.iFlags = TBDF_ICON;
 			GetTitlebarIcon(dat, &tbd);
 			SendMessage(dat->hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)hwndDlg);
+			TabControlData tcd;
 			tcd.iFlags = TCDF_ICON;
 			tcd.hIcon = GetTabIcon(dat);
 			SendMessage(dat->hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)hwndDlg);
@@ -1083,8 +1083,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (wParam == dat->windowData.hContact) {
 			if (dat->windowData.hContact && dat->szProto) {
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-				char idbuf[128];
-				char buf[128];
+				char idbuf[128], buf[128];
 				GetContactUniqueId(dat, idbuf, sizeof(idbuf));
 				mir_snprintf(buf, sizeof(buf), Translate("User Menu - %s"), idbuf);
 				SendMessage(GetDlgItem(hwndDlg, IDC_USERMENU), BUTTONADDTOOLTIP, (WPARAM) buf, 0);
@@ -1384,7 +1383,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dat->hDbEventFirst == NULL)
 				dat->hDbEventFirst = hDbEvent;
 			if (DbEventIsShown(&dbei, dat)) {
-				if (DbEventIsMessageOrCustom(&dbei) && !(dbei.flags & (DBEF_SENT))) {
+				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
 					/* store the event when the container is hidden so that clist notifications can be removed */
 					if (!IsWindowVisible(GetParent(hwndDlg)) && dat->hDbUnreadEventFirst == NULL)
 						dat->hDbUnreadEventFirst = hDbEvent;
@@ -1402,7 +1401,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SendMessage(hwndDlg, DM_APPENDTOLOG, WPARAM(hDbEvent), 0);
 				else
 					SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-				if (!(dbei.flags & DBEF_SENT) && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
+				if (!(dbei.flags & DBEF_SENT) && !DbEventIsCustomForMsgWindow(&dbei)) {
 					if (GetActiveWindow() != dat->hwndParent || GetForegroundWindow() != dat->hwndParent || dat->parent->hwndActive != hwndDlg) {
 						dat->showUnread = 1;
 						SendMessage(hwndDlg, DM_UPDATEICON, 0, 0);
@@ -1595,14 +1594,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (!DrawMenuItem(wParam, lParam)) {
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_AVATAR)) {
-				RECT rect;
+				int avatarWidth = 0, avatarHeight = 0;
+				int itemWidth = dis->rcItem.right - dis->rcItem.left + 1, itemHeight = dis->rcItem.bottom - dis->rcItem.top + 1;
 				HDC hdcMem = CreateCompatibleDC(dis->hDC);
-				int avatarWidth = 0;
-				int avatarHeight = 0;
-				int itemWidth = dis->rcItem.right - dis->rcItem.left + 1;
-				int itemHeight = dis->rcItem.bottom - dis->rcItem.top + 1;
 				HBITMAP hbmMem = CreateCompatibleBitmap(dis->hDC, itemWidth, itemHeight);
 				hbmMem = (HBITMAP) SelectObject(hdcMem, hbmMem);
+				RECT rect;
 				rect.top = 0;
 				rect.left = 0;
 				rect.right = itemWidth - 1;

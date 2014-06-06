@@ -367,7 +367,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->pszNickW = getContactName(event->hContact, szProto);
 			eventData->bIsMe = FALSE;
 		}
-		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || Utils::DbEventIsForMsgWindow(&dbei)) {
 			eventData->pszTextW = DbGetEventTextW(&dbei, newEvent.codepage);
 			if (dbei.eventType == EVENTTYPE_MESSAGE)
 				eventData->iType = IEED_EVENT_MESSAGE;
