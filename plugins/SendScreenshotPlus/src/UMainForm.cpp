@@ -123,6 +123,20 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 	}
 
 	switch (msg){
+		case WM_DROPFILES:{ /// Drag&Drop of local files
+			TCHAR filename[MAX_PATH];
+			if(!DragQueryFile((HDROP)wParam,0,filename,MAX_PATH)) *filename='\0';
+			DragFinish((HDROP)wParam);
+			if(wnd->second->m_hwndTabPage)
+				ShowWindow(wnd->second->m_hwndTabPage,SW_HIDE);
+			TAB_INFO itab={TCIF_PARAM};
+			wnd->second->m_opt_tabCapture=2; // activate file tab
+			TabCtrl_SetCurSel(wnd->second->m_hwndTab,wnd->second->m_opt_tabCapture);
+			TabCtrl_GetItem(wnd->second->m_hwndTab,wnd->second->m_opt_tabCapture,&itab);
+			wnd->second->m_hwndTabPage=itab.hwndTabPage;
+			ShowWindow(wnd->second->m_hwndTabPage,SW_SHOW);
+			SetDlgItemText(wnd->second->m_hwndTabPage,ID_edtSize,filename);
+			break;}
 		case WM_COMMAND:
 			wnd->second->wmCommand(wParam, lParam);
 			break;
@@ -152,14 +166,14 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 //WM_INITDIALOG:
 void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	HWND hCtrl;
-	//Taskbar and Window icon
+	/// Taskbar and Window icon
 	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW2));
 	TCHAR* pt = mir_a2t(__PLUGIN_NAME);
 	SetWindowText(m_hWnd, pt);
 	mir_free(pt);
 
-	// Headerbar
+	/// Headerbar
 	pt = mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, (LPARAM)GCDNF_TCHAR));
 	if (pt && (m_hContact != 0)) {
 		TCHAR* lptString = NULL;
@@ -172,13 +186,13 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 
-	//Timed controls
+	/// Timed controls
 	CheckDlgButton(m_hWnd,ID_chkTimed,				m_opt_chkTimed ? BST_CHECKED : BST_UNCHECKED);
 	SetDlgItemInt (m_hWnd,ID_edtTimed,				(UINT)m_opt_edtTimed, FALSE);
 	SendDlgItemMessage(m_hWnd, ID_upTimed,			UDM_SETRANGE, 0, (LPARAM)MAKELONG(250, 1));
 	chkTimedClick();		//enable disable Timed controls
 
-	//create Image list for tab control
+	/// create Image list for tab control
 	if(!m_himlTab){
 		//m_himlTab = ImageList_Create(16, 16, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 2, 0);
 		m_himlTab = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
@@ -187,7 +201,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 //		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
 	}
 
-	//create the tab control.
+	/// create the tab control.
 	{
 	TAB_INFO itab={};
 	RECT rcClient, rcTab;
@@ -202,7 +216,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	TabCtrl_SetImageList(m_hwndTab, m_himlTab);
 
-	// Add a tab for each of the three child dialog boxes.
+	/// Add a tab for each of the three child dialog boxes.
 	itab.tcih.mask		= TCIF_PARAM|TCIF_TEXT|TCIF_IMAGE;
 
 	itab.tcih.pszText	= TranslateT("Window");
@@ -242,15 +256,25 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	TabCtrl_InsertItem(m_hwndTab, 2, &itab);
 	MoveWindow(itab.hwndTabPage, (rcTab.left - rcClient.left)+2, (rcTab.top - rcClient.top), (rcTab.right - rcTab.left) - 2*5, (rcTab.bottom - rcTab.top) - 2*20, TRUE);
 
-	//select tab and set m_hwndTabPage
+	/// select tab and set m_hwndTabPage
 	TabCtrl_SetCurSel(m_hwndTab, m_opt_tabCapture);
-	ZeroMemory(&itab, sizeof(itab));
 	itab.tcih.mask = TCIF_PARAM;
-	TabCtrl_GetItem(m_hwndTab,TabCtrl_GetCurSel(m_hwndTab),&itab);
-	ShowWindow(itab.hwndTabPage,SW_SHOW);
+	TabCtrl_GetItem(m_hwndTab,m_opt_tabCapture,&itab);
 	m_hwndTabPage = itab.hwndTabPage;
+	ShowWindow(m_hwndTabPage,SW_SHOW);
+	
+	/// enable Drag&Drop for local file pane
+	typedef BOOL (WINAPI *ChangeWindowMessageFilterEx_t)(HWND hwnd,UINT message,DWORD action,PCHANGEFILTERSTRUCT pChangeFilterStruct);
+	ChangeWindowMessageFilterEx_t pChangeWindowMessageFilterEx;
+	pChangeWindowMessageFilterEx=(ChangeWindowMessageFilterEx_t)GetProcAddress(GetModuleHandleA("user32"),"ChangeWindowMessageFilterEx");
+	if(pChangeWindowMessageFilterEx){ /// Win7+, UAC fix
+		pChangeWindowMessageFilterEx(m_hWnd,WM_DROPFILES,MSGFLT_ALLOW,NULL);
+		pChangeWindowMessageFilterEx(m_hWnd,WM_COPYDATA,MSGFLT_ALLOW,NULL);
+		pChangeWindowMessageFilterEx(m_hWnd,0x0049/*WM_COPYGLOBALDATA*/,MSGFLT_ALLOW,NULL);
 	}
-	//init Format combo box
+	DragAcceptFiles(m_hWnd,1);
+	}
+	/// init Format combo box
 	{
 	hCtrl = GetDlgItem(m_hWnd, ID_cboxFormat);
 	ComboBox_ResetContent(hCtrl);
@@ -261,7 +285,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("GIF")),4);
 	ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxFormat);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
-	//init SendBy combo box
+	/// init SendBy combo box
 	{
 	hCtrl = GetDlgItem(m_hWnd, ID_cboxSendBy);
 	ComboBox_ResetContent(hCtrl);
@@ -293,7 +317,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), SS_UPLOADPIE_1W);
 	ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxSendBy);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
-	//init footer options
+	/// init footer options
 	CheckDlgButton(m_hWnd,ID_chkOpenAgain, m_opt_chkOpenAgain ? BST_CHECKED : BST_UNCHECKED);
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnAbout)) {
@@ -552,28 +576,18 @@ void TfrmMain::wmNotify(WPARAM wParam, LPARAM lParam) {
 				//    HWND hwndFrom;	= member is handle to the tab control
 				//    UINT_PTR idFrom;	= member is the child window identifier of the tab control.
 				//    UINT code;		= member is TCN_SELCHANGE
-				case TCN_SELCHANGING:
-					{
-					TAB_INFO itab;
-					ZeroMemory(&itab, sizeof(itab));
-					itab.tcih.mask = TCIF_PARAM;
-					TabCtrl_GetItem(m_hwndTab,TabCtrl_GetCurSel(m_hwndTab),&itab);
-					ShowWindow(itab.hwndTabPage,SW_HIDE);
-					m_hwndTabPage = NULL;
-					}
-					break;
-
-				case TCN_SELCHANGE:
-					{
-					TAB_INFO itab;
-					ZeroMemory(&itab, sizeof(itab));
-					itab.tcih.mask = TCIF_PARAM;
-					m_opt_tabCapture = TabCtrl_GetCurSel(m_hwndTab);
+				case TCN_SELCHANGING:{
+					if(!m_hwndTabPage) break;
+					ShowWindow(m_hwndTabPage,SW_HIDE);
+					m_hwndTabPage=NULL;
+					break;}
+				case TCN_SELCHANGE:{
+					TAB_INFO itab={TCIF_PARAM};
+					m_opt_tabCapture=TabCtrl_GetCurSel(m_hwndTab);
 					TabCtrl_GetItem(m_hwndTab, m_opt_tabCapture, &itab);
-					ShowWindow(itab.hwndTabPage, SW_SHOW);
-					m_hwndTabPage = itab.hwndTabPage;
-					}
-					break;
+					m_hwndTabPage=itab.hwndTabPage;
+					ShowWindow(m_hwndTabPage, SW_SHOW);
+					break;}
 				default:
 					break;
 			}
