@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define mir_tcsadd		mir_wcsadd
 #define mir_tcsncpy		mir_wcsncpy
 #define mir_tcsncat		mir_wcsncat
+#define mir_tstrdup		mir_wstrdup
 
 #define mir_strlen(s)			(((s)!=0)?strlen(s):0)
 #define mir_strcpy(d,s)			(((s)!=0&&(d)!=0)?strcpy(d,s):0)

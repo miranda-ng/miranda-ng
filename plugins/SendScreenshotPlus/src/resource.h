@@ -20,9 +20,10 @@
 #define IDD_UMainForm                   101
 #define IDD_UMain_CaptureWindow         102
 #define IDD_UMain_CaptureDesktop        103
-#define IDD_UEditForm                   104
-#define IDD_UAboutForm                  105
-#define IDD_UResultForm                 106
+#define IDD_UMain_CaptureFile           104
+#define IDD_UEditForm                   105
+#define IDD_UAboutForm                  106
+#define IDD_UResultForm                 107
 #define IDD_MSGBOX                      110
 #define IDD_MSGBOXDUMMI                 111
 #define IDR_LICENSE                     120

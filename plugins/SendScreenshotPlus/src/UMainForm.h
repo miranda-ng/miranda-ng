@@ -118,7 +118,7 @@ class TfrmMain{
 		bool			m_opt_btnDeleteAfterSend;	//TCheckBox *chkDeleteAfterSend;
 		BYTE			m_opt_cboxFormat;			//TComboBox *cboxFormat;
 		BYTE			m_opt_edtTimed;				//TLabeledEdit *edtTimed;
-		bool			m_bCapture;					//is capture activ
+		bool			m_bCapture;					//is capture active
 		HWND			m_hwndTab;					//TabControl handle
 		HWND			m_hwndTabPage;				//TabControl activ page handle
 		HIMAGELIST		m_himlTab;					//TabControl imagelist
@@ -136,8 +136,7 @@ class TfrmMain{
 		void UMevent(WPARAM wParam, LPARAM lParam);
 		void UMClosing(WPARAM wParam, LPARAM lParam);
 
-		static INT_PTR CALLBACK DlgProc_CaptureWindow (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-		static INT_PTR CALLBACK DlgProc_CaptureDesktop(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		static INT_PTR CALLBACK DlgProc_CaptureTabPage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 //		LRESULT CALLBACK DlgProc_UseLastFile   (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
 

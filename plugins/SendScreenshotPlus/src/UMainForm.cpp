@@ -41,12 +41,22 @@ void TfrmMain::Unload(){
 }
 
 //---------------------------------------------------------------------------
-INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 // main message handling is done inside TfrmMain::DlgTfrmMain
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSTARGET));
-		SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&Drop the target on the desired window."));
+		switch(lParam){
+		case IDD_UMain_CaptureWindow:
+			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSTARGET));
+			SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&Drop the target on the desired window."));
+			break;
+		case IDD_UMain_CaptureDesktop:
+			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSMONITOR));
+			break;
+		case IDD_UMain_CaptureFile:
+			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSWINDOW1));
+			break;
+		}
 		break;
 	case WM_CTLCOLORDLG:
 	case WM_CTLCOLOREDIT:
@@ -54,30 +64,23 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wP
 		SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
 		return (INT_PTR)GetStockObject(WHITE_BRUSH);
 	case WM_COMMAND:
-		SendMessage(GetParent(hDlg), uMsg, wParam, lParam);
-		break;
-	case WM_NOTIFY:
-		SendMessage(GetParent(hDlg), uMsg, wParam, lParam);
-		break;
-	case WM_DESTROY:
-		break;
-	}
-	return FALSE;
-}
-
-//---------------------------------------------------------------------------
-INT_PTR CALLBACK TfrmMain::DlgProc_CaptureDesktop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-// main message handling is done inside TfrmMain::DlgTfrmMain
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSMONITOR));
-		break;
-	case WM_CTLCOLORDLG:
-	case WM_CTLCOLOREDIT:
-	case WM_CTLCOLORSTATIC:
-		SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
-		return (INT_PTR)GetStockObject(WHITE_BRUSH);
-	case WM_COMMAND:
+		if(HIWORD(wParam)==BN_CLICKED && LOWORD(wParam)==ID_btnExplore){ /// local file tab
+			OPENFILENAME ofn={sizeof(OPENFILENAME)};
+			TCHAR filename[MAX_PATH];
+			GetDlgItemText(hDlg,ID_edtSize,filename,MAX_PATH);
+			ofn.lStructSize = sizeof(ofn);
+			ofn.hwndOwner = hDlg;
+			ofn.lpstrFilter = _T("Images\0*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff\0");
+			ofn.nFilterIndex = 1;
+			ofn.lpstrFile = filename;
+			ofn.nMaxFile = MAX_PATH;
+//			ofn.lpstrInitialDir = m_FDestFolder;
+			ofn.Flags = OFN_FILEMUSTEXIST | OFN_READONLY;
+			if(GetOpenFileName(&ofn)){
+				SetDlgItemText(hDlg,ID_edtSize,filename);
+			}
+			break;
+		}
 		SendMessage(GetParent(hDlg), uMsg, wParam, lParam);
 		break;
 	case WM_NOTIFY:
@@ -176,21 +179,21 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	chkTimedClick();		//enable disable Timed controls
 
 	//create Image list for tab control
-	if(m_himlTab == 0){
+	if(!m_himlTab){
 		//m_himlTab = ImageList_Create(16, 16, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 2, 0);
 		m_himlTab = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
-		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
+		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2)); /// @note : use custom icon for each capture tab?
+//		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
+//		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
 	}
 
 	//create the tab control.
 	{
-	TAB_INFO itab;
+	TAB_INFO itab={};
 	RECT rcClient, rcTab;
 	m_hwndTab = GetDlgItem(m_hWnd, IDC_CAPTURETAB);
 	TabCtrl_SetItemExtra(m_hwndTab, sizeof(TAB_INFO) - sizeof(TCITEMHEADER));
 
-	ZeroMemory(&itab, sizeof(itab));
 	itab.hwndMain	= m_hWnd;
 	itab.hwndTab	= m_hwndTab;
 
@@ -203,19 +206,17 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	itab.tcih.mask		= TCIF_PARAM|TCIF_TEXT|TCIF_IMAGE;
 
 	itab.tcih.pszText	= TranslateT("Window");
-	itab.tcih.iImage	= 0;
-	itab.hwndTabPage	= CreateDialog(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureWindow), m_hWnd,DlgProc_CaptureWindow);
+//	itab.tcih.iImage	= 0;
+	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureWindow), m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureWindow);
 	TabCtrl_InsertItem(m_hwndTab, 0, &itab);
 	MoveWindow(itab.hwndTabPage, (rcTab.left - rcClient.left)+2, (rcTab.top - rcClient.top), (rcTab.right - rcTab.left) - 2*5, (rcTab.bottom - rcTab.top) - 2*20, TRUE);
-	ShowWindow(itab.hwndTabPage, SW_HIDE);
 	CheckDlgButton(itab.hwndTabPage, ID_chkClientArea, m_opt_chkClientArea ? BST_CHECKED : BST_UNCHECKED);
 
 	itab.tcih.pszText	= TranslateT("Desktop");
-	itab.tcih.iImage	= 1;
-	itab.hwndTabPage	= CreateDialog(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureDesktop), m_hWnd, DlgProc_CaptureDesktop);
+//	itab.tcih.iImage	= 1;
+	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureDesktop), m_hWnd, DlgProc_CaptureTabPage,IDD_UMain_CaptureDesktop);
 	TabCtrl_InsertItem(m_hwndTab, 1, &itab);
 	MoveWindow(itab.hwndTabPage, (rcTab.left - rcClient.left)+2, (rcTab.top - rcClient.top), (rcTab.right - rcTab.left) - 2*5, (rcTab.bottom - rcTab.top) - 2*20, TRUE);
-	ShowWindow(itab.hwndTabPage, SW_HIDE);
 
 	hCtrl = GetDlgItem(itab.hwndTabPage, ID_edtCaption);
 	ComboBox_ResetContent(hCtrl);
@@ -234,6 +235,12 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxDesktop);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
 	PostMessage(m_hWnd, WM_COMMAND, MAKEWPARAM(ID_edtCaption, CBN_SELCHANGE),(LPARAM)hCtrl);
+
+	itab.tcih.pszText	= TranslateT("File");
+//	itab.tcih.iImage	= 2;
+	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureFile), m_hWnd, DlgProc_CaptureTabPage,IDD_UMain_CaptureFile);
+	TabCtrl_InsertItem(m_hwndTab, 2, &itab);
+	MoveWindow(itab.hwndTabPage, (rcTab.left - rcClient.left)+2, (rcTab.top - rcClient.top), (rcTab.right - rcTab.left) - 2*5, (rcTab.bottom - rcTab.top) - 2*20, TRUE);
 
 	//select tab and set m_hwndTabPage
 	TabCtrl_SetCurSel(m_hwndTab, m_opt_tabCapture);
@@ -518,23 +525,21 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 				case 1:
 					m_Screenshot = CaptureMonitor((m_opt_cboxDesktop > 0) ? m_Monitors[m_opt_cboxDesktop-1].szDevice : NULL);
 					break;
+				case 2: /// edge case, existing local file
+					break;
+				#ifdef _DEBUG
 				default:
-					KillTimer(m_hWnd,ID_chkTimed);
-					m_bCapture = false;
-					#ifdef _DEBUG
-						OutputDebugStringA("SS Bitmap Timer Stop (no tabCapture)\r\n" );
-					#endif
-					return;
+					OutputDebugStringA("SS Bitmap Timer Stop (no tabCapture)\r\n" );
+				#endif
 			}
-			if (!m_Screenshot) m_bCapture = false;
-		}
-		if (m_Screenshot) {
-			KillTimer(m_hWnd,ID_chkTimed);
 			m_bCapture = false;
-			#ifdef _DEBUG
-				OutputDebugStringA("SS Bitmap Timer Stop (CaptureDone)\r\n" );
-			#endif
-			SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
+			if (m_Screenshot || m_opt_tabCapture==2) { /// @note : test without "if"
+				KillTimer(m_hWnd,ID_chkTimed);
+				#ifdef _DEBUG
+					OutputDebugStringA("SS Bitmap Timer Stop (CaptureDone)\r\n" );
+				#endif
+				SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
+			}
 		}
 	}
 }
@@ -598,7 +603,7 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 	//HWND hWnd = (HWND)wParam;
 	switch (lParam) {
 		case EVT_CaptureDone:
-			if (!m_Screenshot) {
+			if (!m_Screenshot && m_opt_tabCapture!=2) {
 				TCHAR *err = TranslateT("Can't create a Screenshot");
 				MessageBox(m_hWnd,err,ERROR_TITLE,MB_OK|MB_ICONWARNING);
 				Show();
@@ -618,9 +623,7 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 			*/
 				return;
 			}
-			else {
-				FormClose();
-			}
+			FormClose();
 			break;
 		case EVT_SendFileDone:
 			break;
@@ -752,25 +755,36 @@ void TfrmMain::btnCaptureClick() {
 	m_bFormEdit = false;					//until UEditForm is includet
 
 	if(m_opt_tabCapture==1) m_hTargetWindow=GetDesktopWindow();
-	else if(!m_hTargetWindow) {
+	else if(m_opt_tabCapture==2){
+		TCHAR filename[MAX_PATH];
+		GetDlgItemText(m_hwndTabPage, ID_edtSize, filename, MAX_PATH);
+		FILE* fp=_wfopen(filename,_T("rb"));
+		if(!fp){
+			TCHAR *err = TranslateT("Select a file");
+			MessageBox(m_hWnd,err,ERROR_TITLE,MB_OK|MB_ICONWARNING);
+			return;
+		}
+		fclose(fp);
+		mir_free(m_pszFile); m_pszFile=mir_tstrdup(filename);
+	}else if(!m_hTargetWindow) {
 		TCHAR *err = TranslateT("Select a target window.");
 		MessageBox(m_hWnd,err,ERROR_TITLE,MB_OK|MB_ICONWARNING);
 		return;
 	}
 	TfrmMain::Hide();
 
-
-	if (m_opt_chkTimed) {
-		SetTimer(m_hWnd, ID_chkTimed, m_opt_edtTimed ? m_opt_edtTimed*1000 : 500, NULL);
+	if(m_opt_chkTimed){
+		SetTimer(m_hWnd, ID_chkTimed, m_opt_edtTimed ? m_opt_edtTimed*1000 : 500, NULL); /// calls EVT_CaptureDone
+		return;
 	}
-	else if (m_opt_tabCapture == 1){
-		//desktop need always time to update from TfrmMain::Hide()
-		SetTimer(m_hWnd, ID_chkTimed, 500, NULL);
+	if(m_opt_tabCapture==1){ /// desktop needs always time to update from TfrmMain::Hide()
+		SetTimer(m_hWnd, ID_chkTimed, 500, NULL); /// calls EVT_CaptureDone
+		return;
 	}
-	else {
+	if(m_opt_tabCapture!=2){
 		m_Screenshot = CaptureWindow(m_hTargetWindow, m_opt_chkClientArea);
-		SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 	}
+	SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 }
 
 //---------------------------------------------------------------------------
@@ -1046,13 +1060,13 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 
 	if(ret){
 		db_set_dw(NULL,SZ_SENDSS,"FileNumber",FileNumber);
-		mir_freeAndNil(m_pszFile); m_pszFile=ret;
-		mir_freeAndNil(m_pszFileDesc);
+		mir_free(m_pszFile); m_pszFile=ret;
+		mir_free(m_pszFileDesc);
 		if(IsWindowEnabled(GetDlgItem(m_hWnd,ID_btnDesc)) && m_opt_btnDesc){
 			m_pszFileDesc=pszFileDesc;
 		}else{
 			mir_free(pszFileDesc);
-			mir_tcsadd(m_pszFileDesc, _T(""));
+			m_pszFileDesc=mir_tstrdup(_T(""));
 		}
 
 		if(m_cSend) {
@@ -1067,9 +1081,17 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 
 //---------------------------------------------------------------------------
 void TfrmMain::FormClose() {
-
-	// Saving the screenshot
-	if (SaveScreenshot(m_Screenshot)) {
+	if(m_opt_tabCapture==2){ /// existing file
+		TCHAR description[1024];
+		GetDlgItemText(m_hwndTabPage, ID_edtCaption, description, 1024);
+		if(!IsWindowEnabled(GetDlgItem(m_hWnd,ID_btnDesc)) || !m_opt_btnDesc)
+			*description='\0';
+		if(m_cSend) {
+			m_cSend->m_bDeleteAfterSend = false; /// well... guess it's better to not delete existing files for now...
+			m_cSend->SetFile(m_pszFile);
+			m_cSend->SetDescription(description);
+		}
+	}else if(SaveScreenshot(m_Screenshot)){ /// Saving the screenshot
 		Show();		// Error from SaveScreenshot
 		return;
 	}

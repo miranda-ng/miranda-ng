@@ -79,7 +79,7 @@ void CSendImageShack::SendThread() {
 			if(url && *url){
 				mir_free(m_URL), m_URL=mir_strdup(url);
 				mir_free(m_URLthumb), m_URLthumb=mir_strdup(m_URL);
-				int extlen;
+				size_t extlen;
 				char* pos=strrchr(m_URLthumb,'.');
 				if(pos && (extlen=mir_strlen(pos))>2){
 					char* tmp=mir_strdup(pos);
