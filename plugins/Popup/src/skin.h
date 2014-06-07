@@ -78,12 +78,7 @@ public:
 			HICON hic;
 			HBITMAP hbm;
 			MyBitmap *myBmp;
-			struct
-			{
-				COLORREF textColor;
-				HFONT hfn;
-//				int textw;
-			};
+			HFONT hfn;
 		};
 		unsigned long flags;
 		unsigned long flag_mask;
@@ -91,6 +86,7 @@ public:
 		int clocksize[CLOCK_ITEMS];
 		int clockstart[CLOCK_ITEMS];
 		int proportional;
+		COLORREF textColor;
 		SKINELEMENT *next;
 	};	
 
