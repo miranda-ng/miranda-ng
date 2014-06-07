@@ -349,11 +349,13 @@ static void DlgUpdateSilent(void *lParam)
 {
 	OBJLIST<FILEINFO> &UpdateFiles = *(OBJLIST<FILEINFO> *)lParam;
 	if (UpdateFiles.getCount() == 0) {
+		delete &UpdateFiles;
 		return;
 	}
 
 	// 1) If we need to escalate priviledges, launch a stub
 	if (!PrepareEscalation()) {
+		delete &UpdateFiles;
 		return;
 	}
 
@@ -388,6 +390,7 @@ static void DlgUpdateSilent(void *lParam)
 	Netlib_CloseHandle(nlc);
 
 	if (count == 0) {
+		delete &UpdateFiles;
 		return;
 	}
 
