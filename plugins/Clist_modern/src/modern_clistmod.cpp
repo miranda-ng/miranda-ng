@@ -49,8 +49,6 @@ INT_PTR TrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 void InitTrayMenus(void);
 void UninitTrayMenu();
 
-HIMAGELIST hCListImages = NULL;
-
 //returns normal icon or combined with status overlay. Needs to be destroyed.
 HICON cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto,int status)
 {
@@ -182,7 +180,6 @@ HRESULT  CluiLoadModule()
 	CreateServiceFunction(MS_CLIST_TOGGLESOUNDS,ToggleSounds);
 	CreateServiceFunction(MS_CLIST_SETUSEGROUPS,SetUseGroups);
 
-	hCListImages = ImageList_Create(16, 16, ILC_MASK|ILC_COLOR32, 32, 0);
 	InitCustomMenus();
 	InitTrayMenus();
 

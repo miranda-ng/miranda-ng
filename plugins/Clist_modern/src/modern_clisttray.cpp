@@ -524,14 +524,14 @@ void InitTrayMenus(void)
 
 	mi.position = 100000;
 	mi.pszService = MS_CLIST_SHOWHIDE;
-	mi.pszName = LPGEN("&Hide/Show");
+	mi.pszName = LPGEN("&Hide/show");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SHOWHIDE);
 	hTrayHideShowMainMenuItem = (HANDLE)AddTrayMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 200000;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
-	mi.pszName = LPGEN("&Find/Add contacts...");
+	mi.pszName = LPGEN("&Find/add contacts...");
 	AddTrayMenuItem(0, (LPARAM)&mi);
 
 	mi.position = 300000;
