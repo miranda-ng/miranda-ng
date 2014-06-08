@@ -135,7 +135,7 @@ static void ApplyUpdates(void *param)
 	db_set_b(NULL, MODNAME, "RestartCount", 5);
 
 	// 5) Prepare Restart
-	int rc = MessageBox(hDlg, TranslateT("Plugin Updater"), TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), MB_YESNO | MB_ICONQUESTION);
+	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	EndDialog(hDlg, 0);
 	if (rc == IDYES)
 		CallFunctionAsync(RestartMe, 0);
