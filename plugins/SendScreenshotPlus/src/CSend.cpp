@@ -454,9 +454,12 @@ void CSend::Exit(unsigned int Result) {
 const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* endTag) {
 	char* begin=strstr(str,startTag);
 	if(!begin) return NULL;
-	begin+=strlen(startTag);
-	char* end=strstr(begin,endTag);
-	if(end) *end=0;
+	begin+=strlen(startTag)-1;
+	for(; *begin!='>' && *begin; ++begin);
+	if(*begin){
+		char* end=strstr(++begin,endTag);
+		if(end) *end=0;
+	}
 	return begin;
 }
 

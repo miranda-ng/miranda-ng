@@ -72,8 +72,8 @@ void CSendImageShack::SendThread() {
 	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&m_nlhr);
 	HTTPFormDestroy(&m_nlhr);
 	if(reply){
-		if(reply->resultCode>=200 && reply->resultCode<300){
-			reply->pData[reply->dataLength]='\0';/// make sure its null terminated
+		if(reply->resultCode>=200 && reply->resultCode<300 && reply->dataLength){
+			reply->pData[reply->dataLength-1]='\0';/// make sure its null terminated
 			const char* url=NULL;
 			url=GetHTMLContent(reply->pData,"<image_link>","</image_link>");
 			if(url && *url){

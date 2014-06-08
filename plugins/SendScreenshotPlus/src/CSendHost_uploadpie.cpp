@@ -67,8 +67,8 @@ void CSendHost_UploadPie::SendThread(void* obj)
 	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&self->m_nlhr);
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if(reply){
-		if(reply->resultCode>=200 && reply->resultCode<300){
-			reply->pData[reply->dataLength]='\0';/// make sure its null terminated
+		if(reply->resultCode>=200 && reply->resultCode<300 && reply->dataLength){
+			reply->pData[reply->dataLength-1]='\0';/// make sure its null terminated
 			char* url=reply->pData;
 			do{
 				char* pos;
@@ -76,7 +76,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 					for(pos=url+21; (*pos>='0'&&*pos<='9') || (*pos>='a'&&*pos<='z') || (*pos>='A'&&*pos<='Z') || *pos=='_' || *pos=='-' || *pos=='"' || *pos=='\''; ++pos){
 						if(*pos=='"' || *pos=='\'') break;
 					}
-					if(*pos=='"' || *pos=='\''){
+					if(url+21!=pos && (*pos=='"' || *pos=='\'')){
 						*pos='\0';
 						break;
 					}
@@ -88,9 +88,12 @@ void CSendHost_UploadPie::SendThread(void* obj)
 				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)reply);
 				self->svcSendMsgExit(url); return;
 			}else{/// check error mess from server
-				TCHAR* err=mir_a2t(reply->pData);
-				self->Error(_T("%s"),err);
-				mir_free(err);
+				const char* err=GetHTMLContent(reply->pData,"<p id=\"error\"","</p>");
+				TCHAR* werr;
+				if(err) werr=mir_a2t(err);
+				else werr=mir_a2t(reply->pData);
+				self->Error(_T("%s"),werr);
+				mir_free(werr);
 			}
 		}else{
 			self->Error(LPGENT("Upload server did not respond timely."));
