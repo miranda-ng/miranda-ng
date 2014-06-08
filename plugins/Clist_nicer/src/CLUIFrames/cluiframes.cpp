@@ -596,7 +596,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 		return NULL;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA); //LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_MIRANDA));
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
 	mi.position = popuppos++;

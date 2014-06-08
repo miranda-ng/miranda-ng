@@ -528,9 +528,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_NOTICK              ICON                    "..\\..\\..\\src\\res\\check_off.ico"
-IDI_TICK                ICON                    "..\\..\\..\\src\\res\\check_on.ico"
-IDI_RENAME              ICON                    "rename.ico"
+IDI_ADDGROUP            ICON                    "addgroup.ico"
+IDI_CLIST               ICON                    "clist.ico"
 IDI_DELETE              ICON                    "delete.ico"
 IDI_CLVM_OPTIONS        ICON                    "options_clvm.ico"
 IDI_CLVM_SELECT         ICON                    "arrow-down.ico"

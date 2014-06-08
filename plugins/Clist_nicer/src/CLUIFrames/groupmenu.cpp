@@ -43,11 +43,6 @@ HGENMENU hDisableGroupsMenuItem;
 HGENMENU hNewGroupMenuItem;
 HGENMENU hNewSubGroupMenuItem;
 
-int NewGroupIconidx;
-
-extern HIMAGELIST hCListImages;
-extern HICON LoadIconFromExternalFile(char *filename, int i, boolean UseLibrary, boolean registerit, char *IconName, char *SectName, char *Description, int internalidx);
-
 void InitSubGroupMenus(void);
 
 //Groupmenu exec param(ownerdata)
@@ -235,14 +230,14 @@ static int OnBuildGroupMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int static OnIconLibIconChanged(WPARAM wParam, LPARAM lParam)
+IconItemT iconItem[] = {
+	{ LPGENT("New group"),    "new_group", IDI_ADDGROUP },
+	{ LPGENT("Contact list"), "clist",     IDI_CLIST }
+};
+
+void InitIconLibMenuIcons(void)
 {
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = CMIM_ICON;
-	clmi.hIcon = ImageList_GetIcon(hCListImages, NewGroupIconidx, 0);
-	Menu_ModifyItem(hNewSubGroupMenuItem, &clmi);
-	Menu_ModifyItem(hNewGroupMenuItem, &clmi);
-	return 0;
+	Icon_RegisterT(g_hInst, LPGENT("Contact list"), iconItem, SIZEOF(iconItem));
 }
 
 void InitGroupMenus(void)
@@ -268,12 +263,13 @@ void InitGroupMenus(void)
 	MO_SetMenuObjectParam(hGroupMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
 	MO_SetMenuObjectParam(hGroupMenuObject, OPT_MENUOBJECT_SET_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuonAddService");
 	{
-		//add  exit command to menu
+		//add exit command to menu
 		GroupMenuParam gmp;
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 1900000;
 		mi.pszService = "CloseAction";
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_EXIT);
 		mi.pszName = LPGEN("E&xit");
 		AddGroupMenuItem(0, (LPARAM)&mi);
 
@@ -281,21 +277,23 @@ void InitGroupMenus(void)
 		mi.cbSize = sizeof(mi);
 		mi.position = 500;
 		mi.pszService = MS_CLIST_SHOWHIDE;
-		mi.pszName = LPGEN("&Hide/Show");
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SHOWHIDE);
+		mi.pszName = LPGEN("&Hide/show");
 		hHideShowMainMenuItem = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 200000;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER); //LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FINDUSER));
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
 		mi.pszService = "FindAdd/FindAddCommand";
-		mi.pszName = LPGEN("&Find/Add contacts...");
+		mi.pszName = LPGEN("&Find/add contacts...");
 		AddGroupMenuItem(0, (LPARAM)&mi);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 300000;
 		mi.pszService = "";
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU);
 		mi.pszName = LPGEN("&Main menu");
 		hGroupMainMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
@@ -303,6 +301,7 @@ void InitGroupMenus(void)
 		mi.cbSize = sizeof(mi);
 		mi.position = 300100;
 		mi.pszService = "";
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_STATUS);
 		mi.pszName = LPGEN("&Status");
 		hGroupStatusMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
@@ -310,31 +309,30 @@ void InitGroupMenus(void)
 		mi.cbSize = sizeof(mi);
 		mi.position = 390100;
 		mi.pszService = "";
+		mi.icolibItem = iconItem[1].hIcolib;
 		mi.pszName = LPGEN("Appearance");
 		hAppearanceMenuItemProxy = (HGENMENU)AddGroupMenuItem(0, (LPARAM)&mi);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 400000;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS); //LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_OPTIONS));
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
 		mi.pszService = "Options/OptionsCommand";
 		mi.pszName = LPGEN("&Options...");
-
 		AddGroupMenuItem(0, (LPARAM)&mi);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 500000;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA); //LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_MIRANDA));
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
 		mi.pszService = "CLN/About";
 		mi.pszName = LPGEN("&About the contact list...");
-
 		AddGroupMenuItem(0, (LPARAM)&mi);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 100000;
-		mi.hIcon = ImageList_GetIcon(hCListImages, NewGroupIconidx, 0);
+		mi.icolibItem = iconItem[0].hIcolib;
 		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 		mi.pszName = LPGEN("&New group");
 		gmp.lParam = 0;
@@ -509,7 +507,7 @@ INT_PTR SubGroupMenuExecService(WPARAM wParam, LPARAM lParam) {
 	return 1;
 }
 
-INT_PTR FreeOwnerDataSubGroupMenu (WPARAM wParam, LPARAM lParam)
+INT_PTR FreeOwnerDataSubGroupMenu(WPARAM wParam, LPARAM lParam)
 {
 	lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)lParam;
 	if (mmep != NULL) {
@@ -555,7 +553,7 @@ void InitSubGroupMenus(void)
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 1000;
-		mi.hIcon = ImageList_GetIcon(hCListImages, NewGroupIconidx, 0);
+		mi.icolibItem = iconItem[0].hIcolib;
 		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 		mi.pszName = LPGEN("&New subgroup");
 		gmp.lParam = 0;
@@ -575,7 +573,7 @@ void InitSubGroupMenus(void)
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 900001;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_RENAME); //LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_RENAME));
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_RENAME);
 		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 		mi.pszName = LPGEN("&Rename group");
 		gmp.lParam = 0;
@@ -585,7 +583,7 @@ void InitSubGroupMenus(void)
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 900002;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE); //LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_DELETE));
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
 		mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 		mi.pszName = LPGEN("&Delete group");
 		gmp.lParam = 0;

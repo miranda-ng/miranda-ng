@@ -31,6 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static HMENU hMainMenu, hMainStatusMenu;
 
+void InitIconLibMenuIcons();
+extern IconItemT iconItem[];
+
 void DestroyTrayMenu(HMENU hMenu)
 {
     int i, cnt;
@@ -70,7 +73,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		{
 			DWORD dwMask;
@@ -87,14 +90,14 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			hwndAdd = GetDlgItem(hWnd, IDC_IGN_ADDPERMANENTLY); // CreateWindowEx(0, _T("CLCButtonClass"), _T("FOO"), WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
 			CustomizeButton(hwndAdd, false, true, false);
 
-			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(210), IMAGE_ICON, 16, 16, LR_SHARED));
+			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT));
 			SetWindowText(hwndAdd, TranslateT("Add permanently"));
 			EnableWindow(hwndAdd, cfg::getByte(hContact, "CList", "NotOnList", 0));
 
 			hwndAdd = GetDlgItem(hWnd, IDC_DSP_LOADDEFAULT); // CreateWindowEx(0, _T("CLCButtonClass"), _T("FOO"), WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
 			CustomizeButton(hwndAdd, false, true, false);
 
-			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_DELETE), IMAGE_ICON, 16, 16, LR_SHARED));
+			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
 			SetWindowText(hwndAdd, TranslateT("Revert to default"));
 			EnableWindow(hwndAdd, TRUE);
 
@@ -375,34 +378,23 @@ static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*
- * service function: Set a contacts floating status.
- * (clist_nicer+ specific service)
- *
- * Servicename = CList/SetContactFloating
- *
- * a floating contact appears as a small independent top level window anywhere on
- * the desktop.
-*/
-
 int InitCustomMenus(void)
 {
-	CreateServiceFunction("CloseAction",CloseAction);
+	InitIconLibMenuIcons();
+
+	CreateServiceFunction("CloseAction", CloseAction);
 	CreateServiceFunction("CList/SetContactIgnore", SetContactIgnore);
-	{
-		//FYR: Visibility and ignore item moved back to clist_nicer from core
-		HANDLE hIgnoreItem = 0;  // FYR: moved from global it is never used globally
-		if ( !hIgnoreItem ) {
-			CLISTMENUITEM mi = { sizeof(mi) };
-			mi.position = 200000;
-			mi.pszPopupName = ( char* )-1;
-			mi.pszService = "CList/SetContactIgnore";
-			mi.pszName = LPGEN("&Contact list settings...");
-			hIgnoreItem = Menu_AddContactMenuItem(&mi);
-		}
-	}
-	hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
-	hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 200000;
+	mi.pszPopupName = (char *)-1;
+	mi.pszService = "CList/SetContactIgnore";
+	mi.icolibItem = iconItem[1].hIcolib;
+	mi.pszName = LPGEN("&Contact list settings...");
+	Menu_AddContactMenuItem(&mi);
+
+	hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+	hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 
 	return 0;
 }
