@@ -51,10 +51,8 @@ typedef struct {
 	int Param1,Param2;
 } GroupMenuExecParam, *lpGroupMenuExecParam;
 
-/*
-wparam=handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
-return 0 on success.
-*/
+//wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
+//return 0 on success.
 static INT_PTR RemoveGroupMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MO_REMOVEMENUITEM, wParam, 0);
@@ -389,10 +387,8 @@ typedef struct {
 	int Param1, Param2;
 } SubGroupMenuExecParam, *lpSubGroupMenuExecParam;
 
-/*
-wparam=handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
-return 0 on success.
-*/
+//wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
+//return 0 on success.
 static INT_PTR RemoveSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MO_REMOVEMENUITEM, wParam, 0);

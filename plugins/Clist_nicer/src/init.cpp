@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../cluiframes/cluiframes.h"
 
 HINSTANCE g_hInst = 0;
-CLIST_INTERFACE* pcli = NULL;
+CLIST_INTERFACE *pcli = NULL;
 int hLangpack;
 
 #define DEFAULT_TB_VISIBILITY (1 | 2 | 4 | 8 | 16 | 32 | 64 | 8192)
@@ -40,18 +40,18 @@ extern DWORD g_gdiplusToken;
 
 TIME_API tmi;
 
-HMENU  BuildGroupPopupMenu( ClcGroup* group );
-ClcContact* CreateClcContact( void );
-CListEvent* fnCreateEvent( void );
-void   ReloadThemedOptions();
-int    TrayCalcChanged(const char *szChangedProto, int averageMode, int iProtoCount);
-void   RegisterCLUIFrameClasses();
-void   LoadButtonModule();
+HMENU BuildGroupPopupMenu(ClcGroup *group);
+ClcContact *CreateClcContact(void);
+CListEvent *fnCreateEvent(void);
+void ReloadThemedOptions();
+int TrayCalcChanged(const char *szChangedProto, int averageMode, int iProtoCount);
+void RegisterCLUIFrameClasses();
+void LoadButtonModule();
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
-int  GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
-int  ShowHide(WPARAM wParam, LPARAM lParam);
-int  ClcShutdown(WPARAM wParam, LPARAM lParam);
+int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
+int ShowHide(WPARAM wParam, LPARAM lParam);
+int ClcShutdown(WPARAM wParam, LPARAM lParam);
 
 void (*saveLoadClcOptions)(HWND hwnd, struct ClcData *dat);
 void LoadClcOptions(HWND hwnd, struct ClcData *dat);
@@ -59,14 +59,14 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat);
 int (*saveAddContactToGroup)(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
 int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
 
-CListEvent* (*saveAddEvent)(CLISTEVENT *cle);
-CListEvent* AddEvent(CLISTEVENT *cle);
+CListEvent *(*saveAddEvent)(CLISTEVENT *cle);
+CListEvent *AddEvent(CLISTEVENT *cle);
 
 int (*saveAddInfoItemToGroup)(ClcGroup *group, int flags, const TCHAR *pszText);
 int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
 
-ClcGroup* (*saveAddGroup)(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
-ClcGroup* AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup *(*saveAddGroup)(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
 
 LRESULT (CALLBACK *saveContactListWndProc)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -76,7 +76,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 int (*saveIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
 
-LRESULT(*saveProcessExternalMessages)(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT (*saveProcessExternalMessages)(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int (*saveRemoveEvent)(MCONTACT hContact, HANDLE hDbEvent);
@@ -107,44 +107,44 @@ PLUGININFOEX pluginInfo =
 void _DebugTraceW(const wchar_t *fmt, ...)
 {
 #ifdef _DEBUG
-    wchar_t debug[2048];
-    int     ibsize = 2047;
-    va_list va;
-    va_start(va, fmt);
+	wchar_t debug[2048];
+	int ibsize = 2047;
+	va_list va;
+	va_start(va, fmt);
 
 	lstrcpyW(debug, L"CLN: ");
 
-    mir_vsnwprintf(&debug[5], ibsize - 10, fmt, va);
-    OutputDebugStringW(debug);
+	mir_vsnwprintf(&debug[5], ibsize - 10, fmt, va);
+	OutputDebugStringW(debug);
 #endif
 }
 
 
 void _DebugTraceA(const char *fmt, ...)
 {
-    char    debug[2048];
-    int     ibsize = 2047;
-    va_list va;
-    va_start(va, fmt);
+	char debug[2048];
+	int ibsize = 2047;
+	va_list va;
+	va_start(va, fmt);
 
 	lstrcpyA(debug, "CLN: ");
 	mir_vsnprintf(&debug[5], ibsize - 10, fmt, va);
 #ifdef _DEBUG
-    OutputDebugStringA(debug);
+	OutputDebugStringA(debug);
 #else
-    {
-        char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
-        FILE *f;
+	{
+		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
+		FILE *f;
 
-        CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
-        mir_snprintf(szLogFileName, MAX_PATH, "%s\\%s", szDataPath, "clist_nicer.log");
-        f = fopen(szLogFileName, "a+");
-        if (f) {
-            fputs(debug, f);
-            fputs("\n", f);
-            fclose(f);
-        }
-    }
+		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
+		mir_snprintf(szLogFileName, MAX_PATH, "%s\\%s", szDataPath, "clist_nicer.log");
+		f = fopen(szLogFileName, "a+");
+		if (f) {
+			fputs(debug, f);
+			fputs("\n", f);
+			fclose(f);
+		}
+	}
 #endif
 }
 
@@ -155,18 +155,18 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST, MIID_LAST };
 
-int  PreloadContactListModule(void);
-int  LoadContactListModule(void);
-int  LoadCLCModule(void);
-void LoadCLUIModule( void );
-void OnCreateClc( void );
+int PreloadContactListModule(void);
+int LoadContactListModule(void);
+int LoadCLCModule(void);
+void LoadCLUIModule(void);
+void OnCreateClc(void);
 
 static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -186,7 +186,7 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int fnIconFromStatusMode(const char* szProto, int status, MCONTACT hContact)
+static int fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact)
 {
 	return IconFromStatusMode(szProto, status, hContact, NULL);
 }
@@ -200,12 +200,12 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	API::onInit();
 	RegisterCLUIFrameClasses();
 
-	ZeroMemory((void*) &cfg::dat, sizeof(cfg::dat));
+	ZeroMemory((void *)&cfg::dat, sizeof(cfg::dat));
 
 	int iCount = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
 
 	iCount += 20;
-	if ( iCount < 300 )
+	if (iCount < 300)
 		iCount = 300;
 
 	cfg::init();
@@ -252,8 +252,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	ReloadThemedOptions();
 	Reload3dBevelColors();
 
-	cfg::dat.dwFlags = cfg::getDword("CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS |
-	                                                       CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
+	cfg::dat.dwFlags = cfg::getDword("CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
 	cfg::dat.dwFlags |= (cfg::getByte("CLUI", "ShowSBar", 1) ? CLUI_FRAME_SBARSHOW : 0);
 	cfg::dat.soundsOff = cfg::getByte("Skin", "UseSound", 1) ? 0 : 1;
 

@@ -24,15 +24,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define TRAYICON_ID_BASE    100
-#define TIM_CALLBACK   (WM_USER+1857)
-#define TIM_CREATE     (WM_USER+1858)
+#define TRAYICON_ID_BASE	100
+#define TIM_CALLBACK	(WM_USER+1857)
+#define TIM_CREATE		(WM_USER+1858)
 
 extern HIMAGELIST hCListImages;
 
 // don't move to win2k.h, need new and old versions to work on 9x/2000/XP
-#define NIF_STATE       0x00000008
-#define NIF_INFO        0x00000010
+#define NIF_STATE		0x00000008
+#define NIF_INFO		0x00000010
 
 int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount)
 {
@@ -71,7 +71,7 @@ int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCou
 				return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
 
 			case SETTING_TRAYICON_MULTI:
-				if ( !pcli->trayIcon )
+				if (!pcli->trayIcon)
 					pcli->pfnTrayIconRemove(NULL, NULL);
 				else if (cfg::getByte("CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)) {
 					iIcon = IconFromStatusMode(szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0), 0, &hIcon);
@@ -83,7 +83,7 @@ int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCou
 				break;
 
 			case SETTING_TRAYICON_SINGLE:
-				ptrA szProto( db_get_sa(NULL,"CList","PrimaryStatus"));
+				ptrA szProto( db_get_sa(NULL, "CList", "PrimaryStatus"));
 				int iIcon = IconFromStatusMode(szProto, szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0), 0, &hIcon);
 				hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
 				return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
@@ -101,16 +101,17 @@ int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCou
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern INT_PTR ( *saveTrayIconProcessMessage )(WPARAM wParam, LPARAM lParam);
+extern INT_PTR (*saveTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
 
 INT_PTR TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 {
-	MSG* msg = ( MSG* )wParam;
-	if ( msg->message == TIM_CALLBACK && msg->lParam == WM_MOUSEMOVE ) {
-		if ( cfg::dat.bNoTrayTips ) {
-			*((LRESULT *) lParam) = 0;
+	MSG *msg = (MSG *)wParam;
+	if (msg->message == TIM_CALLBACK && msg->lParam == WM_MOUSEMOVE ) {
+		if (cfg::dat.bNoTrayTips) {
+			*((LRESULT *)lParam) = 0;
 			return TRUE;
-	}	}
+		}
+	}
 
 	return saveTrayIconProcessMessage(wParam, lParam);
 }
