@@ -291,9 +291,6 @@
     <Image Include="res\8.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
-    <Image Include="res\addgoupp.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
     <Image Include="res\Away.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
@@ -377,6 +374,9 @@
     </Image>
     <Image Include="res\Back.tga">
       <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\addgroup.ico">
+      <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

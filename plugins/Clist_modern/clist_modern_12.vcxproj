@@ -296,7 +296,7 @@
     <Image Include="res\6.ico" />
     <Image Include="res\7.ico" />
     <Image Include="res\8.ico" />
-    <Image Include="res\addgoupp.ico" />
+    <Image Include="res\addgroup.ico" />
     <Image Include="res\Away.ico" />
     <Image Include="res\Back.tga" />
     <Image Include="res\chat.ico" />
