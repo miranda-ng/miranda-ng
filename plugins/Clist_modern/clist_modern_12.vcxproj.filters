@@ -16,9 +16,6 @@
     <Filter Include="Source Files\CLUIFrames">
       <UniqueIdentifier>{826d2dcb-6f27-428e-a2bf-4825dc88ce32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Icons">
-      <UniqueIdentifier>{98fc57bd-a27d-420a-9870-d3026a9d89bc}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\init.cpp">
@@ -267,128 +264,11 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\1.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\2.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\3.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\4.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\5.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\6.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\7.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\8.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\Away.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\chat.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\DND.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\hide_avatar.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\invisible.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\listening_to.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\lunch.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\MicroAway.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\Microchat.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\MicroDND.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\Microinvisible.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\Microlunch.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\MicroNA.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\Microoccupied.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\Microoffline.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\Microphone.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\NA.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\occupied.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\offline.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\phone.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\rate_high.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\rate_low.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\rate_med.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\rate_none.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\reset_view.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\set_view.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\show_avatar.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
     <Image Include="res\Back.tga">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\addgroup.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\neo_meta_create.cur">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\neo_meta_default.cur">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\neo_meta_move.cur">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="res\skin.msf">
       <Filter>Resource Files</Filter>
     </None>
