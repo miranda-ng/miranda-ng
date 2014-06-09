@@ -829,12 +829,18 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 (Неизвестный контакт)
 [Tray menu]
 Меню в трее
-[&Find/Add contacts...]
+[&Hide/show]
+С&крыть/Показать
+[&Find/add contacts...]
 Добавить &контакты...
 [&Options...]
 &Настройки...
 [&About]
 О &программе
+[Show avatar]
+Показать аватар
+[Hide avatar]
+Скрыть аватар
 [Show contact &avatar]
 Показать &аватар
 [Hide contact &avatar]
@@ -1029,6 +1035,8 @@ Angeli-Ka (графика), FYR (шаблон)
 Закрепить фрейм
 [Frame menu]
 Меню фреймов
+[New group]
+Новая группа
 [Group menu]
 Меню групп
 [Subgroup menu]

@@ -213,8 +213,6 @@
 Поместить окно на передний план, если оно прикрыто другими окнами
 [Client margins]
 Поля списка
-[Embedded frames border]
-Граница фреймов
 [Clip border by]
 Закруглить на
 [Gap between frames]
@@ -265,8 +263,6 @@
 Фон списка
 [Use Windows colors]
 Цвета Windows
-[Background color]
-Цвет фона
 [Use background image]
 Использовать фон
 [Stretch to width]
@@ -697,8 +693,8 @@
 Главное меню
 [Set status modes]
 Установить режимы статуса
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-Для запрошенного действия необходим правильный выбор контакта. Выберите контакт из списка и повторите
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
+Для запрошенного действия необходим правильный выбор контакта. Выберите контакт из списка и повторите.
 [Parameter mismatch]
 Несоответствие параметра
 [Warning]
@@ -727,6 +723,8 @@
 Под курсором
 [Quicksearch text]
 Быстрый поиск
+[Embedded frames border]
+Граница фреймов
 [Title bar]
 Заголовок
 [Tool Window]
@@ -833,9 +831,13 @@
 Плавающее
 [Frame menu]
 Меню фреймов
+[New group]
+Новая группа
 [Group menu]
 Меню групп
-[&Find/Add contacts...]
+[&Hide/show]
+С&крыть/Показать
+[&Find/add contacts...]
 Добавить &контакты...
 [&Options...]
 &Настройки...

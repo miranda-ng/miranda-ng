@@ -159,6 +159,10 @@
 Проверить обновления
 [Available components list]
 Компоненты для установки
+[Update completed]
+Обновление завершено
+[Update failed]
+Сбой обновления
 ['Yes' Button]
 Кнопка 'Да'
 ['No' Button]

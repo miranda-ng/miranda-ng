@@ -7,6 +7,6 @@
 [Overlay icons]
 [%s connecting]
 [Connecting icons]
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
 [Service failure]
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]

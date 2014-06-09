@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.4.0
+;  Version: 0.8.5.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -49,6 +49,10 @@
 Размер (ВxШ):
 [C&lient Area]
 Сод&ержимое
+[File:]
+Файл:
+[Description:]
+Описание:
 [&Copy]
 &Копировать
 [Close]
@@ -135,6 +139,8 @@ HTTP подключение SendSS
 Окно
 [Desktop]
 Рабочий стол
+[File]
+Файл
 [File Transfer]
 Передача файла
 [E-mail]
@@ -145,5 +151,7 @@ E-mail
 Информация
 [Can't create a Screenshot]
 Невозможно создать скриншот
+[Select a file]
+Выберите файл
 [Select a target window.]
 Выберите окно для отправки.
