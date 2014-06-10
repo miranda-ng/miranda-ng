@@ -32,20 +32,20 @@ LIST<TExtraCache> cfg::arCache(100, LIST<TExtraCache>::FTSortFunc(NumericKeySort
 
 bool cfg::shutDown = false;
 
-TSysConfig							API::sysConfig = {0};
-TSysState							API::sysState = {0};
+TSysConfig API::sysConfig = {0};
+TSysState  API::sysState = {0};
 
-pfnDwmExtendFrameIntoClientArea_t			API::pfnDwmExtendFrameIntoClientArea = 0;
-pfnDwmIsCompositionEnabled_t				API::pfnDwmIsCompositionEnabled = 0;
+pfnDwmExtendFrameIntoClientArea_t API::pfnDwmExtendFrameIntoClientArea = 0;
+pfnDwmIsCompositionEnabled_t API::pfnDwmIsCompositionEnabled = 0;
 
 EXCEPTION_RECORD API::exRecord = {0};
-CONTEXT		 	 API::exCtx = {0};
-LRESULT			 API::exLastResult = 0;
-char			 API::exSzFile[MAX_PATH] = "";
-TCHAR			 API::exReason[256] = _T("");
-int				 API::exLine = 0;
-bool			 API::exAllowContinue = false;
-HMODULE			 API::hDwm = 0;
+CONTEXT API::exCtx = {0};
+LRESULT API::exLastResult = 0;
+char    API::exSzFile[MAX_PATH] = "";
+TCHAR   API::exReason[256] = _T("");
+int     API::exLine = 0;
+bool    API::exAllowContinue = false;
+HMODULE API::hDwm = 0;
 
 void cfg::init()
 {

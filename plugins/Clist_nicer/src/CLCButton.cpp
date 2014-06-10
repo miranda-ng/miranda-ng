@@ -43,29 +43,6 @@ struct CluiTopButton BTNS[] =
 
 static int g_index = -1;
 
-static int getButtonIndex(HANDLE hButton)
-{
-	// nasty clutch. during the initial customization
-	// hButton isn't assigned into BNTS yet
-	if (g_index != -1)
-		return g_index;
-
-	for (int i = 0; i < SIZEOF(BTNS); i++)
-		if (BTNS[i].hButton == hButton)
-			return i;
-
-	return -1;
-}
-
-static int getLastIndex()
-{
-	for (int i = 0; ; i++)
-		if (BTNS[i].pszButtonID == NULL)
-			return i;
-
-	return -1;
-}
-
 static void InitDefaultButtons()
 {
 	for (int i = 0; i < SIZEOF(BTNS); i++ ) {
@@ -597,18 +574,14 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 	mir_subclassWindow(hWnd, TSButtonWndProc);
 
 	MButtonExtension *bct = (MButtonExtension*)GetWindowLongPtr(hWnd, 0);
-	int idx = getButtonIndex(hButton);
-	if (idx != -1) { // adding built-in button
-		BTNS[idx].hwndButton = hWnd;
-		if (BTNS[idx].isAction) 
+	if (g_index != -1) { // adding built-in button
+		BTNS[g_index].hwndButton = hWnd;
+		if (BTNS[g_index].isAction)
 			bct->bSendOnDown = true;
-		if (!BTNS[idx].isPush)
+		if (!BTNS[g_index].isPush)
 			bct->bIsPushBtn = true;
 	}
 	else {
-		idx = getLastIndex();
-		BTNS[idx].hwndButton = hWnd;
-		BTNS[idx].pszButtonID = "plugin";
 		bool bSkinned = cfg::dat.bSkinnedButtonMode != 0;
 		CustomizeButton(hWnd, bSkinned, !bSkinned, bSkinned, true);
 	}
