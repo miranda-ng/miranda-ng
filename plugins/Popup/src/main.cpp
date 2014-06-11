@@ -376,6 +376,7 @@ MIRAPI int Load(void)
 	//Service Functions
 	hEventNotify = CreateHookableEvent(ME_POPUP_FILTER);
 
+	CreateServiceFunction(MS_POPUP_ADDPOPUP,             Popup_AddPopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW,            Popup_AddPopupW);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP2,            Popup_AddPopup2);
 
@@ -387,6 +388,7 @@ MIRAPI int Load(void)
 	CreateServiceFunction(MS_POPUP_GETCONTACT,           Popup_GetContact);
 	CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        Popup_GetPluginData);
 
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          Popup_ShowMessage);
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         Popup_ShowMessageW);
 	CreateServiceFunction(MS_POPUP_QUERY,                Popup_Query);
 

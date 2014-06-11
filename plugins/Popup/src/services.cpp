@@ -25,6 +25,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int num_classes = 0;			//for core class api support
 
+//===== Popup/AddPopup
+INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
+{
+	if (!gbPopupLoaded)
+		return -1;
+
+	POPUPDATA *ppd = (POPUPDATA*)wParam;
+	if (!ppd)
+		return -1;
+
+	ptrW wszText(mir_a2u(ppd->lpzText)), wszTitle(mir_a2u(ppd->lpzContactName));
+
+	POPUPDATA2 ppd2 = { sizeof(ppd2) };
+	ppd2.flags = PU2_UNICODE;
+	ppd2.lchContact = ppd->lchContact;
+	ppd2.lchIcon = ppd->lchIcon;
+	ppd2.lpwzTitle = wszTitle;
+	ppd2.lpwzText = wszText;
+	ppd2.colorBack = ppd->colorBack;
+	ppd2.colorText = ppd->colorText;
+	ppd2.PluginWindowProc = ppd->PluginWindowProc;
+	ppd2.PluginData = ppd->PluginData;
+	ppd2.iSeconds = ppd->iSeconds;
+	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
+}
+
 //===== Popup/AddPopupW
 INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
 {
@@ -203,7 +229,8 @@ INT_PTR Popup_Change2(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam) {
+INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
+{
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if (closing) return 0;
 
@@ -237,6 +264,15 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam) {
 		return -1;
 	}
 	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam & 0x80000000)?APF_NO_HISTORY:0));
+}
+
+INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam)
+{
+	if (!gbPopupLoaded || !wParam || !lParam) return -1;
+	if (closing) return 0;
+
+	ptrW wszMsg(mir_a2u((char*)wParam));
+	return Popup_ShowMessageW(wszMsg, lParam);
 }
 
 //===== Popup/Query
