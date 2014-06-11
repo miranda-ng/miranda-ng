@@ -574,7 +574,7 @@ static void MailPopupPreview(DWORD colorBack, DWORD colorText, char *title, char
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
 	ppd.iSeconds = delay;
-	if ( ServiceExists(MS_POPUP_ADDPOPUP))
+	if ( ServiceExists(MS_POPUP_ADDPOPUPT))
 		PUAddPopup(&ppd);
 }
 

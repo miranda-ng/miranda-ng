@@ -140,7 +140,7 @@ void CGlobals::reloadSystemModulesChanged()
 
 	bMetaEnabled = abs(M.GetByte(META_PROTO, "Enabled", -1));
 
-	g_PopupAvail = ServiceExists(MS_POPUP_ADDPOPUP);
+	g_PopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;

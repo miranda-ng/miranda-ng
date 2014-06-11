@@ -1130,7 +1130,7 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 
 static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
 {
-	if ( !ServiceExists(MS_POPUP_ADDPOPUP))
+	if ( !ServiceExists(MS_POPUP_ADDPOPUPT))
 		return;
 	if (!db_get_b(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE))
 		return;

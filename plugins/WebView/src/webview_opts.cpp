@@ -1145,11 +1145,11 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 			else {
 				CheckDlgButton(hwndDlg, IDC_SUPPRESS, BST_UNCHECKED);
-				if ((ServiceExists(MS_POPUP_ADDPOPUP) != 0))
+				if ((ServiceExists(MS_POPUP_ADDPOPUPT) != 0))
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 1);
 			}
 
-			if (ServiceExists(MS_POPUP_ADDPOPUP) == 0)
+			if (ServiceExists(MS_POPUP_ADDPOPUPT) == 0)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), 0);
 
 			if ( db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0)) {
@@ -1222,7 +1222,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_SUPPRESS:
-			if ((ServiceExists(MS_POPUP_ADDPOPUP) != 0))
+			if ((ServiceExists(MS_POPUP_ADDPOPUPT) != 0))
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ERROR_POPUP), (!(IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS))));
 			break;
 

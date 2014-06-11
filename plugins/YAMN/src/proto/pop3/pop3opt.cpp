@@ -183,7 +183,7 @@ int YAMNOptInitSvc(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = DlgProcPluginOpt;
 	Options_AddPage(wParam, &odp);
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszGroup = LPGEN("Popups");
 		odp.pszTab = LPGEN("YAMN");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTPOPUP);

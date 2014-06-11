@@ -1073,7 +1073,7 @@ void InitMainMenuItem()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
-	mi.ptszPopupName = ServiceExists(MS_POPUP_ADDPOPUP) ? _T("Popups") : NULL;
+	mi.ptszPopupName = ServiceExists(MS_POPUP_ADDPOPUPT) ? _T("Popups") : NULL;
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 

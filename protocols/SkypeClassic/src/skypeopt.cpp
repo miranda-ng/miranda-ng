@@ -461,7 +461,7 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			}
 
 #ifdef USEPOPUP
-			if (ServiceExists(MS_POPUP_ADDPOPUP))
+			if (ServiceExists(MS_POPUP_ADDPOPUPT))
 				CheckDlgButton(hwndDlg, IDC_USEPOPUP, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "UsePopup", 0));
 			else
 #endif

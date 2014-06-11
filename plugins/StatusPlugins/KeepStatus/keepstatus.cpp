@@ -894,7 +894,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 	HICON hIcon = NULL;
 	TCHAR text[MAX_SECONDLINE];
 
-	if ( !db_get_b(NULL, MODULENAME, SETTING_SHOWCONNECTIONPOPUPS,FALSE) || !ServiceExists(MS_POPUP_ADDPOPUP))
+	if ( !db_get_b(NULL, MODULENAME, SETTING_SHOWCONNECTIONPOPUPS,FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPT))
 		return -1;
 
 	switch(reason) {

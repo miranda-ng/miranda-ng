@@ -127,7 +127,7 @@ extern "C" __declspec(dllexport) int __cdecl Unload()
 
 int ModuleLoad(WPARAM, LPARAM)
 {
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUP);
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
 	return 0;
 }
 

@@ -580,7 +580,7 @@ int OnOptInitialize(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcOptionsBayes;
 	Options_AddPage(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_POPUPS);
 		odp.pfnDlgProc = DlgProcOptionsPopups;
 		odp.ptszGroup = LPGENT("Popups");

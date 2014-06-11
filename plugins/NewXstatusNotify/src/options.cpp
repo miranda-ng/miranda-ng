@@ -1043,7 +1043,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcXLogOpts;
 	Options_AddPage(wParam, &odp);
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTitle = LPGEN("Status Notify");
 		odp.pszGroup = LPGEN("Popups");
 		odp.pszTab = LPGEN("General");

@@ -58,7 +58,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			SetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, db_get_dw(NULL, ModuleName, "ReconnectInterval", DEFAULT_RECONNECT_INTERVAL), FALSE);
 			CheckDlgButton(hWnd, IDC_USE_POPUPS, (BOOL) db_get_b(NULL, ModuleName, "UsePopups", 0) ? BST_CHECKED : BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hWnd, IDC_USE_POPUPS), ServiceExists(MS_POPUP_ADDPOPUP)); //disable the popups checkbox if no popup module is present
+			EnableWindow(GetDlgItem(hWnd, IDC_USE_POPUPS), ServiceExists(MS_POPUP_ADDPOPUPT)); //disable the popups checkbox if no popup module is present
 
 			CheckDlgButton(hWnd, IDC_CHECK_EMAILS, (bCheck) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hWnd, IDC_INTERVAL_EDIT), bCheck);

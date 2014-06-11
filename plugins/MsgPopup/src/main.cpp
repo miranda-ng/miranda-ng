@@ -199,7 +199,7 @@ int HookedInit(WPARAM wParam, LPARAM lParam)
 
 int HookedOptions(WPARAM wParam, LPARAM lParam)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);

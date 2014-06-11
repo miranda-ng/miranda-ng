@@ -501,7 +501,7 @@ static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam
 
 void ShowPopup(ALARM *alarm)
 {
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		ALARM *data = new ALARM;
 		memset(data, 0, sizeof(ALARM));
 		copy_alarm_data(data, alarm);
@@ -547,7 +547,7 @@ void DoAlarm(ALARM *alarm)
 			}
 		}
 		if (alarm->action & AAF_POPUP) {
-			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUP)) 
+			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUPT)) 
 				ShowPopup(alarm);
 			else {
 				HWND hwndDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);

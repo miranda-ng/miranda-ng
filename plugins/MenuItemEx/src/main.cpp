@@ -955,7 +955,7 @@ static int ContactWindowOpen(WPARAM wparam, LPARAM lParam)
 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	bPopupService = ServiceExists(MS_POPUP_ADDPOPUP);
+	bPopupService = ServiceExists(MS_POPUP_ADDPOPUPT);
 	return 0;
 }
 

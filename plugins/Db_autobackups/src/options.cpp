@@ -121,7 +121,7 @@ int SetDlgState(HWND hwndDlg)
 	CheckDlgButton(hwndDlg, IDC_CHK_NOPROG, new_options.disable_progress ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CHK_NOPOPUP, new_options.disable_popups ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CHK_USEZIP, new_options.use_zip ? BST_CHECKED : BST_UNCHECKED);
-	if ( !ServiceExists(MS_POPUP_ADDPOPUP))
+	if ( !ServiceExists(MS_POPUP_ADDPOPUPT))
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), SW_HIDE);
 
 	return 0;

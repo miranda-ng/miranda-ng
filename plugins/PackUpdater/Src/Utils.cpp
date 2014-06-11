@@ -199,7 +199,7 @@ static void CheckUpdates(void *)
 	if (lstrcmp(dbVar.ptszVal, NULL) == 0) { // URL is not set
 		Title=TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
 			show_popup(0, Title, Text, Number, 0);
 		}
@@ -259,7 +259,7 @@ static void CheckUpdates(void *)
 		if (_tcsstr(tszBuff, _T("\\"))) { //check update name
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Name of Update's file is not supported.");
-			if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
+			if ( ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 				Number = 1;
 				show_popup(0, Title, Text, Number, 0);
 			}
@@ -356,7 +356,7 @@ static void CheckUpdates(void *)
 	if (!UpdatesCount && !Silent) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No updates found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
@@ -367,7 +367,7 @@ static void CheckUpdates(void *)
 	if (!FileCount) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No files for update.");
-		if (ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
@@ -382,7 +382,7 @@ void DoCheck(int iFlag)
 	if (hCheckThread != NULL) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if ( ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}

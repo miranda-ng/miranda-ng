@@ -127,7 +127,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 int hook_ModulesLoaded(WPARAM, LPARAM)
 {
-	myGlobals.PopupExist		= ServiceExists(MS_POPUP_ADDPOPUP);
+	myGlobals.PopupExist		= ServiceExists(MS_POPUP_ADDPOPUPT);
 	myGlobals.PopupActionsExist	= ServiceExists(MS_POPUP_REGISTERACTIONS);
 	myGlobals.PluginHTTPExist	= ServiceExists(MS_HTTP_ACCEPT_CONNECTIONS);
 	myGlobals.PluginFTPExist	= ServiceExists(MS_FTPFILE_SHAREFILE);

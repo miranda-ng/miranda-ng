@@ -181,7 +181,7 @@ int TrafficCounterShutdown(WPARAM wParam, LPARAM lParam)
 
 int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUP);
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) && ServiceExists(MS_VARS_REGISTERTOKEN);
 	bTooltipExists = ServiceExists("mToolTip/ShowTipW") || ServiceExists("mToolTip/ShowTip");
 	return 0;

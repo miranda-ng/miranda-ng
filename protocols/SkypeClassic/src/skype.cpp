@@ -809,7 +809,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
 
-	PopupServiceExists = ServiceExists(MS_POPUP_ADDPOPUP);
+	PopupServiceExists = ServiceExists(MS_POPUP_ADDPOPUPT);
 
 	logoff_contacts(FALSE);
 

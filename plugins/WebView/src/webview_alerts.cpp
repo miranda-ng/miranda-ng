@@ -191,7 +191,7 @@ int PopupAlert(WPARAM hContact, LPARAM lParam)
 	ppd.PluginWindowProc = NULL;
 	ppd.iSeconds = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUP))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
 
 	return 0;

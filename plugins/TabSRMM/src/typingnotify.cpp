@@ -503,7 +503,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.position = 100000000;
 		odp.hInstance = g_hInst;
