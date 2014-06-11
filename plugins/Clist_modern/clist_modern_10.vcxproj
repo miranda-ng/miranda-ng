@@ -231,7 +231,6 @@
     <ClCompile Include="src\modern_keyboard.cpp" />
     <ClCompile Include="src\modern_log.cpp" />
     <ClCompile Include="src\modern_newrowopts.cpp" />
-    <ClCompile Include="src\modern_popup.cpp" />
     <ClCompile Include="src\modern_row.cpp" />
     <ClCompile Include="src\modern_rowheight_funcs.cpp" />
     <ClCompile Include="src\modern_rowtemplateopt.cpp" />
@@ -263,7 +262,6 @@
     <ClInclude Include="src\hdr\modern_image_array.h" />
     <ClInclude Include="src\hdr\modern_layered_window_engine.h" />
     <ClInclude Include="src\hdr\modern_log.h" />
-    <ClInclude Include="src\hdr\modern_popup.h" />
     <ClInclude Include="src\hdr\modern_row.h" />
     <ClInclude Include="src\hdr\modern_rowheight_funcs.h" />
     <ClInclude Include="src\hdr\modern_skinengine.h" />
