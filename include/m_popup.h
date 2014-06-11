@@ -245,9 +245,7 @@ wParam = Modification type
 lParam = value of type defined by wParam
 */
 
-#define CPT_TEXT	 1 // lParam = (char *)text
 #define CPT_TEXTW	 2 // lParam = (WCHAR *)text
-#define CPT_TITLE	 3 // lParam = (char *)title
 #define CPT_TITLEW 4 // lParam = (WCHAR *)title
 #define CPT_DATAW	 7 // lParam = (POPUPDATAW *)data
 

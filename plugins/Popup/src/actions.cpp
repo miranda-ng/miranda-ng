@@ -143,10 +143,6 @@ DWORD MouseOverride(HWND hCombo, int number)
 
 // options
 
-#define ListView_InsertItemW(hwnd, pitem)   \
-	(int)SendMessageW((hwnd), LVM_INSERTITEMW, 0, (LPARAM)(const LVITEMW *)(pitem))
-
-
 void LoadOption_Actions() {
 	PopupOptions.actions			= db_get_dw(NULL, MODULNAME, "Actions",
 										ACT_ENABLE | ACT_RIGHTICONS | ACT_DEF_KEEPWND | ACT_DEF_IMONLY |
@@ -248,9 +244,9 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					LVGROUP group = {0};
 					group.cbSize = sizeof(group);
 					group.mask = LVGF_HEADER | LVGF_GROUPID;
-					LPWSTR wszGroup = mir_a2u(szGroup);
-					group.pszHeader = TranslateW(wszGroup);
-					group.cchHeader = lstrlenW(wszGroup);
+					LPTSTR wszGroup = mir_a2t(szGroup);
+					group.pszHeader = TranslateTS(wszGroup);
+					group.cchHeader = lstrlen(wszGroup);
 					grpId = group.iGroupId = groups.getCount();
 					int grpId = ListView_InsertGroup(hwndList, -1, &group);
 					mir_free(wszGroup);
@@ -267,7 +263,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				item.mask |= LVIF_GROUPID;
 				item.iGroupId = grpId;
 				item.iIndent = 0;
-				ListView_InsertItemW(hwndList, &item);
+				ListView_InsertItem(hwndList, &item);
 
 				ListView_SetItemState(hwndList, i, (gActions[i]->flags & PAF_ENABLED) ? 0x2000 : 0x1000, LVIS_STATEIMAGEMASK);
 			}

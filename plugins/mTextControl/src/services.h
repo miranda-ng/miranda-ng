@@ -21,9 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define __services_h__
 
 void LoadServices();
-void UnloadServices();
 
-__declspec(dllexport) HANDLE	DLL_CALLCONV	MTI_MTextCreate			(HANDLE userHandle, char *text);
 __declspec(dllexport) HANDLE	DLL_CALLCONV	MTI_MTextCreateW		(HANDLE userHandle, WCHAR *text);
 __declspec(dllexport) HANDLE	DLL_CALLCONV	MTI_MTextCreateEx		(HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags);
 __declspec(dllexport) int		DLL_CALLCONV	MTI_MTextMeasure		(HDC dc, SIZE *sz, HANDLE text);

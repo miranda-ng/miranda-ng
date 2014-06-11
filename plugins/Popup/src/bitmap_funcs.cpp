@@ -55,7 +55,7 @@ MyBitmap::MyBitmap(int w, int h)
 	allocate(w,h);
 }
 
-MyBitmap::MyBitmap(const char *fn, const char *fnAlpha)
+MyBitmap::MyBitmap(const TCHAR *fn, const TCHAR *fnAlpha)
 {
 	dcBmp = 0;
 	hBmp = 0;
@@ -660,25 +660,12 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 	DeleteObject(info.hbmMask);
 }
 
-void MyBitmap::Draw_TextA(char *str, int x, int y)
+void MyBitmap::Draw_Text(TCHAR *str, int x, int y)
 {
-	GdiFlush();
-
-	SIZE sz; GetTextExtentPoint32A(this->getDC(), str, lstrlenA(str), &sz);
-	RECT rc; SetRect(&rc, x, y, x+10000, y+10000);
-	this->saveAlpha(x-2,y-2,sz.cx+2,sz.cy+2);
-	::DrawTextA(this->getDC(), str, (int)strlen(str), &rc, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX);
-	this->restoreAlpha(x-2,y-2,sz.cx+2,sz.cy+2);
-	//(x,y,sz.cx,sz.cy);
-}
-
-void MyBitmap::Draw_TextW(WCHAR *str, int x, int y)
-{
-
-	SIZE sz; GetTextExtentPoint32W(this->getDC(), str, lstrlenW(str), &sz);
+	SIZE sz; GetTextExtentPoint32(this->getDC(), str, lstrlen(str), &sz);
 	RECT rc; SetRect(&rc, x, y, x+10000, y+10000);
 	this->saveAlpha(x,y,sz.cx,sz.cy);
-	DrawTextW(this->getDC(), str, lstrlenW(str), &rc, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX);
+	DrawText(this->getDC(), str, lstrlen(str), &rc, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX);
 	this->restoreAlpha(x,y,sz.cx,sz.cy);
 }
 
@@ -764,11 +751,11 @@ static int hex2dec(char hex)
 	return 0;
 }
 
-bool MyBitmap::loadFromFile_pixel(const char *fn, const char *fnAlpha)
+bool MyBitmap::loadFromFile_pixel(const TCHAR *fn, const TCHAR *fnAlpha)
 {
 	allocate(1,1);
 	int r, g, b, a=255;
-	const char *p = fn + lstrlenA("pixel:");
+	const TCHAR *p = fn + lstrlen(_T("pixel:"));
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
 	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
 	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
@@ -776,9 +763,9 @@ bool MyBitmap::loadFromFile_pixel(const char *fn, const char *fnAlpha)
 	return true;
 }
 
-bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
+bool MyBitmap::loadFromFile_gradient(const TCHAR *fn, const TCHAR *fnAlpha)
 {
-	const char *p = fn + lstrlenA("gradient:");
+	const TCHAR *p = fn + lstrlen(_T("gradient:"));
 
 	if (*p == 'h') allocate(256,1);
 	else allocate(1,256);
@@ -810,7 +797,7 @@ bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
 	return true;
 }
 
-bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
+bool MyBitmap::loadFromFile_png(const TCHAR *fn, const TCHAR *fnAlpha)
 {
 	if (ServiceExists(MS_PNG2DIB))
 	{
@@ -819,7 +806,7 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 		long cbFileSize = 0;
 		BITMAPINFOHEADER *pDib;
 		BYTE *pDibBits;
-		if ((hFile = CreateFileA(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
+		if ((hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
 			if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
 					if ((ppMap = (BYTE*)MapViewOfFile( hMap, FILE_MAP_READ, 0, 0, 0 )) != NULL)
 						cbFileSize = GetFileSize(hFile, NULL);
@@ -885,10 +872,10 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 	}
 }
 
-bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
+bool MyBitmap::loadFromFile_default(const TCHAR *fn, const TCHAR *fnAlpha)
 {
 	SIZE sz;
-	HBITMAP hBmpLoaded = (HBITMAP)LoadImageA(NULL, fn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	HBITMAP hBmpLoaded = (HBITMAP)LoadImage(NULL, fn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 	if (!hBmpLoaded)
 		return false;
 
@@ -920,22 +907,22 @@ bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
 	return true;
 }
 
-bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
+bool MyBitmap::loadFromFile(const TCHAR *fn, const TCHAR *fnAlpha)
 {
 	if (bits) freemem();
 
-	if (!strncmp(fn, "pixel:", lstrlenA("pixel:")))
+	if (!_tcsncmp(fn, _T("pixel:"), lstrlen(_T("pixel:"))))
 	{
 		return loadFromFile_pixel(fn, fnAlpha);
 	} else
-	if (!strncmp(fn, "gradient:", lstrlenA("gradient:")))
+	if (!_tcsncmp(fn, _T("gradient:"), lstrlen(_T("gradient:"))))
 	{
 		return loadFromFile_gradient(fn, fnAlpha);
 	} else
 	{
-		char ext[5];
-		memcpy(ext,fn+(strlen(fn)-4),5);
-		if (!lstrcmpiA(ext,".png"))
+		TCHAR ext[5];
+		_tcsncpy_s(ext, SIZEOF(ext), fn + (_tcslen(fn) - 4), _TRUNCATE);
+		if (!lstrcmpi(ext, _T(".png")))
 		{
 			return loadFromFile_png(fn, fnAlpha);
 		} else

@@ -376,7 +376,6 @@ MIRAPI int Load(void)
 	//Service Functions
 	hEventNotify = CreateHookableEvent(ME_POPUP_FILTER);
 
-	CreateServiceFunction(MS_POPUP_ADDPOPUP,             Popup_AddPopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW,            Popup_AddPopupW);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP2,            Popup_AddPopup2);
 
@@ -388,7 +387,6 @@ MIRAPI int Load(void)
 	CreateServiceFunction(MS_POPUP_GETCONTACT,           Popup_GetContact);
 	CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        Popup_GetPluginData);
 
-	CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          Popup_ShowMessage);
 	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         Popup_ShowMessageW);
 	CreateServiceFunction(MS_POPUP_QUERY,                Popup_Query);
 
@@ -442,12 +440,12 @@ MIRAPI int Unload(void)
 	PopupHistoryUnload();
 	SrmmMenu_Unload();
 
-	UnregisterClass (MAKEINTATOM(g_wndClass.cPopupWnd2),hInst);
-	UnregisterClassW(L"PopupEditBox",hInst);
-	UnregisterClass (MAKEINTATOM(g_wndClass.cPopupMenuHostWnd),hInst);
-	UnregisterClass (MAKEINTATOM(g_wndClass.cPopupThreadManagerWnd),hInst);
-	UnregisterClass (MAKEINTATOM(g_wndClass.cPopupPreviewBoxWndclass),hInst);
-	UnregisterClass (MAKEINTATOM(g_wndClass.cPopupPlusDlgBox),hInst);
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupWnd2), hInst);
+	UnregisterClass(_T("PopupEditBox"), hInst);
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupMenuHostWnd), hInst);
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupThreadManagerWnd), hInst);
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPreviewBoxWndclass), hInst);
+	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPlusDlgBox), hInst);
 
 	UnloadGDIPlus();
 

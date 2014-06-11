@@ -61,11 +61,11 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 		else ++name;
 
 		SIZE szText, szSpace;
-		LPWSTR wname = mir_a2u(name);
-		WCHAR *str = TranslateW(wname);
-		GetTextExtentPoint32W(hdc, str, lstrlenW(str), &szText);
+		LPTSTR wname = mir_a2t(name);
+		TCHAR *str = TranslateTS(wname);
+		GetTextExtentPoint32(hdc, str, lstrlen(str), &szText);
 		mir_free(wname);
-		GetTextExtentPoint32W(hdc, L" ", 1, &szSpace);
+		GetTextExtentPoint32(hdc, _T(" "), 1, &szSpace);
 
 		sz.cy = max(sz.cy, szText.cy);
 		sz.cx += szSpace.cx;
@@ -122,12 +122,12 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 		SetTextColor(bmp->getDC(), hover ? fonts.clActionHover : fonts.clAction);
 		SetBkMode(bmp->getDC(), TRANSPARENT);
 
-		GetTextExtentPoint32A(bmp->getDC(), " ", 1, &szSpace);
+		GetTextExtentPoint32(bmp->getDC(), _T(" "), 1, &szSpace);
 
-		LPWSTR wname = mir_a2u(name);
-		WCHAR *str = TranslateW(wname);
-		GetTextExtentPoint32W(bmp->getDC(), str, lstrlenW(str), &szText);
-		bmp->Draw_TextW(str,
+		LPTSTR wname = mir_a2t(name);
+		TCHAR *str = TranslateTS(wname);
+		GetTextExtentPoint32(bmp->getDC(), str, lstrlen(str), &szText);
+		bmp->Draw_Text(str,
 			(PopupOptions.actions&ACT_LARGE) ? (x + szSpace.cx + 32) : (x + szSpace.cx + 16),
 			max(y + 2, y + 2 + (((PopupOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy) / 2));
 		mir_free(wname);
@@ -184,7 +184,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 		SIZE szNew;
 		szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
 		szNew.cy = head->myBmp->getHeight();
-		for (char *p = wnd->getTime(); *p; p++) {
+		for (TCHAR *p = wnd->getTime(); *p; p++) {
 			if (*p == ':')
 				szNew.cx += head->clocksize[CLOCK_SEPARATOR];
 			else if ((*p >= '0') && (*p <= '9'))
@@ -196,7 +196,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 	}
 	else { //normal clock
 		HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-		SIZE sz; GetTextExtentPoint32A(hdc, wnd->getTime(), lstrlenA(wnd->getTime()), &sz);
+		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), lstrlen(wnd->getTime()), &sz);
 		SelectObject(hdc, hfnSave);
 		wnd->getArgs()->add("clock.width", sz.cx + 2 * STYLE_SZ_GAP);
 		wnd->getArgs()->add("clock.height", sz.cy);
@@ -236,19 +236,10 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 				else {
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.text);
 					switch (wnd->getTextType()) {
-					case PopupWnd2::TT_ANSI:
-						{
-							RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-							DrawTextExA(hdc, wnd->getTextA(), lstrlenA(wnd->getTextA()), &rc,
-								DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-							szNew.cx = rc.right;
-							szNew.cy = rc.bottom;
-						}
-						break;
 					case PopupWnd2::TT_UNICODE:
 						{
 							RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-							DrawTextExW(hdc, wnd->getTextW(), lstrlenW(wnd->getTextW()), &rc,
+							DrawTextEx(hdc, wnd->getText(), lstrlen(wnd->getText()), &rc,
 								DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 							szNew.cx = rc.right;
 							szNew.cy = rc.bottom;
@@ -288,19 +279,10 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 				szNew.cx = wnd->getRenderInfo()->titlew;
 				HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
 				switch (wnd->getTextType()) {
-				case PopupWnd2::TT_ANSI:
-					{
-						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-						DrawTextExA(hdc, wnd->getTitleA(), lstrlenA(wnd->getTitleA()), &rc,
-							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-						szNew.cx = rc.right;
-						szNew.cy = rc.bottom;
-					}
-					break;
 				case PopupWnd2::TT_UNICODE:
 					{
 						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-						DrawTextExW(hdc, wnd->getTitleW(), lstrlenW(wnd->getTitleW()), &rc,
+						DrawTextEx(hdc, wnd->getTitle(), lstrlen(wnd->getTitle()), &rc,
 							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 						szNew.cx = rc.right;
 						szNew.cy = rc.bottom;
@@ -351,7 +333,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 			if (head && head->myBmp) {
 				szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
 				szNew.cy = head->myBmp->getHeight();
-				for (char *p = wnd->getTime(); *p; p++) {
+				for (TCHAR *p = wnd->getTime(); *p; p++) {
 					if (*p == ':')
 						szNew.cx += head->clocksize[CLOCK_SEPARATOR];
 					else if ((*p >= '0') && (*p <= '9'))
@@ -362,7 +344,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 			}
 			else {
 				HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-				SIZE sz; GetTextExtentPoint32A(hdc, wnd->getTime(), lstrlenA(wnd->getTime()), &sz);
+				SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), lstrlen(wnd->getTime()), &sz);
 				SelectObject(hdc, hfnSave);
 				wnd->getArgs()->add("clock.width", sz.cx + 2 * STYLE_SZ_GAP);
 				wnd->getArgs()->add("clock.height", sz.cy);
@@ -446,7 +428,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 		SIZE szNew;
 		szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
 		szNew.cy = head->myBmp->getHeight();
-		for (char *p = wnd->getTime(); *p; p++) {
+		for (TCHAR *p = wnd->getTime(); *p; p++) {
 			if (*p == ':')
 				szNew.cx += head->clocksize[CLOCK_SEPARATOR];
 			else if ((*p >= '0') && (*p <= '9'))
@@ -456,7 +438,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 	}
 	else {
 		HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-		SIZE sz; GetTextExtentPoint32A(hdc, wnd->getTime(), lstrlenA(wnd->getTime()), &sz);
+		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), lstrlen(wnd->getTime()), &sz);
 		SelectObject(hdc, hfnSave);
 		STYLE_SZ_CLOCK = sz.cx + 2 * STYLE_SZ_GAP;
 	}
@@ -517,17 +499,10 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.text);
 					bmp->saveAlpha();
 					switch (wnd->getTextType()) {
-					case PopupWnd2::TT_ANSI:
-					{
-						RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-						DrawTextExA(hdc, wnd->getTextA(), lstrlenA(wnd->getTextA()), &rc,
-							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-					}
-						break;
 					case PopupWnd2::TT_UNICODE:
 					{
 						RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-						DrawTextExW(hdc, wnd->getTextW(), lstrlenW(wnd->getTextW()), &rc,
+						DrawTextEx(hdc, wnd->getText(), lstrlen(wnd->getText()), &rc,
 							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 					}
 						break;
@@ -572,20 +547,11 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 				sz.cy = 1000;
 
 				switch (wnd->getTextType()) {
-				case PopupWnd2::TT_ANSI:
-				{
-					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
-					RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-					DrawTextExA(hdc, wnd->getTitleA(), lstrlenA(wnd->getTitleA()), &rc,
-						DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-					SelectObject(hdc, hFntSave);
-				}
-					break;
 				case PopupWnd2::TT_UNICODE:
 				{
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
 					RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-					DrawTextExW(hdc, wnd->getTitleW(), lstrlenW(wnd->getTitleW()), &rc,
+					DrawTextEx(hdc, wnd->getTitle(), lstrlen(wnd->getTitle()), &rc,
 						DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 					SelectObject(hdc, hFntSave);
 				}
@@ -697,7 +663,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 						bmp->BlendPart(head->myBmp, head->clockstart[CLOCK_LEFT], 0, head->clocksize[CLOCK_LEFT], sy, x, y, head->clocksize[CLOCK_LEFT], sy);
 
 					x += head->clocksize[CLOCK_LEFT];
-					for (char *p = wnd->getTime(); *p; p++) {
+					for (TCHAR *p = wnd->getTime(); *p; p++) {
 						int clock_idx = -1;
 						if (*p == ':')
 							clock_idx = CLOCK_SEPARATOR;
@@ -725,8 +691,8 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 						SetTextColor(hdc, wnd->getClockColor());
 
 					HFONT hfnSave = (HFONT)SelectObject(bmp->getDC(), fonts.clock);
-					SIZE sz; GetTextExtentPoint32A(bmp->getDC(), wnd->getTime(), lstrlenA(wnd->getTime()), &sz);
-					bmp->Draw_TextA(wnd->getTime(), x, y);
+					SIZE sz; GetTextExtentPoint32(bmp->getDC(), wnd->getTime(), lstrlen(wnd->getTime()), &sz);
+					bmp->Draw_Text(wnd->getTime(), x, y);
 					SelectObject(bmp->getDC(), hfnSave);
 				}
 				break;
@@ -775,35 +741,35 @@ bool PopupSkin::onMouseLeave(PopupWnd2 *wnd) const
 	return res;
 }
 
-void PopupSkin::loadOptions(std::istream &f)
+void PopupSkin::loadOptions(std::wistream &f)
 {
-	char *buf = new char[1024];
+	TCHAR *buf = new TCHAR[1024];
 	while (!f.eof()) {
 		f >> buf;
 		if (*buf == '#') {
 			f.ignore(1024, '\n');
 			continue;
 		}
-		if (!strcmp(buf, "option")) {
+		if (!lstrcmp(buf, _T("option"))) {
 			int id, val;
 			f >> id >> val;
 			f.getline(buf, 1024);
 			id--;
 			if (m_flag_names[id])
 				mir_free(m_flag_names[id]);
-			char *p = buf;
+			TCHAR *p = buf;
 			while (isspace(*p))
 				p++;
-			char *q = p + lstrlenA(p) - 1;
+			TCHAR *q = p + lstrlen(p) - 1;
 			while ((q >= p) && isspace(*q))
 				*q-- = 0;
-			m_flag_names[id] = mir_strdup(p);
+			m_flag_names[id] = mir_t2a(p);
 			if (val)
 				m_flags |= 1 << id;
 			else
 				m_flags &= ~(1 << id);
 		}
-		else if (!strcmp(buf, "end"))
+		else if (!lstrcmp(buf, _T("end")))
 			break;
 	}
 	delete[] buf;
@@ -827,8 +793,8 @@ bool PopupSkin::load(LPCTSTR dir)
 		GetCurrentDirectory(1024, dir_save);
 		SetCurrentDirectory(dir);
 
-		std::ifstream theFile;
-		theFile.open("popupskin.config", std::ios::in);
+		std::wifstream theFile;
+		theFile.open("popupskin.config", std::wios::in);
 		if (theFile) {
 			loadOptions(theFile);
 			theFile.close();
@@ -852,7 +818,7 @@ bool PopupSkin::load(LPCTSTR dir)
 	return true;
 }
 
-void PopupSkin::loadSkin(std::istream &f)
+void PopupSkin::loadSkin(std::wistream &f)
 {
 	m_bottom_gap = m_right_gap = 0;
 	m_legacy_region_opacity = 64;
@@ -866,7 +832,7 @@ void PopupSkin::loadSkin(std::istream &f)
 	head->next = NULL;
 
 	while (!f.eof()) {
-		char buf[1024];
+		TCHAR buf[1024];
 		f >> buf;
 
 		if (!*buf)
@@ -877,40 +843,40 @@ void PopupSkin::loadSkin(std::istream &f)
 			continue;
 		}
 
-		if (!lstrcmpA(buf, "popup-version")) {
+		if (!lstrcmp(buf, _T("popup-version"))) {
 			f >> m_popup_version;
 			m_popup_version = PLUGIN_MAKE_VERSION((m_popup_version / 1000000) % 100, (m_popup_version / 10000) % 100, (m_popup_version / 100) % 100, (m_popup_version / 1) % 100);
 			if (!isCompatible())
 				break;
 		}
-		else if (!lstrcmpA(buf, "padding-right")) {
+		else if (!lstrcmp(buf, _T("padding-right"))) {
 			f >> m_right_gap;
 		}
-		else if (!lstrcmpA(buf, "padding-bottom")) {
+		else if (!lstrcmp(buf, _T("padding-bottom"))) {
 			f >> m_bottom_gap;
 		}
-		else if (!lstrcmpA(buf, "shadow-region-opacity")) {
+		else if (!lstrcmp(buf, _T("shadow-region-opacity"))) {
 			f >> m_shadow_region_opacity;
 		}
-		else if (!lstrcmpA(buf, "legacy-region-opacity")) {
+		else if (!lstrcmp(buf, _T("legacy-region-opacity"))) {
 			f >> m_legacy_region_opacity;
 		}
-		else if (!lstrcmpA(buf, "w")) {
+		else if (!lstrcmp(buf, _T("w"))) {
 			f.getline(buf, 1024);
 			m_fw.set(buf);
 		}
-		else if (!lstrcmpA(buf, "h")) {
+		else if (!lstrcmp(buf, _T("h"))) {
 			f.getline(buf, 1024);
 			m_fh.set(buf);
 		}
-		else if (!lstrcmpA(buf, "object")) {
+		else if (!lstrcmp(buf, _T("object"))) {
 			head->next = loadObject(f);
 			if (head->next && ((head->next->type & ST_TYPEMASK) == ST_CLOCK))
 				m_internalClock = false;
 			head = head->next;
 			head->next = NULL;
 		}
-		else if (!lstrcmpA(buf, "options")) {
+		else if (!lstrcmp(buf, _T("options"))) {
 			loadOptions(f);
 		}
 	}
@@ -924,8 +890,8 @@ void PopupSkin::loadSkin(LPCTSTR fn)
 {
 	if (!fn) return;
 
-	std::ifstream theFile;
-	theFile.open(fn, std::ios::in);
+	std::wifstream theFile;
+	theFile.open(fn, std::wios::in);
 
 	if (!theFile) return;
 	loadSkin(theFile);
@@ -937,13 +903,13 @@ void PopupSkin::loadSkin(LPCTSTR lpName, LPCTSTR lpType)
 	HRSRC hRes = FindResource(hInst, lpName, lpType);
 	HRSRC hResLoad = (HRSRC)LoadResource(hInst, hRes);
 	char *lpResLock = (char *)LockResource(hResLoad);
-	std::istringstream stream(lpResLock);
+	std::wistringstream stream((TCHAR*)_A2T(lpResLock));
 	loadSkin(stream);
 	UnlockResource(lpResLock);
 	FreeResource(hRes);
 }
 
-PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::istream &f)
+PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 {
 	SKINELEMENT *element = new SKINELEMENT;
 	element->proportional = 0;
@@ -954,7 +920,7 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::istream &f)
 	element->myBmp = NULL;
 
 	while (!f.eof()) {
-		char buf[1024];
+		TCHAR buf[1024];
 		f >> buf;
 
 		if (!*buf)
@@ -965,80 +931,80 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::istream &f)
 			continue;
 		}
 
-		if (!lstrcmpA(buf, "type")) {
+		if (!lstrcmp(buf, _T("type"))) {
 			f >> buf;
-			if (!lstrcmpA(buf, "icon"))
+			if (!lstrcmp(buf, _T("icon")))
 				element->type = (element->type & ~ST_TYPEMASK) | ST_ICON;
-			else if (!lstrcmpA(buf, "bitmap"))
+			else if (!lstrcmp(buf, _T("bitmap")))
 				element->type = (element->type & ~ST_TYPEMASK) | ST_MYBITMAP;
-			else if (!lstrcmpA(buf, "text")) {
+			else if (!lstrcmp(buf, _T("text"))) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_TEXT;
 				element->textColor = (COLORREF)0xffffffff;
 				element->hfn = 0;
 			}
-			else if (!lstrcmpA(buf, "title")) {
+			else if (!lstrcmp(buf, _T("title"))) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_TITLE;
 				element->textColor = (COLORREF)0xffffffff;
 				element->hfn = 0;
 			}
-			else if (!lstrcmpA(buf, "avatar")) {
+			else if (!lstrcmp(buf, _T("avatar"))) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_AVATAR;
 			}
-			else if (!lstrcmpA(buf, "clock")) {
+			else if (!lstrcmp(buf, _T("clock"))) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_CLOCK;
 				element->textColor = (COLORREF)0xffffffff;
 				element->hfn = 0;
 			}
 		}
-		else if (!lstrcmpA(buf, "source")) {
+		else if (!lstrcmp(buf, _T("source"))) {
 			f >> buf;
 			if (((element->type & ST_TYPEMASK) == ST_MYBITMAP) || ((element->type & ST_TYPEMASK) == ST_CLOCK)) {
-				char *alpha = mir_strdup(buf);
-				alpha[strlen(alpha) - 1] = 'a';
+				TCHAR *alpha = mir_tstrdup(buf);
+				alpha[lstrlen(alpha) - 1] = 'a';
 				element->myBmp = new MyBitmap(buf, alpha);
 				mir_free(alpha);
 			}
 		}
-		else if (!lstrcmpA(buf, "mono")) {
+		else if (!lstrcmp(buf, _T("mono"))) {
 			element->type |= ST_MONO;
 		}
-		else if (!lstrcmpA(buf, "layer")) {
+		else if (!lstrcmp(buf, _T("layer"))) {
 			element->type |= ST_BLEND;
 		}
-		else if (!lstrcmpA(buf, "proportional")) {
+		else if (!lstrcmp(buf, _T("proportional"))) {
 			f >> element->proportional;
 		}
-		else if (!lstrcmpA(buf, "x")) {
+		else if (!lstrcmp(buf, _T("x"))) {
 			f.getline(buf, 1024);
 			element->fx.set(buf);
 			element->type &= ~ST_BADPOS;
 		}
-		else if (!lstrcmpA(buf, "y")) {
+		else if (!lstrcmp(buf, _T("y"))) {
 			f.getline(buf, 1024);
 			element->fy.set(buf);
 			element->type &= ~ST_BADPOS;
 		}
-		else if (!lstrcmpA(buf, "w")) {
+		else if (!lstrcmp(buf, _T("w"))) {
 			f.getline(buf, 1024);
 			element->fw.set(buf);
 		}
-		else if (!lstrcmpA(buf, "h")) {
+		else if (!lstrcmp(buf, _T("h"))) {
 			f.getline(buf, 1024);
 			element->fh.set(buf);
 		}
-		else if (!lstrcmpA(buf, "ifset")) {
+		else if (!lstrcmp(buf, _T("ifset"))) {
 			int id;
 			f >> id; id--;
 			element->flag_mask |= 1 << id;
 			element->flags |= 1 << id;
 		}
-		else if (!lstrcmpA(buf, "ifnotset")) {
+		else if (!lstrcmp(buf, _T("ifnotset"))) {
 			int id;
 			f >> id; id--;
 			element->flag_mask |= 1 << id;
 			element->flags &= ~(1 << id);
 		}
-		else if (!lstrcmpA(buf, "color")) {
+		else if (!lstrcmp(buf, _T("color"))) {
 			if (((element->type & ST_TYPEMASK) != ST_TEXT) &&
 				((element->type & ST_TYPEMASK) != ST_TITLE) &&
 				((element->type & ST_TYPEMASK) != ST_CLOCK)) continue;
@@ -1047,7 +1013,7 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::istream &f)
 			f >> r >> g >> b;
 			element->textColor = RGB(r, g, b);
 		}
-		else if (!lstrcmpA(buf, "clocksize")) {
+		else if (!lstrcmp(buf, _T("clocksize"))) {
 			element->clockstart[0] = 0;
 			f >> element->clocksize[0];
 			for (int i = 1; i < CLOCK_ITEMS; i++) {
@@ -1055,7 +1021,7 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::istream &f)
 				f >> element->clocksize[i];
 			}
 		}
-		else if (!lstrcmpA(buf, "end")) {
+		else if (!lstrcmp(buf, _T("end"))) {
 			break;
 		}
 	}

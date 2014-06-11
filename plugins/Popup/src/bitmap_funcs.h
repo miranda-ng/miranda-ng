@@ -43,20 +43,20 @@ private:
 
 	void freemem();
 
-	bool loadFromFile_pixel(const char *fn, const char *fnAlpha = 0);
-	bool loadFromFile_gradient(const char *fn, const char *fnAlpha = 0);
-	bool loadFromFile_png(const char *fn, const char *fnAlpha = 0);
-	bool loadFromFile_default(const char *fn, const char *fnAlpha = 0);
+	bool loadFromFile_pixel(const TCHAR *fn, const TCHAR *fnAlpha = 0);
+	bool loadFromFile_gradient(const TCHAR *fn, const TCHAR *fnAlpha = 0);
+	bool loadFromFile_png(const TCHAR *fn, const TCHAR *fnAlpha = 0);
+	bool loadFromFile_default(const TCHAR *fn, const TCHAR *fnAlpha = 0);
 	void premultipleChannels();
 
 public:
 	MyBitmap();
 	MyBitmap(int w, int h);
-	MyBitmap(const char *fn, const char *fnAlpha = 0);
+	MyBitmap(const TCHAR *fn, const TCHAR *fnAlpha = 0);
 	~MyBitmap();
 	void allocate(int w, int h);
 
-	bool loadFromFile(const char *fn, const char *fnAlpha = 0);
+	bool loadFromFile(const TCHAR *fn, const TCHAR *fnAlpha = 0);
 
 	int getWidth() { return width; }
 	int getHeight() { return height; }
@@ -89,8 +89,7 @@ public:
 //	void DrawPartColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32 color);
 
 	void DrawIcon(HICON hic, int x, int y, int w = 0, int h = 0);
-	void Draw_TextA(char *str, int x, int y);
-	void Draw_TextW(WCHAR *str, int x, int y);
+	void Draw_Text(TCHAR *str, int x, int y);
 
 	__forceinline COLOR32 *getBits() { return bits; }
 	__forceinline COLOR32 *getRow(int row) { return bits + row * width; }

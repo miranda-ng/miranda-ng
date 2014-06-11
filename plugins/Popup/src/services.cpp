@@ -25,30 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int num_classes = 0;			//for core class api support
 
-//===== Popup/AddPopup
-INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
-{
-	if (!gbPopupLoaded)
-		return -1;
-
-	POPUPDATA *ppd = (POPUPDATA*)wParam;
-	if (!ppd)
-		return -1;
-
-	POPUPDATA2 ppd2 = { sizeof(ppd2) };
-	ppd2.flags = PU2_ANSI;
-	ppd2.lchContact = ppd->lchContact;
-	ppd2.lchIcon = ppd->lchIcon;
-	ppd2.lpzTitle = ppd->lpzContactName;
-	ppd2.lpzText = ppd->lpzText;
-	ppd2.colorBack = ppd->colorBack;
-	ppd2.colorText = ppd->colorText;
-	ppd2.PluginWindowProc = ppd->PluginWindowProc;
-	ppd2.PluginData = ppd->PluginData;
-	ppd2.iSeconds = ppd->iSeconds;
-	return Popup_AddPopup2((WPARAM)&ppd2, lParam);
-}
-
 //===== Popup/AddPopupW
 INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
 {
@@ -197,7 +173,7 @@ INT_PTR Popup_ChangeTextW(WPARAM wParam, LPARAM lParam)
 	if (!wnd || !IsValidPopupObject(wnd))
 		return -1;
 
-	wnd->callMethodSync(&PopupWnd2::m_updateTextW, lParam);
+	wnd->callMethodSync(&PopupWnd2::m_updateText, lParam);
 	return 0;
 }
 
@@ -227,43 +203,6 @@ INT_PTR Popup_Change2(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//===== Popup/ShowMessage
-INT_PTR Popup_ShowMessage(WPARAM wParam, LPARAM lParam) {
-	if (!gbPopupLoaded || !wParam || !lParam) return -1;
-	if (closing) return 0;
-
-	POPUPDATA2 ppd2 = {0};
-	ppd2.cbSize		= sizeof(ppd2);
-	ppd2.flags		= PU2_ANSI;
-	ppd2.lpzText	= (char*)wParam;
-	switch (lParam & 0x7fffffff) {
-	case SM_ERROR:
-		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_ERROR,0);
-		ppd2.colorBack			= RGB(191,0,0);
-		ppd2.colorText			= RGB(255,245,225);
-		ppd2.lchNotification	= g_hntfError;
-		ppd2.lpzTitle			= Translate("Error");
-		break;
-	case SM_WARNING:
-		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_WARNING,0);
-		ppd2.colorBack			= RGB(210,210,150);
-		ppd2.colorText			= RGB(0,0,0);
-		ppd2.lchNotification	= g_hntfWarning;
-		ppd2.lpzTitle			= Translate("Warning");
-		break;
-	case SM_NOTIFY:
-		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_NOTIFY,0);
-		ppd2.colorBack			= RGB(230,230,230);
-		ppd2.colorText			= RGB(0,0,0);
-		ppd2.lchNotification	= g_hntfNotification;
-		ppd2.lpzTitle			= Translate("Notify");
-		break;
-	default: //No no no... you must give me a good value.
-		return -1;
-	}
-	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam & 0x80000000)?APF_NO_HISTORY:0));
-}
-
 INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam) {
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if (closing) return 0;
@@ -271,28 +210,28 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam) {
 	POPUPDATA2 ppd2 = {0};
 	ppd2.cbSize		= sizeof(ppd2);
 	ppd2.flags		= PU2_UNICODE;
-	ppd2.lpwzText	= (WCHAR*)wParam;
+	ppd2.lptzText	= (TCHAR*)wParam;
 	switch (lParam&0x7fffffff) {
 	case SM_ERROR:
 		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_ERROR,0);
 		ppd2.colorBack			= RGB(191,0,0);
 		ppd2.colorText			= RGB(255,245,225);
 		ppd2.lchNotification	= g_hntfError;
-		ppd2.lpwzTitle			= TranslateW(L"Error");
+		ppd2.lptzTitle			= TranslateT("Error");
 		break;
 	case SM_WARNING:
 		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_WARNING,0);
 		ppd2.colorBack			= RGB(210,210,150);
 		ppd2.colorText			= RGB(0,0,0);
 		ppd2.lchNotification	= g_hntfWarning;
-		ppd2.lpwzTitle			= TranslateW(L"Warning");
+		ppd2.lptzTitle			= TranslateT("Warning");
 		break;
 	case SM_NOTIFY:
 		ppd2.lchIcon			= IcoLib_GetIcon(ICO_MISC_NOTIFY,0);
 		ppd2.colorBack			= RGB(230,230,230);
 		ppd2.colorText			= RGB(0,0,0);
 		ppd2.lchNotification	= g_hntfNotification;
-		ppd2.lpwzTitle			= TranslateW(L"Notify");
+		ppd2.lptzTitle			= TranslateT("Notify");
 		break;
 	default: //No no no... you must give me a good value.
 		return -1;
@@ -477,8 +416,8 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 		ppd2.PluginWindowProc= pc->PluginWindowProc;
 		if (pc->flags & PCF_UNICODE) {
 			ppd2.flags = PU2_UNICODE;
-			ppd2.lpwzTitle = (WCHAR*)pdc->pwszTitle;
-			ppd2.lpwzText = (WCHAR*)pdc->pwszText;
+			ppd2.lptzTitle = (TCHAR*)pdc->ptszTitle;
+			ppd2.lptzText = (TCHAR*)pdc->ptszText;
 		}
 		else {
 			ppd2.flags = PU2_ANSI;

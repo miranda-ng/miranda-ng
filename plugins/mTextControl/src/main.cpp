@@ -48,9 +48,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 	return TRUE;
 }
 
-static HANDLE hModulesLoaded = 0;
-static int ModulesLoaded(WPARAM wParam,LPARAM lParam);
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
@@ -72,36 +69,20 @@ extern "C" __declspec(dllexport) int Load(void)
 			GetProcAddress(hMsfteditDll, "CreateTextServices");
 	}
 
-//	LoadFancy();
 	LoadEmfCache();
 	LoadRichEdit();
 	LoadTextUsers();
 	LoadServices();
-	//LoadOptions();
 
 	MTextControl_RegisterClass();
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	return 0;
-}
-
-static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
-{
-//	char fn[MAX_PATH+1];
-//	GetModuleFileName(hInst, fn, MAX_PATH);
-//	InitFancy();
-//	InitIcons(icons, fn, iconCount);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(hModulesLoaded);
-//	UnloadOptions();
-	UnloadServices();
 	UnloadTextUsers();
 	UnloadRichEdit();
 	UnloadEmfCache();
-//	UnloadFancy();
 	FreeLibrary(hMsfteditDll);
 	return 0;
 }

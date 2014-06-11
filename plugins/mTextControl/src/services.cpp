@@ -117,29 +117,6 @@ INT_PTR MText_Register(WPARAM wParam, LPARAM lParam)
 }
 
 //---------------------------------------------------------------------------
-// allocate text object
-HANDLE DLL_CALLCONV 
-MTI_MTextCreate (HANDLE userHandle, char *text) {
-	TextObject *result = new TextObject;
-	result->options = TextUserGetOptions(userHandle);
-	result->ftd = new CFormattedTextDraw;
-	result->ftd->Create();
-	InitRichEdit(result->ftd->getTextService());
-
-	MText_InitFormatting0(result->ftd, result->options);
-	result->ftd->putTextA(text);
-	MText_InitFormatting1(result);
-
-	return (HANDLE)result;
-}
-
-INT_PTR MText_Create(WPARAM wParam, LPARAM lParam) {
-	//HANDLE userHandle = (HANDLE)wParam;
-	//char *text = (char *)lParam;
-	return (INT_PTR)MTI_MTextCreate ((HANDLE)wParam, (char *)lParam);
-}
-
-//---------------------------------------------------------------------------
 // allocate text object (unicode)
 HANDLE DLL_CALLCONV 
 MTI_MTextCreateW (HANDLE userHandle, WCHAR *text) {
@@ -332,18 +309,16 @@ INT_PTR MText_GetInterface(WPARAM wParam, LPARAM lParam) {
 	if ( MText == NULL )
 		return CALLSERVICE_NOTFOUND;
 
-	MText->version		= pluginInfoEx.version;
-	MText->Register		= MTI_TextUserAdd;
-	MText->Create		= MTI_MTextCreate;
-	MText->CreateW		= MTI_MTextCreateW;
-//	MText->CreateT		= defined inside api
-	MText->CreateEx	= MTI_MTextCreateEx;
-	MText->Measure		= MTI_MTextMeasure;
-	MText->Display		= MTI_MTextDisplay;
-	MText->SetParent	= MTI_MTextSetParent;
-	MText->SendMsg		= MTI_MTextSendMessage;
-	MText->CreateProxy	= MTI_MTextCreateProxy;
-	MText->Destroy		= MTI_MTextDestroy;
+	MText->version     = pluginInfoEx.version;
+	MText->Register    = MTI_TextUserAdd;
+	MText->Create      = MTI_MTextCreateW;
+	MText->CreateEx    = MTI_MTextCreateEx;
+	MText->Measure     = MTI_MTextMeasure;
+	MText->Display     = MTI_MTextDisplay;
+	MText->SetParent   = MTI_MTextSetParent;
+	MText->SendMsg     = MTI_MTextSendMessage;
+	MText->CreateProxy = MTI_MTextCreateProxy;
+	MText->Destroy     = MTI_MTextDestroy;
 
 	return S_OK;
 }
@@ -352,27 +327,14 @@ INT_PTR MText_GetInterface(WPARAM wParam, LPARAM lParam) {
 // Load / Unload services
 void LoadServices()
 {
-	int nService = 0;
-	hService[nService++] = CreateServiceFunction(MS_TEXT_REGISTER,		MText_Register);
-	hService[nService++] = CreateServiceFunction(MS_TEXT_CREATE,		MText_Create);
-#ifdef UNICODE
-	hService[nService++] = CreateServiceFunction(MS_TEXT_CREATEW,		MText_CreateW);
-#endif
-	hService[nService++] = CreateServiceFunction(MS_TEXT_CREATEEX,		MText_CreateEx);
-	hService[nService++] = CreateServiceFunction(MS_TEXT_MEASURE,		MText_Measure);
-	hService[nService++] = CreateServiceFunction(MS_TEXT_DISPLAY,		MText_Display);
-	hService[nService++] = CreateServiceFunction(MS_TEXT_SETPARENT,		MText_SetParent);
-	hService[nService++] = CreateServiceFunction(MS_TEXT_SENDMESSAGE,	MText_SendMessage);
-	hService[nService++] = CreateServiceFunction(MS_TEXT_CREATEPROXY,	MText_CreateProxy);
-	hService[nService++] = CreateServiceFunction(MS_TEXT_DESTROY,		MText_Destroy);
-	hService[nService++] = CreateServiceFunction(MS_TEXT_GETINTERFACE,	MText_GetInterface);
+	CreateServiceFunction(MS_TEXT_REGISTER, MText_Register);
+	CreateServiceFunction(MS_TEXT_CREATEW, MText_CreateW);
+	CreateServiceFunction(MS_TEXT_CREATEEX, MText_CreateEx);
+	CreateServiceFunction(MS_TEXT_MEASURE, MText_Measure);
+	CreateServiceFunction(MS_TEXT_DISPLAY, MText_Display);
+	CreateServiceFunction(MS_TEXT_SETPARENT, MText_SetParent);
+	CreateServiceFunction(MS_TEXT_SENDMESSAGE, MText_SendMessage);
+	CreateServiceFunction(MS_TEXT_CREATEPROXY, MText_CreateProxy);
+	CreateServiceFunction(MS_TEXT_DESTROY, MText_Destroy);
+	CreateServiceFunction(MS_TEXT_GETINTERFACE, MText_GetInterface);
 }
-
-void UnloadServices()
-{
-	int nService = sizeof(hService)/sizeof(*hService);
-	while (nService--)
-		if (hService[nService])
-			DestroyServiceFunction(hService[nService]);
-}
-

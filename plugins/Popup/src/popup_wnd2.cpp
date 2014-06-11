@@ -75,18 +75,14 @@ bool	LoadPopupWnd2()
 		MessageBox(NULL, msg, _T(MODULNAME_LONG), MB_ICONSTOP|MB_OK);
 	}
 
-	// register custom class for edit box with drop-shadow attribute
-	#define MyRegisterClassExW RegisterClassExW
-	#define MyGetClassInfoExW  GetClassInfoExW
-
 	WNDCLASSEXW wclw = {0};
 	wclw.cbSize = sizeof(wclw);
-	if (!MyGetClassInfoExW(NULL, L"EDIT", &wclw))
+	if (!GetClassInfoEx(NULL, _T("EDIT"), &wclw))
 		MSGERROR(TranslateT("Failed to GetClassInfoExW from EDIT class."));
 	wclw.hInstance = hInst;
-	wclw.lpszClassName = L"PopupEditBox";
+	wclw.lpszClassName = _T("PopupEditBox");
 	wclw.style |= CS_DROPSHADOW;
-	g_wndClass.cPopupEditBox = MyRegisterClassExW(&wclw);
+	g_wndClass.cPopupEditBox = RegisterClassEx(&wclw);
 	err = GetLastError();
 	if (!g_wndClass.cPopupEditBox) {
 		TCHAR msg[2048];
@@ -166,8 +162,7 @@ PopupWnd2::~PopupWnd2()
 	setIcon(NULL);
 
 	mir_free(m_lpzSkin);
-	mir_free(m_lpzTitle);
-	mir_free(m_lpwzTitle);
+	mir_free(m_lptzTitle);
 
 	if (m_hwnd)
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
@@ -287,8 +282,8 @@ void PopupWnd2::update()
 	{
 		SetTextColor(hdc, m_clClock);
 		HFONT hfnSave = (HFONT)SelectObject(m_bmpBase->getDC(), fonts.clock);
-		SIZE sz; GetTextExtentPoint32A(m_bmpBase->getDC(), m_time, lstrlenA(m_time), &sz);
-		m_bmpBase->Draw_TextA(m_time, this->m_sz.cx - sz.cx - STYLE_SZ_GAP - skin->getRightGap(), STYLE_SZ_GAP);
+		SIZE sz; GetTextExtentPoint32(m_bmpBase->getDC(), m_time, lstrlen(m_time), &sz);
+		m_bmpBase->Draw_Text(m_time, this->m_sz.cx - sz.cx - STYLE_SZ_GAP - skin->getRightGap(), STYLE_SZ_GAP);
 		SelectObject(m_bmpBase->getDC(), hfnSave);
 	}
 	
@@ -535,17 +530,7 @@ void PopupWnd2::hide()
 //	hwnd = 0;
 }
 
-bool __forceinline isTextEmpty(char *text)
-{
-	if (!text)
-		return true;
-	while (*text)
-		if (!isspace(BYTE(*text++)))
-			return false;
-	return true;
-}
-
-bool __forceinline isTextEmpty(WCHAR *text)
+bool __forceinline isTextEmpty(TCHAR *text)
 {
 	if (!text)
 		return true;
@@ -580,12 +565,8 @@ void PopupWnd2::fixDefaults()
 			m_hContact = NULL;
 	
 	switch (m_textType) {
-	case TT_ANSI:
-		m_bTextEmpty = ::isTextEmpty(m_lpzText);
-		break;
-
 	case TT_UNICODE:
-		m_bTextEmpty = ::isTextEmpty(m_lpwzText);
+		m_bTextEmpty = ::isTextEmpty(m_lptzText);
 		break;
 
 	default:
@@ -751,11 +732,9 @@ void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	m_iTimeout	= ppd->iSeconds ? ppd->iSeconds : m_options->Seconds;
 
 	if (m_textType == TT_NONE) m_textType = TT_UNICODE;
-	mir_free(m_lpzText);  mir_free(m_lpzTitle);
-	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
-	m_lpzTitle = m_lpzText = NULL;
-	m_lpwzTitle = mir_wstrdup(ppd->lpwzContactName);
-	m_lpwzText = mir_wstrdup(ppd->lpwzText);
+	mir_free(m_lptzText); mir_free(m_lptzTitle);
+	m_lptzTitle = mir_tstrdup(ppd->lptzContactName);
+	m_lptzText = mir_tstrdup(ppd->lptzText);
 	setIcon(ppd->lchIcon);
 	m_hNotification = ppd->hNotification;
 
@@ -763,7 +742,7 @@ void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	m_PluginWindowProc = ppd->PluginWindowProc;
 
 	if (m_options->DisplayTime)
-		GetTimeFormatA(LOCALE_USER_DEFAULT, 0, NULL,"HH':'mm", m_time, SIZEOF(m_time));
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, SIZEOF(m_time));
 	else m_time[0] = 0;
 
 	fixDefaults();
@@ -780,20 +759,11 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 	m_clClock = m_clTitle = m_clText = ppd->colorText;
 	m_iTimeout = ppd->iSeconds;
 
-	mir_free(m_lpzText);  mir_free(m_lpzTitle);
-	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
+	mir_free(m_lptzText); mir_free(m_lptzTitle);
 	if (ppd->flags & PU2_UNICODE) {
 		if (m_textType == TT_NONE) m_textType = TT_UNICODE;
-		m_lpzTitle = m_lpzText = NULL;
-		m_lpwzTitle = mir_wstrdup(ppd->lpwzTitle);
-		m_lpwzText = mir_wstrdup(ppd->lpwzText);
-		m_lpzTitle = m_lpzText = NULL;
-	}
-	else {
-		if (m_textType == TT_NONE) m_textType = TT_ANSI;
-		m_lpzTitle = mir_strdup(ppd->lpzTitle);
-		m_lpzText = mir_strdup(ppd->lpzText);
-		m_lpwzTitle = m_lpwzText = NULL;
+		m_lptzTitle = mir_tstrdup(ppd->lptzTitle);
+		m_lptzText = mir_tstrdup(ppd->lptzText);
 	}
 
 	setIcon(ppd->lchIcon);
@@ -810,14 +780,14 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 	{
 		if (ppd->dwTimestamp)
 		{
-			DBTIMETOSTRING dbtts;
-			dbtts.szFormat = "t";
+			DBTIMETOSTRINGT dbtts;
+			dbtts.szFormat = _T("t");
 			dbtts.szDest = m_time;
 			dbtts.cbDest = SIZEOF(m_time);
-			CallService(MS_DB_TIME_TIMESTAMPTOSTRING, (WPARAM)ppd->dwTimestamp, (LPARAM)&dbtts);
+			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ppd->dwTimestamp, (LPARAM)&dbtts);
 		} else
 		{
-			GetTimeFormatA(LOCALE_USER_DEFAULT, 0, NULL,"HH':'mm", m_time, SIZEOF(m_time));
+			GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), m_time, SIZEOF(m_time));
 		}
 	}
 	else m_time[0] = 0;
@@ -837,75 +807,31 @@ void PopupWnd2::buildMText()
 	if (m_mtTitle)MText.Destroy(m_mtTitle);
 	m_mtText = m_mtTitle = NULL;
 
-	if (m_lpwzText && m_lpwzTitle) {
-		m_textType	= TT_MTEXT;
-		m_mtText	= MText.CreateW(htuText, m_lpwzText);
-		m_mtTitle	= MText.CreateW(htuTitle,m_lpwzTitle);
-	} 
-	else if (m_lpzText && m_lpzTitle) {
+	if (m_lptzText && m_lptzTitle) {
 		m_textType = TT_MTEXT;
-		if (ServiceExists(MS_TEXT_CREATEW)) {
-			LOGFONT lf;
-			LPWSTR lpwzBuf = NULL;
-
-			GetObject(m_hfnText, sizeof(lf), &lf);
-			lpwzBuf = mir_a2u(m_lpzText);
-			m_mtText = MText.CreateW(htuText, lpwzBuf);
-			mir_free(lpwzBuf); lpwzBuf = NULL;
-
-			GetObject(m_hfnTitle, sizeof(lf), &lf);
-			lpwzBuf = mir_a2u(m_lpzTitle);
-			m_mtTitle = MText.CreateW(htuTitle, lpwzBuf);
-			mir_free(lpwzBuf); lpwzBuf = NULL;
-		}
-		else {
-			m_mtText	= MText.Create(htuText, m_lpzText);
-			m_mtTitle	= MText.Create(htuTitle,m_lpzTitle);
-		}
-	}
+		m_mtText = MText.Create(htuText, m_lptzText);
+		m_mtTitle = MText.Create(htuTitle, m_lptzTitle);
+	} 
 }
 
-void PopupWnd2::updateText(char *text)
+void PopupWnd2::updateText(TCHAR *text)
 {
-	if (m_lpzText)
+	if (m_lptzText)
 	{
-		mir_free(m_lpzText);
-		m_lpzText = mir_strdup(text);
+		mir_free(m_lptzText);
+		m_lptzText = mir_tstrdup(text);
 		if (m_textType == TT_MTEXT)
 			buildMText();
 	}
-	m_bTextEmpty = ::isTextEmpty(m_lpzText);
+	m_bTextEmpty = ::isTextEmpty(m_lptzText);
 }
 
-void PopupWnd2::updateText(WCHAR *text)
+void PopupWnd2::updateTitle(TCHAR *title)
 {
-	if (m_lpwzText)
+	if (m_lptzTitle)
 	{
-		mir_free(m_lpwzText);
-		m_lpwzText = mir_wstrdup(text);
-		if (m_textType == TT_MTEXT)
-			buildMText();
-	}
-	m_bTextEmpty = ::isTextEmpty(m_lpwzText);
-}
-
-void PopupWnd2::updateTitle(char *title)
-{
-	if (m_lpzTitle)
-	{
-		mir_free(m_lpzTitle);
-		m_lpzTitle = mir_strdup(title);
-		if (m_textType == TT_MTEXT)
-			buildMText();
-	}
-}
-
-void PopupWnd2::updateTitle(WCHAR *title)
-{
-	if (m_lpwzTitle)
-	{
-		mir_free(m_lpwzTitle);
-		m_lpwzTitle = mir_wstrdup(title);
+		mir_free(m_lptzTitle);
+		m_lptzTitle = mir_tstrdup(title);
 		if (m_textType == TT_MTEXT)
 			buildMText();
 	}
@@ -960,7 +886,7 @@ void AddMessageToDB(MCONTACT hContact, char *msg, int flag/*bool utf*/)
 	dbei.szModule = GetContactProto(hContact);
 	dbei.timestamp = time(NULL);
 	if ( !((flag & PREF_UTF) == PREF_UTF) && (flag & PREF_UNICODE) == PREF_UNICODE)
-		dbei.cbBlob = (lstrlenW((LPWSTR)msg) + 1)*sizeof(WCHAR/*TCHAR*/);
+		dbei.cbBlob = (lstrlen((LPTSTR)msg) + 1)*sizeof(TCHAR);
 	else
 		dbei.cbBlob = lstrlenA(msg) + 1;
 	dbei.pBlob = (PBYTE)msg;
@@ -979,42 +905,23 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			{
 				char *buf = NULL;
 				int flag = 0;
-				if (IsWindowUnicode(hwnd)) {
-					WCHAR msg[2048];
-					LPWSTR bufW = NULL;
+				TCHAR msg[2048];
+				LPTSTR bufW = NULL;
 
-					SendMessageW(hwnd, WM_GETTEXT, SIZEOF(msg), (LPARAM)msg);
+				SendMessage(hwnd, WM_GETTEXT, SIZEOF(msg), (LPARAM)msg);
 
-					if (wcslen(msg)==0){
-						DestroyWindow(hwnd);
-						return 0;
-					}
-					// we have unicode message, check if it is possible and reasonable to send it as unicode
-					if (IsUtfSendAvailable(dat->hContact)) {
-						buf = mir_utf8encodeW(msg);
-						flag = PREF_UTF;
-					}
-					else {
-						buf = mir_u2a(msg);
-						flag = 0;
-					}
+				if (wcslen(msg) == 0){
+					DestroyWindow(hwnd);
+					return 0;
+				}
+				// we have unicode message, check if it is possible and reasonable to send it as unicode
+				if (IsUtfSendAvailable(dat->hContact)) {
+					buf = mir_utf8encodeT(msg);
+					flag = PREF_UTF;
 				}
 				else {
-					char msg[2048];
-					GetWindowTextA(hwnd, msg, SIZEOF(msg));
-					if (strlen(msg)==0){
-						DestroyWindow(hwnd);
-						return 0;
-					}
-					// we have message, check if it is possible and reasonable to send it as unicode
-					if ( IsUtfSendAvailable( dat->hContact )) {
-						buf = mir_utf8encode(msg);
-						flag = PREF_UTF;
-					}
-					else {
-						buf = mir_strdup(msg)	/*mir_tstrdup(msg)*/;
-						flag = 0				/*PREF_TCHAR*/;
-					}
+					buf = mir_t2a(msg);
+					flag = 0;
 				}
 
 				CallContactService(dat->hContact, PSS_MESSAGE, flag, (LPARAM)buf);
@@ -1045,7 +952,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	}
 
 	if (oldWndProc)
-		return CallWindowProcW(oldWndProc, hwnd, message, wParam, lParam);
+		return CallWindowProc(oldWndProc, hwnd, message, wParam, lParam);
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
@@ -1102,22 +1009,17 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				//MapWindowPoints(hwnd, NULL, (LPPOINT)&rc, 2);
 				RECT rc; GetWindowRect(m_hwnd, &rc);
 
-				HWND hwndEditBox = CreateWindowExW(WS_EX_TOOLWINDOW|WS_EX_TOPMOST,
-					g_wndClass.cPopupEditBox ? L"PopupEditBox" : L"EDIT",
+				HWND hwndEditBox = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
+					g_wndClass.cPopupEditBox ? _T("PopupEditBox") : _T("EDIT"),
 					NULL,
-					WS_BORDER|WS_POPUP|WS_VISIBLE|ES_AUTOVSCROLL|ES_LEFT|ES_MULTILINE|ES_NOHIDESEL|ES_WANTRETURN,
+					WS_BORDER | WS_POPUP | WS_VISIBLE | ES_AUTOVSCROLL | ES_LEFT | ES_MULTILINE | ES_NOHIDESEL | ES_WANTRETURN,
 					rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, NULL, NULL, hInst, NULL);
 
 				ReplyEditData *dat = (ReplyEditData *)mir_alloc(sizeof(ReplyEditData));
 				dat->oldWndProc = (WNDPROC)GetWindowLongPtr(hwndEditBox, (LONG_PTR)GWLP_WNDPROC);
 				dat->hwndPopup = m_hwnd;
 				dat->hContact = m_hContact;
-				if (IsWindowUnicode(hwndEditBox)) {
-					SendMessageW(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
-				}
-				else {
-					SendMessageA(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
-				}
+				SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
 				SetWindowLongPtr(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
 				SetWindowLongPtr(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
 				SetFocus(hwndEditBox);
@@ -1170,19 +1072,11 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 				HGLOBAL clipbuffer;
 				static TCHAR * buffer, *text;
-				char* sztext;
-				if ((this->m_lpwzText) || (this->m_lpwzTitle))
+				if ((this->m_lptzText) || (this->m_lptzTitle))
 				{
-					size_t size = _tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle) + 3;
+					size_t size = _tcslen(this->m_lptzText) + _tcslen(this->m_lptzTitle) + 3;
 					text = (TCHAR*)mir_alloc(size * sizeof(TCHAR));
-					mir_sntprintf(text, size, _T("%s\n\n%s"), this->m_lpwzTitle, this->m_lpwzText);
-				}
-				else if ((this->m_lpzText) || (this->m_lpzTitle))
-				{
-					int size = lstrlenA(this->m_lpzText) + lstrlenA(this->m_lpzTitle) + 3;
-					sztext = (char*)mir_alloc(size * sizeof(char));
-					mir_snprintf(sztext, size, "%s\n\n%s", this->m_lpzTitle, this->m_lpzText);
-					text = mir_a2t(sztext);
+					mir_sntprintf(text, size, _T("%s\n\n%s"), this->m_lptzTitle, this->m_lptzText);
 				}
 				OpenClipboard(m_hwnd);
 				EmptyClipboard();
@@ -1192,8 +1086,6 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				GlobalUnlock(clipbuffer);
 				SetClipboardData(CF_TCHAR, clipbuffer);
 				CloseClipboard();
-				if (sztext)
-					mir_free(text);
 				PUDeletePopup(m_hwnd);
 				break;
 			}
@@ -1340,10 +1232,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 	case UM_CHANGEPOPUP:
 		switch (wParam) {
-			case CPT_TEXT:   updateText((char *)lParam);        mir_free((void *)lParam); break;
-			case CPT_TEXTW:  updateText((WCHAR *)lParam);       mir_free((void *)lParam); break;
-			case CPT_TITLE:  updateTitle((char *)lParam);       mir_free((void *)lParam); break;
-			case CPT_TITLEW: updateTitle((WCHAR *)lParam);      mir_free((void *)lParam); break;
+			case CPT_TEXTW:  updateText((TCHAR *)lParam);       mir_free((void *)lParam); break;
+			case CPT_TITLEW: updateTitle((TCHAR *)lParam);      mir_free((void *)lParam); break;
 			case CPT_DATAW:  updateData((POPUPDATAW_V2 *)lParam);  mir_free((void *)lParam); break;
 		}
 		update();

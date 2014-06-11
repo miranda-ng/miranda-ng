@@ -192,9 +192,7 @@ wParam = Modification type
 lParam = value of type defined by wParam
 
 /* core define see miranda\include\m_popup.h
-#define CPT_TEXT	1 // lParam = (char *)text
 #define CPT_TEXTW	2 // lParam = (WCHAR *)text
-#define CPT_TITLE	3 // lParam = (char *)title
 #define CPT_TITLEW	4 // lParam = (WCHAR *)title
 #define CPT_DATA	5 // lParam = (POPUPDATA *)data
 #define CPT_DATAEX	6 // lParam = (POPUPDATAEX *) or (POPUPDATAEX_V2 *)data see CPT_DATA2

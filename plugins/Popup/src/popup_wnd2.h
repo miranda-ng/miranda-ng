@@ -34,7 +34,7 @@ class PopupWnd2 : public MZeroedObject
 {
 public:
 	typedef		LRESULT (PopupWnd2::*MethodPtr)(LPARAM lParam);
-	enum		TextType {TT_NONE, TT_ANSI, TT_UNICODE, TT_MTEXT};
+	enum		TextType {TT_NONE, TT_UNICODE, TT_MTEXT};
 
 	struct		ActionInfo
 	{
@@ -54,14 +54,13 @@ private:
 
 	// content
 	TextType    m_textType;
-	char       *m_lpzTitle,	*m_lpzText;
-	WCHAR      *m_lpwzTitle, *m_lpwzText;
+	TCHAR      *m_lptzTitle, *m_lptzText;
 	HANDLE      m_mtTitle, m_mtText;
 	bool        m_bTextEmpty, m_bIcoLib;
 	HFONT       m_hfnTitle, m_hfnText;
 	HICON       m_hIcon;
 	HBITMAP     m_hbmAvatar;
-	char        m_time[2+1+2+1];
+	TCHAR       m_time[2+1+2+1];
 	ActionInfo* m_actions;
 	int         m_actionCount;
 	HANDLE      m_hNotification;
@@ -133,10 +132,8 @@ public:
 	void	updateData(POPUPDATAW_V2 *ppd);
 	void	updateData(POPUPDATA2 *ppd);
 	void	buildMText();
-	void	updateText(char *text);
-	void	updateText(WCHAR *text);
-	void	updateTitle(char *title);
-	void	updateTitle(WCHAR *title);
+	void	updateText(TCHAR *text);
+	void	updateTitle(TCHAR *title);
 
 	void	updateTimer();
 
@@ -150,17 +147,15 @@ public:
 	bool     isTextEmpty()      { return m_bTextEmpty; }
 	bool     isIcolib()         { return m_bIcoLib; }
 	TextType getTextType()      { return m_textType; }
-	char    *getTextA()         { return m_lpzText; }
-	WCHAR   *getTextW()         { return m_lpwzText; }
+	TCHAR   *getText()          { return m_lptzText; }
 	HANDLE   getTextM()         { return m_mtText; }
-	char    *getTitleA()        { return m_lpzTitle; }
-	WCHAR   *getTitleW()        { return m_lpwzTitle; }
+	TCHAR   *getTitle()         { return m_lptzTitle; }
 	HANDLE   getTitleM()        { return m_mtTitle; }
 
 	int      getActionCount()   { return m_actionCount; }
 	ActionInfo *getActions()    { return m_actions; }
 
-	char    *getTime()          { return m_time; }
+	TCHAR   *getTime()          { return m_time; }
 	HICON    getIcon()          { return m_hIcon; }
 	MCONTACT getContact()       { return m_hContact; }
 	MCONTACT getContactPassed() { return m_hContactPassed; }
@@ -180,7 +175,7 @@ public:
 		this->m_sz = sz;
 		if (m_hwnd)
 		{
-			SetWindowPos(m_hwnd, 0, 0, 0, sz.cx, sz.cy, SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING);
+			SetWindowPos(m_hwnd, 0, 0, 0, sz.cx, sz.cy, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING);
 			if (!m_customPopup)
 				PopupThreadUpdateWindow(this);
 		}
@@ -195,7 +190,7 @@ public:
 		if (m_bSlide)
 			m_ptPosition1 = pt;
 		else
-			SetWindowPos(m_hwnd, 0, pt.x, pt.y, 0, 0, SWP_NOZORDER|SWP_NOSIZE|SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING);
+			SetWindowPos(m_hwnd, 0, pt.x, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING);
 	}
 
 	// Thread-related methods
@@ -216,10 +211,8 @@ public:
 
 	LRESULT m_updateData_POPUPDATAW_V2(LPARAM arg)	{ updateData((POPUPDATAW_V2 *)arg); update(); return 0; }
 	LRESULT m_updateData_POPUPDATA2(LPARAM arg)		{ updateData((POPUPDATA2 *)arg); update(); return 0; }
-	LRESULT m_updateText(LPARAM arg)				{ updateText((char *)arg); update(); return 0; }
-	LRESULT m_updateTextW(LPARAM arg)				{ updateText((WCHAR *)arg); update(); return 0; }
-	LRESULT m_updateTitle(LPARAM arg)				{ updateTitle((char *)arg); update(); return 0; }
-	LRESULT m_updateTitleW(LPARAM arg)				{ updateTitle((WCHAR *)arg); update(); return 0; }
+	LRESULT m_updateText(LPARAM arg)				{ updateText((TCHAR *)arg); update(); return 0; }
+	LRESULT m_updateTitle(LPARAM arg)				{ updateTitle((TCHAR *)arg); update(); return 0; }
 	LRESULT m_show(LPARAM arg)						{ show(); return 0; }
 	LRESULT m_hide(LPARAM arg)						{ hide(); return 0; }
 

@@ -40,13 +40,7 @@ typedef struct _tagMTEXT_interface {
 	size_t	cbSize;
 	DWORD	version;
 	HANDLE	(DLL_CALLCONV *Register)	(const char *userTitle, DWORD options);
-	HANDLE	(DLL_CALLCONV *Create)		(HANDLE userHandle, char *text);
-	HANDLE	(DLL_CALLCONV *CreateW)		(HANDLE userHandle, WCHAR *text);
-	#if defined(UNICODE) || defined (_UNICODE)
-	HANDLE	(DLL_CALLCONV *CreateT)		(HANDLE userHandle, WCHAR *text);
-	#else
-	HANDLE	(DLL_CALLCONV *CreateT)		(HANDLE userHandle, char *text);
-	#endif
+	HANDLE	(DLL_CALLCONV *Create)		(HANDLE userHandle, TCHAR *text);
 	HANDLE	(DLL_CALLCONV *CreateEx)	(HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags);
 	int		(DLL_CALLCONV *Measure)		(HDC dc, SIZE *sz, HANDLE text);
 	int		(DLL_CALLCONV *Display)		(HDC dc, POINT pos, SIZE sz, HANDLE text);
@@ -65,12 +59,7 @@ typedef struct _tagMTEXT_interface {
 __forceinline INT_PTR mir_getMTI( MTEXT_INTERFACE* dest )
 {
 	dest->cbSize = sizeof(*dest);
-	INT_PTR result = CallService( MS_TEXT_GETINTERFACE, 0, (LPARAM)dest );
-	#if defined(UNICODE) || defined (_UNICODE)
-		dest->CreateT = dest->CreateW;
-	#else
-		dest->CreateT = dest->Create;
-	#endif
+	INT_PTR result = CallService(MS_TEXT_GETINTERFACE, 0, (LPARAM)dest);
 	return result;
 }
 
@@ -192,19 +181,6 @@ typedef struct tagMTEXTMESSAGE
 __inline HANDLE MTextRegister(const char *userTitle, DWORD options)
 {
 	return (HANDLE)CallService(MS_TEXT_REGISTER, (WPARAM)options, (LPARAM)userTitle);
-}
-#endif // MTEXT_NOHELPERS
-
-// allocate text object
-// wParam = (WPARAM)(HANDLE)userHandle
-// lParam = (LPARAM)(char *)text
-// result = (LRESULT)(HANDLE)textHandle
-#define MS_TEXT_CREATE "MText/Create"
-
-#ifndef MTEXT_NOHELPERS
-__inline HANDLE MTextCreate(HANDLE userHandle, char *text)
-{
-	return (HANDLE)CallService(MS_TEXT_CREATE, (WPARAM)userHandle, (LPARAM)text);
 }
 #endif // MTEXT_NOHELPERS
 

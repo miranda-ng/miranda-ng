@@ -28,7 +28,7 @@ static inline bool myisspace(char ch)
 	return (ch >= 0) && (ch <= 32);
 }
 
-int Formula::eval_neq(char *&s, Args *args, bool *vars) const
+int Formula::eval_neq(TCHAR *&s, Args *args, bool *vars) const
 {
 	int left = eval_sum(s, args, vars);
 	while (*s)
@@ -56,7 +56,7 @@ int Formula::eval_neq(char *&s, Args *args, bool *vars) const
 	return left;
 }
 
-int Formula::eval_sum(char *&s, Args *args, bool *vars) const
+int Formula::eval_sum(TCHAR *&s, Args *args, bool *vars) const
 {
 	int left = eval_mul(s, args, vars);
 	while (*s)
@@ -80,7 +80,7 @@ int Formula::eval_sum(char *&s, Args *args, bool *vars) const
 	return left;
 }
 
-int Formula::eval_mul(char *&s, Args *args, bool *vars) const
+int Formula::eval_mul(TCHAR *&s, Args *args, bool *vars) const
 {
 	int left = eval_atom(s, args, vars);
 	while (*s)
@@ -110,7 +110,7 @@ int Formula::eval_mul(char *&s, Args *args, bool *vars) const
 	return left;
 }
 
-int Formula::eval_atom(char *&s, Args *args, bool *vars) const
+int Formula::eval_atom(TCHAR *&s, Args *args, bool *vars) const
 {
 	while (*s)
 	{
@@ -162,7 +162,7 @@ int Formula::eval_atom(char *&s, Args *args, bool *vars) const
 int Formula::eval(Args *args, bool *vars) const
 {
 	if (vars) *vars = false;
-	char *s = m_str;
+	TCHAR *s = m_str;
 	int res = eval_neq(s, args, vars);
 	return res;
 }

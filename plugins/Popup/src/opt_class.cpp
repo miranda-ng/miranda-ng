@@ -37,11 +37,6 @@ int ComboBox_SelectItem(HWND hwndCtl, int indexStart, char* data) {
 }
 
 //---------------------------------------------------------------------------
-//some help function (not realy needed)
-#define ComboBox_AddStringW(hwndCtl, lpwsz)	((int)(DWORD)MySendMessageW((HWND)(hwndCtl), CB_ADDSTRING, 0L, (LPARAM)(LPCWSTR)(lpwsz)))
-#define ComboBox_SetTextW(hwndCtl, lpwsz)	((int)(DWORD)MySetWindowTextW((HWND)(hwndCtl), (LPCWSTR)(lpwsz)))
-
-//---------------------------------------------------------------------------
 //Dialog Proc
 
 struct {

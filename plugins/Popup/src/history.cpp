@@ -77,8 +77,8 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 	POPUPDATA2 *ppd = (POPUPDATA2*)mir_alloc( sizeof(POPUPDATA2));
 	*ppd = *ppdNew;
 	if (ppd->flags & PU2_UNICODE) {
-		ppd->lpwzTitle = mir_wstrdup(ppd->lpwzTitle);
-		ppd->lpwzText = mir_wstrdup(ppd->lpwzText);
+		ppd->lptzTitle = mir_tstrdup(ppd->lpwzTitle);
+		ppd->lptzText = mir_tstrdup(ppd->lptzText);
 	}
 	else {
 		ppd->lpzTitle = mir_strdup(ppd->lpzTitle);
@@ -188,9 +188,9 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					ieData.dwFlags =  0;
 					ieData.color = ppd->colorText;
 					if (ppd->flags & PU2_UNICODE) {
-						ieData.dwFlags |= IEEDF_UNICODE_TEXT|IEEDF_UNICODE_NICK;
-						ieData.pszNickW = ppd->lpwzTitle;
-						ieData.pszTextW = ppd->lpwzText;
+						ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
+						ieData.pszNickW = ppd->lptzTitle;
+						ieData.pszTextW = ppd->lptzText;
 						ieData.pszText2W = NULL;
 					}
 					else {
@@ -371,9 +371,9 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			ieData.iType = IEED_EVENT_SYSTEM;
 			ieData.color = ppd->colorText;
 			if (ppd->flags & PU2_UNICODE) {
-				ieData.dwFlags |= IEEDF_UNICODE_TEXT|IEEDF_UNICODE_NICK;
-				ieData.pszNickW = ppd->lpwzTitle;
-				ieData.pszTextW = ppd->lpwzText;
+				ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
+				ieData.pszNickW = ppd->lptzTitle;
+				ieData.pszTextW = ppd->lptzText;
 				ieData.pszText2W = NULL;
 			}
 			else {

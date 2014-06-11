@@ -27,22 +27,17 @@ enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN,
 
 static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 {
-	union
-	{
-		char ansi[128];
-		WCHAR unicode[64];
-	} buf;
+	TCHAR buf[64];
 
-
-	TVITEMW tvi = {0};
+	TVITEM tvi = {0};
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 	tvi.hItem = hItem;
-	tvi.pszText = buf.unicode;
-	tvi.cchTextMax = SIZEOF(buf.unicode);
-	SendMessageW(hwndTree, TVM_GETITEMW, 0, (LPARAM)&tvi);
-	tvi.pszText = TranslateW(tvi.pszText);
-	tvi.cchTextMax = lstrlenW(tvi.pszText);
-	SendMessageW(hwndTree, TVM_SETITEMW, 0, (LPARAM)&tvi);
+	tvi.pszText = buf;
+	tvi.cchTextMax = SIZEOF(buf);
+	SendMessage(hwndTree, TVM_GETITEMW, 0, (LPARAM)&tvi);
+	tvi.pszText = TranslateTS(tvi.pszText);
+	tvi.cchTextMax = lstrlen(tvi.pszText);
+	SendMessage(hwndTree, TVM_SETITEMW, 0, (LPARAM)&tvi);
 }
 
 void OptTree_Translate(HWND hwndTree)
