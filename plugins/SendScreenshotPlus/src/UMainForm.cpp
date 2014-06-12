@@ -238,7 +238,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	ComboBox_SetCurSel (hCtrl,0);
 	if(m_MonitorCount >1) {
 		TCHAR	tszTemp[120];
-		for (size_t i = 0; i < m_MonitorCount; ++i) {
+		for (int i = 0; i < m_MonitorCount; ++i) {
 			mir_sntprintf(tszTemp, SIZEOF(tszTemp),_T("%i. %s%s"),
 				i+1,
 				TranslateT("Monitor"),
