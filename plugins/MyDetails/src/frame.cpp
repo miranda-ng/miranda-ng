@@ -1806,6 +1806,26 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				HMENU submenu = GetSubMenu(menu, 3);
 				TranslateMenu(submenu);
 
+				if (protocols->CanSetStatusMsgPerProtocol()) {
+					// Add this proto to menu
+					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."), proto->description);
+
+					MENUITEMINFO mii = {0};
+					mii.cbSize = sizeof(mii);
+					mii.fMask = MIIM_ID | MIIM_TYPE;
+					mii.fType = MFT_STRING;
+					mii.dwTypeData = tmp;
+					mii.cch = (int)_tcslen(tmp);
+					mii.wID = 1;
+
+					if (!proto->CanSetStatusMsg()) {
+						mii.fMask |= MIIM_STATE;
+						mii.fState = MFS_DISABLED;
+					}
+
+					InsertMenuItem(submenu, 0, TRUE, &mii);
+				}
+
 				// Add this to menu
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."),
 					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR));
@@ -1906,6 +1926,26 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 
 				InsertMenuItem(submenu, 0, TRUE, &mii);
+
+				if (protocols->CanSetStatusMsgPerProtocol()) {
+					// Add this proto to menu
+					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."), proto->description);
+
+					ZeroMemory(&mii, sizeof(mii));
+					mii.cbSize = sizeof(mii);
+					mii.fMask = MIIM_ID | MIIM_TYPE;
+					mii.fType = MFT_STRING;
+					mii.dwTypeData = tmp;
+					mii.cch = (int)_tcslen(tmp);
+					mii.wID = 3;
+
+					if ( !proto->CanSetStatusMsg()) {
+						mii.fMask |= MIIM_STATE;
+						mii.fState = MFS_DISABLED;
+					}
+
+					InsertMenuItem(submenu, 0, TRUE, &mii);
+				}
 
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my nickname for %s..."), proto->description);
 
