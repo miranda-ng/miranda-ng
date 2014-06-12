@@ -550,7 +550,7 @@ Nic (kolumna zostanie pominięta)
 HTML jako format awaryjny
 [PNG, ignoring some settings]
 PNG, ignorując pewne ustawienia
-[An internal column configuration error occured. Please contact the author of this plugin.]
+[An internal column configuration error occurred. Please contact the author of this plugin.]
 Wystąpił błąd wewnętrzny konfiguracji kolumny. Proszę skontaktować się z autorem tej wtyczki.
 [HistoryStats - Error]
 HistoryStats - Błąd

@@ -5,14 +5,14 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Paste played music info into message window or status text]
+Fügt die abgespielte Musikinfos zum Nachrichtenfenster oder im Statustext ein.
 [Clear xStatus before set new one]
 XStatus zurücksetzen, bevor ein neuer gesetzt wird.
 [Emulate Multimedia keys]
 Multimedia-Tasten emulieren
-[xStatus will cleared before text changing and restored with new text later.]
+[xStatus will be cleared before text changing and restored with new text later.]
 Der XStatus wird kurzzeitig zurückgesetzt, um bestimmte ICQ-Clients dazu zu zwingen, die XStatus-Nachricht erneut auszulesen.
-[Paste played music info into message window or status text]
-Fügt die abgespielte Musikinfos zum Nachrichtenfenster oder im Statustext ein.
 [Use XStatus]
 XStatus verwenden
 [If this option is "ON", XStatus doesn't depend on protocol status.]
@@ -299,11 +299,11 @@ Wenn diese Einstellung aktiv ist, versucht das Plugin unbekannte Formatangaben v
 Wenn diese Einstellung aktiv ist, ändert sich der XStatus nur, wenn XStatus "Musik" bereits gesetzt ist.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 Wenn diese Einstellung aktiv ist, Hängt der XStatus nicht vom ICQ-Status ab.
-[If this option is "ON", XStatus not changed when player shutdowned.]
+[If this option is "ON", XStatus won't be changed when player is shut down.]
 Wenn diese Einstellung aktiv ist, ändert sich der XStatus nach dem Beenden des Players nicht.
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
 Wenn diese Einstellung aktiv ist, ändert sich der XStatus zu "Musik", und Musikinfos werden in die XStatus-Nachricht eingefügt.
-[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+[If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Wenn diese Einstellung aktiv ist, muss lediglich eine Vorlage für alle Protokolle, Protokoll- und Playerstatus definiert werden.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Benutze Player-Prozess-Injektion, um Informationen einfacher zu erhalten. Kann Antivirus- oder Firewall-Warnungen verursachen.

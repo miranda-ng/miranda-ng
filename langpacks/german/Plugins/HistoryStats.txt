@@ -564,7 +564,7 @@ Nichts (Spalte wird übersprungen)
 HTML als Fallback
 [PNG, ignoring some settings]
 PNG, ignoriert manche Einstellungen
-[An internal column configuration error occured. Please contact the author of this plugin.]
+[An internal column configuration error occurred. Please contact the author of this plugin.]
 Ein interner Spalteneinstellungsfehler ist aufgetreten. Bitte kontaktieren Sie den Autor dieses plugins.
 [HistoryStats - Error]
 HistoryStats - Fehler

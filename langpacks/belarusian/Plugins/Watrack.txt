@@ -5,14 +5,14 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Paste played music info into message window or status text]
+Устаўляе інфармацыю пра прайграваную музыку ў вакно гутаркі ці ў статуснае паведамленне
 [Clear xStatus before set new one]
 Чысціць хстатус перад устаноўкай новага
 [Emulate Multimedia keys]
 Эмуляцыя мультымедыйных клавіш
-[xStatus will cleared before text changing and restored with new text later.]
+[xStatus will be cleared before text changing and restored with new text later.]
 хстатус будзе вычышчаны перад зменай тэксту і адноўлены з новым тэкстам пазней
-[Paste played music info into message window or status text]
-Устаўляе інфармацыю пра прайграваную музыку ў вакно гутаркі ці ў статуснае паведамленне
 [Use XStatus]
 Выкарыстоўваць хстатус
 [If this option is "ON", XStatus doesn't depend on protocol status.]
@@ -299,11 +299,11 @@ VBR ці пуста
 Калі опцыя ўключана, xСтатус змяняецца толькі пры ўжо ўсталяваным у "Музыка" статусе.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 Калі ўключана гэта опцыя, xСтатус не залежыць ад статусу ICQ.
-[If this option is "ON", XStatus not changed when player shutdowned.]
+[If this option is "ON", XStatus won't be changed when player is shut down.]
 Калі опцыя ўключана, хстатус не зменіцца пры выключэнні плэера.
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
 Калі опцыя ўключана, xСтатус для ICQ заменіцца на "Музыка" і яго тэкст зменіцца на інфармацыю пра музыку
-[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+[If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Калі опцыя ўключана, то будзе ўжыты адзін шаблон для ўсіх пратаколаў, а таксама плэераў і статусаў. Старонка налады шаблонаў зменіцца пасля перазагрузкі
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Убудоўвацца ў працэс прайгравальніка для палягчэння атрымання інфармацыі. Можа справакаваць трывогу фаервола ці антывіруса.

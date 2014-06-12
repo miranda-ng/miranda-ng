@@ -5,14 +5,14 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Paste played music info into message window or status text]
+Вставляет информацию о проигрываемой музыке в окно сообщения или в статусное сообщение.
 [Clear xStatus before set new one]
 Очищать хСтатус перед установкой нового
 [Emulate Multimedia keys]
 Эмуляция мультимедийных клавиш
-[xStatus will cleared before text changing and restored with new text later.]
+[xStatus will be cleared before text changing and restored with new text later.]
 хСтатус будет очищен перед изменением текста и восстановлен с новым текстом позже
-[Paste played music info into message window or status text]
-Вставляет информацию о проигрываемой музыке в окно сообщения или в статусное сообщение.
 [Use XStatus]
 Использовать хСтатус
 [If this option is "ON", XStatus doesn't depend on protocol status.]
@@ -299,11 +299,11 @@ VBR или пусто
 Если опция включена, xСтатус меняется только при уже установленном в "Музыка" статусе.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 Если включена эта опция, xСтатус не зависит от статуса ICQ.
-[If this option is "ON", XStatus not changed when player shutdowned.]
+[If this option is "ON", XStatus won't be changed when player is shut down.]
 Если опция включена, хСтатус не изменится при выключении плеера.
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
 Если опция включена, xСтатус для ICQ заменится на "Музыка" и его текст изменится на информацию о музыке
-[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+[If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Если опция включена, то будет применён один шаблон для всех протоколов, а также плееров и статусов. Страница настройки шаблонов изменится после перезагрузки
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Встраиваться в процесс проигрывателя для облегчения получения информации. Может спровоцировать тревогу фаервола или антивируса.

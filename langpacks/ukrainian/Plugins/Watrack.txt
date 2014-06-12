@@ -5,14 +5,14 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Paste played music info into message window or status text]
+Вставляє інформацію про відтворювану музику у вікно повідомлень або в статусне повідомлення.
 [Clear xStatus before set new one]
 Очищати хСтатус перед встановленням нового
 [Emulate Multimedia keys]
 Емуляція мультимедійних клавіш
-[xStatus will cleared before text changing and restored with new text later.]
+[xStatus will be cleared before text changing and restored with new text later.]
 хСтатус буде очищено перед зміною тексту і відновлено з новим текстом пізніше
-[Paste played music info into message window or status text]
-Вставляє інформацію про відтворювану музику у вікно повідомлень або в статусне повідомлення.
 [Use XStatus]
 Використовувати хСтатус
 [If this option is "ON", XStatus doesn't depend on protocol status.]
@@ -299,11 +299,11 @@ VBR або порожній
 Якщо опція ввімкнена, хСтатус змінюється тільки при вже встановленому статусі "Музика".
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 Якщо опція ввімкнена, хСтатус не залежить від статусу ICQ.
-[If this option is "ON", XStatus not changed when player shutdowned.]
+[If this option is "ON", XStatus won't be changed when player is shut down.]
 Якщо опція ввімкнена, хСтатус не зміниться при вимкненні плеєра.
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
 Якщо опція ввімкнена, хСтатус для ICQ зміниться на "Музика" а його текст зміниться на інформацію про музику.
-[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+[If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Якщо опція ввімкнена, то буде застосовано один шаблон для всіх протоколів, а також плеєрів і статусів. Сторінка налаштування шаблонів зміниться після перезавантаження.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Вбудовуватися в процес плеєра для полегшення отримання інформації. Може спровокувати тривогу фаєрволу або антивірусу.

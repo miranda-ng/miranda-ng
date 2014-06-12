@@ -5,13 +5,13 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Paste played music info into message window or status text]
+
 [Clear xStatus before set new one]
 
 [Emulate Multimedia keys]
 
-[xStatus will cleared before text changing and restored with new text later.]
-
-[Paste played music info into message window or status text]
+[xStatus will be cleared before text changing and restored with new text later.]
 
 [Use XStatus]
 
@@ -299,11 +299,11 @@ Efecto de texto
 
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 
-[If this option is "ON", XStatus not changed when player shutdowned.]
+[If this option is "ON", XStatus won't be changed when player is shut down.]
 
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
 
-[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+[If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 

@@ -669,7 +669,7 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 				if ((restrictions & Column::crHTMLMask) != Column::crHTMLFull &&
 					 (restrictions & Column::crPNGMask) != Column::crPNGFull) {
 					MessageBox(NULL,
-						TranslateT("An internal column configuration error occured. Please contact the author of this plugin."),
+						TranslateT("An internal column configuration error occurred. Please contact the author of this plugin."),
 						TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
 				}
 

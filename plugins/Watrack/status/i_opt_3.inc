@@ -14,7 +14,7 @@ begin
       TranslateDialogDefault(Dialog);
 
       MakeHint(Dialog,IDC_SIMPLEMODE,
-        'If this option is "ON", one templates will be used with all '+
+        'If this option is "ON", one template will be used with all '+
         'protocols, protocol and player (media) statuses. Template option page will be '+
         'changed next time.');
       CheckDlgButton(Dialog,IDC_SIMPLEMODE,SimpleMode);
@@ -29,10 +29,10 @@ begin
         'message window pressing hotkey.');
       CheckDlgButton(Dialog,IDC_USEMSGS,UseMessages);
       MakeHint(Dialog,IDC_KEEPSTATUS,
-        'If this option is "ON", XStatus not changed when player shutdowned.');
+        'If this option is "ON", XStatus won''t be changed when player is shut down.');
       CheckDlgButton(Dialog,IDC_KEEPSTATUS,KeepStatus);
       MakeHint(Dialog,IDC_CLEARXSTAT,
-        'xStatus will cleared before text changing and restored with new text later.');
+        'xStatus will be cleared before text changing and restored with new text later.');
       CheckDlgButton(Dialog,IDC_CLEARXSTAT,ClearXStat);
       MakeHint(Dialog,IDC_EXTSTATUS,
         'If this option is "ON", XStatus will be changed to "Music" and '+

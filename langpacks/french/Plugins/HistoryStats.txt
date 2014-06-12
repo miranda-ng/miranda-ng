@@ -564,7 +564,7 @@ Effacer la colonne
 
 [PNG, ignoring some settings]
 
-[An internal column configuration error occured. Please contact the author of this plugin.]
+[An internal column configuration error occurred. Please contact the author of this plugin.]
 
 [HistoryStats - Error]
 

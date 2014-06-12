@@ -5,14 +5,14 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Paste played music info into message window or status text]
+Поставя информация за възпроизвеждания аудио/видео файл в съобщението или съобщението за състояние. Предлага и водене на статистика.
 [Clear xStatus before set new one]
 Изчистване на старото xСъстояние преди задаване на ново
 [Emulate Multimedia keys]
 Емулиране на мултимедийни клавиши
-[xStatus will cleared before text changing and restored with new text later.]
+[xStatus will be cleared before text changing and restored with new text later.]
 хСъстоянието ще бъде изчиствано преди промяна на текста и възстановено по-късно с нов текст.
-[Paste played music info into message window or status text]
-Поставя информация за възпроизвеждания аудио/видео файл в съобщението или съобщението за състояние. Предлага и водене на статистика.
 [Use XStatus]
 Ползване на хСъстояние
 [If this option is "ON", XStatus doesn't depend on protocol status.]
@@ -299,11 +299,11 @@ VBR или празно
 хСъстоянието ще бъде променяно само при условие, че предварително е зададено състояние "Слуша музика".
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 
-[If this option is "ON", XStatus not changed when player shutdowned.]
+[If this option is "ON", XStatus won't be changed when player is shut down.]
 хСъстоянието няма да бъде променяно след изключване на плейъра.
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
 "Слуша музика" ще бъде задавано като хСъстояние, а текстът на състоянието ще бъде заменен от информация относно музиката.
-[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+[If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Един шаблон ще бъде използван за всеки протокол, състояние и плейър. Необходимо е рестартиране за визуализиране на единната страница на шаблоните.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Улеснява извличането на информация, но е възможно да провокира фалшива тревога ако използвате антивирусна програма
