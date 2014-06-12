@@ -38,7 +38,6 @@ Boston, MA 02111-1307, USA.
 #include <m_icolib.h>
 
 #include <m_folders.h>
-#include <m_popup2.h>
 
 #include "version.h"
 #include "resource.h"

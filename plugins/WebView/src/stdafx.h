@@ -32,7 +32,6 @@
 #include <m_options.h>
 #include <m_clui.h>
 #include <m_popup.h>
-#include <m_popup2.h>
 #include <m_netlib.h>
 #include <m_langpack.h>
 #include <m_findadd.h>

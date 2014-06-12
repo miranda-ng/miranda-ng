@@ -40,10 +40,9 @@ Boston, MA 02111-1307, USA.
 #include <m_netlib.h>
 #include <m_icolib.h>
 #include <win2k.h>
-#include "m_pluginupdater.h"
+#include <m_pluginupdater.h>
 
 #include <m_folders.h>
-#include <m_popup2.h>
 
 #include "version.h"
 #include "resource.h"

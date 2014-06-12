@@ -42,8 +42,6 @@
 #include <m_popup.h>
 #include <m_extraicons.h>
 
-#include "m_popup2.h"
-
 #include "resource.h"
 #include "options.h"
 #include "version.h"

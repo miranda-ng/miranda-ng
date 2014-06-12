@@ -94,7 +94,6 @@ http://miranda-ng.org/distr/
 #endif // MTEXT_NOHELPERS
 #include <m_text.h>
 #include <m_toptoolbar.h>
-#include <m_popup2.h>
 #include <m_hpp.h>
 
 #include "resource.h"

@@ -85,7 +85,6 @@ using namespace std;
  * Used Plugins SDK includes and macros
  ***********************************************************************************************************/
 
-#include <m_popup2.h>
 #include <m_flags.h>
 #include <m_metacontacts.h>
 #include <m_toptoolbar.h>

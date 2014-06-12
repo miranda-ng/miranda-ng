@@ -73,7 +73,6 @@ using namespace std;
 #include <m_folders.h>
 #include <m_HTTPServer.h>
 #include <m_ftpfile.h>
-#include <m_popup2.h>
 #include <m_sendss.h>
 #include <m_userinfoex.h>
 #include <m_dropbox.h>
