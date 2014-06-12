@@ -238,13 +238,13 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	ComboBox_SetCurSel (hCtrl,0);
 	if(m_MonitorCount >1) {
 		TCHAR	tszTemp[120];
-		for (int i = 0; i < m_MonitorCount; ++i) {
-			mir_sntprintf(tszTemp, SIZEOF(tszTemp),_T("%i. %s%s"),
-				i+1,
+		for (size_t mon=0; mon<m_MonitorCount; ++mon) { /// @todo : fix format for non MSVC compilers
+			mir_sntprintf(tszTemp, SIZEOF(tszTemp),_T("%Iu. %s%s"),
+				mon+1,
 				TranslateT("Monitor"),
-				(m_Monitors[i].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : _T("")
+				(m_Monitors[mon].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : _T("")
 				);
-			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, tszTemp)  , i+1);
+			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, tszTemp)  , mon+1);
 		}
 		ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxDesktop);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
