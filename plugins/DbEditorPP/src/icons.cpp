@@ -2,24 +2,33 @@
 
 HIMAGELIST himl;
 
-static IconItem iconList[] = 
-{
-	{ LPGENT("Closed Known Module"),   "DBE++_1", ICO_KNOWN },
-	{ LPGENT("Open Known Module"),     "DBE++_2", ICO_KNOWNOPEN },
+IconItem iconList[] = {
+	{ LPGENT("Main icon"),             "DBE++_0", ICO_DBE_BUTT },
+	{ LPGENT("Closed known module"),   "DBE++_1", ICO_KNOWN },
+	{ LPGENT("Open known module"),     "DBE++_2", ICO_KNOWNOPEN },
 	{ LPGENT("Settings"),              "DBE++_5", ICO_SETTINGS },
-	{ LPGENT("Contacts Group"),        "DBE++_6", ICO_CONTACTS },
-	{ LPGENT("Unknown Contact"),       "DBE++_7", ICO_OFFLINE },
-	{ LPGENT("Known Contact"),         "DBE++_8", ICO_ONLINE },
+	{ LPGENT("Contacts group"),        "DBE++_6", ICO_CONTACTS },
+	{ LPGENT("Unknown contact"),       "DBE++_7", ICO_OFFLINE },
+	{ LPGENT("Known contact"),         "DBE++_8", ICO_ONLINE },
+	{ LPGENT("Open user tree"),        "DBE++_9", ICO_REGUSER },
+
+	{ LPGENT("BLOB setting"),    "DBE++_BINARY",  ICO_BINARY },
+	{ LPGENT("Byte setting"),    "DBE++_BYTE",    ICO_BYTE },
+	{ LPGENT("Word setting"),    "DBE++_WORD",    ICO_WORD },
+	{ LPGENT("Dword setting"),   "DBE++_DWORD",   ICO_DWORD },
+	{ LPGENT("String setting"),  "DBE++_STRING",  ICO_STRING },
+	{ LPGENT("Unicode setting"), "DBE++_UNICODE", ICO_UNICODE },
+	{ LPGENT("Handle"),          "DBE++_HANDLE",  ICO_HANDLE }
 };
 
-void addIcons(TCHAR* szModuleFileName)
+void addIcons(void)
 {
 	Icon_Register(hInst, modFullname, iconList, SIZEOF(iconList));
 }
 
 HICON LoadSkinnedDBEIcon(int icon)
 {
-	for (int i=0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == icon)
 			return Skin_GetIconByHandle(iconList[i].hIcolib);
 
@@ -71,7 +80,7 @@ int GetProtoIcon(char *szProto)
 	return DEF_ICON;
 }
 
-BOOL IsProtocolLoaded(char* pszProtocolName)
+BOOL IsProtocolLoaded(char *pszProtocolName)
 {
 	if (protoCount)
 		for(int i = 0; i < protoCount; i++)

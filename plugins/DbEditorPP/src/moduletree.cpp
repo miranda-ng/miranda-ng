@@ -2,8 +2,8 @@
 
 static BOOL populating = 0;
 int Select = 0;
-static ModuleTreeInfoStruct contacts_mtis = {CONTACT_ROOT_ITEM, 0};
-static ModuleTreeInfoStruct settings_mtis = {CONTACT, 0};
+static ModuleTreeInfoStruct contacts_mtis = { CONTACT_ROOT_ITEM, 0 };
+static ModuleTreeInfoStruct settings_mtis = { CONTACT, 0 };
 
 int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelectedContact, char *SelectedModule, char *SelectedSetting)
 {
@@ -51,7 +51,7 @@ int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist,
 			lParam->type |= EMPTY;
 
 		// contacts name
-		DBVARIANT dbv = { 0 };
+		DBVARIANT dbv = {0};
 		WCHAR nick[256];
 		WCHAR protoW[256]; // unicode proto
 
@@ -69,7 +69,8 @@ int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist,
 				else
 					mir_snwprintf(nick, SIZEOF(nick), L"%s (%s) %s", GetContactName(hContact, szProto, 1), protoW, L"(UNLOADED)");
 			}
-			else wcscpy(nick, nick_unknownW);
+			else
+				wcscpy(nick, nick_unknownW);
 		}
 		else {
 			tvi.item.iSelectedImage = (tvi.item.iImage = icon); //GetProtoIcon(szProto, 7));
@@ -79,7 +80,7 @@ int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist,
 				mir_snwprintf(nick, SIZEOF(nick), L"%s (%s)", GetContactName(hContact, szProto, 1), protoW);
 		}
 
-		tvi.item.pszText = (char*)nick;
+		tvi.item.pszText = (char *)nick;
 		contact = TreeView_InsertItemW(hwnd2Tree, &tvi);
 
 		itemscount++;
@@ -113,7 +114,8 @@ int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist,
 	if (hItem != -1) {
 		TreeView_SelectItem(hwnd2Tree, (HTREEITEM)hItem);
 		TreeView_Expand(hwnd2Tree, hItem, TVE_EXPAND);
-		if (SelectedSetting[0]) SelectSetting(SelectedSetting);
+		if (SelectedSetting[0])
+			SelectSetting(SelectedSetting);
 	}
 
 	return itemscount;
@@ -126,7 +128,7 @@ void doItems(HWND hwnd2Tree, ModuleSettingLL *modlist, int count)
 	char percent[96], title[64];
 	mir_snprintf(title, SIZEOF(title), Translate("Loading modules..."));
 
-	TVITEM item = { 0 };
+	TVITEM item = {0};
 	item.mask = TVIF_STATE | TVIF_PARAM;
 
 	HTREEITEM contact = TreeView_GetChild(hwnd2Tree, TVI_ROOT);
@@ -145,7 +147,8 @@ void doItems(HWND hwnd2Tree, ModuleSettingLL *modlist, int count)
 				continue;
 			mtis->type = CONTACT;
 		}
-		else continue;
+		else
+			continue;
 
 		// Caption
 		mir_snprintf(percent, SIZEOF(percent), "%s %d%%", title, (int)(100 * i / count));
@@ -179,12 +182,13 @@ void doItems(HWND hwnd2Tree, ModuleSettingLL *modlist, int count)
 // the following code to go through the whole tree is nicked from codeguru..
 // http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?thread=7680
 
-int findItemInTree(HWND hwnd2Tree, MCONTACT hContact, char* module)
+int findItemInTree(HWND hwnd2Tree, MCONTACT hContact, char *module)
 {
 	TVITEM item;
 	char text[265];
 	HTREEITEM lastItem;
-	if (!TreeView_GetCount(hwnd2Tree)) return 0;
+	if (!TreeView_GetCount(hwnd2Tree))
+		return 0;
 
 	item.mask = TVIF_STATE | TVIF_PARAM | TVIF_TEXT;
 	item.hItem = TVI_ROOT;
@@ -203,13 +207,11 @@ int findItemInTree(HWND hwnd2Tree, MCONTACT hContact, char* module)
 				}
 				/* back to coduguru's code*/
 			}
-		}
-			while ((item.hItem = TreeView_GetChild(hwnd2Tree, lastItem)));
+		} while ((item.hItem = TreeView_GetChild(hwnd2Tree, lastItem)));
 
-		while ((!(item.hItem = TreeView_GetNextSibling(hwnd2Tree, lastItem))) && (lastItem = item.hItem = TreeView_GetParent(hwnd2Tree, lastItem)))
-			;
-	}
-		while (item.hItem);
+		while ((!(item.hItem = TreeView_GetNextSibling(hwnd2Tree, lastItem))) && (lastItem = item.hItem = TreeView_GetParent(hwnd2Tree, lastItem)));
+
+	} while (item.hItem);
 	return -1;
 }
 
@@ -220,39 +222,39 @@ void freeTree(HWND hwnd2Tree, MCONTACT hContact)
 {
 	TVITEM item;
 	HTREEITEM lastItem;
-	if (!TreeView_GetCount(hwnd2Tree)) return;
+	if (!TreeView_GetCount(hwnd2Tree))
+		return;
 
-	item.mask = TVIF_STATE|TVIF_PARAM;
+	item.mask = TVIF_STATE | TVIF_PARAM;
 	item.hItem = TVI_ROOT;
 	do {
 		do {
 			lastItem = item.hItem;
 			if (lastItem != TVI_ROOT) {
-				TreeView_GetItem( hwnd2Tree, &item );
+				TreeView_GetItem(hwnd2Tree, &item);
 				/* these next 2 lines are not from code guru..... */
 				if (item.lParam) {
 					ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)item.lParam;
 
 					if (!hContact || (hContact == mtis->hContact)) {
 						if (hContact != NULL) {
-							TreeView_DeleteItem(hwnd2Tree,item.hItem);
+							TreeView_DeleteItem(hwnd2Tree, item.hItem);
 							mir_free(mtis);
 						}
-						else mtis->type = STUB;
+						else
+							mtis->type = STUB;
 					}
 				}
 				/* back to coduguru's code*/
 			}
-		}
-			while ( (item.hItem = TreeView_GetChild( hwnd2Tree, lastItem )));
+		} while (item.hItem = TreeView_GetChild(hwnd2Tree, lastItem));
 
-		while ( (! (item.hItem = TreeView_GetNextSibling( hwnd2Tree, lastItem ))) && (lastItem = item.hItem = TreeView_GetParent( hwnd2Tree, lastItem ))) {}
+		while (!(item.hItem = TreeView_GetNextSibling(hwnd2Tree, lastItem)) && (lastItem = item.hItem = TreeView_GetParent(hwnd2Tree, lastItem))) {}
 
-	}
-		while (item.hItem);
+	} while (item.hItem);
 }
 
-BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char* module)
+BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char *module)
 	/* the following code to go through the whole tree is nicked from codeguru..
 	http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?thread=7680 */
 {
@@ -260,30 +262,26 @@ BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char* module)
 	HTREEITEM lastItem, prelastItem;
 	BOOL Result = 0;
 	char text[265];
-	if (!TreeView_GetCount(hwnd2Tree)) return Result;
+	if (!TreeView_GetCount(hwnd2Tree))
+		return Result;
 
-	item.mask = TVIF_STATE|TVIF_PARAM|TVIF_TEXT;
+	item.mask = TVIF_STATE | TVIF_PARAM | TVIF_TEXT;
 	item.hItem = TVI_ROOT;
 	item.pszText = text;
 	item.cchTextMax = 264;
 	prelastItem = item.hItem;
 
-	do
-	{
-		do
-		{
+	do {
+		do {
 			lastItem = item.hItem;
-			if (lastItem != TVI_ROOT)
-			{
-				TreeView_GetItem( hwnd2Tree, &item );
+			if (lastItem != TVI_ROOT) {
+				TreeView_GetItem(hwnd2Tree, &item);
 				/* these next lines are not from code guru..... */
-				if (item.lParam)
-				{
+				if (item.lParam) {
 					ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)item.lParam;
-					if (hContact == mtis->hContact && !mir_strcmp(text,module))
-					{
+					if (hContact == mtis->hContact && !mir_strcmp(text,module)) {
 						mir_free(mtis);
-						TreeView_DeleteItem(hwnd2Tree,item.hItem);
+						TreeView_DeleteItem(hwnd2Tree, item.hItem);
 						lastItem = prelastItem;
 						Result = 1;
 					}
@@ -292,8 +290,9 @@ BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char* module)
 				}
 				/* back to coduguru's code*/
 			}
-		} while ( (item.hItem = TreeView_GetChild( hwnd2Tree, lastItem )));
-		while ( (! (item.hItem = TreeView_GetNextSibling( hwnd2Tree, lastItem ))) && (lastItem = item.hItem = TreeView_GetParent( hwnd2Tree, lastItem ))) {}
+		} while (item.hItem = TreeView_GetChild(hwnd2Tree, lastItem));
+
+		while (!(item.hItem = TreeView_GetNextSibling(hwnd2Tree, lastItem)) && (lastItem = item.hItem = TreeView_GetParent(hwnd2Tree, lastItem))) {}
 
 	} while ( item.hItem );
 	/*****************************************************************************/
@@ -304,12 +303,13 @@ BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char* module)
 
 void replaceTreeItem(HWND hwnd, MCONTACT hContact, const char *module, const char *newModule)
 {
-	int hItem = findItemInTree(hwnd, hContact, (char*)module);
+	int hItem = findItemInTree(hwnd, hContact, (char *)module);
 	HTREEITEM hParent;
 
-	if (hItem == -1) return;
+	if (hItem == -1)
+		return;
 
-	hParent = TreeView_GetParent(hwnd,(HTREEITEM)hItem);
+	hParent = TreeView_GetParent(hwnd, (HTREEITEM)hItem);
 
 	{
 		TVITEM item;
@@ -318,18 +318,17 @@ void replaceTreeItem(HWND hwnd, MCONTACT hContact, const char *module, const cha
 
 		if (TreeView_GetItem(hwnd, &item))
 			mir_free((ModuleTreeInfoStruct *)item.lParam);
-		TreeView_DeleteItem(hwnd,item.hItem);
+		TreeView_DeleteItem(hwnd, item.hItem);
 	}
 
-	if (hParent && newModule)
-	{
+	if (hParent && newModule) {
 		TVINSERTSTRUCT tvi = {0};
 		ModuleTreeInfoStruct *lParam;
 
 		tvi.hParent = hParent;
 		tvi.hInsertAfter = TVI_SORT;
-		tvi.item.mask = TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
-		tvi.item.pszText = (char*)newModule;
+		tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+		tvi.item.pszText = (char *)newModule;
 
 		lParam = (ModuleTreeInfoStruct *)mir_calloc(sizeof(ModuleTreeInfoStruct));
 		lParam->hContact = hContact;
@@ -345,15 +344,16 @@ void replaceTreeItem(HWND hwnd, MCONTACT hContact, const char *module, const cha
 
 void refreshTree(int restore)
 {
-	if (populating) return;
+	if (populating)
+		return;
 	populating = 1;
-	forkthread(PopulateModuleTreeThreadFunc,0,(HWND)restore);
+	forkthread(PopulateModuleTreeThreadFunc, 0, (HWND)restore);
 }
 
 void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 {
 	TVINSERTSTRUCT tvi;
-	HWND hwnd2Tree = GetDlgItem(hwnd2mainWindow,IDC_MODULES);
+	HWND hwnd2Tree = GetDlgItem(hwnd2mainWindow, IDC_MODULES);
 	char SelectedModule[256] = {0};
 	char SelectedSetting[256] = {0};
 	MCONTACT hSelectedContact = hRestore;
@@ -370,14 +370,17 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 	hRestore = NULL;
 
-	if (!hwnd2Tree) { msg(Translate("Module tree not found"),modFullname); return;}
+	if (!hwnd2Tree) {
+		msg(Translate("Module tree not found"), modFullname);
+		return;
+	}
 
 	Select = 0;
 
-	switch((int)di) {
+	switch ((int)di) {
 	case 1: // restore after rebuild
 		if (HTREEITEM item = TreeView_GetSelection(hwnd2Tree)) {
-			TVITEM tvi = { 0 };
+			TVITEM tvi = {0};
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.pszText = SelectedModule;
 			tvi.cchTextMax = 255;
@@ -387,7 +390,8 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 			if (tvi.lParam) {
 				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 				hSelectedContact = mtis->hContact;
-				if (mtis->type == CONTACT) SelectedModule[0] = 0;
+				if (mtis->type == CONTACT)
+					SelectedModule[0] = 0;
 				Select = 1;
 			}
 		}
@@ -411,7 +415,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 	if ((int)di != 4) { // do not rebuild on just going to another setting
 		if (!EnumModules(&modlist)) {
-			msg(Translate("Error Loading Module List"), modFullname);
+			msg(Translate("Error loading module list"), modFullname);
 			return;
 		}
 
@@ -446,7 +450,8 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 		tvi.hParent = NULL;
 		tvi.hInsertAfter = TVI_FIRST;
 		tvi.item.pszText = Translate("Settings");
-		tvi.item.iSelectedImage = (tvi.item.iImage = 0);
+		tvi.item.iImage = 0;
+		tvi.item.iSelectedImage = 0;
 		contact = TreeView_InsertItem(hwnd2Tree, &tvi);
 
 		// to fix bug with CHANGE NOTIFY on window activation
@@ -483,7 +488,8 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 			if (hItem != -1) {
 				TreeView_SelectItem(hwnd2Tree, (HTREEITEM)hItem);
 				TreeView_Expand(hwnd2Tree, hItem, TVE_EXPAND);
-				if (SelectedSetting[0]) SelectSetting(SelectedSetting);
+				if (SelectedSetting[0])
+					SelectSetting(SelectedSetting);
 			}
 			Select = 0;
 		}
@@ -500,7 +506,8 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 		if (hItem != -1) {
 			TreeView_SelectItem(hwnd2Tree, (HTREEITEM)hItem);
 			TreeView_Expand(hwnd2Tree, hItem, TVE_EXPAND);
-			if (SelectedSetting[0]) SelectSetting(SelectedSetting);
+			if (SelectedSetting[0])
+				SelectSetting(SelectedSetting);
 		}
 	}
 
@@ -508,7 +515,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 }
 
-static LRESULT CALLBACK ModuleTreeLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+static LRESULT CALLBACK ModuleTreeLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_KEYUP:
@@ -525,18 +532,18 @@ static LRESULT CALLBACK ModuleTreeLabelEditSubClassProc(HWND hwnd,UINT msg,WPARA
 	return mir_callNextSubclass(hwnd, ModuleTreeLabelEditSubClassProc, msg, wParam, lParam);
 }
 
-void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam);
+void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam);
 
 void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hwnd here is to the main window, NOT the treview
 {
-	switch (((NMHDR*)lParam)->code) {
+	switch (((NMHDR *)lParam)->code) {
 	case TVN_ITEMEXPANDINGA:
 	case TVN_ITEMEXPANDINGW:
 		if (populating && ((LPNMTREEVIEW)lParam)->action == TVE_EXPAND) {
 			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)((LPNMTREEVIEW)lParam)->itemNew.lParam;
 			if (mtis && (mtis->type == (CONTACT | EMPTY))) {
 				TVINSERTSTRUCT tvi;
-				HTREEITEM item = { 0 };
+				HTREEITEM item = {0};
 				ModuleTreeInfoStruct *_lParam;
 				HWND hwnd2Tree = GetDlgItem(hwnd2mainWindow, IDC_MODULES);
 				ModSetLinkLinkItem *module;
@@ -545,7 +552,10 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 
 				mtis->type = CONTACT;
 
-				if (!EnumModules(&modlist)) { msg(Translate("Error Loading Module List"), modFullname); break; }
+				if (!EnumModules(&modlist)) {
+					msg(Translate("Error loading module list"), modFullname);
+					break;
+				}
 
 				module = modlist.first;
 				while (module && hwnd2mainWindow) {
@@ -578,7 +588,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 		{
 			ModuleTreeInfoStruct *mtis;
 			LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-			TVITEM tvi = { 0 };
+			TVITEM tvi = {0};
 			char text[264];
 			MCONTACT hContact;
 			HWND hwnd2Settings = GetDlgItem(hwnd, IDC_SETTINGS);
@@ -592,17 +602,18 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 				mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 				hContact = mtis->hContact;
 
-				if (mtis->type == STUB) break;
+				if (mtis->type == STUB)
+					break;
 
-				if (populating) Select = 0;
+				if (populating)
+					Select = 0;
 
 				if (mtis->type == MODULE) {
-					SettingListInfo *info = (SettingListInfo*)GetWindowLongPtr(hwnd2Settings, GWLP_USERDATA);
+					SettingListInfo *info = (SettingListInfo *)GetWindowLongPtr(hwnd2Settings, GWLP_USERDATA);
 					BOOL refresh = 1;
 
 					if (info) {
-						if (info->hContact == hContact &&
-							!mir_strcmp(info->module, text))
+						if (info->hContact == hContact && !mir_strcmp(info->module, text))
 							refresh = 0;
 					}
 
@@ -612,13 +623,14 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 				else if (((mtis->type & CONTACT) == CONTACT && hContact) || (mtis->type == CONTACT_ROOT_ITEM && !hContact)) {
 					char data[32], szProto[256];
 					int index, loaded, multi = 0;
-					LVITEM lvi = { 0 };
+					LVITEM lvi = {0};
 					lvi.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
 					lvi.iImage = 6;
 
 					ClearListview(hwnd2Settings);
 					SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, 0);
-					if (himl2) ListView_SetImageList(hwnd2Settings, himl2, LVSIL_SMALL);
+					if (himl2)
+						ListView_SetImageList(hwnd2Settings, himl2, LVSIL_SMALL);
 
 					if (mtis->type == CONTACT_ROOT_ITEM && !hContact) {
 						multi = 1;
@@ -640,7 +652,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 						}
 
 						lvi.iItem = 0;
-						lvi.pszText = (char*)GetContactName(hContact, NULL, FALSE);
+						lvi.pszText = (char *)GetContactName(hContact, NULL, FALSE);
 
 						index = ListView_InsertItem(hwnd2Settings, &lvi);
 
@@ -650,12 +662,14 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 						ListView_SetItemText(hwnd2Settings, index, 2, Translate("HANDLE"));
 						ListView_SetItemText(hwnd2Settings, index, 3, "0x0004 (4)");
 
-						if (!multi) break;
+						if (!multi)
+							break;
 
 						hContact = db_find_next(hContact);
 					}
 				}
-				else ClearListview(hwnd2Settings);
+				else
+					ClearListview(hwnd2Settings);
 			}
 			else // clear any settings that may be there...
 				ClearListview(hwnd2Settings);
@@ -663,7 +677,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 		break; //TVN_SELCHANGED:
 
 	case NM_RCLICK:
-		if (((NMHDR*)lParam)->code == NM_RCLICK)
+		if (((NMHDR *)lParam)->code == NM_RCLICK)
 			moduleListRightClick(hwnd, wParam, lParam);
 		break;
 
@@ -685,7 +699,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 	case TVN_ENDLABELEDITA:
 	case TVN_ENDLABELEDITW:
 		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
-		TVITEM tvi = { 0 };
+		TVITEM tvi = {0};
 		char text[264];
 		char *newtext;
 		ModuleTreeInfoStruct *mtis;
@@ -696,12 +710,12 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 		TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 		mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
 
-		newtext = u2a((WCHAR*)ptvdi->item.pszText);
+		newtext = u2a((WCHAR *)ptvdi->item.pszText);
 
-		if (!newtext || // edit control failed
-			!mtis->type || // its a root item
-			mtis->type == CONTACT || // its a contact
-			*newtext == 0)  // empty string
+		if (!newtext // edit control failed
+			|| !mtis->type // its a root item
+			|| mtis->type == CONTACT // its a contact
+			|| *newtext == 0)  // empty string
 			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
 		else {
 			if (mir_strcmp(tvi.pszText, newtext)) {
@@ -735,7 +749,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 
 	if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
 		if (hti.flags & TVHT_ONITEM) {
-			TVITEM tvi = { 0 };
+			TVITEM tvi = {0};
 			HMENU hMenu, hSubMenu;
 			int menuNumber;
 			char module[256];
@@ -747,14 +761,19 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 			if (tvi.lParam) {
 				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 				MCONTACT hContact = mtis->hContact;
-				GetCursorPos(&(hti.pt));
+				GetCursorPos(&hti.pt);
 				hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
 				TranslateMenu(hMenu);
-				if (mtis->type == CONTACT && hContact) menuNumber = 2;
-				else if ((mtis->type == MODULE) && !hContact) menuNumber = 1;
-				else if (mtis->type == CONTACT && !hContact) menuNumber = 3;
-				else if (mtis->type == CONTACT_ROOT_ITEM && !hContact) menuNumber = 4;
-				else if ((mtis->type == MODULE) && hContact) menuNumber = 5;
+				if (mtis->type == CONTACT && hContact)
+					menuNumber = 2;
+				else if ((mtis->type == MODULE) && !hContact)
+					menuNumber = 1;
+				else if (mtis->type == CONTACT && !hContact)
+					menuNumber = 3;
+				else if (mtis->type == CONTACT_ROOT_ITEM && !hContact)
+					menuNumber = 4;
+				else if ((mtis->type == MODULE) && hContact)
+					menuNumber = 5;
 				else return;
 				hSubMenu = GetSubMenu(hMenu, menuNumber);
 
@@ -825,7 +844,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 						if (db_get_b(NULL, "CList", "ConfirmDelete", 1)) {
 							char msg[1024];
 							mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete contact \"%s\"?"), module);
-							if (MessageBox(0, msg, Translate("Confirm Contact Delete"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
+							if (MessageBox(0, msg, Translate("Confirm contact delete"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
 								CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 								freeTree(((LPNMHDR)lParam)->hwndFrom, hContact);
 								TreeView_DeleteItem(((LPNMHDR)lParam)->hwndFrom, tvi.hItem);

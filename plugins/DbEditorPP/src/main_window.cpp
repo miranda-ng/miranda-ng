@@ -111,7 +111,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			tvi.pszText = module;
 			tvi.cchTextMax = 255;
 			if (TreeView_GetItem(hwnd, &tvi) && tvi.lParam) {
-				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct*)tvi.lParam;
+				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 				MCONTACT hContact = mtis->hContact;
 				if (wParam == VK_DELETE) {
 					if ((mtis->type) & MODULE) {
@@ -124,7 +124,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 						if (db_get_b(NULL, "CList", "ConfirmDelete", 1)) {
 							char msg[1024];
 							mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete contact \"%s\"?"), module);
-							if (MessageBox(0, msg, Translate("Confirm Contact Delete"), MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
+							if (MessageBox(0, msg, Translate("Confirm contact delete"), MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 								break;
 						}
 						CallService(MS_DB_CONTACT_DELETE, hContact, 0);
@@ -161,8 +161,9 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		if (wParam == VK_DELETE || wParam == VK_F5 || (wParam == VK_F2 && ListView_GetSelectedCount(hwnd) == 1)) {
 			char *module, setting[256];
 			MCONTACT hContact;
-			SettingListInfo* sli = (SettingListInfo*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			if (!sli) break;
+			SettingListInfo* sli = (SettingListInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			if (!sli)
+				break;
 			hContact = sli->hContact;
 			module = sli->module;
 			ListView_GetItemText(hwnd, ListView_GetSelectionMark(hwnd), 0, setting, 256);
@@ -267,19 +268,19 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				numberOfIcons = 0;
 
 				if (himl2 = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 5, 0)) {
-					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_BINARY))))
+					if (AddIconToList(himl2, LoadSkinnedDBEIcon(ICO_BINARY)))
 						numberOfIcons++;
-					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_BYTE))))
+					if (AddIconToList(himl2, LoadSkinnedDBEIcon(ICO_BYTE)))
 						numberOfIcons++;
-					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_WORD))))
+					if (AddIconToList(himl2, LoadSkinnedDBEIcon(ICO_WORD)))
 						numberOfIcons++;
-					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_DWORD))))
+					if (AddIconToList(himl2, LoadSkinnedDBEIcon(ICO_DWORD)))
 						numberOfIcons++;
-					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_STRING))))
+					if (AddIconToList(himl2, LoadSkinnedDBEIcon(ICO_STRING)))
 						numberOfIcons++;
-					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_UNICODE))))
+					if (AddIconToList(himl2, LoadSkinnedDBEIcon(ICO_UNICODE)))
 						numberOfIcons++;
-					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_HANDLE))))
+					if (AddIconToList(himl2, LoadSkinnedDBEIcon(ICO_HANDLE)))
 						numberOfIcons++;
 
 					if (numberOfIcons < 7) {
@@ -316,8 +317,10 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				ScreenToClient(hwnd, &pt);
 
 				splitterPos = rc.left + pt.x + 1;
-				if (splitterPos<65) splitterPos = 65;
-				if (splitterPos > rc2.right - rc2.left - 65) splitterPos = rc2.right - rc2.left - 65;
+				if (splitterPos < 65)
+					splitterPos = 65;
+				if (splitterPos > rc2.right - rc2.left - 65)
+					splitterPos = rc2.right - rc2.left - 65;
 				SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
 				db_set_w(NULL, modname, "Splitter", (WORD)splitterPos);
 			}
@@ -327,7 +330,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_GETMINMAXINFO:
 		{
-			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
 			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
 
 			if (splitterPos + 40 > 200)
@@ -400,7 +403,8 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					ListView_GetItemText(hwnd2Settings, pos, 0, text, SIZEOF(text));
 					db_set_s(NULL, modname, "LastSetting", text);
 				}
-				else db_unset(NULL, modname, "LastSetting");
+				else
+					db_unset(NULL, modname, "LastSetting");
 			}
 		}
 		db_set_b(NULL, modname, "HexMode", (byte)Hex);
@@ -433,7 +437,8 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_COMMAND:
-		if (GetKeyState(VK_ESCAPE) & 0x8000) return TRUE; // this needs to be changed to c if htere is a label edit happening..
+		if (GetKeyState(VK_ESCAPE) & 0x8000)
+			return TRUE; // this needs to be changed to c if htere is a label edit happening..
 		switch (LOWORD(wParam)) {
 		case MENU_REFRESH_MODS:
 			refreshTree(1);
@@ -453,16 +458,19 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 				if (mtis->type == MODULE)
 					PopulateSettings(GetDlgItem(hwnd, IDC_SETTINGS), mtis->hContact, module);
-				else ClearListview(GetDlgItem(hwnd, IDC_SETTINGS));
+				else
+					ClearListview(GetDlgItem(hwnd, IDC_SETTINGS));
 			}
-			else ClearListview(GetDlgItem(hwnd, IDC_SETTINGS));
+			else
+				ClearListview(GetDlgItem(hwnd, IDC_SETTINGS));
 		}
 			break;
 			///////////////////////// // watches
 		case MENU_VIEW_WATCHES:
 			if (!hwnd2watchedVarsWindow) // so only opens 1 at a time
 				hwnd2watchedVarsWindow = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WATCH_DIAG), 0, WatchDlgProc);
-			else SetForegroundWindow(hwnd2watchedVarsWindow);
+			else
+				SetForegroundWindow(hwnd2watchedVarsWindow);
 			break;
 		case MENU_REMALL_WATCHES:
 			freeAllWatches();
@@ -569,7 +577,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE; // case WM_NOTIFY
 
 	case WM_FINDITEM:
-		ItemInfo *ii = (ItemInfo*)wParam;
+		ItemInfo *ii = (ItemInfo *)wParam;
 		HWND hwnd2Settings = GetDlgItem(hwnd, IDC_SETTINGS);
 		int hItem = findItemInTree(GetDlgItem(hwnd, IDC_MODULES), ii->hContact, ii->module);
 		if (hItem != -1) {

@@ -47,12 +47,12 @@
 #include "Version.h"
 #include "modsettingenum.h"
 
-#define DEF_ICON    5
+#define DEF_ICON 5
 #define crlf_string "\r\n\0"
 
 /////// icons support
 
-void addIcons(TCHAR* szModuleFileName);
+void addIcons();
 HICON LoadSkinnedDBEIcon(int icon);
 int AddIconToList(HIMAGELIST hil, HICON hIcon);
 void AddProtoIconsToList(HIMAGELIST hil, int newshift);
@@ -70,15 +70,15 @@ extern MCONTACT hRestore;
 #define modname			"DBEditorpp"
 #define modFullname		"Database Editor++"
 #define msg(a,b)		MessageBoxA(0,a,b,MB_OK)
-#define nick_unknown    "(UNKNOWN)"
-#define nick_unknownW   L"(UNKNOWN)"
+#define nick_unknown	"(UNKNOWN)"
+#define nick_unknownW	L"(UNKNOWN)"
 
 
-#define WM_FINDITEM (WM_USER+1) // onyl for the main window, wparam is ItemIfno* lparam is 0
+#define WM_FINDITEM (WM_USER + 1) // onyl for the main window, wparam is ItemIfno* lparam is 0
 
-#define mir_strlen(ptr) ((ptr==NULL)?0:(int)strlen(ptr))
-#define mir_strncpy(dst, src, len) strncpy(dst, src, len)[len-1]=0;
-#define mir_strcmp(ptr1, ptr2) ((ptr1 && ptr2)?strcmp(ptr1, ptr2):1) // (ptr1||ptr2)
+#define mir_strlen(ptr) ((ptr == NULL) ? 0 : (int)strlen(ptr))
+#define mir_strncpy(dst, src, len) strncpy(dst, src, len)[len - 1] = 0;
+#define mir_strcmp(ptr1, ptr2) ((ptr1 && ptr2) ? strcmp(ptr1, ptr2) : 1) // (ptr1||ptr2)
 
 #define ListView_SetItemTextW(hwndLV, i, iSubItem_, pszText_) \
 { LV_ITEMW _ms_lvi;\
@@ -113,7 +113,7 @@ typedef struct {
 
 typedef struct {
 	MCONTACT hContact;
-	char* module;
+	char *module;
 	HWND hwnd2Edit;
 	int selectedItem; // item that is currently selected
 	int clicks; // set to 0 when selection changes, 1 after another click.. cant edit till this is 1
@@ -170,34 +170,34 @@ extern MIDatabase *g_db;
 
 extern BOOL usePopups;
 
-#define NAMEORDERCOUNT 8
+#define NAMEORDERCOUNT	8
 
-#define MODE_UNLOADED  1
-#define MODE_LOADED    2
-#define MODE_ALL       3
+#define MODE_UNLOADED	1
+#define MODE_LOADED		2
+#define MODE_ALL		3
 
-#define HEX_BYTE       1
-#define HEX_WORD       2
-#define HEX_DWORD      4
+#define HEX_BYTE		1
+#define HEX_WORD		2
+#define HEX_DWORD		4
 
 //main.c
-int DBGetContactSettingStringStatic(MCONTACT hContact, char* szModule, char* szSetting, char* value, int maxLength);
-int WriteBlobFromString(MCONTACT hContact,const char *szModule,const char *szSetting, const char *Value, int len);
+int DBGetContactSettingStringStatic(MCONTACT hContact, char *szModule, char *szSetting, char *value, int maxLength);
+int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szSetting, const char *Value, int len);
 int GetSetting(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-int GetValue(MCONTACT hContact, const char* szModule, const char* szSetting, char* Value, int length);
-int GetValueW(MCONTACT hContact, const char* szModule, const char* szSetting, WCHAR* Value, int length);
-char* u2a( wchar_t* src );
-wchar_t *a2u( char* src , wchar_t *buffer, int len );
+int GetValue(MCONTACT hContact, const char *szModule, const char *szSetting, char *Value, int length);
+int GetValueW(MCONTACT hContact, const char *szModule, const char *szSetting, WCHAR *Value, int length);
+char *u2a(wchar_t *src);
+wchar_t *a2u(char *src , wchar_t *buffer, int len);
 WCHAR *GetContactName(MCONTACT hContact, const char *szProto, int unicode);
-BOOL IsProtocolLoaded(char* pszProtocolName);
+BOOL IsProtocolLoaded(char *pszProtocolName);
 
 // main_window.c
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // modules.c
-int deleteModule(char* module, MCONTACT hContact, int fromMenu);
+int deleteModule(char *module, MCONTACT hContact, int fromMenu);
 void deleteModuleGui();
-void renameModule(char* oldName, char* newName, MCONTACT hContact);
+void renameModule(char *oldName, char *newName, MCONTACT hContact);
 INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int CloneContact(MCONTACT hContact);
 
@@ -206,42 +206,42 @@ void replaceTreeItem(HWND hwnd, MCONTACT hContact, const char *module, const cha
 void refreshTree(BOOL restore);
 void __cdecl PopulateModuleTreeThreadFunc(LPVOID di);
 void freeTree(HWND hwnd2Tree, MCONTACT hContact);
-int findItemInTree(HWND hwnd2Tree, MCONTACT hContact, char* module);
+int findItemInTree(HWND hwnd2Tree, MCONTACT hContact, char *module);
 
 // settinglist.c
 void setupSettingsList(HWND hwnd2List);
 void saveListSettings(HWND hwnd2List);
 void ClearListview(HWND hwnd2Settings);
 void DeleteSettingsFromList(HWND hSettings, MCONTACT hContact, char *module, char *setting);
-void PopulateSettings(HWND hwnd2Settings, MCONTACT hContact, char* module);
-void SelectSetting(char* setting);
+void PopulateSettings(HWND hwnd2Settings, MCONTACT hContact, char *module);
+void SelectSetting(char *setting);
 
 // addeditsettingsdlg.c
 INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void editSetting(MCONTACT hContact, char* module, char* setting);
-BOOL convertSetting(MCONTACT hContact, char* module, char* setting, int toType); // 0 = byte, 1 = word, 2 = dword, 3 = string
+void editSetting(MCONTACT hContact, char *module, char *setting);
+BOOL convertSetting(MCONTACT hContact, char *module, char *setting, int toType); // 0 = byte, 1 = word, 2 = dword, 3 = string
 
 // exportimport.c
-void exportDB(MCONTACT hContact, char* module); // hContact == -1 export entire db. module == NULL export entire contact
+void exportDB(MCONTACT hContact, char *module); // hContact == -1 export entire db. module == NULL export entire contact
 void ImportSettingsMenuItem(MCONTACT hContact);
-void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath);
+void ImportSettingsFromFileMenuItem(MCONTACT hContact, char *FilePath);
 
 // find window.c
 INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // copymodule.c
-void copyModuleMenuItem(char* module, MCONTACT hContact);
-void copyModule(char* module, MCONTACT hContactFrom, MCONTACT hContactTo);
+void copyModuleMenuItem(char *module, MCONTACT hContact);
+void copyModule(char *module, MCONTACT hContactFrom, MCONTACT hContactTo);
 
 // options.c
-int OptInit(WPARAM wParam,LPARAM lParam);
+int OptInit(WPARAM wParam, LPARAM lParam);
 
 // watchlist
-int addSettingToWatchList(MCONTACT hContact, char* module, char* setting);
+int addSettingToWatchList(MCONTACT hContact, char *module, char *setting);
 void freeWatchListItem(int item);
 void PopulateWatchedWindow(HWND hwnd);
 void freeAllWatches();
 INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void popupWatchedVar(MCONTACT hContact,const char* module,const char* setting);
+void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting);
 
 #endif //_COMMONHEADERS_H

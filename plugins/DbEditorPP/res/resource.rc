@@ -26,28 +26,28 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 IDD_FIND DIALOGEX 0, 0, 340, 249
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "Database Editor++ Search and Replace"
+CAPTION "Database Editor++ search and replace"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_TEXT,40,13,216,12,ES_AUTOHSCROLL
-    CONTROL         "Case Sensitive",IDC_CASESENSITIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,30,72,10
-    CONTROL         "Module Name",IDC_MODNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,44,73,10
-    CONTROL         "Exact Match",IDC_EXACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,115,30,64,10
-    CONTROL         "Setting Name",IDC_SETTINGNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,115,44,72,10
-    CONTROL         "Setting Value",IDC_SETTINGVALUE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,44,69,10
+    CONTROL         "Case sensitive",IDC_CASESENSITIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,30,72,10
+    CONTROL         "Module name",IDC_MODNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,44,73,10
+    CONTROL         "Exact match",IDC_EXACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,115,30,64,10
+    CONTROL         "Setting name",IDC_SETTINGNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,115,44,72,10
+    CONTROL         "Setting value",IDC_SETTINGVALUE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,44,69,10
     DEFPUSHBUTTON   "&Search",IDC_SEARCH,277,5,60,14
     EDITTEXT        IDC_REPLACE,40,72,216,12,ES_AUTOHSCROLL
-    CONTROL         "Module Name",IDC_MODNAME2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_GROUP | WS_TABSTOP,40,90,73,10
-    CONTROL         "Setting Name",IDC_SETTINGNAME2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,115,90,72,10
-    CONTROL         "Setting Value",IDC_SETTINGVALUE2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,194,90,67,10
+    CONTROL         "Module name",IDC_MODNAME2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_GROUP | WS_TABSTOP,40,90,73,10
+    CONTROL         "Setting name",IDC_SETTINGNAME2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,115,90,72,10
+    CONTROL         "Setting value",IDC_SETTINGVALUE2,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,194,90,67,10
     CONTROL         "Found field",IDC_FOUND,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE | WS_TABSTOP,267,90,65,10
     PUSHBUTTON      "&Replace",IDOK,277,25,60,14
     PUSHBUTTON      "&Cancel",IDCANCEL,277,45,60,14
     LISTBOX         IDC_LIST,3,95,334,136,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
-    GROUPBOX        "Search For",IDC_STATIC,3,1,268,58
+    GROUPBOX        "Search for",IDC_STATIC,3,1,268,58
     LTEXT           "Text:",IDC_STATIC,10,15,26,8
     LTEXT           "In:",IDC_STATIC,10,30,23,8
-    GROUPBOX        "Replace With",IDC_STATIC,3,60,334,30
+    GROUPBOX        "Replace with",IDC_STATIC,3,60,334,30
     LTEXT           "Text:",IDC_STATIC,10,74,26,8
     LTEXT           "In:",IDC_STATIC,10,90,23,8,NOT WS_VISIBLE
     CONTROL         "",IDC_SBAR,"msctls_statusbar32",WS_TABSTOP | 0x100,3,237,334,12
@@ -61,7 +61,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "Restore last opened position",IDC_RESTORESETTINGS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,13,283,10
-    CONTROL         "Automatically expand ""settings"" when Database Editor ++ starts",IDC_EXPANDSETTINGS,
+    CONTROL         "Automatically expand ""Settings"" when Database Editor++ starts",IDC_EXPANDSETTINGS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,26,283,10
     CONTROL         "Warn when deleting modules",IDC_WARNONDEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,39,280,10
     CONTROL         "Use popups when watched settings change values",IDC_POPUPS,
@@ -79,7 +79,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_MODNAME,7,17,172,12,ES_AUTOHSCROLL
     LTEXT           "Add a module named",IDC_ADDMODNAMESTATIC,7,6,124,8
-    CONTROL         "Add to all contacts (Includes Settings)",CHK_COPY2ALL,
+    CONTROL         "Add to all contacts (including Settings)",CHK_COPY2ALL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,35,172,10
     DEFPUSHBUTTON   "OK",IDOK,29,49,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,107,49,50,14
@@ -87,7 +87,7 @@ END
 
 IDD_EDIT_SETTING DIALOGEX 0, 0, 252, 121
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION "Edit Setting"
+CAPTION "Edit setting"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_SETTINGNAME,7,18,238,14,ES_AUTOHSCROLL
@@ -102,15 +102,15 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,132,102,50,14
     RADIOBUTTON     "Hexadecimal",CHK_HEX,182,49,59,10
     RADIOBUTTON     "Decimal",CHK_DECIMAL,182,62,59,10
-    LTEXT           "Value Name:",IDC_STATIC,7,7,42,8
-    LTEXT           "Value Data:",IDC_STATIC,7,37,38,8
+    LTEXT           "Value name:",IDC_STATIC,7,7,42,8
+    LTEXT           "Value data:",IDC_STATIC,7,37,38,8
     GROUPBOX        "Base",GRP_BASE,174,37,71,38
-    GROUPBOX        "Save Value as:",GRP_TYPE,7,67,160,29
+    GROUPBOX        "Save value as:",GRP_TYPE,7,67,160,29
 END
 
 IDD_WATCH_DIAG DIALOGEX 0, 0, 414, 190
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "Watched Database Variables"
+CAPTION "Watched database settings"
 MENU IDR_WATCHWINDOWMENU
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
@@ -123,7 +123,7 @@ CAPTION "Copy module to contact"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     COMBOBOX        IDC_CONTACTS,7,17,172,99,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Copy to all contacts (Includes Settings)",CHK_COPY2ALL,
+    CONTROL         "Copy to all contacts (including Settings)",CHK_COPY2ALL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,35,172,10
     DEFPUSHBUTTON   "OK",IDOK,29,49,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,107,49,50,14
@@ -132,14 +132,14 @@ END
 
 IDD_IMPORT DIALOGEX 0, 0, 268, 170
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Import Module/Settings"
+CAPTION "Import module/settings"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_TEXT,7,18,254,124,ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
     DEFPUSHBUTTON   "Import",IDOK,153,149,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,211,149,50,14
     PUSHBUTTON      "Insert &CR/LF",IDC_CRLF,20,149,58,14
-    LTEXT           "Paste the Settings to import here.",IDC_STATIC,7,7,105,8
+    LTEXT           "Paste the settings to import here.",IDC_STATIC,7,7,105,8
 END
 
 IDD_MAIN DIALOGEX 0, 0, 408, 225
@@ -210,6 +210,10 @@ BEGIN
         HORZGUIDE, 67
         HORZGUIDE, 75
         HORZGUIDE, 81
+    END
+
+    IDD_WATCH_DIAG, DIALOG
+    BEGIN
     END
 
     IDD_COPY_MOD, DIALOG
@@ -297,16 +301,16 @@ IDR_MAINMENU MENU
 BEGIN
     POPUP "&Main"
     BEGIN
-        MENUITEM "&Refresh Modules",            MENU_REFRESH_MODS
-        MENUITEM "Refresh &Settings",           MENU_REFRESH_SETS
+        MENUITEM "&Refresh modules",            MENU_REFRESH_MODS
+        MENUITEM "Refresh &settings",           MENU_REFRESH_SETS
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       MENU_EXIT
     END
     POPUP "&Actions"
     BEGIN
-        MENUITEM "&Search and Replace",         MENU_FINDANDREPLACE
+        MENUITEM "&Search and replace",         MENU_FINDANDREPLACE
         MENUITEM SEPARATOR
-        MENUITEM "&Delete Module",              MENU_DELETE
+        MENUITEM "&Delete module",              MENU_DELETE
     END
     POPUP "&Watches"
     BEGIN
@@ -315,9 +319,9 @@ BEGIN
     END
     POPUP "&Export"
     BEGIN
-        MENUITEM "Entire &Database",            MENU_EXPORTDB
-        MENUITEM "All &Settings",               MENU_EXPORTMODULE
-        MENUITEM "All &Contacts",               MENU_EXPORTCONTACT
+        MENUITEM "Entire &database",            MENU_EXPORTDB
+        MENUITEM "All &settings",               MENU_EXPORTMODULE
+        MENUITEM "All &contacts",               MENU_EXPORTCONTACT
     END
     POPUP "&Import"
     BEGIN
@@ -328,16 +332,16 @@ BEGIN
     BEGIN
         MENUITEM "&Sort by protocol",           MENU_SORT_ORDER
         MENUITEM SEPARATOR
-        MENUITEM "Show &All",                   MENU_FILTER_ALL
-        MENUITEM "Show only &Loaded",           MENU_FILTER_LOADED
-        MENUITEM "Show only &Unloaded",         MENU_FILTER_UNLOADED
+        MENUITEM "Show &all",                   MENU_FILTER_ALL
+        MENUITEM "Show only &loaded",           MENU_FILTER_LOADED
+        MENUITEM "Show only &unloaded",         MENU_FILTER_UNLOADED
         MENUITEM SEPARATOR
         MENUITEM "Edit &Bytes in Hex",          MENU_BYTE_HEX
         MENUITEM "Edit &Words in Hex",          MENU_WORD_HEX
         MENUITEM "Edit &Dwords in Hex",         MENU_DWORD_HEX
         MENUITEM SEPARATOR
         MENUITEM "&Restore position",           MENU_SAVE_POSITION
-        MENUITEM "&Open Options",               MENU_OPEN_OPTIONS
+        MENUITEM "&Open options",               MENU_OPEN_OPTIONS
     END
 END
 
@@ -345,9 +349,9 @@ IDR_CONTEXTMENU MENU
 BEGIN
     POPUP "Item context"
     BEGIN
-        MENUITEM "&Edit / Rename",              MENU_EDIT_SET
+        MENUITEM "&Edit/rename",                MENU_EDIT_SET
         MENUITEM SEPARATOR
-        POPUP "NEW"
+        POPUP "New"
         BEGIN
             MENUITEM "&Byte",                       MENU_ADD_BYTE
             MENUITEM "&Word",                       MENU_ADD_WORD
@@ -366,10 +370,10 @@ BEGIN
         END
         POPUP "Encyption"
         BEGIN
-            MENUITEM "View Decrypted String",       MENU_VIEWDECRYPT
-            MENUITEM "View Encrypted String",       MENU_VIEWENCRYPT
-            MENUITEM "Decrypt String",              MENU_DECRYPT
-            MENUITEM "Encrypt String",              MENU_ENCRYPT
+            MENUITEM "View decrypted string",       MENU_VIEWDECRYPT
+            MENUITEM "View encrypted string",       MENU_VIEWENCRYPT
+            MENUITEM "Decrypt string",              MENU_DECRYPT
+            MENUITEM "Encrypt string",              MENU_ENCRYPT
         END
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
@@ -378,9 +382,9 @@ BEGIN
     POPUP "Null Mod context"
     BEGIN
         MENUITEM "&Rename",                     MENU_RENAME_MOD
-        MENUITEM "Copy To Contact",             MENU_COPY_MOD
+        MENUITEM "Copy to contact",             MENU_COPY_MOD
         MENUITEM SEPARATOR
-        MENUITEM "Export Module",               MENU_EXPORTMODULE
+        MENUITEM "Export module",               MENU_EXPORTMODULE
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
         MENUITEM "&Delete",                     MENU_DELETE_MOD
@@ -390,20 +394,20 @@ BEGIN
         MENUITEM "&Clone",                      MENU_CLONE_CONTACT
         MENUITEM "&Delete",                     MENU_DELETE_CONTACT
         MENUITEM SEPARATOR
-        MENUITEM "Export Contact",              MENU_EXPORTCONTACT
-        POPUP "Import Settings"
+        MENUITEM "Export contact",              MENU_EXPORTCONTACT
+        POPUP "Import settings"
         BEGIN
             MENUITEM "From a file",                 MENU_IMPORTFROMFILE
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Add Module",                 MENU_ADD_MODULE
+        MENUITEM "&Add module",                 MENU_ADD_MODULE
     END
     POPUP "NULL contact menu"
     BEGIN
-        MENUITEM "&Add Module",                 MENU_ADD_MODULE
-        MENUITEM "Export Settings",             MENU_EXPORTCONTACT
-        POPUP "Import Settings"
+        MENUITEM "&Add module",                 MENU_ADD_MODULE
+        MENUITEM "Export settings",             MENU_EXPORTCONTACT
+        POPUP "Import settings"
         BEGIN
             MENUITEM "From a file",                 MENU_IMPORTFROMFILE
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
@@ -411,8 +415,8 @@ BEGIN
     END
     POPUP "Contacts menu"
     BEGIN
-        MENUITEM "Export Contacts",             MENU_EXPORTCONTACT
-        POPUP "Import Contacts"
+        MENUITEM "Export contacts",             MENU_EXPORTCONTACT
+        POPUP "Import contacts"
         BEGIN
             MENUITEM "From a file",                 MENU_IMPORTFROMFILE
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
@@ -421,17 +425,17 @@ BEGIN
     POPUP "Contact Mod context"
     BEGIN
         MENUITEM "&Rename",                     MENU_RENAME_MOD
-        MENUITEM "Copy To Contact",             MENU_COPY_MOD
+        MENUITEM "Copy to contact",             MENU_COPY_MOD
         MENUITEM SEPARATOR
-        MENUITEM "Export Module",               MENU_EXPORTMODULE
-        MENUITEM "Export Module from all contacts", MENU_EXPORTDB
+        MENUITEM "Export module",               MENU_EXPORTMODULE
+        MENUITEM "Export module from all contacts", MENU_EXPORTDB
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
         MENUITEM "&Delete",                     MENU_DELETE_MOD
     END
     POPUP "new item"
     BEGIN
-        POPUP "NEW"
+        POPUP "New"
         BEGIN
             MENUITEM "&Byte",                       MENU_ADD_BYTE
             MENUITEM "&Word",                       MENU_ADD_WORD
@@ -445,9 +449,9 @@ END
 
 IDR_WATCHWINDOWMENU MENU
 BEGIN
-    POPUP "Watch Window"
+    POPUP "Watch window"
     BEGIN
-        MENUITEM "Reload Watch List",           MENU_REFRESH
+        MENUITEM "Reload watch list",           MENU_REFRESH
         MENUITEM "&Delete all",                 MENU_REMALL_WATCHES
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       MENU_EXIT
