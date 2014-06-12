@@ -362,7 +362,7 @@ Mail.ru додатково
 [Logon error: invalid login/password]
 Помилка при перевірці імені користувача та пароля
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
-MRIM_CS_MESSAGE_STATUS: не знайдений в черзі
+MRIM_CS_MESSAGE_STATUS: не знайдений у черзі
 [Server error: can't get MPOP key for web authorize]
 Помилка сервера: неможливо отримати MPOP-ключ для веб-авторизації
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
@@ -372,15 +372,15 @@ MRIM_CS_FILE_TRANSFER_ACK: невідома помилка, код: %lu
 [MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
 MRIM_CS_*_CONTACT_ACK: невідома помилка сервера, код: %lu
 [MRIM_CS_*_CONTACT_ACK: not found in queue]
-MRIM_CS_*_CONTACT_ACK: не знайдений в черзі
+MRIM_CS_*_CONTACT_ACK: не знайдений у черзі
 [MRIM_ANKETA_INFO: not found in queue]
-MRIM_ANKETA_INFO: не знайдено в черзі
+MRIM_ANKETA_INFO: не знайдений у черзі
 [MRIM_CS_GAME: unknown internal game message code: %lu]
 MRIM_CS_GAME: невідомий внутрішній код ігрового повідомлення: %lu
 [MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
 MRIM_CS_CONTACT_LIST2: невідома помилка сервера, код: %lu
 [MRIM_CS_SMS_ACK: not found in queue]
-MRIM_CS_SMS_ACK: не знайдений в черзі
+MRIM_CS_SMS_ACK: не знайдений у черзі
 [Mail.ru System notify]
 Системне повідомлення від адміністрації Mail.ru
 [Sick]

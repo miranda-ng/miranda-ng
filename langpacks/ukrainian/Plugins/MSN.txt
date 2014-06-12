@@ -48,7 +48,7 @@
 [Allowed (active) contact]
 Дозволений контакт
 [Blocked contact]
-Блокований контакт
+Заблокований контакт
 [Somebody included you in his/her server list]
 Ви в списку контакту на сервері
 [Refresh]

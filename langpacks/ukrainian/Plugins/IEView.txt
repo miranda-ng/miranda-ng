@@ -24,11 +24,11 @@
 [Options]
 Налаштування
 [Enable BBCodes]
-Підтримка ВВкодів
+Підтримка BB-кодів
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-Підтримуються ВВкоди: [b][i][u][s][img][size][color][url]
+Підтримуються BB-коди: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
-Підтримка flash-файлів (*.swf) в смайлах і ВВкодах
+Підтримка flash-файлів (*.swf) у смайлах і BB-кодах
 [Enable workaround for PNG transparency]
 Ввімкнути прозорість для PNG
 [Enable MathModule support]

@@ -159,6 +159,10 @@
 Перевірити оновлення
 [Available components list]
 Список компонентів
+[Update completed]
+Оновлення завершено
+[Update failed]
+Помилка оновлення
 ['Yes' Button]
 Кнопка "Так"
 ['No' Button]

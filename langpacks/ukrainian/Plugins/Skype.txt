@@ -196,9 +196,9 @@ SkypeKit.exe не розпакований.
 [Account was currently not logged in]
 Обліковий запис не в мережі
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
-Ви не ввели Skype ID.\nНастройте це в Налаштування->Мережа->%s і спробуйте знову.
+Ви не ввели Skype ID.\nВведіть Skype ID в Налаштування -> Мережа -> %s і спробуйте знову.
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
-Ви дійсно хочете блокувати "%s" (%s)? Блоковані користувачі не зможуть зв'язатися з вами і не будуть відображатися у списку контактів.
+Ви дійсно хочете заблокувати "%s" (%s)? Заблоковані користувачі не зможуть зв'язатися з вами і не будуть відображатися у списку контактів.
 [Name]
 Ім'я
 [Conferences]
@@ -278,7 +278,7 @@ SkypeKit.exe не розпакований.
 [Network]
 Мережа
 [Blocked contacts]
-Блоковані контакти
+Заблоковані контакти
 [Privacy]
 Приватність
 [Contacts]

@@ -24,7 +24,7 @@ AIM Деталі користувача
 [Do Not Autoreply When Away]
 Не відповідати авт. коли Відсутній
 [Convert Incoming Messages to BBCode]
-Переводити вх. повідомлення BBCode
+Переводити вх. повідомлення у BBCode
 [Convert Outgoing Messages to HTML]
 Переводити вих. повідомлення в HTML
 [Disable Avatars]

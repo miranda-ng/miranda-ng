@@ -238,7 +238,7 @@
 [Reconnecting]
 Перепідключення
 [Ignore locked status of accounts]
-Ігнорувати блоковані облікові записи
+Ігнорувати заблоковані облікові записи
 [Consider connection lost after]
 Зв'язок втрачено після
 [failed pings]

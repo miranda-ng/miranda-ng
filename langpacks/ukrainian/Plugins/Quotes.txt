@@ -244,7 +244,7 @@ HTTP-з'єднання Quotes
 [Percent Change to After Hours]
 Відсоток змін за останній час
 [Percent Change to Yesterday Close]
-Відсоток змін зі вчорашнього закриття
+Відсоток змін з учорашнього закриття
 [Day's High]
 Максимальне значення за день
 [Day's Low]

@@ -821,12 +821,18 @@ x100 мс
 (Невідомий контакт)
 [Tray menu]
 Меню в треї
-[&Find/Add contacts...]
+[&Hide/show]
+С&ховати/Показати
+[&Find/add contacts...]
 Додати &контакти...
 [&Options...]
 &Налаштування...
 [&About]
 Про &програму
+[Show avatar]
+Показати аватар
+[Hide avatar]
+Сховати аватар
 [Show contact &avatar]
 Показати аватар
 [Hide contact &avatar]
@@ -1009,6 +1015,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 Закріпити фрейм
 [Frame menu]
 Меню фреймів
+[New group]
+Створити групу
 [Group menu]
 Меню груп
 [Subgroup menu]

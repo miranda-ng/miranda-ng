@@ -284,7 +284,7 @@
 [Driver]
 Драйвер
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
-Проблема: Не знайдено жодного драйвера бази даних. Неможливо створити новий профиль, вам необхідний файл dbx_mmap.dll
+Проблема: Не знайдено жодного драйвера бази даних. Неможливо створити новий профіль, вам необхідний файл dbx_mmap.dll
 [Download more plugins]
 Завантажити більше плагінів
 [Description:]

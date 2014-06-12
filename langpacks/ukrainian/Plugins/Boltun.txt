@@ -10,13 +10,13 @@
 [Boltun]
 Базіка
 [Boltun Autochat everybody]
-Базіка говорить зі усіма
+Базіка говорить з усіма
 [Boltun Autochat everybody not in contact list]
 Базіка говорить з усіма, хто не в списку контактів
 [Boltun Autochat everybody while away]
 Базіка говорить з усіма, коли мене немає
 [Warn contacts Boltun is chatting]
-Попереджати про розмові з Базікою
+Попереджати про розмову з Базікою
 [Mark replied messages as read]
 Позначати повідомлення як прочитані
 [sec]

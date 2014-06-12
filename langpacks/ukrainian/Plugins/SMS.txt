@@ -40,7 +40,7 @@
 [SMS Message Didn't Send]
 SMS-повідомлення не надіслано
 [&Try again]
-&Спробувати ще
+&Повторити
 [&Cancel]
 С&касувати
 [The SMS message send timed out]
@@ -86,7 +86,7 @@ SMS підтвердження від %s
 [Add Number To The Multiple List]
 Додати номер до списку телефонів для відправки
 [Save Number To The User's Details Phonebook]
-Зберегти номер у списку телефонів профилю
+Зберегти номер у списку телефонів профілю
 [Show/Hide Multiple List]
 Показує/ховає список телефонів для відправки
 [Shows How Much Chars You've Typed]

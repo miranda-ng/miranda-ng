@@ -28,7 +28,7 @@
 [Game Status]
 Статуси ігор
 [Show on my profile and miniprofile]
-Показувати мій профіль і мініпрофиль
+Показувати мій профіль і мініпрофіль
 [Show my game server data]
 Показувати дані сервера моєї гри
 [Other Activity]
@@ -328,7 +328,7 @@ XFire не підтримує надсилання офлайн-повідомл
 [Features]
 Можливості
 [Blocklist / Games]
-Блоковані / Ігри
+Заблоковані / Ігри
 [StatusMsg]
 Статусні повідомлення
 [Please enter server password...]

@@ -288,7 +288,7 @@ WATrack: запит заборонений
 [Do you really want to delete ALL items (%.0f) for this contact?]
 Видалити ВСІ записи (%.0f) для цього контакту?
 [Note: It can take several minutes for large history.]
-Увага: це може зайняти декілька хвилин для великої історії
+Примітка. Це може зайняти декілька хвилин для великої історії
 [Empty History]
 Очистити історію
 [Search Up (Ctrl+Up)]
@@ -508,7 +508,7 @@ Enter для подробиць події
 [Do you really want to delete ALL items for this contact?]
 Ви дійсно хочете видалити всі записи для цього контакту?
 [Note: It can take several minutes for large histories]
-Примітка: це може зайняти декілька хвилин для великої історії
+Примітка. Це може зайняти декілька хвилин для великої історії
 [Empty history of subcontacts also]
 Також видалити історію субконтактів
 [Previous message]

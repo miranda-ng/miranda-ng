@@ -708,7 +708,7 @@ Nickserv вбити фантома
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
 Повільніше! Шукає в мережі ніки відповідно до шаблону. Хостмаска є обов'язковою, а поле "Нік" має містити не менше 4-х символів. Дозволені символи підстановки (? і *).
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Налаштування не збережені.\n\nПоле "Нік" має містити як мінімум чотири знаки (включаючи маски) і збігатися з ніком за замовчанням для цього контакту.
+Налаштування не збережені.\n\nПоле "Нік" має містити як мінімум чотири символи (включаючи маски) і збігатися з ніком за замовчанням для цього контакту.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Налаштування не збережені.\n\nДля цього режиму виявлення повинна бути встановлена повна хостмаска.
 [Please wait...]

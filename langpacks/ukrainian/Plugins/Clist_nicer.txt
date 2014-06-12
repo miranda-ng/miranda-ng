@@ -215,8 +215,6 @@
 Помістити вікно на передній план, якщо його перекрито іншими вікнами
 [Client margins]
 Поля списку
-[Embedded frames border]
-Межа фреймів
 [Clip border by]
 Заокруглити на
 [Gap between frames]
@@ -267,8 +265,6 @@
 Фон списку контактів
 [Use Windows colors]
 Кольори Windows
-[Background color]
-Колір фону
 [Use background image]
 Фонове зображення
 [Stretch to width]
@@ -526,7 +522,7 @@
 [Transparent]
 Прозорий
 [Alpha (percent)]
-Альфа (відсоток)
+Альфа (%)
 [Item margins]
 Поля
 [Item borders]
@@ -697,11 +693,11 @@
 Головне меню
 [Set status modes]
 Встановити режими статусу
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
 Для цієї дії необхідний правильний вибір контакту. Виберіть контакт зі списку і повторіть.
 [Parameter mismatch]
 Невідповідність параметра
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 Вбудована підтримка плаваючих контактів була видалена. Вам потрібен плагін FltContacts.
 [Warning]
 Попередження
@@ -729,6 +725,8 @@
 Текст під курсором
 [Quicksearch text]
 Швидкий пошук
+[Embedded frames border]
+Межа фреймів
 [Title bar]
 Заголовок
 [Tool Window]
@@ -835,9 +833,13 @@
 Плаваюче
 [Frame menu]
 Меню фреймів
+[New group]
+Створити групу
 [Group menu]
 Меню груп
-[&Find/Add contacts...]
+[&Hide/show]
+&Сховати/Показати
+[&Find/add contacts...]
 Додати &контакти...
 [&Options...]
 &Налаштування...

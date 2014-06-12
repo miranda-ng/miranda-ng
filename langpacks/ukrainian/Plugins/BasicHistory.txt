@@ -128,7 +128,7 @@
 [Session name]
 Ім'я сесії
 [Path to file**]
-Шлях до файла**
+Шлях до файлу**
 [Export imported messages]
 Експорт імпортованих повідомлень
 [* Use negative values to filter younger events]
