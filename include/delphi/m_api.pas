@@ -225,7 +225,7 @@ var
   {$include m_tipper.inc}
   {$include m_button.inc}
   {$include m_button_int.inc}
-  {$include m_dbeditor.inc}
+  {$include m_dbeditorpp.inc}
   {$include m_userinfoex.inc}
   {$include m_imgsrvc.inc}
   {$include m_hotkeys.inc}
