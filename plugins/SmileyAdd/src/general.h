@@ -64,7 +64,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <m_metacontacts.h>
 #include <m_smileyadd.h>
-#include <m_smileyadd_deprecated.h>
 #include <m_folders.h>
 
 #include "regexp\wcpattern.h"

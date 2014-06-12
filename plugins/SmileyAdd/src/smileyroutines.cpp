@@ -67,7 +67,7 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 	memset(csmlit, 0, smlsz * sizeof(int));
 
 	long numCharsSoFar = 0;
-	int smloff = 0;
+	size_t smloff = 0;
 
 	while (true) {
 		int firstSml = -1;

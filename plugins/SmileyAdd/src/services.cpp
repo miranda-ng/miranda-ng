@@ -73,7 +73,7 @@ SmileyPackType* GetSmileyPack(const char* proto, MCONTACT hContact, SmileyPackCT
 INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 {
 	SMADD_RICHEDIT3* smre = (SMADD_RICHEDIT3*) lParam;
-	if (smre == NULL || smre->cbSize < SMADD_RICHEDIT_SIZE_V1)
+	if (smre == NULL)
 		return FALSE;
 
 	SMADD_RICHEDIT3 smrec = {0};
@@ -98,9 +98,9 @@ INT_PTR ShowSmileySelectionCommand(WPARAM, LPARAM lParam)
 {
 	SMADD_SHOWSEL3* smaddInfo = (SMADD_SHOWSEL3*) lParam;
 
-	if (smaddInfo == NULL || smaddInfo->cbSize < SMADD_SHOWSEL_SIZE_V1) return FALSE;
-	HWND parent = smaddInfo->cbSize > SMADD_SHOWSEL_SIZE_V1 ? smaddInfo->hwndParent : NULL;
-	MCONTACT hContact = smaddInfo->cbSize > SMADD_SHOWSEL_SIZE_V2 ? smaddInfo->hContact : NULL;
+	if (smaddInfo == NULL) return FALSE;
+	HWND parent = smaddInfo->hwndParent;
+	MCONTACT hContact = smaddInfo->hContact;
 
 	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
 	stwp->pSmileyPack = GetSmileyPack(smaddInfo->Protocolname, hContact);
@@ -119,43 +119,11 @@ INT_PTR ShowSmileySelectionCommand(WPARAM, LPARAM lParam)
 	return TRUE;
 }
 
-INT_PTR GetSmileyIconCommand(WPARAM, LPARAM lParam)
-{
-	SMADD_GETICON* smre = (SMADD_GETICON*) lParam;
-
-	if (smre == NULL || smre->cbSize < sizeof(SMADD_GETICON)) return FALSE;
-
-	SmileyPackType* SmileyPack = GetSmileyPack(smre->Protocolname);
-
-	if (SmileyPack == NULL || IsBadStringPtrA(smre->SmileySequence, MAX_SMILEY_LENGTH)) {
-		smre->SmileyIcon = NULL;
-		smre->Smileylength = 0;
-		return FALSE;
-	}
-
-	unsigned start, size;
-	SmileyType* sml;
-	FindSmileyInText(SmileyPack, A2T_SM(smre->SmileySequence), start, size, &sml);
-
-	if (size == 0 || start != 0)
-	{
-		smre->SmileyIcon = NULL;
-		smre->Smileylength = 0;
-	}
-	else
-	{
-		smre->SmileyIcon = sml->GetIcon();
-		smre->Smileylength = size;
-	}
-
-	return TRUE;
-}
-
 
 static int GetInfoCommandE(SMADD_INFO2* smre, bool retDup)
 {
-	if (smre == NULL || smre->cbSize < SMADD_INFO_SIZE_V1) return FALSE;
-	MCONTACT hContact = smre->cbSize > SMADD_INFO_SIZE_V1 ? smre->hContact : NULL;
+	if (smre == NULL) return FALSE;
+	MCONTACT hContact = smre->hContact;
 
 	SmileyPackType* SmileyPack = GetSmileyPack(smre->Protocolname, hContact);
 
@@ -193,96 +161,13 @@ INT_PTR GetInfoCommand2(WPARAM, LPARAM lParam)
 }
 
 
-INT_PTR ParseText(WPARAM, LPARAM lParam)
-{
-	SMADD_PARSE* smre = (SMADD_PARSE*) lParam;
-
-	if (smre == NULL || smre->cbSize < sizeof(SMADD_PARSE)) return FALSE;
-
-	SmileyPackType* SmileyPack = GetSmileyPack(smre->Protocolname);
-
-	if (SmileyPack == NULL)
-	{
-		smre->SmileyIcon = NULL;
-		smre->size = 0;
-		return FALSE;
-	}
-
-	unsigned strtChrOff = smre->startChar + smre->size;
-	char* workstr = smre->str + strtChrOff;
-
-	if (strtChrOff > 1024 || IsBadStringPtrA(workstr, 10))
-	{
-		smre->SmileyIcon = NULL;
-		smre->size = 0;
-		return FALSE;
-	}
-
-	SmileyType* sml;
-	FindSmileyInText(SmileyPack, A2T_SM(workstr), smre->startChar, smre->size, &sml);
-
-	if (smre->size == 0)
-	{
-		smre->SmileyIcon = NULL; 
-	}
-	else
-	{
-		smre->SmileyIcon = sml->GetIconDup();
-		smre->startChar += strtChrOff;
-	}
-
-	return TRUE;
-}
-
-
-INT_PTR ParseTextW(WPARAM, LPARAM lParam)
-{
-	SMADD_PARSEW* smre = (SMADD_PARSEW*) lParam;
-
-	if (smre == NULL || smre->cbSize < sizeof(SMADD_PARSEW)) return FALSE;
-
-	SmileyPackType* SmileyPack = GetSmileyPack(smre->Protocolname);
-
-	if (SmileyPack == NULL)
-	{
-		smre->SmileyIcon = NULL;
-		smre->size = 0;
-		return FALSE;
-	}
-
-	unsigned strtChrOff = smre->startChar + smre->size;
-	wchar_t* workstr = smre->str + strtChrOff;
-
-	if (strtChrOff > 1024 || IsBadStringPtrW(workstr, 10))
-	{
-		smre->SmileyIcon = NULL;
-		smre->size = 0;
-		return FALSE;
-	}
-
-	SmileyType* sml;
-	FindSmileyInText(SmileyPack, workstr, smre->startChar, smre->size, &sml);
-
-	if (smre->size == 0)
-	{
-		smre->SmileyIcon = NULL; 
-	}
-	else
-	{
-		smre->SmileyIcon = sml->GetIconDup();
-		smre->startChar += strtChrOff;
-	}
-
-	return TRUE;
-}
-
 
 INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 {
 	SMADD_BATCHPARSE2* smre = (SMADD_BATCHPARSE2*) lParam;
 
-	if (smre == NULL || smre->cbSize < SMADD_BATCHPARSE_SIZE_V1) return FALSE;
-	MCONTACT hContact = smre->cbSize > SMADD_BATCHPARSE_SIZE_V1 ? smre->hContact : NULL;
+	if (smre == NULL) return FALSE;
+	MCONTACT hContact = smre->hContact;
 
 	SmileyPackCType* smcp = NULL;
 	SmileyPackType* SmileyPack = GetSmileyPack(smre->Protocolname, hContact, 

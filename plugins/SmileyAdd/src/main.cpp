@@ -107,18 +107,14 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	//create the smiley services
 	CreateServiceFunction(MS_SMILEYADD_REPLACESMILEYS, ReplaceSmileysCommand);
-	CreateServiceFunction(MS_SMILEYADD_GETSMILEYICON, GetSmileyIconCommand);
 	CreateServiceFunction(MS_SMILEYADD_SHOWSELECTION, ShowSmileySelectionCommand);
-	CreateServiceFunction(MS_SMILEYADD_GETINFO, GetInfoCommand);
 	CreateServiceFunction(MS_SMILEYADD_GETINFO2, GetInfoCommand2);
-	CreateServiceFunction(MS_SMILEYADD_PARSE, ParseText);
 	CreateServiceFunction(MS_SMILEYADD_REGISTERCATEGORY, RegisterPack);
 	CreateServiceFunction(MS_SMILEYADD_BATCHPARSE, ParseTextBatch);
 	CreateServiceFunction(MS_SMILEYADD_BATCHFREE, FreeTextBatch);
 	CreateServiceFunction(MS_SMILEYADD_CUSTOMCATMENU, CustomCatMenu);
 	CreateServiceFunction(MS_SMILEYADD_RELOAD, ReloadPack);
 	CreateServiceFunction(MS_SMILEYADD_LOADCONTACTSMILEYS, LoadContactSmileys);
-	CreateServiceFunction(MS_SMILEYADD_PARSEW, ParseTextW);
 	return 0;
 }
 
