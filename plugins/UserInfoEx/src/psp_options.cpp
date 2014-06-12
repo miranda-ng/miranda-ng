@@ -21,21 +21,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define		PSM_ENABLE_TABITEM	(WM_USER+106)
+#define PSM_ENABLE_TABITEM	(WM_USER+106)
 
-static MenuOptionsList ctrl_Menu[]= 
-{
-	{SET_MI_MAIN,		CHECK_OPT_MI_MAIN,		RADIO_OPT_MI_MAIN_NONE,		RADIO_OPT_MI_MAIN_ALL,		RADIO_OPT_MI_MAIN_EXIMPORT},
-	{SET_MI_CONTACT,	CHECK_OPT_MI_CONTACT,	RADIO_OPT_MI_CONTACT_NONE,	RADIO_OPT_MI_CONTACT_ALL,	RADIO_OPT_MI_CONTACT_EXIMPORT},
-	{SET_MI_GROUP,		CHECK_OPT_MI_GROUP,		RADIO_OPT_MI_GROUP_NONE,	RADIO_OPT_MI_GROUP_ALL,		RADIO_OPT_MI_GROUP_EXIMPORT},
-	{SET_MI_SUBGROUP,	CHECK_OPT_MI_SUBGROUP,	RADIO_OPT_MI_SUBGROUP_NONE,	RADIO_OPT_MI_SUBGROUP_ALL,	RADIO_OPT_MI_SUBGROUP_EXIMPORT},
-	{SET_MI_ACCOUNT,	CHECK_OPT_MI_ACCOUNT,	RADIO_OPT_MI_ACCOUNT_NONE,	RADIO_OPT_MI_ACCOUNT_ALL,	RADIO_OPT_MI_ACCOUNT_EXIMPORT},
+static MenuOptionsList ctrl_Menu[] = {
+	{ SET_MI_MAIN,		CHECK_OPT_MI_MAIN,		RADIO_OPT_MI_MAIN_NONE,		RADIO_OPT_MI_MAIN_ALL,		RADIO_OPT_MI_MAIN_EXIMPORT },
+	{ SET_MI_CONTACT,	CHECK_OPT_MI_CONTACT,	RADIO_OPT_MI_CONTACT_NONE,	RADIO_OPT_MI_CONTACT_ALL,	RADIO_OPT_MI_CONTACT_EXIMPORT },
+	{ SET_MI_GROUP,		CHECK_OPT_MI_GROUP,		RADIO_OPT_MI_GROUP_NONE,	RADIO_OPT_MI_GROUP_ALL,		RADIO_OPT_MI_GROUP_EXIMPORT },
+	{ SET_MI_SUBGROUP,	CHECK_OPT_MI_SUBGROUP,	RADIO_OPT_MI_SUBGROUP_NONE,	RADIO_OPT_MI_SUBGROUP_ALL,	RADIO_OPT_MI_SUBGROUP_EXIMPORT },
+	{ SET_MI_ACCOUNT,	CHECK_OPT_MI_ACCOUNT,	RADIO_OPT_MI_ACCOUNT_NONE,	RADIO_OPT_MI_ACCOUNT_ALL,	RADIO_OPT_MI_ACCOUNT_EXIMPORT },
 };
 
-/**
- *
- *
- **/
 static FORCEINLINE void NotifyParentOfChange(HWND hDlg)
 {
 	SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
@@ -54,39 +49,25 @@ static void SendNotify_InfoChanged(HWND hDlg)
 
 	// send info changed message
 	pshn.hdr.code = PSN_INFOCHANGED;
-	SendMessage(hDlg, WM_NOTIFY, NULL, (LPARAM)&pshn); 
+	SendMessage(hDlg, WM_NOTIFY, NULL, (LPARAM)&pshn);
 }
 
-/**
- *
- *
- **/
 static int FORCEINLINE ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
 {
 	int nItemIndex;
 
-	for (nItemIndex = ComboBox_GetCount(hCombo); 
-			 (nItemIndex >= 0) && (ComboBox_GetItemData(hCombo, nItemIndex) != pData); 
-			 nItemIndex--);
+	for (nItemIndex = ComboBox_GetCount(hCombo); (nItemIndex >= 0) && (ComboBox_GetItemData(hCombo, nItemIndex) != pData); nItemIndex--);
 	return nItemIndex;
 }
 
-/**
- *
- *
- **/
 static void FORCEINLINE ComboBox_SetCurSelByItemDataPtr(HWND hCombo, LPARAM pData)
 {
-	ComboBox_SetCurSel(hCombo, ComboBox_FindByItemDataPtr(hCombo, pData)); 
+	ComboBox_SetCurSel(hCombo, ComboBox_FindByItemDataPtr(hCombo, pData));
 }
 
-/**
- *
- *
- **/
 static void FORCEINLINE ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, LPARAM pData)
 {
-	ComboBox_SetItemData(hCombo, ComboBox_AddString(hCombo, TranslateTS(ptszText)), pData);  
+	ComboBox_SetItemData(hCombo, ComboBox_AddString(hCombo, TranslateTS(ptszText)), pData);
 }
 
 /**
@@ -118,8 +99,7 @@ static BYTE InitialEnableControls(HWND hDlg, const int *idCtrl, int countCtrl, B
 {
 	HWND hCtrl;
 
-	while (countCtrl-- > 0) 
-	{
+	while (countCtrl-- > 0) {
 		hCtrl = GetDlgItem(hDlg, idCtrl[countCtrl]);
 		EnableWindow(hCtrl, IsWindowEnabled(hCtrl) && bEnabled);
 	}
@@ -138,10 +118,8 @@ static BYTE InitialEnableControls(HWND hDlg, const int *idCtrl, int countCtrl, B
  **/
 static BYTE EnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEnabled)
 {
-	while (countCtrl-- > 0) 
-	{
+	while (countCtrl-- > 0)
 		EnableDlgItem(hDlg, idCtrl[countCtrl], bEnabled);
-	}
 	return bEnabled;
 }
 
@@ -177,7 +155,7 @@ static BYTE DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 	BYTE val = IsDlgButtonChecked(hDlg, idCtrl);
 	int Temp = db_get_b(NULL, MODNAME, pszSetting, 0);
 	Temp &= ~1;
-	db_set_b(NULL, MODNAME, pszSetting, Temp |= val );
+	db_set_b(NULL, MODNAME, pszSetting, Temp |= val);
 	return val;
 }
 
@@ -232,9 +210,7 @@ static BYTE DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE
 
 	v = (BYTE)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
 	if (t && (v != db_get_b(NULL, MODNAME, pszSetting, defVal)))
-	{
 		return db_set_b(NULL, MODNAME, pszSetting, v) == 0;
-	}
 	return FALSE;
 }
 
@@ -259,7 +235,6 @@ static BYTE DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD
 	v = (WORD)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
 	if (t && (v != db_get_w(NULL, MODNAME, pszSetting, defVal)))
 		return db_set_w(NULL, MODNAME, pszSetting, v) == 0;
-
 	return FALSE;
 }
 
@@ -282,15 +257,13 @@ static BYTE DBWriteComboByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYT
 
 	v = (BYTE)SendDlgItemMessage(hDlg, idCtrl, CB_GETCURSEL, NULL, NULL);
 	if (v != db_get_b(NULL, MODNAME, pszSetting, defVal))
-	{
 		return db_set_b(NULL, MODNAME, pszSetting, v) == 0;
-	}
 	return FALSE;
 }
 
 static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE	bInitialized = 0;
+	static BYTE bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -312,8 +285,10 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 					EnableControls(hDlg, idEnable, SIZEOF(idEnable), DBGetCheckBtn(hDlg, ctrl_Menu[i].idCheckbox, ctrl_Menu[i].pszKey, 0));
 					// set radio button state
 					int id = ctrl_Menu[i].idNONE;	//default
-					if ((flag & 4) == 4) id = ctrl_Menu[i].idALL;
-					else if ((flag & 8) == 8) id = ctrl_Menu[i].idEXIMPORT;
+					if ((flag & 4) == 4)
+						id = ctrl_Menu[i].idALL;
+					else if ((flag & 8) == 8)
+						id = ctrl_Menu[i].idEXIMPORT;
 					CheckRadioButton(hDlg, ctrl_Menu[i].idNONE, ctrl_Menu[i].idEXIMPORT, id);
 				}
 			}
@@ -365,8 +340,10 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 			FlagsClistChange |= SvcPhoneEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_PHONEICON), true);
 			FlagsClistChange |= SvcGenderEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER), true);
 
-			if (FlagsClistChange)  pcli->pfnSetAllExtraIcons(NULL);
-			if (FlagsMsgWndChange) UpdateStatusIcons();
+			if (FlagsClistChange)
+				pcli->pfnSetAllExtraIcons(NULL);
+			if (FlagsMsgWndChange)
+				UpdateStatusIcons();
 
 			// misc
 			BYTE bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
@@ -426,7 +403,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 
 static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE	bInitialized = 0;
+	static BYTE bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -531,7 +508,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE	bInitialized = 0;
+	static BYTE bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -614,7 +591,7 @@ static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wPar
 
 static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE	bInitialized = 0;
+	static BYTE bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -637,7 +614,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				ComboBox_AddString(hCtrl, TranslateT("Reminder disabled"));
 				ComboBox_AddString(hCtrl, TranslateT("Anniversaries only"));
 				ComboBox_AddString(hCtrl, TranslateT("Bithdays only"));
-				ComboBox_AddString(hCtrl, TranslateT("everything"));
+				ComboBox_AddString(hCtrl, TranslateT("Everything"));
 			}
 			if (hCtrl = GetDlgItem(hDlg, EDIT_BIRTHMODULE)) {
 				ComboBox_AddString(hCtrl, TranslateT("mBirthday"));
@@ -720,7 +697,8 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 						SvcReminderEnable(FALSE);
 						bReminderCheck = FALSE;
 					}
-					else bReminderCheck = TRUE;
+					else
+						bReminderCheck = TRUE;
 				}
 
 				// update all contact list extra icons
@@ -762,9 +740,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				NotifyParentOfChange(hDlg);
 			break;
 
-		/*
-		 * The user changes the number of days in advance of an anniversary to be notified by popups and clist extra icon.
-		 */
+		// The user changes the number of days in advance of an anniversary to be notified by popups and clist extra icon.
 		case EDIT_REMIND:
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
@@ -774,9 +750,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			}
 			break;
 
-		/*
-		 * The user changes the number of days in advance of an anniversary to be notified by sound.
-		 */
+		// The user changes the number of days in advance of an anniversary to be notified by sound.
 		case EDIT_REMIND_SOUNDOFFSET:
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
@@ -786,9 +760,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			}
 			break;
 
-		/*
-		 * The user changes the notification interval
-		 */
+		// The user changes the notification interval
 		case EDIT_REMIND2:
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
@@ -803,9 +775,9 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE	bInitialized = 0;
+	static BYTE bInitialized = 0;
 
-	switch (uMsg) {		
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
 		SendNotify_InfoChanged(hDlg);
@@ -891,20 +863,20 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			DBWriteColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK);
 			DBWriteColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT);
 			db_set_b(NULL, MODNAME, SET_POPUP_BIRTHDAY_COLORTYPE, 
-				SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL) 
-				? POPUP_COLOR_DEFAULT 
-				: SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL) 
-				? POPUP_COLOR_WINDOWS 
+				SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL)
+				? POPUP_COLOR_DEFAULT
+				: SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL)
+				? POPUP_COLOR_WINDOWS
 				: POPUP_COLOR_CUSTOM);
 
 			// save popup style for anniversaries
 			DBWriteColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK);
 			DBWriteColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT);
 			db_set_b(NULL, MODNAME, SET_POPUP_ANNIVERSARY_COLORTYPE, 
-				SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL) 
-				? POPUP_COLOR_DEFAULT 
-				: SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL) 
-				? POPUP_COLOR_WINDOWS 
+				SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL)
+				? POPUP_COLOR_DEFAULT
+				: SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL)
+				? POPUP_COLOR_WINDOWS
 				: POPUP_COLOR_CUSTOM);
 
 			// save delay
@@ -915,7 +887,8 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				GetDlgItemText(hDlg, EDIT_DELAY, szDelay, SIZEOF(szDelay));
 				db_set_b(NULL, MODNAME, SET_POPUP_DELAY, (BYTE)_tcstol(szDelay, NULL, 10));
 			}
-			else db_unset(NULL, MODNAME, SET_POPUP_DELAY);
+			else
+				db_unset(NULL, MODNAME, SET_POPUP_DELAY);
 		}
 		break;
 
@@ -968,14 +941,14 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case CHECK_OPT_POPUP_ENABLED:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				const BOOL bEnabled = SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL);
-				const int idCtrl[] = { 
-					CHECK_OPT_POPUP_DEFCLR, CHECK_OPT_POPUP_WINCLR, 
-					CLR_BBACK, TXT_OPT_POPUP_CLR_BACK, 
+				const int idCtrl[] = {
+					CHECK_OPT_POPUP_DEFCLR, CHECK_OPT_POPUP_WINCLR,
+					CLR_BBACK, TXT_OPT_POPUP_CLR_BACK,
 					CLR_BTEXT, TXT_OPT_POPUP_CLR_TEXT,
 					CHECK_OPT_POPUP_ADEFCLR, CHECK_OPT_POPUP_AWINCLR,
 					CLR_ABACK, TXT_OPT_POPUP_CLR_ABACK,
 					CLR_ATEXT, TXT_OPT_POPUP_CLR_ATEXT,
-					RADIO_OPT_POPUP_DEFAULT, RADIO_OPT_POPUP_CUSTOM, 
+					RADIO_OPT_POPUP_DEFAULT, RADIO_OPT_POPUP_CUSTOM,
 					RADIO_OPT_POPUP_PERMANENT, EDIT_DELAY
 				};
 
@@ -1074,7 +1047,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 95400;
 	odp.hInstance = ghInst;
-	odp.pszTitle = MODNAME;
+	odp.pszTitle = LPGEN(MODULELONGNAME);
 	odp.pszGroup = LPGEN("Contacts");
 	odp.cbSize = sizeof(odp);
 
@@ -1093,7 +1066,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	// Details Dialog page
-	odp.pszTab = LPGEN("Details Dialog");
+	odp.pszTab = LPGEN("Details dialog");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DETAILSDLG);
 	odp.pfnDlgProc = DlgProc_DetailsDlgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
@@ -1108,7 +1081,7 @@ static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 
 	// Popups page
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		odp.pszTitle = MODNAME;
+		odp.pszTitle = LPGEN(MODULELONGNAME);
 		odp.pszGroup = LPGEN("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProc_Popups;

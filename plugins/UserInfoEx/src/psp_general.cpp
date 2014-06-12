@@ -33,13 +33,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
-			if (pCtrlList)
-			{
+			if (pCtrlList) {
 				LPIDSTRLIST pList;
 				UINT nList;
 				HFONT hBoldFont;
@@ -48,13 +46,13 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 				TranslateDialogDefault(hDlg);
 
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_TITLE,					SET_CONTACT_TITLE,			DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_FIRSTNAME,				SET_CONTACT_FIRSTNAME,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SECONDNAME,				SET_CONTACT_SECONDNAME,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_LASTNAME,					SET_CONTACT_LASTNAME,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_NICK,						SET_CONTACT_NICK,			DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DISPLAYNAME,	"CList",	SET_CONTACT_MYHANDLE,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_PARTNER,					SET_CONTACT_PARTNER,		DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_TITLE, SET_CONTACT_TITLE, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_FIRSTNAME, SET_CONTACT_FIRSTNAME, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SECONDNAME, SET_CONTACT_SECONDNAME, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_LASTNAME, SET_CONTACT_LASTNAME, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_NICK, SET_CONTACT_NICK, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DISPLAYNAME, "CList", SET_CONTACT_MYHANDLE, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_PARTNER, SET_CONTACT_PARTNER, DBVT_TCHAR));
 
 				GetNamePrefixList(&nList, &pList);
 				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_PREFIX, SET_CONTACT_PREFIX, DBVT_BYTE, pList, nList));
@@ -73,28 +71,23 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case WM_NOTIFY:
 		{
-			switch (((LPNMHDR)lParam)->idFrom) 
-			{
+			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0:
 				{
 					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					char* pszProto;
 
-					switch (((LPNMHDR)lParam)->code) 
-					{
+					switch (((LPNMHDR)lParam)->code) {
 					case PSN_INFOCHANGED:
 						{
 							BYTE bEnable;
 							DBVARIANT dbv;
 							CCtrlFlags Flags;
 		
-							if (PSGetBaseProto(hDlg, pszProto) && *pszProto)
-							{
+							if (PSGetBaseProto(hDlg, pszProto) && *pszProto) {
 								Flags.W = DB::Setting::GetTStringCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv);
-								if (Flags.B.hasCustom || Flags.B.hasProto || Flags.B.hasMeta)
-								{
-									if (dbv.type == DBVT_BYTE) 
-									{
+								if (Flags.B.hasCustom || Flags.B.hasProto || Flags.B.hasMeta) {
+									if (dbv.type == DBVT_BYTE) {
 										CheckDlgButton(hDlg, RADIO_FEMALE, (dbv.bVal == 'F'));
 										CheckDlgButton(hDlg, RADIO_MALE, (dbv.bVal == 'M'));
 
@@ -103,9 +96,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 										EnableWindow(GetDlgItem(hDlg, RADIO_MALE), bEnable);
 									}
 									else
-									{
 										db_free(&dbv);
-									}
 								}
 							}
 						}
@@ -113,9 +104,10 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 					case PSN_APPLY:
 						{
-							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0) break;
+							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
+								break;
 
-							 // gender
+							// gender
 							{
 								BYTE gender
 									= SendDlgItemMessage(hDlg, RADIO_FEMALE, BM_GETCHECK, NULL, NULL)
@@ -124,7 +116,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 									? 'M'
 									: 0;
 
-								if (gender) 
+								if (gender)
 									db_set_b(hContact, hContact ? USERINFO : pszProto, SET_CONTACT_GENDER, gender);
 								else
 									db_unset(hContact, hContact ? USERINFO : pszProto, SET_CONTACT_GENDER);
@@ -135,9 +127,9 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					case PSN_ICONCHANGED:
 						{
 							const ICONCTRL idIcon[] = {
-								{ ICO_COMMON_FEMALE,	STM_SETIMAGE,	ICO_FEMALE },
-								{ ICO_COMMON_MALE,		STM_SETIMAGE,	ICO_MALE },
-								{ ICO_COMMON_MARITAL,	STM_SETIMAGE,	ICO_MARITAL },
+								{ ICO_COMMON_FEMALE,  STM_SETIMAGE, ICO_FEMALE },
+								{ ICO_COMMON_MALE,    STM_SETIMAGE, ICO_MALE },
+								{ ICO_COMMON_MARITAL, STM_SETIMAGE, ICO_MARITAL },
 							};
 							IcoLib_SetCtrlIcons(hDlg, idIcon, SIZEOF(idIcon));
 						}
@@ -152,44 +144,35 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			MCONTACT hContact;
 			LPCSTR pszProto;
 
-			switch (LOWORD(wParam))
-			{
+			switch (LOWORD(wParam)) {
 			case RADIO_FEMALE:
 				{
-					if (!PspIsLocked(hDlg) && HIWORD(wParam) == BN_CLICKED) 
-					{
+					if (!PspIsLocked(hDlg) && HIWORD(wParam) == BN_CLICKED) {
 						DBVARIANT dbv;
 
 						PSGetContact(hDlg, hContact);
 						PSGetBaseProto(hDlg, pszProto);
 
-						if (!DB::Setting::GetAsIsCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv) ||
-							dbv.type != DBVT_BYTE ||
-							(dbv.bVal != 'F' && SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL))
-				 )
-						{
+						if (!DB::Setting::GetAsIsCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv)
+							|| dbv.type != DBVT_BYTE
+							|| (dbv.bVal != 'F' && SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL)))
 							SendMessage(GetParent(hDlg), PSM_CHANGED, NULL, NULL);
-						}
 					}
 				}
 				break;
 
 			case RADIO_MALE:
 				{
-					if (!PspIsLocked(hDlg) && HIWORD(wParam) == BN_CLICKED)
-					{
+					if (!PspIsLocked(hDlg) && HIWORD(wParam) == BN_CLICKED) {
 						DBVARIANT dbv;
 
 						PSGetContact(hDlg, hContact);
 						PSGetBaseProto(hDlg, pszProto);
 
-						if (!DB::Setting::GetAsIsCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv) ||
-							dbv.type != DBVT_BYTE ||
-							(dbv.bVal != 'M' && SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL))
-				 )
-						{
+						if (!DB::Setting::GetAsIsCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv)
+							|| dbv.type != DBVT_BYTE
+							|| (dbv.bVal != 'M' && SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL)))
 							SendMessage(GetParent(hDlg), PSM_CHANGED, NULL, NULL);
-						}
 					}
 				}
 			}

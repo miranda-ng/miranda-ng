@@ -111,7 +111,7 @@ void RebuildContact()
 		mi.position = 1000050100;
 		mi.popupPosition = 1000050100;
 		mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
-		mi.pszName = LPGEN("Ex-/Import contact");
+		mi.pszName = LPGEN("Export/import contact");
 		mhExIm = Menu_AddContactMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
 		mhRoot = HGENMENU_ROOT;
@@ -140,14 +140,14 @@ void RebuildContact()
 
 		// Export
 		mi.pszService = MS_USERINFO_VCARD_EXPORT;
-		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export User Details");
+		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export user details");
 		mi.position = 1000050200;
 		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORT;
-		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import User Details");
+		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import user details");
 		mi.position = 1000050300;
 		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
@@ -209,7 +209,7 @@ void RebuildMain()
 			mi.position = 500050000;
 			mi.popupPosition = 500050000;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
-			mi.pszName = LPGEN("Ex-/Import contact");
+			mi.pszName = LPGEN("Export/import contact");
 			mhExIm = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhExIm;
 			mhRoot = HGENMENU_ROOT;
@@ -224,7 +224,7 @@ void RebuildMain()
 	{
 		mi.hParentMenu = mhRoot;
 		mi.pszService = MS_USERINFO_SHOWDIALOG;
-		mi.pszName = LPGEN("View/Change My &Details...");
+		mi.pszName = LPGEN("View/change my &details...");
 		mi.position = 500050000;
 		mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
@@ -275,7 +275,7 @@ void RebuildMain()
 		}
 		// Refresh Contact Details
 		mi.pszService = MS_USERINFO_REFRESH;
-		mi.pszName = LPGEN("Refresh Contact Details");
+		mi.pszName = LPGEN("Refresh contact details");
 		mi.position = 500254000;
 		mi.hIcon = Skin_GetIcon(ICO_BTN_UPDATE);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
@@ -354,7 +354,7 @@ void RebuildGroup()
 			mi.position = 250100;
 			mi.popupPosition = 250100;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
-			mi.pszName = LPGEN("Ex-/Import contact");
+			mi.pszName = LPGEN("Export/import contact");
 			mhExIm = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
 			mhRoot = HGENMENU_ROOT;
@@ -441,7 +441,7 @@ void RebuildSubGroup()
 			mi.position = 1050000;
 			mi.popupPosition = 1050000;
 			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
-			mi.pszName = LPGEN("Extended UserInfo");
+			mi.pszName = LPGEN(MODULELONGNAME);
 			mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
 			mhExIm = mhRoot;
@@ -451,7 +451,7 @@ void RebuildSubGroup()
 			mi.position = 1050100;
 			mi.popupPosition = 1050100;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
-			mi.pszName = LPGEN("Ex-/Import Group");
+			mi.pszName = LPGEN("Export/import group");
 			mhExIm = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
 			mhRoot = HGENMENU_ROOT;
@@ -468,7 +468,7 @@ void RebuildSubGroup()
 		// Export
 		strcpy( tDest, "/ExportGroup");		//mi.pszService
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
-		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export Group");
+		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export group");
 		mi.position = 1050200;
 		mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 		gmp.lParam=0;
@@ -478,7 +478,7 @@ void RebuildSubGroup()
 		// Import
 		strcpy( tDest, "/ImportGroup");		//mi.pszService
 		if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
-		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import Group");
+		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import group");
 		mi.position = 1050300;
 		mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 		gmp.lParam=0;
@@ -572,7 +572,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			//cascade all
 			mi.position = 50100;
 			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
-			mi.ptszName = TranslateT(MODULELONGNAME);
+			mi.pszName = LPGEN(MODULELONGNAME);
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
 			mhExIm = mhRoot;
@@ -581,7 +581,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			//cascade Ex/Import
 			mi.position = 50100;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
-			mir_sntprintf(sztName, SIZEOF(sztName), _T("%s %s"), pAccountName->tszAccountName, TranslateT("Ex-/Import"));
+			mir_sntprintf(sztName, SIZEOF(sztName), _T("%s %s"), pAccountName->tszAccountName, TranslateT("export/import"));
 			mi.ptszName = sztName;
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhExIm = hMenuItemAccount[mItems*i + item++];
@@ -598,7 +598,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			// Export
 			strcpy( tDest, "/ExportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
-			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&Export"));
+			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&export"));
 			mi.ptszName = sztName;
 			mi.position = 50200;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
@@ -607,7 +607,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			// Import
 			strcpy( tDest, "/ImportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
-			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&Import"));
+			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&import"));
 			mi.ptszName = sztName;
 			mi.position = 50300;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);

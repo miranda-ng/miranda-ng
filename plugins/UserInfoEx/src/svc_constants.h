@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _SVC_CONSTANTS_INCLUDED_
 #define _SVC_CONSTANTS_INCLUDED_
 
-#define MODULELONGNAME		"Extended UserInfo"
+#define MODULELONGNAME		"Extended user info"
 #define USERINFO			"UserInfo"
 #define MODNAME				"UserInfoEx"
 #define MODNAMEFLAGS		"Flags"

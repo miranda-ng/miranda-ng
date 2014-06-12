@@ -28,16 +28,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "ex_import\svc_ExImport.h"
 #include "svc_reminder.h"
 
-#define OPTIONPAGE_OLD_SIZE  (offsetof(OPTIONSDIALOGPAGE, hLangpack))
+#define OPTIONPAGE_OLD_SIZE		(offsetof(OPTIONSDIALOGPAGE, hLangpack))
 
 #define UPDATEANIMFRAMES		20
 
 // internal dialog message handler
-#define M_CHECKONLINE			(WM_USER+10)
-#define HM_PROTOACK				(WM_USER+11)
-#define HM_SETTING_CHANGED		(WM_USER+12)
-#define HM_RELOADICONS			(WM_USER+13)
-#define HM_SETWINDOWTITLE		(WM_USER+14)
+#define M_CHECKONLINE			(WM_USER + 10)
+#define HM_PROTOACK				(WM_USER + 11)
+#define HM_SETTING_CHANGED		(WM_USER + 12)
+#define HM_RELOADICONS			(WM_USER + 13)
+#define HM_SETWINDOWTITLE		(WM_USER + 14)
 
 #define TIMERID_UPDATING		1
 #ifndef TIMERID_RENAME
@@ -52,15 +52,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define INIT_ICONS_NONE			0
 #define INIT_ICONS_OWNER		1
 #define INIT_ICONS_CONTACT		2
-#define INIT_ICONS_ALL			(INIT_ICONS_OWNER|INIT_ICONS_CONTACT)
+#define INIT_ICONS_ALL			(INIT_ICONS_OWNER | INIT_ICONS_CONTACT)
 
 /***********************************************************************************************************
 * internal variables
 ***********************************************************************************************************/
 
-static BYTE bInitIcons			= INIT_ICONS_NONE;
-static HANDLE ghWindowList			= NULL;
-static HANDLE ghDetailsInitEvent	= NULL;
+static BYTE bInitIcons = INIT_ICONS_NONE;
+static HANDLE ghWindowList = NULL;
+static HANDLE ghDetailsInitEvent = NULL;
 
 static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -77,14 +77,14 @@ _ignore(10, (LIST<TCHAR>::FTSortFunc)_tcscmp)
 	_hImages = NULL;
 }
 
-CPsHdr::~CPsHdr() 
+CPsHdr::~CPsHdr()
 {
 	// delete data
 	for (int i = 0 ; i < _ignore.getCount(); i++)
 		mir_free(_ignore[i]);
 }
 
-void CPsHdr::Free_pPages() 
+void CPsHdr::Free_pPages()
 {
 	for (int i = 0; i < _numPages; i++)
 		delete _pPages[i];
@@ -106,10 +106,10 @@ public:
 
 private:
 	PROTOACCOUNT **_pPd;
-	int			_numProto;
-	BYTE	_bExitAfterUploading;
-	HANDLE	_hUploading;
-	LPPS		_pPs;
+	int _numProto;
+	BYTE _bExitAfterUploading;
+	HANDLE _hUploading;
+	LPPS _pPs;
 	
 	/**
 	* @class	Upload
@@ -123,7 +123,7 @@ private:
 	{
 		// check if icq is online
 		if (!IsProtoOnline((*_pPd)->szModuleName))
-			MsgBox(_pPs->hDlg, MB_ICON_WARNING, TranslateT("Upload Details"),
+			MsgBox(_pPs->hDlg, MB_ICON_WARNING, TranslateT("Upload details"),
 				CMString(FORMAT, TranslateT("Protocol '%s' is offline"), _A2T((*_pPd)->szModuleName)),
 				TranslateT("You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only."));
 
@@ -169,7 +169,6 @@ public:
 		// create a list of all protocols which support uploading contact information
 		if ( ProtoEnumAccounts(&_numProto, &_pPd))
 			return _bExitAfterUploading ? UPLOAD_FINISH_CLOSE : UPLOAD_FINISH;
-
 		return UploadNext();
 	}
 
@@ -224,12 +223,13 @@ public:
 *
 * @return	-1 or 0 or 1
 **/
-
-static int SortProc(CPsTreeItem** item1, CPsTreeItem** item2)
+static int SortProc(CPsTreeItem **item1, CPsTreeItem **item2)
 {
 	if (*item1 && *item2) {
-		if ((*item2)->Pos() > (*item1)->Pos()) return -1;
-		if ((*item2)->Pos() < (*item1)->Pos()) return 1;
+		if ((*item2)->Pos() > (*item1)->Pos())
+			return -1;
+		if ((*item2)->Pos() < (*item1)->Pos())
+			return 1;
 	}
 	return 0;
 }
@@ -242,7 +242,6 @@ static int SortProc(CPsTreeItem** item1, CPsTreeItem** item2)
 * @retval	0 on success
 * @retval	1 on failure
 **/
-
 static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 {
 	// update some cached settings
@@ -276,7 +275,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 
 	HICON hDefIcon = Skin_GetIcon(ICO_TREE_DEFAULT);
 	if (!hDefIcon)
-		hDefIcon = (HICON) LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
+		hDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
 
 	// add the default icon to imagelist
 	ImageList_AddIcon(psh._hImages, hDefIcon);
@@ -346,34 +345,34 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 **/
 static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 {
-	CPsHdr				*pPsh	= (CPsHdr*)wParam;
-	OPTIONSDIALOGPAGE	*odp	= (OPTIONSDIALOGPAGE*)lParam;
+	CPsHdr *pPsh = (CPsHdr *)wParam;
+	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE *)lParam;
 
 	// check size of the handled structures
 	if (pPsh == NULL || odp == NULL || pPsh->_dwSize != sizeof(CPsHdr))
 		return 1;
 
 	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE) && odp->cbSize != OPTIONPAGE_OLD_SIZE) {
-		MsgErr(NULL, LPGENT("The Page to add has invalid size %d bytes!"), odp->cbSize);
+		MsgErr(NULL, LPGENT("The page to add has invalid size %d bytes!"), odp->cbSize);
 		return 1;
 	}
 
 	// try to check whether the flag member is initialized or not
-	odp->flags = odp->flags > (ODPF_UNICODE|ODPF_BOLDGROUPS|ODPF_ICON|PSPF_PROTOPREPENDED) ? 0 : odp->flags;
+	odp->flags = odp->flags > (ODPF_UNICODE | ODPF_BOLDGROUPS | ODPF_ICON | PSPF_PROTOPREPENDED) ? 0 : odp->flags;
 
-	if (pPsh->_dwFlags & (PSF_PROTOPAGESONLY|PSF_PROTOPAGESONLY_INIT)) {
+	if (pPsh->_dwFlags & (PSF_PROTOPAGESONLY | PSF_PROTOPAGESONLY_INIT)) {
 		BYTE bIsUnicode = (odp->flags & ODPF_UNICODE) == ODPF_UNICODE;
-		TCHAR* ptszTitle = bIsUnicode ? mir_tstrdup(odp->ptszTitle) : mir_a2t(odp->pszTitle);
+		TCHAR *ptszTitle = bIsUnicode ? mir_tstrdup(odp->ptszTitle) : mir_a2t(odp->pszTitle);
 
 		// avoid adding pages for a meta subcontact, which have been added for a metacontact.
-		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {	
+		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {
 			if (pPsh->_ignore.getIndex(ptszTitle) != -1) {
 				mir_free(ptszTitle);
 				return 0;
 			}
 		}
 		// init ignore list with pages added by metacontact
-		else if (pPsh->_dwFlags & PSF_PROTOPAGESONLY_INIT) 
+		else if (pPsh->_dwFlags & PSF_PROTOPAGESONLY_INIT)
 			pPsh->_ignore.insert(mir_tstrdup(ptszTitle));
 
 		mir_free(ptszTitle);
@@ -388,7 +387,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 		}
 
 		// resize the array
-		pPsh->_pPages = (CPsTreeItem**)mir_realloc(pPsh->_pPages, (pPsh->_numPages + 1) * sizeof(CPsTreeItem*));
+		pPsh->_pPages = (CPsTreeItem **)mir_realloc(pPsh->_pPages, (pPsh->_numPages + 1) * sizeof(CPsTreeItem*));
 		if (pPsh->_pPages != NULL) {
 			pPsh->_pPages[pPsh->_numPages++] = pNew;
 			return 0;
@@ -420,8 +419,8 @@ static int OnDeleteContact(WPARAM wParam, LPARAM lParam)
 **/
 static int OnShutdown(WPARAM wParam, LPARAM lParam)
 {
-	 WindowList_BroadcastAsync(ghWindowList, WM_DESTROY, 0, 0);
-	 return 0;
+	WindowList_BroadcastAsync(ghWindowList, WM_DESTROY, 0, 0);
+	return 0;
 }
 
 /**
@@ -479,7 +478,7 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 	odp.position = 0x8000005;
 	odp.pfnDlgProc = PSPProcContactWork;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tcsncpy(szTitle + ofs, LPGENT("Work") _T("\\") LPGENT("Contact (Work)"), SIZEOF(szTitle) - ofs);
+	mir_tcsncpy(szTitle + ofs, LPGENT("Work") _T("\\") LPGENT("Contact (work)"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
@@ -508,7 +507,7 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 **/
 static int InitDetails(WPARAM wParam, LPARAM lParam)
 {
-	CPsHdr* pPsh = (CPsHdr*)wParam;
+	CPsHdr *pPsh = (CPsHdr *)wParam;
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
 		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && db_get_b(NULL, MODNAME, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		if (lParam || bChangeDetailsEnabled) {
@@ -523,7 +522,8 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 					AddProtocolPages(odp, wParam);
 					odp.ptszTitle = LPGENT("About") _T("\\") LPGENT("Notes");
 				}
-				else odp.ptszTitle = LPGENT("Notes");
+				else
+					odp.ptszTitle = LPGENT("Notes");
 
 				odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
 				odp.position = 0x8000008;
@@ -547,9 +547,9 @@ void DlgContactInfoInitTreeIcons()
 {
 	// make sure this is run only once
 	if (!(bInitIcons & INIT_ICONS_ALL)) {
-		CPsHdr	psh;
-		POINT	metrics	= {0};
-		int		i		= 0;
+		CPsHdr psh;
+		POINT metrics = {0};
+		int i = 0;
 
 		psh._dwFlags = PSTVF_INITICONS;
 
@@ -558,7 +558,7 @@ void DlgContactInfoInitTreeIcons()
 		if (psh._hImages = ImageList_Create(metrics.x, metrics.y, ILC_COLOR32 | ILC_MASK, 0, 1)) {
 			HICON hDefIcon = Skin_GetIcon(ICO_TREE_DEFAULT);
 			if (!hDefIcon)
-				hDefIcon = (HICON) LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
+				hDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, metrics.x, metrics.y, 0);
 
 			// add the default icon to imagelist
 			ImageList_AddIcon(psh._hImages, hDefIcon);
@@ -573,11 +573,10 @@ void DlgContactInfoInitTreeIcons()
 			psh._dwFlags |= PSF_PROTOPAGESONLY_INIT;
 			
 			// enumerate all protocols
-			if ( !ProtoEnumAccounts(&ProtoCount, &pd)) {
+			if (!ProtoEnumAccounts(&ProtoCount, &pd)) {
 				for (i = 0; i < ProtoCount; i++) {
 					// enumerate all contacts
-					for (psh._hContact = db_find_first(); psh._hContact != NULL; psh._hContact = db_find_next(psh._hContact))
-					{
+					for (psh._hContact = db_find_first(); psh._hContact != NULL; psh._hContact = db_find_next(psh._hContact)) {
 						// compare contact's protocol to the current one, to add
 						pszContactProto = DB::Contact::Proto(psh._hContact);
 						if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pd[i]->szModuleName, pszContactProto)) {
@@ -585,7 +584,7 @@ void DlgContactInfoInitTreeIcons()
 							NotifyEventHooks(ghDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 							if (psh._pPages) {
 								psh.Free_pPages();
-								psh._dwFlags = PSTVF_INITICONS|PSF_PROTOPAGESONLY;
+								psh._dwFlags = PSTVF_INITICONS | PSF_PROTOPAGESONLY;
 							}
 							break;
 						}
@@ -689,18 +688,16 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	
 	case WM_INITDIALOG:
 		{
-			CPsHdr*	pPsh = (CPsHdr*)lParam;
-			WORD	needWidth = 0;
-			RECT	rc;
+			CPsHdr* pPsh = (CPsHdr *)lParam;
+			WORD needWidth = 0;
+			RECT rc;
 			
 			if (!pPsh || pPsh->_dwSize != sizeof(CPsHdr))
 				return FALSE;
 
 			TranslateDialogDefault(hDlg);
 
-			//
 			// create data structures
-			//
 			if (!(pPs = (LPPS)mir_alloc(sizeof(PS))))
 				return FALSE;
 
@@ -719,19 +716,15 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			pPs->hSettingChanged = HookEventMessage(ME_DB_CONTACT_SETTINGCHANGED, hDlg, HM_SETTING_CHANGED);
 			pPs->hIconsChanged = HookEventMessage(ME_SKIN2_ICONSCHANGED, hDlg, HM_RELOADICONS);
 
-			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG),IsAeroMode());
-			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG2),!IsAeroMode());
-			
-			//
+			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG), IsAeroMode());
+			ShowWindow(GetDlgItem(hDlg, IDC_PAGETITLEBG2), !IsAeroMode());
+
 			// set icons
-			//
 			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_COMMON_MAIN));
 			SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_MAIN, 32));
 			DlgProc(hDlg, HM_RELOADICONS, NULL, NULL);
 
-			//
 			// load basic protocol for current contact (for faster load later on and better handling for owner protocol)
-			//
 			if (pPs->hContact)
 				mir_strncpy(pPs->pszProto, pPsh->_pszPrefix, MAXMODULELABELLENGTH);
 
@@ -746,9 +739,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendDlgItemMessage(hDlg, BTN_EXPORT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Export to file"), MBBF_TCHAR);
 			SendDlgItemMessage(hDlg, BTN_IMPORT, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Import from file"), MBBF_TCHAR);
 
-			//
 			// set bold font for name in description area
-			//
 			LOGFONT lf;
 			HFONT hNormalFont = (HFONT)SendMessage(hDlg, WM_GETFONT, 0, 0);
 
@@ -762,15 +753,11 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			lf.lfWeight = FW_BOLD;
 			pPs->hBoldFont = CreateFontIndirect(&lf);
 	
-			//
 			// initialize the optionpages and tree control
-			//
 			if (!pPs->pTree->InitTreeItems((LPWORD)&needWidth))
 				return FALSE;
 
-			//
 			// move and resize dialog and its controls
-			//
 			{
 				RECT rcTree;
 				POINT pt = { 0, 0 };
@@ -797,8 +784,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					MoveWindow(pPs->pTree->Window(), rcTree.left, rcTree.top, rcTree.right - rcTree.left, rcTree.bottom - rcTree.top, FALSE);
 
 					pPs->rcDisplay.right += addWidth;
-					MoveWindow(hDlg, pPs->rcDisplay.left, pPs->rcDisplay.top, 
-						pPs->rcDisplay.right - pPs->rcDisplay.left, 
+					MoveWindow(hDlg, pPs->rcDisplay.left, pPs->rcDisplay.top,
+						pPs->rcDisplay.right - pPs->rcDisplay.left,
 						pPs->rcDisplay.bottom - pPs->rcDisplay.top, FALSE);
 
 				}
@@ -822,7 +809,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 							OffsetRect(&rc, -pt.x, -pt.y);
 							MoveWindow(hCtrl, rc.left, rc.top, rc.right - rc.left + addWidth, rc.bottom - rc.top, FALSE);
 						}
-					}						
+					}
 					for (int k = 0; k < SIZEOF(idMove); k++) {
 						if (hCtrl = GetDlgItem(hDlg, idMove[k])) {
 							GetWindowRect(hCtrl, &rc);
@@ -903,10 +890,10 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			{
 				COLORREF textCol = GetSysColor(COLOR_BTNTEXT);
 				COLORREF bgCol = GetSysColor(COLOR_3DFACE);
-				int      ratio = abs(UPDATEANIMFRAMES/2 - pPs->updateAnimFrame) * 510 / UPDATEANIMFRAMES;
+				int ratio = abs(UPDATEANIMFRAMES / 2 - pPs->updateAnimFrame) * 510 / UPDATEANIMFRAMES;
 				COLORREF newCol = RGB(GetRValue(bgCol) + (GetRValue(textCol) - GetRValue(bgCol)) * ratio / 256,
-						GetGValue(bgCol) + (GetGValue(textCol) - GetGValue(bgCol)) * ratio / 256,
-						GetBValue(bgCol) + (GetBValue(textCol) - GetBValue(bgCol)) * ratio / 256);
+					GetGValue(bgCol) + (GetGValue(textCol) - GetGValue(bgCol)) * ratio / 256,
+					GetBValue(bgCol) + (GetBValue(textCol) - GetBValue(bgCol)) * ratio / 256);
 				SetTextColor((HDC)wParam, newCol);
 				SetBkColor((HDC)wParam, GetSysColor(COLOR_3DFACE));
 			}
@@ -952,11 +939,11 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	**/
 	case PSM_GETBOLDFONT:
 		if (pPs->hBoldFont && lParam) {
-			*(HFONT*)lParam = pPs->hBoldFont;
+			*(HFONT *)lParam = pPs->hBoldFont;
 			SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pPs->hBoldFont);
 			return TRUE;
 		}
-		*(HFONT*)lParam = NULL;
+		*(HFONT *)lParam = NULL;
 		SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 0);
 		break;
 
@@ -970,24 +957,22 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	**/
 	case PSM_GETCONTACT:
 		if (lParam) {
-			CPsTreeItem *pti = ((int)wParam != -1)
-				? pPs->pTree->TreeItem((int)wParam)
-				: pPs->pTree->CurrentItem();
+			CPsTreeItem *pti = ((int)wParam != -1) ? pPs->pTree->TreeItem((int)wParam) : pPs->pTree->CurrentItem();
 
 			// prefer to return the contact accociated with the current page
 			if (pti && pti->hContact() != INVALID_CONTACT_ID) {
-				*(MCONTACT*)lParam = pti->hContact();
+				*(MCONTACT *)lParam = pti->hContact();
 				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pti->hContact());
 				return TRUE;
 			}
 
 			// return contact who owns the details dialog
 			if (pPs->hContact != INVALID_CONTACT_ID) {
-				*(MCONTACT*)lParam = pPs->hContact;
+				*(MCONTACT *)lParam = pPs->hContact;
 				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pPs->hContact);
 				return TRUE;
 			}
-			*(HANDLE*)lParam = NULL;
+			*(HANDLE *)lParam = NULL;
 			SetWindowLongPtr(hDlg, DWLP_MSGRESULT, NULL);
 		}
 		break;
@@ -1002,25 +987,23 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	**/
 	case PSM_GETBASEPROTO:
 		if (lParam) {
-			CPsTreeItem *pti = ((int)wParam != -1)
-				? pPs->pTree->TreeItem((int)wParam)
-				: pPs->pTree->CurrentItem();
+			CPsTreeItem *pti = ((int)wParam != -1) ? pPs->pTree->TreeItem((int)wParam) : pPs->pTree->CurrentItem();
 
 			if (pti && pti->Proto()) {
 				// return custom protocol for the current page
-				*(LPCSTR*)lParam = pti->Proto();
+				*(LPCSTR *)lParam = pti->Proto();
 				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pti->Proto());
 				return TRUE;
 			}
 
 			if (*pPs->pszProto) {
 				// return global protocol
-				*(LPSTR*)lParam = pPs->pszProto;
+				*(LPSTR *)lParam = pPs->pszProto;
 				SetWindowLongPtr(hDlg, DWLP_MSGRESULT, (LONG_PTR)pPs->pszProto);
 				return TRUE;
 			}
 		}
-		*(LPCSTR*)lParam = NULL;
+		*(LPCSTR *)lParam = NULL;
 		SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 0);
 		break;
 
@@ -1074,7 +1057,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			LPDLGCOMMAND pCmd = (LPDLGCOMMAND)lParam;
 			CPsTreeItem *pti;
 		
-			if (pCmd && (pti = pPs->pTree->FindItemByResource(pCmd->hInst, pCmd->idDlg)) &&	pti->Wnd()) {
+			if (pCmd && (pti = pPs->pTree->FindItemByResource(pCmd->hInst, pCmd->idDlg)) && pti->Wnd()) {
 				if (!pCmd->idDlgItem)
 					return SendMessage(pti->Wnd(), pCmd->uMsg, pCmd->wParam, pCmd->lParam);
 				else
@@ -1102,7 +1085,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			BYTE bIsAeroMode = IsAeroMode();
 			if (lParam)
-				*(BYTE*)lParam = bIsAeroMode;
+				*(BYTE *)lParam = bIsAeroMode;
 			return (INT_PTR)bIsAeroMode;
 		}
 
@@ -1116,7 +1099,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	**/
 	case HM_SETWINDOWTITLE:
 	{
-		DBCONTACTWRITESETTING* pdbcws = (DBCONTACTWRITESETTING*)lParam;
+		DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING *)lParam;
 
 		LPCTSTR pszName;
 		if (!pPs->hContact)
@@ -1128,11 +1111,11 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		HWND hName = GetDlgItem(hDlg, TXT_NAME);
 		SetWindowText(hName, pszName);
-		SetWindowText(hDlg, CMString(FORMAT, _T("%s - %s"), pszName, TranslateT("Edit Contact Information")));
-		SetDlgItemText(hDlg, IDC_HEADERBAR, CMString(FORMAT, _T("%s\n%s"), TranslateT("Edit Contact Information"), pszName));
+		SetWindowText(hDlg, CMString(FORMAT, _T("%s - %s"), pszName, TranslateT("edit contact information")));
+		SetDlgItemText(hDlg, IDC_HEADERBAR, CMString(FORMAT, _T("%s\n%s"), TranslateT("Edit contact information"), pszName));
 
 		// redraw the name control
-		POINT	pt = { 0, 0 };
+		POINT pt = { 0, 0 };
 		ScreenToClient(hDlg, &pt);
 		RECT rc;
 		GetWindowRect(hName, &rc);
@@ -1151,8 +1134,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	**/
 	case HM_RELOADICONS:
 	{
-		HWND	hCtrl;
-		HICON	hIcon;
+		HWND hCtrl;
+		HICON hIcon;
 		static const ICONCTRL idIcon[] = {
 			{ ICO_DLG_DETAILS,	STM_SETIMAGE,	ICO_DLGLOGO	},
 			{ ICO_BTN_UPDATE,	BM_SETIMAGE,	BTN_UPDATE	},
@@ -1212,7 +1195,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	**/
 	case HM_PROTOACK:
 	{
-		ACKDATA *ack = (ACKDATA*)lParam;
+		ACKDATA *ack = (ACKDATA *)lParam;
 		int i, iSubContact;
 
 		if (!ack->hContact && ack->type == ACKTYPE_STATUS)
@@ -1243,9 +1226,9 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
 				pPs->dwFlags &= ~PSF_LOCKED;
 			}
-			else if (ack->result == ACKRESULT_FAILED)	{
+			else if (ack->result == ACKRESULT_FAILED) {
 				MsgBox(hDlg, MB_ICON_WARNING,
-					LPGENT("Upload ICQ Details"),
+					LPGENT("Upload ICQ details"),
 					LPGENT("Upload failed"),
 					LPGENT("Your details were not uploaded successfully.\nThey were written to database only."));
 				KillTimer(hDlg, TIMERID_UPDATING);
@@ -1288,7 +1271,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				if (i == pPs->nSubContacts)
 					break;
 			}
-			else iSubContact = 0;
+			else
+				iSubContact = 0;
 
 			// if they're not gonna send any more ACK's don't let that mean we should crash
 			if (!pPs->infosUpdated || (!ack->hProcess && !ack->lParam)) {
@@ -1303,7 +1287,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (iSubContact < pPs->nSubContacts) {
 				// init the acks structure for a sub contact
 				if (pPs->infosUpdated[iSubContact].acks == NULL) {
-					pPs->infosUpdated[iSubContact].acks = (LPINT)mir_calloc(sizeof(int)* (int)(INT_PTR)ack->hProcess);
+					pPs->infosUpdated[iSubContact].acks = (LPINT)mir_calloc(sizeof(int) * (int)(INT_PTR)ack->hProcess);
 					pPs->infosUpdated[iSubContact].count = (int)(INT_PTR)ack->hProcess;
 				}
 
@@ -1343,7 +1327,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case HM_SETTING_CHANGED:
 		if (!(pPs->dwFlags & PSF_LOCKED)) {
 			MCONTACT hContact = wParam;
-			DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*)lParam;
+			DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING *)lParam;
 
 			if (hContact != pPs->hContact) {
 				if (pPs->hContact != db_mc_getMeta(hContact))
@@ -1367,72 +1351,69 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case WM_NOTIFY:
 		switch (wParam) {
+		// Notification Messages sent by the TreeView
+		case STATIC_TREE:
+			switch (((LPNMHDR)lParam)->code) {
+			case TVN_SELCHANGING:
+				pPs->dwFlags |= PSF_LOCKED;
+				pPs->pTree->OnSelChanging();
+				pPs->dwFlags &= ~PSF_LOCKED;
+				break;
 
-			//
-			// Notification Messages sent by the TreeView
-			//
-			case STATIC_TREE:
-				switch (((LPNMHDR)lParam)->code) {
-				case TVN_SELCHANGING:
+			case TVN_SELCHANGED:
+				if (pPs->dwFlags & PSF_INITIALIZED) {
 					pPs->dwFlags |= PSF_LOCKED;
-					pPs->pTree->OnSelChanging();
+					pPs->pTree->OnSelChanged((LPNMTREEVIEW)lParam);
+					if (pPs->pTree->CurrentItem()) {
+						RECT rc;
+						POINT pt = { 0, 0 };
+
+						GetWindowRect(GetDlgItem(hDlg, IDC_PAGETITLE), &rc);
+						ScreenToClient(hDlg, &pt);
+						OffsetRect(&rc, pt.x, pt.y);
+						SetDlgItemText(hDlg, IDC_PAGETITLE, pPs->pTree->CurrentItem()->Label());
+						InvalidateRect(GetDlgItem(hDlg, IDC_PAGETITLEBG), &rc, TRUE);
+						InvalidateRect(hDlg, &rc, TRUE);
+					}
 					pPs->dwFlags &= ~PSF_LOCKED;
-					break;
-
-				case TVN_SELCHANGED:
-					if (pPs->dwFlags & PSF_INITIALIZED) {
-						pPs->dwFlags |= PSF_LOCKED;
-						pPs->pTree->OnSelChanged((LPNMTREEVIEW)lParam);
-						if (pPs->pTree->CurrentItem()) {
-							RECT rc;
-							POINT pt = { 0, 0 };
-
-							GetWindowRect(GetDlgItem(hDlg, IDC_PAGETITLE), &rc);
-							ScreenToClient(hDlg, &pt);
-							OffsetRect(&rc, pt.x, pt.y);
-							SetDlgItemText(hDlg, IDC_PAGETITLE, pPs->pTree->CurrentItem()->Label());
-							InvalidateRect(GetDlgItem(hDlg, IDC_PAGETITLEBG), &rc, TRUE);
-							InvalidateRect(hDlg, &rc, TRUE);
-						}
-						pPs->dwFlags &= ~PSF_LOCKED;
-					}
-					break;
-
-				case TVN_BEGINDRAG:
-					{
-						LPNMTREEVIEW nmtv = (LPNMTREEVIEW)lParam;
-						if (nmtv->itemNew.hItem == TreeView_GetSelection(nmtv->hdr.hwndFrom)) {
-							SetCapture(hDlg);
-							pPs->pTree->BeginDrag(nmtv->itemNew.hItem);
-						}
-						TreeView_SelectItem(nmtv->hdr.hwndFrom, nmtv->itemNew.hItem);
-					}
-					break;
-
-				case TVN_ITEMEXPANDED:
-					pPs->pTree->AddFlags(PSTVF_STATE_CHANGED);
-					break;
-
-				case NM_KILLFOCUS:
-					KillTimer(hDlg, TIMERID_RENAME);
-					break;
-
-				case NM_CLICK:
-					{
-						TVHITTESTINFO hti;
-						GetCursorPos(&hti.pt);
-						ScreenToClient(pPs->pTree->Window(), &hti.pt);
-						TreeView_HitTest(pPs->pTree->Window(), &hti);
-						if ((hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) && hti.hItem == TreeView_GetSelection(pPs->pTree->Window()))
-							SetTimer(hDlg, TIMERID_RENAME, 500, NULL);
-					}
-					break;
-
-				case NM_RCLICK:
-					pPs->pTree->PopupMenu();
-					return 0;
 				}
 				break;
+
+			case TVN_BEGINDRAG:
+				{
+					LPNMTREEVIEW nmtv = (LPNMTREEVIEW)lParam;
+					if (nmtv->itemNew.hItem == TreeView_GetSelection(nmtv->hdr.hwndFrom)) {
+						SetCapture(hDlg);
+						pPs->pTree->BeginDrag(nmtv->itemNew.hItem);
+					}
+					TreeView_SelectItem(nmtv->hdr.hwndFrom, nmtv->itemNew.hItem);
+				}
+				break;
+
+			case TVN_ITEMEXPANDED:
+				pPs->pTree->AddFlags(PSTVF_STATE_CHANGED);
+				break;
+
+			case NM_KILLFOCUS:
+				KillTimer(hDlg, TIMERID_RENAME);
+				break;
+
+			case NM_CLICK:
+				{
+					TVHITTESTINFO hti;
+					GetCursorPos(&hti.pt);
+					ScreenToClient(pPs->pTree->Window(), &hti.pt);
+					TreeView_HitTest(pPs->pTree->Window(), &hti);
+					if ((hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) && hti.hItem == TreeView_GetSelection(pPs->pTree->Window()))
+						SetTimer(hDlg, TIMERID_RENAME, 500, NULL);
+				}
+				break;
+
+			case NM_RCLICK:
+				pPs->pTree->PopupMenu();
+				return 0;
+			}
+			break;
 		}
 		break;
 	
@@ -1445,7 +1426,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			MapWindowPoints(hDlg, pPs->pTree->Window(), &hti.pt, 1);
 			TreeView_HitTest(pPs->pTree->Window(), &hti);
 
-			if (hti.flags & (TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 				// check where over the item, the pointer is
 				RECT rc;
 				if (TreeView_GetItemRect(pPs->pTree->Window(), hti.hItem, &rc, FALSE)) {
@@ -1455,8 +1436,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						SetCursor(LoadCursor(NULL, IDC_ARROW));
 						TreeView_SetInsertMark(pPs->pTree->Window(), hti.hItem, 0);
 					}
-					else
-					if (hti.pt.y + (height / 3) > rc.bottom) {
+					else if (hti.pt.y + (height / 3) > rc.bottom) {
 						SetCursor(LoadCursor(NULL, IDC_ARROW));
 						TreeView_SetInsertMark(pPs->pTree->Window(), hti.hItem, 1);
 					}
@@ -1497,9 +1477,9 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			if (hti.flags & TVHT_ABOVE)
 				hti.hItem = TVI_FIRST;
-			else if (hti.flags & (TVHT_NOWHERE|TVHT_BELOW))
+			else if (hti.flags & (TVHT_NOWHERE | TVHT_BELOW))
 				hti.hItem = TVI_LAST;
-			else if (hti.flags & (TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
+			else if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 				// check where over the item, the pointer is
 				if (!TreeView_GetItemRect(pPs->pTree->Window(), hti.hItem, &rc, FALSE)) {
 					pPs->pTree->EndDrag();
@@ -1570,7 +1550,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (pPs->hContact != NULL) {
 				ResetUpdateInfo(pPs);
 
-				mir_snprintf(pPs->szUpdating, SIZEOF(pPs->szUpdating), "%s (%s)", Translate("Updating"), pPs->pszProto);
+				mir_snprintf(pPs->szUpdating, SIZEOF(pPs->szUpdating), "%s (%s)", Translate("updating"), pPs->pszProto);
 
 				// need meta contact's subcontact information
 				if (DB::Module::IsMetaAndScan(pPs->pszProto)) {
@@ -1580,7 +1560,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						MCONTACT hSubContact = db_mc_getSub(pPs->hContact, i);
 						if (hSubContact != NULL) {
 							if (ProtoServiceExists(DB::Contact::Proto(hSubContact), PSS_GETINFO)) {
-								pPs->infosUpdated = (TAckInfo*)mir_realloc(pPs->infosUpdated, sizeof(TAckInfo)* (pPs->nSubContacts + 1));
+								pPs->infosUpdated = (TAckInfo *)mir_realloc(pPs->infosUpdated, sizeof(TAckInfo) * (pPs->nSubContacts + 1));
 								pPs->infosUpdated[pPs->nSubContacts].hContact = hSubContact;
 								pPs->infosUpdated[pPs->nSubContacts].acks = NULL;
 								pPs->infosUpdated[pPs->nSubContacts].count = 0;
@@ -1605,7 +1585,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					}
 				}
 				else if (!CallContactService(pPs->hContact, PSS_GETINFO, NULL, NULL)) {
-					pPs->infosUpdated = (TAckInfo*)mir_calloc(sizeof(TAckInfo));
+					pPs->infosUpdated = (TAckInfo *)mir_calloc(sizeof(TAckInfo));
 					pPs->infosUpdated[0].hContact = pPs->hContact;
 					pPs->nSubContacts = 1;
 

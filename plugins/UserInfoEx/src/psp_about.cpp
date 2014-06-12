@@ -31,21 +31,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * @return	different values
  **/
-INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam, const CHAR* pszSetting)
+INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam, const CHAR *pszSetting)
 {
-	switch (uMsg) 
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
-			if (pCtrlList)
-			{
+			if (pCtrlList) {
 				HFONT hBoldFont;
 				PSGetBoldFont(hDlg, hBoldFont);
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 
-				if ( !lstrcmpA(pszSetting, SET_CONTACT_MYNOTES))
-					SetDlgItemText(hDlg, IDC_PAGETITLE, LPGENT("My Notes:"));
+				if (!lstrcmpA(pszSetting, SET_CONTACT_MYNOTES))
+					SetDlgItemText(hDlg, IDC_PAGETITLE, LPGENT("My notes:"));
 				else
 					SetDlgItemText(hDlg, IDC_PAGETITLE, LPGENT("About:"));
 
@@ -55,9 +53,9 @@ INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 				// remove static edge in aero mode
 				if (IsAeroMode())
-					SetWindowLongPtr(GetDlgItem(hDlg, EDIT_ABOUT), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hDlg, EDIT_ABOUT), GWL_EXSTYLE)&~WS_EX_STATICEDGE);
+					SetWindowLongPtr(GetDlgItem(hDlg, EDIT_ABOUT), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hDlg, EDIT_ABOUT), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 
-				SendDlgItemMessage(hDlg, EDIT_ABOUT, EM_SETEVENTMASK, 0, /*ENM_KEYEVENTS|*/ENM_LINK|ENM_CHANGE);
+				SendDlgItemMessage(hDlg, EDIT_ABOUT, EM_SETEVENTMASK, 0, /*ENM_KEYEVENTS | */ENM_LINK | ENM_CHANGE);
 				SendDlgItemMessage(hDlg, EDIT_ABOUT, EM_AUTOURLDETECT, TRUE, NULL);
 				if (!lParam) SendDlgItemMessage(hDlg, EDIT_ABOUT, EM_LIMITTEXT, 1024, NULL);
 			}
@@ -68,19 +66,14 @@ INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam,
 		{
 			switch (((LPNMHDR)lParam)->idFrom) 
 			{
-			/**
-			 * notification handler for richedit control
-			 **/
+			// notification handler for richedit control
 			case EDIT_ABOUT:
 				{
-					switch (((LPNMHDR)lParam)->code) 
-					{
+					switch (((LPNMHDR)lParam)->code) {
 
-					/**
-					 * notification handler for a link within the richedit control
-					 **/
+					// notification handler for a link within the richedit control
 					case EN_LINK:
-						return CEditCtrl::GetObj(((LPNMHDR)lParam)->hwndFrom)->LinkNotificationHandler((ENLINK*)lParam);
+						return CEditCtrl::GetObj(((LPNMHDR)lParam)->hwndFrom)->LinkNotificationHandler((ENLINK *)lParam);
 					}
 				}
 				return FALSE;
@@ -90,8 +83,7 @@ INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam))
-			{
+			switch (LOWORD(wParam)) {
 			case EDIT_ABOUT:
 				{
 					if (HIWORD(wParam) == EN_CHANGE)
@@ -100,9 +92,7 @@ INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 						pResult = CBaseCtrl::GetObj((HWND)lParam);
 						if (PtrIsValid(pResult) && (pResult->_cbSize == sizeof(CBaseCtrl)))
-						{
 							pResult->OnChangedByUser(HIWORD(wParam));
-						}
 					}
 				}
 			}

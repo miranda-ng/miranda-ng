@@ -16,7 +16,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
+#pragma code_page(1250)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -26,7 +26,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 IDD_DETAILS DIALOGEX 0, 0, 401, 239
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_NOPARENTNOTIFY | WS_EX_CONTROLPARENT
-CAPTION "Edit Contact Information"
+CAPTION "Edit contact information"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.",IDC_HEADERBAR,
@@ -52,7 +52,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Nick:",IDC_STATIC,"Static",SS_SIMPLE,3,12,51,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
     EDITTEXT        EDIT_NICK,56,10,97,13,ES_AUTOHSCROLL
-    LTEXT           "Display Name:",TXT_PASSWORD,3,28,51,8,NOT WS_GROUP,WS_EX_RIGHT
+    LTEXT           "Display name:",TXT_PASSWORD,3,28,51,8,NOT WS_GROUP,WS_EX_RIGHT
     EDITTEXT        EDIT_DISPLAYNAME,56,27,97,13,ES_AUTOHSCROLL
     CONTROL         "Title:",IDC_STATIC,"Static",SS_SIMPLE,3,60,51,8,WS_EX_RIGHT
     EDITTEXT        EDIT_TITLE,55,58,61,13,ES_AUTOHSCROLL
@@ -138,7 +138,7 @@ END
 
 IDD_ADDPHONE DIALOGEX 0, 0, 242, 150
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Add Phone Number"
+CAPTION "Add phone number"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Enter your phone number\nand don't worry about formating.",IDC_HEADERBAR,
@@ -161,16 +161,16 @@ END
 
 IDD_ADDEMAIL DIALOGEX 0, 0, 210, 120
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Add E-Mail"
+CAPTION "Add e-mail"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Enter your full e-mail address.\n(e.g., john.doe@provider.com)",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,210,25
     CONTROL         "",IDC_STATIC,"Static",SS_WHITERECT,0,25,209,69
-    CONTROL         "Enter a representitive name for the e-mail address here.",IDC_STATIC,
+    CONTROL         "Enter a representitive name for the e-mail address here:",IDC_STATIC,
                     "Static",SS_SIMPLE | WS_GROUP,3,31,203,8
     EDITTEXT        EDIT_CATEGORY,9,42,190,13,ES_AUTOHSCROLL
-    CONTROL         "Enter the e-mail address here.",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,3,64,203,8
+    CONTROL         "Enter the e-mail address here:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,3,64,203,8
     EDITTEXT        EDIT_EMAIL,9,75,190,13,ES_AUTOHSCROLL
     CONTROL         "OK",IDOK,"UInfoButtonClass",WS_TABSTOP,72,101,63,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Cancel",IDCANCEL,"UInfoButtonClass",WS_TABSTOP,141,101,63,14,WS_EX_NOACTIVATE | 0x10000000L
@@ -185,7 +185,7 @@ BEGIN
     LTEXT           "Remind me",TXT_REMIND,16,125,120,8,0,WS_EX_RIGHT
     EDITTEXT        EDIT_REMIND,144,122,44,13,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",SPIN_REMIND,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,186,120,11,14
-    LTEXT           "days before.",TXT_REMIND2,198,125,92,8
+    LTEXT           "days before",TXT_REMIND2,198,125,92,8
     LTEXT           "Check every",TXT_REMIND3,16,155,120,8,0,WS_EX_RIGHT
     EDITTEXT        EDIT_REMIND2,144,154,44,13,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",SPIN_REMIND2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,186,152,11,14
@@ -194,19 +194,19 @@ BEGIN
     COMBOBOX        EDIT_REMIND_ENABLED,90,18,98,108,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Enabled",IDC_STATIC,38,20,47,8,0,WS_EX_RIGHT
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,18,35,273,1
-    ICON            "",ICO_BIRTHDAY,18,10,21,20
+    ICON            "",ICO_BIRTHDAY,18,10,20,20
     CONTROL         "Perform check on each startup",CHECK_REMIND_STARTUP,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,18,79,273,10
     LTEXT           "Time of last check:",TXT_REMIND6,192,20,70,8,0,WS_EX_RIGHT
     LTEXT           "00:00",TXT_REMIND_LASTCHECK,265,20,29,8
-    LTEXT           "Birthday compatibility mode:",TXT_REMIND7,16,172,120,8,0,WS_EX_RIGHT
+    LTEXT           "Birthday compatibility mode:",TXT_REMIND7,16,173,120,8,0,WS_EX_RIGHT
     COMBOBOX        EDIT_BIRTHMODULE,144,171,132,159,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Automatically backup and keep protocol based birthdays up to date",CHECK_REMIND_SECURED,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,18,91,273,24
     LTEXT           "Play sound",TXT_REMIND8,16,140,120,8,0,WS_EX_RIGHT
     EDITTEXT        EDIT_REMIND_SOUNDOFFSET,144,138,44,13,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",SPIN_REMIND_SOUNDOFFSET,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,186,136,11,14
-    LTEXT           "days before.",TXT_REMIND9,198,140,92,8
+    LTEXT           "days before",TXT_REMIND9,198,140,92,8
     CONTROL         "Use ignore list",CHECK_REMIND_VISIBLEONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,66,273,10
 END
 
@@ -226,7 +226,7 @@ BEGIN
     CONTROL         "From Popup plugin",RADIO_OPT_POPUP_DEFAULT,"Button",BS_AUTORADIOBUTTON,182,146,96,10
     CONTROL         "Custom",RADIO_OPT_POPUP_CUSTOM,"Button",BS_AUTORADIOBUTTON,182,160,59,10
     CONTROL         "Permanent",RADIO_OPT_POPUP_PERMANENT,"Button",BS_AUTORADIOBUTTON,182,175,96,10
-    EDITTEXT        EDIT_DELAY,246,159,33,14,ES_AUTOHSCROLL
+    EDITTEXT        EDIT_DELAY,246,159,33,14,ES_RIGHT | ES_AUTOHSCROLL
     CONTROL         "Show reminder messages as popups (if reminder is enabled)",CHECK_OPT_POPUP_ENABLED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,36,267,10
     GROUPBOX        "Anniversary popup colors",IDC_STATIC,159,55,125,73,WS_GROUP
@@ -273,15 +273,15 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",LIST_PROFILE,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_TABSTOP,2,21,294,145,WS_EX_STATICEDGE
-    PUSHBUTTON      "Add Affiliation",BTN_ADD_AFFLIATION,2,3,71,14,BS_FLAT
-    PUSHBUTTON      "Add Past",BTN_ADD_PAST,76,3,77,14,BS_FLAT
-    PUSHBUTTON      "Add Interest",BTN_ADD_intEREST,156,3,70,14,BS_FLAT
+    PUSHBUTTON      "Add affiliation",BTN_ADD_AFFLIATION,2,3,71,14,BS_FLAT
+    PUSHBUTTON      "Add past",BTN_ADD_PAST,76,3,77,14,BS_FLAT
+    PUSHBUTTON      "Add interest",BTN_ADD_intEREST,156,3,70,14,BS_FLAT
     PUSHBUTTON      "Delete",BTN_DEL,229,3,69,14,BS_FLAT
 END
 
 IDD_ANNIVERSARY_EDITOR DIALOGEX 0, 0, 185, 87
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Anniversary Editor"
+CAPTION "Anniversary editor"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_WHITERECT,0,25,185,39
@@ -323,7 +323,7 @@ BEGIN
     CONTROL         "Remind me",CHECK_REMIND,"Button",BS_AUTO3STATE | WS_TABSTOP,181,211,66,10
     EDITTEXT        EDIT_REMIND,250,210,36,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
     CONTROL         "",SPIN_REMIND,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,274,211,11,11
-    LTEXT           "days before.",TXT_REMIND6,292,212,55,8,WS_DISABLED | NOT WS_GROUP
+    LTEXT           "days before",TXT_REMIND6,292,212,55,8,WS_DISABLED | NOT WS_GROUP
     CONTROL         "Popup this dialog on a contact's anniversary",CHECK_POPUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,181,229,165,10
 END
@@ -339,11 +339,11 @@ BEGIN
     CONTROL         "Display icons on each dialog button",CHECK_OPT_BUTTONICONS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,30,290,10
     GROUPBOX        "MetaContacts",STATIC_OPT_METAGROUP,3,52,303,32
-    CONTROL         "Scan SubContacts for missing information",CHECK_OPT_METASCAN,
+    CONTROL         "Scan subcontacts for missing information",CHECK_OPT_METASCAN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,67,290,10
-    CONTROL         "Enable extended 'send/receive email' service (*)",CHECK_OPT_SREMAIL_ENABLED,
+    CONTROL         "Enable extended 'send/receive e-mail' service (*)",CHECK_OPT_SREMAIL_ENABLED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,91,275,10
-    CONTROL         "Use Windows Timezone",CHECK_OPT_AUTOTIMEZONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,106,275,10
+    CONTROL         "Use Windows timezone",CHECK_OPT_AUTOTIMEZONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,106,275,10
     LTEXT           "(*) Requires Miranda to be restarted.",IDC_STATIC,11,207,167,8
     PUSHBUTTON      "Reset factory defaults",BTN_OPT_RESET,209,204,95,14
 END
@@ -363,20 +363,20 @@ BEGIN
     LTEXT           "Changed information",TXT_OPT_CLR_CHANGED,187,47,96,8
     CONTROL         "Enable colors to give information about information's status.",CHECK_OPT_CLR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,16,271,10
-    CONTROL         "Make protocol based contact information readonly.",CHECK_OPT_READONLY,
+    CONTROL         "Make protocol based contact information readonly",CHECK_OPT_READONLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,104,271,10
-    CONTROL         "Enable groups in details dialog's treeview.",CHECK_OPT_GROUPS,
+    CONTROL         "Enable groups in details dialog's treeview",CHECK_OPT_GROUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,152,271,10
-    CONTROL         "Sort all tree items alphabetically.",CHECK_OPT_SORTTREE,
+    CONTROL         "Sort all tree items alphabetically",CHECK_OPT_SORTTREE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,165,271,10
     CONTROL         "",CLR_META,"ColourPicker",WS_TABSTOP,12,61,29,12
-    LTEXT           "Info of a MetaContact's SubContact",TXT_OPT_CLR_META,46,63,232,8
+    LTEXT           "Info of a MetaContact's subcontact",TXT_OPT_CLR_META,46,63,232,8
     GROUPBOX        "Colors",IDC_STATIC,3,4,303,74
     GROUPBOX        "Common",IDC_STATIC,3,79,303,53
-    CONTROL         "Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)",CHECK_OPT_CHANGEMYDETAILS,
+    CONTROL         "Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)",CHECK_OPT_CHANGEMYDETAILS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,117,292,10
-    GROUPBOX        "TreeView",IDC_STATIC,3,138,303,43
-    CONTROL         "Adapt propertysheet pages to aero mode.",CHECK_OPT_AEROADAPTION,
+    GROUPBOX        "Treeview",IDC_STATIC,3,138,303,43
+    CONTROL         "Adapt propertysheet pages to Aero mode",CHECK_OPT_AEROADAPTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,91,271,10
 END
 
@@ -416,43 +416,46 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Show Menu Item",IDC_STATIC,6,6,298,95
-    CONTROL         "MainMenu",CHECK_OPT_MI_MAIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,19,93,10
-    RTEXT           "Cascade:",TXT_OPT_MI_MAIN,102,19,47,8
-    CONTROL         "All",RADIO_OPT_MI_MAIN_ALL,"Button",BS_AUTORADIOBUTTON,194,19,26,10
-    CONTROL         "Off",RADIO_OPT_MI_MAIN_NONE,"Button",BS_AUTORADIOBUTTON,161,19,31,10
-    CONTROL         "Ex-/Import items",RADIO_OPT_MI_MAIN_EXIMPORT,"Button",BS_AUTORADIOBUTTON,222,19,79,10
-    CONTROL         "ContactMenu",CHECK_OPT_MI_CONTACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,35,93,10
-    RTEXT           "Cascade:",TXT_OPT_MI_CONTACT,102,35,47,8
-    CONTROL         "All",RADIO_OPT_MI_CONTACT_ALL,"Button",BS_AUTORADIOBUTTON,194,35,26,10
-    CONTROL         "Off",RADIO_OPT_MI_CONTACT_NONE,"Button",BS_AUTORADIOBUTTON,161,35,32,10
-    CONTROL         "Ex-/Import items",RADIO_OPT_MI_CONTACT_EXIMPORT,"Button",BS_AUTORADIOBUTTON,222,35,80,10
-    CONTROL         "GroupMenu",CHECK_OPT_MI_GROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,51,93,10
-    RTEXT           "Cascade:",TXT_OPT_MI_GROUP,102,51,47,8
-    CONTROL         "All",RADIO_OPT_MI_GROUP_ALL,"Button",BS_AUTORADIOBUTTON,194,51,26,10
-    CONTROL         "Off",RADIO_OPT_MI_GROUP_NONE,"Button",BS_AUTORADIOBUTTON,161,51,31,10
-    CONTROL         "Ex-/Import items",RADIO_OPT_MI_GROUP_EXIMPORT,"Button",BS_AUTORADIOBUTTON,222,51,80,10
-    CONTROL         "SubGroupMenu",CHECK_OPT_MI_SUBGROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,67,93,10
-    RTEXT           "Cascade:",TXT_OPT_MI_SUBGROUP,102,67,47,8
-    CONTROL         "All",RADIO_OPT_MI_SUBGROUP_ALL,"Button",BS_AUTORADIOBUTTON,194,67,26,10
-    CONTROL         "Off",RADIO_OPT_MI_SUBGROUP_NONE,"Button",BS_AUTORADIOBUTTON,161,67,32,10
-    CONTROL         "Ex-/Import items",RADIO_OPT_MI_SUBGROUP_EXIMPORT,"Button",BS_AUTORADIOBUTTON,222,67,79,10
-    CONTROL         "AccountMenu",CHECK_OPT_MI_ACCOUNT,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,12,83,105,16
-    RTEXT           "Cascade:",TXT_OPT_MI_ACCOUNT,102,84,47,8
-    CONTROL         "All",RADIO_OPT_MI_ACCOUNT_ALL,"Button",BS_AUTORADIOBUTTON,194,84,26,10
-    CONTROL         "Off",RADIO_OPT_MI_ACCOUNT_NONE,"Button",BS_AUTORADIOBUTTON,161,84,31,10
-    CONTROL         "Ex-/Import items",RADIO_OPT_MI_ACCOUNT_EXIMPORT,"Button",BS_AUTORADIOBUTTON,222,84,80,10
-    GROUPBOX        "Extra Icons",GROUP_OPT_EXTRAICONS,6,105,144,117
+    GROUPBOX        "Show menu item",IDC_STATIC,6,6,298,95
+    CONTROL         "Main menu",CHECK_OPT_MI_MAIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,19,79,10
+    RTEXT           "Cascade:",TXT_OPT_MI_MAIN,92,19,47,8
+    CONTROL         "All",RADIO_OPT_MI_MAIN_ALL,"Button",BS_AUTORADIOBUTTON,184,19,26,10
+    CONTROL         "Off",RADIO_OPT_MI_MAIN_NONE,"Button",BS_AUTORADIOBUTTON,151,19,31,10
+    CONTROL         "Export/import items",RADIO_OPT_MI_MAIN_EXIMPORT,"Button",BS_AUTORADIOBUTTON,212,19,79,10
+    CONTROL         "Contact menu",CHECK_OPT_MI_CONTACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,35,79,10
+    RTEXT           "Cascade:",TXT_OPT_MI_CONTACT,92,35,47,8
+    CONTROL         "All",RADIO_OPT_MI_CONTACT_ALL,"Button",BS_AUTORADIOBUTTON,184,35,26,10
+    CONTROL         "Off",RADIO_OPT_MI_CONTACT_NONE,"Button",BS_AUTORADIOBUTTON,151,35,32,10
+    CONTROL         "Export/import items",RADIO_OPT_MI_CONTACT_EXIMPORT,
+                    "Button",BS_AUTORADIOBUTTON,212,35,80,10
+    CONTROL         "Group menu",CHECK_OPT_MI_GROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,51,79,10
+    RTEXT           "Cascade:",TXT_OPT_MI_GROUP,92,51,47,8
+    CONTROL         "All",RADIO_OPT_MI_GROUP_ALL,"Button",BS_AUTORADIOBUTTON,184,51,26,10
+    CONTROL         "Off",RADIO_OPT_MI_GROUP_NONE,"Button",BS_AUTORADIOBUTTON,151,51,31,10
+    CONTROL         "Export/import items",RADIO_OPT_MI_GROUP_EXIMPORT,"Button",BS_AUTORADIOBUTTON,212,51,80,10
+    CONTROL         "Subgroup menu",CHECK_OPT_MI_SUBGROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,67,79,10
+    RTEXT           "Cascade:",TXT_OPT_MI_SUBGROUP,92,67,47,8
+    CONTROL         "All",RADIO_OPT_MI_SUBGROUP_ALL,"Button",BS_AUTORADIOBUTTON,184,67,26,10
+    CONTROL         "Off",RADIO_OPT_MI_SUBGROUP_NONE,"Button",BS_AUTORADIOBUTTON,151,67,32,10
+    CONTROL         "Export/import items",RADIO_OPT_MI_SUBGROUP_EXIMPORT,
+                    "Button",BS_AUTORADIOBUTTON,212,67,79,10
+    CONTROL         "Account menu",CHECK_OPT_MI_ACCOUNT,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,12,83,79,10
+    RTEXT           "Cascade:",TXT_OPT_MI_ACCOUNT,92,84,47,8
+    CONTROL         "All",RADIO_OPT_MI_ACCOUNT_ALL,"Button",BS_AUTORADIOBUTTON,184,84,26,10
+    CONTROL         "Off",RADIO_OPT_MI_ACCOUNT_NONE,"Button",BS_AUTORADIOBUTTON,151,84,31,10
+    CONTROL         "Export/import items",RADIO_OPT_MI_ACCOUNT_EXIMPORT,
+                    "Button",BS_AUTORADIOBUTTON,212,84,80,10
+    GROUPBOX        "Extra icons",GROUP_OPT_EXTRAICONS,6,105,144,117
     LTEXT           "Replace the following default icons:",TXT_OPT_DEFAULTICONS,12,124,132,8
     CONTROL         "Homepage",CHECK_OPT_HOMEPAGEICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,140,130,10
     CONTROL         "Phone",CHECK_OPT_PHONEICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,157,130,10
-    CONTROL         "E-Mail",CHECK_OPT_EMAILICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,174,130,10
+    CONTROL         "E-mail",CHECK_OPT_EMAILICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,174,130,10
     CONTROL         "Gender",CHECK_OPT_GENDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,191,130,10
     GROUPBOX        "Misc",GROUP_OPT_EXTRAICONS2,156,105,148,117
     CONTROL         "Show 'Restart' menu item",CHECK_OPT_MI_RESTART,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,161,117,132,10
-    CONTROL         "Use Zodiac as default avatar",CHECK_OPT_ZODIACAVATAR,
+    CONTROL         "Use zodiac as default avatar",CHECK_OPT_ZODIACAVATAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,161,129,131,10
-    LTEXT           "Country Flags",TXT_OPT_FLAGS,161,148,131,8
+    LTEXT           "Country flags",TXT_OPT_FLAGS,161,148,131,8
     CONTROL         "Use &unknown flag if country cannot be determined",CHECK_OPT_FLAGSUNKNOWN,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,161,183,131,16
     CONTROL         "Show country flag as &status icon on message window",CHECK_OPT_FLAGSMSGSTATUS,
@@ -472,23 +475,23 @@ BEGIN
     CONTROL         "",BTN_DELETE,"UInfoButtonClass",WS_TABSTOP,276,3,16,16,WS_EX_NOACTIVATE | 0x10000000L
     EDITTEXT        EDIT_REMIND,185,41,36,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
     CONTROL         "",SPIN_REMIND,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,211,38,11,14
-    LTEXT           "days before.",TXT_REMIND,227,43,72,8,NOT WS_GROUP
+    LTEXT           "days before",TXT_REMIND,227,43,72,8,NOT WS_GROUP
     CONTROL         "Age:",TITLE_AGE,"Static",SS_SIMPLE,0,88,108,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
     EDITTEXT        EDIT_AGE,115,86,36,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",SPIN_AGE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,139,86,11,14
     CONTROL         "Zodiac:",TITLE_ZODIAC,"Static",SS_SIMPLE,0,105,108,8,WS_EX_TRANSPARENT | WS_EX_RIGHT
     LTEXT           "not found",TEXT_ZODIAC,117,105,71,8,NOT WS_VISIBLE,WS_EX_TRANSPARENT
     ICON            "",IDC_ZODIAC,192,84,20,20,SS_RIGHTJUST | SS_REALSIZEIMAGE
-    CONTROL         "Use global reminder settings.",RADIO_REMIND1,"Button",BS_AUTORADIOBUTTON,100,26,199,10
+    CONTROL         "Use global reminder settings",RADIO_REMIND1,"Button",BS_AUTORADIOBUTTON,100,26,199,10
     CONTROL         "Remind me",RADIO_REMIND2,"Button",BS_AUTORADIOBUTTON,100,42,82,10
-    CONTROL         "Don't remind me of this anniversary.",RADIO_REMIND3,
+    CONTROL         "Don't remind me of this anniversary",RADIO_REMIND3,
                     "Button",BS_AUTORADIOBUTTON,100,58,199,10
 END
 
 IDD_REFRESHDETAILS DIALOGEX 0, 0, 174, 57
 STYLE DS_SETFONT | DS_MODALFRAME | DS_NOIDLEMSG | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_NOPARENTNOTIFY
-CAPTION "Refresh Contact Details"
+CAPTION "Refresh contact details"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LTEXT           "",STATIC_WHITERECT,0,0,176,33
@@ -512,8 +515,8 @@ BEGIN
     ICON            IDI_MAIN,ICO_DLGLOGO,135,3,20,20
     CONTROL         "",STATIC_LINE1,"Static",SS_ETCHEDHORZ,0,26,160,1
     LTEXT           "What do you want to export?",IDC_INFO,11,3,110,21,SS_ENDELLIPSIS,WS_EX_TRANSPARENT
-    CONTROL         "Contact Information",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,33,140,10
-    CONTROL         "Contact History",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,48,140,10
+    CONTROL         "Contact information",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,33,140,10
+    CONTROL         "Contact history",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,48,140,10
     CONTROL         "",STATIC_LINE2,"Static",SS_ETCHEDHORZ,0,64,160,1
     CONTROL         "OK",IDOK,"UInfoButtonClass",WS_TABSTOP,16,70,65,14
     CONTROL         "Cancel",IDCANCEL,"UInfoButtonClass",WS_TABSTOP,87,70,66,14
@@ -521,14 +524,14 @@ END
 
 IDD_EXPORT DIALOGEX 0, 0, 241, 186
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Select Modules"
+CAPTION "Select modules"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "",STATIC_WHITERECT,0,0,242,35
     ICON            IDI_MAIN,ICO_DLGLOGO,213,3,20,20,SS_REALSIZEIMAGE
-    LTEXT           "Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.",TXT_NAME,5,5,199,25,0,WS_EX_TRANSPARENT
+    LTEXT           "Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.",TXT_NAME,5,5,199,25,0,WS_EX_TRANSPARENT
     CONTROL         "",STATIC_LINE1,"Static",SS_ETCHEDHORZ,0,34,241,1
-    CONTROL         "",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | WS_TABSTOP,3,39,160,117,WS_EX_CLIENTEDGE
+    CONTROL         "",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | WS_HSCROLL | WS_TABSTOP,3,39,160,117,WS_EX_CLIENTEDGE
     PUSHBUTTON      "Check all",BTN_CHECK,167,49,70,14
     PUSHBUTTON      "Uncheck all",BTN_UNCHECK,167,69,70,14
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,160,241,1
@@ -562,13 +565,97 @@ CURSOR_ADDGROUP         CURSOR                  "dragcopy.cur"
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_DETAILS, DIALOG
+    BEGIN
+    END
+
+    IDD_CONTACT_GENERAL, DIALOG
+    BEGIN
+    END
+
+    IDD_CONTACT_ORIGIN, DIALOG
+    BEGIN
+    END
+
+    IDD_CONTACT_COMPANY, DIALOG
+    BEGIN
+    END
+
+    IDD_CONTACT_ABOUT, DIALOG
+    BEGIN
+    END
+
+    IDD_ADDPHONE, DIALOG
+    BEGIN
+    END
+
+    IDD_ADDEMAIL, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_REMINDER, DIALOG
     BEGIN
         VERTGUIDE, 144
         VERTGUIDE, 290
     END
 
+    IDD_OPT_POPUP, DIALOG
+    BEGIN
+    END
+
+    IDD_CONTACT_ADDRESS, DIALOG
+    BEGIN
+    END
+
+    IDD_CONTACT_PROFILE, DIALOG
+    BEGIN
+    END
+
+    IDD_ANNIVERSARY_EDITOR, DIALOG
+    BEGIN
+    END
+
+    IDD_ANNIVERSARY_LIST, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_ADVANCED, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_DETAILSDLG, DIALOG
+    BEGIN
+    END
+
+    IDD_COPYPROGRESS, DIALOG
+    BEGIN
+    END
+
+    IDD_MSGBOX, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_COMMON, DIALOG
+    BEGIN
+    END
+
+    IDD_CONTACT_ANNIVERSARY, DIALOG
+    BEGIN
+    END
+
+    IDD_REFRESHDETAILS, DIALOG
+    BEGIN
+    END
+
+    IDD_MSGBOXDUMMI, DIALOG
+    BEGIN
+    END
+
+    IDD_EXPORT_DATAHISTORY, DIALOG
+    BEGIN
+    END
+
+    IDD_EXPORT, DIALOG
     BEGIN
     END
 END

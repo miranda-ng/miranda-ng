@@ -158,7 +158,7 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 
 		if (*cbi->pszVal)
-			SetWindowText(hDlg, LPGENT("Edit E-Mail"));
+			SetWindowText(hDlg, LPGENT("Edit e-mail"));
 		TranslateDialogDefault(hDlg);
 		SendDlgItemMessage(hDlg, EDIT_CATEGORY, EM_LIMITTEXT, cbi->ccCat - 1, 0);
 		SendDlgItemMessage(hDlg, EDIT_EMAIL, EM_LIMITTEXT, cbi->ccVal - 1, 0);
@@ -259,7 +259,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				GetWindowText(hBtn, szButton, MAX_PATH);
 				SetWindowText(hBtn, TranslateTS(szButton));
 			}
-			if (*cbi->pszVal) SetWindowText(hDlg, LPGENT("Edit Phone Number"));
+			if (*cbi->pszVal) SetWindowText(hDlg, LPGENT("Edit phone number"));
 			if (cbi->wFlags & CBEXIF_SMS) CheckDlgButton(hDlg, CHECK_SMS, BST_CHECKED);
 			TranslateDialogDefault(hDlg);
 
@@ -524,10 +524,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		SendMessage(cbex->hEdit, WM_SETFONT, (WPARAM)cbex->hFont, NULL);
 		SendMessage(cbex->hEdit, EM_LIMITTEXT, (WPARAM)MAXDATASIZE, NULL);
 		// add tooltips
-		SendMessage(cbex->hBtnMenu, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Choose the item to display."), MBBF_TCHAR);
-		SendMessage(cbex->hBtnEdit, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Edit the currently displayed item."), MBBF_TCHAR);
-		SendMessage(cbex->hBtnAdd, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add a new custom item."), MBBF_TCHAR);
-		SendMessage(cbex->hBtnDel, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete the selected item."), MBBF_TCHAR);
+		SendMessage(cbex->hBtnMenu, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Choose the item to display"), MBBF_TCHAR);
+		SendMessage(cbex->hBtnEdit, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Edit the currently displayed item"), MBBF_TCHAR);
+		SendMessage(cbex->hBtnAdd, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Add a new custom item"), MBBF_TCHAR);
+		SendMessage(cbex->hBtnDel, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete the selected item"), MBBF_TCHAR);
 		// reload icons
 		CtrlContactWndProc(hwnd, WM_SETICON, NULL, NULL);
 		cbex->bLocked = 0;

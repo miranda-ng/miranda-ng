@@ -21,16 +21,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-void UpDate_CountryIcon(HWND hCtrl, int countryID) {
+void UpDate_CountryIcon(HWND hCtrl, int countryID)
+{
 	HICON hIcon = LoadFlagIcon(countryID);
 	HICON hOld  = Static_SetIcon(hCtrl, hIcon);
 	ShowWindow(hCtrl, hIcon ? SW_SHOW : SW_HIDE);
 	Skin_ReleaseIcon(hOld);
 }
 
-/**
- * Default dialog procedure, which handles common functions
- **/
+// Default dialog procedure, which handles common functions
 INT_PTR CALLBACK PSPBaseProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	CCtrlList *pCtrlList;
@@ -38,20 +37,18 @@ INT_PTR CALLBACK PSPBaseProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	pCtrlList = CCtrlList::GetObj(hDlg);
 	if (PtrIsValid(pCtrlList)) {
 		switch (uMsg) {
-		case WM_INITDIALOG:		return TRUE;
+		case WM_INITDIALOG:
+			return TRUE;
 
-		/**
-		 * set propertysheet page's background white in aero mode
-		 **/
+		// set propertysheet page's background white in aero mode
 		case WM_CTLCOLORSTATIC:
-		case WM_CTLCOLORDLG:	{
+		case WM_CTLCOLORDLG:
+			{
 				if (IsAeroMode())
 					return (INT_PTR)GetStockBrush(WHITE_BRUSH);
 			} break;
 
-		/**
-		 * Set text color of edit boxes according to the source of information they display.
-		 **/
+		// Set text color of edit boxes according to the source of information they display.
 		case WM_CTLCOLOREDIT:
 			return pCtrlList->OnSetTextColour((HWND)lParam, (HDC)wParam);
 

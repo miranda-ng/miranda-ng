@@ -26,10 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 typedef struct _MSGPOPUPDATA
 {
-	POPUPACTION	pa[3];
-	HWND		hDialog;
-}
-MSGPOPUPDATA, *LPMSGPOPUPDATA;
+	POPUPACTION pa[3];
+	HWND hDialog;
+} MSGPOPUPDATA, *LPMSGPOPUPDATA;
 
 /**
  * This helper function moves and resizes a dialog box's control element.
@@ -49,7 +48,7 @@ static FORCEINLINE void MoveCtrl(HWND hDlg, int idCtrl, int dx, int dy, int dw, 
 	HWND hCtrl = GetDlgItem(hDlg, idCtrl);
 	GetWindowRect(hCtrl, &ws);
 	OffsetRect(&ws, dx, dy);
-	MoveWindow(hCtrl, ws.left, ws.top,	ws.right - ws.left + dw, ws.bottom - ws.top + dh, FALSE);
+	MoveWindow(hCtrl, ws.left, ws.top, ws.right - ws.left + dw, ws.bottom - ws.top + dh, FALSE);
 }
 
 /**
@@ -60,7 +59,6 @@ static FORCEINLINE void MoveCtrl(HWND hDlg, int idCtrl, int dx, int dy, int dw, 
 * @retval	HICON		- The function returns an icon to display with the message.
 * @retval	NULL		- There is no icon for the message.
 **/
-
 static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 {
 	HICON hIcon;
@@ -228,11 +226,11 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				// resize the messagebox and reorganize the buttons
 				if (HDC hDC = GetDC(hDlg)) {
-					POINT mpt = {0,0};
-					RECT	ws = {0,0,0,0};
-					int   txtWidth, txtHeight, needX, needY;
-					RECT	rcDlg;
-					SIZE	ts;
+					POINT mpt = { 0, 0 };
+					RECT ws = { 0, 0, 0, 0 };
+					int txtWidth, txtHeight, needX, needY;
+					RECT rcDlg;
+					SIZE ts;
 					LPTSTR h, rs;
 
 					SelectObject(hDC, hNormalFont);
@@ -257,23 +255,23 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					GetWindowRect(GetDlgItem(hDlg, TXT_MESSAGE), &ws);
 					needX = txtWidth - (ws.right - ws.left) - icoWidth;
 					needY = max(0, txtHeight - (ws.bottom - ws.top) + 5);
-					rcDlg.left -= needX/2; rcDlg.right += needX/2;
-					rcDlg.top -= (needY-InfoBarHeight)/2; rcDlg.bottom += (needY-InfoBarHeight)/2;
+					rcDlg.left -= needX / 2;
+					rcDlg.right += needX / 2;
+					rcDlg.top -= (needY - InfoBarHeight) / 2;
+					rcDlg.bottom += (needY - InfoBarHeight) / 2;
 					
 					// resize dialog window
 					MoveWindow(hDlg, rcDlg.left, rcDlg.top, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, FALSE);
 					ClientToScreen(hDlg, &mpt);
 
-					MoveCtrl(hDlg, STATIC_WHITERECT, -mpt.x, -mpt.y, needX, needY - InfoBarHeight); 
-					MoveCtrl(hDlg, TXT_NAME, -mpt.x, -mpt.y, needX, 0); 
-					MoveCtrl(hDlg, ICO_DLGLOGO, -mpt.x + needX, -mpt.y, 0, 0); 
-					MoveCtrl(hDlg, ICO_MSGDLG, -mpt.x, -mpt.y - InfoBarHeight, 0, 0); 
-					MoveCtrl(hDlg, TXT_MESSAGE, -mpt.x - icoWidth, -mpt.y - InfoBarHeight, needX, needY); 
-					MoveCtrl(hDlg, STATIC_LINE2, -mpt.x, -mpt.y + needY - InfoBarHeight, needX, 0); 
+					MoveCtrl(hDlg, STATIC_WHITERECT, -mpt.x, -mpt.y, needX, needY - InfoBarHeight);
+					MoveCtrl(hDlg, TXT_NAME, -mpt.x, -mpt.y, needX, 0);
+					MoveCtrl(hDlg, ICO_DLGLOGO, -mpt.x + needX, -mpt.y, 0, 0);
+					MoveCtrl(hDlg, ICO_MSGDLG, -mpt.x, -mpt.y - InfoBarHeight, 0, 0);
+					MoveCtrl(hDlg, TXT_MESSAGE, -mpt.x - icoWidth, -mpt.y - InfoBarHeight, needX, needY);
+					MoveCtrl(hDlg, STATIC_LINE2, -mpt.x, -mpt.y + needY - InfoBarHeight, needX, 0);
 
-					//
 					// Do pushbutton positioning
-					//
 					RECT rcOk, rcAll, rcNone, rcCancel;
 
 					// get button rectangles
@@ -464,15 +462,14 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 * this set call function in wait stait and do not freece miranda main thread
 * the window is outside the desktop
 */
-
 static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		LPMSGBOX	pMsgBox = (LPMSGBOX)lParam;
+		LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
 
-		MoveWindow(hDlg,-10,-10,0,0,FALSE);
-		LPMSGPOPUPDATA	pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
+		MoveWindow(hDlg, -10, -10, 0, 0, FALSE);
+		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
 		if (pmpd) {
 			POPUPDATAT_V2 pd = { 0 };
 			pd.cbSize = sizeof(pd);
@@ -491,12 +488,12 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 			// set color of popup
 			switch (pMsgBox->uType & MB_ICONMASK) {
 			case MB_ICON_ERROR:
-				pd.colorBack = RGB(200,	10,	 0);
+				pd.colorBack = RGB(200, 10, 0);
 				pd.colorText = RGB(255, 255, 255);
 				break;
 
 			case MB_ICON_WARNING:
-				pd.colorBack = RGB(200, 100,	 0);
+				pd.colorBack = RGB(200, 100, 0);
 				pd.colorText = RGB(255, 255, 255);
 				break;
 
@@ -551,7 +548,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 			}
 
 			// create popup
-			CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_NEWDATA);
+			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, APF_NEWDATA);
 			if (MB_TYPE(pMsgBox->uType) == MB_OK)
 				EndDialog(hDlg, IDOK);
 		}
@@ -570,7 +567,6 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 *
 * @return	TRUE, FALSE, IDOK, IDYES, IDALL, IDNO or IDCANCEL
 **/
-
 static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
@@ -619,19 +615,18 @@ static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 * @return	The function returns the ID of the clicked button (IDOK, IDCANCEL, ...)
 *			or -1 on error.
 **/
-
 INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 {
 	LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
 
 	// check input
-	if ( PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) {
+	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) {
 		// Shall the MessageBox displayed as popup?
-		if (!(pMsgBox->uType & (MB_INFOBAR|MB_NOPOPUP)) &&					// message box can be a popup?
-				ServiceExists(MS_POPUP_ADDPOPUPT) &&						// popups exist?
-				myGlobals.PopupActionsExist == 1 &&							// popup support ext stuct?
-				(db_get_dw(NULL, "Popup","Actions", 0) & 1) &&	// popup++ actions on?
-				db_get_b(NULL, MODNAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
+		if (!(pMsgBox->uType & (MB_INFOBAR | MB_NOPOPUP))				// message box can be a popup?
+			&& ServiceExists(MS_POPUP_ADDPOPUPT)						// popups exist?
+			&& myGlobals.PopupActionsExist == 1							// popup support ext stuct?
+			&& (db_get_dw(NULL, "Popup", "Actions", 0) & 1)				// popup++ actions on?
+			&& db_get_b(NULL, MODNAME, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
 			return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
 
 		return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);
@@ -641,20 +636,19 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 
 /**
 * name:	MsgBox
-* desc:	calls a messagebox 
-* param:	
+* desc:	calls a messagebox
+* param:
 **/
-
 INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszInfo, LPCTSTR pszFormat, ...)
 {
 	TCHAR tszMsg[MAX_SECONDLINE];
 
-	va_list	vl;
+	va_list vl;
 	va_start(vl, pszFormat);
 	mir_vsntprintf(tszMsg, SIZEOF(tszMsg), TranslateTS(pszFormat), vl);
 	va_end(vl);
 
-	MSGBOX mb = {0};
+	MSGBOX mb = { 0 };
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
 	mb.hiLogo = Skin_GetIcon(ICO_COMMON_MAIN);
@@ -662,20 +656,19 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 	mb.ptszTitle = TranslateTS(pszTitle);
 	mb.ptszInfoText = TranslateTS(pszInfo);
 	mb.ptszMsg = tszMsg;
-	mb.uType	= uType;
+	mb.uType = uType;
 	return MsgBoxService(NULL, (LPARAM)&mb);
 }
 
 /**
 * name:	MsgErr
-* desc:	calls a messagebox 
+* desc:	calls a messagebox
 * param:	
 **/
-
 INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 {
-	TCHAR	tszTitle[MAX_SECONDLINE], tszMsg[MAX_SECONDLINE];
-	mir_sntprintf(tszTitle, SIZEOF(tszMsg),_T("%s - %s") ,_T(MODNAME), TranslateT("Error"));
+	TCHAR tszTitle[MAX_SECONDLINE], tszMsg[MAX_SECONDLINE];
+	mir_sntprintf(tszTitle, SIZEOF(tszMsg), _T("%s - %s"), _T(MODNAME), TranslateT("Error"));
 
 	va_list vl;
 	va_start(vl, pszFormat);
@@ -689,6 +682,6 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	mb.hiMsg = NULL;
 	mb.ptszTitle = tszTitle;
 	mb.ptszMsg = tszMsg;
-	mb.uType	= MB_OK|MB_ICON_ERROR;
+	mb.uType = MB_OK | MB_ICON_ERROR;
 	return MsgBoxService(NULL, (LPARAM)&mb);
 }

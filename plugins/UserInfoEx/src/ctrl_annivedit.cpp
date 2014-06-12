@@ -621,4 +621,3 @@ void CAnnivEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 	DBWriteBirthDay(hContact);
 	DBWriteAnniversaries(hContact);
 }
-

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by ..\res\resource.rc
 //
 #define IDSKIP                          20
 #define IDALL                           21

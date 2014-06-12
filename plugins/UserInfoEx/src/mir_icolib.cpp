@@ -32,10 +32,9 @@ typedef struct _ICODESC
 
 HICON ghDefIcon = NULL;
 
-static ICODESC icoDesc[] = 
-{
+static ICODESC icoDesc[] = {
 	// common
-	{ ICO_COMMON_IM,         LPGEN("IM Naming"),             SECT_COMMON,  IDI_MIRANDA,             0 },
+	{ ICO_COMMON_IM,         LPGEN("IM naming"),             SECT_COMMON,  IDI_MIRANDA,             0 },
 	{ ICO_COMMON_PASSWORD,   LPGEN("Password"),              SECT_COMMON,  IDI_PASSWORD,            0 },
 	{ ICO_COMMON_FEMALE,     LPGEN("Female"),                SECT_COMMON,  IDI_FEMALE,              0 },
 	{ ICO_COMMON_MALE,       LPGEN("Male"),                  SECT_COMMON,  IDI_MALE,                0 },
@@ -44,8 +43,8 @@ static ICODESC icoDesc[] =
 	{ ICO_COMMON_MARITAL,    LPGEN("Marital status"),        SECT_COMMON,  IDI_MARITAL,             0 },
 	{ ICO_COMMON_ADDRESS,    LPGEN("Address"),               SECT_COMMON,  IDI_TREE_ADDRESS,        0 },
 	{ ICO_COMMON_ANNIVERSARY,LPGEN("Anniversary"),           SECT_COMMON,  IDI_ANNIVERSARY,         0 },
-																			   
-	//zodiac																   
+
+	//zodiac
 	{ ICO_ZOD_AQUARIUS,      LPGEN("Aquarius"),              SECT_COMMON,  IDI_ZOD_AQUARIUS,      128 },
 	{ ICO_ZOD_ARIES,         LPGEN("Aries"),                 SECT_COMMON,  IDI_ZOD_ARIES,         128 },
 	{ ICO_ZOD_CANCER,        LPGEN("Cancer"),                SECT_COMMON,  IDI_ZOD_CANCER,        128 },
@@ -58,21 +57,21 @@ static ICODESC icoDesc[] =
 	{ ICO_ZOD_SCORPIO,       LPGEN("Scorpio"),               SECT_COMMON,  IDI_ZOD_SCORPIO,       128 },
 	{ ICO_ZOD_TAURUS,        LPGEN("Taurus"),                SECT_COMMON,  IDI_ZOD_TAURUS,        128 },
 	{ ICO_ZOD_VIRGO,         LPGEN("Virgo"),                 SECT_COMMON,  IDI_ZOD_VIRGO,         128 },
-																			   
-	// lists																   
-	{ ICO_LST_MODULES,       LPGEN("Export: Modules"),       SECT_COMMON,  IDI_LST_MODULES,         0 },
-	{ ICO_LST_FOLDER,        LPGEN("Export: Folder"),        SECT_COMMON,  IDI_LST_FOLDER,          0 },
+
+	// lists
+	{ ICO_LST_MODULES,       LPGEN("Export: modules"),       SECT_COMMON,  IDI_LST_MODULES,         0 },
+	{ ICO_LST_FOLDER,        LPGEN("Export: folder"),        SECT_COMMON,  IDI_LST_FOLDER,          0 },
 	{ ICO_TREE_DEFAULT,      LPGEN("Default"),               SECT_TREE,    IDI_LST_FOLDER,          0 },
-																			   
-	// dialogs															   
-	{ ICO_DLG_DETAILS,       LPGEN("Details info bar"),       SECT_DLG,     IDI_DLG_DETAILS,        48 },
-	{ ICO_DLG_PHONE,         LPGEN("Phone info bar"),         SECT_DLG,     IDI_DLG_PHONE,           1 },
-	{ ICO_DLG_EMAIL,         LPGEN("E-Mail info bar"),        SECT_DLG,     IDI_DLG_EMAIL,           1 },
+
+	// dialogs
+	{ ICO_DLG_DETAILS,       LPGEN("Details info bar"),      SECT_DLG,     IDI_DLG_DETAILS,        48 },
+	{ ICO_DLG_PHONE,         LPGEN("Phone info bar"),        SECT_DLG,     IDI_DLG_PHONE,           1 },
+	{ ICO_DLG_EMAIL,         LPGEN("E-mail info bar"),       SECT_DLG,     IDI_DLG_EMAIL,           1 },
 	{ ICO_DLG_EXPORT,        LPGEN("Export VCard"),          SECT_DLG,     IDI_EXPORT,              1 },
 	{ ICO_DLG_IMPORT,        LPGEN("Import VCard"),          SECT_DLG,     IDI_IMPORT,              1 },
-	{ ICO_DLG_ANNIVERSARY,   LPGEN("Anniversary info bar"),   SECT_DLG,     IDI_ANNIVERSARY,         1 },
-																			   
-	// button icons													   
+	{ ICO_DLG_ANNIVERSARY,   LPGEN("Anniversary info bar"),  SECT_DLG,     IDI_ANNIVERSARY,         1 },
+
+	// button icons
 	{ ICO_BTN_UPDATE,        LPGEN("Update"),                SECT_BUTTONS, IDI_BTN_UPDATE,          0 },
 	{ ICO_BTN_IMPORT,        LPGEN("Import"),                SECT_BUTTONS, IDI_IMPORT,              0 },
 	{ ICO_BTN_EXPORT,        LPGEN("Export"),                SECT_BUTTONS, IDI_EXPORT,              0 },
@@ -83,17 +82,17 @@ static ICODESC icoDesc[] =
 	{ ICO_BTN_PHONE,         LPGEN("Phone"),                 SECT_BUTTONS, IDI_BTN_PHONE,           0 },
 	{ ICO_BTN_FAX,           LPGEN("Fax"),                   SECT_BUTTONS, IDI_BTN_FAX,             0 },
 	{ ICO_BTN_CELLULAR,      LPGEN("Cellular"),              SECT_BUTTONS, IDI_BTN_CELLULAR,        0 },
-	{ ICO_BTN_CUSTOMPHONE,   LPGEN("Custom Phone"),          SECT_BUTTONS, IDI_BTN_CUSTOMPHONE,     0 },
-	{ ICO_BTN_EMAIL,         LPGEN("e-mail"),                SECT_BUTTONS, IDI_BTN_EMAIL,           0 },
+	{ ICO_BTN_CUSTOMPHONE,   LPGEN("Custom phone"),          SECT_BUTTONS, IDI_BTN_CUSTOMPHONE,     0 },
+	{ ICO_BTN_EMAIL,         LPGEN("E-mail"),                SECT_BUTTONS, IDI_BTN_EMAIL,           0 },
 	{ ICO_BTN_DOWNARROW,     LPGEN("Down arrow"),            SECT_BUTTONS, IDI_BTN_DOWNARROW,       0 },
 	{ ICO_BTN_ADD,           LPGEN("Add"),                   SECT_BUTTONS, IDI_BTN_ADD,             0 },
 	{ ICO_BTN_EDIT,          LPGEN("Edit"),                  SECT_BUTTONS, IDI_BTN_EDIT,            0 },
 	{ ICO_BTN_DELETE,        LPGEN("Delete"),                SECT_BUTTONS, IDI_BTN_DELETE,          0 },
 	{ ICO_BTN_SEARCH,        LPGEN("Search"),                SECT_BUTTONS, IDI_SEARCH,              0 },
-	{ ICO_BTN_EXIMPORT,      LPGEN("Ex-/Import"),            SECT_BUTTONS, IDI_BTN_EXIMPORT,        0 },
-	{ ICO_BTN_BDAY_BACKUP,   LPGEN("Backup Birthday"),       SECT_BUTTONS, IDI_BTN_BIRTHDAY_BACKUP, 0 },
-																			   
-	//birthday and anniversary										   
+	{ ICO_BTN_EXIMPORT,      LPGEN("Export/import"),         SECT_BUTTONS, IDI_BTN_EXIMPORT,        0 },
+	{ ICO_BTN_BDAY_BACKUP,   LPGEN("Backup birthday"),       SECT_BUTTONS, IDI_BTN_BIRTHDAY_BACKUP, 0 },
+
+	//birthday and anniversary
 	{ ICO_RMD_DTB0,          LPGEN("Birthday today"),        SECT_REMIND,  IDI_RMD_DTB0,            0 },
 	{ ICO_RMD_DTB1,          LPGEN("Birthday tomorrow"),     SECT_REMIND,  IDI_RMD_DTB1,            0 },
 	{ ICO_RMD_DTB2,          LPGEN("Birthday in 2 days"),    SECT_REMIND,  IDI_RMD_DTB2,            0 },
@@ -105,7 +104,7 @@ static ICODESC icoDesc[] =
 	{ ICO_RMD_DTB8,          LPGEN("Birthday in 8 days"),    SECT_REMIND,  IDI_RMD_DTB8,            0 },
 	{ ICO_RMD_DTB9,          LPGEN("Birthday in 9 days"),    SECT_REMIND,  IDI_RMD_DTB9,            0 },
 	{ ICO_RMD_DTBX,          LPGEN("Birthday later"),        SECT_REMIND,  IDI_RMD_DTBX,            0 },
-      																	   										      
+
 	{ ICO_RMD_DTA0,          LPGEN("Anniversary today"),     SECT_REMIND,  IDI_RMD_DTA0,            0 },
 	{ ICO_RMD_DTA1,          LPGEN("Anniversary tomorrow"),  SECT_REMIND,  IDI_RMD_DTA1,            0 },
 	{ ICO_RMD_DTA2,          LPGEN("Anniversary in 2 days"), SECT_REMIND,  IDI_RMD_DTA2,            0 },
@@ -117,7 +116,7 @@ static ICODESC icoDesc[] =
 	{ ICO_RMD_DTA8,          LPGEN("Anniversary in 8 days"), SECT_REMIND,  IDI_RMD_DTA8,            0 },
 	{ ICO_RMD_DTA9,          LPGEN("Anniversary in 9 days"), SECT_REMIND,  IDI_RMD_DTA9,            0 },
 	{ ICO_RMD_DTAX,          LPGEN("Anniversary later"),     SECT_REMIND,  IDI_RMD_DTAX,            0 },
-};	
+};
 
 /**
  * This function finds the default iconpack file and return its path.
@@ -128,7 +127,7 @@ static ICODESC icoDesc[] =
  **/
 LPTSTR IcoLib_GetDefaultIconFileName()
 {
-	static LPTSTR	path[] = {
+	static LPTSTR path[] = {
 		_T("Icons\\uinfoex_icons.dll"),
 		_T("Plugins\\uinfoex_icons.dll"),
 		_T("Customize\\Icons\\uinfoex_icons.dll")
@@ -137,7 +136,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
 
 	for (int i = 0; i < SIZEOF(path); i++) {
 		PathToAbsoluteT(path[i], absolute);
-		if ( PathFileExists(absolute))
+		if (PathFileExists(absolute))
 			return path[i];
 	}
 	return NULL;
@@ -164,15 +163,14 @@ static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 			if (hIconDll) {
 				CHAR szFileVersion[64];
 
-				if (!LoadStringA(hIconDll, IDS_ICOPACKVERSION, szFileVersion, sizeof(szFileVersion)) ||
-						mir_strcmp(szFileVersion, "__UserInfoEx_IconPack_1.2__"))
-				{
+				if (!LoadStringA(hIconDll, IDS_ICOPACKVERSION, szFileVersion, sizeof(szFileVersion))
+					|| mir_strcmp(szFileVersion, "__UserInfoEx_IconPack_1.2__"))
 					MsgErr(NULL, LPGENT("Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly"));
-				}
 				FreeLibrary(hIconDll);
 			}
 		}
-		else MsgErr(NULL, LPGENT("Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!"));
+		else
+			MsgErr(NULL, LPGENT("Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!"));
 	}
 }
 
@@ -185,11 +183,11 @@ static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
  *
  * @return	nothing
  **/
-void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls)
+void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL *pCtrl, BYTE numCtrls)
 {
 	for (int i = 0; i < numCtrls; i++) {
 		HICON	hIcon = Skin_GetIcon(pCtrl[i].pszIcon);
-		if (pCtrl[i].idCtrl)	{
+		if (pCtrl[i].idCtrl) {
 			HWND hCtrl = GetDlgItem(hDlg, pCtrl[i].idCtrl);
 			switch (pCtrl[i].Message) {
 			case STM_SETICON:
@@ -197,10 +195,11 @@ void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls)
 				ShowWindow(hCtrl, hIcon ? SW_SHOW : SW_HIDE);
 
 			case BM_SETIMAGE:
-				SendMessage(hCtrl, pCtrl[i].Message, IMAGE_ICON, (LPARAM) hIcon);
+				SendMessage(hCtrl, pCtrl[i].Message, IMAGE_ICON, (LPARAM)hIcon);
 			}
 		}
-		else SendMessage(hDlg, pCtrl[i].Message, ICON_BIG, (LPARAM) hIcon);
+		else
+			SendMessage(hDlg, pCtrl[i].Message, ICON_BIG, (LPARAM)hIcon);
 	}
 }
 
@@ -315,7 +314,6 @@ HICON IcoLib_RegisterIcon(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, 
  *
  * @return		nothing
  **/
-
 static IconItem main = { LPGEN("Main"), ICO_COMMON_MAIN, IDI_MAIN };
 
 void IcoLib_LoadModule()
@@ -326,8 +324,7 @@ void IcoLib_LoadModule()
 	IcoLib_CheckIconPackVersion(szDefaultFile);
 
 	// load default icon if required
-	ghDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, 
-							 GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
+	ghDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON,  GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
 	for (int i = 0; i < SIZEOF(icoDesc); i++)
 		IcoLib_RegisterIconHandleEx(

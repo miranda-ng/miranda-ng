@@ -33,13 +33,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
-			if (pCtrlList)
-			{
+			if (pCtrlList) {
 				TCHAR szAddr[MAX_PATH];
 				MCONTACT hContact = lParam;
 				LPIDSTRLIST pList;
@@ -49,19 +47,19 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				PSGetBoldFont(hDlg, hBoldFont);
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 
-				mir_sntprintf(szAddr, MAX_PATH, _T("%s (%s)"), TranslateT("Address"), TranslateT("Home"));
+				mir_sntprintf(szAddr, MAX_PATH, _T("%s (%s)"), TranslateT("Address"), TranslateT("home"));
 				SetDlgItemText(hDlg, IDC_PAGETITLE, szAddr);
-				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in Browser"), MBBF_TCHAR);
+				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in browser"), MBBF_TCHAR);
 				TranslateDialogDefault(hDlg);
 
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STREET,					SET_CONTACT_STREET,			DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_CITY,						SET_CONTACT_CITY,			DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ZIP,						SET_CONTACT_ZIP,			DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STATE,					SET_CONTACT_STATE,			DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_HOMEPAGE,					SET_CONTACT_HOMEPAGE,		DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STREET, SET_CONTACT_STREET, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_CITY, SET_CONTACT_CITY, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ZIP, SET_CONTACT_ZIP, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STATE, SET_CONTACT_STATE, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_HOMEPAGE, SET_CONTACT_HOMEPAGE, DBVT_TCHAR));
 
 				GetCountryList(&nList, &pList);
-				pCtrlList->insert(   CCombo::CreateObj(hDlg, EDIT_COUNTRY,					SET_CONTACT_COUNTRY,		DBVT_WORD,	pList, nList));
+				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_COUNTRY, SET_CONTACT_COUNTRY, DBVT_WORD, pList, nList));
 
 				break;
 			}
@@ -70,21 +68,20 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 	case WM_NOTIFY:
 		{
-			switch (((LPNMHDR)lParam)->idFrom) 
-			{
+			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0:
 				{
 					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					LPCSTR pszProto;
 					HWND hCtrl;
 			
-					switch (((LPNMHDR)lParam)->code) 
-					{
+					switch (((LPNMHDR)lParam)->code) {
 					case PSN_INFOCHANGED:
 						{
 							BYTE bChanged = 0;
 
-							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0) break;
+							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
+								break;
 
 							// phone numbers
 							hCtrl = GetDlgItem(hDlg, EDIT_PHONE);
@@ -107,7 +104,8 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					case PSN_APPLY:
 						{
-							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0) break;
+							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
+								break;
 
 							hCtrl = GetDlgItem(hDlg, EDIT_PHONE);
 							CtrlContactWriteItemToDB(hCtrl, hContact, USERINFO, pszProto, SET_CONTACT_PHONE);
@@ -147,21 +145,14 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
-			{
+			switch (LOWORD(wParam)) {
 			case EDIT_HOMEPAGE:
-				{
-					if (HIWORD(wParam) == EN_UPDATE) 
-					{
-						EnableWindow(GetDlgItem(hDlg, BTN_GOTO), GetWindowTextLength((HWND)lParam) > 0);
-					}
-				}
+				if (HIWORD(wParam) == EN_UPDATE)
+					EnableWindow(GetDlgItem(hDlg, BTN_GOTO), GetWindowTextLength((HWND)lParam) > 0);
 				break;
 
 			case BTN_GOTO:
-				{
-					CEditCtrl::GetObj(hDlg, EDIT_HOMEPAGE)->OpenUrl();
-				}
+				CEditCtrl::GetObj(hDlg, EDIT_HOMEPAGE)->OpenUrl();
 				break;
 
 			case EDIT_COUNTRY:
@@ -188,8 +179,7 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
  **/
 INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
@@ -204,40 +194,39 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				PSGetBoldFont(hDlg, hBoldFont);
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 
-				mir_sntprintf(szAddr, MAX_PATH, _T("%s (%s)"), TranslateT("Address & Contact"), TranslateT("Company"));
+				mir_sntprintf(szAddr, MAX_PATH, _T("%s (%s)"), TranslateT("Address and contact"), TranslateT("company"));
 				SetDlgItemText(hDlg, IDC_PAGETITLE, szAddr);
-				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in Browser"), MBBF_TCHAR);
+				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in browser"), MBBF_TCHAR);
 				TranslateDialogDefault(hDlg);
 
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STREET,					SET_CONTACT_COMPANY_STREET,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_CITY,						SET_CONTACT_COMPANY_CITY,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ZIP,						SET_CONTACT_COMPANY_ZIP,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STATE,					SET_CONTACT_COMPANY_STATE,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_HOMEPAGE,					SET_CONTACT_COMPANY_HOMEPAGE,	DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STREET, SET_CONTACT_COMPANY_STREET, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_CITY, SET_CONTACT_COMPANY_CITY, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ZIP, SET_CONTACT_COMPANY_ZIP, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STATE, SET_CONTACT_COMPANY_STATE, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_HOMEPAGE, SET_CONTACT_COMPANY_HOMEPAGE, DBVT_TCHAR));
 
 				GetCountryList(&nList, &pList);
-				pCtrlList->insert(   CCombo::CreateObj(hDlg, EDIT_COUNTRY,					SET_CONTACT_COMPANY_COUNTRY,	DBVT_WORD,	pList, nList));
+				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_COUNTRY, SET_CONTACT_COMPANY_COUNTRY, DBVT_WORD, pList, nList));
 			}
 		}
 		break;
 
 	case WM_NOTIFY:
 		{
-			switch (((LPNMHDR)lParam)->idFrom) 
-			{
+			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0:
 				{
 					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 					LPCSTR pszProto;
 					HWND hCtrl;
 			
-					switch (((LPNMHDR)lParam)->code) 
-					{
+					switch (((LPNMHDR)lParam)->code) {
 					case PSN_INFOCHANGED:
 						{
 							BYTE bChanged = 0;
 
-							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0) break;
+							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
+								break;
 
 							// phone numbers
 							hCtrl = GetDlgItem(hDlg, EDIT_PHONE);
@@ -260,7 +249,8 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					case PSN_APPLY:
 						{
-							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0) break;
+							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
+								break;
 
 							hCtrl = GetDlgItem(hDlg, EDIT_PHONE);
 							CtrlContactWriteItemToDB(hCtrl, hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_PHONE);
@@ -300,21 +290,14 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
-			{
+			switch (LOWORD(wParam)) {
 			case EDIT_HOMEPAGE:
-				{
-					if (HIWORD(wParam) == EN_UPDATE) 
-					{
-						EnableWindow(GetDlgItem(hDlg, BTN_GOTO), GetWindowTextLength((HWND)lParam) > 0);
-					}
-				}
+				if (HIWORD(wParam) == EN_UPDATE) 
+					EnableWindow(GetDlgItem(hDlg, BTN_GOTO), GetWindowTextLength((HWND)lParam) > 0);
 				break;
 
 			case BTN_GOTO:
-				{
-					CEditCtrl::GetObj(hDlg, EDIT_HOMEPAGE)->OpenUrl();
-				}
+				CEditCtrl::GetObj(hDlg, EDIT_HOMEPAGE)->OpenUrl();
 				break;
 
 			case EDIT_COUNTRY:

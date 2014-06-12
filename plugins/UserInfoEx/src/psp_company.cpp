@@ -33,13 +33,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 INT_PTR CALLBACK PSPProcCompany(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg) 
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
 			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
-			if (pCtrlList)
-			{
+			if (pCtrlList) {
 				LPIDSTRLIST pList;
 				UINT nList;
 				HFONT hBoldFont;
@@ -48,17 +46,17 @@ INT_PTR CALLBACK PSPProcCompany(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				TranslateDialogDefault(hDlg);
 
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_COMPANY,					SET_CONTACT_COMPANY,			DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DEPARTMENT,				SET_CONTACT_COMPANY_DEPARTMENT,	DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_OFFICE,					SET_CONTACT_COMPANY_OFFICE,		DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_POSITION,					SET_CONTACT_COMPANY_POSITION,	DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SUPERIOR,					SET_CONTACT_COMPANY_SUPERIOR,	DBVT_TCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ASSISTENT,				SET_CONTACT_COMPANY_ASSISTENT,	DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_COMPANY, SET_CONTACT_COMPANY, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DEPARTMENT, SET_CONTACT_COMPANY_DEPARTMENT, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_OFFICE, SET_CONTACT_COMPANY_OFFICE, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_POSITION, SET_CONTACT_COMPANY_POSITION, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SUPERIOR, SET_CONTACT_COMPANY_SUPERIOR, DBVT_TCHAR));
+				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ASSISTENT, SET_CONTACT_COMPANY_ASSISTENT, DBVT_TCHAR));
 
 				GetOccupationList(&nList, &pList);
-				pCtrlList->insert(   CCombo::CreateObj(hDlg, EDIT_OCCUPATION,				SET_CONTACT_COMPANY_OCCUPATION,	DBVT_WORD,	pList, nList));
+				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_OCCUPATION, SET_CONTACT_COMPANY_OCCUPATION, DBVT_WORD, pList, nList));
 			}
 		}
 	}
 	return PSPBaseProc(hDlg, uMsg, wParam, lParam);
-}			
+}
