@@ -48,13 +48,6 @@ void TlenIqResultVersion(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultInfo(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultTcfg(TlenProtocol *proto, XmlNode *iqNode);
 
-void TlenIqResultChatGroups(TlenProtocol *proto, XmlNode *iqNode);
-void TlenIqResultChatRooms(TlenProtocol *proto, XmlNode *iqNode);
-void TlenIqResultUserRooms(TlenProtocol *proto, XmlNode *iqNode);
-void TlenIqResultUserNicks(TlenProtocol *proto, XmlNode *iqNode);
-void TlenIqResultRoomSearch(TlenProtocol *proto, XmlNode *iqNode);
-void TlenIqResultRoomInfo(TlenProtocol *proto, XmlNode *iqNode);
-void TlenIqResultChatRoomUsers(TlenProtocol *proto, XmlNode *iqNode);
 //void TlenIqResultSetPassword(XmlNode *iqNode, void *userdata);
 
 #endif

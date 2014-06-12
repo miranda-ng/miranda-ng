@@ -33,7 +33,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <ctype.h>
 #include <m_icolib.h>
 #include <m_genmenu.h>
-#include "m_mucc.h"
 
 CLIST_INTERFACE *pcli;
 int hLangpack;
@@ -240,7 +239,6 @@ int TlenProtocol::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		if (db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
-	TlenMUCInit(this);
 	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Incoming mail"));
 	SkinAddNewSoundEx("TlenMailNotify", m_szModuleName, str);
 	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Alert"));
@@ -285,15 +283,6 @@ void TlenProtocol::initMenuItems()
 	mi.hParentMenu = (HGENMENU)hMenuRoot;
 
 	hMenuChats = NULL;
-	if ( ServiceExists(MS_MUCC_NEW_WINDOW)) {
-		strcpy(pSvcName, "/MainMenuChats");
-		CreateProtoService(pSvcName, &TlenProtocol::MUCMenuHandleChats);
-		mi.pszName = LPGEN("Tlen Chats");
-		mi.position = 2000050001;
-		mi.icolibItem = GetIconHandle(IDI_CHATS);
-		hMenuChats = Menu_AddMainMenuItem(&mi);
-		Menu_ModifyItem(hMenuChats, &clmi);
-	}
 
 	// "Multi-User Conference"
 	strcpy(pSvcName, "/MainMenuMUC");

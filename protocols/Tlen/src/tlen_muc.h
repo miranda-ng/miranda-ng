@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _TLEN_MUC_H_
 
 #include <windows.h>
-#include "m_mucc.h"
 
 #define USER_FLAGS_OWNER			0x01
 #define USER_FLAGS_ADMIN			0x02
@@ -31,12 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define USER_FLAGS_GLOBALOWNER		0x08
 #define USER_FLAGS_KICKED			0x80
 
-extern BOOL TlenMUCInit(TlenProtocol *proto);
-extern int TlenMUCCreateWindow(TlenProtocol *proto, const char *roomID, const char *roomName, int roomFlags, const char *nick, const char *iqId);
 extern int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomJid, const char *roomName, const char *from, const char *reason);
-extern int TlenMUCRecvPresence(TlenProtocol *proto, const char *from, int status, int flags,  const char *kick);
-extern int TlenMUCRecvMessage(TlenProtocol *proto, const char *from, long timestamp, XmlNode *bodyNode);
-extern int TlenMUCRecvTopic(TlenProtocol *proto, const char *from, const char *subject);
-extern int TlenMUCRecvError(TlenProtocol *proto, const char *from, XmlNode *errorNode);
 
 #endif
