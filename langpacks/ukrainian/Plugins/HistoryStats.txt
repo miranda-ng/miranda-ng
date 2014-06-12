@@ -36,13 +36,13 @@ HistoryStats підтримує деякі плагіни. Натисніть д
 [Hide additional column info...]
 Сховати додаткову інформацію про колонку...
 [HistoryStats - Plugin/extension info]
-HistoryStats - Інформація про плагін/розширення
+HistoryStats - Інформація про плагін
 [Close]
 Закрити
 [Plugin/extension name:]
-Назва плагіна/розширення
+Назва:
 [Provided features:]
-Надає можливості:
+Можливості:
 [Detailed description:]
 Докладний опис:
 [HistoryStats - Filter words/messages]
@@ -63,10 +63,16 @@ HistoryStats - Фільтр слів/повідомлень
 Застосувати
 [Extract words from]
 Брати слова з
+[Incoming messages]
+Вхідні повідомлення
+[Outgoing messages]
+Вихідні повідомлення
+[All messages]
+Усі повідомлення
 [Ignore words shorter than (chars)]
 Ігнорувати слова коротші (символів)
 [Ignore words longer than (chars, 0=no limit)]
-Ігнорувати слова довші (символів, 0=без обмежень)
+Ігнорувати слова довші (символів, 0 = без обмежень)
 [Filter URLs/e-mail addresses]
 Фільтрувати адреси URL/E-mail
 [Filter words/messages]
@@ -74,25 +80,41 @@ HistoryStats - Фільтр слів/повідомлень
 [Define...]
 Визначити...
 [Chat duration type]
-Тип продолжительности чата
+Тип тривалості бесіди
 [Minimum]
 Мінімум
 [Average]
 Середнє
 [Maximum]
 Максимум
+[Total (sum of all chats)]
+Разом (сума всіх бесід)
+[Show bar graph for chat duration type]
+Показувати графік для типу тривалості бесід
 [Other information in tooltip]
 Інша інформація в підказці
+[Minimum chat duration]
+Мінімальна тривалість бесіди
+[Average chat duration]
+Середня тривалість бесіди
+[Maximum chat duration]
+Максимальна тривалість бесіди
+[Total chat duration]
+Загальна тривалість бесід
 [Chat duration]
-Тривалість розмови
+Тривалість бесіди
+[(unknown)]
+(невідомо)
 [[Min] #{amount}]
-(Мінімум) #{amount}
+Мінімум #{amount}
 [[Avg] #{amount}]
-(Середнє) #{amount}
+Середнє #{amount}
 [[Max] #{amount}]
-(Максимум) #{amount}
+Максимум #{amount}
 [[Sum] #{amount}]
-(Разом) #{amount}
+Разом #{amount}
+[Column holding the amount of time you have chatted with the given contact.]
+Колонка містить час, протягом якого ви спілкувалися з даним контактом.
 [Events to count]
 Рахувати події
 [URLs (incoming)]
@@ -111,20 +133,40 @@ URL (усі)
 Посилання
 [Files]
 Файли
+[Incoming URLs]
+Вхідні посилання
+[Outgoing URLs]
+Вихідні посилання
+[Incoming files]
+Вхідні файли
+[Outgoing files]
+Вихідні файли
 [Events]
 Події
+[Column holding event counts for incoming, outgoing or total number of files or URLs.]
+Колонка містить кількість вхідних, вихідних або всіх файлів чи посилань.
 [Group]
 Група
+[Column holding the contact list's group name the contact is in.]
+Колонка містить назву групи, в якій знаходиться контакт.
+[Data source]
+Джерело даних
 [Display as]
 Показувати як
 [Absolute]
-Абсолютно
+Абсолютне
 [Units per day]
-Блоків на день
+Одиниць на день
 [Units per week]
-Блоків на тиждень
+Одиниць на тиждень
 [Units per month (30 days)]
-Блоків на місяць
+Одиниць на місяць
+[Characters (incoming)]
+Символи (вхідні)
+[Characters (outgoing)]
+Символи (вихідні)
+[Characters (all)]
+Символи (всі)
 [Messages (incoming)]
 Повідомлення (вхідні)
 [Messages (outgoing)]
@@ -132,41 +174,139 @@ URL (усі)
 [Messages (all)]
 Повідомлення (всі)
 [Chats (incoming)]
-Чати (вхідні)
+Бесіди (вхідні)
 [Chats (outgoing)]
-Чати (вихідні)
+Бесіди (вихідні)
 [Chats (all)]
-Чати (всі)
+Бесіди (всі)
+[Characters]
+Символи
 [Messages]
 Повідомлення
 [Chats]
-Чати
+Бесіди
+[Incoming characters]
+Вхідні символи
+[Outgoing characters]
+Вихідні символи
+[Incoming chats]
+Вхідні бесіди
+[Outgoing chats]
+Вихідні бесіди
 [day]
 день
 [week]
 тиждень
 [month]
 місяць
+[#{data} per #{unit}]
+#{data} за #{unit}
 [In/out]
 Вхідні/Вихідні
+[Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
+Колонка містить кількість вхідних, вихідних або всіх символів, повідомлень чи бесід. Може відображати абсолютні та середні значення.
+[Show sum of incoming and outgoing]
+Показувати суму вхідних/вихідних
+[In/out details (tooltip)]
+Деталі вхідних/вихідних (підказка)
+[Percentage in tooltip]
+Відсотки в підказці
+[Absolute in tooltip if average selected and vice versa]
+Абсолютне в підказці, якщо вибрано середнє, і навпаки
+[Percentage in bar graph]
+Відсотки на графіку
 [Outgoing]
 Вихідні
 [Incoming]
 Вхідні
+[[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
+Вихідні #{out_amount} (#{out_ratio}) / Вхідні #{in_amount} (#{in_ratio})
+[[Out] #{out_amount} / [In] #{in_amount}]
+Вихідні #{out_amount} / Вхідні #{in_amount}
+[In/out graph]
+Графік "Вхідні/Вихідні"
+[Column holding in/out bar graphs for characters, messages or chats.]
+Колонка містить графік "Вхідні/Вихідні" для символів, повідомлень або бесід.
+[First/last message time (tooltip)]
+Час першого/останнього повідомлення (підказка)
+[Show contact count for omitted/totals (tooltip)]
+Лічильник контактів для пропущених/разом (підказка)
 [Nick]
 Нік
+[[First] #{first_time} / [Last] #{last_time}]
+Перше #{first_time} / Останнє #{last_time}
+[#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
+#{count} контактів / Перше #{first_time} / Останнє #{last_time}
+[#{count} contacts]
+#{count} контактів
 [Omitted]
 Пропущено
 [Totals]
 Разом
+[Column holding the contact's nick and first/last message time if selected.]
+Колонка містить нік контакта і час першого/останнього повідомлення (якщо вибрано).
 [Protocol]
 Протокол
+[Column holding the contact's protocol.]
+Колонка містить назву протоколу контакта.
+[Rank]
+Ранг
+[Column holding the contact's placing according to your sorting criteria.]
+Колонка містить місце контакта згідно з вашими критеріями впорядкування.
+["Split" type]
+Тип гістограми
+[Hours of day]
+Години доби
+[Days of week]
+Дня тижня
+[Custom (for experts only)]
+Власний (тільки для експертів)
+[Column setup]
+Налаштування колонки
+[Bar unit]
+Одиниця стовпчика
+[Units per bar]
+Одиниць на стовпчик
+[Bars per graph]
+Стовпчиків у графіку
+[Graph alignment]
+Вирівнювання графіка
+[Align on day boundary]
+Вирівняти по межі доби
+[Align on week boundary]
+Вирівняти по межі тижня
+[Details for every bar (tooltip)]
+Деталі для кожного стовпчика (підказка)
 [Hours]
-Годин
+години
 [Days]
-Днів
+дні
 [Weeks]
-Тижнів
+тижні
+[Details for every bar (tooltip) are only available with HTML output.]
+Деталі для кожного стовпчика (підказка) можливі лише при виводі HTML.
+["Split"]
+Гістограма
+[incoming characters]
+вхідні символи
+[outgoing characters]
+вихідні символи
+[all characters]
+усі символи
+[incoming messages]
+вхідні повідомлення
+[outgoing messages]
+вихідні повідомлення
+[all messages]
+усі повідомлення
+[incoming chats]
+вхідні бесіди
+[outgoing chats]
+вихідні бесіди
+[all chats]
+усі бесіди
+[#{type} for #{data}]
+#{type} for #{data}
 [wday3:Mon]
 wday3:Пнд
 [wday3:Tue]
@@ -181,12 +321,562 @@ wday3:Птн
 wday3:Сбт
 [wday3:Sun]
 wday3:Ндл
+[Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
+Колонка містить графічне зображення статистики бесід, разбитих по днях тижня або по годинах доби. Доступні різні виміри статистики бесід.
+[Drop everything older than (days, 0=no limit)]
+Пропустити все, старіше ніж (днів, 0 = без обмежень)
+[Number of days to group]
+Кількість днів для групування
+[Number of weeks to group]
+Кількість тижнів для групування
+[Block unit]
+Одиниця блоку
+[Units per block]
+Одиниць на блок
+[Blocks per column]
+Блоків у колонці
+[Number of columns to group]
+Кількість колонок для групування
+[Calculate maximum per column (not per graph)]
+Рахувати максимум на колонку (не на графік)
+[Characters (in/out ratio)]
+Символи (співвідн. вхідних/вихідних)
+[Messages (in/out ratio)]
+Повідомлення (співвідн. вхідних/вихідних)
+[Chats (in/out ratio)]
+Бесіди (співвідн. вхідних/вихідних)
+[Hours of day timeline]
+Шкала часу по годинах доби
+[Days of week timeline]
+Шкала часу по днях тижня
+[in/out ratio of characters]
+співвідношення вхідних/вихідних символів
+[in/out ratio of messages]
+співвідношення вхідних/вихідних повідомлень
+[in/out ratio of chats]
+співвідношення вхідних/вихідних бесід
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available.]
+Колонка містить графічне зображення статистики бесід (вихідні, вхідні, разом, співвідношення вихідних/вхідних) з першого дня історії по останній. Інформація розміщується по осях X і Y, а значення позначаються кольорами. Доступні різні виміри статистики бесід.
+[Timeline for #{data}]
+Шкала часу для #{data}
+[Timeline]
+Шкала часу
+[[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
+[#{start_date}-#{end_date}] #{out_amount} вихідних / #{in_amount} вхідних
+[[#{date}] #{out_amount} (out) / #{in_amount} (in)]
+[#{date}] #{out_amount} вихідних / #{in_amount} вхідних
+[Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
+Колонка містить графічне зображення статистики бесід (вихідні, вхідні, разом, співвідношення вихідних/вхідних) з першого дня історії по останній на основі днів. Дні можна згрупувати. Доступні різні виміри статистики бесід.
+[Word count type]
+Тип лічильника слів
+[Total words]
+Усі слова
+[Distinct words]
+Унікальні слова
+[Ratio total/distinct words]
+Співвідношення всі/унікальні
+[Additional info in tooltip (depends on type)]
+Додаткова інформація в підказці (залежить від типу)
+[Total word count]
+Усі слова
+[Distinct word count]
+Унікальні слова
+[#{distict_words} distinct]
+#{distict_words} унікальних
+[#{words} total]
+#{words} разом
+[#{words} total / #{distict_words} distinct]
+#{words} разом / #{distict_words} унікальних
+[Word count]
+Кількість слів
+[Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
+Колонка містить кількість слів, використаних вами, контактом або разом.
+[Words type]
+Тип слів
+[Most common words]
+Найбільш уживані слова
+[Least common words]
+Найменш уживані слова
+[Longest words]
+Найдовші слова
+[Number of words]
+Кількість слів
+[Number of words to skip in output]
+Кількість слів для пропуску при виводі
+[Word count for each word (tooltip)]
+Кількість уживань кожного слова (підказка)
+[Show separate counts for incoming/outgoing]
+Окремі лічильники для вхідних/вихідних
+[Color words according to in/out ratio]
+Виділяти слова кольором згідно зі співвідношенням вхідних/вихідних
+[[Out] #{out_words} / [In] #{in_words}]
+Вихідні #{out_words} / Вхідні #{in_words}
+[Words]
+Слова
+[Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
+Колонка містить список найбільш/найменш уживаних слів або найдовших слів, використаних вами, контактом або разом.
+[(multiple)]
+(декілька)
+[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
+Неможливо відкрити окреме вікно налаштувань HistoryStats, оскільки відкрито вікно налаштувань Miranda NG. Закрийте його і спробуйте знову.\r\n\r\nПримітка. Опції в обох діалогах однакові.
+[HistoryStats - Warning]
+Попередження HistoryStats
+[Add set]
+Додати набір
+[Delete set]
+Видалити набір
+[Filter words matching]
+Фільтрувати слова
+[Filter words containing]
+Фільтрувати слова, що містять
+[Filter words starting with]
+Фільтрувати слова, що починаються на
+[Filter words ending with]
+Фільтрувати слова, що закінчуються на
+[Filter messages matching]
+Фільтрувати повідомлення
+[Filter messages containing]
+Фільтрувати повідомлення, що містять
+[Filter messages starting with]
+Фільтрувати повідомлення, що починаються на
+[Filter messages ending with]
+Фільтрувати повідомлення, що закінчуються на
+[The selected set is in use by at least one other column. If you remove it, it won't be available to all other columns that use it. Are you sure you want to remove the set?]
+Вибраний набір використовується принаймні ще однією колонкою. Якщо його видалити, він буде недоступний для решти колонок, які його використовують. Ви впевнені, що хочете видалити цей набір?
+[Global]
+Глобальні
+[Global settings]
+Глобальні налаштування
+[Exclude]
+Виключити
+[Exclude contacts]
+Виключити контакти
+[Input]
+Ввід
+[Input settings]
+Налаштування вводу
+[Columns]
+Колонки
+[Column settings]
+Налаштування колонок
+[Output]
+Вивід
+[Output settings]
+Налаштування виводу
+[Create]
+Створити
+[Create statistics]
+Створити статистику
+[Create statistics (there are warnings)]
+Створити статистику (є попередження)
+[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda NG to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
+Неможливо відкрити налаштування HistoryStats тут, оскільки відкрито окреме вікно налаштувань. Закрийте його і спробуйте знову.\r\n\r\nПримітка. Опції в обох діалогах однакові.
+[You have unsaved settings. Do you want to save before running HistoryStats?]
+Ви не зберегли налаштування.\nЗберегти їх перед запуском HistoryStats?
+[HistoryStats]
+Статистика
+[Show warnings...]
+Показати попередження...
+[Show statistics]
+Показати статистику
+[There are some potential conflicts in your settings. However, this is only a warning and can in general be ignored. The details:]
+Виявлено конфлікт налаштувань. У більшості випадків це попередження можна проігнорувати. Подробиці:
+[Add column...]
+Додати колонку...
+[Delete column]
+Видалити колонку
+[Move down]
+Нижче
+[Move up]
+Вище
+[Show additional column info...]
+Показати додаткову інформацію про колонку...
+[General column settings]
+Загальні налаштування колонки
+[Title (default if empty)]
+Заголовок (за замовчанням, якщо порожній)
+[Column specific settings]
+Особливі налаштування колонки
+[For this config the selected column...]
+З поточними налаштуваннями ця колонка...
+[...can be output as: ]
+може бути відображена як:\s
+[PNG (partial)]
+PNG (частково)
+[...will be output as: ]
+буде відображена як:\s
+[Nothing (column will be skipped)]
+нічого (колонка буде пропущена)
+[HTML as fallback]
+HTML як відкат
 [PNG, ignoring some settings]
-PNG, з ігноруванням деяких налаштувань
+PNG з ігноруванням деяких налаштувань
+[An internal column configuration error occurred. Please contact the author of this plugin.]
+Внутрішня помилка налаштування колонок. Будь ласка, зв'яжіться з автором плагіна.
+[HistoryStats - Error]
+Помилка HistoryStats
+[HTML output unsupported.]
+вивід HTML неможливий.
+[Fallback to HTML due to setting.]
+відкат до HTML згідно налаштувань.
+[Setting ignored due to PNG output.]
+налаштування ігнорується через примусовий вивід PNG.
+[** All contacts **]
+** Усі контакти **
+[Integration]
+Інтеграція
+[Create statistics on Miranda NG startup]
+Створювати статистику при запуску програми
+[Add menu items to main menu]
+Додати пункти в головне меню
+[Put menu items into submenu]
+Розмістити пункти в окремому підменю
+[Add menu items to contact menu]
+Додати пункти в меню контакту
+[Don't hide menu items for pseudo protocols]
+Не ховати пункти меню для псевдопротоколів
+[Hide menu items for protocol...]
+Сховати пункти меню для протоколів...
+[Graphics]
+Графіки
+[Only use HTML to simulate graphics]
+Відображати засобами HTML
+[Generate PNG files to represent graphics]
+Створювати файли PNG для відображення графіків
+[Fall back to HTML output, if column options require HTML output]
+Відкат до HTML, якщо налаштування колонок вимагають HTML
+[Enforce PNG output, possibly ignoring some column options]
+Примусово виводити PNG, можливо ігноруючи деякі налаштування колонок
+[Prefer HTML output over PNG output, if available]
+Віддавати перевагу виводу HTML над PNG, якщо доступно
+[Miscellaneous]
+Інше
+[Generate statistics in background thread with low priority]
+Створювати статистику у фоновому процесі з низьким пріоритетом
+[Path to browser (leave blank for system default)]
+Шлях до браузера (порожній = браузер за замовчанням)
+[HistoryStats supports several plugins. Click to hide info...]
+HistoryStats підтримує деякі плагіни. Натисніть, щоб закрити...
+[History interpretation]
+Інтерпретація історії
+[Time a chat session must last to be counted (seconds)]
+Щоб бути врахованою, бесіда має тривати (секунд)
+[Time between two chat sessions (seconds)]
+Час між бесідами (секунди)
+[Minimum time to assume when calculating average (days)]
+Мінімальний час, допустимий при підрахунку середнього (дні)
+[Word delimiting characters]
+Слово обмежується символами
+[Contact filtering]
+Фільтр контактів
+[Ignore all contacts with protocol...]
+Ігнорувати всі контакти протоколів...
+[History read mode for MetaContacts]
+Обробка історії метаконтактів
+[Use only meta-contact's history]
+Використовувати тільки історію метаконтактів
+[Use only subcontacts' histories (for one meta-contact)]
+Використовувати тільки історію субконтактів (одного метаконтакту)
+[Use meta-contact's history and its subcontacts' histories]
+Використовувати історію метаконтактів та історію їх субконтактів
+[Treat meta-contacts and subcontacts as normal contacts]
+Обробляти метаконтакти і субконтакти як звичайні контакти
+[Merge contacts with same name]
+Об'єднувати контакти з однаковими іменами
+[Only merge if contacts are in the same group]
+Об'єднувати, якщо такі контакти знаходяться в одній групі
+[Duplicate detection when reading merged contacts]
+Перевірка на дублі при читанні об'єднаних контактів
+[Merge events (tolerant)]
+Об'єднувати події (приблизно)
+[Merge events (strict)]
+Об'єднувати події (точно)
+[Don't merge events]
+Не об'єднувати події
+[Message filtering]
+Фільтр повідомлень
+[Ignore messages...]
+Ігнорувати повідомлення...
+[...older than (days, 0=no limit)]
+старіші ніж (днів, 0 = без обмежень)
+[...before date (none=no limit)]
+до дати ("немає" = без обмежень)
+[...after date (none=no limit)]
+після дати ("немає" = без обмежень)
+[Strip raw RTF control sequences from message]
+Видаляти з повідомлень теги RTF
+[Strip BBCode tags from messages]
+Видаляти з повідомлень BBCode
+[Contact filtering and totals]
+Загальна статистика і фільтр контактів
+[Remove contacts with empty history]
+Видаляти контакти з порожньою історією
+[Remove contacts with only incoming chats]
+Видаляти контакти з лише вхідними бесідами
+[Remove only if you never answered]
+Видаляти лише якщо ви не відповідали
+[Remove contacts with only outgoing chats]
+Видаляти контакти з лише вихідними бесідами
+[Remove only if contact never answered]
+Видаляти лише якщо контакт не відповідав
+[Limit number of contacts in statistics]
+Обмежити кількість контактів у статистиці
 [Criteria]
 Критерії
+[Omit contacts that didn't produce a certain amount of data]
+Пропустити контакти, про яких немає певної кількості даних
+[Omit if]
+Пропустити, якщо
+[...is less than]
+менше ніж
+[Omit contacts that were inactive for some time]
+Пропустити контакти, неактивні протягом певного часу
+[Maximum inactivity time (days)]
+Максимальний час неактивності (днів)
+[Omit all contacts not in "Top n"]
+Пропустити всі крім перших n
+[Number of contacts in "Top n"]
+Кількість контактів у "перших n"
+[Include omitted contacts in totals]
+Включити пропущені контакти в загальну статистику
+[Include totals of omitted contacts in additional row]
+Виводити загальну статистику для пропущених в окремому рядку
+[Include totals in statistics]
+Виводити загальну статистику
+[Table header]
+Заголовок таблиці
+[Output header]
+Виводити заголовок
+[Repeat header every n contacts (0=don't repeat)]
+Повторювати заголовок кожні n контактів (0 = не повторювати)
 [Make column titles more verbose]
 Розширені назви колонок
+[Show tooltips with detailed information in column titles]
+Показувати підказку з інформацією у заголовку колонки
+[Only show if a custom title was entered or if titles are not verbose]
+Показувати тільки якщо заголовок короткий або вказаний користувачем
+[Sorting]
+Впорядкування
+[HTML file generation]
+Створення файлу HTML
+[Own nick for statistics]
+Ваш нік для статистики
+[Output files and folders]
+Папки і файли для виводу
+[Substitute variables in output file name and subfolder for additional files]
+Заміняти змінні у файлі виводу і підпапці для додаткових файлів
+[Output file]
+Шлях до файлу
+[Output additional files to subfolder]
+Розміщувати додаткові файли у підпапці
+[Subfolder for additional files]
+Підпапка для додаткових файлів
+[Always overwrite already existing files (dangerous!)]
+Завжди перезаписувати існуючі файли (небезпечно!)
+[Auto open statistics after being generated...]
+Автовідкриття статистики після створення...
+[...via button "Create statistics" in options]
+кнопкою "Створити статистику" в налаштуваннях
+[...on Miranda NG startup]
+при запуску програми
+[...via Miranda NG main menu]
+через головне меню
+[First sort by]
+Спочатку впорядкувати за
+[Then sort by]
+Потім впорядкувати за
+[Finally sort by]
+Нарешті впорядкувати за
+[Characters (incoming, absolute)]
+Символи (вхідні, абсолютне)
+[Characters (outgoing, absolute)]
+Символи (вихідні, абсолютне)
+[Characters (all, absolute)]
+Символи (усі, абсолютне)
+[Characters (incoming, average)]
+Символи (вхідні, середнє)
+[Characters (outgoing, average)]
+Символи (вихідні, середнє)
+[Characters (all, average)]
+Символи (усі, середнє)
+[Messages (incoming, absolute)]
+Повідомлення (вхідні, абсолютне)
+[Messages (outgoing, absolute)]
+Повідомлення (вихідні, абсолютне)
+[Messages (all, absolute)]
+Повідомлення (усі, абсолютне)
+[Messages (incoming, average)]
+Повідомлення (вхідні, середнє)
+[Messages (outgoing, average)]
+Повідомлення (вихідні, середнє)
+[Messages (all, average)]
+Повідомлення (усі, середнє)
+[Chats (incoming, absolute)]
+Бесіди (вхідні, абсолютне)
+[Chats (outgoing, absolute)]
+Бесіди (вихідні, абсолютне)
+[Chats (all, absolute)]
+Бесіди (усі, абсолютне)
+[Chats (incoming, average)]
+Бесіди (вхідні, середнє)
+[Chats (outgoing, average)]
+Бесіди (вихідні, середнє)
+[Chats (all, average)]
+Бесіди (усі, середнє)
+[Chat duration (total)]
+Тривалість бесіди (разом)
+[Chat duration (minimum)]
+Тривалість бесіди (мінімальне)
+[Chat duration (average)]
+Тривалість бесіди (середнє)
+[Chat duration (maximum)]
+Тривалість бесіди (максимальне)
+[Time of first message to/from contact]
+Час першого повідомлення від/до контакту
+[Time of last message to/from contact]
+Час останнього повідомлення від/до контакту
+[(nothing)]
+(нічого)
+[Ascending]
+За зростанням
+[Descending]
+За спаданням
+[Characters (incoming, average per week)]
+Символи (вхідні, середнє за тиждень)
+[Characters (outgoing, average per week)]
+Символи (вихідні, середнє за тиждень)
+[Characters (all, average per week)]
+Символи (усі, середнє за тиждень)
+[Messages (incoming, average per week)]
+Повідомлення (вхідні, середнє за тиждень)
+[Messages (outgoing, average per week)]
+Повідомлення (вихідні, середнє за тиждень)
+[Messages (all, average per week)]
+Повідомлення (усі, середнє за тиждень)
+[Chats (incoming, average per week)]
+Бесіди (вхідні, середнє за тиждень)
+[Chats (outgoing, average per week)]
+Бесіди (вихідні, середнє за тиждень)
+[Chats (all, average per week)]
+Бесіди (усі, середнє за тиждень)
+[Chat duration (total, hours)]
+Тривалість бесіди (разом, години)
+[Create statistics (main menu)]
+Створити статистику
+[Show statistics (main menu)]
+Показати статистику
+[Configure... (main menu)]
+Налаштувати...
+[Contact menu]
+Меню контакту
+[Unexcluded contacts]
+Включені контакти
+[Excluded contacts]
+Виключені контакти
+[Options tree]
+Дерево опцій
+[Checkbox]
+Прапорець
+[Checkbox (checked)]
+Прапорець (вибраний)
+[Checkbox (disabled)]
+Прапорець (вимк.)
+[Checkbox (checked & disabled)]
+Прапорець (вибраний і вимк.)
+[Radio button]
+Радіокнопка
+[Radio button (checked)]
+Радіокнопка (вибрана)
+[Radio button (disabled)]
+Радіокнопка (вимк.)
+[Radio button (checked & disabled)]
+Радіокнопка (вибрана і вимк.)
+[Edit control]
+Редагування
+[Edit control (disabled)]
+Редагування (вимк.)
+[Combo box]
+Випадний список
+[Combo box (disabled)]
+Випадний список (вимк.)
+[Folder]
+Папка
+[Folder (disabled)]
+Папка (вимк.)
+[Button]
+Кнопка
+[Button (disabled)]
+Кнопка (вимк.)
+[Date/time picker]
+Вибір дати/часу
+[Date/time picker (disabled)]
+Вибір дати/часу (вимк.)
+[The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
+Статистику не знайдено. Вона ще не створена або була переміщена до іншої папки.
+[Statistics]
+Статистика
+[Configure...]
+Налаштувати...
+[Configure statistics...]
+Налаштувати статистику...
+[HistoryStats - Confirm]
+HistoryStats - Підтвердження
+[HistoryStats - Information]
+Інформація HistoryStats
+[Exclude from statistics]
+Виключити зі статистики
+[History]
+Історія
+[(Unknown)]
+(невідомий)
+[(none)]
+(немає)
+[none]
+немає
+[(default nick)]
+(нік за замовчанням)
+[HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+Неможливо створити папку #{folder}.\r\n\r\nБудь ласка, перевірте ім'я файлу і папки, а також можливість запису в файл, папку та на диск.
+[Omitted contacts]
+Пропущені контакти
+[HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+Неможливо відкрити для запису файл #{file}.\r\n\r\nБудь ласка, перевірте ім'я файлу і можливість запису в файл, папку та на диск.
+[Statistics for #{nick} - HistoryStats]
+Статистика для #{nick} - HistoryStats
+[Statistics for #{nick}]
+Статистика для #{nick}
+[Writing omitted contacts]
+Запис пропущених контактів
+[Writing totals]
+Запис сум
+[Created with #{plugin} #{version} on #{date} at #{time}]
+Створено плагіном #{plugin} #{version} #{date} о #{time}
+[Initializing]
+Ініціалізація
+[Reading database]
+Читання бази даних
+[Removing contacts]
+Видалення контактів
+[Sorting contacts]
+Впорядкування контактів
+[Precollecting column data]
+Попередній збір даних
+[Limiting number of contacts]
+Обмеження кількості контактів
+[Calculating totals]
+Підрахунок сум
+[Postcollecting column data]
+Завершальний збір даних
+[Transforming data]
+Конвертування даних
+[Creating HTML]
+Створення HTML
+[Done]
+Готово
+[Already existing file]
+Наявні файл(и)
+[HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
+Процес створення статистики вже запущений. Будь ласка, дочекайтеся його завершення, або скасуйте і спробуйте знову.
 [month3:Jan]
 month3:Січ
 [monthF:January]
