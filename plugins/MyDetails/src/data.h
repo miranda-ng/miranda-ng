@@ -134,8 +134,6 @@ public:
 	void GetStatuses();
 	int  GetGlobalStatus();
 
-	bool CanSetStatusMsgPerProtocol();
-
 	void GetDefaultNick();	// Copy to cache
 	void GetDefaultAvatar();	// Copy to cache
 	TCHAR *GetDefaultStatusMsg();	// Copy to cache

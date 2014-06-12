@@ -34,7 +34,6 @@
 #include "m_idle.h"
 #include "m_statusplugins.h"
 #include "m_NewAwaySys.h"
-#include "m_ContactSettings.h"
 #include "MsgTree.h"
 #include "ContactList.h"
 #include "Properties.h"
@@ -159,32 +158,6 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 	if (!iMode)
 		VarParseData.Flags |= VPF_XSTATUS;
 
-	TCString LogMsg;
-	if (!iMode) { // if it's an xstatus message request
-		LogMsg = db_get_s(NULL, szProto, "XStatusName", _T(""));
-		TCString XMsg(db_get_s(NULL, szProto, "XStatusMsg", _T("")));
-		if (XMsg.GetLen()) {
-			if (LogMsg.GetLen())
-				LogMsg += _T("\r\n");
-
-			LogMsg += XMsg;
-		}
-	}
-	else LogMsg = VarParseData.Message;
-
-	if (ServiceExists(MS_VARS_FORMATSTRING))
-		logservice_log(LOG_ID, hFoundContact, LogMsg);
-	else {
-		TCString szUIN;
-		_ultot(lParam, szUIN.GetBuffer(16), 10);
-		szUIN.ReleaseBuffer();
-		TCHAR *szStatDesc = iMode ? pcli->pfnGetStatusModeDescription(iMode, 0) : STR_XSTATUSDESC;
-		if (!szStatDesc) {
-			_ASSERT(0);
-			szStatDesc = _T("");
-		}
-		logservice_log(LOG_ID, hFoundContact, TCString(pcli->pfnGetContactDisplayName(hFoundContact, 0)) + _T(" (") + szUIN + TranslateT(") read your ") + szStatDesc + TranslateT(" message:\r\n") + LogMsg);
-	}
 	return 0;
 }
 
@@ -473,70 +446,6 @@ static int IconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static int ContactSettingsInit(WPARAM wParam, LPARAM)
-{
-	CONTACTSETTINGSINIT *csi = (CONTACTSETTINGSINIT*)wParam;
-	char *szProto = (csi->Type == CSIT_CONTACT) ? GetContactProto(csi->hContact) : NULL;
-	if ((csi->Type == CSIT_GROUP) || szProto) {
-		int Flag1 = (csi->Type == CSIT_CONTACT) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : PF1_IM; // we assume that there can be some contacts in the group with PF1_IM capability
-		if ((Flag1 & PF1_IM) == PF1_IM || Flag1 & PF1_INDIVMODEMSG) { // does contact's protocol supports message sending/receiving or individual status messages?
-			CONTACTSETTINGSCONTROL csc = { 0 };
-			csc.cbSize = sizeof(csc);
-			csc.cbStateSize = sizeof(CSCONTROLSTATE);
-			csc.Position = CSPOS_SORTBYALPHABET;
-			csc.ControlType = CSCT_CHECKBOX;
-			csc.szModule = MOD_NAME;
-			csc.StateNum = 3;
-			csc.DefState = 2; // these settings are used for all controls below
-
-			int StatusMode = 0;
-			if (csi->Type == CSIT_CONTACT) {
-				CContactSettings CSettings(0, csi->hContact);
-				StatusMode = CSettings.Status;
-			}
-			else {
-				_ASSERT(csi->Type == CSIT_GROUP);
-				StatusMode = g_ProtoStates[(char*)NULL].Status;
-			}
-			
-			if (StatusMode == ID_STATUS_OFFLINE)
-				StatusMode = ID_STATUS_AWAY;
-
-			CString Setting;
-			TCHAR Title[128];
-			csc.Flags = CSCF_TCHAR | CSCF_DONT_TRANSLATE_STRINGS; // these Flags and ptszGroup are used for both controls below
-			csc.ptszGroup = TranslateT("New Away System");
-
-			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS)) {
-				mir_sntprintf(Title, SIZEOF(Title), TranslateT("Enable autoreply when you are %s"), pcli->pfnGetStatusModeDescription(StatusMode, 0));
-				csc.ptszTitle = Title;
-				csc.ptszTooltip = TranslateT("\"Store contact autoreply/ignore settings for each status separately\" is enabled, so this setting is per-contact AND per-status.");
-			}
-			else {
-				csc.ptszTitle = TranslateT("Enable autoreply");
-				csc.ptszTooltip = NULL;
-			}
-			Setting = StatusToDBSetting(StatusMode, DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS);
-			csc.szSetting = Setting;
-			CallService(MS_CONTACTSETTINGS_ADDCONTROL, wParam, (LPARAM)&csc);
-
-			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS)) {
-				mir_sntprintf(Title, SIZEOF(Title), TranslateT("Don't send status message when you are %s"), pcli->pfnGetStatusModeDescription(StatusMode, 0));
-				csc.ptszTitle = Title;
-				csc.ptszTooltip = TranslateT("Ignore status message requests from this contact and don't send an autoreply.\r\n\"Store contact autoreply/ignore settings for each status separately\" is enabled, so this setting is per-contact AND per-status.");
-			}
-			else {
-				csc.ptszTitle = TranslateT("Don't send status message");
-				csc.ptszTooltip = TranslateT("Ignore status message requests from this contact and don't send an autoreply");
-			}
-			Setting = StatusToDBSetting(StatusMode, DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS);
-			csc.szSetting = Setting;
-			CallService(MS_CONTACTSETTINGS_ADDCONTROL, wParam, (LPARAM)&csc);
-		}
-	}
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // variables
 
@@ -700,7 +609,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_IDLE_CHANGED, IdleChangeEvent);
-	HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit);
 	
 	g_hReadWndList = WindowList_Create();
 	
@@ -800,8 +708,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService
-
-	logservice_register(LOG_ID, LPGENT("New Away System"), _T("NewAwaySys?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateT("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n"));
 
 	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) { // change all %nas_message% variables to %extratext% if it wasn't done before
 		TCString Str = db_get_s(NULL, MOD_NAME, "PopupsFormat", _T(""));

@@ -26,18 +26,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static volatile LONG g_msgid = 1;
 
-static int CompareSessions( const CDccSession* p1, const CDccSession* p2 )
+static int CompareSessions(const CDccSession* p1, const CDccSession* p2)
 {
-	return INT_PTR( p1->di->hContact ) - INT_PTR( p2->di->hContact );
+	return INT_PTR(p1->di->hContact) - INT_PTR(p2->di->hContact);
 }
 
 CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
-	PROTO<CIrcProto>(szModuleName, tszUserName),
-	m_dcc_chats( 10, CompareSessions ),
-	m_dcc_xfers( 10, CompareSessions ),
-	m_ignoreItems( 10 ),
-	vUserhostReasons( 10 ),
-	vWhoInProgress( 10 )
+PROTO<CIrcProto>(szModuleName, tszUserName),
+m_dcc_chats(10, CompareSessions),
+m_dcc_xfers(10, CompareSessions),
+m_ignoreItems(10),
+vUserhostReasons(10),
+vWhoInProgress(10)
 {
 	InitializeCriticalSection(&cs);
 	InitializeCriticalSection(&m_gchook);
@@ -77,69 +77,69 @@ CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
 	CList_SetAllOffline(true);
 
 	IRC_MAP_ENTRY("PING", PING)
-	IRC_MAP_ENTRY("JOIN", JOIN)
-	IRC_MAP_ENTRY("QUIT", QUIT)
-	IRC_MAP_ENTRY("KICK", KICK)
-	IRC_MAP_ENTRY("MODE", MODE)
-	IRC_MAP_ENTRY("NICK", NICK)
-	IRC_MAP_ENTRY("PART", PART)
-	IRC_MAP_ENTRY("PRIVMSG", PRIVMSG)
-	IRC_MAP_ENTRY("TOPIC", TOPIC)
-	IRC_MAP_ENTRY("NOTICE", NOTICE)
-	IRC_MAP_ENTRY("PING", PINGPONG)
-	IRC_MAP_ENTRY("PONG", PINGPONG)
-	IRC_MAP_ENTRY("INVITE", INVITE)
-	IRC_MAP_ENTRY("ERROR", ERROR)
-	IRC_MAP_ENTRY("001", WELCOME)
-	IRC_MAP_ENTRY("002", YOURHOST)
-	IRC_MAP_ENTRY("005", SUPPORT)
-	IRC_MAP_ENTRY("223", WHOIS_OTHER)			//CodePage info
-	IRC_MAP_ENTRY("254", NOOFCHANNELS)
-	IRC_MAP_ENTRY("263", TRYAGAIN)
-	IRC_MAP_ENTRY("264", WHOIS_OTHER)			//Encryption info (SSL connect)
-	IRC_MAP_ENTRY("301", WHOIS_AWAY)
-	IRC_MAP_ENTRY("302", USERHOST_REPLY)
-	IRC_MAP_ENTRY("305", BACKFROMAWAY)
-	IRC_MAP_ENTRY("306", SETAWAY)
-	IRC_MAP_ENTRY("307", WHOIS_AUTH)
-	IRC_MAP_ENTRY("310", WHOIS_OTHER)
-	IRC_MAP_ENTRY("311", WHOIS_NAME)
-	IRC_MAP_ENTRY("312", WHOIS_SERVER)
-	IRC_MAP_ENTRY("313", WHOIS_OTHER)
-	IRC_MAP_ENTRY("315", WHO_END)
-	IRC_MAP_ENTRY("317", WHOIS_IDLE)
-	IRC_MAP_ENTRY("318", WHOIS_END)
-	IRC_MAP_ENTRY("319", WHOIS_CHANNELS)
-	IRC_MAP_ENTRY("320", WHOIS_AUTH)
-	IRC_MAP_ENTRY("321", LISTSTART)
-	IRC_MAP_ENTRY("322", LIST)
-	IRC_MAP_ENTRY("323", LISTEND)
-	IRC_MAP_ENTRY("324", MODEQUERY)
-	IRC_MAP_ENTRY("330", WHOIS_AUTH)
-	IRC_MAP_ENTRY("332", INITIALTOPIC)
-	IRC_MAP_ENTRY("333", INITIALTOPICNAME)
-	IRC_MAP_ENTRY("352", WHO_REPLY)
-	IRC_MAP_ENTRY("353", NAMES)
-	IRC_MAP_ENTRY("366", ENDNAMES)
-	IRC_MAP_ENTRY("367", BANLIST)
-	IRC_MAP_ENTRY("368", BANLISTEND)
-	IRC_MAP_ENTRY("346", BANLIST)
-	IRC_MAP_ENTRY("347", BANLISTEND)
-	IRC_MAP_ENTRY("348", BANLIST)
-	IRC_MAP_ENTRY("349", BANLISTEND)
-	IRC_MAP_ENTRY("371", WHOIS_OTHER)
-	IRC_MAP_ENTRY("376", ENDMOTD)
-	IRC_MAP_ENTRY("401", WHOIS_NO_USER)
-	IRC_MAP_ENTRY("403", JOINERROR)
-	IRC_MAP_ENTRY("416", WHOTOOLONG)
-	IRC_MAP_ENTRY("421", UNKNOWN)
-	IRC_MAP_ENTRY("422", ENDMOTD)
-	IRC_MAP_ENTRY("433", NICK_ERR)
-	IRC_MAP_ENTRY("471", JOINERROR)
-	IRC_MAP_ENTRY("473", JOINERROR)
-	IRC_MAP_ENTRY("474", JOINERROR)
-	IRC_MAP_ENTRY("475", JOINERROR)
-	IRC_MAP_ENTRY("671", WHOIS_OTHER)			//Encryption info (SSL connect)
+		IRC_MAP_ENTRY("JOIN", JOIN)
+		IRC_MAP_ENTRY("QUIT", QUIT)
+		IRC_MAP_ENTRY("KICK", KICK)
+		IRC_MAP_ENTRY("MODE", MODE)
+		IRC_MAP_ENTRY("NICK", NICK)
+		IRC_MAP_ENTRY("PART", PART)
+		IRC_MAP_ENTRY("PRIVMSG", PRIVMSG)
+		IRC_MAP_ENTRY("TOPIC", TOPIC)
+		IRC_MAP_ENTRY("NOTICE", NOTICE)
+		IRC_MAP_ENTRY("PING", PINGPONG)
+		IRC_MAP_ENTRY("PONG", PINGPONG)
+		IRC_MAP_ENTRY("INVITE", INVITE)
+		IRC_MAP_ENTRY("ERROR", ERROR)
+		IRC_MAP_ENTRY("001", WELCOME)
+		IRC_MAP_ENTRY("002", YOURHOST)
+		IRC_MAP_ENTRY("005", SUPPORT)
+		IRC_MAP_ENTRY("223", WHOIS_OTHER)			//CodePage info
+		IRC_MAP_ENTRY("254", NOOFCHANNELS)
+		IRC_MAP_ENTRY("263", TRYAGAIN)
+		IRC_MAP_ENTRY("264", WHOIS_OTHER)			//Encryption info (SSL connect)
+		IRC_MAP_ENTRY("301", WHOIS_AWAY)
+		IRC_MAP_ENTRY("302", USERHOST_REPLY)
+		IRC_MAP_ENTRY("305", BACKFROMAWAY)
+		IRC_MAP_ENTRY("306", SETAWAY)
+		IRC_MAP_ENTRY("307", WHOIS_AUTH)
+		IRC_MAP_ENTRY("310", WHOIS_OTHER)
+		IRC_MAP_ENTRY("311", WHOIS_NAME)
+		IRC_MAP_ENTRY("312", WHOIS_SERVER)
+		IRC_MAP_ENTRY("313", WHOIS_OTHER)
+		IRC_MAP_ENTRY("315", WHO_END)
+		IRC_MAP_ENTRY("317", WHOIS_IDLE)
+		IRC_MAP_ENTRY("318", WHOIS_END)
+		IRC_MAP_ENTRY("319", WHOIS_CHANNELS)
+		IRC_MAP_ENTRY("320", WHOIS_AUTH)
+		IRC_MAP_ENTRY("321", LISTSTART)
+		IRC_MAP_ENTRY("322", LIST)
+		IRC_MAP_ENTRY("323", LISTEND)
+		IRC_MAP_ENTRY("324", MODEQUERY)
+		IRC_MAP_ENTRY("330", WHOIS_AUTH)
+		IRC_MAP_ENTRY("332", INITIALTOPIC)
+		IRC_MAP_ENTRY("333", INITIALTOPICNAME)
+		IRC_MAP_ENTRY("352", WHO_REPLY)
+		IRC_MAP_ENTRY("353", NAMES)
+		IRC_MAP_ENTRY("366", ENDNAMES)
+		IRC_MAP_ENTRY("367", BANLIST)
+		IRC_MAP_ENTRY("368", BANLISTEND)
+		IRC_MAP_ENTRY("346", BANLIST)
+		IRC_MAP_ENTRY("347", BANLISTEND)
+		IRC_MAP_ENTRY("348", BANLIST)
+		IRC_MAP_ENTRY("349", BANLISTEND)
+		IRC_MAP_ENTRY("371", WHOIS_OTHER)
+		IRC_MAP_ENTRY("376", ENDMOTD)
+		IRC_MAP_ENTRY("401", WHOIS_NO_USER)
+		IRC_MAP_ENTRY("403", JOINERROR)
+		IRC_MAP_ENTRY("416", WHOTOOLONG)
+		IRC_MAP_ENTRY("421", UNKNOWN)
+		IRC_MAP_ENTRY("422", ENDMOTD)
+		IRC_MAP_ENTRY("433", NICK_ERR)
+		IRC_MAP_ENTRY("471", JOINERROR)
+		IRC_MAP_ENTRY("473", JOINERROR)
+		IRC_MAP_ENTRY("474", JOINERROR)
+		IRC_MAP_ENTRY("475", JOINERROR)
+		IRC_MAP_ENTRY("671", WHOIS_OTHER)			//Encryption info (SSL connect)
 }
 
 CIrcProto::~CIrcProto()
@@ -170,7 +170,7 @@ CIrcProto::~CIrcProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoaded - performs hook registration
 
-static COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+static COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
 static int sttCheckPerform(const char *szSetting, LPARAM lParam)
 {
@@ -207,42 +207,30 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	nlu.ptszDescriptiveName = name;
 	hNetlibDCC = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	if (ServiceExists("MBot/GetFcnTable")) {
-		CallService(MS_MBOT_REGISTERIRC, 0, (LPARAM)m_szModuleName);
-		m_bMbotInstalled = TRUE;
-	}
+	GCREGISTER gcr = { sizeof(GCREGISTER) };
+	gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
+	gcr.nColors = 16;
+	gcr.pColors = colors;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 
-	if (ServiceExists(MS_GC_REGISTER)) {
-		GCREGISTER gcr = { sizeof(GCREGISTER) };
-		gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
-		gcr.nColors = 16;
-		gcr.pColors = colors;
-		gcr.ptszDispName = m_tszUserName;
-		gcr.pszModule = m_szModuleName;
-		CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
+	HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
 
-		HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
-		HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
+	GCSESSION gcw = { sizeof(GCSESSION) };
+	gcw.iType = GCW_SERVER;
+	gcw.ptszID = SERVERWINDOW;
+	gcw.pszModule = m_szModuleName;
+	gcw.ptszName = NEWTSTR_ALLOCA((TCHAR*)_A2T(m_network));
+	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-		GCSESSION gcw = { sizeof(GCSESSION) };
-		gcw.iType = GCW_SERVER;
-		gcw.ptszID = SERVERWINDOW;
-		gcw.pszModule = m_szModuleName;
-		gcw.ptszName = NEWTSTR_ALLOCA((TCHAR*)_A2T(m_network));
-		CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
-
-		GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
-		GCEVENT gce = { sizeof(gce), &gcd };
-		if (m_useServer && !m_hideServerWindow)
-			CallChatEvent(WINDOW_VISIBLE, (LPARAM)&gce);
-		else
-			CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
-		bChatInstalled = TRUE;
-	}
-	else {
-		if (IDYES == MessageBox(0, TranslateT("The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?"), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
-	}
+	GCDEST gcd = { m_szModuleName, SERVERWINDOW, GC_EVENT_CONTROL };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	if (m_useServer && !m_hideServerWindow)
+		CallChatEvent(WINDOW_VISIBLE, (LPARAM)&gce);
+	else
+		CallChatEvent(WINDOW_HIDDEN, (LPARAM)&gce);
 
 	TCHAR szTemp[MAX_PATH];
 	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%miranda_path%%\\Plugins\\%S_perform.ini"), m_szModuleName);
@@ -774,7 +762,7 @@ struct TFakeAckParam
 {
 	__inline TFakeAckParam(MCONTACT _hContact, int _msgid) :
 		hContact(_hContact), msgid(_msgid)
-		{}
+	{}
 
 	MCONTACT hContact;
 	int    msgid;
@@ -861,9 +849,6 @@ int __cdecl CIrcProto::SetStatus(int iNewStatus)
 
 int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 {
-	if (!bChatInstalled)
-		return 0;
-
 	if (iNewStatus != ID_STATUS_OFFLINE && !m_network[0]) {
 		if (m_nick[0] && !m_disableDefaultServer) {
 			CQuickDlg* dlg = new CQuickDlg(this);

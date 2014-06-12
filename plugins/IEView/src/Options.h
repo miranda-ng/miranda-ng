@@ -195,7 +195,6 @@ class Options {
 private:
    	static int 		generalFlags;
    	static bool     isInited;
-	static bool     bMathModule;
 	static bool     bSmileyAdd;
 	static int      avatarServiceFlags;
 	static ProtocolSettings* protocolList;
@@ -207,7 +206,6 @@ public:
 	};
 	enum OPTIONS {
 		GENERAL_ENABLE_BBCODES	= 0x000001,
-		GENERAL_ENABLE_MATHMODULE = 0x000002,
 		GENERAL_ENABLE_FLASH 	= 0x000004,
 		GENERAL_ENABLE_PNGHACK 	= 0x000008,
 		GENERAL_SMILEYINNAMES  	= 0x000010,
@@ -235,7 +233,6 @@ public:
 	static void     		setEmbedsize(int size);
 	static int				getEmbedsize();
 
-	static bool             isMathModule();
 	static bool             isSmileyAdd();
 	static int				getAvatarServiceFlags();
 	static void      		init();

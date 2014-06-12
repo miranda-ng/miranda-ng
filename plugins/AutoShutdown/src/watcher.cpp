@@ -31,8 +31,6 @@ static HANDLE hHookIdleChanged;
 static HANDLE hHookSettingChanged;
 /* Weather Shutdown */
 static HANDLE hHookWeatherUpdated;
-/* Overheat Shutdown */
-static HANDLE hHookHddOverheat;
 /* Services */
 static HANDLE hServiceStartWatcher,hServiceStopWatcher,hServiceIsEnabled;
 static HANDLE hEventWatcherChanged;
@@ -246,15 +244,6 @@ static int WeatherUpdated(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-/************************* Overheat Shutdown **************************/
-
-static int HddOverheat(WPARAM wParam,LPARAM lParam)
-{
-	if (db_get_b(NULL,"AutoShutdown","HddOverheatShutdown",SETTING_HDDOVERHEATSHUTDOWN_DEFAULT))
-		ServiceShutdown(SDSDT_SHUTDOWN,TRUE);
-	return 0;
-}
-
 /************************* Services ***********************************/
 
 INT_PTR ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
@@ -329,9 +318,6 @@ void WatcherModulesLoaded(void)
 	/* Weather Shutdown */
 	if (ServiceExists(MS_WEATHER_UPDATE))
 		hHookWeatherUpdated=HookEvent(ME_WEATHER_UPDATED,WeatherUpdated);
-	/* Overheat Shutdown */
-	if (ServiceExists(MS_SYSINFO_HDDTEMP))
-		hHookHddOverheat=HookEvent(ME_SYSINFO_HDDOVERHEAT,HddOverheat);
 
 	/* restore watcher if it was running on last exit */
 	if (db_get_b(NULL,"AutoShutdown","RememberOnRestart",0)==SDROR_RUNNING) {
@@ -356,8 +342,6 @@ void InitWatcher(void)
 	hHookProtoAck=HookEvent(ME_PROTO_ACK,ProtoAck);
 	/* Weather Shutdown */
 	hHookWeatherUpdated=NULL;
-	/* Overheat Shutdown */
-	hHookHddOverheat=NULL;
 	/* Services */
 	hEventWatcherChanged=CreateHookableEvent(ME_AUTOSHUTDOWN_WATCHERCHANGED);
 	hServiceStartWatcher = CreateServiceFunction(MS_AUTOSHUTDOWN_STARTWATCHER, ServiceStartWatcher);
@@ -383,8 +367,6 @@ void UninitWatcher(void)
 	mir_free(transfers); /* does NULL check */
 	/* Weather Shutdown */
 	UnhookEvent(hHookWeatherUpdated); /* does NULL check */
-	/* Overheat Shutdown */
-	UnhookEvent(hHookHddOverheat); /* does NULL check */
 	/* Services */
 	DestroyServiceFunction(hServiceStartWatcher);
 	DestroyServiceFunction(hServiceStopWatcher);

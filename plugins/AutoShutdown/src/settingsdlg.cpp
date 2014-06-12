@@ -130,8 +130,6 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					SetDlgItemText(hwndDlg,IDC_EDIT_MESSAGE,dbv.ptszVal);
 					mir_free(dbv.ptszVal);
 				}
-				if (ServiceExists(MS_AUTOREPLACER_ADDWINHANDLE))
-					CallService(MS_AUTOREPLACER_ADDWINHANDLE,0,(LPARAM)GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE));
 			}
 			/* cpuusage threshold */
 			{
@@ -181,8 +179,6 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		}
 	case WM_DESTROY:
 		{
-			if (ServiceExists(MS_AUTOREPLACER_ADDWINHANDLE))
-				CallService(MS_AUTOREPLACER_REMWINHANDLE,0,(LPARAM)GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE));
 			Utils_SaveWindowPosition(hwndDlg,NULL,"AutoShutdown","SettingsDlg_");
 			HICON hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
 			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);
@@ -395,7 +391,6 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		}
 		break;
 	}
-	CallSnappingWindowProc(hwndDlg,msg,wParam,lParam); /* Snapping Windows plugin */
 	return FALSE;
 }
 

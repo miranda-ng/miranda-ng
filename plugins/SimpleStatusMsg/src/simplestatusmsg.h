@@ -34,6 +34,9 @@ PROTOACCOUNTS;
 
 extern PROTOACCOUNTS *accounts;
 
+// Represents status that a protocol(s) is/are currently in
+#define	ID_STATUS_CURRENT	40082
+
 #define DLG_SHOW_STATUS				1
 #define DLG_SHOW_STATUS_ICONS		2
 #define DLG_SHOW_LIST_ICONS			4

@@ -73,7 +73,6 @@ BEGIN
                     176,11
     CONTROL         "",IDC_MESSAGE,"MButtonClass",0x0,41,36,17,15,
                     0x18000000L
-    CONTROL         "",IDC_VOICE,"MButtonClass",0x0,62,36,17,15,0x18000000L
     CONTROL         "",IDC_FILE,"MButtonClass",0x0,83,36,17,15,0x18000000L
     CONTROL         "",IDC_URL,"MButtonClass",0x0,104,36,17,15,0x18000000L
     CONTROL         "",IDC_USERINFO,"MButtonClass",0x0,125,36,17,15,
@@ -119,7 +118,6 @@ BEGIN
     "I",            HOTKEY_INFO,            VIRTKEY, CONTROL, NOINVERT
     "M",            HOTKEY_MENU,            VIRTKEY, CONTROL, NOINVERT
     "U",            HOTKEY_URL,             VIRTKEY, CONTROL, NOINVERT
-    "V",            HOTKEY_VOICE,           VIRTKEY, CONTROL, NOINVERT
 END
 
 #ifdef APSTUDIO_INVOKED

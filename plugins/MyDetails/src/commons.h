@@ -46,7 +46,6 @@ Boston, MA 02111-1307, USA.
 #include <m_proto_listeningto.h>
 #include <m_listeningto.h>
 #include <m_statusplugins.h>
-#include <m_simpleaway.h>
 #include <m_smileyadd.h>
 #include <m_mydetails.h>
 #include <m_skin_eng.h>

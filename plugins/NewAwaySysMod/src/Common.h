@@ -67,9 +67,6 @@
 #include "m_toptoolbar.h"
 #include "m_popup.h"
 #include "m_metacontacts.h"
-#include "m_LogService.h"
-
-#pragma comment(lib,"comctl32.lib")
 
 #include "CString.h"
 #include "Options.h"

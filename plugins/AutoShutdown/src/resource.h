@@ -43,7 +43,6 @@
 #define IDC_CHECK_REMEMBERONRESTART     1033
 #define IDC_CHECK_SMARTOFFLINECHECK     1034
 #define IDC_CHECK_WEATHER               1035
-#define IDC_CHECK_HDDOVERHEAT           1036
 
 // Next default values for new objects
 // 

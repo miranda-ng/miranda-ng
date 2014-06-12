@@ -477,9 +477,6 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_FLASH) {
 				CheckDlgButton(hwndDlg, IDC_ENABLE_FLASH, TRUE);
 			}
-			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_MATHMODULE) {
-				CheckDlgButton(hwndDlg, IDC_ENABLE_MATHMODULE, TRUE);
-			}
 			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_PNGHACK) {
 				CheckDlgButton(hwndDlg, IDC_ENABLE_PNGHACK, TRUE);
 			}
@@ -492,7 +489,6 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_EMBED) {
 				CheckDlgButton(hwndDlg, IDC_ENABLE_EMBED, TRUE);
 			}
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ENABLE_MATHMODULE), Options::isMathModule());
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEYS_IN_NAMES), Options::isSmileyAdd());
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EMBED_SIZE), IsDlgButtonChecked(hwndDlg, IDC_ENABLE_EMBED));
 			TCHAR* size[] = {  _T("320 x 205"), _T("480 x 385") , _T("560 x 349"), _T("640 x 390")};
@@ -508,7 +504,6 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			switch (LOWORD(wParam)) {
 			case IDC_ENABLE_BBCODES:
 			case IDC_ENABLE_FLASH:
-			case IDC_ENABLE_MATHMODULE:
 			case IDC_ENABLE_PNGHACK:
 			case IDC_SMILEYS_IN_NAMES:
 			case IDC_NO_BORDER:
@@ -532,9 +527,6 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_FLASH)) {
 					i |= Options::GENERAL_ENABLE_FLASH;
-				}
-				if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_MATHMODULE)) {
-					i |= Options::GENERAL_ENABLE_MATHMODULE;
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_PNGHACK)) {
 					i |= Options::GENERAL_ENABLE_PNGHACK;
@@ -964,7 +956,6 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 }
 
 bool Options::isInited = false;
-bool Options::bMathModule = false;
 bool Options::bSmileyAdd = false;
 int  Options::avatarServiceFlags = 0;
 int  Options::generalFlags;
@@ -1600,7 +1591,6 @@ void Options::init()
 		lastProto = proto;
 	}
 
-	bMathModule = 0 != ServiceExists(MTH_GET_GIF_UNICODE);
 	bSmileyAdd = 0 != ServiceExists(MS_SMILEYADD_BATCHPARSE);
 	avatarServiceFlags = 0;
 	if (ServiceExists(MS_AV_GETAVATARBITMAP))
@@ -1640,11 +1630,6 @@ void Options::setEmbedsize(int size)
 int Options::getEmbedsize()
 {
 	return db_get_dw(NULL, ieviewModuleName, "Embedsize", 0);
-}
-
-bool Options::isMathModule()
-{
-	return bMathModule;
 }
 
 bool Options::isSmileyAdd()

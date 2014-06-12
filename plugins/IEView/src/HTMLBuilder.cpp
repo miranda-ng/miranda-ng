@@ -57,12 +57,6 @@ bool HTMLBuilder::encode(MCONTACT hContact, const char *proto, const wchar_t *te
 			break;
 		}
 		level++;
-	case 2:
-		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_MATHMODULE) && Options::isMathModule()) {
-			token = TextToken::tokenizeMath(text);
-			break;
-		}
-		level++;
 	case 3:
 		token = TextToken::tokenizeLinks(text);
 		break;

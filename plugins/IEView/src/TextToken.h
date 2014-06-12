@@ -84,7 +84,6 @@ public:
 	static TextToken* 	tokenizeLinks(const wchar_t *wtext);
 	static TextToken* 	tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *wtext, bool isSent);
 	static TextToken* 	tokenizeBBCodes(const wchar_t *text);
-	static TextToken* 	tokenizeMath(const wchar_t *text);
 	static TextToken*	tokenizeChatFormatting(const wchar_t *text);
 };
 #endif

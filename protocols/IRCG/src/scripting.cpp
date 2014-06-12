@@ -25,7 +25,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawIn(WPARAM, LPARAM lParam)
 {
 	char* pszRaw = (char*)lParam;
 
-	if (m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected()) {
+	if (m_scriptingEnabled && pszRaw && IsConnected()) {
 		TCHAR* p = mir_a2t(pszRaw);
 		InsertIncomingEvent(p);
 		mir_free(p);
@@ -38,7 +38,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawIn(WPARAM, LPARAM lParam)
 INT_PTR __cdecl CIrcProto::Scripting_InsertRawOut( WPARAM, LPARAM lParam )
 {
 	char* pszRaw = (char*)lParam;
-	if (m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected()) {
+	if (m_scriptingEnabled && pszRaw && IsConnected()) {
 		String S = pszRaw;
 		ReplaceString(S, "%", "%%%%");
 		NLSendNoScript((const unsigned char *)S.c_str(), lstrlenA(S.c_str()));
@@ -75,7 +75,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 {
 	GCHOOK* gch = (GCHOOK*)lParam;
 
-	if (m_bMbotInstalled && m_scriptingEnabled && gch) {
+	if (m_scriptingEnabled && gch) {
 		GCHOOK* gchook = new GCHOOK;
 		gchook->pDest = new GCDEST;
 
@@ -107,54 +107,9 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 	return 1;
 }
 
-BOOL CIrcProto::Scripting_TriggerMSPRawIn(char** pszRaw)
-{
-	int iVal = CallService(MS_MBOT_IRC_RAW_IN, (WPARAM)m_szModuleName, (LPARAM)pszRaw);
-	if (iVal == 0)
-		return TRUE;
-
-	return iVal > 0 ? FALSE : TRUE;
-}
-
-BOOL CIrcProto::Scripting_TriggerMSPRawOut(char ** pszRaw)
-{
-	int iVal = CallService(MS_MBOT_IRC_RAW_OUT, (WPARAM)m_szModuleName, (LPARAM)pszRaw);
-	if (iVal == 0)
-		return TRUE;
-
-	return iVal > 0 ? FALSE : TRUE;
-}
-
-BOOL CIrcProto::Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT *gce)
-{
-	WPARAM_GUI_IN wgi = { 0 };
-
-	wgi.pszModule = m_szModuleName;
-	wgi.wParam = *wparam;
-	if (gce->time == 0)
-		gce->time = time(0);
-
-	int iVal = CallService(MS_MBOT_IRC_GUI_IN, (WPARAM)&wgi, (LPARAM)gce);
-	if (iVal == 0) {
-		*wparam = wgi.wParam;
-		return TRUE;
-	}
-
-	return iVal > 0 ? FALSE : TRUE;
-}
-
-BOOL CIrcProto::Scripting_TriggerMSPGuiOut(GCHOOK* gch)
-{
-	int iVal = CallService(MS_MBOT_IRC_GUI_OUT, (WPARAM)m_szModuleName, (LPARAM)gch);
-	if (iVal == 0)
-		return TRUE;
-
-	return iVal > 0 ? FALSE : TRUE;
-}
-
 INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 {
-	if (m_bMbotInstalled && m_scriptingEnabled && lparam) {
+	if (m_scriptingEnabled && lparam) {
 		String sString = (char*)lparam, sRequest;
 		CMString sOutput, sChannel;
 

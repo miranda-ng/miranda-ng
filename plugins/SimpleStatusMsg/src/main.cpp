@@ -1184,66 +1184,6 @@ static INT_PTR ChangeStatusMsg(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR SetOfflineStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_OFFLINE, 0);
-	return 0;
-}
-
-static INT_PTR SetOnlineStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_ONLINE, 0);
-	return 0;
-}
-
-static INT_PTR SetAwayStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_AWAY, 0);
-	return 0;
-}
-
-static INT_PTR SetDNDStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_DND, 0);
-	return 0;
-}
-
-static INT_PTR SetNAStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_NA, 0);
-	return 0;
-}
-
-static INT_PTR SetOccupiedStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_OCCUPIED, 0);
-	return 0;
-}
-
-static INT_PTR SetFreeChatStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_FREECHAT, 0);
-	return 0;
-}
-
-static INT_PTR SetInvisibleStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_INVISIBLE, 0);
-	return 0;
-}
-
-static INT_PTR SetOnThePhoneStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_ONTHEPHONE, 0);
-	return 0;
-}
-
-static INT_PTR SetOutToLunchStatus(WPARAM wParam, LPARAM lParam)
-{
-	ChangeStatusMessage((WPARAM)ID_STATUS_OUTTOLUNCH, 0);
-	return 0;
-}
-
 static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
@@ -1965,11 +1905,6 @@ static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR IsSARunning(WPARAM wParam, LPARAM lParam)
-{
-	return 1;
-}
-
 //remember to mir_free() the return value
 static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 {
@@ -1994,24 +1929,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_SHOWDIALOG, ShowStatusMessageDialog);
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, ChangeStatusMsg);
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_SHOWDIALOGINT, ShowStatusMessageDialogInternal); // internal use ONLY
-
-	// Deprecated SimpleAway services
-	CreateServiceFunction(MS_SA_ISSARUNNING, IsSARunning);
-	CreateServiceFunction(MS_SA_CHANGESTATUSMSG, ChangeStatusMsg);
-	CreateServiceFunction(MS_SA_TTCHANGESTATUSMSG, ShowStatusMessageDialogInternal);
-	CreateServiceFunction(MS_SA_SHOWSTATUSMSGDIALOG, ShowStatusMessageDialog);
-	CreateServiceFunction(MS_SA_SETSTATUSMODE, SetStatusModeFromExtern);
-
-	CreateServiceFunction(MS_SA_SETOFFLINESTATUS, SetOfflineStatus);
-	CreateServiceFunction(MS_SA_SETONLINESTATUS, SetOnlineStatus);
-	CreateServiceFunction(MS_SA_SETAWAYSTATUS, SetAwayStatus);
-	CreateServiceFunction(MS_SA_SETDNDSTATUS, SetDNDStatus);
-	CreateServiceFunction(MS_SA_SETNASTATUS, SetNAStatus);
-	CreateServiceFunction(MS_SA_SETOCCUPIEDSTATUS, SetOccupiedStatus);
-	CreateServiceFunction(MS_SA_SETFREECHATSTATUS, SetFreeChatStatus);
-	CreateServiceFunction(MS_SA_SETINVISIBLESTATUS, SetInvisibleStatus);
-	CreateServiceFunction(MS_SA_SETONTHEPHONESTATUS, SetOnThePhoneStatus);
-	CreateServiceFunction(MS_SA_SETOUTTOLUNCHSTATUS, SetOutToLunchStatus);
 
 	HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);

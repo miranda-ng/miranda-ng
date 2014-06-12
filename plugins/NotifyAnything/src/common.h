@@ -16,8 +16,6 @@
 #include "m_database.h"
 #include "m_popup.h"
 
-#include "m_LogService.h"
-
 #include "resource.h"
 #include "Version.h"
 
@@ -49,5 +47,4 @@ void load_settings();
 int OptionsInitialize(WPARAM wParam, LPARAM lParam);
 
 extern std::string g_mirandaDir;
-extern bool IsLogService;
 #define LOG_ID LPGEN("NotifyAnything")

@@ -73,8 +73,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_string.h"
 #include "win2k.h"
 
-#include "m_ircscript.h"
-
 #include "resource.h"
 
 #define IRC_QUICKCONNECT      "/QuickConnectMenu"
@@ -459,10 +457,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	INT_PTR  __cdecl Scripting_InsertGuiIn(WPARAM wParam,LPARAM lParam);
 	INT_PTR  __cdecl Scripting_InsertGuiOut(WPARAM wParam,LPARAM lParam);
 	INT_PTR  __cdecl Scripting_GetIrcData(WPARAM wparam, LPARAM lparam);
-	BOOL Scripting_TriggerMSPRawIn(char ** pszRaw);
-	BOOL Scripting_TriggerMSPRawOut(char ** pszRaw);
-	BOOL Scripting_TriggerMSPGuiIn(WPARAM * wparam, GCEVENT *gce);
-	BOOL Scripting_TriggerMSPGuiOut(GCHOOK * gch);
 
 	// services.cpp
 	void   ConnectToServer(void);
@@ -653,10 +647,6 @@ void    InitIcons(void);
 HICON   LoadIconEx(int iIndex, bool big = false);
 HANDLE  GetIconHandle(int iconId);
 void    ReleaseIconEx(HICON hIcon);
-
-// services.cpp
-
-extern BOOL bChatInstalled, m_bMbotInstalled;
 
 //tools.cpp
 int          __stdcall WCCmp(const TCHAR* wild, const TCHAR* string);

@@ -71,8 +71,6 @@ BEGIN
     LTEXT           "Automatically shutdown the computer and turn the power off when one of the following occurs:",IDC_STATIC,12,128,273,18,SS_NOPREFIX
     CONTROL         "&Thunderstorm warning is issued (Weather)",IDC_CHECK_WEATHER,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | WS_DISABLED | WS_TABSTOP,12,150,273,11
-    CONTROL         "&Harddrive overheats (HDD Info)",IDC_CHECK_HDDOVERHEAT,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,12,163,273,10
 END
 
 IDD_SETTINGS DIALOGEX 0, 0, 239, 286

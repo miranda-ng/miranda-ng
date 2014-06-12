@@ -50,10 +50,6 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		{
 			BOOL enabled = ServiceIsTypeEnabled(SDSDT_SHUTDOWN,0);
 			if (enabled) {
-				if (ServiceExists(MS_SYSINFO_HDDTEMP)) {
-					EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_HDDOVERHEAT),TRUE);
-					CheckDlgButton(hwndDlg,IDC_CHECK_HDDOVERHEAT,db_get_b(NULL,"AutoShutdown","HddOverheatShutdown",SETTING_HDDOVERHEATSHUTDOWN_DEFAULT) != 0);
-				}
 				if (ServiceExists(MS_WEATHER_UPDATE)) {
 					EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_WEATHER),TRUE);
 					CheckDlgButton(hwndDlg,IDC_CHECK_WEATHER,db_get_b(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT) != 0);
@@ -100,8 +96,6 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			db_set_b(NULL,"AutoShutdown","SmartOfflineCheck",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK) != 0));
 			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_WEATHER)))
 				db_set_b(NULL,"AutoShutdown","WeatherShutdown",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_WEATHER) != 0));
-			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_HDDOVERHEAT)))
-				db_set_b(NULL,"AutoShutdown","HddOverheatShutdown",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_HDDOVERHEAT) != 0));
 			return TRUE;
 		}
 		break;

@@ -446,9 +446,5 @@ int LoadAwayMsgModule(void)
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, AwayMsgPreBuildMenu);
 
-	// Deprecated SimpleAway services
-	CreateServiceFunction(MS_SA_COPYAWAYMSG, CopyAwayMsgCommand);
-	CreateServiceFunction(MS_SA_GOTOURLMSG, GoToURLMsgCommand);
-
 	return 0;
 }

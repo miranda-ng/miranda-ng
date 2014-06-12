@@ -105,22 +105,6 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 			CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
 		break;
 
-	case PCA_OPENLOG: // open log file
-	{
-		TCString LogFilePath;
-		LS_LOGINFO li = {0};
-		li.cbSize = sizeof(li);
-		li.szID = LOG_ID;
-		li.hContact = hContact;
-		li.Flags = LSLI_TCHAR;
-		li.tszLogPath = LogFilePath.GetBuffer(MAX_PATH);
-		if (!CallService(MS_LOGSERVICE_GETLOGINFO, (WPARAM)&li, 0)) {
-			LogFilePath.ReleaseBuffer();
-			ShowLog(LogFilePath);
-		}
-		else LogFilePath.ReleaseBuffer();
-		break;
-	}
 	case PCA_CLOSEPOPUP: // close popup
 		PUDeletePopup(hWnd);
 		break;
@@ -276,47 +260,8 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			ClientName.ReleaseBuffer();
 		}
 		else ClientName = sd.MirVer;
-
-		if (bVariablesExists)
-			logservice_log(LOG_ID, hContact, ClientName);
-		else {
-			_ASSERT(szProto);
-			TCString szUID(_T(""));
-			char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-			if (uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND)
-				szUID = DBGetContactSettingAsString(hContact, szProto, uid, _T(""));
-
-			logservice_log(LOG_ID, hContact, TCString((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)) + _T(" (") + szUID + TranslateT(") changed client to ") + ClientName);
-		}
 	}
 	_ASSERT(sd.MirVer.GetLen()); // save the last known MirVer value even if the new one is empty
-	return 0;
-}
-
-static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
-{
-	CONTACTSETTINGSINIT *csi = (CONTACTSETTINGSINIT*)wParam;
-	char *szProto = (csi->Type == CSIT_CONTACT) ? GetContactProto(csi->hContact) : NULL;
-	if ((csi->Type == CSIT_GROUP) || (szProto && csi->Type == CSIT_CONTACT)) {
-		int Flag1 = (csi->Type == CSIT_CONTACT) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : PF1_IM; // if it's a group settings dialog, we assume that there are possibly some contacts in the group with PF1_IM capability
-		if (Flag1 & (PF1_IMRECV | PF1_URLRECV | PF1_FILERECV)) { // I hope, these flags are sufficient to describe which protocols can theoretically have a client
-			CONTACTSETTINGSCONTROL csc = {0};
-			csc.cbSize = sizeof(csc);
-			csc.cbStateSize = sizeof(CSCONTROLSTATE);
-			csc.Position = CSPOS_SORTBYALPHABET;
-			csc.Flags = CSCF_TCHAR;
-			csc.ControlType = CSCT_COMBOBOX;
-			csc.ptszTitle = LPGENT("Client change notifications:");
-			csc.ptszGroup = CSGROUP_NOTIFICATIONS;
-			csc.szModule = MOD_NAME;
-			csc.szSetting = DB_CCN_NOTIFY;
-			csc.StateNum = 4;
-			csc.DefState = 3;
-			CSCONTROLSTATE States[] = {CSCONTROLSTATE(LPGENT("Never, ignore client changes for this contact"), (BYTE)NOTIFY_IGNORE), CSCONTROLSTATE(LPGENT("Always except when client change notifications are disabled globally"), (BYTE)NOTIFY_ALMOST_ALWAYS), CSCONTROLSTATE(LPGENT("Always, even when client change notifications are disabled globally"), (BYTE)NOTIFY_ALWAYS), CSCONTROLSTATE(LPGENT("Use global settings (default)"), (BYTE)NOTIFY_USEGLOBAL)};
-			csc.pStates = States;
-			CallService(MS_CONTACTSETTINGS_ADDCONTROL, wParam, (LPARAM)&csc);
-		}
-	}
 	return 0;
 }
 
@@ -385,7 +330,6 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
-	HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit);
 	SkinAddNewSoundEx(CLIENTCHANGED_SOUND, NULL, LPGEN("ClientChangeNotify: Client changed"));
 
 	if (bPopupExists) {
@@ -408,7 +352,6 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	if (!bFingerprintExists && !db_get_b(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 0))
 		CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_CCN_ERROR), NULL, CCNErrorDlgProc);
 
-	logservice_register(LOG_ID, LPGENT("ClientChangeNotify"), _T("ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateT("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%"));
 	return 0;
 }
 

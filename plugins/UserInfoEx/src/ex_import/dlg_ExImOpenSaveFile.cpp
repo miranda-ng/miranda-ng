@@ -211,13 +211,6 @@ static void GetInitialDir(LPSTR pszInitialDir)
 		if (!PathToAbsolute(szRelative, pszInitialDir))
 			strcpy(pszInitialDir, szRelative);
 	}
-	else if (//try to use environment variables supported by pathpatch of db3xSA
-		!ServiceExists(MS_DB_GETPROFILEPATH_BASIC) ||		
-		!PathToAbsolute(PROFILEPATH "\\" PROFILENAME, pszInitialDir)) {
-		// use standard path to absolute
-		if ( !PathToAbsolute("", pszInitialDir))
-			*pszInitialDir = 0;
-	}
 	else *pszInitialDir = 0;
 }
 

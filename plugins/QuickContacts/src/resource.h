@@ -23,15 +23,12 @@
 #define IDC_USERINFO                    1065
 #define IDC_HISTORY                     1066
 #define IDC_MENU                        1067
-#define IDC_VOICE                       1068
 #define HOTKEY_FILE                     40001
 #define HOTKEY_URL                      40002
 #define HOTKEY_INFO                     40003
 #define HOTKEY_HISTORY                  40004
 #define HOTKEY_ALL_CONTACTS             40005
 #define HOTKEY_MENU                     40006
-#define HOTKEY_VOICE                    40007
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

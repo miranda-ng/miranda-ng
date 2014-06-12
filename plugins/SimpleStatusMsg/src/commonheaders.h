@@ -42,7 +42,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_statusplugins.h>
 #include <m_toptoolbar.h>
 #include <m_variables.h>
-#include <m_simpleaway.h>
 #include <m_simplestatusmsg.h>
 
 #include "simplestatusmsg.h"

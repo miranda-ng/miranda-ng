@@ -219,10 +219,6 @@ void Protocol::GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size)
 		ptrT tmp((TCHAR *)CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR));
 		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
 	}
-	else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSGT)) {
-		ptrT tmp((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, 0));
-		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
-	}
 }
 
 TCHAR* Protocol::GetStatusMsg()
@@ -443,13 +439,6 @@ Protocol *ProtocolArray::Get(const char *name)
 	return NULL;
 }
 
-
-bool ProtocolArray::CanSetStatusMsgPerProtocol()
-{
-	return ServiceExists(MS_SA_CHANGESTATUSMSG) != 0;
-}
-
-
 void ProtocolArray::GetAvatars()
 {
 	for (int i = 0; i < buffer_len; i++)
@@ -557,12 +546,6 @@ TCHAR *ProtocolArray::GetDefaultStatusMsg(int status)
 
 	if (status == ID_STATUS_CONNECTING)
 		status = ID_STATUS_OFFLINE;
-
-	TCHAR *tmp = (TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)status, 0);
-	if (tmp != NULL) {
-		lstrcpyn(default_status_message, tmp, SIZEOF(default_status_message));
-		mir_free(tmp);
-	}
 
 	return default_status_message;
 }

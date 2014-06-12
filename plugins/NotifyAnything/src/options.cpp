@@ -11,30 +11,8 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			char buf[10];
 			CheckDlgButton(hwndDlg, NA_LOCAL_CHECK, g_settings.local_only ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, NA_DEBUG_MSG_CHECK, g_settings.debug_messages ? BST_CHECKED : BST_UNCHECKED);
-			if (IsLogService) {
-				LS_LOGINFO pli;
-				pli.szID = LOG_ID;
-				pli.hContact = NULL;
-				pli.szLogPath = NULL;
-				pli.Flags = 0;
-				pli.cbSize = sizeof(LS_LOGINFO);
-				if (!CallService(MS_LOGSERVICE_GETLOGINFO, (WPARAM)(LS_LOGINFO *) &pli, 0)) {
-					CheckDlgButton(hwndDlg, NA_LOG_CHECK, (pli.Flags && LSLI_LOGENABLED) ? BST_CHECKED : BST_UNCHECKED);
-				}
-				std::tstring InLogService = TranslateT("Services");
-				InLogService += _T(" -> ");
-				InLogService += TranslateT("LogService");
-				InLogService += _T(" -> ");
-				InLogService += TranslateT(LOG_ID);
-				SetDlgItemText(hwndDlg, NA_LOG_FILENAME, InLogService.c_str());
-			}
-			else {
-				CheckDlgButton(hwndDlg, NA_LOG_CHECK, g_settings.log_to_file ? BST_CHECKED : BST_UNCHECKED);
-				SetDlgItemTextA(hwndDlg, NA_LOG_FILENAME, g_settings.log_filename.c_str());
-			}
-			EnableWindow(GetDlgItem(hwndDlg, NA_LOG_CHECK), !IsLogService);
-			EnableWindow(GetDlgItem(hwndDlg, NA_LOG_FILENAME), !IsLogService);
-			EnableWindow(GetDlgItem(hwndDlg, NA_LOG_BROWSE), !IsLogService);
+			CheckDlgButton(hwndDlg, NA_LOG_CHECK, g_settings.log_to_file ? BST_CHECKED : BST_UNCHECKED);
+			SetDlgItemTextA(hwndDlg, NA_LOG_FILENAME, g_settings.log_filename.c_str());
 			EnableWindow(GetDlgItem(hwndDlg, NA_DEBUG_MSG_CHECK), IsDlgButtonChecked(hwndDlg, NA_LOG_CHECK) ? 1 : 0);
 			CheckDlgButton(hwndDlg, NA_PCSPEAKER_CHECK, g_settings.use_pcspeaker ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, NA_ALLOW_EXECUTE, g_settings.allow_execute ? BST_CHECKED : BST_UNCHECKED);
@@ -134,12 +112,6 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				buf[0] = '\0';
 			s.password = _T2A(buf);
 			
-			if (!IsLogService) {
-				if (!GetDlgItemText(hwndDlg, NA_LOG_FILENAME, buf, sizeof buf - 1))
-					buf[0] = '\0';
-				s.log_filename = _T2A(buf);
-			}
-
 			g_settings = s;
 			save_settings();
 			stop_threads();

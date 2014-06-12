@@ -1026,7 +1026,6 @@ void COtherPrefsDlg::OnInitDialog()
 	m_quitMessage.SetText(m_proto->m_quitMessage);
 	m_perform.SetState(m_proto->m_perform);
 	m_scripting.SetState(m_proto->m_scriptingEnabled);
-	m_scripting.Enable(m_bMbotInstalled);
 	m_performCombo.Enable(m_proto->m_perform);
 	m_pertormEdit.Enable(m_proto->m_perform);
 	m_add.Enable(m_proto->m_perform);

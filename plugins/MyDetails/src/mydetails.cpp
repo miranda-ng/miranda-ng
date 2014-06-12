@@ -488,18 +488,8 @@ static INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 		if (proto_num == -1)
 			return -1;
 
-		if (protocols->CanSetStatusMsgPerProtocol() && !proto->CanSetStatusMsg())
+		if (!proto->CanSetStatusMsg())
 			return -2;
-	}
-	else if (ServiceExists(MS_SA_CHANGESTATUSMSG)) {
-		if (proto == NULL && status == 0)
-			CallService(MS_SA_CHANGESTATUSMSG, protocols->GetGlobalStatus(), NULL);
-		else if (status == 0)
-			CallService(MS_SA_CHANGESTATUSMSG, proto->status, (LPARAM)proto_name);
-		else
-			CallService(MS_SA_CHANGESTATUSMSG, status, (LPARAM)proto_name);
-
-		return 0;
 	}
 	
 	if (proto == NULL || proto->status != ID_STATUS_OFFLINE) {

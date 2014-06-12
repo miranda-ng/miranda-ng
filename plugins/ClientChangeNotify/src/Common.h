@@ -38,7 +38,6 @@
 #include "m_langpack.h"
 #include "m_options.h"
 #include "m_clist.h"
-#include "m_LogService.h"
 #include "m_system.h"
 #include "m_message.h"
 #include "m_userinfo.h"
@@ -51,7 +50,6 @@
 
 #include "m_fingerprint.h"
 #include "m_metacontacts.h"
-#include "m_ContactSettings.h"
 
 #include "CommonLibs\TMyArray.h"
 #include "CommonLibs\Options.h"
@@ -68,7 +66,6 @@
 #define PCA_OPENDETAILS			2	// open contact details window
 #define PCA_OPENMENU				3	// open contact menu
 #define PCA_OPENHISTORY			4	// open contact history
-#define PCA_OPENLOG         5 // open log file
 #define PCA_DONOTHING				6 // do nothing
 
 #define POPUP_DEF_LCLICKACTION PCA_OPENMESSAGEWND

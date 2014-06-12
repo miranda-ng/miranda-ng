@@ -62,7 +62,7 @@ using std::fstream;
 #include <m_skin.h>
 #include <m_protomod.h>
 #include <m_jabber.h>
-#include <m_icqplus.h>
+#include <m_icq.h>
 #include <m_message.h>
 #include <m_cluiframes.h>
 #include <m_icolib.h>

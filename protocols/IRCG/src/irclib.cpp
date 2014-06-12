@@ -276,13 +276,13 @@ void CIrcProto::Notify(const CIrcMessage* pmsg)
 
 int CIrcProto::NLSend(const unsigned char* buf, int cbBuf)
 {
-	if (m_bMbotInstalled && m_scriptingEnabled) {
+	if (m_scriptingEnabled) {
 		int iVal = NULL;
 		char * pszTemp = 0;
 		pszTemp = (char*)mir_alloc(lstrlenA((const char *)buf) + 1);
 		lstrcpynA(pszTemp, (const char *)buf, lstrlenA((const char *)buf) + 1);
 
-		if (Scripting_TriggerMSPRawOut(&pszTemp) && pszTemp) {
+		if (pszTemp) {
 			if (con)
 				iVal = Netlib_Send(con, (const char*)pszTemp, lstrlenA(pszTemp), MSG_DUMPASTEXT);
 		}
@@ -413,10 +413,10 @@ void CIrcProto::DoReceive()
 
 			// process single message by monitor objects
 			if (*pStart) {
-				if (m_bMbotInstalled && m_scriptingEnabled) {
+				if (m_scriptingEnabled) {
 					char* pszTemp = mir_strdup(pStart);
 
-					if (Scripting_TriggerMSPRawIn(&pszTemp) && pszTemp) {
+					if (pszTemp) {
 						char* p1 = pszTemp;
 						// replace end-of-line with NULLs
 						while (*p1 != '\0') {

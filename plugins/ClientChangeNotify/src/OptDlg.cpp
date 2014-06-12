@@ -78,7 +78,6 @@ PopupActions[] =
 	LPGENT("Open contact details window"), PCA_OPENDETAILS,
 	LPGENT("Open contact menu"), PCA_OPENMENU,
 	LPGENT("Open contact history"), PCA_OPENHISTORY,
-	LPGENT("Open log file"), PCA_OPENLOG,
 	LPGENT("Do nothing"), PCA_DONOTHING
 };
 

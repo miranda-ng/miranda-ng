@@ -132,12 +132,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	hkd.pszService = NULL;
 
-	hkd.lParam = HOTKEY_VOICE;
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'V');
-	hkd.pszName = "Quick Contacts/Voice";
-	hkd.ptszDescription = LPGENT("Make a voice call");
-	Hotkey_Register(&hkd);
-
 	hkd.lParam = HOTKEY_FILE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'F');
 	hkd.pszName = "Quick Contacts/File";
@@ -443,7 +437,6 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 	if (hContact == NULL)
 	{
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_VOICE), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_URL), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_USERINFO), FALSE);
@@ -466,11 +459,7 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 		if (pszProto != NULL)
 			caps = CallProtoService(pszProto, PS_GETCAPS, PFLAGNUM_1, 0);
 
-		BOOL voice = (ServiceExists(MS_VOICESERVICE_CAN_CALL) 
-			&& CallService(MS_VOICESERVICE_CAN_CALL, hContact, 0) > 0);
-
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), caps & PF1_IMSEND ? TRUE : FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_VOICE), voice);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_FILE), caps & PF1_FILESEND ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_URL), caps & PF1_URLSEND ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_USERINFO), TRUE);
@@ -770,17 +759,6 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			// Buttons
 			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENT("Show all contacts"), hasNewHotkeyModule ? NULL : _T("Ctrl+A"));
 			FillButton(hwndDlg, IDC_MESSAGE, LPGENT("Send message"), NULL, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-
-			if (ServiceExists(MS_VOICESERVICE_CAN_CALL))
-				FillButton(hwndDlg, IDC_VOICE, LPGENT("Make a voice call"), hasNewHotkeyModule ? NULL : _T("Ctrl+V"), Skin_GetIcon("vca_call"));
-			else
-			{
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_VOICE), &rc);
-				ScreenToClient(hwndDlg, &rc);
-				MoveWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), rc, FALSE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_VOICE), SW_HIDE);
-			}
-
 			FillButton(hwndDlg, IDC_FILE, LPGENT("Send file"), hasNewHotkeyModule ? NULL : _T("Ctrl+F"), LoadSkinnedIcon(SKINICON_EVENT_FILE));
 			FillButton(hwndDlg, IDC_URL, LPGENT("Send URL"), hasNewHotkeyModule ? NULL : _T("Ctrl+U"), LoadSkinnedIcon(SKINICON_EVENT_URL));
 			FillButton(hwndDlg, IDC_USERINFO, LPGENT("Open user info"), hasNewHotkeyModule ? NULL : _T("Ctrl+I"), LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
@@ -848,30 +826,6 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 				break;
 			}
-		case HOTKEY_VOICE:
-		case IDC_VOICE:
-			{
-				MCONTACT hContact = GetSelectedContact(hwndDlg);
-				if (hContact == NULL)
-				{
-					SetDlgItemText(hwndDlg, IDC_USERNAME, _T(""));
-					SetFocus(GetDlgItem(hwndDlg, IDC_USERNAME));
-					break;
-				}
-
-				// Is button enabled?
-				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_VOICE)))
-					break;
-
-				if (!ServiceExists(MS_VOICESERVICE_CALL))
-					break;
-
-				CallService(MS_VOICESERVICE_CALL, (WPARAM) hContact, 0);
-
-				db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
-				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
-			}
-			break;
 
 		case HOTKEY_FILE:
 		case IDC_FILE:
