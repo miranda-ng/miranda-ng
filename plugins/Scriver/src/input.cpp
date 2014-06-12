@@ -33,7 +33,6 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, MCONTACT hCon
 {
 	POINT pt;
 	CHARRANGE sel, all = { 0, -1 };
-	int selection;
 
 	HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	HMENU hSubMenu = GetSubMenu(hMenu, 2);
@@ -76,7 +75,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, MCONTACT hCon
 	mwpd.pt = pt;
 	NotifyEventHooks(hHookWinPopup, 0, (LPARAM)&mwpd);
 
-	selection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, GetParent(hwnd), NULL);
+	int selection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, GetParent(hwnd), NULL);
 
 	// Second notification
 	mwpd.selection = selection;
@@ -107,7 +106,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, MCONTACT hCon
 		SendMessage(hwnd, EM_REPLACESEL, TRUE, 0);
 		break;
 	case IDM_SELECTALL:
-		SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
+		SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&all);
 		break;
 	case IDM_CLEAR:
 		SetWindowText(hwnd, _T(""));
@@ -304,7 +303,7 @@ void RegisterKeyBindings()
 	desc.pszDescription = strDesc;
 	for (int i = 0; i < 9; i++) {
 		mir_snprintf(strName, SIZEOF(strName), "Scriver/Nav/Tab %d", i + 1);
-		mir_snprintf(strDesc, SIZEOF(strDesc), LPGEN("Navigate: Tab %d"), i + 1);
+		mir_snprintf(strDesc, SIZEOF(strDesc), Translate("Navigate: Tab %d"), i + 1);
 		desc.lParam = KB_TAB1 + i;
 		desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, '1' + i);
 		Hotkey_Register(&desc);
@@ -392,11 +391,11 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 	BOOL bOpenLink = TRUE;
 
 	if (((ENLINK*)lParam)->msg == WM_RBUTTONDOWN) {
-		POINT pt;
 		bOpenLink = FALSE;
 		HMENU hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXT));
 		HMENU hSubMenu = GetSubMenu(hMenu, 1);
 		TranslateMenu(hSubMenu);
+		POINT pt;
 		pt.x = (short)LOWORD(((ENLINK*)lParam)->lParam);
 		pt.y = (short)HIWORD(((ENLINK*)lParam)->lParam);
 		ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
@@ -406,11 +405,10 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 			break;
 
 		case IDM_COPYLINK:
-			HGLOBAL hData;
 			if (!OpenClipboard(hwndDlg))
 				break;
 			EmptyClipboard();
-			hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
+			HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
 			lstrcpy((LPWSTR)GlobalLock(hData), tr.lpstrText);
 			GlobalUnlock(hData);
 			SetClipboardData(CF_UNICODETEXT, hData);
