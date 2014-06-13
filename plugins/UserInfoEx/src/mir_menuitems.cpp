@@ -508,7 +508,6 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 	const BYTE mItems = 3;				// menuitems to create
 	int flag = 0, mProtoCount = 0;
 	BYTE i = 0, item = 0;
-	TCHAR sztName[MAXSETTING];
 	PROTOACCOUNT* pAccountName = NULL;
 
 	mProtoCount = pcli->menuProtoCount;
@@ -557,7 +556,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		char* tDest = text + strlen( text );
 
 		// support new genmenu style
-		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_ROOTHANDLE;
 		mi.hParentMenu = mhRoot;
 
 		switch (flag) {
@@ -572,7 +571,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			//cascade all
 			mi.position = 50100;
 			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
-			mi.ptszName = _T(MODULELONGNAME);
+			mi.pszName = MODULELONGNAME;
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
 			mhExIm = mhRoot;
@@ -581,10 +580,10 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			//cascade Ex/Import
 			mi.position = 50100;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
-			mir_sntprintf(sztName, SIZEOF(sztName), _T("%s %s"), pAccountName->tszAccountName, TranslateT("export/import"));
-			mi.ptszName = sztName;
+			mi.pszName = LPGEN("export/import");
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
-			mhExIm = hMenuItemAccount[mItems*i + item++];
+			mhRoot = hMenuItemAccount[mItems*i + item++];
+			mhExIm = mhRoot;
 			break;
 		default:
 			//disable Menue
@@ -598,8 +597,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			// Export
 			strcpy(tDest, "/ExportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
-			mir_sntprintf(sztName, SIZEOF(sztName), _T("%s %s"), pAccountName->tszAccountName, TranslateT("&export"));
-			mi.ptszName = sztName;
+			mi.pszName = LPGEN("&export xml");
 			mi.position = 50200;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
@@ -607,8 +605,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			// Import
 			strcpy(tDest, "/ImportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
-			mir_sntprintf(sztName, SIZEOF(sztName), _T("%s %s"), pAccountName->tszAccountName, TranslateT("&import"));
-			mi.ptszName = sztName;
+			mi.pszName = LPGEN("xml &import");
 			mi.position = 50300;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
