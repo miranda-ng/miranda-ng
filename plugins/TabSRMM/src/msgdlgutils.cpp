@@ -51,25 +51,25 @@ static int g_status_events[] = {
 static int g_status_events_size = 0;
 #define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
 
-BOOL TSAPI IsStatusEvent(int eventType)
+bool TSAPI IsStatusEvent(int eventType)
 {
 	if (g_status_events_size == 0)
 		g_status_events_size = MAX_REGS(g_status_events);
 
 	for (int i=0; i < g_status_events_size; i++) {
 		if (eventType == g_status_events[i])
-			return TRUE;
+			return true;
 	}
-	return FALSE;
+	return false;
 }
 
-BOOL TSAPI IsCustomEvent(int eventType)
+bool TSAPI IsCustomEvent(int eventType)
 {
 	if (eventType == EVENTTYPE_MESSAGE || eventType == EVENTTYPE_URL || eventType == EVENTTYPE_CONTACTS ||
-		eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST || eventType == EVENTTYPE_FILE)
-		return FALSE;
+		 eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST || eventType == EVENTTYPE_FILE)
+		 return false;
 
-	return TRUE;
+	return true;
 }
 
 // reorder tabs within a container. fSavePos indicates whether the new position should be saved to the

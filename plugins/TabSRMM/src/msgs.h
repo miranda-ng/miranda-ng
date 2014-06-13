@@ -527,6 +527,7 @@ struct TNewWindowData
 #define DM_QUERYCONTAINER        (TM_USER+31)
 #define DM_MUCFLASHWORKER        (TM_USER+32)
 #define DM_INVALIDATEPANEL       (TM_USER+33)
+#define DM_APPENDMCEVENT         (TM_USER+34)
 #define DM_CHECKINFOTIP		      (TM_USER+35) 
 #define DM_SAVESIZE              (TM_USER+36)
 #define DM_CHECKSIZE             (TM_USER+37)

@@ -1611,10 +1611,8 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (dat->hDbEventFirst == NULL)
 		dat->hDbEventFirst = hDbEvent;
 
-	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
-
-	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
-		return;
+	bool bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
+	bool bDisableNotify = (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ));
 
 	if (!DbEventIsShown(dat, &dbei))
 		return;
@@ -1648,7 +1646,8 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
 			}
 		}
-		tabSRMM_ShowPopup(wParam, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
+		if (!bDisableNotify)
+			tabSRMM_ShowPopup(wParam, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
 		if (IsWindowVisible(m_pContainer->hwnd))
 			m_pContainer->fHidden = false;
 	}
@@ -1696,7 +1695,8 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	/*
 	 * try to flash the contact list...
 	 */
-	FlashOnClist(hwndDlg, dat, hDbEvent, &dbei);
+	if (!bDisableNotify)
+		FlashOnClist(hwndDlg, dat, hDbEvent, &dbei);
 
 	/*
 	 * autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)

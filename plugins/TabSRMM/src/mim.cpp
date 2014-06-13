@@ -493,13 +493,8 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM lParam)
 {
-	if (hContact) {
-		HWND h = M.FindWindow(hContact);
-		if (h == NULL)
-			h = M.FindWindow(hContact = db_event_getContact((HANDLE)lParam));
-		if (h)
-			PostMessage(h, HM_DBEVENTADDED, hContact, lParam);            // was SENDMESSAGE !!! XXX
-	}
+	if (hContact)
+		M.BroadcastMessageAsync(HM_DBEVENTADDED, hContact, lParam);
 	return 0;
 }
 

@@ -741,11 +741,7 @@ inform_and_discard:
 		if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 			SkinPlaySound("SendMsg");
 
-	if (dat && job.hContact == dat->hContact)
-		if (dat->hDbEventFirst == NULL) {
-			dat->hDbEventFirst = hNewEvent;
-			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
-		}
+	M.BroadcastMessage(DM_APPENDMCEVENT, job.hContact, LPARAM(hNewEvent));
 
 	job.hSendId = NULL;
 	job.iAcksNeeded--;

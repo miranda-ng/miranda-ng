@@ -247,10 +247,9 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 * Retransmit the ACK sent by a simple contact so that it
 * looks like it was the MetaContact that sends the ACK.
 *
-* @param wParam : 	Allways set to 0.
-* @param lParam :	Reference to a ACKDATA that contains
-information about the ACK.
-* @return			0 on success, 1 otherwise.
+* @param wParam : Allways set to 0.
+* @param lParam : Reference to a ACKDATA that contains information about the ACK.
+* @returns 0 on success, 1 otherwise.
 */
 
 int Meta_HandleACK(WPARAM, LPARAM lParam)
@@ -356,7 +355,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 			break;
 		}
 	}
-	else if (!strcmp(dcws->szSetting, "Nick") && !dcws->value.type == DBVT_DELETED) {
+	else if (!strcmp(dcws->szSetting, "Nick") && dcws->value.type != DBVT_DELETED) {
 		// subcontact nick has changed - update metacontact
 		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", contact_number);
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
@@ -371,8 +370,6 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		// copy nick to metacontact, if it's the most online
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
 		Meta_CopyContactNick(ccMeta, hMostOnline);
-
-		return 0;
 	}
 	else if (!strcmp(dcws->szSetting, "IdleTS")) {
 		if (dcws->value.type == DBVT_DWORD)
@@ -406,10 +403,9 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 
 		// copy nick to metacontact, if it's the most online
 		Meta_CopyContactNick(ccMeta, Meta_GetMostOnline(ccMeta));
-		return 0;
 	}
 	// subcontact changing status
-	else if (!strcmp(dcws->szSetting, "Status") && !dcws->value.type == DBVT_DELETED) {
+	else if (!strcmp(dcws->szSetting, "Status") && dcws->value.type != DBVT_DELETED) {
 		// update subcontact status setting
 		mir_snprintf(buffer, SIZEOF(buffer), "Status%d", contact_number);
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, dcws->value.wVal);
@@ -420,7 +416,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		// set status to that of most online contact
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
 		if (hMostOnline != db_mc_getDefault(ccMeta->contactID))
-			db_mc_notifyDefChange(ccMeta->contactID, hMostOnline);
+			db_mc_setDefault(ccMeta->contactID, hMostOnline, false);
 
 		Meta_CopyContactNick(ccMeta, hMostOnline);
 		Meta_FixStatus(ccMeta);
@@ -476,7 +472,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM lParam)
 
 /** Call when we want to send a user is typing message
 *
-* @param wParam \c HANDLE to the contact that we are typing to
+* @param wParam HANDLE to the contact that we are typing to
 * @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
 */
 INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
@@ -501,7 +497,7 @@ INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 
 /** Call when we want to receive a user is typing message
 *
-* @param wParam \c HANDLE to the contact that is typing or not
+* @param wParam HANDLE to the contact that is typing or not
 * @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
 */
 
@@ -538,7 +534,7 @@ int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 // record window open/close status for subs & metas
 int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 {
-	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
+	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 	if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
 		DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
 		if (cc != NULL) {
@@ -725,7 +721,7 @@ INT_PTR Meta_GetAwayMsg(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATIONT *AI = (PROTO_AVATAR_INFORMATIONT *)lParam;
+	PROTO_AVATAR_INFORMATIONT *AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
 	DBCachedContact *cc = CheckMeta(AI->hContact);
 	if (cc == NULL)
 		return GAIR_NOAVATAR;

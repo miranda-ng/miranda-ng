@@ -2421,6 +2421,15 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		StreamInEvents(hwndDlg, dat->hDbEventFirst, -1, 0, NULL);
 		return 0;
 
+	case DM_APPENDMCEVENT:
+		if (dat->hContact == db_mc_getMeta(wParam) && dat->hDbEventFirst == NULL) {
+			dat->hDbEventFirst = (HANDLE)lParam;
+			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
+		}
+		else if (dat->hContact == wParam && db_mc_isSub(wParam) && db_event_getContact(HANDLE(lParam)) != wParam)
+			StreamInEvents(hwndDlg, (HANDLE)lParam, 1, 1, NULL);
+		return 0;
+
 	case DM_APPENDTOLOG:
 		StreamInEvents(hwndDlg, (HANDLE)wParam, 1, 1, NULL);
 		return 0;
@@ -2487,11 +2496,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case HM_DBEVENTADDED:
 		if (!dat)
 			return 0;
-		if (wParam != dat->hContact)
-			return 0;
-		if (dat->hContact == NULL)
-			return 0;
-		DM_EventAdded(dat, wParam, lParam);
+		if (dat->hContact)
+			if (wParam == dat->hContact || wParam == db_mc_getMeta(dat->hContact))
+				DM_EventAdded(dat, dat->hContact, lParam);
 		return 0;
 
 	case WM_TIMER:
