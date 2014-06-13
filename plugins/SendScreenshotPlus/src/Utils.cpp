@@ -162,56 +162,54 @@ FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 	}
 	dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
 
-	if(hCapture){
-		//alpha channel from window is always wrong,
-		//coz GDI do not draw all in alpha mode.
-		//we have to create our own new alpha channel.
-		bool bFixAlpha=true;
-		bool bInvert=false;
-		HBRUSH hBr=CreateSolidBrush(RGB(255,255,255));//Create a SolidBrush object for non transparent area
-		HBITMAP hMask=CreateBitmap(size.cx,size.cy,1,1,NULL);// Create monochrome (1 bit) B+W mask bitmap.
-		HDC hMaskDC=CreateCompatibleDC(0);
-		SelectBitmap(hMaskDC,hMask);
-		HRGN hRgn=CreateRectRgn(0,0,0,0);
-		if(GetWindowRgn(hCapture,hRgn)==ERROR){
-			if((GetWindowLongPtr(hCapture,GWL_EXSTYLE)&WS_EX_LAYERED)){
-				BYTE bAlpha=0;
-				COLORREF crKey=0;//0x00bbggrr
-				DWORD dwFlags=0;
-				if(GetLayeredWindowAttributes(hCapture,&crKey,&bAlpha,&dwFlags)) {
-					//per window transparency (like fading in a whole window).
-					if((dwFlags&LWA_COLORKEY)){
-						SetBkColor(hMemDC,crKey);
-						BitBlt(hMaskDC,0,0,size.cx,size.cy,hMemDC,0,0,SRCCOPY);
-						bInvert=true;
-					}else if((dwFlags&LWA_ALPHA)){
-						bFixAlpha=false;
-					}
-				}else{//per-pixel transparency (won't use the WM_PAINT)
+	//alpha channel from window is always wrong and sometimes even for desktop (Win7, no aero)
+	//coz GDI do not draw all in alpha mode.
+	//we have to create our own new alpha channel.
+	bool bFixAlpha=true;
+	bool bInvert=false;
+	HBRUSH hBr=CreateSolidBrush(RGB(255,255,255));//Create a SolidBrush object for non transparent area
+	HBITMAP hMask=CreateBitmap(size.cx,size.cy,1,1,NULL);// Create monochrome (1 bit) B+W mask bitmap.
+	HDC hMaskDC=CreateCompatibleDC(0);
+	SelectBitmap(hMaskDC,hMask);
+	HRGN hRgn=CreateRectRgn(0,0,0,0);
+	if(hCapture && GetWindowRgn(hCapture,hRgn)==ERROR){
+		if((GetWindowLongPtr(hCapture,GWL_EXSTYLE)&WS_EX_LAYERED)){
+			BYTE bAlpha=0;
+			COLORREF crKey=0;//0x00bbggrr
+			DWORD dwFlags=0;
+			if(GetLayeredWindowAttributes(hCapture,&crKey,&bAlpha,&dwFlags)) {
+				//per window transparency (like fading in a whole window).
+				if((dwFlags&LWA_COLORKEY)){
+					SetBkColor(hMemDC,crKey);
+					BitBlt(hMaskDC,0,0,size.cx,size.cy,hMemDC,0,0,SRCCOPY);
+					bInvert=true;
+				}else if((dwFlags&LWA_ALPHA)){
 					bFixAlpha=false;
 				}
-			}else{//not layered - fill the window region
-				SetRectRgn(hRgn,0,0,size.cx,size.cy);
-				FillRgn(hMaskDC,hRgn,hBr);
+			}else{//per-pixel transparency (won't use the WM_PAINT)
+				bFixAlpha=false;
 			}
-		}else{
-//			if(!hDC) SetRectRgn(hRgn,0,0,size.cx,size.cy);//client area only, no transparency
+		}else{//not layered - fill the window region
+			SetRectRgn(hRgn,0,0,size.cx,size.cy);
 			FillRgn(hMaskDC,hRgn,hBr);
 		}
-		DeleteObject(hRgn);
-		if(bFixAlpha){
-			FIBITMAP* dibMask = FIP->FI_CreateDIBFromHBITMAP(hMask);
-			if(bInvert) FIP->FI_Invert(dibMask);
-			FIBITMAP* dib8 = FIP->FI_ConvertTo8Bits(dibMask);
-			//copy the dib8 alpha mask to dib32 main bitmap
-			FIP->FI_SetChannel(dib,dib8,FICC_ALPHA);
-			FIP->FI_Unload(dibMask);
-			FIP->FI_Unload(dib8);
-		}
-		DeleteDC(hMaskDC);
-		DeleteObject(hMask);
-		DeleteObject(hBr);
+	}else{
+		if(!hCapture) SetRectRgn(hRgn,0,0,size.cx,size.cy);//client area only, no transparency
+		FillRgn(hMaskDC,hRgn,hBr);
 	}
+	DeleteObject(hRgn);
+	if(bFixAlpha){
+		FIBITMAP* dibMask = FIP->FI_CreateDIBFromHBITMAP(hMask);
+		if(bInvert) FIP->FI_Invert(dibMask);
+		FIBITMAP* dib8 = FIP->FI_ConvertTo8Bits(dibMask);
+		//copy the dib8 alpha mask to dib32 main bitmap
+		FIP->FI_SetChannel(dib,dib8,FICC_ALPHA);
+		FIP->FI_Unload(dibMask);
+		FIP->FI_Unload(dib8);
+	}
+	DeleteDC(hMaskDC);
+	DeleteObject(hMask);
+	DeleteObject(hBr);
 	//clean up
 	DeleteDC(hMemDC);
 	DeleteObject(hBitmap);
