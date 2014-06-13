@@ -164,6 +164,10 @@ Usługi
 Sprawdź aktualizacje
 [Available components list]
 Pobierz komponenty
+[Update completed]
+Aktualizacja zakończona
+[Update failed]
+Aktualizacja nie powiodła się
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 Przycisk "Tak"

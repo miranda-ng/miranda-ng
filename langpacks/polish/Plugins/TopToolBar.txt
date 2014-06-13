@@ -36,6 +36,35 @@ Nazwa:
 Folder:
 [Set]
 Ustaw
+;file \plugins\TopToolBar\src\InternalButtons.cpp
+[Show only online users]
+Pokazuj tylko dostępne kontakty
+[Hide offline users]
+Ukryj niedostępne kontakty
+[Show all users]
+Pokaż wszystkie kontakty
+[Groups on/off]
+Grupy włączone/wyłączone
+[Hide groups]
+Ukryj grupy
+[Show groups]
+Pokaż grupy
+[Sounds enable/disable]
+Włącz/wyłącz dźwięki
+[Disable sounds]
+Wyłącz dźwięki
+[Enable sounds]
+Włącz dźwięki
+[Show options page]
+Pokaż opcje
+[Show options]
+Pokaż opcje
+[Minimize button]
+Przycisk minimalizacji
+[Find/Add contacts]
+Szukaj/dodaj kontakty
+[Show main menu]
+Pokaż menu główne
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Domyślny

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.2
+;  Version: 0.9.2.3
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -222,8 +222,6 @@ Jeśli okno jest częściowo zakryte, przenieś na wierzch zamiast ukrywać
 Zawsze ukrywaj na pasku zadań
 [Client margins]
 Marginesy
-[Embedded frames border]
-Kolor granicy ramek
 [Clip border by]
 Granica listy
 [Gap between frames]
@@ -276,8 +274,6 @@ Drzewo wyszarzone
 Tło listy kontaktów
 [Use Windows colors]
 Użyj kolorów Windows
-[Background color]
-Kolor tła
 [Use background image]
 Użyj obrazu tła
 [Stretch to width]
@@ -724,16 +720,16 @@ Menu
 Otwórz menu główne
 [Set status modes]
 Ustaw status
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-Żądana akcja wymaga poprawnego wyboru kontaktu. Proszę wybrać kontakt z listy i powtórzyć.
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
+Żądana akcja wymaga poprawnie wybranego kontaktu. Wybierz kontakt z listy i powtórz.
 [Parameter mismatch]
 Niepasujący parametr
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
-Usługa %s określona przez definicję przycisku %s nie została znaleziona. Konieczne może być zainstalowanie dodatkowej wtyczki.
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+Usługa %s określona definicją przycisku %s nie została znaleziona. Być może musisz zainstalować dodatkowe wtyczki.
 [Service failure]
 Błąd usługi
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
-Potrzebna jest wtyczka FloatingContacts, ponieważ osadzone pływające kontakty zostały usunięte
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
+Potrzebujesz wtyczki FloatingContacts, ponieważ osadzone pływające kontakty zostały usunięte.
 [Warning]
 Ostrzeżenie
 [Standard contacts]
@@ -760,6 +756,8 @@ Zaznaczony tekst
 Śledzony tekst
 [Quicksearch text]
 Tekst szybkiego szukania
+[Embedded frames border]
+Kolor granicy ramek
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Nagłówek okna
@@ -873,10 +871,14 @@ Pływający
 [Frame menu]
 Menu ramki
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[New group]
+Nowa grupa
 [Group menu]
 Menu grupy
-[&Find/Add contacts...]
-&Szukaj/dodaj kontakty...
+[&Hide/show]
+&Ukryj/pokaż
+[&Find/add contacts...]
+&Znajdź/dodaj kontakt
 [&Options...]
 &Opcje...
 [&About the contact list...]

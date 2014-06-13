@@ -39,6 +39,26 @@ Dźwięki
 [XSound Notify]
 Powiadomienia xStatus
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Offline]
+Rozłączony
+[Online]
+Dostępny
+[Away]
+Zaraz wracam
+[Do Not Disturb]
+Nie przeszkadzać
+[Not Available]
+Wrócę później
+[Occupied]
+Zajęty
+[Free For Chat]
+Porozmawiajmy
+[Invisible]
+Niewidoczny
+[On The Phone]
+Przy telefonie
+[Out To Lunch]
+Na obiedzie
 [Self status]
 Własny status
 [Custom contact sound]

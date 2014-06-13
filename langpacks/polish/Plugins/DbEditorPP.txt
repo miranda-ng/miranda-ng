@@ -8,17 +8,17 @@
 [Advanced Database Editor.]
 Zaawansowany edytor profilu.
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ Search and Replace]
-Edytor profilu Szukaj i Zastąp
-[Case Sensitive]
-Rozróżniaj wielkość liter
-[Module Name]
+[Database Editor++ search and replace]
+Znajdź i zamień - Database Editor++
+[Case sensitive]
+Wielkość liter ma znaczenie
+[Module name]
 Nazwa modułu
-[Exact Match]
+[Exact match]
 Dokładne dopasowanie
-[Setting Name]
+[Setting name]
 Nazwa ustawienia
-[Setting Value]
+[Setting value]
 Wartość ustawienia
 [&Search]
 &Szukaj
@@ -28,20 +28,20 @@ Znalezienie nieudane
 &Zamień
 [&Cancel]
 &Anuluj
-[Search For]
+[Search for]
 Szukaj
 [Text:]
 Tekst:
 [In:]
 W:
-[Replace With]
-Zastąp Z
+[Replace with]
+Zamień na
 [Entirely]
 Całkiem
 [Restore last opened position]
 Przywróć ostatnią otwartą pozycję
-[Automatically expand "settings" when Database Editor ++ starts]
-Automatycznie rozwiń "ustawienia" podczas włączania edytora profilu
+[Automatically expand "Settings" when Database Editor++ starts]
+Automatycznie rozwijaj ustawienia podczas startu Database Editor++
 [Warn when deleting modules]
 Ostrzeż przed usuwaniem modułów
 [Use popups when watched settings change values]
@@ -54,11 +54,11 @@ Kolor tła
 Dodaj moduł do kontaktu
 [Add a module named]
 Dodaj nazwę modułu
-[Add to all contacts (Includes Settings)]
-Dodaj do wszystkich kontaktów (razem z ustawieniami)
+[Add to all contacts (including Settings)]
+Dodaj do wszystkich kontaktów (wraz z ustawieniami)
 [Cancel]
 Anuluj
-[Edit Setting]
+[Edit setting]
 Edytuj ustawienie
 [Byte]
 Byte
@@ -72,45 +72,45 @@ String
 Szesnastkowy
 [Decimal]
 Dziesiętny
-[Value Name:]
+[Value name:]
 Nazwa wartości:
-[Value Data:]
-Wartość:
+[Value data:]
+Dane wartości:
 [Base]
 Baza
-[Save Value as:]
+[Save value as:]
 Zapisz wartość jako:
-[Watched Database Variables]
-Obserwowane wartości
+[Watched database settings]
+Obserwowane ustawienia bazy danych
 [Copy module to contact]
 Kopiuj moduł do kontaktu
-[Copy to all contacts (Includes Settings)]
-Kopiuj do wszystkich kontaktów (razem z ustawieniami)
+[Copy to all contacts (including Settings)]
+Kopiuj do wszystkich kontaktów(wraz z ustawieniami)
 [Contact to copy module and settings to]
 Kontakt, do którego skopiuję moduł i ustawienia
-[Import Module/Settings]
-Import modułów/ustawień
+[Import module/settings]
+Importuj moduł/ustawienia
 [Import]
 Importuj
 [Insert &CR/LF]
 Umieść &CR/LF
-[Paste the Settings to import here.]
-Wklej tu ustawienia do zaimportowania.
+[Paste the settings to import here.]
+Wklej tutaj udsawienia, które chcesz zaimportować.
 [Database Editor++]
 Edytor profilu
 [&Main]
 &Główne
-[&Refresh Modules]
+[&Refresh modules]
 &Odśwież moduły
-[Refresh &Settings]
+[Refresh &settings]
 Odśwież &ustawienia
 [E&xit]
 W&yjdź
 [&Actions]
 &Akcje
-[&Search and Replace]
-&Wyszukaj i zamień
-[&Delete Module]
+[&Search and replace]
+&Znajdź i zamień
+[&Delete module]
 &Usuń moduł
 [&Watches]
 &Obserwowane
@@ -120,11 +120,11 @@ W&yjdź
 &Usuń wszystko
 [&Export]
 &Eksportuj
-[Entire &Database]
-Cały &profil
-[All &Settings]
-&Wszystkie ustawienia
-[All &Contacts]
+[Entire &database]
+Cała &baza danych
+[All &settings]
+Wszystkie &ustawienia
+[All &contacts]
 Wszystkie &kontakty
 [&Import]
 &Importuj
@@ -136,12 +136,12 @@ Z wklejonego &tekstu
 &Opcje...
 [&Sort by protocol]
 &Sortuj wg protokołów
-[Show &All]
+[Show &all]
 Pokaż &wszystko
-[Show only &Loaded]
-Pokaż tylko &wczytane
-[Show only &Unloaded]
-Pokaż tylko &niewczytane
+[Show only &loaded]
+Pokaż tylko &załadowane
+[Show only &unloaded]
+Pokaż tylko &niezaładowane
 [Edit &Bytes in Hex]
 Edytuj wartości &Byte w Hex
 [Edit &Words in Hex]
@@ -150,12 +150,12 @@ Edytuj wartości &Word w Hex
 Edytuj wartości &Dword w Hex
 [&Restore position]
 &Przywróć pozycję
-[&Open Options]
+[&Open options]
 &Otwórz opcje
-[&Edit / Rename]
-&Edytuj/Zmień nazwę
-[NEW]
-NOWY
+[&Edit/rename]
+&Edytuj/zmień nazwę
+[New]
+&Nowy
 [&Byte]
 &Bajt
 [&Word]
@@ -172,13 +172,13 @@ BL&OB
 &Konwertuj do
 [Encyption]
 Szyfrowanie
-[View Decrypted String]
-Pokaż rozszyfrowany ciąg
-[View Encrypted String]
-Pokaż zaszyfrowany ciąg
-[Decrypt String]
+[View decrypted string]
+Zobacz odszyfrowany ciąg
+[View encrypted string]
+Zobacz zaszyfrowany ciąg
+[Decrypt string]
 Odszyfruj ciąg
-[Encrypt String]
+[Encrypt string]
 Zaszyfruj ciąg
 [&Watch]
 &Obserwuj
@@ -186,34 +186,34 @@ Zaszyfruj ciąg
 &Usuń
 [&Rename]
 &Zmień nazwę
-[Copy To Contact]
+[Copy to contact]
 Kopiuj do kontaktu
-[Export Module]
+[Export module]
 Eksportuj moduł
 [&Clone]
 &Klon
-[Export Contact]
-Eksportuj kontakty
-[Import Settings]
+[Export contact]
+Eksportuj kontakt
+[Import settings]
 Importuj ustawienia
 [From a file]
 Z pliku
 [From pasted text]
 Z wklejonego tekstu
-[&Add Module]
+[&Add module]
 &Dodaj moduł
-[Export Settings]
+[Export settings]
 Eksportuj ustawienia
-[Export Contacts]
+[Export contacts]
 Eksportuj kontakty
-[Import Contacts]
+[Import contacts]
 Importuj kontakty
-[Export Module from all contacts]
-Eksportuj moduł z wszystkich kontaktów
-[Watch Window]
-Oglądaj okno
-[Reload Watch List]
-Odśwież oglądaną listę
+[Export module from all contacts]
+Eksportuj moduł ze wszystkich kontaktów
+[Watch window]
+Obserwuj okno
+[Reload watch list]
+Przeładuj listę obserwowanych
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
 Nie można skonwertować!
@@ -300,16 +300,34 @@ Zakończono. Znaleziono %d rzeczy, %d zastąpiono.
 [Finished. %d items were found.]
 Zakończono. Znaleziono %d rzeczy.
 ;file \plugins\DbEditorPP\src\icons.cpp
-[Closed Known Module]
-Zamknięto Znane Moduły
-[Open Known Module]
-Otworzono Znane Moduły
-[Contacts Group]
+[Main icon]
+Główna ikona
+[Closed known module]
+Zamknięty znany moduł
+[Open known module]
+Otwarty znany moduł
+[Contacts group]
 Grupa kontaktów
-[Unknown Contact]
-Nieznane kontakty
-[Known Contact]
-Znane kontakty
+[Unknown contact]
+Nieznany kontakt
+[Known contact]
+Znany kontakt
+[Open user tree]
+Otwórz drzewo użytkownika
+[BLOB setting]
+Ustawienie BLOB
+[Byte setting]
+Ustawienie bajtowe
+[Word setting]
+Ustawienie słowa
+[Dword setting]
+Ustawienie Dword
+[String setting]
+Ustawienie ciągu
+[Unicode setting]
+Ustawienie unicode
+[Handle]
+Uchwyt
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Otwórz edytor profilu
@@ -318,7 +336,7 @@ Otwórz w edytorze profilu
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Na pewno chcesz usunąć kontakt "%s"?
-[Confirm Contact Delete]
+[Confirm contact delete]
 Potwierdź usunięcie kontaktu
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
@@ -328,6 +346,8 @@ Wczytywanie kontaktów...
 Wczytywanie modułów...
 [Module tree not found]
 Nie znaleziono drzewka modułów
+[Error loading module list]
+Błąd ładowania listy modułów
 [Contacts]
 Kontakty
 [HANDLE]

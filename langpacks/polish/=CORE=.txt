@@ -2487,6 +2487,8 @@ Wybierz gdzie zostanie utworzony dziennik
 [Select program to be run]
 Wybierz program do uruchomienia
 ;file \src\modules\netlib\netlibopts.cpp
+[<mixed>]
+<mieszane>
 [<All connections>]
 <Wszystkie połączenia>
 [Network]

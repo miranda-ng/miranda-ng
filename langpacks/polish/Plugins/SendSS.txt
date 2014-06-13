@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.4.0
+;  Version: 0.8.5.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -56,6 +56,10 @@ Rozmiar (HxW):
 O&bszar klienta
 [Target Tool]
 Celownik
+[File:]
+Plik:
+[Description:]
+Opis:
 [Result]
 Wynik
 [Thumbnail]
@@ -240,6 +244,8 @@ Pulpit
 Monitoruj
 [ (primary)]
  (podstawowy)
+[File]
+Plik
 [<Only save>]
 <Tylko zapisz>
 [File Transfer]
@@ -268,6 +274,8 @@ Usuń po wysłaniu
 Uchwyć
 [Can't create a Screenshot]
 Nie można utworzyć zrzutu ekranu
+[Select a file]
+Wybierz plik
 [Select a target window.]
 Wybierz okno.
 [Screenshot ]
