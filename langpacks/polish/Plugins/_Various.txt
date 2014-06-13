@@ -78,27 +78,6 @@ NotifyAnything: Ostrzeżenie
 [Not Available]
 Niedostępny
 ;=======================================================================
-;  Scriver
-;=======================================================================
-[Navigate: Tab 1]
-Przejdź: Karta 1
-[Navigate: Tab 2]
-Przejdź: Karta 2
-[Navigate: Tab 3]
-Przejdź: Karta 3
-[Navigate: Tab 4]
-Przejdź: Karta 4
-[Navigate: Tab 5]
-Przejdź: Karta 5
-[Navigate: Tab 6]
-Przejdź: Karta 6
-[Navigate: Tab 7]
-Przejdź: Karta 7
-[Navigate: Tab 8]
-Przejdź: Karta 8
-[Navigate: Tab 9]
-Przejdź: Karta 9
-;=======================================================================
 ;  Actman30
 ;=======================================================================
 [Reload/Refresh]
