@@ -50,16 +50,16 @@ struct {
 }
 static selfSounds[] =
 {
-	{ ID_STATUS_OFFLINE,    "SelfOffline",     _T("Offline")        },
-	{ ID_STATUS_ONLINE,		"SelfOnline",		 _T("Online")         },
-	{ ID_STATUS_AWAY,			"SelfAway",			 _T("Away")           },
-	{ ID_STATUS_DND,			"SelfDND",			 _T("Do Not Disturb") },
-	{ ID_STATUS_NA,			"SelfNA",			 _T("Not Available")  },
-	{ ID_STATUS_OCCUPIED,  	"SelfOccupied",	 _T("Occupied")       },
-	{ ID_STATUS_FREECHAT,	"SelfFreeForChat", _T("Free For Chat")  },
-	{ ID_STATUS_INVISIBLE,	"SelfInvisible",	 _T("Invisible")      },
-	{ ID_STATUS_ONTHEPHONE,	"SelfOnThePhone",	 _T("On The Phone")   },
-	{ ID_STATUS_OUTTOLUNCH,	"SelfOutToLunch",  _T("Out To Lunch")   }
+	{ ID_STATUS_OFFLINE,	"SelfOffline",		 LPGENT("Offline")			},
+	{ ID_STATUS_ONLINE,		"SelfOnline",		 LPGENT("Online")			},
+	{ ID_STATUS_AWAY,		"SelfAway",			 LPGENT("Away")				},
+	{ ID_STATUS_DND,		"SelfDND",			 LPGENT("Do Not Disturb")	},
+	{ ID_STATUS_NA,			"SelfNA",			 LPGENT("Not Available")	},
+	{ ID_STATUS_OCCUPIED,  	"SelfOccupied",		 LPGENT("Occupied")			},
+	{ ID_STATUS_FREECHAT,	"SelfFreeForChat",	 LPGENT("Free For Chat")	},
+	{ ID_STATUS_INVISIBLE,	"SelfInvisible",	 LPGENT("Invisible")		},
+	{ ID_STATUS_ONTHEPHONE,	"SelfOnThePhone",	 LPGENT("On The Phone")		},
+	{ ID_STATUS_OUTTOLUNCH,	"SelfOutToLunch",	 LPGENT("Out To Lunch")		}
 };
 
 void InitSelfSounds()

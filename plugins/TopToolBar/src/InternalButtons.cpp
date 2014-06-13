@@ -14,14 +14,14 @@ struct {
 	HANDLE hButton;
 }
 static stdButtons[] = {
-	{ "Show only online users", MS_CLIST_SETHIDEOFFLINE,  IDI_SHOWONLINEUP, IDI_SHOWONLINEDN, "Hide offline users", "Show all users" },
-	{ "Groups on/off",          TTBI_GROUPSHOWHIDE,       IDI_GROUPSUP,     IDI_GROUPSDN,     "Hide groups",        "Show groups"    },
-	{ "Sounds enable/disable",  TTBI_SOUNDSONOFF,         IDI_SOUNDUP,      IDI_SOUNDDN,      "Disable sounds",     "Enable sounds"  },
+	{ LPGEN("Show only online users"), MS_CLIST_SETHIDEOFFLINE,  IDI_SHOWONLINEUP, IDI_SHOWONLINEDN, LPGEN("Hide offline users"), LPGEN("Show all users") },
+	{ LPGEN("Groups on/off"),          TTBI_GROUPSHOWHIDE,       IDI_GROUPSUP,     IDI_GROUPSDN,     LPGEN("Hide groups"),        LPGEN("Show groups")    },
+	{ LPGEN("Sounds enable/disable"),  TTBI_SOUNDSONOFF,         IDI_SOUNDUP,      IDI_SOUNDDN,      LPGEN("Disable sounds"),     LPGEN("Enable sounds")  },
 
-	{ "Show options page",      "Options/OptionsCommand", IDI_OPTIONSUP,    0,                "Show options"   },
-	{ "Minimize button",        MS_CLIST_SHOWHIDE,        IDI_MINIMIZEUP,   0,                NULL             },
-	{ "Find/Add contacts",      MS_FINDADD_FINDADD,       IDI_FINDADDUP,    0,                NULL             },
-	{ "Show main menu",         TTBI_MAINMENUBUTT,        IDI_MIRANDAUP,    0,                "Show main menu" }
+	{ LPGEN("Show options page"),      "Options/OptionsCommand", IDI_OPTIONSUP,    0,                LPGEN("Show options")   },
+	{ LPGEN("Minimize button"),        MS_CLIST_SHOWHIDE,        IDI_MINIMIZEUP,   0,                NULL             },
+	{ LPGEN("Find/Add contacts"),      MS_FINDADD_FINDADD,       IDI_FINDADDUP,    0,                NULL             },
+	{ LPGEN("Show main menu"),         TTBI_MAINMENUBUTT,        IDI_MIRANDAUP,    0,                LPGEN("Show main menu") }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
