@@ -101,7 +101,7 @@ void RebuildContact()
 		mi.position = 1000050000;
 		mi.popupPosition = 1000050000;
 		mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
-		mi.pszName = LPGEN(MODULELONGNAME);
+		mi.pszName = MODULELONGNAME;
 		mhRoot = Menu_AddContactMenuItem(&mi);
 		hMenuItem[item++] = mhRoot;
 		mhExIm = mhRoot;
@@ -441,7 +441,7 @@ void RebuildSubGroup()
 			mi.position = 1050000;
 			mi.popupPosition = 1050000;
 			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
-			mi.pszName = LPGEN(MODULELONGNAME);
+			mi.pszName = MODULELONGNAME;
 			mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
 			mhExIm = mhRoot;
@@ -572,7 +572,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			//cascade all
 			mi.position = 50100;
 			mi.hIcon = Skin_GetIcon(ICO_COMMON_MAIN);
-			mi.pszName = LPGEN(MODULELONGNAME);
+			mi.ptszName = TranslateT(MODULELONGNAME);
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
 			mhExIm = mhRoot;
@@ -598,7 +598,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			// Export
 			strcpy( tDest, "/ExportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
-			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&export"));
+			mir_sntprintf(sztName, SIZEOF(sztName), _T("%s %s"), pAccountName->tszAccountName, TranslateT("&export"));
 			mi.ptszName = sztName;
 			mi.position = 50200;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
@@ -607,7 +607,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			// Import
 			strcpy( tDest, "/ImportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
-			mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("&import"));
+			mir_sntprintf(sztName, SIZEOF(sztName), _T("%s %s"), pAccountName->tszAccountName, TranslateT("&import"));
 			mi.ptszName = sztName;
 			mi.position = 50300;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
