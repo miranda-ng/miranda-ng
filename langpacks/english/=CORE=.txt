@@ -1288,6 +1288,7 @@
 [Select where log file will be created]
 [Select program to be run]
 ;file \src\modules\netlib\netlibopts.cpp
+[<mixed>]
 [<All connections>]
 [Network]
 ;file \src\modules\netlib\netlibssl.cpp
