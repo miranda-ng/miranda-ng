@@ -37,8 +37,6 @@
 [N/A: FormatMessage failed, error code was 0x]
 [Error]
 ;file \plugins\NotifyAnything\src\options.cpp
-[Services]
-[LogService]
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 [Invalid port number]
 [Plugins]

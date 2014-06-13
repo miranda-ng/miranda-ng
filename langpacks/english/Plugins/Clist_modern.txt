@@ -425,10 +425,13 @@
 [(Unknown Contact)]
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
-[&Find/Add contacts...]
+[&Hide/show]
+[&Find/add contacts...]
 [&Options...]
 [&About]
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show avatar]
+[Hide avatar]
 [Show contact &avatar]
 [Hide contact &avatar]
 [My contacts]
@@ -537,5 +540,6 @@
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
+[New group]
 [Group menu]
 [Subgroup menu]

@@ -87,6 +87,8 @@
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
 [Available components list]
+[Update completed]
+[Update failed]
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 ['No' Button]

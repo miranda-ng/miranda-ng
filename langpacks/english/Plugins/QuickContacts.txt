@@ -25,7 +25,6 @@
 [Quick Contacts]
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
-[Make a voice call]
 [Send file]
 [Send URL]
 [Open user info]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.4.0
+;  Version: 0.8.5.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -31,6 +31,8 @@
 [Size (HxW):]
 [C&lient Area]
 [Target Tool]
+[File:]
+[Description:]
 [Result]
 [Thumbnail]
 [&Copy]
@@ -131,6 +133,7 @@
 [<Entire Desktop>]
 [Monitor]
 [ (primary)]
+[File]
 [<Only save>]
 [File Transfer]
 [E-mail]
@@ -145,6 +148,7 @@
 [Delete after send]
 [Capture]
 [Can't create a Screenshot]
+[Select a file]
 [Select a target window.]
 [Screenshot ]
 [for Client area ]
