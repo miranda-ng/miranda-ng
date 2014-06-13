@@ -108,8 +108,8 @@ class TfrmMain{
 		static void edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl);
 
 	protected:
-		size_t			m_MonitorCount;
 		MONITORINFOEX*	m_Monitors;
+		size_t			m_MonitorCount;
 		RECT			m_VirtualScreen;
 
 		BYTE			m_opt_chkOpenAgain;			//TCheckBox *chkOpenAgain;

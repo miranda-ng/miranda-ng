@@ -676,8 +676,8 @@ TfrmMain::TfrmMain() {
 	/* m_AlphaColor */
 	m_cSend			= NULL;
 
-	m_MonitorCount	= MonitorInfoEnum(m_Monitors, m_VirtualScreen);
 	m_Monitors		= NULL;
+	m_MonitorCount	= MonitorInfoEnum(m_Monitors, m_VirtualScreen);
 	/* m_opt_XXX */ LoadOptions();
 	m_bCapture		= false;
 	/* m_hwndTab,m_hwndTabPage */
