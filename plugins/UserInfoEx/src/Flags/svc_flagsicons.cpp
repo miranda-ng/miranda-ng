@@ -390,7 +390,7 @@ void InitIcons()
 		if (phIconHandles != NULL) {
 			char szId[20];
 			SKINICONDESC sid = { sizeof(sid) };
-			sid.ptszSection = LPGENT("Country Flags");
+			sid.ptszSection = LPGENT("Country flags");
 			sid.pszName = szId;			// name to refer to icon when playing and in db
 			sid.cx = GetSystemMetrics(SM_CXSMICON); 
 			sid.cy = GetSystemMetrics(SM_CYSMICON);
