@@ -90,7 +90,7 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 	static HICON hicNotify = NULL, hicWarning = NULL, hicError = NULL;
 
 	if ((uType & MB_TYPEMASK) == MB_OK) {
-		POPUPDATA ppd = { 0 };
+		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = hicon;
 
 		if (bIconsNotLoaded) {
@@ -100,8 +100,8 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 			bIconsNotLoaded = FALSE;
 		}
 
-		lstrcpynA(ppd.lpzContactName, lpCaption, sizeof(ppd.lpzContactName));
-		lstrcpynA(ppd.lpzText, lpText, sizeof(ppd.lpzText));
+		lstrcpyn(ppd.lptzContactName, _A2T(lpCaption), SIZEOF(ppd.lptzContactName));
+		lstrcpyn(ppd.lptzText, _A2T(lpText), SIZEOF(ppd.lptzText));
 
 		if ((uType & MB_ICONMASK) == MB_ICONSTOP) {
 			ppd.lchIcon = hicError;
@@ -119,7 +119,7 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 			ppd.colorText = RGB(0,0,0);
 		}
 
-		PUAddPopup(&ppd);
+		PUAddPopupT(&ppd);
 	}
 
 	return IDOK;
