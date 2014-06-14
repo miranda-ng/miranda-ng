@@ -192,21 +192,28 @@ char *NickFromHContact(MCONTACT hContact)
 
 	return nick;
 }
-
-void exportDB(MCONTACT hContact, char* module) // hContact == -1 export entire db. module == NULL export entire contact.
-{                                            // hContact == -1, module == "" - all contacts
-	FILE* file = NULL;
-	char fileName[MAX_PATH];
+// hContact == -1 export entire db. module == NULL export entire contact.
+// hContact == -1, module == "" - all contacts
+void exportDB(MCONTACT hContact, char *module)
+{
 	int nullcontactDone = 0;
-	ModuleSettingLL modlist;
 	ModSetLinkLinkItem *mod;
 
 	// enum all the modules
-	if (!EnumModules(&modlist)) { msg(Translate("Error Loading Module List"),modFullname); return;}
+	ModuleSettingLL modlist;
+	if (!EnumModules(&modlist)) {
+		msg(Translate("Error loading module list"),modFullname);
+		return;
+	}
 
-	if (Openfile(fileName, ((int)hContact==-1)?NULL:module))
+	char fileName[MAX_PATH];
+	if (Openfile(fileName, (hContact==INVALID_CONTACT_ID)?NULL:module))
 	{
-		if (!(file = fopen(fileName, "wt"))) { msg(Translate("Couldn't open file for writing"), modFullname); return; }
+		FILE *file = fopen(fileName, "wt");
+		if (!file) {
+			msg(Translate("Couldn't open file for writing"), modFullname);
+			return;
+		}
 
 		SetCursor(LoadCursor(NULL,IDC_WAIT));
 
@@ -473,7 +480,8 @@ void importSettings(MCONTACT hContact, char *importstring )
 						break;
 					case 'g':
 					case 'G':
-						{	char *pstr;
+						{
+							char *pstr;
 							for(pstr=end+2;*pstr;pstr++) {
 								if (*pstr=='\\') {
 									switch(pstr[1]) {
@@ -483,7 +491,9 @@ void importSettings(MCONTACT hContact, char *importstring )
 									default:  *pstr=pstr[1]; break;
 									}
 									MoveMemory(pstr+1,pstr+2,lstrlenA(pstr+2)+1);
-						}	}	}
+								}
+							}
+						}
 					case 'u':
 					case 'U':
 						db_set_utf(hContact,module, setting, (end+2));
@@ -568,11 +578,13 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				{
 					MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 					int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_TEXT));
-					char *string;
 					if (length)
 					{
-						string = (char*)_alloca(length+1);
-						if (!string) {msg(Translate("Couldn't allocate enough memory!"), modFullname); DestroyWindow(hwnd); }
+						char *string = (char*)_alloca(length+1);
+						if (!string) {
+							msg(Translate("Couldn't allocate enough memory!"), modFullname);
+							DestroyWindow(hwnd);
+						}
 						GetDlgItemText(hwnd, IDC_TEXT, string, length+1);
 						importSettings(hContact, string);
 						refreshTree(1);

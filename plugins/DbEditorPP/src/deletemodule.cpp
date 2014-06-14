@@ -3,41 +3,40 @@
 static int working;
 static HWND hwnd2Delete = NULL;
 
-int deleteModule(char* module, MCONTACT hContact, int fromMenu)
+int deleteModule(char *module, MCONTACT hContact, int fromMenu)
 {
-	char msg[1024];
-	ModuleSettingLL settinglist;
-	ModSetLinkLinkItem *setting;
+	if (!module)
+		return 0;
 
-	if (!module) return 0;
-
-	if (!fromMenu) {
+	if (!fromMenu && db_get_b(NULL,modname, "WarnOnDelete",1)) {
+		char msg[1024];
 		mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete module \"%s\"?"), module);
-		if (db_get_b(NULL,modname, "WarnOnDelete",1))
-			if (MessageBox(0,msg, Translate("Confirm Module Deletion"), MB_YESNO|MB_ICONEXCLAMATION) == IDNO)
-				return 0;
+		if (MessageBox(0,msg, Translate("Confirm module deletion"), MB_YESNO|MB_ICONEXCLAMATION) == IDNO)
+			return 0;
 	}
 
-	if (!EnumSettings(hContact,module,&settinglist)) return 0;
+	ModuleSettingLL settinglist;
+	if (!EnumSettings(hContact,module,&settinglist))
+		return 0;
 
-	setting = settinglist.first;
-	while (setting)
-	{
+	for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next) {
 		db_unset(hContact, module, setting->name);
-		setting = setting->next;
 	}
+
 	FreeModuleSettingLL(&settinglist);
 	return 1;
 }
 
-void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
+void __cdecl PopulateModuleDropListThreadFunc(void *di)
 {
 	HWND hwnd = (HWND)di;
 	ModuleSettingLL msll;
-	ModSetLinkLinkItem *module;
+	if (!EnumModules(&msll)) {
+		DestroyWindow(hwnd);
+		return;
+	}
 	int moduleEmpty;
-	if (!EnumModules(&msll)) DestroyWindow(hwnd);
-	module = msll.first;
+	ModSetLinkLinkItem *module = msll.first;
 	while (module && working) {
 		moduleEmpty = 1;
 		// check the null
@@ -60,7 +59,7 @@ void __cdecl PopulateModuleDropListThreadFunc(LPVOID di)
 	}
 	SendDlgItemMessage(hwnd,IDC_CONTACTS,CB_SETCURSEL,0,0);
 	FreeModuleSettingLL(&msll);
-	SetWindowText(hwnd,Translate("Delete module from Database"));
+	SetWindowText(hwnd,Translate("Delete module from database"));
 	EnableWindow(GetDlgItem(hwnd,IDC_CONTACTS),1);
 	EnableWindow(GetDlgItem(hwnd,IDOK),1);
 	EnableWindow(GetDlgItem(hwnd,IDCANCEL),1);
@@ -75,11 +74,11 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 {
 	switch(msg) {
 	case WM_INITDIALOG:
-		SetWindowText(hwnd,Translate("Delete module from Database... Loading"));
+		SetWindowText(hwnd,Translate("Delete module from database... Loading"));
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTACTS),0);
 		EnableWindow(GetDlgItem(hwnd,IDOK),0);
-		SetDlgItemText(hwnd,IDC_INFOTEXT, Translate("Delete module from Database"));
-		SetDlgItemText(hwnd,CHK_COPY2ALL, Translate("Delete module from all contacts (Includes Setting)"));
+		SetDlgItemText(hwnd,IDC_INFOTEXT, Translate("Delete module from database"));
+		SetDlgItemText(hwnd,CHK_COPY2ALL, Translate("Delete module from all contacts (including Setting)"));
 		EnableWindow(GetDlgItem(hwnd,CHK_COPY2ALL),0);
 		CheckDlgButton(hwnd,CHK_COPY2ALL,1);
 		TranslateDialogDefault(hwnd);
