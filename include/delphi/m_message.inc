@@ -132,6 +132,7 @@ type
   lparam=PStatusTextData or NIL to clear statusbar
   Sets a statusbar line text for the appropriate contact
 }
+const
   MS_MSG_SETSTATUSTEXT:PAnsiChar = 'MessageAPI/SetStatusText';
 
 type
