@@ -34,6 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_sync.h"
 
 int ContactSettingChanged(WPARAM, LPARAM);
+int MetaStatusChanged(WPARAM, LPARAM);
 
 HRESULT (WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LRESULT& result );
@@ -448,6 +449,7 @@ HRESULT CLUI::CreateCLC()
 	mutex_bDisableAutoUpdate = 0;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+	HookEvent(ME_MC_DEFAULTTCHANGED, MetaStatusChanged);
 	return S_OK;
 }
 

@@ -785,7 +785,9 @@ int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand
 {
 	ClcContact *ht = NULL;
 	KillTimer(hwnd,TIMERID_SUBEXPAND);
-	if (contact->type != CLCIT_CONTACT  || contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)) return 0;
+	if (contact->type != CLCIT_CONTACT  || contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT))
+		return 0;
+	
 	contact->SubExpanded = bExpand;
 	db_set_b(contact->hContact,"CList","Expanded",contact->SubExpanded);
 	dat->needsResort = 1;

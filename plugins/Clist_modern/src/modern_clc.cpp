@@ -600,7 +600,6 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 		return 0;
 
 	default:
-	{
 		NMKEY nmkey;
 		nmkey.hdr.hwndFrom = hwnd;
 		nmkey.hdr.idFrom = GetDlgCtrlID(hwnd);
@@ -612,7 +611,6 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 			SetCapture(hwnd);
 			return 0;
 		}
-	}
 	}
 
 	if (changeGroupExpand) {

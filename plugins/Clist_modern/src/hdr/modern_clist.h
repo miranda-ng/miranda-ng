@@ -76,10 +76,10 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 {
 	int      m_cache_nNoHiddenOffline;
 
-	char*    m_cache_cszProto;
-	bool     m_cache_bProtoNotExists;
 	int      m_cache_nStatus;
-	int      m_cache_nHiddenSubcontact;
+	char*    m_cache_cszProto;
+	bool     m_bProtoNotExists, m_bIsSub;
+	bool     isUnknown;
 
 	int      i;
 	int      ApparentMode;
@@ -87,7 +87,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	int      IdleTS;
 	void*    ClcContact;
 	BYTE     IsExpanded;
-	bool     isUnknown;
 
 	TCHAR*   szSecondLineText;
 	CSmileyString ssSecondLine;
