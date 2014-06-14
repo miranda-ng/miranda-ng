@@ -343,6 +343,13 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
+	StatusTextData *st = (StatusTextData*)lParam;
+	if (st == NULL)
+		return 1;
+
+	if (st->cbSize != sizeof(StatusTextData))
+		return 1;
+
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
 	if (hwnd == NULL)
 		return 1;
@@ -351,7 +358,8 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	if (dat == NULL)
 		return 1;
 
-	SendMessage(dat->hwndStatus, SB_SETTEXT, 0, lParam);
+	SendMessage(dat->hwndStatus, SB_SETICON, 0, (LPARAM)st->hIcon);
+	SendMessage(dat->hwndStatus, SB_SETTEXT, 0, (LPARAM)st->tszText);
 	return 0;
 }
 

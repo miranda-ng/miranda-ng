@@ -72,8 +72,14 @@ typedef struct {
 	HWND hwndLog; // log area window for the contact (or NULL if there is none)
 } MessageWindowEventData;
 
-//wparam = (HANDLE)hContact
-//lparam = (TCHAR*)ptszMessageText
+typedef struct {
+	int cbSize;
+	HICON hIcon; 
+	TCHAR tszText[100];
+} StatusTextData;
+
+//wparam = (MCONTACT)hContact
+//lparam = (StatusTextData*)
 //Sets a status line text for the appropriate contact
 #define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
 

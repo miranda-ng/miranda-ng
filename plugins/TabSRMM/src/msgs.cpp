@@ -120,6 +120,13 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
+	StatusTextData *st = (StatusTextData*)lParam;
+	if (st == NULL)
+		return 1;
+
+	if (st->cbSize != sizeof(StatusTextData))
+		return 1;
+
 	TContainerData *pContainer;
 
 	HWND hwnd = M.FindWindow(wParam);
@@ -128,12 +135,12 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 		if (dat == NULL || (pContainer = dat->pContainer) == NULL)
 			return 1;
 
-		if (lParam == NULL) {
+		if (st->tszText == NULL) {
 			DM_UpdateLastMessage(dat);
 			return 0;
 		}
 
-		_tcsncpy(dat->szStatusBar, (TCHAR*)lParam, SIZEOF(dat->szStatusBar));
+		_tcsncpy(dat->szStatusBar, (TCHAR*)st->tszText, SIZEOF(dat->szStatusBar));
 
 		if (pContainer->hwndActive != dat->hwnd)
 			return 1;
@@ -144,8 +151,8 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 			return 1;
 	}
 
-	SendMessage(pContainer->hwndStatus, SB_SETICON, 0, 0);
-	SendMessage(pContainer->hwndStatus, SB_SETTEXT, 0, lParam);
+	SendMessage(pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)st->hIcon);
+	SendMessage(pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)st->tszText);
 	return 0;
 }
 
