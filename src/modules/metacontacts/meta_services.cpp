@@ -416,7 +416,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		// set status to that of most online contact
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);
 		if (hMostOnline != db_mc_getDefault(ccMeta->contactID))
-			db_mc_setDefault(ccMeta->contactID, hMostOnline, false);
+			db_mc_notifyDefChange(ccMeta->contactID, hMostOnline);
 
 		Meta_CopyContactNick(ccMeta, hMostOnline);
 		Meta_FixStatus(ccMeta);
