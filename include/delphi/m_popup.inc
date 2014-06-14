@@ -245,7 +245,9 @@ You may pass additional creation flags via lParam:
   lParam = value of type defined by wParam
 }
 
+//  CPT_TEXT   = 1; // lParam = (AnsiChar *)text
   CPT_TEXTW  = 2; // lParam = (WCHAR *)text
+//  CPT_TITLE  = 3; // lParam = (AnsiChar *)title
   CPT_TITLEW = 4; // lParam = (WCHAR *)title
   CPT_DATAW  = 7; // lParam = (POPUPDATAW *)data
   CPT_DATA2  = 8; // lParam = (POPUPDATA2 *)data
@@ -303,7 +305,7 @@ lParam = (void*)pWindowProc;
 returns: 0 = Popup allowed, 1 = Popup filtered out
 }
 
-  ME_Popup_FILTER:PAnsiChar = 'Popup/Filter';
+  ME_POPUP_FILTER:PAnsiChar = 'Popup/Filter';
 
 { Popup/RegisterActions
 Registers your action in popup action list
@@ -422,7 +424,7 @@ type
     flags:dword;
 
   // miranda bindings
-    lchContact:THANDLE;
+    lchContact:TMCONTACT;
     lchEvent  :THANDLE;
 
   // style
