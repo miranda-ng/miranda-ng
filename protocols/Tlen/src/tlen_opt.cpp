@@ -565,17 +565,17 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static void MailPopupPreview(DWORD colorBack, DWORD colorText, char *title, char *emailInfo, int delay)
 {
-	POPUPDATA ppd = { 0 };
+	POPUPDATAT ppd = { 0 };
 	HICON hIcon = GetIcolibIcon(IDI_MAIL);
 	ppd.lchIcon = CopyIcon(hIcon);
 	ReleaseIcolibIcon(hIcon);
-	strcpy(ppd.lpzContactName, title);
-	strcpy(ppd.lpzText, emailInfo);
+	_tcscpy(ppd.lptzContactName, _A2T(title));
+	_tcscpy(ppd.lptzText, _A2T(emailInfo));
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
 	ppd.iSeconds = delay;
 	if ( ServiceExists(MS_POPUP_ADDPOPUPT))
-		PUAddPopup(&ppd);
+		PUAddPopupT(&ppd);
 }
 
 static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

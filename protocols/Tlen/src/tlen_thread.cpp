@@ -1051,10 +1051,10 @@ static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
 	if (!db_get_b(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE))
 		return;
 
-	POPUPDATA ppd = { 0 };
+	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MAIL));
-	strcpy(ppd.lpzContactName, title);
-	strcpy(ppd.lpzText, emailInfo);
+	_tcscpy(ppd.lptzContactName, _A2T(title));
+	_tcscpy(ppd.lptzText, _A2T(emailInfo));
 	ppd.colorBack = db_get_dw(NULL, proto->m_szModuleName, "MailPopupBack", 0);
 	ppd.colorText = db_get_dw(NULL, proto->m_szModuleName, "MailPopupText", 0);
 	BYTE delayMode = db_get_b(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
@@ -1062,7 +1062,7 @@ static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
 		ppd.iSeconds = db_get_dw(NULL, proto->m_szModuleName, "MailPopupDelay", 4);
 	else if (delayMode == 2)
 		ppd.iSeconds = -1;
-	PUAddPopup(&ppd);
+	PUAddPopupT(&ppd);
 }
 /*
  * Incoming e-mail notification
