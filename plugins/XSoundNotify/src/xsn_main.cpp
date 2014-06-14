@@ -36,7 +36,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -46,20 +46,19 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 struct {
 	int iStatus;
 	const char *szName;
-	const TCHAR *szInfo;
 }
 static selfSounds[] =
 {
-	{ ID_STATUS_OFFLINE,	"SelfOffline",		 LPGENT("Offline")			},
-	{ ID_STATUS_ONLINE,		"SelfOnline",		 LPGENT("Online")			},
-	{ ID_STATUS_AWAY,		"SelfAway",			 LPGENT("Away")				},
-	{ ID_STATUS_DND,		"SelfDND",			 LPGENT("Do Not Disturb")	},
-	{ ID_STATUS_NA,			"SelfNA",			 LPGENT("Not Available")	},
-	{ ID_STATUS_OCCUPIED,  	"SelfOccupied",		 LPGENT("Occupied")			},
-	{ ID_STATUS_FREECHAT,	"SelfFreeForChat",	 LPGENT("Free For Chat")	},
-	{ ID_STATUS_INVISIBLE,	"SelfInvisible",	 LPGENT("Invisible")		},
-	{ ID_STATUS_ONTHEPHONE,	"SelfOnThePhone",	 LPGENT("On The Phone")		},
-	{ ID_STATUS_OUTTOLUNCH,	"SelfOutToLunch",	 LPGENT("Out To Lunch")		}
+	{ ID_STATUS_OFFLINE,	"SelfOffline"},
+	{ ID_STATUS_ONLINE,		"SelfOnline"},
+	{ ID_STATUS_AWAY,		"SelfAway"},
+	{ ID_STATUS_DND,		"SelfDND"},
+	{ ID_STATUS_NA,			"SelfNA"},
+	{ ID_STATUS_OCCUPIED,  	"SelfOccupied"},
+	{ ID_STATUS_FREECHAT,	"SelfFreeForChat"},
+	{ ID_STATUS_INVISIBLE,	"SelfInvisible"},
+	{ ID_STATUS_ONTHEPHONE,	"SelfOnThePhone"},
+	{ ID_STATUS_OUTTOLUNCH,	"SelfOutToLunch"}
 };
 
 void InitSelfSounds()
@@ -68,15 +67,15 @@ void InitSelfSounds()
 	int protoCount=0;
 	PROTOACCOUNT** protos = 0;
 
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&protoCount, (LPARAM)&protos);
+	ProtoEnumAccounts(&protoCount,&protos);
 	for (int i = 0; i < protoCount; i++) {
 		for(int j = 0; j < SIZEOF(selfSounds); j++) {
-			char  namebuf[128];
+			char namebuf[128];
 			mir_snprintf(namebuf, sizeof(namebuf), "%s%s", protos[i]->szModuleName, selfSounds[j].szName);
 	
 			TCHAR infobuf[256];
 			mir_sntprintf(infobuf, SIZEOF(infobuf), _T("%s [%s]"), TranslateT("Self status"), protos[i]->tszAccountName);
-			SkinAddNewSoundExT(namebuf, infobuf, selfSounds[j].szInfo);
+			SkinAddNewSoundExT(namebuf, infobuf, (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,selfSounds[j].iStatus,GSMDF_TCHAR));
 		}
 	}
 }
@@ -88,7 +87,7 @@ static int ProtoAck(WPARAM wParam, LPARAM lParam)
 		for(int i = 0; i < SIZEOF(selfSounds); i++) {
 			if(selfSounds[i].iStatus == ack->lParam) {
 				char buf[128];
-				_snprintf(buf, sizeof(buf), "%s%s", ack->szModule, selfSounds[i].szName);
+				mir_snprintf(buf, sizeof(buf), "%s%s", ack->szModule, selfSounds[i].szName);
 				SkinPlaySound(buf);
 				break;
 			}
@@ -126,7 +125,7 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int OnPlaySound(WPARAM wParam, LPARAM lParam)
+static int OnPlaySound(WPARAM, LPARAM)
 {
 	if (isIgnoreSound)
 		return 1;
@@ -156,14 +155,14 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	if (hContact) {
-		char* szProto = GetContactProto(hContact);
+		char *szProto = GetContactProto(hContact);
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		Menu_ShowItem(hChangeSound, IsSuitableProto(pa));
 	}
 	return 0;
 }
 
-static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
+static int OnPreShutdown(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(hChangeSoundDlgList, WM_CLOSE, 0, 0);
 	return 0;
