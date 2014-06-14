@@ -34,12 +34,14 @@ static const char *classNames[] = {
 	".error"
 };
 
-MUCCHTMLBuilder::MUCCHTMLBuilder() {
+MUCCHTMLBuilder::MUCCHTMLBuilder()
+{
 	setLastEventType(-1);
 	setLastEventTime(time(NULL));
 }
 
-void MUCCHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour) {
+void MUCCHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
+{
 	char str[32];
 	int style;
 	DBVARIANT dbv;
@@ -113,7 +115,8 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 	return szResult;
 }
 
-void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
+void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
+{
 	LOGFONTA lf;
 	COLORREF color;
 	char *output = NULL;
@@ -180,8 +183,8 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 	setLastEventType(-1);
 }
 
-void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
-
+void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
+{
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
 		DWORD dwData = eventData->dwData;

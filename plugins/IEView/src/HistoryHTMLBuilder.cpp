@@ -62,7 +62,8 @@ static const char *dbSpanSettingNames[] = {
 	"ProfileDate", "ContactDate",
 };
 
-HistoryHTMLBuilder::HistoryHTMLBuilder() {
+HistoryHTMLBuilder::HistoryHTMLBuilder()
+{
 	setLastEventType(-1);
 	setLastEventTime(time(NULL));
 	startedTime = time(NULL);
@@ -78,7 +79,8 @@ bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 	}
 }
 
-char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check) {
+char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check)
+{
 	static char szResult[512];
 	char str[80];
 	DBTIMETOSTRING dbtts;
@@ -92,7 +94,8 @@ char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check) {
 	return szResult;
 }
 
-void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, COLORREF * colour, COLORREF * bkgColour) {
+void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, COLORREF * colour, COLORREF * bkgColour)
+{
 	char str[128];
 	int style;
 	DBVARIANT dbv;
@@ -134,15 +137,18 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 	}
 }
 
-const char *HistoryHTMLBuilder::getTemplateFilename(ProtocolSettings * protoSettings) {
+const char *HistoryHTMLBuilder::getTemplateFilename(ProtocolSettings * protoSettings)
+{
 	return protoSettings->getHistoryTemplateFilename();
 }
 
-int HistoryHTMLBuilder::getFlags(ProtocolSettings * protoSettings) {
+int HistoryHTMLBuilder::getFlags(ProtocolSettings * protoSettings)
+{
 	return protoSettings->getHistoryFlags();
 }
 
-void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
+void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
+{
 	LOGFONTA lf;
 	int i;
 	COLORREF color, bkgColor;
@@ -286,7 +292,8 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	view->documentClose();
 }
 
-void HistoryHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event) {
+void HistoryHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
+{
 	ProtocolSettings *protoSettings = getHistoryProtocolSettings(event->hContact);
 	if (protoSettings == NULL) {
 		return;

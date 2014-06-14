@@ -21,7 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "ieview_common.h"
 
-INT_PTR HandleIEWindow(WPARAM wParam, LPARAM lParam) {
+INT_PTR HandleIEWindow(WPARAM wParam, LPARAM lParam)
+{
 	IEVIEWWINDOW *window = (IEVIEWWINDOW *) lParam;
 	IEView::init();
 	Options::init();
@@ -71,7 +72,8 @@ INT_PTR HandleIEWindow(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR HandleIEEvent(WPARAM wParam, LPARAM lParam) {
+INT_PTR HandleIEEvent(WPARAM wParam, LPARAM lParam)
+{
 	IEVIEWEVENT *event = (IEVIEWEVENT *) lParam;
 	IEView::init();
 	Options::init();
@@ -91,7 +93,8 @@ INT_PTR HandleIEEvent(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR HandleIENavigate(WPARAM wParam, LPARAM lParam) {
+INT_PTR HandleIENavigate(WPARAM wParam, LPARAM lParam)
+{
 	IEVIEWNAVIGATE *navigate = (IEVIEWNAVIGATE *) lParam;
 	IEView::init();
 	Options::init();

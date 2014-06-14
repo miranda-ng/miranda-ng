@@ -131,13 +131,15 @@ static int countNoWhitespace(const wchar_t *str)
 	return c;
 }
 
-TextToken* TextToken::tokenizeBBCodes(const wchar_t *text) {
+TextToken* TextToken::tokenizeBBCodes(const wchar_t *text)
+{
 	return tokenizeBBCodes(text, (int)wcslen(text));
 }
 
 // TODO: Add the following BBCodes: code
 #define BB_TAG_NUM 10
-TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l) {
+TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
+{
 	static const wchar_t *bbTagName[] = { L"b", L"i", L"u", L"s", L"img", L"color", L"size", L"bimg", L"url", L"code" };
 	static int 		bbTagNameLen[] = { 1, 1, 1, 1, 3, 5, 4, 4, 3, 4 };
 	static int 		bbTagArg[] = { 0, 0, 0, 0, 0, 1, 1, 0, 1, 0 };
@@ -292,7 +294,8 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l) {
 	return firstToken;
 }
 
-TextToken* TextToken::tokenizeLinks(const wchar_t *text) {
+TextToken* TextToken::tokenizeLinks(const wchar_t *text)
+{
 	TextToken *firstToken = NULL, *lastToken = NULL;
 	int textLen = 0;
 	int l = (int)wcslen(text);
@@ -351,7 +354,8 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text) {
 	return firstToken;
 }
 
-TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *text, bool isSent) {
+TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *text, bool isSent)
+{
 	TextToken *firstToken = NULL, *lastToken = NULL;
 	SMADD_BATCHPARSE2 sp;
 	SMADD_BATCHPARSERES *spRes;
@@ -411,7 +415,8 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 	return firstToken;
 }
 
-TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text) {
+TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
+{
 	TextToken *firstToken = NULL, *lastToken = NULL;
 	int textLen = 0;
 	int l = (int)wcslen(text);

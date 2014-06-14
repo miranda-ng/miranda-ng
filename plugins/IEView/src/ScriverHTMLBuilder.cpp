@@ -61,7 +61,8 @@ static const char *classNames[] = {
 	".inputArea", ".notices"
 };
 
-ScriverHTMLBuilder::ScriverHTMLBuilder() {
+ScriverHTMLBuilder::ScriverHTMLBuilder()
+{
 	setLastEventType(-1);
 	setLastEventTime(time(NULL));
 	startedTime = time(NULL);
@@ -81,7 +82,8 @@ bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 	}
 }
 
-void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour) {
+void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
+{
 	char str[32];
 	int style;
 	DBVARIANT dbv;
@@ -118,7 +120,8 @@ void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 }
 
-char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mode) {
+char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mode)
+{
 	static char szResult[512];
 	char str[80];
 	char format[20];
@@ -173,8 +176,8 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 	return szResult;
 }
 
-
-void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
+void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
+{
 	LOGFONTA lf;
 	COLORREF color;
 	char *output = NULL;
@@ -263,7 +266,8 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 	setLastEventType(-1);
 }
 
-void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
+void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
+{
 	bool showColon;
 	DWORD dwFlags = db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWTIME, 0) ? SMF_LOG_SHOWTIME : 0;
 	dwFlags |= !db_get_b(NULL, SRMMMOD, SRMSGSET_HIDENAMES, 0) ? SMF_LOG_SHOWNICK : 0;

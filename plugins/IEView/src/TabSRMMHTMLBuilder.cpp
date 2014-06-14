@@ -77,7 +77,8 @@ static const char *classNames[] = {
 	".inputArea", ".statusChange", ".dividers"
 };
 
-TabSRMMHTMLBuilder::TabSRMMHTMLBuilder() {
+TabSRMMHTMLBuilder::TabSRMMHTMLBuilder()
+{
 	setLastEventType(-1);
 	setLastEventTime(time(NULL));
 	lastEventTime = time(NULL);

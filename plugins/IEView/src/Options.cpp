@@ -87,7 +87,8 @@ static void SaveSRMMProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 	}
 }
 
-static void SaveChatProtoSettings(HWND hwndDlg, ProtocolSettings *proto) {
+static void SaveChatProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
+{
 	if (proto != NULL) {
 		char path[MAX_PATH];
 		int i = Options::MODE_COMPATIBLE;
@@ -198,7 +199,8 @@ static void UpdateTemplateIcons(HWND hwnd, const char *path)
 	}
 }
 
-static void UpdateSRMMProtoInfo(HWND hwndDlg, ProtocolSettings *proto) {
+static void UpdateSRMMProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
+{
 	if (proto != NULL) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isSRMMEnableTemp());
@@ -235,7 +237,8 @@ static void UpdateSRMMProtoInfo(HWND hwndDlg, ProtocolSettings *proto) {
 	}
 }
 
-static void UpdateChatProtoInfo(HWND hwndDlg, ProtocolSettings *proto) {
+static void UpdateChatProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
+{
 	if (proto != NULL) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isChatEnableTemp());
@@ -272,7 +275,8 @@ static void UpdateChatProtoInfo(HWND hwndDlg, ProtocolSettings *proto) {
 	}
 }
 
-static void UpdateHistoryProtoInfo(HWND hwndDlg, ProtocolSettings *proto) {
+static void UpdateHistoryProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
+{
 	if (proto != NULL) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isHistoryEnableTemp());
@@ -309,7 +313,8 @@ static void UpdateHistoryProtoInfo(HWND hwndDlg, ProtocolSettings *proto) {
 	}
 }
 
-static void RefreshProtoIcons() {
+static void RefreshProtoIcons()
+{
 	int i;
 	ProtocolSettings *proto;
 	if (hProtocolImageList != NULL) {
@@ -337,7 +342,8 @@ static void RefreshProtoIcons() {
 	}
 }
 
-static void RefreshIcons() {
+static void RefreshIcons()
+{
 	if (hImageList != NULL) {
 		ImageList_RemoveAll(hImageList);
 	} else {
@@ -349,7 +355,8 @@ static void RefreshIcons() {
 	ImageList_AddIcon(hImageList, (HICON) LoadImage(hInstance, MAKEINTRESOURCE(IDI_RTL_ON),IMAGE_ICON,0,0,0));
 }
 
-static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates) {
+static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
+{
 	int i;
 	HTREEITEM hItem = NULL;
 	HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
@@ -396,7 +403,8 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates) {
 	TreeView_SelectItem(hProtoList, hItem);
 }
 
-static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt,  char *path, int maxLen) {
+static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt,  char *path, int maxLen)
+{
 	OPENFILENAMEA ofn={0};
 	GetWindowTextA(hwndDlg, path, maxLen);
 	ofn.lStructSize = sizeof(OPENFILENAME);//_SIZE_VERSION_400;
@@ -441,7 +449,8 @@ int IEViewOptInit(WPARAM wParam, LPARAM lParam)
 static int initialized = 0;
 static int changed = 0;
 
-static void MarkInitialized(int i) {
+static void MarkInitialized(int i)
+{
 	if (initialized == 0) {
 		Options::resetProtocolSettings();
 		RefreshProtoIcons();
@@ -450,7 +459,8 @@ static void MarkInitialized(int i) {
 	initialized |= i;
 }
 
-static void ApplyChanges(int i) {
+static void ApplyChanges(int i)
+{
 	changed &= ~i;
 	initialized &= ~i;
 	if (changed == 0) {
@@ -459,12 +469,14 @@ static void ApplyChanges(int i) {
 	}
 }
 
-static void MarkChanges(int i, HWND hWnd) {
+static void MarkChanges(int i, HWND hWnd)
+{
 	SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
 	changed |= i;
 }
 
-static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	int i;
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -553,7 +565,8 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	return FALSE;
 }
 
-static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	BOOL bChecked;
 	char path[MAX_PATH], filter[MAX_PATH];
 	switch (msg) {
@@ -688,7 +701,8 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	return FALSE;
 }
 
-static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	BOOL bChecked = FALSE;
 	char path[MAX_PATH], filter[MAX_PATH];
 	switch (msg) {
@@ -822,7 +836,8 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	return FALSE;
 }
 
-static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	BOOL bChecked;
 	char path[MAX_PATH], filter[MAX_PATH];
 	switch (msg) {

@@ -23,7 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int HTMLBuilder::mimFlags = 0;
 
-HTMLBuilder::HTMLBuilder() {
+HTMLBuilder::HTMLBuilder()
+{
 	lastIEViewEvent.cbSize = sizeof (IEVIEWEVENT);
 	lastIEViewEvent.iType = IEE_LOG_MEM_EVENTS;
 	lastIEViewEvent.codepage = CP_ACP;
@@ -57,10 +58,10 @@ bool HTMLBuilder::encode(MCONTACT hContact, const char *proto, const wchar_t *te
 			break;
 		}
 		level++;
-	case 3:
+	case 2:
 		token = TextToken::tokenizeLinks(text);
 		break;
-	case 4:
+	case 3:
 		if ((flags & ENF_SMILEYS) || ((Options::getGeneralFlags() & Options::GENERAL_SMILEYINNAMES) &&  (flags & ENF_NAMESMILEYS)))
 			token = TextToken::tokenizeSmileys(hContact, proto, text, isSent);
 		break;

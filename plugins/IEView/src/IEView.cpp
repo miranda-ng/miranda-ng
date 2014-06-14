@@ -33,7 +33,8 @@ bool IEView::isInited = false;
 
 
 
-static LRESULT CALLBACK IEViewServerWindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
+static LRESULT CALLBACK IEViewServerWindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
 	IEView *view = IEView::get(GetParent(GetParent(hwnd)));
 	if (view != NULL) {
 		switch (message) {
@@ -80,7 +81,8 @@ static LRESULT CALLBACK IEViewServerWindowProcedure (HWND hwnd, UINT message, WP
 	return DefWindowProc (hwnd, message, wParam, lParam);
 }
 
-static LRESULT CALLBACK IEViewDocWindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
+static LRESULT CALLBACK IEViewDocWindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
 	IEView *view = IEView::get(GetParent(hwnd));
 	if (view!=NULL) {
 		WNDPROC oldWndProc = view->getDocWndProc();
@@ -93,7 +95,8 @@ static LRESULT CALLBACK IEViewDocWindowProcedure (HWND hwnd, UINT message, WPARA
 	return DefWindowProc (hwnd, message, wParam, lParam);
 }
 
-static LRESULT CALLBACK IEViewWindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
+static LRESULT CALLBACK IEViewWindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
 	IEView *view = IEView::get(hwnd);
 	if (view!=NULL) {
 		WNDPROC oldWndProc = view->getMainWndProc();
@@ -106,13 +109,15 @@ static LRESULT CALLBACK IEViewWindowProcedure (HWND hwnd, UINT message, WPARAM w
 	return DefWindowProc (hwnd, message, wParam, lParam);
 }
 
-IEViewSink::IEViewSink(IEView *smptr) {
+IEViewSink::IEViewSink(IEView *smptr)
+{
 	ieWindow = smptr;
 }
 
 IEViewSink::~IEViewSink() {}
 
-STDMETHODIMP IEViewSink::QueryInterface(REFIID riid, PVOID *ppv) {
+STDMETHODIMP IEViewSink::QueryInterface(REFIID riid, PVOID *ppv)
+{
 	*ppv=NULL;
 	if (IID_IUnknown==riid) {
 		*ppv=(IUnknown *)this;
@@ -130,12 +135,14 @@ STDMETHODIMP IEViewSink::QueryInterface(REFIID riid, PVOID *ppv) {
 	return E_NOINTERFACE;
 }
 
-STDMETHODIMP_(ULONG) IEViewSink::AddRef(void) {
+STDMETHODIMP_(ULONG) IEViewSink::AddRef(void)
+{
 	++m_cRef;
 	return m_cRef;
 }
 
-STDMETHODIMP_(ULONG) IEViewSink::Release(void) {
+STDMETHODIMP_(ULONG) IEViewSink::Release(void)
+{
 	--m_cRef;
 	return m_cRef;
 }
@@ -144,8 +151,8 @@ STDMETHODIMP IEViewSink::GetTypeInfoCount(UINT *ptr) { return E_NOTIMPL; }
 STDMETHODIMP IEViewSink::GetTypeInfo(UINT iTInfo, LCID lcid, LPTYPEINFO* ppTInfo) { return S_OK; }
 STDMETHODIMP IEViewSink::GetIDsOfNames(REFIID riid, LPOLESTR* rgszNames, UINT cNames, LCID lcid, DISPID* rgDispId) { return S_OK; }
 
-STDMETHODIMP IEViewSink::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid , WORD wFlags,
-							DISPPARAMS* pDispParams, VARIANT* pVarResult, EXCEPINFO*pExcepInfo, UINT*puArgErr) {
+STDMETHODIMP IEViewSink::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid , WORD wFlags, DISPPARAMS* pDispParams, VARIANT* pVarResult, EXCEPINFO*pExcepInfo, UINT*puArgErr)
+{
 	if (!pDispParams) return E_INVALIDARG;
  	switch (dispIdMember) {
 		case DISPID_BEFORENAVIGATE2:
@@ -169,8 +176,8 @@ void IEViewSink::DownloadBegin() {}
 void IEViewSink::DownloadComplete() {}
 void IEViewSink::TitleChange(BSTR text) {}
 void IEViewSink::PropertyChange(BSTR text) {}
-void IEViewSink::BeforeNavigate2(IDispatch* pDisp,VARIANT* url,VARIANT* flags, VARIANT* targetFrameName,
-								VARIANT* postData, VARIANT* headers, VARIANT_BOOL* cancel) {
+void IEViewSink::BeforeNavigate2(IDispatch* pDisp,VARIANT* url,VARIANT* flags, VARIANT* targetFrameName, VARIANT* postData, VARIANT* headers, VARIANT_BOOL* cancel)
+{
 #ifndef GECKO
 	if (_tcscmp(url->bstrVal, _T("about:blank")))
 	{
@@ -203,14 +210,16 @@ void IEViewSink::FileDownload(VARIANT_BOOL* cancel) {}
 
 #ifdef GECKO
 
-static void __cdecl StartThread(void *vptr) {
+static void __cdecl StartThread(void *vptr)
+{
 	IEView *iev = (IEView *) vptr;
 	iev->waitWhileBusy();
 	return;
 }
 #endif
 
-void IEView::waitWhileBusy() {
+void IEView::waitWhileBusy()
+{
 	VARIANT_BOOL busy;
 	pWebBrowser->get_Busy(&busy);
 	while (busy == VARIANT_TRUE) {
@@ -220,7 +229,8 @@ void IEView::waitWhileBusy() {
 	PostMessage(hwnd, WM_WAITWHILEBUSY, 0, 0);
 }
 
-void IEView::setBorder() {
+void IEView::setBorder()
+{
 	LONG style = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 	LONG oldStyle = style;
 	if (Options::getGeneralFlags() & Options::GENERAL_NO_BORDER) {
@@ -237,7 +247,8 @@ void IEView::setBorder() {
 //	RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 }
 
-IEView::IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy) {
+IEView::IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy)
+{
 	MSG msg;
 	IOleObject*   pOleObject = NULL;
 	IOleInPlaceObject *pOleInPlace;
@@ -449,8 +460,8 @@ STDMETHODIMP IEView::GetTypeInfoCount(UINT *ptr) { return E_NOTIMPL; }
 STDMETHODIMP IEView::GetTypeInfo(UINT iTInfo, LCID lcid, LPTYPEINFO* ppTInfo) { return S_OK; }
 STDMETHODIMP IEView::GetIDsOfNames(REFIID riid, LPOLESTR* rgszNames, UINT cNames, LCID lcid, DISPID* rgDispId) { return S_OK; }
 
-STDMETHODIMP IEView::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid , WORD wFlags,
-							DISPPARAMS* pDispParams, VARIANT* pVarResult, EXCEPINFO*pExcepInfo, UINT*puArgErr) {
+STDMETHODIMP IEView::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid , WORD wFlags, DISPPARAMS* pDispParams, VARIANT* pVarResult, EXCEPINFO*pExcepInfo, UINT*puArgErr)
+{
  	switch (dispIdMember) {
 		case  DISPID_AMBIENT_DLCONTROL:
 			break;
@@ -487,9 +498,7 @@ STDMETHODIMP IEView::OnUIActivate(void)
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP IEView::GetWindowContext(IOleInPlaceFrame **ppFrame, IOleInPlaceUIWindow **ppDoc,
-							LPRECT lprcPosRect, LPRECT lprcClipRect,
-							LPOLEINPLACEFRAMEINFO lpFrameInfo)
+STDMETHODIMP IEView::GetWindowContext(IOleInPlaceFrame **ppFrame, IOleInPlaceUIWindow **ppDoc, LPRECT lprcPosRect, LPRECT lprcClipRect, LPOLEINPLACEFRAMEINFO lpFrameInfo)
 {
 	lprcPosRect->left = rcClient.left;
 	lprcPosRect->top = rcClient.top;
@@ -642,8 +651,8 @@ STDMETHODIMP IEView::GetHostInfo(DOCHOSTUIINFO *pInfo)
 	}
  	return S_OK;
 }
-STDMETHODIMP IEView::ShowUI(DWORD dwID, IOleInPlaceActiveObject *pActiveObject, IOleCommandTarget *pCommandTarget,
-							IOleInPlaceFrame *pFrame, IOleInPlaceUIWindow *pDoc)
+
+STDMETHODIMP IEView::ShowUI(DWORD dwID, IOleInPlaceActiveObject *pActiveObject, IOleCommandTarget *pCommandTarget, IOleInPlaceFrame *pFrame, IOleInPlaceUIWindow *pDoc)
 {
  	return S_OK;
 }
@@ -656,13 +665,15 @@ STDMETHODIMP IEView::OnFrameWindowActivate(BOOL fEnable) { return E_NOTIMPL; }
 STDMETHODIMP IEView::ResizeBorder(LPCRECT prcBorder, IOleInPlaceUIWindow *pUIWindow, BOOL fRameWindow) {return E_NOTIMPL;}
 STDMETHODIMP IEView::TranslateAccelerator(LPMSG lpMsg, const GUID *pguidCmdGroup, DWORD nCmdID) { return S_FALSE;}
 STDMETHODIMP IEView::GetOptionKeyPath(LPOLESTR *pchKey, DWORD dw) { return E_NOTIMPL; }
-STDMETHODIMP IEView::GetDropTarget(IDropTarget *pDropTarget, IDropTarget **ppDropTarget) {
+STDMETHODIMP IEView::GetDropTarget(IDropTarget *pDropTarget, IDropTarget **ppDropTarget)
+{
 	*ppDropTarget = NULL;
 	return S_OK;
 //	return E_NOTIMPL;
 }
 
-STDMETHODIMP IEView::GetExternal(IDispatch **ppDispatch) {
+STDMETHODIMP IEView::GetExternal(IDispatch **ppDispatch)
+{
 	*ppDispatch = NULL;
 	return S_FALSE;
 }
@@ -671,7 +682,8 @@ STDMETHODIMP IEView::FilterDataObject(IDataObject *pDO, IDataObject **ppDORet) {
 
 
 /* IServiceProvider */
-STDMETHODIMP IEView::QueryService(REFGUID guidService, REFIID riid,	void** ppvObject) {
+STDMETHODIMP IEView::QueryService(REFGUID guidService, REFIID riid,	void** ppvObject)
+{
 	if (guidService == SID_SInternetSecurityManager && riid == IID_IInternetSecurityManager) {
 		return (HRESULT)this->QueryInterface(riid, ppvObject);
 	} else {
@@ -682,15 +694,18 @@ STDMETHODIMP IEView::QueryService(REFGUID guidService, REFIID riid,	void** ppvOb
 
 /* IInternetSecurityManager */
 
-STDMETHODIMP IEView::SetSecuritySite(IInternetSecurityMgrSite *pSite) {
+STDMETHODIMP IEView::SetSecuritySite(IInternetSecurityMgrSite *pSite)
+{
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::GetSecuritySite(IInternetSecurityMgrSite **ppSite) {
+STDMETHODIMP IEView::GetSecuritySite(IInternetSecurityMgrSite **ppSite)
+{
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::MapUrlToZone(LPCWSTR pwszUrl, DWORD *pdwZone, DWORD dwFlags) {
+STDMETHODIMP IEView::MapUrlToZone(LPCWSTR pwszUrl, DWORD *pdwZone, DWORD dwFlags)
+{
 	if (pdwZone!=NULL && pwszUrl!=NULL && !wcscmp(pwszUrl, L"about:blank")) {
 		*pdwZone = URLZONE_LOCAL_MACHINE;
 		return S_OK;
@@ -698,11 +713,13 @@ STDMETHODIMP IEView::MapUrlToZone(LPCWSTR pwszUrl, DWORD *pdwZone, DWORD dwFlags
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::GetSecurityId(LPCWSTR pwszUrl, BYTE *pbSecurityId, DWORD *pcbSecurityId, DWORD_PTR dwReserved) {
+STDMETHODIMP IEView::GetSecurityId(LPCWSTR pwszUrl, BYTE *pbSecurityId, DWORD *pcbSecurityId, DWORD_PTR dwReserved)
+{
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPolicy, DWORD cbPolicy, BYTE *pContext, DWORD cbContext, DWORD dwFlags, DWORD dwReserved) {
+STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPolicy, DWORD cbPolicy, BYTE *pContext, DWORD cbContext, DWORD dwFlags, DWORD dwReserved)
+{
 	DWORD dwPolicy=URLPOLICY_ALLOW;
 	if (pwszUrl!=NULL && !wcscmp(pwszUrl, L"about:blank")) {
 		if (dwAction <= URLACTION_ACTIVEX_MAX && dwAction >= URLACTION_ACTIVEX_MIN) {
@@ -730,20 +747,24 @@ STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPo
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::QueryCustomPolicy(LPCWSTR pwszUrl, REFGUID guidKey, BYTE **ppPolicy, DWORD *pcbPolicy, BYTE *pContext, DWORD cbContext, DWORD dwReserved) {
+STDMETHODIMP IEView::QueryCustomPolicy(LPCWSTR pwszUrl, REFGUID guidKey, BYTE **ppPolicy, DWORD *pcbPolicy, BYTE *pContext, DWORD cbContext, DWORD dwReserved)
+{
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::SetZoneMapping(DWORD dwZone, LPCWSTR lpszPattern, DWORD dwFlags) {
+STDMETHODIMP IEView::SetZoneMapping(DWORD dwZone, LPCWSTR lpszPattern, DWORD dwFlags)
+{
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::GetZoneMappings(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags) {
+STDMETHODIMP IEView::GetZoneMappings(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags)
+{
 	return INET_E_DEFAULT_ACTION;
 }
 
 
-IHTMLDocument2 *IEView::getDocument() {
+IHTMLDocument2 *IEView::getDocument()
+{
 	HRESULT hr = S_OK;
 	IHTMLDocument2 *document = NULL;
 	IDispatch *dispatch = NULL;
@@ -754,7 +775,8 @@ IHTMLDocument2 *IEView::getDocument() {
 	return document;
 }
 
-void IEView::setWindowPos(int x, int y, int cx, int cy) {
+void IEView::setWindowPos(int x, int y, int cx, int cy)
+{
 	rcClient.left = x;
 	rcClient.top = y;
 	rcClient.right = cx;
@@ -779,7 +801,8 @@ void IEView::setWindowPos(int x, int y, int cx, int cy) {
 	}
 }
 
-void IEView::scrollToTop() {
+void IEView::scrollToTop()
+{
 	IHTMLDocument2 *document = getDocument();
 	if (document != NULL) {
 		IHTMLWindow2* pWindow = NULL;
@@ -791,7 +814,8 @@ void IEView::scrollToTop() {
 	}
 }
 
-void IEView::scrollToBottomSoft() {
+void IEView::scrollToBottomSoft()
+{
 	IHTMLDocument2 *document = getDocument();
 	if (document != NULL) {
 		IHTMLWindow2* pWindow = NULL;
@@ -803,7 +827,8 @@ void IEView::scrollToBottomSoft() {
 	}
 }
 
-void IEView::scrollToBottom() {/*
+void IEView::scrollToBottom()
+{/*
 	IHTMLDocument2 *document = getDocument();
 	if (document != NULL) {
 		wchar_t *p = NULL;
@@ -910,11 +935,13 @@ void IEView::navigate(const char *url)
 	delete tTemp;
 }
 
-void IEView::navigate(const wchar_t *url) {
+void IEView::navigate(const wchar_t *url)
+{
 	pWebBrowser->Navigate((WCHAR *)url, NULL, NULL, NULL, NULL);
 }
 
-void IEView::documentClose() {
+void IEView::documentClose()
+{
 
 #ifdef GECKO
 	/*
@@ -928,7 +955,8 @@ void IEView::documentClose() {
 #endif
 }
 
-void IEView::appendEventOld(IEVIEWEVENT *event) {
+void IEView::appendEventOld(IEVIEWEVENT *event)
+{
 	if (clearRequired) {
 		clear(event);
 	}
@@ -938,7 +966,8 @@ void IEView::appendEventOld(IEVIEWEVENT *event) {
 	getFocus = false;
 }
 
-void IEView::appendEvent(IEVIEWEVENT *event) {
+void IEView::appendEvent(IEVIEWEVENT *event)
+{
 	if (clearRequired) {
 		clear(event);
 	}
@@ -1067,7 +1096,8 @@ BSTR IEView::getSelection()
 /**
  * Returns the destination url (href) of the given anchor element (or parent anchor element)
  **/
-BSTR IEView::getHrefFromAnchor(IHTMLElement *element) {
+BSTR IEView::getHrefFromAnchor(IHTMLElement *element)
+{
 	if (element != NULL) {
 		IHTMLAnchorElement * pAnchor;
 		if (SUCCEEDED(element->QueryInterface(IID_IHTMLAnchorElement, (void**)&pAnchor)) && (pAnchor!=NULL)) {
@@ -1097,14 +1127,16 @@ BSTR IEView::getHrefFromAnchor(IHTMLElement *element) {
 	return NULL;
 }
 
-bool IEView::mouseActivate() {
+bool IEView::mouseActivate()
+{
 	if (GetFocus() != hwnd) {
 		getFocus = true;
 	}
 	return false;
 }
 
-bool IEView::mouseClick(POINT pt) {
+bool IEView::mouseClick(POINT pt)
+{
 	bool result = false;
 	if (GetFocus() != hwnd) {
 		getFocus = true;
@@ -1136,7 +1168,8 @@ bool IEView::mouseClick(POINT pt) {
 	return result;
 }
 
-bool IEView::setFocus(HWND prevFocus) {
+bool IEView::setFocus(HWND prevFocus)
+{
 	if (GetFocus() != hwnd && !getFocus) { // && IsChild(prevFocus, hwnd
 		SetFocus(GetParent(getHWND()));
 //		SetFocus(prevFocus);
@@ -1146,7 +1179,8 @@ bool IEView::setFocus(HWND prevFocus) {
 	return false;
 }
 
-void IEView::saveDocument() {
+void IEView::saveDocument()
+{
 	IHTMLDocument2 *document = getDocument();
 	if (document != NULL) {
 		BSTR bCmd = SysAllocString(L"SaveAs");
@@ -1160,7 +1194,8 @@ void IEView::saveDocument() {
 	}
 }
 
-void IEView::navigate(IEVIEWNAVIGATE * nav) {
+void IEView::navigate(IEVIEWNAVIGATE * nav)
+{
 	if (nav->dwFlags & IENF_UNICODE) {
 		navigate(nav->urlW);
 	} else {

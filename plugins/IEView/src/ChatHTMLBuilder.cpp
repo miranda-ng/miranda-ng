@@ -38,12 +38,14 @@ static const char *classNames[] = {
 	".action", ".highlight"
 };
 
-ChatHTMLBuilder::ChatHTMLBuilder() {
+ChatHTMLBuilder::ChatHTMLBuilder()
+{
 	setLastEventType(-1);
 	setLastEventTime(time(NULL));
 }
 
-void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour) {
+void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
+{
 	char str[32];
 	int style;
 	DBVARIANT dbv;
@@ -248,7 +250,8 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 	}
 }
 
-void ChatHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event) {
+void ChatHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
+{
 	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
 	if (protoSettings == NULL) {
 		return;
@@ -260,6 +263,7 @@ void ChatHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event) {
 //	}
 }
 
-bool ChatHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei) {
+bool ChatHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
+{
 	return true;
 }
