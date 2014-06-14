@@ -40,7 +40,7 @@ HGENMENU *hMenuItemAccount	= NULL;
  *
  * @return	0 on success, -1 on failure
  **/
-INT_PTR RemoveMenuItems(HGENMENU * pItems, int Count)
+INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
 {
 	if (!Count || !pItems) {
 		return -1;
@@ -65,7 +65,6 @@ INT_PTR RemoveMenuItems(HGENMENU * pItems, int Count)
  **/
 void RebuildContact()
 {
-	int flag = 0;
 	BYTE item = 0;
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
@@ -76,7 +75,7 @@ void RebuildContact()
 	SvcHomepageRebuildMenu();
 
 	// load options
-	flag = db_get_b(NULL, MODNAME, SET_MI_CONTACT, MCAS_NOTINITIATED);
+	int flag = db_get_b(NULL, MODNAME, SET_MI_CONTACT, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED){
 		flag = MCAS_EXIMPORT|TRUE;
 		db_set_b(NULL, MODNAME, SET_MI_CONTACT, flag);
@@ -165,7 +164,6 @@ void RebuildContact()
  **/
 void RebuildMain()
 {
-	int flag = 0;
 	BYTE item = 0;
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
@@ -173,7 +171,7 @@ void RebuildMain()
 	static HGENMENU hMenuItem[8] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
 	// load options
-	flag = db_get_b(NULL, MODNAME, SET_MI_MAIN, MCAS_NOTINITIATED);
+	int flag = db_get_b(NULL, MODNAME, SET_MI_MAIN, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED){
 		flag = MCAS_ALL|TRUE;
 		db_set_b(NULL, MODNAME, SET_MI_MAIN, flag);
@@ -506,11 +504,11 @@ void RebuildSubGroup()
 INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 {
 	const BYTE mItems = 3;				// menuitems to create
-	int flag = 0, mProtoCount = 0;
-	BYTE i = 0, item = 0;
+	int flag = 0;
+	BYTE item = 0;
 	PROTOACCOUNT* pAccountName = NULL;
 
-	mProtoCount = pcli->menuProtoCount;
+	int mProtoCount = pcli->menuProtoCount;
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
 	HGENMENU mhExIm = HGENMENU_ROOT;
@@ -536,7 +534,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 	}
 
 	// loop for all account names
-	for (i = 0; i < mProtoCount; i++) {
+	for (int i = 0; i < mProtoCount; i++) {
 
 		// set all bytes 0 to avoid problems
 		item = 0;
@@ -580,7 +578,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			//cascade Ex/Import
 			mi.position = 50100;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXIMPORT);
-			mi.pszName = LPGEN("export/import");
+			mi.pszName = LPGEN("Export/import");
 			hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 			mhRoot = hMenuItemAccount[mItems*i + item++];
 			mhExIm = mhRoot;
@@ -597,7 +595,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			// Export
 			strcpy(tDest, "/ExportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
-			mi.pszName = LPGEN("&export xml");
+			mi.pszName = LPGEN("&Export xml");
 			mi.position = 50200;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_EXPORT);
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
@@ -605,7 +603,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			// Import
 			strcpy(tDest, "/ImportAccount");		//mi.pszService
 			if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
-			mi.pszName = LPGEN("xml &import");
+			mi.pszName = LPGEN("&Import xml");
 			mi.position = 50300;
 			mi.hIcon = Skin_GetIcon(ICO_BTN_IMPORT);
 			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
