@@ -167,7 +167,7 @@ BEGIN
     CONTROL         "Enter your full e-mail address.\n(e.g., john.doe@provider.com)",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,210,25
     CONTROL         "",IDC_STATIC,"Static",SS_WHITERECT,0,25,209,69
-    CONTROL         "Enter a representitive name for the e-mail address here:",IDC_STATIC,
+    CONTROL         "Enter a representative name for the e-mail address here:",IDC_STATIC,
                     "Static",SS_SIMPLE | WS_GROUP,3,31,203,8
     EDITTEXT        EDIT_CATEGORY,9,42,190,13,ES_AUTOHSCROLL
     CONTROL         "Enter the e-mail address here:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,3,64,203,8
