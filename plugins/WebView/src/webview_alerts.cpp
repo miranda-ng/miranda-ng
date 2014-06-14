@@ -109,9 +109,9 @@ int WAlertOSD(MCONTACT hContact, TCHAR *displaytext)
 }
 
 /*****************************************************************************/
-int WPopupAlert(WPARAM wParam, LPARAM lParam)
+int PopupAlert(WPARAM wParam, LPARAM lParam)
 {
-	POPUPDATAW ppd = { 0 };
+	POPUPDATAT ppd = { 0 };
 
 	if( ((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
@@ -119,16 +119,16 @@ int WPopupAlert(WPARAM wParam, LPARAM lParam)
 		lstrcpyn(ppd.lptzContactName, dbv.ptszVal, SIZEOF(ppd.lptzContactName));
 		db_free(&dbv);
 	}
-	else lstrcpy(ppd.lptzContactName, _A2T(MODULENAME));
+	else lstrcpy(ppd.lptzContactName, _T(MODULENAME));
 
 	ppd.lchContact = wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	TCHAR *displaytext = (TCHAR*)lParam;
-	if ((wcslen(displaytext) == MAX_SECONDLINE) ||  (wcslen(displaytext) > MAX_SECONDLINE))
-		mir_snwprintf(ppd.lptzText, SIZEOF(ppd.lptzText), displaytext);
-	else if (wcslen(displaytext) < MAX_SECONDLINE)
-		mir_snwprintf(ppd.lptzText, SIZEOF(ppd.lptzText), displaytext);
+	if ((_tcslen(displaytext) == MAX_SECONDLINE) ||  (_tcslen(displaytext) > MAX_SECONDLINE))
+		mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), displaytext);
+	else if (_tcslen(displaytext) < MAX_SECONDLINE)
+		mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), displaytext);
 
 	if ( db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)) {
 		ppd.colorBack = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
@@ -146,53 +146,8 @@ int WPopupAlert(WPARAM wParam, LPARAM lParam)
 	ppd.PluginWindowProc = NULL;
 	ppd.iSeconds = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPW))
-		CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, 0);
-
-	return 0;
-}
-
-/*****************************************************************************/
-int PopupAlert(WPARAM hContact, LPARAM lParam)
-{
-	POPUPDATA ppd = { 0 };
-	if (hContact != NULL) {
-		DBVARIANT dbv;
-		if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-			lstrcpynA(ppd.lptzContactName, dbv.pszVal, SIZEOF(ppd.lptzContactName));
-			db_free(&dbv);
-		}
-	}
-	if (ppd.lptzContactName[0] == 0)
-		strncpy_s(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), MODULENAME, _TRUNCATE);
-
-	ppd.lchContact = hContact;
-	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
-
-	char *displaytext = (char*)lParam;
-	if ((strlen(displaytext) == MAX_SECONDLINE) ||  (strlen(displaytext) > MAX_SECONDLINE))
-		strncpy_s(ppd.lpzText, SIZEOF(ppd.lpzText), displaytext, _TRUNCATE);
-	else if (strlen(displaytext) < MAX_SECONDLINE)
-		strncpy_s(ppd.lpzText, SIZEOF(ppd.lpzText), Translate(displaytext), _TRUNCATE);
-
-	if ( db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)) {
-		ppd.colorBack = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
-		ppd.colorText = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, Def_color_txt);
-	}
-	if ( db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0)) {
-		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-	}
-	if ( db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1)) {
-		ppd.colorBack = BackgoundClr;
-		ppd.colorText = TextClr;
-	}
-
-	ppd.PluginWindowProc = NULL;
-	ppd.iSeconds = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
-
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
+		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
 
 	return 0;
 }

@@ -126,7 +126,6 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 int DataWndAlertCommand(WPARAM wParam, LPARAM lParam);
 int PopupAlert(WPARAM wParam, LPARAM lParam);
-int WPopupAlert(WPARAM wParam, LPARAM lParam);
 int ErrorMsgs(WPARAM wParam, LPARAM lParam);
 int OSDAlert(WPARAM wParam, LPARAM lParam);
 
