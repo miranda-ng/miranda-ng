@@ -65,10 +65,10 @@ extern HANDLE hNetlibUser;
 extern bool bShutdownInProgress;
 bool bWriteConfigurationFile();
 
-void LogEvent(const char * pszTitle, const char * pszLog);
+void LogEvent(const TCHAR * pszTitle, const TCHAR * pszLog);
 bool bOpenLogFile();
 
-extern char szPluginPath[MAX_PATH];
+extern TCHAR szPluginPath[MAX_PATH];
 extern int nPluginPathLen;
 
 extern DWORD dwLocalIpAddress;

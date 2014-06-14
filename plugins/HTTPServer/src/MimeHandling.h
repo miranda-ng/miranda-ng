@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-#define szMimeTypeConfigFile "HTTPMimeTypes"
+#define szMimeTypeConfigFile _T("HTTPMimeTypes")
 
 	/* MIME DB Data structure
 
@@ -28,24 +28,24 @@ extern "C" {
 	*/
 
 	typedef struct _ExtensionListCell {
-		char* ext;
-		struct _ExtensionListCell* next;
-	} ExtensionListCell ;
+		TCHAR *ext;
+		struct _ExtensionListCell *next;
+	} ExtensionListCell;
 
 
 	typedef struct _ContentType {
-		char* mimeType;
-		ExtensionListCell* extList;
-		struct _ContentType* next;
-	} ContentType ;
+		TCHAR *mimeType;
+		ExtensionListCell *extList;
+		struct _ContentType *next;
+	} ContentType;
 
-	typedef ContentType* ContentTypeDB;
-	typedef ExtensionListCell* ExtensionList;
+	typedef ContentType *ContentTypeDB;
+	typedef ExtensionListCell *ExtensionList;
 
 
 
 	extern int bInitMimeHandling();
-	extern const char * pszGetMimeType(const char * pszFileName);
+	extern const TCHAR *pszGetMimeType(const TCHAR *pszFileName);
 
 #ifdef __cplusplus
 }

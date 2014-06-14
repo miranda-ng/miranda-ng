@@ -37,13 +37,13 @@ HANDLE hMainThread;
 
 bool bShowPopups = true;
 
-#define szDefaultExternalSrvName "http://%ExternalIP%:%Port%%SrvPath%"
+#define szDefaultExternalSrvName _T("http://%ExternalIP%:%Port%%SrvPath%")
 
-#define szDefaultUrlAddress "http://checkip.dyndns.org"
-#define szDefaultPageKeyword "Current IP Address: "
+#define szDefaultUrlAddress _T("http://checkip.dyndns.org")
+#define szDefaultPageKeyword _T("Current IP Address: ")
 
-string sUrlAddress = szDefaultUrlAddress;
-string sPageKeyword = szDefaultPageKeyword;
+tstring sUrlAddress = szDefaultUrlAddress;
+tstring sPageKeyword = szDefaultPageKeyword;
 
 
 /////////////////////////////////////////////////////////////////////
@@ -61,17 +61,17 @@ string sPageKeyword = szDefaultPageKeyword;
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void ReplaceAll(string &sSrc, const char * pszReplace, const string &sNew) {
-	string::size_type nCur = 0;
-	int nRepalceLen = (int)strlen(pszReplace);
+void ReplaceAll(tstring &sSrc, const TCHAR * pszReplace, const tstring &sNew) {
+	tstring::size_type nCur = 0;
+	int nRepalceLen = (int)_tcslen(pszReplace);
 	while ((nCur = sSrc.find(pszReplace, nCur)) != sSrc.npos) {
 		sSrc.replace(nCur, nRepalceLen, sNew);
 		nCur += sNew.size();
 	}
 }
 
-void ReplaceAll(string &sSrc, const char * pszReplace, const char * pszNew) {
-	string sNew = pszNew;
+void ReplaceAll(tstring &sSrc, const TCHAR * pszReplace, const TCHAR * pszNew) {
+	tstring sNew = pszNew;
 	ReplaceAll(sSrc, pszReplace, sNew);
 }
 
@@ -92,15 +92,15 @@ void ReplaceAll(string &sSrc, const char * pszReplace, const char * pszNew) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-string DBGetString(MCONTACT hContact, const char *szModule, const char *szSetting, const char * pszError) {
-	string ret;
+tstring DBGetString(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR * pszError) {
+	tstring ret;
 	DBVARIANT dbv = {0};
 	if (! db_get(hContact, szModule, szSetting, &dbv)) {
 		if (dbv.type != DBVT_ASCIIZ) {
-			MessageBox(NULL, "DB: Attempt to get wrong type of value, string", MSG_BOX_TITEL, MB_OK);
+			MessageBox(NULL, _T("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		} else {
-			ret = dbv.pszVal;
+			ret = dbv.ptszVal;
 		}
 	} else
 		ret = pszError;
@@ -198,32 +198,32 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-string sCreateLink(const char * pszSrvPath) {
-	char szTemp[30];
-	string sLink = DBGetString(NULL, MODULE, "ExternalSrvName", szDefaultExternalSrvName);
-	mir_snprintf(szTemp, sizeof(szTemp), "%d.%d.%d.%d", SplitIpAddress(dwLocalIpAddress));
-	ReplaceAll(sLink, "%LocalIP%", szTemp);
+tstring sCreateLink(const TCHAR * pszSrvPath) {
+	TCHAR szTemp[30];
+	tstring sLink = DBGetString(NULL, MODULE, "ExternalSrvName", szDefaultExternalSrvName);
+	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d.%d.%d.%d"), SplitIpAddress(dwLocalIpAddress));
+	ReplaceAll(sLink, _T("%LocalIP%"), szTemp);
 
-	if (sLink.find("%ExternalIP%") != sLink.npos) {
+	if (sLink.find(_T("%ExternalIP%")) != sLink.npos) {
 		static DWORD dwExternalIpAddressGenerated = 0;
 
 		// Get the IP again after 10 minutes
 		if (! dwExternalIpAddress || GetTickCount() - dwExternalIpAddressGenerated > 10 * 60 * 1000) {
-			dwExternalIpAddress = GetExternIP(sUrlAddress.c_str(), sPageKeyword.c_str());
+			dwExternalIpAddress = GetExternIP(_T2A(sUrlAddress.c_str()), _T2A(sPageKeyword.c_str()));
 
 			dwExternalIpAddressGenerated = GetTickCount();
 		}
 
-		mir_snprintf(szTemp, sizeof(szTemp), "%d.%d.%d.%d", SplitIpAddress(dwExternalIpAddress));
-		ReplaceAll(sLink, "%ExternalIP%", szTemp);
+		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d.%d.%d.%d"), SplitIpAddress(dwExternalIpAddress));
+		ReplaceAll(sLink, _T("%ExternalIP%"), szTemp);
 	}
 
-	mir_snprintf(szTemp, sizeof(szTemp), "%d", dwLocalPortUsed, szTemp);
-	ReplaceAll(sLink, "%Port%", szTemp);
+	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), dwLocalPortUsed);
+	ReplaceAll(sLink, _T("%Port%"), szTemp);
 
-	string sSrvPath = pszSrvPath;
-	ReplaceAll(sSrvPath, " ", "%20");
-	ReplaceAll(sLink, "%SrvPath%", sSrvPath);
+	tstring sSrvPath = pszSrvPath;
+	ReplaceAll(sSrvPath, _T(" "), _T("%20"));
+	ReplaceAll(sLink, _T("%SrvPath%"), sSrvPath);
 	return sLink;
 }
 
@@ -249,7 +249,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
   WPARAM wParam,  // message parameter
   LPARAM lParam   // message parameter
 ) {
-	static const char* pszShareDirStr = Translate("Share Current Directory");
+	static const TCHAR* pszShareDirStr = TranslateT("Share Current Directory");
 
 	static int nInit = 0;
 
@@ -276,22 +276,22 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 			switch (pNotify->hdr.code) {
 				case CDN_FOLDERCHANGE:
 				case CDN_SELCHANGE: {
-					static char szSelection[MAX_PATH] = "";
+					static TCHAR szSelection[MAX_PATH] = _T("");
 					HWND hWndFileDlg = GetParent(hDlg);
 
 					*szSelection = '/';
 					CommDlg_OpenSave_GetSpec(hWndFileDlg, (LPARAM)(&szSelection[1]), _MAX_PATH);
 
 					HWND hFileName = GetDlgItem(hWndFileDlg, edt1);
-					char pszFileName[MAX_PATH];
+					TCHAR pszFileName[MAX_PATH];
 					SendMessage(hFileName, WM_GETTEXT, MAX_PATH, (LPARAM)pszFileName);
 
-					if (strcmp(pstShare->pszSrvPath, szSelection) &&
-					    strcmp(pszFileName, pszShareDirStr)) {
+					if (_tcscmp(pstShare->pszSrvPath, szSelection) &&
+					    _tcscmp(pszFileName, pszShareDirStr)) {
 						// a file was selected
 
 						// only reenable windows / set default values when a folder was selected before
-						if (pstShare->pszSrvPath[strlen(pstShare->pszSrvPath)-1] == '/') {
+						if (pstShare->pszSrvPath[_tcslen(pstShare->pszSrvPath)-1] == '/') {
 							pNotify->lpOFN->Flags |= OFN_FILEMUSTEXIST;
 							EnableWindow(hFileName, TRUE);
 							EnableWindow(GetDlgItem(hDlg, IDC_MAX_DOWNLOADS), TRUE);
@@ -300,32 +300,32 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 					} else {
 						// a directory was selected
 						pNotify->lpOFN->Flags &= ~OFN_FILEMUSTEXIST;
-						strcpy(pNotify->lpOFN->lpstrFile, pszShareDirStr);
+						_tcscpy(pNotify->lpOFN->lpstrFile, pszShareDirStr);
 						CommDlg_OpenSave_SetControlText(hWndFileDlg, edt1, pszShareDirStr);
 						EnableWindow(hFileName, FALSE);
 						EnableWindow(GetDlgItem(hDlg, IDC_MAX_DOWNLOADS), FALSE);
 						SetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, (UINT)-1, true);							
 
 						CommDlg_OpenSave_GetFolderPath(hWndFileDlg, szSelection, MAX_PATH);
-						char* pszFolder = szSelection;
-						char* pszTmp    = szSelection;
+						TCHAR* pszFolder = szSelection;
+						TCHAR* pszTmp    = szSelection;
 						while (*pszTmp != '\0') {
 							if (*pszTmp == '\\' && *(pszTmp + 1))
 								pszFolder = pszTmp + 1;
 							pszTmp++;
 						}
 
-						pszTmp = strchr(szSelection, ':');
+						pszTmp = _tcschr(szSelection, ':');
 						if (pszTmp != NULL)
 							*pszTmp = '\0';
 
-						memmove(&szSelection[1], pszFolder, strlen(pszFolder) + 1);
+						memmove(&szSelection[1], pszFolder, _tcslen(pszFolder) + 1);
 						szSelection[0] = '/';
-						if (szSelection[strlen(szSelection)-1] != '/')
-							strcat(szSelection, "/");
+						if (szSelection[_tcslen(szSelection)-1] != '/')
+							_tcscat(szSelection, _T("/"));
 
 						// only write to IDC_SHARE_NAME when a file / other folder was selected before
-						if (!strcmp(szSelection, pstShare->pszSrvPath))
+						if (!_tcscmp(szSelection, pstShare->pszSrvPath))
 							return false;
 					}
 
@@ -341,7 +341,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 						SetDlgItemText(hDlg, IDC_SHARE_NAME, szSelection);
 					}
 
-					strcpy(pstShare->pszSrvPath, szSelection);
+					_tcscpy(pstShare->pszSrvPath, szSelection);
 
 					return false;
 				}
@@ -349,14 +349,14 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 				case CDN_FILEOK: {
 					GetDlgItemText(hDlg, IDC_SHARE_NAME, pstShare->pszSrvPath, _MAX_PATH);
 
-					char* pszTmp = strstr(pstShare->pszRealPath, pszShareDirStr);
+					TCHAR* pszTmp = _tcsstr(pstShare->pszRealPath, pszShareDirStr);
 					if (pszTmp) {
 						*pszTmp = '\0';
-						if (pstShare->pszSrvPath[strlen(pstShare->pszSrvPath)-1] != '/')
-							strcat(pstShare->pszSrvPath, "/");
+						if (pstShare->pszSrvPath[_tcslen(pstShare->pszSrvPath)-1] != '/')
+							_tcscat(pstShare->pszSrvPath, _T("/"));
 					} else {
-						if (pstShare->pszSrvPath[strlen(pstShare->pszSrvPath)-1] == '/')
-							pstShare->pszSrvPath[strlen(pstShare->pszSrvPath)-1] = '\0';
+						if (pstShare->pszSrvPath[_tcslen(pstShare->pszSrvPath)-1] == '/')
+							pstShare->pszSrvPath[_tcslen(pstShare->pszSrvPath)-1] = '\0';
 					}
 
 					BOOL bTranslated = false;
@@ -369,7 +369,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 
 					//if( ! (pstShare->dwAllowedIP & pstShare->dwAllowedMask)
 
-					if (!bTranslated || (strlen(pstShare->pszSrvPath) <= 0)) {
+					if (!bTranslated || (_tcslen(pstShare->pszSrvPath) <= 0)) {
 						SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 1);
 						return true;
 					}
@@ -381,12 +381,12 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 
 		case WM_DROPFILES: {
 			HDROP hDrop = (HDROP)wParam;
-			char szDropedFile[MAX_PATH];
-			int nLen = DragQueryFile(hDrop, 0, szDropedFile, sizeof(szDropedFile));
+			TCHAR szDropedFile[MAX_PATH];
+			int nLen = DragQueryFile(hDrop, 0, szDropedFile, SIZEOF(szDropedFile));
 			if (nLen > 0) {
-				char * psz = strrchr(szDropedFile, '\\');
+				TCHAR * psz = _tcsrchr(szDropedFile, '\\');
 				if (psz) {
-					char oldNext = psz[1];
+					TCHAR oldNext = psz[1];
 					psz[1] = '\0';
 					// Fill in the directory
 					SendMessage(GetParent(hDlg), CDM_SETCONTROLTEXT, edt1, (LPARAM)szDropedFile);
@@ -434,17 +434,17 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(OPENFILENAME);
 
-	char temp[MAX_PATH];
-	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.*)%c*.*%c%c"), Translate("All files"), 0, 0, 0);
+	TCHAR temp[MAX_PATH];
+	mir_sntprintf(temp, SIZEOF(temp), _T("%s (*.*)%c*.*%c%c"), TranslateT("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 
 	ofn.lpstrFile = pstNewShare->pszRealPath;
 	ofn.nMaxFile = pstNewShare->dwMaxRealPath;
 
-	char szInitialDir[MAX_PATH];
-	if (ofn.lpstrFile[strlen(ofn.lpstrFile)-1] == '\\') {
+	TCHAR szInitialDir[MAX_PATH];
+	if (ofn.lpstrFile[_tcslen(ofn.lpstrFile)-1] == '\\') {
 		ofn.lpstrInitialDir = szInitialDir;
-		strcpy(szInitialDir, ofn.lpstrFile);
+		_tcscpy(szInitialDir, ofn.lpstrFile);
 		*ofn.lpstrFile = '\0';
 	}
 
@@ -462,38 +462,38 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 	if (!GetOpenFileName(&ofn)) {
 		DWORD dwError = CommDlgExtendedError();
 		if (dwError) {
-			char szTemp[200];
-			mir_snprintf(szTemp, sizeof(szTemp), "Failed to create File Open dialog the error returned was %d", dwError);
+			TCHAR szTemp[200];
+			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("Failed to create File Open dialog the error returned was %d"), dwError);
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
 		}
 		return false;
 	}
 
-	if (strchr(pstNewShare->pszSrvPath, '"')) {
+	if (_tcschr(pstNewShare->pszSrvPath, '"')) {
 		// multiple files selected
 		// Serverpath: "file1" "file2" "file3"
 		// move one after the other to front of string (in place)
 		// terminate it with \0 append to realpath and add the share		
-		char* pszFileNamePos = pstNewShare->pszSrvPath;
-		char* szRealDirectoryEnd = 
-			&pstNewShare->pszRealPath[strlen(pstNewShare->pszRealPath)];
+		TCHAR *pszFileNamePos = pstNewShare->pszSrvPath;
+		TCHAR *szRealDirectoryEnd = 
+			&pstNewShare->pszRealPath[_tcslen(pstNewShare->pszRealPath)];
 
 		*szRealDirectoryEnd = '\\';
 		szRealDirectoryEnd++;
 		
 		while (pszFileNamePos && *pszFileNamePos) {			
-			pszFileNamePos = strchr(pszFileNamePos, '"');
+			pszFileNamePos = _tcschr(pszFileNamePos, '"');
 			if (pszFileNamePos) {
 				pszFileNamePos++;
-				char* start = pszFileNamePos;
-				pszFileNamePos = strchr(pszFileNamePos, '"');
+				TCHAR* start = pszFileNamePos;
+				pszFileNamePos = _tcschr(pszFileNamePos, '"');
 				if (pszFileNamePos) {					
-					char* end = pszFileNamePos;
+					TCHAR* end = pszFileNamePos;
 					memmove(pstNewShare->pszSrvPath+1, start, end - start);
 					*(end - (start - (pstNewShare->pszSrvPath+1)) ) = '\0';
 					
 					int realPathLen = szRealDirectoryEnd - pstNewShare->pszRealPath;
-					strncpy(szRealDirectoryEnd, pstNewShare->pszSrvPath+1, 
+					_tcsncpy(szRealDirectoryEnd, pstNewShare->pszSrvPath+1, 
 						pstNewShare->dwMaxRealPath - realPathLen - 1);
 					pstNewShare->pszRealPath[pstNewShare->dwMaxRealPath] = '\0';
 
@@ -542,7 +542,7 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 
 	CLFileShareListAccess scCrit;
 
-	char szTmp[50];
+	TCHAR szTmp[50];
 	in_addr stAddr;
 
 	bool bAutoRefress = false;
@@ -552,7 +552,7 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 	int nUserNr = 0;
 	for (CLFileShareNode * pclCur = pclFirstNode; pclCur ; pclCur = pclCur->pclNext) {
 		if (! bRefressUsersOnly &&
-		    (bShowHiddenShares || !strstr(pclCur->st.pszRealPath, "\\@"))) {
+		    (bShowHiddenShares || !_tcsstr(pclCur->st.pszRealPath, _T("\\@")))) {
 			sItem.mask = LVIF_TEXT /*| LVIF_PARAM | LVIF_IMAGE*/;
 			sItem.iItem = nShareNr;
 			sItem.iSubItem = 0;
@@ -560,19 +560,19 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 			ListView_InsertItem(hShareList, &sItem);
 
 
-			mir_snprintf(szTmp, sizeof(szTmp), "%d", pclCur->st.nMaxDownloads);
+			mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%d"), pclCur->st.nMaxDownloads);
 			sItem.iSubItem = 1;
 			sItem.pszText = szTmp;
 			ListView_SetItem(hShareList, &sItem);
 
 			stAddr.S_un.S_addr = htonl(pclCur->st.dwAllowedIP);
 			sItem.iSubItem = 2;
-			sItem.pszText = inet_ntoa(stAddr);
+			sItem.pszText = _A2T(inet_ntoa(stAddr));
 			ListView_SetItem(hShareList, &sItem);
 
 			stAddr.S_un.S_addr = htonl(pclCur->st.dwAllowedMask);
 			sItem.iSubItem = 3;
-			sItem.pszText = inet_ntoa(stAddr);
+			sItem.pszText = _A2T(inet_ntoa(stAddr));
 			ListView_SetItem(hShareList, &sItem);
 
 			sItem.iSubItem = 4;
@@ -592,17 +592,17 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 			ListView_InsertItem(hUserList, &sItem);
 
 			sItem.iSubItem = 1;
-			sItem.pszText = inet_ntoa(pclCurUser->stAddr);
+			sItem.pszText = _A2T(inet_ntoa(pclCurUser->stAddr));
 			ListView_SetItem(hUserList, &sItem);
 
 			sItem.iSubItem = 2;
-			sItem.pszText = (char*)pclCurUser->pszCustomInfo();
+			sItem.pszText = (TCHAR *)pclCurUser->pszCustomInfo();
 			ListView_SetItem(hUserList, &sItem);
 
 			if (pclCurUser->dwTotalSize) {
-				mir_snprintf(szTmp, sizeof(szTmp), "%d %%", (pclCurUser->dwCurrentDL * 100) / pclCurUser->dwTotalSize);
+				mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%d %%"), (pclCurUser->dwCurrentDL * 100) / pclCurUser->dwTotalSize);
 			} else {
-				strcpy(szTmp, "? %%");
+				_tcscpy(szTmp, _T("? %%"));
 			}
 			sItem.iSubItem = 3;
 			sItem.pszText = szTmp;
@@ -612,9 +612,9 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false) {
 			if (dwSpeed > 10000) {
 				dwSpeed += 512; // make sure we round ot down correctly.
 				dwSpeed /= 1024;
-				mir_snprintf(szTmp, sizeof(szTmp), "%d KB/Sec", dwSpeed);
+				mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%d KB/Sec"), dwSpeed);
 			} else {
-				mir_snprintf(szTmp, sizeof(szTmp), "%d B/Sec", dwSpeed);
+				mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%d B/Sec"), dwSpeed);
 			}
 			sItem.iSubItem = 4;
 			sItem.pszText = szTmp;
@@ -774,25 +774,25 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 
 		case WM_DROPFILES: {
 			HDROP hDrop = (HDROP)wParam;
-			char szDropedFile[MAX_PATH];
-			char szServPath[MAX_PATH] = {0};
+			TCHAR szDropedFile[MAX_PATH];
+			TCHAR szServPath[MAX_PATH] = {0};
 
 			int nLen = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
 			for (int i = 0; i < nLen; i++) {
-				DragQueryFile(hDrop, i, szDropedFile, sizeof(szDropedFile));
+				DragQueryFile(hDrop, i, szDropedFile, SIZEOF(szDropedFile));
 
 				STFileShareInfo stNewShare = {0};
 				stNewShare.lStructSize = sizeof(STFileShareInfo);
 				stNewShare.nMaxDownloads = nDefaultDownloadLimit;
 				stNewShare.pszRealPath = szDropedFile;
-				stNewShare.dwMaxRealPath = sizeof(szDropedFile);
+				stNewShare.dwMaxRealPath = SIZEOF(szDropedFile);
 				stNewShare.pszSrvPath = szServPath;
-				stNewShare.dwMaxSrvPath = sizeof(szServPath);
+				stNewShare.dwMaxSrvPath = SIZEOF(szServPath);
 
 				szServPath[0] = '/';
-				char* fileName = strrchr(szDropedFile, '\\');
+				TCHAR* fileName = _tcsrchr(szDropedFile, '\\');
 				if (fileName)
-					strncpy(&szServPath[1], fileName+1, MAX_PATH-2);
+					_tcsncpy(&szServPath[1], fileName+1, MAX_PATH-2);
 
 				if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)&stNewShare)) {
 					MessageBox(NULL, TranslateT("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
@@ -852,11 +852,11 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 
 		case WM_COMMAND: {
 			HWND hShareList = GetDlgItem(hwndDlg, IDC_CURRENT_SHARES);
-			char szTmp[MAX_PATH];
+			TCHAR szTmp[MAX_PATH];
 			LVITEM sItem = { 0 };
 			sItem.mask = LVIF_TEXT;
 			sItem.pszText = szTmp;
-			sItem.cchTextMax = sizeof(szTmp);
+			sItem.cchTextMax = SIZEOF(szTmp);
 
 
 			switch (LOWORD(wParam)) {
@@ -883,9 +883,9 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 							if (LOWORD(wParam) == ID_SHARELIST_REMOVESHARE) {
 								CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)&stShareInfo);
 							} else {
-								char szRealPath[MAX_PATH];
+								TCHAR szRealPath[MAX_PATH];
 								stShareInfo.pszRealPath = szRealPath;
-								stShareInfo.dwMaxRealPath = sizeof(szRealPath);
+								stShareInfo.dwMaxRealPath = SIZEOF(szRealPath);
 								CallService(MS_HTTP_GET_SHARE, 0, (LPARAM)&stShareInfo);
 								bShowShareNewFileDlg(hwndDlg, &stShareInfo);
 							}
@@ -901,7 +901,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 					sItem.iItem = ListView_GetNextItem(hShareList, -1, LVIS_SELECTED);
 					if (sItem.iItem != -1) {
 						if (ListView_GetItem(hShareList, &sItem)) {
-							string sLink = sCreateLink(sItem.pszText);
+							tstring sLink = sCreateLink(sItem.pszText);
 							if (sLink.size() <= 0) {
 								MessageBox(hwndDlg, TranslateT("Selected link size is 0"), MSG_BOX_TITEL, MB_OK);
 								return TRUE;
@@ -920,8 +920,8 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 
 								HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, sLink.size() + 1);
 								// Lock the handle and copy the text to the buffer.
-								char * lptstrCopy = (char *)GlobalLock(hglbCopy);
-								strcpy(lptstrCopy, sLink.c_str());
+								TCHAR *lptstrCopy = (TCHAR *)GlobalLock(hglbCopy);
+								_tcscpy(lptstrCopy, sLink.c_str());
 								GlobalUnlock(hglbCopy);
 
 								// Place the handle on the clipboard.
@@ -993,8 +993,9 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 // Developer       : Sérgio Rolanski
 /////////////////////////////////////////////////////////////////////
 
-void SendLinkToUser(WPARAM wParam, char *pszSrvPath) {
-	string sLink = sCreateLink(pszSrvPath);
+void SendLinkToUser(WPARAM wParam, TCHAR *pszSrvPath)
+{
+	tstring sLink = sCreateLink(pszSrvPath);
 	CallService(MS_MSG_SENDMESSAGE, (WPARAM)wParam, (LPARAM)sLink.c_str());
 }
 
@@ -1017,16 +1018,16 @@ static INT_PTR nShareNewFile(WPARAM hContact, LPARAM lParam)
 {
 	// used to be _MAX_PATH
 	// changed it since selecting multiple files requires a bigger buffer
-	char szNewFile[10000] = {0};
-	char szSrvPath[10000] = {0}; 
+	TCHAR szNewFile[10000] = {0};
+	TCHAR szSrvPath[10000] = {0}; 
 
 	STFileShareInfo stNewShare = {0};
 	stNewShare.lStructSize = sizeof(STFileShareInfo);
 	stNewShare.nMaxDownloads = 1;
 	stNewShare.pszRealPath = szNewFile;
-	stNewShare.dwMaxRealPath = sizeof(szNewFile);
+	stNewShare.dwMaxRealPath = SIZEOF(szNewFile);
 	stNewShare.pszSrvPath = szSrvPath;
-	stNewShare.dwMaxSrvPath = sizeof(szSrvPath);
+	stNewShare.dwMaxSrvPath = SIZEOF(szSrvPath);
 
 	if (hContact) {
 		// Try to locate an IP address.
@@ -1099,7 +1100,7 @@ static INT_PTR nShowStatisticsView(WPARAM /*wParam*/, LPARAM /*lParam*/) {
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 		case WM_INITDIALOG: {
-				string sDefExt = DBGetString(NULL, MODULE, "ExternalSrvName", szDefaultExternalSrvName);
+				tstring sDefExt = DBGetString(NULL, MODULE, "ExternalSrvName", szDefaultExternalSrvName);
 				SetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, sDefExt.c_str());
 
 				bool b = db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0;
@@ -1213,13 +1214,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							return TRUE;
 						}
 					case IDC_TEST_EXTERNALIP: {
-							char szUrl[ 500 ];
-							char szKeyWord[ 1000 ];
-							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szUrl, sizeof(szUrl));
-							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, sizeof(szKeyWord));
-							DWORD dwExternalIP = GetExternIP(szUrl, szKeyWord);
+							TCHAR szUrl[500];
+							TCHAR szKeyWord[1000];
+							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szUrl, SIZEOF(szUrl));
+							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, SIZEOF(szKeyWord));
+							DWORD dwExternalIP = GetExternIP(_T2A(szUrl), _T2A(szKeyWord));
 
-							mir_snprintf(szKeyWord, sizeof(szKeyWord), Translate("Your external IP was detected as %d.%d.%d.%d\r\nby: %s") ,
+							mir_sntprintf(szKeyWord, SIZEOF(szKeyWord), TranslateT("Your external IP was detected as %d.%d.%d.%d\r\nby: %s") ,
 							    SplitIpAddress(dwExternalIP) ,
 							    szUrl);
 							MessageBox(hwndDlg, szKeyWord, MSG_BOX_TITEL, MB_OK);
@@ -1231,9 +1232,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				NMHDR * p = ((LPNMHDR)lParam);
 				switch (p->code) {
 					case PSN_APPLY: {
-							char szTemp[ 500 ];
-							if (GetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, szTemp, sizeof(szTemp)))
-								db_set_s(NULL, MODULE, "ExternalSrvName", szTemp);
+							TCHAR szTemp[500];
+							if (GetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, szTemp, SIZEOF(szTemp)))
+								db_set_ts(NULL, MODULE, "ExternalSrvName", szTemp);
 
 							bool b = db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0;
 							bool bNew = IsDlgButtonChecked(hwndDlg, IDC_ADD_STATISTICS_MENU_ITEM) == BST_CHECKED;
@@ -1255,13 +1256,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							bShowPopups = IsDlgButtonChecked(hwndDlg, IDC_SHOW_POPUPS) == BST_CHECKED;
 							db_set_b(NULL, MODULE, "ShowPopups", bShowPopups);
 
-							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szTemp, sizeof(szTemp));
+							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szTemp, SIZEOF(szTemp));
 							sUrlAddress = szTemp;
-							db_set_s(NULL, MODULE, "UrlAddress", sUrlAddress.c_str());
+							db_set_ts(NULL, MODULE, "UrlAddress", sUrlAddress.c_str());
 
-							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szTemp, sizeof(szTemp));
+							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szTemp, SIZEOF(szTemp));
 							sPageKeyword = szTemp;
-							db_set_s(NULL, MODULE, "PageKeyword", sPageKeyword.c_str());
+							db_set_ts(NULL, MODULE, "PageKeyword", sPageKeyword.c_str());
 							dwExternalIpAddress = 0;
 
 							BOOL bTranslated = false;
@@ -1342,12 +1343,12 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 900000000;
 	odp.hInstance = hInstance;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_HTTP_SERVER);
-	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HTTP_SERVER);
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.ptszTitle = LPGENT("HTTP Server");
 	odp.ptszGroup = LPGENT("Network");
 	odp.pfnDlgProc = OptionsDlgProc;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
@@ -1368,7 +1369,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/)
 void CALLBACK MainThreadCallback(ULONG_PTR dwParam) {
 	POPUPDATAT *pclData = (POPUPDATAT*)dwParam;
 	if (db_get_b(NULL, MODULE, "WriteLogFile", 0) != 0) {
-		LogEvent(pclData->lpzContactName, pclData->lpzText);
+		LogEvent(pclData->lptzContactName, pclData->lptzText);
 	}
 	PUAddPopupT(pclData);
 	delete pclData;
@@ -1433,15 +1434,15 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void ShowPopupWindow(const char * pszName, const char * pszText, COLORREF ColorBack /*= 0*/) {
+void ShowPopupWindow(const TCHAR * pszName, const TCHAR * pszText, COLORREF ColorBack /*= 0*/) {
 	if (! bShowPopups)
 		return;
 
 	POPUPDATAT *pclData = new POPUPDATAT;
 	memset(pclData, 0, sizeof(POPUPDATAT));
 	pclData->lchIcon = LoadIcon(hInstance,  MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
-	strncpy(pclData->lpzContactName, pszName, sizeof(pclData->lpzContactName) - 1);   // -1 so that there aways will be a null termination !!
-	strncpy(pclData->lpzText, pszText, sizeof(pclData->lpzText) - 1);
+	_tcsncpy(pclData->lptzContactName, pszName, SIZEOF(pclData->lptzContactName) - 1);   // -1 so that there aways will be a null termination !!
+	_tcsncpy(pclData->lptzText, pszText, SIZEOF(pclData->lptzText) - 1);
 	pclData->colorBack = ColorBack;
 	//ppd.colorText = colorText;
 	pclData->PluginWindowProc = PopupWindowProc;

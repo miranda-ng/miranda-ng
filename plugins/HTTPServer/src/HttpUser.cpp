@@ -51,14 +51,14 @@ void FileTimeToUnixTime(LPFILETIME pft, time_t* t) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-static int nUnescapedURI(char * pszURI) {
+static int nUnescapedURI(TCHAR *pszURI) {
 	if (! pszURI)
 		return 0;
 
-	char * pszOrigURI = pszURI;
+	TCHAR *pszOrigURI = pszURI;
 	int sumb;
 	int more = -1;
-	char* pszCurInsert = pszURI;
+	TCHAR *pszCurInsert = pszURI;
 
 	for (; *pszURI && pszURI[0] != ' ' ; pszURI++) {
 		int nNewChar;
@@ -67,7 +67,7 @@ static int nUnescapedURI(char * pszURI) {
 			if (pszURI[1] == NULL || pszURI[2] == NULL || pszURI[1] == ' ' || pszURI[2] == ' ')
 				break; // handles error like "%2 " or "%a"
 
-			if (sscanf(&pszURI[1], "%2X", &nNewChar) != 1) {
+			if (_stscanf(&pszURI[1], _T("%2X"), &nNewChar) != 1) {
 				// can't convert to number
 				pszURI += 2;
 				continue; // we skip it !!!
@@ -172,7 +172,7 @@ CLHttpUser::~CLHttpUser() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLHttpUser::bReadGetParameters(char * pszRequest) {
+bool CLHttpUser::bReadGetParameters(TCHAR *pszRequest) {
 	bool bRet = true;
 	for (; *pszRequest ; pszRequest++) {
 		if (pszRequest[0] != '\n') {
@@ -183,16 +183,16 @@ bool CLHttpUser::bReadGetParameters(char * pszRequest) {
 		pszRequest[0] = 0;
 		pszRequest++;
 		for (int nCur = 0; nCur < eLastParam ; nCur++) {
-			int nLen = (int)strlen(szParmStr[nCur]);
-			if (strncmp(pszRequest, szParmStr[nCur], nLen) == 0) {
+			int nLen = (int)_tcslen(szParmStr[nCur]);
+			if (_tcsncmp(pszRequest, szParmStr[nCur], nLen) == 0) {
 				if (apszParam[nCur]) {
 					bRet = false;
 					// already set !!
 				} else {
 					pszRequest += nLen;
 					apszParam[nCur] = pszRequest;
-					pszRequest += strcspn(pszRequest, "\r\n") - 1;
-					char * psz = pszRequest;
+					pszRequest += _tcscspn(pszRequest, _T("\r\n")) - 1;
+					TCHAR *psz = pszRequest;
 					while (*psz == ' ') {
 						psz[0] = 0;// owerwrite ' ' or '\r' or '\n'
 						psz--;
@@ -221,7 +221,8 @@ bool CLHttpUser::bReadGetParameters(char * pszRequest) {
 // Changed         : 21 January 2006 by Vampik
 /////////////////////////////////////////////////////////////////////
 
-void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * pszDescription) {
+void CLHttpUser::SendError(int iErrorCode, const TCHAR *pszError, const TCHAR *pszDescription)
+{
 	char szCurTime[ 100 ];
 	time_t ltime;
 	time(&ltime);
@@ -271,7 +272,8 @@ void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * p
 // Developer       : KN, Houdini, Vampik
 /////////////////////////////////////////////////////////////////////
 
-void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * pszDescription, const char * pszRedirect) {
+void CLHttpUser::SendRedir(int iErrorCode, const TCHAR *pszError, const TCHAR *pszDescription, const TCHAR *pszRedirect)
+{
 	char szCurrTime[ 100 ];
 	time_t ltime;
 	time(&ltime);
@@ -321,7 +323,8 @@ void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * p
 // Developer       : Houdini
 /////////////////////////////////////////////////////////////////////
 
-static void strmcat(char* pszDest, const char* pszSrc, int iMaxLength) {
+static void _tcsmcat(TCHAR *pszDest, const TCHAR *pszSrc, int iMaxLength)
+{
 	int iLength = 0;
 	while (*pszDest != '\0') {
 		pszDest++;
@@ -355,7 +358,7 @@ static void strmcat(char* pszDest, const char* pszSrc, int iMaxLength) {
 // Changed         : 21 January 2006 by Vampik
 /////////////////////////////////////////////////////////////////////
 
-bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
+bool CLHttpUser::bProcessGetRequest(TCHAR *pszRequest, bool bIsGetCommand) {
 	//LogEvent("Request", pszRequest);
 
 	int nUriLength = nUnescapedURI(pszRequest);
@@ -367,11 +370,11 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 	if (bShutdownInProgress)
 		return false;
 
-	static char szTempfile[MAX_PATH+1];
+	static TCHAR szTempfile[MAX_PATH+1];
 	szTempfile[0] = '\0';
 
 	if (!bReadGetParameters(pszRequest)) {
-		SendError(400, "Bad Request");
+		SendError(400, _T("Bad Request"));
 		return false;
 	}
 
@@ -384,20 +387,20 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 			continue; // not the right length, quickly move on to the next.
 
 		if (pclCur->bIsDirectory() ?
-		    (strncmp(pclCur->st.pszSrvPath, pszRequest, pclCur->nGetSrvPathLen() - 1) == 0) :
-		    (strncmp(pclCur->st.pszSrvPath, pszRequest, pclCur->nGetSrvPathLen()) == 0)) {
+		    (_tcsncmp(pclCur->st.pszSrvPath, pszRequest, pclCur->nGetSrvPathLen() - 1) == 0) :
+		    (_tcsncmp(pclCur->st.pszSrvPath, pszRequest, pclCur->nGetSrvPathLen()) == 0)) {
 			/*OutputDebugString( "Request for file OK : ");
 			OutputDebugString( pclCur->st.pszSrvPath );
 			OutputDebugString( "\n" );*/
 
-			static char szSrvPath[MAX_PATH+1];
-			static char szRealPath[MAX_PATH+1];
-			char* pszSrvPath  = pclCur->st.pszSrvPath;
-			char* pszRealPath = pclCur->st.pszRealPath;
+			static TCHAR szSrvPath[MAX_PATH+1];
+			static TCHAR szRealPath[MAX_PATH+1];
+			TCHAR *pszSrvPath  = pclCur->st.pszSrvPath;
+			TCHAR *pszRealPath = pclCur->st.pszRealPath;
 
 			if (pclCur->bIsDirectory()) {
-				strcpy(szRealPath, pclCur->st.pszRealPath);
-				strcpy(szSrvPath, pclCur->st.pszSrvPath);
+				_tcscpy(szRealPath, pclCur->st.pszRealPath);
+				_tcscpy(szSrvPath, pclCur->st.pszSrvPath);
 				pszRealPath = szRealPath;
 				pszSrvPath = szSrvPath;
 
@@ -407,42 +410,42 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				pszRequest[nUriLength] = '\0';
 
 				if (pclCur->nGetSrvPathLen() - nUriLength == 1) {
-					SendRedir(302, "Found", "The document has moved", pszRequest);
+					SendRedir(302, _T("Found"), _T("The document has moved"), pszRequest);
 					return false;
 				} else {
-					strmcat(pszRealPath, &pszRequest[pclCur->nGetSrvPathLen()], MAX_PATH);
-					strmcat(pszSrvPath,  &pszRequest[pclCur->nGetSrvPathLen()], MAX_PATH);
+					_tcsmcat(pszRealPath, &pszRequest[pclCur->nGetSrvPathLen()], MAX_PATH);
+					_tcsmcat(pszSrvPath,  &pszRequest[pclCur->nGetSrvPathLen()], MAX_PATH);
 				}
 				pszRequest[nUriLength] = ' ';
 
 				// hacker protection - should be removed by the browser
-				if (strstr(pszRealPath, "..")) {
-					SendError(404, "Not Found", "The requested URL was not found on this server.");
+				if (_tcsstr(pszRealPath, _T(".."))) {
+					SendError(404, _T("Not Found"), _T("The requested URL was not found on this server."));
 					return false;
 				}
 
-				char* pszTmp = pszRealPath;
-				while (pszTmp = strchr(pszTmp, '/'))
+				TCHAR *pszTmp = pszRealPath;
+				while (pszTmp = _tcschr(pszTmp, '/'))
 					* pszTmp = '\\';
 
 				hFile = CreateFile(pszRealPath, GENERIC_READ ,
 				    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 				if (hFile == INVALID_HANDLE_VALUE) {
-					if (pszSrvPath[strlen(pszSrvPath)-1] != '/') {
-						strmcat(pszRealPath, "\\", MAX_PATH);
-						strmcat(pszSrvPath,  "/", MAX_PATH);
+					if (pszSrvPath[_tcslen(pszSrvPath)-1] != '/') {
+						_tcsmcat(pszRealPath, _T("\\"), MAX_PATH);
+						_tcsmcat(pszSrvPath,  _T("/"), MAX_PATH);
 					}
 
 					// a directory with index.htm
-					strmcat(szRealPath, "index.htm", MAX_PATH);
+					_tcsmcat(szRealPath, _T("index.htm"), MAX_PATH);
 
 					hFile = CreateFile(pszRealPath, GENERIC_READ ,
 					    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, NULL);
 
 					if (hFile == INVALID_HANDLE_VALUE) {
 						// a directory with index.html
-						strmcat(szRealPath, "l", MAX_PATH);
+						_tcsmcat(szRealPath, _T("l"), MAX_PATH);
 
 						hFile = CreateFile(pszRealPath, GENERIC_READ ,
 						    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, NULL);
@@ -451,13 +454,13 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 							// generate directory index in temporary file
 							if (*szTempfile == '\0') {
 								GetTempPath(MAX_PATH, szTempfile);
-								strmcat(szTempfile, "\\HttpServerTemp", MAX_PATH);
-								strmcat(szTempfile, pszSrvPath, MAX_PATH);
-								char* pszTmp = szTempfile;
-								while (pszTmp = strchr(pszTmp, '/'))
+								_tcsmcat(szTempfile, _T("\\HttpServerTemp"), MAX_PATH);
+								_tcsmcat(szTempfile, pszSrvPath, MAX_PATH);
+								TCHAR *pszTmp = szTempfile;
+								while (pszTmp = _tcschr(pszTmp, '/'))
 									* pszTmp = '~';
 							}
-							pszRealPath[strlen(pszRealPath) - 10] = '\0';
+							pszRealPath[_tcslen(pszRealPath) - 10] = '\0';
 
 							// detecting browser function removed
 							// every browser should support it by now
@@ -472,23 +475,23 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 								hFile = CreateFile(szTempfile, GENERIC_READ ,
 								    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-								strcpy(szRealPath, "a.xml"); // restore .xml for mime type
+								_tcscpy(szRealPath, _T("a.xml")); // restore .xml for mime type
 							} else if ((indexCreationMode == INDEX_CREATION_HTML ||
 							    indexCreationMode == INDEX_CREATION_DETECT) &&
 							    bCreateIndexHTML(pszRealPath, szTempfile, pszSrvPath, dwRemoteIP)) {
 								hFile = CreateFile(szTempfile, GENERIC_READ,
 								    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-								strcpy(szRealPath, "a.html"); // restore .html for mime type
+								_tcscpy(szRealPath, _T("a.html")); // restore .html for mime type
 							} else {
 								continue;
 							}
 						} else {
-							strmcat(pszSrvPath, "index.html", MAX_PATH);
+							_tcsmcat(pszSrvPath, _T("index.html"), MAX_PATH);
 							szTempfile[0] = '\0';
 						}
 					} else {
-						strmcat(pszSrvPath, "index.htm", MAX_PATH);
+						_tcsmcat(pszSrvPath, _T("index.htm"), MAX_PATH);
 						szTempfile[0] = '\0';
 					}
 				} else {
@@ -499,12 +502,12 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				    FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 				if (hFile == INVALID_HANDLE_VALUE) {
-					SendError(404, "Not Found", "HTTP server failed to open local file");
+					SendError(404, _T("Not Found"), _T("HTTP server failed to open local file"));
 					return false;
 				}
 			}
 
-			strcpy(this->szCurrentDLSrvPath, pszSrvPath);
+			_tcscpy(this->szCurrentDLSrvPath, pszSrvPath);
 
 			DWORD nDataSize = GetFileSize(hFile, NULL);
 			dwTotalSize = nDataSize;
@@ -517,26 +520,26 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 			time(&ltime);
 			strftime(szCurTime, sizeof(szCurTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
 
-			char szFileTime[ 100 ];
+			TCHAR szFileTime[100];
 			FileTimeToUnixTime(&stFileTime, &ltime);
-			strftime(szFileTime, sizeof(szFileTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
+			_tcsftime(szFileTime, SIZEOF(szFileTime), _T("%a, %d %b %Y %H:%M:%S GMT"), gmtime(&ltime));
 			
-			if (apszParam[eIfModifiedSince] && strcmp(apszParam[eIfModifiedSince], szFileTime) == 0) {
-				SendError(304, "Not Modified" );
+			if (apszParam[eIfModifiedSince] && _tcscmp(apszParam[eIfModifiedSince], szFileTime) == 0) {
+				SendError(304, _T("Not Modified"));
 				return true;
 			}
 	
 			// we found match send file !!
 			if (bIsGetCommand) {
 				if (! pclCur->bAddUser(this)) {
-					SendError(403, "Forbidden", "Access has been denied because there are too many connections");
+					SendError(403, _T("Forbidden"), _T("Access has been denied because there are too many connections"));
 					return false;
 				}
 			}
 
 			if (*(ULONG*)(&stAddr) != 0x0100007F && // do not show popup of 127.0.0.1
-			    strstr(pszRealPath, "\\@") == NULL) { // and of shares which start with an @
-				ShowPopupWindow(inet_ntoa(stAddr), pszSrvPath);
+			    _tcsstr(pszRealPath, _T("\\@")) == NULL) { // and of shares which start with an @
+				ShowPopupWindow(_A2T(inet_ntoa(stAddr)), pszSrvPath);
 			}
 
 			clCritSection.Unlock();
@@ -544,37 +547,37 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 			DWORD dwFileStart = 0;
 			DWORD dwDataToSend = nDataSize;
 
-			char szETag[ 50 ];
+			TCHAR szETag[50];
 			{
-				int nETagLen = mir_snprintf(szETag, sizeof(szETag), "\"%x-%x-%x\"",
+				int nETagLen = mir_sntprintf(szETag, SIZEOF(szETag), _T("\"%x-%x-%x\""),
 				    nDataSize, stFileTime.dwHighDateTime, stFileTime.dwLowDateTime);
 
-				if (!apszParam[eIfRange] || (strncmp(szETag, apszParam[eIfRange], nETagLen) == 0)) {
-					char * pszRange = apszParam[eRange];
+				if (!apszParam[eIfRange] || (_tcsncmp(szETag, apszParam[eIfRange], nETagLen) == 0)) {
+					TCHAR *pszRange = apszParam[eRange];
 					if (pszRange) {
-						if (strncmp(pszRange, "bytes=", 6) == 0) {
+						if (_tcsncmp(pszRange, _T("bytes="), _tcslen(_T("bytes="))) == 0) {
 							pszRange += 6;
 							// Do resume !!!
-							char *pszEnd;
+							TCHAR *pszEnd;
 							if (pszRange[0] == '-') {
 								// its a suffix-byte-range-spec
-								DWORD dwLen = strtol(pszRange + 1, &pszEnd, 10);
+								DWORD dwLen = _tcstol(pszRange + 1, &pszEnd, 10);
 								if (dwLen < nDataSize)
 									dwFileStart = nDataSize - dwLen;
 							} else {
-								DWORD dwLen = strtol(pszRange, &pszEnd, 10);
+								DWORD dwLen = _tcstol(pszRange, &pszEnd, 10);
 								if (*pszEnd == '-' && dwLen < nDataSize) {
 									dwFileStart = dwLen;
 									pszRange = pszEnd + 1;
 									if (*pszRange != 0) {
-										dwLen = strtol(pszEnd + 1, &pszEnd, 10);
+										dwLen = _tcstol(pszEnd + 1, &pszEnd, 10);
 										if (dwLen > dwFileStart)
 											dwDataToSend = (dwLen + 1) - dwFileStart;
 										else
 											dwFileStart = 0;
 									}
 								} else {
-									SendError(400, "Bad Request");
+									SendError(400, _T("Bad Request"));
 									return false;
 								}
 							}
@@ -600,7 +603,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 
 			if (dwFileStart > 0 || dwDataToSend != nDataSize) {
 				if (SetFilePointer(hFile, dwFileStart, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER) {
-					SendError(416, "Requested Range Not Satisfiable");
+					SendError(416, _T("Requested Range Not Satisfiable"));
 					return true;
 				}
 
@@ -621,7 +624,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 				    szETag,
 				    dwDataToSend,
-				    pszGetMimeType(pszRealPath),
+				    _T2A(pszGetMimeType(pszRealPath)),
 				    dwFileStart,
 				    (dwFileStart + dwDataToSend - 1),
 				    nDataSize,
@@ -750,7 +753,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 					for (CLFileShareNode * pcl = pclFirstNode ; pcl ; pcl = pcl->pclNext) {
 						if (pcl == pclCur) {
 							*pclPrev = pclCur->pclNext;
-							ShowPopupWindow(Translate("Share removed"), pclCur->st.pszSrvPath, RGB(255, 189, 189));
+							ShowPopupWindow(TranslateT("Share removed"), pclCur->st.pszSrvPath, RGB(255, 189, 189));
 							delete pclCur;
 							bNeedToWriteConfig = true;
 							break;
@@ -770,24 +773,25 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 
 
 #ifdef _DEBUG
-	OutputDebugString("###########   Request Failed   ###########\n");
+	OutputDebugString(_T("###########   Request Failed   ###########\n"));
 	OutputDebugString(pszRequest);
 #endif
 
 	pszRequest[nUriLength] = 0;
 
-	if ((nUriLength != 12 || strncmp(pszRequest, "/favicon.ico", nUriLength)) &&  // do not show popup of favicon.ico
+	if ((nUriLength != 12 || _tcsncmp(pszRequest, _T("/favicon.ico"), nUriLength)) &&  // do not show popup of favicon.ico
 	    *(ULONG*)(&stAddr) != 0x0100007F) { // do not show popup of 127.0.0.1
-		ShowPopupWindow(inet_ntoa(stAddr), pszRequest, RGB(255, 189, 189));
+		ShowPopupWindow(_A2T(inet_ntoa(stAddr)), pszRequest, RGB(255, 189, 189));
 	}
 
-	SendError(404, "Not Found", "The requested URL was not found on this server.");
+	SendError(404, _T("Not Found"), _T("The requested URL was not found on this server."));
 
 	return false;
 }
 
 
-void CLHttpUser::HandleNewConnection() {
+void CLHttpUser::HandleNewConnection()
+{
 	
 /*
  {
@@ -828,10 +832,10 @@ void CLHttpUser::HandleNewConnection() {
 	}
 	*/
 
-	char szBuf[1000];
+	TCHAR szBuf[1000];
 	int nCurPos = 0;
-	while (sizeof(szBuf) - nCurPos > 10 && !bShutdownInProgress) {
-		int nBytesRead = Netlib_Recv(hConnection, &szBuf[nCurPos], sizeof(szBuf) - nCurPos, 0);
+	while (SIZEOF(szBuf) - nCurPos > 10 && !bShutdownInProgress) {
+		int nBytesRead = Netlib_Recv(hConnection, _T2A(&szBuf[nCurPos]), SIZEOF(szBuf) - nCurPos, 0);
 		if (! nBytesRead) {
 			// socket closed gracefully
 			break;
@@ -846,9 +850,9 @@ void CLHttpUser::HandleNewConnection() {
 		if (nCurPos <= 5)
 			continue;
 
-		bool bIsGetCommand = memcmp(szBuf, "GET ", 4) == 0;
-		if (!bIsGetCommand && memcmp(szBuf, "HEAD ", 5) != 0) {
-			SendError(501, "Not Implemented");
+		bool bIsGetCommand = _tcsncmp(szBuf, _T("GET "), _tcslen(_T("GET "))) == 0;
+		if (!bIsGetCommand && _tcsncmp(szBuf, _T("HEAD "), _tcslen(_T("HEAD "))) != 0) {
+			SendError(501, _T("Not Implemented"));
 			break; // We only support GET and HEAD commands !!
 		}
 

@@ -124,7 +124,8 @@ DWORD CLShareUser::dwGetDownloadSpeed() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLFileShareNode::CLFileShareNode(char * pszSrvPath, char * pszRealPath) {
+CLFileShareNode::CLFileShareNode(TCHAR *pszSrvPath, TCHAR *pszRealPath)
+{
 	memset(&st, 0, sizeof(STFileShareInfo));
 	st.lStructSize = sizeof(STFileShareInfo);
 	pclNext = NULL;
@@ -195,7 +196,8 @@ CLFileShareNode::~CLFileShareNode() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
+bool CLFileShareNode::bSetPaths(TCHAR *pszSrvPath, TCHAR *pszRealPath)
+{
 	/* This might be a problem !!
 	if( nDownloadsInProgress > 0 )
 		return false;
@@ -207,25 +209,25 @@ bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
 	delete [] st.pszSrvPath;
 	delete [] st.pszRealPath;
 
-	st.dwMaxSrvPath = (int)strlen(pszSrvPath) + 1;
-	st.pszSrvPath = new char[ st.dwMaxSrvPath ];
-	strcpy(st.pszSrvPath, pszSrvPath);
+	st.dwMaxSrvPath = (int)_tcslen(pszSrvPath) + 1;
+	st.pszSrvPath = new TCHAR[st.dwMaxSrvPath];
+	_tcscpy(st.pszSrvPath, pszSrvPath);
 
-	int nRealLen = (int)strlen(pszRealPath);
+	int nRealLen = (int)_tcslen(pszRealPath);
 	if (nRealLen <= 2 || !(pszRealPath[1] == ':' ||
 	    (pszRealPath[0] == '\\' && pszRealPath[1] == '\\'))) {
 		// Relative path
 		// we will prepend plugin path to avoid problems
 		st.dwMaxRealPath = nPluginPathLen  + nRealLen + 1;
-		st.pszRealPath = new char[ st.dwMaxRealPath ];
-		strcpy(st.pszRealPath, szPluginPath);
+		st.pszRealPath = new TCHAR[st.dwMaxRealPath];
+		_tcscpy(st.pszRealPath, szPluginPath);
 		pszOrigRealPath = &st.pszRealPath[nPluginPathLen];
 	} else {
 		st.dwMaxRealPath = nRealLen + 1;
-		st.pszRealPath = new char[ st.dwMaxRealPath ];
+		st.pszRealPath = new TCHAR[st.dwMaxRealPath];
 		pszOrigRealPath = st.pszRealPath;
 	}
-	strcpy(pszOrigRealPath, pszRealPath);
+	_tcscpy(pszOrigRealPath, pszRealPath);
 	return true;
 }
 
@@ -242,7 +244,8 @@ bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLFileShareNode::bSetInfo(STFileShareInfo * pstInfo) {
+bool CLFileShareNode::bSetInfo(STFileShareInfo *pstInfo)
+{
 	if (! bSetPaths(pstInfo->pszSrvPath, pstInfo->pszRealPath))
 		return false;
 	if (pstInfo->nMaxDownloads < -1)

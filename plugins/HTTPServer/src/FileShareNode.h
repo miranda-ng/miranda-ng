@@ -29,10 +29,10 @@ public:
 	in_addr stAddr;
 	DWORD dwCurrentDL;
 	DWORD dwTotalSize;
-	char  szCurrentDLSrvPath[MAX_PATH];
+	TCHAR  szCurrentDLSrvPath[MAX_PATH];
 	virtual DWORD dwGetDownloadSpeed();
 	virtual bool bCloseTransfers() = NULL;
-	virtual const char * pszCustomInfo() = NULL;
+	virtual const TCHAR * pszCustomInfo() = NULL;
 	void CloseSocket();
 protected:
 	HANDLE hConnection;
@@ -41,11 +41,11 @@ protected:
 
 class CLFileShareNode {
 public://, 	DWORD dwAllowedIP, DWORD dwAllowedMask, int nMaxDownloads );
-	CLFileShareNode(char * pszSrvPath, char * pszRealPath);
-	CLFileShareNode(STFileShareInfo * pstInfo);
+	CLFileShareNode(TCHAR *pszSrvPath, TCHAR *pszRealPath);
+	CLFileShareNode(STFileShareInfo *pstInfo);
 	~CLFileShareNode();
-	bool bSetPaths(char * pszSrvPath, char * pszRealPath);
-	bool bSetInfo(STFileShareInfo * pstInfo);
+	bool bSetPaths(TCHAR *pszSrvPath, TCHAR *pszRealPath);
+	bool bSetInfo(STFileShareInfo *pstInfo);
 	int nGetSrvPathLen() {
 		return st.dwMaxSrvPath -1;
 	}
@@ -54,7 +54,7 @@ public://, 	DWORD dwAllowedIP, DWORD dwAllowedMask, int nMaxDownloads );
 	}
 
 	STFileShareInfo st;
-	char *pszOrigRealPath;
+	TCHAR *pszOrigRealPath;
 	CLFileShareNode * pclNext;
 	//CLHttpUser * pclAddHttpUser( HANDLE hConnection, in_addr stAddr );
 	//bool bRemoveHttpUser( CLHttpUser * pclUser );
