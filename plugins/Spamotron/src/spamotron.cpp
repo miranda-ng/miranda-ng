@@ -53,7 +53,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	char *msgblob;
-	POPUPDATA ppdp = {0};
+	POPUPDATAT ppdp = {0};
 	DBTIMETOSTRING tts = {0};
 	char protoOption[256] = {0};
 	char *response, *tmp, *challenge;
