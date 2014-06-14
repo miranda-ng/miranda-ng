@@ -575,7 +575,15 @@ bool Omegle_client::events( )
 		{
 			// Stranger is typing, not supported by chat module yet
 			SkinPlaySound( "StrangerTyp" );
-			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)TranslateT("Stranger is typing."));
+			
+			
+			StatusTextData st = { 0 };
+			st.cbSize = sizeof(st);
+			// st.hIcon = Skin_GetIconByHandle(GetIconHandle("typing_on")); // TODO: typing icon
+
+			mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("%s is typing."), TranslateT("Stranger"));
+
+			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 		}
 
 		if ( resp.data.find( "[\"stoppedTyping\"]" ) != std::string::npos
@@ -583,7 +591,14 @@ bool Omegle_client::events( )
 		{
 			// Stranger stopped typing, not supported by chat module yet
 			SkinPlaySound( "StrangerTypStop" );
-			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)TranslateT("Stranger stopped typing."));
+			
+			StatusTextData st = { 0 };
+			st.cbSize = sizeof(st);
+			// st.hIcon = Skin_GetIconByHandle(GetIconHandle("typing_off")); // TODO: typing icon
+
+			mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("%s stopped typing."), TranslateT("Stranger"));
+
+			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)parent->GetChatHandle(), (LPARAM)&st);
 		}
 
 		pos = 0;

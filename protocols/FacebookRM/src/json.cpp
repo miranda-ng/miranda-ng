@@ -448,19 +448,24 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 							ptrT readers(mir_utf8decodeT(chatroom->second.message_readers.c_str()));
 
-							TCHAR tstr[200];														
-							mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s by %s"), ttime, readers);
+							StatusTextData st = { 0 };
+							st.cbSize = sizeof(st);
+							st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
 
-							CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)tstr);
+							mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, readers);
+
+							CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 						}
 					}
  				} else { // classic contact
 					MCONTACT hContact = proto->ContactIDToHContact(json_as_pstring(reader));
 					if (hContact) {
-						TCHAR tstr[100];
-						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
+						StatusTextData st = { 0 };
+						st.cbSize = sizeof(st);
+						mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
 
-						CallService(MS_MSG_SETSTATUSTEXT, hContact, (LPARAM)tstr);
+						st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
+						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 					}
 				}
 			} else if (t == "deliver") {
@@ -607,15 +612,19 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					MCONTACT hChatContact = proto->ChatIDToHContact(tid);
 					ptrT name(mir_utf8decodeT(participant->second.c_str()));
 
-					TCHAR tstr[200];
+					if (json_as_int(st_) == 1) {
+						StatusTextData st = { 0 };
+						st.cbSize = sizeof(st);
+						
+						mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("%s is typing a message..."), name);
 
-					if (json_as_int(st_) == 1)
-						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("%s is typing a message..."), name);
-					else
-						mir_sntprintf(tstr, SIZEOF(tstr), _T(""));
+						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
+					}
+					else {
+						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, NULL);
+					}
 
 					// TODO: support proper MS_PROTO_CONTACTISTYPING service for chatrooms (when it will be implemented)
-					CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)tstr);
 				}
 			}
 		} else if (t == "privacy_changed") {

@@ -15,6 +15,7 @@
 #define IDI_NEWSFEED                    129
 #define IDI_FRIENDS                     130
 #define IDI_CONVERSATION                131
+#define IDI_READ                        132
 #define IDC_UN                          1001
 #define IDC_PW                          1002
 #define IDC_NEWACCOUNTLINK              1003
@@ -57,7 +58,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        132
+#define _APS_NEXT_RESOURCE_VALUE        133
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1211
 #define _APS_NEXT_SYMED_VALUE           132

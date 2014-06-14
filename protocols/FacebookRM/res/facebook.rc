@@ -58,6 +58,7 @@ IDI_NOTIFICATION        ICON                    "notification.ico"
 IDI_NEWSFEED            ICON                    "feeds.ico"
 IDI_FRIENDS             ICON                    "friends.ico"
 IDI_CONVERSATION        ICON                    "conversation.ico"
+IDI_READ                ICON                    "read.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

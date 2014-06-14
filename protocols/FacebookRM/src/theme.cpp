@@ -33,6 +33,7 @@ static IconItem icons[] =
 	{ LPGEN("Newsfeed"),                  "newsfeed",      IDI_NEWSFEED },
 	{ LPGEN("Friendship details"),        "friendship",    IDI_FRIENDS },
 	{ LPGEN("Conversation"),              "conversation",  IDI_CONVERSATION },
+	{ LPGEN("Message read"),              "read",          IDI_READ },
 };
 
 // TODO: uninit

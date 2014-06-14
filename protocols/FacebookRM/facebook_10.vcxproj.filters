@@ -144,5 +144,8 @@
     <Image Include="res\conversation.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
+    <Image Include="res\read.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>
