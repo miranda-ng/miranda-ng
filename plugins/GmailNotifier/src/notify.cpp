@@ -55,7 +55,7 @@ void NotifyUser(Account *curAcc)
 	if (optionWindowIsOpen)
 		return;
 	
-	db_set_s(curAcc->hContact, "CList", "MyHandle", curAcc->results.content);
+	db_set_ts(curAcc->hContact, "CList", "MyHandle", curAcc->results.content);
 	switch (curAcc->results_num) {
 	case 0:
 		PUDeletePopup(curAcc->popUpHwnd);
@@ -80,7 +80,7 @@ void NotifyUser(Account *curAcc)
 
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < newMails; i++) {
-				dbei.cbBlob = lstrlenA(prst->content) + 1;
+				dbei.cbBlob = lstrlen(prst->content) + 1;
 				dbei.pBlob = (PBYTE)prst->content;
 				db_event_add(curAcc->hContact, &dbei);
 				prst = prst->next;
@@ -90,24 +90,24 @@ void NotifyUser(Account *curAcc)
 			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = curAcc->hContact;
 			cle.hDbEvent = (HANDLE)1;
-			cle.flags = CLEF_URGENT;
+			cle.flags = CLEF_URGENT | CLEF_TCHAR;
 			cle.hIcon = LoadSkinnedProtoIcon(pluginName, ID_STATUS_OCCUPIED);
 			cle.pszService = "GmailMNotifier/Notifying";
-			cle.pszTooltip = curAcc->results.next->content;
+			cle.ptszTooltip = curAcc->results.next->content;
 			CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)curAcc->hContact, (LPARAM)1);
 			CallServiceSync(MS_CLIST_ADDEVENT, (WPARAM)curAcc->hContact, (LPARAM)& cle);
 		}
 
 		if (opt.notifierOnPop&&newMails > 0) {
-			POPUPDATA ppd = { 0 };
+			POPUPDATAT ppd = { 0 };
 
 			ppd.lchContact = curAcc->hContact;
 			ppd.lchIcon = LoadSkinnedProtoIcon(pluginName, ID_STATUS_OCCUPIED);
-			lstrcpyA(ppd.lpzContactName, curAcc->results.content);
+			lstrcpy(ppd.lptzContactName, curAcc->results.content);
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < 5 && i < newMails; i++) {
-				strcat(ppd.lpzText, prst->content);
-				strcat(ppd.lpzText, "\n");
+				_tcscat(ppd.lptzText, prst->content);
+				_tcscat(ppd.lptzText, _T("\n"));
 				prst = prst->next;
 			}
 			ppd.colorBack = opt.popupBgColor;
@@ -116,7 +116,7 @@ void NotifyUser(Account *curAcc)
 			ppd.PluginData = NULL;
 			ppd.iSeconds = opt.popupDuration;
 			PUDeletePopup(curAcc->popUpHwnd);
-			PUAddPopup(&ppd);
+			PUAddPopupT(&ppd);
 		}
 		if (newMails > 0)
 			SkinPlaySound("Gmail");
@@ -142,65 +142,65 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 
 	HANDLE hTempFile;
 	DWORD  dwBytesWritten, dwBufSize = 1024;
-	char szTempName[MAX_PATH];
-	char buffer[1024];
-	char *str_temp;
-	char lpPathBuffer[1024];
+	TCHAR szTempName[MAX_PATH];
+	TCHAR buffer[1024];
+	TCHAR *str_temp;
+	TCHAR lpPathBuffer[1024];
 	Account *curAcc = (Account *)lpParam;
 
 	if (GetBrowser(lpPathBuffer)) {
 		if (opt.AutoLogin == 0) {
 			if (curAcc->hosted[0]) {
-				lstrcatA(lpPathBuffer, "https://mail.google.com/a/");
-				lstrcatA(lpPathBuffer, curAcc->hosted);
-				lstrcatA(lpPathBuffer, "/?logout");
+				lstrcat(lpPathBuffer, _T("https://mail.google.com/a/"));
+				lstrcat(lpPathBuffer, curAcc->hosted);
+				lstrcat(lpPathBuffer, _T("/?logout"));
 			}
 			else {
-				lstrcatA(lpPathBuffer, "https://mail.google.com/mail/?logout");
+				lstrcat(lpPathBuffer, _T("https://mail.google.com/mail/?logout"));
 			}
 		}
 		else {
 			if (curAcc->hosted[0]) {
-				GetTempPathA(dwBufSize, buffer);
-				GetTempFileNameA(buffer, "gmail", 0, szTempName);
+				GetTempPath(dwBufSize, buffer);
+				GetTempFileName(buffer, _T("gmail"), 0, szTempName);
 
-				hTempFile = CreateFileA(szTempName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-				lstrcpyA(buffer, FORMDATA1);
-				lstrcatA(buffer, curAcc->hosted);
-				lstrcatA(buffer, FORMDATA2);
-				lstrcatA(buffer, curAcc->hosted);
-				lstrcatA(buffer, FORMDATA3);
-				lstrcatA(buffer, "<input type=hidden name=userName value=");
-				lstrcatA(buffer, curAcc->name);
-				if ((str_temp = strstr(buffer, "@")) != NULL)
+				hTempFile = CreateFile(szTempName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				lstrcpy(buffer, FORMDATA1);
+				lstrcat(buffer, curAcc->hosted);
+				lstrcat(buffer, FORMDATA2);
+				lstrcat(buffer, curAcc->hosted);
+				lstrcat(buffer, FORMDATA3);
+				lstrcat(buffer, _T("<input type=hidden name=userName value="));
+				lstrcat(buffer, curAcc->name);
+				if ((str_temp = _tcsstr(buffer, _T("@"))) != NULL)
 					*str_temp = '\0';
-				lstrcatA(buffer, "><input type=hidden name=password value=");
-				lstrcatA(buffer, curAcc->pass);
-				lstrcatA(buffer, "></form></body>");
-				WriteFile(hTempFile, buffer, lstrlenA(buffer), &dwBytesWritten, NULL);
+				lstrcat(buffer, _T("><input type=hidden name=password value="));
+				lstrcat(buffer, curAcc->pass);
+				lstrcat(buffer, _T("></form></body>"));
+				WriteFile(hTempFile, buffer, lstrlen(buffer), &dwBytesWritten, NULL);
 				CloseHandle(hTempFile);
-				lstrcatA(lpPathBuffer, szTempName);
+				lstrcat(lpPathBuffer, szTempName);
 			}
 			else {
-				lstrcatA(lpPathBuffer, LINK);
-				lstrcatA(lpPathBuffer, mir_urlEncode(curAcc->name));
-				lstrcatA(lpPathBuffer, "&Passwd=");
-				lstrcatA(lpPathBuffer, mir_urlEncode(curAcc->pass));
+				lstrcat(lpPathBuffer, LINK);
+				lstrcat(lpPathBuffer, _A2T(mir_urlEncode(_T2A(curAcc->name))));
+				lstrcat(lpPathBuffer, _T("&Passwd="));
+				lstrcat(lpPathBuffer, _A2T(mir_urlEncode(_T2A(curAcc->pass))));
 				if (opt.AutoLogin == 1)
-					lstrcatA(lpPathBuffer, "&PersistentCookie=yes");
+					lstrcat(lpPathBuffer, _T("&PersistentCookie=yes"));
 			}
 		}
 	}
 
-	STARTUPINFOA suInfo = { 0 };
+	STARTUPINFO suInfo = { 0 };
 	PROCESS_INFORMATION procInfo;
 	suInfo.cb = sizeof(suInfo);
 	suInfo.wShowWindow = SW_MAXIMIZE;
-	if (CreateProcessA(NULL, lpPathBuffer, NULL, NULL, FALSE, 0, NULL, NULL, &suInfo, &procInfo))
+	if (CreateProcess(NULL, lpPathBuffer, NULL, NULL, FALSE, 0, NULL, NULL, &suInfo, &procInfo))
 		CloseHandle(procInfo.hProcess);
 
 	if (curAcc->hosted[0]) {
 		Sleep(30000);
-		DeleteFileA(szTempName);
+		DeleteFile(szTempName);
 	}
 }

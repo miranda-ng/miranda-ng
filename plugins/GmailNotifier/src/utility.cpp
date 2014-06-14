@@ -6,58 +6,58 @@ void BuildList(void)
 
 	acc_num = 0;
 	for (MCONTACT hContact = db_find_first(pluginName); hContact; hContact = db_find_next(hContact, pluginName)) {
-		if (!db_get_s(hContact, pluginName, "name", &dbv)) {
+		if (!db_get_ts(hContact, pluginName, "name", &dbv)) {
 			acc_num++;
 			acc = (Account *)realloc(acc, acc_num * sizeof(Account));
 			memset(&acc[acc_num-1], 0, sizeof(Account));
 			acc[acc_num-1].hContact = hContact;
-			lstrcpyA(acc[acc_num-1].name, dbv.pszVal);
+			lstrcpy(acc[acc_num-1].name, dbv.ptszVal);
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 			db_free(&dbv);
 			
-			if (!db_get_s(hContact, pluginName, "Password", &dbv)) {
-				lstrcpyA(acc[acc_num-1].pass, dbv.pszVal);
+			if (!db_get_ts(hContact, pluginName, "Password", &dbv)) {
+				lstrcpy(acc[acc_num-1].pass, dbv.ptszVal);
 				db_free(&dbv);
 			}
 		}
 	}
 
 	for (int i = 0; i < acc_num; i++) {
-		char *tail = strchr(acc[i].name, '@');
-		if (tail && lstrcmpA(tail + 1, "gmail.com") != 0)
-			lstrcpyA(acc[i].hosted, tail + 1);
+		TCHAR *tail = _tcschr(acc[i].name, '@');
+		if (tail && lstrcmp(tail + 1, _T("gmail.com")) != 0)
+			lstrcpy(acc[i].hosted, tail + 1);
 		acc[i].IsChecking = FALSE;
 	}
 }
 
-BOOL GetBrowser(char *str)
+BOOL GetBrowser(TCHAR *str)
 {
 	HKEY hKey = NULL;
-	char *strKey;
-	char strIE[] = "Applications\\iexplore.exe\\shell\\open\\command";
-	char strDefault[] = "https\\shell\\open\\command";
+	TCHAR *strKey;
+	TCHAR strIE[] = _T("Applications\\iexplore.exe\\shell\\open\\command");
+	TCHAR strDefault[] = _T("https\\shell\\open\\command");
 	DBVARIANT dbv;
 
 	if (opt.OpenUsePrg == 1)
 		strKey = strIE;
 	else if (opt.OpenUsePrg == 0)
 		strKey = strDefault;
-	else if (!db_get_s(NULL, pluginName, "OpenUsePrgPath", &dbv)) {
-		lstrcpyA(str, dbv.pszVal);
+	else if (!db_get_ts(NULL, pluginName, "OpenUsePrgPath", &dbv)) {
+		lstrcpy(str, dbv.ptszVal);
 		db_free(&dbv);
 		return FALSE;
 	}
 
 	// Open the registry
-	if (RegOpenKeyExA(HKEY_CLASSES_ROOT, strKey, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+	if (RegOpenKeyEx(HKEY_CLASSES_ROOT, strKey, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
 		// Data size
 		DWORD cbData = 0;
 		// Get the default value
-		if (RegQueryValueExA(hKey, NULL, NULL, NULL, NULL, &cbData) == ERROR_SUCCESS && cbData > 0) {
-			if (RegQueryValueExA(hKey, NULL, NULL, NULL, (LPBYTE)str, &cbData) == ERROR_SUCCESS) {
-				if ((strKey = strstr(str, "%1")) != NULL)
+		if (RegQueryValueEx(hKey, NULL, NULL, NULL, NULL, &cbData) == ERROR_SUCCESS && cbData > 0) {
+			if (RegQueryValueEx(hKey, NULL, NULL, NULL, (LPBYTE)str, &cbData) == ERROR_SUCCESS) {
+				if ((strKey = _tcsstr(str, _T("%1"))) != NULL)
 					*(strKey--) = '\0';
-				if ((strKey = strstr(str, "-")) != NULL)
+				if ((strKey = _tcsstr(str, _T("-"))) != NULL)
 					*(strKey--) = '\0';
 				RegCloseKey(hKey);
 				return TRUE;
