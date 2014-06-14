@@ -79,8 +79,8 @@ typedef struct {
 } StatusTextData;
 
 //wparam = (MCONTACT)hContact
-//lparam = (StatusTextData*)
-//Sets a status line text for the appropriate contact
+//lparam = (StatusTextData*) or NULL to clear statusbar
+//Sets a statusbar line text for the appropriate contact
 #define MS_MSG_SETSTATUSTEXT "MessageAPI/SetStatusText"
 
 //wparam = 0

@@ -493,20 +493,28 @@ void TSAPI UpdateStatusBar(const TWindowData *dat)
 {
 	if (dat && dat->pContainer->hwndStatus && dat->pContainer->hwndActive == dat->hwnd) {
 		if (dat->bType == SESSIONTYPE_IM) {
-			/*if (dat->szStatusBarCustom[0]) {
-				SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
-				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBarCustom);
-			} else*/ if (dat->szStatusBar[0]) {
+			if (dat->szStatusBar[0]) {
 				SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBar);
+			}
+			else if (dat->sbCustom) {
+				SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)dat->sbCustom->hIcon);
+				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->sbCustom->tszText);
 			}
 			else {
 				SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
 				DM_UpdateLastMessage(dat);
 			}
 		}
-		else
-			SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
+		else {
+			if (dat->sbCustom) {
+				SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)dat->sbCustom->hIcon);
+				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->sbCustom->tszText);
+			}
+			else {
+				SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
+			}
+		}
 		UpdateReadChars(dat);
 		InvalidateRect(dat->pContainer->hwndStatus, NULL, TRUE);
 		SendMessage(dat->pContainer->hwndStatus, WM_USER + 101, 0, (LPARAM)dat);

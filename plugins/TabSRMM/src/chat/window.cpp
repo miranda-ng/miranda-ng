@@ -1873,6 +1873,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					si->iSplitterY = GetDefaultMinimumInputHeight(dat);
 			#endif
 			dat->pWnd = 0;
+			dat->sbCustom = 0;
 			CProxyWindow::add(dat);
 
 			dat->fInsertMode = FALSE;
@@ -3645,6 +3646,11 @@ LABEL_SHOWWINDOW:
 			delete dat->pWnd;
 			dat->pWnd = 0;
 		}
+		if (dat->sbCustom) {
+			delete dat->sbCustom;
+			dat->sbCustom = 0;
+		}
+
 		//MAD
 		M.RemoveWindow(hwndDlg);
 

@@ -1077,6 +1077,11 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message..."), dat->cache->getNick());
 	}
+	else if (dat->sbCustom) {
+		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)dat->sbCustom->hIcon);
+		SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->sbCustom->tszText);
+		return;
+	}
 	else {
 		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
 

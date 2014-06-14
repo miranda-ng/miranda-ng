@@ -1254,6 +1254,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			M.AddWindow(hwndDlg, dat->hContact);
 			BroadCastContainer(m_pContainer, DM_REFRESHTABINDEX, 0, 0);
 			dat->pWnd = 0;
+			dat->sbCustom = 0;
 			CProxyWindow::add(dat);
 			dat->szProto = const_cast<char *>(dat->cache->getProto());
 			dat->bIsMeta = dat->cache->isMeta();
@@ -3514,6 +3515,10 @@ quote_from_last:
 		if (dat->pWnd) {
 			delete dat->pWnd;
 			dat->pWnd = 0;
+		}
+		if (dat->sbCustom) {
+			delete dat->sbCustom;
+			dat->sbCustom = 0;
 		}
 		break;
 
