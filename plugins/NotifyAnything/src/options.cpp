@@ -8,16 +8,16 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			char buf[10];
+			TCHAR buf[10];
 			CheckDlgButton(hwndDlg, NA_LOCAL_CHECK, g_settings.local_only ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, NA_DEBUG_MSG_CHECK, g_settings.debug_messages ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, NA_LOG_CHECK, g_settings.log_to_file ? BST_CHECKED : BST_UNCHECKED);
-			SetDlgItemTextA(hwndDlg, NA_LOG_FILENAME, g_settings.log_filename.c_str());
+			SetDlgItemText(hwndDlg, NA_LOG_FILENAME, g_settings.log_filename.c_str());
 			EnableWindow(GetDlgItem(hwndDlg, NA_DEBUG_MSG_CHECK), IsDlgButtonChecked(hwndDlg, NA_LOG_CHECK) ? 1 : 0);
 			CheckDlgButton(hwndDlg, NA_PCSPEAKER_CHECK, g_settings.use_pcspeaker ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, NA_ALLOW_EXECUTE, g_settings.allow_execute ? BST_CHECKED : BST_UNCHECKED);
-			SetDlgItemTextA(hwndDlg, NA_PORT, itoa(g_settings.port, buf, 10));
-			SetDlgItemTextA(hwndDlg, NA_PASSWORD, g_settings.password.c_str());
+			SetDlgItemText(hwndDlg, NA_PORT, _itot(g_settings.port, buf, 10));
+			SetDlgItemText(hwndDlg, NA_PASSWORD, g_settings.password.c_str());
 			UINT state;
 			switch (g_settings.sound) {
 			case g_settings.always:
@@ -33,7 +33,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case NA_SOUND_CHECK:
 		case NA_PCSPEAKER_CHECK:
 		case NA_LOCAL_CHECK:
@@ -44,13 +44,13 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case NA_LOG_FILENAME:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
-		
+
 		if (HIWORD(wParam) == BN_CLICKED) {
 			switch (LOWORD(wParam)) {
 			case NA_LOG_BROWSE:
-				TCHAR szTemp[MAX_PATH+1], szTemp1[MAX_PATH+1], szProfileDir[MAX_PATH+1];
+				TCHAR szTemp[MAX_PATH + 1], szTemp1[MAX_PATH + 1], szProfileDir[MAX_PATH + 1];
 				GetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp, MAX_PATH);
-				OPENFILENAME ofn = {0};
+				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
 				ofn.lpstrFile = szTemp;
 				ofn.nMaxFile = MAX_PATH;
@@ -58,11 +58,11 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				ofn.lpstrFilter = TranslateT("Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0");
 				ofn.nFilterIndex = 1;
 				// Use profile directory as default, if path is not specified
-				CallService(MS_DB_GETPROFILEPATH, (WPARAM)MAX_PATH, (LPARAM) szProfileDir);
+				CallService(MS_DB_GETPROFILEPATH, (WPARAM)MAX_PATH, (LPARAM)szProfileDir);
 				ofn.lpstrInitialDir = szProfileDir;
 				ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
 				ofn.lpstrDefExt = _T("log");
-				if ( GetOpenFileName(&ofn)) {
+				if (GetOpenFileName(&ofn)) {
 					PathToRelativeT(szTemp, szTemp1);
 					SetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp1);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
@@ -100,7 +100,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			s.allow_execute = IsDlgButtonChecked(hwndDlg, NA_ALLOW_EXECUTE) != BST_UNCHECKED;
 
 			TCHAR buf[1000];
-			if (!GetDlgItemText(hwndDlg, NA_PORT, buf, sizeof buf - 1))
+			if (!GetDlgItemText(hwndDlg, NA_PORT, buf, SIZEOF(buf)))
 				buf[0] = '\0';
 			int port = _ttoi(buf);
 			if (port <= 0 || port > 65535)
@@ -108,10 +108,10 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			else
 				s.port = port;
 
-			if (!GetDlgItemText(hwndDlg, NA_PASSWORD, buf, sizeof buf - 1))
+			if (!GetDlgItemText(hwndDlg, NA_PASSWORD, buf, SIZEOF(buf)))
 				buf[0] = '\0';
-			s.password = _T2A(buf);
-			
+			s.password = buf;
+
 			g_settings = s;
 			save_settings();
 			stop_threads();
@@ -133,8 +133,8 @@ void save_settings()
 	db_set_b(NULL, PlugName, "use_pcspeaker", g_settings.use_pcspeaker);
 	db_set_b(NULL, PlugName, "allow_execute", g_settings.allow_execute);
 	db_set_dw(NULL, PlugName, "port", g_settings.port);
-	db_set_s(NULL, PlugName, "password", g_settings.password.c_str());
-	db_set_s(NULL, PlugName, "log_filename", g_settings.log_filename.c_str());
+	db_set_ts(NULL, PlugName, "password", g_settings.password.c_str());
+	db_set_ts(NULL, PlugName, "log_filename", g_settings.log_filename.c_str());
 }
 
 void load_settings()
@@ -148,17 +148,17 @@ void load_settings()
 	g_settings.port = db_get_dw(NULL, PlugName, "port", 12001);
 
 	DBVARIANT dbv;
-	if(!db_get(NULL, PlugName, "password", &dbv)) {
-		g_settings.password = dbv.pszVal;
+	if (!db_get(NULL, PlugName, "password", &dbv)) {
+		g_settings.password = dbv.ptszVal;
 		db_free(&dbv);
 	}
 
-	if(!db_get(NULL, PlugName, "log_filename", &dbv)) {
-		g_settings.log_filename = dbv.pszVal;
+	if (!db_get(NULL, PlugName, "log_filename", &dbv)) {
+		g_settings.log_filename = dbv.ptszVal;
 		db_free(&dbv);
 	}
 	else
-        g_settings.log_filename = g_mirandaDir + "\\"+LOG_ID+".log";
+		g_settings.log_filename = g_mirandaDir + _T("\\") + _T(LOG_ID) + _T(".log");
 }
 
 int OptionsInitialize(WPARAM wParam, LPARAM lParam)
