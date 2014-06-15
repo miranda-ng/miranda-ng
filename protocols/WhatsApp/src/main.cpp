@@ -204,7 +204,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	if ( !UnpackRegisterUtility(g_hInstance, (TCHAR *)profilename))
 	{
-		::MessageBox(NULL, TranslateT("Did not unpack registration utility WART-1.6.8.0.exe."), _T("WhatsApp"), MB_OK | MB_ICONERROR);
+		::MessageBox(NULL, TranslateT("Did not unpack WART (registration utility)."), _T("WhatsApp"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
