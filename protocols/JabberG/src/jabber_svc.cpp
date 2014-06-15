@@ -338,22 +338,16 @@ INT_PTR __cdecl CJabberProto::ServiceSendXML(WPARAM, LPARAM lParam)
 static const TCHAR *JabberEnum2AffilationStr[] = { LPGENT("None"), LPGENT("Outcast"), LPGENT("Member"), LPGENT("Admin"), LPGENT("Owner") },
 	*JabberEnum2RoleStr[] = { LPGENT("None"), LPGENT("Visitor"), LPGENT("Participant"), LPGENT("Moderator") };
 
-static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, TCHAR* buf, size_t bufSize)
+static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, CMString &out)
 {
-	if (*buf) {
-		const TCHAR *szSeparator = bIsTipper ? _T("\n") : _T("\r\n");
- 		_tcsncat(buf, szSeparator, bufSize);
-	}
-
-	size_t len = _tcslen(buf);
-	buf += len;
-	bufSize -= len;
+	if (!out.IsEmpty())
+		out.Append(bIsTipper ? _T("\n") : _T("\r\n"));
 
 	if (bIsTipper)
-		mir_sntprintf(buf, bufSize, _T("<b>%s</b>\t%s"), TranslateTS(tszTitle), tszValue);
+		out.AppendFormat(_T("<b>%s</b>\t%s"), TranslateTS(tszTitle), tszValue);
 	else {
 		TCHAR *p = TranslateTS(tszTitle);
-		mir_sntprintf(buf, bufSize, _T("%s%s\t%s"), p, _tcslen(p)<=7 ? _T("\t") : _T(""), tszValue);
+		out.AppendFormat(_T("%s%s\t%s"), p, _tcslen(p) <= 7 ? _T("\t") : _T(""), tszValue);
 	}
 }
 
@@ -377,36 +371,34 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	// Role:		Moderator
 	// Affiliation:  Affiliation
 
-	TCHAR outBuf[2048];
-	outBuf[0]=0;
-
 	bool bIsTipper = db_get_b(NULL, "Tab_SRMsg", "adv_TipperTooltip", 0) && ServiceExists("mToolTip/HideTip");
 
 	//JID:
+	CMString outBuf;
 	if (_tcschr(info->m_tszResourceName, _T('@')) != NULL)
-		appendString(bIsTipper, LPGENT("JID:"), info->m_tszResourceName, outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("JID:"), info->m_tszResourceName, outBuf);
 	else if (lParam) //or simple nick
-		appendString(bIsTipper, LPGENT("Nick:"), (TCHAR*)lParam, outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("Nick:"), (TCHAR*)lParam, outBuf);
 
 	// status
 	if (info->m_iStatus >= ID_STATUS_OFFLINE && info->m_iStatus <= ID_STATUS_IDLE )
-		appendString(bIsTipper, LPGENT("Status:"), pcli->pfnGetStatusModeDescription(info->m_iStatus, 0), outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("Status:"), pcli->pfnGetStatusModeDescription(info->m_iStatus, 0), outBuf);
 
 	// status text
 	if (info->m_tszStatusMessage)
-		appendString(bIsTipper, LPGENT("Status text:"), info->m_tszStatusMessage, outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("Status text:"), info->m_tszStatusMessage, outBuf);
 
 	// Role
-	appendString(bIsTipper, LPGENT("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf, SIZEOF(outBuf));
+	appendString(bIsTipper, LPGENT("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf);
 
 	// Affiliation
-	appendString(bIsTipper, LPGENT("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->m_affiliation]), outBuf, SIZEOF(outBuf));
+	appendString(bIsTipper, LPGENT("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->m_affiliation]), outBuf);
 
 	// real jid
 	if (info->m_tszRealJid)
-		appendString(bIsTipper, LPGENT("Real JID:"), info->m_tszRealJid, outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, LPGENT("Real JID:"), info->m_tszRealJid, outBuf);
 
-	return (outBuf[0] == 0 ? NULL : (INT_PTR) mir_tstrdup(outBuf));
+	return (outBuf.IsEmpty() ? NULL : (INT_PTR)mir_tstrdup(outBuf));
 }
 
 // File Association Manager plugin support
