@@ -35,6 +35,34 @@
 Шлях:
 [Set]
 Вибрати
+[Show only online users]
+Показати тільки підключених
+[Hide offline users]
+Сховати відключених
+[Show all users]
+Показати всіх
+[Groups on/off]
+Групи ввімк./вимк.
+[Hide groups]
+Сховати групи
+[Show groups]
+Показати групи
+[Sounds enable/disable]
+Звуки ввімк./вимк.
+[Disable sounds]
+Вимкнути звуки
+[Enable sounds]
+Увімкнути звуки
+[Show options page]
+Відкрити налаштування
+[Show options]
+Налаштування
+[Minimize button]
+Кнопка "Згорнути"
+[Find/Add contacts]
+Знайти/додати контакт
+[Show main menu]
+Головне меню
 [Default]
 За замовчанням
 [TopToolBar background]

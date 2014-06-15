@@ -24,7 +24,7 @@
 [Nick:]
 Нік:
 [Display name:]
-Видиме ім'я
+Видиме ім'я:
 [Title:]
 Заголовок:
 [First name:]
@@ -93,7 +93,7 @@
 Додати E-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Введіть адресу E-mail\n(наприклад, john.doe@provider.com)
-[Enter a representitive name for the e-mail address here:]
+[Enter a representative name for the e-mail address here:]
 Введіть ім'я для електронної адреси:
 [Enter the e-mail address here:]
 Введіть адресу E-mail:
@@ -320,7 +320,7 @@
 [Select modules]
 Виберіть модулі
 [Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
-Позначте в списку ті модулі, які ви хочете експортувати для контактів. Для додавання контакту з файлу у вигляді нового запису необхідно експортувати хоча б модуль протоколу.
+Позначте в списку модулі, які ви хочете експортувати для контактів. Для додавання контакту з файлу у вигляді нового запису необхідно експортувати хоча б модуль протоколу.
 [Check all]
 Вибрати все
 [Uncheck all]
@@ -619,12 +619,10 @@
 &Експортувати групу
 [&Import group]
 &Імпортувати групу
-[export/import]
-експорт/імпорт
-[&export xml]
-&експорт xml
-[xml &import]
-&імпорт xml
+[&Export xml]
+&Експорт XML
+[&Import xml]
+&Імпорт XML
 [My notes:]
 Мої нотатки:
 [About:]
@@ -687,8 +685,6 @@
 Помилка додавання нового елементу з типом "%s"
 [<empty>]
 <немає>
-[Add affliation]
-Приєднати
 [Edit category]
 Змінити категорію
 [Edit value]

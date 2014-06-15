@@ -33,26 +33,6 @@
 Дозволити виконання програм
 [Password:]
 Пароль:
-[No resource name given.]
-Не вказане ім'я ресурсу.
-[Could not find the requested icon.]
-Не вдалося знайти потрібний значок.
-[Application launching is disabled.]
-Запуск програми вимкнено.
-[Unterminated option.]
-Незавершений варіант.
-[No argument given to msg option.]
-Не вказано аргумент для параметру msg.
-[ID is required for replacement.]
-Ідентифікатор необхідний для заміни.
-[Invalid argument for replace option: ]
-Неправильний аргумент для заміни:\s
-[Empty message ignored.]
-Пусте повідомлення ігнорується.
-[Failed to write to log file.]
-Не вдалося записати в файл журналу.
-[Failed to open log file.]
-Не вдалося відкрити файл журналу.
 [N/A: Failed to format error message]
 N/A: Помилка у форматі повідомлення з помилкою
 [N/A: FormatMessage failed, error code was 0x]

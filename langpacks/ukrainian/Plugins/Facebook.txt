@@ -249,6 +249,8 @@
 Інформація про дружбу
 [Conversation]
 Бесіда
+[Message read]
+Прочитане повідомлення
 [Visit profile]
 Профіль
 [Visit friendship details]

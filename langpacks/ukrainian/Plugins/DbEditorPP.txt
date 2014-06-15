@@ -243,13 +243,13 @@
 Налаштування
 [Are you sure you want to delete module "%s"?]
 Видалити модуль "%s"?
-[Confirm Module Deletion]
+[Confirm module deletion]
 Видалити модуль?
-[Delete module from Database]
+[Delete module from database]
 Видалити модуль з бази
-[Delete module from Database... Loading]
+[Delete module from database... Loading]
 Видалення модуля з бази... Завантаження
-[Delete module from all contacts (Includes Setting)]
+[Delete module from all contacts (including Setting)]
 Видалити модуль з усіх контактів (з налаштуваннями)
 [INI Files]
 Файли INI
@@ -257,7 +257,7 @@
 Всі файли
 [Export to file]
 Експорт
-[Error Loading Module List]
+[Error loading module list]
 Помилка завантаження списку модулів
 [Couldn't open file for writing]
 Не вдається відкрити файл на запис
@@ -281,6 +281,8 @@
 %s налаштування "%s" у модулі "%s" контакту "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" у налаштуванні "%s" у модулі "%s" контакту "%s"
+[Error Loading Module List]
+Помилка завантаження списку модулів
 [Searching...]
 Пошук...
 [Error Loading Setting List]
@@ -291,6 +293,8 @@
 Пошук завершено. Знайдено %d елементів, замінено %d.
 [Finished. %d items were found.]
 Пошук завершено. Знайдено %d елементів.
+[Main icon]
+Основний значок
 [Closed known module]
 Модуль (згорнутий)
 [Open known module]
@@ -301,6 +305,20 @@
 Невідомий контакт
 [Known contact]
 Відомий контакт
+[Open user tree]
+Відкрити в редакторі бази
+[BLOB setting]
+BLOB
+[Byte setting]
+Байт
+[Word setting]
+Слово
+[Dword setting]
+Подвійне слово
+[String setting]
+Рядок
+[Unicode setting]
+Unicode
 [Open Database Editor]
 Відкрити редактор бази
 [Open user tree in DBE++]

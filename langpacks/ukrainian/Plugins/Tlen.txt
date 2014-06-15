@@ -257,8 +257,8 @@
 (Останнє повідомлення)
 [Forwarding]
 Перенаправлення
-[%s mail]
-%s пошта
+[%S mail]
+%S пошта
 [Image sent file://%s]
 Зображення надіслано://%s
 [Image received file://%s]
@@ -283,6 +283,8 @@ Web-повідомлення
 Сповіщення прийнято.
 [Private conference]
 Особиста конференція
+[%s mail]
+%s пошта
 [Subject]
 Тема
 [Account]
