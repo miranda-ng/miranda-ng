@@ -99,7 +99,7 @@ bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const 
 		_tcscpy(szFileName, pszTemp + 1);
 
 	// Write Header
-	WriteFile(hFile, szXmlHeader1, sizeof(szXmlHeader1) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlHeader1, SIZEOF(szXmlHeader1) - 1, &dwBytesWritten, NULL);
 
 	// check if a index.xsl exists in the same directory otherwise use the global
 	_tcscpy(szMask, pszRealPath);
@@ -118,7 +118,7 @@ bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const 
 
 	WriteFile(hFile, szBuffer, (DWORD)_tcslen(szBuffer), &dwBytesWritten, NULL);
 
-	WriteFile(hFile, szXmlHeader2, sizeof(szXmlHeader2) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlHeader2, SIZEOF(szXmlHeader2) - 1, &dwBytesWritten, NULL);
 
 	// Write dirname
 	ReplaceSign(szFileName, MAX_PATH, '&', _T("&amp;"));
@@ -246,7 +246,7 @@ bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const 
 		}
 	}
 
-	WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlTail, SIZEOF(szXmlTail) - 1, &dwBytesWritten, NULL);
 
 	SetEndOfFile(hFile);
 	CloseHandle(hFile);

@@ -305,7 +305,7 @@ bool bReadConfigurationFile()
 				}
 				
 				// refill buffer
-				if (!bEof && pszCurPos - szBuf > sizeof(szBuf) / 2)
+				if (!bEof && pszCurPos - szBuf > SIZEOF(szBuf) / 2)
 					break;
 			}
 		}
@@ -343,7 +343,7 @@ bool bWriteConfigurationFile()
 	}
 
 	DWORD dwBytesWriten = 0;
-	if (! WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
+	if (! WriteFile(hFile, szXmlHeader, SIZEOF(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
 		TCHAR temp[200];
 		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml header to file "), szConfigFile);
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
@@ -366,7 +366,7 @@ bool bWriteConfigurationFile()
 			pclCur = pclCur->pclNext;
 		}
 
-		if (! WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
+		if (! WriteFile(hFile, szXmlTail, SIZEOF(szXmlTail) - 1, &dwBytesWriten, NULL)) {
 				TCHAR temp[200];
 				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml tail to file "), szConfigFile);
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
@@ -627,7 +627,7 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam) {
 
 INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME | CMIM_ICON;
+	mi.flags = CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 
 	if (!hDirectBoundPort) {
 		NETLIBUSERSETTINGS nus = { 0 };
@@ -723,11 +723,10 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 
 		TCHAR szRealPath[MAX_PATH];
 		TCHAR szSrvPath[MAX_PATH] = {0};
-		STFileShareInfo share;
+		STFileShareInfo share = { 0 };
 
 		const TCHAR** p = pszDefaultShares;
 		while (*p) {
-			memset(&share, 0, sizeof(share));
 			share.lStructSize = sizeof(share);
 			share.dwAllowedIP = 0;
 			share.dwAllowedMask = 0;
@@ -903,7 +902,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			return 1;
 		}
 
-		if(CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)szPluginPath))
+		if(CallService(MS_DB_GETPROFILEPATHT,MAX_PATH,(LPARAM)szPluginPath))
 		{
 			MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
 			return 1;

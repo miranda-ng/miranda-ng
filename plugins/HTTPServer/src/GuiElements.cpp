@@ -95,8 +95,8 @@ void ReplaceAll(tstring &sSrc, const TCHAR * pszReplace, const TCHAR * pszNew) {
 tstring DBGetString(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR * pszError) {
 	tstring ret;
 	DBVARIANT dbv = {0};
-	if (! db_get(hContact, szModule, szSetting, &dbv)) {
-		if (dbv.type != DBVT_ASCIIZ) {
+	if (!db_get(hContact, szModule, szSetting, &dbv)) {
+		if (dbv.type != DBVT_TCHAR) {
 			MessageBox(NULL, _T("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		} else {
@@ -146,8 +146,7 @@ void UpdateStatisticsView() {
 unsigned long GetExternIP(const char *szURL, const char *szPattern) {
 	HCURSOR hPrevCursor = ::SetCursor(::LoadCursor(0, IDC_WAIT));
 
-	NETLIBHTTPREQUEST nlhr;
-	ZeroMemory(&nlhr, sizeof(nlhr));
+	NETLIBHTTPREQUEST nlhr = { 0 };
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT;
@@ -875,7 +874,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 					STFileShareInfo stShareInfo = {0};
 					stShareInfo.lStructSize = sizeof(STFileShareInfo);
 					stShareInfo.pszSrvPath = szTmp;
-					stShareInfo.dwMaxSrvPath = sizeof(szTmp);
+					stShareInfo.dwMaxSrvPath = SIZEOF(szTmp);
 
 					sItem.iItem = ListView_GetNextItem(hShareList, -1, LVIS_SELECTED);
 					while (sItem.iItem != -1) {
@@ -1490,10 +1489,9 @@ void InitGuiElements() {
 		return;
 	}
 
-	CLISTMENUITEM mi;
-	ZeroMemory(&mi, sizeof(mi));
+	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(mi);
-	mi.flags = 0;
+	mi.flags = CMIF_TCHAR;
 	mi.pszContactOwner = NULL;  //all contacts
 	mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 	mi.position = -2000019955;

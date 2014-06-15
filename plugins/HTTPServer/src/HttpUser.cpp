@@ -223,37 +223,37 @@ bool CLHttpUser::bReadGetParameters(TCHAR *pszRequest) {
 
 void CLHttpUser::SendError(int iErrorCode, const TCHAR *pszError, const TCHAR *pszDescription)
 {
-	char szCurTime[ 100 ];
+	TCHAR szCurTime[100];
 	time_t ltime;
 	time(&ltime);
-	strftime(szCurTime, sizeof(szCurTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
+	_tcsftime(szCurTime, SIZEOF(szCurTime), _T("%a, %d %b %Y %H:%M:%S GMT"), gmtime(&ltime));
 
 	if (!pszDescription)
 		pszDescription = pszError;
 
-	char szBuf[1000];
-	DWORD dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf),
-	    "HTTP/1.1 %i %s\r\n"
-	    "Date: %s\r\n"
-	    "Server: MirandaWeb/%s\r\n"
-	    "Transfer-Encoding: chunked\r\n"
-	    "Content-Type: text/html; charset=iso-8859-1\r\n"
-	    "\r\n"
-	    "10f\r\n"
-	    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n"
-	    "<HTML><HEAD>\n"
-	    "<TITLE>%i %s</TITLE>\n"
-	    "</HEAD><BODY>\n"
-	    "<H1>%s</H1>\n"
-	    "%s<P>\n"
-	    "<HR>\n"
-	    "<ADDRESS>MirandaWeb/%s</ADDRESS>\n"
-	    "</BODY></HTML>\n"
-	    "\r\n"
-	    "\r\n",
+	TCHAR szBuf[1000];
+	DWORD dwBytesToWrite = mir_sntprintf(szBuf, SIZEOF(szBuf),
+	    _T("HTTP/1.1 %i %s\r\n")
+	    _T("Date: %s\r\n")
+		_T("Server: MirandaWeb/%s\r\n")
+		_T("Transfer-Encoding: chunked\r\n")
+		_T("Content-Type: text/html; charset=iso-8859-1\r\n")
+		_T("\r\n")
+		_T("10f\r\n")
+		_T("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n")
+		_T("<HTML><HEAD>\n")
+		_T("<TITLE>%i %s</TITLE>\n")
+		_T("</HEAD><BODY>\n")
+		_T("<H1>%s</H1>\n")
+		_T("%s<P>\n")
+		_T("<HR>\n")
+		_T("<ADDRESS>MirandaWeb/%s</ADDRESS>\n")
+		_T("</BODY></HTML>\n")
+		_T("\r\n")
+		_T("\r\n"),
 	    iErrorCode, pszError, szCurTime, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), iErrorCode, pszError, pszError, pszDescription, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 
-	Netlib_Send(hConnection, szBuf, dwBytesToWrite, 0);
+	Netlib_Send(hConnection, _T2A(szBuf), dwBytesToWrite, 0);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -274,38 +274,38 @@ void CLHttpUser::SendError(int iErrorCode, const TCHAR *pszError, const TCHAR *p
 
 void CLHttpUser::SendRedir(int iErrorCode, const TCHAR *pszError, const TCHAR *pszDescription, const TCHAR *pszRedirect)
 {
-	char szCurrTime[ 100 ];
+	TCHAR szCurrTime[100];
 	time_t ltime;
 	time(&ltime);
-	strftime(szCurrTime, sizeof(szCurrTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
+	_tcsftime(szCurrTime, SIZEOF(szCurrTime), _T("%a, %d %b %Y %H:%M:%S GMT"), gmtime(&ltime));
 
 	if (!pszDescription)
 		pszDescription = pszError;
 
-	char szBuff[1000];
-	DWORD dwBytesToWrite = mir_snprintf(szBuff, sizeof(szBuff),
-	    "HTTP/1.1 %i %s\r\n"
-	    "Date: %s\r\n"
-	    "Server: MirandaWeb/%s\r\n"
-	    "Location: %s/\r\n"
-	    "Transfer-Encoding: chunked\r\n"
-	    "Content-Type: text/html; charset=iso-8859-1\r\n"
-	    "\r\n"
-	    "10f\r\n"
-	    "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n"
-	    "<HTML><HEAD>\n"
-	    "<TITLE>%i %s</TITLE>\n"
-	    "</HEAD><BODY>\n"
-	    "<H1>%s</H1>\n"
-	    "%s<P>\n"
-	    "<HR>\n"
-	    "<ADDRESS>MirandaWeb/%s</ADDRESS>\n"
-	    "</BODY></HTML>\n"
-	    "\r\n"
-	    "\r\n",
+	TCHAR szBuff[1000];
+	DWORD dwBytesToWrite = mir_sntprintf(szBuff, SIZEOF(szBuff),
+		_T("HTTP/1.1 %i %s\r\n")
+		_T("Date: %s\r\n")
+		_T("Server: MirandaWeb/%s\r\n")
+		_T("Location: %s/\r\n")
+		_T("Transfer-Encoding: chunked\r\n")
+		_T("Content-Type: text/html; charset=iso-8859-1\r\n")
+		_T("\r\n")
+		_T("10f\r\n")
+		_T("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n")
+		_T("<HTML><HEAD>\n")
+		_T("<TITLE>%i %s</TITLE>\n")
+		_T("</HEAD><BODY>\n")
+		_T("<H1>%s</H1>\n")
+		_T("%s<P>\n")
+		_T("<HR>\n")
+		_T("<ADDRESS>MirandaWeb/%s</ADDRESS>\n")
+		_T("</BODY></HTML>\n")
+		_T("\r\n")
+		_T("\r\n"),
 	    iErrorCode, pszError, szCurrTime, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), pszRedirect, iErrorCode, pszError, pszError, pszDescription, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 
-	Netlib_Send(hConnection, szBuff, dwBytesToWrite, 0);
+	Netlib_Send(hConnection, _T2A(szBuff), dwBytesToWrite, 0);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -515,10 +515,10 @@ bool CLHttpUser::bProcessGetRequest(TCHAR *pszRequest, bool bIsGetCommand) {
 			FILETIME stFileTime;
 			GetFileTime(hFile, NULL, NULL, &stFileTime);
 
-			char szCurTime[ 100 ];
+			TCHAR szCurTime[100];
 			time_t ltime;
 			time(&ltime);
-			strftime(szCurTime, sizeof(szCurTime), "%a, %d %b %Y %H:%M:%S GMT", gmtime(&ltime));
+			_tcsftime(szCurTime, SIZEOF(szCurTime), _T("%a, %d %b %Y %H:%M:%S GMT"), gmtime(&ltime));
 
 			TCHAR szFileTime[100];
 			FileTimeToUnixTime(&stFileTime, &ltime);
@@ -599,7 +599,7 @@ bool CLHttpUser::bProcessGetRequest(TCHAR *pszRequest, bool bIsGetCommand) {
 			// Ethernet, IP and TCP headers use some of this space and leaves 1460 bytes
 			// for data transfer.
 			// We will use a multiply of this to always send optimal sized packages.
-			char szBuf[1460 * 4];
+			TCHAR szBuf[1460 * 4];
 
 			if (dwFileStart > 0 || dwDataToSend != nDataSize) {
 				if (SetFilePointer(hFile, dwFileStart, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER) {
@@ -607,41 +607,41 @@ bool CLHttpUser::bProcessGetRequest(TCHAR *pszRequest, bool bIsGetCommand) {
 					return true;
 				}
 
-				const char szHttpPartial[] = "HTTP/1.1 206 Partial Content\r\n"
-				    "Connection: Keep-Alive\r\n"
-				    "Date: %s\r\n"
-				    "Server: MirandaWeb/%s\r\n"
-				    "Accept-Ranges: bytes\r\n"
-				    "ETag: %s\r\n"
-				    "Content-Length: %d\r\n"
-				    "Content-Type: %s\r\n"
-				    "Content-Range: bytes %d-%d/%d\r\n"
-				    "Last-Modified: %s\r\n"
-				    "\r\n";
+				const TCHAR szHttpPartial[] = _T("HTTP/1.1 206 Partial Content\r\n")
+					_T("Connection: Keep-Alive\r\n")
+					_T("Date: %s\r\n")
+					_T("Server: MirandaWeb/%s\r\n")
+					_T("Accept-Ranges: bytes\r\n")
+					_T("ETag: %s\r\n")
+					_T("Content-Length: %d\r\n")
+					_T("Content-Type: %s\r\n")
+					_T("Content-Range: bytes %d-%d/%d\r\n")
+					_T("Last-Modified: %s\r\n")
+					_T("\r\n");
 
-				dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szHttpPartial,
+				dwBytesToWrite = mir_sntprintf(szBuf, SIZEOF(szBuf), szHttpPartial,
 				    szCurTime,
 				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 				    szETag,
 				    dwDataToSend,
-				    _T2A(pszGetMimeType(pszRealPath)),
+				    pszGetMimeType(pszRealPath),
 				    dwFileStart,
 				    (dwFileStart + dwDataToSend - 1),
 				    nDataSize,
 				    szFileTime);
 			} else {
-				const char szHttpOk[] = "HTTP/1.1 200 OK\r\n"
-				    "Connection: Keep-Alive\r\n"
-				    "Date: %s\r\n"
-				    "Server: MirandaWeb/%s\r\n"
-				    "Accept-Ranges: bytes\r\n"
-				    "ETag: %s\r\n"
-				    "Content-Length: %d\r\n"
-				    "Content-Type: %s\r\n"
-				    "Last-Modified: %s\r\n"
-				    "\r\n";
+				const TCHAR szHttpOk[] = _T("HTTP/1.1 200 OK\r\n")
+					_T("Connection: Keep-Alive\r\n")
+					_T("Date: %s\r\n")
+					_T("Server: MirandaWeb/%s\r\n")
+					_T("Accept-Ranges: bytes\r\n")
+					_T("ETag: %s\r\n")
+					_T("Content-Length: %d\r\n")
+					_T("Content-Type: %s\r\n")
+					_T("Last-Modified: %s\r\n")
+					_T("\r\n");
 
-				dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szHttpOk,
+				dwBytesToWrite = mir_sntprintf(szBuf, SIZEOF(szBuf), szHttpOk,
 				    szCurTime,
 				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 				    szETag,
@@ -650,7 +650,7 @@ bool CLHttpUser::bProcessGetRequest(TCHAR *pszRequest, bool bIsGetCommand) {
 				    szFileTime);
 			}
 
-			Netlib_Send(hConnection, szBuf, dwBytesToWrite, 0);
+			Netlib_Send(hConnection, _T2A(szBuf), dwBytesToWrite, 0);
 
 			if (bIsGetCommand) {
 				static int nThreadCount = 0;
@@ -688,9 +688,9 @@ bool CLHttpUser::bProcessGetRequest(TCHAR *pszRequest, bool bIsGetCommand) {
 
 					bool bSpeedLimit = (nMaxUploadSpeed >= 0) && (bIsOnline || !bLimitOnlyWhenOnline);
 
-					DWORD dwCurOpr = sizeof(szBuf);
+					DWORD dwCurOpr = SIZEOF(szBuf);
 					if (bSpeedLimit)
-						dwCurOpr = min(nMaxBytesToSend, sizeof(szBuf));
+						dwCurOpr = min(nMaxBytesToSend, SIZEOF(szBuf));
 
 					if (!ReadFile(hFile, szBuf, dwCurOpr, &dwBytesToWrite, NULL))
 						break;
@@ -704,7 +704,7 @@ bool CLHttpUser::bProcessGetRequest(TCHAR *pszRequest, bool bIsGetCommand) {
 					if (bSpeedLimit)
 						nMaxBytesToSend -= dwBytesToWrite;
 
-					DWORD dwSend = Netlib_Send(hConnection, szBuf, dwBytesToWrite, MSG_NODUMP);
+					DWORD dwSend = Netlib_Send(hConnection, _T2A(szBuf), dwBytesToWrite, MSG_NODUMP);
 					if (dwSend == SOCKET_ERROR)
 						break;
 					dwCurrentDL += dwSend;

@@ -86,7 +86,7 @@ void CLShareUser::CloseSocket() {
 		int nBytesRead;
 		do {
 			char szBuf[100];
-			nBytesRead = Netlib_Recv(hConnection, szBuf, sizeof(szBuf), 0);
+			nBytesRead = Netlib_Recv(hConnection, szBuf, SIZEOF(szBuf), 0);
 		} while (nBytesRead && nBytesRead != SOCKET_ERROR);
 		//shutdown( s, SD_RECEIVE );
 	}
@@ -147,7 +147,8 @@ CLFileShareNode::CLFileShareNode(TCHAR *pszSrvPath, TCHAR *pszRealPath)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLFileShareNode::CLFileShareNode(STFileShareInfo * pstInfo) {
+CLFileShareNode::CLFileShareNode(STFileShareInfo * pstInfo)
+{
 	memset(&st, 0, sizeof(STFileShareInfo));
 	st.lStructSize = sizeof(STFileShareInfo);
 	pclNext = NULL;
