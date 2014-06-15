@@ -152,21 +152,7 @@ begin
 
   BorderWidth := VertSpacing;
   ClientWidth := Max(IconTextWidth, ButtonGroupWidth);
-  if paContacts.Visible then
-  begin
-    ContRect := Rect(0,0,0,0);
-    DrawTextW(Canvas.Handle,
-      PChar(cbInclude.Caption), -1,
-      ContRect, DT_CALCRECT or DT_LEFT or DT_SINGLELINE or
-      DrawTextBiDiModeFlagsReadingOnly);
-    Inc(ContRect.Right, HorzSpacing*4);
-    cbInclude.SetBounds((ClientWidth - ContRect.Right) div 2,0,
-      ContRect.Right, ContRect.Bottom);
-    paContacts.Height := cbInclude.Height + VertSpacing;
-    ClientHeight := IconTextHeight + VertSpacing + paContacts.Height + paButtons.Height;
-  end
-  else
-    ClientHeight := IconTextHeight + VertSpacing + paButtons.Height;
+  ClientHeight := IconTextHeight + VertSpacing + paButtons.Height;
   Text.SetBounds(Image.Width + HorzSpacing, 0,
     TextRect.Right, TextRect.Bottom);
 
@@ -209,22 +195,6 @@ var
   i,num: Integer;
 begin
   FContact := Value;
-  SetLength(FContacts,0);
-  GetContactProto(FContact,hContact,Proto);
-  if Value <> hContact then
-  begin
-    num := db_mc_getSubCount(FContact);
-    for i := 0 to num-1 do
-    begin
-      hContact := db_mc_getSub(FContact,i);
-      if hContact <> THandle(-1) then
-      begin
-        SetLength(FContacts,Length(FContacts)+1);
-        FContacts[High(FContacts)] := hContact;
-      end;
-    end;
-  end;
-  paContacts.Visible := (Length(FContacts) > 0);
   Image.Picture.Icon.Handle := LoadIcon(0, IDI_QUESTION);
   Text.Caption :=
     TranslateW('Do you really want to delete ALL items for this contact?')+#10#13+
@@ -252,16 +222,11 @@ begin
 end;
 
 procedure TEmptyHistoryFrm.btYesClick(Sender: TObject);
-var
-  i: Integer;
 begin
   if Assigned(Owner) and (Owner is THistoryFrm) then
     THistoryFrm(Owner).EmptyHistory
   else
     EmptyHistory(FContact);
-  if paContacts.Visible and cbInclude.Checked then
-    for i := 0 to High(FContacts) do
-      EmptyHistory(FContacts[i]);
 end;
 
 end.
