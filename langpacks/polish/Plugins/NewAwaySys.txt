@@ -280,10 +280,6 @@ Jem ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,kolac
 Włącz przełączanie
 [Toggle Off]
 Wyłącz przełączanie
-[) read your ]
-) przeczytaj swój\s
-[ message:\r\n]
- opis:\r\n
 [Set %s message for the contact]
 Ustaw opis %s dla kontaktu
 [Re&ad %s message]
@@ -296,16 +292,6 @@ Wyłącz autoodpowiedź
 Włącz autoodpowiedź
 [New Away System]
 New Away System
-[Enable autoreply when you are %s]
-Włącz autoodpowiedź, gdy jesteś %s
-["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-Włączona jest opcja "Zachowaj ustawienia ignorowania kontaktów przy wysyłce autoodpowiedzi", ustawienie to jest więc indywidualne dla każdego kontaktu i statusu.
-[Don't send status message when you are %s]
-Nie wysyłaj opisu, gdy jesteś %s
-[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-Ignoruj prośby o opis od tego kontaktu i nie wysyłaj autoodpowiedzi.\r\nWłączona jest opcja "Zachowaj ustawienia ignorowania kontaktów przy wysyłce autoodpowiedzi", ustawienie to jest więc indywidualne dla każdego kontaktu i statusu.
-[Ignore status message requests from this contact and don't send an autoreply]
-Ignoruj prośby o opis od tego kontaktu i nie wysyłaj autoodpowiedzi.
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
 czas bezczynności w formacie domyślnym; ?nas_awaysince_time(x) w formacie x
 [Away since date in default format; ?nas_awaysince_date(x) in format x]
@@ -344,8 +330,6 @@ Wył.
 Użyj ustawień domyślnych
 [NewAwaySys: Incoming status message request]
 NewAwaySys: przychodząca prośba o opis
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) %nas_statdesc% przeczytaj opis:\r\n%extratext%\r\n\r\n
 ;file \plugins\NewAwaySysMod\src\Common.h
 [Miranda NG autoreply >\r\n%extratext%]
 Autoodpowiedź >\r\n%extratext%

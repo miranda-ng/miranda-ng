@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.4.0
+;  Version: 0.8.5.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -56,6 +56,10 @@ Größe (HxB):
 Fensterinha&lt
 [Target Tool]
 Zielscheibe
+[File:]
+
+[Description:]
+
 [Result]
 Ergebnis
 [Thumbnail]
@@ -240,6 +244,8 @@ Desktop
 Monitor
 [ (primary)]
  (primär)
+[File]
+
 [<Only save>]
 <Nur speichern>
 [File Transfer]
@@ -268,6 +274,8 @@ Nach dem Senden löschen
 Aufnehmen
 [Can't create a Screenshot]
 Konnte kein Screenshot erstellen.
+[Select a file]
+
 [Select a target window.]
 Bitte gewünschtes Fenster auswählen.
 [Screenshot ]

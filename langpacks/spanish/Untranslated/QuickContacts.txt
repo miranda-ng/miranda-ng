@@ -14,7 +14,6 @@
 [Show all contacts (Ctrl+A)]
 [Quick Contacts]
 [Open dialog]
-[Make a voice call]
 [Send file]
 [Send URL]
 [Open user info]

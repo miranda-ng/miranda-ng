@@ -39,8 +39,6 @@
 Быстрые контакты
 [Open dialog]
 Открыть диалог
-[Make a voice call]
-Позвонить
 [Send file]
 Передать файл
 [Send URL]

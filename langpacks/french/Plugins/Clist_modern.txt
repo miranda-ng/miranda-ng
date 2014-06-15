@@ -833,13 +833,19 @@ Ligne
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 
-[&Find/Add contacts...]
+[&Hide/show]
+&Afficher/Cacher
+[&Find/add contacts...]
 &Chercher/Ajouter des contacts...
 [&Options...]
 &Paramètres...
 [&About]
 
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show avatar]
+
+[Hide avatar]
+
 [Show contact &avatar]
 Afficher l'avatar du contact
 [Hide contact &avatar]
@@ -1045,6 +1051,8 @@ Cadre vérouillé
 [Frame menu]
 
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
+[New group]
+
 [Group menu]
 
 [Subgroup menu]

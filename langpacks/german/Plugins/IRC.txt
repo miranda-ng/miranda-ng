@@ -395,10 +395,6 @@ DCC-FEHLER: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
 %s Serververbindung
 [%s client-to-client connections]
 %s Client-to-Client-Verbindungen
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-Das IRC-Protokoll hängt von einem anderen Plugin namens 'Chat' ab.\n\nMöchten Sie es nun von der Miranda-NG-Website herunterladen?
-[Information]
-Information
 [Nickname]
 Nick
 [DCC ERROR: No valid files specified]

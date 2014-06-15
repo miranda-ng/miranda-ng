@@ -837,13 +837,19 @@ Iconos adicionales
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 
-[&Find/Add contacts...]
+[&Hide/show]
+&Mostrar/Ocultar
+[&Find/add contacts...]
 &Buscar/Agregar contactos...
 [&Options...]
 &Opciones
 [&About]
 
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show avatar]
+
+[Hide avatar]
+
 [Show contact &avatar]
 
 [Hide contact &avatar]
@@ -1049,6 +1055,8 @@ Modos de vista
 [Frame menu]
 
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
+[New group]
+
 [Group menu]
 
 [Subgroup menu]

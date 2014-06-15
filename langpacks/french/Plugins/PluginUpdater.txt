@@ -164,6 +164,10 @@ Services
 Vérifier la présence de mises à jour
 [Available components list]
 Montrer la liste complète des plugins
+[Update completed]
+
+[Update failed]
+
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 Bouton 'Oui'

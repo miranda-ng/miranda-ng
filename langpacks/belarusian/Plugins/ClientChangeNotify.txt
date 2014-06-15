@@ -61,18 +61,6 @@
 змяніў кліент на %s
 [%s (was %s)]
 %s (быў %s)
-[) changed client to ]
-) змяніў кліент на\s
-[Client change notifications:]
-Абвесткі пра змену кліента:
-[Never, ignore client changes for this contact]
-Ніколі, ігнараваць змены кліента гэтага кантакту
-[Always except when client change notifications are disabled globally]
-Заўсёды, акрамя таго, калі абвесткі змены кліента адключаныя глабальна
-[Always, even when client change notifications are disabled globally]
-Заўсёды, нават калі абвесткі змены кліента адключаныя глабальна
-[Use global settings (default)]
-Глабальныя налады (змаўчанне)
 [Disable c&lient change notification]
 Выключыць абвесткі пра змену кліента
 [Enable c&lient change notification]
@@ -81,10 +69,6 @@
 Усплывальныя вокны
 [ClientChangeNotify: Client changed]
 Абвестка пра змену кліента: Кліент змяніўся
-[ClientChangeNotify]
-Абвестка пра змену кліента
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Памылка #%d
@@ -103,7 +87,7 @@
 Адкрыць меню кантакту
 [Open contact history]
 Адкрыць гісторыю кантакту
-[Open log file]
-Адкрыць лог
 [Do nothing]
 Нічога не рабіць
+[ClientChangeNotify]
+Абвестка пра змену кліента

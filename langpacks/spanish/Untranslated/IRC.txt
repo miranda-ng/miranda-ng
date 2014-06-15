@@ -162,7 +162,6 @@
 [Failed to connect to]
 [DCC ERROR: Unable to bind local port for passive file transfer]
 [%s client-to-client connections]
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
 [DCC ERROR: No valid files specified]
 [DCC reversed file transfer request sent to %s [%s]]
 [DCC file transfer request sent to %s [%s]]

@@ -32,8 +32,6 @@ Opciones
 
 [Enable workaround for PNG transparency]
 
-[Enable MathModule support]
-
 [Replace smileys in user names]
 
 [Hide window border]

@@ -65,10 +65,6 @@ Konnte Protokolldatei nicht öffnen.
 [Error]
 Fehler
 ;file \plugins\NotifyAnything\src\options.cpp
-[Services]
-Dienste
-[LogService]
-Verlaufsdienst
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 Verlauf (*.log)\0*.log\0Text (*.txt)\0*.txt\0Alle Dateien (*.*)\0*.*\0
 [Invalid port number]

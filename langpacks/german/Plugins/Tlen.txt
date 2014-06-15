@@ -193,8 +193,6 @@ Bild senden
 Eingehende E-Mail
 [Alert]
 Alarm
-[Tlen Chats]
-Tlen Chats
 [Multi-User Conference]
 Gruppenkonferenz
 [Tlen Mail]
@@ -228,33 +226,6 @@ Fehler beim Setzen eines Avatars in Tlen.
 Authentifizierung für %s@%s fehlgeschlagen.
 [Tlen Authentication]
 Tlen-Authentifizierung
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-Sie wurden gekickt. Grund: %s\s
-[You cannot join this chat room, because you are banned.]
-Sie können diesen Chatraum nicht betreten, da Sie gebannt wurden.
-[Chat room not found.]
-Chatraum nicht gefunden.
-[This is a private chat room and you are not one of the members.]
-Dies ist ein privater Chatraum und Sie sind keines der Mitglieder.
-[You cannot send any message unless you join this chat room.]
-Sie können keine Nachricht senden, bevor Sie nicht den Chatraum betreten haben.
-[Chat room with already created.]
-Chatraum wurde bereits erstellt.
-[Nickname '%s' is already registered.]
-Nick '%s' ist bereits registriert.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-Der Nick wird bereits verwendet, bitte versuchen Sie einen anderen. Hinweis: '%s' ist frei.
-[You cannot register more than %s nicknames.]
-Sie können nicht mehr als %s Nicks registrieren.
-[You cannot create more than %s chat rooms.]
-Sie können nicht mehr als %s Chaträume erstellen.
-[You cannot join more than %s chat rooms.]
-Sie können nicht mehr als %s Chaträume betreten.
-[Anonymous nicknames are not allowed in this chat room.]
-Anonyme Nicks sind in diesem Chatraum nicht erlaubt.
-[Unknown error code: %d]
-Unbekannter Fehlercode: %d
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Allgemein

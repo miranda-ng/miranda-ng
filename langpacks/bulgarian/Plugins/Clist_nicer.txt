@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.2
+;  Version: 0.9.2.3
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -222,8 +222,6 @@ ms
 Скриване от лентата със задачи
 [Client margins]
 
-[Embedded frames border]
-Граница на рамките
 [Clip border by]
 
 [Gap between frames]
@@ -276,8 +274,6 @@ ms
 Фон на списъка с контакти
 [Use Windows colors]
 Цветове от Windows
-[Background color]
-Фонов цвят
 [Use background image]
 Фоново изображение
 [Stretch to width]
@@ -722,15 +718,15 @@ URL събития
 Отваря главното меню
 [Set status modes]
 Задаване режим на състояние
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-Заявеното действие изисква да изберете валиден контакт. Моля, повторете като изберете контакт от списъка с контакти
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
+Заявеното действие изисква да изберете валиден контакт. Моля, повторете като изберете контакт от списъка с контакти.
 [Parameter mismatch]
 Несъвпадащи параметри
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
-Услугата "%s", определена от дефиницията на бутона "%s" не е открита. Вероятно трябва да инсталирате някой допълнителна приставка
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+Услугата "%s", определена от дефиницията на бутона "%s" не е открита. Вероятно трябва да инсталирате някой допълнителна приставка.
 [Service failure]
 
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 Нуждаете се от приставката FloatingContacts. Функционалността бе\nотстранена от приставката за списъка с контакти.
 [Warning]
 Предупреждение
@@ -758,6 +754,8 @@ URL събития
 Посочен текст
 [Quicksearch text]
 Бързо търсен текст
+[Embedded frames border]
+Граница на рамките
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Заглавна лента
@@ -871,9 +869,13 @@ URL събития
 [Frame menu]
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[New group]
+
 [Group menu]
 
-[&Find/Add contacts...]
+[&Hide/show]
+Показване/Скриване
+[&Find/add contacts...]
 Търсене/Добавяне на контакти
 [&Main menu]
 Главно меню

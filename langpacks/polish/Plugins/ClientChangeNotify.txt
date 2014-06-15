@@ -61,18 +61,6 @@ zmienił(a) klienta na %s (z %s)
 zmienił(a) klienta na %s
 [%s (was %s)]
 %s (z %s)
-[) changed client to ]
-) zmienił(a) klienta na\s
-[Client change notifications:]
-Powiadomienia o zmianie klienta:
-[Never, ignore client changes for this contact]
-Nigdy, ignoruj zmiany klienta dla tego kontaktu
-[Always except when client change notifications are disabled globally]
-Zawsze, z wyjątkiem sytuacji, gdy powiadomienia o zmianie klienta są wyłączone globalnie
-[Always, even when client change notifications are disabled globally]
-Zawsze, nawet gdy powiadomienia o zmianie klienta są wyłączone globalnie
-[Use global settings (default)]
-Użyj ustawień globalnych (domyślne)
 [Disable c&lient change notification]
 Wyłącz powiadomienia o zmianie k&lienta
 [Enable c&lient change notification]
@@ -81,10 +69,6 @@ Włącz powiadomienia o zmianie k&lienta
 Popupy
 [ClientChangeNotify: Client changed]
 Zmiana klienta
-[ClientChangeNotify]
-Powiadomienia o zmianie klienta
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) zmienił(a) klienta na %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Błąd #%d
@@ -103,7 +87,7 @@ Otwórz dane kontaktu
 Otwórz menu kontaktu
 [Open contact history]
 Otwórz historię kontaktu
-[Open log file]
-Otwórz raport pliku
 [Do nothing]
 Nic nie rób
+[ClientChangeNotify]
+Powiadomienia o zmianie klienta

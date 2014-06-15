@@ -7,7 +7,7 @@
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 Плагин расширенной информации о пользователе. Позволяет редактировать всю информацию о контакте.
-[Edit Contact Information]
+[Edit contact information]
 Редактировать данные контакта
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 Редактировать данные контакта\nСписок содержит все праздники ваших контактов.
@@ -23,7 +23,7 @@
 Применить
 [Nick:]
 Ник:
-[Display Name:]
+[Display name:]
 Показывать имя:
 [Title:]
 Заголовок:
@@ -77,7 +77,7 @@
 Начальник:
 [Assistant:]
 Ассистент:
-[Add Phone Number]
+[Add phone number]
 Добавить телефон
 [Enter your phone number\nand don't worry about formating.]
 Введите номер телефона\nв любом формате.
@@ -89,20 +89,20 @@
 Или введите международный номер:
 [Phone can receive SMS text messages]
 Телефон может получать SMS
-[Add E-Mail]
-Добавить E-mail
+[Add e-mail]
+Добавить e-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Введите адрес E-mail\n(например, john.doe@provider.com)
-[Enter a representitive name for the e-mail address here.]
-Введите имя для электронного адреса
-[Enter the e-mail address here.]
-Введите электронный адрес.
+[Enter a representitive name for the e-mail address here:]
+Введите имя для электронного адреса:
+[Enter the e-mail address here:]
+Введите электронный адрес:
 [Show menu items]
 Показать пункты меню
 [Remind me]
 Напомнить
-[days before.]
-дней.
+[days before]
+дней
 [Check every]
 Пров. каждые
 [hours]
@@ -153,15 +153,15 @@
 Тест
 [Homepage:]
 Сайт:
-[Add Affiliation]
+[Add affiliation]
 Принадлежность
-[Add Past]
+[Add past]
 Прошлое
-[Add Interest]
+[Add interest]
 Интересы
 [Delete]
 Удалить
-[Anniversary Editor]
+[Anniversary editor]
 Редактор праздника
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 Редактор праздника\nДобавьте/Редактируйте праздник здесь.
@@ -201,11 +201,11 @@
 Показывать значки на каждой кнопке
 [MetaContacts]
 Метаконтакты
-[Scan SubContacts for missing information]
+[Scan subcontacts for missing information]
 Поиск отсутствующей информации в субконтактах
-[Enable extended 'send/receive email' service (*)]
+[Enable extended 'send/receive e-mail' service (*)]
 Включить расширенный сервис электронной почты (*)
-[Use Windows Timezone]
+[Use Windows timezone]
 Часовой пояс Windows
 [(*) Requires Miranda to be restarted.]
 (*) Требуется перезапуск Miranda NG.
@@ -221,24 +221,24 @@
 Изменённые данные
 [Enable colors to give information about information's status.]
 Включить цвета для показа статуса информации
-[Make protocol based contact information readonly.]
+[Make protocol based contact information readonly]
 Запретить изменение информации, базирующейся на протоколе
-[Enable groups in details dialog's treeview.]
+[Enable groups in details dialog's treeview]
 Вложенные пункты меню
-[Sort all tree items alphabetically.]
+[Sort all tree items alphabetically]
 Отсортировать все пункты в алфавитном порядке
-[Info of a MetaContact's SubContact]
+[Info of a MetaContact's subcontact]
 Информация субконтакта МетаКонтакта
 [Colors]
 Цвета
 [Common]
 Общие
-[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
 Изменять мои личные данные через UserInfoEx (недоступно, если ICQ не поддерживает)
-[TreeView]
+[Treeview]
 Дерево
-[Adapt propertysheet pages to aero mode.]
-Адаптировать Настройки к стилю Aero.
+[Adapt propertysheet pages to Aero mode]
+Адаптировать Настройки к стилю Aero
 [Import]
 Импорт
 [Importing...\nPlease wait!]
@@ -253,25 +253,25 @@
 Все
 [None]
 Нет
-[Show Menu Item]
+[Show menu item]
 Вид отображения меню
-[MainMenu]
+[Main menu]
 Главное меню
 [Cascade:]
 Каскадный:
 [Off]
 Откл.
-[Ex-/Import items]
+[Export/import items]
 Экспорт/Импорт
-[ContactMenu]
+[Contact menu]
 Меню контакта
-[GroupMenu]
+[Group menu]
 Меню групп
-[SubGroupMenu]
+[Subgroup menu]
 Меню подгрупп
-[AccountMenu]
+[Account menu]
 Меню уч. записей
-[Extra Icons]
+[Extra icons]
 Экстра значки
 [Replace the following default icons:]
 Заменить следующие значки:
@@ -279,17 +279,17 @@
 Сайт
 [Phone]
 Телефон
-[E-Mail]
-E-Mail
+[E-mail]
+E-mail
 [Gender]
 Пол
 [Misc]
 Прочее
 [Show 'Restart' menu item]
 Пункт меню "Перезапуск"
-[Use Zodiac as default avatar]
+[Use zodiac as default avatar]
 Использовать знак зодиака как аватар
-[Country Flags]
+[Country flags]
 Флаги стран
 [Use &unknown flag if country cannot be determined]
 Показать &неизвестный флаг, если страна не определена
@@ -303,11 +303,11 @@ E-Mail
 Зодиак:
 [not found]
 не найдено
-[Use global reminder settings.]
-Глобальные настройки напоминаний.
-[Don't remind me of this anniversary.]
-Не напоминать мне об этом празднике.
-[Refresh Contact Details]
+[Use global reminder settings]
+Глобальные настройки напоминаний
+[Don't remind me of this anniversary]
+Не напоминать мне об этом празднике
+[Refresh contact details]
 Обновить данные контактов
 [Preparing...]
 Подготовка...
@@ -315,13 +315,13 @@ E-Mail
 Скрыть
 [What do you want to export?]
 Что вы хотите экспортировать?
-[Contact Information]
+[Contact information]
 Информация о контакте
-[Contact History]
+[Contact history]
 История контакта
-[Select Modules]
+[Select modules]
 Выберите модули
-[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
+[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 Отметьте в списке те модули, которые вы хотите экспортировать для контактов. Для добавления контакта из файла в виде новой записи, необходимо экспортировать хотя бы модуль протокола.
 [Check all]
 Выбрать все
@@ -383,20 +383,20 @@ E-Mail
 Удалить существующий праздник
 [Unspecified]
 Не указано
-[Edit E-Mail]
-Редактировать E-Mail
-[Edit Phone Number]
+[Edit e-mail]
+Редактировать e-mail
+[Edit phone number]
 Редактировать телефон
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Номер телефона должен начинаться с + и состоять из\nцифр, пробелов, скобок и тире.
-[Choose the item to display.]
-Выбрать запись.
-[Edit the currently displayed item.]
-Изменить существующую запись.
-[Add a new custom item.]
-Добавить новую запись.
-[Delete the selected item.]
-Удалить данную запись.
+[Choose the item to display]
+Выбрать запись
+[Edit the currently displayed item]
+Изменить существующую запись
+[Add a new custom item]
+Добавить новую запись
+[Delete the selected item]
+Удалить данную запись
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 ФАТАЛЬНО: Невозможно редактировать эту запись!\nЭтого не должно было произойти!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
@@ -425,7 +425,7 @@ E-Mail
 Только праздники
 [Disabled reminder]
 Откл. напоминания
-[Popup Anniversary list]
+[Popup anniversary list]
 Показать список праздников
 [Retry]
 Ещё раз
@@ -439,7 +439,7 @@ E-Mail
 Игнорировать
 [Error]
 Ошибка
-[Upload Details]
+[Upload details]
 Закачать детали
 [Protocol '%s' is offline]
 Протокол '%s' не в сети
@@ -455,7 +455,7 @@ E-Mail
 Страницы не были добавлены. Отмена создания диалога!
 [Details dialog failed to be created. Returning error is %d.]
 Ошибка создания диалога деталей. Ошибка %d.
-[The Page to add has invalid size %d bytes!]
+[The page to add has invalid size %d bytes!]
 Неправильный размер страницы для добавления: %d байт
 [General]
 Общее
@@ -465,7 +465,7 @@ E-Mail
 Праздники
 [Work]
 Работа
-[Contact (Work)]
+[Contact (work)]
 Контакт (рабочий)
 [About]
 Информация
@@ -479,15 +479,19 @@ E-Mail
 Импорт из файла
 [Owner]
 Владелец
-[Upload ICQ Details]
+[edit contact information]
+Редактировать данные контакта
+[Upload ICQ details]
 Загрузить детали ICQ
 [Upload failed]
 Загрузка не удалась
 [Your details were not uploaded successfully.\nThey were written to database only.]
 Ваши детали не загружены.\nОни сохранены локально.
-[Fatal error, image services not found. Flags Module will be disabled.]
+[updating]
+обновление
+[Fatal error, image services not found. Flags module will be disabled.]
 Фатальная ошибка: служба изображений не найдена. Плагин Flags будет отключён.
-[IM Naming]
+[IM naming]
 Имя в IM
 [Password]
 Пароль
@@ -497,17 +501,17 @@ E-Mail
 Семейное положение
 [Address]
 Адрес
-[Export: Modules]
-Экспорт: Модули
-[Export: Folder]
-Экспорт: Папка
+[Export: modules]
+Экспорт: модули
+[Export: folder]
+Экспорт: папка
 [Default]
 По умолчанию
 [Details info bar]
 Детали
 [Phone info bar]
 Телефон
-[E-Mail info bar]
+[E-mail info bar]
 Почта
 [Export VCard]
 Экспорт VCard
@@ -525,10 +529,8 @@ E-Mail
 Факс
 [Cellular]
 Мобильный
-[Custom Phone]
+[Custom phone]
 Выбранный телефон
-[e-mail]
-E-Mail
 [Down arrow]
 Стрелка вниз
 [Add]
@@ -537,9 +539,9 @@ E-Mail
 Изменить
 [Search]
 Поиск
-[Ex-/Import]
+[Export/import]
 Экспорт/Импорт
-[Backup Birthday]
+[Backup birthday]
 Резервировать Д.Р.
 [Birthday today]
 День рождения сегодня
@@ -591,19 +593,19 @@ E-Mail
 Внимание: Набор значков не найден ни в одной из папок: 'customize\\icons', 'icons' или 'plugins'!
 [Main]
 Главный
-[UserInfoEx]
+[Extended user info]
 Личные данные
-[Ex-/Import contact]
+[Export/import contact]
 Экспорт/Импорт контакта
 [User &details]
 &Информация
-[&Export User Details]
+[&Export user details]
 &Экспорт данных пользователя
 [&Import]
 &Импорт
-[&Import User Details]
+[&Import user details]
 &Импорт данных пользователя
-[View/Change My &Details...]
+[View/change my &details...]
 Личные &данные...
 [Export all contacts]
 Экспортировать все контакты
@@ -613,27 +615,31 @@ E-Mail
 Резервировать дни рождения
 [Check anniversaries]
 Проверить праздники
-[Extended UserInfo]
-Личные данные
-[Ex-/Import Group]
+[Export/import group]
 Экспорт/Импорт группы
-[&Export Group]
+[&Export group]
 &Экспортировать группу
-[&Import Group]
+[&Import group]
 &Импортировать группу
-[My Notes:]
+[export/import]
+экспорт/импорт
+[&export xml]
+&экспорт xml
+[xml &import]
+&импорт xml
+[My notes:]
 Мои заметки:
 [About:]
 Информация:
-[Please enter a valid Description first!]
+[Please enter a valid description first!]
 Пожалуйста, введите правильное описание сначала!
 [No valid date selected for editing!]
 Нет выбранной даты для редактирования!
 [Do you really want to delete the %s?]
 Вы действительно хотите удалить %s?
-[Home]
-Дом
-[Open in Browser]
+[home]
+дом
+[Open in browser]
 Открыть в браузере
 [Primary e-mail]
 Основной e-mail
@@ -641,9 +647,9 @@ E-Mail
 Вторичный e-mail
 [Tertiary e-mail]
 Третий e-mail
-[Address & Contact]
+[Address and contact]
 Контакты
-[Company]
+[company]
 Компания
 [Question]
 Вопрос
@@ -659,7 +665,7 @@ E-Mail
 Напоминания отключены
 [Bithdays only]
 Только дни рождения
-[everything]
+[Everything]
 Все напоминания
 [mBirthday]
 Дни рождения
@@ -671,7 +677,7 @@ E-Mail
 Контакты
 [Advanced]
 Дополнительно
-[Details Dialog]
+[Details dialog]
 Диалоги
 [Popups]
 Всплывающие окна
@@ -685,11 +691,11 @@ E-Mail
 Извините, ошибка добавления нового элемента с типом "%s"
 [<empty>]
 <нет>
-[Add Affliation]
+[Add affliation]
 Присоединить
-[Edit Category]
+[Edit category]
 Изменить категорию
-[Edit Value]
+[Edit value]
 Изменить значение
 [Delete an entry]
 Удалить запись
@@ -861,6 +867,8 @@ E-Mail
 Правительство
 [High School Student]
 Ученик средней школы
+[Home]
+Дом
 [ICQ - Providing Help]
 ICQ - поддержка
 [Law]

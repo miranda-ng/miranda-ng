@@ -31,8 +31,6 @@
 Підтримка flash-файлів (*.swf) у смайлах і BB-кодах
 [Enable workaround for PNG transparency]
 Ввімкнути прозорість для PNG
-[Enable MathModule support]
-Підтримка MathModule
 [Replace smileys in user names]
 Смайли в іменах
 [Hide window border]

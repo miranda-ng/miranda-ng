@@ -59,18 +59,6 @@
 змінив клієнт на %s
 [%s (was %s)]
 %s (був %s)
-[) changed client to ]
-) змінив клієнт на\s
-[Client change notifications:]
-Сповіщення про зміну клієнта:
-[Never, ignore client changes for this contact]
-Ніколи, ігнорувати зміни клієнта для цього контакта
-[Always except when client change notifications are disabled globally]
-Завжди, крім того, коли сповіщення зміни клієнта відключені глобально
-[Always, even when client change notifications are disabled globally]
-Завжди, навіть коли сповіщення зміни клієнта відключені глобально
-[Use global settings (default)]
-Глобальні налаштування (за замовчанням)
 [Disable c&lient change notification]
 Вимкнути сповіщення про зміну к&лієнта
 [Enable c&lient change notification]
@@ -79,10 +67,6 @@
 Спливаючі вікна
 [ClientChangeNotify: Client changed]
 Сповіщення про зміну клієнта: Клієнт змінився
-[ClientChangeNotify]
-Сповіщення про зміну клієнта
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) змінив клієнт на %extratext%
 [Error #%d]
 Помилка #%d
 [Can't open log file ]
@@ -99,7 +83,7 @@
 Відкрити меню контакту
 [Open contact history]
 Відкрити історію контакту
-[Open log file]
-Відкрити журнал
 [Do nothing]
 Нічого не робити
+[ClientChangeNotify]
+Сповіщення про зміну клієнта

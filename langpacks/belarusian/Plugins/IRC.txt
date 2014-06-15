@@ -391,10 +391,6 @@ CTCP %s запыт пасланы для %s
 Далучэнне да сервера %s
 [%s client-to-client connections]
 Злучэнні паміж кліентамі %s
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-Гэты пратакол патрабуе наяўнасці модуля chat.\n\n Загрузіць яго з сайта Miranda NG?
-[Information]
-Інфармацыя
 [Nickname]
 Мянушка
 [DCC ERROR: No valid files specified]

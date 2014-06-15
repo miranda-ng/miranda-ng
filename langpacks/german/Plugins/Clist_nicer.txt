@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.2
+;  Version: 0.9.2.3
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -222,8 +222,6 @@ Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
 Taskleiste immer verstecken
 [Client margins]
 CL-Begrenzung
-[Embedded frames border]
-Rahmen eigener Elemente
 [Clip border by]
 Ränder kürzen um
 [Gap between frames]
@@ -276,8 +274,6 @@ Auswahl 'Ausgrauen'
 Hintergrund der Kontaktliste
 [Use Windows colors]
 Windowsfarben verwenden
-[Background color]
-Hintergrundfarbe
 [Use background image]
 Hintergrundbild verwenden
 [Stretch to width]
@@ -724,15 +720,15 @@ Menü
 Hauptmenü öffnen
 [Set status modes]
 Status auswählen
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
 Die geforderte Aktion erfordert einen ausgewählten Kontakt. Bitte wählen Sie einen Kontakt aus der Kontaktliste aus und widerholen Sie die Aktion.
 [Parameter mismatch]
 Parameter stimmen nicht überein
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
 Der Dienst %s, angegeben in %s Button-Definition, wurde nicht gefunden. Gegebenenfalls müssen Sie zusätzliche Plugins installieren.
 [Service failure]
 Dienstfehler
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 Sie benötigen das FloatingContacts Plugin, die eingebauten schwebenden Kontakte wurden entfernt.
 [Warning]
 Warnung
@@ -760,6 +756,8 @@ Markierter Text
 Hottracktext
 [Quicksearch text]
 Schnellsuche-Text
+[Embedded frames border]
+Rahmen eigener Elemente
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Titelleiste
@@ -873,9 +871,13 @@ Frei bewegend
 [Frame menu]
 Framemenü
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[New group]
+
 [Group menu]
 Gruppenmenü
-[&Find/Add contacts...]
+[&Hide/show]
+Zeigen/Ausblenden
+[&Find/add contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Options...]
 Einstellungen...

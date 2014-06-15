@@ -45,10 +45,6 @@ N/A: Памылка фармату паведамлення, код памылк
 [Error]
 Памылка
 ;file \plugins\NotifyAnything\src\options.cpp
-[Services]
-Службы
-[LogService]
-Служба логаў
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 Лог (*.log)\0*.log\0Тэкст (*.txt)\0*.txt\0Усе фарматы (*.*)\0*.*\0
 [Invalid port number]

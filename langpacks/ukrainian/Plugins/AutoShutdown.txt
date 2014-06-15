@@ -27,8 +27,6 @@
 Автоматично вимикати комп'ютер при таких подіях:
 [&Thunderstorm warning is issued (Weather)]
 Штормове попередження (плагін Weather)
-[&Harddrive overheats (HDD Info)]
-Перегрів HDD (плагін HDD Info)
 [Automatic Shutdown]
 Автовимкнення
 [Select the automatic shutdown event]

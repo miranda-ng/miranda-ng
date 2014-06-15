@@ -28,8 +28,6 @@ Krytyczne zdarzenia wyłączania
 Automatycznie wyłącz komputer kiedy:
 [&Thunderstorm warning is issued (Weather)]
 Ostrzeżenia o &burzy z piorunami (Weather)
-[&Harddrive overheats (HDD Info)]
-Przegrzewa się &dysk twardy (HDD Info)
 [Automatic Shutdown]
 Autowyłączanie
 [Select the automatic shutdown event]

@@ -8,7 +8,7 @@
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 Erweitertes UserInfo-Modul für Miranda NG. Bietet ein Interface, um alle Informationen zu einem Kontakt zu bearbeiten.
 ;file \plugins\UserInfoEx\res\resource.rc
-[Edit Contact Information]
+[Edit contact information]
 Kontakt-Informationen bearbeiten
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 Kontakt-Informationen bearbeiten\nDiese Liste gibt Ihnen einen Überblick über alle Jahrestage Ihrer Kontakte.
@@ -24,7 +24,7 @@ Abbrechen
 Übernehmen
 [Nick:]
 Nick:
-[Display Name:]
+[Display name:]
 Anzeigename:
 [Title:]
 Titel:
@@ -78,7 +78,7 @@ Beruf:
 Vorgesetzte(r):
 [Assistant:]
 Assistent(in):
-[Add Phone Number]
+[Add phone number]
 Telefonnummer hinzufügen
 [Enter your phone number\nand don't worry about formating.]
 Geben Sie eine Nummer ein,\nkeine Sorge wegen der Formatierung.
@@ -90,19 +90,19 @@ Landes-, Ortsvorwahl und Rufnummer:
 oder internationale Rufnummer:
 [Phone can receive SMS text messages]
 Telefon kann SMS-Nachrichten empfangen
-[Add E-Mail]
+[Add e-mail]
 E-Mail hinzufügen
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Geben Sie hier die volle E-Mail-Adresse ein.\n(z.B.:john.doe@provider.de)
-[Enter a representitive name for the e-mail address here.]
-Geben Sie einen Namen für die E-Mail-Adresse ein.
-[Enter the e-mail address here.]
-Geben Sie hier die E-Mail-Adresse ein
+[Enter a representitive name for the e-mail address here:]
+Geben Sie einen Namen für die E-Mail-Adresse ein:
+[Enter the e-mail address here:]
+Geben Sie hier die E-Mail-Adresse ein:
 [Show menu items]
 Menüeinträge zeigen
 [Remind me]
 Erinnere mich
-[days before.]
+[days before]
 Tage vorher.
 [Check every]
 Prüfe alle
@@ -154,15 +154,15 @@ Meldungsfenster durch Popups ersetzen
 Vorschau
 [Homepage:]
 Homepage:
-[Add Affiliation]
+[Add affiliation]
 Mitgliedschaft hzfg.
-[Add Past]
+[Add past]
 Vergangenheit hzfg.
-[Add Interest]
+[Add interest]
 Interesse hzfg.
 [Delete]
 Löschen
-[Anniversary Editor]
+[Anniversary editor]
 Jahrestag-Editor
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 Jahrestag-Editor\nHinzufügen/Editieren der Jahrestage
@@ -202,11 +202,11 @@ Version des Standardiconpacks überprüfen, um falsche Icons zu vermeiden
 Zeige Icons auf jedem Button
 [MetaContacts]
 Metakontakte
-[Scan SubContacts for missing information]
+[Scan subcontacts for missing information]
 Vervollständige Kontaktinformation aus Unterkontakten
-[Enable extended 'send/receive email' service (*)]
+[Enable extended 'send/receive e-mail' service (*)]
 Erweitertes "send/receive e-mail"-Modul aktivieren (*)
-[Use Windows Timezone]
+[Use Windows timezone]
 Zeitzone auf der Basis der jeweiligen Windows-Zeitzone setzen
 [(*) Requires Miranda to be restarted.]
 (*) Erfordert einen Neustart von Miranda.
@@ -222,23 +222,23 @@ Angepasste Informationen
 Veränderte Informationen
 [Enable colors to give information about information's status.]
 Aktiviere farbige Informationsstatusanzeige
-[Make protocol based contact information readonly.]
+[Make protocol based contact information readonly]
 Schreibschutz für protokollbasierte Kontaktinformationen
-[Enable groups in details dialog's treeview.]
+[Enable groups in details dialog's treeview]
 Aktiviere Gruppen im Baum des Profildialogs
-[Sort all tree items alphabetically.]
+[Sort all tree items alphabetically]
 Baum alphabetisch sortieren
-[Info of a MetaContact's SubContact]
+[Info of a MetaContact's subcontact]
 Informationen des Unterkontaktes aus einem Metakontakt
 [Colors]
 Farben
 [Common]
 Allgemein
-[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
 Ändere mein ICQ-Profil mit UserInfoEx. (Nur aktiv, wenn von ICQ unterstützt)
-[TreeView]
+[Treeview]
 Baumansicht
-[Adapt propertysheet pages to aero mode.]
+[Adapt propertysheet pages to Aero mode]
 Passe Benutzer-Informationsseite der Aero-Oberfläche an (ab Vista+)
 [Import]
 Importieren
@@ -254,25 +254,25 @@ Dialog
 Alle
 [None]
 Keine
-[Show Menu Item]
+[Show menu item]
 Menueintrag anzeigen
-[MainMenu]
+[Main menu]
 Hauptmenü
 [Cascade:]
 Kaskadieren:
 [Off]
 Aus
-[Ex-/Import items]
+[Export/import items]
 Ex-/Importieren
-[ContactMenu]
+[Contact menu]
 Kontaktmenü
-[GroupMenu]
+[Group menu]
 Kontaktlistenmenü
-[SubGroupMenu]
+[Subgroup menu]
 Gruppenkontextmenü
-[AccountMenu]
+[Account menu]
 Kontomenü
-[Extra Icons]
+[Extra icons]
 Extraicons
 [Replace the following default icons:]
 Folgende Standard-Icons ersetzen:
@@ -280,7 +280,7 @@ Folgende Standard-Icons ersetzen:
 Homepage
 [Phone]
 Telefon
-[E-Mail]
+[E-mail]
 E-Mail
 [Gender]
 Geschlecht
@@ -288,9 +288,9 @@ Geschlecht
 Diverses
 [Show 'Restart' menu item]
 Neustart-Menüeintrag anzeigen
-[Use Zodiac as default avatar]
+[Use zodiac as default avatar]
 Benutze Tierkreiszeichen als Standard-Avatar
-[Country Flags]
+[Country flags]
 Länderflaggen
 [Use &unknown flag if country cannot be determined]
 &Unbekannte flagge verwenden wenn Land nicht bestimmt werden kann.
@@ -304,11 +304,11 @@ Alter:
 Sternz.:
 [not found]
 nicht gefunden
-[Use global reminder settings.]
+[Use global reminder settings]
 Verwende globale Einstellungen.
-[Don't remind me of this anniversary.]
+[Don't remind me of this anniversary]
 Erinnere mich nicht an diesen Jahrestag.
-[Refresh Contact Details]
+[Refresh contact details]
 Kontaktdaten aktualisieren
 [Preparing...]
 Vorbereiten ...
@@ -316,13 +316,13 @@ Vorbereiten ...
 Verstecken
 [What do you want to export?]
 Was soll exportiert werden?
-[Contact Information]
+[Contact information]
 Kontaktinformationen
-[Contact History]
+[Contact history]
 Kontaktverlauf
-[Select Modules]
+[Select modules]
 Module auswählen
-[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
+[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 Wählen Sie die Module in der Baumstruktur aus, die Sie von dem Kontakt exportieren möchten. Um eine Datei in der Listenansicht einzufügen, müssen Sie mindestens ein Protokoll-Modul exportieren.
 [Check all]
 Alle auswählen
@@ -389,19 +389,19 @@ Lösche einen Jahrestag
 [Unspecified]
 unspezifiziert
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
-[Edit E-Mail]
+[Edit e-mail]
 E-Mail bearbeiten
-[Edit Phone Number]
+[Edit phone number]
 Tel. bearbeiten
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Die Telefonnummer sollte mit + beginnen und nur aus\nNummern, Leerzeichen, Klammern und Bindestrichen bestehen.
-[Choose the item to display.]
+[Choose the item to display]
 Wählen Sie einen Eintrag zum Anzeigen aus.
-[Edit the currently displayed item.]
+[Edit the currently displayed item]
 Bearbeiten des angezeigten Eintrags.
-[Add a new custom item.]
+[Add a new custom item]
 Fügt einen neuen Eintrag hinzu.
-[Delete the selected item.]
+[Delete the selected item]
 Löscht den ausgewählten Eintrag.
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 Schwerer Fehler: Der gewählte Eintrag kann nicht bearbeitet werden!\nDas sollte nicht passieren!
@@ -433,7 +433,7 @@ Nur Geburtstage
 Nur Jahrestage
 [Disabled reminder]
 Deaktivierte Erinnerung
-[Popup Anniversary list]
+[Popup anniversary list]
 Jahrestagsliste anzeigen
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
@@ -449,7 +449,7 @@ Ignorieren
 [Error]
 Fehler
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload Details]
+[Upload details]
 Profil hochladen
 [Protocol '%s' is offline]
 Protokoll '%s' ist offline.
@@ -465,7 +465,7 @@ Das Kontaktprotokoll konnte nicht gefunden werden. Vielleicht ist es nicht aktiv
 Es wurden keine Seiten hinzugefügt.\nDer Dialog wird nicht angezeigt!
 [Details dialog failed to be created. Returning error is %d.]
 Der Kontaktinformationsdialog konnte nicht erstellt werden.\nFehler %d.
-[The Page to add has invalid size %d bytes!]
+[The page to add has invalid size %d bytes!]
 Die hinzuzufügende Seite hat die ungültige Größe von %d Byte!
 [General]
 Allgemein
@@ -475,7 +475,7 @@ Kontakt (Privat)
 Jahrestage
 [Work]
 Arbeit
-[Contact (Work)]
+[Contact (work)]
 Kontakt (Arbeit)
 [About]
 Über
@@ -489,17 +489,21 @@ Exportieren
 Importieren
 [Owner]
 Inhaber
-[Upload ICQ Details]
+[edit contact information]
+Kontakt-Informationen bearbeiten
+[Upload ICQ details]
 ICQ-Profil hochladen
 [Upload failed]
 Hochladen fehlgeschlagen
 [Your details were not uploaded successfully.\nThey were written to database only.]
 Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Datenbank gespeichert.
+[updating]
+Aktualisieren
 ;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags Module will be disabled.]
+[Fatal error, image services not found. Flags module will be disabled.]
 Schwerer Fehler, Bilddienste nicht gefunden. Flaggenmodul wird deaktiviert.
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
-[IM Naming]
+[IM naming]
 IM-Benennung
 [Password]
 Passwort
@@ -509,9 +513,9 @@ Zeitzone
 Familienstand
 [Address]
 Adresse
-[Export: Modules]
+[Export: modules]
 Exportieren: Module
-[Export: Folder]
+[Export: folder]
 Exportieren: Ordner
 [Default]
 Standard
@@ -519,7 +523,7 @@ Standard
 Details-Infoleiste
 [Phone info bar]
 Telefon-Infoleiste
-[E-Mail info bar]
+[E-mail info bar]
 E-Mail-Infoleiste
 [Export VCard]
 VCard exportieren
@@ -537,10 +541,8 @@ Gehe zu
 Fax
 [Cellular]
 Mobiltelefon
-[Custom Phone]
+[Custom phone]
 Benutzerdef. Telefon
-[e-mail]
-E-Mail
 [Down arrow]
 Pfeil runter
 [Add]
@@ -549,9 +551,9 @@ Hinzufügen
 Bearbeiten
 [Search]
 Suchen
-[Ex-/Import]
+[Export/import]
 Ex-/Importieren
-[Backup Birthday]
+[Backup birthday]
 Geburtstag sichern
 [Birthday today]
 Geburtstag heute
@@ -604,20 +606,20 @@ Achtung: Kein Iconpack wurde in folgendem Ordner gefunden: 'customize\\Icons', '
 [Main]
 Allgemein
 ;file \plugins\UserInfoEx\src\mir_icolib.h
-[UserInfoEx]
+[Extended user info]
 UserInfoEx
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[Ex-/Import contact]
+[Export/import contact]
 Kontakt ex-/importieren
 [User &details]
 Kontaktprofil
-[&Export User Details]
+[&Export user details]
 Benutzerinfo &exportieren
 [&Import]
 &Importieren
-[&Import User Details]
+[&Import user details]
 Benutzerinfo &importieren
-[View/Change My &Details...]
+[View/change my &details...]
 Mein Profil än&dern...
 [Export all contacts]
 Alle Kontakte exportieren
@@ -627,30 +629,34 @@ Alle Kontakte importieren
 Sichere Geburtstage
 [Check anniversaries]
 Suche nach Jahrestagen
-[Extended UserInfo]
-Erweiterte Benutzerinformationen
-[Ex-/Import Group]
+[Export/import group]
 Gruppe ex-/importieren
-[&Export Group]
+[&Export group]
 Exportiere Gruppe
-[&Import Group]
+[&Import group]
 Importiere Gruppe
+[export/import]
+Ex-/Importieren
+[&export xml]
+
+[xml &import]
+
 ;file \plugins\UserInfoEx\src\psp_about.cpp
-[My Notes:]
+[My notes:]
 Meine Notizen:
 [About:]
 Über mich:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-[Please enter a valid Description first!]
+[Please enter a valid description first!]
 Bitte geben Sie zuerst eine gültige Beschreibung ein!
 [No valid date selected for editing!]
 Es wurde kein gültiges Datum zum Bearbeiten gewählt
 [Do you really want to delete the %s?]
 Wollen Sie wirklich den %s löschen?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[Home]
+[home]
 Wohnort
-[Open in Browser]
+[Open in browser]
 Im Web-Browser öffnen
 [Primary e-mail]
 Erste E-Mail
@@ -658,9 +664,9 @@ Erste E-Mail
 Zweite E-Mail
 [Tertiary e-mail]
 Dritte E-Mail
-[Address & Contact]
+[Address and contact]
 Adresse & Kontakt
-[Company]
+[company]
 Unternehmen
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
@@ -677,8 +683,8 @@ Alle Einstellungen wurden zurückgesetzt
 Erinnerung deaktiviert
 [Bithdays only]
 Nur Geburtstage
-[everything]
-alles
+[Everything]
+Alles
 [mBirthday]
 mBirthday
 [UserInfo (default)]
@@ -689,7 +695,7 @@ Dies ist eine Erinnerungsnachricht!
 Kontakte
 [Advanced]
 Erweitert
-[Details Dialog]
+[Details dialog]
 Kontaktinfo-Dialog
 [Popups]
 Popups
@@ -704,11 +710,11 @@ Interessen
 Entschuldigung, aber es gibt ein Problem mit dem Erstellen des neuen Artikels vom Typ "%s"
 [<empty>]
 <leer>
-[Add Affliation]
+[Add affliation]
 Mitgliedschaft hzfg.
-[Edit Category]
+[Edit category]
 Kategorie bearbeiten
-[Edit Value]
+[Edit value]
 Wert bearbeiten
 [Delete an entry]
 Einen Eintrag löschen
@@ -881,6 +887,8 @@ Finanzservice
 Politik
 [High School Student]
 Mittelschüler
+[Home]
+Wohnort
 [ICQ - Providing Help]
 ICQ - Helfer
 [Law]
@@ -1075,6 +1083,7 @@ Verwitwet
 Jun.
 [sen.]
 Sen.
+;file \plugins\UserInfoEx\src\svc_constants.h
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 (Unbekannter Kontakt)

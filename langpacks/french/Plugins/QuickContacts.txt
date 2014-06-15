@@ -42,8 +42,6 @@ Contacts
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 
-[Make a voice call]
-
 [Send file]
 Envoyer un fichier
 [Send URL]

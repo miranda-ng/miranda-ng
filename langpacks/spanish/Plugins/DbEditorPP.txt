@@ -8,17 +8,17 @@
 [Advanced Database Editor.]
 
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ Search and Replace]
+[Database Editor++ search and replace]
 
-[Case Sensitive]
+[Case sensitive]
 
-[Module Name]
+[Module name]
 
-[Exact Match]
+[Exact match]
 
-[Setting Name]
+[Setting name]
 
-[Setting Value]
+[Setting value]
 
 [&Search]
 Bu&scar
@@ -28,19 +28,19 @@ Bu&scar
 
 [&Cancel]
 &Cancelar
-[Search For]
+[Search for]
 
 [Text:]
 Texto:
 [In:]
 
-[Replace With]
+[Replace with]
 
 [Entirely]
 
 [Restore last opened position]
 
-[Automatically expand "settings" when Database Editor ++ starts]
+[Automatically expand "Settings" when Database Editor++ starts]
 
 [Warn when deleting modules]
 
@@ -54,11 +54,11 @@ Color de fondo
 
 [Add a module named]
 
-[Add to all contacts (Includes Settings)]
+[Add to all contacts (including Settings)]
 
 [Cancel]
 Cancelar
-[Edit Setting]
+[Edit setting]
 
 [Byte]
 
@@ -72,45 +72,45 @@ Cancelar
 
 [Decimal]
 
-[Value Name:]
+[Value name:]
 
-[Value Data:]
+[Value data:]
 
 [Base]
 
-[Save Value as:]
+[Save value as:]
 
-[Watched Database Variables]
+[Watched database settings]
 
 [Copy module to contact]
 
-[Copy to all contacts (Includes Settings)]
+[Copy to all contacts (including Settings)]
 
 [Contact to copy module and settings to]
 
-[Import Module/Settings]
+[Import module/settings]
 
 [Import]
 
 [Insert &CR/LF]
 
-[Paste the Settings to import here.]
+[Paste the settings to import here.]
 
 [Database Editor++]
 
 [&Main]
 
-[&Refresh Modules]
+[&Refresh modules]
 
-[Refresh &Settings]
+[Refresh &settings]
 
 [E&xit]
 &Salir
 [&Actions]
 
-[&Search and Replace]
+[&Search and replace]
 
-[&Delete Module]
+[&Delete module]
 
 [&Watches]
 
@@ -120,11 +120,11 @@ Cancelar
 
 [&Export]
 
-[Entire &Database]
+[Entire &database]
 
-[All &Settings]
+[All &settings]
 
-[All &Contacts]
+[All &contacts]
 
 [&Import]
 
@@ -136,11 +136,11 @@ Cancelar
 &Opciones
 [&Sort by protocol]
 
-[Show &All]
+[Show &all]
 
-[Show only &Loaded]
+[Show only &loaded]
 
-[Show only &Unloaded]
+[Show only &unloaded]
 
 [Edit &Bytes in Hex]
 
@@ -150,11 +150,11 @@ Cancelar
 
 [&Restore position]
 
-[&Open Options]
+[&Open options]
 
-[&Edit / Rename]
+[&Edit/rename]
 
-[NEW]
+[New]
 
 [&Byte]
 
@@ -172,13 +172,13 @@ Cancelar
 
 [Encyption]
 
-[View Decrypted String]
+[View decrypted string]
 
-[View Encrypted String]
+[View encrypted string]
 
-[Decrypt String]
+[Decrypt string]
 
-[Encrypt String]
+[Encrypt string]
 
 [&Watch]
 
@@ -186,33 +186,33 @@ Cancelar
 &Borrar
 [&Rename]
 &Renombrar
-[Copy To Contact]
+[Copy to contact]
 
-[Export Module]
+[Export module]
 
 [&Clone]
 
-[Export Contact]
+[Export contact]
 
-[Import Settings]
+[Import settings]
 
 [From a file]
 
 [From pasted text]
 
-[&Add Module]
+[&Add module]
 
-[Export Settings]
+[Export settings]
 
-[Export Contacts]
+[Export contacts]
 
-[Import Contacts]
+[Import contacts]
 
-[Export Module from all contacts]
+[Export module from all contacts]
 
-[Watch Window]
+[Watch window]
 
-[Reload Watch List]
+[Reload watch list]
 
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
@@ -300,15 +300,33 @@ Importar a archivo
 [Finished. %d items were found.]
 
 ;file \plugins\DbEditorPP\src\icons.cpp
-[Closed Known Module]
+[Main icon]
 
-[Open Known Module]
+[Closed known module]
 
-[Contacts Group]
+[Open known module]
 
-[Unknown Contact]
+[Contacts group]
 
-[Known Contact]
+[Unknown contact]
+
+[Known contact]
+
+[Open user tree]
+
+[BLOB setting]
+
+[Byte setting]
+
+[Word setting]
+
+[Dword setting]
+
+[String setting]
+
+[Unicode setting]
+
+[Handle]
 
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
@@ -318,7 +336,7 @@ Importar a archivo
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 
-[Confirm Contact Delete]
+[Confirm contact delete]
 
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
@@ -327,6 +345,8 @@ Importar a archivo
 [Loading modules...]
 
 [Module tree not found]
+
+[Error loading module list]
 
 [Contacts]
 Contactos

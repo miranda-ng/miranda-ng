@@ -166,7 +166,7 @@ Tlen входящие
 [Group chats]
 Чаты
 [Tlen chats]
-Tlen чаты
+Чаты Tlen
 [Voice chat]
 Голосовой чат
 [Microphone]
@@ -179,8 +179,6 @@ Tlen чаты
 Входящая почта
 [Alert]
 Предупреждение
-[Tlen Chats]
-Tlen чаты
 [Multi-User Conference]
 Комната чата
 [Voice Chat]
@@ -195,32 +193,6 @@ Tlen чаты
 Аутентификация не пройдена для %s@%s
 [Tlen Authentication]
 Аутентификация Tlen
-[You have been kicked. Reason: %s ]
-Вас выкинули. Причина: %s\s
-[You cannot join this chat room, because you are banned.]
-Вы не можете войти в комнату, потому что вы заблокированы.
-[Chat room not found.]
-Комната чата не найдена.
-[This is a private chat room and you are not one of the members.]
-Это приватная комната чата, и вы не её член.
-[You cannot send any message unless you join this chat room.]
-Вы не можете отправить сообщение, пока вы не вошли в комнату.
-[Chat room with already created.]
-Комната уже создана.
-[Nickname '%s' is already registered.]
-Псевдоним '%s' уже зарегистрирован.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-Псевдоним уже используется, выберите другой. Подсказка: '%s' свободен.
-[You cannot register more than %s nicknames.]
-Вы не можете зарегистрировать больше чем %s псевдонимов.
-[You cannot create more than %s chat rooms.]
-Вы не можете создать больше чем %s комнат.
-[You cannot join more than %s chat rooms.]
-Вы не можете войти в больше чем %s комнат.
-[Anonymous nicknames are not allowed in this chat room.]
-Анонимные псевдонимы запрещены в этой комнате.
-[Unknown error code: %d]
-Неизвестная ошибка: %d
 [General]
 Общее
 [Advanced]

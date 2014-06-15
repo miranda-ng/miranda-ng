@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.4.0
+;  Version: 0.8.5.1
 ;  Authors: Merlin
 ;============================================================
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]

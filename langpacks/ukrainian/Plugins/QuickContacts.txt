@@ -39,8 +39,6 @@
 Швидкі контакти
 [Open dialog]
 Відкрити діалог
-[Make a voice call]
-Голосовий дзвінок
 [Send file]
 Передати файл
 [Send URL]

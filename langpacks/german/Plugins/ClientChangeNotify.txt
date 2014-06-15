@@ -61,18 +61,6 @@ Folgende Clients ignorieren (durch Semikolon trennen):
 ändert Client zu %s
 [%s (was %s)]
 %s (war %s)
-[) changed client to ]
-) andert Client zu\s
-[Client change notifications:]
-Benachrichtigungen über Clientänderungen:
-[Never, ignore client changes for this contact]
-Niemals, Clientänderungen für diesen Kontakt ignorieren
-[Always except when client change notifications are disabled globally]
-Immer, außer wenn Benachrichtigungen über Clientänderungen global deaktiviert sind
-[Always, even when client change notifications are disabled globally]
-Immer, auch wenn Benachrichtigungen über Clientänderungen global deaktiviert sind
-[Use global settings (default)]
-Globale Einstellungen verwenden (Standard)
 [Disable c&lient change notification]
 C&lient Benachrichtigungen deaktivieren
 [Enable c&lient change notification]
@@ -81,10 +69,6 @@ C&lient Benachrichtigungen aktivieren
 Popups
 [ClientChangeNotify: Client changed]
 ClientChangeNotify: Client geändert
-[ClientChangeNotify]
-ClientChangeNotify
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) ändert Client zu %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Fehler #%d
@@ -103,7 +87,7 @@ Kontaktprofil öffnen
 Kontaktmenü öffnen
 [Open contact history]
 Gesprächsverlauf öffnen
-[Open log file]
-Logdatei öffnen
 [Do nothing]
 Nichts tun
+[ClientChangeNotify]
+ClientChangeNotify

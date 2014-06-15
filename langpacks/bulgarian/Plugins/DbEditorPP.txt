@@ -8,17 +8,17 @@
 [Advanced Database Editor.]
 Редактор на базата от данни за напреднали.
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ Search and Replace]
-Database Editor++ Търсене и заместване
-[Case Sensitive]
+[Database Editor++ search and replace]
+Database Editor++ търсене и заместване
+[Case sensitive]
 
-[Module Name]
+[Module name]
 Име на модула
-[Exact Match]
+[Exact match]
 Точно съвпадение
-[Setting Name]
+[Setting name]
 Име на настройката
-[Setting Value]
+[Setting value]
 Стойност на настройката
 [&Search]
 Търсене
@@ -28,19 +28,19 @@ Database Editor++ Търсене и заместване
 Замяна
 [&Cancel]
 Отказ
-[Search For]
+[Search for]
 Търсене на
 [Text:]
 Текст:
 [In:]
 В:
-[Replace With]
+[Replace with]
 Замяна с
 [Entirely]
 Напълно
 [Restore last opened position]
 Възстановяване на последната позиция
-[Automatically expand "settings" when Database Editor ++ starts]
+[Automatically expand "Settings" when Database Editor++ starts]
 Автоматично разгръщане на настройките при стартиране на Database Editor++
 [Warn when deleting modules]
 Предупреждение при изтриване на модул
@@ -54,11 +54,11 @@ Popup времетраене (0=безкрайност)
 Добавяне на модул към контакта
 [Add a module named]
 Име на модула за добавяне
-[Add to all contacts (Includes Settings)]
+[Add to all contacts (including Settings)]
 Добавяне във всички контакти (и настройки)
 [Cancel]
 Отказ
-[Edit Setting]
+[Edit setting]
 Редактиране
 [Byte]
 
@@ -72,45 +72,45 @@ Popup времетраене (0=безкрайност)
 
 [Decimal]
 
-[Value Name:]
+[Value name:]
 Име на стойността:
-[Value Data:]
+[Value data:]
 Стойност:
 [Base]
 
-[Save Value as:]
+[Save value as:]
 Запис на стойността като:
-[Watched Database Variables]
+[Watched database settings]
 Наблюдавани променливи в базата от данни
 [Copy module to contact]
 Копиране на модул в контакт
-[Copy to all contacts (Includes Settings)]
+[Copy to all contacts (including Settings)]
 Във всеки контакт (включва и настройките)
 [Contact to copy module and settings to]
 В кой контакт да се копира модула и настройките
-[Import Module/Settings]
+[Import module/settings]
 Внос на модул/настройки
 [Import]
 Внос
 [Insert &CR/LF]
 
-[Paste the Settings to import here.]
+[Paste the settings to import here.]
 Поставете настройките за внасяне тук.
 [Database Editor++]
 Database Editor++
 [&Main]
 Главно
-[&Refresh Modules]
+[&Refresh modules]
 Презареждане на модулите
-[Refresh &Settings]
+[Refresh &settings]
 Презареждане на настройките
 [E&xit]
 Изход
 [&Actions]
 Действия
-[&Search and Replace]
+[&Search and replace]
 Търсене и замяна
-[&Delete Module]
+[&Delete module]
 Изтриване на модула
 [&Watches]
 Наблюдавани
@@ -120,11 +120,11 @@ Database Editor++
 Изтриване на всичко
 [&Export]
 Износ
-[Entire &Database]
+[Entire &database]
 Цялата база от данни
-[All &Settings]
+[All &settings]
 Всички настройки
-[All &Contacts]
+[All &contacts]
 Всички контакти
 [&Import]
 Внос
@@ -136,11 +136,11 @@ Database Editor++
 Настройки
 [&Sort by protocol]
 Сортиране по протокол
-[Show &All]
+[Show &all]
 Показване на всичко
-[Show only &Loaded]
+[Show only &loaded]
 Показване само на заредените
-[Show only &Unloaded]
+[Show only &unloaded]
 Показване само на незаредените
 [Edit &Bytes in Hex]
 
@@ -150,11 +150,11 @@ Database Editor++
 
 [&Restore position]
 Възстановяване на позицията
-[&Open Options]
+[&Open options]
 Отваряне на настройките
-[&Edit / Rename]
+[&Edit/rename]
 Редактиране/Преименуване
-[NEW]
+[New]
 Ново
 [&Byte]
 Byte
@@ -172,13 +172,13 @@ BLOB
 Превръщане в
 [Encyption]
 Шифроване
-[View Decrypted String]
+[View decrypted string]
 Преглед на разшифрованият низ
-[View Encrypted String]
+[View encrypted string]
 Преглед на шифрования низ
-[Decrypt String]
+[Decrypt string]
 Разшифроване на низа
-[Encrypt String]
+[Encrypt string]
 Шифроване на низа
 [&Watch]
 Наблюдение
@@ -186,33 +186,33 @@ BLOB
 Изтриване
 [&Rename]
 Преименуване
-[Copy To Contact]
+[Copy to contact]
 Копиране в контакт
-[Export Module]
+[Export module]
 Износ на модула
 [&Clone]
 Клониране
-[Export Contact]
+[Export contact]
 Износ на контакта
-[Import Settings]
+[Import settings]
 Настройки за внос
 [From a file]
 От файл
 [From pasted text]
 От поставен текст
-[&Add Module]
+[&Add module]
 Добавяне на модул
-[Export Settings]
+[Export settings]
 Изнасяне на настройките
-[Export Contacts]
+[Export contacts]
 Изнасяне на контактите
-[Import Contacts]
+[Import contacts]
 Внасяне на контакти
-[Export Module from all contacts]
+[Export module from all contacts]
 Износ на модула от всички контакти
-[Watch Window]
+[Watch window]
 Прозорец на наблюдаваните стойности
-[Reload Watch List]
+[Reload watch list]
 Обновяване списъка за наблюдение
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
@@ -300,16 +300,34 @@ INI файлове
 [Finished. %d items were found.]
 Готово. Бяха намерени %d елемента.
 ;file \plugins\DbEditorPP\src\icons.cpp
-[Closed Known Module]
+[Main icon]
+
+[Closed known module]
 Затворен познат модул
-[Open Known Module]
+[Open known module]
 Отворен познат модул
-[Contacts Group]
+[Contacts group]
 Група с контакти
-[Unknown Contact]
+[Unknown contact]
 Непознат контакт
-[Known Contact]
+[Known contact]
 Познат контакт
+[Open user tree]
+
+[BLOB setting]
+
+[Byte setting]
+
+[Word setting]
+
+[Dword setting]
+
+[String setting]
+
+[Unicode setting]
+
+[Handle]
+
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Отваряне на Database Editor++
@@ -318,7 +336,7 @@ INI файлове
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
-[Confirm Contact Delete]
+[Confirm contact delete]
 Потвърдете изтриването на контакт
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
@@ -328,6 +346,8 @@ INI файлове
 Зареждане на модулите...
 [Module tree not found]
 Дървото на модулът не е открито
+[Error loading module list]
+
 [Contacts]
 Контакти
 [HANDLE]

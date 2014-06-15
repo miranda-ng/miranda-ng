@@ -8,17 +8,17 @@
 [Advanced Database Editor.]
 
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ Search and Replace]
-Database Editor++ - Rechercher et Remplacer
-[Case Sensitive]
+[Database Editor++ search and replace]
+Database Editor++ - rechercher et remplacer
+[Case sensitive]
 Respecter casse
-[Module Name]
+[Module name]
 Module
-[Exact Match]
+[Exact match]
 Mot entier
-[Setting Name]
+[Setting name]
 Réglage
-[Setting Value]
+[Setting value]
 
 [&Search]
 &Recherche
@@ -28,19 +28,19 @@ Champ trouvé
 &Remplacer
 [&Cancel]
 &Annuler
-[Search For]
+[Search for]
 Recherche de
 [Text:]
 Texte :
 [In:]
 Dans :
-[Replace With]
+[Replace with]
 Remplacer par
 [Entirely]
 Entièrement
 [Restore last opened position]
 Sauver la position de la fenêtre
-[Automatically expand "settings" when Database Editor ++ starts]
+[Automatically expand "Settings" when Database Editor++ starts]
 Étendre automatiquement les réglages quand Database Editor++ démarre
 [Warn when deleting modules]
 Avertir avant la suppression d'un ou plusieurs modules
@@ -54,11 +54,11 @@ Couleur de fond
 Ajouter un module au contact
 [Add a module named]
 Ajouter module nommé
-[Add to all contacts (Includes Settings)]
+[Add to all contacts (including Settings)]
 
 [Cancel]
 Annuler
-[Edit Setting]
+[Edit setting]
 Modifier réglage
 [Byte]
 
@@ -72,45 +72,45 @@ Modifier réglage
 
 [Decimal]
 
-[Value Name:]
+[Value name:]
 Nom de valeur :
-[Value Data:]
+[Value data:]
 Données de valeur :
 [Base]
 
-[Save Value as:]
+[Save value as:]
 Enregistrer valeur sous :
-[Watched Database Variables]
+[Watched database settings]
 Variables de la base surveillées
 [Copy module to contact]
 Copier le module du contact
-[Copy to all contacts (Includes Settings)]
+[Copy to all contacts (including Settings)]
 
 [Contact to copy module and settings to]
 Contact vers lequel copier module et réglages
-[Import Module/Settings]
+[Import module/settings]
 Importer module / réglages
 [Import]
 
 [Insert &CR/LF]
 
-[Paste the Settings to import here.]
+[Paste the settings to import here.]
 Coller les réglages à importer ici.
 [Database Editor++]
 
 [&Main]
 &Menu
-[&Refresh Modules]
+[&Refresh modules]
 Actualiser les modules
-[Refresh &Settings]
+[Refresh &settings]
 Actualiser les réglages
 [E&xit]
 &Quitter
 [&Actions]
 
-[&Search and Replace]
+[&Search and replace]
 &Rechercher et remplacer...
-[&Delete Module]
+[&Delete module]
 &Supprimer un module
 [&Watches]
 &Surveillance
@@ -120,11 +120,11 @@ Tout &voir
 Tout &effacer
 [&Export]
 
-[Entire &Database]
+[Entire &database]
 Toute la base de données
-[All &Settings]
+[All &settings]
 Tous les &réglages
-[All &Contacts]
+[All &contacts]
 Tous les &contacts
 [&Import]
 
@@ -136,11 +136,11 @@ Depuis le &texte copié
 &Paramètres
 [&Sort by protocol]
 &Trier par protocole
-[Show &All]
+[Show &all]
 Tout afficher
-[Show only &Loaded]
+[Show only &loaded]
 Afficher uniquement ceux chargés
-[Show only &Unloaded]
+[Show only &unloaded]
 Afficher uniquement ceux non chargés
 [Edit &Bytes in Hex]
 Éditer &Bytes en Hexadécimal
@@ -150,11 +150,11 @@ Afficher uniquement ceux non chargés
 Éditer &Dwords en Hexadécimal
 [&Restore position]
 &Restaurer la position
-[&Open Options]
+[&Open options]
 
-[&Edit / Rename]
+[&Edit/rename]
 &Modifier / Renommer
-[NEW]
+[New]
 Nouveau
 [&Byte]
 
@@ -172,13 +172,13 @@ Nouveau
 Con&vertir vers
 [Encyption]
 Encodage
-[View Decrypted String]
+[View decrypted string]
 Voir la chaîne décodée
-[View Encrypted String]
+[View encrypted string]
 Voir la chaîne codée
-[Decrypt String]
+[Decrypt string]
 Décoder chaîne
-[Encrypt String]
+[Encrypt string]
 Encoder chaîne
 [&Watch]
 &Surveiller
@@ -186,33 +186,33 @@ Encoder chaîne
 &Effacer
 [&Rename]
 &Renommer
-[Copy To Contact]
+[Copy to contact]
 Copier vers le contact
-[Export Module]
+[Export module]
 Exporter le module
 [&Clone]
 &Dupliquer
-[Export Contact]
+[Export contact]
 Exporter le contact
-[Import Settings]
+[Import settings]
 Importer des réglages
 [From a file]
 Fichier texte
 [From pasted text]
 Coller le texte
-[&Add Module]
+[&Add module]
 &Ajouter un module
-[Export Settings]
+[Export settings]
 Exporter réglages
-[Export Contacts]
+[Export contacts]
 Exporter les contacts
-[Import Contacts]
+[Import contacts]
 Importer des contacts
-[Export Module from all contacts]
+[Export module from all contacts]
 Exporter les modules de tous les contacts
-[Watch Window]
+[Watch window]
 Fenêtre de surveillance
-[Reload Watch List]
+[Reload watch list]
 Actualiser la liste
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
@@ -300,16 +300,34 @@ Terminé. %d éléments ont été trouvé, %d éléments ont été remplacé.
 [Finished. %d items were found.]
 Terminée. %d entrées trouvées.
 ;file \plugins\DbEditorPP\src\icons.cpp
-[Closed Known Module]
-Fermer les modules connus
-[Open Known Module]
-Ouvrir les modules connus
-[Contacts Group]
-Groupe
-[Unknown Contact]
+[Main icon]
 
-[Known Contact]
+[Closed known module]
+Fermer les modules connus
+[Open known module]
+Ouvrir les modules connus
+[Contacts group]
+Groupe
+[Unknown contact]
+
+[Known contact]
 Contact connu
+[Open user tree]
+
+[BLOB setting]
+
+[Byte setting]
+
+[Word setting]
+
+[Dword setting]
+
+[String setting]
+
+[Unicode setting]
+
+[Handle]
+
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 
@@ -318,7 +336,7 @@ Ouvrir dans DataBase Editor
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Voulez-vous vraiment supprimer le contact "%s" ?
-[Confirm Contact Delete]
+[Confirm contact delete]
 Confirmer la suppression du contact
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
@@ -328,6 +346,8 @@ Chargement des contacts...
 Chargement des modules...
 [Module tree not found]
 Arborescence du Module non trouvée
+[Error loading module list]
+
 [Contacts]
 Contacts
 [HANDLE]

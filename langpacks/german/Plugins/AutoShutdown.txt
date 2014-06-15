@@ -28,8 +28,6 @@ Kritische Ereignisse
 Automatisch bei einem der folgenden Ereignisse herunterfahren und ausschalten:
 [&Thunderstorm warning is issued (Weather)]
 &Gewitterwarnung ist aktiv (Wetterplugin)
-[&Harddrive overheats (HDD Info)]
-Festplatte überhitzt (HDD-Info)
 [Automatic Shutdown]
 Automatisch beenden
 [Select the automatic shutdown event]

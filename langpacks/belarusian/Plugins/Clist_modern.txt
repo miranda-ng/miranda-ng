@@ -835,7 +835,9 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 Меню ў трэі
-[&Find/Add contacts...]
+[&Hide/show]
+С&хаваць/паказаць
+[&Find/add contacts...]
 Дадаць &кантакты
 [&Options...]
 &Налады

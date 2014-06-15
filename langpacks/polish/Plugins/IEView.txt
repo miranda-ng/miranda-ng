@@ -32,8 +32,6 @@ Obecnie wspierane znaczniki BBCode to: [b][i][u][s][img][size][color][url]
 Włącz wsparcie dla plików Flash w emotikonach i BBCode
 [Enable workaround for PNG transparency]
 Prowizoryczna przezroczystość PNG
-[Enable MathModule support]
-Włącz wsparcie dla MathModule
 [Replace smileys in user names]
 Zamień emotikony w nazwach użytkowników
 [Hide window border]

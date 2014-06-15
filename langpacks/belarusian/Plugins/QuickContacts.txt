@@ -42,8 +42,6 @@
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 Адкрыць гутарку
-[Make a voice call]
-Патэлефанаваць
 [Send file]
 Перадаць файл
 [Send URL]

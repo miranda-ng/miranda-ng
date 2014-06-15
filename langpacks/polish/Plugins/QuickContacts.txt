@@ -42,8 +42,6 @@ Szybkie kontakty
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 Otwórz okno szybkich kontaktów
-[Make a voice call]
-Nowa rozmowa głosowa
 [Send file]
 Wyślij plik
 [Send URL]

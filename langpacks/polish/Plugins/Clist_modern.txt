@@ -595,7 +595,7 @@ Na &obiedzie\tCtrl+9
 [Tray]
 Zasobnik
 [&Hide/Show]
-&Pokaż/Ukryj
+&Ukryj/Pokaż
 [Nowhere]
 Nigdzie
 [&New group]

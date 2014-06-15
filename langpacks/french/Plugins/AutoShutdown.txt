@@ -28,8 +28,6 @@ secondes
 Éteindre automatiquement l'ordinateur si :
 [&Thunderstorm warning is issued (Weather)]
 Un &orage est annoncé (plugin Weather)
-[&Harddrive overheats (HDD Info)]
-&Surchauffe du disque dur (plugin HDD Info)
 [Automatic Shutdown]
 Extinction Automatique
 [Select the automatic shutdown event]

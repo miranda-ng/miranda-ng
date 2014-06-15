@@ -64,6 +64,8 @@
 [Services]
 [Check for updates]
 [Available components list]
+[Update completed]
+[Update failed]
 ['Yes' Button]
 ['No' Button]
 [Plugin info]

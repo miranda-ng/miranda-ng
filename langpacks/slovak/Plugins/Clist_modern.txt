@@ -251,7 +251,9 @@ Meno
 Text
 [(Unknown Contact)]
 (neznámý kontakt)
-[&Find/Add contacts...]
+[&Hide/show]
+Skryť/Zobraziť
+[&Find/add contacts...]
 Nájsť/Pridať kontakty...
 [&Options...]
 Nastavenia...

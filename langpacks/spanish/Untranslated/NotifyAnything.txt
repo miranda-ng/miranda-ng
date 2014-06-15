@@ -23,6 +23,5 @@
 [Failed to open log file.]
 [N/A: Failed to format error message]
 [N/A: FormatMessage failed, error code was 0x]
-[LogService]
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 [Invalid port number]

@@ -833,7 +833,9 @@ Modern contact list
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 
-[&Find/Add contacts...]
+[&Hide/show]
+Показване/Скриване
+[&Find/add contacts...]
 Търсене/Добавяне на контакти
 [&Main menu]
 Главно меню
@@ -842,6 +844,10 @@ Modern contact list
 [&About]
 Относно
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show avatar]
+
+[Hide avatar]
+
 [Show contact &avatar]
 Показване на аватара
 [Hide contact &avatar]
@@ -1047,6 +1053,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 [Frame menu]
 
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
+[New group]
+
 [Group menu]
 Меню на групите
 [Subgroup menu]

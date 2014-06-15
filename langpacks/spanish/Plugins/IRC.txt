@@ -395,10 +395,6 @@ Ignorar
 %s conexión al servidor
 [%s client-to-client connections]
 
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-
-[Information]
-Información
 [Nickname]
 Apodo
 [DCC ERROR: No valid files specified]

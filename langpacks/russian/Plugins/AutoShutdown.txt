@@ -27,8 +27,6 @@
 Автоматически выключать компьютер при следующих событиях:
 [&Thunderstorm warning is issued (Weather)]
 &Штормовое предупреждение (плагин Weather)
-[&Harddrive overheats (HDD Info)]
-&Перегрев HDD (плагин HDD Info)
 [Automatic Shutdown]
 Автовыключение
 [Select the automatic shutdown event]

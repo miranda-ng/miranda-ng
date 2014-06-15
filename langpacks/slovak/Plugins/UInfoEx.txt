@@ -41,7 +41,7 @@ Firma:
 Oddelenie:
 [Position:]
 Pozícia:
-[Add Phone Number]
+[Add phone number]
 Pridať telefónne číslo
 [Enter country, area code and phone number:]
 Uveďte krajinu, predvoľbu a telefónne číslo:
@@ -65,7 +65,7 @@ Farby
 Žiadne
 [Homepage]
 Domovská stránka
-[E-Mail]
+[E-mail]
 e-mail
 [Age:]
 Vek:
@@ -73,7 +73,7 @@ Vek:
 Nenájdený
 [Reset to defaults]
 Späť na prednastavené
-[Edit Phone Number]
+[Edit phone number]
 Zmena telefónneho čísla
 [Contact]
 Kontakt
@@ -93,24 +93,24 @@ Práca
 O
 [Notes]
 Poznámky
+[updating]
+aktualizujem
 [Default]
 Prednastavené
 [Fax]
 Fax:
-[e-mail]
-e-mail
 [Search]
 Hľadať
 [User &details]
 Informácie o užívatelovi
-[View/Change My &Details...]
+[View/change my &details...]
 Zobraziť/Zmeniť moje informácie...
-[My Notes:]
+[My notes:]
 Moje poznámky:
 [About:]
 O sebe:
-[Home]
-Domov
+[home]
+domov
 [Contacts]
 Kontakty
 [Advanced]
@@ -119,6 +119,8 @@ Podrobne
 Okolie
 [Computers]
 Počítače
+[Home]
+Domov
 [Sports]
 Šport
 [Art]

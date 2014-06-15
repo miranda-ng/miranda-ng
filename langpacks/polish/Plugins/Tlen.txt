@@ -193,8 +193,6 @@ Wyślij obrazek
 Przychodząca wiadomość e-mail
 [Alert]
 Alert
-[Tlen Chats]
-Czaty Tlen
 [Multi-User Conference]
 Konferencja
 [Tlen Mail]
@@ -228,33 +226,6 @@ Błąd podczas ustawiania awatara na koncie Tlen
 Autoryzacja nieudana dla %s@%s.
 [Tlen Authentication]
 Autoryzacja Tlen
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-Zostałeś wyrzucony. Powód: %s\s
-[You cannot join this chat room, because you are banned.]
-Nie możesz dołączyć do tego pokoju, ponieważ zostałeś zbanowany.
-[Chat room not found.]
-Pokój czatowy nie znaleziony.
-[This is a private chat room and you are not one of the members.]
-To jest pokój prywatny, a ty nie jesteś jednym z jego członków.
-[You cannot send any message unless you join this chat room.]
-Nie możesz wysłać żadnej wiadomości dopóki nie dołączysz do tego pokoju.
-[Chat room with already created.]
-Pokój czatowy już istnieje.
-[Nickname '%s' is already registered.]
-Nick "%s" jest już zarejestrowany.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-Nick już w użyciu, spróbuj innego. Porada: "%s" jest wolny.
-[You cannot register more than %s nicknames.]
-Nie możesz zarejestrować więcej niż %s nicków.
-[You cannot create more than %s chat rooms.]
-Nie możesz utworzyć więcej niż %s pokoi.
-[You cannot join more than %s chat rooms.]
-Nie możesz dołączyć do więcej niż %s pokoi.
-[Anonymous nicknames are not allowed in this chat room.]
-Anonimowe nicki nie są dozwolone w tym pokoju.
-[Unknown error code: %d]
-Kod nieznanego błędu: %d
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Ogólne

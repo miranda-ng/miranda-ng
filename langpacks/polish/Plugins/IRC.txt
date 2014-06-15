@@ -395,10 +395,6 @@ Błąd DCC: nie udało się podpiąć portu lokalnego dla pasywnego transferu pl
 Połączenie %s
 [%s client-to-client connections]
 Połączenie Klient-do-Klienta %s
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-Protokół IRC zależy od innej wtyczki o nazwie "Chat"\n\nCzy chcesz pobrać ją ze strony Mirandy NG teraz?
-[Information]
-Informacje
 [Nickname]
 Nick
 [DCC ERROR: No valid files specified]

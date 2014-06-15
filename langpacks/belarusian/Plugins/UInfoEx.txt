@@ -8,7 +8,7 @@
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 Плагін пашыранай інфармацыі кантактаў. Дазваляе рэдагаваць усю інфармацыю, абвяшчае пра дні нараджэння і г.д.
 ;file \plugins\UserInfoEx\res\resource.rc
-[Edit Contact Information]
+[Edit contact information]
 Рэдагаваць дадзеныя кантакту
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 Рэдагаваць інфармацыю кантакта\nГэты ліст дае вам ўяўленне пра ўсе юбілеі вашых кантактаў.
@@ -24,7 +24,7 @@
 Ужыць
 [Nick:]
 Мянушка:
-[Display Name:]
+[Display name:]
 Паказваць імя:
 [Title:]
 Загаловак:
@@ -78,7 +78,7 @@
 Начальнік:
 [Assistant:]
 Асістэнт:
-[Add Phone Number]
+[Add phone number]
 Дадаць тэлефон
 [Enter your phone number\nand don't worry about formating.]
 Увядзіце нумар тэлефона\nў любым фармаце.
@@ -90,20 +90,20 @@
 Ці ўвядзіце міжнародны нумар:
 [Phone can receive SMS text messages]
 Тэлефон можа атрымліваць SMS
-[Add E-Mail]
-Дадаць E-mail
+[Add e-mail]
+Дадаць e-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Увядзіце e-mail адрас.\n(напрыклад, john.doe@provider.com)
-[Enter a representitive name for the e-mail address here.]
-Увядзіце імя для электроннага адрасу
-[Enter the e-mail address here.]
-Увядзіце электронны адрас.
+[Enter a representitive name for the e-mail address here:]
+Увядзіце імя для электроннага адрасу:
+[Enter the e-mail address here:]
+Увядзіце электронны адрас:
 [Show menu items]
 Паказаць пункты меню
 [Remind me]
 Нагадаць
-[days before.]
-дзён.
+[days before]
+дзён
 [Check every]
 Прав. кожныя
 [hours]
@@ -154,15 +154,15 @@
 Прагляд
 [Homepage:]
 Сайт:
-[Add Affiliation]
+[Add affiliation]
 Прыналежнасць
-[Add Past]
+[Add past]
 Мінулае
-[Add Interest]
+[Add interest]
 Інтарэсы
 [Delete]
 Выдаліць
-[Anniversary Editor]
+[Anniversary editor]
 Рэдактар свята
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 Рэдактар свята\nДадайце/Рэдагуйце свята тут.
@@ -202,11 +202,11 @@
 Паказваць значкі на кожнай кнопцы
 [MetaContacts]
 Метакантакты
-[Scan SubContacts for missing information]
+[Scan subcontacts for missing information]
 Пошук адсутнай інфармацыі ў субкантактах
-[Enable extended 'send/receive email' service (*)]
+[Enable extended 'send/receive e-mail' service (*)]
 Уключыць пашыраны плагін электроннай пошты (*)
-[Use Windows Timezone]
+[Use Windows timezone]
 Гадзінны пояс Windows
 [(*) Requires Miranda to be restarted.]
 (*) Патрабуецца перазапуск Miranda.
@@ -222,24 +222,24 @@
 Змененыя дадзеныя
 [Enable colors to give information about information's status.]
 Уключыць колеры для паказу статусу інфармацыі
-[Make protocol based contact information readonly.]
+[Make protocol based contact information readonly]
 Забараніць змену інфармацыі, якая базуецца на пратаколе
-[Enable groups in details dialog's treeview.]
+[Enable groups in details dialog's treeview]
 Укладзеныя пункты меню
-[Sort all tree items alphabetically.]
+[Sort all tree items alphabetically]
 Адсартаваць усе пункты ў алфавітным парадку
-[Info of a MetaContact's SubContact]
+[Info of a MetaContact's subcontact]
 Інфармацыя субкантакта Метакантакту
 [Colors]
 Колеры
 [Common]
 Агульныя
-[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
 Змяняць мае асабістыя дадзеныя праз UserInfoEx (недасяжна, калі ICQ не падтрымлівае)
-[TreeView]
+[Treeview]
 Дрэва
-[Adapt propertysheet pages to aero mode.]
-Адаптоўваць Налады да стылю Aero.
+[Adapt propertysheet pages to Aero mode]
+Адаптоўваць Налады да стылю Aero
 [Import]
 Імпартаваць
 [Importing...\nPlease wait!]
@@ -254,25 +254,25 @@
 Усё
 [None]
 Няма
-[Show Menu Item]
+[Show menu item]
 Выгляд адлюстравання меню
-[MainMenu]
+[Main menu]
 Галоўнае меню
 [Cascade:]
 Каскадны:
 [Off]
 Адкл.
-[Ex-/Import items]
+[Export/import items]
 Экс-/Імпарт пункты
-[ContactMenu]
+[Contact menu]
 Меню кантакту
-[GroupMenu]
+[Group menu]
 Меню гутроў
-[SubGroupMenu]
+[Subgroup menu]
 Меню падгуртоў
-[AccountMenu]
+[Account menu]
 Меню контаў
-[Extra Icons]
+[Extra icons]
 Экстра значкі
 [Replace the following default icons:]
 Замяніць наступныя значкі:
@@ -280,7 +280,7 @@
 Сайт
 [Phone]
 Тэлефон
-[E-Mail]
+[E-mail]
 E-Mail
 [Gender]
 Род
@@ -288,9 +288,9 @@ E-Mail
 Іншае
 [Show 'Restart' menu item]
 Пункт меню "Перазапуск"
-[Use Zodiac as default avatar]
+[Use zodiac as default avatar]
 Знак задыяка замет аватара па змаўчанні
-[Country Flags]
+[Country flags]
 Сцягі краін
 [Use &unknown flag if country cannot be determined]
 Паказаць невядомы сцяг, калі краіна не вызначана
@@ -304,11 +304,11 @@ E-Mail
 Задыяк:
 [not found]
 не знойдзена
-[Use global reminder settings.]
-Глабальныя налады напамінкаў.
-[Don't remind me of this anniversary.]
-Не нагадваць мне пра гэта свята.
-[Refresh Contact Details]
+[Use global reminder settings]
+Глабальныя налады напамінкаў
+[Don't remind me of this anniversary]
+Не нагадваць мне пра гэта свята
+[Refresh contact details]
 Абнавіць дадзеныя кантактаў
 [Preparing...]
 Падрыхтоўка...
@@ -316,13 +316,13 @@ E-Mail
 Схаваць
 [What do you want to export?]
 Што вы жадаеце экспартаваць?
-[Contact Information]
+[Contact information]
 Інфармацыя пра кантакт
-[Contact History]
+[Contact history]
 Гісторыя кантакту
-[Select Modules]
+[Select modules]
 Абярыце плагіны
-[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
+[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 Адзначце ў спісе тыя плагіны, якія вы жадаеце экспартаваць для кантактаў. Для дадання кантакту з файла ў выглядзе новага запісу, неабходна экспартаваць хоць бы плагін пратаколу.
 [Check all]
 Пазначыць усё
@@ -387,20 +387,20 @@ E-Mail
 [Unspecified]
 Не паказана
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
-[Edit E-Mail]
+[Edit e-mail]
 Кіраваць E-Mail
-[Edit Phone Number]
+[Edit phone number]
 Змяніць тэлефонны нумар
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Нумар тэлефона павінны пачынацца з + і утрымоўваць\nлічбы, прабелы, дужкі і працяжнікі.
-[Choose the item to display.]
-Абраць запіс.
-[Edit the currently displayed item.]
-Змяніць існы запіс.
-[Add a new custom item.]
-Дадаць новы запіс.
-[Delete the selected item.]
-Выдаліць дадзены запіс.
+[Choose the item to display]
+Абраць запіс
+[Edit the currently displayed item]
+Змяніць існы запіс
+[Add a new custom item]
+Дадаць новы запіс
+[Delete the selected item]
+Выдаліць дадзены запіс
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 Фатальна: Немагчыма рэдагаваць гэты запіс!\nГэтага не павінна было адбыцца!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
@@ -431,7 +431,7 @@ E-Mail
 Толькі святы
 [Disabled reminder]
 Адкл. напамінкі
-[Popup Anniversary list]
+[Popup anniversary list]
 Паказаць спіс свят
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
@@ -447,7 +447,7 @@ E-Mail
 [Error]
 Памылка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload Details]
+[Upload details]
 Запампаваць дэталі
 [Protocol '%s' is offline]
 Пратакол '%s' не далучаны
@@ -471,7 +471,7 @@ E-Mail
 Святы
 [Work]
 Праца
-[Contact (Work)]
+[Contact (work)]
 Кантакт (працоўны)
 [About]
 Інфармацыя
@@ -485,15 +485,19 @@ E-Mail
 Імпарт з файла
 [Owner]
 Уладальнік
-[Upload ICQ Details]
+[edit contact information]
+рэдагаваць дадзеныя кантакту
+[Upload ICQ details]
 Загрузіць дэталі ICQ
 [Upload failed]
 Загрузка не ўдалася
 [Your details were not uploaded successfully.\nThey were written to database only.]
 Вашыя дэталі не загружаныя.\nЯны захаваныя лакальна.
+[updating]
+абнаўленне
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
-[IM Naming]
+[IM naming]
 Імя ў IM
 [Password]
 Пароль
@@ -503,17 +507,17 @@ E-Mail
 Сямейнае становішча
 [Address]
 Адрас
-[Export: Modules]
-Экспарт: Плагіны
-[Export: Folder]
-Экспарт: Тэчка
+[Export: modules]
+Экспарт: плагіны
+[Export: folder]
+Экспарт: тэчка
 [Default]
 Змаўчанні
 [Details info bar]
 Дэталі
 [Phone info bar]
 Тэлефон
-[E-Mail info bar]
+[E-mail info bar]
 Пошта
 [Export VCard]
 Экспарт VCard
@@ -531,10 +535,8 @@ E-Mail
 Факс
 [Cellular]
 Мабільны
-[Custom Phone]
+[Custom phone]
 Абраны тэлефон
-[e-mail]
-E-Mail
 [Down arrow]
 Стрэлка ўніз
 [Add]
@@ -543,9 +545,9 @@ E-Mail
 Змяніць
 [Search]
 Пошук
-[Ex-/Import]
+[Export/import]
 Экспарт/Імпарт
-[Backup Birthday]
+[Backup birthday]
 Рэзерваваць Д.Н.
 [Birthday today]
 Дзень нараджэння сёння
@@ -598,20 +600,20 @@ E-Mail
 [Main]
 Галоўны
 ;file \plugins\UserInfoEx\src\mir_icolib.h
-[UserInfoEx]
+[Extended user info]
 Асабістыя дадзеныя
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[Ex-/Import contact]
+[Export/import contact]
 Экс-/Імпарт кантакт
 [User &details]
 &Інфармацыя
-[&Export User Details]
+[&Export user details]
 Экспарт дадзеных
 [&Import]
 Імпарт
-[&Import User Details]
+[&Import user details]
 Імпарт дадзеных
-[View/Change My &Details...]
+[View/change my &details...]
 Асабістыя &дадзеныя
 [Export all contacts]
 Экспартаваць усе кантакты
@@ -621,28 +623,26 @@ E-Mail
 Рэзерваваць дні нараджэння
 [Check anniversaries]
 Праверыць святы
-[Extended UserInfo]
-Асабістыя дадзеныя
-[&Export Group]
+[&Export group]
 Экспартаваць гурт
-[&Import Group]
+[&Import group]
 Імпартаваць гурт
 ;file \plugins\UserInfoEx\src\psp_about.cpp
-[My Notes:]
+[My notes:]
 Мае нататкі:
 [About:]
 Інфармацыя:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-[Please enter a valid Description first!]
+[Please enter a valid description first!]
 Спачатку ўвядзіце правільнае апісанне!
 [No valid date selected for editing!]
 Няма абранай даты для рэдагавання!
 [Do you really want to delete the %s?]
 Вы сапраўды жадаеце выдаліць %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[Home]
-Дома
-[Open in Browser]
+[home]
+дома
+[Open in browser]
 Адкрыць у браўзары
 [Primary e-mail]
 Асноўны e-mail
@@ -650,7 +650,7 @@ E-Mail
 Другасны e-mail
 [Tertiary e-mail]
 Трэці e-mail
-[Company]
+[company]
 Кампанія
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
@@ -667,7 +667,7 @@ E-Mail
 Напамінкі адключаны
 [Bithdays only]
 Толькі дні нараджэння
-[everything]
+[Everything]
 Усе напамінкі
 [mBirthday]
 Дні нараджэння
@@ -679,7 +679,7 @@ E-Mail
 Кантакты
 [Advanced]
 Дадаткова
-[Details Dialog]
+[Details dialog]
 Дыялогі
 [Popups]
 Усплывальныя вокны
@@ -694,11 +694,11 @@ E-Mail
 Памылка дадання новага элемента з тыпам "%s"
 [<empty>]
 <пуста>
-[Add Affliation]
+[Add affliation]
 Дадаць
-[Edit Category]
+[Edit category]
 Змяніць катэгорыю
-[Edit Value]
+[Edit value]
 Кіраваць значэнне
 [Delete an entry]
 Выдаліць запіс
@@ -871,6 +871,8 @@ E-Mail
 Урад
 [High School Student]
 Вучань сярэдняй школы
+[Home]
+Дома
 [ICQ - Providing Help]
 ICQ - падтрымка
 [Law]
@@ -1061,6 +1063,7 @@ Web Дызайн
 мл.
 [sen.]
 сен.
+;file \plugins\UserInfoEx\src\svc_constants.h
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(Невядомы кантакт)'

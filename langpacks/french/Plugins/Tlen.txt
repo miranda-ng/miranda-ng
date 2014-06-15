@@ -193,8 +193,6 @@ Haut parleur
 e-mail entrant
 [Alert]
 Alerte
-[Tlen Chats]
-
 [Multi-User Conference]
 
 [Tlen Mail]
@@ -228,33 +226,6 @@ Fichiers %d
 
 [Tlen Authentication]
 Authentification Tlen
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-Vous avez été kické. Motif : %s\s
-[You cannot join this chat room, because you are banned.]
-Vous ne pouvez rejoindre ce salon, car vous avez été banni.
-[Chat room not found.]
-Salon de Chat non trouvé.
-[This is a private chat room and you are not one of the members.]
-Ceci est un salon privé dont vous n'avez pas été convié.
-[You cannot send any message unless you join this chat room.]
-Vous ne pouvez envoyer de message qu'à partir d'un salon.
-[Chat room with already created.]
-Salon de Chat déjà créé.
-[Nickname '%s' is already registered.]
-Le pseudo '%s' est déjà utilisé.
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-Ce pseudo est déjà utilisé, choisissez en un autre. Conseil : '%s' est libre.
-[You cannot register more than %s nicknames.]
-Vous ne pouvez enregistrer plus de %s pseudo.
-[You cannot create more than %s chat rooms.]
-Vous ne pouvez créer plus de %s salon.
-[You cannot join more than %s chat rooms.]
-Vous ne pouvez rejoindre plus de %s salon.
-[Anonymous nicknames are not allowed in this chat room.]
-les pseudos anonymes ne sont pas permis dans ce salon.
-[Unknown error code: %d]
-Code erreur inconnu : %d
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Général

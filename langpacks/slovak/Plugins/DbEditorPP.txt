@@ -13,11 +13,11 @@ Hľadať
 Farba pozadia
 [Cancel]
 Storno
-[Value Name:]
+[Value name:]
 Hodnota name:
-[Value Data:]
+[Value data:]
 Hodnota data:
-[Refresh &Settings]
+[Refresh &settings]
 Obnoviť nastavenie
 [E&xit]
 Koniec
@@ -25,15 +25,15 @@ Koniec
 Vymazať
 [&Rename]
 &Premenovať
-[Export Contacts]
+[Export contacts]
 Export kontaktov
-[Import Contacts]
+[Import contacts]
 Import kontaktov
 [Edit STRING value]
 Editovať STRING hodnotu
 [All Files]
 Všetky súbory
-[Confirm Contact Delete]
+[Confirm contact delete]
 Potvrď vymazanie kontaktu
 [Contacts]
 Kontakty

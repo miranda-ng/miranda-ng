@@ -13,7 +13,6 @@
 [Show all contacts (Ctrl+A)]
 [Quick Contacts]
 [Open dialog]
-[Make a voice call]
 [Send file]
 [Open user info]
 [Open contact menu]

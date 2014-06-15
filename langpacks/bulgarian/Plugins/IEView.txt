@@ -32,8 +32,6 @@
 Включване поддръжката на Flash файлове, за усмивките и BBCodes
 [Enable workaround for PNG transparency]
 
-[Enable MathModule support]
-Поддръжка на приставката MathModule
 [Replace smileys in user names]
 Замяна на усмивките в потребителските имена
 [Hide window border]

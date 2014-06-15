@@ -28,8 +28,6 @@ segundos
 
 [&Thunderstorm warning is issued (Weather)]
 
-[&Harddrive overheats (HDD Info)]
-
 [Automatic Shutdown]
 
 [Select the automatic shutdown event]

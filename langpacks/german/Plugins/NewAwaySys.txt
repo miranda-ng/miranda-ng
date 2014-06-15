@@ -280,10 +280,6 @@ Ich bin seit ?nas_awaysince_time(HH:mm) beim ?ifgreater(?ctime(H),2,?ifgreater(?
 Einschalten
 [Toggle Off]
 Ausschalten
-[) read your ]
-) liest Ihre\s
-[ message:\r\n]
- Nachricht:\r\n
 [Set %s message for the contact]
 %s-Nachricht für diesen Kontakt
 [Re&ad %s message]
@@ -296,16 +292,6 @@ Autom. Antwort ausschalten
 Autom. Antwort einschalten
 [New Away System]
 Neues Abwesenheitssystem
-[Enable autoreply when you are %s]
-Autoantwort aktivieren wenn Sie %s sind
-["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-"Kontaktautoantwort/-ignoriereinstellungen für jeden Status separat speichern" ist aktiviert, also ist diese Einstellung per-Kontakt und per-Status.
-[Don't send status message when you are %s]
-Nachricht nicht senden wenn Sie %s sind
-[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-Statusnachrichtenanfragen von diesem Kontakt ignorieren und keine Autoantwort senden.\r\n"Kontaktautoantwort/-ignoriereinstellungen für jeden Status separat speichern" ist aktiviert, also ist diese Einstellung per-Kontakt und per-Status.
-[Ignore status message requests from this contact and don't send an autoreply]
-Statusnachrichtenanfragen von diesem Kontakt ignorieren und keine Autoantwort senden.
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
 Abwesenheitszeit im Standardformat; ?nas_awaysince_time(x) im Format x
 [Away since date in default format; ?nas_awaysince_date(x) in format x]
@@ -344,8 +330,6 @@ Aus
 Standardeinstellung verwenden
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Eingehende Statusnachrichtenanfrage
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) hat Ihre %nas_statdesc%-Nachricht ausgelesen:\r\n%extratext%\r\n\r\n
 ;file \plugins\NewAwaySysMod\src\Common.h
 [Miranda NG autoreply >\r\n%extratext%]
 Miranda-NG-Autoantwort >\r\n%extratext%

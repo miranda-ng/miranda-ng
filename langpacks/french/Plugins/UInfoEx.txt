@@ -8,8 +8,8 @@
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 
 ;file \plugins\UserInfoEx\res\resource.rc
-[Edit Contact Information]
-Éditer les détails d'un Contact
+[Edit contact information]
+Éditer les détails d'un contact
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 
 [Origin]
@@ -24,7 +24,7 @@ Annuler
 Appliquer
 [Nick:]
 Pseudo :
-[Display Name:]
+[Display name:]
 
 [Title:]
 Titre :
@@ -78,7 +78,7 @@ Profession :
 Supérieur :
 [Assistant:]
 Assistant :
-[Add Phone Number]
+[Add phone number]
 Ajouter le téléphone
 [Enter your phone number\nand don't worry about formating.]
 
@@ -90,20 +90,20 @@ Entrer le pays, le code de la zone et le numéro de téléphone :
 Ou entrer un numéro international entier :
 [Phone can receive SMS text messages]
 Ce téléphone peut recevoir des SMS
-[Add E-Mail]
+[Add e-mail]
 Ajouter un courriel
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 
-[Enter a representitive name for the e-mail address here.]
-Indiquez ici un nom représentatif pour l'adresse électronique.
-[Enter the e-mail address here.]
-Entrez l'adresse électronique ici.
+[Enter a representitive name for the e-mail address here:]
+Indiquez ici un nom représentatif pour l'adresse électronique :
+[Enter the e-mail address here:]
+Entrez l'adresse électronique ici :
 [Show menu items]
 Afficher le menu
 [Remind me]
 Me prévenir
-[days before.]
-jours avant.
+[days before]
+jours avant
 [Check every]
 
 [hours]
@@ -154,15 +154,15 @@ Couleurs des popup d'anniversaire
 Aperçu
 [Homepage:]
 Page web :
-[Add Affiliation]
+[Add affiliation]
 Ajouter organisation
-[Add Past]
+[Add past]
 Ajouter un Passé
-[Add Interest]
+[Add interest]
 Ajouter un intérêt
 [Delete]
 Effacer
-[Anniversary Editor]
+[Anniversary editor]
 
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 
@@ -202,11 +202,11 @@ Vérifier la version du Pack d'icône pour éviter tout défaut d'affichage
 Afficher des icônes sur chaque boite de dialogue
 [MetaContacts]
 
-[Scan SubContacts for missing information]
+[Scan subcontacts for missing information]
 Scanner les sous contacts pour les informations manquantes
-[Enable extended 'send/receive email' service (*)]
+[Enable extended 'send/receive e-mail' service (*)]
 
-[Use Windows Timezone]
+[Use Windows timezone]
 Fuseau horaire de Windows
 [(*) Requires Miranda to be restarted.]
 (*) Requiert un redémarrage de Miranda.
@@ -222,23 +222,23 @@ Informations réécrites
 Informations modifiées
 [Enable colors to give information about information's status.]
 Activer les couleurs pour les états d'informations
-[Make protocol based contact information readonly.]
+[Make protocol based contact information readonly]
 Mettre les infos basées sur un protocole du contact en lecture seule.
-[Enable groups in details dialog's treeview.]
+[Enable groups in details dialog's treeview]
 Activer les groupes dans l'arborescence des boites dialogues
-[Sort all tree items alphabetically.]
+[Sort all tree items alphabetically]
 Classer par ordre alphabétique.
-[Info of a MetaContact's SubContact]
+[Info of a MetaContact's subcontact]
 Info du sous-contact d'un MetaContact
 [Colors]
 Couleurs
 [Common]
 Commun
-[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
 Changer mes détails ICQ avec UserInfoEx (désactivé si ICQ le ne supporte pas)
-[TreeView]
+[Treeview]
 
-[Adapt propertysheet pages to aero mode.]
+[Adapt propertysheet pages to Aero mode]
 
 [Import]
 
@@ -254,25 +254,25 @@ Dialogue
 
 [None]
 Aucun
-[Show Menu Item]
+[Show menu item]
 
-[MainMenu]
+[Main menu]
 Menu principal
 [Cascade:]
 
 [Off]
 
-[Ex-/Import items]
+[Export/import items]
 Éléments ex-/importés
-[ContactMenu]
+[Contact menu]
 Menu du contact
-[GroupMenu]
+[Group menu]
 
-[SubGroupMenu]
+[Subgroup menu]
 
-[AccountMenu]
+[Account menu]
 
-[Extra Icons]
+[Extra icons]
 Icônes d'accès rapide
 [Replace the following default icons:]
 Remplacer les icônes par défaut suivants :
@@ -280,7 +280,7 @@ Remplacer les icônes par défaut suivants :
 
 [Phone]
 Téléphone
-[E-Mail]
+[E-mail]
 Courriel
 [Gender]
 
@@ -288,9 +288,9 @@ Courriel
 
 [Show 'Restart' menu item]
 Ajouter 'Relancer' dans le menu
-[Use Zodiac as default avatar]
+[Use zodiac as default avatar]
 
-[Country Flags]
+[Country flags]
 
 [Use &unknown flag if country cannot be determined]
 
@@ -304,11 +304,11 @@ Age :
 Zodiaque :
 [not found]
 Non trouvé
-[Use global reminder settings.]
+[Use global reminder settings]
 
-[Don't remind me of this anniversary.]
+[Don't remind me of this anniversary]
 
-[Refresh Contact Details]
+[Refresh contact details]
 
 [Preparing...]
 
@@ -316,13 +316,13 @@ Non trouvé
 Cacher
 [What do you want to export?]
 Que voulez-vous exporter ?
-[Contact Information]
+[Contact information]
 Informations du contact
-[Contact History]
+[Contact history]
 Historique du contact
-[Select Modules]
+[Select modules]
 Modules sélectionnés
-[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
+[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 
 [Check all]
 Tous cocher
@@ -389,19 +389,19 @@ Effacer un anniversaire existant
 [Unspecified]
 Non spécifié
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
-[Edit E-Mail]
+[Edit e-mail]
 Éditer l'adresse électronique
-[Edit Phone Number]
+[Edit phone number]
 Éditer le numéro de téléphone
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Le numéro de téléphone doit commencer par un + et être ne peut contenir\nque des nombres, espaces, parenthèses et traits d'union.
-[Choose the item to display.]
+[Choose the item to display]
 choisissez l'élément à afficher
-[Edit the currently displayed item.]
+[Edit the currently displayed item]
 Éditer les éléments sélectionnés
-[Add a new custom item.]
+[Add a new custom item]
 Ajout d'un détail personnalisé
-[Delete the selected item.]
+[Delete the selected item]
 Effacer la sélection
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 
@@ -433,7 +433,7 @@ Seulement les anniversaires
 Seulement les fêtes
 [Disabled reminder]
 Désactiver les rappels
-[Popup Anniversary list]
+[Popup anniversary list]
 
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
@@ -449,7 +449,7 @@ Ignorer
 [Error]
 Erreur
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload Details]
+[Upload details]
 Mise à jour des détails
 [Protocol '%s' is offline]
 
@@ -465,7 +465,7 @@ Mise à jour...
 
 [Details dialog failed to be created. Returning error is %d.]
 
-[The Page to add has invalid size %d bytes!]
+[The page to add has invalid size %d bytes!]
 
 [General]
 Général
@@ -475,7 +475,7 @@ Contact (privé)
 Anniversaires
 [Work]
 Travail
-[Contact (Work)]
+[Contact (work)]
 Contact (professionnel)
 [About]
 
@@ -489,17 +489,21 @@ Exporter vers un fichier
 Importer d'un fichier
 [Owner]
 Propriétaire
-[Upload ICQ Details]
+[edit contact information]
+éditer les détails d'un contact
+[Upload ICQ details]
 Mise à jour des détails ICQ
 [Upload failed]
 Mise à jour échouée
 [Your details were not uploaded successfully.\nThey were written to database only.]
 Vous détails non pas été mis à jour.\nIls ont seulement été écrits dans votre base de données.
+[updating]
+mise à jour
 ;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags Module will be disabled.]
+[Fatal error, image services not found. Flags module will be disabled.]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
-[IM Naming]
+[IM naming]
 Pseudo - nom
 [Password]
 Mot de passe
@@ -509,9 +513,9 @@ Mot de passe
 État civil
 [Address]
 Adresse
-[Export: Modules]
+[Export: modules]
 
-[Export: Folder]
+[Export: folder]
 
 [Default]
 Défaut
@@ -519,7 +523,7 @@ Défaut
 
 [Phone info bar]
 
-[E-Mail info bar]
+[E-mail info bar]
 
 [Export VCard]
 
@@ -537,10 +541,8 @@ Mise à jour
 Fax
 [Cellular]
 Portable
-[Custom Phone]
+[Custom phone]
 Téléphone
-[e-mail]
-courriel
 [Down arrow]
 Flèche bas
 [Add]
@@ -549,9 +551,9 @@ Ajouter
 Éditer
 [Search]
 Recherche
-[Ex-/Import]
+[Export/import]
 
-[Backup Birthday]
+[Backup birthday]
 
 [Birthday today]
 
@@ -604,20 +606,20 @@ Attention : La version de votre pack d'icônes n'est pas prévue pour votre User
 [Main]
 Principales
 ;file \plugins\UserInfoEx\src\mir_icolib.h
-[UserInfoEx]
+[Extended user info]
 
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[Ex-/Import contact]
+[Export/import contact]
 
 [User &details]
 &Détails du contact
-[&Export User Details]
+[&Export user details]
 
 [&Import]
 
-[&Import User Details]
+[&Import user details]
 
-[View/Change My &Details...]
+[View/change my &details...]
 Voir/Changer mes &détails...
 [Export all contacts]
 Exporter tous les contacts
@@ -627,30 +629,34 @@ Importer tous les contacts
 
 [Check anniversaries]
 Vérifier les anniversaires
-[Extended UserInfo]
-Informations avancées
-[Ex-/Import Group]
+[Export/import group]
 
-[&Export Group]
+[&Export group]
 
-[&Import Group]
+[&Import group]
+
+[export/import]
+
+[&export xml]
+
+[xml &import]
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
-[My Notes:]
+[My notes:]
 Mes notes :
 [About:]
 À propos :
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-[Please enter a valid Description first!]
+[Please enter a valid description first!]
 Veuillez commencer par entrer une description valide !
 [No valid date selected for editing!]
 
 [Do you really want to delete the %s?]
 Voulez-vous vraiment effacer l'entrée \"%s\" ?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[Home]
-Domicile
-[Open in Browser]
+[home]
+domicile
+[Open in browser]
 Ouvrir dans le navigateur
 [Primary e-mail]
 
@@ -658,10 +664,10 @@ Ouvrir dans le navigateur
 
 [Tertiary e-mail]
 
-[Address & Contact]
+[Address and contact]
 
-[Company]
-Société
+[company]
+société
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Question
@@ -677,8 +683,8 @@ Prêt
 Rappels désactivés
 [Bithdays only]
 Seulement les anniversaires
-[everything]
-tout
+[Everything]
+Tout
 [mBirthday]
 
 [UserInfo (default)]
@@ -689,7 +695,7 @@ tout
 Contacts
 [Advanced]
 Avancé
-[Details Dialog]
+[Details dialog]
 Détails de la fenêtre
 [Popups]
 Popups
@@ -704,11 +710,11 @@ Centres d'intérêt
 Désolé, mais il y a un problème avec l'ajout d'élément de type "%s"
 [<empty>]
 
-[Add Affliation]
+[Add affliation]
 Ajouter une affiliation
-[Edit Category]
+[Edit category]
 Modifier la catégorie
-[Edit Value]
+[Edit value]
 Définir cette valeur
 [Delete an entry]
 
@@ -881,6 +887,8 @@ Yiddish
 
 [High School Student]
 
+[Home]
+Domicile
 [ICQ - Providing Help]
 
 [Law]
@@ -1075,6 +1083,7 @@ Maison automatisée
 
 [sen.]
 
+;file \plugins\UserInfoEx\src\svc_constants.h
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(Contacts Inconnus)'

@@ -65,10 +65,6 @@ N/A: Formatowanie wiadomości nie powiodło się. Kod błędu 0x
 [Error]
 Błąd
 ;file \plugins\NotifyAnything\src\options.cpp
-[Services]
-Usługi
-[LogService]
-Usługa logowania
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 Plik dziennika (*.log)\0*.log\0Plik tekstowy (*.txt)\0*.txt\0Wszystkie pliki (*.*)\0*.*\0
 [Invalid port number]

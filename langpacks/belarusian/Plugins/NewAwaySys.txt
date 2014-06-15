@@ -262,10 +262,6 @@
 Уключыць
 [Toggle Off]
 Выключыць
-[) read your ]
-) чытае Ваша\s
-[ message:\r\n]
- паведамленне:\r\n
 [Set %s message for the contact]
 Уст. %s паведамленне для кантакту
 [Re&ad %s message]
@@ -278,16 +274,6 @@
 Уключыць аўтаадказнік
 [New Away System]
 Сістэма паведамленняў
-[Enable autoreply when you are %s]
-Уключыць аўтаадказнік калі вы %s
-["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-"Захоўваць налады аўтаадказніка/ігнараванні кантакту для кожнага статуту асобна" уключана, так што гэта налада дзейнічае для кантакту і для статуту.
-[Don't send status message when you are %s]
-Не адпраўляць паведамленне статусу калі вы %s
-[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-Ігнараваць запыты паведамленняў статуса ад гэтага кантакта, і выключыць аўтаадказнік.\r\n\"Захоўваць налады аўтаадказніка/ігнараванні кантакту для кожнага статуса асобна" калі ўключана, гэта налада будзе для кожнага кантакту і для кожнага статуса свая.
-[Ignore status message requests from this contact and don't send an autoreply]
-Ігнараваць запыты паведамленняў статуса ад гэтага кантакту, і выключыць аўтаадказнік
 [Status description]
 Апісанне статуса
 [Your nick for current protocol]
@@ -322,8 +308,6 @@
 Выкарыстоўваць па змаўчанні
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Уваходны запыт статуснага паведамлення
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) чытае %nas_statdesc% паведамленне:\r\n%extratext%\r\n\r\n
 ;file \plugins\NewAwaySysMod\src\Common.h
 [Miranda NG autoreply >\r\n%extratext%]
 Аўтаадказ Miranda NG >\r\n%extratext%

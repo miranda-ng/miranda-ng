@@ -8,17 +8,17 @@
 [Advanced Database Editor.]
 Пашыраны рэдактар базы.
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ Search and Replace]
+[Database Editor++ search and replace]
 Знайсці і замяніць
-[Case Sensitive]
+[Case sensitive]
 Улік рэгістра
-[Module Name]
+[Module name]
 Плагін
-[Exact Match]
+[Exact match]
 Дакладна
-[Setting Name]
+[Setting name]
 Імя налады
-[Setting Value]
+[Setting value]
 Значэнне
 [&Search]
 &Шукаць
@@ -28,20 +28,20 @@
 &Замяніць
 [&Cancel]
 С&касаваць
-[Search For]
+[Search for]
 Шукаць
 [Text:]
 Тэкст:
 [In:]
 У:
-[Replace With]
+[Replace with]
 Замяніць на
 [Entirely]
 Цалкам
 [Restore last opened position]
 Аднавіць апошняе становішча
-[Automatically expand "settings" when Database Editor ++ starts]
-Адкрываць галінку "налады" пры запуску
+[Automatically expand "Settings" when Database Editor++ starts]
+Адкрываць галінку "Налады" пры запуску
 [Warn when deleting modules]
 Папярэджваць пры выдаленні плагінаў
 [Use popups when watched settings change values]
@@ -54,51 +54,51 @@
 Дадаць плагін у кантакт
 [Add a module named]
 Дадаць плагін з назвай
-[Add to all contacts (Includes Settings)]
+[Add to all contacts (including Settings)]
 Ва ўсе кантакты (уключаючы налады)
 [Cancel]
 Скасаваць
-[Edit Setting]
+[Edit setting]
 Рэдагаваць наладу
-[Value Name:]
+[Value name:]
 Імя:
-[Value Data:]
+[Value data:]
 Значэнне:
 [Base]
 Падстава
-[Save Value as:]
+[Save value as:]
 Захаваць як:
-[Watched Database Variables]
+[Watched database settings]
 Зменныя пад назіраннем
 [Copy module to contact]
 Капіяваць плагін у кантакт
-[Copy to all contacts (Includes Settings)]
+[Copy to all contacts (including Settings)]
 Ва ўсе кантакты (і агульныя налады)
 [Contact to copy module and settings to]
 Капіяваць плагін і налады ў
-[Import Module/Settings]
+[Import module/settings]
 Імпартаваць плагін/налады
 [Import]
 Імпартаваць
 [Insert &CR/LF]
 Уставіць &CR/LF
-[Paste the Settings to import here.]
+[Paste the settings to import here.]
 Устаўце налады сюды.
 [Database Editor++]
 Рэдактар базы
 [&Main]
 &Галоўнае
-[&Refresh Modules]
+[&Refresh modules]
 Абнавіць плагіны
-[Refresh &Settings]
+[Refresh &settings]
 Абнавіць &налады
 [E&xit]
 Выхад
 [&Actions]
 Дзеянні
-[&Search and Replace]
+[&Search and replace]
 Знайсці і замяніць...
-[&Delete Module]
+[&Delete module]
 Выдаліць плагін...
 [&Watches]
 &Назіранні
@@ -108,11 +108,11 @@
 &Выдаліць усё
 [&Export]
 Экспарт
-[Entire &Database]
+[Entire &database]
 Усю &базу...
-[All &Settings]
+[All &settings]
 Усе &налады...
-[All &Contacts]
+[All &contacts]
 Усе &кантакты...
 [&Import]
 Імпарт
@@ -124,11 +124,11 @@
 &Налады
 [&Sort by protocol]
 Сартаваць па &пратаколе
-[Show &All]
+[Show &all]
 Паказаць &усё
-[Show only &Loaded]
+[Show only &loaded]
 Паказаць толькі &загружаныя
-[Show only &Unloaded]
+[Show only &unloaded]
 Паказаць толькі выгружаныя
 [Edit &Bytes in Hex]
 Байты ў шаснаццатковым выглядзе
@@ -138,11 +138,11 @@
 Падвойныя словы ў шаснаццатковым выглядзе
 [&Restore position]
 Аднаўляць становішча
-[&Open Options]
+[&Open options]
 Адчыніць налады
-[&Edit / Rename]
+[&Edit/rename]
 Кіраваць/пераназваць
-[NEW]
+[New]
 Стварыць
 [&Byte]
 Байт
@@ -158,13 +158,13 @@
 Перавесці ў
 [Encyption]
 Шыфраванне
-[View Decrypted String]
+[View decrypted string]
 Прагледзець расшыфраваны радок
-[View Encrypted String]
+[View encrypted string]
 Прагледзець зашыфраваны радок
-[Decrypt String]
+[Decrypt string]
 Расшыфраваць радок
-[Encrypt String]
+[Encrypt string]
 Зашыфраваць радок
 [&Watch]
 Назіраць
@@ -172,33 +172,33 @@
 Выдаліць
 [&Rename]
 Пераназваць
-[Copy To Contact]
+[Copy to contact]
 Капіяваць у кантакт...
-[Export Module]
+[Export module]
 Экспартаваць плагін...
 [&Clone]
 Кланаваць
-[Export Contact]
+[Export contact]
 Экспартаваць кантакт...
-[Import Settings]
+[Import settings]
 Імпартаваць налады
 [From a file]
 З файла...
 [From pasted text]
 З устаўленага тэксту...
-[&Add Module]
+[&Add module]
 Дадаць плагін...
-[Export Settings]
+[Export settings]
 Экспартаваць налады
-[Export Contacts]
+[Export contacts]
 Экспартаваць кантакты...
-[Import Contacts]
+[Import contacts]
 Імпартаваць кантакты
-[Export Module from all contacts]
+[Export module from all contacts]
 Экспартаваць плагін з усіх кантактаў...
-[Watch Window]
+[Watch window]
 Акно назіранняў
-[Reload Watch List]
+[Reload watch list]
 Абнавіць спіс назіранняў
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
@@ -286,15 +286,15 @@ INI файлы
 [Finished. %d items were found.]
 Пошук завершаны, знойдзена %d элемент(аў).
 ;file \plugins\DbEditorPP\src\icons.cpp
-[Closed Known Module]
+[Closed known module]
 Вядомы плагін (зачынены)
-[Open Known Module]
+[Open known module]
 Вядомы плагін (адкрыты)
-[Contacts Group]
+[Contacts group]
 Гурт кантактаў
-[Unknown Contact]
+[Unknown contact]
 Невядомы кантакт
-[Known Contact]
+[Known contact]
 Вядомы кантакт
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
@@ -304,7 +304,7 @@ INI файлы
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?
-[Confirm Contact Delete]
+[Confirm contact delete]
 Пацверджанне выдалення кантакту
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp

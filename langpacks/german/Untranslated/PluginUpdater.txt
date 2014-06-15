@@ -1,0 +1,2 @@
+﻿[Update completed]
+[Update failed]

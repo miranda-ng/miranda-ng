@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.2
+;  Version: 0.9.2.3
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -216,8 +216,6 @@
 Заўсёды хаваць у трэі.
 [Client margins]
 Палі спісу
-[Embedded frames border]
-Мяжа фрэймаў
 [Clip border by]
 Закругліць на
 [Gap between frames]
@@ -268,8 +266,6 @@
 Фон спісу
 [Use Windows colors]
 Колеры Windows
-[Background color]
-Колер фону
 [Use background image]
 Выкарыстоўваць фон
 [Stretch to width]
@@ -710,16 +706,16 @@
 Галоўнае меню
 [Set status modes]
 Усталяваць рэжымы статусу
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-Для гэтага дзеяння неабходны правільны выбар кантакту. Абярыце кантакт са спісу і паўтарыце
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
+Для гэтага дзеяння неабходны правільны выбар кантакту. Абярыце кантакт са спісу і паўтарыце.
 [Parameter mismatch]
 Неадпаведнасць параметру
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
-Сервіс %s пазначаны кнопкай %s не знойдзены. Магчыма, для гэтага патрэбны дадатковы плагін
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+Сервіс %s пазначаны кнопкай %s не знойдзены. Магчыма, для гэтага патрэбны дадатковы плагін.
 [Service failure]
 Збой службы
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
-Вам патрэбны FloatingContacts плагін, убудаваныя плаваючыя кантакты былі выдаленыя
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
+Вам патрэбны FloatingContacts плагін, убудаваныя плаваючыя кантакты былі выдаленыя.
 [Warning]
 Увага
 [Standard contacts]
@@ -746,6 +742,8 @@
 Пад курсорам
 [Quicksearch text]
 Хуткі пошук
+[Embedded frames border]
+Мяжа фрэймаў
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Загаловак
@@ -861,7 +859,9 @@
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [Group menu]
 Меню гуртоў
-[&Find/Add contacts...]
+[&Hide/show]
+С&хаваць/паказаць
+[&Find/add contacts...]
 Дадаць &кантакты
 [&Options...]
 &Налады

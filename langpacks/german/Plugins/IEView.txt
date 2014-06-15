@@ -32,8 +32,6 @@ Folgende BBCodes werden unterstützt: [b], [i], [u], [s], [img], [size], [color]
 Unterstützung für Flash-Dateien in Smileys und BBCodes
 [Enable workaround for PNG transparency]
 Abhilfe für PNG-Transparenz aktivieren
-[Enable MathModule support]
-MathModule-Unterstützung aktivieren
 [Replace smileys in user names]
 Smileys im Nick ersetzen
 [Hide window border]

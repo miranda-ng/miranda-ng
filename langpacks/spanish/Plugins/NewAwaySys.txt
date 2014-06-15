@@ -280,10 +280,6 @@
 
 [Toggle Off]
 
-[) read your ]
-
-[ message:\r\n]
-
 [Set %s message for the contact]
 
 [Re&ad %s message]
@@ -295,16 +291,6 @@
 [Toggle autoreply on]
 
 [New Away System]
-
-[Enable autoreply when you are %s]
-
-["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-
-[Don't send status message when you are %s]
-
-[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-
-[Ignore status message requests from this contact and don't send an autoreply]
 
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
 
@@ -343,8 +329,6 @@
 [Use the default setting]
 
 [NewAwaySys: Incoming status message request]
-
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
 
 ;file \plugins\NewAwaySysMod\src\Common.h
 [Miranda NG autoreply >\r\n%extratext%]

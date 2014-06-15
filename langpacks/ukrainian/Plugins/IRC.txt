@@ -381,10 +381,6 @@ DCC: Запит на продовження закачування файлу в
 Підключення до сервера %s
 [%s client-to-client connections]
 Підключення між клієнтами %s
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-Цей протокол вимагає наявності плагіна StdChat.dll.\n\nЗавантажити його з сайту Miranda NG?
-[Information]
-Інформація
 [Nickname]
 Нік
 [DCC ERROR: No valid files specified]

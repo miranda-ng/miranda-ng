@@ -7,17 +7,17 @@
 ;============================================================
 [Advanced Database Editor.]
 Розширений редактор бази.
-[Database Editor++ Search and Replace]
+[Database Editor++ search and replace]
 Знайти і замінити
-[Case Sensitive]
+[Case sensitive]
 Регістр
-[Module Name]
+[Module name]
 Модуль
-[Exact Match]
+[Exact match]
 Точний збіг
-[Setting Name]
+[Setting name]
 Ім'я налаштування
-[Setting Value]
+[Setting value]
 Значення
 [&Search]
 &Шукати
@@ -27,19 +27,19 @@
 &Замінити
 [&Cancel]
 &Скасувати
-[Search For]
+[Search for]
 Шукати
 [Text:]
 Текст:
 [In:]
 В:
-[Replace With]
+[Replace with]
 Замінити на
 [Entirely]
 Повністю
 [Restore last opened position]
 Відновлювати останнє положення
-[Automatically expand "settings" when Database Editor ++ starts]
+[Automatically expand "Settings" when Database Editor++ starts]
 Автоматично розкривати "Налаштування" при запуску
 [Warn when deleting modules]
 Попереджати при видаленні модулів
@@ -53,11 +53,11 @@
 Додати модуль в контакт
 [Add a module named]
 Додати модуль з назвою
-[Add to all contacts (Includes Settings)]
+[Add to all contacts (including Settings)]
 У всі контакти (включаючи налаштування)
 [Cancel]
 Скасувати
-[Edit Setting]
+[Edit setting]
 Редагувати налаштування
 [Byte]
 Байт
@@ -71,45 +71,45 @@
 Шістнадцяткова
 [Decimal]
 Десяткова
-[Value Name:]
+[Value name:]
 Ім'я:
-[Value Data:]
+[Value data:]
 Значення:
 [Base]
 Основа
-[Save Value as:]
+[Save value as:]
 Зберегти як:
-[Watched Database Variables]
+[Watched database settings]
 Змінні під наглядом
 [Copy module to contact]
 Копіювати модуль в контакт
-[Copy to all contacts (Includes Settings)]
+[Copy to all contacts (including Settings)]
 У всі контакти (і загальні налаштування)
 [Contact to copy module and settings to]
 Копіювати модуль та налаштування в
-[Import Module/Settings]
+[Import module/settings]
 Імпортувати модуль/налаштування
 [Import]
 Імпорт
 [Insert &CR/LF]
 Вставити &CR/LF
-[Paste the Settings to import here.]
+[Paste the settings to import here.]
 Вставте налаштування сюди.
 [Database Editor++]
 Редактор бази
 [&Main]
 &Головне
-[&Refresh Modules]
+[&Refresh modules]
 &Оновити модулі
-[Refresh &Settings]
+[Refresh &settings]
 Оновити &налаштування
 [E&xit]
 Ви&хід
 [&Actions]
 &Дії
-[&Search and Replace]
+[&Search and replace]
 &Знайти і замінити...
-[&Delete Module]
+[&Delete module]
 &Видалити модуль...
 [&Watches]
 &Спостереження
@@ -119,11 +119,11 @@
 &Видалити всі
 [&Export]
 &Експорт
-[Entire &Database]
+[Entire &database]
 Всю &базу...
-[All &Settings]
+[All &settings]
 Всі &налаштування...
-[All &Contacts]
+[All &contacts]
 Всі &контакти...
 [&Import]
 Імпорт
@@ -135,11 +135,11 @@
 &Налаштування
 [&Sort by protocol]
 Впорядкувати за &протоколом
-[Show &All]
+[Show &all]
 Показати &всі
-[Show only &Loaded]
+[Show only &loaded]
 Показати тільки &завантажені
-[Show only &Unloaded]
+[Show only &unloaded]
 Показати тільки в&ивантажені
 [Edit &Bytes in Hex]
 &Байти в шістнадцятковому вигляді
@@ -149,11 +149,11 @@
 &Подвійні слова в шістнадцятковому вигляді
 [&Restore position]
 В&ідновити положення
-[&Open Options]
+[&Open options]
 &Відкрити налаштування
-[&Edit / Rename]
+[&Edit/rename]
 &Правити/перейменувати
-[NEW]
+[New]
 Створити
 [&Byte]
 &Байт
@@ -169,13 +169,13 @@
 &Перевести в
 [Encyption]
 &Шифрування
-[View Decrypted String]
+[View decrypted string]
 Переглянути розшифрований рядок
-[View Encrypted String]
+[View encrypted string]
 Переглянути зашифрований рядок
-[Decrypt String]
+[Decrypt string]
 Розшифрувати рядок
-[Encrypt String]
+[Encrypt string]
 Зашифрувати рядок
 [&Watch]
 &Спостерігати
@@ -183,33 +183,33 @@
 &Видалити
 [&Rename]
 &Перейменувати
-[Copy To Contact]
+[Copy to contact]
 Копіювати в контакт...
-[Export Module]
+[Export module]
 Експортувати модуль...
 [&Clone]
 Клонувати
-[Export Contact]
+[Export contact]
 Експортувати контакт...
-[Import Settings]
+[Import settings]
 Імпортувати налаштування
 [From a file]
 З файлу...
 [From pasted text]
 З вставленого тексту...
-[&Add Module]
+[&Add module]
 Додати модуль...
-[Export Settings]
+[Export settings]
 Експортувати налаштування
-[Export Contacts]
+[Export contacts]
 Експортувати контакти...
-[Import Contacts]
+[Import contacts]
 Імпортувати контакти
-[Export Module from all contacts]
+[Export module from all contacts]
 Експортувати модуль з усіх контактів...
-[Watch Window]
+[Watch window]
 Вікно спостережень
-[Reload Watch List]
+[Reload watch list]
 Оновити список спостережень
 [Cannot Convert!]
 Неможливо конвертувати!
@@ -291,15 +291,15 @@
 Пошук завершено. Знайдено %d елементів, замінено %d.
 [Finished. %d items were found.]
 Пошук завершено. Знайдено %d елементів.
-[Closed Known Module]
+[Closed known module]
 Модуль (згорнутий)
-[Open Known Module]
+[Open known module]
 Модуль (розгорнутий)
-[Contacts Group]
+[Contacts group]
 Група контактів
-[Unknown Contact]
+[Unknown contact]
 Невідомий контакт
-[Known Contact]
+[Known contact]
 Відомий контакт
 [Open Database Editor]
 Відкрити редактор бази
@@ -307,7 +307,7 @@
 Відкрити в редакторі бази
 [Are you sure you want to delete contact "%s"?]
 Ви впевнені, що хочете видалити контакт "%s"?
-[Confirm Contact Delete]
+[Confirm contact delete]
 Підтвердження видалення контакту
 [Loading contacts...]
 Завантаження контактів...

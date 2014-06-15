@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.2
+;  Version: 0.9.2.3
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -222,8 +222,6 @@ Si la fenêtre est partiellement couverte, mettre en avant-plan plutôt que de c
 Toujours cacher dans la barre des taches
 [Client margins]
 
-[Embedded frames border]
-Bordure cadres fusionnés
 [Clip border by]
 Espace au bord
 [Gap between frames]
@@ -276,8 +274,6 @@ Griser toute la liste quand :
 Arrière-plan de la liste
 [Use Windows colors]
 Utiliser les couleurs Windows
-[Background color]
-Couleur de fond
 [Use background image]
 Utiliser image de fond
 [Stretch to width]
@@ -724,15 +720,15 @@ Menu
 Ouvrir le menu principal
 [Set status modes]
 Choix du mode d'état
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
 L'action demandée requière un contact valide. Veuillez sélectionner un contact de votre liste, et réessayer.
 [Parameter mismatch]
 
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
 
 [Service failure]
 
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 
 [Warning]
 Avertissement
@@ -760,6 +756,8 @@ Texte sélectionné
 Texte sous souris
 [Quicksearch text]
 Texte en recherche rapide
+[Embedded frames border]
+Bordure cadres fusionnés
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Barre de titre
@@ -873,9 +871,13 @@ Flottant
 [Frame menu]
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[New group]
+
 [Group menu]
 
-[&Find/Add contacts...]
+[&Hide/show]
+&Afficher/Cacher
+[&Find/add contacts...]
 &Chercher/Ajouter des contacts...
 [&Options...]
 &Paramètres...

@@ -18,7 +18,6 @@
 [Tlen inbox]
 [Tlen chats]
 [Send image]
-[Tlen Chats]
 [Multi-User Conference]
 [Tlen Mail]
 [Send picture]

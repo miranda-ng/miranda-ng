@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.2
+;  Version: 0.9.2.3
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Center groupnames horizontally]
@@ -15,8 +15,6 @@ Grey out entire list when:
 Tree Grey Out
 [Use Windows colors]
 Use Windows colours
-[Background color]
-Background colour
 [Protocol skins override status text colors]
 Protocol skins override status text colours
 [Item colors]

@@ -381,10 +381,6 @@ Jerk
 %s подключение к серверу
 [%s client-to-client connections]
 %s подключения между клиентами
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-Этот протокол требует наличия плагина chat.\n\nЗагрузить его с сайта Miranda NG?
-[Information]
-Информация
 [Nickname]
 Ник
 [DCC ERROR: No valid files specified]

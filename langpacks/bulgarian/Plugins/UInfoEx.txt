@@ -8,7 +8,7 @@
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 
 ;file \plugins\UserInfoEx\res\resource.rc
-[Edit Contact Information]
+[Edit contact information]
 Редактиране на информацията за контакта
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 Редактиране на информацията за контакта\nСписъкът ще ви даде представа за годишнините на контактите ви.
@@ -24,7 +24,7 @@
 Прилагане
 [Nick:]
 Прякор:
-[Display Name:]
+[Display name:]
 
 [Title:]
 Титла:
@@ -78,7 +78,7 @@
 
 [Assistant:]
 Помощник:
-[Add Phone Number]
+[Add phone number]
 Добавяне на телефонен номер
 [Enter your phone number\nand don't worry about formating.]
 Въведете телефонния номер,\nбез да се тревожите за формата.
@@ -90,20 +90,20 @@
 Или въведете целия международен номер:
 [Phone can receive SMS text messages]
 Телефонът може да получава SMS съобщения
-[Add E-Mail]
+[Add e-mail]
 Добавяне на имейл
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Въведете целия адрес на имейла.\n(напр. ivan@abv.bg)
-[Enter a representitive name for the e-mail address here.]
-Въведете представително име за е-поща.
-[Enter the e-mail address here.]
-Въведете адреса на е-поща тук.
+[Enter a representitive name for the e-mail address here:]
+Въведете представително име за е-поща:
+[Enter the e-mail address here:]
+Въведете адреса на е-поща тук:
 [Show menu items]
 Показване елементите на менюто
 [Remind me]
 Напомни ми
-[days before.]
-дни предварително.
+[days before]
+дни предварително
 [Check every]
 Проверка на всеки
 [hours]
@@ -154,15 +154,15 @@ popup за годишнина
 Образец
 [Homepage:]
 Страница:
-[Add Affiliation]
+[Add affiliation]
 Добави сдружение
-[Add Past]
+[Add past]
 Добави минало
-[Add Interest]
+[Add interest]
 Добави интерес
 [Delete]
 Изтриване
-[Anniversary Editor]
+[Anniversary editor]
 Редактиране на годишнина
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 Редактор на годишнини\nДобавяне/Промяна на годишнина.
@@ -202,12 +202,12 @@ popup за годишнина
 Икона на всеки бутон
 [MetaContacts]
 Метаконтакти
-[Scan SubContacts for missing information]
+[Scan subcontacts for missing information]
 Сканиране на подконтактите за липсваща информация
-[Enable extended 'send/receive email' service (*)]
+[Enable extended 'send/receive e-mail' service (*)]
 Включване на разширената услуга 'send/receive email' (*)
-[Use Windows Timezone]
-Ползване на Windows Timezone (Часови пояси от Windows)
+[Use Windows timezone]
+Ползване на Windows timezone (Часови пояси от Windows)
 [(*) Requires Miranda to be restarted.]
 (*) Изисква рестартиране на Miranda.
 [Reset factory defaults]
@@ -222,23 +222,23 @@ popup за годишнина
 Променена информация
 [Enable colors to give information about information's status.]
 Ползване на цветове за предаване на информация, за данните.
-[Make protocol based contact information readonly.]
+[Make protocol based contact information readonly]
 
-[Enable groups in details dialog's treeview.]
+[Enable groups in details dialog's treeview]
 
-[Sort all tree items alphabetically.]
+[Sort all tree items alphabetically]
 Азбучно сортиране на всички елементи на дървото.
-[Info of a MetaContact's SubContact]
+[Info of a MetaContact's subcontact]
 Информация от подконтакт на метаконтакт
 [Colors]
 Цветове
 [Common]
 Общи
-[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
-Промяна на ICQ подробностите с UserInfoEx. (Изключено, ако ICQ не го поддържа)
-[TreeView]
+[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
+Промяна на ICQ подробностите с UserInfoEx (изключено, ако ICQ не го поддържа)
+[Treeview]
 
-[Adapt propertysheet pages to aero mode.]
+[Adapt propertysheet pages to Aero mode]
 
 [Import]
 Внос
@@ -254,25 +254,25 @@ popup за годишнина
 Всичко
 [None]
 Няма
-[Show Menu Item]
+[Show menu item]
 Елементи в менютата
-[MainMenu]
+[Main menu]
 Главно меню
 [Cascade:]
 Каскадно:
 [Off]
 Изкл.
-[Ex-/Import items]
+[Export/import items]
 Елементи износ/внос
-[ContactMenu]
+[Contact menu]
 Меню на контактите
-[GroupMenu]
+[Group menu]
 Меню на групите
-[SubGroupMenu]
+[Subgroup menu]
 Меню на подгрупите
-[AccountMenu]
+[Account menu]
 Меню на акаунтите
-[Extra Icons]
+[Extra icons]
 Допълнителни икони
 [Replace the following default icons:]
 Замяна на следните стандартни икони:
@@ -280,7 +280,7 @@ popup за годишнина
 Домашна страница
 [Phone]
 Телефон
-[E-Mail]
+[E-mail]
 Имейл
 [Gender]
 Пол
@@ -288,9 +288,9 @@ popup за годишнина
 Разни
 [Show 'Restart' menu item]
 Елемент "Рестартиране" в гл. меню
-[Use Zodiac as default avatar]
+[Use zodiac as default avatar]
 Ползване на задията за аватар
-[Country Flags]
+[Country flags]
 Държавни знамена
 [Use &unknown flag if country cannot be determined]
 "Непознато знаме", ако не може да се определи държавата
@@ -304,11 +304,11 @@ popup за годишнина
 Зодия:
 [not found]
 
-[Use global reminder settings.]
-Ползване на общите настройки за напомняне.
-[Don't remind me of this anniversary.]
-Без напомняне за годишнината.
-[Refresh Contact Details]
+[Use global reminder settings]
+Ползване на общите настройки за напомняне
+[Don't remind me of this anniversary]
+Без напомняне за годишнината
+[Refresh contact details]
 Обновяване на контактите
 [Preparing...]
 Подготвяне...
@@ -316,13 +316,13 @@ popup за годишнина
 Скриване
 [What do you want to export?]
 Какво желаете да бъде изнесено?
-[Contact Information]
+[Contact information]
 Информация за контакта
-[Contact History]
+[Contact history]
 История на контакта
-[Select Modules]
+[Select modules]
 Изберете модули
-[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
+[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 
 [Check all]
 
@@ -389,19 +389,19 @@ popup за годишнина
 [Unspecified]
 Неуточнено
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
-[Edit E-Mail]
+[Edit e-mail]
 Редактиране на имейл
-[Edit Phone Number]
+[Edit phone number]
 Редактиране на телефонния номер
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Телефонният номер трябва да започва с "+" и да съдържа само\nцифри, интервали, скоби и тирета.
-[Choose the item to display.]
+[Choose the item to display]
 Елемент за изобразяване
-[Edit the currently displayed item.]
+[Edit the currently displayed item]
 Редактиране на текущия елемент
-[Add a new custom item.]
-Добавяне на нов персонален елемент.
-[Delete the selected item.]
+[Add a new custom item]
+Добавяне на нов персонален елемент
+[Delete the selected item]
 Изтриване на избрания елемент
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 
@@ -433,7 +433,7 @@ popup за годишнина
 Само годишнини
 [Disabled reminder]
 Без напомняне
-[Popup Anniversary list]
+[Popup anniversary list]
 Показване на годишнините
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
@@ -449,7 +449,7 @@ popup за годишнина
 [Error]
 Грешка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload Details]
+[Upload details]
 Качване на подробностите
 [Protocol '%s' is offline]
 Протоколът "%s" е извън линия
@@ -465,7 +465,7 @@ popup за годишнина
 
 [Details dialog failed to be created. Returning error is %d.]
 Прозорецът с подробности не може да бъде създаден поради следната грешка: %d.
-[The Page to add has invalid size %d bytes!]
+[The page to add has invalid size %d bytes!]
 
 [General]
 Основни
@@ -475,8 +475,8 @@ popup за годишнина
 Годишнини
 [Work]
 Работа
-[Contact (Work)]
-Данни (Работни)
+[Contact (work)]
+Данни (работни)
 [About]
 Относно
 [Profile]
@@ -489,17 +489,21 @@ popup за годишнина
 Внос от файл
 [Owner]
 Собственик
-[Upload ICQ Details]
+[edit contact information]
+редактиране на информацията за контакта
+[Upload ICQ details]
 Качване на ICQ подробности
 [Upload failed]
 Неуспешно качване
 [Your details were not uploaded successfully.\nThey were written to database only.]
 Подробностите не бяха качени успешно.\nТе бяха записани само в базата от данни.
+[updating]
+актуализиране
 ;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags Module will be disabled.]
+[Fatal error, image services not found. Flags module will be disabled.]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
-[IM Naming]
+[IM naming]
 
 [Password]
 Парола
@@ -509,17 +513,17 @@ popup за годишнина
 Брачно състояние
 [Address]
 Адрес
-[Export: Modules]
-Износ: Модули
-[Export: Folder]
-Износ: Папка
+[Export: modules]
+Износ: модули
+[Export: folder]
+Износ: папка
 [Default]
 Стандарт
 [Details info bar]
 Подробности в информационната лента
 [Phone info bar]
 Телефон в информационната лента
-[E-Mail info bar]
+[E-mail info bar]
 Имейл в информационната лента
 [Export VCard]
 Изнасяне като VCard
@@ -537,10 +541,8 @@ popup за годишнина
 Факс
 [Cellular]
 Мобилен тел.
-[Custom Phone]
+[Custom phone]
 Зададен телефон
-[e-mail]
-имейл
 [Down arrow]
 Стрелка надолу
 [Add]
@@ -549,9 +551,9 @@ popup за годишнина
 Редактиране
 [Search]
 Търсене
-[Ex-/Import]
+[Export/import]
 Износ/Внос
-[Backup Birthday]
+[Backup birthday]
 Резервно копие на рождения ден
 [Birthday today]
 Рожден ден днес
@@ -604,20 +606,20 @@ popup за годишнина
 [Main]
 Основна
 ;file \plugins\UserInfoEx\src\mir_icolib.h
-[UserInfoEx]
+[Extended user info]
 UserInfoEx
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[Ex-/Import contact]
+[Export/import contact]
 Износ/Внос на контакта
 [User &details]
 Подробности за потребителя
-[&Export User Details]
+[&Export user details]
 Износ на подробности за потребителя
 [&Import]
 Внос
-[&Import User Details]
+[&Import user details]
 Внос на подробности за потребителя
-[View/Change My &Details...]
+[View/change my &details...]
 Преглед/Промяна на личните данни
 [Export all contacts]
 Изнасяне на всички контакти
@@ -627,30 +629,34 @@ UserInfoEx
 Резервно копие на рождените дни
 [Check anniversaries]
 Проверяване за годишнини
-[Extended UserInfo]
-
-[Ex-/Import Group]
+[Export/import group]
 Износ/Внос на група
-[&Export Group]
+[&Export group]
 Изнасяне на групата
-[&Import Group]
+[&Import group]
 Внасяне на групата
+[export/import]
+износ/внос
+[&export xml]
+
+[xml &import]
+
 ;file \plugins\UserInfoEx\src\psp_about.cpp
-[My Notes:]
+[My notes:]
 Мои бележки:
 [About:]
 Относно:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-[Please enter a valid Description first!]
+[Please enter a valid description first!]
 Първо трябва да въведете валидно описание!
 [No valid date selected for editing!]
 
 [Do you really want to delete the %s?]
 Наистина ли желаете да изтриете %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[Home]
-Дом
-[Open in Browser]
+[home]
+дом
+[Open in browser]
 Отваряне в браузер
 [Primary e-mail]
 Първа е-поща
@@ -658,10 +664,10 @@ UserInfoEx
 Втора е-поща
 [Tertiary e-mail]
 Трета е-поща
-[Address & Contact]
+[Address and contact]
 
-[Company]
-Компания
+[company]
+компания
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Въпрос
@@ -677,7 +683,7 @@ UserInfoEx
 Без напомняне
 [Bithdays only]
 Само рождени дни
-[everything]
+[Everything]
 Всичко
 [mBirthday]
 
@@ -689,7 +695,7 @@ UserInfoEx
 Контакти
 [Advanced]
 Разширени
-[Details Dialog]
+[Details dialog]
 Прозорец за подробности
 [Popups]
 Popups
@@ -704,11 +710,11 @@ Popups
 
 [<empty>]
 <празно>
-[Add Affliation]
+[Add affliation]
 
-[Edit Category]
+[Edit category]
 Редактиране на категория
-[Edit Value]
+[Edit value]
 Редактиране на стойност
 [Delete an entry]
 Изтриване на елемент
@@ -881,6 +887,8 @@ Popups
 Правителствена
 [High School Student]
 Гимназист
+[Home]
+Дом
 [ICQ - Providing Help]
 ICQ - осигуряване на помощ
 [Law]
@@ -1075,6 +1083,7 @@ Web дизайн
 младши
 [sen.]
 старши
+;file \plugins\UserInfoEx\src\svc_constants.h
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 "(Непознат контакт)"

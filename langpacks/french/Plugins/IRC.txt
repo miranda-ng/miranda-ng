@@ -395,10 +395,6 @@ N'a pas pu se connecter à
 %s serveur connexion
 [%s client-to-client connections]
 /s client-to-client connexions
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-Le protocole IRC dépends d'un autre plugin appelé 'Chat'\n\nVoulez-vous le télécharger à partir du site web Miranda NG?
-[Information]
-Informations
 [Nickname]
 Pseudo
 [DCC ERROR: No valid files specified]

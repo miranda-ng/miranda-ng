@@ -1,7 +1,6 @@
 ﻿[Configure autoaway]
 [Gone fragging]
 [Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
 [Set message for]
 [message for]
 [available autoreply only]

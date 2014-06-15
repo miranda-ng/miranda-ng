@@ -61,18 +61,6 @@ Aperçu
 
 [%s (was %s)]
 
-[) changed client to ]
-
-[Client change notifications:]
-
-[Never, ignore client changes for this contact]
-
-[Always except when client change notifications are disabled globally]
-
-[Always, even when client change notifications are disabled globally]
-
-[Use global settings (default)]
-
 [Disable c&lient change notification]
 
 [Enable c&lient change notification]
@@ -80,10 +68,6 @@ Aperçu
 [Popups]
 Popups
 [ClientChangeNotify: Client changed]
-
-[ClientChangeNotify]
-
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
 
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
@@ -103,7 +87,7 @@ Popups
 
 [Open contact history]
 
-[Open log file]
-
 [Do nothing]
+
+[ClientChangeNotify]
 

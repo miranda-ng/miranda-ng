@@ -193,8 +193,6 @@ Grupo de chats
 
 [Alert]
 
-[Tlen Chats]
-
 [Multi-User Conference]
 
 [Tlen Mail]
@@ -227,33 +225,6 @@ Conceder autorización
 [Authentication failed for %s@%s.]
 
 [Tlen Authentication]
-
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-
-[You cannot join this chat room, because you are banned.]
-
-[Chat room not found.]
-
-[This is a private chat room and you are not one of the members.]
-
-[You cannot send any message unless you join this chat room.]
-
-[Chat room with already created.]
-
-[Nickname '%s' is already registered.]
-
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-
-[You cannot register more than %s nicknames.]
-
-[You cannot create more than %s chat rooms.]
-
-[You cannot join more than %s chat rooms.]
-
-[Anonymous nicknames are not allowed in this chat room.]
-
-[Unknown error code: %d]
 
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
