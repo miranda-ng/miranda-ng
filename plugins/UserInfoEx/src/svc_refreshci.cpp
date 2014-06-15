@@ -612,7 +612,7 @@ class CContactUpdater : public CContactQueue
 		{
 			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_NAME|CMIM_ICON;
-			clmi.pszName = LPGEN("Refresh Contact Details");
+			clmi.pszName = LPGEN("Refresh contact details");
 			clmi.hIcon = Skin_GetIcon(ICO_BTN_UPDATE);
 			Menu_ModifyItem(hMenuItemRefresh, &clmi);
 		}
@@ -720,7 +720,7 @@ public:
 				_pProgress = new CDlgUpdProgress(this);
 			}
 
-			_pProgress->Create(TranslateT("Refresh Contact Details"), (PUpdCallback) CContactUpdater::DlgProc);
+			_pProgress->Create(TranslateT("Refresh contact details"), (PUpdCallback) CContactUpdater::DlgProc);
 			_pProgress->SetText(TranslateT("Preparing..."));
 		}
 
@@ -807,7 +807,7 @@ static INT_PTR RefreshService(WPARAM wParam, LPARAM lParam)
 			{
 				ContactUpdater->RefreshAll();
 			}
-			else if (IDYES == MsgBox(NULL, MB_YESNO|MB_ICON_QUESTION, LPGENT("Refresh Contact Details"), NULL, 
+			else if (IDYES == MsgBox(NULL, MB_YESNO|MB_ICON_QUESTION, LPGENT("Refresh contact details"), NULL, 
 				LPGENT("Do you want to cancel the current refresh procedure?")))
 			{
 				ContactUpdater->Cancel();
@@ -901,7 +901,7 @@ void SvcRefreshContactInfoLoadModule(void)
 	hk.cbSize = sizeof(HOTKEYDESC);
 	hk.pszSection = MODNAME;
 	hk.pszName = "RefreshContactDetails";
-	hk.pszDescription = LPGEN("Refresh Contact Details");
+	hk.pszDescription = LPGEN("Refresh contact details");
 	hk.pszService = MS_USERINFO_REFRESH;
 	Hotkey_Register(&hk);
 }

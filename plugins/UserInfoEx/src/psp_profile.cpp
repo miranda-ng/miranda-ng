@@ -1282,7 +1282,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					mii.dwTypeData = TranslateT("Add interest");
 					InsertMenuItem(hMenu, 0, TRUE, &mii);
 					mii.wID = BTN_ADD_AFFLIATION;
-					mii.dwTypeData = TranslateT("Add affliation");
+					mii.dwTypeData = TranslateT("Add affiliation");
 					InsertMenuItem(hMenu, 1, TRUE, &mii);
 					mii.wID = BTN_ADD_PAST;
 					mii.dwTypeData = TranslateT("Add past");
