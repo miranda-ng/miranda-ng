@@ -79,7 +79,6 @@ function AllHistoryRichEditProcess(wParam { hRichEdit } : WPARAM; lParam { PItem
 begin
   Result := 0;
   if GridOptions.SmileysEnabled        then Result := Result or DoSupportSmileys(wParam, lParam);
-  if GridOptions.MathModuleEnabled     then Result := Result or DoSupportMathModule(wParam, lParam);
   if GridOptions.AvatarsHistoryEnabled then Result := Result or DoSupportAvatarHistory(wParam, lParam);
 end;
 

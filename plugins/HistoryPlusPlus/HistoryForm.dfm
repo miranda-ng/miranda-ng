@@ -587,10 +587,6 @@ object HistoryFrm: THistoryFrm
       ShortCut = 16450
       OnClick = Bookmark1Click
     end
-    object SpeakMessage1: TMenuItem
-      Caption = 'Speak Message'
-      OnClick = SpeakMessage1Click
-    end
     object N8: TMenuItem
       Caption = '-'
     end
@@ -782,7 +778,7 @@ object HistoryFrm: THistoryFrm
   object pmSessions: TPopupMenu
     BiDiMode = bdLeftToRight
     ParentBiDiMode = False
-    Left = 198
+    Left = 222
     Top = 61
     object SessCopy: TMenuItem
       Caption = '&Copy'
@@ -839,7 +835,7 @@ object HistoryFrm: THistoryFrm
     BiDiMode = bdLeftToRight
     ParentBiDiMode = False
     Left = 324
-    Top = 293
+    Top = 301
     object InlineCopy: TMenuItem
       Caption = '&Copy'
       ShortCut = 16451
@@ -879,7 +875,7 @@ object HistoryFrm: THistoryFrm
   end
   object mmAcc: TMainMenu
     Left = 10
-    Top = 98
+    Top = 106
     object mmToolbar: TMenuItem
       Caption = 'Toolbar'
       OnClick = mmToolbarClick

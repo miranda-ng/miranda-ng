@@ -209,7 +209,6 @@ type
     FileActions: TMenuItem;
     N10: TMenuItem;
     pmFile: TPopupMenu;
-    SpeakMessage1: TMenuItem;
     procedure tbHistoryClick(Sender: TObject);
     procedure SaveasText2Click(Sender: TObject);
     procedure SaveasMContacts2Click(Sender: TObject);
@@ -322,7 +321,6 @@ type
     procedure hgFilterChange(Sender: TObject);
     procedure OpenFileFolderClick(Sender: TObject);
     procedure BrowseReceivedFilesClick(Sender: TObject);
-    procedure SpeakMessage1Click(Sender: TObject);
     procedure hgOptionsChange(Sender: TObject);
   private
     DelayedFilter: TMessageTypes;
@@ -457,8 +455,6 @@ uses
   hpp_messages, hpp_bookmarks, Checksum, CustomizeFiltersForm, CustomizeToolbar;
 
 {$R *.DFM}
-
-{$include m_speak.inc}
 
 const
   HPP_SESS_YEARFORMAT = 'yyyy';
@@ -1677,7 +1673,6 @@ end;
 
 procedure THistoryFrm.hgPopup(Sender: TObject);
 begin
-  SpeakMessage1.Visible := MeSpeakEnabled;
   Delete1.Visible := False;
   SaveSelected1.Visible := False;
   if hContact = 0 then
@@ -3839,24 +3834,6 @@ begin
     Key := 0;
     Exit;
   end;
-  { if (ssCtrl in Shift) then begin
-    if key=Ord('T') then begin
-    InlineCopyAll.Click;
-    key:=0;
-    end;
-    if key=Ord('P') then begin
-    InlineTextFormatting.Click;
-    key:=0;
-    end;
-    if key=Ord('M') then begin
-    SendMessage1.Click;
-    key:=0;
-    end;
-    if key=Ord('R') then begin
-    InlineReplyQuoted.Click;
-    key:=0;
-    end;
-    end; }
 end;
 
 procedure THistoryFrm.ToggleMainMenu(Enabled: Boolean);
@@ -3921,27 +3898,6 @@ var
 begin
   CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, lParam(@Path));
   ShellExecuteA(0, 'open', Path, nil, nil, SW_SHOW);
-end;
-
-procedure THistoryFrm.SpeakMessage1Click(Sender: TObject);
-var
-  mesW: String;
-  mesA: AnsiString;
-begin
-  if not MeSpeakEnabled then
-    Exit;
-  if hg.Selected = -1 then
-    Exit;
-  mesW := hg.Items[hg.Selected].Text;
-  if GridOptions.BBCodesEnabled then
-    mesW := DoStripBBCodes(mesW);
-  if Boolean(ServiceExists(MS_SPEAK_SAY_W)) then
-    CallService(MS_SPEAK_SAY_W, hContact, lParam(PChar(mesW)))
-  else
-  begin
-    mesA := WideToAnsiString(mesW, UserCodepage);
-    CallService(MS_SPEAK_SAY_A, hContact, lParam(PAnsiChar(mesA)));
-  end;
 end;
 
 procedure THistoryFrm.hgOptionsChange(Sender: TObject);

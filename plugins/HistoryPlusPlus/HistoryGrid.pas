@@ -198,7 +198,6 @@ type
 
     FBBCodesEnabled: Boolean;
     FSmileysEnabled: Boolean;
-    FMathModuleEnabled: Boolean;
     FRawRTFEnabled: Boolean;
     FAvatarsHistoryEnabled: Boolean;
 
@@ -242,7 +241,6 @@ type
 
     procedure SetBBCodesEnabled(const Value: Boolean);
     procedure SetSmileysEnabled(const Value: Boolean);
-    procedure SetMathModuleEnabled(const Value: Boolean);
     procedure SetRawRTFEnabled(const Value: Boolean);
     procedure SetAvatarsHistoryEnabled(const Value: Boolean);
     procedure SetProfileName(const Value: String);
@@ -303,7 +301,6 @@ type
 
     property BBCodesEnabled: Boolean read FBBCodesEnabled write SetBBCodesEnabled;
     property SmileysEnabled: Boolean read FSmileysEnabled write SetSmileysEnabled;
-    property MathModuleEnabled: Boolean read FMathModuleEnabled write SetMathModuleEnabled;
     property RawRTFEnabled: Boolean read FRawRTFEnabled write SetRawRTFEnabled;
     property AvatarsHistoryEnabled: Boolean read FAvatarsHistoryEnabled write SetAvatarsHistoryEnabled;
 
@@ -5984,7 +5981,6 @@ begin
 
   FSmileysEnabled := False;
   FBBCodesEnabled := False;
-  FMathModuleEnabled := False;
   FRawRTFEnabled := False;
   FAvatarsHistoryEnabled := False;
 
@@ -6309,19 +6305,6 @@ begin
   if FSmileysEnabled = Value then
     exit;
   FSmileysEnabled := Value;
-  Self.StartChange;
-  try
-    DoChange;
-  finally
-    Self.EndChange;
-  end;
-end;
-
-procedure TGridOptions.SetMathModuleEnabled(const Value: Boolean);
-begin
-  if FMathModuleEnabled = Value then
-    exit;
-  FMathModuleEnabled := Value;
   Self.StartChange;
   try
     DoChange;

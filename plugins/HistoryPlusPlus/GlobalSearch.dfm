@@ -628,10 +628,6 @@ object fmGlobalSearch: TfmGlobalSearch
       ShortCut = 16450
       OnClick = Bookmark1Click
     end
-    object SpeakMessage1: TMenuItem
-      Caption = 'Speak Message'
-      OnClick = SpeakMessage1Click
-    end
     object N3: TMenuItem
       Caption = '-'
     end

@@ -187,7 +187,6 @@ type
     tbCopy: THppToolButton;
     tbDelete: THppToolButton;
     tbSave: THppToolButton;
-    SpeakMessage1: TMenuItem;
     procedure pbFilterPaint(Sender: TObject);
     procedure edFilterKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure tiFilterTimer(Sender: TObject);
@@ -264,7 +263,6 @@ type
     procedure tbEventsClick(Sender: TObject);
     procedure sbEventsCloseClick(Sender: TObject);
     procedure lvContactsDblClick(Sender: TObject);
-    procedure SpeakMessage1Click(Sender: TObject);
     procedure hgChar(Sender: TObject; var achar: WideChar; Shift: TShiftState);
     procedure edFilterKeyPress(Sender: TObject; var Key: Char);
   private
@@ -388,8 +386,6 @@ uses
   hpp_forms, hpp_services, hpp_bookmarks;
 
 {$R *.DFM}
-
-{$include m_speak.inc}
 
 function TfmGlobalSearch.AddContact(hContact: THandle): THPPContactInfo;
 var
@@ -1604,7 +1600,6 @@ end;
 
 procedure TfmGlobalSearch.hgPopup(Sender: TObject);
 begin
-  SpeakMessage1.Visible := MeSpeakEnabled;
   Delete1.Visible := False;
   SaveSelected1.Visible := False;
   if hg.Selected <> -1 then
@@ -2374,24 +2369,6 @@ begin
     Key := 0;
     exit;
   end;
-  { if (ssCtrl in Shift) then begin
-    if key=Ord('T') then begin
-    InlineCopyAll.Click;
-    key:=0;
-    end;
-    if key=Ord('P') then begin
-    InlineTextFormatting.Click;
-    key:=0;
-    end;
-    if key=Ord('M') then begin
-    SendMessage1.Click;
-    key:=0;
-    end;
-    if key=Ord('R') then begin
-    InlineReplyQuoted.Click;
-    key:=0;
-    end;
-    end; }
 end;
 
 procedure TfmGlobalSearch.OpenLinkClick(Sender: TObject);
@@ -2508,29 +2485,6 @@ begin
   if hContact = 0 then
     exit;
   SendMessageTo(hContact);
-end;
-
-procedure TfmGlobalSearch.SpeakMessage1Click(Sender: TObject);
-var
-  mesW: String;
-  mesA: AnsiString;
-  hContact: THandle;
-begin
-  if not MeSpeakEnabled then
-    exit;
-  if hg.Selected = -1 then
-    exit;
-  hContact := GetSearchItem(hg.Selected).Contact.Handle;
-  mesW := hg.Items[hg.Selected].Text;
-  if GridOptions.BBCodesEnabled then
-    mesW := DoStripBBCodes(mesW);
-  if Boolean(ServiceExists(MS_SPEAK_SAY_W)) then
-    CallService(MS_SPEAK_SAY_W, hContact, LParam(PChar(mesW)))
-  else
-  begin
-    mesA := WideToAnsiString(mesW, GetSearchItem(hg.Selected).Contact.Codepage);
-    CallService(MS_SPEAK_SAY_A, hContact, LParam(PAnsiChar(mesA)));
-  end;
 end;
 
 procedure TfmGlobalSearch.hgChar(Sender: TObject; var achar: WideChar; Shift: TShiftState);

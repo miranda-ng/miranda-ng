@@ -64,7 +64,6 @@ function DoSupportBBCodesRTF(const S: AnsiString; StartColor: integer; doColorBB
 function DoStripBBCodes(const S: String): String;
 
 function DoSupportSmileys(awParam:WPARAM; alParam: LPARAM): Integer;
-function DoSupportMathModule(awParam:WPARAM; alParam: LPARAM): Integer;
 function DoSupportAvatarHistory(awParam:WPARAM; alParam: LPARAM): Integer;
 
 implementation
@@ -74,8 +73,6 @@ uses
   SysUtils, StrUtils,
   m_api,
   hpp_global, hpp_richedit, hpp_events{, RichEdit -- used for CHARRANGE and EM_EXTSETSEL};
-
-{$include m_mathmodule.inc}
 
 const
   EM_EXSETSEL = WM_USER + 55; // from RichEdit
@@ -466,36 +463,6 @@ begin
   Result := 0;
 end;
 
-function DoSupportMathModule(awParam{hRichEdit}:WPARAM; alParam{PItemRenderDetails}: LPARAM): Integer;
-var
-  mrei: TMathRicheditInfo;
-begin
-  mrei.hwndRichEditControl := awParam;
-  mrei.sel := nil;
-  mrei.disableredraw := integer(false);
-  Result := CallService(MATH_RTF_REPLACE_FORMULAE,0,LPARAM(@mrei));
-end;
-
-(*
-function DoSupportAvatars(wParam:WPARAM; lParam: LPARAM): Integer;
-const
-  crlf: AnsiString = '{\line }';
-var
-  ird: PItemRenderDetails;
-  ave: PAvatarCacheEntry;
-  msglen: integer;
-begin
-  ird := Pointer(lParam);
-  ave := Pointer(CallService(MS_AV_GETAVATARBITMAP,ird.hContact,0));
-  if (ave <> nil) and (ave.hbmPic <> 0) then begin
-    msglen := SendMessage(wParam,WM_GETTEXTLENGTH,0,0);
-    SendMessage(wParam,EM_SETSEL,msglen,msglen);
-    SetRichRTF(wParam,crlf,True,False,True);
-    InsertBitmapToRichEdit(wParam,ave.hbmPic);
-  end;
-  Result := 0;
-end;
-*)
 
 function DoSupportAvatarHistory(awParam:WPARAM; alParam: LPARAM): int;
 const

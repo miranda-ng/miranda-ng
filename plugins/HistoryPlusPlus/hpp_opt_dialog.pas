@@ -116,8 +116,6 @@ begin
   if GetChecked(IDC_BBCODE) <> GridOptions.BBCodesEnabled then exit;
   if SmileyAddEnabled then
     if GetChecked(IDC_SMILEY) <> GridOptions.SmileysEnabled then exit;
-  if MathModuleEnabled then
-    if GetChecked(IDC_MATH) <> GridOptions.MathModuleEnabled then exit;
   if GetChecked(IDC_RAWRTF) <> GridOptions.RawRTFEnabled then exit;
   if GetChecked(IDC_AVATARSHISTORY) <> GridOptions.AvatarsHistoryEnabled then exit;
 
@@ -158,7 +156,6 @@ begin
     GridOptions.AvatarsHistoryEnabled := GetChecked(IDC_AVATARSHISTORY);
 
     if SmileyAddEnabled  then GridOptions.SmileysEnabled    := GetChecked(IDC_SMILEY);
-    if MathModuleEnabled then GridOptions.MathModuleEnabled := GetChecked(IDC_MATH);
 
     SaveGridOptions;
   finally
@@ -233,9 +230,6 @@ begin
       EnableWindow(GetDlgItem(hDlg,IDC_SMILEY),SmileyAddEnabled);
       if SmileyAddEnabled then
         SetChecked(IDC_SMILEY,GridOptions.SmileysEnabled);
-      EnableWindow(GetDlgItem(hDlg,IDC_MATH),MathModuleEnabled);
-      if MathModuleEnabled then
-        SetChecked(IDC_MATH,GridOptions.MathModuleEnabled);
       SetChecked(IDC_RAWRTF,GridOptions.RawRTFEnabled);
       SetChecked(IDC_AVATARSHISTORY,GridOptions.AvatarsHistoryEnabled);
 
