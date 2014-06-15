@@ -245,22 +245,20 @@ BL&OB
 Настройки
 [Are you sure you want to delete module "%s"?]
 Удалить модуль "%s"?
-[Confirm Module Deletion]
+[Confirm module deletion]
 Удалить модуль?
-[Delete module from Database]
+[Delete module from database]
 Удалить модуль из базы
-[Delete module from Database... Loading]
+[Delete module from database... Loading]
 Удаление модуля из базы... Загрузка
-[Delete module from all contacts (Includes Setting)]
-Удалить из всех контактов (с настройками)
 [INI Files]
 INI файлы
 [All Files]
 Все файлы
 [Export to file]
 Экспорт
-[Error Loading Module List]
-Ошибка загрузки списка модулей
+[Error loading module list]
+Ошибка при загрузке списка модулей
 [Couldn't open file for writing]
 Не удается открыть файл на запись
 [Import from files]
@@ -283,6 +281,8 @@ INI файлы
 %s настройка "%s" в модуле "%s" контакта "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" в настройке "%s" в модуле "%s" контакта "%s"
+[Error Loading Module List]
+Ошибка загрузки списка модулей
 [Searching...]
 Поиск...
 [Error Loading Setting List]
@@ -305,6 +305,8 @@ INI файлы
 Неизвестный контакт
 [Known contact]
 Известный контакт
+[Handle]
+Название
 [Open Database Editor]
 Открыть редактор базы
 [Open user tree in DBE++]
@@ -319,10 +321,10 @@ INI файлы
 Загрузка модулей...
 [Module tree not found]
 Дерево модулей не найдено
-[Error loading module list]
-Ошибка при загрузке списка модулей
 [Contacts]
 Контакты
+[HANDLE]
+Название
 [Add module to contact "%s"]
 Добавить модуль контакту "%s"
 [Database]

@@ -1,3 +1,1 @@
 ﻿[NotifyAnything]
-[Unterminated option.]
-[Empty message ignored.]

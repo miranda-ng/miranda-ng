@@ -93,8 +93,6 @@
 Добавить e-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Введите адрес E-mail\n(например, john.doe@provider.com)
-[Enter a representitive name for the e-mail address here:]
-Введите имя для электронного адреса:
 [Enter the e-mail address here:]
 Введите электронный адрес:
 [Show menu items]
@@ -621,12 +619,8 @@ E-mail
 &Экспортировать группу
 [&Import group]
 &Импортировать группу
-[export/import]
-экспорт/импорт
-[&export xml]
+[&Export xml]
 &экспорт xml
-[xml &import]
-&импорт xml
 [My notes:]
 Мои заметки:
 [About:]
@@ -691,8 +685,6 @@ E-mail
 Извините, ошибка добавления нового элемента с типом "%s"
 [<empty>]
 <нет>
-[Add affliation]
-Присоединить
 [Edit category]
 Изменить категорию
 [Edit value]

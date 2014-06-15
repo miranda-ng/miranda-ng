@@ -33,22 +33,6 @@
 Разрешить выполнение программ
 [Password:]
 Пароль:
-[No resource name given.]
-Не указано имя ресурса.
-[Could not find the requested icon.]
-Соответствующий значок не найден.
-[Application launching is disabled.]
-Запуск программ отключён.
-[No argument given to msg option.]
-Не указан аргумент для параметра msg.
-[ID is required for replacement.]
-Для замены необходим ID.
-[Invalid argument for replace option: ]
-Неправильный аргумент для замены:\s
-[Failed to write to log file.]
-Ошибка записи в файл журнала.
-[Failed to open log file.]
-Не удалось открыть файл журнала.
 [N/A: Failed to format error message]
 N/A: Ошибка форматирования сообщения об ошибке
 [N/A: FormatMessage failed, error code was 0x]

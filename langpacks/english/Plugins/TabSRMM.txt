@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.3
+;  Version: 3.3.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -823,15 +823,18 @@
 [Change skin]
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
+[Display metacontact icons]
 [Error feedback]
 [Show skinnable tooltip in chat (Tipper plugin required)]
 [Enable typing sounds]
 [Disable animated GIF avatars (will not affect already open message windows)]
 [Close current tab on send]
-[Disable error popups on sending failures]
 [Automatic keyboard layout: Do not load the system default for new contacts]
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 [Show client description in info panel]
+[On tab control]
+[On the button bar]
+[Disable error popups on sending failures]
 [Show a preview of the event]
 [Don't announce event when message dialog is open]
 [Don't announce events from RSS protocols]

@@ -397,10 +397,10 @@ Dat (плагин mContacts)
 Путь к файлу
 [FTP path must contain '/' instead '\\' and start with '/'.]
 FTP путь должен содержать '/' вместо '\\' и начинаться с '/'.
-[Unknown error]
-Неизвестная ошибка
 [FTP path cannot contain <date> in import task.]
 FTP путь не должен содержать <date> в имени задачи для импорта.
+[Unknown error]
+Неизвестная ошибка
 [Cannot get FTP file(s).]
 Не удаётся получить файл(ы) с FTP.
 [Cannot unzip file(s).]

@@ -50,7 +50,7 @@
 [Phone can receive SMS text messages]
 [Add e-mail]
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
-[Enter a representitive name for the e-mail address here:]
+[Enter a representative name for the e-mail address here:]
 [Enter the e-mail address here:]
 [Show menu items]
 [Remind me]
@@ -327,9 +327,8 @@
 [Export/import group]
 [&Export group]
 [&Import group]
-[export/import]
-[&export]
-[&import]
+[&Export xml]
+[&Import xml]
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 [About:]
@@ -367,7 +366,6 @@
 [Interest]
 [Sorry, but there is a problem with adding a new item of type "%s"]
 [<empty>]
-[Add affliation]
 [Edit category]
 [Edit value]
 [Delete an entry]
@@ -571,7 +569,6 @@
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 [Phone (uinfoex)]
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[Refresh Contact Details]
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
 [Do you want to cancel the current refresh procedure?]
@@ -646,4 +643,3 @@
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (uinfoex)]
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
-[Country Flags]

@@ -1,0 +1,2 @@
+﻿[%s is typing.]
+[%s stopped typing.]
