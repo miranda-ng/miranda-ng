@@ -2487,6 +2487,8 @@ Sélectionnez l'emplacement du fichier journal
 [Select program to be run]
 Sélectionnez le programme à lancer
 ;file \src\modules\netlib\netlibopts.cpp
+[<mixed>]
+
 [<All connections>]
 <Toutes connexions>
 [Network]

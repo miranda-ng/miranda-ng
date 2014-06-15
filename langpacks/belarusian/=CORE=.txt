@@ -2481,6 +2481,8 @@ ID
 [Select program to be run]
 Абраць праграму для запуску
 ;file \src\modules\netlib\netlibopts.cpp
+[<mixed>]
+<розныя>
 [<All connections>]
 <Усе далучэнні>
 [Network]

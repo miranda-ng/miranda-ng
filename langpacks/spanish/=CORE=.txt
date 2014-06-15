@@ -2487,6 +2487,8 @@ Seleccione el archivo de registro que se creará
 [Select program to be run]
 Seleccione el programa a ser ejecutado
 ;file \src\modules\netlib\netlibopts.cpp
+[<mixed>]
+
 [<All connections>]
 <Todas las conexiones>
 [Network]

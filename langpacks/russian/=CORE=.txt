@@ -2399,6 +2399,8 @@ ID
 Выбрать путь к файлу журнала
 [Select program to be run]
 Выбрать программу для запуска
+[<mixed>]
+<различные>
 [<All connections>]
 <Все подключения>
 [Network]

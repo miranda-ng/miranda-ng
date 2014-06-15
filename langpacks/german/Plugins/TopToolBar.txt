@@ -36,6 +36,35 @@ Name:
 Pfad:
 [Set]
 Setzen
+;file \plugins\TopToolBar\src\InternalButtons.cpp
+[Show only online users]
+
+[Hide offline users]
+
+[Show all users]
+
+[Groups on/off]
+
+[Hide groups]
+
+[Show groups]
+
+[Sounds enable/disable]
+
+[Disable sounds]
+
+[Enable sounds]
+
+[Show options page]
+
+[Show options]
+
+[Minimize button]
+
+[Find/Add contacts]
+
+[Show main menu]
+
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Standard
