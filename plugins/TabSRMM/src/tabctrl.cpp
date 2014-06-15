@@ -157,84 +157,72 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat
 
 static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, TWindowData *dat)
 {
-	int				iSize = 16;
-	DWORD			dwTextFlags = DT_SINGLELINE | DT_VCENTER/* | DT_NOPREFIX*/;
-	BOOL			leftMost = FALSE;
+	if (dat == NULL)
+		return;
 
-	if (dat) {
-		HICON 	 hIcon;
-		COLORREF clr = 0;
-		HFONT 	 oldFont;
-		DWORD 	 dwStyle = tabdat->dwStyle;
-		int 	 oldMode = 0;
-		unsigned clrIndex = 0;
+	InflateRect(rcItem, -2, -2);
 
-		InflateRect(rcItem, -2, -2);
+	unsigned clrIndex = (dat->mayFlashTab) ? 3 : (nHint & HINT_ACTIVE_ITEM ? 1 : (nHint & HINT_HOTTRACK ? 2 : 0));
+	COLORREF clr = PluginConfig.tabConfig.colors[clrIndex];
 
-		if (dat->mayFlashTab)
-			clrIndex = 3;
-		else
-			clrIndex = (nHint & HINT_ACTIVE_ITEM ? 1 : (nHint & HINT_HOTTRACK ? 2 : 0));
+	int oldMode = SetBkMode(dc, TRANSPARENT);
 
-		clr = PluginConfig.tabConfig.colors[clrIndex];
+	if (!(tabdat->dwStyle & TCS_BOTTOM))
+		OffsetRect(rcItem, 0, 1);
 
-		oldMode = SetBkMode(dc, TRANSPARENT);
-
-		if (!(dwStyle & TCS_BOTTOM))
-			OffsetRect(rcItem, 0, 1);
-
-		if (dat->dwFlags & MWF_ERRORSTATE)
-			hIcon = PluginConfig.g_iconErr;
-		else if (dat->mayFlashTab)
+	int iSize = 16;
+	HICON hIcon;
+	if (dat->dwFlags & MWF_ERRORSTATE)
+		hIcon = PluginConfig.g_iconErr;
+	else if (dat->mayFlashTab)
+		hIcon = dat->iFlashIcon;
+	else {
+		if (dat->si && dat->iFlashIcon) {
 			hIcon = dat->iFlashIcon;
-		else {
-			if (dat->si && dat->iFlashIcon) {
-				int sizeX, sizeY;
 
-				hIcon = dat->iFlashIcon;
-				Utils::getIconSize(hIcon, sizeX, sizeY);
-				iSize = sizeX;
-			} else if (dat->hTabIcon == dat->hTabStatusIcon && dat->hXStatusIcon)
-				hIcon = dat->hXStatusIcon;
-			else
-				hIcon = dat->hTabIcon;
+			int sizeY;
+			Utils::getIconSize(hIcon, iSize, sizeY);
 		}
-
-
-		if (dat->mayFlashTab == FALSE || (dat->mayFlashTab == TRUE && dat->bTabFlash != 0) || !(dat->pContainer->dwFlagsEx & TCF_FLASHICON)) {
-			DWORD ix = rcItem->left + tabdat->m_xpad - 1;
-			DWORD iy = (rcItem->bottom + rcItem->top - iSize) / 2;
-			if (dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_IdleDetect)
-				CSkin::DrawDimmedIcon(dc, ix, iy, iSize, iSize, hIcon, 180);
-			else
-				DrawIconEx(dc, ix, iy, hIcon, iSize, iSize, 0, NULL, DI_NORMAL | DI_COMPAT);
-		}
-
-		rcItem->left += (iSize + 2 + tabdat->m_xpad);
-
-		if (tabdat->fCloseButton) {
-			if (tabdat->iHoveredCloseIcon != nItem)
-				CSkin::m_default_bf.SourceConstantAlpha = 150;
-
-			GdiAlphaBlend(dc, rcItem->right - 16 - tabdat->m_xpad, (rcItem->bottom + rcItem->top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
-									0, 0, 16, 16, CSkin::m_default_bf);
-
-			rcItem->right -= (18 + tabdat->m_xpad);
-			CSkin::m_default_bf.SourceConstantAlpha = 255;
-		}
-
-		if (dat->mayFlashTab == FALSE || (dat->mayFlashTab == TRUE && dat->bTabFlash != 0) || !(dat->pContainer->dwFlagsEx & TCF_FLASHLABEL)) {
-			oldFont = (HFONT)SelectObject(dc, (HFONT)SendMessage(tabdat->hwnd, WM_GETFONT, 0, 0));
-			if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) { // || (tabdat->m_moderntabs && leftMost)) {
-				rcItem->right -= tabdat->m_xpad;
-				dwTextFlags |= DT_WORD_ELLIPSIS;
-			}
-			CSkin::RenderText(dc, dwStyle & TCS_BUTTONS ? tabdat->hThemeButton : tabdat->hTheme, dat->newtitle, rcItem, dwTextFlags, CSkin::m_glowSize, clr);
-			SelectObject(dc, oldFont);
-		}
-		if (oldMode)
-			SetBkMode(dc, oldMode);
+		else if (dat->hTabIcon == dat->hTabStatusIcon && dat->hXStatusIcon)
+			hIcon = dat->hXStatusIcon;
+		else
+			hIcon = dat->hTabIcon;
 	}
+
+	if (dat->mayFlashTab == FALSE || (dat->mayFlashTab == TRUE && dat->bTabFlash != 0) || !(dat->pContainer->dwFlagsEx & TCF_FLASHICON)) {
+		DWORD ix = rcItem->left + tabdat->m_xpad - 1;
+		DWORD iy = (rcItem->bottom + rcItem->top - iSize) / 2;
+		if (dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_IdleDetect)
+			CSkin::DrawDimmedIcon(dc, ix, iy, iSize, iSize, hIcon, 180);
+		else
+			DrawIconEx(dc, ix, iy, hIcon, iSize, iSize, 0, NULL, DI_NORMAL | DI_COMPAT);
+	}
+
+	rcItem->left += (iSize + 2 + tabdat->m_xpad);
+
+	if (tabdat->fCloseButton) {
+		if (tabdat->iHoveredCloseIcon != nItem)
+			CSkin::m_default_bf.SourceConstantAlpha = 150;
+
+		GdiAlphaBlend(dc, rcItem->right - 16 - tabdat->m_xpad, (rcItem->bottom + rcItem->top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
+								0, 0, 16, 16, CSkin::m_default_bf);
+
+		rcItem->right -= (18 + tabdat->m_xpad);
+		CSkin::m_default_bf.SourceConstantAlpha = 255;
+	}
+
+	if (dat->mayFlashTab == FALSE || (dat->mayFlashTab == TRUE && dat->bTabFlash != 0) || !(dat->pContainer->dwFlagsEx & TCF_FLASHLABEL)) {
+		DWORD dwTextFlags = DT_SINGLELINE | DT_VCENTER;
+		HFONT oldFont = (HFONT)SelectObject(dc, (HFONT)SendMessage(tabdat->hwnd, WM_GETFONT, 0, 0));
+		if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) { // || (tabdat->m_moderntabs && leftMost)) {
+			rcItem->right -= tabdat->m_xpad;
+			dwTextFlags |= DT_WORD_ELLIPSIS;
+		}
+		CSkin::RenderText(dc, tabdat->dwStyle & TCS_BUTTONS ? tabdat->hThemeButton : tabdat->hTheme, dat->newtitle, rcItem, dwTextFlags, CSkin::m_glowSize, clr);
+		SelectObject(dc, oldFont);
+	}
+	if (oldMode)
+		SetBkMode(dc, oldMode);
 }
 
 /*

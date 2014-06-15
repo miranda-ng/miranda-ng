@@ -2210,8 +2210,11 @@ void TSAPI GetMyNick(TWindowData *dat)
 		mir_free(ci.pszVal);
 }
 
-HICON TSAPI MY_GetContactIcon(const TWindowData *dat)
+HICON TSAPI MY_GetContactIcon(const TWindowData *dat, LPCSTR szSetting)
 {
+	int bUseMeta = (szSetting == NULL) ? false : M.GetByte(szSetting, true);
+	if (bUseMeta)
+		return LoadSkinnedProtoIcon(dat->cache->getProto(), dat->cache->getStatus());
 	return LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus());
 }
 

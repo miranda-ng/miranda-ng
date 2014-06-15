@@ -2215,11 +2215,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 
 		if (LPCSTR szProto = dat->cache->getProto()) {
-			dat->hTabIcon = dat->hTabStatusIcon = MY_GetContactIcon(dat);
+			dat->hTabIcon = dat->hTabStatusIcon = MY_GetContactIcon(dat, "MetaiconTab");
 			if (M.GetByte("use_xicons", 1))
 				dat->hXStatusIcon = GetXStatusIcon(dat);
+
 			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BUTTONSETASDIMMED, (dat->dwFlagsEx & MWF_SHOW_ISIDLE) != 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(dat->hXStatusIcon ? dat->hXStatusIcon : dat->hTabIcon));
+			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(dat->hXStatusIcon ? dat->hXStatusIcon : MY_GetContactIcon(dat, "MetaiconBar")));
 
 			if (m_pContainer->hwndActive == hwndDlg)
 				SendMessage(m_pContainer->hwnd, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->hXStatusIcon ? dat->hXStatusIcon : dat->hTabIcon));
