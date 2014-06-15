@@ -63,11 +63,10 @@ int CSendHTTPServer::Send()
 		m_pszFileName = GetFileNameA(m_pszFile);
 	}
 	mir_freeAndNil(m_fsi_pszSrvPath);
-	mir_stradd(m_fsi_pszSrvPath, "/");
-	mir_stradd(m_fsi_pszSrvPath, m_pszFileName);
+	mir_tcsadd(m_fsi_pszSrvPath, _T("/"));
+	mir_tcsadd(m_fsi_pszSrvPath, _A2T(m_pszFileName));
 
-	mir_free(m_fsi_pszRealPath);
-	m_fsi_pszRealPath = mir_t2a(m_pszFile);
+	replaceStrT(m_fsi_pszRealPath, m_pszFile);
 
 	ZeroMemory(&m_fsi, sizeof(m_fsi));
 	m_fsi.lStructSize	= sizeof(STFileShareInfo);

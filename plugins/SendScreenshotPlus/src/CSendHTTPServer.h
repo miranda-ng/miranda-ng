@@ -39,12 +39,14 @@ class CSendHTTPServer : public CSend {
 		int Send();
 
 	protected:
-		char*					m_pszFileName;
-		STFileShareInfo			m_fsi;
-		char*					m_fsi_pszSrvPath;
-		char*					m_fsi_pszRealPath;
-		void					SendThread();
-		static void				SendThreadWrapper(void * Obj);
+		char*  m_pszFileName;
+		TCHAR* m_fsi_pszSrvPath;
+		TCHAR* m_fsi_pszRealPath;
+
+		STFileShareInfo m_fsi;
+
+		void SendThread();
+		static void SendThreadWrapper(void * Obj);
 
 		typedef std::map<HANDLE, CSendHTTPServer *> CContactMapping;
 		static CContactMapping _CContactMapping;
