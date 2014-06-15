@@ -269,8 +269,8 @@ Weiterleiten
 SOCKS4
 [SOCKS5]
 SOCKS5
-[%s mail]
-%s Mail
+[%S mail]
+%S Mail
 ;file \protocols\Tlen\src\tlen_picture.cpp
 [Image sent file://%s]
 Gesendete Bilddatei://%s
@@ -298,6 +298,8 @@ E-Mail
 Ein Alarm wurde empfangen.
 [Private conference]
 Private Konferenz
+[%s mail]
+%s Mail
 [Subject]
 Betreff
 ;file \protocols\Tlen\src\tlen_userinfo.cpp

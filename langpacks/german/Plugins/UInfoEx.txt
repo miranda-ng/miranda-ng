@@ -94,7 +94,7 @@ Telefon kann SMS-Nachrichten empfangen
 E-Mail hinzufügen
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Geben Sie hier die volle E-Mail-Adresse ein.\n(z.B.:john.doe@provider.de)
-[Enter a representitive name for the e-mail address here:]
+[Enter a representative name for the e-mail address here:]
 Geben Sie einen Namen für die E-Mail-Adresse ein:
 [Enter the e-mail address here:]
 Geben Sie hier die E-Mail-Adresse ein:
@@ -635,11 +635,9 @@ Gruppe ex-/importieren
 Exportiere Gruppe
 [&Import group]
 Importiere Gruppe
-[export/import]
-Ex-/Importieren
-[&export xml]
+[&Export xml]
 
-[xml &import]
+[&Import xml]
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
@@ -710,8 +708,6 @@ Interessen
 Entschuldigung, aber es gibt ein Problem mit dem Erstellen des neuen Artikels vom Typ "%s"
 [<empty>]
 <leer>
-[Add affliation]
-Mitgliedschaft hzfg.
 [Edit category]
 Kategorie bearbeiten
 [Edit value]

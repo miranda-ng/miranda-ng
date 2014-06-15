@@ -94,7 +94,7 @@
 Добавяне на имейл
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Въведете целия адрес на имейла.\n(напр. ivan@abv.bg)
-[Enter a representitive name for the e-mail address here:]
+[Enter a representative name for the e-mail address here:]
 Въведете представително име за е-поща:
 [Enter the e-mail address here:]
 Въведете адреса на е-поща тук:
@@ -635,11 +635,9 @@ UserInfoEx
 Изнасяне на групата
 [&Import group]
 Внасяне на групата
-[export/import]
-износ/внос
-[&export xml]
+[&Export xml]
 
-[xml &import]
+[&Import xml]
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
@@ -710,8 +708,6 @@ Popups
 
 [<empty>]
 <празно>
-[Add affliation]
-
 [Edit category]
 Редактиране на категория
 [Edit value]

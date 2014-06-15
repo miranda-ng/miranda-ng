@@ -1106,6 +1106,8 @@ Strona domowa (uinfoex)
 [Phone (uinfoex)]
 Telefon (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[b]%s (%S)...[/b]\nPozostało %d kontaktów
 [Abort Refreshing Contact Details]
 Przerwij odświeżanie danych kontaktu
 [Do you want to cancel the current refresh procedure?]

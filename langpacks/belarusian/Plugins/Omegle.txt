@@ -74,10 +74,10 @@ Omegle гэта новы спосаб сяброўства!
 Незнаёмец
 [You and the Stranger both like: ]
 Вам і незнаёмцу падабаецца:\s
-[Stranger is typing.]
-Незнаёмец піша.
-[Stranger stopped typing.]
-Незнаёмец спыніў друк.
+[%s is typing.]
+%s піша.
+[%s stopped typing.]
+%s спыніў друк.
 [%s disconnected.]
 %s адкючыўся.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]

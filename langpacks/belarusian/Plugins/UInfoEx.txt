@@ -94,7 +94,7 @@
 Дадаць e-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Увядзіце e-mail адрас.\n(напрыклад, john.doe@provider.com)
-[Enter a representitive name for the e-mail address here:]
+[Enter a representative name for the e-mail address here:]
 Увядзіце імя для электроннага адрасу:
 [Enter the e-mail address here:]
 Увядзіце электронны адрас:
@@ -694,8 +694,6 @@ E-Mail
 Памылка дадання новага элемента з тыпам "%s"
 [<empty>]
 <пуста>
-[Add affliation]
-Дадаць
 [Edit category]
 Змяніць катэгорыю
 [Edit value]

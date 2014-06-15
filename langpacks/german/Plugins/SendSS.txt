@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.5.1
+;  Version: 0.8.5.2
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]

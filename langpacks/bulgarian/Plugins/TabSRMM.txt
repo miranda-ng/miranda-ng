@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.3
+;  Version: 3.3.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1600,6 +1600,8 @@ TabSRMM съобщение (%s)
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 
+[Display metacontact icons]
+
 [Error feedback]
 При грешка
 [Show skinnable tooltip in chat (Tipper plugin required)]
@@ -1610,14 +1612,18 @@ TabSRMM съобщение (%s)
 Изключване на анимираните .GIF аварати (няма да се отрази на вече отворените прозорци)
 [Close current tab on send]
 Затваряне на таба след изпращане
-[Disable error popups on sending failures]
-Без popups при неуспешно изпращане на съобщение
 [Automatic keyboard layout: Do not load the system default for new contacts]
 Автоматично избиране на клавиатурна подредба: Без зареждане на стандартната системна подредба за нови контакти
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)*
 [Show client description in info panel]
 
+[On tab control]
+
+[On the button bar]
+
+[Disable error popups on sending failures]
+Без popups при неуспешно изпращане на съобщение
 [Show a preview of the event]
 Представяне на образец на събитието
 [Don't announce event when message dialog is open]

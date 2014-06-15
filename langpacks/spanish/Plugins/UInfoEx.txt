@@ -94,7 +94,7 @@ El teléfono puede recibir mensajes de texto SMS
 
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 
-[Enter a representitive name for the e-mail address here:]
+[Enter a representative name for the e-mail address here:]
 
 [Enter the e-mail address here:]
 
@@ -635,11 +635,9 @@ Ver/Modificar mis datos...
 
 [&Import group]
 
-[export/import]
+[&Export xml]
 
-[&export xml]
-
-[xml &import]
+[&Import xml]
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
@@ -709,8 +707,6 @@ Ventanas emergentes
 [Sorry, but there is a problem with adding a new item of type "%s"]
 
 [<empty>]
-
-[Add affliation]
 
 [Edit category]
 

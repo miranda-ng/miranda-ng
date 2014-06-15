@@ -261,6 +261,8 @@ Newsfeed
 Freundschaft-Details
 [Conversation]
 Unterhaltung
+[Message read]
+
 [Visit profile]
 Profil besuchen
 [Visit friendship details]

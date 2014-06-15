@@ -74,9 +74,9 @@
 
 [You and the Stranger both like: ]
 
-[Stranger is typing.]
+[%s is typing.]
 
-[Stranger stopped typing.]
+[%s stopped typing.]
 
 [%s disconnected.]
 

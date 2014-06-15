@@ -249,13 +249,13 @@ BLOB
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Желаете ли модулът "%s" да бъде изтрит?
-[Confirm Module Deletion]
+[Confirm module deletion]
 Потвърждение за изтриване на модул
-[Delete module from Database]
+[Delete module from database]
 Изтриване на модул от базата от данни
-[Delete module from Database... Loading]
-Изтриване на модула от Database... Зареждане
-[Delete module from all contacts (Includes Setting)]
+[Delete module from database... Loading]
+Изтриване на модула от базата от данни... Зареждане
+[Delete module from all contacts (including Setting)]
 
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
@@ -264,7 +264,7 @@ INI файлове
 Всички файлове
 [Export to file]
 Износ във файл
-[Error Loading Module List]
+[Error loading module list]
 Грешка при зареждане на списъка с модули
 [Couldn't open file for writing]
 Файлът не може да бъде отворен за писане
@@ -346,8 +346,6 @@ INI файлове
 Зареждане на модулите...
 [Module tree not found]
 Дървото на модулът не е открито
-[Error loading module list]
-
 [Contacts]
 Контакти
 [HANDLE]

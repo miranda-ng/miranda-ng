@@ -38,26 +38,6 @@ Passe :
 [NotifyAnything]
 
 ;file \plugins\NotifyAnything\src\main.cpp
-[No resource name given.]
-
-[Could not find the requested icon.]
-
-[Application launching is disabled.]
-
-[Unterminated option.]
-
-[No argument given to msg option.]
-
-[ID is required for replacement.]
-
-[Invalid argument for replace option: ]
-
-[Empty message ignored.]
-
-[Failed to write to log file.]
-
-[Failed to open log file.]
-
 [N/A: Failed to format error message]
 
 [N/A: FormatMessage failed, error code was 0x]

@@ -61,6 +61,7 @@
 [Mind]
 [Newsfeed]
 [Friendship details]
+[Message read]
 [Visit conversation]
 [Cancel friendship request]
 [Request friendship]

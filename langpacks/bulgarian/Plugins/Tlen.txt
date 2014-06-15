@@ -267,7 +267,7 @@
 
 [SOCKS5]
 
-[%s mail]
+[%S mail]
 
 ;file \protocols\Tlen\src\tlen_picture.cpp
 [Image sent file://%s]
@@ -295,6 +295,8 @@
 [An alert has been received.]
 
 [Private conference]
+
+[%s mail]
 
 [Subject]
 

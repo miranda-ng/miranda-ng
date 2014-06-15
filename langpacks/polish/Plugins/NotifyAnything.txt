@@ -38,26 +38,6 @@ Hasło:
 [NotifyAnything]
 Powiadamiaj o wszystkim
 ;file \plugins\NotifyAnything\src\main.cpp
-[No resource name given.]
-Nie podano nazwy zasobu.
-[Could not find the requested icon.]
-Nie można znaleźć żądanej ikony.
-[Application launching is disabled.]
-Uruchamianie programów jest wyłączone.
-[Unterminated option.]
-Niezakończona opcja.
-[No argument given to msg option.]
-Nie podano argumentu dla opcji msg.
-[ID is required for replacement.]
-ID jest wymagany w celu zamiany.
-[Invalid argument for replace option: ]
-Niepoprawny argument dla opcji replace:\s
-[Empty message ignored.]
-Ignoruj puste wiadomości.
-[Failed to write to log file.]
-Błąd zapisywania do pliku dziennika.
-[Failed to open log file.]
-Błąd otwierania pliku dziennika.
 [N/A: Failed to format error message]
 N/A: Nie udało się sformatować komunikatu błędu
 [N/A: FormatMessage failed, error code was 0x]

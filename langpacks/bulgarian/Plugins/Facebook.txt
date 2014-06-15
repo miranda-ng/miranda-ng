@@ -250,6 +250,8 @@ URL:
 
 [Conversation]
 
+[Message read]
+
 [Visit profile]
 
 [Visit friendship details]

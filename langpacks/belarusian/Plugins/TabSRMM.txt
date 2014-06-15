@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.3
+;  Version: 3.3.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1613,14 +1613,14 @@ tabSRMM: %s
 Адключыць анімаваныя GIF-аватары (не паўплывае на ўжо адкрытыя вокны паведамленняў)
 [Close current tab on send]
 Зачыняць укладку пры адпраўцы
-[Disable error popups on sending failures]
-Адключыць усплывальныя вокны пра няўдалую дастаўку
 [Automatic keyboard layout: Do not load the system default for new contacts]
 Аўтаматычная раскладка клавіятуры: не загружаць раскладку сістэмы па змаўчанні для новых кантактаў
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Уключыць аўтаматычную адпраўку (эксперыментальная опцыя, неабходна для мультыадпраўкі і адпраўкі з затрымкай) (*)
 [Show client description in info panel]
 Паказваць у інфо-панэлі кліент кантакту
+[Disable error popups on sending failures]
+Адключыць усплывальныя вокны пра няўдалую дастаўку
 [Show a preview of the event]
 Прадпрагляд падзеі
 [Don't announce event when message dialog is open]

@@ -246,8 +246,8 @@ Tlen пошта
 (Апошняе паведамленне)
 [Forwarding]
 Перанакіраванне
-[%s mail]
-%s пошта
+[%S mail]
+%S пошта
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
@@ -269,6 +269,8 @@ Tlen памылка далучэння
 Абвестка прынята.
 [Private conference]
 Асабістая канферэнцыя
+[%s mail]
+%s пошта
 [Subject]
 Тэма
 ;file \protocols\Tlen\src\tlen_userinfo.cpp

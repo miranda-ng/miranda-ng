@@ -1589,14 +1589,14 @@ TabSRMM: %s
 Вимкнути анімовані GIF-аватари (не вплине на відкриті вікна)
 [Close current tab on send]
 Закривати вкладку при надсиланні
-[Disable error popups on sending failures]
-Вимкнути спливаючі вікна про невдалу доставку
 [Automatic keyboard layout: Do not load the system default for new contacts]
 Не завантажувати розкладку клавіатури за замовчанням для нових контактів
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Увімкнути автонадсилання (необхідно для мультивідправки та відправлення з затримкою) (*)
 [Show client description in info panel]
 Показувати опис клієнта в інфо-панелі
+[Disable error popups on sending failures]
+Вимкнути спливаючі вікна про невдалу доставку
 [Show a preview of the event]
 Перегляд події
 [Don't announce event when message dialog is open]

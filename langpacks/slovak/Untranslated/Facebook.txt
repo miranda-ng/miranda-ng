@@ -109,6 +109,7 @@
 [Newsfeed]
 [Friendship details]
 [Conversation]
+[Message read]
 [Visit profile]
 [Visit friendship details]
 [Visit conversation]

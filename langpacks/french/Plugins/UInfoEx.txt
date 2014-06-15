@@ -94,7 +94,7 @@ Ce téléphone peut recevoir des SMS
 Ajouter un courriel
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 
-[Enter a representitive name for the e-mail address here:]
+[Enter a representative name for the e-mail address here:]
 Indiquez ici un nom représentatif pour l'adresse électronique :
 [Enter the e-mail address here:]
 Entrez l'adresse électronique ici :
@@ -635,11 +635,9 @@ Vérifier les anniversaires
 
 [&Import group]
 
-[export/import]
+[&Export xml]
 
-[&export xml]
-
-[xml &import]
+[&Import xml]
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
@@ -710,8 +708,6 @@ Centres d'intérêt
 Désolé, mais il y a un problème avec l'ajout d'élément de type "%s"
 [<empty>]
 
-[Add affliation]
-Ajouter une affiliation
 [Edit category]
 Modifier la catégorie
 [Edit value]

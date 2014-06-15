@@ -74,10 +74,10 @@ Fremder 2
 Unbekannter
 [You and the Stranger both like: ]
 Sie und der Fremde mögen beide:\s
-[Stranger is typing.]
-Fremder tippt
-[Stranger stopped typing.]
-Fremder tippt nicht mehr
+[%s is typing.]
+%s tippt
+[%s stopped typing.]
+%s tippt nicht mehr
 [%s disconnected.]
 %d wurde getrennt
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]

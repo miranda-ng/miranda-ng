@@ -261,6 +261,8 @@ Fuentes noticias
 Detalles de amistad
 [Conversation]
 
+[Message read]
+
 [Visit profile]
 Visitar perfil
 [Visit friendship details]

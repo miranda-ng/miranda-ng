@@ -249,13 +249,13 @@ Einstellungen
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Soll Modul "%s" wirklich gelöscht werden?
-[Confirm Module Deletion]
+[Confirm module deletion]
 Modullöschung bestätigen
-[Delete module from Database]
+[Delete module from database]
 Modul aus der Datenbank löschen
-[Delete module from Database... Loading]
+[Delete module from database... Loading]
 Modul aus der Datenbank löschen... Lade
-[Delete module from all contacts (Includes Setting)]
+[Delete module from all contacts (including Setting)]
 Modul von allen Kontakten löschen (inkl. Einstell.)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
@@ -264,7 +264,7 @@ INI-Dateien
 Alle Dateien
 [Export to file]
 Exportieren
-[Error Loading Module List]
+[Error loading module list]
 Fehler beim Laden der Modulliste
 [Couldn't open file for writing]
 Konnte nicht in Datei schreiben
@@ -346,8 +346,6 @@ Lade Kontakte...
 Lade Module...
 [Module tree not found]
 Modulbaum nicht gefunden
-[Error loading module list]
-
 [Contacts]
 Kontakte
 [HANDLE]

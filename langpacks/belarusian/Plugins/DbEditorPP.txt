@@ -235,13 +235,13 @@
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Выдаліць плагін "%s"?
-[Confirm Module Deletion]
+[Confirm module deletion]
 Выдаліць плагін?
-[Delete module from Database]
+[Delete module from database]
 Выдаліць плагін з базы
-[Delete module from Database... Loading]
+[Delete module from database... Loading]
 Выдаленне плагіна з базы... Загрузка
-[Delete module from all contacts (Includes Setting)]
+[Delete module from all contacts (including Setting)]
 Выдаліць з усіх кантактаў (з наладамі)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
@@ -250,7 +250,7 @@ INI файлы
 Усе файлы
 [Export to file]
 Экспарт
-[Error Loading Module List]
+[Error loading module list]
 Памылка загрузкі спісу плагінаў
 [Couldn't open file for writing]
 Не атрымоўваецца адкрыць файл на запіс

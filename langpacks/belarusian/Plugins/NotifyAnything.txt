@@ -36,8 +36,6 @@
 Пароль:
 ;file \plugins\NotifyAnything\src\common.h
 ;file \plugins\NotifyAnything\src\main.cpp
-[Failed to open log file.]
-Не атрымалася адчыніць файл журнала.
 [N/A: Failed to format error message]
 N/A: Памылка фармату паведамлення, з памылкай
 [N/A: FormatMessage failed, error code was 0x]

@@ -269,7 +269,7 @@ Envoi en cours
 
 [SOCKS5]
 
-[%s mail]
+[%S mail]
 
 ;file \protocols\Tlen\src\tlen_picture.cpp
 [Image sent file://%s]
@@ -298,6 +298,9 @@ e-mail
 Vous avez reçu une alerte.
 [Private conference]
 Chat privé
+
+[%s mail]
+
 [Subject]
 
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
