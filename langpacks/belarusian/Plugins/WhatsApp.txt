@@ -49,8 +49,8 @@
 [Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
 Ваш пароль усталяваны аўтаматычна.\nКалі вы зменіце яго ўручную, можаце згубіць яго і прыйдзецца запытаць новы.
 ;file \protocols\WhatsApp\src\main.cpp
-[Did not unpack registration utility WART-1.6.8.0.exe.]
-Не распакавана праграма для рэгістрацыі WART-*.exe.
+[Did not unpack WART (registration utility).]
+Не распакавана праграма для рэгістрацыі WART.
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s

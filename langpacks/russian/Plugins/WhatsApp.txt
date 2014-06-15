@@ -45,8 +45,8 @@ SMS-код:
 Пожалуйста, верно укажите свой код регистрации, полученный в SMS
 [Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
 Ваш пароль установлен автоматически.\nЕсли вы измените его вручную, то можете потерять его и придется запросить новый код!
-[Did not unpack registration utility WART-1.6.8.0.exe.]
-Не распакована программа для регистрации WART-1.6.8.0.exe.
+[Did not unpack WART (registration utility).]
+Не распакована программа WART (необходима для регистрации).
 [%s server connection]
 %s подключение к серверу
 [Unable to get Netlib connection for WhatsApp]
