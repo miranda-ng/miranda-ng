@@ -298,7 +298,6 @@ e-mail
 Vous avez reçu une alerte.
 [Private conference]
 Chat privé
-
 [%s mail]
 
 [Subject]
