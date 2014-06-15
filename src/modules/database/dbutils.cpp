@@ -97,6 +97,8 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBEVENTINFO *dbei = egt->dbei;
+	if (dbei == NULL || dbei->szModule == NULL || dbei->cbSize != sizeof(DBEVENTINFO))
+		return 0;
 
 	DBEVENTTYPEDESCR *et = (DBEVENTTYPEDESCR*)DbEventTypeGet((WPARAM)dbei->szModule, (LPARAM)dbei->eventType);
 	if (et && ServiceExists(et->textService))
