@@ -107,13 +107,13 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "User details",IDC_STATIC,7,7,291,60
-    LTEXT           "E-mail:",IDC_STATIC,17,19,61,8
+    LTEXT           "E-mail:",IDC_STATIC,17,19,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_UN,84,17,123,13,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,17,35,61,8
+    LTEXT           "Password:",IDC_STATIC,17,35,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_PW,84,33,123,13,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Create a new Facebook account",IDC_NEWACCOUNTLINK,
                     "Hyperlink",WS_TABSTOP,84,52,189,10
-    LTEXT           "Default group:",IDC_STATIC,17,85,61,8
+    LTEXT           "Default group:",IDC_STATIC,17,85,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_GROUP,84,84,123,13,ES_AUTOHSCROLL
     CONTROL         "Automatically set 'Ignore status change' flag",IDC_SET_IGNORE_STATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,101,271,10
@@ -156,7 +156,7 @@ BEGIN
     CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,84,267,10
     RTEXT           "Use this server for opening links:",IDC_STATIC,17,100,135,8
-    COMBOBOX        IDC_URL_SERVER,156,97,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_URL_SERVER,156,97,128,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)",IDC_CUSTOM_SMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,136,267,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,

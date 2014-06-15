@@ -379,22 +379,19 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 	case WM_COMMAND:
 	{
-		if (LOWORD(wparam) == IDC_NEWACCOUNTLINK)
-		{
+		switch (LOWORD(wparam)) {
+		case IDC_NEWACCOUNTLINK:
 			proto->OpenUrl(std::string(FACEBOOK_URL_HOMEPAGE));
 			return TRUE;
-		}
-
-		if (LOWORD(wparam) == IDC_SECURE) {
-			EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
-		}
-
-		if ((LOWORD(wparam)==IDC_UN || LOWORD(wparam)==IDC_PW || LOWORD(wparam)==IDC_GROUP) &&
-		    (HIWORD(wparam)!=EN_CHANGE || (HWND)lparam!=GetFocus()))
-			return 0;
-		else
+		case IDC_UN:
+		case IDC_PW:
+		case IDC_GROUP:
+			if (HIWORD(wparam)==EN_CHANGE && (HWND)lparam==GetFocus())
+				SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
+			break;
+		default:
 			SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
-
+		}
 	} break;
 
 	case WM_NOTIFY:
@@ -471,15 +468,26 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 	}
 
 	case WM_COMMAND: {
-		if (LOWORD(wparam) == IDC_SECURE) {
+		switch (LOWORD(wparam)) {
+		case IDC_SECURE:
 			EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
+			SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
+			break;
+		case IDC_URL_SERVER:
+			if(HIWORD(wparam) == CBN_SELCHANGE)
+				SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
+			break;
+		case IDC_MESSAGES_COUNT:
+			if(HIWORD(wparam) == EN_CHANGE && (HWND)lparam==GetFocus())
+				SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
+			break;
+		case IDC_SECURE_CHANNEL:
+			if (IsDlgButtonChecked(hwnd, IDC_SECURE_CHANNEL))
+				MessageBox(hwnd, TranslateT("Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly."), proto->m_tszUserName, MB_OK);
+		default:
+			SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
+			break;
 		}
-
-		if (LOWORD(wparam) == IDC_SECURE_CHANNEL && IsDlgButtonChecked(hwnd, IDC_SECURE_CHANNEL))
-			MessageBox(hwnd, TranslateT("Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly."), proto->m_tszUserName, MB_OK);
-
-		SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
-
 		break;
 	}
 
@@ -553,7 +561,6 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 	} return TRUE;
 
 	case WM_COMMAND:
-	{
 		switch (LOWORD(wparam))
 		{
 		case IDC_PREVIEW:
@@ -562,14 +569,14 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample newsfeed"), NULL, FACEBOOK_EVENT_NEWSFEED);
 			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION);
 			break;
-		}
-
-		if ((LOWORD(wparam)==IDC_PREVIEW || (HWND)lparam!=GetFocus()))
-			return 0;
-		else
+		case IDC_FEED_TYPE:
+			if(HIWORD(wparam) == CBN_SELCHANGE)
+				SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
+			break;
+		default:
 			SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
-
-	} return TRUE;
+		}
+		return TRUE;
 
 	case WM_NOTIFY:
 	{
@@ -578,7 +585,6 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			proto->setByte(FACEBOOK_KEY_FEED_TYPE, SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_GETCURSEL, 0, 0));
 
 			StoreDBCheckState(proto, hwnd, IDC_SYSTRAY_NOTIFY, FACEBOOK_KEY_SYSTRAY_NOTIFY);
-
 			StoreDBCheckState(proto, hwnd, IDC_NOTIFICATIONS_ENABLE, FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE);
 			StoreDBCheckState(proto, hwnd, IDC_FEEDS_ENABLE, FACEBOOK_KEY_EVENT_FEEDS_ENABLE);
 			StoreDBCheckState(proto, hwnd, IDC_OTHER_ENABLE, FACEBOOK_KEY_EVENT_OTHER_ENABLE);
