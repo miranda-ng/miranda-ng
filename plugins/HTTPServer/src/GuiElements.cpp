@@ -94,18 +94,12 @@ void ReplaceAll(tstring &sSrc, const TCHAR * pszReplace, const TCHAR * pszNew) {
 
 tstring DBGetString(MCONTACT hContact, const char *szModule, const char *szSetting, const TCHAR * pszError) {
 	tstring ret;
-	DBVARIANT dbv = {0};
-	if (!db_get(hContact, szModule, szSetting, &dbv)) {
-		if (dbv.type != DBVT_TCHAR) {
-			MessageBox(NULL, _T("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
-			ret = pszError;
-		} else {
-			ret = dbv.ptszVal;
-		}
-	} else
-		ret = pszError;
-	db_free(&dbv);
-	return ret;
+	ptrT tszStr(db_get_tsa(hContact, szModule, szSetting));
+	if (tszStr != NULL)
+		return LPTSTR(tszStr);
+
+	MessageBox(NULL, _T("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
+	return pszError;
 }
 
 
