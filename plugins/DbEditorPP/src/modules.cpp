@@ -81,7 +81,7 @@ int CloneContact(MCONTACT hContact)
 	// enum all the modules
 	ModuleSettingLL modlist;
 	if (!EnumModules(&modlist)) {
-		msg(Translate("Error Loading Module List"), modFullname);
+		msg(Translate("Error loading module list"), modFullname);
 		return 0;
 	}
 

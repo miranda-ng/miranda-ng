@@ -485,7 +485,7 @@ void __cdecl FindSettings(LPVOID di)
 		return;
 
 	if (!EnumModules(&ModuleList)) {
-		msg(Translate("Error Loading Module List"), modFullname);
+		msg(Translate("Error loading module list"), modFullname);
 		mir_free(di);
 		return;
 	}
