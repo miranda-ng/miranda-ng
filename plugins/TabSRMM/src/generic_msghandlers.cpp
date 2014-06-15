@@ -912,11 +912,9 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat)
 {
 	ButtonItem *buttonItem = dat->pContainer->buttonItems;
 	MCONTACT hContact = dat->hContact, hFinalContact = 0;
-	char *szModule, *szSetting;
 	HWND hwndContainer = dat->pContainer->hwnd;
 
 	while (buttonItem) {
-		BOOL result = FALSE;
 		HWND hWnd = GetDlgItem(hwndContainer, buttonItem->uId);
 
 		if (buttonItem->pfnCallback)
@@ -926,8 +924,10 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat)
 			buttonItem = buttonItem->nextItem;
 			continue;
 		}
-		szModule = buttonItem->szModule;
-		szSetting = buttonItem->szSetting;
+
+		BOOL result = FALSE;
+		char *szModule = buttonItem->szModule;
+		char *szSetting = buttonItem->szSetting;
 		if (buttonItem->dwFlags & BUTTON_DBACTIONONCONTACT || buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION) {
 			if (hContact == 0) {
 				SendMessage(hWnd, BM_SETCHECK, BST_UNCHECKED, 0);
@@ -937,36 +937,26 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat)
 			if (buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION)
 				szModule = GetContactProto(hContact);
 			hFinalContact = hContact;
-		} else
-			hFinalContact = 0;
-
-		if (buttonItem->type == DBVT_ASCIIZ) {
-			DBVARIANT dbv = {0};
-
-			if (!db_get_s(hFinalContact, szModule, szSetting, &dbv)) {
-				result = !strcmp((char *)buttonItem->bValuePush, dbv.pszVal);
-				db_free(&dbv);
-			}
-		} else {
-			switch (buttonItem->type) {
-				case DBVT_BYTE: {
-					BYTE val = db_get_b(hFinalContact, szModule, szSetting, 0);
-					result = (val == buttonItem->bValuePush[0]);
-					break;
-				}
-				case DBVT_WORD: {
-					WORD val = db_get_w(hFinalContact, szModule, szSetting, 0);
-					result = (val == *((WORD *) & buttonItem->bValuePush));
-					break;
-				}
-				case DBVT_DWORD: {
-					DWORD val = db_get_dw(hFinalContact, szModule, szSetting, 0);
-					result = (val == *((DWORD *) & buttonItem->bValuePush));
-					break;
-				}
-			}
 		}
-		SendMessage(hWnd, BM_SETCHECK, (WPARAM)result, 0);
+		else hFinalContact = 0;
+
+		switch (buttonItem->type) {
+		case DBVT_BYTE:
+			result = (db_get_b(hFinalContact, szModule, szSetting, 0) == buttonItem->bValuePush[0]);
+			break;
+		case DBVT_WORD:
+			result = (db_get_w(hFinalContact, szModule, szSetting, 0) == *((WORD *)&buttonItem->bValuePush));
+			break;
+		case DBVT_DWORD:
+			result = (db_get_dw(hFinalContact, szModule, szSetting, 0) == *((DWORD *)&buttonItem->bValuePush));
+			break;
+		case DBVT_ASCIIZ:
+			ptrA szValue(db_get_sa(hFinalContact, szModule, szSetting));
+			if (szValue)
+				result = !strcmp((char*)buttonItem->bValuePush, szValue);
+			break;
+		}
+		SendMessage(hWnd, BM_SETCHECK, result, 0);
 		buttonItem = buttonItem->nextItem;
 	}
 }
@@ -1682,7 +1672,8 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	else SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 
 	// handle tab flashing
-	if ((TabCtrl_GetCurSel(hwndTab) != dat->iTabID) && !(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
+	if (!bDisableNotify && !bIsStatusChangeEvent)
+	if ((TabCtrl_GetCurSel(hwndTab) != dat->iTabID) && !(dbei.flags & DBEF_SENT)) {
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
 			dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
@@ -1697,16 +1688,13 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		SetTimer(hwndDlg, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
 		dat->mayFlashTab = TRUE;
 	}
-	/*
-	 * try to flash the contact list...
-	 */
+
+	// try to flash the contact list...
 	if (!bDisableNotify)
 		FlashOnClist(hwndDlg, dat, hDbEvent, &dbei);
 
-	/*
-	 * autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
-	 * never switch for status changes...
-	 */
+	// autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
+	// never switch for status changes...
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
 		if (PluginConfig.haveAutoSwitch() && m_pContainer->hwndActive != hwndDlg) {
 			if ((IsIconic(hwndContainer) && !IsZoomed(hwndContainer)) || (PluginConfig.m_HideOnClose && !IsWindowVisible(m_pContainer->hwnd))) {
@@ -1722,19 +1710,16 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	/*
-	 * flash window if it is not focused
-	 */
-	if ((GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer || dat->pContainer->hwndActive != hwndDlg) && !(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
+	// flash window if it is not focused
+	if (!bDisableNotify && !bIsStatusChangeEvent)
+	if ((GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer || dat->pContainer->hwndActive != hwndDlg) && !(dbei.flags & DBEF_SENT)) {
 		if (!(m_pContainer->dwFlags & CNT_NOFLASH) && (GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer))
 			FlashContainer(m_pContainer, 1, 0);
 		SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
 		m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
 	}
 
-	/*
-	 * play a sound
-	 */
+	// play a sound
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT)))
 		PostMessage(hwndDlg, DM_PLAYINCOMINGSOUND, 0, 0);
 
