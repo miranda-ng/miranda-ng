@@ -54,18 +54,15 @@ type
   TEmptyHistoryFrm = class(TForm)
     btYes: TButton;
     btNo: TButton;
-    paContacts: TPanel;
     paButtons: TPanel;
     Image: TImage;
     Text: TLabel;
-    cbInclude: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure btYesClick(Sender: TObject);
   private
     FContact: TMCONTACT;
-    FContacts: Array of TMCONTACT;
     procedure TranslateForm;
     procedure PrepareForm;
     procedure SetContact(const Value: TMCONTACT);
@@ -100,7 +97,7 @@ end;
 
 function TEmptyHistoryFrm.GetFormText: String;
 var
-  DividerLine, ButtonCaptions, IncludeContacts: String;
+  DividerLine, ButtonCaptions: String;
   I: integer;
 begin
   DividerLine := StringOfChar('-', 27) + sLineBreak;
@@ -109,19 +106,8 @@ begin
       ButtonCaptions := ButtonCaptions +
                         TButton(Components[I]).Caption + StringOfChar(' ', 3);
   ButtonCaptions := StringReplace(ButtonCaptions,'&','', [rfReplaceAll]);
-  if paContacts.Visible then
-  begin
-    if cbInclude.Checked then
-      IncludeContacts := '[x]'
-    else
-      IncludeContacts := '[ ]';
-    IncludeContacts := sLineBreak + IncludeContacts + ' ' + cbInclude.Caption + sLineBreak;
-  end
-  else
-    IncludeContacts := '';
   Result := DividerLine + Caption + sLineBreak +
             DividerLine + Text.Caption + sLineBreak +
-            IncludeContacts +
             DividerLine + ButtonCaptions + sLineBreak +
             DividerLine;
 end;
@@ -129,7 +115,6 @@ end;
 procedure TEmptyHistoryFrm.TranslateForm;
 begin
   Caption           := TranslateUnicodeString(Caption);
-  cbInclude.Caption := TranslateUnicodeString(cbInclude.Caption);
   btYes.Caption     := TranslateUnicodeString(btYes.Caption);
   btNo.Caption      := TranslateUnicodeString(btNo.Caption);
 end;

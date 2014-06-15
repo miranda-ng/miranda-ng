@@ -4,7 +4,7 @@ object EmptyHistoryFrm: TEmptyHistoryFrm
   BorderStyle = bsDialog
   BorderWidth = 8
   Caption = 'Empty History'
-  ClientHeight = 79
+  ClientHeight = 65
   ClientWidth = 274
   Color = clBtnFace
   DefaultMonitor = dmDesktop
@@ -22,7 +22,7 @@ object EmptyHistoryFrm: TEmptyHistoryFrm
   OnShow = FormShow
   DesignSize = (
     274
-    79)
+    65)
   PixelsPerInch = 96
   TextHeight = 13
   object Image: TImage
@@ -43,13 +43,14 @@ object EmptyHistoryFrm: TEmptyHistoryFrm
   end
   object paButtons: TPanel
     Left = 0
-    Top = 54
+    Top = 40
     Width = 274
     Height = 25
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitTop = 54
     object btYes: TButton
       Left = 0
       Top = 0
@@ -69,26 +70,6 @@ object EmptyHistoryFrm: TEmptyHistoryFrm
       Caption = 'No'
       ModalResult = 7
       TabOrder = 1
-    end
-  end
-  object paContacts: TPanel
-    Left = 0
-    Top = 31
-    Width = 274
-    Height = 23
-    Align = alBottom
-    BevelOuter = bvNone
-    TabOrder = 1
-    Visible = False
-    object cbInclude: TCheckBox
-      Left = 0
-      Top = 0
-      Width = 274
-      Height = 23
-      Caption = 'Empty history of subcontacts also'
-      Checked = True
-      State = cbChecked
-      TabOrder = 0
     end
   end
 end
