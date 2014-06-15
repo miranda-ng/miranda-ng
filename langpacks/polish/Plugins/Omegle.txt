@@ -74,10 +74,10 @@ Obcy 2
 Obcy
 [You and the Stranger both like: ]
 Zarówno ty jak i obcy lubicie:\s
-[Stranger is typing.]
-Obcy pisze
-[Stranger stopped typing.]
-Obcy przestał pisać
+[%s is typing.]
+%s pisze.
+[%s stopped typing.]
+%s przestał pisać.
 [%s disconnected.]
 %s rozłączono.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]

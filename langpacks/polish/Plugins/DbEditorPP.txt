@@ -249,14 +249,14 @@ Ustawienia
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Na pewno chcesz usunąć moduł "%s"?
-[Confirm Module Deletion]
+[Confirm module deletion]
 Potwierdź usunięcie modułu
-[Delete module from Database]
-Usuń moduł z profilu
-[Delete module from Database... Loading]
-Skasuj moduł z profilu... Ładowanie
-[Delete module from all contacts (Includes Setting)]
-Usuń moduł ze wszystkich kontaktów (uwzględniając Ustawienia)
+[Delete module from database]
+Usuń moduł z bazy danych
+[Delete module from database... Loading]
+Usuń moduł z bazy danych... ładowanie
+[Delete module from all contacts (including Setting)]
+Usuń moduł ze wszystkich kontaktów (wraz z ustawieniem)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 Pliki INI
@@ -264,8 +264,8 @@ Pliki INI
 Wszystkie pliki
 [Export to file]
 Eksportuj do pliku
-[Error Loading Module List]
-Błąd wczytywania listy modułów
+[Error loading module list]
+Błąd ładowania listy modułów
 [Couldn't open file for writing]
 Nie udało się otworzyć pliku do zapisu
 [Import from files]
@@ -289,6 +289,8 @@ Znaleziono
 %s Ustawienie "%s" w module "%s" kontaktu "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" w ustawieniu "%s" modułu "%s" kontaktu "%s"
+[Error Loading Module List]
+Błąd wczytywania listy modułów
 [Searching...]
 Wyszukiwanie...
 [Error Loading Setting List]
@@ -346,8 +348,6 @@ Wczytywanie kontaktów...
 Wczytywanie modułów...
 [Module tree not found]
 Nie znaleziono drzewka modułów
-[Error loading module list]
-Błąd ładowania listy modułów
 [Contacts]
 Kontakty
 [HANDLE]

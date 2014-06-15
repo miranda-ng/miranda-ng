@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.3
+;  Version: 3.3.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1611,6 +1611,8 @@ Zmień skórkę
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 Poprawki okna rozmowy
+[Display metacontact icons]
+Wyświetlaj ikony metakontaktów
 [Error feedback]
 Błędy
 [Show skinnable tooltip in chat (Tipper plugin required)]
@@ -1621,14 +1623,18 @@ Włącz dźwięki przy pisaniu
 Wyłącz animowane awatary GIF (brak animacji po otwarciu okna rozmowy)
 [Close current tab on send]
 Zamknij kartę po wysłaniu wiadomości
-[Disable error popups on sending failures]
-Wyłącz popupy błędów wysyłania wiadomości
 [Automatic keyboard layout: Do not load the system default for new contacts]
 Automatyczny układ klawiatury: Nie ładuj domyślnie dla nowych kontaktów
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy) (*)
 [Show client description in info panel]
 Pokaż opis klienta w panelu informacji
+[On tab control]
+Na kontrolce karty
+[On the button bar]
+Na pasku przycisków
+[Disable error popups on sending failures]
+Wyłącz popupy błędów wysyłania wiadomości
 [Show a preview of the event]
 Pokaż podgląd zdarzenia
 [Don't announce event when message dialog is open]

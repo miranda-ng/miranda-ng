@@ -269,8 +269,8 @@ Przekierowanie
 SOCKS4
 [SOCKS5]
 SOCKS5
-[%s mail]
-%s mail
+[%S mail]
+%S wiadomość
 ;file \protocols\Tlen\src\tlen_picture.cpp
 [Image sent file://%s]
 Wysłany obrazek://%s
@@ -298,6 +298,8 @@ E-mail
 Otrzymano alert.
 [Private conference]
 Prywatna konferencja
+[%s mail]
+%s mail
 [Subject]
 Temat
 ;file \protocols\Tlen\src\tlen_userinfo.cpp

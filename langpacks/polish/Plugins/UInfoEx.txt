@@ -94,8 +94,8 @@ Telefon może odbierać wiadomości SMS
 Dodaj e-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 Wpisz swój pełny adres e-mail.\n(np. bunnyhoney@o2.pl)
-[Enter a representitive name for the e-mail address here:]
-Wprowadź reprezentacyjną nazwę adresu e-mail tutaj:
+[Enter a representative name for the e-mail address here:]
+Wprowadź reprezentacyjną nazwę dla adresu e-mail tutaj:
 [Enter the e-mail address here:]
 Wprowadź adres e-mail tutaj:
 [Show menu items]
@@ -635,12 +635,10 @@ Eksportuj/importuj grupę
 &Eksportuj grupę
 [&Import group]
 &Importuj grupę
-[export/import]
-eksport/import
-[&export]
-&Eksportuj
-[&import]
-&Import
+[&Export xml]
+&Eksportuj xml
+[&Import xml]
+&Importuj xml
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Moje notatki:
@@ -710,8 +708,6 @@ Zainteresowanie
 Przepraszamy, ale wystąpił problem dodania nowego elementu typu "%s"
 [<empty>]
  <pusty>
-[Add affliation]
-Dodaj powiązanie
 [Edit category]
 Edytuj kategorię
 [Edit value]
@@ -1110,10 +1106,6 @@ Strona domowa (uinfoex)
 [Phone (uinfoex)]
 Telefon (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[Refresh Contact Details]
-Odśwież dane kontaktu
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
-[b]%s (%S)...[/b]\nPozostało %d kontaktów
 [Abort Refreshing Contact Details]
 Przerwij odświeżanie danych kontaktu
 [Do you want to cancel the current refresh procedure?]
@@ -1250,5 +1242,3 @@ Krytyczny: wyjątek został zwrócony podczas importowania kontaktów z wizytów
 [Flags (uinfoex)]
 Flagi (uinfoex)
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
-[Country Flags]
-Flagi krajów

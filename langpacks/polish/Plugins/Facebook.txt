@@ -261,6 +261,8 @@ Aktualności
 Dane znajomości
 [Conversation]
 Rozmowa
+[Message read]
+Wiadomość odczytana
 [Visit profile]
 Odwiedź profil
 [Visit friendship details]
