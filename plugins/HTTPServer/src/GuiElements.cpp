@@ -1130,7 +1130,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{// Page keyword
 					SetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, sPageKeyword.c_str());
 					HWND hComboBox = GetDlgItem(hwndDlg, IDC_PAGE_KEYWORD);
-					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"");
+					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T(""));
 					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("Current IP Address: "));
 					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("Current Address: "));
 					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("IP Adress: "));
