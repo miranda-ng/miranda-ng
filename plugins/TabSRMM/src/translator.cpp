@@ -50,7 +50,7 @@ TOptionListItem m_lvItemsModPlus[] =
 	{ 0, LPGENT("Enable unattended send (experimental feature, required for multisend and send later) (*)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendLaterAvail", 0 }, 
 	{ 0, LPGENT("Show client description in info panel"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowClientDescription", 0 },
 	{ 0, LPGENT("On tab control"), 1, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconTab", 1 },
-	{ 0, LPGENT("On the button bar"), 1, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconBar", 1 }, 
+	{ 0, LPGENT("On the button bar"), 1, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconBar", 0 }, 
 	{ 0, LPGENT("Disable error popups on sending failures"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_noErrorPopups", 2 },
 	{ 0, NULL, 0, 0, 0, 0 }
 }; 
