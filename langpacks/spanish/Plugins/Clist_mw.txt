@@ -325,7 +325,7 @@ Contactos desconectados a los que usted tiene una visibilidad diferente
 Mensajes de estado
 [Group closed]
 
-[Hover contacts]
+[Hovered contacts]
 
 [Background]
 Fondo
@@ -372,6 +372,7 @@ Global
 (Contacto desconocido)
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [Tray menu]
+
 [&Find/Add contacts...]
 &Buscar/Agregar contactos...
 [&Options...]
@@ -427,9 +428,9 @@ Global
 Marcos
 [Show all frames]
 
-[Show all titlebars]
+[Show all title bars]
 
-[Hide all titlebars]
+[Hide all title bars]
 
 [Lock frame]
 

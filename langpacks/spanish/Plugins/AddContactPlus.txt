@@ -13,7 +13,7 @@ Añadir contacto
 [Add contact\nAdd a contact to your contact list]
 Añadir contacto\nAgregar un contacto a la lista de contactos
 [Account:]
-Cuenta:.
+Cuenta:
 [Contact ID:]
 Contacto ID:
 [Custom name:]

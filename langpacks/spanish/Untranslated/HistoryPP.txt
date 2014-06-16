@@ -345,3 +345,4 @@
 [View user's history]
 [View User's History]
 [View &History]
+[User Menu]

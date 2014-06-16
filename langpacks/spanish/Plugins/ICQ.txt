@@ -94,7 +94,7 @@ Mensajería
 
 [Make me temporarily visible to contacts I send message to]
 
-[Notify me when a message delivery has failed (old method)]
+[Notify me when a message delivery has failed]
 
 [Peer-to-peer Messaging]
 
@@ -479,7 +479,7 @@ Camerún
 Canadá
 [Canary Islands]
 
-[Cape Verde Islands]
+[Cape Verde]
 
 [Cayman Islands]
 Islas Caimán
@@ -487,7 +487,7 @@ Islas Caimán
 República Centroafricana
 [Chad]
 Chad
-[Chile, Republic of]
+[Chile]
 
 [China]
 China
@@ -495,15 +495,15 @@ China
 Colombia
 [Comoros]
 Comoras
-[Congo, Democratic Republic of (Zaire)]
-
+[Congo, Democratic Republic of the]
+República Democrática del Congo
 [Congo, Republic of the]
 República del Congo
 [Cook Islands]
 Islas Cook
 [Costa Rica]
 Costa Rica
-[Cote d'Ivoire (Ivory Coast)]
+[Cote d'Ivoire]
 
 [Croatia]
 Croacia
@@ -539,7 +539,7 @@ Estonia
 Etiopía
 [Europe]
 
-[Faeroe Islands]
+[Faroe Islands]
 
 [Falkland Islands]
 
@@ -599,8 +599,8 @@ Islandia
 India
 [Indonesia]
 Indonesia
-[Iran (Islamic Republic of)]
-
+[Iran]
+Irán
 [Iraq]
 Irak
 [Ireland]
@@ -639,7 +639,7 @@ Líbano
 Lesoto
 [Liberia]
 Liberia
-[Libyan Arab Jamahiriya]
+[Libya]
 
 [Liechtenstein]
 Liechtenstein
@@ -648,9 +648,9 @@ Lituania
 [Luxembourg]
 Luxemburgo
 [Macau]
-
+Macao
 [Macedonia, Republic of]
-
+Macedonia
 [Madagascar]
 Madagascar
 [Malawi]
@@ -671,14 +671,14 @@ Islas Marshall
 Mauritania
 [Mauritius]
 Mauricio
-[Mayotte Island]
+[Mayotte]
 
 [Mexico]
 México
 [Micronesia, Federated States of]
 Micronesia, Estados Federados de
-[Moldova, Republic of]
-Moldova, República de
+[Moldova]
+Moldova
 [Monaco]
 Mónaco
 [Mongolia]
@@ -751,7 +751,7 @@ Portugal
 Puerto Rico
 [Qatar]
 Katar
-[Reunion Island]
+[Reunion]
 
 [Romania]
 Rumania
@@ -815,10 +815,10 @@ Swazilandia
 Suecia
 [Switzerland]
 Suiza
-[Syrian Arab Republic]
-República Árabe Siria
+[Syria]
+Siria
 [Taiwan]
-
+Taiwan
 [Tajikistan]
 Tayikistán
 [Tanzania]
@@ -826,7 +826,7 @@ Tanzania
 [Thailand]
 Tailandia
 [Timor, East]
-
+Timor Oriental
 [Togo]
 Togo
 [Tokelau]
@@ -864,7 +864,7 @@ Uzbekistán
 [Vanuatu]
 Vanuatu
 [Vatican City]
-
+Ciudad del Vaticano
 [Venezuela]
 Venezuela
 [Vietnam]
@@ -875,17 +875,17 @@ Vietnam
 
 [Wales]
 
-[Wallis and Futuna Islands]
+[Wallis and Futuna]
 
 [Yemen]
 Yemen
 [Yugoslavia]
 
-[Serbia, Republic of]
+[Serbia]
 
 [Kosovo, Republic of]
 
-[Montenegro, Republic of]
+[Montenegro]
 
 [Zambia]
 Zambia

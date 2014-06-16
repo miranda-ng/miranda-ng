@@ -45,6 +45,7 @@ Cuenta
 [Set]
 Establecer
 [when full-screen mode is active]
+
 [when screen saver engages]
 Cuando el protector de pantalla cuando se acopla
 [when workstation is locked]

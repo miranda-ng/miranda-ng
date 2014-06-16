@@ -42,7 +42,6 @@
 [server does not respond]
 
 ;file \plugins\Dropbox\src\dropbox_commands.cpp
-
 [Dropbox supports the following commands:]
 
 [shows all files in folder "dir" ("dir" can be omitted for root folder)]

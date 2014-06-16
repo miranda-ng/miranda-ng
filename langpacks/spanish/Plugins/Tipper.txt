@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.4
+;  Version: 2.1.0.5
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tool Tip notification windows.]
@@ -78,15 +78,15 @@ Cancelar
 
 [Value:]
 
+[Variables]
+Variables
 [Draw a line above]
 
 [Value on a new line]
 
-[Preset items:]
-
-[Variables]
-Variables
 [Parse Tipper variables first]
+
+[Preset items:]
 
 [Items]
 Elementos
@@ -257,6 +257,12 @@ Personalizar
 [Extra]
 
 ;file \plugins\TipperYM\src\options.h
+[Show for all contact types]
+
+[Show only for contacts]
+
+[Show only for chatrooms]
+
 [Number of contacts]
 
 [Protocol lock status]
@@ -323,6 +329,10 @@ Otro
 [Miranda uptime:]
 
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Account]
+Cuenta
+[Account:]
+Cuenta:
 [Birthday]
 
 [Birthday:]

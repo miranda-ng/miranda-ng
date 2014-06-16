@@ -2825,7 +2825,7 @@ Colombia
 Comoras
 [Congo, Republic of the]
 República del Congo
-[Congo, the Democratic Republic of the]
+[Congo, Democratic Republic of the]
 República Democrática del Congo
 [Cook Islands]
 Islas Cook
@@ -2851,6 +2851,8 @@ Djibouti
 Dominica
 [Dominican Republic]
 República Dominicana
+[East Timor]
+Timor Oriental
 [Ecuador]
 Ecuador
 [Egypt]
@@ -2917,8 +2919,6 @@ Guayana
 Haití
 [Heard Island and McDonald Islands]
 Isla Heard e Islas McDonald
-[Holy See (Vatican City)]
-Santa Sede (Ciudad del Vaticano)
 [Honduras]
 Honduras
 [Hong Kong]
@@ -2931,8 +2931,8 @@ Islandia
 India
 [Indonesia]
 Indonesia
-[Iran, Islamic Republic of]
-Irán, República Islámica de
+[Iran]
+Irán
 [Iraq]
 Irak
 [Ireland]
@@ -2983,10 +2983,10 @@ Liechtenstein
 Lituania
 [Luxembourg]
 Luxemburgo
-[Macao]
+[Macau]
 Macao
-[Macedonia, The Former Yugoslav Republic of]
-Macedonia, La Antigua República Yugoslava de
+[Macedonia]
+Macedonia
 [Madagascar]
 Madagascar
 [Malawi]
@@ -3157,16 +3157,14 @@ Suecia
 Suiza
 [Syria]
 Siria
-[Taiwan, Province of China]
-Taiwan, Provincia de China
+[Taiwan]
+Taiwan
 [Tajikistan]
 Tayikistán
 [Tanzania]
 Tanzania
 [Thailand]
 Tailandia
-[Timor-Leste]
-Timor-Leste
 [Togo]
 Togo
 [Tokelau]
@@ -3203,6 +3201,8 @@ Uruguay
 Uzbekistán
 [Vanuatu]
 Vanuatu
+[Vatican City]
+Ciudad del Vaticano
 [Venezuela]
 Venezuela
 [Vietnam]

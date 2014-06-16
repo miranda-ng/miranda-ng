@@ -12,7 +12,7 @@ Añade un elemento de menú en el menú principal, abre la ventana con la lista 
 Contactos recientes
 [Plugin settings]
 Configuración de plugin
-[Number shown contacts:\n (0 to show all)]
+[Number of shown contacts:\n (0 to show all)]
 Número para mostrar contactos\n (0 para mostrar todo)
 [Format of date and time\n(Look to readme for placeholders help)]
 Formato de fecha y hora\n(Vea el readme para ayuda de marcadores de posición)

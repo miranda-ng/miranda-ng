@@ -101,7 +101,7 @@
 [Image received file://%s]
 [Tlen login]
 [You need to be connected to Tlen account to set avatar.]
-[Enter password for %s@%s.]
+[Enter password for %s]
 [Tlen Connection Error]
 [%s Web Messages]
 [Web message]

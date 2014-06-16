@@ -694,7 +694,6 @@
 [Remove popups under following conditions]
 [Message window behavior]
 [Sending messages]
-[Send on SHIFT - Enter]
 [Always flash contact list and tray icon for new messages]
 [Delete temporary contacts on close]
 [Enable "Paste and send" feature]

@@ -484,7 +484,7 @@ Desactivar grupos
 Ocultar Miranda
 [&New subgroup]
 &Nuevo subgrupo
-[&Hide Sffline users in here]
+[&Hide offline users in here]
 Ocul&tar usuarios fuera de línea aquí
 [&Rename group]
 &Renombrar grupo

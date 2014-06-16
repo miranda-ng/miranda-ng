@@ -327,7 +327,7 @@
 [Whether an entity wants to receive or disable notifications]
 [Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
 [The minimum number of milliseconds between sending any two notification digests]
-[The DateTime at which a leased subscription will end or has ended]
+[The date and time at which a leased subscription will end or has ended]
 [Whether an entity wants to receive an XMPP message body in addition to the payload format]
 [The presence states for which an entity wants to receive notifications]
 [Who may subscribe and retrieve items]

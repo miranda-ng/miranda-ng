@@ -16,7 +16,6 @@ Apodo:
 Cancelar
 [General]
 General
-
 [RTL]
 
 [Align text to right]
@@ -49,7 +48,6 @@ Cuenta
 
 [seconds]
 segundos
-
 [Avatar]
 
 [Custom size:]
@@ -142,7 +140,7 @@ Fondo
 
 [Set my nickname for %s...]
 
-[Set my Status message for %s...]
+[Set my status message for %s...]
 
 [Hide my details]
 
