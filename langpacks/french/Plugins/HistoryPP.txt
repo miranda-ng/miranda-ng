@@ -515,8 +515,6 @@ Mess. suivant
 Voulez-vous vraiment effacer TOUS l'historique de ce contact ?
 [Note: It can take several minutes for large histories]
 Note : Ceci peut prendre du temps sur de longs historiques
-[Empty history of subcontacts also]
-Effacer également celui des sous-contacts.
 [Previous message]
 Mess. précédent
 [Running version of AniSmiley is not supported]

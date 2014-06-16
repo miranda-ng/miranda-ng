@@ -515,8 +515,6 @@ V&erlauf leeren
 Wollen Sie wirklich ALLE Einträge für diesen Kontakt löschen?
 [Note: It can take several minutes for large histories]
 Dies kann bei einem großen Verlauf mehrere Minuten lang dauern.
-[Empty history of subcontacts also]
-Auch Verlauf aller Unterkontakte löschen
 [Previous message]
 Vorherige Nachricht
 [Running version of AniSmiley is not supported]

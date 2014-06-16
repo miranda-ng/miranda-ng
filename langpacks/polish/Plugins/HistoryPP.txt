@@ -515,8 +515,6 @@ Moduł History++ nie został załadowany, brak pliku richedit 2.0+.\\nPrzyciśni
 Czy na pewno chcesz usunąć WSZYSTKIE wpisy dla tego kontaktu?
 [Note: It can take several minutes for large histories]
 Info: To może potrwać kilka minut w przypadku obszernej historii
-[Empty history of subcontacts also]
-Usuń również historię subkontaktów
 [Previous message]
 Poprzednia wiadomość
 [Running version of AniSmiley is not supported]

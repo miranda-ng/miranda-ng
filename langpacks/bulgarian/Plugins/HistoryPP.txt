@@ -515,8 +515,6 @@ URL връзки
 Наистина ли желаете ВСИЧКИТЕ елементи за абоната да бъдат изтрити?
 [Note: It can take several minutes for large histories]
 Бележка: При голяма история може да отнеме няколко минути
-[Empty history of subcontacts also]
-Изтриване историята на подконтактите
 [Previous message]
 Предишно съобщение
 [Running version of AniSmiley is not supported]

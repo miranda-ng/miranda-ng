@@ -249,7 +249,6 @@
 [&Empty History]
 [Do you really want to delete ALL items for this contact?]
 [Note: It can take several minutes for large histories]
-[Empty history of subcontacts also]
 [Previous message]
 [Running version of AniSmiley is not supported]
 [Running version of SmileyAdd is not supported]

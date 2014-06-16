@@ -515,8 +515,6 @@ HTML файл
 Вы сапраўды жадаеце выдаліць усе запісы для гэтага кантакту?
 [Note: It can take several minutes for large histories]
 Нататка: гэта можа заняць некалькі хвілін для вялікай гісторыі
-[Empty history of subcontacts also]
-Таксама выдаліць гісторыю субкантактаў
 [Previous message]
 Папярэдняе паведамленне
 [Running version of AniSmiley is not supported]
