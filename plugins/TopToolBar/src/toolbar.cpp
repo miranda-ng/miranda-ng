@@ -1,7 +1,7 @@
 
 #include "common.h"
 
-#define OLD_TBBUTTON_SIZE  (offsetof(TTBButton, pszTooltipUp))
+#define OLD_TBBUTTON_SIZE	(offsetof(TTBButton, pszTooltipUp))
 
 pfnCustomProc g_CustomProc = NULL;
 LPARAM g_CustomProcParam = 0;
@@ -18,29 +18,31 @@ static WNDPROC buttonWndProc;
 
 CRITICAL_SECTION csButtonsHook;
 
-int sortfunc(const TopButtonInt* a, const TopButtonInt* b)
+int sortfunc(const TopButtonInt *a, const TopButtonInt *b)
 {
 	return a->arrangedpos - b->arrangedpos;
 }
 
 LIST<TopButtonInt> Buttons(8, sortfunc);
 
-TopButtonInt* idtopos(int id, int* pPos)
+TopButtonInt *idtopos(int id, int *pPos)
 {
-	for ( int i = 0; i < Buttons.getCount(); i++)
+	for (int i = 0; i < Buttons.getCount(); i++)
 		if (Buttons[i]->id == id) {
-			if (pPos) *pPos = i;
+			if (pPos)
+				*pPos = i;
 			return Buttons[i];
 		}
 
-	if (pPos) *pPos = -1;
+	if (pPos)
+		*pPos = -1;
 	return NULL;
 }
 
 //----- Service buttons -----
 void InsertSBut(int i)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
@@ -54,7 +56,7 @@ void LoadAllSButs()
 	//must be locked
 	int cnt = db_get_b(0, TTB_OPTDIR, "ServiceCnt", 0);
 	if (cnt > 0) {
-		for (int i = 1; i<=cnt; i++)
+		for (int i = 1; i <= cnt; i++)
 		InsertSBut(i);
 	}
 }
@@ -66,7 +68,7 @@ INT_PTR LaunchService(WPARAM wParam, LPARAM lParam)
 	STARTUPINFO si = {0};
 	si.cb = sizeof(si);
 
-	if ( CreateProcess(NULL, Buttons[lParam]->ptszProgram, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+	if (CreateProcess(NULL, Buttons[lParam]->ptszProgram, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 	}
@@ -76,7 +78,7 @@ INT_PTR LaunchService(WPARAM wParam, LPARAM lParam)
 
 void InsertLBut(int i)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL;
@@ -95,10 +97,9 @@ void LoadAllLButs()
 }
 
 //----- Separators -----
-
 void InsertSeparator(int i)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR | TTBBF_INTERNAL;
 	ttb.wParamDown = i;
@@ -133,13 +134,13 @@ static bool nameexists(const char *name)
 		return false;
 
 	for (int i = 0; i < Buttons.getCount(); i++)
-		if ( !lstrcmpA(Buttons[i]->pszName, name))
+		if (!lstrcmpA(Buttons[i]->pszName, name))
 			return true;
 
 	return false;
 }
 
-static void Icon2button(TTBButton* but, HANDLE& hIcoLib, HICON& hIcon, bool bIsUp)
+static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsUp)
 {
 	HANDLE hSrc = bIsUp ? but->hIconHandleUp : but->hIconHandleDn;
 	if (hSrc == NULL) {
@@ -150,22 +151,23 @@ static void Icon2button(TTBButton* but, HANDLE& hIcoLib, HICON& hIcon, bool bIsU
 	hIcoLib = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, WPARAM(hSrc), 0);
 	if (!hIcoLib) {
 		char buf[256];
-		mir_snprintf(buf, SIZEOF(buf), "toptoolbar_%s%s", but->name, (bIsUp) ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
+		mir_snprintf(buf, SIZEOF(buf), "toptoolbar_%s%s", but->name, bIsUp ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
 		SKINICONDESC sid = { sizeof(sid) };
 		sid.pszSection = "Toolbar";
 		sid.pszName = buf;
 		sid.pszDefaultFile = NULL;
-		sid.pszDescription = but->name;
-		sid.hDefaultIcon = (bIsUp) ? but->hIconUp : but->hIconDn;
+		mir_snprintf(buf, SIZEOF(buf), "%s %s", but->name, bIsUp ? (but->hIconDn ? "" : "") : "(pressed)");
+		sid.pszDescription = buf;
+		sid.hDefaultIcon = bIsUp ? but->hIconUp : but->hIconDn;
 		hIcoLib = Skin_AddIcon(&sid);
 	}
 
 	hIcon = Skin_GetIconByHandle(hIcoLib);
 }
 
-TopButtonInt* CreateButton(TTBButton* but)
+TopButtonInt *CreateButton(TTBButton *but)
 {
-	TopButtonInt* b = new TopButtonInt;
+	TopButtonInt *b = new TopButtonInt;
 	b->id = nextButtonId++;
 
 	b->dwFlags = but->dwFlags;
@@ -175,7 +177,7 @@ TopButtonInt* CreateButton(TTBButton* but)
 	b->wParamDown = but->wParamDown;
 	b->lParamDown = but->lParamDown;
 
-	if ( !(b->dwFlags & TTBBF_ISSEPARATOR)) {
+	if (!(b->dwFlags & TTBBF_ISSEPARATOR)) {
 		b->bPushed = (but->dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 
 		if (but->dwFlags & TTBBF_ISLBUTTON) {
@@ -212,9 +214,9 @@ int ArrangeButtons()
 
 	int nLineCount = 0;
 	int i, ypos = 1, xpos = g_ctrl->nButtonSpace, nextX = 0, y = 0;
-	int newheight = g_ctrl->nButtonHeight+1, nButtonCount=0;
+	int newheight = g_ctrl->nButtonHeight + 1, nButtonCount = 0;
 
-	for (i=0; i < Buttons.getCount(); i++)
+	for (i = 0; i < Buttons.getCount(); i++)
 		if (Buttons[i]->hwnd)
 			nButtonCount++;
 
@@ -224,33 +226,32 @@ int ArrangeButtons()
 	HDWP hdwp = BeginDeferWindowPos(nButtonCount);
 
 	bool bWasButttonBefore;
-	int  nUsedWidth, iFirstButtonId = 0, iLastButtonId = 0;
+	int nUsedWidth, iFirstButtonId = 0, iLastButtonId = 0;
 
-	do
-	{
+	do {
 		nLineCount++;
 		bWasButttonBefore = false;
 		nUsedWidth = 0;
 
-		for (i=iFirstButtonId; i < Buttons.getCount(); i++) {
+		for (i = iFirstButtonId; i < Buttons.getCount(); i++) {
 			TopButtonInt *b = Buttons[i];
 			if (b->hwnd == NULL)
 				continue;
 
 			int width = 0;
-			if ( b->isVisible())
-				width = (b->isSep()) ? SEPWIDTH+2 : g_ctrl->nButtonWidth + ((bWasButttonBefore) ? g_ctrl->nButtonSpace : 0);
+			if (b->isVisible())
+				width = b->isSep() ? SEPWIDTH + 2 : g_ctrl->nButtonWidth + (bWasButttonBefore ? g_ctrl->nButtonSpace : 0);
 			if (nUsedWidth + width > nBarSize)
 				break;
 
 			nUsedWidth += width;
-			iLastButtonId = i+1;
+			iLastButtonId = i + 1;
 			bWasButttonBefore = !b->isSep();
 		}
 
 		int nFreeSpace = nBarSize - nUsedWidth;
 
-		for (i=iFirstButtonId; i < iLastButtonId; i++) {
+		for (i = iFirstButtonId; i < iLastButtonId; i++) {
 			TopButtonInt *b = Buttons[i];
 			if (b->hwnd == NULL)
 				continue;
@@ -259,14 +260,15 @@ int ArrangeButtons()
 			if (bOldVisible != b->isVisible())
 				g_ctrl->bOrderChanged = TRUE;
 
-			if ( b->isVisible()) {
+			if (b->isVisible()) {
 				hdwp = DeferWindowPos(hdwp, b->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
-				if ( b->isSep())
-					nextX += SEPWIDTH+2;
+				if (b->isSep())
+					nextX += SEPWIDTH + 2;
 				else
 					nextX += g_ctrl->nButtonWidth + g_ctrl->nButtonSpace;
 			}
-			else hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+			else
+				hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 		}
 
 		if (iFirstButtonId == iLastButtonId)
@@ -277,16 +279,15 @@ int ArrangeButtons()
 		nextX = 0;
 		if (g_ctrl->bSingleLine)
 			break;
-	}
-		while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
+	} while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
 
-	for (i=iLastButtonId; i < Buttons.getCount(); i++)
+	for (i = iLastButtonId; i < Buttons.getCount(); i++)
 		hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 
 	if (hdwp)
 		EndDeferWindowPos(hdwp);
 
-	return (g_ctrl->nButtonHeight + g_ctrl->nButtonSpace)*nLineCount - g_ctrl->nButtonSpace;
+	return (g_ctrl->nButtonHeight + g_ctrl->nButtonSpace) * nLineCount - g_ctrl->nButtonSpace;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -299,14 +300,14 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0)
 		return -1;
 
-	TTBButton *but = (TTBButton*)wParam;
+	TTBButton *but = (TTBButton *)wParam;
 	if (but->cbSize != sizeof(TTBButton) && but->cbSize != OLD_TBBUTTON_SIZE)
 		return -1;
 
-	if ( !(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))
+	if (!(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))
 		return -1;
 
-	TopButtonInt* b = CreateButton(but);
+	TopButtonInt *b = CreateButton(but);
 	b->hLangpack = (int)lParam;
 	b->LoadSettings();
 	b->CreateWnd();
@@ -314,10 +315,8 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		delete b;
 		return -1;
 	}
-	{
-		mir_cslock lck(csButtonsHook);
-		Buttons.insert(b);
-	}
+	mir_cslock lck(csButtonsHook);
+	Buttons.insert(b);
 
 	g_ctrl->bOrderChanged = TRUE;
 	ArrangeButtons();
@@ -332,7 +331,7 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	mir_cslock lck(csButtonsHook);
 
 	int idx;
-	TopButtonInt* b = idtopos(wParam, &idx);
+	TopButtonInt *b = idtopos(wParam, &idx);
 	if (b == NULL)
 		return -1;
 
@@ -352,12 +351,12 @@ INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(csButtonsHook);
 
-	TopButtonInt* b = idtopos(wParam);
+	TopButtonInt *b = idtopos(wParam);
 	if (b == NULL)
 		return -1;
 
-	b->bPushed = (lParam & TTBST_PUSHED)?TRUE:FALSE;
-	b->bPushed = (lParam & TTBST_RELEASED)?FALSE:TRUE;
+	b->bPushed = (lParam & TTBST_PUSHED) ? TRUE : FALSE;
+	b->bPushed = (lParam & TTBST_RELEASED) ? FALSE : TRUE;
 	b->SetBitmap();
 	return 0;
 }
@@ -368,7 +367,7 @@ INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 INT_PTR TTBGetState(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(csButtonsHook);
-	TopButtonInt* b = idtopos(wParam);
+	TopButtonInt *b = idtopos(wParam);
 	if (b == NULL)
 		return -1;
 
@@ -381,11 +380,11 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 	INT_PTR retval;
 
 	mir_cslock lck(csButtonsHook);
-	TopButtonInt* b = idtopos(wParam);
+	TopButtonInt *b = idtopos(wParam);
 	if (b == NULL)
 		return -1;
 
-	switch(LOWORD(wParam)) {
+	switch (LOWORD(wParam)) {
 	case TTBO_FLAGS:
 		retval = b->dwFlags & (~TTBBF_PUSHED);
 		if (b->bPushed)
@@ -419,7 +418,7 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			else
 				replaceStr(lpTTB->pszService, b->pszService);
 
-			retval = ( INT_PTR )lpTTB;
+			retval = (INT_PTR)lpTTB;
 		}
 		break;
 
@@ -433,14 +432,14 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 
 INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 {
-	int retval;
+	int retval = 0;
 
 	mir_cslock lck(csButtonsHook);
-	TopButtonInt* b = idtopos(HIWORD(wParam));
+	TopButtonInt *b = idtopos(HIWORD(wParam));
 	if (b == NULL)
 		return -1;
 
-	switch(LOWORD(wParam)) {
+	switch (LOWORD(wParam)) {
 	case TTBO_FLAGS:
 		if (b->dwFlags == lParam)
 			break;
@@ -451,7 +450,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			b->SetBitmap();
 		if (retval & TTBBF_VISIBLE) {
 			ArrangeButtons();
-			b->SaveSettings(0,0);
+			b->SaveSettings(0, 0);
 		}
 
 		retval = 1;
@@ -461,8 +460,8 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		if (lParam == 0)
 			break;
 
-		replaceStrT(b->ptszTooltip, TranslateTS( _A2T((LPCSTR)lParam)));
-		SendMessage(b->hwnd,BUTTONADDTOOLTIP,(WPARAM)b->ptszTooltip,BATF_UNICODE);
+		replaceStrT(b->ptszTooltip, TranslateTS(_A2T((LPCSTR)lParam)));
+		SendMessage(b->hwnd, BUTTONADDTOOLTIP, (WPARAM)b->ptszTooltip, BATF_UNICODE);
 		retval = 1;
 		break;
 
@@ -488,7 +487,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 
 			if (retval & TTBBF_VISIBLE) {
 				ArrangeButtons();
-				b->SaveSettings(0,0);
+				b->SaveSettings(0, 0);
 			}
 
 			if (b->dwFlags & TTBBF_ISLBUTTON)
@@ -520,8 +519,8 @@ int OnIconChange(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(csButtonsHook);
 	for (int i = 0; i < Buttons.getCount(); i++) {
-		TopButtonInt* b = Buttons[i];
-		if ( !b->hIconHandleUp && !b->hIconHandleDn)
+		TopButtonInt *b = Buttons[i];
+		if (!b->hIconHandleUp && !b->hIconHandleDn)
 			continue;
 
 		if (b->hIconHandleUp) {
@@ -578,7 +577,7 @@ int OnPluginUnload(WPARAM, LPARAM lParam)
 		bool bNeedUpdate = false;
 		mir_cslock lck(csButtonsHook);
 
-		for (int i=Buttons.getCount()-1; i >= 0; i--)
+		for (int i = Buttons.getCount() - 1; i >= 0; i--)
 			if (Buttons[i]->hLangpack == hLangpack) {
 				TTBRemoveButton(Buttons[i]->id, 0);
 				bNeedUpdate = true;
@@ -606,7 +605,7 @@ static int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 	if (hEvent != 0)
 		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)"TTB_ONSTARTUPFIRE");
 
-	if ( HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange)) {
+	if (HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange)) {
 		char buf[256];
 		mir_snprintf(buf, SIZEOF(buf), "%s/%s", LPGEN("TopToolBar background"), TTB_OPTDIR);
 		CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)buf, 0);
@@ -632,12 +631,12 @@ static int OnShutdown(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK TTBButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK TTBButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT lResult = buttonWndProc(hwnd, msg, wParam, lParam);
 
 	if (msg == WM_NCCREATE) {
-		TopButtonInt* p = (TopButtonInt*)((CREATESTRUCT*)lParam)->lpCreateParams;
+		TopButtonInt *p = (TopButtonInt *)((CREATESTRUCT *)lParam)->lpCreateParams;
 		if (g_CustomProc)
 			g_CustomProc((HANDLE)p->id, hwnd, g_CustomProcParam);
 	}
@@ -647,14 +646,14 @@ static LRESULT CALLBACK TTBButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LP
 
 int LoadToolbarModule()
 {
-	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		if ( !db_get_b(NULL, TTB_OPTDIR, "WarningDone", 0))
+	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		if (!db_get_b(NULL, TTB_OPTDIR, "WarningDone", 0))
 			MessageBox(0, TranslateT("Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/"), TranslateT("TopToolBar"), 0);
 		db_set_b(NULL, TTB_OPTDIR, "WarningDone", 1);
 		return 1;
 	}
 
-	g_ctrl = (TTBCtrl*)mir_calloc( sizeof(TTBCtrl));
+	g_ctrl = (TTBCtrl *)mir_calloc(sizeof(TTBCtrl));
 	g_ctrl->nButtonHeight = db_get_dw(0, TTB_OPTDIR, "BUTTHEIGHT", DEFBUTTHEIGHT);
 	g_ctrl->nButtonWidth = db_get_dw(0, TTB_OPTDIR, "BUTTWIDTH", DEFBUTTWIDTH);
 	g_ctrl->nButtonSpace = db_get_dw(0, TTB_OPTDIR, "BUTTGAP", DEFBUTTGAP);
@@ -692,13 +691,13 @@ int LoadToolbarModule()
 	CreateServiceFunction("TopToolBar/SetCustomProc", TTBSetCustomProc);
 	CreateServiceFunction("TTB_ONSTARTUPFIRE", OnEventFire);
 
-	buttonWndProc = (WNDPROC)CallService("Button/GetWindowProc",0,0);
+	buttonWndProc = (WNDPROC)CallService("Button/GetWindowProc", 0, 0);
 	WNDCLASSEX wc = {0};
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = TTB_BUTTON_CLASS;
 	wc.lpfnWndProc = TTBButtonWndProc;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra = sizeof(void*);
+	wc.cbWndExtra = sizeof(void *);
 	wc.hbrBackground = 0;
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
@@ -714,7 +713,7 @@ int UnloadToolbarModule()
 	DeleteObject(hBmpSeparator);
 	DeleteCriticalSection(&csButtonsHook);
 
-	for (int i=0; i < Buttons.getCount(); i++)
+	for (int i = 0; i < Buttons.getCount(); i++)
 		delete Buttons[i];
 
 	mir_free(g_ctrl);

@@ -25,25 +25,24 @@ TopButtonInt::~TopButtonInt()
 DWORD TopButtonInt::CheckFlags(DWORD Flags)
 {
 	int res = 0;
-	if ( BitChanged(TTBBF_DISABLED)) {
+	if (BitChanged(TTBBF_DISABLED)) {
 		dwFlags ^= TTBBF_DISABLED;
-		EnableWindow(hwnd,(dwFlags & TTBBF_DISABLED)?FALSE:TRUE);
+		EnableWindow(hwnd, (dwFlags & TTBBF_DISABLED) ? FALSE : TRUE);
 	}
-	if ( BitChanged(TTBBF_ASPUSHBUTTON)) {
+	if (BitChanged(TTBBF_ASPUSHBUTTON)) {
 		dwFlags ^= TTBBF_ASPUSHBUTTON;
-		SendMessage(hwnd, BUTTONSETASPUSHBTN, (dwFlags & TTBBF_ASPUSHBUTTON)?1:0, 0);
+		SendMessage(hwnd, BUTTONSETASPUSHBTN, (dwFlags & TTBBF_ASPUSHBUTTON) ? 1 : 0, 0);
 	}
-	if ( BitChanged(TTBBF_SHOWTOOLTIP)) {
+	if (BitChanged(TTBBF_SHOWTOOLTIP)) {
 		dwFlags ^= TTBBF_SHOWTOOLTIP;
-		SendMessage(hwnd,BUTTONADDTOOLTIP,
-			(WPARAM)((dwFlags & TTBBF_SHOWTOOLTIP) ? ptszTooltip : _T("")), BATF_TCHAR);
+		SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)((dwFlags & TTBBF_SHOWTOOLTIP) ? ptszTooltip : _T("")), BATF_TCHAR);
 	}
 	// next settings changing visual side, requires additional actions
-	if ( BitChanged(TTBBF_VISIBLE)) {
+	if (BitChanged(TTBBF_VISIBLE)) {
 		dwFlags ^= TTBBF_VISIBLE;
 		res |= TTBBF_VISIBLE;
 	}
-	if ( BitChanged(TTBBF_PUSHED)) {
+	if (BitChanged(TTBBF_PUSHED)) {
 		dwFlags ^= TTBBF_PUSHED;
 		res |= TTBBF_PUSHED;
 		bPushed = (dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
@@ -53,8 +52,8 @@ DWORD TopButtonInt::CheckFlags(DWORD Flags)
 
 void TopButtonInt::CreateWnd()
 {
-	if ( !(dwFlags & TTBBF_ISSEPARATOR)) {
-		hwnd = CreateWindow(TTB_BUTTON_CLASS, _T(""), BS_PUSHBUTTON|WS_CHILD|WS_TABSTOP|SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, this);
+	if (!(dwFlags & TTBBF_ISSEPARATOR)) {
+		hwnd = CreateWindow(TTB_BUTTON_CLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, this);
 
 		if (dwFlags & TTBBF_ASPUSHBUTTON)
 			SendMessage(hwnd, BUTTONSETASPUSHBTN, 1, 0);
@@ -62,11 +61,11 @@ void TopButtonInt::CreateWnd()
 		if (db_get_b(0, TTB_OPTDIR, "UseFlatButton", 1))
 			SendMessage(hwnd, BUTTONSETASFLATBTN, TRUE, 0);
 
-		EnableWindow(hwnd,(dwFlags & TTBBF_DISABLED)?FALSE:TRUE);
+		EnableWindow(hwnd, (dwFlags & TTBBF_DISABLED) ? FALSE : TRUE);
 	}
 	// maybe SEPWIDTH, not g_ctrl->nButtonWidth?
-	else 
-		hwnd = CreateWindow( _T("STATIC"), _T(""), WS_CHILD|SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, 0);
+	else
+		hwnd = CreateWindow(_T("STATIC"), _T(""), WS_CHILD | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, 0);
 
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, id);
 	SetBitmap();
@@ -86,7 +85,7 @@ void TopButtonInt::LoadSettings()
 		AS(buf2, "Sep", buf1);
 
 		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
-		if ( db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
+		if (db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
 	else if ((dwFlags & TTBBF_ISLBUTTON ) && (dwFlags & TTBBF_INTERNAL)) {
@@ -102,12 +101,12 @@ void TopButtonInt::LoadSettings()
 		ptszProgram = db_get_tsa(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"));
 
 		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
-		if ( db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
+		if (db_get_b(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
 	else {
 		arrangedpos = db_get_b(0, TTB_OPTDIR, AS(buf, pszName, "_Position"), Buttons.getCount());
-		if ( db_get_b(0, TTB_OPTDIR, AS(buf, pszName, "_Visible"), oldv) > 0 )
+		if (db_get_b(0, TTB_OPTDIR, AS(buf, pszName, "_Visible"), oldv) > 0)
 			dwFlags |= TTBBF_VISIBLE;
 	}
 
@@ -154,18 +153,18 @@ void TopButtonInt::SetBitmap()
 	if (dwFlags & TTBBF_ISSEPARATOR) {
 		SetWindowLongPtr(hwnd, GWL_STYLE, curstyle | SS_BITMAP);
 		SendMessage(hwnd, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBmpSeparator);
-		SendMessage(hwnd, BM_SETIMAGE,  IMAGE_BITMAP, (LPARAM)hBmpSeparator);
+		SendMessage(hwnd, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBmpSeparator);
 	}
 	else {
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & SS_ICON)
 			SetWindowLongPtr(hwnd, GWL_STYLE, curstyle | SS_ICON);
 
-		TCHAR* pTooltip;
+		TCHAR *pTooltip;
 		if (bPushed) {
-			SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((hIconDn) ? hIconDn : hIconUp));
+			SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(hIconDn ? hIconDn : hIconUp));
 			SendMessage(hwnd, BM_SETCHECK, BST_CHECKED, 0);
 
-			pTooltip = (ptszTooltipDn) ? ptszTooltipDn : ptszTooltipUp;
+			pTooltip = ptszTooltipDn ? ptszTooltipDn : ptszTooltipUp;
 		}
 		else {
 			SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIconUp);
