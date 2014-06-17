@@ -1,4 +1,5 @@
-﻿[Delete module from all contacts (including Setting)]
+﻿[BL&OB]
+[Delete module from all contacts (including Setting)]
 [Open user tree]
 [BLOB setting]
 [Byte setting]
@@ -6,3 +7,4 @@
 [Dword setting]
 [String setting]
 [Unicode setting]
+[BLOB]

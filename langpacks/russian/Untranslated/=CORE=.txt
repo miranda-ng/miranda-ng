@@ -1,5 +1,6 @@
 ﻿[AaBbYyZz]
-[<mixed>]
+[&E-mail]
+[ID]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

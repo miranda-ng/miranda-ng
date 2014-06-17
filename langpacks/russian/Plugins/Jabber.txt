@@ -151,6 +151,8 @@ Jabber Пароль
 Отдел:
 [Title:]
 Должность:
+[E-mail:]
+Почта:
 [Phone:]
 Телефон:
 [Jabber vCard: Add Email Address]

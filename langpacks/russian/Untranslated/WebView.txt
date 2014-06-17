@@ -13,6 +13,7 @@
 [Display data in popup]
 [You may need to restart Miranda NG for this change to take effect.]
 [Contact name:]
+[URL:]
 [Between start and end strings]
 [Whole web page]
 [Start:]

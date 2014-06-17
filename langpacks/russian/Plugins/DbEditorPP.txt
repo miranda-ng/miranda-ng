@@ -279,8 +279,6 @@ INI файлы
 %s настройка "%s" в модуле "%s" контакта "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" в настройке "%s" в модуле "%s" контакта "%s"
-[Error Loading Module List]
-Ошибка загрузки списка модулей
 [Searching...]
 Поиск...
 [Error Loading Setting List]

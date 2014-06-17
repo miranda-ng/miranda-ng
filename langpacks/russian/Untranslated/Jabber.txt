@@ -153,3 +153,4 @@
 [Google Talk!]
 [Odnoklassniki]
 [Choose the group chats you want to leave]
+[Jabber vCard]

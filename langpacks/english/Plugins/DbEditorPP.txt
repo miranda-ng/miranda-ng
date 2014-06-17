@@ -150,7 +150,6 @@
 [%s Setting "%s" in module "%s" in contact "%s" - "%s"]
 [%s Setting "%s" in module "%s" in contact "%s"]
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-[Error Loading Module List]
 [Searching...]
 [Error Loading Setting List]
 [Finished. %d items were found, %d items were deleted.]

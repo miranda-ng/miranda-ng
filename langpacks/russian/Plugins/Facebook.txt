@@ -7,6 +7,8 @@
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Поддержка протокола Facebook в Miranda NG.
+[E-mail:]
+Почта:
 [Password:]
 Пароль:
 [Create a new Facebook account]

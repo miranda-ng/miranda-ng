@@ -7,6 +7,8 @@
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Поддержка протокола Mail.ru Агент (MRA) в Miranda NG.
+[E-mail:]
+Почта:
 [Password:]
 Пароль:
 [Create a new Mail.ru account]

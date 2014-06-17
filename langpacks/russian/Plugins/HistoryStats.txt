@@ -309,8 +309,6 @@ URL (все)
 #{type} для #{data}
 [wday3:Mon]
 wday3:Пнд
-[wday3:Te]
-wday3:Втр
 [wday3:Wed]
 wday3:Срд
 [wday3:Thu]

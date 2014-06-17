@@ -35,10 +35,12 @@
 Путь:
 [Set]
 Выбрать
-[Hide offline users]
-Скрыть отключённых
-[Find/Add contacts]
+[Find/add contacts]
 Найти/Добавить контакты
+[Disable groups]
+Отключить группы
+[Exit]
+Выход
 [Default]
 По умолчанию
 [TopToolBar background]

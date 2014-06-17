@@ -99,6 +99,8 @@ P2P Подключения
 Имя:
 [Last name:]
 Фамилия:
+[E-mail:]
+Почта:
 [Gender:]
 Пол:
 [Year of birth:]
@@ -229,6 +231,8 @@ Tlen входящие
 %s Web сообщений
 [From]
 От
+[E-mail]
+Почта
 [An alert has been received.]
 Уведомление принято.
 [Private conference]

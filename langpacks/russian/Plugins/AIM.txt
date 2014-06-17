@@ -111,6 +111,8 @@ AIM Установить Instant Idle
 *Пароли не совпадают.
 [Screen Name]
 Имя AIM
+[E-mail]
+Почта
 [Confirm Account]
 Подтвердить
 [*Applied upon reconnect]

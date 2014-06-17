@@ -13,6 +13,8 @@
 Номер Gadu-Gadu:
 [Password:]
 Пароль:
+[E-mail:]
+Почта:
 [Create new account]
 Новая учётная запись
 [Remove account]

@@ -317,8 +317,6 @@ INI файл погоды для этой станции не найден (20)
 Ошибка HTTP: Таймаут шлюза (504)
 [%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
 %c\\nТемпература: %t\\nОщущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Ощущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Состояние погоды для %n на %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]

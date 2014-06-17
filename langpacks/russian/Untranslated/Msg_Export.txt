@@ -41,6 +41,7 @@
 [- About -\r\n%About%\r\n]
 [Failed to write user details to file :\n]
 [Failed to write timestamp and username to file :\n]
+[e-mail    :]
 [Invalid Database event received. Type %d, size %d]
 [Failed to write Invalid Database event the file :\n]
 [UIN       :]
