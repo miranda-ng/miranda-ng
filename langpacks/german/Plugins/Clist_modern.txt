@@ -847,9 +847,9 @@ Kontakte suchen/hinzu&fügen...
 &Über
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show avatar]
-
+Avatar anzeigen
 [Hide avatar]
-
+Avatar verbergen
 [Show contact &avatar]
 Kontakt&avatar anzeigen
 [Hide contact &avatar]
@@ -1056,7 +1056,7 @@ Keine Größenänderung
 Framemenü
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
-
+Neue Gruppe
 [Group menu]
 Gruppenmenü
 [Subgroup menu]

@@ -654,7 +654,7 @@ Ereignis nur einmalig senden
 [Hooks]
 Hooks
 [Description]
-Übersicht
+Beschreibung
 [hook sample]
 Hookbeispiel
 [Apply]

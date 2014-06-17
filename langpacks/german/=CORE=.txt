@@ -96,7 +96,7 @@ Ja
 [No]
 Nein
 [A file containing new database settings has been placed in the Miranda NG directory.]
-Eine Datei mit neuen Profileinstellungen wurde im Miranda-NG-Verzeichnis gefunden.
+Eine Datei mit neuen Datenbankeinstellungen wurde im Miranda-NG-Verzeichnis gefunden.
 [Do you want to import the settings now?]
 Möchten Sie die Einstellungen jetzt importieren?
 [No to all]
@@ -106,7 +106,7 @@ Inhalt &zeigen
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Sicherheitssystem, um arglistige Änderungen zu erkennen, ist angeschaltet, und Sie werden gewarnt, bevor Änderungen, die nicht als sicher bekannt sind, durchgeführt werden.
 [Database setting change]
-Änderung Profileinstellungen
+Änderung Datenbankeinstellungen
 [Database settings are being imported from]
 Datenbankeinstellungen werden importiert von
 [This file wishes to change the setting]
@@ -286,7 +286,7 @@ Problem: Kann keinen Datenbank-Treiber finden, das heißt, dass Sie kein neues P
 [Download more plugins]
 Weitere Plugins herunterladen
 [Description:]
-Übersicht:
+Beschreibung:
 [Author(s):]
 Autor(en):
 [E-mail:]
@@ -480,7 +480,7 @@ Kontaktbeschriftung
 [Function]
 Funktion
 [Set default and open message window]
-Setze Standard && öffne Nachr.fenster
+Als Standard setzen und Nachrichtenfenster öffnen
 [Show subcontact context menu]
 Unterkontaktkontextmenü anzeigen
 [Show user information]
@@ -492,7 +492,7 @@ Unterkontakt-Nicknamen anzeigen
 [Display subcontact display name]
 Unterkontakt-Anzeigenamen anzeigen
 [Lock name to first contact]
-Namen auf 1. Kontakt festlegen
+Namen auf ersten Kontakt festlegen
 [History Copy]
 Verlauf kopieren
 [Please wait while the contact's history is copied.]
@@ -2488,7 +2488,7 @@ Dateiauswahl zum Erstellen der Verlaufsdatei
 Programmauswahl für den Start
 ;file \src\modules\netlib\netlibopts.cpp
 [<mixed>]
-
+<gemischt>
 [<All connections>]
 <Alle Verbindungen>
 [Network]

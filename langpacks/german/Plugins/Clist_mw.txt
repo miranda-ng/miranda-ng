@@ -325,7 +325,7 @@ Offline-Kontakte mit anderer Sichtbarkeit
 Statusnachrichten
 [Group closed]
 Gruppe geschlossen
-[Hover contacts]
+[Hovered contacts]
 Schwebende Kontakte
 [Background]
 Hintergrund

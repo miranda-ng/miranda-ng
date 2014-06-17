@@ -199,7 +199,7 @@ Speichern
 [Delete]
 Löschen
 [Description:]
-Übersicht:
+Beschreibung:
 [Change Password]
 Passwort ändern
 [Current Password:]

@@ -262,7 +262,7 @@ Freundschaft-Details
 [Conversation]
 Unterhaltung
 [Message read]
-
+Nachricht gelesen
 [Visit profile]
 Profil besuchen
 [Visit friendship details]

@@ -1,4 +1,2 @@
-﻿[&Export xml]
-[&Import xml]
-[TmplPast Work Place]
+﻿[TmplPast Work Place]
 [TmplPast Organization]

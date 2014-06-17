@@ -1,4 +1,0 @@
-﻿[File:]
-[Description:]
-[File]
-[Select a file]

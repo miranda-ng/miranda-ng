@@ -35,7 +35,7 @@ folgenden Kontakt auswählen
 [The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
 Die Variable %subject% wird - je nach der Situation, in der sie verwendet wird - in einen speziellen Kontakt umgewandelt. In diesem Dialog kann ein beliebiger Kontakt als %subject% verwendet werden. Ein Beispiel für seine Anwendung ist !cinfo(%subject%,display).
 [Description]
-Übersicht
+Beschreibung
 [Setting]
 Einstellung
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]

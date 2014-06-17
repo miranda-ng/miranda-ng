@@ -22,7 +22,7 @@ Verknüpfungen sind nur aktiv, wenn Miranda NG ausgefüh&rt wird.
 [Type]
 Typ
 [Description]
-Übersicht
+Beschreibung
 [URLs on websites]
 URLs auf webseiten
 [File types]

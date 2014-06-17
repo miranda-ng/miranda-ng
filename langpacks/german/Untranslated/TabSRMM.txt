@@ -1,3 +1,0 @@
-﻿[Display metacontact icons]
-[On tab control]
-[On the button bar]

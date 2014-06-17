@@ -39,9 +39,9 @@ Passwort:
 NotifyAnything
 ;file \plugins\NotifyAnything\src\main.cpp
 [N/A: Failed to format error message]
-
+N/A: Formatieren der Fehlernachricht fehlgeschlagen
 [N/A: FormatMessage failed, error code was 0x]
-
+N/A: FormatMessage fehlgeschlagen, Fehlercode war 0x
 [Error]
 Fehler
 ;file \plugins\NotifyAnything\src\options.cpp

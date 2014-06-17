@@ -13,7 +13,7 @@ Installierte Plugins
 [Version:]
 Version:
 [Description:]
-Übersicht:
+Beschreibung:
 [Copyright:]
 Copyright:
 [Contact:]
@@ -220,7 +220,7 @@ Alles kopieren
 [Run application]
 Programm ausführen
 [Delete selected]
-Markierte E-Mail(s) löschen
+Ausgewählte löschen
 [Select All]
 Alles markieren
 [From]

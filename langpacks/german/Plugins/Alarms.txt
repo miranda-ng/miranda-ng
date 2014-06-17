@@ -55,7 +55,7 @@ Abbrechen
 [Title:]
 Titel:
 [Description:]
-Übersicht:
+Beschreibung:
 [Actions]
 Aktionen
 [Popup window]

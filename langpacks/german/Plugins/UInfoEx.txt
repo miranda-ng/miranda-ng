@@ -103,7 +103,7 @@ Menüeinträge zeigen
 [Remind me]
 Erinnere mich
 [days before]
-Tage vorher.
+Tage vorher
 [Check every]
 Prüfe alle
 [hours]
@@ -117,7 +117,7 @@ Bei jedem Start prüfen
 [Time of last check:]
 Letzte Überprüfung:
 [Birthday compatibility mode:]
-Birthday-Kompatibilitätsmodus:
+Geburtstags-Kompatibilitätsmodus:
 [Automatically backup and keep protocol based birthdays up to date]
 Automatische Sicherung und Aktualisierung protokollbasierender Geburtsdaten
 [Play sound]
@@ -125,7 +125,7 @@ Sound abspielen
 [Use ignore list]
 Ignorierliste verwenden
 [Birthday popup colors]
-Farben für Erinnerung
+Farben für Geburtstagspopups
 [Background color]
 Hintergrundfarbe
 [Text color]
@@ -145,7 +145,7 @@ Dauerhaft
 [Show reminder messages as popups (if reminder is enabled)]
 Erinnerungen als Popup anzeigen (wenn Erinnerung aktiviert)
 [Anniversary popup colors]
-Farben für Jahrestage
+Farben für Jahrestagspopups
 [Replace progress dialogs with popups]
 Fortschrittsanzeige durch Popups
 [Replace message boxes with popups]
@@ -165,7 +165,7 @@ Löschen
 [Anniversary editor]
 Jahrestag-Editor
 [Anniversary Editor\nAdd/Edit your anniversary here.]
-Jahrestag-Editor\nHinzufügen/Editieren der Jahrestage
+Jahrestag-Editor\nHinzufügen/Bearbeiten der Jahrestage
 [Enter a name for the anniversary here please:]
 Geben Sie hier den Namen des Jahrestages ein:
 [Anniversary list]
@@ -187,13 +187,13 @@ Durchschnittsalter:
 [View]
 Anzeigen
 [Show &during the next]
-Zeige während der nächsten
+Zeige währen&d der nächsten
 [day(s)]
 Tag(e)
 [Reminder]
 Erinnerung
 [Popup this dialog on a contact's anniversary]
-Zeige diesen Dialog an Jahrestagen
+Diesen Dialog an Jahrestagen anzeigen
 [Icons]
 Icons
 [Check file version of default IconPack to prevent wrong icon display]
@@ -203,7 +203,7 @@ Zeige Icons auf jedem Button
 [MetaContacts]
 Metakontakte
 [Scan subcontacts for missing information]
-Vervollständige Kontaktinformation aus Unterkontakten
+Unterkontakte nach fehlenden Informationen durchsuchen
 [Enable extended 'send/receive e-mail' service (*)]
 Erweitertes "send/receive e-mail"-Modul aktivieren (*)
 [Use Windows timezone]
@@ -225,21 +225,21 @@ Aktiviere farbige Informationsstatusanzeige
 [Make protocol based contact information readonly]
 Schreibschutz für protokollbasierte Kontaktinformationen
 [Enable groups in details dialog's treeview]
-Aktiviere Gruppen im Baum des Profildialogs
+Gruppen im Baum des Profildialogs aktivieren
 [Sort all tree items alphabetically]
 Baum alphabetisch sortieren
 [Info of a MetaContact's subcontact]
-Informationen des Unterkontaktes aus einem Metakontakt
+Informationen des Unterkontaktes eines Metakontaktes
 [Colors]
 Farben
 [Common]
 Allgemein
 [Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Ändere mein ICQ-Profil mit UserInfoEx. (Nur aktiv, wenn von ICQ unterstützt)
+Mein ICQ-Profil mit UserInfoEx ändern (Nur aktiv, wenn von ICQ unterstützt)
 [Treeview]
 Baumansicht
 [Adapt propertysheet pages to Aero mode]
-Passe Benutzer-Informationsseite der Aero-Oberfläche an (ab Vista+)
+Benutzer-Informationsseite der Aero-Oberfläche anpassen (ab Vista+)
 [Import]
 Importieren
 [Importing...\nPlease wait!]
@@ -255,7 +255,7 @@ Alle
 [None]
 Keine
 [Show menu item]
-Menueintrag anzeigen
+Menüeintrag anzeigen
 [Main menu]
 Hauptmenü
 [Cascade:]
@@ -267,11 +267,11 @@ Ex-/Importieren
 [Contact menu]
 Kontaktmenü
 [Group menu]
-Kontaktlistenmenü
+Gruppenmenü
 [Subgroup menu]
-Gruppenkontextmenü
+Untergruppenmenü
 [Account menu]
-Kontomenü
+Kontenmenü
 [Extra icons]
 Extraicons
 [Replace the following default icons:]
@@ -293,7 +293,7 @@ Benutze Tierkreiszeichen als Standard-Avatar
 [Country flags]
 Länderflaggen
 [Use &unknown flag if country cannot be determined]
-&Unbekannte flagge verwenden wenn Land nicht bestimmt werden kann.
+&Unbekannte Flagge verwenden wenn Land nicht bestimmt werden kann
 [Show country flag as &status icon on message window]
 Länderflagge als &Statusicon im Nachrichtenfenster anzeigen
 [Birthday]
@@ -305,13 +305,13 @@ Sternz.:
 [not found]
 nicht gefunden
 [Use global reminder settings]
-Verwende globale Einstellungen.
+Globale Einstellungen verwenden
 [Don't remind me of this anniversary]
-Erinnere mich nicht an diesen Jahrestag.
+Erinnere mich nicht an diesen Jahrestag
 [Refresh contact details]
 Kontaktdaten aktualisieren
 [Preparing...]
-Vorbereiten ...
+Vorbereiten...
 [Hide]
 Verstecken
 [What do you want to export?]
@@ -323,7 +323,7 @@ Kontaktverlauf
 [Select modules]
 Module auswählen
 [Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
-Wählen Sie die Module in der Baumstruktur aus, die Sie von dem Kontakt exportieren möchten. Um eine Datei in der Listenansicht einzufügen, müssen Sie mindestens ein Protokoll-Modul exportieren.
+Wählen Sie die Module in der Liste aus, die Sie von dem Kontakt exportieren möchten. Um eine Datei in der Listenansicht einzufügen, müssen Sie mindestens ein Protokoll-Modul exportieren.
 [Check all]
 Alle auswählen
 [Uncheck all]
@@ -392,17 +392,17 @@ unspezifiziert
 [Edit e-mail]
 E-Mail bearbeiten
 [Edit phone number]
-Tel. bearbeiten
+Telefonnummer bearbeiten
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Die Telefonnummer sollte mit + beginnen und nur aus\nNummern, Leerzeichen, Klammern und Bindestrichen bestehen.
 [Choose the item to display]
-Wählen Sie einen Eintrag zum Anzeigen aus.
+Wählen Sie einen Eintrag zum Anzeigen aus
 [Edit the currently displayed item]
-Bearbeiten des angezeigten Eintrags.
+Bearbeiten des angezeigten Eintrags
 [Add a new custom item]
-Fügt einen neuen Eintrag hinzu.
+Fügt einen neuen Eintrag hinzu
 [Delete the selected item]
-Löscht den ausgewählten Eintrag.
+Löscht den ausgewählten Eintrag
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 Schwerer Fehler: Der gewählte Eintrag kann nicht bearbeitet werden!\nDas sollte nicht passieren!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
@@ -552,7 +552,7 @@ Bearbeiten
 [Search]
 Suchen
 [Export/import]
-Ex-/Importieren
+Export/Import
 [Backup birthday]
 Geburtstag sichern
 [Birthday today]
@@ -607,7 +607,7 @@ Achtung: Kein Iconpack wurde in folgendem Ordner gefunden: 'customize\\Icons', '
 Allgemein
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
-UserInfoEx
+Erweiterte Benutzerinfos
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Kontakt ex-/importieren
@@ -632,13 +632,13 @@ Suche nach Jahrestagen
 [Export/import group]
 Gruppe ex-/importieren
 [&Export group]
-Exportiere Gruppe
+Gruppe &exportieren
 [&Import group]
-Importiere Gruppe
+Gruppe &importieren
 [&Export xml]
-
+XML &exportieren
 [&Import xml]
-
+XML &importieren
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Meine Notizen:
@@ -663,7 +663,7 @@ Zweite E-Mail
 [Tertiary e-mail]
 Dritte E-Mail
 [Address and contact]
-Adresse & Kontakt
+Adresse und Kontakt
 [company]
 Unternehmen
 ;file \plugins\UserInfoEx\src\psp_options.cpp
@@ -676,7 +676,7 @@ Bereit
 [Everything is done!]
 Alles ist erledigt
 [All settings are reset to default values now!]
-Alle Einstellungen wurden zurückgesetzt
+Alle Einstellungen wurden auf Standardwerte zurückgesetzt!
 [Reminder disabled]
 Erinnerung deaktiviert
 [Bithdays only]

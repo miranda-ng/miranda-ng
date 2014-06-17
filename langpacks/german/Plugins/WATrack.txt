@@ -6,7 +6,7 @@
 ;  Authors: Awkward
 ;============================================================
 [Paste played music info into message window or status text]
-Fügt die abgespielte Musikinfos zum Nachrichtenfenster oder im Statustext ein.
+Fügt Infos über die abgespielte Musik im Nachrichtenfenster oder in die Statusnachricht ein.
 [Clear xStatus before set new one]
 XStatus zurücksetzen, bevor ein neuer gesetzt wird.
 [Emulate Multimedia keys]
@@ -154,7 +154,7 @@ Codec, nur bei Videos
 [Color codes]
 Farbtabelle
 [File size]
-Maßeinheit
+Dateigröße
 [FileSize text format]
 Dateigröße Textformat
 [Formats]
@@ -164,9 +164,9 @@ Playernamen-Buchstaben
 [Players list]
 Playerliste
 [Popup Title / Text]
-Popuptitel/-Text
+Popuptitel/-text
 [Frame Text]
-WATrack-Frametext
+Frametext
 [Export Text]
 Text exportieren
 [Postfix]
@@ -204,7 +204,7 @@ Unicode- nach ANSI-Kodierung:
 [VBR macro]
 VBR-Anzeige
 [\[X\]Status Title / Text]
-XStatus-Titel/-Text
+\[X]Status-Titel/-Text
 [Insert in messages]
 In Nachrichten einfügen
 [Use status messages]
@@ -298,11 +298,11 @@ Wenn diese Einstellung aktiv ist, versucht das Plugin unbekannte Formatangaben v
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
 Wenn diese Einstellung aktiv ist, ändert sich der XStatus nur, wenn XStatus "Musik" bereits gesetzt ist.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
-Wenn diese Einstellung aktiv ist, Hängt der XStatus nicht vom ICQ-Status ab.
+Wenn diese Einstellung aktiv ist, hängt der XStatus nicht vom ICQ-Status ab.
 [If this option is "ON", XStatus won't be changed when player is shut down.]
 Wenn diese Einstellung aktiv ist, ändert sich der XStatus nach dem Beenden des Players nicht.
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
-Wenn diese Einstellung aktiv ist, ändert sich der XStatus zu "Musik", und Musikinfos werden in die XStatus-Nachricht eingefügt.
+Wenn diese Einstellung aktiv ist, ändert sich der XStatus zu "Musik", und Musikinfos werden in die Statusnachricht eingefügt.
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Wenn diese Einstellung aktiv ist, muss lediglich eine Vorlage für alle Protokolle, Protokoll- und Playerstatus definiert werden.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]

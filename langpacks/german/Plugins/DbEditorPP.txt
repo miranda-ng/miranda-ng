@@ -6,7 +6,7 @@
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
-Erweiterte Datenbank-Editor.
+Erweiterter Datenbank-Editor.
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ search and replace]
 Datenbank-Editor++ Suchen und Ersetzen
@@ -19,7 +19,7 @@ genaue Suche
 [Setting name]
 Einstell. Name
 [Setting value]
-Einstell. Werte
+Einstell. Wert
 [&Search]
 &Suchen
 [Found field]
@@ -55,7 +55,7 @@ Modul zum Kontakt hinzufügen
 [Add a module named]
 Name des Moduls
 [Add to all contacts (including Settings)]
-Modul zu allen Kontakten hinzufügen (inkl. Einstell.)
+Zu allen Kontakten hinzufügen (inkl. Einstell.)
 [Cancel]
 Abbrechen
 [Edit setting]
@@ -73,9 +73,9 @@ Hexadezimal
 [Decimal]
 Dezimal
 [Value name:]
-Name:
+Wertname:
 [Value data:]
-Wert:
+Wertdatum:
 [Base]
 Basis
 [Save value as:]
@@ -109,15 +109,15 @@ B&eenden
 [&Actions]
 &Aktionen
 [&Search and replace]
-&Suchen und Ersetzen
+&Suchen und ersetzen
 [&Delete module]
-Mo&dul löschen
+Modul &löschen
 [&Watches]
-Beobachten
+&Beobachtungen
 [&View all]
-Alle anzeigen
+Alle &anzeigen
 [&Delete all]
-Alle löschen
+Alle &löschen
 [&Export]
 &Exportieren
 [Entire &database]
@@ -133,7 +133,7 @@ Von einer Datei
 [From pasted &text]
 Vom eingefügten &Text
 [&Options]
-Einstellungen
+&Einstellungen
 [&Sort by protocol]
 Nach Protokoll &sortieren
 [Show &all]
@@ -151,7 +151,7 @@ Nur &ungeladene anzeigen
 [&Restore position]
 Position wiederhe&rstellen
 [&Open options]
-Einstellungen öffnen
+Einstellungen &öffnen
 [&Edit/rename]
 B&earbeiten/Umbenennen
 [New]
@@ -181,17 +181,17 @@ String entschlüsseln
 [Encrypt string]
 String verschlüsseln
 [&Watch]
-Beobachten
+&Beobachten
 [&Delete]
-Löschen
+&Löschen
 [&Rename]
-Umbenennen
+&Umbenennen
 [Copy to contact]
 Zu Kontakt kopieren
 [Export module]
 Modul exportieren
 [&Clone]
-Kopie erstellen
+&Kopie erstellen
 [Export contact]
 Kontakt exportieren
 [Import settings]
@@ -201,7 +201,7 @@ Von einer Datei
 [From pasted text]
 Vom eingefügten Text
 [&Add module]
-Modul hinzufügen
+Modul &hinzufügen
 [Export settings]
 Einstellungen exportieren
 [Export contacts]
@@ -301,7 +301,7 @@ Beendet. %d Einträge wurden gefunden, %d Einträge wurden ersetzt.
 Beendet. %d Einträge wurden gefunden.
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
-
+Haupticon
 [Closed known module]
 Geschlossenes bekanntes Modul
 [Open known module]
@@ -313,21 +313,21 @@ Unbekannter Kontakt
 [Known contact]
 Bekannter Kontakt
 [Open user tree]
-
+Benutzerzweig öffnen
 [BLOB setting]
-
+BLOB-Eintrag
 [Byte setting]
-
+Byte-Eintrag
 [Word setting]
-
+Word-Eintrag
 [Dword setting]
-
+Dword-Eintrag
 [String setting]
-
+String-Eintrag
 [Unicode setting]
-
+Unicode-Eintrag
 [Handle]
-
+Handle
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Öffne Datenbank-Editor++

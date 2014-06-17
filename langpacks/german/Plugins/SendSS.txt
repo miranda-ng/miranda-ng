@@ -57,9 +57,9 @@ Fensterinha&lt
 [Target Tool]
 Zielscheibe
 [File:]
-
+Datei:
 [Description:]
-
+Beschreibung:
 [Result]
 Ergebnis
 [Thumbnail]
@@ -245,7 +245,7 @@ Monitor
 [ (primary)]
  (primär)
 [File]
-
+Datei
 [<Only save>]
 <Nur speichern>
 [File Transfer]
@@ -275,7 +275,7 @@ Aufnehmen
 [Can't create a Screenshot]
 Konnte kein Screenshot erstellen.
 [Select a file]
-
+Datei auswählen
 [Select a target window.]
 Bitte gewünschtes Fenster auswählen.
 [Screenshot ]

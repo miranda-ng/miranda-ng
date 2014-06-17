@@ -1612,7 +1612,7 @@ Skin ändern
 [Message window tweaks]
 Nachrichtenfenster-Tweaks
 [Display metacontact icons]
-
+Metakontact-Icon anzeigen
 [Error feedback]
 Fehlermeldung
 [Show skinnable tooltip in chat (Tipper plugin required)]
@@ -1630,9 +1630,9 @@ Unbeaufsichtigtes Senden aktivieren (experimentell, benötigt für multisend und
 [Show client description in info panel]
 Client-Beschreibung im Infobereich anzeigen
 [On tab control]
-
+Auf der Tableiste
 [On the button bar]
-
+Auf der Werkzeugleiste
 [Disable error popups on sending failures]
 Fehler-Popups bei Sendefehlern deaktivieren
 [Show a preview of the event]
@@ -1987,7 +1987,7 @@ IRC-ähnliche Statusanzeigen in der Nickliste verwenden
 [Use alternative sorting method in member list]
 Alternative Sortierung in der Nickliste verwenden
 [Prefix all events with a timestamp]
-Zeitstempel bei allen Ereignissen als Perfix
+Zeitstempel bei allen Ereignissen als Präfix
 [Timestamp only when event time differs]
 Zeitstempel nur wenn Ereignis-Zeit abweicht
 [Timestamp has same color as the event]
@@ -2003,7 +2003,7 @@ Private Unterhaltung bei Doppelklick in Nickliste starten (fügt sonst Nick ein)
 [Strip colors from messages in the log]
 Farben aus Nachrichten im Verlauf entfernen
 [Enable the 'event filter' for new rooms]
-'Ereignis-Filter' für neue Nachrichten aktivieren
+'Ereignis-Filter' für neue Räume aktivieren
 [Use IRC style status indicators in the log]
 IRC-ähnliche Statusanzeigen im Verlauf verwenden
 [Allow clickable user names in the message log]
@@ -2071,9 +2071,9 @@ Hilfsoperatoren
 [Channel operators]
 Channeloperatoren
 [Extended mode 1]
-Erweiterter Modus #1
+Erweiterter Modus 1
 [Extended mode 2]
-Erweiterter Modus #2
+Erweiterter Modus 2
 [Selection background]
 Markierter Hintergrund
 [Selected text]
@@ -2143,9 +2143,9 @@ Ordner wählen
 [No markers]
 Keine Markierungen
 [Show as icons]
-Zeige als Icons
+Als Icons anzeigen
 [Show as text symbols]
-Zeige als Textsymbole
+Als Textsymbole anzeigen
 ;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s%s says:%s %s]
 %s%s sagt:%s %s
@@ -2156,9 +2156,9 @@ Kein Wort zum Nachschlagen
 [&Message %s]
 &Nachricht an %s
 [Highlight User...]
-"Highlighte" Benutzer ...
+Benutzer hervorheben...
 [Edit Highlight List...]
-Editiere "Highlight" Liste ...
+Hervorhebungsliste bearbeiten...
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
 Unique ID

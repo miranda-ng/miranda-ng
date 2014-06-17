@@ -165,9 +165,9 @@ Auf Aktualisierungen prüfen
 [Available components list]
 Liste verfügbarer Komponenten
 [Update completed]
-
+Aktualisierung erfolgreich
 [Update failed]
-
+Aktualisierung fehlgeschlagen
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 'Ja'-Schaltfläche

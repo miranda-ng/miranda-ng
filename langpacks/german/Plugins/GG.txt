@@ -95,7 +95,7 @@ Herkunftsstadt:
 [Birth year:]
 Geburtsjahr:
 [Description:]
-Übersicht:
+Beschreibung:
 [&Save changes]
 Änderungen &speichern
 [Enter token to continue]

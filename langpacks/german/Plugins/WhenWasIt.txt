@@ -75,7 +75,7 @@ Jahrestage verwalten
 [Title:]
 Titel:
 [Description:]
-Übersicht:
+Beschreibung:
 [Date:]
 Datum:
 [Save]

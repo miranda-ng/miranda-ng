@@ -75,11 +75,11 @@ Unbekannter
 [You and the Stranger both like: ]
 Sie und der Fremde mögen beide:\s
 [%s is typing.]
-%s tippt
+%s tippt.
 [%s stopped typing.]
-%s tippt nicht mehr
+%s tippt nicht mehr.
 [%s disconnected.]
-%d wurde getrennt
+%s wurde getrennt.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Recaptcha benötigt.\nÖffnen Sie http://omegle.com, lösen Sie das Recaptcha und versuchen Sie es nochmal.
 [Error: ]
@@ -108,7 +108,7 @@ Sie sprechen beide die selbe Sprache.
 [%s server connection]
 %s Serververbindung
 [Unable to get Netlib connection for Omegle]
-Kann nicht Netlib-Verbingung für Omegle herstellen
+Kann Netlib-Verbingung für Omegle nicht herstellen
 [Stranger typing]
 Fremder tippt
 [Stranger stopped typing]

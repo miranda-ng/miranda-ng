@@ -1,2 +1,0 @@
-﻿[N/A: Failed to format error message]
-[N/A: FormatMessage failed, error code was 0x]
