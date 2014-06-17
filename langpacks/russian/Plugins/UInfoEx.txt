@@ -621,6 +621,8 @@
 &Импортировать группу
 [&Export xml]
 &экспорт xml
+[&Import xml]
+&импорт xml
 [My notes:]
 Мои заметки:
 [About:]

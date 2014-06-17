@@ -1,4 +1,3 @@
 ﻿[Enter a representative name for the e-mail address here:]
-[&Import xml]
 [TmplPast Work Place]
 [TmplPast Organization]
