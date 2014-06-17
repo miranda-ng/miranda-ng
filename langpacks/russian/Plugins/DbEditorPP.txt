@@ -165,8 +165,6 @@
 С&трока
 [&Unicode]
 &Юникод
-[BL&OB]
-BL&OB
 [&Convert to]
 &Перевести в
 [Encyption]
@@ -341,8 +339,6 @@ INI файлы
 *** зашифровано ***
 [UNICODE]
 юникод
-[BLOB]
-BLOB
 [BYTE]
 байт
 [WORD]

@@ -147,8 +147,6 @@ URL:\s
 Имя       :
 [LastName  :]
 Фамилия   :
-[e-mail    :]
-e-mail    :
 [Reason    :]
 Причина   :
 [The following user made an authorization request:]

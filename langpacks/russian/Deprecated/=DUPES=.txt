@@ -377,8 +377,6 @@ xСтатус %s
 Голландский
 [Dzongkha]
 Дзонгка
-[E-Mail]
-E-Mail
 [Eating]
 Кушаю
 [Edit rule]
@@ -4219,8 +4217,6 @@ INI файлы
 &Запретить
 [&Download Now]
 Загрузить
-[&E-mail]
-&E-mail
 [&Edit]
 Править
 [&Exit]

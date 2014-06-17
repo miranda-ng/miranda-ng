@@ -1695,8 +1695,6 @@ UIN, E-mail и т.д.
 Пользователь не зарегистрировал свой адрес e-mail.
 [Send e-mail]
 Отправить e-mail
-[&E-mail]
-&E-mail
 [File from %s]
 Файл от %s
 [bytes]
@@ -2313,8 +2311,6 @@ Miranda NG не может открыть этот профиль
 Неудачное назначение
 [(Unknown Contact)]
 (Неизвестный контакт)
-[ID]
-ID
 [Protocol]
 Протокол
 [Send Offline]

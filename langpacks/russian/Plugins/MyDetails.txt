@@ -15,8 +15,6 @@
 Отмена
 [General]
 Общие
-[RTL]
-RTL
 [Align text to right]
 Выровнять справа
 [Auto-resize frame]

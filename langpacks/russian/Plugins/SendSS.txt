@@ -143,8 +143,6 @@ HTTP подключение SendSS
 Файл
 [File Transfer]
 Передача файла
-[E-mail]
-E-mail
 [FTP File]
 Файл на FTP
 [Information]

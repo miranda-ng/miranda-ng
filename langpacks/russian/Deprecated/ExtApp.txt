@@ -17,8 +17,6 @@
 Приложения
 [Icon:]
 Значок:
-[IP]
-IP
 [Select external application file]
 Выбор внешнего приложения
 [This plugin allows you to call external applications from the contact list.]

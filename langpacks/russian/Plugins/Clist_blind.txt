@@ -29,8 +29,6 @@
 Прочитать сообщение
 [Web Search:]
 Поиск в web:
-[URL:]
-URL:
 [Open in new browser window]
 Открыть в новом окне
 [Show Options]

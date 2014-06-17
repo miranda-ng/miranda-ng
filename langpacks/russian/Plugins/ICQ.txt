@@ -203,8 +203,6 @@
 Имя:
 [Last name:]
 Фамилия:
-[E-mail:]
-E-mail:
 [Gender:]
 Пол:
 [Age:]

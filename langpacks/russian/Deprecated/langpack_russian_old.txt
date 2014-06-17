@@ -110,8 +110,6 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 &Запретить
 [&Download Now]
 Загрузить
-[&E-mail]
-&E-mail
 [&Edit]
 Править
 [&Exit]
@@ -2883,8 +2881,6 @@ xСтатус %s
 Голландский
 [Dzongkha]
 Дзонгка
-[E-Mail]
-E-Mail
 [Eating]
 Кушаю
 [Edit rule]
@@ -6872,8 +6868,6 @@ INI файлы
 Аккаунт:
 [Contact ID:]
 ID контакта:
-[Custom name:]
-Custom name:
 [Group:]
 Группа:
 [Options]
@@ -10965,8 +10959,6 @@ Miranda NG была завершена аварийно. Отчёт сохран
 С&трока
 [&Unicode]
 &Юникод
-[BL&OB]
-BL&OB
 [&Convert to]
 &Перевести в
 [Encyption]
@@ -11205,8 +11197,6 @@ BL&OB
 Загрузка контактов...
 [Loading modules...]
 Загрузка модулей...
-[HANDLE]
-HANDLE
 [Finished. %d items found]
 Завершено. %d найдено
 [Found Module "%s" in contact "%s"]
@@ -12982,8 +12972,6 @@ WATrack уведомление
 WATrack: запрос информации
 [Artist: %s\\nTitle: %s\\nAlbum: %s]
 Артист: %s\\nTitle: %s\\nAlbum: %s
-[WATrack: %s]
-WATrack: %s
 [WATrack: request denied]
 WATrack: запрос запрещён
 [Imitate IEView API]
@@ -13063,10 +13051,6 @@ WATrack: запрос запрещён
 &Выделить все
 [SMS Message]
 Сообщение SMS
-[WebPager]
-WebPager
-[EMail Express]
-EMail Express
 [Other event]
 Другое событие
 [Global History Search]
@@ -14812,8 +14796,6 @@ xСтатус "%s"
 Группировка
 [Show nicknames]
 Показывать ники
-[RTL]
-RTL
 [Copy Link]
 Копировать ссылку
 [Save Image As...]
@@ -15388,8 +15370,6 @@ DCC: Запрос на продолжение закачки файла от %s 
 Укажите причину
 [Ban'n Kick]
 Выгнать и забанить
-[Jerk]
-Jerk
 [*Disconnected*]
 *Отключён*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
@@ -18163,8 +18143,6 @@ UIN, E-mail и т.д.
 Всегда использовать по умолчанию (даже если оффлайн)
 [Send &Offline]
 В оффлайн
-[Id]
-Id
 [Send Offline]
 Отправка в оффлайн
 [Remove from MetaContact]
@@ -18255,8 +18233,6 @@ MetaId:\s
 Ошибка - база повреждена.\nПлагин отключён.
 [Free to Chat]
 Готов болтать
-[Meta ID]
-Meta ID
 [MetaContact Conflict]
 Конфликт метаконтактов
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDelete MetaContact?]
@@ -19311,8 +19287,6 @@ URL станции/плейлиста
 Имя       :
 [LastName  :]
 Фамилия   :
-[e-mail    :]
-e-mail    :
 [Reason    :]
 Причина   :
 [Failed to write message to the file :\n]
@@ -24334,8 +24308,6 @@ Skype протокол для Miranda NG.
 Отправить контакт
 [Initialization key corrupted or not valid.]
 Ключ инициализации повреждён или не действителен.
-[SkypeKit did not initialize (%d).]
-SkypeKit did not initialize (%d).
 [SkypeKit did not start.]
 SkypeKit не запустился.
 [Unblock this person...]
@@ -28731,8 +28703,6 @@ URL:
 удлиняет x до длины y добавляя справа символ z (z необязательно)
 [z if y equals x, multiple y and z arguments allowed]
 z, если y равно x, допустимы множественные аргументы y и z
-[x - y - ...]
-x - y - ...
 [repeats x y times]
 повторяет x y раз
 [formats timestamp x (seconds since 1/1/1970) in time format y]
@@ -28805,8 +28775,6 @@ x - y - ...
 случайное число
 [TRUE if x equals y]
 ПРАВДА, если х = у
-[x + y + ...]
-x + y + ...
 [TRUE if process x is running]
 ПРАВДА, если процесс х запущен
 [performs logical NOT (!x)]
@@ -28949,8 +28917,6 @@ y, если w > x, иначе z
 Маркер %subject% будет принят как специальный контакт, который зависит от ситуации, как и где эта строка использована. Используйте этот диалог, чтобы симулировать контакт, который будет подставляться в %subject%. Пример использования этого маркера: !cinfo(%subject%,display).
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 Маркер %extratext% будет принят, как специальная строка, которая зависит от ситуации, как и где эта строка использована. Используйте этот диалог, чтобы симулировать строку, которая будет подставляться в %extratext%
-[%extratext%]
-%extratext%
 [%false%]
 логическое ЛОЖЬ
 [%true%]
@@ -32141,8 +32107,6 @@ Yahoo детали
 Профиль пользователя Yahoo
 [Yahoo Protocol]
 Протокол Yahoo
-[YAHOO]
-Yahoo
 [[%s] Requesting file from %s]
 (%s) Запрос файла от %s
 [Yahoo Protocol Beta/Nightly]

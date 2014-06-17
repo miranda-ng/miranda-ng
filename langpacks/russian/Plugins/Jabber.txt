@@ -151,8 +151,6 @@ Jabber Пароль
 Отдел:
 [Title:]
 Должность:
-[E-mail:]
-E-mail:
 [Phone:]
 Телефон:
 [Jabber vCard: Add Email Address]
@@ -1835,8 +1833,6 @@ XML для MS Excel (кодировка UTF-8)
 Женский
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Поддерживаются только изображения JPG, GIF и BMP, которые меньше 40 Кб.
-[Jabber vCard]
-Jabber vCard
 [Jabber vCard: Edit Email Address]
 Jabber vCard: редактирование E-mail
 [Jabber vCard: Edit Phone Number]

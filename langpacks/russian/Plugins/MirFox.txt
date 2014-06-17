@@ -51,8 +51,6 @@ MirFox/Ошибка
 Сообщение для %s (%s) отправлено
 [Message sent]
 Сообщение отправлено
-[MirFox]
-MirFox
 [Cannot send message to %s (%s) - %S]
 Не удалось отправить сообщение для %s (%s) - %S
 [Cannot send message - %S]

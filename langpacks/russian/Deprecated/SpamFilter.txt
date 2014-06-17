@@ -66,8 +66,6 @@
 Добавить контакт в спамер-лист...
 [Hey %s, I don't like spam!\nYou are now put onto the spammers list to stop you from sending me such things.\n\nHere is your message back:\n%s\n\n\n(Automated message)]
 We don't need your stuff, %s.\n\nAdded to spam list.\n\n%s\n\n\n(Automated message)
-[Spam.log]
-Spam.log
 [Recognition:]
 Распознавание:
 [Contains only one word]

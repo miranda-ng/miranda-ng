@@ -99,8 +99,6 @@
 Прогноз погоды
 [City name]
 город
-[ID]
-ID
 [Log Information]
 Сохранение информации
 [Use internal history]

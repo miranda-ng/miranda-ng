@@ -42,8 +42,6 @@
 Текущий пользователь
 [Message: %s\r\n\r\n]
 Сообщение: %s\r\n\r\n
-[URL: %s\r\n\r\n]
-URL: %s\r\n\r\n
 [Logged Status Change: %s\r\n\r\n]
 Запись о смене статуса: %s\r\n\r\n
 [Auth Request: %s\r\n\r\n]

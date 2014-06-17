@@ -7,8 +7,6 @@
 ;============================================================
 [Yahoo protocol support for Miranda NG.]
 Поддержка протокола Yahoo в Miranda NG.
-[Yahoo]
-Yahoo
 [Password:]
 Пароль:
 [Nick:]
@@ -155,8 +153,6 @@ Yahoo Игнор
 Новая почта в папке "Входящие"
 [%s plugin connections]
 %s подключение к серверу
-[ID]
-ID
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Введите ваш Yahoo ID - Настройки/Сеть/Yahoo
 [Please enter your Yahoo password in Options/Network/Yahoo]

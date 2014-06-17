@@ -31,8 +31,6 @@
 Расширенные настройки
 [(not recommended)]
 (не рекомендуется)
-[URL:]
-URL:
 [Display]
 Показывать
 [Cancel]

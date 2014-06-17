@@ -273,8 +273,6 @@
 Выделить &всё
 [Word lookup]
 Найти слово
-[Yahoo]
-Yahoo
 [C&lear Log]
 Оч&истить журнал
 [&Open link]

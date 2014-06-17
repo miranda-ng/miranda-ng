@@ -31,8 +31,6 @@
 MirandaComm -- Ошибка
 [&Audio Session]
 Аудио Сессия
-[MirandaComm VoIp]
-MirandaComm VoIp
 [You need a sound card which supports recording for MirandaComm.]
 Вам нужна звуковая карта, поддерживающая запись для использования MirandaComm.
 [Can not open the sound device for playback. With certain drivers only one instance can be opened. This is especially with NT 4.0 the case.]
@@ -51,12 +49,6 @@ MirandaComm VoIp
 Рекомендуемые форматы аудио: GSM 6.10, 8-12 KHz. Аудио формат должен поддерживать запись. Длина буфера и аудио формат используется только для клиента. Для воспроизведения у других пользователей, их настройки аудио будут использованы.
 [Push-to-Talk Key]
 Push-to-Talk клавиша
-[Ctrl]
-Ctrl
-[Alt]
-Alt
-[Shift]
-Shift
 [IP Override]
 Заменить IP
 [Note: Your own IP]

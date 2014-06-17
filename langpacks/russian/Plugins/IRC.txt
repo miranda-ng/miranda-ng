@@ -325,8 +325,6 @@ DCC: Запрос на продолжение закачки файла от %s 
 Укажите причину
 [Ban'n Kick]
 Выгнать и забанить
-[Jerk]
-Jerk
 [*Disconnected*]
 *Отключён*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]

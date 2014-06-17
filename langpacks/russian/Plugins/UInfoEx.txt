@@ -277,8 +277,6 @@
 Сайт
 [Phone]
 Телефон
-[E-mail]
-E-mail
 [Gender]
 Пол
 [Misc]

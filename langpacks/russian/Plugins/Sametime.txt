@@ -95,8 +95,6 @@ ID клиента
 Ошибка
 [%s connection]
 Соединение %s
-[ID]
-ID
 [Sametime administrator message]
 Сообщение администратора Sametime
 [Session announcement - from '%s']

@@ -53,8 +53,6 @@
 Вы в списке контакта на сервере
 [Refresh]
 Обновить
-[Hotmail]
-Hotmail
 [Disable Popup notifications]
 Отключить уведомление всплывающими окнами
 [Disable Tray notifications]

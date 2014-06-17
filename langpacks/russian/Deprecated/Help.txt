@@ -33,10 +33,6 @@
 Число секунд, сколько будет хранится текст справки в памяти.
 [Help Editor]
 Редактор справки
-[Control ID: %d]
-Control ID: %d
-[Dialog ID: %hs]
-Dialog-ID: %hs
 [Type: %s]
 Тип: %s
 [Dialog Box]
