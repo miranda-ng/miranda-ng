@@ -70,46 +70,44 @@ INT_PTR CALLBACK CSteamProto::CaptchaProc(HWND hwnd, UINT message, WPARAM wParam
 		EndDialog(hwnd, 0);
 		break;
 
-	//case WM_PAINT:
-	//	{
-	//		/*FI_INTERFACE *fei = 0;
+	case WM_PAINT:
+		{
+			FI_INTERFACE *fei = 0;
 
-	//		INT_PTR result = CALLSERVICE_NOTFOUND;
-	//		if (ServiceExists(MS_IMG_GETINTERFACE))
-	//			result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
+			INT_PTR result = CALLSERVICE_NOTFOUND;
+			if (ServiceExists(MS_IMG_GETINTERFACE))
+				result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
 
-	//		if (fei == NULL || result != S_OK) {
-	//			MessageBox(0, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar Service"), MB_OK);
-	//			return 0;
-	//		}*/
+			if (fei == NULL || result != S_OK) {
+				MessageBox(0, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar Service"), MB_OK);
+				return 0;
+			}
 
-	//		PAINTSTRUCT ps;
-	//		HDC hDC = BeginPaint(hwnd, &ps);
+			FIMEMORY *memory = fei->FI_OpenMemory(captcha->data, captcha->size);
+			FIBITMAP *bitmap = fei->FI_LoadFromMemory(FIF_PNG, memory, PNG_DEFAULT);
+			fei->FI_CloseMemory(memory);
 
-	//		//FreeImage_Initialise();
-	//		
-	//		/*FIMEMORY *stream = FreeImage_OpenMemory(captcha->data, captcha->size);
-	//		FIBITMAP *dib = FreeImage_LoadFromMemory(FIF_PNG, stream, PNG_DEFAULT);
-	//		FreeImage_CloseMemory(stream);
+			PAINTSTRUCT ps;
+			HDC hDC = BeginPaint(hwnd, &ps);
 
-	//		SetStretchBltMode(hDC, COLORONCOLOR);
-	//		StretchDIBits(
-	//			hDC,
-	//			0, 0,
-	//			206, 40,
-	//			0, 0,
-	//			FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
-	//			FreeImage_GetBits(dib),
-	//			FreeImage_GetInfo(dib),
-	//			DIB_RGB_COLORS, SRCCOPY);
+			SetStretchBltMode(hDC, COLORONCOLOR);
+			StretchDIBits(
+				hDC,
+				0, 0,
+				206, 40,
+				0, 0,
+				fei->FI_GetWidth(bitmap),
+				fei->FI_GetHeight(bitmap),
+				fei->FI_GetBits(bitmap),
+				fei->FI_GetInfo(bitmap),
+				DIB_RGB_COLORS, SRCCOPY);
 
-	//		FreeImage_Unload(dib);*/
+			fei->FI_Unload(bitmap);
+			//fei->FI_DeInitialise();
 
-	//		//FreeImage_DeInitialise();
-
-	//		EndPaint(hwnd, &ps);
-	//	}
-	//	return 0;
+			EndPaint(hwnd, &ps);
+		}
+		return 0;
 
 	case WM_COMMAND:
 		{

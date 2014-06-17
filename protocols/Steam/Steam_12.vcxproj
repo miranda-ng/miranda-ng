@@ -193,9 +193,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h" />
-    <ClInclude Include="src\http_request.h" />
     <ClInclude Include="src\Steam\authorization.h" />
     <ClInclude Include="src\Steam\avatar.h" />
+    <ClInclude Include="src\Steam\captcha.h" />
     <ClInclude Include="src\Steam\friend.h" />
     <ClInclude Include="src\Steam\friend_list.h" />
     <ClInclude Include="src\Steam\pending.h" />

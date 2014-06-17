@@ -55,6 +55,9 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 
 			if (IsMe(steamId))
 			{
+				node = json_get(item, "persona_name");
+				setWString("Nick", json_as_string(node));
+
 				if (status == ID_STATUS_OFFLINE)
 					continue;
 

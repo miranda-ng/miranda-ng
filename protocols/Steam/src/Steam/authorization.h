@@ -5,7 +5,7 @@ namespace SteamWebApi
 {
 	class AuthorizationRequest : public HttpsPostRequest
 	{
-		void InitData(const char *username, const char *password, const char *timestamp, const char *guardId = "-1", const char *guardCode = "")
+		void InitData(const char *username, const char *password, const char *timestamp, const char *guardId = "-1", const char *guardCode = "", const char *captchaId = "-1", const char *captchaText = "")
 		{
 			char data[1024];
 			mir_snprintf(data, SIZEOF(data),
@@ -14,8 +14,8 @@ namespace SteamWebApi
 				ptrA(mir_urlEncode(password)),
 				guardId,
 				guardCode,
-				"-1",
-				"",
+				captchaId,
+				captchaText,
 				timestamp,
 				time(NULL));
 
@@ -37,6 +37,14 @@ namespace SteamWebApi
 			flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
 			InitData(username, password, timestamp, guardId, guardCode);
+		}
+
+		AuthorizationRequest(const char *username, const char *password, const char *timestamp, const char *guardId, const char *guardCode, const char *captchaId, const char *captchaText) :
+			HttpsPostRequest(STEAM_COM_URL "/mobilelogin/dologin")
+		{
+			flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
+
+			InitData(username, password, timestamp, guardId, guardCode, captchaId, captchaText);
 		}
 	};
 }

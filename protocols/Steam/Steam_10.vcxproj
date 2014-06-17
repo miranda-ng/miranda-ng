@@ -188,10 +188,10 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\http_request.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\Steam\authorization.h" />
     <ClInclude Include="src\Steam\avatar.h" />
+    <ClInclude Include="src\Steam\captcha.h" />
     <ClInclude Include="src\Steam\pending.h" />
     <ClInclude Include="src\Steam\rsa_key.h" />
     <ClInclude Include="src\Steam\friend.h" />

@@ -1,0 +1,11 @@
+Steam web API
+http://steamcommunity.com/dev
+Official supported API 
+http://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/
+Not supported, bud worked API
+http://pastebin.com/qsX36TMT
+Steam browser protocol
+https://developer.valvesoftware.com/wiki/Steam_browser_protocol
+Other realization on c++
+https://code.google.com/p/pidgin-opensteamworks/
+https://github.com/jgeboski/bitlbee-steam

@@ -102,20 +102,46 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				new SteamWebApi::AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp, guardId, guard.code),
 				&CSteamProto::OnAuthorization);
 		}
-
-		// todo: show captcha dialog
-		/*node = json_get(root, "captcha_needed");
+		
+		node = json_get(root, "captcha_needed");
 		if (json_as_bool(node) > 0)
 		{
 			node = json_get(root, "captcha_gid");
-			authResult->captchagid = ptrA(mir_u2a(json_as_string(node)));
-		}
+			ptrA captchaId(mir_u2a(json_as_string(node)));
 
-		if (!authResult->emailauth_needed && !authResult->captcha_needed)
-		{
-			node = json_get(root, "message");
-			authResult->message = json_as_string(node);
-		}*/
+			char url[MAX_PATH];
+			mir_snprintf(url, SIZEOF(url), STEAM_COM_URL "/public/captcha.php?gid=%s", captchaId);
+
+			SteamWebApi::GetCaptchaRequest *request = new SteamWebApi::GetCaptchaRequest(url);
+			request->szUrl = (char*)request->url.c_str();
+			NETLIBHTTPREQUEST *response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)request);
+			delete request;
+
+			CallService(MS_UTILS_OPENURL, 0, (LPARAM)url);
+
+			CaptchaParam captcha = { 0 };
+			captcha.size = response->dataLength;
+			captcha.data = (BYTE*)mir_alloc(captcha.size);
+			memcpy(captcha.data, response->pData, captcha.size);
+
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+
+			if (DialogBoxParam(
+				g_hInstance,
+				MAKEINTRESOURCE(IDD_CAPTCHA),
+				NULL,
+				CSteamProto::CaptchaProc,
+				(LPARAM)&captcha) != 1)
+				return;
+
+			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
+			ptrA base64RsaEncryptedPassword(getStringA("EncryptedPassword"));
+			ptrA timestamp(getStringA("Timestamp"));
+
+			PushRequest(
+				new SteamWebApi::AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp, "-1", "", captchaId, captcha.text),
+				&CSteamProto::OnAuthorization);
+		}
 
 		return;
 	}

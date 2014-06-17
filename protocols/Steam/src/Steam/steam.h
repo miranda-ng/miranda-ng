@@ -120,5 +120,6 @@ namespace SteamWebApi
 #include "Steam\message.h"
 #include "Steam\search.h"
 #include "Steam\avatar.h"
+#include "Steam\captcha.h"
 
 #endif //_STEAM_H_

@@ -68,9 +68,6 @@
     <ClInclude Include="src\steam_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\http_request.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Steam\authorization.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
@@ -105,6 +102,9 @@
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
     <ClInclude Include="src\Steam\rsa_key.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Steam\captcha.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
   </ItemGroup>
