@@ -9,10 +9,6 @@
 #define IDI_GROUPSON                    128
 #define IDI_SOUNDSOFF                   129
 #define IDI_SOUNDSON                    130
-#define IDI_OPTIONSUP                   131
-#define IDI_MINIMIZEUP                  133
-#define IDI_FINDADDUP                   135
-#define IDI_MIRANDAUP                   137
 #define IDI_METAON                      139
 #define IDI_RUN                         140
 #define IDI_METAOFF                     141
