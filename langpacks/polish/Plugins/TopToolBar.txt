@@ -37,34 +37,44 @@ Folder:
 [Set]
 Ustaw
 ;file \plugins\TopToolBar\src\InternalButtons.cpp
-[Show only online users]
-Pokazuj tylko dostępne kontakty
-[Hide offline users]
-Ukryj niedostępne kontakty
-[Show all users]
-Pokaż wszystkie kontakty
-[Groups on/off]
-Grupy włączone/wyłączone
-[Hide groups]
-Ukryj grupy
-[Show groups]
-Pokaż grupy
-[Sounds enable/disable]
+[Show main menu]
+Pokaż menu główne
+[Show options page]
+Pokaż opcje
+[Show accounts manager]
+Pokaż menedżer kont
+[Find/add contacts]
+Szukaj/dodaj kontakty
+[Show status menu]
+Pokaż menu statusu
+[Show/hide offline contacts]
+Pokaż/ukryj rozłączone kontakty
+[Hide offline contacts]
+Ukryj rozłączone kontakty
+[Show offline contacts]
+Pokaż rozłączone kontakty
+[Enable/disable MetaContacts]
+Włącz/wyłącz metakontakty
+[Disable MetaContacts]
+Wyłącz metakontakty
+[Enable MetaContacts]
+Włącz metakontakty
+[Enable/disable groups]
+Włącz/wyłącz grupy
+[Enable groups]
+Włącz grupy
+[Disable groups]
+Wyłącz grupy
+[Enable/disable sounds]
 Włącz/wyłącz dźwięki
 [Disable sounds]
 Wyłącz dźwięki
 [Enable sounds]
 Włącz dźwięki
-[Show options page]
-Pokaż opcje
-[Show options]
-Pokaż opcje
-[Minimize button]
-Przycisk minimalizacji
-[Find/Add contacts]
-Szukaj/dodaj kontakty
-[Show main menu]
-Pokaż menu główne
+[Minimize contact list]
+Minimalizuj listę kontaktów
+[Exit]
+Wyjdź
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Domyślny
