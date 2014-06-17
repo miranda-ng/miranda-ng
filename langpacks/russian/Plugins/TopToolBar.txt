@@ -35,10 +35,42 @@
 Путь:
 [Set]
 Выбрать
+[Show main menu]
+Главное меню
+[Show options page]
+Открыть настройки
+[Show accounts manager]
+Открыть менеджер учётных записей
 [Find/add contacts]
 Найти/Добавить контакты
+[Show status menu]
+Открыть меню статусов
+[Show/hide offline contacts]
+Показать/скрыть отключённых
+[Hide offline contacts]
+Скрыть отключённых
+[Show offline contacts]
+Показать отключённых
+[Enable/disable MetaContacts]
+Вкл/Выкл метаконтакты
+[Disable MetaContacts]
+Отключить метаконтакты
+[Enable MetaContacts]
+Включить метаконтакты
+[Enable/disable groups]
+Вкл/Выкл группы
+[Enable groups]
+Включить группы
 [Disable groups]
 Отключить группы
+[Enable/disable sounds]
+Вкл/Выкл звуки
+[Disable sounds]
+Отключить звуки
+[Enable sounds]
+Включить звуки
+[Minimize contact list]
+Скрыть список контактов
 [Exit]
 Выход
 [Default]

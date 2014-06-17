@@ -249,6 +249,8 @@
 Удалить модуль из базы
 [Delete module from database... Loading]
 Удаление модуля из базы... Загрузка
+[Delete module from all contacts (including Setting)]
+Удалить из всех контактов (с настройками)
 [INI Files]
 INI файлы
 [All Files]

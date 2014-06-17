@@ -35,34 +35,44 @@
 Шлях:
 [Set]
 Вибрати
-[Show only online users]
-Показати тільки підключених
-[Hide offline users]
+[Show main menu]
+Головне меню
+[Show options page]
+Відкрити налаштування
+[Show accounts manager]
+Відкрити менеджер облікових записів
+[Find/add contacts]
+Знайти/додати контакт
+[Show status menu]
+Відкрити меню статусів
+[Show/hide offline contacts]
+Показати/сховати відключених
+[Hide offline contacts]
 Сховати відключених
-[Show all users]
-Показати всіх
-[Groups on/off]
-Групи ввімк./вимк.
-[Hide groups]
-Сховати групи
-[Show groups]
-Показати групи
-[Sounds enable/disable]
-Звуки ввімк./вимк.
+[Show offline contacts]
+Показати відключених
+[Enable/disable MetaContacts]
+Ввімк./Вимк. метаконтакти
+[Disable MetaContacts]
+Вимкнути метаконтакти
+[Enable MetaContacts]
+Ввімкнути метаконтакти
+[Enable/disable groups]
+Ввімк./Вимк. групи
+[Enable groups]
+Ввімкнути групи
+[Disable groups]
+Вимкнути групи
+[Enable/disable sounds]
+Ввімк./Вимк. звуки
 [Disable sounds]
 Вимкнути звуки
 [Enable sounds]
 Увімкнути звуки
-[Show options page]
-Відкрити налаштування
-[Show options]
-Налаштування
-[Minimize button]
-Кнопка "Згорнути"
-[Find/Add contacts]
-Знайти/додати контакт
-[Show main menu]
-Головне меню
+[Minimize contact list]
+Сховати список контактів
+[Exit]
+Вихід
 [Default]
 За замовчанням
 [TopToolBar background]

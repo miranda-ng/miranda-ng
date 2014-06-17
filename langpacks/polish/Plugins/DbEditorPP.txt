@@ -289,8 +289,6 @@ Znaleziono
 %s Ustawienie "%s" w module "%s" kontaktu "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" w ustawieniu "%s" modułu "%s" kontaktu "%s"
-[Error Loading Module List]
-Błąd wczytywania listy modułów
 [Searching...]
 Wyszukiwanie...
 [Error Loading Setting List]

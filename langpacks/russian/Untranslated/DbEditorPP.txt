@@ -1,5 +1,4 @@
 ﻿[BL&OB]
-[Delete module from all contacts (including Setting)]
 [Open user tree]
 [BLOB setting]
 [Byte setting]

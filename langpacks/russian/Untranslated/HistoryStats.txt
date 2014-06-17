@@ -1,6 +1,5 @@
 ﻿[Band]
 [#{rank}.]
-[wday3:Tue]
 [[#{hour}:00-#{hour}:59] #{amount}]
 [[#{day}] #{amount}]
 [#{amount}]

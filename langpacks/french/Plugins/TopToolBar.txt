@@ -37,33 +37,43 @@ Nom :
 [Set]
 OK
 ;file \plugins\TopToolBar\src\InternalButtons.cpp
-[Show only online users]
+[Show main menu]
 
-[Hide offline users]
+[Show options page]
 
-[Show all users]
+[Show accounts manager]
 
-[Groups on/off]
+[Find/add contacts]
 
-[Hide groups]
+[Show status menu]
 
-[Show groups]
+[Show/hide offline contacts]
 
-[Sounds enable/disable]
+[Hide offline contacts]
+
+[Show offline contacts]
+
+[Enable/disable MetaContacts]
+
+[Disable MetaContacts]
+
+[Enable MetaContacts]
+
+[Enable/disable groups]
+
+[Enable groups]
+
+[Disable groups]
+
+[Enable/disable sounds]
 
 [Disable sounds]
 
 [Enable sounds]
 
-[Show options page]
+[Minimize contact list]
 
-[Show options]
-
-[Minimize button]
-
-[Find/Add contacts]
-
-[Show main menu]
+[Exit]
 
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]

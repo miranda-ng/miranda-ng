@@ -281,8 +281,6 @@
 %s налаштування "%s" у модулі "%s" контакту "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" у налаштуванні "%s" у модулі "%s" контакту "%s"
-[Error Loading Module List]
-Помилка завантаження списку модулів
 [Searching...]
 Пошук...
 [Error Loading Setting List]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.1.1
+;  Version: 3.3.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1579,6 +1579,8 @@ TabSRMM: %s
 Зміна скіна
 [Message window tweaks]
 Налаштування вікна повідомлень
+[Display metacontact icons]
+Показувати значки метаконтактів
 [Error feedback]
 Помилки доставки повідомлень
 [Show skinnable tooltip in chat (Tipper plugin required)]
@@ -1595,6 +1597,10 @@ TabSRMM: %s
 Увімкнути автонадсилання (необхідно для мультивідправки та відправлення з затримкою) (*)
 [Show client description in info panel]
 Показувати опис клієнта в інфо-панелі
+[On tab control]
+На вкладках
+[On the button bar]
+На панелі кнопок
 [Disable error popups on sending failures]
 Вимкнути спливаючі вікна про невдалу доставку
 [Show a preview of the event]
