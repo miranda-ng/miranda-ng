@@ -60,7 +60,7 @@ Metakontakte deaktivieren
 [Enable MetaContacts]
 Metakontakte aktivieren
 [Enable/disable groups]
-Klänge (de-)aktivieren
+Gruppen (de-)aktivieren
 [Enable groups]
 Gruppen aktivieren
 [Disable groups]
