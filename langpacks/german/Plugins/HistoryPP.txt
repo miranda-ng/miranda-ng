@@ -480,7 +480,7 @@ Suche nur Ereignisse der Art
 [Limit Event Types]
 Ereignisse eingrenzen
 [Hide Menu]
-Menu verbergen
+Menü verbergen
 [&File Actions]
 Dateiaktionen
 [Unknown codepage %u]

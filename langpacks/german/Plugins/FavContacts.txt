@@ -6,7 +6,7 @@
 ;  Authors: Victor Pavlychko
 ;============================================================
 [Favorite contacts menu.]
-Favorisierte Kontakte in einem Menu.
+Favorisierte Kontakte in einem Menü.
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Customize
@@ -25,15 +25,15 @@ Für transparente Avatare verbergen
 [Use system colors and fonts]
 System-Farben und -Schriften verwenden
 [Hotkey shows menu centered on screen]
-Hotkeys zeigen das Menu zentriert auf dem Bildschirm
+Hotkeys zeigen das Menü zentriert auf dem Bildschirm
 [Menu item preview:]
-Menueintrag Voorschau:
+Menüeintrag Vorschau:
 [Favorite Contacts]
 Favorisierte Kontakte
 [Enable groups]
 Gruppen aktivieren
 [Multicolumn menu]
-Mehrzeiliges menu
+Mehrzeiliges Menü
 [Configure fonts and colors...]
 Schriften und Farben einstellen...
 [Align to the right]

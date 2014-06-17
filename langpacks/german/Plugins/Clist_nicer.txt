@@ -73,7 +73,7 @@ ms
 [Event area]
 Ereignisbereich
 [Set base visiblity on the frames menu]
-Sichtbarkeit im Frames-Menu einstellen
+Sichtbarkeit im Frames-Menü einstellen
 [Auto mode]
 Automatisch ausblenden
 [System tray icon when using multiple protocols]

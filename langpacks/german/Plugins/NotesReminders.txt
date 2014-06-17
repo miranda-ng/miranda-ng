@@ -59,7 +59,7 @@ Datum
 [Time]
 Zeit
 [Reminder Note:]
-Erinnerungsnotiz
+Erinnerungsnotiz:
 [None]
 Keine
 [Daily]
@@ -73,11 +73,11 @@ Sound Alarm wiederholen
 [Use Sound]
 Sound verwenden
 [&Add Reminder]
-Erinnerungen hinzufügen
+Erinnerungen &hinzufügen
 [&Close]
 S&chließen
 [&View Reminders]
-Zeige Erinnerungen
+Erinnerungen &anzeigen
 [reftime]
 
 [Reminder]
@@ -87,33 +87,33 @@ Nach:
 [On Time && Date:]
 Zeit && Datum:
 [&Remind Again]
-Erneut erinnern
+Erneut e&rinnern
 [&Create Note]
-Notiz erstellen
+Notiz &erstellen
 [&Dismiss]
-verwerfen
+&Verwerfen
 [Reminders]
 Erinnerungen
 [Add New]
 Neue hinzufügen
 [Edi&t Reminder]
-Erinnerung bearbeiten
+Erinnerung bearbei&ten
 [New &Reminder]
 Neue E&rinnerung
 [&Delete Reminder]
-Erinnerung löschen
+Erinnerung &löschen
 [D&elete All Reminders]
 All&e Erinnerungen löschen
 [Context Menu Note Popup]
 
 [&Hide Note]
-Notiz verbergen
+Notiz &verbergen
 [&Always On Top]
-Immer im Vordergrund
+Immer im Vordergr&und
 [&New Note]
 &Neue Notiz
 [&Delete Note]
-Notiz löschen
+Notiz &löschen
 [Appearance]
 Erscheinungsbild
 [Background Color]
@@ -135,25 +135,25 @@ Rückgängig
 [&Copy]
 &Kopieren
 [&Paste]
-Einfügen
+Ein&fügen
 [C&ut]
 A&usschneiden
 [C&lear]
 &Löschen
 [&View Notes]
-Notizen anzeigen
+Notizen &anzeigen
 [&Bring All To Front]
-Alle nach Vorne bringen
+Alle nach Vorne &bringen
 [Edi&t Note]
-Notiz bearbeiten
+Notiz bearbei&ten
 [&Visible]
-Sichtbar
+&Sichtbar
 [Always &On Top]
-Immer im Vordergrund
+Immer im V&ordergrund
 [Delete &All Notes]
-Alle Notizen löschen
+&Alle Notizen löschen
 [&Show / Hide Notes]
-Zeige / Ver&stecke Notizen
+Notizen an&zeigen/verbergen
 ;file \plugins\NotesAndReminders\src\globals.h
 [Notes & Reminders]
 Notizen & Erinnerungen
@@ -174,7 +174,7 @@ Sind Sie sich sicher, dass Sie alle Erinnerungen löschen wollen?
 [Delete All Notes]
 Alle Notizen löschen
 [Show/Hide Notes]
-Notizen zeigen/verbergen
+Notizen anzeigen/verbergen
 [On Top Caption Icon]
 Im Vordergrund Überschrift Icon
 [Delete All Reminders]
@@ -214,13 +214,13 @@ Erinnerung ausgelöst (Alternative 2)
 [Notes && Reminders]
 Notizen && Erinnerungen
 [New &Note]
-Neue Notiz
+Neue &Notiz
 [Vie&w Notes]
-Notiz ansehen
+Notiz &ansehen
 [&Delete All Notes]
-Alle Notizen löschen
+Alle Notizen &löschen
 [&Bring All to Front]
-Alle in Vordergrund bringen
+Alle in Vordergrund &bringen
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda konnte das 'Note & Reminders'-Plugin nicht laden, RICHED20.dll fehlt. Wenn Sie Windows 95 oder WINE nutzen, dann stellen Sie sicher, dass Sie riched20.dll haben. Drücken Sie 'Ja' Um Miranda zu laden.
 ;file \plugins\NotesAndReminders\src\notes.cpp
@@ -301,7 +301,7 @@ Die angegebene Zeit ist ungültig.
 [The specified time offset is invalid.]
 Die angegebene Zeitverschiebung ist ungültig.
 [&Update Reminder]
-Erinnerung aktuallisieren
+Erinnerung akt&ualisieren
 [Every]
 Alle
 [Seconds]

@@ -17,7 +17,7 @@ Informationen anzeigen
 [Cancel]
 Abbrechen
 [PackUpdater has detected updated versions\nof the following Miranda components:]
-PackUpdater hat aktuallisierte Versionen folgender Miranda-\nKomponenten gefunden.
+PackUpdater hat aktualisierte Versionen folgender Miranda-\nKomponenten gefunden.
 [Description]
 Beschreibung
 [Downloading...]

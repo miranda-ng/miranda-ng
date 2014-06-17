@@ -15,7 +15,7 @@ Autorisierungsanfrage eingeben
 [&Cancel]
 Abbre&chen
 [Shown menu items]
-Menueinträge anzeigen
+Menüeinträge anzeigen
 [Visibility]
 Sichtbarkeit
 [Show alpha icons]

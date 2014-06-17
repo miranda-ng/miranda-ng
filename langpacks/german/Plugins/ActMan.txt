@@ -666,7 +666,7 @@ Aktionsgruppenliste wurde geändert: Etwas wurde hinzugefügt oder gelöscht
 [Double click on the contact list]
 Doppelklick auf die Kontaktliste
 [The context menu for a contact is about to be built]
-Das Kontextmenu für einen Kontakt wird gerade gebaut
+Das Kontextmenü für einen Kontakt wird gerade gebaut
 [New contact added to database]
 Neuer Kontakt zur Datenbank hinzugefügt
 [Contact deleting]

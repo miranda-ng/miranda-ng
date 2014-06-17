@@ -314,7 +314,7 @@ männlich
 [Female]
 weiblich
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-Sie sind momentan nicht mit dem Skype-Netzwerk verbunden. Sie müssen online sein um Ihre Informationen auf dem Server zu aktuallisieren.
+Sie sind momentan nicht mit dem Skype-Netzwerk verbunden. Sie müssen online sein um Ihre Informationen auf dem Server zu aktualisieren.
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
 Konferenz auflösen

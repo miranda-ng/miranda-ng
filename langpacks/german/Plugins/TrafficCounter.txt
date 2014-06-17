@@ -70,7 +70,7 @@ Zeichne Frame als Skin-Element
 [Show tooltip in traffic window]
 Zeige Tooltips im Trafficfenster
 ["Toggle traffic counter" in main menu]
-"Traffic Counter umschalten" im Hauptmenu anzeigen
+"Traffic Counter umschalten" im Hauptmenü anzeigen
 [Visible accounts]
 Sichtbare Konten
 [Summary traffic for visible accounts]

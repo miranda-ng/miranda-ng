@@ -966,7 +966,7 @@ Um eine Toolbar in Clist Modern zu sehen, benötigen Sie das TopToolBar Plugin. 
 [Toolbar background]
 Toolbar Hintergrund
 [Toolbar upgrade]
-Toolbar aktuallisieren
+Toolbar aktualisieren
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Nicht gruppierte Kontakte

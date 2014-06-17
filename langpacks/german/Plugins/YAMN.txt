@@ -119,7 +119,7 @@ Allgemeine YAMN-Einstellungen
 [TopToolBar button "Check mail"]
 TopToolbar-Button "E-Mails abrufen"
 [Enable YAMN Main Menu]
-YAMN im Hauptmenu aktivieren
+YAMN im Hauptmenü aktivieren
 [Show YAMN as a Protocol (Require Restart)]
 Zeige YAMN als ein Protokoll (Neustart erforderlich)
 [MailBrowser Options]

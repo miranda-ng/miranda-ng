@@ -225,7 +225,7 @@ Fehler während der xfire_games-Aktualisierung.
 [There is a new Icons.dll online, do you want to update now?]
 Es ist eine neue Version der icons.dll verfügbar, möchten Sie jetzt aktualisieren?
 [The Icons.dll was updated.]
-Icons.dll wurde aktuallisiert.
+Icons.dll wurde aktualisiert.
 [Error during Icons.dll Update.]
 Fehler bei der Icons.dll-Aktualisierung.
 ;file \protocols\Xfire\src\main.cpp
