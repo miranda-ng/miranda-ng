@@ -83,18 +83,20 @@ INT_PTR CALLBACK CSteamProto::CaptchaProc(HWND hwnd, UINT message, WPARAM wParam
 				return 0;
 			}
 
-			FIMEMORY *memory = fei->FI_OpenMemory(captcha->data, captcha->size);
-			FIBITMAP *bitmap = fei->FI_LoadFromMemory(FIF_PNG, memory, PNG_DEFAULT);
-			fei->FI_CloseMemory(memory);
+			FIMEMORY *stream = fei->FI_OpenMemory(captcha->data, captcha->size);
+			FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeFromMemory(stream, 0);
+			FIBITMAP *bitmap = fei->FI_LoadFromMemory(fif, stream, 0);
+			fei->FI_CloseMemory(stream);
 
 			PAINTSTRUCT ps;
 			HDC hDC = BeginPaint(hwnd, &ps);
 
-			SetStretchBltMode(hDC, COLORONCOLOR);
+			//SetStretchBltMode(hDC, COLORONCOLOR);
 			StretchDIBits(
 				hDC,
-				0, 0,
-				206, 40,
+				11, 11,
+				fei->FI_GetWidth(bitmap) - 13,
+				fei->FI_GetHeight(bitmap),
 				0, 0,
 				fei->FI_GetWidth(bitmap),
 				fei->FI_GetHeight(bitmap),

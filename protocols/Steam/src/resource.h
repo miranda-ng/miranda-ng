@@ -23,6 +23,8 @@
 #define IDC_GROUP                       1021
 #define IDC_BM_LIST                     1064
 #define IDC_TEXT                        1082
+#define IDC_CUSTOM1                     1083
+#define IDC_BUTTON1                     1084
 #define IDC_OPENDOMAIN                  1200
 #define IDC_GETDOMAIN                   1200
 
@@ -32,7 +34,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1083
+#define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

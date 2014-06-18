@@ -102,7 +102,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				new SteamWebApi::AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp, guardId, guard.code),
 				&CSteamProto::OnAuthorization);
 		}
-		
+
 		node = json_get(root, "captcha_needed");
 		if (json_as_bool(node) > 0)
 		{
@@ -117,8 +117,6 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			NETLIBHTTPREQUEST *response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)request);
 			delete request;
 
-			CallService(MS_UTILS_OPENURL, 0, (LPARAM)url);
-
 			CaptchaParam captcha = { 0 };
 			captcha.size = response->dataLength;
 			captcha.data = (BYTE*)mir_alloc(captcha.size);
@@ -126,13 +124,20 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 
-			if (DialogBoxParam(
+			int res = DialogBoxParam(
 				g_hInstance,
 				MAKEINTRESOURCE(IDD_CAPTCHA),
 				NULL,
 				CSteamProto::CaptchaProc,
-				(LPARAM)&captcha) != 1)
+				(LPARAM)&captcha);
+
+			mir_free(captcha.data);
+
+			if (res != 1)
+			{
+				SetStatus(ID_STATUS_OFFLINE);
 				return;
+			}
 
 			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
 			ptrA base64RsaEncryptedPassword(getStringA("EncryptedPassword"));
@@ -143,12 +148,16 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				&CSteamProto::OnAuthorization);
 		}
 
+		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	
+
 	node = json_get(root, "login_complete");
 	if (!json_as_bool(node))
+	{
+		SetStatus(ID_STATUS_OFFLINE);
 		return;
+	}
 
 	node = json_get(root, "oauth");
 	root = json_parse(ptrA(mir_u2a(json_as_string(node))));
