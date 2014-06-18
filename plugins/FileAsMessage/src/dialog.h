@@ -64,7 +64,7 @@ public:
 	HANDLE hFile, hMapping;
 	uchar *lpData;
 
-	TCHAR *filename;
+	char *filename;
 	uint chunkIndx;			// next chunk to send
 	uint chunkCount;		// count of chunks
 	uint chunkSent;
@@ -96,13 +96,13 @@ public:
 	void updateProgress();
 	void updateTitle();
 	
-	void perform(TCHAR *str);
+	void perform(char *str);
 	void cmdACCEPT();
-	void cmdDACK(TCHAR *data);
+	void cmdDACK(char *data);
 	void sendReq();
-	int  sendCmd(int id, int cmd, TCHAR *szParam, TCHAR *szPrefix = NULL);
+	int  sendCmd(int id, int cmd, char *szParam, char *szPrefix = NULL);
 	
-	void cmdDATA(TCHAR *data);
+	void cmdDATA(char *data);
 	void cmdEND();
 
 	int  createTransfer();
@@ -110,7 +110,7 @@ public:
 
 	void onSendTimer();
 	void onRecvTimer();
-	void incomeRequest(TCHAR *data);
+	void incomeRequest(char *data);
 	
 };
 

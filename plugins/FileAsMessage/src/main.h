@@ -29,12 +29,12 @@
 #define SERVICE_TITLE LPGEN("File As Message")
 #define SERVICE_NAME "FileAsMessage"
 
-#define SERVICE_PREFIX _T("<%fAM-0023%>")
+#define SERVICE_PREFIX "<%fAM-0023%>"
 
-#define NOPLUGIN_MESSAGE _T("If you see this \"garbage\", probably you have no \"fileAsMessage\" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.")
+#define NOPLUGIN_MESSAGE "If you see this \"garbage\", probably you have no \"fileAsMessage\" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download."
 
 extern char *szServiceTitle;
-extern TCHAR *szServicePrefix;
+extern char *szServicePrefix;
 extern const ulong INITCRC;
 
 #define WM_FE_MESSAGE		WM_USER+100

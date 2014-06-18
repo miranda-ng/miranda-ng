@@ -20,7 +20,7 @@ HINSTANCE hInst;
 int hLangpack;
 
 char *szServiceTitle = SERVICE_TITLE;
-TCHAR *szServicePrefix = SERVICE_PREFIX;
+char *szServicePrefix = SERVICE_PREFIX;
 HANDLE hHookDbSettingChange, hHookContactAdded, hHookSkinIconsChanged;
 
 HICON hIcons[5];
@@ -118,9 +118,8 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = ( PROTORECVEVENT * )pccsd->lParam;
-	ppre->flags = PREF_TCHAR;
 
-	if(_tcsncmp(ppre->tszMessage, szServicePrefix, _tcslen(szServicePrefix)))
+	if(strncmp(ppre->szMessage, szServicePrefix, strlen(szServicePrefix)))
 		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 
 	HWND hwnd = WindowList_Find(hFileList, pccsd->hContact);
@@ -136,7 +135,7 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 	}
-	TCHAR *msg = _tcsdup(ppre->tszMessage + _tcslen(szServicePrefix));
+	char *msg = strdup(ppre->szMessage + strlen(szServicePrefix));
 	PostMessage(hwnd, WM_FE_MESSAGE, (WPARAM)pccsd->hContact, (LPARAM)msg);
 
 	return 0;
