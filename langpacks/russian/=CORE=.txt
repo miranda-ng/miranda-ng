@@ -604,7 +604,7 @@ UIN, E-mail и т.д.
 [&Close]
 &Закрыть
 [%s message for %s]
-%s (%s)
+%s сообщение для %s
 [Retrieving %s message...]
 Загрузка сообщения "%s"...
 [Status messages]

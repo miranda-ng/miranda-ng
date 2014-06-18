@@ -8,7 +8,7 @@
 [Provides a simple way to set status and away messages.]
 Быстрая смена статусов и предустановленных сообщений статуса.
 [%s Message for %s]
-%s (%s)
+%s сообщение для %s
 [&Cancel]
 О&тмена
 [Retrieving %s message...]

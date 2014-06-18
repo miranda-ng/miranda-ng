@@ -146,7 +146,7 @@
 [Don't show the message dialog for]
 Не показывать диалог выбора для
 [%s message for %s]
-%s (%s)
+%s сообщение для %s
 [Retrieving %s message...]
 Загрузка сообщения "%s"...
 [&Cancel]
