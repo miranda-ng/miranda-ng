@@ -15,7 +15,7 @@ namespace SteamWebApi
 				guardId,
 				guardCode,
 				captchaId,
-				captchaText,
+				ptrA(mir_urlEncode(captchaText)),
 				timestamp,
 				time(NULL));
 

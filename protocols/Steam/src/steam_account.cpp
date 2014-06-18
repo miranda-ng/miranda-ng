@@ -74,6 +74,15 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 	node = json_get(root, "success");
 	if (json_as_bool(node) == 0)
 	{
+		node = json_get(root, "message");
+		const wchar_t *message = json_as_string(node);
+		if (!lstrcmpi(json_as_string(node), L"Incorrect login"))
+		{
+			ShowNotification(TranslateTS(message));
+			SetStatus(ID_STATUS_OFFLINE);
+			return;
+		}
+
 		node = json_get(root, "emailauth_needed");
 		if (json_as_bool(node) > 0)
 		{
@@ -148,7 +157,6 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				&CSteamProto::OnAuthorization);
 		}
 
-		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
