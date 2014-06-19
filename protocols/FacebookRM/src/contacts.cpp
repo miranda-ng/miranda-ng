@@ -212,6 +212,9 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 		if (!fbu->real_name.empty())
 			SaveName(hContact, fbu);
 
+		if (!fbu->username.empty())
+			setString(hContact, FACEBOOK_KEY_USERNAME, fbu->username.c_str());
+
 		if (fbu->gender)
 			setByte(hContact, "Gender", fbu->gender);
 

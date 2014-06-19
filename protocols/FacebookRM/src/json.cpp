@@ -174,7 +174,7 @@ void parseUser(JSONNODE *it, facebook_user *fbu)
 	JSONNODE *name = json_get(it, "name");
 	JSONNODE *thumbSrc = json_get(it, "thumbSrc");
 	JSONNODE *gender = json_get(it, "gender");
-	JSONNODE *vanity = json_get(it, "vanity"); // username (this ISN'T nickname, but we will use it that way - but it's ugly and noone will use it)
+	JSONNODE *vanity = json_get(it, "vanity"); // username
 	//JSONNODE *uri = json_get(it, "uri"); // profile url
 	//JSONNODE *is_friend = json_get(it, "is_friend"); // e.g. "True"
 	//JSONNODE *type = json_get(it, "type"); // e.g. "friend" (classic contact) or "user" (disabled/deleted account)
@@ -185,7 +185,7 @@ void parseUser(JSONNODE *it, facebook_user *fbu)
 	if (thumbSrc)
 		fbu->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(thumbSrc)));
 	if (vanity)
-		fbu->nick = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(vanity)));
+		fbu->username = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(vanity)));
 
 	if (gender)
 		switch (json_as_int(gender)) {

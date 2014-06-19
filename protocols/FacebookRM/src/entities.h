@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ struct facebook_user
 	std::string user_id;
 	std::string real_name;
 	std::string nick;
+	std::string username;
 
 	unsigned int status_id;
 	unsigned int gender;
@@ -44,7 +45,7 @@ struct facebook_user
 	facebook_user()
 	{
 		this->handle = NULL;
-		this->user_id = this->real_name = this->nick = this->image_url = "";
+		this->user_id = this->real_name = this->nick = this->username = this->image_url = "";
 		this->status_id = ID_STATUS_OFFLINE;
 		this->gender = this->last_active = 0;
 		this->deleted = this->idle = false;
@@ -57,6 +58,7 @@ struct facebook_user
 		this->user_id = fu->user_id;
 		this->real_name = fu->real_name;
 		this->nick = fu->nick;
+		this->username = fu->username;
 		this->status_id = fu->status_id;
 		this->gender = fu->gender;
 		this->last_active = fu->last_active;

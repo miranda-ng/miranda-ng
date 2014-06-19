@@ -210,6 +210,16 @@ void FacebookProto::ProcessFriendList(void*)
 					SaveName(hContact, fbu);
 				}
 
+				// Update username
+				ptrA username(getStringA(hContact, FACEBOOK_KEY_USERNAME));
+				if (!username || strcmp(username, fbu->username.c_str())) {
+					if (!fbu->username.empty())
+						setString(hContact, FACEBOOK_KEY_USERNAME, fbu->username.c_str());
+					else
+						delSetting(hContact, FACEBOOK_KEY_USERNAME);
+				}
+
+				// Update contact type
 				if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
 					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 					// TODO: remove that popup and use "Contact added you" event?
