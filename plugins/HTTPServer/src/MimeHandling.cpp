@@ -3,53 +3,53 @@
 /* MIME type/ext map */
 ContentTypeDB MIME = NULL;
 /* Default Mime type when recognition fails */
-TCHAR DefaultMime[] = _T("application/octet-stream");
+char DefaultMime[] = "application/octet-stream";
 
 int bInitMimeHandling() {
 	FILE *mimeDB;
-	TCHAR line[LINE_MAX_SIZE];
-	TCHAR *tok = NULL;
+	char line[LINE_MAX_SIZE];
+	char *tok = NULL;
 	ContentType *pDBCell = NULL;
 	ContentTypeDB pDB = NULL;
 	ExtensionList extListCur = NULL;
 	ExtensionListCell *pExtCell = NULL;
-	TCHAR szBuf[10000];
+	char szBuf[10000];
 
-	_tcscpy(szBuf, szPluginPath);
-	_tcscat(szBuf, szMimeTypeConfigFile);
-	mimeDB = _tfopen(szBuf, _T("r"));
+	strcpy(szBuf, szPluginPath);
+	strcat(szBuf, szMimeTypeConfigFile);
+	mimeDB = fopen(szBuf, "r");
 
 	if (mimeDB != NULL) {
-		while (_fgetts(line, LINE_MAX_SIZE, mimeDB)) {
+		while (fgets(line, LINE_MAX_SIZE, mimeDB)) {
 			/*filter junk lines assuming Mime type start with letter
 			(convention ?) */
 			if ((line[0] <= 'z' && line[0] >= 'a')
 			    || (line[0] <= 'Z' && line[0] >= 'A')) {
 				/*remove comments trailing comments*/
-				tok = _tcsrchr(line, '#');
+				tok = strrchr(line, '#');
 				if (tok != NULL) {
 					*tok = '\0';
 				}
 				/* remove trailing \n */
-				int lenght = (int)_tcslen(line);
+				int lenght = (int)strlen(line);
 				if (lenght > 0 && line[lenght - 1] == '\n')
 					line[lenght - 1] = '\0';
 
 				/* first token = mime type */
-				tok = (TCHAR *)_tcstok(line, _T(" \t"));
+				tok = (char*)strtok(line, " \t");
 				/*create and fill a cell*/
 				pDBCell = (ContentType*)malloc(sizeof(ContentType));
-				pDBCell->mimeType = (TCHAR *)malloc((_tcslen(tok) + 1) * sizeof(TCHAR));
-				_tcscpy(pDBCell->mimeType, tok);
+				pDBCell->mimeType = (char*)malloc(strlen(tok) + 1);
+				strcpy(pDBCell->mimeType, tok);
 				pDBCell->extList = NULL;
 				pDBCell->next = NULL;
 				/* looking for extensions */
-				tok = (TCHAR *)_tcstok(NULL, _T(" \t"));
+				tok = (char*)strtok(NULL, " \t");
 				while (tok != NULL) {
 					/*create and fill a cell*/
 					pExtCell = (ExtensionListCell*)malloc(sizeof(ExtensionListCell));
-					pExtCell->ext = (TCHAR *)malloc((_tcslen(tok) + 1) * sizeof(TCHAR));
-					_tcscpy(pExtCell->ext, tok);
+					pExtCell->ext = (char*)malloc(strlen(tok) + 1);
+					strcpy(pExtCell->ext, tok);
 					pExtCell->next = NULL;
 					/*link*/
 					if (pDBCell->extList == NULL) {
@@ -58,7 +58,7 @@ int bInitMimeHandling() {
 						extListCur->next = pExtCell;
 					}
 					extListCur = pExtCell;
-					tok = (TCHAR *)_tcstok(NULL, _T(" \t"));
+					tok = (char*)strtok(NULL, " \t");
 				}
 				/* link */
 				if (pDBCell->extList != NULL) {	/*extension(s) found*/
@@ -83,13 +83,12 @@ int bInitMimeHandling() {
 	return 1;
 }
 
-const TCHAR *pszGetMimeType(const TCHAR *pszFileName)
-{
+const char * pszGetMimeType(const char * pszFileName) {
 	ContentTypeDB courMIME;
 	ExtensionList courEXT;
-	const TCHAR *ext;
+	const char* ext;
 
-	ext = _tcsrchr(pszFileName, '.');
+	ext = strrchr(pszFileName, '.');
 
 	if (ext != NULL) {
 		if (ext[1] == '\0') {
@@ -104,7 +103,7 @@ const TCHAR *pszGetMimeType(const TCHAR *pszFileName)
 		while (courMIME != NULL) {
 			courEXT = courMIME->extList;
 			while (courEXT != NULL) {
-				if (!_tcsicmp(courEXT->ext, ext)) {
+				if (!_stricmp(courEXT->ext, ext)) {
 					return courMIME->mimeType;
 				}
 				courEXT = courEXT->next;

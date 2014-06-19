@@ -23,7 +23,7 @@
 void InitGuiElements();
 void UnInitGuiElements();
 void UpdateStatisticsView();
-void ShowPopupWindow(const TCHAR *pszName, const TCHAR *pszText, COLORREF ColorBack = 0);
-void SendLinkToUser(WPARAM wParam, TCHAR *pszSrvPath); // Add By Sergio Vieira Rolanski
+void ShowPopupWindow(const char * pszName, const char * pszText, COLORREF ColorBack = 0);
+void SendLinkToUser(WPARAM wParam, char *pszSrvPath); // Add By Sergio Vieira Rolanski
 
 #endif

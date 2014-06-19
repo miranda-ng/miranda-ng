@@ -23,7 +23,7 @@
 #include "m_HTTPServer.h"
 #include "FileShareNode.h"
 
-const TCHAR szIndexHTMLTemplateFile[] = _T("HTTPServerIndex.html");
+const char szIndexHTMLTemplateFile[] = "HTTPServerIndex.html";
 
 enum eIndexCreationMode {
 	INDEX_CREATION_DISABLE = 0,
@@ -34,8 +34,8 @@ enum eIndexCreationMode {
 
 extern eIndexCreationMode indexCreationMode;
 
-bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const TCHAR *pszSrvPath, DWORD dwRemoteIP);
-bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const TCHAR *pszSrvPath, DWORD dwRemoteIP);
+bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, DWORD dwRemoteIP);
+bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, DWORD dwRemoteIP);
 void FreeIndexHTMLTemplate();
 bool LoadIndexHTMLTemplate();
 

@@ -19,7 +19,7 @@
 
 eIndexCreationMode indexCreationMode;
 
-static TCHAR *szIndexHTMLTemplate = NULL;
+static char* szIndexHTMLTemplate = NULL;
 static const int MAX_PARAM_LENGTH = 5;
 
 // signs below 32 are not used anyway
@@ -56,27 +56,27 @@ bool LoadIndexHTMLTemplate() {
 	if (szIndexHTMLTemplate != NULL)
 		return true;
 
-	TCHAR szBuf[10000];
-	TCHAR *pszBuf = szBuf;
+	char  szBuf[10000];
+	char* pszBuf = szBuf;
 
-	TCHAR szDestBuf[10000];
-	TCHAR *pszDestBuf = szDestBuf;
+	char  szDestBuf[10000];
+	char* pszDestBuf = szDestBuf;
 
-	_tccpy(pszBuf, szPluginPath);
-	_tcscat(pszBuf, szIndexHTMLTemplateFile);
+	strcpy(pszBuf, szPluginPath);
+	strcat(pszBuf, szIndexHTMLTemplateFile);
 
 	HANDLE hFile = CreateFile(pszBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
 	    NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		MessageBox(NULL, _T("HTTPServerIndex.html not found in Plugin Path"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, "HTTPServerIndex.html not found in Plugin Path", MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
 
 	DWORD dwBytesRead = 0;
-	if (ReadFile(hFile, pszBuf, SIZEOF(szBuf), &dwBytesRead, NULL) || dwBytesRead <= 0) {
+	if (ReadFile(hFile, pszBuf, sizeof(szBuf), &dwBytesRead, NULL) || dwBytesRead <= 0) {
 		while (dwBytesRead > (DWORD)(pszBuf - szBuf)) {
 			if (*pszBuf == '[') {
-				TCHAR* pszKeywordBegin = pszBuf + 1;
+				char* pszKeywordBegin = pszBuf + 1;
 				bool  bHasParameters = false;
 
 				do {
@@ -93,21 +93,21 @@ bool LoadIndexHTMLTemplate() {
 				*pszDestBuf = '#';
 
 				// signs below 32 are not used anyway
-				if (!_tcscmp(pszKeywordBegin, _T("End")))              *pszDestBuf = SY_END;
-				else if (!_tcscmp(pszKeywordBegin, _T("ForDirectoriesDo"))) *pszDestBuf = SY_FOR_DIRS;
-				else if (!_tcscmp(pszKeywordBegin, _T("DirectoryUrl")))     *pszDestBuf = SY_DIR_URL;
-				else if (!_tcscmp(pszKeywordBegin, _T("DirectoryName")))    *pszDestBuf = SY_DIR_NAME;
-				else if (!_tcscmp(pszKeywordBegin, _T("ForFilesDo")))       *pszDestBuf = SY_FOR_FILES;
-				else if (!_tcscmp(pszKeywordBegin, _T("FileUrl")))          *pszDestBuf = SY_FILE_URL;
-				else if (!_tcscmp(pszKeywordBegin, _T("FileName")))         *pszDestBuf = SY_FILE_NAME;
-				else if (!_tcscmp(pszKeywordBegin, _T("FileSize")))         *pszDestBuf = SY_FILE_SIZE;
-				else if (!_tcscmp(pszKeywordBegin, _T("FileCreated")))      *pszDestBuf = SY_FILE_CREATE_TIME;
-				else if (!_tcscmp(pszKeywordBegin, _T("FileModified")))     *pszDestBuf = SY_FILE_MODIFY_TIME;
-				else if (!_tcscmp(pszKeywordBegin, _T("IsEven")))           *pszDestBuf = SY_IS_EVEN;
-				else if (!_tcscmp(pszKeywordBegin, _T("IsOdd")))            *pszDestBuf = SY_IS_ODD;
-				else if (!_tcscmp(pszKeywordBegin, _T("IsFileType")))       *pszDestBuf = SY_IS_FILE_TYPE;
+				if (!strcmp(pszKeywordBegin, "End"))              *pszDestBuf = SY_END;
+				else if (!strcmp(pszKeywordBegin, "ForDirectoriesDo")) *pszDestBuf = SY_FOR_DIRS;
+				else if (!strcmp(pszKeywordBegin, "DirectoryUrl"))     *pszDestBuf = SY_DIR_URL;
+				else if (!strcmp(pszKeywordBegin, "DirectoryName"))    *pszDestBuf = SY_DIR_NAME;
+				else if (!strcmp(pszKeywordBegin, "ForFilesDo"))       *pszDestBuf = SY_FOR_FILES;
+				else if (!strcmp(pszKeywordBegin, "FileUrl"))          *pszDestBuf = SY_FILE_URL;
+				else if (!strcmp(pszKeywordBegin, "FileName"))         *pszDestBuf = SY_FILE_NAME;
+				else if (!strcmp(pszKeywordBegin, "FileSize"))         *pszDestBuf = SY_FILE_SIZE;
+				else if (!strcmp(pszKeywordBegin, "FileCreated"))      *pszDestBuf = SY_FILE_CREATE_TIME;
+				else if (!strcmp(pszKeywordBegin, "FileModified"))     *pszDestBuf = SY_FILE_MODIFY_TIME;
+				else if (!strcmp(pszKeywordBegin, "IsEven"))           *pszDestBuf = SY_IS_EVEN;
+				else if (!strcmp(pszKeywordBegin, "IsOdd"))            *pszDestBuf = SY_IS_ODD;
+				else if (!strcmp(pszKeywordBegin, "IsFileType"))       *pszDestBuf = SY_IS_FILE_TYPE;
 				else {
-					LogEvent(_T("Error in index template"), _T("Unknown Tag"));
+					LogEvent("Error in index template", "Unknown Tag");
 					// unknown tag
 				}
 
@@ -133,13 +133,13 @@ bool LoadIndexHTMLTemplate() {
 				if (bHasParameters) {
 					// max MAX_PARAM_LENGTH chars per param (terminated with : when shorter than MAX_PARAM_LENGTH)
 					byte  iParamCount = 1;
-					TCHAR *pcParamCount = pszDestBuf++;
-					TCHAR *pszParameterBegin = pszBuf + 1;
+					char* pcParamCount = (pszDestBuf++);
+					char* pszParameterBegin = pszBuf + 1;
 
 					do {
 						if (*pszBuf == ',') {
 							*pszBuf = ':';
-							_tcsncpy(pszDestBuf, pszParameterBegin, MAX_PARAM_LENGTH);
+							strncpy(pszDestBuf, pszParameterBegin, MAX_PARAM_LENGTH);
 							pszDestBuf += MAX_PARAM_LENGTH;
 
 							pszParameterBegin = pszBuf + 1;
@@ -152,7 +152,7 @@ bool LoadIndexHTMLTemplate() {
 						break;
 
 					*pszBuf = ':';
-					_tcsncpy(pszDestBuf, pszParameterBegin, MAX_PARAM_LENGTH);
+					strncpy(pszDestBuf, pszParameterBegin, MAX_PARAM_LENGTH);
 					pszDestBuf += MAX_PARAM_LENGTH;
 
 					*pcParamCount = iParamCount;
@@ -185,7 +185,7 @@ bool LoadIndexHTMLTemplate() {
 
 			// begin of iLevel - find End of iLevel
 			if (iLevel > 0) {
-				TCHAR *pszLevelEnd = pszBuf + 2; // skip for address reserved bytes
+				char* pszLevelEnd = pszBuf + 2; // skip for address reserved bytes
 
 				// skip parameters of IsFileType
 				if (*(pszBuf - 1) == SY_IS_FILE_TYPE) {
@@ -219,7 +219,7 @@ bool LoadIndexHTMLTemplate() {
 				}
 
 				if (*pszLevelEnd == '\0') {
-					LogEvent(_T("Error in index template"), _T("End is missing"));
+					LogEvent("Error in index template", "End is missing");
 					break; // Error - End missing
 				}
 
@@ -233,8 +233,8 @@ bool LoadIndexHTMLTemplate() {
 
 		//LogEvent("Template", szDestBuf);
 
-		szIndexHTMLTemplate = new TCHAR[_tcslen(szDestBuf) + 1];
-		_tcscpy(szIndexHTMLTemplate, szDestBuf);
+		szIndexHTMLTemplate = new char[strlen(szDestBuf)+1];
+		strcpy(szIndexHTMLTemplate, szDestBuf);
 	}
 
 	CloseHandle(hFile);
@@ -274,19 +274,19 @@ void FreeIndexHTMLTemplate() {
 // Developer       : Houdini
 /////////////////////////////////////////////////////////////////////
 
-bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const TCHAR *pszSrvPath, DWORD /* dwRemoteIP */)
-{
+bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
+    const char * pszSrvPath, DWORD /* dwRemoteIP */) {
 #define RelativeJump(begin) { pszPos += *((WORD*)(begin+1)) & 0x7FFF; }
 
 	if (szIndexHTMLTemplate == NULL)
 		return false;
 
 	// check if directory exists
-	TCHAR szMask[MAX_PATH];
-	_tcscpy(szMask, pszRealPath);
-	_tcscat(szMask, _T("*"));
+	char szMask[MAX_PATH];
+	strcpy(szMask, pszRealPath);
+	strcat(szMask, "*");
 
-	WIN32_FIND_DATA fdFindFileData;
+	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);
 
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -301,35 +301,35 @@ bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const
 	if (hFile == INVALID_HANDLE_VALUE)
 		return FALSE;
 
-	TCHAR szBuffer[10000];
-	TCHAR *pszBuffer = szBuffer;
+	char  szBuffer[10000];
+	char* pszBuffer = szBuffer;
 	DWORD dwBytesWritten = 0;
 
-	TCHAR *pszPos = szIndexHTMLTemplate;
+	char* pszPos = szIndexHTMLTemplate;
 
 	byte  iCurrentAction = 0;
-	TCHAR *pszLevelBegin[50];
+	char* pszLevelBegin[50];
 	byte  iLevel = 0;
 
-	TCHAR  szName[1000] = _T("");
-	TCHAR  szURL[1000] = _T("");
+	char  szName[1000] = "";
+	char  szURL[1000] = "";
 	int   iFileSize = 0;
 	FILETIME ftFileCreateTime;
 	FILETIME ftFileModifyTime;
 	bool  bEvenOdd = 0;
 	bool  bKnownFileType = false;
 
-	_tcscpy(szBuffer, pszSrvPath);
-	TCHAR *pszTemp = _tcsrchr(szBuffer, '/');
+	strcpy(szBuffer, pszSrvPath);
+	char* pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
 		*pszTemp = '\0';
 
-	pszTemp = _tcsrchr(szBuffer, '/');
+	pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
-		_tcscpy(szName, pszTemp + 1);
+		strcpy(szName, pszTemp + 1);
 
 	if (szName[0] == '\0')
-		_tcscpy(szName, _T("my Miranda Webserver"));
+		strcpy(szName, "my Miranda Webserver");
 
 	do {
 		switch (*pszPos) {
@@ -355,9 +355,9 @@ bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const
 					}
 				}
 
-				while (!_tcscmp(fdFindFileData.cFileName, _T(".")) ||
-				    !_tcsncmp(fdFindFileData.cFileName, _T("@"), 1) ||
-				    (!_tcscmp(fdFindFileData.cFileName, _T("..")) && !_tcscmp(pszSrvPath, _T("/"))) || // hide .. in root
+				while (!strcmp(fdFindFileData.cFileName, ".") ||
+				    !strncmp(fdFindFileData.cFileName, "@", 1) ||
+				    (!strcmp(fdFindFileData.cFileName, "..") && !strcmp(pszSrvPath, "/")) || // hide .. in root
 				    ((*pszPos == 19) == ((fdFindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0))) {
 					if (!FindNextFile(hFind, &fdFindFileData)) {
 						FindClose(hFind);
@@ -369,14 +369,14 @@ bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const
 				}
 
 				if (hFind) {
-					_tcscpy(szName, fdFindFileData.cFileName);
-					_tcscpy(szURL, fdFindFileData.cFileName);
+					strcpy(szName, fdFindFileData.cFileName);
+					strcpy(szURL, fdFindFileData.cFileName);
 					/*char* pszTmp = szURL;
 					while(pszTmp = strchr(pszTmp, ' '))
 					*pszTmp = '+';*/
 
 					if (*pszPos == SY_FOR_DIRS) { // For Directories
-						_tcscat(szURL, _T("/"));
+						strcat(szURL, "/");
 					} else { // For Files
 						iFileSize = fdFindFileData.nFileSizeLow;
 						ftFileCreateTime = fdFindFileData.ftCreationTime;
@@ -410,13 +410,13 @@ bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const
 
 			case SY_FILE_NAME:
 			case SY_DIR_NAME: {
-				pszBuffer += mir_sntprintf(pszBuffer, 250, _T("%s"), szName);
+				pszBuffer += mir_snprintf(pszBuffer, 250, "%s", szName);
 				break;
 			}
 
 			case SY_DIR_URL: {
 			case SY_FILE_URL:
-				pszBuffer += mir_sntprintf(pszBuffer, 250, _T("%s"), szURL);
+				pszBuffer += mir_snprintf(pszBuffer, 250, "%s", szURL);
 				break;
 			}
 
@@ -427,7 +427,7 @@ bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const
 				  (*pszPos == SY_FILE_CREATE_TIME) ? &ftFileCreateTime : &ftFileModifyTime,
 				  &systemTime);
 
-				pszBuffer += mir_sntprintf(pszBuffer, 100, _T("%i/%02i/%02i %i:%02i:%02i"), 
+				pszBuffer += mir_snprintf(pszBuffer, 100, "%i/%02i/%02i %i:%02i:%02i", 
 					systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 				  systemTime.wMinute, systemTime.wSecond);
 				break;
@@ -435,11 +435,11 @@ bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const
 
 			case SY_FILE_SIZE: {
 				if ((iFileSize >> 10) == 0)
-					pszBuffer += mir_sntprintf(pszBuffer, 100, _T("%i Byte"), iFileSize);
+					pszBuffer += mir_snprintf(pszBuffer, 100, "%i Byte", iFileSize);
 				else if ((iFileSize >> 20) == 0)
-					pszBuffer += mir_sntprintf(pszBuffer, 100, _T("%.1f KB"), (float)(iFileSize) / 1024.0f);
+					pszBuffer += mir_snprintf(pszBuffer, 100, "%.1f KB", (float)(iFileSize) / 1024.0f);
 				else
-					pszBuffer += mir_sntprintf(pszBuffer, 100, _T("%.1f MB"), (float)(iFileSize) / (1024.0f * 1024.0f));
+					pszBuffer += mir_snprintf(pszBuffer, 100, "%.1f MB", (float)(iFileSize) / (1024.0f * 1024.0f));
 				break;
 			}
 
@@ -461,7 +461,7 @@ bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const
 				iCurrentAction = *pszPos;
 
 				byte  iParamCount = *(pszPos + 3);
-				TCHAR* pszParam = pszPos + 4;
+				char* pszParam = pszPos + 4;
 				bool  bSkip = true;
 
 				if (bKnownFileType == false) {
@@ -469,16 +469,16 @@ bool bCreateIndexHTML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const
 						bSkip = false;
 					} else {
 						for (byte i = 0; i < iParamCount; i++) {
-							TCHAR szParam[MAX_PARAM_LENGTH+1];
-							_tcsncpy(szParam, pszParam, MAX_PARAM_LENGTH);
+							char szParam[MAX_PARAM_LENGTH+1];
+							strncpy(szParam, pszParam, MAX_PARAM_LENGTH);
 							szParam[MAX_PARAM_LENGTH] = '\0';
-							TCHAR *pszTmp = _tcschr(szParam, ':');
+							char* pszTmp = strchr(szParam, ':');
 							if (pszTmp)
 								*pszTmp = '\0';
 
-							TCHAR *pszExt = _tcsrchr(szName, '.');
+							char* pszExt = strrchr(szName, '.');
 
-							if (pszExt && !_tcsicmp(pszExt + 1, szParam)) {
+							if (pszExt && !_stricmp(pszExt + 1, szParam)) {
 								bSkip = false;
 								break;
 							}

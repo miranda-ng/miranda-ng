@@ -86,7 +86,7 @@ void CLShareUser::CloseSocket() {
 		int nBytesRead;
 		do {
 			char szBuf[100];
-			nBytesRead = Netlib_Recv(hConnection, szBuf, SIZEOF(szBuf), 0);
+			nBytesRead = Netlib_Recv(hConnection, szBuf, sizeof(szBuf), 0);
 		} while (nBytesRead && nBytesRead != SOCKET_ERROR);
 		//shutdown( s, SD_RECEIVE );
 	}
@@ -124,8 +124,7 @@ DWORD CLShareUser::dwGetDownloadSpeed() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLFileShareNode::CLFileShareNode(TCHAR *pszSrvPath, TCHAR *pszRealPath)
-{
+CLFileShareNode::CLFileShareNode(char * pszSrvPath, char * pszRealPath) {
 	memset(&st, 0, sizeof(STFileShareInfo));
 	st.lStructSize = sizeof(STFileShareInfo);
 	pclNext = NULL;
@@ -147,8 +146,7 @@ CLFileShareNode::CLFileShareNode(TCHAR *pszSrvPath, TCHAR *pszRealPath)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-CLFileShareNode::CLFileShareNode(STFileShareInfo * pstInfo)
-{
+CLFileShareNode::CLFileShareNode(STFileShareInfo * pstInfo) {
 	memset(&st, 0, sizeof(STFileShareInfo));
 	st.lStructSize = sizeof(STFileShareInfo);
 	pclNext = NULL;
@@ -197,8 +195,7 @@ CLFileShareNode::~CLFileShareNode() {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLFileShareNode::bSetPaths(TCHAR *pszSrvPath, TCHAR *pszRealPath)
-{
+bool CLFileShareNode::bSetPaths(char * pszSrvPath, char * pszRealPath) {
 	/* This might be a problem !!
 	if( nDownloadsInProgress > 0 )
 		return false;
@@ -210,25 +207,25 @@ bool CLFileShareNode::bSetPaths(TCHAR *pszSrvPath, TCHAR *pszRealPath)
 	delete [] st.pszSrvPath;
 	delete [] st.pszRealPath;
 
-	st.dwMaxSrvPath = (int)_tcslen(pszSrvPath) + 1;
-	st.pszSrvPath = new TCHAR[st.dwMaxSrvPath];
-	_tcscpy(st.pszSrvPath, pszSrvPath);
+	st.dwMaxSrvPath = (int)strlen(pszSrvPath) + 1;
+	st.pszSrvPath = new char[ st.dwMaxSrvPath ];
+	strcpy(st.pszSrvPath, pszSrvPath);
 
-	int nRealLen = (int)_tcslen(pszRealPath);
+	int nRealLen = (int)strlen(pszRealPath);
 	if (nRealLen <= 2 || !(pszRealPath[1] == ':' ||
 	    (pszRealPath[0] == '\\' && pszRealPath[1] == '\\'))) {
 		// Relative path
 		// we will prepend plugin path to avoid problems
 		st.dwMaxRealPath = nPluginPathLen  + nRealLen + 1;
-		st.pszRealPath = new TCHAR[st.dwMaxRealPath];
-		_tcscpy(st.pszRealPath, szPluginPath);
+		st.pszRealPath = new char[ st.dwMaxRealPath ];
+		strcpy(st.pszRealPath, szPluginPath);
 		pszOrigRealPath = &st.pszRealPath[nPluginPathLen];
 	} else {
 		st.dwMaxRealPath = nRealLen + 1;
-		st.pszRealPath = new TCHAR[st.dwMaxRealPath];
+		st.pszRealPath = new char[ st.dwMaxRealPath ];
 		pszOrigRealPath = st.pszRealPath;
 	}
-	_tcscpy(pszOrigRealPath, pszRealPath);
+	strcpy(pszOrigRealPath, pszRealPath);
 	return true;
 }
 
@@ -245,8 +242,7 @@ bool CLFileShareNode::bSetPaths(TCHAR *pszSrvPath, TCHAR *pszRealPath)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool CLFileShareNode::bSetInfo(STFileShareInfo *pstInfo)
-{
+bool CLFileShareNode::bSetInfo(STFileShareInfo * pstInfo) {
 	if (! bSetPaths(pstInfo->pszSrvPath, pstInfo->pszRealPath))
 		return false;
 	if (pstInfo->nMaxDownloads < -1)

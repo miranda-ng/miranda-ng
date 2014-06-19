@@ -18,27 +18,27 @@
 
 #include "Glob.h"
 
-#define szConfigFile        _T("HTTPServer.xml")
+#define szConfigFile        "HTTPServer.xml"
 
-const char szXmlHeader[] =	"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n"
-    "<?xml-stylesheet type=\"text/xsl\" href=\"HTTPServer.xsl\"?>\r\n"
-    "<config>\r\n";
+const TCHAR szXmlHeader[] =	_T("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n")
+    _T("<?xml-stylesheet type=\"text/xsl\" href=\"HTTPServer.xsl\"?>\r\n")
+    _T("<config>\r\n");
 
-const TCHAR szXmlData[] =	_T("\t<share>\r\n")
-    _T("\t\t<name>%s</name>\r\n")
-	_T("\t\t<file>%s</file>\r\n")
-	_T("\t\t<max_downloads>%d</max_downloads>\r\n")
-	_T("\t\t<ip_address>%d.%d.%d.%d</ip_address>\r\n")
-	_T("\t\t<ip_mask>%d.%d.%d.%d</ip_mask>\r\n")
-	_T("\t</share>\r\n");
+const char szXmlData[] =	"\t<share>\r\n"
+    "\t\t<name>%s</name>\r\n"
+    "\t\t<file>%s</file>\r\n"
+    "\t\t<max_downloads>%d</max_downloads>\r\n"
+    "\t\t<ip_address>%d.%d.%d.%d</ip_address>\r\n"
+    "\t\t<ip_mask>%d.%d.%d.%d</ip_mask>\r\n"
+    "\t</share>\r\n";
 
-const char szXmlTail[] =	"</config>";
+const TCHAR szXmlTail[] =	_T("</config>");
 
-const TCHAR* pszDefaultShares[] = {
-	_T("htdocs\\@settings\\favicon.ico"), _T("/favicon.ico"),
-	_T("htdocs\\@settings\\index.xsl"), _T("/index.xsl"),
-	_T("htdocs\\@settings\\theme\\"), _T("/theme/"),
-	_T("htdocs\\"), _T("/"),
+const char* pszDefaultShares[] = {
+	"htdocs\\@settings\\favicon.ico",     "/favicon.ico",
+	"htdocs\\@settings\\index.xsl",       "/index.xsl",
+	"htdocs\\@settings\\theme\\",         "/theme/",
+	"htdocs\\",                           "/",
 	0, 0
 };
 
@@ -50,7 +50,7 @@ HANDLE hDirectBoundPort;
 
 HINSTANCE hInstance = NULL;
 
-tstring sLogFilePath;
+string sLogFilePath;
 
 // static so they can not be used from other modules ( sourcefiles )
 static HANDLE hEventSystemInit = 0;
@@ -63,7 +63,7 @@ static HANDLE hHttpGetAllShares = 0;
 
 static HGENMENU hAcceptConnectionsMenuItem = 0;
 
-TCHAR szPluginPath[MAX_PATH] = {0};
+char szPluginPath[MAX_PATH] = {0};
 int nPluginPathLen = 0;
 
 DWORD dwLocalIpAddress = 0;
@@ -125,10 +125,9 @@ bool bOpenLogFile() {
 }
 
 
-bool bWriteToFile(HANDLE hFile, const TCHAR *pszSrc, int nLen = -1)
-{
+bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1) {
 	if (nLen < 0)
-		nLen = (int)_tcslen(pszSrc);
+		nLen = (int)strlen(pszSrc);
 	DWORD dwBytesWritten;
 	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, NULL) && (dwBytesWritten == (DWORD)nLen);
 }
@@ -148,8 +147,7 @@ bool bWriteToFile(HANDLE hFile, const TCHAR *pszSrc, int nLen = -1)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void LogEvent(const TCHAR *pszTitle, const TCHAR *pszLog)
-{
+void LogEvent(const TCHAR * pszTitle, const char * pszLog) {
 	HANDLE hFile = CreateFile(sLogFilePath.c_str(), GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		MessageBox(NULL, TranslateT("Failed to open or create log file"), MSG_BOX_TITEL, MB_OK);
@@ -161,20 +159,20 @@ void LogEvent(const TCHAR *pszTitle, const TCHAR *pszLog)
 		return;
 	}
 
-	TCHAR szTmp[128];
+	char szTmp[128];
 	time_t now;
 	time(&now);
-	int nLen = (int)_tcsftime(szTmp, SIZEOF(szTmp), _T("%d-%m-%Y %H:%M:%S -- "), localtime(&now));
+	int nLen = (int)strftime(szTmp, sizeof(szTmp), "%d-%m-%Y %H:%M:%S -- ", localtime(&now));
 
-	int nLogLen = (int)_tcslen(pszLog);
+	int nLogLen = (int)strlen(pszLog);
 	while (nLogLen > 0 && (pszLog[nLogLen-1] == '\r' || pszLog[nLogLen-1] == '\n'))
 		nLogLen--;
 
 	if (!bWriteToFile(hFile, szTmp, nLen) ||
 	    !bWriteToFile(hFile, pszTitle) ||
-	    !bWriteToFile(hFile, _T(" : ")) ||
+	    !bWriteToFile(hFile, " : ") ||
 	    !bWriteToFile(hFile, pszLog, nLogLen) ||
-	    !bWriteToFile(hFile, _T("\r\n"))) {
+	    !bWriteToFile(hFile, "\r\n")) {
 		MessageBox(NULL, TranslateT("Failed to write some part of the log file"), MSG_BOX_TITEL, MB_OK);
 	}
 	CloseHandle(hFile);
@@ -195,12 +193,11 @@ void LogEvent(const TCHAR *pszTitle, const TCHAR *pszLog)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-DWORD dwReadIPAddress(TCHAR *pszStr, bool &bError)
-{
+DWORD dwReadIPAddress(char * pszStr, bool &bError) {
 	DWORD ip = 0;
-	TCHAR *pszEnd;
+	char *pszEnd;
 	for (int n = 0 ; n < 4 ; n++) {
-		int nVal = _tcstol(pszStr, &pszEnd, 10);
+		int nVal = strtol(pszStr, &pszEnd, 10);
 		if (pszEnd <= pszStr || (n != 3 && pszEnd[0] != '.') || (nVal < 0 || nVal > 255)) {
 			bError = true;
 			return 0;
@@ -224,21 +221,20 @@ DWORD dwReadIPAddress(TCHAR *pszStr, bool &bError)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool bReadConfigurationFile()
-{
+bool bReadConfigurationFile() {
 	CLFileShareListAccess clCritSection;
 
 	CLFileShareNode * pclLastNode = NULL;
 
-	TCHAR szBuf[1000];
-	_tcscpy(szBuf, szPluginPath);
-	_tcscat(szBuf, szConfigFile);
+	char szBuf[1000];
+	strcpy(szBuf, szPluginPath);
+	strcat(szBuf, szConfigFile);
 	HANDLE hFile = CreateFile(szBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 
 		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return false;
 	
-	TCHAR *pszCurPos = szBuf;
+	char *pszCurPos = szBuf;
 
 	bool bEof = false;
 	while (!bEof) {
@@ -246,33 +242,33 @@ bool bReadConfigurationFile()
 		
 		// move rest of buffer to front
 		if (pszCurPos && pszCurPos != szBuf) {
-			dwBytesInBuffer = DWORD(SIZEOF(szBuf) - (pszCurPos - szBuf));
-			memmove(szBuf, pszCurPos, dwBytesInBuffer);
+			dwBytesInBuffer = DWORD(sizeof(szBuf) - (pszCurPos - szBuf));
+			memmove(szBuf, pszCurPos, dwBytesInBuffer * sizeof(TCHAR));
 		}
 		
 		// append data to buffer
 		DWORD dwBytesRead = 0;
-		bEof = !ReadFile(hFile, &szBuf[dwBytesInBuffer], SIZEOF(szBuf) - dwBytesInBuffer, 
+		bEof = !ReadFile(hFile, &szBuf[dwBytesInBuffer], sizeof(szBuf) - dwBytesInBuffer, 
 			&dwBytesRead, NULL) || dwBytesRead <= 0;
 		pszCurPos = szBuf;
 
 		if (pszCurPos) {
-			while (pszCurPos && (pszCurPos = _tcsstr(pszCurPos, _T("<share>"))) != NULL) {
+			while (pszCurPos && (pszCurPos = strstr(pszCurPos, "<share>")) != NULL) {
 				pszCurPos += 7;
 
-				TCHAR *pszColData[5] = {NULL};
+				char * pszColData[5] = {NULL};
 				for (int n = 0 ; n < 5 ; n++) {
-					pszColData[n] = _tcsstr(pszCurPos, _T(">"));
+					pszColData[n] = strstr(pszCurPos, ">");
 					if (!pszColData[n])
 						break;
 					pszColData[n] += 1;
 
-					pszCurPos = _tcsstr(pszColData[n], _T("</"));
+					pszCurPos = strstr(pszColData[n], "</");
 					if (!pszCurPos)
 						break;
 
 					pszCurPos[0] = 0;// NULL terminate row data, we overwrite the '<'
-					pszCurPos = _tcsstr(pszCurPos + 3, _T(">"));
+					pszCurPos = strstr(pszCurPos + 3, ">");
 
 					if (!pszCurPos)
 						break;
@@ -284,9 +280,9 @@ bool bReadConfigurationFile()
 				CLFileShareNode * pcl = new CLFileShareNode(pszColData[0], pszColData[1]);
 
 				bool bError = false;
-				TCHAR * pszEnd;
+				char * pszEnd;
 
-				pcl->st.nMaxDownloads = _tcstol(pszColData[2], &pszEnd, NULL);
+				pcl->st.nMaxDownloads = strtol(pszColData[2], &pszEnd, NULL);
 				if (!pszEnd || *pszEnd != NULL)
 					bError = true;
 
@@ -305,7 +301,7 @@ bool bReadConfigurationFile()
 				}
 				
 				// refill buffer
-				if (!bEof && pszCurPos - szBuf > SIZEOF(szBuf) / 2)
+				if (!bEof && pszCurPos - szBuf > sizeof(szBuf) / 2)
 					break;
 			}
 		}
@@ -328,29 +324,28 @@ bool bReadConfigurationFile()
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-bool bWriteConfigurationFile()
-{
+bool bWriteConfigurationFile() {
 	CLFileShareListAccess clCritSection;
-	TCHAR szBuf[1000];
-	_tcscpy(szBuf, szPluginPath);
-	_tcscat(szBuf, szConfigFile);
+	char szBuf[1000];
+	strcpy(szBuf, szPluginPath);
+	strcat(szBuf, szConfigFile);
 	HANDLE hFile = CreateFile(szBuf, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		TCHAR temp[200];
-		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to open or create file "), szConfigFile);
-		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
+		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to open or create file "), _T(szConfigFile));
+		MessageBox(NULL, temp , MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
 
 	DWORD dwBytesWriten = 0;
-	if (! WriteFile(hFile, szXmlHeader, SIZEOF(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
+	if (! WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
 		TCHAR temp[200];
-		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml header to file "), szConfigFile);
+		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml header to file "), _T(szConfigFile));
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 	} else {
 		CLFileShareNode * pclCur = pclFirstNode;
 		while (pclCur) {
-			DWORD dwBytesToWrite = mir_sntprintf(szBuf, SIZEOF(szBuf), szXmlData,
+			DWORD dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szXmlData ,
 			    pclCur->st.pszSrvPath,
 			    pclCur->pszOrigRealPath,
 			    pclCur->st.nMaxDownloads,
@@ -359,16 +354,16 @@ bool bWriteConfigurationFile()
 
 			if (! WriteFile(hFile, szBuf, dwBytesToWrite, &dwBytesWriten, NULL)) {
 				TCHAR temp[200];
-				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml data to file "), szConfigFile);
+				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml data to file "), _T(szConfigFile));
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 				break;
 			}
 			pclCur = pclCur->pclNext;
 		}
 
-		if (! WriteFile(hFile, szXmlTail, SIZEOF(szXmlTail) - 1, &dwBytesWriten, NULL)) {
+		if (! WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
 				TCHAR temp[200];
-				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml tail to file "), szConfigFile);
+				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		}
 	}
@@ -399,9 +394,9 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam) {
 	STFileShareInfo * pclNew = (STFileShareInfo*)lParam;
 
 	// make the server path lowercase
-	TCHAR *pszPos = pclNew->pszSrvPath;
+	char* pszPos = pclNew->pszSrvPath;
 	while (*pszPos) {
-		*pszPos = tolower(*pszPos);
+		*pszPos = (char)tolower(*pszPos);
 		pszPos++;
 	}
 
@@ -409,7 +404,7 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam) {
 		return 1002;
 
 	CLFileShareListAccess clCritSection;
-	bool bIsDirectory = (pclNew->pszSrvPath[_tcslen(pclNew->pszSrvPath)-1] == '/');
+	bool bIsDirectory = (pclNew->pszSrvPath[strlen(pclNew->pszSrvPath)-1] == '/');
 
 	CLFileShareNode **pclPrev = &pclFirstNode;
 	CLFileShareNode * pclCur = pclFirstNode;
@@ -423,7 +418,7 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam) {
 	}
 
 	while (pclCur) {
-		if (_tcsicmp(pclCur->st.pszSrvPath, pclNew->pszSrvPath) == 0) {
+		if (_stricmp(pclCur->st.pszSrvPath, pclNew->pszSrvPath) == 0) {
 			if (pclCur->bAnyUsers()) {
 				// Some downloads are in progress we will try an terminate them !!
 				// we try for 5 sec.
@@ -489,10 +484,10 @@ static INT_PTR nGetShare(WPARAM /*wParam*/, LPARAM lParam) {
 	STFileShareInfo * pclShare = (STFileShareInfo*)lParam;
 	CLFileShareNode * pclCur = pclFirstNode;
 	while (pclCur) {
-		if (_tcscmp(pclCur->st.pszSrvPath, pclShare->pszSrvPath) == 0) {
-			if (pclShare->dwMaxRealPath <= _tcslen(pclCur->st.pszRealPath) + 1)
+		if (strcmp(pclCur->st.pszSrvPath, pclShare->pszSrvPath) == 0) {
+			if (pclShare->dwMaxRealPath <= strlen(pclCur->st.pszRealPath) + 1)
 				return 1003;
-			_tcscpy(pclShare->pszRealPath, pclCur->st.pszRealPath);
+			strcpy(pclShare->pszRealPath, pclCur->st.pszRealPath);
 			pclShare->dwAllowedIP = pclCur->st.dwAllowedIP;
 			pclShare->dwAllowedMask = pclCur->st.dwAllowedMask;
 			pclShare->nMaxDownloads = pclCur->st.nMaxDownloads;
@@ -627,7 +622,7 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam) {
 
 INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
+	mi.flags = CMIM_NAME | CMIM_ICON;
 
 	if (!hDirectBoundPort) {
 		NETLIBUSERSETTINGS nus = { 0 };
@@ -648,8 +643,8 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 		hDirectBoundPort = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) hNetlibUser, (LPARAM) & nlb);
 		if (!hDirectBoundPort) {
 			TCHAR szTemp[200];
-			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port") ,
-			    nlb.wPort == 80 ? _T("80") : _A2T(nus.szIncomingPorts));
+			mir_snprintf(szTemp, SIZEOF(szTemp), TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port") ,
+			    nlb.wPort == 80 ? "80" : nus.szIncomingPorts);
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
 			return 1001;
 		}
@@ -658,13 +653,13 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 
 		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DISABLE_SERVER));
 		mi.ptszName = LPGENT("Disable HTTP server");
-		Netlib_Logf(hNetlibUser, mi.pszName);
+		Netlib_LogfT(hNetlibUser, mi.ptszName);
 	} else if (hDirectBoundPort && wparam == 0) {
 		Netlib_CloseHandle(hDirectBoundPort);
 		hDirectBoundPort = 0;
 		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 		mi.ptszName = LPGENT("Enable HTTP server");
-		Netlib_Logf(hNetlibUser, mi.pszName);
+		Netlib_LogfT(hNetlibUser, mi.ptszName);
 	} else {
 		return 0; // no changes;
 	}
@@ -721,24 +716,25 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 	if (! bReadConfigurationFile()) {
 		//MessageBox( NULL, "Failed to read configuration file : " szConfigFile, MSG_BOX_TITEL, MB_OK );
 
-		TCHAR szRealPath[MAX_PATH];
-		TCHAR szSrvPath[MAX_PATH] = {0};
-		STFileShareInfo share = { 0 };
+		char szRealPath[MAX_PATH];
+		char szSrvPath[MAX_PATH] = {0};
+		STFileShareInfo share;
 
-		const TCHAR** p = pszDefaultShares;
+		const char** p = pszDefaultShares;
 		while (*p) {
+			memset(&share, 0, sizeof(share));
 			share.lStructSize = sizeof(share);
 			share.dwAllowedIP = 0;
 			share.dwAllowedMask = 0;
 			share.nMaxDownloads = -1;
 
 			share.pszRealPath = szRealPath;
-			share.dwMaxRealPath = SIZEOF(szRealPath);
-			_tcscpy(share.pszRealPath, p[0]);
+			share.dwMaxRealPath = sizeof(szRealPath);
+			strcpy(share.pszRealPath, p[0]);
 
 			share.pszSrvPath = szSrvPath;
-			share.dwMaxSrvPath = SIZEOF(szSrvPath);
-			_tcscpy(share.pszSrvPath, p[1]);
+			share.dwMaxSrvPath = sizeof(szSrvPath);
+			strcpy(share.pszSrvPath, p[1]);
 
 			if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)&share))
 				break;
@@ -902,26 +898,26 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			return 1;
 		}
 
-		if(CallService(MS_DB_GETPROFILEPATHT,MAX_PATH,(LPARAM)szPluginPath))
+		if(CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)szPluginPath))
 		{
 			MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
 			return 1;
 		}
 		_tcsncat(szPluginPath,_T("\\HTTPServer\\"), MAX_PATH);
-		int err = CreateDirectoryTreeT(szPluginPath);
+		int err = CreateDirectoryTree(szPluginPath);
 		if((err != 0) && (err != ERROR_ALREADY_EXISTS))
 		{
 			MessageBox(NULL, _T("Failed to create HTTPServer directory."), MSG_BOX_TITEL, MB_OK);
 			return 1;
 		}
 
-		nPluginPathLen = (int)_tcslen(szPluginPath);
+		nPluginPathLen = (int)strlen(szPluginPath);
 
 		sLogFilePath = szPluginPath;
-		sLogFilePath += _T("HTTPServer.log");
+		sLogFilePath += "HTTPServer.log";
 
-		if (!bInitMimeHandling()) {
-			MessageBox(NULL, _T("Failed to read configuration file : ") szMimeTypeConfigFile, MSG_BOX_TITEL, MB_OK);
+		if (! bInitMimeHandling()) {
+			MessageBox(NULL, "Failed to read configuration file : " szMimeTypeConfigFile, MSG_BOX_TITEL, MB_OK);
 		}
 
 		nMaxUploadSpeed = db_get_dw(NULL, MODULE, "MaxUploadSpeed", nMaxUploadSpeed);
@@ -936,7 +932,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			mi.pszContactOwner = NULL;  //all contacts
 			mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 			mi.position = 1000085000;
-			mi.ptszName = LPGENT("Enable HTTP server");
+			mi.pszName = LPGENT("Enable HTTP server");
 			mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;
 			hAcceptConnectionsMenuItem = Menu_AddMainMenuItem(&mi);
 		}

@@ -17,31 +17,31 @@
 
 #include "Glob.h"
 
-static const char szXmlHeader1[] =	"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n"
-    "<?xml-stylesheet type=\"text/xsl\" href=\"";
+static const TCHAR szXmlHeader1[] =	_T("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n")
+    _T("<?xml-stylesheet type=\"text/xsl\" href=\"");
 
-static const char szXmlHeader2[] =	"\"?>\r\n"
-    "<config>\r\n";
+static const TCHAR szXmlHeader2[] =	_T("\"?>\r\n")
+    _T("<config>\r\n");
 
-static const char szXmlTail[] =	"</config>";
+static const TCHAR szXmlTail[] =	_T("</config>");
 
 
-static void ReplaceSign(TCHAR *pszSrc, int MaxLength, const TCHAR pszReplace, const TCHAR *pszNew)
-{
-	static TCHAR szBuffer[1024];
-	TCHAR *pszSign = _tcschr(pszSrc, pszReplace);
+static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace, 
+												const char * pszNew) {
+	static char szBuffer[1024];
+	char* pszSign = strchr(pszSrc, pszReplace);
 
 	if (pszSign) {
-		_tcscpy(szBuffer, pszSrc);
+		strcpy(szBuffer, pszSrc);
 
 		do {
-			_tcscpy(szBuffer + (pszSign - pszSrc), pszNew);
-			_tcscpy(szBuffer + (pszSign - pszSrc) + _tcslen(pszNew), pszSign + 1);
+			strcpy(szBuffer + (pszSign - pszSrc), pszNew);
+			strcpy(szBuffer + (pszSign - pszSrc) + strlen(pszNew), pszSign + 1);
 			*pszSign = ' ';
 
-		} while (pszSign = _tcschr(pszSrc, pszReplace));
+		} while (pszSign = strchr(pszSrc, pszReplace));
 
-		_tcsncpy(pszSrc, szBuffer, MaxLength);
+		strncpy(pszSrc, szBuffer, MaxLength);
 
 		pszSrc[MaxLength-1] = '\0';
 	}
@@ -61,13 +61,13 @@ static void ReplaceSign(TCHAR *pszSrc, int MaxLength, const TCHAR pszReplace, co
 // Developer       : Houdini
 /////////////////////////////////////////////////////////////////////
 
-bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const TCHAR *pszSrvPath, DWORD dwRemoteIP)
-{
-	TCHAR szMask[MAX_PATH+1];
-	_tcscpy(szMask, pszRealPath);
-	_tcscat(szMask, _T("*"));
+bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, 
+										 const char * pszSrvPath, DWORD dwRemoteIP) {
+	char szMask[MAX_PATH+1];
+	strcpy(szMask, pszRealPath);
+	strcat(szMask, "*");
 
-	WIN32_FIND_DATA fdFindFileData;
+	WIN32_FIND_DATAA fdFindFileData;
 	HANDLE hFind = FindFirstFile(szMask, &fdFindFileData);
 
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -82,90 +82,90 @@ bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const 
 	}
 
 	const int BUFFER_SIZE = 1000;
-	TCHAR  szBuffer[BUFFER_SIZE+1];
-	TCHAR *pszBuffer = szBuffer;
-	TCHAR  szFileName[MAX_PATH+1] = _T("");
-	TCHAR* pszExt;
+	char  szBuffer[BUFFER_SIZE+1];
+	char* pszBuffer = szBuffer;
+	char  szFileName[MAX_PATH+1] = "";
+	char* pszExt;
 	DWORD dwBytesWritten = 0;
 
 	// Generate Dirname
-	_tcscpy(szBuffer, pszSrvPath);
-	TCHAR *pszTemp = _tcsrchr(szBuffer, '/');
+	strcpy(szBuffer, pszSrvPath);
+	char* pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
 		*pszTemp = '\0';
 
-	pszTemp = _tcsrchr(szBuffer, '/');
+	pszTemp = strrchr(szBuffer, '/');
 	if (pszTemp)
-		_tcscpy(szFileName, pszTemp + 1);
+		strcpy(szFileName, pszTemp + 1);
 
 	// Write Header
-	WriteFile(hFile, szXmlHeader1, SIZEOF(szXmlHeader1) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlHeader1, sizeof(szXmlHeader1) - 1, &dwBytesWritten, NULL);
 
 	// check if a index.xsl exists in the same directory otherwise use the global
-	_tcscpy(szMask, pszRealPath);
-	_tcscat(szMask, _T("index.xsl"));
+	strcpy(szMask, pszRealPath);
+	strcat(szMask, "index.xsl");
 
 	HANDLE hFileExists = CreateFile(szMask, GENERIC_READ, 
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 
 		FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hFileExists == INVALID_HANDLE_VALUE) {
-		_tcscpy(szBuffer, _T("/index.xsl"));
+		strcpy(szBuffer, "/index.xsl");
 	} else {
 		CloseHandle(hFileExists);
-		_tcscpy(szBuffer, _T("index.xsl"));
+		strcpy(szBuffer, "index.xsl");
 	}
 
-	WriteFile(hFile, szBuffer, (DWORD)_tcslen(szBuffer), &dwBytesWritten, NULL);
+	WriteFile(hFile, szBuffer, (DWORD)strlen(szBuffer), &dwBytesWritten, NULL);
 
-	WriteFile(hFile, szXmlHeader2, SIZEOF(szXmlHeader2) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlHeader2, sizeof(szXmlHeader2) - 1, &dwBytesWritten, NULL);
 
 	// Write dirname
-	ReplaceSign(szFileName, MAX_PATH, '&', _T("&amp;"));
-	pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-		_T("  <dirname>%s</dirname>\r\n"), szFileName);
+	ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
+	pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+		"  <dirname>%s</dirname>\r\n", szFileName);
 	WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL);
 
 	// Find files and directories
 	do {
-		if (_tcscmp(fdFindFileData.cFileName, _T(".")) &&
-			_tcsncmp(fdFindFileData.cFileName, _T("@"), _tcslen(_T("@"))) &&
-			(_tcscmp(fdFindFileData.cFileName, _T("..")) || _tcscmp(pszSrvPath, _T("/")))) { // hide .. in root
+		if (strcmp(fdFindFileData.cFileName, ".") &&
+		    strncmp(fdFindFileData.cFileName, "@", 1) &&
+		    (strcmp(fdFindFileData.cFileName, "..") || strcmp(pszSrvPath, "/"))) { // hide .. in root
 			pszBuffer = szBuffer;
 
-			_tcscpy(szFileName, fdFindFileData.cFileName);
-			ReplaceSign(szFileName, MAX_PATH, '&', _T("&amp;"));
+			strcpy(szFileName, fdFindFileData.cFileName);
+			ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
 
 			if (fdFindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-				pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-					_T("  <item name=\"%s\" isdir=\"true\"/>\r\n"), szFileName);
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					"  <item name=\"%s\" isdir=\"true\"/>\r\n", szFileName);
 			} else {
-				pszExt = _tcsrchr(szFileName, '.');
+				pszExt = strrchr(szFileName, '.');
 
 				if (pszExt != NULL) {
 					*pszExt = '\0';
 					pszExt++;
 				}
 
-				pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-					_T("  <item name=\"%s\" ext=\"%s\" size=\"%i\" "),
-				  szFileName, (pszExt == NULL) ? _T("") : pszExt, fdFindFileData.nFileSizeLow);
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					"  <item name=\"%s\" ext=\"%s\" size=\"%i\" ",
+				  szFileName, (pszExt == NULL) ? "" : pszExt, fdFindFileData.nFileSizeLow);
 
 				SYSTEMTIME systemTime;
 				FileTimeToSystemTime(&fdFindFileData.ftCreationTime, &systemTime);
-				pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-					_T("created=\"%i/%02i/%02i %i:%02i:%02i\" "),
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					"created=\"%i/%02i/%02i %i:%02i:%02i\" ", 
 					systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 					systemTime.wMinute, systemTime.wSecond);
 
 				FileTimeToSystemTime(&fdFindFileData.ftLastWriteTime, &systemTime);
-				pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-					_T("modified=\"%i/%02i/%02i %i:%02i:%02i\" "),
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					"modified=\"%i/%02i/%02i %i:%02i:%02i\" ", 
 					systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 					systemTime.wMinute, systemTime.wSecond);
 
-				pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-					_T("/>\r\n"));
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					"/>\r\n");
 			}
 
 			if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))
@@ -180,27 +180,27 @@ bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const 
 	// Add other shared files & directories
 	for (CLFileShareNode * pclCur = pclFirstNode; pclCur ; pclCur = pclCur->pclNext) {
 		if (!((pclCur->st.dwAllowedIP ^ dwRemoteIP) & pclCur->st.dwAllowedMask) &&  // hide inaccessible shares
-		    (size_t)(pclCur->nGetSrvPathLen()) > _tcslen(pszSrvPath) &&
-		    !_tcsstr(pclCur->st.pszRealPath, _T("\\@")) &&
-		    !_tcsncmp(pclCur->st.pszSrvPath, pszSrvPath, _tcslen(pszSrvPath))) {
+		    (size_t)(pclCur->nGetSrvPathLen()) > strlen(pszSrvPath) &&
+		    !strstr(pclCur->st.pszRealPath, "\\@") &&
+		    !strncmp(pclCur->st.pszSrvPath, pszSrvPath, strlen(pszSrvPath))) {
 			pszBuffer = szBuffer;
 
-			_tcscpy(szFileName, &pclCur->st.pszSrvPath[_tcslen(pszSrvPath)]);
-			ReplaceSign(szFileName, MAX_PATH, '&', _T("&amp;"));
+			strcpy(szFileName, &pclCur->st.pszSrvPath[strlen(pszSrvPath)]);
+			ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
 
 			if (pclCur->bIsDirectory()) {
-				szFileName[_tcslen(szFileName)-1] = '\0';
-				if (!_tcschr(szFileName, '/')) { // only one level deeper
-					pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-						_T("  <item name=\"%s\" isdir=\"true\"/>\r\n"), szFileName);
+				szFileName[strlen(szFileName)-1] = '\0';
+				if (!strchr(szFileName, '/')) { // only one level deeper
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+						"  <item name=\"%s\" isdir=\"true\"/>\r\n", szFileName);
 
 					if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))
 						break;
 				}
 			} else {
-				if (!_tcschr(szFileName, '/') &&   // only one level deeper
-				    _tcsncmp(pszRealPath, pclCur->st.pszRealPath, _tcslen(pszRealPath))) { // no duplicates
-					pszExt = _tcsrchr(szFileName, '.');
+				if (!strchr(szFileName, '/') &&   // only one level deeper
+				    strncmp(pszRealPath, pclCur->st.pszRealPath, strlen(pszRealPath))) { // no duplicates
+					pszExt = strrchr(szFileName, '.');
 
 					if (pszExt != NULL) {
 						*pszExt = '\0';
@@ -219,25 +219,25 @@ bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const 
 						CloseHandle(hFileS);
 					}
 
-					pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-						_T("  <item name=\"%s\" ext=\"%s\" size=\"%i\" "),
-						szFileName, (pszExt == NULL) ? _T("") : pszExt, dwFileSize);
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+						"  <item name=\"%s\" ext=\"%s\" size=\"%i\" ",
+						szFileName, (pszExt == NULL) ? "" : pszExt, dwFileSize);
 
 					SYSTEMTIME systemTime;
 					FileTimeToSystemTime(&ftFileCreateTime, &systemTime);
-					pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-						_T("created=\"%i/%02i/%02i %i:%02i:%02i\" "),
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+						"created=\"%i/%02i/%02i %i:%02i:%02i\" ", 
 						systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 						systemTime.wMinute, systemTime.wSecond);
 
 					FileTimeToSystemTime(&ftFileModifyTime, &systemTime);
-					pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-						_T("modified=\"%i/%02i/%02i %i:%02i:%02i\" "),
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+						"modified=\"%i/%02i/%02i %i:%02i:%02i\" ", 
 						systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 						systemTime.wMinute, systemTime.wSecond);
 
-					pszBuffer += mir_sntprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
-						_T("/>\r\n"));
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+						"/>\r\n");
 
 					if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))
 						break;
@@ -246,7 +246,7 @@ bool bCreateIndexXML(const TCHAR *pszRealPath, const TCHAR *pszIndexPath, const 
 		}
 	}
 
-	WriteFile(hFile, szXmlTail, SIZEOF(szXmlTail) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWritten, NULL);
 
 	SetEndOfFile(hFile);
 	CloseHandle(hFile);

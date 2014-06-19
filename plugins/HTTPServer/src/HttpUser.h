@@ -33,13 +33,13 @@ enum ENParamTypes {
 	eLastParam
 };
 
-static TCHAR * szParmStr[eLastParam] = {
-	_T("Range: "),
-	_T("If-Range: "),
-	_T("Unless-Modified-Since: "),
-	_T("If-Modified-Since: "),
-	_T("User-Agent: "),
-	_T("Host: ")
+static char * szParmStr[eLastParam] = {
+	"Range: ",
+	"If-Range: ",
+	"Unless-Modified-Since: ",
+	"If-Modified-Since: ",
+	"User-Agent: ",
+	"Host: "
 };
 
 
@@ -48,23 +48,23 @@ public:
 	CLHttpUser(HANDLE hCon, in_addr stAdd);
 	virtual ~CLHttpUser();
 
-	bool bReadGetParameters(TCHAR *pszRequest);
+	bool bReadGetParameters(char * pszRequest);
 
 	//bool bSendFile( HANDLE hFile ,
 	bool bCloseTransfers() {
 		return true;
 	}
-	bool bProcessGetRequest(TCHAR *pszRequest, bool bIsGetCommand);
-	const TCHAR * pszCustomInfo() {
+	bool bProcessGetRequest(char * pszRequest, bool bIsGetCommand);
+	const char * pszCustomInfo() {
 		return apszParam[eUserAgent];
 	}
 	void HandleNewConnection();
 private:
 	HANDLE hFile;
-	TCHAR *apszParam[eLastParam];
+	char *apszParam[eLastParam];
 
-	void SendError(int iErrorCode, const TCHAR *pszError, const TCHAR *pszDescription = NULL);
-	void SendRedir(int iErrorCode, const TCHAR *pszError, const TCHAR *pszDescription = NULL, const TCHAR *pszRedirect = NULL);
+	void SendError(int iErrorCode, const char * pszError, const char * pszDescription = NULL);
+	void SendRedir(int iErrorCode, const char * pszError, const char * pszDescription = NULL, const char * pszRedirect = NULL);
 };
 
 #endif
