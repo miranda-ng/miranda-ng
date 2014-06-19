@@ -164,8 +164,18 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 {
+	DBCachedContact *cc;
+	if (contactID) {
+		if ((cc = m_cache->GetCachedContact(contactID)) == NULL)
+			return 2;
+		if (cc->IsSub())
+			if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
+				return 3;
+	}
+	else cc = NULL;
+
 	mir_cslockfull lck(m_csDbAccess);
-	DWORD ofsContact = GetContactOffset(contactID);
+	DWORD ofsContact = (cc) ? cc->dwDriverData : m_dbHeader.ofsUser;
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	DBEvent dbe = *(DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);
 	if (dbc.signature != DBCONTACT_SIGNATURE || dbe.signature != DBEVENT_SIGNATURE)
@@ -174,18 +184,17 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 	lck.unlock();
 	log1("delete event @ %08x", hContact);
 
-	//call notifier while outside mutex
+	// call notifier while outside mutex
 	NotifyEventHooks(hEventDeletedEvent, contactID, (LPARAM)hDbEvent);
 
-	//get back in
+	// get back in
 	lck.lock();
 	dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	dbe = *(DBEvent*)DBRead((DWORD)hDbEvent, sizeof(DBEvent), NULL);
 
-	//check if this was the first unread, if so, recalc the first unread
+	// check if this was the first unread, if so, recalc the first unread
 	if (dbc.ofsFirstUnread == (DWORD)hDbEvent) {
-		DBEvent *dbeNext = &dbe;
-		for (;;) {
+		for (DBEvent *dbeNext = &dbe;;) {
 			if (dbeNext->ofsNext == 0) {
 				dbc.ofsFirstUnread = 0;
 				dbc.tsFirstUnread = 0;
@@ -201,7 +210,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 		}
 	}
 
-	//get previous and next events in chain and change offsets
+	// get previous and next events in chain and change offsets
 	if (dbe.ofsPrev == 0) {
 		if (dbe.ofsNext == 0)
 			dbc.ofsFirstEvent = dbc.ofsLastEvent = 0;
@@ -229,15 +238,17 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 			DBWrite(dbe.ofsNext, dbeNext, sizeof(DBEvent));
 		}
 	}
-	//delete event
-	DeleteSpace((DWORD)hDbEvent, offsetof(DBEvent, blob) + dbe.cbBlob);
-	//decrement event count
+
+	// decrement event count
 	dbc.eventCount--;
 	DBWrite(ofsContact, &dbc, sizeof(DBContact));
 
+	// delete event
+	DeleteSpace((DWORD)hDbEvent, offsetof(DBEvent, blob) + dbe.cbBlob);
+
 	// also update a sub
-	if (dbc.dwContactID != contactID) {
-		DBContact *pSub = (DBContact*)DBRead(GetContactOffset(dbc.dwContactID), sizeof(DBContact), NULL);
+	if (cc && dbe.contactID != cc->contactID) {
+		DBContact *pSub = (DBContact*)DBRead(GetContactOffset(dbe.contactID), sizeof(DBContact), NULL);
 		if (pSub->eventCount > 0)
 			pSub->eventCount--;
 	}
