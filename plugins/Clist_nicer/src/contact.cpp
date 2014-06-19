@@ -267,15 +267,19 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 
 int SetHideOffline(WPARAM wParam, LPARAM lParam)
 {
+	int newVal = (int)wParam;
 	switch ((int)wParam) {
 	case 0:
 		cfg::writeByte("CList", "HideOffline", 0); break;
 	case 1:
 		cfg::writeByte("CList", "HideOffline", 1); break;
 	case -1:
-		cfg::writeByte("CList", "HideOffline", (BYTE) ! cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)); break;
+		newVal = !cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+		cfg::writeByte("CList", "HideOffline", (BYTE)newVal);
+		break;
 	}
 	SetButtonStates(pcli->hwndContactList);
+	ClcSetButtonState(IDC_TBHIDEOFFLINE, newVal);
 	LoadContactTree();
 	return 0;
 }

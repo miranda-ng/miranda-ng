@@ -171,6 +171,10 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED);
 		SetButtonStates(pcli->hwndContactList);
 	}
+	else if (!__strcmp(cws->szModule, "CList") && !__strcmp(cws->szSetting, "UseGroups")) {
+		ClcSetButtonState(IDC_TBHIDEGROUPS, cfg::getByte(cws->szModule, cws->szSetting, SETTING_USEGROUPS_DEFAULT));
+		SetButtonStates(pcli->hwndContactList);
+	}
 	else if (!__strcmp(cws->szModule, "TopToolBar") && !__strcmp(cws->szSetting, "UseFlatButton")) {
 		SetButtonToSkinned();
 	}

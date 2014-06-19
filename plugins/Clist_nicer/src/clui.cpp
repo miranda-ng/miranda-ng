@@ -1566,7 +1566,8 @@ buttons_done:
 					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 					cfg::writeByte("CList", "UseGroups", (BYTE)newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
-					CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);
+					ClcSetButtonState(IDC_TBHIDEGROUPS, newVal);
+					SetButtonStates(hwnd);
 				}
 				break;
 			case POPUP_HIDEMIRANDA:
