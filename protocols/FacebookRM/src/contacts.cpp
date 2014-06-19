@@ -413,3 +413,24 @@ int FacebookProto::OnContactDeleted(WPARAM wParam,LPARAM)
 
 	return 0;
 }
+
+
+void FacebookProto::StartTyping(MCONTACT hContact) {
+	// ignore if contact is already typing
+	if (facy.typing.find(hContact) != facy.typing.end())
+		return;
+
+	// show notification and insert into typing set
+	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)FACEBOOK_TYPING_TIME);
+	facy.typing.insert(hContact);
+}
+
+void FacebookProto::StopTyping(MCONTACT hContact) {
+	// ignore if contact is not typing
+	if (facy.typing.find(hContact) == facy.typing.end())
+		return;
+
+	// show notification and remove from typing set
+	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+	facy.typing.erase(hContact);
+}

@@ -56,6 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_TIMEOUTS_LIMIT					3
 #define FACEBOOK_GROUP_NAME_LIMIT				100
 #define FACEBOOK_MESSAGES_ON_OPEN_LIMIT			99
+#define FACEBOOK_TYPING_TIME					60
 
 // Defaults
 #define FACEBOOK_MINIMAL_POLL_RATE				10

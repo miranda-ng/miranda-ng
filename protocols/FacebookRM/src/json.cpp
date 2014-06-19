@@ -582,9 +582,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 			JSONNODE *st = json_get(it, "st");
 			if (json_as_int(st) == 1)
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)60);
+				proto->StartTyping(hContact);
 			else
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+				proto->StopTyping(hContact);
 		} else if (t == "ttyp") {
 			// multi chat typing notification
 

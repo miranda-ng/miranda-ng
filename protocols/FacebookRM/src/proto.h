@@ -190,14 +190,16 @@ public:
 	void __cdecl SendPokeWorker(void*);
 
 	// Contacts handling
-	bool     IsMyContact(MCONTACT, bool include_chat = false);
-	MCONTACT ContactIDToHContact(std::string);
-	MCONTACT ChatIDToHContact(std::tstring);
-	std::string ThreadIDToContactID(std::string thread_id);
-	void FacebookProto::LoadContactInfo(facebook_user* fbu);
-	MCONTACT AddToContactList(facebook_user*, ContactType type, bool force_add = false);
-	void     SetAllContactStatuses(int status);
-	MCONTACT HContactFromAuthEvent(HANDLE hEvent);
+	bool		IsMyContact(MCONTACT, bool include_chat = false);
+	MCONTACT	ContactIDToHContact(std::string);
+	MCONTACT	ChatIDToHContact(std::tstring);
+	std::string	ThreadIDToContactID(std::string thread_id);
+	void		LoadContactInfo(facebook_user* fbu);
+	MCONTACT	AddToContactList(facebook_user*, ContactType type, bool force_add = false);
+	void		SetAllContactStatuses(int status);
+	MCONTACT	HContactFromAuthEvent(HANDLE hEvent);
+	void		StartTyping(MCONTACT hContact);
+	void		StopTyping(MCONTACT hContact);
 
 	// Chats handling
  	void AddChat(const TCHAR *id, const TCHAR *name);

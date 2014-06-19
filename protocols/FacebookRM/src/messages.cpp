@@ -24,7 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int FacebookProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
-	//CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+	StopTyping(hContact);
+
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, NULL);
 
 	return Proto_RecvMessage(hContact, pre);
