@@ -27,24 +27,24 @@ Jako środek bezpieczeństwa dodanego konta, będziesz musiał udzielić dostęp
 [Go to email domain]
 Przejdź do domeny e-mail
 [Block]
-
+Zablokuj
 ;file \protocols\Steam\src\steam_contacts.cpp
 [%s has added you to his or her Friend List]
 %s dodał cię do listy kontaktów
 ;file \protocols\Steam\src\steam_dialogs.cpp
 [Fatal error, image services not found. Avatar services will be disabled.]
-
+Błąd krytyczny, nie znaleziono usługi obrazów. Usługa awatarów zostanie wyłączona
 [Avatar Service]
-
+Usługa awatarów
 [Name]
-
+Nazwa
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 Połączenie %s
 [Network]
 Sieć
 [Blocked contacts]
-
+Kontakty zablokowane
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Wybór menu Steam
@@ -54,7 +54,7 @@ Poproś o autoryzację
 Dołącz do gry
 ;file \protocols\Steam\src\steam_pooling.cpp
 [%s has been removed from your contact list]
-
+%s został usunięty z listy kontaktów
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoły
