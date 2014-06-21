@@ -23,18 +23,30 @@
 На этой учётной записи включен Steam Guard, поэтому необходимо ввести специальный код, который был выслан на ваш адрес электронной почты.
 [Go to email domain]
 Перейти в почтовый ящик
+[Block]
+Заблокировать
 [%s has added you to his or her Friend List]
 Вы добавлены в список друзей %s
+[Fatal error, image services not found. Avatar services will be disabled.]
+Неустранимая ошибка, не найдена служба изображений. Аватары будут отключены.
+[Avatar Service]
+Служба аватар
+[Name]
+Имя
 [%s connection]
 %s подключение
 [Network]
 Сеть
+[Blocked contacts]
+Заблокированные контакты
 [Steam menu chooser]
 Выбор меню Steam
 [Request authorization]
 Запросить авторизацию
 [Join to game]
 Присоединиться к игре
+[%s has been removed from your contact list]
+%s удалён из вашего списка контактов
 [Protocols]
 Протоколы
 [Protocol icon]

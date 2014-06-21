@@ -26,14 +26,25 @@ Steam Guard
 Jako środek bezpieczeństwa dodanego konta, będziesz musiał udzielić dostępu podając specjalny kod, który właśnie wysłaliśmy na twój adres e-mail.
 [Go to email domain]
 Przejdź do domeny e-mail
+[Block]
+
 ;file \protocols\Steam\src\steam_contacts.cpp
 [%s has added you to his or her Friend List]
 %s dodał cię do listy kontaktów
+;file \protocols\Steam\src\steam_dialogs.cpp
+[Fatal error, image services not found. Avatar services will be disabled.]
+
+[Avatar Service]
+
+[Name]
+
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 Połączenie %s
 [Network]
 Sieć
+[Blocked contacts]
+
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Wybór menu Steam
@@ -41,6 +52,9 @@ Wybór menu Steam
 Poproś o autoryzację
 [Join to game]
 Dołącz do gry
+;file \protocols\Steam\src\steam_pooling.cpp
+[%s has been removed from your contact list]
+
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoły

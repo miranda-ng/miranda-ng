@@ -26,20 +26,34 @@ Annuler
 
 [Go to email domain]
 
+[Block]
+
 ;file \protocols\Steam\src\steam_contacts.cpp
 [%s has added you to his or her Friend List]
+
+;file \protocols\Steam\src\steam_dialogs.cpp
+[Fatal error, image services not found. Avatar services will be disabled
+
+[Avatar Service]
+
+[Name]
 
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 
 [Network]
 Réseau
+[Blocked contacts]
+
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 
 [Request authorization]
 Demander l'autorisation
 [Join to game]
+
+;file \protocols\Steam\src\steam_pooling.cpp
+[%s has been removed from your contact list]
 
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
