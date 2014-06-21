@@ -112,6 +112,11 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			case 1:
 				// ignored
 				// todo
+				MCONTACT hContact = FindContact(steamId);
+				if (hContact)
+				{
+					setByte(hContact, "Block", 1);
+				}
 				break;
 
 			case 2:

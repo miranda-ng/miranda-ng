@@ -202,9 +202,16 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 			node = json_get(child, "steamid");
 			ptrA steamId(mir_u2a(json_as_string(node)));
 
+			MCONTACT hContact = FindContact(steamId);
+			if (!hContact)
+			{
+				hContact = AddContact(steamId);
+				steamIds.append(steamId).append(",");
+			}
+
 			node = json_get(child, "relationship");
 			ptrA relationship(mir_u2a(json_as_string(node)));
-			if (!lstrcmpiA(relationship, "friend"))
+			/*if (!lstrcmpiA(relationship, "friend"))
 			{
 				if (!FindContact(steamId))
 				{
@@ -212,16 +219,14 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 					steamIds.append(steamId).append(",");
 				}
 			}
-			else if (!lstrcmpiA(relationship, "ignoredfriend"))
+			else */if (!lstrcmpiA(relationship, "ignoredfriend"))
 			{
 				// todo
+				setByte(hContact, "Block", 1);
 			}
 			else if (!lstrcmpiA(relationship, "requestrecipient"))
 			{
-				MCONTACT hContact = FindContact(steamId);
-				if (!hContact)
-					hContact = AddContact(steamId, true);
-
+				// todo
 				//RaiseAuthRequestThread((void*)hContact);
 			}
 			else continue;
@@ -310,6 +315,14 @@ void CSteamProto::OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg)
 	db_unset(param->hContact, "CList", "NotOnList");
 
 	ProtoBroadcastAck(param->hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, param->hAuth, 0);
+}
+
+void CSteamProto::OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg)
+{
+	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
+	{
+		debugLogA("CSteamProto::OnFriendIgnored: failed to ignore friend %s", ptrA((char*)arg));
+	}
 }
 
 void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)

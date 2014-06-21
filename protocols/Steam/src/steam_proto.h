@@ -40,7 +40,7 @@ enum
 	CMI_AUTH_REQUEST,
 	//CMI_AUTH_GRANT,
 	//CMI_AUTH_REVOKE,
-	//CMI_BLOCK,
+	CMI_BLOCK,
 	CMI_JOIN_GAME,
 	CMI_MAX   // this item shall be the last one
 };
@@ -203,6 +203,7 @@ protected:
 	void OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg);
 
 	void OnFriendAdded(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg);
 	void OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg);
 
 	void OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg);
@@ -224,6 +225,7 @@ protected:
 	static HGENMENU contactMenuItems[CMI_MAX];
 
 	int __cdecl AuthRequestCommand(WPARAM, LPARAM);
+	int __cdecl BlockCommand(WPARAM, LPARAM);
 	int __cdecl JoinToGameCommand(WPARAM, LPARAM);
 
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);

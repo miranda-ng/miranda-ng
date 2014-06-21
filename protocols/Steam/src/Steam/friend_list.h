@@ -38,6 +38,29 @@ namespace SteamWebApi
 		}
 	};
 
+	class BlockFriendRequest : public HttpsPostRequest
+	{
+	public:
+		BlockFriendRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
+			HttpsPostRequest(STEAM_COM_URL "/actions/BlockUserAjax")
+		{
+			char login[MAX_PATH];
+			mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);
+
+			char cookie[MAX_PATH];
+			mir_snprintf(cookie, SIZEOF(cookie), "steamLogin=%s;sessionid=%s;forceMobile=1", login, sessionId);
+
+			char data[128];
+			mir_snprintf(data, SIZEOF(data),
+				"sessionID=%s&action=ignore&steamid=%s",
+				sessionId,
+				who);
+
+			SetData(data, strlen(data));
+			AddHeader("Cookie", cookie);
+		}
+	};
+
 	class RemoveFriendRequest : public HttpsPostRequest
 	{
 	public:
