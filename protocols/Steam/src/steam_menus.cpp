@@ -50,6 +50,18 @@ int CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+int CSteamProto::OpenBlockListCommand(WPARAM, LPARAM)
+{
+	ptrA token(getStringA("TokenSecret"));
+	ptrA steamId(getStringA("SteamID"));
+
+	PushRequest(
+		new SteamWebApi::GetFriendListRequest(token, steamId, "ignoredfriend"),
+		&CSteamProto::OnGotBlockList);
+
+	return 0;
+}
+
 int CSteamProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
@@ -80,6 +92,44 @@ int CSteamProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 	CSteamProto* ppro = CSteamProto::GetContactProtoInstance((MCONTACT)wParam);
 	return (ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;
+}
+
+void CSteamProto::OnInitStatusMenu()
+{
+	char text[200];
+	strcpy(text, m_szModuleName);
+	char* tDest = text + strlen(text);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.pszService = text;
+
+	HGENMENU hSteamRoot = MO_GetProtoRootMenu(m_szModuleName);
+	if (!hSteamRoot)
+	{
+		mi.ptszName = m_tszUserName;
+		mi.position = -1999901006;
+		mi.hParentMenu = HGENMENU_ROOT;
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		//mi.icolibItem = NULL;
+		hSteamRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
+	}
+	else
+	{
+		if (m_hMenuRoot)
+			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
+		m_hMenuRoot = NULL;
+	}
+
+	mi.hParentMenu = hSteamRoot;
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR;
+
+	// Show block list
+	strcpy(tDest, "/BlockList");
+	CreateProtoService(tDest, &CSteamProto::OpenBlockListCommand);
+	mi.ptszName = LPGENT("Blocked contacts");
+	mi.position = 200000 + SMI_BLOCKED_LIST;
+	//mi.icolibItem = NULL;
+	Menu_AddProtoMenuItem(&mi);
 }
 
 void CSteamProto::InitMenus()
@@ -121,5 +171,8 @@ void CSteamProto::InitMenus()
 
 void CSteamProto::UninitMenus()
 {
-	CallService(MS_CLIST_REMOVETRAYMENUITEM, (WPARAM)contactMenuItems[CMI_JOIN_GAME], 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)contactMenuItems[CMI_AUTH_REQUEST], 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)contactMenuItems[CMI_BLOCK], 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)contactMenuItems[CMI_JOIN_GAME], 0);
 }
+

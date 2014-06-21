@@ -42,6 +42,7 @@ enum
 	//CMI_AUTH_REVOKE,
 	CMI_BLOCK,
 	CMI_JOIN_GAME,
+	SMI_BLOCKED_LIST,
 	CMI_MAX   // this item shall be the last one
 };
 
@@ -199,6 +200,7 @@ protected:
 	MCONTACT AddContact(const char *steamId, bool isTemporary = false);
 
 	void OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg);
+	void OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg);
 	void OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *arg);
 	void OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg);
 
@@ -228,10 +230,14 @@ protected:
 	int __cdecl BlockCommand(WPARAM, LPARAM);
 	int __cdecl JoinToGameCommand(WPARAM, LPARAM);
 
+	int __cdecl OpenBlockListCommand(WPARAM, LPARAM);
+
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
+
+	void OnInitStatusMenu();
 
 	// avatars
 	wchar_t * GetAvatarFilePath(MCONTACT hContact);

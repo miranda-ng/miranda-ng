@@ -244,6 +244,47 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 }
 
+void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
+{
+	JSONNODE *root = json_parse(response->pData), *node, *child;
+
+	if (root == NULL)
+		return;
+
+	//std::string steamIds;
+
+	node = json_get(root, "friends");
+	root = json_as_array(node);
+	if (root != NULL)
+	{
+		for (size_t i = 0; i < json_size(root); i++)
+		{
+			child = json_at(root, i);
+			if (child == NULL)
+				break;
+
+			node = json_get(child, "steamid");
+			ptrA steamId(mir_u2a(json_as_string(node)));
+
+			/*MCONTACT hContact = FindContact(steamId);
+			if (!hContact)
+			{
+				hContact = AddContact(steamId);
+				steamIds.append(steamId).append(",");
+			}*/
+
+			node = json_get(child, "relationship");
+			ptrA relationship(mir_u2a(json_as_string(node)));
+
+			if (!lstrcmpiA(relationship, "ignoredfriend"))
+			{
+				// todo: open block list
+			}
+			else continue;
+		}
+	}
+}
+
 void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	JSONNODE *root = json_parse(response->pData), *node, *item;

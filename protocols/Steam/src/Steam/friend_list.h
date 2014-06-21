@@ -6,12 +6,12 @@ namespace SteamWebApi
 	class GetFriendListRequest : public HttpsGetRequest
 	{
 	public:
-		GetFriendListRequest(const char *token, const char *steamId) :
+		GetFriendListRequest(const char *token, const char *steamId, const char *relationship = "friend,ignoredfriend,requestrecipient") :
 			HttpsGetRequest(STEAM_API_URL "/ISteamUserOAuth/GetFriendList/v0001")
 		{
 			AddParameter("access_token", token);
 			AddParameter("steamid", steamId);
-			AddParameter("relationship=friend,ignoredfriend,requestrecipient");
+			AddParameter("relationship", relationship);
 		}
 	};
 

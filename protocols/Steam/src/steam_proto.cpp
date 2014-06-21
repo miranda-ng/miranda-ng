@@ -372,8 +372,6 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 	case EV_PROTO_ONCONTACTDELETED:
 		if (IsOnline())
 		{
-			//ForkThread(&CSteamProto::RemoveContactThread, (void*)getStringA(wParam, "SteamID"));
-
 			ptrA token(getStringA("TokenSecret"));
 			ptrA sessionId(getStringA("SessionID"));
 			ptrA steamId(getStringA("SteamID"));
@@ -386,9 +384,9 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 		}
 		return 0;
 
-	/*case EV_PROTO_ONMENU:
+	case EV_PROTO_ONMENU:
 		this->OnInitStatusMenu();
-		break;*/
+		break;
 	}
 
 	return 1;
