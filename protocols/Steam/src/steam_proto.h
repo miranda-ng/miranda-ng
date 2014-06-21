@@ -230,7 +230,7 @@ protected:
 	int __cdecl BlockCommand(WPARAM, LPARAM);
 	int __cdecl JoinToGameCommand(WPARAM, LPARAM);
 
-	int __cdecl OpenBlockListCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl OpenBlockListCommand(WPARAM, LPARAM);
 
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 
@@ -263,10 +263,12 @@ protected:
 	static void CSteamProto::ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 	static void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
-	// options
+	// dialog procs
 	static INT_PTR CALLBACK GuardProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK CaptchaProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK BlockListOptionsSubProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK BlockListOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 #endif //_STEAM_PROTO_H_

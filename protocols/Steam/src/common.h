@@ -2,6 +2,7 @@
 #define _COMMON_H_
 
 #include <windows.h>
+#include <commctrl.h>
 #include <time.h>
 
 #include <newpluginapi.h>

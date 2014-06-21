@@ -56,6 +56,11 @@ int CSteamProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = MainOptionsProc;
 	Options_AddPage(wParam, &odp);
 
+	odp.pszTab = LPGEN("Blocked contacts");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BLOCK_LIST);
+	odp.pfnDlgProc = BlockListOptionsProc;
+	Options_AddPage(wParam, &odp);
+
 	mir_free(title);
 
 	return 0;

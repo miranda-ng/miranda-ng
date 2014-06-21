@@ -4,6 +4,8 @@
 //
 #define IDD_ACCMGR                      9
 #define IDD_OPT_MAIN                    10
+#define IDD_OPT_BLOCKED                 20
+#define IDD_OPT_BLOCK_LIST              20
 #define IDD_IGNORE_LIST                 21
 #define IDD_CAPTCHA                     118
 #define IDI_ICON1                       119
@@ -21,10 +23,11 @@
 #define IDC_REGISTER                    1018
 #define IDC_DEFAULT_GROUP               1020
 #define IDC_GROUP                       1021
+#define IDC_CONTACTS                    1050
+#define IDC_BLOCK                       1059
 #define IDC_BM_LIST                     1064
+#define IDC_LIST                        1065
 #define IDC_TEXT                        1082
-#define IDC_CUSTOM1                     1083
-#define IDC_BUTTON1                     1084
 #define IDC_OPENDOMAIN                  1200
 #define IDC_GETDOMAIN                   1200
 

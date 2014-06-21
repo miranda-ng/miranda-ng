@@ -50,7 +50,7 @@ int CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int CSteamProto::OpenBlockListCommand(WPARAM, LPARAM)
+INT_PTR CSteamProto::OpenBlockListCommand(WPARAM, LPARAM)
 {
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(getStringA("SteamID"));
