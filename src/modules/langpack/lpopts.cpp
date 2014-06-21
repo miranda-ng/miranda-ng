@@ -72,9 +72,8 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 
 static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lParam)
 {
-	LANGPACK_INFO *pack2 = (LANGPACK_INFO*)mir_alloc(sizeof(LANGPACK_INFO));
-	if (pack2 == NULL) return FALSE;
-	CopyMemory(pack2, pack, sizeof(LANGPACK_INFO));
+	LANGPACK_INFO *pack2 = new LANGPACK_INFO();
+	*pack2 = *pack;
 
 	/* insert */
 	TCHAR tszName[512];
@@ -118,15 +117,6 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwndDlg);
 		ComboBox_ResetContent(hwndList);
 		EnumLangpacks(InsertPackItemEnumProc, (WPARAM)hwndList, (LPARAM)0);
-		return TRUE;
-
-	case WM_DESTROY:
-		{
-			int count = ListBox_GetCount(hwndList);
-			for (int i = 0; i < count; i++)
-				mir_free((LANGPACK_INFO*)ListBox_GetItemData(hwndList, i));
-			ComboBox_ResetContent(hwndList);
-		}
 		return TRUE;
 
 	case WM_COMMAND:
@@ -194,6 +184,13 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 		}
 		break;
+
+	case WM_DESTROY:
+		int count = ListBox_GetCount(hwndList);
+		for (int i = 0; i < count; i++)
+			delete (LANGPACK_INFO*)ListBox_GetItemData(hwndList, i);
+		ComboBox_ResetContent(hwndList);
+		return TRUE;
 	}
 	return FALSE;
 }

@@ -35,22 +35,21 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 
 	/* language folder */
 	ptrT langpack(db_get_tsa(NULL, "Langpack", "Current"));
-
-	LANGPACK_INFO pack;
-	PathToAbsoluteT(_T("\\Languages\\langpack_*.txt"), pack.tszFullPath);
+	
+	TCHAR tszFullPath[MAX_PATH];
+	PathToAbsoluteT(_T("\\Languages\\langpack_*.txt"), tszFullPath);
 
 	BOOL fPackFound = FALSE;
 	WIN32_FIND_DATA wfd;
-	HANDLE hFind = FindFirstFile(pack.tszFullPath, &wfd);
+	HANDLE hFind = FindFirstFile(tszFullPath, &wfd);
 	if (hFind != INVALID_HANDLE_VALUE) {
 		do {
 			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 			/* get data */
-			TCHAR tszFullPath[MAX_PATH];
 			PathToAbsoluteT(_T("\\Languages\\"), tszFullPath);
 			lstrcat(tszFullPath, wfd.cFileName);
 
-			ZeroMemory(&pack, sizeof(pack));
+			LANGPACK_INFO pack;
 			if (!LoadLangPackDescr(tszFullPath, &pack)) {
 				pack.ftFileDate = wfd.ftLastWriteTime;
 				/* enabled? */
@@ -68,13 +67,13 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 
 	/* default langpack: English */
 	if (callback != NULL) {
-		ZeroMemory(&pack, sizeof(pack));
+		LANGPACK_INFO pack;
 		pack.Locale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
 		lstrcpy(pack.tszLanguage, _T("English"));
-		lstrcpyA(pack.szAuthors, "Miranda NG Development Team");
-		lstrcpyA(pack.szAuthorEmail, "project-info@miranda-ng.org");
+		pack.szAuthors = "Miranda NG Development Team";
+		pack.szAuthorEmail = "project-info@miranda-ng.org";
 		DWORD v = CallService(MS_SYSTEM_GETVERSION, 0, 0);
-		mir_snprintf(pack.szLastModifiedUsing, sizeof(pack.szLastModifiedUsing), "%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
+		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 		/* file date */
 		if (GetModuleFileName(NULL, pack.tszFullPath, SIZEOF(pack.tszFullPath))) {
 			lstrcpy(pack.tszFileName, _tcsrchr(pack.tszFullPath, '\\') + 1);

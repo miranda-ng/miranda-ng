@@ -45,9 +45,7 @@ struct LANGPACK_INFO
 	TCHAR tszLanguage[64];
 	LCID Locale;
 	WORD codepage;
-	char szAuthors[2048];
-	char szAuthorEmail[128];
-	char szLastModifiedUsing[64];
+	CMStringA szAuthors, szAuthorEmail, szLastModifiedUsing;
 	FILETIME ftFileDate;
 	TCHAR tszFileName[MAX_PATH]; /* just the file name itself */
 	TCHAR tszFullPath[MAX_PATH]; /* full path to the langpack */

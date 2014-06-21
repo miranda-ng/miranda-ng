@@ -327,14 +327,23 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 			return 3;
 
 		*pszColon++ = 0;
-		if (!lstrcmpA(line, "Language")) { mir_snprintf(szLanguage, sizeof(szLanguage), "%s", pszColon); lrtrim(szLanguage); }
-		else if (!lstrcmpA(line, "Last-Modified-Using")) { mir_snprintf(lpinfo.szLastModifiedUsing, sizeof(lpinfo.szLastModifiedUsing), "%s", pszColon); lrtrim(lpinfo.szLastModifiedUsing); }
+		if (!lstrcmpA(line, "Language")) { 
+			mir_snprintf(szLanguage, sizeof(szLanguage), "%s", pszColon); 
+			lrtrim(szLanguage);
+		}
+		else if (!lstrcmpA(line, "Last-Modified-Using")) {
+			lpinfo.szLastModifiedUsing = pszColon;
+			lpinfo.szLastModifiedUsing.Trim();
+		}
 		else if (!lstrcmpA(line, "Authors")) {
 			if (!szAuthors.IsEmpty())
 				szAuthors.AppendChar(' ');
 			szAuthors.Append(lrtrim(pszColon));
 		}
-		else if (!lstrcmpA(line, "Author-email")) { mir_snprintf(lpinfo.szAuthorEmail, sizeof(lpinfo.szAuthorEmail), "%s", pszColon); lrtrim(lpinfo.szAuthorEmail); }
+		else if (!lstrcmpA(line, "Author-email")) {
+			lpinfo.szAuthorEmail = pszColon;
+			lpinfo.szAuthorEmail.Trim();
+		}
 		else if (!lstrcmpA(line, "Locale")) {
 			char szBuf[20], *stopped;
 
@@ -347,7 +356,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 		}
 	}
 
-	strncpy_s(lpinfo.szAuthors, SIZEOF(lpinfo.szAuthors), szAuthors, _TRUNCATE);
+	lpinfo.szAuthors = szAuthors;
 
 	MultiByteToWideChar(lpinfo.codepage, 0, szLanguage, -1, lpinfo.tszLanguage, SIZEOF(lpinfo.tszLanguage));
 
@@ -627,8 +636,6 @@ MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 MIR_CORE_DLL(int) LoadLangPackModule(void)
 {
 	bModuleInitialized = TRUE;
-
-	ZeroMemory(&langPack, sizeof(langPack));
 
 	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
 
