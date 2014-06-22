@@ -79,8 +79,7 @@ MCONTACT __forceinline db_mc_getMostOnline(MCONTACT hContact)
 }
 
 MCONTACT __forceinline db_mc_getSrmmSub(MCONTACT hContact)
-{
-	return CallService(MS_MC_GETSRMMSUB, hContact, 0);
+{	return CallService(MS_MC_GETSRMMSUB, hContact, 0);
 }
 
 // checks whether metacontacts are enabled

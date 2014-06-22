@@ -602,5 +602,5 @@ int CContactCache::getMaxMessageLength()
 
 const MCONTACT CContactCache::getActiveContact() const
 {
-	return (m_isMeta) ? m_hContact : db_mc_getSrmmSub(m_hContact);
+	return (m_isMeta) ? db_mc_getSrmmSub(m_hContact) : m_hContact;
 }
