@@ -513,7 +513,7 @@ void Meta_FixStatus(DBCachedContact *ccMeta)
 {
 	WORD status = ID_STATUS_OFFLINE;
 
-	MCONTACT most_online = Meta_GetMostOnlineSupporting(ccMeta, PFLAGNUM_1, 0);
+	MCONTACT most_online = db_mc_getSrmmSub(ccMeta->contactID);
 	if (most_online) {
 		char *szProto = GetContactProto(most_online);
 		if (szProto)

@@ -814,7 +814,7 @@ int Meta_CallMostOnline(WPARAM hContact, LPARAM lParam)
 	if (cc == NULL)
 		return 0;
 
-	Meta_CopyContactNick(cc, Meta_GetMostOnline(cc));
+	Meta_CopyContactNick(cc, db_mc_getSrmmSub(cc->contactID));
 	Meta_FixStatus(cc);
 	return 0;
 }
