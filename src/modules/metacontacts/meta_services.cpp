@@ -604,11 +604,12 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 	UINT res = TrackPopupMenu(hMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_BOTTOMALIGN | TPM_LEFTALIGN, sicd->clickLocation.x, sicd->clickLocation.y, 0, cli.hwndContactTree, NULL);
 	if (res > 0) {
 		MCONTACT hChosen = Meta_GetContactHandle(cc, res - 1);
-		db_mc_setDefault(cc->contactID, hChosen, true);
 
 		MetaSrmmData tmp = { cc->contactID };
 		if (MetaSrmmData *p = arMetaWindows.find(&tmp))
 			p->m_hSub = hChosen;
+
+		db_mc_setDefault(cc->contactID, hChosen, true);
 	}
 	return 0;
 }
