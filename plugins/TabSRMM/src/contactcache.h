@@ -77,7 +77,7 @@ struct CContactCache : public MZeroedObject
 	const WORD     getOldStatus() const { return m_wOldStatus; }
 	const TCHAR*   getNick() const { return m_szNick; }
 	const MCONTACT getContact() const { return m_hContact; }
-	const MCONTACT getActiveContact() const { return m_isMeta ? db_mc_getMostOnline(m_hContact) : m_hContact; }
+	const MCONTACT getActiveContact() const;
 	const DWORD    getIdleTS() const { return m_idleTS; }
 	const char*    getProto() const { return cc->szProto; }
 	const char*    getActiveProto() const { return m_isMeta ? (m_szMetaProto ? m_szMetaProto : cc->szProto) : cc->szProto; }

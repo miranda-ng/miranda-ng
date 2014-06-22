@@ -33,34 +33,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //wParam=(HANDLE)hMetaContact
 //lParam=0
 //returns a handle to the 'most online' contact
-#define MS_MC_GETMOSTONLINECONTACT			"MetaContacts/GetMostOnline"
+#define MS_MC_GETMOSTONLINECONTACT "MetaContacts/GetMostOnline"
 
 // fired when a metacontact's default contact changes (fired upon creation of metacontact also, when default is initially set)
 // wParam=(HANDLE)hMetaContact
 // lParam=(HANDLE)hDefaultContact
-#define ME_MC_DEFAULTTCHANGED				"MetaContacts/DefaultChanged"
+#define ME_MC_DEFAULTTCHANGED "MetaContacts/DefaultChanged"
 
 // fired when a metacontact's subcontacts change (fired upon creation of metacontact, when contacts are added or removed, and when
 //	contacts are reordered) - a signal to re-read metacontact data
 // wParam=(HANDLE)hMetaContact
 // lParam=0
-#define ME_MC_SUBCONTACTSCHANGED			"MetaContacts/SubcontactsChanged"
+#define ME_MC_SUBCONTACTSCHANGED "MetaContacts/SubcontactsChanged"
 
 // wParam=(HANDLE)hContact
 // lParam=0
 // convert a given contact into a metacontact
-#define MS_MC_CONVERTTOMETA					"MetaContacts/ConvertToMetacontact"
+#define MS_MC_CONVERTTOMETA "MetaContacts/ConvertToMetacontact"
 
 // wParam=(HANDLE)hContact
 // lParam=(HANDLE)hMeta
 // add an existing contact to a metacontact
-#define MS_MC_ADDTOMETA						"MetaContacts/AddToMetacontact"
+#define MS_MC_ADDTOMETA "MetaContacts/AddToMetacontact"
 
-// added 0.9.5.0 (22/3/05)
 // wParam=0
 // lParam=(HANDLE)hContact
 // remove a contact from a metacontact
-#define MS_MC_REMOVEFROMMETA				"MetaContacts/RemoveFromMetacontact"
+#define MS_MC_REMOVEFROMMETA "MetaContacts/RemoveFromMetacontact"
+
+// wParam=(HANDLE)hContact
+// lParam=(HANDLE)hMeta
+// add an existing contact to a metacontact
+#define MS_MC_GETSRMMSUB "MetaContacts/GetSrmmSub"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // binary interface to MC

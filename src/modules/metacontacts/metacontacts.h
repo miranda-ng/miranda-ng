@@ -28,7 +28,12 @@ INT_PTR TranslateMenuFunc(MCONTACT hContact, int i);
 void InitMenus();
 extern int mcStatus;
 
-extern LIST<void> arMetaWindows;
+struct MetaSrmmData
+{
+	MCONTACT m_hMeta, m_hSub;
+	HWND m_hWnd;
+};
+extern OBJLIST<MetaSrmmData> arMetaWindows;
 
 INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam);
 INT_PTR Meta_AddTo(WPARAM wParam,LPARAM lParam);

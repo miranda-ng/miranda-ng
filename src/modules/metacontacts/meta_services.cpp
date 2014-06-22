@@ -40,7 +40,7 @@ HANDLE
 UINT_PTR setStatusTimerId = 0;
 BOOL firstSetOnline = TRUE; // see Meta_SetStatus function
 
-LIST<void> arMetaWindows(1);
+OBJLIST<MetaSrmmData> arMetaWindows(1, NumericKeySortT);
 
 /** Get the capabilities of the "MetaContacts" protocol.
 *
@@ -475,7 +475,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM lParam)
 * @param wParam HANDLE to the contact that we are typing to
 * @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
 */
-INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
+static INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);
 	if (cc == NULL)
@@ -501,7 +501,7 @@ INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 * @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
 */
 
-int Meta_ContactIsTyping(WPARAM hContact, LPARAM lParam)
+static int Meta_ContactIsTyping(WPARAM hContact, LPARAM lParam)
 {
 	if (!db_mc_isEnabled())
 		return 0;
@@ -521,7 +521,7 @@ int Meta_ContactIsTyping(WPARAM hContact, LPARAM lParam)
 *
 */
 
-int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
+static int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);
 	if (cc == NULL || cc->nDefault == -1)
@@ -532,27 +532,42 @@ int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 }
 
 // record window open/close status for subs & metas
-int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
+static int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 	if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
 		DBCachedContact *cc = currDb->m_cache->GetCachedContact(mwed->hContact);
 		if (cc != NULL) {
 			Meta_UpdateSrmmIcon(cc, db_get_w(cc->contactID, META_PROTO, "Status", ID_STATUS_OFFLINE));
-			if (cc->IsMeta())
-				arMetaWindows.insert(mwed->hwndWindow);
+			if (cc->IsMeta()) {
+				MetaSrmmData *p = new MetaSrmmData;
+				p->m_hMeta = cc->contactID;
+				p->m_hSub = db_mc_getMostOnline(cc->contactID);
+				p->m_hWnd = mwed->hwndWindow;
+				arMetaWindows.insert(p);
+			}
 		}
 	}
 	else if (mwed->uType == MSG_WINDOW_EVT_CLOSING) {
 		for (int i = 0; i < arMetaWindows.getCount(); i++)
-			if (arMetaWindows[i] == mwed->hwndWindow)
+			if (arMetaWindows[i].m_hWnd == mwed->hwndWindow)
 				arMetaWindows.remove(i);
 	}
 	return 0;
 }
 
+// returns manually chosen sub in the meta window
+static INT_PTR Meta_SrmmCurrentSub(WPARAM hMeta, LPARAM lParam)
+{
+	MetaSrmmData tmp = { hMeta };
+	if (MetaSrmmData *p = arMetaWindows.find(&tmp))
+		return p->m_hSub;
+
+	return db_mc_getMostOnline(hMeta);
+}
+
 // we assume that it could be called only for the metacontacts
-int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
+static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData*)lParam;
 	if (lstrcmpA(sicd->szModule, META_PROTO))
@@ -563,7 +578,7 @@ int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		return 0;
 
 	HMENU hMenu = CreatePopupMenu();
-	int iDefault = Meta_GetContactNumber(cc, Meta_GetMostOnline(cc));
+	int iDefault = Meta_GetContactNumber(cc, CallService(MS_MC_GETSRMMSUB, cc->contactID, 0));
 	TCHAR tszItemName[200];
 
 	MENUITEMINFO mii = { sizeof(mii) };
@@ -575,7 +590,8 @@ int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		if (szProto == NULL) continue;
 
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
-		if (pa == NULL) continue;
+		if (pa == NULL)
+			continue;
 
 		mir_sntprintf(tszItemName, SIZEOF(tszItemName), _T("%s [%s]"),
 			cli.pfnGetContactDisplayName(cc->pSubs[i], 0), pa->tszAccountName);
@@ -586,8 +602,14 @@ int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 	}
 
 	UINT res = TrackPopupMenu(hMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_BOTTOMALIGN | TPM_LEFTALIGN, sicd->clickLocation.x, sicd->clickLocation.y, 0, cli.hwndContactTree, NULL);
-	if (res > 0)
-		db_mc_setDefault(cc->contactID, Meta_GetContactHandle(cc, res-1), true);
+	if (res > 0) {
+		MCONTACT hChosen = Meta_GetContactHandle(cc, res - 1);
+		db_mc_setDefault(cc->contactID, hChosen, true);
+
+		MetaSrmmData tmp = { cc->contactID };
+		if (MetaSrmmData *p = arMetaWindows.find(&tmp))
+			p->m_hSub = hChosen;
+	}
 	return 0;
 }
 
@@ -856,6 +878,7 @@ void Meta_InitServices()
 	CreateApiServices();
 
 	CreateServiceFunction("MetaContacts/OnOff", Meta_OnOff);
+	CreateServiceFunction(MS_MC_GETSRMMSUB, Meta_SrmmCurrentSub);
 
 	CreateProtoServiceFunction(META_PROTO, PS_SEND_NUDGE, Meta_SendNudge);
 

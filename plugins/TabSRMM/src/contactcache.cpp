@@ -599,3 +599,10 @@ int CContactCache::getMaxMessageLength()
 	}
 	return m_nMax;
 }
+
+const MCONTACT CContactCache::getActiveContact() const
+{
+	if (!m_isMeta)
+		return m_hContact;
+	return CallService(MS_MC_GETSRMMSUB, m_hContact, 0);
+}
