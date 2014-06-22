@@ -78,6 +78,11 @@ MCONTACT __forceinline db_mc_getMostOnline(MCONTACT hContact)
 {	return CallService(MS_MC_GETMOSTONLINECONTACT, hContact, 0);
 }
 
+MCONTACT __forceinline db_mc_getSrmmSub(MCONTACT hContact)
+{
+	return CallService(MS_MC_GETSRMMSUB, hContact, 0);
+}
+
 // checks whether metacontacts are enabled
 MIR_CORE_DLL(BOOL) db_mc_isEnabled(void);
 MIR_CORE_DLL(void) db_mc_enable(BOOL);

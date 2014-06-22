@@ -150,7 +150,7 @@ bool CContactCache::updateStatus()
  */
 void CContactCache::updateMeta(bool fForce)
 {
-	m_szMetaProto = (m_Valid) ? GetContactProto(db_mc_getMostOnline(cc->contactID)) : NULL;
+	m_szMetaProto = (m_Valid) ? GetContactProto(db_mc_getSrmmSub(cc->contactID)) : NULL;
 }
 
 /**
@@ -602,7 +602,5 @@ int CContactCache::getMaxMessageLength()
 
 const MCONTACT CContactCache::getActiveContact() const
 {
-	if (!m_isMeta)
-		return m_hContact;
-	return CallService(MS_MC_GETSRMMSUB, m_hContact, 0);
+	return (m_isMeta) ? m_hContact : db_mc_getSrmmSub(m_hContact);
 }

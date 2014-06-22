@@ -216,7 +216,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 	}
 
-	MCONTACT hMostOnline = Meta_GetMostOnline(cc);
+	MCONTACT hMostOnline = db_mc_getSrmmSub(cc->contactID);
 	if (!hMostOnline) {
 		// send failure to notify user of reason
 		HANDLE hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -578,7 +578,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		return 0;
 
 	HMENU hMenu = CreatePopupMenu();
-	int iDefault = Meta_GetContactNumber(cc, CallService(MS_MC_GETSRMMSUB, cc->contactID, 0));
+	int iDefault = Meta_GetContactNumber(cc, db_mc_getSrmmSub(cc->contactID));
 	TCHAR tszItemName[200];
 
 	MENUITEMINFO mii = { sizeof(mii) };

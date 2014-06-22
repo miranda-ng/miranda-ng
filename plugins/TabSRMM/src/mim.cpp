@@ -592,7 +592,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	else {
 		char *szProto = GetContactProto(hContact);
 		if (szProto && !strcmp(szProto, META_PROTO))
-			szProto = GetContactProto(db_mc_getMostOnline(hContact));
+			szProto = GetContactProto(db_mc_getSrmmSub(hContact));
 
 		if (szProto) {
 			DWORD dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
