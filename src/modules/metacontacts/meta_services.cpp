@@ -123,11 +123,8 @@ INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam)
 static INT_PTR MetaFilter_RecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(ccs->hContact);
-	if (cc == NULL)
-		return 0;
-	if (cc->IsSub()) {
+	if (cc && cc->IsSub()) {
 		MetaSrmmData tmp = { cc->parentID };
 		if (MetaSrmmData *p = arMetaWindows.find(&tmp))
 			p->m_hSub = cc->contactID;
