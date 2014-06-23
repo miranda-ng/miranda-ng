@@ -70,6 +70,10 @@ int LoadMetacontacts(void)
 	Meta_ReadOptions(&options);
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
+	pd.szName = META_FILTER;
+	pd.type = PROTOTYPE_FILTER;
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+
 	pd.szName = META_PROTO;
 	pd.type = PROTOTYPE_VIRTUAL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);

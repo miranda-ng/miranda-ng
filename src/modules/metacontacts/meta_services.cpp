@@ -118,6 +118,26 @@ INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam)
 		GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR MetaFilter_RecvMessage(WPARAM wParam, LPARAM lParam)
+{
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(ccs->hContact);
+	if (cc == NULL)
+		return 0;
+	if (cc->IsSub()) {
+		MetaSrmmData tmp = { cc->parentID };
+		if (MetaSrmmData *p = arMetaWindows.find(&tmp))
+			p->m_hSub = cc->contactID;
+	}
+	CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CALLBACK SetStatusThread(HWND hWnd, UINT msg, UINT_PTR id, DWORD dw)
 {
 	previousMode = mcStatus;
@@ -556,18 +576,6 @@ static int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int Meta_EventAdded(WPARAM hMeta, LPARAM hDbEvent)
-{
-	MetaSrmmData tmp = { hMeta };
-	if (MetaSrmmData *p = arMetaWindows.find(&tmp)) {
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		db_event_get(HANDLE(hDbEvent), &dbei);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
-			p->m_hSub = db_event_getContact(HANDLE(hDbEvent));
-	}
-	return 0;
-}
-
 // returns manually chosen sub in the meta window
 static INT_PTR Meta_SrmmCurrentSub(WPARAM hMeta, LPARAM lParam)
 {
@@ -880,12 +888,12 @@ void Meta_InitServices()
 
 	// file recv is done by subcontacts
 	CreateProtoServiceFunction(META_PROTO, PSS_FILE, Meta_FileSend);
-
 	CreateProtoServiceFunction(META_PROTO, PSS_GETAWAYMSG, Meta_GetAwayMsg);
-
 	CreateProtoServiceFunction(META_PROTO, PS_GETAVATARINFOT, Meta_GetAvatarInfo);
-
 	CreateProtoServiceFunction(META_PROTO, PSS_GETINFO, Meta_GetInfo);
+
+	// receive filter
+	CreateProtoServiceFunction(META_FILTER, PSR_MESSAGE, MetaFilter_RecvMessage);
 
 	// API services and events
 	CreateApiServices();
@@ -903,7 +911,6 @@ void Meta_InitServices()
 	HookEvent(ME_PROTO_CONTACTISTYPING, Meta_ContactIsTyping);
 	HookEvent(ME_DB_CONTACT_DELETED, Meta_ContactDeleted);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, Meta_SettingChanged);
-	HookEvent(ME_DB_EVENT_ADDED, Meta_EventAdded);
 	HookEvent(ME_OPT_INITIALISE, Meta_OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, Meta_ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, Meta_PreShutdown);
