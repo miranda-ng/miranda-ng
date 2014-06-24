@@ -501,18 +501,6 @@ Kopiowanie historii. Proszę czekać...
 Usuwanie historii
 [Please wait while the contact's history is removed.]
 Usuwanie historii. Proszę czekać...
-[Subcontact Priorities]
-Priorytet subkontaktu
-[Protocol:]
-Protokół:
-[Status:]
-Status:
-[Rank:]
-Ranga:
-[(Lower ranks are preferred)]
-(Preferowane niższe rangi)
-[Reset All]
-Domyślne
 [Current language:]
 Aktualny język:
 [Last modified using:]
@@ -2441,12 +2429,8 @@ Usuń metakontakt
 [Subcontacts]
 Subkontakty
 ;file \src\modules\metacontacts\meta_options.cpp
-[<default>]
-<domyślny>
 [MetaContacts]
 Metakontakty
-[Priorities]
-Priorytet
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Nie znaleziono dostępnych kontaktów.

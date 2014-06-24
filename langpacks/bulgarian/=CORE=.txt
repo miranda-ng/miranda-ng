@@ -501,17 +501,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [Please wait while the contact's history is removed.]
 
-[Subcontact Priorities]
-[Protocol:]
-Протокол:
-[Status:]
-Състояние:
-[Rank:]
-
-[(Lower ranks are preferred)]
-
-[Reset All]
-
 [Current language:]
 
 [Last modified using:]
@@ -2409,12 +2398,8 @@ URL
 [Subcontacts]
 Подконтактите
 ;file \src\modules\metacontacts\meta_options.cpp
-[<default>]
-
 [MetaContacts]
 Метаконтакти
-[Priorities]
-
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 

@@ -501,18 +501,6 @@ UIN, E-mail і г.д.
 Выдаленне гісторыі
 [Please wait while the contact's history is removed.]
 Калі ласка, пачакайце, пакуль гісторыя выдаліцца
-[Subcontact Priorities]
-Прыярытэты субкантактаў
-[Protocol:]
-Пратакол:
-[Status:]
-Статус:
-[Rank:]
-Ранг:
-[(Lower ranks are preferred)]
-(Пераважныя ніжэйшыя рангі)
-[Reset All]
-Скід
 [Last modified using:]
 Праверана на версіі:
 [Date:]
@@ -2435,12 +2423,8 @@ ID
 [Subcontacts]
 Субкантакты
 ;file \src\modules\metacontacts\meta_options.cpp
-[<default>]
-<па змаўчанні>
 [MetaContacts]
 Метакантакты
-[Priorities]
-Прыярытэты
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Няма далучаных кантактаў.

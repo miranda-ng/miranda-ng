@@ -501,18 +501,6 @@ Lista de contactos
 
 [Please wait while the contact's history is removed.]
 
-[Subcontact Priorities]
-
-[Protocol:]
-
-[Status:]
-
-[Rank:]
-
-[(Lower ranks are preferred)]
-
-[Reset All]
-
 [Current language:]
 
 [Last modified using:]
@@ -2441,11 +2429,7 @@ Editar
 [Subcontacts]
 
 ;file \src\modules\metacontacts\meta_options.cpp
-[<default>]
-
 [MetaContacts]
-
-[Priorities]
 
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]

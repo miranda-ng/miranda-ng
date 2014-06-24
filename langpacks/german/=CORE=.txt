@@ -501,18 +501,6 @@ Verlauf wird kopiert, bitte warten.
 Verlauf entfernen
 [Please wait while the contact's history is removed.]
 Verlauf wird entfernt, bitte warten.
-[Subcontact Priorities]
-Prioritäten der Unterkontakte
-[Protocol:]
-Protokoll:
-[Status:]
-Status:
-[Rank:]
-Rang:
-[(Lower ranks are preferred)]
-(niedrigere Ränge werden bevorzugt)
-[Reset All]
-Alle rückg.
 [Current language:]
 Aktuelle Sprache:
 [Last modified using:]
@@ -2441,12 +2429,8 @@ Metakontakt löschen
 [Subcontacts]
 Unterkontakte
 ;file \src\modules\metacontacts\meta_options.cpp
-[<default>]
-<Standard>
 [MetaContacts]
 Metakontakte
-[Priorities]
-Prioritäten
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Keine Onlinekontakte gefunden.
