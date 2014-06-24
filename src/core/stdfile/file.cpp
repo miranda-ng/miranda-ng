@@ -54,7 +54,7 @@ TCHAR* GetContactID(MCONTACT hContact)
 			case CNFT_ASCIIZ:
 				return (TCHAR *)ci.pszVal;
 			case CNFT_DWORD:
-				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)* 32), 10);
+				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR) * 32), 10);
 			}
 		}
 	}
@@ -179,7 +179,10 @@ void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsO
 		else if (size < 1024 * 1024 * 1024) unitsOverride = UNITS_MBPOINT2;
 		else unitsOverride = UNITS_GBPOINT3;
 	}
-	if (unitsUsed) *unitsUsed = unitsOverride;
+
+	if (unitsUsed)
+		*unitsUsed = unitsOverride;
+	
 	switch (unitsOverride) {
 		case UNITS_BYTES: mir_sntprintf(szOut, cchOut, _T("%u%s%s"), (int)size, appendUnits ? _T(" ") : _T(""), appendUnits ? TranslateT("bytes") : _T("")); break;
 		case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, _T("%.1lf%s"), size / 1024.0, appendUnits ? _T(" KB") : _T("")); break;
@@ -305,8 +308,8 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 	bool bEnabled = false;
 	char *szProto = GetContactProto(wParam);
 	if (szProto != NULL) {
-		if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
-			if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
+		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
+			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
 				bEnabled = true;
 			else if (db_get_w(wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 				bEnabled = true;

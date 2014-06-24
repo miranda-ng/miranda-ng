@@ -69,13 +69,11 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 
 static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 {
-	DWORD dwFileAttributes;
-
 	// Make sure that the file matrix is empty (the user may select files several times)
 	FreeFilesMatrix(&dat->files);
 
 	// Get the file attributes of selection
-	dwFileAttributes = GetFileAttributes(buf);
+	DWORD dwFileAttributes = GetFileAttributes(buf);
 	if (dwFileAttributes == INVALID_FILE_ATTRIBUTES)
 		return;
 
