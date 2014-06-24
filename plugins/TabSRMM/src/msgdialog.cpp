@@ -2499,7 +2499,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (!dat)
 			return 0;
 		if (dat->hContact)
-			if (wParam == dat->hContact || wParam == db_mc_getMeta(dat->hContact))
+			if (dat->hContact == wParam || dat->hContact == db_event_getContact(HANDLE(lParam)))
 				DM_EventAdded(dat, dat->hContact, lParam);
 		return 0;
 
@@ -2799,9 +2799,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		if (!dat)
 			break;
+		
 		// custom button handling
-		if (LOWORD(wParam)>=MIN_CBUTTONID&&LOWORD(wParam)<=MAX_CBUTTONID) {
-			BB_CustomButtonClick(dat,LOWORD(wParam) ,GetDlgItem(hwndDlg,LOWORD(wParam)),0);
+		if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
+			BB_CustomButtonClick(dat, LOWORD(wParam), GetDlgItem(hwndDlg, LOWORD(wParam)), 0);
 			break;
 		}
 

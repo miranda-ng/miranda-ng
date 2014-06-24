@@ -1594,7 +1594,7 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
  * incoming event handler
  */
 
-void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
+void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 {
 	TContainerData *m_pContainer = dat->pContainer;
 	DWORD dwTimestamp = 0;
@@ -1642,32 +1642,28 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		if (!bDisableNotify)
-			tabSRMM_ShowPopup(wParam, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
+			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
 		if (IsWindowVisible(m_pContainer->hwnd))
 			m_pContainer->fHidden = false;
 	}
 	dat->cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
 	if (hDbEvent != dat->hDbEventFirst) {
-		HANDLE nextEvent = db_event_next(dat->hContact, hDbEvent);
-		if (1 || nextEvent == 0) {
-			if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
-				SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);
-			else {
-				TCHAR szBuf[100];
-
-				if (dat->iNextQueuedEvent >= dat->iEventQueueSize) {
-					dat->hQueuedEvents = (HANDLE*)mir_realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(HANDLE));
-					dat->iEventQueueSize += 10;
-				}
-				dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;
-				mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
-					dat->iNextQueuedEvent);
-				SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
-				RedrawWindow(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), NULL, NULL, RDW_INVALIDATE);
+		if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+			SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);
+		else {
+			if (dat->iNextQueuedEvent >= dat->iEventQueueSize) {
+				dat->hQueuedEvents = (HANDLE*)mir_realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(HANDLE));
+				dat->iEventQueueSize += 10;
 			}
+			dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;
+
+			TCHAR szBuf[100];
+			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
+				dat->iNextQueuedEvent);
+			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
+			RedrawWindow(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), NULL, NULL, RDW_INVALIDATE);
 		}
-		else SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 	}
 	else SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 
