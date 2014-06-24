@@ -51,7 +51,6 @@
 #define IDD_METASELECT                  151
 #define IDD_METAEDIT                    152
 #define IDD_METAOPTIONS                 153
-#define IDD_METACOPYPROGRESS            156
 #define IDI_DND                         158
 #define IDI_OCCUPIED                    159
 #define IDI_USERDETAILS                 160
