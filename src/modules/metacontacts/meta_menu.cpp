@@ -428,7 +428,6 @@ void InitMenus()
 	mi.pszName = LPGEN("Subcontacts");
 	hMenuRoot = Menu_AddContactMenuItem(&mi);
 
-
 	mi.flags = CMIF_HIDDEN | CMIF_CHILDPOPUP;
 	mi.hParentMenu = hMenuRoot;
 	for (int i = 0; i < MAX_CONTACTS; i++) {

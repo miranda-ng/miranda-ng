@@ -230,6 +230,22 @@ MCONTACT Meta_GetMostOnline(DBCachedContact *cc)
 * @return HANDLE to a contact
 */
 
+static int GetStatusPriority(int status)
+{
+	switch (status) {
+		case ID_STATUS_OFFLINE:    return 8;
+		case ID_STATUS_AWAY:       return 4;
+		case ID_STATUS_DND:        return 7;
+		case ID_STATUS_NA:         return 6;
+		case ID_STATUS_OCCUPIED:   return 5;
+		case ID_STATUS_FREECHAT:   return 1;
+		case ID_STATUS_ONTHEPHONE: return 2;
+		case ID_STATUS_OUTTOLUNCH: return 3;
+	}
+
+	return 0;
+}
+
 MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigned long capability)
 {
 	if (cc == NULL || cc->nDefault == -1)
@@ -279,7 +295,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 			if (status <= ID_STATUS_OFFLINE) // status below ID_STATUS_OFFLINE is a connecting status
 				continue;
 
-			if (GetRealPriority(szProto, status) < GetRealPriority(most_online_proto, most_online_status)) {
+			if (GetStatusPriority(status) < GetStatusPriority(most_online_status)) {
 				most_online_status = status;
 				most_online_contact = hContact;
 				most_online_proto = szProto;

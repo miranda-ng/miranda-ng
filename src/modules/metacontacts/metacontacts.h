@@ -101,9 +101,6 @@ int Meta_OptInit(WPARAM wParam, LPARAM lParam);
 int Meta_WriteOptions(MetaOptions *opt);
 int Meta_ReadOptions(MetaOptions *opt);
 
-int GetDefaufaultPrio(int status);
-int GetRealPriority(char *proto, int status);
-
 // API function headers
 void CreateApiServices();
 

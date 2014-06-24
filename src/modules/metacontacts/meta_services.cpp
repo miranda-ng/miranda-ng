@@ -209,8 +209,6 @@ INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
 	return ProtoCallService(GetContactProto(hSubContact), PS_SEND_NUDGE, hSubContact, lParam);
 }
 
-/////////////////////////////////////////////////////////////////
-
 /** Send a message to the protocol specific network.
 *
 * Call the function specific to the protocol that belongs
@@ -649,7 +647,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, Meta_SrmmIconClicked);
 
-	////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
 	InitMenus();
 
 	// create srmm icon
@@ -686,6 +684,7 @@ static VOID CALLBACK sttMenuThread(PVOID param)
 	DestroyMenu(hMenu);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);
@@ -718,9 +717,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 	return 0;
 }
 
-////////////////////
 // file transfer support - mostly not required, since subcontacts do the receiving
-////////////////////
 
 INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 {

@@ -51,7 +51,6 @@
 #define IDD_METASELECT                  151
 #define IDD_METAEDIT                    152
 #define IDD_METAOPTIONS                 153
-#define IDD_METAPRIORITIES              154
 #define IDD_METACOPYPROGRESS            156
 #define IDI_DND                         158
 #define IDI_OCCUPIED                    159
@@ -400,11 +399,6 @@
 #define IDC_RAD_NAME                    1420
 #define IDC_CHK_LOCKHANDLE              1421
 #define IDC_ED_DAYS                     1427
-#define IDC_SP_PRIORITY                 1428
-#define IDC_CMB_PROTOCOL                1429
-#define IDC_CMB_STATUS                  1430
-#define IDC_ED_PRIORITY                 1431
-#define IDC_CHK_DEFAULT                 1432
 #define IDC_PROG                        1433
 #define IDC_STSIMPLERIGHT               1440
 #define IDC_NETLIBUSERS                 1443
