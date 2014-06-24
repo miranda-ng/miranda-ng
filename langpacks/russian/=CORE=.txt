@@ -479,8 +479,8 @@ UIN, E-mail и т.д.
 Использовать имя
 [Contact Labels]
 Метки контактов
-[Function]
-Функция
+[When I click on a sub in the popup menu...]
+При щелчке по контакту в меню субконтактов...
 [Set default and open message window]
 Открыть окно сообщения
 [Show subcontact context menu]
@@ -495,14 +495,6 @@ UIN, E-mail и т.д.
 Использовать отображаемое имя
 [Lock name to first contact]
 Фиксировать имя
-[History Copy]
-Копирование истории
-[Please wait while the contact's history is copied.]
-Пожалуйста, подождите, пока история скопируется
-[History Remove]
-Удаление истории
-[Please wait while the contact's history is removed.]
-Пожалуйста, подождите, пока история удалится
 [Current language:]
 Язык интерфейса:
 [Last modified using:]
