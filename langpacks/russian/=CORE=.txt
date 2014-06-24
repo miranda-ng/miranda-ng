@@ -503,18 +503,6 @@ UIN, E-mail и т.д.
 Удаление истории
 [Please wait while the contact's history is removed.]
 Пожалуйста, подождите, пока история удалится
-[Subcontact Priorities]
-Приоритеты субконтактов
-[Protocol:]
-Протокол:
-[Status:]
-Статус:
-[Rank:]
-Ранг:
-[(Lower ranks are preferred)]
-(Предпочтительны более низкие ранги)
-[Reset All]
-Сброс
 [Current language:]
 Язык интерфейса:
 [Last modified using:]
@@ -2353,12 +2341,8 @@ Miranda NG не может открыть этот профиль
 Удалить метаконтакт
 [Subcontacts]
 Субконтакты
-[<default>]
-<по умолчанию>
 [MetaContacts]
 Метаконтакты
-[Priorities]
-Приоритеты
 [No online contacts found.]
 Не найдено контактов в сети.
 [Sender]

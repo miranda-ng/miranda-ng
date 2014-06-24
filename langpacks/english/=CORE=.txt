@@ -250,12 +250,6 @@
 [Please wait while the contact's history is copied.]
 [History Remove]
 [Please wait while the contact's history is removed.]
-[Subcontact Priorities]
-[Protocol:]
-[Status:]
-[Rank:]
-[(Lower ranks are preferred)]
-[Reset All]
 [Current language:]
 [Last modified using:]
 [Date:]
@@ -1263,9 +1257,7 @@
 [Delete MetaContact]
 [Subcontacts]
 ;file \src\modules\metacontacts\meta_options.cpp
-[<default>]
 [MetaContacts]
-[Priorities]
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 ;file \src\modules\metacontacts\meta_utils.cpp
