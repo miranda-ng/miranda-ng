@@ -5,6 +5,7 @@
 [Event icon legend:]
 [Font effect]
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[When I click on a sub in the popup menu...]
 [Reload langpack]
 [&Emoticons]
 [&Filter]

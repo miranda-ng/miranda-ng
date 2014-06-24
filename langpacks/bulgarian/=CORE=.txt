@@ -477,7 +477,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [Contact Labels]
 
-[Function]
+[When I click on a sub in the popup menu...]
 
 [Set default and open message window]
 
@@ -492,14 +492,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 [Display subcontact display name]
 
 [Lock name to first contact]
-
-[History Copy]
-
-[Please wait while the contact's history is copied.]
-
-[History Remove]
-
-[Please wait while the contact's history is removed.]
 
 [Current language:]
 

@@ -477,8 +477,8 @@ Voir l'ID du contact
 Voir son nom défini
 [Contact Labels]
 Nom affiché
-[Function]
-Fonction
+[When I click on a sub in the popup menu...]
+
 [Set default and open message window]
 Définir par défaut et fenêtre d'envoi
 [Show subcontact context menu]
@@ -493,14 +493,6 @@ Voir le pseudo du sous-contact
 Voir le nom défini du sous-contact
 [Lock name to first contact]
 Verrouiller nom sur le 1er contact
-[History Copy]
-Copier l'historique
-[Please wait while the contact's history is copied.]
-Patienter pendant la copie de l'historique.
-[History Remove]
-Effacer l'historique
-[Please wait while the contact's history is removed.]
-Patienter pendant la suppression de l'historique.
 [Current language:]
 Langue actuelle :
 [Last modified using:]

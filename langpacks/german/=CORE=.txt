@@ -477,8 +477,8 @@ UID des Kontakts verwenden
 Kontaktanzeigename verwenden
 [Contact Labels]
 Kontaktbeschriftung
-[Function]
-Funktion
+[When I click on a sub in the popup menu...]
+
 [Set default and open message window]
 Als Standard setzen und Nachrichtenfenster öffnen
 [Show subcontact context menu]
@@ -493,14 +493,6 @@ Unterkontakt-Nicknamen anzeigen
 Unterkontakt-Anzeigenamen anzeigen
 [Lock name to first contact]
 Namen auf ersten Kontakt festlegen
-[History Copy]
-Verlauf kopieren
-[Please wait while the contact's history is copied.]
-Verlauf wird kopiert, bitte warten.
-[History Remove]
-Verlauf entfernen
-[Please wait while the contact's history is removed.]
-Verlauf wird entfernt, bitte warten.
 [Current language:]
 Aktuelle Sprache:
 [Last modified using:]

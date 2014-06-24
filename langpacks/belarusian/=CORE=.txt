@@ -477,8 +477,6 @@ UIN, E-mail і г.д.
 Выкарыстоўваць імя
 [Contact Labels]
 Пазнакі кантактаў
-[Function]
-Функцыя
 [Set default and open message window]
 Адчыніць вакно паведамленні
 [Show subcontact context menu]
@@ -493,14 +491,6 @@ UIN, E-mail і г.д.
 Выкарыстоўваць адлюстроўванае імя
 [Lock name to first contact]
 Фіксаваць імя
-[History Copy]
-Капіяванне гісторыі
-[Please wait while the contact's history is copied.]
-Калі ласка, пачакайце, пакуль гісторыя скапіюецца
-[History Remove]
-Выдаленне гісторыі
-[Please wait while the contact's history is removed.]
-Калі ласка, пачакайце, пакуль гісторыя выдаліцца
 [Last modified using:]
 Праверана на версіі:
 [Date:]

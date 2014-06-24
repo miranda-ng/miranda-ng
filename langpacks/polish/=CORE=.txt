@@ -477,8 +477,8 @@ Użyj unikalnego ID kontaktu
 Użyj nazwy kontaktu
 [Contact Labels]
 Etykiety kontaktu
-[Function]
-Funkcje
+[When I click on a sub in the popup menu...]
+
 [Set default and open message window]
 Ustaw domyślne i otwórz okno rozmowy
 [Show subcontact context menu]
@@ -493,14 +493,6 @@ Wyświetl nick subkontaktu
 Wyświetl nazwę subkontaktu
 [Lock name to first contact]
 Zablokuj nazwę pierwszego kontaktu
-[History Copy]
-Kopiowanie historii
-[Please wait while the contact's history is copied.]
-Kopiowanie historii. Proszę czekać...
-[History Remove]
-Usuwanie historii
-[Please wait while the contact's history is removed.]
-Usuwanie historii. Proszę czekać...
 [Current language:]
 Aktualny język:
 [Last modified using:]

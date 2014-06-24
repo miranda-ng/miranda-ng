@@ -479,8 +479,6 @@ UIN, E-mail тощо
 Використовувати ім'я
 [Contact Labels]
 Мітки контактів
-[Function]
-Функція
 [Set default and open message window]
 Відкрити вікно повідомлень
 [Show subcontact context menu]
@@ -495,14 +493,6 @@ UIN, E-mail тощо
 Використовувати коротке ім'я
 [Lock name to first contact]
 Фіксувати ім'я
-[History Copy]
-Копіювання історії
-[Please wait while the contact's history is copied.]
-Будь ласка, зачекайте, поки історія скопіюється
-[History Remove]
-Видалення історії
-[Please wait while the contact's history is removed.]
-Будь ласка, зачекайте, поки історія видалиться
 [Current language:]
 Мова інтерфейсу:
 [Last modified using:]
