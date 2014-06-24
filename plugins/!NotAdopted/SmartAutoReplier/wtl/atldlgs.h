@@ -2894,7 +2894,7 @@ public:
 		return nMsgFindReplace;
 	}
 	// call while handling FINDMSGSTRING registered message
-	// to retreive the object
+	// to retrieve the object
 	static T* PASCAL GetNotifier(LPARAM lParam)
 	{
 		ATLASSERT(lParam != NULL);

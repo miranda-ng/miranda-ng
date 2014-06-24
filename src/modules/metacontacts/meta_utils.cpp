@@ -89,7 +89,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 
 	char *szProto = GetContactProto(hSub);
 	if (szProto == NULL) {
-		MessageBox(0, TranslateT("Could not retreive contact protocol"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not retrieve contact protocol"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
@@ -465,7 +465,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 	}
 	else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
 		TCHAR *name = cli.pfnGetContactDisplayName(hContact, 0);
-		if (name && _tcscmp(name, TranslateT("(Unknown Contact)")) != 0) {
+		if (name && _tcscmp(name, TranslateT("(Unknown contact)")) != 0) {
 			db_set_ts(ccMeta->contactID, META_PROTO, "Nick", name);
 			return 0;
 		}

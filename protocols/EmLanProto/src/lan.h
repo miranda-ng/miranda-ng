@@ -106,7 +106,7 @@ private:
 	//! Called when new ougoing TCP connectio is created
 	static DWORD WINAPI OnOutTCPConnectionProc(LPVOID lpParameter);
 
-	//! Stores retreived host addresses
+	//! Stores retrieved host addresses
 	in_addr m_hostAddr[MAX_INTERNAL_IP];
 	//! Current address count
 	int m_hostAddrCount;

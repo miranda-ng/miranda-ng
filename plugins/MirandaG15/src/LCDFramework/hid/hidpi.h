@@ -812,7 +812,7 @@ Parameters:
    UsageValue  The value.  This value must be within the logical range or
                null value specified by the Report Descriptor.
 
-   PreparsedData The data retreived from the HID device
+   PreparsedData The data retrieved from the HID device
 
    Report      The report packet.
 
@@ -872,7 +872,7 @@ Parameters:
    UsageValue  The value.  This value must be within the logical range or
                null value specified by the Report Descriptor.
 
-   PreparsedData The data retreived from the HID device
+   PreparsedData The data retrieved from the HID device
 
    Report      The report packet.
 
@@ -950,7 +950,7 @@ Parameters:
    UsageValueByteLength
                the length of the given UsageValue buffer.
 
-   PreparsedData The data retreived from the HID device
+   PreparsedData The data retrieved from the HID device
 
    Report      The report packet.
 
@@ -995,12 +995,12 @@ Parameters:
                first channel that matches the given usage page, usage page, and
                Link number is the one affected.
 
-   Usage       The usage whose value HidP_GetUsageValue will retreive.
+   Usage       The usage whose value HidP_GetUsageValue will retrieve.
 
    UsageValue  The value.  This value must be within the logical range or
                null value specified by the Report Descriptor.
 
-   PreparsedData The data retreived from the HID device
+   PreparsedData The data retrieved from the HID device
 
    Report      The report packet.
 
@@ -1055,12 +1055,12 @@ Parameters:
                first channel that matches the given usage page, usage page, and
                Link number is the one affected.
 
-   Usage       The usage whose value HidP_GetUsageValue will retreive.
+   Usage       The usage whose value HidP_GetUsageValue will retrieve.
 
    UsageValue  The value.  This value must be within the logical range or
                null value specified by the Report Descriptor.
 
-   PreparsedData The data retreived from the HID device
+   PreparsedData The data retrieved from the HID device
 
    Report      The report packet.
 
@@ -1118,7 +1118,7 @@ Parameters:
                first channel that matches the given usage page, usage page, and
                Link number is the one affected.
 
-   Usage       The usage whose value HidP_GetUsageValueArray will retreive.
+   Usage       The usage whose value HidP_GetUsageValueArray will retrieve.
 
    UsageValue  A pointer to an array characters where the value will be placed.
                The number of BITS required is found by multiplying the
@@ -1132,7 +1132,7 @@ Parameters:
    UsageValueByteLength
                the length of the given UsageValue buffer.
 
-   PreparsedData The data retreived from the HID device
+   PreparsedData The data retrieved from the HID device
 
    Report      The report packet.
 

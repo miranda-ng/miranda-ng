@@ -1341,7 +1341,7 @@ void CDccSession::DoReceiveFile()
 
 // this function handles receiving text in dcc chats and then send it in the protochain. very uncomplicated...
 // For sending text the SendStuff() function is called (with the help of some function in CIrcProto to find the right
-// Dcc object). See CIrcProto for info on how the dcc objects are stored, retreived and deleted.
+// Dcc object). See CIrcProto for info on how the dcc objects are stored, retrieved and deleted.
 
 void CDccSession::DoChatReceive()
 {

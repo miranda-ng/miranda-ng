@@ -94,7 +94,7 @@ Arguments:
                    handle via a create file on a string name of a Hid device.
                    This string name can be obtained using standard PnP calls.
    PreparsedData   an opaque data used by other functions in this library to
-                   retreive information about a given device.
+                   retrieve information about a given device.
 
 Return Value:
    TRUE if successful.

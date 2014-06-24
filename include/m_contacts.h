@@ -36,7 +36,7 @@ typedef struct {
 	};
 } CONTACTINFO;
 
-// Types of information you can retreive by setting the dwFlag in CONTACTINFO
+// Types of information you can retrieve by setting the dwFlag in CONTACTINFO
 #define CNF_FIRSTNAME   1  // returns first name (string)
 #define CNF_LASTNAME    2  // returns last name (string)
 #define CNF_NICK        3  // returns nick name (string)

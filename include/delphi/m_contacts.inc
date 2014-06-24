@@ -38,7 +38,7 @@ type
 
 const
 
-// CNF_* Types of information you can retreive by setting the dwFlag in CONTACTINFO
+// CNF_* Types of information you can retrieve by setting the dwFlag in CONTACTINFO
 
   CNF_FIRSTNAME  = 1;  // returns first name (string)
   CNF_LASTNAME   = 2;  // returns last name (string)

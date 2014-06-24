@@ -46,7 +46,7 @@ public:
 
 	/**
 	* Saves this object's data to the persistent storage -- the Miranda
-	* database. This information may be retreived later on by means of
+	* database. This information may be retrieved later on by means of
 	* getContact() factory method invocation.
 	*/
 	static void save(MCONTACT hContact, bool bValue);
