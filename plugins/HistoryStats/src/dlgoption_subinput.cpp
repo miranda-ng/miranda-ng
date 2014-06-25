@@ -78,11 +78,11 @@ void DlgOption::SubInput::onWMInitDialog()
 	hTemp = m_Options.insertGroup(NULL, TranslateT("Contact filtering"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
 	m_hProtocols = m_Options.insertGroup(hTemp, TranslateT("Ignore all contacts with protocol..."));
 
-	hTemp2 = m_Options.insertGroup(hTemp, TranslateT("History read mode for MetaContacts"), 0);
-	m_hMetaContactsMode = m_Options.insertRadio(hTemp2, NULL, TranslateT("Use only meta-contact's history"));
-	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Use only subcontacts' histories (for one meta-contact)"));
-	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Use meta-contact's history and its subcontacts' histories"));
-	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Treat meta-contacts and subcontacts as normal contacts"));
+	hTemp2 = m_Options.insertGroup(hTemp, TranslateT("History read mode for metacontacts"), 0);
+	m_hMetaContactsMode = m_Options.insertRadio(hTemp2, NULL, TranslateT("Use only metacontact's history"));
+	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Use only subcontacts' histories (for one metacontact)"));
+	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Use metacontact's history and its subcontacts' histories"));
+	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Treat metacontacts and subcontacts as normal contacts"));
 
 	m_hMergeContacts = m_Options.insertCheck(hTemp, TranslateT("Merge contacts with same name"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 	m_hMergeContactsGroups = m_Options.insertCheck(m_hMergeContacts, TranslateT("Only merge if contacts are in the same group"));

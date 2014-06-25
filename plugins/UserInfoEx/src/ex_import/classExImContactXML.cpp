@@ -745,7 +745,7 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 				int result = MsgBox(NULL, MB_YESNO|MB_ICONWARNING, 
 					LPGENT("Question"), 
 					LPGENT("Importing a new meta subcontact failed!"), 
-					LPGENT("The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?"),
+					LPGENT("The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?"),
 					ptszNick, ptszMetaNick);
 				MIR_FREE(ptszNick);
 				MIR_FREE(ptszMetaNick);

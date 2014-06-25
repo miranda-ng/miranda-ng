@@ -657,7 +657,7 @@ static int LaunchServicePlugin(pluginEntry *p)
 	if (res != CALLSERVICE_NOTFOUND)
 		return res;
 
-	MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), p->pluginname, MB_ICONSTOP);
+	MessageBox(NULL, TranslateT("Unable to load plugin in service mode!"), p->pluginname, MB_ICONSTOP);
 	Plugin_Uninit(p);
 	return SERVICE_FAILED;
 }

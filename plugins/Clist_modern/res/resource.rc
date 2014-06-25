@@ -462,17 +462,17 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Ignore empty extra icons places (arrange to right).",IDC_METASUBEXTRA_IGN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,25,201,10
-    CONTROL         "Use 'Meta' protocol icons for MetaContacts",IDC_META,
+    CONTROL         "Use 'Meta' protocol icons for metacontacts",IDC_META,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,95,201,10
-    CONTROL         "Expand MetaContacts",IDC_METAEXPAND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,107,201,16
+    CONTROL         "Expand metacontacts",IDC_METAEXPAND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,107,201,16
     CONTROL         "Avoid double click expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,124,196,10
     CONTROL         "Hide all extra icons for subcontacts",IDC_METASUBEXTRA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,137,196,10
     CONTROL         "Hide offline subcontacts",IDC_METASUB_HIDEOFFLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,151,196,10
-    GROUPBOX        "MetaContacts stuff",IDC_FRAME_META,2,81,218,101
+    GROUPBOX        "Metacontacts stuff",IDC_FRAME_META,2,81,218,101
     GROUPBOX        "Additional stuff",IDC_FRAME_META2,2,12,218,65
-    CTEXT           "For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/",IDC_FRAME_META_CAPT,11,94,201,26,NOT WS_VISIBLE
+    CTEXT           "For other stuff metacontacts should be enabled.",IDC_FRAME_META_CAPT,11,94,201,26,NOT WS_VISIBLE
     CONTROL         "Allow internal requesting of status message text",IDC_DISCOVER_AWAYMSG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,38,201,10
     EDITTEXT        IDC_SUBINDENT,154,163,35,12,ES_NUMBER

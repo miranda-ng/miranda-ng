@@ -87,21 +87,21 @@ END
 
 IDD_PROFILEMANAGER DIALOGEX 0, 0, 219, 211
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Miranda NG Profile Manager"
+CAPTION "Miranda NG profile manager"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_NAME,"MHeaderbarCtrl",0x0,0,0,220,25
     CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_HOTTRACK | WS_TABSTOP,2,31,215,137
     PUSHBUTTON      "&Run",IDOK,169,195,48,14
     PUSHBUTTON      "&Exit",IDCANCEL,112,195,48,14
-    RTEXT           "Start in Service Mode with",IDC_SM_LABEL,10,178,106,10
+    RTEXT           "Start in service mode with",IDC_SM_LABEL,10,178,106,10
     COMBOBOX        IDC_SM_COMBO,118,176,98,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_FINDADD DIALOGEX 0, 0, 427, 257
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Find/Add contacts"
+CAPTION "Find/add contacts"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Search:",IDC_STATIC,5,32,37,8
@@ -130,7 +130,7 @@ BEGIN
     PUSHBUTTON      "Add to list",IDC_ADD,354,225,68,14,WS_DISABLED
     CONTROL         "",IDC_STATUSBAR,"msctls_statusbar32",WS_TABSTOP | 0x100,0,244,427,10
     CONTROL         "Custom",IDC_BYCUSTOM,"Button",BS_AUTORADIOBUTTON,11,190,89,10
-    CONTROL         "Find/Add contacts\nHere you can add contacts to your contact list",IDC_HEADERBAR,
+    CONTROL         "Find/add contacts\nHere you can add contacts to your contact list",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,427,25
 END
 
@@ -738,12 +738,12 @@ END
 IDD_METASELECT DIALOGEX 0, 0, 219, 258
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Add to Existing MetaContact"
+CAPTION "Add to existing metacontact"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CTEXT           "Please select a MetaContact:",IDC_STATIC,5,4,207,8
+    CTEXT           "Please select a metacontact:",IDC_STATIC,5,4,207,8
     LISTBOX         IDC_METALIST,4,16,211,222,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Sort Alphabetically",IDC_CHK_SRT,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,6,244,104,8
+    CONTROL         "Sort alphabetically",IDC_CHK_SRT,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,6,244,104,8
     DEFPUSHBUTTON   "&OK",IDOK,115,241,48,14
     PUSHBUTTON      "&Cancel",IDCANCEL,167,241,48,14
 END
@@ -760,10 +760,10 @@ BEGIN
     GROUPBOX        "Contacts",IDC_FRAME,4,33,375,202
     CONTROL         "List1",IDC_LST_CONTACTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,10,43,363,169,WS_EX_CLIENTEDGE
     PUSHBUTTON      "&Remove",IDC_BTN_REM,87,216,54,14
-    PUSHBUTTON      "&Set as Default",IDC_BTN_SETDEFAULT,145,216,54,14
-    PUSHBUTTON      "Move &Up",IDC_BTN_UP,261,216,54,14
-    PUSHBUTTON      "Move &Down",IDC_BTN_DOWN,319,216,54,14
-    PUSHBUTTON      "Send &Offline",IDC_BTN_SETOFFLINE,203,216,54,14
+    PUSHBUTTON      "&Set as default",IDC_BTN_SETDEFAULT,145,216,54,14
+    PUSHBUTTON      "Move &up",IDC_BTN_UP,261,216,54,14
+    PUSHBUTTON      "Move &down",IDC_BTN_DOWN,319,216,54,14
+    PUSHBUTTON      "Send &offline",IDC_BTN_SETOFFLINE,203,216,54,14
     DEFPUSHBUTTON   "&OK",IDOK,220,241,50,14
     PUSHBUTTON      "&Cancel",IDCANCEL,274,241,50,14
     PUSHBUTTON      "&Apply",IDC_VALIDATE,328,241,50,14
@@ -774,15 +774,15 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-GROUPBOX        "Context Menu", IDC_STATIC, 4, 7, 297, 109
+GROUPBOX        "Context menu", IDC_STATIC, 4, 7, 297, 109
 CONTROL         "Use contact's unique ID", IDC_RAD_UID, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 16, 30, 264, 10
 CONTROL         "Use contact's display name", IDC_RAD_DID, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 16, 43, 264, 10
-GROUPBOX        "Contact Labels", IDC_STATIC, 9, 16, 285, 45, WS_GROUP
+GROUPBOX        "Contact labels", IDC_STATIC, 9, 16, 285, 45, WS_GROUP
 GROUPBOX        "When I click on a sub in the popup menu...", IDC_STATIC, 9, 66, 285, 45, WS_GROUP
 CONTROL         "Set default and open message window", IDC_RAD_MSG, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 16, 76, 264, 10
 CONTROL         "Show subcontact context menu", IDC_RAD_MENU, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 16, 87, 264, 10
 CONTROL         "Show user information", IDC_RAD_INFO, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 16, 97, 264, 10
-GROUPBOX        "Contact List", IDC_STATIC, 4, 117, 297, 47, WS_GROUP
+GROUPBOX        "Contact list", IDC_STATIC, 4, 117, 297, 47, WS_GROUP
 CONTROL         "Display subcontact nickname", IDC_RAD_NICK, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 9, 129, 277, 10
 CONTROL         "Display subcontact display name", IDC_RAD_NAME, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 9, 140, 277, 10
 CONTROL         "Lock name to first contact", IDC_CHK_LOCKHANDLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 151, 278, 10

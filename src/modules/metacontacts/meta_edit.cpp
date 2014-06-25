@@ -55,7 +55,7 @@ static void FillContactList(HWND hList)
 
 		TCHAR *ptszCDN = cli.pfnGetContactDisplayName(g_data.hContact[i], 0);
 		if (ptszCDN == NULL)
-			ptszCDN = TranslateT("(Unknown Contact)");
+			ptszCDN = TranslateT("(Unknown contact)");
 
 		LvItem.iSubItem = 0; // clist display name
 		LvItem.pszText = ptszCDN;
@@ -246,7 +246,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			LvCol.cx = 60;
 			ListView_InsertColumn(hwndList, 3, &LvCol);
 
-			LvCol.pszText = TranslateT("Send Offline");
+			LvCol.pszText = TranslateT("Send offline");
 			LvCol.cx = 85;
 			ListView_InsertColumn(hwndList, 4, &LvCol);
 
@@ -272,7 +272,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		{
 			TCHAR *ptszCDN = cli.pfnGetContactDisplayName(lParam, 0);
 			if (ptszCDN == NULL)
-				ptszCDN = TranslateT("(Unknown Contact)");
+				ptszCDN = TranslateT("(Unknown contact)");
 
 			SetDlgItemText(hwndDlg, IDC_ED_NAME, ptszCDN);
 		}
@@ -293,7 +293,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 				HWND hwndOffline = GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE);
 				EnableWindow(hwndOffline, sel != -1);
-				SetWindowText(hwndOffline, TranslateTS((sel != -1 && g_data.hContact[sel] != g_data.hOfflineContact) ? LPGENT("Send &Offline") : LPGENT("Send &Online")));
+				SetWindowText(hwndOffline, TranslateTS((sel != -1 && g_data.hContact[sel] != g_data.hOfflineContact) ? LPGENT("Send &offline") : LPGENT("Send &online")));
 			}
 		}
 		break;
@@ -304,7 +304,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			switch (LOWORD(wParam)) {
 			case IDC_VALIDATE: // Apply changes, if there is still one contact attached to the metacontact.
 				if (g_data.num_contacts == 0) { // Otherwise, delete the metacontact.
-					if (IDYES == MessageBox(hwndDlg, TranslateT(szDelMsg), TranslateT("Delete MetaContact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
+					if (IDYES == MessageBox(hwndDlg, TranslateT(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
 						Meta_Delete(g_data.hMeta, 0);
 						DestroyWindow(hwndDlg);
 					}
@@ -319,7 +319,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			case IDOK:
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_VALIDATE))) { // If there are changes that could be made,
 					if (g_data.num_contacts == 0) { // do the work that would have be done if the 'Apply' button was clicked.
-						if (IDYES == MessageBox(hwndDlg, TranslateT(szDelMsg), TranslateT("Delete MetaContact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
+						if (IDYES == MessageBox(hwndDlg, TranslateT(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
 							Meta_Delete(g_data.hMeta, 0);
 							DestroyWindow(hwndDlg);
 						}

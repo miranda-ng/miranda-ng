@@ -1037,7 +1037,7 @@ int LoadFindAddModule(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500020000;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_FINDUSER);
-	mi.pszName = LPGEN("&Find/Add contacts...");
+	mi.pszName = LPGEN("&Find/add contacts...");
 	mi.pszService = MS_FINDADD_FINDADD;
 	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 	return 0;

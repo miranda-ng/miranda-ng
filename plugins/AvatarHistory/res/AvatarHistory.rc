@@ -67,7 +67,7 @@ BEGIN
     GROUPBOX        "Protocols",IDC_PROTOCOLS_G,3,3,308,157
     LTEXT           "Enable tracking for these protocols:",IDC_PROTOCOLS_L,13,17,157,11
     CONTROL         "List1",IDC_PROTOCOLS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,12,31,158,119
-    LTEXT           "MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)",IDC_STATIC,181,31,124,119
+    LTEXT           "Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)",IDC_STATIC,181,31,124,119
 END
 
 IDD_POPUPS DIALOGEX 0, 0, 314, 235

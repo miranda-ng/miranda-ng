@@ -69,7 +69,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	}
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_META_CLC);
-	odp.pszTitle = LPGEN("List MetaContacts");
+	odp.pszTitle = LPGEN("List metacontacts");
 	odp.pfnDlgProc = DlgProcClcMetaOpts;
 	Options_AddPage(wParam, &odp);
 

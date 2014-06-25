@@ -338,7 +338,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,16,290,10
     CONTROL         "Display icons on each dialog button",CHECK_OPT_BUTTONICONS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,30,290,10
-    GROUPBOX        "MetaContacts",STATIC_OPT_METAGROUP,3,52,303,32
+    GROUPBOX        "Metacontacts",STATIC_OPT_METAGROUP,3,52,303,32
     CONTROL         "Scan subcontacts for missing information",CHECK_OPT_METASCAN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,67,290,10
     CONTROL         "Enable extended 'send/receive e-mail' service (*)",CHECK_OPT_SREMAIL_ENABLED,
@@ -370,7 +370,7 @@ BEGIN
     CONTROL         "Sort all tree items alphabetically",CHECK_OPT_SORTTREE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,165,271,10
     CONTROL         "",CLR_META,"ColourPicker",WS_TABSTOP,12,61,29,12
-    LTEXT           "Info of a MetaContact's subcontact",TXT_OPT_CLR_META,46,63,232,8
+    LTEXT           "Info of a metacontact's subcontact",TXT_OPT_CLR_META,46,63,232,8
     GROUPBOX        "Colors",IDC_STATIC,3,4,303,74
     GROUPBOX        "Common",IDC_STATIC,3,79,303,53
     CONTROL         "Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)",CHECK_OPT_CHANGEMYDETAILS,

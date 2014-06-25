@@ -173,7 +173,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 
 void registerMetaContactsTokens()
 {
-	registerIntToken(MC_GETPARENT, parseGetParent, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get parent metacontact of contact x"));
-	registerIntToken(MC_GETDEFAULT, parseGetDefault, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get default subcontact x"));
-	registerIntToken(MC_GETMOSTONLINE, parseGetMostOnline, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get the 'most online' subcontact x"));
+	registerIntToken(MC_GETPARENT, parseGetParent, TRF_FUNCTION, LPGEN("Metacontacts")"\t(x)\t"LPGEN("get parent metacontact of contact x"));
+	registerIntToken(MC_GETDEFAULT, parseGetDefault, TRF_FUNCTION, LPGEN("Metacontacts")"\t(x)\t"LPGEN("get default subcontact x"));
+	registerIntToken(MC_GETMOSTONLINE, parseGetMostOnline, TRF_FUNCTION, LPGEN("Metacontacts")"\t(x)\t"LPGEN("get the 'most online' subcontact x"));
 }

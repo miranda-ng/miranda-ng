@@ -179,7 +179,7 @@ int Meta_OptInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_METAOPTIONS);
-	odp.pszTitle = LPGEN("MetaContacts");
+	odp.pszTitle = LPGEN("Metacontacts");
 	odp.pszGroup = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);

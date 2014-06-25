@@ -100,9 +100,9 @@ static int BuildList(HWND list, BOOL sort)
 * @return TRUE if the dialog processed the message, FALSE if it did not.
 */
 
-#define szConvMsg LPGEN("Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n\
+#define szConvMsg LPGEN("Either there is no metacontact in the database (in this case you should first convert a contact into one)\n\
 or there is none that can host this contact.\n\
-Another solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?")
+Another solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?")
 
 static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -118,16 +118,16 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			if (cc->IsMeta()) {
 				MessageBox(hwndDlg,
-							  TranslateT("This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another."),
-							  TranslateT("MetaContact Conflict"), MB_ICONERROR);
+							  TranslateT("This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another."),
+							  TranslateT("Metacontact conflict"), MB_ICONERROR);
 				DestroyWindow(hwndDlg);
 				return TRUE;
 			}
 
 			if (cc->IsSub()) {
 				MessageBox(hwndDlg,
-							  TranslateT("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
-							  TranslateT("Multiple MetaContacts"), MB_ICONERROR);
+							  TranslateT("This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts."),
+							  TranslateT("Multiple metacontacts"), MB_ICONERROR);
 				DestroyWindow(hwndDlg);
 				return TRUE;
 			}
@@ -141,7 +141,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_ONLYAVAIL, BST_CHECKED); // Initially checked; display all metacontacts is only an option
 		// Besides, we can check if there is at least one metacontact to add the contact to.
 		if (BuildList(GetDlgItem(hwndDlg, IDC_METALIST), FALSE) <= 0) {
-			if (MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable MetaContact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+			if (MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 				Meta_Convert(lParam, 0);
 			DestroyWindow(hwndDlg);
 			return TRUE;
@@ -172,12 +172,12 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			{
 				int item = SendDlgItemMessage(hwndDlg, IDC_METALIST, LB_GETCURSEL, 0, 0);	// Get the index of the selected metacontact
 				if (item == -1)
-					return IDOK == MessageBox(hwndDlg, TranslateT("Please select a MetaContact"), TranslateT("No MetaContact selected"), MB_ICONHAND);
+					return IDOK == MessageBox(hwndDlg, TranslateT("Please select a metacontact"), TranslateT("No metacontact selected"), MB_ICONHAND);
 
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				MCONTACT hMeta = (MCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETITEMDATA, item, 0);
 				if (!Meta_Assign(hContact, hMeta, FALSE))
-					MessageBox(hwndDlg, TranslateT("Assignment to the MetaContact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
+					MessageBox(hwndDlg, TranslateT("Assignment to the metacontact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
 			}
 			// fall through
 		case IDCANCEL:
@@ -187,7 +187,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		case IDC_CHK_SRT:
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE) ^ LBS_SORT);
 			if (BuildList(GetDlgItem(hwndDlg, IDC_METALIST), IsDlgButtonChecked(hwndDlg, IDC_CHK_SRT) ? TRUE : FALSE) <= 0) {
-				if (MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable MetaContact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+				if (MessageBox(hwndDlg, TranslateT(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 					Meta_Convert(lParam, 0);
 				DestroyWindow(hwndDlg);
 				return TRUE;

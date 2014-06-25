@@ -284,12 +284,12 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Use 'Meta' protocol icons for MetaContacts",IDC_META,
+    CONTROL         "Use 'Meta' protocol icons for metacontacts",IDC_META,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,13,233,10
     CONTROL         "Avoid double click expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,29,233,10
     CONTROL         "Hide all extra icons for subcontacts",IDC_METASUBEXTRA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,45,233,10
-    GROUPBOX        "MetaContacts supporting",-1,2,2,252,90
+    GROUPBOX        "Metacontacts supporting",-1,2,2,252,90
     CONTROL         "Ignore empty extra icons places (arrange to right)",IDC_METASUBEXTRA_IGN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,75,233,10
     CONTROL         "Hide offline subcontacts",IDC_METASUB_HIDEOFFLINE,

@@ -27,7 +27,7 @@ static stdButtons[] = {
 	{ LPGEN("Find/add contacts"),           MS_FINDADD_FINDADD,          SKINICON_OTHER_FINDUSER, 0,               LPGEN("Find/add contacts"),     NULL, 0, 1 },
 	{ LPGEN("Show status menu"),            TTBI_STATUSMENUBUTT,         SKINICON_OTHER_STATUS,   0,               LPGEN("Show status menu"),      NULL, 0, 0 },
 	{ LPGEN("Show/hide offline contacts"),  MS_CLIST_SETHIDEOFFLINE,     IDI_HIDEOFFLINE,         IDI_SHOWOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 1, 1 },
-	{ LPGEN("Enable/disable MetaContacts"), "MetaContacts/OnOff",        IDI_METAOFF,             IDI_METAON,      LPGEN("Disable MetaContacts"),  LPGEN("Enable MetaContacts"), 1, 1 },
+	{ LPGEN("Enable/disable metacontacts"), "MetaContacts/OnOff",        IDI_METAOFF,             IDI_METAON,      LPGEN("Disable metacontacts"),  LPGEN("Enable metacontacts"), 1, 1 },
 	{ LPGEN("Enable/disable groups"),       TTBI_GROUPSHOWHIDE,          IDI_GROUPSOFF,           IDI_GROUPSON,    LPGEN("Enable groups"),         LPGEN("Disable groups"), 1, 1 },
 	{ LPGEN("Enable/disable sounds"),       TTBI_SOUNDSONOFF,            IDI_SOUNDSOFF,           IDI_SOUNDSON,    LPGEN("Disable sounds"),        LPGEN("Enable sounds"), 1, 1 },
 	{ LPGEN("Minimize contact list"),       MS_CLIST_SHOWHIDE,           SKINICON_OTHER_SHOWHIDE, 0,               LPGEN("Minimize contact list"), NULL, 0, 1 },

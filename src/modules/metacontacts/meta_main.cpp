@@ -28,12 +28,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // icolib support
 
 static IconItem iconList[] = {
-	{ LPGEN("Toggle Off"),             "off",     IDI_MCMENUOFF     },
-	{ LPGEN("Toggle On"),              "on",      IDI_MCMENU        },
-	{ LPGEN("Convert to MetaContact"), "convert", IDI_MCCONVERT     },
-	{ LPGEN("Add to Existing"),        "add",     IDI_MCADD         },
+	{ LPGEN("Toggle off"),             "off",     IDI_MCMENUOFF     },
+	{ LPGEN("Toggle on"),              "on",      IDI_MCMENU        },
+	{ LPGEN("Convert to metacontact"), "convert", IDI_MCCONVERT     },
+	{ LPGEN("Add to existing"),        "add",     IDI_MCADD         },
 	{ LPGEN("Edit"),                   "edit",    IDI_MCEDIT        },
-	{ LPGEN("Set to Default"),         "default", IDI_MCSETDEFAULT  },
+	{ LPGEN("Set to default"),         "default", IDI_MCSETDEFAULT  },
 	{ LPGEN("Remove"),                 "remove",  IDI_MCREMOVE      },
 };
 

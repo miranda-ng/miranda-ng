@@ -125,6 +125,6 @@ extern POINT menuMousePoint;
 #ifndef MS_CLUI_GETVERSION
 #define MS_CLUI_GETVERSION      "CLUI/GetVersion"
 
-#define szDelMsg LPGEN("You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?")
+#define szDelMsg LPGEN("You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?")
 
 #endif

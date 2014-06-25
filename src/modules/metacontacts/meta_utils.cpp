@@ -103,13 +103,13 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 
 	// Check that is is 'on the list'
 	if (db_get_b(hSub, "CList", "NotOnList", 0) == 1) {
-		MessageBox(0, TranslateT("Contact is 'Not on List' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Contact is 'not on list' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
 
 	if (ccDest->nSubs >= MAX_CONTACTS) {
-		MessageBox(0, TranslateT("MetaContact is full"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Metacontact is full"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -118,7 +118,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	char buffer[512];
 	mir_snprintf(buffer, SIZEOF(buffer), "Protocol%d", ccDest->nSubs);
 	if (db_set_s(hMeta, META_PROTO, buffer, szProto)) {
-		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not write contact protocol to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -126,7 +126,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	// write the login
 	mir_snprintf(buffer, SIZEOF(buffer), "Login%d", ccDest->nSubs);
 	if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
-		MessageBox(0, TranslateT("Could not write unique ID of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBox(0, TranslateT("Could not write unique ID of contact to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -138,7 +138,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 		// write the nickname
 		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", ccDest->nSubs);
 		if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
-			MessageBox(0, TranslateT("Could not write nickname of contact to MetaContact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+			MessageBox(0, TranslateT("Could not write nickname of contact to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 			db_free(&dbv);
 			return FALSE;
 		}

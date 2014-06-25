@@ -625,7 +625,7 @@ BEGIN
     POPUP "Appearance"
     BEGIN
         MENUITEM "Show status icons",           POPUP_SHOWSTATUSICONS
-        MENUITEM "Show MetaContact proto icons", POPUP_SHOWMETAICONS
+        MENUITEM "Show metacontact proto icons", POPUP_SHOWMETAICONS
         MENUITEM SEPARATOR
         MENUITEM "Show additional buttons",     POPUP_BUTTONS
         MENUITEM "Draw sunken frame",           POPUP_FRAME
