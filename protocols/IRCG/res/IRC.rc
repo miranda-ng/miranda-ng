@@ -416,7 +416,7 @@ BEGIN
     CONTROL         "DCC",IDC_D,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,66,57,10
     DEFPUSHBUTTON   "&Accept",IDOK,93,105,50,14
     PUSHBUTTON      "&Cancel",IDCANCEL,163,105,50,14
-    LTEXT           "Ignore mask ( nick!user@host )",IDC_STATIC,7,7,136,8
+    LTEXT           "Ignore mask (nick!user@host)",IDC_STATIC,7,7,136,8
     LTEXT           "Network (*)",IDC_STATIC,150,7,63,8
     GROUPBOX        "Ignore events",IDC_STATIC,7,36,206,46
     CTEXT           "(*) blank to set this mask for all networks",IDC_STATIC,7,90,206,8

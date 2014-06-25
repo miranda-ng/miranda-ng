@@ -31,7 +31,7 @@
 #define TXT_URLSONLY		TranslateT("Web addresses only")
 #define TXT_MAILSONLY		TranslateT("Mail addresses only")
 #define TXT_SEARCH			TranslateT("Search")
-#define TXT_SEARCHFILTER	TranslateT("Search Filter")
+#define TXT_SEARCHFILTER	TranslateT("Search filter")
 #define TXT_NOSETTING		TranslateT("no settings")
 #define TXT_DATE			TranslateT("Date")
 

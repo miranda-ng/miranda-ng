@@ -91,26 +91,26 @@ IDD_OPTIONS_DLG DIALOG 0, 0, 314, 240
 STYLE DS_SETFONT | WS_POPUP | WS_VISIBLE
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Color Select",IDC_STATIC,0,87,252,83
+    GROUPBOX        "Color select",IDC_STATIC,0,87,252,83
     LTEXT           "Incoming messages",IDC_TXTIN,17,101,85,9
-    PUSHBUTTON      "Plugin Default",IDC_DEFAULT_IN,159,100,65,11
+    PUSHBUTTON      "Plugin default",IDC_DEFAULT_IN,159,100,65,11
     GROUPBOX        "Preview",IDC_STATIC,0,181,253,59
     LTEXT           "Outgoing messages",IDC_TXTOUT,17,115,85,10
     LTEXT           "Background color",IDC_TXTBG,17,128,85,11
-    PUSHBUTTON      "Plugin Default",IDC_DEFAULT_OUT,159,113,65,11
-    PUSHBUTTON      "Plugin Default",IDC_DEFAULT_BG,159,126,65,11
-    CONTROL         "Use Miranda Settings",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,157,202,10
+    PUSHBUTTON      "Plugin default",IDC_DEFAULT_OUT,159,113,65,11
+    PUSHBUTTON      "Plugin default",IDC_DEFAULT_BG,159,126,65,11
+    CONTROL         "Use Miranda settings",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,157,202,10
     CONTROL         "",IDC_BACKGROUND,"ColourPicker",WS_TABSTOP,115,127,39,10
     CONTROL         "",IDC_OUTGOING,"ColourPicker",WS_TABSTOP,115,114,39,10
     CONTROL         "",IDC_INCOMING,"ColourPicker",WS_TABSTOP,115,101,39,10
     LTEXT           "Text color",IDC_TXTTXT,18,141,85,11
     CONTROL         "",IDC_TXT,"ColourPicker",WS_TABSTOP,115,140,39,10
-    PUSHBUTTON      "Plugin Default",IDC_DEFAULT_TXT,159,139,65,11
+    PUSHBUTTON      "Plugin default",IDC_DEFAULT_TXT,159,139,65,11
     CONTROL         "",IDC_OPTIONS_RE,"RICHEDIT",TCS_RAGGEDRIGHT | TCS_MULTISELECT | WS_DISABLED | WS_TABSTOP,5,191,242,44
-    GROUPBOX        "General Settings",IDC_STATIC,0,0,226,85
+    GROUPBOX        "General settings",IDC_STATIC,0,0,226,85
     CONTROL         "Open links always in a new window",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,19,216,10
     CONTROL         "Update list on new events",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,30,216,10
-    CONTROL         "Show whole Message on 'mouse over' event",IDC_CHECK4,
+    CONTROL         "Show whole message on 'mouse over' event",IDC_CHECK4,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,41,216,10
     CONTROL         "Save window position individually for each contact",IDC_CHECK5,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,53,217,10
@@ -164,19 +164,19 @@ BEGIN
     END
     POPUP "&Options"
     BEGIN
-        POPUP "Message &Direction"
+        POPUP "Message &direction"
         BEGIN
-            MENUITEM "&Outgoing Messages Only",     IDM_DIR_OUT
-            MENUITEM "&Incoming Messages Only",     IDM_DIR_IN
+            MENUITEM "&Outgoing messages only",     IDM_DIR_OUT
+            MENUITEM "&Incoming messages only",     IDM_DIR_IN
         END
         MENUITEM SEPARATOR
-        POPUP "Message &Type"
+        POPUP "Message &type"
         BEGIN
-            MENUITEM "&Webaddresses Only",          IDM_TYPE_WEB
-            MENUITEM "&Mail-Addresses Only",        IDM_TYPE_MAIL
+            MENUITEM "&Web addresses only",          IDM_TYPE_WEB
+            MENUITEM "&Mail addresses only",        IDM_TYPE_MAIL
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Clear Search Results",       IDM_CLEARSEARCH
+        MENUITEM "&Clear search results",       IDM_CLEARSEARCH
     END
     MENUITEM "&Search",                     IDM_SEARCH
 END
@@ -186,9 +186,9 @@ BEGIN
     POPUP "link"
     BEGIN
         MENUITEM "Open",                        IDM_LINK_OPEN
-        MENUITEM "Open in new Window",          IDM_LINK_OPENNEW
-        MENUITEM "Copy to Clipboard",           IDM_LINK_COPY
-        MENUITEM "Show Message",                IDM_SHOWMESSAGE
+        MENUITEM "Open in new window",          IDM_LINK_OPENNEW
+        MENUITEM "Copy to clipboard",           IDM_LINK_COPY
+        MENUITEM "Show message",                IDM_SHOWMESSAGE
     END
 END
 
