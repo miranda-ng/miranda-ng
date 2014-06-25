@@ -408,7 +408,7 @@ typedef struct {
 // Due to it is generic practice to handle menu command via WM_COMMAND
 // window message handle and practice to process it via calling service
 // in form: CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) hContact))
-// to ensure that WM_COMMAND was realy from clist menu not from other menu
+// to ensure that WM_COMMAND was really from clist menu not from other menu
 // it is reserved range of menu ids from CLISTMENUIDMIN to CLISTMENUIDMAX
 // the menu items with ids outside from such range will not be processed by service.
 // Moreover if you process WM_COMMAND youself and your window contains self menu

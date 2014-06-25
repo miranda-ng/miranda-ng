@@ -40,8 +40,8 @@ struct POPUPTREEDATA
 	int timeoutValue;
 	char leftAction[MAXMODULELABELLENGTH];
 	char rightAction[MAXMODULELABELLENGTH];
-	COLORREF colorBack;			//realy needet ??
-	COLORREF colorText;			//realy needet ??
+	COLORREF colorBack;			//really needed ??
+	COLORREF colorText;			//really needed ??
 };
 
 extern LIST<POPUPTREEDATA> gTreeData;

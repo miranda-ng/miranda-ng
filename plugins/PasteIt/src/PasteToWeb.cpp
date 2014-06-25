@@ -386,7 +386,7 @@ void PasteToWeb::FromFile(std::wstring file)
 			{
 				if(fileSize.QuadPart > 512000LL)
 				{
-					mir_sntprintf(bufErr, 1024, TranslateT("File size is %d KB, do you realy want to paste such a large file?"), fileSize.LowPart / 1024);
+					mir_sntprintf(bufErr, 1024, TranslateT("File size is %d KB, do you really want to paste such a large file?"), fileSize.LowPart / 1024);
 					if(MessageBox(NULL, bufErr, TranslateT("Are You sure?"), MB_YESNO | MB_ICONQUESTION) != IDYES)
 					{
 						CloseHandle(hFile);
