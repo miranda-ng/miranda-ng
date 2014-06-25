@@ -559,12 +559,12 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam, LPARAM lParam)
 					break;
 					/*					case 5:		// nickserv register nick
 					PostIrcMessage( _T("/nickserv REGISTER %%question=\"%s\",\"%s\""),
-					TranslateT("Please enter your authentification code"), TranslateT("Authentificate nick"));
+					TranslateT("Please enter your authentication code"), TranslateT("Authenticate nick"));
 					break;
 					*/
 				case 6:		// nickserv Identify
 					PostIrcMessage(_T("/nickserv AUTH %%question=\"%s\",\"%s\""),
-						TranslateT("Please enter your authentification code"), TranslateT("Authentificate nick"));
+						TranslateT("Please enter your authentication code"), TranslateT("Authenticate nick"));
 					break;
 				case 7:		// nickserv drop nick
 					if (MessageBox(0, TranslateT("Are you sure you want to unregister your current nick?"), TranslateT("Delete nick"),

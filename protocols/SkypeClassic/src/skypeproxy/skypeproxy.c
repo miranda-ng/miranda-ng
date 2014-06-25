@@ -36,7 +36,7 @@ The server expects
 next. Currently the following commands are supported:
 
   CAPABILITIES		- returns the Server's capabilities
-  AUTHENTICATE		- Starts the authentification process
+  AUTHENTICATE		- Starts the authentication process
 
 CAPABILITIES
 ------------
