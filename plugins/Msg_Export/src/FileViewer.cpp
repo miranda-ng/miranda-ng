@@ -240,7 +240,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 
 	if (nOptimalReadLen < 500 )
 	{
-		MessageBox(NULL, TranslateT("Error: Optimal buffer size decreased to a to low size!"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Error: Optimal buffer size decreased to a too low size!"), MSG_BOX_TITEL, MB_OK);
 		return 0;
 	}
 
