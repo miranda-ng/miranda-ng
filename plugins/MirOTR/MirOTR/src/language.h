@@ -25,9 +25,9 @@
 #define LANG_SESSION_TRY_CONTINUE_OTR		LPGEN("Trying to refresh OTR encrypted session with '%s'")
 #define LANG_SESSION_HAS_CONTINUE_OTR		LPGEN("OTR encrypted session was refreshed by '%s'")
 #define LANG_SESSION_HAS_CONTINUE_OTR_VERIFY LPGEN("OTR encrypted session was refreshed by '%s' (NOT VERIFIED)")
-#define LANG_SESSION_REQUEST_CONTINUE_OTR	LPGEN("OTR encrypted session with '%s' sucessfully refreshed")
-#define LANG_SESSION_CONTINUE_OTR			LPGEN("OTR encrypted session with '%s' sucessfully refreshed")
-#define LANG_SESSION_CONTINUE_OTR_VERIFY	LPGEN("OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)")
+#define LANG_SESSION_REQUEST_CONTINUE_OTR	LPGEN("OTR encrypted session with '%s' successfully refreshed")
+#define LANG_SESSION_CONTINUE_OTR			LPGEN("OTR encrypted session with '%s' successfully refreshed")
+#define LANG_SESSION_CONTINUE_OTR_VERIFY	LPGEN("OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)")
 #define LANG_SESSION_TERMINATED_BY_OTR		LPGEN("OTR encrypted session has been terminated by '%s'. You should do that, too!")
 #define LANG_SESSION_NOT_STARTED_OTR		LPGEN("OTR encrypted session with '%s' could not be started")
 
@@ -37,7 +37,7 @@
 #define LANG_INLINE_PREFIX					LPGEN("[OTR INFO] ")
 
 #define LANG_SMP_AUTH_FROM					LPGEN("Authentication from %s")
-#define LANG_SMP_AUTH						LPGEN("Authenticae %s")
+#define LANG_SMP_AUTH						LPGEN("Authenticate %s")
 
 #define LANG_UNKNOWN						LPGEN("Unknown")
 #define LANG_OTR_USERMESSAGE				LPGEN("OTR: %s (%s)")
@@ -93,8 +93,8 @@
 #define LANG_SMP_QUESTION					LPGEN("Question")
 #define LANG_SMP_PASSWORD					LPGEN("Password")
 
-#define LANG_SMP_SUCCESS					LPGEN("Authentication sucessful.")
-#define LANG_SMP_SUCCESS_VERIFY				LPGEN("You contact authenticated you sucessful. You can send your own request to authenticate him.")
+#define LANG_SMP_SUCCESS					LPGEN("Authentication successful.")
+#define LANG_SMP_SUCCESS_VERIFY				LPGEN("You contact authenticated you successful. You can send your own request to authenticate him.")
 #define LANG_SMP_ERROR						LPGEN("Error during authentication.")
 #define LANG_SMP_FAILED						LPGEN("Authentication failed")
 #define LANG_SMP_IN_PROGRESS				LPGEN("Authentication for '%s' is already in progress.")

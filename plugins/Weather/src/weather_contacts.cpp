@@ -63,7 +63,7 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM lParam)
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
 		if (DBGetStaticString(wParam, WEATHERPROTONAME, "InfoURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
-			MessageBox(NULL, TranslateT("The URL for complete forcast have not been set. You can set it from the Edit Settings dialog."), 
+			MessageBox(NULL, TranslateT("The URL for complete forecast have not been set. You can set it from the Edit Settings dialog."), 
 				TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}

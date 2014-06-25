@@ -338,7 +338,7 @@ BEGIN
   CONTROL "Scroll to the last line",IDC_SESSION_SCROLLLAST,"Button",0x50010009,168,42,90,13
   CONTROL "Replying",IDC_STATIC7,"Button",0x50000007,0,142,300,48
   CONTROL "Show line break indicators",IDC_SESSION_SYMBOLS,"Button",0x50010003,6,151,264,13
-  CONTROL "Send messages with return, insert line breaks with ctrl+return",IDC_SESSION_SENDRETURN,"Button",0x50010003,6,162,284,13
+  CONTROL "Send messages with Enter, insert line breaks with Ctrl+Enter",IDC_SESSION_SENDRETURN,"Button",0x50010003,6,162,284,13
   CONTROL "Maximized replying",IDC_SESSION_REPLY_MAXIMIZED,"Button",0x50010003,6,173,274,13
   CONTROL "Show timestamps",IDC_SESSION_TIMESTAMPS,"Button",0x50010003,6,31,148,11
   CONTROL "Close chat after",IDC_SESSION_CLOSE,"Button",0x50010003,8,84,98,8

@@ -78,7 +78,7 @@ BEGIN
     EDITTEXT        IDC_ICQNUM,68,12,106,12,ES_AUTOHSCROLL
     RTEXT           "Password:",IDC_STATIC12,12,28,51,8
     EDITTEXT        IDC_PASSWORD,68,26,106,12,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.",IDC_STATIC,12,43,286,19
+    LTEXT           "Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.",IDC_STATIC,12,43,286,19
     CONTROL         "Retrieve a lost password or ICQ number",IDC_LOOKUPLINK,
                     "Hyperlink",WS_TABSTOP,12,78,286,8
     CONTROL         "Create a new ICQ account using the ICQ website",IDC_NEWUINLINK,

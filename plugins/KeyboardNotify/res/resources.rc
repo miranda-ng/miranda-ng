@@ -121,7 +121,7 @@ BEGIN
     LTEXT           "Slow",IDC_STATIC,174,112,55,8
     CONTROL         "Spin1",IDC_DELAYSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,55,121,9,14
     CONTROL         "&Preview",IDC_PREVIEW,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE,121,172,63,14
-    CONTROL         "Emulate keypresses (Use this option if you are using a USB keyboard)",IDC_KEYPRESSES,
+    CONTROL         "Emulate key presses (Use this option if you are using a USB keyboard)",IDC_KEYPRESSES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,208,293,10
 END
 

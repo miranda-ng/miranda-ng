@@ -175,7 +175,7 @@ namespace NSJabberRegistry
 	static TJabberDataFormRegisry_Field form_type_metadata[] =
 	{
 		{ _T("pubsub#contact"),			JDFT_JID_MULTI,		LPGENT("The JIDs of those to contact with questions") },
-		{ _T("pubsub#creation_date"),	JDFT_TEXT_SINGLE,	LPGENT("The datetime when the node was created") },
+		{ _T("pubsub#creation_date"),	JDFT_TEXT_SINGLE,	LPGENT("The date and time when the node was created") },
 		{ _T("pubsub#creator"),			JDFT_JID_SINGLE,	LPGENT("The JID of the node creator") },
 		{ _T("pubsub#description"),		JDFT_TEXT_SINGLE,	LPGENT("A description of the node") },
 		{ _T("pubsub#language"),		JDFT_TEXT_SINGLE,	LPGENT("The default language of the node") },

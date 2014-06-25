@@ -799,13 +799,13 @@ void CJabberDlgPrivacyLists::OnInitDialog()
 	cii.flags = CLCIIF_GROUPFONT;
 	cii.pszText = TranslateT("** Default **");
 	clc_info.hItemDefault = m_clcClist.AddInfoItem(&cii);
-	cii.pszText = TranslateT("** Subsription: both **");
+	cii.pszText = TranslateT("** Subscription: both **");
 	clc_info.hItemSubBoth = m_clcClist.AddInfoItem(&cii);
-	cii.pszText = TranslateT("** Subsription: to **");
+	cii.pszText = TranslateT("** Subscription: to **");
 	clc_info.hItemSubTo = m_clcClist.AddInfoItem(&cii);
-	cii.pszText = TranslateT("** Subsription: from **");
+	cii.pszText = TranslateT("** Subscription: from **");
 	clc_info.hItemSubFrom = m_clcClist.AddInfoItem(&cii);
-	cii.pszText = TranslateT("** Subsription: none **");
+	cii.pszText = TranslateT("** Subscription: none **");
 	clc_info.hItemSubNone = m_clcClist.AddInfoItem(&cii);
 
 	CListResetOptions(GetDlgItem(m_hwnd, IDC_CLIST));
