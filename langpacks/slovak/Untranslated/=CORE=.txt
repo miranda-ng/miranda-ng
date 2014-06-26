@@ -150,7 +150,7 @@
 [Set default and open message window]
 [Show subcontact context menu]
 [Show user information]
-[Contact List]
+[Contact list]
 [Display subcontact nickname]
 [Display subcontact display name]
 [Lock name to first contact]

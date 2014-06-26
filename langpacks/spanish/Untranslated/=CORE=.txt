@@ -7,7 +7,7 @@
 [Move &up]
 [Move &down]
 [Send &offline]
-[Context Menu]
+[Context menu]
 [Use contact's unique ID]
 [Use contact's display name]
 [Contact labels]
