@@ -157,8 +157,8 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	if (p == NULL)
 		return NULL;
 
-	if (db_mc_isSub(cle->hContact))
-		cle->hContact = db_mc_getMeta(cle->hContact);
+//	if (db_mc_isSub(cle->hContact))
+//		cle->hContact = db_mc_getMeta(cle->hContact);
 
 	List_Insert((SortedList*)&cli.events, p, i);
 	p->cle = *cle;
