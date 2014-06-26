@@ -30,7 +30,7 @@ Dieses Sitzungspasswort merken
 Abbrechen
 [ICQ number:]
 ICQ-Nummer:
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
 Tipp: Geben Sie hier kein Passwort ein, so wird immer beim Verbinden danach gefragt.
 [Retrieve a lost password or ICQ number]
 ICQ-Nummer oder Passwort vergessen? Hier klicken
@@ -1442,7 +1442,7 @@ Gruppe "%s" löschen...
 Alle Operationen beendet
 [Close]
 Schließen
-[You have to be online to sychronize the server-list!]
+[You have to be online to synchronize the server-list!]
 Sie müssen für das Synchronisieren der Serverliste online sein!
 [** All contacts **]
 ** Alle Kontakte **

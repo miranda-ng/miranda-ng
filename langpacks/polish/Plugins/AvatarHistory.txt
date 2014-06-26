@@ -32,7 +32,7 @@ Pokaż popupy dla tego użytkownika
 Protokoły
 [Enable tracking for these protocols:]
 Włącz śledzenie dla protokołów:
-[MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+[Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Meta kontakty zachowują się w specyficzny sposób: informacje są kopiowane z subkontaktów (powiadomienia z meta są ignorowane)
 [Show popup when a contact change his avatar]
 Pokaż popup kiedy kontakt zmieni swój awatar

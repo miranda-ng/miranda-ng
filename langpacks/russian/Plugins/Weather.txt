@@ -343,7 +343,7 @@ INI файл погоды для этой станции не найден (20)
 <Введите ID города>
 [Weather condition was not logged.]
 Журнал погоды не ведется.
-[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
 Не указан URL для полного прогноза погоды. Укажите его в настройках.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Не указан URL для карты погоды. Вы можете указать его в меню Настройки.

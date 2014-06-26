@@ -107,7 +107,7 @@
 [Draw overlay icon on avatar]
 [Show local time]
 [Move marked contacts to this group]
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 [Show additional buttons]
 [Draw sunken frame]
 [Skin items]

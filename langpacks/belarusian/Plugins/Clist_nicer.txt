@@ -486,7 +486,7 @@
 Перамясціць адзначаныя кантакты ў гэты гурт
 [Appearance]
 Знешні выгляд
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 Паказваць значкі метакантактаў
 [Show additional buttons]
 Паказваць дадатковыя кнопкі

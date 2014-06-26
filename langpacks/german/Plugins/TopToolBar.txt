@@ -53,11 +53,11 @@ Offline-Kontakte anzeigen/ausblenden
 Offline-Kontakte ausblenden
 [Show offline contacts]
 Offline-Kontakte anzeigen
-[Enable/disable MetaContacts]
+[Enable/disable metacontacts]
 Metakontakte (de-)aktivieren
-[Disable MetaContacts]
+[Disable metacontacts]
 Metakontakte deaktivieren
-[Enable MetaContacts]
+[Enable metacontacts]
 Metakontakte aktivieren
 [Enable/disable groups]
 Gruppen (de-)aktivieren

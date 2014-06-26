@@ -29,7 +29,7 @@
 Отмена
 [ICQ number:]
 Номер ICQ:
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
 Подсказка: если вы не укажете здесь пароль, Miranda NG будет запрашивать его каждый раз при подключении к сети.
 [Retrieve a lost password or ICQ number]
 Напомнить пароль или номер ICQ
@@ -1423,7 +1423,7 @@ ID пользователя
 Все операции завершены
 [Close]
 Закрыть
-[You have to be online to sychronize the server-list!]
+[You have to be online to synchronize the server-list!]
 Вы должны быть подключены для синхронизации списка на сервере
 [** All contacts **]
 ** Все контакты **

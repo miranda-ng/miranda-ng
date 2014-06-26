@@ -14,7 +14,7 @@
 [Add ignore]
 [Edit ignore]
 [DCC and CTCP]
-[Authentificate nick]
+[Authenticate nick]
 [Identify nick]
 [Register nick]
 [Auth nick]

@@ -1525,13 +1525,13 @@ XML для MS Excel (кодировка UTF-8)
 Удалить
 [** Default **]
 ** По умолчанию **
-[** Subsription: both **]
+[** Subscription: both **]
 ** Подписка: обе **
-[** Subsription: to **]
+[** Subscription: to **]
 ** Подписка: в **
-[** Subsription: from **]
+[** Subscription: from **]
 ** Подписка: от **
-[** Subsription: none **]
+[** Subscription: none **]
 ** Подписка: нет **
 [<none>]
 <нет>

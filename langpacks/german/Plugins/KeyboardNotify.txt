@@ -112,7 +112,7 @@ Schnell
 Langsam
 [&Preview]
 Vorschau
-[Emulate keypresses (Use this option if you are using a USB keyboard)]
+[Emulate key presses (Use this option if you are using a USB keyboard)]
 Tastendruck simulieren (diese Option bei Verwendung einer USB-Tastatur aktivieren)
 [Create/Edit Themes]
 Schemas erstellen/bearbeiten

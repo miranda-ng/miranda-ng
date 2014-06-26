@@ -1051,7 +1051,7 @@ BB-коди ([b][i][u])
 %s друкує вам повідомлення
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автопрокрутка вимкнена, %d повідомлень у черзі (натисніть F12, щоб увімкнути)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - керування метаконтактом\nСтрілка вниз - додавання/видалення користувача із вибраного.
 [No UID]
 немає UID

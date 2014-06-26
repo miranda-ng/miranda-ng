@@ -200,7 +200,7 @@ Iconos
 
 [Display icons on each dialog button]
 
-[MetaContacts]
+[Metacontacts]
 
 [Scan subcontacts for missing information]
 
@@ -228,7 +228,7 @@ Iconos
 
 [Sort all tree items alphabetically]
 
-[Info of a MetaContact's subcontact]
+[Info of a metacontact's subcontact]
 
 [Colors]
 Colores
@@ -1167,7 +1167,7 @@ Enviar e-mail
 
 [Importing a new meta subcontact failed!]
 
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
 
 [Settings: %S]
 

@@ -977,7 +977,7 @@ Jabber грешка
 
 [The JIDs of those to contact with questions]
 
-[The datetime when the node was created]
+[The date and time when the node was created]
 
 [The JID of the node creator]
 
@@ -1853,13 +1853,13 @@ Facebook чат
 Премахване на списъка
 [** Default **]
 ** Стандарт **
-[** Subsription: both **]
+[** Subscription: both **]
 ** Упълномощаване: двустранно **
-[** Subsription: to **]
+[** Subscription: to **]
 ** Упълномощаване: за **
-[** Subsription: from **]
+[** Subscription: from **]
 ** Упълномощаване: от **
-[** Subsription: none **]
+[** Subscription: none **]
 ** Упълномощаване: няма **
 [<none>]
 <няма>

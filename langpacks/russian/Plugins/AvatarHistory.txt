@@ -31,7 +31,7 @@
 Протоколы
 [Enable tracking for these protocols:]
 Отслеживать следующие протоколы:
-[MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+[Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Метаконтакты обрабатываются особо: информация всегда копируется из субконтактов (уведомления от метаконтактов игнорируются)
 [Show popup when a contact change his avatar]
 Всплывающее окно при смене аватара

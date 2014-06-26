@@ -203,13 +203,13 @@
 Сховати смугу прокрутки
 [Contact list background]
 Фон списку контактів
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Значки "Мета" для метаконтактів
 [Avoid double click expand]
 Не розгортати за подв. клацанням
 [Hide all extra icons for subcontacts]
 Ховати додаткові значки для субконтактів
-[MetaContacts supporting]
+[Metacontacts supporting]
 Підтримка метаконтактів
 [Ignore empty extra icons places (arrange to right)]
 Ігнорувати порожні додаткові значки (праворуч)
@@ -333,7 +333,7 @@
 Швидкий пошук
 [List]
 Список
-[List MetaContacts]
+[List metacontacts]
 Список метаконтактів
 [Not focused]
 Список неактивний

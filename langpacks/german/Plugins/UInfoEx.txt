@@ -200,7 +200,7 @@ Icons
 Version des Standardiconpacks überprüfen, um falsche Icons zu vermeiden
 [Display icons on each dialog button]
 Zeige Icons auf jedem Button
-[MetaContacts]
+[Metacontacts]
 Metakontakte
 [Scan subcontacts for missing information]
 Unterkontakte nach fehlenden Informationen durchsuchen
@@ -228,7 +228,7 @@ Schreibschutz für protokollbasierte Kontaktinformationen
 Gruppen im Baum des Profildialogs aktivieren
 [Sort all tree items alphabetically]
 Baum alphabetisch sortieren
-[Info of a MetaContact's subcontact]
+[Info of a metacontact's subcontact]
 Informationen des Unterkontaktes eines Metakontaktes
 [Colors]
 Farben
@@ -1167,7 +1167,7 @@ Import eines neuen Kontakts wurde abgebrochen!
 Sie haben den Import eines neuen Kontakts abgebrochen.\nEinige Informationen könnten für diesen Kontakt fehlen.\n\nMöchten Sie den unvollständigen Kontakt löschen?
 [Importing a new meta subcontact failed!]
 Import eines neuen Metasubkontakts fehlgeschlagen!
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
 Der neu erstellte Metasubkontakt '%s'\nkonnte nicht zu Metakontakt '%s' hinzugefügt werden!\n\nMöchten Sie diesen Kontakt löschen?
 [Settings: %S]
 Einstellungen: %S

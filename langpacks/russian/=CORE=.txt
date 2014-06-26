@@ -49,15 +49,15 @@
 Параметры показа контактов
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Вместо показа псевдонимов,\nвыберите перетаскиванием другой приоритет показа имён:
-[Miranda NG Profile Manager]
+[Miranda NG profile manager]
 Менеджер профилей Miranda NG
 [&Run]
 &Запустить
 [&Exit]
 Вы&ход
-[Start in Service Mode with]
+[Start in service mode with]
 Запуск в служебном режиме с
-[Find/Add contacts]
+[Find/add contacts]
 Найти/Добавить контакты
 [Search:]
 Искать:
@@ -83,7 +83,7 @@
 Добавить в список
 [Custom]
 Настроить
-[Find/Add contacts\nHere you can add contacts to your contact list]
+[Find/add contacts\nHere you can add contacts to your contact list]
 Поиск контактов\nЗдесь вы можете найти и добавить контакты в список контактов
 [Options\nConfigure your Miranda NG options]
 Настройки\nОсновной диалог настроек Miranda NG
@@ -449,11 +449,11 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 *будут отображаться только первые %d значков
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Вы можете группировать/разгруппировывать значки, выделяя их (CTRL+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
-[Add to Existing MetaContact]
+[Add to existing metacontact]
 Добавить к метаконтакту
-[Please select a MetaContact:]
+[Please select a metacontact:]
 Выберите метаконтакт
-[Sort Alphabetically]
+[Sort alphabetically]
 По алфавиту
 [Editing]
 Редактирование
@@ -463,21 +463,21 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 Контакты
 [&Remove]
 &Очистить
-[&Set as Default]
+[&Set as default]
 &По умолчанию
-[Move &Up]
+[Move &up]
 &Вверх
-[Move &Down]
+[Move &down]
 &Вниз
-[Send &Offline]
+[Send &offline]
 В &оффлайн
-[Context Menu]
+[Context menu]
 Контекстное меню
 [Use contact's unique ID]
 UIN, E-mail и т.д.
 [Use contact's display name]
 Использовать имя
-[Contact Labels]
+[Contact labels]
 Метки контактов
 [When I click on a sub in the popup menu...]
 При щелчке по контакту в меню субконтактов...
@@ -487,7 +487,7 @@ UIN, E-mail и т.д.
 Показывать контекстное меню
 [Show user information]
 Показывать инфо пользователя
-[Contact List]
+[Contact list]
 Список контактов
 [Display subcontact nickname]
 Использовать ник субконтакта
@@ -759,8 +759,6 @@ UIN, E-mail и т.д.
 Несколько значков
 [Only when statuses differ]
 При разных статусах
-[Contact list]
-Список контактов
 [System tray icon]
 Значок в трее
 [System tray icon when using multiple protocols]
@@ -2201,7 +2199,7 @@ Miranda NG не может открыть этот профиль
 Все сети
 [Handle]
 Название
-[&Find/Add contacts...]
+[&Find/add contacts...]
 Добавить &контакты...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не могу запустить поиск в сети %s. Пожалуйста, проверьте подключение к сети %s.
@@ -2263,97 +2261,95 @@ Miranda NG не может открыть этот профиль
 встроенный
 [Languages]
 Языки
-[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Удалить метаконтакт?
-[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
 Нет еще ни одного метаконтакта в базе (в этом случае нужно сначала конвертировать один простой контакт в метаконтакт).\nКак вариант преобразуйте этот контакт в новый метаконтакт.\n\nПреобразовать этот контакт в метаконтакт?
-[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
 Этот контакт уже является метаконтактом.\nНевозможно добавить один метаконтакт в другой.\n\nПожалуйста, выберите иной контакт.
-[MetaContact Conflict]
+[Metacontact conflict]
 Конфликт метаконтактов
-[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
 Этот контакт уже добавлен в метаконтакт.\nВы не можете добавить контакт в несколько метаконтактов.
-[Multiple MetaContacts]
+[Multiple metacontacts]
 Множество метаконтактов
-[No suitable MetaContact found]
+[No suitable metacontact found]
 Не найдено подходящего метаконтакта
 [a contact]
 контакт
 [Adding %s...]
 Добавление %s...
-[Please select a MetaContact]
+[Please select a metacontact]
 Выберите метаконтакт
-[No MetaContact selected]
+[No metacontact selected]
 Метаконтакт не выбран
-[Assignment to the MetaContact failed.]
+[Assignment to the metacontact failed.]
 Не удалось добавить к метаконтакту.
 [Assignment failure]
 Неудачное назначение
-[(Unknown Contact)]
-(Неизвестный контакт)
 [Protocol]
 Протокол
-[Send Offline]
+[Send offline]
 Отправка в оффлайн
-[Send &Online]
+[Send &online]
 Отправка в &онлайн
-[Delete MetaContact?]
+[Delete metacontact?]
 Удалить метаконтакт?
-[Toggle Off]
+[Toggle off]
 Выключить
-[Toggle On]
+[Toggle on]
 Включить
-[Convert to MetaContact]
+[Convert to metacontact]
 Сделать метаконтактом
-[Add to Existing]
+[Add to existing]
 Добавить
 [Edit]
 Изменить
-[Set to Default]
+[Set to default]
 По умолчанию
-[There was a problem in assigning the contact to the MetaContact]
+[There was a problem in assigning the contact to the metacontact]
 Обнаружена проблема добавления контакта к метаконтакту
-[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+[This will remove the metacontact permanently.\n\nProceed anyway?]
 Удаление метаконтакта.\n\nПродолжить?
 [Are you sure?]
 Вы уверены?
 [Remove from metacontact]
 Удалить из метаконтакта
-[Toggle MetaContacts Off]
+[Toggle metacontacts off]
 Выключить метаконтакты
-[Toggle MetaContacts On]
+[Toggle metacontacts on]
 Включить метаконтакты
-[Add to existing MetaContact...]
+[Add to existing metacontact...]
 Добавить к метаконтакту...
-[Edit MetaContact...]
+[Edit metacontact...]
 Изменить метаконтакт...
-[Set as MetaContact default]
+[Set as metacontact default]
 Метаконтакт по умолчанию
-[Delete MetaContact]
+[Delete metacontact]
 Удалить метаконтакт
 [Subcontacts]
 Субконтакты
-[MetaContacts]
+[Metacontacts]
 Метаконтакты
 [No online contacts found.]
 Не найдено контактов в сети.
 [Sender]
 Отправитель
-[Could not retreive contact protocol]
+[Could not retrieve contact protocol]
 Не могу запросить протокол контакта
 [Assignment error]
 Ошибка назначения
 [Could not get unique ID of contact]
 Не могу получить уникальный ID контакта
-[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+[Contact is 'not on list' - please add the contact to your contact list before assigning.]
 Контакт не в списке. Пожалуйста, добавьте контакт в список перед назначением.
-[MetaContact is full]
+[Metacontact is full]
 Метаконтакт полон
-[Could not write contact protocol to MetaContact]
+[Could not write contact protocol to metacontact]
 Ошибка записи протокола контакта в метаконтакт
-[Could not write unique ID of contact to MetaContact]
+[Could not write unique ID of contact to metacontact]
 Ошибка записи уникального ID контакта в метаконтакт
-[Could not write nickname of contact to MetaContact]
+[Could not write nickname of contact to metacontact]
 Не могу записать ник контакта в метаконтакт
 [Standard netlib log]
 Стандартный журнал netlib
@@ -2403,7 +2399,7 @@ Miranda NG не может открыть этот профиль
 '%s' отключён, включить?
 [Re-enable Miranda plugin?]
 Включить плагин?
-[Unable to load plugin in Service Mode!]
+[Unable to load plugin in service mode!]
 Невозможно загрузить плагин в служебном режиме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Невозможно загрузить ни один из установленных плагинов списка контактов. Даже отключённые в настройках не запускаются.

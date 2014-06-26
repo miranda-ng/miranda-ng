@@ -596,11 +596,11 @@ Różne
 Generuje statystyki w tle z niskim priorytetem
 [Path to browser (leave blank for system default)]
 Ścieżka do przeglądarki (pozostaw pustą jeśli chcesz użyć domyślnej)
-[Create statistics for meta-contacts and their subcontacts]
+[Create statistics for metacontacts and their subcontacts]
 Utwórz statystyki dla metakontaktów i subkontaktów
-[The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
-Następujące informacje są właściwe tylko wtedy, jeśli używasz metakontaktów. W przypadku, gdy nie, należy używać w wersji 0.9.10.6 lub nowszej. \r\n\r\nHistoryStats doskonale integruje się z metakontakami i jest w stanie zbierać dane z metakontaktów, jak również z subkontaktów. Jest w stanie inteligentnie łączyć historię wszystkich subkontaktów i więcej. Możesz skonfigurować integrację metakontaktów w opcjach.
-[MetaContacts Plugin]
+[The following information are only relevant if your already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
+Następujące informacje są właściwe tylko wtedy, jeśli używasz metakontaktów.\r\n\r\nHistoryStats doskonale integruje się z metakontakami i jest w stanie zbierać dane z metakontaktów, jak również z subkontaktów. Jest w stanie inteligentnie łączyć historię wszystkich subkontaktów i więcej. Możesz skonfigurować integrację metakontaktów w opcjach.
+[Metacontacts plugin]
 Wtyczka MetaContact
 [Automatically get updates of HistoryStats]
 Automatycznie instaluj aktualizacje HistoryStats
@@ -633,15 +633,15 @@ Słowo wyznaczające znaki
 Filtrowanie kontaktu
 [Ignore all contacts with protocol...]
 Ignoruj wszystkie kontakty z protokołu...
-[History read mode for MetaContacts]
+[History read mode for metacontacts]
 Tryb odczytu historii dla metakontaktów
-[Use only meta-contact's history]
+[Use only metacontact's history]
 Użyj tylko historii metakontaktów
-[Use only subcontacts' histories (for one meta-contact)]
+[Use only subcontacts' histories (for one metacontact)]
 Użyj tylko historii subkontaktów (dla jednego metakontaktu)
-[Use meta-contact's history and its subcontacts' histories]
+[Use metacontact's history and its subcontacts' histories]
 Użyj historii metakontaktów i ich historii subkontaktów
-[Treat meta-contacts and subcontacts as normal contacts]
+[Treat metacontacts and subcontacts as normal contacts]
 Traktuj metakontakty i subkontakty jako normalny kontakt
 [Merge contacts with same name]
 Scal kontakty o tej samej nazwie

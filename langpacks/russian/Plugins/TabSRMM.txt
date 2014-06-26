@@ -1053,7 +1053,7 @@ Esc закрывает сессию (иначе - сворачивает)
 %s набирает сообщение
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автопрокрутка отключена, %d сообщений в очереди (нажмите F12 для включения)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT+клик -> копировать в буфер)\nКлик - Информация о пользователе\nПравой кнопкой - управление метаконтактом\nСтрелка вниз - добавление/удаление пользователя из избранного.
 [No UID]
 нет UID

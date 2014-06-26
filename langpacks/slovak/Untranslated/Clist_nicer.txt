@@ -151,7 +151,7 @@
 [Hide Miranda]
 [Move marked contacts to this group]
 [Appearance]
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 [Show additional buttons]
 [Draw sunken frame]
 [Skin items]

@@ -11,7 +11,7 @@
 [Debug]
 [Copy]
 [Failed to write to the RichEdit the buffer was to small.]
-[Error: Optimal buffer size decrecied to a to low size!]
+[Error: Optimal buffer size decreased to a too low size!]
 [Internal error! (lExtraRead >= 0)]
 [Failed to execute external file view]
 [Failed to load Rich Edit ( RICHED32.DLL )]

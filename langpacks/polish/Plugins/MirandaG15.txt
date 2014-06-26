@@ -202,7 +202,7 @@ Przewiń do ostatniej linii
 Odpowiadanie
 [Show line break indicators]
 Pokaż wskaźniki końca linii
-[Send messages with return, insert line breaks with ctrl+return]
+[Send messages with Enter, insert line breaks with Ctrl+Enter]
 Wysyłaj wiadomość po wciśnięciu enteru, wstawiaj nową linię po wciśnięciu Ctrl+Enter
 [Maximized replying]
 Zmaksymalizowane odpowiadanie

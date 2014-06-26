@@ -75,7 +75,7 @@ Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to write to the RichEdit the buffer was to small.]
 Nie udało się zapisać do pola edycji z formatowaniem, zbyt mały bufor.
-[Error: Optimal buffer size decrecied to a to low size!]
+[Error: Optimal buffer size decreased to a too low size!]
 Błąd: optymalny rozmiar bufora został zmniejszony do zbyt małej wartości!
 [Internal error! (lExtraRead >= 0)]
 Błąd wewnętrzny! (lExtraRead >= 0)

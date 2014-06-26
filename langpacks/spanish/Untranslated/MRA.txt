@@ -16,7 +16,7 @@
 [from:]
 [to:]
 [Birthday:]
-[Zodiak:]
+[Zodiac:]
 [Search online users only]
 [Remember]
 [Enable avatars support (loading)]

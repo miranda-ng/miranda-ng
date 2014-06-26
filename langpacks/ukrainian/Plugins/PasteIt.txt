@@ -125,7 +125,7 @@ HTTP-з'єднання Paste It
 Ви можете розмістити тільки 1 файл
 [Cannot get data from clipboard]
 Неможливо отримати дані з буфера обміну
-[File size is %d KB, do you realy want to paste such a large file?]
+[File size is %d KB, do you really want to paste such a large file?]
 Розмір файлу %d КБ, ви дійсно хочете розмістити такий великий файл?
 [Are You sure?]
 Ви впевнені?

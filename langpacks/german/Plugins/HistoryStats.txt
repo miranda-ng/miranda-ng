@@ -610,11 +610,11 @@ Sonstiges
 Erstelle Statistik in einem niedrig priorisierten Hintergrundthread
 [Path to browser (leave blank for system default)]
 Pfad zum Browser (leer lassen für Systemstandard)
-[Create statistics for meta-contacts and their subcontacts]
+[Create statistics for metacontacts and their subcontacts]
 Statistiken für Metakontakte und ihre Unterkontakte erstellen
-[The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
-Folgende Informationen müssen Sie nur lesen, falls Sie bereits MetaContacts benutzen. In dem Fall verwenden Sie bitte Version 0.9.10.6 oder höher.\r\n\r\nHistoryStats funktioniert perfekt mit MetaContacts. Es ist in der Lage Daten sowohl von den Metakontakten als auch von den Unterkontakten zu sammeln. Ebenfalls kann es intelligent den Verlauf jedes Unterkontakts verschieben und vieles mehr. Sie finden die Einstellungen für Metakontakte in den Ausleseinstellungen.
-[MetaContacts Plugin]
+[The following information are only relevant if your already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
+Folgende Informationen müssen Sie nur lesen, falls Sie bereits MetaContacts benutzen.\r\n\r\nHistoryStats funktioniert perfekt mit MetaContacts. Es ist in der Lage Daten sowohl von den Metakontakten als auch von den Unterkontakten zu sammeln. Ebenfalls kann es intelligent den Verlauf jedes Unterkontakts verschieben und vieles mehr. Sie finden die Einstellungen für Metakontakte in den Ausleseinstellungen.
+[Metacontacts plugin]
 
 [Automatically get updates of HistoryStats]
 Bekommt automatisch Updates von HistoryStats
@@ -647,15 +647,15 @@ Wort trennende Zeichen
 Kontaktfilter
 [Ignore all contacts with protocol...]
 Ignoriere alle Kontakte mit dem Protokoll...
-[History read mode for MetaContacts]
+[History read mode for metacontacts]
 Verlaufslesemodus für Metakontakte
-[Use only meta-contact's history]
+[Use only metacontact's history]
 Benutze nur den Verlauf des Metakontakts
-[Use only subcontacts' histories (for one meta-contact)]
+[Use only subcontacts' histories (for one metacontact)]
 Benutze nur den Verlauf der Unterkontakte (eines Metakontakts)
-[Use meta-contact's history and its subcontacts' histories]
+[Use metacontact's history and its subcontacts' histories]
 Benutze den Verlauf des Metakontakts und der Unterkontakte
-[Treat meta-contacts and subcontacts as normal contacts]
+[Treat metacontacts and subcontacts as normal contacts]
 Behandle Metakontakte und Unterkontakte wie normale Kontakte
 [Merge contacts with same name]
 Kontakte mit gleichem Namen verschmelzen

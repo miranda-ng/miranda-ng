@@ -200,7 +200,7 @@
 Правяраць версію файла значкоў для правільнага адлюстравання
 [Display icons on each dialog button]
 Паказваць значкі на кожнай кнопцы
-[MetaContacts]
+[Metacontacts]
 Метакантакты
 [Scan subcontacts for missing information]
 Пошук адсутнай інфармацыі ў субкантактах
@@ -228,7 +228,7 @@
 Укладзеныя пункты меню
 [Sort all tree items alphabetically]
 Адсартаваць усе пункты ў алфавітным парадку
-[Info of a MetaContact's subcontact]
+[Info of a metacontact's subcontact]
 Інфармацыя субкантакта Метакантакту
 [Colors]
 Колеры
@@ -1135,8 +1135,8 @@ Web Дызайн
 Вы адмянілі імпарт новага кантакту.\nНекаторая інфармацыя можа быць няслушнай для гэтага кантакту.\n\nВы хочаце выдаліць няскончаны кантакт?
 [Importing a new meta subcontact failed!]
 Памылка пры імпартаванні новага субкантакта!
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
-Створаны субкантакт '%s'\nне можа быць дададзены да МетаКонтакту '%s'!\n\nВы хочаце выдаліць гэты кантакт?
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
+Створаны субкантакт '%s'\nне можа быць дададзены да метаконтакту '%s'!\n\nВы хочаце выдаліць гэты кантакт?
 [Settings: %S]
 Налады: %S
 [Events: %S]

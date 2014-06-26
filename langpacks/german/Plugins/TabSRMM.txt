@@ -1062,7 +1062,7 @@ Letzte Nachricht am %s um %s empfangen
 %s tippt eine Nachricht
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Autoscrolling ist deaktiviert, %d Nachricht(en) in der Warteschlange (F12 drücken um es zu aktivieren)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetails\nRechtsklick fur Einstellungen von Metakontakte\nKlick auf das Auswahlfeld, um Benutzer hinzuzufugen oder zu entfernen.
 [No UID]
 Keine UID

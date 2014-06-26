@@ -88,7 +88,7 @@
 [Scroll to the last line]
 [Replying]
 [Show line break indicators]
-[Send messages with return, insert line breaks with ctrl+return]
+[Send messages with Enter, insert line breaks with Ctrl+Enter]
 [Maximized replying]
 [Close chat after]
 [When in background]

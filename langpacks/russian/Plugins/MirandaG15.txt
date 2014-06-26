@@ -195,7 +195,7 @@
 Ответ
 [Show line break indicators]
 Показывать символы переноса строки
-[Send messages with return, insert line breaks with ctrl+return]
+[Send messages with Enter, insert line breaks with Ctrl+Enter]
 Отправка сообщений по Enter, перевод строки по CTRL+Enter
 [Maximized replying]
 Ответ в режиме полного экрана

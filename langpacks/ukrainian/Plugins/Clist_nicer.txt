@@ -481,7 +481,7 @@
 Перемістити позначені контакти в цю групу
 [Appearance]
 Зовнішній вигляд
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 Показувати значки метаконтактів
 [Show additional buttons]
 Показувати додаткові кнопки

@@ -483,7 +483,7 @@
 Переместить отмеченные контакты в эту группу
 [Appearance]
 Внешний вид
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 Показывать значки метаконтактов
 [Show additional buttons]
 Показывать дополнительные кнопки

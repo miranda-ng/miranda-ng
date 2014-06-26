@@ -13,7 +13,7 @@
 [Send formatted text (send RTF)]
 [Font]
 [Birthday:]
-[Zodiak:]
+[Zodiac:]
 [Remember]
 [Enable avatars support (loading)]
 [Server:]

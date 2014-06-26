@@ -30,7 +30,7 @@ ICQ номер:
 Отказ
 [ICQ number:]
 ICQ номер:
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
 Съвет: Ако не въведете паролата тук, ще трябва да я въвеждате при всяко вписване.
 [Retrieve a lost password or ICQ number]
 Получаване на забравена парола или ICQ номер
@@ -1442,7 +1442,7 @@ Popup заглавие
 Всички действия завършиха
 [Close]
 Затваряне
-[You have to be online to sychronize the server-list!]
+[You have to be online to synchronize the server-list!]
 Трябва да сте на линия за синхронизиране на списъка на сървъра!
 [** All contacts **]
 ** Всички контакти **

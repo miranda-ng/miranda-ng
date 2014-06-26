@@ -352,7 +352,7 @@ Proszę spróbować ponownie po aktualizacji pogody.
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Nie zarejestrowano sytuacji pogodowej.
-[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
 Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienku edycji ustawień.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.

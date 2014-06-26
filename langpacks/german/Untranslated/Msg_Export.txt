@@ -1,5 +1,5 @@
 ﻿[Failed to write to the RichEdit the buffer was to small.]
-[Error: Optimal buffer size decrecied to a to low size!]
+[Error: Optimal buffer size decreased to a too low size!]
 [Failed to execute external file view]
 [Failed to load Rich Edit ( RICHED32.DLL )]
 [Failed to get handle to RichEdit!]

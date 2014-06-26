@@ -492,7 +492,7 @@ URL събития
 Преместване на маркираните контакти в групата
 [Appearance]
 Външен вид
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 
 [Show additional buttons]
 Показване на допълнителни бутони

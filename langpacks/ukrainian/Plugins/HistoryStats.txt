@@ -571,15 +571,15 @@ HistoryStats підтримує деякі плагіни. Натисніть, �
 Фільтр контактів
 [Ignore all contacts with protocol...]
 Ігнорувати всі контакти протоколів...
-[History read mode for MetaContacts]
+[History read mode for metacontacts]
 Обробка історії метаконтактів
-[Use only meta-contact's history]
+[Use only metacontact's history]
 Використовувати тільки історію метаконтактів
-[Use only subcontacts' histories (for one meta-contact)]
+[Use only subcontacts' histories (for one metacontact)]
 Використовувати тільки історію субконтактів (одного метаконтакту)
-[Use meta-contact's history and its subcontacts' histories]
+[Use metacontact's history and its subcontacts' histories]
 Використовувати історію метаконтактів та історію їх субконтактів
-[Treat meta-contacts and subcontacts as normal contacts]
+[Treat metacontacts and subcontacts as normal contacts]
 Обробляти метаконтакти і субконтакти як звичайні контакти
 [Merge contacts with same name]
 Об'єднувати контакти з однаковими іменами

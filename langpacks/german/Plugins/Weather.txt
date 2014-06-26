@@ -352,7 +352,7 @@ Bitte versuchen Sie es erneut nachdem die Aktualisierung beendet ist.
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Wetterlage wurde nicht aufgezeichnet.
-[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
 Für die komplette Vorhersage ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Für die Wetterkarte ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.

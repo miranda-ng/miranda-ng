@@ -200,7 +200,7 @@ Ikony
 Sprawdź wersję domyślnej paczki ikon aby zapobiec ich błędnemu wyświetlaniu
 [Display icons on each dialog button]
 Pokazuj ikony na każdym przycisku
-[MetaContacts]
+[Metacontacts]
 Metakontakty
 [Scan subcontacts for missing information]
 Skanuj podkontakt w poszukiwaniu brakujących informacji
@@ -228,7 +228,7 @@ Uczyń informcje o kontakcie bazujące na protokole tylko do odczytu
 Włącz grupy w widoku drzewa w oknie szczegółów
 [Sort all tree items alphabetically]
 Sortuj wszystkie elementy drzewa alfabetycznie
-[Info of a MetaContact's subcontact]
+[Info of a metacontact's subcontact]
 Informacje o podkontakcie metakontaktu
 [Colors]
 Kolory
@@ -1167,7 +1167,7 @@ Importowanie nowego kontaktu zostało przerwane!
 Przerwałeś importowanie nowego kontaktu.\nMoże brakować pewnych informacji o tym kontakcie.\n\nCzy chcesz usunąć niekompletny kontakt?
 [Importing a new meta subcontact failed!]
 Importowanie nowego submetakontaktu nieudane!
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
 Nowo-utworzony submetakontakt "%s"\nnie mógł zostać dodany do metakontaktu "%s"!\n\nCzy chcesz usunąć ten kontakt?
 [Settings: %S]
 Ustawienie: %S

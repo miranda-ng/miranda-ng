@@ -1058,7 +1058,7 @@ Esc зачыняе сесію (інакш - згортвае)
 %s набірае паведамленне
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Аўтапрагортка адключана, %d паведамленняў у чэргі (націсніце F12 для ўключэння)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інфармацыя пра карыстача\nПравай кнопкай - кіраванне метакантактам\nСтрэлка ўніз - даданне/выдаленне карыстача з абранага.
 [No UID]
 няма UID

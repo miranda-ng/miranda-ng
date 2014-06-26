@@ -202,7 +202,7 @@ Zur letzten Zeile blättern
 Antworten
 [Show line break indicators]
 Zeilenumbrüche anzeigen
-[Send messages with return, insert line breaks with ctrl+return]
+[Send messages with Enter, insert line breaks with Ctrl+Enter]
 Nachrichten mit Eingabe senden, Zeilenumbruch mit STRG+Eingabe einfügen
 [Maximized replying]
 Maximiertes Antworten

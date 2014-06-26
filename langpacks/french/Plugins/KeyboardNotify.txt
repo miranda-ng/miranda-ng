@@ -112,7 +112,7 @@ Rapide
 Lent
 [&Preview]
 &Aperçu
-[Emulate keypresses (Use this option if you are using a USB keyboard)]
+[Emulate key presses (Use this option if you are using a USB keyboard)]
 Émuler la pression des touches (utile en cas de clavier USB)
 [Create/Edit Themes]
 Créer/Modifier les thèmes

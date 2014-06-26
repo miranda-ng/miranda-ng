@@ -979,7 +979,7 @@ Ein freundlicher Name für den Knoten
 
 [The JIDs of those to contact with questions]
 
-[The datetime when the node was created]
+[The date and time when the node was created]
 Datum und Uhrzeit der Knotenerzeugung
 [The JID of the node creator]
 Die JID des Knotenerzeugers
@@ -1859,13 +1859,13 @@ Neue Liste
 Liste löschen
 [** Default **]
 ** Standard **
-[** Subsription: both **]
+[** Subscription: both **]
 ** Autorisierung: Beide **
-[** Subsription: to **]
+[** Subscription: to **]
 ** Autorisierung: Nach **
-[** Subsription: from **]
+[** Subscription: from **]
 ** Autorisierung: Von **
-[** Subsription: none **]
+[** Subscription: none **]
 ** Autorisierung: keine **
 [<none>]
 <keine>

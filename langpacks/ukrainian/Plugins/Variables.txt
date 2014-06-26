@@ -149,7 +149,7 @@ X, помножене на Y, поділене на Z
 випадкове число
 [x - y - ...]
 X - Y - ...
-[MetaContacts]
+[Metacontacts]
 Метаконтакти
 [get parent metacontact of contact x]
 повертає батьківський метаконтакт субконтакта X

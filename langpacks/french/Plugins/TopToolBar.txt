@@ -53,11 +53,11 @@ OK
 
 [Show offline contacts]
 
-[Enable/disable MetaContacts]
+[Enable/disable metacontacts]
 
-[Disable MetaContacts]
+[Disable metacontacts]
 
-[Enable MetaContacts]
+[Enable metacontacts]
 
 [Enable/disable groups]
 

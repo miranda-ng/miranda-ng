@@ -30,7 +30,7 @@ Contraseña:
 Cancelar
 [ICQ number:]
 
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
 
 [Retrieve a lost password or ICQ number]
 
@@ -1442,7 +1442,7 @@ ID de usuario
 
 [Close]
 Cerrar
-[You have to be online to sychronize the server-list!]
+[You have to be online to synchronize the server-list!]
 
 [** All contacts **]
 ** Todos los contactos **

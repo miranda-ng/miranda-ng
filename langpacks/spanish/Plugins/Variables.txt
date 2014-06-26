@@ -158,7 +158,7 @@ Variables
 [x - y - ...]
 
 ;file \plugins\Variables\src\parse_metacontacts.cpp
-[MetaContacts]
+[Metacontacts]
 
 [get parent metacontact of contact x]
 

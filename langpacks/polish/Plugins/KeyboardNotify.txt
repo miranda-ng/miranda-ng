@@ -112,7 +112,7 @@ Szybko
 Wolno
 [&Preview]
 &Podgląd
-[Emulate keypresses (Use this option if you are using a USB keyboard)]
+[Emulate key presses (Use this option if you are using a USB keyboard)]
 Emuluj naciśnięcia klawiszy (włącz tą funkcję, jeśli używasz klawiatury na USB)
 [Create/Edit Themes]
 Twórz/Edytuj Motywy

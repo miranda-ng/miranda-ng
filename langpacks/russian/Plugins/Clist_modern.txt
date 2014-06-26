@@ -339,9 +339,9 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Значок xСтатуса
 [Ignore empty extra icons places (arrange to right).]
 Игнорировать пустые дополнительные значки (справа)
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 'Мета' значки для метаконтактов
-[Expand MetaContacts]
+[Expand metacontacts]
 Разворачивать метаконтакты
 [Avoid double click expand]
 Не разворачивать по двойному клику
@@ -349,12 +349,12 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Скрыть дополнительные значки для субконтактов
 [Hide offline subcontacts]
 Прятать субконтакты не в сети
-[MetaContacts stuff]
+[Metacontacts stuff]
 Метаконтакты
 [Additional stuff]
 Дополнительно
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
-Для дополнительных возможностей загрузите плагин MetaContacts.\nhttp://miranda-ng.org/p/MetaContacts/
+[For other stuff metacontacts should be enabled.]
+Для дополнительных возможностей включите метаконтакты.
 [Allow internal requesting of status message text]
 Разрешить внутренние запросы статусных сообщений
 [Subcontacts indent:]
@@ -639,28 +639,26 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Фон панели статусов
 [Frames title bar background]
 Фон заголовка фреймов
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него?
-[Converting to MetaContact]
+[Converting to metacontact]
 Конвертация в метаконтакт
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
 Хотите конвертировать '%s' в метаконтакт и добавить '%s' в него (удалить его из '%s')?
-[Converting to MetaContact (Moving)]
+[Converting to metacontact (moving)]
 Конвертирование в метаконтакт (перемещение)
 [Do you want contact '%s' to be added to metacontact '%s'?]
 Хотите добавить '%s' в метаконтакт '%s'?
-[Adding contact to MetaContact]
+[Adding contact to metacontact]
 Добавление к метаконтакту
 [Do you want contact '%s' to be default?]
 Хотите сделать '%s' контактом по умолчанию?
 [Set default contact]
 Контакт по умолчанию
-[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
 Хотите удалить '%s' из метаконтакта '%s' и добавить в '%s'?
-[Changing MetaContacts (Moving)]
+[Changing metacontacts (moving)]
 Изменение метаконтакта (перемещение)
-[Do you want contact '%s' to be added to MetaContact '%s'?]
-Хотите добавить контакт '%s' в метаконтакт '%s'?
 [Contact names]
 Контакты
 [Row items]

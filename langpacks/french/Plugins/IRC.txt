@@ -262,8 +262,8 @@ Notifications
 CTCP
 [DCC]
 DCC
-[Ignore mask ( nick!user@host )]
-Ignorer masque ( nick!user@host )
+[Ignore mask (nick!user@host)]
+Ignorer masque (nick!user@host)
 [Network (*)]
 Réseau (*)
 [Ignore events]
@@ -564,9 +564,9 @@ Veuillez entrer un canal
 Veuillez sélectionner un réseau IRC et entrer le mot de passe si nécessaire.
 [Please enter a unique nickname]
 Veuillez entrer un pseudo unique
-[Please enter your authentification code]
+[Please enter your authentication code]
 Veuillez entrer votre code d'authentification
-[Authentificate nick]
+[Authenticate nick]
 
 [Are you sure you want to unregister your current nick?]
 Êtes vous sur de vouloir désenregistrer votre pseudo actuel?

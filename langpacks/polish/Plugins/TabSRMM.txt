@@ -1062,7 +1062,7 @@ Ostatnia wiadomość: %s o %s
 %s pisze wiadomość...
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Autoprzewijanie wyłączone, napisano %d wiadomości (naciśnij F12 aby włączyć)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s ( klik SHIFT -> kopiowanie do schowka)\nKlik dla zobaczenia wizytówki kontaktu\nPPM dla kontrolowania metakontaktów\nKlik w prawą część dla dodania lub usunięcia z moich ulubionych.
 [No UID]
 Brak UID

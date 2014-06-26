@@ -338,9 +338,9 @@ Faire un cycle de
 
 [Ignore empty extra icons places (arrange to right).]
 
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
-[Expand MetaContacts]
+[Expand metacontacts]
 Développer les MetaContacts
 [Avoid double click expand]
 
@@ -348,11 +348,11 @@ Développer les MetaContacts
 Cachez tous les icônes supplémentaires pour les sous contacts
 [Hide offline subcontacts]
 Cachez les sous contacts hors ligne
-[MetaContacts stuff]
+[Metacontacts stuff]
 Paramètres pour les MetaContacts
 [Additional stuff]
 Paramètres avancés
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
+[For other stuff metacontacts should be enabled.]
 
 [Allow internal requesting of status message text]
 Autoriser la demande interne du texte de message d'état
@@ -639,28 +639,26 @@ Arrière-plan
 Arrière plan de la barre d'état
 [Frames title bar background]
 
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Voulez-vous que le contact '%s' soit converti en MetaContact et y ajouter '%s' ?
-[Converting to MetaContact]
+[Converting to metacontact]
 Conversion en MetaContact
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
 Voulez-vous que le contact '%s' soit converti en MetaContact et y ajouter '%s' (le retiré de '%s') ?
-[Converting to MetaContact (Moving)]
-Conversion en MetaContact (Déplacement)
+[Converting to metacontact (moving)]
+Converting to metacontact (déplacement)
 [Do you want contact '%s' to be added to metacontact '%s'?]
 Voulez-vous que le contact '%s' soit ajouté au MetaContact '%s' ?
-[Adding contact to MetaContact]
+[Adding contact to metacontact]
 Ajout d'un contact dans MetaContact
 [Do you want contact '%s' to be default?]
 Voulez-vous que '%s' soir le par défaut?
 [Set default contact]
 Ce contact en par défaut
-[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
 Voulez-vous que le contact '%s' soit transféré du MetaContact '%s' au MetaContact '%s' ?
-[Changing MetaContacts (Moving)]
-Changement de MetaContact (Déplacement)
-[Do you want contact '%s' to be added to MetaContact '%s'?]
-Voulez-vous que le contact '%s' soit ajouté au MetaContact '%s' ?
+[Changing metacontacts (moving)]
+Changement de MetaContact (déplacement)
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Noms des contacts

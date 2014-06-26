@@ -115,9 +115,9 @@ OTR-шыфраванне: завершана
 Шыфраваная сесія была абноўлена '%s'.
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
 Шыфраваная сесія была абноўлена '%s' (не правераны)
-[OTR encrypted session with '%s' sucessfully refreshed]
+[OTR encrypted session with '%s' successfully refreshed]
 Шыфраваная сесія з '%s' паспяхова абноўлена.
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+[OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
 Шыфраваная сесія з '%s' паспяхова абноўлена (не правераны).
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 Шыфраваная сесія была спынена '%s'. Вы павінны зрабіць таксама самае!
@@ -131,7 +131,7 @@ OTR Інфармацыя
 OTR INFO\s
 [Authentication from %s]
 Ідэнтыфікацыя ад %s
-[Authenticae %s]
+[Authenticate %s]
 Ідэнтыфікацыя %s
 [Unknown]
 Невядома
@@ -207,9 +207,9 @@ OTR ідэнтыфікацыя: %s (%s)
 Пытанне
 [Password]
 Пароль
-[Authentication sucessful.]
+[Authentication successful.]
 Паспяховая ідэнтыфікацыя.
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+[You contact authenticated you successful. You can send your own request to authenticate him.]
 Ваш кантакт паспяхова ідэнтыфікаваны. Вы можаце паслаць ваш уласны запыт ідэнтыфікацыі.
 [Error during authentication.]
 Памылка пры ідэнтыфікацыі

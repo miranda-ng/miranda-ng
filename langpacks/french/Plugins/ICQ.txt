@@ -30,7 +30,7 @@ Entrez un mot de passe pour l'UIN %d :
 Annuler
 [ICQ number:]
 Identifiant :
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
 Note : Si vous ne saisissez pas de mot de passe, Miranda vous le demandera à chaque connexion.
 [Retrieve a lost password or ICQ number]
 Retrouver un mot de passe perdu ou un numéro ICQ
@@ -1442,7 +1442,7 @@ Suppression du groupe "%s"...
 Opérations terminées!
 [Close]
 Fermer
-[You have to be online to sychronize the server-list!]
+[You have to be online to synchronize the server-list!]
 Vous devez être En ligne pour synchroniser le serveur!
 [** All contacts **]
 ** Tous les contacts **

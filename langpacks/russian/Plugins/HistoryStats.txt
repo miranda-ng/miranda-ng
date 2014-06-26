@@ -557,10 +557,10 @@ HTML вывод невозможен.
 Создавать статистику в фоновом процессе с низким приоритетом
 [Path to browser (leave blank for system default)]
 Путь к браузеру (пусто = системный браузер)
-[Create statistics for meta-contacts and their subcontacts]
+[Create statistics for metacontacts and their subcontacts]
 Создает статистику для метаконтактов и субконтактов
-[The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
-Следующая информация для тех, кто использует метаконтакты. Пожалуйста, используйте версию метаконтактов не ниже 0.9.10.6.\r\n\r\nHistoryStats отлично взаимодействует с метаконтактами и способен собирать данные не только от метаконтактов, но и от субконтактов. Также HistoryStats умеет объединять историю всех субконтактов. Вы можете настроить взаимодействие с метаконтактами во вкладке "Ввод".
+[The following information are only relevant if your already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
+Следующая информация для тех, кто использует метаконтакты.\r\n\r\nHistoryStats отлично взаимодействует с метаконтактами и способен собирать данные не только от метаконтактов, но и от субконтактов. Также HistoryStats умеет объединять историю всех субконтактов. Вы можете настроить взаимодействие с метаконтактами во вкладке "Ввод".
 [Automatically get updates of HistoryStats]
 Автоматически обновляет HistoryStats
 [Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
@@ -591,15 +591,15 @@ HistoryStats поддерживает некоторые плагины. Наж�
 Фильтр контактов
 [Ignore all contacts with protocol...]
 Игнорировать все контакты от протоколов...
-[History read mode for MetaContacts]
+[History read mode for metacontacts]
 Способ чтения истории метаконтактов
-[Use only meta-contact's history]
+[Use only metacontact's history]
 Использовать только историю метаконтактов
-[Use only subcontacts' histories (for one meta-contact)]
+[Use only subcontacts' histories (for one metacontact)]
 Использовать только историю субконтактов (для одного метаконтакта)
-[Use meta-contact's history and its subcontacts' histories]
+[Use metacontact's history and its subcontacts' histories]
 Использовать историю метаконтактов и историю их субконтактов
-[Treat meta-contacts and subcontacts as normal contacts]
+[Treat metacontacts and subcontacts as normal contacts]
 Обрабатывать метаконтакты и субконтакты как обычные контакты
 [Merge contacts with same name]
 Объединять контакты с одинаковыми именами

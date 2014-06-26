@@ -494,7 +494,7 @@ El&iminar grupo
 
 [Appearance]
 Apariencia
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 
 [Show additional buttons]
 

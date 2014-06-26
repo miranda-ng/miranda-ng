@@ -32,7 +32,7 @@ Popups für diesen Kontakt zeigen
 Protokolle
 [Enable tracking for these protocols:]
 Folgende Protokolle verfolgen:
-[MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+[Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Metakontakte werden gesondert gehandhabt: Änderungen von den Unterkontakten werden übernommen, Benachrichtigungen von Metakontakten werden ignoriert
 [Show popup when a contact change his avatar]
 Zeige Popup, wenn Kontakt seinen Avatar ändert

@@ -494,7 +494,7 @@ Cacher Miranda
 Déplacer les contacts marqués de ce groupe
 [Appearance]
 Apparence
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 Voir l'icône du MetaContact
 [Show additional buttons]
 Voir boutons supplémentaires

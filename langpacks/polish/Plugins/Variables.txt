@@ -158,7 +158,7 @@ losowa liczba
 [x - y - ...]
 "x" minus "y" minus ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
-[MetaContacts]
+[Metacontacts]
 Metakontakty
 [get parent metacontact of contact x]
 pobiera nadrzędny metakontakt kontaktu "x"

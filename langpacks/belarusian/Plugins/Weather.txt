@@ -350,7 +350,7 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Лог надвор'я не вядзецца.
-[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
 URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Не паказаны URL для карты надвор'я. Вы можаце паказаць яго ў меню Налады.

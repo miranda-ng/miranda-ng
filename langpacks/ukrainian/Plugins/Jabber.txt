@@ -953,8 +953,8 @@ JID, що вказує на replyto
 Тип даних вузла, зазвичай визначається простір імен корисного навантаження (при наявності); МОЖЕ бути тільки список або тільки текст
 [The JIDs of those to contact with questions]
 JID для запитань
-[The datetime when the node was created]
-Дата, час, коли вузол був створений
+[The date and time when the node was created]
+Дата і час створення вузла
 [The JID of the node creator]
 JID автора
 [A description of the node]
@@ -1819,13 +1819,13 @@ Google Hangouts
 Видалити
 [** Default **]
 ** За замовчанням **
-[** Subsription: both **]
+[** Subscription: both **]
 ** Підписка: обидві **
-[** Subsription: to **]
+[** Subscription: to **]
 ** Підписка: до **
-[** Subsription: from **]
+[** Subscription: from **]
 ** Підписка: від **
-[** Subsription: none **]
+[** Subscription: none **]
 ** Підписка: немає **
 [<none>]
 <немає>

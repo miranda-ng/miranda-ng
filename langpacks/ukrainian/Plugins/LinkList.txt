@@ -33,11 +33,11 @@
 Глибокий пошук
 [Static]
 Статичний
-[Color Select]
+[Color select]
 Вибір кольору
 [Incoming messages]
 Вхідні повідомлення
-[Plugin Default]
+[Plugin default]
 За замовчанням
 [Preview]
 Тест
@@ -45,17 +45,17 @@
 Вихідні повідомлення
 [Background color]
 Фон
-[Use Miranda Settings]
+[Use Miranda settings]
 Використовувати налаштування програми
 [Text color]
 Колір тексту
-[General Settings]
+[General settings]
 Основні налаштування
 [Open links always in a new window]
 Завжди відкривати посилання в новому вікні
 [Update list on new events]
 Автоматичне оновлення списку нових подій
-[Show whole Message on 'mouse over' event]
+[Show whole message on 'mouse over' event]
 Показувати повне повідомлення при наведенні миші
 [Save window position individually for each contact]
 Зберігати позицію вікна окремо для кожного контакту
@@ -79,19 +79,19 @@
 &Закрити
 [&Options]
 &Налаштування
-[Message &Direction]
+[Message &direction]
 Напрямок &повідомлень
-[&Outgoing Messages Only]
+[&Outgoing messages only]
 Тільки вихідні повідомлення
-[&Incoming Messages Only]
+[&Incoming messages only]
 Тільки вхідні повідомлення
-[Message &Type]
+[Message &type]
 Тип &повідомлень
-[&Webaddresses Only]
+[&Web addresses only]
 Тільки веб-адреси
-[&Mail-Addresses Only]
+[&Mail addresses only]
 Тільки адреси E-mail
-[&Clear Search Results]
+[&Clear search results]
 &Очистити результати пошуку
 [&Search]
 &Пошук
@@ -99,11 +99,11 @@
 Посилання
 [Open]
 Відкрити
-[Open in new Window]
+[Open in new window]
 Відкрити у новому вікні
-[Copy to Clipboard]
+[Copy to clipboard]
 Копіювати в буфер
-[Show Message]
+[Show message]
 Показати повідомлення
 [History Linklist]
 Історія посилань
@@ -121,7 +121,7 @@
 Фільтр
 [no filter]
 без фільтру
-[Search Filter]
+[Search filter]
 Пошуковий фільтр
 [no settings]
 без налаштувань
@@ -135,7 +135,7 @@
 Неможливо створити вікно!
 [Could not allocate memory!]
 Не вдається виділити пам'ять!
-[Linklist Plugin]
+[Linklist plugin]
 Плагін Linklist
 [Matches for searchtext]
 Виявлення відповідностей при пошуку

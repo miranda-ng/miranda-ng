@@ -112,7 +112,7 @@ Scroll Lock
 Павольна
 [&Preview]
 &Тэст
-[Emulate keypresses (Use this option if you are using a USB keyboard)]
+[Emulate key presses (Use this option if you are using a USB keyboard)]
 Эмуляваць націскі клавіш (Толькі для USB клавіятур)
 [Create/Edit Themes]
 Стварыць/Рэдагаваць тэму

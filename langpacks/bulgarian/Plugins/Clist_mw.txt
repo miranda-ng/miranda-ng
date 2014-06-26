@@ -204,13 +204,13 @@ ms между две мигания
 Без вертикална лента за придвижване
 [Contact list background]
 Фон на списъка с контакти
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Ползване на метаикони за метаконтактите
 [Avoid double click expand]
 Без разгръщане при двукратно натискане
 [Hide all extra icons for subcontacts]
 Без "Допълнителни икони" за подконтактите
-[MetaContacts supporting]
+[Metacontacts supporting]
 Метаконтакти
 [Ignore empty extra icons places (arrange to right)]
 Заемане мястото на липсващи допълнителни икони (подреждане вдясно)
@@ -336,7 +336,7 @@ ms между две мигания
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Списък
-[List MetaContacts]
+[List metacontacts]
 Метаконтакти
 [Not focused]
 Дефокусирано

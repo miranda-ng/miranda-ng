@@ -204,13 +204,13 @@ Oscurecer contactos inactivos
 Ocultar barra de desplazamiento vertical
 [Contact list background]
 Fondo de la lista de contactos
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 
 [Avoid double click expand]
 
 [Hide all extra icons for subcontacts]
 
-[MetaContacts supporting]
+[Metacontacts supporting]
 
 [Ignore empty extra icons places (arrange to right)]
 
@@ -338,7 +338,7 @@ Búsqueda rápida de texto
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Lista
-[List MetaContacts]
+[List metacontacts]
 
 [Not focused]
 No enfocado

@@ -979,7 +979,7 @@ Przyjazna nazwa węzła
 Typ danych węzła, zazwyczaj określany przez przestrzeń nazw jeśli w ogóle; może być pojedynczą listą, a nie pojedynczym tekstem
 [The JIDs of those to contact with questions]
 JIDy tych, z którymi należy się kontaktować w razie pytań
-[The datetime when the node was created]
+[The date and time when the node was created]
 Data i czas utworzenia węzła
 [The JID of the node creator]
 JID twórcy węzła
@@ -1859,13 +1859,13 @@ Dodaj listę...
 Usuń listę
 [** Default **]
 ** Domyślnie **
-[** Subsription: both **]
+[** Subscription: both **]
 ** Autoryzacja: w obie strony **
-[** Subsription: to **]
+[** Subscription: to **]
 ** Autoryzacja: do **
-[** Subsription: from **]
+[** Subscription: from **]
 ** Autoryzacja: od **
-[** Subsription: none **]
+[** Subscription: none **]
 ** Autoryzacja: brak **
 [<none>]
 <brak>

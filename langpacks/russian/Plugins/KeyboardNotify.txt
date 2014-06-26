@@ -105,7 +105,7 @@
 Медленно
 [&Preview]
 &Тест
-[Emulate keypresses (Use this option if you are using a USB keyboard)]
+[Emulate key presses (Use this option if you are using a USB keyboard)]
 Эмулировать нажатия клавиш (Только для USB-клавиатур)
 [Create/Edit Themes]
 Создать/Редактировать тему

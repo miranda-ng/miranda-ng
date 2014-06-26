@@ -204,13 +204,13 @@ Inaktive Kontakte abblenden
 Vertikale Bildlaufleiste ausblenden
 [Contact list background]
 Hintergrund der Kontaktliste
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Eigene Icons für Metakontakte verwenden
 [Avoid double click expand]
 Bei Doppelklick nicht aufklappen
 [Hide all extra icons for subcontacts]
 Keine Extraicons für Unterkontakte
-[MetaContacts supporting]
+[Metacontacts supporting]
 Metakontaktunterstützung
 [Ignore empty extra icons places (arrange to right)]
 Leere Extraicons ignorieren (rechts anordnen)
@@ -338,7 +338,7 @@ Schnellsuche-Text
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Liste
-[List MetaContacts]
+[List metacontacts]
 MetaContacts Liste
 [Not focused]
 nicht fokussiert

@@ -158,7 +158,7 @@ x памножанае на y дзеленае на z
 [x - y - ...]
 x - y - ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
-[MetaContacts]
+[Metacontacts]
 Метакантакты
 [get parent metacontact of contact x]
 вяртае бацькоўскі метакантакт субкантакту x

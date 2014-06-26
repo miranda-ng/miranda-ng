@@ -979,7 +979,7 @@ Tipo
 
 [The JIDs of those to contact with questions]
 
-[The datetime when the node was created]
+[The date and time when the node was created]
 
 [The JID of the node creator]
 
@@ -1859,13 +1859,13 @@ Avanzado
 
 [** Default **]
 
-[** Subsription: both **]
+[** Subscription: both **]
 
-[** Subsription: to **]
+[** Subscription: to **]
 
-[** Subsription: from **]
+[** Subscription: from **]
 
-[** Subsription: none **]
+[** Subscription: none **]
 
 [<none>]
 <Nada>

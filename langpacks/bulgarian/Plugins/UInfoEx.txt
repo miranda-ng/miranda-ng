@@ -200,7 +200,7 @@ popup за годишнина
 Проверяване версията на пакета икони (to prevent wrong icon display)
 [Display icons on each dialog button]
 Икона на всеки бутон
-[MetaContacts]
+[Metacontacts]
 Метаконтакти
 [Scan subcontacts for missing information]
 Сканиране на подконтактите за липсваща информация
@@ -228,7 +228,7 @@ popup за годишнина
 
 [Sort all tree items alphabetically]
 Азбучно сортиране на всички елементи на дървото.
-[Info of a MetaContact's subcontact]
+[Info of a metacontact's subcontact]
 Информация от подконтакт на метаконтакт
 [Colors]
 Цветове
@@ -1167,7 +1167,7 @@ Web дизайн
 Внасянето на нов контакт бе прекратено.\nВъзможно е да не е внесена цялата информация за контакта.\n\nЖелаете ли да бъде изтрит непълният контакт?
 [Importing a new meta subcontact failed!]
 
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
 
 [Settings: %S]
 Настройки: %S

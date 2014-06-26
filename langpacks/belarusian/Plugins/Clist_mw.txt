@@ -204,13 +204,13 @@ Cлужба:
 Схаваць паласу прагорткі
 [Contact list background]
 Фон спісу
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 'Мета' значкі для метакантактаў
 [Avoid double click expand]
 Не разгортваць па падвойным кліку
 [Hide all extra icons for subcontacts]
 Схаваць дадатковыя значкі для субкантактаў
-[MetaContacts supporting]
+[Metacontacts supporting]
 Падтрымка метакантактаў
 [Ignore empty extra icons places (arrange to right)]
 Ігнараваць пустыя дадатковыя значкі (справа)
@@ -338,7 +338,7 @@ Cлужба:
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Спіс
-[List MetaContacts]
+[List metacontacts]
 Спіс метакантактаў
 [Not focused]
 Не ў фокусе

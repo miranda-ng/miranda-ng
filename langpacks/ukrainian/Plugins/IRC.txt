@@ -255,7 +255,7 @@ Wildcard пошук по мережі
 Повідомлення
 [Notices]
 Повідомлення
-[Ignore mask ( nick!user@host )]
+[Ignore mask (nick!user@host)]
 Маска ігнорування (nick!user@host)
 [Network (*)]
 Мережа (*)
@@ -547,9 +547,9 @@ WallOps від %s:\s
 Виберіть мережу IRC і введіть пароль, якщо необхідно
 [Please enter a unique nickname]
 Введіть унікальний нік
-[Please enter your authentification code]
+[Please enter your authentication code]
 Введіть код автентифікації
-[Authentificate nick]
+[Authenticate nick]
 Автентифікувати
 [Are you sure you want to unregister your current nick?]
 Ви впевнені, що хочете видалити ваш нік?

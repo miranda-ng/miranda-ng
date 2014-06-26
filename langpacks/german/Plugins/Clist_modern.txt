@@ -340,9 +340,9 @@ Trayicon-Modus
 XStatus-Icon verwenden
 [Ignore empty extra icons places (arrange to right).]
 Leere Extraicons ignorieren (rechts anordnen)
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Eigene Icons für Metakontakte verwenden
-[Expand MetaContacts]
+[Expand metacontacts]
 Metakontakte aufklappen
 [Avoid double click expand]
 Bei Doppelklick nicht aufklappen
@@ -350,12 +350,12 @@ Bei Doppelklick nicht aufklappen
 Keine Extraicons für Unterkontakte
 [Hide offline subcontacts]
 Offlineunterkontakte ausblenden
-[MetaContacts stuff]
+[Metacontacts stuff]
 Einstellungen für Metakontakte
 [Additional stuff]
 Zusatzliche Einstellungen
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
-Für weitere Einstellungen benötigen Sie das MetaContacts-Plugin:\n\nhttp://miranda-ng.org/p/MetaContacts/
+[For other stuff metacontacts should be enabled.]
+
 [Allow internal requesting of status message text]
 Interne Abfrage der Texte der Statusnachrichten
 [Subcontacts indent:]
@@ -641,28 +641,26 @@ Menü Hintergrund
 Statusleiste Hintergrund
 [Frames title bar background]
 Frame Titelleisten Hintergrund
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden?
-[Converting to MetaContact]
+[Converting to metacontact]
 Konvertierung in Metakontakt
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden (wird von '%s' entfernt)?
-[Converting to MetaContact (Moving)]
+[Converting to metacontact (moving)]
 Konvertierung in Metakontakt (Verschiebe)
 [Do you want contact '%s' to be added to metacontact '%s'?]
 Soll Kontakt '%s' zu Metakontakt '%s' hinzugefügt werden?
-[Adding contact to MetaContact]
+[Adding contact to metacontact]
 Zu Metakontakt hinzufügen
 [Do you want contact '%s' to be default?]
 Soll Kontakt '%s' als Standard gesetzt werden?
 [Set default contact]
 Standardkontakt setzen
-[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
 Soll Kontakt '%s' aus Metakontakt '%s' entfernt und zu '%s' hinzugefügt werden?
-[Changing MetaContacts (Moving)]
+[Changing metacontacts (moving)]
 Ändere Metakontakte (Verschiebe)
-[Do you want contact '%s' to be added to MetaContact '%s'?]
-Soll Kontakt '%s' zu Metakontakt '%s' hinzugefügt werden?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Kontaktnamen

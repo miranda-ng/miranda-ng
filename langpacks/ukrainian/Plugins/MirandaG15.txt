@@ -193,7 +193,7 @@
 Відповідь
 [Show line break indicators]
 Показувати символи переносу рядка
-[Send messages with return, insert line breaks with ctrl+return]
+[Send messages with Enter, insert line breaks with Ctrl+Enter]
 Надсилати натисканням Enter, Ctrl+Enter - новий рядок
 [Maximized replying]
 Відповідь в режимі повного екрану

@@ -34,11 +34,11 @@ nur Internetadressen
 Genaue Suche
 [Static]
 Statisch
-[Color Select]
+[Color select]
 Farbauswahl
 [Incoming messages]
 Eingehende Nachrichten
-[Plugin Default]
+[Plugin default]
 Standard
 [Preview]
 Vorschau
@@ -46,17 +46,17 @@ Vorschau
 Ausgehende Nachrichten
 [Background color]
 Hintergrundfarbe
-[Use Miranda Settings]
+[Use Miranda settings]
 Miranda-Einstellungen verwenden
 [Text color]
 Textfarbe
-[General Settings]
+[General settings]
 Allgemeine Einstellungen
 [Open links always in a new window]
 Links immer in neuem Fenster öffnen
 [Update list on new events]
 Liste automatisch aktualisieren
-[Show whole Message on 'mouse over' event]
+[Show whole message on 'mouse over' event]
 Ganze Nachricht bei Mauskontakt anzeigen
 [Save window position individually for each contact]
 Fensterposition individuell für jeden Kontakt speichern
@@ -80,19 +80,19 @@ Datei
 S&chließen
 [&Options]
 Einstellungen
-[Message &Direction]
+[Message &direction]
 Nachrichtenrichtung
-[&Outgoing Messages Only]
+[&Outgoing messages only]
 Nur ausgehende Nachrichten
-[&Incoming Messages Only]
+[&Incoming messages only]
 Nur e&ingehende Nachrichten
-[Message &Type]
+[Message &type]
 Nachrich&tenart
-[&Webaddresses Only]
+[&Web addresses only]
 Nur Internetadressen
-[&Mail-Addresses Only]
+[&Mail addresses only]
 Nur E-&Mail-Adressen
-[&Clear Search Results]
+[&Clear search results]
 Su&chergebnisse löschen
 [&Search]
 &Suchen
@@ -100,11 +100,11 @@ Su&chergebnisse löschen
 Link
 [Open]
 Öffnen
-[Open in new Window]
+[Open in new window]
 In neuem Fenster öffnen
-[Copy to Clipboard]
+[Copy to clipboard]
 In Zwischenablage kopieren
-[Show Message]
+[Show message]
 Zeige Nachricht
 ;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
@@ -123,7 +123,7 @@ ausgehende
 Filter
 [no filter]
 kein Filter
-[Search Filter]
+[Search filter]
 Suchfilter
 [no settings]
 keine Einstellungen
@@ -139,7 +139,7 @@ Fenster konnte nicht erzeugt werden!
 [Could not allocate memory!]
 Speicher konnte nicht belegt werden!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-[Linklist Plugin]
+[Linklist plugin]
 Linklisten-Plugin
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [Matches for searchtext]

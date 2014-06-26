@@ -197,7 +197,7 @@
 Проверять версию файла значков для правильного отображения
 [Display icons on each dialog button]
 Показывать значки на каждой кнопке
-[MetaContacts]
+[Metacontacts]
 Метаконтакты
 [Scan subcontacts for missing information]
 Поиск отсутствующей информации в субконтактах
@@ -225,8 +225,8 @@
 Вложенные пункты меню
 [Sort all tree items alphabetically]
 Отсортировать все пункты в алфавитном порядке
-[Info of a MetaContact's subcontact]
-Информация субконтакта МетаКонтакта
+[Info of a metacontact's subcontact]
+Информация о субконтакте метаконтакта
 [Colors]
 Цвета
 [Common]
@@ -1131,8 +1131,8 @@ Web Дизайн
 Вы отменили импорт нового контакта.\nНекоторая информация может быть неверной для этого контакта.\n\nВы хотите удалить незаконченный контакт?
 [Importing a new meta subcontact failed!]
 Ошибка при импортировании нового мета подконтакта!
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
-Созданный мета подконтакт '%s'\nне может быть добавлен к МетаКонтакту '%s'!\n\nВы хотите удалить этот контакт?
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
+Созданный мета подконтакт '%s'\nне может быть добавлен к метаконтакту '%s'!\n\nВы хотите удалить этот контакт?
 [Settings: %S]
 Настройки: %S
 [Events: %S]

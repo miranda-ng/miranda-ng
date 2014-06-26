@@ -158,7 +158,7 @@ Zufallszahl
 [x - y - ...]
 x - y - ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
-[MetaContacts]
+[Metacontacts]
 Metakontakte
 [get parent metacontact of contact x]
 Hauptkontakt von Kontakt x

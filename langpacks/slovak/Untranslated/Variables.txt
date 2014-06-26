@@ -64,7 +64,7 @@
 [pads decimal value x to length y with zeros]
 [random number]
 [x - y - ...]
-[MetaContacts]
+[Metacontacts]
 [get parent metacontact of contact x]
 [get default subcontact x]
 [get the 'most online' subcontact x]

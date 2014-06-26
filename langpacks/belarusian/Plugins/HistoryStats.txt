@@ -498,11 +498,11 @@ HTML выснова немагчымы.
 Ствараць статыстыку ў фонавым працэсе з нізкім прыярытэтам
 [Path to browser (leave blank for system default)]
 Шлях да браўзара (пуста = сістэмны браўзар)
-[Create statistics for meta-contacts and their subcontacts]
+[Create statistics for metacontacts and their subcontacts]
 Стварае статыстыку для мета-кантактаў і суб-кантактаў
-[The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
-Наступная інфармацыя для тых, хто выкарыстоўвае метакантакты. У гэтым выпадку, калі ласка, выкарыстоўвайце версію метакантактаў не ніжэй 0.9.10.6.\r\n\r\nHistoryStats выдатна ўзаемадзейнічае з метакантактамі, і здольная збіраць дадзеныя не толькі ад мета-кантактаў, але і ад суб-кантактаў. Таксама HistoryStats умее аб'ядноўваць гісторыю ўсіх суб-кантактаў. Вы можаце наладзіць узаемадзеянне з метакантактамі ва ўкладцы "Ўвод".
-[MetaContacts Plugin]
+[The following information are only relevant if your already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
+Наступная інфармацыя для тых, хто выкарыстоўвае метакантакты.\r\n\r\nHistoryStats выдатна ўзаемадзейнічае з метакантактамі, і здольная збіраць дадзеныя не толькі ад мета-кантактаў, але і ад суб-кантактаў. Таксама HistoryStats умее аб'ядноўваць гісторыю ўсіх суб-кантактаў. Вы можаце наладзіць узаемадзеянне з метакантактамі ва ўкладцы "Ўвод".
+[Metacontacts plugin]
 Метакантакты
 [Automatically get updates of HistoryStats]
 Аўтаматычна абнаўляе HistoryStats
@@ -535,15 +535,15 @@ HistoryStats падтрымлівае некаторыя модулі. Наці�
 Фільтр кантактаў
 [Ignore all contacts with protocol...]
 Ігнараваць усе кантакты ад пратаколаў...
-[History read mode for MetaContacts]
+[History read mode for metacontacts]
 Спосаб чытання гісторыі метакантактаў
-[Use only meta-contact's history]
+[Use only metacontact's history]
 Выкарыстоўваць толькі гісторыю метакантактаў
-[Use only subcontacts' histories (for one meta-contact)]
+[Use only subcontacts' histories (for one metacontact)]
 Выкарыстоўваць толькі гісторыю субкантактаў (для аднаго метакантакту)
-[Use meta-contact's history and its subcontacts' histories]
+[Use metacontact's history and its subcontacts' histories]
 Выкарыстоўваць гісторыю метакантактаў і гісторыю іх субкантактаў
-[Treat meta-contacts and subcontacts as normal contacts]
+[Treat metacontacts and subcontacts as normal contacts]
 Абыходзіць метакантакты і субкантакты як звычайныя кантакты
 [Merge contacts with same name]
 Аб'ядноўваць кантакты з тым жа самым імем

@@ -340,9 +340,9 @@ ms между две мигания
 Ползване на икона за хСъстояние
 [Ignore empty extra icons places (arrange to right).]
 Заемане мястото на липсващи допълнителни икони (подреждане вдясно).
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Ползване на метаикони за метаконтактите
-[Expand MetaContacts]
+[Expand metacontacts]
 Разгръщане на метаконтактите
 [Avoid double click expand]
 Без разгръщане при двукратно натискане
@@ -350,12 +350,12 @@ ms между две мигания
 Без "Допълнителни икони" за подконтактите
 [Hide offline subcontacts]
 Скриване на подконтактите, които са "Извън линия"
-[MetaContacts stuff]
+[Metacontacts stuff]
 MetaContacts - настройки
 [Additional stuff]
 И още нещо
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
-За още опции е необходима приставката MetaContacts.\n\nhttp://miranda-ng.org/p/MetaContacts/
+[For other stuff metacontacts should be enabled.]
+
 [Allow internal requesting of status message text]
 
 [Subcontacts indent:]
@@ -639,25 +639,25 @@ Modern contact list
 
 [Frames title bar background]
 
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Желаете ли контакта "%s" да бъде превърнат в метаконтакт и "%s" да бъде добавен към него?
-[Converting to MetaContact]
+[Converting to metacontact]
 Превръщане в метаконтакт
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
 Желаете ли контакта "%s" да бъде превърнат в метаконтакт и "%s" да бъде добавен към него (премахнете го от "%s")?
-[Converting to MetaContact (Moving)]
-Превръщане в метаконтакт (Местене)
+[Converting to metacontact (moving)]
+Превръщане в метаконтакт (местене)
 [Do you want contact '%s' to be added to metacontact '%s'?]
 Желаете ли контакта "%s" да бъде добавен към метаконтакта "%s"?
-[Adding contact to MetaContact]
+[Adding contact to metacontact]
 Добавяне в метаконтакт
 [Do you want contact '%s' to be default?]
 Желаете ли, стандартният контакт да бъде '%s'?
 [Set default contact]
 Задаване на стандартен контакт
-[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
 Желаете ли контакта "%s" да бъде премахнат от метаконтакта "%s" и добавен към "%s"?
-[Changing MetaContacts (Moving)]
+[Changing metacontacts (moving)]
 Промяна на метаконтакт (преместване)
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]

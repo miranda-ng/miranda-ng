@@ -113,9 +113,9 @@ OTR-шифрование: завершено
 Шифрованная сессия была обновлена '%s'.
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
 Шифрованная сессия была обновлена '%s' (не проверен)
-[OTR encrypted session with '%s' sucessfully refreshed]
+[OTR encrypted session with '%s' successfully refreshed]
 Шифрованная сессия с '%s' успешно обновлена.
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+[OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
 Шифрованная сессия с '%s' успешно обновлена (не проверен).
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 Шифрованная сессия была прекращена '%s'. Вы должны сделать то же самое!
@@ -127,7 +127,7 @@ OTR не может шифровать во время отправки сооб
 Информация OTR
 [Authentication from %s]
 Идентификация от %s
-[Authenticae %s]
+[Authenticate %s]
 Идентификация %s
 [Unknown]
 Неизвестно
@@ -199,9 +199,9 @@ OTR идентификация: %s (%s)
 Вопрос
 [Password]
 Пароль
-[Authentication sucessful.]
+[Authentication successful.]
 Успешная идентификация.
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+[You contact authenticated you successful. You can send your own request to authenticate him.]
 Ваш контакт успешно идентифицирован. Вы можете отправить ваш собственный запрос идентификации.
 [Error during authentication.]
 Ошибка при идентификации

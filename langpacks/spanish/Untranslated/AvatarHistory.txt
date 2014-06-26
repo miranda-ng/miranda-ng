@@ -9,7 +9,7 @@
 [Log this user's avatars changes to history]
 [Show popups for this user]
 [Enable tracking for these protocols:]
-[MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+[Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 [Show popup when a contact change his avatar]
 [On right click:]
 [On left click:]

@@ -30,7 +30,7 @@ Zapamiętaj hasło dla tej sesji
 Anuluj
 [ICQ number:]
 Numer ICQ:
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
 Wskazówka: Jeśli nie wpiszesz tutaj swojego hasła, Miranda poprosi o nie za każdym razem, kiedy spróbujesz przejść do trybu online.
 [Retrieve a lost password or ICQ number]
 Odzyskaj zapomniane hasło bądź numer ICQ
@@ -1442,7 +1442,7 @@ Usuwanie grupy "%s"...
 Wszystkie operacje zakończone
 [Close]
 Zamknij
-[You have to be online to sychronize the server-list!]
+[You have to be online to synchronize the server-list!]
 Musisz być połączony żeby zsynchronizować listę serwera!
 [** All contacts **]
 ** Wszystkie kontakty **

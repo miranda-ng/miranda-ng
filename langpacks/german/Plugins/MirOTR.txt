@@ -115,9 +115,9 @@ Versuche, die OTR-verschlüsselte Sitzung mit '%s' zu erneuern ...
 OTR-verschlüsselte Sitzung wurde von '%s' aktualisiert.
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
 OTR-verschlüsselte Sitzung wurde von '%s' aktualisiert (ungeprüft)
-[OTR encrypted session with '%s' sucessfully refreshed]
+[OTR encrypted session with '%s' successfully refreshed]
 OTR-verschlüsselte Sitzung mit '%s' wurde erfolgreich aktualisiert.
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+[OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
 OTR-verschlüsselte Sitzung mit '%s' wurde erfolgreich aktualisiert (ungeprüft)
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 OTR-verschlüsselte Sitzung wurde beendet von '%s'. Sie sollten das jetzt auch machen!
@@ -131,7 +131,7 @@ OTR-Informationen
 \[OTR-INFO]\s
 [Authentication from %s]
 Authentifizierung von %s
-[Authenticae %s]
+[Authenticate %s]
 Authentifiziere %s
 [Unknown]
 Unbekannt
@@ -207,9 +207,9 @@ Geheimantwort:
 Frage
 [Password]
 Passwort
-[Authentication sucessful.]
+[Authentication successful.]
 Authentifizierung erfolgreich.
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+[You contact authenticated you successful. You can send your own request to authenticate him.]
 Ihr Kontakt authentifizierte Sie erfolgreich. Sie können nun Ihre eigene Nachfrage zum Authentifizieren an ihn schicken.
 [Error during authentication.]
 Fehler während der Authentifizierung!

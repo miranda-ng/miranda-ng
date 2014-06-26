@@ -129,7 +129,7 @@ Coller à partir du fichier
 Vous pouver coller 1 seul fichier
 [Cannot get data from clipboard]
 Ne peut pas obtenir les données du presse-papiers
-[File size is %d KB, do you realy want to paste such a large file?]
+[File size is %d KB, do you really want to paste such a large file?]
 La taille du fichier est %d KB, voulez-vous vraiment coller un tel fichier?
 [Are You sure?]
 Etes-vous sûr?

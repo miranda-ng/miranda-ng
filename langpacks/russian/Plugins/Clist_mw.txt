@@ -203,13 +203,13 @@ Cлужба:
 Скрыть полосу прокрутки
 [Contact list background]
 Фон списка
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 'Мета' значки для метаконтактов
 [Avoid double click expand]
 Не разворачивать по двойному клику
 [Hide all extra icons for subcontacts]
 Скрыть дополнительные значки для субконтактов
-[MetaContacts supporting]
+[Metacontacts supporting]
 Поддержка метаконтактов
 [Ignore empty extra icons places (arrange to right)]
 Игнорировать пустые дополнительные значки (справа)
@@ -333,7 +333,7 @@ Cлужба:
 Быстрый поиск
 [List]
 Список
-[List MetaContacts]
+[List metacontacts]
 Список метаконтактов
 [Not focused]
 Не в фокусе

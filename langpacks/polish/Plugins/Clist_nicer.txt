@@ -494,7 +494,7 @@ Ukryj Mirandę
 Przenieś zaznaczone kontakty do tej grupy
 [Appearance]
 Personalizacja
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 Pokazuj ikony protokołu metakontaktów
 [Show additional buttons]
 Pokaż dodatkowe przyciski

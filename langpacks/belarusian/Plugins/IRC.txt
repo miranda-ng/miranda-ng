@@ -258,8 +258,8 @@ Wildcard пошук па сетцы
 Паведамленні
 [Notices]
 Абвесткі
-[Ignore mask ( nick!user@host )]
-Маска ігнаравання( nick!user@host )
+[Ignore mask (nick!user@host)]
+Маска ігнаравання (nick!user@host)
 [Network (*)]
 Сетка (*)
 [Ignore events]
@@ -560,9 +560,9 @@ CTCP %s адказ пасланы для %s: %s
 Абярыце IRC сетка і ўвядзіце пароль, калі неабходна
 [Please enter a unique nickname]
 Увядзіце ўнікальную мянушку
-[Please enter your authentification code]
+[Please enter your authentication code]
 Увядзіце код аўтэнтыфікацыі
-[Authentificate nick]
+[Authenticate nick]
 Аўтэнтыфікаваць
 [Are you sure you want to unregister your current nick?]
 Вы ўпэўнены, што жадаеце выдаліць мянушку?

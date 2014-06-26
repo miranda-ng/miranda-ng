@@ -34,11 +34,11 @@ Sens du messsage
 
 [Static]
 Statique
-[Color Select]
+[Color select]
 
 [Incoming messages]
 Messages reçus
-[Plugin Default]
+[Plugin default]
 
 [Preview]
 Aperçu
@@ -46,17 +46,17 @@ Aperçu
 Messages envoyés
 [Background color]
 Couleur de fond
-[Use Miranda Settings]
+[Use Miranda settings]
 
 [Text color]
 Couleur du texte
-[General Settings]
+[General settings]
 
 [Open links always in a new window]
 
 [Update list on new events]
 
-[Show whole Message on 'mouse over' event]
+[Show whole message on 'mouse over' event]
 
 [Save window position individually for each contact]
 
@@ -80,19 +80,19 @@ Heure
 &Fermer
 [&Options]
 &Paramètres
-[Message &Direction]
+[Message &direction]
 
-[&Outgoing Messages Only]
+[&Outgoing messages only]
 
-[&Incoming Messages Only]
+[&Incoming messages only]
 
-[Message &Type]
+[Message &type]
 
-[&Webaddresses Only]
+[&Web addresses only]
 
-[&Mail-Addresses Only]
+[&Mail addresses only]
 
-[&Clear Search Results]
+[&Clear search results]
 
 [&Search]
 &Recherche
@@ -100,11 +100,11 @@ Heure
 Lien
 [Open]
 Ouvrir
-[Open in new Window]
+[Open in new window]
 
-[Copy to Clipboard]
+[Copy to clipboard]
 Copier dans le Presse-Papiers
-[Show Message]
+[Show message]
 
 ;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
@@ -123,7 +123,7 @@ Sortant
 
 [no filter]
 
-[Search Filter]
+[Search filter]
 
 [no settings]
 
@@ -139,7 +139,7 @@ Historique
 [Could not allocate memory!]
 
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-[Linklist Plugin]
+[Linklist plugin]
 
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [Matches for searchtext]

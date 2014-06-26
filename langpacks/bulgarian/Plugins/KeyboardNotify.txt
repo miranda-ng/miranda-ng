@@ -112,7 +112,7 @@
 
 [&Preview]
 Образец
-[Emulate keypresses (Use this option if you are using a USB keyboard)]
+[Emulate key presses (Use this option if you are using a USB keyboard)]
 
 [Create/Edit Themes]
 

@@ -338,9 +338,9 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Абразок xСтатуса
 [Ignore empty extra icons places (arrange to right).]
 Ігнараваць пустыя дадатковыя значкі (справа)
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 'Мета' значкі для метакантактаў
-[Expand MetaContacts]
+[Expand metacontacts]
 Разгортваць метакантакты
 [Avoid double click expand]
 Не разгортваць па падвойным кліку
@@ -348,12 +348,12 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Схаваць дадатковыя значкі для субкантактаў
 [Hide offline subcontacts]
 Хаваць адключаныя субкантакты
-[MetaContacts stuff]
+[Metacontacts stuff]
 Метакантакты
 [Additional stuff]
 Дадаткова
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
-Каб атрымаць больш магчымасцяў, загрузіце плагін MetaContacts.\n\nhttp://miranda-ng.org/p/MetaContacts/
+[For other stuff metacontacts should be enabled.]
+
 [Allow internal requesting of status message text]
 Дазволіць унутраныя запыты статусаў
 [Subcontacts indent:]
@@ -639,28 +639,26 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Фон панэлі статуса
 [Frames title bar background]
 Фон загалоўка фрэймаў
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго?
-[Converting to MetaContact]
+[Converting to metacontact]
 Канвертаванне ў метакантакт
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
 Жадаеце канверсаваць '%s' у метакантакт і дадаць '%s' у яго (выдаліць яго з '%s')?
-[Converting to MetaContact (Moving)]
+[Converting to metacontact (moving)]
 Канвертаванне ў метакантакт (перасоўванне)
 [Do you want contact '%s' to be added to metacontact '%s'?]
 Жадаеце дадаць '%s' у метакантакт '%s'?
-[Adding contact to MetaContact]
+[Adding contact to metacontact]
 Даданне да метакантакту
 [Do you want contact '%s' to be default?]
 Жадаеце зрабіць '%s' кантактам па змаўчанні?
 [Set default contact]
 Кантакт па змаўчанні
-[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
 Жадаеце выдаліць '%s' з метакантакту '%s' і дадаць у '%s'?
-[Changing MetaContacts (Moving)]
+[Changing metacontacts (moving)]
 Змена метакантакту (перасоўванне)
-[Do you want contact '%s' to be added to MetaContact '%s'?]
-Хочаце дадаць кантакт '%s' ў метакантакт '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Кантакты

@@ -262,7 +262,7 @@ CTCP чат заявка
 CTCP
 [DCC]
 DCC
-[Ignore mask ( nick!user@host )]
+[Ignore mask (nick!user@host)]
 
 [Network (*)]
 Мрежа*
@@ -564,9 +564,9 @@ Latin I
 Моля, изберете IRC мрежа и въведете парола, ако е необходимо.
 [Please enter a unique nickname]
 Моля, въведете уникален прякор
-[Please enter your authentification code]
+[Please enter your authentication code]
 Моля, въведете вашия код за удостоверяване
-[Authentificate nick]
+[Authenticate nick]
 Удостоверяване на прякор
 [Are you sure you want to unregister your current nick?]
 Наистина ли желаете да бъде премахната регистрацията на прякора ви?

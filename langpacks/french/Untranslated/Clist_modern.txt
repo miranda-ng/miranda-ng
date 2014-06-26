@@ -12,7 +12,7 @@
 [All accounts]
 [Ignore empty extra icons places (arrange to right).]
 [Avoid double click expand]
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
+[For other stuff metacontacts should be enabled.]
 [Remove status message if contact became offline]
 [Use old render method (fast, but has artefacts)]
 [Use protocol smileys]

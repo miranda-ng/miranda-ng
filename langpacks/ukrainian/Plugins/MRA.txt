@@ -65,7 +65,7 @@
 до:
 [Birthday:]
 День народження:
-[Zodiak:]
+[Zodiac:]
 Зодіак:
 [Location]
 Місце

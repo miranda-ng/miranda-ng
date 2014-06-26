@@ -145,7 +145,7 @@ x умноженное на y делённое на z
 заполняет десятичное значение x по длине y нулями
 [random number]
 случайное число
-[MetaContacts]
+[Metacontacts]
 Метаконтакты
 [get parent metacontact of contact x]
 возвращает родительский метаконтакт субконтакта x

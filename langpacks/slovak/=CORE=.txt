@@ -8,7 +8,7 @@ Zmazať kontakt
 Áno
 [&No]
 Nie
-[Find/Add contacts]
+[Find/add contacts]
 Nájsť/Pridať kontakt
 [E-mail address]
 E-mailová adresa
@@ -286,8 +286,6 @@ sekund, ked su stavy rozdielne
 Zobraziť mnohonásobné ikony
 [Only when statuses differ]
 Iba pri rozdielnych stavoch
-[Contact list]
-Zoznam kontaktov
 [System tray icon]
 Ikona v oznamovacej oblasti
 [System tray icon when using multiple protocols]
@@ -874,7 +872,7 @@ Vyhľadávam
 Všetky siete
 [Handle]
 Hlavička
-[&Find/Add contacts...]
+[&Find/add contacts...]
 Nájsť/Pridať kontakty...
 [1 %s user found]
 1 %s užívatel nájdený

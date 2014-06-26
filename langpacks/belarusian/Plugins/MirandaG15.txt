@@ -194,7 +194,7 @@
 Адказ
 [Show line break indicators]
 Паказаць сімвалы пераноса
-[Send messages with return, insert line breaks with ctrl+return]
+[Send messages with Enter, insert line breaks with Ctrl+Enter]
 Адпраўка па Enter, CTRL+Enter - перавод радка
 [Maximized replying]
 Адказ ў пўнаэкранным рэжыме

@@ -1051,7 +1051,7 @@ TabSRMM предупреждение
 %s пише съобщение
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автоматичното придвижване е изключено, %d непрегледани съобщения (за включване натиснете клавиш F12)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 [No UID]
 Няма UID

@@ -64,7 +64,7 @@
 
 [Birthday:]
 Рожден ден:
-[Zodiak:]
+[Zodiac:]
 
 [Location]
 Местоположение

@@ -34,11 +34,11 @@
 Глыбокі пошук
 [Static]
 Статычны
-[Color Select]
+[Color select]
 Выбар колеру
 [Incoming messages]
 Уваходныя паведамленні
-[Plugin Default]
+[Plugin default]
 Па змаўчанні
 [Preview]
 Прагляд
@@ -46,17 +46,17 @@
 Выходныя паведамленні
 [Background color]
 Фон
-[Use Miranda Settings]
+[Use Miranda settings]
 Выкарыстоўваць налады праграмы
 [Text color]
 Колер тэксту
-[General Settings]
+[General settings]
 Асноўныя налады
 [Open links always in a new window]
 Заўсёды адкрываць спасылкі ў новым вакне
 [Update list on new events]
 Аўтаматычнае абнаўленне спісу пры новых падзеях
-[Show whole Message on 'mouse over' event]
+[Show whole message on 'mouse over' event]
 Паказваць поўнае паведамленне пры навядзенні мышы
 [Save window position individually for each contact]
 Захоўваць пазіцыю вакна асобна для кожнага кантакту
@@ -80,19 +80,19 @@
 Зачыніць
 [&Options]
 Налады
-[Message &Direction]
+[Message &direction]
 Кірунак &паведамленняў
-[&Outgoing Messages Only]
+[&Outgoing messages only]
 Толькі выходныя паведамленні
-[&Incoming Messages Only]
+[&Incoming messages only]
 Толькі ўваходныя паведамленні
-[Message &Type]
+[Message &type]
 Тып &паведамленняў
-[&Webaddresses Only]
+[&Web addresses only]
 Толькі вэб-адрасы
-[&Mail-Addresses Only]
+[&Mail addresses only]
 Толькі e-mail адрасы
-[&Clear Search Results]
+[&Clear search results]
 Сцерці вынікі пошуку
 [&Search]
 Шукаць
@@ -100,11 +100,11 @@
 спасылка
 [Open]
 Адкрыць
-[Open in new Window]
+[Open in new window]
 Адкрыць у новым вакне
-[Copy to Clipboard]
+[Copy to clipboard]
 Капіяваць у буфер
-[Show Message]
+[Show message]
 Паказаць паведамленне
 ;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
@@ -123,7 +123,7 @@
 Фільтр
 [no filter]
 няма фільтра
-[Search Filter]
+[Search filter]
 Фільтр пошуку
 [no settings]
 без налад
@@ -139,7 +139,7 @@
 [Could not allocate memory!]
 Немагчыма размеркаваць памяць!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-[Linklist Plugin]
+[Linklist plugin]
 Плагін Linklist
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [Matches for searchtext]

@@ -53,11 +53,11 @@ Pokaż/ukryj rozłączone kontakty
 Ukryj rozłączone kontakty
 [Show offline contacts]
 Pokaż rozłączone kontakty
-[Enable/disable MetaContacts]
+[Enable/disable metacontacts]
 Włącz/wyłącz metakontakty
-[Disable MetaContacts]
+[Disable metacontacts]
 Wyłącz metakontakty
-[Enable MetaContacts]
+[Enable metacontacts]
 Włącz metakontakty
 [Enable/disable groups]
 Włącz/wyłącz grupy

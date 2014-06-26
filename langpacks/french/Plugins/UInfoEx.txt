@@ -200,7 +200,7 @@ Icônes
 Vérifier la version du Pack d'icône pour éviter tout défaut d'affichage
 [Display icons on each dialog button]
 Afficher des icônes sur chaque boite de dialogue
-[MetaContacts]
+[Metacontacts]
 
 [Scan subcontacts for missing information]
 Scanner les sous contacts pour les informations manquantes
@@ -228,7 +228,7 @@ Mettre les infos basées sur un protocole du contact en lecture seule.
 Activer les groupes dans l'arborescence des boites dialogues
 [Sort all tree items alphabetically]
 Classer par ordre alphabétique.
-[Info of a MetaContact's subcontact]
+[Info of a metacontact's subcontact]
 Info du sous-contact d'un MetaContact
 [Colors]
 Couleurs
@@ -1167,7 +1167,7 @@ Rappel d'anniversaire
 
 [Importing a new meta subcontact failed!]
 
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
 
 [Settings: %S]
 Options : %S

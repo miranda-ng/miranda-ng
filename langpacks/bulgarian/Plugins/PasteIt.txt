@@ -129,7 +129,7 @@ HTTP връзки на Paste It
 Можете да поставите само 1 файл
 [Cannot get data from clipboard]
 Данните от клипборда не могат да бъда извлечени
-[File size is %d KB, do you realy want to paste such a large file?]
+[File size is %d KB, do you really want to paste such a large file?]
 Размерът на файла е %d KB. Желаете да поставите толкова голям файл?
 [Are You sure?]
 Сигурни ли сте?

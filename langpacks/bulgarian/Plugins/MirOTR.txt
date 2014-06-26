@@ -115,9 +115,9 @@ OTR шифроване: Приключено
 OTR шифрованата сесия бе обновена от "%s"
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
 OTR шифрованата сесия бе обновена от "%s" (НЕ Е ПОТВЪРДЕНА)
-[OTR encrypted session with '%s' sucessfully refreshed]
+[OTR encrypted session with '%s' successfully refreshed]
 OTR шифрованата сесия с "%s" бе обновена успешно
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+[OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
 OTR шифрованата сесия с "%s" бе обновена успешно (НЕ Е ПОТВЪРДЕНА)
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 OTR шифрованата сесия бе прекратена от "%s". Вие трябва да направите същото!
@@ -131,7 +131,7 @@ OTR информация
 
 [Authentication from %s]
 Удостоверяване от %s
-[Authenticae %s]
+[Authenticate %s]
 Удостоверяване на %s
 [Unknown]
 Неизвестно
@@ -207,9 +207,9 @@ OTR удостоверяване на %s (%s)
 Въпрос
 [Password]
 Парола
-[Authentication sucessful.]
+[Authentication successful.]
 Успешно удостоверяване.
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+[You contact authenticated you successful. You can send your own request to authenticate him.]
 Бяхте удостоверен от контакта ви. Можете да изпратите вашата молба, за да го удостоверите.
 [Error during authentication.]
 Грешка по време на удостоверяването.

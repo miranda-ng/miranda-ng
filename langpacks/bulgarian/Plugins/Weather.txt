@@ -352,7 +352,7 @@ HTTP грешка: Услугата не е налична (503)
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 
-[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
 Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".

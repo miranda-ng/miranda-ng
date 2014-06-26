@@ -33,11 +33,11 @@
 Глубокий поиск
 [Static]
 Статический
-[Color Select]
+[Color select]
 Выбор цвета
 [Incoming messages]
 Входящие сообщения
-[Plugin Default]
+[Plugin default]
 По умолчанию
 [Preview]
 Тест
@@ -45,17 +45,17 @@
 Исходящие сообщения
 [Background color]
 Фон
-[Use Miranda Settings]
+[Use Miranda settings]
 Использовать настройки программы
 [Text color]
 Цвет текста
-[General Settings]
+[General settings]
 Основные настройки
 [Open links always in a new window]
 Всегда открывать ссылки в новом окне
 [Update list on new events]
 Автоматическое обновление списка при новых событиях
-[Show whole Message on 'mouse over' event]
+[Show whole message on 'mouse over' event]
 Показывать полное сообщение при наведении мыши
 [Save window position individually for each contact]
 Сохранять позицию окна отдельно для каждого контакта
@@ -79,19 +79,19 @@
 &Закрыть
 [&Options]
 &Настройки
-[Message &Direction]
+[Message &direction]
 Направление &сообщений
-[&Outgoing Messages Only]
+[&Outgoing messages only]
 Только &исходящие сообщения
-[&Incoming Messages Only]
+[&Incoming messages only]
 Только &входящие сообщения
-[Message &Type]
+[Message &type]
 Тип &сообщений
-[&Webaddresses Only]
+[&Web addresses only]
 Только &веб-адреса
-[&Mail-Addresses Only]
+[&Mail addresses only]
 Только &е-mail адреса
-[&Clear Search Results]
+[&Clear search results]
 &Очистить результаты поиска
 [&Search]
 &Искать
@@ -99,11 +99,11 @@
 Ссылка
 [Open]
 Открыть
-[Open in new Window]
+[Open in new window]
 Открыть в новом окне
-[Copy to Clipboard]
+[Copy to clipboard]
 Копировать в буфер
-[Show Message]
+[Show message]
 Показать сообщение
 [History Linklist]
 История ссылок
@@ -121,7 +121,7 @@
 Фильтр
 [no filter]
 без фильтра
-[Search Filter]
+[Search filter]
 Фильтр поиска
 [no settings]
 без настроек
@@ -135,7 +135,7 @@
 Невозможно создать окно!
 [Could not allocate memory!]
 Невозможно распределить память!
-[Linklist Plugin]
+[Linklist plugin]
 Плагин Linklist
 [Matches for searchtext]
 Обнаружено совпадений при поиске

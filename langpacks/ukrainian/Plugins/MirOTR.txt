@@ -113,9 +113,9 @@ OTR: Створення приватного ключа
 Шифрована сесія оновлена '%s'.
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
 Шифрована сесія оновлена '%s' (не перевірено)
-[OTR encrypted session with '%s' sucessfully refreshed]
+[OTR encrypted session with '%s' successfully refreshed]
 Шифрована сесія з '%s' успішно оновлена.
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+[OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
 Шифрована сесія з '%s' успішно оновлена (не перевірено).
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 Шифрована сесія припинена '%s'. Ви повинні зробити те ж саме!
@@ -127,7 +127,7 @@ OTR не може шифрувати під час відправлення по
 Інформація OTR
 [Authentication from %s]
 Ідентифікація від %s
-[Authenticae %s]
+[Authenticate %s]
 Ідентифікація %s
 [Unknown]
 Невідомо
@@ -197,9 +197,9 @@ OTR не є безпечним
 Запитання
 [Password]
 Пароль
-[Authentication sucessful.]
+[Authentication successful.]
 Успішна ідентифікація.
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+[You contact authenticated you successful. You can send your own request to authenticate him.]
 Контакт успішно ідентифікований. Можете надіслати власний запит ідентифікації.
 [Error during authentication.]
 Помилка при ідентифікації

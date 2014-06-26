@@ -115,9 +115,9 @@ Próba odświeżenia sesji OTR z "%s"
 Sesja OTR została odświeżona przez "%s"
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
 Sesja OTR została odświeżona przez "%s" (niezweryfikowany)
-[OTR encrypted session with '%s' sucessfully refreshed]
+[OTR encrypted session with '%s' successfully refreshed]
 Szyfrowana sesja OTR z "%s" odświeżona pomyślnie
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+[OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
 Sesja OTR z "%s" odświeżona pomyślnie (niezweryfikowany)
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 Sesja OTR została zakończona przez "%s". Powinieneś również to uczynić.
@@ -131,7 +131,7 @@ Informacje OTR
 Info OTR
 [Authentication from %s]
 Uwierzytelnienie od "%s"
-[Authenticae %s]
+[Authenticate %s]
 Autoryzuj %s
 [Unknown]
 Nieznany
@@ -207,9 +207,9 @@ Sekretna odpowiedź
 Pytanie
 [Password]
 Hasło:
-[Authentication sucessful.]
+[Authentication successful.]
 Uwierzytelnianie pomyślne.
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+[You contact authenticated you successful. You can send your own request to authenticate him.]
 Twój kontakt zautoryzował cię pomyślnie. Teraz możesz wysłać swoje żądanie uwierzytelnienia.
 [Error during authentication.]
 Błąd podczas uwierzytelniania.

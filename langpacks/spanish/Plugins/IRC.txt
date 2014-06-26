@@ -262,7 +262,7 @@ Avisos
 
 [DCC]
 
-[Ignore mask ( nick!user@host )]
+[Ignore mask (nick!user@host)]
 
 [Network (*)]
 
@@ -564,9 +564,9 @@ Avanzado
 
 [Please enter a unique nickname]
 
-[Please enter your authentification code]
+[Please enter your authentication code]
 
-[Authentificate nick]
+[Authenticate nick]
 
 [Are you sure you want to unregister your current nick?]
 

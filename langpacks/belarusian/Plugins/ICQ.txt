@@ -30,7 +30,7 @@
 Скасаваць
 [ICQ number:]
 Нумар ICQ:
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
 Падказка: калі Вы не азначыце тут пароль, Miranda будзе запытваць яго кожны раз пры далучэнні.
 [Retrieve a lost password or ICQ number]
 Нагадаць пароль ці нумар ICQ
@@ -1442,7 +1442,7 @@ ID кантакта
 Усе аперацыі завершаны
 [Close]
 Зачыніць
-[You have to be online to sychronize the server-list!]
+[You have to be online to synchronize the server-list!]
 Вы павінны быць далучаны для сінхранізацыі спісу на серверы
 [** All contacts **]
 ** Усе кантакты **

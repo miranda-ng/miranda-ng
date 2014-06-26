@@ -494,7 +494,7 @@ Gruppe &löschen
 Markierte Kontakte in diese Gruppe verschieben
 [Appearance]
 Erscheinungsbild
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 Metakontaktprotokollicons zeigen
 [Show additional buttons]
 Zusätzliche Buttons anzeigen

@@ -262,7 +262,7 @@ Powiadomienia
 CTCP
 [DCC]
 DCC
-[Ignore mask ( nick!user@host )]
+[Ignore mask (nick!user@host)]
 Ignoruj maskę (nazwa!użytkownik@host)
 [Network (*)]
 Sieć (*)
@@ -564,9 +564,9 @@ Proszę wpisać kanał, do którego chcesz dołączyć
 Proszę wybrać sieć IRC i wpisać hasło, jeśli jest potrzebne
 [Please enter a unique nickname]
 Proszę wpisać nową ksywkę
-[Please enter your authentification code]
+[Please enter your authentication code]
 Proszę podać kod uwierzytelniający
-[Authentificate nick]
+[Authenticate nick]
 Uwierzytelnij nick
 [Are you sure you want to unregister your current nick?]
 Czy na pewno chcesz wyrejestrować aktualny nick?

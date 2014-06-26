@@ -262,8 +262,8 @@ Notizen
 CTCP
 [DCC]
 DCC
-[Ignore mask ( nick!user@host )]
-Ignoriermaske ( nick!user@host )
+[Ignore mask (nick!user@host)]
+Ignoriermaske (nick!user@host)
 [Network (*)]
 Netzwerk (*)
 [Ignore events]
@@ -564,9 +564,9 @@ Channelnamen zum Betreten eingeben
 Bitte IRC-Netzwerk auswählen und gegebenenfalls Passwort eingeben
 [Please enter a unique nickname]
 Bitte eindeutigen Nick eingeben
-[Please enter your authentification code]
+[Please enter your authentication code]
 Bitte geben Sie hier Ihren Authentifizierungscode ein
-[Authentificate nick]
+[Authenticate nick]
 Nick authentifizieren
 [Are you sure you want to unregister your current nick?]
 Sind Sie sicher, dass Sie den aktuellen Nick entregistrieren möchten?

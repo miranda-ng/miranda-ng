@@ -45,15 +45,15 @@ Ceci effacera tout l'historique et réglages de ce contact !
 Options d'affichage des contacts
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Au lieu d'afficher les contacts par leur surnom,\nglisser pour choisir un autre ordre :
-[Miranda NG Profile Manager]
+[Miranda NG profile manager]
 Gestionnaire de profil Miranda NG
 [&Run]
 &Lancer
 [&Exit]
 &Quitter
-[Start in Service Mode with]
+[Start in service mode with]
 Démarrer en mode service avec
-[Find/Add contacts]
+[Find/add contacts]
 Chercher/Ajouter des contacts
 [Search:]
 Chercher :
@@ -79,7 +79,7 @@ Plus d'options
 Ajouter à ma liste
 [Custom]
 Défini
-[Find/Add contacts\nHere you can add contacts to your contact list]
+[Find/add contacts\nHere you can add contacts to your contact list]
 Chercher/Ajouter des contacts\nIci, vous pouvez ajouter des contacts à votre liste de contacts
 [Options\nConfigure your Miranda NG options]
 Paramètres\nConfigurer les paramètres de votre Miranda NG
@@ -447,11 +447,11 @@ Sélectionnez les icônes supplémentaires à afficher dans la liste de contacts
 *Seulement les premières icônes %d seront affichés
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 
-[Add to Existing MetaContact]
+[Add to existing metacontact]
 Ajouter à un MetaContact existant
-[Please select a MetaContact:]
+[Please select a metacontact:]
 Veuillez choisir un MetaContact :
-[Sort Alphabetically]
+[Sort alphabetically]
 Trier alphabétiquement
 [Editing]
 Édition de la fiche MetaContact
@@ -461,21 +461,21 @@ Informations
 Contacts
 [&Remove]
 &Supprimer
-[&Set as Default]
+[&Set as default]
 Par &Défaut
-[Move &Up]
+[Move &up]
 &Monter
-[Move &Down]
+[Move &down]
 &Baisser
-[Send &Offline]
+[Send &offline]
 Envoi &hors ligne
-[Context Menu]
+[Context menu]
 Menu Contextuel
 [Use contact's unique ID]
 Voir l'ID du contact
 [Use contact's display name]
 Voir son nom défini
-[Contact Labels]
+[Contact labels]
 Nom affiché
 [When I click on a sub in the popup menu...]
 
@@ -485,7 +485,7 @@ Définir par défaut et fenêtre d'envoi
 Voir le menu du sous-contact
 [Show user information]
 Voir les infos du contact
-[Contact List]
+[Contact list]
 Liste de contacts
 [Display subcontact nickname]
 Voir le pseudo du sous-contact
@@ -761,8 +761,6 @@ secondes si les états diffèrent
 Afficher plusieurs icônes
 [Only when statuses differ]
 seulement si les états diffèrent
-[Contact list]
-Liste de contacts
 [System tray icon]
 Icône de la barre des tâches
 [System tray icon when using multiple protocols]
@@ -2275,7 +2273,7 @@ Recherche en cours...
 
 [Handle]
 Pseudo
-[&Find/Add contacts...]
+[&Find/add contacts...]
 &Chercher/Ajouter des contacts...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2344,84 +2342,82 @@ Inconnu
 [Languages]
 Langages
 ;file \src\modules\metacontacts\metacontacts.h
-[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 Vous êtes sur le point d'enlever tous les contacts liés à ce MetaContact.\nCeci supprimera le MetaContact.\n\nVoulez-vous vraiment continuer ?
 ;file \src\modules\metacontacts\meta_addto.cpp
-[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
 Soit il n'y a aucun MetaContact dans la base de données (dans ce cas-ci vous devrait d'abord convertir un contact)\nsoit il n'y en a aucun qui peut accueillir ce contact.\nUne autre solution consiste à convertir ce contact en nouveau MetaContact.\nVoulez-vous convertir ce contact en nouveau MetaContact ?
-[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
 Ce contact est déjà dans un MetaContact.\nVous ne pouvez pas ajouter ce contact.\n\nVeuillez en choisir un autre.
-[MetaContact Conflict]
+[Metacontact conflict]
 Conflit de MetaContact
-[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
 Ce contact est déjà associé à un MetaContact.\nVous ne pouvez pas mettre un contact dans plusieurs MetaContacts.
-[Multiple MetaContacts]
+[Multiple metacontacts]
 MetaContacts Multiple
-[No suitable MetaContact found]
+[No suitable metacontact found]
 Aucun MetaContact approprié trouvé
 [a contact]
 un contact
 [Adding %s...]
 Ajout de %s...
-[Please select a MetaContact]
+[Please select a metacontact]
 Veuillez choisir un MetaContact
-[No MetaContact selected]
+[No metacontact selected]
 Pas de MetaContact sélectionné
-[Assignment to the MetaContact failed.]
+[Assignment to the metacontact failed.]
 Échec d'assignement à un MetaContact.
 [Assignment failure]
 Assignement raté
 ;file \src\modules\metacontacts\meta_edit.cpp
-[(Unknown Contact)]
-(Contact inconnu)
 [ID]
 ID
 [Protocol]
 Protocole
-[Send Offline]
+[Send offline]
 Envoi hors ligne
-[Send &Online]
+[Send &online]
 
-[Delete MetaContact?]
+[Delete metacontact?]
 Supprimer ce MetaContact ?
 ;file \src\modules\metacontacts\meta_main.cpp
-[Toggle Off]
+[Toggle off]
 
-[Toggle On]
+[Toggle on]
 
-[Convert to MetaContact]
+[Convert to metacontact]
 Convertir en MetaContact
-[Add to Existing]
+[Add to existing]
 
 [Edit]
 Éditer
-[Set to Default]
+[Set to default]
 Par défaut
 ;file \src\modules\metacontacts\meta_menu.cpp
-[There was a problem in assigning the contact to the MetaContact]
+[There was a problem in assigning the contact to the metacontact]
 Il y a eu un problème lors de l'assignation du contact à un MetaContact
-[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+[This will remove the metacontact permanently.\n\nProceed anyway?]
 Ceci supprimera complètement le MetaContact, mais pas le contact en lui-même.\n\nVoulez-vous continuer ?
 [Are you sure?]
 Etes-vous sûr?
 [Remove from metacontact]
 Retirer du MetaContact
-[Toggle MetaContacts Off]
+[Toggle metacontacts off]
 Désactiver MetaContact
-[Toggle MetaContacts On]
+[Toggle metacontacts on]
 Activer MetaContact
-[Add to existing MetaContact...]
+[Add to existing metacontact...]
 Ajouter à un MetaContact existant...
-[Edit MetaContact...]
+[Edit metacontact...]
 Modifier le MetaContact...
-[Set as MetaContact default]
+[Set as metacontact default]
 Mettre ce contact par Défaut
-[Delete MetaContact]
+[Delete metacontact]
 Effacer le MetaContact
 [Subcontacts]
 
 ;file \src\modules\metacontacts\meta_options.cpp
-[MetaContacts]
+[Metacontacts]
 
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
@@ -2429,21 +2425,21 @@ Aucun contact en ligne trouvé.
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 
-[Could not retreive contact protocol]
+[Could not retrieve contact protocol]
 N'a pas pu rechercher le protocole du contact
 [Assignment error]
 Erreur d'assignement
 [Could not get unique ID of contact]
 N'a pas pu obtenir l'ID du contact
-[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+[Contact is 'not on list' - please add the contact to your contact list before assigning.]
 Le contact n'est pas dans votre liste. Veuillez l'ajoutez à votre liste avant de l'assigner.
-[MetaContact is full]
+[Metacontact is full]
 MetaContact est plein
-[Could not write contact protocol to MetaContact]
+[Could not write contact protocol to metacontact]
 Impossible d'écrire le protocole du contact au MetaContact
-[Could not write unique ID of contact to MetaContact]
+[Could not write unique ID of contact to metacontact]
 Impossible d'écrire l'ID du contact au MetaContact
-[Could not write nickname of contact to MetaContact]
+[Could not write nickname of contact to metacontact]
 Impossible d'écrire le pseudo du contact au MetaContact
 ;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]
@@ -2498,7 +2494,7 @@ Aucun plugin de messagerie chargés. S'il vous plaît installer/activer l'un des
 '%s' est inactif, le réactiver ?
 [Re-enable Miranda plugin?]
 Réactiver le plugin ?
-[Unable to load plugin in Service Mode!]
+[Unable to load plugin in service mode!]
 
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Impossible de lancer aucune des listes de contacts installées. Vos préférences d'affichage incompatibles ont dut être également ignoré.

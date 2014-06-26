@@ -1569,13 +1569,13 @@ Odnoklassniki
 Выдаліць
 [** Default **]
 ** Па змаўчанні **
-[** Subsription: both **]
+[** Subscription: both **]
 ** Падпіска: абедзве **
-[** Subsription: to **]
+[** Subscription: to **]
 ** Падпіска: у **
-[** Subsription: from **]
+[** Subscription: from **]
 ** Падпіска: ад **
-[** Subsription: none **]
+[** Subscription: none **]
 ** Падпіска: няма **
 [<none>]
 <няма>

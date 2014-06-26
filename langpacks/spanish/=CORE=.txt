@@ -45,15 +45,15 @@ Usar Opciones->Contactos->Ignorar Para mostrar los contactos
 Opciones de visualización de contacto
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 En lugar de mostrar los contactos por su apodo,\narrastre para seleccionar otro orden:
-[Miranda NG Profile Manager]
+[Miranda NG profile manager]
 Administrador de perfiles de Miranda NG
 [&Run]
 Ejecuta&r
 [&Exit]
 &Salir
-[Start in Service Mode with]
+[Start in service mode with]
 Iniciar en el modo de servicio con
-[Find/Add contacts]
+[Find/add contacts]
 Buscar/Agregar contactos
 [Search:]
 Buscar:
@@ -79,7 +79,7 @@ Más opciones
 Añadir a la lista
 [Custom]
 Personalizado
-[Find/Add contacts\nHere you can add contacts to your contact list]
+[Find/add contacts\nHere you can add contacts to your contact list]
 Buscar/Agregar contactos\nAquí usted puede agregar contactos a su lista de contactos
 [Options\nConfigure your Miranda NG options]
 Opciones\nConfigure las opciones de Miranda NG
@@ -447,11 +447,11 @@ Seleccione los iconos adicionales que se muestran en la lista de contactos:
 * sólo los primeros %d iconos se muestran
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y usando el menú contextual (clic derecho)
-[Add to Existing MetaContact]
+[Add to existing metacontact]
 
-[Please select a MetaContact:]
+[Please select a metacontact:]
 
-[Sort Alphabetically]
+[Sort alphabetically]
 
 [Editing]
 
@@ -461,21 +461,21 @@ Información
 Contactos
 [&Remove]
 
-[&Set as Default]
+[&Set as default]
 
-[Move &Up]
+[Move &up]
 
-[Move &Down]
+[Move &down]
 
-[Send &Offline]
+[Send &offline]
 
-[Context Menu]
+[Context menu]
 
 [Use contact's unique ID]
 
 [Use contact's display name]
 
-[Contact Labels]
+[Contact labels]
 
 [When I click on a sub in the popup menu...]
 
@@ -485,7 +485,7 @@ Contactos
 
 [Show user information]
 
-[Contact List]
+[Contact list]
 Lista de contactos
 [Display subcontact nickname]
 
@@ -761,8 +761,6 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[Contact list]
-Lista de contactos
 [System tray icon]
 Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
@@ -2275,7 +2273,7 @@ Buscando
 Todas las redes
 [Handle]
 Manejar
-[&Find/Add contacts...]
+[&Find/add contacts...]
 &Buscar/Agregar contactos...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2344,84 +2342,82 @@ construido
 [Languages]
 Idiomas
 ;file \src\modules\metacontacts\metacontacts.h
-[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
 
 ;file \src\modules\metacontacts\meta_addto.cpp
-[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
 
-[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
 
-[MetaContact Conflict]
+[Metacontact conflict]
 
-[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
 
-[Multiple MetaContacts]
+[Multiple metacontacts]
 
-[No suitable MetaContact found]
+[No suitable metacontact found]
 
 [a contact]
 
 [Adding %s...]
 
-[Please select a MetaContact]
+[Please select a metacontact]
 
-[No MetaContact selected]
+[No metacontact selected]
 
-[Assignment to the MetaContact failed.]
+[Assignment to the metacontact failed.]
 
 [Assignment failure]
 
 ;file \src\modules\metacontacts\meta_edit.cpp
-[(Unknown Contact)]
-(Contacto desconocido)
 [ID]
 
 [Protocol]
 Protocolo
-[Send Offline]
+[Send offline]
 
-[Send &Online]
+[Send &online]
 
-[Delete MetaContact?]
+[Delete metacontact?]
 
 ;file \src\modules\metacontacts\meta_main.cpp
-[Toggle Off]
+[Toggle off]
 
-[Toggle On]
+[Toggle on]
 
-[Convert to MetaContact]
+[Convert to metacontact]
 
-[Add to Existing]
+[Add to existing]
 
 [Edit]
 Editar
-[Set to Default]
+[Set to default]
 
 ;file \src\modules\metacontacts\meta_menu.cpp
-[There was a problem in assigning the contact to the MetaContact]
+[There was a problem in assigning the contact to the metacontact]
 
-[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+[This will remove the metacontact permanently.\n\nProceed anyway?]
 
 [Are you sure?]
 
 [Remove from metacontact]
 
-[Toggle MetaContacts Off]
+[Toggle metacontacts off]
 
-[Toggle MetaContacts On]
+[Toggle metacontacts on]
 
-[Add to existing MetaContact...]
+[Add to existing metacontact...]
 
-[Edit MetaContact...]
+[Edit metacontact...]
 
-[Set as MetaContact default]
+[Set as metacontact default]
 
-[Delete MetaContact]
+[Delete metacontact]
 
 [Subcontacts]
 
 ;file \src\modules\metacontacts\meta_options.cpp
-[MetaContacts]
+[Metacontacts]
 
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
@@ -2429,21 +2425,21 @@ Editar
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 
-[Could not retreive contact protocol]
+[Could not retrieve contact protocol]
 
 [Assignment error]
 
 [Could not get unique ID of contact]
 
-[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+[Contact is 'not on list' - please add the contact to your contact list before assigning.]
 
-[MetaContact is full]
+[Metacontact is full]
 
-[Could not write contact protocol to MetaContact]
+[Could not write contact protocol to metacontact]
 
-[Could not write unique ID of contact to MetaContact]
+[Could not write unique ID of contact to metacontact]
 
-[Could not write nickname of contact to MetaContact]
+[Could not write nickname of contact to metacontact]
 
 ;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]
@@ -2498,7 +2494,7 @@ No hay plugins de mensajería cargados. Por favor instale/active uno de los plug
 '%s' está deshabilitado, ¿volver a activar?
 [Re-enable Miranda plugin?]
 Volver a activar el plugin de Miranda?
-[Unable to load plugin in Service Mode!]
+[Unable to load plugin in service mode!]
 ¡No se pueden cargar plugins en el modo de servicio!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.

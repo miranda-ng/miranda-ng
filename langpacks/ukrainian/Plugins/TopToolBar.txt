@@ -51,11 +51,11 @@
 Сховати відключених
 [Show offline contacts]
 Показати відключених
-[Enable/disable MetaContacts]
+[Enable/disable metacontacts]
 Ввімк./Вимк. метаконтакти
-[Disable MetaContacts]
+[Disable metacontacts]
 Вимкнути метаконтакти
-[Enable MetaContacts]
+[Enable metacontacts]
 Ввімкнути метаконтакти
 [Enable/disable groups]
 Ввімк./Вимк. групи

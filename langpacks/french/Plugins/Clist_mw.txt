@@ -204,13 +204,13 @@ Estomper les contacts inactifs
 Masquer la barre de défilement vertical
 [Contact list background]
 Arrière-plan de la liste
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
 [Avoid double click expand]
 
 [Hide all extra icons for subcontacts]
 Cachez tous les icônes supplémentaires pour les sous contacts
-[MetaContacts supporting]
+[Metacontacts supporting]
 Options pour les MetaContacts
 [Ignore empty extra icons places (arrange to right)]
 
@@ -338,7 +338,7 @@ Texte en recherche rapide
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Liste
-[List MetaContacts]
+[List metacontacts]
 Liste MetaContacts
 [Not focused]
 Fenêtre inactive

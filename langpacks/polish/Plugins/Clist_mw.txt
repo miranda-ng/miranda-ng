@@ -204,13 +204,13 @@ Przygaś bezczynne kontakty
 Ukryj pionowy pasek przewijania
 [Contact list background]
 Tło listy kontaktów
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Użyj ikon protokołu "meta" dla metakontaktów
 [Avoid double click expand]
 Unikaj rozwijania poprzez podwójne kliknięcie
 [Hide all extra icons for subcontacts]
 Ukryj wszystkie dodatkowe ikony podkontaktów
-[MetaContacts supporting]
+[Metacontacts supporting]
 Wsparcie dla metakontaktów
 [Ignore empty extra icons places (arrange to right)]
 Ignoruj puste miejsca na dodatkowe ikony (rozmieszczaj w prawo)
@@ -338,7 +338,7 @@ Tekst szybkiego wyszukiwania
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Lista
-[List MetaContacts]
+[List metacontacts]
 Lista metakontaktów
 [Not focused]
 Nieaktywne

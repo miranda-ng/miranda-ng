@@ -5,8 +5,8 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-[Color Select]
-Colour Select
+[Color select]
+Colour select
 [Backgroundcolor]
 Backgroundcolour
 [Text color]
