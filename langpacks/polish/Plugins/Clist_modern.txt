@@ -353,7 +353,7 @@ Elementy metakontaktów
 [Additional stuff]
 Pozostałe ustawienia
 [For other stuff metacontacts should be enabled.]
-
+Dla innych rzeczy metakontakty powinny być włączone
 [Allow internal requesting of status message text]
 Akceptuj wewnętrzne prośby o treść opisu
 [Subcontacts indent:]
