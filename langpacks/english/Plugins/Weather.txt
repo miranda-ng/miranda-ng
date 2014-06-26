@@ -181,7 +181,7 @@
 [<Enter station ID here>]
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
-[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 [Get city name from ID]
 [Weather INI information]

@@ -538,7 +538,7 @@
 [%s has entered text.]
 [%s is typing a message]
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 [No UID]
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 ;file \plugins\TabSRMM\src\globals.cpp

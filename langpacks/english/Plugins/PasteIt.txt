@@ -69,7 +69,7 @@
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 [Cannot get data from clipboard]
-[File size is %d KB, do you realy want to paste such a large file?]
+[File size is %d KB, do you really want to paste such a large file?]
 [Are You sure?]
 [Cannot read file '%s']
 [File size is larger then 10 MB, cannot be sent]

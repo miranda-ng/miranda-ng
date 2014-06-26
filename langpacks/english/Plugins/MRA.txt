@@ -36,7 +36,7 @@
 [from:]
 [to:]
 [Birthday:]
-[Zodiak:]
+[Zodiac:]
 [Location]
 [Country:]
 [State:]
