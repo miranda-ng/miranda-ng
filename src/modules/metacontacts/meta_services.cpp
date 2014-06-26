@@ -120,15 +120,20 @@ INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void Meta_SetSrmmSub(MCONTACT hMeta, MCONTACT hSub)
+{
+	MetaSrmmData tmp = { hMeta };
+	if (MetaSrmmData *p = arMetaWindows.find(&tmp))
+		p->m_hSub = hSub;
+}
+
 static INT_PTR MetaFilter_RecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(ccs->hContact);
-	if (cc && cc->IsSub()) {
-		MetaSrmmData tmp = { cc->parentID };
-		if (MetaSrmmData *p = arMetaWindows.find(&tmp))
-			p->m_hSub = cc->contactID;
-	}
+	if (cc && cc->IsSub())
+		Meta_SetSrmmSub(cc->parentID, cc->contactID);
+	
 	CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 	return 0;
 }
@@ -700,6 +705,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 			INT_PTR caps = CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT)) {
 				// set default contact for sending/status and open message window
+				Meta_SetSrmmSub(hMeta, hContact);				
 				db_mc_setDefaultNum(hMeta, lParam, false);
 				CallService(MS_MSG_SENDMESSAGET, hMeta, 0);
 			}
