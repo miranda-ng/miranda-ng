@@ -349,7 +349,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, str.size() +1);
 				  if(!hMem)
 				  {
-					  MessageBox(0, TranslateT("Failed to alocate memory"), TranslateT("Error"), MB_OK);
+					  MessageBox(0, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
 					  break;
 				  }
 				  szKey = (char*)GlobalLock(hMem);

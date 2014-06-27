@@ -269,7 +269,7 @@ IDD_OPT_GPG_ADVANCED DIALOGEX 0, 0, 286, 50
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    CONTROL         "Turn on presence signing (Jabber) (required by xep 0-27)",IDC_PRESCENSE_SUBSCRIPTION,
+    CONTROL         "Turn on presence signing (Jabber) (required by XEP 0-27)",IDC_PRESCENSE_SUBSCRIPTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,9,268,10
     PUSHBUTTON      "Export keys",IDC_EXPORT,12,26,100,14
     PUSHBUTTON      "Import keys",IDC_IMPORT,122,26,100,14
