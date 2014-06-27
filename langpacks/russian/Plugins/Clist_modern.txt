@@ -890,7 +890,7 @@ Angeli-Ka (графика), FYR (шаблон)
 [Skin Information]
 Информация о скине
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
-Предпросмотр не доступен\n\n%s\n----------------------\n\n%s\n\nАвтор(ы):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
+Предпросмотр недоступен\n\n%s\n----------------------\n\n%s\n\nАвтор(ы):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n%s\n\nАВТОРЫ:\n%s\n\nКОНТАКТ:\n%s\n\nWEB:\n%s\n\n\n
 [graphics by Angeli-Ka\ntemplate by FYR]
