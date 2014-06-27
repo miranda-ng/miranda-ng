@@ -16,7 +16,7 @@
 [Preview]
 Тест
 [Don't show popups for subcontacts]
-Не показывать для подконтактов
+Не показывать для субконтактов
 [Show popup when no birthdays are near]
 Сообщать, даже если близких дней рождения нет
 [Popup mouse click]

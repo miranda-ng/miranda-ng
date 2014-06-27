@@ -1130,9 +1130,9 @@ Web Дизайн
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
 Вы отменили импорт нового контакта.\nНекоторая информация может быть неверной для этого контакта.\n\nВы хотите удалить незаконченный контакт?
 [Importing a new meta subcontact failed!]
-Ошибка при импортировании нового мета подконтакта!
+Ошибка при импортировании нового субконтакта!
 [The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
-Созданный мета подконтакт '%s'\nне может быть добавлен к метаконтакту '%s'!\n\nВы хотите удалить этот контакт?
+Созданный субконтакт '%s'\nне может быть добавлен к метаконтакту '%s'!\n\nВы хотите удалить этот контакт?
 [Settings: %S]
 Настройки: %S
 [Events: %S]
