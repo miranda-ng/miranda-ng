@@ -722,7 +722,9 @@ void DoCheck(int iFlag)
 		SetFocus(hwndDialog);
 	}
 	else if (iFlag) {
-		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		#if MIRANDA_VER < 0x0A00
+			db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		#endif
 		hCheckThread = mir_forkthread(CheckUpdates, 0);		
 	}
 }
