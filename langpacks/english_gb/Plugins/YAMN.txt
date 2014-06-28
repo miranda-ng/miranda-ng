@@ -5,6 +5,8 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
+[Show long localized date]
+Show long localised date
 [Use custom color]
 Use custom colour
 [Background color]
