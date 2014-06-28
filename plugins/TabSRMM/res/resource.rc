@@ -317,7 +317,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Typing Notification",IDC_STATIC,7,0,269,121
-    LTEXT           "Send typing notifications to the following users when you are typing a message to the them:",IDC_STATIC,19,10,245,19
+    LTEXT           "Send typing notifications to the following users when you are typing a message to them:",IDC_STATIC,19,10,245,19
     CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x3da,18,29,248,88,WS_EX_CLIENTEDGE
     GROUPBOX        "        Show typing notifications in the message window",IDC_STATIC,7,124,269,25
     CONTROL         "",IDC_SHOWNOTIFY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,123,12,12

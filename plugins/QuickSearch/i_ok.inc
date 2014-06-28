@@ -34,8 +34,8 @@ const
     (color: $00000000; setting: 'fore_hid' ; descr: 'Hidden contact foreground'  ),
     (color: $00BAE699; setting: 'back_meta'; descr: 'Metacontact background'     ),
     (color: $00000000; setting: 'fore_meta'; descr: 'Metacontact foreground'     ),
-    (color: $00B3CCC1; setting: 'back_sub' ; descr: 'SubMetacontact background'  ),
-    (color: $00000000; setting: 'fore_sub' ; descr: 'SubMetacontact foreground'  )
+    (color: $00B3CCC1; setting: 'back_sub' ; descr: 'Subcontact background'  ),
+    (color: $00000000; setting: 'fore_sub' ; descr: 'Subcontact foreground'  )
   );
 
 
