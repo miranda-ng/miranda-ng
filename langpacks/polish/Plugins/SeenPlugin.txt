@@ -10,8 +10,8 @@ Zapisuje kiedy kontakt był ostatnio dostępny oraz jakie kontakty były dostęp
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Opcje
-[Last seen menuitem]
-Element w menu
+[Last seen menu item]
+Element menu Last Seen
 [Show icon]
 Pokaż ikonę
 [User info tab]

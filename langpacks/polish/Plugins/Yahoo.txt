@@ -24,8 +24,8 @@ Zaawansowane
 Użyj książki adresowej Yahoo (YAB)
 [Show Avatars]
 Pokaż awatary
-[AutoLogin to Yahoo Website(s)]
-Automatycznie loguj do Yahoo w przeglądarce
+[Auto login to Yahoo Website(s)]
+Automatycznie zaloguj się do stron Yahoo
 [Display Yahoo notifications]
 Pokaż powiadomienia Yahoo
 [Show Errors]
@@ -88,7 +88,7 @@ Powód zaproszenia
 Dodaj
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-[Miranda] Masz zaproszenie do pokoju: %s wiadomością: %s
+[Miranda] zostałeś zaproszony do pokoju: %s z wiadomością: %s
 [%s denied invitation with message: %s]
 %s odrzucił zaproszenie z wiadomością: %s
 [Me]
@@ -196,7 +196,7 @@ Utwórz konferencję
 &Pokaż profil
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
-[Miranda] Masz zaproszenie do wideorozmowy. (obecnie nie obsługiwane)
+[Miranda] otrzymałeś zaproszenie do videokonferencji. (Ta funkcja obecnie jest niewspierana)
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Przypomnienie o wydarzeniach
@@ -210,10 +210,10 @@ ID, które próbowałeś dodać jest niepoprawne.
 Nieznany błąd.
 [New Mail]
 Nowy mail
-[You have %i unread msgs]
-Masz %s nieprzeczytanych wiad.
-[New Mail (%i msgs)]
-Nowy e-mail (%i wiadomości)
+[You have %i unread messages]
+Masz %i nieczytanych wiadomości
+[New Mail (%i messages)]
+Nowa poczta (%i nowych wiadomości)
 [From: %s\nSubject: %s]
 Od: %s\nTemat: %s
 [Yahoo System Message]

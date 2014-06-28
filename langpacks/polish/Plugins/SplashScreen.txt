@@ -34,8 +34,8 @@ Przygasanie początkowe:
 krok
 [Fade out:]
 Przygasanie końcowe:
-[Advaimg library not found. Please get it from nigtlies to be able to use images.]
-Nie znaleziono biblioteki Advaimg. Zdobądź ją z wersji nightly, aby móc wyświetlać obrazki.
+[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
+Nie znaleziono wtyczki AdvaImg.. Pobierz ją z http://miranda-ng.org/p/AdvaImg/, aby móc używać obrazków.
 [Preview...]
 Podgląd...
 ;file \plugins\SplashScreen\src\main.cpp

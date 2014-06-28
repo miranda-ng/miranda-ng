@@ -80,8 +80,8 @@ Kierownik:
 Asystent:
 [Add phone number]
 Dodaj numer telefonu
-[Enter your phone number\nand don't worry about formating.]
-Wpisz swój numer telefonu\ni nie martw się o formatowanie.
+[Enter your phone number\nand don't worry about formatting.]
+Wprowadź swój numer telefonu.\nNie przejmuj się formatowaniem.
 [Enter a category for this number:]
 Wpisz kategorię dla tego numeru
 [Enter country, area code and phone number:]
@@ -222,8 +222,8 @@ Nadpisanie informacji
 Zmiana informacji
 [Enable colors to give information about information's status.]
 Włącz kolory do informowania o statusie.
-[Make protocol based contact information readonly]
-Uczyń informcje o kontakcie bazujące na protokole tylko do odczytu
+[Make protocol based contact information read only]
+Uczyń informacje dotyczące protokołu kontaktu tylko do odczytu
 [Enable groups in details dialog's treeview]
 Włącz grupy w widoku drzewa w oknie szczegółów
 [Sort all tree items alphabetically]
@@ -457,8 +457,8 @@ Protokół "%s" jest rozłączony
 Obecnie nie jesteś podłączony do sieci ICQ.\n Musisz być połączony aby uaktualnić informacje na serwer.\n\nTwoje zmian zostaną zapisane tylko do profilu.
 [Uploading]
 Wysyłanie
-[Creating the imagelist failed!]
-Tworzenie listy obrazów nie powiodło się!
+[Creating the image list failed!]
+Tworzenie listy obrazków nie powiodło się!
 [Could not find contact's protocol. Maybe it is not active!]
 Nie udało się znaleźć protokołu kontaktu. Być może nie jest aktywny!
 [No pages have been added. Canceling dialog creation!]
@@ -669,8 +669,8 @@ Firma
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Pytanie
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
-To usunie wszystkie ustawienia jakie zrobiłeś!\nWszystkie ustawienia drzewa, położenie okna oraz wszystkie inne ustawienia!\n\nCzy na pewno chcesz kontynuować?
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
+To usunie wszystkie twoje ustawienia!\nWszystkie ustawienia widoku drzewa, pozycje okien oraz inne!\n\nCzy napewno chcesz kontynuować?
 [Ready]
 Gotowy
 [Everything is done!]
@@ -679,8 +679,6 @@ Wszystko gotowe!
 Wszystkie ustawienia są teraz przywrócone do wartości domyślnych!
 [Reminder disabled]
 Przypominanie wyłączone
-[Bithdays only]
-Tylko urodziny
 [Everything]
 Wszystko
 [mBirthday]
@@ -1106,8 +1104,6 @@ Strona domowa (uinfoex)
 [Phone (uinfoex)]
 Telefon (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
-[b]%s (%S)...[/b]\nPozostało %d kontaktów
 [Abort Refreshing Contact Details]
 Przerwij odświeżanie danych kontaktu
 [Do you want to cancel the current refresh procedure?]
@@ -1156,7 +1152,7 @@ Przypominanie o rocznicach: nadchodzących
 [Anniversary Reminder]
 Przypominanie o rocznicach
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[contact identificaion]
+[contact identification]
 identyfikacja kontaktu
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 Kontakt %s (%s) nie posiada unikalnego ID w wizytówce,\nistnieje natomiast kontakt o tym samym nicku i protokole.\nCzy chcesz użyć tego kontaktu?

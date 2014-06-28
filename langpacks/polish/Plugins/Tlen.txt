@@ -148,8 +148,8 @@ Informacje osobiste
 Wiek:
 [to]
 Do
-[Extra Search Criterias]
-Dodatkowe kryteria wyszukiwania
+[Extra Search Criteria]
+Dodatkowe Kryteria Wyszukiwania
 [Status:]
 Status:
 [Plan:]

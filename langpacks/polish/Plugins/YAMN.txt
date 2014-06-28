@@ -126,8 +126,8 @@ Pokaż YAMN jako protokół (wymagany restart)
 Opcje przeglądania wiadomości
 [Enable Close on Delete Button]
 Włącz przycisk "Zamknij przy usuwaniu"
-[Show long localised date]
-Pokaż długi, lokalny format daty
+[Show long localized date]
+Pokaż długą zlokalizowaną datę
 [Don't show today's date]
 Nie pokazuj dzisiejszej daty
 [Date/Time Representation]
@@ -148,8 +148,8 @@ Użyj niestandardowych kolorów
 Powiadomienie o braku nowych wiadomości e-mail
 [Popup if no mail]
 Popup jeśli brak e-maili
-[Persistant message]
-Powtarzająca się wiadomość
+[Persistent message]
+Stała wiadomość
 [Connection failure notifications]
 Powiadomienia o niepowodzeniu połączenia
 [Popup notification if failed]

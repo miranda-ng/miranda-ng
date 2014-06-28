@@ -106,8 +106,8 @@ Wyczyść ulubione
 Status po uruchomieniu
 [Set status after]
 Ustaw status po:
-[miliseconds]
-ms
+[milliseconds]
+milisekund
 [Protocol:]
 Protokół:
 [Status:]

@@ -324,8 +324,8 @@ wypisuje z "x" wyrazy (oddzielone spacjami) od numeru "y" do "z" ("z" jest opcjo
 Funkcje systemowe
 [computer name]
 nazwa komputera
-[cpu load of process x (without extension) (x is optional)]
-obciążenie cpu procesem "x" (bez rozszerzenia) ("x" jest opcjonalne)
+[CPU load of process x (without extension) (x is optional)]
+Zużycie procesora przez proces x (bez rozszerzenia) (x jest opcjonalne)
 [current date in format y (y is optional)]
 aktualna data w formacie "y" ("y" jest opcjonalne)
 [current time in format y (y is optional)]

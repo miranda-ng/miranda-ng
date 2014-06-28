@@ -14,8 +14,8 @@ Witamy w kreatorze profilu
 Za pomocą tego narzędzia możesz skompresować bazę danych Mirandy poprzez usunięcie martwej przestrzeni utworzonej podczas używania komunikatora oraz naprawić błędy mogące wpływać na bazę danych.
 [To continue, click Next.]
 Aby kontynuować kliknij Dalej
-[This program is licenced under the terms of the GNU General Public License.]
-Program udostępniany na licencji GNU - General Public License.
+[This program is licensed under the terms of the GNU General Public License.]
+Ten program jest licencjonowany na zasadach GNU General Public License.
 [Miranda Database Tool]
 Narzędzie naprawcze
 [< &Back]

@@ -206,8 +206,8 @@ Dzisiejsze minimum
 Dzisiejsze maksimum
 [Sunrise]
 Wschód słońca
-[Dewpoint]
-Temperatura rosy
+[Dew point]
+Punkt rosy
 [Humidity]
 Wilgotność
 [More...]

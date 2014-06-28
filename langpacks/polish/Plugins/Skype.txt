@@ -255,9 +255,9 @@ Wybierz &rolę
 &Wyrzuć
 [Outlaw (&ban)]
 Przestępca (&ban)
-[Copy &skypename]
-Kopiuj &nazwę użytkownika Skype
-[Copy room &uri]
+[Copy &Skype name]
+Kopiuj nazwę &Skype
+[Copy room &URI]
 Kopiuj &URI pokoju
 [Creator]
 Twórca
@@ -349,8 +349,8 @@ Usuń
 Protokoły
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
-[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
-Wtyczka protokołu Skype pozwala na zalogowanie się tylko do jednego konta. Dodawanie wielu kont jest zabronione w licencji oraz warunkach standardowej dystrybucji SkypeKit.
+[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the license agreement and standard distribution terms of SkypeKit.]
+Wtyczka protokołu Skype pozwala na zalogowanie się tylko do jednego konta naraz. Dodawanie wielu kont jest zabronione przez licencję użytkownika wtyczki oraz warunkach standardowej dystrybucji SkypeKit.
 [Initialization key corrupted or not valid.]
 Klucz inicjalizacji uszkodzony lub niepoprawny.
 [SkypeKit did not initialize (%d).]

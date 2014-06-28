@@ -48,8 +48,8 @@ Pokazuj znajomym moich znajomych
 Opcje
 [More options]
 Więcej opcji
-[Display Error and Infomessage:]
-Pokaż błąd i informacje:
+[Display Error and Info message:]
+Wyświetl błąd i informację:
 [Main group for clan groups:]
 Główna grupa dla grupy klanowej:
 [Automatically scan for games:]
@@ -78,8 +78,8 @@ Upewnij się że pliki znajdują się w folderze:
 Opis
 [Enable]
 Włącz
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
-Kiedy grasz w jakąś grę i chcesz pokazać komuś w co grasz, zaznacz tą opcję, ustawi ona w opisie dane na temat w co w tej chwili grasz. Możesz również zmienić automatycznie status kiedy grasz.
+[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+Dzięki tej funkcji następujący opis zostanie ustawiony dla wszystkich protokołów, gdy grasz tak, by twoi znajomi mogli także wiedzieć w co grasz. Zmieni ona także status na "Zajęty" jeżęli ta funkcja jest włączona.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Dostępne zmienne: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
 [Status message:]
@@ -116,8 +116,8 @@ Edytuj...
 Użytkownik:
 [Game]
 Gra
-[Voicechat]
-Głosowy chat
+[Voice chat]
+Czat głosowy
 [Name:]
 Nazwa:
 [IP:]
@@ -138,8 +138,8 @@ Edytuj nick
 Anuluj
 [New xfire_games.ini]
 Nowy xfire_games.ini
-[There is a new XFire gamelist online, do you want to update now?]
-Znaleziono nową listę gier xFire, czy chcesz ją zaktualizować?
+[There is a new XFire game list online, do you want to update now?]
+W internecie znajduje się nowa lista gier XFire. Czy chcesz ją teraz uaktualnić?
 [New supported games:]
 Nowe wsparcie gier:
 [Update]
@@ -231,8 +231,8 @@ Błąd podczas aktualizacji Icons.dll.
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 Ikona protokołu
-[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
-%s (Nick: %s) zaprasza cię do klanu %s. Wiadomość: %s%s proszę przejść do XFireclan-Site aby zaakceptować zaproszenie.
+[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation.]
+%s (nick: %s zaprosił cię do przyłączenia się do klanu %s. Wiadomość: %s%sPrzejdź proszę na stronę klanu, aby przyjąć zaproszenie.
 [Friends of Friends Playing]
 Znajomi znajomych, którzy grają
 [Login failed.]
@@ -366,12 +366,12 @@ Pokaż popup kiedy ktoś z listy zacznie grać
 Nie twórz automatycznie grup klanowych
 [Enable MBot support]
 Włącz wsparcie MBot
-[Gamedetection]
+[Game detection]
 Wykrywanie gier
 [Disable game detection]
 Wyłącz wykrywanie gier
-[Use TSRemote.dll to get teamspeak server info]
-Użyj TSRemote.dll aby dostać info serwera teamspeak
+[Use TSRemote.dll to get TeamSpeak server info]
+Użyj TSRemote.dll, aby uzyskać informacje o serwerze Teamspeak
 [Disable popups when ingame]
 Wyłącz popupy kiedy gram
 [Disable sound events when ingame]
@@ -392,8 +392,8 @@ Nazwa użytkownika musi składać się z małych liter, zostanie więc zapisana 
 Nowe ustawienia będą dostępne po ponownym połączeniu się do xFire
 [Hidden]
 Ukryte
-[Messagebox]
-Skrzynka wiadomości
+[Message box]
+Okno wiadomości
 [Popup]
 Popup
 [No]

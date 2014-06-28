@@ -404,8 +404,8 @@ minut(y)
 Globalny dziennik wiadomości
 [Typing Notification]
 Pisanie
-[Send typing notifications to the following users when you are typing a message to the them:]
-Wyślij powiadomienia o pisaniu do następujących użytkowników:
+[Send typing notifications to the following users when you are typing a message to them:]
+Wysyłaj powiadomienia o pisaniu do następujących osób, gdy piszesz do nich wiadomość:
 [        Show typing notifications in the message window]
         Pokaż powiadomienia o pisaniu w oknie rozmowy
 [Flash window once on typing events (only if flashing enabled)]
@@ -1060,8 +1060,8 @@ Ostatnia wiadomość: %s o %s
 %s wpisuje tekst.
 [%s is typing a message]
 %s pisze wiadomość...
-[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Autoprzewijanie wyłączone, napisano %d wiadomości (naciśnij F12 aby włączyć)
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
+Automatyczne przewijanie jest wyłączone, %d wiadomości w kolejce (naciśnij F12, aby je włączyć).
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s ( klik SHIFT -> kopiowanie do schowka)\nKlik dla zobaczenia wizytówki kontaktu\nPPM dla kontrolowania metakontaktów\nKlik w prawą część dla dodania lub usunięcia z moich ulubionych.
 [No UID]
@@ -1238,8 +1238,8 @@ UWAGA: Wiadomość, którą próbujesz wkleić przekracza limit długości dla a
 UWAGA: Wiadomość, którą próbujesz wkleić przekracza limit długości dla aktywnego protokołu. Tylko pierwsze %d znaków zostanie wysłane.
 [Save and close session]
 Zapisz i zamknij sesje
-[Autoscrolling is disabled (press F12 to enable it)]
-Autoprzewijanie wyłączone (wciśnij F12 aby włączyć)
+[Auto scrolling is disabled (press F12 to enable it)]
+Automatyczne przewijanie jest wyłączone (naciśnij F12, aby je włączyć).
 [Click for contact menu\nClick dropdown for window settings]
 Kliknij, by pokazać menu kontaktu\nKliknij strzałkę, by pokazać ustawienia okna
 [Retry]
@@ -1703,8 +1703,8 @@ Automatycznie kopiuj zaznaczony tekst
 Wygląd dziennika wiadomości
 [Support for external plugins]
 Wsparcie dla zewnętrznych wtyczek
-[Timestamp settings (note: timstamps also depend on your templates)]
-Ustawienia czasu (uwaga: wyświetlanie zależy także od szablonu)
+[Timestamp settings (note: timestamps also depend on your templates)]
+Ustawienia znaczników czasu (uwaga: znaczniki czasu zależą także od twojego szablonu)
 [Message log icons]
 Ikony okna rozmowy
 [Show dates in timestamps]
@@ -2088,8 +2088,8 @@ Kolor listy uczestników
 Tło dziennika wiadomości w czacie grupowym
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeśli protokół wspiera wiele kont, użyta zostanie nazwa konta.
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
+Nazwa protokołu obecnego kontaktu jeżęli zdefiniowana. Jeżęli protokół wspiera kilka kont, używana jest nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
 [user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
@@ -2186,7 +2186,7 @@ minut
 minut
 [, %d %s idle]
  jest bezczynny %d %s
-[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
-Filtr nie może zostać włączony, ponieważ nie wybrano żadnych typów zdarzeń, ani globalnie, ani dla tego pokoju
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+Filtr nie może zostać włączony, ponieważ niewybrane zostały żadne zdarzenia, ani globalnie, ani dla tego pokoju.
 [Event filter error]
 Błąd filtru zdarzeń

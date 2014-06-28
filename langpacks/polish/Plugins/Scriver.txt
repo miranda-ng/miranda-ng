@@ -102,8 +102,8 @@ Data względna
 Pokaż nazwy
 [Enable message grouping]
 Włącz grupowanie wiadomości
-[Mark follow-up msgs with timestamp]
-Dodaj czas do kolejnych wiadomości
+[Mark follow-up messages with timestamp]
+Oznaczaj kolejne wiadomości znacznikiem czasu
 [Start message text on a new line]
 Umieść wiadomość w nowej linii
 [Show lines between messages]
@@ -780,8 +780,6 @@ Wygląd i zachowanie okien rozmowy
 Ikony wyświetlane w zasobniku
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeśli protokół wspiera wiele kont, użyta zostanie nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
 [user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]

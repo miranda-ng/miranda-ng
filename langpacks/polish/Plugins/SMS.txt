@@ -48,8 +48,8 @@ Wiadomość SMS nie została wysłana
 Przekroczono czas wysyłania wiadomości
 [SMS Plugin]
 Wtyczka SMS
-[Begining]
-Początku
+[Beginning]
+Początek
 [End]
 Końcu
 [Put signature at the:]

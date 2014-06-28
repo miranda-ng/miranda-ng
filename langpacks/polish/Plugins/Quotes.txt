@@ -172,8 +172,8 @@ Otwórz plik dziennika...
 Notowanie...
 [Edit Settings...]
 Edytuj ustawienia...
-[Enable/Diable Quotes Auto Update]
-Włącz/Wyłącz autoaktualizację notowań
+[Enable/Disable Quotes Auto Update]
+Włącz/Wyłącz Automatyczną Aktualizację Notowań Giełdowych
 [Quotes Auto Update Enabled]
 Autoaktualizacja notowań włączona
 [Quotes Auto Update Disabled]

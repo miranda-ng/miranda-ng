@@ -5,8 +5,8 @@
 ;  Version: 0.2.0.3
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
-[Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
-Umożliwia podanie w jakiej odległości od krawędzi ekranu i paska zadań ma się pojawiać lista kontaktów.
+[Plugin supports starting position of Contact List relative to the taskbar and screen side.]
+Wtyczka wspiera początkową pozycję listy kontaktów w stosunku do paska zadań oraz boku ekranu.
 ;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 Pozycja startowa listy kontaktów

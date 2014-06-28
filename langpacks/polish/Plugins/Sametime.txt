@@ -28,8 +28,8 @@ Wyświetlanie błędów
 Użyj okienek
 [Use popups]
 Użyj popup
-[Use system tray baloons]
-Użyj systemowych baloników
+[Use system tray balloons]
+Używaj baloników w zasobniku systemowym
 [Contacts]
 Kontakty
 [Get contacts from server]

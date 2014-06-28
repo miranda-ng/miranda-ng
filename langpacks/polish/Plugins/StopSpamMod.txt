@@ -60,8 +60,8 @@ Dodaj kontakt do listy na serwerze
 Po potwierdzeniu (tyko ICQ)
 [Automatically grant authorization]
 Automatycznie udzielaj autoryzacji
-[Request authorization from contacts which pass stopspam test]
-Prośba o autoryzację od kontaktów, które przechodzą test stopspam
+[Request authorization from contacts which pass StopSpam test]
+Wymagaj autoryzacji od kontaktów, które zdały test StopSpam
 [Remove all temporary contacts after restart]
 Usuń wszystkie tymczasowe kontakty po restarcie
 [Use regex for answers checking]
