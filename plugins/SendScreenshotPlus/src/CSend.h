@@ -42,8 +42,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define GC_RESULT_ERROR				202
 #define GC_RESULT_NOSESSION			209
 
-#define SS_ERR_INIT					LPGENT("Unable to initiate %s.")
-#define SS_ERR_MAPI					LPGENT("MAPI error (%i):\n%s.")
+const TCHAR SS_ERR_INIT[]			=LPGENT("Unable to initiate %s.");
+const TCHAR SS_ERR_MAPI[]			=LPGENT("MAPI error (%i):\n%s.");
+const TCHAR SS_ERR_RESPONSE[]		=LPGENT("Unknown response from %s (%i)");
+const TCHAR SS_ERR_NORESPONSE[]		=LPGENT("Got no response from %s (%i)");
 
 //---------------------------------------------------------------------------
 class CSend {
@@ -102,15 +104,17 @@ class CSend {
 		
 		/// HTTP upload helper stuff
 		enum HTTPFormFlags{
+			HTTPFF_HEADER=0x80,
 			HTTPFF_TEXT	=0x00,
 			HTTPFF_8BIT	=0x01,
 			HTTPFF_FILE	=0x02,
 			HTTPFF_INT	=0x04,
 		};
+		#define HTTPFORM_HEADER(str) str,HTTPFF_HEADER
 		#define HTTPFORM_TEXT(str) str,HTTPFF_TEXT
 		#define HTTPFORM_8BIT(str) str,HTTPFF_8BIT
 		#define HTTPFORM_FILE(str) str,HTTPFF_FILE
-		#define HTTPFORM_INT(int) (const char*)int,HTTPFF_INT
+		#define HTTPFORM_INT(int) (const char*)(int),HTTPFF_INT
 		struct HTTPFormData{
 			const char* name;
 			union{
@@ -120,6 +124,9 @@ class CSend {
 			int flags;
 		};
 		static const char* GetHTMLContent(char* str, const char* startTag, const char* endTag); /// changes "str", can be successfully used only once
+		static int GetJSONString(const char* json, size_t jsonlen, const char* variable, char* value, size_t valuesize);
+		static int GetJSONInteger(const char* json, size_t jsonlen, const char* variable,int defvalue);
+		static bool GetJSONBool(const char* json, size_t jsonlen, const char* variable);
 		void HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr); /// use to free data inside "nlhr" created by HTTPFormCreate
 		int HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTPFormData* frm,size_t frmNum); /// returns "0" on success, Exit() will be called on failure (stop processing)
 };

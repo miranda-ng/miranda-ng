@@ -30,17 +30,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
-CSendImageShack::CSendImageShack(HWND Owner, MCONTACT hContact, bool bAsync)
+CSendHost_ImageShack::CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool bAsync)
 : CSend(Owner, hContact, bAsync) {
 	m_EnableItem		= SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp		= LPGENT("Image upload");
 }
 
-CSendImageShack::~CSendImageShack(){
+CSendHost_ImageShack::~CSendHost_ImageShack(){
 };
 
 //---------------------------------------------------------------------------
-int CSendImageShack::Send() {
+int CSendHost_ImageShack::Send() {
 	if(!hNetlibUser){ /// check Netlib
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
@@ -49,6 +49,7 @@ int CSendImageShack::Send() {
 	ZeroMemory(&m_nlhr, sizeof(m_nlhr));
 	char* tmp; tmp=mir_t2a(m_pszFile);
 	HTTPFormData frm[]={
+//		{"Referer",HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php")},
 		{"fileupload",HTTPFORM_FILE(tmp)},
 		//{"rembar","yes"},// no info bar on thumb
 		{"public","no"},
@@ -60,15 +61,15 @@ int CSendImageShack::Send() {
 		return !m_bAsync;
 	/// start upload thread
 	if(m_bAsync){
-		mir_forkthread(&CSendImageShack::SendThreadWrapper, this);
+		mir_forkthread(&CSendHost_ImageShack::SendThreadWrapper, this);
 		return 0;
 	}
 	SendThread();
 	return 1;
 }
 
-void CSendImageShack::SendThread() {
-	//send DATA and wait for m_nlreply
+void CSendHost_ImageShack::SendThread() {
+	/// send DATA and wait for m_nlreply
 	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&m_nlhr);
 	HTTPFormDestroy(&m_nlhr);
 	if(reply){
@@ -104,15 +105,15 @@ void CSendImageShack::SendThread() {
 				mir_free(err);
 			}
 		}else{
-			Error(LPGENT("Upload server did not respond timely."));
+			Error(SS_ERR_RESPONSE,m_pszSendTyp,reply->resultCode);
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)reply);
 	}else{
-		Error(SS_ERR_INIT, m_pszSendTyp);
+		Error(SS_ERR_NORESPONSE,m_pszSendTyp,m_nlhr.resultCode);
 	}
 	Exit(ACKRESULT_FAILED);
 }
 
-void CSendImageShack::SendThreadWrapper(void * Obj) {
-	reinterpret_cast<CSendImageShack*>(Obj)->SendThread();
+void CSendHost_ImageShack::SendThreadWrapper(void * Obj) {
+	reinterpret_cast<CSendHost_ImageShack*>(Obj)->SendThread();
 }

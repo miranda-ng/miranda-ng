@@ -315,6 +315,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (30m)")), SS_UPLOADPIE_30M);
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), SS_UPLOADPIE_1D);
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), SS_UPLOADPIE_1W);
+	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("imgur")), SS_IMGUR);
 	ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxSendBy);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
 	/// init footer options
@@ -832,7 +833,7 @@ void TfrmMain::cboxSendByChange() {
 			m_cSend = new CSendDropbox(m_hWnd, m_hContact, false);
 			break;
 		case SS_IMAGESHACK:		//"ImageShack"
-			m_cSend = new CSendImageShack(m_hWnd, m_hContact, true);
+			m_cSend = new CSendHost_ImageShack(m_hWnd, m_hContact, true);
 			break;
 		case SS_UPLOADPIE_30M:		//"Upload Pie (30 minutes)"
 			m_cSend = new CSendHost_UploadPie(m_hWnd, m_hContact, true,1);
@@ -842,6 +843,9 @@ void TfrmMain::cboxSendByChange() {
 			break;
 		case SS_UPLOADPIE_1W:		//"Upload Pie (1 week)"
 			m_cSend = new CSendHost_UploadPie(m_hWnd, m_hContact, true,5);
+			break;
+		case SS_IMGUR:
+			m_cSend = new CSendHost_Imgur(m_hWnd, m_hContact, true);
 			break;
 		default:				//SS_JUSTSAVE - "Just save it "
 			m_cSend = NULL;

@@ -275,7 +275,7 @@ INT_PTR service_EditBitmap(WPARAM wParam, LPARAM lParam) {
 // lParam = (HANDLE)contact (can be null)
 INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam) {
 	char* result = NULL;
-	CSendImageShack* cSend = new CSendImageShack(NULL, lParam, false);
+	CSendHost_ImageShack* cSend = new CSendHost_ImageShack(NULL, lParam, false);
 	cSend->m_bDeleteAfterSend = false;
 	cSend->SetFile((char*)wParam);
 	if (lParam != NULL) {

@@ -63,7 +63,7 @@ int CSendHost_UploadPie::Send()
 void CSendHost_UploadPie::SendThread(void* obj)
 {
 	CSendHost_UploadPie* self=(CSendHost_UploadPie*)obj;
-	//send DATA and wait for m_nlreply
+	/// send DATA and wait for m_nlreply
 	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&self->m_nlhr);
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if(reply){
@@ -96,11 +96,11 @@ void CSendHost_UploadPie::SendThread(void* obj)
 				mir_free(werr);
 			}
 		}else{
-			self->Error(LPGENT("Upload server did not respond timely."));
+			self->Error(SS_ERR_RESPONSE,self->m_pszSendTyp,reply->resultCode);
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)reply);
 	}else{
-		self->Error(SS_ERR_INIT, self->m_pszSendTyp);
+		self->Error(SS_ERR_NORESPONSE,self->m_pszSendTyp,self->m_nlhr.resultCode);
 	}
 	self->Exit(ACKRESULT_FAILED);
 }

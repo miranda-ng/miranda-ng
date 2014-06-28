@@ -462,6 +462,140 @@ const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* e
 	}
 	return begin;
 }
+int JSON_ParseData_(const char** jsondata,size_t jsonlen,const char** rawdata){
+	const char* c=*jsondata;
+	const char* jsonend=*jsondata+jsonlen;
+	int len=0;
+	*rawdata=NULL;
+	if(c==jsonend)
+		return 0;
+	if(*c=='{'){ // scope (object)
+		*rawdata=c;
+		do{
+			if(*c=='{') ++len;
+			else if(*c=='}') --len;
+			if(++c==jsonend)
+				return 0;
+		}while(len>0);
+		len=c-*rawdata;
+		if(*c==',') ++c;
+	}else if(*c=='"' || *c=='\''){ // string
+		char needle=*c;
+		if(++c==jsonend)
+			return 0;
+		*rawdata=c;
+		do{
+			if(c==jsonend || (*c=='\\' && ++c==jsonend))
+				return 0;
+		}while(*c++!=needle);
+		len=c-*rawdata-1;
+		if(*c==',') ++c;
+	}else{ // other
+		for(*rawdata=c; c<jsonend && *c++!=','; );
+		len=c-*rawdata;
+		if(c[-1]==',') --len;
+	}
+	*jsondata=c;
+	return len;
+}
+int JSON_Get_(const char* json, size_t jsonlen, const char* variable, const char** value) {
+	char needle[32];
+	const char* needlechild;
+	char var[32];
+	char* tmp;
+	const char* c;
+	const char* jsonend=json+jsonlen;
+	/// get needle
+	if(!jsonlen || *json!='{')
+		return 0;
+	for(tmp=needle,c=*variable=='['?variable+1:variable; *c!='[' && *c!=']'; ++c){
+		if(c==jsonend)
+			return 0;
+		if(tmp<needle+sizeof(needle)-1) *tmp++=*c;
+	}
+	*tmp='\0';
+	/// get child needle (if any)
+	if(*c==']') ++c;
+	if(c==jsonend)
+		return 0;
+	needlechild=c;
+	/// parse JSON
+	for(c=json+1; c<jsonend && (*c=='"' || *c=='\''); ){
+		for(++c,tmp=var; c<jsonend && (*c!='"' && *c!='\''); ++c)
+			if(tmp<var+sizeof(var)-1) *tmp++=*c;
+		*tmp='\0';
+		if(c+2>=jsonend || *++c!=':') break;
+		/// read data
+		++c;
+		if(!strcmp(var,needle)){
+			int datalen=JSON_ParseData_(&c,jsonend-c,value);
+			if(!datalen)
+				return 0;
+			if(*needlechild && **value=='{'){ // we need a child value, parse child object
+				return JSON_Get_(*value,datalen,needlechild,value);
+			}
+			return datalen;
+		}else{
+			JSON_ParseData_(&c,jsonend-c,value);
+		}
+	}
+	*value=NULL;
+	return 0;
+}
+int CSend::GetJSONString(const char* json, size_t jsonlen, const char* variable, char* value, size_t valuesize) {
+	if(!jsonlen || !valuesize)
+		return 0;
+	const char* rawvalue;
+	int rawlen=JSON_Get_(json,jsonlen,variable,&rawvalue);
+	if(rawlen){
+		size_t out=0;
+		--valuesize;
+		/// copy & parse escape sequences
+		for(int in=0; in<rawlen && out<valuesize; ++in,++out){
+			if(rawvalue[in]=='\\'){
+				if(++in==rawlen)
+					break;
+				switch(rawvalue[in]){
+				case 's': value[out]=' '; break;
+				case 't': value[out]='\t'; break;
+				case 'n': value[out]='\n'; break;
+				case 'r': value[out]='\r'; break;
+				default: value[out]=rawvalue[in];
+				}
+				continue;
+			}
+			value[out]=rawvalue[in];
+		}
+		value[out]='\0';
+		return 1;
+	}
+	*value='\0';
+	return 0;
+}
+int CSend::GetJSONInteger(const char* json, size_t jsonlen, const char* variable,int defvalue) {
+	const char* rawvalue;
+	int rawlen=JSON_Get_(json,jsonlen,variable,&rawvalue);
+	if(rawlen){
+		defvalue=0;
+		for(int offset=0; offset<rawlen; ++offset){
+			if(rawvalue[offset]<'0' || rawvalue[offset]>'9') break;
+			defvalue*=10;
+			defvalue+=rawvalue[offset]-'0';
+		}
+	}
+	return defvalue;
+}
+bool CSend::GetJSONBool(const char* json, size_t jsonlen, const char* variable) {
+	const char* rawvalue;
+	int rawlen=JSON_Get_(json,jsonlen,variable,&rawvalue);
+	if(rawlen){
+		if(rawlen==4 && !memcmp(rawvalue,"true",4))
+			return true;
+		if(*rawvalue>'0' && *rawvalue<='9')
+			return true;
+	}
+	return false;
+}
 
 static void HTTPFormAppendData(NETLIBHTTPREQUEST* nlhr, size_t* dataMax, char** dataPos, const char* data,size_t len){
 	nlhr->dataLength=(*dataPos-nlhr->pData);
@@ -505,8 +639,13 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTP
 	nlhr->cbSize		=sizeof(NETLIBHTTPREQUEST);
 	nlhr->requestType	=requestType;
 	nlhr->flags			=NLHRF_HTTP11;
+	if(!strncmp(url,"https://",8)) nlhr->flags|=NLHRF_SSL;
 	nlhr->szUrl			=url;
 	nlhr->headersCount	=3;
+	for(HTTPFormData* iter=frm,* end=frm+frmNum; iter!=end; ++iter){
+		if(!(iter->flags&HTTPFF_HEADER)) break;
+		++nlhr->headersCount;
+	}
 	nlhr->headers		=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr->headersCount);
 	{
 		char* contenttype=(char*)mir_alloc(sizeof(char)*(30+1+sizeof(boundary)));
@@ -519,12 +658,17 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr,int requestType,char* url,HTTP
 		nlhr->headers[1].szValue	=__USER_AGENT_STRING;
 		nlhr->headers[2].szName		="Accept-Language";
 		nlhr->headers[2].szValue	="en-us,en;q=0.8";
-//		nlhr->headers[3].szName		="Referer";
-//		nlhr->headers[3].szValue	="http://www.imageshack.us/upload_api.php";
+		int i=3;
+		for(HTTPFormData* iter=frm,* end=frm+frmNum; iter!=end; ++iter){
+			if(!(iter->flags&HTTPFF_HEADER)) break;
+			nlhr->headers[i].szName=(char*)iter->name;
+			nlhr->headers[i++].szValue=(char*)iter->value_str;
+		}
 	}
 	char* dataPos=nlhr->pData;
 	size_t dataMax=0;
 	for(HTTPFormData* iter=frm,* end=frm+frmNum; iter!=end; ++iter){
+		if(iter->flags&HTTPFF_HEADER) continue;
 		HTTPFormAppendData(nlhr,&dataMax,&dataPos,NULL,2+sizeof(boundary)+40);
 		memset(dataPos,'-',2); dataPos+=2;
 		memcpy(dataPos,boundary,sizeof(boundary)); dataPos+=sizeof(boundary);

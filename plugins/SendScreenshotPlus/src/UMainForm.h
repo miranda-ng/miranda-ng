@@ -39,6 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SS_UPLOADPIE_30M	7
 #define SS_UPLOADPIE_1D		8
 #define SS_UPLOADPIE_1W		9
+#define SS_IMGUR			10
 
 // Used for our own cheap TrackMouseEvent
 #define BUTTON_POLLDELAY    50
