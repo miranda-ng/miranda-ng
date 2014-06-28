@@ -209,7 +209,7 @@ OTR удостоверяване на %s (%s)
 Парола
 [Authentication successful.]
 Успешно удостоверяване.
-[You contact authenticated you successful. You can send your own request to authenticate him.]
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
 Бяхте удостоверен от контакта ви. Можете да изпратите вашата молба, за да го удостоверите.
 [Error during authentication.]
 Грешка по време на удостоверяването.

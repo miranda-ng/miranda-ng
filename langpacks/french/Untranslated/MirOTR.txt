@@ -74,7 +74,7 @@
 [Manual fingerprint comparison]
 [Secret Answer]
 [Authentication successful.]
-[You contact authenticated you successful. You can send your own request to authenticate him.]
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
 [Error during authentication.]
 [Authentication failed]
 [Authentication for '%s' is already in progress.]

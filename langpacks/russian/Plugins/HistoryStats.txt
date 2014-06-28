@@ -559,7 +559,7 @@ HTML вывод невозможен.
 Путь к браузеру (пусто = системный браузер)
 [Create statistics for metacontacts and their subcontacts]
 Создает статистику для метаконтактов и субконтактов
-[The following information are only relevant if your already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
+[The following information is only relevant if you already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
 Следующая информация для тех, кто использует метаконтакты.\r\n\r\nHistoryStats отлично взаимодействует с метаконтактами и способен собирать данные не только от метаконтактов, но и от субконтактов. Также HistoryStats умеет объединять историю всех субконтактов. Вы можете настроить взаимодействие с метаконтактами во вкладке "Ввод".
 [Automatically get updates of HistoryStats]
 Автоматически обновляет HistoryStats

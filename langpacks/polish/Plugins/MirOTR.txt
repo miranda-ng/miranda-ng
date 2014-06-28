@@ -209,7 +209,7 @@ Pytanie
 Hasło:
 [Authentication successful.]
 Uwierzytelnianie pomyślne.
-[You contact authenticated you successful. You can send your own request to authenticate him.]
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
 Twój kontakt zautoryzował cię pomyślnie. Teraz możesz wysłać swoje żądanie uwierzytelnienia.
 [Error during authentication.]
 Błąd podczas uwierzytelniania.

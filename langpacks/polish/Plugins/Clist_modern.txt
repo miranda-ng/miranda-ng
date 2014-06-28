@@ -152,6 +152,8 @@ Protokołów w linii
 * Aby zwiększyć wysokość paska stanu:\nW menu głównym ustaw: ramki->Pasek Stanu->Pokaż tytuł, a następnie przeciągnij tytuł paska, który się pojawi w górę lub w dół.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Przytrzymaj Shift, aby odwrócić zahowanie przy kliknięciu prawym przyciskiem myszy
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
+Ctrl+LPM, aby filtrować tylko protokół, kliknij w puste pole, aby pokazać wszystko.
 [Set options per account]
 Ustaw opcje dla każdego konta
 [Enable custom account settings]

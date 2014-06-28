@@ -29,7 +29,7 @@
 namespace xfirelib {
 
   void RecvDidPacket::parseContent(char *buf, int length, int numberOfAtts) {
-    XDEBUG(("This is the useless DID packet, its really useless\n"));
+    XDEBUG(("This is the useless DID packet, it's really useless\n"));
   }
 
 };

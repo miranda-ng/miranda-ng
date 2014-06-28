@@ -324,7 +324,7 @@ void DlgOption::SubGlobal::initSupportInfo()
 		{
 			_T("Metacontacts"),
 			LPGENT("Create statistics for metacontacts and their subcontacts"),
-			LPGENT("The following information are only relevant if your already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the \"Input\" options."),
+			LPGENT("The following information is only relevant if you already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the \"Input\" options."),
 			LPGENT("Metacontacts plugin"),
 			_T("http://addons.miranda-im.org/details.php?action=viewfile&id=1595")
 		},

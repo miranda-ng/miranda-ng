@@ -209,7 +209,7 @@ Frage
 Passwort
 [Authentication successful.]
 Authentifizierung erfolgreich.
-[You contact authenticated you successful. You can send your own request to authenticate him.]
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
 Ihr Kontakt authentifizierte Sie erfolgreich. Sie können nun Ihre eigene Nachfrage zum Authentifizieren an ihn schicken.
 [Error during authentication.]
 Fehler während der Authentifizierung!

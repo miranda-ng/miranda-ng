@@ -209,8 +209,8 @@ OTR ідэнтыфікацыя: %s (%s)
 Пароль
 [Authentication successful.]
 Паспяховая ідэнтыфікацыя.
-[You contact authenticated you successful. You can send your own request to authenticate him.]
-Ваш кантакт паспяхова ідэнтыфікаваны. Вы можаце паслаць ваш уласны запыт ідэнтыфікацыі.
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
+Ваш кантакт паспяхова ідэнтыфікаваў вас. Вы можаце паслаць ваш уласны запыт ідэнтыфікацыі.
 [Error during authentication.]
 Памылка пры ідэнтыфікацыі
 [Authentication failed]

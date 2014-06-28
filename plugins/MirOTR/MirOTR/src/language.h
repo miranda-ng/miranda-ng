@@ -94,7 +94,7 @@
 #define LANG_SMP_PASSWORD					LPGEN("Password")
 
 #define LANG_SMP_SUCCESS					LPGEN("Authentication successful.")
-#define LANG_SMP_SUCCESS_VERIFY				LPGEN("You contact authenticated you successful. You can send your own request to authenticate him.")
+#define LANG_SMP_SUCCESS_VERIFY				LPGEN("Your contact authenticated you successfully. You can send your own request to authenticate him.")
 #define LANG_SMP_ERROR						LPGEN("Error during authentication.")
 #define LANG_SMP_FAILED						LPGEN("Authentication failed")
 #define LANG_SMP_IN_PROGRESS				LPGEN("Authentication for '%s' is already in progress.")

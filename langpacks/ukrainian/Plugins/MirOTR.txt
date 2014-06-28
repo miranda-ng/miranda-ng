@@ -199,8 +199,8 @@ OTR не є безпечним
 Пароль
 [Authentication successful.]
 Успішна ідентифікація.
-[You contact authenticated you successful. You can send your own request to authenticate him.]
-Контакт успішно ідентифікований. Можете надіслати власний запит ідентифікації.
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
+Контакт успішно ідентифікував вас. Можете надіслати власний запит ідентифікації.
 [Error during authentication.]
 Помилка при ідентифікації
 [Authentication failed]

@@ -201,8 +201,8 @@ OTR идентификация: %s (%s)
 Пароль
 [Authentication successful.]
 Успешная идентификация.
-[You contact authenticated you successful. You can send your own request to authenticate him.]
-Ваш контакт успешно идентифицирован. Вы можете отправить ваш собственный запрос идентификации.
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
+Контакт успешно идентифицировал вас. Можете отправить ваш собственный запрос идентификации.
 [Error during authentication.]
 Ошибка при идентификации
 [Authentication failed]
