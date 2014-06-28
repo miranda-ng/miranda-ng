@@ -59,7 +59,7 @@
     <ClInclude Include="src\Minizip\zlib.h">
       <Filter>Source Files\Minizip</Filter>
     </ClInclude>
-    <ClInclude Include="src\compat.h">
+    <ClInclude Include="src\Compat\compat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,9 +95,6 @@
       <Filter>Source Files\Minizip</Filter>
     </ClCompile>
     <ClCompile Include="src\DlgUpdate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DlgListNew.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -177,7 +177,7 @@
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\compat.h" />
+    <ClInclude Include="src\Compat\compat.h" />
     <ClInclude Include="src\Minizip\crypt.h" />
     <ClInclude Include="src\Minizip\ioapi.h" />
     <ClInclude Include="src\Minizip\iowin32.h" />
@@ -192,7 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\checksum.cpp" />
-    <ClCompile Include="src\DlgListNew.cpp" />
     <ClCompile Include="src\DlgUpdate.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\Minizip\ioapi.c">

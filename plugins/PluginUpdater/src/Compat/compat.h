@@ -1,5 +1,3 @@
-#define OUF_TCHAR 1
-
 #define db_free(A) DBFreeVariant(A)
 
 #define db_get_b(A,B,C,D)  DBGetContactSettingByte(A,B,C,D)

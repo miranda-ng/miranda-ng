@@ -91,6 +91,9 @@ int OnPreShutdown(WPARAM, LPARAM)
 	CloseHandle(Timer);
 
 	UninitCheck();
-	UninitListNew();
+
+	#if MIRANDA_VER >= 0x0A00
+		UninitListNew();
+	#endif
 	return 0;
 }
