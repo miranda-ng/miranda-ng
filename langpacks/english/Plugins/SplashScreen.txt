@@ -20,7 +20,7 @@
 [Fade in:]
 [steps]
 [Fade out:]
-[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
 [Preview...]
 ;file \plugins\SplashScreen\src\main.cpp
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]

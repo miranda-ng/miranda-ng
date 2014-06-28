@@ -91,7 +91,7 @@
 [Open Log File...]
 [Chart...]
 [Edit Settings...]
-[Enable/Diable Quotes Auto Update]
+[Enable/Disable Quotes Auto Update]
 [Quotes Auto Update Enabled]
 [Quotes Auto Update Disabled]
 [Network]

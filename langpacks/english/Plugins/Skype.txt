@@ -133,8 +133,8 @@
 [&Add]
 [&Kick]
 [Outlaw (&ban)]
-[Copy &skypename]
-[Copy room &uri]
+[Copy &Skype name]
+[Copy room &URI]
 [Creator]
 [Master]
 [Helper]
@@ -183,7 +183,7 @@
 [Protocols]
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
-[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the license agreement and standard distribution terms of SkypeKit.]
 [Initialization key corrupted or not valid.]
 [SkypeKit did not initialize (%d).]
 [SkypeKit did not start.]

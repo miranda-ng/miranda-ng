@@ -10,7 +10,7 @@
 [Welcome to the Miranda Database Wizard]
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 [To continue, click Next.]
-[This program is licenced under the terms of the GNU General Public License.]
+[This program is licensed under the terms of the GNU General Public License.]
 [Miranda Database Tool]
 [< &Back]
 [&Next >]

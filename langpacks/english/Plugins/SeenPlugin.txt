@@ -8,7 +8,7 @@
 [Logs when a user was last seen online and which users were online while you were away.]
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
-[Last seen menuitem]
+[Last seen menu item]
 [Show icon]
 [User info tab]
 [Log to file]
