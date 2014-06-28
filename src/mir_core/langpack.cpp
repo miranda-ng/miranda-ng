@@ -299,6 +299,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 	CMStringA szAuthors;
 
 	lpinfo.codepage = CP_ACP;
+	lpinfo.flags = 0;
 
 	fgets(line, LANGPACK_BUF_SIZE, fp);
 	size_t lineLen = strlen(line);
