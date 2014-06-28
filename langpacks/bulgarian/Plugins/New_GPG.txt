@@ -154,7 +154,7 @@
 
 [Strip all tags in outgoing messages]
 
-[Turn on presence signing (Jabber) (required by xep 0-27)]
+[Turn on presence signing (Jabber) (required by XEP 0-27)]
 
 [Export keys]
 
@@ -204,7 +204,7 @@
 Грешка
 [Generating new random key, please wait]
 
-[Failed to alocate memory]
+[Failed to allocate memory]
 
 [GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 
@@ -375,7 +375,7 @@
 
 [encrypting file for transfer]
 
-[we have succesfully exported]
+[we have successfully exported]
 
 [public keys]
 

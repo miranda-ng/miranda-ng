@@ -154,7 +154,7 @@ Otwórz:
 Zamknij:
 [Strip all tags in outgoing messages]
 Wytnij wszystkie tagi w wiadomościach wychodzących
-[Turn on presence signing (Jabber) (required by xep 0-27)]
+[Turn on presence signing (Jabber) (required by XEP 0-27)]
 Włącz podpisywanie obecności (Jabber) (wymagane przez xep 0-27)
 [Export keys]
 Eksportuj klucze
@@ -204,7 +204,7 @@ Błąd otwierania pliku
 Błąd
 [Generating new random key, please wait]
 Generuj nowy losowy klucz, proszę czekać
-[Failed to alocate memory]
+[Failed to allocate memory]
 Nie udało się przydzielić pamięci
 [GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 Znaleziono plik binarny GPG w folderze Mirandy, ale angielskie ustawienia regionalne nie istnieją.\nWysoce zaleca się umieszczenie \\gnupg.nls\\en@quot.mo w folderze GnuPG w głównym folderze Mirandy.\nBez tego pliku możesz doświadczyć wielu problemów z wyjściem GPG w systemach innych niż angielski,\na wtyczka może w ogóle nie działać.\nZostałeś ostrzeżony.
@@ -375,7 +375,7 @@ Ostrzeżenie o transferze pliku
 Nie udało się sprawdzić wsparcia dla odszyfrowania po drugiej stronie.\nOdbiorca może nie być w stanie odszyfrować pliku(ków).\nObecnie możliwość sprawdzana jest dla protokołów ICQ oraz Jabber.\nZadziała to także w innych protokołach, jeśli po drugiej stronie używana jest Miranda z new_gpg.\nCzy mimo to chcesz zaszyfrować plik(i)?
 [encrypting file for transfer]
 Szyfrowanie pliku do wysłania
-[we have succesfully exported]
+[we have successfully exported]
 Wyeksportowaliśmy pomyślnie
 [public keys]
 klucze publiczne
