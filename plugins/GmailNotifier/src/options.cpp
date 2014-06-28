@@ -24,7 +24,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 {
 	int ShowControl;
 	char str[MAX_PATH] = { 0 };
-	TCHAR *tail;
+	char *tail;
 	static int curIndex = 0;
 	HWND hwndCombo = GetDlgItem(hwndDlg, IDC_NAME);
 
@@ -55,7 +55,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG)acc[i].name);
 		SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
 		if (curIndex < acc_num)
-			SetDlgItemText(hwndDlg, IDC_PASS, acc[curIndex].pass);
+			SetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass);
 
 		SetDlgItemInt(hwndDlg, IDC_CIRCLE, opt.circleTime, FALSE);
 		if (opt.notifierOnTray)
@@ -152,10 +152,10 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_BTNADD:
 			acc_num++;
 			acc = (Account *)realloc(acc, acc_num * sizeof(Account));
-			curIndex = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LONG)"");
+			curIndex = SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG)"");
 			memset(&acc[curIndex], 0, sizeof(Account));
 			SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
-			SetDlgItemText(hwndDlg, IDC_PASS, _T(""));
+			SetDlgItemTextA(hwndDlg, IDC_PASS, "");
 			SetFocus(hwndCombo);
 			acc[curIndex].hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
 			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)acc[curIndex].hContact, (LPARAM)pluginName);
@@ -163,17 +163,17 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 		
 		case IDC_BTNSAV:
-			if (GetDlgItemText(hwndDlg, IDC_NAME, acc[curIndex].name, 64)) {
-				tail = _tcsstr(acc[curIndex].name, _T("@"));
-				if (tail && lstrcmp(tail + 1, _T("gmail.com")) != 0)
-					lstrcpy(acc[curIndex].hosted, tail + 1);
-				SendMessage(hwndCombo, CB_DELETESTRING, curIndex, 0);
-				SendMessage(hwndCombo, CB_INSERTSTRING, curIndex, (LONG_PTR)acc[curIndex].name);
-				SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
-				db_set_ts(acc[curIndex].hContact, pluginName, "name", acc[curIndex].name);
-				db_set_ts(acc[curIndex].hContact, pluginName, "Nick", acc[curIndex].name);
-				GetDlgItemText(hwndDlg, IDC_PASS, acc[curIndex].pass, 64);
-				db_set_ts(acc[curIndex].hContact, pluginName, "Password", acc[curIndex].pass);
+			if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, 64)) {
+				tail = strstr(acc[curIndex].name, "@");
+				if (tail && lstrcmpA(tail + 1, "gmail.com") != 0)
+					lstrcpyA(acc[curIndex].hosted, tail + 1);
+				SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
+				SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LONG_PTR)acc[curIndex].name);
+				SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
+				db_set_s(acc[curIndex].hContact, pluginName, "name", acc[curIndex].name);
+				db_set_s(acc[curIndex].hContact, pluginName, "Nick", acc[curIndex].name);
+				GetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass, 64);
+				db_set_s(acc[curIndex].hContact, pluginName, "Password", acc[curIndex].pass);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;
@@ -188,14 +188,14 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				acc[i] = acc[i + 1];
 			curIndex = 0;
 			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
-			SetDlgItemText(hwndDlg, IDC_PASS, acc[0].pass);
+			SetDlgItemTextA(hwndDlg, IDC_PASS, acc[0].pass);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_NAME:
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				curIndex = SendMessage(hwndCombo, CB_GETCURSEL, 0, 0);
-				SetDlgItemText(hwndDlg, IDC_PASS, acc[curIndex].pass);
+				SetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;

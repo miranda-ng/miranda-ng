@@ -28,10 +28,10 @@
 #define IDI_TRAY		WM_USER+6
 #define pluginName		"GmailMNotifier"
 #define _MAX_DOWN_BUFFER 65536
-#define LINK _T("https://www.google.com/accounts/ServiceLoginAuth?continue=https%3A%2F%2Fmail.google.com%2Fmail&service=mail&Email=")
-#define FORMDATA1 _T("<body onload=document.gmail.submit();><form name=gmail action=https://www.google.com/a/")
-#define FORMDATA2 _T("/LoginAction method=POST><input type=hidden name=continue value=https://mail.google.com/a/")
-#define FORMDATA3 _T("><INPUT type=hidden value=mail name=service>")
+#define LINK "https://www.google.com/accounts/ServiceLoginAuth?continue=https%3A%2F%2Fmail.google.com%2Fmail&service=mail&Email="
+#define FORMDATA1 "<body onload=document.gmail.submit();><form name=gmail action=https://www.google.com/a/"
+#define FORMDATA2 "/LoginAction method=POST><input type=hidden name=continue value=https://mail.google.com/a/"
+#define FORMDATA3 "><INPUT type=hidden value=mail name=service>"
 // #define STR1 "javascript:document.write('<form name=gmail action=https://www.google.com/a/"
 // #define STR2 "/LoginAction method=post><input type=hidden name=continue value=https://mail.google.com/hosted/"
 // #define STR3 "><input type=hidden value=mail name=service><input type=hidden name=userName value="
@@ -40,14 +40,14 @@
 //#define LINK2 "https://www.google.com/a/altmanoptik.com/LoginAction?continue=https%3A%2F%2Fmail.google.com%2Fhosted%2Faltmanoptik.com&service=mail&userName=test&password=123456"
 
 typedef struct s_resultLink{
-	TCHAR content[64];
+	char content[64];
 	struct s_resultLink *next;
 }resultLink;
 
 typedef struct s_Account{
-	TCHAR name[64];
-	TCHAR pass[64];
-	TCHAR hosted[64];
+	char name[64];
+	char pass[64];
+	char hosted[64];
 	MCONTACT hContact;
 	int oldResults_num;
 	int	results_num;
@@ -81,14 +81,14 @@ extern BOOL optionWindowIsOpen;
 INT_PTR Notifying(WPARAM, LPARAM);
 INT_PTR PluginMenuCommand(WPARAM, LPARAM);
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
-BOOL GetBrowser(TCHAR *);
+BOOL GetBrowser(char *);
 void CheckMailInbox(Account *);
 void NotifyUser(Account *);
 int OptInit(WPARAM, LPARAM);
 void Check_ThreadFunc(void *);
 void Login_ThreadFunc(void *);
 int OpenBrowser(WPARAM , LPARAM);
-int ParsePage(TCHAR *, resultLink *);
+int ParsePage(char *, resultLink *);
 void DeleteResults(resultLink *);
 void BuildList(void);
 
