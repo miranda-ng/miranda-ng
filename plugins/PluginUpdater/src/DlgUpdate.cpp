@@ -686,7 +686,7 @@ static void CheckUpdates(void *)
 	if (tszTempPath[dwLen-1] == '\\')
 		tszTempPath[dwLen-1] = 0;
 
-	ptrT updateUrl( GetDefaultUrl()), baseUrl;
+	ptrT updateUrl(GetDefaultUrl()), baseUrl;
 	
 	SERVLIST hashes(50, CompareHashes);
 	bool success = ParseHashes(updateUrl, baseUrl, hashes);
@@ -703,9 +703,9 @@ static void CheckUpdates(void *)
 			opts.bSilent = true;
 		}
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
-	} else {
-		opts.bSilent = true;
 	}
+	else opts.bSilent = true;
+
 	InitTimer(success ? 0 : 2);	
 	
 	hashes.destroy();
@@ -720,7 +720,8 @@ void DoCheck(int iFlag)
 		ShowWindow(hwndDialog, SW_SHOW);
 		SetForegroundWindow(hwndDialog);
 		SetFocus(hwndDialog);
-	} else if (iFlag) {
+	}
+	else if (iFlag) {
 		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 		hCheckThread = mir_forkthread(CheckUpdates, 0);		
 	}

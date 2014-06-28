@@ -181,7 +181,7 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 TCHAR* GetDefaultUrl()
 {
 	#if MIRANDA_VER < 0x0A00
-		return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9"));
+		return mir_tstrdup(_T("http://miranda-ng.org/distr/deprcated/0.94.9/x%platform%"));
 	#else
 		TCHAR *result = db_get_tsa(NULL, MODNAME, "UpdateURL");
 		if (result == NULL) { // URL is not set

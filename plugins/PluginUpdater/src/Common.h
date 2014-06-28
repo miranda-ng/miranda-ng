@@ -101,12 +101,18 @@ struct PlugOptions
 	int  Period;
 };
 
-#define DEFAULT_UPDATEICONS       0
 #define DEFAULT_UPDATEONSTARTUP   1
-#define DEFAULT_ONLYONCEADAY      1
 #define DEFAULT_UPDATEONPERIOD    0
 #define DEFAULT_PERIOD            1
 #define DEFAULT_PERIODMEASURE     1
+
+#if MIRANDA_VER < 0x0A00
+	#define DEFAULT_UPDATEICONS       1
+	#define DEFAULT_ONLYONCEADAY      0
+#else
+	#define DEFAULT_UPDATEICONS       0
+	#define DEFAULT_ONLYONCEADAY      1
+#endif
 
 #define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x%platform%"
 #define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%platform%"
