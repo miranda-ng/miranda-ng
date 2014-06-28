@@ -67,9 +67,6 @@
     <ClCompile Include="src\Notifications.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Options.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\PluginUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

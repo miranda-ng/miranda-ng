@@ -19,8 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-PlugOptions opts;
-
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {

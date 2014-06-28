@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
+PlugOptions opts;
+
 #if MIRANDA_VER < 0x0A00
 	#define MIID_UPDATER	{0x4a47b19b, 0xde5a, 0x4436, { 0xab, 0x4b, 0xe1, 0xf3, 0xa0, 0x22, 0x5d, 0xe7}}
 
@@ -124,6 +126,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszName = LPGEN("Available components list");
 	mi.pszService = MODNAME"/ShowList";
 	Menu_AddMainMenuItem(&mi);
+
+	HookEvent(ME_OPT_INITIALISE, OptInit);
 #endif
 
 	// Add hotkey
@@ -136,8 +140,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.lParam = FALSE;
 	Hotkey_Register(&hkd);
 
-	// Add options hook
-	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 

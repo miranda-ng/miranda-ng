@@ -180,12 +180,16 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 
 TCHAR* GetDefaultUrl()
 {
-	TCHAR *result = db_get_tsa(NULL, MODNAME, "UpdateURL");
-	if (result == NULL) { // URL is not set
-		db_set_ts(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
-		result = mir_tstrdup( _T(DEFAULT_UPDATE_URL));
-	}
-	return result;
+	#if MIRANDA_VER < 0x0A00
+		return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9"));
+	#else
+		TCHAR *result = db_get_tsa(NULL, MODNAME, "UpdateURL");
+		if (result == NULL) { // URL is not set
+			db_set_ts(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
+			result = mir_tstrdup( _T(DEFAULT_UPDATE_URL));
+		}
+		return result;
+	#endif
 }
 
 int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)

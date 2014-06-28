@@ -213,7 +213,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Notifications.cpp" />
-    <ClCompile Include="src\Options.cpp" />
     <ClCompile Include="src\PluginUpdater.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
