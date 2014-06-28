@@ -169,6 +169,7 @@
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\compat.h" />
     <ClInclude Include="src\Minizip\crypt.h" />
     <ClInclude Include="src\Minizip\ioapi.h" />
     <ClInclude Include="src\Minizip\iowin32.h" />
@@ -183,6 +184,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\checksum.cpp" />
+    <ClCompile Include="src\DlgListNew.cpp" />
+    <ClCompile Include="src\DlgUpdate.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\Minizip\ioapi.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">NotUsing</PrecompiledHeader>
@@ -207,7 +210,6 @@
     <ClCompile Include="src\PluginUpdater.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Scanner.cpp" />
     <ClCompile Include="src\unzipfile.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>

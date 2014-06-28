@@ -46,11 +46,13 @@ Boston, MA 02111-1307, USA.
 
 #include "version.h"
 #include "resource.h"
-#include "Notifications.h"
 
 #if MIRANDA_VER < 0x0A00
+#include <m_popup2.h>
 #include "compat.h"
 #endif
+
+#include "Notifications.h"
 
 // Enable Visual Style
 #if defined _M_IX86

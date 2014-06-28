@@ -56,7 +56,7 @@ static void ApplyUpdates(void *param)
 
 	AutoHandle pipe(hPipe);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
-	TCHAR tszBuff[2048], tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
 	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
 	SafeCreateDirectory(tszFileBack);

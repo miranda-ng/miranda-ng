@@ -192,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\checksum.cpp" />
+    <ClCompile Include="src\DlgListNew.cpp" />
     <ClCompile Include="src\DlgUpdate.cpp" />
     <ClCompile Include="src\Events.cpp" />
     <ClCompile Include="src\Minizip\ioapi.c">
