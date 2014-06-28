@@ -525,6 +525,35 @@ int Meta_SwapContacts(DBCachedContact *cc, int n1, int n2)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void Meta_GetSubNick(MCONTACT hMeta, int i, CMString &tszDest)
+{
+	char idStr[50];
+	mir_snprintf(idStr, SIZEOF(idStr), "Login%d", i);
+
+	TCHAR buf[512];
+	DBVARIANT dbv;
+	db_get(hMeta, META_PROTO, idStr, &dbv);
+	switch (dbv.type) {
+	case DBVT_ASCIIZ:
+		tszDest = dbv.pszVal;
+		break;
+	case DBVT_BYTE:
+		tszDest.Format(_T("%d"), dbv.bVal);
+		break;
+	case DBVT_WORD:
+		tszDest.Format(_T("%d"), dbv.wVal);
+		break;
+	case DBVT_DWORD:
+		tszDest.Format(_T("%d"), dbv.dVal);
+		break;
+	default:
+		tszDest.Empty();
+	}
+	db_free(&dbv);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void Meta_FixStatus(DBCachedContact *ccMeta)
 {
 	WORD status = ID_STATUS_OFFLINE;

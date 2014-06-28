@@ -599,12 +599,9 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 
 	HMENU hMenu = CreatePopupMenu();
 	int iDefault = Meta_GetContactNumber(cc, db_mc_getSrmmSub(cc->contactID));
-	TCHAR tszItemName[200];
 
 	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_ID | MIIM_STATE | MIIM_STRING;
-	mii.dwTypeData = tszItemName;
-	mii.cch = SIZEOF(tszItemName);
 	for (int i = 0; i < cc->nSubs; i++)	{
 		char *szProto = GetContactProto(cc->pSubs[i]);
 		if (szProto == NULL) continue;
@@ -613,11 +610,17 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 		if (pa == NULL)
 			continue;
 
-		mir_sntprintf(tszItemName, SIZEOF(tszItemName), _T("%s [%s]"),
-			cli.pfnGetContactDisplayName(cc->pSubs[i], 0), pa->tszAccountName);
+		CMString tszNick;
+		if (options.menu_contact_label == DNT_DID)
+			tszNick = cli.pfnGetContactDisplayName(cc->pSubs[i], 0);
+		else
+			Meta_GetSubNick(hMeta, i, tszNick);
+		tszNick.AppendFormat(_T(" [%s]"), pa->tszAccountName);
 
 		mii.wID = i + 1;
 		mii.fState = (i == iDefault) ? MFS_CHECKED : MFS_ENABLED;
+		mii.dwTypeData = tszNick.GetBuffer();
+		mii.cch = tszNick.GetLength();
 		InsertMenuItem(hMenu, i, TRUE, &mii);
 	}
 
@@ -690,6 +693,7 @@ static VOID CALLBACK sttMenuThread(PVOID param)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);

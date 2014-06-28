@@ -259,7 +259,8 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 		mi.pszName = LPGEN("Remove from metacontact");
 		Menu_ModifyItem(hMenuDelete, &mi);
 
-		//show subcontact menu items
+		// show subcontact menu items
+		CMString tszNick;
 		for (int i = 0; i < MAX_CONTACTS; i++) {
 			if (i >= cc->nSubs) {
 				Menu_ShowItem(hMenuContact[i], false);
@@ -270,38 +271,12 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 			char *szProto = GetContactProto(hContact);
 
 			if (options.menu_contact_label == DNT_UID) {
-				char buf[512], idStr[512];
-				strcpy(buf, "Login");
-				strcat(buf, _itoa(i, idStr, 10));
-
-				DBVARIANT dbv;
-				db_get(hMeta, META_PROTO, buf, &dbv);
-				switch (dbv.type) {
-				case DBVT_ASCIIZ:
-					mir_snprintf(buf, 512, "%s", dbv.pszVal);
-					break;
-				case DBVT_BYTE:
-					mir_snprintf(buf, 512, "%d", dbv.bVal);
-					break;
-				case DBVT_WORD:
-					mir_snprintf(buf, 512, "%d", dbv.wVal);
-					break;
-				case DBVT_DWORD:
-					mir_snprintf(buf, 512, "%d", dbv.dVal);
-					break;
-				default:
-					buf[0] = 0;
-				}
-				db_free(&dbv);
-				mi.pszName = buf;
-				mi.flags = 0;
+				Meta_GetSubNick(hMeta, i, tszNick);
+				mi.ptszName = tszNick.GetBuffer();
 			}
-			else {
-				mi.ptszName = cli.pfnGetContactDisplayName(hContact, 0);
-				mi.flags = CMIF_TCHAR;
-			}
+			else mi.ptszName = cli.pfnGetContactDisplayName(hContact, 0);
 
-			mi.flags |= CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
+			mi.flags = CMIF_TCHAR | CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 
 			int iconIndex = CallService(MS_CLIST_GETCONTACTICON, hContact, 0);
 			mi.hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);

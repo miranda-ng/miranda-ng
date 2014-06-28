@@ -54,8 +54,8 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		return TRUE;
 
 	case WM_COMMAND:
-		if ( HIWORD( wParam ) == BN_CLICKED ) {
-			switch( LOWORD( wParam )) {
+		if (HIWORD(wParam) == BN_CLICKED) {
+			switch (LOWORD(wParam)) {
 			case IDC_CHK_SUPPRESSSTATUS:
 				options_changes.bSuppressStatus = IsDlgButtonChecked(hwndDlg, IDC_CHK_SUPPRESSSTATUS) != 0;
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);

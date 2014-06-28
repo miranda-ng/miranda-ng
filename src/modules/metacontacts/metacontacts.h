@@ -55,6 +55,7 @@ int  Meta_SuppressStatus(int suppress);
 int  Meta_CopyContactNick(DBCachedContact *cc, MCONTACT hContact);
 int  Meta_SetAllNicks();
 int  Meta_SwapContacts(DBCachedContact *cc, int contact_number1, int contact_number2);
+void Meta_GetSubNick(MCONTACT hMeta, int i, CMString &tszDest);
 
 MCONTACT Meta_GetMostOnline(DBCachedContact *cc);
 MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigned long capability);
