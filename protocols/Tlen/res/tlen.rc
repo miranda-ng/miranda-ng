@@ -312,7 +312,7 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "School:",IDC_STATIC,15,150,50,8
     EDITTEXT        IDC_SCHOOL,65,148,91,12,ES_AUTOHSCROLL
-    GROUPBOX        "Extra Search Criterias",IDC_EXTRAGROUP,171,7,156,67
+    GROUPBOX        "Extra Search Criteria",IDC_EXTRAGROUP,171,7,156,67
     LTEXT           "Status:",IDC_STATIC,177,22,50,8
     COMBOBOX        IDC_STATUS,227,20,91,113,CBS_DROPDOWNLIST | WS_VSCROLL |
                     WS_TABSTOP

@@ -209,7 +209,7 @@ BEGIN
     LTEXT           "Today's High",IDC_STATIC,112,70,54,8
     LTEXT           "Sunrise",IDC_STATIC,112,46,54,8
     LTEXT           "",IDC_INFO11,12,121,195,9
-    LTEXT           "Dewpoint",IDC_STATIC,12,94,39,8
+    LTEXT           "Dew point",IDC_STATIC,12,94,39,8
     LTEXT           "Pressure",IDC_STATIC,12,58,39,8
     GROUPBOX        "",IDC_STATIC,4,36,211,84
     GROUPBOX        "",IDC_STATIC,4,1,211,35

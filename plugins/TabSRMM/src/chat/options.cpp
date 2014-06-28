@@ -786,7 +786,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 					// contact vars
 					_T("%nick%"),					TranslateT("nick of current contact (if defined)"),
-					_T("%proto%"),					TranslateT("protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts"),
+					_T("%proto%"),					TranslateT("protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts"),
 					_T("%accountname%"),			TranslateT("user-defined account name of current contact (if defined)."),
 					_T("%userid%"),					TranslateT("user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc."),
 					// global vars

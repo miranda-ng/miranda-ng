@@ -121,7 +121,7 @@ BEGIN
     CONTROL         "Relative date",IDC_USERELATIVEDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,80,123,10
     CONTROL         "Show names",IDC_SHOWNAMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,25,140,10
     CONTROL         "Enable message grouping",IDC_GROUPMESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,36,140,10
-    CONTROL         "Mark follow-up msgs with timestamp",IDC_MARKFOLLOWUPS,
+    CONTROL         "Mark follow-up messages with timestamp",IDC_MARKFOLLOWUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,47,132,10
     CONTROL         "Start message text on a new line",IDC_MESSAGEONNEWLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,58,140,10

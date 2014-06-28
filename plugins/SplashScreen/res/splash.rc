@@ -83,7 +83,7 @@ BEGIN
                     UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,173,186,
                     10,10
     LTEXT           "steps",IDC_STATIC,176,187,95,9
-    LTEXT           "Advaimg library not found. Please get it from nigtlies to be able to use images.",
+    LTEXT           "AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.",
                     IDC_PNG2DIBWARN,24,210,185,17,NOT WS_VISIBLE
     PUSHBUTTON      "Preview...",IDC_PREVIEW,218,211,75,19
 END

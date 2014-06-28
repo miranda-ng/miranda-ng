@@ -30,8 +30,8 @@ static struct gc_item crListItems[] =
 	{ LPGENT("&Kick"),                ICM_KICK,               MENU_ITEM      },
 	{ LPGENT("Outlaw (&ban)"),        ICM_BAN,                MENU_ITEM      },	
 	{ NULL,                           0,                      MENU_SEPARATOR },
-	{ LPGENT("Copy &skypename"),      ICM_COPY_SID,           MENU_ITEM      },
-	{ LPGENT("Copy room &uri"),       ICM_COPY_URI,           MENU_ITEM      }
+	{ LPGENT("Copy &Skype name"),      ICM_COPY_SID,           MENU_ITEM      },
+	{ LPGENT("Copy room &URI"),       ICM_COPY_URI,           MENU_ITEM      }
 };
 
 static void CheckChatMenuItem(CHAT_LIST_MENU checkedId)

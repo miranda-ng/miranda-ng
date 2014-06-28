@@ -85,12 +85,12 @@ static mytreeitem mytree[] = {
 	{LPGENT("Display popup if someone starts a game"),"gamepopup",0,0},
 	{LPGENT("Don't automatically create clan groups"),"noclangroups",0,0},
 	{LPGENT("Enable MBot support"),"mbotsupport",0,0},
-	{LPGENT("Gamedetection"),"",1,0},
+	{LPGENT("Game detection"),"",1,0},
 	/*{"Scan for games on every Miranda start","scanalways",0},*/
 	{LPGENT("Disable game detection"),"nogamedetect",0,0},
 	/*{"Enable server IP/Port detection","ipportdetec",0},*/
 	/*{"Enable TeamSpeak2/Ventrilo detection","",0},*/
-	{LPGENT("Use TSRemote.dll to get teamspeak server info"),"ts2useremote",0,0},
+	{LPGENT("Use TSRemote.dll to get TeamSpeak server info"),"ts2useremote",0,0},
 	{LPGENT("Disable popups when ingame"),"nopopups",0,0},
 	{LPGENT("Disable sound events when ingame"),"nosoundev",0,0},
 	{LPGENT("Files"),"",1,0},
@@ -363,7 +363,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(hwndDlg, DM_REBUILD_TREE, 0, 0);
 
 			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_ADDSTRING, 0, (LPARAM)TranslateT("Hidden" ));
-			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_ADDSTRING, 0, (LPARAM)TranslateT("Messagebox" ));
+			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_ADDSTRING, 0, (LPARAM)TranslateT("Message box" ));
 			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_ADDSTRING, 0, (LPARAM)TranslateT("Popup" ));
 
 			//scanalways

@@ -269,7 +269,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	metrics.x = GetSystemMetrics(SM_CXSMICON);
 	metrics.y = GetSystemMetrics(SM_CYSMICON);
 	if ((psh._hImages = ImageList_Create(metrics.x, metrics.y, ILC_COLOR32 | ILC_MASK, 0, 1)) == NULL) {
-		MsgErr(NULL, LPGENT("Creating the imagelist failed!"));
+		MsgErr(NULL, LPGENT("Creating the image list failed!"));
 		return 1;
 	}
 

@@ -35,7 +35,7 @@ BEGIN
     LTEXT           "Welcome to the Miranda Database Wizard",IDC_TITLE,77,12,178,24,0,WS_EX_TRANSPARENT
     LTEXT           "Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.",IDC_STATIC,77,46,178,32,0,WS_EX_TRANSPARENT
     LTEXT           "To continue, click Next.",IDC_STATIC,77,85,178,8,0,WS_EX_TRANSPARENT
-    LTEXT           "This program is licenced under the terms of the GNU General Public License.",IDC_STATIC,77,122,178,16,WS_DISABLED
+    LTEXT           "This program is licensed under the terms of the GNU General Public License.",IDC_STATIC,77,122,178,16,WS_DISABLED
 END
 
 IDD_WIZARD DIALOGEX 0, 0, 262, 174

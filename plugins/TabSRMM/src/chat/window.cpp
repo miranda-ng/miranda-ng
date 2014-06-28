@@ -3118,7 +3118,7 @@ LABEL_SHOWWINDOW:
 				break;
 
 			if (si->iLogFilterFlags == 0 && !si->bFilterEnabled) {
-				MessageBox(0, TranslateT("The filter canoot be enabled, because there are no event types selected either global or for this chat room"), TranslateT("Event filter error"), MB_OK);
+				MessageBox(0, TranslateT("The filter cannot be enabled, because there are no event types selected either global or for this chat room"), TranslateT("Event filter error"), MB_OK);
 				si->bFilterEnabled = 0;
 			}
 			else si->bFilterEnabled = !si->bFilterEnabled;

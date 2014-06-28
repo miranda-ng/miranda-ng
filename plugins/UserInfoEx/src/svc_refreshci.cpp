@@ -644,7 +644,7 @@ class CContactUpdater : public CContactQueue
 
 			if (_pProgress)
 			{
-				_pProgress->SetTextParam(TranslateT("[b]%s (%S)...[/b]\n%d Contacts remaning"),
+				_pProgress->SetTextParam(TranslateT("[b]%s (%S)...[/b]\n%d Contacts remaining"),
 					DB::Contact::DisplayName(_hContact), pszProto, Size());
 			}
 			if (IsProtoOnline(pszProto))

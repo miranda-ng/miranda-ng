@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "Start position"
 #define __FILENAME               "StartPosition.dll"
-#define __DESCRIPTION             "Plugin supports starting position of Contact List relative to the the taskbar and screen side."
+#define __DESCRIPTION             "Plugin supports starting position of Contact List relative to the taskbar and screen side."
 #define __AUTHOR               "Felipe Brahm - souFrag"
 #define __AUTHOREMAIL            "felipebrahm@gmail.com"
 #define __AUTHORWEB               "http://miranda-ng.org/p/StartPosition/"

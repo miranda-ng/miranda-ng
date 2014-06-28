@@ -127,7 +127,7 @@ TOptionListGroup m_lvGroupsLog[] =
 {
 	{ 0, LPGENT("Message log appearance") }, 
 	{ 0, LPGENT("Support for external plugins") }, 
-	{ 0, LPGENT("Timestamp settings (note: timstamps also depend on your templates)") }, 
+	{ 0, LPGENT("Timestamp settings (note: timestamps also depend on your templates)") }, 
 	{ 0, LPGENT("Message log icons") }, 
 	{ 0, NULL }
 };

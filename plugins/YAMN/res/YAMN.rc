@@ -258,7 +258,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,293,9
     GROUPBOX        "MailBrowser Options",IDC_STATIC,3,68,151,47
     CONTROL         "Enable Close on Delete Button",IDC_CLOSEONDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,80,143,11
-    CONTROL         "Show long localised date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,77,130,10
+    CONTROL         "Show long localized date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,77,130,10
     CONTROL         "Don't show today's date",IDC_SMARTDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,89,131,10
     GROUPBOX        "Date/Time Representation",IDC_STATIC,166,68,141,47
     CONTROL         "Don't show seconds",IDC_NOSECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,101,129,8
@@ -280,7 +280,7 @@ BEGIN
     EDITTEXT        IDC_EDITPOPS,23,65,20,12,ES_AUTOHSCROLL
     GROUPBOX        "No new mail notifications",IDC_GBNONEWMAIL,5,152,300,62
     CONTROL         "Popup if no mail",IDC_CHECKNPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,161,94,10
-    CONTROL         "Persistant message",IDC_CHECKNMSGP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,188,110,10
+    CONTROL         "Persistent message",IDC_CHECKNMSGP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,188,110,10
     CONTROL         "Use custom color",IDC_CHECKNCOL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,201,107,10
     CONTROL         "",IDC_CPNB,"ColourPicker",WS_TABSTOP,145,181,29,12
     CONTROL         "",IDC_CPNT,"ColourPicker",WS_TABSTOP,145,198,29,12

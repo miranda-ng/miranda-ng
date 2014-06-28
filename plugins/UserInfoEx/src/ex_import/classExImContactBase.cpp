@@ -501,7 +501,7 @@ BYTE CExImContactBase::isHandle(MCONTACT hContact)
 		if (dbv.type == DBVT_UTF8 && dbv.pszVal && !mir_stricmp(dbv.pszVal,_pszNick)) {
 			LPTSTR ptszNick = mir_utf8decodeT(_pszNick);
 			LPTSTR ptszProto = mir_a2t(_pszProto);
-			int ans = MsgBox(NULL, MB_ICONQUESTION|MB_YESNO, LPGENT("Question"), LPGENT("contact identificaion"),
+			int ans = MsgBox(NULL, MB_ICONQUESTION|MB_YESNO, LPGENT("Question"), LPGENT("contact identification"),
 				LPGENT("The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?"),
 				ptszNick, ptszProto);
 			MIR_FREE(ptszNick);

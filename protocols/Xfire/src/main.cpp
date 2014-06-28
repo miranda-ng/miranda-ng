@@ -420,7 +420,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  for(int i=0;i<claninv->numberOfInv;i++)
 			  {
 				  char msg[XFIRE_MAX_STATIC_STRING_LEN];
-				  mir_snprintf(msg, SIZEOF(msg), Translate("%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation."),claninv->invitefromusername[i].c_str(),
+				  mir_snprintf(msg, SIZEOF(msg), Translate("%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation."),claninv->invitefromusername[i].c_str(),
 																								claninv->invitefrom[i].c_str(),
 																								claninv->clanname[i].c_str(),
 																								claninv->invitemsg[i].c_str(),"\n");

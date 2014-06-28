@@ -1379,7 +1379,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), BATF_TCHAR);
 
 			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
-				TranslateT("Autoscrolling is disabled (press F12 to enable it)"));
+				TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_SAVE), BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
 			SendMessage(GetDlgItem(hwndDlg, IDC_PROTOCOL), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_TCHAR);
@@ -1965,7 +1965,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 							SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
 						else
-							SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Autoscrolling is disabled (press F12 to enable it)"));
+							SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
 						SendMessage(hwndDlg, WM_SIZE, 0, 0);
 						DM_ScrollToBottom(dat, 1, 1);
 						return(_dlgReturn(hwndDlg, 1));
@@ -2444,7 +2444,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		dat->iNextQueuedEvent = 0;
 		SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
-			TranslateT("Autoscrolling is disabled (press F12 to enable it)"));
+			TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
 		return 0;
 
 	case DM_SCROLLIEVIEW:

@@ -880,7 +880,7 @@ void registerSystemTokens()
 {
 	registerIntToken(COMPUTERNAME, parseComputerName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("computer name"));
 #if _WIN32_WINNT>=0x0500
-	registerIntToken(CPULOAD, parseCpuLoad, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("cpu load of process x (without extension) (x is optional)"));
+	registerIntToken(CPULOAD, parseCpuLoad, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("CPU load of process x (without extension) (x is optional)"));
 #endif
 	registerIntToken(CDATE, parseCurrentDate, TRF_FUNCTION, LPGEN("System Functions")"\t(y)\t"LPGEN("current date in format y (y is optional)"));
 	registerIntToken(CTIME, parseCurrentTime, TRF_FUNCTION, LPGEN("System Functions")"\t(y)\t"LPGEN("current time in format y (y is optional)"));

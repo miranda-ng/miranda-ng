@@ -1659,7 +1659,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 			dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;
 
 			TCHAR szBuf[100];
-			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
+			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)"),
 				dat->iNextQueuedEvent);
 			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
 			RedrawWindow(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), NULL, NULL, RDW_INVALIDATE);

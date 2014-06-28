@@ -461,7 +461,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				MB_ICON_WARNING | MB_YESNO,
 				LPGENT("Question"),
 				LPGENT("Reset factory defaults"),
-				LPGENT("This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?"));
+				LPGENT("This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?"));
 
 			if (WantReset) {
 				MCONTACT hContact;
@@ -613,7 +613,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			if (hCtrl = GetDlgItem(hDlg, EDIT_REMIND_ENABLED)) {
 				ComboBox_AddString(hCtrl, TranslateT("Reminder disabled"));
 				ComboBox_AddString(hCtrl, TranslateT("Anniversaries only"));
-				ComboBox_AddString(hCtrl, TranslateT("Bithdays only"));
+				ComboBox_AddString(hCtrl, TranslateT("Birthdays only"));
 				ComboBox_AddString(hCtrl, TranslateT("Everything"));
 			}
 			if (hCtrl = GetDlgItem(hDlg, EDIT_BIRTHMODULE)) {

@@ -276,7 +276,7 @@ namespace
 	int Quotes_OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 	{
 		TTBButton ttb = { sizeof(ttb) };
-		ttb.name = LPGEN("Enable/Diable Quotes Auto Update");
+		ttb.name = LPGEN("Enable/Disable Quotes Auto Update");
 		ttb.pszService = g_pszAutoUpdateCmd;
 		ttb.pszTooltipUp = LPGEN("Quotes Auto Update Enabled");
 		ttb.pszTooltipDn = LPGEN("Quotes Auto Update Disabled");

@@ -141,7 +141,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPU
 CAPTION "Add phone number"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Enter your phone number\nand don't worry about formating.",IDC_HEADERBAR,
+    CONTROL         "Enter your phone number\nand don't worry about formatting.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,242,25
     CONTROL         "",IDC_STATIC,"Static",SS_WHITERECT,0,25,241,101
     CONTROL         "Enter a category for this number:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,5,32,199,9
@@ -363,7 +363,7 @@ BEGIN
     LTEXT           "Changed information",TXT_OPT_CLR_CHANGED,187,47,96,8
     CONTROL         "Enable colors to give information about information's status.",CHECK_OPT_CLR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,16,271,10
-    CONTROL         "Make protocol based contact information readonly",CHECK_OPT_READONLY,
+    CONTROL         "Make protocol based contact information read only",CHECK_OPT_READONLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,104,271,10
     CONTROL         "Enable groups in details dialog's treeview",CHECK_OPT_GROUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,152,271,10

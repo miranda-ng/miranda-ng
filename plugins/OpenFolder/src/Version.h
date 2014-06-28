@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "Open Miranda folder"
 #define __FILENAME               "OpenFolder.dll"
-#define __DESCRIPTION             "Adds a menu/toobar item which opens the main Miranda NG folder."
+#define __DESCRIPTION             "Adds a menu/toolbar item which opens the main Miranda NG folder."
 #define __AUTHOR               "jarvis, Kreisquadratur"
 #define __AUTHOREMAIL            "jarvis@jabber.cz, djui@kreisquadratur.de"
 #define __AUTHORWEB               "http://miranda-ng.org/p/OpenFolder/"

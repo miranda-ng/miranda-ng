@@ -96,7 +96,7 @@ BEGIN
     EDITTEXT        IDC_AUTOADDGROUP,210,144,76,14,ES_AUTOHSCROLL
     GROUPBOX        "After congratulation (ICQ only)",IDC_STATIC,15,135,278,51
     CONTROL         "Automatically grant authorization",IDC_AUTOAUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,158,263,10
-    CONTROL         "Request authorization from contacts which pass stopspam test",IDC_REQAUTH,
+    CONTROL         "Request authorization from contacts which pass StopSpam test",IDC_REQAUTH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,170,267,10
     CONTROL         "Remove all temporary contacts after restart",ID_REMOVE_TMP_ALL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,55,287,8

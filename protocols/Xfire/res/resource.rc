@@ -110,7 +110,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Options",IDC_GRP1,2,1,300,152
     GROUPBOX        "More options",IDC_GRP5,2,155,300,71
-    RTEXT           "Display Error and Infomessage:",IDC_STC12,4,209,144,9,NOT WS_GROUP
+    RTEXT           "Display Error and Info message:",IDC_STC12,4,209,144,9,NOT WS_GROUP
     COMBOBOX        IDC_NOMSG,152,207,142,61,CBS_DROPDOWNLIST | WS_TABSTOP
     CONTROL         "Tree1",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,6,11,292,138
     RTEXT           "Main group for clan groups:",IDC_STC25,4,194,144,9,NOT WS_GROUP
@@ -147,7 +147,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Status Message",IDC_GRP1,2,1,300,214
     CONTROL         "Enable",IDC_ENABLESTSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,14,132,9
-    LTEXT           "With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.",IDC_STC28,10,38,286,24,NOT WS_GROUP
+    LTEXT           "With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.",IDC_STC28,10,38,286,24,NOT WS_GROUP
     LTEXT           "Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%",IDC_STC29,10,96,286,19,NOT WS_GROUP
     EDITTEXT        IDC_STATUSMSG,8,131,286,70,ES_MULTILINE | NOT WS_BORDER,WS_EX_CLIENTEDGE
     LTEXT           "Status message:",IDC_STC30,10,118,94,9,NOT WS_GROUP
@@ -191,7 +191,7 @@ BEGIN
     LTEXT           "Username:",IDC_STC2,8,18,36,9,NOT WS_GROUP
     LTEXT           "Nick:",IDC_STC3,8,9,32,9,NOT WS_GROUP
     GROUPBOX        "Game",IDC_GRP2,2,44,220,32
-    GROUPBOX        "Voicechat",IDC_GRP3,2,77,220,33
+    GROUPBOX        "Voice chat",IDC_GRP3,2,77,220,33
     LTEXT           "Name:",IDC_STC4,30,53,36,9,NOT WS_GROUP
     EDITTEXT        IDC_GAME,54,53,134,9,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "IP:",IDC_STC5,30,64,18,9,NOT WS_GROUP
@@ -243,7 +243,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIB
 CAPTION "New xfire_games.ini"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    LTEXT           "There is a new XFire gamelist online, do you want to update now?",IDC_STC34,30,5,154,19,NOT WS_GROUP
+    LTEXT           "There is a new XFire game list online, do you want to update now?",IDC_STC34,30,5,154,19,NOT WS_GROUP
     ICON            IDI_TM,IDC_IMG2,4,3,22,19,SS_CENTERIMAGE
     LTEXT           "New supported games:",IDC_STC35,6,29,124,9,NOT WS_GROUP
     DEFPUSHBUTTON   "Update",IDOK,36,88,50,15
