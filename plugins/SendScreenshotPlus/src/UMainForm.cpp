@@ -389,11 +389,11 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 				case ID_chkEditor:
 					m_opt_chkEditor = (BYTE)Button_GetCheck((HWND)lParam);
 					break;
-
 				case ID_imgTarget:
-					if(m_opt_tabCapture==0) SetTimer(m_hWnd,ID_imgTarget,BUTTON_POLLDELAY,NULL);
+					if(m_opt_tabCapture!=0) break;
+					m_hLastWin=0;
+					SetTimer(m_hWnd,ID_imgTarget,BUTTON_POLLDELAY,NULL);
 					break;
-
 				case ID_btnAbout:
 					TfrmMain::btnAboutClick();
 					break;
@@ -516,7 +516,14 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 			for(HWND hTMP; (hTMP=GetParent(m_hTargetWindow)); m_hTargetWindow=hTMP);
 		if(m_hTargetWindow!=m_hLastWin){
 			m_hLastWin=m_hTargetWindow;
-			RECT rect; GetWindowRect(m_hLastWin,&rect);
+			RECT rect;
+			if(m_opt_chkClientArea){
+				GetClientRect(m_hLastWin,&rect);
+				ClientToScreen(m_hLastWin,(POINT*)&rect);
+				rect.right=rect.left+rect.right;
+				rect.bottom=rect.top+rect.bottom;
+			}else
+				GetWindowRect(m_hLastWin,&rect);
 			int width=rect.right-rect.left;
 			int height=rect.bottom-rect.top;
 			if(g_iTargetBorder){
