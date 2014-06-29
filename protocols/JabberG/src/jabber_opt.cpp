@@ -408,10 +408,10 @@ public:
 		CreateLink(m_txtUsername, "LoginName", _T(""));
 		CreateLink(m_txtPriority, "Priority", DBVT_WORD, 0, true);
 		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
-		CreateLink(m_cbResource, "Resource", _T("WatcherPack"));
+		CreateLink(m_cbResource, "Resource", _T("Miranda"));
 		CreateLink(m_chkUseHostnameAsResource, proto->m_options.HostNameAsResource);
 		CreateLink(m_chkUseDomainLogin, proto->m_options.UseDomainLogin);
-		CreateLink(m_cbServer, "LoginServer", _T("jabber.ru"));
+		CreateLink(m_cbServer, "LoginServer", _T("jabber.org"));
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseSsl, proto->m_options.UseSSL);
 		CreateLink(m_chkUseTls, proto->m_options.UseTLS);
@@ -457,7 +457,7 @@ protected:
 		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
-		TCHAR* szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("WatcherPack") };
+		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
 		for (i=0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
@@ -473,7 +473,7 @@ protected:
 				m_cbResource.AddString(tszResource);
 			m_cbResource.SetText(tszResource);
 		}
-		else m_cbResource.SetText(_T("WatcherPack"));
+		else m_cbResource.SetText(_T("Miranda"));
 
 		for (i=0; g_LanguageCodes[i].szCode; i++) {
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
@@ -1599,8 +1599,8 @@ public:
 	{
 		CreateLink(m_txtUsername, "LoginName", _T(""));
 		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
-		CreateLink(m_cbResource, "Resource", _T("WatcherPack"));
-		CreateLink(m_cbServer, "LoginServer", _T("jabber.ru"));
+		CreateLink(m_cbResource, "Resource", _T("Miranda"));
+		CreateLink(m_cbServer, "LoginServer", _T("jabber.org"));
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseDomainLogin, proto->m_options.UseDomainLogin);
 
@@ -1631,7 +1631,7 @@ protected:
 		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
-		TCHAR* szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("WatcherPack") };
+		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
 		for (int i=0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
@@ -1647,7 +1647,7 @@ protected:
 				m_cbResource.AddString(tszResource);
 			m_cbResource.SetText(tszResource);
 		}
-		else m_cbResource.SetText(_T("WatcherPack"));
+		else m_cbResource.SetText(_T("Miranda"));
 
 		m_cbType.AddString(TranslateT("Public XMPP Network"), ACC_PUBLIC);
 		m_cbType.AddString(TranslateT("Secure XMPP Network"), ACC_TLS);
