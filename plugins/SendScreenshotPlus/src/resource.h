@@ -46,7 +46,8 @@
 #define IDI_OK                          205
 #define IDI_CLOSE                       206
 //#define IDI_APPLY                       207
-//#define IDI_EDIT                        208
+#define IDI_EDIT                        207
+#define IDI_EDITON                      208
 #define IDI_COPY                        209
 #define IDI_BBC                         210
 #define IDI_BBC2                        211

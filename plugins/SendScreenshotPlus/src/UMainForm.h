@@ -66,11 +66,11 @@ class TfrmMain{
 		~TfrmMain();
 
 		BYTE		m_opt_tabCapture;			//capure tab page
-		BYTE		m_opt_btnDesc;				//TCheckBox *chkDesc;
 		BYTE		m_opt_cboxDesktop;			//TRadioButton *rbtnDesktop;
-		BYTE		m_opt_chkEditor;			//TCheckBox *chkEditor;
 		BYTE		m_opt_chkTimed;				//TCheckBox *chkTimed;
 		BYTE		m_opt_cboxSendBy;			//TComboBox *cboxSendBy;
+		BYTE		m_opt_btnDesc;				//TCheckBox *chkDesc;
+		BYTE		m_opt_chkEditor;			//TCheckBox *chkEditor;
 		bool		m_bOnExitSave;
 
 		static void Unload();
@@ -85,8 +85,7 @@ class TfrmMain{
 	private:
 		HWND		m_hWnd;
 		MCONTACT	m_hContact;
-		bool		m_bDeleteAfterSend;
-		bool		m_bFormAbout, m_bFormEdit;
+		bool		m_bFormAbout;
 		HWND		m_hTargetWindow, m_hLastWin;
 		HWND		m_hTargetHighlighter;
 		TCHAR*		m_FDestFolder;

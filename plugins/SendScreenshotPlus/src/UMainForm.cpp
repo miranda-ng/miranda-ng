@@ -351,6 +351,14 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDeleteAfterSend ? BST_CHECKED : BST_UNCHECKED, NULL);
 	}
 
+	if (hCtrl = GetDlgItem(m_hWnd, ID_chkEditor)) {
+		SendDlgItemMessage(m_hWnd, ID_chkEditor, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open editor before sending"), MBBF_TCHAR);
+		HICON hIcon = Skin_GetIcon(m_opt_chkEditor ? ICO_BTN_EDITON : ICO_BTN_EDIT);
+		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+		SetWindowText(hCtrl, hIcon ? _T("") : _T("E"));
+		SendMessage(hCtrl, BM_SETCHECK, m_opt_chkEditor ? BST_CHECKED : BST_UNCHECKED, NULL);
+	}
+
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnCapture)) {
 		SendDlgItemMessage(m_hWnd, ID_btnCapture, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Capture"), MBBF_TCHAR);
 		HICON hIcon = Skin_GetIcon(ICO_BTN_OK);
@@ -360,7 +368,6 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}
 	cboxSendByChange();		//enable disable controls
 
-//	CheckDlgButton(m_hWnd,ID_chkEditor, m_opt_chkEditor ? BST_CHECKED : BST_UNCHECKED);
 	TranslateDialogDefault(m_hWnd);
 }
 
@@ -383,12 +390,6 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					if(m_hTargetWindow)
 						edtSizeUpdate(m_hTargetWindow, m_opt_chkClientArea, GetParent((HWND)lParam), ID_edtSize);
 					break;
-				case ID_chkOpenAgain:
-					m_opt_chkOpenAgain = (BYTE)Button_GetCheck((HWND)lParam);
-					break;
-				case ID_chkEditor:
-					m_opt_chkEditor = (BYTE)Button_GetCheck((HWND)lParam);
-					break;
 				case ID_imgTarget:
 					if(m_opt_tabCapture!=0) break;
 					m_hLastWin=0;
@@ -405,13 +406,19 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					HICON hIcon = Skin_GetIcon(m_opt_btnDesc ? ICO_COMMON_SSDESKON : ICO_COMMON_SSDESKOFF);
 					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 					break;}
-				case ID_btnDeleteAfterSend:
-					{
+				case ID_btnDeleteAfterSend:{
 					m_opt_btnDeleteAfterSend = (m_opt_btnDeleteAfterSend == 0);
 					HICON hIcon = Skin_GetIcon(m_opt_btnDeleteAfterSend ? ICO_COMMON_SSDELON : ICO_COMMON_SSDELOFF);
 					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 					if(m_cSend) m_cSend->m_bDeleteAfterSend = m_opt_btnDeleteAfterSend;
-					}
+					break;}
+				case ID_chkEditor:{
+					m_opt_chkEditor = Button_GetCheck((HWND)lParam);
+					HICON hIcon = Skin_GetIcon(m_opt_chkEditor ? ICO_BTN_EDITON : ICO_BTN_EDIT);
+					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+					break;}
+				case ID_chkOpenAgain:
+					m_opt_chkOpenAgain = Button_GetCheck((HWND)lParam);
 					break;
 				case ID_btnCapture:
 					TfrmMain::btnCaptureClick();
@@ -631,20 +638,6 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 				Show();
 				return;
 			}
-			if (m_opt_chkEditor) {
-			/*	TfrmEdit *frmEdit=new TfrmEdit(this);
-				m_bFormEdit = true;
-
-				frmEdit->mniClose->Enabled = !chkJustSaveIt->Checked;
-				frmEdit->mniCloseSend->Enabled = frmEdit->mniClose->Enabled;
-				frmEdit->OnClose = OnCloseEditWindow;
-				frmEdit->InitEditor(Screenshot); // Screenshot is copied to another in-memory bitmap inside this method
-				frmEdit->Show();
-				delete Screenshot; // This way we can delete it after the method returns
-				Screenshot = NULL;
-			*/
-				return;
-			}
 			FormClose();
 			break;
 		case EVT_SendFileDone:
@@ -676,7 +669,7 @@ TfrmMain::TfrmMain() {
 
 	m_hWnd			= NULL;
 	m_hContact		= NULL;
-	m_bDeleteAfterSend=m_bFormAbout=m_bFormEdit=false;
+	m_bFormAbout=false;
 	m_hTargetWindow	=m_hLastWin=NULL;
 	m_hTargetHighlighter=NULL;
 	m_FDestFolder	=m_pszFile=m_pszFileDesc=NULL;
@@ -726,10 +719,10 @@ void TfrmMain::LoadOptions(void) {
 	m_opt_edtTimed				= db_get_b(NULL, SZ_SENDSS, "CapTime", 3);
 	m_opt_cboxFormat			= db_get_b(NULL, SZ_SENDSS, "OutputFormat", 0);
 	m_opt_cboxSendBy			= db_get_b(NULL, SZ_SENDSS, "SendBy", 0);
-
-	m_opt_chkEditor				= db_get_b(NULL, SZ_SENDSS, "Preview", 0);
+	
 	m_opt_btnDesc				= db_get_b(NULL, SZ_SENDSS, "AutoDescription", 1);
 	m_opt_btnDeleteAfterSend	= db_get_b(NULL, SZ_SENDSS, "DelAfterSend", 1)!=0;
+	m_opt_chkEditor				= db_get_b(NULL, SZ_SENDSS, "Preview", 0);
 	m_opt_chkOpenAgain			= db_get_b(NULL, SZ_SENDSS, "OpenAgain", 0);
 }
 
@@ -752,8 +745,8 @@ void TfrmMain::SaveOptions(void) {
 
 		db_set_b(NULL, SZ_SENDSS, "AutoDescription", m_opt_btnDesc);
 		db_set_b(NULL, SZ_SENDSS, "DelAfterSend", m_opt_btnDeleteAfterSend);
-		db_set_b(NULL, SZ_SENDSS, "OpenAgain", m_opt_chkOpenAgain);
 		db_set_b(NULL, SZ_SENDSS, "Preview", m_opt_chkEditor);
+		db_set_b(NULL, SZ_SENDSS, "OpenAgain", m_opt_chkOpenAgain);
 	}
 }
 
@@ -774,8 +767,6 @@ void TfrmMain::Init(TCHAR* DestFolder, MCONTACT Contact) {
 
 //---------------------------------------------------------------------------
 void TfrmMain::btnCaptureClick() {
-	m_bFormEdit = false;					//until UEditForm is includet
-
 	if(m_opt_tabCapture==1) m_hTargetWindow=GetDesktopWindow();
 	else if(m_opt_tabCapture==2){
 		TCHAR filename[MAX_PATH];
@@ -1120,10 +1111,25 @@ void TfrmMain::FormClose() {
 		Show();		// Error from SaveScreenshot
 		return;
 	}
+	
+	bool send=true;
+	if(m_opt_chkEditor){
+		SHELLEXECUTEINFO shex={sizeof(SHELLEXECUTEINFO)};
+		shex.fMask=SEE_MASK_NOCLOSEPROCESS|SEE_MASK_NOASYNC;
+		shex.lpVerb=_T("edit");
+		shex.lpFile=m_pszFile;
+		shex.nShow=SW_SHOWNORMAL;
+		ShellExecuteEx(&shex);
+		WaitForSingleObject(shex.hProcess,INFINITE);
+		if(MessageBoxA(m_hWnd,"Send screenshot?","SendSS",MB_YESNO|MB_ICONQUESTION|MB_SYSTEMMODAL)!=IDYES)
+			send=false;
+	}
 
-	if (m_cSend && m_pszFile && !m_bFormEdit) {
+	if(send && m_cSend && m_pszFile){
 		if(!m_cSend->Send()) m_cSend=NULL; // not sent now, class deletes itself later
 		cboxSendByChange();
+	}else if(!send && m_opt_btnDeleteAfterSend){
+		DeleteFile(m_pszFile);
 	}
 	SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CheckOpenAgain);
 }
