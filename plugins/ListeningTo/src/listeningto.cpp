@@ -282,7 +282,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, SIZEOF(iconList));
 
 	// Extra icon support
-	hExtraIcon = ExtraIcon_Register(MODULE_NAME, LPGEN("Listening to music"), "listening_to_icon");
+	hExtraIcon = ExtraIcon_Register(MODULE_NAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
 	
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
