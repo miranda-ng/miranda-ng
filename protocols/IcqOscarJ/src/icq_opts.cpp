@@ -195,7 +195,7 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 		ppro = (CIcqProto*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
-			int nDcType = ppro->getByte("DCType", 0);
+			int nDcType = ppro->getByte("DCType", 2);
 			int nAddAuth = ppro->getByte("Auth", 1);
 
 			if (!ppro->icqOnline()) {
@@ -211,8 +211,8 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			CheckDlgButton(hwndDlg, IDC_ADD_AUTH, (nAddAuth == 1));
 			LoadDBCheckState(ppro, hwndDlg, IDC_WEBAWARE, "WebAware", 0);
 			LoadDBCheckState(ppro, hwndDlg, IDC_PUBLISHPRIMARY, "PublishPrimaryEmail", 0);
-			LoadDBCheckState(ppro, hwndDlg, IDC_STATUSMSG_CLIST, "StatusMsgReplyCList", 0);
-			LoadDBCheckState(ppro, hwndDlg, IDC_STATUSMSG_VISIBLE, "StatusMsgReplyVisible", 0);
+			LoadDBCheckState(ppro, hwndDlg, IDC_STATUSMSG_CLIST, "StatusMsgReplyCList", 1);
+			LoadDBCheckState(ppro, hwndDlg, IDC_STATUSMSG_VISIBLE, "StatusMsgReplyVisible", 1);
 			if (!ppro->getByte("StatusMsgReplyCList", 0))
 				EnableDlgItem(hwndDlg, IDC_STATUSMSG_VISIBLE, FALSE);
 		}

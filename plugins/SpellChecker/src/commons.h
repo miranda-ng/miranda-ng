@@ -85,7 +85,7 @@ using namespace std;
 
 #define FLAGS_DLL_FOLDER _T("%miranda_path%\\Icons")
 #define CUSTOM_DICTIONARIES_FOLDER _T("%miranda_userdata%\\Dictionaries")
-#define DICTIONARIES_FOLDER _T("%miranda_path%\\Dictionaries")
+#define DICTIONARIES_FOLDER _T("%miranda_path%\\Plugins\\dictionaries")
 
 // Global Variables
 extern HINSTANCE hInst;
