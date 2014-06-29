@@ -530,7 +530,6 @@ void Meta_GetSubNick(MCONTACT hMeta, int i, CMString &tszDest)
 	char idStr[50];
 	mir_snprintf(idStr, SIZEOF(idStr), "Login%d", i);
 
-	TCHAR buf[512];
 	DBVARIANT dbv;
 	db_get(hMeta, META_PROTO, idStr, &dbv);
 	switch (dbv.type) {
@@ -558,7 +557,7 @@ void Meta_FixStatus(DBCachedContact *ccMeta)
 {
 	WORD status = ID_STATUS_OFFLINE;
 
-	MCONTACT most_online = db_mc_getSrmmSub(ccMeta->contactID);
+	MCONTACT most_online = db_mc_getMostOnline(ccMeta->contactID);
 	if (most_online) {
 		char *szProto = GetContactProto(most_online);
 		if (szProto)
