@@ -73,7 +73,7 @@ struct CContactCache : public MZeroedObject
 
 	const bool     isValid() const { return m_Valid; }
 	const WORD     getStatus() const { return m_wStatus; }
-	const WORD     getActiveStatus() const { return m_wStatus; }
+	const WORD     getActiveStatus() const { return m_isMeta ? m_wMetaStatus : m_wStatus; }
 	const WORD     getOldStatus() const { return m_wOldStatus; }
 	const TCHAR*   getNick() const { return m_szNick; }
 	const MCONTACT getContact() const { return m_hContact; }
@@ -133,7 +133,7 @@ private:
 	void   releaseAlloced();
 
 	MCONTACT m_hContact;
-	WORD     m_wStatus, m_wOldStatus;
+	WORD     m_wStatus, m_wOldStatus, m_wMetaStatus;
 	char    *m_szMetaProto;
 	TCHAR   *m_szAccount;
 	TCHAR    m_szNick[80], m_szUIN[80];

@@ -92,6 +92,7 @@ void CContactCache::resetMeta()
 {
 	m_isMeta = false;
 	m_szMetaProto = 0;
+	m_wMetaStatus = ID_STATUS_OFFLINE;
 	initPhaseTwo();
 }
 
@@ -150,7 +151,15 @@ bool CContactCache::updateStatus()
  */
 void CContactCache::updateMeta(bool fForce)
 {
-	m_szMetaProto = (m_Valid) ? GetContactProto(db_mc_getSrmmSub(cc->contactID)) : NULL;
+	if (m_Valid) {
+		MCONTACT hSub = db_mc_getSrmmSub(cc->contactID);
+		m_szMetaProto = GetContactProto(hSub);
+		m_wMetaStatus = (WORD)db_get_w(hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
+	}
+	else {
+		m_szMetaProto = NULL;
+		m_wMetaStatus = ID_STATUS_OFFLINE;
+	}
 }
 
 /**
