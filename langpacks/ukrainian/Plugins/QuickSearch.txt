@@ -197,9 +197,9 @@ ID користувача
 Фон метаконтактів
 [Metacontact foreground]
 Текст метаконтактів
-[SubMetacontact background]
+[Subcontact background]
 Фон субконтактів
-[SubMetacontact foreground]
+[Subcontact foreground]
 Текст субконтактів
 [&Delete]
 &Видалити

@@ -495,8 +495,6 @@ Enter для подробиць події
 Не можу завантажити набір значків (%s)\\r\\n%s\\r\\nЗначки не будуть відображатися.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 У вас старий набір значків:\\r\\n%s\\r\\nМожливі проблеми зі значками, поновіть набір.
-[Speak Message]
-Вимовити повідомлення голосом
 [Next message]
 Наступне
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]

@@ -501,8 +501,6 @@ Keine "%s"-Einträge
 Kann Iconpack (%s) nicht laden von:\\r\\n%s\\r\\nDies kann zu fehlenden Icons führen.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 Sie verwenden ein altes Iconpack von:\\r\\n%s\\r\\nDies kann zu fehlenden Icons führen, also aktualisieren Sie das Iconpack.
-[Speak Message]
-Nachricht vorlesen
 [Next message]
 Nächste Nachricht
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]

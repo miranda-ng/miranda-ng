@@ -199,10 +199,10 @@ Ukryj tło pierwszoplanowe kontaktu
 Tło metakontaktów
 [Metacontact foreground]
 Tło pierwszoplanowe metakontaktów
-[SubMetacontact background]
-Tło submetakontaktów
-[SubMetacontact foreground]
-Tło pierwszoplanowe submetakontaktów
+[Subcontact background]
+Tło subkontaktów
+[Subcontact foreground]
+Tło pierwszoplanowe subkontaktów
 [&Delete]
 &Usuń
 [&Copy]

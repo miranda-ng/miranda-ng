@@ -102,7 +102,6 @@
 [Artist: %s\\r\\nTitle: %s\\r\\nAlbum: %s]
 [Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
-[Speak Message]
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
 [%.0f items in history]
 [%s (to %s)]

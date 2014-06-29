@@ -495,8 +495,6 @@ HTML файл
 Не могу загрузить набор значков (%s) из\\r\\n%s\\r\\nЗначки не будут отображаться.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 У вас старый набор значков:\\r\\n%s\\r\\nВозможны проблемы со значками, обновите набор.
-[Speak Message]
-Произнести сообщение голосом
 [Next message]
 Следующее
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]

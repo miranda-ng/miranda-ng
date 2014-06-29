@@ -195,9 +195,9 @@ ID клиента
 Фон метаконтактов
 [Metacontact foreground]
 Текст метаконтактов
-[SubMetacontact background]
+[Subcontact background]
 Фон субконтактов
-[SubMetacontact foreground]
+[Subcontact foreground]
 Текст субконтактов
 [&Delete]
 &Удалить

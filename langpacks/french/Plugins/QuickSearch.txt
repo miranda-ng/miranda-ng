@@ -199,9 +199,9 @@ Contacts
 
 [Metacontact foreground]
 
-[SubMetacontact background]
+[Subcontact background]
 
-[SubMetacontact foreground]
+[Subcontact foreground]
 
 [&Delete]
 &Effacer

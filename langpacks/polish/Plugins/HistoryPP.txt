@@ -501,8 +501,6 @@ Brak elementów "%s"
 Nie można załadować paczki ikon (%s) z\\r\\n%s\\r\\nMoże to spowodować, że ikony nie będą pokazywane.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 Używasz starej paczki ikon z\\r\\n%s\\r\\nMoże to spowodować brak pewnych ikon, zalecana jest więc aktualizacja ikon.
-[Speak Message]
-Czytaj wiadomości
 [Next message]
 Następna wiadomość
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]

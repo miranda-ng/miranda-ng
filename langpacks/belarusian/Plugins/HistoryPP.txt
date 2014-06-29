@@ -501,8 +501,6 @@ HTML файл
 Не магу загрузіць набор значкоў (%s) з\\r\\n%s\\r\\nЗначкi не будуць адлюстроўвацца.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 У вас стары набор значкоў:\\r\\n%s\\r\\nМагчымы праблемы са значкамі, абновіце набор.
-[Speak Message]
-Прамовіць паведамленне голасам
 [Next message]
 Наступнае
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]

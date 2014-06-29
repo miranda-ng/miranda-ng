@@ -199,9 +199,9 @@ Memoria libre
 
 [Metacontact foreground]
 
-[SubMetacontact background]
+[Subcontact background]
 
-[SubMetacontact foreground]
+[Subcontact foreground]
 
 [&Delete]
 

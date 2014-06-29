@@ -199,10 +199,10 @@
 Фон на редовете с метаконтакт
 [Metacontact foreground]
 Цвят на текста за метаконтакт
-[SubMetacontact background]
-Фон на редовете с под-метаконтакт
-[SubMetacontact foreground]
-Цвят на текста за под-метаконтакт
+[Subcontact background]
+Фон на редовете с подконтакт
+[Subcontact foreground]
+Цвят на текста за подконтакт
 [&Delete]
 
 [&Copy]

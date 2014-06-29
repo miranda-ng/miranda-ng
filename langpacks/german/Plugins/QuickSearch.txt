@@ -199,10 +199,10 @@ Vordergrund versteckter Kontakte
 Metakontakt-Hintergrund
 [Metacontact foreground]
 Metakontakt-Vordergrund
-[SubMetacontact background]
-Sub-Metakontakt-Hintergrund
-[SubMetacontact foreground]
-Sub-Metakontakt-Vordergrund
+[Subcontact background]
+Subkontakt-Hintergrund
+[Subcontact foreground]
+Subkontakt-Vordergrund
 [&Delete]
 &Löschen
 [&Copy]

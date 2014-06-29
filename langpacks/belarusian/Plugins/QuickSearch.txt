@@ -197,9 +197,9 @@ Unicode радок
 Фон метакантактаў
 [Metacontact foreground]
 Тэкст метакантактаў
-[SubMetacontact background]
+[Subcontact background]
 Фон субкантактаў
-[SubMetacontact foreground]
+[Subcontact foreground]
 Тэкст субкантактаў
 [&Delete]
 Выдаліць
