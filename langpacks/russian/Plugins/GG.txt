@@ -102,7 +102,7 @@
 [Cancel]
 Отмена
 [Create Gadu-Gadu account]
-Создать номер Gadu-Gadu
+Создать учётную запись Gadu-Gadu
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
 Учётная запись Gadu-Gadu\nСоздание новой учётной записи Gadu-Gadu
 [New password:]
@@ -114,7 +114,7 @@
 [&Create]
 &Создать
 [Remove Gadu-Gadu account]
-Удалить номер Gadu-Gadu
+Удалить учётную запись Gadu-Gadu
 [Yes, I want to remove my account]
 Да, удалите мою учётную запись
 [Remove]

@@ -326,13 +326,13 @@ Nсход. присутствие
 [Node:]
 Узел:
 [Account type:]
-Тип аккаунта:
+Тип уч. записи:
 [Login server:]
 Сервер:
 [Register account now]
-Зарегистрировать аккаунт
+Зарегистрировать уч. запись
 [Jabber Account Information:]
-Информация Jabber аккаунта:
+Информация об уч. записи Jabber:
 [Member Information]
 Права доступа
 [Member Information\n<user ID>]

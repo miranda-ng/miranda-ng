@@ -26,7 +26,7 @@
 [Remember last window position]
 Помнить последнее положение окна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
-Примечание: Пункты меню отображаются только при наличии хотя бы одной правильно установленной учётной записи. Проверьте, если у вас есть по крайней мере одна учётная запись с UIN.
+Примечание: Пункты меню отображаются только при наличии хотя бы одной правильно установленной учётной записи. Проверьте, есть ли у вас по крайней мере одна учётная запись с UIN.
 [Status]
 Статус
 [Add new item]

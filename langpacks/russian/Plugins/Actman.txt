@@ -260,7 +260,7 @@
 [Show or hide netlog console window]
 Показывает или скрывает окно сетевой консоли
 [Returns contact amount, excluding user account]
-Возвращает кол-во контактов за исключением учетной записи пользователя
+Возвращает кол-во контактов за исключением учётной записи пользователя
 [Removes all settings for the specified module]
 Удаляет все настройки, относящиеся к указанному модулю
 [Show window for new/changed profile password]

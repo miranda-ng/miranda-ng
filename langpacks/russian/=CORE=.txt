@@ -462,7 +462,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Contacts]
 Контакты
 [&Remove]
-&Очистить
+&Удалить
 [&Set as default]
 &По умолчанию
 [Move &up]
@@ -2432,7 +2432,7 @@ Miranda NG не может открыть этот профиль
 [Account error]
 Ошибка учётной записи
 [Account is disabled. Please activate it to access options.]
-Учётная запись отключена. Активируйте для настроек.
+Учётная запись отключена. Активируйте её для получения доступа к настройкам.
 [New account]
 Новая учётная запись
 [Remove account]
