@@ -23,7 +23,7 @@ BOOL DlgDld;
 int  Number = 0;
 TCHAR tszDialogMsg[2048] = {0};
 FILEINFO *pFileInfo = NULL;
-HANDLE hCheckThread = NULL, hListThread = NULL, hNetlibUser = NULL;
+HANDLE hNetlibUser = NULL;
 POPUP_OPTIONS PopupOptions = {0};
 aPopups PopupsList[POPUPS];
 extern DWORD g_mirandaVersion;
@@ -46,7 +46,7 @@ static iconList[] =
 	{ "plg_list",     LPGEN("Plugin list"),                 IDI_PLGLIST },
 };
 
-void IcoLibInit()
+void InitIcoLib()
 {
 	TCHAR destfile[MAX_PATH];
 	GetModuleFileName(hInst, destfile, MAX_PATH);
@@ -64,7 +64,7 @@ void IcoLibInit()
 	}
 }
 
-BOOL NetlibInit()
+void InitNetlib()
 {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
@@ -72,11 +72,9 @@ BOOL NetlibInit()
 	nlu.ptszDescriptiveName = TranslateT("Plugin Updater HTTP connection");
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-
-	return hNetlibUser != NULL;
 }
 
-void NetlibUnInit()
+void UnloadNetlib()
 {
 	Netlib_CloseHandle(hNetlibUser);
 	hNetlibUser = NULL;

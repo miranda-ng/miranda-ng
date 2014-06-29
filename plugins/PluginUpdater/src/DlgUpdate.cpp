@@ -23,6 +23,7 @@ Boston, MA 02111-1307, USA.
 
 static bool bShowDetails;
 static HWND hwndDialog;
+HANDLE hCheckThread;
 
 static void SelectAll(HWND hDlg, bool bEnable)
 {
@@ -733,4 +734,22 @@ void UninitCheck()
 {
 	if (hwndDialog != NULL)
 		DestroyWindow(hwndDialog);
+}
+
+INT_PTR MenuCommand(WPARAM,LPARAM)
+{
+	opts.bSilent = false;
+	DoCheck(true);
+	return 0;
+}
+
+void InitCheck()
+{
+	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
+}
+
+void UnloadCheck()
+{
+	if (hCheckThread)
+		hCheckThread = NULL;
 }

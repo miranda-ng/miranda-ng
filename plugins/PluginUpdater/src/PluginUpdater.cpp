@@ -31,7 +31,6 @@ PlugOptions opts;
 	UTF8_INTERFACE utfi;
 #endif
 
-HANDLE hPluginUpdaterFolder = NULL, hEmptyFolder = NULL;
 HINSTANCE hInst = NULL;
 TCHAR tszRoot[MAX_PATH] = {0}, tszTempPath[MAX_PATH];
 int hLangpack;
@@ -89,16 +88,10 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	ServiceInit();
+	InitServices();
 #endif
 
 	db_set_b(NULL, MODNAME, "NeedRestart", 0);
-
-	hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHT _T("\\")DEFAULT_UPDATES_FOLDER);
-	if (hPluginUpdaterFolder)
-		OnFoldersChanged(0, 0);
-	else
-		lstrcpyn(tszRoot, VARST( _T("%miranda_path%\\"DEFAULT_UPDATES_FOLDER)), SIZEOF(tszRoot));
 
 	DWORD dwLen = GetTempPath( SIZEOF(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
@@ -106,11 +99,11 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	LoadOptions();
 	InitPopupList();
-	NetlibInit();
-	IcoLibInit();
+	InitNetlib();
+	InitIcoLib();
 
 	// Add cheking update menu item
-	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
+	InitCheck();
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 400010000;
 	mi.icolibItem = Skin_GetIconHandle("check_update");
@@ -119,7 +112,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	Menu_AddMainMenuItem(&mi);
 
 #if MIRANDA_VER >= 0x0A00
-	CreateServiceFunction(MODNAME"/ShowList", ShowListCommand);
+	InitListNew();
 
 	mi.position++;
 	mi.icolibItem = Skin_GetIconHandle("plg_list");
@@ -127,7 +120,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = MODNAME"/ShowList";
 	Menu_AddMainMenuItem(&mi);
 
-	HookEvent(ME_OPT_INITIALISE, OptInit);
+	InitOptions();
 #endif
 
 	// Add hotkey
@@ -140,8 +133,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.lParam = FALSE;
 	Hotkey_Register(&hkd);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	InitEvents();
 
 	//add sounds
 	SkinAddNewSoundEx("updatecompleted",LPGEN("Plugin Updater"),LPGEN("Update completed"));
@@ -151,12 +143,10 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	if (hCheckThread)
-		hCheckThread = NULL;
-
-	if (hListThread)
-		hListThread = NULL;
-
-	NetlibUnInit();
+	UnloadCheck();
+#if MIRANDA_VER >= 0x0A00
+	UnloadListNew();
+#endif
+	UnloadNetlib();
 	return 0;
 }

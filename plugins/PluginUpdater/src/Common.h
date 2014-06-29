@@ -130,14 +130,12 @@ extern HINSTANCE hInst;
 
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048], tszTempPath[MAX_PATH];
 extern FILEINFO *pFileInfo;
-extern HANDLE hCheckThread, hListThread, hPluginUpdaterFolder;
 extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
 extern HANDLE Timer, hPipe;
 
 void DoCheck(int iFlag);
-void DoGetList(int iFlag);
 
 void UninitCheck(void);
 void UninitListNew(void);
@@ -184,15 +182,17 @@ typedef OBJLIST<ServListEntry> SERVLIST;
 
 void  InitPopupList();
 void  LoadOptions();
-BOOL  NetlibInit();
-void  IcoLibInit();
-void  ServiceInit();
-void  NetlibUnInit();
-int   ModulesLoaded(WPARAM wParam, LPARAM lParam);
+void  InitNetlib();
+void  InitIcoLib();
+void  InitServices();
+void  InitEvents();
+void  InitOptions();
+void  InitListNew();
+void  InitCheck();
 
-int   OnFoldersChanged(WPARAM, LPARAM);
-int   OnPreShutdown(WPARAM, LPARAM);
-int   OptInit(WPARAM, LPARAM);
+void  UnloadCheck();
+void  UnloadListNew();
+void  UnloadNetlib();
 
 void  BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
 
@@ -208,8 +208,6 @@ void  __stdcall OpenPluginOptions(void*);
 BOOL  AllowUpdateOnStartup();
 void  InitTimer(int type = 0);
 
-INT_PTR MenuCommand(WPARAM,LPARAM);
-INT_PTR ShowListCommand(WPARAM,LPARAM);
 INT_PTR EmptyFolder(WPARAM,LPARAM);
 
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

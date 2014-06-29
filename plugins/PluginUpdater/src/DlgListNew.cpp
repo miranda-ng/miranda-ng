@@ -20,6 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "common.h"
 
 static HWND hwndDialog;
+HANDLE hListThread;
 
 static void SelectAll(HWND hDlg, bool bEnable)
 {
@@ -467,4 +468,22 @@ void UninitListNew()
 {
 	if (hwndDialog != NULL)
 		DestroyWindow(hwndDialog);
+}
+
+INT_PTR ShowListCommand(WPARAM,LPARAM)
+{
+	opts.bSilent = false;
+	DoGetList(true);
+	return 0;
+}
+
+void InitListNew()
+{
+	CreateServiceFunction(MODNAME"/ShowList", ShowListCommand);
+}
+
+void UnloadListNew()
+{
+	if (hListThread)
+		hListThread = NULL;
 }

@@ -407,3 +407,8 @@ int OptInit(WPARAM wParam, LPARAM)
 	}
 	return 0;
 }
+
+void InitOptions()
+{
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+}

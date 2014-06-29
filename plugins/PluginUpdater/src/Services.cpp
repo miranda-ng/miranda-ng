@@ -57,7 +57,7 @@ static INT_PTR srvGetNthHash(WPARAM wParam, LPARAM lParam)
 	return (pList == NULL) ? 0 : INT_PTR(&(*pList)[wParam]);
 }
 
-void ServiceInit()
+void InitServices()
 {
 	CreateServiceFunction(MS_PU_PARSEHASHES,  srvParseHashes);
 	CreateServiceFunction(MS_PU_FREEHASHES,   srvFreeHashes);
