@@ -123,7 +123,7 @@ static void HomepageOnClick(Info *info, const char *text)
 
 static Info infos[] =
 {
-	{ "homepage", "Homepage", SKINICON_EVENT_URL,
+	{ "homepage", "Homepage", SKINICON_OTHER_MIRANDAWEB,
 		{ NULL, "Homepage", "UserInfo", "Homepage" },
 		&HomepageOnClick },
 	{ "sms", "Phone/SMS", SKINICON_OTHER_SMS,
