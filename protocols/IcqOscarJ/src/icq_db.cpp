@@ -36,7 +36,7 @@ int CIcqProto::getSetting(MCONTACT hContact, const char *szSetting, DBVARIANT *d
 
 double CIcqProto::getSettingDouble(MCONTACT hContact, const char *szSetting, double dDef)
 {
-	DBVARIANT dbv = {DBVT_DELETED};
+	DBVARIANT dbv = { DBVT_DELETED };
 	double dRes;
 
 	if (getSetting(hContact, szSetting, &dbv))
@@ -58,24 +58,35 @@ DWORD CIcqProto::getContactUin(MCONTACT hContact)
 
 int CIcqProto::getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 {
-	DBVARIANT dbv = {DBVT_DELETED};
+	DBVARIANT dbv = { DBVT_DELETED };
 	int iRes = 1;
 
 	*pdwUin = 0;
 	if (ppszUid) *ppszUid[0] = '\0';
 
 	if (!getSetting(hContact, UNIQUEIDSETTING, &dbv)) {
-		if (dbv.type == DBVT_DWORD) {
+		switch (dbv.type) {
+		case DBVT_DWORD:
 			*pdwUin = dbv.dVal;
 			iRes = 0;
-		}
-		else if (dbv.type == DBVT_ASCIIZ) {
+			break;
+
+		case DBVT_ASCIIZ:
 			if (ppszUid && m_bAimEnabled) {
 				strcpy(*ppszUid, dbv.pszVal);
 				iRes = 0;
 			}
-			else
-				debugLogA("AOL screennames not accepted");
+			else debugLogA("AOL screennames not accepted");
+			break;
+
+		case DBVT_UTF8:
+			if (ppszUid && m_bAimEnabled) {
+				strcpy(*ppszUid, dbv.pszVal);
+				mir_utf8decode(*ppszUid, NULL);
+				iRes = 0;
+			}
+			else debugLogA("AOL screennames not accepted");
+			break;
 		}
 		db_free(&dbv);
 	}
@@ -84,8 +95,8 @@ int CIcqProto::getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 
 char* CIcqProto::getSettingStringUtf(MCONTACT hContact, const char *szModule, const char *szSetting, char *szDef)
 {
-	DBVARIANT dbv = {DBVT_DELETED};
-	if ( db_get_utf(hContact, szModule, szSetting, &dbv)) {
+	DBVARIANT dbv = { DBVT_DELETED };
+	if (db_get_utf(hContact, szModule, szSetting, &dbv)) {
 		db_free(&dbv); // for a setting with invalid contents/type
 		return null_strdup(szDef);
 	}
@@ -158,7 +169,7 @@ void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAns
 
 		char *oldStatusMsg = NULL;
 		DBVARIANT dbv;
-		if ( !db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
+		if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
 			oldStatusMsg = make_utf8_string(dbv.ptszVal);
 			db_free(&dbv);
 		}

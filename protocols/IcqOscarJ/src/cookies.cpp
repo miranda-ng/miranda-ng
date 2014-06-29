@@ -27,8 +27,8 @@
 //  Handles packet & message cookies
 //
 // -----------------------------------------------------------------------------
-#include "icqoscar.h"
 
+#include "icqoscar.h"
 
 #define INVALID_COOKIE_INDEX -1
 
@@ -36,18 +36,14 @@ void CIcqProto::RemoveExpiredCookies()
 {
 	time_t tNow = time(NULL);
 
-	for (int i = cookies.getCount()-1; i >= 0; i--)
-	{
+	for (int i = cookies.getCount() - 1; i >= 0; i--) {
 		icq_cookie_info *cookie = cookies[i];
-
-		if ((cookie->dwTime + COOKIE_TIMEOUT) < tNow)
-		{
+		if ((cookie->dwTime + COOKIE_TIMEOUT) < tNow) {
 			cookies.remove(i);
 			SAFE_FREE((void**)&cookie);
 		}
 	}
 }
-
 
 // Generate and allocate cookie
 DWORD CIcqProto::AllocateCookie(BYTE bType, WORD wIdent, MCONTACT hContact, void *pvExtra)
@@ -56,11 +52,10 @@ DWORD CIcqProto::AllocateCookie(BYTE bType, WORD wIdent, MCONTACT hContact, void
 
 	DWORD dwThisSeq = wCookieSeq++;
 	dwThisSeq &= 0x7FFF;
-	dwThisSeq |= wIdent<<0x10;
+	dwThisSeq |= wIdent << 0x10;
 
 	icq_cookie_info* p = (icq_cookie_info*)SAFE_MALLOC(sizeof(icq_cookie_info));
-	if (p)
-	{
+	if (p) {
 		p->bType = bType;
 		p->dwCookie = dwThisSeq;
 		p->hContact = hContact;
@@ -71,30 +66,26 @@ DWORD CIcqProto::AllocateCookie(BYTE bType, WORD wIdent, MCONTACT hContact, void
 	return dwThisSeq;
 }
 
-
 DWORD CIcqProto::GenerateCookie(WORD wIdent)
 {
 	icq_lock l(cookieMutex);
 
 	DWORD dwThisSeq = wCookieSeq++;
 	dwThisSeq &= 0x7FFF;
-	dwThisSeq |= wIdent<<0x10;
-
+	dwThisSeq |= wIdent << 0x10;
 	return dwThisSeq;
 }
-
 
 int CIcqProto::GetCookieType(DWORD dwCookie)
 {
 	icq_lock l(cookieMutex);
 
-	int i = cookies.getIndex(( icq_cookie_info* )&dwCookie );
-	if ( i != INVALID_COOKIE_INDEX )
+	int i = cookies.getIndex((icq_cookie_info*)&dwCookie);
+	if (i != INVALID_COOKIE_INDEX)
 		i = cookies[i]->bType;
 
 	return i;
 }
-
 
 int CIcqProto::FindCookie(DWORD dwCookie, MCONTACT *phContact, void **ppvExtra)
 {
@@ -114,15 +105,12 @@ int CIcqProto::FindCookie(DWORD dwCookie, MCONTACT *phContact, void **ppvExtra)
 	return 0;
 }
 
-
 int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, MCONTACT *phContact)
 {
 	icq_lock l(cookieMutex);
 
-	for (int i = 0; i < cookies.getCount(); i++)
-	{
-		if (pvExtra == cookies[i]->pvExtra)
-		{
+	for (int i = 0; i < cookies.getCount(); i++) {
+		if (pvExtra == cookies[i]->pvExtra) {
 			if (phContact)
 				*phContact = cookies[i]->hContact;
 			if (pdwCookie)
@@ -136,15 +124,12 @@ int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, MCONTACT *phCon
 	return 0;
 }
 
-
 int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, MCONTACT *phContact, void** ppvExtra)
 {
 	icq_lock l(cookieMutex);
 
-	for (int i = 0; i < cookies.getCount(); i++)
-	{
-		if (bType == cookies[i]->bType)
-		{
+	for (int i = 0; i < cookies.getCount(); i++) {
+		if (bType == cookies[i]->bType) {
 			if (pdwCookie)
 				*pdwCookie = cookies[i]->dwCookie;
 			if (phContact)
@@ -160,19 +145,16 @@ int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, MCONTACT *phContac
 	return 0;
 }
 
-
 int CIcqProto::FindMessageCookie(DWORD dwMsgID1, DWORD dwMsgID2, DWORD *pdwCookie, MCONTACT *phContact, cookie_message_data **ppvExtra)
 {
 	icq_lock l(cookieMutex);
 
-	for (int i = 0; i < cookies.getCount(); i++)
-	{
-		if (cookies[i]->bType == CKT_MESSAGE || cookies[i]->bType == CKT_FILE || cookies[i]->bType == CKT_REVERSEDIRECT)
-		{ // message cookie found
+	for (int i = 0; i < cookies.getCount(); i++) {
+		if (cookies[i]->bType == CKT_MESSAGE || cookies[i]->bType == CKT_FILE || cookies[i]->bType == CKT_REVERSEDIRECT) {
+			// message cookie found
 			cookie_message_data *pCookie = (cookie_message_data*)cookies[i]->pvExtra;
 
-			if (pCookie->dwMsgID1 == dwMsgID1 && pCookie->dwMsgID2 == dwMsgID2)
-			{
+			if (pCookie->dwMsgID1 == dwMsgID1 && pCookie->dwMsgID2 == dwMsgID2) {
 				if (phContact)
 					*phContact = cookies[i]->hContact;
 				if (pdwCookie)
@@ -189,14 +171,13 @@ int CIcqProto::FindMessageCookie(DWORD dwMsgID1, DWORD dwMsgID2, DWORD *pdwCooki
 	return 0;
 }
 
-
 void CIcqProto::FreeCookie(DWORD dwCookie)
 {
 	icq_lock l(cookieMutex);
 
 	int i = cookies.getIndex((icq_cookie_info*)&dwCookie);
-	if (i != INVALID_COOKIE_INDEX)
-	{	// Cookie found, remove from list
+	if (i != INVALID_COOKIE_INDEX) {
+		// Cookie found, remove from list
 		icq_cookie_info *cookie = cookies[i];
 
 		cookies.remove(i);
@@ -206,17 +187,14 @@ void CIcqProto::FreeCookie(DWORD dwCookie)
 	RemoveExpiredCookies();
 }
 
-
 void CIcqProto::FreeCookieByData(BYTE bType, void *pvExtra)
 {
 	icq_lock l(cookieMutex);
 
-	for (int i = 0; i < cookies.getCount(); i++)
-	{
+	for (int i = 0; i < cookies.getCount(); i++) {
 		icq_cookie_info *cookie = cookies[i];
-
-		if (bType == cookie->bType && pvExtra == cookie->pvExtra)
-		{ // Cookie found, remove from list
+		if (bType == cookie->bType && pvExtra == cookie->pvExtra) {
+			// Cookie found, remove from list
 			cookies.remove(i);
 			SAFE_FREE((void**)&cookie);
 			break;
@@ -226,14 +204,13 @@ void CIcqProto::FreeCookieByData(BYTE bType, void *pvExtra)
 	RemoveExpiredCookies();
 }
 
-
 void CIcqProto::ReleaseCookie(DWORD dwCookie)
 {
 	icq_lock l(cookieMutex);
 
 	int i = cookies.getIndex(( icq_cookie_info* )&dwCookie );
-	if (i != INVALID_COOKIE_INDEX)
-	{ // Cookie found, remove from list
+	if (i != INVALID_COOKIE_INDEX) {
+		// Cookie found, remove from list
 		icq_cookie_info *cookie = cookies[i];
 
 		cookies.remove(i);
@@ -243,31 +220,28 @@ void CIcqProto::ReleaseCookie(DWORD dwCookie)
 	RemoveExpiredCookies();
 }
 
-
 void CIcqProto::InitMessageCookie(cookie_message_data *pCookie)
 {
 	DWORD dwMsgID1;
 	DWORD dwMsgID2;
 
-	do
-	{ // ensure that message ids are unique
+	do {
+		// ensure that message ids are unique
 		dwMsgID1 = time(NULL);
 		dwMsgID2 = RandRange(0, 0x0FFFF);
-	} while (FindMessageCookie(dwMsgID1, dwMsgID2, NULL, NULL, NULL));
+	}
+		while (FindMessageCookie(dwMsgID1, dwMsgID2, NULL, NULL, NULL));
 
-	if (pCookie)
-	{
+	if (pCookie) {
 		pCookie->dwMsgID1 = dwMsgID1;
 		pCookie->dwMsgID2 = dwMsgID2;
 	}
 }
 
-
 cookie_message_data* CIcqProto::CreateMessageCookie(WORD bMsgType, BYTE bAckType)
 {
 	cookie_message_data *pCookie = (cookie_message_data*)SAFE_MALLOC(sizeof(cookie_message_data));
-	if (pCookie)
-	{
+	if (pCookie) {
 		pCookie->bMessageType = bMsgType;
 		pCookie->nAckType = bAckType;
 
@@ -275,7 +249,6 @@ cookie_message_data* CIcqProto::CreateMessageCookie(WORD bMsgType, BYTE bAckType
 	}
 	return pCookie;
 }
-
 
 cookie_message_data* CIcqProto::CreateMessageCookieData(BYTE bMsgType, MCONTACT hContact, DWORD dwUin, int bUseSrvRelay)
 {
@@ -292,7 +265,7 @@ cookie_message_data* CIcqProto::CreateMessageCookieData(BYTE bMsgType, MCONTACT 
 	cookie_message_data* pCookieData = CreateMessageCookie(bMsgType, bAckType);
 
 	// set flag for offline messages - to allow proper error handling
-	if (wStatus == ID_STATUS_OFFLINE || wStatus == ID_STATUS_INVISIBLE) 
+	if (wStatus == ID_STATUS_OFFLINE || wStatus == ID_STATUS_INVISIBLE)
 		pCookieData->isOffline = TRUE;
 
 	return pCookieData;

@@ -34,7 +34,6 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-
 struct icq_capability
 {
 	DWORD capID;          // A bitmask, we use it in order to save database space
@@ -43,14 +42,14 @@ struct icq_capability
 
 static const icq_capability CapabilityRecord[] =
 {
-	{CAPF_SRV_RELAY, {CAP_SRV_RELAY }},
-	{CAPF_UTF,       {CAP_UTF       }},
-	{CAPF_RTF,       {CAP_RTF       }},
-	{CAPF_CONTACTS,  {CAP_CONTACTS  }},
-	{CAPF_TYPING,    {CAP_TYPING    }},
-	{CAPF_ICQDIRECT, {CAP_ICQDIRECT }},
-	{CAPF_XTRAZ,     {CAP_XTRAZ     }},
-	{CAPF_OSCAR_FILE,{CAP_OSCAR_FILE}}
+	{ CAPF_SRV_RELAY,  { CAP_SRV_RELAY  }},
+	{ CAPF_UTF,        { CAP_UTF        }},
+	{ CAPF_RTF,        { CAP_RTF        }},
+	{ CAPF_CONTACTS,   { CAP_CONTACTS   }},
+	{ CAPF_TYPING,     { CAP_TYPING     }},
+	{ CAPF_ICQDIRECT,  { CAP_ICQDIRECT  }},
+	{ CAPF_XTRAZ,      { CAP_XTRAZ      }},
+	{ CAPF_OSCAR_FILE, { CAP_OSCAR_FILE }}
 };
 
 // Mask of all handled capabilities' flags
@@ -66,17 +65,17 @@ struct icq_capability_name
 
 static const icq_capability_name CapabilityNames[] = 
 {
-	{CAPF_SRV_RELAY,      "ServerRelay"},
-	{CAPF_UTF,            "UTF8 Messages"},
-	{CAPF_RTF,            "RTF Messages"},
-	{CAPF_CONTACTS,       "Contact Transfer"},
-	{CAPF_TYPING,         "Typing Notifications"},
-	{CAPF_ICQDIRECT,      "Direct Connections"},
-	{CAPF_XTRAZ,          "Xtraz"},
-	{CAPF_OSCAR_FILE,     "File Transfers"},
-	{CAPF_STATUS_MESSAGES,"Individual Status Messages"},
-	{CAPF_STATUS_MOOD,    "Mood"},
-	{CAPF_XSTATUS,        "Custom Status"}
+	{ CAPF_SRV_RELAY,      "ServerRelay"},
+	{ CAPF_UTF,            "UTF8 Messages"},
+	{ CAPF_RTF,            "RTF Messages"},
+	{ CAPF_CONTACTS,       "Contact Transfer"},
+	{ CAPF_TYPING,         "Typing Notifications"},
+	{ CAPF_ICQDIRECT,      "Direct Connections"},
+	{ CAPF_XTRAZ,          "Xtraz"},
+	{ CAPF_OSCAR_FILE,     "File Transfers"},
+	{ CAPF_STATUS_MESSAGES,"Individual Status Messages"},
+	{ CAPF_STATUS_MOOD,    "Mood"},
+	{ CAPF_XSTATUS,        "Custom Status"}
 };
 
 void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCapabilities)
@@ -85,11 +84,9 @@ void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCap
 
 	if (!fdwCapabilities) return;
 
-	for (int nIndex = 0; nIndex < SIZEOF(CapabilityNames); nIndex++)
-	{
+	for (int nIndex = 0; nIndex < SIZEOF(CapabilityNames); nIndex++) {
 		// Check if the current capability is present
-		if ((fdwCapabilities & CapabilityNames[nIndex].capID) == CapabilityNames[nIndex].capID)
-		{
+		if ((fdwCapabilities & CapabilityNames[nIndex].capID) == CapabilityNames[nIndex].capID) {
 			if (strlennull(szBuffer))
 				strcat(szBuffer, ", ");
 			strcat(szBuffer, CapabilityNames[nIndex].capName);
@@ -100,22 +97,18 @@ void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCap
 }
 #endif
 
-
 // Deletes all oscar capabilities for a given contact
 void CIcqProto::ClearAllContactCapabilities(MCONTACT hContact)
 {
 	setDword(hContact, DBSETTING_CAPABILITIES, 0);
 }
 
-
 // Deletes one or many oscar capabilities for a given contact
 void CIcqProto::ClearContactCapabilities(MCONTACT hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
-	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
-
-	if (fdwContactCaps != (fdwContactCaps & ~fdwCapabilities))
-	{ 
+	DWORD fdwContactCaps = getDword(hContact, DBSETTING_CAPABILITIES, 0);
+	if (fdwContactCaps != (fdwContactCaps & ~fdwCapabilities)) {
 #ifdef _DEBUG
 		NetLog_CapabilityChange(this, "Removed", fdwCapabilities & fdwContactCaps);
 #endif
@@ -127,15 +120,12 @@ void CIcqProto::ClearContactCapabilities(MCONTACT hContact, DWORD fdwCapabilitie
 	}
 }
 
-
 // Sets one or many oscar capabilities for a given contact
 void CIcqProto::SetContactCapabilities(MCONTACT hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
-	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
-
-	if (fdwContactCaps != (fdwContactCaps | fdwCapabilities))
-	{ 
+	DWORD fdwContactCaps = getDword(hContact, DBSETTING_CAPABILITIES, 0);
+	if (fdwContactCaps != (fdwContactCaps | fdwCapabilities)) {
 #ifdef _DEBUG
 		NetLog_CapabilityChange(this, "Added", fdwCapabilities & ~fdwContactCaps);
 #endif
@@ -146,7 +136,6 @@ void CIcqProto::SetContactCapabilities(MCONTACT hContact, DWORD fdwCapabilities)
 		setDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
 	}
 }
-
 
 // Returns true if the given contact supports the requested capabilites
 BOOL CIcqProto::CheckContactCapabilities(MCONTACT hContact, DWORD fdwCapabilities)
@@ -165,17 +154,12 @@ BOOL CIcqProto::CheckContactCapabilities(MCONTACT hContact, DWORD fdwCapabilitie
 // Scan capability against the capability buffer
 capstr* MatchCapability(BYTE *buf, int bufsize, const capstr *cap, int capsize)
 {
-	while (bufsize >= BINARY_CAP_SIZE) // search the buffer for a capability
-	{
+	while (bufsize >= BINARY_CAP_SIZE) { // search the buffer for a capability
 		if (!memcmp(buf, cap, capsize))
-		{
 			return (capstr*)buf; // give found capability for version info
-		}
-		else
-		{
-			buf += BINARY_CAP_SIZE;
-			bufsize -= BINARY_CAP_SIZE;
-		}
+
+		buf += BINARY_CAP_SIZE;
+		bufsize -= BINARY_CAP_SIZE;
 	}
 	return 0;
 }
@@ -185,14 +169,12 @@ capstr* MatchCapability(BYTE *buf, int bufsize, const capstr *cap, int capsize)
 capstr* MatchShortCapability(BYTE *buf, int bufsize, const shortcapstr *cap)
 {
 	capstr fullCap;
-
 	memcpy(fullCap, capShortCaps, BINARY_CAP_SIZE);
 	fullCap[2] = (*cap)[0];
 	fullCap[3] = (*cap)[1];
 
 	return MatchCapability(buf, bufsize, &fullCap, BINARY_CAP_SIZE);
 }
-
 
 // Scans a binary buffer for OSCAR capabilities.
 DWORD GetCapabilitiesFromBuffer(BYTE *pBuffer, int nLength)
@@ -204,17 +186,14 @@ DWORD GetCapabilitiesFromBuffer(BYTE *pBuffer, int nLength)
 
 	// Loop over all capabilities in the buffer and
 	// compare them to our own record of capabilities
-	for (int nIndex = 0; nIndex < nRecordSize; nIndex++)
-	{
+	for (int nIndex = 0; nIndex < nRecordSize; nIndex++) {
+		// Match, add capability flag
 		if (MatchCapability(pBuffer, nLength, &CapabilityRecord[nIndex].capCLSID, BINARY_CAP_SIZE))
-		{	// Match, add capability flag
 			fdwCaps |= CapabilityRecord[nIndex].capID;
-		}
 	}
 
 	return fdwCaps;
 }
-
 
 // Scans a binary buffer for oscar capabilities and adds them to the contact.
 // You probably want to call ClearAllContactCapabilities() first.
@@ -225,8 +204,7 @@ void CIcqProto::AddCapabilitiesFromBuffer(MCONTACT hContact, BYTE *pBuffer, int 
 	// Get capability flags from buffer
 	DWORD fdwCapabilities = GetCapabilitiesFromBuffer(pBuffer, nLength);
 
-	if (fdwContactCaps != (fdwContactCaps | fdwCapabilities))
-	{ 
+	if (fdwContactCaps != (fdwContactCaps | fdwCapabilities)) {
 #ifdef _DEBUG
 		NetLog_CapabilityChange(this, "Added", fdwCapabilities & ~fdwContactCaps);
 #endif
@@ -237,7 +215,6 @@ void CIcqProto::AddCapabilitiesFromBuffer(MCONTACT hContact, BYTE *pBuffer, int 
 		setDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
 	}
 }
-
 
 // Scans a binary buffer for oscar capabilities and adds them to the contact.
 // You probably want to call ClearAllContactCapabilities() first.
@@ -251,15 +228,14 @@ void CIcqProto::SetCapabilitiesFromBuffer(MCONTACT hContact, BYTE *pBuffer, int 
 #ifdef _DEBUG
 	if (bReset)
 		NetLog_CapabilityChange(this, "Set", fdwCapabilities);
-	else
-	{
+	else {
 		NetLog_CapabilityChange(this, "Removed", fdwContactCaps & ~fdwCapabilities & CapabilityFlagsMask);
-		NetLog_CapabilityChange(this, "Added", fdwCapabilities & ~fdwContactCaps); 
+		NetLog_CapabilityChange(this, "Added", fdwCapabilities & ~fdwContactCaps);
 	}
 #endif
 
-	if (fdwCapabilities != (fdwContactCaps & ~CapabilityFlagsMask))
-	{ // Get current unmanaged capability flags
+	if (fdwCapabilities != (fdwContactCaps & ~CapabilityFlagsMask)) {
+		// Get current unmanaged capability flags
 		fdwContactCaps &= ~CapabilityFlagsMask;
 
 		// Add capability flags from buffer

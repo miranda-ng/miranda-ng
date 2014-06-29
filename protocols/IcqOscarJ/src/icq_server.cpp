@@ -62,10 +62,8 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		SAFE_FREE((void**)&nloc.szHost);
 		SAFE_FREE((void**)&infoParam);
 
-		if (hServerConn && m_bSecureConnection)
-		{
-			if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hServerConn, 0))
-			{
+		if (hServerConn && m_bSecureConnection) {
+			if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hServerConn, 0)) {
 				icq_LogMessage(LOG_ERROR, LPGEN("Unable to connect to ICQ login server, SSL could not be negotiated"));
 				SetCurrentStatus(ID_STATUS_OFFLINE);
 				NetLib_CloseConnection(&hServerConn, TRUE);
@@ -75,8 +73,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	}
 
 	// Login error
-	if (hServerConn == NULL)
-	{
+	if (hServerConn == NULL) {
 		DWORD dwError = GetLastError();
 
 		SetCurrentStatus(ID_STATUS_OFFLINE);
@@ -91,8 +88,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		BYTE bConstInternalIP = getByte("ConstRealIP", 0);
 
 		info.hDirectBoundPort = NetLib_BindPort(icq_newConnectionReceived, this, &wListenPort, &dwInternalIP);
-		if (!info.hDirectBoundPort)
-		{
+		if (!info.hDirectBoundPort) {
 			icq_LogUsingErrorCode(LOG_WARNING, GetLastError(), LPGEN("Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network."));
 			wListenPort = 0;
 			if (!bConstInternalIP) delSetting("RealIP");
@@ -102,9 +98,8 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	}
 
 	// Initialize rate limiting queues
-	{ 
+	{
 		icq_lock l(m_ratesMutex);
-
 		m_ratesQueue_Request = new rates_queue(this, "request", RML_IDLE_30, RML_IDLE_50, 1);
 		m_ratesQueue_Response = new rates_queue(this, "response", RML_IDLE_10, RML_IDLE_30, -1);
 	}
@@ -112,15 +107,13 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	// This is the "infinite" loop that receives the packets from the ICQ server
 	{
 		int recvResult;
-		NETLIBPACKETRECVER packetRecv = {0};
+		NETLIBPACKETRECVER packetRecv = { 0 };
 
 		info.hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 0x2400);
 		packetRecv.cbSize = sizeof(packetRecv);
 		packetRecv.dwTimeout = INFINITE;
-		while (serverThreadHandle)
-		{
-			if (info.bReinitRecver)
-			{ // we reconnected, reinit struct
+		while (serverThreadHandle) {
+			if (info.bReinitRecver) { // we reconnected, reinit struct
 				info.bReinitRecver = 0;
 				ZeroMemory(&packetRecv, sizeof(packetRecv));
 				packetRecv.cbSize = sizeof(packetRecv);
@@ -129,20 +122,17 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 			recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)info.hPacketRecver, (LPARAM)&packetRecv);
 
-			if (recvResult == 0)
-			{
+			if (recvResult == 0) {
 				debugLogA("Clean closure of server socket");
 				break;
 			}
 
-			if (recvResult == SOCKET_ERROR)
-			{
+			if (recvResult == SOCKET_ERROR) {
 				debugLogA("Abortive closure of server socket, error: %d", GetLastError());
 				break;
 			}
 
-			if (m_iDesiredStatus == ID_STATUS_OFFLINE)
-			{ // Disconnect requested, send disconnect packet
+			if (m_iDesiredStatus == ID_STATUS_OFFLINE) { // Disconnect requested, send disconnect packet
 				icq_sendCloseConnection();
 
 				// disconnected upon request
@@ -171,8 +161,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	// disable auto info-update thread
 	icq_EnableUserLookup(FALSE);
 
-	if (m_iStatus != ID_STATUS_OFFLINE && m_iDesiredStatus != ID_STATUS_OFFLINE)
-	{
+	if (m_iStatus != ID_STATUS_OFFLINE && m_iDesiredStatus != ID_STATUS_OFFLINE) {
 		if (!info.bLoggedIn)
 			icq_LogMessage(LOG_FATAL, LPGEN("Connection failed.\nLogin sequence failed for unknown reason.\nTry again later."));
 
@@ -192,16 +181,11 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	StopAvatarThread();
 
 	// Offline all contacts
-	MCONTACT hContact = db_find_first(m_szModuleName);
-	while (hContact)
-	{
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DWORD dwUIN;
 		uid_str szUID;
-
-		if (!getContactUid(hContact, &dwUIN, &szUID))
-		{
-			if (getContactStatus(hContact) != ID_STATUS_OFFLINE)
-			{
+		if (!getContactUid(hContact, &dwUIN, &szUID)) {
+			if (getContactStatus(hContact) != ID_STATUS_OFFLINE) {
 				char tmp = 0;
 
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -209,8 +193,6 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 				handleXStatusCaps(dwUIN, szUID, hContact, (BYTE*)&tmp, 0, &tmp, 0);
 			}
 		}
-
-		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	setDword("LogonTS", 0); // clear logon time
