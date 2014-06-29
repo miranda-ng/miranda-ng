@@ -141,7 +141,6 @@ void CListSettings_CopyCacheItems(ClcCacheEntry *pDst, ClcCacheEntry *pSrc, DWOR
 		pDst->m_bProtoNotExists = pSrc->m_bProtoNotExists;
 
 		pDst->m_bIsSub = pSrc->m_bIsSub;
-		pDst->i = pSrc->i;
 		pDst->ApparentMode = pSrc->ApparentMode;
 		pDst->NotOnList = pSrc->NotOnList;
 		pDst->IdleTS = pSrc->IdleTS;
@@ -217,8 +216,8 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		}
 	}
 
-	if (pdnce___GetStatus(pdnce) == 0) //very strange look status sort is broken let always reread status
-		pdnce___SetStatus(pdnce, GetStatusForContact(pdnce->hContact, pdnce->m_cache_cszProto));
+	if (pdnce->m_cache_nStatus == 0) //very strange look status sort is broken let always reread status
+		pdnce->m_cache_nStatus = GetStatusForContact(pdnce->hContact, pdnce->m_cache_cszProto);
 
 	if (pdnce->tszGroup == NULL) {
 		DBVARIANT dbv = { 0 };
@@ -300,7 +299,7 @@ void InvalidateDNCEbyPointer(MCONTACT hContact, ClcCacheEntry *pdnce, int Settin
 
 	pdnce->bIsHidden = -1;
 	pdnce->m_bIsSub = pdnce->m_bProtoNotExists = false;
-	pdnce___SetStatus(pdnce, 0);
+	pdnce->m_cache_nStatus = 0;
 	pdnce->IdleTS = -1;
 	pdnce->ApparentMode = -1;
 	pdnce->NotOnList = -1;
@@ -365,7 +364,7 @@ int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *S
 	if (cacheEntry != NULL) {
 		if (Proto != NULL)  *Proto = cacheEntry->m_cache_cszProto;
 		if (Name != NULL)   *Name = cacheEntry->tszName;
-		if (Status != NULL) *Status = pdnce___GetStatus(cacheEntry);
+		if (Status != NULL) *Status = cacheEntry->m_cache_nStatus;
 	}
 	return (0);
 };
@@ -373,8 +372,7 @@ int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *S
 
 int GetContactCachedStatus(MCONTACT hContact)
 {
-	ClcCacheEntry *cacheEntry = NULL;
-	cacheEntry = pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
 	return pdnce___GetStatus(cacheEntry);
 }
 
@@ -430,7 +428,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			}
 
 			if (pdnce->bIsHidden != 1) {
-				pdnce___SetStatus(pdnce, cws->value.wVal); //dont use direct set
+				pdnce->m_cache_nStatus = cws->value.wVal;
 				if (cws->value.wVal == ID_STATUS_OFFLINE)
 					if (g_CluiData.bRemoveAwayMessageForOffline)
 						db_set_s(hContact, "CList", "StatusMsg", "");

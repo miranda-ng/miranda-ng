@@ -101,7 +101,7 @@ int cli_AddItemToGroup(ClcGroup *group, int iAboveItem)
 	return iAboveItem;
 }
 
-ClcGroup *cli_AddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
+ClcGroup* cli_AddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
 	ClearRowByIndexCache();
 	if (!dat->force_in_dialog && !(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN))
@@ -594,16 +594,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 
 WORD pdnce___GetStatus(ClcCacheEntry *pdnce)
 {
-	if (!pdnce)
-		return ID_STATUS_OFFLINE;
-	else
-		return pdnce->m_cache_nStatus;
-}
-
-void pdnce___SetStatus(ClcCacheEntry *pdnce, WORD wStatus)
-{
-	if (pdnce)
-		pdnce->m_cache_nStatus = wStatus;
+	return (!pdnce) ? ID_STATUS_OFFLINE : pdnce->m_cache_nStatus;
 }
 
 ClcContact* cliCreateClcContact()

@@ -1663,7 +1663,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 	if (wParam != 0) {
 		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(wParam);
 		if (pdnce && pdnce->m_cache_cszProto) {
-			pdnce___SetStatus(pdnce, GetStatusForContact(pdnce->hContact, pdnce->m_cache_cszProto));
+			pdnce->m_cache_nStatus = GetStatusForContact(pdnce->hContact, pdnce->m_cache_cszProto);
 			if (!dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
 				gtaRenewText(pdnce->hContact);
 			SendMessage(hwnd, INTM_ICONCHANGED, wParam, corecli.pfnGetContactIcon(wParam));
@@ -1674,7 +1674,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 					if (!contact->image_is_special && pdnce___GetStatus(pdnce) > ID_STATUS_OFFLINE)
 						contact->iImage = corecli.pfnGetContactIcon(wParam);
 					if (contact->isSubcontact && contact->subcontacts && contact->subcontacts->type == CLCIT_CONTACT)
-						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, (WPARAM)contact->subcontacts->hContact, 0); //forward status changing to host meta contact
+						pcli->pfnClcBroadcast(INTM_STATUSCHANGED, contact->subcontacts->hContact, 0); //forward status changing to host meta contact
 				}
 			}
 		}

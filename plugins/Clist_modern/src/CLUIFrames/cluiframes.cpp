@@ -1029,7 +1029,6 @@ static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM lParam)
 		if (g_pfwFrames[pos].align&alBottom) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)_hmiAlignBottom,(LPARAM)&mi);
 
-
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
 		if (g_pfwFrames[pos].collapsed) mi.flags |= CMIF_CHECKED;
 		if ((!g_pfwFrames[pos].visible) || (g_pfwFrames[pos].Locked) || (pos == CLUIFramesGetalClientFrame())) mi.flags |= CMIF_GRAYED;
@@ -1217,19 +1216,19 @@ static int _us_DoSetFrameOptions(WPARAM wParam, LPARAM lParam)
 		fw.TitleBar.ShowTitleBarTip = FALSE;
 		if (lParam & F_SHOWTBTIP) fw.TitleBar.ShowTitleBarTip = TRUE;
 
-		SendMessageA(fw.TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)fw.TitleBar.ShowTitleBarTip,0);
+		SendMessageA(fw.TitleBar.hwndTip, TTM_ACTIVATE, (WPARAM)fw.TitleBar.ShowTitleBarTip, 0);
 		{
-			LONG_PTR style = GetWindowLongPtr(fw.hWnd,GWL_STYLE);
+			LONG_PTR style = GetWindowLongPtr(fw.hWnd, GWL_STYLE);
 			style &= (~WS_BORDER);
-			if (!(lParam & F_NOBORDER ) && !g_CluiData.fLayered )
+			if (!(lParam & F_NOBORDER) && !g_CluiData.fLayered)
 				style |= WS_BORDER;
 
-			SetWindowLongPtr(fw.hWnd,GWL_STYLE,style);
-			SetWindowLongPtr(fw.TitleBar.hwnd,GWL_STYLE,style& ~(WS_VSCROLL | WS_HSCROLL));
+			SetWindowLongPtr(fw.hWnd, GWL_STYLE, style);
+			SetWindowLongPtr(fw.TitleBar.hwnd, GWL_STYLE, style& ~(WS_VSCROLL | WS_HSCROLL));
 		}
 
-		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
-		SetWindowPos(fw.TitleBar.hwnd, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED|SWP_NOACTIVATE);
+		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList, 0);
+		SetWindowPos(fw.TitleBar.hwnd, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_NOACTIVATE);
 		return 0;
 
 	case FO_NAME:

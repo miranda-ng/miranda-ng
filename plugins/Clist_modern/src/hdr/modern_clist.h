@@ -81,7 +81,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	bool     m_bProtoNotExists, m_bIsSub;
 	bool     isUnknown;
 
-	int      i;
 	int      ApparentMode;
 	int      NotOnList;
 	int      IdleTS;
