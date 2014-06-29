@@ -59,7 +59,7 @@
 След изпращане на поздрава (само за ICQ)
 [Automatically grant authorization]
 Автоматично упълномощаване
-[Request authorization from contacts which pass stopspam test]
+[Request authorization from contacts which pass StopSpam test]
 Изискване на упълномощаване от контактите, които преминат теста
 [Remove all temporary contacts after restart]
 

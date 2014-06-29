@@ -203,7 +203,7 @@ URL додаткової інформації
 Максимум
 [Sunrise]
 Схід
-[Dewpoint]
+[Dew point]
 Точка роси
 [Humidity]
 Вологість

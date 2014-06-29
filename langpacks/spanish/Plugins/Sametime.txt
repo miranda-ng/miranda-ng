@@ -28,7 +28,7 @@
 
 [Use popups]
 
-[Use system tray baloons]
+[Use system tray balloons]
 
 [Contacts]
 

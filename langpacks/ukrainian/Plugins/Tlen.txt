@@ -145,7 +145,7 @@
 Вік:
 [to]
 до
-[Extra Search Criterias]
+[Extra Search Criteria]
 Дод. критерії пошуку
 [Status:]
 Статус:

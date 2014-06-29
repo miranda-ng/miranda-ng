@@ -1,4 +1,4 @@
-﻿[AutoLogin to Yahoo Website(s)]
+﻿[Auto login to Yahoo Website(s)]
 [Create a new Yahoo account]
 [Connection Settings]
 [Login server:]

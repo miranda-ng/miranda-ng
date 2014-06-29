@@ -20,10 +20,6 @@ Text colour
 Base colour:
 [Secondary color:]
 Secondary colour:
-[Keep MetaContact history synchronized with subcontacts]
-Keep MetaContact history synchronised with subcontacts
-[Keep subcontact history synchronized with MetaContact]
-Keep subcontact history synchronised with MetaContact
 [&Authorize]
 &Authorise
 [Add to contact list if authorized]

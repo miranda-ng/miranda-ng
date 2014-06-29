@@ -206,7 +206,7 @@ Reiniciar
 
 [Sunrise]
 
-[Dewpoint]
+[Dew point]
 
 [Humidity]
 

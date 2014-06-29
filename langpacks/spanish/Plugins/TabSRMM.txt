@@ -404,7 +404,7 @@ minutos de pasado
 
 [Typing Notification]
 Escribiendo notificación
-[Send typing notifications to the following users when you are typing a message to the them:]
+[Send typing notifications to the following users when you are typing a message to them:]
 
 [        Show typing notifications in the message window]
 
@@ -1060,7 +1060,7 @@ Versión
 
 [%s is typing a message]
 
-[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 
@@ -1238,7 +1238,7 @@ Avatares
 
 [Save and close session]
 
-[Autoscrolling is disabled (press F12 to enable it)]
+[Auto scrolling is disabled (press F12 to enable it)]
 
 [Click for contact menu\nClick dropdown for window settings]
 
@@ -1703,7 +1703,7 @@ Cerrar la ventana de mensaje al enviar
 
 [Support for external plugins]
 
-[Timestamp settings (note: timstamps also depend on your templates)]
+[Timestamp settings (note: timestamps also depend on your templates)]
 
 [Message log icons]
 
@@ -2088,7 +2088,7 @@ Texto seleccionado
 
 [nick of current contact (if defined)]
 
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 
 [user-defined account name of current contact (if defined).]
 
@@ -2186,7 +2186,7 @@ horas
 
 [, %d %s idle]
 
-[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
 
 [Event filter error]
 

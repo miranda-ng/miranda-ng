@@ -42,7 +42,7 @@
 [Software:]
 [System:]
 [Personal Information]
-[Extra Search Criterias]
+[Extra Search Criteria]
 [Plan:]
 [Tlen Voice Chat]
 [Quality]

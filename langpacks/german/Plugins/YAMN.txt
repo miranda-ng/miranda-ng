@@ -126,7 +126,7 @@ Zeige YAMN als ein Protokoll (Neustart erforderlich)
 Einstellungen für E-Mail-Browser
 [Enable Close on Delete Button]
 "Schließen beim Löschen"-Button aktivieren
-[Show long localised date]
+[Show long localized date]
 Langes Datumsformat anzeigen
 [Don't show today's date]
 Heutiges Datum nicht anzeigen
@@ -148,7 +148,7 @@ Benutzerdefinierte Farbe
 Keine neue E-Mail - Hinweis
 [Popup if no mail]
 Popup anzeigen
-[Persistant message]
+[Persistent message]
 Dauerhafte Mitteilung
 [Connection failure notifications]
 Verbindungsfehler - Hinweis

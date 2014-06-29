@@ -148,7 +148,7 @@ Persönliche Informationen
 Alter:
 [to]
 bis
-[Extra Search Criterias]
+[Extra Search Criteria]
 Extra Suchkriterien
 [Status:]
 Status:

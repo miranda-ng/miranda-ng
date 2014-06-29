@@ -14,7 +14,7 @@
 Выкарыстоўваючы гэты майстар, вы можаце паменшыць памер профіля выдаленнем "мёртвай" прасторы.
 [To continue, click Next.]
 Націсніце "Далей" для працягу.
-[This program is licenced under the terms of the GNU General Public License.]
+[This program is licensed under the terms of the GNU General Public License.]
 Праграма ліцэнзавана пад умовамі GNU General Public License.
 [Miranda Database Tool]
 Прылада базы Miranda NG

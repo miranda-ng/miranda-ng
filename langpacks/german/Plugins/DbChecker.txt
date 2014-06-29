@@ -14,7 +14,7 @@ Willkommen zum Miranda-Datenbankreparaturassistenten
 Die Verwendung dieses Tools löscht unnütze Einträge, die beim normalen Gebrauch entstehen können, untersucht die Datenbank auf mögliche Fehler und versucht diese zu beheben.
 [To continue, click Next.]
 Um fortzufahren, drücken Sie "Weiter".
-[This program is licenced under the terms of the GNU General Public License.]
+[This program is licensed under the terms of the GNU General Public License.]
 Dieses Programm wurde unter der GNU General Public License lizenziert.
 [Miranda Database Tool]
 Miranda-Datenbankassistent

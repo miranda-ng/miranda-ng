@@ -78,7 +78,7 @@
 [Today's Low]
 [Today's High]
 [Sunrise]
-[Dewpoint]
+[Dew point]
 [Humidity]
 [More...]
 [Weather Protocol INI Setup]

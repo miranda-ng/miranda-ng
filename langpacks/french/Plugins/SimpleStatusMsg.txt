@@ -106,7 +106,7 @@ Autre
 
 [Set status after]
 
-[miliseconds]
+[milliseconds]
 millisecondes
 [Protocol:]
 Protocole :

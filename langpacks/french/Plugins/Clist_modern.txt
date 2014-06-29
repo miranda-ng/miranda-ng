@@ -339,9 +339,9 @@ Faire un cycle de
 [Ignore empty extra icons places (arrange to right).]
 
 [Use 'Meta' protocol icons for metacontacts]
-Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
+Utilisez les 'Meta' icônes pour les protocoles des metacontacts
 [Expand metacontacts]
-Développer les MetaContacts
+Développer les metacontacts
 [Avoid double click expand]
 
 [Hide all extra icons for subcontacts]
@@ -349,7 +349,7 @@ Cachez tous les icônes supplémentaires pour les sous contacts
 [Hide offline subcontacts]
 Cachez les sous contacts hors ligne
 [Metacontacts stuff]
-Paramètres pour les MetaContacts
+Paramètres pour les metacontacts
 [Additional stuff]
 Paramètres avancés
 [For other stuff metacontacts should be enabled.]
@@ -640,25 +640,25 @@ Arrière plan de la barre d'état
 [Frames title bar background]
 
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
-Voulez-vous que le contact '%s' soit converti en MetaContact et y ajouter '%s' ?
+Voulez-vous que le contact '%s' soit converti en metacontact et y ajouter '%s' ?
 [Converting to metacontact]
-Conversion en MetaContact
+Conversion en metacontact
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
-Voulez-vous que le contact '%s' soit converti en MetaContact et y ajouter '%s' (le retiré de '%s') ?
+Voulez-vous que le contact '%s' soit converti en metacontact et y ajouter '%s' (le retiré de '%s') ?
 [Converting to metacontact (moving)]
 Converting to metacontact (déplacement)
 [Do you want contact '%s' to be added to metacontact '%s'?]
-Voulez-vous que le contact '%s' soit ajouté au MetaContact '%s' ?
+Voulez-vous que le contact '%s' soit ajouté au metacontact '%s' ?
 [Adding contact to metacontact]
-Ajout d'un contact dans MetaContact
+Ajout d'un contact dans metacontact
 [Do you want contact '%s' to be default?]
 Voulez-vous que '%s' soir le par défaut?
 [Set default contact]
 Ce contact en par défaut
 [Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
-Voulez-vous que le contact '%s' soit transféré du MetaContact '%s' au MetaContact '%s' ?
+Voulez-vous que le contact '%s' soit transféré du metacontact '%s' au metacontact '%s' ?
 [Changing metacontacts (moving)]
-Changement de MetaContact (déplacement)
+Changement de metacontact (déplacement)
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Noms des contacts

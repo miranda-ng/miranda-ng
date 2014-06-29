@@ -59,7 +59,7 @@
 После поздравления (только для ICQ)
 [Automatically grant authorization]
 Авторизовать автоматически
-[Request authorization from contacts which pass stopspam test]
+[Request authorization from contacts which pass StopSpam test]
 Запрашивать авторизацию у контактов прошедших проверку антиспама
 [Remove all temporary contacts after restart]
 Удалять все временные контакты после перезапуска

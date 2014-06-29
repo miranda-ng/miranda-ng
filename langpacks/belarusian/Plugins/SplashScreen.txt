@@ -34,7 +34,7 @@
 крокаў
 [Fade out:]
 Знікненне:
-[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
 Advaimg плагін не знойдзены. Калі ласка, уключыце яго, каб мець магчымасць выкарыстоўваць выявы.
 [Preview...]
 Прагляд...

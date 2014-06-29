@@ -24,7 +24,7 @@ Yahoo
 Ползване на книгата с адреси от Yahoo (YAB)
 [Show Avatars]
 Показване на аватари
-[AutoLogin to Yahoo Website(s)]
+[Auto login to Yahoo Website(s)]
 Автовписване в сайтовете Yahoo
 [Display Yahoo notifications]
 Изобразяване на Yahoo уведомявания
@@ -210,9 +210,9 @@ Yahoo поща
 Непозната грешка.
 [New Mail]
 Нов имейл
-[You have %i unread msgs]
+[You have %i unread messages]
 Имате %i непрочетени съобщения
-[New Mail (%i msgs)]
+[New Mail (%i messages)]
 Ново писмо (%i съобщения)
 [From: %s\nSubject: %s]
 От: %s\nТема: %s

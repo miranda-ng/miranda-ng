@@ -148,7 +148,7 @@ Versión
 Edad:
 [to]
 
-[Extra Search Criterias]
+[Extra Search Criteria]
 
 [Status:]
 

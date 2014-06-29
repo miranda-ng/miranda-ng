@@ -13,7 +13,7 @@
 Используя этот мастер, вы можете уменьшить размер профиля удалением "мёртвого" пространства.
 [To continue, click Next.]
 Нажмите "Далее" для продолжения.
-[This program is licenced under the terms of the GNU General Public License.]
+[This program is licensed under the terms of the GNU General Public License.]
 Программа лицензирована под условиями GNU General Public License.
 [Miranda Database Tool]
 Инструмент базы Miranda NG

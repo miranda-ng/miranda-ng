@@ -106,7 +106,7 @@
 Пачатковы стан
 [Set status after]
 Усталяваць праз
-[miliseconds]
+[milliseconds]
 мс
 [Protocol:]
 Пратакол:

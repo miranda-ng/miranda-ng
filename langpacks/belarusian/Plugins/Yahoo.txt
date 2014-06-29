@@ -24,7 +24,7 @@ ID:
 Выкарыстоўваць адрасную кнігу Yahoo (YAB)
 [Show Avatars]
 Паказваць аватары
-[AutoLogin to Yahoo Website(s)]
+[Auto login to Yahoo Website(s)]
 Аўтаматычна далучацца да Yahoo сайту(ам)
 [Display Yahoo notifications]
 Паказваць паведамленні Yahoo
@@ -208,9 +208,9 @@ ID, якога вы сабраліся дадаць, несапраўдны.
 Невядомая памылка.
 [New Mail]
 Новая пошта
-[You have %i unread msgs]
+[You have %i unread messages]
 У вас %i не прачытаных паведамленняў
-[New Mail (%i msgs)]
+[New Mail (%i messages)]
 Новая пошта (%i лістоў)
 [From: %s\nSubject: %s]
 Ад: %s\nТема: %s

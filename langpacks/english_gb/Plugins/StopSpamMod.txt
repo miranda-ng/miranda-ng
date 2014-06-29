@@ -7,5 +7,5 @@
 ;============================================================
 [Automatically grant authorization]
 Automatically grant authorisation
-[Request authorization from contacts which pass stopspam test]
+[Request authorization from contacts which pass StopSpam test]
 Request authorisation from contacts which pass stopspam test

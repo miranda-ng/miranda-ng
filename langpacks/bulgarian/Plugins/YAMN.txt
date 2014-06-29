@@ -126,7 +126,7 @@ SSL
 
 [Enable Close on Delete Button]
 
-[Show long localised date]
+[Show long localized date]
 
 [Don't show today's date]
 
@@ -148,7 +148,7 @@ SSL
 
 [Popup if no mail]
 
-[Persistant message]
+[Persistent message]
 
 [Connection failure notifications]
 

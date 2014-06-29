@@ -106,7 +106,7 @@ Alles löschen
 Status beim starten
 [Set status after]
 Setze Status nach:
-[miliseconds]
+[milliseconds]
 Millisekunden
 [Protocol:]
 Protokoll:

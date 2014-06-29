@@ -46,7 +46,7 @@
 [System:]
 [Personal Information]
 [to]
-[Extra Search Criterias]
+[Extra Search Criteria]
 [Status:]
 [Plan:]
 [Tlen Voice Chat]

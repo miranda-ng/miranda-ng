@@ -339,7 +339,7 @@ Schnellsuche-Text
 [List]
 Liste
 [List metacontacts]
-MetaContacts Liste
+Metakontakte Liste
 [Not focused]
 nicht fokussiert
 [Offline]

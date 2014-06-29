@@ -205,13 +205,13 @@ Masquer la barre de défilement vertical
 [Contact list background]
 Arrière-plan de la liste
 [Use 'Meta' protocol icons for metacontacts]
-Utilisez les 'Meta' icônes pour les protocoles des Metacontacts
+Utilisez les 'Meta' icônes pour les protocoles des metacontacts
 [Avoid double click expand]
 
 [Hide all extra icons for subcontacts]
 Cachez tous les icônes supplémentaires pour les sous contacts
 [Metacontacts supporting]
-Options pour les MetaContacts
+Options pour les metacontacts
 [Ignore empty extra icons places (arrange to right)]
 
 [Hide offline subcontacts]
@@ -339,7 +339,7 @@ Texte en recherche rapide
 [List]
 Liste
 [List metacontacts]
-Liste MetaContacts
+Liste metacontacts
 [Not focused]
 Fenêtre inactive
 [Offline]

@@ -14,7 +14,7 @@
 
 [To continue, click Next.]
 
-[This program is licenced under the terms of the GNU General Public License.]
+[This program is licensed under the terms of the GNU General Public License.]
 
 [Miranda Database Tool]
 

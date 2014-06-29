@@ -45,7 +45,7 @@
 Настройки
 [More options]
 Ещё настройки
-[Display Error and Infomessage:]
+[Display Error and Info message:]
 Ошибка и инфосообщение:
 [Main group for clan groups:]
 Группа для группы кланов:
@@ -71,7 +71,7 @@
 Статусное сообщение
 [Enable]
 Включено
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 С этой возможностью, следующее статусное сообщение будет установлено на другой протокол, если вы в игре. Так ваши друзья будут видеть, что вы играете. Это так же изменит ваш статус на "занят", если вы включили эту функцию.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Доступны следующие переменные: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -99,7 +99,7 @@
 Пользователь:
 [Game]
 Игра
-[Voicechat]
+[Voice chat]
 Голосовой чат
 [Name:]
 Имя:
@@ -235,11 +235,11 @@ exe игры:
 Всплывающие окна, если кто-нибудь начинает игру
 [Don't automatically create clan groups]
 Не создавать автоматически группы кланов
-[Gamedetection]
+[Game detection]
 Обнаружение игры
 [Disable game detection]
 Выключить обнаружение игр
-[Use TSRemote.dll to get teamspeak server info]
+[Use TSRemote.dll to get TeamSpeak server info]
 Использовать TSRemote.dll для получения инф. с сервера
 [Disable popups when ingame]
 Выключить всплывающие окна когда в игре
@@ -259,7 +259,7 @@ exe игры:
 Сделанные вами изменения требуют, что бы вы переподключились к сети XFire для вступления их в силу.
 [Hidden]
 Скрытый
-[Messagebox]
+[Message box]
 Окно сообщений
 [Popup]
 Всплывающее окно

@@ -1,5 +1,5 @@
 ﻿[Last seen options]
-[Last seen menuitem]
+[Last seen menu item]
 [Show icon]
 [User info tab]
 [Log to file]

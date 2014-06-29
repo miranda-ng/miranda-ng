@@ -54,7 +54,7 @@ Ejecuta&r
 [Start in service mode with]
 Iniciar en el modo de servicio con
 [Find/add contacts]
-Buscar/Agregar contactos
+Buscar/agregar contactos
 [Search:]
 Buscar:
 [E-mail address]
@@ -80,7 +80,7 @@ Añadir a la lista
 [Custom]
 Personalizado
 [Find/add contacts\nHere you can add contacts to your contact list]
-Buscar/Agregar contactos\nAquí usted puede agregar contactos a su lista de contactos
+Buscar/agregar contactos\nAquí usted puede agregar contactos a su lista de contactos
 [Options\nConfigure your Miranda NG options]
 Opciones\nConfigure las opciones de Miranda NG
 [Apply]
@@ -2274,7 +2274,7 @@ Todas las redes
 [Handle]
 Manejar
 [&Find/add contacts...]
-&Buscar/Agregar contactos...
+&Buscar/agregar contactos...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?

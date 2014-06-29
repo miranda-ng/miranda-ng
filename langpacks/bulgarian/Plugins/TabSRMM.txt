@@ -393,7 +393,7 @@ ID на потребителя в лентата за състояние
 Общо изобразяване на дневника чрез
 [Typing Notification]
 Уведомявания при писане
-[Send typing notifications to the following users when you are typing a message to the them:]
+[Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване за писане на съобщение до следните потребители, когато им пишете съобщение:
 [        Show typing notifications in the message window]
           Уведомяване при писане в прозореца за съобщения
@@ -1049,7 +1049,7 @@ TabSRMM предупреждение
 %s въведе текст.
 [%s is typing a message]
 %s пише съобщение
-[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автоматичното придвижване е изключено, %d непрегледани съобщения (за включване натиснете клавиш F12)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
@@ -1227,7 +1227,7 @@ TabSRMM
 Съобщението, което се опитвате да поставите надвишава позволения размер от протокола. Ще бъдат изпратени само първите %d знака.
 [Save and close session]
 Запис и затваряне
-[Autoscrolling is disabled (press F12 to enable it)]
+[Auto scrolling is disabled (press F12 to enable it)]
 Автоматичното придвижване е изключено (за включване натиснете клавиш F12)
 [Click for contact menu\nClick dropdown for window settings]
 Натиснете за меню на контакта\nНатиснете падащия триъгълник за настройки на прозореца
@@ -1692,7 +1692,7 @@ TabSRMM съобщение (%s)
 Външен вид на дневника за съобщения
 [Support for external plugins]
 Поддръжка на външни приставки
-[Timestamp settings (note: timstamps also depend on your templates)]
+[Timestamp settings (note: timestamps also depend on your templates)]
 Настройки на времевата марка (бележка: те зависят и от шаблона)
 [Message log icons]
 Икони в дневника за съобщения
@@ -2077,7 +2077,7 @@ TabSRMM съобщение (%s)
 
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
 [user-defined account name of current contact (if defined).]
 
@@ -2175,7 +2175,7 @@ TabSRMM съобщение (%s)
 минута
 [, %d %s idle]
 , %d %s бездействие
-[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
 Филтърът не може да бъде зареден, защото няма избрани събития за показване общо или само чат стаята
 [Event filter error]
 Филтър на събития: грешка

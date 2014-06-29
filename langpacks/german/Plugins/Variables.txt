@@ -324,7 +324,7 @@ Wörter (getrennt durch Leerzeichen) Nummer y bis z von Zeichen x (z ist optiona
 System-Funktionen
 [computer name]
 Computername
-[cpu load of process x (without extension) (x is optional)]
+[CPU load of process x (without extension) (x is optional)]
 CPU-Auslastung von Prozess x (ohne Dateiendung) (x ist optional)
 [current date in format y (y is optional)]
 Aktuelles Datum im Format y (y ist optional)

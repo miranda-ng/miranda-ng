@@ -48,7 +48,7 @@
 Настройки
 [More options]
 Още опции
-[Display Error and Infomessage:]
+[Display Error and Info message:]
 
 [Main group for clan groups:]
 
@@ -78,7 +78,7 @@
 Текст за състояние
 [Enable]
 Включване
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 
@@ -116,7 +116,7 @@
 Потребител:
 [Game]
 Игра
-[Voicechat]
+[Voice chat]
 
 [Name:]
 Име:
@@ -138,7 +138,7 @@
 Отказ
 [New xfire_games.ini]
 
-[There is a new XFire gamelist online, do you want to update now?]
+[There is a new XFire game list online, do you want to update now?]
 
 [New supported games:]
 
@@ -231,7 +231,7 @@
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 Икона на протокола
-[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation.]
 
 [Friends of Friends Playing]
 
@@ -366,11 +366,11 @@
 
 [Enable MBot support]
 
-[Gamedetection]
+[Game detection]
 
 [Disable game detection]
 
-[Use TSRemote.dll to get teamspeak server info]
+[Use TSRemote.dll to get TeamSpeak server info]
 
 [Disable popups when ingame]
 
@@ -392,7 +392,7 @@
 
 [Hidden]
 Скрито
-[Messagebox]
+[Message box]
 
 [Popup]
 Рopup

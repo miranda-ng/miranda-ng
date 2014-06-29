@@ -34,7 +34,7 @@ Aparecer:
 pasos
 [Fade out:]
 Desaparecer
-[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
 Biblioteca Advaimg no encontrada. Por favor obtengalo desde nigtlies para poder usar imágenes.
 [Preview...]
 Vista previa...

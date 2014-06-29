@@ -60,7 +60,7 @@ Ajouter le contact
 
 [Automatically grant authorization]
 
-[Request authorization from contacts which pass stopspam test]
+[Request authorization from contacts which pass StopSpam test]
 
 [Remove all temporary contacts after restart]
 

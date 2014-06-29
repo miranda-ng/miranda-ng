@@ -157,7 +157,7 @@
 Діаграма...
 [Edit Settings...]
 Налаштування...
-[Enable/Diable Quotes Auto Update]
+[Enable/Disable Quotes Auto Update]
 Ввімк./вимк. автооновлення котувань
 [Quotes Auto Update Enabled]
 Автооновлення котувань увімкнено

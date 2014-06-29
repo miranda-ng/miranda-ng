@@ -172,7 +172,7 @@ Refrescar
 
 [Edit Settings...]
 
-[Enable/Diable Quotes Auto Update]
+[Enable/Disable Quotes Auto Update]
 
 [Quotes Auto Update Enabled]
 

@@ -2262,11 +2262,11 @@ Miranda NG не может открыть этот профиль
 [Languages]
 Языки
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
-Удалить метаконтакт?
+Вы собираетесь удалить все субконтакты из метаконтакта.\nЭто приведёт к удалению метаконтакта.\n\nПродолжить?
 [Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
-Нет еще ни одного метаконтакта в базе (в этом случае нужно сначала конвертировать один простой контакт в метаконтакт).\nКак вариант преобразуйте этот контакт в новый метаконтакт.\n\nПреобразовать этот контакт в метаконтакт?
+В базе не найдено ни одного метаконтакта (в этом случае нужно сначала преобразовать один обычный контакт в метаконтакт).\nНапример, можно преобразовать этот контакт в новый метаконтакт.\n\nПреобразовать этот контакт в метаконтакт?
 [This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
-Этот контакт уже является метаконтактом.\nНевозможно добавить один метаконтакт в другой.\n\nПожалуйста, выберите иной контакт.
+Этот контакт уже является метаконтактом.\nНевозможно добавить один метаконтакт в другой.\n\nПожалуйста, выберите другой контакт.
 [Metacontact conflict]
 Конфликт метаконтактов
 [This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]

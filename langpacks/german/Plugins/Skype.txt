@@ -255,9 +255,9 @@ Hinzufügen
 &Kicken
 [Outlaw (&ban)]
 Ausgestoßener (&Bann)
-[Copy &skypename]
+[Copy &Skype name]
 &Skypename kopieren
-[Copy room &uri]
+[Copy room &URI]
 Raum-&URI kopieren
 [Creator]
 Urheber
@@ -349,7 +349,7 @@ Löschen
 Protokolle
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
-[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the license agreement and standard distribution terms of SkypeKit.]
 Skype Protokoll erlaubt Ihnen nur die Anmeldung mit einem Account. Mehrere Accounts zu verwenden ist in dem Lizenzabkommen und den Bestimmungen von SkypeKit verboten.
 [Initialization key corrupted or not valid.]
 Initialisierungsschlüssel beschädigt oder ungültig.

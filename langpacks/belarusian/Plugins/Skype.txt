@@ -229,9 +229,9 @@ SkypeKit.exe не распакаваны.
 Выкінуць
 [Outlaw (&ban)]
 Забаніць
-[Copy &skypename]
+[Copy &Skype name]
 Капіяваць &Skype ID
-[Copy room &uri]
+[Copy room &URI]
 Капіяваць URI канферэнцыі
 [User]
 Кантакт

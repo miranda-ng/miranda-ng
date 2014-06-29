@@ -79,7 +79,7 @@
 Асистент:
 [Add phone number]
 Додати номер телефону
-[Enter your phone number\nand don't worry about formating.]
+[Enter your phone number\nand don't worry about formatting.]
 Введіть номер телефону\nв будь-якому форматі
 [Enter a category for this number:]
 Введіть категорію для номера:
@@ -221,7 +221,7 @@
 Змінені дані
 [Enable colors to give information about information's status.]
 Ввімкнути кольори для показу статусу інформації
-[Make protocol based contact information readonly]
+[Make protocol based contact information read only]
 Заборонити зміну інформації, що базується на протоколі
 [Enable groups in details dialog's treeview]
 Вкладені пункти меню
@@ -445,7 +445,7 @@
 Ви не підключені до мережі ICQ.\nЩоб оновлювати дані на сервері, потрібно підключитися до мережі ICQ.\n\nЗміни будуть збережені тільки в локальній базі даних.
 [Uploading]
 Завантаження
-[Creating the imagelist failed!]
+[Creating the image list failed!]
 Помилка при створенні imagelist.
 [Could not find contact's protocol. Maybe it is not active!]
 Неможливо знайти протокол контакту. Ймовірно, він відключений.
@@ -649,7 +649,7 @@
 Компанія
 [Question]
 Запитання
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
 Ця функція видалить всі налаштування, які ви зробили!\nУсі налаштування дерева, позицій вікна тощо.\n\nВи дійсно хочете продовжити?
 [Ready]
 Готово
@@ -659,8 +659,6 @@
 Усі налаштування скинуті!
 [Reminder disabled]
 Нагадування відключені
-[Bithdays only]
-Тільки дні народження
 [Everything]
 Усі нагадування
 [UserInfo (default)]
@@ -1071,7 +1069,7 @@ Web-дизайн
 Сайт (uinfoex)
 [Phone (uinfoex)]
 Телефон (uinfoex)
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
 [b]%s (%S)...[/b]\n%d контактів залишилось
 [Abort Refreshing Contact Details]
 Скасувати оновлення даних контактів
@@ -1119,7 +1117,7 @@ Web-дизайн
 Нагадування про день народження, що наближається
 [Anniversary Reminder]
 Нагадування про свято
-[contact identificaion]
+[contact identification]
 ідентифікація контакта
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 У користувача %s(%s) немає унікального номера у vCard,\nале у списку контактів є контакт з таким самим ніком і протоколом.\nВикористати його номер для цього контакту?

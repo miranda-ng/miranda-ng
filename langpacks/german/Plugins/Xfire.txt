@@ -48,7 +48,7 @@ Freunde meiner Freunde anzeigen
 Einstellungen
 [More options]
 Weitere Einstellungen
-[Display Error and Infomessage:]
+[Display Error and Info message:]
 Fehler- und Informationsanzeige:
 [Main group for clan groups:]
 Hauptgruppe für Clangruppen:
@@ -78,7 +78,7 @@ Die Dateien müssen in folgendem Ordner sein:
 Statusnachricht
 [Enable]
 Aktivieren
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 Die Einstellung ermöglicht es, dass eine Statusnachricht bei anderen aktiven Protokollen gesetzt wird, wenn man im Spiel ist. Ihre anderen Kontakte können sehen, was Sie spielen. Es wird auch der Onlinestatus auf Beschäftigt gestellt, wenn die Option dafür aktiviert wurde.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Folgende Variablen sind verfügbar: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -116,7 +116,7 @@ Bearbeiten...
 Benutzername:
 [Game]
 Spiel
-[Voicechat]
+[Voice chat]
 Sprachchat
 [Name:]
 Name:
@@ -138,7 +138,7 @@ Nickname setzen
 Abbrechen
 [New xfire_games.ini]
 Neue xfire_games.ini
-[There is a new XFire gamelist online, do you want to update now?]
+[There is a new XFire game list online, do you want to update now?]
 Es ist eine neue Version der XFire-Spielliste verfügbar, möchten Sie jetzt aktualisieren?
 [New supported games:]
 Neue unterstützte Spiele:
@@ -231,7 +231,7 @@ Fehler bei der Icons.dll-Aktualisierung.
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 Protokollicon
-[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation.]
 %s (Nickname: %s) hat Sie in den Clan %s eingeladen. Nachricht: %s%sBitte gehen Sie auf die XFire-Clanseite um die Einladung anzunehmen.
 [Friends of Friends Playing]
 Freunde von Freunden spielen
@@ -366,11 +366,11 @@ Popup anzeigen, wenn jemand ein Spiel startet
 Clangruppen nicht automatisch erstellen
 [Enable MBot support]
 MBot-Unterstützung aktivieren
-[Gamedetection]
+[Game detection]
 Spielerkennung
 [Disable game detection]
 Spielerkennung abschalten
-[Use TSRemote.dll to get teamspeak server info]
+[Use TSRemote.dll to get TeamSpeak server info]
 TSRemote.dll für Teamspeakinfos verwenden
 [Disable popups when ingame]
 Popups im Spiel deaktivieren
@@ -392,7 +392,7 @@ Der Benutzername muss in Kleinbuchstaben geschrieben sein, also wird er in Klein
 Die Änderungen, die Sie gemacht haben, werden erst bei der nächsten Verbindung zum Xfire-Netzwerk aktiviert.
 [Hidden]
 Versteckt
-[Messagebox]
+[Message box]
 Meldungsfelder
 [Popup]
 Popup

@@ -14,7 +14,7 @@
 [&Try again]
 [The SMS message send timed out]
 [SMS Plugin]
-[Begining]
+[Beginning]
 [End]
 [Put signature at the:]
 [Use Signature]

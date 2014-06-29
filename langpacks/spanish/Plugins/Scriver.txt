@@ -102,7 +102,7 @@ Mostrar segundos
 Mostrar nombres
 [Enable message grouping]
 
-[Mark follow-up msgs with timestamp]
+[Mark follow-up messages with timestamp]
 
 [Start message text on a new line]
 
@@ -780,7 +780,7 @@ Mostrar ventana emergente para cambios de estado
 Iconos a mostrar en la bandeja
 [nick of current contact (if defined)]
 
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 
 [user-defined account name of current contact (if defined).]
 

@@ -401,7 +401,7 @@ RTL шаблоны...
 Основной журнал сообщений
 [Typing Notification]
 Уведомление о наборе текста
-[Send typing notifications to the following users when you are typing a message to the them:]
+[Send typing notifications to the following users when you are typing a message to them:]
 Отправлять уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
 [        Show typing notifications in the message window]
        Показывать уведомление о наборе в окне сообщений
@@ -1051,7 +1051,7 @@ Esc закрывает сессию (иначе - сворачивает)
 %s ввел(а) текст.
 [%s is typing a message]
 %s набирает сообщение
-[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автопрокрутка отключена, %d сообщений в очереди (нажмите F12 для включения)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT+клик -> копировать в буфер)\nКлик - Информация о пользователе\nПравой кнопкой - управление метаконтактом\nСтрелка вниз - добавление/удаление пользователя из избранного.
@@ -1223,7 +1223,7 @@ TabSRMM: Набирает
 Сообщение, которое вы хотите вставить, превышает ограничение размера протокола. Будут отправлены только первые %d символов
 [Save and close session]
 Сохранить набранное и закрыть вкладку
-[Autoscrolling is disabled (press F12 to enable it)]
+[Auto scrolling is disabled (press F12 to enable it)]
 Автопрокрутка отключена (нажмите F12 для включения)
 [Click for contact menu\nClick dropdown for window settings]
 Меню контакта\nСтрелка вниз - настройки окна
@@ -1673,7 +1673,7 @@ TabSRMM: %s
 Внешний вид журнала
 [Support for external plugins]
 Поддержка внешних плагинов
-[Timestamp settings (note: timstamps also depend on your templates)]
+[Timestamp settings (note: timestamps also depend on your templates)]
 Отображение времени (также зависит от ваших шаблонов)
 [Message log icons]
 Значки журнала сообщений
@@ -2049,7 +2049,7 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 Фон журнала чата
 [nick of current contact (if defined)]
 ник текущего контакта (если определен)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
 [user-defined account name of current contact (if defined).]
 имя учётной записи текущего контакта (если определено).
@@ -2145,7 +2145,7 @@ ID текущего контакта (если определен). Наприм
 минута(у)
 [, %d %s idle]
 , %d %s не активен
-[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
 Нельзя включить фильтр, т.к. не выбран ни один тип событий, как глобально так и для этого чата
 [Event filter error]
 Ошибка фильтра событий

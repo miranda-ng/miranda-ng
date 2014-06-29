@@ -24,7 +24,7 @@ Experte
 Yahoo-Adressbuch (YAB) nutzen
 [Show Avatars]
 Avatare anzeigen
-[AutoLogin to Yahoo Website(s)]
+[Auto login to Yahoo Website(s)]
 Automatisch auf Yahoo-Webseite(n) anmelden
 [Display Yahoo notifications]
 Yahoo-Benachrichtigungen zeigen
@@ -210,9 +210,9 @@ Die ID, die Sie versuchen hinzuzufügen, ist ungültig.
 Unbekannter Fehler.
 [New Mail]
 Neue E-Mail
-[You have %i unread msgs]
+[You have %i unread messages]
 Sie haben %i ungelesene Nachr.
-[New Mail (%i msgs)]
+[New Mail (%i messages)]
 Neue E-Mail (%i Nachr.)
 [From: %s\nSubject: %s]
 Von: %s\nBetreff: %s

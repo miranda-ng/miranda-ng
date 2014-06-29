@@ -46,7 +46,7 @@
 Налады
 [More options]
 Яшчэ налады
-[Display Error and Infomessage:]
+[Display Error and Info message:]
 Памылка і паведамленне:
 [Main group for clan groups:]
 Гурт для кланаў:
@@ -72,7 +72,7 @@
 Статуснае паведамленне
 [Enable]
 Уключана
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 З гэтай магчымасцю, наступнае статуснае паведамленне будзе ўсталявана на іншы пратакол, калі вы ў гульні. Так вашы сябры будуць бачыць, што вы гуляеце. Гэта гэтак жа зменіць ваш статус на "заняты", калі вы ўключылі гэту функцыю.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Даступныя наступныя зменныя: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -106,7 +106,7 @@
 Карыстач:
 [Game]
 Гульня
-[Voicechat]
+[Voice chat]
 Галасавы чат
 [Name:]
 Імя:
@@ -267,11 +267,11 @@ XFireне падтрымлівае паведамленні адключаным
 Не ствараць гурты кланаў аўтаматчна
 [Enable MBot support]
 Дадаць падтрымку MBot
-[Gamedetection]
+[Game detection]
 Выяўленне гульні
 [Disable game detection]
 Выключыць выяўленне гульняў
-[Use TSRemote.dll to get teamspeak server info]
+[Use TSRemote.dll to get TeamSpeak server info]
 Выкарыстоўваць TSRemote.dll для атрымання інф. з сервера
 [Disable popups when ingame]
 Выключыць усплывальныя вокны калі ў гульні
@@ -293,7 +293,7 @@ XFireне падтрымлівае паведамленні адключаным
 Зробленыя вамі змены будуць дзейнічаць пры наступным далучэнні да XFire.
 [Hidden]
 Утоены
-[Messagebox]
+[Message box]
 Акно паведамленняў
 [Popup]
 Вакно

@@ -80,7 +80,7 @@ Ocupación:
 
 [Add phone number]
 Agregar número de teléfono
-[Enter your phone number\nand don't worry about formating.]
+[Enter your phone number\nand don't worry about formatting.]
 
 [Enter a category for this number:]
 
@@ -222,7 +222,7 @@ Iconos
 
 [Enable colors to give information about information's status.]
 
-[Make protocol based contact information readonly]
+[Make protocol based contact information read only]
 
 [Enable groups in details dialog's treeview]
 
@@ -457,7 +457,7 @@ Error
 
 [Uploading]
 
-[Creating the imagelist failed!]
+[Creating the image list failed!]
 
 [Could not find contact's protocol. Maybe it is not active!]
 
@@ -669,7 +669,7 @@ inicio
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
 
 [Ready]
 
@@ -678,8 +678,6 @@ inicio
 [All settings are reset to default values now!]
 
 [Reminder disabled]
-
-[Bithdays only]
 
 [Everything]
 
@@ -1106,7 +1104,7 @@ Enviar e-mail
 [Phone (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
 
 [Abort Refreshing Contact Details]
 
@@ -1156,7 +1154,7 @@ Enviar e-mail
 [Anniversary Reminder]
 
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[contact identificaion]
+[contact identification]
 
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 

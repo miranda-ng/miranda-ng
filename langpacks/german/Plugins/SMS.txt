@@ -48,7 +48,7 @@ Abbre&chen
 Die SMS-Nachricht konnte nicht zugestellt werden.
 [SMS Plugin]
 SMS-Plugin
-[Begining]
+[Beginning]
 Anfang
 [End]
 Ende

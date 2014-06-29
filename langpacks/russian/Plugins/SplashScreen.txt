@@ -33,8 +33,8 @@
 шагов
 [Fade out:]
 Исчезновение:
-[Advaimg library not found. Please get it from nigtlies to be able to use images.]
-Не найдена библиотека advaimg.dll. Скачайте последнюю версию, чтобы использовать изображения.
+[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
+Не найден плагин AdvaImg. Скачайте его по адресу http://miranda-ng.org/p/AdvaImg/, чтобы использовать изображения.
 [Preview...]
 Просмотр...
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]

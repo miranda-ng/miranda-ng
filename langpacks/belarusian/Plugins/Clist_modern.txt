@@ -352,8 +352,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Метакантакты
 [Additional stuff]
 Дадаткова
-[For other stuff metacontacts should be enabled.]
-
 [Allow internal requesting of status message text]
 Дазволіць унутраныя запыты статусаў
 [Subcontacts indent:]

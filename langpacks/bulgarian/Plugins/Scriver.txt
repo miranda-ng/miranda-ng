@@ -102,7 +102,7 @@ Scriver - за изпращане и получаване на съобщени�
 Показване на имена
 [Enable message grouping]
 Групиране на съобщенията
-[Mark follow-up msgs with timestamp]
+[Mark follow-up messages with timestamp]
 Времева марка за всички съобщения
 [Start message text on a new line]
 Начало на съобщението на нов ред
@@ -780,7 +780,7 @@ Latin I
 Икони за изобразяване в трея
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
 [user-defined account name of current contact (if defined).]
 

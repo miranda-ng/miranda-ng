@@ -119,7 +119,7 @@
 Настройки просмотра писем
 [Enable Close on Delete Button]
 Закрывать по нажатию "Удалить"
-[Show long localised date]
+[Show long localized date]
 Показывать полную дату
 [Don't show today's date]
 Не показывать сегодняшнюю дату
@@ -141,7 +141,7 @@
 При отсутствии новой почты
 [Popup if no mail]
 Всплывающее окно
-[Persistant message]
+[Persistent message]
 Длительность
 [Connection failure notifications]
 При ошибках подключения

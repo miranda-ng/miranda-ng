@@ -206,7 +206,7 @@ ID
 Максімум
 [Sunrise]
 Узыход
-[Dewpoint]
+[Dew point]
 Кропка расы
 [Humidity]
 Вільготнасць

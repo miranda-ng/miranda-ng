@@ -404,7 +404,7 @@ Minuten alt
 Globale Nachrichtenverlauf-Darstellung
 [Typing Notification]
 Tippbenachrichtigungen
-[Send typing notifications to the following users when you are typing a message to the them:]
+[Send typing notifications to the following users when you are typing a message to them:]
 Sende eine Tippbenachrichtung an die folgenden Benutzer, wenn ich anfange zu schreiben:
 [        Show typing notifications in the message window]
           Schreibhinweise im Nachrichtenfenster anzeigen
@@ -1060,7 +1060,7 @@ Letzte Nachricht am %s um %s empfangen
 %s hat einen Text eingegeben.
 [%s is typing a message]
 %s tippt eine Nachricht
-[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Autoscrolling ist deaktiviert, %d Nachricht(en) in der Warteschlange (F12 drücken um es zu aktivieren)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetails\nRechtsklick fur Einstellungen von Metakontakte\nKlick auf das Auswahlfeld, um Benutzer hinzuzufugen oder zu entfernen.
@@ -1238,7 +1238,7 @@ ACHTUNG: Die Nachricht, die Sie zum Einfügen ausgewählt haben, überschreitet 
 Die Nachricht, die Sie versuchten einzufügen, überschritt die maximale Größe des aktiven Protokolls. Nur die ersten %d Zeichen werden gesendet.
 [Save and close session]
 Speichern und schließen
-[Autoscrolling is disabled (press F12 to enable it)]
+[Auto scrolling is disabled (press F12 to enable it)]
 Autoscrolling ist deaktiviert (drücken Sie auf F12, um es zu aktivieren)
 [Click for contact menu\nClick dropdown for window settings]
 Klicken Sie auf die Schaltfläche für Kontaktmenü\nKlicken Sie auf das Auswahlfeld für Fenstereinstellungen
@@ -1703,7 +1703,7 @@ Markierten Text automatisch kopieren
 Verlaufseinstellungen
 [Support for external plugins]
 Unterstützung für externe Plugins
-[Timestamp settings (note: timstamps also depend on your templates)]
+[Timestamp settings (note: timestamps also depend on your templates)]
 Zeitstempel-Einstellungen (Hinweis: ist auch von der verwendeten Vorlage abhängig)
 [Message log icons]
 Icons im Nachrichtenverlauf
@@ -2088,7 +2088,7 @@ Hintergrund Benutzerliste
 Gruppenchat-Verlaufshintergrund
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [user-defined account name of current contact (if defined).]
 Selbstgewählter Kontenname des aktuellen Kontaktes (falls definiert).
@@ -2186,7 +2186,7 @@ Minuten
 Minute
 [, %d %s idle]
 , %d %s untätig
-[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
 Ihr Filter kann nicht aktiviert werden, weil keine Ereignistypen global oder für diesen Chatraum ausgewählt wurden
 [Event filter error]
 Ereignisfilter-Fehler

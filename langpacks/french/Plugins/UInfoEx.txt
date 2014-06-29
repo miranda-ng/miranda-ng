@@ -80,7 +80,7 @@ Supérieur :
 Assistant :
 [Add phone number]
 Ajouter le téléphone
-[Enter your phone number\nand don't worry about formating.]
+[Enter your phone number\nand don't worry about formatting.]
 
 [Enter a category for this number:]
 Entrer une catégorie pour ce numéro :
@@ -222,14 +222,14 @@ Informations réécrites
 Informations modifiées
 [Enable colors to give information about information's status.]
 Activer les couleurs pour les états d'informations
-[Make protocol based contact information readonly]
+[Make protocol based contact information read only]
 Mettre les infos basées sur un protocole du contact en lecture seule.
 [Enable groups in details dialog's treeview]
 Activer les groupes dans l'arborescence des boites dialogues
 [Sort all tree items alphabetically]
 Classer par ordre alphabétique.
 [Info of a metacontact's subcontact]
-Info du sous-contact d'un MetaContact
+Info du sous-contact d'un metacontact
 [Colors]
 Couleurs
 [Common]
@@ -457,7 +457,7 @@ Mise à jour des détails
 Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin de mettre à jour les infos sur le serveur.\nVos changements ne seront que sauvegardés dans votre profil Miranda.
 [Uploading]
 Mise à jour...
-[Creating the imagelist failed!]
+[Creating the image list failed!]
 
 [Could not find contact's protocol. Maybe it is not active!]
 
@@ -669,7 +669,7 @@ société
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Question
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
 Ceci effacera tous les réglages que vous aviez effectués !\nTous les réglages d'options, position des fenêtres, enfin, tout quoi !\n\nVoulez-vous vraiment tout effacer ?
 [Ready]
 Prêt
@@ -679,8 +679,6 @@ Prêt
 
 [Reminder disabled]
 Rappels désactivés
-[Bithdays only]
-Seulement les anniversaires
 [Everything]
 Tout
 [mBirthday]
@@ -1106,7 +1104,7 @@ Voir la page web
 [Phone (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
 
 [Abort Refreshing Contact Details]
 
@@ -1156,7 +1154,7 @@ Rappel d'anniversaire : c'est bientôt
 [Anniversary Reminder]
 Rappel d'anniversaire
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[contact identificaion]
+[contact identification]
 
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 

@@ -10,7 +10,7 @@
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 
-[Last seen menuitem]
+[Last seen menu item]
 
 [Show icon]
 

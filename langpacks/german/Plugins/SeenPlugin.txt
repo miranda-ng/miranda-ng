@@ -10,7 +10,7 @@ Speichert, wann ein Benutzer zuletzt online gesehen wurde und welche Nutzer onli
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Einstellungen
-[Last seen menuitem]
+[Last seen menu item]
 Erzeuge Menüeintrag
 [Show icon]
 Icon anzeigen

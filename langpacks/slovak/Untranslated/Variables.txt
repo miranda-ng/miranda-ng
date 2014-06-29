@@ -144,7 +144,7 @@
 [converts x to upper case]
 [words (separated by white spaces) number y to z from string x (z is optional)]
 [System Functions]
-[cpu load of process x (without extension) (x is optional)]
+[CPU load of process x (without extension) (x is optional)]
 [current date in format y (y is optional)]
 [current time in format y (y is optional)]
 [the directory y directories above x]

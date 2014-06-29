@@ -206,7 +206,7 @@ Popup заглавие
 Максимална
 [Sunrise]
 Изгрев
-[Dewpoint]
+[Dew point]
 Точка на оросяване
 [Humidity]
 Влажност

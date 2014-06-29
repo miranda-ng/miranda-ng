@@ -140,7 +140,7 @@ Tlen Пароль
 Узрост:
 [to]
 у
-[Extra Search Criterias]
+[Extra Search Criteria]
 Дадатковыя крытэрыі
 [Status:]
 Статус:

@@ -45,7 +45,7 @@
 Налаштування
 [More options]
 Додатково
-[Display Error and Infomessage:]
+[Display Error and Info message:]
 Помилка та інформація:
 [Main group for clan groups:]
 Група для групи клану:
@@ -71,7 +71,7 @@
 Статусне повідомлення:
 [Enable]
 Увімкнути
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 З цією можливістю наступне статусне повідомлення буде встановлено на інший протокол, якщо ви в грі. Так ваші друзі будуть бачити, що ви граєте. Якщо ця функція увімкнена, ваш статус зміниться на "Зайнятий".
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Доступні змінні: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -103,7 +103,7 @@
 Користувач:
 [Game]
 Гра
-[Voicechat]
+[Voice chat]
 Голосовий чат
 [Name:]
 Ім'я:
@@ -275,11 +275,11 @@ XFire не підтримує надсилання офлайн-повідомл
 Не створювати автоматично групи кланів
 [Enable MBot support]
 Підтримка MBot
-[Gamedetection]
+[Game detection]
 Виявлення ігор
 [Disable game detection]
 Вимкнути виявлення ігор
-[Use TSRemote.dll to get teamspeak server info]
+[Use TSRemote.dll to get TeamSpeak server info]
 Використовувати TSRemote.dll для отримання інф. з сервера
 [Disable popups when ingame]
 Вимкнути спливаючі вікна під час гри
@@ -301,7 +301,7 @@ XFire не підтримує надсилання офлайн-повідомл
 Необхідно перепідключились до мережі XFire, щоб зроблені вами зміни вступили в силу.
 [Hidden]
 Прихований
-[Messagebox]
+[Message box]
 Діалогове вікно
 [Popup]
 Сплив. вікно

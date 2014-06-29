@@ -101,7 +101,7 @@
 Показувати імена
 [Enable message grouping]
 Групувати повідомлення
-[Mark follow-up msgs with timestamp]
+[Mark follow-up messages with timestamp]
 Позначати датою
 [Start message text on a new line]
 Текст повідомлення з нового рядка
@@ -751,7 +751,7 @@ Miranda не змогла завантажити вбудований модул
 Значки в системному треї
 [nick of current contact (if defined)]
 нік поточного контакту (якщо він визначений)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 ім'я протоколу поточного контакту (якщо вказано). Ім'я облікового запису використовується, коли протокол підтримує кілька облікових записів.
 [user-defined account name of current contact (if defined).]
 ім'я облікового запису поточного контакту (якщо вказано).

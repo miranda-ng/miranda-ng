@@ -121,7 +121,7 @@
 Налаштування перегляду листів
 [Enable Close on Delete Button]
 Закривати по натисканню "Видалити"
-[Show long localised date]
+[Show long localized date]
 Показувати повну дату
 [Don't show today's date]
 Не показувати сьогоднішню дату
@@ -143,7 +143,7 @@
 При відсутності нової пошти
 [Popup if no mail]
 Спливаюче вікно
-[Persistant message]
+[Persistent message]
 Тривалість
 [Connection failure notifications]
 При помилках підключення

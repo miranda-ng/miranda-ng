@@ -13,7 +13,7 @@
 Використовуючи цей майстер, ви можете зменшити розмір профілю видаленням "мертвого" простору.
 [To continue, click Next.]
 Натисніть "Далі" для продовження.
-[This program is licenced under the terms of the GNU General Public License.]
+[This program is licensed under the terms of the GNU General Public License.]
 Програма ліцензована під умовами GNU General Public License.
 [Miranda Database Tool]
 Інструмент бази Miranda NG

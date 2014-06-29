@@ -34,7 +34,7 @@ Einblenden:
 Schritte
 [Fade out:]
 Ausblenden:
-[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
 Advaimg.dll nicht gefunden. Bitte entnehmen Sie die Datei aus der aktuellen Stable-/Testing-Version.
 [Preview...]
 Vorschau...

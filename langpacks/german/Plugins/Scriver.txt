@@ -102,7 +102,7 @@ Relatives Datum
 Namen anzeigen
 [Enable message grouping]
 Nachrichtengruppierung nutzen
-[Mark follow-up msgs with timestamp]
+[Mark follow-up messages with timestamp]
 Nachfolgende Nachrichten mit Zeitstempel versehen
 [Start message text on a new line]
 Nachrichtentext in einer neuen Zeile
@@ -780,7 +780,7 @@ Erscheinungsbild und Funktionen der Chatfenster
 Folgende Icons im Tray anzeigen
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [user-defined account name of current contact (if defined).]
 Selbstgewählter Kontenname des aktuellen Kontaktes (falls definiert).

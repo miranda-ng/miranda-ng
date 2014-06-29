@@ -106,7 +106,7 @@ Limpiar historial
 
 [Set status after]
 
-[miliseconds]
+[milliseconds]
 
 [Protocol:]
 

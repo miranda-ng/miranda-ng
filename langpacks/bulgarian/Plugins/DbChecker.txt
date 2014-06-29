@@ -14,7 +14,7 @@
 Помощникът може да отстрани празното място, възникващо при работата на програмата и да поправени голям брой проблеми, които могат да засегнат базата от данни (БД) на профила.
 [To continue, click Next.]
 Натиснете "Напред >", за да продължите.
-[This program is licenced under the terms of the GNU General Public License.]
+[This program is licensed under the terms of the GNU General Public License.]
 Тази програма е лицензирана според условията на GNU General Public License.
 [Miranda Database Tool]
 

@@ -448,13 +448,13 @@ Sélectionnez les icônes supplémentaires à afficher dans la liste de contacts
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 
 [Add to existing metacontact]
-Ajouter à un MetaContact existant
+Ajouter à un metacontact existant
 [Please select a metacontact:]
-Veuillez choisir un MetaContact :
+Veuillez choisir un metacontact :
 [Sort alphabetically]
 Trier alphabétiquement
 [Editing]
-Édition de la fiche MetaContact
+Édition de la fiche metacontact
 [Information]
 Informations
 [Contacts]
@@ -462,7 +462,7 @@ Contacts
 [&Remove]
 &Supprimer
 [&Set as default]
-Par &Défaut
+Par &défaut
 [Move &up]
 &Monter
 [Move &down]
@@ -470,7 +470,7 @@ Par &Défaut
 [Send &offline]
 Envoi &hors ligne
 [Context menu]
-Menu Contextuel
+Menu contextuel
 [Use contact's unique ID]
 Voir l'ID du contact
 [Use contact's display name]
@@ -2343,30 +2343,30 @@ Inconnu
 Langages
 ;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
-Vous êtes sur le point d'enlever tous les contacts liés à ce MetaContact.\nCeci supprimera le MetaContact.\n\nVoulez-vous vraiment continuer ?
+Vous êtes sur le point d'enlever tous les contacts liés à ce metacontact.\nCeci supprimera le metacontact.\n\nVoulez-vous vraiment continuer ?
 ;file \src\modules\metacontacts\meta_addto.cpp
 [Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
-Soit il n'y a aucun MetaContact dans la base de données (dans ce cas-ci vous devrait d'abord convertir un contact)\nsoit il n'y en a aucun qui peut accueillir ce contact.\nUne autre solution consiste à convertir ce contact en nouveau MetaContact.\nVoulez-vous convertir ce contact en nouveau MetaContact ?
+Soit il n'y a aucun metacontact dans la base de données (dans ce cas-ci vous devrait d'abord convertir un contact)\nsoit il n'y en a aucun qui peut accueillir ce contact.\nUne autre solution consiste à convertir ce contact en nouveau metacontact.\nVoulez-vous convertir ce contact en nouveau metacontact ?
 [This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
-Ce contact est déjà dans un MetaContact.\nVous ne pouvez pas ajouter ce contact.\n\nVeuillez en choisir un autre.
+Ce contact est déjà dans un metacontact.\nVous ne pouvez pas ajouter ce contact.\n\nVeuillez en choisir un autre.
 [Metacontact conflict]
-Conflit de MetaContact
+Conflit de metacontact
 [This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
-Ce contact est déjà associé à un MetaContact.\nVous ne pouvez pas mettre un contact dans plusieurs MetaContacts.
+Ce contact est déjà associé à un metacontact.\nVous ne pouvez pas mettre un contact dans plusieurs metacontacts.
 [Multiple metacontacts]
-MetaContacts Multiple
+Metacontacts multiple
 [No suitable metacontact found]
-Aucun MetaContact approprié trouvé
+Aucun metacontact approprié trouvé
 [a contact]
 un contact
 [Adding %s...]
 Ajout de %s...
 [Please select a metacontact]
-Veuillez choisir un MetaContact
+Veuillez choisir un metacontact
 [No metacontact selected]
-Pas de MetaContact sélectionné
+Pas de metacontact sélectionné
 [Assignment to the metacontact failed.]
-Échec d'assignement à un MetaContact.
+Échec d'assignement à un metacontact.
 [Assignment failure]
 Assignement raté
 ;file \src\modules\metacontacts\meta_edit.cpp
@@ -2379,14 +2379,14 @@ Envoi hors ligne
 [Send &online]
 
 [Delete metacontact?]
-Supprimer ce MetaContact ?
+Supprimer ce metacontact ?
 ;file \src\modules\metacontacts\meta_main.cpp
 [Toggle off]
 
 [Toggle on]
 
 [Convert to metacontact]
-Convertir en MetaContact
+Convertir en metacontact
 [Add to existing]
 
 [Edit]
@@ -2395,25 +2395,25 @@ Convertir en MetaContact
 Par défaut
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
-Il y a eu un problème lors de l'assignation du contact à un MetaContact
+Il y a eu un problème lors de l'assignation du contact à un metacontact
 [This will remove the metacontact permanently.\n\nProceed anyway?]
-Ceci supprimera complètement le MetaContact, mais pas le contact en lui-même.\n\nVoulez-vous continuer ?
+Ceci supprimera complètement le metacontact, mais pas le contact en lui-même.\n\nVoulez-vous continuer ?
 [Are you sure?]
 Etes-vous sûr?
 [Remove from metacontact]
-Retirer du MetaContact
+Retirer du metacontact
 [Toggle metacontacts off]
-Désactiver MetaContact
+Désactiver metacontact
 [Toggle metacontacts on]
-Activer MetaContact
+Activer metacontact
 [Add to existing metacontact...]
-Ajouter à un MetaContact existant...
+Ajouter à un metacontact existant...
 [Edit metacontact...]
-Modifier le MetaContact...
+Modifier le metacontact...
 [Set as metacontact default]
-Mettre ce contact par Défaut
+Mettre ce contact par défaut
 [Delete metacontact]
-Effacer le MetaContact
+Effacer le metacontact
 [Subcontacts]
 
 ;file \src\modules\metacontacts\meta_options.cpp
@@ -2434,13 +2434,13 @@ N'a pas pu obtenir l'ID du contact
 [Contact is 'not on list' - please add the contact to your contact list before assigning.]
 Le contact n'est pas dans votre liste. Veuillez l'ajoutez à votre liste avant de l'assigner.
 [Metacontact is full]
-MetaContact est plein
+Metacontact est plein
 [Could not write contact protocol to metacontact]
-Impossible d'écrire le protocole du contact au MetaContact
+Impossible d'écrire le protocole du contact au metacontact
 [Could not write unique ID of contact to metacontact]
-Impossible d'écrire l'ID du contact au MetaContact
+Impossible d'écrire l'ID du contact au metacontact
 [Could not write nickname of contact to metacontact]
-Impossible d'écrire le pseudo du contact au MetaContact
+Impossible d'écrire le pseudo du contact au metacontact
 ;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]
 

@@ -404,7 +404,7 @@ minutes
 Plugin pour l'historique
 [Typing Notification]
 Notification de frappe
-[Send typing notifications to the following users when you are typing a message to the them:]
+[Send typing notifications to the following users when you are typing a message to them:]
 Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message :
 [        Show typing notifications in the message window]
           Afficher la notification de frappe dans la fenêtre de message
@@ -1060,7 +1060,7 @@ Dernière réception : le %s à %s
 
 [%s is typing a message]
 %s écrit un message
-[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 
@@ -1238,7 +1238,7 @@ ATTENTION : Votre message exède le nombre miximum de caractères du protocole. 
 Votre message exède le nombre miximum de caractères du protocole. Seul les %d premiers caractères seront envoyés.
 [Save and close session]
 Sauvegarde puis ferme la session
-[Autoscrolling is disabled (press F12 to enable it)]
+[Auto scrolling is disabled (press F12 to enable it)]
 
 [Click for contact menu\nClick dropdown for window settings]
 Clic pour le menu du contact\nClic sur la flèche pour le réglage de la fenêtre
@@ -1703,7 +1703,7 @@ Copier le texte sélectionné
 Apparence de l'historique récent
 [Support for external plugins]
 Support des plugins externes
-[Timestamp settings (note: timstamps also depend on your templates)]
+[Timestamp settings (note: timestamps also depend on your templates)]
 Configuration de l'horodatage (dépend également de vos modèles)
 [Message log icons]
 
@@ -2088,7 +2088,7 @@ Fond de la liste
 
 [nick of current contact (if defined)]
 
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 
 [user-defined account name of current contact (if defined).]
 
@@ -2186,7 +2186,7 @@ minutes
 
 [, %d %s idle]
 
-[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
 
 [Event filter error]
 Erreur dans le filtre d'évènements

@@ -60,7 +60,7 @@ Kontakt in Serverliste hinzufügen
 Nach Gratulation (nur ICQ)
 [Automatically grant authorization]
 Automatisch Autorisierung gewähren
-[Request authorization from contacts which pass stopspam test]
+[Request authorization from contacts which pass StopSpam test]
 Autorisierung von Kontakten, die den Spam-Test bestanden haben, anfragen
 [Remove all temporary contacts after restart]
 Alle temporären Kontakte nach einem Neustart entfernen

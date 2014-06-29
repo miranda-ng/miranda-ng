@@ -780,6 +780,8 @@ Wygląd i zachowanie okien rozmowy
 Ikony wyświetlane w zasobniku
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
+nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeśli protokół wspiera wiele kont, użyta zostanie nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
 [user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]

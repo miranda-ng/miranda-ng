@@ -206,7 +206,7 @@ Tiefsttemperatur
 Höchsttemperatur
 [Sunrise]
 Sonnenaufgang
-[Dewpoint]
+[Dew point]
 Taupunkt
 [Humidity]
 Luftfeuchtigkeit

@@ -80,7 +80,7 @@ Vorgesetzte(r):
 Assistent(in):
 [Add phone number]
 Telefonnummer hinzufügen
-[Enter your phone number\nand don't worry about formating.]
+[Enter your phone number\nand don't worry about formatting.]
 Geben Sie eine Nummer ein,\nkeine Sorge wegen der Formatierung.
 [Enter a category for this number:]
 Geben Sie eine Kategorie für die Nummer an:
@@ -222,7 +222,7 @@ Angepasste Informationen
 Veränderte Informationen
 [Enable colors to give information about information's status.]
 Aktiviere farbige Informationsstatusanzeige
-[Make protocol based contact information readonly]
+[Make protocol based contact information read only]
 Schreibschutz für protokollbasierte Kontaktinformationen
 [Enable groups in details dialog's treeview]
 Gruppen im Baum des Profildialogs aktivieren
@@ -457,7 +457,7 @@ Protokoll '%s' ist offline.
 Es besteht momentan keine Verbindung mit dem ICQ-Netzwerk.\nUm das Profil hochladen zu können, muss vorher eine Verbindung aufgebaut werden.\n\nDas Profil wird nur in der Datenbank gespeichert.
 [Uploading]
 Lade hoch
-[Creating the imagelist failed!]
+[Creating the image list failed!]
 Das erstellen der Bildliste ist fehlgeschlagen!
 [Could not find contact's protocol. Maybe it is not active!]
 Das Kontaktprotokoll konnte nicht gefunden werden. Vielleicht ist es nicht aktiv!
@@ -669,7 +669,7 @@ Unternehmen
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Frage
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
 Dies löscht alle von Ihnen gemachte Einstellungen!\nAlle Baumansichtseinstellungen, Fensterpositionen und andere Einstellungen!\n\nFortsetzen: Sind Sie sich sicher?
 [Ready]
 Bereit
@@ -679,8 +679,6 @@ Alles ist erledigt
 Alle Einstellungen wurden auf Standardwerte zurückgesetzt!
 [Reminder disabled]
 Erinnerung deaktiviert
-[Bithdays only]
-Nur Geburtstage
 [Everything]
 Alles
 [mBirthday]
@@ -1106,7 +1104,7 @@ Homepage (UInfoEx)
 [Phone (uinfoex)]
 Telefon (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
 [b]%s (%S)...[/b]\n%d verbleibende Kontakte
 [Abort Refreshing Contact Details]
 Kontaktinformationen-Aktualisieren abgebrochen
@@ -1156,7 +1154,7 @@ Kommende Geburtstage
 [Anniversary Reminder]
 Jahrestagserinnerung
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[contact identificaion]
+[contact identification]
 Kontaktidentifizierung
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 Der Kontakt %s(%s) besitzt keine ID in der vCard,\naber ein Kontakt in deiner Liste hat denselben Nick und dasselbe Protokoll.\nSollen die Informationen für diesen Kontakt überschrieben werden?

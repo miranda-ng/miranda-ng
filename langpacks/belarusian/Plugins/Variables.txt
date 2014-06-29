@@ -324,7 +324,7 @@ z, калі y роўна x, дапушчальныя множныя аргуме
 Сістэмныя функцыі
 [computer name]
 імя кампутара
-[cpu load of process x (without extension) (x is optional)]
+[CPU load of process x (without extension) (x is optional)]
 нагрузка працэсу x (без пашырэння) (x неабавязкова)
 [current date in format y (y is optional)]
 бягучая дата ў фармаце y (y неабавязкова)

@@ -146,7 +146,7 @@
 Възраст:
 [to]
 до
-[Extra Search Criterias]
+[Extra Search Criteria]
 
 [Status:]
 Състояние:

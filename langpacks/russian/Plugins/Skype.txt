@@ -223,9 +223,9 @@ SkypeKit.exe не распакован.
 &Выкинуть
 [Outlaw (&ban)]
 &Забанить
-[Copy &skypename]
+[Copy &Skype name]
 Копировать &Skype ID
-[Copy room &uri]
+[Copy room &URI]
 Копировать &URI конференции
 [Creator]
 Создатель
@@ -293,7 +293,7 @@ SkypeKit.exe не распакован.
 Удалить
 [Protocols]
 Протоколы
-[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+[Skype protocol plugin only permits you to login to one account at a time. Adding multiple accounts is prohibited in the license agreement and standard distribution terms of SkypeKit.]
 Поддерживается вход только в одну учётную запись Skype. Одновременное использование нескольких учётных записей запрещено лицензией и условиями распространения SkypeKit.
 [Initialization key corrupted or not valid.]
 Ключ инициализации повреждён или не действителен.

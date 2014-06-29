@@ -48,7 +48,7 @@
 Ліміт часу адпраўкі SMS
 [SMS Plugin]
 Плагін SMS
-[Begining]
+[Beginning]
 пачатак
 [End]
 канец

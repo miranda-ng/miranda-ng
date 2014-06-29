@@ -311,7 +311,7 @@ Z, якщо Y = X, допустимі численні аргументи Y і Z
 Системні функції
 [computer name]
 ім'я комп'ютера
-[cpu load of process x (without extension) (x is optional)]
+[CPU load of process x (without extension) (x is optional)]
 навантаження процесу X (без розширення) на ЦП (X необов'язкове)
 [current date in format y (y is optional)]
 поточна дата у форматі Y (Y необов'язкове)

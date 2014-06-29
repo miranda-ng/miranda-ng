@@ -137,7 +137,7 @@ P2P Подключения
 Возраст:
 [to]
 в
-[Extra Search Criterias]
+[Extra Search Criteria]
 Доп. критерии поиска
 [Status:]
 Статус:

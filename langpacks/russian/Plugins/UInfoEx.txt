@@ -79,7 +79,7 @@
 Ассистент:
 [Add phone number]
 Добавить телефон
-[Enter your phone number\nand don't worry about formating.]
+[Enter your phone number\nand don't worry about formatting.]
 Введите номер телефона\nв любом формате.
 [Enter a category for this number:]
 Введите категорию для номера:
@@ -219,7 +219,7 @@
 Изменённые данные
 [Enable colors to give information about information's status.]
 Включить цвета для показа статуса информации
-[Make protocol based contact information readonly]
+[Make protocol based contact information read only]
 Запретить изменение информации, базирующейся на протоколе
 [Enable groups in details dialog's treeview]
 Вложенные пункты меню
@@ -445,7 +445,7 @@
 Вы сейчас не подключены к сети ICQ.\nВы должны быть в сети, чтобы обновить информацию на сервере.\n\nИзменения будут сохранены только в локальную базу данных.
 [Uploading]
 Закачка
-[Creating the imagelist failed!]
+[Creating the image list failed!]
 Ошибка при создании imagelist!
 [Could not find contact's protocol. Maybe it is not active!]
 Невозможно найти протокол контакта. Может быть он отключён!
@@ -649,7 +649,7 @@
 Компания
 [Question]
 Вопрос
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
 Эта функция удалит все настройки, которые вы сделали \nВсе настройки дерева, позиций окна, и др.!\n\nВы действительно хотите продолжить?
 [Ready]
 Готово
@@ -659,8 +659,6 @@
 Все установки сейчас будут сброшены!
 [Reminder disabled]
 Напоминания отключены
-[Bithdays only]
-Только дни рождения
 [Everything]
 Все напоминания
 [mBirthday]
@@ -1073,7 +1071,7 @@ Web Дизайн
 Сайт (uinfoex)
 [Phone (uinfoex)]
 Телефон (uinfoex)
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
 [b]%s (%S)...[/b]\n%d контактов осталось
 [Abort Refreshing Contact Details]
 Отменить обновление данных контактов
@@ -1121,7 +1119,7 @@ Web Дизайн
 Напоминание о приближающемся дне рождения
 [Anniversary Reminder]
 Напоминание о празднике
-[contact identificaion]
+[contact identification]
 идентификация контакта
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 Контакт %s(%s) не имеет уникального номера в vCard,\nно в списке контактов есть контакт с таким же псевдонимом и протоколом.\nВы хотите использовать его номер для этого контакта?

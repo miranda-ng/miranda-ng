@@ -24,7 +24,7 @@ Expert
 Utiliser le carnet d'adresses Yahoo (YAB)
 [Show Avatars]
 Montrer les avatars
-[AutoLogin to Yahoo Website(s)]
+[Auto login to Yahoo Website(s)]
 
 [Display Yahoo notifications]
 Afficher les notifications
@@ -210,9 +210,9 @@ Vous devez vous connecté afin de mettre à jour votre liste de contacts
 
 [New Mail]
 
-[You have %i unread msgs]
+[You have %i unread messages]
 Vous avez %i msg non lus
-[New Mail (%i msgs)]
+[New Mail (%i messages)]
 Nouveau e-mail (%i msgs)
 [From: %s\nSubject: %s]
 De : %s\nSujet : %s

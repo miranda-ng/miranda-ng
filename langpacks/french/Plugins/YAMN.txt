@@ -126,7 +126,7 @@ Afficher YAMN comme un protocole (redémarrage nécessaire)
 
 [Enable Close on Delete Button]
 Fermer la fenêtre si clic sur effacer
-[Show long localised date]
+[Show long localized date]
 Montrer la date au format long
 [Don't show today's date]
 Ne pas montrer la date d'aujourd'hui
@@ -148,7 +148,7 @@ Popups multiples
 Notification, aucun nouveau message
 [Popup if no mail]
 Popup si aucun message
-[Persistant message]
+[Persistent message]
 Message persistant
 [Connection failure notifications]
 Notifications, erreur de connexion

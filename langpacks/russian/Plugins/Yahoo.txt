@@ -19,7 +19,7 @@
 Использовать адресную книгу Yahoo (YAB)
 [Show Avatars]
 Показывать аватары
-[AutoLogin to Yahoo Website(s)]
+[Auto login to Yahoo Website(s)]
 Автоматически подключаться к Yahoo сайту(ам)
 [Display Yahoo notifications]
 Показывать сообщения Yahoo
@@ -193,9 +193,9 @@ Yahoo Игнор
 Неизвестная ошибка.
 [New Mail]
 Новая почта
-[You have %i unread msgs]
+[You have %i unread messages]
 У вас %i не прочитанных сообщений
-[New Mail (%i msgs)]
+[New Mail (%i messages)]
 Новая почта (%i писем)
 [From: %s\nSubject: %s]
 От: %s\nТема: %s

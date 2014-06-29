@@ -122,7 +122,7 @@
 Налады прагляду лістоў
 [Enable Close on Delete Button]
 Зачыняць па націску "Выдаліць"
-[Show long localised date]
+[Show long localized date]
 Паказваць поўную дату
 [Don't show today's date]
 Не паказваць сённяшнюю дату
@@ -144,7 +144,7 @@
 Пры адсутнасці новай пошты
 [Popup if no mail]
 Усплывальнае вакно
-[Persistant message]
+[Persistent message]
 Працягласць
 [Connection failure notifications]
 Пры памылках далучэння

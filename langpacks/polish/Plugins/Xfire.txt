@@ -371,7 +371,7 @@ Wykrywanie gier
 [Disable game detection]
 Wyłącz wykrywanie gier
 [Use TSRemote.dll to get TeamSpeak server info]
-Użyj TSRemote.dll, aby uzyskać informacje o serwerze Teamspeak
+Użyj TSRemote.dll, aby uzyskać informacje o serwerze TeamSpeak
 [Disable popups when ingame]
 Wyłącz popupy kiedy gram
 [Disable sound events when ingame]

@@ -5,7 +5,7 @@
 [Error display]
 [Use message boxes]
 [Use popups]
-[Use system tray baloons]
+[Use system tray balloons]
 [Get contacts from server]
 [Upload contacts]
 [Import from file...]

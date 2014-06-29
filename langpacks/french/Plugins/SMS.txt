@@ -48,7 +48,7 @@ Le SMS n'a pas été envoyé
 L'envoi du SMS a expiré
 [SMS Plugin]
 Plugin SMS
-[Begining]
+[Beginning]
 au début
 [End]
 à la fin

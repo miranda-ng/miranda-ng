@@ -324,7 +324,7 @@
 Системни функции
 [computer name]
 
-[cpu load of process x (without extension) (x is optional)]
+[CPU load of process x (without extension) (x is optional)]
 
 [current date in format y (y is optional)]
 

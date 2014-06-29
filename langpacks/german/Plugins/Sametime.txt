@@ -28,7 +28,7 @@ Fehlerbenachrichtigung
 Nachrichtenboxen verwenden
 [Use popups]
 Popups verwenden
-[Use system tray baloons]
+[Use system tray balloons]
 Systemtray-Ballons verwenden
 [Contacts]
 Kontakte

@@ -80,7 +80,7 @@
 Помощник:
 [Add phone number]
 Добавяне на телефонен номер
-[Enter your phone number\nand don't worry about formating.]
+[Enter your phone number\nand don't worry about formatting.]
 Въведете телефонния номер,\nбез да се тревожите за формата.
 [Enter a category for this number:]
 Въведете категория за телефона:
@@ -222,7 +222,7 @@ popup за годишнина
 Променена информация
 [Enable colors to give information about information's status.]
 Ползване на цветове за предаване на информация, за данните.
-[Make protocol based contact information readonly]
+[Make protocol based contact information read only]
 
 [Enable groups in details dialog's treeview]
 
@@ -457,7 +457,7 @@ popup за годишнина
 В момента не сте свързани с ICQ мрежата.\nНеобходимо е да сте на линия, за да бъде обновена вашата информация на сървъра.\n\nНаправените промени ще бъдат запаметени само в базата данни.
 [Uploading]
 Качване...
-[Creating the imagelist failed!]
+[Creating the image list failed!]
 
 [Could not find contact's protocol. Maybe it is not active!]
 Не е възможно да бъде намерен протокола на контакта. Вероятно е неактивен.
@@ -669,7 +669,7 @@ UserInfoEx
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Въпрос
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
 Ще бъдат изтрити всички направени настройки!\nВсички TreeView настройки, позиции на прозорци и други!\n\nНаистина ли желаете това?
 [Ready]
 Готово
@@ -679,8 +679,6 @@ UserInfoEx
 Бяха зададени стандартни стойности на настройките!
 [Reminder disabled]
 Без напомняне
-[Bithdays only]
-Само рождени дни
 [Everything]
 Всичко
 [mBirthday]
@@ -1106,7 +1104,7 @@ Web дизайн
 [Phone (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
 
 [Abort Refreshing Contact Details]
 Прекратяване обновяването на подробностите за контакта
@@ -1156,7 +1154,7 @@ Web дизайн
 [Anniversary Reminder]
 Напомняне за годишнина
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[contact identificaion]
+[contact identification]
 идентификация на контакта
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 

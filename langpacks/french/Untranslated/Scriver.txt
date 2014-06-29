@@ -85,7 +85,7 @@
 [Show popup for status changes]
 [Appearance and functionality of chat windows]
 [nick of current contact (if defined)]
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 [user-defined account name of current contact (if defined).]
 [user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 [path to Miranda root folder]

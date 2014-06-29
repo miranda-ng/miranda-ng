@@ -24,7 +24,7 @@ Experto
 
 [Show Avatars]
 Mostrar Avatares
-[AutoLogin to Yahoo Website(s)]
+[Auto login to Yahoo Website(s)]
 
 [Display Yahoo notifications]
 
@@ -210,9 +210,9 @@ Cuenta
 
 [New Mail]
 
-[You have %i unread msgs]
+[You have %i unread messages]
 
-[New Mail (%i msgs)]
+[New Mail (%i messages)]
 
 [From: %s\nSubject: %s]
 

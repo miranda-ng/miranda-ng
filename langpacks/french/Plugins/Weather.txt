@@ -206,7 +206,7 @@ Mini du jour
 Maxi du jour
 [Sunrise]
 Lever de soleil
-[Dewpoint]
+[Dew point]
 Condensation
 [Humidity]
 Humidité

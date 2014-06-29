@@ -102,7 +102,7 @@ Date relative
 Voir les noms
 [Enable message grouping]
 Activer le groupement de message
-[Mark follow-up msgs with timestamp]
+[Mark follow-up messages with timestamp]
 Marquer l'heure des messages suivants
 [Start message text on a new line]
 Nouveau message sur une nouvelle ligne
@@ -780,7 +780,7 @@ st pas actif
 Icônes à afficher dans la zone de notification système (tray)
 [nick of current contact (if defined)]
 
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 
 [user-defined account name of current contact (if defined).]
 

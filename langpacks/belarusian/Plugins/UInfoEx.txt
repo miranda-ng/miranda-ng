@@ -80,7 +80,7 @@
 Асістэнт:
 [Add phone number]
 Дадаць тэлефон
-[Enter your phone number\nand don't worry about formating.]
+[Enter your phone number\nand don't worry about formatting.]
 Увядзіце нумар тэлефона\nў любым фармаце.
 [Enter a category for this number:]
 Увядзіце катэгорыю для нумара:
@@ -222,7 +222,7 @@
 Змененыя дадзеныя
 [Enable colors to give information about information's status.]
 Уключыць колеры для паказу статусу інфармацыі
-[Make protocol based contact information readonly]
+[Make protocol based contact information read only]
 Забараніць змену інфармацыі, якая базуецца на пратаколе
 [Enable groups in details dialog's treeview]
 Укладзеныя пункты меню
@@ -455,7 +455,7 @@ E-Mail
 Зараз вы не далучаны да ICQ.\nКаб абнавіць інфармацыю на серверы, вы павінны далучыцца.\n\nЗмяненні захаваюцца толькі лакальна.
 [Uploading]
 Загрузка
-[Creating the imagelist failed!]
+[Creating the image list failed!]
 Памылка пры стварэнні imagelist!
 [Could not find contact's protocol. Maybe it is not active!]
 Немагчыма знайсці пратакол кантакта. Магчыма, ен адключаны!
@@ -655,7 +655,7 @@ E-Mail
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Пытанне
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
 Гэта функцыя выдаліць усе налады, якія вы зрабілі \nУсе налады дрэва, пазіцый вакна, і інш.!\n\nВы сапраўды жадаеце працягнуць?
 [Ready]
 Выканана
@@ -665,8 +665,6 @@ E-Mail
 Усе налады зараз будуць скінуты!
 [Reminder disabled]
 Напамінкі адключаны
-[Bithdays only]
-Толькі дні нараджэння
 [Everything]
 Усе напамінкі
 [mBirthday]
@@ -1084,7 +1082,7 @@ Web Дызайн
 Сайт (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
 [b]%s (%S)...[/b]\n%d кантактаў засталося
 [Abort Refreshing Contact Details]
 Скасаваць абнаўленне дадзеных кантактаў
@@ -1124,7 +1122,7 @@ Web Дызайн
 [Anniversary Reminder]
 Напамінак пра свята
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[contact identificaion]
+[contact identification]
 ідэнтыфікацыя кантакту
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 Кантакт %s(%s) не мае ўнікальнага нумара ў vCard,\nале ў спісе кантактаў ёсць кантакт таго ж конту і з такім жа іменем.\nВы жадаеце выкарыстоўваць яго нумар для гэтага кантакту?

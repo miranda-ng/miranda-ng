@@ -307,7 +307,7 @@ z, если y равно x, допустимы множественные арг
 Системные функции
 [computer name]
 Имя компьютера
-[cpu load of process x (without extension) (x is optional)]
+[CPU load of process x (without extension) (x is optional)]
 нагрузка ЦПУ процесса x (без расширения) (x необязательно)
 [current date in format y (y is optional)]
 текущая дата в формате y (y необязательно)

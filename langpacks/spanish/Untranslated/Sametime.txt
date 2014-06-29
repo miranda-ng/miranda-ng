@@ -9,7 +9,7 @@
 [Error display]
 [Use message boxes]
 [Use popups]
-[Use system tray baloons]
+[Use system tray balloons]
 [Contacts]
 [Get contacts from server]
 [Upload contacts]

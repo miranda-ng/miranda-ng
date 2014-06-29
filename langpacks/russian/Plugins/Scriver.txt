@@ -101,7 +101,7 @@
 Показывать имена
 [Enable message grouping]
 Группировать сообщения
-[Mark follow-up msgs with timestamp]
+[Mark follow-up messages with timestamp]
 Отмечать датой
 [Start message text on a new line]
 Текст сообщения с новой строки
@@ -743,7 +743,7 @@ Miranda не смогла загрузить встроенную систему
 Значки в трее
 [nick of current contact (if defined)]
 ник текущего контакта (если определен)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
 [user-defined account name of current contact (if defined).]
 имя учётной записи текущего контакта (если определено).

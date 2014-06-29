@@ -1,6 +1,6 @@
 ﻿[Logs when a user was last seen online and which users were online while you were away.]
 [Last seen options]
-[Last seen menuitem]
+[Last seen menu item]
 [User info tab]
 [Log to file]
 [Log to history]

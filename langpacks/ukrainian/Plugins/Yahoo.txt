@@ -19,7 +19,7 @@
 Використовувати адресну книгу Yahoo (YAB)
 [Show Avatars]
 Показувати аватари
-[AutoLogin to Yahoo Website(s)]
+[Auto login to Yahoo Website(s)]
 Автоматично підключатися до сайтів Yahoo
 [Display Yahoo notifications]
 Показувати повідомлення Yahoo
@@ -193,9 +193,9 @@ HTTP-з'єднання Yahoo
 Невідома помилка.
 [New Mail]
 Нова пошта
-[You have %i unread msgs]
+[You have %i unread messages]
 У вас %i непрочитаних повідомлень
-[New Mail (%i msgs)]
+[New Mail (%i messages)]
 Нова пошта (%i листів)
 [From: %s\nSubject: %s]
 Від: %s\nТема: %s

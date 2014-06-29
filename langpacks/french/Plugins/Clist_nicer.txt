@@ -179,7 +179,7 @@ Centrer si possible
 [When possible, draw status icons in avatar space]
 Si possible, afficher l'icône d'état à la place de l'avatar
 [Use metacontact protocol icons instead of subcontacts]
-Utiliser les icônes d'état de MetaContact plutôt que ceux des sous-contacts
+Utiliser les icônes d'état de metacontact plutôt que ceux des sous-contacts
 [Use overlay icons on avatars]
 Utiliser les icônes de sur-couche sur les avatars
 [Dim idle contacts]
@@ -495,7 +495,7 @@ Déplacer les contacts marqués de ce groupe
 [Appearance]
 Apparence
 [Show metacontact proto icons]
-Voir l'icône du MetaContact
+Voir l'icône du metacontact
 [Show additional buttons]
 Voir boutons supplémentaires
 [Draw sunken frame]

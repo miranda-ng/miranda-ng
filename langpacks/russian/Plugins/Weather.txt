@@ -203,7 +203,7 @@ URL доп. информации
 Максимум
 [Sunrise]
 Восход
-[Dewpoint]
+[Dew point]
 Точка росы
 [Humidity]
 Влажность

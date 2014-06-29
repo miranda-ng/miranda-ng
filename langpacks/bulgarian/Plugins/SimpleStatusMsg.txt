@@ -106,7 +106,7 @@
 
 [Set status after]
 
-[miliseconds]
+[milliseconds]
 
 [Protocol:]
 Протокол:

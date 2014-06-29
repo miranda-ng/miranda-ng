@@ -47,7 +47,7 @@ SMS сообщение не послано
 Лимит времени отправки SMS
 [SMS Plugin]
 Плагин SMS
-[Begining]
+[Beginning]
 начало
 [End]
 конец

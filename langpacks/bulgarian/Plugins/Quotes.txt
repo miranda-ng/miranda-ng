@@ -172,7 +172,7 @@ Quote\\Инф. за курса
 Диаграма...
 [Edit Settings...]
 Редактиране на настройките...
-[Enable/Diable Quotes Auto Update]
+[Enable/Disable Quotes Auto Update]
 
 [Quotes Auto Update Enabled]
 

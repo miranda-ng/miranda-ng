@@ -44,7 +44,7 @@
 [* This feature is available only when using StartupStatus plugin.]
 [Status on Startup]
 [Set status after]
-[miliseconds]
+[milliseconds]
 [Protocol:]
 [Independent setting for each protocol]
 [Pop up dialog asking for status message]

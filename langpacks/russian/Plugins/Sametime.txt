@@ -25,7 +25,7 @@ ID клиента
 Диалоговые окна
 [Use popups]
 Всплывающие окна
-[Use system tray baloons]
+[Use system tray balloons]
 Сообщения в трее
 [Contacts]
 Контакты

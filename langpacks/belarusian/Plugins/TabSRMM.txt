@@ -402,7 +402,7 @@ RTL шаблоны
 Асноўны лог паведамленняў
 [Typing Notification]
 Абвестка пра набор тэксту
-[Send typing notifications to the following users when you are typing a message to the them:]
+[Send typing notifications to the following users when you are typing a message to them:]
 Пасылаць абвесткі пра набор паказаным кантактам у той час, калі вы набіраеце ім паведамленне:
 [        Show typing notifications in the message window]
          Паказваць абвесткі пра набор у вакне гутаркі
@@ -1056,7 +1056,7 @@ Esc зачыняе сесію (інакш - згортвае)
 %s увёў тэкст.
 [%s is typing a message]
 %s набірае паведамленне
-[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Аўтапрагортка адключана, %d паведамленняў у чэргі (націсніце F12 для ўключэння)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інфармацыя пра карыстача\nПравай кнопкай - кіраванне метакантактам\nСтрэлка ўніз - даданне/выдаленне карыстача з абранага.
@@ -1234,7 +1234,7 @@ TabSRMM: Набірае
 Паведамленне, якія вы жадаеце ўставіць, перавышае абмежаванне памеру пратаколу. Будуць адпраўлены толькі першыя %d знакаў
 [Save and close session]
 Захаваць набранае і зачыніць вакно
-[Autoscrolling is disabled (press F12 to enable it)]
+[Auto scrolling is disabled (press F12 to enable it)]
 Аўтапрагортка адключана (націсніце F12 для ўключэння)
 [Click for contact menu\nClick dropdown for window settings]
 Меню кантакту\nСтрэлка ўніз - налады вакна
@@ -1689,7 +1689,7 @@ tabSRMM: %s
 Вонкавы выгляд лога
 [Support for external plugins]
 Падтрымка вонкавых плагінаў
-[Timestamp settings (note: timstamps also depend on your templates)]
+[Timestamp settings (note: timestamps also depend on your templates)]
 Адлюстраванне часу (таксама залежыць ад вашых шаблонаў)
 [Message log icons]
 Значкі лога паведамленняў
@@ -2072,7 +2072,7 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 Фон журнала чата
 [nick of current contact (if defined)]
 мянушка бягучага кантакту (калі вызначаны)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
 [user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
@@ -2166,7 +2166,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 хвіліна(ы)
 [, %d %s idle]
 , %d %s не актыўны
-[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
 Нельга ўключыць фільтр, бо не абраны ніводны тып падзей, як глабальна так і для гэтага чата
 [Event filter error]
 Памылка фільтра падзей
