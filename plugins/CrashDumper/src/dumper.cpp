@@ -36,8 +36,8 @@ void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr)
 
 void WriteBBFile(CMString& buffer, bool hdr)
 {
-	static const TCHAR header[] = TEXT("[quote][size=1]");
-	static const TCHAR footer[] = TEXT("[/size][/quote]");
+	static const TCHAR header[] = TEXT("[spoiler=VersionInfo][quote]");
+	static const TCHAR footer[] = TEXT("[/quote][/spoiler]");
 
 	buffer.Append(hdr ? header : footer);
 }
