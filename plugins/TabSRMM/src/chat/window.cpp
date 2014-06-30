@@ -50,10 +50,10 @@ char szIndicators[] = { 0, '+', '%', '@', '!', '*' };
 struct MESSAGESUBDATA
 {
 	time_t lastEnterTime;
-	TCHAR*  szSearchQuery;
-	TCHAR*  szSearchResult;
-	SESSION_INFO *lastSession;
+	TCHAR *szSearchQuery;
+	TCHAR *szSearchResult;
 	BOOL   iSavedSpaces;
+	SESSION_INFO *lastSession;
 };
 
 static const CLSID IID_ITextDocument= { 0x8CC497C0,0xA1DF,0x11CE, { 0x80,0x98, 0x00,0xAA, 0x00,0x47,0xBE,0x5D} };
@@ -254,12 +254,11 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 		}
 	}
 
-#if defined(__FEAT_EXP_AUTOSPLITTER)
 	if (dat->bIsAutosizingInput && dat->iInputAreaHeight == -1) {
 		dat->iInputAreaHeight = 0;
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REQUESTRESIZE, 0, 0);
 	}
-#endif
+
 	dat->Panel->dismissConfig();
 	dat->dwUnread = 0;
 	if (dat->pWnd) {
@@ -1868,10 +1867,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				else
 					si->iSplitterY = g_Settings.iSplitterY;
 			}
-			#if defined(__FEAT_EXP_AUTOSPLITTER)
-				if (dat->bIsAutosizingInput)
-					si->iSplitterY = GetDefaultMinimumInputHeight(dat);
-			#endif
+
+			if (dat->bIsAutosizingInput)
+				si->iSplitterY = GetDefaultMinimumInputHeight(dat);
+
 			dat->pWnd = 0;
 			dat->sbCustom = 0;
 			CProxyWindow::add(dat);
@@ -1913,13 +1912,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_GETEVENTMASK, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS | ENM_KEYEVENTS);
-
-			#if defined(__FEAT_EXP_AUTOSPLITTER)
-				SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
-			#else
-				SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
-			#endif
-
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, (WPARAM)0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));

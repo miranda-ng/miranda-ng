@@ -135,10 +135,6 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 	}
 	Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, (iPage == 3 && nen_options.bWindowCheck) ? SW_SHOW : SW_HIDE);
 
-#if !defined(__FEAT_EXP_AUTOSPLITTER)
-	if (iPage == 0)
-		Utils::showDlgControl(hwndDlg, IDC_AUTOSPLITTER, SW_HIDE);
-#endif
 	if (iPage == 8 && !IsWinVer7Plus())
 		Utils::showDlgControl(hwndDlg, IDC_AVATARSONTASKBAR, SW_HIDE);
 }
@@ -436,9 +432,7 @@ do_apply:
 			MY_CheckDlgButton(hwndDlg, IDC_BOTTOMTOOLBAR, dwFlags & CNT_BOTTOMTOOLBAR);
 			MY_CheckDlgButton(hwndDlg, IDC_UIDSTATUSBAR, dwFlags & CNT_UINSTATUSBAR);
 			MY_CheckDlgButton(hwndDlg, IDC_VERTICALMAX, dwFlags & CNT_VERTICALMAX);
-#if defined(__FEAT_EXP_AUTOSPLITTER)
 			MY_CheckDlgButton(hwndDlg, IDC_AUTOSPLITTER, dwFlags & CNT_AUTOSPLITTER);
-#endif
 			MY_CheckDlgButton(hwndDlg, IDC_AVATARSONTASKBAR, dwFlags & CNT_AVATARSONTASKBAR);
 			MY_CheckDlgButton(hwndDlg, IDC_INFOPANEL, dwFlags & CNT_INFOPANEL);
 			MY_CheckDlgButton(hwndDlg, IDC_USEGLOBALSIZE, dwFlags & CNT_GLOBALSIZE);
@@ -528,9 +522,7 @@ do_apply:
 						 (IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS) ? 0 : CNT_NOSOUND) |
 						 (IsDlgButtonChecked(hwndDlg, IDC_AVATARSONTASKBAR) ? CNT_AVATARSONTASKBAR : 0) |
 						 (IsDlgButtonChecked(hwndDlg, IDC_VERTICALMAX) ? CNT_VERTICALMAX : 0) |
-#if defined(__FEAT_EXP_AUTOSPLITTER)
 						 (IsDlgButtonChecked(hwndDlg, IDC_AUTOSPLITTER) ? CNT_AUTOSPLITTER : 0) |
-#endif
 						 (CNT_NEWCONTAINERFLAGS);
 
 			LRESULT iTabMode = SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_GETCURSEL, 0, 0);

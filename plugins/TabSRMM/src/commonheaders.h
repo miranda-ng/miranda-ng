@@ -30,8 +30,6 @@
 #ifndef __COMMONHEADERS_H
 #define __COMMONHEADERS_H
 
-#define __FEAT_EXP_AUTOSPLITTER 1
-
 #define WINVER 0x0600
 #define _WIN32_WINNT 0x0600
 #define _WIN32_IE 0x0501

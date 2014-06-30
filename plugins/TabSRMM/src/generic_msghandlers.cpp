@@ -1507,10 +1507,8 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	TContainerData *srcCnt = PluginConfig.lastSPlitterPos.pSrcContainer;
 	bool fCntGlobal = (!dat->pContainer->settings->fPrivate ? true : false);
 
-#if defined(__FEAT_EXP_AUTOSPLITTER)
 	if (dat->bIsAutosizingInput)
 		return 0;
-#endif
 
 	GetWindowRect(dat->hwnd, &rcWin);
 

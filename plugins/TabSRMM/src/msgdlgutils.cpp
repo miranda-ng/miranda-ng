@@ -1424,17 +1424,10 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 
 void TSAPI SaveSplitter(TWindowData *dat)
 {
-	/*
-	 * group chats save their normal splitter position independently
-	 */
-
-	if (dat->bType == SESSIONTYPE_CHAT)
+	// group chats save their normal splitter position independently
+	if (dat->bType == SESSIONTYPE_CHAT || dat->bIsAutosizingInput)
 		return;
 
-#if defined(__FEAT_EXP_AUTOSPLITTER)
-	if (dat->bIsAutosizingInput)
-		return;
-#endif
 	if (dat->splitterY < DPISCALEY_S(MINSPLITTERY) || dat->splitterY < 0)
 		dat->splitterY = DPISCALEY_S(MINSPLITTERY);
 
@@ -1450,12 +1443,11 @@ void TSAPI SaveSplitter(TWindowData *dat)
 
 void TSAPI LoadSplitter(TWindowData *dat)
 {
-#if defined(__FEAT_EXP_AUTOSPLITTER)
 	if (dat->bIsAutosizingInput) {
 		dat->splitterY = GetDefaultMinimumInputHeight(dat);
 		return;
 	}
-#endif
+
 	if (!(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE))
 		if (!dat->pContainer->settings->fPrivate)
 			dat->splitterY = (int)M.GetDword("splitsplity", (DWORD) 60);
@@ -1562,7 +1554,8 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 			pf2.cbSize = sizeof(pf2);
 			pf2.wEffects = PFE_RTLPARA;
 			SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-		} else {
+		}
+		else {
 			ZeroMemory(&pf2, sizeof(pf2));
 			pf2.dwMask = PFM_RTLPARA;
 			pf2.cbSize = sizeof(pf2);
@@ -1575,10 +1568,11 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 
 void TSAPI LoadContactAvatar(TWindowData *dat)
 {
-	if (dat)
-		dat->ace = Utils::loadAvatarFromAVS(dat->hContact);
+	if (dat == NULL) return;
 
-	if (dat && (!(dat->Panel->isActive()) || dat->pContainer->avatarMode == 3)) {
+	dat->ace = Utils::loadAvatarFromAVS(dat->bIsMeta ? db_mc_getSrmmSub(dat->hContact) : dat->hContact);
+
+	if (!dat->Panel->isActive() || dat->pContainer->avatarMode == 3) {
 		BITMAP bm;
 		dat->iRealAvatarHeight = 0;
 
@@ -1587,7 +1581,8 @@ void TSAPI LoadContactAvatar(TWindowData *dat)
 			GetObject(dat->ace->hbmPic, sizeof(bm), &bm);
 			CalcDynamicAvatarSize(dat, &bm);
 			PostMessage(dat->hwnd, WM_SIZE, 0, 0);
-		} else if (dat->ace == NULL) {
+		}
+		else if (dat->ace == NULL) {
 			AdjustBottomAvatarDisplay(dat);
 			GetObject(PluginConfig.g_hbmUnknown, sizeof(bm), &bm);
 			CalcDynamicAvatarSize(dat, &bm);
@@ -2295,14 +2290,9 @@ void TSAPI DetermineMinHeight(TWindowData *dat)
 
 bool TSAPI IsAutoSplitEnabled(const TWindowData *dat)
 {
-#if defined(__FEAT_EXP_AUTOSPLITTER)
 	return((dat && (dat->pContainer->dwFlags & CNT_AUTOSPLITTER) && !(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)) ? true : false);
-#else
-	return false;
-#endif
 }
 
-#if defined(__FEAT_EXP_AUTOSPLITTER)
 LONG TSAPI GetDefaultMinimumInputHeight(const TWindowData *dat)
 {
 	LONG height = MINSPLITTERY;
@@ -2318,7 +2308,6 @@ LONG TSAPI GetDefaultMinimumInputHeight(const TWindowData *dat)
 	}
 	return(height);
 }
-#endif
 
 static LIST<TCHAR> vTempFilenames(5);
 
