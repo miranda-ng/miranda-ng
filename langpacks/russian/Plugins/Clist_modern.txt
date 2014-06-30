@@ -290,7 +290,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Dim idle contacts]
 Затемнить неактивных пользователей
 ['Hide offline' means to hide:]
-'Скрыть отключ.' - скрыть:
+'Скрыть отключённых' - скрыть:
 [Groups]
 Группы
 [Draw a line alongside group names]
