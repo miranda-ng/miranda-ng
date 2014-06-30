@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
-Список контактов для людей с проблемами зрения.
+Список контактов для людей с нарушениями зрения.
 [Delete Contact]
 Удалить контакт
 [Are you sure you want to delete %s?]
@@ -84,7 +84,7 @@
 [Minimize to tray]
 Сворачивать в трей
 [Hide contact list after it has been idle for]
-Скрыть список, при неактивности в течение
+Скрыть список, если я неактивен более
 [seconds]
 секунд
 [Automatically resize window to height of list]
@@ -100,7 +100,7 @@
 [Translucency options]
 Настройки прозрачности
 [Fade contact list in/out]
-Плавно скрыть список
+Плавно скрывать список контактов
 [Transparent contact list]
 Прозрачный список контактов
 [Inactive opacity:]
@@ -118,7 +118,7 @@
 [Show drop shadow (restart required)]
 Тень (нужен перезапуск)
 [Pin to desktop]
-Прикрепить к столу
+Прикрепить к рабочему столу
 [Items]
 Элементы
 ['Hide offline' means to hide:]

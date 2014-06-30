@@ -624,7 +624,7 @@ UIN, E-mail и т.д.
 [&Room settings]
 &Настройки
 [&Show/Hide nick list]
-&Показать/Скрыть список ников
+&Показать/Скрыть список пользователей
 [Show these events only:]
 Показывать только:
 [Actions]
@@ -784,9 +784,9 @@ UIN, E-mail и т.д.
 [Show drop shadow (restart required)]
 Тень (нужен перезапуск)
 [Pin to desktop]
-Прикрепить к столу
+Прикрепить к рабочему столу
 [Hide contact list after it has been idle for]
-Скрыть список, при неактивности в течение
+Скрыть список, если я неактивен более
 [seconds]
 секунд
 [Automatically resize window to height of list]
@@ -804,7 +804,7 @@ UIN, E-mail и т.д.
 [Translucency options]
 Настройки прозрачности
 [Fade contact list in/out]
-Плавно скрыть список
+Плавно скрывать список контактов
 [Transparent contact list]
 Прозрачный список контактов
 [Inactive opacity:]
@@ -820,7 +820,7 @@ UIN, E-mail и т.д.
 [Disable drag and drop of items]
 Отключить перетаскивание элементов
 [Disable rename of items by clicking twice]
-Отключить переименование по двойному щелчку
+Отключить переименование по дв. щелчку
 [Show selection even when list is not focused]
 Выделение, даже если окно неактивно
 [Make selection highlight translucent]
@@ -864,7 +864,7 @@ UIN, E-mail и т.д.
 [Gray out entire list when:]
 Сделать серым, если:
 [Contact list background]
-Фон списка
+Фон списка контактов
 [Background color]
 Цвет фона
 [Selection color]
@@ -1262,9 +1262,9 @@ UIN, E-mail и т.д.
 [%u requests authorization]
 %u запрашивает авторизацию
 [%s added you to their contact list]
-%s добавил вас в свой список
+%s добавил вас в свой список контактов
 [%u added you to their contact list]
-%u добавил вас в свой список
+%u добавил вас в свой список контактов
 [Alerts]
 Уведомления
 [Added event]
@@ -1326,11 +1326,11 @@ UIN, E-mail и т.д.
 [Message background]
 Фон поля ввода
 [Nick list background]
-Фон списка
+Фон списка пользователей
 [Nick list lines]
-Цвета линий в списке
+Цвета линий в списке пользователей
 [Nick list background (selected)]
-Заливка списка (выбрано)
+Заливка списка пользователей (выбрано)
 [Use a tabbed interface]
 Использовать вкладки
 [Close tab on double click]

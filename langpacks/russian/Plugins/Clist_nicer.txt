@@ -194,11 +194,11 @@
 [Title bar text:]
 Заголовок окна:
 [Pin to desktop]
-Прикрепить к столу
+Прикрепить к рабочему столу
 [Show drop shadow (restart required)]
 Тень (нужен перезапуск)
 [Hide contact list after it has been idle for]
-Скрыть список, при неактивности в течение
+Скрыть список, если я неактивен более
 [seconds]
 секунд
 [Automatically resize window to height of list]
@@ -226,7 +226,7 @@
 [Active opacity:]
 Окно активно:
 [Fade contact list in/out]
-Плавно скрыть список
+Плавно скрывать список контактов
 [Fully transparent (like TweakUI)]
 Полностью прозрачное (как TweakUI)
 [Items]
@@ -260,7 +260,7 @@
 [Gray out entire list when:]
 Сделать серым, если:
 [Contact list background]
-Фон списка
+Фон списка контактов
 [Use Windows colors]
 Цвета Windows
 [Use background image]
@@ -346,7 +346,7 @@
 [< Reload]
 < Перезагрузить
 [Contact list skin]
-Скин списка
+Скин списка контактов
 [Load this skin on startup]
 Загружать этот скин при старте
 [Apply skin now]

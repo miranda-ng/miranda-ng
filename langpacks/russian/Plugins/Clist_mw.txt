@@ -70,7 +70,7 @@ Cлужба:
 [Always on top]
 Поверх всех окон
 [Hide contact list after it has been idle for]
-Скрыть список, при неактивности в течение
+Скрыть список, если я неактивен более
 [seconds]
 секунд
 [Sort contacts by name]
@@ -110,7 +110,7 @@ Cлужба:
 [Don't move offline user to bottom]
 Не перемещать отключённых вниз
 [Pin to desktop]
-Прикрепить к столу
+Прикрепить к рабочему столу
 [Rows]
 Строки
 [Row height:]
@@ -138,7 +138,7 @@ Cлужба:
 [Translucency options]
 Настройки прозрачности
 [Fade contact list in/out]
-Плавно скрыть список
+Плавно скрывать список контактов
 [Transparent contact list]
 Прозрачный список контактов
 [Inactive opacity:]
@@ -164,7 +164,7 @@ Cлужба:
 [Disable drag and drop of items]
 Отключить перетаскивание элементов
 [Disable rename of items by clicking twice]
-Отключить переименование по двойному щелчку
+Отключить переименование по дв. щелчку
 [Show selection even when list is not focused]
 Выделение, даже если окно неактивно
 [Make selection highlight translucent]
@@ -202,7 +202,7 @@ Cлужба:
 [Hide vertical scrollbar]
 Скрыть полосу прокрутки
 [Contact list background]
-Фон списка
+Фон списка контактов
 [Use 'Meta' protocol icons for metacontacts]
 'Мета' значки для метаконтактов
 [Avoid double click expand]

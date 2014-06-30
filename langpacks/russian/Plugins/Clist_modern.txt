@@ -34,7 +34,7 @@
 [seconds]
 секунд
 [Fade contact list in/out]
-Плавно скрыть список
+Плавно скрывать список контактов
 [Transparent contact list]
 Прозрачный список контактов
 [Inactive opacity:]
@@ -282,7 +282,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Disable drag and drop of items]
 Отключить перетаскивание элементов
 [Disable rename of items by clicking twice]
-Отключить переименование по двойному щелчку
+Отключить переименование по дв. щелчку
 [Show selection even when list is not focused]
 Выделение, даже если окно неактивно
 [Make selection highlight translucent]
@@ -290,7 +290,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Dim idle contacts]
 Затемнить неактивных пользователей
 ['Hide offline' means to hide:]
-'Скрыть отключённых' - скрыть:
+'Скрыть отключ.' - скрыть:
 [Groups]
 Группы
 [Draw a line alongside group names]
@@ -362,7 +362,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Remove status message if contact became offline]
 Удалить статусное сообщение, если контакт оффлайн
 [Use improved search method in contact list]
-Поиск по списку с фильтрацией результатов
+Поиск по списку контактов с фильтрацией результатов
 [Show time only if it is different from current time]
 Показывать время, только если оно отличается
 [Show contact time as row item]
@@ -370,7 +370,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Appearance]
 Внешний вид
 [Pin to desktop]
-Прикрепить к столу
+Прикрепить к рабочему столу
 [Client area margins]
 Границы списка контактов
 [Thin border main window]
@@ -472,7 +472,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Right-to-left reading mode (mirror template)]
 Режим справа налево (зеркальный шаблон)
 [Replace smileys in contact list]
-Заменять смайлы в списке
+Заменять смайлы в списке контактов
 [Use protocol smileys]
 Смайлы протокола
 [Draw smileys on first line]
