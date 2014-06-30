@@ -765,8 +765,8 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	if (forumStyle) { //forum style
 		TCHAR szSize[256], szQuote[256];
 
-		GetStringFromDatabase("SizeBegin", _T("[size=1]"), szSize, SIZEOF(szSize));
-		GetStringFromDatabase("QuoteBegin", _T("[quote]"), szQuote, SIZEOF(szQuote));
+		GetStringFromDatabase("SizeBegin", _T("[quote]"), szSize, SIZEOF(szSize));
+		GetStringFromDatabase("QuoteBegin", _T("[spoiler=VersionInfo]"), szQuote, SIZEOF(szQuote));
 		out.append(szQuote);
 		out.append(szSize);
 	}
@@ -868,8 +868,8 @@ void CVersionInfo::AddInfoFooter(int suppressFooter, int forumStyle, int beautif
 	}
 	else {
 		TCHAR szSize[256], szQuote[256];
-		GetStringFromDatabase("SizeEnd", _T("[/size]"), szSize, SIZEOF(szSize));
-		GetStringFromDatabase("QuoteEnd", _T("[/quote]"), szQuote, SIZEOF(szQuote));
+		GetStringFromDatabase("SizeEnd", _T("[/quote]"), szSize, SIZEOF(szSize));
+		GetStringFromDatabase("QuoteEnd", _T("[/spoiler]"), szQuote, SIZEOF(szQuote));
 		out.append(szSize);
 		out.append(szQuote);
 	}

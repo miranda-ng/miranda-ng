@@ -20,8 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "common.h"
 
-const char *szQuoteStrings[] = {"[quote] | [/quote]", "[code] | [/code]", ""};
-const char *szSizeStrings[]	= {"[size=1] | [/size]", "[size=1px] | [/size]", "[size=12] | [/size]", "[size=80] | [/size]", ""};
+const char *szQuoteStrings[] = {"[spoiler=VersionInfo] | [/spoiler]", "[quote] | [/quote]", "[code] | [/code]", ""};
+const char *szSizeStrings[] = {"[quote] | [/quote]", "[size=1] | [/size]", "[size=1px] | [/size]", "[size=12] | [/size]", "[size=80] | [/size]", ""};
 const char *szBoldStrings[] = {"[b] | [/b]", "[u] | [/u]", "[b][u] | [/u][/b]", "<b> | </b>", "<u> | </u>", "<b><u> | </u></b>"};
 const int nQuoteCount = SIZEOF(szQuoteStrings); //get the number of quote strings
 const int nSizeCount = SIZEOF(szSizeStrings); //get the number of size strings
@@ -75,13 +75,13 @@ INT_PTR CALLBACK AskDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		EnableAskComboboxes(hWnd, oldFSFValue);
 		{
 			TCHAR buffer[1024];
-			GetStringFromDatabase("QuoteBegin", _T("[quote]"), oldQuoteBegin, MAX_SIZE);
-			GetStringFromDatabase("QuoteEnd", _T("[/quote]"), oldQuoteEnd, MAX_SIZE);
+			GetStringFromDatabase("QuoteBegin", _T("[spoiler=VersionInfo]"), oldQuoteBegin, MAX_SIZE);
+			GetStringFromDatabase("QuoteEnd", _T("[/spoiler]"), oldQuoteEnd, MAX_SIZE);
 			mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), oldQuoteBegin, oldQuoteEnd);
 			SendDlgItemMessage(hWnd, IDC_ASK_QUOTECOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 
-			GetStringFromDatabase("SizeBegin", _T("[size=1]"), oldSizeBegin, MAX_SIZE);
-			GetStringFromDatabase("SizeEnd", _T("[/size]"), oldSizeEnd, MAX_SIZE);
+			GetStringFromDatabase("SizeBegin", _T("[quote]"), oldSizeBegin, MAX_SIZE);
+			GetStringFromDatabase("SizeEnd", _T("[/quote]"), oldSizeEnd, MAX_SIZE);
 			mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), oldSizeBegin, oldSizeEnd);
 			SendDlgItemMessage(hWnd, IDC_ASK_SIZECOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 
@@ -271,13 +271,13 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetDlgItemText(hWnd, IDC_FILENAME, buffer);
 
 			TCHAR start[256], end[256];
-			GetStringFromDatabase("QuoteBegin", _T("[quote]"), start, SIZEOF(start));
-			GetStringFromDatabase("QuoteEnd", _T("[/quote]"), end, SIZEOF(end));
+			GetStringFromDatabase("QuoteBegin", _T("[spoiler=VersionInfo]"), start, SIZEOF(start));
+			GetStringFromDatabase("QuoteEnd", _T("[/spoiler]"), end, SIZEOF(end));
 			mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), start, end);
 			SendDlgItemMessage(hWnd, IDC_QUOTECOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 
-			GetStringFromDatabase("SizeBegin", _T("[size=1]"), start, SIZEOF(start));
-			GetStringFromDatabase("SizeEnd", _T("[/size]"), end, SIZEOF(end));
+			GetStringFromDatabase("SizeBegin", _T("[quote]"), start, SIZEOF(start));
+			GetStringFromDatabase("SizeEnd", _T("[/quote]"), end, SIZEOF(end));
 			mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), start, end);
 			SendDlgItemMessage(hWnd, IDC_SIZECOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 
@@ -573,7 +573,7 @@ INT_PTR CALLBACK DialogBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 
 		break;
-						  }
+	}
 	case WM_DESTROY:
 		DeleteObject((HFONT)SendDlgItemMessage(hWnd,IDC_TEXT,WM_GETFONT,0,0));
 		myInfo = NULL;
