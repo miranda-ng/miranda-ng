@@ -86,6 +86,7 @@
 #define ID_gboxOptions                  1603
 #define ID_chkEditor                    1701
 #define ID_chkClientArea                1704
+#define ID_chkIndirectCapture           1705
 #define ID_chkTimed                     1708
 #define ID_chkOpenAgain                 1710
 #define IDC_HEADERBAR                   1734

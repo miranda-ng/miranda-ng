@@ -73,43 +73,66 @@ BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprc
 
 //---------------------------------------------------------------------------
 // capture window as FIBITMAP - caller must FIP->FI_Unload(dib)
-FIBITMAP* CaptureWindow  (HWND hCapture, BOOL ClientArea) {
+FIBITMAP* CaptureWindow  (HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture) {
 	FIBITMAP *dib;
 	HWND	hForegroundWin;
 	HDC		hScrDC;						// screen DC
-	RECT	rect;					// screen RECT
+	RECT	rect;						// screen RECT
 	SIZE	size;						// DIB width and height = window resolution
 
 	if (!hCapture || !IsWindow(hCapture)) return 0;
 	hForegroundWin = GetForegroundWindow();	//Saving foreground window
 	SetForegroundWindow(hCapture);			// Make sure the target window is the foreground one
 	BringWindowToTop(hCapture);				// bring it to top as well
-	// redraw window to prevent runtime artifacts in picture
+	/// redraw window to prevent runtime artifacts in picture
 	UpdateWindow(hCapture);
 
-	GetWindowRect(hCapture,&rect);
-	if(GetParent(hCapture))
-		hScrDC=GetDC(hCapture);//hCapture is part of a window, capture that
-	else
-		hScrDC=GetWindowDC(hCapture);//entire window w/ title bar
-	size.cx=ABS(rect.right-rect.left);
-	size.cy=ABS(rect.bottom-rect.top);
-	//capture window and get FIBITMAP
-	dib = CaptureScreen(hScrDC,size,hCapture);
-	ReleaseDC(hCapture,hScrDC);
-	if(ClientArea){//we could capture directly, but doing so breaks GetWindowRgn() and also includes artifacts...
-		RECT rectCA	= {0};
-		POINT pt	= {0};
-		GetClientRect (hCapture, &rectCA);
-		ClientToScreen(hCapture, &pt);
-		//crop the window to ClientArea
-		FIBITMAP* dibClient	= FIP->FI_Copy(dib,
-					pt.x - rect.left,
-					pt.y - rect.top,
-					pt.x - rect.left + rectCA.right,
-					pt.y - rect.top + rectCA.bottom);
+	if(bIndirectCapture){
+		intptr_t wastopmost=GetWindowLongPtr(hCapture,GWL_EXSTYLE)&WS_EX_TOPMOST;
+		if(!wastopmost)
+			SetWindowPos(hCapture,HWND_TOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
+		hScrDC	= GetDC(NULL);	/*Get full virtualscreen*/
+		size.cx	= GetSystemMetrics(SM_CXVIRTUALSCREEN);
+		size.cy	= GetSystemMetrics(SM_CYVIRTUALSCREEN);
+		dib = CaptureScreen(hScrDC,size);
+		ReleaseDC(hCapture,hScrDC);
+		if(bClientArea){
+			GetClientRect(hCapture,&rect);
+			ClientToScreen(hCapture,(POINT*)&rect);
+			rect.right+=rect.left; rect.bottom+=rect.top;
+		}else
+			GetWindowRect(hCapture,&rect);
+		if(rect.left<0) rect.left=0;
+		if(rect.top<0) rect.top=0;
+		if(rect.right>(long)FIP->FI_GetWidth(dib)) rect.right=FIP->FI_GetWidth(dib);
+		if(rect.bottom>(long)FIP->FI_GetHeight(dib)) rect.bottom=FIP->FI_GetHeight(dib);
+		/// crop the window to ClientArea
+		FIBITMAP* dibClient = FIP->FI_Copy(dib,rect.left,rect.top,rect.right,rect.bottom);
 		FIP->FI_Unload(dib);
 		dib = dibClient;
+		if(!wastopmost)
+			SetWindowPos(hCapture,HWND_NOTOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
+	}else{
+		GetWindowRect(hCapture,&rect);
+		if(GetAncestor(hCapture,GA_PARENT))
+			hScrDC=GetDC(hCapture);//hCapture is part of a window, capture that
+		else
+			hScrDC=GetWindowDC(hCapture);//entire window w/ title bar
+		size.cx=ABS(rect.right-rect.left);
+		size.cy=ABS(rect.bottom-rect.top);
+		/// capture window and get FIBITMAP
+		dib = CaptureScreen(hScrDC,size,hCapture);
+		ReleaseDC(hCapture,hScrDC);
+		if(bClientArea){//we could capture directly, but doing so breaks GetWindowRgn() and also includes artifacts...
+			RECT rectCA; GetClientRect(hCapture,&rectCA);
+			ClientToScreen(hCapture,(POINT*)&rectCA);
+			rectCA.left-=rect.left; rectCA.top-=rect.top;
+			rectCA.right+=rectCA.left; rectCA.bottom+=rectCA.top;
+			/// crop the window to ClientArea
+			FIBITMAP* dibClient = FIP->FI_Copy(dib,rectCA.left,rectCA.top,rectCA.right,rectCA.bottom);
+			FIP->FI_Unload(dib);
+			dib = dibClient;
+		}
 	}
 	if(hForegroundWin){//restore previous foreground window
 		SetForegroundWindow(hForegroundWin);

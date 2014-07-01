@@ -57,7 +57,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSWINDOW1));
 			break;
 		}
-		break;
+		return TRUE;
 	case WM_CTLCOLORDLG:
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
@@ -203,45 +203,46 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	/// create the tab control.
 	{
-	TAB_INFO itab={};
-	RECT rcClient, rcTab;
 	m_hwndTab = GetDlgItem(m_hWnd, IDC_CAPTURETAB);
+	TabCtrl_SetImageList(m_hwndTab, m_himlTab);
 	TabCtrl_SetItemExtra(m_hwndTab, sizeof(TAB_INFO) - sizeof(TCITEMHEADER));
-
+	RECT rcTab;
+	TAB_INFO itab;
 	itab.hwndMain	= m_hWnd;
 	itab.hwndTab	= m_hwndTab;
-
-	GetWindowRect(m_hwndTab, &rcTab);
-	GetWindowRect(m_hWnd, &rcClient);
-
-	TabCtrl_SetImageList(m_hwndTab, m_himlTab);
+	itab.tcih.mask		= TCIF_PARAM|TCIF_TEXT|TCIF_IMAGE;
+	itab.tcih.iImage	= 0;
 
 	/// Add a tab for each of the three child dialog boxes.
-	itab.tcih.mask		= TCIF_PARAM|TCIF_TEXT|TCIF_IMAGE;
-
 	itab.tcih.pszText	= TranslateT("Window");
 //	itab.tcih.iImage	= 0;
-	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureWindow), m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureWindow);
-	TabCtrl_InsertItem(m_hwndTab, 0, &itab);
-	MoveWindow(itab.hwndTabPage, (rcTab.left - rcClient.left)+2, (rcTab.top - rcClient.top), (rcTab.right - rcTab.left) - 2*5, (rcTab.bottom - rcTab.top) - 2*20, TRUE);
+	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureWindow),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureWindow);
+	TabCtrl_InsertItem(m_hwndTab,0,&itab);
+	/// get tab boundaries (required after 1st tab)
+	GetClientRect(m_hwndTab,&rcTab);
+	MapWindowPoints(m_hwndTab,m_hWnd,(POINT*)&rcTab,2);
+	TabCtrl_AdjustRect(m_hwndTab,0,&rcTab);
+	rcTab.bottom-=rcTab.top; rcTab.right-=rcTab.left;
+	///
+	SetWindowPos(itab.hwndTabPage,HWND_TOP,rcTab.left,rcTab.top,rcTab.right,rcTab.bottom,0);
+	CheckDlgButton(itab.hwndTabPage, ID_chkIndirectCapture, m_opt_chkIndirectCapture ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(itab.hwndTabPage, ID_chkClientArea, m_opt_chkClientArea ? BST_CHECKED : BST_UNCHECKED);
 
 	itab.tcih.pszText	= TranslateT("Desktop");
 //	itab.tcih.iImage	= 1;
-	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureDesktop), m_hWnd, DlgProc_CaptureTabPage,IDD_UMain_CaptureDesktop);
-	TabCtrl_InsertItem(m_hwndTab, 1, &itab);
-	MoveWindow(itab.hwndTabPage, (rcTab.left - rcClient.left)+2, (rcTab.top - rcClient.top), (rcTab.right - rcTab.left) - 2*5, (rcTab.bottom - rcTab.top) - 2*20, TRUE);
+	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureDesktop),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureDesktop);
+	TabCtrl_InsertItem(m_hwndTab,1,&itab);
+	SetWindowPos(itab.hwndTabPage,HWND_TOP,rcTab.left,rcTab.top,rcTab.right,rcTab.bottom,0);
 
 	hCtrl = GetDlgItem(itab.hwndTabPage, ID_edtCaption);
 	ComboBox_ResetContent(hCtrl);
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<Entire Desktop>"))  ,0);
 	ComboBox_SetCurSel (hCtrl,0);
 	if(m_MonitorCount >1) {
-		TCHAR	tszTemp[120];
-		for (size_t mon=0; mon<m_MonitorCount; ++mon) { /// @todo : fix format for non MSVC compilers
+		TCHAR tszTemp[120];
+		for(size_t mon=0; mon<m_MonitorCount; ++mon) { /// @todo : fix format for non MSVC compilers
 			mir_sntprintf(tszTemp, SIZEOF(tszTemp),_T("%Iu. %s%s"),
-				mon+1,
-				TranslateT("Monitor"),
+				mon+1, TranslateT("Monitor"),
 				(m_Monitors[mon].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : _T("")
 				);
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, tszTemp)  , mon+1);
@@ -252,9 +253,9 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	itab.tcih.pszText	= TranslateT("File");
 //	itab.tcih.iImage	= 2;
-	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureFile), m_hWnd, DlgProc_CaptureTabPage,IDD_UMain_CaptureFile);
-	TabCtrl_InsertItem(m_hwndTab, 2, &itab);
-	MoveWindow(itab.hwndTabPage, (rcTab.left - rcClient.left)+2, (rcTab.top - rcClient.top), (rcTab.right - rcTab.left) - 2*5, (rcTab.bottom - rcTab.top) - 2*20, TRUE);
+	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureFile),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureFile);
+	TabCtrl_InsertItem(m_hwndTab,2,&itab);
+	SetWindowPos(itab.hwndTabPage,HWND_TOP,rcTab.left,rcTab.top,rcTab.right,rcTab.bottom,0);
 
 	/// select tab and set m_hwndTabPage
 	TabCtrl_SetCurSel(m_hwndTab, m_opt_tabCapture);
@@ -385,6 +386,9 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					m_opt_chkTimed = (BYTE)Button_GetCheck((HWND)lParam);
 					TfrmMain::chkTimedClick();
 					break;
+				case ID_chkIndirectCapture:
+					m_opt_chkIndirectCapture = (BYTE)Button_GetCheck((HWND)lParam);
+					break;
 				case ID_chkClientArea:
 					m_opt_chkClientArea = (BYTE)Button_GetCheck((HWND)lParam);
 					if(m_hTargetWindow)
@@ -392,7 +396,7 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					break;
 				case ID_imgTarget:
 					if(m_opt_tabCapture!=0) break;
-					m_hLastWin=0;
+					m_hLastWin=NULL;
 					SetTimer(m_hWnd,ID_imgTarget,BUTTON_POLLDELAY,NULL);
 					break;
 				case ID_btnAbout:
@@ -439,7 +443,7 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					break;
 				case ID_edtCaption:			//cboxDesktopChange
 					m_opt_cboxDesktop = (BYTE)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-					m_hTargetWindow = 0;
+					m_hTargetWindow = NULL;
 					if (m_opt_cboxDesktop > 0) {
 						edtSizeUpdate(m_Monitors[m_opt_cboxDesktop-1].rcMonitor, GetParent((HWND)lParam), ID_edtSize);
 					}
@@ -513,24 +517,29 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 			KillTimer(m_hWnd,ID_imgTarget);
 			SystemParametersInfo(SPI_SETCURSORS,0,NULL,0);
 			DestroyWindow(m_hTargetHighlighter),m_hTargetHighlighter=NULL;
-			SetTargetWindow(m_hTargetWindow);
+			SetTargetWindow(m_hLastWin);
 			Show();
 			return;
 		}
 		POINT point; GetCursorPos(&point);
-		m_hTargetWindow=WindowFromPoint(point);
+		HWND hwnd=WindowFromPoint(point);
 		if(!((GetAsyncKeyState(VK_SHIFT)|GetAsyncKeyState(VK_MENU))&0x8000))
-			for(HWND hTMP; (hTMP=GetParent(m_hTargetWindow)); m_hTargetWindow=hTMP);
-		if(m_hTargetWindow!=m_hLastWin){
-			m_hLastWin=m_hTargetWindow;
+			for(HWND hTMP; (hTMP=GetAncestor(hwnd,GA_PARENT)) && IsChild(hTMP,hwnd); hwnd=hTMP);
+		else{
+			ScreenToClient(hwnd,&point);
+			HWND hTMP; if((hTMP=RealChildWindowFromPoint(hwnd,point)))
+				hwnd=hTMP;
+		}
+		if(hwnd!=m_hLastWin){
+			m_hLastWin=hwnd;
 			RECT rect;
 			if(m_opt_chkClientArea){
-				GetClientRect(m_hLastWin,&rect);
-				ClientToScreen(m_hLastWin,(POINT*)&rect);
+				GetClientRect(hwnd,&rect);
+				ClientToScreen(hwnd,(POINT*)&rect);
 				rect.right=rect.left+rect.right;
 				rect.bottom=rect.top+rect.bottom;
 			}else
-				GetWindowRect(m_hLastWin,&rect);
+				GetWindowRect(hwnd,&rect);
 			int width=rect.right-rect.left;
 			int height=rect.bottom-rect.top;
 			if(g_iTargetBorder){
@@ -559,7 +568,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 			m_bCapture = true;
 			switch (m_opt_tabCapture) {
 				case 0:
-					m_Screenshot = CaptureWindow(m_hTargetWindow, m_opt_chkClientArea);
+					m_Screenshot = CaptureWindow(m_hTargetWindow, m_opt_chkClientArea, m_opt_chkIndirectCapture);
 					break;
 				case 1:
 					m_Screenshot = CaptureMonitor((m_opt_cboxDesktop > 0) ? m_Monitors[m_opt_cboxDesktop-1].szDevice : NULL);
@@ -648,7 +657,6 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 					FIP->FI_Unload(m_Screenshot);
 					m_Screenshot = NULL;
 				}
-				/* m_hTargetWindow = */m_hLastWin = NULL;
 				Show();
 			}else{
 				// Saving Options and close
@@ -712,6 +720,7 @@ void TfrmMain::LoadOptions(void) {
 	m_opt_edtQuality			= db_get_b(NULL, SZ_SENDSS, "JpegQuality", 75);
 
 	m_opt_tabCapture			= db_get_b(NULL, SZ_SENDSS, "Capture", 0);
+	m_opt_chkIndirectCapture	= db_get_b(NULL, SZ_SENDSS, "IndirectCapture", 0);
 	m_opt_chkClientArea			= db_get_b(NULL, SZ_SENDSS, "ClientArea", 0);
 	m_opt_cboxDesktop			= db_get_b(NULL, SZ_SENDSS, "Desktop", 0);
 
@@ -735,6 +744,7 @@ void TfrmMain::SaveOptions(void) {
 		db_set_b(NULL, SZ_SENDSS, "JpegQuality", m_opt_edtQuality);
 
 		db_set_b(NULL, SZ_SENDSS, "Capture", m_opt_tabCapture);
+		db_set_b(NULL, SZ_SENDSS, "IndirectCapture", m_opt_chkIndirectCapture);
 		db_set_b(NULL, SZ_SENDSS, "ClientArea", m_opt_chkClientArea);
 		db_set_b(NULL, SZ_SENDSS, "Desktop", m_opt_cboxDesktop);
 
@@ -795,7 +805,7 @@ void TfrmMain::btnCaptureClick() {
 		return;
 	}
 	if(m_opt_tabCapture!=2){
-		m_Screenshot = CaptureWindow(m_hTargetWindow, m_opt_chkClientArea);
+		m_Screenshot = CaptureWindow(m_hTargetWindow, m_opt_chkClientArea, m_opt_chkIndirectCapture);
 	}
 	SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 }
@@ -1115,12 +1125,15 @@ void TfrmMain::FormClose() {
 	bool send=true;
 	if(m_opt_chkEditor){
 		SHELLEXECUTEINFO shex={sizeof(SHELLEXECUTEINFO)};
-		shex.fMask=SEE_MASK_NOCLOSEPROCESS|SEE_MASK_NOASYNC;
+		shex.fMask=SEE_MASK_NOCLOSEPROCESS;
 		shex.lpVerb=_T("edit");
 		shex.lpFile=m_pszFile;
 		shex.nShow=SW_SHOWNORMAL;
 		ShellExecuteEx(&shex);
-		WaitForSingleObject(shex.hProcess,INFINITE);
+		if(shex.hProcess){
+			WaitForSingleObject(shex.hProcess,INFINITE);
+			CloseHandle(shex.hProcess);
+		}
 		if(MessageBoxA(m_hWnd,"Send screenshot?","SendSS",MB_YESNO|MB_ICONQUESTION|MB_SYSTEMMODAL)!=IDYES)
 			send=false;
 	}

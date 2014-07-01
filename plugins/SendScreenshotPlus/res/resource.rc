@@ -110,6 +110,7 @@ BEGIN
     RTEXT           "Size (HxW):",ID_edtSizeLabel,0,30,50,8
     EDITTEXT        ID_edtSize,52,28,43,13,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
     CONTROL         "C&lient Area",ID_chkClientArea,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,100,30,62,8,WS_EX_RIGHT
+    CONTROL         "indirect capture",ID_chkIndirectCapture,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,96,40,75,8,WS_EX_RIGHT
     CTEXT           "Target Tool",ID_lblDropInfo,162,1,51,8
     ICON            IDI_TARGET,ID_imgTarget,174,12,29,29,SS_NOTIFY | SS_CENTERIMAGE | SS_SUNKEN | WS_GROUP
 END

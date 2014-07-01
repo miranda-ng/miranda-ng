@@ -113,6 +113,7 @@ class TfrmMain{
 		RECT			m_VirtualScreen;
 
 		BYTE			m_opt_chkOpenAgain;			//TCheckBox *chkOpenAgain;
+		BYTE			m_opt_chkIndirectCapture;	//TCheckBox *chkIndirectCapture;
 		BYTE			m_opt_chkClientArea;		//TCheckBox *chkClientArea;
 		BYTE			m_opt_edtQuality;			//TLabeledEdit *edtQuality;
 		bool			m_opt_btnDeleteAfterSend;	//TCheckBox *chkDeleteAfterSend;

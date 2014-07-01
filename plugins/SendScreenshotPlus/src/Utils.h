@@ -49,7 +49,7 @@ int				ComboBox_SelectItemData(HWND hwndCtl, int indexStart, LPARAM data);
 size_t			MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen);
 BOOL CALLBACK	MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
 
-FIBITMAP*		CaptureWindow(HWND hCapture, BOOL ClientArea);
+FIBITMAP*		CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture);
 FIBITMAP*		CaptureMonitor(TCHAR* szDevice);
 FIBITMAP*		CaptureScreen(HDC hDC, SIZE size, HWND hCapture=0);
 //FIBITMAP*		CaptureDesktop();	/*emulate print screen (not used)*/
