@@ -57,7 +57,8 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSWINDOW1));
 			break;
 		}
-		return TRUE;
+		SetFocus(GetDlgItem(hDlg, ID_imgTarget));
+		return FALSE;
 	case WM_CTLCOLORDLG:
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
