@@ -364,8 +364,8 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 	if (!iHidden) {
 		iHidden = 1;
 		iStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1,0) & PF1_MODEMSGRECV) {
-			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3,0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
+		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
+			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 				iHidden = 0;
 				clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 				clmi.hIcon = LoadSkinnedProtoIcon(szProto, iStatus);
@@ -381,22 +381,17 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	if (!iHidden && szMsg != NULL) {
-		if (db_get_b(NULL, "SimpleStatusMsg", "ShowCopy", 1)) {
-			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
-			mir_sntprintf(str, SIZEOF(str), TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
-			clmi.ptszName = str;
-		}
+		clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
+		mir_sntprintf(str, SIZEOF(str), TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+		clmi.ptszName = str;
 	}
 	Menu_ModifyItem(hCopyMsgMenuItem, &clmi);
 
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
-	if (!iHidden && szMsg != NULL) {
-		if (db_get_b(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) && StrFindURL(szMsg) != NULL) {
-			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
-			mir_sntprintf(str, SIZEOF(str), TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
-			clmi.ptszName = str;
-		}
-
+	if (!iHidden && szMsg != NULL && StrFindURL(szMsg) != NULL) {
+		clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
+		mir_sntprintf(str, SIZEOF(str), TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+		clmi.ptszName = str;
 	}
 	Menu_ModifyItem(hGoToURLMenuItem, &clmi);
 

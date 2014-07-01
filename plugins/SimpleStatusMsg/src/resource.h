@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\resource.rc
 //
 #define IDD_COPY                        101
 #define IDD_AWAYMSGBOX                  102
@@ -39,7 +39,6 @@
 #define IDC_CPROFILES                   1018
 #define IDC_EMAXHIST                    1019
 #define IDC_ETIMEOUT                    1020
-#define IDC_CSHOWGURL                   1021
 #define IDC_SMAXHIST                    1022
 #define IDC_CCLOSEWND                   1023
 #define IDC_STIMEOUT                    1024
@@ -51,7 +50,6 @@
 #define IDC_ROPTPROTO2                  1030
 #define IDC_ROPTPROTO3                  1031
 #define IDC_CREMOVECR                   1032
-#define IDC_CSHOWCOPY                   1033
 #define IDC_EMAXLENGTH                  1034
 #define IDC_SMAXLENGTH                  1035
 #define IDC_COPTMSG2                    1036

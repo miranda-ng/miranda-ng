@@ -1237,8 +1237,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			CheckDlgButton(hwndDlg, IDC_CICONS1, settingValue & DLG_SHOW_STATUS_ICONS ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CICONS2, settingValue & DLG_SHOW_LIST_ICONS ? BST_CHECKED : BST_UNCHECKED);
 
-			if (!(settingValue & DLG_SHOW_STATUS))
-			{
+			if (!(settingValue & DLG_SHOW_STATUS)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CPROFILES), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CICONS1), FALSE);
 			}
@@ -1252,8 +1251,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			else
 				SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETCURSEL, (WPARAM)i_btnhide, 0);
 
-			if (!ServiceExists(MS_SS_GETPROFILECOUNT))
-			{
+			if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
 				TCHAR szText[100];
 				mir_sntprintf(szText, SIZEOF(szText), _T("%s *"), TranslateT("Show status profiles in status list"));
 				SetDlgItemText(hwndDlg, IDC_CPROFILES, szText);
@@ -1283,8 +1281,6 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			CheckDlgButton(hwndDlg, IDC_CCLOSEWND, db_get_b(NULL, "SimpleStatusMsg", "AutoClose", 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CRPOSWND, !db_get_b(NULL, "SimpleStatusMsg", "WinCentered", 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CREMOVECR, db_get_b(NULL, "SimpleStatusMsg", "RemoveCR", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CSHOWCOPY, db_get_b(NULL, "SimpleStatusMsg", "ShowCopy", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CSHOWGURL, db_get_b(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CSHOWSMSG, db_get_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			SendMessage(hwndDlg, WM_USER + 2, 0, 0);
@@ -1300,8 +1296,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 		}
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_CSTATUSLIST:
 			{
 				BOOL bChecked = IsDlgButtonChecked(hwndDlg, IDC_CSTATUSLIST) == BST_CHECKED;
@@ -1311,12 +1306,14 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			}
 
 		case IDC_CBOPTBUTTONS:
-			if ((HWND)lParam != GetFocus() || HIWORD(wParam) != CBN_SELCHANGE) return 0;
+			if ((HWND)lParam != GetFocus() || HIWORD(wParam) != CBN_SELCHANGE)
+				return 0;
 			break;
 
 		case IDC_EMAXHIST:
 			{
-				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return 0;
+				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE)
+					return 0;
 				int val = GetDlgItemInt(hwndDlg, IDC_EMAXHIST, NULL, FALSE);
 				if (val > 25)
 					SendDlgItemMessage(hwndDlg, IDC_SMAXHIST, UDM_SETPOS, 0, MAKELONG((short)25, 0));
@@ -1330,7 +1327,8 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 		case IDC_ETIMEOUT:
 			{
-				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return 0;
+				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE)
+					return 0;
 				int val = GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, NULL, FALSE);
 				if (val == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_ETIMEOUT)))
 					SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETPOS, 0, MAKELONG((short)1, 0));
@@ -1345,17 +1343,16 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				int i, max_hist_msgs;
 				char text[8], setting[80];
 
-				if (hwndSAMsgDialog) DestroyWindow(hwndSAMsgDialog);
+				if (hwndSAMsgDialog)
+					DestroyWindow(hwndSAMsgDialog);
 
 				max_hist_msgs = db_get_b(NULL, "SimpleStatusMsg", "MaxHist", 10);
-				for (i = 1; i <= max_hist_msgs; i++)
-				{
+				for (i = 1; i <= max_hist_msgs; i++) {
 					mir_snprintf(text, SIZEOF(text), "SMsg%d", i);
 					db_set_ts(NULL, "SimpleStatusMsg", text, _T(""));
 				}
 				db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
-				for (i = 0; i < accounts->count; i++)
-				{
+				for (i = 0; i < accounts->count; i++) {
 					if (!IsAccountEnabled(accounts->pa[i]))
 						continue;
 
@@ -1379,11 +1376,11 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				char szSetting[16];
 				int nDefMSgCount;
 
-				if (hwndSAMsgDialog) DestroyWindow(hwndSAMsgDialog);
+				if (hwndSAMsgDialog)
+					DestroyWindow(hwndSAMsgDialog);
 
 				nDefMSgCount = db_get_w(NULL, "SimpleStatusMsg", "DefMsgCount", 0);
-				for (int i = 1; i <= nDefMSgCount; i++)
-				{
+				for (int i = 1; i <= nDefMSgCount; i++) {
 					mir_snprintf(szSetting, SIZEOF(szSetting), "DefMsg%d", i);
 					db_unset(NULL, "SimpleStatusMsg", szSetting);
 				}
@@ -1396,15 +1393,18 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY)
-		{
+		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
 			// Layout
 			int flags = 0, curSel;
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_CSTATUSLIST) == BST_CHECKED) flags |= DLG_SHOW_STATUS;
-			if (IsDlgButtonChecked(hwndDlg, IDC_CICONS1) == BST_CHECKED)	 flags |= DLG_SHOW_STATUS_ICONS;
-			if (IsDlgButtonChecked(hwndDlg, IDC_CICONS2) == BST_CHECKED)	 flags |= DLG_SHOW_LIST_ICONS;
-			if (IsDlgButtonChecked(hwndDlg, IDC_CPROFILES) == BST_CHECKED)	 flags |= DLG_SHOW_STATUS_PROFILES;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CSTATUSLIST) == BST_CHECKED)
+				flags |= DLG_SHOW_STATUS;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CICONS1) == BST_CHECKED)
+				flags |= DLG_SHOW_STATUS_ICONS;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CICONS2) == BST_CHECKED)
+				flags |= DLG_SHOW_LIST_ICONS;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CPROFILES) == BST_CHECKED)
+				flags |= DLG_SHOW_STATUS_PROFILES;
 
 			curSel = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_GETCURSEL, 0, 0);
 			if (curSel != CB_ERR)
@@ -1418,8 +1418,6 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			db_set_b(NULL, "SimpleStatusMsg", "DlgTime", (BYTE)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, NULL, FALSE));
 			db_set_b(NULL, "SimpleStatusMsg", "WinCentered", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CRPOSWND) != BST_CHECKED));
 			db_set_b(NULL, "SimpleStatusMsg", "RemoveCR", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CREMOVECR) == BST_CHECKED));
-			db_set_b(NULL, "SimpleStatusMsg", "ShowCopy", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWCOPY) == BST_CHECKED));
-			db_set_b(NULL, "SimpleStatusMsg", "ShowGoToURL", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWGURL) == BST_CHECKED));
 			db_set_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWSMSG) == BST_CHECKED));
 			RebuildStatusMenu();
 

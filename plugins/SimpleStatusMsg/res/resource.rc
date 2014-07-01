@@ -151,7 +151,7 @@ BEGIN
     LTEXT           "Buttons:",IDC_STATIC,154,16,58,8
     COMBOBOX        IDC_CBOPTBUTTONS,154,28,144,100,CBS_DROPDOWNLIST | WS_TABSTOP
     CONTROL         "Show icons in message list",IDC_CICONS2,"Button",BS_AUTOCHECKBOX | BS_LEFT | BS_VCENTER | WS_TABSTOP,154,44,140,10
-    GROUPBOX        "Other",IDC_STATIC,4,62,300,112,WS_GROUP
+    GROUPBOX        "Other",IDC_STATIC,4,62,300,84,WS_GROUP
     CONTROL         "Store up to",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP,12,76,45,8
     EDITTEXT        IDC_EMAXHIST,58,74,28,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin2",IDC_SMAXHIST,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,76,73,11,14
@@ -165,15 +165,11 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,104,222,8
     CONTROL         "Remove Carriage Return (CR = '\\r' = #0D) chars from status messages",IDC_CREMOVECR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,287,8
-    CONTROL         "Show 'Copy Away message' item in contact menu",IDC_CSHOWCOPY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,132,287,8
-    CONTROL         "Show 'Go to URL in Away message' item in contact menu",IDC_CSHOWGURL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,146,287,8
     CONTROL         "Show 'Status message...' item in status menu",IDC_CSHOWSMSG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,160,287,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,132,287,8
     CONTROL         "Clear History",IDC_BOPTHIST,"MButtonClass",WS_TABSTOP,236,73,61,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Clear Predefined",IDC_BOPTDEF,"MButtonClass",WS_TABSTOP,236,90,61,14,WS_EX_NOACTIVATE | 0x10000000L
-    LTEXT           "* This feature is available only when using StartupStatus plugin.",IDC_NOTE1,11,177,287,8,NOT WS_VISIBLE
+    LTEXT           "* This feature is available only when using StartupStatus plugin.",IDC_NOTE1,11,149,287,8,NOT WS_VISIBLE
 END
 
 IDD_OPT_STATUS DIALOGEX 0, 0, 241, 162
