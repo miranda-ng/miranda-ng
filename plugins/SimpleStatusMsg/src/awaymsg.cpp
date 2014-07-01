@@ -369,7 +369,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 				iHidden = 0;
 				clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 				clmi.hIcon = LoadSkinnedProtoIcon(szProto, iStatus);
-				mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+				mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 				clmi.ptszName = str;
 			}
 		}
@@ -383,7 +383,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 	if (!iHidden && szMsg != NULL) {
 		if (db_get_b(NULL, "SimpleStatusMsg", "ShowCopy", 1)) {
 			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
-			mir_sntprintf(str, SIZEOF(str), TranslateT("Copy %s Message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+			mir_sntprintf(str, SIZEOF(str), TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 			clmi.ptszName = str;
 		}
 	}
@@ -393,7 +393,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM lParam)
 	if (!iHidden && szMsg != NULL) {
 		if (db_get_b(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) && StrFindURL(szMsg) != NULL) {
 			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
-			mir_sntprintf(str, SIZEOF(str), TranslateT("&Go to URL in %s Message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
+			mir_sntprintf(str, SIZEOF(str), TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 			clmi.ptszName = str;
 		}
 
@@ -426,21 +426,21 @@ int LoadAwayMsgModule(void)
 
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 	mi.position = -2000005000;
-	mi.ptszName = LPGENT("Re&ad Away Message");
+	mi.ptszName = LPGENT("Re&ad Away message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle(IDI_COPY);
-	mi.ptszName = LPGENT("Copy Away Message");
+	mi.ptszName = LPGENT("Copy Away message");
 	mi.pszService = MS_SIMPLESTATUSMSG_COPYMSG;
 	hCopyMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunction(MS_SIMPLESTATUSMSG_GOTOURLMSG, GoToURLMsgCommand);
 	mi.position = -2000007000;
 	mi.icolibItem = GetIconHandle(IDI_GOTOURL);
-	mi.ptszName = LPGENT("&Go to URL in Away Message");
+	mi.ptszName = LPGENT("&Go to URL in Away message");
 	mi.pszService = MS_SIMPLESTATUSMSG_GOTOURLMSG;
 	hGoToURLMenuItem = Menu_AddContactMenuItem(&mi);
 

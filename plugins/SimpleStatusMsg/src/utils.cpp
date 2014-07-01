@@ -24,14 +24,14 @@ static LIST<void> arProtoHooks(5);
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Delete Selected"),           "cross",   IDI_CROSS   },
-	{ LPGEN("Recent Message"),            "recent",  IDI_HISTORY },
-	{ LPGEN("Predefined Message"),        "predef",  IDI_MESSAGE },
-	{ LPGEN("Add to Predefined"),         "add",     IDI_PLUS    },
-	{ LPGEN("Clear History"),             "clear",   IDI_CHIST   },
-	{ LPGEN("Copy Away Message"),         "copy",    IDI_COPY    },
-	{ LPGEN("Change Status Message"),     "csmsg",   IDI_CSMSG,  },
-	{ LPGEN("Go to URL in Away Message"), "gotourl", IDI_GOTOURL }
+	{ LPGEN("Delete selected"),           "cross",   IDI_CROSS   },
+	{ LPGEN("Recent message"),            "recent",  IDI_HISTORY },
+	{ LPGEN("Predefined message"),        "predef",  IDI_MESSAGE },
+	{ LPGEN("Add to predefined"),         "add",     IDI_PLUS    },
+	{ LPGEN("Clear history"),             "clear",   IDI_CHIST   },
+	{ LPGEN("Copy Away message"),         "copy",    IDI_COPY    },
+	{ LPGEN("Change status message"),     "csmsg",   IDI_CSMSG,  },
+	{ LPGEN("Go to URL in Away message"), "gotourl", IDI_GOTOURL }
 };
 
 void IconsInit(void)

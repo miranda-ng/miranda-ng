@@ -246,7 +246,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					SetDlgItemText(hwndDlg, IDC_VARSHELP, _T("V"));
 
 				if (szTipInfo == NULL)
-					SendMessage(GetDlgItem(hwndDlg, IDC_VARSHELP), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open String Formatting Help"), 0);
+					SendMessage(GetDlgItem(hwndDlg, IDC_VARSHELP), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open string formatting help"), 0);
 				else
 					SendMessage(GetDlgItem(hwndDlg, IDC_VARSHELP), BUTTONADDTOOLTIP, (WPARAM)szTipInfo, 0);
 
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						SetDlgItemInt(hwndDlg, IDC_EMAXLENGTH, 1, FALSE);
 					val = GetDlgItemInt(hwndDlg, IDC_EMAXLENGTH, &translated, FALSE);
 
-					i = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);							
+					i = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
 					data->proto_msg[i].max_length = val;
 					break;
 				}
@@ -1604,7 +1604,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						}
 					}
 
-					index = SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_INSERTSTRING, -1, (LPARAM)TranslateT("<Last status>"));
+					index = SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_INSERTSTRING, -1, (LPARAM)TranslateT("<last status>"));
 					if (index != LB_ERR && index != LB_ERRSPACE)
 					{
 						SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_SETITEMDATA, (WPARAM)index, (LPARAM)ID_STATUS_CURRENT-ID_STATUS_OFFLINE);

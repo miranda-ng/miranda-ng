@@ -882,10 +882,9 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM wParam, LPARAM lParam)
 
 	if (Miranda_Terminated()) return 0;
 
-	if (hTTBButton)
-	{
+	if (hTTBButton) {
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButton, (LPARAM)TTBST_RELEASED);
-		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM((WORD)TTBO_TIPNAME, (WORD)hTTBButton), (LPARAM)Translate("Change Status Message"));
+		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM((WORD)TTBO_TIPNAME, (WORD)hTTBButton), (LPARAM)Translate("Change status message"));
 	}
 
 	box_data = (struct MsgBoxInitData *)mir_alloc(sizeof(struct MsgBoxInitData));
@@ -1421,7 +1420,7 @@ static int AddTopToolbarButton(WPARAM wParam, LPARAM lParam)
 	ttbb.hIconHandleUp = ttbb.hIconHandleDn = GetIconHandle(IDI_CSMSG);
 	ttbb.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.name = ttbb.pszTooltipUp = LPGEN("Change Status Message");
+	ttbb.name = ttbb.pszTooltipUp = LPGEN("Change status message");
 	hTTBButton = TopToolbar_AddButton(&ttbb);
 
 	ReleaseIconEx("csmsg");
@@ -1435,8 +1434,8 @@ void RegisterHotkey(void)
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "SimpleStatusMsg_OpenDialog";
-	hkd.ptszDescription = LPGENT("Open Status Message Dialog");
-	hkd.ptszSection = LPGENT("Status Message");
+	hkd.ptszDescription = LPGENT("Open status message dialog");
+	hkd.ptszSection = LPGENT("Status message");
 	hkd.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_OEM_3);
 	Hotkey_Register(&hkd);
@@ -1476,7 +1475,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 		mi.flags |= CMIF_HIDDEN;
 	mi.icolibItem = GetIconHandle(IDI_CSMSG);
 	mi.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
-	mi.ptszName = LPGENT("Status Message...");
+	mi.ptszName = LPGENT("Status message...");
 	mi.position = 2000200000;
 	Menu_AddStatusMenuItem(&mi);
 

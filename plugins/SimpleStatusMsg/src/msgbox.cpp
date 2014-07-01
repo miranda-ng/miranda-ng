@@ -295,13 +295,13 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		{
 			if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS)
 			{
-				mir_sntprintf(text, SIZEOF(text), TranslateT("Clear History"));
+				mir_sntprintf(text, SIZEOF(text), TranslateT("Clear history"));
 				cbei.iImage = I_ICON_CLEAR;
 				cbei.iSelectedImage = I_ICON_CLEAR;
 			}
 			else
 			{
-				mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Clear History"));
+				mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Clear history"));
 				cbei.iIndent = 1;
 			}
 			cbei.iItem = -1;
@@ -314,13 +314,13 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		cbei.iItem = -1;
 		if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS)
 		{
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Add to Predefined"));
+			mir_sntprintf(text, SIZEOF(text), TranslateT("Add to predefined"));
 			cbei.iImage = I_ICON_ADD;
 			cbei.iSelectedImage = I_ICON_ADD;
 		}
 		else
 		{
-			mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Add to Predefined"));
+			mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Add to predefined"));
 			cbei.iIndent = 1;
 		}
 		cbei.pszText = (LPTSTR)text;
@@ -330,14 +330,14 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 
 		if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS)
 		{
-			mir_sntprintf(text, SIZEOF(text), TranslateT("Delete Selected"));
+			mir_sntprintf(text, SIZEOF(text), TranslateT("Delete selected"));
 			cbei.iImage = I_ICON_DEL;
 			cbei.iSelectedImage = I_ICON_DEL;
 		}
 		else
 		{
 			cbei.iIndent = 1;
-			mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Delete Selected"));
+			mir_sntprintf(text, SIZEOF(text), _T("## %s ##"), TranslateT("Delete selected"));
 		}
 		cbei.iItem = -1;
 		cbei.pszText = (LPTSTR)text;
@@ -439,7 +439,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 
 	HMENU hmenuTrackPopup = GetSubMenu(hmenu, 0);
 
- 	TranslateMenu(hmenuTrackPopup);
+	TranslateMenu(hmenuTrackPopup);
 
 	ClientToScreen(hwnd, (LPPOINT) &pt);
 
@@ -461,17 +461,17 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 	DeleteMenu(hmenuTrackPopup, 7, MF_BYPOSITION);
 
 	int m_selection = TrackPopupMenu(hmenuTrackPopup, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
- 	switch (m_selection)
+	switch (m_selection)
 	{
 		case IDM_COPY:
 			SendMessage(edit_control, WM_COPY, 0, 0);
 			break;
 
 		case IDM_CUT:
-            SendMessage(edit_control, WM_CUT, 0, 0);
+			SendMessage(edit_control, WM_CUT, 0, 0);
 			break;
 
-        case IDM_PASTE:
+		case IDM_PASTE:
 			SendMessage(edit_control, WM_PASTE, 0, 0);
 			break;
 
@@ -851,13 +851,13 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	TCHAR szTitle[256], szProtoName[128];
 	BOOL bDisabled = msgbox_data->m_szProto && !(CallProtoService(msgbox_data->m_szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND);
 
-	mir_sntprintf(szProtoName, SIZEOF(szProtoName), msgbox_data->m_szProto ? ProtoGetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("Global"));
+	mir_sntprintf(szProtoName, SIZEOF(szProtoName), msgbox_data->m_szProto ? ProtoGetAccount(msgbox_data->m_szProto)->tszAccountName : TranslateT("global"));
 	if (iStatus == ID_STATUS_CURRENT)
 	{
 		if (msgbox_data->m_bOnStartup)
-			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s Message (%s)"), TranslateT("<startup>"), szProtoName);
+			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s message (%s)"), TranslateT("<startup>"), szProtoName);
 		else
-			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s Message (%s)"), TranslateT("<current>"), szProtoName);
+			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s message (%s)"), TranslateT("<current>"), szProtoName);
 	}
 	else if (iStatus > ID_STATUS_CURRENT)
 	{
@@ -867,9 +867,9 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 		CallService(MS_SS_GETPROFILENAME, iStatus - 40083, (LPARAM)buff1);
 		MultiByteToWideChar(CallService(MS_LANGPACK_GETCODEPAGE, 0, 0), 0, buff1, -1, buff, 128);
 
-		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s Message (%s)"), (TCHAR*)buff, szProtoName);
+		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s message (%s)"), (TCHAR*)buff, szProtoName);
 	}
-	else mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s Message (%s)"), pcli->pfnGetStatusModeDescription(iStatus, 0), szProtoName);
+	else mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s message (%s)"), pcli->pfnGetStatusModeDescription(iStatus, 0), szProtoName);
 	SetWindowText(hwndDlg, szTitle);
 
 	if (iStatus == ID_STATUS_CURRENT)
@@ -987,7 +987,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			init_data = (struct MsgBoxInitData*)lParam;
 			GetWindowText(hwndDlg, szFormat, SIZEOF(szFormat));
-			mir_sntprintf(szProtoName, SIZEOF(szProtoName), init_data->m_szProto ? ProtoGetAccount(init_data->m_szProto)->tszAccountName : TranslateT("Global"));
+			mir_sntprintf(szProtoName, SIZEOF(szProtoName), init_data->m_szProto ? ProtoGetAccount(init_data->m_szProto)->tszAccountName : TranslateT("global"));
 
 			if (init_data->m_iStatus == ID_STATUS_CURRENT)
 			{
@@ -1039,16 +1039,16 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			if ((copy_init_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (copy_init_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT))
 			{
-				SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BUTTONADDTOOLTIP, (WPARAM)Translate("Add to Predefined"), 0);
+				SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BUTTONADDTOOLTIP, (WPARAM)Translate("Add to predefined"), 0);
 				SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_ADD]);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), TRUE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BADD), TRUE);
 
-				SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BUTTONADDTOOLTIP, (WPARAM)Translate("Delete Selected"), 0);
+				SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BUTTONADDTOOLTIP, (WPARAM)Translate("Delete selected"), 0);
 				SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_DEL]);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BDEL), TRUE);
 
-				SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BUTTONADDTOOLTIP, (WPARAM)Translate("Clear History"), 0);
+				SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BUTTONADDTOOLTIP, (WPARAM)Translate("Clear history"), 0);
 				SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_CLEAR]);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), TRUE);
 

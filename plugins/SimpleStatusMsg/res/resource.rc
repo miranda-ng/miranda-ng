@@ -16,11 +16,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1250)
-#endif //_WIN32
-
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -56,19 +53,19 @@ END
 IDD_READAWAYMSG DIALOGEX 0, 0, 187, 72
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "%s Message for %s"
+CAPTION "%s message for %s"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&Cancel",IDOK,32,53,50,14
     CTEXT           "Retrieving %s message...",IDC_RETRIEVING,5,21,177,8,SS_NOPREFIX
     EDITTEXT        IDC_MSG,5,5,177,43,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_VISIBLE | WS_VSCROLL
-    PUSHBUTTON      "Co&py to Clipboard",IDC_COPY,92,53,63,14,BS_CENTER | BS_VCENTER
+    PUSHBUTTON      "Co&py to clipboard",IDC_COPY,92,53,63,14,BS_CENTER | BS_VCENTER
 END
 
-IDD_AWAYMSGBOX DIALOG  0, 0, 208, 90
+IDD_AWAYMSGBOX DIALOGEX 0, 0, 208, 90
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "%s Message (%s)"
-FONT 8, "MS Shell Dlg"
+CAPTION "%s message (%s)"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     EDITTEXT        IDC_EDIT1,7,23,193,44,ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_WANTRETURN | WS_VSCROLL
     DEFPUSHBUTTON   "OK",IDC_OK,7,71,66,14,BS_CENTER | BS_VCENTER
@@ -130,8 +127,7 @@ BEGIN
     EDITTEXT        IDC_ESECUPDTMSG,166,14,32,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin2",IDC_SSECUPDTMSG,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,188,14,11,14
     LTEXT           "seconds",IDC_STATIC,202,16,32,8
-    CONTROL         "Do not update variables during idle",IDC_CNOIDLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,30,274,8
+    CONTROL         "Do not update variables during idle",IDC_CNOIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,30,274,8
     CONTROL         "Do not update variables on ICQ status message requests",IDC_CNOICQREQ,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,44,274,8
     CONTROL         "Leave last played track's title after exiting the player",IDC_CLEAVEWINAMP,
@@ -169,11 +165,11 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,104,222,8
     CONTROL         "Remove Carriage Return (CR = '\\r' = #0D) chars from status messages",IDC_CREMOVECR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,287,8
-    CONTROL         "Show 'Copy Away Message' item in contact menu",IDC_CSHOWCOPY,
+    CONTROL         "Show 'Copy Away message' item in contact menu",IDC_CSHOWCOPY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,132,287,8
-    CONTROL         "Show 'Go to URL in Away Message' item in contact menu",IDC_CSHOWGURL,
+    CONTROL         "Show 'Go to URL in Away message' item in contact menu",IDC_CSHOWGURL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,146,287,8
-    CONTROL         "Show 'Status Message...' item in status menu",IDC_CSHOWSMSG,
+    CONTROL         "Show 'Status message...' item in status menu",IDC_CSHOWSMSG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,160,287,8
     CONTROL         "Clear History",IDC_BOPTHIST,"MButtonClass",WS_TABSTOP,236,73,61,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Clear Predefined",IDC_BOPTDEF,"MButtonClass",WS_TABSTOP,236,90,61,14,WS_EX_NOACTIVATE | 0x10000000L
@@ -185,7 +181,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Status on Startup",IDC_STATIC,5,2,230,154,WS_GROUP
+    GROUPBOX        "Status on startup",IDC_STATIC,5,2,230,154,WS_GROUP
     LTEXT           "Set status after",IDC_STATIC,15,18,80,8
     EDITTEXT        IDC_ESETSTATUS,96,16,36,12,ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE
     CONTROL         "Spin2",IDC_SSETSTATUS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,122,16,11,14
@@ -207,7 +203,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_READAWAYMSG, DIALOG
     BEGIN
@@ -289,7 +285,7 @@ IDI_GOTOURL             ICON                    "gotourl.ico"
 // Menu
 //
 
-IDR_EDITMENU MENU 
+IDR_EDITMENU MENU
 BEGIN
     POPUP ""
     BEGIN
@@ -336,10 +332,9 @@ BEGIN
         MENUITEM "Paste",                       IDM_PASTE
         MENUITEM "Delete",                      IDM_DELETE
         MENUITEM SEPARATOR
-        MENUITEM "Select All",                  IDM_SELECTALL
+        MENUITEM "Select all",                  IDM_SELECTALL
     END
 END
-
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
