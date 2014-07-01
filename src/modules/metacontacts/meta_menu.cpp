@@ -412,7 +412,7 @@ void InitMenus()
 		char buffer[512];
 		mir_snprintf(buffer, SIZEOF(buffer), "MetaContacts/MenuFunc%d", i);
 		mi.pszService = buffer;
-
+		mi.position++;
 		hMenuContact[i] = Menu_AddContactMenuItem(&mi);
 	}
 
