@@ -420,14 +420,14 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR dwData)
 
 		if (restrictions & Column::crHTMLMask) {
 			// MEMO: don't distinguish between full/partial since not yet supported
-			msg += TranslateT("HTML");
+			msg += _T("HTML");
 		}
 
 		if (restrictions & Column::crPNGMask) {
 			if (restrictions & Column::crHTMLMask)
 				msg += _T(", ");
 
-			msg += ((restrictions & Column::crPNGMask) == Column::crPNGPartial) ? TranslateT("PNG (partial)") : TranslateT("PNG");
+			msg += ((restrictions & Column::crPNGMask) == Column::crPNGPartial) ? TranslateT("PNG (partial)") : _T("PNG");
 		}
 
 		tvi.item.pszText = const_cast<TCHAR*>(msg.c_str());
@@ -455,18 +455,18 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR dwData)
 		 */
 
 		if (!bPNGOutput) {
-			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? TranslateT("HTML") : TranslateT("Nothing (column will be skipped)");
+			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? _T("HTML") : TranslateT("Nothing (column will be skipped)");
 		}
 		else if (nPNGMode != Settings::pmPreferHTML) // && bPNGOutput
 		{
 			if (restrictions == (Column::crHTMLFull | Column::crPNGPartial))
 				msg += (nPNGMode == Settings::pmHTMLFallBack) ? TranslateT("HTML as fallback") : TranslateT("PNG, ignoring some settings");
 			else // !(html-full | png-partial)
-				msg += ((restrictions & Column::crPNGMask) == Column::crPNGFull) ? TranslateT("PNG") : TranslateT("HTML");
+				msg += ((restrictions & Column::crPNGMask) == Column::crPNGFull) ? _T("PNG") : _T("HTML");
 		}
 		else // bPNGOutput && nPNGMode == Settings::pmPreferHTML
 		{
-			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? TranslateT("HTML") : TranslateT("PNG");
+			msg += ((restrictions & Column::crHTMLMask) == Column::crHTMLFull) ? _T("HTML") : _T("PNG");
 		}
 
 		tvi.item.pszText = const_cast<TCHAR*>(msg.c_str());

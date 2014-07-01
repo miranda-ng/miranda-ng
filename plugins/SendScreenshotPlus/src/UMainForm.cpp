@@ -309,15 +309,15 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		m_opt_cboxSendBy = SS_IMAGESHACK;
 	}
 	if (myGlobals.PluginDropboxExist) {
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Dropbox")), SS_DROPBOX);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("Dropbox")), SS_DROPBOX);
 	}else if(m_opt_cboxSendBy == SS_DROPBOX) {
 		m_opt_cboxSendBy = SS_IMAGESHACK;
 	}
-	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("ImageShack")), SS_IMAGESHACK);
+	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("ImageShack")), SS_IMAGESHACK);
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (30m)")), SS_UPLOADPIE_30M);
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), SS_UPLOADPIE_1D);
 	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), SS_UPLOADPIE_1W);
-	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("imgur")), SS_IMGUR);
+	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("imgur")), SS_IMGUR);
 	ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxSendBy);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
 	/// init footer options

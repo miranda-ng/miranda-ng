@@ -239,7 +239,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 				}
 
 				if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-					ShowClassPopupT("MirFox_Notify", TranslateT("MirFox"), buffer);
+					ShowClassPopupT("MirFox_Notify", _T("MirFox"), buffer);
 				} else {
 					PUShowMessageT(buffer, SM_NOTIFY);
 				}
@@ -461,7 +461,7 @@ void MirandaUtils::setStatusOnAccount(ActionThreadArgStruct* args)
 		}
 
 		if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-			ShowClassPopupT("MirFox_Notify", TranslateT("MirFox"), buffer);
+			ShowClassPopupT("MirFox_Notify", _T("MirFox"), buffer);
 		} else {
 			PUShowMessageT(buffer, SM_NOTIFY);
 		}
