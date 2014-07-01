@@ -33,17 +33,19 @@ static HANDLE hWindowList2;
 
 static char *StrNormNewlineA(char *szStr)
 {
-	if (szStr == NULL) return NULL;
+	if (szStr == NULL)
+		return NULL;
 
 	int nCR = 0;
 	for (int i = 0; szStr[i]; i++)
-		if (szStr[i] != 0x0D && szStr[i + 1] == 0x0A) nCR++;
+		if (szStr[i] != 0x0D && szStr[i + 1] == 0x0A)
+			nCR++;
 
-	if (!nCR) return mir_strdup(szStr);
+	if (!nCR)
+		return mir_strdup(szStr);
 
-	char *szNewStr = (char*)mir_alloc(lstrlenA(szStr) + nCR + 1), *pszStr = szNewStr;
-	while (*szStr)
-	{
+	char *szNewStr = (char *)mir_alloc(lstrlenA(szStr) + nCR + 1), *pszStr = szNewStr;
+	while (*szStr) {
 		if (*szStr == 0x0A)
 			*pszStr++ = 0x0D;
 		*pszStr++ = *szStr++;
@@ -56,17 +58,19 @@ static char *StrNormNewlineA(char *szStr)
 
 static TCHAR *StrNormNewline(TCHAR *tszStr)
 {
-	if (tszStr == NULL) return NULL;
+	if (tszStr == NULL)
+		return NULL;
 
 	int nCR = 0;
 	for (int i = 0; tszStr[i]; i++)
-		if (tszStr[i] != 0x0D && tszStr[i + 1] == 0x0A) nCR++;
+		if (tszStr[i] != 0x0D && tszStr[i + 1] == 0x0A)
+			nCR++;
 
-	if (!nCR) return mir_tstrdup(tszStr);
+	if (!nCR)
+		return mir_tstrdup(tszStr);
 
-	TCHAR *tszNewStr = (TCHAR*)mir_alloc((lstrlen(tszStr) + nCR + 1) * sizeof(TCHAR)), *ptszStr = tszNewStr;
-	while (*tszStr)
-	{
+	TCHAR *tszNewStr = (TCHAR *)mir_alloc((lstrlen(tszStr) + nCR + 1) * sizeof(TCHAR)), *ptszStr = tszNewStr;
+	while (*tszStr) {
 		if (*tszStr == 0x0A)
 			*ptszStr++ = 0x0D;
 		*ptszStr++ = *tszStr++;
@@ -88,13 +92,12 @@ struct AwayMsgDlgData
 
 static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	AwayMsgDlgData *dat = (AwayMsgDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	AwayMsgDlgData *dat = (AwayMsgDlgData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (message)
-	{
+	switch (message) {
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
-			dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
+			dat = (AwayMsgDlgData *)mir_alloc(sizeof(AwayMsgDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			dat->hContact = lParam;
@@ -103,7 +106,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 			{
 				TCHAR str[256], format[128];
-				TCHAR *contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)dat->hContact, GCDNF_TCHAR);
+				TCHAR *contactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)dat->hContact, GCDNF_TCHAR);
 				char *szProto = GetContactProto(dat->hContact);
 				WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				TCHAR *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
@@ -111,13 +114,11 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				GetWindowText(hwndDlg, format, SIZEOF(format));
 				mir_sntprintf(str, SIZEOF(str), format, status, contactName);
 				SetWindowText(hwndDlg, str);
-				if (dat->hSeq)
-				{
+				if (dat->hSeq) {
 					GetDlgItemText(hwndDlg, IDC_RETRIEVING, format, SIZEOF(format));
 					mir_sntprintf(str, SIZEOF(str), format, status);
 				}
-				else
-				{
+				else {
 					mir_sntprintf(str, SIZEOF(str), TranslateT("Failed to retrieve %s message."), status);
 					SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
 				}
@@ -131,16 +132,21 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 		case HM_AWAYMSG:
 		{
-			ACKDATA *ack = (ACKDATA*)lParam;
-			if (ack->hContact != dat->hContact || ack->type != ACKTYPE_AWAYMSG) break;
-			if (ack->result != ACKRESULT_SUCCESS) break;
-			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = NULL; }
+			ACKDATA *ack = (ACKDATA *)lParam;
+			if (ack->hContact != dat->hContact || ack->type != ACKTYPE_AWAYMSG)
+				break;
+			if (ack->result != ACKRESULT_SUCCESS)
+				break;
+			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) {
+				UnhookEvent(dat->hAwayMsgEvent);
+				dat->hAwayMsgEvent = NULL;
+			}
 
-			TCHAR *tszMsg = StrNormNewline((TCHAR*)ack->lParam);
+			TCHAR *tszMsg = StrNormNewline((TCHAR *)ack->lParam);
 			SetDlgItemText(hwndDlg, IDC_MSG, tszMsg);
 			mir_free(tszMsg);
 
-			if (ack->lParam && *((char*)ack->lParam) != '\0')
+			if (ack->lParam && *((char *)ack->lParam) != '\0')
 				EnableWindow(GetDlgItem(hwndDlg, IDC_COPY), TRUE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_RETRIEVING), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG), SW_SHOW);
@@ -149,25 +155,22 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 		}
 
 		case WM_COMMAND:
-			switch (LOWORD(wParam))
-			{
+			switch (LOWORD(wParam)) {
 				case IDCANCEL:
 				case IDOK:
 					DestroyWindow(hwndDlg);
 					break;
 
 				case IDC_COPY:
-					if (!OpenClipboard(hwndDlg)) break;
-					if (EmptyClipboard())
-					{
+					if (!OpenClipboard(hwndDlg))
+						break;
+					if (EmptyClipboard()) {
 						TCHAR msg[1024];
 						int len = GetDlgItemText(hwndDlg, IDC_MSG, msg, SIZEOF(msg));
-						if (len)
-						{
-							LPTSTR  lptstrCopy;
+						if (len) {
+							LPTSTR lptstrCopy;
 							HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(TCHAR));
-							if (hglbCopy == NULL)
-							{
+							if (hglbCopy == NULL) {
 								CloseClipboard();
 								break;
 							}
@@ -190,7 +193,8 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			break;
 
 		case WM_DESTROY:
-			if (dat->hAwayMsgEvent) UnhookEvent(dat->hAwayMsgEvent);
+			if (dat->hAwayMsgEvent)
+				UnhookEvent(dat->hAwayMsgEvent);
 			Utils_SaveWindowPosition(hwndDlg, dat->hContact, "SRAway", "AwayMsgDlg");
 			WindowList_Remove(hWindowList, hwndDlg);
 			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, NULL));
@@ -203,60 +207,70 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 {
-	if (HWND hwnd = WindowList_Find(hWindowList, wParam))
-	{
+	if (HWND hwnd = WindowList_Find(hWindowList, wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
-	else CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
+	else
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
 	return 0;
 }
 
 static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	AwayMsgDlgData *dat = (AwayMsgDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	AwayMsgDlgData *dat = (AwayMsgDlgData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (message)
-	{
+	switch (message) {
 		case WM_INITDIALOG:
 		{
 			TCHAR str[256], format[128];
 			TCHAR *contactName;
 
 			TranslateDialogDefault(hwndDlg);
-			dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
+			dat = (AwayMsgDlgData *)mir_alloc(sizeof(AwayMsgDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			dat->hContact = lParam;
 			dat->hSeq = (HANDLE)CallContactService(dat->hContact, PSS_GETAWAYMSG, 0, 0);
 			dat->hAwayMsgEvent = dat->hSeq ? HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG) : NULL;
 			WindowList_Add(hWindowList2, hwndDlg, dat->hContact);
-			contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)dat->hContact, GCDNF_TCHAR);
+			contactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)dat->hContact, GCDNF_TCHAR);
 			GetWindowText(hwndDlg, format, SIZEOF(format));
 			mir_sntprintf(str, SIZEOF(str), format, contactName);
 			SetWindowText(hwndDlg, str);
-			if (!dat->hSeq) DestroyWindow(hwndDlg);
+			if (!dat->hSeq)
+				DestroyWindow(hwndDlg);
 			return TRUE;
 		}
 
 		case HM_AWAYMSG:
 		{
-			ACKDATA *ack = (ACKDATA*)lParam;
-			if (ack->hContact != dat->hContact || ack->type != ACKTYPE_AWAYMSG) { DestroyWindow(hwndDlg); break; }
-			if (ack->result != ACKRESULT_SUCCESS) { DestroyWindow(hwndDlg); break; }
-			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = NULL; }
+			ACKDATA *ack = (ACKDATA *)lParam;
+			if (ack->hContact != dat->hContact || ack->type != ACKTYPE_AWAYMSG) {
+				DestroyWindow(hwndDlg);
+				break;
+			}
+			if (ack->result != ACKRESULT_SUCCESS) {
+				DestroyWindow(hwndDlg);
+				break;
+			}
+			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) {
+				UnhookEvent(dat->hAwayMsgEvent);
+				dat->hAwayMsgEvent = NULL;
+			}
 
-			if (!OpenClipboard(hwndDlg)) { DestroyWindow(hwndDlg); break; }
-			if (EmptyClipboard())
-			{
+			if (!OpenClipboard(hwndDlg)) {
+				DestroyWindow(hwndDlg);
+				break;
+			}
+			if (EmptyClipboard()) {
 				TCHAR msg[1024];
-				TCHAR *tszMsg = StrNormNewline((TCHAR*)ack->lParam);
+				TCHAR *tszMsg = StrNormNewline((TCHAR *)ack->lParam);
 				mir_sntprintf(msg, SIZEOF(msg), _T("%s"), tszMsg);
 				mir_free(tszMsg);
 				size_t len = lstrlen(msg);
-				if (len)
-				{
-					LPTSTR  lptstrCopy;
+				if (len) {
+					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(TCHAR));
 					if (hglbCopy == NULL) {
 						CloseClipboard();
@@ -277,8 +291,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 		}
 
 		case WM_COMMAND:
-			switch (LOWORD(wParam))
-			{
+			switch (LOWORD(wParam)) {
 				case IDCANCEL:
 				case IDOK:
 					DestroyWindow(hwndDlg);
@@ -301,12 +314,12 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 static INT_PTR CopyAwayMsgCommand(WPARAM wParam, LPARAM)
 {
-	if (HWND hwnd = WindowList_Find(hWindowList2, wParam))
-	{
+	if (HWND hwnd = WindowList_Find(hWindowList2, wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
-	else CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COPY), NULL, CopyAwayMsgDlgProc, wParam);
+	else
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COPY), NULL, CopyAwayMsgDlgProc, wParam);
 	return 0;
 }
 
@@ -314,8 +327,7 @@ static char *StrFindURL(char *pszStr)
 {
 	char *pszURL = NULL;
 
-	if (pszStr != NULL && *pszStr != '\0')
-	{
+	if (pszStr != NULL && *pszStr != '\0') {
 		pszURL = strstr(pszStr, "www.");
 		if (pszURL == NULL)
 			pszURL = strstr(pszStr, "http://");
@@ -333,15 +345,12 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 	ptrA szMsg(db_get_sa(wParam, "CList", "StatusMsg"));
 
 	char *szURL = StrFindURL(szMsg);
-	if (szURL != NULL)
-	{
+	if (szURL != NULL) {
 		int i;
-		for (i = 0; szURL[i] != ' ' && szURL[i] != '\n' && szURL[i] != '\r' &&
-			szURL[i] != '\t' && szURL[i] != '\0'; i++);
+		for (i = 0; szURL[i] != ' ' && szURL[i] != '\n' && szURL[i] != '\r' && szURL[i] != '\t' && szURL[i] != '\0'; i++);
 
 		char *szMsgURL = (char *)mir_alloc(i + 1);
-		if (szMsgURL)
-		{
+		if (szMsgURL) {
 			lstrcpynA(szMsgURL, szURL, i + 1);
 			CallService(MS_UTILS_OPENURL, 1, (LPARAM)szMsgURL);
 			mir_free(szMsgURL);

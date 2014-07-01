@@ -39,7 +39,7 @@ void IconsInit(void)
 	Icon_Register(g_hInst, LPGEN("Simple Status Message"), iconList, SIZEOF(iconList), "SimpleStatusMsg");
 }
 
-HICON LoadIconEx(const char* name)
+HICON LoadIconEx(const char *name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "SimpleStatusMsg_%s", name);
@@ -55,10 +55,10 @@ HANDLE GetIconHandle(int iconId)
 	return NULL;
 }
 
-void ReleaseIconEx(const char* name)
+void ReleaseIconEx(const char *name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "SimpleStatusMsg_%s",  name);
+	mir_snprintf(szSettingName, sizeof(szSettingName), "SimpleStatusMsg_%s", name);
 	Skin_ReleaseIcon(szSettingName);
 }
 
@@ -81,7 +81,8 @@ void UnhookProtoEvents(void)
 // Generate random number in a specified range
 int GetRandom(int from, int to)
 {
-	if ((to - from) < 1) return from;
+	if ((to - from) < 1)
+		return from;
 	unsigned randnum;
 	CallService(MS_UTILS_GETRANDOM, sizeof(randnum), (LPARAM)&randnum);
 	return ((randnum % (to - from + 1)) + from);
@@ -90,19 +91,18 @@ int GetRandom(int from, int to)
 // From SRAway module
 const TCHAR *GetDefaultMessage(int status)
 {
-	switch (status)
-	{
-		case ID_STATUS_AWAY: return TranslateT("I've been away since %time%.");
-		case ID_STATUS_NA: return TranslateT("Give it up, I'm not in!");
-		case ID_STATUS_OCCUPIED: return TranslateT("Not right now.");
-		case ID_STATUS_DND: return TranslateT("Give a guy some peace, would ya?");
-		case ID_STATUS_FREECHAT: return TranslateT("I'm a chatbot!");
-		case ID_STATUS_ONLINE: return TranslateT("Yep, I'm here.");
-		case ID_STATUS_OFFLINE: return TranslateT("Nope, not here.");
-		case ID_STATUS_INVISIBLE: return TranslateT("I'm hiding from the mafia.");
-		case ID_STATUS_ONTHEPHONE: return TranslateT("That'll be the phone.");
-		case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
-		case ID_STATUS_IDLE: return TranslateT("idleeeeeeee");
+	switch (status) {
+	case ID_STATUS_AWAY: return TranslateT("I've been away since %time%.");
+	case ID_STATUS_NA: return TranslateT("Give it up, I'm not in!");
+	case ID_STATUS_OCCUPIED: return TranslateT("Not right now.");
+	case ID_STATUS_DND: return TranslateT("Give a guy some peace, would ya?");
+	case ID_STATUS_FREECHAT: return TranslateT("I'm a chatbot!");
+	case ID_STATUS_ONLINE: return TranslateT("Yep, I'm here.");
+	case ID_STATUS_OFFLINE: return TranslateT("Nope, not here.");
+	case ID_STATUS_INVISIBLE: return TranslateT("I'm hiding from the mafia.");
+	case ID_STATUS_ONTHEPHONE: return TranslateT("That'll be the phone.");
+	case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
+	case ID_STATUS_IDLE: return TranslateT("idleeeeeeee");
 	}
 	return NULL;
 }
@@ -112,20 +112,19 @@ const char *StatusModeToDbSetting(int status, const char *suffix)
 	const char *prefix;
 	static char str[64];
 
-	switch (status) 
-	{
-		case ID_STATUS_AWAY:       prefix = "Away";	    break;
-		case ID_STATUS_NA:         prefix = "Na";	    break;
-		case ID_STATUS_DND:        prefix = "Dnd";      break;
-		case ID_STATUS_OCCUPIED:   prefix = "Occupied"; break;
-		case ID_STATUS_FREECHAT:   prefix = "FreeChat"; break;
-		case ID_STATUS_ONLINE:     prefix = "On";       break;
-		case ID_STATUS_OFFLINE:    prefix = "Off";      break;
-		case ID_STATUS_INVISIBLE:  prefix = "Inv";      break;
-		case ID_STATUS_ONTHEPHONE: prefix = "Otp";      break;
-		case ID_STATUS_OUTTOLUNCH: prefix = "Otl";      break;
-		case ID_STATUS_IDLE:       prefix = "Idl";      break;
-		default: return NULL;
+	switch (status) {
+	case ID_STATUS_AWAY: prefix = "Away"; break;
+	case ID_STATUS_NA: prefix = "Na"; break;
+	case ID_STATUS_DND: prefix = "Dnd"; break;
+	case ID_STATUS_OCCUPIED: prefix = "Occupied"; break;
+	case ID_STATUS_FREECHAT: prefix = "FreeChat"; break;
+	case ID_STATUS_ONLINE: prefix = "On"; break;
+	case ID_STATUS_OFFLINE: prefix = "Off"; break;
+	case ID_STATUS_INVISIBLE: prefix = "Inv"; break;
+	case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
+	case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
+	case ID_STATUS_IDLE: prefix = "Idl"; break;
+	default: return NULL;
 	}
 	mir_snprintf(str, SIZEOF(str), "%s%s", prefix, suffix);
 	return str;
@@ -133,8 +132,7 @@ const char *StatusModeToDbSetting(int status, const char *suffix)
 
 int GetCurrentStatus(const char *szProto)
 {
-	if (szProto)
-	{
+	if (szProto) {
 		char szSetting[80];
 		mir_snprintf(szSetting, SIZEOF(szSetting), "Cur%sStatus", szProto);
 		return (int)db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_OFFLINE);
@@ -145,15 +143,13 @@ int GetCurrentStatus(const char *szProto)
 
 int GetStartupStatus(const char *szProto)
 {
-	if (szProto)
-	{
-		int  status_mode;
+	if (szProto) {
+		int status_mode;
 		char szSetting[80];
 
 		mir_snprintf(szSetting, SIZEOF(szSetting), "Startup%sStatus", szProto);
 		status_mode = db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_OFFLINE);
-		if (status_mode == ID_STATUS_CURRENT)
-		{
+		if (status_mode == ID_STATUS_CURRENT) {
 			// load status used for this proto last time
 			mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sStatus", szProto);
 			status_mode = db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_OFFLINE);

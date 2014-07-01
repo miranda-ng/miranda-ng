@@ -1665,8 +1665,7 @@ static TCHAR *ParseWinampSong(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 	ptszWinampTitle = GetWinampSong();
 
-	if (ptszWinampTitle != NULL)
-	{
+	if (ptszWinampTitle != NULL) {
 		mir_free(g_ptszWinampSong);
 		g_ptszWinampSong = mir_tstrdup(ptszWinampTitle);
 	}
@@ -1691,8 +1690,7 @@ static TCHAR *ParseDate(ARGUMENTSINFO *ai)
 
 int ICQMsgTypeToStatus(int iMsgType)
 {
-	switch (iMsgType)
-	{
+	switch (iMsgType) {
 		case MTYPE_AUTOONLINE: return ID_STATUS_ONLINE;
 		case MTYPE_AUTOAWAY: return ID_STATUS_AWAY;
 		case MTYPE_AUTOBUSY: return ID_STATUS_OCCUPIED;
@@ -1745,17 +1743,16 @@ static int OnAccListChanged(WPARAM wParam, LPARAM lParam)
 	UnhookProtoEvents();
 
 	ProtoEnumAccounts(&accounts->count, &accounts->pa);
-	for (int i = 0; i < accounts->count; ++i)
-	{
+	for (int i = 0; i < accounts->count; ++i) {
 		if (!IsAccountEnabled(accounts->pa[i]))
 			continue;
 
 		if (!strcmp(accounts->pa[i]->szProtoName, "ICQ"))
 			HookProtoEvent(accounts->pa[i]->szModuleName, ME_ICQ_STATUSMSGREQ, OnICQStatusMsgRequest);
 
-		accounts->statusFlags |= (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0));
+		accounts->statusFlags |= (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0));
 
-		if (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0))
+		if (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0))
 			accounts->statusCount++;
 
 		if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
@@ -1794,8 +1791,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, ChangeStatusMsgPrebuild);
 	ChangeStatusMsgPrebuild(0, 0);
 
-	if (ServiceExists(MS_VARS_REGISTERTOKEN))
-	{
+	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {
 		TOKENREGISTER tr = {0};
 		tr.cbSize = sizeof(TOKENREGISTER);
 		tr.memType = TR_MEM_MIRANDA;
@@ -1805,8 +1801,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		tr.szHelpText = LPGEN("External Applications")"\t"LPGEN("retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
-		if (db_get_b(NULL, "SimpleStatusMsg", "ExclDateToken", 0) != 0)
-		{
+		if (db_get_b(NULL, "SimpleStatusMsg", "ExclDateToken", 0) != 0) {
 			tr.tszTokenString = _T("date");
 			tr.parseFunctionT = ParseDate;
 			tr.szHelpText = LPGEN("Miranda Related")"\t"LPGEN("get the date (Simple Status Message compatible)");
@@ -1817,8 +1812,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 /*	if (db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1))*/ {
 		DBVARIANT dbv;
 
-		if (!db_get_ts(NULL, "SimpleStatusMsg", "AmpLastTitle", &dbv))
-		{
+		if (!db_get_ts(NULL, "SimpleStatusMsg", "AmpLastTitle", &dbv)) {
 			g_ptszWinampSong = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -1837,21 +1831,16 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (accounts->statusCount == 0)
 		return 0;
 
-	if (!ServiceExists(MS_SS_GETPROFILECOUNT))
-	{
+	if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
 		if (db_get_b(NULL, "SimpleStatusMsg", "GlobalStatusDelay", 1))
-		{
 			SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", "SetStatusDelay", 300), (TIMERPROC)SetStartupStatusGlobal);
-		}
-		else
-		{
-			g_uSetStatusTimer = (UINT_PTR*)mir_alloc(sizeof(UINT_PTR) * accounts->count);
-			for (int i = 0; i < accounts->count; ++i)
-			{
+		else {
+			g_uSetStatusTimer = (UINT_PTR *)mir_alloc(sizeof(UINT_PTR) * accounts->count);
+			for (int i = 0; i < accounts->count; ++i) {
 				if (!IsAccountEnabled(accounts->pa[i]))
 					continue;
 
-				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
 				char szSetting[80];
@@ -1866,16 +1855,14 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 static int OnOkToExit(WPARAM wParam, LPARAM lParam)
 {
-	if (accounts->statusCount)
-	{
+	if (accounts->statusCount) {
 		char szSetting[80];
 
-		for (int i = 0; i < accounts->count; ++i)
-		{
+		for (int i = 0; i < accounts->count; ++i) {
 			if (!IsAccountEnabled(accounts->pa[i]))
 				continue;
 
-			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
+			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 				continue;
 
 			mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sStatus", accounts->pa[i]->szModuleName);
@@ -1907,7 +1894,7 @@ static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 //remember to mir_free() the return value
 static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)GetAwayMessage((int)wParam, (char*)lParam, TRUE, NULL);
+	return (INT_PTR)GetAwayMessage((int)wParam, (char *)lParam, TRUE, NULL);
 }
 
 extern "C" int __declspec(dllexport) Load(void)
@@ -1915,7 +1902,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
 
-	hwndSAMsgDialog	= NULL;
+	hwndSAMsgDialog = NULL;
 	accounts = (PROTOACCOUNTS *)mir_alloc(sizeof(PROTOACCOUNTS));
 
 	db_set_w(NULL, "CList", "Status", (WORD)ID_STATUS_OFFLINE);

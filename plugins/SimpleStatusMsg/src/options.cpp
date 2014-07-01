@@ -1194,14 +1194,12 @@ static BOOL IsHistoryMsgsFound(HWND hwndDlg, int histMax)
 	char szSetting[16];
 	DBVARIANT dbv;
 	int j = db_get_w(NULL, "SimpleStatusMsg", "LMMsg", 1);
-	for (int i = 1; i <= histMax; ++i, --j)
-	{
-		if (j < 1) j = histMax;
+	for (int i = 1; i <= histMax; ++i, --j) {
+		if (j < 1)
+			j = histMax;
 		mir_snprintf(szSetting, SIZEOF(szSetting), "SMsg%d", j);
-		if (!db_get_ts(NULL, "SimpleStatusMsg", szSetting, &dbv))
-		{
-			if (dbv.ptszVal != NULL && *dbv.ptszVal != '\0')
-			{
+		if (!db_get_ts(NULL, "SimpleStatusMsg", szSetting, &dbv)) {
+			if (dbv.ptszVal != NULL && *dbv.ptszVal != '\0') {
 				db_free(&dbv);
 				return TRUE;
 			}
