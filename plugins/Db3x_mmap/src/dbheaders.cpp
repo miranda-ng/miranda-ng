@@ -54,7 +54,9 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static TCHAR tszOldHeaders[] = _T("Miranda cannot open the obsolete database. Press Yes to download a solution or No to cancel");
+static TCHAR tszOldHeaders[] = 
+	_T("This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\n")
+	_T("Please press Yes to read further instructions or No to cancel");
 
 int CDb3Mmap::CheckDbHeaders()
 {
@@ -65,9 +67,11 @@ int CDb3Mmap::CheckDbHeaders()
 			 !memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)) ||
 			 !memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature)))
 		{
-			if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONHAND)) {
+			if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONINFORMATION)) {
 				TCHAR tszCurPath[MAX_PATH];
 				GetModuleFileName(NULL, tszCurPath, SIZEOF(tszCurPath));
+				TCHAR *p = _tcsrchr(tszCurPath, '\\');
+				if (p) *p = 0;
 
 				HKEY hPathSetting;
 				if (!RegCreateKey(HKEY_CURRENT_USER, _T("Software\\Miranda NG"), &hPathSetting)) {
@@ -76,6 +80,7 @@ int CDb3Mmap::CheckDbHeaders()
 				}
 
 				CallService(MS_UTILS_OPENURL, 0, LPARAM("http://wiki.miranda-ng.org/index.php?title=Updating_pre-0.94.9_version_to_0.95.1_and_later"));
+				Sleep(1000);
 				exit(0);
 			}
 		}
