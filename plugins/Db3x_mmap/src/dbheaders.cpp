@@ -55,8 +55,7 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static TCHAR tszOldHeaders[] = 
-	_T("This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\n")
-	_T("Please press Yes to read further instructions or No to cancel");
+	LPGENT("This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nPlease press Yes to read further instructions or No to cancel");
 
 int CDb3Mmap::CheckDbHeaders()
 {
