@@ -5,6 +5,7 @@
 #define TTBI_SOUNDSONOFF		"TTBInternal/SoundsOnOFF"
 #define TTBI_MAINMENUBUTT		"TTBInternal/MainMenuBUTT"
 #define TTBI_STATUSMENUBUTT		"TTBInternal/StatusMenuButt"
+#define TTBI_SHOWHIDEOFFLINE	"TTBInternal/ShowHideOffline"
 
 #define INDEX_OFFLINE			5
 #define INDEX_META				6
@@ -26,7 +27,7 @@ static stdButtons[] = {
 	{ LPGEN("Show accounts manager"),       "Protos/ShowAccountManager", SKINICON_OTHER_ACCMGR,   0,               LPGEN("Show accounts manager"), NULL, 0, 0 },
 	{ LPGEN("Find/add contacts"),           MS_FINDADD_FINDADD,          SKINICON_OTHER_FINDUSER, 0,               LPGEN("Find/add contacts"),     NULL, 0, 1 },
 	{ LPGEN("Show status menu"),            TTBI_STATUSMENUBUTT,         SKINICON_OTHER_STATUS,   0,               LPGEN("Show status menu"),      NULL, 0, 0 },
-	{ LPGEN("Show/hide offline contacts"),  MS_CLIST_SETHIDEOFFLINE,     IDI_HIDEOFFLINE,         IDI_SHOWOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 1, 1 },
+	{ LPGEN("Show/hide offline contacts"),  TTBI_SHOWHIDEOFFLINE,        IDI_HIDEOFFLINE,         IDI_SHOWOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 1, 1 },
 	{ LPGEN("Enable/disable metacontacts"), "MetaContacts/OnOff",        IDI_METAOFF,             IDI_METAON,      LPGEN("Disable metacontacts"),  LPGEN("Enable metacontacts"), 1, 1 },
 	{ LPGEN("Enable/disable groups"),       TTBI_GROUPSHOWHIDE,          IDI_GROUPSOFF,           IDI_GROUPSON,    LPGEN("Enable groups"),         LPGEN("Disable groups"), 1, 1 },
 	{ LPGEN("Enable/disable sounds"),       TTBI_SOUNDSONOFF,            IDI_SOUNDSOFF,           IDI_SOUNDSON,    LPGEN("Disable sounds"),        LPGEN("Enable sounds"), 1, 1 },
@@ -95,6 +96,12 @@ INT_PTR TTBInternalSoundsOnOff(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+INT_PTR TTBInternalShowHideOffline(WPARAM wParam, LPARAM lParam)
+{
+	CallService(MS_CLIST_SETHIDEOFFLINE, -1, 0);
+	return 0;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 void InitInternalButtons()
@@ -105,6 +112,7 @@ void InitInternalButtons()
 	CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff);
 	CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt);
 	CreateServiceFunction(TTBI_STATUSMENUBUTT, TTBInternalStatusMenuButt);
+	CreateServiceFunction(TTBI_SHOWHIDEOFFLINE, TTBInternalShowHideOffline);
 
 	for (int i = 0; i < SIZEOF(stdButtons); i++) {
 		TTBButton ttb = {0};
