@@ -52,19 +52,41 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static TCHAR tszOldHeaders[] = _T("Miranda cannot open the obsolete database. Press Yes to download a solution or No to cancel");
+
 int CDb3Mmap::CheckDbHeaders()
 {
-	if (memcmp(m_dbHeader.signature, &dbSignatureU,  sizeof(m_dbHeader.signature)) &&
-		 memcmp(m_dbHeader.signature, &dbSignatureE,  sizeof(m_dbHeader.signature)) &&
-		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)))
+	if (memcmp(m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
+		 memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
+	{
+		if (!memcmp(&m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)) ||
+			 !memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)) ||
+			 !memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature)))
+		{
+			if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONHAND)) {
+				TCHAR tszCurPath[MAX_PATH];
+				GetModuleFileName(NULL, tszCurPath, SIZEOF(tszCurPath));
+
+				HKEY hPathSetting;
+				if (!RegCreateKey(HKEY_CURRENT_USER, _T("Software\\Miranda NG"), &hPathSetting)) {
+					RegSetValue(hPathSetting, _T("InstallPath"), REG_SZ, tszCurPath, sizeof(tszCurPath));
+					RegCloseKey(hPathSetting);
+				}
+
+				CallService(MS_UTILS_OPENURL, 0, LPARAM("http://wiki.miranda-ng.org/index.php?title=Updating_pre-0.94.9_version_to_0.95.1_and_later"));
+				exit(0);
+			}
+		}
 		return EGROKPRF_UNKHEADER;
+	}
 
 	switch (m_dbHeader.version) {
 	case DB_095_1_VERSION:
 	case DB_095_VERSION:
-	case DB_094_VERSION:
-	case DB_OLD_VERSION:
 		break;
+
 	default:
 		return EGROKPRF_VERNEWER;
 	}

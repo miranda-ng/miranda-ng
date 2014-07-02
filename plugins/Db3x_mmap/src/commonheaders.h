@@ -50,7 +50,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HINSTANCE g_hInst;
 extern LIST<CDb3Mmap> g_Dbs;
-extern DBSignature dbSignatureU, dbSignatureE, dbSignatureIM, dbSignatureSA;
+extern DBSignature dbSignatureU, dbSignatureE, dbSignatureIM, dbSignatureSA, dbSignatureSD;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)

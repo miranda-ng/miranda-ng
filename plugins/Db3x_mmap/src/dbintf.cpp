@@ -27,6 +27,7 @@ DBSignature dbSignatureU = { "Miranda NG DBu", 0x1A }; // unencrypted database
 DBSignature dbSignatureE = { "Miranda NG DBe", 0x1A }; // encrypted database
 DBSignature dbSignatureIM = { "Miranda ICQ DB", 0x1A };
 DBSignature dbSignatureSA = { "Miranda ICQ SA", 0x1A };
+DBSignature dbSignatureSD = { "Miranda ICQ SD", 0x1A };
 
 static int ModCompare(const ModuleName *mn1, const ModuleName *mn2)
 {
@@ -92,7 +93,7 @@ CDb3Mmap::~CDb3Mmap()
 	if (!m_bReadOnly) {
 		DWORD bytesWritten;
 		SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
-		WriteFile(m_hDbFile, &dbSignatureIM, 1, &bytesWritten, NULL);
+		WriteFile(m_hDbFile, &dbSignatureU, 1, &bytesWritten, NULL);
 	}
 
 	if (m_hDbFile != INVALID_HANDLE_VALUE)
@@ -137,9 +138,6 @@ int CDb3Mmap::Load(bool bSkipInit)
 		CloseHandle(m_hDbFile);
 		return EGROKPRF_CANTREAD;
 	}
-
-	if (!memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
-		memcpy(&m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature));
 
 	if (!bSkipInit) {
 		if (InitMap()) return 1;
