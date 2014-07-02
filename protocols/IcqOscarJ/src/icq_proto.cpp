@@ -838,15 +838,11 @@ HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
 HANDLE __cdecl CIcqProto::SearchByEmail(const PROTOCHAR *email)
 {
 	if (email && icqOnline() && strlennull(email) > 0) {
-		DWORD dwSearchId, dwSecId;
 		char *szEmail = tchar_to_ansi(email);
 
 		// Success
-		dwSearchId = SearchByMail(szEmail);
-		if (m_bAimEnabled)
-			dwSecId = icq_searchAimByEmail(szEmail, dwSearchId);
-		else
-			dwSecId = 0;
+		DWORD dwSearchId = SearchByMail(szEmail);
+		DWORD dwSecId = (dwSearchId == 0 && m_bAimEnabled) ? icq_searchAimByEmail(szEmail, dwSearchId) : 0;
 
 		SAFE_FREE(&szEmail);
 
