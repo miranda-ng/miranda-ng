@@ -1,7 +1,7 @@
 /*
 CmdLine plugin for Miranda IM
 
-Copyright © 2007 Cristian Libotean
+Copyright ï¿½ 2007 Cristian Libotean
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -1065,6 +1065,18 @@ void HandleCallServiceCommand(PCommand command, TArgument *argv, int argc, PRepl
 	}
 }
 
+void ParseMessage(char buffer[512], const char *message) {
+	unsigned int j = 0;
+	for (unsigned int i = 0; i < strlen(message); ++i) {
+		char c = message[i];
+		if (c == '\\' && i < (strlen(message) - 1) && message[i+1] == 'n') {
+			c = '\n';
+			i++;
+		}
+		buffer[j++] = c;
+	}
+	buffer[j] = '\0';
+}
 
 MCONTACT ParseContactParam(char *contact)
 {
@@ -1095,22 +1107,20 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 {
 	if (argc >= 4)
 	{
-		char *message = argv[argc - 1]; //get the message
-		int i;
-		char *contact;
+		char message[512];
+		ParseMessage(message, argv[argc - 1]); //get the message
+
 		char buffer[1024];
-		MCONTACT hContact;
-		HANDLE hProcess = NULL;
 		ACKDATA *ack = NULL;
-		for (i = 2; i < argc - 1; i++)
+		for (int i = 2; i < argc - 1; i++)
 		{
-			contact = argv[i];
-			hContact = ParseContactParam(contact);
+			char *contact = argv[i];
+			MCONTACT hContact = ParseContactParam(contact);
 			
 			if (hContact)
 			{
 				bShouldProcessAcks = TRUE;
-				hProcess = (HANDLE) CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM) message);
+				HANDLE hProcess = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)message);
 				const int MAX_COUNT = 60;
 				int counter = 0;
 				while (((ack = GetAck(hProcess)) == NULL) && (counter < MAX_COUNT))
