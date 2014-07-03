@@ -317,6 +317,8 @@ BLOB
 Рядок
 [Unicode setting]
 Unicode
+[Handle]
+Назва
 [Open Database Editor]
 Відкрити редактор бази
 [Open user tree in DBE++]
@@ -333,6 +335,8 @@ Unicode
 Дерево модулів не знайдено
 [Contacts]
 Контакти
+[HANDLE]
+НАЗВА
 [Add module to contact "%s"]
 Додати модуль контакту "%s"
 [Database]

@@ -1,0 +1,7 @@
+﻿[OutputDebugString()]
+[Wikipedia]
+[ID]
+[Ctrl + ]
+[Alt + ]
+[Shift + ]
+[Win + ]

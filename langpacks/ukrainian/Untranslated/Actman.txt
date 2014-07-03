@@ -62,3 +62,5 @@
 [Show popup or Info window with current music information.]
 [WhenWasIt Birthday Reminder (whenwasit.dll)]
 [display birthdays window]
+[&OK]
+[Unicode]

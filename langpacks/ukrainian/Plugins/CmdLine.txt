@@ -25,6 +25,8 @@ Miranda була закрита або сталася помилка при оч
 %s версія %s
 [Unknown command '%s'.\n]
 Невідома команда '%s'.\n
+[Could not initialize CmdLine plugin property]
+Не вдалося ініціалізувати власності CmdLine
 [Error]
 Помилка
 [Changes account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is the name of the account. If it's not specified then the command will issue a global status change.]
@@ -153,5 +155,3 @@ Miranda була закрита або сталася помилка при оч
 Сповіщення
 [Warning]
 Попередження
-[Could not initialize CmdLine plugin property]
-Не вдалося ініціалізувати власності CmdLine

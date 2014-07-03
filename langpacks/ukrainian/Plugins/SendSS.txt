@@ -109,6 +109,8 @@
 Користувач скасував одне з діалогових вікон
 [Unknown Error]
 Невідома помилка
+[File transfer]
+Передача файлу
 [FTPFile transfer]
 Передача FTPFile
 [%s (%i):\nCould not add a share to the FTP File plugin.]
@@ -209,6 +211,8 @@ HTTP-з'єднання SendSS
 <Тільки зберегти>
 [File Transfer]
 Передача файлу
+[E-mail]
+Пошта
 [FTP File]
 Файл на FTP
 [Upload Pie (30m)]
