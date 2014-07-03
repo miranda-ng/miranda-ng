@@ -293,7 +293,6 @@
 #define IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK 1761
 #define IDC_XSTATUS_HAS_PRIORITY        1761
 #define IDC_CONTLAYER                   1761
-#define IDC_FRAME_META_CAPT             1762
 #define IDC_OFFSETICON                  1762
 #define IDC_SHOW_STATUS_IF_NOAWAY       1762
 #define IDC_CHECK6                      1762

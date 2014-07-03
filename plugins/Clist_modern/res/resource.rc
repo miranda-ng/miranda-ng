@@ -472,7 +472,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,151,196,10
     GROUPBOX        "Metacontacts stuff",IDC_FRAME_META,2,81,218,101
     GROUPBOX        "Additional stuff",IDC_FRAME_META2,2,12,218,65
-    CTEXT           "For other stuff metacontacts should be enabled.",IDC_FRAME_META_CAPT,11,94,201,26,NOT WS_VISIBLE
     CONTROL         "Allow internal requesting of status message text",IDC_DISCOVER_AWAYMSG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,38,201,10
     EDITTEXT        IDC_SUBINDENT,154,163,35,12,ES_NUMBER
