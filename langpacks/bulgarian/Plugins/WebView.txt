@@ -147,7 +147,7 @@ Popup времетраене
 [Colors]
 Цветове
 [Use custom colors]
-
+Зададени цветове
 [Background]
 Фон
 [Text]
@@ -205,9 +205,9 @@ Popup времетраене
 
 [Contact alert options]
 
-[Ping Web Site]
+[Ping web site]
 
-[Stop Data Processing]
+[Stop data processing]
 
 ;file \plugins\WebView\src\webview.cpp
 [All Webview sites have been updated.]

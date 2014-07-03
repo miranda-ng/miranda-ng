@@ -14,8 +14,6 @@
 Отказ
 [Automatic backups]
 Автоматично създаване на резервни копия
-[Number of backups to keep:]
-Брой резервни копия за съхраняване:
 [Backup NOW]
 Резервно копие сега
 [Disabled]
@@ -26,18 +24,28 @@
 При изключване на Miranda
 [Every:]
 Всеки:
+[Number of backups to keep:]
+Брой резервни копия за съхраняване:
 [Backup to folder:]
 Папка за резервните копия:
 [Browse...]
 
 [Go to the "Customize -> Folders" to change settings]
 Можете да промените настройките от Персонализиране>Папки
+[Compress backup to zip-archive]
+
 [Disable progress bar]
 Изключване на лентата за напредък
 [Disable popups]
 Изключване на Popups
 ;file \plugins\Db_autobackups\src\backup.cpp
+[Miranda NG database]
+
+[Created by:]
+
 [Miranda NG databases]
+
+[Compressed Miranda NG databases]
 
 [All files]
 Всички файлове

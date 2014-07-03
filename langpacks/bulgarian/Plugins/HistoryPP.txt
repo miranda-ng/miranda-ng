@@ -314,7 +314,7 @@ ANSI кодиране
 [Conversation started at %s]
 Начало на разговора в %s
 [Remove bookmark]
-
+Премахване на отметката
 [Bookmark]
 
 [Remove Bookmark]
@@ -574,7 +574,7 @@ URL връзки
 [Incoming URL Sample]
 
 [Incoming Url]
-
+Входящ url адрес
 [Make shure you have CAPS LOCK turned off.]
 
 [Make sure you have CAPS LOCK turned off.]
@@ -598,7 +598,7 @@ URL връзки
 [Outgoing URL Sample]
 
 [Outgoing Url]
-
+Изходящ url адрес
 [Recent at bottom]
 
 [Recent on top]
@@ -628,7 +628,7 @@ URL връзки
 [You Were Added Message Sample]
 
 [Authorization request]
-
+Молба за упълномощаване
 [Your were added message]
 
 [Show events count in menu]
@@ -670,7 +670,7 @@ URL връзки
 [%d min]
 
 [&Reset to Default]
-
+Стандарт
 [Contact history]
 История на контакта
 [Incoming nick]
@@ -685,3 +685,35 @@ URL връзки
 Входяща марка за време
 [Outgoing timestamp]
 Изходяща марка за време
+[Open in &new window]
+Отваряне в нов прозорец
+[Open in existing &window]
+
+[Copy &Link]
+
+[Co&py]
+
+[Select &All]
+Маркиране на всичко
+[Send &Message]
+Изпращане на съобщение
+[User Details]
+Подробности за потребителя
+[Enable SmileyAdd support]
+
+[Always RTL]
+
+[Always LTR]
+
+[Enable MathModule support]
+
+[Show event icons]
+
+[View user's history]
+История на съобщенията
+[View User's History]
+История на съобщенията
+[View &History]
+Преглед на историята
+[User Menu]
+Потребителско меню

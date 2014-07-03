@@ -45,11 +45,11 @@
 [Outgoing messages]
 Изходящи съобщения
 [Background color]
-
+Цвят на фона
 [Use Miranda settings]
 
 [Text color]
-
+Цвят на текста
 [General settings]
 
 [Open links always in a new window]
@@ -116,9 +116,9 @@
 [Error]
 Грешка
 [incoming]
-
+входящи
 [outgoing]
-
+изходящи
 [Filter]
 Филтър
 [no filter]
@@ -151,6 +151,6 @@
 [RTF file]
 
 [All files]
-
+Всички файлове
 [Save RTF File]
 

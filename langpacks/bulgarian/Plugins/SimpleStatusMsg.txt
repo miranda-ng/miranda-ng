@@ -103,7 +103,7 @@
 [Set status after]
 
 [milliseconds]
-
+милисекунди
 [Protocol:]
 Протокол:
 [Status:]

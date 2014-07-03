@@ -69,7 +69,7 @@
 [Send files to Dropbox]
 
 [Network]
-
+Мрежа
 ;file \plugins\Dropbox\src\dropbox_icons.cpp
 [Protocols]
 

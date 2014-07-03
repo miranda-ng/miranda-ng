@@ -78,13 +78,13 @@
 [DND]
 Не безпокойте
 [Free For Chat]
-
+Готов за чат
 [Invisible]
 Невидим
 [On The Phone]
-
+На телефона
 [Out To Lunch]
-
+На обяд
 [Send If Their Status changes]
 
 [From Offline]

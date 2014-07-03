@@ -247,7 +247,7 @@ OTR: Инсталирана е приставката SecureIM
 [MirOTR menu]
 
 [OTR Status]
-
+OTR състояние
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Private Data]
 

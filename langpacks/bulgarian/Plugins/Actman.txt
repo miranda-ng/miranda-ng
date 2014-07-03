@@ -8,7 +8,7 @@
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 Приставка за управление на клавишните комбинации за отваряне на прозореца за съобщения, вмъкване на текст, стартиране на програми и извикване на услуги
 [Actions]
-
+Действия
 [No description]
 Няма описание
 [New]
@@ -20,7 +20,7 @@
 [Reload]
 
 [Delete]
-
+Изтриване
 [Test]
 
 [Export]
@@ -30,13 +30,13 @@
 [Import]
 
 [Help]
-
+Помощ
 [Action]
 
 [Open contact window]
 
 [Contact]
-
+Контакт
 [Call service]
 
 [Service]
@@ -48,17 +48,17 @@
 [Insert text]
 
 [Text]
-
+Текст
 [Advanced]
-
+Разширени
 [Link to action]
 
 [Profile]
-
+Профил
 [MessageBox]
 
 [Message]
-
+Съобщение
 [Choose contact]
 Изберете контакт
 [Keep handle only]
@@ -72,7 +72,7 @@
 [You can use %name%, %uid%, %account% and %group% macros]
 Можете да използвате %name%, %uid%, %account% и %group%
 [Contacts]
-
+Контакти
 [Select contact to open its window]
 
 [Result action]
@@ -110,7 +110,7 @@ Unicode низ
 [current contact]
 текущ контакт
 [last result]
-
+последен резултат
 [parameter]
 
 [structure]
@@ -124,11 +124,11 @@ Unicode низ
 [Miranda service help]
 
 [Name]
-
+Име
 [Alias]
 
 [Plugin]
-
+Приставка
 [Return]
 Връща
 [Effect]
@@ -140,27 +140,27 @@ Unicode низ
 [Manage Jabber Bookmarks]
 
 [Offline]
-
+Извън линия
 [Online]
-
+На линия
 [Away]
-
+Отсъстващ
 [DND]
-
+Не безпокойте
 [NA]
-
+Недостъпен
 [Occupied]
-
+Зает
 [Free for Chat]
-
+Готов за чат
 [Invisible]
-
+Невидим
 [On the Phone]
-
+На телефона
 [Out to Lunch]
-
+На обяд
 [text]
-
+текст
 [int 0, if successful]
 
 [Set status message]
@@ -168,7 +168,7 @@ Unicode низ
 [Set protocol status]
 
 [None]
-
+Няма
 [Angry]
 
 [Taking a bath]
@@ -198,7 +198,7 @@ Unicode низ
 [Having fun]
 
 [On the phone]
-
+На телефона
 [Gaming]
 
 [Studying]
@@ -216,7 +216,7 @@ Unicode низ
 [Working]
 
 [Typing]
-
+Пише
 [Picnic]
 
 [Cooking]
@@ -346,7 +346,7 @@ Unicode низ
 [All protocols]
 
 [Protocol]
-
+Протокол
 [signed -2 if proto can't set this, -1 on protocol not found, else 0]
 
 [Shows a dialog to set the avatar for all possible protocols]
@@ -376,7 +376,7 @@ Unicode низ
 [Notify]
 
 [Error]
-
+Грешка
 [Popup window]
 
 [YAPP only]
@@ -546,7 +546,7 @@ Unicode низ
 [Paste from]
 Поставяне от
 [File]
-
+Файл
 [Read]
 
 [Write]
@@ -602,7 +602,7 @@ Unicode низ
 [Keep last result]
 Запазване на последния резултат
 [Icons]
-
+Икони
 [Question]
 
 [Info]
@@ -684,13 +684,13 @@ Unicode низ
 [Core Hotkey]
 Клавишна комбинация
 [Main menu]
-
+Главно меню
 [Contact menu]
-
+Меню на контактите
 [Tray menu]
 
 [Protocol menus]
-
+Менюта на протоколите
 [Status menu]
 
 [Common]
@@ -716,9 +716,9 @@ Unicode низ
 [Choose action]
 Изберете действие
 [&Yes]
-
+&Да
 [&No]
-
+&Не
 [A&ppend]
 Добавяне
 [Yes to &All]
@@ -847,7 +847,7 @@ Unicode низ
 [Settings]
 
 [Contact list]
-
+Списък с контакти
 [Contact list format]
 
 [You can use %name%, %uid%, %account% and %group% substitutes]
@@ -857,7 +857,7 @@ Unicode низ
 [value]
 
 [name]
-
+име
 [value (name)]
 
 [name 'value']
@@ -869,7 +869,7 @@ Unicode низ
 [Miranda event help]
 
 [contact list]
-
+списък с контакти
 [database driver]
 
 [Main settings]

@@ -364,7 +364,7 @@ popup за годишнина
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 
-[An fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
+[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 
 [Rename Item]
 Преименуване на елемента

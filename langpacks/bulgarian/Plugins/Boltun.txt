@@ -48,7 +48,7 @@
 
 ;file \plugins\Boltun\src\boltun.h
 [Message sessions]
-
+Разговори
 [Mind Files]
 
 [All Files]

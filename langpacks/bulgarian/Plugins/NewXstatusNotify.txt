@@ -130,6 +130,8 @@ Popups
 Описание на състоянието
 [Ignore empty status and xStatus messages]
 
+[Connection timeout]
+
 [Notification]
 Уведомяване
 [Disable for extra status 'Music']
@@ -182,9 +184,9 @@ Popups
 
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
-
+Файлове със звуци
 [All files]
-
+Всички файлове
 [Wave files]
 
 [Status]

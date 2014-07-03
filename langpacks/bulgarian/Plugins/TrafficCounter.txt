@@ -131,7 +131,7 @@ Popups
 [Couldn't read statistics file]
 Статистиката не може да бъде прочетена
 [Traffic Counter]
-
+Брояч на трафика
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Шрифт

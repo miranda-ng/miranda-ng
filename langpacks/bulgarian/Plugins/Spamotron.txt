@@ -8,94 +8,90 @@
 [Anti-spam plugin with captcha and Bayes filtering.]
 
 ;file \plugins\Spamotron\res\spamotron.rc
-[Do not send challenge request if message score above]
-Без задаване на въпрос при оценка над
-[Auto-learn messages from approved contacts as ham]
-Заучаване на съобщения от одобрени контакти като ham
-[Filtering options]
-Настройки за филтриране
-[Learning options]
-Настройки за заучаване
-[Auto-learn outgoing messages as ham]
-Автозаучаване на изходящите съобщения като ham
-[Spam]
-SPAM
-[Ham]
-ham
-[Learn message:]
-Заучени съобщения:
-[Auto approve contact if message score below]
-Автоматично одобрение при оценка под
-[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
-Без включване на опциите преди заучаването на поне 20 ham и 50 SPAM съобщения
+[Enabled]
+Включено
 [Learned ham messages:]
 Заучени ham съобщения:
 [Learned spam messages:]
 Заучени SPAM съобщения:
-[Analyze]
-Анализиране
+[Filtering options]
+Настройки за филтриране
+[Do not send challenge request if message score above]
+Без задаване на въпрос при оценка над
+[Auto approve contact if message score below]
+Автоматично одобрение при оценка под
+[and learn as ham]
+заучи като ham
+[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
+Без включване на опциите преди заучаването на поне 20 ham и 50 SPAM съобщения
+[Learning options]
+Настройки за заучаване
+[Auto-learn messages from approved contacts as ham]
+Заучаване на съобщения от одобрени контакти като ham
 [Auto-learn messages from contacts if not approved in]
 Заучаване на съобщения, от неодобрени контакти за
 [days as spam]
 дни като SPAM
-[Enabled]
-Включено
-[and learn as ham]
-заучи като ham
-[Enabled accounts:]
-Акаунти за филтриране:
-[Do not reply to messages with words in this list:]
-Без отговаряне на съобщения съдържащи някоя от следните думи:
-[Do not reply to the same message more than]
-Не отговаряй на едно съобщение повече от
-[Flood protection]
-Flood защита
-[Do not send more than]
-Не изпращай повече от
-[messages to one contact per day]
-съобщения до един контакт на ден
-[times a day]
-пъти за един ден
+[Auto-learn outgoing messages as ham]
+Автозаучаване на изходящите съобщения като ham
+[Learn message:]
+Заучени съобщения:
+[Spam]
+SPAM
+[Ham]
+ham
+[Analyze]
+Анализиране
 [Settings]
 Настройки
+[Enabled accounts:]
+Акаунти за филтриране:
+[Auto approve on:]
+Автоматично одобрение при:
 [Outgoing message]
 Изходящо съобщение
 [Incoming message with any word from list:]
 Входящо съобщение с дума от списъка:
-[Auto approve on:]
-Автоматично одобрение при:
 [Hide contact until verified]
 Скриване на контакта до потвърждаване
 [Add permanently to list on verified]
 Добавяне в списъка за постоянно при потвърждение
 [Log actions to system history]
 Запис на действията в историята
+[Flood protection]
+Flood защита
+[Do not send more than]
+Не изпращай повече от
+[messages to one contact per day]
+съобщения до един контакт на ден
+[Do not reply to the same message more than]
+Не отговаряй на едно съобщение повече от
+[times a day]
+пъти за един ден
+[Do not reply to messages with words in this list:]
+Без отговаряне на съобщения съдържащи някоя от следните думи:
 [Mode:]
 Режим:
-[Responses: (saved in %response%, %response-n% variables)]
-Отговори: (съхраняват се от променливите %response% и %response-n%)
+[Case-sensitive]
+Различаване на главните от малките букви
 [will be saved in %mathexpr%]
 ще бъде съхранене в %mathexpr%
-[Reset to defaults]
-Стандарт
+[Send challenge on incoming message:]
+Запитване при получаване на съобщение
+[Responses: (saved in %response%, %response-n% variables)]
+Отговори: (съхраняват се от променливите %response% и %response-n%)
 [Reply on success:]
 Отговори със следното съобщение при правилен отговор:
 [Send challenge on authorization request:]
 Запитване при получаване на молба за молба за упълномощаване:
 [Keep blocked messages in contact history]
 Запис на блокираните съобщения в историята на контакта
-[Case-sensitive]
-Различаване на главните от малките букви
-[Send challenge on incoming message:]
-Запитване при получаване на съобщение
 [and mark them unread after approval]
 и маркиране като непрочетени след потвърждаване
+[Reset to defaults]
+Стандарт
 [Enable popup notifications]
 Уведомяване с Popup
-[Contact blocked]
-Блокиран контакт
-[Contact approved]
-Потвърден контакт
 [Appearance]
 Външен вид
 [Foreground]
@@ -104,16 +100,20 @@ Flood защита
 Фон
 [Timeout (sec)]
 Времетраене (сек)
+[Contact blocked]
+Блокиран контакт
+[Contact approved]
+Потвърден контакт
+[Challenge sent]
+Изпратено запитване
 [Default colors]
 Стандартни цветове
+[Windows colors]
+Цветове от Windows
 [Default timeout]
 Станд. времетраене
 [Preview]
 Образец
-[Windows colors]
-Цветове от Windows
-[Challenge sent]
-Изпратено запитване
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Път до Бейс базата от данни

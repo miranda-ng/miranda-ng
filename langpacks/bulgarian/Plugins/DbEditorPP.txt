@@ -61,13 +61,13 @@ Popup времетраене (0=безкрайност)
 [Edit setting]
 Редактиране
 [Byte]
-
+BYTE
 [Word]
-
+WORD
 [Dword]
-
+DWORD
 [String]
-
+STRING
 [Hexadecimal]
 
 [Decimal]

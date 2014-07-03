@@ -143,9 +143,9 @@ UTF8 за нови файлове
 [You have not applied the changes, do you wish to apply them first?]
 
 [Executable files]
-
+Изпълними файлове
 [All files]
-
+Всички файлове
 [Failed to get the shells allocator!]
 
 [Failed to Allocate buffer space]

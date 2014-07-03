@@ -37,17 +37,17 @@
 [show message window with pasted message]
 
 [** All contacts **]
-
+** Всички контакти **
 [Protocol]
-
+Протокол
 [Services]
 Услуги
 [Options]
-
+Настройки
 [Contacts]
-
+Контакти
 [Accounts]
-
+Акаунти
 ;file \plugins\MirFox\src\MirandaUtils.cpp
 [MirFox log]
 

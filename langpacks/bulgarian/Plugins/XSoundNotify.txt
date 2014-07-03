@@ -30,9 +30,9 @@
 [Custom sound for %s (%s)]
 
 [Sound files]
-
+Файлове със звуци
 [WAV files]
-
+WAV файлове
 ;file \plugins\XSoundNotify\src\options.cpp
 [Sounds]
 Звук

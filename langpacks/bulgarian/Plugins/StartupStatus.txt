@@ -55,6 +55,7 @@
 [minutes of inactivity]
 минути бездействие
 [minutes of level 1 mode]
+
 [only set when inactive]
 задаване само при липса на активност
 [Monitor Miranda's activity only]
@@ -269,7 +270,7 @@ Dial-up (експериментално)
 [<current>]
 <текущо>
 [<unknown>]
-
+<неизвестно>
 [Left]
 Ляво
 [Right]

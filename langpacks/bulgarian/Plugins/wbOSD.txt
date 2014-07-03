@@ -8,49 +8,49 @@
 [Shows new message/status change info using on-screen display.]
 
 ;file \plugins\wbOSD\res\wbOSD.rc
-[Select font]
-
-[Text color]
-Цвят на текста
-[Background color]
-Цвят на фона
-[Transparent]
-Прозрачно
-[Shadow color]
-
-[Alternative shadow]
-
-[Shadow align]
-
 [General]
 Основни
+[Align]
+Подреждане
+[Select font]
+
 [Shadow]
 Сянка
 [Show drop shadow]
 
-[Align]
-Подреждане
+[Shadow align]
+
+[Shadow color]
+
+[Alternative shadow]
+
 [Shadow distance:]
 
 [Other]
 Друго
+[Background color]
+Цвят на фона
+[Transparent]
+Прозрачно
 [Alpha:]
 Алфа:
-[Announce]
-
 [Timeout (ms):]
 
-[Show events]
+[Show testing OSD]
+
+[Announce]
 
 [Status changes]
 Промяна на състояние
-[Show testing OSD]
-
 [Show my status changes]
 
-[Show message window after click]
+[Text color]
+Цвят на текста
+[Show events]
 
 [Format:]
+
+[Show message window after click]
 
 [Show when my status is:]
 
@@ -61,7 +61,7 @@
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
 
 [Help]
-
+Помощ
 [Miranda NG is great and this is a long message.]
 
 [Plugins]

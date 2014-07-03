@@ -94,7 +94,7 @@ ICQ аватари
 За Ansi <-> Unicode превод ще бъде използвана:
 [Make me temporarily visible to contacts I send message to]
 Желая да бъда временно видим за контактите до които изпращам съобщения
-[Notify me when a message delivery has failed (old method)]
+[Notify me when a message delivery has failed]
 
 [Peer-to-peer Messaging]
 
@@ -1620,7 +1620,7 @@ Popup заглавие
 [None]
 Няма
 [Custom Status]
-
+Персонално състояние
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Поздравителна картичка:

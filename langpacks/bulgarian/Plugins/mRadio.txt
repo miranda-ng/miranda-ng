@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Plugin: mRadio Mod
-;  Version: 0.0.2.1
+;  Version: 0.0.2.4
 ;  Authors: Awkward
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
@@ -163,6 +163,10 @@ URL, който се възпроизвежда в момента
 Вкл./Изкл. на звука
 [mRadio volume control]
 mRadio - управление силата на звука
+[mRadio off]
+
+[mRadio on]
+
 [Import File]
 Внос от файл
 [Play Station]

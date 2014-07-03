@@ -240,6 +240,8 @@ ms между две мигания
 Ползване на икона за свързване
 [Use new drawer for status bar]
 
+[&Main menu]
+Главно меню
 [E&xit]
 Изход
 [&Status]
@@ -323,7 +325,7 @@ ms между две мигания
 Текст за състояние
 [Group closed]
 Затворена група
-[Hover contacts]
+[Hovered contacts]
 Контакт под курсора
 [Background]
 Фон
@@ -373,8 +375,6 @@ _НямаПротокол_
 
 [&Find/Add contacts...]
 Търсене/Добавяне на контакти
-[&Main menu]
-Главно меню
 [&Options...]
 Настройки...
 [&About]
@@ -428,9 +428,9 @@ _НямаПротокол_
 Рамки
 [Show all frames]
 Показване на всички рамки
-[Show all titlebars]
+[Show all title bars]
 Показване на всички заглавни ленти
-[Hide all titlebars]
+[Hide all title bars]
 Скриване на всички заглавни ленти
 [Lock frame]
 Заключване на рамката

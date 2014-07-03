@@ -71,7 +71,7 @@
 [Favorite]
 Любим
 [Undo changes]
-
+Отменяна на промените
 [Import statuses from database]
 
 [Import]

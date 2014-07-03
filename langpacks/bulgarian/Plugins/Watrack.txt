@@ -370,7 +370,7 @@ VBR или празно
 [player]
 
 [Independed Xstatus]
-
+Независимо хСъстояние
 ["Variables" ANSI output]
 
 [FPS (Frames per second)]
@@ -426,7 +426,7 @@ URL (домашна страница на плейъра)
 [Create Report]
 Създаване на доклад
 [Context menu]
-
+Контекстно меню
 [/me listening "%title%"]
 
 [Report file name not defined]

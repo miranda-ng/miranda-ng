@@ -7,10 +7,11 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 
+;file \protocols\VKontakte\res\resource.rc
 [E-mail or phone number:]
 
 [Password:]
-
+Парола:
 [Open VKontakte site]
 
 [Login settings]
@@ -20,7 +21,7 @@
 [Contact list group:]
 
 [Advanced]
-
+Разширени
 [Server-side delivery confirmation]
 
 [Hide chats on startup]
@@ -34,7 +35,7 @@
 [Submit]
 
 [Cancel]
-
+Отказ
 [Invite user to chat]
 
 [Choose one of your contacts to be invited:]
@@ -45,20 +46,23 @@
 
 [New chat's title:]
 
+;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 
 [Protocols]
 
 [VKontakte]
 
+;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 
+;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 
 [Owners]
 
 [Unknown]
-
+Неизвестно
 [Enter new chat title]
 
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
@@ -75,14 +79,17 @@
 
 [&Kick]
 
+;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
-
+Мрежа
 [Account]
 
+;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 
 [Create new chat]
 
+;file \protocols\VKontakte\src\vk_thread.cpp
 [Attachments:]
 
 [Photo]

@@ -45,6 +45,7 @@
 [Set]
 Задай
 [when full-screen mode is active]
+
 [when screen saver engages]
 при включване на screen saver
 [when workstation is locked]

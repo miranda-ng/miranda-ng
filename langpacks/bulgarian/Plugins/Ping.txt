@@ -154,7 +154,7 @@ Popups
 [Show/Hide &Ping Window]
 
 [List]
-
+Списък
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 

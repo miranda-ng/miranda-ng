@@ -20,21 +20,43 @@ Copyright:
 Контакт:
 [WWW:]
 
+[Account]
+Акаунт
+[Name:]
+Име:
+[Server:]
+Сървър:
+[Port:]
+Порт:
+[SSL]
+SSL
+[APOP]
+APOP
+[User Name:]
+
+[Password:]
+Парола:
+[Codepage:]
+
+[Default]
+Стандарт
+[Disable STLS]
+
+[Status:]
+Състояние:
+[Options]
+Настройки
 [Check this account]
+
+[Startup check]
 
 [Check interval [min]:]
 
-[Notifications]
-Уведомявания
-[Sound]
+[Only check when...]
 
-[Message]
-Съобщение
-[Tray Icon]
+[Auto retrieve body]
 
-[Keyboard Flash]
-
-[Execute Application]
+[Check from menu]
 
 [Use contact notification for this account]
 
@@ -42,28 +64,22 @@ Copyright:
 
 [Disable Events]
 
-[Server:]
-Сървър:
-[User Name:]
+[Notifications]
+Уведомявания
+[New Mail]
+Нов имейл
+[Sound]
 
-[Password:]
-Парола:
-[Codepage:]
+[Message]
+Съобщение
+[Keyboard Flash]
 
-[Port:]
-Порт:
-[SSL]
-SSL
-[Disable STLS]
+[Tray Icon]
 
-[Startup check]
+[Execute Application]
 
-[Auto retrieve body]
-
-[Check from menu]
-
-[Only check when...]
-
+[Errors]
+Грешки
 [Sound notification if failed]
 
 [Message notification if failed]
@@ -72,22 +88,6 @@ SSL
 
 [Reset counter]
 
-[Default]
-Стандарт
-[Status:]
-Състояние:
-[Account]
-Акаунт
-[APOP]
-
-[Name:]
-Име:
-[Options]
-Настройки
-[New Mail]
-Нов имейл
-[Errors]
-Грешки
 [Check while...]
 
 [Cancel]
@@ -336,7 +336,7 @@ Popups
 [Time left to next check [s]: %d]
 
 [New Account]
-
+Нов акаунт
 [Executables]
 
 [All Files]

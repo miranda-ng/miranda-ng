@@ -13,7 +13,7 @@
 [HistoryStats - Working...]
 
 [Cancel]
-
+Отказ
 [HistoryStats - Add column]
 
 [Available column types:]
@@ -21,7 +21,7 @@
 [Description]
 
 [Add]
-
+Добавяне
 [HistoryStats - Conflicting files]
 
 [Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
@@ -35,13 +35,13 @@
 [HistoryStats supports several plugins. Click to learn more...]
 
 [Contacts]
-
+Контакти
 [Hide additional column info...]
 
 [HistoryStats - Plugin/extension info]
 
 [Close]
-
+Затваряне
 [Plugin/extension name:]
 
 [Provided features:]
@@ -63,14 +63,14 @@
 [Configure HistoryStats]
 
 [Apply]
-
+Прилагане
 ;file \plugins\HistoryStats\src\colbase_words.cpp
 [Extract words from]
 
 [Incoming messages]
-
+Входящите съобщения
 [Outgoing messages]
-
+Изходящи съобщения
 [All messages]
 
 [Ignore words shorter than (chars)]
@@ -91,7 +91,7 @@
 [Average]
 
 [Maximum]
-
+Максимум
 [Total (sum of all chats)]
 
 [Show bar graph for chat duration type]
@@ -109,7 +109,7 @@
 [Chat duration]
 
 [(unknown)]
-
+(неизвестен)
 [[Min] #{amount}]
 
 [[Avg] #{amount}]
@@ -137,9 +137,9 @@
 [Files (all)]
 
 [URLs]
-
+URL адреси
 [Files]
-
+Файлове
 [Incoming URLs]
 
 [Outgoing URLs]
@@ -150,12 +150,12 @@
 
 ;file \plugins\HistoryStats\src\column_events.h
 [Events]
-
+Събития
 [Column holding event counts for incoming, outgoing or total number of files or URLs.]
 
 ;file \plugins\HistoryStats\src\column_group.cpp
 [Group]
-
+Група
 ;file \plugins\HistoryStats\src\column_group.h
 [Column holding the contact list's group name the contact is in.]
 
@@ -193,7 +193,7 @@
 [Characters]
 
 [Messages]
-
+Съобщения
 [Chats]
 
 [Incoming characters]
@@ -229,9 +229,9 @@
 [Percentage in bar graph]
 
 [Outgoing]
-
+Изходящи
 [Incoming]
-
+Входящи
 [[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
 
 [[Out] #{out_amount} / [In] #{in_amount}]
@@ -247,7 +247,7 @@
 [Show contact count for omitted/totals (tooltip)]
 
 [Nick]
-
+Прякор
 [[First] #{first_time} / [Last] #{last_time}]
 
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
@@ -263,7 +263,7 @@
 
 ;file \plugins\HistoryStats\src\column_protocol.cpp
 [Protocol]
-
+Протокол
 ;file \plugins\HistoryStats\src\column_protocol.h
 [Column holding the contact's protocol.]
 
@@ -317,9 +317,9 @@
 [all characters]
 
 [incoming messages]
-
+входящите съобщения
 [outgoing messages]
-
+изходящи съобщения
 [all messages]
 
 [incoming chats]
@@ -492,7 +492,7 @@
 
 ;file \plugins\HistoryStats\src\dlgoption.cpp
 [Global]
-
+Общо
 [Global settings]
 
 [Exclude]
@@ -572,7 +572,7 @@
 
 ;file \plugins\HistoryStats\src\dlgoption_subexclude.cpp
 [** All contacts **]
-
+** Всички контакти **
 ;file \plugins\HistoryStats\src\dlgoption_subglobal.cpp
 [Integration]
 
@@ -842,7 +842,7 @@
 [Configure... (main menu)]
 
 [Contact menu]
-
+Меню на контактите
 [Unexcluded contacts]
 
 [Excluded contacts]
@@ -891,7 +891,7 @@
 [Statistics]
 
 [Configure...]
-
+Настройване...
 [Configure statistics...]
 
 [You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?]
@@ -909,16 +909,16 @@
 [Paste history...]
 
 [History]
-
+История
 ;file \plugins\HistoryStats\src\mirandacontact.cpp
 ;file \plugins\HistoryStats\src\mirandahistory.cpp
 [(Unknown)]
-
+(Неизвестен)
 [(none)]
 
 ;file \plugins\HistoryStats\src\optionsctrlimpl_datetime.cpp
 [none]
-
+няма
 ;file \plugins\HistoryStats\src\settings.cpp
 [(default nick)]
 

@@ -83,7 +83,7 @@ URL:
 [Use local time for received messages]
 
 [Message sessions]
-
+Разговори
 [Keep messages as unread on server (don't send "seen" info)]
 
 [Receive messages from "inbox" folder only]
@@ -92,6 +92,15 @@ URL:
 
 [Number of messages to load:]
 
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+
+[&Leave chat session]
+
+[User &details]
+Подробности за потребителя
+[User &history]
+
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 
@@ -99,14 +108,14 @@ URL:
 Непозната грешка
 [Login error: Invalid request.]
 
-[Your account requires HTTPS connection. Activating.]
-Акаунтът изисква HTTPS връзка. Активиране.
 [Login error: Some Facebook things are required.]
 Грешка при вписване: Необходими са някой неща за Facebook.
 [Login error: Captcha code is required. Bad login credentials?]
 Грешка при вписване: Необходим е Captcha код. Сгрешени данни за вписване?
 [Login error, probably bad login credentials.]
 Грешка при вписване вероятно поради сгрешени данни за вписване.
+[Your account requires HTTPS connection. Activating.]
+Акаунтът изисква HTTPS връзка. Активиране.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Проблем с Facebook - вероятно уебсайта е обновен. Очаквайте актуализация на протокола Facebook.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
@@ -188,12 +197,14 @@ URL:
 
 [User sent an unsupported attachment. Open your browser to see it.]
 
+[Message read: %s by %s]
+
 [Message read: %s]
 
 [This message is no longer available, because it was marked as abusive or spam.]
 
 [%s is typing a message...]
-
+%s пише съобщение...
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Не можете да изпращате съобщения, когато сте "Извън линия"

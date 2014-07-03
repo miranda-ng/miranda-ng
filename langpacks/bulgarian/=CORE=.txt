@@ -608,6 +608,24 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
 Изпращане
+[&Emoticons]
+
+[&Bold]
+
+[&Italic]
+
+[&Color]
+
+[&Background color]
+
+[&History]
+
+[&Filter]
+
+[&Room settings]
+
+[&Show/Hide nick list]
+
 [Show these events only:]
 Показване само на следните събития:
 [Actions]
@@ -899,6 +917,8 @@ Wikipedia
 Прозорец:
 [Contact list background:]
 Фон на списъка с контакти:
+[&Main menu]
+Главно меню
 [&Status]
 Състояние
 [&Offline\tCtrl+0]
@@ -932,6 +952,8 @@ Wikipedia
 Изберете отново...
 [Total size:]
 Общ размер:
+[&User menu]
+
 [Incoming file transfer]
 Входящ файл
 [A&ccept]
@@ -980,6 +1002,8 @@ Wikipedia
 Последна промяна:
 [Open file]
 Отвари файла
+[Open folder]
+
 [File properties]
 Инф. за файла
 [File being received]
@@ -1111,6 +1135,8 @@ Wikipedia
 Опитай отново
 [Message session]
 Разговор
+[&Details]
+
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
 [Show names]
@@ -1255,7 +1281,7 @@ Wikipedia
 ;file \src\core\stdauth\authdialogs.cpp
 [View user's details]
 Подробности за потребителя
-[Add Contact Permanently to List]
+[Add contact permanently to list]
 Добавяне на контакта за постоянно в списъка
 [<Unknown>]
 <Неизвестно>
@@ -1569,7 +1595,7 @@ Popups за изобразяване
 [Chat log]
 Чат дневник
 [Popups]
-РopUps
+Popups
 ;file \src\core\stdchat\src\tools.cpp
 [Look up '%s':]
 Търсене за "%s":
@@ -1662,6 +1688,9 @@ Popups за изобразяване
 [Global]
 Общо
 ;file \src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdcrypt\encrypt.cpp
+[Standard crypto provider]
+
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Потребителят не е задал имейл
@@ -1692,7 +1721,7 @@ Popups за изобразяване
 [All files]
 Всички файлове
 ;file \src\core\stdfile\fileopts.cpp
-[Executable Files]
+[Executable files]
 Изпълними файлове
 [Events]
 Събития
@@ -1725,6 +1754,8 @@ Popups за изобразяване
 Стартирането на прехвърляне е невъзможно.
 [Contact menu]
 Меню на контактите
+[Open...]
+
 [sec]
 сек
 [remaining]
@@ -2075,8 +2106,6 @@ URL
 [(Unknown contact)]
 (Непознат контакт)
 ;file \src\modules\clist\clisttray.cpp
-[&Main menu]
-Главно меню
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Контактът е от система за съобщения, която съхранява списъка с контакти на централен сървър. Контактът ще бъде премахнат от сървъра и вашия списък с контакти следващия път, когато се свържете към мрежата.
@@ -2101,6 +2130,8 @@ URL
 Потребител
 [FirstName LastName]
 Име Фамилия
+[LastName FirstName]
+
 ['(Unknown contact)' (not movable)]
 "Непознат контакт" (неподвижно)
 ['(Unknown contact)']

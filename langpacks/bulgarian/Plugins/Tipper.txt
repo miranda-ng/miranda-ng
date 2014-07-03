@@ -257,6 +257,12 @@ Tipper усмивки
 [Extra]
 Допълнителни
 ;file \plugins\TipperYM\src\options.h
+[Show for all contact types]
+
+[Show only for contacts]
+
+[Show only for chatrooms]
+
 [Number of contacts]
 Брой контакти
 [Protocol lock status]
@@ -323,6 +329,10 @@ Jabber дейност
 [Miranda uptime:]
 Miranda работи от:
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Account]
+
+[Account:]
+
 [Birthday]
 Рожден ден
 [Birthday:]

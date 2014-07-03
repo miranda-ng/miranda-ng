@@ -256,7 +256,7 @@
 [Authorization request]
 Молба за упълномощаване
 [You were added]
-
+Вие бяхте добавен
 [Contacts received]
 
 [SMTP Simple Email]
@@ -298,7 +298,7 @@ SMS съобщение
 [Window background]
 
 [Contact list background]
-
+Фон на списъка с контакти
 [Open global history]
 
 [Find]

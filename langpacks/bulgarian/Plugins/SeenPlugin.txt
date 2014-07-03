@@ -92,8 +92,6 @@ Popup цветове
 Отписване на потребител
 [User Logged In]
 Вписване на потребител
-[Last seen]
-Последно видян
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <неизвестно>
@@ -104,6 +102,8 @@ Popup цветове
 
 [Contacts]
 Контакти
+[Last seen]
+Последно видян
 [Popups]
 Popups
 ;file \plugins\SeenPlugin\src\seen.h

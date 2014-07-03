@@ -59,7 +59,7 @@
 [Network-connection error.]
 
 [Network]
-
+Мрежа
 [Account]
 
 ;file \protocols\WhatsApp\src\theme.cpp

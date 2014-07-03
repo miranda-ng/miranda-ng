@@ -27,37 +27,37 @@
 [Welcome Message]
 
 [Status Changes]
-
+Промяна на състояние
 [Offline]
-
+Извън линия
 [Online]
-
+На линия
 [Away]
-
+Отсъстващ
 [DND]
-
+Не безпокойте
 [NA]
-
+Недостъпен
 [Occupied]
-
+Зает
 [Free for chat]
-
+Готов за чат
 [Invisible]
-
+Невидим
 [Occurring Events]
 
 [Incoming message]
-
+Входящо съобщение
 [Incoming URL]
-
+Входящ URL адрес
 [Incoming File]
-
+Входящи файлове
 [Authorization request]
-
+Молба за упълномощаване
 [Added to contact list]
 
 [Status messages]
-
+Текст за състояние
 [Announce status changes on connect]
 
 [Message Events]
@@ -73,24 +73,24 @@
 [Active Users]
 
 [The following events are being ignored:]
-
+Следните събития ще бъдат игнорирани:
 [Messages]
-
+Съобщения
 [Online Notification]
-
+Уведомяване "На линия"
 [All Events]
-
+Всички събития
 [None]
-
+Няма
 [Add]
-
+Добавяне
 [Remove]
-
+Премахване
 ;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
 [** All contacts **]
-
+** Всички контакти **
 [** Unknown contacts **]
-
+** Непознати контакти **
 ;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
 [testing testing 1 2 3]
 
@@ -116,7 +116,7 @@
 
 ;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
 [Message Session]
-
+Разговор
 [Message Received]
 
 ;file \plugins\WinterSpeak\src\UserInformation.cpp

@@ -568,6 +568,8 @@ ms между две мигания
 Местене надолу
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 Страницата с настройки е в процес на разработване!
+[&Main menu]
+Главно меню
 [E&xit]
 Изход
 [&Status]
@@ -837,8 +839,6 @@ Modern contact list
 Показване/Скриване
 [&Find/add contacts...]
 Търсене/Добавяне на контакти
-[&Main menu]
-Главно меню
 [&Options...]
 Настройки...
 [&About]
@@ -1054,7 +1054,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
-
+Нова група
 [Group menu]
 Меню на групите
 [Subgroup menu]

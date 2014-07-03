@@ -12,11 +12,10 @@
 
 [&Add]
 Добавяне
-
 [&User menu]
 
 [User &details]
-
+Подробности за потребителя
 [&History]
 
 [Choose contacts to be send:]
@@ -44,7 +43,7 @@
 [Popup]
 Рopup
 [Add to List]
-
+Добавяне в списъка
 [User details]
 Подробности за потребителя
 [Send Message]
@@ -60,7 +59,7 @@
 
 ;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
-
+Прякор
 [First Name]
 
 [Last Name]

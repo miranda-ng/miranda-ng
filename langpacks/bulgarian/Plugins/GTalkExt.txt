@@ -14,6 +14,12 @@
 Уведомяване и при активно приложение в режим на цял екран
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Ползвайте опцията ако popup приставката не е в състояние да засича коректно режим на цял екран. Ще отнеме фокуса на клавиатурата
+[Notify in contact list]
+
+[Clear pseudocontact history before adding new events]
+
+[Mark history event read when popup closed]
+
 [Add message snip to notification]
 Вмъкване на отрязък от съобщението в уведомяването
 [Try to login before open mailbox]

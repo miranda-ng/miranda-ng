@@ -124,7 +124,7 @@ Plugin Updater
 [Icons]
 Икони
 [Languages]
-
+Езици
 [Other]
 Друго
 [List is empty.]

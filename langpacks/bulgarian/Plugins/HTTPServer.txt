@@ -91,7 +91,7 @@
 [Share Current Directory]
 
 [All files]
-
+Всички файлове
 [Specify a file to share]
 
 [Failed to share new file]

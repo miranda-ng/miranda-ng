@@ -24,9 +24,9 @@
 [Down]
 
 [Delete]
-
+Изтриване
 [Default]
-
+Стандарт
 [Additional Options]
 Допълнителни настройки
 [Tool Window Style]
@@ -52,17 +52,17 @@
 [UserID]
 
 [Nickname]
-
+Прякор
 [First name]
 
 [Last name]
 
 [Group]
-
+Група
 [Container]
 
 [E-mail]
-
+Имейл
 [Client ID]
 
 [Ext IP]
@@ -80,7 +80,7 @@
 [Contact add time]
 
 [Type:]
-
+Тип:
 [DB setting]
 
 [Script]
@@ -90,7 +90,7 @@
 [Contact info]
 
 [Other]
-
+Друго
 [Data type:]
 
 [Byte]
@@ -108,13 +108,13 @@
 [IP]
 
 [TimeStamp]
-
+Времева марка
 [Module:]
 
 [Setting:]
 Настройка:
 [Service:]
-
+Услуга:
 [Param]
 
 [number value]
@@ -140,7 +140,7 @@
 [All]
 
 [Close]
-
+Затваряне
 [Refresh]
 
 [QuickSearch]
@@ -148,7 +148,7 @@
 [Show Offline contacts]
 Показвай контактите "Извън линия"
 [New column]
-
+Нова колона
 [Save Item]
 Запис на елемента
 [InfoType:]
@@ -162,11 +162,11 @@
 [Delete Column]
 Изтриване на колона
 [Male]
-
+Мъж
 [Female]
-
+Жена
 [Contacts]
-
+Контакти
 [ContactInfo]
 
 [LastEvent]
@@ -204,15 +204,15 @@
 [Subcontact foreground]
 Цвят на текста за подконтакт
 [&Delete]
-
+Изтриване
 [&Copy]
-
+Копиране
 [C&onvert to Meta]
 Превръщане в Мета
 [Attach to &Tab container]
 
 [&Move to Group]
-
+Преместване в друга група
 [Some of selected contacts in different metacontacts already]
 Някои от избраните контакти са част от различни метаконтакти.
 [Do you really want to delete selected contacts?]
@@ -230,11 +230,11 @@
 [) Online: ]
 ) На линия:\s
 [Online]
-
+На линия
 [deleted]
 
 [off]
-
+изкл.
 [active]
 
 [Colorize]
@@ -260,13 +260,13 @@
 [Change setting through QS]
 
 [default]
-
+стандарт
 [Selected]
 
 [contacts]
-
+контакти
 [Unknown]
-
+Неизвестно
 [Stay on Top]
 
 ; these lines are not present in the sources, but they are present in compiled plugin

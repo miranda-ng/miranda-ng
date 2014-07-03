@@ -11,15 +11,15 @@
 [Gmail account]
 
 [Name:]
-
+Име:
 [Password:]
-
+Парола:
 [Add]
-
+Добавяне
 [Save]
 
 [Delete]
-
+Изтриване
 [Configuration]
 
 [Check Gmail inbox every]
@@ -31,7 +31,7 @@
 [Duration:]
 
 [seconds]
-
+секунди
 [Text|Background:]
 
 [On double click:]
@@ -69,7 +69,7 @@
 
 ;file \plugins\GmailNotifier\src\main.cpp
 [Other]
-
+Друго
 [Gmail: New thread(s)]
 
 [&Check all Gmail inboxes]
@@ -80,4 +80,4 @@
 [GmailNotifier]
 
 [Network]
-
+Мрежа

@@ -239,20 +239,19 @@ Popup действията са малките бутони под текста.
 ;file \plugins\Popup\src\effects.cpp
 [Square fading]
 
-file \plugins\Popup\src\font.h
+;file \plugins\Popup\src\font.h
 [Popups]
-
+Рopups
 [Title]
 
 [Clock]
 Час
 [Text]
-
+Текст
 [Hovered action]
 Посочено действие
-
 [Background]
-
+Фон
 [Border]
 
 [Sidebar]

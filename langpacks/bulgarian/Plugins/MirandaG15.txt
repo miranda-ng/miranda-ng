@@ -9,7 +9,7 @@
 
 ;file \plugins\MirandaG15\res\MirandaG15.rc
 [Fonts]
-
+Шрифтове
 [General settings]
 
 [Show softkey labels]
@@ -17,11 +17,11 @@
 [Event log:]
 
 [Sample]
-
+Пример
 [Message log:]
 
 [Contact list:]
-
+Списък с контакти:
 [Titles:]
 
 [Notifications:]
@@ -79,13 +79,13 @@
 [Notification types]
 
 [Incoming messages]
-
+Входящите съобщения
 [Contact signs off]
 
 [Contact changes status]
 
 [Incoming URL]
-
+Входящ URL адрес
 [Contact list events]
 
 [Incoming file transfers]
@@ -107,17 +107,17 @@
 [Show timestamps]
 
 [Messages]
-
+Съобщения
 [User events]
 
 [Emotes]
 
 [Status changes]
-
+Промяна на състояние
 [Special IRC events:]
 
 [Notices]
-
+Известия
 [Channel events]
 
 [Cut off nicknames after]
@@ -133,11 +133,11 @@
 [Cut off channel names after]
 
 [Contact list]
-
+Списък с контакти
 [Show the contacts protocols]
 
 [Hide offline users]
-
+Скриване на контактите "Извън линия"
 [Use ignore settings]
 
 [Use groups/subgroups]

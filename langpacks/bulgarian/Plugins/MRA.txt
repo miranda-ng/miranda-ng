@@ -5,6 +5,8 @@
 ;  Version: 2.1.0.8
 ;  Authors: Rozhuk Ivan
 ;============================================================
+[Miranda Mail.ru Agent protocol plugin.]
+
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 Имейл:
@@ -59,9 +61,9 @@
 [Age:]
 Възраст:
 [from:]
-
+от:
 [to:]
-
+за:
 [Birthday:]
 Рожден ден:
 [Zodiac:]
@@ -156,11 +158,62 @@ E-поща:
 
 [Select e-mail]
 
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+[Male]
+Мъж
+[Female]
+Жена
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+
+[Aries]
+
+[Taurus]
+
+[Gemini]
+
+[Cancer]
+
+[Leo]
+
+[Virgo]
+
+[Libra]
+
+[Scorpio]
+
+[Sagittarius]
+
+[Capricorn]
+
+[Aquarius]
+
+[Pisces]
+
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
-[Avatars]
-Аватари
 [Avatars: server return HTTP code: %lu]
 
 [Avatars: can't open file %s, error]
@@ -245,6 +298,10 @@ E-поща:
 [Send files: requested file: %S - not found in send files list.]
 
 ;file \protocols\MRA\src\MraIcons.cpp
+[Protocols]
+
+[MRA]
+
 [Main Menu]
 Главно меню
 [Contact Menu]
@@ -252,7 +309,7 @@ E-поща:
 [Extra status]
 Допълнително състояние
 [Custom Status]
-
+Персонално състояние
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Няма
@@ -308,6 +365,8 @@ Popups
 
 [Files]
 Файлове
+[Avatars]
+Аватари
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
 

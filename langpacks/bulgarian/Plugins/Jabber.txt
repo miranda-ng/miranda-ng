@@ -413,6 +413,8 @@ XML конзола
 Jabber дейност
 [Jabber Mood]
 Jabber настроение
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
+
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Аз съм щастлив потребил на Miranda NG. Можете да свалите програмата от http://miranda-ng.org/.
@@ -689,26 +691,26 @@ Jabber настроение
 Истински JID: %s
 [%s\nSend group chat invitation.]
 %s\nИзпращане на покана за групов чат.
-[not on roster]
-не е в списъка с хора
-[Member Info:]
-Членска информация:
-[from]
-от
+[%s (not on roster)]
+%s не е в списъка с хора
+[Member Info: %s]
+Членска информация: %s
+[Member Information\n%s from %s]
+
 [Real JID not available]
 Истинският JID не е наличен
-[Reason to kick]
-Причина за изгонването
-[Reason to ban]
-Причина за банване
+[Reason to kick %s]
+Причина за изгонването %s
+[Reason to ban %s]
+Причина за банване %s
 [Invite %s to %s]
 Покани %s в %s
-[Set topic for]
-Задаване на тема за
-[Change nickname in]
+[Set topic for %s]
+Задаване на тема за %s
+[Change nickname in %s]
 
-[Reason to destroy]
-Причина за унищожаване
+[Reason to destroy %s]
+Причина за унищожаване %s
 ;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Изпращането на данни е невъзможно извън линия.
@@ -917,7 +919,7 @@ Jabber грешка
 
 [The minimum number of milliseconds between sending any two notification digests]
 
-[The DateTime at which a leased subscription will end or has ended]
+[The date and time at which a leased subscription will end or has ended]
 
 [Whether an entity wants to receive an XMPP message body in addition to the payload format]
 
@@ -1078,6 +1080,8 @@ Jabber грешка
 
 [Bookmarks...]
 Отметки...
+[Change nickname in <%s>]
+
 [has set the subject to:]
 зададе темата:
 [%s\nIncoming group chat invitation.]
@@ -1166,8 +1170,8 @@ RSS услуга
 [Privacy]
 Поверителност
 ;file \protocols\JabberG\src\jabber_iqid.cpp
-[Authentication failed for]
-Неуспешно удостоверяване за
+[Authentication failed for %s.]
+Неуспешно удостоверяване за %s.
 [Jabber Authentication]
 Jabber удостоверяване
 [Registration successful]
@@ -1193,8 +1197,10 @@ Jabber удостоверяване
 Списък с администратори
 [Owner List]
 Списък със собственици
-[Removing]
-Премахване...
+[Reason to ban]
+Причина за банване
+[Removing %s?]
+
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Получена е HTTP молба за удостоверяване
@@ -1255,8 +1261,8 @@ Jabber източник
 Списъци за поверителност
 [Service discovery]
 Откриване на услуги
-[Last active]
-Последно активен
+[Last active (%s)]
+Последно активен (%s)
 [No activity yet, use server's choice]
 Все още няма активност, сървърът избира
 [Highest priority (server's choice)]
@@ -1669,7 +1675,7 @@ Jabber източник
 Потвърдете паролата
 [Passwords do not match.]
 Паролите не съвпадат
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Акаунтът ви ще бъде заличен от сървъра, списъкът с хора и цялата информация, която сте съхранили на сървъра. Наистина ли желаете това?
 [Account removal warning]
 Предупреждение за премахване на акаунт
@@ -1798,8 +1804,8 @@ Facebook чат
 [Some changes will take effect the next time you connect to the Jabber network.]
 Някои промени ще бъдат осъществени при следващото свързване към мрежата Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-Задаване на нова парола за
+[Set New Password for %s@%S]
+Задаване на нова парола за %s@%S
 [New password does not match.]
 Новата парола не съвпада
 [Current password is incorrect.]
@@ -2030,7 +2036,7 @@ Facebook чат
 [sent unknown presence type]
 
 [Nick:]
-
+Прякор:
 [Status:]
 
 [Status text:]
@@ -2038,8 +2044,8 @@ Facebook чат
 [Real JID:]
 
 ;file \protocols\JabberG\src\jabber_thread.cpp
-[Enter password for]
-Въведете парола за
+[Enter password for %s]
+Въведете парола за %s
 [Error: Not enough memory]
 Грешка: Недостатъчна памет
 [Error: Cannot connect to the server]
@@ -2048,6 +2054,8 @@ Facebook чат
 Грешка: Връзката е изгубена
 [Requesting registration instruction...]
 Изтегляне на инструкции за регистрация...
+[Authentication failed for %s@%S.]
+
 [Message redirected from: %s\r\n%s]
 Пренасочено съобщение от: %s\r\n%s
 [Sending registration information...]
@@ -2089,6 +2097,8 @@ Facebook чат
 и двамата
 [to]
 до
+[from]
+от
 [none]
 няма
 [Last logoff time]

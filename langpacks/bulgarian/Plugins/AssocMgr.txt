@@ -54,7 +54,7 @@
 Отварянето на URL адреса е невъзможно
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
 
-[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]

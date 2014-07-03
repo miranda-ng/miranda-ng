@@ -13,11 +13,11 @@
 [ID:]
 
 [Password:]
-
+Парола:
 [Server name:]
 
 [Port:]
-
+Порт:
 [Client ID]
 
 [Use old client version]
@@ -31,7 +31,7 @@
 [Use system tray balloons]
 
 [Contacts]
-
+Контакти
 [Get contacts from server]
 
 [Upload contacts]
@@ -47,7 +47,7 @@
 [40 or 128 bit]
 
 [None]
-
+Няма
 [Meanwhile lib ver: 1.0.2]
 
 [Disconnected]
@@ -55,11 +55,11 @@
 [Send announcement]
 
 [Cancel]
-
+Отказ
 [Message text:]
 
 [Select all]
-
+Избор - всичко
 [Invert\nselection]
 
 ;file \protocols\Sametime\src\conference.cpp
@@ -91,7 +91,7 @@
 [Server proto version: %03d.%03d]
 
 [Network]
-
+Мрежа
 ;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
 
@@ -100,7 +100,7 @@
 [Notification]
 
 [Error]
-
+Грешка
 ;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
 
@@ -124,7 +124,7 @@
 [Failed to upload contacts - storage service unavailable.]
 
 [Name]
-
+Име
 [Description]
 
 [Group?]

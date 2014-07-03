@@ -242,7 +242,7 @@
 [Password is too short!]
 Паролата е твърде кратка!
 [ON]
-
+Включено
 [Off]
 Изкл.
 [Keyrings loaded.]
@@ -391,7 +391,7 @@ Popups
 [ASC files]
 
 [All files]
-
+Всички файлове
 [Open Key File]
 
 [Save Private Key File]

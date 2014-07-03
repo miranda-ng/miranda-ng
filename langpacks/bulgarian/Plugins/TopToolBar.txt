@@ -44,7 +44,7 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Show accounts manager]
 
 [Find/add contacts]
-
+Търсене/Добавяне на контакти
 [Show status menu]
 
 [Show/hide offline contacts]
@@ -64,7 +64,7 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Enable groups]
 
 [Disable groups]
-
+Без групи
 [Enable/disable sounds]
 
 [Disable sounds]
@@ -74,7 +74,7 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Minimize contact list]
 
 [Exit]
-
+Изход
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Стандарт

@@ -15,7 +15,7 @@
 [Enable silence at startup]
 
 [for]
-
+за
 [10-300 seconds (Default 20)]
 
 [Show Popup notification]
@@ -44,7 +44,7 @@
 
 ;file \plugins\StartupSilence\src\main.cpp
 [Events]
-
+Събития
 ;file \plugins\StartupSilence\src\StartupSilence.h
 [Silence at startup]
 

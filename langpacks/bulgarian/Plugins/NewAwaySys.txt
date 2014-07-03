@@ -151,15 +151,15 @@
 [Update status messages for non-ICQ protocols every]
 
 [seconds]
-
+секунди
 [Don't show the message dialog for]
 
 [%s message for %s]
-
+Текст "%s" на %s
 [Retrieving %s message...]
-
+Извличане на текста "%s"...
 [&Cancel]
-
+Отказ
 [Notify of requests]
 
 [Don't notify of requests]
@@ -191,7 +191,7 @@
 [Create new &category]
 
 [&Rename]
-
+Преименуване
 [Set as &default for]
 
 ;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
@@ -208,23 +208,23 @@
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
 
 [Message]
-
+Съобщение
 [URL]
-
+URL
 [File]
-
+Файл
 [** All contacts **]
-
+** Всички контакти **
 [** Not-on-list contacts **]
 
 [Status messages]
-
+Текст за състояние
 [Main options]
 
 [Autoreply]
 
 [Contacts]
-
+Контакти
 [Predefined messages]
 
 [Recent messages]
@@ -240,39 +240,39 @@
 [Default messages]
 
 [Online]
-
+На линия
 [Yep, I'm here.]
-
+Да, тук съм.
 [Away]
-
+Отсъстващ
 [Been gone since %nas_awaysince_time%, will be back later.]
 
 [NA]
-
+Недостъпен
 [Give it up, I'm not in!]
-
+Няма ме, откажете се!!
 [Occupied]
-
+Зает
 [Not right now.]
-
+Не точно сега.
 [DND]
-
+Не безпокойте
 [Give a guy some peace, would ya?]
-
+Дайте на човека малко спокойствие!
 [Free for chat]
-
+Готов за чат
 [I'm a chatbot!]
-
+Аз съм същински чат робот!
 [Invisible]
-
+Невидим
 [I'm hiding from the mafia.]
-
+Крия се от мафията.
 [On the phone]
-
+На телефона
 [I've been on the phone since %nas_awaysince_time%, give me a sec!]
 
 [Out to lunch]
-
+На обяд
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
@@ -283,7 +283,7 @@
 [Set %s message for the contact]
 
 [Re&ad %s message]
-
+Показване на текста "%s"
 [Toggle autoreply on/off]
 
 [Toggle autoreply off]
@@ -323,9 +323,9 @@
 [Set status message]
 
 [On]
-
+Включено
 [Off]
-
+Изкл.
 [Use the default setting]
 
 [NewAwaySys: Incoming status message request]
@@ -338,9 +338,9 @@
 [Away System]
 
 [Status]
-
+Състояние
 [Popups]
-
+Рopups
 [Variables plugin is not installed]
 
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
@@ -359,7 +359,7 @@
 
 ;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
-
+Затваряне
 ;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
 [Save, replacing the selected message]
 
@@ -372,7 +372,7 @@
 [Send an autoreply to selected contact(s)]
 
 [Apply]
-
+Прилагане
 [Do you want to apply the message?]
 
 [Set message for]
@@ -382,10 +382,10 @@
 [message for]
 
 [for]
-
+за
 [available autoreply only]
 
 [all accounts]
 
 [Closing in %d]
-
+Затваряне след %d

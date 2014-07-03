@@ -438,6 +438,8 @@ URL събития
 Наслагване на икона върху аватара
 [Show local time]
 Показване на местно време
+[&Main menu]
+Главно меню
 [E&xit]
 Изход
 [&Status]
@@ -705,7 +707,7 @@ URL събития
 [My contacts]
 Моите контакти
 [Default]
-
+Стандарт
 [Overlay icons]
 
 [%s connecting]
@@ -870,15 +872,13 @@ URL събития
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [New group]
-
+Нова група
 [Group menu]
 
 [&Hide/show]
 Показване/Скриване
 [&Find/add contacts...]
 Търсене/Добавяне на контакти
-[&Main menu]
-Главно меню
 [&Options...]
 Настройки...
 [&About the contact list...]

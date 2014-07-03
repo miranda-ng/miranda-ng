@@ -9,9 +9,9 @@
 
 ;file \protocols\Steam\res\Resource.rc
 [Username:]
-
+Потребител:
 [Password:]
-
+Парола:
 [Default group:]
 
 [Account]
@@ -19,7 +19,7 @@
 [Captcha]
 
 [Cancel]
-
+Отказ
 [Steam Guard]
 
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
@@ -37,12 +37,12 @@
 [Avatar Service]
 
 [Name]
-
+Име
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 
 [Network]
-
+Мрежа
 [Blocked contacts]
 
 ;file \protocols\Steam\src\steam_menus.cpp

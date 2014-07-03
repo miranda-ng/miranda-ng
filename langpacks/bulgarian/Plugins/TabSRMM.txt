@@ -150,6 +150,17 @@ Wikipedia
 Затваряне на другите табове
 [&Open at this position]
 Отваряне на тази позиция
+;file \plugins\TabSRMM\res\msgwindow.rc
+[&Retry]
+
+[&Cancel]
+Отказ
+[&Send]
+Изпращане
+[&Add]
+Добавяне
+[&Remove]
+Премахване
 ;file \plugins\TabSRMM\res\resource.rc
 [Customize the panel]
 Персонализиране на панела
@@ -433,6 +444,8 @@ ID на потребителя в лентата за състояние
 Създаване на нов контейнер (въведете име)
 [Create new]
 Създаване
+[Reset]
+Анулиране
 [Show in IM chats]
 Показване в обикновени прозорци
 [Show in chat rooms]
@@ -441,8 +454,6 @@ ID на потребителя в лентата за състояние
 Пролука м/у бутоните:
 [Hide if there isn't enough space]
 Скриване, ако няма достатъчно място
-[Reset]
-Анулиране
 [Insert Separator]
 Вмъкване на разделител
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]

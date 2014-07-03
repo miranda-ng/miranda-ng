@@ -9,9 +9,9 @@
 
 ;file \protocols\SkypeClassic\res\Resource.rc
 [Set]
-
+Задай
 [Delete]
-
+Изтриване
 [Start Skype with Miranda NG if not running using the following command line options:]
 
 [/NOSPLASH - Don't show splash screen on startup]
@@ -41,13 +41,13 @@
 [User name:]
 
 [Password:]
-
+Парола:
 [Dial]
 
 [Number:]
 
 [Cancel]
-
+Отказ
 [%s is calling]
 
 [Join conference with %s]
@@ -61,23 +61,23 @@
 [Use Skype proxy connection over network instead of local Skype API]
 
 [Host:]
-
+Хост:
 [Port:]
-
+Порт:
 [* You must restart Miranda NG in order to let the settings take effect]
 
 [This Skype proxy requires password authentication:]
 
 [Name:]
-
+Име:
 [Birthday:]
 
 [Sex:]
 
 [City:]
-
+Град:
 [Country:]
-
+Държава:
 [Province:]
 
 [Home phone:]
@@ -85,7 +85,7 @@
 [Office phone:]
 
 [Homepage:]
-
+Страница:
 [Save]
 
 [Enable Skype menu options (currently: Find/Add user)]
@@ -123,13 +123,13 @@
 [Show incoming calls]
 
 [seconds]
-
+секунди
 [Background]
-
+Фон
 [Use Windows colors]
-
+Цветове от Windows
 [Text]
-
+Текст
 [Preview]
 
 [Error Messages]
@@ -150,7 +150,7 @@
 [Resume call]
 
 [&File]
-
+Файл
 [&Open group chat]
 
 [Import Skype history]
@@ -159,7 +159,7 @@
 
 ;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
-
+Неизвестно
 [&Invite user...]
 
 [Me]
@@ -169,7 +169,7 @@
 [Set &Topic...]
 
 [User &details]
-
+Подробности за потребителя
 [User &history]
 
 [&Kick user]
@@ -203,9 +203,9 @@
 [Details]
 
 [MALE]
-
+МЪЖ
 [FEMALE]
-
+ЖЕНА
 ;file \protocols\SkypeClassic\src\skypesvc.cpp
 [Skype ID]
 

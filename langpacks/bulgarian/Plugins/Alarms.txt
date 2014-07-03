@@ -23,7 +23,7 @@
 [minutes]
 минути
 [Row height:]
-
+Ред (височина):
 [Indent:]
 Отстъп:
 [Reminder frame]
