@@ -10,7 +10,7 @@ Zaznamenává kdy byl uživatel naposledy spatřen a kteří uživatelé se při
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Nastavení
-[Last seen menuitem]
+[Last seen menu item]
 Položky menu
 [Show icon]
 Zobrazit ikonu

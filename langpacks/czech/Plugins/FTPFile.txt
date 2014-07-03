@@ -59,7 +59,7 @@ Automaticky smazat soubor z FTP po (experimentální):
 [Upload File Manager]
 
 [File:]
-
+Soubor:
 [Completed:]
 
 [Speed:]

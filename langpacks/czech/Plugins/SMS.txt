@@ -48,7 +48,7 @@ Zkusi&t znovu
 Vypršel čas pro odeslání SMS zprávy
 [SMS Plugin]
 SMS
-[Begining]
+[Beginning]
 Začátek
 [End]
 Konec

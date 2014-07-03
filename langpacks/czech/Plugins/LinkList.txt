@@ -34,11 +34,11 @@ Jen odkazy na stránky
 Hledat i ve zprávách
 [Static]
 Statický
-[Color Select]
+[Color select]
 Výběr barev
 [Incoming messages]
 Příchozí zprávy
-[Plugin Default]
+[Plugin default]
 Výchozí
 [Preview]
 Náhled
@@ -46,17 +46,17 @@ Náhled
 Odchozí zprávy
 [Background color]
 Barva pozadí
-[Use Miranda Settings]
+[Use Miranda settings]
 Použít nastavení Mirandy
 [Text color]
 Barva textu
-[General Settings]
+[General settings]
 Obecná nastavení
 [Open links always in a new window]
 Otevřít vždy v novém okně prohlížeče
 [Update list on new events]
 Aktualizovat seznam v reálném čase
-[Show whole Message on 'mouse over' event]
+[Show whole message on 'mouse over' event]
 Zobrazit zprávu po najetí myší nad odkaz
 [Save window position individually for each contact]
 Uložit informace o umístění okna pro každý kontakt zvlášť
@@ -80,19 +80,19 @@ Typ
 &Zavřít
 [&Options]
 M&ožnosti
-[Message &Direction]
+[Message &direction]
 &Směr posílaných zpráv
-[&Outgoing Messages Only]
+[&Outgoing messages only]
 Pouze &odchozí zprávy
-[&Incoming Messages Only]
+[&Incoming messages only]
 Pouze &příchozí zprávy
-[Message &Type]
+[Message &type]
 &Druh zpráv
-[&Webaddresses Only]
+[&Web addresses only]
 Pouze &odkazy na stránky
-[&Mail-Addresses Only]
+[&Mail addresses only]
 Pouze e-&mailové adresy
-[&Clear Search Results]
+[&Clear search results]
 &Vymazat seznam nalezených
 [&Search]
 &Hledat
@@ -100,11 +100,11 @@ Pouze e-&mailové adresy
 odkaz
 [Open]
 Otevřít
-[Open in new Window]
+[Open in new window]
 Otevřít v novém okně
-[Copy to Clipboard]
-Zkopírovat
-[Show Message]
+[Copy to clipboard]
+Zkopírovat do schránky
+[Show message]
 Zobrazit zprávu
 ;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
@@ -123,7 +123,7 @@ odchozí
 Filtr
 [no filter]
 bez filtru
-[Search Filter]
+[Search filter]
 Vyhledávací filtr
 [no settings]
 bez nastavení
@@ -139,7 +139,7 @@ Nelze sestavit a otevřít okno!
 [Could not allocate memory!]
 Nelze alokovat požadovanou paměť!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-[Linklist Plugin]
+[Linklist plugin]
 Doplněk 'Linklist'
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [Matches for searchtext]

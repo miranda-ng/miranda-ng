@@ -49,8 +49,8 @@ Zadejte váš registrační kód, který vám přišel v SMS
 [Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
 Vaše heslo bylo nastaveno automaticky.\nPokud změníte vaše heslo ručně, může být ztraceno a budete muset vyžádat nový kód!
 ;file \protocols\WhatsApp\src\main.cpp
-[Did not unpack registration utility WART-1.5.4.0.exe.]
-Registrační nástroj WART-1.5.4.0.exe nebyl rozbalen.
+[Did not unpack WART (registration utility).]
+Registrační nástroj WART nebyl rozbalen.
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem

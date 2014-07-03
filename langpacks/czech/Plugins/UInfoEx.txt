@@ -8,7 +8,7 @@
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 
 ;file \plugins\UserInfoEx\res\resource.rc
-[Edit Contact Information]
+[Edit contact information]
 Úprava informací o uživateli
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 
@@ -24,7 +24,7 @@ Zrušit
 Použít
 [Nick:]
 Přezdívka:
-[Display Name:]
+[Display name:]
 Zobr. jméno:
 [Title:]
 Název:
@@ -78,9 +78,9 @@ Povolání:
 Nadřízený:
 [Assistant:]
 Asistent:
-[Add Phone Number]
+[Add phone number]
 Přidat telefonní číslo
-[Enter your phone number\nand don't worry about formating.]
+[Enter your phone number\nand don't worry about formatting.]
 Zadejte vaše telefonní číslo\na neřešte v jakém je formátu.
 [Enter a category for this number:]
 Určete kategorii pro toto číslo:
@@ -90,19 +90,19 @@ Zadejte kód země, oblasti a samotné číslo:
 Nebo číslo zadejte v mezinárodním formátu:
 [Phone can receive SMS text messages]
 Telefon umožňuje příjem textovek (SMS)
-[Add E-Mail]
+[Add e-mail]
 Přidat e-mail
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
 
-[Enter a representitive name for the e-mail address here.]
-Sem zadejte opravdové jméno majitele adresy
-[Enter the e-mail address here.]
-Sem zadejte e-mailovou adresu
+[Enter a representative name for the e-mail address here:]
+Sem zadejte opravdové jméno majitele adresy.
+[Enter the e-mail address here:]
+Sem zadejte e-mailovou adresu:
 [Show menu items]
 Zobrazovat položky v nabídce
 [Remind me]
 Upozornit
-[days before.]
+[days before]
 dní předem
 [Check every]
 Projít každých
@@ -154,18 +154,18 @@ Zobrazovat oznámení místo oken s oznámeními
 Náhled
 [Homepage:]
 WWW:
-[Add Affiliation]
+[Add affiliation]
 Přidat členství
-[Add Past]
+[Add past]
 Přidat minulost
-[Add Interest]
+[Add interest]
 Přidat zájem
 [Delete]
 Smazat
-[Anniversary Editor]
-
+[Anniversary editor]
+Správce výročí
 [Anniversary Editor\nAdd/Edit your anniversary here.]
-
+Správce výročí\nZde přidávejte/upravujte vaše výročí.
 [Enter a name for the anniversary here please:]
 Sem prosím vložte název výročí:
 [Anniversary list]
@@ -200,13 +200,13 @@ Ikony
 Kontrolovat verzi knihovny ikon (zabrání špatnému zobrazování)
 [Display icons on each dialog button]
 Zobrazit ikony na každém tlačítku dialogů
-[MetaContacts]
+[Metacontacts]
 Metakontakty
-[Scan SubContacts for missing information]
+[Scan subcontacts for missing information]
 Vyhledat chybějící informace v podkontaktech
-[Enable extended 'send/receive email' service (*)]
-Povolit rozšířenou službu 'poslat/přijmout mail' (*)
-[Use Windows Timezone]
+[Enable extended 'send/receive e-mail' service (*)]
+Povolit rozšířenou službu 'poslat/přijmout e-mail' (*)
+[Use Windows timezone]
 Použít časové pásmo z Windows
 [(*) Requires Miranda to be restarted.]
 (*) Vyžaduje restart Mirandy
@@ -222,23 +222,23 @@ Vlastní protokolové informace
 Změněné informace
 [Enable colors to give information about information's status.]
 Zpřehlednit informace o stavu obarvováním textu
-[Make protocol based contact information readonly.]
+[Make protocol based contact information read only]
 Neměnit osobní informace definované protokolem
-[Enable groups in details dialog's treeview.]
+[Enable groups in details dialog's treeview]
 Povolit skupiny ve stromovém zobrazení detailů
-[Sort all tree items alphabetically.]
+[Sort all tree items alphabetically]
 Seřadit položky v menu dle abecedy
-[Info of a MetaContact's SubContact]
+[Info of a metacontact's subcontact]
 Informace o podkontaktu z metakontaktu
 [Colors]
 Barvy
 [Common]
 Obecné
-[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
 Měnit osobní informace pomocí UserInfoEx (vypnuto, nepodporuje-li funkci ICQ)
-[TreeView]
+[Treeview]
 Stromové zobrazení
-[Adapt propertysheet pages to aero mode.]
+[Adapt propertysheet pages to Aero mode]
 Vykreslit stránky vlastností skrz aero.
 [Import]
 Importovat
@@ -254,33 +254,33 @@ Dialog
 všechno
 [None]
 ---
-[Show Menu Item]
+[Show menu item]
 Zobrazit položku menu
-[MainMenu]
+[Main menu]
 Hlavní nabídka
 [Cascade:]
 Kaskádový styl:
 [Off]
 Vyp
-[Ex-/Import items]
+[Export/import items]
 Export/import položek
-[ContactMenu]
+[Contact menu]
 Nabídka kontaktu
-[GroupMenu]
+[Group menu]
 Nabídka skupiny
-[SubGroupMenu]
+[Subgroup menu]
 Nabídka podskupiny
-[AccountMenu]
+[Account menu]
 Nabídka účtu
-[Extra Icons]
-Další ikony
+[Extra icons]
+Doplňkové ikony
 [Replace the following default icons:]
 Nahradit následující výchozí ikony:
 [Homepage]
 Dom. stránka
 [Phone]
 Telefon
-[E-Mail]
+[E-mail]
 E-mail
 [Gender]
 Pohlaví
@@ -288,9 +288,9 @@ Pohlaví
 Různé
 [Show 'Restart' menu item]
 Zobrazit v nabídce položku 'Restart'
-[Use Zodiac as default avatar]
+[Use zodiac as default avatar]
 Použít znamení zvěrokruhu jako výchozí avatar
-[Country Flags]
+[Country flags]
 Vlajky zemí
 [Use &unknown flag if country cannot be determined]
 Použít &neznámou vlajku pokud nelze zjistit zemi
@@ -304,11 +304,11 @@ Věk:
 Zvěrokruh:
 [not found]
 nenalezeno
-[Use global reminder settings.]
-Použít globální nastavení upozornění.
-[Don't remind me of this anniversary.]
-Neupozorňovat mě na toto výročí.
-[Refresh Contact Details]
+[Use global reminder settings]
+Použít globální nastavení upozornění
+[Don't remind me of this anniversary]
+Neupozorňovat mě na toto výročí
+[Refresh contact details]
 Aktualizovat detaily kontaktu
 [Preparing...]
 Příprava...
@@ -316,13 +316,13 @@ Příprava...
 Skrýt
 [What do you want to export?]
 Co byste chtěli exportovat
-[Contact Information]
+[Contact information]
 Informace o kontaktu
-[Contact History]
+[Contact history]
 Historie kontaktu
-[Select Modules]
+[Select modules]
 Vyberte moduly
-[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
+[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 
 [Check all]
 Označit všechny
@@ -389,19 +389,19 @@ Smazat existující výročí
 [Unspecified]
 <neuvedeno>
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
-[Edit E-Mail]
+[Edit e-mail]
 Upravit e-mail
-[Edit Phone Number]
+[Edit phone number]
 Upravit telefonní číslo
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Telefonní číslo by mělo začínat znaménkem + a smí obsahovat\nčísla, mezery, závorky a pomlčky.
-[Choose the item to display.]
+[Choose the item to display]
 Vyberte požadovanou položku
-[Edit the currently displayed item.]
+[Edit the currently displayed item]
 Upravit právě zobrazenou položku
-[Add a new custom item.]
+[Add a new custom item]
 Přidat novou položku
-[Delete the selected item.]
+[Delete the selected item]
 Smazat vybranou položku
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 CHYBA: nelze upravit tento záznam!\nTo by se dít nemělo!
@@ -433,7 +433,7 @@ Pouze narozeniny
 Pouze výročí
 [Disabled reminder]
 Zakázané připomínání
-[Popup Anniversary list]
+[Popup anniversary list]
 Zobrazit seznam výročí
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
@@ -449,7 +449,7 @@ Filtrování
 [Error]
 Chyba
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload Details]
+[Upload details]
 Uložit změny
 [Protocol '%s' is offline]
 Protokol '%s' je offline
@@ -457,7 +457,7 @@ Protokol '%s' je offline
 Informace na serveru lze aktualizovat až po připojení\nk síti ICQ. Do té doby budou provedené změny uloženy\npouze lokálně, do databáze Mirandy.
 [Uploading]
 Nahrávám
-[Creating the imagelist failed!]
+[Creating the image list failed!]
 Nepodařilo se vytvořit seznam obrázků!
 [Could not find contact's protocol. Maybe it is not active!]
 Nepodařilo se najít protokol kontaktu. Možná není aktivní.
@@ -465,7 +465,7 @@ Nepodařilo se najít protokol kontaktu. Možná není aktivní.
 Nebyly přidány žádné stránky. Tvorba dialogu zrušena!
 [Details dialog failed to be created. Returning error is %d.]
 Nepodařilo se vytvořit dialog detailů. Návratový kód je %d
-[The Page to add has invalid size %d bytes!]
+[The page to add has invalid size %d bytes!]
 Přidávaná stránka má nesprávnou velikost %d bajtů!
 [General]
 Obecné
@@ -475,7 +475,7 @@ Kontakt (soukromý)
 Výročí
 [Work]
 Práce
-[Contact (Work)]
+[Contact (work)]
 Kontakt (pracovní)
 [About]
 Informace
@@ -489,17 +489,21 @@ Exportovat...
 Importovat...
 [Owner]
 Něco o sobě
-[Upload ICQ Details]
+[edit contact information]
+Úprava informací o uživateli
+[Upload ICQ details]
 Nahrát detaily ICQ na server
 [Upload failed]
 Aktualizace se nezdařila
 [Your details were not uploaded successfully.\nThey were written to database only.]
 Vaše údaje nebyly úspěšně aktualizovány\nByly pouze zapsány do databáze.
+[updating]
+Aktualizace
 ;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags Module will be disabled.]
+[Fatal error, image services not found. Flags module will be disabled.]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
-[IM Naming]
+[IM naming]
 Ikona klienta
 [Password]
 Heslo
@@ -509,9 +513,9 @@ Heslo
 Rodinný stav
 [Address]
 Adresa
-[Export: Modules]
+[Export: modules]
 Export: moduly
-[Export: Folder]
+[Export: folder]
 Export: složka
 [Default]
 Výchozí
@@ -519,7 +523,7 @@ Výchozí
 Lišta detailu
 [Phone info bar]
 Lišta telefonu
-[E-Mail info bar]
+[E-mail info bar]
 Lišta e-mailu
 [Export VCard]
 Export VCard
@@ -537,10 +541,8 @@ WWW
 Fax
 [Cellular]
 Mobil
-[Custom Phone]
+[Custom phone]
 Vlastní typ telefonu
-[e-mail]
-e-mail
 [Down arrow]
 Šipka dolů
 [Add]
@@ -549,9 +551,9 @@ Přidat
 Upravit
 [Search]
 Hledat
-[Ex-/Import]
+[Export/import]
 Export/Import
-[Backup Birthday]
+[Backup birthday]
 Zálohovat narozeniny
 [Birthday today]
 Narozeniny (dnes)
@@ -604,20 +606,20 @@ Upozornění: Nebyla nalezena žádná knihovna ikon v žádné z těchto slože
 [Main]
 Hlavní
 ;file \plugins\UserInfoEx\src\mir_icolib.h
-[UserInfoEx]
+[Extended user info]
 Detaily uživatele
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[Ex-/Import contact]
-Export/Import kontaktů
+[Export/import contact]
+Export/import kontaktu
 [User &details]
 &Detaily uživatele
-[&Export User Details]
+[&Export user details]
 &Exportovat detaily uživatele
 [&Import]
 &Importovat
-[&Import User Details]
+[&Import user details]
 &Importovat detaily uživatele
-[View/Change My &Details...]
+[View/change my &details...]
 In&formace o sobě...
 [Export all contacts]
 Exportovat všechny kontakty
@@ -627,30 +629,32 @@ Importovat všechny kontakty
 Zazálohovat narozeniny
 [Check anniversaries]
 Zkontrolovat výročí
-[Extended UserInfo]
-Detaily uživatele
-[Ex-/Import Group]
-
-[&Export Group]
-
-[&Import Group]
-
+[Export/import group]
+Export/import skupiny
+[&Export group]
+&Exportovat skupinu
+[&Import group]
+&Importovat skupinu
+[&Export xml]
+&Exportovat xml
+[&Import xml]
+&Importovat xml
 ;file \plugins\UserInfoEx\src\psp_about.cpp
-[My Notes:]
+[My notes:]
 Poznámky:
 [About:]
 Ostatní informace:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-[Please enter a valid Description first!]
+[Please enter a valid description first!]
 Prosím zadejte nejdříve platný popis!
 [No valid date selected for editing!]
 Nebylo vybráno platné datum pro úpravy!
 [Do you really want to delete the %s?]
 Opravdu chcete smazat %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[Home]
-Domov
-[Open in Browser]
+[home]
+domov
+[Open in browser]
 Otevřít v prohlížeči
 [Primary e-mail]
 Primární e-mail
@@ -658,14 +662,14 @@ Primární e-mail
 Druhý e-mail
 [Tertiary e-mail]
 Třetí e-mail
-[Address & Contact]
-Adresa & kontakt
-[Company]
+[Address and contact]
+Adresa a kontakt
+[company]
 Společnost:
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Otázka
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
 Tato akce smaže všechna nastavení, která jste provedli!\nVšechna nastavení nabídky, pozic okna atd.\n\nOpravdu chcete pokračovat?
 [Ready]
 Připraven
@@ -675,21 +679,19 @@ Vše hotovo!
 Všechna nastavení byla vynulována na výchozí hodnoty.
 [Reminder disabled]
 Připomínky vypnuty
-[Bithdays only]
-Pouze narozeniny
-[everything]
+[Everything]
 Vše
 [mBirthday]
 Narozeniny
 [UserInfo (default)]
 Detaily uživatele (výchozí)
 [This is the reminder message]
-
+Toto je zpráva s upozorněním
 [Contacts]
 Kontakty
 [Advanced]
 Extra
-[Details Dialog]
+[Details dialog]
 Detaily
 [Popups]
 Oznámení
@@ -704,11 +706,9 @@ Zájem
 Upozornění: vyskytl se problém s přidáváním nové položky "%s"
 [<empty>]
 <neuvedeno>
-[Add Affliation]
-Přidat členství
-[Edit Category]
+[Edit category]
 Upravit kategorii
-[Edit Value]
+[Edit value]
 Upravit hodnotu
 [Delete an entry]
 Smazat záznam
@@ -881,6 +881,8 @@ Peněžní služby
 Státní správa
 [High School Student]
 Škola (SŠ)
+[Home]
+Domov
 [ICQ - Providing Help]
 Pomoc uživatelům ICQ
 [Law]
@@ -1075,6 +1077,7 @@ ovdovělý/á
 jun.
 [sen.]
 sen.
+;file \plugins\UserInfoEx\src\svc_constants.h
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(neznámý kontakt)'
@@ -1101,7 +1104,7 @@ Domovská stránka (uinfoex)
 [Phone (uinfoex)]
 Telefon (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[[b]%s (%S)...[/b]\n%d Contacts remaining]
  [b]%s (%S)...[/b]\n%d kontaktů zbývá
 [Abort Refreshing Contact Details]
 Přerušit proces občerstvování detailů
@@ -1151,7 +1154,7 @@ Narozeniny (již brzy!)
 [Anniversary Reminder]
 Upozorňování na výročí
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[contact identificaion]
+[contact identification]
 identifikace kontaktu
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
 
@@ -1162,7 +1165,7 @@ Importování nového kontaktu bylo zrušeno!
 Zrušili jste import nového kontaktu.\nNěkteré informace mohou u tohoto kontaktu chybě.\n\nPřejete si kontakt smazat úplně?
 [Importing a new meta subcontact failed!]
 Nezdařil se import nového podkontaktu!
-[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
 Nově vytvořený podkontakt '%s'\nnemohl být přidán do metakontaktu '%s'!\n\nPřejete si smazat tento kontakt úplně?
 [Settings: %S]
 Nastavení: %S

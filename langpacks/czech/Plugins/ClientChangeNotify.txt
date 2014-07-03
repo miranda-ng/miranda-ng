@@ -61,18 +61,6 @@ změnil klienta na %s (předtím %s)
 změnil klienta na %s
 [%s (was %s)]
 %s (předtím %s)
-[) changed client to ]
-) změna klienta na\s
-[Client change notifications:]
-Upozorňovat na změnu klienta:
-[Never, ignore client changes for this contact]
-Nikdy, ignorovat změny tohoto kontaktu
-[Always except when client change notifications are disabled globally]
-Vždy, pokud nejsou upozornění na změnu klienta globálně vypnuty
-[Always, even when client change notifications are disabled globally]
-Vždy, i když jsou upozornění na změnu klienta globálně vypnuty
-[Use global settings (default)]
-Použít globální nastavení (výchozí)
 [Disable c&lient change notification]
 Vypnout oznámení o změně klienta
 [Enable c&lient change notification]
@@ -81,10 +69,6 @@ Zapnout oznámení o změně klienta
 Oznámení
 [ClientChangeNotify: Client changed]
 Změna klienta
-[ClientChangeNotify]
-Změna klienta
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) changed client to %extratext%]
-`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,ID)) změnil klienta na %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Chyba č.%d
@@ -103,7 +87,7 @@ Zobrazit okno s detaily kontaktu
 Zobrazit nabídku kontaktu
 [Open contact history]
 Zobrazit historii kontaktu
-[Open log file]
-Zobrazit záznam
 [Do nothing]
 Nedělat nic
+[ClientChangeNotify]
+Změna klienta

@@ -8,17 +8,17 @@
 [Advanced Database Editor.]
 Pokročilý editor databáze.
 ;file \plugins\DbEditorPP\res\resource.rc
-[Database Editor++ Search and Replace]
+[Database Editor++ search and replace]
 Editor databáze :: Hledání a nahrazení
-[Case Sensitive]
-Rozlišit malá/VELKÁ
-[Module Name]
+[Case sensitive]
+Rozlišovat malá a VELKÁ
+[Module name]
 Název modulu
-[Exact Match]
+[Exact match]
 Přesný výraz
-[Setting Name]
+[Setting name]
 Název nastavení
-[Setting Value]
+[Setting value]
 Hodnota
 [&Search]
 &Hledat
@@ -28,19 +28,19 @@ Nalezeno pole
 Nah&radit
 [&Cancel]
 &Zrušit
-[Search For]
-Hledat
+[Search for]
+Hledat:
 [Text:]
 Text:
 [In:]
 V:
-[Replace With]
+[Replace with]
 Nahradit
 [Entirely]
 Kompletně
 [Restore last opened position]
 Zapamatovat pozici okna
-[Automatically expand "settings" when Database Editor ++ starts]
+[Automatically expand "Settings" when Database Editor++ starts]
 Při spuštění automaticky rozbalit větev 'Nastavení'
 [Warn when deleting modules]
 Upozornit před smazáním modulu
@@ -54,11 +54,11 @@ Barva pozadí
 Přidat modul ke kontaktu
 [Add a module named]
 Název nového modulu
-[Add to all contacts (Includes Settings)]
+[Add to all contacts (including Settings)]
 Přidat všem kontaktům (včetně nastavení)
 [Cancel]
 Zrušit
-[Edit Setting]
+[Edit setting]
 Upravit nastavení
 [Byte]
 Byte
@@ -72,45 +72,45 @@ String
 Hexadecimální
 [Decimal]
 Decimální
-[Value Name:]
+[Value name:]
 Název hodnoty:
-[Value Data:]
+[Value data:]
 Obsah hodnoty:
 [Base]
 Číselná soustava
-[Save Value as:]
+[Save value as:]
 Definice hodnoty
-[Watched Database Variables]
+[Watched database settings]
 Sledované proměnné v databázi
 [Copy module to contact]
 Zkopírovat modul do kontaktu
-[Copy to all contacts (Includes Settings)]
+[Copy to all contacts (including Settings)]
 Zkopírovat všem kontaktům (včetně nastavení)
 [Contact to copy module and settings to]
 Zkopírovat modul a nastavení do kontaktu
-[Import Module/Settings]
+[Import module/settings]
 Importovat modul/nastavení
 [Import]
 Importovat
 [Insert &CR/LF]
 Vložit &CR/LF
-[Paste the Settings to import here.]
+[Paste the settings to import here.]
 Zde vložte požadovaný text:
 [Database Editor++]
 Editor databáze ++
 [&Main]
 &Soubor
-[&Refresh Modules]
+[&Refresh modules]
 &Aktualizovat moduly
-[Refresh &Settings]
+[Refresh &settings]
 Aktualizovat na&stavení
 [E&xit]
 U&končit
 [&Actions]
 &Akce
-[&Search and Replace]
+[&Search and replace]
 Najít a nah&radit...
-[&Delete Module]
+[&Delete module]
 &Smazat modul...
 [&Watches]
 S&ledovače
@@ -120,11 +120,11 @@ Zobrazit &vše
 &Smazat vše
 [&Export]
 &Exportovat
-[Entire &Database]
+[Entire &database]
 Celá &databáze...
-[All &Settings]
+[All &settings]
 Všechna na&stavení...
-[All &Contacts]
+[All &contacts]
 Vše&chny kontakty...
 [&Import]
 &Importovat
@@ -136,11 +136,11 @@ Ze sc&hránky...
 M&ožnosti
 [&Sort by protocol]
 &Seřadit dle protokolu
-[Show &All]
+[Show &all]
 Zobrazit &vše
-[Show only &Loaded]
+[Show only &loaded]
 Zobrazit jen &aktivní
-[Show only &Unloaded]
+[Show only &unloaded]
 Zobrazit jen &neaktivní
 [Edit &Bytes in Hex]
 Upravovat &Bytes v hexa
@@ -150,11 +150,11 @@ Upravovat &Words v hexa
 Upravovat &Dwords v hexa
 [&Restore position]
 &Obnovit pozici
-[&Open Options]
+[&Open options]
 Otevřít &nastavení
-[&Edit / Rename]
+[&Edit/rename]
 &Upravit...
-[NEW]
+[New]
 Nový
 [&Byte]
 &Byte
@@ -172,13 +172,13 @@ BL&OB
 &Konvertovat na
 [Encyption]
 Šifrování
-[View Decrypted String]
+[View decrypted string]
 Zobrazit dešifrovaný řetězec
-[View Encrypted String]
+[View encrypted string]
 Zobrazit zašifrovaný řetězec
-[Decrypt String]
+[Decrypt string]
 Dešifrovat řetězec
-[Encrypt String]
+[Encrypt string]
 Zašifrovat řetězec
 [&Watch]
 Sl&edovat
@@ -186,33 +186,33 @@ Sl&edovat
 &Smazat
 [&Rename]
 Př&ejmenovat
-[Copy To Contact]
+[Copy to contact]
 &Zkopírovat do kontaktu...
-[Export Module]
+[Export module]
 &Exportovat modul...
 [&Clone]
 Dup&likovat
-[Export Contact]
+[Export contact]
 &Exportovat kontakt
-[Import Settings]
-&Importovat nastavení
+[Import settings]
+Importovat nastavení
 [From a file]
 &Ze souboru...
 [From pasted text]
 Z&e schránky...
-[&Add Module]
+[&Add module]
 Přid&at modul...
-[Export Settings]
+[Export settings]
 &Exportovat nastavení
-[Export Contacts]
-&Exportovat kontakty
-[Import Contacts]
-&Importovat kontakty
-[Export Module from all contacts]
+[Export contacts]
+Exportovat kontakty
+[Import contacts]
+Importovat kontakty
+[Export module from all contacts]
 &Exportovat modul ze všech kontaktů...
-[Watch Window]
+[Watch window]
 Sledování
-[Reload Watch List]
+[Reload watch list]
 Aktualizovat seznam sledovaných
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
@@ -249,13 +249,13 @@ Nastavení
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Opravdu chcete smazat modul '%s'?
-[Confirm Module Deletion]
+[Confirm module deletion]
 Potvrzení smazání modulu
-[Delete module from Database]
+[Delete module from database]
 Smazat modul z databáze
-[Delete module from Database... Loading]
+[Delete module from database... Loading]
 Mazání modulu z databáze... načítání
-[Delete module from all contacts (Includes Setting)]
+[Delete module from all contacts (including Setting)]
 Smazat ode všech kontaktů (včetně nastavení)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
@@ -264,7 +264,7 @@ Soubory INI
 Všechny soubory
 [Export to file]
 Exportovat...
-[Error Loading Module List]
+[Error loading module list]
 Chyba při načítání seznamu modulů
 [Couldn't open file for writing]
 Nelze otevřít soubor pro zápis
@@ -300,16 +300,34 @@ Dokončeno. Počet nalezených: %d, počet nahrazených: %d
 [Finished. %d items were found.]
 Dokončeno. Počet nalezených položek: %d
 ;file \plugins\DbEditorPP\src\icons.cpp
-[Closed Known Module]
+[Main icon]
+Hlavní ikona
+[Closed known module]
 Známý modul (zavřený)
-[Open Known Module]
+[Open known module]
 Známý modul (otevřený)
-[Contacts Group]
+[Contacts group]
 Skupina kontaktů
-[Unknown Contact]
+[Unknown contact]
 Neznámý kontakt
-[Known Contact]
+[Known contact]
 Známý kontakt
+[Open user tree]
+Otevřený strom kontaktu
+[BLOB setting]
+Hodnota BLOB
+[Byte setting]
+Hodnota Byte
+[Word setting]
+Hodnota Word
+[Dword setting]
+Hodnota Dword
+[String setting]
+Hodnota String
+[Unicode setting]
+Hodnota Unicode
+[Handle]
+Ukazatel
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Otevřít editor databáze
@@ -318,7 +336,7 @@ Upravit položky v DBE++
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Opravdu chcete smazat kontakt '%s'?
-[Confirm Contact Delete]
+[Confirm contact delete]
 Potvrzení smazání kontaktu
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp

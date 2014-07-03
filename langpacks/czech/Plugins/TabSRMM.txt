@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.0.3
+;  Version: 3.3.1.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -404,7 +404,7 @@ min.
 Zobrazení globálního záznamu komunikace
 [Typing Notification]
 Upozornění na psaní zprávy
-[Send typing notifications to the following users when you are typing a message to the them:]
+[Send typing notifications to the following users when you are typing a message to them:]
 Poslat upozornění na psaní zprávy těmto vybraným kontaktům:
 [        Show typing notifications in the message window]
         Zobrazit oznámení o psaní v komunikačním okně
@@ -962,7 +962,7 @@ Výchozí kontejner
 Připojit k
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
-Hlavní možnosti
+Obecná nastavení
 [Window layout]
 Vzhled okna
 [Tabs and switch bar]
@@ -1060,9 +1060,9 @@ Poslední zpráva přijata %s v %s
 %s dopsal/a zprávu.
 [%s is typing a message]
 %s píše zprávu
-[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Automatické posouvání je vypnuto, %d zpráva/y) ve frontě (stiskněte F12 pro zapnutí)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nKliknout pravým pro správu metakontaktů\nTáhnout pro přidání nebo odebrání uživatele z oblíbených.
 [No UID]
 Žádné UID
@@ -1238,7 +1238,7 @@ UPOZORNĚNÍ: Zpráva, kterou se pokoušíte vložit, je delší, než povolený
 UPOZORNĚNÍ: Zpráva, kterou se pokoušíte vložit, je delší, než povolený limit pro tento protokol. Bude odesláno prvních %d znaků
 [Save and close session]
 Uložit a zavřít rozhovor
-[Autoscrolling is disabled (press F12 to enable it)]
+[Auto scrolling is disabled (press F12 to enable it)]
 Automatické posouvání je vypnuto (stiskněte F12 pro zapnutí)
 [Click for contact menu\nClick dropdown for window settings]
 Kliknutím zobrazíte uživatelské menu\nKliknutím na šipku možnosti okna
@@ -1611,6 +1611,8 @@ Změnit skin
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 Komunikační okno
+[Display metacontact icons]
+Zobrazit ikonu metakontaktu
 [Error feedback]
 Hlášení o chybách
 [Show skinnable tooltip in chat (Tipper plugin required)]
@@ -1621,14 +1623,18 @@ Povolit zvuky psaní
 Zakázat animované GIF avatary (nebude mít vliv na právě otevřená komunikační okna)
 [Close current tab on send]
 Zavřít panel po odeslání
-[Disable error popups on sending failures]
-Zakázat chybové oznámení při neodeslání zprávy
 [Automatic keyboard layout: Do not load the system default for new contacts]
 Automatické rozložení klávesnice: Nenahrávat výchozí rozložení systému pro nový kontakt
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Povolit bezobslužné odesílání (experimentální funkce vyžadovaná pro mnohonásobné či zpožděné odesílání) (*)
 [Show client description in info panel]
-
+Zobrazit popis klienta v info panelu
+[On tab control]
+Na záložkách
+[On the button bar]
+Na tlačítkové liště
+[Disable error popups on sending failures]
+Zakázat chybové oznámení při neodeslání zprávy
 [Show a preview of the event]
 Zobrazit náhled události
 [Don't announce event when message dialog is open]
@@ -1697,7 +1703,7 @@ Automaticky kopírovat vybraný text
 Vzhled záznamu komunikace
 [Support for external plugins]
 Podpora externích doplňků
-[Timestamp settings (note: timstamps also depend on your templates)]
+[Timestamp settings (note: timestamps also depend on your templates)]
 Nastavení časových údajů (pozn.: rovněž závisí na vašich šablonách)
 [Message log icons]
 Ikony v záznamu komunikace
@@ -2082,7 +2088,7 @@ Pozadí seznamu účastníků
 Pozadí skupinového rozhovoru
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
 [user-defined account name of current contact (if defined).]
 uživatelem definovaný název účtu (pokud je definován)
@@ -2180,7 +2186,7 @@ minut
 minuta
 [, %d %s idle]
 , %d %s nečinný
-[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
 Filtr nelze povolit, neboť nejsou vybrány žádné typy událostí, ať už globální, nebo pro tuto místnost.
 [Event filter error]
 Chyba filtru událostí

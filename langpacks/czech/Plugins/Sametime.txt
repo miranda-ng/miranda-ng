@@ -28,7 +28,7 @@ Identifikace klienta
 
 [Use popups]
 Použít oznámení
-[Use system tray baloons]
+[Use system tray balloons]
 
 [Contacts]
 Kontakty

@@ -115,9 +115,9 @@ Pokus o obnovení šifrované relace (OTR) s '%s'
 Obnovena šifrovaná relace (OTR) kontaktem '%s'
 [OTR encrypted session was refreshed by '%s' (NOT VERIFIED)]
 Obnovena šifrovaná relace (OTR) kontaktem '%s' (NEOVĚŘENO)
-[OTR encrypted session with '%s' sucessfully refreshed]
+[OTR encrypted session with '%s' successfully refreshed]
 Obnovena šifrovaná relace (OTR) s '%s'
-[OTR encrypted session with '%s' sucessfully refreshed (NOT VERIFIED)]
+[OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)]
 Obnovena šifrovaná relace (OTR) s '%s' (NEOVĚŘENO)
 [OTR encrypted session has been terminated by '%s'. You should do that, too!]
 Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
@@ -131,7 +131,7 @@ Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
 [OTR INFO]\s
 [Authentication from %s]
 Ověření od %s
-[Authenticae %s]
+[Authenticate %s]
 Ověřit %s
 [Unknown]
 neznámý
@@ -207,9 +207,9 @@ Tajná odpověď
 Otázka
 [Password]
 Heslo
-[Authentication sucessful.]
+[Authentication successful.]
 Úspěšně ověřeno.
-[You contact authenticated you sucessful. You can send your own request to authenticate him.]
+[Your contact authenticated you successfully. You can send your own request to authenticate him.]
 Váš kontakt vás úspěšně ověřil. Můžete zaslat vlastní požadavek pro ověření jeho.
 [Error during authentication.]
 Nastala chyba během ověřování.

@@ -8,15 +8,15 @@
 [Provides a simple way to set status and away messages.]
 Umožňuje jednoduchou volbu stavu a stavových zpráv.
 ;file \plugins\SimpleStatusMsg\res\resource.rc
-[%s Message for %s]
+[%s message for %s]
 Stav: '%s', uživatel: %s
 [&Cancel]
 &Zrušit
 [Retrieving %s message...]
 Zjištění automatické odpovědi ve stavu '%s'...
-[Co&py to Clipboard]
+[Co&py to clipboard]
 Zko&pírovat
-[%s Message (%s)]
+[%s message (%s)]
 Zpráva stavu %s (%s)
 [Retrieving status message for %s...]
 Zjišťování zprávy stavu pro '%s'...
@@ -90,11 +90,7 @@ Automaticky zavřít okno se zprávou po
 Zapamatovat poslední pozici dialogu
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Odstranit ze stavových zpráv znaky CR (CR = '\\r' = #0D)
-[Show 'Copy Away Message' item in contact menu]
-Zobrazit v menu kontaktu 'Zkopírovat zprávu stavu'
-[Show 'Go to URL in Away Message' item in contact menu]
-Zobrazit v nabídce kontaktu položku 'Přejít na URL ve zprávě stavu'
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 Zobrazit v menu stavů 'Zpráva stavu...'
 [Clear History]
 Smazat historii
@@ -102,12 +98,12 @@ Smazat historii
 Smazat předdef.
 [* This feature is available only when using StartupStatus plugin.]
 * Tato funkce je dostupná pouze při použítí doplňku StartupStatus.
-[Status on Startup]
+[Status on startup]
 Stav po spuštění
 [Set status after]
 Nastavit stav po
-[miliseconds]
-milisekund
+[milliseconds]
+ms
 [Protocol:]
 Protokol:
 [Status:]
@@ -162,33 +158,33 @@ Zkopírovat
 Vložit
 [Delete]
 Smazat
-[Select All]
+[Select all]
 Vybrat vše
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 Nepodařilo se získat zprávu stavu %s.
 [&Close]
 &Zavřít
-[Re&ad %s Message]
+[Re&ad %s message]
 Přečíst &automatickou odpověď
-[Copy %s Message]
+[Copy %s message]
 Zkopírovat zprávu stavu
-[&Go to URL in %s Message]
+[&Go to URL in %s message]
 &Přejít na URL ve zprávě %s stavu
-[Re&ad Away Message]
+[Re&ad Away message]
 Přečíst &autom. odpověď
-[Copy Away Message]
+[Copy Away message]
 Zkopírovat zprávu stavu
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 &Přejít na URL ze zprávy stavu
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[Change Status Message]
+[Change status message]
 Změnit zprávu stavu
-[Open Status Message Dialog]
+[Open status message dialog]
 Zobrazit dialog se zprávou stavu
-[Status Message]
+[Status message]
 Zpráva stavu
-[Status Message...]
+[Status message...]
 Zpráva stavu...
 [%s (locked)]
 %s (uzamčený)
@@ -205,11 +201,13 @@ získá datum (kompatibilní s jednoduchým správcem stavů)
 <při spuštění>
 [<current>]
 <současný>
-[Add to Predefined]
+[Clear history]
+Smazat historii
+[Add to predefined]
 Přidat mezi předdefinované
-[Delete Selected]
+[Delete selected]
 Smazat vybrané
-[Global]
+[global]
 Globální
 [Closing in %d]
 Zavře se za %d sek.
@@ -220,7 +218,7 @@ Potvrdit smazání historie
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Změna globálního stavu
-[Open String Formatting Help]
+[Open string formatting help]
 Otevřít nápovědu o proměnných
 [Hide]
 Skrýt
@@ -234,7 +232,7 @@ Zobrazit v seznamu zpráv
 Určitě chcete smazat všechny předdefinované zprávy stavu?
 [Confirm clearing predefined]
 Potvrdit smazání předdefinovaných
-[<Last status>]
+[<last status>]
 <Poslední stav>
 [Status]
 Stavy
@@ -243,11 +241,11 @@ Obecné
 [Advanced]
 Extra
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
-[Recent Message]
+[Recent message]
 Poslední zpráva
-[Predefined Message]
+[Predefined message]
 Předdefinovaná zpráva
-[Go to URL in Away Message]
+[Go to URL in Away message]
 Přejít na URL ze zprávy stavu
 [Simple Status Message]
 Jednoduchý správce stavů

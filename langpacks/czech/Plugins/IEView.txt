@@ -32,8 +32,6 @@ K dispozici jsou tyto BBCode značky: [b][i][u][s][img][size][color][url]
 Povolit smajlíky ve Flashi a formátování pomocí BBCode
 [Enable workaround for PNG transparency]
 Aktivovat opravu pro průhledné PNG
-[Enable MathModule support]
-Podporovat doplněk MathModule
 [Replace smileys in user names]
 Nahrazovat i smajlíky ve jménech
 [Hide window border]

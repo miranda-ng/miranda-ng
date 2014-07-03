@@ -5,7 +5,7 @@
 ;  Version: 1.1.0.0
 ;  Authors: jarvis, Kreisquadratur
 ;============================================================
-[Adds a menu/toobar item which opens the main Miranda NG folder.]
+[Adds a menu/toolbar item which opens the main Miranda NG folder.]
 Přidává položku do menu a tlačítkové lišty pro otevření složky s Mirandou.
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]

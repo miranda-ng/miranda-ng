@@ -10,7 +10,6 @@
 [Click to Inbox]
 [Show received formatted text (receive RTF)]
 [Send formatted text (send RTF)]
-[Zodiak:]
 [Remember]
 [Enable avatars support (loading)]
 [Updates check interval, min]

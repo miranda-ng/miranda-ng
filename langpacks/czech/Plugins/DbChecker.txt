@@ -14,7 +14,7 @@ Vítá vás průvodce správou databáze Mirandy!
 Tento průvodce vám jednak umožní pročistit databázi od balastu, který se nasbírá při běžném používání programu, a zároveň také umí opravit celou řadu problémů.
 [To continue, click Next.]
 Pokračujte kliknutím na tlačítko 'Další'.
-[This program is licenced under the terms of the GNU General Public License.]
+[This program is licensed under the terms of the GNU General Public License.]
 Tento program je šířen v souladu s podmínkami licence GNU General Public License.
 [Miranda Database Tool]
 Nástroj pro správu databáze Mirandy

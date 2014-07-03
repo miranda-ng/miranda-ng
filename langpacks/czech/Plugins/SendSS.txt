@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.4.0
+;  Version: 0.8.7.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -34,6 +34,8 @@ Zpoždění (sec.):
 V&yplnit pole pro popis
 [Delete &after send]
 Po odeslání obrázek sm&azat
+[Open editor before sending]
+Před odesláním otevřít editor
 [Open again]
 Nezavírat
 [&Capture]
@@ -54,8 +56,14 @@ Záhlaví okna:
 Velikost (v×š):
 [C&lient Area]
 Bez okraje okna
+[indirect capture]
+nepřímé zachytávání
 [Target Tool]
 
+[File:]
+Soubor:
+[Description:]
+Popis:
 [Result]
 VÝSLEDEK
 [Thumbnail]
@@ -86,6 +94,10 @@ Neznámá chyba.
 Nelze inicializovat %s.
 [MAPI error (%i):\n%s.]
 Chyba MAPI (%s):\n%s.
+[Unknown response from %s (%i)]
+Neznámá odpověď od %s (%i)
+[Got no response from %s (%i)]
+Žádná odpověď od %s (%i)
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
 Přenos přes Dropbox
@@ -130,11 +142,11 @@ Přenos souboru
 Přenos přes FTPFile
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
-;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 Upload obrázku
-[Upload server did not respond timely.]
-
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 Přenos přes HTTPServer
@@ -142,7 +154,6 @@ Přenos přes HTTPServer
 Nelze spustit doplněk HTTP Server.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Znovu
@@ -207,6 +218,8 @@ Předchozí
 Další
 [Update]
 Aktualizovat
+[Edit on]
+Úpravy
 [BBC]
 
 [BBC link]
@@ -240,6 +253,8 @@ Plocha
 Monitor
 [ (primary)]
  (primární)
+[File]
+Soubor
 [<Only save>]
 <Pouze uložit>
 [File Transfer]
@@ -248,16 +263,12 @@ Přenos souborů
 E-mail
 [FTP File]
 Soubory přes FTP
-[Dropbox]
-Dropbox
-[ImageShack]
-ImageShack
 [Upload Pie (30m)]
-
+Upload Pie (30m)
 [Upload Pie (1d)]
-
+Upload Pie (1d)
 [Upload Pie (1w)]
-
+Upload Pie (1t)
 [Information]
 Informace
 [Fill description textbox.]
@@ -268,6 +279,8 @@ Smazat po odeslání
 
 [Can't create a Screenshot]
 
+[Select a file]
+Vyberte soubor
 [Select a target window.]
 Vyberte prosím požadované okno.
 [Screenshot ]

@@ -36,6 +36,45 @@ Název:
 Cesta:
 [Set]
 Nastavit
+;file \plugins\TopToolBar\src\InternalButtons.cpp
+[Show main menu]
+Zobrazit hlavní menu
+[Show options page]
+Zobrazit stránku nastavení
+[Show accounts manager]
+Zobrazit správce účtů
+[Find/add contacts]
+Vyhledání kontaktů
+[Show status menu]
+Zobrazit nabídku stavu
+[Show/hide offline contacts]
+Zobrazit/skrýt offline uživatele
+[Hide offline contacts]
+Skrýt uživatele offline
+[Show offline contacts]
+Zobrazit offline uživatele
+[Enable/disable metacontacts]
+Povolit/zakázat metakontakty
+[Disable metacontacts]
+Zakázat metakontakty
+[Enable metacontacts]
+Povolit metakontakty
+[Enable/disable groups]
+Povolit/zakázat skupiny
+[Enable groups]
+Povolit skupiny
+[Disable groups]
+Zakázat skupiny
+[Enable/disable sounds]
+Povolit/zakázat zvuky
+[Disable sounds]
+Zakázat zvuky
+[Enable sounds]
+Povolit zvuky
+[Minimize contact list]
+Minimalizovat seznam
+[Exit]
+Ukončit
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Výchozí

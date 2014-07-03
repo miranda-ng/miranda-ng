@@ -979,7 +979,7 @@ E-mailová adresa
 
 [The JIDs of those to contact with questions]
 
-[The datetime when the node was created]
+[The date and time when the node was created]
 
 [The JID of the node creator]
 
@@ -1859,13 +1859,13 @@ Přidat seznam
 Odebrat
 [** Default **]
 ** výchozí **
-[** Subsription: both **]
+[** Subscription: both **]
 ** autorizace: <-> **
-[** Subsription: to **]
+[** Subscription: to **]
 ** autorizace: -> **
-[** Subsription: from **]
+[** Subscription: from **]
 ** autorizace: <- **
-[** Subsription: none **]
+[** Subscription: none **]
 ** autorizace: žádná **
 [<none>]
 <žádný>

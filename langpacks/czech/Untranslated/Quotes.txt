@@ -18,7 +18,7 @@
 [Refresh All Quotes\\Rates]
 [Export All Quotes]
 [Import All Quotes]
-[Enable/Diable Quotes Auto Update]
+[Enable/Disable Quotes Auto Update]
 [Quotes Auto Update Enabled]
 [Quotes Auto Update Disabled]
 [Quotes HTTP connections]

@@ -28,8 +28,6 @@ Závažné události pro ukončení
 Automaticky ukončit operační systém a vypnout počítač, nastane-li jedna z následujících variant:
 [&Thunderstorm warning is issued (Weather)]
 Varování před bouřkou (Wea&ther)
-[&Harddrive overheats (HDD Info)]
-Přehřívání pevného disku (&HDD Info)
 [Automatic Shutdown]
 Automatické ukončení
 [Select the automatic shutdown event]

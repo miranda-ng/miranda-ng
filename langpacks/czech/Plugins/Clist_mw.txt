@@ -204,13 +204,13 @@ Zešednout neaktivní kontakty
 Skrýt svislý posuvník
 [Contact list background]
 Pozadí seznamu kontaktů
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Použít ikony protokolu 'Meta' pro metakontakty
 [Avoid double click expand]
 Nerozbalovat dvojím kliknutím
 [Hide all extra icons for subcontacts]
 Skrýt všechny 'Extra ikony' pro podkontakty
-[MetaContacts supporting]
+[Metacontacts supporting]
 Podpora doplňku Metakontakty
 [Ignore empty extra icons places (arrange to right)]
 Ignorovat prázdná místa po extra ikonách (posunout >>).
@@ -338,7 +338,7 @@ Hledaný text
 ;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 Seznam
-[List MetaContacts]
+[List metacontacts]
 Seznam metakontaktů
 [Not focused]
 Neaktivní

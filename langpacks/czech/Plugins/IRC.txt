@@ -262,7 +262,7 @@ Poznámky
 CTCP
 [DCC]
 DCC
-[Ignore mask ( nick!user@host )]
+[Ignore mask (nick!user@host)]
 Maska (přezdívka!uživ_jméno@hostitel)
 [Network (*)]
 Síť (*)
@@ -395,10 +395,6 @@ Zadejte prosím odpověď
 %s - spojení se serverem
 [%s client-to-client connections]
 %s - přímé spojení mezi klienty
-[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-
-[Information]
-Informace
 [Nickname]
 Přezdívka
 [DCC ERROR: No valid files specified]
@@ -568,9 +564,9 @@ Zadejte požadovaný kanál
 Vyberte síť serverů IRC a pokud je to nutné, zadejte heslo.
 [Please enter a unique nickname]
 Vyberte jinou přezdívku
-[Please enter your authentification code]
+[Please enter your authentication code]
 
-[Authentificate nick]
+[Authenticate nick]
 
 [Are you sure you want to unregister your current nick?]
 

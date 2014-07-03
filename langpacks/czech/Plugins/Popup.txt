@@ -137,7 +137,7 @@ Pravé tlačítko
 [Notifications]
 Upozornění
 [General options]
-Hlavní možnosti
+Obecná nastavení
 [Enable this notification]
 Povolit tento druh oznámení
 [Popup timeout:]

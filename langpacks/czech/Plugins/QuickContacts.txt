@@ -42,8 +42,6 @@ Rychlé kontakty
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]
 Otevřít dialog
-[Make a voice call]
-Zavolat
 [Send file]
 Poslat soubor
 [Send URL]

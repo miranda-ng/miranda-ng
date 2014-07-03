@@ -32,7 +32,7 @@ Zobrazit oznámení pro tento kontakt
 Protokoly
 [Enable tracking for these protocols:]
 Povolit sledování pro tyto protokoly:
-[MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+[Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Upozornění pro metakontakty: Informace o změně avataru pocházejí od jednotlivých kontaktů.
 [Show popup when a contact change his avatar]
 Zobrazit oznámení, když kontakt změní svůj avatar

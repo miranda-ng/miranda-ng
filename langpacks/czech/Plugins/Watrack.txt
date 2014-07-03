@@ -5,14 +5,14 @@
 ;  Version: 0.0.6.12
 ;  Authors: Awkward
 ;============================================================
+[Paste played music info into message window or status text]
+Vkládá informace o přehrávané hudbě do komunikačního okna nebo zprávy stavu
 [Clear xStatus before set new one]
 Před nastavením rozšířeného stavu nastavit prázdný
 [Emulate Multimedia keys]
 Emulovat multimediální klávesy
-[xStatus will cleared before text changing and restored with new text later.]
-Rozšířený stav bude na chvilku změněn na běžný a poté se zpět změní na "Poslouchám hudbu". Donutíte tak některé klienty přečíst si váš rozšířený stav, ale způsobuje záplavy.
-[Paste played music info into message window or status text]
-
+[xStatus will be cleared before text changing and restored with new text later.]
+Rozšířený stav bude na chvilku zrušen a poté se zpět změní na "Poslouchám hudbu" s novým textem.
 [Use XStatus]
 Použít rozšířený stav
 [If this option is "ON", XStatus doesn't depend on protocol status.]
@@ -299,11 +299,11 @@ Jestliže je tato možnost zapnuta, pokusí se doplněk získat informace o nezn
 Jestliže je tato možnost zapnuta, bude rozšířený stav změněn na "Poslouchám hudbu" pouze tehdy, byl-li takto změněn už předtím ručně.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 
-[If this option is "ON", XStatus not changed when player shutdowned.]
+[If this option is "ON", XStatus won't be changed when player is shut down.]
 Jestliže je tato možnost zapnuta, bude rozšířený stav ponechán i po vypnutí přehrávače
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
 Jestliže je tato možnost zapnuta, bude rozšířený stav změněn na "Poslouchám hudbu" a hláška stavu bude nahrazena informací o hudbě
-[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+[If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Jestliže je tato možnost zapnuta, bude použita na všechny protokoly, přehrávače a stavy jedna šablona. Záložka se šablonami se změní po restartu.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Umožňuje infiltraci do procesu přehrávače, díky čemuž lze získávat snáze informace, ale nemusí se líbit vašemu antiviru či osobnímu firewallu.

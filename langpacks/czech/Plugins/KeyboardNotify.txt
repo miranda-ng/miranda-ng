@@ -112,7 +112,7 @@ Rychle
 Pomalu
 [&Preview]
 &Přehrát
-[Emulate keypresses (Use this option if you are using a USB keyboard)]
+[Emulate key presses (Use this option if you are using a USB keyboard)]
 Emulovat zmáčknutí kláves (vyžadováno pro klávesnice typu USB)
 [Create/Edit Themes]
 Tvorba a úprava sekvence

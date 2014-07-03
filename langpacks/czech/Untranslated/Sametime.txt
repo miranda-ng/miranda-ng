@@ -2,7 +2,7 @@
 [Use old client version]
 [Error display]
 [Use message boxes]
-[Use system tray baloons]
+[Use system tray balloons]
 [Get contacts from server]
 [Upload contacts]
 [Import from file...]

@@ -5,7 +5,6 @@
 [Enter archive name manually]
 [Compression level:]
 [Upload File Manager]
-[File:]
 [Completed:]
 [Remaining:]
 [File Manager]

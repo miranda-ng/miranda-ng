@@ -220,7 +220,7 @@ Soubor
 [Status messages]
 Stavové zprávy
 [Main options]
-Hlavní možnosti
+Obecná nastavení
 [Autoreply]
 Automatické odpovědi
 [Contacts]
@@ -280,10 +280,6 @@ Od %nas_awaysince_time% ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreate
 Zapnout
 [Toggle Off]
 Vypnout
-[) read your ]
-) četl vaši zprávu ve stavu '
-[ message:\r\n]
-
 [Set %s message for the contact]
 Nastavit %s (zprávu stavu) pro kontakt
 [Re&ad %s message]
@@ -296,16 +292,6 @@ Vypnout automatické odpovědi
 Zapnout automatické odpovědi
 [New Away System]
 
-[Enable autoreply when you are %s]
-Povolit automatickou odpověď ve stavu %s
-["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-"Ukládat nastavení autom./odpovědi či ignorování pro každý stav zvlášť" je povoleno, takže toto nastavení platí "na kontakt" A ZÁROVEŇ "na stav".
-[Don't send status message when you are %s]
-Neposílat zprávu stavu, pokud jste %s
-[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
-Ignorovat požadavky na zjištění stavové zprávy od tohoto kontaktu a neposílat autom. odpověď.\r\n"Ukládat nastavení autom. odpovědi či ignorování pro každý kontakt zvlášť" je povoleno, takže toto nastavení platí "na kontakt" A ZÁROVEŇ "na stav".
-[Ignore status message requests from this contact and don't send an autoreply]
-Ignorovat požadavky na zjištění zprávy stavu od tohoto kontaktu a neposílat autom. odpověď
 [Away since time in default format; ?nas_awaysince_time(x) in format x]
 
 [Away since date in default format; ?nas_awaysince_date(x) in format x]
@@ -344,8 +330,6 @@ Vyp
 Použít výchozí nastavení
 [NewAwaySys: Incoming status message request]
 NewAwaySys: Příchozí požadavek na přečtení stavové zprávy
-[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %nas_statdesc% message:\r\n%extratext%\r\n\r\n]
-
 ;file \plugins\NewAwaySysMod\src\Common.h
 [Miranda NG autoreply >\r\n%extratext%]
 Miranda NG automatická odpověď >\r\n%extratext%

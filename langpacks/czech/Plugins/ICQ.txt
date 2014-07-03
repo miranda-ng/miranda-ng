@@ -30,7 +30,7 @@ Zapamatovat heslo této relace
 Zrušit
 [ICQ number:]
 Identifikátor:
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
+[Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
 Tip: Pokud nezadáte heslo, Miranda vás o něj bude žádat při každém připojení k síti ICQ.
 [Retrieve a lost password or ICQ number]
 Získat zpět ztracené heslo nebo číslo (UIN)
@@ -1442,7 +1442,7 @@ Aktualizace seznamu skupin
 Všechny akce dokončeny
 [Close]
 Zavřít
-[You have to be online to sychronize the server-list!]
+[You have to be online to synchronize the server-list!]
 Seznam kontaktů lze synchronizovat pouze ve stavu online!
 [** All contacts **]
 ** všechny kontakty **

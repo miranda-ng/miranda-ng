@@ -501,8 +501,6 @@ Umělec: %s\\r\\nNázev: %s\\r\\nAlbum: %s
 
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 
-[Speak Message]
-Přečíst zprávu hlasem
 [Next message]
 Další zpráva
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
@@ -515,8 +513,6 @@ Odstranit historii...
 Opravdu chcete vymazat VŠECHNY záznamy u vybrané položky?
 [Note: It can take several minutes for large histories]
 Upozornění: Tato akce může trvat u dlouhé historie i několik minut.
-[Empty history of subcontacts also]
-Odstranit také historii podkontaktu
 [Previous message]
 Předchozí zpráva
 [Running version of AniSmiley is not supported]

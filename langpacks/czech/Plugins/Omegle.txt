@@ -74,10 +74,10 @@ Cizinec 2
 Cizinec
 [You and the Stranger both like: ]
 Vy i cizinec máte rádi:\s
-[Stranger is typing.]
-Cizinec píše zprávu.
-[Stranger stopped typing.]
-Cizinec přestal psát.
+[%s is typing.]
+%s píše zprávu.
+[%s stopped typing.]
+%s přestal psát.
 [%s disconnected.]
 %s se odpojil.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]

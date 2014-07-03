@@ -1,5 +1,4 @@
-﻿[Paste played music info into message window or status text]
-[Frame template]
+﻿[Frame template]
 ["mono"/"stereo"]
 [Color codes]
 [Report format]

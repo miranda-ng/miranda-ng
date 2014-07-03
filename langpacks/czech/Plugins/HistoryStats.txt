@@ -550,12 +550,8 @@ Zpřesňující nastavení sloupce
 Tímto nastavením ovlivníte...
 [...can be output as: ]
 ... výstupem může být: 
-[HTML]
-
 [PNG (partial)]
 PNG (částečně)
-[PNG]
-
 [...will be output as: ]
 
 [Nothing (column will be skipped)]
@@ -564,7 +560,7 @@ PNG (částečně)
 
 [PNG, ignoring some settings]
 PNG; ignoruje některá nastavení
-[An internal column configuration error occured. Please contact the author of this plugin.]
+[An internal column configuration error occurred. Please contact the author of this plugin.]
 
 [HistoryStats - Error]
 HistoryStats :: Chyba
@@ -610,11 +606,11 @@ Ostatní
 Generovat statistická data na pozadí s nízkou prioritou
 [Path to browser (leave blank for system default)]
 Cesta k prohlížeči (prázdné = výchozí prohlížeč)
-[Create statistics for meta-contacts and their subcontacts]
+[Create statistics for metacontacts and their subcontacts]
 Umožňuje generování statistiky pro metakontakty
-[The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
+[The following information is only relevant if you already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
 
-[MetaContacts Plugin]
+[Metacontacts plugin]
 Doplněk MetaContacts
 [Automatically get updates of HistoryStats]
 Automaticky stáhne novou verzi HistoryStats
@@ -647,16 +643,16 @@ Znaky oddělující slova
 Filtrování kontaktů
 [Ignore all contacts with protocol...]
 Ignorovat kontakty používající protokol...
-[History read mode for MetaContacts]
+[History read mode for metacontacts]
 Režim práce s historií metakontaktů
-[Use only meta-contact's history]
+[Use only metacontact's history]
 Použít pouze historii metakontaktu
-[Use only subcontacts' histories (for one meta-contact)]
+[Use only subcontacts' histories (for one metacontact)]
 Použít pouze historii příslušných podkontaktů (platí pro jeden metakontakt)
-[Use meta-contact's history and its subcontacts' histories]
+[Use metacontact's history and its subcontacts' histories]
 Použít historii metakontaktu a příslušných podkontaktů
-[Treat meta-contacts and subcontacts as normal contacts]
-Považovat meta- a podkontakty za normální kontakty
+[Treat metacontacts and subcontacts as normal contacts]
+Považovat metakontakty a podkontakty za normální kontakty
 [Merge contacts with same name]
 Sloučit kontakty se stejným jménem
 [Only merge if contacts are in the same group]

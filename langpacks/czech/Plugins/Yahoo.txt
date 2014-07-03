@@ -24,7 +24,7 @@ Pokročilé
 Použít adresář Yahoo (YAB)
 [Show Avatars]
 Zobrazit avatary
-[AutoLogin to Yahoo Website(s)]
+[Auto login to Yahoo Website(s)]
 Automaticky přihlásit ke službám Yahoo
 [Display Yahoo notifications]
 Zobrazit upozornění serveru
@@ -210,9 +210,9 @@ Zadané ID je neplatné.
 Neznámá chyba.
 [New Mail]
 Nová pošta
-[You have %i unread msgs]
+[You have %i unread messages]
 Nepřečtených zpráv: %i
-[New Mail (%i msgs)]
+[New Mail (%i messages)]
 Nová pošta (zpráv: %i)
 [From: %s\nSubject: %s]
 Od: %s\nPředmět: %s

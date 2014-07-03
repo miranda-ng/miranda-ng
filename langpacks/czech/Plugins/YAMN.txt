@@ -126,7 +126,7 @@ Zobrazit YAMN jako protokol (vyžaduje restart)
 Prohlížeč pošty
 [Enable Close on Delete Button]
 Po smazání zpráv autom. zavřít okno
-[Show long localised date]
+[Show long localized date]
 Zobrazit datum ve dlouhém formátu
 [Don't show today's date]
 Nezobrazovat dnešní datum
@@ -148,7 +148,7 @@ Použít vlastní barvu
 Žádné nové zprávy
 [Popup if no mail]
 Upozornit oznámením
-[Persistant message]
+[Persistent message]
 Zobrazit zadanou dobu
 [Connection failure notifications]
 Chyba připojení

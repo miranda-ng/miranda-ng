@@ -27,13 +27,13 @@ Zapomenuté heslo?
 [Account options]
 Nastavení účtu
 [Show my friends]
-Zobrazit seznam přátel
+Zobrazit mým přátelům
 [Game Status]
 Herní stav
 [Show on my profile and miniprofile]
-Zobrazit v profilu i miniprofilu
+Zobrazit v mém profilu i miniprofilu
 [Show my game server data]
-Zobrazit herní data
+Zobrazit moje herní data
 [Other Activity]
 Další aktivita
 [Show my voice chat server to my friends]
@@ -41,15 +41,15 @@ Sdílet s přáteli server pro hlasovou komunikaci
 [Show people when I type to them]
 Upozorňovat přátele na psaní zprávy
 [Show nicknames when available]
-Zobrazit přezdívku pokud je dostupná
+Zobrazovat přezdívky (pokud možno)
 [Show friends of my friends]
 Zobrazit přátele mých přátel
 [Options]
 Možnosti
 [More options]
 Další možnosti
-[Display Error and Infomessage:]
-Zobrazovat chyby a informační zprávy:
+[Display Error and Info message:]
+Zobrazení chybových a informačních zpráv:
 [Main group for clan groups:]
 Hlavní skupina pro klanové skupiny:
 [Automatically scan for games:]
@@ -78,7 +78,7 @@ Zkopírujte výše uvedené soubory do této složky:
 Zpráva stavu
 [Enable]
 Aktivovat
-[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
 Během hry použije uvedenou stavovou zprávu pro všechny ostatní protokoly. Tímto způsobem informujete ostatní o tom, co zrovna hrajete. Je-li to povoleno, zároveň dojde ke změně stavu 'Nerušit'.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Jsou dostupné následující proměné: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -116,8 +116,8 @@ Upravit...
 Uživatel:
 [Game]
 Hra
-[Voicechat]
-Hlasový chat
+[Voice chat]
+Hlasový hovor
 [Name:]
 Název:
 [IP:]
@@ -138,7 +138,7 @@ Nastavit přezdívku
 Zrušit
 [New xfire_games.ini]
 Nový xfire_games.ini
-[There is a new XFire gamelist online, do you want to update now?]
+[There is a new XFire game list online, do you want to update now?]
 Byla nalezena nová verze seznamu podporovaných her. Chcete ho zaktualizovat?
 [New supported games:]
 Nové podporované hry:
@@ -231,7 +231,7 @@ Nastala chyba při aktualizaci ikon her.
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 Ikona protokolu
-[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFire clan site to accept the Invitation.]
 %s (Přezdívka: %s) vás pozval pro připojení ke klanu %s. Zpráva: %s%sNavštivte stránku klanu na XFire pro přijetí pozvání.
 [Friends of Friends Playing]
 Hrající přátelé přátel
@@ -314,7 +314,7 @@ Nebylo zadáno přihlašovací jméno!
 [No Password is set!]
 Nebylo zadáno heslo!
 [Last game: %s playtime: %.2d:%.2d:%.2d]
-Poslední hra: %s čas hraní: %.2d:%.2d:%.2d
+Poslední hra: %s, čas hraní: %.2d:%.2d:%.2d
 [%s is playing %s.]
 %s právě hraje %s.
 [%s is playing %s on server %d.%d.%d.%d:%d.]
@@ -366,12 +366,12 @@ Zobrazit oznámení pokud někdo spustí hru
 Nevytvářet klanové skupiny automaticky
 [Enable MBot support]
 Povolit podporu pro MBot
-[Gamedetection]
+[Game detection]
 Herní detekce
 [Disable game detection]
 Vypnout detekci hry
-[Use TSRemote.dll to get teamspeak server info]
-Použít TSRemote.dll pro zjištění informací o teamspeak serveru
+[Use TSRemote.dll to get TeamSpeak server info]
+Použít TSRemote.dll pro zjištění informací o TeamSpeak serveru
 [Disable popups when ingame]
 Vypnout oznámení pokud je spuštěna hra
 [Disable sound events when ingame]
@@ -391,9 +391,9 @@ Uživatelské jméno musí obsahovat pouze malá písmena.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Provedené změny vyžadují znovu přihlášení k síti XFire pro jejich uvedení v platnost.
 [Hidden]
-Skrytý
-[Messagebox]
-Informační okno
+Nezobrazovat
+[Message box]
+Dialogové okno
 [Popup]
 Oznámení
 [No]

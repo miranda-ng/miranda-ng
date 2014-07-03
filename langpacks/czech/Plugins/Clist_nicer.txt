@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.2
+;  Version: 0.9.2.3
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
@@ -222,8 +222,6 @@ Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 Nezobrazovat na hlavním panelu
 [Client margins]
 Odst. od okraje
-[Embedded frames border]
-Okraj vsazených rámečků
 [Clip border by]
 Oříznout okraj o
 [Gap between frames]
@@ -276,8 +274,6 @@ Zešednout seznam v případě:
 Pozadí seznamu kontaktů
 [Use Windows colors]
 Použít barvy Windows
-[Background color]
-Barva pozadí
 [Use background image]
 Použít na pozadí obrázek
 [Stretch to width]
@@ -498,7 +494,7 @@ Př&ejmenovat skupinu
 Přesunout vybrané kontakty do této skupiny
 [Appearance]
 Vzhled
-[Show MetaContact proto icons]
+[Show metacontact proto icons]
 Zobrazit protokoly subkontaktu
 [Show additional buttons]
 Zobrazit doplňková tlačítka
@@ -724,16 +720,16 @@ Menu
 Otevřít hlavní nabídku
 [Set status modes]
 Nastavit stavové módy
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
 Požadovanou operaci lze provést až po výběru osoby ze seznamu kontaktů.
 [Parameter mismatch]
 Parametry nesouhlasí
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
-Služba %s, specifikovaná tlačítkem %s, nebyla nalezena. Může být potřeba nainstalovat chybějící doplněk
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+Služba %s, specifikovaná tlačítkem %s, nebyla nalezena. Může být potřeba nainstalovat chybějící doplněk.
 [Service failure]
 Chyba služby
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
-Potřebujete doplněk pro Plovoucí kontakty, neboť jejich vestavěná podpora byla zrušena
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
+Potřebujete doplněk pro Plovoucí kontakty, neboť jejich vestavěná podpora byla zrušena.
 [Warning]
 Upozornění
 [Standard contacts]
@@ -760,6 +756,8 @@ Vybraný text
 Zvýrazněný text
 [Quicksearch text]
 Hledaný text
+[Embedded frames border]
+Okraj vsazených rámečků
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Záhlaví okna
@@ -873,9 +871,13 @@ Plovoucí
 [Frame menu]
 Nabídka rámečku
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[New group]
+Nová skupina
 [Group menu]
 Nabídka skupiny
-[&Find/Add contacts...]
+[&Hide/show]
+Skrýt/Zo&brazit
+[&Find/add contacts...]
 &Vyhledat kontakty...
 [&Options...]
 M&ožnosti...

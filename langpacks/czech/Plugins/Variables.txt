@@ -158,7 +158,7 @@ náhodné číslo
 [x - y - ...]
 x - y - ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
-[MetaContacts]
+[Metacontacts]
 Metakontakty
 [get parent metacontact of contact x]
 
@@ -324,7 +324,7 @@ zkonvertuje x na VELKÁ písmena
 Systémové funkce
 [computer name]
 název počítače
-[cpu load of process x (without extension) (x is optional)]
+[CPU load of process x (without extension) (x is optional)]
 indikuje vytížení CPU procesem x (bez přípony) (x není povinné)
 [current date in format y (y is optional)]
 aktuální datum ve formátu y (y není povinné)

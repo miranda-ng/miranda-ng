@@ -102,7 +102,7 @@ Použít relativní zápis data
 Zobrazit jména
 [Enable message grouping]
 Seskupovat zprávy
-[Mark follow-up msgs with timestamp]
+[Mark follow-up messages with timestamp]
 Označit seskupené zprávy časem
 [Start message text on a new line]
 Začít psát text na novém řádku
@@ -780,7 +780,7 @@ Nastavení vzhledu a funkcí komunikačních oken
 Možnosti zobrazení ikon v oznamovací oblasti
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
-[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
 [user-defined account name of current contact (if defined).]
 uživatelem definovaný název účtu (pokud je definován)

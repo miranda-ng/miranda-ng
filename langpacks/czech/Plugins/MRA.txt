@@ -66,8 +66,8 @@ od:
 pro:
 [Birthday:]
 Narozeniny:
-[Zodiak:]
-
+[Zodiac:]
+Zvěrokruh:
 [Location]
 Umístění
 [Country:]

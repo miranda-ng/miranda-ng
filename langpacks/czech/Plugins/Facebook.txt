@@ -261,6 +261,8 @@ Novinka
 Podrobnosti o přátelství
 [Conversation]
 Konverzace
+[Message read]
+Zpráva přečtena
 [Visit profile]
 Zobrazit profil
 [Visit friendship details]

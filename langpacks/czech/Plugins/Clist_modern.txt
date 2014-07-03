@@ -340,9 +340,9 @@ Chování v oznamovací oblasti
 Zobrazit ikonu rozšířeného stavu
 [Ignore empty extra icons places (arrange to right).]
 Ignorovat prázdná místa po extra ikonách (posunout >>)
-[Use 'Meta' protocol icons for MetaContacts]
+[Use 'Meta' protocol icons for metacontacts]
 Použít ikony protokolu 'Meta' pro metakontakty
-[Expand MetaContacts]
+[Expand metacontacts]
 Rozbalit metakontakty
 [Avoid double click expand]
 Nerozbalovat dvojím kliknutím
@@ -350,12 +350,10 @@ Nerozbalovat dvojím kliknutím
 Skrýt všechny 'Extra ikony' pro podkontakty
 [Hide offline subcontacts]
 Skrýt podkontakty offline
-[MetaContacts stuff]
+[Metacontacts stuff]
 Další možnosti metakontaktů
 [Additional stuff]
 Další možnosti
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
-Pro další funkce je potřeba mít doplněk MetaContacts.\n\nhttp://miranda-ng.org/p/MetaContacts/
 [Allow internal requesting of status message text]
 Povolit interní požadavky o text zprávy stavu
 [Subcontacts indent:]
@@ -641,28 +639,26 @@ Pozadí nabídky
 Pozadí stavové lišty
 [Frames title bar background]
 Pozadí záhlaví rámečku
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k němu přidat?
-[Converting to MetaContact]
+[Converting to metacontact]
 Konverze na metakontakt
-[Do you want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
 Chcete zkonvertovat kontakt '%s' na metakontakt, '%s' k němu přidat a odstranit jej z '%s'?
-[Converting to MetaContact (Moving)]
+[Converting to metacontact (moving)]
 Konverze na metakontakt (přesun)
 [Do you want contact '%s' to be added to metacontact '%s'?]
 Chcete přidat kontakt '%s' k metakontaktu '%s'?
-[Adding contact to MetaContact]
+[Adding contact to metacontact]
 Přidávání k metakontaktu
 [Do you want contact '%s' to be default?]
 Chcete, aby kontakt '%s' byl výchozí?
 [Set default contact]
 Nastavení výchozího kontaktu
-[Do you want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
+[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
 Chcete odstranit kontakt '%s' z metakontaktu '%s' a přidat jej do '%s'?
-[Changing MetaContacts (Moving)]
+[Changing metacontacts (moving)]
 Změna metakontaktu (přesun)
-[Do you want contact '%s' to be added to MetaContact '%s'?]
-Chcete přidat kontakt '%s' do metakontaktu '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Jména kontaktů
@@ -837,13 +833,19 @@ Vzhled řádku
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
 Nabídka ikony
-[&Find/Add contacts...]
+[&Hide/show]
+Skrýt/Zo&brazit
+[&Find/add contacts...]
 &Vyhledat kontakty...
 [&Options...]
 M&ožnosti...
 [&About]
 O progr&amu
 ;file \plugins\Clist_modern\src\modern_clui.cpp
+[Show avatar]
+Zobrazit avatar
+[Hide avatar]
+Skrýt avatar
 [Show contact &avatar]
 Zobrazit a&vatara
 [Hide contact &avatar]
@@ -1049,6 +1051,8 @@ Zamknout rámeček
 [Frame menu]
 Nabídka rámečku
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
+[New group]
+Nová skupina
 [Group menu]
 Nabídka skupiny
 [Subgroup menu]

@@ -199,10 +199,10 @@ Popředí skrytého kontaktu
 Pozadí metakontaktů
 [Metacontact foreground]
 Popředí metakontaktů
-[SubMetacontact background]
-Pozadí pod-metakontaktů
-[SubMetacontact foreground]
-Popředí pod-metakontaktů
+[Subcontact background]
+Pozadí podkontaktů
+[Subcontact foreground]
+Popředí podkontaktů
 [&Delete]
 &Smazat
 [&Copy]
