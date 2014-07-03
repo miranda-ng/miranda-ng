@@ -9,7 +9,6 @@
 [System tray icon mode]
 [Ignore empty extra icons places (arrange to right).]
 [Avoid double click expand]
-[For other stuff metacontacts should be enabled.]
 [Remove status message if contact became offline]
 [Use old render method (fast, but has artefacts)]
 [Use protocol smileys]

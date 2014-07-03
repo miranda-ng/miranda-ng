@@ -351,8 +351,6 @@ x100 мс
 Метаконтакти
 [Additional stuff]
 Додатково
-[For other stuff metacontacts should be enabled.]
-Для додаткових можливостей увімкніть метаконтакти.
 [Allow internal requesting of status message text]
 Дозволити внутрішні запити статусних повідомлень
 [Subcontacts indent:]

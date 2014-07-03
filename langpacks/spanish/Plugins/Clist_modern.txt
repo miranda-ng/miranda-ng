@@ -354,8 +354,6 @@ Icono de la bandeja de sistema
 
 [Additional stuff]
 
-[For other stuff metacontacts should be enabled.]
-
 [Allow internal requesting of status message text]
 
 [Subcontacts indent:]

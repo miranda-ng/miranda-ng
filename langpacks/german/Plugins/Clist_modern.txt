@@ -354,8 +354,6 @@ Offlineunterkontakte ausblenden
 Einstellungen für Metakontakte
 [Additional stuff]
 Zusatzliche Einstellungen
-[For other stuff metacontacts should be enabled.]
-
 [Allow internal requesting of status message text]
 Interne Abfrage der Texte der Statusnachrichten
 [Subcontacts indent:]

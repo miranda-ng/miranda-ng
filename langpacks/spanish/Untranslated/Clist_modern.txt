@@ -9,7 +9,6 @@
 [Hide offline subcontacts]
 [Metacontacts stuff]
 [Additional stuff]
-[For other stuff metacontacts should be enabled.]
 [Allow internal requesting of status message text]
 [Subcontacts indent:]
 [Remove status message if contact became offline]

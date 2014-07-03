@@ -353,8 +353,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Метаконтакты
 [Additional stuff]
 Дополнительно
-[For other stuff metacontacts should be enabled.]
-Для дополнительных возможностей включите метаконтакты.
 [Allow internal requesting of status message text]
 Разрешить внутренние запросы статусных сообщений
 [Subcontacts indent:]
