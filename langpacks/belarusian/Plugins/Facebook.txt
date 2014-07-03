@@ -195,6 +195,8 @@ URL:
 Паведамленне прачытана ў: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Паведамленне недасяжна,таму што было адзначана як спам.
+[%s is typing a message...]
+%s набірае тэкст...
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.

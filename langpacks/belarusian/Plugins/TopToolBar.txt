@@ -36,6 +36,13 @@
 Шлях:
 [Set]
 Абраць
+;file \plugins\TopToolBar\src\InternalButtons.cpp
+[Find/add contacts]
+Знайсці/дадаць кантакты
+[Disable groups]
+Адключыць гурты
+[Exit]
+Выйсце
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Змаўчанні

@@ -20,48 +20,62 @@
 Кантакт:
 [WWW:]
 Сайт:
-[Check this account]
-Правяраць гэты конт
-[Check interval [min]:]
-Правяраць праз (хв):
-[Notifications]
-Абвесткі
-[Sound]
-Гук
-[Message]
-Паведамленне
-[Tray Icon]
-Абразок у трэі
-[Keyboard Flash]
-Мігценне клавіятуры
-[Execute Application]
-Запуск прыкладання
-[Use contact notification for this account]
-Натыфікацыя кантактам
-[Replace nickname]
-Замяніць мянушку
-[Disable Events]
-Выключыць падзеі
+[Account]
+Конт
+[Name:]
+Імя:
 [Server:]
 Сервер:
+[Port:]
+Порт:
 [User Name:]
 Імя карыстача:
 [Password:]
 Пароль:
 [Codepage:]
 Кадоўка:
-[Port:]
-Порт:
+[Default]
+Змаўчанні
 [Disable STLS]
 Выключыць STLS
+[Status:]
+Статус:
+[Options]
+Налады
+[Check this account]
+Правяраць гэты конт
 [Startup check]
 Пры запуску IM
+[Check interval [min]:]
+Правяраць праз (хв):
+[Only check when...]
+Правяраць, калі...
 [Auto retrieve body]
 Загружаць цела
 [Check from menu]
 З меню IM
-[Only check when...]
-Правяраць, калі...
+[Use contact notification for this account]
+Натыфікацыя кантактам
+[Replace nickname]
+Замяніць мянушку
+[Disable Events]
+Выключыць падзеі
+[Notifications]
+Абвесткі
+[New Mail]
+Новая пошта
+[Sound]
+Гук
+[Message]
+Паведамленне
+[Keyboard Flash]
+Мігценне клавіятуры
+[Tray Icon]
+Абразок у трэі
+[Execute Application]
+Запуск прыкладання
+[Errors]
+Памылкі
 [Sound notification if failed]
 Гукавая абвестка пры памылцы
 [Message notification if failed]
@@ -70,20 +84,6 @@
 Абвестка ў трэі пры памылцы
 [Reset counter]
 Скід лічыльніка
-[Default]
-Змаўчанні
-[Status:]
-Статус:
-[Account]
-Конт
-[Name:]
-Імя:
-[Options]
-Налады
-[New Mail]
-Новая пошта
-[Errors]
-Памылкі
 [Check while...]
 Правяраць, калі...
 [Cancel]

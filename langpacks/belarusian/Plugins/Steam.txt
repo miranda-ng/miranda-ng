@@ -1,0 +1,26 @@
+﻿#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
+;============================================================
+;  File: Steam.dll
+;  Plugin: Steam protocol
+;  Version: 0.11.0.1
+;  Authors: unsane
+;============================================================
+;file \protocols\Steam\res\Resource.rc
+[Username:]
+Карыстач:
+[Password:]
+Пароль:
+[Cancel]
+Скасаваць
+;file \protocols\Steam\src\steam_contacts.cpp
+;file \protocols\Steam\src\steam_dialogs.cpp
+[Name]
+Імя
+;file \protocols\Steam\src\steam_events.cpp
+[Network]
+Сеціва
+;file \protocols\Steam\src\steam_menus.cpp
+[Request authorization]
+Запытаць аўтарызацыю
+;file \protocols\Steam\src\steam_pooling.cpp
+;file \protocols\Steam\src\steam_proto.cpp

@@ -2364,8 +2364,6 @@ Miranda NG не можа адкрыць гэты профіль
 [Assignment failure]
 Няўдалае прызначэнне
 ;file \src\modules\metacontacts\meta_edit.cpp
-[ID]
-ID
 [Protocol]
 Пратакол
 [Send offline]

@@ -54,6 +54,12 @@
 Змесціва
 [Target Tool]
 Прыцэл
+[Description:]
+Апісанне:
+[&Copy]
+&Капіяваць
+[Close]
+Зачыніць
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Copy]
 Капіяваць
@@ -75,11 +81,14 @@
 Укладанне немагчыма адчыніць
 [Unknown Error]
 Невядомая памылка
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
+[File transfer]
+Перадача файла
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
-;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
-file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [Could not start the HTTP Server plugin.]
 Не магу запусціць плагін HTTP Server.
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
@@ -165,6 +174,8 @@ HTTP далучэнне SendSS
 Манітор
 [ (primary)]
  (галоўны)
+[File]
+Файл
 [<Only save>]
 <Толькі захаваць>
 [File Transfer]

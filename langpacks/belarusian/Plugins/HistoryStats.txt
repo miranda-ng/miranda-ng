@@ -104,6 +104,8 @@ HistoryStats - Фільтр слоў/паведамленняў
 Агульная працягласць чата
 [Chat duration]
 Працягласць гутаркі
+[(unknown)]
+(невядомы)
 [[Min] #{amount}]
 (Мінімальна) #{amount}
 [[Avg] #{amount}]
@@ -128,9 +130,13 @@ URL (усё)
 Файлы (выходныя)
 [Files (all)]
 Файлы (усё)
+[URLs]
+Спасылкі
 [Files]
 Файлы
 ;file \plugins\HistoryStats\src\column_events.h
+[Events]
+Падзеі
 [Column holding event counts for incoming, outgoing or total number of files or URLs.]
 Калонка ўтрымоўвае лік уваходных/выходных/усяго файлаў ці URL.
 ;file \plugins\HistoryStats\src\column_group.cpp
@@ -192,6 +198,10 @@ URL (усё)
 Абсалютна ў падказцы, калі абрана сярэдняе, і наадварот
 [Percentage in bar graph]
 Адсоткі ў гістаграме
+[Outgoing]
+Выходныя
+[Incoming]
+Уваходныя
 [[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
 (Исх) #{out_amount} (#{out_ratio}) / (Вх) #{in_amount} (#{in_ratio})
 ;file \plugins\HistoryStats\src\column_inoutgraph.h
@@ -204,6 +214,8 @@ URL (усё)
 Час першага/апошняга паведамлення (падказка)
 [Show contact count for omitted/totals (tooltip)]
 Паказаць рахунак апушчаных/усяго (падказка)
+[Nick]
+Мянушка
 [[First] #{first_time} / [Last] #{last_time}]
 (Першае) #{first_time} / (Апошняе) #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
@@ -260,6 +272,10 @@ URL (усё)
 "Разбіўка"
 [all characters]
 усе знакі
+[incoming messages]
+уваходныя паведамленні
+[outgoing messages]
+выходныя паведамленні
 [all messages]
 усе паведамленні
 [all chats]
@@ -399,6 +415,8 @@ HistoryStats - Папярэджанне
 [The selected set is in use by at least one other column. If you remove it, it won't be available to all other columns that use it. Are you sure you want to remove the set?]
 Абраны набор ужо выкарыстоўваецца хоць бы адной калонкай. Калі вы выдаліце яго, ён будзе недаступны ўсім іншым калонкам. вы ўпэўнены, што жадаеце выдаліць набор
 ;file \plugins\HistoryStats\src\dlgoption.cpp
+[Global]
+Глабальныя
 [Global settings]
 Глабальныя налады
 [Exclude]
@@ -729,6 +747,8 @@ HistoryStats падтрымлівае некаторыя модулі. Наці�
 Паказаць статыстыку (галоўнае меню)
 [Configure... (main menu)]
 Наладзіць... (галоўнае меню)
+[Contact menu]
+Меню кантакту
 [Unexcluded contacts]
 Не выключаныя кантакты
 [Excluded contacts]
@@ -791,6 +811,8 @@ HistoryStats падтрымлівае некаторыя модулі. Наці�
 [(none)]
 (не)
 ;file \plugins\HistoryStats\src\optionsctrlimpl_datetime.cpp
+[none]
+Няма
 ;file \plugins\HistoryStats\src\settings.cpp
 [(default nick)]
 (нік па змаўчанні)

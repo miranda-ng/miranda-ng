@@ -90,10 +90,14 @@
 Сеціва
 [Popups]
 Усплывальныя вокны
+;file \plugins\WebView\src\webview_alerts.cpp
+;file \plugins\WebView\src\webview_datawnd.cpp
+;file \plugins\WebView\src\webview_getdata.cpp
 [Alert!]
 Увага!
 [Online]
 Далучаны
+;file \plugins\WebView\src\webview_opts.cpp
 [Popup plugin]
 Успл. вокны
 ;file \plugins\WebView\src\webview_services.cpp

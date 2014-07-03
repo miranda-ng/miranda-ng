@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -80,8 +80,46 @@
 [Protocols have different avatars]
 Ва ўсіх пратаколаў розныя аватары
 ;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-Павялічваць аватар да максімальнага памеру
+[Global avatar]
+Глабальны аватар
+[Global avatar for %s accounts]
+Аватар для ўсіх контаў %s
+[Avatars]
+Аватары
+[My Avatars]
+Мае аватары
+[My Global Avatar Cache]
+Мой глабальны кэш аватараў
+[Fatal error, image services not found. Avatar services will be disabled.]
+Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
+[Avatar Service]
+Служба аватар
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Налады аватара для %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Выдаліць аватар з дыска (магчыма, неабходна для скіду, але выдаліць лакальны малюнак)?
+[Reset contact picture]
+Скід аватара кантакту
+[Contact has no avatar]
+У кантакту няма аватара
+[Contacts]
+Кантакты
+[Protocols]
+Пратаколы
+[Contact avatars]
+Аватары кантактаў
+[Own avatars]
+Свае аватары
+[No avatar]
+Без аватара
+[Are you sure you want to remove your avatar?]
+Вы жадаеце выдаліць ваш аватар?
+[Global Avatar]
+Глабальны аватар
+[Avatar]
+Аватар
+;file \plugins\AVS\src\services.cpp
 [All Files]
 Усе файлы
 [Windows Bitmaps]
@@ -96,46 +134,9 @@
 Flash анімацыя
 [XML Files]
 XML файлы
+[Grow avatar to fit max allowed protocol size]
+Павялічваць аватар да максімальнага памеру
 [Set My Avatar]
 Усталяваць мой аватар
 [Set My Avatar for %s]
 Змяніць мой аватар для %s
-[Global avatar]
-Глабальны аватар
-[Global avatar for %s accounts]
-Аватар для ўсіх контаў %s
-[Avatars]
-Аватары
-[My Avatars]
-Мае аватары
-[My Global Avatar Cache]
-Мой глабальны кэш аватараў
-[Contacts]
-Кантакты
-[Protocols]
-Пратаколы
-[Contact avatars]
-Аватары кантактаў
-[Own avatars]
-Свае аватары
-[Avatar]
-Аватар
-[Fatal error, image services not found. Avatar services will be disabled.]
-Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
-[Avatar Service]
-Служба аватар
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-Налады аватара для %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Выдаліць аватар з дыска (магчыма, неабходна для скіду, але выдаліць лакальны малюнак)?
-[Reset contact picture]
-Скід аватара кантакту
-[Contact has no avatar]
-У кантакту няма аватара
-[No avatar]
-Без аватара
-[Are you sure you want to remove your avatar?]
-Вы жадаеце выдаліць ваш аватар?
-[Global Avatar]
-Глабальны аватар

@@ -94,8 +94,6 @@
 [Events]
 Падзеі
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
-[(current: %u%%)]
-(бягучае %u%%)
 [Second(s)]
 Секунд(ы)
 [Minute(s)]
@@ -108,23 +106,19 @@
 Тыдні(яў)
 [Month(s)]
 Месяц(аў)
+[(current: %u%%)]
+(бягучае %u%%)
 [Start/Stop automatic shutdown]
 Старт/Стоп аўтавыключэння
-[Stop automatic shutdown]
-Спыніць аўтавыключэнне
 [Start automatic shutdown]
 Запусціць аўтавыключэнне
+[Stop automatic shutdown]
+Спыніць аўтавыключэнне
 [Stop automatic &shutdown]
 Спыніць аўтавыключэнне
 [Automatic &shutdown...]
 Аўтавыключэнне...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
-[Automatic Shutdown Error]
-Памылка аўтавыключэння
-[The shutdown process failed!\nReason: %s]
-Памылка працэсу аўтавыключэння!\nЧыннік: %s
-[Unknown]
-Невядома
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG аўтаматычна зачынецца праз %u секунд(ы).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -143,6 +137,12 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Усе далучэнні разарвуцца праз %u секунд(ы).
 [The computer will automatically be shut down in %u second(s).]
 Кампутар выключыцца праз %u секунд(ы).
+[Automatic Shutdown Error]
+Памылка аўтавыключэння
+[The shutdown process failed!\nReason: %s]
+Памылка працэсу аўтавыключэння!\nЧыннік: %s
+[Unknown]
+Невядома
 [Inititiating the shutdown process failed!\nReason: %s]
 Памылка запуску працэса выключэння!\nЧыннік: %s
 [Close Miranda NG]

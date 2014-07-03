@@ -153,6 +153,8 @@
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<current>]
 <бягучы>
+[Clear history]
+Сцерці гісторыю
 [Add to predefined]
 У Прадусталяваныя
 [Delete selected]

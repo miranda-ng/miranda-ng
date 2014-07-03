@@ -170,6 +170,7 @@ ID гульні:
 Гавару па тэлефоне...
 [Mmm... food.]
 Ммм... е-е-ежа...
+;file \protocols\Xfire\src\baseProtocol.h
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]

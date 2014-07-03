@@ -197,6 +197,7 @@ Tlen пошта
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+;file \protocols\Tlen\src\tlen_avatar.cpp
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 файл
@@ -253,8 +254,8 @@ Tlen пошта
 [Tlen login]
 Tlen уваход
 ;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for %s@%s.]
-Увядзіце пароль для %s@%s.
+[Enter password for %s]
+Увядзіце пароль для %s.
 [Tlen Connection Error]
 Tlen памылка далучэння
 [%s Web Messages]

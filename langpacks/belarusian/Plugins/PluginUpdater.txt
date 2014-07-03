@@ -119,6 +119,8 @@
 Плагіны
 [Icons]
 Абразкі
+[Languages]
+Мовы
 [Other]
 Іншае
 [List is empty.]

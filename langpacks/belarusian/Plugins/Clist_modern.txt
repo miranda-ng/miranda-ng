@@ -1043,6 +1043,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Frame menu]
 Меню фрэймаў
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
+[New group]
+Новы гурт
 [Group menu]
 Меню гуртоў
 [Subgroup menu]

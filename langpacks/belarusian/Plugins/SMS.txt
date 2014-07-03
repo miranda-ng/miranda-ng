@@ -96,6 +96,8 @@ SMS пацверджанне ад %s
 Паказвае, колькі знакаў набрана
 [The SMS message send to %s timed out.]
 Мінуў час пасылкі SMS да %s,
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Тэлефон павінен пачынацца з + і складацца толькі з лічбаў, прабелаў, дужак і працяжнікаў.
 [Invalid Phone Number]
 Няслушны нумар тэлефона
 [Message is too long, press OK to continue.]

@@ -1,0 +1,36 @@
+﻿#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+;============================================================
+;  File: Sametime.dll
+;  Plugin: Sametime protocol
+;  Version: 0.7.0.0
+;  Authors: Scott Ellis, Szymon Tokarz
+;============================================================
+;file \protocols\Sametime\res\resource.rc
+[Password:]
+Пароль:
+[Port:]
+Порт:
+[Contacts]
+Кантакты
+[None]
+Няма
+[Cancel]
+Скасаваць
+[Select all]
+Вылучыць усё
+;file \protocols\Sametime\src\conference.cpp
+;file \protocols\Sametime\src\files.cpp
+;file \protocols\Sametime\src\messaging.cpp
+;file \protocols\Sametime\src\options.cpp
+[Network]
+Сеціва
+;file \protocols\Sametime\src\sametime.cpp
+[Error]
+Памылка
+;file \protocols\Sametime\src\sametime_proto.cpp
+;file \protocols\Sametime\src\sametime_session.cpp
+;file \protocols\Sametime\src\session_announce_win.cpp
+;file \protocols\Sametime\src\userlist.cpp
+[Name]
+Імя
+;file \protocols\Sametime\src\utils.cpp

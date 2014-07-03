@@ -698,6 +698,8 @@
 Конты
 [My contacts]
 Мае кантакты
+[Default]
+Змаўчанні
 [%s connecting]
 %s Далучэнне
 [Menu]
@@ -857,6 +859,8 @@
 [Frame menu]
 Меню фрэймаў
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[New group]
+Новы гурт
 [Group menu]
 Меню гуртоў
 [&Hide/show]

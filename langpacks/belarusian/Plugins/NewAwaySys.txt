@@ -94,6 +94,8 @@
 Аўтаадказнік
 [&Delete]
 Выдаліць
+[Status messages:]
+Статусныя паведамленні:
 [New &category]
 Новая катэгорыя
 [Save as &new]
@@ -205,6 +207,8 @@
 ** Усе кантакты **
 [** Not-on-list contacts **]
 ** Кантакты не ў спісе **
+[Status messages]
+Паведамленні статусу
 [Main options]
 Асноўныя налады
 [Autoreply]

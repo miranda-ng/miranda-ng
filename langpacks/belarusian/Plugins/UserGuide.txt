@@ -7,5 +7,6 @@
 ;============================================================
 [This plugin adds the main menu item used to view Miranda NG pack user guide.]
 Гэты плагін дадае пункт у галоўнае меню для прагляду кіраўніцтва карыстача па зборцы Miranda NG.
+;file \plugins\UserGuide\src\main.cpp
 [User Guide]
 Кіраўніцтва
