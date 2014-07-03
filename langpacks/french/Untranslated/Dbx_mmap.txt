@@ -9,7 +9,7 @@
 [Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
 [Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nPlease press Yes to read further instructions or No to cancel]
+[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
 [Obsolete database format]
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
 [Database conversion required]

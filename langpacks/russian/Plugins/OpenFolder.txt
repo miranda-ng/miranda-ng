@@ -5,7 +5,7 @@
 ;  Version: 1.1.0.0
 ;  Authors: jarvis, Kreisquadratur
 ;============================================================
-[Adds a menu/toobar item which opens the main Miranda NG folder.]
+[Adds a menu/toolbar item which opens the main Miranda NG folder.]
 Добавляет пункт меню/панели кнопок, который открывает папку, где установлена Miranda NG.
 [Open Folder]
 Открыть папку

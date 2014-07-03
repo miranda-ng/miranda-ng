@@ -75,7 +75,7 @@
 [Export]
 [Swap button]
 [Import]
-[Xml File (*.xml)]
+[XML File (*.xml)]
 [Miranda could not load Quotes plugin. XML parser is missing.]
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 [Miranda's History]

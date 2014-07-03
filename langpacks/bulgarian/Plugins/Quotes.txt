@@ -203,8 +203,8 @@ HTTP връзки на Quotes
 [Import]
 Внос
 ;file \plugins\Quotes\src\ImportExport.cpp
-[Xml File (*.xml)]
-Xml файлове (*.xml)
+[XML File (*.xml)]
+XML файлове (*.xml)
 [All files (*.*)]
 Всички файлове (*.*)
 ;file \plugins\Quotes\src\ModuleInfo.cpp

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.1
+;  Version: 0.0.4.2
 ;  Authors: Cristian Libotean
 ;============================================================
 [Could not initialize CmdLine plugin property]

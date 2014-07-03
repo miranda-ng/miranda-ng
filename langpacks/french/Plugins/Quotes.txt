@@ -203,7 +203,7 @@ Réseau
 [Import]
 
 ;file \plugins\Quotes\src\ImportExport.cpp
-[Xml File (*.xml)]
+[XML File (*.xml)]
 
 [All files (*.*)]
 Tous les fichiers (*.*)

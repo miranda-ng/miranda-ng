@@ -5,7 +5,7 @@
 ;  Version: 1.1.0.0
 ;  Authors: jarvis, Kreisquadratur
 ;============================================================
-[Adds a menu/toobar item which opens the main Miranda NG folder.]
+[Adds a menu/toolbar item which opens the main Miranda NG folder.]
 Añade un ítem de menú/barra de herramientas que abre la carpeta principal de Miranda NG.
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]

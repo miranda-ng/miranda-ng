@@ -183,8 +183,8 @@ HTTP далучэнне Quotes
 [Import]
 Імпарт
 ;file \plugins\Quotes\src\ImportExport.cpp
-[Xml File (*.xml)]
-Файл Xml(*.xml)
+[XML File (*.xml)]
+Файл XML(*.xml)
 [All files (*.*)]
 Усе файлы (*.*)
 ;file \plugins\Quotes\src\ModuleInfo.cpp

@@ -185,7 +185,7 @@ HTTP-з'єднання Quotes
 Поміняти місцями
 [Import]
 Імпорт
-[Xml File (*.xml)]
+[XML File (*.xml)]
 Файл XML (*.xml)
 [All files (*.*)]
 Усі файли (*.*)

@@ -203,8 +203,8 @@ Exportovat
 [Import]
 Importovat
 ;file \plugins\Quotes\src\ImportExport.cpp
-[Xml File (*.xml)]
-Xml soubory (*.xml)
+[XML File (*.xml)]
+XML soubory (*.xml)
 [All files (*.*)]
 Všechny soubory (*.*)
 ;file \plugins\Quotes\src\ModuleInfo.cpp

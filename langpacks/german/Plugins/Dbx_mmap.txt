@@ -50,7 +50,7 @@ Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbCh
 [Database Panic]
 Datenbankprobleme
 ;file \plugins\Db3x_mmap\src\dbheaders.cpp
-[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nPlease press Yes to read further instructions or No to cancel]
+[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
 
 [Obsolete database format]
 

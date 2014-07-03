@@ -203,7 +203,7 @@ Buttons vertauschen
 [Import]
 Importieren
 ;file \plugins\Quotes\src\ImportExport.cpp
-[Xml File (*.xml)]
+[XML File (*.xml)]
 XML-Datei (*.xml)
 [All files (*.*)]
 Alle Dateien (*.*)
