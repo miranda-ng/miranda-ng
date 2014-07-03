@@ -202,7 +202,7 @@ pobierz datę (kompatybilne z Simple Status Message)
 [<current>]
 <aktualny>
 [Clear history]
-
+Wyczyść historię
 [Add to predefined]
 Dodaj do ulubionych
 [Delete selected]

@@ -35,7 +35,7 @@ P&rzeglądaj
 [Delete &after send]
 Usuń &po wysłaniu
 [Open editor before sending]
-
+Otwórz edytor przed wysłaniem
 [Open again]
 Otwórz ponownie
 [&Capture]
@@ -57,7 +57,7 @@ Rozmiar (HxW):
 [C&lient Area]
 O&bszar klienta
 [indirect capture]
-
+Przechwytywanie pośrednie
 [Target Tool]
 Celownik
 [File:]
@@ -95,9 +95,9 @@ Nie można zainicjować %s.
 [MAPI error (%i):\n%s.]
 Błąd MAPI (%i):\n%s.
 [Unknown response from %s (%i)]
-
+Nieznana odpowiedź %s (%i)
 [Got no response from %s (%i)]
-
+Brak odpowiedzi od %s (%i)
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
 Wyślij do Dropbox'a
@@ -219,7 +219,7 @@ Dalej
 [Update]
 Aktualizacja
 [Edit on]
-
+Edycja włączona
 [BBC]
 BBC
 [BBC link]

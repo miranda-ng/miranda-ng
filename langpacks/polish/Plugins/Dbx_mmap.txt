@@ -51,9 +51,9 @@ Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtycz
 Panika profilu
 ;file \plugins\Db3x_mmap\src\dbheaders.cpp
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nPlease press Yes to read further instructions or No to cancel]
-
+Ten profil jest zbyt stary, by uaktualnić go wtyczką PluginUpdater. Twoja baza danych musi zostać najpierw skonwertowana.\n\nNaciśnij Tak, aby zapoznać się z dalszymi instrukcjami lub Nie, by anulować.
 [Obsolete database format]
-
+Przestarzały format bazy danych
 ;file \plugins\Db3x_mmap\src\dbintf.cpp
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
 Twoja baza danych musi zostać skonwertowana do nowego formatu. Jest to potencjalnie niebezpieczna operacja, proszę utworzyć kopię bezpieczeństwa.\nNaciśnij "tak", aby rozpocząć konwersję lub "nie", aby wyjść z Mirandy.
