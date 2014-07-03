@@ -55,7 +55,7 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static TCHAR tszOldHeaders[] = 
-	LPGENT("This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nPlease press Yes to read further instructions or No to cancel");
+	LPGENT("This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?");
 
 int CDb3Mmap::CheckDbHeaders()
 {
@@ -66,7 +66,7 @@ int CDb3Mmap::CheckDbHeaders()
 			 !memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)) ||
 			 !memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature)))
 		{
-			if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONINFORMATION)) {
+			if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
 				TCHAR tszCurPath[MAX_PATH];
 				GetModuleFileName(NULL, tszCurPath, SIZEOF(tszCurPath));
 				TCHAR *p = _tcsrchr(tszCurPath, '\\');

@@ -47,8 +47,8 @@
 Miranda нашла повреждения в вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с http://miranda-ng.org/p/DbChecker/. Miranda будет закрыта.
 [Database Panic]
 Проблема с базой
-[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nPlease press Yes to read further instructions or No to cancel]
-Формат вашего профиля является устаревшим. Чтобы получать обновления через PluginUpdater, необходимо преобразовать профиль в современный формат.\n\nНажмите Да для получения подробной информации или Нет для отмены.
+[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
+Формат вашего профиля является устаревшим. Чтобы получать обновления через PluginUpdater, необходимо преобразовать профиль в современный формат.\n\nНажмите Да, чтобы получить информацию, как это исправить.
 [Obsolete database format]
 Устаревший формат профиля
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
