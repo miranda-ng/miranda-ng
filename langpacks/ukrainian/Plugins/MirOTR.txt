@@ -210,7 +210,7 @@ OTR не є безпечним
 [OTR Authenticating: %s (%s)]
 Ідентифікація OTR з: %s (%s)
 [Authenticating contact:\n%s (%s)]
-Ідентифікація контакту: \n%s (%s)
+Ідентифікація контакту:\n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
 Шифрована сесія з '%s' (не перевірено).\nВикористовуйте питання, на яке може відповісти лише ваш співрозмовник.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]

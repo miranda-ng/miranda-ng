@@ -90,7 +90,7 @@
 [Skin preview]
 Перегляд скіна
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-УВАГА: \tСкіни можуть змінювати ваш профіль. Відкат неможливий. \n\t\tБудь ласка, зробіть РЕЗЕРВНУ КОПІЮ профілю.
+УВАГА: \tСкіни можуть змінювати ваш профіль. Відкат неможливий.\n\t\tБудь ласка, зробіть РЕЗЕРВНУ КОПІЮ профілю.
 [* Restart may be required for all changes to take effect]
 * Необхідний рестарт для вступу змін у силу
 [Skin folder]

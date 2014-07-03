@@ -72,7 +72,7 @@
 [Visible accounts]
 Видимі облікові записи
 [Summary traffic for visible accounts]
-Сумарний трафік для видимих акаунтів
+Сумарний трафік для видимих облікових записів
 [Overall traffic]
 Загальний трафік
 [Hide now]

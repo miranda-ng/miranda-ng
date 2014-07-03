@@ -33,6 +33,8 @@
 &Заповнити рядки опису.
 [Delete &after send]
 Видалити &після відправки
+[Open editor before sending]
+Редагувати перед надсиланням
 [Open again]
 Відкрити знову
 [&Capture]
@@ -77,6 +79,10 @@
 Не вдалося ініціювати %s.
 [MAPI error (%i):\n%s.]
 Помилка MAPI (%i):\n%s.
+[Unknown response from %s (%i)]
+Невідома відповідь від %s (%i)
+[Got no response from %s (%i)]
+Немає відповіді від %s (%i)
 [The specified attachment was not found]
 Вкладення не знайдено
 [The specified attachment could not be opened]
@@ -205,6 +211,12 @@ HTTP-з'єднання SendSS
 Передача файлу
 [FTP File]
 Файл на FTP
+[Upload Pie (30m)]
+Upload Pie (30 хв)
+[Upload Pie (1d)]
+Upload Pie (1 дн)
+[Upload Pie (1w)]
+Upload Pie (1 тижд)
 [Information]
 Інформація
 [Fill description textbox.]

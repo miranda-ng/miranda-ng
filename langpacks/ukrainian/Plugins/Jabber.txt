@@ -328,11 +328,11 @@ JID / URL:
 [Node:]
 Вузол:
 [Account type:]
-Тип акаунту:
+Тип обл. запису:
 [Login server:]
 Сервер:
 [Register account now]
-Зареєструвати акаунт
+Зареєструвати обл. запис
 [Jabber Account Information:]
 Інформація обл. запису Jabber:
 [Member Information]
@@ -798,17 +798,17 @@ JID, які були відключені
 [The number of online entities that are idle]
 Кількість осіб онлайн, які перебувають у режимі очікування
 [The IP addresses of an account's online sessions]
-IP-адреси аккаунту онлайн-сесії
+IP-адреси онлайн-сесій облікового запису
 [The last login time (per XEP-0082) of a user]
 Час останного входу користувача в систему за XEP-0082
 [The number of logins per minute for an account]
-Кількість входів на хвилину для аккаунту
+Кількість входів на хвилину для облікового запису
 [The maximum number of items associated with a search or list]
 Максимальна кількість елементів, пов'язаних з пошуком або списком
 [The text of a message of the day]
 Текст повідомлення
 [The names of an account's online sessions]
-Імена аккаунту
+Імена онлайн-сесій облікового запису
 [The Jabber IDs associated with online users]
 JID користувачів онлайн
 [The number of online entities]
@@ -822,9 +822,9 @@ JID користувачів онлайн
 [The number of registered entities]
 Кількість зареєстрованих суб'єктів
 [Number of roster items for an account]
-Кількість елементів ростеру для аккаунту
+Кількість елементів ростеру для облікового запису
 [The number of stanzas being sent per second by an account]
-Кількість подій, що відправляються з аккаунту за секунду
+Кількість подій, що відправляються з облікового запису за секунду
 [The family (last) name of a user]
 Прізвище
 [The text of a welcome message]
@@ -1030,7 +1030,7 @@ JID видавців
 [Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
 Дозволити лог повідомлень (тобто, Off-The-Record режиму не потрібно)
 [Whether to renegotiate the session]
-Переглянути сессії
+Переглянути сесії
 [Minimum security level]
 Мінімальний рівень безпеки
 [Whether to terminate the session]

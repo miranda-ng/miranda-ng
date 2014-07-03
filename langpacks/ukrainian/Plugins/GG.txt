@@ -116,7 +116,7 @@
 [Remove Gadu-Gadu account]
 Видалити номер Gadu-Gadu
 [Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-Видалити номер Gadu-Gadu \nЦе видалить ваш обліковий запис Gadu-Gadu
+Обліковий запис Gadu-Gadu\nВидалення облікового запису Gadu-Gadu
 [Yes, I want to remove my account]
 Так, видаліть мій обліковий запис
 [Remove]

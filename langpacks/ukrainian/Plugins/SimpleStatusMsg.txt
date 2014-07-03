@@ -112,7 +112,7 @@
 [Pop up dialog asking for status message]
 Показувати діалог запиту зміни статусу
 [More variables...]
-Білше змінних...
+Більше змінних...
 [Cut]
 Вирізати
 [Copy]
@@ -151,10 +151,14 @@
 %s (заблокований)
 [External Applications]
 Зовнішні програми
+[Miranda Related]
+Пов'язане з Miranda NG
 [<startup>]
 <стартовий>
 [<current>]
 <поточний>
+[Clear history]
+Очистити історію
 [Add to predefined]
 У передустановлені
 [Delete selected]
@@ -184,7 +188,7 @@
 [Confirm clearing predefined]
 Підтвердження видалення налаштованих повідомлень
 [<last status>]
-<Останній>
+<останній>
 [Status]
 Статус
 [General]
