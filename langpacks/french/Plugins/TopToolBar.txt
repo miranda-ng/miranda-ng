@@ -44,15 +44,15 @@ OK
 [Show accounts manager]
 
 [Find/add contacts]
-
+Chercher/Ajouter des contacts
 [Show status menu]
 
 [Show/hide offline contacts]
-
+Afficher/Cacher contacts hors-ligne
 [Hide offline contacts]
-
+Cacher les contacts Hors-Ligne
 [Show offline contacts]
-
+Montrer les contacts hors ligne
 [Enable/disable metacontacts]
 
 [Disable metacontacts]
@@ -64,17 +64,17 @@ OK
 [Enable groups]
 
 [Disable groups]
-
+Désactiver les groupes
 [Enable/disable sounds]
-
+Activer/désactiver les sons
 [Disable sounds]
-
+Sons désactivés
 [Enable sounds]
 
 [Minimize contact list]
-
+Minimiser la liste de contact
 [Exit]
-
+Quitter
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Défaut

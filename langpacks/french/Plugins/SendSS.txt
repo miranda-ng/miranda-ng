@@ -61,9 +61,9 @@ Zone du client
 [Target Tool]
 
 [File:]
-
+Fichier :
 [Description:]
-
+Description :
 [Result]
 
 [Thumbnail]
@@ -254,7 +254,7 @@ Fenêtre
 [ (primary)]
 
 [File]
-
+Fichier
 [<Only save>]
 
 [File Transfer]
@@ -280,7 +280,7 @@ Informations
 [Can't create a Screenshot]
 
 [Select a file]
-
+Sélectionnez un fichier
 [Select a target window.]
 Sélectionnez une fenêtre comme cible.
 [Screenshot ]

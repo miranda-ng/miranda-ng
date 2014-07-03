@@ -70,7 +70,7 @@
 [Are you sure you want to clear status message history?]
 [Confirm clearing history]
 [Global status change]
-[Open String Formatting Help]
+[Open string formatting help]
 [Show next to cancel button]
 [Flat, next to cancel button]
 [Show in message list]

@@ -27,17 +27,17 @@ Annuler
 [Go to email domain]
 
 [Block]
-
+Bloquer
 ;file \protocols\Steam\src\steam_contacts.cpp
 [%s has added you to his or her Friend List]
 
 ;file \protocols\Steam\src\steam_dialogs.cpp
-[Fatal error, image services not found. Avatar services will be disabled
-
+[Fatal error, image services not found. Avatar services will be disabled.]
+Erreur critique, aucun service d'image trouvé. Avatar Services sera désactivé.
 [Avatar Service]
 
 [Name]
-
+Nom
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 

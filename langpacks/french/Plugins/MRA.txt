@@ -67,7 +67,7 @@ De :
 [Birthday:]
 
 [Zodiac:]
-
+Zodiaque :
 [Location]
 Lieu
 [Country:]

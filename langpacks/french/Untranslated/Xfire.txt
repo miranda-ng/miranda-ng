@@ -39,7 +39,6 @@
 [Don't show in start menu]
 [(manual added)]
 [Extra Command Line Parameters:]
-[Voice chat]
 [IP:]
 [Set Nickname]
 [New xfire_games.ini]

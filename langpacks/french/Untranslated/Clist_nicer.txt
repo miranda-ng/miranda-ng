@@ -23,6 +23,5 @@
 [Contact list docking]
 [&Collapsed]
 [Frame menu]
-[New group]
 [Group menu]
 [Subgroup menu]

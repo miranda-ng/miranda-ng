@@ -322,20 +322,22 @@ Afficher l'état dans la bulle
 Sans clignotement
 [ms, delay between icon blinking]
 ms, délai entre les clignotement des icônes
-[System tray icon]
-Icône de la barre des tâches
-[Use xStatus icon]
-Utiliser l'icône xStatus
-[Icon mode]
-
-[Global status]
-
-[Single account]
-
+[Show]
+Afficher
 [Cycle icons every]
 Faire un cycle de
-[All accounts]
+[seconds, when statuses differ]
+secondes si les états diffèrent
+[Show multiple icons]
+Afficher plusieurs icônes
+[only when statuses differ]
+seulement si les états diffèrent
+[System tray icon]
+Icône de la barre des tâches
+[System tray icon mode]
 
+[Use xStatus icon]
+Utiliser l'icône xStatus
 [Ignore empty extra icons places (arrange to right).]
 
 [Use 'Meta' protocol icons for metacontacts]
@@ -764,6 +766,8 @@ Nom de compte
 Note
 [-Nothing-]
 -Aucun-
+[Global]
+Général
 [Hide to tray]
 dans le tray
 [Behind left edge]
@@ -1050,7 +1054,7 @@ Cadre vérouillé
 
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
-
+Nouveau groupe
 [Group menu]
 
 [Subgroup menu]

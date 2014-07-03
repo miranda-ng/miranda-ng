@@ -12,7 +12,6 @@
 [Show received formatted text (receive RTF)]
 [Send formatted text (send RTF)]
 [Birthday:]
-[Zodiac:]
 [Remember]
 [Enable avatars support (loading)]
 [Updates check interval, min]

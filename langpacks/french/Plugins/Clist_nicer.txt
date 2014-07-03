@@ -872,7 +872,7 @@ Flottant
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [New group]
-
+Nouveau groupe
 [Group menu]
 
 [&Hide/show]

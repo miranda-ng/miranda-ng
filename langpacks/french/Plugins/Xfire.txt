@@ -117,7 +117,7 @@ Identifiant :
 [Game]
 Jeu
 [Voice chat]
-
+Chat Vocal
 [Name:]
 Nom :
 [IP:]
