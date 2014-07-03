@@ -4,7 +4,6 @@
 [Message]
 [URL]
 [Others]
-[Timeout]
 [Notify me of...]
 [Left click actions]
 [Dismiss popup]

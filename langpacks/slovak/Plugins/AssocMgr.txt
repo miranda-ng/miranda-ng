@@ -7,9 +7,72 @@
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
 Narába s asociáciami súborových typov a s URL ako aim, ymsgr, xmpp, wpmsg, gg, tlen.
+;file \plugins\AssocMgr\res\resource.rc
+[Registered associations for Miranda NG:]
+
+[Miscellaneous]
+
+[&Start Miranda NG automatically when the computer starts (using current profile)]
+
+[Only associate with Miranda NG while it is &running]
+
+;file \plugins\AssocMgr\src\assoclist.cpp
+[%hs files]
+
 [Type]
 typ
 [Description]
 Udalosť
+[URLs on websites]
+
+[File types]
+
+[File association error]
+
+[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+
 [Unknown]
 neznáme
+[Autostart error]
+
+[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+
+[Services]
+
+[Associations]
+
+[Miranda NG database]
+
+;file \plugins\AssocMgr\src\dde.cpp
+[Miranda NG could not open file]
+
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
+
+[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
+
+[Miranda NG could not open URL]
+
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
+
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
+
+;file \plugins\AssocMgr\src\reg.cpp
+[Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
+
+[Registry warning]
+
+;file \plugins\AssocMgr\src\test.cpp
+[AIM Link Protocol]
+
+[ICQ Link Shortcut]
+
+[&Add to contact list...]
+
+[Yahoo Link Protocol]
+
+[MSN Link Protocol]
+
+[Gadu-Gadu Link Protocol]
+
+[Jabber Link Protocol]
+

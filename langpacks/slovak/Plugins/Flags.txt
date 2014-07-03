@@ -7,5 +7,20 @@
 ;============================================================
 [Service offering misc country utilities as flag icons and an IP-to-Country database.]
 Služba, ktorá ponúka rôzne nástroje pre krajiny ako ikony zástav a databázu IP-to-Country.
+;file \plugins\CountryFlags\res\resource.rc
+[Country Flags]
+
+[Show country flag as &status icon on message window]
+
+[Show country flag as &extra image on contact list]
+
+[Use &IP-to-country database for country detection]
+
+[Use &unknown flag if the country cannot be determined]
+
+;file \plugins\CountryFlags\src\extraimg.cpp
+[Country flag]
+
+;file \plugins\CountryFlags\src\options.cpp
 [Icons]
 Ikony

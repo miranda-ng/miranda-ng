@@ -7,47 +7,526 @@
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
 Získava správy o počasí a zobrazuje ich vo Vašom zozname kontaktov.
+;file \plugins\Weather\res\resource.rc
+[Update]
+
+[Brief Info]
+
+[Webpage]
+
 [Close]
 Zavrieť
+[Options]
+
+[Update weather information on startup]
+
+[Update weather information every]
+
+[minutes]
+
+[Consider weather info updated only when condition and temperature are changed]
+
+[Remove old data when updating]
+
+[Make the contact italic when weather alert is issued]
+
+[Modes]
+
+[Use weather condition as protocol status]
+
+[Avatar only mode]
+
+[Units]
+
+[Temperature]
+
+[Celsius]
+
+[Fahrenheit]
+
+[Degree sign:]
+
+[Wind]
+
+[km/h]
+
+[m/s]
+
+[mph]
+
+[knots]
+
 [Visibility]
 Viditeľnosť
+[km]
+
+[miles]
+
+[Pressure]
+
+[kPa]
+
+[mb (hPa)]
+
+[inches]
+
+[mm Hg (torr)]
+
+[Day/Month]
+
+[No change]
+
+[2 chars]
+
+[3 chars]
+
+[Elevation]
+
+[ft]
+
+[m]
+
+[Do not append units to values]
+
+[Do not display fractional values]
+
+[Frame]
+
+[Avatar size]
+
+[Edit Weather Station]
+
+[Weather Station]
+
+[City name]
+
+[ID]
+
+[Log Information]
+
+[Use internal history]
+
+[Use external file]
+
+[Overwrite file upon update]
+
+[Path:]
+
+[Link Settings]
+
+[More Info URL]
+
+[Weather Map]
+
+[Other Options]
+
+[Set as default station]
+
+[Disable automatic update for this station]
+
+[Disable Popup for this station]
+
+[Change]
+
 [Cancel]
 Storno
 [Popup Options]
 Popup nastavenia
+[Enable popups]
+
+[Popup only when condition changes]
+
 [Colors]
 Farby
 [Background color]
 Farba pozadia
 [Text color]
 Fraba textu
+[Use Windows colors]
+
+[Popup Actions]
+
+[Left Click]
+
+[Right Click]
+
+[Popup Delay]
+
+[Delay]
+
 [seconds]
 sekúnd
+[From Popup plugin]
+
+[Permanent]
+
+[Popup Text]
+
+[Popup Title]
+
+[Variables]
+
 [Default]
 Prednastavené
+[Preview]
+
+[Updates]
+
+[Alerts]
+
+[Errors]
+
 [Contact List]
 Zoznam kontaktov
+[Brief Info Title]
+
+[Note Text]
+
+[Extra Text]
+
+[External Log]
+
+[History Log]
+
+[Variable List]
+
+[More Variables]
+
 [Reset]
 Reset
+[Status Message]
+
+[Sunset]
+
+[Feel-like]
+
+[Today's Low]
+
+[Today's High]
+
+[Sunrise]
+
+[Dew point]
+
+[Humidity]
+
+[More...]
+
+[Weather Protocol INI Setup]
+
+[Weather Protocol INI Setup\nInstall and load your weather ini file here]
+
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
+
+[Click here to download a weather ini file from Miranda file listing]
+
+[Extract the weather ini file from archive to this directory]
+
+[Click here to load the data from the new ini file into memory]
+
+[Add new weather station and close this dialog]
+
+[Total INI files]
+
+[Total memory used]
+
+[Reload INI]
+
 [City:]
 Mesto:
+[Menu]
+
+[Dismiss Popup]
+
+[Open brief information]
+
+[Open complete forecast]
+
+[Open weather map]
+
+[View history]
+
+[Open log file]
+
+[Show user menu]
+
+[Show user detail]
+
+[To old setting]
+
+[To default]
+
+;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+
+[Auto Update Enabled]
+
+[Auto Update Disabled]
+
+[Weather Condition Changed]
+
+[Weather Alert Issued]
+
+;file \plugins\Weather\src\weather.h
+[N/A]
+
+[Invalid ID format, missing "/" (10)]
+
+[Invalid service (11)]
+
+[Invalid station (12)]
+
+[Weather service ini for this station is not found (20)]
+
+[Netlib error - check your internet connection (30)]
+
+[Empty data is retrieved (40)]
+
+[Document not found (42)]
+
+[Document too short to contain any weather data (43)]
+
+[Unknown error (99)]
+
+[HTTP Error: No content (204)]
+
+[HTTP Error: Data moved (301)]
+
+[HTTP Error: Use proxy (305)]
+
+[HTTP Error: Temporary redirect (307)]
+
+[HTTP Error: Bad request (400)]
+
+[HTTP Error: Unauthorized (401)]
+
+[HTTP Error: Payment required (402)]
+
+[HTTP Error: Forbidden (403)]
+
+[HTTP Error: Not found (404)]
+
+[HTTP Error: Method not allowed (405)]
+
+[HTTP Error: Proxy authentication required (407)]
+
+[HTTP Error: Gone (410)]
+
+[HTTP Error: Internal server error (500)]
+
+[HTTP Error: Bad gateway (502)]
+
+[HTTP Error: Service unavailable (503)]
+
+[HTTP Error: Gateway timeout (504)]
+
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+
+[Weather Condition for %n as of %u]
+
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+
+[%n   (%u)]
+
+[%c, %t\\nToday:  High %h, Low %l]
+
+[Temperature: %[Temperature]]
+
+;file \plugins\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+
+[%s is now the default weather station]
+
+[Weather Protocol]
+
+[Please try again after weather update is completed.]
+
+[<Enter station name here>]
+
+[<Enter station ID here>]
+
+;file \plugins\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+
+[The URL for complete forecast have not been set. You can set it from the Edit Settings dialog.]
+
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
+
+[Get city name from ID]
+
+[Weather INI information]
+
 [Browse]
 Listovať
+[View webpage]
+
+[Reset to default]
+
+[Text Files]
+
 [All Files]
 Všetky súbory
+;file \plugins\Weather\src\weather_conv.cpp
+[mb]
+
+[in]
+
+[mm]
+
+[<unknown time>]
+
 [<Error>]
 <chyba>
+[HTTP Error %i]
+
+;file \plugins\Weather\src\weather_data.cpp
+[<Enter city name here>]
+
+[Error when obtaining data: %s]
+
+;file \plugins\Weather\src\weather_http.cpp
+[Weather HTTP connections]
+
+;file \plugins\Weather\src\weather_icons.cpp
+[Protocol icon]
+
+[Update Disabled]
+
+[View Log]
+
+[Update with Clear]
+
+[View Brief]
+
+[View Complete]
+
+[Weather Update]
+
+[Popup]
+
+[No Popup]
+
+[Edit Settings]
+
+;file \plugins\Weather\src\weather_info.cpp
 [Name]
 Meno
+[Author]
+
+[File Version]
+
+[INI Version]
+
 [Items]
 Položky
+[Display Name]
+
+[File Name]
+
+[The corresponding INI file for "%s" is not found.]
+
+[Weather INI information for "%s":]
+
+[Name:]
+
+[Internal Name:]
+
 [Author:]
 Autor:
 [Version:]
 Verzia:
+[INI Version:]
+
+[File Name:]
+
+[Item Count:]
+
+[Memory Used:]
+
 [bytes]
 bytov
 [Description:]
 Popis:
+[Here is a list of custom variables that are currently available]
+
+;file \plugins\Weather\src\weather_ini.cpp
+[No update data file is found. Please check your Plugins\\Weather directory.]
+
+[Invalid ini format for: %s]
+
+[All update data has been reloaded.]
+
+;file \plugins\Weather\src\weather_mwin.cpp
+[Frame Font]
+
+[Frame Title Font]
+
+[Frame Background]
+
+;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Sieť
+[General]
+
+[Display]
+
+[Popups]
+
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+
+[Weather Protocol Text Preview]
+
+;file \plugins\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+
+[%[..]\tcustom variables]
+
+;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+
+[Disable &weather notification]
+
+[Enable &weather notification]
+
+[Update Weather]
+
+[Remove Old Data then Update]
+
+[Brief Information]
+
+[Read Complete Forecast]
+
+[Weather]
+
+[Enable/Disable Weather Update]
+
+[Update All Weather]
+
+[Remove Old Data then Update All]
+
+[Weather Notification]
+
+[Display in a frame]
+
+;file \plugins\Weather\src\weather_update.cpp
+[Unable to retrieve weather information for %s]
+
+;file \plugins\Weather\src\weather_userinfo.cpp
+[Current condition for %n]
+
+[Last update on:   %u]
+
+[Variable]
+
+[Information]
+
+[Retrieving new data, please wait...]
+
+[More Info]
+
+[No information available.\r\nPlease update weather condition first.]
+

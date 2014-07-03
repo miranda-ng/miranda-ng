@@ -7,13 +7,100 @@
 ;============================================================
 [Adds some useful options to a contacts menu.]
 Pridáva niektoré užitočné možnosti do menu pre kontakty.
+;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+
 [&Send]
 Odoslať
+[&Cancel]
+
+[Shown menu items]
+
 [Visibility]
 Viditeľnosť
+[Show alpha icons]
+
+[Hide from list]
+
 [Ignore]
 Ignorovať
+[Copy to Account (Ctrl+click for move to Account)]
+
+[Send 'You were added']
+
+[Request Authorization]
+
+[Browse Received Files]
+
+[Copy IP]
+
+[Copy MirVer]
+
+[Copy Status Message]
+
+[Add item name]
+
+[Copy ID]
+
+[Add protocol name]
+
+[Show ID in menu item]
+
+[Trim too long ID]
+
+[* Use Ctrl+click to see popup with the copied text]
+
+[Hide contact on 'Ignore all']
+
+;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+
+[XStatus title]
+
+[XStatus message]
+
+[Listening to]
+
+[Activity title]
+
+[Activity text]
+
+[Show in list]
+
+[Always visible]
+
+[Never visible]
+
+[Copy to Account]
+
+[Copy xStatus Message]
+
+[All]
+
+[Messages]
+
+[URL]
+
+[Files]
+
 [User Online]
 Pripojený užívatel
+[Authorization]
+
 [You Were Added]
 Boli ste pridaný
+[Typing Notify]
+
+[Please authorize me to add you to my contact list.]
+
+[Do you want to send authorization request\nto new contact?]
+
+[MenuItemEx]
+
+[Open ignore settings]
+
+[Request authorization]
+
+;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+

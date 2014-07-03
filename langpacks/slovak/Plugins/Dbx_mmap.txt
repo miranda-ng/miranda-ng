@@ -5,5 +5,166 @@
 ;  Version: 0.95.1.1
 ;  Authors: Miranda-NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+
+;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+[Login to Miranda NG]
+
 [Cancel]
 Storno
+[New password]
+
+[Please enter your new password]
+
+[Enter password]
+
+[Change password]
+
+[Change]
+
+[Remove]
+
+[Old password]
+
+[Database encryption mode]
+
+[Standard]
+
+[Total]
+
+[Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
+
+[Set password]
+
+;file \plugins\Db3x_mmap\src\database.cpp
+[Disk is full. Miranda will now shut down.]
+
+[Database failure. Miranda will now shut down.]
+
+[Database Error]
+
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
+
+[Database Panic]
+
+;file \plugins\Db3x_mmap\src\dbheaders.cpp
+[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
+
+[Obsolete database format]
+
+;file \plugins\Db3x_mmap\src\dbintf.cpp
+[Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
+
+[Database conversion required]
+
+;file \plugins\Db3x_mmap\src\dbintf.h
+[Change/remove password]
+
+;file \plugins\Db3x_mmap\src\ui.cpp
+[Logo]
+
+[Password]
+
+[Too many errors!]
+
+[Password is not correct!]
+
+[Please type in your password]
+
+[Wrong old password entered!]
+
+[Password is too short!]
+
+[Passwords do not match!]
+
+[Database]
+
+;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
+[Performing aggressive pass]
+
+[Aggressive: random junk at %08X: skipping]
+
+[Aggressive: unlinked data at %08X: can't automatically place]
+
+;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
+[Processing contact chain]
+
+[Contact count marked wrongly: correcting]
+
+[Contact chain corrupted, further entries ignored]
+
+;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
+[Invalid offset found (database truncated?)]
+
+[Invalid offset found]
+
+[Error reading, database truncated? (%u)]
+
+[Can't write to working file, aggressive mode may be too aggressive now]
+
+[Can't write to output file - disk full? (%u)]
+
+;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
+[Event count marked wrongly: correcting]
+
+[Event chain corrupted, trying to recover...]
+
+[Event chain corrupted, further entries ignored]
+
+[First event not marked as such: correcting]
+
+[Extra flags found in event: removing]
+
+[First unread event marked wrong: fixing]
+
+[Infeasibly large event blob: skipping]
+
+[Event not backlinked correctly: fixing]
+
+[Duplicate event was found: skipping]
+
+[Event position in chain is not correct]
+
+[Event position in chain is not correct: fixing]
+
+[Event position in chain is not correct: unable to fix]
+
+;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
+[Processing final tasks]
+
+;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
+[Database signature is corrupted, automatic repair is impossible]
+
+[Database version doesn't match this driver's one. Convert a database first]
+
+[Database is newly created and has no data to process]
+
+[Processing completed successfully]
+
+[Can't create map view of file (%u)]
+
+;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
+[Processing module name chain]
+
+[Module chain corrupted, further entries ignored]
+
+[Module name '%s' is not unique: %d duplicates found]
+
+[Invalid module name offset, skipping data]
+
+;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
+[Settings chain corrupted, further entries ignored]
+
+[Infeasibly large settings blob: skipping]
+
+[Empty settings group at %08X: skipping]
+
+;file \plugins\Db3x_mmap\src\dbtool\user.cpp
+[Processing user data]
+
+[User corrupted, this could cause major problems]
+
+[More than one user contact: keeping only first]
+

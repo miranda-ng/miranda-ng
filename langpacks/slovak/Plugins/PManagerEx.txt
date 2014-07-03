@@ -7,3 +7,20 @@
 ;============================================================
 [Adds a menu item to change or load a different profile of Miranda NG, restart or run DbChecker.]
 Pridá položku do menu na zmenenie alebo nahratie iného Miranda NG profilu.
+;file \plugins\ProfileManager\src\pmanagerEx.cpp
+[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
+
+[Check Database]
+
+[Load profile]
+
+[Change profile]
+
+[Check database]
+
+[Restart]
+
+[Database]
+
+[Profile manager]
+

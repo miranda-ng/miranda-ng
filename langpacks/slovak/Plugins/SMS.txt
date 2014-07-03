@@ -7,23 +7,122 @@
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
 Posielanie SMS textových správ na mobilné čísla cez IM siete.
+;file \plugins\SMS\res\resource.rc
+[Received SMS]
+
 [&Reply]
 &Odpovedať
 [&Close]
 Zavrieť
+[Read Next]
+
 [From:]
 Od:
+[Message received:]
+
+[Number:]
+
+[Send SMS]
+
 [To:]
 Pre:
+[Add number to list]
+
+[Save number]
+
+[Multiple >>]
+
 [Enter message:]
 Správa:
 [Chars:]
 Znaky:
 [&Send]
 Odoslať
+[SMS Message Didn't Send]
+
+[&Try again]
+
+[&Cancel]
+
+[The SMS message send timed out]
+
+[SMS Plugin]
+
+[Beginning]
+
+[End]
+
+[Put signature at the:]
+
+[Use Signature]
+
+[Show server notifications]
+
+[Auto popup on new message]
+
+[Save window position per contact]
+
+[SMS Message Sent]
+
+[Message ID:]
+
+[Source:]
+
+[Network:]
+
+;file \plugins\SMS\src\options.cpp
+[From %s:\r\n\r\n]
+
+[Events]
+Udalosti
+;file \plugins\SMS\src\receive.cpp
+[SMS message didn't send by %S to %s because: %S]
+
+[SMS Message from %s]
+
+[SMS Confirmation from %s]
+
+;file \plugins\SMS\src\recvdlg.cpp
+[Received SMS Confirmation]
+
+;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Zobraziť históriu
+[Add Number To The Multiple List]
+
+[Save Number To The User's Details Phonebook]
+
+[Show/Hide Multiple List]
+
+[Shows How Much Chars You've Typed]
+
+[The SMS message send to %s timed out.]
+
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Telefónne číslo by malo začínať znakom "+". Nasledujúce znaky môžu byť iba číslice, zátvorky alebo pomlčka.
 [Invalid Phone Number]
 Neplatné telefónne číslo
+[Message is too long, press OK to continue.]
+
+[Error - Message too long]
+
+[There must be numbers in the list first.]
+
+[No Numbers]
+
+[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+
 [Invalid phone number]
 Neplatné telefónne číslo
+[<< Single]
+
+;file \plugins\SMS\src\SMSConstans.h
+[Send &SMS...]
+
+[&SMS Message]
+
+;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Message]
+
+[Incoming SMS Confirmation]
+

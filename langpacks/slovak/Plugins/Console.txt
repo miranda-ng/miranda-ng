@@ -7,9 +7,71 @@
 ;============================================================
 [Console log window for Miranda.]
 Konzolové okno so záznamom pre Mirandu.
+;file \plugins\Console\res\resource.rc
+[Console]
+
+[Single window mode*]
+
+[Show icons in log*]
+
+[New lines between events*]
+
+[Always show at start]
+
+[Lines wrap length [25-255]]
+
+[Log size limit [1 000 - 1 000 000 lines]]
+
+[* Restart needed]
+
+[Save settings and restart console]
+
+;file \plugins\Console\src\Console.cpp
+[Show/Hide Console]
+
+[Hide Console]
+
+[Show Console]
+
+[Scrolling (Ctrl+Q)]
+
+[Pause logging(Ctrl+P)]
+
+[Save log to file (Ctrl+S)]
+
+[Copy selected log (Ctrl+C)]
+
+[Delete selected (Del)]
+
+[Log options (Ctrl+O)]
+
+[Start logging in all tabs]
+
+[Pause logging in all tabs]
+
+[Close tab (Ctrl+W)]
+
+[*** Console started ***]
+
+[*** Console paused ***]
+
+[*** Console resumed ***]
+
+[*** Console cleared ***]
+
+[Miranda Console]
+
+[Services]
+
 [Text]
 Text
 [&Help]
 Pomoc
+[Text Files (*.txt)]
+
 [All Files]
 Všetky súbory
+[Save selection to file]
+
+[Save log to file]
+

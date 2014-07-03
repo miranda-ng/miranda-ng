@@ -7,3 +7,130 @@
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
 Podpora Lotus Sametime protokolu pre Mirandu NG.
+;file \protocols\Sametime\res\resource.rc
+[Connection]
+pripája
+[ID:]
+Id:
+[Password:]
+Heslo:
+[Server name:]
+
+[Port:]
+Port:
+[Client ID]
+
+[Use old client version]
+
+[Error display]
+
+[Use message boxes]
+
+[Use popups]
+
+[Use system tray balloons]
+
+[Contacts]
+Kontakty
+[Get contacts from server]
+
+[Upload contacts]
+
+[Import from file...]
+
+[Auto-add new contacts]
+
+[Treat 'idle' as 'away']
+
+[Encryption]
+
+[40 or 128 bit]
+
+[None]
+Žiadne
+[Meanwhile lib ver: 1.0.2]
+
+[Disconnected]
+
+[Send announcement]
+
+[Cancel]
+Storno
+[Message text:]
+
+[Select all]
+
+[Invert\nselection]
+
+;file \protocols\Sametime\src\conference.cpp
+[I'm outa here.]
+
+[Invitation rejected - already present.]
+
+[Your invitation has been rejected.]
+
+[Please join this meeting.]
+
+[Normal]
+
+[%s's conference]
+
+[Leave conference]
+
+[Start conference]
+
+;file \protocols\Sametime\src\files.cpp
+;file \protocols\Sametime\src\messaging.cpp
+[No common encryption method. Try to enable encryption in protocol options.]
+
+[SERVICE NOT IMPLEMENTED. %s]
+
+;file \protocols\Sametime\src\options.cpp
+[Client proto version: %03d.%03d]
+
+[Server proto version: %03d.%03d]
+
+[Network]
+Sieť
+;file \protocols\Sametime\src\sametime.cpp
+[Protocol icon]
+
+[Announce]
+
+[Notification]
+
+[Error]
+Chyba
+;file \protocols\Sametime\src\sametime_proto.cpp
+[%s connection]
+
+[ID]
+
+;file \protocols\Sametime\src\sametime_session.cpp
+[Sametime administrator message]
+
+[Session announcement - from '%s']
+
+[Unknown user status: %d]
+
+[No server connection!]
+
+[Send announcement...]
+
+;file \protocols\Sametime\src\session_announce_win.cpp
+[Recipients]
+
+;file \protocols\Sametime\src\userlist.cpp
+[Failed to upload contacts - storage service unavailable.]
+
+[Name]
+Meno
+[Description]
+Udalosť
+[Group?]
+
+[True]
+
+[False]
+
+;file \protocols\Sametime\src\utils.cpp

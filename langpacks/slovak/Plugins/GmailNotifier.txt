@@ -1,0 +1,83 @@
+﻿#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
+;============================================================
+;  File: GmailNotifier.dll
+;  Plugin: Gmail Multiple Notifier
+;  Version: 0.3.1.0
+;  Authors: Mixwind
+;============================================================
+[Check your Gmail inboxes locally.]
+
+;file \plugins\GmailNotifier\res\options.rc
+[Gmail account]
+
+[Name:]
+
+[Password:]
+Heslo:
+[Add]
+
+[Save]
+
+[Delete]
+
+[Configuration]
+
+[Check Gmail inbox every]
+
+[minutes]
+
+[Notify using:]
+
+[Duration:]
+
+[seconds]
+sekúnd
+[Text|Background:]
+
+[On double click:]
+
+[System tray]
+
+[Popup plugin]
+
+[Login using default browser]
+
+[Login using Internet Explorer]
+
+[Run custom program]
+
+[Use online contacts when no new mail]
+
+[Enable icon selection and icon in status bar (restart)]
+
+[This is a shared computer so disable auto login]
+
+[Log unread threads into database (enable history)]
+
+;file \plugins\GmailNotifier\src\check.cpp
+[Checking...]
+
+[Can't open Internet!]
+
+[Can't reach server!]
+
+[Can't send account data!]
+
+[Can't get RSS feed!]
+
+[Wrong name or password!]
+
+;file \plugins\GmailNotifier\src\main.cpp
+[Other]
+
+[Gmail: New thread(s)]
+
+[&Check all Gmail inboxes]
+
+[&Check Gmail inbox]
+
+;file \plugins\GmailNotifier\src\options.cpp
+[GmailNotifier]
+
+[Network]
+Sieť

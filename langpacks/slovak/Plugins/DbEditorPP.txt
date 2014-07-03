@@ -7,38 +7,355 @@
 ;============================================================
 [Advanced Database Editor.]
 Rozšírený doplnok na úpravu databázy.
+;file \plugins\DbEditorPP\res\resource.rc
+[Database Editor++ search and replace]
+
+[Case sensitive]
+
+[Module name]
+
+[Exact match]
+
+[Setting name]
+
+[Setting value]
+
 [&Search]
 Hľadať
+[Found field]
+
+[&Replace]
+
+[&Cancel]
+
+[Search for]
+
+[Text:]
+
+[In:]
+
+[Replace with]
+
+[Entirely]
+
+[Restore last opened position]
+
+[Automatically expand "Settings" when Database Editor++ starts]
+
+[Warn when deleting modules]
+
+[Use popups when watched settings change values]
+
+[Popup timeout (0 for infinite)]
+
 [Background color]
 Farba pozadia
+[Add a module to contact]
+
+[Add a module named]
+
+[Add to all contacts (including Settings)]
+
 [Cancel]
 Storno
+[Edit setting]
+
+[Byte]
+
+[Word]
+
+[Dword]
+
+[String]
+
+[Hexadecimal]
+
+[Decimal]
+
 [Value name:]
 Hodnota name:
 [Value data:]
 Hodnota data:
+[Base]
+
+[Save value as:]
+
+[Watched database settings]
+
+[Copy module to contact]
+
+[Copy to all contacts (including Settings)]
+
+[Contact to copy module and settings to]
+
+[Import module/settings]
+
+[Import]
+
+[Insert &CR/LF]
+
+[Paste the settings to import here.]
+
+[Database Editor++]
+
+[&Main]
+
+[&Refresh modules]
+
 [Refresh &settings]
 Obnoviť nastavenie
 [E&xit]
 Koniec
+[&Actions]
+
+[&Search and replace]
+
+[&Delete module]
+
+[&Watches]
+
+[&View all]
+
+[&Delete all]
+
+[&Export]
+
+[Entire &database]
+
+[All &settings]
+
+[All &contacts]
+
+[&Import]
+
+[From a &file]
+
+[From pasted &text]
+
+[&Options]
+
+[&Sort by protocol]
+
+[Show &all]
+
+[Show only &loaded]
+
+[Show only &unloaded]
+
+[Edit &Bytes in Hex]
+
+[Edit &Words in Hex]
+
+[Edit &Dwords in Hex]
+
+[&Restore position]
+
+[&Open options]
+
+[&Edit/rename]
+
+[New]
+
+[&Byte]
+
+[&Word]
+
+[&Dword]
+
+[&String]
+
+[&Unicode]
+
+[BL&OB]
+
+[&Convert to]
+
+[Encyption]
+
+[View decrypted string]
+
+[View encrypted string]
+
+[Decrypt string]
+
+[Encrypt string]
+
+[&Watch]
+
 [&Delete]
 Vymazať
 [&Rename]
 &Premenovať
+[Copy to contact]
+
+[Export module]
+
+[&Clone]
+
+[Export contact]
+
+[Import settings]
+
+[From a file]
+
+[From pasted text]
+
+[&Add module]
+
+[Export settings]
+
 [Export contacts]
 Export kontaktov
 [Import contacts]
 Import kontaktov
+[Export module from all contacts]
+
+[Watch window]
+
+[Reload watch list]
+
+;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
+[Cannot Convert!]
+
+[New BYTE value]
+
+[Edit BYTE value]
+
+[New WORD value]
+
+[Edit WORD value]
+
+[New DWORD value]
+
+[Edit DWORD value]
+
+[New STRING value]
+
 [Edit STRING value]
 Editovať STRING hodnotu
+[New UNICODE value]
+
+[Edit UNICODE value]
+
+[New BLOB value]
+
+[Edit BLOB value]
+
+[Couldn't allocate enough memory!]
+
+;file \plugins\DbEditorPP\src\copymodule.cpp
+[Settings]
+
+;file \plugins\DbEditorPP\src\deletemodule.cpp
+[Are you sure you want to delete module "%s"?]
+
+[Confirm module deletion]
+
+[Delete module from database]
+
+[Delete module from database... Loading]
+
+[Delete module from all contacts (including Setting)]
+
+;file \plugins\DbEditorPP\src\exportimport.cpp
+[INI Files]
+
 [All Files]
 Všetky súbory
+[Export to file]
+
+[Error loading module list]
+
+[Couldn't open file for writing]
+
+[Import from files]
+
+;file \plugins\DbEditorPP\src\findwindow.cpp
+[Enter a string to search the database for]
+
+[Stop]
+
+[Replaced with]
+
+[Deleted]
+
+[Found]
+
+[%s Module "%s" in contact "%s"]
+
+[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
+
+[%s Setting "%s" in module "%s" in contact "%s"]
+
+[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
+
+[Searching...]
+
+[Error Loading Setting List]
+
+[Finished. %d items were found, %d items were deleted.]
+
+[Finished. %d items were found, %d items were replaced.]
+
+[Finished. %d items were found.]
+
+;file \plugins\DbEditorPP\src\icons.cpp
+[Main icon]
+
+[Closed known module]
+
+[Open known module]
+
+[Contacts group]
+
+[Unknown contact]
+
+[Known contact]
+
+[Open user tree]
+
+[BLOB setting]
+
+[Byte setting]
+
+[Word setting]
+
+[Dword setting]
+
+[String setting]
+
+[Unicode setting]
+
+[Handle]
+Hlavička
+;file \plugins\DbEditorPP\src\main.cpp
+[Open Database Editor]
+
+[Open user tree in DBE++]
+
+;file \plugins\DbEditorPP\src\main_window.cpp
+[Are you sure you want to delete contact "%s"?]
+
 [Confirm contact delete]
 Potvrď vymazanie kontaktu
+;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\moduletree.cpp
+[Loading contacts...]
+
+[Loading modules...]
+
+[Module tree not found]
+
 [Contacts]
 Kontakty
 [HANDLE]
 Hlavička
+[Add module to contact "%s"]
+
+;file \plugins\DbEditorPP\src\options.cpp
+[Database]
+
+;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 Meno
 [Data]
@@ -47,5 +364,42 @@ Dáta
 typ
 [Size]
 Veľkosť
+[*** encrypted ***]
+
+[UNICODE]
+
+[BLOB]
+
+[BYTE]
+
+[WORD]
+
+[DWORD]
+
+[STRING]
+
+[<unsupported>]
+
+[<unknown>]
+
+[Decoded string..]
+
+[Encoded string..]
+
+;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 Kontakt
+[Module]
+
+[Setting]
+
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
+
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
+
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
+
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
+
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
+

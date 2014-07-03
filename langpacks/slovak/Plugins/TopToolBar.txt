@@ -7,7 +7,85 @@
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
 Pridáva tlačidlá pre rýchly prístup do najvrchnejšej časti zoznamu kontaktov.
+;file \plugins\TopToolBar\res\main.rc
+[Buttons order and visibility]
+
+[Button height]
+
+[Button width]
+
+[Interval between buttons]
+
+[Use flat mode]
+
+[Auto resize]
+
+[Single line]
+
+[Buttons order:]
+
+[Add separator]
+
+[Add launch]
+
+[Delete separator/launch button]
+
+[Name:]
+
+[Path:]
+
+[Set]
+
+;file \plugins\TopToolBar\src\InternalButtons.cpp
+[Show main menu]
+
+[Show options page]
+
+[Show accounts manager]
+
+[Find/add contacts]
+Nájsť/Pridať kontakt
+[Show status menu]
+
+[Show/hide offline contacts]
+
+[Hide offline contacts]
+
+[Show offline contacts]
+
+[Enable/disable metacontacts]
+
+[Disable metacontacts]
+
+[Enable metacontacts]
+
+[Enable/disable groups]
+
+[Enable groups]
+
+[Disable groups]
+Skryť skupiny
+[Enable/disable sounds]
+
+[Disable sounds]
+
+[Enable sounds]
+
+[Minimize contact list]
+
+[Exit]
+
+;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Prednastavené
+[TopToolBar background]
+
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
+
+[TopToolBar]
+
+;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact list]
 Zoznam kontaktov
+[Toolbar]
+

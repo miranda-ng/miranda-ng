@@ -7,12 +7,55 @@
 ;============================================================
 [Floating Contacts plugin for Miranda.]
 Doplnok pre možnosť "plávajúcich" kontaktov pre Mirandu NG.
+;file \plugins\FloatingContacts\res\fltcnt.rc
+[Hiding contacts]
+
+[Hide offline contacts]
+
+[Stick together]
+
+[Use fixed width]
+
 [pixels]
 pixelov
+[Hide all contacts]
+
+[Hide when a fullscreen app is active]
+
+[Show tooltips*]
+
+[ms]
+
+[Tooltips]
+
+[Miscellaneous]
+
+[0 = Default]
+
+[*requires Tipper plugin]
+
+[Bring to front]
+
+[Bring to front every]
+
 [seconds]
 sekúnd
+[Hide when contact list is shown]
+
 [Single click interface]
 Nepoužívať dvojklik myšou
+[Dim idle contacts]
+
+[Idle contacts]
+
+[Border]
+
+[Draw border]
+
+[Left-top edge's color:]
+
+[Right-bottom edge's color:]
+
 [Background]
 Pozadie
 [Background color:]
@@ -29,6 +72,9 @@ Vedľa seba
 Nad sebou
 [Stretch proportionally]
 Roztiahnúť veľkosť
+[Opacity:]
+
+;file \plugins\FloatingContacts\src\main.cpp
 [Standard contacts]
 Štandardné kontakty
 [Online contacts to whom you have a different visibility]
@@ -39,5 +85,22 @@ Odpojený užívatelia
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [Contacts which are 'not on list']
 Užívatelia ktorí niesu v zozname
+[Floating contacts]
+
+[Show all thumbs]
+
+[Hide all thumbs]
+
+[Remove thumb]
+
+[Show/Hide all thumbs]
+
+;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+
 [Contact list]
 Zoznam kontaktov
+[Main Features]
+
+[Appearance]
+

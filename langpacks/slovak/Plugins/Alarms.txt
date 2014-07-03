@@ -7,31 +7,186 @@
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
 Nastavte jednorázové, denné, týždenné alarmy alebo alarmy v pracovné dni.
+;file \plugins\Alarms\res\resource.rc
+[New]
+
+[Delete]
+
+[Edit]
+
+[Alarms]
+
+[Use popup plugin]
+
+[Default snooze:]
+
+[minutes]
+
 [Row height:]
 Výška riadku:
+[Indent:]
+
+[Reminder frame]
+
+[Auto hide/show]
+
+[Loop sound]
+
+[Period (hours):]
+
+[Hide/show with clist]
+
+[Auto size vertically]
+
+[Transparency (%):]
+
+[Alert window]
+
+[Round corners]
+
+[Don't steal focus unless idle]
+
+[Preview]
+
+[Alarm]
+
 [Cancel]
 Storno
 [Title:]
 Názov:
 [Description:]
 Popis:
+[Actions]
+
+[Popup window]
+
+[Sound:]
+
+[Run command:]
+
+[Parameters:]
+
+[Alert 1]
+
+[Alert 2]
+
+[Alert 3]
+
+[Speak]
+
+[Occurrence]
+
+[Once]
+
 [Weekly]
 Týždenne
 [Daily]
 Denne
+[Weekdays]
+
 [Monthly]
 Mesačne
+[Yearly]
+
+[i'm hiding]
+
+[Date and time]
+
+[Disable next occurrence]
+
+[Don't trigger on startup]
+
+[No reminder]
+
 [Dismiss]
 Zrušiť
+[Snooze]
+
+[Static]
+
+[&Suspend]
+
+[&Edit...]
+
 [&Delete]
 Vymazať
 [&Options...]
 Nastavenia...
+[&New alarm...]
+
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[Unknown command issued: "%s"]
+
+[Set alarm]
+
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example alarm]
+
+[Some example text. Example, example, example.]
+
+[5 mins]
+
+[15 mins]
+
+[30 mins]
+
+[1 hour]
+
+[1 day]
+
+[1 week]
+
+[Title]
+
 [Background]
 Pozadie
 [Window]
 Okno
+;file \plugins\Alarms\src\frame.cpp
+[%dh %dm]
+
+[%dm]
+
+[Hide reminders]
+
+[Show reminders]
+
+[Frames]
+
+[Alarm reminders]
+
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set alarm]
+
+[Reminder: Soon]
+
+[Reminder: Very soon]
+
+[Alarm: System tray]
+
+[Menu: Show/Hide reminders]
+
+;file \plugins\Alarms\src\options.cpp
+[Sunday]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[Please enter a title for this alarm.]
+
 [Error]
 Chyba
+[The alarm time you have selected is in the past.]
+
 [Events]
 Udalosti

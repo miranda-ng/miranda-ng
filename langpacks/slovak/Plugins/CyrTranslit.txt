@@ -7,3 +7,6 @@
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
 Vymieňa cyrilické písmená v odchádzajúcich správach za fonetický ekvivalent latinky.
+;file \plugins\CyrTranslit\src\MirandaContact.cpp
+[&Transliterate]
+

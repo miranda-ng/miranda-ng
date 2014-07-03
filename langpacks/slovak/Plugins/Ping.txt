@@ -7,19 +7,167 @@
 ;============================================================
 [Ping labelled IP addresses or domain names.]
 Umožňuje ping-ovať IP adresy alebo názvy domén.
+;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+
 [Timeout]
 Časový limit
+[Ping timeout (secs):]
+
+[Logging]
+
+[Log to File]
+
+[Log Filename:]
+
 [Network]
 Sieť
+[Popups]
+
+[Reply]
+
+[Block Repetitions]
+
+[View Log]
+
+[Browse...]
+
+[Interface]
+
+[Do not change icon when testing]
+
+[Use the Customize/Fonts options to change text size and color.]
+
+[Indent:]
+
 [Row height:]
 Výška riadku:
+[Repeats for success/failure:]
+
+[Attach to contact list]
+
+[Use CSV format]
+
+[Add]
+
+[Remove]
+
+[Edit]
+
+[Up]
+
+[Down]
+
+[Edit Host]
+
 [Cancel]
 Storno
+[Address:]
+
+[Label:]
+
+[TCP Connect]
+
 [Port:]
 Port:
+[Control Protocol:]
+
+[Set my status to:]
+
+[On success, if my status is:]
+
+[Execute the following command on double-click:]
+
 [Contact]
 Kontakt
+[Protocols]
+
+[(Optional) Command Parameters:]
+
+[Menu]
+
+[Graph]
+
+[Enable]
+
+[Disable all pings]
+
+[Enable all pings]
+
+[Options...]
+
+[Hosts...]
+
+;file \plugins\Ping\src\menu.cpp
+[Ping]
+
+;file \plugins\Ping\src\options.cpp
+[Text Files (*.txt)]
+
+[All Files]
+Všetky súbory
+[Open log file]
+
 [<none>]
 <nič>
+[<all>]
+
+[Settings]
+
+[Hosts]
+
+;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+
+;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+
+[Show stats]
+
+[%d ms]
+
+[AVG %.1lf ms]
+
+[MAX %hd ms]
+
+[MIN %hd ms]
+
+[Ping Graph]
+
+;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%S' (%d)]
+
+[Ping Reply]
+
+[%s - reply, %d]
+
+[Ping Timeout]
+
+[%s - timeout]
+
+[Disable]
+
+[enabled]
+
+[double clicked]
+
+[Show/Hide &Ping Window]
+
+[List]
+Zoznam
+;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+
+;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+
 [Unknown]
 neznáme
+[Responding]
+
+[Not Responding]
+
+[Testing]
+
+[Disabled]
+

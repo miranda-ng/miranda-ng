@@ -5,5 +5,76 @@
 ;  Version: 0.2.0.0
 ;  Authors: Vladimir Lyubimov
 ;============================================================
+[Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
+
+;file \plugins\StartupSilence\res\StartupSilence.rc
+[Silence at Startup]
+
+[Settings for the next Computer Name:]
+
+[Enable silence at startup]
+
+[for]
+
+[10-300 seconds (Default 20)]
+
+[Show Popup notification]
+
+[Popup time 1-30 seconds (Default 5)]
+
+[Main Menu Item (plugin reload or Miranda restart required)]
+
+[TopToolBar button (Miranda restart required)]
+
+[Reset to default\r\n(for this computer)]
+
+[You need to configure it once for each computer, where you run your Miranda NG.]
+
+[No Apply button required.]
+
+[After startup set:]
+
+[Filtered popups only (leave uncheck for no popups)]
+
+[Enable sounds]
+
+[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
+
+[Allow mRadio or Weather popups, etc.]
+
+;file \plugins\StartupSilence\src\main.cpp
 [Events]
 Udalosti
+;file \plugins\StartupSilence\src\StartupSilence.h
+[Silence at startup]
+
+[Toggle Silence OFF]
+
+[Toggle Silence ON]
+
+[Toggle Silence OFF TTB]
+
+[Toggle Silence ON TTB]
+
+[Sounds and popups are enabled]
+
+[Filtered mode ON]
+
+[Sounds and popups are disabled temporarily]
+
+[Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
+
+[Silent Startup mode changed to ON]
+
+[Silent Startup mode changed to OFF]
+
+[Silence At Startup is ON]
+
+[Silence At Startup is OFF]
+
+[Toggle Silence At Startup]
+
+[You have to install TopToolBar to use this option.]
+
+[You have to install "YAPP" or "Popup+" to use this option.]
+

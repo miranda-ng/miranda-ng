@@ -7,14 +7,19 @@
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
 Exportuje každú správu, URL alebo súbor, čo ste dostali do textového súboru.
+;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Listovať
 [Use internal viewer]
 Použiť interný prehliadač
 [Replace Miranda history]
 Prepísať históriu mirandy
+[Use UTF8 in new files]
+
 [Append extra new line]
 Pridať extra nový riadok
+[Use << and >>]
+
 [Auto filename]
 Automatické meno súboru
 [Clear all]
@@ -37,28 +42,86 @@ Prednastavený súbor
 Prehliadač súborov
 [Exporting old messages]
 Exportujem staré správy
+[History file for %s (%s format %s)]
+
 [&Find...]
 Nájsť...
+[&External]
+
 [&Close]
 Zavrieť
+[When filename changes]
+
+[Prompt for action]
+
+[Rename file]
+
+[Do nothing]
+
+[When user is deleted]
+
+[Delete file]
+
+[Debug]
+
 [User &details]
 Informácie o užívatelovi
 [Export selected]
 Výber exportu
 [Set to default filename]
 Prednastaviť meno súboru
+[Copy]
+
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Failed to write to the RichEdit the buffer was to small.]
+
+[Error: Optimal buffer size decreased to a too low size!]
+
+[Internal error! (lExtraRead >= 0)]
+
+[Failed to execute external file view]
+
+[Failed to load Rich Edit ( RICHED32.DLL )]
+
+[Failed to get handle to RichEdit!]
+
+[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
+
+[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+
+[With scroll to bottom %d\n]
+
 [Search string was not found!]
 Hľadaný reťazec nebol nájdený!
+[Save as RTF]
+
 [Color...]
 Farba...
 [Font...]
 Typ písma...
 [Syntax highlight]
 Zoznam syntax-u
+[Failed to create file]
+
+[Failed to save file]
+
+[History was saved successfully in file\r\n]
+
+[Failed to create history dialog]
+
+;file \plugins\Msg_Export\src\Glob.h
+[Miranda NG (Message Export Plugin)]
+
+;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Otvoriť exportovanú históriu
+[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+
+;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 Žiadne kontakty na export.
+[Reading database information (Phase 1 of 2)]
+
 [Failed to export at least one contact]
 Chyba pri exporte kontaktu
 [Sorting and writing database information (Phase 2 of 2)]
@@ -73,26 +136,97 @@ Chyba v ceste ku Msg_Export.dll
 Súbor
 [Nick]
 Prezívka
+[Proto]
+
+[UIN]
+
 [You have not applied the changes, do you wish to apply them first?]
 Neaplikované zmeny sa majú aplikovať ako prvé?
 [Executable files]
 Spustitelné súbory
 [All files]
 Všetky súbory
+[Failed to get the shells allocator!]
+
+[Failed to Allocate buffer space]
+
 [Select Destination Directory]
 Vyber cieľový adresár
+[Export Protocols]
+
 [Message export]
 Exportovať správu
+[History]
+
+[General]
+
+[Additional]
+
+;file \plugins\Msg_Export\src\utils.cpp
+[No_Nick]
+
+[No_Group]
+
+[Database: Attempt to get wrong type of value, string]
+
 [(Unknown Contact)]
 (neznámý kontakt)
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Chyba pri premenovávaní súboru\n\nz:\t%s\nna:\t%s\n\nChyba: %s
+[\nError: ]
+
+[\nMessage has not been saved!\n]
+
+[Do you wish to save debug information?]
+
+[All\0*.*\0Text\0*.TXT\0\0]
+
 [Failed to open or create file :\n]
 Chyba v otvorení alebo vytvorení súboru :\n
 [Failed to move to the end of the file :\n]
 Chyba v ukončení súboru :\n
+[Failed to UTF8 byte order code to file :\n]
+
+[      History for\r\n]
+
+[User      : %User%\r\n]
+
+[Protocol  : %Proto%\r\n]
+
+[UIN       : %UIN%\r\n]
+
+[FirstName : %FirstName%\r\n]
+
+[LastName  : %LastName%\r\n]
+
+[Age       : %Age%\r\n]
+
+[Gender    : %Gender%\r\n]
+
+[e-mail    : %e-mail%\r\n]
+
+[Nick      : %Nick%\r\n]
+
+[City      : %City%\r\n]
+
+[State     : %State%\r\n]
+
+[Phone     : %Phone%\r\n]
+
+[Homepage  : %Homepage%\r\n]
+
+[- About -\r\n%About%\r\n]
+
+[Failed to write user details to file :\n]
+
+[Failed to write timestamp and username to file :\n]
+
 [Failed to write message to the file :\n]
 Chyba pri zápise správy do súboru :\n
+[URL: ]
+
 [File: ]
 Súbor:\s
 [Description: ]
@@ -109,10 +243,18 @@ Priezvisko :
 E-mail     :
 [Reason    :]
 Dôvod      :
+[Invalid Database event received. Type %d, size %d]
+
+[Failed to write Invalid Database event the file :\n]
+
 [The following user made an authorization request:]
 Vybraný užívateľ požaduje autorizáciu:
 [The following user added you to their contact list:]
 Tento užívatel si vás pridal do svojho zoznamu kontaktov:
+[UIN       :]
+
+[Failed to write AUTHREQUEST or ADDED to the file :\n]
+
 [EmailExpress from:]
 EmailExpres od:
 [WebPager from:]
@@ -123,5 +265,11 @@ Bez odosielatela
 Chyba pri zapise EmailExpres do súboru: \n
 [Failed to write SMS to the file :\n]
 Chyba pri zápise SMS do súboru :\n
+[Unknown event type %d, size %d]
+
+[Failed to write Unknown event to the file :\n]
+
+[User has been deleted. Do you want to delete the file?]
+
 [Failed to delete the file]
 Chyba pri mazaní súboru

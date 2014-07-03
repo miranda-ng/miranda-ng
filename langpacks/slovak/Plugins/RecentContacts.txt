@@ -7,7 +7,31 @@
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 Pridanie položky do hlavného menu, ktorá otvorí okno so zoznamom kontaktov, s ktorými sa naposledy komunikovalo.
+;file \plugins\RecentContacts\res\resource.rc
+[Recent Contacts]
+
+[Plugin settings]
+
+[Number of shown contacts:\n (0 to show all)]
+
+[Format of date and time\n(Look to readme for placeholders help)]
+
+[Hide offline contacts]
+
+;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Kontakty
+;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Main icon]
+
 [Contact]
 Kontakt
+[Toggle Ignore]
+
+[Ignore Contact]
+
+[Show Contact]
+
+[Show Recent Contacts]
+
+;file \plugins\RecentContacts\src\RecentContacts.h

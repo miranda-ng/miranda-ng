@@ -7,36 +7,321 @@
 ;============================================================
 [Provides popup notification services for different plugins.]
 Poskytuje popup oznámenia pre rôzne doplnky.
+;file \plugins\Popup\res\resource.rc
+[Content && Style]
+
+[Go to Customize > Fonts && Colors for fonts and colors options]
+
+[Miscellaneous]
+
 [Effects]
 Efekty
+[Live Preview]
+
+[Size && Position]
+
+[History]
+
+[Enable popup history]
+
+[Store last]
+
 [events]
 Udalosti
+[Use History++ to render log]
+
+[Avatars]
+
+[Draw avatar borders]
+
+[Draw borders for semitransparent avatars too]
+
+[Round corners by]
+
 [pixels]
 pixelov
+[Avatar size:]
+
+[Enable avatar updates]
+
+[Multimonitor]
+
+[Start the popups in the monitor with]
+
 [Miranda's window]
 Okno Mirandy
 [the active window]
 aktívne okno
+[Transparency]
+
+[Use transparency]
+
+[opacity:]
+
+[Opaque popups under cursor]
+
+[Slide popup]
+
+[Effect:]
+
+[Time (in):]
+
+[ms]
+
+[Time (out):]
+
+[Limit window amount to:]
+
+[Skins]
+
+[* - built-in skins]
+
+[Skin options]
+
+[Preview]
+
+[Download more skins]
+
+[Popup History]
+
+[Desktop]
+
+[Popup area]
+
+[pixel(s)]
+
+[Distance between popups]
+
+[Configure popup area]
+
 [Close]
 Zavrieť
+[General]
+
+[Enable popup actions]
+
+[Popup actions are those tiny buttons below notification text.]
+
+[Common actions]
+
+[Please choose in what cases default actions should be added:]
+
+[Add info && menu for IM contacts only]
+
+[Add default actions for contacts only]
+
+[Don't close popups on default actions]
+
+[Size and position]
+
+[Use large icons]
+
+[Popup actions will be displayed as:]
+
+[Icons and labels below text]
+
+[Icons on the left]
+
+[Icons aligned to the right]
+
+[Show actions: (requires apply)]
+
+[Mouse actions overwrite]
+
+[Left button]
+
+[Middle button]
+
+[Right button]
+
+[Notifications]
+
 [General options]
 Základné nastavenia
+[Enable this notification]
+
+[Popup timeout:]
+
+[Left click action:]
+
+[Right click action:]
+
+[Disable when global status is...]
+
+[Disable when relevant protocol's status is...]
+
+[Colors can be configured in\r\nCustomize > Fonts and colors]
+
+[More...]
+
+[Disable if message window is open]
+
 [Sec]
 sek
+[0 = Default]
+
+[-1 = Infinite]
+
+[Per-contact settings]
+
+[Show always]
+
+[Ignore fullscreen]
+
+[Never show]
+
+[Show default]
+
+[Default timeout]
+
+[Infinite popup delay]
+
+[Popup delay:]
+
 [seconds]
 sekúnd
+[Do not close hovered popups]
+
+[Dynamically resize the popups]
+
+[Minimum width]
+
+[Maximum width]
+
 [Position:]
 Pozícia:
+[Layout:]
+
 [Reorder popups]
 Preradiť popups
+[Disable when:]
+
+[Always (has priority)]
+
+[Fullscreen mode]
+
+[Debug]
+
+;file \plugins\Popup\src\actions.cpp
+[No overwrite]
+
 [Send message]
 Odoslať správu
+[Quick reply]
+
+[User details]
+
+[Contact menu]
+
+[Dismiss popup]
+
+[Pin popup]
+
+[Copy to clipboard]
+
+[Action]
+
+;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+
+[This is a notification message]
+
+[This is a warning message]
+
+[This is an error message]
+
+;file \plugins\Popup\src\effects.cpp
+[Square fading]
+
+;file \plugins\Popup\src\font.h
+[Popups]
+
+[Title]
+
+[Clock]
+
+[Text]
+Text
+[Hovered action]
+
+[Background]
+Pozadie
+[Border]
+
+[Sidebar]
+
+[Title underline]
+
+[Avatar border]
+
+;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+
+[Popup History message]
+
+;file \plugins\Popup\src\icons.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
+[With "favorite" overlay]
+
+[With "fullscreen" overlay]
+
+[Refresh skin list]
+
+[Popup placement]
+
 [Cancel]
 Storno
+[Popup group]
+
+[Favorite contact]
+
+[Show in fullscreen]
+
+[Blocked contact]
+
+[Pinned popup]
+
+[Add contact permanently]
+
+;file \plugins\Popup\src\main.cpp
+[Classes]
+
+[Actions]
+
 [Contacts]
 Kontakty
 [Advanced]
 Podrobne
+[Toggle Popups]
+
+[Enable Popups]
+
+[Disable Popups]
+
+[Popup Plus]
+
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+
+;file \plugins\Popup\src\opt_adv.cpp
+[No effect]
+
+[Fade in/out]
+
+;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+
+;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Odpojený
 [Online]
@@ -57,11 +342,81 @@ Voľný k rozhovoru
 Na obede
 [On the phone]
 Telefonuje
+[Width]
+
+[Upper left corner]
+
+[Lower left corner]
+
+[Lower right corner]
+
+[Upper right corner]
+
+[Horizontal]
+
+[Vertical]
+
+[Global Status]
+
+[Protocol Status]
+
 [You cannot specify a value lower than %d and higher than %d.]
 Nezadali ste hodnotu menšiu alebo väčšiu ako %d.
+['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+
+[Popup Plus Warning]
+
+;file \plugins\Popup\src\opt_skins.cpp
+[Failed to register %s class.]
+
+[Skin preview]
+
+[Just take a look at this skin... ;)]
+
+[Show clock]
+
+[Drop shadow effect]
+
+[non rectangular]
+
+[Enable Aero Glass (Vista+)]
+
+[Use Windows colors]
+
+[Use advanced text render]
+
+[Global settings]
+
+[Refresh List]
+
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+[Failed to GetClassInfoExW from EDIT class.]
+
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+
+;file \plugins\Popup\src\services.cpp
 [Error]
 Chyba
 [Warning]
 Varovanie
 [Notify]
 Notifikácia
+;file \plugins\Popup\src\skin.cpp
+[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+
+;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+
+[Favorite]
+
+[Block]
+
+[Popup Mode: Auto]
+
+[Popup Mode: Favorite]
+
+[Popup Mode: Ignore fullscreen]
+
+[Popup Mode: Block contact]
+

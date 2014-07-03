@@ -141,7 +141,6 @@
 [Dword setting]
 [String setting]
 [Unicode setting]
-[Handle]
 [Open Database Editor]
 [Open user tree in DBE++]
 [Are you sure you want to delete contact "%s"?]

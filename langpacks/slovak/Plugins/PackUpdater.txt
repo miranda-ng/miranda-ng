@@ -7,21 +7,142 @@
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
 Jednoduchý aktualizovač pre prednastavené balíky Mirandy NG.
+;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
+
+[Update]
+
+[View info]
+
 [Cancel]
 Storno
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+
 [Description]
 Udalosť
+[Downloading...]
+
+[Pack update options]
+
+[On startup]
+
+[Remind about not installed pack update]
+
+[Hotkey]
+
+[Go to Customize -> Hotkeys to change the hotkey]
+
+[Notifications]
+
+[Message boxes]
+
+[Errors]
+
+[Info messages]
+
+[Progress dialogs]
+
+[Every]
+
+[(but only once a day)]
+
+[Message boxes (*)]
+
 [Back]
 Späť
 [Text]
 Text
 [Colors]
 Farby
+[Use cus&tom colors]
+
+[Use &Windows colors]
+
+[Use Pop&up colors]
+
+[Preview]
+
+[Click action]
+
 [On left click]
 јavým klikom
 [On right click]
 Pravým klikom
 [Timeout]
 Časový limit
+[0 = Default]
+
+[-1 = Infinite]
+
 [Sec]
 sek
+[* Needs popup actions to be enabled]
+
+[Not sets for "Message boxes"]
+
+[Boxes]
+
+[Popups]
+
+;file \plugins\PackUpdater\Src\Events.cpp
+[Check for pack updates]
+
+[Pack Updater]
+
+;file \plugins\PackUpdater\Src\Notifications.cpp
+[An error occurred while downloading the update.]
+
+[Component Name]
+
+[Current Version]
+
+[New Version]
+
+[Downloading pack updates...]
+
+[Downloading update...]
+
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+
+;file \plugins\PackUpdater\Src\Notifications.h
+[Close popup]
+
+[Do nothing]
+
+;file \plugins\PackUpdater\Src\Options.cpp
+[hours]
+
+[days]
+
+[Test]
+
+[Services]
+
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+[Clear pack updates folder]
+
+;file \plugins\PackUpdater\Src\Utils.cpp
+['Yes' Button]
+
+['No' Button]
+
+[Pack Updater HTTP connection]
+
+[URL for checking updates not found.]
+
+[Downloading version info...]
+
+[Name of Update's file is not supported.]
+
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+
+[No updates found.]
+
+[No files for update.]
+
+[Update checking already started!]
+

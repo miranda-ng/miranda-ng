@@ -7,8 +7,53 @@
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
 Zasvieti Vaše LED podsvietené klávesy, keď dostanete správu.
+;file \plugins\KeyboardNotify\res\resources.rc
+[Accounts to check]
+
+[Events to react on]
+
+[Incoming messages]
+
+[Incoming files]
+
+[Incoming URLs]
+
+[Everything else]
+
+[Message-Event only]
+
+[Blink if message window is open]
+
+[and not in foreground]
+
+[Only if last is]
+
+[sec. old]
+
+[Flash until]
+
 [seconds]
 sekúnd
+[is re-attended]
+
+[Events are opened]
+
+[End of 'notify when' conditions]
+
+[Notify when]
+
+[Full Screen mode]
+
+[Screen Saver is running]
+
+[Workstation is locked]
+
+[Defined programs are running]
+
+[All other situations]
+
+[Only notify if status is]
+
 [Online]
 Pripojený
 [Away]
@@ -27,12 +72,94 @@ Neviditelný
 Telefonuje
 [Out to lunch]
 Na obede
+[Pending Events]
+
+[Remind me every]
+
+[minutes]
+
 [Offline]
 Odpojený
+[xStatuses]
+
+[Keys to flash]
+
+[Num Lock]
+
+[Caps Lock]
+
+[Scroll Lock]
+
+[Flashing effects]
+
+[All at the same time]
+
+[In turn]
+
+[In sequence]
+
+[Custom theme]
+
+[Accordingly to events' count]
+
+[Wait before starting flashing]
+
+[Flash speed]
+
+[Fast]
+
+[Slow]
+
 [&Preview]
 Prehrať
+[Emulate key presses (Use this option if you are using a USB keyboard)]
+
+[Create/Edit Themes]
+
+[Theme]
+
+[Test]
+
+[Add]
+
+[Update]
+
+[Delete]
+
+[Import/Export]
+
+[Export...]
+
+[Import...]
+
+[Override existing]
+
+[Set program list]
+
+[Program]
+
 [Cancel]
 Storno
+[Set LEDs for events]
+
+[Num]
+
+[Caps]
+
+[Scroll]
+
+[Message events]
+
+[File events]
+
+[URL events]
+
+[Other events]
+
+[Consider event opened after]
+
+[Use custom theme]
+
 [The following events are being ignored:]
 Nasledujúce udalosti budú ignorované:
 [Ignore messages]
@@ -41,19 +168,49 @@ Ignorovať správy
 Ignorovať URL
 [Ignore files]
 Ignorovať súbory
+[Ignore others]
+
 [Ignore all]
 Všetko ignorovať
 [Ignore none]
 Neignorovať
 [Ignore]
 Ignorovať
+[Set xStatus list]
+
+;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Všetky kontakty **
 [** Unknown contacts **]
 ** Neznáme kontakty **
+;file \plugins\KeyboardNotify\src\options.cpp
+[left->right]
+
+[right->left]
+
+[left<->right]
+
+[Keyboard Flash]
+
 [Events]
 Udalosti
+[Accounts]
+
+[Rules]
+
+[Flashing]
+
+[Themes]
+
+[Protocol]
+
+[Keyboard Notify Theme]
+
 [All Files]
 Všetky súbory
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+
 [None]
 Žiadne

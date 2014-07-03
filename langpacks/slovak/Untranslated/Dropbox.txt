@@ -27,7 +27,6 @@
 [you are already authorized]
 [you are not authorized yet]
 [Send files to Dropbox]
-[Network]
 [Protocols]
 [Protocol icon]
 [Unknown command "%s".\nUse "/help" for more info.]

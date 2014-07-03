@@ -7,13 +7,157 @@
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
 Nahráva text na web stránku a posiela URL kontaktom.
+;file \plugins\PasteIt\res\PasteIt.rc
+[Settings]
+
+[Default web page]
+
+[Default file encoding]
+
+[Auto-detect UTF-8]
+
+[Show confirmation dialog box]
+
+[Autosend download link to contact]
+
+[Web page settings]
+
+[Web page to configure]
+
 [Configure]
 Konfigurovať
+[Default formatting]
+
+[Auto-detect format from file extension]
+
+[Public paste]
+
+[Login as guest]
+
+[User key]
+
+[Get user key]
+
+[Configure formatting]
+
 [Cancel]
 Storno
+[Up]
+
+[Down]
+
+[Delete]
+
+[Restore defaults]
+
+[Download more]
+
+[Login to pastebin.com]
+
 [User name]
 užívateľské meno
+[Password]
+
+[Paste It]
+
+[Format]
+
+[Encoding]
+
+[Recode]
+
+;file \plugins\PasteIt\src\Options.cpp
+[Use default codepage]
+
+[Thai]
+
+[Japanese]
+
+[Simplified Chinese]
+
+[Korean]
+
+[Traditional Chinese]
+
+[Central European]
+
+[Cyrillic]
+
+[Cyrillic KOI8-R]
+
+[Latin I]
+
+[Greek]
+
+[Turkish]
+
+[Hebrew]
+
+[Arabic]
+
+[Baltic]
+
+[Vietnamese]
+
+[Korean (Johab)]
+
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+
+[Invalid codepage]
+
+[Services]
+
+[Main]
+
+[Web page]
+
+;file \plugins\PasteIt\src\PasteIt.cpp
+[All Files (*.*)]
+
+[Paste It - Select file]
+
 [Error]
 Chyba
+[Paste from clipboard]
+
+[Paste from file]
+
+[Paste It HTTP connections]
+
+;file \plugins\PasteIt\src\PasteToWeb.cpp
+[You can only paste 1 file]
+
+[Cannot get data from clipboard]
+
+[File size is %d KB, do you really want to paste such a large file?]
+
+[Are You sure?]
+
+[Cannot read file '%s']
+
+[File size is larger then 10 MB, cannot be sent]
+
+[Cannot open file '%s']
+
+[File '%s' is empty]
+
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[Error during sending text to web page: %s]
+
+[Error during sending text to web page]
+
+[Error during getting user key from web page: %s]
+
+[Paste expire date]
+
 [Never]
 nikdy
+[10 minutes]
+
+[1 hour]
+
+[1 day]
+
+[1 month]
+
+;file \plugins\PasteIt\src\PasteToWeb2.cpp

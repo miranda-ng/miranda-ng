@@ -7,13 +7,100 @@
 ;============================================================
 [Crash Dumper for Miranda NG.]
 Uloženie informácií o zlyhaní pre Miranda NG.
+;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
+
 [Close]
 Zavrieť
+[Copy To Clipboard]
+
+[To File]
+
+[Support for miranda-vi.org]
+
+[Username]
+
+[Password]
+
+[Upload automatically when changed]
+
+[General]
+
+[Use classic dates]
+
+[Create reports in subfolders naming as current date]
+
+[View]
+
 [&Copy]
 Kopírovať
 [Co&py All]
 Kopírovať všetko
 [Select &All]
 Vybrať všetko
+;file \plugins\CrashDumper\src\crshdmp.cpp
+[VersionInfo stored into file %s]
+
+[VersionInfo file %s is inaccessible]
+
+[Services]
+
+[Version Information To Clipboard]
+
+[Version Information To File]
+
+[Show Version Information]
+
+[Upload Version Information]
+
+[Crash Reports]
+
+[Version Information]
+
+[Copy to clipboard]
+
+[Store to file]
+
 [Show]
 Zobraziť
+[Show with DLLs]
+
+[Upload]
+
+[Open crash report directory]
+
+[Open miranda-vi.org]
+
+[Copy Version Info to clipboard]
+
+[Show Version Info]
+
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
+
+;file \plugins\CrashDumper\src\exhndlr.cpp
+[Crash Report write location is not available]
+
+[Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
+
+;file \plugins\CrashDumper\src\ui.cpp
+[View Version Information (with DLLs)]
+
+;file \plugins\CrashDumper\src\upload.cpp
+[VersionInfo upload successful,\n %d old plugins]
+
+[Cannot upload VersionInfo. Incorrect username or password]
+
+[Cannot upload VersionInfo. User is banned]
+
+[Cannot upload VersionInfo. Daily upload limit exceeded]
+
+[Cannot upload VersionInfo. Unknown error]
+
+[Cannot upload VersionInfo. Host unreachable.]
+
+[Crash Dumper HTTP connections]
+
+;file \plugins\CrashDumper\src\utils.cpp
+[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
+

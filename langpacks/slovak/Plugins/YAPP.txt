@@ -7,15 +7,150 @@
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 Poskytuje popup oznámenia pre ostatné doplnky.
+;file \plugins\YAPP\res\yapp.rc
+[Popup history]
+
 [Close]
 Zavrieť
+[Case sensitive]
+
+[Default Timeout]
+
+[Never timeout]
+
+[Set timeout:]
+
+[Width:]
+
+[Maximum height:]
+
+[Options]
+
+[Opacity (%):]
+
+[Border]
+
+[Round corners (window)]
+
+[Preview]
+
+[Transparent background]
+
+[Layout]
+
+[Avatar size:]
+
+[Disable when]
+
+[Global hover]
+
+[Sidebar width:]
+
+[Text indent:]
+
+[Padding:]
+
+[Round corners (avatar)]
+
+[Text color:]
+
 [Background color:]
 Farba pozadia:
+[Set timeout]
+
+[Timeout value (0 = default):]
+
+;file \plugins\YAPP\src\icons.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
+[Popup History]
+
+;file \plugins\YAPP\src\notify_imp.cpp
+[YAPP Popups]
+
+;file \plugins\YAPP\src\options.cpp
+[Example]
+
+[The quick brown fox jumped over the lazy dog.]
+
+[Example With a Long Title]
+
+[Thequickbrownfoxjumpedoverthelazydog.]
+
+[An avatar.]
+
+[Bottom right]
+
+[Bottom left]
+
+[Top right]
+
+[Top left]
+
+[Icon on left]
+
+[Icon on right]
+
+[No time]
+
+[Time on left]
+
+[Time on right]
+
+[Time above avatar]
+
+[No avatar]
+
+[Left avatar]
+
+[Right avatar]
+
 [Status]
 Stav
+[Full-screen app running]
+
+[No animate]
+
+[Horizontal animate]
+
+[Vertical animate]
+
+[You cannot set a default timeout of 0.\nValue has been reset.]
+
 [Error]
 Chyba
+[Popups]
+
+[Settings]
+
+[Classes]
+
+;file \plugins\YAPP\src\services.cpp
+[Disable Popups]
+
+[Enable Popups]
+
+;file \plugins\YAPP\src\yapp.cpp
+[Toggle Popups]
+
+[First line]
+
+[Second line]
+
 [Time]
 Čas
 [Background]
 Pozadie
+[Sidebar]
+
+[Title underline]
+
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+
+[Copy message to clipboard]
+
+[Copy timestamp to clipboard]
+

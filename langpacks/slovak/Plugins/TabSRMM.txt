@@ -7,36 +7,389 @@
 ;============================================================
 [IM and group chat module for Miranda NG.]
 Najpokročilejší doplnok pre posielanie správ pre Mirandu.
+;file \plugins\TabSRMM\res\chat.rc
+[You can add the user by user name or his ID. Wildcards are allowed and recommended.]
+
 [Cancel]
 Storno
+[Show these events]
+
+[Actions]
+
+[Messages]
+
+[Nick changes]
+
+[Users joining]
+
+[Users leaving]
+
+[Topic changes]
+
+[Status changes]
+
+[Information]
+
+[Disconnects]
+
+[User kicks]
+
+[Notices]
+
+[Popup]
+
+[Tray]
+
+[Options]
+
+[Add new rooms to group:]
+
+[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
+
+[Log files]
+
+[Enable logging to disk]
+
+[Log directory]
+
+[Maximum size for log files (in KB)]
+
+[Group chat log formatting]
+
 [Your name]
 Vaše meno
+[Other name]
+
+[Timestamp (window)]
+
+[Timestamp (logfile)]
+
+[Maximum number of events in the message window]
+
+[Group chat nick list row height (pixels)]
+
+[Open log file base folder]
+
+[Default settings for known event types]
+
+[Show when filter is active]
+
+[Log to file]
+
+[Show Popup]
+
+[Notify in tray]
+
+[Suppress tray notifications for focused channel windows]
+
+[Do not show popups when the channel window is not open]
+
+[Highlight event]
+
+[Line markers in the message log]
+
+[Highlight user names]
+
+[Enable highlighting for user names]
+
+[Also look in user IDs]
+
+[Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
+
+[Highlight message text]
+
+[Enable highlighting for message text]
+
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
+
+[Highlight messages containing my own nickname]
+
 [List]
 Zoznam
 [&Message]
 &Správa
 [Log]
 Log
+[Clear lo&g]
+
 [Co&py all]
 Kopírovať všetko
+[Word lookup]
+
+[Wikipedia]
+
+[Link]
+
+[Open a &new browser window]
+
+[&Open in current browser window]
+
 [&Copy link]
 Kopírovať odkaz
+[Message]
+
 [Undo]
 Späť
+[Redo]
+
+[Copy]
+
+[Cut]
+
+[Paste]
+
+[Select all]
+
+[Clear]
+
+[Tabs]
+
+[&Close tab]
+
+[C&lose other tabs]
+
+[&Open at this position]
+
+;file \plugins\TabSRMM\res\msgwindow.rc
+[&Retry]
+
+[&Cancel]
+
 [&Send]
 Odoslať
+[&Add]
+
+[&Remove]
+
+;file \plugins\TabSRMM\res\resource.rc
+[Customize the panel]
+
+[Scope of settings]
+
+[Use global or private panel height]
+
+[Set size to]
+
+[Compact (1 Line)]
+
+[Normal (2 Lines)]
+
+[Large]
+
+[Tip: To use a custom size you can always drag the bottom edge of the panel]
+
+[Other options]
+
+[Note: All settings are applied immediately]
+
+[The container is using private settings. The panel height will not be shared with other containers.]
+
+[Show picture for this contact]
+
+[Advanced tweaks]
+
+[Message send timeout]
+
 [seconds]
 sekúnd
+[Input history size]
+
+[entries]
+
+[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
+
+[More about advanced tweaks]
+
+[Revert to (safe) defaults]
+
+[Event notify options]
+
+[Limit message preview to]
+
+[characters]
+
+[Only show event notifications when my status is...]
+
 [Popup Options]
 Popup nastavenia
 [Text]
 Text
 [Background]
 Pozadie
+[Timeout (seconds, 0 = default, -1 = no timeout)]
+
+[Default colors]
+
+[Others]
+
+[Preview]
+
+[Group chats]
+
+[Errors]
+
+[Use the message log color theme for group chat popups]
+
+[No compatible popup plugin was found. The event notification\nsystem is not available.]
+
+[Dialog]
+
+[All modes]
+
+[Choose modes]
+
+[Message log view mode (does not affect open windows)]
+
+[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
+
+[Send text formatting method]
+
+[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
+
+[ANSI codepage]
+
+[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+
+[Info panel mode]
+
+[Show avatar in message window]
+
+[Use private splitter position]
+
+[Contact is a favorite contact]
+
+[Force ANSI send / receive]
+
+[Ignore sending timeouts]
+
+[Load only actual history]
+
+[Always trim message log to]
+
 [Events]
 Udalosti
+[Only show tab bar when it's needed]
+
+[Container stays on top]
+
+[Vertical maximize]
+
+[Close or hide inactive container after]
+
+[sec. (0=never)]
+
+[Automatically size input area (*)]
+
+[Use default setting]
+
+[Flash until focused]
+
+[Disable flashing]
+
+[Enable popups if minimized]
+
+[Enable popups if unfocused]
+
+[Enable popups if focused]
+
+[Show popups for inactive tabs in active containers]
+
+[Hide the status bar]
+
+[Hide the menu bar]
+
+[User ID in status bar]
+
+[Hide the toolbar]
+
+[Place the toolbar at the bottom (*)]
+
+[Show the info panel]
+
+[Hide title bar]
+
+[Title bar format]
+
+[Available formats]
+
+[Use this to specify a private message log theme for this container. This will have no effect when using IEView or another message log viewer and should NOT be confused with skins.]
+
+[Use global container size and position]
+
+[Save current as global]
+
+[Enable transparency]
+
+[active]
+
+[inactive]
+
+[When checked, this container will use private settings, otherwise settings are shared among containers.]
+
 [Apply]
 Aplikovať
+[Static]
+
+[Tab location]
+
+[When using the switch bar, use the following layout]
+
+[Flash event icon on tab]
+
+[Flash text label on tabs]
+
+[Single row tab control (*)]
+
+[Close button on tabs]
+
+[Use button tabs (*)]
+
+[You have chosen to disable all event notifications for open message windows.]
+
+[Show contact avatars]
+
+[Show my own avatars]
+
+[Show avatars on task bar (Win 7, large task bar required)]
+
+[Enable sound effects]
+
+[Play sounds when minimized]
+
+[Play sounds when not focused]
+
+[Play sounds for inactive tabs in active containers]
+
+[Play sounds for the active tab / window]
+
+[Options marked with an asterisk (*) do not affect open message windows.]
+
+[Message window options]
+
+[Size and scaling options for the bottom avatar display]
+
+[Maximum display height (pixels)]
+
+[(0 = no limit)]
+
+[Try to keep original size]
+
+[Help on this]
+
+[Reset all hidden warnings]
+
+[Indent values]
+
+[Left/Right]
+
+[px]
+
+[Template sets]
+
+[Standard templates...]
+
+[RTL templates...]
+
 [Load History Events]
 Nahrať udalosti histórie
 [Load unread events only]
@@ -47,26 +400,296 @@ Nahrať počet posledných udalostí
 Nahrať iba udalosti, ktoré sú menšie než
 [minutes old]
 minút staré
+[Global message log display]
+
+[Typing Notification]
+
+[Send typing notifications to the following users when you are typing a message to them:]
+
+[        Show typing notifications in the message window]
+
+[Flash window once on typing events (only if flashing enabled)]
+
+[        Show typing notifications in the contact list and tray]
+
+[Show typing notification when message dialog is open]
+
+[Show typing notification when no message dialog is open]
+
+[Show balloon tooltip in the system tray]
+
+[        Show popups when a user is typing]
+
+[More about typing notifications]
+
+[Tab options]
+
+[Miscellaneous options]
+
+[Setup status modes for automatic tab creation...]
+
+[Limit nicknames on tabs to]
+
+[ESC key behavior]
+
+[Select container]
+
+[Available containers]
+
+[Delete]
+
+[Rename]
+
+[Create a new container]
+
+[Create new]
+
 [Reset]
 Reset
+[Show in IM chats]
+
+[Show in chat rooms]
+
+[Gap between buttons:]
+
+[Hide if there isn't enough space]
+
+[Insert Separator]
+
+[To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
+
+[Tabs should be used in the following way]
+
+[Use contact list groups for organizing tabs (one window per group)]
+
+[Tabbed interface, limit the maximum number of tabs per window to:]
+
+[No tabs at all, each session has its own top level window]
+
+[Default mode (tabbed interface, manual assignments)]
+
+[Container flashing]
+
+[Flash containers]
+
+[times]
+
+[Flash interval]
+
 [milliseconds]
 milisekúnd
+[Help on containers]
+
+[Windows Aero settings]
+
+[Use Aero UI elements (only when not using a custom skin)]
+
+[Use Windows 7 task bar enhancements (restart required)]
+
+[Popups]
+
+[...is &typing]
+
+[...stopped t&yping]
+
 [Back]
 Späť
+[U&se Popup colors]
+
 [&Use Windows colors]
 Použi farby Windowsu
+[Only &one popup for each contact]
+
+[Show &entry in the main menu]
+
+[...is typing]
+
+[From Popup plugin]
+
+[From protocol]
+
+[Permanent]
+
+[Custom]
+
+[...stopped typing]
+
+[Popups timeout]
+
+[Templates]
+
+[Edit template]
+
+[Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
+
+[Get more help on variables]
+
+[Define up to 5 colors which you can use with some variables]
+
 [Close]
 Zavrieť
+[Update Preview]
+
+[Save Template]
+
+[Forget]
+
+[Revert to Default]
+
+[Reset all templates...]
+
+[Default width for fixed (single row) tabs]
+
+[Tab text label padding vertical]
+
+[horizontal]
+
+[Tab page padding:]
+
+[inner]
+
+[outer]
+
+[Bottom tabs vertical adjustment:]
+
+[NOTE: some settings will not affect open containers.]
+
+[Tab layout tweaks]
+
+[About TabSRMM]
+
+[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+
+[Support and latest version information]
+
+[Selected skin]
+
+[Rescan]
+
+[Load this skin on startup]
+
+[Reload active skin]
+
+[Skin options]
+
+[Load fonts and colors provided by skin]
+
+[Load templates provided by skin (use with care, will overwrite your templates)]
+
+[Skin root folder]
+
+[Before you can load or unload a skin, you must close all message windows.]
+
+[Close open message windows now]
+
+[Theme support]
+
+[You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
+
+[Export to a file...]
+
+[Import from a file...]
+
 [Icons]
 Ikony
+[Event type icons in the message log]
+
+[Text symbols as event markers]
+
+[Use different icons to mark incoming and outgoing messages]
+
+[Date and time]
+
+[Show timestamps]
+
+[Show seconds in timestamp]
+
+[Show date in timestamps]
+
+[Use contacts local time]
+
+[Format]
+
+[Indent message body]
+
+[Display grid lines]
+
+[Message grouping]
+
+[Support BBCODE]
+
+[Misc]
+
+[RTL is default text direction]
+
+[Log status changes (in open message windows only)]
+
+[Revert to global options]
+
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
+
+[Use normal templates (uncheck to use simple templates)]
+
+[Queued send jobs]
+
+[Queued jobs]
+
+[Filter by contact:]
+
+[Display popups for failed jobs]
+
+[Display popups for completed jobs]
+
+[Do not show this message again]
+
 [Yes]
 Áno
 [No]
 Nie
+[Message sending:]
+
+[Window:]
+
+[Esc closes sessions (minimizes window, if disabled)]
+
+[Always pop up and activate new windows]
+
+[Create new windows in minimized state]
+
+[Send on Shift+Enter]
+
 [Send message on 'Enter']
 Odoslať správu po stlačení Enter
 [Send message on double 'Enter']
 Odoslať správu po dvojitom stlačení Enter
+[Minimize the message window on send]
+
+[Tabs:]
+
+[Use tabbed interface]
+
+[Create new tabs without activating them]
+
+[Pop up minimized window when a new tab is created]
+
+[Automatically switch tabs in minimized windows]
+
+[History:]
+
+[Notifications:]
+
+[Don't announce when dialog is open]
+
+[Message events]
+
+[File events]
+
+[URL events]
+
+[Other events]
+
+[Send message on Ctrl+Enter (always enabled)]
+
 [&Copy]
 Kopírovať
 [&Quote]
@@ -75,55 +698,1495 @@ Požiadavka
 Kopírovať všetko
 [Select &All]
 Vybrať všetko
+[Clear Log]
+
+[Freeze Log]
+
 [Open in &new window]
 Otvoriť v novom okne
 [&Open in existing window]
 Otvoriť v tomto okne
+[Editor]
+
+[Paste formatted Text]
+
+[Paste and Send immediately]
+
+[Copy all]
+
+[Show Message Length Indicator]
+
+[Close Tab]
+
+[Close Other Tabs]
+
+[Leave Chat Room]
+
+[Save Tab Position]
+
+[Clear saved Tab Position]
+
+[Attach to Container...]
+
+[Container options...]
+
+[Close Container]
+
+[Show Contact Picture]
+
 [Default]
 Prednastavené
+[Hidden for this Contact]
+
+[Visible for this Contact]
+
+[Contact Picture Settings...]
+
+[Always keep the button bar at full width]
+
+[Save this Picture As...]
+
+[&Message Log Settings]
+
+[&Global...]
+
+[&For this Contact...]
+
+[Send &Default]
+
+[Send to &multiple Users]
+
+[Send to &Container]
+
+[Send &Later]
+
+[Force &ANSI]
+
+[Send unsafe (ignore Timeouts)]
+
+[Send Nudge]
+
+[Splitter Position]
+
+[Global]
+
+[Private]
+
+[Send Text Formatting]
+
+[BBCode]
+
+[Off]
+
+[This Contact]
+
+[Global Setting]
+
+[Force Off]
+
+[Unread Menu]
+
+[Recent Sessions]
+
+[Favorites]
+
+[Show the Tray Icon]
+
+[Disable All Event Notifications]
+
+[Don't create Windows automatically]
+
+[Hide all Message Containers]
+
+[Restore all Message Containers]
+
+[Don't play Sounds]
+
+[Be "Super Quiet"]
+
+[Font]
+
+[Default Color]
+
+[Red]
+
+[Green]
+
+[Blue]
+
+[Magenta]
+
+[Yellow]
+
+[Cyan]
+
+[Black]
+
+[White]
+
+[Clear all Formatting]
+
+[Dummy]
+
+[No Message Sessions opened]
+
+[Add Contact to Favorites]
+
+[Remove Contact from Favorites]
+
+[dummy]
+
+[Set Position for this Session]
+
+[Set and Save for all Sessions]
+
+[Set and Save for this Contact only]
+
+[Revert to old Position]
+
+[Queue manager]
+
+[Mark Selected for Removal]
+
+[Reset Selected]
+
+[Hold Selected]
+
+[Resume Selected]
+
+[Cancel all Multisend Jobs]
+
+[Copy Message to Clipboard]
+
 [&File]
 &Súbor
+[Save Message Log As...]
+
+[Close Message Session\tCtrl-W]
+
+[Close Container\tAlt-F4]
+
+[&View]
+
 [Show Menu Bar]
 Zobraziť menu
 [Show Status Bar]
 Zobraziť stavový riadok
+[Info Panel...]
+
+[Toolbar]
+
+[Show toolbar]
+
+[Place toolbar at bottom]
+
+[Title Bar]
+
+[Tabs at the bottom]
+
+[Window Flashing]
+
+[Use default Value]
+
+[Show Multisend Contact List]
+
+[Stay on Top]
+
+[Message &Log]
+
+[&Container]
+
+[Event Popups]
+
+[Disable all Event Popups]
+
+[Show Popups if Window is minimized]
+
+[Show Popups if Window is unfocused]
+
+[Show Popups if Window is focused]
+
+[Show Popups for all inactive sessions]
+
+[Save current Window Position as Default]
+
 [Help]
 Pomoc
+[About TabSRMM...]
+
+;file \plugins\TabSRMM\src\buttonsbar.cpp
+[Protocol Button]
+
+[Info button]
+
+[Insert Emoticon]
+
+[Bold text]
+
+[Italic text]
+
+[Underlined text]
+
+[Strike-through text]
+
+[Select font color]
+
+[Send message\nClick dropdown arrow for sending options]
+
+[Close session]
+
+[Quote last message OR selected text]
+
+[Message Log Options]
+
 [View User's History]
 Zobraziť históriu
+[Edit user notes]
+
+[Change background color]
+
+[Toggle nick list]
+
+[Event filter - right click to setup, left click to activate/deactivate]
+
+[Channel manager]
+
+[<Separator>]
+
+;file \plugins\TabSRMM\src\container.cpp
+[Message Session...]
+
+[Default container]
+
+[Attach to]
+
+;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Základné nastavenia
+[Window layout]
+
+[Tabs and switch bar]
+
+[Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them.]
+
+[Notifications]
+
+[Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
+
+[Flashing]
+
+[Title bar]
+
+[Window size and theme]
+
+[You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
+
+[Transparency]
+
+[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
+
+[Contact avatars]
+
+[Sound notifications]
+
+[Container options]
+
+[Configure container options for\n%s]
+
+[Tabs at the top]
+
+[Switch bar on the left side]
+
+[Switch bar on the right side]
+
+[Globally on]
+
+[On, if present]
+
+[Globally OFF]
+
+[On, if present, always in bottom display]
+
+[Don't show them]
+
+;file \plugins\TabSRMM\src\controls.cpp
+[&User]
+
+[&Room]
+
+[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
+
+[disabled]
+
+[enabled]
+
+[Sending typing notifications is %s.]
+
+[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
+
+[There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
+
+;file \plugins\TabSRMM\src\eventpopups.cpp
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
+
+[TabSRMM warning message]
+
 [Incoming file]
 Prichádzajúci súbor
+[No description given]
+
+[Incoming file (invalid format)]
+
+[Unknown event]
+
+[New messages: ]
+
+[Unknown module or contact]
+
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
+[Rich Edit file]
+
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
+
+[You cannot edit user notes when there are unsent messages]
+
+[Version]
+
+[%s is typing a message...]
+
+[Last received: %s at %s]
+
+[%s has entered text.]
+
+[%s is typing a message]
+
+[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
+
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+
+[No UID]
+
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
+
+;file \plugins\TabSRMM\src\globals.cpp
+[Instant messages]
+
+[Incoming (Focused Window)]
+
+[Incoming (Unfocused Window)]
+
+[Incoming (New Session)]
+
+[Outgoing]
+
+[Message send error]
+
+[No status message]
+
+[Other]
+
+[TabSRMM: Typing]
+
+[TabSRMM session list]
+
+[TabSRMM Menu]
+
+[&Messaging settings...]
+
+[&Send later job list...]
+
 [Message from %s]
 Správa od %s
+[signed off.]
+
+[signed on and is now %s.]
+
+[changed status from %s to %s.]
+
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+[Most recent unread session]
+
+[Paste and send]
+
+[Contact's messaging prefs]
+
+[Send nudge]
+
+[Send a file]
+
+[Quote message]
+
+[Toggle send later]
+
 [Send message]
 Odoslať správu
+[Smiley selector]
+
+[Show message history]
+
+[Show user menu]
+
+[Show user details]
+
+[Toggle toolbar]
+
+[Toggle info panel]
+
+[Toggle text direction]
+
+[Toggle multi send]
+
+[Clear message log]
+
+[Collapse side bar]
+
+[Toggle filter]
+
+[Show server window]
+
+;file \plugins\TabSRMM\src\infopanel.cpp
+[%s    Idle: %dh,%02dm]
+
+[  Client: %s]
+
+[  Client not cached yet]
+
+[Topic is: %s]
+
+[no topic set.]
+
+[Open User Details...]
+
+[Open History...]
+
+[Messaging Settings...]
+
+[Room Settings...]
+
+[Close Session]
+
+[Copy To Clipboard]
+
+[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
+
+[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
+
+[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
+
+[\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
+
+[TabSRMM Information]
+
+[Set panel visibility for this %s]
+
+[chat room]
+
 [contact]
 Kontakt
+[Do not synchronize the panel height with IM windows]
+
+[Do not synchronize the panel height with group chat windows]
+
+[Inherit from container setting]
+
+[Always off]
+
+[Always on]
+
+[Use default size]
+
+[Use private size]
+
+[Use Global Setting]
+
+[Show always (if present)]
+
+[Never show it at all]
+
+;file \plugins\TabSRMM\src\mim.cpp
+[TabSRMM]
+
+[Data path]
+
+[Skins]
+
+[Avatars]
+
+[Saved TabSRMM avatars]
+
+[Group chat logs root]
+
+;file \plugins\TabSRMM\src\modplus.cpp
+[Insert [img] tag / surround selected text with [img][/img]]
+
+;file \plugins\TabSRMM\src\msgdialog.cpp
+[Add this contact permanently to your contact list]
+
+[Do not add this contact permanently]
+
+[Expand or collapse the side bar]
+
+[Character Encoding]
+
+[Contact not on list. You may add it...]
+
+[A message failed to send successfully.]
+
+[WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
+
+[The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
+
+[Save and close session]
+
+[Auto scrolling is disabled (press F12 to enable it)]
+
+[Click for contact menu\nClick dropdown for window settings]
+
+[Retry]
+
+[Send later]
+
+[Selection copied to clipboard]
+
+[Delivery failure: %s]
+
 [The message send timed out]
 Čas k odoslaniu správy vypršal
+[You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+
+[Contact is offline and this protocol does not support sending files to offline users.]
+
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
+[Error creating destination directory]
+
+[Save contact picture]
+
+[Image files]
+
+[The file exists. Do you want to overwrite it?]
+
+[Set Your Avatar...]
+
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+
+[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
+
+['(Unknown Contact)']
+
+[JPEG-compressed images]
+
+;file \plugins\TabSRMM\src\msglog.cpp
+[Thai]
+
+[Japanese]
+
+[Simplified Chinese]
+
+[Korean]
+
+[Traditional Chinese]
+
+[Central European]
+
+[Cyrillic]
+
+[Cyrillic KOI8-R]
+
+[Latin I]
+
+[Greek]
+
+[Turkish]
+
+[Hebrew]
+
+[Arabic]
+
+[Baltic]
+
+[Vietnamese]
+
+[Korean (Johab)]
+
+[Sunday]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+
+[Today]
+
+[Yesterday]
+
+[Use default codepage]
+
+;file \plugins\TabSRMM\src\msgoptions.cpp
+[<no skin>]
+
+[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
+
+[Load theme]
+
+[Internal message log]
+
+[IEView plugin]
+
+[History++ plugin]
+
+[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
+
+[** New contacts **]
+
 [** Unknown contacts **]
 ** Neznáme kontakty **
+[Show balloon popup (unsupported system)]
+
+[Always]
+
+[Always, but no popup when window is focused]
+
+[Only when no message window is open]
+
+[Normal - close tab, if last tab is closed also close the window]
+
+[Minimize the window to the task bar]
+
+[Close or hide window, depends on the close button setting above]
+
+[Message Sessions]
+
+[General]
+
+[Tabs and layout]
+
+[Containers]
+
+[Message log]
+
+[Typing Notify]
+
+[Event notifications]
+
+[Message window]
+
+[Load and apply]
+
+[Window layout tweaks]
+
+[Settings]
+
+[Log formatting]
+
+[Events and filters]
+
+[Highlighting]
+
+[Choose status modes]
+
+;file \plugins\TabSRMM\src\msgs.cpp
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+
+[TabSRMM fatal error]
+
+[Image tag]
+
+[Quote text]
+
+[Save and close]
+
+[Smiley button]
+
+[Format bold]
+
+[Format italic]
+
+[Format underline]
+
+[Font face]
+
+[Font color]
+
+[Format strike-through]
+
 [Background color]
 Farba pozadia
+[Room settings]
+
+[Event filter]
+
+[Nick list]
+
+[Message delivery error]
+
 [Incoming message]
 Prichádzajúca správa
+[Outgoing message]
+
+[Status change]
+
+[Static container icon]
+
+[Sounds (status bar)]
+
+[Pulldown Arrow]
+
+[Left Arrow]
+
+[Right Arrow]
+
+[Up Arrow]
+
+[Session List]
+
+[Frame 1]
+
+[Frame 2]
+
+[Frame 3]
+
+[Frame 4]
+
+[Message Log]
+
+[Animated Tray]
+
+[Clock symbol (for the info panel clock)]
+
+[Feature disabled (used as overlay)]
+
+[Feature enabled (used as overlay)]
+
+;file \plugins\TabSRMM\src\msgs.h
+[Message windows - IM]
+
+[Message windows - all]
+
+[Message windows - group chats]
+
+;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Select container for %s]
+
+[You cannot delete the default container]
+
 [Error]
 Chyba
+[You cannot rename the default container]
+
+[This name is already in use]
+
+;file \plugins\TabSRMM\src\sendlater.cpp
+[A send later job completed successfully.\nThe original message: %s]
+
+[A send later job failed to complete.\nThe original message: %s]
+
+[<All contacts>]
+
+[Removed]
+
+[Failed]
+
+[Sent OK]
+
+[Deferred]
+
+[Suspended]
+
+[Pending]
+
 [Contact]
 Kontakt
+[Original timestamp]
+
+[Message text]
+
 [Status]
 Stav
+[Last send info]
+
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+
+;file \plugins\TabSRMM\src\sendqueue.cpp
+[The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
+
+[A message delivery has failed.\nClick to open the message window.]
+
+[A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
+
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+
+[Message window warning]
+
+[Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
+
+[The send later feature is not available on this protocol.]
+
+[\n(Sent delayed. Original timestamp %s)]
+
+;file \plugins\TabSRMM\src\sidebar.cpp
+[Like tabs, vertical text orientation]
+
+[Compact layout, horizontal buttons]
+
+[Advanced layout with avatars]
+
+[Advanced with avatars, vertical orientation]
+
+;file \plugins\TabSRMM\src\srmm.cpp
+[This version of TabSRMM requires Windows 2000 or later.]
+
+[TabSRMM Message (%s)]
+
+;file \plugins\TabSRMM\src\taskbar.cpp
+[Previews not availble when using History++ plugin for message log display.]
+
+[%d Unread]
+
+[Chat room %s]
+
+[%d User(s)]
+
+[Server window]
+
+[%s on %s%s]
+
+;file \plugins\TabSRMM\src\templates.cpp
+[Template Set Editor]
+
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+
+;file \plugins\TabSRMM\src\themeio.cpp
+[TabSRMM themes]
+
+;file \plugins\TabSRMM\src\themes.cpp
+[No effect]
+
+[Milky Glass]
+
+[Carbon]
+
+[Semi transparent, custom colors]
+
+[Silver shadow]
+
+[Custom (use own gradient colors)]
+
+[All message containers need to close before the skin can be changed\nProceed?]
+
+[Change skin]
+
+;file \plugins\TabSRMM\src\translator.cpp
+[Message window tweaks]
+
+[Display metacontact icons]
+
+[Error feedback]
+
+[Show skinnable tooltip in chat (Tipper plugin required)]
+
+[Enable typing sounds]
+
+[Disable animated GIF avatars (will not affect already open message windows)]
+
+[Close current tab on send]
+
+[Automatic keyboard layout: Do not load the system default for new contacts]
+
+[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+
+[Show client description in info panel]
+
+[On tab control]
+
+[On the button bar]
+
+[Disable error popups on sending failures]
+
+[Show a preview of the event]
+
+[Don't announce event when message dialog is open]
+
+[Don't announce events from RSS protocols]
+
+[Enable the system tray icon]
+
+[Merge new events for the same contact into existing popup]
+
+[Show headers]
+
+[Dismiss popup]
+
+[Open event]
+
+[Dismiss event]
+
+[Disable event notifications for instant messages]
+
+[Disable event notifications for group chats]
+
+[Disable notifications for non-message events]
+
+[Remove popups for a contact when the message window is focused]
+
+[Remove popups for a contact when I start typing a reply]
+
+[Remove popups for a contact when I send a reply]
+
+[Disable notifications]
+
 [System tray icon]
 Ikona v oznamovacej oblasti
+[Left click actions (popups only)]
+
+[Right click actions (popups only)]
+
+[Timeout actions (popups only)]
+
+[Combine notifications for the same contact]
+
+[Remove popups under following conditions]
+
+[Message window behavior]
+
+[Sending messages]
+
+[Close the message window on send]
+
+[Always flash contact list and tray icon for new messages]
+
+[Delete temporary contacts on close]
+
+[Enable "Paste and send" feature]
+
+[Allow BBCode formatting in outgoing messages]
+
+[Automatically split long messages (experimental, use with care)]
+
+[Log status changes]
+
+[Automatically copy selected text]
+
+[Message log appearance]
+
+[Support for external plugins]
+
+[Timestamp settings (note: timestamps also depend on your templates)]
+
+[Message log icons]
+
+[Show dates in timestamps]
+
+[Show seconds in timestamps]
+
+[Use contacts local time (if timezone info available)]
+
+[Draw grid lines]
+
+[Use Incoming/Outgoing Icons]
+
+[Use Message Grouping]
+
+[Simple text formatting (*bold*, etc.)]
+
+[Support BBCode formatting]
+
+[Place a separator in the log after a window lost its foreground status]
+
+[Only place a separator when an incoming event is announced with a popup]
+
+[Show events at the new line (IEView Compatibility Mode)]
+
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+
+[Show timestamp after nickname (IEView Compatibility Mode)]
+
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+
+[How to create tabs and windows for incoming messages]
+
+[Show status text on tabs]
+
+[Prefer xStatus icons when available]
+
+[Detailed tooltip on tabs (requires Tipper plugin)]
+
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+
+[Automatically create new message sessions without activating them]
+
+[New windows are minimized (the option above MUST be active)]
+
+[Activate a minimized window when a new tab is created inside it]
+
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+
+[Remember and set keyboard layout per contact]
+
+[Close button only hides message windows]
+
+[Allow TAB key in typing area (this will disable focus selection by TAB key)]
+
+[Add offline contacts to multisend list]
+
+;file \plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
+[Disable &typing notification]
+
+[Enable &typing notification]
+
+[...is typing a message.]
+
+[...has stopped typing.]
+
+[Contact started typing]
+
+[Contact stopped typing]
+
+;file \plugins\TabSRMM\src\userprefs.cpp
+[Always On]
+
+[Always Off]
+
+[Force Default Message Log]
+
+[Force History++]
+
+[Force IEView]
+
+[Set messaging options for %s]
+
+;file \plugins\TabSRMM\src\utils.cpp
+[Important release notes|A test warning message]
+
+[Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
+
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+
+[Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
+
+[Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
+
+[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
+
+[Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
+
+[Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
+
+[Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
+
+[Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
+
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Fraba textu
+;file \plugins\TabSRMM\src\chat\log.cpp
+[%s has joined]
+
+[You have joined %s]
+
+[%s has left]
+
+[%s has disconnected]
+
+[%s is now known as %s]
+
+[You are now known as %s]
+
+[%s kicked %s]
+
+[Notice from %s: ]
+
+[The topic is '%s%s']
+
+[ (set by %s on %s)]
+
+[ (set by %s)]
+
+[%s enables '%s' status for %s]
+
+[%s disables '%s' status for %s]
+
+;file \plugins\TabSRMM\src\chat\main.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
+[Add user to highlight list]
+
+[Edit user highlight list]
+
+;file \plugins\TabSRMM\src\chat\options.cpp
+[Input area background]
+
+[Log background]
+
+[Single Messaging]
+
+[Outgoing background]
+
+[Incoming background]
+
+[Status background]
+
+[Incoming background(old)]
+
+[Outgoing background(old)]
+
+[Horizontal Grid Lines]
+
+[Info Panel]
+
+[Panel background low]
+
+[Panel background high]
+
+[Common colors]
+
+[Toolbar background high]
+
+[Toolbar background low]
+
+[Window fill color]
+
+[Text area borders]
+
+[Aero glow effect]
+
+[Generic text color (only when fill color is set)]
+
+[Normal text]
+
+[Active text]
+
+[Hovered text]
+
+[Unread text]
+
+[Normal background]
+
+[Active background]
+
+[Hovered background]
+
+[Unread background]
+
+[>> Outgoing messages]
+
+[>> Outgoing misc events]
+
+[<< Incoming messages]
+
+[<< Incoming misc events]
+
+[>> Outgoing name]
+
+[>> Outgoing timestamp]
+
+[<< Incoming name]
+
+[<< Incoming timestamp]
+
+[>> Outgoing messages (old)]
+
+[>> Outgoing misc events (old)]
+
+[<< Incoming messages (old)]
+
+[<< Incoming misc events (old)]
+
+[>> Outgoing name (old)]
+
+[>> Outgoing timestamp (old)]
+
+[<< Incoming name (old)]
+
+[<< Incoming timestamp (old)]
+
+[* Message Input Area]
+
+[* Status changes]
+
+[* Dividers]
+
+[* Error and warning messages]
+
+[* Symbols (incoming)]
+
+[* Symbols (outgoing)]
+
 [Nickname]
 Prezívka
+[UIN]
+
+[Protocol]
+
+[Contacts local time]
+
+[Window caption (skinned mode)]
+
+[Open new chat rooms in the default container]
+
+[Flash window when someone speaks]
+
+[Flash window when a word is highlighted]
+
+[Create tabs or windows for highlight events]
+
+[Activate chat window on highlight]
+
+[Show list of users in the chat room]
+
+[Colorize nicknames in member list]
+
+[Show button menus when right clicking the buttons]
+
+[Show topic as status message on the contact list]
+
+[Do not pop up the window when joining a chat room]
+
+[Hide or show the window by double click in the contact list]
+
+[Sync splitter position with standard IM sessions]
+
+[Show contact's status modes if supported by the protocol]
+
+[Display contact's status icon before user role icon]
+
+[Use IRC style status indicators in the nick list]
+
+[Use alternative sorting method in member list]
+
+[Prefix all events with a timestamp]
+
+[Timestamp only when event time differs]
+
+[Timestamp has same color as the event]
+
+[Indent the second line of a message]
+
+[Limit user names in the message log to 20 characters]
+
+[Add a colon (:) to auto-completed user names]
+
+[Start private conversation on double click in nick list (insert nick if unchecked)]
+
+[Strip colors from messages in the log]
+
+[Enable the 'event filter' for new rooms]
+
+[Use IRC style status indicators in the log]
+
+[Allow clickable user names in the message log]
+
+[Colorize user names in message log]
+
+[Scale down icons to 10x10 pixels in the chat log]
+
+[Window Icon]
+
+[Icon overlay]
+
+[Status 1 (10x10)]
+
+[Status 2 (10x10)]
+
+[Status 3 (10x10)]
+
+[Status 4 (10x10)]
+
+[Status 5 (10x10)]
+
+[Status 6 (10x10)]
+
+[Message in (10x10)]
+
+[Message out (10x10)]
+
+[Action (10x10)]
+
+[Add Status (10x10)]
+
+[Remove Status (10x10)]
+
+[Join (10x10)]
+
+[Leave (10x10)]
+
+[Quit (10x10)]
+
+[Kick (10x10)]
+
+[Notice (10x10)]
+
+[Nickchange (10x10)]
+
+[Topic (10x10)]
+
+[Highlight (10x10)]
+
+[Information (10x10)]
+
+[Group chat windows]
+
+[Group chat log]
+
+[Appearance and functionality of chat room windows]
+
+[Appearance of the message log]
+
+[Voiced]
+
+[Half operators]
+
+[Channel operators]
+
+[Extended mode 1]
+
+[Extended mode 2]
+
+[Selection background]
+
+[Selected text]
+
+[Incremental search highlight]
+
+[Fields background]
+
+[Nick list background]
+
+[Group chat log background]
+
+[nick of current contact (if defined)]
+
+[protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
+
+[user-defined account name of current contact (if defined).]
+
+[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+
+[path to Miranda root folder]
+
+[path to current Miranda profile]
+
+[name of current Miranda profile (filename, without extension)]
+
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+
+[will return parsed string %miranda_userdata%\\Logs]
+
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+
+[username for currently logged-on Windows user]
+
+["My Documents" folder for currently logged-on Windows user]
+
+["Desktop" folder for currently logged-on Windows user]
+
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+
+[day of month, 1-31]
+
+[day of month, 01-31]
+
+[month number, 1-12]
+
+[month number, 01-12]
+
+[abbreviated month name]
+
+[full month name]
+
+[year without century, 01-99]
+
+[year with century, 1901-9999]
+
+[abbreviated weekday name]
+
+[full weekday name]
+
+[Variables]
+
 [All Files]
 Všetky súbory
 [Select Folder]
 Vyber zložku
+[No markers]
+
+[Show as icons]
+
+[Show as text symbols]
+
+;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s%s says:%s %s]
+
+[Look up '%s':]
+
+[No word to look up]
+
+[&Message %s]
+
+[Highlight User...]
+
+[Edit Highlight List...]
+
+;file \plugins\TabSRMM\src\chat\window.cpp
+[Unique ID]
+
 [Nick]
 Prezívka
+[%s: Chat Room (%u user%s)]
+
+[%s: Chat Room (%u users%s)]
+
+[, event filter active]
+
+[%s: Message Session]
+
+[%s: Message Session (%u users)]
+
+[, %d %s, %d %s idle]
+
+[hours]
+
+[hour]
+
+[minutes]
+
+[minute]
+
+[, %d %s idle]
+
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+
+[Event filter error]
+

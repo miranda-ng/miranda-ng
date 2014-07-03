@@ -7,7 +7,48 @@
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 Poskytuje možnosť rýchleho pridania nových kontaktov.
+;file \plugins\AddContactPlus\res\resource.rc
+[Add contact]
+
+[Add contact\nAdd a contact to your contact list]
+
+[Account:]
+
+[Contact ID:]
+
+[Custom name:]
+
+[Group:]
+
+[Options]
+
+[Add temporarily]
+
+[Send "You were added"]
+
+[Send authorization request]
+
 [Authorization request]
 Požiadavka na autorizáciu
+[&Add]
+
+[&Cancel]
+
+;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+
 [None]
 Žiadne
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+
+;file \plugins\AddContactPlus\src\main.cpp
+[&Add contact...]
+
+[Open add contact dialog]
+
+[Main]
+
+[AddContact+]
+

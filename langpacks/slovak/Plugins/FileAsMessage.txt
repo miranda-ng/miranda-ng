@@ -7,11 +7,97 @@
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
 Posiela súbory ako jednoduchý text cez správu.
+;file \plugins\FileAsMessage\res\resources.rc
+[fileAsMessage]
+
+[Filename:]
+
 [Size:]
 Veľkosť:
+[Chunk size]
+
+[ms]
+
+[Delays between sends]
+
 [bytes]
 bytov
+[Transfer settings]
+
+[Appearance]
+
+[Unsent]
+
+[Sent]
+
+[To send]
+
+[Received]
+
+[Use only alphanumeric encoding on transfer]
+
+[Extra options: Events > File Transfers, "Receiving files" group]
+
+;file \plugins\FileAsMessage\src\dialog.cpp
+[File already exists. Overwrite?]
+
+[Couldn't open a file]
+
+[Size: %d bytes]
+
+[Request sent. Awaiting of acceptance..]
+
 [Sending...]
 Odosielam...
+[Received successfully]
+
+[Requesting of missing chunks]
+
 [Receiving...]
 Prijímam...
+[Sent successfully]
+
+[Unknown command for "File As Message" was received]
+
+[Incoming file request. Do you want to proceed?]
+
+[Canceled by remote user]
+
+[New incoming file request. Do you want to proceed?]
+
+[File transfer is paused because of dropped connection]
+
+[Failed on file initialization]
+
+[Paused...]
+
+[Synchronizing...]
+
+[Select a file]
+
+[Save as]
+
+[Can't get a file size]
+
+[Canceled by user]
+
+[Transfer is in progress. Do you really want to close?]
+
+;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+
+[Pause]
+
+[Revive]
+
+[Stop]
+
+[Main]
+
+[Events]
+Udalosti
+[File As Message...]
+
+;file \plugins\FileAsMessage\src\main.h
+[File As Message]
+

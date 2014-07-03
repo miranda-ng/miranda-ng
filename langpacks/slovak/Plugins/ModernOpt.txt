@@ -7,19 +7,55 @@
 ;============================================================
 [Support for new options design.]
 Podpora pre nový dizajn nastavení.
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+
+[Sample page]
+
+[Miranda NG Options]
+
+[Use arrow keys to choose category]
+
 [Cancel]
 Storno
 [Apply]
 Aplikovať
+[Switch to classic options]
+
 [Advanced]
 Podrobne
+;file \plugins\ModernOpt\src\modernopt.cpp
 [Home]
 Domov
+[Miranda NG configuration center]
+
+[Accounts]
+
+[Setup your account information to start messaging.]
+
 [Style]
 Štýl
+[Change the look of Miranda NG according to your taste.]
+
 [Contacts]
 Kontakty
+[Configure behavior of your contact list.]
+
+[Chats]
+
+[Customize look&&feel of your chat windows here.]
+
 [Ignore]
 Ignorovať
+[Ban those users and events, you are annoyed with.]
+
 [Status]
 Stav
+[Set your status messages and idle reporting.]
+
+[Addons]
+
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+

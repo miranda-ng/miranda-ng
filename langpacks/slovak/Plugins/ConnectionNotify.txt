@@ -7,17 +7,76 @@
 ;============================================================
 [Notify with popup if some connection established]
 Zobrazí oznámenie "popup-om", keď sa pripojenie podarilo.
+;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+[Set popup colors]
+
 [Popup options]
 Popup nastavenia
 [Background]
 Pozadie
 [Text]
 Text
+[Close after:]
+
+[sec (0 default, -1 disabled)]
+
+[Settings]
+
+[try resolve addresses]
+
 [Version:]
 Verzia:
+[Show notification if no filter defined]
+
+[Attempt interval (ms)]
+
+[X]
+
+['Online' means:]
+
+[Filters]
+
+[DN]
+
+[UP]
+
+[Rule editor]
+
+[Application name]
+
+[Local IP:Port]
+
+[Action:]
+
 [Cancel]
 Storno
+[* and ? wildcard characters also available (for port enter number or *)]
+
+[Remote IP:Port]
+
+;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Zobraziť
+[Hide]
+
+[Always show popup]
+
+[Never show popup]
+
 [Status]
 Stav
+[Application]
+
+[Internal socket]
+
+[External socket]
+
+[Action]
+
+[Plugins]
+
+[New Connection Notification]
+
+;file \plugins\ConnectionNotify\src\filter.cpp
+[First close options window]
+

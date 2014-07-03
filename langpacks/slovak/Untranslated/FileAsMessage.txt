@@ -36,6 +36,5 @@
 [Revive]
 [Stop]
 [Main]
-[Events]
 [File As Message...]
 [File As Message]

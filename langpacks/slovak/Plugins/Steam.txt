@@ -1,0 +1,64 @@
+﻿#muuid {68f5a030-ba32-48ec-9507-5c2fbdea5217}
+;============================================================
+;  File: Steam.dll
+;  Plugin: Steam protocol
+;  Version: 0.11.0.1
+;  Authors: unsane
+;============================================================
+[Steam protocol support for Miranda NG.]
+
+;file \protocols\Steam\res\Resource.rc
+[Username:]
+Užív. meno:
+[Password:]
+Heslo:
+[Default group:]
+
+[Account]
+
+[Captcha]
+
+[Cancel]
+Storno
+[Steam Guard]
+
+[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
+
+[Go to email domain]
+
+[Block]
+
+;file \protocols\Steam\src\steam_contacts.cpp
+[%s has added you to his or her Friend List]
+
+;file \protocols\Steam\src\steam_dialogs.cpp
+[Fatal error, image services not found. Avatar services will be disabled.]
+
+[Avatar Service]
+
+[Name]
+Meno
+;file \protocols\Steam\src\steam_events.cpp
+[%s connection]
+
+[Network]
+Sieť
+[Blocked contacts]
+
+;file \protocols\Steam\src\steam_menus.cpp
+[Steam menu chooser]
+
+[Request authorization]
+
+[Join to game]
+
+;file \protocols\Steam\src\steam_pooling.cpp
+[%s has been removed from your contact list]
+
+;file \protocols\Steam\src\steam_proto.cpp
+[Protocols]
+
+[Protocol icon]
+
+[SteamID]
+

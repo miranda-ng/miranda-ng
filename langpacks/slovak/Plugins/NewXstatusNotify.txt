@@ -7,6 +7,7 @@
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Oznamuje, keď si kontakt zmení status, extra status alebo statusovú správu.
+;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Oznám keď sa kontakt zmení na jeden zo stavov
 [Online]
@@ -29,50 +30,191 @@ Nerušiť
 Na obede
 [On the phone]
 Telefonuje
+[Always when changing from offline]
+
 [Plugin activation]
 Aktivácia pluginu
 [Automatically turn off Popups and Sounds on status change]
 Automaticky vypni oznamy a zvuky pri zmene štatútu
 [Configure]
 Konfigurovať
+[Notify me for people not in my Contact List]
+
+[Blink icon in the system tray]
+
+[Use status icon]
+
+[Use individual sounds]
+
+[Log to file]
+
+[Enable]
+
+[Extra status]
+
+[Open]
+
+[Status message]
+
+[Log in history]
+
+[Log status changes in history]
+
+[Only when message window is open]
+
+[Change]
+
+[Preview]
+
+[Delete]
+
+[Enable sounds]
+
+[Enable popups]
+
 [Status Notify]
 Oznámenie stavu
+[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
+
 [Sounds]
 Zvuky
+[Popups]
+
+[Extra status notify]
+
+[Extra status logging]
+
+[Disable all]
+
+[Enable all]
+
 [Background]
 Pozadie
 [Text]
 Text
 [Colors]
 Farby
+[Use custom colors]
+
+[Use Windows colors]
+
+[Use Popup colors]
+
+[Popup text]
+
+[Read status message]
+
+[Show previous status too]
+
 [Timeout]
 Časový limit
+[Popups when status changes to:]
+
+[Click action]
+
+[Show contact group name]
+
+[Use alternative descriptions]
+
+[0 = Default]
+
+[-1 = Infinite]
+
 [Sec]
 sek
 [On left click]
 јavým klikom
 [On right click]
 Pravým klikom
+[Show status description]
+
+[Ignore empty status and xStatus messages]
+
+[Connection timeout]
+
+[Notification]
+
+[Disable for extra status 'Music']
+
+[Truncate message length to:]
+
+[characters]
+
+[Templates]
+
+[Title - text delimiter:]
+
+[Remove:]
+
+[New message:]
+
+[New status:]
+
+[Variables]
+
 [Reset]
 Reset
+[Disable notifications]
+
 [Cancel]
 Storno
+[Disable globally]
+
+[Disable only if I change global status]
+
+[Disable when my status is:]
+
+[Extra status log]
+
+[Enable logging extra status to message window]
+
+[Keep events in history]
+
+[Prevent identical logs]
+
+[On opening ML:]
+
+[General]
+
 [Show Popups when I connect]
 Zobraz oznámenie ak je pripojený
+[Accounts]
+
+[Enable/Disable accounts which you don't wish to be notified for:]
+
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Sound files]
+
 [All files]
 Všetky súbory
+[Wave files]
+
 [Status]
 Stav
 [Sound for the status]
 Zvuk pre stav
+[From offline]
+
 [** All contacts **]
 ** Všetky kontakty **
+;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (prednastavený zvuk)
+;file \plugins\NewXstatusNotify\src\main.cpp
+[<no status message>]
+
 [Contact]
 Kontakt
 [connecting]
 Pripájam sa
+[aborting]
+
+[playing]
+
+[%s is now %s]
+
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+
 [(M) is back online!]
 je opäť pripojený!
 [(F) is back online!]
@@ -89,6 +231,12 @@ je odpojená! :(
 je odpojený! :(
 [User: Offline]
 Užívateľ: odpojený
+[(M) hides in shadows...]
+
+[(F) hides in shadows...]
+
+[(U) hides in shadows...]
+
 [User: Invisible]
 Užívateľ: neviditeľný
 [(M) feels talkative!]
@@ -147,9 +295,100 @@ telefonuje
 telefonuje
 [User: On The Phone]
 Užívateľ: telefonuje
+[Enable status notification]
+
+[Disable status notification]
+
+[Notification enabled]
+
+[Notification disabled]
+
+[New Status Notify]
+
+[User: from offline (has priority!)]
+
+[Extra status changed]
+
+[Extra status message changed]
+
+[Extra status removed]
+
+[Toggle status notification]
+
+[Status change]
+
+;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Všetky súbory
 [Log]
 Log
+[This is status message]
+
+[Do you want to reset all templates to default?]
+
+[Reset templates]
+
+[Show available variables]
+
+[Reset all templates to default]
+
+[Protocol]
+
+[Filtering]
+
+[Message log]
+
+;file \plugins\NewXstatusNotify\src\popup.h
+[(was %s)]
+
+[Open message window]
+
+[Close popup]
+
+[Open contact details window]
+
+[Open contact menu]
+
+[Open contact history]
+
+[Do nothing]
+
+;file \plugins\NewXstatusNotify\src\utils.cpp
 [You cannot specify a value lower than %d and higher than %d.]
 Nezadali ste hodnotu menšiu alebo väčšiu ako %d.
+[Can't open the log file!]
+
+[NewXstatusNotify]
+
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Mood]
+
+[Activity]
+
+[Xstatus]
+
+[<unknown>]
+
+[%s, %s. %s removed %s.\r\n]
+
+[%s, %s. %s changed %s to: %s.\r\n]
+
+;file \plugins\NewXstatusNotify\src\xstatus.h
+[changed %N to: %T%D%I]
+
+[changed %N message to:%D%I]
+
+[removed %N]
+
+[changed his/her status message to %n]
+
+[changed %N @ %T%D%I]
+
+[changed %N message @ %I]
+
+[has %N @ %T%D%I]
+
+[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
+
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+

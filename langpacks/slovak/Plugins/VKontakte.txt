@@ -7,15 +7,98 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Podpora VKontakte protokolu pre Mirandu NG.
+;file \protocols\VKontakte\res\resource.rc
+[E-mail or phone number:]
+
 [Password:]
 Heslo:
+[Open VKontakte site]
+
+[Login settings]
+
+[Local settings]
+
+[Contact list group:]
+
 [Advanced]
 Podrobne
+[Server-side delivery confirmation]
+
+[Hide chats on startup]
+
+[Automatically wipe local contacts missing in your Friends list]
+
+[Bots challenge test]
+
 [Instruction:]
 Inštrukcie:
+[Submit]
+
 [Cancel]
 Storno
+[Invite user to chat]
+
+[Choose one of your contacts to be invited:]
+
+[Create group chat]
+
+[Mark users you want to invite to a new chat]
+
+[New chat's title:]
+
+;file \protocols\VKontakte\src\misc.cpp
+[Captcha form icon]
+
+[Protocols]
+
+[VKontakte]
+
+;file \protocols\VKontakte\src\vk_captcha.cpp
+[Enter the text you see]
+
+;file \protocols\VKontakte\src\vk_chats.cpp
+[Participants]
+
+[Owners]
+
+[Unknown]
+neznáme
+[Enter new chat title]
+
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+
+[Warning]
+Varovanie
+[&Invite a user]
+
+[View/change &title]
+
+[&Destroy room]
+
+[&User details]
+
+[&Kick]
+
+;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Sieť
+[Account]
+
+;file \protocols\VKontakte\src\vk_proto.cpp
+[%s server connection]
+
+[Create new chat]
+
+;file \protocols\VKontakte\src\vk_thread.cpp
+[Attachments:]
+
 [Photo]
 Fotografia
+[Audio]
+
+[Video]
+
+[Document]
+
+[Unsupported or unknown attachment type: %s]
+

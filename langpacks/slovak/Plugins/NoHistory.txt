@@ -7,5 +7,37 @@
 ;============================================================
 [Prevent Miranda from storing any history.]
 Doplnok zabraňujúci Mirande ukladať históriu.
+;file \plugins\NoHistory\res\NoHistory.rc
+[Keep history for this contact]
+
+[Disable history for this contact]
+
+;file \plugins\NoHistory\src\dllmain.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+
+[Clear History]
+
+[Enable History]
+
+[Disable History]
+
+[History Enabled]
+
+[History Disabled]
+
+;file \plugins\NoHistory\src\icons.cpp
+[Disable]
+
+[Enable]
+
+[Clear]
+
+[No History]
+
+;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Všetky kontakty **
+[History]
+
+[Logging]
+

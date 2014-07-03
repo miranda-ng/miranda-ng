@@ -7,7 +7,168 @@
 ;============================================================
 [Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
 Umožňuje pridať skratky do zoznamu kontaktov, ktoré fungujú ako skratky na otvorenie programov alebo web stránok.
+;file \plugins\Non-IM Contact\res\resource.rc
+[View/Edit Files]
+
+[Add File]
+
+[Add URL]
+
+[Remove Selected File]
+
+[file(#)]
+
+[URL]
+
+[Update URL every]
+
+[Intervals]
+
+[If the protocol timer is disabled web pages won't be updated]
+
+[contact display info]
+
+[Contacts display name]
+
+[Contacts Tooltip]
+
+[other settings]
+
+[Link]
+
+[Program parameters:]
+
+[O&pen File]
+
+[O&pen Folder]
+
+[Link Settings]
+
+[Contact list settings]
+
+[Group:]
+
+[Status Icon]
+
+[Group\\Sub-Group]
+
+[Timer Settings]
+
+[Use Timer]
+
+[Contact is always visible]
+
+[Unless Non-IM Contacts protocol is OFFLINE]
+
+[Timer Intervals.  ]
+
+[Dialog]
+
+[Away as another status]
+
+[Disable timer]
+
+[Timer interval (in seconds)]
+
+[This will take affect after Non-IM Contacts' status is changed]
+
+[Timer Options]
+
+[String Maker]
+
+[&Test String]
+
+[&Exit]
+
+[String to test]
+
+[Returns....]
+
+[line()]
+
+[start()]
+
+[end()]
+
+[wholeline()]
+
+[csv()]
+
+[file()]
+
+[filename()]
+
 [Help]
 Pomoc
+[Copy / Export contact]
+
+[&Export Non-IM Contact]
+
+[Co&py Non-IM Contact]
+
+[Type one replace string per line in the format "original text,new text"]
+
+[EXAMPLE: %fn1,%fn2]
+
+;file \plugins\Non-IM Contact\src\contactinfo.cpp
 [Select Folder]
 Vyber zložku
+[Non-IM Contact protocol timer is Disabled]
+
+[Timer intervals... Non-IM Contact Protocol timer is %d seconds]
+
+[New Non-IM Contact]
+
+;file \plugins\Non-IM Contact\src\dialog.cpp
+[String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\nfile(X)\t\t<- specifies the file to read from. MUST be followed by either start() or end() or wholeline()\r\nfilename(X)\t<- copies the filename of file X.\r\nstart(...)\t\t<- specifies where to start copying from.\r\nend(...)\t\t<- specifies where to stop copying.\r\nwholeline(line(...))\t<- specifies a whole line to copy\r\n\r\nstart() and end() explained\r\n.........................\r\nMUST start with line() followed by a number or a string inside " marks, OR csv(separatorX) variable. The number specifies which character in the line to start/end copying. The string specifies a string in the line to start/end copying.\r\n\r\ncsv(seperatorX) explained...\r\nSeperator is either "tab" or "space" or any SINGLE character. X is the Xth seperator to pass before copying, (or to stop before).\r\n\r\nLastly the line(...) variable...\r\nInside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X). The X in lastline is the Xth line above the last line, i.e., lastline(1) will use the 2nd last line of the file. If searching for a line with "some words" you may put a + or - X after the closing ), i.e., line("some words")+3 to go 3 lines after the line with "some words".\r\n\r\nSome Examples...\r\nfilename(0)    <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0)))    <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line("hello")-1)))    <- the wholeline above the first occurrence of "hello" in the file\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4)))    <- starts at the 2nd last line of the file, from the 2nd tab variable, until the 4th tab variable in the last line (in the 0th file)\r\nfile(0)start(line("hello")+1"zzzz")end(line(6)17))    <- starts from the first occurrence of zzzz in the line after the first occurrence of hello, until the 17th character in the 6th line (starting from line 0) of the 0th file.\r\n]
+
+[Contacts Display Info]
+
+[Link and Contact list Settings]
+
+[Copy Contact]
+
+[Files]
+
+[Edit Non-IM Contact "%s"]
+
+;file \plugins\Non-IM Contact\src\files.cpp
+[Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]
+
+[File couldn't be opened]
+
+[File couldn't be opened,2]
+
+[line(%-3d) = | %s]
+
+;file \plugins\Non-IM Contact\src\http.cpp
+[Non-IM Contacts]
+
+;file \plugins\Non-IM Contact\src\main.cpp
+[Plugins]
+
+[Main Icon]
+
+[Non-IM Contact]
+
+[&Non-IM Contact]
+
+[&Add Non-IM Contact]
+
+[&View/Edit Files]
+
+[&Export all Non-IM Contacts]
+
+[&Import Non-IM Contacts]
+
+[&String Maker]
+
+[E&dit Contact Settings]
+
+;file \plugins\Non-IM Contact\src\namereplacing.cpp
+[%s - ERROR: no line specified or line not found (in %s)]
+
+[%s - ERROR: file couldn't be opened (in %s)]
+
+[%s - ERROR: no file specified in settings (in %s)]
+

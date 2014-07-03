@@ -32,7 +32,7 @@
 [Send all messages in unicode if possible]
 [Use this codepage for Ansi <-> Unicode translation:]
 [Make me temporarily visible to contacts I send message to]
-[Notify me when a message delivery has failed (old method)]
+[Notify me when a message delivery has failed]
 [Peer-to-peer Messaging]
 [Enable peer-to-peer message connections]
 [Passive mode (i.e., do not initiate new connections)]

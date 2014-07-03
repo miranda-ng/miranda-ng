@@ -7,9 +7,38 @@
 ;============================================================
 [Shows ignore state of contact in contact list.]
 Zobrazuje stav ignorácie pre kontakty v zozname kontaktov.
+;file \plugins\IgnoreState\res\ignore.rc
+[Plugin settings]
+
+[Filtered events:]
+
+[Use Miranda ignore settings for All Contacts]
+
+;file \plugins\IgnoreState\src\main.cpp
+[All]
+
+[Messages]
+
+[URL]
+
+[Files]
+
 [User Online]
 Pripojený užívatel
+[Authorization]
+
 [You Were Added]
 Boli ste pridaný
+[Typing Notify]
+
+[Full Ignore]
+
+[Partial Ignore]
+
+[Message Ignore]
+
+[Ignore State]
+
+;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 Ikony

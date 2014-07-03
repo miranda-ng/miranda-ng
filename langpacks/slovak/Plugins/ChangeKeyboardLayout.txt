@@ -7,21 +7,82 @@
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
 Mení rozloženie textu na klávesnici.
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Klávesové skratky
+[Changing layout:]
+
+["Current word" mode]
+
+[Changing layout (alternative):]
+
+[Inverting lettercase:]
+
+[Options]
+
+[Two-way changing layout (experimental)]
+
+[Log operations]
+
+[Copy result to clipboard]
+
+[Show result in Popup]
+
+[Strings for keyboard layouts]
+
 [Default]
 Prednastavené
+[Invert current state]
+
+[Switch off]
+
+[Leave as it is]
+
+[Set Caps Lock state when inverting lettercase:]
+
+[Change active keyboard layout in system]
+
 [Colors]
 Farby
+[Popup colors]
+
+[Windows colors]
+
+[Custom colors]
+
 [Back]
 Späť
 [Text]
 Text
 [Timeout]
 Časový limit
+[From Popup plugin]
+
+[Permanent]
+
+[Custom]
+
 [On left click]
 јavým klikom
+[Copy to clipboard]
+
 [Dismiss]
 Zrušiť
 [On right click]
 Pravým klikom
+[Preview]
+
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+[ChangeKeyboardLayout]
+
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Popup]
+
+[Changing Layout]
+
+[Changing Case]
+
+[Message Sessions]
+
+[Popups]
+

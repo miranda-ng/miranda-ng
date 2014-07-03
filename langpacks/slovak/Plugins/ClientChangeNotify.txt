@@ -7,15 +7,87 @@
 ;============================================================
 [Shows a notification when someone in your contact list changes his client.]
 Zobrazí oznámenie, keď niekto zo zoznamu kontaktov zmení klienta.
+;file \plugins\ClientChangeNotify\res\Resources.rc
+[ClientChangeNotify error]
+
+[Fingerprint plugin not found.]
+
+[ClientChangeNotify requires it to work properly.]
+
+[Don't remind me anymore]
+
+[Enable notification]
+
+[Show previous client name]
+
+[Notify also when just client version changes]
+
+[Show client version]
+
+[Don't notify for contacts with disabled status notification]
+
+[Click action]
+
 [On left click]
 јavým klikom
 [On right click]
 Pravým klikom
+[Delay]
+
 [Sec]
 sek
+[0 = Default]
+
+[-1 = Infinite]
+
 [Colors]
 Farby
 [Background]
 Pozadie
+[Use default]
+
 [Text]
 Text
+[Preview]
+
+[Ignore these clients (separated by semicolons):]
+
+[(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
+
+;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
+[changed client to %s (was %s)]
+
+[changed client to %s]
+
+[%s (was %s)]
+
+[Disable c&lient change notification]
+
+[Enable c&lient change notification]
+
+[Popups]
+
+[ClientChangeNotify: Client changed]
+
+;file \plugins\ClientChangeNotify\src\Misc.h
+[Error #%d]
+
+[Can't open log file ]
+
+;file \plugins\ClientChangeNotify\src\OptDlg.cpp
+[(you can use regular expressions here)]
+
+[Open message window]
+
+[Close popup]
+
+[Open contact details window]
+
+[Open contact menu]
+
+[Open contact history]
+
+[Do nothing]
+
+[ClientChangeNotify]
+
