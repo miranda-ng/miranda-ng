@@ -117,7 +117,7 @@ Ninguno
 [Appearance]
 Apariencia
 [Background Color]
-
+Color de fondo
 [Custom...]
 
 [Reset]
@@ -305,7 +305,7 @@ Días
 [Every]
 Cada
 [Seconds]
-
+Segundos
 [Never]
 
 [Default]

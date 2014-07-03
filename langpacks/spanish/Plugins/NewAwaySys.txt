@@ -27,7 +27,7 @@
 [Delay]
 
 [Sec]
-
+Seg
 [0 = Default]
 
 [-1 = Infinite]
@@ -35,11 +35,11 @@
 [Colors]
 
 [Background]
-
+Fondo
 [Use default]
 
 [Text]
-
+Texto
 [Only notify when:]
 
 [On&line]
@@ -97,7 +97,7 @@
 [Send an autoreply]
 
 [&Delete]
-
+&Borrar
 [New &category]
 
 [Save as &new]
@@ -113,9 +113,9 @@
 [New category]
 
 [Delete]
-
+Eliminar
 [Status messages:]
-
+Mensajes de estado:
 [Configure autoaway]
 
 [Wait]
@@ -151,15 +151,15 @@
 [Update status messages for non-ICQ protocols every]
 
 [seconds]
-
+segundos
 [Don't show the message dialog for]
 
 [%s message for %s]
-
+%s mensaje(s) para %s
 [Retrieving %s message...]
-
+Recuperando %s mensaje(s)...
 [&Cancel]
-
+&Cancelar
 [Notify of requests]
 
 [Don't notify of requests]
@@ -191,7 +191,7 @@
 [Create new &category]
 
 [&Rename]
-
+&Renombrar
 [Set as &default for]
 
 ;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
@@ -208,23 +208,23 @@
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
 
 [Message]
-
+Mensaje
 [URL]
-
+URL
 [File]
-
+Archivo
 [** All contacts **]
-
+** Todos los contactos **
 [** Not-on-list contacts **]
 
 [Status messages]
-
+Mensajes de estado
 [Main options]
 
 [Autoreply]
 
 [Contacts]
-
+Contactos
 [Predefined messages]
 
 [Recent messages]
@@ -240,39 +240,39 @@
 [Default messages]
 
 [Online]
-
+En línea
 [Yep, I'm here.]
-
+Sí, estoy aquí.
 [Away]
-
+Fuera
 [Been gone since %nas_awaysince_time%, will be back later.]
 
 [NA]
-
+No disponible
 [Give it up, I'm not in!]
-
+¡Dejenme, no estoy!
 [Occupied]
-
+Ocupado
 [Not right now.]
-
+No en este momento.
 [DND]
-
+No molestar
 [Give a guy some peace, would ya?]
-
+Dame un poco de paz, ¿quieres?
 [Free for chat]
-
+Libre para el chat	
 [I'm a chatbot!]
-
+¡Soy un chatbot!
 [Invisible]
-
+Invisible
 [I'm hiding from the mafia.]
-
+Me estoy escondiendo de la mafia.
 [On the phone]
-
+En el teléfono
 [I've been on the phone since %nas_awaysince_time%, give me a sec!]
 
 [Out to lunch]
-
+Salí a comer
 [Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
 
 ;file \plugins\NewAwaySysMod\src\AwaySys.cpp
@@ -283,7 +283,7 @@
 [Set %s message for the contact]
 
 [Re&ad %s message]
-
+Leer %s mens&aje(s)
 [Toggle autoreply on/off]
 
 [Toggle autoreply off]
@@ -323,9 +323,9 @@
 [Set status message]
 
 [On]
-
+Encendido
 [Off]
-
+Apagado
 [Use the default setting]
 
 [NewAwaySys: Incoming status message request]
@@ -338,9 +338,9 @@
 [Away System]
 
 [Status]
-
+Estado
 [Popups]
-
+Ventanas emergentes
 [Variables plugin is not installed]
 
 ;file \plugins\NewAwaySysMod\src\MsgTree.cpp
@@ -359,7 +359,7 @@
 
 ;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
-
+&Cerrar
 ;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
 [Save, replacing the selected message]
 
@@ -372,7 +372,7 @@
 [Send an autoreply to selected contact(s)]
 
 [Apply]
-
+Aplicar
 [Do you want to apply the message?]
 
 [Set message for]
@@ -382,10 +382,10 @@
 [message for]
 
 [for]
-
+para
 [available autoreply only]
 
 [all accounts]
 
 [Closing in %d]
-
+Cerrando en %d

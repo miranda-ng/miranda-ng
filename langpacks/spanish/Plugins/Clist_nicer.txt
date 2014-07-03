@@ -553,7 +553,7 @@ Color de texto
 [Copy from]
 
 [<None>]
-
+<Nada>
 [Raised]
 
 [Sunken]
@@ -707,7 +707,7 @@ Configurar modos de vista
 [My contacts]
 
 [Default]
-
+Por defecto
 [Overlay icons]
 
 [%s connecting]
@@ -862,7 +862,7 @@ Marcos
 [Visible]
 
 [Show title bar]
-
+Mostrar barra de título
 [Skinned frame]
 
 [Floating]
@@ -872,7 +872,7 @@ Marcos
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [New group]
-
+Nuevo grupo
 [Group menu]
 
 [&Hide/show]

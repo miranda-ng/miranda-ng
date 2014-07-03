@@ -405,7 +405,7 @@ minutos de pasado
 [Typing Notification]
 Escribiendo notificación
 [Send typing notifications to the following users when you are typing a message to them:]
-
+Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
 [        Show typing notifications in the message window]
 
 [Flash window once on typing events (only if flashing enabled)]
@@ -455,7 +455,7 @@ Reiniciar
 [Hide if there isn't enough space]
 
 [Insert Separator]
-
+Insertar separador
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 
 [Tabs should be used in the following way]
@@ -869,9 +869,9 @@ Fuente
 [&View]
 
 [Show Menu Bar]
-
+Mostrar barra de menú
 [Show Status Bar]
-
+Mostrar barra de estado
 [Info Panel...]
 
 [Toolbar]
@@ -1053,13 +1053,13 @@ Archivo entrante
 [Version]
 Versión
 [%s is typing a message...]
-
+%s está escribiendo un mensaje...
 [Last received: %s at %s]
 
 [%s has entered text.]
 
 [%s is typing a message]
-
+%s está escribiendo un mensaje
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
@@ -1182,7 +1182,7 @@ Pegar y Enviar
 [chat room]
 
 [contact]
-
+Contacto
 [Do not synchronize the panel height with IM windows]
 
 [Do not synchronize the panel height with group chat windows]
@@ -2037,7 +2037,7 @@ Acción (10x10)
 [Add Status (10x10)]
 Añadir estado (10x10)
 [Remove Status (10x10)]
-
+Quitar estado (10x10)
 [Join (10x10)]
 Unirse (10x10)
 [Leave (10x10)]
@@ -2083,7 +2083,7 @@ Texto seleccionado
 [Fields background]
 
 [Nick list background]
-
+Fondo de lista de usuarios
 [Group chat log background]
 
 [nick of current contact (if defined)]

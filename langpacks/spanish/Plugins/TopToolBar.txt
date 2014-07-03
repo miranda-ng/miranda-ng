@@ -44,7 +44,7 @@ Establecer
 [Show accounts manager]
 
 [Find/add contacts]
-
+Buscar/agregar contactos
 [Show status menu]
 
 [Show/hide offline contacts]
@@ -64,7 +64,7 @@ Establecer
 [Enable groups]
 
 [Disable groups]
-
+Desactivar grupos
 [Enable/disable sounds]
 
 [Disable sounds]
@@ -74,7 +74,7 @@ Establecer
 [Minimize contact list]
 
 [Exit]
-
+Salir
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Por defecto

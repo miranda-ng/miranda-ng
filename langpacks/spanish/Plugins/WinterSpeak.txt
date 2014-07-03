@@ -27,7 +27,7 @@ Probar
 [Welcome Message]
 
 [Status Changes]
-
+Cambios de estado
 [Offline]
 Fuera de línea
 [Online]

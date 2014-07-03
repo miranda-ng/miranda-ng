@@ -336,7 +336,7 @@ Ventanas emergentes
 [Time left to next check [s]: %d]
 
 [New Account]
-
+Nueva cuenta
 [Executables]
 
 [All Files]

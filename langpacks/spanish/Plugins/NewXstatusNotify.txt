@@ -206,7 +206,7 @@ Estado
 [Contact]
 Contacto
 [connecting]
-
+conectando
 [aborting]
 
 [playing]

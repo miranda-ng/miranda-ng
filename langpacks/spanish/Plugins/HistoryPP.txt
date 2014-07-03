@@ -34,7 +34,7 @@
 [Outgoing WATrack notify]
 
 [&Copy Link]
-
+&Copiar enlace
 [WATrack notify]
 
 [Open Link]
@@ -426,7 +426,7 @@
 [Divider]
 
 [Incoming url]
-
+URL entrante
 [Outgoing contacts]
 
 [Outgoing file]
@@ -434,7 +434,7 @@ Archivo saliente
 [Outgoing SMS Message]
 
 [Outgoing url]
-
+URL saliente
 [Selected background]
 
 [SMTP Simple]
@@ -574,7 +574,7 @@ Archivo saliente
 [Incoming URL Sample]
 
 [Incoming Url]
-
+URL entrante
 [Make shure you have CAPS LOCK turned off.]
 
 [Make sure you have CAPS LOCK turned off.]
@@ -598,7 +598,7 @@ Archivo saliente
 [Outgoing URL Sample]
 
 [Outgoing Url]
-
+URL saliente
 [Recent at bottom]
 
 [Recent on top]
@@ -670,7 +670,7 @@ Solicitud de autorización
 [%d min]
 
 [&Reset to Default]
-
+&Restablecer valores predeterminados
 [Contact history]
 
 [Incoming nick]
@@ -686,7 +686,7 @@ Solicitud de autorización
 [Outgoing timestamp]
 
 [Open in &new window]
-
+Abrir en &nueva ventana
 [Open in existing &window]
 
 [Copy &Link]
@@ -694,11 +694,11 @@ Solicitud de autorización
 [Co&py]
 
 [Select &All]
-
+Elegir &todo
 [Send &Message]
-
+Enviar &mensaje
 [User Details]
-
+Información del usuario
 [Enable SmileyAdd support]
 
 [Always RTL]
@@ -710,10 +710,10 @@ Solicitud de autorización
 [Show event icons]
 
 [View user's history]
-
+Ver historial del usuario
 [View User's History]
-
+Ver historial del usuario
 [View &History]
-
+Ver &historial
 [User Menu]
-
+Menú del usuario

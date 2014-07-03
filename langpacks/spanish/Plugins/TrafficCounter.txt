@@ -99,7 +99,7 @@ Opciones
 Ventanas emergentes
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
-
+Bytes
 [KB]
 
 [MB]

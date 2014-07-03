@@ -29,7 +29,7 @@ Ignorar
 [Send 'You were added']
 
 [Request Authorization]
-
+Solicitar autorización
 [Browse Received Files]
 
 [Copy IP]

@@ -40,7 +40,7 @@
 [Out to &lunch]
 [Set my avatar...]
 [Set my nickname...]
-[Set my status Message...]
+[Set my status message...]
 [Enable listening to]
 [Show next account]
 [Show previous account]

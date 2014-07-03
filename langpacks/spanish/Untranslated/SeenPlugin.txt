@@ -47,8 +47,6 @@
 [AM/PM]
 [minutes]
 [-- User --]
-[username]
-[nick]
 [UIN/handle]
 [Status message]
 [Old status]

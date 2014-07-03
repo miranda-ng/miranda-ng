@@ -29,7 +29,7 @@ Color de texto
 [Popup color settings]
 
 [Use windows colors]
-
+Usar colores de Windows
 [Use default Popup colors]
 
 [Choose colors]

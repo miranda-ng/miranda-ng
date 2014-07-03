@@ -46,7 +46,6 @@
 [&Watched Quotes:]
 [Status &Message:]
 [There is no to show]
-[Seconds]
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
 [Enter text to display in contact list.]

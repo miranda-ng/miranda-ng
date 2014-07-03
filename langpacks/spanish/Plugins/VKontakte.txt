@@ -21,7 +21,7 @@ Abrir sitio VKontakte
 [Contact list group:]
 
 [Advanced]
-
+Avanzado
 [Server-side delivery confirmation]
 
 [Hide chats on startup]
@@ -62,7 +62,7 @@ Introduzca el texto que aparece
 [Owners]
 
 [Unknown]
-
+Desconocido
 [Enter new chat title]
 
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]

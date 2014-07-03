@@ -5,7 +5,6 @@
 [Hide from list]
 [Copy to Account (Ctrl+click for move to Account)]
 [Send 'You were added']
-[Request Authorization]
 [Browse Received Files]
 [Copy IP]
 [Copy MirVer]

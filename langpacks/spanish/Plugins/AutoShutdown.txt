@@ -97,7 +97,7 @@ Eventos
 [Second(s)]
 
 [Minute(s)]
-
+Minuto(s)
 [Hour(s)]
 
 [Day(s)]

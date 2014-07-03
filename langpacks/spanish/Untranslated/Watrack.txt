@@ -291,7 +291,6 @@
 [Kilobytes]
 [Megabytes]
 [Precision]
-[none]
 [kb]
 [Kb]
 [KB]

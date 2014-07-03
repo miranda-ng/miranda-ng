@@ -103,7 +103,7 @@ Limpiar historial
 [Set status after]
 
 [milliseconds]
-
+milisegundos
 [Protocol:]
 
 [Status:]
@@ -202,7 +202,7 @@ Leer %s mensaje(s)
 [<current>]
 <presente>
 [Clear history]
-
+Limpiar historial
 [Add to predefined]
 
 [Delete selected]

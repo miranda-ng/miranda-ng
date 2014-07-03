@@ -63,20 +63,20 @@ Editar
 [File:]
 
 [Description:]
-
+Detalles:
 [Result]
 
 [Thumbnail]
 
 [&Copy]
-
+&Copiar
 [Close]
-
+Cerrar
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Resulting URL from\n]
 
 [Copy]
-
+Copiar
 [Copy BBCode]
 
 [Copy BBCode w/ link]
@@ -136,7 +136,7 @@ Se ha producido un error desconocido.
 
 ;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
-
+Transferencia de archivos
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 
@@ -254,7 +254,7 @@ Ventana
 [ (primary)]
 
 [File]
-
+Archivo
 [<Only save>]
 
 [File Transfer]

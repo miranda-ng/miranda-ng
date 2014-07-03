@@ -74,7 +74,7 @@ A:
 [From %s:\r\n\r\n]
 
 [Events]
-
+Eventos
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
 
@@ -99,7 +99,7 @@ Ver historial del usuario
 [The SMS message send to %s timed out.]
 
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-
+El número de teléfono debe comenzar con + y se componen sólo de números, espacios, paréntesis y guiones.
 [Invalid Phone Number]
 Número de teléfono no válido
 [Message is too long, press OK to continue.]

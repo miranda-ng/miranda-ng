@@ -7,7 +7,6 @@
 [Default Popup delay]
 [Choose delay time]
 [Popup color settings]
-[Use windows colors]
 [Use default Popup colors]
 [Choose colors]
 [File access filter && logging settings]

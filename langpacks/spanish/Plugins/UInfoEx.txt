@@ -257,7 +257,7 @@ Ninguno
 [Show menu item]
 
 [Main menu]
-
+Menú principal
 [Cascade:]
 
 [Off]
@@ -265,7 +265,7 @@ Apagado
 [Export/import items]
 
 [Contact menu]
-
+Menú de contacto
 [Group menu]
 
 [Subgroup menu]
@@ -273,7 +273,7 @@ Apagado
 [Account menu]
 
 [Extra icons]
-
+Iconos adicionales
 [Replace the following default icons:]
 
 [Homepage]
@@ -281,7 +281,7 @@ Apagado
 [Phone]
 
 [E-mail]
-
+E-mail
 [Gender]
 
 [Misc]
@@ -411,7 +411,7 @@ Editar número de teléfono
 Otro
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
-
+<Sin especificar>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 
@@ -641,7 +641,7 @@ Ver/Modificar mis datos...
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
-
+Mis notas:
 [About:]
 Acerca de:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
@@ -1202,7 +1202,7 @@ Todos los contactos
 
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
-
+todos los contactos
 [Select a destination file...]
 
 [Import User Details from VCard]

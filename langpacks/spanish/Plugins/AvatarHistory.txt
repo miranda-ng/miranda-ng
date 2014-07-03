@@ -11,7 +11,7 @@
 [Avatar List Popup]
 
 [Save As...]
-
+Guardar como...
 [Delete this entry]
 
 [Delete this entry and the bitmap file]

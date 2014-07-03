@@ -61,9 +61,9 @@ Género:
 [Age:]
 Edad:
 [from:]
-
+de:
 [to:]
-
+a:
 [Birthday:]
 
 [Zodiac:]
@@ -305,11 +305,11 @@ Protocolos
 [Main Menu]
 Menú Principal
 [Contact Menu]
-
+Menú de contacto
 [Extra status]
 
 [Custom Status]
-
+Estado personalizado
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Ninguno

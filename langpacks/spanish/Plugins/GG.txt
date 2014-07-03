@@ -133,7 +133,7 @@ Eliminar
 [Age from:]
 
 [to:]
-
+a:
 [Search online users only]
 
 [&Close]
@@ -367,7 +367,7 @@ Todos los archivos
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
 
 [contacts]
-
+contactos
 [List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
 
 [List cannot be exported because of error:\n\t%s (Error: %d)]

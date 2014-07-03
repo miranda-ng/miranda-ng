@@ -77,7 +77,6 @@
 [Strip colors]
 [Send-ahead]
 [Attempt reverse DCC (good if firewalled)]
-[none]
 [everyone on the contact list]
 [everyone]
 [Disconnect DCC chats when disconnecting from server]

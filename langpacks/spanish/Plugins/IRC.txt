@@ -207,7 +207,7 @@ Normal
 [Attempt reverse DCC (good if firewalled)]
 
 [none]
-
+ninguno
 [everyone on the contact list]
 
 [everyone]

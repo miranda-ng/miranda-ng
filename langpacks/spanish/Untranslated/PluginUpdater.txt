@@ -1,6 +1,5 @@
-[Silent mode]
+﻿[Silent mode]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-[Languages]
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 [You need to restart your Miranda to apply installed updates.]
 [Would you like to restart it now?]

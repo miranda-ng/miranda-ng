@@ -71,6 +71,4 @@
 [Skype proxy]
 [Avatar]
 [Details]
-[MALE]
-[FEMALE]
 [Skype ID]

@@ -1052,7 +1052,7 @@ Modos de vista
 
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
-
+Nuevo grupo
 [Group menu]
 
 [Subgroup menu]

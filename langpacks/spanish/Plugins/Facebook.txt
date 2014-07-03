@@ -83,7 +83,7 @@ Activar soporte para emoticonos personalizados (¡EXPERIMENTAL + BUGGY!)
 [Use local time for received messages]
 Usar la hora local para los mensajes recibidos
 [Message sessions]
-
+Sesiones de mensaje
 [Keep messages as unread on server (don't send "seen" info)]
 
 [Receive messages from "inbox" folder only]
@@ -204,7 +204,7 @@ Leer mensaje: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Este mensaje ya no está disponible, porque estaba marcado como abusivo o correo no deseado.
 [%s is typing a message...]
-
+%s está escribiendo un mensaje...
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 No puede enviar mensajes cuando no esté conectado.

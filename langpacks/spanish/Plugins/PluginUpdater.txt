@@ -124,7 +124,7 @@ Plugins
 [Icons]
 Iconos
 [Languages]
-
+Idiomas
 [Other]
 Otro
 [List is empty.]

@@ -24,9 +24,9 @@
 [Down]
 
 [Delete]
-
+Eliminar
 [Default]
-
+Por defecto
 [Additional Options]
 
 [Tool Window Style]
@@ -52,17 +52,17 @@
 [UserID]
 
 [Nickname]
-
+Apodo
 [First name]
 
 [Last name]
 
 [Group]
-
+Grupo
 [Container]
 
 [E-mail]
-
+E-mail
 [Client ID]
 
 [Ext IP]
@@ -80,7 +80,7 @@
 [Contact add time]
 
 [Type:]
-
+Tipo:
 [DB setting]
 
 [Script]
@@ -90,7 +90,7 @@
 [Contact info]
 
 [Other]
-
+Otro
 [Data type:]
 
 [Byte]
@@ -108,13 +108,13 @@
 [IP]
 
 [TimeStamp]
-
+Marca de tiempo
 [Module:]
 
 [Setting:]
 
 [Service:]
-
+Servicio:
 [Param]
 
 [number value]
@@ -140,7 +140,7 @@ Memoria libre
 [All]
 
 [Close]
-
+Cerrar
 [Refresh]
 
 [QuickSearch]
@@ -162,11 +162,11 @@ Memoria libre
 [Delete Column]
 
 [Male]
-
+Masculino
 [Female]
-
+Femenino
 [Contacts]
-
+Contactos
 [ContactInfo]
 
 [LastEvent]
@@ -204,15 +204,15 @@ Memoria libre
 [Subcontact foreground]
 
 [&Delete]
-
+&Borrar
 [&Copy]
-
+&Copiar
 [C&onvert to Meta]
 
 [Attach to &Tab container]
 
 [&Move to Group]
-
+&Mover a grupo
 [Some of selected contacts in different metacontacts already]
 
 [Do you really want to delete selected contacts?]
@@ -230,11 +230,11 @@ Memoria libre
 [) Online: ]
 
 [Online]
-
+En línea
 [deleted]
 
 [off]
-
+apagado
 [active]
 
 [Colorize]
@@ -260,13 +260,13 @@ Memoria libre
 [Change setting through QS]
 
 [default]
-
+por defecto
 [Selected]
 
 [contacts]
-
+contactos
 [Unknown]
-
+Desconocido
 [Stay on Top]
 
 ; these lines are not present in the sources, but they are present in compiled plugin

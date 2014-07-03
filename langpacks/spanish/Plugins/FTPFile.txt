@@ -192,13 +192,13 @@ Reanudar
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
 
 [CANCELED]
-
+CANCELADO
 [COMPLETED]
 
 [CONNECTING...]
-
+CONECTANDO...
 [CREATED]
-
+CREADO
 [PACKING...]
 
 [PAUSED]
@@ -206,7 +206,7 @@ Reanudar
 [WAITING...]
 
 [UNKNOWN]
-
+DESCONOCIDO
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occurred when zipping the file(s).]
 

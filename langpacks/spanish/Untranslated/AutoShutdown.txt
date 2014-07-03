@@ -36,7 +36,6 @@
 [Active]
 [Inactive]
 [Second(s)]
-[Minute(s)]
 [Hour(s)]
 [Day(s)]
 [Week(s)]

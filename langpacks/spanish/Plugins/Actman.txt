@@ -36,7 +36,7 @@ Ayuda
 [Open contact window]
 Abrir ventana de contactos
 [Contact]
-
+Contacto
 [Call service]
 Llamar servicio
 [Service]
@@ -124,9 +124,9 @@ No usar variables
 [Miranda service help]
 Miranda servicio de ayuda
 [Name]
-
+Nombre
 [Alias]
-
+Alias
 [Plugin]
 Plugin
 [Return]
@@ -160,7 +160,7 @@ En el teléfono
 [Out to Lunch]
 Salí a comer
 [text]
-
+texto
 [int 0, if successful]
 
 [Set status message]
@@ -296,7 +296,7 @@ Escribiendo
 [Go to Miranda Homepage]
 
 [System]
-
+Sistema
 [Shows contact history or (wParam=0) system history]
 
 [Erases contact's history. hContact can be NULL(0) to empty system history]
@@ -346,7 +346,7 @@ Escribiendo
 [All protocols]
 
 [Protocol]
-
+Protocolo
 [signed -2 if proto can't set this, -1 on protocol not found, else 0]
 
 [Shows a dialog to set the avatar for all possible protocols]
@@ -500,7 +500,7 @@ Puntero a palabras
 [Last result]
 Último resultado
 [Parameter]
-
+Parámetro
 [Data length]
 Longitud de dato
 [Structure help]
@@ -546,7 +546,7 @@ Copiar a
 [Paste from]
 Pegar desde
 [File]
-
+Archivo
 [Read]
 
 [Write]
@@ -602,7 +602,7 @@ Titulo del mensaje
 [Keep last result]
 Mantener último resultado
 [Icons]
-
+Iconos
 [Question]
 
 [Info]
@@ -857,7 +857,7 @@ Puede usar macros %name%, %uid%, %account% y %group%
 [value]
 
 [name]
-
+nombre
 [value (name)]
 
 [name 'value']
@@ -869,7 +869,7 @@ Puede usar macros %name%, %uid%, %account% y %group%
 [Miranda event help]
 
 [contact list]
-
+lista de contactos
 [database driver]
 
 [Main settings]

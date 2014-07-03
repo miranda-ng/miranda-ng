@@ -78,13 +78,13 @@ Ocupado
 [DND]
 No molestar
 [Free For Chat]
-
+Libre para el chat	
 [Invisible]
 Invisible
 [On The Phone]
-
+En el teléfono
 [Out To Lunch]
-
+Salí a comer
 [Send If Their Status changes]
 
 [From Offline]

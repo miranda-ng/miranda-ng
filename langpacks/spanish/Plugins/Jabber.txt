@@ -201,7 +201,7 @@ Eliminar
 [Description:]
 Detalles:
 [Change Password]
-
+Cambiar contraseña
 [Current Password:]
 
 [New Password:]
@@ -1244,7 +1244,7 @@ Servicios...
 [Create/Join group chat]
 
 [Roster editor]
-
+Editor del Registro
 [Resource priority]
 
 [Increase priority by %d]
@@ -1886,7 +1886,7 @@ Mensaje
 [all.]
 
 [messages]
-
+mensajes
 [ and ]
 
 [incoming presences]
@@ -2036,7 +2036,7 @@ Fuera de línea
 [sent unknown presence type]
 
 [Nick:]
-
+Nick:
 [Status:]
 
 [Status text:]
@@ -2096,11 +2096,11 @@ desconocido
 [both]
 
 [to]
-
+a
 [from]
 
 [none]
-
+ninguno
 [Last logoff time]
 
 [Uptime]
@@ -2488,7 +2488,7 @@ Contactos
 [in real life]
 
 [on the phone]
-
+en el teléfono
 [on video phone]
 
 [Traveling]

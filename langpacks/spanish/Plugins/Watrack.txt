@@ -598,7 +598,7 @@ Alfa
 [Precision]
 
 [none]
-
+ninguno
 [kb]
 
 [Kb]

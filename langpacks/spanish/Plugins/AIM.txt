@@ -363,7 +363,7 @@ Perfil
 [Foreground Color]
 
 [Background Color]
-
+Color de fondo
 [Bold]
 Negrita
 [Not Bold]

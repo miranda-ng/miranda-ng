@@ -59,7 +59,7 @@ Contactos entrantes
 Contactos salientes
 ;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
-
+Apodo
 [First Name]
 
 [Last Name]

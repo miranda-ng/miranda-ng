@@ -55,7 +55,7 @@ Previsualizar
 [Disable]
 Deshabilitar
 [Smiley button]
-
+Botón de emoticono
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 

@@ -32,7 +32,6 @@
 [Year]
 [Traffic counter]
 [Statistics]
-[Bytes]
 [KB]
 [MB]
 [Adaptive]

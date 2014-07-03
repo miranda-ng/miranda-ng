@@ -34,7 +34,6 @@
 [Failed to Advise]
 [C++ Event Sink]
 [OleInitialize failed.]
-[ERROR]
 [%s has joined.]
 [%s has left.]
 [The topic is %s.]

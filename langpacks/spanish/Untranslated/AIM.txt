@@ -154,7 +154,6 @@
 [Blocked list]
 [AOL]
 [Foreground Color]
-[Background Color]
 [Not Bold]
 [Italic]
 [Not Italic]

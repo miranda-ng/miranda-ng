@@ -98,7 +98,7 @@ Transferencia de archivos entrantes
 [OleInitialize failed.]
 
 [ERROR]
-
+ERROR
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 

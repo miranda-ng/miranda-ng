@@ -325,7 +325,7 @@ Protocolo
 [we have secret key for this public key, do not removing from GPG keyring]
 
 [info]
-
+info
 [Key removed from GPG keyring]
 
 [Do you want to remove key from entire metacontact (all subcontacts)?]

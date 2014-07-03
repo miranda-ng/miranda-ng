@@ -203,9 +203,9 @@ Desconocido
 [Details]
 
 [MALE]
-
+MASCULINO
 [FEMALE]
-
+FEMENINO
 ;file \protocols\SkypeClassic\src\skypesvc.cpp
 [Skype ID]
 

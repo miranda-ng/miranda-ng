@@ -147,7 +147,7 @@ Versión
 [Age:]
 Edad:
 [to]
-
+a
 [Extra Search Criteria]
 
 [Status:]
@@ -220,7 +220,7 @@ Conceder autorización
 [1 File]
 
 [%d Files]
-
+%d archivos
 ;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for %s@%s.]
 
@@ -306,7 +306,7 @@ Cuenta
 [from]
 
 [none]
-
+ninguno
 [not on roster]
 
 ;file \protocols\Tlen\src\tlen_voice.cpp

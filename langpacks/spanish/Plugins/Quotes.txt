@@ -131,7 +131,7 @@ Previsualizar
 
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
-
+Segundos
 [Minutes]
 Minutos
 [Hours]

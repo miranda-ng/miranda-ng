@@ -97,7 +97,7 @@ Tipo
 [&Search]
 Bu&scar
 [link]
-
+enlace
 [Open]
 
 [Open in new window]
@@ -116,9 +116,9 @@ Bu&scar
 [Error]
 Error
 [incoming]
-
+entrante
 [outgoing]
-
+saliendo
 [Filter]
 
 [no filter]

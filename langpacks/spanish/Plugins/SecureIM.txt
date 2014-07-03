@@ -242,7 +242,7 @@ Nombre
 [Password is too short!]
 
 [ON]
-
+ENCENDIDO
 [Off]
 Apagado
 [Keyrings loaded.]
@@ -339,7 +339,7 @@ Lista de contactos
 [Connection Established]
 
 [Contact Menu]
-
+Menú de contacto
 [Disable Secure Connection]
 
 [Establish Secure Connection]

@@ -480,7 +480,7 @@ Canadá
 [Canary Islands]
 
 [Cape Verde]
-
+Cabo Verde
 [Cayman Islands]
 Islas Caimán
 [Central African Republic]
@@ -488,7 +488,7 @@ República Centroafricana
 [Chad]
 Chad
 [Chile]
-
+Chile
 [China]
 China
 [Colombia]
@@ -504,7 +504,7 @@ Islas Cook
 [Costa Rica]
 Costa Rica
 [Cote d'Ivoire]
-
+Cote d'Ivoire
 [Croatia]
 Croacia
 [Cuba]
@@ -540,7 +540,7 @@ Etiopía
 [Europe]
 
 [Faroe Islands]
-
+Islas Feroe
 [Falkland Islands]
 
 [Fiji]
@@ -640,7 +640,7 @@ Lesoto
 [Liberia]
 Liberia
 [Libya]
-
+Libia
 [Liechtenstein]
 Liechtenstein
 [Lithuania]
@@ -672,7 +672,7 @@ Mauritania
 [Mauritius]
 Mauricio
 [Mayotte]
-
+Mayotte
 [Mexico]
 México
 [Micronesia, Federated States of]
@@ -752,7 +752,7 @@ Puerto Rico
 [Qatar]
 Katar
 [Reunion]
-
+Reunión
 [Romania]
 Rumania
 [Russia]
@@ -876,17 +876,17 @@ Vietnam
 [Wales]
 
 [Wallis and Futuna]
-
+Wallis y Futuna
 [Yemen]
 Yemen
 [Yugoslavia]
 
 [Serbia]
-
+Serbia
 [Kosovo, Republic of]
 
 [Montenegro]
-
+Montenegro
 [Zambia]
 Zambia
 [Zimbabwe]
@@ -1582,7 +1582,7 @@ Escribiendo
 [Broken hearted]
 
 [Free for Chat]
-
+Libre para el chat	
 [@home]
 
 [@work]
@@ -1620,7 +1620,7 @@ Escribiendo
 [None]
 Ninguno
 [Custom Status]
-
+Estado personalizado
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 
@@ -1647,10 +1647,10 @@ Ninguno
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
 
 [error]
-
+error
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
-
+%d archivos
 [The file transfer was aborted by the other user.]
 
 [The file transfer failed: Proxy error]

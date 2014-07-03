@@ -26,7 +26,6 @@
 [Show a short event summary]
 [Size of the log]
 [Notification duration]
-[events]
 [Notification types]
 [Contact signs off]
 [Contact changes status]

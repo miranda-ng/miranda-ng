@@ -6,7 +6,6 @@
 [Pitch]
 [Lexicon]
 [Welcome Message]
-[Status Changes]
 [Occurring Events]
 [Added to contact list]
 [Announce status changes on connect]

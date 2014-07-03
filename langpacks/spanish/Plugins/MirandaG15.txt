@@ -73,7 +73,7 @@ Notificaciones
 [Notification duration]
 
 [events]
-
+eventos
 [seconds]
 segundos
 [Notification types]

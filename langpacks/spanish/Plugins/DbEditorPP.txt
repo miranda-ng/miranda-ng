@@ -327,7 +327,7 @@ Importar a archivo
 [Unicode setting]
 
 [Handle]
-
+Manejar
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 
@@ -349,7 +349,7 @@ Importar a archivo
 [Contacts]
 Contactos
 [HANDLE]
-
+MANEJAR
 [Add module to contact "%s"]
 
 ;file \plugins\DbEditorPP\src\options.cpp

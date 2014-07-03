@@ -122,7 +122,6 @@
 [Error %d-%d-%d-%d:]
 [No account selected]
 [Time left to next check [s]: %d]
-[New Account]
 [Executables]
 [Select executable used for notification]
 [Dialog box error]

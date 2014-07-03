@@ -27,7 +27,7 @@ Historial
 [Store last]
 
 [events]
-
+eventos
 [Use History++ to render log]
 
 [Avatars]
@@ -241,17 +241,17 @@ Copiar al portapapeles
 
 ;file \plugins\Popup\src\font.h
 [Popups]
-
+Ventanas emergentes
 [Title]
 
 [Clock]
 
 [Text]
-
+Texto
 [Hovered action]
 
 [Background]
-
+Fondo
 [Border]
 
 [Sidebar]

@@ -55,7 +55,6 @@
 [From offline]
 [(default sound)]
 [<no status message>]
-[connecting]
 [aborting]
 [playing]
 [%s is now %s]

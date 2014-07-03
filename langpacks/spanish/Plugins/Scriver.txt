@@ -59,7 +59,7 @@ Pestañas
 [Layout]
 
 [Show title bar]
-
+Mostrar barra de título
 [Show status bar]
 Mostrar barra de estado
 [Show toolbar]
@@ -121,7 +121,7 @@ Mostrar nombres
 [Events in the last]
 
 [events]
-
+eventos
 [minutes]
 
 [Typing Notification Options]
@@ -332,7 +332,7 @@ Añadir contacto
 [User's history]
 
 [Send message]
-
+Enviar mensaje
 [Smiley button]
 Botón de emoticono
 [User is typing]
@@ -649,7 +649,7 @@ El contacto dejó de escribir
 Se ha producido un error desconocido.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
-
+Siempre en primer plano
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 El mensaje envia el tiempo de espera.

@@ -23,7 +23,7 @@ Editar
 [minutes]
 
 [Row height:]
-
+Alto de fila:
 [Indent:]
 
 [Reminder frame]
