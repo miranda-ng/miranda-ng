@@ -476,6 +476,8 @@
 Возможен дождь, 60% вероятность осадков
 [Chance Of Rain 70% Chance Of Precipitation]
 Возможен дождь, 70% вероятность осадков
+[Chance Of Rain 80% Chance Of Precipitation]
+Возможен дождь, 80% вероятность осадков
 [Rain 20% Chance Of Precipitation]
 Дождь, 20% вероятность осадков
 [Chance Of Snow 70% Chance Of Precipitation]
@@ -536,6 +538,10 @@
 Снег, 60% вероятность осадков
 [Snow Showers 50% Chance Of Precipitation]
 Снег, 50% вероятность осадков
+[Snow Showers 40% Chance Of Precipitation]
+Снег, 40% вероятность осадков
+[Snow Showers 30% Chance Of Precipitation]
+Снег, 30% вероятность осадков
 [Light Snow 30% Chance Of Precipitation]
 Слабый снег, 30% вероятность осадков
 [Ice Pellets 70% Chance Of Precipitation]
