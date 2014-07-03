@@ -92,6 +92,12 @@
 Магчымы дождж, 40% верагоднасць ападкаў
 [Chance Of Rain 50% Chance Of Precipitation]
 Магчымы дождж, 50% верагоднасць ападкаў
+[Chance Of Rain 60% Chance Of Precipitation]
+Магчымы дождж, 60% верагоднасць ападкаў
+[Chance Of Rain 70% Chance Of Precipitation]
+Магчымы дождж, 70% верагоднасць ападкаў
+[Chance Of Rain 80% Chance Of Precipitation]
+Магчымы дождж, 80% верагоднасць ападкаў
 [Rain 50% Chance Of Precipitation]
 Дождж, 50% верагоднасць ападкаў
 [Rain 60% Chance Of Precipitation]
@@ -440,10 +446,6 @@
 Моцны снегапад
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 Магчымая навальніца, 20% верагоднасць ападкаў
-[Chance Of Rain 60% Chance Of Precipitation]
-Магчымы дождж, 60% верагоднасць ападкаў
-[Chance Of Rain 70% Chance Of Precipitation]
-Магчымы дождж, 70% верагоднасць ападкаў
 [Rain 20% Chance Of Precipitation]
 Дождж, 20% верагоднасць ападкаў
 [Chance Of Snow 70% Chance Of Precipitation]
@@ -504,6 +506,10 @@ T-навальніцы, 30% верагоднасць ападкаў
 Снег, 60% верагоднасць ападкаў
 [Snow Showers 50% Chance Of Precipitation]
 Снег, 50% верагоднасць ападкаў
+[Snow Showers 40% Chance Of Precipitation]
+Снег, 40% верагоднасць ападкаў
+[Snow Showers 30% Chance Of Precipitation]
+Снег, 30% верагоднасць ападкаў
 [Light Snow 30% Chance Of Precipitation]
 Слабы снег, 30% верагоднасць ападкаў
 [Ice Pellets 70% Chance Of Precipitation]

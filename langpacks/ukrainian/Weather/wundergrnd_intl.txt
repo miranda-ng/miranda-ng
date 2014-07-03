@@ -124,6 +124,12 @@
 Можливий дощ, 40% імовірність опадів
 [Chance Of Rain 50% Chance Of Precipitation]
 Можливий дощ, 50% імовірність опадів
+[Chance Of Rain 60% Chance Of Precipitation]
+Можлива гроза, 60% імовірність опадів
+[Chance Of Rain 70% Chance Of Precipitation]
+Можлива гроза, 70% імовірність опадів
+[Chance Of Rain 80% Chance Of Precipitation]
+Можлива гроза, 80% імовірність опадів
 [Rain 50% Chance Of Precipitation]
 Дощ, 50% імовірність опадів
 [Rain 60% Chance Of Precipitation]
@@ -472,10 +478,6 @@
 Сильний снігопад
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 Можлива гроза, 20% імовірність опадів
-[Chance Of Rain 60% Chance Of Precipitation]
-Можлива гроза, 60% імовірність опадів
-[Chance Of Rain 70% Chance Of Precipitation]
-Можлива гроза, 70% імовірність опадів
 [Rain 20% Chance Of Precipitation]
 Дощ, 20% імовірність опадів
 [Chance Of Snow 70% Chance Of Precipitation]
@@ -536,6 +538,10 @@
 Сніг, 60% імовірність опадів
 [Snow Showers 50% Chance Of Precipitation]
 Сніг, 50% імовірність опадів
+[Snow Showers 40% Chance Of Precipitation]
+Сніг, 40% імовірність опадів
+[Snow Showers 30% Chance Of Precipitation]
+Сніг, 30% імовірність опадів
 [Light Snow 30% Chance Of Precipitation]
 Слабкий сніг, 30% імовірність опадів
 [Ice Pellets 70% Chance Of Precipitation]

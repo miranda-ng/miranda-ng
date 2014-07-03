@@ -124,6 +124,12 @@
 
 [Chance Of Rain 50% Chance Of Precipitation]
 
+[Chance Of Rain 60% Chance Of Precipitation]
+
+[Chance Of Rain 70% Chance Of Precipitation]
+
+[Chance Of Rain 80% Chance Of Precipitation]
+
 [Rain 50% Chance Of Precipitation]
 
 [Rain 60% Chance Of Precipitation]
@@ -472,10 +478,6 @@ Effacer
 
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 
-[Chance Of Rain 60% Chance Of Precipitation]
-
-[Chance Of Rain 70% Chance Of Precipitation]
-
 [Rain 20% Chance Of Precipitation]
 
 [Chance Of Snow 70% Chance Of Precipitation]
@@ -535,6 +537,10 @@ Effacer
 [Snow Showers 60% Chance Of Precipitation]
 
 [Snow Showers 50% Chance Of Precipitation]
+
+[Snow Showers 40% Chance Of Precipitation]
+
+[Snow Showers 30% Chance Of Precipitation]
 
 [Light Snow 30% Chance Of Precipitation]
 

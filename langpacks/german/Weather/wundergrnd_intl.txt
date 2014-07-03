@@ -124,6 +124,12 @@ Regenwahrscheinlichkeit 30% Niederschlagswahrscheinlichkeit
 Regenwahrscheinlichkeit 40%Niederschlagswahrscheinlichkeit
 [Chance Of Rain 50% Chance Of Precipitation]
 Regenwahrscheinlichkeit 50% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 60% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 60% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 70% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 70% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 80% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
 [Rain 50% Chance Of Precipitation]
 Regen, 50% Niederschlagswahrscheinlichkeit
 [Rain 60% Chance Of Precipitation]
@@ -472,10 +478,6 @@ Schneekörner
 Starke Schneestürme
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 
-[Chance Of Rain 60% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 60% Niederschlagswahrscheinlichkeit
-[Chance Of Rain 70% Chance Of Precipitation]
-Wahrscheinlichkeit von Regen, 70% Niederschlagswahrscheinlichkeit
 [Rain 20% Chance Of Precipitation]
 Regen, 60% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 70% Chance Of Precipitation]
@@ -535,6 +537,10 @@ Schnee, 70% Niederschlagswahrscheinlichkeit
 [Snow Showers 60% Chance Of Precipitation]
 
 [Snow Showers 50% Chance Of Precipitation]
+
+[Snow Showers 40% Chance Of Precipitation]
+
+[Snow Showers 30% Chance Of Precipitation]
 
 [Light Snow 30% Chance Of Precipitation]
 

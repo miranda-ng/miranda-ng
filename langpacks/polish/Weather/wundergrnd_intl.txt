@@ -124,6 +124,12 @@ Możliwe opady deszczu 30%, możliwość opadów
 Możliwe opady deszczu 40% ,możliwość opadów
 [Chance Of Rain 50% Chance Of Precipitation]
 Możliwe opady deszczu 50%, możliwość opadów
+[Chance Of Rain 60% Chance Of Precipitation]
+Możliwe opady deszczu 60%, możliwość opadów
+[Chance Of Rain 70% Chance Of Precipitation]
+Możliwe opady deszczu 70%, możliwość opadów
+[Chance Of Rain 80% Chance Of Precipitation]
+Możliwe opady deszczu 80%, możliwość opadów
 [Rain 50% Chance Of Precipitation]
 Deszcz 50%, możliwość opadów
 [Rain 60% Chance Of Precipitation]
@@ -472,10 +478,6 @@ Delikatne opady deszczu i śniegu mżawka
 Mocne opady śniegu
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 Szanse na burze 20% szanse opadów atmosferycznych
-[Chance Of Rain 60% Chance Of Precipitation]
-Możliwe opady deszczu 60%, możliwość opadów
-[Chance Of Rain 70% Chance Of Precipitation]
-Możliwe opady deszczu 70%, możliwość opadów
 [Rain 20% Chance Of Precipitation]
 Deszcz 20% szans opadów atmosferycznych
 [Chance Of Snow 70% Chance Of Precipitation]
@@ -536,6 +538,10 @@ Opady śniegu 70% szans opadów
 Opady śniegu 60% szans opadów
 [Snow Showers 50% Chance Of Precipitation]
 Opady Śniegu 50% szans opadów
+[Snow Showers 40% Chance Of Precipitation]
+Opady Śniegu 40% szans opadów
+[Snow Showers 30% Chance Of Precipitation]
+Opady Śniegu 30% szans opadów
 [Light Snow 30% Chance Of Precipitation]
 Delikatne opady śniegu 30% szans opadów
 [Ice Pellets 70% Chance Of Precipitation]
