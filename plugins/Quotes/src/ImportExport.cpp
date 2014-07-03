@@ -169,7 +169,7 @@ namespace
 	LPCTSTR prepare_filter(LPTSTR pszBuffer,size_t cBuffer)
 	{
 		LPTSTR p = pszBuffer;
-		LPCTSTR pszXml = TranslateT("Xml File (*.xml)");
+		LPCTSTR pszXml = TranslateT("XML File (*.xml)");
 		lstrcpyn(p,pszXml, (int)cBuffer);
 		size_t nLen = (int)lstrlen(pszXml)+1;
 		p+= nLen;
