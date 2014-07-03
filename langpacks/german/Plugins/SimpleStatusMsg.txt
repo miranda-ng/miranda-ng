@@ -202,7 +202,7 @@ Datum abrufen (kompatibel mit Simple Status Message)
 [<current>]
 <aktueller>
 [Clear history]
-
+Verlauf leeren
 [Add to predefined]
 Zu Vordefinierten hinzuf.
 [Delete selected]

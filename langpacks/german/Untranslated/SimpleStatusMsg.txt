@@ -16,4 +16,3 @@
 [?lower(string)]
 [?upper(string)]
 [?scroll(string,numchars,numchars)]
-[Clear history]

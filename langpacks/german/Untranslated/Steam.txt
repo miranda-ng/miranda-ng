@@ -1,6 +1,5 @@
 ﻿[Block]
 [Fatal error, image services not found. Avatar services will be disabled.]
 [Avatar Service]
-[Name]
 [Blocked contacts]
 [%s has been removed from your contact list]

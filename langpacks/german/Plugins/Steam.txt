@@ -37,7 +37,7 @@ Gehe zur E-Mail-Domain
 [Avatar Service]
 
 [Name]
-
+Name
 ;file \protocols\Steam\src\steam_events.cpp
 [%s connection]
 %s-Verbindung
