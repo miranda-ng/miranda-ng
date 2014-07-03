@@ -1143,8 +1143,14 @@ Ventana de mensajes de registro de eventos
 Mostrar nombres
 [Show timestamp]
 Mostrar indicación de la hora
+[Show seconds]
+Mostrar segundos
 [Show dates]
 Mostrar fechas
+[Show formatting]
+Mostrar formateando
+[Load history events]
+Cargar historial de eventos
 [Load unread events only]
 Cargar eventos sólo sin leer
 [Load number of previous events]
@@ -1153,12 +1159,6 @@ Número de eventos anteriores a cargar
 Cargar eventos previos de menos de
 [minutes old]
 minutos de pasado
-[Show seconds]
-Mostrar segundos
-[Load history events]
-Cargar historial de eventos
-[Show formatting]
-Mostrar formateando
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
 [Show typing notifications when a user is typing a message]

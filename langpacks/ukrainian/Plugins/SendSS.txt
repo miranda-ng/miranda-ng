@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.5.2
+;  Version: 0.8.7.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -107,8 +107,6 @@
 Передача FTPFile
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 Неможливо додати ресурс в плагін FTP File.
-[Upload server did not respond timely.]
-Сервер не відповів вчасно.
 [Could not start the HTTP Server plugin.]
 Неможливо запустити плагін HTTP Server.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]

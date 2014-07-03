@@ -1,0 +1,5 @@
+﻿[Open editor before sending]
+[indirect capture]
+[Unknown response from %s (%i)]
+[Got no response from %s (%i)]
+[Edit on]

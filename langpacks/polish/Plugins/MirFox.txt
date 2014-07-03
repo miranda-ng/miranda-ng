@@ -55,8 +55,6 @@ MirFox log
 Wiadomość wysłana do %s (%s)
 [Message sent]
 Wiadomość wysłana
-[MirFox]
-MirFox
 [Cannot send message to %s (%s) - %S]
 Błąd przy wysyłaniu wiadomości do %s (%s) - %S
 [Cannot send message - %S]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.5.2
+;  Version: 0.8.7.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -34,6 +34,8 @@ Senden per:
 Beschreibungs-Textbox aus&füllen
 [Delete &after send]
 N&ach dem Senden löschen
+[Open editor before sending]
+
 [Open again]
 Erneut öffnen
 [&Capture]
@@ -54,6 +56,8 @@ Fenstertitel:
 Größe (HxB):
 [C&lient Area]
 Fensterinha&lt
+[indirect capture]
+
 [Target Tool]
 Zielscheibe
 [File:]
@@ -90,6 +94,10 @@ Ein unbekannter Fehler ist aufgetreten.
 Konnte %s nicht einleiten.
 [MAPI error (%i):\n%s.]
 MAPI-Fehler (%i):\n%s.
+[Unknown response from %s (%i)]
+
+[Got no response from %s (%i)]
+
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
 Dropbox-Übertragung
@@ -134,11 +142,11 @@ Dateiübertragung
 FTPFile-Übertragung
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 %s (%i):\nKonnte Freigabe nicht dem FTP-Datei-Plugin hinzufügen.
-;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 Bild hochladen
-[Upload server did not respond timely.]
-Uploadserver hat nicht rechtzeitig geantwortet.
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 HTTPServer-Übertragungen
@@ -146,7 +154,6 @@ HTTPServer-Übertragungen
 Kann HTTP-Server-Plugin nicht starten.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 %s (%i):\nKonnte Freigabe nicht dem HTTP-Server-Plugin hinzufügen.
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Wiederholen
@@ -211,6 +218,8 @@ Zurück
 Weiter
 [Update]
 Aktualisieren
+[Edit on]
+
 [BBC]
 BBC
 [BBC link]
@@ -254,10 +263,6 @@ Dateiübertragung
 E-Mail
 [FTP File]
 FTP-Datei
-[Dropbox]
-Dropbox
-[ImageShack]
-ImageShack
 [Upload Pie (30m)]
 Upload Pie (30M)
 [Upload Pie (1d)]

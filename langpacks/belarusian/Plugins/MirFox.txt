@@ -55,8 +55,6 @@ MirFox log
 паведамленне адпраўлена для %s (%s)
 [Message sent]
 паведамленне адпраўлена
-[MirFox]
-MirFox
 [Cannot send message to %s (%s) - %S]
 не магу адправіць паведамленне для %s (%s) - %S
 [Cannot send message - %S]

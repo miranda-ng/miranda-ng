@@ -7,7 +7,7 @@
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Poskytuje jednoduchý spôsob ako zmeniť statusové správy a správy o neprítomnosti.
-[%s Message for %s]
+[%s message for %s]
 %s správa pre %s
 [Retrieving %s message...]
 Prijímam %s správu
@@ -17,7 +17,7 @@ sekúnd
 Stav:
 [&Close]
 Zavrieť
-[Re&ad %s Message]
+[Re&ad %s message]
 Čítať %s správu
 [Closing in %d]
 Zavrieť (za %d s)

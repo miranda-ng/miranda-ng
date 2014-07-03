@@ -93,8 +93,6 @@
 [Ignore all images]
 [<Last message>]
 [Forwarding]
-[SOCKS4]
-[SOCKS5]
 [%S mail]
 [Image sent file://%s]
 [Image received file://%s]

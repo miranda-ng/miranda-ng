@@ -7,15 +7,15 @@
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Швидка зміна статусів і встановлених повідомлень статусу.
-[%s Message for %s]
+[%s message for %s]
 %s (%s)
 [&Cancel]
 &Скасувати
 [Retrieving %s message...]
 Завантаження повідомлення "%s"...
-[Co&py to Clipboard]
+[Co&py to clipboard]
 &Копіювати до буфера
-[%s Message (%s)]
+[%s message (%s)]
 Повідомлення "%s" (%s)
 [Retrieving status message for %s...]
 Отримання повідомлення статусу для %s...
@@ -89,11 +89,7 @@
 Пам'ятати останню позицію вікна
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Видаляти символи повернення каретки (CR = '\\r' = #0D) з повідомлень статусу
-[Show 'Copy Away Message' item in contact menu]
-"Копіювати повідомлення статусу" в меню контакту
-[Show 'Go to URL in Away Message' item in contact menu]
-Показувати "Відкрити посилання" в меню контакту
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 Показувати "Повідомлення статусу" в контекстному меню
 [Clear History]
 Очистити
@@ -101,7 +97,7 @@
 Очистити
 [* This feature is available only when using StartupStatus plugin.]
 * Ця можливість доступна тільки при використанні плагіна StartupStatus
-[Status on Startup]
+[Status on startup]
 Початковий статус
 [Set status after]
 Встановити через
@@ -125,31 +121,31 @@
 Вставити
 [Delete]
 Видалити
-[Select All]
+[Select all]
 Виділити всі
 [Failed to retrieve %s message.]
 Неможливо встановити повідомлення %s.
 [&Close]
 &Закрити
-[Re&ad %s Message]
+[Re&ad %s message]
 &Прочитати повідомлення %s"
-[Copy %s Message]
+[Copy %s message]
 Копіювати повідомлення %s
-[&Go to URL in %s Message]
+[&Go to URL in %s message]
 &Відкрити посилання з %s
-[Re&ad Away Message]
+[Re&ad Away message]
 Пр&очитити повідомлення "Відсутній"
-[Copy Away Message]
+[Copy Away message]
 Копіювати повідомлення статусу
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 &Відкрити посилання
-[Change Status Message]
+[Change status message]
 Змінити повідомлення статусу
-[Open Status Message Dialog]
+[Open status message dialog]
 Відкрити діалог повідомлення статусу
-[Status Message]
+[Status message]
 Статусне повідомлення
-[Status Message...]
+[Status message...]
 Повідомлення статусу...
 [%s (locked)]
 %s (заблокований)
@@ -159,11 +155,11 @@
 <стартовий>
 [<current>]
 <поточний>
-[Add to Predefined]
+[Add to predefined]
 У передустановлені
-[Delete Selected]
+[Delete selected]
 Видалити вибране
-[Global]
+[global]
 Глобальні
 [Closing in %d]
 Закрити (%d)
@@ -173,7 +169,7 @@
 Підтвердження видалення історії
 [Global status change]
 Глобальний статус
-[Open String Formatting Help]
+[Open string formatting help]
 Допомога по формату рядків
 [Hide]
 Сховати
@@ -187,7 +183,7 @@
 Ви впевнені, що хочете видалити стандартні повідомлення статусу?
 [Confirm clearing predefined]
 Підтвердження видалення налаштованих повідомлень
-[<Last status>]
+[<last status>]
 <Останній>
 [Status]
 Статус
@@ -195,11 +191,11 @@
 Загальне
 [Advanced]
 Додатково
-[Recent Message]
+[Recent message]
 Останнє повідомлення
-[Predefined Message]
+[Predefined message]
 Передустановлене повідомлення
-[Go to URL in Away Message]
+[Go to URL in Away message]
 Перейти на посилання в повідомленні відсутності
 [Simple Status Message]
 Повідомлення статусу

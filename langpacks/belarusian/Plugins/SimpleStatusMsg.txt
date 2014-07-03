@@ -8,15 +8,15 @@
 [Provides a simple way to set status and away messages.]
 Хуткая зьмена статусаў і статусных паведамленьняў.
 ;file \plugins\SimpleStatusMsg\res\resource.rc
-[%s Message for %s]
+[%s message for %s]
 %s (%s)
 [&Cancel]
 С&касаваць
 [Retrieving %s message...]
 Загрузка паведамлення "%s"...
-[Co&py to Clipboard]
+[Co&py to clipboard]
 Скапіяваць у буфер
-[%s Message (%s)]
+[%s message (%s)]
 Паведамленне "%s" (%s)
 [Retrieving status message for %s...]
 Атрыманне паведамлення статусу для %s...
@@ -90,11 +90,7 @@
 Памятаць апошнюю пазіцыю вакна
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Выдаляць знакі звароту карэткі (CR = '\\r' = #0D) з паведамленняў статусу
-[Show 'Copy Away Message' item in contact menu]
-'Скапіяваць паведамленне статусу' у меню кантакту
-[Show 'Go to URL in Away Message' item in contact menu]
-Паказваць 'Адкрыць спасылку' у меню кантакту
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 Паказваць 'Паведамленне статусу' у кантэкстным меню
 [Clear History]
 Сцерці гісторыю
@@ -102,7 +98,7 @@
 Сцерці
 [* This feature is available only when using StartupStatus plugin.]
 * Гэта магчымасць даступная толькі пры выкарыстанні дадатку StartupStatus
-[Status on Startup]
+[Status on startup]
 Пачатковы стан
 [Set status after]
 Усталяваць праз
@@ -124,29 +120,29 @@
 Уставіць
 [Delete]
 Выдаліць
-[Select All]
+[Select all]
 Вылучыць усё
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [&Close]
 &Зачыніць
-[Re&ad %s Message]
+[Re&ad %s message]
 &Прачытаць паведамленне "%s"
-[Copy %s Message]
+[Copy %s message]
 Капіяваць паведамленне %s
-[Re&ad Away Message]
+[Re&ad Away message]
 Пра&чытаць паведамленне "Адсутнічаю"
-[Copy Away Message]
+[Copy Away message]
 Скапіяваць паведамленне статусу
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 &Адкрыць спасылку
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[Change Status Message]
+[Change status message]
 Змяніць паведамленне статуса
-[Open Status Message Dialog]
+[Open status message dialog]
 Адчыніць дыялог статуснага паведамлення
-[Status Message]
+[Status message]
 Статуснае паведамленне
-[Status Message...]
+[Status message...]
 Паведамленне статусу...
 [%s (locked)]
 %s (заблакаваны)
@@ -157,11 +153,11 @@
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<current>]
 <бягучы>
-[Add to Predefined]
+[Add to predefined]
 У Прадусталяваныя
-[Delete Selected]
+[Delete selected]
 Удаліць абранае
-[Global]
+[global]
 Глабальныя
 [Closing in %d]
 Зачыніць (%d)
@@ -172,7 +168,7 @@
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Глабальны статус
-[Open String Formatting Help]
+[Open string formatting help]
 Дапамога па фармаце радкоў
 [Hide]
 Схаваць
@@ -186,7 +182,7 @@
 Вы ўпэўнены, што хочаце выдаліць наладжаныя статусныя паведамленні?
 [Confirm clearing predefined]
 Пацвярджэнне выдалення наладжаных паведамленняў
-[<Last status>]
+[<last status>]
 <Апошні>
 [Status]
 Статус
@@ -195,11 +191,11 @@
 [Advanced]
 Дадаткова
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
-[Recent Message]
+[Recent message]
 Апошняе паведамленне
-[Predefined Message]
+[Predefined message]
 Прадусталяванае паведамленне
-[Go to URL in Away Message]
+[Go to URL in Away message]
 Перайсці па ссылцы ў паведамленні адсутнасці
 [Simple Status Message]
 Статуснае паведамленне

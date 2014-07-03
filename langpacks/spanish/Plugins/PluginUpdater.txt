@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.0
+;  Version: 0.1.2.1
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -150,6 +150,7 @@ Actualización completa. Pulse Sí para reiniciar Miranda ahora o en No para pos
 No se encontraron actualizaciones.
 [Update checking already started!]
 ¡La comprobación de actualización ya ha comenzado!
+;file \plugins\PluginUpdater\src\Events.cpp
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 horas

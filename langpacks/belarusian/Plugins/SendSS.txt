@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.5.2
+;  Version: 0.8.7.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -77,10 +77,11 @@
 Невядомая памылка
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 [Could not start the HTTP Server plugin.]
 Не магу запусціць плагін HTTP Server.
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Яшчэ раз

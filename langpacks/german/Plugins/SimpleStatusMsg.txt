@@ -8,15 +8,15 @@
 [Provides a simple way to set status and away messages.]
 Einfacher Weg um Statusnachrichten einzustellen.
 ;file \plugins\SimpleStatusMsg\res\resource.rc
-[%s Message for %s]
+[%s message for %s]
 '%s'-Nachricht von %s
 [&Cancel]
 Abbre&chen
 [Retrieving %s message...]
 Rufe '%s'-Nachricht ab...
-[Co&py to Clipboard]
+[Co&py to clipboard]
 Nachricht kopieren
-[%s Message (%s)]
+[%s message (%s)]
 %s Nachricht (%s)
 [Retrieving status message for %s...]
 Statusnachricht für %s ermitteln...
@@ -90,11 +90,7 @@ Schließe Dialogfenster automatisch nach
 Letzte Dialogposition merken
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Absätze (CR = '\\r' = #0D) aus Statusnachrichten entfernen
-[Show 'Copy Away Message' item in contact menu]
-Menüpunkt 'Kopiere Statusnachricht' im Kontaktmenü anzeigen
-[Show 'Go to URL in Away Message' item in contact menu]
-Menüpunkt 'Gehe zu URL in Statusnachricht' im Kontaktmenü anzeigen
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 Menüpunkt 'Statusnachricht...' im Statusmenü anzeigen
 [Clear History]
 Verlauf leeren
@@ -102,7 +98,7 @@ Verlauf leeren
 Alles löschen
 [* This feature is available only when using StartupStatus plugin.]
 * Diese Funktion steht nur mit dem StartupStatus-Plugin zur Verfügung
-[Status on Startup]
+[Status on startup]
 Status beim starten
 [Set status after]
 Setze Status nach:
@@ -162,33 +158,33 @@ Kopieren
 Einfügen
 [Delete]
 Löschen
-[Select All]
+[Select all]
 Alles markieren
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 Fehler beim abrufen der %s Nachricht
 [&Close]
 S&chließen
-[Re&ad %s Message]
+[Re&ad %s message]
 '%s'-N&achricht lesen
-[Copy %s Message]
+[Copy %s message]
 %s Nachricht kopieren
-[&Go to URL in %s Message]
+[&Go to URL in %s message]
 Zu URL in %s-Nachricht &gehen
-[Re&ad Away Message]
+[Re&ad Away message]
 Abwesenheitsnachricht lesen
-[Copy Away Message]
+[Copy Away message]
 Abwesenheitsnachricht kopieren
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 Zur URL in der Abwesenheitsnachricht &gehen
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[Change Status Message]
+[Change status message]
 Statusnachricht ändern
-[Open Status Message Dialog]
+[Open status message dialog]
 Statusnachrichtenfenster öffnen
-[Status Message]
+[Status message]
 Statusnachricht
-[Status Message...]
+[Status message...]
 Statusnachricht ...
 [%s (locked)]
 %s (gesperrt)
@@ -205,11 +201,13 @@ Datum abrufen (kompatibel mit Simple Status Message)
 <Start>
 [<current>]
 <aktueller>
-[Add to Predefined]
+[Clear history]
+
+[Add to predefined]
 Zu Vordefinierten hinzuf.
-[Delete Selected]
+[Delete selected]
 Markierte löschen
-[Global]
+[global]
 Global
 [Closing in %d]
 In %d schließen
@@ -220,7 +218,7 @@ Löschen des Verlaufes bestätigen
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Globale Statusänderung
-[Open String Formatting Help]
+[Open string formatting help]
 Stringformatierungshilfe öffnen
 [Hide]
 Verstecken
@@ -234,7 +232,7 @@ In Nachrichtenliste anzeigen
 Sind Sie sich sicher, dass Sie die vordefinierten Statusnachrichten löschen wollen?
 [Confirm clearing predefined]
 Löschen der vordefinierten Statusnachrichten bestätigen
-[<Last status>]
+[<last status>]
 <Letzter Status>
 [Status]
 Status
@@ -243,11 +241,11 @@ Allgemein
 [Advanced]
 Erweitert
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
-[Recent Message]
+[Recent message]
 Letzte Nachricht
-[Predefined Message]
+[Predefined message]
 Vordefinierte Nachricht
-[Go to URL in Away Message]
+[Go to URL in Away message]
 Gehe zu URL in Statusnachricht
 [Simple Status Message]
 Simple Status Message

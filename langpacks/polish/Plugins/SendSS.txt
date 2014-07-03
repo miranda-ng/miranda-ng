@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.5.2
+;  Version: 0.8.7.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -34,6 +34,8 @@ P&rzeglądaj
 &Wypełnij pole opisu
 [Delete &after send]
 Usuń &po wysłaniu
+[Open editor before sending]
+
 [Open again]
 Otwórz ponownie
 [&Capture]
@@ -54,6 +56,8 @@ Uchwyć:
 Rozmiar (HxW):
 [C&lient Area]
 O&bszar klienta
+[indirect capture]
+
 [Target Tool]
 Celownik
 [File:]
@@ -90,6 +94,10 @@ Nieznany błąd.
 Nie można zainicjować %s.
 [MAPI error (%i):\n%s.]
 Błąd MAPI (%i):\n%s.
+[Unknown response from %s (%i)]
+
+[Got no response from %s (%i)]
+
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
 Wyślij do Dropbox'a
@@ -134,11 +142,11 @@ Transfer plików
 Transfer FTP
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 %s (%i):\nNie można dodać zasobu do wtyczki FTP File.
-;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 Wyślij jako obrazek
-[Upload server did not respond timely.]
-Serwer nie odpowiada.
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 Transfer HTTPServer
@@ -146,7 +154,6 @@ Transfer HTTPServer
 Nie można uruchomić wtyczki serwera HTTP.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 %s (%i):\nNie można dodać zasobu do wtyczki serwera HTTP.
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Gotowy
@@ -211,6 +218,8 @@ Poprzedni
 Dalej
 [Update]
 Aktualizacja
+[Edit on]
+
 [BBC]
 BBC
 [BBC link]
@@ -254,10 +263,6 @@ Transfer plików
 E-mail
 [FTP File]
 Menedżer FTP
-[Dropbox]
-Dropbox
-[ImageShack]
-ImageShack
 [Upload Pie (30m)]
 Upload Pie (30m)
 [Upload Pie (1d)]

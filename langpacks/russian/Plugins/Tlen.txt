@@ -26,7 +26,7 @@
 [Automatically delete contacts not in my roster]
 Автоматически удалять контакты, которые не в списке
 [Show offline users with status messages as invisible in contact list]
-Показывать отключённых пользователей с сообщениями статуса как невидимые
+Показывать отключённых пользователей с сообщениями статуса как невидимых
 [Enable avatars]
 Включить аватары
 [Send and receive client version information]

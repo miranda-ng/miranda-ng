@@ -1143,8 +1143,14 @@ Dziennik okna rozmowy
 Pokaż nazwy
 [Show timestamp]
 Pokaż czas
+[Show seconds]
+Pokaż sekundy
 [Show dates]
 Pokaż daty
+[Show formatting]
+Pokaż formatowanie
+[Load history events]
+Wczytaj zdarzenia z historii
 [Load unread events only]
 Tylko nieprzeczytane zdarzenia
 [Load number of previous events]
@@ -1153,12 +1159,6 @@ Ilość zdarzeń do wczytania
 Wczytaj zdarzenia nowsze niż
 [minutes old]
 minut(y)
-[Show seconds]
-Pokaż sekundy
-[Load history events]
-Wczytaj zdarzenia z historii
-[Show formatting]
-Pokaż formatowanie
 [Send typing notifications to the following users when you are typing a message to them:]
 Wyślij powiadomienie o pisaniu do następujących użytkowników, kiedy piszesz do nich wiadomość:
 [Show typing notifications when a user is typing a message]

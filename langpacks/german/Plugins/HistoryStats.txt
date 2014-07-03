@@ -550,12 +550,8 @@ Spaltenspezifische Einstellungen
 Mit dieser Einstellung für die ausgewählte Spalte...
 [...can be output as: ]
 ...kann sie ausgegeben werden als:\s
-[HTML]
-HTML
 [PNG (partial)]
 PNG (teilweise)
-[PNG]
-PNG
 [...will be output as: ]
 ...wird sie ausgegeben als:\s
 [Nothing (column will be skipped)]

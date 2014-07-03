@@ -15,7 +15,6 @@
 [MirFox log]
 [Message sent to %s (%s)]
 [Message sent]
-[MirFox]
 [Cannot send message to %s (%s) - %S]
 [Cannot send message - %S]
 [Cannot send message to %s (%s)]

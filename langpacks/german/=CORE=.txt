@@ -1143,8 +1143,14 @@ Nachrichtenfenster-Ereignislog
 Namen anzeigen
 [Show timestamp]
 Zeitstempel anzeigen
+[Show seconds]
+Sekunden anzeigen
 [Show dates]
 Datum anzeigen
+[Show formatting]
+Formatierung anzeigen
+[Load history events]
+Vergangene Ereignisse laden
 [Load unread events only]
 Nur ungelesene Ereignisse laden
 [Load number of previous events]
@@ -1153,12 +1159,6 @@ Lade Anzahl vorheriger Ereignisse
 Lade Ereignisse, die nicht älter als
 [minutes old]
 Minuten alt
-[Show seconds]
-Sekunden anzeigen
-[Load history events]
-Vergangene Ereignisse laden
-[Show formatting]
-Formatierung anzeigen
 [Send typing notifications to the following users when you are typing a message to them:]
 An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
 [Show typing notifications when a user is typing a message]

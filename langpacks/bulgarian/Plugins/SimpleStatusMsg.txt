@@ -8,15 +8,15 @@
 [Provides a simple way to set status and away messages.]
 
 ;file \plugins\SimpleStatusMsg\res\resource.rc
-[%s Message for %s]
+[%s message for %s]
 Текст "%s" на %s
 [&Cancel]
 Отказ
 [Retrieving %s message...]
 Извличане на текста "%s"...
-[Co&py to Clipboard]
+[Co&py to clipboard]
 
-[%s Message (%s)]
+[%s message (%s)]
 
 [Retrieving status message for %s...]
 
@@ -90,11 +90,7 @@
 
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 
-[Show 'Copy Away Message' item in contact menu]
-
-[Show 'Go to URL in Away Message' item in contact menu]
-
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 
 [Clear History]
 
@@ -102,7 +98,7 @@
 
 [* This feature is available only when using StartupStatus plugin.]
 
-[Status on Startup]
+[Status on startup]
 
 [Set status after]
 
@@ -162,33 +158,33 @@
 Поставяне
 [Delete]
 Изтриване
-[Select All]
+[Select all]
 Избор - всичко
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 
 [&Close]
 Затваряне
-[Re&ad %s Message]
+[Re&ad %s message]
 Показване на текста "%s"
-[Copy %s Message]
+[Copy %s message]
 
-[&Go to URL in %s Message]
+[&Go to URL in %s message]
 
-[Re&ad Away Message]
+[Re&ad Away message]
 Показване на текста за отсъствие
-[Copy Away Message]
+[Copy Away message]
 
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[Change Status Message]
+[Change status message]
 
-[Open Status Message Dialog]
+[Open status message dialog]
 
-[Status Message]
+[Status message]
 Текст за състояние
-[Status Message...]
+[Status message...]
 Текст за състояние...
 [%s (locked)]
 %s (заключен)
@@ -205,11 +201,13 @@
 
 [<current>]
 <текущо>
-[Add to Predefined]
+[Clear history]
 
-[Delete Selected]
+[Add to predefined]
+
+[Delete selected]
 Изтриване на маркираните
-[Global]
+[global]
 Общо
 [Closing in %d]
 Затваряне след %d
@@ -220,7 +218,7 @@
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 
-[Open String Formatting Help]
+[Open string formatting help]
 Помощ за форматирането на низове
 [Hide]
 Скриване
@@ -234,7 +232,7 @@
 
 [Confirm clearing predefined]
 
-[<Last status>]
+[<last status>]
 
 [Status]
 Състояние
@@ -243,11 +241,11 @@
 [Advanced]
 Разширени
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
-[Recent Message]
+[Recent message]
 
-[Predefined Message]
+[Predefined message]
 
-[Go to URL in Away Message]
+[Go to URL in Away message]
 
 [Simple Status Message]
 

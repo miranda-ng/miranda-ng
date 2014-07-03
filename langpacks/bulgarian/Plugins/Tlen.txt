@@ -263,10 +263,6 @@
 
 [Forwarding]
 
-[SOCKS4]
-
-[SOCKS5]
-
 [%S mail]
 
 ;file \protocols\Tlen\src\tlen_picture.cpp

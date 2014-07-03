@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.5.2
+;  Version: 0.8.7.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -34,6 +34,8 @@ Explorer
 Remplir description dans boite texte
 [Delete &after send]
 Supprimer après envoi
+[Open editor before sending]
+
 [Open again]
 Ré-ouvrir
 [&Capture]
@@ -54,6 +56,8 @@ Légende :
 Taille (HxW) :
 [C&lient Area]
 Zone du client
+[indirect capture]
+
 [Target Tool]
 
 [File:]
@@ -89,6 +93,10 @@ Une erreur inconnue s'est produite.
 [Unable to initiate %s.]
 
 [MAPI error (%i):\n%s.]
+
+[Unknown response from %s (%i)]
+
+[Got no response from %s (%i)]
 
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
@@ -134,11 +142,11 @@ Transfert de fichiers
 
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
-;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 
-[Upload server did not respond timely.]
-
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 
@@ -146,7 +154,6 @@ Transfert de fichiers
 Impossible de lancer le plugin "serveur HTTP".
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 
@@ -211,6 +218,8 @@ Préc
 Suivant
 [Update]
 Mise à jour
+[Edit on]
+
 [BBC]
 
 [BBC link]
@@ -253,10 +262,6 @@ Transfert de fichiers
 [E-mail]
 Courriel
 [FTP File]
-
-[Dropbox]
-
-[ImageShack]
 
 [Upload Pie (30m)]
 

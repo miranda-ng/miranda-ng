@@ -1137,8 +1137,14 @@ UIN, E-mail и т.д.
 Показывать имена
 [Show timestamp]
 Показывать время
+[Show seconds]
+Секунды
 [Show dates]
 Показывать даты
+[Show formatting]
+Показывать форматирование
+[Load history events]
+Подгрузка истории
 [Load unread events only]
 Только непрочитанные события
 [Load number of previous events]
@@ -1147,12 +1153,6 @@ UIN, E-mail и т.д.
 События, полученные менее чем
 [minutes old]
 минут назад
-[Show seconds]
-Секунды
-[Load history events]
-Подгрузка истории
-[Show formatting]
-Показывать форматирование
 [Send typing notifications to the following users when you are typing a message to them:]
 Оповещать отмеченных пользователей о том, что вы набираете сообщение:
 [Show typing notifications when a user is typing a message]

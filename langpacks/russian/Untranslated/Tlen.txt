@@ -15,8 +15,6 @@
 [Accept all images]
 [Ignore images from unauthorized contacts]
 [Ignore all images]
-[SOCKS4]
-[SOCKS5]
 [%S mail]
 [Image sent file://%s]
 [Image received file://%s]

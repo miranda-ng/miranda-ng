@@ -55,8 +55,6 @@ Cuentas
 
 [Message sent]
 
-[MirFox]
-
 [Cannot send message to %s (%s) - %S]
 
 [Cannot send message - %S]

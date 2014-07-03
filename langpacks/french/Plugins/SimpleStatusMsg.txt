@@ -8,15 +8,15 @@
 [Provides a simple way to set status and away messages.]
 
 ;file \plugins\SimpleStatusMsg\res\resource.rc
-[%s Message for %s]
+[%s message for %s]
 Message %s pour %s
 [&Cancel]
 &Annuler
 [Retrieving %s message...]
 Récupération du message %s...
-[Co&py to Clipboard]
+[Co&py to clipboard]
 Co&pier dans le presse-papier
-[%s Message (%s)]
+[%s message (%s)]
 
 [Retrieving status message for %s...]
 Récupération du message d'état de %s...
@@ -90,11 +90,7 @@ Autre
 
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 
-[Show 'Copy Away Message' item in contact menu]
-
-[Show 'Go to URL in Away Message' item in contact menu]
-
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 
 [Clear History]
 
@@ -102,7 +98,7 @@ Autre
 
 [* This feature is available only when using StartupStatus plugin.]
 
-[Status on Startup]
+[Status on startup]
 
 [Set status after]
 
@@ -162,33 +158,33 @@ Copier
 Coller
 [Delete]
 Effacer
-[Select All]
+[Select all]
 Tout sélectionner
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 
 [&Close]
 &Fermer
-[Re&ad %s Message]
+[Re&ad %s message]
 &Message d'état de "%s"
-[Copy %s Message]
+[Copy %s message]
 Copier le message %s
-[&Go to URL in %s Message]
+[&Go to URL in %s message]
 
-[Re&ad Away Message]
+[Re&ad Away message]
 Lire le message d'&absence
-[Copy Away Message]
+[Copy Away message]
 Copier le message d'état
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[Change Status Message]
+[Change status message]
 Changer le message d'état
-[Open Status Message Dialog]
+[Open status message dialog]
 
-[Status Message]
+[Status message]
 
-[Status Message...]
+[Status message...]
 
 [%s (locked)]
 %s (verrouillé)
@@ -205,11 +201,13 @@ Changer le message d'état
 
 [<current>]
 
-[Add to Predefined]
+[Clear history]
 
-[Delete Selected]
+[Add to predefined]
+
+[Delete selected]
 Supprimer la sélection
-[Global]
+[global]
 Général
 [Closing in %d]
 Fermeture dans %d
@@ -220,7 +218,7 @@ Fermeture dans %d
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 
-[Open String Formatting Help]
+[Open string formatting help]
 
 [Hide]
 Cacher
@@ -234,7 +232,7 @@ Cacher
 
 [Confirm clearing predefined]
 
-[<Last status>]
+[<last status>]
 <Dernier État>
 [Status]
 État
@@ -243,11 +241,11 @@ Général
 [Advanced]
 Avancé
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
-[Recent Message]
+[Recent message]
 
-[Predefined Message]
+[Predefined message]
 
-[Go to URL in Away Message]
+[Go to URL in Away message]
 
 [Simple Status Message]
 

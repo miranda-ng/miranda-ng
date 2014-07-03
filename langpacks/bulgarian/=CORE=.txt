@@ -1117,8 +1117,14 @@ Wikipedia
 Показване на имена
 [Show timestamp]
 Показване на времева марка
+[Show seconds]
+Показване на секунди
 [Show dates]
 Показване на дати
+[Show formatting]
+
+[Load history events]
+Допълнително зареждани събития
 [Load unread events only]
 Само непрочетените събития
 [Load number of previous events]
@@ -1127,12 +1133,6 @@ Wikipedia
 Събития от преди
 [minutes old]
 минути
-[Show seconds]
-Показване на секунди
-[Load history events]
-Допълнително зареждани събития
-[Show formatting]
-
 [Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
 [Show typing notifications when a user is typing a message]

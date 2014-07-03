@@ -1135,8 +1135,14 @@ UIN, E-mail тощо
 Показувати імена
 [Show timestamp]
 Показувати час
+[Show seconds]
+Секунди
 [Show dates]
 Показувати дату
+[Show formatting]
+Показувати форматування
+[Load history events]
+Показувати історію
 [Load unread events only]
 Лише непереглянуті події
 [Load number of previous events]
@@ -1145,12 +1151,6 @@ UIN, E-mail тощо
 Події, отримані пізніше ніж
 [minutes old]
 хвилин тому
-[Show seconds]
-Секунди
-[Load history events]
-Показувати історію
-[Show formatting]
-Показувати форматування
 [Send typing notifications to the following users when you are typing a message to them:]
 Сповіщати цих користувачів, коли ви друкуєте повідомлення для них:
 [Show typing notifications when a user is typing a message]

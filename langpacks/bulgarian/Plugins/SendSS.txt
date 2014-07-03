@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.5.2
+;  Version: 0.8.7.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -34,6 +34,8 @@
 
 [Delete &after send]
 
+[Open editor before sending]
+
 [Open again]
 
 [&Capture]
@@ -53,6 +55,8 @@
 [Size (HxW):]
 
 [C&lient Area]
+
+[indirect capture]
 
 [Target Tool]
 
@@ -89,6 +93,10 @@
 [Unable to initiate %s.]
 
 [MAPI error (%i):\n%s.]
+
+[Unknown response from %s (%i)]
+
+[Got no response from %s (%i)]
 
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
@@ -134,11 +142,11 @@
 
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 
-;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 
-[Upload server did not respond timely.]
-
+;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 
@@ -146,7 +154,6 @@
 
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 
-;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Нов опит
@@ -209,6 +216,8 @@
 Следващо
 [Update]
 Обнови
+[Edit on]
+
 [BBC]
 
 [BBC link]
@@ -252,10 +261,6 @@
 Имейл
 [FTP File]
 FTP File
-[Dropbox]
-
-[ImageShack]
-
 [Upload Pie (30m)]
 
 [Upload Pie (1d)]

@@ -1143,8 +1143,14 @@ Zone de texte de la Fenêtre
 Voir les noms
 [Show timestamp]
 Voir l'horodatage
+[Show seconds]
+Voir les secondes
 [Show dates]
 Voir la date
+[Show formatting]
+Afficher le formatage
+[Load history events]
+Derniers échanges
 [Load unread events only]
 Voir seulement les messages non lus
 [Load number of previous events]
@@ -1153,12 +1159,6 @@ Voir les x derniers évènements
 Voir les évènements ayant moins de
 [minutes old]
 minutes
-[Show seconds]
-Voir les secondes
-[Load history events]
-Derniers échanges
-[Show formatting]
-Afficher le formatage
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants quand vous tapez un message qui leur est destiné :
 [Show typing notifications when a user is typing a message]

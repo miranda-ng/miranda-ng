@@ -8,15 +8,15 @@
 [Provides a simple way to set status and away messages.]
 Umożliwia zmianę statusu i opisów w prosty sposób.
 ;file \plugins\SimpleStatusMsg\res\resource.rc
-[%s Message for %s]
+[%s message for %s]
 Opis "%s" dla %s
 [&Cancel]
 &Anuluj
 [Retrieving %s message...]
 Odbieranie %s wiadomości
-[Co&py to Clipboard]
+[Co&py to clipboard]
 Ko&piuj do schowka
-[%s Message (%s)]
+[%s message (%s)]
 Opis - %s (%s)
 [Retrieving status message for %s...]
 Pobieranie opisu dla %s...
@@ -90,11 +90,7 @@ Zamykaj automatycznie okno po
 Pamiętaj i przywracaj ostatnią pozycję okna
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Usuń znaki nowej linii (CR = '\\r' = #0D) z opisu
-[Show 'Copy Away Message' item in contact menu]
-Pokaż element "Kopiuj opis" w menu kontaktu
-[Show 'Go to URL in Away Message' item in contact menu]
-Pokaż "Otwórz link z opisu" w menu kontaktu
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 Pokaż element "Zmień opis..." w menu statusu
 [Clear History]
 Wyczyść historię
@@ -102,7 +98,7 @@ Wyczyść historię
 Wyczyść ulubione
 [* This feature is available only when using StartupStatus plugin.]
 * Ta opcja jest dostępna tylko przy aktywnej wtyczce StartupStatus.
-[Status on Startup]
+[Status on startup]
 Status po uruchomieniu
 [Set status after]
 Ustaw status po:
@@ -162,33 +158,33 @@ Kopiuj
 Wklej
 [Delete]
 Usuń
-[Select All]
+[Select all]
 Zaznacz wszystko
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 Błąd w odzyskiwaniu opisu %s.
 [&Close]
 &Zamknij
-[Re&ad %s Message]
+[Re&ad %s message]
 Po&każ opis "%s"
-[Copy %s Message]
+[Copy %s message]
 Kopiuj opis %s
-[&Go to URL in %s Message]
+[&Go to URL in %s message]
 &Otwórz link z opisu
-[Re&ad Away Message]
+[Re&ad Away message]
 Po&każ opis
-[Copy Away Message]
+[Copy Away message]
 Kopiuj opis kontaktu
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 &Otwórz link z opisu
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[Change Status Message]
+[Change status message]
 Zmień opis...
-[Open Status Message Dialog]
+[Open status message dialog]
 Otwórz okno zmiany statusu
-[Status Message]
+[Status message]
 Opis
-[Status Message...]
+[Status message...]
 Zmień opis...
 [%s (locked)]
 %s (zablokowane)
@@ -205,11 +201,13 @@ pobierz datę (kompatybilne z Simple Status Message)
 <startowy>
 [<current>]
 <aktualny>
-[Add to Predefined]
+[Clear history]
+
+[Add to predefined]
 Dodaj do ulubionych
-[Delete Selected]
+[Delete selected]
 Usuń wybrane
-[Global]
+[global]
 Globalne
 [Closing in %d]
 Zamykanie w %d
@@ -220,7 +218,7 @@ Potwierdź wyczyszczenie historii
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Globalna zmiana statusu
-[Open String Formatting Help]
+[Open string formatting help]
 Otwórz pomoc nt formatowania tekstu
 [Hide]
 Ukryj
@@ -234,7 +232,7 @@ Pokaż na liście opisów
 Czy na pewno chcesz wyczyścić ulubione opisy?
 [Confirm clearing predefined]
 Potwierdź wyczyszczenie ulubionych
-[<Last status>]
+[<last status>]
 <Ostatni status>
 [Status]
 Status
@@ -243,11 +241,11 @@ Ogólne
 [Advanced]
 Zaawansowane
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
-[Recent Message]
+[Recent message]
 Ostatni opis
-[Predefined Message]
+[Predefined message]
 Ulubiony opis
-[Go to URL in Away Message]
+[Go to URL in Away message]
 Otwórz link z opisu
 [Simple Status Message]
 Menedżer statusów

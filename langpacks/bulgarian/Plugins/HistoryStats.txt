@@ -550,11 +550,7 @@
 
 [...can be output as: ]
 
-[HTML]
-
 [PNG (partial)]
-
-[PNG]
 
 [...will be output as: ]
 

@@ -18,7 +18,7 @@
 [?scroll(string,numchars,numchars)]
 [More variables...]
 [Failed to retrieve %s message.]
-[&Go to URL in %s Message]
+[&Go to URL in %s message]
 [retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 [get the date (Simple Status Message compatible)]
 [<startup>]

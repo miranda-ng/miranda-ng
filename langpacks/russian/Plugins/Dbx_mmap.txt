@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.0.4
+;  Version: 0.95.1.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -47,8 +47,12 @@
 Miranda нашла повреждения в вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с http://miranda-ng.org/p/DbChecker/. Miranda будет закрыта.
 [Database Panic]
 Проблема с базой
+[This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nPlease press Yes to read further instructions or No to cancel]
+Формат вашего профиля является устаревшим. Чтобы получать обновления через PluginUpdater, необходимо преобразовать профиль в современный формат.\n\nНажмите Да для получения подробной информации или Нет для отмены.
+[Obsolete database format]
+Устаревший формат профиля
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
-Ваша база данных будет конвертирована в новый формат. Это потенциально опасное действие, сделайте, пожалуйста, резервную копию базы.\n\nНажмите 'Да', чтобы начать конвертирование, или 'Нет', чтобы выйти из программы.
+Ваш профиль будет конвертирован в новый формат. Это потенциально опасное действие, сделайте, пожалуйста, резервную копию профиля.\n\nНажмите 'Да', чтобы начать конвертирование, или 'Нет', чтобы выйти из программы.
 [Database conversion required]
 Конвертирование базы
 [Change/remove password]

@@ -550,12 +550,8 @@ Specyficzne ustawienia kolumny
 W tej konfiguracji zaznaczona kolumna...
 [...can be output as: ]
 ...będzie miała efekt jak:\s
-[HTML]
-HTML
 [PNG (partial)]
 PNG (częściowy)
-[PNG]
-PNG
 [...will be output as: ]
 ...będzie miała efekt jak:\s
 [Nothing (column will be skipped)]

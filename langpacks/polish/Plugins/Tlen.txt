@@ -265,10 +265,6 @@ Ignoruj wszystkie obrazki
 <Ostatni opis>
 [Forwarding]
 Przekierowanie
-[SOCKS4]
-SOCKS4
-[SOCKS5]
-SOCKS5
 [%S mail]
 %S wiadomość
 ;file \protocols\Tlen\src\tlen_picture.cpp

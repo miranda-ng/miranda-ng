@@ -8,15 +8,15 @@
 [Provides a simple way to set status and away messages.]
 
 ;file \plugins\SimpleStatusMsg\res\resource.rc
-[%s Message for %s]
+[%s message for %s]
 %s Mensaje(S) para %s
 [&Cancel]
 &Cancelar
 [Retrieving %s message...]
 Recuperando %s Mensaje(S)...
-[Co&py to Clipboard]
+[Co&py to clipboard]
 
-[%s Message (%s)]
+[%s message (%s)]
 
 [Retrieving status message for %s...]
 
@@ -90,11 +90,7 @@ Otro
 
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 
-[Show 'Copy Away Message' item in contact menu]
-
-[Show 'Go to URL in Away Message' item in contact menu]
-
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 
 [Clear History]
 Limpiar historial
@@ -102,7 +98,7 @@ Limpiar historial
 
 [* This feature is available only when using StartupStatus plugin.]
 
-[Status on Startup]
+[Status on startup]
 
 [Set status after]
 
@@ -162,33 +158,33 @@ Copiar
 Pegar
 [Delete]
 Eliminar
-[Select All]
+[Select all]
 Seleccionar todo
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 
 [&Close]
 &Cerrar
-[Re&ad %s Message]
+[Re&ad %s message]
 Leer %s mensaje(s)
-[Copy %s Message]
+[Copy %s message]
 
-[&Go to URL in %s Message]
+[&Go to URL in %s message]
 
-[Re&ad Away Message]
+[Re&ad Away message]
 
-[Copy Away Message]
+[Copy Away message]
 
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[Change Status Message]
+[Change status message]
 
-[Open Status Message Dialog]
+[Open status message dialog]
 
-[Status Message]
+[Status message]
 
-[Status Message...]
+[Status message...]
 
 [%s (locked)]
 %s (bloqueado)
@@ -205,11 +201,13 @@ Leer %s mensaje(s)
 
 [<current>]
 <presente>
-[Add to Predefined]
+[Clear history]
 
-[Delete Selected]
+[Add to predefined]
 
-[Global]
+[Delete selected]
+
+[global]
 Global
 [Closing in %d]
 Cerrando en %d
@@ -220,7 +218,7 @@ Cerrando en %d
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 
-[Open String Formatting Help]
+[Open string formatting help]
 
 [Hide]
 
@@ -234,7 +232,7 @@ Cerrando en %d
 
 [Confirm clearing predefined]
 
-[<Last status>]
+[<last status>]
 
 [Status]
 Estado
@@ -243,11 +241,11 @@ General
 [Advanced]
 Avanzado
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
-[Recent Message]
+[Recent message]
 
-[Predefined Message]
+[Predefined message]
 
-[Go to URL in Away Message]
+[Go to URL in Away message]
 
 [Simple Status Message]
 

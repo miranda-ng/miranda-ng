@@ -55,8 +55,6 @@ MirFox-Protokoll
 Nachricht an %s (%s) gesendet
 [Message sent]
 Nachricht gesendet
-[MirFox]
-MirFox
 [Cannot send message to %s (%s) - %S]
 Kann Nachricht nicht an %s (%s) senden - %S
 [Cannot send message - %S]

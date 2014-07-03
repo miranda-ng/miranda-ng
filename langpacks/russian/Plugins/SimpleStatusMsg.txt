@@ -7,15 +7,15 @@
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Быстрая смена статусов и предустановленных сообщений статуса.
-[%s Message for %s]
+[%s message for %s]
 %s сообщение для %s
 [&Cancel]
 О&тмена
 [Retrieving %s message...]
 Загрузка сообщения "%s"...
-[Co&py to Clipboard]
+[Co&py to clipboard]
 Ск&опировать в буфер
-[%s Message (%s)]
+[%s message (%s)]
 Сообщение "%s" (%s)
 [Retrieving status message for %s...]
 Получение сообщения статуса для %s...
@@ -89,11 +89,7 @@
 Помнить последнюю позицию окна
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Удалять символы возврата каретки (CR = '\\r' = #0D) из сообщений статуса
-[Show 'Copy Away Message' item in contact menu]
-'Скопировать сообщение статуса' в меню контакта
-[Show 'Go to URL in Away Message' item in contact menu]
-Показывать 'Открыть ссылку' в меню контакта
-[Show 'Status Message...' item in status menu]
+[Show 'Status message...' item in status menu]
 Показывать 'Сообщение статуса...' в контекстном меню
 [Clear History]
 Очистить
@@ -101,7 +97,7 @@
 Очистить
 [* This feature is available only when using StartupStatus plugin.]
 * Эта возможность доступна только при использовании плагина StartupStatus
-[Status on Startup]
+[Status on startup]
 Начальный статус
 [Set status after]
 Установить через
@@ -123,27 +119,27 @@
 Вставить
 [Delete]
 Удалить
-[Select All]
+[Select all]
 Выделить всё
 [&Close]
 &Закрыть
-[Re&ad %s Message]
+[Re&ad %s message]
 &Прочитать сообщение "%s"
-[Copy %s Message]
+[Copy %s message]
 Копировать сообщение %s
-[Re&ad Away Message]
+[Re&ad Away message]
 Пр&очесть сообщение "Отсутствую"
-[Copy Away Message]
+[Copy Away message]
 Скопировать сообщение статуса
-[&Go to URL in Away Message]
+[&Go to URL in Away message]
 &Открыть ссылку
-[Change Status Message]
+[Change status message]
 Сменить сообщение статуса
-[Open Status Message Dialog]
+[Open status message dialog]
 Открыть диалог сообщения статуса
-[Status Message]
+[Status message]
 Статусное сообщение
-[Status Message...]
+[Status message...]
 Сообщение статуса...
 [%s (locked)]
 %s (заблокирован)
@@ -153,11 +149,13 @@
 Относящееся к Miranda NG
 [<current>]
 <текущий>
-[Add to Predefined]
+[Clear history]
+Очистить историю
+[Add to predefined]
 В предустановленные
-[Delete Selected]
+[Delete selected]
 Удалить выбранное
-[Global]
+[global]
 Глобальные
 [Closing in %d]
 Закрыть (%d)
@@ -167,7 +165,7 @@
 Подтверждение удаления истории
 [Global status change]
 Глобальный статус
-[Open String Formatting Help]
+[Open string formatting help]
 Помощь по формату строк
 [Hide]
 Скрыть
@@ -181,7 +179,7 @@
 Вы уверены, что хотите удалить настроенные сообщения статуса?
 [Confirm clearing predefined]
 Подтверждение удаления настроенных сообщений
-[<Last status>]
+[<last status>]
 <Последний>
 [Status]
 Статус
@@ -189,11 +187,11 @@
 Общее
 [Advanced]
 Дополнительно
-[Recent Message]
+[Recent message]
 Последнее сообщение
-[Predefined Message]
+[Predefined message]
 Предустановленное сообщение
-[Go to URL in Away Message]
+[Go to URL in Away message]
 Перейти по ссылке в сообщении отсутствия
 [Simple Status Message]
 Сообщение статуса

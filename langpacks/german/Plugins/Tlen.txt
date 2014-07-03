@@ -265,10 +265,6 @@ Alle Bilder ignorieren
 <Letzte Nachricht>
 [Forwarding]
 Weiterleiten
-[SOCKS4]
-SOCKS4
-[SOCKS5]
-SOCKS5
 [%S mail]
 %S Mail
 ;file \protocols\Tlen\src\tlen_picture.cpp
