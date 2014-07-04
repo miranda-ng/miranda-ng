@@ -818,22 +818,24 @@ void fnRecalculateGroupCheckboxes(HWND, struct ClcData *dat)
 	}
 }
 
+void fnSetContactCheckboxes(ClcContact *cc, int checked)
+{
+	if (checked)
+		cc->flags |= CONTACTF_CHECKED;
+	else
+		cc->flags &= ~CONTACTF_CHECKED;
+}
+
 void fnSetGroupChildCheckboxes(ClcGroup *group, int checked)
 {
 	for (int i=0; i < group->cl.count; i++) {
-		if (group->cl.items[i]->type == CLCIT_GROUP) {
-			cli.pfnSetGroupChildCheckboxes(group->cl.items[i]->group, checked);
-			if (checked)
-				group->cl.items[i]->flags |= CONTACTF_CHECKED;
-			else
-				group->cl.items[i]->flags &= ~CONTACTF_CHECKED;
+		ClcContact *cc = group->cl.items[i];
+		if (cc->type == CLCIT_GROUP) {
+			cli.pfnSetGroupChildCheckboxes(cc->group, checked);
+			cli.pfnSetContactCheckboxes(cc, checked);
 		}
-		else if (group->cl.items[i]->type == CLCIT_CONTACT) {
-			if (checked)
-				group->cl.items[i]->flags |= CONTACTF_CHECKED;
-			else
-				group->cl.items[i]->flags &= ~CONTACTF_CHECKED;
-		}
+		else if (cc->type == CLCIT_CONTACT)
+			cli.pfnSetContactCheckboxes(cc, checked);
 	}
 }
 

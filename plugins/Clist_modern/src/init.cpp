@@ -190,6 +190,7 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnFreeContact           = cli_FreeContact;
 	pcli->pfnFreeGroup             = cli_FreeGroup;
 	pcli->pfnChangeContactIcon     = cli_ChangeContactIcon;
+	pcli->pfnSetContactCheckboxes  = cli_SetContactCheckboxes;
 	pcli->pfnTrayIconProcessMessage = cli_TrayIconProcessMessage;
 	pcli->pfnSaveStateAndRebuildList = cli_SaveStateAndRebuildList;
 	pcli->pfnContactListControlWndProc = cli_ContactListControlWndProc;

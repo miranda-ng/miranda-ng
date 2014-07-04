@@ -95,6 +95,7 @@ void  fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour);
 void  fnLoadClcOptions(HWND hwnd, struct ClcData *dat);
 void  fnRecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
 void  fnSetGroupChildCheckboxes(ClcGroup *group, int checked);
+void  fnSetContactCheckboxes(ClcContact *cc, int checked);
 void  fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem);
 
 int fnGetRowBottomY(struct ClcData *dat, int item);

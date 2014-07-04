@@ -480,6 +480,7 @@ typedef struct
 	int    (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 	int    (*pfnGetAverageMode)(int *pNetProtoCount);
 	void   (*pfnInitAutoRebuild)(HWND hwnd);
+	void   (*pfnSetContactCheckboxes)(ClcContact *cc, int checked);
 }
 	CLIST_INTERFACE;
 

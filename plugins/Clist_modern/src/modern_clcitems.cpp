@@ -630,6 +630,14 @@ void cliInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 	}
 }
 
+void cli_SetContactCheckboxes(ClcContact *cc, int checked)
+{
+	corecli.pfnSetContactCheckboxes(cc, checked);
+
+	for (int i = 0; i < cc->SubAllocated; i++)
+		corecli.pfnSetContactCheckboxes(&cc->subcontacts[i], checked);
+}
+
 char* cli_GetGroupCountsText(ClcData *dat, ClcContact *contact)
 {
 	return corecli.pfnGetGroupCountsText(dat, contact);

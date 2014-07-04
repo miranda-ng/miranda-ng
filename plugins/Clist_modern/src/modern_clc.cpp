@@ -903,12 +903,12 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 		}
 
 		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && (hitFlags & CLCHT_ONITEMCHECK)) {
-			contact->flags ^= CONTACTF_CHECKED;
-			for (int i = 0; i < contact->SubAllocated; i++)
-				contact->subcontacts[i].flags ^= CONTACTF_CHECKED;
+			int bNewState = (contact->flags & CONTACTF_CHECKED) == 0; // inversion
 
 			if (contact->type == CLCIT_GROUP)
-				pcli->pfnSetGroupChildCheckboxes(contact->group, contact->flags&CONTACTF_CHECKED);
+				pcli->pfnSetGroupChildCheckboxes(contact->group, bNewState);
+			else
+				pcli->pfnSetContactCheckboxes(contact, bNewState);
 			pcli->pfnRecalculateGroupCheckboxes(hwnd, dat);
 			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
 
