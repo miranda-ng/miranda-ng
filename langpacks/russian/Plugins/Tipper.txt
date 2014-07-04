@@ -20,9 +20,9 @@
 [Text padding:]
 Межстрочный отступ:
 [Outer avatar padding:]
-Внеш. отступ аватара:
+Внешний отступ аватара:
 [Inner avatar padding:]
-Внут. отступ аватара:
+Внутренний отступ аватара:
 [Alignment]
 Выравнивание
 [Labels:]
@@ -32,13 +32,13 @@
 [Window]
 Окно
 [Max width:]
-Макс. ширина:
+Максимальная ширина:
 [Min width:]
-Мин. ширина:
+Минимальная ширина:
 [Max height:]
-Макс. высота:
+Максимальная высота:
 [Min height:]
-Мин. высота:
+Минимальная высота:
 [Avatar size:]
 Аватар:
 [Sidebar width:]
@@ -174,7 +174,7 @@
 [Hide offline protocols]
 Прятать отключённые протоколы
 [Expand to second level after:]
-Второй ур-нь подсказки через:
+Второй уровень подсказки через:
 [ms]
 мс
 [First level tooltip]
@@ -234,7 +234,7 @@
 [Right avatar]
 Аватар справа
 [Max avatar size:]
-Размер (макс.):
+Макс. размер аватара:
 [None]
 Нет
 [Animation]
@@ -260,7 +260,7 @@
 [Show only for chatrooms]
 Показывать только для комнат чата
 [Number of contacts]
-Кол-во контактов
+Количество контактов
 [Protocol lock status]
 Заблокированный статус
 [Logon time]
