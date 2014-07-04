@@ -264,3 +264,4 @@ db_mc_isEnabled               @261
 LoadLangPackDescr             @262
 PathIsAbsolute                @263
 PathIsAbsoluteW               @264
+db_mc_notifyDefChange         @265

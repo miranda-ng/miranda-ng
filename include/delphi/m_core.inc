@@ -655,7 +655,7 @@ function PathIsAbsolute(const pSrc:PAnsiChar):int; stdcall;
                  external CoreDLL name 'PathIsAbsolute';
 function PathToAbsolute(const pSrc:PAnsiChar; pOut:PAnsiChar; base:PAnsiChar=nil):int; stdcall;
                  external CoreDLL name 'PathToAbsolute';
-function PathToRelative(const pSrc:PAnsiChar; pOut:PAnsiChar):int; stdcall;
+function PathToRelative(const pSrc:PAnsiChar; pOut:PAnsiChar; base:PAnsiChar=nil):int; stdcall;
                  external CoreDLL name 'PathToRelative';
 
 procedure CreatePathToFileW(wszFilePath:PWideChar); stdcall;
@@ -666,7 +666,7 @@ function PathIsAbsoluteW(const pSrc:PWideChar):int; stdcall;
                  external CoreDLL name 'PathIsAbsoluteW';
 function PathToAbsoluteW(const pSrc:PWideChar; pOut:PWideChar; base:PWideChar=nil):int; stdcall;
                  external CoreDLL name 'PathToAbsoluteW';
-function PathToRelativeW(const pSrc:PWideChar; pOut:PWideChar):int; stdcall;
+function PathToRelativeW(const pSrc:PWideChar; pOut:PWideChar; base:PWideChar=nil):int; stdcall;
                  external CoreDLL name 'PathToRelativeW';
 
 

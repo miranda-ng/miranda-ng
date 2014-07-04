@@ -588,20 +588,24 @@ MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr);
 
 MIR_CORE_DLL(void)   CreatePathToFile(char* wszFilePath);
 MIR_CORE_DLL(int)    CreateDirectoryTree(const char* szDir);
-MIR_CORE_DLL(int)    PathToRelative(const char *pSrc, char *pOut);
 MIR_CORE_DLL(int)    PathIsAbsolute(const char *pSrc);
 
 MIR_CORE_DLL(void)   CreatePathToFileW(WCHAR* wszFilePath);
 MIR_CORE_DLL(int)    CreateDirectoryTreeW(const WCHAR* szDir);
-MIR_CORE_DLL(int)    PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut);
 MIR_CORE_DLL(int)    PathIsAbsoluteW(const WCHAR *pSrc);
 
 #if defined( __cplusplus )
-	MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, char* base=0);
-	MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, WCHAR* base=0);
+	MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char* base=0);
+	MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR* base = 0);
+
+	MIR_CORE_DLL(int) PathToRelative(const char *pSrc, char *pOut, const char* base = 0);
+	MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR* base = 0);
 #else
-	MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, char* base);
-	MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, WCHAR* base);
+	MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char* base);
+	MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR* base);
+
+	MIR_CORE_DLL(int) PathToRelative(const char *pSrc, char *pOut, const char* base);
+	MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR* base);
 #endif
 
 #define CreatePathToFileT CreatePathToFileW
