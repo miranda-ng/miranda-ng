@@ -23,8 +23,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-static void sttResetListOptions(HWND hwndList);
-static void sttSetAllContactIcons(HWND hwndList);
+static void sttResetListOptions(HWND hwndList)
+{
+	SendMessage(hwndList, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
+	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
+	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
+	SendMessage(hwndList, CLM_SETLEFTMARGIN, 4, 0);
+	SendMessage(hwndList, CLM_SETINDENT, 20, 0);
+	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+	for (int i = 0; i <= FONTID_MAX; i++)
+		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
+}
+
+static void sttSetAllContactIcons(HWND hwndList)
+{
+	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
+		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
+		for (int i = 0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
+			//hIml element [0]    = SKINICON_OTHER_SMALLDOT
+			//hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (dwMode == i) ? i + 1 : 0));
+	}
+}
 
 INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -101,28 +122,4 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	}
 
 	return FALSE;
-}
-
-static void sttResetListOptions(HWND hwndList)
-{
-	SendMessage(hwndList,CLM_SETBKBITMAP,0,(LPARAM)(HBITMAP)NULL);
-	SendMessage(hwndList,CLM_SETBKCOLOR,GetSysColor(COLOR_WINDOW),0);
-	SendMessage(hwndList,CLM_SETGREYOUTFLAGS,0,0);
-	SendMessage(hwndList,CLM_SETLEFTMARGIN,4,0);
-	SendMessage(hwndList,CLM_SETINDENT,20,0);
-	SendMessage(hwndList,CLM_SETHIDEEMPTYGROUPS,1,0);
-	for(int i=0;i<=FONTID_MAX;i++)
-		SendMessage(hwndList,CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
-}
-
-static void sttSetAllContactIcons(HWND hwndList)
-{
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
-		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
-		for (int i=0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
-			//hIml element [0]    = SKINICON_OTHER_SMALLDOT
-			//hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (dwMode==i)?i+1:0));
-	}
 }

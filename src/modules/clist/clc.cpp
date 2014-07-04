@@ -45,8 +45,10 @@ void FreeDisplayNameCache(void);
 
 void fnInitAutoRebuild(HWND hWnd)
 {
-	if (!cli.bAutoRebuild && hWnd)
-		cli.bAutoRebuild = PostMessage(hWnd, CLM_AUTOREBUILD, 0, 0) != 0;
+	if (!cli.bAutoRebuild && hWnd) {
+		cli.bAutoRebuild = true;
+		SendMessage(hWnd, CLM_AUTOREBUILD, 0, 0);
+	}
 }
 
 void fnClcBroadcast(int msg, WPARAM wParam, LPARAM lParam)
