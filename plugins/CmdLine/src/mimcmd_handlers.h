@@ -34,22 +34,4 @@ extern PLUGININFOEX pluginInfo;
 
 void HandleCommand(PCommand command, TArgument *argv, int argc, PReply reply);
 
-void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandlePopupsCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleSoundsCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleClistCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleQuitCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleExchangeCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleYAMNCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleCallServiceCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleVersionCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleSetNicknameCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-void HandleIgnoreCommand(PCommand command, TArgument *argv, int argc, PReply reply);
-
 #endif //M_MIMCMD_HANDLERS_H

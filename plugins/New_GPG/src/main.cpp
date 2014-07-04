@@ -14,11 +14,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-
-
-
 #include "commonheaders.h"
 
+extern HFONT bold_font;
+extern bool bAutoExchange;
+
+void ShowFirstRunDialog();
 
 HWND hwndFirstRun = NULL, hwndSetDirs = NULL, hwndNewKey = NULL, hwndKeyGen = NULL, hwndSelectExistingKey = NULL;
 
@@ -249,7 +250,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			}
 		}
 		{
-			SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_ADDSTRING, 0, (LPARAM)Translate("Default"));
+			SendDlgItemMessageA(hwndDlg, IDC_ACCOUNT, CB_ADDSTRING, 0, (LPARAM)Translate("Default"));
 			int count = 0;
 			PROTOACCOUNT **accounts;
 			ProtoEnumAccounts(&count, &accounts);
@@ -264,9 +265,9 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				acc += accounts[i]->szModuleName;
 				acc += ")";
 				//acc += "_KeyID";
-				SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_ADDSTRING, 0, (LPARAM)acc.c_str());
+				SendDlgItemMessageA(hwndDlg, IDC_ACCOUNT, CB_ADDSTRING, 0, (LPARAM)acc.c_str());
 			}
-			SendMessageA(GetDlgItem(hwndDlg, IDC_ACCOUNT), CB_SELECTSTRING, 0, (LPARAM)Translate("Default"));
+			SendDlgItemMessageA(hwndDlg, IDC_ACCOUNT, CB_SELECTSTRING, 0, (LPARAM)Translate("Default"));
 			string keyinfo = Translate("key ID");
 			keyinfo += ": ";
 			char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
@@ -577,7 +578,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  params.result = &result;
 				  extern HFONT bold_font;
 				  SendMessage(GetDlgItem(hwndDlg, IDC_GENERATING_KEY), WM_SETFONT, (WPARAM)bold_font, true);
-				  SetWindowTextA(GetDlgItem(hwndDlg, IDC_GENERATING_KEY), Translate("Generating new random key, please wait"));
+				  SetWindowText(GetDlgItem(hwndDlg, IDC_GENERATING_KEY), TranslateT("Generating new random key, please wait"));
 				  EnableWindow(GetDlgItem(hwndDlg, IDC_GENERATE_KEY), 0);
 				  EnableWindow(GetDlgItem(hwndDlg, IDC_OTHER), 0);
 				  EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_KEY), 0);
@@ -705,9 +706,9 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							char *szKey = (char*)GlobalLock(hMem);
 							if(!szKey)
 							{
-								char msg[64];
-								mir_snprintf(msg, 64, "Failed to lock memory with error %d", GetLastError());
-								MessageBoxA(0, msg, "Error", MB_OK);
+								TCHAR msg[64];
+								mir_sntprintf(msg, 64, TranslateT("Failed to lock memory with error %d"), GetLastError());
+								MessageBox(0, msg, TranslateT("Error"), MB_OK);
 								GlobalFree(hMem);
 							}
 							memcpy(szKey, out.c_str(), out.size());
@@ -717,9 +718,9 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							if(!SetClipboardData(CF_OEMTEXT, hMem))
 							{
 								GlobalFree(hMem);
-								char msg[64];
-								mir_snprintf(msg, 64, "Failed write to clipboard with error %d", GetLastError());
-								MessageBoxA(0, msg, "Error", MB_OK);
+								TCHAR msg[64];
+								mir_sntprintf(msg, 64, TranslateT("Failed write to clipboard with error %d"), GetLastError());
+								MessageBox(0, msg, TranslateT("Error"), MB_OK);
 							}
 							CloseClipboard();
 						}
@@ -844,8 +845,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
   return FALSE;
 }
-
-void ShowFirstRunDialog();
 
 static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1298,8 +1297,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetDlgItemText(hwndDlg, ID_IMPORT, tmp[0]?TranslateT("Replace"):TranslateT("Accept"));
 			mir_free(tmp);
 			tmp = new TCHAR [256];
-			_tcscpy(tmp, TranslateT("Received key from "));
-			_tcscat(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, (LPARAM)GCDNF_TCHAR));
+			mir_sntprintf(tmp, SIZEOF(tmp),TranslateT("Received key from %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, (LPARAM)GCDNF_TCHAR));
 			SetDlgItemText(hwndDlg, IDC_KEY_FROM, tmp);
 			delete [] tmp;
 		}
@@ -1526,9 +1524,8 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 				  params.out = &out;
 				  params.code = &code;
 				  params.result = &result;
-				  extern HFONT bold_font;
 				  SendMessage(GetDlgItem(hwndDlg, IDC_GENERATING_TEXT), WM_SETFONT, (WPARAM)bold_font, true);
-				  SetWindowTextA(GetDlgItem(hwndDlg, IDC_GENERATING_TEXT), Translate("Generating new key, please wait..."));
+				  SetWindowText(GetDlgItem(hwndDlg, IDC_GENERATING_TEXT), TranslateT("Generating new key, please wait..."));
 				  EnableWindow(GetDlgItem(hwndDlg, IDCANCEL), 0);
 				  EnableWindow(GetDlgItem(hwndDlg, IDOK), 0);
 				  EnableWindow(GetDlgItem(hwndDlg, IDC_KEY_TYPE), 0);
@@ -2049,13 +2046,13 @@ void InitCheck()
 		}
 		if(!home_dir_access || !temp_access || !gpg_valid)
 		{
-			char buf[4096];
-			strcpy(buf, gpg_valid?Translate("GPG binary is set and valid (this is good).\n"):Translate("GPG binary unset or invalid (plugin will not work).\n"));
-			strcat(buf, home_dir_access?Translate("Home dir write access granted (this is good).\n"):Translate("Home dir has no write access (plugin most probably will not work).\n"));
-			strcat(buf, temp_access?Translate("Temp dir write access granted (this is good).\n"):Translate("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."));
+			TCHAR buf[4096];
+			_tcsncpy(buf, gpg_valid?TranslateT("GPG binary is set and valid (this is good).\n"):TranslateT("GPG binary unset or invalid (plugin will not work).\n"), SIZEOF(buf));
+			_tcsncat(buf, home_dir_access?TranslateT("Home dir write access granted (this is good).\n"):TranslateT("Home dir has no write access (plugin most probably will not work).\n"), SIZEOF(buf));
+			_tcsncat(buf, temp_access?TranslateT("Temp dir write access granted (this is good).\n"):TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), SIZEOF(buf));
 			if(!gpg_valid)
-				strcat(buf, Translate("\nGPG will be disabled until you solve these problems"));
-			MessageBoxA(0, buf, Translate("GPG plugin problems"), MB_OK);
+				_tcsncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"));
+			MessageBox(0, buf, TranslateT("GPG plugin problems"), MB_OK);
 		}
 		if(!gpg_valid)
 			return;
@@ -2105,7 +2102,6 @@ void InitCheck()
 				mir_free(keyid);
 				keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 				key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
-				void ShowFirstRunDialog();
 				if((p = out.find(keyid)) == string::npos)
 				{
 					question += keyid;
@@ -2169,7 +2165,6 @@ void InitCheck()
 		question = Translate("Your secret key with ID: ");
 		keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 		key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
-		void ShowFirstRunDialog();
 		if(!db_get_b(NULL, szGPGModuleName, "FirstRun", 1) && (!keyid[0] || !key[0]))
 		{
 			question = Translate("You didn't set a private key.\nWould you like to set it now?");
@@ -2239,7 +2234,6 @@ void InitCheck()
 		}
 		mir_free(path);
 	}
-	extern bool bAutoExchange;
 	if(bAutoExchange)
 	{
 		int count = 0;

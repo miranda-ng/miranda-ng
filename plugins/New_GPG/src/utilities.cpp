@@ -17,6 +17,12 @@
 
 #include "commonheaders.h"
 
+void ShowExportKeysDlg();
+void ShowLoadPublicKeyDialog();
+
+extern HINSTANCE hInst;
+extern HANDLE hLoadPublicKey;
+extern HGENMENU hToggleEncryption, hSendKey;
 
 TCHAR* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, TCHAR* szDef)
 {
@@ -135,9 +141,8 @@ void GetFolderPath(TCHAR *WindowTittle, char *szSetting)
 	}
 }
 
-INT_PTR LoadKey(WPARAM w, LPARAM l)
+INT_PTR LoadKey(WPARAM w, LPARAM)
 {
-	void ShowLoadPublicKeyDialog();
 	user_data[1] = (MCONTACT)w;
 	ShowLoadPublicKeyDialog();
 	return 0;
@@ -195,9 +200,6 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 		mir_free(szMessage);
 	return 0;
 }
-
-extern HANDLE hLoadPublicKey;
-extern HGENMENU hToggleEncryption, hSendKey;
 
 INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 {
@@ -1244,9 +1246,9 @@ __forceinline int SendBroadcast(MCONTACT hContact, int type, int result, HANDLE 
 	return ProtoBroadcastAck( GetContactProto(hContact), hContact, type, result, hProcess, lParam);
 }
 
-unsigned __stdcall sttFakeAck( LPVOID param )
+unsigned __stdcall sttFakeAck(void *param)
 {
-	TFakeAckParams* tParam = ( TFakeAckParams* )param;
+	TFakeAckParams *tParam = ( TFakeAckParams* )param;
 	WaitForSingleObject( tParam->hEvent, INFINITE );
 
 	Sleep( 100 );
@@ -1368,7 +1370,7 @@ bool isTabsrmmUsed()
 	DBCONTACTENUMSETTINGS enm = {0};
 	bool found = false;
 	enm.lParam = (LPARAM)&found;
-	enm.pfnEnumProc = (DBSETTINGENUMPROC)&handleEnum;
+	enm.pfnEnumProc = handleEnum;
 	enm.szModule = "PluginDisable";
 	if(CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&enm) == -1)
 		return false;
@@ -1546,19 +1548,18 @@ void ExportGpGKeysFunc(int type)
 	}
 	if(file.is_open())
 		file.close();
-	char msg[512];
+	TCHAR msg[512];
 	if(type == 2)
-		mir_snprintf(msg, 512, "%s %d %s %s %s", Translate("we have successfully exported"), exported_keys, Translate("public keys"), Translate("and"), Translate("all private keys"));
+		mir_sntprintf(msg, 512, TranslateT("We have successfully exported %d public keys and all private keys."), exported_keys);
 	else if(type == 1)
-		mir_snprintf(msg, 512, "%s %s", Translate("we have successfully exported"), Translate("all private keys"));
+		mir_sntprintf(msg, 512, TranslateT("We have successfully exported all private keys."));
 	else if(!type)
-		mir_snprintf(msg, 512, "%s %d %s",Translate("we have successfully exported"), exported_keys, Translate("public keys"));
-	MessageBoxA(NULL, msg, Translate("Keys export result"), MB_OK);
+		mir_sntprintf(msg, 512, TranslateT("We have successfully exported %d public keys."), exported_keys);
+	MessageBox(NULL, msg, TranslateT("Keys export result"), MB_OK);
 }
 
-INT_PTR ExportGpGKeys(WPARAM w, LPARAM l)
+INT_PTR ExportGpGKeys(WPARAM, LPARAM)
 {
-	void ShowExportKeysDlg();
 	ShowExportKeysDlg();
 	return 0;
 }
@@ -1896,12 +1897,12 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 	}
 	if(file.is_open())
 		file.close();
-	char msg[512];
+	TCHAR msg[512];
 	if(processed_private_keys)
-		mir_snprintf(msg, 512, "we have successfully processed %d public keys and some private keys", processed_keys);
+		mir_sntprintf(msg, 512, TranslateT("We have successfully processed %d public keys and some private keys."), processed_keys);
 	else
-		mir_snprintf(msg, 512, "we have successfully processed %d public keys", processed_keys);
-	MessageBoxA(NULL, msg, Translate("Keys import result"), MB_OK);
+		mir_sntprintf(msg, 512, TranslateT("We have successfully processed %d public keys."), processed_keys);
+	MessageBox(NULL, msg, TranslateT("Keys import result"), MB_OK);
 	return 0;
 }
 
@@ -2068,7 +2069,6 @@ static INT_PTR CALLBACK DlgProcExportKeys(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 void ShowExportKeysDlg()
 {
-	extern HINSTANCE hInst;
 	DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT_TYPE), NULL, DlgProcExportKeys);
 }
 

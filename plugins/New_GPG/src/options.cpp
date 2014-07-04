@@ -355,9 +355,9 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  szKey = (char*)GlobalLock(hMem);
 				  if(!szKey)
 				  {
-					  char msg[64];
-					  mir_snprintf(msg, 64, "Failed to lock memory with error %d", GetLastError());
-					  MessageBoxA(0, msg, "Error", MB_OK);
+					  TCHAR msg[64];
+					  mir_sntprintf(msg, 64, TranslateT("Failed to lock memory with error %d"), GetLastError());
+					  MessageBox(0, msg, TranslateT("Error"), MB_OK);
 					  GlobalFree(hMem);
 				  }
 				  memcpy(szKey, str.c_str(), str.size());
@@ -368,17 +368,17 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  if(!SetClipboardData(CF_OEMTEXT, hMem))
 				  {
 					  GlobalFree(hMem);
-					  char msg[64];
-					  mir_snprintf(msg, 64, "Failed write to clipboard with error %d", GetLastError());
-					  MessageBoxA(0, msg, "Error", MB_OK);
+					  TCHAR msg[64];
+					  mir_sntprintf(msg, 64, TranslateT("Failed write to clipboard with error %d"), GetLastError());
+					  MessageBox(0, msg, TranslateT("Error"), MB_OK);
 				  }
 				  CloseClipboard();
 			  }
 			  else
 			  {
-				  char msg[64];
-				  mir_snprintf(msg, 64, "Failed to open clipboard with error %d", GetLastError());
-				  MessageBoxA(0, msg, "Error", MB_OK);
+				  TCHAR msg[64];
+				  mir_sntprintf(msg, 64, TranslateT("Failed to open clipboard with error %d"), GetLastError());
+				  MessageBox(0, msg, TranslateT("Error"), MB_OK);
 			  }
 		  }
 		  break;
@@ -734,9 +734,9 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 				hcnt = metaGetMostOnline(hcnt);
 			TranslateDialogDefault(hwndDlg);
 			{
-				string msg = Translate("Load Public GPG Key for ");
-				msg += (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcnt, 0);
-				SetWindowTextA(hwndDlg, msg.c_str());
+				wstring msg = TranslateT("Load Public GPG Key for ");
+				msg += (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcnt, GCDNF_TCHAR);
+				SetWindowText(hwndDlg, msg.c_str());
 			}
 			if(!hcnt)
 			{
