@@ -866,7 +866,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 	}
 
 	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact)
-		if (hitFlags&CLCHT_ONITEMICON && dat->expandMeta) {
+		if (hitFlags & CLCHT_ONITEMICON && dat->expandMeta) {
 			BYTE doubleClickExpand = db_get_b(NULL, "CLC", "MetaDoubleClick", SETTING_METAAVOIDDBLCLICK_DEFAULT);
 
 			hitcontact = contact;
@@ -882,29 +882,33 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 		}
 		else hitcontact = NULL;
 
-		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_GROUP)
-			if (hitFlags & CLCHT_ONITEMICON) {
-				ClcGroup *selgroup;
-				ClcContact *selcontact;
-				dat->selection = cliGetRowByIndex(dat, dat->selection, &selcontact, &selgroup);
-				pcli->pfnSetGroupExpand(hwnd, dat, contact->group, -1);
-				if (dat->selection != -1) {
-					dat->selection = cliGetRowsPriorTo(&dat->list, selgroup, GetContactIndex(selgroup, selcontact));
-					if (dat->selection == -1) dat->selection = cliGetRowsPriorTo(&dat->list, contact->group, -1);
-				}
-
-				if (dat->bCompactMode)
-					SendMessage(hwnd, WM_SIZE, 0, 0);
-				else {
-					CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
-					UpdateWindow(hwnd);
-				}
-				return TRUE;
+		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_GROUP && (hitFlags & CLCHT_ONITEMICON)) {
+			ClcGroup *selgroup;
+			ClcContact *selcontact;
+			dat->selection = cliGetRowByIndex(dat, dat->selection, &selcontact, &selgroup);
+			pcli->pfnSetGroupExpand(hwnd, dat, contact->group, -1);
+			if (dat->selection != -1) {
+				dat->selection = cliGetRowsPriorTo(&dat->list, selgroup, GetContactIndex(selgroup, selcontact));
+				if (dat->selection == -1)
+					dat->selection = cliGetRowsPriorTo(&dat->list, contact->group, -1);
 			}
+
+			if (dat->bCompactMode)
+				SendMessage(hwnd, WM_SIZE, 0, 0);
+			else {
+				CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+				UpdateWindow(hwnd);
+			}
+			return TRUE;
+		}
 
 		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && (hitFlags & CLCHT_ONITEMCHECK)) {
 			contact->flags ^= CONTACTF_CHECKED;
-			if (contact->type == CLCIT_GROUP) pcli->pfnSetGroupChildCheckboxes(contact->group, contact->flags&CONTACTF_CHECKED);
+			for (int i = 0; i < contact->SubAllocated; i++)
+				contact->subcontacts[i].flags ^= CONTACTF_CHECKED;
+
+			if (contact->type == CLCIT_GROUP)
+				pcli->pfnSetGroupChildCheckboxes(contact->group, contact->flags&CONTACTF_CHECKED);
 			pcli->pfnRecalculateGroupCheckboxes(hwnd, dat);
 			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
 
@@ -923,9 +927,8 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
-			if (hit == -1 || hitFlags&CLCHT_NOWHERE) nm.hItem = NULL;
-			else nm.hItem = ContactToItemHandle(contact, &nm.flags);
-			nm.iColumn = hitFlags&CLCHT_ONITEMEXTRA ? HIBYTE(HIWORD(hitFlags)) : -1;
+			nm.hItem = (hit == -1 || hitFlags & CLCHT_NOWHERE) ? NULL : ContactToItemHandle(contact, &nm.flags);
+			nm.iColumn = hitFlags & CLCHT_ONITEMEXTRA ? HIBYTE(HIWORD(hitFlags)) : -1;
 			nm.pt = dat->ptDragStart;
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 		}
@@ -933,7 +936,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 		if (hitFlags & (CLCHT_ONITEMCHECK | CLCHT_ONITEMEXTRA))
 			return FALSE;
 
-		dat->selection = (hitFlags&CLCHT_NOWHERE) ? -1 : hit;
+		dat->selection = (hitFlags & CLCHT_NOWHERE) ? -1 : hit;
 		CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
 
 		UpdateWindow(hwnd);
@@ -1021,7 +1024,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 
 		dat->iHotTrack = isOutside ? -1 : cliHitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), NULL, NULL, &flag);
 
-		if (flag&CLCHT_NOWHERE)
+		if (flag & CLCHT_NOWHERE)
 			dat->iHotTrack = -1;
 
 		if (iOldHotTrack != dat->iHotTrack || isOutside) {
