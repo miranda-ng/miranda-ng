@@ -278,7 +278,7 @@ Bilder
 Gadu-Gadu-Nummer
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
-Konferenz öffnen...
+&Konferenz öffnen...
 [&Clear ignored conferences]
 Ignorierte Konferenzen löschen
 [%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]

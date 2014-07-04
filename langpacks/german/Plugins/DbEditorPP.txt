@@ -10,6 +10,12 @@ Erweiterter Datenbank-Editor.
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ search and replace]
 Datenbank-Editor++ Suchen und Ersetzen
+[Search for]
+Suchen nach
+[Text:]
+Text:
+[In:]
+In:
 [Case sensitive]
 Groß-/Kleinschreibung
 [Module name]
@@ -22,22 +28,16 @@ Einstell. Name
 Einstell. Wert
 [&Search]
 &Suchen
+[Replace with]
+Ersetzen durch
+[Entirely]
+Komplett
 [Found field]
 Feld gefunden
 [&Replace]
 E&rsetzen
 [&Cancel]
 Abbre&chen
-[Search for]
-Suchen nach
-[Text:]
-Text:
-[In:]
-In:
-[Replace with]
-Ersetzen durch
-[Entirely]
-Komplett
 [Restore last opened position]
 Zuletzt geöffnete Position wiederherstellen
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -60,6 +60,18 @@ Zu allen Kontakten hinzufügen (inkl. Einstell.)
 Abbrechen
 [Edit setting]
 Einstellung ändern
+[Value name:]
+Wertname:
+[Value data:]
+Wertdatum:
+[Base]
+Basis
+[Hexadecimal]
+Hexadezimal
+[Decimal]
+Dezimal
+[Save value as:]
+Wert speichern als:
 [Byte]
 Byte
 [Word]
@@ -68,34 +80,22 @@ Word
 Dword
 [String]
 String
-[Hexadecimal]
-Hexadezimal
-[Decimal]
-Dezimal
-[Value name:]
-Wertname:
-[Value data:]
-Wertdatum:
-[Base]
-Basis
-[Save value as:]
-Wert speichern als:
 [Watched database settings]
 Beobachtete Datenbank-Variablen
 [Copy module to contact]
 Modul zu Kontakt kopieren
-[Copy to all contacts (including Settings)]
-Zu allen Kontakten kopieren (inkl. Einstell.)
 [Contact to copy module and settings to]
 Modul und Einstellungen kopieren zu Kontakt:
+[Copy to all contacts (including Settings)]
+Zu allen Kontakten kopieren (inkl. Einstell.)
 [Import module/settings]
 Module/Einstellungen importieren
+[Paste the settings to import here.]
+Zu importierende Einstellungen hier einfügen.
 [Import]
 Importieren
 [Insert &CR/LF]
 Zeilenumbru&ch
-[Paste the settings to import here.]
-Zu importierende Einstellungen hier einfügen.
 [Database Editor++]
 Datenbank-Editor++
 [&Main]

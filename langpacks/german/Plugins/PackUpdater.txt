@@ -99,7 +99,7 @@ Aktuelle Version
 [New Version]
 Neue Version
 [Downloading pack updates...]
-Lade nun Paket-Updates ...
+Lade nun Paket-Updates...
 [Downloading update...]
 Aktualisierung herunterladen...
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
@@ -135,7 +135,7 @@ Pack-Updater-HTTP-Verbindung
 [URL for checking updates not found.]
 URL für die zu prüfenden Updates wurden nicht gefunden.
 [Downloading version info...]
-Lade Versionsinformationen ...
+Lade Versionsinformationen...
 [Name of Update's file is not supported.]
 Dateiformat der Update-Dateien wird nicht unterstützt.
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]

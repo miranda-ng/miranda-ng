@@ -13,7 +13,7 @@ Verbindung prüfen
 [Max. retries]
 Max. Versuche
 [Account connection]
-Account Verbindung
+Kontoverbindung
 [Delay between retries (secs)]
 Verzögerung der Versuche (Sek.)
 [Show popups]
@@ -21,7 +21,7 @@ Popups anzeigen
 [General]
 Allgemein
 [Accounts to check]
-Folgende Accounts prüfen
+Folgende Konten prüfen
 [Dial-Up]
 Internetverbindung
 [Don't reconnect if no internet connection seems available]
@@ -169,7 +169,7 @@ Diese Nachricht verwenden:
 [Use %time% for the current time, %date% for the current date]
 %time%, %date% für die aktuelle Uhrzeit oder Datum
 [Variables...]
-Variablen
+Variablen...
 [Specify settings for each account]
 Einstellungen für jedes Konto festlegen
 [Use same settings for all accounts]
@@ -235,7 +235,7 @@ Sekunden
 [Set account offline before a connection attempt]
 Konto vor Verbindungsversuch offline setzen
 [Max. account connecting time (secs)]
-Max. Konto Verbindungszeit (Sek.)
+Max. Kontenverbindungszeit (Sek.)
 [Timers]
 Zeitplan
 [Reconnecting]
@@ -301,12 +301,12 @@ StartupStatus
 Ihre Profile wurden geändert
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [There is a maximum of 6 menu items]
-Das Maximum an Menüeinträge beträgt 6
+Die höchste Anzahl an Menüeinträgen beträgt 6
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
-Gedrücktes ToolBar Icon
+Gedrücktes Toolbaricon
 [Released toolbar icon]
-Losgelassenes ToolBar Icon
+Losgelassenes Toolbaricon
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Ich bin nicht da seit %time%.
@@ -317,7 +317,7 @@ Im Moment nicht!
 [Give a guy some peace, would ya?]
 Lass mich im Moment mal in Ruhe!
 [I'm a chatbot!]
-Laber mich voll!
+Laber' mich voll!
 [Yep, I'm here.]
 Ja, ich bin da.
 [Nope, not here.]
@@ -332,7 +332,7 @@ Hmm... Essen.
 Langweilig
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
-Setze %s Nachricht für %s.
+Setze %s-Nachricht für %s.
 [<n/a>]
 <n.v.>
 [Protocol]

@@ -36,7 +36,7 @@ Downloadlink im Nachrichteneingabebereich einfügen
 Downloadlink in Zwischenablage kopieren
 ;file \plugins\Dropbox\src\dropbox.cpp
 [in process...]
-In Arbeit
+In Arbeit...
 [you have been authorized]
 Sie wurden autorisiert
 [server does not respond]

@@ -23,19 +23,19 @@ Abbrechen
 [Steam Guard]
 Steam Guard
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-Als zusätzliche Sicherheitsmaßnahme müssen Sie Zugriff gewähren indem Sie den Spezialcode, welchen wir soeben an Ihre E-Mail gesendet haben, eingeben.
+Als zusätzliche Sicherheitsmaßnahme müssen Sie Zugriff gewähren, indem Sie den Spezialcode, welchen wir soeben an Ihre E-Mail gesendet haben, eingeben.
 [Go to email domain]
 Gehe zur E-Mail-Domain
 [Block]
-
+Blockieren
 ;file \protocols\Steam\src\steam_contacts.cpp
 [%s has added you to his or her Friend List]
 %s hat Sie zu seiner/ihrer Freundesliste hinzugefügt.
 ;file \protocols\Steam\src\steam_dialogs.cpp
 [Fatal error, image services not found. Avatar services will be disabled.]
-
+Schwerer Fehler, Bilddienste nicht gefunden. Avatardienste werden deaktiviert.
 [Avatar Service]
-
+Avatardienst
 [Name]
 Name
 ;file \protocols\Steam\src\steam_events.cpp
@@ -44,17 +44,17 @@ Name
 [Network]
 Netzwerk
 [Blocked contacts]
-
+Blockierte Kontakte
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Steam-Menüauswahl
 [Request authorization]
 Autorisierung anfragen
 [Join to game]
-Zum Spiel beitreten
+Dem Spiel beitreten
 ;file \protocols\Steam\src\steam_pooling.cpp
 [%s has been removed from your contact list]
-
+%s wurde aus Ihrer Kontaktliste entfernt
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokolle

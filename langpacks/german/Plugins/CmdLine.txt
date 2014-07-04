@@ -56,7 +56,7 @@ Das YAMN-Plugin wird neue E-Mails prüfen.\nVerwendung: yamn check.
 [Calls a Miranda service.\nUsage: callservice <service> (d|s)<wParam> (d|s)<lParam>.\nThe command will call Miranda <service> service using wParam and lParam as arguments; the first letter of the paramater must be either 'd' if the parameter is a decimal number or 's' if the parameter is a string. Be careful when you use this function as you can only pass numbers and strings as data.\nNOTE: If you pass invalid data to a service Miranda might crash.]
 Ruft einen Miranda-Dienst auf.\nVerwendung: callservice <Dienst> (d|s)<wParam> (d|s)<lParam>.\nDieser Befehl ruft den Miranda-Dienst <Dienst> mit wParam und lParam als Argumenten auf, der erste Buchstabe der Parameter muss entweder 'd' sein, wenn der Parameter eine Dezimalzahl ist, oder 's', wenn der Parameter eine Zeichenkette ist. Seien Sie vorsichtig, wenn Sie diese Funktion verwenden, Sie können nur Zahlen und Zeichenketten als argumente übergeben.\nHINWEIS: Wenn Sie einem Dienst ungültige Daten übergeben könnte Miranda abstürzen.
 [Sends a message to the specified contact(s).\nUsage: message <contact> [<contact> [<contact> [...]]] <message>.\nThe command will send <message> to the specified contact(s) - at least one contact must be specified - all parameters except the last one are considered recipients.\n<Contact> has the following format: <name>[:<account>]. <Name> is the contact display name or unique ID and <account> is an optional parameter representing the account of the contact (useful in case there is more than one contact with the same name).\nNOTE: The message string cannot exceed 512 characters. You can use \\n for new line (and \\\\n for \\n).]
-Sendet eine Nachricht an den/die angegebene(n) Kontakt(e).\nVerwendung: message <Kontakt> [<Kontakt> [<Kontakt> [...]]] <Nachricht>.\nDieser Befehl sendet <Nachricht> an den/die angegebene(n) Kontakt(e) - mindestens ein Kontakt muss gegeben sein - alle Parameter außer dem letzten sind Kontakte.\n<Kontakt> hat folgendes Format: <Name>[:<Konto>]. <Name> ist der Anzeigename des Kontaktes oder seine einmalige ID und <Konto ist ein optionaler Parameter für das Konto des Kontaktes (nützlich, falls es mehr als einen Kontakt mit dem selben Namen gibt).\nHINWEIS: Die Nachricht darf nicht mehr als 512 Zeichen haben.
+Sendet eine Nachricht an den/die angegebene(n) Kontakt(e).\nVerwendung: message <Kontakt> [<Kontakt> [<Kontakt> [...]]] <Nachricht>.\nDieser Befehl sendet <Nachricht> an den/die angegebene(n) Kontakt(e) - mindestens ein Kontakt muss gegeben sein - alle Parameter außer dem letzten sind Kontakte.\n<Kontakt> hat folgendes Format: <Name>[:<Konto>]. <Name> ist der Anzeigename des Kontaktes oder seine einmalige ID und <Konto ist ein optionaler Parameter für das Konto des Kontaktes (nützlich, falls es mehr als einen Kontakt mit dem selben Namen gibt).\nHINWEIS: Die Nachricht darf nicht mehr als 512 Zeichen haben. Sie können \\n für eine neue Zeile verwenden (und \\\\n für \\n).
 [Allows you to manage database settings.\nUsage:\n  db set <module> <name> (b|i|d|s|w)<value>\n  db delete <module> <name>\n  db get <module> <name>.\nThe command can set a database entry to the specified value (if the entry does not exist it will be created) as well as read or delete a specified database entry. <Module> is the name of the module where the key should be located, <name> is the name of the key and <value> is the value to be written. A character must be placed before <value> in order to specify what kind of data to write: b - byte, i - integer (word), d - double word, s - string, w - wide string.]
 Erlaubt es Ihnen, Datenbankeinträge zu verwalten.\nVerwendung:\n  db set <Modul> <Name> (b|i|d|s|w)<Wert>\n  db delete <Modul> <Name>\n  db get <Modul> <Name>.\nDieser Befehl kann einen Datenbankeintrag auf den angegebenen Wert setzen (wenn er nicht existiert wird er neu angelegt) sowie einen Datenbankeintrag lesen oder löschen. <Modul> ist der Name des Moduls, in welchem sich der Schlüssel befindet, <Name> ist der Name des Schlüssels und <Wert> ist der zu schreibende Wert. Ein Zeichen muss vor Wert stehen um den Typ anzugeben: b - Byte, i - integer (word), d - double word, s - Zeichenkette, w - Unicode-Zeichenkette.
 [Configures proxy settings either globally or per account.\nUsage: proxy (global|<account>) <setting> [<params>].\n<Setting> is one of the following settings:\n  status (disable | enable | toggle)\n  server <proxy type> <server> <port>.]
@@ -72,8 +72,6 @@ Zeigt die Versions Information für Miranda und das CmdLine Plugin. Wenn das Ver
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Ignoriert oder entfernt Ignorieren für die angegebenen Kontakte.\nVerwendung:\n  ignore (block | unblock) <Kontakt> [<Kontakt> [...]]]. Ignoriert oder entfernt Ignorieren für die angegebenen Kontakte.
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
-[Command '%s' is not currently supported.]
-Befehl '%s' wird momentan nicht unterstützt.
 [Wrong number of parameters for command '%s'.]
 Fahlsche Anzahl an Parametern für Befehl '%s'.
 [Unknown parameter '%s' for command '%s'.]
@@ -100,6 +98,38 @@ Statusnachricht '%s' auf '%s' geändert (Status ist '%s').
 Konto '%s' unterstützt keine Abwesenheitsnachrichten, überspringen.
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 Konnte Statusnachricht für Konto '%s' nicht auf '%s' ändern (Status ist '%s').
+[Popups are currently enabled.]
+Popups sind momentan aktiviert.
+[Popups are currently disabled.]
+Popups sind momentan deaktiviert.
+[Popups were enabled successfully.]
+Popups wurden erfolgreich aktiviert.
+[Popups could not be enabled.]
+Popups konnten nicht aktiviert werden.
+[Popups were disabled successfully.]
+Popups wurden erfolgreich deaktiviert.
+[Popups could not be disabled.]
+Popups konnten nicht deaktiviert werden.
+[Sounds are currently enabled.]
+Sounds sind momentan aktiviert.
+[Sounds are currently disabled.]
+Sounds sind momentan deaktiviert.
+[Sounds were enabled successfully.]
+Sounds wurden erfolgreich aktiviert.
+[Sounds were disabled successfully.]
+Sounds wurden erfolgreich deaktiviert.
+[Contact list is currectly shown.]
+Kontaktliste wird momentan angezeigt.
+[Contact list is currently hidden.]
+Kontaktliste ist momentan ausgeblendet.
+[Contact list was shown successfully.]
+Kontaktliste wurde erfolgreich angezeigt
+[Contact list was hidden successfully.]
+Kontaktliste wurde erfolgreich ausgeblendet.
+[Issued a quit command.]
+Befehl zum Beenden ausgelöst.
+[Issued a quit and wait command.]
+Befehl zum Beenden und Wartenausgelöst.
 [Issued check email command to Exchange plugin.]
 E-Mail-Prüfen-Befehl an Exchange-Plugin übergeben.
 [Exchange plugin is not running.]
@@ -124,8 +154,34 @@ Konnte Nachricht nicht an '%s' senden.
 Zeitüberschreitung beim Warten auf eine Bestätigung von Kontakt '%s'.
 [Could not find contact handle for contact '%s'.]
 Konnte keinen Kontakt für '%s' finden.
+[byte:%d]
+Byte:%d
+[word:%d]
+Word:%d
+[dword:%ld]
+Dword:%ld
+[string:'%s']
+String:'%s'
+[wide string:'%S']
+Unicodestring:'%S'
+[utf8:'%s']
+UTF8:'%s'
+[blob:N/A]
+Blob:n.v.
+[unknown value]
+Unbekannter Wert
 [Setting '%s/%s' deleted.]
 Einstellung '%s/%s' gelöscht.
+[string]
+String
+[byte]
+Byte
+[word]
+Word
+[dword]
+Dword
+[wide string]
+Unicodestring
 [Wrote '%s:%s' to database entry '%s/%s'.]
 '%s:%s' in Datenbank-Eintrag '%s/%s' geschrieben.
 [Could not retrieve setting '%s/%s': %s.]
@@ -152,6 +208,8 @@ Keine ungelesenen Nachrichten gefunden.
 Kontakt '%s' hat %d Ereignisse im Verlauf.
 [Error setting nickname to '%s' for protocol '%s']
 Fehler beim Setzen des Nicknamens auf '%s' für Protokoll '%s'.
+[Command '%s' is not currently supported.]
+Befehl '%s' wird momentan nicht unterstützt.
 ;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 Kann CommandLine Listening Server nicht erstellen!

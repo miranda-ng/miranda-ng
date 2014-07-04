@@ -35,7 +35,7 @@ Beschreibungs-Textbox aus&füllen
 [Delete &after send]
 N&ach dem Senden löschen
 [Open editor before sending]
-
+Editor vor dem Senden öffnen
 [Open again]
 Erneut öffnen
 [&Capture]
@@ -57,7 +57,7 @@ Größe (HxB):
 [C&lient Area]
 Fensterinha&lt
 [indirect capture]
-
+Indirekte Aufnahme
 [Target Tool]
 Zielscheibe
 [File:]
@@ -95,9 +95,9 @@ Konnte %s nicht einleiten.
 [MAPI error (%i):\n%s.]
 MAPI-Fehler (%i):\n%s.
 [Unknown response from %s (%i)]
-
+Unbekannte Antwort von %s (%i)
 [Got no response from %s (%i)]
-
+Keine Antwort von %s (%i) erhalten.
 ;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 [Dropbox transfer]
 Dropbox-Übertragung
@@ -219,7 +219,7 @@ Weiter
 [Update]
 Aktualisieren
 [Edit on]
-
+Bearbeiten
 [BBC]
 BBC
 [BBC link]

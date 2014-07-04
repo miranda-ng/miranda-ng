@@ -11,11 +11,11 @@ Text auf eine Webseite hochladen und den Link zu einem Freund senden
 [Settings]
 Einstellungen
 [Default web page]
-Stardard Webseite:
+Standardwebsite:
 [Default file encoding]
-Standard Dateikodierung
+Standard-Dateikodierung
 [Auto-detect UTF-8]
-Auto UTF-8-Erkennung
+Automatische UTF-8-Erkennung
 [Show confirmation dialog box]
 Bestätigungsdialog anzeigen
 [Autosend download link to contact]
@@ -29,11 +29,11 @@ Einstellungen
 [Default formatting]
 Standardformatierung
 [Auto-detect format from file extension]
-Automatisch Format des eingefügten Text erkennen.
+Automatisch Format des eingefügten Texts erkennen
 [Public paste]
 Öffentliches einfügen
 [Login as guest]
-Als Gast einloggen
+Als Gast anmelden
 [User key]
 Benutzer-Schlüssel:
 [Get user key]
@@ -102,7 +102,7 @@ Vietnamesisch
 [Korean (Johab)]
 Koreanisch (Johab)
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-Sie haben eine falsche Kodierung gewählt. Bitte wählen Sie aus dem Listenfeld die korrekte oder geben sie eine richtige Nummer ein.
+Sie haben eine falsche Kodierung gewählt. Bitte wählen Sie aus dem Listenfeld die korrekte aus oder geben sie eine richtige Nummer ein.
 [Invalid codepage]
 Falsche Kodierung
 [Services]
@@ -130,7 +130,7 @@ Sie können nur eine Datei einfügen.
 [Cannot get data from clipboard]
 Die Daten konnten nicht aus der Zwischenablage entnommen werden.
 [File size is %d KB, do you really want to paste such a large file?]
-Die Dateigröße ist %d KB, wollen Sie wirklich so eine große Datei einfügen?
+Die Dateigröße ist %d KiB, möchten Sie wirklich so eine große Datei einfügen?
 [Are You sure?]
 Sind Sie sich sicher?
 [Cannot read file '%s']

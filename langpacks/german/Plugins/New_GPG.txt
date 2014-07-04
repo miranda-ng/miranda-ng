@@ -206,6 +206,10 @@ Fehler
 Erstelle neuen zufälligen Schlüssel, bitte warten
 [Failed to allocate memory]
 Konnte Speicher nicht zuweisen
+[Failed to lock memory with error %d]
+Sperren des Speichers mit Fehler %d fehlgeschlagen.
+[Failed write to clipboard with error %d]
+Schreiben in Zwischenablage mit Fehler %d fehlgeschlagen.
 [GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 Das GPG-Verzeichnis wurde im Miranda-Verzeichnis gefunden, allerdings existiert das englische Locale nicht.\nEs ist sehr wichtig die \\gnupg.nls\\en@quot.mo im GnuPG-Verzeichnis im Miranda-NG-Verzeichnis zu legen.\nOhne diese Datei haben Sie viele Probleme mit der GPG-Ausgabe auf nicht-englischen Systemen.\nPlugin kann evtl. nicht richtig funktionieren.\nSeien Sie gewarnt!
 [Warning]
@@ -236,8 +240,8 @@ Ein neuer öffentlicher Schlüssel wurde empfangen, wollen Sie ihn importieren?
 Ersetzen
 [Accept]
 Akzeptieren
-[Received key from ]
-Schlussel wurde empfangen von\s
+[Received key from %s]
+Schlüssel von %s empfangen
 [You must set encryption algorithm first]
 Sie müssen als Erstes einen Verschlüsselungsalgorithmus setzen
 [Key length must be of length from 1024 to 4096 bits]
@@ -334,6 +338,8 @@ Wollen Sie den Schlüssel für den gesamten Metakontakt (und Unterkontakte) lös
 Öffentlichen Schlüssel exportieren
 [.asc pubkey file]
 .asc-Pubkey-Datei
+[Failed to open clipboard with error %d]
+Öffnen der Zwischenablage mit Fehler %d fehlgeschlagen.
 [Set log file]
 Logdatei setzen
 [LOG files]
@@ -357,7 +363,7 @@ Dies ist kein öffentlicher oder privater Schlüssel
 [Key already in secret keyring.]
 Der Schlüssel ist bereits im geheimen Schlüsselbund.
 [Set file containing GPG public key]
-Setzen Sie die Datei, die den GPG-Schlüssel enthält
+Setzen Sie die Datei, die den öffentlichen GPG-Schlüssel enthält
 [GPG public key file]
 GPG öffentliche Schlüsseldatei
 [There is no public or private key.]
@@ -375,16 +381,18 @@ Dateiübertragungswarnung
 Kann Kapazitäten zur Verschlüsselung auf der anderen Seite nicht überprüfen.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nKapazitätenprüfung unterstützt aktuell nur das ICQ- und das Jabber-Protokoll.\nEs funktioniert mit jedem anderen Protokoll wenn Miranda mit New_GPG auf der anderen Seite verwendet werden.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?
 [encrypting file for transfer]
 Verschlüssele Datei für Übertragung
-[we have successfully exported]
-erfolgreich exportiert wurden
-[public keys]
-öffentliche Schlüssel
-[and]
-und
-[all private keys]
-alle privaten Schlüssel
+[We have successfully exported %d public keys and all private keys.]
+Wir haben %d öffentliche Schlüssel und alle privaten Schlüssel erfolgreich exportiert.
+[We have successfully exported all private keys.]
+Wir haben alle privaten Schlüssel erfolgreich exportiert.
+[We have successfully exported %d public keys.]
+Wir haben %d öffentliche Schlüssell erfolgreich exportiert.
 [Keys export result]
 Ergebnis Schlüssel exportieren
+[We have successfully processed %d public keys and some private keys.]
+Wir haben %d öffentliche Schlüssel und einige private Schlüssel erfolgreich verarbeitet.
+[We have successfully processed %d public keys.]
+Wir haben %d öffentliche Schlüssel erfolgreich verarbeitet.
 [Keys import result]
 Ergebnis Schlüssel importieren
 [New passwords do not match]

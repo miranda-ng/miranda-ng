@@ -51,9 +51,9 @@ Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbCh
 Datenbankprobleme
 ;file \plugins\Db3x_mmap\src\dbheaders.cpp
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
-
+Dieses Profil ist zu alt um es mit PluginUpdater zu aktualisieren, Ihre Datenbank muss zunächst umgewandelt werden.\n\nMöchten Sie lesen wie man dies behebt?
 [Obsolete database format]
-
+Veraltetes Datenbankformat
 ;file \plugins\Db3x_mmap\src\dbintf.cpp
 [Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
 Ihre Datenbank muss in das neue Format konvertiert werden. Dies ist ein möglicherweise gefährlicher Vorgang, legen Sie daher bitte zuvor eine Sicherungskopie an.\n\nKlicken Sie auf Ja, um die Konvertierung zu starten, oder auf Nein, um Miranda zu beenden

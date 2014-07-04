@@ -100,7 +100,7 @@ OTR-Verschlüsselung: Privat
 [OTR Encryption: Finished]
 OTR-Verschlüsselung: Beendet
 [&Convert HTML (for Pidgin)]
-HTML konvertieren (für Pidgin)
+HTML &konvertieren (für Pidgin)
 [OTR encrypted session with '%s' has been terminated]
 OTR-verschlüsselte Sitzung mit '%s' wurde beendet.
 [Requesting OTR encrypted session with '%s']
@@ -247,7 +247,7 @@ Sie benutzen SecureIM. MirOTR funktioniert nur mit deaktiviertem SecureIM.
 [MirOTR menu]
 MirOTR-Menü
 [OTR Status]
-OTR Status
+OTR-Status
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Private Data]
 Private Daten

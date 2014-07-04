@@ -91,7 +91,7 @@ Info
 [Skin preview]
 Skinvorschau
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich, dies rückgängig zu machen. Sichern Sie Ihre Datenbank vor dem Übernehmen des Skins!
+WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich, dies rückgängig zu machen. Sichern Sie Ihre Datenbank vor dem Anwenden des Skins!
 [* Restart may be required for all changes to take effect]
 * Evtl. Neustart erforderlich um alle Änderungen zu übernehmen
 [Skin folder]
@@ -936,7 +936,7 @@ Statusmenü
 [Accounts]
 Konten
 [Accounts...]
-Konten ...
+Konten...
 [Show/Hide offline contacts]
 Offline-Kontakte anzeigen/ausblenden
 [Hide offline contacts]
@@ -999,7 +999,7 @@ Ein Kontaktfilter dieses Namens existiert bereits
 [Duplicate name]
 Doppelter Name
 [Setup view modes...]
-Kontaktfilter einstellen
+Kontaktfilter einstellen...
 [Select a view mode]
 Kontaktfilter auswählen
 [Setup view modes]

@@ -182,9 +182,9 @@ Klänge aktivieren
 [Icons]
 Icons
 [Show category:]
-Kategorie anzeigen
+Kategorie anzeigen:
 [&Load icon set...]
-Iconsammlung &laden
+Iconsammlung &laden...
 [&Import icons >>]
 Icons &importieren>>
 [Download more icons]
@@ -394,9 +394,9 @@ Kontoinformationen:
 [Additional:]
 Zusätzlich:
 [Configure network...]
-Netzwerk einrichten ...
+Netzwerk einrichten...
 [Get more protocols...]
-Weitere Protokolle installieren ...
+Weitere Protokolle installieren...
 [&Add...]
 &Hinzufügen...
 [&Edit]
@@ -478,7 +478,7 @@ Kontaktanzeigename verwenden
 [Contact labels]
 Kontaktbeschriftung
 [When I click on a sub in the popup menu...]
-
+Wenn ich auf einen Unterkontakt im Kontextmenü klicke...
 [Set default and open message window]
 Als Standard setzen und Nachrichtenfenster öffnen
 [Show subcontact context menu]
@@ -1787,7 +1787,7 @@ Dateiübertragung gescheitert
 [Transfer completed, open folder.]
 Übertragung abgeschlossen, Ordner öffnen.
 [Scanning for viruses...]
-Untersuche auf Viren
+Untersuche auf Viren...
 [Transfer and virus scan complete]
 Übertragung und Untersuchung auf Viren beendet.
 ;file \src\core\stdfile\ftmanager.cpp
@@ -2407,9 +2407,9 @@ Metakontakte deaktivieren
 [Toggle metacontacts on]
 Metakontakte aktivieren
 [Add to existing metacontact...]
-Zu Metakontakt hinzufügen
+Zu existierendem Metakontakt hinzufügen...
 [Edit metacontact...]
-Metakontakt bearbeiten
+Metakontakt bearbeiten...
 [Set as metacontact default]
 Als Standardmetakontakt setzen
 [Delete metacontact]
@@ -2482,7 +2482,7 @@ Lade... %d%%
 [Miranda NG options]
 Miranda-NG-Einstellungen
 [&Options...]
-Einstellungen...
+&Einstellungen...
 ;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Core-Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
@@ -2559,7 +2559,7 @@ Konto %s wird gelöscht
 [You need to disable plugin to delete this account]
 Um dieses Konto zu loschen, mussen Sie das dazugehorige Plugin deaktivieren
 [&Accounts...]
-Konten
+&Konten...
 ;file \src\modules\skin\hotkey_opts.cpp
 [Ctrl + ]
 Strg +\s

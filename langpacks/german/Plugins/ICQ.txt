@@ -61,7 +61,7 @@ Zeige Verbindungsfehler-Meldungen:
 [ICQ contacts stored on server]
 Serverseitige Kontaktliste
 [Manage server's list...]
-Serverliste verwalten
+Serverliste verwalten...
 [Enable server-side contact lists *]
 Serverseitige Kontaktliste aktivieren (*)
 [Add contacts to the server's list when I add them to mine]
@@ -265,7 +265,7 @@ Titel:
 [Message:]
 Nachricht:
 [Retrieving custom status details...]
-Empfange Custom-Status-Details ...
+Empfange Custom-Status-Details...
 [&Save changes]
 Änderungen &speichern
 [Confirm Password Change]
@@ -1417,7 +1417,7 @@ Server sendet Warnung -> wir bremsen den Prozess.
 [Adding group "%s"...]
 Füge Gruppe "%s" hinzu...
 [Uploading %s...]
-Upload von %s...
+Lade %s hoch...
 [No upload group available]
 Keine Upload-Gruppen vorhanden
 [Deleting %s...]
@@ -1435,7 +1435,7 @@ Lösche %s von der Unsichtbarkeitsliste...
 [Cleaning groups]
 Säubere Gruppen
 [Updating group "%s"...]
-Gruppe "%s" hinzufügen...
+Gruppe "%s" aktualisieren...
 [Deleting group "%s"...]
 Gruppe "%s" löschen...
 [All operations complete]

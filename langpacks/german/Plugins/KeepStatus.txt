@@ -169,7 +169,7 @@ Statusnachricht:
 [Use %time% for the current time, %date% for the current date]
 %time%, %date% für die aktuelle Uhrzeit oder Datum
 [Variables...]
-Variablen
+Variablen...
 [Specify settings for each account]
 Einstellungen für jedes Konto festlegen
 [Use same settings for all accounts]

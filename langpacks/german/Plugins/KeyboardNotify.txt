@@ -129,7 +129,7 @@ Löschen
 [Import/Export]
 Importieren/Exportieren
 [Export...]
-Exportieren
+Exportieren...
 [Import...]
 Importieren...
 [Override existing]

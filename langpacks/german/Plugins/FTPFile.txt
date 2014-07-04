@@ -25,7 +25,7 @@ Port
 [Command after upload]
 Befehl nach Upload
 [Use passive mode]
-Benutze Passiv-Modus
+Passiv-Modus verwenden
 [Account name]
 Kontoname
 [Protocol]
@@ -35,11 +35,11 @@ Standard FTP-Server
 [File download link]
 Dateidownloadlink
 [Close dialog after upload is completed]
-Schließe Dialog, wenn der Dateiupload abgeschlossen ist
+Dialog schließen, wenn der Dateiupload abgeschlossen ist
 [Copy download link to message log]
-Kopiere Downloadlink ins Nachrichtenfenster
+Downloadlink ins Nachrichtenfenster kopieren
 [Autosend download link to contact]
-Sende Downloadlink automatisch an Kontakt
+Downloadlink automatisch an Kontakt senden
 [Menu items]
 Menüeinträge
 [Use submenu (restart required)]
@@ -51,13 +51,13 @@ Sonstige
 [Automatically delete file from FTP server after (experimental):]
 Datei automatisch vom FTP-Server löschen nach (experimentell):
 [ZIP support]
-ZIP Unterstützung
+ZIP-Unterstützung
 [Enter archive name manually]
-Archivnamen manuell setzen
+Archivnamen manuell eingeben
 [Compression level:]
 Kompressionsstufe:
 [Upload File Manager]
-Dateimanager Hochladen
+Dateimanager für's Hochladen
 [File:]
 Datei:
 [Completed:]
@@ -87,13 +87,13 @@ Server:
 [User info]
 Benutzerinfo
 [UPLOADING...]
-HOCHLADEN...
+LADE HOCH...
 [Open in Browser]
 Im Web-Browser öffnen
 [FTP File Manager]
 FTP-Dateimanager
 [Select All]
-Alles markieren
+Alles auswählen
 [Deselect All]
 Alle abwählen
 [Delete from list]
@@ -111,7 +111,7 @@ Umbenennen
 [Overwrite]
 Überschreiben
 [File with the same name already exists on the server.]
-Datei mit dem selben Namen existiert auf dem Server.
+Datei mit demselben Namen existiert bereits auf dem Server.
 [How to proceed?]
 Wie fortfahren?
 [Copy URL]
@@ -141,15 +141,15 @@ Link in Zwischenablage kopieren
 Möchten Sie wirklich alle aktuellen Aufträge abbrechen?
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
-FTP Server 1
+FTP-Server 1
 [FTP Server 2]
-FTP Server 2
+FTP-Server 2
 [FTP Server 3]
-FTP Server 3
+FTP-Server 3
 [FTP Server 4]
-FTP Server 4
+FTP-Server 4
 [FTP Server 5]
-FTP Server 5
+FTP-Server 5
 [Send file]
 Datei senden
 [Resume]
@@ -167,19 +167,19 @@ Verzeichnis zippen und hochladen
 [FTP File manager]
 FTP-Dateimanager
 [Show FTPFile manager]
-FTP-File-Dialog anzeigen
+FTP-Dateimanager anzeigen
 [Upload file]
 Datei hochladen
 [Zip and upload file]
 Datei zippen und hochladen
 [You have to fill FTP server setting before upload a file.]
-Sie müssen erst die FTP-Server einstellungen vornehmen, bevor Sie eine Datei uploaden können.
+Sie müssen erst die FTP-Servereinstellungen vornehmen, bevor Sie eine Datei hochladen können.
 [Error has occurred while trying to create a dialog!]
-Es ist ein Fehler aufgetreten, weil Sie versucht haben, einen Dialog zu erstellen.
+Es ist ein Fehler bei der Erstellung eines Dialoges aufgetreten!
 [File upload complete]
-Dateiupload abgeschlossen
+Datei komplett hochgeladen
 [Upload canceled]
-Upload abgebrochen
+Hochladen abgebrochen
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
 Alle Dateien (*.*)
@@ -226,7 +226,7 @@ Datei existiert - %s
 [Error occurred when opening local file.\nAborting file upload...]
 Es ist ein Fehler beim Öffnen der lokalen Datei aufgetreten.\nDateiupload wird abgebrochen...
 [Error occurred when initializing libcurl.\nAborting file upload...]
-Fehler bei der Initialisierung von libcurl aufgetreten\nBreche Dateiupload ab.
+Fehler bei der Initialisierung von libcurl aufgetreten\nBreche Dateiupload ab...
 [FTP error occurred.\n%s]
 FTP-Fehler aufgetreten.\n%s
 [Download link:]
@@ -237,7 +237,7 @@ Möchten Sie wirklich alle laufenden Uploads abbrechen?
 %s\r\nGeschwindigkeit: %s\r\nKomplett: %s\r\nVerbleibend: %s
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
-Sie müssen erst die FTP-Server Einstellungen ausfüllen und aktivieren.
+Sie müssen mindestens einen FTP-Server einrichten und aktivieren.
 [Clear All]
 Alles löschen
 ;file \plugins\FTPFileYM\src\options.cpp

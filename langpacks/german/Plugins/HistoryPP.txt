@@ -250,17 +250,17 @@ Ordner öffnen
 [Disable &Processing]
 Verarbeitung dea&ktivieren
 [Export as &HTML...]
-Als &HTML exportieren
+Als &HTML exportieren...
 [Export as &XML...]
-Als &XML exportieren
+Als &XML exportieren...
 [Export as &RTF...]
-Als &RTF exporteren
+Als &RTF exporteren...
 [Export as &mContacts...]
-Als &mContacts exportieren
+Als &mContacts exportieren...
 [Export as &Text...]
-Als &Text exportieren
+Als &Text exportieren...
 [Empty history...]
-Verlauf leeren
+Verlauf leeren...
 [Text direction]
 Textausrichtung
 [ANSI Encoding]
@@ -640,7 +640,7 @@ Rahmen deaktivieren
 [Disable scroll bar]
 Scrollleiste deaktivieren
 [History view options]
-VerlaufsEinstellungen
+Verlaufseinstellungen
 [Visit Wiki page for more options]
 Wiki-Seite für weitere Einstellungen besuchen
 [&Code Editor...]

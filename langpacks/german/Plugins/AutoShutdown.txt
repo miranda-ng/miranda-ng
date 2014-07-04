@@ -117,7 +117,7 @@ Automatisches Beenden deaktivieren
 [Stop automatic &shutdown]
 Automatisches &Beenden abbrechen
 [Automatic &shutdown...]
-Automatisches &Beenden
+Automatisches &Beenden...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG wird in %u Sekunde(n) automatisch geschlossen.

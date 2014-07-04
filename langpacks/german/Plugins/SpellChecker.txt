@@ -120,7 +120,7 @@ Unbekannt
 [There are %d spelling errors. Are you sure you want to send this message?]
 Es sind %d Rechtschreibfehler vorhanden. Möchten Sie dennoch die Nachricht senden?
 [Other...]
-Sonstige
+Anderes...
 [Always replace with]
 Immer ersetzen durch
 [Ignore all]

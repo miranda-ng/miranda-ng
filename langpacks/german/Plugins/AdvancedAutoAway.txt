@@ -169,7 +169,7 @@ Statusnachricht:
 [Use %time% for the current time, %date% for the current date]
 %time%, %date% für die aktuelle Uhrzeit oder Datum
 [Variables...]
-Variablen
+Variablen...
 [Specify settings for each account]
 Einstellungen für jedes Konto festlegen
 [Use same settings for all accounts]
@@ -283,7 +283,7 @@ Im Moment nicht!
 [Give a guy some peace, would ya?]
 Lass' mich im Moment mal in Ruhe!
 [I'm a chatbot!]
-Laber mich voll!
+Laber' mich voll!
 [Yep, I'm here.]
 Ja, ich bin da.
 [Nope, not here.]

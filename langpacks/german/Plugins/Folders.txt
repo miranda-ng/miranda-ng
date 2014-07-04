@@ -62,7 +62,7 @@ anstelle des Miranda-Profilverzeichnisses.
 [Examples:]
 Beispiele:
 [If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\\', current]
-Wenn der Wert für ProfileDir in mirandaboot.ini ist '.\\Profile', aktuellers
+Wenn der Wert für ProfileDir in mirandaboot.ini ist '.\\Profile', aktuelles
 [profile is 'default.dat' and Miranda path is 'c:\\program files\\miranda ng\\' then:]
 Profil ist 'default.dat und Miranda-Pfad ist 'C\\Programme\\Miranda NG', dann:
 [will expand to 'c:\\program files\\miranda ng']

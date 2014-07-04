@@ -142,7 +142,7 @@ Ich
 [Others]
 Sonstiges
 [&Invite user...]
-Kontakt e&inladen
+Kontakt e&inladen...
 [&Leave chat session]
 Chat ver&lassen
 [User &details]

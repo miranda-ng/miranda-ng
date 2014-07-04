@@ -117,13 +117,13 @@ Längengrad
 [Day Length]
 Tagesdauer
 [Chance Of Rain 20% Chance Of Precipitation]
-Regenwahrscheinlichkeit 20% Niederschlagswahrscheinlichkeit
+Wahrscheinlichkeit von Regen, 20% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 30% Chance Of Precipitation]
-Regenwahrscheinlichkeit 30% Niederschlagswahrscheinlichkeit
+Wahrscheinlichkeit von Regen, 30% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 40% Chance Of Precipitation]
-Regenwahrscheinlichkeit 40%Niederschlagswahrscheinlichkeit
+Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 50% Chance Of Precipitation]
-Regenwahrscheinlichkeit 50% Niederschlagswahrscheinlichkeit
+Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 60% Chance Of Precipitation]
 Wahrscheinlichkeit von Regen, 60% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 70% Chance Of Precipitation]
@@ -445,7 +445,7 @@ Regendunst
 [Light Freezing Rain Light Snow]
 
 [Day Length Diff]
-
+Tageslängenunterschied
 [Elevation]
 Elevation
 [Feel]
@@ -467,7 +467,7 @@ Klar
 [shorter]
 kürzer
 [T-Storms 50% Chance Of Precipitation]
-
+Gewitter, 50% Niederschlagswahrscheinlichkeit
 [Light Showers Rain Snow]
 
 [Light Showers Rain Snow Mist]
@@ -477,9 +477,9 @@ Schneekörner
 [Heavy Snow Showers]
 Starke Schneestürme
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
-
+Wahrscheinlichkeit von Gewitter, 20% Niederschlagswahrscheinlichkeit
 [Rain 20% Chance Of Precipitation]
-Regen, 60% Niederschlagswahrscheinlichkeit
+Regen, 20% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 70% Chance Of Precipitation]
 Wahrscheinlichkeit von Schnee, 70% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 80% Chance Of Precipitation]

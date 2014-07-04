@@ -660,7 +660,7 @@ Erweitert
 Skins
 ;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
-Keine Ereignisse
+Keine Ereignisse...
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Dauerhaft hinzufügen
@@ -679,7 +679,7 @@ Wenn sie benötigt wird
 [Contact list display and ignore options for %s]
 Kontaktlistenanzeige- und Ignorieroptionen für %s
 [&Contact list settings...]
-Kontaktlisteneinstellungen
+&Kontaktlisteneinstellungen...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Global
@@ -809,7 +809,7 @@ Ein Kontaktfilter dieses Namens existiert bereits.
 [Duplicate name]
 Doppelter Name
 [Setup view modes...]
-Kontaktfilter einstellen
+Kontaktfilter einstellen...
 [Clear current view mode]
 Aktuellen Kontaktfilter aufheben
 [Select a view mode]

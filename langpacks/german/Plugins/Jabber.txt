@@ -430,11 +430,11 @@ Wird nicht unterstützt
 [Done]
 Fertig
 [In progress. Please Wait...]
-Vorgang läuft. Bitte warten Sie...
+Vorgang läuft. Bitte warten...
 [Execute]
 Ausführen
 [Requesting command list. Please wait...]
-Liste der verfügbaren Befehle wird abgefragt. Bitte warten Sie...
+Liste der verfügbaren Befehle wird abgefragt. Bitte warten...
 [Jabber Ad-Hoc commands at %s]
 Jabber-Ad-Hoc-Befehl an %s
 [Sending Ad-Hoc command to %s]
@@ -622,9 +622,9 @@ Außgestoßene-Liste (&Bann)
 [Add to &bookmarks]
 Als Lesezeichen speichern
 [&Configure...]
-Einstellungen...
+&Einstellungen...
 [&Destroy room]
-Raum zerstören
+Raum &zerstören
 [Lin&ks]
 Lin&ks
 [Copy room &JID]
@@ -1065,7 +1065,7 @@ Ob die Sitzung terminiert werden soll
 Ob Nachrichtenbestätigungen gemäß XEP-0184 aktiviert sind
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
-Fehler beim abrufen der Raumliste vom Server.
+Fehler beim Abrufen der Raumliste vom Server.
 [No rooms available on server.]
 Auf dem Server sind keine Räume verfügbar.
 [Room list request timed out.]
@@ -1075,7 +1075,7 @@ Raumlistenanforderung überschritt das Timeout.
 [Loading...]
 Wird geladen...
 [Please wait for room list to download.]
-Bitte warten Sie bis die Raumliste gedownloaded ist.
+Bitte warten Sie bis die Raumliste heruntergeladen ist.
 [Please specify group chat directory first.]
 Geben Sie zuerst einen Konferenzserver an.
 [Bookmarks...]
@@ -1100,7 +1100,7 @@ Transporte
 [Personal vCard]
 Persönliche vCard
 [Convert to room]
-in Konferenzraum umwandeln
+In Konferenzraum umwandeln
 [Login/logout]
 Anmelden/Abmelden
 [Resolve nicks]
@@ -1854,7 +1854,7 @@ Regel nach oben
 [Move rule down]
 Regel nach unten
 [Add list...]
-Neue Liste
+Neue Liste...
 [Remove list]
 Liste löschen
 [** Default **]
@@ -2019,7 +2019,7 @@ Suchfehler
 [Select/type search service URL above and press <Go>]
 Bitte die Suchdienst-URL eingeben oder auswählen!
 [Please wait...\r\nConnecting search server...]
-Bitte warten...\r\nVerbinde mit Suchserver
+Bitte warten...\r\nVerbinde mit Suchserver...
 [You have to be connected to server]
 Hinweis: Sie müssen mit dem Server verbunden sein!
 ;file \protocols\JabberG\src\jabber_svc.cpp

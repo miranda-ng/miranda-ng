@@ -209,7 +209,7 @@ Begrenze Nachrichtenvorschau auf
 [characters]
 Zeichen
 [Only show event notifications when my status is...]
-Zeige Ereignisbenachrichtigungen nur, wenn mein Status wie folgt ist ...
+Zeige Ereignisbenachrichtigungen nur, wenn mein Status wie folgt ist...
 [Popup Options]
 Einstellungen für Popups
 [Text]
@@ -387,9 +387,9 @@ Px
 [Template sets]
 Formatvorlagen für Nachrichten
 [Standard templates...]
-Normale Vorlagen
+Normale Vorlagen...
 [RTL templates...]
-RTL-Vorlagen
+RTL-Vorlagen...
 [Load History Events]
 Vergangene Ereignisse laden
 [Load unread events only]
@@ -405,7 +405,7 @@ Globale Nachrichtenverlauf-Darstellung
 [Typing Notification]
 Tippbenachrichtigungen
 [Send typing notifications to the following users when you are typing a message to them:]
-Sende eine Tippbenachrichtung an die folgenden Benutzer, wenn ich anfange zu schreiben:
+An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
 [        Show typing notifications in the message window]
           Schreibhinweise im Nachrichtenfenster anzeigen
 [Flash window once on typing events (only if flashing enabled)]
@@ -427,7 +427,7 @@ Tabeinstellungen
 [Miscellaneous options]
 Diverse Einstellungen
 [Setup status modes for automatic tab creation...]
-Statusmodus für automatische Tab-/Fenstererzeugung
+Statusmodus für automatische Tab-/Fenstererzeugung...
 [Limit nicknames on tabs to]
 Begrenze Nicks im Tab auf
 [ESC key behavior]
@@ -537,7 +537,7 @@ Verwerfen
 [Revert to Default]
 Zurücksetzen
 [Reset all templates...]
-Alle Vorlagen zurücksetzen
+Alle Vorlagen zurücksetzen...
 [Default width for fixed (single row) tabs]
 Standardgröße für fixierte (einzeilige) Tabs
 [Tab text label padding vertical]
@@ -587,9 +587,9 @@ Theme-Unterstützung
 [You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
 Sie können all Ihre Farben sowie die Schriftart-Einstellungen exportieren und importieren. Damit können Sie eine Theme-Datei erstellen, die mit mehreren Profilen oder mit Ihren Freunden geteilt werden kann.
 [Export to a file...]
-Exportiere in eine Datei ...
+Exportiere in eine Datei...
 [Import from a file...]
-Importiere aus einer Datei ...
+Importiere aus einer Datei...
 [Icons]
 Icons
 [Event type icons in the message log]
@@ -1229,7 +1229,7 @@ Seitenleiste aus- oder einklappen
 [Character Encoding]
 Zeichenkodierung
 [Contact not on list. You may add it...]
-Kontakt ist nicht in Ihrer Liste. Sie können ihn hinzufügen ...
+Kontakt ist nicht in Ihrer Liste. Sie können ihn hinzufügen...
 [A message failed to send successfully.]
 Nachricht konnte nicht gesendet werden.
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]

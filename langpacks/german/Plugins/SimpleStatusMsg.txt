@@ -99,7 +99,7 @@ Alles löschen
 [* This feature is available only when using StartupStatus plugin.]
 * Diese Funktion steht nur mit dem StartupStatus-Plugin zur Verfügung
 [Status on startup]
-Status beim starten
+Status beim Start
 [Set status after]
 Setze Status nach:
 [milliseconds]
@@ -202,7 +202,7 @@ Datum abrufen (kompatibel mit Simple Status Message)
 [<current>]
 <aktueller>
 [Clear history]
-Verlauf leeren
+Verlauf löschen
 [Add to predefined]
 Zu Vordefinierten hinzuf.
 [Delete selected]
@@ -258,7 +258,7 @@ Im Moment nicht!
 [Give a guy some peace, would ya?]
 Lass mich im Moment mal in Ruhe!
 [I'm a chatbot!]
-Laber mich voll!
+Laber' mich voll!
 [Yep, I'm here.]
 Ja, ich bin da.
 [Nope, not here.]
