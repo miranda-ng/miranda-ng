@@ -30,9 +30,9 @@
 
 #include "commonheaders.h"
 
-/**
- * Save message log for given session as RTF document
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Save message log for given session as RTF document
+
 void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 {
 	if (dat && dat->hwndIEView != 0) {
@@ -72,16 +72,16 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 	}
 }
 
-/**
- * This is broadcasted by the container to all child windows to check if the
- * container can be autohidden or -closed.
- *
- * wParam is the autohide timeout (in seconds)
- * lParam points to a BOOL and a session which wants to prevent auto-hiding
- * the container must set it to FALSE.
- *
- * If no session in the container disagrees, the container will be hidden.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// This is broadcasted by the container to all child windows to check if the
+// container can be autohidden or -closed.
+//
+// wParam is the autohide timeout (in seconds)
+// lParam points to a BOOL and a session which wants to prevent auto-hiding
+// the container must set it to FALSE.
+//
+// If no session in the container disagrees, the container will be hidden.
+
 void TSAPI DM_CheckAutoHide(const TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
 	if (dat && lParam) {
@@ -99,10 +99,9 @@ void TSAPI DM_CheckAutoHide(const TWindowData *dat, WPARAM wParam, LPARAM lParam
 			*fResult = FALSE;		// time since last activity did not yet reach the threshold.
 	}
 }
-/**
- * checks if the balloon tooltip can be dismissed (usually called by
- * WM_MOUSEMOVE events
- */
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// checks if the balloon tooltip can be dismissed (usually called by WM_MOUSEMOVE events)
 
 void TSAPI DM_DismissTip(TWindowData *dat, const POINT& pt)
 {
@@ -120,9 +119,9 @@ void TSAPI DM_DismissTip(TWindowData *dat, const POINT& pt)
 	}
 }
 
-/**
- * initialize the balloon tooltip for message window notifications
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// initialize the balloon tooltip for message window notifications
+
 void TSAPI DM_InitTip(TWindowData *dat)
 {
 	dat->hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_BALLOON, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -140,11 +139,11 @@ void TSAPI DM_InitTip(TWindowData *dat)
 	SetWindowPos(dat->hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-/**
- * checks generic hotkeys valid for both IM and MUC sessions
- *
- * returns 1 for handled hotkeys, 0 otherwise.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// checks generic hotkeys valid for both IM and MUC sessions
+//
+// returns 1 for handled hotkeys, 0 otherwise.
+
 LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, TWindowData *dat)
 {
 	LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)message, (LPARAM)(TABSRMM_HK_SECTION_GENERIC));
@@ -344,10 +343,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			CheckMenuItem(submenu, ID_MODE_GLOBAL, MF_BYCOMMAND | (!(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) ? MF_CHECKED : MF_UNCHECKED));
 			CheckMenuItem(submenu, ID_MODE_PRIVATE, MF_BYCOMMAND | (dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE ? MF_CHECKED : MF_UNCHECKED));
 
-			/*
-			* formatting menu..
-			*/
-
+			// formatting menu..
 			CheckMenuItem(submenu, ID_GLOBAL_BBCODE, MF_BYCOMMAND | ((PluginConfig.m_SendFormat) ? MF_CHECKED : MF_UNCHECKED));
 			CheckMenuItem(submenu, ID_GLOBAL_OFF, MF_BYCOMMAND | ((PluginConfig.m_SendFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED));
 
@@ -766,10 +762,8 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 		}
 		return 0;
 
-	/*
-	* commands from the message log popup will be routed to the
-	* message log menu handler
-	*/
+	// commands from the message log popup will be routed to the
+	// message log menu handler
 	case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
 	case ID_MESSAGELOGSETTINGS_GLOBAL:
 		if (dat) {
@@ -788,10 +782,10 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 	return 1;				// handled
 }
 
-/**
- * initialize rich edit control (log and edit control) for both MUC and
- * standard IM session windows.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// initialize rich edit control (log and edit control) for both MUC and
+// standard IM session windows.
+
 void TSAPI DM_InitRichEdit(TWindowData *dat)
 {
 	char *szStreamOut = NULL;
@@ -849,13 +843,10 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		SendMessageA(hwndEdit, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
 	}
 
-	/*
-	 * setup the rich edit control(s)
-	 * LOG is always set to RTL, because this is needed for proper bidirectional operation later.
-	 * The real text direction is then enforced by the streaming code which adds appropiate paragraph
-	 * and textflow formatting commands to the
-	 */
-
+	// setup the rich edit control(s)
+	// LOG is always set to RTL, because this is needed for proper bidirectional operation later.
+	// The real text direction is then enforced by the streaming code which adds appropiate paragraph
+	// and textflow formatting commands to the
 	PARAFORMAT2 pf2;
 	ZeroMemory(&pf2, sizeof(PARAFORMAT2));
 	pf2.cbSize = sizeof(pf2);
@@ -882,10 +873,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		SendMessage(hwndLog, EM_SETLANGOPTIONS, 0, (LPARAM)SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 	}
 
-	/*
-	 * set the scrollbars etc to RTL/LTR (only for manual RTL mode)
-	 */
-
+	// set the scrollbars etc to RTL/LTR (only for manual RTL mode)
 	if (!fIsChat) {
 		if (dat->dwFlags & MWF_LOG_RTL) {
 			SetWindowLongPtr(hwndEdit, GWL_EXSTYLE, GetWindowLongPtr(hwndEdit, GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
@@ -904,9 +892,8 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	}
 }
 
-/*
-* set the states of defined database action buttons (only if button is a toggle)
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// set the states of defined database action buttons(only if button is a toggle)
 
 void TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat)
 {
@@ -1091,9 +1078,8 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 	SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
 }
 
-/*
-* save current keyboard layout for the given contact
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// save current keyboard layout for the given contact
 
 void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
@@ -1113,10 +1099,9 @@ void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-/*
-* generic handler for the WM_COPY message in message log/chat history richedit control(s).
-* it filters out the invisible event boundary markers from the text copied to the clipboard.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// generic handler for the WM_COPY message in message log/chat history richedit control(s).
+// it filters out the invisible event boundary markers from the text copied to the clipboard.
 
 LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1146,9 +1131,8 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM w
 	return result;
 }
 
-/*
-* create embedded contact list control
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// create embedded contact list control
 
 HWND TSAPI DM_CreateClist(TWindowData *dat)
 {
@@ -1299,10 +1283,10 @@ LRESULT TSAPI DM_ThemeChanged(TWindowData *dat)
 	return 0;
 }
 
-/**
- * send out message typing notifications (MTN) when the
- * user is typing/editing text in the message input area.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// send out message typing notifications (MTN) when the
+// user is typing/editing text in the message input area.
+
 void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 {
 	if (!dat || !dat->hContact)
@@ -1310,35 +1294,21 @@ void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 
 	DeletePopupsForContact(dat->hContact, PU_REMOVE_ON_TYPE);
 
-	const char *szProto = 0;
-	MCONTACT hContact = 0;
-	if (dat->bIsMeta){
-		szProto = dat->cache->getActiveProto();
-		hContact = dat->cache->getActiveContact();
-	}
-	else {
-		szProto = dat->szProto;
-		hContact = dat->hContact;
-	}
+	const char *szProto = dat->cache->getActiveProto();
+	MCONTACT hContact = dat->cache->getActiveContact();
 
-	/*
-	* editing user notes or preparing a message for queued delivery -> don't send MTN
-	*/
+	// editing user notes or preparing a message for queued delivery -> don't send MTN
 	if (dat->fEditNotesActive || dat->sendMode & SMODE_SENDLATER)
 		return;
 
-	/*
-	* allow supression of sending out TN for the contact (NOTE: for metacontacts, do NOT use the subcontact handle)
-	*/
-	if (!db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+	// allow supression of sending out TN for the contact (NOTE: for metacontacts, do NOT use the subcontact handle)
+	if (!db_get_b(hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
 		return;
 
-	if (!dat->szProto)			// should not, but who knows...
+	if (szProto == NULL) // should not, but who knows...
 		return;
 
-	/*
-	* check status and capabilities of the protocol
-	*/
+	// check status and capabilities of the protocol
 	DWORD typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return;
@@ -1347,10 +1317,8 @@ void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 	if (protoStatus < ID_STATUS_ONLINE)
 		return;
 
-	/*
-	* check visibility/invisibility lists to not "accidentially" send MTN to contacts who
-	* should not see them (privacy issue)
-	*/
+	// check visibility/invisibility lists to not "accidentially" send MTN to contacts who
+	// should not see them (privacy issue)
 	DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 		return;
@@ -1358,12 +1326,11 @@ void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		return;
 
-	/*
-	* don't send to contacts which are not permanently added to the contact list,
-	* unless the option to ignore added status is set.
-	*/
+	// don't send to contacts which are not permanently added to the contact list,
+	// unless the option to ignore added status is set.
 	if (db_get_b(dat->hContact, "CList", "NotOnList", 0) && !M.GetByte(SRMSGMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
 		return;
+
 	// End user check
 	dat->nTypeMode = mode;
 	CallService(MS_PROTO_SELFISTYPING, hContact, dat->nTypeMode);
@@ -1554,10 +1521,8 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		if (!PluginConfig.lastSPlitterPos.bSync && dat->bType != srcDat->bType)
 			return 0;
 
-		/*
-		 * for inactive sessions, delay the splitter repositioning until they become
-		 * active (faster, avoid redraw/resize problems for minimized windows)
-		 */
+		// for inactive sessions, delay the splitter repositioning until they become
+		// active (faster, avoid redraw/resize problems for minimized windows)
 		if (IsIconic(dat->pContainer->hwnd) || dat->pContainer->hwndActive != dat->hwnd) {
 			dat->dwFlagsEx |= MWF_EX_DELAYEDSPLITTER;
 			dat->wParam = newPos;
@@ -1588,9 +1553,8 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/**
- * incoming event handler
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// incoming event handler
 
 void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 {
@@ -1622,10 +1586,9 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 		if (m_pContainer->hwndStatus)
 			PostMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
 	}
-	/*
-	* set the message log divider to mark new (maybe unseen) messages, if the container has
-	* been minimized or in the background.
-	*/
+
+	// set the message log divider to mark new (maybe unseen) messages, if the container has
+	// been minimized or in the background.
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
 		if (PluginConfig.m_DividersUsePopupConfig && PluginConfig.m_UseDividers) {
 			if (!MessageWindowOpened(dat->hContact, 0))
@@ -1888,10 +1851,9 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-/*
-* status icon stuff (by sje, used for indicating encryption status in the status bar
-* this is now part of the message window api
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// status icon stuff (by sje, used for indicating encryption status in the status bar
+// this is now part of the message window api
 
 static HANDLE hHookIconPressedEvt;
 

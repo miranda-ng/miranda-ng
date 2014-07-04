@@ -1474,7 +1474,7 @@ panel_found:
 			Utils::SettingsToContainer(pContainer);
 
 			if (szThemeName != NULL) {
-				M.pathToAbsolute(szThemeName, pContainer->szAbsThemeFile);
+				PathToAbsoluteT(szThemeName, pContainer->szAbsThemeFile);
 				mir_sntprintf(pContainer->szRelThemeFile, MAX_PATH, _T("%s"), szThemeName);
 				db_free(&dbv);
 			}
@@ -1886,7 +1886,7 @@ panel_found:
 						mir_snprintf(szCName, 40, "%s_theme", CONTAINER_PREFIX);
 						if (lstrlen(pContainer->szRelThemeFile) > 1) {
 							if (pContainer->fPrivateThemeChanged == TRUE) {
-								M.pathToRelative(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
+								PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
 								db_set_ts(hContact, SRMSGMOD_T, szCName, pContainer->szRelThemeFile);
 								pContainer->fPrivateThemeChanged = FALSE;
 							}

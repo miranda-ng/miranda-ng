@@ -30,129 +30,30 @@
 
 #include "commonheaders.h"
 
-PDTTE	CMimAPI::m_pfnDrawThemeTextEx = 0;
-DEFICA	CMimAPI::m_pfnDwmExtendFrameIntoClientArea = 0;
-DICE	CMimAPI::m_pfnDwmIsCompositionEnabled = 0;
-DRT		CMimAPI::m_pfnDwmRegisterThumbnail = 0;
-BPI		CMimAPI::m_pfnBufferedPaintInit = 0;
-BPU		CMimAPI::m_pfnBufferedPaintUninit = 0;
-BBP		CMimAPI::m_pfnBeginBufferedPaint = 0;
-EBP		CMimAPI::m_pfnEndBufferedPaint = 0;
-BBW		CMimAPI::m_pfnDwmBlurBehindWindow = 0;
-DGC		CMimAPI::m_pfnDwmGetColorizationColor = 0;
-BPSA	CMimAPI::m_pfnBufferedPaintSetAlpha = 0;
-DWMIIB  CMimAPI::m_pfnDwmInvalidateIconicBitmaps = 0;
-DWMSWA	CMimAPI::m_pfnDwmSetWindowAttribute = 0;
-DWMUT	CMimAPI::m_pfnDwmUpdateThumbnailProperties = 0;
-DURT	CMimAPI::m_pfnDwmUnregisterThumbnail = 0;
-DSIT	CMimAPI::m_pfnDwmSetIconicThumbnail = 0;
-DSILP	CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap = 0;
-bool	CMimAPI::m_shutDown = 0;
-TCHAR	CMimAPI::m_userDir[] = _T("\0");
+PDTTE  CMimAPI::m_pfnDrawThemeTextEx = 0;
+DEFICA CMimAPI::m_pfnDwmExtendFrameIntoClientArea = 0;
+DICE   CMimAPI::m_pfnDwmIsCompositionEnabled = 0;
+DRT    CMimAPI::m_pfnDwmRegisterThumbnail = 0;
+BPI    CMimAPI::m_pfnBufferedPaintInit = 0;
+BPU    CMimAPI::m_pfnBufferedPaintUninit = 0;
+BBP    CMimAPI::m_pfnBeginBufferedPaint = 0;
+EBP    CMimAPI::m_pfnEndBufferedPaint = 0;
+BBW    CMimAPI::m_pfnDwmBlurBehindWindow = 0;
+DGC    CMimAPI::m_pfnDwmGetColorizationColor = 0;
+BPSA   CMimAPI::m_pfnBufferedPaintSetAlpha = 0;
+DWMIIB CMimAPI::m_pfnDwmInvalidateIconicBitmaps = 0;
+DWMSWA CMimAPI::m_pfnDwmSetWindowAttribute = 0;
+DWMUT  CMimAPI::m_pfnDwmUpdateThumbnailProperties = 0;
+DURT   CMimAPI::m_pfnDwmUnregisterThumbnail = 0;
+DSIT   CMimAPI::m_pfnDwmSetIconicThumbnail = 0;
+DSILP  CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap = 0;
+bool   CMimAPI::m_shutDown = 0;
+TCHAR  CMimAPI::m_userDir[] = _T("\0");
 
-bool	CMimAPI::m_haveBufferedPaint = false;
+bool   CMimAPI::m_haveBufferedPaint = false;
 
-/**
- * Case insensitive _tcsstr
- *
- * @param szString TCHAR *: String to be searched
- * @param szSearchFor
-                   *TCHAR *: String that should be found in szString
- *
- * @return TCHAR *: found position of szSearchFor in szString. 0 if szSearchFor was not found
- */
-const TCHAR* CMimAPI::StriStr(const TCHAR *szString, const TCHAR *szSearchFor)
-{
-	assert(szString != 0 && szSearchFor != 0);
-
-	if (!szString || *szString == 0)
-		return NULL;
-
-	if (!szSearchFor || *szSearchFor == 0)
-		return szString;
-
-	for (; *szString; ++szString) {
-		if (_totupper(*szString) == _totupper(*szSearchFor)) {
-			const TCHAR *h, *n;
-			for (h = szString, n = szSearchFor; *h && *n; ++h, ++n)
-				if (_totupper(*h) != _totupper(*n))
-					break;
-
-			if (!*n)
-				return szString;
-		}
-	}
-	return NULL;
-}
-
-int CMimAPI::pathIsAbsolute(const TCHAR *path) const
-{
-	if (!path || !(lstrlen(path) > 2))
-		return 0;
-	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
-		return 1;
-	return 0;
-}
-
-size_t CMimAPI::pathToRelative(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBase) const
-{
-	const TCHAR	*tszBase = szBase ? szBase : m_szProfilePath;
-
-	pOut[0] = 0;
-	if (!pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
-		return 0;
-	if (!pathIsAbsolute(pSrc)) {
-		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-		return lstrlen(pOut);
-	}
-
-	TCHAR	szTmp[MAX_PATH];
-	mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s"), pSrc);
-	if (StriStr(szTmp, tszBase)) {
-		if (tszBase[lstrlen(tszBase) - 1] == '\\')
-			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(tszBase));
-		else {
-			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + lstrlen(tszBase)  + 1 );
-			//pOut[0]='.';
-		}
-		return(lstrlen(pOut));
-	}
-
-	mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-	return(lstrlen(pOut));
-}
-
-/**
- * Translate a relativ path to an absolute, using the current profile
- * data directory.
- *
- * @param pSrc   TCHAR *: input path + filename (relative)
- * @param pOut   TCHAR *: the result
- * @param szBase TCHAR *: (OPTIONAL) base path for the translation. Can be 0 in which case
-            *    the function will use m_szProfilePath (usually \tabSRMM below %miranda_userdata%
- *
- * @return
- */
-size_t CMimAPI::pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBase) const
-{
-	const TCHAR	*tszBase = szBase ? szBase : m_szProfilePath;
-
-	pOut[0] = 0;
-	if (!pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
-		return 0;
-	if (pathIsAbsolute(pSrc) && pSrc[0]!='.')
-		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-	else if (pSrc[0]=='.')
-		mir_sntprintf(pOut, MAX_PATH, _T("%s\\%s"), tszBase, pSrc + 1);
-	else
-		mir_sntprintf(pOut, MAX_PATH, _T("%s\\%s"), tszBase, pSrc);
-
-	return lstrlen(pOut);
-}
-
-/*
- * window list functions
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// window list functions
 
 void CMimAPI::BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -178,6 +79,8 @@ INT_PTR CMimAPI::RemoveWindow(HWND hWnd)
 {
 	return WindowList_Remove(m_hMessageWindowList, hWnd);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int CMimAPI::FoldersPathChanged(WPARAM wParam, LPARAM lParam)
 {
@@ -229,10 +132,10 @@ INT_PTR CMimAPI::foldersPathChanged()
 const TCHAR* CMimAPI::getUserDir()
 {
 	if (m_userDir[0] == 0) {
-		if ( ServiceExists(MS_FOLDERS_REGISTER_PATH))
+		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 			lstrcpyn(m_userDir, L"%miranda_userdata%", SIZEOF(m_userDir));
 		else
-			lstrcpyn(m_userDir, VARST( _T("%miranda_userdata%")), SIZEOF(m_userDir));
+			lstrcpyn(m_userDir, VARST(_T("%miranda_userdata%")), SIZEOF(m_userDir));
 
 		Utils::ensureTralingBackslash(m_userDir);
 	}
@@ -278,24 +181,21 @@ bool CMimAPI::getAeroState()
 	return m_isAero;
 }
 
-/**
- * Initialize various Win32 API functions which are not common to all versions of Windows.
- * We have to work with functions pointers here.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Initialize various Win32 API functions which are not common to all versions of Windows.
+// We have to work with functions pointers here.
 
 void CMimAPI::InitAPI()
 {
 	m_hUxTheme = 0;
 
-	/*
-	* vista+ DWM API
-	*/
+	// vista+ DWM API
 	m_hDwmApi = 0;
-	if (IsWinVerVistaPlus())  {
+	if (IsWinVerVistaPlus()) {
 		m_hDwmApi = Utils::loadSystemLibrary(L"\\dwmapi.dll");
-		if (m_hDwmApi)  {
-			m_pfnDwmExtendFrameIntoClientArea = (DEFICA)GetProcAddress(m_hDwmApi,"DwmExtendFrameIntoClientArea");
-			m_pfnDwmIsCompositionEnabled = (DICE)GetProcAddress(m_hDwmApi,"DwmIsCompositionEnabled");
+		if (m_hDwmApi) {
+			m_pfnDwmExtendFrameIntoClientArea = (DEFICA)GetProcAddress(m_hDwmApi, "DwmExtendFrameIntoClientArea");
+			m_pfnDwmIsCompositionEnabled = (DICE)GetProcAddress(m_hDwmApi, "DwmIsCompositionEnabled");
 			m_pfnDwmRegisterThumbnail = (DRT)GetProcAddress(m_hDwmApi, "DwmRegisterThumbnail");
 			m_pfnDwmBlurBehindWindow = (BBW)GetProcAddress(m_hDwmApi, "DwmEnableBlurBehindWindow");
 			m_pfnDwmGetColorizationColor = (DGC)GetProcAddress(m_hDwmApi, "DwmGetColorizationColor");
@@ -306,9 +206,8 @@ void CMimAPI::InitAPI()
 			m_pfnDwmSetIconicThumbnail = (DSIT)GetProcAddress(m_hDwmApi, "DwmSetIconicThumbnail");
 			m_pfnDwmSetIconicLivePreviewBitmap = (DSILP)GetProcAddress(m_hDwmApi, "DwmSetIconicLivePreviewBitmap");
 		}
-		/*
-		* additional uxtheme APIs (Vista+)
-		*/
+
+		// additional uxtheme APIs (Vista+)
 		m_hUxTheme = Utils::loadSystemLibrary(L"\\uxtheme.dll");
 		if (m_hUxTheme) {
 			m_pfnDrawThemeTextEx = (PDTTE)GetProcAddress(m_hUxTheme, "DrawThemeTextEx");
@@ -325,9 +224,8 @@ void CMimAPI::InitAPI()
 	else m_haveBufferedPaint = false;
 }
 
-/**
- * hook subscriber function for incoming message typing events
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// hook subscriber function for incoming message typing events
 
 int CMimAPI::TypingMessage(WPARAM hContact, LPARAM lParam)
 {
@@ -351,7 +249,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM lParam)
 				return 0;					// should never happen
 		}
 
-		if ( M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
+		if (M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
 			if (!hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
 				fShowOnClist = FALSE;
 			if (hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
@@ -366,7 +264,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM lParam)
 			BOOL fShow = FALSE;
 			int  iMode = M.GetByte("MTN_PopupMode", 0);
 
-			switch(iMode) {
+			switch (iMode) {
 			case 0:
 				fShow = TRUE;
 				break;
@@ -420,13 +318,12 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-/**
- * this is the global ack dispatcher. It handles both ACKTYPE_MESSAGE and ACKTYPE_AVATAR events
- * for ACKTYPE_MESSAGE it searches the corresponding send job in the queue and, if found, dispatches
- * it to the owners window
- *
- * ACKTYPE_AVATAR no longer handled here, because we have avs services now.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// this is the global ack dispatcher.It handles both ACKTYPE_MESSAGE and ACKTYPE_AVATAR events
+// for ACKTYPE_MESSAGE it searches the corresponding send job in the queue and, if found, dispatches
+// it to the owners window
+//
+// ACKTYPE_AVATAR no longer handled here, because we have avs services now.
 
 int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 {
@@ -435,7 +332,7 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	HWND hwndDlg = 0;
-	int i=0, iFound = SendQueue::NR_SENDJOBS;
+	int i = 0, iFound = SendQueue::NR_SENDJOBS;
 	SendJob *jobs = sendQueue->getJobByIndex(0);
 
 	if (pAck->type == ACKTYPE_MESSAGE) {
@@ -473,8 +370,8 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		// leave this menu item hidden for chats
-		if ( !db_get_b(hContact, szProto, "ChatRoom", 0 ))
-			if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
+		if (!db_get_b(hContact, szProto, "ChatRoom", 0))
+			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 				bEnabled = true;
 	}
 
@@ -482,14 +379,13 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-/**
- * this handler is called first in the message window chain - it will handle events for which a message window
- * is already open. if not, it will do nothing and the 2nd handler (MessageEventAdded) will perform all
- * the needed actions.
- *
- * this handler POSTs the event to the message window procedure - so it is fast and can exit quickly which will
- * improve the overall responsiveness when receiving messages.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// this handler is called first in the message window chain - it will handle events for which a message window
+// is already open. if not, it will do nothing and the 2nd handler(MessageEventAdded) will perform all
+// the needed actions.
+//
+// this handler POSTs the event to the message window procedure - so it is fast and can exit quickly which will
+// improve the overall responsiveness when receiving messages.
 
 int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM lParam)
 {
@@ -498,13 +394,12 @@ int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-/**
- * Message event added is called when a new message is added to the database
- * if no session is open for the contact, this function will determine if and how a new message
- * session (tab) must be created.
- *
- * if a session is already created, it just does nothing and DispatchNewEvent() will take care.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Message event added is called when a new message is added to the database
+// if no session is open for the contact, this function will determine if and how a new message
+// session(tab) must be created.
+//
+// if a session is already created, it just does nothing and DispatchNewEvent() will take care.
 
 int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
@@ -610,12 +505,10 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 				CreateNewTabForContact(pContainer, hContact, 0, NULL, TRUE, TRUE, FALSE, 0);
 			return 0;
 		}
-		
+
 		bool bActivate = false, bPopup = M.GetByte("cpopup", 0) != 0;
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer != NULL) {
-			//if ((IsIconic(pContainer->hwnd)) && PluginConfig.haveAutoSwitch())
-			//	pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
 				if ((pContainer = FindMatchingContainer(L"default", hContact)) != NULL) {
 					CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, TRUE, hDbEvent);
@@ -629,17 +522,15 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		}
 		if (bAutoContainer) {
 			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact)) != NULL) { // 2 means create minimized, don't popup...
-				CreateNewTabForContact(pContainer, hContact,  0, NULL, bActivate, bPopup, TRUE, hDbEvent);
+				CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, TRUE, hDbEvent);
 				SendMessageW(pContainer->hwnd, WM_SIZE, 0, 0);
 			}
 			return 0;
 		}
 	}
 
-	/*
-	 * for tray support, we add the event to the tray menu. otherwise we send it back to
-	 * the contact list for flashing
-	 */
+	// for tray support, we add the event to the tray menu. otherwise we send it back to
+	// the contact list for flashing
 nowindowcreate:
 	if (!(dbei.flags & DBEF_READ)) {
 		UpdateTrayMenu(0, 0, dbei.szModule, NULL, hContact, 1);

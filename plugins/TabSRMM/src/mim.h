@@ -124,10 +124,6 @@ public:
 	 * path utilities
 	 */
 
-	int     pathIsAbsolute(const TCHAR *path) const;
-	size_t  pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBase = 0) const;
-	size_t  pathToRelative(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBase = 0) const;
-
 	__forceinline LPCTSTR getDataPath() const { return(m_szProfilePath); }
 	__forceinline LPCTSTR getSkinPath() const { return(m_szSkinsPath); }
 	__forceinline LPCTSTR getSavedAvatarPath() const { return(m_szSavedAvatarsPath); }
@@ -180,13 +176,11 @@ public:
 	 * window lists
 	 */
 
-	void    BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam);
-	void    BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam);
-	INT_PTR AddWindow(HWND hWnd, MCONTACT h);
-	INT_PTR RemoveWindow(HWND hWnd);
-	HWND    FindWindow(MCONTACT h) const;
-
-	static 	LPCTSTR StriStr(const TCHAR *szString, const TCHAR *szSearchFor);
+	void     BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam);
+	void     BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam);
+	INT_PTR  AddWindow(HWND hWnd, MCONTACT h);
+	INT_PTR  RemoveWindow(HWND hWnd);
+	HWND     FindWindow(MCONTACT h) const;
 
 	static	int FoldersPathChanged(WPARAM wParam, LPARAM lParam);		// hook subscriber for folders plugin
 	static	int TypingMessage(WPARAM wParam, LPARAM lParam);

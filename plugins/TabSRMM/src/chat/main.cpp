@@ -49,7 +49,7 @@ static void OnAddLog(SESSION_INFO *si, int isOk)
 
 static void OnGetLogName(SESSION_INFO *si, LPCTSTR ptszParsedName)
 {
-	if (!M.pathIsAbsolute(ptszParsedName))
+	if (!PathIsAbsoluteT(ptszParsedName))
 		mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s%s"), M.getChatLogPath(), ptszParsedName);
 	else
 		mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s"), ptszParsedName);

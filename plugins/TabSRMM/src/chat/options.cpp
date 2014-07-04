@@ -888,7 +888,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 						lstrcat(tszDirectory, _T("\\"));
 
 						TCHAR tszTemp[MAX_PATH];
-						M.pathToRelative(tszDirectory, tszTemp, const_cast<TCHAR *>(szUserDir));
+						PathToRelativeT(tszDirectory, tszTemp, szUserDir);
 						SetWindowText(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), lstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 					}
 					psMalloc->Free(idList);
