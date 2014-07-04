@@ -87,6 +87,7 @@ int CDb3Mmap::CheckDbHeaders()
 	}
 
 	switch (m_dbHeader.version) {
+	case DB_094_VERSION:
 	case DB_095_1_VERSION:
 	case DB_095_VERSION:
 		break;
