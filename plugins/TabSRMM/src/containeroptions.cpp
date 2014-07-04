@@ -347,7 +347,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 						GetDlgItemText(hwndDlg, IDC_THEME, szFilename, MAX_PATH);
 						szFilename[MAX_PATH - 1] = 0;
-						PathToAbsoluteT(szFilename, szFinalThemeFile);
+						PathToAbsoluteT(szFilename, szFinalThemeFile, M.getDataPath());
 
 						if (_tcscmp(szFilename, pContainer->szRelThemeFile))
 						   pContainer->fPrivateThemeChanged = TRUE;

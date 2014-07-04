@@ -720,7 +720,7 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 	mir_snprintf(szCName, 40, "%s%d_theme", szSetting, pContainer->iContainerIndex);
 	if (lstrlen(pContainer->szRelThemeFile) > 1) {
 		if (pContainer->fPrivateThemeChanged == TRUE) {
-			PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile);
+			PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
 			db_set_ts(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
 			pContainer->fPrivateThemeChanged = FALSE;
 		}
