@@ -184,7 +184,7 @@ MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask)
 	}
 }
 
-#define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))
+#define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-'a'+'A'):(_c))
 
 MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask)
 {
