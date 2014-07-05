@@ -528,6 +528,8 @@ static renameTable[] =
 	{ _T("extraicons.dll"),                 NULL },
 	{ _T("langman.dll"),                    NULL },
 	{ _T("metacontacts.dll"),               NULL },
+	{ _T("rc4.dll"),                        NULL },
+	{ _T("athena.dll"),                     NULL },
 };
 
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
