@@ -513,7 +513,7 @@ static renameTable[] =
 	{ _T("rss.dll"),                        _T("Plugins\\newsaggregator.dll") },
 	{ _T("dbx_3x.dll"),                     _T("Plugins\\dbx_mmap.dll") },
 	
-	#if MIRANDA_VER < 0x0A00
+	#if MIRANDA_VER >= 0x0A00
 		{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
 		{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
 		{ _T("rc4.dll"),                        NULL },
