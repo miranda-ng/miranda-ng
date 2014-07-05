@@ -2051,7 +2051,7 @@ void InitCheck()
 			_tcsncat(buf, home_dir_access?TranslateT("Home dir write access granted (this is good).\n"):TranslateT("Home dir has no write access (plugin most probably will not work).\n"), SIZEOF(buf));
 			_tcsncat(buf, temp_access?TranslateT("Temp dir write access granted (this is good).\n"):TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), SIZEOF(buf));
 			if(!gpg_valid)
-				_tcsncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"));
+				_tcsncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), SIZEOF(buf));
 			MessageBox(0, buf, TranslateT("GPG plugin problems"), MB_OK);
 		}
 		if(!gpg_valid)
