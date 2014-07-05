@@ -512,8 +512,11 @@ static renameTable[] =
 	{ _T("newstatusnotify.dll"),            _T("Plugins\\newxstatusnotify.dll") },
 	{ _T("rss.dll"),                        _T("Plugins\\newsaggregator.dll") },
 	{ _T("dbx_3x.dll"),                     _T("Plugins\\dbx_mmap.dll") },
-	{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
-	{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
+	
+	#if MIRANDA_VER < 0x0A00
+		{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
+		{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
+	#endif
 
 	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
 	{ _T("clienticons_*.dll"),              _T("Icons\\fp_icons.dll") },
