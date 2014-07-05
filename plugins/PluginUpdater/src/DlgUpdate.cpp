@@ -516,6 +516,8 @@ static renameTable[] =
 	#if MIRANDA_VER < 0x0A00
 		{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
 		{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
+		{ _T("rc4.dll"),                        NULL },
+		{ _T("athena.dll"),                     NULL },
 	#endif
 
 	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
@@ -531,8 +533,6 @@ static renameTable[] =
 	{ _T("extraicons.dll"),                 NULL },
 	{ _T("langman.dll"),                    NULL },
 	{ _T("metacontacts.dll"),               NULL },
-	{ _T("rc4.dll"),                        NULL },
-	{ _T("athena.dll"),                     NULL },
 };
 
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
