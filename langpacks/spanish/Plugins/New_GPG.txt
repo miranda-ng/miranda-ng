@@ -206,6 +206,10 @@ Error
 
 [Failed to allocate memory]
 
+[Failed to lock memory with error %d]
+
+[Failed write to clipboard with error %d]
+
 [GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 
 [Warning]
@@ -236,7 +240,7 @@ Info
 
 [Accept]
 
-[Received key from ]
+[Received key from %s]
 
 [You must set encryption algorithm first]
 
@@ -334,6 +338,8 @@ info
 
 [.asc pubkey file]
 
+[Failed to open clipboard with error %d]
+
 [Set log file]
 
 [LOG files]
@@ -375,15 +381,17 @@ info
 
 [encrypting file for transfer]
 
-[we have successfully exported]
+[We have successfully exported %d public keys and all private keys.]
 
-[public keys]
+[We have successfully exported all private keys.]
 
-[and]
-
-[all private keys]
+[We have successfully exported %d public keys.]
 
 [Keys export result]
+
+[We have successfully processed %d public keys and some private keys.]
+
+[We have successfully processed %d public keys.]
 
 [Keys import result]
 

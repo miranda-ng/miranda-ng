@@ -72,8 +72,6 @@ Miranda была зачынена ці адбылася памылка пры ч
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Уключэнне і адключэнне сцяга "ігнараваць" для паказаных кантактаў.\nВыкарыстанне:\n  ignore (block | unblock) <кантакт> [<кантакт> [<кантакт> [...]]].\nКаманда пераключыць (усталюе ці выдаліць) ігнараванне для пазначаных кантактаў.
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
-[Command '%s' is not currently supported.]
-Каманда '%s' не падтрымліваецца.
 [Wrong number of parameters for command '%s'.]
 Няслушная колькасць параметраў для каманды '%s'
 [Unknown parameter '%s' for command '%s'.]
@@ -152,6 +150,8 @@ CallService выклік паспяховы: служба '%S' вярнула %�
 Кантакт '%s' мае %d падзей у гісторыі.
 [Error setting nickname to '%s' for protocol '%s']
 Памылка ўстаноўкі мянушкі '%s' для пратакола '%s'
+[Command '%s' is not currently supported.]
+Каманда '%s' не падтрымліваецца.
 ;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 Немагчыма стварыць сервер CommandLine!

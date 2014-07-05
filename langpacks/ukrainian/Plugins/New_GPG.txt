@@ -185,8 +185,8 @@ ID ключа:
 Замінити
 [Accept]
 Прийняти
-[Received key from ]
-Отримано ключ від\s
+[Received key from %s]
+Отримано ключ від %s
 [Key length must be of length from 1024 to 4096 bits]
 Довжина ключа має бути від 1024 до 4096 біт
 [Invalid Email]
@@ -217,5 +217,3 @@ ID ключа:
 Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
 [LOG files]
 Файли журналу
-[and]
-і

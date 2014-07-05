@@ -10,6 +10,12 @@
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ search and replace]
 Database Editor++ - rechercher et remplacer
+[Search for]
+Recherche de
+[Text:]
+Texte :
+[In:]
+Dans :
 [Case sensitive]
 Respecter casse
 [Module name]
@@ -22,22 +28,16 @@ Réglage
 
 [&Search]
 &Recherche
+[Replace with]
+Remplacer par
+[Entirely]
+Entièrement
 [Found field]
 Champ trouvé
 [&Replace]
 &Remplacer
 [&Cancel]
 &Annuler
-[Search for]
-Recherche de
-[Text:]
-Texte :
-[In:]
-Dans :
-[Replace with]
-Remplacer par
-[Entirely]
-Entièrement
 [Restore last opened position]
 Sauver la position de la fenêtre
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -60,6 +60,18 @@ Ajouter module nommé
 Annuler
 [Edit setting]
 Modifier réglage
+[Value name:]
+Nom de valeur :
+[Value data:]
+Données de valeur :
+[Base]
+
+[Hexadecimal]
+
+[Decimal]
+
+[Save value as:]
+Enregistrer valeur sous :
 [Byte]
 
 [Word]
@@ -68,34 +80,22 @@ Modifier réglage
 
 [String]
 
-[Hexadecimal]
-
-[Decimal]
-
-[Value name:]
-Nom de valeur :
-[Value data:]
-Données de valeur :
-[Base]
-
-[Save value as:]
-Enregistrer valeur sous :
 [Watched database settings]
 Variables de la base surveillées
 [Copy module to contact]
 Copier le module du contact
-[Copy to all contacts (including Settings)]
-
 [Contact to copy module and settings to]
 Contact vers lequel copier module et réglages
+[Copy to all contacts (including Settings)]
+
 [Import module/settings]
 Importer module / réglages
+[Paste the settings to import here.]
+Coller les réglages à importer ici.
 [Import]
 
 [Insert &CR/LF]
 
-[Paste the settings to import here.]
-Coller les réglages à importer ici.
 [Database Editor++]
 
 [&Main]

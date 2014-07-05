@@ -67,8 +67,6 @@ Miranda була закрита або сталася помилка при оч
 Змінює нік користувача на вказаному протоколі.\nВикористання: setnickname <протокол> новий_нік.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Встановлення або зняття прапора "ігнорувати" для вказаних контактів.\nВикористання: ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда перемкне (встановить або видалить) ігнорування для вказаних контактів.
-[Command '%s' is not currently supported.]
-Команда '%s' не підтримується.
 [Wrong number of parameters for command '%s'.]
 Неправильна кількість параметрів для команди '%s'
 [Unknown parameter '%s' for command '%s'.]
@@ -147,6 +145,8 @@ Miranda була закрита або сталася помилка при оч
 Контакт '%s' має %d подій в історії.
 [Error setting nickname to '%s' for protocol '%s']
 Помилка зміни ніку на '%s' для протоколу '%s'.
+[Command '%s' is not currently supported.]
+Команда '%s' не підтримується.
 [Could not create CommandLine listening server!]
 Неможливо створити сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]

@@ -10,6 +10,12 @@
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ search and replace]
 Database Editor++ търсене и заместване
+[Search for]
+Търсене на
+[Text:]
+Текст:
+[In:]
+В:
 [Case sensitive]
 
 [Module name]
@@ -22,22 +28,16 @@ Database Editor++ търсене и заместване
 Стойност на настройката
 [&Search]
 Търсене
+[Replace with]
+Замяна с
+[Entirely]
+Напълно
 [Found field]
 Намерено поле
 [&Replace]
 Замяна
 [&Cancel]
 Отказ
-[Search for]
-Търсене на
-[Text:]
-Текст:
-[In:]
-В:
-[Replace with]
-Замяна с
-[Entirely]
-Напълно
 [Restore last opened position]
 Възстановяване на последната позиция
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -60,6 +60,18 @@ Popup времетраене (0=безкрайност)
 Отказ
 [Edit setting]
 Редактиране
+[Value name:]
+Име на стойността:
+[Value data:]
+Стойност:
+[Base]
+
+[Hexadecimal]
+
+[Decimal]
+
+[Save value as:]
+Запис на стойността като:
 [Byte]
 BYTE
 [Word]
@@ -68,34 +80,22 @@ WORD
 DWORD
 [String]
 STRING
-[Hexadecimal]
-
-[Decimal]
-
-[Value name:]
-Име на стойността:
-[Value data:]
-Стойност:
-[Base]
-
-[Save value as:]
-Запис на стойността като:
 [Watched database settings]
 Наблюдавани променливи в базата от данни
 [Copy module to contact]
 Копиране на модул в контакт
-[Copy to all contacts (including Settings)]
-Във всеки контакт (включва и настройките)
 [Contact to copy module and settings to]
 В кой контакт да се копира модула и настройките
+[Copy to all contacts (including Settings)]
+Във всеки контакт (включва и настройките)
 [Import module/settings]
 Внос на модул/настройки
+[Paste the settings to import here.]
+Поставете настройките за внасяне тук.
 [Import]
 Внос
 [Insert &CR/LF]
 
-[Paste the settings to import here.]
-Поставете настройките за внасяне тук.
 [Database Editor++]
 Database Editor++
 [&Main]

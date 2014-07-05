@@ -920,7 +920,6 @@
 [sent unknown presence type]
 [Status text:]
 [Real JID:]
-[Enter password for %s]
 [Authentication failed for %s@%S.]
 [Message redirected from: %s\r\n%s]
 [Resource]

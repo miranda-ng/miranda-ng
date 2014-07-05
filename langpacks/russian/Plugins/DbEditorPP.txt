@@ -9,6 +9,12 @@
 Расширенный редактор базы.
 [Database Editor++ search and replace]
 Найти и заменить
+[Search for]
+Искать
+[Text:]
+Текст:
+[In:]
+В:
 [Case sensitive]
 Учёт регистра
 [Module name]
@@ -21,22 +27,16 @@
 Значение
 [&Search]
 &Искать
+[Replace with]
+Заменить на
+[Entirely]
+Полностью
 [Found field]
 Найдено поле
 [&Replace]
 &Заменить
 [&Cancel]
 О&тмена
-[Search for]
-Искать
-[Text:]
-Текст:
-[In:]
-В:
-[Replace with]
-Заменить на
-[Entirely]
-Полностью
 [Restore last opened position]
 Восстановить последнее положение
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -59,6 +59,18 @@
 Отмена
 [Edit setting]
 Редактировать настройку
+[Value name:]
+Имя:
+[Value data:]
+Значение:
+[Base]
+Основание
+[Hexadecimal]
+Шестнадц.
+[Decimal]
+Десятичное
+[Save value as:]
+Сохранить как:
 [Byte]
 Байт
 [Word]
@@ -67,34 +79,22 @@
 Дв.слово
 [String]
 Строка
-[Hexadecimal]
-Шестнадц.
-[Decimal]
-Десятичное
-[Value name:]
-Имя:
-[Value data:]
-Значение:
-[Base]
-Основание
-[Save value as:]
-Сохранить как:
 [Watched database settings]
 Настройки под наблюдением
 [Copy module to contact]
 Копировать модуль в контакт
-[Copy to all contacts (including Settings)]
-Во все контакты (и общие настройки)
 [Contact to copy module and settings to]
 Копировать модуль и настройки в
+[Copy to all contacts (including Settings)]
+Во все контакты (и общие настройки)
 [Import module/settings]
 Импортировать модуль/настройки
+[Paste the settings to import here.]
+Вставьте настройки сюда.
 [Import]
 Импорт
 [Insert &CR/LF]
 Вставить &CR/LF
-[Paste the settings to import here.]
-Вставьте настройки сюда.
 [Database Editor++]
 Редактор базы
 [&Main]

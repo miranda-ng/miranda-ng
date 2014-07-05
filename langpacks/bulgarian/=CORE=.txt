@@ -1595,7 +1595,7 @@ Popups за изобразяване
 [Chat log]
 Чат дневник
 [Popups]
-Popups
+Рopups
 ;file \src\core\stdchat\src\tools.cpp
 [Look up '%s':]
 Търсене за "%s":

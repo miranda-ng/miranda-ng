@@ -426,7 +426,7 @@ Chyba
 [Avatar service (AVS.dll)]
 
 [Filename]
-
+Meno súboru
 [Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
 
 [Shows contact property window.]
@@ -508,7 +508,7 @@ dáta
 [Descr]
 
 [&Change]
-
+Zmeniť
 [&OK]
 
 [C&ancel]
@@ -722,7 +722,7 @@ Nie
 [A&ppend]
 
 [Yes to &All]
-
+Áno pre všetko
 [N&o to All]
 
 [Action "$" exists, do you want to rewrite it?]

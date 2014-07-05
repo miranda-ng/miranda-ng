@@ -97,7 +97,7 @@
 [&Search]
 Търсене
 [link]
-
+връзка
 [Open]
 
 [Open in new window]

@@ -10,6 +10,12 @@ Rozšírený doplnok na úpravu databázy.
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ search and replace]
 
+[Search for]
+
+[Text:]
+
+[In:]
+
 [Case sensitive]
 
 [Module name]
@@ -22,21 +28,15 @@ Rozšírený doplnok na úpravu databázy.
 
 [&Search]
 Hľadať
+[Replace with]
+
+[Entirely]
+
 [Found field]
 
 [&Replace]
 
 [&Cancel]
-
-[Search for]
-
-[Text:]
-
-[In:]
-
-[Replace with]
-
-[Entirely]
 
 [Restore last opened position]
 
@@ -60,6 +60,18 @@ Farba pozadia
 Storno
 [Edit setting]
 
+[Value name:]
+Hodnota name:
+[Value data:]
+Hodnota data:
+[Base]
+
+[Hexadecimal]
+
+[Decimal]
+
+[Save value as:]
+
 [Byte]
 
 [Word]
@@ -68,33 +80,21 @@ Storno
 
 [String]
 
-[Hexadecimal]
-
-[Decimal]
-
-[Value name:]
-Hodnota name:
-[Value data:]
-Hodnota data:
-[Base]
-
-[Save value as:]
-
 [Watched database settings]
 
 [Copy module to contact]
 
-[Copy to all contacts (including Settings)]
-
 [Contact to copy module and settings to]
 
+[Copy to all contacts (including Settings)]
+
 [Import module/settings]
+
+[Paste the settings to import here.]
 
 [Import]
 
 [Insert &CR/LF]
-
-[Paste the settings to import here.]
 
 [Database Editor++]
 

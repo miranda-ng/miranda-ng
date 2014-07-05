@@ -2045,7 +2045,7 @@ Stav:
 
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
-
+Zadať heslo pre %s
 [Error: Not enough memory]
 Chyba: málo pamäte
 [Error: Cannot connect to the server]

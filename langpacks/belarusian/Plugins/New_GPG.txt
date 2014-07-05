@@ -203,8 +203,6 @@ ID ключа:
 [Choose gpg.exe]
 Знайсці gpg.exe
 ;file \plugins\New_GPG\src\utilities.cpp
-[and]
-і
 [New passwords do not match]
 Новыя паролі не супадаюць
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]

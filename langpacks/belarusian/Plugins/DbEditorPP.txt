@@ -10,6 +10,12 @@
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ search and replace]
 Знайсці і замяніць
+[Search for]
+Шукаць
+[Text:]
+Тэкст:
+[In:]
+У:
 [Case sensitive]
 Улік рэгістра
 [Module name]
@@ -22,22 +28,16 @@
 Значэнне
 [&Search]
 &Шукаць
+[Replace with]
+Замяніць на
+[Entirely]
+Цалкам
 [Found field]
 Знойдзена поле
 [&Replace]
 &Замяніць
 [&Cancel]
 С&касаваць
-[Search for]
-Шукаць
-[Text:]
-Тэкст:
-[In:]
-У:
-[Replace with]
-Замяніць на
-[Entirely]
-Цалкам
 [Restore last opened position]
 Аднавіць апошняе становішча
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -72,18 +72,18 @@
 Зменныя пад назіраннем
 [Copy module to contact]
 Капіяваць плагін у кантакт
-[Copy to all contacts (including Settings)]
-Ва ўсе кантакты (і агульныя налады)
 [Contact to copy module and settings to]
 Капіяваць плагін і налады ў
+[Copy to all contacts (including Settings)]
+Ва ўсе кантакты (і агульныя налады)
 [Import module/settings]
 Імпартаваць плагін/налады
+[Paste the settings to import here.]
+Устаўце налады сюды.
 [Import]
 Імпартаваць
 [Insert &CR/LF]
 Уставіць &CR/LF
-[Paste the settings to import here.]
-Устаўце налады сюды.
 [Database Editor++]
 Рэдактар базы
 [&Main]

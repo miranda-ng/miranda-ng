@@ -2460,7 +2460,7 @@ neznáme
 
 ;file \src\modules\netlib\netlibopts.cpp
 [<mixed>]
-
+<mix>
 [<All connections>]
 Všetky pripojenia
 [Network]
