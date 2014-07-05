@@ -123,4 +123,4 @@ To jest przykładowe powiadomienie o innym zdarzeniu ;-D
 [Plugin Test]
 Test wtyczki
 [[b]Number of new message(s): %d[/b]\n]
-[b]Liczba nowych wiadomości: %d[/b]
+[b]Liczba nowych wiadomości: %d[/b]\n

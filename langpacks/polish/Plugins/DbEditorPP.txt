@@ -91,7 +91,7 @@ Kopiuj do wszystkich kontaktów(wraz z ustawieniami)
 [Import module/settings]
 Importuj moduł/ustawienia
 [Paste the settings to import here.]
-Wklej tutaj udsawienia, które chcesz zaimportować.
+Wklej tutaj ustawienia, które chcesz zaimportować.
 [Import]
 Importuj
 [Insert &CR/LF]
