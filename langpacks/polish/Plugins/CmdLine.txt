@@ -72,8 +72,6 @@ Zmienia nick użytkownika w podanym protokole na nowy.\nJak używać: setnicknam
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Ignoruje lub usuwa flagę ignorowania dla podanego kontaktu.\nJak używać:\n  ignore (block | unblock) <kontakt> [<kontakt> [<kontakt> [...]]].\nTa komenda ustawi lub usunie flagę ignorowania dla wybranych kontaktów.
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
-[Command '%s' is not currently supported.]
-Komenda "%s" nie jest obecnie obsługiwana.
 [Wrong number of parameters for command '%s'.]
 Zła ilość parametrów dla komendy "%s".
 [Unknown parameter '%s' for command '%s'.]
@@ -100,6 +98,38 @@ Zmieniono opis "%s" na "%s" (status to "%s").
 Konto "%s" nie wspiera opisów. Pominięto.
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 Nie udało się zmienić opisu dla konta "%s" na "%s" (status to "%s").
+[Popups are currently enabled.]
+Popupy są teraz włączone.
+[Popups are currently disabled.]
+Popupy są teraz wyłączone
+[Popups were enabled successfully.]
+Popupy zostały włączone pomyślnie.
+[Popups could not be enabled.]
+Popupy nie mogły zostać włączone.
+[Popups were disabled successfully.]
+Popupy zostały wyłączone pomyślnie.
+[Popups could not be disabled.]
+Popupy nie mogły zostać wyłączone
+[Sounds are currently enabled.]
+Dźwięki są teraz włączone.
+[Sounds are currently disabled.]
+Dźwięki są teraz wyłączone.
+[Sounds were enabled successfully.]
+Dźwięki zostały włączone  pomyślnie.
+[Sounds were disabled successfully.]
+Dźwięki zostały wyłączone pomyślnie.
+[Contact list is currectly shown.]
+Lista kontaktów jest aktualnie wyświetlona.
+[Contact list is currently hidden.]
+Lista kontaktów jest obecnie ukryta.
+[Contact list was shown successfully.]
+Lista kontaktów została wyświetlona pomyślnie.
+[Contact list was hidden successfully.]
+Lista kontaktów została ukryta pomyślnie.
+[Issued a quit command.]
+Wydano komendę wyjścia.
+[Issued a quit and wait command.]
+Wydano komendę wyjścia i oczekiwania.
 [Issued check email command to Exchange plugin.]
 Wydano komendę sprawdź pocztę wtyczce Exchange.
 [Exchange plugin is not running.]
@@ -124,8 +154,34 @@ Nie udało się wysłać wiadomości do "%s".
 Przekroczono czas podczas oczekiwania na potwierdzenie dla kontaktu "%s".
 [Could not find contact handle for contact '%s'.]
 Nie udało się znaleźć uchwytu dla kontaktu "%s".
+[byte:%d]
+bajt:%d
+[word:%d]
+słowo:%d
+[dword:%ld]
+dword:%ld
+[string:'%s']
+Ciąg:'%s'
+[wide string:'%S']
+szeroki ciąg:'%S'
+[utf8:'%s']
+utf8:'%s'
+[blob:N/A]
+blob:niedostępne
+[unknown value]
+Nieznana wartość
 [Setting '%s/%s' deleted.]
 Usunięto ustawienie "%s/%s".
+[string]
+ciąg
+[byte]
+bajt
+[word]
+słowo
+[dword]
+dword
+[wide string]
+szeroki ciąg
 [Wrote '%s:%s' to database entry '%s/%s'.]
 Zapisano "%s/%s" we wpisie bazy danych "%s/%s".
 [Could not retrieve setting '%s/%s': %s.]
@@ -142,8 +198,6 @@ Serwer proxy %s: %s %s:%d.
 Ustawiono proxy %s na %s %s:%d.
 [%s The port or the proxy type parameter is invalid.]
 %s parametr typu lub portu proxy jest nieprawidłowy.
-[[me]]
-[ja]
 [No unread messages found.]
 Nie znaleziono nieprzeczytanych wiadomości.
 [%s:%s - %d unread events.]
@@ -152,6 +206,8 @@ Nie znaleziono nieprzeczytanych wiadomości.
 Kontakt "%s" ma %d zdarzeń w historii.
 [Error setting nickname to '%s' for protocol '%s']
 Błąd ustawiania nicka na "%s" dla protokołu "%s"
+[Command '%s' is not currently supported.]
+Komenda "%s" nie jest obecnie obsługiwana.
 ;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 Nie udało się utworzyć serwera nasłuchu wiersza poleceń!

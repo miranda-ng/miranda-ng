@@ -203,8 +203,8 @@ Przycisk zamiany
 [Import]
 Importuj
 ;file \plugins\Quotes\src\ImportExport.cpp
-[Xml File (*.xml)]
-Pliki Xml (*.xml)
+[XML File (*.xml)]
+Plik XML (*.xml)
 [All files (*.*)]
 Wszystkie pliki (*.*)
 ;file \plugins\Quotes\src\ModuleInfo.cpp

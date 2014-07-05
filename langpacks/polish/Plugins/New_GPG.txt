@@ -206,6 +206,10 @@ Błąd
 Generuj nowy losowy klucz, proszę czekać
 [Failed to allocate memory]
 Nie udało się przydzielić pamięci
+[Failed to lock memory with error %d]
+Nie udało się zablokować pamięci z błędem %d
+[Failed write to clipboard with error %d]
+Nie udało się zapisać w schowku z błędem %d
 [GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended to place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
 Znaleziono plik binarny GPG w folderze Mirandy, ale angielskie ustawienia regionalne nie istnieją.\nWysoce zaleca się umieszczenie \\gnupg.nls\\en@quot.mo w folderze GnuPG w głównym folderze Mirandy.\nBez tego pliku możesz doświadczyć wielu problemów z wyjściem GPG w systemach innych niż angielski,\na wtyczka może w ogóle nie działać.\nZostałeś ostrzeżony.
 [Warning]
@@ -236,8 +240,8 @@ Otrzymano nowy klucz publiczny. Czy chcesz go zaimportować?
 Zastąp
 [Accept]
 Akceptuj
-[Received key from ]
-Otrzymany klucz od\s
+[Received key from %s]
+Otrzymano klucz od %s
 [You must set encryption algorithm first]
 Musisz najpierw ustawić algorytm szyfrujący
 [Key length must be of length from 1024 to 4096 bits]
@@ -334,6 +338,8 @@ Czy chcesz usunąć klucz z metakontaktu (wszystkie subkontakty)?
 Eksportuj klucz publiczny
 [.asc pubkey file]
 plik klucza publicznego .asc
+[Failed to open clipboard with error %d]
+Nie udało się otworzyć schowka z błędem %d
 [Set log file]
 Ustaw plik dziennika
 [LOG files]
@@ -375,16 +381,18 @@ Ostrzeżenie o transferze pliku
 Nie udało się sprawdzić wsparcia dla odszyfrowania po drugiej stronie.\nOdbiorca może nie być w stanie odszyfrować pliku(ków).\nObecnie możliwość sprawdzana jest dla protokołów ICQ oraz Jabber.\nZadziała to także w innych protokołach, jeśli po drugiej stronie używana jest Miranda z new_gpg.\nCzy mimo to chcesz zaszyfrować plik(i)?
 [encrypting file for transfer]
 Szyfrowanie pliku do wysłania
-[we have successfully exported]
-Wyeksportowaliśmy pomyślnie
-[public keys]
-klucze publiczne
-[and]
-i
-[all private keys]
-wszystkie klucze prywatne
+[We have successfully exported %d public keys and all private keys.]
+Pomyślnie wyeksportowaliśmy %d kluczy prywatnych i wszystkie klucze publiczne.
+[We have successfully exported all private keys.]
+Pomyślnie wyeksportowaliśmy wszystkie klucze prywatne.
+[We have successfully exported %d public keys.]
+Pomyślnie wyeksportowaliśmy %d kluczy publicznych
 [Keys export result]
 Wynik eksportu kluczy
+[We have successfully processed %d public keys and some private keys.]
+Pomyślnie przetworzyliśmy %d kluczy publicznych i ileś kluczy prywatnych.
+[We have successfully processed %d public keys.]
+Pomyślie przetworzyliśmy %d kluczy publicznych.
 [Keys import result]
 Wynik importu kluczy
 [New passwords do not match]
