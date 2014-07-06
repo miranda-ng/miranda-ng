@@ -83,6 +83,8 @@
 Невідома відповідь від %s (%i)
 [Got no response from %s (%i)]
 Немає відповіді від %s (%i)
+[%s (%i):\nCould not add a share to the Dropbox plugin.]
+%s (%i):\nНеможливо додати ресурс у плагін Dropbox.
 [The specified attachment was not found]
 Вкладення не знайдено
 [The specified attachment could not be opened]
@@ -114,11 +116,11 @@
 [FTPFile transfer]
 Передача FTPFile
 [%s (%i):\nCould not add a share to the FTP File plugin.]
-Неможливо додати ресурс в плагін FTP File.
+%s (%i):\nНеможливо додати ресурс у плагін FTP File.
 [Could not start the HTTP Server plugin.]
 Неможливо запустити плагін HTTP Server.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
-Неможливо додати ресурс в плагін HTTP Server.
+%s (%i):\nНеможливо додати ресурс у плагін HTTP Server.
 [Retry]
 Ще раз
 [Yes]
@@ -152,7 +154,7 @@ HTTP-з'єднання SendSS
 [Could not register Miranda service.]
 Неможливо зареєструвати сервіс.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-Не вдалося створити папку знімків екрану (код помилки: %d:)\n%s\nУ вас є права на запис?
+Не вдалося створити папку знімків екрану (код помилки: %d):\n%s\nУ вас є права на запис?
 [Screenshot Icon1]
 Значок 1
 [Screenshot Icon2]

@@ -31,6 +31,8 @@
 &Заполнить строки описания.
 [Delete &after send]
 Удалить &после отправки
+[Open editor before sending]
+Редактировать перед отправкой
 [Open again]
 Откр. снова
 [&Capture]
@@ -55,6 +57,10 @@
 Файл:
 [Description:]
 Описание:
+[Result]
+Результат
+[Thumbnail]
+Миниатюра
 [&Copy]
 &Копировать
 [Close]
@@ -65,6 +71,24 @@
 Ошибка
 [An unknown error has occurred.]
 Неизвестная ошибка.
+[Unknown response from %s (%i)]
+Неизвестный ответ от %s (%i)
+[Got no response from %s (%i)]
+Нет ответа от %s (%i)
+[The specified attachment was not found]
+Вложение не найдено
+[The specified attachment could not be opened]
+Невозможно открыть вложение
+[One or more unspecified errors occurred]
+Одна или несколько неизвестных ошибок
+[There was insufficient memory to proceed]
+Недостаточно памяти для продолжения
+[The text in the message was too large]
+Сообщение слишком длинное
+[There were too many file attachments]
+Слишком много вложенных файлов
+[There were too many recipients]
+Слишком много получателей
 [Unknown Error]
 Неизвестная ошибка
 [File transfer]
@@ -141,6 +165,10 @@ HTTP подключение SendSS
 Окно
 [Desktop]
 Рабочий стол
+[Monitor]
+Монитор
+[ (primary)]
+ (основной)
 [File]
 Файл
 [File Transfer]
@@ -149,8 +177,16 @@ HTTP подключение SendSS
 Почта
 [FTP File]
 Файл на FTP
+[Upload Pie (30m)]
+Upload Pie (30 мин)
+[Upload Pie (1d)]
+Upload Pie (1 дн)
+[Upload Pie (1w)]
+Upload Pie (1 нед)
 [Information]
 Информация
+[Delete after send]
+Удалить после отправки
 [Can't create a Screenshot]
 Невозможно создать скриншот
 [Select a file]

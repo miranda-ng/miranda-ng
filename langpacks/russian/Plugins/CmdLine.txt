@@ -79,6 +79,26 @@ Miranda была закрыта или произошла ошибка при о
 Успешно установлено '%S' сообщение статуса для '%s' (статус '%s').
 [Changed '%s' status message to '%s' (status is '%s').]
 Изменено '%s' сообщение статуса на '%s' (статус '%s').
+[Popups are currently enabled.]
+Всплывающие окна сейчас включены.
+[Popups are currently disabled.]
+Всплывающие окна сейчас выключены.
+[Popups were enabled successfully.]
+Всплывающие окна включены.
+[Popups could not be enabled.]
+Невозможно включить всплывающие окна.
+[Popups were disabled successfully.]
+Всплывающие окна выключены.
+[Popups could not be disabled.]
+Невозможно выключить всплывающие окна.
+[Sounds are currently enabled.]
+Звуки сейчас включены.
+[Sounds are currently disabled.]
+Звуки сейчас выключены.
+[Sounds were enabled successfully.]
+Звуки включены.
+[Sounds were disabled successfully.]
+Звуки выключены.
 [Issued check email command to Exchange plugin.]
 Отправлена команда проверки почты для плагина Exchange.
 [Exchange plugin is not running.]
@@ -99,8 +119,30 @@ Miranda была закрыта или произошла ошибка при о
 Таймаут ожидания подтверждения от контакта '%s'.
 [Could not find contact handle for contact '%s'.]
 Невозможно найти обработчик для контакта '%s'.
+[byte:%d]
+байт:%d
+[word:%d]
+слово:%d
+[dword:%ld]
+дв. слово
+[string:'%s']
+строка:'%s'
+[wide string:'%S']
+юникод:'%S'
+[unknown value]
+неизвестное значение
 [Setting '%s/%s' deleted.]
 Настройка '%s/%s' удалена.
+[string]
+строка
+[byte]
+байт
+[word]
+слово
+[dword]
+дв. слово
+[wide string]
+юникод
 [Wrote '%s:%s' to database entry '%s/%s'.]
 Записано '%s:%s' в запись '%s/%s' базы данных.
 [Could not retrieve setting '%s/%s': %s.]
