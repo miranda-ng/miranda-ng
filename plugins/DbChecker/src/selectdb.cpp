@@ -24,7 +24,7 @@ static bool CheckBroken(const TCHAR *ptszFullPath)
 	if (dblink == NULL || dblink->CheckDB == NULL)
 		return true;
 
-	return dblink->grokHeader(ptszFullPath) == EGROKPRF_NOERROR;
+	return dblink->grokHeader(ptszFullPath) != EGROKPRF_NOERROR;
 }
 
 void OpenDatabase(HWND hdlg, INT iNextPage)
