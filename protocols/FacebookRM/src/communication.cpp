@@ -976,7 +976,10 @@ bool facebook_client::chat_state(bool online)
 	data += "&fb_dtsg=" + (!dtsg_.empty() ? dtsg_ : "0");
 	data += "&phstamp=0&__user=" + self_.user_id;
 	http::response resp = flap(REQUEST_VISIBILITY, &data);
-  
+	
+	if (!resp.error_number)
+		return handle_error("chat_state");
+
 	return handle_success("chat_state");
 }
 
