@@ -48,6 +48,7 @@ struct LangPackEntry
 };
 
 static LANGPACK_INFO langPack;
+static TCHAR g_tszRoot[MAX_PATH];
 
 static LangPackEntry *g_pEntries;
 static int g_entryCount, g_entriesAlloced;
@@ -377,11 +378,10 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 
 	// ensure that a lang's name is a full file name
 	TCHAR tszFullPath[MAX_PATH];
-	if (!PathIsAbsoluteT(ptszLangPack)) {
-		PathToAbsoluteT(_T("\\Languages\\"), tszFullPath);
-		_tcsncat_s(tszFullPath, SIZEOF(tszFullPath), ptszLangPack, _TRUNCATE);
-	}
-	else _tcsncpy_s(tszFullPath, SIZEOF(tszFullPath), ptszLangPack, _TRUNCATE);
+	if (!PathIsAbsoluteT(ptszLangPack))
+		mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s"), g_tszRoot, ptszLangPack);
+	else
+		_tcsncpy_s(tszFullPath, SIZEOF(tszFullPath), ptszLangPack, _TRUNCATE);
 
 	// this lang is already loaded? nothing to do then
 	if (!lstrcmp(tszFullPath, langPack.tszFullPath))
@@ -640,18 +640,20 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 
 	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
 
+	// calculate the langpacks' root
+	PathToAbsoluteT(_T("\\Languages"), g_tszRoot);
+	if (_taccess(g_tszRoot, 0) != 0) // directory Languages exists
+		PathToAbsoluteT(_T("."), g_tszRoot);
+
 	// look into mirandaboot.ini
-	TCHAR tszDefaultLang[100], tszPath[MAX_PATH], tszRoot[MAX_PATH];
+	TCHAR tszDefaultLang[100], tszPath[MAX_PATH];
 	PathToAbsoluteT(_T("\\mirandaboot.ini"), tszPath);
 	if (GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), tszPath))
 		if (!LoadLangPack(tszDefaultLang))
 			return 0;
 
 	// finally try to load first file
-	PathToAbsoluteT(_T("\\Languages"), tszRoot);
-	if (_taccess(tszRoot, 0) != 0) // directory Languages exists
-		PathToAbsoluteT(_T("."), tszRoot);
-	mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\langpack_*.txt"), tszRoot);
+	mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\langpack_*.txt"), g_tszRoot);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(tszPath, &fd);
@@ -661,8 +663,7 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				continue;
 			
-			mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\%s"), tszRoot, fd.cFileName);
-			if (!LoadLangPack(tszPath)) {
+			if (!LoadLangPack(fd.cFileName)) {
 				db_set_ts(NULL, "Langpack", "Current", fd.cFileName);
 				break;
 			}
