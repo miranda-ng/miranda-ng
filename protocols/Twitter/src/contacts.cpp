@@ -106,46 +106,42 @@ struct search_query
 
 void TwitterProto::DoSearch(void *p)
 {
-	if(p == 0)
+	if (p == 0)
 		return;
 	search_query *query = static_cast<search_query*>(p);
 
 	twitter_user info;
 
 	bool found = false;
-	try
-	{
-		char* p = mir_utf8encodeT( query->query.c_str());
+	try {
+		char *p = mir_utf8encodeT(query->query.c_str());
 
 		ScopedLock s(twitter_lock_);
-		if(query->by_email)
-			found = twit_.get_info_by_email(p,&info);
+		if (query->by_email)
+			found = twit_.get_info_by_email(p, &info);
 		else
-			found = twit_.get_info(p,&info);
-		mir_free( p );
+			found = twit_.get_info(p, &info);
+		mir_free(p);
 	}
-	catch(const std::exception &e)
-	{
-		ShowPopup( (std::string("While searching for contacts, an error occurred: ") +  e.what()).c_str());
-		debugLogA( _T("***** Error searching for contacts: %s"), e.what());
+	catch (const std::exception &e) {
+		ShowPopup((std::string("While searching for contacts, an error occurred: ") + e.what()).c_str());
+		debugLogA(_T("***** Error searching for contacts: %s"), e.what());
 		found = false;
 	}
 
-	if(found) {
-		PROTOSEARCHRESULT psr = {sizeof(psr)};
-		psr.nick = mir_a2t(info.username. c_str());
+	if (found) {
+		PROTOSEARCHRESULT psr = { sizeof(psr) };
+		psr.flags = PSR_TCHAR;
+		psr.nick = mir_a2t(info.username.c_str());
 		psr.firstName = mir_a2t(info.real_name.c_str());
 
-		ProtoBroadcastAck(0,ACKTYPE_SEARCH,ACKRESULT_DATA,(HANDLE)1, (LPARAM)&psr);
-		ProtoBroadcastAck(0,ACKTYPE_SEARCH,ACKRESULT_SUCCESS,(HANDLE)1,0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 
 		mir_free(psr.nick);
 		mir_free(psr.firstName);
 	}
-	else
-	{
-		ProtoBroadcastAck(0,ACKTYPE_SEARCH,ACKRESULT_SUCCESS,(HANDLE)1,0);
-	}
+	else ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 
 	delete query;
 }
