@@ -1,5 +1,5 @@
 ﻿Miranda Language Pack Version 1
 Language: Polish (PL)
 Locale: 0415
-Last-Modified-Using: Miranda NG 0.95.1
+Last-Modified-Using: Miranda NG 0.95.2
 Authors: bunnyhoney, Xantros, Goraf, Piciok
