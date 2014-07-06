@@ -795,6 +795,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *is_canonical_user = json_get(it, "is_canonical_user");
 		JSONNODE *canonical = json_get(it, "canonical_fbid");
 		JSONNODE *thread_id = json_get(it, "thread_id");
+		JSONNODE *thread_fbid = json_get(it, "thread_fbid");
 		JSONNODE *name = json_get(it, "name");
 		//JSONNODE *message_count = json_get(it, "message_count");
 		JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
@@ -805,7 +806,9 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 
 		std::string id = json_as_pstring(canonical);
 		std::string tid = json_as_pstring(thread_id);
+		std::string tfbid = json_as_pstring(thread_fbid);
 
+		// FIXME: fix this ugliness better (it was quick workaround for stable release)
 		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(tid);
 		if (iter != chatrooms->end()) {
 			if (json_as_bool(is_canonical_user)) {
@@ -814,6 +817,22 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 				iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
 			}
 		}
+
+		iter = chatrooms->find(tfbid);
+		if (iter != chatrooms->end()) {
+			if (json_as_bool(is_canonical_user)) {
+				chatrooms->erase(iter); // this is not chatroom
+			}
+			else {
+				iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
+			}
+		}
+
+		iter = chatrooms->find(id);
+		if (iter != chatrooms->end()) {
+			chatrooms->erase(iter); // this is not chatroom
+		}
+		// END OF FIXME
 
 		if (inboxOnly && json_as_pstring(folder) != "inbox")
 			continue;
