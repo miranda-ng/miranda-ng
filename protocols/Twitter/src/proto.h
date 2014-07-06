@@ -17,11 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "common.h"
 #include "utility.h"
-#include "stdafx.h"
-
-#include <m_protoint.h>
 
 class TwitterProto : public PROTO<TwitterProto>
 {

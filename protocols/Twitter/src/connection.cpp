@@ -15,10 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "stdafx.h"
 #include "proto.h"
-//#include "tc2.h"
 #include "twitter.h"
-#include <sstream>
 
 void CALLBACK TwitterProto::APC_callback(ULONG_PTR p)
 {
@@ -148,7 +147,6 @@ bool TwitterProto::NegotiateConnection()
 		http::response resp = twit_.request_token();
 
 		//wstring rdata_WSTR(resp.data.length(),L' ');
-		//std::copy(resp.data.begin(), resp.data.end(), rdata_WSTR.begin());
 		wstring rdata_WSTR = UTF8ToWide(resp.data);
 
 		//debugLogW("**NegotiateConnection - REQUEST TOKEN IS %s", rdata_WSTR);

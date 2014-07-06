@@ -3,11 +3,9 @@
  * best way?  
  */
 
-#include "twitter.h"
-//#include "tc2.h"
-#include "utility.h"
 #include "stdafx.h"
-#include "common.h"
+#include "twitter.h"
+#include "utility.h"
 
 OAuthParameters mir_twitter::BuildSignedOAuthParameters( const OAuthParameters& requestParameters, 
 								   const std::wstring& url, 

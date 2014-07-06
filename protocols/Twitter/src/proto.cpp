@@ -15,19 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "stdafx.h"
 #include "proto.h"
 
 #include "utility.h"
 #include "theme.h"
 #include "ui.h"
 #include "oauth.dev.h"
-
-#include "m_folders.h"
-
-#include <algorithm>
-#include <cstdio>
-#include <ctime>
-#include <direct.h>
 
 static volatile LONG g_msgid = 1;
 
@@ -69,7 +63,7 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username) :
 	ConsumerKey = OAUTH_CONSUMER_KEY;
 	ConsumerSecret = OAUTH_CONSUMER_SECRET;
 
-	AuthorizeUrl = _T("http://api.twitter.com/oauth/authorize?oauth_token=%s");
+	AuthorizeUrl = _T("https://api.twitter.com/oauth/authorize?oauth_token=%s");
 }
 
 TwitterProto::~TwitterProto()

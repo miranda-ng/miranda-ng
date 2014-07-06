@@ -17,21 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <map>
-#include <vector>
-#include <string>
-
 using std::string;
 using std::wstring;
 using std::map;
 using std::vector;
 
 #include "http.h"
-#include "StringConv.h"
-#include "stdafx.h"
 
 #define tstring wstring 
-
 
 typedef unsigned long long twitter_id;
 typedef std::map<std::wstring, std::wstring> OAuthParameters;
