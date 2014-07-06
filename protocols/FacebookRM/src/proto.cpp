@@ -35,6 +35,8 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
 
+	m_invisible = false;
+
 	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETMYAWAYMSG,   &FacebookProto::GetMyAwayMsg);
 	CreateProtoService(PS_GETMYAVATART,   &FacebookProto::GetMyAvatar);
@@ -174,6 +176,8 @@ int FacebookProto::SetStatus(int new_status)
 		debugLogA("===== Statuses are same, no change");
 		return 0;
 	}
+
+	m_invisible = (new_status == ID_STATUS_INVISIBLE);
 
 	ForkThread(&FacebookProto::ChangeStatus, this);
 	return 0;

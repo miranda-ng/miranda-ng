@@ -18,7 +18,7 @@ Info:
    Information about statuses
 --------------------------------
  - Online = connected to fb, chat is online
- - Invisible = connected to fb, chat is offline, but you can still see other people online, receive messages, newsfeeds and notifications
+ - Invisible = connected to fb, but only for getting feeds and notifications - CHAT is OFFLINE
  - Offline = disconnected
  
 --------------------------------

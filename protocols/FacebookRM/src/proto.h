@@ -47,8 +47,11 @@ public:
 
 	inline bool isInvisible()
 	{
-		return (m_iStatus == ID_STATUS_INVISIBLE);
+		return m_invisible;
+		//return (m_iStatus == ID_STATUS_INVISIBLE);
 	}
+
+	bool m_invisible;
 
 	// DB utils missing in proto_interface
 

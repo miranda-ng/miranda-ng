@@ -516,7 +516,13 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		action += "&partition=" + (this->chat_channel_partition_.empty() ? "0" : this->chat_channel_partition_);
 		action += "&clientid=" + this->chat_clientid_;
 		action += "&cb=" + utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz");
-		action += "&idle=0&state=active";
+		
+		// FIXME: fix this as I don't know how it works yet (because of quick stable release)
+		if (!parent->isInvisible())
+			action += "&idle=-1&state=active";
+		else
+			action += "&idle=1";
+
 		if (!this->chat_sticky_num_.empty())
 			action += "&sticky_token=" + this->chat_sticky_num_;
 

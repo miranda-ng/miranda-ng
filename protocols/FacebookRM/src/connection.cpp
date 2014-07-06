@@ -125,11 +125,18 @@ void FacebookProto::ChangeStatus(void*)
 		debugLogA("***** SignOn complete");
 	}
 
-	facy.chat_state(m_iDesiredStatus != ID_STATUS_INVISIBLE);
+	m_invisible = (new_status == ID_STATUS_INVISIBLE);
 
-	ForkThread(&FacebookProto::ProcessBuddyList, NULL);
+	facy.chat_state(!m_invisible);
 
-	m_iStatus = facy.self_.status_id = m_iDesiredStatus;
+	if (m_invisible) {
+		facy.buddies.clear();
+		SetAllContactStatuses(ID_STATUS_OFFLINE);
+	} else {
+		ForkThread(&FacebookProto::ProcessBuddyList, NULL);
+	}
+
+	m_iStatus = facy.self_.status_id = new_status;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 	debugLogA("***** ChangeStatus complete");
@@ -181,7 +188,8 @@ void FacebookProto::UpdateLoop(void *)
 	for (int i = -1; !isOffline(); i = ++i % 50)
 	{
 		if (i != -1) {
-			ProcessBuddyList(NULL);
+			if (!isInvisible())
+				ProcessBuddyList(NULL);
 
 			if (getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
 				ProcessFeeds(NULL);
