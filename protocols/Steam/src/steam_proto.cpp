@@ -203,6 +203,8 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 		return (DWORD_PTR)Translate("SteamID");
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)"SteamID";
+	case PFLAG_MAXLENOFMESSAGE:
+		return 180;
 	default:
 		return 0;
 	}
@@ -291,10 +293,8 @@ int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 
 	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
 	param->hContact = hContact;
-	//param->text = mir_utf8encode(msg);
 	param->hMessage = (HANDLE)hMessage;
 
-	//ForkThread(&CSteamProto::SendMessageThread, param);
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));

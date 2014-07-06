@@ -19,7 +19,7 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 
 	bool result = false;
 
-	ptrA steamId((char*)arg);
+	ptrA steamId(getStringA(param->hContact, "SteamID"));
 
 	if (response != NULL && response->resultCode == HTTP_STATUS_OK)
 	{
