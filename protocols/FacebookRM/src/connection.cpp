@@ -55,7 +55,7 @@ void FacebookProto::ChangeStatus(void*)
 		facy.buddies.clear();
 		facy.messages_ignore.clear();
 		facy.pages.clear();
-		facy.typing.clear();
+		facy.typers.clear();
 
 		if (facy.hMsgCon)
 			Netlib_CloseHandle(facy.hMsgCon);

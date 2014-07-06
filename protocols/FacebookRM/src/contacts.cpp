@@ -77,6 +77,8 @@ bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
 
 MCONTACT FacebookProto::ChatIDToHContact(std::tstring chat_id)
 {
+	// TODO: use some cache to optimize this
+
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!IsMyContact(hContact, true))
 			continue;
@@ -91,6 +93,8 @@ MCONTACT FacebookProto::ChatIDToHContact(std::tstring chat_id)
 
 MCONTACT FacebookProto::ContactIDToHContact(std::string user_id)
 {
+	// TODO: use some cache to optimize this
+
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			continue;
@@ -420,20 +424,20 @@ int FacebookProto::OnContactDeleted(WPARAM wParam,LPARAM)
 
 void FacebookProto::StartTyping(MCONTACT hContact) {
 	// ignore if contact is already typing
-	if (facy.typing.find(hContact) != facy.typing.end())
+	if (facy.typers.find(hContact) != facy.typers.end())
 		return;
 
 	// show notification and insert into typing set
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)FACEBOOK_TYPING_TIME);
-	facy.typing.insert(hContact);
+	facy.typers.insert(hContact);
 }
 
 void FacebookProto::StopTyping(MCONTACT hContact) {
 	// ignore if contact is not typing
-	if (facy.typing.find(hContact) == facy.typing.end())
+	if (facy.typers.find(hContact) == facy.typers.end())
 		return;
 
 	// show notification and remove from typing set
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
-	facy.typing.erase(hContact);
+	facy.typers.erase(hContact);
 }

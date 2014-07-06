@@ -26,6 +26,8 @@ int FacebookProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	StopTyping(hContact);
 
+	// Remove from "readers" list and clear statusbar
+	facy.readers.erase(hContact);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, NULL);
 
 	return Proto_RecvMessage(hContact, pre);
@@ -57,6 +59,9 @@ void FacebookProto::SendMsgWorker(void *p)
 		}
 		if (result) {
 			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, data->msgid, 0);
+			
+			// Remove from "readers" list and clear statusbar
+			facy.readers.erase(data->hContact);
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)data->hContact, NULL);
 		} else {
 			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)error_text.c_str());

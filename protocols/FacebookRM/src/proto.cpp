@@ -534,7 +534,10 @@ int FacebookProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
-	if (event->uType == MSG_WINDOW_EVT_OPEN) {
+	if (event->uType == MSG_WINDOW_EVT_OPENING) {
+		// Set statusbar to "Message read" time (if present)
+		MessageRead(event->hContact);
+	} else if (event->uType == MSG_WINDOW_EVT_OPEN) {
 		// Check if we have enabled loading messages on open window
 		if (!getBool(FACEBOOK_KEY_MESSAGES_ON_OPEN, DEFAULT_MESSAGES_ON_OPEN))
 			return 0;
@@ -935,4 +938,24 @@ void FacebookProto::InitSounds()
 	SkinAddNewSoundExT("Notification", m_tszUserName, LPGENT("Notification"));
 	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENT("News Feed"));
 	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENT("Other Event"));
+}
+
+/**
+ * Sets statusbar text of hContact with last read time (from facy.readers map)
+ */
+void FacebookProto::MessageRead(MCONTACT hContact)
+{
+	std::map<MCONTACT, time_t>::iterator it = facy.readers.find(hContact);
+	if (it == facy.readers.end())
+		return;
+	
+	TCHAR ttime[64];
+	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&it->second));
+
+	StatusTextData st = { 0 };
+	st.cbSize = sizeof(st);
+	st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
+	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
+	
+	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }

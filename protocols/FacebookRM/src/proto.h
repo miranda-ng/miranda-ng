@@ -224,6 +224,7 @@ public:
 	void SaveName(MCONTACT hContact, const facebook_user *fbu);	
 	void OpenUrl(std::string url);
 	void __cdecl OpenUrlThread(void*);
+	void MessageRead(MCONTACT hContact);
 
 	// Handles, Locks
 	HGENMENU m_hMenuRoot, m_hMenuServicesRoot, m_hStatusMind;

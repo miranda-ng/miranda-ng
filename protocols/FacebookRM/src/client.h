@@ -105,7 +105,8 @@ public:
 	std::string get_privacy_type();
 
 	std::map<MCONTACT, bool> ignore_read;
-	std::set<MCONTACT> typing;		// store info about typing contacts, because Facebook doesn't send "stopped typing" event when there is actual message being sent
+	std::set<MCONTACT> typers;		// store info about typing contacts, because Facebook doesn't send "stopped typing" event when there is actual message being sent
+	std::map<MCONTACT, time_t> readers;
 
 	char*   load_cookies();
 	void    store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headers_count);

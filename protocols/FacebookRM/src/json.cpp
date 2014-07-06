@@ -460,12 +460,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
  				} else { // classic contact
 					MCONTACT hContact = proto->ContactIDToHContact(json_as_pstring(reader));
 					if (hContact) {
-						StatusTextData st = { 0 };
-						st.cbSize = sizeof(st);
-						mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
-
-						st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
-						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
+						proto->facy.readers.insert(std::make_pair(hContact, timestamp));
+						proto->MessageRead(hContact);
 					}
 				}
 			} else if (t == "deliver") {
