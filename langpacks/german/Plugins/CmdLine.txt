@@ -118,7 +118,7 @@ Sounds sind momentan deaktiviert.
 Sounds wurden erfolgreich aktiviert.
 [Sounds were disabled successfully.]
 Sounds wurden erfolgreich deaktiviert.
-[Contact list is currectly shown.]
+[Contact list is currently shown.]
 Kontaktliste wird momentan angezeigt.
 [Contact list is currently hidden.]
 Kontaktliste ist momentan ausgeblendet.

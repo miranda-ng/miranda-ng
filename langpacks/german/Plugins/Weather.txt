@@ -477,7 +477,7 @@ Anzeige
 [Popups]
 Popups
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c\tmomentane Lage\n%d\taktuelles Datum\n%e\tTaupunkt\n%f\tgefühlte Temperatur\n%h\tHöchsttemperatur\n%i\tWindrichtung\n%l\tgeringste Temp.\n%m\tLuftfeuchtigkeit\n%n\tStations-Name\n%p\tDruck\n%r\tSonnenaufgang\n%s\tStations-ID\n%t\tTemperatur\n%u\tAktualis.-Zeit\n%v\tSicht\n%w\tWind-Geschwind.\n%y\tSonnenuntergang
+%c\tmomentane Lage\n%d\taktuelles Datum\n%e\tTaupunkt\n%f\tgefühlte Temperatur\n%h\tHöchsttemperatur\n%i\tWindrichtung\n%l\tgeringste Temp.\n%m\tLuftfeuchtigkeit\n%n\tStations-Name\n%p\tDruck\n%r\tSonnenaufgang\n%s\tStations-ID\n%t\tTemperatur\n%u\tAktualis.-Zeit\n%v\tSicht\n%w\tWind-Geschwind.\n%y\tSonnenuntergang\n----------\n\\n\tneue Zeile
 [Weather Protocol Text Preview]
 Wetter-Protokoll Textvorschau
 ;file \plugins\Weather\src\weather_popup.cpp

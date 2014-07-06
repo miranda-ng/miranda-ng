@@ -118,7 +118,7 @@
 
 [Sounds were disabled successfully.]
 
-[Contact list is currectly shown.]
+[Contact list is currently shown.]
 
 [Contact list is currently hidden.]
 

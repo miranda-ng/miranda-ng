@@ -604,7 +604,7 @@ void HandleClistCommand(PCommand command, TArgument *argv, int argc, PReply repl
 		{
 			HWND hClist = (HWND) CallService(MS_CLUI_GETHWND, 0, 0);
 			int state = IsWindowVisible(hClist);
-			Set2StateReply(reply,  state, 0, LPGEN("Contact list is currectly shown."), "", LPGEN("Contact list is currently hidden."), "");
+			Set2StateReply(reply,  state, 0, LPGEN("Contact list is currently shown."), "", LPGEN("Contact list is currently hidden."), "");
 			
 			return;
 		}

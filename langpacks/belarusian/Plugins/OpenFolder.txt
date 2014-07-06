@@ -6,7 +6,7 @@
 ;  Authors: jarvis, Kreisquadratur
 ;============================================================
 [Adds a menu/toolbar item which opens the main Miranda NG folder.]
--Дадае пункт меню/панэлі кнопак, які адкрывае тэчку, дзе ўсталявана Miranda NG.
+Дадае пункт меню/панэлі кнопак, які адкрывае тэчку, дзе ўсталявана Miranda NG.
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
 Адчыніць тэчку

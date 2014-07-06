@@ -459,6 +459,8 @@ HTTP подключение Weather
 Показывать
 [Popups]
 Всплывающие окна
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат\n----------\n\\n   новая строка
 [Weather Protocol Text Preview]
 Просмотр протокола погоды
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
