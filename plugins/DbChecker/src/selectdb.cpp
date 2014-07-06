@@ -24,13 +24,7 @@ static bool CheckBroken(const TCHAR *ptszFullPath)
 	if (dblink == NULL || dblink->CheckDB == NULL)
 		return true;
 
-	int error = 0;
-	MIDatabaseChecker *dbChecker = dblink->CheckDB(ptszFullPath, &error);
-	if (dbChecker == NULL)
-		return true;
-
-	dbChecker->Destroy();
-	return false;
+	return dblink->grokHeader(ptszFullPath) == EGROKPRF_NOERROR;
 }
 
 void OpenDatabase(HWND hdlg, INT iNextPage)
