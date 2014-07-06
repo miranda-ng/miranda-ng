@@ -118,8 +118,8 @@ Dźwięki są teraz wyłączone.
 Dźwięki zostały włączone  pomyślnie.
 [Sounds were disabled successfully.]
 Dźwięki zostały wyłączone pomyślnie.
-[Contact list is currently shown.]
-Lista kontaktów jest aktualnie wyświetlona.
+[Contact list is currectly shown.]
+Lista kontaktóq jest aktualnie widoczna.
 [Contact list is currently hidden.]
 Lista kontaktów jest obecnie ukryta.
 [Contact list was shown successfully.]
@@ -198,8 +198,6 @@ Serwer proxy %s: %s %s:%d.
 Ustawiono proxy %s na %s %s:%d.
 [%s The port or the proxy type parameter is invalid.]
 %s parametr typu lub portu proxy jest nieprawidłowy.
-[[me]]
-
 [No unread messages found.]
 Nie znaleziono nieprzeczytanych wiadomości.
 [%s:%s - %d unread events.]
