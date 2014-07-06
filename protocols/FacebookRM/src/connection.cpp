@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ void FacebookProto::ChangeStatus(void*)
 		facy.messages_ignore.clear();
 		facy.pages.clear();
 		facy.typers.clear();
+		facy.readers.clear();
 
 		if (facy.hMsgCon)
 			Netlib_CloseHandle(facy.hMsgCon);
