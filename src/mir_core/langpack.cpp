@@ -641,14 +641,17 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
 
 	// look into mirandaboot.ini
-	TCHAR tszDefaultLang[100], tszPath[MAX_PATH];
+	TCHAR tszDefaultLang[100], tszPath[MAX_PATH], tszRoot[MAX_PATH];
 	PathToAbsoluteT(_T("\\mirandaboot.ini"), tszPath);
 	if (GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), tszPath))
 		if (!LoadLangPack(tszDefaultLang))
 			return 0;
 
 	// finally try to load first file
-	PathToAbsoluteT(_T("\\Languages\\langpack_*.txt"), tszPath);
+	PathToAbsoluteT(_T("\\Languages"), tszRoot);
+	if (_taccess(tszRoot, 0) != 0) // directory Languages exists
+		PathToAbsoluteT(_T("."), tszRoot);
+	mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\langpack_*.txt"), tszRoot);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(tszPath, &fd);
@@ -658,8 +661,9 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				continue;
 			
-			if (!LoadLangPack(fd.cFileName)) {
-				db_set_ws(NULL, "Langpack", "Current", fd.cFileName);
+			mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\%s"), tszRoot, fd.cFileName);
+			if (!LoadLangPack(tszPath)) {
+				db_set_ts(NULL, "Langpack", "Current", fd.cFileName);
 				break;
 			}
 		}
