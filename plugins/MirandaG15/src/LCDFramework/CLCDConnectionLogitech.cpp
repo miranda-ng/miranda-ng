@@ -665,7 +665,6 @@ bool CLCDConnectionLogitech::HIDInit()
 	//Use a series of API calls to find a HID with a specified Vendor IF and Product ID.
 
 	HIDD_ATTRIBUTES						Attributes;
-	DWORD								DeviceUsage;
 	SP_DEVICE_INTERFACE_DATA			devInfoData;
 	bool								LastDevice = FALSE;
 	int									MemberIndex = 0;
