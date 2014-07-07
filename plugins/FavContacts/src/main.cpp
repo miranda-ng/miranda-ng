@@ -40,10 +40,10 @@ PLUGININFOEX pluginInfo = {
 	{0xce2c0401, 0xf9e0, 0x40d7, {0x8e, 0x95, 0x1a, 0x41, 0x97, 0xd7, 0xab, 0x4}}
 };
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
 	{ LPGEN("Favorite Contact"), "favcontacts_favorite", IDI_FAVORITE },
-	{ LPGEN("Regular Contact"),   "favcontacts_regular",   IDI_REGULAR   },
+	{ LPGEN("Regular Contact"), "favcontacts_regular", IDI_REGULAR },
 };
 
 #define MS_FAVCONTACTS_SHOWMENU				"FavContacts/ShowMenu"
@@ -70,9 +70,9 @@ float g_widthMultiplier = 0;
 UINT  g_maxItemWidth = 0;
 
 CContactCache *g_contactCache = NULL;
-TCHAR g_filter[1024] = {0};
+TCHAR g_filter[1024] = { 0 };
 
-Options g_Options = {0};
+Options g_Options = { 0 };
 
 static HANDLE hDialogsList = NULL;
 static MCONTACT hContactToActivate = NULL;
@@ -91,14 +91,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 {
 	return RGB(
-				(GetRValue(clLine1) * 66UL + GetRValue(clBack) * 34UL) / 100,
-				(GetGValue(clLine1) * 66UL + GetGValue(clBack) * 34UL) / 100,
-				(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100);
-}
-
-static bool sttIsGroup(int id)
-{
-	return (id == 1) ? true : (pcli->pfnGetGroupName(id-1, NULL) != NULL);
+		(GetRValue(clLine1) * 66UL + GetRValue(clBack) * 34UL) / 100,
+		(GetGValue(clLine1) * 66UL + GetGValue(clBack) * 34UL) / 100,
+		(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100);
 }
 
 static TCHAR* sttGetGroupName(int id)
@@ -109,7 +104,7 @@ static TCHAR* sttGetGroupName(int id)
 		return TranslateT("Favorite Contacts");
 	}
 
-	return pcli->pfnGetGroupName(id-1, NULL);
+	return pcli->pfnGetGroupName(id - 1, NULL);
 }
 
 int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
@@ -128,11 +123,9 @@ int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
 	if (g_Options.hfntName) DeleteObject(g_Options.hfntName);
 	if (g_Options.hfntSecond) DeleteObject(g_Options.hfntSecond);
 
-	LOGFONT lf = {0};
-	FontIDT fontid = {0};
-	fontid.cbSize = sizeof(fontid);
+	LOGFONT lf = { 0 };
+	FontIDT fontid = { sizeof(fontid) };
 	lstrcpy(fontid.group, LPGENT("Favorite Contacts"));
-
 	lstrcpy(fontid.name, LPGENT("Contact name"));
 	g_Options.clLine1 = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lf);
 	g_Options.hfntName = CreateFontIndirect(&lf);
@@ -147,10 +140,8 @@ int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
 	lstrcpy(fontid.name, LPGENT("Selected second line (color)"));
 	g_Options.clLine2Sel = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lf);
 
-	ColourIDT colourid = {0};
-	colourid.cbSize = sizeof(colourid);
+	ColourIDT colourid = { sizeof(colourid) };
 	lstrcpy(colourid.group, LPGENT("Favorite Contacts"));
-
 	lstrcpy(colourid.name, LPGENT("Background"));
 	g_Options.clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, (LPARAM)&lf);
 
@@ -176,8 +167,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	FontIDT fontid = {0};
-	fontid.cbSize = sizeof(fontid);
+	FontIDT fontid = { sizeof(fontid) };
 	lstrcpy(fontid.group, LPGENT("Favorite Contacts"));
 	lstrcpyA(fontid.dbSettingsGroup, "FavContacts");
 	lstrcpy(fontid.backgroundGroup, LPGENT("Favorite Contacts"));
@@ -217,8 +207,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	ColourIDT colourid = {0};
-	colourid.cbSize = sizeof(colourid);
+	ColourIDT colourid = { sizeof(colourid) };
 	lstrcpy(colourid.group, LPGENT("Favorite Contacts"));
 	lstrcpyA(colourid.dbSettingsGroup, "FavContacts");
 
@@ -238,8 +227,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	HOTKEYDESC hotkey = {0};
-	hotkey.cbSize = sizeof(hotkey);
+	HOTKEYDESC hotkey = { sizeof(hotkey) };
 	hotkey.pszName = "FavContacts/ShowMenu";
 	hotkey.pszDescription = LPGEN("Show favorite contacts");
 	hotkey.pszSection = "Contacts";
@@ -289,7 +277,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	RegisterClassEx(&wcl);
 
 	g_hwndMenuHost = CreateWindow(_T("FavContactsMenuHostWnd"), NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInst, NULL);
-	SetWindowPos(g_hwndMenuHost, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_HIDEWINDOW);
+	SetWindowPos(g_hwndMenuHost, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	sttLoadOptions();
 
@@ -307,14 +295,14 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	LoadHttpApi();
 
-	#ifdef _DEBUG
-		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
-		mi.position = 1900000000;
-		mi.pszName = LPGEN("&Favorite Contacts...");
-		mi.pszService = MS_FAVCONTACTS_SHOWMENU;
-		Menu_AddMainMenuItem(&mi);
-	#endif
+#ifdef _DEBUG
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
+	mi.position = 1900000000;
+	mi.pszName = LPGEN("&Favorite Contacts...");
+	mi.pszService = MS_FAVCONTACTS_SHOWMENU;
+	Menu_AddMainMenuItem(&mi);
+#endif
 
 	return 0;
 }
@@ -333,42 +321,41 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 static void sttLoadOptions()
 {
-	g_Options.bSecondLine			= db_get_b(NULL, "FavContacts", "SecondLine", 1);
-	g_Options.bAvatars				= db_get_b(NULL, "FavContacts", "Avatars", 1);
-	g_Options.bAvatarBorder			= db_get_b(NULL, "FavContacts", "AvatarBorder", 0);
-	g_Options.wAvatarRadius			= db_get_w(NULL, "FavContacts", "AvatarRadius", 3);
-	g_Options.bNoTransparentBorder	= db_get_b(NULL, "FavContacts", "NoTransparentBorder",
-										!db_get_b(NULL, "FavContacts", "AvatarBorderTransparent", 1));
-	g_Options.bSysColors			= db_get_b(NULL, "FavContacts", "SysColors", 0);
-	g_Options.bCenterHotkey			= db_get_b(NULL, "FavContacts", "CenterHotkey", 1);
-	g_Options.bUseGroups			= db_get_b(NULL, "FavContacts", "UseGroups", 0);
-	g_Options.bUseColumns			= db_get_b(NULL, "FavContacts", "UseColumns", 1);
-	g_Options.bRightAvatars			= db_get_b(NULL, "FavContacts", "RightAvatars", 0);
-	g_Options.bDimIdle				= db_get_b(NULL, "FavContacts", "DimIdle", 1);
+	g_Options.bSecondLine = db_get_b(NULL, "FavContacts", "SecondLine", 1);
+	g_Options.bAvatars = db_get_b(NULL, "FavContacts", "Avatars", 1);
+	g_Options.bAvatarBorder = db_get_b(NULL, "FavContacts", "AvatarBorder", 0);
+	g_Options.wAvatarRadius = db_get_w(NULL, "FavContacts", "AvatarRadius", 3);
+	g_Options.bNoTransparentBorder = db_get_b(NULL, "FavContacts", "NoTransparentBorder",
+															!db_get_b(NULL, "FavContacts", "AvatarBorderTransparent", 1));
+	g_Options.bSysColors = db_get_b(NULL, "FavContacts", "SysColors", 0);
+	g_Options.bCenterHotkey = db_get_b(NULL, "FavContacts", "CenterHotkey", 1);
+	g_Options.bUseGroups = db_get_b(NULL, "FavContacts", "UseGroups", 0);
+	g_Options.bUseColumns = db_get_b(NULL, "FavContacts", "UseColumns", 1);
+	g_Options.bRightAvatars = db_get_b(NULL, "FavContacts", "RightAvatars", 0);
+	g_Options.bDimIdle = db_get_b(NULL, "FavContacts", "DimIdle", 1);
 
-	g_Options.wMaxRecent			= db_get_b(NULL, "FavContacts", "MaxRecent", 10);
+	g_Options.wMaxRecent = db_get_b(NULL, "FavContacts", "MaxRecent", 10);
 }
 
 static void sttSaveOptions()
 {
-	db_set_b(NULL, "FavContacts", "SecondLine",			g_Options.bSecondLine);
-	db_set_b(NULL, "FavContacts", "Avatars",				g_Options.bAvatars);
-	db_set_b(NULL, "FavContacts", "AvatarBorder",			g_Options.bAvatarBorder);
-	db_set_w(NULL, "FavContacts", "AvatarRadius",			g_Options.wAvatarRadius);
-	db_set_b(NULL, "FavContacts", "NoTransparentBorder",	g_Options.bNoTransparentBorder);
-	db_set_b(NULL, "FavContacts", "SysColors",				g_Options.bSysColors);
-	db_set_b(NULL, "FavContacts", "CenterHotkey",			g_Options.bCenterHotkey);
-	db_set_b(NULL, "FavContacts", "UseGroups",				g_Options.bUseGroups);
-	db_set_b(NULL, "FavContacts", "UseColumns",			g_Options.bUseColumns);
-	db_set_b(NULL, "FavContacts", "RightAvatars",			g_Options.bRightAvatars);
-	db_set_b(NULL, "FavContacts", "DimIdle",				g_Options.bDimIdle);
-	db_set_w(NULL, "FavContacts", "MaxRecent",				g_Options.wMaxRecent);
+	db_set_b(NULL, "FavContacts", "SecondLine", g_Options.bSecondLine);
+	db_set_b(NULL, "FavContacts", "Avatars", g_Options.bAvatars);
+	db_set_b(NULL, "FavContacts", "AvatarBorder", g_Options.bAvatarBorder);
+	db_set_w(NULL, "FavContacts", "AvatarRadius", g_Options.wAvatarRadius);
+	db_set_b(NULL, "FavContacts", "NoTransparentBorder", g_Options.bNoTransparentBorder);
+	db_set_b(NULL, "FavContacts", "SysColors", g_Options.bSysColors);
+	db_set_b(NULL, "FavContacts", "CenterHotkey", g_Options.bCenterHotkey);
+	db_set_b(NULL, "FavContacts", "UseGroups", g_Options.bUseGroups);
+	db_set_b(NULL, "FavContacts", "UseColumns", g_Options.bUseColumns);
+	db_set_b(NULL, "FavContacts", "RightAvatars", g_Options.bRightAvatars);
+	db_set_b(NULL, "FavContacts", "DimIdle", g_Options.bDimIdle);
+	db_set_w(NULL, "FavContacts", "MaxRecent", g_Options.wMaxRecent);
 }
 
 static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
 {
-	if (true)
-	{
+	if (true) {
 		HDC hdc = GetDC(g_hwndMenuHost);
 		HFONT hfntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
 		TCHAR *name = sttGetGroupName(lpmis->itemData);
@@ -390,23 +377,20 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	MCONTACT hContact = (MCONTACT)lpmis->itemData;
 
 	lpmis->itemHeight = 4;
-	lpmis->itemWidth = 8+10;
+	lpmis->itemWidth = 8 + 10;
 
-	if (true)
-	{
+	if (true) {
 		lpmis->itemWidth += 20;
 	}
 
-	if (true)
-	{
+	if (true) {
 		SIZE sz;
 		int textWidth = 0;
 
 		HDC hdc = GetDC(g_hwndMenuHost);
 		HFONT hfntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
 
-		if (options->bSecondLine)
-		{
+		if (options->bSecondLine) {
 			DBVARIANT dbv;
 			TCHAR *title;
 			bool bFree = false;
@@ -440,11 +424,9 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 		lpmis->itemHeight += sz.cy;
 	}
 
-	if (options->bAvatars)
-	{
+	if (options->bAvatars) {
 		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
-		if (ace && (ace != (AVATARCACHEENTRY *)CALLSERVICE_NOTFOUND))
-		{
+		if (ace && (ace != (AVATARCACHEENTRY *)CALLSERVICE_NOTFOUND)) {
 			int avatarWidth = lpmis->itemHeight;
 			if (ace->bmWidth < ace->bmHeight)
 				avatarWidth = lpmis->itemHeight * ace->bmWidth / ace->bmHeight;
@@ -458,7 +440,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	return TRUE;
 }
 
-static BOOL sttMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options=NULL)
+static BOOL sttMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options = NULL)
 {
 	if (!options) options = &g_Options;
 
@@ -466,7 +448,7 @@ static BOOL sttMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options=NULL)
 		return FALSE;
 
 	BOOL res = FALSE;
-	if (sttIsGroup(lpmis->itemData))
+	if (lpmis->itemData == 1)
 		res = sttMeasureItem_Group(lpmis, options);
 	else if (CallService(MS_DB_CONTACT_IS, lpmis->itemData, 0))
 		res = sttMeasureItem_Contact(lpmis, options);
@@ -498,7 +480,7 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	TCHAR *name = sttGetGroupName(lpdis->itemData);
 	if (!options->bSysColors)
 		SelectObject(lpdis->hDC, g_Options.hfntName);
-	DrawText(lpdis->hDC, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_CENTER);
+	DrawText(lpdis->hDC, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_CENTER);
 
 	SelectObject(lpdis->hDC, hfntSave);
 
@@ -515,7 +497,7 @@ void ImageList_DrawDimmed(HIMAGELIST himl, int i, HDC hdc, int left, int top, UI
 	HBITMAP hbmOld = (HBITMAP)SelectObject(dcMem, hbm);
 	BitBlt(dcMem, 0, 0, dx, dx, hdc, left, top, SRCCOPY);
 	ImageList_Draw(himl, i, dcMem, 0, 0, fStyle);
-	BLENDFUNCTION bf = {0};
+	BLENDFUNCTION bf = { 0 };
 	bf.SourceConstantAlpha = 180;
 	GdiAlphaBlend(hdc, left, top, dx, dy, dcMem, 0, 0, dx, dy, bf);
 	SelectObject(dcMem, hbmOld);
@@ -528,8 +510,8 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	MCONTACT hContact = (MCONTACT)lpdis->itemData;
 
 	HDC hdcTemp = CreateCompatibleDC(lpdis->hDC);
-	HBITMAP hbmTemp = CreateCompatibleBitmap(lpdis->hDC, lpdis->rcItem.right-lpdis->rcItem.left, lpdis->rcItem.bottom-lpdis->rcItem.top);
-    HBITMAP hbmSave = (HBITMAP)SelectObject(hdcTemp, hbmTemp);
+	HBITMAP hbmTemp = CreateCompatibleBitmap(lpdis->hDC, lpdis->rcItem.right - lpdis->rcItem.left, lpdis->rcItem.bottom - lpdis->rcItem.top);
+	HBITMAP hbmSave = (HBITMAP)SelectObject(hdcTemp, hbmTemp);
 	RECT rcSave = lpdis->rcItem;
 
 	OffsetRect(&lpdis->rcItem, -lpdis->rcItem.left, -lpdis->rcItem.top);
@@ -563,9 +545,9 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	}
 	if (options->bSysColors) {
 		clLine2 = RGB(
-				(GetRValue(clLine1) * 66UL + GetRValue(clBack) * 34UL) / 100,
-				(GetGValue(clLine1) * 66UL + GetGValue(clBack) * 34UL) / 100,
-				(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100);
+			(GetRValue(clLine1) * 66UL + GetRValue(clBack) * 34UL) / 100,
+			(GetGValue(clLine1) * 66UL + GetGValue(clBack) * 34UL) / 100,
+			(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100);
 	}
 	else {
 		HBRUSH hbr = CreateSolidBrush(clBack);
@@ -586,20 +568,20 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 	if (db_get_dw(hContact, proto, "IdleTS", 0)) {
 		ImageList_DrawDimmed(hIml, iIcon, hdcTemp,
-			lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			ILD_TRANSPARENT);
+									lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
+									ILD_TRANSPARENT);
 	}
 	else {
 		ImageList_Draw(hIml, iIcon, hdcTemp,
-			lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			ILD_TRANSPARENT);
+							lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
+							ILD_TRANSPARENT);
 	}
 
 	lpdis->rcItem.left += 20;
 
 	if (options->wMaxRecent && db_get_b(hContact, "FavContacts", "IsFavourite", 0)) {
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			Skin_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
+					  Skin_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
 	}
 
@@ -610,7 +592,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 			if (ace->bmWidth < ace->bmHeight)
 				avatarWidth = (lpdis->rcItem.bottom - lpdis->rcItem.top) * ace->bmWidth / ace->bmHeight;
 
-			AVATARDRAWREQUEST avdr = {0};
+			AVATARDRAWREQUEST avdr = { 0 };
 			avdr.cbSize = sizeof(avdr);
 			avdr.hContact = hContact;
 			avdr.hTargetDC = hdcTemp;
@@ -645,7 +627,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 		if (!options->bSysColors) SelectObject(hdcTemp, g_Options.hfntName);
 		SetTextColor(hdcTemp, clLine1);
-		DrawText(hdcTemp, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX|DT_SINGLELINE|DT_TOP|DT_LEFT);
+		DrawText(hdcTemp, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
 
 		SIZE sz; GetTextExtentPoint32(hdcTemp, name, lstrlen(name), &sz);
 		lpdis->rcItem.top += sz.cy + 3;
@@ -666,7 +648,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 		if (!options->bSysColors) SelectObject(hdcTemp, g_Options.hfntSecond);
 		SetTextColor(hdcTemp, clLine2);
-		DrawText(hdcTemp, title, lstrlen(title), &lpdis->rcItem, DT_NOPREFIX|DT_SINGLELINE|DT_TOP|DT_LEFT);
+		DrawText(hdcTemp, title, lstrlen(title), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
 
 		if (bFree) db_free(&dbv);
 	}
@@ -674,25 +656,25 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	SelectObject(hdcTemp, hfntSave);
 
 	BitBlt(lpdis->hDC,
-		rcSave.left, rcSave.top,
-		rcSave.right-rcSave.left, rcSave.bottom-rcSave.top,
-		hdcTemp, 0, 0, SRCCOPY);
+			 rcSave.left, rcSave.top,
+			 rcSave.right - rcSave.left, rcSave.bottom - rcSave.top,
+			 hdcTemp, 0, 0, SRCCOPY);
 
-    SelectObject(hdcTemp, hbmSave);
-    DeleteObject(hbmTemp);
-    DeleteDC(hdcTemp);
+	SelectObject(hdcTemp, hbmSave);
+	DeleteObject(hbmTemp);
+	DeleteDC(hdcTemp);
 
 	return TRUE;
 }
 
-static BOOL sttDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options=NULL)
+static BOOL sttDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 {
 	if (!options) options = &g_Options;
 
 	if (!lpdis->itemData)
 		return FALSE;
 
-	if (sttIsGroup(lpdis->itemData))
+	if (lpdis->itemData == 1)
 		return sttDrawItem_Group(lpdis, options);
 
 	if (CallService(MS_DB_CONTACT_IS, lpdis->itemData, 0))
@@ -709,8 +691,8 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 	case WM_MEASUREITEM:
 		{
 			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
-
-			if (lpmis->CtlType != ODT_MENU) return FALSE;
+			if (lpmis->CtlType != ODT_MENU)
+				return FALSE;
 
 			if ((lpmis->itemID >= CLISTMENUIDMIN) && (lpmis->itemID <= CLISTMENUIDMAX))
 				return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
@@ -721,8 +703,8 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
-
-			if (lpdis->CtlType != ODT_MENU) return FALSE;
+			if (lpdis->CtlType != ODT_MENU)
+				return FALSE;
 
 			if ((lpdis->itemID >= CLISTMENUIDMIN) && (lpdis->itemID <= CLISTMENUIDMAX))
 				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
@@ -731,55 +713,52 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 		}
 
 	case WM_MENUCHAR:
+		while (GetMenuItemCount((HMENU)lParam) > 1)
+			RemoveMenu((HMENU)lParam, 1, MF_BYPOSITION);
+
+		if (LOWORD(wParam) == VK_BACK) {
+			if (int l = lstrlen(g_filter))
+				g_filter[l - 1] = 0;
+		}
+		else if (_istalnum(LOWORD(wParam))) {
+			if (lstrlen(g_filter) < SIZEOF(g_filter) - 1) {
+				TCHAR s[] = { LOWORD(wParam), 0 };
+				lstrcat(g_filter, s);
+			}
+		}
 		{
-			while (GetMenuItemCount((HMENU)lParam) > 1)
-				RemoveMenu((HMENU)lParam, 1, MF_BYPOSITION);
-
-			if (LOWORD(wParam) == VK_BACK) {
-				if (int l = lstrlen(g_filter))
-					g_filter[l-1] = 0;
-			}
-			else if (_istalnum(LOWORD(wParam))) {
-				if (lstrlen(g_filter) < SIZEOF(g_filter)-1) {
-					TCHAR s[] = { LOWORD(wParam), 0 };
-					lstrcat(g_filter, s);
-				}
-			}
-
-			int nRecent = 0;
 			int maxRecent = g_Options.wMaxRecent ? g_Options.wMaxRecent : 10;
-			for (int i = 0; nRecent < maxRecent; ++i) {
+			for (int i = 0, nRecent = 0; nRecent < maxRecent; ++i) {
 				MCONTACT hContact = g_contactCache->get(i);
 				if (!hContact) break;
 				if (!g_contactCache->filter(i, g_filter)) continue;
 
-				AppendMenu((HMENU)lParam, MF_OWNERDRAW, nRecent+1, (LPCTSTR)hContact);
+				AppendMenu((HMENU)lParam, MF_OWNERDRAW, nRecent + 1, (LPCTSTR)hContact);
 				++nRecent;
 			}
-			return MAKELRESULT(1, MNC_SELECT);
 		}
+		return MAKELRESULT(1, MNC_SELECT);
 
 	case WM_MENURBUTTONUP:
-		{
-			MENUITEMINFO mii = { sizeof(mii) };
-			mii.fMask = MIIM_DATA;
-			GetMenuItemInfo((HMENU)lParam, wParam, TRUE, &mii);
-			MCONTACT hContact = (MCONTACT)mii.dwItemData;
-			if (!CallService(MS_DB_CONTACT_IS, mii.dwItemData, 0)) return FALSE;
+		MENUITEMINFO mii = { sizeof(mii) };
+		mii.fMask = MIIM_DATA;
+		GetMenuItemInfo((HMENU)lParam, wParam, TRUE, &mii);
+		MCONTACT hContact = (MCONTACT)mii.dwItemData;
+		if (!CallService(MS_DB_CONTACT_IS, mii.dwItemData, 0))
+			return FALSE;
 
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
+		HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 
-			POINT pt;
-			GetCursorPos(&pt);
-			HWND hwndSave = GetForegroundWindow();
-			SetForegroundWindow(g_hwndMenuHost);
-			int res = TrackPopupMenu(hMenu, TPM_RECURSE|TPM_RIGHTBUTTON|TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, NULL);
-			SetForegroundWindow(hwndSave);
-			DestroyMenu(hMenu);
+		POINT pt;
+		GetCursorPos(&pt);
+		HWND hwndSave = GetForegroundWindow();
+		SetForegroundWindow(g_hwndMenuHost);
+		int res = TrackPopupMenu(hMenu, TPM_RECURSE | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, NULL);
+		SetForegroundWindow(hwndSave);
+		DestroyMenu(hMenu);
 
-			CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(res, MPCF_CONTACTMENU), hContact);
-			return TRUE;
-		}
+		CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(res, MPCF_CONTACTMENU), hContact);
+		return TRUE;
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
@@ -789,8 +768,8 @@ int sttShowMenu(bool centered)
 {
 	TFavContacts favList;
 	HMENU hMenu = CreatePopupMenu();
-	SIZE szMenu = {0};
-	SIZE szColumn = {0};
+	SIZE szMenu = { 0 };
+	SIZE szColumn = { 0 };
 	TCHAR *prevGroup = NULL;
 	int i, idItem = 100;
 	MCONTACT hContact;
@@ -806,7 +785,7 @@ int sttShowMenu(bool centered)
 	for (i = 0; i < favList.getCount(); ++i) {
 		hContact = favList[i]->getHandle();
 
-		MEASUREITEMSTRUCT mis = {0};
+		MEASUREITEMSTRUCT mis = { 0 };
 		mis.CtlID = 0;
 		mis.CtlType = ODT_MENU;
 
@@ -817,11 +796,11 @@ int sttShowMenu(bool centered)
 				szColumn.cx = szColumn.cy = 0;
 			}
 
-			DWORD groupID = (DWORD)Clist_GroupExists(favList[i]->getGroup())+1;
+			DWORD groupID = (DWORD)Clist_GroupExists(favList[i]->getGroup()) + 1;
 
 			AppendMenu(hMenu,
-				MF_OWNERDRAW|MF_SEPARATOR| ((prevGroup && g_Options.bUseColumns) ? MF_MENUBREAK : 0),
-				++idItem, (LPCTSTR)groupID);
+						  MF_OWNERDRAW | MF_SEPARATOR | ((prevGroup && g_Options.bUseColumns) ? MF_MENUBREAK : 0),
+						  ++idItem, (LPCTSTR)groupID);
 
 			mis.itemData = groupID;
 			mis.itemID = idItem;
@@ -863,7 +842,7 @@ int sttShowMenu(bool centered)
 	g_filter[0] = 0;
 
 	if (int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, NULL)) {
-		MENUITEMINFO mii = {0};
+		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
 		GetMenuItemInfo(hMenu, res, FALSE, &mii);
@@ -897,12 +876,12 @@ INT_PTR svcOpenContact(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ProcessSrmmEvent( WPARAM wParam, LPARAM lParam )
+int ProcessSrmmEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
-		if ( !hDialogsList )
+		if (!hDialogsList)
 			hDialogsList = WindowList_Create();
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
@@ -926,8 +905,7 @@ int ProcessSrmmEvent( WPARAM wParam, LPARAM lParam )
 
 		hContactToActivate = NULL;
 	}
-	else if ( event->uType == MSG_WINDOW_EVT_CLOSING )
-	{
+	else if (event->uType == MSG_WINDOW_EVT_CLOSING) {
 		if (hDialogsList)
 			WindowList_Remove(hDialogsList, event->hwndWindow);
 	}
@@ -958,17 +936,18 @@ int ProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Options
+
 static void sttResetListOptions(HWND hwndList)
 {
-	SendMessage(hwndList,CLM_SETBKBITMAP,0,(LPARAM)(HBITMAP)NULL);
-	SendMessage(hwndList,CLM_SETBKCOLOR,GetSysColor(COLOR_WINDOW),0);
-	SendMessage(hwndList,CLM_SETGREYOUTFLAGS,0,0);
-	SendMessage(hwndList,CLM_SETLEFTMARGIN,4,0);
-	SendMessage(hwndList,CLM_SETINDENT,10,0);
-	SendMessage(hwndList,CLM_SETHIDEEMPTYGROUPS,1,0);
-	SendMessage(hwndList,CLM_SETHIDEOFFLINEROOT,1,0);
+	SendMessage(hwndList, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
+	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
+	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
+	SendMessage(hwndList, CLM_SETLEFTMARGIN, 4, 0);
+	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
+	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+	SendMessage(hwndList, CLM_SETHIDEOFFLINEROOT, 1, 0);
 	for (int i = 0; i <= FONTID_MAX; ++i)
 		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
@@ -998,8 +977,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		SetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, g_Options.wMaxRecent, FALSE);
 
 		SetWindowLongPtr(GetDlgItem(hwnd, IDC_CLIST), GWL_STYLE,
-			GetWindowLongPtr(GetDlgItem(hwnd, IDC_CLIST), GWL_STYLE)|CLS_CHECKBOXES|CLS_HIDEEMPTYGROUPS|CLS_USEGROUPS|CLS_GREYALTERNATE|CLS_GROUPCHECKBOXES);
-		SendMessage(GetDlgItem(hwnd, IDC_CLIST), CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP|CLS_EX_TRACKSELECT, 0);
+							  GetWindowLongPtr(GetDlgItem(hwnd, IDC_CLIST), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+		SendMessage(GetDlgItem(hwnd, IDC_CLIST), CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 		sttResetListOptions(GetDlgItem(hwnd, IDC_CLIST));
 
 		hSelectedContact = db_find_first();
@@ -1032,7 +1011,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		{
 			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
 			if (lpdis->CtlID == IDC_CANVAS) {
-				MEASUREITEMSTRUCT mis = {0};
+				MEASUREITEMSTRUCT mis = { 0 };
 				DRAWITEMSTRUCT dis = *lpdis;
 
 				FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_BTNFACE));
@@ -1128,7 +1107,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
-					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0), 0);
+														SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0), 0);
 				if (fav != db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 					db_set_b(hContact, "FavContacts", "IsFavourite", fav);
 				if (fav) CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
@@ -1139,15 +1118,15 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			switch (((LPNMHDR)lParam)->code) {
 			case CLN_OPTIONSCHANGED:
-				sttResetListOptions(GetDlgItem(hwnd,IDC_CLIST));
+				sttResetListOptions(GetDlgItem(hwnd, IDC_CLIST));
 				break;
 
 			case CLN_NEWCONTACT:
 				iSelection = (int)((NMCLISTCONTROL *)lParam)->hItem;
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0) == iSelection) {
-						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection, 
-							db_get_b(hContact, "FavContacts", "IsFavourite", 0));
+						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection,
+												 db_get_b(hContact, "FavContacts", "IsFavourite", 0));
 						break;
 					}
 				}

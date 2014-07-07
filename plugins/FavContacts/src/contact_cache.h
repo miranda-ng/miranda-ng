@@ -6,27 +6,13 @@ class CContactCache
 public:
 	enum { INFOSIZE = 1024 };
 
-private:
-
 	struct TContactInfo
 	{
 		MCONTACT hContact;
 		float rate;
-		TCHAR info[INFOSIZE];
 		bool infoLoaded;
-
-		static int cmp(const TContactInfo *p1, const TContactInfo *p2)
-		{
-			if (p1->rate > p2->rate) return -1;
-			if (p1->rate < p2->rate) return 1;
-			return 0;
-		}
-
-		static int cmp2(const void *a1, const void *a2)
-		{
-			return cmp(*(const TContactInfo **)a1, *(const TContactInfo **)a2);
-		}
-
+		TCHAR info[INFOSIZE];
+	
 		TContactInfo()
 		{
 			info[0] = info[1] = 0;
@@ -36,7 +22,8 @@ private:
 		void LoadInfo();
 	};
 
-	OBJLIST<TContactInfo> m_cache;
+private:
+	LIST<TContactInfo> m_cache;
 	unsigned long m_lastUpdate;
 	CRITICAL_SECTION m_cs;
 
@@ -48,8 +35,6 @@ public:
 	CContactCache();
 	~CContactCache();
 
-	void Lock() { EnterCriticalSection(&m_cs); }
-	void Unlock() { LeaveCriticalSection(&m_cs); }
 	void Rebuild();
 
 	MCONTACT get(int rate);
