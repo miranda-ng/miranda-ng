@@ -101,7 +101,7 @@ Nie udało się zmienić opisu dla konta "%s" na "%s" (status to "%s").
 [Popups are currently enabled.]
 Popupy są teraz włączone.
 [Popups are currently disabled.]
-Popupy są teraz wyłączone
+Popupy są teraz wyłączone.
 [Popups were enabled successfully.]
 Popupy zostały włączone pomyślnie.
 [Popups could not be enabled.]
@@ -109,7 +109,7 @@ Popupy nie mogły zostać włączone.
 [Popups were disabled successfully.]
 Popupy zostały wyłączone pomyślnie.
 [Popups could not be disabled.]
-Popupy nie mogły zostać wyłączone
+Popupy nie mogły zostać wyłączone.
 [Sounds are currently enabled.]
 Dźwięki są teraz włączone.
 [Sounds are currently disabled.]
@@ -119,9 +119,9 @@ Dźwięki zostały włączone  pomyślnie.
 [Sounds were disabled successfully.]
 Dźwięki zostały wyłączone pomyślnie.
 [Contact list is currectly shown.]
-Lista kontaktóq jest aktualnie widoczna.
+Lista kontaktów jest teraz widoczna.
 [Contact list is currently hidden.]
-Lista kontaktów jest obecnie ukryta.
+Lista kontaktów jest teraz ukryta.
 [Contact list was shown successfully.]
 Lista kontaktów została wyświetlona pomyślnie.
 [Contact list was hidden successfully.]
