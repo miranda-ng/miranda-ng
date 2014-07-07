@@ -601,6 +601,7 @@ UTF16+сигнатури
 Упакована структура
 [Registered actions]
 Зареєстровані дії
+; Actman30
 [INI]
 Файл INI
 [INI file name]
@@ -745,6 +746,7 @@ UTF16+сигнатури
 Додаткові налаштування
 [Do not translate]
 Без перекладу
+; these lines are not present in the sources, but they are present in compiled plugin
 [Param type]
 Тип параметра
 [Text Editor]

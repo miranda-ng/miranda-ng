@@ -639,6 +639,7 @@ VBR чи ні
 Інформація про музику від\s
 [You Get Error]
 У вас помилка
+;other strings
 [Slider]
 Бігунок
 [Slider Hovered]

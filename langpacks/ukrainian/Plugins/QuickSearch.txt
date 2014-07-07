@@ -267,6 +267,7 @@ ID користувача
 Невідомий
 [Stay on Top]
 Поверх усіх вікон
+; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Текстовий редактор
 [Wrap Text]
