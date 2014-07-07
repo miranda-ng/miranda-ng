@@ -419,7 +419,7 @@ void CDb3Mmap::FillContacts()
 		DWORD dwContactID;
 		if (m_dbHeader.version >= DB_095_VERSION) {
 			dwContactID = p->dwContactID;
-			if (dwContactID > m_dwMaxContactId)
+			if (dwContactID >= m_dwMaxContactId)
 				m_dwMaxContactId = dwContactID + 1;
 		}
 		else dwContactID = m_dwMaxContactId++;
