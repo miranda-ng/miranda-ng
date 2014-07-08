@@ -8,11 +8,11 @@ int  TEMP_SIZE = 0;
 HANDLE   g_hEvent[2], g_hCLIcon, g_hFolders = 0;
 HGENMENU g_hMenu[15];
 
-int iService=0;
-int iHook=0;
+int iService = 0;
+int iHook = 0;
 
-HICON g_hICO[ICO_CNT], g_hPOP[POP_CNT], g_hIEC[1+IEC_CNT*MODE_CNT] = {0};
-HANDLE g_IEC[1+IEC_CNT*MODE_CNT];
+HICON g_hICO[ICO_CNT], g_hPOP[POP_CNT], g_hIEC[1 + IEC_CNT*MODE_CNT] = { 0 };
+HANDLE g_IEC[1 + IEC_CNT*MODE_CNT];
 
 int iBmpDepth;
 BOOL bPopupExists = false;
@@ -34,25 +34,25 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
-	{0x1B2A39E5, 0xE2F6, 0x494D, {0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5}}
+	{ 0x1B2A39E5, 0xE2F6, 0x494D, { 0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5 } }
 };
 
-LPSTR myDBGetStringDecode(MCONTACT hContact,const char *szModule,const char *szSetting)
+LPSTR myDBGetStringDecode(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
-	char *val = db_get_sa(hContact,szModule,szSetting);
+	char *val = db_get_sa(hContact, szModule, szSetting);
 	if (!val) return NULL;
-	size_t len = strlen(val)+64;
+	size_t len = strlen(val) + 64;
 	char *buf = (LPSTR)mir_alloc(len);
-	strncpy(buf,val,len); mir_free(val);
+	strncpy(buf, val, len); mir_free(val);
 	return buf;
 }
 
-int myDBWriteStringEncode(MCONTACT hContact,const char *szModule,const char *szSetting,const char *val)
+int myDBWriteStringEncode(MCONTACT hContact, const char *szModule, const char *szSetting, const char *val)
 {
-	int len = (int)strlen(val)+64;
+	int len = (int)strlen(val) + 64;
 	char *buf = (LPSTR)alloca(len);
-	strncpy(buf,val,len);
-	int ret = db_set_s(hContact,szModule,szSetting,buf);
+	strncpy(buf, val, len);
+	int ret = db_set_s(hContact, szModule, szSetting, buf);
 	return ret;
 }
 
@@ -88,26 +88,23 @@ int msgbox(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
 {
 	LPWSTR lpwText = mir_a2u(lpText);
 	LPWSTR lpwCaption = mir_a2u(lpCaption);
-	int r = MessageBoxW(hWnd,TranslateW(lpwText),TranslateW(lpwCaption),uType);
+	int r = MessageBoxW(hWnd, TranslateW(lpwText), TranslateW(lpwCaption), uType);
 	mir_free(lpwCaption);
 	mir_free(lpwText);
 	return r;
 }
 
-void CopyToClipboard(HWND hwnd,LPSTR msg)
+void CopyToClipboard(HWND hwnd, LPSTR msg)
 {
-	HGLOBAL hglbCopy;
-	LPSTR lpstrCopy;
-
-	hglbCopy = GlobalAlloc(GMEM_MOVEABLE, lstrlenA(msg)+1); 
-	lpstrCopy = (LPSTR)GlobalLock(hglbCopy); 
-	lstrcpyA(lpstrCopy, msg); 
-	GlobalUnlock(hglbCopy); 
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, lstrlenA(msg) + 1);
+	LPSTR lpstrCopy = (LPSTR)GlobalLock(hglbCopy);
+	lstrcpyA(lpstrCopy, msg);
+	GlobalUnlock(hglbCopy);
 
 	OpenClipboard(NULL);
-	EmptyClipboard(); 
-	SetClipboardData(CF_TEXT, hglbCopy); 
-	CloseClipboard(); 
+	EmptyClipboard();
+	SetClipboardData(CF_TEXT, hglbCopy);
+	CloseClipboard();
 }
 
 HANDLE hNetlibUser;
@@ -128,15 +125,13 @@ void DeinitNetlib()
 		CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)hNetlibUser, 0);
 }
 
-int Sent_NetLog(const char *fmt,...)
+int Sent_NetLog(const char *fmt, ...)
 {
 	va_list va;
 	char szText[1024];
 
-	va_start(va,fmt);
-	mir_vsnprintf(szText,sizeof(szText),fmt,va);
+	va_start(va, fmt);
+	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
-	return CallService(MS_NETLIB_LOG,(WPARAM)hNetlibUser,(LPARAM)szText);
+	return CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)szText);
 }
-
-// EOF

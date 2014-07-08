@@ -1,47 +1,47 @@
 #include "commonheaders.h"
 
-void showPopup(LPCSTR lpzText,MCONTACT hContact,HICON hIcon, UINT type)
-{
-	//type=0 key colors
-	//type=1 session colors
-	//type=2 SR colors
+// type=0 key colors
+// type=1 session colors
+// type=2 SR colors
 
+void showPopup(LPCSTR lpzText, MCONTACT hContact, HICON hIcon, UINT type)
+{
 	if (!bPopupExists) return;
 
 	COLORREF colorBack, colorText;
-	int timeout=0;
+	int timeout = 0;
 
 	DBVARIANT dbv;
 
 	if (type == 0) {
-		colorBack = db_get_dw(0, MODULENAME, "colorKeyb", RGB(230,230,255));
-		colorText = db_get_dw(0, MODULENAME, "colorKeyt", RGB(0,0,0));
+		colorBack = db_get_dw(0, MODULENAME, "colorKeyb", RGB(230, 230, 255));
+		colorText = db_get_dw(0, MODULENAME, "colorKeyt", RGB(0, 0, 0));
 		if (!db_get_s(0, MODULENAME, "timeoutKey", &dbv)) {
 			timeout = atoi(dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 	else if (type == 1) {
-		colorBack = db_get_dw(0, MODULENAME, "colorSecb", RGB(255,255,200));
-		colorText = db_get_dw(0, MODULENAME, "colorSect", RGB(0,0,0));
-		if (!db_get_s(0, MODULENAME, "timeoutSec" ,&dbv)) {
+		colorBack = db_get_dw(0, MODULENAME, "colorSecb", RGB(255, 255, 200));
+		colorText = db_get_dw(0, MODULENAME, "colorSect", RGB(0, 0, 0));
+		if (!db_get_s(0, MODULENAME, "timeoutSec", &dbv)) {
 			timeout = atoi(dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 	else if (type >= 2) {
-		colorBack = db_get_dw(0, MODULENAME, "colorSRb", RGB(200,255,200));
-		colorText = db_get_dw(0, MODULENAME, "colorSRt", RGB(0,0,0));
+		colorBack = db_get_dw(0, MODULENAME, "colorSRb", RGB(200, 255, 200));
+		colorText = db_get_dw(0, MODULENAME, "colorSRt", RGB(0, 0, 0));
 		if (!db_get_s(0, MODULENAME, "timeoutSR", &dbv)) {
 			timeout = atoi(dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 
-	POPUPDATAW ppd = {0};
+	POPUPDATAW ppd = { 0 };
 	ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = hIcon;
-	LPWSTR lpwzContactName = (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GSMDF_UNICODE);
+	LPWSTR lpwzContactName = (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_UNICODE);
 	wcscpy(ppd.lpwzContactName, lpwzContactName);
 	LPWSTR lpwzText = mir_a2u(lpzText);
 	wcscpy(ppd.lpwzText, TranslateW(lpwzText));
@@ -52,7 +52,7 @@ void showPopup(LPCSTR lpzText,MCONTACT hContact,HICON hIcon, UINT type)
 	PUAddPopupW(&ppd);
 }
 
-void showPopupDCmsg(MCONTACT hContact,LPCSTR msg)
+void showPopupDCmsg(MCONTACT hContact, LPCSTR msg)
 {
 	if (db_get_b(0, MODULENAME, "dc", 1))
 		showPopup(msg, hContact, g_hPOP[POP_PU_DIS], 1);
@@ -72,11 +72,11 @@ void showPopupEC(MCONTACT hContact)
 
 void showPopupKS(MCONTACT hContact)
 {
-	if (db_get_b(0, MODULENAME, "ks",1))
+	if (db_get_b(0, MODULENAME, "ks", 1))
 		showPopup(sim007, hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
-void showPopupKRmsg(MCONTACT hContact,LPCSTR msg)
+void showPopupKRmsg(MCONTACT hContact, LPCSTR msg)
 {
 	if (db_get_b(0, MODULENAME, "kr", 1))
 		showPopup(msg, hContact, g_hPOP[POP_PU_PRC], 0);
@@ -101,5 +101,3 @@ void showPopupRM(MCONTACT hContact)
 		showPopup(sim010, hContact, g_hPOP[POP_PU_MSR], 2);
 	SkinPlaySound("IncomingSecureMessage");
 }
-
-// EOF

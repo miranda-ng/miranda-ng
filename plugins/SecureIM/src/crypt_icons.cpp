@@ -16,24 +16,24 @@ OBJLIST<ICON_CACHE> arIcoList(10);
 // преобразует mode в HICON который НЕ НУЖНО разрушать в конце
 static ICON_CACHE& getCacheItem(int mode, int type)
 {
-	int m = mode & 0x0f, s = (mode & SECURED)>>4, i; // разобрали на части - режим и состояние
+	int m = mode & 0x0f, s = (mode & SECURED) >> 4, i; // разобрали на части - режим и состояние
 	HICON icon;
 
-	for (i=0; i < arIcoList.getCount(); i++)
-		if (arIcoList[i].mode == ((type<<8) | mode))
+	for (i = 0; i < arIcoList.getCount(); i++)
+		if (arIcoList[i].mode == ((type << 8) | mode))
 			return arIcoList[i];
 
 	i = s;
-	switch(type) {
-		case 1: i += IEC_CL_DIS; break;
-		case 2: i += ICO_CM_DIS; break;
-		case 3: i += ICO_MW_DIS; break;
+	switch (type) {
+	case 1: i += IEC_CL_DIS; break;
+	case 2: i += ICO_CM_DIS; break;
+	case 3: i += ICO_MW_DIS; break;
 	}
 
 	if (type == 1)
-		icon = BindOverlayIcon(g_hIEC[i], g_hICO[ICO_OV_NAT+m]);
+		icon = BindOverlayIcon(g_hIEC[i], g_hICO[ICO_OV_NAT + m]);
 	else
-		icon = BindOverlayIcon(g_hICO[i], g_hICO[ICO_OV_NAT+m]);
+		icon = BindOverlayIcon(g_hICO[i], g_hICO[ICO_OV_NAT + m]);
 
 	ICON_CACHE *p = new ICON_CACHE;
 	p->icon = icon;
@@ -101,17 +101,15 @@ void ShowStatusIconNotify(MCONTACT hContact)
 {
 	BYTE mode = isContactSecured(hContact);
 	NotifyEventHooks(g_hEvent[(mode&SECURED) != 0], hContact, 0);
-	ShowStatusIcon(hContact,mode);
+	ShowStatusIcon(hContact, mode);
 }
 
 void RefreshContactListIcons(void)
 {
-	for (int i=0; i < arIcoList.getCount(); i++)
+	for (int i = 0; i < arIcoList.getCount(); i++)
 		arIcoList[i].hCLIcon = 0;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (isSecureProtocol(hContact))
 			ShowStatusIcon(hContact);
 }
-
-// EOF

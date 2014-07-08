@@ -221,7 +221,6 @@
     <ClCompile Include="src\crypt_dll.cpp" />
     <ClCompile Include="src\crypt_icons.cpp" />
     <ClCompile Include="src\crypt_lists.cpp" />
-    <ClCompile Include="src\crypt_metacontacts.cpp" />
     <ClCompile Include="src\crypt_misc.cpp" />
     <ClCompile Include="src\crypt_popups.cpp" />
     <ClCompile Include="src\dbevent.cpp" />

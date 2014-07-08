@@ -99,6 +99,3 @@ LPCSTR sim520 = LPGEN("SecureIM received RSA Public Key from \"%s\"\n\nSHA1: %s\
 LPCSTR sim521 = LPGEN("SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s");
 LPCSTR sim522 = LPGEN("SecureIM received NEW RSA Public Key from \"%s\"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?");
 LPCSTR sim523 = LPGEN("SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s");
-
-
-// EOF

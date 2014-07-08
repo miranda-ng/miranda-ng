@@ -9,9 +9,9 @@ const static ULONGLONG ix_epoch = 116444736000000000;
 
 DWORD gettime(void)
 {
-
 	ULONGLONG diff_100_nsec;
-	union {
+	union
+	{
 		FILETIME	f;
 		ULARGE_INTEGER	u;
 	} now;
@@ -22,5 +22,3 @@ DWORD gettime(void)
 
 	return (DWORD)(diff_100_nsec / div_100_nsec);
 }
-
-// EOF

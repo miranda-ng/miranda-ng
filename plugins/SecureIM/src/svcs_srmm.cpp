@@ -11,7 +11,7 @@ int __cdecl onWindowEvent(WPARAM, LPARAM lParam)
 
 int __cdecl onIconPressed(WPARAM hContact, LPARAM lParam)
 {
-	if (isProtoMetaContacts(hContact))
+	if (db_mc_isMeta(hContact))
 		hContact = db_mc_getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
@@ -33,31 +33,33 @@ void InitSRMMIcons()
 	// add icon to srmm status icons
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULENAME;
-	sid.flags = MBF_DISABLED|MBF_HIDDEN;
+	sid.flags = MBF_DISABLED | MBF_HIDDEN;
 
 	// Native
 	sid.dwId = MODE_NATIVE;
-	sid.hIcon = mode2icon(MODE_NATIVE|SECURED,3);
-	sid.hIconDisabled = mode2icon(MODE_NATIVE,3);
+	sid.hIcon = mode2icon(MODE_NATIVE | SECURED, 3);
+	sid.hIconDisabled = mode2icon(MODE_NATIVE, 3);
 	sid.szTooltip = LPGEN("SecureIM [Native]");
 	Srmm_AddIcon(&sid);
 
 	// PGP
 	sid.dwId = MODE_PGP;
-	sid.hIcon = mode2icon(MODE_PGP|SECURED,3);
-	sid.hIconDisabled = mode2icon(MODE_PGP,3);
+	sid.hIcon = mode2icon(MODE_PGP | SECURED, 3);
+	sid.hIconDisabled = mode2icon(MODE_PGP, 3);
 	sid.szTooltip = LPGEN("SecureIM [PGP]");
 	Srmm_AddIcon(&sid);
+
 	// GPG
 	sid.dwId = MODE_GPG;
-	sid.hIcon = mode2icon(MODE_GPG|SECURED,3);
-	sid.hIconDisabled = mode2icon(MODE_GPG,3);
+	sid.hIcon = mode2icon(MODE_GPG | SECURED, 3);
+	sid.hIconDisabled = mode2icon(MODE_GPG, 3);
 	sid.szTooltip = LPGEN("SecureIM [GPG]");
 	Srmm_AddIcon(&sid);
+
 	// RSAAES
 	sid.dwId = MODE_RSAAES;
-	sid.hIcon = mode2icon(MODE_RSAAES|SECURED,3);
-	sid.hIconDisabled = mode2icon(MODE_RSAAES,3);
+	sid.hIcon = mode2icon(MODE_RSAAES | SECURED, 3);
+	sid.hIconDisabled = mode2icon(MODE_RSAAES, 3);
 	sid.szTooltip = LPGEN("SecureIM [RSA/AES]");
 	Srmm_AddIcon(&sid);
 
@@ -65,5 +67,3 @@ void InitSRMMIcons()
 	HookEvent(ME_MSG_WINDOWEVENT, onWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, onIconPressed);
 }
-
-// EOF

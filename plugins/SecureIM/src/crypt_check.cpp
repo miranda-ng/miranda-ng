@@ -23,7 +23,7 @@ BYTE isContactSecured(MCONTACT hContact)
 	// нужна проверка на Offline и в этом случае другие статусы
 	if (!arClist.getCount()) return 0;
 
-	if (isProtoMetaContacts(hContact))
+	if (db_mc_isMeta(hContact))
 		hContact = db_mc_getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
 	pUinKey p = findUinKey(hContact);
@@ -32,7 +32,7 @@ BYTE isContactSecured(MCONTACT hContact)
 
 	BYTE res = p->mode;
 	DBVARIANT dbv;
-	switch(p->mode) {
+	switch (p->mode) {
 	case MODE_NATIVE:
 		if (cpp_keyx(p->cntx) != 0) res |= SECURED;
 		break;
@@ -68,9 +68,9 @@ bool isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda)
 	if (!ptr->proto->inspecting) return false;
 
 	bool isMiranda = true;
-	LPSTR mirver = db_get_sa(ptr->hContact,ptr->proto->name,"MirVer");
+	LPSTR mirver = db_get_sa(ptr->hContact, ptr->proto->name, "MirVer");
 	if (mirver) {
-		isMiranda = (emptyMirverAsMiranda && !*mirver) || (strstr(mirver,"Miranda") != NULL);
+		isMiranda = (emptyMirverAsMiranda && !*mirver) || (strstr(mirver, "Miranda") != NULL);
 		mir_free(mirver);
 	}
 	return isMiranda;
@@ -91,19 +91,19 @@ bool isProtoSmallPackets(MCONTACT hContact)
 	if (!p || !p->proto || !p->proto->inspecting)
 		return false;
 
-	return strstr(p->proto->name,"IRC") != NULL || strstr(p->proto->name,"WinPopup") != NULL || strstr(p->proto->name,"VyChat") != NULL;
+	return strstr(p->proto->name, "IRC") != NULL || strstr(p->proto->name, "WinPopup") != NULL || strstr(p->proto->name, "VyChat") != NULL;
 }
 
 bool isContactInvisible(MCONTACT hContact)
 {
 	if (db_get_b(hContact, "CList", "Hidden", 0))
 		return true;
-	
+
 	pUinKey p = findUinKey(hContact);
 	if (!p || p->waitForExchange || !p->proto || !p->proto->inspecting)
 		return false;
 
-	switch(db_get_w(hContact, p->proto->name, "ApparentMode", 0)) {
+	switch (db_get_w(hContact, p->proto->name, "ApparentMode", 0)) {
 	case 0:
 		return CallProtoService(p->proto->name, PS_GETSTATUS, 0, 0) == ID_STATUS_INVISIBLE;
 	case ID_STATUS_ONLINE:
@@ -197,9 +197,9 @@ bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM)
 		return false;
 
 	bool isSecureIM = false;
-	LPSTR mirver = db_get_sa(ptr->hContact,ptr->proto->name,"MirVer");
+	LPSTR mirver = db_get_sa(ptr->hContact, ptr->proto->name, "MirVer");
 	if (mirver) {
-		isSecureIM = (emptyMirverAsSecureIM && !*mirver) || (strstr(mirver,"SecureIM") != NULL) || (strstr(mirver,"secureim") != NULL);
+		isSecureIM = (emptyMirverAsSecureIM && !*mirver) || (strstr(mirver, "SecureIM") != NULL) || (strstr(mirver, "secureim") != NULL);
 		mir_free(mirver);
 	}
 	return isSecureIM;
@@ -212,5 +212,3 @@ bool isSecureIM(MCONTACT hContact, BOOL emptyMirverAsSecureIM)
 	pUinKey p = findUinKey(hContact);
 	return (p) ? isSecureIM(p, emptyMirverAsSecureIM) : false;
 }
-
-// EOF

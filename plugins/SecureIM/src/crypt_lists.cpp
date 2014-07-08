@@ -5,41 +5,41 @@ LIST<UinKey> arClist(100, LIST<UinKey>::FTSortFunc(NumericKeySortT));
 
 void loadSupportedProtocols()
 {
-	LPSTR szNames = db_get_sa(0,MODULENAME,"protos");
-	if (szNames && strchr(szNames,':') == NULL) {
-		LPSTR tmp = (LPSTR) mir_alloc(2048); int j=0;
-		for (int i=0; szNames[i]; i++) {
+	LPSTR szNames = db_get_sa(0, MODULENAME, "protos");
+	if (szNames && strchr(szNames, ':') == NULL) {
+		LPSTR tmp = (LPSTR)mir_alloc(2048); int j = 0;
+		for (int i = 0; szNames[i]; i++) {
 			if (szNames[i] == ';')
-				memcpy((PVOID)(tmp+j),(PVOID)":1:0:0",6); j+=6;
+				memcpy((PVOID)(tmp + j), (PVOID)":1:0:0", 6); j += 6;
 
 			tmp[j++] = szNames[i];
 		}
 		tmp[j] = '\0';
 		SAFE_FREE(szNames); szNames = tmp;
-		db_set_s(0,MODULENAME,"protos",szNames);
+		db_set_s(0, MODULENAME, "protos", szNames);
 	}
 
 	int numberOfProtocols;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&numberOfProtocols, &protos);
 
-	for (int i=0; i < numberOfProtocols; i++) {
+	for (int i = 0; i < numberOfProtocols; i++) {
 		if (!protos[i]->szModuleName || !CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0))
 			continue;
 
 		SupPro *p = (SupPro*)mir_calloc(sizeof(SupPro));
 		p->name = mir_strdup(protos[i]->szModuleName);
 		if (szNames && p->name) {
-			char tmp[128]; strcpy(tmp, p->name); strcat(tmp,":");
+			char tmp[128]; strcpy(tmp, p->name); strcat(tmp, ":");
 			LPSTR szName = strstr(szNames, tmp);
 			if (szName) {
-				szName = strchr(szName,':');
+				szName = strchr(szName, ':');
 				if (szName) {
 					p->inspecting = (*++szName == '1');
-					szName = strchr(szName,':');
+					szName = strchr(szName, ':');
 					if (szName) {
 						p->split_on = atoi(++szName); p->tsplit_on = p->split_on;
-						szName = strchr(szName,':');
+						szName = strchr(szName, ':');
 						if (szName)
 							p->split_off = atoi(++szName); p->tsplit_off = p->split_off;
 					}
@@ -54,7 +54,7 @@ void loadSupportedProtocols()
 
 void freeSupportedProtocols()
 {
-	for (int j=0; j < arProto.getCount(); j++) {
+	for (int j = 0; j < arProto.getCount(); j++) {
 		mir_free(arProto[j]->name);
 		mir_free(arProto[j]);
 	}
@@ -64,10 +64,10 @@ void freeSupportedProtocols()
 
 pSupPro getSupPro(MCONTACT hContact)
 {
-	for (int j=0; j < arProto.getCount(); j++)
+	for (int j = 0; j < arProto.getCount(); j++)
 		if (CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)arProto[j]->name))
 			return arProto[j];
-	
+
 	return NULL;
 }
 
@@ -75,7 +75,7 @@ pSupPro getSupPro(MCONTACT hContact)
 pUinKey addContact(MCONTACT hContact)
 {
 	if (hContact == NULL) return NULL;
-		
+
 	pSupPro proto = getSupPro(hContact);
 	if (proto == NULL) return NULL;
 
@@ -125,7 +125,7 @@ void loadContactList()
 // free list of secureIM users
 void freeContactList()
 {
-	for (int j=0; j < arClist.getCount(); j++) {
+	for (int j = 0; j < arClist.getCount(); j++) {
 		pUinKey p = arClist[j];
 		cpp_delete_context(p->cntx); p->cntx = 0;
 		mir_free(p->tmp);
@@ -151,34 +151,34 @@ pUinKey getUinKey(MCONTACT hContact)
 
 pUinKey getUinCtx(HANDLE cntx)
 {
-	for (int j=0; j < arClist.getCount(); j++)
+	for (int j = 0; j < arClist.getCount(); j++)
 		if (arClist[j]->cntx == cntx)
 			return arClist[j];
-	
+
 	return NULL;
 }
 
 // add message to user queue for send later
-void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg)
+void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 {
-	Sent_NetLog("addMsg2Queue: msg: -----\n%s\n-----\n",szMsg);
+	Sent_NetLog("addMsg2Queue: msg: -----\n%s\n-----\n", szMsg);
 
 	pWM ptrMessage;
 
 	EnterCriticalSection(&localQueueMutex);
 
-	if (ptr->msgQueue == NULL){
+	if (ptr->msgQueue == NULL) {
 		// create new
-		ptr->msgQueue = (pWM) mir_alloc(sizeof(struct waitingMessage));
+		ptr->msgQueue = (pWM)mir_alloc(sizeof(struct waitingMessage));
 		ptrMessage = ptr->msgQueue;
 	}
 	else {
 		// add to list
 		ptrMessage = ptr->msgQueue;
-		while (ptrMessage->nextMessage) {
+		while (ptrMessage->nextMessage)
 			ptrMessage = ptrMessage->nextMessage;
-		}
-		ptrMessage->nextMessage = (pWM) mir_alloc(sizeof(struct waitingMessage));
+
+		ptrMessage->nextMessage = (pWM)mir_alloc(sizeof(struct waitingMessage));
 		ptrMessage = ptrMessage->nextMessage;
 	}
 
@@ -186,20 +186,19 @@ void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg)
 	ptrMessage->nextMessage = NULL;
 
 	if (wParam & PREF_UNICODE) {
-		int slen = (int)strlen(szMsg)+1;
-		int wlen = (int)wcslen((wchar_t *)(szMsg+slen))+1;
-		ptrMessage->Message = (LPSTR) mir_alloc(slen+wlen*sizeof(WCHAR));
-		memcpy(ptrMessage->Message,szMsg,slen+wlen*sizeof(WCHAR));
+		int slen = (int)strlen(szMsg) + 1;
+		int wlen = (int)wcslen((wchar_t *)(szMsg + slen)) + 1;
+		ptrMessage->Message = (LPSTR)mir_alloc(slen + wlen*sizeof(WCHAR));
+		memcpy(ptrMessage->Message, szMsg, slen + wlen*sizeof(WCHAR));
 	}
-	else{
-		ptrMessage->Message = mir_strdup(szMsg);
-	}
+	else ptrMessage->Message = mir_strdup(szMsg);
 
 	LeaveCriticalSection(&localQueueMutex);
 }
 
-void getContactNameA(MCONTACT hContact, LPSTR szName) {
-	strcpy(szName,(LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,0));
+void getContactNameA(MCONTACT hContact, LPSTR szName)
+{
+	strcpy(szName, (LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 }
 
 void getContactName(MCONTACT hContact, LPSTR szName)
@@ -216,8 +215,8 @@ void getContactUinA(MCONTACT hContact, LPSTR szUIN)
 		return;
 
 	DBVARIANT dbv_uniqueid;
-	LPSTR uID = (LPSTR) CallProtoService(ptr->name, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if (uID == (LPSTR)CALLSERVICE_NOTFOUND ) uID = 0; // Billy_Bons
+	LPSTR uID = (LPSTR)CallProtoService(ptr->name, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	if (uID == (LPSTR)CALLSERVICE_NOTFOUND) uID = 0; // Billy_Bons
 	if (uID && db_get(hContact, ptr->name, uID, &dbv_uniqueid) == 0) {
 		if (dbv_uniqueid.type == DBVT_WORD)
 			sprintf(szUIN, "%u [%s]", dbv_uniqueid.wVal, ptr->name); //!!!!!!!!!!!
@@ -242,5 +241,3 @@ void getContactUin(MCONTACT hContact, LPSTR szUIN)
 		mir_free(tmp);
 	}
 }
-
-// EOF

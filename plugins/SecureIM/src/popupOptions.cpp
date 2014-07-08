@@ -14,48 +14,48 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 	switch (wMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		RefreshPopupOptionsDlg(hec,hdc,hss,hsr,hks,hkr);
+		RefreshPopupOptionsDlg(hec, hdc, hss, hsr, hks, hkr);
 
 		DBVARIANT dbv;
 		char *timeout;
 
 		//set timeout value for Key
-		if (db_get(0, MODULENAME, "timeoutKey", &dbv) == 0) timeout=dbv.pszVal;
-		else timeout="0";
+		if (db_get(0, MODULENAME, "timeoutKey", &dbv) == 0) timeout = dbv.pszVal;
+		else timeout = "0";
 		SetDlgItemText(hDlg, IDC_TIMEKEY, timeout);
 		db_free(&dbv);
 
 		//set timeout value for SEC
-		if (db_get(0, MODULENAME, "timeoutSec", &dbv) == 0) timeout=dbv.pszVal;
-		else timeout="0";
+		if (db_get(0, MODULENAME, "timeoutSec", &dbv) == 0) timeout = dbv.pszVal;
+		else timeout = "0";
 		SetDlgItemText(hDlg, IDC_TIMESEC, timeout);
 		db_free(&dbv);
 
 		//set timeout value for SR
-		if (db_get(0, MODULENAME, "timeoutSR", &dbv) == 0) timeout=dbv.pszVal;
-		else timeout="0";
+		if (db_get(0, MODULENAME, "timeoutSR", &dbv) == 0) timeout = dbv.pszVal;
+		else timeout = "0";
 		SetDlgItemText(hDlg, IDC_TIMESR, timeout);
 		db_free(&dbv);
 
 		//key color
-		SendDlgItemMessage(hDlg,IDC_BACKKEY,CPM_SETCOLOUR,0,db_get_dw(0, MODULENAME, "colorKeyb", RGB(230,230,255)));
-		SendDlgItemMessage(hDlg,IDC_TEXTKEY,CPM_SETCOLOUR,0,db_get_dw(0, MODULENAME, "colorKeyt", RGB(0,0,0)));
+		SendDlgItemMessage(hDlg, IDC_BACKKEY, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorKeyb", RGB(230, 230, 255)));
+		SendDlgItemMessage(hDlg, IDC_TEXTKEY, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorKeyt", RGB(0, 0, 0)));
 
 		//Session color
-		SendDlgItemMessage(hDlg,IDC_BACKSEC,CPM_SETCOLOUR,0,db_get_dw(0, MODULENAME, "colorSecb", RGB(255,255,200)));
-		SendDlgItemMessage(hDlg,IDC_TEXTSEC,CPM_SETCOLOUR,0,db_get_dw(0, MODULENAME, "colorSect", RGB(0,0,0)));
+		SendDlgItemMessage(hDlg, IDC_BACKSEC, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorSecb", RGB(255, 255, 200)));
+		SendDlgItemMessage(hDlg, IDC_TEXTSEC, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorSect", RGB(0, 0, 0)));
 
 		//SR color
-		SendDlgItemMessage(hDlg,IDC_BACKSR,CPM_SETCOLOUR,0,db_get_dw(0, MODULENAME, "colorSRb", RGB(200,255,200)));
-		SendDlgItemMessage(hDlg,IDC_TEXTSR,CPM_SETCOLOUR,0,db_get_dw(0, MODULENAME, "colorSRt", RGB(0,0,0)));
+		SendDlgItemMessage(hDlg, IDC_BACKSR, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorSRb", RGB(200, 255, 200)));
+		SendDlgItemMessage(hDlg, IDC_TEXTSR, CPM_SETCOLOUR, 0, db_get_dw(0, MODULENAME, "colorSRt", RGB(0, 0, 0)));
 		break;
 
 	case WM_COMMAND:
 		if (HIWORD(wParam) == CPN_COLOURCHANGED) {
 			//It's a colour picker change. LOWORD(wParam) is the control id.
-			DWORD color = SendDlgItemMessage(hDlg,LOWORD(wParam),CPM_GETCOLOUR,0,0);
+			DWORD color = SendDlgItemMessage(hDlg, LOWORD(wParam), CPM_GETCOLOUR, 0, 0);
 
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_BACKKEY:
 				db_set_dw(0, MODULENAME, "colorKeyb", color);
 				break;
@@ -81,55 +81,55 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		switch (LOWORD(wParam)) {
 		case IDC_PREV:
 			//preview popups...
-			showPopup(LPGEN("Key Popup"),NULL,g_hPOP[POP_PU_PRC],0);
-			showPopup(LPGEN("Secure Popup"),NULL,g_hPOP[POP_PU_EST],1);
-			showPopup(LPGEN("Message Popup"),NULL,g_hPOP[POP_PU_MSR],2);
+			showPopup(LPGEN("Key Popup"), NULL, g_hPOP[POP_PU_PRC], 0);
+			showPopup(LPGEN("Secure Popup"), NULL, g_hPOP[POP_PU_EST], 1);
+			showPopup(LPGEN("Message Popup"), NULL, g_hPOP[POP_PU_MSR], 2);
 			break;
 		case IDC_EC:
 			//set ec checkbox value
-			db_set_b(0, MODULENAME, "ec", (BYTE)(SendMessage(hec,BM_GETCHECK,0L,0L) == BST_CHECKED));
+			db_set_b(0, MODULENAME, "ec", (BYTE)(SendMessage(hec, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_DC:
 			//set dc checkbox value
-			db_set_b(0, MODULENAME, "dc", (BYTE)(SendMessage(hdc,BM_GETCHECK,0L,0L) == BST_CHECKED));
+			db_set_b(0, MODULENAME, "dc", (BYTE)(SendMessage(hdc, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_SS:
 			//set ss checkbox value
-			db_set_b(0, MODULENAME, "ss", (BYTE)(SendMessage(hss,BM_GETCHECK,0L,0L) == BST_CHECKED));
+			db_set_b(0, MODULENAME, "ss", (BYTE)(SendMessage(hss, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_SR:
 			//set sr checkbox value
-			db_set_b(0, MODULENAME, "sr", (BYTE)(SendMessage(hsr,BM_GETCHECK,0L,0L) == BST_CHECKED));
+			db_set_b(0, MODULENAME, "sr", (BYTE)(SendMessage(hsr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_KS:
 			//set indicator checkbox value
-			db_set_b(0, MODULENAME, "ks", (BYTE)(SendMessage(hks,BM_GETCHECK,0L,0L) == BST_CHECKED));
+			db_set_b(0, MODULENAME, "ks", (BYTE)(SendMessage(hks, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_KR:
 			//set indicator checkbox value
-			db_set_b(0, MODULENAME, "kr", (BYTE)(SendMessage(hkr,BM_GETCHECK,0L,0L) == BST_CHECKED));
+			db_set_b(0, MODULENAME, "kr", (BYTE)(SendMessage(hkr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_TIMEKEY:
 			//set timeout value
-			GetDlgItemText(hDlg,IDC_TIMEKEY,getTimeout,sizeof(getTimeout));
-			mir_itoa(atoi(getTimeout),getTimeout,10);
+			GetDlgItemText(hDlg, IDC_TIMEKEY, getTimeout, sizeof(getTimeout));
+			mir_itoa(atoi(getTimeout), getTimeout, 10);
 			db_set_s(0, MODULENAME, "timeoutKey", getTimeout);
 			break;
 		case IDC_TIMESEC:
 			//set timeout value
-			GetDlgItemText(hDlg,IDC_TIMESEC,getTimeout,sizeof(getTimeout));
-			mir_itoa(atoi(getTimeout),getTimeout,10);
+			GetDlgItemText(hDlg, IDC_TIMESEC, getTimeout, sizeof(getTimeout));
+			mir_itoa(atoi(getTimeout), getTimeout, 10);
 			db_set_s(0, MODULENAME, "timeoutSec", getTimeout);
 			break;
 		case IDC_TIMESR:
 			//set timeout value
-			GetDlgItemText(hDlg,IDC_TIMESR,getTimeout,sizeof(getTimeout));
-			mir_itoa(atoi(getTimeout),getTimeout,10);
+			GetDlgItemText(hDlg, IDC_TIMESR, getTimeout, sizeof(getTimeout));
+			mir_itoa(atoi(getTimeout), getTimeout, 10);
 			db_set_s(0, MODULENAME, "timeoutSR", getTimeout);
 			break;
 		}
 
-		RefreshPopupOptionsDlg(hec,hdc,hss,hsr,hks,hkr);
+		RefreshPopupOptionsDlg(hec, hdc, hss, hsr, hks, hkr);
 		break;
 
 	default:
@@ -138,7 +138,7 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 	return TRUE;
 }
 
-void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hkr)
+void RefreshPopupOptionsDlg(HWND hec, HWND hdc, HWND hss, HWND hsr, HWND hks, HWND hkr)
 {
 	// ec checkbox
 	SendMessage(hec, BM_SETCHECK, db_get_b(0, MODULENAME, "ec", 1), 0L);
@@ -172,5 +172,3 @@ int onRegisterPopOptions(WPARAM wParam, LPARAM)
 	}
 	return 0;
 }
-
-// EOF

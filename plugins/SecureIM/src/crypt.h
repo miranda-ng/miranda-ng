@@ -143,11 +143,6 @@ void showPopupKR(MCONTACT);
 void showPopupSM(MCONTACT);
 void showPopupRM(MCONTACT);
 
-// crypt_meta.cpp
-BOOL isProtoMetaContacts(MCONTACT);
-BOOL isDefaultSubContact(MCONTACT);
-void DeinitMetaContact(MCONTACT);
-
 // crypt_dll.cpp
 LPSTR InitKeyA(pUinKey, int);
 int InitKeyB(pUinKey, LPCSTR);

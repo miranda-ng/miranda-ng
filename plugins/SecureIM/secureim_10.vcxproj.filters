@@ -36,9 +36,6 @@
     <ClCompile Include="src\crypt_lists.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\crypt_metacontacts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\crypt_misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
