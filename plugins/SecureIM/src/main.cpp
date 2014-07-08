@@ -2,6 +2,27 @@
 
 int hLangpack = 0;
 
+PLUGININFOEX pluginInfoEx = {
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+	{ 0x1B2A39E5, 0xE2F6, 0x494D, { 0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5 } }
+};
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
+	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 {
 	g_hInst = hInst;
@@ -12,12 +33,10 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	return &pluginInfoEx;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// basic events: onModuleLoad, onModulesLoad, onShutdown
 
-HGENMENU AddMenuItem(LPCSTR name, int pos, HICON hicon, LPCSTR service, int flags = 0, WPARAM wParam = 0)
+static HGENMENU AddMenuItem(LPCSTR name, int pos, HICON hicon, LPCSTR service, int flags = 0, WPARAM wParam = 0)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = flags | CMIF_HIDDEN;
@@ -29,7 +48,7 @@ HGENMENU AddMenuItem(LPCSTR name, int pos, HICON hicon, LPCSTR service, int flag
 	return Menu_AddContactMenuItem(&mi);
 }
 
-HGENMENU AddSubItem(HANDLE rootid, LPCSTR name, int pos, int poppos, LPCSTR service, WPARAM wParam = 0)
+static HGENMENU AddSubItem(HANDLE rootid, LPCSTR name, int pos, int poppos, LPCSTR service, WPARAM wParam = 0)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_CHILDPOPUP | CMIF_HIDDEN;
@@ -41,97 +60,13 @@ HGENMENU AddSubItem(HANDLE rootid, LPCSTR name, int pos, int poppos, LPCSTR serv
 	return Menu_AddContactMenuItem(&mi);
 }
 
-extern "C" __declspec(dllexport) int __cdecl Load(void)
-{
-	mir_getLP(&pluginInfoEx);
-
-	DisableThreadLibraryCalls(g_hInst);
-	InitializeCriticalSection(&localQueueMutex);
-
-	char temp[MAX_PATH];
-	GetTempPath(sizeof(temp), temp);
-	GetLongPathName(temp, TEMP, sizeof(TEMP));
-	TEMP_SIZE = (int)strlen(TEMP);
-	if (TEMP[TEMP_SIZE - 1] == '\\') {
-		TEMP_SIZE--;
-		TEMP[TEMP_SIZE] = '\0';
-	}
-
-	// check for support TrueColor Icons
-	BOOL bIsComCtl6 = FALSE;
-	HMODULE hComCtlDll = LoadLibrary(_T("comctl32.dll"));
-	if (hComCtlDll) {
-		typedef HRESULT(CALLBACK *PFNDLLGETVERSION)(DLLVERSIONINFO*);
-		PFNDLLGETVERSION pfnDllGetVersion = (PFNDLLGETVERSION)GetProcAddress(hComCtlDll, "DllGetVersion");
-		if (pfnDllGetVersion) {
-			DLLVERSIONINFO dvi;
-			memset(&dvi, 0, sizeof(dvi));
-			dvi.cbSize = sizeof(dvi);
-			HRESULT hRes = (*pfnDllGetVersion)(&dvi);
-			if (SUCCEEDED(hRes) && dvi.dwMajorVersion >= 6) {
-				bIsComCtl6 = TRUE;
-			}
-		}
-		FreeLibrary(hComCtlDll);
-	}
-	if (bIsComCtl6)	iBmpDepth = ILC_COLOR32 | ILC_MASK;  // 32-bit images are supported
-	else		iBmpDepth = ILC_COLOR24 | ILC_MASK;
-
-	iCoreVersion = CallService(MS_SYSTEM_GETVERSION, 0, 0);
-
-	// load crypo++ dll
-	if (!loadlib()) {
-		msgbox1(0, sim107, MODULENAME, MB_OK | MB_ICONSTOP);
-		return 1;
-	}
-
-	load_rtfconv();
-
-	// register plugin module
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.szName = (char*)MODULENAME;
-	pd.type = PROTOTYPE_ENCRYPTION;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
-	// hook events
-	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
-	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
-
-	g_hEvent[0] = CreateHookableEvent(MODULENAME"/Disabled");
-	g_hEvent[1] = CreateHookableEvent(MODULENAME"/Established");
-
-	CreateServiceFunction(MODULENAME"/IsContactSecured", Service_IsContactSecured);
-	CreateServiceFunction(MODULENAME"/SIM_EST", Service_CreateIM);
-	CreateServiceFunction(MODULENAME"/SIM_DIS", Service_DisableIM);
-	CreateServiceFunction(MODULENAME"/SIM_ST_DIS", Service_StatusDis);
-	CreateServiceFunction(MODULENAME"/SIM_ST_ENA", Service_StatusEna);
-	CreateServiceFunction(MODULENAME"/SIM_ST_TRY", Service_StatusTry);
-	CreateServiceFunction(MODULENAME"/PGP_SET", Service_PGPsetKey);
-	CreateServiceFunction(MODULENAME"/PGP_DEL", Service_PGPdelKey);
-	CreateServiceFunction(MODULENAME"/GPG_SET", Service_GPGsetKey);
-	CreateServiceFunction(MODULENAME"/GPG_DEL", Service_GPGdelKey);
-	CreateServiceFunction(MODULENAME"/MODE_NAT", Service_ModeNative);
-	CreateServiceFunction(MODULENAME"/MODE_PGP", Service_ModePGP);
-	CreateServiceFunction(MODULENAME"/MODE_GPG", Service_ModeGPG);
-	CreateServiceFunction(MODULENAME"/MODE_RSA", Service_ModeRSAAES);
-	return 0;
-}
-
-extern "C" __declspec(dllexport) int __cdecl Unload()
-{
-	DeleteCriticalSection(&localQueueMutex);
-	return 0;
-}
-
-int ModuleLoad(WPARAM, LPARAM)
+static int onModuleLoad(WPARAM, LPARAM)
 {
 	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPT);
 	return 0;
 }
 
-int onModulesLoaded(WPARAM, LPARAM)
+static int onModulesLoaded(WPARAM, LPARAM)
 {
 	InitNetlib();
 
@@ -139,7 +74,7 @@ int onModulesLoaded(WPARAM, LPARAM)
 
 	InitIcons();
 	GetFlags();
-	ModuleLoad(0, 0);
+	onModuleLoad(0, 0);
 
 	// RSA/AES
 	Sent_NetLog("rsa_init");
@@ -344,7 +279,7 @@ int onModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int onShutdown(WPARAM, LPARAM)
+static int onShutdown(WPARAM, LPARAM)
 {
 	if (bSavePass) {
 		LPSTR tmp = gpg_get_passphrases();
@@ -364,5 +299,95 @@ int onShutdown(WPARAM, LPARAM)
 	free_rtfconv();
 
 	DeinitNetlib();
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Load
+
+extern "C" __declspec(dllexport) int __cdecl Load(void)
+{
+	mir_getLP(&pluginInfoEx);
+
+	DisableThreadLibraryCalls(g_hInst);
+	InitializeCriticalSection(&localQueueMutex);
+
+	char temp[MAX_PATH];
+	GetTempPath(sizeof(temp), temp);
+	GetLongPathName(temp, TEMP, sizeof(TEMP));
+	TEMP_SIZE = (int)strlen(TEMP);
+	if (TEMP[TEMP_SIZE - 1] == '\\') {
+		TEMP_SIZE--;
+		TEMP[TEMP_SIZE] = '\0';
+	}
+
+	// check for support TrueColor Icons
+	BOOL bIsComCtl6 = FALSE;
+	HMODULE hComCtlDll = LoadLibrary(_T("comctl32.dll"));
+	if (hComCtlDll) {
+		typedef HRESULT(CALLBACK *PFNDLLGETVERSION)(DLLVERSIONINFO*);
+		PFNDLLGETVERSION pfnDllGetVersion = (PFNDLLGETVERSION)GetProcAddress(hComCtlDll, "DllGetVersion");
+		if (pfnDllGetVersion) {
+			DLLVERSIONINFO dvi;
+			memset(&dvi, 0, sizeof(dvi));
+			dvi.cbSize = sizeof(dvi);
+			HRESULT hRes = (*pfnDllGetVersion)(&dvi);
+			if (SUCCEEDED(hRes) && dvi.dwMajorVersion >= 6) {
+				bIsComCtl6 = TRUE;
+			}
+		}
+		FreeLibrary(hComCtlDll);
+	}
+	if (bIsComCtl6)	iBmpDepth = ILC_COLOR32 | ILC_MASK;  // 32-bit images are supported
+	else		iBmpDepth = ILC_COLOR24 | ILC_MASK;
+
+	iCoreVersion = CallService(MS_SYSTEM_GETVERSION, 0, 0);
+
+	// load crypo++ dll
+	if (!loadlib()) {
+		msgbox1(0, sim107, MODULENAME, MB_OK | MB_ICONSTOP);
+		return 1;
+	}
+
+	load_rtfconv();
+
+	// register plugin module
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	pd.szName = (char*)MODULENAME;
+	pd.type = PROTOTYPE_ENCRYPTION;
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+
+	// hook events
+	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
+	HookEvent(ME_SYSTEM_MODULELOAD, onModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, onModuleLoad);
+
+	g_hEvent[0] = CreateHookableEvent(MODULENAME"/Disabled");
+	g_hEvent[1] = CreateHookableEvent(MODULENAME"/Established");
+
+	CreateServiceFunction(MODULENAME"/IsContactSecured", Service_IsContactSecured);
+	CreateServiceFunction(MODULENAME"/SIM_EST", Service_CreateIM);
+	CreateServiceFunction(MODULENAME"/SIM_DIS", Service_DisableIM);
+	CreateServiceFunction(MODULENAME"/SIM_ST_DIS", Service_StatusDis);
+	CreateServiceFunction(MODULENAME"/SIM_ST_ENA", Service_StatusEna);
+	CreateServiceFunction(MODULENAME"/SIM_ST_TRY", Service_StatusTry);
+	CreateServiceFunction(MODULENAME"/PGP_SET", Service_PGPsetKey);
+	CreateServiceFunction(MODULENAME"/PGP_DEL", Service_PGPdelKey);
+	CreateServiceFunction(MODULENAME"/GPG_SET", Service_GPGsetKey);
+	CreateServiceFunction(MODULENAME"/GPG_DEL", Service_GPGdelKey);
+	CreateServiceFunction(MODULENAME"/MODE_NAT", Service_ModeNative);
+	CreateServiceFunction(MODULENAME"/MODE_PGP", Service_ModePGP);
+	CreateServiceFunction(MODULENAME"/MODE_GPG", Service_ModeGPG);
+	CreateServiceFunction(MODULENAME"/MODE_RSA", Service_ModeRSAAES);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Unload
+
+extern "C" __declspec(dllexport) int __cdecl Unload()
+{
+	DeleteCriticalSection(&localQueueMutex);
 	return 0;
 }

@@ -79,7 +79,6 @@ extern int  TEMP_SIZE;
 
 // shared vars
 extern HINSTANCE g_hInst, g_hIconInst;
-extern PLUGININFOEX pluginInfoEx;
 
 #define PREF_METANODB	0x2000	//!< Flag to indicate message should not be added to db by filter when sending
 #define PREF_SIMNOMETA	0x4000	//!< Flag to indicate message should not be inspected by filter on metacontact
@@ -97,10 +96,6 @@ extern BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;
 extern BYTE bPGP, bGPG;
 extern DWORD iCoreVersion;
 extern CRITICAL_SECTION localQueueMutex;
-
-int onModulesLoaded(WPARAM, LPARAM);
-int onShutdown(WPARAM, LPARAM);
-int ModuleLoad(WPARAM wParam, LPARAM lParam);
 
 __forceinline int SendBroadcast(MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {

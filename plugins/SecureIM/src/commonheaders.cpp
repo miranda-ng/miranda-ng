@@ -23,20 +23,6 @@ BYTE bPGP, bGPG;
 DWORD iCoreVersion = 0;
 CRITICAL_SECTION localQueueMutex;
 
-PLUGININFOEX pluginInfoEx = {
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__AUTHOREMAIL,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
-	{ 0x1B2A39E5, 0xE2F6, 0x494D, { 0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5 } }
-};
-
 LPSTR myDBGetStringDecode(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
 	char *val = db_get_sa(hContact, szModule, szSetting);
