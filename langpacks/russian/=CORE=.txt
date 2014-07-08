@@ -1,9 +1,4 @@
-﻿;============================================================
-;  File: miranda32.exe
-;  Module: Miranda Core
-;  Versions: 0.8.0 - 0.95.2
-;===========================================================
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 Введите имя (например, Google)
 [Choose the protocol type]
 Выберите протокол

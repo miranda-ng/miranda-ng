@@ -475,6 +475,8 @@ DCC-запрос на передачу файла послан %s [%s]
 <Автоматически>
 [<Local IP: ]
 <Локальный IP:\s
+[ALL NETWORKS]
+Все сети
 [Click to set commands that will be performed for this event]
 Кликните для установки команд обработки этого события
 [Click to delete the commands for this event]
