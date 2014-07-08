@@ -492,6 +492,26 @@ Latin I
 <Автоматично>
 [<Local IP: ]
 <Локално IP:\s
+[Event: Available]
+
+[Event: Away]
+
+[Event: N/A]
+
+[Event: Occupied]
+
+[Event: DND]
+
+[Event: Free for chat]
+
+[Event: On the phone]
+
+[Event: Out for lunch]
+
+[Event: Disconnect]
+
+[ALL NETWORKS]
+Всички мрежи
 [Click to set commands that will be performed for this event]
 Натиснете тук, за да зададете команди за изпълнение за събитието
 [Click to delete the commands for this event]

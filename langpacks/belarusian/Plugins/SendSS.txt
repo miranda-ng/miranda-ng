@@ -74,6 +74,7 @@
 Не ўдалося ініцыяваць %s.
 [MAPI error (%i):\n%s.]
 Памылка MAPI (%i):\n%s.
+;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [The specified attachment was not found]
 Укладанне не знойдзена

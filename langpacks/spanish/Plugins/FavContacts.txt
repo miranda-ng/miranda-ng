@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FavContacts.dll
 ;  Plugin: Favorite contacts
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Victor Pavlychko
 ;============================================================
 [Favorite contacts menu.]
@@ -52,6 +52,13 @@ Mostrar
 
 [Regular Contact]
 
+[Favorites]
+
+;file \plugins\FavContacts\src\menu.cpp
+;file \plugins\FavContacts\src\options.cpp
+[Contacts]
+Contactos
+;file \plugins\FavContacts\src\services.cpp
 [Contact name]
 
 [Second line]
@@ -65,10 +72,4 @@ Fondo
 [Selected background]
 
 [Show favorite contacts]
-
-[Contacts]
-Contactos
-[Favorites]
-
-[&Favorite Contacts...]
 

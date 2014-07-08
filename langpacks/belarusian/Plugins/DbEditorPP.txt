@@ -296,6 +296,8 @@ INI файлы
 Невядомы кантакт
 [Known contact]
 Вядомы кантакт
+[Handle]
+Назва
 ;file \plugins\DbEditorPP\src\main.cpp
 [Open Database Editor]
 Рэдактар базы

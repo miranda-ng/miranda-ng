@@ -492,6 +492,26 @@ Server bearbeiten
 <Automatisch>
 [<Local IP: ]
 <lokale IP:\s
+[Event: Available]
+
+[Event: Away]
+
+[Event: N/A]
+
+[Event: Occupied]
+
+[Event: DND]
+
+[Event: Free for chat]
+
+[Event: On the phone]
+
+[Event: Out for lunch]
+
+[Event: Disconnect]
+
+[ALL NETWORKS]
+Alle Netzwerke
 [Click to set commands that will be performed for this event]
 Klicken Sie hier, um die Befehle zu setzen, die bei diesem Ereignis ausgeführt werden.
 [Click to delete the commands for this event]

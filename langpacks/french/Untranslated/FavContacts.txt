@@ -22,4 +22,3 @@
 [Selected second line (color)]
 [Selected background]
 [Show favorite contacts]
-[&Favorite Contacts...]

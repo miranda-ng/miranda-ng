@@ -198,6 +198,8 @@ Serwer proxy %s: %s %s:%d.
 Ustawiono proxy %s na %s %s:%d.
 [%s The port or the proxy type parameter is invalid.]
 %s parametr typu lub portu proxy jest nieprawidłowy.
+[[me]]
+[ja]
 [No unread messages found.]
 Nie znaleziono nieprzeczytanych wiadomości.
 [%s:%s - %d unread events.]

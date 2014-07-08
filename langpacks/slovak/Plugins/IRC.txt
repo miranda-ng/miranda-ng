@@ -492,6 +492,26 @@ Storno
 
 [<Local IP: ]
 
+[Event: Available]
+
+[Event: Away]
+
+[Event: N/A]
+
+[Event: Occupied]
+
+[Event: DND]
+
+[Event: Free for chat]
+
+[Event: On the phone]
+
+[Event: Out for lunch]
+
+[Event: Disconnect]
+
+[ALL NETWORKS]
+Všetky siete
 [Click to set commands that will be performed for this event]
 
 [Click to delete the commands for this event]

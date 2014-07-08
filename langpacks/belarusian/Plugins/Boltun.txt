@@ -59,8 +59,6 @@ Mind файлы
 Балбатун/Не размаўляць
 [Boltun/Start Chatting]
 Балбатун/пачаць размову
-[Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
-
 [Boltun Error]
 Памылка Балбатуна
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FavContacts.dll
 ;  Plugin: Favorite contacts
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Victor Pavlychko
 ;============================================================
 [Favorite contacts menu.]
@@ -49,6 +49,10 @@
 Обрані контакти
 [Regular Contact]
 Звичайні контакти
+[Favorites]
+Обрані
+[Contacts]
+Контакти
 [Contact name]
 Ім'я контакту
 [Second line]
@@ -63,9 +67,3 @@
 Фон виділеного
 [Show favorite contacts]
 Показати обрані контакти
-[Contacts]
-Контакти
-[Favorites]
-Обрані
-[&Favorite Contacts...]
-&Обрані контакти...

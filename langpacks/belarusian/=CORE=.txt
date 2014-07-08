@@ -3077,8 +3077,6 @@ BMP
 Сьера-Леонэ
 [Singapore]
 Сінгапур
-[Sint Maarten (Dutch part)]
-
 [Slovakia]
 Славакія
 [Slovenia]

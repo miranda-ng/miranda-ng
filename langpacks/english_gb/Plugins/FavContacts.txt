@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FavContacts.dll
 ;  Plugin: Favorite contacts
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Victor Pavlychko
 ;============================================================
 [Favorite contacts menu.]
@@ -19,13 +19,11 @@ Favourite Contacts
 Configure fonts and colours...
 [Favorite Contact]
 Favourite Contact
+[Favorites]
+Favourites
 [Selected contact name (color)]
 Selected contact name (colour)
 [Selected second line (color)]
 Selected second line (colour)
 [Show favorite contacts]
 Show favourite contacts
-[Favorites]
-Favourites
-[&Favorite Contacts...]
-&Favourite Contacts...

@@ -186,7 +186,7 @@ URL:
 [a sticker]
 
 [files]
-
+файлове
 [a file]
 
 [photos]

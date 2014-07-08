@@ -492,6 +492,26 @@ Effacer le serveur
 <Automatique>
 [<Local IP: ]
 <IP Local :\s
+[Event: Available]
+
+[Event: Away]
+
+[Event: N/A]
+
+[Event: Occupied]
+
+[Event: DND]
+
+[Event: Free for chat]
+
+[Event: On the phone]
+
+[Event: Out for lunch]
+
+[Event: Disconnect]
+
+[ALL NETWORKS]
+
 [Click to set commands that will be performed for this event]
 Cliquez pour définir la commande pour cet évènement
 [Click to delete the commands for this event]

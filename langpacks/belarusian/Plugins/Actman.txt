@@ -674,6 +674,8 @@ UTF16+сігнатура
 Цяперашні макрас
 [Select for FirstRun]
 Абраць для першага запуска
+[contact list]
+спіс кантактаў
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 Тэкставы рэдактар

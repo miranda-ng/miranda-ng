@@ -94,8 +94,6 @@
 Аўтаадказнік
 [&Delete]
 Выдаліць
-[Status messages:]
-Статусныя паведамленні:
 [New &category]
 Новая катэгорыя
 [Save as &new]
@@ -112,6 +110,8 @@
 Новая катэгорыя
 [Delete]
 Выдаліць
+[Status messages:]
+Статусныя паведамленні:
 [seconds before closing the status message dialog (-1=don't close)]
 секунд перад зачыненнем вакна выбару статусаў(-1=не зачыняць)
 [Store]

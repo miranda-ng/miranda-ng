@@ -133,7 +133,7 @@ Gadu-Gadu номер:
 [Age from:]
 Възраст от:
 [to:]
-
+за:
 [Search online users only]
 Търси само потребители "На линия"
 [&Close]
