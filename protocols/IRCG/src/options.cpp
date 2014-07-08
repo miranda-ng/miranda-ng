@@ -957,16 +957,16 @@ static TDbSetting OtherSettings[] =
 };
 
 static char* sttPerformEvents[] = {
-	"Event: Available",
-	"Event: Away",
-	"Event: N/A",
-	"Event: Occupied",
-	"Event: DND",
-	"Event: Free for chat",
-	"Event: On the phone",
-	"Event: Out for lunch",
-	"Event: Disconnect",
-	"ALL NETWORKS"
+	LPGEN("Event: Available"),
+	LPGEN("Event: Away"),
+	LPGEN("Event: N/A"),
+	LPGEN("Event: Occupied"),
+	LPGEN("Event: DND"),
+	LPGEN("Event: Free for chat"),
+	LPGEN("Event: On the phone"),
+	LPGEN("Event: Out for lunch"),
+	LPGEN("Event: Disconnect"),
+	LPGEN("ALL NETWORKS")
 };
 
 static LRESULT CALLBACK EditSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1057,7 +1057,7 @@ void COtherPrefsDlg::OnInitDialog()
 	}
 
 	for (int i = 0; i < SIZEOF(sttPerformEvents); i++) {
-		int idx = m_performCombo.InsertString(_A2T(sttPerformEvents[i]), i);
+		int idx = m_performCombo.InsertString(_A2T(Translate(sttPerformEvents[i])), i);
 		addPerformComboValue(idx, sttPerformEvents[i]);
 	}
 
