@@ -64,7 +64,7 @@
 [Sounds are currently disabled.]
 [Sounds were enabled successfully.]
 [Sounds were disabled successfully.]
-[Contact list is currectly shown.]
+[Contact list is currently shown.]
 [Contact list is currently hidden.]
 [Contact list was shown successfully.]
 [Contact list was hidden successfully.]
