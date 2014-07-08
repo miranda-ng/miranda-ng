@@ -67,28 +67,36 @@ class TFavContacts : public LIST < TContactInfo >
 private:
 	int nGroups;
 	TCHAR *prevGroup;
+	MIDatabase *db;
 
-	void addContact(MIDatabase *db, MCONTACT hContact, bool bManual)
+	int addContact(MCONTACT hContact, bool bManual)
 	{
 		DBCachedContact *cc = db->m_cache->GetCachedContact(hContact);
 		if (cc == NULL)
-			return;
+			return 0;
 
 		if (db_mc_isEnabled()) {
 			if (cc->IsSub()) // skip subcontacts if MC is enabled
-				return;
+				return 0;
 		}
 		else if (cc->IsMeta()) // skip metacontacts if MC is not enabled
-			return;
+			return 0;
 
-		TCHAR *group = addContact(hContact, bManual)->getGroup();
+		TContactInfo *info = new TContactInfo(hContact, bManual);
+		insert(info);
+		TCHAR *group = info->getGroup();
 		if (prevGroup && lstrcmp(prevGroup, group))
 			++nGroups;
 		prevGroup = group;
+		return 1;
 	}
 
 public:
-	TFavContacts() : LIST<TContactInfo>(5, TContactInfo::cmp) {}
+	TFavContacts() : LIST<TContactInfo>(5, TContactInfo::cmp)
+	{
+		db = GetCurrentDatabase();
+	}
+
 	~TFavContacts()
 	{
 		for (int i = 0; i < this->getCount(); ++i)
@@ -97,23 +105,15 @@ public:
 
 	__forceinline int groupCount() const { return nGroups; }
 
-	TContactInfo *addContact(MCONTACT hContact, bool bManual)
-	{
-		TContactInfo *info = new TContactInfo(hContact, bManual);
-		this->insert(info);
-		return info;
-	}
-
 	void build()
 	{
 		prevGroup = NULL;
-		MIDatabase *db = GetCurrentDatabase();
 
 		nGroups = 1;
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
-				addContact(db, hContact, true);
+				addContact(hContact, true);
 
 		int nRecent = 0;
 		for (int i = 0; nRecent < g_Options.wMaxRecent; ++i) {
@@ -121,10 +121,8 @@ public:
 			if (!hContact)
 				break;
 			
-			if (!db_get_b(hContact, "FavContacts", "IsFavourite", 0)) {
-				addContact(db, hContact, false);
-				nRecent++;
-			}
+			if (!db_get_b(hContact, "FavContacts", "IsFavourite", 0))
+				nRecent += addContact(hContact, false);
 		}
 	}
 };
