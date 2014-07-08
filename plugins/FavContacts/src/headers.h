@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
 #include <m_database.h>
+#include <m_db_int.h>
 #include <m_langpack.h>
 #include <m_clist.h>
 #include <m_clistint.h>
@@ -45,15 +46,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_avatars.h>
 #include <m_fontservice.h>
 #include <m_hotkeys.h>
-
+#include <m_metacontacts.h>
 #include <m_toptoolbar.h>
 
 #include "resource.h"
 #include "version.h"
 #include "contact_cache.h"
-#include "http_api.h"
-#include "csocket.h"
-#include "cserver.h"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define MS_FAVCONTACTS_SHOWMENU				"FavContacts/ShowMenu"
+#define MS_FAVCONTACTS_SHOWMENU_CENTERED	"FavContacts/ShowMenuCentered"
+#define MS_FAVCONTACTS_OPEN_CONTACT			"FavContacts/OpenContact"
 
 struct Options
 {
@@ -77,4 +81,23 @@ struct Options
 
 extern Options g_Options;
 extern CContactCache *g_contactCache;
+
 #include "favlist.h"
+
+BOOL MenuDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options = NULL);
+BOOL MenuMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options = NULL);
+
+int  ProcessOptInitialise(WPARAM, LPARAM);
+int  ProcessModulesLoaded(WPARAM, LPARAM);
+
+void LoadOptions();
+int  ShowMenu(bool centered);
+
+void InitMenu();
+void UninitMenu();
+
+void InitServices();
+void UninitServices();
+
+extern HINSTANCE g_hInst;
+extern IconItem iconList[];
