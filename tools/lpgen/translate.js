@@ -1,43 +1,36 @@
-//*****************************************************************************************//
-//* Name:      translate.js                                                               *//
-//* Language:  JScript                                                                    *//
-//* Function:  Parse Miranda-NG translation templates and get translated strings          *//
-//* Author:    BasiL                                                                      *//
-//* Usage:     cscript /nologo translate.js  to run generation in batches                 *//
-//* Usage:     cscript /nologo translate.js /log:"yes" to enable console logging          *//
-//* Usage:     cscript /nologo translate.js /plugin:"path\file" for one template          *//
-//* Usage:     cscript /nologo translate.js /path:"path\to\folder" folder with .\Plugins, *//
-//* .\Weather subfolders and =CORE=.txt file                                              *//
-//* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file      *//
-//* Usage:     cscript /nologo translate.js /sourcelang:"language" instead of /path param *//
-//* if your .\Plugins, .\Weather, =CORE=.txt and langpack_%lang%.txt in trunk .\langpacks *//
-//* Usage:     cscript /nologo translate.js /out:"path\folder" output result to folder    *//
-//* Usage:     cscript /nologo translate.js /outfile:"path\file" output result to one file*//
-//* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
-//* Usage:     cscript /nologo translate.js /noref:"yes" - remove ref. ";file path\file"  *//
-//* Usage:     cscript /nologo translate.js /untranslated:"yes|path"  untranslated strings*//
-//* Usage:     cscript /nologo translate.js /sourcelang:"russian" /release:"path\file"    *//
-//* Note:      script will use following sequense to find a translation for string:       *//
-//* 1) Try to get translation from a same file name. Example: /langpack/english/plugin/   *//
-//* /TabSRMM.txt strings will be checked in file named TabSRMM.txt in folder from /path:  *//
-//* if you specify a "path" - /path:"path\folder", so look in path\folder\TabSRMM.txt     *//
-//* 2) If not find in step 1), check a string in file DUPES, specified in /dupes parameter*//
-//* 3) If still not found, try to find trasnlation in =CORE=.txt file                     *//
-//* 4) Still no luck? Well, check a /langpack:"/path/lang.txt" as a last place.           *//
-//* Example1:  cscript /nologo translate.js /langpack:"path\lang.txt" /path:"path/german" *//
-//* will translate english templates using .\plugins translation from path\german and if  *//
-//* translation not found, try to find translation in path\lang.txt                       *//
-//* Example2:  cscript /nologo translate.js /plugin:"path\file" /langpack:"path\lang.txt" *//
-//* will translate path\file using translation from path\lang.txt                         *//
-//* Example3:  cscript /nologo translate.js /langpack:"path\lang.txt" /outfile:"path\file"*//
-//* will translate all /english/* templates using lang.txt & output langpack in path\file *//
-//* Example4:  cscript /nologo translate.js /sourcelang="Russian" /outfile:"path\file"    *//
-//* will translate all /english/* tempaltes using files =CORE=.txt, =DUPES=.txt, lanpack_R*//
-//* ussian.txt from ./langpacks/Russian/ folder, including /langpacks/Russian/Plugins/*   *//
-//* Example5:  cscript translate.js /sourcelang:"Russian" /release:"Langpack_rusian.txt"  *//
-//* will output a "release" version of langpack, using files in \langpacks\russian\ with  *//
-//* =HEAD=.txt, but "clean" - no file refference and no untranslated strings inside       *//
-//*****************************************************************************************//
+//*************************************************************************************************************************************************************************** *//
+//* Name:     translate.js                                                                                                                                                    *//
+//* Language: JScript                                                                                                                                                         *//
+//* Function: Parse Miranda-NG translation templates and get translated strings                                                                                               *//
+//* Author:   BasiL                                                                                                                                                           *//
+//* Usage:    cscript /nologo translate.js  to run generation in batches                                                                                                      *//
+//* Usage:    cscript /nologo translate.js /log:"yes" to enable console logging                                                                                               *//
+//* Usage:    cscript /nologo translate.js /plugin:"path\file" for one template                                                                                               *//
+//* Usage:    cscript /nologo translate.js /path:"path\to\folder" folder with .\Plugins, .\Weather subfolders and =CORE=.txt file                                             *//
+//* Usage:    cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file                                                                                           *//
+//* Usage:    cscript /nologo translate.js /sourcelang:"language" instead of /path param if your .\Plugins, .\Weather, =CORE=.txt and langpack_%lang%.txt in trunk .\langpacks*//
+//* Usage:    cscript /nologo translate.js /out:"path\folder" output result to folder                                                                                         *//
+//* Usage:    cscript /nologo translate.js /outfile:"path\file" output result to one file                                                                                     *//
+//* Usage:    cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack                                                                                          *//
+//* Usage:    cscript /nologo translate.js /noref:"yes" - remove ref. ";file path\file"                                                                                       *//
+//* Usage:    cscript /nologo translate.js /untranslated:"yes|path"  untranslated-only strings output to separated files                                                      *//
+//* Usage:    cscript /nologo translate.js /popuntranslated:"yes"  remove untranslated string and empty line below from output files                                          *//
+//* Usage:    cscript /nologo translate.js /sourcelang:"russian" /release:"path\file"                                                                                         *//
+//* Note:     script will use following sequense to find a translation for string:                                                                                            *//
+//* 1) Try to get translation from a same file name. Example: /langpack/english/plugin/TabSRMM.txt strings will be checked in file named TabSRMM.txt in folder from /path:    *//
+//* if you specify a "path" - /path:"path\folder", so look in path\folder\TabSRMM.txt                                                                                         *//
+//* 2) If not find in step 1), check a string in file DUPES, specified in /dupes parameter                                                                                    *//
+//* 3) If still not found, try to find trasnlation in =CORE=.txt file                                                                                                         *//
+//* 4) Still no luck? Well, check a /langpack:"/path/lang.txt" as a last place.                                                                                               *//
+//* Example1:  cscript /nologo translate.js /langpack:"path\lang.txt" /path:"path/german" will translate english templates using .\plugins translation from path\german and if*//
+//* translation not found, try to find translation in path\lang.txt                                                                                                           *//
+//* Example2:  cscript /nologo translate.js /plugin:"path\file" /langpack:"path\lang.txt" will translate path\file using translation from path\lang.txt                       *//
+//* Example3:  cscript /nologo translate.js /langpack:"path\lang.txt" /outfile:"path\file" will translate all /english/* templates using lang.txt & out langpack in path\file *//
+//* Example4:  cscript /nologo translate.js /sourcelang="Russian" /outfile:"path\file" will translate all /english/* tempaltes using files =CORE=.txt, =DUPES=.txt,           *//
+//* lanpack_Russian.txt from ./langpacks/Russian/ folder, including /langpacks/Russian/Plugins/*                                                                              *//
+//* Example5:  cscript translate.js /sourcelang:"Russian" /release:"Langpack_rusian.txt" will output a "release" version of langpack, using files in \langpacks\russian\ with *//
+//* =HEAD=.txt, but "clean" - no file reference and no untranslated strings inside                                                                                            *//
+//*****************************************************************************************************************************************************************************//
 
 //Init Variables
 //Create FileSystemObject FSO
@@ -51,16 +44,20 @@ var unicode=false;
 var log=false;
 //output translated templates in separated files by default
 var outfile=false;
-//do not remove refference to source file, where we found a translation string
+//do not remove reference to source file, where we found a translation string
 var noref=false;
 //disable output untranslated_* files by default
 var untranslated=false;
+//include untranslated strings and empty line below in output files by default
+var popuntranslated=false;
 //disable release output by default
 var release=false
 //Path variables
 var scriptpath=FSO.GetParentFolderName(WScript.ScriptFullName);
 //crazy way to get path two layers upper "\tools\lpgen\"
 var trunk=FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath)));
+//path to "English" langpack
+var langpackenglish="\\langpacks\\english\\"
 //stream - our variable for output UTF-8 files with BOM
 var stream= new ActiveXObject("ADODB.Stream");
 //stream var tune
@@ -83,10 +80,10 @@ release_array=new Array;
 // if console param /log: specified, put it to var log. To enable log, specify /log:"yes"
 if (WScript.Arguments.Named.Item("log")) log=true;
 
-// if console param /noref: specified, put it to var noref. To remove reff's to files, specifry /noref:"yes"
+// if console param /noref: specified, put it to var noref. To remove ref's to files, specify /noref:"yes"
 if (WScript.Arguments.Named.Item("noref")) noref=true;
 
-// if console param /untranslated: specified, put it to var untranslated. To output untranslated_*  files, specifry /untranslated:"yes", or specify a path to output untranslated files folder
+// if console param /untranslated: specified, put it to var untranslated. To output untranslated_*  files, specify /untranslated:"yes", or specify a path to output untranslated files folder
 if (WScript.Arguments.Named.Item("untranslated")) {
     untranslated=true;
     UnTranslatedPath=WScript.Arguments.Named.Item("untranslated")
@@ -94,6 +91,9 @@ if (WScript.Arguments.Named.Item("untranslated")) {
         CreateFldr(UnTranslatedPath);
         }
     };
+
+//if console param /popuntranslated: specified, put it to var popuntranslated
+if (WScript.Arguments.Named.Item("popuntranslated")) popuntranslated=true;
 
 // if console pararm /outpfile:"\path\filename.txt" given, put it to var outfile.
 if (WScript.Arguments.Named.Item("outfile")) {
@@ -124,7 +124,8 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
    WScript.Quit();
 }
 
-//when /sourcelang specified, setup all source files already existed in trunk. Usefull for running translate.js from trunk. Currenly seldom languages have same files structure, thus it is much more easier to just specify a language folder name, instead of specifying /path, /dupes, /langpack.
+//when /sourcelang specified, setup all source files already existed in trunk. Useful for running translate.js from trunk.
+// Currently seldom languages have same files structure, thus it is much more easier to just specify a language folder name, instead of specifying /path, /dupes, /langpack.
 if (WScript.Arguments.Named.Item("sourcelang")) {
     var sourcelang=WScript.Arguments.Named.Item("sourcelang");
     var langpack_path=FSO.BuildPath(FSO.BuildPath(trunk,"langpacks"),sourcelang);
@@ -170,7 +171,7 @@ if (WScript.Arguments.Named.Item("plugin")) {
 //*********************************************************************************//
 //                                    Main part                                   *//
 //*********************************************************************************//
-//first, check we have files with translated stirngs specified.
+//first, check we have files with translated strngs specified.
 checkparams();
 if (log) WScript.Echo("Translation begin");
 
@@ -191,7 +192,7 @@ GenerateDictionaries ();
 
 if (log) WScript.Echo("Translating Core");
 //Call function for translate core template
-TranslateTemplateFile(FSO.BuildPath(trunk,"langpacks\\english\\=CORE=.txt"),Translated_Core_Array,UnTranslated_Core_Array);
+TranslateTemplateFile(FSO.BuildPath(trunk,langpackenglish+"=CORE=.txt"),Translated_Core_Array,UnTranslated_Core_Array);
 //output core file, if /out specified.
 if (out) OutputFiles(Translated_Core_Array,UnTranslated_Core_Array,"","=CORE=.txt")
 
@@ -201,9 +202,9 @@ TemplateFilesArray=new Array;
 //Init array of weather.ini translation files
 WeatherFilesArray=new Array;
 //Find all template files and put them to array
-FindFiles(FSO.BuildPath(trunk,"langpacks\\english\\plugins\\"),"\\.txt$",TemplateFilesArray)
+FindFiles(FSO.BuildPath(trunk,langpackenglish+"plugins\\"),"\\.txt$",TemplateFilesArray)
 //Find all weather.ini template files and add them into array
-FindFiles(FSO.BuildPath(trunk,"langpacks\\english\\Weather\\"),"\\.txt$",WeatherFilesArray)
+FindFiles(FSO.BuildPath(trunk,langpackenglish+"Weather\\"),"\\.txt$",WeatherFilesArray)
 //Build enumerator for each file array
 TemplateFilesEnum=new Enumerator(TemplateFilesArray);
 WeatherFilesEnum=new Enumerator(WeatherFilesArray);
@@ -263,8 +264,8 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
     //outpath is a /out:"path" + FolderName
     outpath=FSO.BuildPath(out,FolderName);
     //define default path to files in "langpacks\english\plugins"
-    TraslatedTemplateFile=trunk+"\\langpacks\\english\\plugins\\translated_"+FileName
-    UnTranslatedFile=trunk+"\\langpacks\\english\\plugins\\untranslated_"+FileName
+    TraslatedTemplateFile=trunk+langpackenglish+"plugins\\translated_"+FileName
+    UnTranslatedFile=trunk+langpackenglish+"plugins\\untranslated_"+FileName
     
     //redefine path to files, if /out specified
     if (out) {
@@ -274,8 +275,8 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
         
     //redefine path to files, if FileName is a =CORE=.txt
     if (FileName=="=CORE=.txt") {
-        TraslatedTemplateFile=trunk+"\\langpacks\\english\\translated_"+FileName;
-        UnTranslatedFile=trunk+"\\langpacks\\english\\untranslated_"+FileName;
+        TraslatedTemplateFile=trunk+langpackenglish+"translated_"+FileName;
+        UnTranslatedFile=trunk+langpackenglish+"untranslated_"+FileName;
         if (out) {
             // if /out:"/path/folder" specified redefine path of translated and untranslated =CORE=.txt file to parent folder of specified path
             TraslatedTemplateFile=FSO.BuildPath(outpath,FileName);
@@ -412,19 +413,19 @@ function TranslateTemplateFile(Template_file,translated_array,untranslated_array
      englishstring="";
      //read on line
      var line=stream.ReadText(-2);
-     //If we need refference to "; file source\file\path" in template or langpack, put into array every line 
+     //If we need reference to "; file source\file\path" in template or langpack, put into array every line 
      if (!noref) translated_array.push(line);
      //RegExp matching strings, starting from ";file"
-     reffline=line.match(/^;file.+/);
+     refline=line.match(/^;file.+/);
      //RegExp for match a =CORE=.txt header line "Miranda Language Pack Version 1". If /noref specified, remove this line as well.
      headerline=line.match(/^Miranda Language Pack Version 1$/)
      //if /noref enabled, check string and if not matched, add to array
-     if (noref && (!reffline && !headerline)) translated_array.push(line);
+     if (noref && (!refline && !headerline)) translated_array.push(line);
      //same for /release
-     if (release && (!reffline && !headerline)) release_array.push(line);
+     if (release && (!refline && !headerline)) release_array.push(line);
      //find string covered by[] using regexp
      englishstring=line.match(/\[.+\]/);
-     //If current line is english string covered by [], try to find translation in global db
+     //If current line is English string covered by [], try to find translation in global db
      if (englishstring) {
         var cycle = -1;
         var found = false;
@@ -471,12 +472,14 @@ function TranslateTemplateFile(Template_file,translated_array,untranslated_array
         }
 
         if (!found) {
-            //no translation found, put empty line
-            translated_array.push("");
+            //no translation found, put empty line if popuntranslated disabled
+            if (!popuntranslated) translated_array.push("");
             //add to untranslated array
             untranslated_array.push(line);
             //remove from release, no translation found.
             release_array.pop();
+			//remove from translated array if popuntranslated enabled.
+			if (popuntranslated) translated_array.pop();
         }
     }
  }
