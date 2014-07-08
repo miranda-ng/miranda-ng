@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.6.0
+;  Version: 0.2.7.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -199,8 +199,6 @@ El usuario le envió %s:
 
 [Message read: %s by %s]
 Leer mensaje: %s por %s
-[Message read: %s]
-Leer mensaje: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Este mensaje ya no está disponible, porque estaba marcado como abusivo o correo no deseado.
 [%s is typing a message...]
@@ -248,6 +246,8 @@ Notificación
 Nuevas noticias
 [Other Event]
 Otros eventos
+[Message read: %s]
+Leer mensaje: %s
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Icono de Facebook
