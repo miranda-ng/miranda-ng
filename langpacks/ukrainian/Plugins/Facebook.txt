@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.6.0
+;  Version: 0.2.7.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -191,8 +191,6 @@
 Контакт надіслав вкладення, що не підримується. Для перегляду перейдіть на сайт.
 [Message read: %s by %s]
 Повідомлення прочитане о: %s користувачем %s
-[Message read: %s]
-Повідомлення прочитане о: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Повідомлення недоступне, оскільки було відзначене як образа або спам.
 [%s is typing a message...]
@@ -237,6 +235,8 @@
 Новини
 [Other Event]
 Інша подія
+[Message read: %s]
+Повідомлення прочитане о: %s
 [Facebook icon]
 Значок Facebook
 [Mind]
