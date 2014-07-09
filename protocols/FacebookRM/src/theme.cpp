@@ -220,7 +220,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.icolibItem = GetIconHandle("mind");
 	m_hStatusMind = Menu_AddProtoMenuItem(&mi);
 
-	CreateProtoService("/VisitProfile",&FacebookProto::VisitProfile);
+	//CreateProtoService("/VisitProfile",&FacebookProto::VisitProfile);
 	strcpy(tDest,"/VisitProfile");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszName = LPGEN("Visit profile");
@@ -228,7 +228,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	// TODO RM: remember and properly free in destructor?
 	/*m_hStatusMind = */Menu_AddProtoMenuItem(&mi);
 
-	CreateProtoService("/VisitNotifications", &FacebookProto::VisitNotifications);
+	//CreateProtoService("/VisitNotifications", &FacebookProto::VisitNotifications);
 	strcpy(tDest, "/VisitNotifications");
 	mi.pszName = LPGEN("Visit notifications");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);

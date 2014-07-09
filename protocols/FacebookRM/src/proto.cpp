@@ -37,17 +37,19 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 
 	m_invisible = false;
 
-	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
-	CreateProtoService(PS_GETMYAWAYMSG,   &FacebookProto::GetMyAwayMsg);
-	CreateProtoService(PS_GETMYAVATART,   &FacebookProto::GetMyAvatar);
-	CreateProtoService(PS_GETAVATARINFOT, &FacebookProto::GetAvatarInfo);
-	CreateProtoService(PS_GETAVATARCAPS,  &FacebookProto::GetAvatarCaps);
-	CreateProtoService(PS_GETUNREADEMAILCOUNT, &FacebookProto::GetNotificationsCount);
+	CreateProtoService(PS_CREATEACCMGRUI,		&FacebookProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_GETMYAWAYMSG,			&FacebookProto::GetMyAwayMsg);
+	CreateProtoService(PS_GETMYAVATART,			&FacebookProto::GetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFOT,		&FacebookProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS,		&FacebookProto::GetAvatarCaps);
+	CreateProtoService(PS_GETUNREADEMAILCOUNT,	&FacebookProto::GetNotificationsCount);
 
-	CreateProtoService(PS_JOINCHAT,  &FacebookProto::OnJoinChat);
-	CreateProtoService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
+	CreateProtoService(PS_JOINCHAT,				&FacebookProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT,			&FacebookProto::OnLeaveChat);
 
-	CreateProtoService("/Mind", &FacebookProto::OnMind);
+	CreateProtoService("/Mind",					&FacebookProto::OnMind);
+	CreateProtoService("/VisitProfile",			&FacebookProto::VisitProfile);
+	CreateProtoService("/VisitNotifications",	&FacebookProto::VisitNotifications);
 
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu);
 	HookProtoEvent(ME_OPT_INITIALISE,           &FacebookProto::OnOptionsInit);
@@ -921,16 +923,27 @@ void FacebookProto::InitPopups()
  */
 void FacebookProto::InitHotkeys()
 {
-	char module[512];
-	mir_snprintf(module, sizeof(module), "%s/Mind", m_szModuleName);
+	char text[200];
+	strcpy(text, m_szModuleName);
+	char* tDest = text + strlen(text);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.dwFlags = HKD_TCHAR;
-	hkd.ptszDescription = LPGENT("Show 'Share status' window");
-	hkd.pszName = "ShowMindWnd";
+	hkd.pszName = text;
+	hkd.pszService = text;
 	hkd.ptszSection = m_tszUserName;
-	hkd.pszService = module;
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_EXT, 'F');
+	hkd.dwFlags = HKD_TCHAR;
+
+	strcpy(tDest, "/VisitProfile");
+	hkd.ptszDescription = LPGENT("Visit profile");
+	Hotkey_Register(&hkd);
+
+	strcpy(tDest, "/VisitNotifications");
+	hkd.ptszDescription = LPGENT("Visit notifications");
+	Hotkey_Register(&hkd);
+
+	strcpy(tDest, "/Mind");
+	hkd.ptszDescription = LPGENT("Show 'Share status' window");
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_EXT, 'F');
 	Hotkey_Register(&hkd);
 }
 
