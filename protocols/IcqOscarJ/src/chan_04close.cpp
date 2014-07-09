@@ -20,15 +20,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-//
 // -----------------------------------------------------------------------------
-//  DESCRIPTION:
-//
-//  Describe me here please...
-//
-// -----------------------------------------------------------------------------
-#include "icqoscar.h"
 
+#include "icqoscar.h"
 
 void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *info)
 {
@@ -53,7 +47,6 @@ void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *i
 			info->isMigrating = 0;
 		}
 		info->newServerReady = 0;
-
 		return;
 	}
 

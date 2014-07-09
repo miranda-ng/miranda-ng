@@ -20,13 +20,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
-//  DESCRIPTION:
-//
-//  Describe me here please...
-//
-// -----------------------------------------------------------------------------
+
 #include "icqoscar.h"
 
 struct directthreadstartinfo
@@ -52,10 +47,8 @@ void CIcqProto::CloseContactDirectConns(MCONTACT hContact)
 {
 	icq_lock l(directConnListMutex);
 
-	for ( int i = 0; i < directConns.getCount(); i++)
-	{
-		if (!hContact || directConns[i]->hContact == hContact)
-		{
+	for (int i = 0; i < directConns.getCount(); i++) {
+		if (!hContact || directConns[i]->hContact == hContact) {
 			HANDLE hConnection = directConns[i]->hConnection;
 
 			directConns[i]->hConnection = NULL; // do not allow reuse
@@ -481,16 +474,13 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 	}
 
 	// End of packet receiving loop
-
 	NetLib_SafeCloseHandle(&hPacketRecver);
 	CloseDirectConnection(&dc);
 
-	if (dc.ft)
-	{
-		if (dc.ft->fileId != -1)
-		{
+	if (dc.ft) {
+		if (dc.ft->fileId != -1) {
 			_close(dc.ft->fileId);
-			ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, dc.ft->dwBytesDone==dc.ft->dwTotalSize ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, dc.ft, 0);
+			ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, dc.ft->dwBytesDone == dc.ft->dwTotalSize ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, dc.ft, 0);
 		}
 		else if (dc.ft->hConnection)
 			ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, dc.ft, 0);
@@ -500,12 +490,10 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 	}
 
 LBL_Exit:
-  { // remove from DC connection list
-		icq_lock l(directConnListMutex);
-		directConns.remove( &dc );
-	}
+	// remove from DC connection list
+	icq_lock l(directConnListMutex);
+	directConns.remove(&dc);
 }
-
 
 void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 {

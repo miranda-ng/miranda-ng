@@ -20,23 +20,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
-//  DESCRIPTION:
-//
-//  Describe me here please...
-//
-// -----------------------------------------------------------------------------
-#include "icqoscar.h"
 
+#include "icqoscar.h"
 
 WORD generate_flap_sequence()
 {
-  DWORD n = rand(), s = 0;
+	DWORD n = rand(), s = 0;
 
-  for (DWORD i = n; i >>= 3; s += i);
+	for (DWORD i = n; i >>= 3; s += i);
 
-  return (((0 - s) ^ (BYTE)n) & 7 ^ n) + 2;
+	return (((0 - s) ^ (BYTE)n) & 7 ^ n) + 2;
 }
 
 void __fastcall init_generic_packet(icq_packet *pPacket, WORD wHeaderLen)

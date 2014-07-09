@@ -287,19 +287,12 @@ void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, WORD cookieLen) //
 	m_avatarsConnectionPending = FALSE;
 }
 
-
 void CIcqProto::StopAvatarThread()
 {
 	icq_lock l(m_avatarsMutex); // the connection is about to close
-
 	if (m_avatarsConnection)
-	{
 		m_avatarsConnection->shutdownConnection(); // make the thread stop
-	}
-
-	return;
 }
-
 
 #ifdef _DEBUG
 static void NetLog_Hash(CIcqProto *ppro, const char *pszIdent, const BYTE *pHash, int nHashLen)

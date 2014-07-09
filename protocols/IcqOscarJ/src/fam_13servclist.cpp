@@ -20,15 +20,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
-//  DESCRIPTION:
-//
-//  Describe me here please...
-//
-// -----------------------------------------------------------------------------
-#include "icqoscar.h"
 
+#include "icqoscar.h"
 
 static int unpackServerListItem(BYTE **pbuf, WORD *pwLen, char *pszRecordName, WORD *pwGroupId, WORD *pwItemId, WORD *pwItemType, WORD *pwTlvLength);
 
