@@ -65,8 +65,12 @@ struct SrmmWindowData : public MZeroedObject
 	WORD wOldStatus;
 	int cmdListInd;
 	LIST<TCHAR> cmdList;
-	int bIsAutoRTL;
+	bool bIsAutoRTL, bIsMeta;
 	WORD wMinute;
+
+	__forceinline MCONTACT getActiveContact() const
+	{	return (bIsMeta) ? db_mc_getSrmmSub(hContact) : hContact;
+	}
 };
 
 #define DM_REMAKELOG         (WM_USER+11)

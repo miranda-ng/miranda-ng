@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 GlobalMessageData g_dat;
 
-static int dbaddedevent(WPARAM wParam, LPARAM lParam);
-static int ackevent(WPARAM wParam, LPARAM lParam);
-static int AvatarChanged(WPARAM wParam, LPARAM lParam);
-
 IconItem iconList[] =
 {
 	{ LPGEN("Incoming message (10x10)"), "INCOMING", IDI_INCOMING, 10 },
@@ -39,7 +35,7 @@ static void InitIcons(void)
 	Icon_Register(g_hInst, LPGEN("Messaging"), iconList, SIZEOF(iconList), "SRMM");
 }
 
-static int IconsChanged(WPARAM wParam, LPARAM lParam)
+static int IconsChanged(WPARAM, LPARAM)
 {
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
@@ -52,19 +48,52 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-void InitGlobals()
+static int OnMetaChanged(WPARAM hMeta, LPARAM)
 {
-	g_dat.hMessageWindowList = WindowList_Create();
-	
-	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
-	HookEvent(ME_PROTO_ACK, ackevent);
-	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
-	HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
-	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
-
-	ReloadGlobals();
-	InitIcons();
+	if (hMeta) {
+		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hMeta);
+		if (hwnd != NULL)
+			SendMessage(hwnd, DM_GETAVATAR, 0, 0);
+	}
+	return 0;
 }
+
+static int dbaddedevent(WPARAM hContact, LPARAM lParam)
+{
+	if (hContact) {
+		HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
+		if (h)
+			SendMessage(h, HM_DBEVENTADDED, hContact, lParam);
+
+		MCONTACT hEventContact = db_event_getContact((HANDLE)lParam);
+		if (hEventContact != hContact)
+			if ((h = WindowList_Find(g_dat.hMessageWindowList, hEventContact)) != NULL)
+				SendMessage(h, HM_DBEVENTADDED, hEventContact, lParam);
+	}
+	return 0;
+}
+
+static int ackevent(WPARAM wParam, LPARAM lParam)
+{
+	ACKDATA *pAck = (ACKDATA *)lParam;
+	if (pAck && pAck->type == ACKTYPE_MESSAGE) {
+		msgQueue_processack(pAck->hContact, (int)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
+
+		if (pAck->result == ACKRESULT_SUCCESS)
+			SkinPlaySound("SendMsg");
+	}
+	return 0;
+}
+
+int AvatarChanged(WPARAM hContact, LPARAM lParam)
+{
+	HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	if (h)
+		SendMessage(h, HM_AVATARACK, hContact, lParam);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void ReloadGlobals()
 {
@@ -119,35 +148,17 @@ void ReloadGlobals()
 	if (g_dat.msgTimeout < SRMSGSET_MSGTIMEOUT_MIN) g_dat.msgTimeout = SRMSGDEFSET_MSGTIMEOUT;
 }
 
-static int dbaddedevent(WPARAM hContact, LPARAM lParam)
+void InitGlobals()
 {
-	if (hContact) {
-		HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
-		if (h == NULL)
-			h = WindowList_Find(g_dat.hMessageWindowList, hContact = db_event_getContact((HANDLE)lParam));
+	g_dat.hMessageWindowList = WindowList_Create();
 
-		if (h)
-			SendMessage(h, HM_DBEVENTADDED, hContact, lParam);
-	}
-	return 0;
-}
+	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
+	HookEvent(ME_PROTO_ACK, ackevent);
+	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+	HookEvent(ME_MC_DEFAULTTCHANGED, OnMetaChanged);
 
-static int ackevent(WPARAM wParam, LPARAM lParam)
-{
-	ACKDATA *pAck = (ACKDATA *)lParam;
-	if (pAck && pAck->type == ACKTYPE_MESSAGE) {
-		msgQueue_processack(pAck->hContact, (int)pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
-
-		if (pAck->result == ACKRESULT_SUCCESS)
-			SkinPlaySound("SendMsg");
-	}
-	return 0;
-}
-
-int AvatarChanged(WPARAM hContact, LPARAM lParam)
-{
-	HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
-	if (h)
-		SendMessage(h, HM_AVATARACK, hContact, lParam);
-	return 0;
+	ReloadGlobals();
+	InitIcons();
 }

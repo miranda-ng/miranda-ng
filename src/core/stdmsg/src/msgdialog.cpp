@@ -609,7 +609,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 void ShowAvatar(HWND hwndDlg, SrmmWindowData *dat)
 {
 	if (g_dat.flags & SMF_AVATAR) {
-		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->hContact, 0);
+		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->getActiveContact(), 0);
 		if (ace && (INT_PTR)ace != CALLSERVICE_NOTFOUND && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST))
 			dat->avatarPic = ace->hbmPic;
 		else
@@ -693,6 +693,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			dat->hContact = newData->hContact;
+			dat->bIsMeta = db_mc_isMeta(dat->hContact) != 0;
 			dat->hTimeZone = tmi.createByContact(dat->hContact, 0, TZF_KNOWNONLY);
 			dat->wMinute = 61;
 
@@ -701,7 +702,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				int len;
 
 				if (newData->isWchar)
-					SetDlgItemText(hwndDlg, IDC_MESSAGE, (TCHAR *)newData->szInitialText);
+					SetDlgItemText(hwndDlg, IDC_MESSAGE, (TCHAR*)newData->szInitialText);
 				else
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
 				len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
