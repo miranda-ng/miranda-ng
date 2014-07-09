@@ -557,22 +557,6 @@ HTML вывод невозможен.
 Создавать статистику в фоновом процессе с низким приоритетом
 [Path to browser (leave blank for system default)]
 Путь к браузеру (пусто = системный браузер)
-[Create statistics for metacontacts and their subcontacts]
-Создает статистику для метаконтактов и субконтактов
-[The following information is only relevant if you already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
-Следующая информация для тех, кто использует метаконтакты.\r\n\r\nHistoryStats отлично взаимодействует с метаконтактами и способен собирать данные не только от метаконтактов, но и от субконтактов. Также HistoryStats умеет объединять историю всех субконтактов. Вы можете настроить взаимодействие с метаконтактами во вкладке "Ввод".
-[Automatically get updates of HistoryStats]
-Автоматически обновляет HistoryStats
-[Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
-Используйте этот плагин для автоматического уведомления о новой версии HistoryStats. Этот плагин автоматически установит обновлённую версию. Пожалуйста, используйте последнюю версию этого плагина.
-[Updater|Updater (Unicode)]
-Updater|Updater (Юникод)
-[Easily exchange icons in HistoryStats' user interface]
-Смена значков интерфейса HistoryStats
-[Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this.]
-Используйте этот плагин, чтобы настроить большинство значков интерфейса HistoryStats. Пожалуйста, используйте версию 0.0.1.0 или старше, иначе HistoryStats не появится в настройках IcoLib. Если у вас Miranda IM версии 0.7.0 альфа 3 или старше, отдельный плагин IcoLib не требуется.
-[Icons Library Manager]
-Менеджер значков
 [Supported plugins (double-click to learn more):]
 Поддерживаемые плагины (двойной щелчок для информации):
 [HistoryStats supports several plugins. Click to hide info...]
