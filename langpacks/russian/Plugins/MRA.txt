@@ -34,7 +34,7 @@
 [Notify me when a message delivery has failed]
 Уведомить меня, если сообщение не доставлено
 [Notify about new mail if increment]
-Уведомлять только о новой почте
+Уведомлять о почте, только если счётчик увеличился
 [Notify about new mail tray icon]
 Показывать значок в трее при приходе почты
 [Click to Inbox]
