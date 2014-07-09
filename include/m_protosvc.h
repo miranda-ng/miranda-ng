@@ -143,6 +143,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PF4_IMSENDOFFLINE    0x00000100 // protocol supports sending offline messages (v0.8.0+)
 #define PF4_INFOSETTINGSVC   0x00000200 // protocol supports user info translation services (v0.8.0+)
 #define PF4_NOAUTHDENYREASON 0x00000400 // protocol doesn't support authorization deny reason (v0.9.0+)
+#define PF4_GROUPCHATFILES   0x00000800 // protocol supports sending files to group chats (v0.95.2+)
 
 #define PFLAG_UNIQUEIDTEXT  100    //returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 

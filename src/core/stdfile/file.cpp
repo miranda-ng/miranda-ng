@@ -308,7 +308,8 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 	bool bEnabled = false;
 	char *szProto = GetContactProto(wParam);
 	if (szProto != NULL) {
-		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
+		bool isChat = db_get_b(wParam, szProto, "ChatRoom", false) != 0;
+		if (CallProtoService(szProto, PS_GETCAPS, isChat ? PFLAGNUM_4 : PFLAGNUM_1, 0) & (isChat ? PF4_GROUPCHATFILES : PF1_FILESEND)) {
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
 				bEnabled = true;
 			else if (db_get_w(wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
