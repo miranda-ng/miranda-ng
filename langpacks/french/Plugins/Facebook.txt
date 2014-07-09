@@ -238,6 +238,10 @@ Partager le statut
 
 [Do you want to cancel your friendship with '%s'?]
 
+[Visit profile]
+Visiter le profil
+[Visit notifications]
+
 [Show 'Share status' window]
 
 [Notification]
@@ -263,8 +267,6 @@ Poke
 Conversation
 [Message read]
 
-[Visit profile]
-Visiter le profil
 [Visit friendship details]
 Voir les détails
 [Visit conversation]
@@ -276,8 +278,6 @@ Supprimer
 [Request friendship]
 
 [Approve friendship]
-
-[Visit notifications]
 
 [Services...]
 Services...

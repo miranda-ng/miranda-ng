@@ -238,6 +238,10 @@ Sprawdzanie zaproszeń do grona znajomych...
 Odświeżanie listy kontaktów...
 [Do you want to cancel your friendship with '%s'?]
 Czy chcesz anulować znajomość z "%s"?
+[Visit profile]
+Odwiedź profil
+[Visit notifications]
+Przejdź do powiadomień
 [Show 'Share status' window]
 Pokaż okno "Udostępnij status"
 [Notification]
@@ -263,8 +267,6 @@ Dane znajomości
 Rozmowa
 [Message read]
 Wiadomość odczytana
-[Visit profile]
-Odwiedź profil
 [Visit friendship details]
 Sprawdź dane znajomości
 [Visit conversation]
@@ -277,8 +279,6 @@ Cofnij zaproszenie
 Zaproś do grona znajomych
 [Approve friendship]
 Zatwierdź znajomość
-[Visit notifications]
-Przejdź do powiadomień
 [Services...]
 Usługi...
 [Refresh Buddy List]

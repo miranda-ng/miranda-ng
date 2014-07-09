@@ -238,6 +238,10 @@ Comprobando solicitudes de amistad...
 Refrescando lista de amigos...
 [Do you want to cancel your friendship with '%s'?]
 ¿Quiere cancelar su amistad con '%s'?
+[Visit profile]
+Visitar perfil
+[Visit notifications]
+
 [Show 'Share status' window]
 Mostrar ventana "Compartir estado'
 [Notification]
@@ -263,8 +267,6 @@ Detalles de amistad
 
 [Message read]
 
-[Visit profile]
-Visitar perfil
 [Visit friendship details]
 Visitar detalles de amistad
 [Visit conversation]
@@ -277,8 +279,6 @@ Cancelar solicitud de amistad
 Solicitud de amistad
 [Approve friendship]
 Aprobar amistad
-[Visit notifications]
-
 [Services...]
 Servicios...
 [Refresh Buddy List]

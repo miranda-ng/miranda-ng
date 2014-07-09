@@ -227,6 +227,10 @@
 Оновлення списку друзів...
 [Do you want to cancel your friendship with '%s'?]
 Ви впевнені, що хочете видалити "%s" з друзів?
+[Visit profile]
+Профіль
+[Visit notifications]
+Сповіщення
 [Show 'Share status' window]
 Повідомлення статусу Facebook
 [Notification]
@@ -251,8 +255,6 @@
 Бесіда
 [Message read]
 Прочитане повідомлення
-[Visit profile]
-Профіль
 [Visit friendship details]
 Інформація про дружбу
 [Visit conversation]
@@ -265,8 +267,6 @@
 Запитати додавання в друзі
 [Approve friendship]
 Підтвердити додавання в друзі
-[Visit notifications]
-Сповіщення
 [Services...]
 Служби...
 [Refresh Buddy List]

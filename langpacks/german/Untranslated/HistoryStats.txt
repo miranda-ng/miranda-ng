@@ -1,4 +1,1 @@
-﻿[Metacontacts plugin]
-[Updater|Updater (Unicode)]
-[Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this.]
-[Icons Library Manager]
+﻿[At this time there is no external plugin supported.]

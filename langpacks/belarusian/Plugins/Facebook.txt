@@ -230,6 +230,8 @@ Facebook ID павінна быць лічбавым значэннем.
 Абнаўленне спісу сяброў...
 [Do you want to cancel your friendship with '%s'?]
 Хочаце адмяніць сяброўства з '%s'?
+[Visit profile]
+Профіль
 [Show 'Share status' window]
 Паведамленне статуса Facebook
 [Notification]
@@ -253,8 +255,6 @@ Facebook ID павінна быць лічбавым значэннем.
 Дэталі сяброўства
 [Conversation]
 Гутарка
-[Visit profile]
-Профіль
 [Visit friendship details]
 Дэталі сяброўства
 [Visit conversation]

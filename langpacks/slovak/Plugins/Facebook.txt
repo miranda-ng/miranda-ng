@@ -238,6 +238,10 @@ Podrobne
 
 [Do you want to cancel your friendship with '%s'?]
 
+[Visit profile]
+
+[Visit notifications]
+
 [Show 'Share status' window]
 
 [Notification]
@@ -263,8 +267,6 @@ Podrobne
 
 [Message read]
 
-[Visit profile]
-
 [Visit friendship details]
 
 [Visit conversation]
@@ -276,8 +278,6 @@ Podrobne
 [Request friendship]
 
 [Approve friendship]
-
-[Visit notifications]
 
 [Services...]
 

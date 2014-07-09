@@ -238,6 +238,10 @@ Freundschaftsanfragen überprüfen...
 Freundesliste aktualisieren...
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" beenden?
+[Visit profile]
+Profil besuchen
+[Visit notifications]
+Benachrichtigungen besuchen
 [Show 'Share status' window]
 'Status teilen'-Fenster anzeigen
 [Notification]
@@ -263,8 +267,6 @@ Freundschaft-Details
 Unterhaltung
 [Message read]
 Nachricht gelesen
-[Visit profile]
-Profil besuchen
 [Visit friendship details]
 Freundschaft-Details besuchen
 [Visit conversation]
@@ -277,8 +279,6 @@ Freundschaftsanfrage abbrechen
 Freundschaftsanfrage
 [Approve friendship]
 Freundschaft genehmigen
-[Visit notifications]
-Benachrichtigungen besuchen
 [Services...]
 Dienste...
 [Refresh Buddy List]

@@ -5,7 +5,7 @@
 [Number of messages to load:]
 [Pages]
 [User sent an unsupported attachment. Open your browser to see it.]
+[Visit notifications]
 [Conversation]
 [Message read]
 [Visit conversation]
-[Visit notifications]
