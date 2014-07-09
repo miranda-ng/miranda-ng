@@ -617,7 +617,7 @@ int UpdateValues(WPARAM hContact,LPARAM lparam)
 			db_set_b(hContact, S_MOD, "Offline", 0);
 		}
 	}
-	else if (hContact && IsWatchedProtocol(cws->szModule)) {
+	else if (hContact && IsWatchedProtocol(cws->szModule) && !db_get_b(hContact, cws->szModule, "ChatRoom", false)) {
 		//here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
 		if ( CallProtoService(cws->szModule,PS_GETSTATUS,0,0) > ID_STATUS_OFFLINE){
 			mir_cslock lck(csContacts);

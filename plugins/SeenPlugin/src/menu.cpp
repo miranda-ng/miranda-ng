@@ -41,7 +41,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM)
 	char *szProto = GetContactProto(hContact);
 
 	CLISTMENUITEM cmi = { sizeof(cmi) };
-	if (!IsWatchedProtocol(szProto) || !db_get_b(NULL,S_MOD,"MenuItem",1))
+	if (!IsWatchedProtocol(szProto) || db_get_b(hContact, szProto, "ChatRoom", false) || !db_get_b(NULL, S_MOD, "MenuItem", 1))
 		cmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 	else {
 		cmi.flags = CMIM_NAME | CMIM_FLAGS | CMIM_ICON | CMIF_TCHAR;
