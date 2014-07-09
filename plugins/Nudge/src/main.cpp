@@ -28,13 +28,15 @@ PLUGININFOEX pluginInfo = {
 	{ 0xe47cc215, 0xd28, 0x462d, { 0xa0, 0xf6, 0x3a, 0xe4, 0x44, 0x3d, 0x29, 0x26 } }
 };
 
-INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
+INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 {
-	for (NudgeElementList *n = NudgeList; n != NULL; n = n->next)
+	for (NudgeElementList *n = NudgeList; n != NULL; n = n->next) {
 		if (!strcmp((char *)wParam, n->item.ProtocolName)) {
-			Menu_ShowItem(n->item.hContactMenu, lParam != 0);
+			bool bEnabled = GlobalNudge.useByProtocol ? n->item.enabled : DefaultNudge.enabled;
+			Menu_ShowItem(n->item.hContactMenu, bEnabled && lParam != 0);
 			break;
 		}
+	}
 
 	return 0;
 }
@@ -263,7 +265,7 @@ void HideNudgeButton(MCONTACT hContact)
 	}
 }
 
-static int ContactWindowOpen(WPARAM wparam, LPARAM lParam)
+static int ContactWindowOpen(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
 	if (MWeventdata->uType == MSG_WINDOW_EVT_OPENING && MWeventdata->hContact)
@@ -272,10 +274,23 @@ static int ContactWindowOpen(WPARAM wparam, LPARAM lParam)
 	return 0;
 }
 
+static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+{
+	char *szProto = GetContactProto(wParam);
+	if (szProto != NULL) {
+		bool isChat = db_get_b(wParam, szProto, "ChatRoom", false) != 0;
+		NudgeShowMenu((WPARAM)szProto, (LPARAM)!isChat);
+	}
+
+	return 0;
+}
+
 int ModulesLoaded(WPARAM, LPARAM)
 {
 	LoadProtocols();
 	LoadPopupClass();
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	if (HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonInit)) {
 		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
