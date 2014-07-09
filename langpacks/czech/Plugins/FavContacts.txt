@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FavContacts.dll
 ;  Plugin: Favorite contacts
-;  Version: 0.0.0.7
+;  Version: 0.1.0.2
 ;  Authors: Victor Pavlychko
 ;============================================================
 [Favorite contacts menu.]
@@ -52,6 +52,13 @@ posledních kontaktů
 Oblíbený kontakt
 [Regular Contact]
 Obyčejný kontakt
+[Favorites]
+Oblíbené
+;file \plugins\FavContacts\src\menu.cpp
+;file \plugins\FavContacts\src\options.cpp
+[Contacts]
+Kontakty
+;file \plugins\FavContacts\src\services.cpp
 [Contact name]
 Jméno kontaktu
 [Second line]
@@ -66,9 +73,3 @@ Pozadí
 Vybrané pozadí
 [Show favorite contacts]
 Zobrazit oblíbené kontakty
-[Contacts]
-Kontakty
-[Favorites]
-Oblíbené
-[&Favorite Contacts...]
-&Oblíbené kontakty...

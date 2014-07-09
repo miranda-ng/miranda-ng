@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.6.0
+;  Version: 0.2.7.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -199,8 +199,6 @@ Uživatel odeslal %s:
 Uživatel odeslal nepodporovanou přílohu. Otevřte webový prohlížeč pro její zobrazení.
 [Message read: %s by %s]
 Zpráva byla přečtena: %s - %s
-[Message read: %s]
-Zpráva byla přečtena: %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Tato zpráva již není dostupná, protože byla označena jako urážlivá nebo spam.
 [%s is typing a message...]
@@ -240,6 +238,10 @@ Kontrola žádostí o přátelství...
 Obnovování seznamu kontaktů...
 [Do you want to cancel your friendship with '%s'?]
 Přejete si zrušit vaše přátelství s '%s'?
+[Visit profile]
+Zobrazit profil
+[Visit notifications]
+Zobrazit upozornění
 [Show 'Share status' window]
 Zobrazit okno pro sdílení stavu
 [Notification]
@@ -248,6 +250,8 @@ Oznámení
 Novinky
 [Other Event]
 Ostatní události
+[Message read: %s]
+Zpráva byla přečtena: %s
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Ikona Facebooku
@@ -263,8 +267,6 @@ Podrobnosti o přátelství
 Konverzace
 [Message read]
 Zpráva přečtena
-[Visit profile]
-Zobrazit profil
 [Visit friendship details]
 Zobrazit podrobnosti o přátelství
 [Visit conversation]
@@ -277,8 +279,6 @@ Zrušit požadavek o přátelství
 Požádat o přátelství
 [Approve friendship]
 Potvrdit přátelství
-[Visit notifications]
-Zobrazit upozornění
 [Services...]
 Služby
 [Refresh Buddy List]

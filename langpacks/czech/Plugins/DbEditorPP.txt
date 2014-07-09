@@ -10,6 +10,12 @@ Pokročilý editor databáze.
 ;file \plugins\DbEditorPP\res\resource.rc
 [Database Editor++ search and replace]
 Editor databáze :: Hledání a nahrazení
+[Search for]
+Hledat:
+[Text:]
+Text:
+[In:]
+V:
 [Case sensitive]
 Rozlišovat malá a VELKÁ
 [Module name]
@@ -22,22 +28,16 @@ Název nastavení
 Hodnota
 [&Search]
 &Hledat
+[Replace with]
+Nahradit
+[Entirely]
+Kompletně
 [Found field]
 Nalezeno pole
 [&Replace]
 Nah&radit
 [&Cancel]
 &Zrušit
-[Search for]
-Hledat:
-[Text:]
-Text:
-[In:]
-V:
-[Replace with]
-Nahradit
-[Entirely]
-Kompletně
 [Restore last opened position]
 Zapamatovat pozici okna
 [Automatically expand "Settings" when Database Editor++ starts]
@@ -60,6 +60,18 @@ Přidat všem kontaktům (včetně nastavení)
 Zrušit
 [Edit setting]
 Upravit nastavení
+[Value name:]
+Název hodnoty:
+[Value data:]
+Obsah hodnoty:
+[Base]
+Číselná soustava
+[Hexadecimal]
+Hexadecimální
+[Decimal]
+Decimální
+[Save value as:]
+Definice hodnoty
 [Byte]
 Byte
 [Word]
@@ -68,34 +80,22 @@ Word
 Dword
 [String]
 String
-[Hexadecimal]
-Hexadecimální
-[Decimal]
-Decimální
-[Value name:]
-Název hodnoty:
-[Value data:]
-Obsah hodnoty:
-[Base]
-Číselná soustava
-[Save value as:]
-Definice hodnoty
 [Watched database settings]
 Sledované proměnné v databázi
 [Copy module to contact]
 Zkopírovat modul do kontaktu
-[Copy to all contacts (including Settings)]
-Zkopírovat všem kontaktům (včetně nastavení)
 [Contact to copy module and settings to]
 Zkopírovat modul a nastavení do kontaktu
+[Copy to all contacts (including Settings)]
+Zkopírovat všem kontaktům (včetně nastavení)
 [Import module/settings]
 Importovat modul/nastavení
+[Paste the settings to import here.]
+Zde vložte požadovaný text:
 [Import]
 Importovat
 [Insert &CR/LF]
 Vložit &CR/LF
-[Paste the settings to import here.]
-Zde vložte požadovaný text:
 [Database Editor++]
 Editor databáze ++
 [&Main]

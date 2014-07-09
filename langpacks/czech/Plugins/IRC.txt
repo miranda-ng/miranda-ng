@@ -492,6 +492,26 @@ Upravit server
 <automaticky>
 [<Local IP: ]
 <lokální IP: 
+[Event: Available]
+
+[Event: Away]
+
+[Event: N/A]
+
+[Event: Occupied]
+
+[Event: DND]
+
+[Event: Free for chat]
+
+[Event: On the phone]
+
+[Event: Out for lunch]
+
+[Event: Disconnect]
+
+[ALL NETWORKS]
+Všechny sítě
 [Click to set commands that will be performed for this event]
 Přidá příkazy k vybrané události
 [Click to delete the commands for this event]
