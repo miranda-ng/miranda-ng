@@ -441,6 +441,16 @@ static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static int MetaContactChanged(WPARAM hMeta, LPARAM)
+{
+	if (hMeta) {
+		HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hMeta);
+		if (hwnd != NULL)
+			SendMessage(hwnd, DM_GETAVATAR, 0, 0);
+	}
+	return 0;
+}
+
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	ReloadGlobals();
@@ -462,6 +472,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	HookEvent(ME_FONT_RELOAD, FontServiceFontsChanged);
 	HookEvent(ME_MSG_ICONPRESSED, StatusIconPressed);
+	HookEvent(ME_MC_DEFAULTTCHANGED, MetaContactChanged);
 
 	RestoreUnreadMessageAlerts();
 	Chat_ModulesLoaded(wParam, lParam);
@@ -469,7 +480,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int OnSystemPreshutdown(WPARAM wParam, LPARAM lParam)
+int OnSystemPreshutdown(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
 	WindowList_Broadcast(g_dat.hParentWindowList, WM_CLOSE, 0, 0);

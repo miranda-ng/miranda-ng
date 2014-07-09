@@ -25,9 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 GlobalMessageData g_dat;
 
-static int ackevent(WPARAM wParam, LPARAM lParam);
-
-extern int    Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam);
+int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam);
 
 static const char *buttonIcons[] = {"scriver_CLOSEX", "scriver_QUOTE", "scriver_SMILEY", 
 									"scriver_ADD", NULL, "scriver_USERDETAILS", "scriver_HISTORY", 
@@ -102,6 +100,80 @@ void RegisterIcons(void)
 	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList,    16);
 	Icon_Register(g_hInst, LPGEN("Group chats"),      iconList+16, 20);
 	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList+36, 14);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int ackevent(WPARAM wParam, LPARAM lParam)
+{
+	ACKDATA *pAck = (ACKDATA *)lParam;
+	if (!pAck)
+		return 0;
+
+	if (pAck->type != ACKTYPE_MESSAGE)
+		return 0;
+
+	MCONTACT hContact = pAck->hContact;
+	MessageSendQueueItem *item = FindSendQueueItem(hContact, (HANDLE)pAck->hProcess);
+	if (item == NULL)
+		item = FindSendQueueItem(hContact = db_mc_getMeta(pAck->hContact), (HANDLE)pAck->hProcess);
+	if (item == NULL)
+		return 0;
+
+	HWND hwndSender = item->hwndSender;
+	if (pAck->result == ACKRESULT_FAILED) {
+		if (item->hwndErrorDlg != NULL)
+			item = FindOldestPendingSendQueueItem(hwndSender, hContact);
+
+		if (item != NULL && item->hwndErrorDlg == NULL) {
+			if (hwndSender != NULL) {
+				ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));
+				ewd->szName = GetNickname(item->hContact, item->proto);
+				ewd->szDescription = mir_a2t((char *)pAck->lParam);
+				ewd->szText = GetSendBufferMsg(item);
+				ewd->hwndParent = hwndSender;
+				ewd->queueItem = item;
+				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
+				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
+			}
+			else RemoveSendQueueItem(item);
+		}
+		return 0;
+	}
+
+	hContact = (db_mc_isMeta(hContact)) ? db_mc_getSrmmSub(item->hContact) : item->hContact;
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.flags = DBEF_SENT | ((item->flags & PREF_RTL) ? DBEF_RTL : 0);
+	if (item->flags & PREF_UTF)
+		dbei.flags |= DBEF_UTF;
+	dbei.szModule = GetContactProto(hContact);
+	dbei.timestamp = time(NULL);
+	dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
+	if (!(item->flags & PREF_UTF))
+		dbei.cbBlob *= sizeof(TCHAR) + 1;
+	dbei.pBlob = (PBYTE)item->sendBuffer;
+
+	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, hContact, &dbei };
+	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
+
+	item->sendBuffer = (char *)dbei.pBlob;
+	db_event_add(hContact, &dbei);
+
+	if (item->hwndErrorDlg != NULL)
+		DestroyWindow(item->hwndErrorDlg);
+
+	if (RemoveSendQueueItem(item) && db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
+		if (hwndSender != NULL)
+			DestroyWindow(hwndSender);
+	}
+	else if (hwndSender != NULL) {
+		SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
+		SkinPlaySound("SendMsg");
+	}
+
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -388,75 +460,4 @@ void ReloadGlobals()
 	g_dat.limitNamesLength = db_get_dw(NULL, SRMMMOD, SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN);
 	g_dat.limitTabsNum = db_get_dw(NULL, SRMMMOD, SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM);
 	g_dat.limitChatsTabsNum = db_get_dw(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM);
-}
-
-static int ackevent(WPARAM wParam, LPARAM lParam)
-{
-	ACKDATA *pAck = (ACKDATA *)lParam;
-	if (!pAck)
-		return 0;
-
-	if (pAck->type != ACKTYPE_MESSAGE)
-		return 0;
-
-	MCONTACT hContact = pAck->hContact;
-	MessageSendQueueItem *item = FindSendQueueItem(hContact, (HANDLE)pAck->hProcess);
-	if (item == NULL)
-		item = FindSendQueueItem(hContact = db_mc_getMeta(pAck->hContact), (HANDLE)pAck->hProcess);
-	if (item == NULL)
-		return 0;
-
-	HWND hwndSender = item->hwndSender;
-	if (pAck->result == ACKRESULT_FAILED) {
-		if (item->hwndErrorDlg != NULL)
-			item = FindOldestPendingSendQueueItem(hwndSender, hContact);
-
-		if (item != NULL && item->hwndErrorDlg == NULL) {
-			if (hwndSender != NULL) {
-				ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));
-				ewd->szName = GetNickname(item->hContact, item->proto);
-				ewd->szDescription = mir_a2t((char *)pAck->lParam);
-				ewd->szText = GetSendBufferMsg(item);
-				ewd->hwndParent = hwndSender;
-				ewd->queueItem = item;
-				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
-				SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
-			}
-			else
-				RemoveSendQueueItem(item);
-		}
-		return 0;
-	}
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT | ((item->flags & PREF_RTL) ? DBEF_RTL : 0);
-	if (item->flags & PREF_UTF)
-		dbei.flags |= DBEF_UTF;
-	dbei.szModule = GetContactProto(item->hContact);
-	dbei.timestamp = time(NULL);
-	dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
-	if (!(item->flags & PREF_UTF))
-		dbei.cbBlob *= sizeof(TCHAR) + 1;
-	dbei.pBlob = (PBYTE)item->sendBuffer;
-
-	MessageWindowEvent evt = { sizeof(evt), (int)item->hSendId, item->hContact, &dbei };
-	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
-
-	item->sendBuffer = (char *)dbei.pBlob;
-	db_event_add(item->hContact, &dbei);
-
-	if (item->hwndErrorDlg != NULL)
-		DestroyWindow(item->hwndErrorDlg);
-
-	if (RemoveSendQueueItem(item) && db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
-		if (hwndSender != NULL)
-			DestroyWindow(hwndSender);
-	}
-	else if (hwndSender != NULL) {
-		SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
-		SkinPlaySound("SendMsg");
-	}
-
-	return 0;
 }
