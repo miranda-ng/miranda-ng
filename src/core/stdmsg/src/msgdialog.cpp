@@ -119,6 +119,9 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto)
 	if (sendBuffer == NULL)
 		return NULL;
 
+	if (db_mc_isMeta(hContact))
+		hContact = db_mc_getSrmmSub(hContact);
+
 	int sendId = CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
