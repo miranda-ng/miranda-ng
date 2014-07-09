@@ -87,7 +87,7 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 		if (!chain->getLength(0x06, 1)) {
 			disposeChain(&chain);
 			SetCurrentStatus(ID_STATUS_OFFLINE);
-			icq_serverDisconnect(FALSE);
+			icq_serverDisconnect();
 			return; // Failure
 		}
 	}

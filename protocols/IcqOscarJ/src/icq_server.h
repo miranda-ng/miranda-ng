@@ -40,32 +40,23 @@ struct serverthread_start_info
 struct serverthread_info
 {
 	struct CIcqProto *ppro;
-	int bLoggedIn;
-	int isLoginServer;
+	int  bLoggedIn;
+	int  isLoginServer;
 	BYTE szAuthKey[20];
 	WORD wAuthKeyLen;
 	WORD wServerPort;
 	char *newServer;
 	BYTE *cookieData;
-	int cookieDataLen;
-	int newServerSSL;
-	int newServerReady;
-	int isMigrating;
+	int  cookieDataLen;
+	int  newServerSSL;
+	int  newServerReady;
+	int  isMigrating;
+	int  bReinitRecver;
+	int  bMyAvatarInited;
+
 	HANDLE hPacketRecver;
-	int bReinitRecver;
-	int bMyAvatarInited;
-//
 	HANDLE hDirectBoundPort;
-//
 	HANDLE hKeepAliveEvent;
 };
-
-/*---------* Functions *---------------*/
-
-void icq_serverDisconnect(BOOL bBlock);
-void icq_login(const char *szPassword);
-
-int IsServerOverRate(WORD wFamily, WORD wCommand, int nLevel);
-
 
 #endif /* __ICQ_SERVER_H */

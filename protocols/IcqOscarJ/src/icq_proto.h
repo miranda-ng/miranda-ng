@@ -555,7 +555,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   __cdecl SendPacketAsyncThread(icq_packet* pArgs);
 	void   __cdecl ServerThread(serverthread_start_info *infoParam);
 
-	void   icq_serverDisconnect(BOOL bBlock);
+	void   icq_serverDisconnect(void);
 	void   icq_login(const char* szPassword);
 
 	int    handleServerPackets(BYTE *buf, int len, serverthread_info *info);

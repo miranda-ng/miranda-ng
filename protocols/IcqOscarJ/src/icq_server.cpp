@@ -210,25 +210,21 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	debugLogA("%s thread ended.", "Server");
 }
 
-
-void CIcqProto::icq_serverDisconnect(BOOL bBlock)
+void CIcqProto::icq_serverDisconnect()
 {
-	if ( !hServerConn)
+	if (!hServerConn)
 		return;
 
 	debugLogA("Server shutdown requested");
 	Netlib_Shutdown(hServerConn);
 
+	debugLogA("Dropping server thread");
 	if (serverThreadHandle) {
-		// Not called from network thread?
-		if (bBlock && GetCurrentThreadId() != serverThreadId)
-			while (ICQWaitForSingleObject(serverThreadHandle, INFINITE) != WAIT_OBJECT_0);
-
+		debugLogA("Closing server thread handle: %08p", serverThreadHandle);
 		CloseHandle(serverThreadHandle);
 		serverThreadHandle = NULL;
 	}
 }
-
 
 int CIcqProto::handleServerPackets(BYTE *buf, int len, serverthread_info *info)
 {
@@ -328,7 +324,7 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 			DWORD dwErrorCode = GetLastError();
 			if (dwErrorCode != WSAESHUTDOWN)
 				icq_LogUsingErrorCode(LOG_ERROR, GetLastError(), LPGEN("Your connection with the ICQ server was abortively closed"));
-			icq_serverDisconnect(FALSE);
+			icq_serverDisconnect();
 
 			if (m_iStatus != ID_STATUS_OFFLINE)
 				SetCurrentStatus(ID_STATUS_OFFLINE);
