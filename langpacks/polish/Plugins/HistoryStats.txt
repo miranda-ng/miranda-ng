@@ -344,10 +344,6 @@ wday3:Pią
 wday3:Sob
 [wday3:Sun]
 wday3:Nie
-[[#{hour}:00-#{hour}:59] #{amount}]
-[#{hour}:00-#{hour}:59] #{amount}
-[[#{day}] #{amount}]
-[#{day}] #{amount}
 [#{amount}]
 #{amount}
 ;file \plugins\HistoryStats\src\column_split.h
@@ -396,14 +392,6 @@ Graficzny podgląd zachowań w rozmowie (wychodzące, przychodzące, wszystkie, 
 Harmonogram dla #{data}
 [Timeline]
 Harmonogram
-[[#{start_date}-#{end_date}] #{amount}]
-[#{start_date}-#{end_date}] #{amount}
-[[#{date}] #{amount}]
-[#{date}] #{amount}
-[[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
-[#{start_date}-#{end_date}] #{out_amount} (wychodzących) / #{in_amount} (przychodzących)
-[[#{date}] #{out_amount} (out) / #{in_amount} (in)]
-[#{date}] #{out_amount} (wychodzących) / #{in_amount} (przychodzących)
 ;file \plugins\HistoryStats\src\column_timeline.h
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 Kolumna przedstawia graficzny przegląd twoich nawyków czatowania (wychodzące, w sumie, przychodzące/wychodzące, stosunek) od pierwszego do ostatniego dnia historii każdego dnia. Możliwe jest zgrupowanie wielu dni. Różne sposoby mierzenia twoich nawyków są możliwe.
@@ -606,24 +594,8 @@ Różne
 Generuje statystyki w tle z niskim priorytetem
 [Path to browser (leave blank for system default)]
 Ścieżka do przeglądarki (pozostaw pustą jeśli chcesz użyć domyślnej)
-[Create statistics for metacontacts and their subcontacts]
-Utwórz statystyki dla metakontaktów i subkontaktów
-[The following information is only relevant if you already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the "Input" options.]
-Następujące informacje są właściwe tylko wtedy, jeśli używasz metakontaktów.\r\n\r\nHistoryStats doskonale integruje się z metakontakami i jest w stanie zbierać dane z metakontaktów, jak również z subkontaktów. Jest w stanie inteligentnie łączyć historię wszystkich subkontaktów i więcej. Możesz skonfigurować integrację metakontaktów w opcjach.
-[Metacontacts plugin]
-Wtyczka metakontakty
-[Automatically get updates of HistoryStats]
-Automatycznie instaluj aktualizacje HistoryStats
-[Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
-Użyj tej wtyczki jeśli chcesz być automatycznie powiadamiany gdy zostanie opublikowana nowa wersja HistoryStats. Wtyczkę można zainstalować w zaktualizowanej wersji. Jak zawsze należy używać najnowszej wersji wtyczki choć nie powinna ona powodować błędów.
-[Updater|Updater (Unicode)]
-Updater|Updater (Unicode)
-[Easily exchange icons in HistoryStats' user interface]
-Łatwa zmiana ikon w interfejsie użytkownika HistoryStats
-[Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this.]
-Użyj tej wtyczki jeśli chcesz dostosować większość ikon interfejsu HistoryStats. Upewnij się aby czy posiadasz wersję 0.0.1.0 lub nowszą. W innym przypadku HistoryStats nie pokaże opcji IcoLib. Jeśli używasz Mirandy IM 0.7.0 alpha #3 lub wyżej nie potrzebujesz już dodatkowej wtyczki
-[Icons Library Manager]
-Menedżer ikon
+[At this time there is no external plugin supported.]
+W chwili obecnej brak wsparcia dla zewnętrznych wtyczek.
 [Supported plugins (double-click to learn more):]
 Obsługiwane wtyczki (kliknij dwukrotnie, aby dowiedzieć się więcej):
 [HistoryStats supports several plugins. Click to hide info...]
