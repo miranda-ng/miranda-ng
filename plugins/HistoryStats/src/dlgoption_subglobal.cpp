@@ -322,25 +322,11 @@ void DlgOption::SubGlobal::initSupportInfo()
 {
 	static const SupportInfo Infos[] = {
 		{
-			_T("Metacontacts"),
-			LPGENT("Create statistics for metacontacts and their subcontacts"),
-			LPGENT("The following information is only relevant if you already use metacontacts.\r\n\r\nHistoryStats perfectly integrates with metacontacts and is able to collect the data from the metacontact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure metacontacts integration in the \"Input\" options."),
-			LPGENT("Metacontacts plugin"),
-			_T("http://addons.miranda-im.org/details.php?action=viewfile&id=1595")
-		},
-		{
-			_T("Updater"),
-			LPGENT("Automatically get updates of HistoryStats"),
-			LPGENT("Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin."),
-			LPGENT("Updater|Updater (Unicode)"),
-			_T("http://addons.miranda-im.org/details.php?action=viewfile&id=2254|http://addons.miranda-im.org/details.php?action=viewfile&id=2596")
-		},
-		{
-			_T("IcoLib"),
-			LPGENT("Easily exchange icons in HistoryStats' user interface"),
-			LPGENT("Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this."),
-			LPGENT("Icons Library Manager"),
-			_T("http://addons.miranda-im.org/details.php?action=viewfile&id=2700")
+			TranslateT("At this time there is no external plugin supported."),
+			LPGENT(""),
+			LPGENT(""),
+			LPGENT(""),
+			_T("")
 		},
 	};
 
