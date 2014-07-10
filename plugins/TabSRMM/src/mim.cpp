@@ -232,14 +232,13 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	int issplit = 1, foundWin = 0, preTyping = 0;
 	BOOL fShowOnClist = TRUE;
 
-	HWND hwnd = NULL;
+	HWND hwnd = M.FindWindow(hContact);
 	MCONTACT hMeta = db_mc_getMeta(hContact);
-	if (hMeta)
-		if (hwnd = M.FindWindow(hMeta))
-			hContact = hMeta;
-
-	if (hwnd == NULL)
-		hwnd = M.FindWindow(hContact);
+	if (hMeta) {
+		if (!hwnd)
+			hwnd = M.FindWindow(hMeta);
+		hContact = hMeta;
+	}
 
 	if (hwnd && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 		preTyping = SendMessage(hwnd, DM_TYPING, 0, mode);
