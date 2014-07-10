@@ -573,6 +573,10 @@ void CDb3Mmap::ConvertEvents()
 		DBContact dbc = *(DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
 		ConvertContactEvents(&dbc);
 		DBWrite(dwOffset, &dbc, sizeof(dbc));
+
+		if (m_contactsMap.find((ConvertedContact*)&dbc.dwContactID) == NULL)
+			m_contactsMap.insert(new ConvertedContact(dwOffset, dbc.dwContactID));
+
 		dwOffset = dbc.ofsNext;
 	}
 
