@@ -235,7 +235,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	HWND hwnd = NULL;
 	MCONTACT hMeta = db_mc_getMeta(hContact);
 	if (hMeta)
-		if (hwnd == M.FindWindow(hMeta))
+		if (hwnd = M.FindWindow(hMeta))
 			hContact = hMeta;
 
 	if (hwnd == NULL)
