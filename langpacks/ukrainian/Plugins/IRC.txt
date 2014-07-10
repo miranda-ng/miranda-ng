@@ -477,6 +477,24 @@ DCC-запит на передачу файлу надісланий %s [%s]
 <Автоматично>
 [<Local IP: ]
 <Локальний IP:\s
+[Event: Available]
+Подія: В мережі
+[Event: Away]
+Подія: Відсутній
+[Event: N/A]
+Подія: Недоступний
+[Event: Occupied]
+Подія: Зайнятий
+[Event: DND]
+Подія: Не турбувати
+[Event: Free for chat]
+Подія: Готовий до чату
+[Event: On the phone]
+Подія: Телефоную
+[Event: Out for lunch]
+Подія: Обідаю
+[Event: Disconnect]
+Подія: Не в мережі
 [ALL NETWORKS]
 Усі мережі
 [Click to set commands that will be performed for this event]

@@ -34,7 +34,7 @@
 [Notify me when a message delivery has failed]
 Сповіщати про невдалу доставку повідомлень
 [Notify about new mail if increment]
-Сповіщати тільки про нову пошту
+Сповіщати про пошту тільки якщо лічильник збільшився
 [Notify about new mail tray icon]
 Показувати значок в треї при приході пошти
 [Click to Inbox]

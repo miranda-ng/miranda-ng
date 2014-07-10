@@ -99,6 +99,8 @@
 Видалити
 [Don't show in start menu]
 Вимкнути пункт у головному меню
+[Edit...]
+Правка...
 [Username:]
 Користувач:
 [Game]
@@ -173,6 +175,8 @@ ID гри має бути більше 1.
 Та дайте ж людині поговорити по телефону...
 [Mmm... food.]
 Ммм... поїсти б...
+[XFire Protocol]
+Протокол XFire
 [The xfire_games.ini was updated.]
 Xfire_games.ini оновлено.
 [Protocol icon]
@@ -183,6 +187,8 @@ Xfire_games.ini оновлено.
 Поточна гра
 [ServerIP]
 IP сервера
+[Voice]
+Голос
 [Xfire Link Protocol]
 Протокол Xfire
 [Buddy start a game]

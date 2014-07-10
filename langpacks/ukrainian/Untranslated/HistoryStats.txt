@@ -6,7 +6,6 @@
 ["Split" timeline]
 [[#{start_date}-#{end_date}] #{amount}]
 [[#{date}] #{amount}]
-[At this time there is no external plugin supported.]
 [Supported plugins (double-click to learn more):]
 [You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?]
 [Successfully read #{success} events of which #{fail_add} couldn't be added to the target history. #{fail} events couldn't be read from the source history.]
