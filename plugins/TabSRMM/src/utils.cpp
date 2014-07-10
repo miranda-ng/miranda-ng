@@ -46,7 +46,7 @@ static TCHAR *formatting_strings_end[] = { _T("b0 "), _T("i0 "), _T("u0 "), _
 
 #define NR_CODES 5
 
-LRESULT TSAPI _dlgReturn(HWND hWnd, LRESULT result)
+LRESULT _dlgReturn(HWND hWnd, LRESULT result)
 {
 	SetWindowLongPtr(hWnd, DWLP_MSGRESULT, result);
 	return result;
@@ -874,7 +874,7 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TC
  * return != 0 when the sound effect must be played for the given
  * session. Uses container sound settings
  */
-int	TSAPI Utils::mustPlaySound(const TWindowData *dat)
+int Utils::mustPlaySound(const TWindowData *dat)
 {
 	if (!dat)
 		return 0;
@@ -913,7 +913,7 @@ int	TSAPI Utils::mustPlaySound(const TWindowData *dat)
 /**
  * enable or disable a dialog control
  */
-void TSAPI Utils::enableDlgControl(const HWND hwnd, UINT id, BOOL fEnable)
+void Utils::enableDlgControl(const HWND hwnd, UINT id, BOOL fEnable)
 {
 	::EnableWindow(::GetDlgItem(hwnd, id), fEnable);
 }
@@ -921,7 +921,7 @@ void TSAPI Utils::enableDlgControl(const HWND hwnd, UINT id, BOOL fEnable)
 /**
  * show or hide a dialog control
  */
-void TSAPI Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
+void Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 {
 	::ShowWindow(::GetDlgItem(hwnd, id), showCmd);
 }
@@ -948,7 +948,7 @@ DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG
  * extract a resource from the given module
  * tszPath must end with \
  */
-bool TSAPI Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
+bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
 								  const TCHAR *tszFilename, bool fForceOverwrite)
 {
 	HRSRC hRes = FindResource(h, MAKEINTRESOURCE(uID), tszName);
