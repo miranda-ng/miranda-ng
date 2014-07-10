@@ -110,7 +110,7 @@ sln_stream=FSO.GetFile(slnfile).OpenAsTextStream(ForReading, TristateUseDefault)
      // if exist sln_project_regexp, add to array, adding leading path to "trunk"
      if (sln_project_regexp) {
         //RegExp for unneeded modules, such as crypting library, mimcmd.exe, zlib.dll etc.
-        var unneeded_modules=/(Zlib|RC4|EkHtml|Libgcrypt|Libotr|Cryptlib|MimCmd|Dbx_tree_ARC4|Dbx_tree_Cast128|Dbx_tree_HC256|pu_stub|libcurl)/i;
+        var unneeded_modules=/(Zlib|RC4|EkHtml|Libgcrypt|Libotr|Cryptlib|MimCmd|Dbx_tree_ARC4|Dbx_tree_Cast128|Dbx_tree_HC256|pu_stub|libcurl|glib)/i;
         // Now check for unneeded modules NOT passed (module name are in sln_project_regexp[1]
         if (!unneeded_modules.test(sln_project_regexp[1]))
         //no, this is not unneeded module, put path to array. Trunk path + path to file in sln_project_regexp[2]
@@ -168,7 +168,7 @@ function GenerateCore() {
  corehead.push(";============================================================")
  corehead.push(";  File: miranda32/64.exe")
  corehead.push(";  Module: Miranda Core")
- corehead.push(";  Versions: 0.8.0 - "+ver)
+ corehead.push(";  Version: "+ver)
  corehead.push(";============================================================")
  //define core filename. File will be overwritten!
  corefile=FSO.BuildPath(langpack_en,"=CORE=.txt");
