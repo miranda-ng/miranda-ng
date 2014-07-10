@@ -18,7 +18,7 @@ SpeechApi51Lexicon::~SpeechApi51Lexicon()
 //------------------------------------------------------------------------------
 bool SpeechApi51Lexicon::display()
 {
-	m_window = CreateDialog(
+/*	m_window = CreateDialog(
 		g_hInst, 
 		MAKEINTRESOURCE(IDD_TTS_LEXICON), 
 		m_parent_window, 
@@ -31,7 +31,7 @@ bool SpeechApi51Lexicon::display()
 
 	ShowWindow(m_window, SW_SHOW);
 
-/*    WNDCLASS wc;
+	WNDCLASS wc;
    
 	wc.style = 0;
 !    wc.lpfnWndProc = (WNDPROC)MainWndProc; // Window procedure for this class.
