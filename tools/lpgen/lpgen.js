@@ -154,12 +154,22 @@ if (log) WScript.Echo("Finish getting strings from source files.");
 function GenerateCore() {
  //init arrays
  corestrings=new Array();
+ corehead=new Array();
  core_src=new Array();
  core_rc=new Array();
  //if log parameter specified, output a log.
  if (log) WScript.Echo("Processing CORE...");
+ //get current core version from build file and replace spaces with dots
+ ver=ReadFile(trunkPath+"\\build\\build.no").replace(new RegExp(/\s/g),"\.");
+ if (log) WScript.Echo("CORE version is "+ver);
  //first string is necessary for Miranda-NG to load langpack
  //corestrings.push("Miranda Language Pack Version 1"); // TODO: this need to be placed into =HEAD=.txt file or similar
+ //add header to =CORE=.txt
+ corehead.push(";============================================================")
+ corehead.push(";  File: miranda32/64.exe")
+ corehead.push(";  Module: Miranda Core")
+ corehead.push(";  Versions: 0.8.0 - "+ver)
+ corehead.push(";============================================================")
  //define core filename. File will be overwritten!
  corefile=FSO.BuildPath(langpack_en,"=CORE=.txt");
  //find all *.rc files and list files in array
@@ -172,12 +182,14 @@ function GenerateCore() {
  ParseFiles(core_src,corestrings,ParseSourceFile);
  //Now we have all strings in "corestrings", next we remove duplicate strings from array and put results into "nodupes"
  nodupes=eliminateDuplicates(corestrings);
- //if dupes requred, make nodupes with dupes :)
+ //if dupes required, make nodupes with dupes :)
  if (dupes) nodupes=corestrings;
  //logging results
  if (log) WScript.Echo("Writing "+nodupes.length+" strings for CORE");
+ //concatenate head and nodupes
+ corestrings=corehead.concat(nodupes)
  //finally, write "nodupes" array to file
- WriteToUnicodeFile(nodupes,corefile);
+ WriteToUnicodeFile(corestrings,corefile);
 }
 
 //Make a translation template for plugin in "pluginpath", put generated file into "langpackfilepath"
@@ -420,9 +432,9 @@ function ParseRCFile(FileTextVar,array) {
  while ((string = find.exec(FileTextVar)) != null) {
       // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
       onestring=string[2].replace(/^(((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect|IndSndList|&?[Oo][Kk]|ICQ|Jabber|WhatsApp|OSD|Google|Miranda NG|SMS|Miranda|Windows|&\w)|(%.(.*%)?))$/g,"");
-	  // ignore some popup menu craps
-	  if (string[1]=="POPUP" && onestring.match(/^([a-zA-Z ]*(menu|context|popup))|([A-Z][a-z]+([A-Z][a-z]*)+)|(new item)$/g))
-		continue;
+      // ignore some popup menu craps
+      if (string[1]=="POPUP" && onestring.match(/^([a-zA-Z ]*(menu|context|popup))|([A-Z][a-z]+([A-Z][a-z]*)+)|(new item)$/g))
+        continue;
       //if there is double "", replace with single one
       onestring=onestring.replace(/\"{2}/g,"\"");
       //check result. If it does not match [a-z] (no any letter in results, such as "..." or "->") it's a crap, break further actions.
@@ -444,10 +456,10 @@ function ParseSourceFile (FileTextVar,array) {
     var string;
     //replace newlines with "" in second [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
     onestring=string[1].replace(/'?(\#13\#10)*?\\?\r\n(\x20*?\')?/g,"");
-	//remove trailing slash from the string. This is a tree item, slesh is a crap :)
-	noslashstring=onestring.replace(/\/(?=$)/g,"");
-	//remove first and last "
-	nofirstlaststring=noslashstring.slice(1, -1)
+    //remove trailing slash from the string. This is a tree item, slesh is a crap :)
+    noslashstring=onestring.replace(/\/(?=$)/g,"");
+    //remove first and last "
+    nofirstlaststring=noslashstring.slice(1, -1)
     //remove escape slashes before ' and "
     stringtolangpack=nofirstlaststring.replace(/\\(")/g,"$1");
     ///if our string still exist, and length at least one symbol
