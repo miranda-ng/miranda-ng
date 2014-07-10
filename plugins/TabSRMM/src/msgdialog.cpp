@@ -2475,8 +2475,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (!dat)
 			return 0;
 		if (dat->hContact)
-			if (dat->hContact == wParam || dat->hContact == db_event_getContact(HANDLE(lParam)))
-				DM_EventAdded(dat, dat->hContact, lParam);
+			DM_EventAdded(dat, dat->hContact, lParam);
 		return 0;
 
 	case WM_TIMER:

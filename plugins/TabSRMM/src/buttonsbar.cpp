@@ -526,7 +526,6 @@ void BB_UpdateIcons(HWND hdlg, TWindowData *dat)
 			if (hwndBtn && cbd->hIcon)
 				SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 		}
-
 	}
 }
 

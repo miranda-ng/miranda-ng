@@ -227,92 +227,93 @@ void CMimAPI::InitAPI()
 /////////////////////////////////////////////////////////////////////////////////////////
 // hook subscriber function for incoming message typing events
 
-int CMimAPI::TypingMessage(WPARAM hContact, LPARAM lParam)
+int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 {
-	HWND   hwnd = 0;
-	int    issplit = 1, foundWin = 0, preTyping = 0;
-	BOOL   fShowOnClist = TRUE;
+	int issplit = 1, foundWin = 0, preTyping = 0;
+	BOOL fShowOnClist = TRUE;
 
-	if (hContact) {
-		if ((hwnd = M.FindWindow(hContact)) && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
-			preTyping = SendMessage(hwnd, DM_TYPING, 0, lParam);
+	HWND hwnd = M.FindWindow(hContact);
+	if (hwnd == NULL && db_mc_isSub(hContact))
+		hwnd = M.FindWindow(db_mc_getMeta(hContact));
 
-		if (hwnd && IsWindowVisible(hwnd))
-			foundWin = MessageWindowOpened(0, (LPARAM)hwnd);
-		else
-			foundWin = 0;
+	if (hwnd && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
+		preTyping = SendMessage(hwnd, DM_TYPING, 0, mode);
 
-		TContainerData *pContainer = NULL;
-		if (hwnd) {
-			SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-			if (pContainer == NULL)
-				return 0;					// should never happen
-		}
+	if (hwnd && IsWindowVisible(hwnd))
+		foundWin = MessageWindowOpened(0, (LPARAM)hwnd);
+	else
+		foundWin = 0;
 
-		if (M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
-			if (!hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
-				fShowOnClist = FALSE;
-			if (hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
-				fShowOnClist = FALSE;
-		}
-		else fShowOnClist = FALSE;
+	TContainerData *pContainer = NULL;
+	if (hwnd) {
+		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+		if (pContainer == NULL) // should never happen
+			return 0;
+	}
 
-		if ((!foundWin || !(pContainer->dwFlags & CNT_NOSOUND)) && preTyping != (lParam != 0))
-			SkinPlaySound((lParam) ? "TNStart" : "TNStop");
+	if (M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
+		if (!hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
+			fShowOnClist = false;
+		if (hwnd && !M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
+			fShowOnClist = false;
+	}
+	else fShowOnClist = false;
 
-		if (M.GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
-			BOOL fShow = FALSE;
-			int  iMode = M.GetByte("MTN_PopupMode", 0);
+	if ((!foundWin || !(pContainer->dwFlags & CNT_NOSOUND)) && preTyping != (mode != 0))
+		SkinPlaySound(mode ? "TNStart" : "TNStop");
 
-			switch (iMode) {
-			case 0:
-				fShow = TRUE;
-				break;
-			case 1:
-				if (!foundWin || !(pContainer && pContainer->hwndActive == hwnd && GetForegroundWindow() == pContainer->hwnd))
-					fShow = TRUE;
-				break;
-			case 2:
-				if (hwnd == 0)
-					fShow = TRUE;
-				else {
-					if (PluginConfig.m_HideOnClose) {
-						TContainerData *pContainer = 0;
-						SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-						if (pContainer && pContainer->fHidden)
-							fShow = TRUE;
-					}
+	if (M.GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
+		BOOL fShow = false;
+		int  iMode = M.GetByte("MTN_PopupMode", 0);
+
+		switch (iMode) {
+		case 0:
+			fShow = true;
+			break;
+		case 1:
+			if (!foundWin || !(pContainer && pContainer->hwndActive == hwnd && GetForegroundWindow() == pContainer->hwnd))
+				fShow = true;
+			break;
+		case 2:
+			if (hwnd == 0)
+				fShow = true;
+			else {
+				if (PluginConfig.m_HideOnClose) {
+					TContainerData *pContainer = 0;
+					SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+					if (pContainer && pContainer->fHidden)
+						fShow = true;
 				}
-				break;
 			}
-			if (fShow)
-				TN_TypingMessage(hContact, lParam);
+			break;
 		}
+		if (fShow)
+			TN_TypingMessage(hContact, mode);
+	}
 
-		if (lParam) {
-			TCHAR szTip[256];
-			mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
-			if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
-				MIRANDASYSTRAYNOTIFY tn;
-				tn.szProto = NULL;
-				tn.cbSize = sizeof(tn);
-				tn.tszInfoTitle = TranslateT("Typing Notification");
-				tn.tszInfo = szTip;
-				tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
-				tn.uTimeout = 1000 * 4;
-				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&tn);
-			}
-			if (fShowOnClist) {
-				CLISTEVENT cle = { sizeof(cle) };
-				cle.hContact = hContact;
-				cle.hDbEvent = (HANDLE)1;
-				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
-				cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
-				cle.pszService = "SRMsg/TypingMessage";
-				cle.ptszTooltip = szTip;
-				CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
-				CallServiceSync(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
-			}
+	if (mode) {
+		TCHAR szTip[256];
+		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName(hContact, 0));
+		if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
+			MIRANDASYSTRAYNOTIFY tn;
+			tn.szProto = NULL;
+			tn.cbSize = sizeof(tn);
+			tn.tszInfoTitle = TranslateT("Typing Notification");
+			tn.tszInfo = szTip;
+			tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
+			tn.uTimeout = 1000 * 4;
+			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&tn);
+		}
+		if (fShowOnClist) {
+			CLISTEVENT cle = { sizeof(cle) };
+			cle.hContact = hContact;
+			cle.hDbEvent = (HANDLE)1;
+			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
+			cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
+			cle.pszService = "SRMsg/TypingMessage";
+			cle.ptszTooltip = szTip;
+			CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
+			CallServiceSync(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
 		}
 	}
 	return 0;
@@ -389,8 +390,14 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM lParam)
 {
-	if (hContact)
-		M.BroadcastMessageAsync(HM_DBEVENTADDED, hContact, lParam);
+	if (hContact) {
+		Utils::sendContactMessage(hContact, HM_DBEVENTADDED, hContact, lParam);
+
+		// we're in meta and an event belongs to a sub
+		MCONTACT hReal = db_event_getContact(HANDLE(lParam));
+		if (hReal != hContact)
+			Utils::sendContactMessage(hReal, HM_DBEVENTADDED, hContact, lParam);
+	}
 	return 0;
 }
 

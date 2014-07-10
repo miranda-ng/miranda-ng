@@ -65,48 +65,51 @@ public:
 		CMD_MSGDIALOG = 2,
 		CMD_INFOPANEL = 4,
 	};
-	static	int					TSAPI FindRTLLocale					(TWindowData *dat);
-	static  TCHAR* 				TSAPI GetPreviewWithEllipsis		(TCHAR *szText, size_t iMaxLen);
-	static	TCHAR* 				TSAPI FilterEventMarkers			(TCHAR *wszText);
-	static  const TCHAR* 		TSAPI FormatRaw						(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent);
-	static	const TCHAR* 		TSAPI FormatTitleBar				(const TWindowData *dat, const TCHAR *szFormat);
-	static	char* 				TSAPI FilterEventMarkers			(char *szText);
-	static	const TCHAR* 		TSAPI DoubleAmpersands				(TCHAR *pszText);
-	static	void 				TSAPI RTF_CTableInit				();
-	static	void 				TSAPI RTF_ColorAdd					(const TCHAR *tszColname, size_t length);
-	static	void 				TSAPI CreateColorMap				(TCHAR *Text);
-	static	int 				TSAPI RTFColorToIndex				(int iCol);
-	static	int					TSAPI ReadContainerSettingsFromDB	(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
-	static	int 				TSAPI WriteContainerSettingsToDB	(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
-	static  void 				TSAPI SettingsToContainer			(TContainerData *pContainer);
-	static	void 				TSAPI ContainerToSettings			(TContainerData *pContainer);
-	static	void 				TSAPI ReadPrivateContainerSettings	(TContainerData *pContainer, bool fForce = false);
-	static	void				TSAPI SaveContainerSettings			(TContainerData *pContainer, const char *szSetting);
-	static	DWORD CALLBACK 	  		  StreamOut						(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
-	static	LRESULT				TSAPI CmdDispatcher					(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, TWindowData *dat = 0,
-																	 TContainerData *pContainer = 0);
-	static	void 				TSAPI addMenuItem					(const HMENU& m, MENUITEMINFO& mii, HICON hIcon,
-																	 const TCHAR *szText, UINT uID, UINT pos);
-	static	void				TSAPI enableDlgControl				(const HWND hwnd, UINT id, BOOL fEnable = 1);
-	static 	void 				TSAPI showDlgControl				(const HWND hwnd, UINT id, int showCmd);
-	static	int					TSAPI mustPlaySound					(const TWindowData *dat);
-	static 	HICON				TSAPI iconFromAvatar				(const TWindowData *dat);
-	static	void				TSAPI getIconSize					(HICON hIcon, int& sizeX, int& sizeY);
 
-	static   bool				TSAPI extractResource				(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
-																	 const TCHAR *tszFilename, bool fForceOverwrite);
-	static	void				TSAPI scaleAvatarHeightLimited		(const HBITMAP hBm, double& dNewWidth, double& dNewHeight, const LONG maxHeight);
+	static int      FindRTLLocale(TWindowData *dat);
+	static TCHAR*   GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen);
+	static TCHAR*   FilterEventMarkers(TCHAR *wszText);
+	static LPCTSTR  FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent);
+	static LPCTSTR  FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat);
+	static char*    FilterEventMarkers(char *szText);
+	static LPCTSTR  DoubleAmpersands(TCHAR *pszText);
+	static void     RTF_CTableInit();
+	static void     RTF_ColorAdd(const TCHAR *tszColname, size_t length);
+	static void     CreateColorMap(TCHAR *Text);
+	static int      RTFColorToIndex(int iCol);
+	static int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
+	static int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
+	static void     SettingsToContainer(TContainerData *pContainer);
+	static void     ContainerToSettings(TContainerData *pContainer);
+	static void     ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce = false);
+	static void     SaveContainerSettings(TContainerData *pContainer, const char *szSetting);
+	
+	static DWORD CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
+	static LRESULT  CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, TWindowData *dat = 0, TContainerData *pContainer = 0);
 
-	static	AVATARCACHEENTRY*	TSAPI loadAvatarFromAVS				(const MCONTACT hContact);
-	static	void				TSAPI sanitizeFilename				(wchar_t *tszFilename);
-	static	void				TSAPI ensureTralingBackslash		(wchar_t *szPathname);
+	static void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TCHAR *szText, UINT uID, UINT pos);
+	static void     enableDlgControl(const HWND hwnd, UINT id, BOOL fEnable = 1);
+	static void     showDlgControl(const HWND hwnd, UINT id, int showCmd);
+	static int      mustPlaySound(const TWindowData *dat);
+	static HICON    iconFromAvatar(const TWindowData *dat);
+	static void     getIconSize(HICON hIcon, int& sizeX, int& sizeY);
 
-	static	HMODULE				TSAPI loadSystemLibrary				(const wchar_t* szFilename);
+	static bool     extractResource(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath, const TCHAR *tszFilename, bool fForceOverwrite);
+	static void     scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, double& dNewHeight, const LONG maxHeight);
 
-	static	INT_PTR CALLBACK		  PopupDlgProcError				(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	static	const TCHAR*			  extractURLFromRichEdit		(const ENLINK* _e, const HWND hwndRich);
+	static AVATARCACHEENTRY*  loadAvatarFromAVS(const MCONTACT hContact);
 
-	template<typename T> static size_t TSAPI CopyToClipBoard(T* _t, const HWND hwndOwner)
+	static void     sanitizeFilename(wchar_t *tszFilename);
+	static void     ensureTralingBackslash(wchar_t *szPathname);
+
+	static void     sendContactMessage(MCONTACT hContact, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	static HMODULE  loadSystemLibrary(const wchar_t* szFilename);
+
+	static INT_PTR CALLBACK PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LPCTSTR extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
+
+	template<typename T> static size_t  CopyToClipBoard(T* _t, const HWND hwndOwner)
 	{
 		if (!OpenClipboard(hwndOwner) || _t == 0)
 			return 0;
@@ -126,7 +129,7 @@ public:
 		return(i);
 	}
 
-	template<typename T> static void AddToFileList(T ***pppFiles, int *totalCount, const TCHAR* szFilename)
+	template<typename T> static void AddToFileList(T ***pppFiles, int *totalCount, LPCTSTR szFilename)
 	{
 		size_t _s = sizeof(T);
 
@@ -184,7 +187,7 @@ public:
 	static	int					rtf_ctable_size;
 };
 
-LRESULT TSAPI		_dlgReturn(HWND hWnd, LRESULT result);
+LRESULT 		_dlgReturn(HWND hWnd, LRESULT result);
 
 
 

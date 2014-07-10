@@ -956,7 +956,7 @@ void TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
 		return;
 
-	if ( IsIconic(dat->pContainer->hwnd))
+	if (IsIconic(dat->pContainer->hwnd))
 		dat->dwFlags |= MWF_DEFERREDSCROLL;
 
 	if (dat->hwndIEView) {
@@ -1378,7 +1378,6 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 	SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 }
-
 
 void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 {

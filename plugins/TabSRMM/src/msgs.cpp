@@ -123,9 +123,8 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	TWindowData *dat;
 
 	HWND hwnd = M.FindWindow(wParam);
-	if (hwnd != NULL) {
+	if (hwnd != NULL)
 		dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	}
 	else {
 		SESSION_INFO *si = SM_FindSessionByHCONTACT(wParam);
 		if (si == NULL)

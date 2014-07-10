@@ -831,6 +831,13 @@ AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const MCONTACT hContact)
 	return (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 }
 
+void Utils::sendContactMessage(MCONTACT hContact, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	HWND h = M.FindWindow(hContact);
+	if (h != NULL)
+		PostMessage(h, uMsg, wParam, lParam);
+}
+
 void Utils::getIconSize(HICON hIcon, int& sizeX, int& sizeY)
 {
 	ICONINFO ii;
