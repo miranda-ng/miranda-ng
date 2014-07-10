@@ -515,26 +515,6 @@ static INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 	return 0;
 }
 
-/** Call when we want to receive a user is typing message
-*
-* @param wParam HANDLE to the contact that is typing or not
-* @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
-*/
-
-static int Meta_ContactIsTyping(WPARAM hContact, LPARAM lParam)
-{
-	if (!db_mc_isEnabled())
-		return 0;
-
-	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	if (cc != NULL && cc->IsSub()) {
-		CallService(MS_PROTO_CONTACTISTYPING, cc->parentID, lParam);
-		return 1;
-	}
-
-	return 0;
-}
-
 /** Called when user info is about to be shown
 *
 * Returns 1 to stop event processing and opens page for metacontact default contact (returning 1 to stop it doesn't work!)
@@ -912,7 +892,6 @@ void Meta_InitServices()
 
 	// hook other module events we need
 	HookEvent(ME_PROTO_ACK, Meta_HandleACK);
-	HookEvent(ME_PROTO_CONTACTISTYPING, Meta_ContactIsTyping);
 	HookEvent(ME_DB_CONTACT_DELETED, Meta_ContactDeleted);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, Meta_SettingChanged);
 	HookEvent(ME_OPT_INITIALISE, Meta_OptInit);
