@@ -200,6 +200,9 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	if (!(g_dat.flags2 & SMF2_SHOWTYPING))
 		return 0;
 
+	if (db_mc_isSub(hContact))
+		hContact = db_mc_getMeta(hContact);
+
 	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
