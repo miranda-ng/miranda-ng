@@ -178,15 +178,13 @@ BYTE* calcMD5HashOfFile(const TCHAR *tszFile)
 int CIcqProto::IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, int nHashLen)
 {
 	DBVARIANT dbvSaved = { 0 };
-	if (!getSetting(hContact, "AvatarSaved", &dbvSaved)) {
-		if ((dbvSaved.cpbVal != nHashLen) || memcmp(dbvSaved.pbVal, pHash, nHashLen)) { // the hashes are different
-			db_free(&dbvSaved);
-			return 2;
-		}
-		db_free(&dbvSaved);
-		return 0; // hash is there and is the same - Success
-	}
-	return 1; // saved Avatar hash is missing
+	if (getSetting(hContact, "AvatarSaved", &dbvSaved))
+		return 1; // saved Avatar hash is missing
+
+	// are the hashes different?
+	int ret = (dbvSaved.cpbVal != nHashLen || memcmp(dbvSaved.pbVal, pHash, nHashLen)) ? 2 : 0;
+	db_free(&dbvSaved);
+	return ret;
 }
 
 void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, WORD cookieLen) // called from event
@@ -229,18 +227,18 @@ void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, WORD cookieLen) //
 	if (m_avatarsConnection && m_avatarsConnection->isPending()) {
 		debugLogA("Avatar, Multiple start thread attempt, ignored.");
 
-		NetLib_CloseConnection(&hConn, FALSE);
+		NetLib_CloseConnection(&hConn, false);
 
 		SAFE_FREE((void**)&cookie);
 		return;
 	}
+	
 	if (m_avatarsConnection)
 		m_avatarsConnection->closeConnection();
-
 	m_avatarsConnection = new avatars_server_connection(this, hConn, cookie, cookieLen); // the old connection should not be used anymore
 
 	// connection object created, remove the connection request pending flag
-	m_avatarsConnectionPending = FALSE;
+	m_avatarsConnectionPending = false;
 }
 
 void CIcqProto::StopAvatarThread()
@@ -1078,7 +1076,6 @@ void avatars_server_connection::connectionThread()
 	}
 
 	SAFE_FREE((void**)&pCookie);
-	ppro->debugLogA("Avatar thread ended");
 }
 
 int avatars_server_connection::sendServerPacket(icq_packet *pPacket)

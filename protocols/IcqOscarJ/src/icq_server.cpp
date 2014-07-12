@@ -37,8 +37,8 @@ void icq_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pE
 
 void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 {
-	serverthread_info info = {0};
-	info.isLoginServer = 1;
+	serverthread_info info = { 0 };
+	info.isLoginServer = info.bReinitRecver = true;
 	info.wAuthKeyLen = infoParam->wPassLen;
 	null_strcpy((char*)info.szAuthKey, infoParam->szPass, info.wAuthKeyLen);
 	// store server port
@@ -103,16 +103,15 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	}
 
 	// This is the "infinite" loop that receives the packets from the ICQ server
+	NETLIBPACKETRECVER packetRecv;
 	info.hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 0x2400);
 
-	NETLIBPACKETRECVER packetRecv = { sizeof(packetRecv) };
-	packetRecv.dwTimeout = INFINITE;
 	while (serverThreadHandle) {
 		if (info.bReinitRecver) { // we reconnected, reinit struct
-			info.bReinitRecver = 0;
+			info.bReinitRecver = false;
 			ZeroMemory(&packetRecv, sizeof(packetRecv));
 			packetRecv.cbSize = sizeof(packetRecv);
-			packetRecv.dwTimeout = INFINITE;
+			packetRecv.dwTimeout = 1000;
 		}
 
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)info.hPacketRecver, (LPARAM)&packetRecv);
@@ -122,18 +121,16 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		}
 
 		if (recvResult == SOCKET_ERROR) {
-			debugLogA("Abortive closure of server socket, error: %d", GetLastError());
-			break;
-		}
-
-		if (m_iDesiredStatus == ID_STATUS_OFFLINE) { // Disconnect requested, send disconnect packet
-			icq_sendCloseConnection();
-
-			// disconnected upon request
-			m_bConnectionLost = FALSE;
-			SetCurrentStatus(ID_STATUS_OFFLINE);
-
-			debugLogA("Logged off.");
+			DWORD dwError = GetLastError();
+			if (dwError == ERROR_TIMEOUT) {
+				if (m_iDesiredStatus == ID_STATUS_OFFLINE)
+					break;
+				continue;
+			}
+			if (dwError == WSAESHUTDOWN) // ok, we're going offline
+				break;
+			
+			debugLogA("Abortive closure of server socket, error: %d", dwError);
 			break;
 		}
 
@@ -161,7 +158,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 			icq_LogMessage(LOG_FATAL, LPGEN("Connection failed.\nLogin sequence failed for unknown reason.\nTry again later."));
 
 		// set flag indicating we were kicked out
-		m_bConnectionLost = TRUE;
+		m_bConnectionLost = true;
 
 		SetCurrentStatus(ID_STATUS_OFFLINE);
 	}
@@ -181,15 +178,16 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	// Offline all contacts
 	debugLogA("Setting offline status to contacts...");
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if (getContactStatus(hContact) == ID_STATUS_OFFLINE)
+			continue;
+				
+		setWord(hContact, "Status", ID_STATUS_OFFLINE);
+
 		DWORD dwUIN;
 		uid_str szUID;
 		if (!getContactUid(hContact, &dwUIN, &szUID)) {
-			if (getContactStatus(hContact) != ID_STATUS_OFFLINE) {
-				setWord(hContact, "Status", ID_STATUS_OFFLINE);
-
-				char tmp = 0;
-				handleXStatusCaps(dwUIN, szUID, hContact, (BYTE*)&tmp, 0, &tmp, 0);
-			}
+			char tmp = 0;
+			handleXStatusCaps(dwUIN, szUID, hContact, (BYTE*)&tmp, 0, &tmp, 0);
 		}
 	}
 
@@ -224,6 +222,8 @@ void CIcqProto::icq_serverDisconnect()
 		CloseHandle(serverThreadHandle);
 		serverThreadHandle = NULL;
 	}
+
+	SetCurrentStatus(ID_STATUS_OFFLINE);
 }
 
 int CIcqProto::handleServerPackets(BYTE *buf, int len, serverthread_info *info)
@@ -298,8 +298,7 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 	// make sure to have the connection handle
 	connectionHandleMutex->Enter();
 
-	if (hServerConn)
-	{
+	if (hServerConn) {
 		int nSendResult;
 
 		// This critsec makes sure that the sequence order doesn't get screwed up
@@ -325,19 +324,14 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 			if (dwErrorCode != WSAESHUTDOWN)
 				icq_LogUsingErrorCode(LOG_ERROR, GetLastError(), LPGEN("Your connection with the ICQ server was abortively closed"));
 			icq_serverDisconnect();
-
-			if (m_iStatus != ID_STATUS_OFFLINE)
-				SetCurrentStatus(ID_STATUS_OFFLINE);
 		}
-		else
-		{ // Rates management
+		else { // Rates management
 			icq_lock l(m_ratesMutex);
 			m_rates->packetSent(pPacket);
 		}
 
 	}
-	else
-	{
+	else {
 		connectionHandleMutex->Leave();
 		debugLogA("Error: Failed to send packet (no connection)");
 	}

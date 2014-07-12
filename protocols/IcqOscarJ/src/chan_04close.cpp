@@ -86,7 +86,6 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 		// we return only if the server did not gave us cookie (possible to connect with soft error)
 		if (!chain->getLength(0x06, 1)) {
 			disposeChain(&chain);
-			SetCurrentStatus(ID_STATUS_OFFLINE);
 			icq_serverDisconnect();
 			return; // Failure
 		}

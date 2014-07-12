@@ -848,7 +848,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 		packDWord(&packet, dwDirectCookie);         // DC Cookie
 		packDWord(&packet, WEBFRONTPORT);           // Web front port
 		packDWord(&packet, CLIENTFEATURES);         // Client features
-		packDWord(&packet, 0x7fffffff);				// Abused timestamp
+		packDWord(&packet, 0x7fffffff);             // Abused timestamp
 		packDWord(&packet, ICQ_PLUG_VERSION);       // Abused timestamp
 		if (ServiceExists("SecureIM/IsContactSecured"))
 			packDWord(&packet, 0x5AFEC0DE);           // SecureIM Abuse
@@ -929,16 +929,15 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 
 	// login sequence is complete enter logged-in mode
 	info->bLoggedIn = 1;
-	m_bConnectionLost = FALSE;
+	m_bConnectionLost = false;
 
 	// enable auto info-update routine
-	icq_EnableUserLookup(TRUE);
+	icq_EnableUserLookup(true);
 
-	if (!info->isMigrating)
-	{ /* Get Offline Messages Reqeust */
+	if (!info->isMigrating) {
+		// Get Offline Messages Reqeust
 		cookie_offline_messages *ack = (cookie_offline_messages*)SAFE_MALLOC(sizeof(cookie_offline_messages));
-		if (ack)
-		{
+		if (ack) {
 			DWORD dwCookie = AllocateCookie(CKT_OFFLINEMESSAGE, ICQ_MSG_CLI_REQ_OFFLINE, 0, ack);
 
 			serverPacketInit(&packet, 10);
@@ -946,8 +945,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 
 			sendServPacket(&packet);
 		}
-		else
-			icq_LogMessage(LOG_WARNING, LPGEN("Failed to request offline messages. They may be received next time you log in."));
+		else icq_LogMessage(LOG_WARNING, LPGEN("Failed to request offline messages. They may be received next time you log in."));
 
 		// Update our information from the server
 		sendOwnerInfoRequest();
@@ -958,8 +956,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 		// Start sending Keep-Alive packets
 		StartKeepAlive(info);
 
-		if (m_bAvatarsEnabled)
-		{ // Send SNAC 1,4 - request avatar family 0x10 connection
+		if (m_bAvatarsEnabled) { // Send SNAC 1,4 - request avatar family 0x10 connection
 			icq_requestnewfamily(ICQ_AVATAR_FAMILY, &CIcqProto::StartAvatarThread);
 
 			m_avatarsConnectionPending = TRUE;
@@ -971,8 +968,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 	}
 	info->isMigrating = 0;
 
-	if (m_bAimEnabled)
-	{
+	if (m_bAimEnabled) {
 		char **szAwayMsg = NULL;
 		icq_lock l(m_modeMsgsMutex);
 
