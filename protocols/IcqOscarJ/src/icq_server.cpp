@@ -152,7 +152,6 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	NetLib_SafeCloseHandle(&info.hDirectBoundPort);
 
 	// disable auto info-update thread
-	debugLogA("Stopping info update thread...");
 	icq_EnableUserLookup(FALSE);
 
 	if (m_iStatus != ID_STATUS_OFFLINE && m_iDesiredStatus != ID_STATUS_OFFLINE) {
@@ -166,19 +165,15 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	}
 
 	// signal keep-alive thread to stop
-	debugLogA("Stopping keep-alive thread...");
 	StopKeepAlive(&info);
 
 	// Close all open DC connections
-	debugLogA("Stopping direct connections...");
 	CloseContactDirectConns(NULL);
 
 	// Close avatar connection if any
-	debugLogA("Stopping avatars thread...");
 	StopAvatarThread();
 
 	// Offline all contacts
-	debugLogA("Setting offline status to contacts...");
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (getContactStatus(hContact) == ID_STATUS_OFFLINE)
 			continue;
