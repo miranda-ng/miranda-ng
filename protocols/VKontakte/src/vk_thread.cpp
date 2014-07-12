@@ -683,6 +683,15 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			res.AppendFormat(_T("%s: (%s) - %s"),
 				TranslateT("Document"), ptszTitle, ptszUrl);
 		}
+		else if (!lstrcmp(ptszType, _T("wall"))) {
+			JSONNODE *pWall = json_get(pAttach, "wall");
+			if (pWall == NULL) continue;
+			
+			ptrT ptszText(json_as_string(json_get(pWall, "text")));
+			int  id = json_as_int(json_get(pWall, "id"));
+			int  fromID = json_as_int(json_get(pWall, "from_id"));
+			res.AppendFormat(_T("%s: %s - http://vk.com/wall%d_%d"), TranslateT("Wall post"), ptszText, fromID, id);
+		}
 		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
 
 		res.AppendChar('\n');
