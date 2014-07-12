@@ -223,13 +223,12 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 		break;
 
 	case ICQ_SERVER_MIGRATIONREQ:
-		{
 #ifdef _DEBUG
-			debugLogA("Server migration requested (Flags: %u)", pSnacHeader->wFlags);
+		debugLogA("Server migration requested (Flags: %u)", pSnacHeader->wFlags);
 #endif
-			pBuffer += 2; // Unknown, seen: 0
-			wBufferLength -= 2;
-
+		pBuffer += 2; // Unknown, seen: 0
+		wBufferLength -= 2;
+		{
 			oscar_tlv_chain *chain = readIntoTLVChain(&pBuffer, wBufferLength, 0);
 
 			if (info->cookieDataLen > 0)
@@ -242,13 +241,12 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 
 			disposeChain(&chain);
 
-			if (!info->newServer || !info->cookieData)
-			{
+			if (!info->newServer || !info->cookieData) {
 				icq_LogMessage(LOG_FATAL, LPGEN("A server migration has failed because the server returned invalid data. You must reconnect manually."));
 				SAFE_FREE(&info->newServer);
 				SAFE_FREE((void**)&info->cookieData);
 				info->cookieDataLen = 0;
-				info->newServerReady = 0;
+				info->isNewServerReady = false;
 				return;
 			}
 
@@ -257,28 +255,23 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 			m_iDesiredStatus = m_iStatus;
 			SetCurrentStatus(ID_STATUS_CONNECTING); // revert to connecting state
 
-			info->newServerReady = 1;
-			info->isMigrating = 1;
+			info->isNewServerReady = info->isMigrating = true;
 		}
 		break;
 
 	case ICQ_SERVER_NAME_INFO: // This is the reply to CLI_REQINFO
+#ifdef _DEBUG
+		debugLogA("Received self info");
+#endif
 		{
 			BYTE bUinLen;
-			oscar_tlv_chain *chain;
-
-#ifdef _DEBUG
-			debugLogA("Received self info");
-#endif
 			unpackByte(&pBuffer, &bUinLen);
 			pBuffer += bUinLen;
 			pBuffer += 4;      /* warning level & user class */
 			wBufferLength -= 5 + bUinLen;
 
-			if (pSnacHeader->dwRef == ICQ_CLIENT_REQINFO<<0x10)
-			{ // This is during the login sequence
-				DWORD dwValue;
-
+			// This is during the login sequence
+			if (pSnacHeader->dwRef == ICQ_CLIENT_REQINFO << 0x10) {
 				// TLV(x01) User type?
 				// TLV(x0C) Empty CLI2CLI Direct connection info
 				// TLV(x0A) External IP
@@ -289,10 +282,10 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 				// TLV(x1E) Unknown: empty.
 				// TLV(x05) Member of ICQ since.
 				// TLV(x14) Unknown
-				chain = readIntoTLVChain(&pBuffer, wBufferLength, 0);
+				oscar_tlv_chain *chain = readIntoTLVChain(&pBuffer, wBufferLength, 0);
 
 				// Save external IP
-				dwValue = chain->getDWord(0x0A, 1); 
+				DWORD dwValue = chain->getDWord(0x0A, 1);
 				setDword("IP", dwValue);
 
 				// Save member since timestamp
@@ -313,11 +306,8 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 		break;
 
 	case ICQ_SERVER_RATE_CHANGE:
-
-		if (wBufferLength >= 2)
-		{
-			WORD wStatus;
-			WORD wClass;
+		if (wBufferLength >= 2) {
+			WORD wStatus, wClass;
 			DWORD dwLevel;
 			// We now have global rate management, although controlled are only some
 			// areas. This should not arrive in most cases. If it does, update our
@@ -331,16 +321,15 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 			m_rates->updateLevel(wClass, dwLevel);
 			m_ratesMutex->Leave();
 
-			if (wStatus == 2 || wStatus == 3)
-			{ // this is only the simplest solution, needs rate management to every section
+			if (wStatus == 2 || wStatus == 3) {
+				// this is only the simplest solution, needs rate management to every section
 				ProtoBroadcastAck(NULL, ICQACKTYPE_RATEWARNING, ACKRESULT_STATUS, (HANDLE)wClass, wStatus);
 				if (wStatus == 2)
 					debugLogA("Rates #%u: Alert", wClass);
 				else
 					debugLogA("Rates #%u: Limit", wClass);
 			}
-			else if (wStatus == 4)
-			{
+			else if (wStatus == 4) {
 				ProtoBroadcastAck(NULL, ICQACKTYPE_RATEWARNING, ACKRESULT_STATUS, (HANDLE)wClass, wStatus);
 				debugLogA("Rates #%u: Clear", wClass);
 			}
@@ -353,16 +342,14 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 			oscar_tlv_chain *pChain = NULL;
 			cookie_family_request *pCookieData;
 
-			if (!(pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0)))
-			{
+			if (!(pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0))) {
 				debugLogA("Received Broken Redirect Service SNAC(1,5).");
 				break;
 			}
-			WORD wFamily = pChain->getWord(0x0D, 1);
 
 			// pick request data
-			if ((!FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookieData)) || (pCookieData->wFamily != wFamily))
-			{
+			WORD wFamily = pChain->getWord(0x0D, 1);
+			if ((!FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookieData)) || (pCookieData->wFamily != wFamily)) {
 				disposeChain(&pChain);
 				debugLogA("Received unexpected SNAC(1,5), skipping.");
 				break;
@@ -370,148 +357,130 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 
 			FreeCookie(pSnacHeader->dwRef);
 
-			{ // new family entry point received
-				char *pServer = pChain->getString(0x05, 1);
-				BYTE bServerSSL = pChain->getNumber(0x8E, 1);
-				char *pCookie = pChain->getString(0x06, 1);
-				WORD wCookieLen = pChain->getLength(0x06, 1);
+			// new family entry point received
+			char *pServer = pChain->getString(0x05, 1);
+			BYTE bServerSSL = pChain->getNumber(0x8E, 1);
+			char *pCookie = pChain->getString(0x06, 1);
+			WORD wCookieLen = pChain->getLength(0x06, 1);
 
-				if (!pServer || !pCookie)
-				{
-					debugLogA("Server returned invalid data, family unavailable.");
+			if (!pServer || !pCookie) {
+				debugLogA("Server returned invalid data, family unavailable.");
 
-					SAFE_FREE(&pServer);
-					SAFE_FREE(&pCookie);
-					SAFE_FREE((void**)&pCookieData);
-					disposeChain(&pChain);
-					break;
-				}
-
-				// Get new family server ip and port
-				WORD wPort = info->wServerPort; // get default port
-				parseServerAddress(pServer, &wPort);
-
-				// establish connection
-				NETLIBOPENCONNECTION nloc = {0};
-				if (m_bGatewayMode)
-					nloc.flags |= NLOCF_HTTPGATEWAY;
-				nloc.szHost = pServer; 
-				nloc.wPort = wPort;
-
-				HANDLE hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : NULL, &nloc);
-
-				if (hConnection == NULL)
-				{
-					debugLogA("Unable to connect to ICQ new family server.");
-				} // we want the handler to be called even if the connecting failed
-				else if (bServerSSL)
-				{ /* Start SSL session if requested */
-#ifdef _DEBUG
-					debugLogA("(%d) Starting SSL negotiation", CallService(MS_NETLIB_GETSOCKET, (WPARAM)hConnection, 0));
-#endif
-					if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hConnection, 0))
-					{
-						debugLogA("Unable to connect to ICQ new family server, SSL could not be negotiated");
-						NetLib_CloseConnection(&hConnection, FALSE);
-					}
-				}
-
-				(this->*pCookieData->familyHandler)(hConnection, pCookie, wCookieLen);
-
-				// Free allocated memory
-				// NOTE: "cookie" will get freed when we have connected to the avatar server.
-				disposeChain(&pChain);
 				SAFE_FREE(&pServer);
+				SAFE_FREE(&pCookie);
 				SAFE_FREE((void**)&pCookieData);
+				disposeChain(&pChain);
+				break;
 			}
 
+			// Get new family server ip and port
+			WORD wPort = info->wServerPort; // get default port
+			parseServerAddress(pServer, &wPort);
+
+			// establish connection
+			NETLIBOPENCONNECTION nloc = { 0 };
+			if (m_bGatewayMode)
+				nloc.flags |= NLOCF_HTTPGATEWAY;
+			nloc.szHost = pServer;
+			nloc.wPort = wPort;
+
+			HANDLE hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : NULL, &nloc);
+
+			if (hConnection == NULL)
+				debugLogA("Unable to connect to ICQ new family server.");
+			// we want the handler to be called even if the connecting failed
+			else if (bServerSSL) { /* Start SSL session if requested */
+#ifdef _DEBUG
+				debugLogA("(%d) Starting SSL negotiation", CallService(MS_NETLIB_GETSOCKET, (WPARAM)hConnection, 0));
+#endif
+				if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hConnection, 0)) {
+					debugLogA("Unable to connect to ICQ new family server, SSL could not be negotiated");
+					NetLib_CloseConnection(&hConnection, FALSE);
+				}
+			}
+
+			(this->*pCookieData->familyHandler)(hConnection, pCookie, wCookieLen);
+
+			// Free allocated memory
+			// NOTE: "cookie" will get freed when we have connected to the avatar server.
+			disposeChain(&pChain);
+			SAFE_FREE(&pServer);
+			SAFE_FREE((void**)&pCookieData);
 			break;
 		}
 
 	case ICQ_SERVER_EXTSTATUS: // our session data
-		{
 #ifdef _DEBUG
-			debugLogA("Received owner session data.");
+		debugLogA("Received owner session data.");
 #endif
-      while (wBufferLength > 4)
-      { // loop thru all items
-        WORD itemType = pBuffer[0] * 0x10 | pBuffer[1];
-        BYTE itemFlags = pBuffer[2];
-        BYTE itemLen = pBuffer[3];
+		while (wBufferLength > 4) { // loop thru all items
+			WORD itemType = pBuffer[0] * 0x10 | pBuffer[1];
+			BYTE itemFlags = pBuffer[2];
+			BYTE itemLen = pBuffer[3];
 
-			  if (itemType == AVATAR_HASH_PHOTO) /// TODO: handle photo item
-			  { // skip photo item
+			if (itemType == AVATAR_HASH_PHOTO) { /// TODO: handle photo item
+				// skip photo item
 #ifdef _DEBUG
-          debugLogA("Photo item recognized");
+				debugLogA("Photo item recognized");
 #endif
-			  }
-			  else if ((itemType == AVATAR_HASH_STATIC || itemType == AVATAR_HASH_FLASH) && (itemLen >= 0x10))
-			  {
-#ifdef _DEBUG
-          debugLogA("Avatar item recognized");
-#endif
-				  if (m_bAvatarsEnabled && !info->bMyAvatarInited) // signal the server after login
-				  { // this refreshes avatar state - it used to work automatically, but now it does not
-					  if (getByte("ForceOurAvatar", 0))
-					  { // keep our avatar
-						  TCHAR *file = GetOwnAvatarFileName();
-						  SetMyAvatar(0, (LPARAM)file);
-						  SAFE_FREE(&file);
-					  }
-					  else // only change avatar hash to the same one
-					  {
-						  BYTE hash[0x14];
-
-						  memcpy(hash, pBuffer, 0x14);
-						  hash[2] = 1; // update image status
-						  updateServAvatarHash(hash, 0x14);
-					  }
-					  info->bMyAvatarInited = TRUE;
-					  break;
-				  }
-          // process owner avatar hash changed notification
-          handleAvatarOwnerHash(itemType, itemFlags, pBuffer, itemLen + 4);
-        }
-        else if (itemType == 0x02)
-        {
-#ifdef _DEBUG
-          debugLogA("Status message item recognized");
-#endif
-        }
-        else if (itemType == 0x0E)
-        {
-#ifdef _DEBUG
-          debugLogA("Status mood item recognized");
-#endif
-        }
-
-        // move to next item
-			  if (wBufferLength >= itemLen + 4)
-			  {
- 					wBufferLength -= itemLen + 4;
-  				pBuffer += itemLen + 4;
-	  		}
-		  	else
-			  {
-				  pBuffer += wBufferLength;
-				  wBufferLength = 0;
-			  }
 			}
-			break;
+			else if ((itemType == AVATAR_HASH_STATIC || itemType == AVATAR_HASH_FLASH) && (itemLen >= 0x10)) {
+#ifdef _DEBUG
+				debugLogA("Avatar item recognized");
+#endif
+				if (m_bAvatarsEnabled && !info->bMyAvatarInited) { // signal the server after login
+					// this refreshes avatar state - it used to work automatically, but now it does not
+					if (getByte("ForceOurAvatar", 0)) { // keep our avatar
+						TCHAR *file = GetOwnAvatarFileName();
+						SetMyAvatar(0, (LPARAM)file);
+						SAFE_FREE(&file);
+					}
+					else { // only change avatar hash to the same one
+						BYTE hash[0x14];
+						memcpy(hash, pBuffer, 0x14);
+						hash[2] = 1; // update image status
+						updateServAvatarHash(hash, 0x14);
+					}
+					info->bMyAvatarInited = true;
+					break;
+				}
+				// process owner avatar hash changed notification
+				handleAvatarOwnerHash(itemType, itemFlags, pBuffer, itemLen + 4);
+			}
+			else if (itemType == 0x02) {
+#ifdef _DEBUG
+				debugLogA("Status message item recognized");
+#endif
+			}
+			else if (itemType == 0x0E) {
+#ifdef _DEBUG
+				debugLogA("Status mood item recognized");
+#endif
+			}
+
+			// move to next item
+			if (wBufferLength >= itemLen + 4) {
+				wBufferLength -= itemLen + 4;
+				pBuffer += itemLen + 4;
+			}
+			else {
+				pBuffer += wBufferLength;
+				wBufferLength = 0;
+			}
 		}
+		break;
 
-	case ICQ_ERROR:
-		{ // Something went wrong, probably the request for avatar family failed
+	case ICQ_ERROR: // Something went wrong, probably the request for avatar family failed
+		{
 			WORD wError;
-
 			if (wBufferLength >= 2)
 				unpackWord(&pBuffer, &wError);
-			else 
+			else
 				wError = 0;
 
 			LogFamilyError(ICQ_SERVICE_FAMILY, wError);
-			break;
 		}
+		break;
 
 		// Stuff we don't care about
 	case ICQ_SERVER_MOTD:
@@ -523,22 +492,21 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 	default:
 		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_SERVICE_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
-
 	}
 }
 
 
 char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResume)
 {
-	char* szList;
 	MCONTACT hContact;
 	WORD wCurrentLen = 0;
 	DWORD dwUIN;
 	uid_str szUID;
-	char szLen[2];
 	int add;
 
-	szList = (char*)SAFE_MALLOC(CallService(MS_DB_CONTACT_GETCOUNT, 0, 0) * UINMAXLEN);
+	char *szList = (char*)SAFE_MALLOC(CallService(MS_DB_CONTACT_GETCOUNT, 0, 0) * UINMAXLEN);
+
+	char szLen[2];
 	szLen[1] = '\0';
 
 	if (*hContactResume)
@@ -546,15 +514,11 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResum
 	else
 		hContact = db_find_first(m_szModuleName);
 
-	while (hContact != NULL)
-	{
-		if (!getContactUid(hContact, &dwUIN, &szUID))
-		{
+	while (hContact != NULL) {
+		if (!getContactUid(hContact, &dwUIN, &szUID)) {
 			szLen[0] = strlennull(strUID(dwUIN, szUID));
 
-			switch (subtype)
-			{
-
+			switch (subtype) {
 			case BUL_VISIBLE:
 				add = ID_STATUS_ONLINE == getWord(hContact, "ApparentMode", 0);
 				break;
@@ -587,11 +551,9 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResum
 				break;
 			}
 
-			if (add)
-			{
+			if (add) {
 				wCurrentLen += szLen[0] + 1;
-				if (wCurrentLen > wMaxLen)
-				{
+				if (wCurrentLen > wMaxLen) {
 					*hContactResume = hContact;
 					return szList;
 				}
@@ -608,21 +570,17 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResum
 	return szList;
 }
 
-
 void CIcqProto::sendEntireListServ(WORD wFamily, WORD wSubtype, int listType)
 {
 	MCONTACT hResumeContact = NULL;
 
-	do
-	{ // server doesn't seem to be able to cope with packets larger than 8k
+	do { // server doesn't seem to be able to cope with packets larger than 8k
 		// send only about 100contacts per packet
 		char *szList = buildUinList(listType, 0x3E8, &hResumeContact);
+
 		int nListLen = strlennull(szList);
-
-		if (nListLen)
-		{
+		if (nListLen) {
 			icq_packet packet;
-
 			serverPacketInit(&packet, (WORD)(nListLen + 10));
 			packFNACHeader(&packet, wFamily, wSubtype);
 			packBuffer(&packet, (LPBYTE)szList, (WORD)nListLen);
@@ -631,20 +589,20 @@ void CIcqProto::sendEntireListServ(WORD wFamily, WORD wSubtype, int listType)
 
 		SAFE_FREE((void**)&szList);
 	}
-	while (hResumeContact);
+		while (hResumeContact);
 }
 
 
 static void packShortCapability(icq_packet *packet, WORD wCapability)
-{ // pack standard capability
+{
+	// pack standard capability
 	DWORD dwQ1 = 0x09460000 | wCapability;
 
-	packDWord(packet, dwQ1); 
+	packDWord(packet, dwQ1);
 	packDWord(packet, 0x4c7f11d1);
 	packDWord(packet, 0x82224445);
 	packDWord(packet, 0x53540000);
 }
-
 
 // CLI_SETUSERINFO
 void CIcqProto::setUserInfo()
@@ -685,7 +643,7 @@ void CIcqProto::setUserInfo()
 	//MIM/PackName
 	bool bHasPackName = false;
 	DBVARIANT dbv;
-	if ( !db_get_s(NULL, "ICQCaps", "PackName", &dbv )) {
+	if (!db_get_s(NULL, "ICQCaps", "PackName", &dbv)) {
 		//MIM/PackName
 		bHasPackName = true;
 		wAdditionalData += 16;
@@ -699,62 +657,55 @@ void CIcqProto::setUserInfo()
 	packWord(&packet, (WORD)(48 + wAdditionalData));
 
 #ifdef DBG_CAPMTN
-	{
-		packDWord(&packet, 0x563FC809); // CAP_TYPING
-		packDWord(&packet, 0x0B6F41BD);
-		packDWord(&packet, 0x9F794226);
-		packDWord(&packet, 0x09DFA2F3);
-	}
+	packDWord(&packet, 0x563FC809); // CAP_TYPING
+	packDWord(&packet, 0x0B6F41BD);
+	packDWord(&packet, 0x9F794226);
+	packDWord(&packet, 0x09DFA2F3);
 #endif
-	{
-		packShortCapability(&packet, 0x1349);  // AIM_CAPS_ICQSERVERRELAY
-	}
+
+	packShortCapability(&packet, 0x1349);  // AIM_CAPS_ICQSERVERRELAY
+
+	// Broadcasts the capability to receive UTF8 encoded messages
 	if (m_bUtfEnabled)
-	{
 		packShortCapability(&packet, 0x134E);  // CAP_UTF8MSGS
-	} // Broadcasts the capability to receive UTF8 encoded messages
+
 #ifdef DBG_NEWCAPS
-	{
-		packShortCapability(&packet, 0x0000);  // CAP_SHORTCAPS
-	} // Tells server we understand to new format of caps
+	// Tells server we understand to new format of caps
+	packShortCapability(&packet, 0x0000);  // CAP_SHORTCAPS
 #endif
+
 #ifdef DBG_CAPXTRAZ
-	{
-		packDWord(&packet, 0x1a093c6c); // CAP_XTRAZ
-		packDWord(&packet, 0xd7fd4ec5); // Broadcasts the capability to handle
-		packDWord(&packet, 0x9d51a647); // Xtraz
-		packDWord(&packet, 0x4e34f5a0);
-	}
+	packDWord(&packet, 0x1a093c6c); // CAP_XTRAZ
+	packDWord(&packet, 0xd7fd4ec5); // Broadcasts the capability to handle
+	packDWord(&packet, 0x9d51a647); // Xtraz
+	packDWord(&packet, 0x4e34f5a0);
 #endif
+
 	if (m_bAvatarsEnabled)
-	{
 		packShortCapability(&packet, 0x134C);  // CAP_DEVILS
-	}
+
 #ifdef DBG_OSCARFT
-	{
-		packShortCapability(&packet, 0x1343);  // CAP_AIM_FILE
-	} // Broadcasts the capability to receive Oscar File Transfers
+	// Broadcasts the capability to receive Oscar File Transfers
+	packShortCapability(&packet, 0x1343);  // CAP_AIM_FILE
 #endif
+
+	// Tells the server we can speak to AIM
 	if (m_bAimEnabled)
-	{
 		packShortCapability(&packet, 0x134D);  // CAP_AIM_COMPATIBLE
-  } // Tells the server we can speak to AIM
+  
 #ifdef DBG_AIMCONTACTSEND
-	{
-		packShortCapability(&packet, 0x134B);  // CAP_SENDBUDDYLIST
-	}
+	packShortCapability(&packet, 0x134B);  // CAP_SENDBUDDYLIST
 #endif
+
 	if (m_bXStatusEnabled && bXStatus != 0)
-	{
-		packBuffer(&packet, capXStatus[bXStatus-1], BINARY_CAP_SIZE);
-	}
+		packBuffer(&packet, capXStatus[bXStatus - 1], BINARY_CAP_SIZE);
 
 	packShortCapability(&packet, 0x1344);      // CAP_ICQDIRECT
 
 #ifdef DBG_CAPHTML
 	packShortCapability(&packet, 0x0002);      // CAP_HTMLMSGS
 #endif
-	
+
 	packDWord(&packet, 0x4D697261);   // Miranda Signature
 	packDWord(&packet, 0x6E64614E);
 
@@ -766,16 +717,14 @@ void CIcqProto::setUserInfo()
 	packWord(&packet, v[3]);
 
 	//MIM/PackName
-	if ( bHasPackName ) {
+	if (bHasPackName) {
 		packBuffer(&packet, (BYTE*)dbv.pszVal, 0x10);
 		db_free(&dbv);
 	}
 
-	if(!CustomCapList.empty())
-	{
-		for(std::list<ICQ_CUSTOMCAP*>::iterator it = CustomCapList.begin(), end = CustomCapList.end(); it != end; ++it)
+	if (!CustomCapList.empty())
+		for (std::list<ICQ_CUSTOMCAP*>::iterator it = CustomCapList.begin(), end = CustomCapList.end(); it != end; ++it)
 			packBuffer(&packet, (BYTE*)(*it)->caps, 0x10);
-	}
 
 	sendServPacket(&packet);
 }
@@ -783,16 +732,13 @@ void CIcqProto::setUserInfo()
 
 void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 {
-	icq_packet packet;
-
 	setUserInfo();
 
 	/* SNAC 3,4: Tell server who's on our list (deprecated) */
-  /* SNAC 3,15: Try to add unauthorised contacts to temporary list */
+	/* SNAC 3,15: Try to add unauthorised contacts to temporary list */
 	sendEntireListServ(ICQ_BUDDY_FAMILY, ICQ_USER_ADDTOTEMPLIST, BUL_ALLCONTACTS);
 
-	if (m_iDesiredStatus == ID_STATUS_INVISIBLE)
-	{
+	if (m_iDesiredStatus == ID_STATUS_INVISIBLE) {
 		/* Tell server who's on our visible list (deprecated) */
 		if (!m_bSsiEnabled)
 			sendEntireListServ(ICQ_BOS_FAMILY, ICQ_CLI_ADDVISIBLE, BUL_VISIBLE);
@@ -800,8 +746,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 			updateServVisibilityCode(3);
 	}
 
-	if (m_iDesiredStatus != ID_STATUS_INVISIBLE)
-	{
+	if (m_iDesiredStatus != ID_STATUS_INVISIBLE) {
 		/* Tell server who's on our invisible list (deprecated) */
 		if (!m_bSsiEnabled)
 			sendEntireListServ(ICQ_BOS_FAMILY, ICQ_CLI_ADDINVISIBLE, BUL_INVISIBLE);
@@ -810,6 +755,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 	}
 
 	// SNAC 1,1E: Set status
+	icq_packet packet;
 	{
 		DWORD dwDirectCookie = rand() ^ (rand() << 16);
 
@@ -822,8 +768,8 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 		char szMoodData[32];
 
 		// prepare mood id
-		if (m_bMoodsEnabled && bXStatus && moodXStatus[bXStatus-1] != -1)
-			mir_snprintf(szMoodData, SIZEOF(szMoodData), "icqmood%d", moodXStatus[bXStatus-1]);
+		if (m_bMoodsEnabled && bXStatus && moodXStatus[bXStatus - 1] != -1)
+			mir_snprintf(szMoodData, SIZEOF(szMoodData), "icqmood%d", moodXStatus[bXStatus - 1]);
 		else
 			szMoodData[0] = '\0';
 
@@ -857,13 +803,11 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 		packWord(&packet, 0x0000);                  // Unknown
 		packTLVWord(&packet, 0x001F, 0x0000);
 
-		if (wSessionDataLen)
-		{ // Pack session data
+		if (wSessionDataLen) { // Pack session data
 			packWord(&packet, 0x1D);                  // TLV 1D
 			packWord(&packet, wSessionDataLen);       // TLV length
 			packWord(&packet, 0x02);                  // Item Type
-			if (wStatusNoteLen)
-			{
+			if (wStatusNoteLen) {
 				packWord(&packet, 0x400 | (WORD)(wStatusNoteLen + 4)); // Flags + Item Length
 				packWord(&packet, wStatusNoteLen);      // Text Length
 				packBuffer(&packet, (LPBYTE)szStatusNote, wStatusNoteLen);
@@ -928,7 +872,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 	debugLogA(" *** Yeehah, login sequence complete");
 
 	// login sequence is complete enter logged-in mode
-	info->bLoggedIn = 1;
+	info->bLoggedIn = true;
 	m_bConnectionLost = false;
 
 	// enable auto info-update routine
@@ -966,7 +910,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 		// Set last xstatus
 		updateServerCustomStatus(TRUE);
 	}
-	info->isMigrating = 0;
+	info->isMigrating = false;
 
 	if (m_bAimEnabled) {
 		char **szAwayMsg = NULL;

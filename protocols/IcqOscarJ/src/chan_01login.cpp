@@ -33,13 +33,8 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 #endif
 
 	// isLoginServer is "1" if we just received SRV_HELLO
-	if (info->isLoginServer)
-	{
-		if (m_bSecureLogin)
-		{
-			char szUin[UINMAXLEN];
-			WORD wUinLen;
-
+	if (info->isLoginServer) {
+		if (m_bSecureLogin) {
 #ifdef _DEBUG
 			debugLogA("Sending %s to %s", "CLI_HELLO", "login server");
 #endif
@@ -49,35 +44,32 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 			packTLVDWord(&packet, 0x8003, 0x00100000); // unknown
 			sendServPacket(&packet);  // greet login server
 
-			wUinLen = strlennull(strUID(m_dwLocalUIN, szUin));
+			char szUin[UINMAXLEN];
+			WORD wUinLen = strlennull(strUID(m_dwLocalUIN, szUin));
+
 #ifdef _DEBUG
 			debugLogA("Sending %s to %s", "ICQ_SIGNON_AUTH_REQUEST", "login server");
 #endif
-
 			serverPacketInit(&packet, (WORD)(14 + wUinLen));
 			packFNACHeader(&packet, ICQ_AUTHORIZATION_FAMILY, ICQ_SIGNON_AUTH_REQUEST, 0, 0);
 			packTLV(&packet, 0x0001, wUinLen, (LPBYTE)szUin);
 			sendServPacket(&packet);  // request login digest
 		}
-		else
-		{
+		else {
 			sendClientAuth((char*)info->szAuthKey, info->wAuthKeyLen, FALSE);
 #ifdef _DEBUG
 			debugLogA("Sent CLI_IDENT to %s", "login server");
 #endif
 		}
 
-		info->isLoginServer = 0;
-		if (info->cookieDataLen)
-		{
+		info->isLoginServer = false;
+		if (info->cookieDataLen) {
 			SAFE_FREE((void**)&info->cookieData);
 			info->cookieDataLen = 0;
 		}
 	}
-	else 
-	{
-		if (info->cookieDataLen)
-		{
+	else {
+		if (info->cookieDataLen) {
 			wLocalSequence = generate_flap_sequence();
 
 			serverCookieInit(&packet, info->cookieData, (WORD)info->cookieDataLen);
@@ -90,10 +82,7 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 			SAFE_FREE((void**)&info->cookieData);
 			info->cookieDataLen = 0;
 		}
-		else
-		{
-			// We need a cookie to identify us to the communication server
+		else // We need a cookie to identify us to the communication server
 			debugLogA("Error: Connected to %s without a cookie!", "communication server");
-		}
 	}
 }

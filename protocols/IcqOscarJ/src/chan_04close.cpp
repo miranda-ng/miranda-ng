@@ -29,13 +29,13 @@ void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *i
 	oscar_tlv_chain *chain = NULL;
 
 	// Parse server reply, prepare reconnection
-	if (!info->bLoggedIn && datalen && !info->newServerReady)
+	if (!info->bLoggedIn && datalen && !info->isNewServerReady)
 		handleLoginReply(buf, datalen, info);
 
 	if (info->isMigrating)
 		handleMigration(info);
 
-	if ((!info->bLoggedIn || info->isMigrating) && info->newServerReady) {
+	if ((!info->bLoggedIn || info->isMigrating) && info->isNewServerReady) {
 		if (!connectNewServer(info)) { // Connecting failed
 			if (info->isMigrating)
 				icq_LogUsingErrorCode(LOG_ERROR, GetLastError(), LPGEN("Unable to connect to migrated ICQ communication server"));
@@ -44,9 +44,9 @@ void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *i
 
 			SetCurrentStatus(ID_STATUS_OFFLINE);
 
-			info->isMigrating = 0;
+			info->isMigrating = false;
 		}
-		info->newServerReady = 0;
+		info->isNewServerReady = false;
 		return;
 	}
 
@@ -64,7 +64,6 @@ void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *i
 	// Server closed connection on error, or sign off
 	NetLib_CloseConnection(&hServerConn, TRUE);
 }
-
 
 void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *info)
 {
@@ -114,11 +113,8 @@ void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *inf
 	}
 
 	debugLogA("Authenticated.");
-	info->newServerReady = 1;
-
-	return;
+	info->isNewServerReady = true;
 }
-
 
 int CIcqProto::connectNewServer(serverthread_info *info)
 {
@@ -150,7 +146,7 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 			if (!info->hPacketRecver)
 				debugLogA("Error: Failed to create packet receiver.");
 			else { // we need to reset receiving structs
-				info->bReinitRecver = 1;
+				info->bReinitRecver = true;
 				res = 1;
 			}
 		}
@@ -170,7 +166,6 @@ int CIcqProto::connectNewServer(serverthread_info *info)
 	return res;
 }
 
-
 void CIcqProto::handleMigration(serverthread_info *info)
 {
 	// Check the data that was saved when the migration was announced
@@ -180,8 +175,7 @@ void CIcqProto::handleMigration(serverthread_info *info)
 
 		SAFE_FREE(&info->newServer);
 		SAFE_FREE((void**)&info->cookieData);
-		info->newServerReady = 0;
-		info->isMigrating = 0;
+		info->isNewServerReady = info->isMigrating = false;
 	}
 }
 
@@ -268,7 +262,6 @@ void CIcqProto::handleSignonError(WORD wError)
 		break;
 	}
 }
-
 
 void CIcqProto::handleRuntimeError(WORD wError)
 {

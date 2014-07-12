@@ -29,50 +29,30 @@ void CIcqProto::handlePingChannel(BYTE *buf, WORD datalen)
 	debugLogA("Warning: Ignoring server packet on PING channel");
 }
 
-void __cdecl CIcqProto::KeepAliveThread(void *arg)
-{
-	serverthread_info *info = (serverthread_info*)arg;
-	icq_packet packet;
-	DWORD dwInterval = getDword("KeepAliveInterval", KEEPALIVE_INTERVAL);
-
-	debugLogA("Keep alive thread starting.");
-
-	info->hKeepAliveEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-
-	for (;;) {
-		DWORD dwWait = ICQWaitForSingleObject(info->hKeepAliveEvent, dwInterval);
-		if (serverThreadHandle == NULL) // connection lost, end
-			break;
-
-		// Possible shutdown in progress
-		if (dwWait == WAIT_IO_COMPLETION)
-			break;
-
-		if (dwWait == WAIT_TIMEOUT) {
-			// Send a keep alive packet to server
-			packet.wLen = 0;
-			write_flap(&packet, ICQ_PING_CHAN);
-			sendServPacket(&packet);
-		}
-	}
-
-	debugLogA("Keep alive thread ended.");
-
-	CloseHandle(info->hKeepAliveEvent);
-	info->hKeepAliveEvent = NULL;
-}
-
 void CIcqProto::StartKeepAlive(serverthread_info *info)
 {
-	if (info->hKeepAliveEvent) // start only once
-		return;
-
 	if (getByte("KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
-		ForkThread(&CIcqProto::KeepAliveThread, info);
+		info->iKeepalive = getDword("KeepAliveInterval", KEEPALIVE_INTERVAL);
+	else
+		info->iKeepalive = -1;
 }
 
 void CIcqProto::StopKeepAlive(serverthread_info *info)
 {
-	if (info->hKeepAliveEvent)
-		SetEvent(info->hKeepAliveEvent);
+	info->iKeepalive = -1;
+}
+
+void CIcqProto::CheckKeepAlive(serverthread_info *info)
+{
+	if (info->iKeepalive != -1) {
+		if (info->iKeepalive == 0) {
+			// Send a keep alive packet to server
+			icq_packet packet = { 0 };
+			write_flap(&packet, ICQ_PING_CHAN);
+			sendServPacket(&packet);
+
+			StartKeepAlive(info);
+		}
+		else info->iKeepalive--;
+	}
 }

@@ -219,10 +219,9 @@ struct CIcqProto : public PROTO<CIcqProto>
 	//----| chan_05ping.cpp |-------------------------------------------------------------
 	void   handlePingChannel(BYTE *buf, WORD wLen);
 
-	void   __cdecl KeepAliveThread(void *arg);
-
 	void   StartKeepAlive(serverthread_info *info);
 	void   StopKeepAlive(serverthread_info *info);
+	void   CheckKeepAlive(serverthread_info *info);
 
 	//----| cookies.cpp |-----------------------------------------------------------------
 	icq_critical_section *cookieMutex; // we want this in avatar thread, used as queue lock

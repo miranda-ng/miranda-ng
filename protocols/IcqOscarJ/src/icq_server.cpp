@@ -125,6 +125,8 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 			if (dwError == ERROR_TIMEOUT) {
 				if (m_iDesiredStatus == ID_STATUS_OFFLINE)
 					break;
+
+				CheckKeepAlive(&info);
 				continue;
 			}
 			if (dwError == WSAESHUTDOWN) // ok, we're going offline
