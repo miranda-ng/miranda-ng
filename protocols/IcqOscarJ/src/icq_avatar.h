@@ -20,16 +20,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
 //  Avatars connection support declarations
-//
 // -----------------------------------------------------------------------------
+
 #ifndef __ICQ_AVATAR_H
 #define __ICQ_AVATAR_H
-
 
 extern BYTE hashEmptyAvatar[9];
 
@@ -90,7 +88,6 @@ public:
 };
 
 __inline static void SAFE_DELETE(avatars_server_connection **p) { SAFE_DELETE((lockable_struct**)p); };
-
 
 struct avatars_request : public MZeroedObject
 {

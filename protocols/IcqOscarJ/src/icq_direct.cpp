@@ -63,10 +63,8 @@ directconnect* CIcqProto::FindFileTransferDC(filetransfer* ft)
 	directconnect* dc = NULL;
 	icq_lock l(directConnListMutex);
 
-	for (int i = 0; i < directConns.getCount(); i++)
-	{
-		if ( directConns[i]->ft == ft )
-		{
+	for (int i = 0; i < directConns.getCount(); i++) {
+		if (directConns[i]->ft == ft) {
 			dc = directConns[i];
 			break;
 		}
@@ -81,12 +79,10 @@ filetransfer* CIcqProto::FindExpectedFileRecv(DWORD dwUin, DWORD dwTotalSize)
 	filetransfer* pFt = NULL;
 	icq_lock l(expectedFileRecvMutex);
 
-	for (int i = 0; i < expectedFileRecvs.getCount(); i++)
-	{
-		if (expectedFileRecvs[i]->dwUin == dwUin && expectedFileRecvs[i]->dwTotalSize == dwTotalSize)
-		{
+	for (int i = 0; i < expectedFileRecvs.getCount(); i++) {
+		if (expectedFileRecvs[i]->dwUin == dwUin && expectedFileRecvs[i]->dwTotalSize == dwTotalSize) {
 			pFt = expectedFileRecvs[i];
-			expectedFileRecvs.remove( i );
+			expectedFileRecvs.remove(i);
 			break;
 		}
 	}
@@ -98,8 +94,7 @@ filetransfer* CIcqProto::FindExpectedFileRecv(DWORD dwUin, DWORD dwTotalSize)
 int CIcqProto::sendDirectPacket(directconnect* dc, icq_packet* pkt)
 {
 	int nResult = Netlib_Send(dc->hConnection, (const char*)pkt->pData, pkt->wLen + 2, 0);
-	if (nResult == SOCKET_ERROR)
-	{
+	if (nResult == SOCKET_ERROR) {
 		NetLog_Direct("Direct %p socket error: %d, closing", dc->hConnection, GetLastError());
 		CloseDirectConnection(dc);
 	}
@@ -111,7 +106,7 @@ int CIcqProto::sendDirectPacket(directconnect* dc, icq_packet* pkt)
 
 directthreadstartinfo* CreateDTSI(MCONTACT hContact, HANDLE hConnection, int type)
 {
-	directthreadstartinfo* dtsi = (directthreadstartinfo*)SAFE_MALLOC(sizeof(directthreadstartinfo));
+	directthreadstartinfo *dtsi = (directthreadstartinfo*)SAFE_MALLOC(sizeof(directthreadstartinfo));
 	dtsi->hContact = hContact;
 	dtsi->hConnection = hConnection;
 	if (type == -1)
@@ -128,30 +123,26 @@ BOOL CIcqProto::IsDirectConnectionOpen(MCONTACT hContact, int type, int bPassive
 {
 	BOOL bIsOpen = FALSE, bIsCreated = FALSE;
 
-  {
-    icq_lock l(directConnListMutex);
+	{
+		icq_lock l(directConnListMutex);
 
-	  for (int i = 0; i < directConns.getCount(); i++)
-	  {
-		  if (directConns[i] && (directConns[i]->type == type))
-		  {
-			  if (directConns[i]->hContact == hContact)
-				  if (directConns[i]->initialised)
-				  {
-					  // Connection is OK
-					  bIsOpen = TRUE;
-					  // we are going to use the conn, so prevent timeout
-					  directConns[i]->packetPending = 1;
-					  break;
-				  }
-				  else
-					  bIsCreated = TRUE; // we found pending connection
-		  }
-	  }
-  }
+		for (int i = 0; i < directConns.getCount(); i++) {
+			if (directConns[i] && (directConns[i]->type == type)) {
+				if (directConns[i]->hContact == hContact)
+					if (directConns[i]->initialised) {
+					// Connection is OK
+					bIsOpen = TRUE;
+					// we are going to use the conn, so prevent timeout
+					directConns[i]->packetPending = 1;
+					break;
+					}
+					else
+						bIsCreated = TRUE; // we found pending connection
+			}
+		}
+	}
 
-	if (!bPassive && !bIsCreated && !bIsOpen && type == DIRECTCONN_STANDARD && m_bDCMsgEnabled == 2)
-	{ // do not try to open DC to offline contact
+	if (!bPassive && !bIsCreated && !bIsOpen && type == DIRECTCONN_STANDARD && m_bDCMsgEnabled == 2) { // do not try to open DC to offline contact
 		if (getContactStatus(hContact) == ID_STATUS_OFFLINE) return FALSE;
 		// do not try to open DC if previous attempt was not successfull
 		if (getByte(hContact, "DCStatus", 0)) return FALSE;
@@ -199,10 +190,10 @@ void CIcqProto::CloseDirectConnection(directconnect *dc)
 // Called from OpenDirectConnection when a new outgoing dc is done
 // Called from SendDirectMessage when a new outgoing dc is done
 
-void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
+void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 {
-	directconnect dc = {0};
-	NETLIBPACKETRECVER packetRecv={0};
+	directconnect dc = { 0 };
+	NETLIBPACKETRECVER packetRecv = { 0 };
 	HANDLE hPacketRecver;
 	BOOL bFirstPacket = TRUE;
 	int nSkipPacketBytes = 0;
@@ -210,10 +201,10 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 	DWORD dwReqMsgID2;
 
 	srand(time(NULL));
-
-  { // add to DC connection list
+	{
+		// add to DC connection list
 		icq_lock l(directConnListMutex);
-		directConns.insert( &dc );
+		directConns.insert(&dc);
 	}
 
 	// Initialize DC struct
@@ -223,8 +214,7 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 	dc.hConnection = dtsi->hConnection;
 	dc.ft = NULL;
 
-	if (!dc.incoming)
-	{
+	if (!dc.incoming) {
 		dc.type = dtsi->type;
 		dc.dwRemoteExternalIP = getDword(dtsi->hContact, "IP", 0);
 		dc.dwRemoteInternalIP = getDword(dtsi->hContact, "RealIP", 0);
@@ -233,28 +223,23 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 		dc.dwConnectionCookie = getDword(dtsi->hContact, "DirectCookie", 0);
 		dc.wVersion = getWord(dtsi->hContact, "Version", 0);
 
-		if (!dc.dwRemoteExternalIP && !dc.dwRemoteInternalIP)
-		{ // we do not have any ip, do not try to connect
+		if (!dc.dwRemoteExternalIP && !dc.dwRemoteInternalIP) { // we do not have any ip, do not try to connect
 			SAFE_FREE((void**)&dtsi);
 			goto LBL_Exit;
 		}
-		if (!dc.dwRemotePort)
-		{ // we do not have port, do not try to connect
+		if (!dc.dwRemotePort) { // we do not have port, do not try to connect
 			SAFE_FREE((void**)&dtsi);
 			goto LBL_Exit;
 		}
 
-		if (dc.type == DIRECTCONN_STANDARD)
-		{
+		if (dc.type == DIRECTCONN_STANDARD) {
 			// do nothing - some specific init for msg sessions
 		}
-		else if (dc.type == DIRECTCONN_FILE)
-		{
+		else if (dc.type == DIRECTCONN_FILE) {
 			dc.ft = (filetransfer*)dtsi->pvExtra;
 			dc.dwRemotePort = dc.ft->dwRemotePort;
 		}
-		else if (dc.type == DIRECTCONN_REVERSE)
-		{
+		else if (dc.type == DIRECTCONN_REVERSE) {
 			cookie_reverse_connect *pCookie = (cookie_reverse_connect*)dtsi->pvExtra;
 
 			dwReqMsgID1 = pCookie->dwMsgID1;
@@ -263,10 +248,7 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 			SAFE_FREE((void**)&pCookie);
 		}
 	}
-	else
-	{
-		dc.type = DIRECTCONN_STANDARD;
-	}
+	else dc.type = DIRECTCONN_STANDARD;
 
 	SAFE_FREE((void**)&dtsi);
 
@@ -275,15 +257,13 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 	dc.dwLocalInternalIP = getDword("RealIP", 0);
 
 	// Create outgoing DC
-	if (!dc.incoming)
-	{
-		NETLIBOPENCONNECTION nloc = {0};
-		IN_ADDR addr = {0}, addr2 = {0};
+	if (!dc.incoming) {
+		NETLIBOPENCONNECTION nloc = { 0 };
+		IN_ADDR addr = { 0 }, addr2 = { 0 };
 
 		if (dc.dwRemoteExternalIP == dc.dwLocalExternalIP && dc.dwRemoteInternalIP)
 			addr.S_un.S_addr = htonl(dc.dwRemoteInternalIP);
-		else
-		{
+		else {
 			addr.S_un.S_addr = htonl(dc.dwRemoteExternalIP);
 			// for different internal, try it also (for LANs with multiple external IP, VPNs, etc.)
 			if (dc.dwRemoteInternalIP != dc.dwRemoteExternalIP)
@@ -293,29 +273,24 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 		// IP to connect to is empty, go away
 		if (!addr.S_un.S_addr)
 			goto LBL_Exit;
-		
+
 		nloc.szHost = inet_ntoa(addr);
 		nloc.wPort = (WORD)dc.dwRemotePort;
 		nloc.timeout = 8; // 8 secs to connect
-		dc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, dc.type==DIRECTCONN_REVERSE?"Reverse ":NULL, &nloc);
-		if (!dc.hConnection && addr2.S_un.S_addr)
-		{ // first address failed, try second one if available
+		dc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, dc.type == DIRECTCONN_REVERSE ? "Reverse " : NULL, &nloc);
+		if (!dc.hConnection && addr2.S_un.S_addr) { // first address failed, try second one if available
 			nloc.szHost = inet_ntoa(addr2);
-			dc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, dc.type==DIRECTCONN_REVERSE?"Reverse ":NULL, &nloc);
+			dc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, dc.type == DIRECTCONN_REVERSE ? "Reverse " : NULL, &nloc);
 		}
-		if (!dc.hConnection)
-		{
-			if (CheckContactCapabilities(dc.hContact, CAPF_ICQDIRECT))
-			{ // only if the contact support ICQ DC connections
-				if (dc.type != DIRECTCONN_REVERSE)
-				{ // try reverse connect
+		if (!dc.hConnection) {
+			if (CheckContactCapabilities(dc.hContact, CAPF_ICQDIRECT)) { // only if the contact support ICQ DC connections
+				if (dc.type != DIRECTCONN_REVERSE) { // try reverse connect
 					cookie_reverse_connect *pCookie = (cookie_reverse_connect*)SAFE_MALLOC(sizeof(cookie_reverse_connect));
 					DWORD dwCookie;
 
 					NetLog_Direct("connect() failed (%d), trying reverse.", GetLastError());
 
-					if (pCookie)
-					{ // init cookie
+					if (pCookie) { // init cookie
 						InitMessageCookie(pCookie);
 						pCookie->bMessageType = MTYPE_REVERSE_REQUEST;
 						pCookie->hContact = dc.hContact;
@@ -326,7 +301,7 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 						icq_sendReverseReq(&dc, dwCookie, (cookie_message_data*)pCookie);
 						goto LBL_Exit;
 					}
-					
+
 					NetLog_Direct("Reverse failed (%s)", "malloc failed");
 				}
 			}
@@ -334,12 +309,10 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 				setByte(dc.hContact, "DCStatus", 2);
 
 			if (dc.type == DIRECTCONN_REVERSE) // failed reverse connection
-			{ // announce we failed
 				icq_sendReverseFailed(&dc, dwReqMsgID1, dwReqMsgID2, dc.dwReqId);
-			}
+
 			NetLog_Direct("connect() failed (%d)", GetLastError());
-			if (dc.type == DIRECTCONN_FILE)
-			{
+			if (dc.type == DIRECTCONN_FILE) {
 				ProtoBroadcastAck(dc.ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, dc.ft, 0);
 				// Release transfer
 				SafeReleaseFileTransfer((void**)&dc.ft);
@@ -351,11 +324,8 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 			dc.ft->hConnection = dc.hConnection;
 
 		if (dc.wVersion > 6)
-		{
 			sendPeerInit_v78(&dc);
-		}
-		else
-		{
+		else {
 			NetLog_Direct("Error: Unsupported direct protocol: %d, closing.", dc.wVersion);
 			CloseDirectConnection(&dc);
 			goto LBL_Exit;
@@ -368,44 +338,33 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 
 	// Packet receiving loop
 
-	while (dc.hConnection)
-	{
-		int recvResult;
-
+	while (dc.hConnection) {
 		packetRecv.dwTimeout = dc.wantIdleTime ? 0 : 600000;
 
-		recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hPacketRecver, (LPARAM)&packetRecv);
-		if (recvResult == 0)
-		{
+		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hPacketRecver, (LPARAM)&packetRecv);
+		if (recvResult == 0) {
 			NetLog_Direct("Clean closure of direct socket (%p)", dc.hConnection);
 			break;
 		}
 
-		if (recvResult == SOCKET_ERROR)
-		{
-			if (GetLastError() == ERROR_TIMEOUT)
-			{ // TODO: this will not work on some systems
-				if (dc.wantIdleTime)
-				{
-					switch (dc.type)
-					{
+		if (recvResult == SOCKET_ERROR) {
+			if (GetLastError() == ERROR_TIMEOUT) { // TODO: this will not work on some systems
+				if (dc.wantIdleTime) {
+					switch (dc.type) {
 					case DIRECTCONN_FILE:
 						handleFileTransferIdle(&dc);
 						break;
 					}
 				}
-				else if (dc.packetPending)
-				{ // do we expect packet soon?
+				else if (dc.packetPending) { // do we expect packet soon?
 					NetLog_Direct("Keeping connection, packet pending.");
 				}
-				else
-				{
+				else {
 					NetLog_Direct("Connection inactive for 10 minutes, closing.");
 					break;
 				}
 			}
-			else
-			{
+			else {
 				NetLog_Direct("Abortive closure of direct socket (%p) (%d)", dc.hConnection, GetLastError());
 				break;
 			}
@@ -413,33 +372,26 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 
 		if (dc.type == DIRECTCONN_CLOSING)
 			packetRecv.bytesUsed = packetRecv.bytesAvailable;
-		else if (packetRecv.bytesAvailable < nSkipPacketBytes)
-		{ // the whole buffer needs to be skipped
+		else if (packetRecv.bytesAvailable < nSkipPacketBytes) { // the whole buffer needs to be skipped
 			nSkipPacketBytes -= packetRecv.bytesAvailable;
 			packetRecv.bytesUsed = packetRecv.bytesAvailable;
 		}
-		else
-		{
+		else {
 			int i;
 
-			for (i = nSkipPacketBytes, nSkipPacketBytes = 0; i + 2 <= packetRecv.bytesAvailable;)
-			{ 
+			for (i = nSkipPacketBytes, nSkipPacketBytes = 0; i + 2 <= packetRecv.bytesAvailable;) {
 				WORD wLen = *(WORD*)(packetRecv.buffer + i);
 
-				if (bFirstPacket)
-				{
-					if (wLen > 64)
-					{ // roughly check first packet size
+				if (bFirstPacket) {
+					if (wLen > 64) { // roughly check first packet size
 						NetLog_Direct("Error: Overflowed packet, closing connection.");
 						CloseDirectConnection(&dc);
 						break;
 					}
 					bFirstPacket = FALSE;
 				}
-				else
-				{
-					if (packetRecv.bytesAvailable >= i + 2 && wLen > 8190)
-					{ // check for too big packages
+				else {
+					if (packetRecv.bytesAvailable >= i + 2 && wLen > 8190) { // check for too big packages
 						NetLog_Direct("Error: Package too big: %d bytes, skipping.");
 						nSkipPacketBytes = wLen;
 						packetRecv.bytesUsed = i + 2;
@@ -450,10 +402,8 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 				if (wLen + 2 + i > packetRecv.bytesAvailable)
 					break;
 
-				if (dc.type == DIRECTCONN_STANDARD && wLen && packetRecv.buffer[i + 2] == 2)
-				{
-					if (!DecryptDirectPacket(&dc, packetRecv.buffer + i + 3, (WORD)(wLen - 1)))
-					{
+				if (dc.type == DIRECTCONN_STANDARD && wLen && packetRecv.buffer[i + 2] == 2) {
+					if (!DecryptDirectPacket(&dc, packetRecv.buffer + i + 3, (WORD)(wLen - 1))) {
 						NetLog_Direct("Error: Corrupted packet encryption, ignoring packet");
 						i += wLen + 2;
 						continue;
@@ -500,11 +450,10 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 	if (wLen < 1)
 		return;
 
-	switch (buf[0])
-	{
+	switch (buf[0]) {
 	case PEER_FILE_INIT: // first packet of a file transfer
 #ifdef _DEBUG
-		NetLog_Direct("Received PEER_FILE_INIT from %u",dc->dwRemoteUin);
+		NetLog_Direct("Received PEER_FILE_INIT from %u", dc->dwRemoteUin);
 #endif
 		if (dc->handshake)
 			handleFileTransferPacket(dc, buf, wLen);
@@ -514,55 +463,46 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 		break;
 
 	case PEER_INIT_ACK: // This is sent as a response to our PEER_INIT packet
-		if (wLen != 4)
-		{
+		if (wLen != 4) {
 			NetLog_Direct("Error: Received malformed PEER_INITACK from %u", dc->dwRemoteUin);
 			break;
 		}
 #ifdef _DEBUG
-		NetLog_Direct("Received PEER_INITACK from %u on %s DC", dc->dwRemoteUin, dc->incoming?"incoming":"outgoing");
+		NetLog_Direct("Received PEER_INITACK from %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
 #endif
 		if (dc->incoming) dc->handshake = 1;
 
-		if (dc->incoming && dc->type == DIRECTCONN_REVERSE)
-		{
-			cookie_reverse_connect *pCookie;
-
+		if (dc->incoming && dc->type == DIRECTCONN_REVERSE) {
 			dc->incoming = 0;
 
-			if (FindCookie(dc->dwReqId, NULL, (void**)&pCookie) && pCookie)
-			{ // valid reverse DC, check and init session
+			cookie_reverse_connect *pCookie;
+			if (FindCookie(dc->dwReqId, NULL, (void**)&pCookie) && pCookie) { // valid reverse DC, check and init session
 				FreeCookie(dc->dwReqId);
-				if (pCookie->dwUin == dc->dwRemoteUin)
-				{ // valid connection
+				if (pCookie->dwUin == dc->dwRemoteUin) { // valid connection
 					dc->type = pCookie->type;
 					dc->ft = (filetransfer*)pCookie->ft;
 					dc->hContact = pCookie->hContact;
-					if (dc->type == DIRECTCONN_STANDARD)
-					{ // init message session
+					if (dc->type == DIRECTCONN_STANDARD) { // init message session
 						sendPeerMsgInit(dc, 0);
 					}
-					else if (dc->type == DIRECTCONN_FILE)
-					{ // init file session
+					else if (dc->type == DIRECTCONN_FILE) { // init file session
 						sendPeerFileInit(dc);
 						dc->initialised = 1;
 					}
 					SAFE_FREE((void**)&pCookie);
 					break;
 				}
-				else
-				{
+				else {
 					SAFE_FREE((void**)&pCookie);
 					NetLog_Direct("Error: Invalid connection (UINs does not match).");
 					CloseDirectConnection(dc);
 					return;
 				}
 			}
-			else
-			{
+			else {
 				NetLog_Direct("Error: Received unexpected reverse DC, closing.");
 				CloseDirectConnection(dc);
-				return; 
+				return;
 			}
 		}
 		break;
@@ -578,30 +518,26 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 
 		unpackLEWord(&buf, &dc->wVersion);
 
-		if (dc->wVersion > 6)
-		{ // we support only versions 7 and up
+		if (dc->wVersion > 6) { // we support only versions 7 and up
 			WORD wSecondLen;
 			DWORD dwUin;
 			DWORD dwPort;
 			DWORD dwCookie;
 			MCONTACT hContact;
 
-			if (wLen != 0x30)
-			{
+			if (wLen != 0x30) {
 				NetLog_Direct("Error: Received malformed PEER_INIT");
 				return;
 			}
 
 			unpackLEWord(&buf, &wSecondLen);
-			if (wSecondLen && wSecondLen != 0x2b)
-			{ // OMG? GnomeICU sets this to zero
+			if (wSecondLen && wSecondLen != 0x2b) { // OMG? GnomeICU sets this to zero
 				NetLog_Direct("Error: Received malformed PEER_INIT");
 				return;
 			}
 
 			unpackLEDWord(&buf, &dwUin);
-			if (dwUin != m_dwLocalUIN)
-			{
+			if (dwUin != m_dwLocalUIN) {
 				NetLog_Direct("Error: Received PEER_INIT targeted to %u", dwUin);
 				CloseDirectConnection(dc);
 				return;
@@ -612,10 +548,9 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 			unpackLEDWord(&buf, &dc->dwRemoteUin);
 			unpackDWord(&buf, &dc->dwRemoteExternalIP);
 			unpackDWord(&buf, &dc->dwRemoteInternalIP);
-			buf ++;     /* 04: accept direct connections */
+			buf++;     /* 04: accept direct connections */
 			unpackLEDWord(&buf, &dwPort);
-			if (dwPort != dc->dwRemotePort)
-			{
+			if (dwPort != dc->dwRemotePort) {
 				NetLog_Direct("Error: Received malformed PEER_INIT (invalid port)");
 				return;
 			}
@@ -624,29 +559,23 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 			buf += 8; // Unknown stuff
 			unpackLEDWord(&buf, &dc->dwReqId);
 
-			if (dc->dwRemoteUin || !dc->dwReqId)
-			{ // OMG! Licq sends on reverse connection empty uin
+			if (dc->dwRemoteUin || !dc->dwReqId) { // OMG! Licq sends on reverse connection empty uin
 				hContact = HContactFromUIN(dc->dwRemoteUin, NULL);
-				if (hContact == INVALID_CONTACT_ID)
-				{
+				if (hContact == INVALID_CONTACT_ID) {
 					NetLog_Direct("Error: Received PEER_INIT from %u not on my list", dwUin);
 					CloseDirectConnection(dc);
 					return;   /* don't allow direct connection with people not on my clist */
 				}
 
-				if (dc->incoming)
-				{ // this is the first PEER_INIT with our cookie
-					if (dwCookie != getDword(hContact, "DirectCookie", 0))
-					{
+				if (dc->incoming) { // this is the first PEER_INIT with our cookie
+					if (dwCookie != getDword(hContact, "DirectCookie", 0)) {
 						NetLog_Direct("Error: Received PEER_INIT with broken cookie");
 						CloseDirectConnection(dc);
 						return;
 					}
 				}
-				else
-				{ // this is the second PEER_INIT with peer cookie
-					if (dwCookie != dc->dwConnectionCookie)
-					{
+				else { // this is the second PEER_INIT with peer cookie
+					if (dwCookie != dc->dwConnectionCookie) {
 						NetLog_Direct("Error: Received PEER_INIT with broken cookie");
 						CloseDirectConnection(dc);
 						return;
@@ -654,52 +583,43 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 				}
 			}
 
-			if (dc->incoming && dc->dwReqId)
-			{ // this is reverse connection
+			if (dc->incoming && dc->dwReqId) { // this is reverse connection
 				dc->type = DIRECTCONN_REVERSE;
-				if (!dc->dwRemoteUin)
-				{ // we need to load cookie (licq)
+				if (!dc->dwRemoteUin) { // we need to load cookie (licq)
 					cookie_reverse_connect *pCookie;
 
-					if (FindCookie(dc->dwReqId, NULL, (void**)&pCookie) && pCookie)
-					{ // valid reverse DC, check and init session
+					if (FindCookie(dc->dwReqId, NULL, (void**)&pCookie) && pCookie) { // valid reverse DC, check and init session
 						dc->dwRemoteUin = pCookie->dwUin;
 						dc->hContact = pCookie->hContact;
 					}
-					else
-					{
+					else {
 						NetLog_Direct("Error: Received unexpected reverse DC, closing.");
 						CloseDirectConnection(dc);
-						return; 
+						return;
 					}
 				}
 			}
 
 			sendPeerInitAck(dc); // ack good PEER_INIT packet
 
-			if (dc->incoming)
-			{ // store good IP info
+			if (dc->incoming) { // store good IP info
 				dc->hContact = hContact;
 				dc->dwConnectionCookie = dwCookie;
-				setDword(dc->hContact, "IP", dc->dwRemoteExternalIP); 
+				setDword(dc->hContact, "IP", dc->dwRemoteExternalIP);
 				setDword(dc->hContact, "RealIP", dc->dwRemoteInternalIP);
 				sendPeerInit_v78(dc); // reply with our PEER_INIT
 			}
-			else // outgoing
-			{
+			else { // outgoing
 				dc->handshake = 1;
 
-				if (dc->type == DIRECTCONN_REVERSE)
-				{
+				if (dc->type == DIRECTCONN_REVERSE) {
 					dc->incoming = 1; // this is incoming reverse connection
 					dc->type = DIRECTCONN_STANDARD; // we still do not know type
 				}
-				else if (dc->type == DIRECTCONN_STANDARD)
-				{ // send PEER_MSGINIT
+				else if (dc->type == DIRECTCONN_STANDARD) { // send PEER_MSGINIT
 					sendPeerMsgInit(dc, 0);
 				}
-				else if (dc->type == DIRECTCONN_FILE)
-				{
+				else if (dc->type == DIRECTCONN_FILE) {
 					sendPeerFileInit(dc);
 					dc->initialised = 1;
 				}
@@ -707,8 +627,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 			// Set DC Status to successful
 			setByte(dc->hContact, "DCStatus", 0);
 		}
-		else
-		{
+		else {
 			NetLog_Direct("Unsupported direct protocol: %d, closing connection", dc->wVersion);
 			CloseDirectConnection(dc);
 		}
@@ -726,68 +645,55 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 		break;
 
 	case PEER_MSG_INIT:   /* init message connection */
-		{ // it is sent by both contains GUID of message channel
-			DWORD q1,q2,q3,q4;
-
-			if (!m_bDCMsgEnabled)
-			{ // DC messaging disabled, close connection
-				NetLog_Direct("Messaging DC requested, denied");
-				CloseDirectConnection(dc);
-				break;
-			}
+		// it is sent by both contains GUID of message channel
+		if (!m_bDCMsgEnabled) { // DC messaging disabled, close connection
+			NetLog_Direct("Messaging DC requested, denied");
+			CloseDirectConnection(dc);
+			break;
+		}
 
 #ifdef _DEBUG
-			NetLog_Direct("Received PEER_MSG_INIT from %u",dc->dwRemoteUin);
+		NetLog_Direct("Received PEER_MSG_INIT from %u", dc->dwRemoteUin);
 #endif
-			buf++;
-			if (wLen != 0x21)
-				break;
+		buf++;
+		if (wLen != 0x21)
+			break;
 
-			if (!dc->handshake)
-			{
-				NetLog_Direct("Received %s on unitialised DC, ignoring.", "PEER_MSG_INIT");
-				break;
-			}
+		if (!dc->handshake) {
+			NetLog_Direct("Received %s on unitialised DC, ignoring.", "PEER_MSG_INIT");
+			break;
+		}
+		{
+			DWORD q1, q2, q3, q4;
 
 			buf += 4;   /* always 10 */
 			buf += 4;   /* some id */
 			buf += 4;   /* sequence - always 0 on incoming */
 			unpackDWord(&buf, &q1);   // session type GUID
 			unpackDWord(&buf, &q2);
-			if (!dc->incoming)
-			{ // skip marker on sequence 1
+			if (!dc->incoming) // skip marker on sequence 1
 				buf += 4;
-			}
+
 			unpackDWord(&buf, &q3);
 			unpackDWord(&buf, &q4);
-			if (!CompareGUIDs(q1,q2,q3,q4,PSIG_MESSAGE))
-			{ // This is not for normal messages, useless so kill.
-				if (CompareGUIDs(q1,q2,q3,q4,PSIG_STATUS_PLUGIN))
-				{
+			if (!CompareGUIDs(q1, q2, q3, q4, PSIG_MESSAGE)) { // This is not for normal messages, useless so kill.
+				if (CompareGUIDs(q1, q2, q3, q4, PSIG_STATUS_PLUGIN))
 					NetLog_Direct("Status Manager Plugin connections not supported, closing.");
-				}
-				else if (CompareGUIDs(q1,q2,q3,q4,PSIG_INFO_PLUGIN))
-				{
+				else if (CompareGUIDs(q1, q2, q3, q4, PSIG_INFO_PLUGIN))
 					NetLog_Direct("Info Manager Plugin connection not supported, closing.");
-				}
 				else
-				{
 					NetLog_Direct("Unknown connection type init, closing.");
-				}
+
 				CloseDirectConnection(dc);
 				break;
 			}
-
-			if (dc->incoming)
-			{ // reply with our PEER_MSG_INIT
-				sendPeerMsgInit(dc, 1);
-			}
-			else
-			{ // connection initialized, ready to send message packet
-			}
-			NetLog_Direct("Direct message session ready.");
-			dc->initialised = 1;
 		}
+
+		if (dc->incoming)  // reply with our PEER_MSG_INIT
+			sendPeerMsgInit(dc, 1);
+
+		NetLog_Direct("Direct message session ready.");
+		dc->initialised = 1;
 		break;
 
 	default:
@@ -826,31 +732,26 @@ void EncryptDirectPacket(directconnect* dc, icq_packet* p)
 	}
 
 	// calculate verification data
-	M1 = (rand() % ((size < 255 ? size : 255)-10))+10;
+	M1 = (rand() % ((size < 255 ? size : 255) - 10)) + 10;
 	X1 = buf[M1] ^ 0xFF;
 	X2 = rand() % 220;
 	X3 = client_check_data[X2] ^ 0xFF;
-	if (offset)
-	{
+	if (offset) {
 		memcpy(bak, buf, sizeof(bak));
-		B1 = (buf[offset+4]<<24) | (buf[offset+6]<<16) | (buf[2]<<8) | buf[0];
+		B1 = (buf[offset + 4] << 24) | (buf[offset + 6] << 16) | (buf[2] << 8) | buf[0];
 	}
-	else
-	{
-		B1 = (buf[4]<<24) | (buf[6]<<16) | (buf[4]<<8) | (buf[6]);
-	}
+	else B1 = (buf[4] << 24) | (buf[6] << 16) | (buf[4] << 8) | (buf[6]);
 
 	// calculate checkcode
-	check = (M1<<24) | (X1<<16) | (X2<<8) | X3;
+	check = (M1 << 24) | (X1 << 16) | (X2 << 8) | X3;
 	check ^= B1;
 
 	// main XOR key
 	key = 0x67657268 * size + check;
 
 	// XORing the actual data
-	for (i = 0; i<(size+3)/4; i+=4)
-	{
-		hex = key + client_check_data[i&0xFF];
+	for (i = 0; i < (size + 3) / 4; i += 4) {
+		hex = key + client_check_data[i & 0xFF];
 		*(PDWORD)(buf + i) ^= hex;
 	}
 
@@ -866,18 +767,14 @@ void EncryptDirectPacket(directconnect* dc, icq_packet* p)
 int DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 {
 	unsigned long hex;
-	unsigned long key;
 	unsigned long B1;
 	unsigned long M1;
-	unsigned long check;
 	unsigned int i;
 	unsigned char X1;
 	unsigned char X2;
 	unsigned char X3;
 	unsigned char bak[6];
 	unsigned long size = wLen;
-	unsigned long offset;
-
 
 	if (dc->wVersion < 4)
 		return 1;  // no decryption necessary.
@@ -888,110 +785,49 @@ int DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 	if (dc->wVersion < 4)
 		return 1;
 
-	if (dc->wVersion == 4 || dc->wVersion == 5)
-	{
-		offset = 6;
-	}
-	else
-	{
-		offset = 0;
-	}
-
 	// backup the first 6 bytes
+	unsigned long offset = (dc->wVersion == 4 || dc->wVersion == 5) ? 6 : 0;
 	if (offset)
 		memcpy(bak, buf, sizeof(bak));
 
 	// retrieve checkcode
-	check = *(PDWORD)(buf+offset);
+	unsigned long check = *(PDWORD)(buf + offset);
 
 	// main XOR key
-	key = 0x67657268 * size + check;
+	unsigned long key = 0x67657268 * size + check;
 
-	for (i=4; i<(size+3)/4; i+=4)
-	{
-		hex = key + client_check_data[i&0xFF];
+	for (i = 4; i < (size + 3) / 4; i += 4) {
+		hex = key + client_check_data[i & 0xFF];
 		*(PDWORD)(buf + i) ^= hex;
 	}
 
 	// retrive validate data
-	if (offset)
-	{
+	if (offset) {
 		// in TCPv4 are the first 6 bytes unencrypted
 		// so restore them
 		memcpy(buf, bak, sizeof(bak));
-		B1 = (buf[offset+4]<<24) | (buf[offset+6]<<16) | (buf[2]<<8) | buf[0];
+		B1 = (buf[offset + 4] << 24) | (buf[offset + 6] << 16) | (buf[2] << 8) | buf[0];
 	}
-	else
-	{
-		B1 = (buf[4]<<24) | (buf[6]<<16) | (buf[4]<<8) | (buf[6]<<0);
-	}
+	else B1 = (buf[4] << 24) | (buf[6] << 16) | (buf[4] << 8) | (buf[6] << 0);
 
 	// special decryption
 	B1 ^= check;
 
 	// validate packet
-	M1 = (B1>>24) & 0xFF;
+	M1 = (B1 >> 24) & 0xFF;
 	if (M1 < 10 || M1 >= size)
-	{
 		return 0;
-	}
 
 	X1 = buf[M1] ^ 0xFF;
 	if (((B1 >> 16) & 0xFF) != X1)
-	{
 		return 0;
-	}
 
 	X2 = (BYTE)((B1 >> 8) & 0xFF);
-	if (X2 < 220)
-	{
+	if (X2 < 220) {
 		X3 = client_check_data[X2] ^ 0xFF;
 		if ((B1 & 0xFF) != X3)
-		{
 			return 0;
-		}
 	}
-#ifdef _DEBUG
-	{ // log decrypted data
-		char szTitleLine[128];
-		char* szBuf;
-		int titleLineLen;
-		int line;
-		int col;
-		int colsInLine;
-		char* pszBuf;
-
-
-		titleLineLen = mir_snprintf(szTitleLine, 128, "DECRYPTED\n");
-		szBuf = (char*)_alloca(titleLineLen + ((wLen+15)>>4) * 76 + 1);
-		CopyMemory(szBuf, szTitleLine, titleLineLen);
-		pszBuf = szBuf + titleLineLen;
-
-		for (line = 0; ; line += 16)
-		{
-			colsInLine = min(16, wLen - line);
-			pszBuf += wsprintfA(pszBuf, "%08X: ", line); //!!!!!!!!!!!!!
-
-			for (col = 0; col<colsInLine; col++)
-				pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line+col], (col&3)==3 && col!=15?'-':' '); //!!!!!!!!!!!!!
-
-			for (; col<16; col++)
-			{
-				lstrcpyA(pszBuf,"   ");
-				pszBuf+=3;
-			}
-
-			*pszBuf++ = ' ';
-			for (col = 0; col<colsInLine; col++)
-				*pszBuf++ = buf[line+col]<' ' ? '.' : (char)buf[line+col];
-			if(wLen-line<=16) break;
-			*pszBuf++='\n';
-		}
-		*pszBuf='\0';
-
-		Netlib_Logf( NULL, szBuf );
-	}
-#endif
 
 	return 1;
 }
@@ -1001,15 +837,12 @@ int CIcqProto::SendDirectMessage(MCONTACT hContact, icq_packet *pkt)
 {
 	icq_lock l(directConnListMutex);
 
-	for (int i = 0; i < directConns.getCount(); i++)
-	{
+	for (int i = 0; i < directConns.getCount(); i++) {
 		if (directConns[i] == NULL)
 			continue;
 
-		if (directConns[i]->hContact == hContact)
-		{
-			if (directConns[i]->initialised)
-			{
+		if (directConns[i]->hContact == hContact) {
+			if (directConns[i]->initialised) {
 				// This connection can be reused, send packet and exit
 				NetLog_Direct("Sending direct message");
 
@@ -1039,8 +872,8 @@ int CIcqProto::SendDirectMessage(MCONTACT hContact, icq_packet *pkt)
 void CIcqProto::sendPeerInit_v78(directconnect* dc)
 {
 	icq_packet packet;
+	directPacketInit(&packet, 48);
 
-	directPacketInit(&packet, 48);             // Full packet length
 	packByte(&packet, PEER_INIT);              // Command
 	packLEWord(&packet, dc->wVersion);         // Version
 	packLEWord(&packet, 43);                   // Data length
@@ -1062,7 +895,7 @@ void CIcqProto::sendPeerInit_v78(directconnect* dc)
 
 	sendDirectPacket(dc, &packet);
 #ifdef _DEBUG
-	NetLog_Direct("Sent PEER_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming?"incoming":"outgoing");
+	NetLog_Direct("Sent PEER_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
 #endif
 }
 
@@ -1073,13 +906,12 @@ void CIcqProto::sendPeerInit_v78(directconnect* dc)
 void CIcqProto::sendPeerInitAck(directconnect* dc)
 {
 	icq_packet packet;
-
 	directPacketInit(&packet, 4);              // Packet length
 	packLEDWord(&packet, PEER_INIT_ACK);       // 
 
 	sendDirectPacket(dc, &packet);
 #ifdef _DEBUG
-	NetLog_Direct("Sent PEER_INIT_ACK to %u on %s DC", dc->dwRemoteUin, dc->incoming?"incoming":"outgoing");
+	NetLog_Direct("Sent PEER_INIT_ACK to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
 #endif
 }
 
@@ -1090,20 +922,18 @@ void CIcqProto::sendPeerInitAck(directconnect* dc)
 void CIcqProto::sendPeerMsgInit(directconnect* dc, DWORD dwSeq)
 {
 	icq_packet packet;
-
 	directPacketInit(&packet, 33);
+
 	packByte(&packet, PEER_MSG_INIT);
 	packLEDWord(&packet, 10);           // unknown
 	packLEDWord(&packet, 1);            // message connection
 	packLEDWord(&packet, dwSeq);        // sequence is 0,1
-	if (!dwSeq)
-	{
+	if (!dwSeq) {
 		packGUID(&packet, PSIG_MESSAGE);  // message type GUID
 		packLEWord(&packet, 1);           // delimiter
 		packLEWord(&packet, 4);
 	}
-	else
-	{
+	else {
 		packDWord(&packet, 0);            // first part of Message GUID
 		packDWord(&packet, 0);
 		packLEWord(&packet, 1);           // delimiter
@@ -1113,7 +943,7 @@ void CIcqProto::sendPeerMsgInit(directconnect* dc, DWORD dwSeq)
 	}
 	sendDirectPacket(dc, &packet);
 #ifdef _DEBUG
-	NetLog_Direct("Sent PEER_MSG_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming?"incoming":"outgoing");
+	NetLog_Direct("Sent PEER_MSG_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
 #endif
 }
 
@@ -1123,19 +953,19 @@ void CIcqProto::sendPeerMsgInit(directconnect* dc, DWORD dwSeq)
 
 void CIcqProto::sendPeerFileInit(directconnect* dc)
 {
-	icq_packet packet;
 	DBVARIANT dbv;
 	char* szNick;
-	int nNickLen;
 
 	dbv.type = DBVT_DELETED;
 	if (getString("Nick", &dbv))
 		szNick = "";
 	else
 		szNick = dbv.pszVal;
-	nNickLen = strlennull(szNick);
+	int nNickLen = strlennull(szNick);
 
+	icq_packet packet;
 	directPacketInit(&packet, (WORD)(20 + nNickLen));
+
 	packByte(&packet, PEER_FILE_INIT);  /* packet type */
 	packLEDWord(&packet, 0);            /* unknown */
 	packLEDWord(&packet, dc->ft->dwFileCount);
@@ -1145,7 +975,7 @@ void CIcqProto::sendPeerFileInit(directconnect* dc)
 	packBuffer(&packet, (LPBYTE)szNick, (WORD)(nNickLen + 1));
 	sendDirectPacket(dc, &packet);
 #ifdef _DEBUG
-	NetLog_Direct("Sent PEER_FILE_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming?"incoming":"outgoing");
+	NetLog_Direct("Sent PEER_FILE_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
 #endif
 	db_free(&dbv);
 }
