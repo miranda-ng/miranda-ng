@@ -53,9 +53,8 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 {
 	struct NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)wParam;
 	NETLIBPACKETRECVER *nlprParam = (NETLIBPACKETRECVER*)lParam;
-	INT_PTR recvResult;
 
-	if (GetNetlibHandleType(nlpr) != NLH_PACKETRECVER || nlprParam == NULL || nlprParam->cbSize != sizeof(NETLIBPACKETRECVER) || nlprParam->bytesUsed>nlpr->packetRecver.bytesAvailable) {
+	if (GetNetlibHandleType(nlpr) != NLH_PACKETRECVER || nlprParam == NULL || nlprParam->cbSize != sizeof(NETLIBPACKETRECVER) || nlprParam->bytesUsed > nlpr->packetRecver.bytesAvailable) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
@@ -71,17 +70,20 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	else {
-		MoveMemory(nlpr->packetRecver.buffer, nlpr->packetRecver.buffer+nlprParam->bytesUsed, nlpr->packetRecver.bytesAvailable-nlprParam->bytesUsed);
-		nlpr->packetRecver.bytesAvailable-=nlprParam->bytesUsed;
+		MoveMemory(nlpr->packetRecver.buffer, nlpr->packetRecver.buffer + nlprParam->bytesUsed, nlpr->packetRecver.bytesAvailable - nlprParam->bytesUsed);
+		nlpr->packetRecver.bytesAvailable -= nlprParam->bytesUsed;
 	}
+	
 	if (nlprParam->dwTimeout != INFINITE) {
 		if (!si.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s, nlprParam->dwTimeout) <= 0) {
 			*nlprParam = nlpr->packetRecver;
 			return SOCKET_ERROR;
 		}
 	}
-	recvResult = NLRecv(nlpr->nlc, (char*)nlpr->packetRecver.buffer+nlpr->packetRecver.bytesAvailable, nlpr->packetRecver.bufferSize-nlpr->packetRecver.bytesAvailable, 0);
-	if (recvResult>0) nlpr->packetRecver.bytesAvailable+=recvResult;
+	
+	INT_PTR recvResult = NLRecv(nlpr->nlc, (char*)nlpr->packetRecver.buffer + nlpr->packetRecver.bytesAvailable, nlpr->packetRecver.bufferSize - nlpr->packetRecver.bytesAvailable, 0);
+	if (recvResult > 0)
+		nlpr->packetRecver.bytesAvailable += recvResult;
 	*nlprParam = nlpr->packetRecver;
 	return recvResult;
 }
