@@ -17,8 +17,6 @@
 Отлож. сообщ. послано для
 [Buddy Pounce]
 Отложенное сообщение
-[&Buddy Pounce]
-&Отложенное сообщение
 [The Message:]
 Сообщение:
 [Delete Pounce]
@@ -135,5 +133,7 @@ Pounce отослан %s за %d секунд
 Сообщение успешно послано %s
 [Message failed to send to %s]
 Ошибка отправки сообщения для %s
+[&Buddy Pounce]
+&Отложенное сообщение
 [Message Sessions]
 Беседы

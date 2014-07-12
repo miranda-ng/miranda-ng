@@ -72,4 +72,5 @@
 [Message successfully sent to %s]
 [Message failed to send to %s]
 ;file \plugins\BuddyPounce\src\main.cpp
+[&Buddy Pounce]
 [Message Sessions]

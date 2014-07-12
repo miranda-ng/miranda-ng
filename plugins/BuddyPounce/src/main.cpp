@@ -47,7 +47,7 @@ int MainInit(WPARAM wParam, LPARAM lParam)
 	mi.position=10;
 	mi.flags=0;
 	mi.hIcon= LoadIcon(hInst,MAKEINTRESOURCE(IDI_POUNCE));
-	mi.pszName="&Buddy Pounce";
+	mi.pszName=LPGEN("&Buddy Pounce");
 	mi.pszService="BuddyPounce/MenuCommand";
 	mi.pszContactOwner=NULL;
 
