@@ -60,6 +60,20 @@ typedef mir_ptr<TCHAR> ptrT;
 typedef mir_ptr<WCHAR> ptrW;
 
 ///////////////////////////////////////////////////////////////////////////////
+// mir_cs - simple wrapper for the critical sections
+
+class mir_cs
+{
+	CRITICAL_SECTION m_cs;
+
+public:
+	__inline mir_cs() { ::InitializeCriticalSection(&m_cs); }
+	__inline ~mir_cs() { ::DeleteCriticalSection(&m_cs); }
+
+	__inline operator CRITICAL_SECTION&() { return m_cs; }
+};
+
+///////////////////////////////////////////////////////////////////////////////
 // mir_cslock - simple locker for the critical sections
 
 class mir_cslock
