@@ -302,35 +302,28 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	}
 
 	/* if the Netlib user handle is NULL, just pretend its not */
-	NetlibUser nludummy;
-	if (nlu == NULL) {
-		if (!logOptions.toLog)
-			return 1;
-		nlu = &nludummy;
-		nlu->user.szSettingsModule = "(NULL)";
-	}
-	else if (!nlu->toLog)
+	if (nlu != NULL && !nlu->toLog)
 		return 1;
 
 	LARGE_INTEGER liTimeNow;
 	char szTime[32], szHead[128];
 	switch (logOptions.timeFormat) {
 	case TIMEFORMAT_HHMMSS:
-		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER,
-			NULL, NULL, szTime, SIZEOF(szTime));
+		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, NULL, NULL, szTime, SIZEOF(szTime));
+		strcat(szTime, " ");
 		break;
 
 	case TIMEFORMAT_MILLISECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%03I64u", liTimeNow.QuadPart / perfCounterFreq,
+		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%03I64u ", liTimeNow.QuadPart / perfCounterFreq,
 			1000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
 	case TIMEFORMAT_MICROSECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%06I64u", liTimeNow.QuadPart / perfCounterFreq,
+		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%06I64u ", liTimeNow.QuadPart / perfCounterFreq,
 			1000000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
@@ -338,12 +331,12 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 		szTime[0] = '\0';
 		break;
 	}
-	if (logOptions.timeFormat || logOptions.showUser)
-		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%s%s] ", szTime,
-		(logOptions.showUser && logOptions.timeFormat) ? " " : "",
-		logOptions.showUser ? nlu->user.szSettingsModule : "");
+
+	char *szUser = (logOptions.showUser) ? (nlu == NULL ? NULL : nlu->user.szSettingsModule) : NULL;
+	if (szUser)
+		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
 	else
-		szHead[0] = 0;
+		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%04X] ", szTime, GetCurrentThreadId());
 
 	if (logOptions.toOutputDebugString) {
 		if (szHead[0])
