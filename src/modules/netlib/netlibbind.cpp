@@ -243,6 +243,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	}
 	if (!foundPort) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
+LBL_Error:
 		closesocket(nlbp->s);
 		closesocket(nlbp->s6);
 		mir_free(nlbp);
@@ -251,18 +252,12 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 
 	if (nlbp->s != INVALID_SOCKET && listen(nlbp->s, 5)) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
-		closesocket(nlbp->s);
-		closesocket(nlbp->s6);
-		mir_free(nlbp);
-		return 0;
+		goto LBL_Error;
 	}
 
 	if (nlbp->s6 != INVALID_SOCKET && listen(nlbp->s6, 5)) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
-		closesocket(nlbp->s);
-		closesocket(nlbp->s6);
-		mir_free(nlbp);
-		return 0;
+		goto LBL_Error;
 	}
 
 	SOCKADDR_INET_M sinm = { 0 };
@@ -275,10 +270,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		nlb->wPort = ntohs(sinm.Ipv6.sin6_port);
 	else {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "getsockname", WSAGetLastError());
-		closesocket(nlbp->s);
-		closesocket(nlbp->s6);
-		mir_free(nlbp);
-		return 0;
+		goto LBL_Error;
 	}
 	nlbp->wPort = nlb->wPort;
 
