@@ -290,13 +290,10 @@ int CIcqProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ModuleLoad(0, 0);
 	InitXStatusItems(FALSE);
 
-	MCONTACT hContact = db_find_first(m_szModuleName);
-	while (hContact != NULL) {
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DWORD bXStatus = getContactXStatus(hContact);
 		if (bXStatus > 0)
 			setContactExtraIcon(hContact, bXStatus);
-
-		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	return 0;
@@ -315,42 +312,35 @@ int CIcqProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AddToList - adds a contact to the contact list
 
-MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	if (psr) {
-		if (psr->cbSize == sizeof(ICQSEARCHRESULT)) {
-			ICQSEARCHRESULT *isr = (ICQSEARCHRESULT*)psr;
-			if (isr->uin)
-				return AddToListByUIN(isr->uin, flags);
-			else { // aim contact
-				char szUid[MAX_PATH];
+	if (psr == NULL) return 0;
 
-				if (isr->hdr.flags & PSR_UNICODE)
-					unicode_to_ansi_static((WCHAR*)isr->hdr.id, szUid, MAX_PATH);
-				else
-					null_strcpy(szUid, (char*)isr->hdr.id, MAX_PATH);
+	char szUid[MAX_PATH];
+	if (psr->cbSize == sizeof(ICQSEARCHRESULT)) {
+		ICQSEARCHRESULT *isr = (ICQSEARCHRESULT*)psr;
+		if (isr->uin)
+			return AddToListByUIN(isr->uin, flags);
+		
+		// aim contact
+		if (isr->hdr.flags & PSR_UNICODE)
+			unicode_to_ansi_static((WCHAR*)isr->hdr.id, szUid, MAX_PATH);
+		else
+			null_strcpy(szUid, (char*)isr->hdr.id, MAX_PATH);
 
-				if (szUid[0] == 0) return 0;
-				return AddToListByUID(szUid, flags);
-			}
-		}
-		else {
-			char szUid[MAX_PATH];
-
-			if (psr->flags & PSR_UNICODE)
-				unicode_to_ansi_static((WCHAR*)psr->id, szUid, MAX_PATH);
-			else
-				null_strcpy(szUid, (char*)psr->id, MAX_PATH);
-
-			if (szUid[0] == 0) return 0;
-			if (IsStringUIN(szUid))
-				return AddToListByUIN(atoi(szUid), flags);
-			else
-				return AddToListByUID(szUid, flags);
-		}
+		return (szUid[0] == 0) ? 0 : AddToListByUID(szUid, flags);
 	}
 
-	return 0; // Failure
+	if (psr->flags & PSR_UNICODE)
+		unicode_to_ansi_static((WCHAR*)psr->id, szUid, MAX_PATH);
+	else
+		null_strcpy(szUid, (char*)psr->id, MAX_PATH);
+
+	if (szUid[0] == 0)
+		return 0;
+	if (IsStringUIN(szUid))
+		return AddToListByUIN(atoi(szUid), flags);
+	return AddToListByUID(szUid, flags);
 }
 
 MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)

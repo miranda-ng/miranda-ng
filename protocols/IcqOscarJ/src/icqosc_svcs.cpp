@@ -656,18 +656,15 @@ MCONTACT CIcqProto::AddToListByUID(const char *szUID, DWORD dwFlags)
 {
 	int bAdded;
 	MCONTACT hContact = HContactFromUID(0, szUID, &bAdded);
-	if (hContact)
-	{
-		if (!(dwFlags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 0))
-		{
-			setContactHidden(hContact, 0);
-			db_unset(hContact, "CList", "NotOnList");
-		}
-
-		return hContact; // Success
+	if (hContact == 0)
+		return 0; // Failure
+	
+	if (!(dwFlags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 0)) {
+		setContactHidden(hContact, 0);
+		db_unset(hContact, "CList", "NotOnList");
 	}
 
-	return NULL; // Failure
+	return hContact; // Success
 }
 
 
