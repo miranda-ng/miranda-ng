@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2009 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -35,7 +36,7 @@ struct LogMessageInfo {
 };
 
 
-void __cdecl CIcqProto::icq_LogMessageThread(void* arg) 
+void __cdecl CIcqProto::icq_LogMessageThread(void* arg)
 {
 	LogMessageInfo *err = (LogMessageInfo*)arg;
 	if (!err)
@@ -43,7 +44,7 @@ void __cdecl CIcqProto::icq_LogMessageThread(void* arg)
 
 	if (bPopupService && getByte("PopupsLogEnabled", DEFAULT_LOG_POPUPS_ENABLED))
 	{
-		ShowPopupMsg(NULL, err->szTitle, err->szMsg, err->bLevel); 
+		ShowPopupMsg(NULL, err->szTitle, err->szMsg, err->bLevel);
 
 		SAFE_FREE((void**)&err->szMsg);
 		SAFE_FREE((void**)&err);
@@ -68,7 +69,7 @@ void CIcqProto::icq_LogMessage(int level, const char *szMsg)
 	if (level >= displayLevel)
 	{
 		if (!bErrorBoxVisible || !getByte("IgnoreMultiErrorBox", 0))
-		{ 
+		{
 			// error not shown or allowed multi - show messagebox
 			LogMessageInfo *lmi = (LogMessageInfo*)SAFE_MALLOC(sizeof(LogMessageInfo));
 			lmi->bLevel = (BYTE)level;
@@ -133,10 +134,10 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 		}
 	}
 
-	mir_snprintf(szBuf, sizeof(szBuf), "%s%s%s (%s %d)", 
-		szMsg ? ICQTranslateUtfStatic(szMsg, str, 1024) : "", 
+	mir_snprintf(szBuf, sizeof(szBuf), "%s%s%s (%s %d)",
+		szMsg ? ICQTranslateUtfStatic(szMsg, str, 1024) : "",
 		szMsg ? "\r\n\r\n" : "",
-		ICQTranslateUtfStatic(pszErrorMsg, szErrorMsg, 512), 
+		ICQTranslateUtfStatic(pszErrorMsg, szErrorMsg, 512),
 		ICQTranslateUtfStatic(LPGEN("error"), str2, 64),
 		dwError);
 

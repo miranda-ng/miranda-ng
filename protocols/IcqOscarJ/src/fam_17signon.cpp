@@ -1,22 +1,23 @@
 // ---------------------------------------------------------------------------80
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
-// 
+//
 // Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2009 Joe Kucera
-// 
+// Copyright © 2012-2014 Miranda NG Team
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -34,7 +35,7 @@ void CIcqProto::handleAuthorizationFam(BYTE *pBuffer, WORD wBufferLength, snac_h
 
 			if (wBufferLength >= 2)
 				unpackWord(&pBuffer, &wError);
-			else 
+			else
 				wError = 0;
 
 			LogFamilyError(ICQ_AUTHORIZATION_FAMILY, wError);
@@ -133,7 +134,7 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 	debugLogA("Received %s", "ICQ_SIGNON_AUTH_KEY");
 #endif
 
-	if (wPacketLen < 2) 
+	if (wPacketLen < 2)
 	{
 		debugLogA("Malformed %s", "ICQ_SIGNON_AUTH_KEY");
 		icq_LogMessage(LOG_FATAL, LPGEN("Secure login failed.\nInvalid server response."));
@@ -144,7 +145,7 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 	unpackWord(&buf, &wKeyLen);
 	wPacketLen -= 2;
 
-	if (!wKeyLen || wKeyLen > wPacketLen || wKeyLen > sizeof(szKey)) 
+	if (!wKeyLen || wKeyLen > wPacketLen || wKeyLen > sizeof(szKey))
 	{
 		debugLogA("Invalid length in %s: %u", "ICQ_SIGNON_AUTH_KEY", wKeyLen);
 		icq_LogMessage(LOG_FATAL, LPGEN("Secure login failed.\nInvalid key length."));
