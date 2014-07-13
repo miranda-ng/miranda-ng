@@ -77,11 +77,9 @@ int AfterSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	nlu.szDescriptiveName = "XFire server connection";
 	hNetlib = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);
 
-	//init socet server
-	NETLIBBIND nb = {0};
-	nb.cbSize = NETLIBBIND_SIZEOF_V2;
+	//init socket server
+	NETLIBBIND nb = { sizeof(nb) };
 	nb.pfnNewConnectionV2 = XfireclientConnecting;
-	nb.pExtra = NULL;
 	nb.wPort = 25999;
 	hBindPort = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)hNetlib,(LPARAM) &nb);
 	return 0;
