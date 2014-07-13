@@ -2292,7 +2292,7 @@ Miranda NG не может открыть этот профиль
 [Send offline]
 Отправка в оффлайн
 [Send &online]
-Отправка в &онлайн
+В &онлайн
 [Delete metacontact?]
 Удалить метаконтакт?
 [Toggle off]
