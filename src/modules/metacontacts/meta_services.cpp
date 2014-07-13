@@ -380,12 +380,11 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 		mir_snprintf(buffer, SIZEOF(buffer), "Nick%d", contact_number);
 		db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 
-		DBVARIANT dbv;
-		if (db_get_s(hContact, "CList", "MyHandle", &dbv, 0)) {
+		ptrT tszMyhandle(db_get_tsa(hContact, "CList", "MyHandle"));
+		if (tszMyhandle == NULL) {
 			mir_snprintf(buffer, SIZEOF(buffer), "CListName%d", contact_number);
 			db_set(ccMeta->contactID, META_PROTO, buffer, &dcws->value);
 		}
-		else db_free(&dbv);
 
 		// copy nick to metacontact, if it's the most online
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta);

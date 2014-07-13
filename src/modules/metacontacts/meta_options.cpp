@@ -162,7 +162,7 @@ int Meta_ReadOptions(MetaOptions *opt)
 	opt->bSuppressStatus = db_get_b(NULL, META_PROTO, "SuppressStatus", true) != 0;
 	opt->menu_contact_label = (int)db_get_w(NULL, META_PROTO, "MenuContactLabel", DNT_UID);
 	opt->menu_function = (int)db_get_w(NULL, META_PROTO, "MenuContactFunction", FT_MENU);
-	opt->clist_contact_name = (int)db_get_w(NULL, META_PROTO, "CListContactName", CNNT_NICK);
+	opt->clist_contact_name = (int)db_get_w(NULL, META_PROTO, "CListContactName", CNNT_DISPLAYNAME);
 	opt->days_history = (int)db_get_dw(NULL, META_PROTO, "DaysHistory", 0);
 	opt->set_status_from_offline_delay = (int)db_get_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
 	opt->bLockHandle = db_get_b(NULL, META_PROTO, "LockHandle", false) != 0;
