@@ -6,6 +6,7 @@
 // Copyright © 2001,2002 Jon Keating, Richard Hughes
 // Copyright © 2002,2003,2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004,2005,2006 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,13 +21,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-//
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
 //  HTTP Gateway Handling routines
-//
 // -----------------------------------------------------------------------------
+
 #include "icqoscar.h"
 
 int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr)

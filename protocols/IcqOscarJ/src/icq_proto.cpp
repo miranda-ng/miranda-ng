@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera, George Hazan
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,13 +21,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
 //  Protocol Interface Implementation
-//
 // -----------------------------------------------------------------------------
+
 #include "icqoscar.h"
 
 #include "m_icolib.h"
@@ -76,6 +76,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	directConns(10, CompareConns),
 	expectedFileRecvs(10, CompareFT),
 	contactsCache(10, CompareContactsCache),
+	CustomCapList(1),
 	cheekySearchId(-1)
 {
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
@@ -210,7 +211,6 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	debugLogA("%s: Protocol instance '%s' created.", ICQ_PROTOCOL_NAME, m_szModuleName);
 }
 
-
 CIcqProto::~CIcqProto()
 {
 	m_bXStatusEnabled = 10; // block clist changing
@@ -237,8 +237,6 @@ CIcqProto::~CIcqProto()
 
 	// Clean-up remaining protocol instance members
 	UninitContactsCache();
-
-	CustomCapList.clear();
 
 	SAFE_DELETE(&m_ratesMutex);
 

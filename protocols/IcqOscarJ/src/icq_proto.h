@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera, George Hazan
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,13 +21,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
 //  Protocol Interface declarations
-//
 // -----------------------------------------------------------------------------
+
 #ifndef _ICQ_PROTO_H_
 #define _ICQ_PROTO_H_
 
@@ -767,7 +767,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	INT_PTR __cdecl IcqAddCapability(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl IcqCheckCapability(WPARAM wParam, LPARAM lParam);
 
-	std::list<ICQ_CUSTOMCAP*> CustomCapList;
+	OBJLIST<ICQ_CUSTOMCAP> CustomCapList;
 
 	//----| icq_uploadui.cpp |------------------------------------------------------------
 	void   ShowUploadContactsDialog(void);

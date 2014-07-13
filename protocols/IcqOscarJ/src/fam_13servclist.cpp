@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -1610,12 +1611,10 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 {
 	DWORD dwUin;
 	uid_str szUid;
-	int bAdded;
+	if (!unpackUID(&buf, &wLen, &dwUin, &szUid))
+		return;
 
-	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
-
-	if (dwUin && IsOnSpammerList(dwUin))
-	{
+	if (dwUin && IsOnSpammerList(dwUin)) {
 		debugLogA("Ignored Message from known Spammer");
 		return;
 	}
@@ -1626,16 +1625,16 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	if (wReasonLen > wLen)
 		return;
 
+	int bAdded;
 	MCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
 	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = time(NULL);
-	pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + 5;
+	pre.lParam = sizeof(DWORD)*2 + 5;
 	// Prepare reason
 	char *szReason = (char*)SAFE_MALLOC(wReasonLen + 1);
 	int nReasonLen = 0;
-	if (szReason)
-	{
+	if (szReason) {
 		memcpy(szReason, buf, wReasonLen);
 		szReason[wReasonLen] = '\0';
 		nReasonLen = strlennull(szReason);
@@ -1644,21 +1643,20 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 		if (!IsUSASCII(szReason, nReasonLen) && UTF8_IsValid(szReason) && utf8_decode_static(szReason, temp, nReasonLen + 1))
 			pre.flags |= PREF_UTF;
 	}
+
 	// Read nick name from DB
 	char *szNick = NULL;
-	if (dwUin)
-	{
+	if (dwUin) {
 		DBVARIANT dbv = { 0 };
 		if (pre.flags & PREF_UTF)
 			szNick = getSettingStringUtf(hContact, "Nick", NULL);
-		else if (!getString(hContact, "Nick", &dbv))
-		{
+		else if (!getString(hContact, "Nick", &dbv)) {
 			szNick = null_strdup(dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
-	else
-		szNick = null_strdup(szUid);
+	else szNick = null_strdup(szUid);
+
 	int nNickLen = strlennull(szNick);
 
 	pre.lParam += nNickLen + nReasonLen;
@@ -1668,10 +1666,10 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	/*blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)*/
 	char *szBlob = (char *)_alloca(pre.lParam);
 	char *pCurBlob = szBlob;
-	memcpy(pCurBlob, &dwUin, sizeof(DWORD)); pCurBlob += sizeof(DWORD);
-	memcpy(pCurBlob, &hContact, sizeof(HANDLE)); pCurBlob += sizeof(HANDLE);
-	if (nNickLen)
-	{ // if we have nick we add it, otherwise keep trailing zero
+	*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
+	*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
+
+	if (nNickLen) { // if we have nick we add it, otherwise keep trailing zero
 		memcpy(pCurBlob, szNick, nNickLen);
 		pCurBlob += nNickLen;
 	}
@@ -1691,39 +1689,34 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 
 	SAFE_FREE(&szNick);
 	SAFE_FREE(&szReason);
-	return;
 }
-
 
 void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 {
 	DWORD dwUin;
 	uid_str szUid;
 	DWORD cbBlob;
-	PBYTE pBlob,pCurBlob;
+	PBYTE pBlob, pCurBlob;
 	int bAdded;
 	char* szNick;
 	int nNickLen;
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
 
-	if (dwUin && IsOnSpammerList(dwUin))
-	{
+	if (dwUin && IsOnSpammerList(dwUin)) {
 		debugLogA("Ignored Message from known Spammer");
 		return;
 	}
 
 	MCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
-	cbBlob=sizeof(DWORD)*2+4;
+	cbBlob = sizeof(DWORD) * 2 + 4;
 
-	if (dwUin)
-	{
+	if (dwUin) {
 		if (getString(hContact, "Nick", &dbv))
 			nNickLen = 0;
-		else
-		{
+		else {
 			szNick = dbv.pszVal;
 			nNickLen = strlennull(szNick);
 		}
@@ -1733,19 +1726,17 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 
 	cbBlob += nNickLen;
 
-	pCurBlob=pBlob=(PBYTE)_alloca(cbBlob);
+	pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
 	/*blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ) */
 	*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
 	*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
-	if (nNickLen && dwUin)
-	{ // if we have nick we add it, otherwise keep trailing zero
+	if (nNickLen && dwUin) { // if we have nick we add it, otherwise keep trailing zero
 		memcpy(pCurBlob, szNick, nNickLen);
-		pCurBlob+=nNickLen;
+		pCurBlob += nNickLen;
 	}
-	else
-	{
+	else {
 		memcpy(pCurBlob, szUid, nNickLen);
-		pCurBlob+=nNickLen;
+		pCurBlob += nNickLen;
 	}
 	*(char *)pCurBlob = 0; pCurBlob++;
 	*(char *)pCurBlob = 0; pCurBlob++;
@@ -1770,8 +1761,7 @@ void CIcqProto::handleRecvAuthResponse(unsigned char *buf, WORD wLen)
 
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
 
-	if (dwUin && IsOnSpammerList(dwUin))
-	{
+	if (dwUin && IsOnSpammerList(dwUin)) {
 		debugLogA("Ignored Message from known Spammer");
 		return;
 	}
@@ -1780,25 +1770,21 @@ void CIcqProto::handleRecvAuthResponse(unsigned char *buf, WORD wLen)
 	if (hContact != INVALID_CONTACT_ID)
 		szNick = NickFromHandle(hContact);
 
-	if (wLen > 0)
-	{
+	if (wLen > 0) {
 		unpackByte(&buf, &bResponse);
 		wLen -= 1;
 	}
-	if (wLen >= 2)
-	{
+	if (wLen >= 2) {
 		unpackWord(&buf, &nReasonLen);
 		wLen -= 2;
-		if (wLen >= nReasonLen)
-		{
-			szReason = (char*)_alloca(nReasonLen+1);
+		if (wLen >= nReasonLen) {
+			szReason = (char*)_alloca(nReasonLen + 1);
 			unpackString(&buf, szReason, nReasonLen);
 			szReason[nReasonLen] = '\0';
 		}
 	}
 
-	switch (bResponse)
-	{
+	switch (bResponse) {
 
 	case 0:
 		debugLogA("Authorization request %s by %s", "denied", strUID(dwUin, szUid));
@@ -1836,8 +1822,7 @@ void CIcqProto::updateServVisibilityCode(BYTE bCode)
 	WORD wVisibilityID;
 	WORD wCommand;
 
-	if ((bCode > 0) && (bCode < 6))
-	{
+	if ((bCode > 0) && (bCode < 6)) {
 		cookie_servlist_action* ack;
 		DWORD dwCookie;
 		BYTE bVisibility = getByte("SrvVisibility", 0);
@@ -1847,8 +1832,7 @@ void CIcqProto::updateServVisibilityCode(BYTE bCode)
 		setByte("SrvVisibility", bCode);
 
 		// Do we have a known server visibility ID? We should, unless we just subscribed to the serv-list for the first time
-		if ((wVisibilityID = getWord(DBSETTING_SERVLIST_PRIVACY, 0)) == 0)
-		{
+		if ((wVisibilityID = getWord(DBSETTING_SERVLIST_PRIVACY, 0)) == 0) {
 			// No, create a new random ID
 			wVisibilityID = GenerateServerID(SSIT_ITEM, 0);
 			setWord(DBSETTING_SERVLIST_PRIVACY, wVisibilityID);
@@ -1857,8 +1841,7 @@ void CIcqProto::updateServVisibilityCode(BYTE bCode)
 			debugLogA("Made new srvVisibilityID, id is %u, code is %u", wVisibilityID, bCode);
 #endif
 		}
-		else
-		{
+		else {
 #ifdef _DEBUG
 			debugLogA("Reused srvVisibilityID, id is %u, code is %u", wVisibilityID, bCode);
 #endif
@@ -1866,8 +1849,7 @@ void CIcqProto::updateServVisibilityCode(BYTE bCode)
 		}
 
 		ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-		if (!ack)
-		{
+		if (!ack) {
 			debugLogA("Cookie alloc failure.");
 			return; // out of memory, go away
 		}
@@ -1898,103 +1880,87 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 	DWORD dwOperationFlags = 0;
 	WORD wAvatarID;
 	WORD wCommand;
-	DBVARIANT dbvHash;
-	int bResetHash = 0;
-	char szItemName[2] = {0, 0};
+	char szItemName[2] = { 0, 0 };
 
-	if (!getSetting(NULL, "AvatarHash", &dbvHash))
-	{
+	int bResetHash = 0;
+	DBVARIANT dbvHash;
+	if (!getSetting(NULL, "AvatarHash", &dbvHash)) {
 		szItemName[0] = 0x30 + dbvHash.pbVal[1];
 
-		if (memcmp(pHash, dbvHash.pbVal, 2) != 0)
-		{
-			/** add code to remove old hash from server */
+		if (memcmp(pHash, dbvHash.pbVal, 2) != 0) // add code to remove old hash from server
 			bResetHash = 1;
-		}
+
 		db_free(&dbvHash);
 	}
 
-	if (bResetHash) // start update session
-	{ // pair the packets (need to be send in the correct order
+	if (bResetHash) { // start update session
+		// pair the packets (need to be send in the correct order
 		dwOperationFlags |= SSOF_BEGIN_OPERATION | SSOF_END_OPERATION;
 		pDoubleObject = &doubleObject;
 	}
 
-	if (bResetHash || !pHash)
-	{
-		cookie_servlist_action* ack;
-		DWORD dwCookie;
-
+	if (bResetHash || !pHash) {
 		// Do we have a known server avatar ID?
-		if (wAvatarID = getWord(DBSETTING_SERVLIST_AVATAR, 0))
-		{
-			ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-			if (!ack)
-			{
+		if (wAvatarID = getWord(DBSETTING_SERVLIST_AVATAR, 0)) {
+			cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
+			if (!ack) {
 				debugLogA("Cookie alloc failure.");
 				return; // out of memory, go away
 			}
 			ack->dwAction = SSA_REMOVEAVATAR; // update avatar hash
 			ack->wContactId = wAvatarID;
-			dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_REMOVEFROMLIST, 0, ack); // take cookie
-
+			DWORD dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_REMOVEFROMLIST, 0, ack); // take cookie
 			icq_sendServerItem(dwCookie, ICQ_LISTS_REMOVEFROMLIST, 0, wAvatarID, szItemName, NULL, 0, SSI_ITEM_BUDDYICON, SSOP_ITEM_ACTION | dwOperationFlags, 400, pDoubleObject);
 		}
 	}
 
-	if (pHash)
-	{
-		cookie_servlist_action* ack;
-		DWORD dwCookie;
-		WORD wTLVlen;
-		icq_packet pBuffer;
-		WORD hashsize = size - 2;
+	if (!pHash)
+		return;
 
-		// Do we have a known server avatar ID? We should, unless we just subscribed to the serv-list for the first time
-		if (bResetHash || (wAvatarID = getWord(DBSETTING_SERVLIST_AVATAR, 0)) == 0)
-		{
-			// No, create a new random ID
-			wAvatarID = GenerateServerID(SSIT_ITEM, 0);
-			wCommand = ICQ_LISTS_ADDTOLIST;
+	WORD hashsize = size - 2;
+
+	// Do we have a known server avatar ID? We should, unless we just subscribed to the serv-list for the first time
+	if (bResetHash || (wAvatarID = getWord(DBSETTING_SERVLIST_AVATAR, 0)) == 0) {
+		// No, create a new random ID
+		wAvatarID = GenerateServerID(SSIT_ITEM, 0);
+		wCommand = ICQ_LISTS_ADDTOLIST;
 #ifdef _DEBUG
-			debugLogA("Made new srvAvatarID, id is %u", wAvatarID);
+		debugLogA("Made new srvAvatarID, id is %u", wAvatarID);
 #endif
-		}
-		else
-		{
-#ifdef _DEBUG
-			debugLogA("Reused srvAvatarID, id is %u", wAvatarID);
-#endif
-			wCommand = ICQ_LISTS_UPDATEGROUP;
-		}
-
-		ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-		if (!ack)
-		{
-			debugLogA("Cookie alloc failure.");
-			return; // out of memory, go away
-		}
-		ack->dwAction = SSA_SETAVATAR; // update avatar hash
-		ack->wContactId = wAvatarID;
-		dwCookie = AllocateCookie(CKT_SERVERLIST, wCommand, 0, ack); // take cookie
-
-		szItemName[0] = 0x30 + pHash[1];
-
-		// Build the packet
-		wTLVlen = 8 + hashsize;
-
-		// Initialize our handy data buffer
-		pBuffer.wPlace = 0;
-		pBuffer.pData = (BYTE *)_alloca(wTLVlen);
-		pBuffer.wLen = wTLVlen;
-
-		packTLV(&pBuffer, SSI_TLV_NAME, 0, NULL);                    // TLV (Name)
-		packTLV(&pBuffer, SSI_TLV_AVATARHASH, hashsize, pHash + 2);  // TLV (Hash)
-
-		icq_sendServerItem(dwCookie, wCommand, 0, wAvatarID, szItemName, pBuffer.pData, wTLVlen, SSI_ITEM_BUDDYICON, SSOP_ITEM_ACTION | dwOperationFlags, 400, pDoubleObject);
-		// There is no need to send ICQ_LISTS_CLI_MODIFYSTART or
-		// ICQ_LISTS_CLI_MODIFYEND when modifying the avatar hash
 	}
+	else {
+#ifdef _DEBUG
+		debugLogA("Reused srvAvatarID, id is %u", wAvatarID);
+#endif
+		wCommand = ICQ_LISTS_UPDATEGROUP;
+	}
+
+	cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
+	if (!ack) {
+		debugLogA("Cookie alloc failure.");
+		return; // out of memory, go away
+	}
+	ack->dwAction = SSA_SETAVATAR; // update avatar hash
+	ack->wContactId = wAvatarID;
+	DWORD dwCookie = AllocateCookie(CKT_SERVERLIST, wCommand, 0, ack); // take cookie
+
+	szItemName[0] = 0x30 + pHash[1];
+
+	// Build the packet
+	WORD wTLVlen = 8 + hashsize;
+
+	// Initialize our handy data buffer
+	icq_packet pBuffer;
+	pBuffer.wPlace = 0;
+	pBuffer.pData = (BYTE *)_alloca(wTLVlen);
+	pBuffer.wLen = wTLVlen;
+
+	packTLV(&pBuffer, SSI_TLV_NAME, 0, NULL);                    // TLV (Name)
+	packTLV(&pBuffer, SSI_TLV_AVATARHASH, hashsize, pHash + 2);  // TLV (Hash)
+
+	icq_sendServerItem(dwCookie, wCommand, 0, wAvatarID, szItemName, pBuffer.pData, wTLVlen, SSI_ITEM_BUDDYICON, SSOP_ITEM_ACTION | dwOperationFlags, 400, pDoubleObject);
+	// There is no need to send ICQ_LISTS_CLI_MODIFYSTART or
+	// ICQ_LISTS_CLI_MODIFYEND when modifying the avatar hash
 }
 
 // Should be called before the server list is modified. When all
@@ -2002,18 +1968,14 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 // Called automatically thru server-list update board!
 void CIcqProto::icq_sendServerBeginOperation(int bImport)
 {
-	icq_packet packet;
 	WORD wImportID = getWord("SrvImportID", 0);
 
-	if (bImport && wImportID)
-	{ // we should be importing, check if already have import item
-		if (getDword("ImportTS", 0) + 604800 < getDword("LogonTS", 0))
-		{ // is the timestamp week older, clear it and begin new import
+	if (bImport && wImportID) { // we should be importing, check if already have import item
+		if (getDword("ImportTS", 0) + 604800 < getDword("LogonTS", 0)) { // is the timestamp week older, clear it and begin new import
 			DWORD dwCookie;
 			cookie_servlist_action* ack;
 
-			if (ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action)))
-			{ // we have cookie good, go on
+			if (ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action))) { // we have cookie good, go on
 				ack->dwAction = SSA_IMPORT;
 				dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_REMOVEFROMLIST, 0, ack);
 
@@ -2022,9 +1984,11 @@ void CIcqProto::icq_sendServerBeginOperation(int bImport)
 		}
 	}
 
-	serverPacketInit(&packet, (WORD)(bImport?14:10));
+	icq_packet packet;
+	serverPacketInit(&packet, (WORD)(bImport ? 14 : 10));
 	packFNACHeader(&packet, ICQ_LISTS_FAMILY, ICQ_LISTS_CLI_MODIFYSTART);
-	if (bImport) packDWord(&packet, 1<<0x10);
+	if (bImport)
+		packDWord(&packet, 1 << 0x10);
 	sendServPacket(&packet);
 }
 
@@ -2034,7 +1998,6 @@ void CIcqProto::icq_sendServerBeginOperation(int bImport)
 void CIcqProto::icq_sendServerEndOperation()
 {
 	icq_packet packet;
-
 	serverPacketInit(&packet, 10);
 	packFNACHeader(&packet, ICQ_LISTS_FAMILY, ICQ_LISTS_CLI_MODIFYEND);
 	sendServPacket(&packet);
@@ -2044,7 +2007,6 @@ void CIcqProto::icq_sendServerEndOperation()
 void CIcqProto::sendRosterAck(void)
 {
 	icq_packet packet;
-
 	serverPacketInit(&packet, 10);
 	packFNACHeader(&packet, ICQ_LISTS_FAMILY, ICQ_LISTS_GOTLIST);
 	sendServPacket(&packet);

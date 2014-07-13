@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,17 +21,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
 //  Helper functions to convert text messages between different character sets.
-//
 // -----------------------------------------------------------------------------
 
 #ifndef __I18N_H
 #define __I18N_H
-
 
 BOOL __stdcall IsUSASCII(const char *pBuffer, int nSize);
 BOOL __stdcall IsUnicodeAscii(const WCHAR *pBuffer, int nSize);
@@ -65,6 +63,5 @@ int   __stdcall utf8_decode_static(const char *from, char *to, int to_size);
 #define tchar_to_ansi unicode_to_ansi
 
 void InitI18N(void);
-
 
 #endif /* __I18N_H */

@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,13 +21,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
 //  Handles packets from Service family
-//
 // -----------------------------------------------------------------------------
+
 #include "icqoscar.h"
 
 extern capstr capXStatus[];
@@ -638,7 +638,7 @@ void CIcqProto::setUserInfo()
 	wAdditionalData += 16;
 #endif
 
-	wAdditionalData += (WORD)CustomCapList.size() * 16;
+	wAdditionalData += (WORD)CustomCapList.getCount() * 16;
 
 	//MIM/PackName
 	bool bHasPackName = false;
@@ -722,9 +722,9 @@ void CIcqProto::setUserInfo()
 		db_free(&dbv);
 	}
 
-	if (!CustomCapList.empty())
-		for (std::list<ICQ_CUSTOMCAP*>::iterator it = CustomCapList.begin(), end = CustomCapList.end(); it != end; ++it)
-			packBuffer(&packet, (BYTE*)(*it)->caps, 0x10);
+	if (CustomCapList.getCount())
+		for (int i = 0; i < CustomCapList.getCount(); i++)
+			packBuffer(&packet, (PBYTE)CustomCapList[i].caps, 0x10);
 
 	sendServPacket(&packet);
 }

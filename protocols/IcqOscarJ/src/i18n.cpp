@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,29 +21,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
 //  Contains helper functions to convert text messages between different
 //  character sets.
-//
 // -----------------------------------------------------------------------------
+
 #include "icqoscar.h"
 
-
 static BOOL bHasCP_UTF8 = FALSE;
-
 
 void InitI18N(void)
 {
 	CPINFO CPInfo;
-
-
 	bHasCP_UTF8 = GetCPInfo(CP_UTF8, &CPInfo);
 }
-
-
 
 // Returns true if the buffer only contains 7-bit characters.
 BOOL __stdcall IsUSASCII(const char *pBuffer, int nSize)

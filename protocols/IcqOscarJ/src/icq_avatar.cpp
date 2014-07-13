@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,6 +23,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
+//
 //  Manages Avatar connection, provides internal service for handling avatars
 // -----------------------------------------------------------------------------
 
@@ -56,8 +58,8 @@ avatars_request* CIcqProto::ReleaseAvatarRequestInQueue(avatars_request *request
 {
 	avatars_request *pNext = request->pNext;
 	avatars_request **par = &m_avatarsQueue;
+	
 	avatars_request *ar = m_avatarsQueue;
-
 	while (ar) {
 		if (ar == request) { // found it, remove
 			*par = ar->pNext;
@@ -95,8 +97,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	TCHAR szPath[MAX_PATH * 2];
 	mir_sntprintf(szPath, MAX_PATH * 2, _T("%s\\%S\\"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
-	FOLDERSGETDATA fgd = {0};
-	fgd.cbSize = sizeof(FOLDERSGETDATA);
+	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = MAX_PATH * 2;
 	fgd.szPathT = szPath;
 	fgd.flags = FF_TCHAR;
@@ -356,7 +357,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 					SetAvatarData(NULL, (WORD)(dwPaFormat == PA_FORMAT_XML ? AVATAR_HASH_FLASH : AVATAR_HASH_STATIC), ppMap, cbFileSize);
 
 				if (ppMap != NULL) UnmapViewOfFile(ppMap);
-				if (hMap != NULL) CloseHandle(hMap);
+				if (hMap != NULL)  CloseHandle(hMap);
 				if (hFile != NULL) CloseHandle(hFile);
 				SAFE_FREE((void**)&hash);
 			}

@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2009 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -471,7 +472,6 @@ const FieldNamesItem industryField[] =
 	{ 0, NULL }
 };
 
-
 const FieldNamesItem occupationField[] =
 {
 	{ 1, LPGEN("Academic") },
@@ -505,7 +505,6 @@ const FieldNamesItem occupationField[] =
 	{ 0, NULL }
 };
 
-
 const FieldNamesItem affiliationField[] =
 {
 	{ 200, LPGEN("Alumni Org.") },
@@ -531,7 +530,6 @@ const FieldNamesItem affiliationField[] =
 	{ 0, NULL }
 };
 
-
 const FieldNamesItem agesField[] =
 {
 	{ 0x0011000D, LPGEN("13-17") },
@@ -543,7 +541,6 @@ const FieldNamesItem agesField[] =
 	{ 0x2710003C, LPGEN("60-above") },
 	{ -1, NULL }
 };
-
 
 const FieldNamesItem maritalField[] =
 {
@@ -559,33 +556,20 @@ const FieldNamesItem maritalField[] =
 	{ 0, NULL }
 };
 
-
-char *LookupFieldName(const FieldNamesItem *table, int code)
+char* LookupFieldName(const FieldNamesItem *table, int code)
 {
-	int i;
-
 	if (code != 0)
-	{
-		for(i = 0; table[i].text; i++)
-		{
+		for (int i = 0; table[i].text; i++)
 			if (table[i].code == code)
 				return table[i].text;
-		}
-
-		// Tried to get unexisting field name, you have an
-		// error in the data or in the table
-		_ASSERT(FALSE);
-	}
 
 	return NULL;
 }
 
-
-char *LookupFieldNameUtf(const FieldNamesItem *table, int code, char *str, size_t strsize)
+char* LookupFieldNameUtf(const FieldNamesItem *table, int code, char *str, size_t strsize)
 {
-  char *szText = LookupFieldName(table, code);
-
-  if (szText)
+	char *szText = LookupFieldName(table, code);
+	if (szText)
 		return ICQTranslateUtfStatic(szText, str, strsize);
 
 	return NULL;

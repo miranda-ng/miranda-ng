@@ -6,6 +6,7 @@
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
+// Copyright © 2012-2014 Miranda NG Team
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,15 +21,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
 // -----------------------------------------------------------------------------
 //  DESCRIPTION:
 //
 //  Handles packets from Family 4 ICBM Messages
-//
 // -----------------------------------------------------------------------------
-#include "icqoscar.h"
 
+#include "icqoscar.h"
 
 void CIcqProto::handleMsgFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader)
 {
@@ -1869,58 +1868,46 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 
 	case MTYPE_AUTHREQ:       /* auth request */
 		/* format: nick FE first FE last FE email FE unk-char FE msg 00 */
+		if (nMsgFields < 6) {
+			debugLogA("Malformed '%s' message", "auth req");
+			break;
+		}
 		{
-			char* szBlob;
-			char* pCurBlob;
-
-			if (nMsgFields < 6) {
-				debugLogA("Malformed '%s' message", "auth req");
-				break;
-			}
-
 			PROTORECVEVENT pre = {0};
 			pre.timestamp=dwTimestamp;
-			pre.lParam=sizeof(DWORD)+sizeof(HANDLE)+strlennull(pszMsgField[0])+strlennull(pszMsgField[1])+strlennull(pszMsgField[2])+strlennull(pszMsgField[3])+strlennull(pszMsgField[5])+5;
+			pre.lParam=sizeof(DWORD)*2+strlennull(pszMsgField[0])+strlennull(pszMsgField[1])+strlennull(pszMsgField[2])+strlennull(pszMsgField[3])+strlennull(pszMsgField[5])+5;
 
-			/*blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)*/
-			pCurBlob=szBlob=(char *)_alloca(pre.lParam);
-			memcpy(pCurBlob,&dwUin,sizeof(DWORD)); pCurBlob+=sizeof(DWORD);
-			memcpy(pCurBlob,&hContact,sizeof(HANDLE)); pCurBlob+=sizeof(HANDLE);
-			strcpy((char *)pCurBlob,pszMsgField[0]); pCurBlob+=strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[1]); pCurBlob+=strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[2]); pCurBlob+=strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[3]); pCurBlob+=strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[5]);
-			pre.szMessage=(char *)szBlob;
-
+			// blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+			char *szBlob, *pCurBlob = szBlob = (char *)_alloca(pre.lParam);
+			*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
+			*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
+			strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[3]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[5]);
+			pre.szMessage = (char *)szBlob;
 			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 		}
 		break;
 
 	case MTYPE_ADDED:       /* 'you were added' */
 		/* format: nick FE first FE last FE email 00 */
+		if (nMsgFields < 4) {
+			debugLogA("Malformed '%s' message", "you were added");
+			break;
+		}
+		hContact = HContactFromUIN(dwUin, &bAdded);
 		{
-			DWORD cbBlob;
-			PBYTE pBlob, pCurBlob;
-
-			if (nMsgFields < 4)
-			{
-				debugLogA("Malformed '%s' message", "you were added");
-				break;
-			}
-
-			hContact = HContactFromUIN(dwUin, &bAdded);
-
-			/*blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ) */
-			cbBlob=sizeof(DWORD)*2+strlennull(pszMsgField[0])+strlennull(pszMsgField[1])+strlennull(pszMsgField[2])+strlennull(pszMsgField[3])+4;
-			pCurBlob=pBlob=(PBYTE)_alloca(cbBlob);
+			// blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+			DWORD cbBlob = sizeof(DWORD) * 2 + strlennull(pszMsgField[0]) + strlennull(pszMsgField[1]) + strlennull(pszMsgField[2]) + strlennull(pszMsgField[3]) + 4;
+			PBYTE pBlob, pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
 			*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
 			*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
-			strcpy((char *)pCurBlob,pszMsgField[0]); pCurBlob += strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[1]); pCurBlob += strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[2]); pCurBlob += strlennull((char *)pCurBlob)+1;
-			strcpy((char *)pCurBlob,pszMsgField[3]);
-
+			strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[3]);
 			AddEvent(NULL, EVENTTYPE_ADDED, dwTimestamp, 0, cbBlob, pBlob);
 		}
 		break;
@@ -1930,7 +1917,6 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			char* pszNContactsEnd;
 			int nContacts;
 			int i;
-
 
 			if (nMsgFields < 3
 				|| (nContacts = strtol(pszMsgField[0], &pszNContactsEnd, 10)) == 0
