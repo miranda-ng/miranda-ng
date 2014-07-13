@@ -40,7 +40,7 @@ static int CompareNetlibUser(const NetlibUser* p1, const NetlibUser* p2)
 }
 
 LIST<NetlibUser> netlibUser(5, CompareNetlibUser);
-CRITICAL_SECTION csNetlibUser;
+mir_cs csNetlibUser;
 
 SSL_API si;
 
@@ -426,7 +426,6 @@ void UnloadNetlibModule(void)
 	CloseHandle(hConnectionHeaderMutex);
 	if (hConnectionOpenMutex)
 		CloseHandle(hConnectionOpenMutex);
-	DeleteCriticalSection(&csNetlibUser);
 	WSACleanup();
 }
 
@@ -440,7 +439,6 @@ int LoadNetlibModule(void)
 
 	HookEvent(ME_OPT_INITIALISE, NetlibOptInitialise);
 
-	InitializeCriticalSection(&csNetlibUser);
 	hConnectionHeaderMutex = CreateMutex(NULL, FALSE, NULL);
 	NetlibLogInit();
 

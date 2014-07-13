@@ -459,99 +459,82 @@ void __cdecl CIrcProto::ThreadProc(void*)
 
 void CIrcProto::AddDCCSession(MCONTACT, CDccSession* dcc)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	CDccSession* p = m_dcc_chats.find(dcc);
 	if (p)
 		m_dcc_chats.remove(p);
 
 	m_dcc_chats.insert(dcc);
-
-	LeaveCriticalSection(&m_dcc);
 }
 
 void CIrcProto::AddDCCSession(DCCINFO*, CDccSession* dcc)
 {
-	EnterCriticalSection(&m_dcc);
-
+	mir_cslock lck(m_dcc);
 	m_dcc_xfers.insert(dcc);
-
-	LeaveCriticalSection(&m_dcc);
 }
 
 void CIrcProto::RemoveDCCSession(MCONTACT hContact)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	for (int i = 0; i < m_dcc_chats.getCount(); i++)
-	if (m_dcc_chats[i]->di->hContact == hContact) {
-		m_dcc_chats.remove(i);
-		break;
-	}
-
-	LeaveCriticalSection(&m_dcc);
+		if (m_dcc_chats[i]->di->hContact == hContact) {
+			m_dcc_chats.remove(i);
+			break;
+		}
 }
 
 void CIrcProto::RemoveDCCSession(DCCINFO* pdci)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_xfers.getCount(); i++)
-	if (m_dcc_xfers[i]->di == pdci) {
-		m_dcc_xfers.remove(i);
-		break;
+	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
+		if (m_dcc_xfers[i]->di == pdci) {
+			m_dcc_xfers.remove(i);
+			break;
+		}
 	}
-
-	LeaveCriticalSection(&m_dcc);
 }
 
 CDccSession* CIrcProto::FindDCCSession(MCONTACT hContact)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	for (int i = 0; i < m_dcc_chats.getCount(); i++)
-	if (m_dcc_chats[i]->di->hContact == hContact) {
-		LeaveCriticalSection(&m_dcc);
-		return m_dcc_chats[i];
-	}
+		if (m_dcc_chats[i]->di->hContact == hContact)
+			return m_dcc_chats[i];
 
-	LeaveCriticalSection(&m_dcc);
 	return 0;
 }
 
 CDccSession* CIrcProto::FindDCCSession(DCCINFO* pdci)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	for (int i = 0; i < m_dcc_xfers.getCount(); i++)
-	if (m_dcc_xfers[i]->di == pdci) {
-		LeaveCriticalSection(&m_dcc);
-		return m_dcc_xfers[i];
-	}
+		if (m_dcc_xfers[i]->di == pdci)
+			return m_dcc_xfers[i];
 
-	LeaveCriticalSection(&m_dcc);
 	return 0;
 }
 
 CDccSession* CIrcProto::FindDCCSendByPort(int iPort)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
-		CDccSession* p = m_dcc_xfers[i];
-		if (p->di->iType == DCC_SEND && p->di->bSender && iPort == p->di->iPort) {
-			LeaveCriticalSection(&m_dcc);
+		CDccSession *p = m_dcc_xfers[i];
+		if (p->di->iType == DCC_SEND && p->di->bSender && iPort == p->di->iPort)
 			return p;
-		}
 	}
 
-	LeaveCriticalSection(&m_dcc);
 	return 0;
 }
 
 CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const TCHAR* szName)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
 		CDccSession* p = m_dcc_xfers[i];
@@ -559,61 +542,51 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const TCHAR* szName)
 		if (!getTString(p->di->hContact, "Nick", &dbv)) {
 			if (p->di->iType == DCC_SEND && !p->di->bSender && !lstrcmpi(szName, dbv.ptszVal) && iPort == p->di->iPort) {
 				db_free(&dbv);
-				LeaveCriticalSection(&m_dcc);
 				return p;
 			}
 			db_free(&dbv);
 		}
 	}
 
-	LeaveCriticalSection(&m_dcc);
 	return 0;
 }
 
 CDccSession* CIrcProto::FindPassiveDCCSend(int iToken)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
-		if (m_dcc_xfers[i]->iToken == iToken) {
-			LeaveCriticalSection(&m_dcc);
+	for (int i = 0; i < m_dcc_xfers.getCount(); i++)
+		if (m_dcc_xfers[i]->iToken == iToken)
 			return m_dcc_xfers[i];
-		}
-	}
 
-	LeaveCriticalSection(&m_dcc);
 	return 0;
 }
 
 CDccSession* CIrcProto::FindPassiveDCCRecv(CMString sName, CMString sToken)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
-		CDccSession* p = m_dcc_xfers[i];
-		if (sToken == p->di->sToken && sName == p->di->sContactName) {
-			LeaveCriticalSection(&m_dcc);
+		CDccSession *p = m_dcc_xfers[i];
+		if (sToken == p->di->sToken && sName == p->di->sContactName)
 			return p;
-		}
 	}
-	LeaveCriticalSection(&m_dcc);
+
 	return 0;
 }
 
 void CIrcProto::DisconnectAllDCCSessions(bool Shutdown)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	for (int i = 0; i < m_dcc_chats.getCount(); i++)
-	if (m_disconnectDCCChats || Shutdown)
-		m_dcc_chats[i]->Disconnect();
-
-	LeaveCriticalSection(&m_dcc);
+		if (m_disconnectDCCChats || Shutdown)
+			m_dcc_chats[i]->Disconnect();
 }
 
 void CIrcProto::CheckDCCTimeout(void)
 {
-	EnterCriticalSection(&m_dcc);
+	mir_cslock lck(m_dcc);
 
 	for (int i = 0; i < m_dcc_chats.getCount(); i++) {
 		CDccSession* p = m_dcc_chats[i];
@@ -626,8 +599,6 @@ void CIrcProto::CheckDCCTimeout(void)
 		if (time(0) > p->tLastActivity + DCCSENDTIMEOUT)
 			p->Disconnect();
 	}
-
-	LeaveCriticalSection(&m_dcc);
 }
 
 ////////////////////////////////////////////////////////////////////

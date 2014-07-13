@@ -135,15 +135,14 @@ bool CAimProto::wait_conn(HANDLE& hConn, HANDLE& hEvent, unsigned short service)
 {
 	if (m_iStatus == ID_STATUS_OFFLINE) 
 		return false;
-
-	EnterCriticalSection(&connMutex);
-	if (hConn == NULL && hServerConn) 
 	{
-		debugLogA("Starting Connection.");
-		hConn = (HANDLE)1;    //set so no additional service request attempts are made while aim is still processing the request
-		aim_new_service_request(hServerConn, seqno, service) ;//general service connection!
+		mir_cslock lck(connMutex);
+		if (hConn == NULL && hServerConn) {
+			debugLogA("Starting Connection.");
+			hConn = (HANDLE)1;    //set so no additional service request attempts are made while aim is still processing the request
+			aim_new_service_request(hServerConn, seqno, service);//general service connection!
+		}
 	}
-	LeaveCriticalSection(&connMutex);
 
 	if (WaitForSingleObjectEx(hEvent, 10000, TRUE) != WAIT_OBJECT_0)
 		return false;

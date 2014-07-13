@@ -513,34 +513,21 @@ static int CompareTimers(const TimerPair* p1, const TimerPair* p2)
 }
 
 static OBJLIST<TimerPair> timers(10, CompareTimers);
-static CRITICAL_SECTION timers_cs;
-
-void InitTimers(void)
-{
-	InitializeCriticalSection(&timers_cs);
-}
+static mir_cs timers_cs;
 
 void UninitTimers(void)
 {
-	EnterCriticalSection(&timers_cs);
+	mir_cslock lck(timers_cs);
 	timers.destroy();
-	LeaveCriticalSection(&timers_cs);
-	DeleteCriticalSection(&timers_cs);
 }
 
 CIrcProto* GetTimerOwner(UINT_PTR nIDEvent)
 {
-	CIrcProto* result;
+	mir_cslock lck(timers_cs);
 
-	EnterCriticalSection(&timers_cs);
 	TimerPair temp(NULL, nIDEvent);
 	int idx = timers.getIndex(&temp);
-	if (idx == -1)
-		result = NULL;
-	else
-		result = timers[idx].ppro;
-	LeaveCriticalSection(&timers_cs);
-	return result;
+	return (idx == -1) ? NULL : timers[idx].ppro;
 }
 
 void CIrcProto::SetChatTimer(UINT_PTR &nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc)
@@ -550,25 +537,24 @@ void CIrcProto::SetChatTimer(UINT_PTR &nIDEvent, UINT uElapse, TIMERPROC lpTimer
 
 	nIDEvent = SetTimer(NULL, NULL, uElapse, lpTimerFunc);
 
-	EnterCriticalSection(&timers_cs);
+	mir_cslock lck(timers_cs);
 	timers.insert(new TimerPair(this, nIDEvent));
-	LeaveCriticalSection(&timers_cs);
 }
 
 void CIrcProto::KillChatTimer(UINT_PTR &nIDEvent)
 {
-	if (nIDEvent) {
-		EnterCriticalSection(&timers_cs);
+	if (nIDEvent == 0)
+		return;
+	{
+		mir_cslock lck(timers_cs);
 		TimerPair temp(this, nIDEvent);
 		int idx = timers.getIndex(&temp);
 		if (idx != -1)
 			timers.remove(idx);
-
-		LeaveCriticalSection(&timers_cs);
-
-		KillTimer(NULL, nIDEvent);
-		nIDEvent = NULL;
 	}
+
+	KillTimer(NULL, nIDEvent);
+	nIDEvent = NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

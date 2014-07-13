@@ -40,13 +40,11 @@ MDatabaseCache::MDatabaseCache() :
 	m_lGlobalSettings(50, compareGlobals)
 {
 	m_hCacheHeap = HeapCreate(0, 0, 0);
-	InitializeCriticalSection(&m_cs);
 }
 
 MDatabaseCache::~MDatabaseCache()
 {
 	HeapDestroy(m_hCacheHeap);
-	DeleteCriticalSection(&m_cs);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

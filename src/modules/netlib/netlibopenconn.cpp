@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
 
-extern CRITICAL_SECTION csNetlibUser;
+extern mir_cs csNetlibUser;
 extern HANDLE hConnectionOpenMutex;
 extern DWORD g_LastConnectionTick;
 extern int connectionTimeout;

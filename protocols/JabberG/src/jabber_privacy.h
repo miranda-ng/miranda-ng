@@ -326,7 +326,7 @@ protected:
 
 public:
 	CJabberProto* m_proto;
-	CRITICAL_SECTION m_cs;
+	mir_cs m_cs;
 
 	CPrivacyListManager(CJabberProto *ppro)
 	{
@@ -334,7 +334,6 @@ public:
 		m_szActiveListName = NULL;
 		m_szDefaultListName = NULL;
 		m_pLists = NULL;
-		InitializeCriticalSection(&m_cs);
 		m_bModified = FALSE;
 	};
 	~CPrivacyListManager()
@@ -342,7 +341,6 @@ public:
 		mir_free(m_szActiveListName);
 		mir_free(m_szDefaultListName);
 		RemoveAllLists();
-		DeleteCriticalSection(&m_cs);
 	};
 	void SetActiveListName(const TCHAR *szListName)
 	{

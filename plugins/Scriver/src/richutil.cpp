@@ -45,7 +45,7 @@ static int RichUtil_CmpVal(void *p1, void *p2)
 	return (int)((INT_PTR)tp1->hwnd - (INT_PTR)tp2->hwnd);
 }
 
-static CRITICAL_SECTION csRich;
+static mir_cs csRich;
 
 static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static void RichUtil_ClearUglyBorder(TRichUtil *ru);
@@ -54,14 +54,11 @@ void RichUtil_Load(void)
 {
 	sListInt.increment = 10;
 	sListInt.sortFunc = RichUtil_CmpVal;
-
-	InitializeCriticalSection(&csRich);
 }
 
 void RichUtil_Unload(void)
 {
 	List_Destroy(&sListInt);
-	DeleteCriticalSection(&csRich);
 }
 
 int RichUtil_SubClass(HWND hwndEdit)
@@ -73,12 +70,11 @@ int RichUtil_SubClass(HWND hwndEdit)
 
 		ru->hwnd = hwndEdit;
 		ru->hasUglyBorder = 0;
-
-		EnterCriticalSection(&csRich);
-		if (!List_GetIndex(&sListInt, ru, &idx))
-			List_Insert(&sListInt, ru, idx);
-		LeaveCriticalSection(&csRich);
-
+		{
+			mir_cslock lck(csRich);
+			if (!List_GetIndex(&sListInt, ru, &idx))
+				List_Insert(&sListInt, ru, idx);
+		}
 		mir_subclassWindow(ru->hwnd, RichUtil_Proc);
 		RichUtil_ClearUglyBorder(ru);
 		return 1;
@@ -93,11 +89,11 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	LRESULT ret;
 
 	tru.hwnd = hwnd;
-
-	EnterCriticalSection(&csRich);
-	if (List_GetIndex(&sListInt, &tru, &idx))
-		ru = (TRichUtil *)sListInt.items[idx];
-	LeaveCriticalSection(&csRich);
+	{
+		mir_cslock lck(csRich);
+		if (List_GetIndex(&sListInt, &tru, &idx))
+			ru = (TRichUtil *)sListInt.items[idx];
+	}
 
 	switch (msg) {
 	case WM_THEMECHANGED:
@@ -182,11 +178,10 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_NCDESTROY:
 		ret = mir_callNextSubclass(hwnd, RichUtil_Proc, msg, wParam, lParam);
-
-		EnterCriticalSection(&csRich);
-		List_Remove(&sListInt, idx);
-		LeaveCriticalSection(&csRich);
-
+		{
+			mir_cslock lck(csRich);
+			List_Remove(&sListInt, idx);
+		}
 		mir_free(ru);
 		return ret;
 	}

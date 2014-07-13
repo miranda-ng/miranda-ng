@@ -67,7 +67,6 @@ int  LoadDefaultServiceModePlugin(void);
 int  LoadErrorsModule(void);
 
 void UnloadAccountsModule(void);
-void UnloadButtonModule(void);
 void UnloadClcModule(void);
 void UnloadContactListModule(void);
 void UnloadDatabase(void);
@@ -181,7 +180,6 @@ void UnloadDefaultModules(void)
 	UnloadIcoLibModule();
 	UnloadUtilsModule();
 	UnloadExtraIconsModule();
-	UnloadButtonModule();
 	UnloadClcModule();
 	UnloadContactListModule();
 	UnloadEventsModule();

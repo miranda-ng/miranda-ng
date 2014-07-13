@@ -26,7 +26,7 @@ class MDatabaseCache : public MIDatabaseCache
 	HANDLE m_hCacheHeap;
 	char* m_lastSetting;
 	DBCachedContact *m_lastVL;
-	CRITICAL_SECTION m_cs;
+	mir_cs m_cs;
 
 	LIST<DBCachedContact> m_lContacts;
 	LIST<DBCachedGlobalValue> m_lGlobalSettings;

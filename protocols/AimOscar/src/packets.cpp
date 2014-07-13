@@ -65,7 +65,7 @@ int aim_writetlvlong64(unsigned short type, unsigned __int64 value, unsigned sho
 
 int CAimProto::aim_sendflap(HANDLE hServerConn, char type,unsigned short length,const char *buf, unsigned short &seqno)
 {
-	EnterCriticalSection(&SendingMutex);
+	mir_cslock lck(SendingMutex);
 	const int slen = FLAP_SIZE + length;
 	char* obuf = (char*)alloca(slen);
 	flap_header *flap = (flap_header*)obuf;
@@ -76,7 +76,6 @@ int CAimProto::aim_sendflap(HANDLE hServerConn, char type,unsigned short length,
 	memcpy(&obuf[FLAP_SIZE], buf, length);
 	int rlen= Netlib_Send(hServerConn, obuf, slen, 0);
 	if (rlen == SOCKET_ERROR) seqno--;
-	LeaveCriticalSection(&SendingMutex);
 	return rlen >= 0 ? 0 : -1;
 }
 

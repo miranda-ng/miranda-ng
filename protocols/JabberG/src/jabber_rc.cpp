@@ -74,20 +74,21 @@ BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo *pInfo, const T
 	if (!_tcscmp(szNode, JABBER_FEAT_COMMANDS)) {
 		XmlNodeIq iq(_T("result"), pInfo);
 		HXML resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS) << XATTR(_T("node"), JABBER_FEAT_COMMANDS);
+		{
+			mir_cslock lck(m_cs);
 
-		Lock();
-		CJabberAdhocNode* pNode = GetFirstNode();
-		while (pNode) {
-			TCHAR *szJid = pNode->GetJid();
-			if (!szJid)
-				szJid = m_pProto->m_ThreadInfo->fullJID;
+			CJabberAdhocNode* pNode = GetFirstNode();
+			while (pNode) {
+				TCHAR *szJid = pNode->GetJid();
+				if (!szJid)
+					szJid = m_pProto->m_ThreadInfo->fullJID;
 
-			resultQuery << XCHILD(_T("item")) << XATTR(_T("jid"), szJid)
-				<< XATTR(_T("node"), pNode->GetNode()) << XATTR(_T("name"), pNode->GetName());
+				resultQuery << XCHILD(_T("item")) << XATTR(_T("jid"), szJid)
+					<< XATTR(_T("node"), pNode->GetNode()) << XATTR(_T("name"), pNode->GetName());
 
-			pNode = pNode->GetNext();
+				pNode = pNode->GetNext();
+			}
 		}
-		Unlock();
 
 		m_pProto->m_ThreadInfo->send(iq);
 		return TRUE;
@@ -116,24 +117,22 @@ BOOL CJabberAdhocManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, const TC
 		return TRUE;
 	}
 
-	Lock();
+	mir_cslockfull lck(m_cs);
 	CJabberAdhocNode *pNode = FindNode(szNode);
-	if (pNode) {
-		XmlNodeIq iq(_T("result"), pInfo);
-		HXML resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(_T("node"), JABBER_FEAT_DISCO_INFO);
-		resultQuery << XCHILD(_T("identity")) << XATTR(_T("name"), pNode->GetName())
-			<< XATTR(_T("category"), _T("automation")) << XATTR(_T("type"), _T("command-node"));
+	if (pNode == NULL)
+		return FALSE;
 
-		resultQuery << XCHILD(_T("feature")) << XATTR(_T("var"), JABBER_FEAT_COMMANDS);
-		resultQuery << XCHILD(_T("feature")) << XATTR(_T("var"), JABBER_FEAT_DATA_FORMS);
-		resultQuery << XCHILD(_T("feature")) << XATTR(_T("var"), JABBER_FEAT_DISCO_INFO);
+	XmlNodeIq iq(_T("result"), pInfo);
+	HXML resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(_T("node"), JABBER_FEAT_DISCO_INFO);
+	resultQuery << XCHILD(_T("identity")) << XATTR(_T("name"), pNode->GetName())
+		<< XATTR(_T("category"), _T("automation")) << XATTR(_T("type"), _T("command-node"));
 
-		Unlock();
-		m_pProto->m_ThreadInfo->send(iq);
-		return TRUE;
-	}
-	Unlock();
-	return FALSE;
+	resultQuery << XCHILD(_T("feature")) << XATTR(_T("var"), JABBER_FEAT_COMMANDS);
+	resultQuery << XCHILD(_T("feature")) << XATTR(_T("var"), JABBER_FEAT_DATA_FORMS);
+	resultQuery << XCHILD(_T("feature")) << XATTR(_T("var"), JABBER_FEAT_DISCO_INFO);
+	lck.unlock();
+	m_pProto->m_ThreadInfo->send(iq);
+	return TRUE;
 }
 
 BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo, const TCHAR *szNode)
@@ -142,10 +141,10 @@ BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo
 
 	HXML commandNode = pInfo->GetChildNode();
 
-	Lock();
+	mir_cslockfull lck(m_cs);
 	CJabberAdhocNode* pNode = FindNode(szNode);
 	if (!pNode) {
-		Unlock();
+		lck.unlock();
 
 		m_pProto->m_ThreadInfo->send(
 			XmlNodeIq(_T("error"), pInfo)
@@ -161,7 +160,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo
 	if (szSessionId) {
 		pSession = FindSession(szSessionId);
 		if (!pSession) {
-			Unlock();
+			lck.unlock();
 
 			XmlNodeIq iq(_T("error"), pInfo);
 			HXML errorNode = iq << XCHILD(_T("error")) << XATTR(_T("type"), _T("modify"));
@@ -175,7 +174,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo
 		pSession = AddNewSession();
 
 	if (!pSession) {
-		Unlock();
+		lck.unlock();
 
 		m_pProto->m_ThreadInfo->send(
 			XmlNodeIq(_T("error"), pInfo)
@@ -213,7 +212,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(HXML iqNode, CJabberIqInfo *pInfo
 		RemoveSession(pSession);
 		pSession = NULL;
 	}
-	Unlock();
+
 	return TRUE;
 }
 

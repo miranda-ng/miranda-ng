@@ -36,7 +36,7 @@ struct TTooltips
 };
 
 static LIST<TTooltips> lToolTips(1, NumericKeySortT);
-static CRITICAL_SECTION csTips;
+static mir_cs csTips;
 static BOOL bModuleInitialized = FALSE;
 
 // Used for our own cheap TrackMouseEvent
@@ -627,17 +627,5 @@ int LoadButtonModule(void)
 	RegisterClassEx(&wc);
 
 	CreateServiceFunction("Button/GetWindowProc", GetButtonProc);
-	InitializeCriticalSection(&csTips);
 	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Module unload
-
-void UnloadButtonModule()
-{
-	if (!bModuleInitialized)
-		return;
-
-	DeleteCriticalSection(&csTips);
 }

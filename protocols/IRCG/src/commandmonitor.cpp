@@ -237,22 +237,22 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, TCHAR* msg)
 void __cdecl CIrcProto::ResolveIPThread(LPVOID di)
 {
 	IPRESOLVE* ipr = (IPRESOLVE *)di;
+	{
+		mir_cslock lock(m_resolve);
 
-	EnterCriticalSection(&m_resolve);
-
-	if (ipr != NULL && (ipr->iType == IP_AUTO && lstrlenA(m_myHost) == 0 || ipr->iType == IP_MANUAL)) {
-		hostent* myhost = gethostbyname(ipr->sAddr.c_str());
-		if (myhost) {
-			IN_ADDR in;
-			memcpy(&in, myhost->h_addr, 4);
-			if (ipr->iType == IP_AUTO)
-				mir_snprintf(m_myHost, sizeof(m_myHost), "%s", inet_ntoa(in));
-			else
-				mir_snprintf(m_mySpecifiedHostIP, sizeof(m_mySpecifiedHostIP), "%s", inet_ntoa(in));
+		if (ipr != NULL && (ipr->iType == IP_AUTO && lstrlenA(m_myHost) == 0 || ipr->iType == IP_MANUAL)) {
+			hostent* myhost = gethostbyname(ipr->sAddr.c_str());
+			if (myhost) {
+				IN_ADDR in;
+				memcpy(&in, myhost->h_addr, 4);
+				if (ipr->iType == IP_AUTO)
+					mir_snprintf(m_myHost, sizeof(m_myHost), "%s", inet_ntoa(in));
+				else
+					mir_snprintf(m_mySpecifiedHostIP, sizeof(m_mySpecifiedHostIP), "%s", inet_ntoa(in));
+			}
 		}
 	}
 
-	LeaveCriticalSection(&m_resolve);
 	delete ipr;
 }
 

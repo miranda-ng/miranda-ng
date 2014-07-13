@@ -348,10 +348,10 @@ struct CIrcProto : public PROTO<CIrcProto>
 	OBJLIST<CMString> vUserhostReasons;
 	OBJLIST<CMString> vWhoInProgress;
 
-	CRITICAL_SECTION cs;
-	CRITICAL_SECTION m_gchook;
-	CRITICAL_SECTION m_resolve;
-	HANDLE           m_evWndCreate;
+	mir_cs   cs;
+	mir_cs   m_gchook;
+	mir_cs   m_resolve;
+	HANDLE   m_evWndCreate;
 
 	CMString m_statusMessage;
 	int      m_iTempCheckTime;
@@ -536,7 +536,7 @@ protected :
 	LIST<CDccSession> m_dcc_xfers;
 
 private :
-	CRITICAL_SECTION    m_dcc;      // protect the dcc objects
+	mir_cs m_dcc; // protect the dcc objects
 
 	void createMessageFromPchar( const char* p );
 	void Notify(const CIrcMessage* pmsg);

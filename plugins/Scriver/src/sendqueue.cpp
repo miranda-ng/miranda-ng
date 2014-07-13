@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 static MessageSendQueueItem *global_sendQueue = NULL;
-static CRITICAL_SECTION queueMutex;
+static mir_cs queueMutex;
 
 TCHAR * GetSendBufferMsg(MessageSendQueueItem *item)
 {
@@ -41,42 +41,28 @@ TCHAR * GetSendBufferMsg(MessageSendQueueItem *item)
 	return szMsg;
 }
 
-void InitSendQueue()
-{
-	InitializeCriticalSection(&queueMutex);
-}
-
-void DestroySendQueue()
-{
-	DeleteCriticalSection(&queueMutex);
-}
-
 MessageSendQueueItem* CreateSendQueueItem(HWND hwndSender)
 {
-	MessageSendQueueItem *item = (MessageSendQueueItem *) mir_alloc(sizeof(MessageSendQueueItem));
-	EnterCriticalSection(&queueMutex);
-	ZeroMemory(item, sizeof(MessageSendQueueItem));
+	MessageSendQueueItem *item = (MessageSendQueueItem*)mir_calloc(sizeof(MessageSendQueueItem));
+
+	mir_cslock lck(queueMutex);
 	item->hwndSender = hwndSender;
 	item->next = global_sendQueue;
-	if (global_sendQueue != NULL) {
+	if (global_sendQueue != NULL)
 		global_sendQueue->prev = item;
-	}
+
 	global_sendQueue = item;
-	LeaveCriticalSection(&queueMutex);
 	return item;
 }
 
 MessageSendQueueItem* FindOldestPendingSendQueueItem(HWND hwndSender, MCONTACT hContact)
 {
-	MessageSendQueueItem *item, *found = NULL;
-	EnterCriticalSection(&queueMutex);
-	for (item = global_sendQueue; item != NULL; item = item->next) {
-		if (item->hwndSender == hwndSender && item->hContact == hContact && item->hwndErrorDlg == NULL) {
-			found = item;
-		}
-	}
-	LeaveCriticalSection(&queueMutex);
-	return found;
+	mir_cslock lck(queueMutex);
+	for (MessageSendQueueItem *item = global_sendQueue; item != NULL; item = item->next)
+		if (item->hwndSender == hwndSender && item->hContact == hContact && item->hwndErrorDlg == NULL)
+			return item;
+
+	return NULL;
 }
 
 MessageSendQueueItem* FindSendQueueItem(MCONTACT hContact, HANDLE hSendId)

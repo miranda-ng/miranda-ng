@@ -32,15 +32,13 @@ static int CompareSessions(const CDccSession* p1, const CDccSession* p2)
 }
 
 CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
-PROTO<CIrcProto>(szModuleName, tszUserName),
-m_dcc_chats(10, CompareSessions),
-m_dcc_xfers(10, CompareSessions),
-m_ignoreItems(10),
-vUserhostReasons(10),
-vWhoInProgress(10)
+	PROTO<CIrcProto>(szModuleName, tszUserName),
+	m_dcc_chats(10, CompareSessions),
+	m_dcc_xfers(10, CompareSessions),
+	m_ignoreItems(10),
+	vUserhostReasons(10),
+	vWhoInProgress(10)
 {
-	InitializeCriticalSection(&cs);
-	InitializeCriticalSection(&m_gchook);
 	m_evWndCreate = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	CreateProtoService(PS_GETMYAWAYMSG, &CIrcProto::GetMyAwayMsg);
@@ -67,8 +65,6 @@ vWhoInProgress(10)
 	CreateProtoService("/GetIrcData", &CIrcProto::Scripting_GetIrcData);
 
 	codepage = CP_ACP;
-	InitializeCriticalSection(&m_resolve);
-	InitializeCriticalSection(&m_dcc);
 
 	InitPrefs();
 
@@ -152,17 +148,12 @@ CIrcProto::~CIrcProto()
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = NULL;
 
-	DeleteCriticalSection(&cs);
-	DeleteCriticalSection(&m_gchook);
-
 	if (hMenuRoot)
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
 
 	mir_free(m_alias);
 
 	CloseHandle(m_evWndCreate);
-	DeleteCriticalSection(&m_resolve);
-	DeleteCriticalSection(&m_dcc);
 	KillChatTimer(OnlineNotifTimer);
 	KillChatTimer(OnlineNotifTimer3);
 }

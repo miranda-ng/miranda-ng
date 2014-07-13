@@ -98,7 +98,7 @@ HICON IconItem_GetIcon(IcolibItem* item, bool big);
 
 int SkinOptionsInit(WPARAM, LPARAM);
 
-extern CRITICAL_SECTION csIconList;
+extern mir_cs csIconList;
 extern LIST<IcolibItem> iconList;
 extern LIST<SectionItem> sectionList;
 

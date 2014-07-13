@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static bool bIsGenMenuInited;
 bool bIconsDisabled;
-static CRITICAL_SECTION csMenuHook;
+static mir_cs csMenuHook;
 
 static int NextObjectId = 0x100, NextObjectMenuItemId = CLISTMENUIDMIN;
 
@@ -1150,7 +1150,6 @@ static INT_PTR SRVMO_SetOptionsMenuItem(WPARAM, LPARAM lParam)
 
 int InitGenMenu()
 {
-	InitializeCriticalSection(&csMenuHook);
 	CreateServiceFunction(MO_BUILDMENU, MO_BuildMenu);
 
 	CreateServiceFunction(MO_PROCESSCOMMAND, (MIRANDASERVICE)MO_ProcessCommand);
@@ -1181,13 +1180,9 @@ int InitGenMenu()
 int UnitGenMenu()
 {
 	if (bIsGenMenuInited) {
-		{
-			mir_cslock lck(csMenuHook);
-			MO_RemoveAllObjects();
-			bIsGenMenuInited = false;
-		}
-
-		DeleteCriticalSection(&csMenuHook);
+		mir_cslock lck(csMenuHook);
+		MO_RemoveAllObjects();
+		bIsGenMenuInited = false;
 	}
 	return 0;
 }

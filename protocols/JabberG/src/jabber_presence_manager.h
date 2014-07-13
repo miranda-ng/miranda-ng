@@ -86,13 +86,12 @@ class CJabberPresenceManager
 {
 protected:
 	CJabberProto *ppro;
-	CRITICAL_SECTION m_cs;
+	mir_cs m_cs;
 	CJabberPresencePermanentInfo* m_pPermanentHandlers;
 
 public:
 	CJabberPresenceManager(CJabberProto* proto)
 	{
-		InitializeCriticalSection(&m_cs);
 		m_pPermanentHandlers = NULL;
 		ppro = proto;
 	}
@@ -105,7 +104,6 @@ public:
 			pInfo = pTmp;
 		}
 		m_pPermanentHandlers = NULL;
-		DeleteCriticalSection(&m_cs);
 	}
 	BOOL Start()
 	{

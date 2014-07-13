@@ -108,8 +108,8 @@ struct CAimProto : public PROTO<CAimProto>
 	int  __cdecl OnGCMenuHook(WPARAM wParam,LPARAM lParam);
 
 	//====| Data |========================================================================
-	CRITICAL_SECTION SendingMutex;
-	CRITICAL_SECTION connMutex;
+	mir_cs SendingMutex;
+	mir_cs connMutex;
 
 	char* COOKIE;
 	int COOKIE_LENGTH;

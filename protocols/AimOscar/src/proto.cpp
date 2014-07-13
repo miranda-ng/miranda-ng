@@ -28,9 +28,6 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 	hChatNavEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 	hAdminEvent   = CreateEvent(NULL, TRUE, FALSE, NULL);
 
-	InitializeCriticalSection(&SendingMutex);
-	InitializeCriticalSection(&connMutex);
-
 	CreateProtoService(PS_CREATEACCMGRUI, &CAimProto::SvcCreateAccMgrUI);
 
 	CreateProtoService(PS_GETMYAWAYMSG,   &CAimProto::GetMyAwayMsg);
@@ -86,9 +83,6 @@ CAimProto::~CAimProto()
 
 	Netlib_CloseHandle(m_hNetlibUser);
 	Netlib_CloseHandle(hNetlibPeer);
-
-	DeleteCriticalSection(&SendingMutex);
-	DeleteCriticalSection(&connMutex);
 
 	CloseHandle(hAvatarEvent);
 	CloseHandle(hChatNavEvent);

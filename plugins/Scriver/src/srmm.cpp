@@ -70,13 +70,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
-	InitSendQueue();
 	return OnLoadModule();
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroySendQueue();
 	if (pTaskbarInterface)
 		pTaskbarInterface->Release();
 	return OnUnloadModule();

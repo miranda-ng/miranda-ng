@@ -499,7 +499,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam, LPARAM lParam)
 	GCHOOK *gch = (GCHOOK*)lParam;
 	CMString S = _T("");
 
-	EnterCriticalSection(&m_gchook);
+	mir_cslock lock(m_gchook);
 
 	// handle the hook
 	if (gch) {
@@ -769,7 +769,6 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	LeaveCriticalSection(&m_gchook);
 	return 0;
 }
 
@@ -906,7 +905,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 
 int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
 {
-	EnterCriticalSection(&cs);
+	mir_cslock lock(cs);
 
 	if (m_perform && IsConnected())
 		if (DoPerform("Event: Disconnect"))
@@ -922,8 +921,6 @@ int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
 		m_nickDlg->Close();
 	if (m_joinDlg)
 		m_joinDlg->Close();
-
-	LeaveCriticalSection(&cs);
 	return 0;
 }
 
@@ -1011,9 +1008,10 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 		nickflag = true;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_CONNECTING);
 		Sleep(100);
-		EnterCriticalSection(&cs);
-		Connect(si);
-		LeaveCriticalSection(&cs);
+		{
+			mir_cslock lock(cs);
+			Connect(si);
+		}
 		if (IsConnected()) {
 			if (m_mySpecifiedHost[0])
 				ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(m_mySpecifiedHost, IP_MANUAL));

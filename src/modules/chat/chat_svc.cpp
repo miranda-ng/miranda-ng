@@ -27,7 +27,7 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 #include "chat.h"
 
 HGENMENU hJoinMenuItem, hLeaveMenuItem;
-CRITICAL_SECTION cs;
+mir_cs cs;
 
 static HANDLE
    hServiceRegister = NULL,
@@ -583,8 +583,6 @@ static bool bInited = false;
 
 int LoadChatModule(void)
 {
-	InitializeCriticalSection(&cs);
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
@@ -620,7 +618,6 @@ void UnloadChatModule(void)
 	
 	FreeMsgLogBitmaps();
 	OptionsUnInit();
-	DeleteCriticalSection(&cs);
 
 	DestroyHookableEvent(ci.hSendEvent);
 	DestroyHookableEvent(ci.hBuildMenuEvent);

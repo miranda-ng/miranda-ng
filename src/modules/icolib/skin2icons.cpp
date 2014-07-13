@@ -39,7 +39,7 @@ int iconEventActive = 0;
 
 BOOL bNeedRebuild = FALSE;
 
-CRITICAL_SECTION csIconList;
+mir_cs csIconList;
 
 static int sttCompareSections(const SectionItem* p1, const SectionItem* p2)
 {
@@ -837,7 +837,6 @@ int LoadIcoLibModule(void)
 
 	hIconBlank = LoadIconEx(NULL, MAKEINTRESOURCE(IDI_BLANK), 0);
 
-	InitializeCriticalSection(&csIconList);
 	hIcoLib_AddNewIcon    = CreateServiceFunction("Skin2/Icons/AddIcon",    sttIcoLib_AddNewIcon);
 	hIcoLib_RemoveIcon    = CreateServiceFunction(MS_SKIN2_REMOVEICON,      IcoLib_RemoveIcon);
 	hIcoLib_GetIcon       = CreateServiceFunction(MS_SKIN2_GETICON,         sttIcoLib_GetIcon);
@@ -873,7 +872,6 @@ void UnloadIcoLibModule(void)
 	DestroyServiceFunction(hIcoLib_IsManaged);
 	DestroyServiceFunction(hIcoLib_AddRef);
 	DestroyServiceFunction(hIcoLib_ReleaseIcon);
-	DeleteCriticalSection(&csIconList);
 
 	for (i = iconList.getCount()-1; i >= 0; i--) {
 		IcolibItem* p = iconList[i];

@@ -120,7 +120,7 @@ INT_PTR NetlibBase64Encode(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibBase64Decode(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibHttpUrlEncode(WPARAM wParam, LPARAM lParam);
 
-extern CRITICAL_SECTION csNetlibUser;
+extern mir_cs csNetlibUser;
 extern LIST<NetlibUser> netlibUser;
 
 //netlibautoproxy.c

@@ -81,8 +81,8 @@ class mir_cslock
 	CRITICAL_SECTION& cs;
 
 public:
-	__inline mir_cslock(CRITICAL_SECTION& _cs) : cs(_cs) { EnterCriticalSection(&cs); }
-	__inline ~mir_cslock() { LeaveCriticalSection(&cs); }
+	__inline mir_cslock(CRITICAL_SECTION& _cs) : cs(_cs) { ::EnterCriticalSection(&cs); }
+	__inline ~mir_cslock() { ::LeaveCriticalSection(&cs); }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

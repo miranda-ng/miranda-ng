@@ -40,7 +40,6 @@ static int sttCompareProtocols(const CIrcProto *p1, const CIrcProto *p2)
 
 LIST<CIrcProto> g_Instances(1, sttCompareProtocols);
 
-void InitTimers( void );
 void UninitTimers( void );
 
 // Information about the plugin
@@ -92,7 +91,6 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfo);
 
 	InitIcons();
-	InitTimers();
 	InitServers();
 	InitContactMenus();
 
