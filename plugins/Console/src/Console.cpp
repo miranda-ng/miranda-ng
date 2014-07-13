@@ -977,23 +977,20 @@ static int OnFastDump(WPARAM wParam,LPARAM lParam)
 		DUMPMSG *dumpMsg = (DUMPMSG*)mir_alloc( len );
 		TCHAR *str = dumpMsg->szMsg;
 
-		strncpy(dumpMsg->szModule, ((NETLIBUSER*)wParam)->szDescriptiveName, sizeof(dumpMsg->szModule))[ sizeof(dumpMsg->szModule)-1 ] = 0;
+		char *szModule = (wParam) ? ((NETLIBUSER*)wParam)->szDescriptiveName : "[Core]";
+		strncpy_s(dumpMsg->szModule, SIZEOF(dumpMsg->szModule), szModule, _TRUNCATE);
 
-		{
-			wchar_t *ucs2;
+		wchar_t *ucs2 = mir_a2u(logMsg->pszHead);
+		wcscpy(str, ucs2);
+		mir_free(ucs2);
 
-			ucs2 = mir_a2u( logMsg->pszHead );
-			wcscpy(str, ucs2);
-			mir_free(ucs2);
+		// try to detect utf8
+		ucs2 = mir_utf8decodeW(logMsg->pszMsg);
+		if ( !ucs2 )
+			ucs2 = mir_a2u(logMsg->pszMsg);
 
-			// try to detect utf8
-			ucs2 = mir_utf8decodeW( logMsg->pszMsg );
-			if ( !ucs2 )
-				ucs2 = mir_a2u( logMsg->pszMsg );
-
-			wcscat( str, ucs2 );
-			mir_free( ucs2 );
-		}
+		wcscat(str, ucs2);
+		mir_free(ucs2);
 
 		InMsgs++;
 		PostMessage(hwndConsole, HM_DUMP, 0, (LPARAM)dumpMsg);
@@ -1024,8 +1021,8 @@ static void SaveSettings(HWND hwndDlg)
 	if (len < MIN_WRAPLEN )
 		len = MIN_WRAPLEN;
 	else
-	if (len > MAX_WRAPLEN)
-		len = MAX_WRAPLEN;
+		if (len > MAX_WRAPLEN)
+			len = MAX_WRAPLEN;
 
 	gWrapLen = len;
 	SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
@@ -1035,8 +1032,8 @@ static void SaveSettings(HWND hwndDlg)
 	if (len < MIN_LIMIT )
 		len = MIN_LIMIT;
 	else
-	if (len > MAX_LIMIT)
-		len = MAX_LIMIT;
+		if (len > MAX_LIMIT)
+			len = MAX_LIMIT;
 
 	gLimit = len;
 	SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
@@ -1053,53 +1050,53 @@ static void SaveSettings(HWND hwndDlg)
 static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hwndDlg);
-			CheckDlgButton(hwndDlg, IDC_START, db_get_b(NULL, "Console", "ShowAtStart", 0));
-			CheckDlgButton(hwndDlg, IDC_SINGLE, gSingleMode);
-			CheckDlgButton(hwndDlg, IDC_SHOWICONS, gIcons);
-			CheckDlgButton(hwndDlg, IDC_SEPARATOR, gSeparator);
-			SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
-			break;
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDC_RESTART:
-				{
-					if (!pActive) break;
-					SaveSettings(hwndDlg);
-					PostMessage(hwndConsole, HM_RESTART, 0, 0);
-					break;
-				}
-				case IDC_LIMIT:
-				case IDC_WRAP:
-					if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
-						return FALSE;
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-				case IDC_START:
-				case IDC_SEPARATOR:
-				case IDC_SHOWICONS:
-				case IDC_SINGLE:
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-			}
-			break;
-		case WM_NOTIFY:
-			switch(((LPNMHDR)lParam)->idFrom)
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		CheckDlgButton(hwndDlg, IDC_START, db_get_b(NULL, "Console", "ShowAtStart", 0));
+		CheckDlgButton(hwndDlg, IDC_SINGLE, gSingleMode);
+		CheckDlgButton(hwndDlg, IDC_SHOWICONS, gIcons);
+		CheckDlgButton(hwndDlg, IDC_SEPARATOR, gSeparator);
+		SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
+		break;
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_RESTART:
 			{
-				case 0:
-					switch (((LPNMHDR)lParam)->code)
-					{
-						case PSN_APPLY:
-						{
-							SaveSettings(hwndDlg);
-							break;
-						}
-					}
+				if (!pActive) break;
+				SaveSettings(hwndDlg);
+				PostMessage(hwndConsole, HM_RESTART, 0, 0);
 				break;
 			}
+		case IDC_LIMIT:
+		case IDC_WRAP:
+			if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
+				return FALSE;
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+		case IDC_START:
+		case IDC_SEPARATOR:
+		case IDC_SHOWICONS:
+		case IDC_SINGLE:
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
+	case WM_NOTIFY:
+		switch(((LPNMHDR)lParam)->idFrom)
+		{
+		case 0:
+			switch (((LPNMHDR)lParam)->code)
+			{
+			case PSN_APPLY:
+				{
+					SaveSettings(hwndDlg);
+					break;
+				}
+			}
+			break;
+		}
+		break;
 	}
 	return FALSE;
 }
@@ -1124,10 +1121,10 @@ static int OnColourChange(WPARAM wParam,LPARAM lParam)
 {
 	if (hwndConsole)
 	{
-	   	ColourID cid = {0};
-	   	COLORREF col;
+		ColourID cid = {0};
+		COLORREF col;
 
-	   	cid.cbSize=sizeof(cid);
+		cid.cbSize=sizeof(cid);
 		strcpy(cid.group,"Console");
 		strcpy(cid.name,"Background");
 		strcpy(cid.dbSettingsGroup,"Console");
@@ -1145,7 +1142,7 @@ static int OnFontChange(WPARAM wParam,LPARAM lParam)
 {
 	if (hwndConsole)
 	{
-	   	COLORREF col;
+		COLORREF col;
 		HFONT hf = NULL;
 		LOGFONT LogFont={0};
 		FontIDT fid={0};
@@ -1274,11 +1271,11 @@ void InitConsole()
 		hIcons[i+ICON_FIRST] = (HICON)LoadImage(hInst,MAKEINTRESOURCE(ctrls[i].icon),IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0);
 	}
 
-   	gImg = ImageList_Create(LOGICONX_SIZE, LOGICONY_SIZE, ILC_COLOR24 | ILC_MASK, SIZEOF(logicons), 0);
+	gImg = ImageList_Create(LOGICONX_SIZE, LOGICONY_SIZE, ILC_COLOR24 | ILC_MASK, SIZEOF(logicons), 0);
 
-    for(i = 0; i < SIZEOF(logicons); i++)
-    {
-       	hi = (HICON)LoadImage(hInst,MAKEINTRESOURCE(logicons[i]),IMAGE_ICON,LOGICONX_SIZE,LOGICONY_SIZE,0);
+	for(i = 0; i < SIZEOF(logicons); i++)
+	{
+		hi = (HICON)LoadImage(hInst,MAKEINTRESOURCE(logicons[i]),IMAGE_ICON,LOGICONX_SIZE,LOGICONY_SIZE,0);
 		if (hi)
 		{
 			ImageList_AddIcon(gImg, hi);
