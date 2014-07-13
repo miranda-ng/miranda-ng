@@ -100,5 +100,7 @@ Audio
 Wideo
 [Document]
 Dokument
+[Wall post]
+Post na tablicy
 [Unsupported or unknown attachment type: %s]
 Niewspierany albo nieznany typ załącznika: %s
