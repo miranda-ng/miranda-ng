@@ -34,7 +34,6 @@ extern const char* cliSpamBot;
 void CIcqProto::handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader)
 {
 	switch (pSnacHeader->wSubtype) {
-
 	case ICQ_LOCATION_RIGHTS_REPLY: // Reply to CLI_REQLOCATION
 		debugLogA("Server sent SNAC(x02,x03) - SRV_LOCATION_RIGHTS_REPLY");
 		break;
@@ -46,21 +45,16 @@ void CIcqProto::handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header
 	case ICQ_ERROR:
 		{ 
 			WORD wError;
-			MCONTACT hCookieContact;
-			cookie_fam15_data *pCookieData;
-
-
 			if (wBufferLength >= 2)
 				unpackWord(&pBuffer, &wError);
 			else 
 				wError = 0;
 
-			if (wError == 4)
-			{
-				if (FindCookie(pSnacHeader->dwRef, &hCookieContact, (void**)&pCookieData) && !getContactUin(hCookieContact) && pCookieData->bRequestType == REQUESTTYPE_PROFILE)
-				{
-					ProtoBroadcastAck(hCookieContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1 ,0);
-
+			if (wError == 4) {
+				MCONTACT hCookieContact;
+				cookie_fam15_data *pCookieData;
+				if (FindCookie(pSnacHeader->dwRef, &hCookieContact, (void**)&pCookieData) && !getContactUin(hCookieContact) && pCookieData->bRequestType == REQUESTTYPE_PROFILE) {
+					ProtoBroadcastAck(hCookieContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1, 0);
 					ReleaseCookie(pSnacHeader->dwRef);
 				}
 			}
@@ -76,13 +70,11 @@ void CIcqProto::handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header
 }
 
 static char* AimApplyEncoding(char* pszStr, const char* pszEncoding)
-{ // decode encoding to ANSI only
-	if (pszStr && pszEncoding)
-	{
+{
+	// decode encoding to ANSI only
+	if (pszStr && pszEncoding) {
 		const char *szEnc = strstrnull(pszEncoding, "charset=");
-
-		if (szEnc)
-		{ // decode custom encoding to Utf-8
+		if (szEnc) { // decode custom encoding to Utf-8
 			char *szStr = ApplyEncoding(pszStr, szEnc + 9);
 			// decode utf-8 to ansi
 			char *szRes = NULL;
@@ -127,9 +119,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 
 	// Ignore away status if the user is not already on our list
 	if (hContact == INVALID_CONTACT_ID) {
-#ifdef _DEBUG
 		debugLogA("Ignoring away reply (%s)", strUID(dwUIN, szUID));
-#endif
 		return;
 	}
 
@@ -148,139 +138,120 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 
 	switch (GetCookieType(dwCookie)) {
 	case CKT_FAMILYSPECIAL:
+		ReleaseCookie(dwCookie);
 		{
-			ReleaseCookie(dwCookie);
+			// Syntax check
+			if (wLen < 4)
+				return;
 
-			// Read user info TLVs
-			{
-				oscar_tlv_chain* pChain;
-				BYTE *tmp;
-				char *szMsg = NULL;
+			char *szMsg = NULL;
+			BYTE *tmp = buf;
 
-				// Syntax check
-				if (wLen < 4)
-					return;
+			// Get general chain
+			oscar_tlv_chain* pChain;
+			if (!(pChain = readIntoTLVChain(&buf, wLen, wTLVCount)))
+				return;
 
-				tmp = buf;
-				// Get general chain
-				if (!(pChain = readIntoTLVChain(&buf, wLen, wTLVCount)))
-					return;
+			disposeChain(&pChain);
 
-				disposeChain(&pChain);
+			wLen -= (buf - tmp);
 
-				wLen -= (buf - tmp);
+			// Get extra chain
+			if (pChain = readIntoTLVChain(&buf, wLen, 2)) {
+				char *szEncoding = NULL;
 
-				// Get extra chain
-				if (pChain = readIntoTLVChain(&buf, wLen, 2))
-				{
-					oscar_tlv *pTLV;
-					char *szEncoding = NULL;
+				// Get Profile encoding TLV
+				oscar_tlv *pTLV = pChain->getTLV(0x05, 1);
+				if (pTLV && pTLV->wLen > 0) // store client capabilities
+					db_set_blob(hContact, m_szModuleName, "CapBuf", pTLV->pData, pTLV->wLen);
+				else
+					delSetting(hContact, "CapBuf");
 
-					// Get Profile encoding TLV
-					
-					pTLV = pChain->getTLV(0x05, 1);
-					if (pTLV && pTLV->wLen > 0) // store client capabilities
-						db_set_blob(hContact, m_szModuleName, "CapBuf", pTLV->pData, pTLV->wLen);
-					else
-						delSetting(hContact, "CapBuf");
-
-					pTLV = pChain->getTLV(0x01, 1);
-					if (pTLV && (pTLV->wLen >= 1))
-					{
-						szEncoding = (char*)_alloca(pTLV->wLen + 1);
-						memcpy(szEncoding, pTLV->pData, pTLV->wLen);
-						szEncoding[pTLV->wLen] = '\0';
-					}
-					// Get Profile info TLV
-					pTLV = pChain->getTLV(0x02, 1);
-					if (pTLV && (pTLV->wLen >= 1))
-					{
-						szMsg = (char*)SAFE_MALLOC(pTLV->wLen + 2);
-						memcpy(szMsg, pTLV->pData, pTLV->wLen);
-						szMsg[pTLV->wLen] = '\0';
-						szMsg[pTLV->wLen + 1] = '\0';
-						szMsg = AimApplyEncoding(szMsg, szEncoding);
-						szMsg = EliminateHtml(szMsg, pTLV->wLen);
-					}
-					// Free TLV chain
-					disposeChain(&pChain);
+				pTLV = pChain->getTLV(0x01, 1);
+				if (pTLV && (pTLV->wLen >= 1)) {
+					szEncoding = (char*)_alloca(pTLV->wLen + 1);
+					memcpy(szEncoding, pTLV->pData, pTLV->wLen);
+					szEncoding[pTLV->wLen] = '\0';
 				}
-
-				setString(hContact, "About", szMsg);
-				ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1 ,0);
-
-				SAFE_FREE((void**)&szMsg);
+				// Get Profile info TLV
+				pTLV = pChain->getTLV(0x02, 1);
+				if (pTLV && (pTLV->wLen >= 1)) {
+					szMsg = (char*)SAFE_MALLOC(pTLV->wLen + 2);
+					memcpy(szMsg, pTLV->pData, pTLV->wLen);
+					szMsg[pTLV->wLen] = '\0';
+					szMsg[pTLV->wLen + 1] = '\0';
+					szMsg = AimApplyEncoding(szMsg, szEncoding);
+					szMsg = EliminateHtml(szMsg, pTLV->wLen);
+				}
+				// Free TLV chain
+				disposeChain(&pChain);
 			}
-			break;
+
+			setString(hContact, "About", szMsg);
+			ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1 ,0);
+
+			SAFE_FREE((void**)&szMsg);
 		}
+		break;
 
 	default: // away message
-		{
-			status = AwayMsgTypeToStatus(pCookieData->nAckType);
-			if (status == ID_STATUS_OFFLINE)
-			{
-				debugLogA("SNAC(2.6) Ignoring unknown status message from %s", strUID(dwUIN, szUID));
-
-				ReleaseCookie(dwCookie);
-				return;
-			}
+		status = AwayMsgTypeToStatus(pCookieData->nAckType);
+		if (status == ID_STATUS_OFFLINE) {
+			debugLogA("SNAC(2.6) Ignoring unknown status message from %s", strUID(dwUIN, szUID));
 
 			ReleaseCookie(dwCookie);
-
-			// Read user info TLVs
-			{
-				oscar_tlv_chain* pChain;
-				oscar_tlv* pTLV;
-				BYTE *tmp;
-				char *szMsg = NULL;
-
-				// Syntax check
-				if (wLen < 4)
-					return;
-
-				tmp = buf;
-				// Get general chain
-				if (!(pChain = readIntoTLVChain(&buf, wLen, wTLVCount)))
-					return;
-
-				disposeChain(&pChain);
-
-				wLen -= (buf - tmp);
-
-				// Get extra chain
-				if (pChain = readIntoTLVChain(&buf, wLen, 2)) {
-					char* szEncoding = NULL;
-
-					// Get Away encoding TLV
-					pTLV = pChain->getTLV(0x03, 1);
-					if (pTLV && (pTLV->wLen >= 1)) {
-						szEncoding = (char*)_alloca(pTLV->wLen + 1);
-						memcpy(szEncoding, pTLV->pData, pTLV->wLen);
-						szEncoding[pTLV->wLen] = '\0';
-					}
-					// Get Away info TLV
-					pTLV = pChain->getTLV(0x04, 1);
-					if (pTLV && (pTLV->wLen >= 1)) {
-						szMsg = (char*)SAFE_MALLOC(pTLV->wLen + 2);
-						memcpy(szMsg, pTLV->pData, pTLV->wLen);
-						szMsg[pTLV->wLen] = '\0';
-						szMsg[pTLV->wLen + 1] = '\0';
-						szMsg = AimApplyEncoding(szMsg, szEncoding);
-						szMsg = EliminateHtml(szMsg, pTLV->wLen);
-					}
-					// Free TLV chain
-					disposeChain(&pChain);
-				}
-
-				PROTORECVEVENT pre = { 0 };
-				pre.szMessage = szMsg ? szMsg : (char *)"";
-				pre.timestamp = time(NULL);
-				pre.lParam = dwCookie;
-				ProtoChainRecv(hContact, PSR_AWAYMSG, status, (LPARAM)&pre);
-
-				SAFE_FREE((void**)&szMsg);
-			}
-			break;
+			return;
 		}
+
+		ReleaseCookie(dwCookie);
+
+		// Syntax check
+		if (wLen < 4)
+			return;
+
+		BYTE *tmp = buf;
+
+		// Get general chain
+		oscar_tlv_chain* pChain;
+		if (!(pChain = readIntoTLVChain(&buf, wLen, wTLVCount)))
+			return;
+
+		disposeChain(&pChain);
+
+		wLen -= (buf - tmp);
+
+		// Get extra chain
+		char *szMsg = NULL;
+		if (pChain = readIntoTLVChain(&buf, wLen, 2)) {
+			char *szEncoding = NULL;
+
+			// Get Away encoding TLV
+			oscar_tlv *pTLV = pChain->getTLV(0x03, 1);
+			if (pTLV && (pTLV->wLen >= 1)) {
+				szEncoding = (char*)_alloca(pTLV->wLen + 1);
+				memcpy(szEncoding, pTLV->pData, pTLV->wLen);
+				szEncoding[pTLV->wLen] = '\0';
+			}
+			// Get Away info TLV
+			pTLV = pChain->getTLV(0x04, 1);
+			if (pTLV && (pTLV->wLen >= 1)) {
+				szMsg = (char*)SAFE_MALLOC(pTLV->wLen + 2);
+				memcpy(szMsg, pTLV->pData, pTLV->wLen);
+				szMsg[pTLV->wLen] = '\0';
+				szMsg[pTLV->wLen + 1] = '\0';
+				szMsg = AimApplyEncoding(szMsg, szEncoding);
+				szMsg = EliminateHtml(szMsg, pTLV->wLen);
+			}
+			// Free TLV chain
+			disposeChain(&pChain);
+		}
+
+		PROTORECVEVENT pre = { 0 };
+		pre.szMessage = szMsg ? szMsg : (char *)"";
+		pre.timestamp = time(NULL);
+		pre.lParam = dwCookie;
+		ProtoChainRecv(hContact, PSR_AWAYMSG, status, (LPARAM)&pre);
+
+		SAFE_FREE((void**)&szMsg);
 	}
 }

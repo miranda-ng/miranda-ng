@@ -35,10 +35,8 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen)
 	WORD wTextLen;
 	char* pszText = NULL;
 
-
 	// The first part of the packet should always be at least 31 bytes
-	if (wLen < 31)
-	{
+	if (wLen < 31) {
 		NetLog_Direct("Error during parsing of DC packet 2 PEER_MSG (too short)");
 		return;
 	}
@@ -100,17 +98,12 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen)
 	}
 	wLen = (wLen - 2) - wTextLen;
 
-#ifdef _DEBUG
 	NetLog_Direct("Handling PEER_MSG '%s', command %u, cookie %u, messagetype %u, messageflags %u, status %u, flags %u", pszText, wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags);
-#else
-	NetLog_Direct("Message through direct - UID: %u", dc->dwRemoteUin);
-#endif
 
 	// The remaining actual message is handled either as a status message request,
 	// a greeting message, a acknowledge or a normal (text, url, file) message
-	if (wCommand == DIRECT_MESSAGE)
-		switch (bMsgType)
-	{
+	if (wCommand == DIRECT_MESSAGE) {
+		switch (bMsgType) {
 		case MTYPE_FILEREQ: // File inits
 			handleFileRequest(buf, wLen, dc->dwRemoteUin, wCookie, 0, 0, pszText, 7, TRUE);
 			break;
@@ -123,7 +116,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen)
 			{
 				char **szMsg = MirandaStatusToAwayMsg(AwayMsgTypeToStatus(bMsgType));
 				if (szMsg)
-					icq_sendAwayMsgReplyDirect(dc, wCookie, bMsgType, ( const char** )szMsg);
+					icq_sendAwayMsgReplyDirect(dc, wCookie, bMsgType, (const char**)szMsg);
 			}
 			break;
 
@@ -131,54 +124,45 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen)
 			handleDirectGreetingMessage(dc, buf, wLen, wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags, pszText);
 			break;
 
-		default: 
-			{
-				message_ack_params pMsgAck = {0};
-        uid_str szUID;
+		default:
+			message_ack_params pMsgAck = { 0 };
+			uid_str szUID;
 
-				buf -= wTextLen;
-				wLen += wTextLen;
+			buf -= wTextLen;
+			wLen += wTextLen;
 
-				pMsgAck.bType = MAT_DIRECT;
-				pMsgAck.pDC = dc;
-				pMsgAck.wCookie = wCookie;
-				pMsgAck.msgType = bMsgType;
-				pMsgAck.bFlags = bMsgFlags;
-				handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)bMsgType, (int)bMsgFlags, 0, (DWORD)wLen, wTextLen, (char*)buf, MTF_DIRECT, &pMsgAck);
-				break;
-			}
+			pMsgAck.bType = MAT_DIRECT;
+			pMsgAck.pDC = dc;
+			pMsgAck.wCookie = wCookie;
+			pMsgAck.msgType = bMsgType;
+			pMsgAck.bFlags = bMsgFlags;
+			handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)bMsgType, (int)bMsgFlags, 0, (DWORD)wLen, wTextLen, (char*)buf, MTF_DIRECT, &pMsgAck);
+			break;
+		}
 	}
-	else if (wCommand == DIRECT_ACK)
-	{
-		if (bMsgFlags == 3)
-		{ // this is status reply
-      uid_str szUID;
+	else if (wCommand == DIRECT_ACK) {
+		if (bMsgFlags == 3) {
+			// this is status reply
+			uid_str szUID;
 
 			buf -= wTextLen;
 			wLen += wTextLen;
 
 			handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)bMsgType, (int)bMsgFlags, 2, (DWORD)wLen, wTextLen, (char*)buf, MTF_DIRECT, NULL);
 		}
-		else
-		{
+		else {
 			MCONTACT hCookieContact;
 			cookie_message_data *pCookieData = NULL;
-
 			if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData))
-			{
 				NetLog_Direct("Received an unexpected direct ack");
-			}
-			else if (hCookieContact != dc->hContact)
-			{
+			else if (hCookieContact != dc->hContact) {
 				NetLog_Direct("Direct Contact does not match Cookie Contact(0x%x != 0x%x)", dc->hContact, hCookieContact);
 				ReleaseCookie(wCookie); // This could be a bad idea, but I think it is safe
 			}
-			else
-			{ // the ack is correct
+			else { // the ack is correct
 				int ackType = -1;
 
-				switch (bMsgType)
-				{ 
+				switch (bMsgType) {
 				case MTYPE_PLAIN:
 					ackType = ACKTYPE_MESSAGE;
 					break;
@@ -197,22 +181,19 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen)
 					handleDirectGreetingMessage(dc, buf, wLen, wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags, pszText);
 					break;
 
-				default: 
+				default:
 					NetLog_Direct("Skipped packet from direct connection");
 					break;
 				}
-				if (ackType != -1)
-				{ // was a good ack to broadcast ?
+				if (ackType != -1) { // was a good ack to broadcast ?
 					ProtoBroadcastAck(dc->hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
 					ReleaseCookie(wCookie);
 				}
 			}
 		}
 	}
-	else if (wCommand == DIRECT_CANCEL)
-	{
+	else if (wCommand == DIRECT_CANCEL) 
 		NetLog_Direct("Cannot handle abort messages yet... :(");
-	}
 	else
 		NetLog_Direct("Unknown wCommand, packet skipped");
 }
@@ -225,18 +206,14 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 	int typeId;
 	WORD qt;
 
-#ifdef _DEBUG
 	NetLog_Direct("Handling PEER_MSG_GREETING, command %u, cookie %u, messagetype %u, messageflags %u, status %u, flags %u", wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags);
-#endif
 
-	NetLog_Direct("Parsing Greeting message through direct");
-
-	if (!unpackPluginTypeId(&buf, &wLen, &typeId, &qt, TRUE)) return;
+	if (!unpackPluginTypeId(&buf, &wLen, &typeId, &qt, TRUE))
+		return;
 
 	// Length of remaining data
 	unpackLEDWord(&buf, &dwLengthToEnd);
-	if (dwLengthToEnd < 4 || dwLengthToEnd > wLen)
-	{
+	if (dwLengthToEnd < 4 || dwLengthToEnd > wLen) {
 		NetLog_Direct("Error: Sanity checking failed (%d) in handleDirectGreetingMessage, datalen %u wLen %u", 2, dwLengthToEnd, wLen);
 		return;
 	}
@@ -244,30 +221,23 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 	// Length of message/reason
 	unpackLEDWord(&buf, &dwDataLength);
 	wLen -= 4;
-	if (dwDataLength > wLen)
-	{
+	if (dwDataLength > wLen) {
 		NetLog_Direct("Error: Sanity checking failed (%d) in handleDirectGreetingMessage, datalen %u wLen %u", 3, dwDataLength, wLen);
 		return;
 	}
 
-	if (typeId == MTYPE_FILEREQ && wCommand == DIRECT_MESSAGE)
-	{
-		char* szMsg;
-
+	if (typeId == MTYPE_FILEREQ && wCommand == DIRECT_MESSAGE) {
 		NetLog_Direct("This is file request");
-		szMsg = (char*)_alloca(dwDataLength+1);
+		char *szMsg = (char*)_alloca(dwDataLength + 1);
 		unpackString(&buf, szMsg, (WORD)dwDataLength);
 		szMsg[dwDataLength] = '\0';
 		wLen = wLen - (WORD)dwDataLength;
 
 		handleFileRequest(buf, wLen, dc->dwRemoteUin, wCookie, 0, 0, szMsg, 8, TRUE);
 	}
-	else if (typeId == MTYPE_FILEREQ && wCommand == DIRECT_ACK)
-	{
-		char* szMsg;
-
+	else if (typeId == MTYPE_FILEREQ && wCommand == DIRECT_ACK) {
 		NetLog_Direct("This is file ack");
-		szMsg = (char*)_alloca(dwDataLength+1);
+		char *szMsg = (char*)_alloca(dwDataLength + 1);
 		unpackString(&buf, szMsg, (WORD)dwDataLength);
 		szMsg[dwDataLength] = '\0';
 		wLen = wLen - (WORD)dwDataLength;
@@ -275,10 +245,9 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 		// 50 - file request granted/refused
 		handleFileAck(buf, wLen, dc->dwRemoteUin, wCookie, wStatus, szMsg);
 	}
-	else if (typeId && wCommand == DIRECT_MESSAGE)
-	{
-    uid_str szUID;
-		message_ack_params pMsgAck = {0};
+	else if (typeId && wCommand == DIRECT_MESSAGE) {
+		uid_str szUID;
+		message_ack_params pMsgAck = { 0 };
 
 		pMsgAck.bType = MAT_DIRECT;
 		pMsgAck.pDC = dc;
@@ -286,37 +255,31 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 		pMsgAck.msgType = typeId;
 		handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, typeId, 0, 0, dwLengthToEnd, (WORD)dwDataLength, (char*)buf, MTF_PLUGIN | MTF_DIRECT, &pMsgAck);
 	}
-	else if (typeId == MTYPE_STATUSMSGEXT && wCommand == DIRECT_ACK)
-	{ // especially for icq2003b
+	else if (typeId == MTYPE_STATUSMSGEXT && wCommand == DIRECT_ACK) { // especially for icq2003b
 		NetLog_Direct("This is extended status reply");
 
-		char *szMsg = (char*)_alloca(dwDataLength+1);
-    uid_str szUID;
+		char *szMsg = (char*)_alloca(dwDataLength + 1);
+		uid_str szUID;
 		unpackString(&buf, szMsg, (WORD)dwDataLength);
 		szMsg[dwDataLength] = '\0';
 
 		handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)(qt + 0xE7), 3, 2, (DWORD)wLen, (WORD)dwDataLength, szMsg, MTF_PLUGIN | MTF_DIRECT, NULL);
 	}
-	else if (typeId && wCommand == DIRECT_ACK)
-	{
+	else if (typeId && wCommand == DIRECT_ACK) {
 		MCONTACT hCookieContact;
 		cookie_message_data *pCookieData = NULL;
 
-		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData))
-		{
+		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData)) {
 			NetLog_Direct("Received an unexpected direct ack");
 		}
-		else if (hCookieContact != dc->hContact)
-		{
+		else if (hCookieContact != dc->hContact) {
 			NetLog_Direct("Direct Contact does not match Cookie Contact(0x%x != 0x%x)", dc->hContact, hCookieContact);
 			ReleaseCookie(wCookie); // This could be a bad idea, but I think it is safe
 		}
-		else
-		{
+		else {
 			int ackType = -1;
 
-			switch (typeId)
-			{
+			switch (typeId) {
 			case MTYPE_MESSAGE:
 				ackType = ACKTYPE_MESSAGE;
 				break;
@@ -328,9 +291,7 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 				break;
 			case MTYPE_SCRIPT_NOTIFY:
 				{
-					char *szMsg;
-
-					szMsg = (char*)_alloca(dwDataLength + 1);
+					char *szMsg = (char*)_alloca(dwDataLength + 1);
 					if (dwDataLength > 0)
 						memcpy(szMsg, buf, dwDataLength);
 					szMsg[dwDataLength] = '\0';
@@ -344,14 +305,12 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 				break;
 			}
 
-			if (ackType != -1)
-			{ // was a good ack to broadcast ?
+			if (ackType != -1) { // was a good ack to broadcast ?
 				ProtoBroadcastAck(dc->hContact, ackType, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
 			}
 			// Release cookie
 			ReleaseCookie(wCookie);
 		}
 	}
-	else
-		NetLog_Direct("Unsupported plugin message type %s", typeId);
+	else NetLog_Direct("Unsupported plugin message type %s", typeId);
 }

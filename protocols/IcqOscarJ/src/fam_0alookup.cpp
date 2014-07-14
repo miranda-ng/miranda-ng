@@ -34,17 +34,15 @@ void CIcqProto::handleLookupFam(BYTE *pBuffer, WORD wBufferLength, snac_header* 
 		break;
 
 	case ICQ_ERROR:
-		{ 
+		{
 			WORD wError;
-			cookie_search *pCookie;
-
 			if (wBufferLength >= 2)
 				unpackWord(&pBuffer, &wError);
-			else 
+			else
 				wError = 0;
 
-			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookie))
-			{
+			cookie_search *pCookie;
+			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookie)) {
 				if (wError == 0x14)
 					debugLogA("Lookup: No results");
 
@@ -54,8 +52,8 @@ void CIcqProto::handleLookupFam(BYTE *pBuffer, WORD wBufferLength, snac_header* 
 			}
 
 			LogFamilyError(ICQ_LOOKUP_FAMILY, wError);
-			break;
 		}
+		break;
 
 	default:
 		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_LOOKUP_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
@@ -68,12 +66,9 @@ void CIcqProto::ReleaseLookupCookie(DWORD dwCookie, cookie_search *pCookie)
 	FreeCookie(dwCookie);
 	SAFE_FREE(&pCookie->szObject);
 
-	if (pCookie->dwMainId && !pCookie->dwStatus)
-	{ // we need to wait for main search
+	if (pCookie->dwMainId && !pCookie->dwStatus) // we need to wait for main search
 		pCookie->dwStatus = 1;
-	}
-	else
-	{ // finish everything
+	else { // finish everything
 		if (pCookie->dwMainId)
 			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)pCookie->dwMainId, 0);
 		else // we are single
@@ -85,12 +80,11 @@ void CIcqProto::ReleaseLookupCookie(DWORD dwCookie, cookie_search *pCookie)
 
 void CIcqProto::handleLookupEmailReply(BYTE* buf, WORD wLen, DWORD dwCookie)
 {
-	ICQSEARCHRESULT sr = {0};
+	ICQSEARCHRESULT sr = { 0 };
 	oscar_tlv_chain *pChain;
 	cookie_search *pCookie;
 
-	if (!FindCookie(dwCookie, NULL, (void**)&pCookie))
-	{
+	if (!FindCookie(dwCookie, NULL, (void**)&pCookie)) {
 		debugLogA("Error: Received unexpected lookup reply");
 		return;
 	}
@@ -102,10 +96,8 @@ void CIcqProto::handleLookupEmailReply(BYTE* buf, WORD wLen, DWORD dwCookie)
 	sr.hdr.email = ansi_to_tchar(pCookie->szObject);
 
 	// Syntax check, read chain
-	if (wLen >= 4 && (pChain = readIntoTLVChain(&buf, wLen, 0)))
-	{
-		for (WORD i = 1; TRUE; i++)
-		{ // collect the results
+	if (wLen >= 4 && (pChain = readIntoTLVChain(&buf, wLen, 0))) {
+		for (WORD i = 1; TRUE; i++) { // collect the results
 			char *szUid = pChain->getString(0x01, i);
 			if (!szUid) break;
 			sr.hdr.id = ansi_to_tchar(szUid);

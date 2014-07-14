@@ -181,10 +181,9 @@ void CIcqProto::CloseDirectConnection(directconnect *dc)
 	icq_lock l(directConnListMutex);
 
 	NetLib_CloseConnection(&dc->hConnection, FALSE);
-#ifdef _DEBUG
+
 	if (dc->hConnection)
 		NetLog_Direct("Direct conn closed (%p)", dc->hConnection);
-#endif
 }
 
 // Called from icq_newConnectionReceived when a new incomming dc is done
@@ -410,9 +409,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 						continue;
 					}
 				}
-#ifdef _DEBUG
-				NetLog_Direct("New direct package");
-#endif
+
 				if (dc.type == DIRECTCONN_FILE && dc.initialised)
 					handleFileTransferPacket(&dc, packetRecv.buffer + i + 2, wLen);
 				else
@@ -453,9 +450,8 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 
 	switch (buf[0]) {
 	case PEER_FILE_INIT: // first packet of a file transfer
-#ifdef _DEBUG
 		NetLog_Direct("Received PEER_FILE_INIT from %u", dc->dwRemoteUin);
-#endif
+
 		if (dc->handshake)
 			handleFileTransferPacket(dc, buf, wLen);
 		else
@@ -468,9 +464,9 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 			NetLog_Direct("Error: Received malformed PEER_INITACK from %u", dc->dwRemoteUin);
 			break;
 		}
-#ifdef _DEBUG
+
 		NetLog_Direct("Received PEER_INITACK from %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
-#endif
+
 		if (dc->incoming) dc->handshake = 1;
 
 		if (dc->incoming && dc->type == DIRECTCONN_REVERSE) {
@@ -509,9 +505,8 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 		break;
 
 	case PEER_INIT:       /* connect packet */
-#ifdef _DEBUG
 		NetLog_Direct("Received PEER_INIT");
-#endif
+
 		buf++;
 
 		if (wLen < 3)
@@ -635,9 +630,8 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 		break;
 
 	case PEER_MSG:        /* messaging packets */
-#ifdef _DEBUG
 		NetLog_Direct("Received PEER_MSG from %u", dc->dwRemoteUin);
-#endif
+
 		if (dc->initialised)
 			handleDirectMessage(dc, buf + 1, (WORD)(wLen - 1));
 		else
@@ -653,9 +647,8 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 			break;
 		}
 
-#ifdef _DEBUG
 		NetLog_Direct("Received PEER_MSG_INIT from %u", dc->dwRemoteUin);
-#endif
+
 		buf++;
 		if (wLen != 0x21)
 			break;
@@ -895,9 +888,8 @@ void CIcqProto::sendPeerInit_v78(directconnect* dc)
 		packDWord(&packet, 0);                   // Unknown
 
 	sendDirectPacket(dc, &packet);
-#ifdef _DEBUG
+
 	NetLog_Direct("Sent PEER_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
-#endif
 }
 
 // Sends a PEER_INIT packet through a DC
@@ -911,9 +903,8 @@ void CIcqProto::sendPeerInitAck(directconnect* dc)
 	packLEDWord(&packet, PEER_INIT_ACK);       // 
 
 	sendDirectPacket(dc, &packet);
-#ifdef _DEBUG
+
 	NetLog_Direct("Sent PEER_INIT_ACK to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
-#endif
 }
 
 // Sends a PEER_MSG_INIT packet through a DC
@@ -943,9 +934,8 @@ void CIcqProto::sendPeerMsgInit(directconnect* dc, DWORD dwSeq)
 		packDWord(&packet, 0);
 	}
 	sendDirectPacket(dc, &packet);
-#ifdef _DEBUG
+
 	NetLog_Direct("Sent PEER_MSG_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
-#endif
 }
 
 // Sends a PEER_FILE_INIT packet through a DC
@@ -975,8 +965,7 @@ void CIcqProto::sendPeerFileInit(directconnect* dc)
 	packLEWord(&packet, (WORD)(nNickLen + 1));
 	packBuffer(&packet, (LPBYTE)szNick, (WORD)(nNickLen + 1));
 	sendDirectPacket(dc, &packet);
-#ifdef _DEBUG
-	NetLog_Direct("Sent PEER_FILE_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
-#endif
 	db_free(&dbv);
+
+	NetLog_Direct("Sent PEER_FILE_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
 }

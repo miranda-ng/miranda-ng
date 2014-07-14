@@ -248,10 +248,7 @@ int CIcqProto::handleServerPackets(BYTE *buf, int len, serverthread_info *info)
 		if (len < 6 + datalen)
 			break;
 
-
-#ifdef _DEBUG
 		debugLogA("Server FLAP: Channel %u, Seq %u, Length %u bytes", channel, sequence, datalen);
-#endif
 
 		switch (channel) {
 		case ICQ_LOGIN_CHAN:

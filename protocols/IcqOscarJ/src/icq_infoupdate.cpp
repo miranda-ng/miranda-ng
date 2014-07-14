@@ -90,9 +90,9 @@ BOOL CIcqProto::icq_QueueUser(MCONTACT hContact)
 			m_infoUpdateList[nFirstFree].hContact = hContact;
 			m_infoUpdateList[nFirstFree].queued = time(NULL);
 			nInfoUserCount++;
-#ifdef _DEBUG
+
 			debugLogA("Queued user %u, place %u, count %u", dwUin, nFirstFree, nInfoUserCount);
-#endif
+
 			// Notify worker thread
 			if (hInfoQueueEvent && bInfoUpdateEnabled)
 				SetEvent(hInfoQueueEvent);
@@ -114,9 +114,8 @@ void CIcqProto::icq_DequeueUser(DWORD dwUin)
 				nChecked++;
 				// Remove from list
 				if (m_infoUpdateList[i].dwUin == dwUin) {
-#ifdef _DEBUG
 					debugLogA("Dequeued user %u", m_infoUpdateList[i].dwUin);
-#endif
+
 					m_infoUpdateList[i].dwUin = 0;
 					m_infoUpdateList[i].hContact = NULL;
 					m_infoUpdateList[i].queued = 0;
@@ -218,9 +217,8 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 
 				// only send another request, when the previous is completed
 				if (FindCookie(dwInfoActiveRequest, NULL, NULL)) {
-#ifdef _DEBUG
 					debugLogA("Info-Update: Request 0x%x still in progress.", dwInfoActiveRequest);
-#endif
+
 					SleepEx(1000, TRUE);
 					if (!bInfoUpdateRunning) { // need to end as fast as possible
 						debugLogA("%s thread ended.", "Info-Update");
@@ -229,9 +227,8 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 					continue;
 				}
 
-#ifdef _DEBUG
 				debugLogA("Info-Update: Users %u in queue.", nInfoUserCount);
-#endif
+
 				// Either some user is waiting long enough, or all users are ready (waited at least the minimum time)
 				m_ratesMutex->Enter();
 				if (!m_rates) { // we cannot send info request - icq is offline
@@ -244,9 +241,9 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 					int nDelay = m_rates->getDelayToLimitLevel(wGroup, RML_IDLE_50);
 
 					m_ratesMutex->Leave();
-#ifdef _DEBUG
+
 					debugLogA("Rates: InfoUpdate delayed %dms", nDelay);
-#endif
+
 					SleepEx(nDelay, TRUE); // do not keep things locked during sleep
 					if (!bInfoUpdateRunning) { // need to end as fast as possible
 						debugLogA("%s thread ended.", "Info-Update");
@@ -293,9 +290,8 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 							}
 						}
 						else {
-#ifdef _DEBUG
 							debugLogA("Dequeued absolete user %u", m_infoUpdateList[i].dwUin);
-#endif
+
 							// Dequeue user and find another one
 							m_infoUpdateList[i].dwUin = 0;
 							m_infoUpdateList[i].hContact = NULL;
@@ -305,9 +301,8 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 					}
 				}
 
-#ifdef _DEBUG
 				debugLogA("Request info for %u user(s).", nListIndex);
-#endif
+
 				if (!nListIndex) { // no users to request info for
 					infoUpdateMutex->Leave();
 					break;

@@ -38,10 +38,8 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 	switch (pSnacHeader->wSubtype) {
 
 	case ICQ_SERVER_READY:
-#ifdef _DEBUG
 		debugLogA("Server is ready and is requesting my Family versions");
 		debugLogA("Sending my Families");
-#endif
 
 		// This packet is a response to SRV_FAMILIES SNAC(1,3).
 		// This tells the server which SNAC families and their corresponding
@@ -67,38 +65,34 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 	case ICQ_SERVER_FAMILIES2:
 		/* This is a reply to CLI_FAMILIES and it tells the client which families and their versions that this server understands.
 		* We send a rate request packet */
-#ifdef _DEBUG
 		debugLogA("Server told me his Family versions");
 		debugLogA("Requesting Rate Information");
-#endif
+
 		serverPacketInit(&packet, 10);
 		packFNACHeader(&packet, ICQ_SERVICE_FAMILY, ICQ_CLIENT_REQ_RATE_INFO);
 		sendServPacket(&packet);
 		break;
 
 	case ICQ_SERVER_RATE_INFO:
-#ifdef _DEBUG
 		debugLogA("Server sent Rate Info");
-#endif
+
 		/* init rates management */
 		m_rates = new rates(this, pBuffer, wBufferLength);
+
 		/* ack rate levels */
-#ifdef _DEBUG
 		debugLogA("Sending Rate Info Ack");
-#endif
+
 		m_rates->initAckPacket(&packet);
 		sendServPacket(&packet);
 
 		/* CLI_REQINFO - This command requests from the server certain information about the client that is stored on the server. */
-#ifdef _DEBUG
 		debugLogA("Sending CLI_REQINFO");
-#endif
+
 		serverPacketInit(&packet, 10);
 		packFNACHeader(&packet, ICQ_SERVICE_FAMILY, ICQ_CLIENT_REQINFO);
 		sendServPacket(&packet);
 
-		if (m_bSsiEnabled)
-		{
+		if (m_bSsiEnabled) {
 			cookie_servlist_action* ack;
 			DWORD dwCookie;
 
@@ -106,56 +100,49 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 			WORD wRecordCount = getWord("SrvRecordCount", 0);
 
 			// CLI_REQLISTS - we want to use SSI
-#ifdef _DEBUG
 			debugLogA("Requesting roster rights");
-#endif
+
 			serverPacketInit(&packet, 16);
 			packFNACHeader(&packet, ICQ_LISTS_FAMILY, ICQ_LISTS_CLI_REQLISTS);
 			packTLVWord(&packet, 0x0B, 0x000F); // mimic ICQ 6
 			sendServPacket(&packet);
 
-			if (!wRecordCount) // CLI_REQROSTER
-			{ // we do not have any data - request full list
-#ifdef _DEBUG
+			if (!wRecordCount) { // CLI_REQROSTER
+				// we do not have any data - request full list
 				debugLogA("Requesting full roster");
-#endif
+
 				serverPacketInit(&packet, 10);
 				ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-				if (ack)
-				{ // we try to use standalone cookie if available
+				if (ack) { // we try to use standalone cookie if available
 					ack->dwAction = SSA_CHECK_ROSTER; // loading list
 					dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_CLI_REQUEST, 0, ack);
 				}
 				else // if not use that old fake
-					dwCookie = ICQ_LISTS_CLI_REQUEST<<0x10;
+					dwCookie = ICQ_LISTS_CLI_REQUEST << 0x10;
 
 				packFNACHeader(&packet, ICQ_LISTS_FAMILY, ICQ_LISTS_CLI_REQUEST, 0, dwCookie);
 				sendServPacket(&packet);
 			}
-			else // CLI_CHECKROSTER
-			{
-#ifdef _DEBUG
+			else { // CLI_CHECKROSTER
 				debugLogA("Requesting roster check");
-#endif
+
 				serverPacketInit(&packet, 16);
 				ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-				if (ack)  // TODO: rewrite - use get list service for empty list
-				{ // we try to use standalone cookie if available
+				if (ack)  { // TODO: rewrite - use get list service for empty list
+					// we try to use standalone cookie if available
 					ack->dwAction = SSA_CHECK_ROSTER; // loading list
 					dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_CLI_CHECK, 0, ack);
 				}
 				else // if not use that old fake
-					dwCookie = ICQ_LISTS_CLI_CHECK<<0x10;
+					dwCookie = ICQ_LISTS_CLI_CHECK << 0x10;
 
 				packFNACHeader(&packet, ICQ_LISTS_FAMILY, ICQ_LISTS_CLI_CHECK, 0, dwCookie);
 				// check if it was not changed elsewhere (force reload, set that setting to zero)
-				if (IsServerGroupsDefined())
-				{
+				if (IsServerGroupsDefined()) {
 					packDWord(&packet, dwLastUpdate);  // last saved time
 					packWord(&packet, wRecordCount);   // number of records saved
 				}
-				else
-				{ // we need to get groups info into DB, force receive list
+				else { // we need to get groups info into DB, force receive list
 					packDWord(&packet, 0);  // last saved time
 					packWord(&packet, 0);   // number of records saved
 				}
@@ -164,38 +151,34 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 		}
 
 		// CLI_REQLOCATION
-#ifdef _DEBUG
 		debugLogA("Requesting Location rights");
-#endif
+
 		serverPacketInit(&packet, 10);
 		packFNACHeader(&packet, ICQ_LOCATION_FAMILY, ICQ_LOCATION_CLI_REQ_RIGHTS);
 		sendServPacket(&packet);
 
 		// CLI_REQBUDDY
-#ifdef _DEBUG
 		debugLogA("Requesting Client-side contactlist rights");
-#endif
+
 		serverPacketInit(&packet, 16);
 		packFNACHeader(&packet, ICQ_BUDDY_FAMILY, ICQ_USER_CLI_REQBUDDY);
 		// Query flags: 1 = Enable Avatars
 		//              2 = Enable offline status message notification
 		//              4 = Enable Avatars for offline contacts
-    //              8 = Use reject for not authorized contacts
+		//              8 = Use reject for not authorized contacts
 		packTLVWord(&packet, 0x05, 0x0007);
 		sendServPacket(&packet);
 
 		// CLI_REQICBM
-#ifdef _DEBUG
 		debugLogA("Sending CLI_REQICBM");
-#endif
+
 		serverPacketInit(&packet, 10);
 		packFNACHeader(&packet, ICQ_MSG_FAMILY, ICQ_MSG_CLI_REQICBM);
 		sendServPacket(&packet);
 
 		// CLI_REQBOS
-#ifdef _DEBUG
 		debugLogA("Sending CLI_REQBOS");
-#endif
+
 		serverPacketInit(&packet, 10);
 		packFNACHeader(&packet, ICQ_BOS_FAMILY, ICQ_PRIVACY_REQ_RIGHTS);
 		sendServPacket(&packet);
@@ -206,26 +189,24 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 		// This is the list of groups that we want to have on the next server
 		serverPacketInit(&packet, 30);
 		packFNACHeader(&packet, ICQ_SERVICE_FAMILY, ICQ_CLIENT_PAUSE_ACK);
-		packWord(&packet,ICQ_SERVICE_FAMILY);
-		packWord(&packet,ICQ_LISTS_FAMILY);
-		packWord(&packet,ICQ_LOCATION_FAMILY);
-		packWord(&packet,ICQ_BUDDY_FAMILY);
-		packWord(&packet,ICQ_EXTENSIONS_FAMILY);
-		packWord(&packet,ICQ_MSG_FAMILY);
-		packWord(&packet,0x06);
-		packWord(&packet,ICQ_BOS_FAMILY);
-		packWord(&packet,ICQ_LOOKUP_FAMILY);
-		packWord(&packet,ICQ_STATS_FAMILY);
+		packWord(&packet, ICQ_SERVICE_FAMILY);
+		packWord(&packet, ICQ_LISTS_FAMILY);
+		packWord(&packet, ICQ_LOCATION_FAMILY);
+		packWord(&packet, ICQ_BUDDY_FAMILY);
+		packWord(&packet, ICQ_EXTENSIONS_FAMILY);
+		packWord(&packet, ICQ_MSG_FAMILY);
+		packWord(&packet, 0x06);
+		packWord(&packet, ICQ_BOS_FAMILY);
+		packWord(&packet, ICQ_LOOKUP_FAMILY);
+		packWord(&packet, ICQ_STATS_FAMILY);
 		sendServPacket(&packet);
-#ifdef _DEBUG
+
 		debugLogA("Sent server pause ack");
-#endif
 		break;
 
 	case ICQ_SERVER_MIGRATIONREQ:
-#ifdef _DEBUG
 		debugLogA("Server migration requested (Flags: %u)", pSnacHeader->wFlags);
-#endif
+
 		pBuffer += 2; // Unknown, seen: 0
 		wBufferLength -= 2;
 		{
@@ -260,9 +241,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 		break;
 
 	case ICQ_SERVER_NAME_INFO: // This is the reply to CLI_REQINFO
-#ifdef _DEBUG
 		debugLogA("Received self info");
-#endif
 		{
 			BYTE bUinLen;
 			unpackByte(&pBuffer, &bUinLen);
@@ -289,7 +268,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 				setDword("IP", dwValue);
 
 				// Save member since timestamp
-				dwValue = chain->getDWord(0x05, 1); 
+				dwValue = chain->getDWord(0x05, 1);
 				if (dwValue) setDword("MemberTS", dwValue);
 
 				dwValue = chain->getDWord(0x03, 1);
@@ -338,81 +317,79 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 		break;
 
 	case ICQ_SERVER_REDIRECT_SERVICE: // reply to family request, got new connection point
-		{
-			oscar_tlv_chain *pChain = NULL;
-			cookie_family_request *pCookieData;
+	{
+		oscar_tlv_chain *pChain = NULL;
+		cookie_family_request *pCookieData;
 
-			if (!(pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0))) {
-				debugLogA("Received Broken Redirect Service SNAC(1,5).");
-				break;
-			}
-
-			// pick request data
-			WORD wFamily = pChain->getWord(0x0D, 1);
-			if ((!FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookieData)) || (pCookieData->wFamily != wFamily)) {
-				disposeChain(&pChain);
-				debugLogA("Received unexpected SNAC(1,5), skipping.");
-				break;
-			}
-
-			FreeCookie(pSnacHeader->dwRef);
-
-			// new family entry point received
-			char *pServer = pChain->getString(0x05, 1);
-			BYTE bServerSSL = pChain->getNumber(0x8E, 1);
-			char *pCookie = pChain->getString(0x06, 1);
-			WORD wCookieLen = pChain->getLength(0x06, 1);
-
-			if (!pServer || !pCookie) {
-				debugLogA("Server returned invalid data, family unavailable.");
-
-				SAFE_FREE(&pServer);
-				SAFE_FREE(&pCookie);
-				SAFE_FREE((void**)&pCookieData);
-				disposeChain(&pChain);
-				break;
-			}
-
-			// Get new family server ip and port
-			WORD wPort = info->wServerPort; // get default port
-			parseServerAddress(pServer, &wPort);
-
-			// establish connection
-			NETLIBOPENCONNECTION nloc = { 0 };
-			if (m_bGatewayMode)
-				nloc.flags |= NLOCF_HTTPGATEWAY;
-			nloc.szHost = pServer;
-			nloc.wPort = wPort;
-
-			HANDLE hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : NULL, &nloc);
-
-			if (hConnection == NULL)
-				debugLogA("Unable to connect to ICQ new family server.");
-			// we want the handler to be called even if the connecting failed
-			else if (bServerSSL) { /* Start SSL session if requested */
-#ifdef _DEBUG
-				debugLogA("(%d) Starting SSL negotiation", CallService(MS_NETLIB_GETSOCKET, (WPARAM)hConnection, 0));
-#endif
-				if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hConnection, 0)) {
-					debugLogA("Unable to connect to ICQ new family server, SSL could not be negotiated");
-					NetLib_CloseConnection(&hConnection, FALSE);
-				}
-			}
-
-			(this->*pCookieData->familyHandler)(hConnection, pCookie, wCookieLen);
-
-			// Free allocated memory
-			// NOTE: "cookie" will get freed when we have connected to the avatar server.
-			disposeChain(&pChain);
-			SAFE_FREE(&pServer);
-			SAFE_FREE((void**)&pCookieData);
+		if (!(pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0))) {
+			debugLogA("Received Broken Redirect Service SNAC(1,5).");
 			break;
 		}
 
+		// pick request data
+		WORD wFamily = pChain->getWord(0x0D, 1);
+		if ((!FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookieData)) || (pCookieData->wFamily != wFamily)) {
+			disposeChain(&pChain);
+			debugLogA("Received unexpected SNAC(1,5), skipping.");
+			break;
+		}
+
+		FreeCookie(pSnacHeader->dwRef);
+
+		// new family entry point received
+		char *pServer = pChain->getString(0x05, 1);
+		BYTE bServerSSL = pChain->getNumber(0x8E, 1);
+		char *pCookie = pChain->getString(0x06, 1);
+		WORD wCookieLen = pChain->getLength(0x06, 1);
+
+		if (!pServer || !pCookie) {
+			debugLogA("Server returned invalid data, family unavailable.");
+
+			SAFE_FREE(&pServer);
+			SAFE_FREE(&pCookie);
+			SAFE_FREE((void**)&pCookieData);
+			disposeChain(&pChain);
+			break;
+		}
+
+		// Get new family server ip and port
+		WORD wPort = info->wServerPort; // get default port
+		parseServerAddress(pServer, &wPort);
+
+		// establish connection
+		NETLIBOPENCONNECTION nloc = { 0 };
+		if (m_bGatewayMode)
+			nloc.flags |= NLOCF_HTTPGATEWAY;
+		nloc.szHost = pServer;
+		nloc.wPort = wPort;
+
+		HANDLE hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : NULL, &nloc);
+
+		if (hConnection == NULL)
+			debugLogA("Unable to connect to ICQ new family server.");
+		// we want the handler to be called even if the connecting failed
+		else if (bServerSSL) { /* Start SSL session if requested */
+			debugLogA("(%p) Starting SSL negotiation", CallService(MS_NETLIB_GETSOCKET, (WPARAM)hConnection, 0));
+
+			if (!CallService(MS_NETLIB_STARTSSL, (WPARAM)hConnection, 0)) {
+				debugLogA("Unable to connect to ICQ new family server, SSL could not be negotiated");
+				NetLib_CloseConnection(&hConnection, FALSE);
+			}
+		}
+
+		(this->*pCookieData->familyHandler)(hConnection, pCookie, wCookieLen);
+
+		// Free allocated memory
+		// NOTE: "cookie" will get freed when we have connected to the avatar server.
+		disposeChain(&pChain);
+		SAFE_FREE(&pServer);
+		SAFE_FREE((void**)&pCookieData);
+		break;
+	}
+
 	case ICQ_SERVER_EXTSTATUS: // our session data
-#ifdef _DEBUG
 		debugLogA("Received owner session data.");
-#endif
+
 		while (wBufferLength > 4) { // loop thru all items
 			WORD itemType = pBuffer[0] * 0x10 | pBuffer[1];
 			BYTE itemFlags = pBuffer[2];
@@ -420,14 +397,11 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 
 			if (itemType == AVATAR_HASH_PHOTO) { /// TODO: handle photo item
 				// skip photo item
-#ifdef _DEBUG
 				debugLogA("Photo item recognized");
-#endif
 			}
 			else if ((itemType == AVATAR_HASH_STATIC || itemType == AVATAR_HASH_FLASH) && (itemLen >= 0x10)) {
-#ifdef _DEBUG
 				debugLogA("Avatar item recognized");
-#endif
+
 				if (m_bAvatarsEnabled && !info->bMyAvatarInited) { // signal the server after login
 					// this refreshes avatar state - it used to work automatically, but now it does not
 					if (getByte("ForceOurAvatar", 0)) { // keep our avatar
@@ -448,14 +422,10 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 				handleAvatarOwnerHash(itemType, itemFlags, pBuffer, itemLen + 4);
 			}
 			else if (itemType == 0x02) {
-#ifdef _DEBUG
 				debugLogA("Status message item recognized");
-#endif
 			}
 			else if (itemType == 0x0E) {
-#ifdef _DEBUG
 				debugLogA("Status mood item recognized");
-#endif
 			}
 
 			// move to next item
@@ -471,22 +441,20 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 		break;
 
 	case ICQ_ERROR: // Something went wrong, probably the request for avatar family failed
-		{
-			WORD wError;
-			if (wBufferLength >= 2)
-				unpackWord(&pBuffer, &wError);
-			else
-				wError = 0;
+	{
+		WORD wError;
+		if (wBufferLength >= 2)
+			unpackWord(&pBuffer, &wError);
+		else
+			wError = 0;
 
-			LogFamilyError(ICQ_SERVICE_FAMILY, wError);
-		}
+		LogFamilyError(ICQ_SERVICE_FAMILY, wError);
+	}
 		break;
 
 		// Stuff we don't care about
 	case ICQ_SERVER_MOTD:
-#ifdef _DEBUG
 		debugLogA("Server message of the day");
-#endif
 		break;
 
 	default:
@@ -541,8 +509,8 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResum
 				// not in our SS list, or are awaiting authorization, to our
 				// client side list
 				if (m_bSsiEnabled && getWord(hContact, DBSETTING_SERVLIST_ID, 0) &&
-					!getByte(hContact, "Auth", 0))
-					add = 0;
+					 !getByte(hContact, "Auth", 0))
+					 add = 0;
 
 				// Never add hidden contacts to CS list
 				if (db_get_b(hContact, "CList", "Hidden", 0))
@@ -589,7 +557,7 @@ void CIcqProto::sendEntireListServ(WORD wFamily, WORD wSubtype, int listType)
 
 		SAFE_FREE((void**)&szList);
 	}
-		while (hResumeContact);
+	while (hResumeContact);
 }
 
 
@@ -606,7 +574,7 @@ static void packShortCapability(icq_packet *packet, WORD wCapability)
 
 // CLI_SETUSERINFO
 void CIcqProto::setUserInfo()
-{ 
+{
 	icq_packet packet;
 	WORD wAdditionalData = 0;
 	BYTE bXStatus = getContactXStatus(NULL);
@@ -692,7 +660,7 @@ void CIcqProto::setUserInfo()
 	// Tells the server we can speak to AIM
 	if (m_bAimEnabled)
 		packShortCapability(&packet, 0x134D);  // CAP_AIM_COMPATIBLE
-  
+
 #ifdef DBG_AIMCONTACTSEND
 	packShortCapability(&packet, 0x134B);  // CAP_SENDBUDDYLIST
 #endif

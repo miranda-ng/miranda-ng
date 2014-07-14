@@ -27,12 +27,13 @@
 
 extern BOOL bPopupService;
 
-static const char *szLevelDescr[] = {LPGEN("ICQ Note"), LPGEN("ICQ Warning"), LPGEN("ICQ Error"), LPGEN("ICQ Fatal")};
+static const char *szLevelDescr[] = { LPGEN("ICQ Note"), LPGEN("ICQ Warning"), LPGEN("ICQ Error"), LPGEN("ICQ Fatal") };
 
-struct LogMessageInfo {
+struct LogMessageInfo
+{
 	const char *szMsg;
 	const char *szTitle;
-  BYTE bLevel;
+	BYTE bLevel;
 };
 
 
@@ -42,8 +43,7 @@ void __cdecl CIcqProto::icq_LogMessageThread(void* arg)
 	if (!err)
 		return;
 
-	if (bPopupService && getByte("PopupsLogEnabled", DEFAULT_LOG_POPUPS_ENABLED))
-	{
+	if (bPopupService && getByte("PopupsLogEnabled", DEFAULT_LOG_POPUPS_ENABLED)) {
 		ShowPopupMsg(NULL, err->szTitle, err->szMsg, err->bLevel);
 
 		SAFE_FREE((void**)&err->szMsg);
@@ -66,16 +66,14 @@ void CIcqProto::icq_LogMessage(int level, const char *szMsg)
 	debugLogA("%s", szMsg);
 
 	int displayLevel = getByte("ShowLogLevel", LOG_WARNING);
-	if (level >= displayLevel)
-	{
-		if (!bErrorBoxVisible || !getByte("IgnoreMultiErrorBox", 0))
-		{
+	if (level >= displayLevel) {
+		if (!bErrorBoxVisible || !getByte("IgnoreMultiErrorBox", 0)) {
 			// error not shown or allowed multi - show messagebox
 			LogMessageInfo *lmi = (LogMessageInfo*)SAFE_MALLOC(sizeof(LogMessageInfo));
 			lmi->bLevel = (BYTE)level;
 			lmi->szMsg = null_strdup(szMsg);
 			lmi->szTitle = szLevelDescr[level];
-			ForkThread( &CIcqProto::icq_LogMessageThread, lmi);
+			ForkThread(&CIcqProto::icq_LogMessageThread, lmi);
 		}
 	}
 }
@@ -89,7 +87,7 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 	char *pszErrorMsg = NULL;
 	int bNeedFree = FALSE;
 
-	switch(dwError) {
+	switch (dwError) {
 	case ERROR_TIMEOUT:
 	case WSAETIMEDOUT:
 		pszErrorMsg = LPGEN("The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.");
@@ -120,26 +118,20 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 		break;
 
 	default:
-		{
-			TCHAR err[512];
-
-			if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, err, SIZEOF(err), NULL))
-			{
-
-				pszErrorMsg = make_utf8_string(err);
-
-				bNeedFree = TRUE;
-			}
-			break;
+		TCHAR err[512];
+		if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, err, SIZEOF(err), NULL)) {
+			pszErrorMsg = make_utf8_string(err);
+			bNeedFree = TRUE;
 		}
+		break;
 	}
 
 	mir_snprintf(szBuf, sizeof(szBuf), "%s%s%s (%s %d)",
-		szMsg ? ICQTranslateUtfStatic(szMsg, str, 1024) : "",
-		szMsg ? "\r\n\r\n" : "",
-		ICQTranslateUtfStatic(pszErrorMsg, szErrorMsg, 512),
-		ICQTranslateUtfStatic(LPGEN("error"), str2, 64),
-		dwError);
+					 szMsg ? ICQTranslateUtfStatic(szMsg, str, 1024) : "",
+					 szMsg ? "\r\n\r\n" : "",
+					 ICQTranslateUtfStatic(pszErrorMsg, szErrorMsg, 512),
+					 ICQTranslateUtfStatic(LPGEN("error"), str2, 64),
+					 dwError);
 
 	if (bNeedFree)
 		SAFE_FREE(&pszErrorMsg);

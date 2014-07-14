@@ -339,10 +339,6 @@ void CIcqProto::AddToContactsCache(MCONTACT hContact, DWORD dwUin, const char *s
 	if (!hContact || (!dwUin && !szUid))
 		return;
 
-#ifdef _DEBUG
-	debugLogA("Adding contact to cache: %u%s%s", dwUin, dwUin ? "" : " - ", dwUin ? "" : szUid);
-#endif
-
 	icq_contacts_cache *cache_item = (icq_contacts_cache*)SAFE_MALLOC(sizeof(icq_contacts_cache));
 	cache_item->hContact = hContact;
 	cache_item->dwUin = dwUin;
@@ -413,9 +409,6 @@ void CIcqProto::DeleteFromContactsCache(MCONTACT hContact)
 		icq_contacts_cache *cache_item = contactsCache[i];
 
 		if (cache_item->hContact == hContact) {
-#ifdef _DEBUG
-			debugLogA("Removing contact from cache: %u%s%s, position: %u", cache_item->dwUin, cache_item->dwUin ? "" : " - ", cache_item->dwUin ? "" : cache_item->szUid, i);
-#endif
 			contactsCache.remove(i);
 			// Release memory
 			SAFE_FREE((void**)&cache_item->szUid);
@@ -463,6 +456,8 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 
 	//not present: add
 	if (Added) {
+		debugLogA("Attempt to create ICQ contact %u", dwUin);
+
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		if (!hContact) {
 			debugLogA("Failed to create ICQ contact %u", dwUin);
@@ -491,7 +486,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 		}
 		AddToContactsCache(hContact, dwUin, NULL);
 		*Added = 1;
-
+		debugLogA("ICQ contact %u created ok", dwUin);
 		return hContact;
 	}
 
@@ -501,7 +496,6 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 
 	return INVALID_CONTACT_ID;
 }
-
 
 MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 {
@@ -1069,9 +1063,9 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 
 					m_ratesMutex->Leave();
 					cookieMutex->Leave();
-#ifdef _DEBUG
+
 					debugLogA("Rates: SetStatusNote delayed %dms", nDelay);
-#endif
+
 					SleepEx(nDelay, TRUE); // do not keep things locked during sleep
 					cookieMutex->Enter();
 					m_ratesMutex->Enter();
@@ -1100,9 +1094,9 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 
 					m_ratesMutex->Leave();
 					cookieMutex->Leave();
-#ifdef _DEBUG
+
 					debugLogA("Rates: SetStatusNote delayed %dms", nDelay);
-#endif
+
 					SleepEx(nDelay, TRUE); // do not keep things locked during sleep
 					cookieMutex->Enter();
 					m_ratesMutex->Enter();

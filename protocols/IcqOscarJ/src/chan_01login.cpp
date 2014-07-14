@@ -29,16 +29,13 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 {
 	icq_packet packet;
 
-#ifdef _DEBUG
 	debugLogA("Received SRV_HELLO from %s", info->isLoginServer ? "login server" : "communication server");
-#endif
 
 	// isLoginServer is "1" if we just received SRV_HELLO
 	if (info->isLoginServer) {
 		if (m_bSecureLogin) {
-#ifdef _DEBUG
 			debugLogA("Sending %s to %s", "CLI_HELLO", "login server");
-#endif
+
 			packet.wLen = 12;
 			write_flap(&packet, ICQ_LOGIN_CHAN);
 			packDWord(&packet, 0x00000001);
@@ -48,9 +45,8 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 			char szUin[UINMAXLEN];
 			WORD wUinLen = strlennull(strUID(m_dwLocalUIN, szUin));
 
-#ifdef _DEBUG
 			debugLogA("Sending %s to %s", "ICQ_SIGNON_AUTH_REQUEST", "login server");
-#endif
+
 			serverPacketInit(&packet, (WORD)(14 + wUinLen));
 			packFNACHeader(&packet, ICQ_AUTHORIZATION_FAMILY, ICQ_SIGNON_AUTH_REQUEST, 0, 0);
 			packTLV(&packet, 0x0001, wUinLen, (LPBYTE)szUin);
@@ -58,9 +54,7 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 		}
 		else {
 			sendClientAuth((char*)info->szAuthKey, info->wAuthKeyLen, FALSE);
-#ifdef _DEBUG
 			debugLogA("Sent CLI_IDENT to %s", "login server");
-#endif
 		}
 
 		info->isLoginServer = false;
@@ -76,9 +70,7 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 			serverCookieInit(&packet, info->cookieData, (WORD)info->cookieDataLen);
 			sendServPacket(&packet);
 
-#ifdef _DEBUG
 			debugLogA("Sent CLI_IDENT to %s", "communication server");
-#endif
 
 			SAFE_FREE((void**)&info->cookieData);
 			info->cookieDataLen = 0;

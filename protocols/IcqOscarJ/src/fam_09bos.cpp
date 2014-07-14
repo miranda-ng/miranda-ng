@@ -28,7 +28,6 @@
 void CIcqProto::handleBosFam(unsigned char *pBuffer, WORD wBufferLength, snac_header* pSnacHeader)
 {
 	switch (pSnacHeader->wSubtype) {
-
 	case ICQ_PRIVACY_RIGHTS_REPLY: // Reply to CLI_REQBOS
 		handlePrivacyRightsReply(pBuffer, wBufferLength);
 		break;
@@ -49,24 +48,17 @@ void CIcqProto::handleBosFam(unsigned char *pBuffer, WORD wBufferLength, snac_he
 	default:
 		debugLogA("Warning: Ignoring SNAC(x%02x,x%02x) - Unknown SNAC (Flags: %u, Ref: %u)", ICQ_BOS_FAMILY, pSnacHeader->wSubtype, pSnacHeader->wFlags, pSnacHeader->dwRef);
 		break;
-
 	}
 }
 
 void CIcqProto::handlePrivacyRightsReply(unsigned char *pBuffer, WORD wBufferLength)
 {
-	if (wBufferLength >= 12)
-	{
+	if (wBufferLength >= 12) {
 		oscar_tlv_chain* pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0);
-		if (pChain)
-		{
-			WORD wMaxVisibleContacts;
-			WORD wMaxInvisibleContacts;
-			WORD wMaxTemporaryVisibleContacts;
-
-			wMaxVisibleContacts = pChain->getWord(0x0001, 1);
-			wMaxInvisibleContacts = pChain->getWord(0x0002, 1);
-			wMaxTemporaryVisibleContacts = pChain->getWord(0x0003, 1);
+		if (pChain) {
+			WORD wMaxVisibleContacts = pChain->getWord(0x0001, 1);
+			WORD wMaxInvisibleContacts = pChain->getWord(0x0002, 1);
+			WORD wMaxTemporaryVisibleContacts = pChain->getWord(0x0003, 1);
 
 			disposeChain(&pChain);
 
@@ -83,12 +75,11 @@ void CIcqProto::handlePrivacyRightsReply(unsigned char *pBuffer, WORD wBufferLen
 
 void CIcqProto::makeContactTemporaryVisible(MCONTACT hContact)
 {
-	DWORD dwUin;
-	uid_str szUid;
-
 	if (getByte(hContact, "TemporaryVisible", 0))
 		return; // already there
 
+	DWORD dwUin;
+	uid_str szUid;
 	if (getContactUid(hContact, &dwUin, &szUid))
 		return; // Invalid contact
 
@@ -96,7 +87,5 @@ void CIcqProto::makeContactTemporaryVisible(MCONTACT hContact)
 
 	setByte(hContact, "TemporaryVisible", 1);
 
-#ifdef _DEBUG
 	debugLogA("Added contact %s to temporary visible list", strUID(dwUin, szUid));
-#endif
 }

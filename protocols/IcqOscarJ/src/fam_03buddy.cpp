@@ -69,7 +69,6 @@ void CIcqProto::handleBuddyFam(BYTE *pBuffer, WORD wBufferLength, snac_header *p
 	}
 }
 
-
 void CIcqProto::handleReplyBuddy(BYTE *buf, WORD wPackLen)
 {
 	oscar_tlv_chain *pChain = readIntoTLVChain(&buf, wPackLen, 0);
@@ -86,7 +85,6 @@ void CIcqProto::handleReplyBuddy(BYTE *buf, WORD wPackLen)
 	}
 	else debugLogA("Error: Malformed BuddyReply");
 }
-
 
 int unpackSessionDataItem(oscar_tlv_chain *pChain, WORD wItemType, BYTE **ppItemData, WORD *pwItemSize, BYTE *pbItemFlags)
 {
@@ -190,9 +188,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	// Ignore status notification if the user is not already on our list
 	MCONTACT hContact = HContactFromUID(dwUIN, szUID, NULL);
 	if (hContact == INVALID_CONTACT_ID) {
-#ifdef _DEBUG
 		debugLogA("Ignoring user online (%s)", strUID(dwUIN, szUID));
-#endif
 		return;
 	}
 
@@ -273,10 +269,8 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		wStatusFlags = 0;
 	}
 
-#ifdef _DEBUG
 	debugLogA("Flags are %x", wStatusFlags);
 	debugLogA("Status is %x", wStatus);
-#endif
 
 	// Get IP TLV
 	DWORD dwIP = pChain->getDWord(0x0A, 1);
@@ -298,13 +292,11 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		tIdleTS -= (wIdleTimer*60);
 	}
 
-#ifdef _DEBUG
 	if (wIdleTimer)
 		debugLogA("Idle timer is %u.", wIdleTimer);
 	debugLogA("Online since %s", time2text(dwOnlineSince));
 	if (dwAwaySince)
 		debugLogA("Status was set on %s", time2text(dwAwaySince));
-#endif
 
 	// Check client capabilities
 	if (hContact != NULL) {
@@ -371,9 +363,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 					cLen -= 2;
 				}
 			}
-#ifdef _DEBUG
 			debugLogA("Detected %d capability items.", capLen / BINARY_CAP_SIZE);
-#endif
 		}
 
 		if (capLen) {
@@ -416,14 +406,12 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		else if (wOldStatus == ID_STATUS_OFFLINE)
 			ClearContactCapabilities(hContact, CAPF_STATUS_MESSAGES);
 
-#ifdef _DEBUG
 		if (wOldStatus == ID_STATUS_OFFLINE) {
 			if (CheckContactCapabilities(hContact, CAPF_SRV_RELAY))
 				debugLogA("Supports advanced messages");
 			else
 				debugLogA("Does NOT support advanced messages");
 		}
-#endif
 
 		if (!nIsICQ) {
 			// AIM clients does not advertise these, but do support them
@@ -515,14 +503,6 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		else
 			debugLogA("%s changed status to %S.", strUID(dwUIN, szUID), ptszStatus);
 	}
-#ifdef _DEBUG
-	else {
-		if (nIsICQ)
-			debugLogA("%u has status %s (v%d).", dwUIN, ptszStatus, wVersion);
-		else
-			debugLogA("%s has status %s.", strUID(dwUIN, szUID), ptszStatus);
-	}
-#endif
 
 	if (szClient == cliSpamBot) {
 		if (getByte("KillSpambots", DEFAULT_KILLSPAM_ENABLED) && db_get_b(hContact, "CList", "NotOnList", 0)) {
@@ -625,10 +605,7 @@ void CIcqProto::handleUserOffline(BYTE *buf, WORD wLen)
 				// Reset DC status
 				setByte(hContact, "DCStatus", 0);
 			}
-#ifdef _DEBUG
-			else
-				debugLogA("%s is offline.", strUID(dwUIN, szUID));
-#endif
+			else debugLogA("%s is offline.", strUID(dwUIN, szUID));
 		}
 
 		// Release memory

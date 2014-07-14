@@ -54,10 +54,10 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 		szQuery = DemangleXml(szQuery, nQueryLen);
 		szWork = strstrnull(szQuery, "<PluginID>");
 		szEnd = strstrnull(szQuery, "</PluginID>");
-#ifdef _DEBUG
+
 		debugLogA("Query: %s", szQuery);
 		debugLogA("Notify: %s", szNotify);
-#endif
+
 		if (szWork && szEnd) { // this is our plugin
 			szWork += 10;
 			*szEnd = '\0';
@@ -153,34 +153,26 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 						else
 							debugLogA("Error: We are not in XStatus, skipping");
 					}
-					else
-						debugLogA("Error: Invalid sender information");
+					else debugLogA("Error: Invalid sender information");
 				}
-				else
-					debugLogA("Error: Missing sender information");
+				else debugLogA("Error: Missing sender information");
 			}
-			else
-				debugLogA("Error: Unknown plugin \"%s\" in Xtraz message", szWork);
+			else debugLogA("Error: Unknown plugin \"%s\" in Xtraz message", szWork);
 		}
-		else
-			debugLogA("Error: Missing PluginID in Xtraz message");
+		else debugLogA("Error: Missing PluginID in Xtraz message");
 
 		SAFE_FREE(&szNotify);
 		SAFE_FREE(&szQuery);
 	}
-	else
-		debugLogA("Error: Invalid Xtraz Notify message");
+	else debugLogA("Error: Invalid Xtraz Notify message");
 }
-
 
 void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD wCookie, char* szMsg, int nMsgLen)
 {
 	char *szMem, *szRes, *szEnd;
 	int nResLen;
 
-#ifdef _DEBUG
 	debugLogA("Received Xtraz Notify Response");
-#endif
 
 	szRes = strstrnull(szMsg, "<RES>");
 	szEnd = strstrnull(szMsg, "</RES>");
@@ -193,9 +185,7 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD w
 
 		szMem = szRes = DemangleXml(szRes, nResLen);
 
-#ifdef _DEBUG
 		debugLogA("Response: %s", szRes);
-#endif
 
 		ProtoBroadcastAck(hContact, ICQACKTYPE_XTRAZNOTIFY_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, (LPARAM)szRes);
 
@@ -266,15 +256,12 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD w
 				debugLogA("Error: Unknown serverId \"%s\" in Xtraz response", szNode);
 			}
 		}
-		else
-			debugLogA("Error: Missing serverId in Xtraz response");
+		else debugLogA("Error: Missing serverId in Xtraz response");
 
 		SAFE_FREE(&szMem);
 	}
-	else
-		debugLogA("Error: Invalid Xtraz Notify response");
+	else debugLogA("Error: Invalid Xtraz Notify response");
 }
-
 
 static char* getXmlPidItem(const char* szData, int nLen)
 {

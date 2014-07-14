@@ -34,17 +34,12 @@ void CIcqProto::handleDataChannel(BYTE *pBuffer, WORD wBufferLength, serverthrea
 	snac_header snacHeader = {0};
 
 	if (!unpackSnacHeader(&snacHeader, &pBuffer, &wBufferLength) || !snacHeader.bValid)
-	{
 		debugLogA("Error: Failed to parse SNAC header");
-	}
-	else
-	{
-#ifdef _DEBUG
+	else {
 		if (snacHeader.wFlags & 0x8000)
 			debugLogA(" Received SNAC(x%02X,x%02X), version %u", snacHeader.wFamily, snacHeader.wSubtype, snacHeader.wVersion);
 		else
 			debugLogA(" Received SNAC(x%02X,x%02X)", snacHeader.wFamily, snacHeader.wSubtype);
-#endif
 
 		switch (snacHeader.wFamily) {
 
@@ -91,7 +86,6 @@ void CIcqProto::handleDataChannel(BYTE *pBuffer, WORD wBufferLength, serverthrea
 		default:
 			debugLogA("Ignoring SNAC(x%02X,x%02X) - FAMILYx%02X not implemented", snacHeader.wFamily, snacHeader.wSubtype, snacHeader.wFamily);
 			break;
-
 		}
 	}
 }
@@ -102,77 +96,62 @@ int unpackSnacHeader(snac_header *pSnacHeader, BYTE **pBuffer, WORD *pwBufferLen
 	WORD wRef1, wRef2;
 
 	// Check header
-	if (!pSnacHeader) return 0;
+	if (!pSnacHeader)
+		return 0;
 
 	// 10 bytes is the minimum size of a header
-	if (*pwBufferLength < 10)
-	{
+	if (*pwBufferLength < 10) {
 		// Buffer overflow
 		pSnacHeader->bValid = FALSE;
 		return 1;
 	}
 
 	// Unpack all the standard data
-	unpackWord(pBuffer,  &(pSnacHeader->wFamily));
-	unpackWord(pBuffer,  &(pSnacHeader->wSubtype));
-	unpackWord(pBuffer,  &(pSnacHeader->wFlags));
-	unpackWord(pBuffer,  &wRef1); // unpack reference id (sequence)
-	unpackWord(pBuffer,  &wRef2); // command
-	pSnacHeader->dwRef = wRef1 | (wRef2<<0x10);
+	unpackWord(pBuffer, &(pSnacHeader->wFamily));
+	unpackWord(pBuffer, &(pSnacHeader->wSubtype));
+	unpackWord(pBuffer, &(pSnacHeader->wFlags));
+	unpackWord(pBuffer, &wRef1); // unpack reference id (sequence)
+	unpackWord(pBuffer, &wRef2); // command
+	pSnacHeader->dwRef = wRef1 | (wRef2 << 0x10);
 
 	*pwBufferLength -= 10;
 
 	// If flag bit 15 is set, we also have a version tag
 	// (...at least that is what I think it is)
-	if (pSnacHeader->wFlags & 0x8000)
-	{
-		if (*pwBufferLength >= 2)
-		{
+	if (pSnacHeader->wFlags & 0x8000) {
+		if (*pwBufferLength >= 2) {
 			WORD wExtraBytes = 0;
 
 			unpackWord(pBuffer, &wExtraBytes);
 			*pwBufferLength -= 2;
 
-			if (*pwBufferLength >= wExtraBytes)
-			{
-				if (wExtraBytes == 6)
-				{
+			if (*pwBufferLength >= wExtraBytes) {
+				if (wExtraBytes == 6) {
 					*pBuffer += 4; // TLV type and length?
 					unpackWord(pBuffer, &(pSnacHeader->wVersion));
 					*pwBufferLength -= wExtraBytes;
 					pSnacHeader->bValid = TRUE;
 				}
-				else if (wExtraBytes == 0x0E)
-				{
+				else if (wExtraBytes == 0x0E) {
 					*pBuffer += 8; // TLV(2) - unknown
 					*pBuffer += 4;
 					unpackWord(pBuffer, &(pSnacHeader->wVersion));
 					*pwBufferLength -= wExtraBytes;
 					pSnacHeader->bValid = TRUE;
 				}
-				else
-				{
+				else {
 					*pBuffer += wExtraBytes;
 					*pwBufferLength -= wExtraBytes;
 					pSnacHeader->bValid = TRUE;
 				}
 			}
-			else
-			{
-				// Buffer overflow
+			else // Buffer overflow
 				pSnacHeader->bValid = FALSE;
-			}
 		}
-		else
-		{
-			// Buffer overflow
+		else // Buffer overflow
 			pSnacHeader->bValid = FALSE;
-		}
 	}
-	else
-	{
-		pSnacHeader->bValid = TRUE;
-	}
+	else pSnacHeader->bValid = TRUE;
 
 	return 1;
 }
@@ -182,7 +161,7 @@ void CIcqProto::LogFamilyError(WORD wFamily, WORD wError)
 {
 	char *msg;
 
-	switch(wError) {
+	switch (wError) {
 		case 0x01: msg = "Invalid SNAC header"; break;
 		case 0x02: msg = "Server rate limit exceeded"; break;
 		case 0x03: msg = "Client rate limit exceeded"; break;

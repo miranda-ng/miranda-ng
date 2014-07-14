@@ -130,12 +130,9 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 	mir_md5_state_t state;
 	BYTE digest[16];
 
-#ifdef _DEBUG
 	debugLogA("Received %s", "ICQ_SIGNON_AUTH_KEY");
-#endif
 
-	if (wPacketLen < 2)
-	{
+	if (wPacketLen < 2) {
 		debugLogA("Malformed %s", "ICQ_SIGNON_AUTH_KEY");
 		icq_LogMessage(LOG_FATAL, LPGEN("Secure login failed.\nInvalid server response."));
 		SetCurrentStatus(ID_STATUS_OFFLINE);
@@ -145,8 +142,7 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 	unpackWord(&buf, &wKeyLen);
 	wPacketLen -= 2;
 
-	if (!wKeyLen || wKeyLen > wPacketLen || wKeyLen > sizeof(szKey))
-	{
+	if (!wKeyLen || wKeyLen > wPacketLen || wKeyLen > sizeof(szKey)) {
 		debugLogA("Invalid length in %s: %u", "ICQ_SIGNON_AUTH_KEY", wKeyLen);
 		icq_LogMessage(LOG_FATAL, LPGEN("Secure login failed.\nInvalid key length."));
 		SetCurrentStatus(ID_STATUS_OFFLINE);
@@ -165,8 +161,6 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 	mir_md5_append(&state, (LPBYTE)CLIENT_MD5_STRING, sizeof(CLIENT_MD5_STRING)-1);
 	mir_md5_finish(&state, digest);
 
-#ifdef _DEBUG
 	debugLogA("Sending ICQ_SIGNON_LOGIN_REQUEST to login server");
-#endif
 	sendClientAuth((char*)digest, 0x10, TRUE);
 }

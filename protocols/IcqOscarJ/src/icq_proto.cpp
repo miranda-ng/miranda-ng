@@ -1041,11 +1041,8 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 					}
 
 					if (i == nContacts) {
-						icq_packet mData, mNames;
-
-#ifdef _DEBUG
 						debugLogA("Sending contacts to %s.", strUID(dwUin, szUid));
-#endif
+
 						// Do not calculate the exact size of the data packet - only the maximal size (easier)
 						// Sumarize size of group information
 						// - we do not utilize the full power of the protocol and send all contacts with group "General"
@@ -1054,6 +1051,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 						nNamesLen += 9;
 
 						// Create data structures
+						icq_packet mData, mNames;
 						mData.wPlace = 0;
 						mData.pData = (LPBYTE)SAFE_MALLOC(nDataLen);
 						mData.wLen = nDataLen;
@@ -1161,18 +1159,14 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 					}
 
 					if (i == nContacts) {
-						char* pBody;
-						char* pBuffer;
-
-#ifdef _DEBUG
 						debugLogA("Sending contacts to %d.", dwUin);
-#endif
+
 						// Compute count record's length
 						_itoa(nContacts, szCount, 10);
 						nBodyLength += strlennull(szCount) + 1;
 
 						// Finally we need to copy the contact data into the packet body
-						pBuffer = pBody = (char *)SAFE_MALLOC(nBodyLength);
+						char *pBody, *pBuffer = pBody = (char *)SAFE_MALLOC(nBodyLength);
 						null_strcpy(pBuffer, szCount, nBodyLength - 1);
 						pBuffer += strlennull(pBuffer);
 						*pBuffer++ = (char)0xFE;
@@ -1312,44 +1306,39 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const TCHAR* szDescription
 					ft->hConnection = NULL;
 
 					// Send file transfer request
-					{
+					debugLogA("Init file send");
+
+					char *pszFiles;
+					if (ft->dwFileCount == 1) {
+						pszFiles = strchr(ft->pszFiles[0], '\\');
+						if (pszFiles)
+							pszFiles++;
+						else
+							pszFiles = ft->pszFiles[0];
+					}
+					else {
 						char szFiles[64], tmp[64];
-						char *pszFiles;
+						mir_snprintf(szFiles, SIZEOF(szFiles), ICQTranslateUtfStatic("%d Files", tmp, SIZEOF(tmp)), ft->dwFileCount);
+						pszFiles = szFiles;
+					}
 
-
-						debugLogA("Init file send");
-
-						if (ft->dwFileCount == 1) {
-							pszFiles = strchr(ft->pszFiles[0], '\\');
-							if (pszFiles)
-								pszFiles++;
-							else
-								pszFiles = ft->pszFiles[0];
+					// Send packet
+					if (ft->nVersion == 7) {
+						if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
+							int iRes = icq_sendFileSendDirectv7(ft, pszFiles);
+							if (iRes) return ft; // Success
 						}
-						else {
-							mir_snprintf(szFiles, SIZEOF(szFiles), ICQTranslateUtfStatic("%d Files", tmp, SIZEOF(tmp)), ft->dwFileCount);
-							pszFiles = szFiles;
+						debugLogA("Sending v%u file transfer request through server", 7);
+						icq_sendFileSendServv7(ft, pszFiles);
+					}
+					else {
+						if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
+							int iRes = icq_sendFileSendDirectv8(ft, pszFiles);
+							if (iRes)
+								return ft; // Success
 						}
-
-						// Send packet
-						{
-							if (ft->nVersion == 7) {
-								if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
-									int iRes = icq_sendFileSendDirectv7(ft, pszFiles);
-									if (iRes) return ft; // Success
-								}
-								debugLogA("Sending v%u file transfer request through server", 7);
-								icq_sendFileSendServv7(ft, pszFiles);
-							}
-							else {
-								if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
-									int iRes = icq_sendFileSendDirectv8(ft, pszFiles);
-									if (iRes) return ft; // Success
-								}
-								debugLogA("Sending v%u file transfer request through server", 8);
-								icq_sendFileSendServv8(ft, pszFiles, ACKTYPE_NONE);
-							}
-						}
+						debugLogA("Sending v%u file transfer request through server", 8);
+						icq_sendFileSendServv8(ft, pszFiles, ACKTYPE_NONE);
 					}
 
 					return ft; // Success
@@ -1405,18 +1394,15 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		makeContactTemporaryVisible(hContact);  // make us temporarily visible to contact
 
 	// Failure scenarios
-	if (!icqOnline()) {
+	if (!icqOnline())
 		dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "You cannot send messages when you are offline.");
-	}
-	else if ((wRecipientStatus == ID_STATUS_OFFLINE) && (strlennull(puszText) > 4096)) {
+	else if ((wRecipientStatus == ID_STATUS_OFFLINE) && (strlennull(puszText) > 4096))
 		dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "Messages to offline contacts must be shorter than 4096 characters.");
-	}
 	// Looks OK
 	else {
-#ifdef _DEBUG
 		debugLogA("Send %smessage - Message cap is %u", puszText ? "unicode " : "", CheckContactCapabilities(hContact, CAPF_SRV_RELAY));
 		debugLogA("Send %smessage - Contact status is %u", puszText ? "unicode " : "", wRecipientStatus);
-#endif
+
 		if (dwUin && m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) { // send thru direct
 			char *dc_msg = puszText;
 			char *dc_cap = plain_ascii ? NULL : CAP_UTF8MSGS;
