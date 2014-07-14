@@ -10,24 +10,32 @@
 #define BBSF_NTBSWAPED		(1<<3)
 #define BBSF_NTBDESTRUCT	(1<<4)
 
-typedef struct _tagCustomButtonData
+struct CustomButtonData : public MZeroedObject
+{
+	~CustomButtonData()
 	{
-	DWORD dwButtonOrigID;		 // id of button used while button creation and to store button info in DB
-	char * pszModuleName;		 //module name without spaces and underline symbols (e.g. "tabsrmm")
+		mir_free(pszModuleName);
+		mir_free(ptszTooltip);
+	}
 
-	DWORD dwButtonCID;
-	DWORD dwArrowCID;			//only use with BBBF_ISARROWBUTTON flag
+	DWORD  dwPosition;    // default order pos of button, counted from window edge (left or right)
 
-	TCHAR * ptszTooltip;		//button's tooltip
+	DWORD  dwButtonOrigID; // id of button used while button creation and to store button info in DB
+	char  *pszModuleName;  // module name without spaces and underline symbols (e.g. "tabsrmm")
 
-	DWORD dwPosition;			 // default order pos of button, counted from window edge (left or right)
-	int iButtonWidth;		//must be 22 for regular button and 33 for button with arrow
-	HANDLE hIcon;		//Handle to icolib registred icon
-	BOOL bIMButton,bChatButton;
-	BOOL bCanBeHidden,bHidden,bAutoHidden,bDummy,bDisabled,bPushButton;
-	BOOL bLSided,bRSided;
-	BYTE opFlags;
-	}CustomButtonData;
+	DWORD  dwButtonCID;
+	DWORD  dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
+
+	TCHAR *ptszTooltip;   // button's tooltip
+
+	int    iButtonWidth;  // must be 22 for regular button and 33 for button with arrow
+	HANDLE hIcon;         // Handle to icolib registred icon
+	
+	bool   bIMButton, bChatButton;
+	bool   bCanBeHidden, bHidden, bAutoHidden, bSeparator, bDisabled, bPushButton;
+	bool   bLSided, bRSided;
+	BYTE   opFlags;
+};
 
 static INT_PTR CB_ModifyButton(WPARAM wParam, LPARAM lParam);
 static INT_PTR CB_RemoveButton(WPARAM wParam, LPARAM lParam);
