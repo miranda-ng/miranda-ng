@@ -205,6 +205,14 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 
 		case CNF_UNIQUEID:
 		{
+			if (db_mc_isMeta(ci->hContact)) {
+				TCHAR buf[40];
+				_itot(ci->hContact, buf, 10);
+				ci->pszVal = mir_tstrdup(buf);
+				ci->type = CNFT_ASCIIZ;
+				return 0;
+			}
+
 			char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
 				if (!ProcessDatabaseValueDefault(ci, uid))
