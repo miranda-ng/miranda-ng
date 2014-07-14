@@ -514,12 +514,11 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	while (hContact) {
 		DWORD dwContactUin;
 		uid_str szContactUid;
-
 		if (!getContactUid(hContact, &dwContactUin, &szContactUid)) {
 			if (!dwContactUin && !stricmpnull(szContactUid, szUid)) {
-				if (strcmpnull(szContactUid, szUid)) { // fix case in SN
+				if (strcmpnull(szContactUid, szUid)) // fix case in SN
 					setString(hContact, UNIQUEIDSETTING, szUid);
-				}
+
 				return hContact;
 			}
 		}
@@ -528,6 +527,8 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 
 	//not present: add
 	if (Added) {
+		debugLogA("Attempt to create ICQ contact by string <%s>", szUid);
+
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 
@@ -551,13 +552,12 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	return INVALID_CONTACT_ID;
 }
 
-
 MCONTACT CIcqProto::HContactFromAuthEvent(HANDLE hEvent)
 {
-	DBEVENTINFO dbei = { sizeof(dbei) };
 	DWORD body[3];
 
-	dbei.cbBlob = sizeof(DWORD)* 2;
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = sizeof(DWORD) * 2;
 	dbei.pBlob = (PBYTE)&body;
 
 	if (db_event_get(hEvent, &dbei))
@@ -572,7 +572,7 @@ MCONTACT CIcqProto::HContactFromAuthEvent(HANDLE hEvent)
 	return DbGetAuthEventContact(&dbei);
 }
 
-char *NickFromHandle(MCONTACT hContact)
+char* NickFromHandle(MCONTACT hContact)
 {
 	if (hContact == INVALID_CONTACT_ID)
 		return null_strdup(Translate("<invalid>"));
@@ -580,7 +580,7 @@ char *NickFromHandle(MCONTACT hContact)
 	return null_strdup((char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
 }
 
-char *NickFromHandleUtf(MCONTACT hContact)
+char* NickFromHandleUtf(MCONTACT hContact)
 {
 	if (hContact == INVALID_CONTACT_ID)
 		return ICQTranslateUtf(LPGEN("<invalid>"));
@@ -588,7 +588,7 @@ char *NickFromHandleUtf(MCONTACT hContact)
 	return tchar_to_utf8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 }
 
-char *strUID(DWORD dwUIN, char *pszUID)
+char* strUID(DWORD dwUIN, char *pszUID)
 {
 	if (dwUIN && pszUID)
 		_ltoa(dwUIN, pszUID, 10);
@@ -731,7 +731,7 @@ void parseServerAddress(char* szServer, WORD* wPort)
 	szServer[i] = '\0';
 }
 
-char *DemangleXml(const char *string, int len)
+char* DemangleXml(const char *string, int len)
 {
 	char *szWork = (char*)SAFE_MALLOC(len + 1), *szChar = szWork;
 	int i;
@@ -767,7 +767,7 @@ char *DemangleXml(const char *string, int len)
 	return szWork;
 }
 
-char *MangleXml(const char *string, int len)
+char* MangleXml(const char *string, int len)
 {
 	int i, l = 1;
 	char *szWork, *szChar;
@@ -807,7 +807,7 @@ char *MangleXml(const char *string, int len)
 	return szWork;
 }
 
-char *EliminateHtml(const char *string, int len)
+char* EliminateHtml(const char *string, int len)
 {
 	char *tmp = (char*)SAFE_MALLOC(len + 1);
 	int i, j;
@@ -840,12 +840,13 @@ char *EliminateHtml(const char *string, int len)
 	return res;
 }
 
-char *ApplyEncoding(const char *string, const char *pszEncoding)
-{ // decode encoding to Utf-8
+char* ApplyEncoding(const char *string, const char *pszEncoding)
+{
+	// decode encoding to Utf-8
 	if (string && pszEncoding) { // we do only encodings known to icq5.1 // TODO: check if this is enough
-		if (!_strnicmp(pszEncoding, "utf-8", 5)) { // it is utf-8 encoded
+		if (!_strnicmp(pszEncoding, "utf-8", 5)) // it is utf-8 encoded
 			return null_strdup(string);
-		}
+
 		if (!_strnicmp(pszEncoding, "unicode-2-0", 11)) { // it is UCS-2 encoded
 			int wLen = strlennull((WCHAR*)string) + 1;
 			WCHAR *szStr = (WCHAR*)_alloca(wLen * 2);
@@ -855,13 +856,11 @@ char *ApplyEncoding(const char *string, const char *pszEncoding)
 
 			return make_utf8_string(szStr);
 		}
-		if (!_strnicmp(pszEncoding, "iso-8859-1", 10)) { // we use "Latin I" instead - it does the job
+		if (!_strnicmp(pszEncoding, "iso-8859-1", 10)) // we use "Latin I" instead - it does the job
 			return ansi_to_utf8_codepage(string, 1252);
-		}
 	}
-	if (string) { // consider it CP_ACP
+	if (string) // consider it CP_ACP
 		return ansi_to_utf8(string);
-	}
 
 	return NULL;
 }

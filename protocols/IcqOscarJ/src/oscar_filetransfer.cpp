@@ -2020,11 +2020,8 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 {
 	icq_lock l(oftMutex);
 
-	oscar_filetransfer *ft = oc->ft;
-	struct _stati64 statbuf;
-	char *pszThisFileName;
-
 	// prepare init frame
+	oscar_filetransfer *ft = oc->ft;
 	if (ft->iCurrentFile >= (int)ft->wFilesCount) { // All files done, great!
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 		// Release transfer
@@ -2034,6 +2031,8 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 
 	SAFE_FREE(&ft->szThisFile);
 	ft->szThisFile = null_strdup(ft->files[ft->iCurrentFile].szFile);
+
+	struct _stati64 statbuf;
 	if (FileStatUtf(ft->szThisFile, &statbuf)) {
 		icq_LogMessage(LOG_ERROR, LPGEN("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it."));
 
@@ -2043,14 +2042,13 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 		return;
 	}
 
-	{ // create full relative filename
-		char* szThisContainer = ft->files[ft->iCurrentFile].szContainer;
+	// create full relative filename
+	char* szThisContainer = ft->files[ft->iCurrentFile].szContainer;
 
-		pszThisFileName = (char*)SAFE_MALLOC(strlennull(ft->szThisFile) + strlennull(szThisContainer) + 4);
-		strcpy(pszThisFileName, szThisContainer);
-		NormalizeBackslash(pszThisFileName);
-		strcat(pszThisFileName, ExtractFileName(ft->szThisFile));
-	}
+	char *pszThisFileName = (char*)SAFE_MALLOC(strlennull(ft->szThisFile) + strlennull(szThisContainer) + 4);
+	strcpy(pszThisFileName, szThisContainer);
+	NormalizeBackslash(pszThisFileName);
+	strcat(pszThisFileName, ExtractFileName(ft->szThisFile));
 	
 	// convert backslashes to dir markings
 	for (int i = 0; i < strlennull(pszThisFileName); i++)
@@ -2082,7 +2080,8 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	if (IsUSASCII(pszThisFileName, strlennull(pszThisFileName))) {
 		ft->wEncoding = 0; // ascii
 		ft->cbRawFileName = strlennull(pszThisFileName) + 1;
-		if (ft->cbRawFileName < 64) ft->cbRawFileName = 64;
+		if (ft->cbRawFileName < 64)
+			ft->cbRawFileName = 64;
 		ft->rawFileName = (char*)SAFE_MALLOC(ft->cbRawFileName);
 		strcpy(ft->rawFileName, (char*)pszThisFileName);
 		SAFE_FREE((void**)&pszThisFileName);
@@ -2092,7 +2091,8 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 		WCHAR *pwsThisFile = make_unicode_string(pszThisFileName);
 		SAFE_FREE((void**)&pszThisFileName);
 		ft->cbRawFileName = strlennull(pwsThisFile) * (int)sizeof(WCHAR) + 2;
-		if (ft->cbRawFileName < 64) ft->cbRawFileName = 64;
+		if (ft->cbRawFileName < 64)
+			ft->cbRawFileName = 64;
 		ft->rawFileName = (char*)SAFE_MALLOC(ft->cbRawFileName);
 		// convert to LE ordered string
 		BYTE *pwsThisFileBuf = (BYTE*)pwsThisFile; // need this - unpackWideString moves the address!
@@ -2107,14 +2107,16 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 void CIcqProto::sendOFT2FramePacket(oscar_connection *oc, WORD datatype)
 {
 	oscar_filetransfer *ft = oc->ft;
-	icq_packet packet;
 
+	icq_packet packet;
 	packet.wLen = 192 + ft->cbRawFileName;
 	init_generic_packet(&packet, 0);
+
 	// Basic Oscar Frame
 	packDWord(&packet, 0x4F465432); // Magic
 	packWord(&packet, packet.wLen);
 	packWord(&packet, datatype);
+
 	// Cookie
 	packLEDWord(&packet, ft->pMessage.dwMsgID1);
 	packLEDWord(&packet, ft->pMessage.dwMsgID2);
