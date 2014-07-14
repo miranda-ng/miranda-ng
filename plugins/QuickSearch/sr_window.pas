@@ -975,7 +975,7 @@ begin
 
   // set new sort mark
   SendMessage(header,HDM_GETITEM,qsopt.columnsort,lparam(@hdi));
-  if (qsopt.flags and QSO_SORTASC)<>0 then
+  if (qsopt.flags and QSO_SORTASC)=0 then
     hdi.fmt:=hdi.fmt or HDF_SORTDOWN
   else
     hdi.fmt:=hdi.fmt or HDF_SORTUP;
