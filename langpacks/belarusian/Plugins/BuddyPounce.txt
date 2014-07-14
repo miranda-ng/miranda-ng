@@ -136,5 +136,7 @@ Pounce адпраўлены %s за %d секунд
 [Message failed to send to %s]
 Памылка адпраўкі паведамлення %s
 ;file \plugins\BuddyPounce\src\main.cpp
+[&Buddy Pounce]
+Адправіць потым
 [Message Sessions]
 Гутаркі

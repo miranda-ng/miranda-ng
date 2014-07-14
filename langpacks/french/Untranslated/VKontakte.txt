@@ -25,4 +25,5 @@
 [&Kick]
 [Create new chat]
 [Attachments:]
+[Wall post]
 [Unsupported or unknown attachment type: %s]

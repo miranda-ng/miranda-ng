@@ -100,5 +100,7 @@ Audio
 Video
 [Document]
 Document
+[Wall post]
+
 [Unsupported or unknown attachment type: %s]
 

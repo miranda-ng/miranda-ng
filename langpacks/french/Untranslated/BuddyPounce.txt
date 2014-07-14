@@ -8,3 +8,4 @@
 [Couldn't allocate enough memory]
 [error......]
 [Retry]
+[&Buddy Pounce]

@@ -1,4 +1,9 @@
-﻿;file \src\resource.rc
+﻿;============================================================
+;  File: miranda32/64.exe
+;  Module: Miranda Core
+;  Version: 0.95.2
+;============================================================
+;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Увядзіце імя конта
 [Choose the protocol type]

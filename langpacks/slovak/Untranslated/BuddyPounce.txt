@@ -49,4 +49,5 @@
 [Retry]
 [Message successfully sent to %s]
 [Message failed to send to %s]
+[&Buddy Pounce]
 [Message Sessions]

@@ -136,5 +136,7 @@ Nachricht erfolgreich an %s gesenden
 [Message failed to send to %s]
 Nachricht an %s senden fehlgeschlagen
 ;file \plugins\BuddyPounce\src\main.cpp
+[&Buddy Pounce]
+
 [Message Sessions]
 Nachrichtensitzungen

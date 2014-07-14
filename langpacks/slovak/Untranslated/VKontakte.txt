@@ -33,4 +33,5 @@
 [Audio]
 [Video]
 [Document]
+[Wall post]
 [Unsupported or unknown attachment type: %s]

@@ -100,5 +100,7 @@ Fotografia
 
 [Document]
 
+[Wall post]
+
 [Unsupported or unknown attachment type: %s]
 
