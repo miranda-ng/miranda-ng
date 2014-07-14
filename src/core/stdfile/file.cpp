@@ -34,15 +34,10 @@ static HGENMENU hSRFileMenuItem;
 
 TCHAR* GetContactID(MCONTACT hContact)
 {
-	TCHAR *theValue = 0;
 	char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1) {
-		DBVARIANT dbv;
-		if (!db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
-			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
-			db_free(&dbv);
+		if (TCHAR *theValue = db_get_tsa(hContact, szProto, "ChatRoomID"))
 			return theValue;
-		}
 	}
 	else {
 		CONTACTINFO ci = { sizeof(ci) };
@@ -52,9 +47,9 @@ TCHAR* GetContactID(MCONTACT hContact)
 		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 			switch (ci.type) {
 			case CNFT_ASCIIZ:
-				return (TCHAR *)ci.pszVal;
+				return (TCHAR*)ci.pszVal;
 			case CNFT_DWORD:
-				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR) * 32), 10);
+				return _itot(ci.dVal, (TCHAR*)mir_alloc(sizeof(TCHAR)*32), 10);
 			}
 		}
 	}
