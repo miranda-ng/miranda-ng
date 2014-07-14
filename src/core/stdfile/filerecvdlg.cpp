@@ -130,22 +130,18 @@ static void patchDir(TCHAR *str, size_t strSize)
 
 void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOOL patchVars)
 {
-	DBVARIANT dbv;
-	TCHAR szTemp[MAX_PATH];
-	szTemp[0] = 0;
+	TCHAR tszTemp[MAX_PATH];
 
-	if (!db_get_ts(NULL, "SRFile", "RecvFilesDirAdv", &dbv)) {
-		if (lstrlen(dbv.ptszVal) > 0)
-			lstrcpyn(szTemp, dbv.ptszVal, SIZEOF(szTemp));
-		db_free(&dbv);
-	}
-
-	if (!szTemp[0])
-
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
-
+	ptrT tszRecvPath(db_get_tsa(NULL, "SRFile", "RecvFilesDirAdv"));
+	if (tszRecvPath)
+		_tcsncpy_s(tszTemp, SIZEOF(tszTemp), tszRecvPath, _TRUNCATE);
+	else
+		mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
 	if (hContact) {
+		if (db_mc_isSub(hContact))
+			hContact = db_mc_getMeta(hContact);
+
 		REPLACEVARSDATA dat = { 0 };
 		REPLACEVARSARRAY rvaVarsToReplace[4];
 		rvaVarsToReplace[0].lptzKey = _T("nick");
@@ -163,9 +159,9 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 		dat.dwFlags = RVF_TCHAR;
 		dat.variables = rvaVarsToReplace;
 		dat.hContact = hContact;
-		TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szTemp, (LPARAM)&dat);
+		TCHAR *result = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)tszTemp, (LPARAM)&dat);
 		if (result) {
-			_tcsncpy(szTemp, result, SIZEOF(szTemp));
+			_tcsncpy(tszTemp, result, SIZEOF(tszTemp));
 			mir_free(result);
 			for (int i = 0; i < (SIZEOF(rvaVarsToReplace) - 1); i++)
 				mir_free(rvaVarsToReplace[i].lptzValue);
@@ -173,28 +169,24 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 	}
 
 	if (patchVars)
-		patchDir(szTemp, SIZEOF(szTemp));
-	RemoveInvalidPathChars(szTemp);
-	lstrcpyn(szDir, szTemp, cchDir);
+		patchDir(tszTemp, SIZEOF(tszTemp));
+	RemoveInvalidPathChars(tszTemp);
+	lstrcpyn(szDir, tszTemp, cchDir);
 }
 
 void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 {
-	TCHAR szTemp[MAX_PATH]; szTemp[0] = 0;
+	TCHAR tszTemp[MAX_PATH];
 
-	DBVARIANT dbv;
-	if (!db_get_ts(NULL, "SRFile", "RecvFilesDirAdv", &dbv)) {
-		if (lstrlen(dbv.ptszVal) > 0)
-			lstrcpyn(szTemp, dbv.ptszVal, SIZEOF(szTemp));
-		db_free(&dbv);
-	}
+	ptrT tszRecvPath(db_get_tsa(NULL, "SRFile", "RecvFilesDirAdv"));
+	if (tszRecvPath)
+		_tcsncpy_s(tszTemp, SIZEOF(tszTemp), tszRecvPath, _TRUNCATE);
+	else
+		mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
-	if (!szTemp[0])
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s"), TranslateT("My received files"));
-
-	patchDir(szTemp, SIZEOF(szTemp));
-	RemoveInvalidPathChars(szTemp);
-	lstrcpyn(szDir, szTemp, cchDir);
+	patchDir(tszTemp, SIZEOF(tszTemp));
+	RemoveInvalidPathChars(tszTemp);
+	lstrcpyn(szDir, tszTemp, cchDir);
 }
 
 INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
