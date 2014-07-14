@@ -123,4 +123,4 @@ Zkouška  jiné události ;-D
 [Plugin Test]
 Zkouška doplňku
 [[b]Number of new message(s): %d[/b]\n]
-[b]Počet nových zpráv: %d[/b]\n
+\[b]Počet nových zpráv: %d[/b]\n

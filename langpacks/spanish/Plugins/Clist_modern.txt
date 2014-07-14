@@ -153,7 +153,7 @@ Cuentas por línea
 [Hold [Shift] to inverse [Right Click] behavior.]
 Mantener [Shift] para invertir [Clic derecho] comportamiento.
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
-[Ctrl]+[Clic izquierdo] para filtrar único protocolo. Clic en el espacio vacío para mostrar todo.
+\[Ctrl]+[Clic izquierdo] para filtrar único protocolo. Clic en el espacio vacío para mostrar todo.
 [Set options per account]
 Ajuste de opciones por cuenta
 [Enable custom account settings]

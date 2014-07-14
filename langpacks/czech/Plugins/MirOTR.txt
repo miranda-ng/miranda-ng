@@ -128,7 +128,7 @@ Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
 [OTR Information]
 Šifrování (OTR)
 [[OTR INFO] ]
-[OTR INFO]\s
+\[OTR INFO]\s
 [Authentication from %s]
 Ověření od %s
 [Authenticate %s]

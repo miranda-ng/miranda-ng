@@ -388,67 +388,67 @@ Miranda работи от:
 [XStatus text:]
 хСъстояние текст:
 [[jabber.dll] Activity title]
-[jabber.dll] Етикет на дейността
+\[jabber.dll] Етикет на дейността
 [Activity title:]
 Дейност:
 [[jabber.dll] Activity text]
-[jabber.dll] Текст на дейността
+\[jabber.dll] Текст на дейността
 [Activity text:]
 Съобщение:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] Последно видян на
+\[seenplugin.dll] Последно видян на
 [Last seen time:]
 Последно видян на:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] Последно състояние
+\[seenplugin.dll] Последно състояние
 [Last seen status:]
 Последно състояние:
 [[weather.dll] Condition]
-[weather.dll] Условия
+\[weather.dll] Условия
 [Condition:]
 Условия:
 [[weather.dll] Humidity]
-[weather.dll] Влажност
+\[weather.dll] Влажност
 [Humidity:]
 Влажност:
 [[weather.dll] Max/Min temperature]
-[weather.dll] Макс./Мин. темпрература
+\[weather.dll] Макс./Мин. темпрература
 [Max/Min:]
 Макс./Мин.:
 [[weather.dll] Moon]
-[weather.dll] Луна
+\[weather.dll] Луна
 [Moon:]
 Луна:
 [[weather.dll] Pressure]
-[weather.dll] Налягане
+\[weather.dll] Налягане
 [Pressure:]
 Атм. налягане:
 [[weather.dll] Sunrise]
-[weather.dll] Изгрев
+\[weather.dll] Изгрев
 [Sunrise:]
 Изгрев:
 [[weather.dll] Sunset]
-[weather.dll] Залез
+\[weather.dll] Залез
 [Sunset:]
 Залез:
 [[weather.dll] Temperature]
-[weather.dll] Температура
+\[weather.dll] Температура
 [Temperature:]
 Температура:
 [[weather.dll] Update time]
-[weather.dll] Обновено на
+\[weather.dll] Обновено на
 [Update time:]
 Обновено в:
 [[weather.dll] UV Index]
-[weather.dll] УВ индекс
+\[weather.dll] УВ индекс
 [UV Index:]
 УВ индекс:
 [[weather.dll] Visibility]
-[weather.dll] Видимост
+\[weather.dll] Видимост
 [Visibility:]
 Видимост:
 [[weather.dll] Wind]
-[weather.dll] Вятър
+\[weather.dll] Вятър
 [Wind:]
 Вятър:
 ;file \plugins\TipperYM\src\skin_parser.cpp

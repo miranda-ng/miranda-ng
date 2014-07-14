@@ -388,67 +388,67 @@ Zpráva rozšířeného stavu
 [XStatus text:]
 Zpráva rozšířeného stavu:
 [[jabber.dll] Activity title]
-[jabber.dll] Název aktivity
+\[jabber.dll] Název aktivity
 [Activity title:]
 Název aktivity:
 [[jabber.dll] Activity text]
-[jabber.dll] Zpráva aktivity
+\[jabber.dll] Zpráva aktivity
 [Activity text:]
 Zpráva aktivity:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] Naposledy spatřen
+\[seenplugin.dll] Naposledy spatřen
 [Last seen time:]
 Naposledy spatřen:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] Naposledy spatřený stav
+\[seenplugin.dll] Naposledy spatřený stav
 [Last seen status:]
 Naposledy spatřený stav:
 [[weather.dll] Condition]
-[weather.dll] Situace
+\[weather.dll] Situace
 [Condition:]
 Situace:
 [[weather.dll] Humidity]
-[weather.dll] Vlhkost
+\[weather.dll] Vlhkost
 [Humidity:]
 Vlhkost:
 [[weather.dll] Max/Min temperature]
-[weather.dll] Max/min teplota
+\[weather.dll] Max/min teplota
 [Max/Min:]
 Max/Min:
 [[weather.dll] Moon]
-[weather.dll] Měsíc
+\[weather.dll] Měsíc
 [Moon:]
 Měsíc:
 [[weather.dll] Pressure]
-[weather.dll] Tlak
+\[weather.dll] Tlak
 [Pressure:]
 Tlak:
 [[weather.dll] Sunrise]
-[weather.dll] Východ slunce
+\[weather.dll] Východ slunce
 [Sunrise:]
 Východ slunce:
 [[weather.dll] Sunset]
-[weather.dll] Západ slunce
+\[weather.dll] Západ slunce
 [Sunset:]
 Západ slunce:
 [[weather.dll] Temperature]
-[weather.dll] Teplota
+\[weather.dll] Teplota
 [Temperature:]
 Teplota:
 [[weather.dll] Update time]
-[weather.dll] Čas aktualizace
+\[weather.dll] Čas aktualizace
 [Update time:]
 Čas aktualizace:
 [[weather.dll] UV Index]
-[weather.dll] UV Index
+\[weather.dll] UV Index
 [UV Index:]
 UV Index:
 [[weather.dll] Visibility]
-[weather.dll] Viditelnost
+\[weather.dll] Viditelnost
 [Visibility:]
 Viditelnost:
 [[weather.dll] Wind]
-[weather.dll] Vítr
+\[weather.dll] Vítr
 [Wind:]
 Vítr:
 ;file \plugins\TipperYM\src\skin_parser.cpp

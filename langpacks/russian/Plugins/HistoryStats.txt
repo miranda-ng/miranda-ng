@@ -364,9 +364,9 @@ wday3:Вск
 [Timeline]
 Шкала времени
 [[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
-[#{start_date}-#{end_date}] #{out_amount} (исх) / #{in_amount} (вх)
+\[#{start_date}-#{end_date}] #{out_amount} (исх) / #{in_amount} (вх)
 [[#{date}] #{out_amount} (out) / #{in_amount} (in)]
-[#{date}] #{out_amount} (исх) / #{in_amount} (вх)
+\[#{date}] #{out_amount} (исх) / #{in_amount} (вх)
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 Колонка содержит графическое представление бесед (исходящие, входящие, всего, соотношение входящих к исходящим) от первого дня истории до последнего на основании дней. Дни могут быть сгруппированы. Доступно разное измерение статистики бесед.
 [Word count type]

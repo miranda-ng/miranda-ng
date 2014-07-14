@@ -88,7 +88,7 @@ Powód zaproszenia
 Dodaj
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-[Miranda] zostałeś zaproszony do pokoju: %s z wiadomością: %s
+\[Miranda] zostałeś zaproszony do pokoju: %s z wiadomością: %s
 [%s denied invitation with message: %s]
 %s odrzucił zaproszenie z wiadomością: %s
 [Me]
@@ -196,7 +196,7 @@ Utwórz konferencję
 &Pokaż profil
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
-[Miranda] otrzymałeś zaproszenie do videokonferencji. (Ta funkcja obecnie jest niewspierana)
+\[Miranda] otrzymałeś zaproszenie do videokonferencji. (Ta funkcja obecnie jest niewspierana)
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Przypomnienie o wydarzeniach

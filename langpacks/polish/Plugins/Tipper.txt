@@ -388,67 +388,67 @@ Opis xStatus
 [XStatus text:]
 Opis xStatus:
 [[jabber.dll] Activity title]
-[jabber.dll] Tytuł aktywności
+\[jabber.dll] Tytuł aktywności
 [Activity title:]
 Tytuł aktywności:
 [[jabber.dll] Activity text]
-[jabber.dll] Opis aktywności
+\[jabber.dll] Opis aktywności
 [Activity text:]
 Tekst aktywności:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] Ostatnio widziany
+\[seenplugin.dll] Ostatnio widziany
 [Last seen time:]
 Ostatnio widziany:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] Ostatni status
+\[seenplugin.dll] Ostatni status
 [Last seen status:]
 Ostatni status:
 [[weather.dll] Condition]
-[weather.dll] Warunki
+\[weather.dll] Warunki
 [Condition:]
 Warunki:
 [[weather.dll] Humidity]
-[weather.dll] Wilgotność
+\[weather.dll] Wilgotność
 [Humidity:]
 Wilgotność
 [[weather.dll] Max/Min temperature]
-[weather.dll] Maks/Min temperatura
+\[weather.dll] Maks/Min temperatura
 [Max/Min:]
 Maks/Min:
 [[weather.dll] Moon]
-[weather.dll] Księżyc
+\[weather.dll] Księżyc
 [Moon:]
 Księżyc:
 [[weather.dll] Pressure]
-[weather.dll] Ciśnienie
+\[weather.dll] Ciśnienie
 [Pressure:]
 Ciśnienie:
 [[weather.dll] Sunrise]
-[weather.dll] Wschód słońca
+\[weather.dll] Wschód słońca
 [Sunrise:]
 Wschód słońca:
 [[weather.dll] Sunset]
-[weather.dll] Zachód słońca
+\[weather.dll] Zachód słońca
 [Sunset:]
 Zachód słońca:
 [[weather.dll] Temperature]
-[weather.dll] Temperatura
+\[weather.dll] Temperatura
 [Temperature:]
 Temperatura:
 [[weather.dll] Update time]
-[weather.dll] Czas aktualizacji
+\[weather.dll] Czas aktualizacji
 [Update time:]
 Czas aktualizacji:
 [[weather.dll] UV Index]
-[weather.dll] Współczynnik UV
+\[weather.dll] Współczynnik UV
 [UV Index:]
 Współczynnik UV:
 [[weather.dll] Visibility]
-[weather.dll] Widoczność
+\[weather.dll] Widoczność
 [Visibility:]
 Widoczność:
 [[weather.dll] Wind]
-[weather.dll] Wiatr
+\[weather.dll] Wiatr
 [Wind:]
 Wiatr:
 ;file \plugins\TipperYM\src\skin_parser.cpp

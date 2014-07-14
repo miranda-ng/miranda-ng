@@ -292,7 +292,7 @@ Mailkonto öffnen?
 %s Client-to-Client-Verbindung
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-[Automatische Antwort]:
+\[Automatische Antwort]:
 [Contact tried to open an audio/video conference (not currently supported)]
 Kontakt versucht, eine Audio-/Video-Konferenz zu öffnen (momentan nicht unterstützt).
 [No information has been provided by the server.]

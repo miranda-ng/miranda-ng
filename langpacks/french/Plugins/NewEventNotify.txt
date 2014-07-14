@@ -123,4 +123,4 @@ Ceci est un exemple d'évènement  ;-D
 [Plugin Test]
 
 [[b]Number of new message(s): %d[/b]\n]
-[b]Nombre de nouveaux messages: %d[/b]\n
+\[b]Nombre de nouveaux messages: %d[/b]\n

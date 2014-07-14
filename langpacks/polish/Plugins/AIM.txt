@@ -292,7 +292,7 @@ Połączenie %s
 Połączenie Klient-do-Klienta %s
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-[Autoodpowiedź]:
+\[Autoodpowiedź]:
 [Contact tried to open an audio/video conference (not currently supported)]
 Kontakt próbował utworzyć konferencję audio/wideo (obecnie nie obsługiwane)
 [No information has been provided by the server.]

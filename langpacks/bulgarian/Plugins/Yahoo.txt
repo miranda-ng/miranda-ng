@@ -88,7 +88,7 @@ Yahoo списък за игнориране
 Добавяне
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-[Съобщение от Miranda NG] Получихте покана за чая стая "%s" с текст: %s
+\[Съобщение от Miranda NG] Получихте покана за чая стая "%s" с текст: %s
 [%s denied invitation with message: %s]
 %s отхвърли поканата, със съобщението: %s
 [Me]
@@ -196,7 +196,7 @@ Yahoo поща
 Показване на профила
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
-[Съобщение от Miranda NG] Получихте покана за разговор с уеб камера, но към момента Miranda NG не поддържа такава функция.
+\[Съобщение от Miranda NG] Получихте покана за разговор с уеб камера, но към момента Miranda NG не поддържа такава функция.
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Календар - напомняне

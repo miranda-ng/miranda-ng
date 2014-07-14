@@ -1083,7 +1083,7 @@ Web Дызайн
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
-[b]%s (%S)...[/b]\n%d кантактаў засталося
+\[b]%s (%S)...[/b]\n%d кантактаў засталося
 [Abort Refreshing Contact Details]
 Скасаваць абнаўленне дадзеных кантактаў
 [Do you want to cancel the current refresh procedure?]

@@ -111,13 +111,13 @@ Délka diskuse
 [(unknown)]
 (není známo)
 [[Min] #{amount}]
-[Min.] #{počet}
+\[Min.] #{počet}
 [[Avg] #{amount}]
-[Prům.] #{počet}
+\[Prům.] #{počet}
 [[Max] #{amount}]
-[Max.] #{počet}
+\[Max.] #{počet}
 [[Sum] #{amount}]
-[Celk.] #{počet}
+\[Celk.] #{počet}
 ;file \plugins\HistoryStats\src\column_chatduration.h
 [Column holding the amount of time you have chatted with the given contact.]
 

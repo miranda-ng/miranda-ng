@@ -344,6 +344,10 @@ wday3:Pią
 wday3:Sob
 [wday3:Sun]
 wday3:Nie
+[[#{hour}:00-#{hour}:59] #{amount}]
+\[#{hour}:00-#{hour}:59] #{amount}
+[[#{day}] #{amount}]
+\[#{day}] #{amount}
 [#{amount}]
 #{amount}
 ;file \plugins\HistoryStats\src\column_split.h
@@ -392,6 +396,14 @@ Graficzny podgląd zachowań w rozmowie (wychodzące, przychodzące, wszystkie, 
 Harmonogram dla #{data}
 [Timeline]
 Harmonogram
+[[#{start_date}-#{end_date}] #{amount}]
+\[#{start_date}-#{end_date}] #{amount}
+[[#{date}] #{amount}]
+\[#{date}] #{amount}
+[[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
+\[#{start_date}-#{end_date}] #{out_amount} (wychodzących) / #{in_amount} (przychodzących)
+[[#{date}] #{out_amount} (out) / #{in_amount} (in)]
+\[#{date}] #{out_amount} (wychodzących) / #{in_amount} (przychodzących)
 ;file \plugins\HistoryStats\src\column_timeline.h
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 Kolumna przedstawia graficzny przegląd twoich nawyków czatowania (wychodzące, w sumie, przychodzące/wychodzące, stosunek) od pierwszego do ostatniego dnia historii każdego dnia. Możliwe jest zgrupowanie wielu dni. Różne sposoby mierzenia twoich nawyków są możliwe.

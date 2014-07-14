@@ -196,7 +196,7 @@ Vous devez vous connecté afin de mettre à jour votre liste de contacts
 &Afficher le profil
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
-(miranda) réception d'une demande de webcam. (non actuellement supporté)
+{Miranda} réception d'une demande de webcam. (non actuellement supporté)
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 

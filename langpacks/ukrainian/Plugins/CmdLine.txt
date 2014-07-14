@@ -177,6 +177,8 @@ Miranda була закрита або сталася помилка при оч
 %s проксі встановлений на %s %s:%d.
 [%s The port or the proxy type parameter is invalid.]
 %s Порт або тип проксі неправильний.
+[[me]]
+\[Я]
 [No unread messages found.]
 Немає непрочитаних повідомлень.
 [%s:%s - %d unread events.]
