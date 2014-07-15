@@ -117,6 +117,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	INT_PTR  __cdecl SendSms(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl SendYouWereAdded(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl SetMyAvatar(WPARAM wParam, LPARAM lParam);
+	INT_PTR  __cdecl SetNickName(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl SetXStatusEx(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl ShowXStatusDetails(WPARAM wParam, LPARAM lParam);
 
