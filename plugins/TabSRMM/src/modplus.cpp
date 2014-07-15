@@ -45,45 +45,33 @@
 
 #include "commonheaders.h"
 
-int     g_bStartup=0;
-
-BOOL    g_bIMGtagButton;
-
 static TCHAR* getMenuEntry(int i)
 {
-	TCHAR		*msg = NULL;
-	char 		MEntry[256] = {'\0'};
-	DBVARIANT 	dbv = {0};
-
+	char MEntry[256];
 	mir_snprintf(MEntry, 255, "MenuEntry_%u", i);
-	if ( !db_get_ts(NULL, "tabmodplus",MEntry, &dbv)) {
-		msg = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
-	return (msg);
+	return db_get_tsa(NULL, "tabmodplus", MEntry);
 }
 
-static int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
+static int RegisterCustomButton(WPARAM wParam, LPARAM lParam)
 {
-	if ( ServiceExists(MS_BB_ADDBUTTON)) {
-		BBButton bbd = {0};
-		bbd.cbSize = sizeof(BBButton);
-		bbd.bbbFlags = BBBF_ISIMBUTTON|BBBF_ISLSIDEBUTTON|BBBF_ISPUSHBUTTON;
-		bbd.dwButtonID = 1;
-		bbd.dwDefPos =200;
-		bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];
-		bbd.pszModuleName = (char *)"Tabmodplus";
-		bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
+	if (!ServiceExists(MS_BB_ADDBUTTON))
+		return 1;
 
-		return (CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd));
-	}
-	return (1);
+	BBButton bbd = { 0 };
+	bbd.cbSize = sizeof(BBButton);
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISPUSHBUTTON;
+	bbd.dwButtonID = 1;
+	bbd.dwDefPos = 200;
+	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];
+	bbd.pszModuleName = (char*)"Tabmodplus";
+	bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
+	return CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 }
 
-static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
+static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 {
-	CustomButtonClickData *cbcd=(CustomButtonClickData *)lParam;
-	if ( strcmp(cbcd->pszModule,"Tabmodplus") || cbcd->dwButtonId != 1)
+	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
+	if (strcmp(cbcd->pszModule, "Tabmodplus") || cbcd->dwButtonId != 1)
 		return 0;
 
 	BBButton bbd = { sizeof(bbd) };
@@ -94,12 +82,12 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	TCHAR *pszText = _T("");
 	CHARRANGE cr;
 	cr.cpMin = cr.cpMax = 0;
-	SendDlgItemMessage(cbcd->hwndFrom,IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
+	SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
 	UINT textlenght = cr.cpMax - cr.cpMin;
 	if (textlenght) {
-		pszText = (TCHAR*)mir_alloc((textlenght+1)*sizeof(TCHAR));
-		ZeroMemory(pszText,(textlenght+1)*sizeof(TCHAR));
-		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE,EM_GETSELTEXT, 0, (LPARAM)pszText);
+		pszText = (TCHAR*)mir_alloc((textlenght + 1)*sizeof(TCHAR));
+		ZeroMemory(pszText, (textlenght + 1)*sizeof(TCHAR));
+		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 
 	int state = 0;
@@ -112,28 +100,29 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	else
 		state = 4;
 
-	TCHAR *pszFormatedText = NULL, *pszMenu[256] = {0};
+	TCHAR *pszFormatedText = NULL, *pszMenu[256] = { 0 };
 
 	size_t bufSize;
 
-	switch ( state ) {
+	switch (state) {
 	case 1:
 		{
-			int menulimit = M.GetByte("tabmodplus","MenuCount", 0);
+			int menulimit = M.GetByte("tabmodplus", "MenuCount", 0);
 			if (menulimit == 0)
 				break;
 
 			HMENU hMenu = CreatePopupMenu();
 
-			for (int menunum=0; menunum < menulimit; menunum++) {
+			for (int menunum = 0; menunum < menulimit; menunum++) {
 				pszMenu[menunum] = getMenuEntry(menunum);
-				AppendMenu(hMenu, MF_STRING,menunum+1,  pszMenu[menunum]);
+				AppendMenu(hMenu, MF_STRING, menunum + 1, pszMenu[menunum]);
 			}
+
 			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
 			if (res == 0)
 				break;
 
-			bufSize = textlenght + lstrlen(pszMenu[res-1]) + 2;
+			bufSize = textlenght + lstrlen(pszMenu[res - 1]) + 2;
 			pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
 			mir_sntprintf(pszFormatedText, bufSize, pszMenu[res-1], pszText);
 		}
@@ -142,7 +131,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	case 2:
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 
-		bufSize = textlenght+12;
+		bufSize = textlenght + 12;
 		pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
 		mir_sntprintf(pszFormatedText, bufSize*sizeof(TCHAR), _T("[img]%s[/img]"), pszText);
 
@@ -167,27 +156,20 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 		break;
 	}
 
-	for (int i=0; pszMenu[i]; i++)
+	for (int i = 0; pszMenu[i]; i++)
 		mir_free(pszMenu[i]);
 
-	if ( pszFormatedText )
+	if (pszFormatedText)
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)pszFormatedText);
 
-	if ( textlenght )
+	if (textlenght)
 		mir_free(pszText);
 	return 1;
-
 }
 
-#define MBF_OWNERSTATE        0x04
-
-int ModPlus_Init(WPARAM wparam,LPARAM lparam)
+int ModPlus_Init(WPARAM wparam, LPARAM lparam)
 {
-	g_bStartup = 1;
-
 	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
 	HookEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
-
-	g_bStartup = 0;
 	return 0;
 }
