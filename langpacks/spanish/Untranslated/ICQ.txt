@@ -548,6 +548,7 @@
 [Connection lost during file transfer.]
 [File transfer negotiation failed for unknown reason.]
 [The checksum of file "%s" does not match, the file is probably damaged.]
+[Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 [January]
 [February]
 [March]
