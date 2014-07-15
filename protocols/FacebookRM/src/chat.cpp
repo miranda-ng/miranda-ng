@@ -223,11 +223,11 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	// Create a user statuses
-	gce.ptszStatus = _T("User");
+	gce.ptszStatus = _T("Myself");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	gce.ptszStatus = _T("Friend");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = _T("Myself");
+	gce.ptszStatus = _T("User");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	
 	// Finish initialization
@@ -236,7 +236,7 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 	gce.pDest = &gcd;
 	
 	// Add self contact
-	////AddChatContact(tid, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
+	AddChatContact(tid, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
 	CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
 }
