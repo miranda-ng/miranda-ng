@@ -195,6 +195,8 @@ FTP файл менеджер
 Ожидание...
 [UNKNOWN]
 Неизвестно
+[File exists - %s]
+Файл существует - %s
 [Download link:]
 Ссылка:
 [Do you really want to cancel running upload?]

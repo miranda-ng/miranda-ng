@@ -265,6 +265,8 @@
 Фон
 [Sticky Note Body]
 Окно
+[Executable Files\0*.exe\0All Files\0*.*\0\0]
+Исполняемые файлы\0*.exe\0Все файлы\0*.*\0\0
 [Select Executable]
 Выбрать программу…
 [Minutes]

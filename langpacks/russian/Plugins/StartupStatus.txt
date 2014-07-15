@@ -259,6 +259,10 @@ Cтатус-профиль
 Справа
 [None]
 Нет
+[size: %d x %d]
+размер: %d x %d
+[loc: %d x %d]
+поз.: %d x %d 
 [Hidden]
 Скрытый
 [Minimized]

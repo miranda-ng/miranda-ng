@@ -1,4 +1,3 @@
 ﻿[reftime]
 [Context Menu Note Popup]
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-[Executable Files\0*.exe\0All Files\0*.*\0\0]

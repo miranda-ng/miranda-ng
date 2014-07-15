@@ -8,7 +8,6 @@
 [%s (%d kB/%d kB)]
 [Do you really want to cancel this upload?]
 [Status: %s\r\nFile: %s\r\nServer: %s]
-[File exists - %s]
 [Error occurred when opening local file.\nAborting file upload...]
 [Error occurred when initializing libcurl.\nAborting file upload...]
 [FTP error occurred.\n%s]

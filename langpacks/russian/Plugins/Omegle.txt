@@ -71,6 +71,10 @@ Omegle - отличный способ найти новых друзей!
 Незнакомец
 [You and the Stranger both like: ]
 Вам и незнакомцу нравится:\s
+[%s is typing.]
+%s набирает сообщение.
+[%s stopped typing.]
+%s закончил(а) набирать сообщение.
 [%s disconnected.]
 %s отключился.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]

@@ -1647,6 +1647,8 @@ xСтатус %s
 Передача файла не удалась по неизвестной причине.
 [The checksum of file "%s" does not match, the file is probably damaged.]
 Контрольная сумма файла "%s" не совпадает, файл может быть поврежден.
+[Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Передача файлов прервана (ошибка=%d), поскольку один из файлов более недоступен. Возможно, вы удалили или переместили его.
 [<invalid>]
 <неверно>
 [January]

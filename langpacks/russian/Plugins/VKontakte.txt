@@ -93,5 +93,7 @@ Cоздать комнату чата
 Видео
 [Document]
 Документ
+[Wall post]
+Запись на стене
 [Unsupported or unknown attachment type: %s]
 Неподдерживаемый или неизвестный тип вложения: %s

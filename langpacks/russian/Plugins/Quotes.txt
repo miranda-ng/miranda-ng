@@ -171,6 +171,8 @@ HTTP подключение Quotes
 Поменять местами
 [Import]
 Импорт
+[XML File (*.xml)]
+Файл XML  (*.xml)
 [All files (*.*)]
 Все файлы (*.*)
 [Log File]

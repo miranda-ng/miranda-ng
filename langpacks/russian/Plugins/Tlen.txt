@@ -143,6 +143,8 @@ P2P Подключения
 Статус:
 [Plan:]
 План:
+[Tlen Voice Chat]
+Голосовой чат Tlen
 [Quality]
 Качество
 [In]
@@ -181,12 +183,26 @@ Tlen входящие
 Предупреждение
 [Multi-User Conference]
 Комната чата
+[Tlen Mail]
+Почта Tlen
 [Voice Chat]
 Голосовой чат
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+Не удаётся создать папку для кэшированных аватар. Ошибка: %d: %s\n%s
+[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
+Не удаётся сохранить аватар в файл "%s" Ошибка:\n\t%s (Ошибка: %d)
+[Error while setting avatar on Tlen account (no response)]
+Ошибка при установке аватара (нет ответа)
+[Error while setting avatar on Tlen account (invalid response)]
+Ошибка при установке аватара (неверный ответ)
+[Error while setting avatar on Tlen account]
+Ошибка при установке аватара.
+[1 File]
+1 файл
 [%d Files]
 %d файлов
 [Authentication failed for %s@%s.]
@@ -221,12 +237,26 @@ Tlen входящие
 Игнорировать приглашения от неавторизованных контактов
 [Ignore all invitation]
 Игнорировать все приглашения
+[Accept all images]
+Принимать все изображения
+[Ignore images from unauthorized contacts]
+Игнорировать изображения от неавторизованных пользователей
+[Ignore all images]
+Игнорировать все изображения
 [<Last message>]
 (Последнее сообщение)
 [Forwarding]
 Перенаправление
+[Image sent file://%s]
+Отправлено изображение file://%s
+[Image received file://%s]
+Получено изображение file://%s
+[You need to be connected to Tlen account to set avatar.]
+Необходимо подключить учётную запись Tlen, прежде чем устанавливать аватар.
 [Enter password for %s]
 Введите пароль для %s
+[Tlen Connection Error]
+Ошибка подключения
 [%s Web Messages]
 %s Web сообщений
 [From]

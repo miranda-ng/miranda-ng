@@ -335,6 +335,8 @@ DCC: Запрос на продолжение закачки файла от %s 
 Функция проверки приятелей включена
 [The buddy check function is disabled]
 Функция проверки приятелей выключена
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+Неверные параметры. Использование: /sleep [мс], количество миллисекунд должно быть числом между 0 и 4000
 [Ignore system is enabled]
 Система игнорирования вкл.
 [Ignore system is disabled]
@@ -475,6 +477,24 @@ DCC-запрос на передачу файла послан %s [%s]
 <Автоматически>
 [<Local IP: ]
 <Локальный IP:\s
+[Event: Available]
+Событие: Доступен
+[Event: Away]
+Событие: Отсутствую
+[Event: N/A]
+Событие: Недоступен
+[Event: Occupied]
+Событие: Занят
+[Event: DND]
+Событие: Не беспокоить
+[Event: Free for chat]
+Событие: Готов болтать
+[Event: On the phone]
+Событие: На телефоне
+[Event: Out for lunch]
+Событие: Обедаю
+[Event: Disconnect]
+Событие: Отключён
 [ALL NETWORKS]
 Все сети
 [Click to set commands that will be performed for this event]

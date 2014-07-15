@@ -111,6 +111,8 @@ History++ для истории окон
 Общ. действия только у контактов
 [Don't close popups on default actions]
 Не закрывать окна общих действий
+[Size and position]
+Размер и положение
 [Use large icons]
 Большие значки
 [Popup actions will be displayed as:]
