@@ -201,7 +201,7 @@ MIR_CORE_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
 	if (!_tcsicmp(ptszExt, _T(".ico")))
 		return PA_FORMAT_ICON;
 
-	if (!_tcsicmp(ptszExt, _T(".bmp")) || _tcsicmp(ptszExt, _T(".rle")))
+	if (!_tcsicmp(ptszExt, _T(".bmp")) || !_tcsicmp(ptszExt, _T(".rle")))
 		return PA_FORMAT_BMP;
 
 	if (!_tcsicmp(ptszExt, _T(".gif")))
