@@ -1,2 +1,7 @@
 ﻿[URL:]
+[Do not open chat windows on creation ]
+[Myself]
+[User]
+[Friend]
+[%s and more (%d)]
 [Message read]
