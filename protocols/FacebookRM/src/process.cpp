@@ -380,9 +380,12 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 			for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end(); ) {
 
-				facebook_chatroom *room = it->second;
+				// TODO: refactor this too!
+				// TODO: have all chatrooms in facy, in memory, and then handle them as needed... somehow think about it...
+				/*	facebook_chatroom *room = it->second;
 				MCONTACT hChatContact = NULL;
-				if (GetChatUsers(room->thread_id.c_str()) == NULL) {
+				ptrA users(GetChatUsers(room->thread_id.c_str()));
+				if (users == NULL) {
 					AddChat(room->thread_id.c_str(), room->chat_name.c_str());
 					hChatContact = ChatIDToHContact(room->thread_id);
 					// Set thread id (TID) for later
@@ -397,7 +400,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 				if (!hChatContact)
 					hChatContact = ChatIDToHContact(room->thread_id);
 
-				ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
+				ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);*/
 
 				delete it->second;
 				it = chatrooms.erase(it);
@@ -485,11 +488,13 @@ CODE_BLOCK_TRY
 	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false, false, 20);
 	delete p;
 
-	for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
+	// TODO: do something with this, chat is loading somewhere else... (in receiveMessages method right now)
+	/*for (std::map<std::string, facebook_chatroom*>::iterator it = chatrooms.begin(); it != chatrooms.end();) {
 
 		facebook_chatroom *room = it->second;
 		MCONTACT hChatContact = NULL;
-		if (GetChatUsers(room->thread_id.c_str()) == NULL) {
+		ptrA users(GetChatUsers(room->thread_id.c_str()));
+		if (users == NULL) {
 			AddChat(room->thread_id.c_str(), room->chat_name.c_str());
 			hChatContact = ChatIDToHContact(room->thread_id);
 			// Set thread id (TID) for later
@@ -509,7 +514,7 @@ CODE_BLOCK_TRY
 		delete it->second;
 		it = chatrooms.erase(it);
 	}
-	chatrooms.clear();
+	chatrooms.clear();*/
 
 	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
 	ReceiveMessages(messages, local_timestamp, true);
@@ -584,25 +589,51 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			// Multi-user message
 			debugLogA("      Got chat message: %s", messages[i]->message_text.c_str());
 
+			facebook_chatroom *fbc;
 			std::tstring tthread_id = _A2T(messages[i]->thread_id.c_str());
 
-			// RM TODO: better use check if chatroom exists/is in db/is online... no?
-			// like: if (ChatIDToHContact(tthread_id) == NULL) {
-			if (GetChatUsers(tthread_id.c_str()) == NULL) {
+			std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(tthread_id);
+			if (it != facy.chat_rooms.end()) {
+				fbc = it->second;
+			} else {
 				// In Naseem's spam mode we ignore outgoing messages sent from other instances
 				if (naseemsSpamMode && !messages[i]->isIncoming) {
 					delete messages[i];
 					continue;
 				}
 
-				// TODO: We don't have this chat, lets load info about it (name, list of users, last messages, etc.)
-				//LoadChatInfo(&fbu); // In this method use json's parse_chat_info
-				std::tstring tthread_name = tthread_id; // TODO: use correct name for chat, not thread_id
-
-				AddChat(tthread_id.c_str(), tthread_name.c_str());
+				// We don't have this chat loaded in memory yet, lets load some info (name, list of users)
+				fbc = new facebook_chatroom(tthread_id);
+				LoadChatInfo(fbc);
+				facy.chat_rooms.insert(std::make_pair(tthread_id, fbc));
 			}
 
-			MCONTACT hChatContact = ChatIDToHContact(tthread_id);
+			MCONTACT hChatContact;
+			// RM TODO: better use check if chatroom exists/is in db/is online... no?
+			// like: if (ChatIDToHContact(tthread_id) == NULL) {
+			ptrA users(GetChatUsers(tthread_id.c_str()));
+			if (users == NULL) {
+				AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());
+				hChatContact = ChatIDToHContact(fbc->thread_id);
+				// Set thread id (TID) for later
+				setTString(hChatContact, FACEBOOK_KEY_TID, fbc->thread_id.c_str());
+
+				for (std::map<std::string, std::string>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
+					// If this contact isn't already in chat, add it
+					if (!IsChatContact(fbc->thread_id.c_str(), jt->first.c_str())) // TODO: is this needed?
+						AddChatContact(fbc->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+				}
+			}
+
+			if (!hChatContact)
+				hChatContact = ChatIDToHContact(fbc->thread_id);
+
+			if (!hChatContact) {
+				// hopefully shouldn't happen, but who knows?
+				debugLog(_T("! ! ! No hChatContact for %s"), fbc->thread_id.c_str());
+				delete messages[i];
+				continue;
+			}
 
 			// Save last (this) message ID
 			setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
@@ -640,6 +671,13 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				LoadContactInfo(&fbu);
 
 				hContact = AddToContactList(&fbu, CONTACT_NONE);
+			}
+
+			if (!hContact) {
+				// hopefully shouldn't happen, but who knows?
+				debugLogA("! ! ! No hContact for %s", messages[i]->user_id);
+				delete messages[i];
+				continue;
 			}
 
 			// Save last (this) message ID

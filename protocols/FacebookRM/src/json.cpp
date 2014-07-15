@@ -429,24 +429,25 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					std::tstring tid = json_as_string(threadid);
 					std::string reader_id = json_as_pstring(reader);
 
-					std::map<std::tstring, facebook_chatroom>::iterator chatroom = proto->facy.chat_rooms.find(tid);
+					std::map<std::tstring, facebook_chatroom*>::iterator chatroom = proto->facy.chat_rooms.find(tid);
 					if (chatroom != proto->facy.chat_rooms.end()) {
-						std::map<std::string, std::string>::const_iterator participant = chatroom->second.participants.find(reader_id);
-						if (participant == chatroom->second.participants.end()) {
+						std::map<std::string, std::string>::const_iterator participant = chatroom->second->participants.find(reader_id);
+						if (participant == chatroom->second->participants.end()) {
 							// TODO: load name of this participant
 							std::string name = reader_id;
+							chatroom->second->participants.insert(std::make_pair(reader_id, name));
 							proto->AddChatContact(tid.c_str(), reader_id.c_str(), name.c_str());
 						}
 
-						participant = chatroom->second.participants.find(reader_id);
-						if (participant != chatroom->second.participants.end()) {
+						participant = chatroom->second->participants.find(reader_id);
+						if (participant != chatroom->second->participants.end()) {
 							MCONTACT hChatContact = proto->ChatIDToHContact(tid);
 
-							if (!chatroom->second.message_readers.empty())
-								chatroom->second.message_readers += ", ";
-							chatroom->second.message_readers += participant->second;
+							if (!chatroom->second->message_readers.empty())
+								chatroom->second->message_readers += ", ";
+							chatroom->second->message_readers += participant->second;
 
-							ptrT readers(mir_utf8decodeT(chatroom->second.message_readers.c_str()));
+							ptrT readers(mir_utf8decodeT(chatroom->second->message_readers.c_str()));
 
 							StatusTextData st = { 0 };
 							st.cbSize = sizeof(st);
@@ -594,17 +595,17 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			std::tstring tid = json_as_string(thread_);
 			std::string from_id = json_as_pstring(from_);
 
-			std::map<std::tstring, facebook_chatroom>::iterator chatroom = proto->facy.chat_rooms.find(tid);
+			std::map<std::tstring, facebook_chatroom*>::iterator chatroom = proto->facy.chat_rooms.find(tid);
 			if (chatroom != proto->facy.chat_rooms.end()) {
-				std::map<std::string, std::string>::const_iterator participant = chatroom->second.participants.find(from_id);
-				if (participant == chatroom->second.participants.end()) {
+				std::map<std::string, std::string>::const_iterator participant = chatroom->second->participants.find(from_id);
+				if (participant == chatroom->second->participants.end()) {
 					// TODO: load name of this participant
 					std::string name = from_id;
 					proto->AddChatContact(tid.c_str(), from_id.c_str(), name.c_str());
 				}
 
-				participant = chatroom->second.participants.find(from_id);
-				if (participant != chatroom->second.participants.end()) {
+				participant = chatroom->second->participants.find(from_id);
+				if (participant != chatroom->second->participants.end()) {
 					MCONTACT hChatContact = proto->ChatIDToHContact(tid);
 					ptrT name(mir_utf8decodeT(participant->second.c_str()));
 
@@ -779,9 +780,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			
 			// Ignore "wrong" (duplicit) identifiers - these that doesn't begin with "id."
 			if (id.substr(0, 3) == _T("id.")) {
-				facebook_chatroom *room = new facebook_chatroom();
-				room->thread_id = id;
-
+				facebook_chatroom *room = new facebook_chatroom(id);
 				chatrooms->insert(std::make_pair((char*)_T2A(room->thread_id.c_str()), room));
 			}
 		}
@@ -987,61 +986,74 @@ int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 	return EXIT_SUCCESS;
 }
 
-/* TODO: implement this somehow
-int facebook_json_parser::parse_chat_info(void* data, facebook_chat* fbu) {
-	// This is a recent 5 person listing of participants.
-	JSONNODE *participants_ids = json_get(gthreadinfo, "participant_ids");
-	JSONNODE *participants_names = json_get(gthreadinfo, "participant_names");
+int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
+{
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
-	JSONNODE *thread_name_ = json_get(gthreadinfo, "name");
-	std::tstring name = json_as_string(thread_name_);
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
 
-	// if there is no name for this room, set own name
-	if (name.empty()) {
-		unsigned int namesCount = 3; // how many names should be in room name; max. 5
+	JSONNODE *payload = json_get(root, "payload");
+	if (payload == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
 
-		for (unsigned int n = 0; n < json_size(participants_names) && n < namesCount; n++) {
-			JSONNODE *nameItr = json_at(participants_names, n);
+	//JSONNODE *actions = json_get(payload, "actions");
+	JSONNODE *threads = json_get(payload, "threads");
+	if (/*actions == NULL || */threads == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
 
-			if (!name.empty())
-			name += _T(", ");
+	/*JSONNODE *roger = json_get(payload, "roger");
+	if (roger != NULL) {
+		for (unsigned int i = 0; i < json_size(roger); i++) {
+			JSONNODE *it = json_at(roger, i);
+			std::tstring id = _A2T(json_name(it));
 
-			name += json_as_string(nameItr);
+			// Ignore "wrong" (duplicit) identifiers - these that doesn't begin with "id."
+			if (id.substr(0, 3) == _T("id.")) {
+				facebook_chatroom *room = new facebook_chatroom();
+				room->thread_id = id;
+
+				chatrooms->insert(std::make_pair((char*)_T2A(room->thread_id.c_str()), room));
+			}
 		}
-		JSONNODE *count_ = json_get(gthreadinfo, "participant_total_count");
-		unsigned int count = json_as_int(count_);
+	}*/
 
-		if (count > namesCount) {
-			TCHAR more[200];
-			mir_sntprintf(more, SIZEOF(more), TranslateT("%s and more (%d)"), name.c_str(), count - namesCount);
-			name = more;
+	std::map<std::string, std::string> thread_ids;
+	for (unsigned int i = 0; i < json_size(threads); i++) {
+		JSONNODE *it = json_at(threads, i);
+
+		JSONNODE *is_canonical_user_ = json_get(it, "is_canonical_user");
+		JSONNODE *thread_id_ = json_get(it, "thread_id");
+		JSONNODE *name_ = json_get(it, "name");
+		//JSONNODE *message_count_ = json_get(it, "message_count");
+		JSONNODE *unread_count_ = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
+		JSONNODE *folder_ = json_get(it, "folder");
+
+		if (thread_id_ == NULL || is_canonical_user_ == NULL || json_as_bool(is_canonical_user_))
+			continue;
+
+		std::tstring tid = json_as_string(thread_id_);
+
+		// TODO: allow more users to parse at once
+		if (fbc->thread_id != tid) {
+			continue;
 		}
-	}
 
-	if (name.empty())
-		name = thread_id;
-
-	for (unsigned int n = 0; n < json_size(participants_ids); n++) {
-		JSONNODE *idItr = json_at(participants_ids, n);
-		std::string pId = json_as_pstring(idItr);
-
-		JSONNODE *nameItr = json_at(participants_names, n);
-		std::string pName = json_as_pstring(nameItr);
-
-		if (!proto->IsChatContact(thread_id.c_str(), pId.c_str())) {
-			proto->AddChatContact(thread_id.c_str(), pId.c_str(), pName.c_str());
+		JSONNODE *participants = json_get(it, "participants");
+		for (unsigned int j = 0; j < json_size(participants); j++) {
+			JSONNODE *jt = json_at(participants, j);
+			std::string user_id = json_as_pstring(jt);
+			fbc->participants.insert(std::make_pair(user_id.substr(5), ""));
 		}
+
+		fbc->chat_name = json_as_string(name_);
 	}
 
-	std::string senderName = json_as_pstring(sender_name);
-	std::string::size_type pos;
-	if ((pos = senderName.find(" ")) != std::string::npos) {
-		senderName = senderName.substr(0, pos);
-	}
-
-	// Last fall-back for adding this sender (in case he was not in the participants) - is this even needed?
-	if (!proto->IsChatContact(thread_id.c_str(), id.c_str())) {
-		proto->AddChatContact(thread_id.c_str(), id.c_str(), senderName.c_str());
-	}
+	json_delete(root);
+	return EXIT_SUCCESS;
 }
-*/

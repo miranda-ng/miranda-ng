@@ -88,8 +88,10 @@ struct facebook_user
 
 struct facebook_chatroom
 {
-	std::tstring chat_name;
+	facebook_chatroom(std::tstring thread_id) : thread_id(thread_id) {}
+
 	std::tstring thread_id;
+	std::tstring chat_name;
 	std::map<std::string, std::string> participants;
 
 	std::string message_readers;

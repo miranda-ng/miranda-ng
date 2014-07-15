@@ -97,7 +97,7 @@ public:
 
 	std::map<std::string, std::string> cookies;
 	std::map<std::string, std::string> pages;
-	std::map<std::tstring, facebook_chatroom> chat_rooms;
+	std::map<std::tstring, facebook_chatroom*> chat_rooms;
 	std::map<std::string, facebook_notification*> notifications;
 
 	std::string get_newsfeed_type();
@@ -112,6 +112,7 @@ public:
 	void    store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headers_count);
 	void    clear_cookies();
 	void	clear_notifications();
+	void	clear_chatrooms();
 
 	////////////////////////////////////////////////////////////
 

@@ -705,6 +705,15 @@ void facebook_client::clear_notifications()
 	notifications.clear();
 }
 
+void facebook_client::clear_chatrooms()
+{
+	for (std::map<std::tstring, facebook_chatroom*>::iterator it = chat_rooms.begin(); it != chat_rooms.end();) {
+		delete it->second;
+		it = chat_rooms.erase(it);
+	}
+	chat_rooms.clear();
+}
+
 void loginError(FacebookProto *proto, std::string error_str) {
 	error_str = utils::text::trim(
 			utils::text::special_expressions_decode(

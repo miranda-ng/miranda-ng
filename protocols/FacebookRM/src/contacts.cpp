@@ -165,14 +165,116 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 		p->parse_user_info(&resp.data, fbu);
 		delete p;
 
-		debugLogA("***** Thread info processed");
+		debugLogA("***** Contact thread info processed");
 
 		CODE_BLOCK_CATCH
 
-			debugLogA("***** Error processing thread info: %s", e.what());
+			debugLogA("***** Error processing contact thread info: %s", e.what());
 
 		CODE_BLOCK_END
 	}
+}
+
+void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
+{	
+	for (std::map<std::string, std::string>::iterator it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
+		if (it->second.empty()) {
+			if (!strcmp(it->first.c_str(), facy.self_.user_id.c_str()))
+				it->second = facy.self_.real_name;
+			else {
+				MCONTACT hContact = ContactIDToHContact(it->first.c_str());
+				if (hContact != NULL) {
+					DBVARIANT dbv;
+					if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
+						it->second = dbv.pszVal;
+						db_free(&dbv);
+					}
+					// TODO: set correct role (friend/user) for this contact here - need rework participants map to <id, participant>
+				}
+
+				// TODO: load unknown contact's names from server
+				if (it->second.empty())
+					it->second = it->first;
+			}
+		}
+	}
+}
+
+void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
+{
+	std::string data = "client=mercury";
+	data += "&__user=" + facy.self_.user_id;
+	data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
+	data += "&__a=1&__dyn=&__req=&ttstamp=0";
+
+	std::string thread_id = utils::url::encode(std::string(_T2A(fbc->thread_id.c_str())));
+
+	// request info about thread
+	data += "&threads[thread_ids][0]=" + thread_id;
+
+	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data);
+
+	if (resp.code == HTTP_CODE_OK) {
+
+		CODE_BLOCK_TRY
+
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_chat_info(&resp.data, fbc);
+		delete p;
+
+		// Load missing participants names
+		LoadParticipantsNames(fbc);
+
+		// If chat has no name, create name from participants list
+		if (fbc->chat_name.empty()) {
+			unsigned int namesCount = 3; // how many names should be in room name; max. 5
+
+			for (std::map<std::string, std::string>::iterator it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
+				if (it->second.empty())
+					continue;
+
+				if (!fbc->chat_name.empty())
+					fbc->chat_name += _T(", ");
+
+				std::string name;
+				std::string::size_type pos;
+				if ((pos = it->second.find(" ")) != std::string::npos) {
+					name = it->second.substr(0, pos);
+				}
+				else {
+					name = it->second;
+				}
+
+				fbc->chat_name += _A2T(name.c_str());
+			}
+
+			if (fbc->participants.size() > namesCount) {
+				TCHAR more[200];
+				mir_sntprintf(more, SIZEOF(more), TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - namesCount);
+				fbc->chat_name = more;
+			}
+
+			// If there are no participants to create a name from, use just thread_id
+			if (fbc->chat_name.empty())
+				fbc->chat_name = fbc->thread_id; // TODO: is this needed? Isn't it showed automatically as id if there is no name?
+		}
+
+		//ReceiveMessages(messages, local_timestamp, true); // don't let it fall into infinite cycle, solve it somehow...
+
+		debugLogA("***** Chat thread info processed");
+
+		CODE_BLOCK_CATCH
+
+			debugLogA("***** Error processing chat thread info: %s", e.what());
+
+		CODE_BLOCK_END
+
+			facy.handle_success("LoadChatInfo");
+	}
+	else {
+		facy.handle_error("LoadChatInfo");
+	}
+
 }
 
 MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool force_add)
