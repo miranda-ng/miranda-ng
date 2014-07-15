@@ -155,10 +155,12 @@ void CContactCache::updateMeta(bool fForce)
 		MCONTACT hSub = db_mc_getSrmmSub(cc->contactID);
 		m_szMetaProto = GetContactProto(hSub);
 		m_wMetaStatus = (WORD)db_get_w(hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
+		m_xStatus = (WORD)db_get_w(hSub, m_szMetaProto, "XStatusId", ID_STATUS_OFFLINE);
 	}
 	else {
 		m_szMetaProto = NULL;
 		m_wMetaStatus = ID_STATUS_OFFLINE;
+		m_xStatus = 0;
 	}
 }
 
@@ -446,11 +448,13 @@ void CContactCache::updateStatusMsg(const char *szKey)
 	if (!m_Valid)
 		return;
 
+	MCONTACT hContact = getActiveContact();
+
 	if (szKey == 0 || (szKey && !strcmp("StatusMsg", szKey))) {
 		if (m_szStatusMsg)
 			mir_free(m_szStatusMsg);
 		m_szStatusMsg = 0;
-		ptrT szStatus(db_get_tsa(m_hContact, "CList", "StatusMsg"));
+		ptrT szStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
 		if (szStatus != 0)
 			m_szStatusMsg = (lstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : 0);
 	}
@@ -458,7 +462,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_ListeningInfo)
 			mir_free(m_ListeningInfo);
 		m_ListeningInfo = 0;
-		ptrT szListeningTo(db_get_tsa(m_hContact, cc->szProto, "ListeningTo"));
+		ptrT szListeningTo(db_get_tsa(hContact, cc->szProto, "ListeningTo"));
 		if (szListeningTo != 0 && *szListeningTo)
 			m_ListeningInfo = szListeningTo.detouch();
 	}
@@ -466,11 +470,11 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		if (m_xStatusMsg)
 			mir_free(m_xStatusMsg);
 		m_xStatusMsg = 0;
-		ptrT szXStatusMsg(db_get_tsa(m_hContact, cc->szProto, "XStatusMsg"));
+		ptrT szXStatusMsg(db_get_tsa(hContact, cc->szProto, "XStatusMsg"));
 		if (szXStatusMsg != 0 && *szXStatusMsg)
 			m_xStatusMsg = szXStatusMsg.detouch();
 	}
-	m_xStatus = db_get_b(m_hContact, cc->szProto, "XStatusId", 0);
+	m_xStatus = db_get_b(hContact, cc->szProto, "XStatusId", 0);
 }
 
 /**
@@ -511,12 +515,10 @@ void CContactCache::cacheUpdateMetaChanged()
 		}
 
 		// meta contacts are enabled, but current contact is a subcontact - > close window
-
 		if (fMetaActive && c.isSubContact())
 			c.closeWindow();
 
 		// reset meta contact information, if metacontacts protocol became avail
-
 		if (fMetaActive && !strcmp(c.getProto(), META_PROTO))
 			c.resetMeta();
 	}
