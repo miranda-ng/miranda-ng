@@ -115,6 +115,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	agent << __VERSION_STRING_DOTS;
 	g_strUserAgent = agent.str();
 
+	// Initialize random generator
+	srand(::time(NULL));
+
 	return 0;
 }
 
