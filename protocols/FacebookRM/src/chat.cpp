@@ -154,13 +154,13 @@ void FacebookProto::AddChatContact(const TCHAR *tchat_id, const char *id, const 
 	gce.bIsMe = !strcmp(id, facy.self_.user_id.c_str());
 
 	if (gce.bIsMe) {
-		gce.ptszStatus = _T("Myself");
+		gce.ptszStatus = TranslateT("Myself");
 	} else {
 		MCONTACT hContact = ContactIDToHContact(id);
 		if (hContact == NULL || getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE) != CONTACT_FRIEND)
-			gce.ptszStatus = _T("User");
+			gce.ptszStatus = TranslateT("User");
 		else {
-			gce.ptszStatus = _T("Friend");
+			gce.ptszStatus = TranslateT("Friend");
 		}
 	}
 
@@ -223,11 +223,11 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 	GCEVENT gce = { sizeof(gce), &gcd };
 
 	// Create a user statuses
-	gce.ptszStatus = _T("Myself");
+	gce.ptszStatus = TranslateT("Myself");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = _T("Friend");
+	gce.ptszStatus = TranslateT("Friend");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = _T("User");
+	gce.ptszStatus = TranslateT("User");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	
 	// Finish initialization
@@ -266,11 +266,11 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM suppress)
 	// Create a group
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszStatus = _T("Myself");
+	gce.ptszStatus = TranslateT("Myself");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = _T("Friend");
+	gce.ptszStatus = TranslateT("Friend");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = _T("User");
+	gce.ptszStatus = TranslateT("User");
 	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 
 	SetTopic("Omegle is a great way of meeting new friends!");
