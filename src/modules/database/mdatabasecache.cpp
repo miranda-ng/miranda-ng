@@ -56,7 +56,7 @@ DBCachedContact* MDatabaseCache::AddContactToCache(MCONTACT contactID)
 	int index = m_lContacts.getIndex((DBCachedContact*)&contactID);
 	if (index != -1)
 		return m_lContacts[index];
-		
+
 	DBCachedContact *cc = (DBCachedContact*)HeapAlloc(m_hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedContact));
 	cc->contactID = contactID;
 	cc->nSubs = -1;
@@ -198,54 +198,49 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 
 	// a contact setting
 	DBCachedContactValue *V, *V1;
-	DBCachedContact VLtemp,*VL;
+	DBCachedContact ccTemp, *cc;
 
-	VLtemp.contactID = contactID;
+	ccTemp.contactID = contactID;
 
-	int index = m_lContacts.getIndex(&VLtemp);
-	if (index == -1) {
-		if ( bAllocate != 1 )
-			return NULL;
+	int index = m_lContacts.getIndex(&ccTemp);
+	if (index == -1)
+		return NULL;
 
-		VL = AddContactToCache(contactID);
-	}
-	else VL = m_lContacts[index];
+	m_lastVL = cc = m_lContacts[index];
 
-	m_lastVL = VL;
-
-	for ( V = VL->first; V != NULL; V = V->next)
+	for (V = cc->first; V != NULL; V = V->next)
 		if (V->name == szSetting)
 			break;
 
-	if ( V == NULL ) {
-		if ( bAllocate != 1 )
+	if (V == NULL) {
+		if (bAllocate != 1)
 			return NULL;
 
 		V = (DBCachedContactValue *)HeapAlloc(m_hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedContactValue));
-		if (VL->last)
-			VL->last->next = V;
+		if (cc->last)
+			cc->last->next = V;
 		else
-			VL->first = V;
-		VL->last = V;
+			cc->first = V;
+		cc->last = V;
 		V->name = szSetting;
 	}
-	else if ( bAllocate == -1 ) {
+	else if (bAllocate == -1) {
 		m_lastVL = NULL;
 		FreeCachedVariant(&V->value);
-		if ( VL->first == V ) {
-			VL->first = V->next;
-			if (VL->last == V)
-				VL->last = V->next; // NULL
+		if (cc->first == V) {
+			cc->first = V->next;
+			if (cc->last == V)
+				cc->last = V->next; // NULL
 		}
 		else
-			for ( V1 = VL->first; V1 != NULL; V1 = V1->next )
-				if ( V1->next == V ) {
+			for (V1 = cc->first; V1 != NULL; V1 = V1->next)
+				if (V1->next == V) {
 					V1->next = V->next;
-					if (VL->last == V)
-						VL->last = V1;
+					if (cc->last == V)
+						cc->last = V1;
 					break;
 				}
-		HeapFree(m_hCacheHeap,0,V);
+		HeapFree(m_hCacheHeap, 0, V);
 		return NULL;
 	}
 
