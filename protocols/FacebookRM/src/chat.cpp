@@ -235,10 +235,12 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 	gce.time = ::time(NULL);
 	gce.pDest = &gcd;
 	
+	bool hideChats = getBool(FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);
+
 	// Add self contact
 	AddChatContact(tid, facy.self_.user_id.c_str(), facy.self_.real_name.c_str());
-	CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, (hideChats ? WINDOW_HIDDEN : SESSION_INITDONE), reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
 }
 
 INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM suppress)

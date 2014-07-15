@@ -139,38 +139,40 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,121,272,8
 END
 
-IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 227
+IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 237
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,111
+    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,104
     CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,22,267,10
-    CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,17,46,267,10
+    CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,17,44,267,10
     CONTROL         "Use secure connection also for channel requests",IDC_SECURE_CHANNEL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,34,252,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,33,252,10
     CONTROL         "Also disconnect chat when going to offline",IDC_DISCONNECT_CHAT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,58,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,55,267,10
     CONTROL         "Map non-standard statuses to Invisible (instead of Online)",IDC_MAP_STATUSES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,71,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,67,267,10
     CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,84,267,10
-    RTEXT           "Use this server for opening links:",IDC_STATIC,17,100,135,8
-    COMBOBOX        IDC_URL_SERVER,156,97,128,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,79,267,10
+    RTEXT           "Use this server for opening links:",IDC_STATIC,17,94,135,8
+    COMBOBOX        IDC_URL_SERVER,156,91,128,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)",IDC_CUSTOM_SMILEYS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,136,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,129,267,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,150,267,10
-    GROUPBOX        "Message sessions",IDC_STATIC,7,121,291,98
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,142,267,10
+    GROUPBOX        "Message sessions",IDC_STATIC,7,114,291,111
     CONTROL         "Keep messages as unread on server (don't send ""seen"" info)",IDC_KEEP_UNREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,164,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,155,267,10
     CONTROL         "Receive messages from ""inbox"" folder only",IDC_INBOX_ONLY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,178,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,168,267,10
     CONTROL         "Load last messages on opening message window (EXPERIMENTAL)",IDC_MESSAGES_ON_OPEN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,192,267,10
-    RTEXT           "Number of messages to load:",IDC_STATIC,17,206,135,8
-    EDITTEXT        IDC_MESSAGES_COUNT,156,203,34,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,190,203,11,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,181,267,10
+    RTEXT           "Number of messages to load:",IDC_STATIC,17,195,135,8
+    EDITTEXT        IDC_MESSAGES_COUNT,156,192,34,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,190,192,11,14
+    CONTROL         "Do not open chat windows on creation ",IDC_HIDE_CHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,210,267,10
 END
 
 
@@ -240,7 +242,7 @@ BEGIN
         VERTGUIDE, 156
         VERTGUIDE, 284
         TOPMARGIN, 7
-        BOTTOMMARGIN, 220
+        BOTTOMMARGIN, 230
     END
 END
 #endif    // APSTUDIO_INVOKED

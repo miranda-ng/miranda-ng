@@ -35,6 +35,7 @@
 #define IDC_INBOX_ONLY                  1038
 #define IDC_INBOX_ONLY2                 1039
 #define IDC_MESSAGES_ON_OPEN            1039
+#define IDC_HIDE_CHATS                  1040
 #define IDC_NOTIFICATIONS_ENABLE        1041
 #define IDC_FEEDS_ENABLE                1042
 #define IDC_OTHER_ENABLE                1043
