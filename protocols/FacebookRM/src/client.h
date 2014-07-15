@@ -157,7 +157,7 @@ public:
 
 	// Messages handling
 
-	std::map<std::string, bool> messages_ignore;
+	std::map<std::string, int> messages_ignore;
 
 	bool    channel();
 	bool    send_message(MCONTACT, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method);

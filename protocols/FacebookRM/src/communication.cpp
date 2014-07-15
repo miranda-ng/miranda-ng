@@ -1201,7 +1201,7 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 		// Remember this message id
 		std::string mid = utils::text::source_get_value(&resp.data, 2, "\"message_id\":\"", "\"");
 		parent->setString(hContact, FACEBOOK_KEY_MESSAGE_ID, mid.c_str());
-		messages_ignore.insert(std::make_pair(mid, false));
+		messages_ignore.insert(std::make_pair(mid, 0));
 	} break;
 
     //case 1356002: // You are offline - wtf??
