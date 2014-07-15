@@ -775,17 +775,15 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 	if (roger != NULL) {
 		for (unsigned int i = 0; i < json_size(roger); i++) {
 			JSONNODE *it = json_at(roger, i);
+			std::tstring id = _A2T(json_name(it));
 			
-			facebook_chatroom *room = new facebook_chatroom();
-			room->thread_id = _A2T(json_name(it));
+			// Ignore "wrong" (duplicit) identifiers - these that doesn't begin with "id."
+			if (id.substr(0, 3) == _T("id.")) {
+				facebook_chatroom *room = new facebook_chatroom();
+				room->thread_id = id;
 
-			for (unsigned int j = 0; j < json_size(it); j++) {
-				JSONNODE *jt = json_at(it, j);
-				std::string user_id = json_name(jt);
-				room->participants.insert(std::make_pair(user_id, user_id)); // TODO: get name somehow
+				chatrooms->insert(std::make_pair((char*)_T2A(room->thread_id.c_str()), room));
 			}
-
-			chatrooms->insert(std::make_pair((char*)_T2A(room->thread_id.c_str()), room));
 		}
 	}
 
@@ -795,7 +793,6 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *is_canonical_user = json_get(it, "is_canonical_user");
 		JSONNODE *canonical = json_get(it, "canonical_fbid");
 		JSONNODE *thread_id = json_get(it, "thread_id");
-		JSONNODE *thread_fbid = json_get(it, "thread_fbid");
 		JSONNODE *name = json_get(it, "name");
 		//JSONNODE *message_count = json_get(it, "message_count");
 		JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
@@ -806,25 +803,20 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 
 		std::string id = json_as_pstring(canonical);
 		std::string tid = json_as_pstring(thread_id);
-		std::string tfbid = json_as_pstring(thread_fbid);
 
-		// FIXME: fix this ugliness better (it was quick workaround for stable release)
 		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(tid);
 		if (iter != chatrooms->end()) {
 			if (json_as_bool(is_canonical_user)) {
 				chatrooms->erase(iter); // this is not chatroom
 			} else {
 				iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
-			}
-		}
 
-		iter = chatrooms->find(tfbid);
-		if (iter != chatrooms->end()) {
-			if (json_as_bool(is_canonical_user)) {
-				chatrooms->erase(iter); // this is not chatroom
-			}
-			else {
-				iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
+				JSONNODE *participants = json_get(it, "participants");
+				for (unsigned int j = 0; j < json_size(participants); j++) {
+					JSONNODE *jt = json_at(it, j);
+					std::string user_id = json_name(jt);
+					iter->second->participants.insert(std::make_pair(user_id, user_id)); // TODO: get name somehow
+				}
 			}
 		}
 
@@ -832,7 +824,6 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		if (iter != chatrooms->end()) {
 			chatrooms->erase(iter); // this is not chatroom
 		}
-		// END OF FIXME
 
 		if (inboxOnly && json_as_pstring(folder) != "inbox")
 			continue;
