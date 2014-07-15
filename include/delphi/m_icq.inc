@@ -220,18 +220,6 @@ an XML parser in the protocol module. Here's one I got:
   PS_CHANGEINFOEX = '/ChangeInfoEx';
 
 {
-  Change nickname in White pages
-  lParam=(LPARAM)(const AnsiChar*)szNewNickName
-}
-  PS_SET_NICKNAME = '/SetNickname';
-
-{
-  Set password for current session
-  lParam=(LPARAM)(const AnsiChar*)szPassword
-}
-  PS_ICQ_SETPASSWORD = '/SetPassword';
-
-{
   miranda/icqoscar/statusmsgreq event
   called when our status message is requested
   wParam=(byte)msgType
@@ -240,22 +228,6 @@ an XML parser in the protocol module. Here's one I got:
   uin is the UIN of the contact requesting our status message
 }
   ME_ICQ_STATUSMSGREQ = '/StatusMsgReq';
-
-{
-  set owner avatar
-  wParam=0
-  lParam=(const AnsiChar *)Avatar file name
-  return=0 for sucess
-}
-  PS_ICQ_SETMYAVATAR = '/SetMyAvatar';
-
-{
-  get current owner avatar
-  wParam=(AnsiChar *)Buffer to file name
-  lParam=(int)Buffer size
-  return=0 for sucess
-}
-  PS_ICQ_GETMYAVATAR = '/GetMyAvatar';
 
 {
   get size limit for avatar image

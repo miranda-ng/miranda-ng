@@ -149,7 +149,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(ppro->m_szPassword));
 			if (strlennull(str)) {
 				strcpy(ppro->m_szPassword, str);
-				ppro->m_bRememberPwd = TRUE;
+				ppro->m_bRememberPwd = true;
 			}
 			else ppro->m_bRememberPwd = ppro->getByte("RememberPass", 0);
 			ppro->setString("Password", str);
@@ -165,7 +165,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			StoreDBCheckState(ppro, hwndDlg, IDC_LEGACY, "LegacyFix");
 			StoreDBCheckState(ppro, hwndDlg, IDC_NOERRMULTI, "IgnoreMultiErrorBox");
 			ppro->setByte("ShowLogLevel", (BYTE)(4 - SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)));
-			return TRUE;
+			return true;
 		}
 		break;
 	}
@@ -270,19 +270,17 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				SAFE_FREE((void**)&buf);
 
 				// Send a status packet to notify the server about the webaware setting
-				{
-					WORD wStatus = MirandaStatusToIcq(ppro->m_iStatus);
+				WORD wStatus = MirandaStatusToIcq(ppro->m_iStatus);
 
-					if (ppro->m_iStatus == ID_STATUS_INVISIBLE) {
-						if (ppro->m_bSsiEnabled)
-							ppro->updateServVisibilityCode(3);
-						ppro->icq_setstatus(wStatus, NULL);
-					}
-					else {
-						ppro->icq_setstatus(wStatus, NULL);
-						if (ppro->m_bSsiEnabled)
-							ppro->updateServVisibilityCode(4);
-					}
+				if (ppro->m_iStatus == ID_STATUS_INVISIBLE) {
+					if (ppro->m_bSsiEnabled)
+						ppro->updateServVisibilityCode(3);
+					ppro->icq_setstatus(wStatus, NULL);
+				}
+				else {
+					ppro->icq_setstatus(wStatus, NULL);
+					if (ppro->m_bSsiEnabled)
+						ppro->updateServVisibilityCode(4);
 				}
 			}
 			return TRUE;
@@ -323,10 +321,7 @@ struct CPTABLE cpTable[] = {
 
 static BOOL CALLBACK FillCpCombo(LPSTR str)
 {
-	int i;
-	UINT cp;
-
-	cp = atoi(str);
+	UINT i, cp = atoi(str);
 	for (i = 0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
 	if (cpTable[i].cpName)
 		ComboBoxAddStringUtf(hCpCombo, cpTable[i].cpName, cpTable[i].cpId);

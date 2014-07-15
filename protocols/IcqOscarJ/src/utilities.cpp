@@ -1668,8 +1668,7 @@ char* CIcqProto::GetUserPassword(BOOL bAlways)
 		return m_szPassword;
 
 	if (GetUserStoredPassword(m_szPassword, sizeof(m_szPassword))) {
-		m_bRememberPwd = TRUE;
-
+		m_bRememberPwd = true;
 		return m_szPassword;
 	}
 

@@ -540,31 +540,6 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return iRet;
 }
 
-INT_PTR CIcqProto::SetNickName(WPARAM wParam, LPARAM lParam)
-{
-	if (!icqOnline())
-		return 0; // failure
-
-	if (wParam & SMNN_UNICODE)
-		setTString("Nick", (WCHAR*)lParam);
-	else
-		setString("Nick", (char*)lParam);
-
-	return ChangeInfoEx(CIXT_BASIC, 0);
-}
-
-INT_PTR CIcqProto::SetPassword(WPARAM wParam, LPARAM lParam)
-{
-	char *pwd = (char*)lParam;
-	int len = strlennull(pwd);
-
-	if (len && len < PASSWORDMAXLEN) {
-		strcpy(m_szPassword, pwd);
-		m_bRememberPwd = TRUE;
-	}
-	return 0;
-}
-
 // TODO: Adding needs some more work in general
 
 MCONTACT CIcqProto::AddToListByUIN(DWORD dwUin, DWORD dwFlags)

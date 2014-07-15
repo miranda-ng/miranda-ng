@@ -162,14 +162,6 @@ typedef struct {
 //wParam = operationType
 #define PS_CHANGEINFOEX "/ChangeInfoEx"
 
-//Change nickname in White pages
-//lParam = (LPARAM)(const char*)szNewNickName
-#define PS_SET_NICKNAME "/SetNickname"
-
-//Set password for current session
-//lParam = (LPARAM)(const char*)szPassword
-#define PS_ICQ_SETPASSWORD "/SetPassword"
-
 //miranda/icqoscar/statusmsgreq event
 //called when our status message is requested
 //wParam = (BYTE)msgType

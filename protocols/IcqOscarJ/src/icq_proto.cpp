@@ -125,22 +125,22 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	// Setup services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::OnCreateAccMgrUI);
 	CreateProtoService(MS_ICQ_SENDSMS, &CIcqProto::SendSms);
-	CreateProtoService(PS_SET_NICKNAME, &CIcqProto::SetNickName);
 
 	CreateProtoService(PS_GETMYAWAYMSG, &CIcqProto::GetMyAwayMsg);
 
 	CreateProtoService(PS_GETINFOSETTING, &CIcqProto::GetInfoSetting);
 
 	CreateProtoService(PSS_ADDED, &CIcqProto::SendYouWereAdded);
-	// Session password API
-	CreateProtoService(PS_ICQ_SETPASSWORD, &CIcqProto::SetPassword);
+
 	// ChangeInfo API
 	CreateProtoService(PS_CHANGEINFOEX, &CIcqProto::ChangeInfoEx);
+
 	// Avatar API
 	CreateProtoService(PS_GETAVATARINFOT, &CIcqProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATART, &CIcqProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &CIcqProto::SetMyAvatar);
+
 	// Custom Status API
 	CreateProtoService(PS_SETCUSTOMSTATUSEX, &CIcqProto::SetXStatusEx);
 	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CIcqProto::GetXStatusEx);
