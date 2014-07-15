@@ -213,7 +213,7 @@ public:
 	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = NULL);
 	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto = NULL);
 	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE)   AddContact(void);
+	STDMETHODIMP_(MCONTACT) AddContact(void);
 	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
 
 	STDMETHODIMP_(LONG)     GetEventCount(MCONTACT contactID);

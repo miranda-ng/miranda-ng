@@ -57,7 +57,9 @@ static INT_PTR srvDeleteContact(WPARAM wParam, LPARAM)
 
 static INT_PTR srvAddContact(WPARAM wParam, LPARAM)
 {
-	return (currDb) ? (INT_PTR)currDb->AddContact() : 0;
+	MCONTACT hNew = (currDb) ? currDb->AddContact() : 0;
+	Netlib_Logf(NULL, "New contact created: %d", hNew);
+	return hNew;
 }
 
 static INT_PTR srvIsDbContact(WPARAM wParam, LPARAM)
