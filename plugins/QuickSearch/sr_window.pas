@@ -1355,7 +1355,7 @@ end;
           if ((PHDNotify(lParam)^.pitem^.mask and HDI_FORMAT  )<>0) and
              ((PHDNotify(lParam)^.pitem^.fmt  and HDF_CHECKBOX)<>0) then
           begin
-            i:=ListViewToColumn(PHDNotify(lParam)^.Item);
+            i:=ListViewToColumn(PHDNotify(lParam)^.{$IFDEF FPC}iItem{$ELSE}Item{$ENDIF});
 
             if (PHDNotify(lParam)^.pitem^.fmt and HDF_CHECKED)=0 then // OLD state
             begin
@@ -1369,7 +1369,7 @@ end;
             end;
             SendMessage(
               PHDNotify(lParam)^.hdr.hWndFrom,HDM_SETITEM,
-              PHDNotify(lParam)^.Item,tlparam(PHDNotify(lParam)^.pitem));
+              PHDNotify(lParam)^.{$IFDEF FPC}iItem{$ELSE}Item{$ENDIF},tlparam(PHDNotify(lParam)^.pitem));
 //            result:=1;
             FillGrid;
             exit;
@@ -2020,7 +2020,7 @@ begin
       zeromemory(@hdi,sizeof(hdi));
       hdi.mask:=HDI_FORMAT;
       SendMessageW(header,HDM_GETITEM,qsopt.columnsort,tlparam(@hdi));
-      if (qsopt.flags and QSO_SORTASC)<>0 then
+      if (qsopt.flags and QSO_SORTASC)=0 then
         hdi.fmt:=hdi.fmt or HDF_SORTDOWN
       else
         hdi.fmt:=hdi.fmt or HDF_SORTUP;
