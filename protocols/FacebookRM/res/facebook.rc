@@ -171,7 +171,7 @@ BEGIN
     RTEXT           "Number of messages to load:",IDC_STATIC,17,195,135,8
     EDITTEXT        IDC_MESSAGES_COUNT,156,192,34,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,190,192,11,14
-    CONTROL         "Do not open chat windows on creation ",IDC_HIDE_CHATS,
+    CONTROL         "Do not open chat windows on creation",IDC_HIDE_CHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,210,267,10
 END
 

@@ -799,7 +799,7 @@ bool CheckFile(HWND hwndEdit)
 	Edit_GetText(hwndEdit, buf, MAX_PATH);
 	DWORD atr = GetFileAttributes(buf);
 	if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
-		MessageBox(GetParent(hwndEdit), TranslateT("File do not exist. Enter correct file path."), TranslateT("Invalid file"), MB_OK | MB_ICONERROR);
+		MessageBox(GetParent(hwndEdit), TranslateT("File does not exist. Enter correct file path."), TranslateT("Invalid file"), MB_OK | MB_ICONERROR);
 		SetFocus(hwndEdit);
 		return false;
 	}
