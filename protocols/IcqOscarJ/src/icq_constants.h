@@ -624,7 +624,7 @@
 #define MAX_MESSAGESNACSIZE         8000
 #define CLIENTRATELIMIT             0
 #define COOKIE_TIMEOUT              3600      // One hour
-#define KEEPALIVE_INTERVAL          57000     // One minute
+#define KEEPALIVE_INTERVAL          57        // Slightly less than a minute
 #define WEBFRONTPORT                0x50
 #define CLIENTFEATURES              0x3
 #define URL_FORGOT_PASSWORD         "https://www.icq.com/password/"

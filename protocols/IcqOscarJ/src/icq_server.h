@@ -39,21 +39,21 @@ struct serverthread_start_info
 
 struct serverthread_info
 {
-	BYTE szAuthKey[20];
-	WORD wAuthKeyLen;
-	WORD wServerPort;
-	char *newServer;
-	BYTE *cookieData;
-	int  cookieDataLen;
-	int  newServerSSL;
-	int  iKeepalive;
+	BYTE   szAuthKey[20];
+	WORD   wAuthKeyLen;
+	WORD   wServerPort;
+	char   *newServer;
+	BYTE   *cookieData;
+	int    cookieDataLen;
+	int    newServerSSL;
+	time_t tmPing;        // timestamp of the next ping
 
-	bool isLoginServer;
-	bool isMigrating;
-	bool isNewServerReady;
-	bool bLoggedIn;
-	bool bReinitRecver;
-	bool bMyAvatarInited;
+	bool   isLoginServer;
+	bool   isMigrating;
+	bool   isNewServerReady;
+	bool   bLoggedIn;
+	bool   bReinitRecver;
+	bool   bMyAvatarInited;
 
 	HANDLE hPacketRecver;
 	HANDLE hDirectBoundPort;

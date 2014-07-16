@@ -32,27 +32,27 @@ void CIcqProto::handlePingChannel(BYTE *buf, WORD datalen)
 void CIcqProto::StartKeepAlive(serverthread_info *info)
 {
 	if (getByte("KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
-		info->iKeepalive = getDword("KeepAliveInterval", KEEPALIVE_INTERVAL);
+		info->tmPing = time(0) + KEEPALIVE_INTERVAL;
 	else
-		info->iKeepalive = -1;
+		info->tmPing = -1;
 }
 
 void CIcqProto::StopKeepAlive(serverthread_info *info)
 {
-	info->iKeepalive = -1;
+	info->tmPing = -1;
 }
 
 void CIcqProto::CheckKeepAlive(serverthread_info *info)
 {
-	if (info->iKeepalive != -1) {
-		if (info->iKeepalive == 0) {
-			// Send a keep alive packet to server
-			icq_packet packet = { 0 };
-			write_flap(&packet, ICQ_PING_CHAN);
-			sendServPacket(&packet);
+	if (info->tmPing == -1)
+		return;
 
-			StartKeepAlive(info);
-		}
-		else info->iKeepalive--;
+	if (time(0) >= info->tmPing) {
+		// Send a keep alive packet to server
+		icq_packet packet = { 0 };
+		write_flap(&packet, ICQ_PING_CHAN);
+		sendServPacket(&packet);
+
+		StartKeepAlive(info);
 	}
 }

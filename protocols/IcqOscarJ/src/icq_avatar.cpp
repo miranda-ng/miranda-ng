@@ -941,12 +941,11 @@ void avatars_server_connection::connectionThread()
 {
 	// This is the "infinite" loop that receives the packets from the ICQ avatar server
 	NETLIBPACKETRECVER packetRecv = { 0 };
-	DWORD wLastKeepAlive = 0; // we send keep-alive at most one per 30secs
-	DWORD dwKeepAliveInterval = ppro->getDword("KeepAliveInterval", KEEPALIVE_INTERVAL);
+	DWORD dwLastKeepAlive = time(0) + KEEPALIVE_INTERVAL;
 
 	hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hConnection, 65536);
 	packetRecv.cbSize = sizeof(packetRecv);
-	packetRecv.dwTimeout = dwKeepAliveInterval < KEEPALIVE_INTERVAL ? dwKeepAliveInterval: KEEPALIVE_INTERVAL; // timeout - for stopThread to work
+	packetRecv.dwTimeout = 1000; // timeout - for stopThread to work
 	while (!stopThread) {
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hPacketRecver, (LPARAM)&packetRecv);
 		if (recvResult == 0) {
@@ -956,36 +955,27 @@ void avatars_server_connection::connectionThread()
 
 		if (recvResult == SOCKET_ERROR) {
 			if (GetLastError() == ERROR_TIMEOUT) {  // timeout, check if we should be still running
-				if (Miranda_Terminated()) { // we must stop here, cause due to a hack in netlib, we always get timeout, even if the connection is already dead
-					stopThread = 1;
-					continue;
-				}
+				if (Miranda_Terminated())
+					break;
 
-				if (GetTickCount() > wLastKeepAlive) { // limit frequency (HACK: on some systems select() does not work well)
+				if (time(0) >= dwLastKeepAlive) { // limit frequency (HACK: on some systems select() does not work well)
 					if (!ppro->m_bGatewayMode && ppro->getByte("KeepAlive", DEFAULT_KEEPALIVE_ENABLED)) { // send keep-alive packet
 						icq_packet packet;
-
 						packet.wLen = 0;
 						write_flap(&packet, ICQ_PING_CHAN);
 						sendServerPacket(&packet);
 					}
-					wLastKeepAlive = GetTickCount() + dwKeepAliveInterval;
+					dwLastKeepAlive = time(0) + KEEPALIVE_INTERVAL;
 				}
-				else { // this is bad, the system does not handle select() properly
-					SleepEx(500, TRUE); // wait some time, can we do anything else ??
-					if (Miranda_Terminated()) {
-						stopThread = 1;
-						continue;
-					}
-				}
+
 				// check if we got something to request
 				checkRequestQueue();
 				continue;
 			}
 			if (!stopThread)
-				ppro->debugLogA("Abortive closure of server socket, error: %d", GetLastError());
+				ppro->debugLogA("Avatar socket closed abortively, error: %d", GetLastError());
 			else
-				ppro->debugLogA("Connection closed.");
+				ppro->debugLogA("Avatar socket gracefully closed.");
 			break;
 		}
 

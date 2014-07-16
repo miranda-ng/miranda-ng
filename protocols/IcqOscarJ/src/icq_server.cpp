@@ -101,6 +101,8 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		m_ratesQueue_Response = new rates_queue(this, "response", RML_IDLE_10, RML_IDLE_30, -1);
 	}
 
+	StartKeepAlive(&info);
+
 	// This is the "infinite" loop that receives the packets from the ICQ server
 	NETLIBPACKETRECVER packetRecv;
 	info.hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 0x2400);
@@ -136,6 +138,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		}
 
 		// Deal with the packet
+		CheckKeepAlive(&info);
 		packetRecv.bytesUsed = handleServerPackets(packetRecv.buffer, packetRecv.bytesAvailable, &info);
 	}
 	serverThreadHandle = NULL;
@@ -322,7 +325,6 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 			icq_lock l(m_ratesMutex);
 			m_rates->packetSent(pPacket);
 		}
-
 	}
 	else {
 		connectionHandleMutex->Leave();
