@@ -523,8 +523,13 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		else
 			action += "&idle=1";
 
+		action += "&cap=0";
+
 		if (!this->chat_sticky_num_.empty())
 			action += "&sticky_token=" + this->chat_sticky_num_;
+
+		if (!this->chat_traceid_.empty())
+			action += "&traceid=" + this->chat_traceid_;
 
 		return action;
 	}
@@ -1044,6 +1049,12 @@ bool facebook_client::channel()
 		return handle_error("channel");
 	}
 
+	// Load traceId, if present
+	std::string traceId = utils::text::source_get_value(&resp.data, 2, "\"tr\":\"", "\"");
+	if (!traceId.empty()) {
+		this->chat_traceid_ = traceId;
+	}
+
 	std::string type = utils::text::source_get_value(&resp.data, 2, "\"t\":\"", "\"");
 	if (type == "continue" || type == "heartbeat") {
 		// Everything is OK, no new message received
@@ -1069,7 +1080,7 @@ bool facebook_client::channel()
 		if (type == "refresh")
 			return this->reconnect();
 	}
-	else {
+	else if (!type.empty()) {
 		// Something has been received, throw to new thread to process
 		std::string* response_data = new std::string(resp.data);
 		parent->ForkThread(&FacebookProto::ProcessMessages, response_data);
@@ -1077,6 +1088,10 @@ bool facebook_client::channel()
 		// Increment sequence number
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
 		parent->debugLogA("      Got self sequence number: %s", this->chat_sequence_num_.c_str());
+	}
+	else {
+		// No type? This shouldn't happen unless there is a big API change.
+		return handle_error("channel");
 	}
 
 	// Return
