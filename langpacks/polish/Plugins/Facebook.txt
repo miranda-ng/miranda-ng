@@ -92,7 +92,15 @@ Odbieraj wiadomości tylko z folderu "Odebrane"
 Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
 [Number of messages to load:]
 Liczba wiadomości do załadowania:
+[Do not open chat windows on creation ]
+Nie otwieraj okien czatów po ich utworzeniu
 ;file \protocols\FacebookRM\src\chat.cpp
+[Myself]
+Ja
+[User]
+Użytkownik
+[Friend]
+Znajomy
 [&Invite user...]
 &Zaproś użytkownika
 [&Leave chat session]
@@ -153,6 +161,8 @@ Znajomi poza dalszymi znajomymi
 [Only me]
 Tylko ja
 ;file \protocols\FacebookRM\src\contacts.cpp
+[%s and more (%d)]
+%s i więcej (%d)
 [Contact was removed from your server list.]
 Kontakt został usunięty z listy serwera.
 [Error occurred when removing contact from server.]
