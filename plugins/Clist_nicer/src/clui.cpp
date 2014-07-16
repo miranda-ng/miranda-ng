@@ -2061,7 +2061,7 @@ void FS_RegisterFonts()
 		pcli->pfnGetFontSetting(i, &lf, &fid.deffontsettings.colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
-		_tcsncpy_s(fid.deffontsettings.szFace, SIZEOF(fid.deffontsettings.szFace), lf.lfFaceName, _TRUNCATE);
+		_tcsncpy_s(fid.deffontsettings.szFace, lf.lfFaceName, _TRUNCATE);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0);

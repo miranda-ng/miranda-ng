@@ -381,7 +381,7 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 	if (!PathIsAbsoluteT(ptszLangPack))
 		mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s"), g_tszRoot, ptszLangPack);
 	else
-		_tcsncpy_s(tszFullPath, SIZEOF(tszFullPath), ptszLangPack, _TRUNCATE);
+		_tcsncpy_s(tszFullPath, ptszLangPack, _TRUNCATE);
 
 	// this lang is already loaded? nothing to do then
 	if (!lstrcmp(tszFullPath, langPack.tszFullPath))
@@ -397,9 +397,9 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 		return 3;
 
 	// copy the full file name and extract a file name from it
-	_tcsncpy_s(langPack.tszFullPath, SIZEOF(langPack.tszFullPath), tszFullPath, _TRUNCATE);
+	_tcsncpy_s(langPack.tszFullPath, tszFullPath, _TRUNCATE);
 	TCHAR *p = _tcsrchr(langPack.tszFullPath, '\\');
-	_tcsncpy_s(langPack.tszFileName, SIZEOF(langPack.tszFullPath), (p == NULL) ? tszFullPath : p + 1, _TRUNCATE);
+	_tcsncpy_s(langPack.tszFileName, (p == NULL) ? tszFullPath : p + 1, _TRUNCATE);
 	CharLower(langPack.tszFileName);
 
 	FILE *fp = _tfopen(tszFullPath, _T("rt"));
@@ -429,9 +429,9 @@ MIR_CORE_DLL(int) LoadLangPackDescr(const TCHAR *ptszLangPack, LANGPACK_INFO *lp
 	if (lpInfo == NULL)
 		return 1;
 
-	_tcsncpy_s(lpInfo->tszFullPath, SIZEOF(lpInfo->tszFullPath), ptszLangPack, _TRUNCATE);
+	_tcsncpy_s(lpInfo->tszFullPath, ptszLangPack, _TRUNCATE);
 	TCHAR *p = _tcsrchr(lpInfo->tszFullPath, '\\');
-	_tcsncpy_s(lpInfo->tszFileName, SIZEOF(lpInfo->tszFullPath), (p == NULL) ? ptszLangPack : p+1, _TRUNCATE);
+	_tcsncpy_s(lpInfo->tszFileName, (p == NULL) ? ptszLangPack : p+1, _TRUNCATE);
 	CharLower(lpInfo->tszFileName);
 
 	FILE *fp = _tfopen(ptszLangPack, _T("rt"));

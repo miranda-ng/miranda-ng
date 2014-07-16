@@ -635,7 +635,7 @@ retry:
 							TCHAR strFmt1[64];
 							TCHAR strFmt2[64];
 
-							_tcsncpy_s(strFmt2, SIZEOF(strFmt2), pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
+							_tcsncpy_s(strFmt2, pcli->pfnGetStatusModeDescription( status_gg2m(atoi(__status)), 0), _TRUNCATE);
 							if (__city) {
 								mir_sntprintf(strFmt1, SIZEOF(strFmt1), _T(", %s %s"), TranslateT("City:"), __city);
 								_tcsncat(strFmt2, strFmt1, SIZEOF(strFmt2) - _tcslen(strFmt2));

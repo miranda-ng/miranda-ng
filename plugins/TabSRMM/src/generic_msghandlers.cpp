@@ -1760,7 +1760,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			dat->dwFlagsEx =  dat->idle ? dat->dwFlagsEx | MWF_SHOW_ISIDLE : dat->dwFlagsEx & ~MWF_SHOW_ISIDLE;
 
 			dat->wStatus = dat->cache->getStatus();
-			_tcsncpy_s(dat->szStatus, SIZEOF(dat->szStatus), pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
+			_tcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
 
 			if (lParam != 0) {
 				if (PluginConfig.m_CutContactNameOnTabs)

@@ -390,7 +390,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_SETTEXT:
-		_tcsncpy_s(bct->szText, SIZEOF(bct->szText), (TCHAR*)lParam, _TRUNCATE);
+		_tcsncpy_s(bct->szText, (TCHAR*)lParam, _TRUNCATE);
 		break;
 
 	case BM_GETIMAGE:

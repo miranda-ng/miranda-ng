@@ -134,7 +134,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 
 	ptrT tszRecvPath(db_get_tsa(NULL, "SRFile", "RecvFilesDirAdv"));
 	if (tszRecvPath)
-		_tcsncpy_s(tszTemp, SIZEOF(tszTemp), tszRecvPath, _TRUNCATE);
+		_tcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
 		mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
@@ -180,7 +180,7 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 
 	ptrT tszRecvPath(db_get_tsa(NULL, "SRFile", "RecvFilesDirAdv"));
 	if (tszRecvPath)
-		_tcsncpy_s(tszTemp, SIZEOF(tszTemp), tszRecvPath, _TRUNCATE);
+		_tcsncpy_s(tszTemp, tszRecvPath, _TRUNCATE);
 	else
 		mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 

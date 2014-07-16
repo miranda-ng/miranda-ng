@@ -52,9 +52,9 @@ static void fillProfileName(const TCHAR* ptszFileName)
 	else
 		p++;
 
-	_tcsncpy_s(g_profileName, SIZEOF(g_profileName), p, _TRUNCATE);
+	_tcsncpy_s(g_profileName, p, _TRUNCATE);
 
-	_tcsncpy_s(g_shortProfileName, SIZEOF(g_shortProfileName), p, _TRUNCATE);
+	_tcsncpy_s(g_shortProfileName, p, _TRUNCATE);
 	TCHAR *pos = _tcsrchr(g_shortProfileName, '.');
 	if (lstrcmpi(pos, _T(".dat")) == 0)
 		*pos = 0;

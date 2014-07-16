@@ -240,7 +240,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 
 	case WM_SETTEXT:
-		_tcsncpy_s(bct->szText, SIZEOF(bct->szText), (TCHAR*)lParam, _TRUNCATE);
+		_tcsncpy_s(bct->szText, (TCHAR*)lParam, _TRUNCATE);
 		break;
 
 	case WM_SETFONT:			

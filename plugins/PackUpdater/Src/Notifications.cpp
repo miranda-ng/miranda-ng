@@ -441,7 +441,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 									si.cb = sizeof(STARTUPINFO);
 									{
-										_tcsncpy_s(tszCurrentDir, SIZEOF(tszCurrentDir), arFilePath[i].c_str(), _TRUNCATE);
+										_tcsncpy_s(tszCurrentDir, arFilePath[i].c_str(), _TRUNCATE);
 										TCHAR *p = _tcsrchr(tszCurrentDir, '\\');
 										if (p) *p = 0;
 									}

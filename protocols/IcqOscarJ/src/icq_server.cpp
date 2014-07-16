@@ -295,8 +295,6 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 	connectionHandleMutex->Enter();
 
 	if (hServerConn) {
-		int nSendResult;
-
 		// This critsec makes sure that the sequence order doesn't get screwed up
 		localSeqMutex->Enter();
 
@@ -309,7 +307,7 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 		pPacket->pData[2] = ((wLocalSequence & 0xff00) >> 8);
 		pPacket->pData[3] = (wLocalSequence & 0x00ff);
 
-		nSendResult = Netlib_Send(hServerConn, (const char *)pPacket->pData, pPacket->wLen, 0);
+		int nSendResult = Netlib_Send(hServerConn, (const char *)pPacket->pData, pPacket->wLen, 0);
 
 		localSeqMutex->Leave();
 		connectionHandleMutex->Leave();

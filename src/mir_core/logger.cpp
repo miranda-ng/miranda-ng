@@ -115,7 +115,7 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const TCHAR *ptszDescr, 
 	FILE *fp = _tfopen(ptszFile, _T("ab"));
 	if (fp == NULL) {
 		TCHAR tszPath[MAX_PATH];
-		_tcsncpy_s(tszPath, SIZEOF(tszPath), ptszFile, _TRUNCATE);
+		_tcsncpy_s(tszPath, ptszFile, _TRUNCATE);
 		CreatePathToFileT(tszPath);
 	}
 	else fclose(fp);

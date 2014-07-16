@@ -690,14 +690,14 @@ void RegisterFontServiceFonts() {
 		ColourRegisterT(&cid);
 	}
 	cid.order++;
-	_tcsncpy_s(cid.name, SIZEOF(cid.name), LPGENT("Nick list background"), _TRUNCATE);
-	strncpy_s(cid.setting, SIZEOF(cid.setting), "ColorNicklistBG", _TRUNCATE);
+	_tcsncpy_s(cid.name, LPGENT("Nick list background"), _TRUNCATE);
+	strncpy_s(cid.setting, "ColorNicklistBG", _TRUNCATE);
 	cid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	ColourRegisterT(&cid);
 
 	cid.order++;
-	_tcsncpy_s(cid.name, SIZEOF(cid.name), LPGENT("Group chat log background"), _TRUNCATE);
-	strncpy_s(cid.setting, SIZEOF(cid.setting), "ColorLogBG", _TRUNCATE);
+	_tcsncpy_s(cid.name, LPGENT("Group chat log background"), _TRUNCATE);
+	strncpy_s(cid.setting, "ColorLogBG", _TRUNCATE);
 	ColourRegisterT(&cid);
 
 	// static colors (info panel, tool bar background etc...)

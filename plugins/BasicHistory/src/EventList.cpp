@@ -492,10 +492,10 @@ std::wstring EventList::GetContactId()
 
 static void GetMessageDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf )
 {
-	TCHAR* msg = DbGetEventTextT( dbei, CP_ACP );
-    _tcsncpy_s(buf, cbBuf, msg ? msg : TranslateT("Invalid Message"), cbBuf - 1 );
-    buf[ cbBuf-1 ] = 0;
-	mir_free( msg );
+	TCHAR *msg = DbGetEventTextT(dbei, CP_ACP);
+	_tcsncpy_s(buf, cbBuf, msg ? msg : TranslateT("Invalid Message"), _TRUNCATE);
+	buf[cbBuf - 1] = 0;
+	mir_free(msg);
 }
 
 void EventList::GetObjectDescription( DBEVENTINFO *dbei, TCHAR* str, int cbStr )

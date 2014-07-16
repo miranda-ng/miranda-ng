@@ -1251,7 +1251,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (dat->hContact && dat->szProto != NULL) {
 				dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-				_tcsncpy_s(dat->szStatus, SIZEOF(dat->szStatus), pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
+				_tcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
 			}
 			else dat->wStatus = ID_STATUS_OFFLINE;
 

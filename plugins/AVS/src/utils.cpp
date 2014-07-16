@@ -244,7 +244,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	if ( lstrlen(tszFilename) < 4)
 		return -1;
 
-	_tcsncpy_s(tszFilename, SIZEOF(tszFilename), VARST(tszFilename), _TRUNCATE);
+	_tcsncpy_s(tszFilename, VARST(tszFilename), _TRUNCATE);
 	if ((hFile = CreateFile(tszFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
 		return -2;
 

@@ -72,11 +72,11 @@ BOOL strrep(TCHAR *src,TCHAR *needle,TCHAR *newstring)
 		return FALSE;
 
 	pos=(int)(found-src);
-	_tcsncpy_s(begining,_countof(begining),src,pos);
+	_tcsncpy_s(begining, src, pos);
 	begining[pos]='\0';
 
 	pos=pos+(int)_tcslen(needle);
-	_tcsncpy_s(tail,_countof(tail),src+pos,sizeof(tail));
+	_tcsncpy_s(tail, src+pos, _TRUNCATE);
 	begining[pos]='\0';
 
 	pos=mir_sntprintf(src,_tcslen(src),_T("%s%s%s"),begining,newstring,tail);

@@ -115,7 +115,7 @@ void LoadOptions(void)
 	opt.eUnit = db_get_w(NULL, WEATHERPROTONAME, "eUnit", 2);
 
 	ptrT szValue(db_get_tsa(NULL, WEATHERPROTONAME, "DegreeSign"));
-	_tcsncpy_s(opt.DegreeSign, SIZEOF(opt.DegreeSign), (szValue == NULL) ? _T("") : szValue, _TRUNCATE);
+	_tcsncpy_s(opt.DegreeSign, (szValue == NULL) ? _T("") : szValue, _TRUNCATE);
 
 	opt.DoNotAppendUnit = db_get_b(NULL, WEATHERPROTONAME, "DoNotAppendUnit", 0);
 	opt.NoFrac = db_get_b(NULL, WEATHERPROTONAME, "NoFractions", 0);
@@ -191,7 +191,7 @@ void LoadOptions(void)
 
 	// misc
 	if (szValue = db_get_tsa(NULL, WEATHERPROTONAME, "Default"))
-		_tcsncpy_s(opt.Default, SIZEOF(opt.Default), szValue, _TRUNCATE);
+		_tcsncpy_s(opt.Default, szValue, _TRUNCATE);
 	else
 		opt.Default[0] = 0;
 }

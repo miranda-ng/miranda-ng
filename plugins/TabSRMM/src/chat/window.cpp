@@ -1397,7 +1397,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 		if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			TCHAR *p = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 			if (p != NULL) {
-				_tcsncpy_s(tszBuf, SIZEOF(tszBuf), p, _TRUNCATE);
+				_tcsncpy_s(tszBuf, p, _TRUNCATE);
 				mir_free(p);
 			}
 		}
@@ -1761,7 +1761,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 					TCHAR *p = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 					if (p) {
-						_tcsncpy_s(tszBuf, SIZEOF(tszBuf), p, _TRUNCATE);
+						_tcsncpy_s(tszBuf, p, _TRUNCATE);
 						mir_free(p);
 					}
 				}
@@ -2039,7 +2039,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				dat->hTabIcon = dat->hTabStatusIcon;
 
 			if (dat->cache->getStatus() != dat->cache->getOldStatus()) {
-				_tcsncpy_s(dat->szStatus, SIZEOF(dat->szStatus), pcli->pfnGetStatusModeDescription(dat->wStatus, 0), _TRUNCATE);
+				_tcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->wStatus, 0), _TRUNCATE);
 
 				TCITEM item = { 0 };
 				item.mask = TCIF_TEXT;

@@ -684,7 +684,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, HANDLE hEve
 	if (hContact)
 		mir_sntprintf(pud.lptzContactName, MAX_CONTACTNAME, _T("%s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	else 
-		_tcsncpy_s(pud.lptzContactName, MAX_CONTACTNAME, _A2T(dbe.szModule), _TRUNCATE);
+		_tcsncpy_s(pud.lptzContactName, _A2T(dbe.szModule), _TRUNCATE);
 
 	TCHAR *szPreview = GetPreviewT((WORD)eventType, &dbe);
 	if (szPreview) {

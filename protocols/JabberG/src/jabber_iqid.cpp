@@ -1441,7 +1441,7 @@ LBL_ErrFormat:
 	mir_sha1_finish(&sha, digest);
 
 	GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));
-	_tcsncpy_s(AI.filename, SIZEOF(AI.filename), tszFileName, _TRUNCATE);
+	_tcsncpy_s(AI.filename, tszFileName, _TRUNCATE);
 
 	FILE *out = _tfopen(tszFileName, _T("wb"));
 	if (out != NULL) {

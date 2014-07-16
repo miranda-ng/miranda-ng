@@ -261,7 +261,7 @@ LBL_Exit:
 		replaceStr(m_szStreamId, NULL);
 
 		if ((tszValue = getTStringA("LoginName")) != NULL)
-			_tcsncpy_s(info->username, SIZEOF(info->username), tszValue, _TRUNCATE);
+			_tcsncpy_s(info->username, tszValue, _TRUNCATE);
 
 		if (*rtrimt(info->username) == '\0') {
 			DWORD dwSize = SIZEOF(info->username);
@@ -297,7 +297,7 @@ LBL_FatalError:
 		}
 		else {
 			if ((tszValue = getTStringA("Resource")) != NULL)
-				_tcsncpy_s(info->resource, SIZEOF(info->resource), tszValue, _TRUNCATE);
+				_tcsncpy_s(info->resource, tszValue, _TRUNCATE);
 			else
 				_tcscpy(info->resource, _T("Miranda"));
 		}

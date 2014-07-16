@@ -532,7 +532,7 @@ void ProtocolArray::GetDefaultNick()
 {
 	ptrT tszNick(db_get_tsa(0, MODULE_NAME, SETTING_DEFAULT_NICK));
 	if (tszNick)
-		_tcsncpy_s(default_nick, SIZEOF(default_nick), tszNick, _TRUNCATE);
+		_tcsncpy_s(default_nick, tszNick, _TRUNCATE);
 	else
 		default_nick[0] = '\0';
 }
@@ -541,7 +541,7 @@ void ProtocolArray::GetDefaultAvatar()
 {
 	ptrT tszFile(db_get_tsa(0, "ContactPhoto", "File"));
 	if (tszFile)
-		_tcsncpy_s(default_avatar_file, SIZEOF(default_avatar_file), tszFile, _TRUNCATE);
+		_tcsncpy_s(default_avatar_file, tszFile, _TRUNCATE);
 	else
 		default_avatar_file[0] = '\0';
 }

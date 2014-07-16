@@ -124,7 +124,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 		if (tszFace == NULL)
 			lstrcpy(lf->lfFaceName, FO.szDefFace);
 		else
-			_tcsncpy_s(lf->lfFaceName, SIZEOF(lf->lfFaceName), tszFace, _TRUNCATE);
+			_tcsncpy_s(lf->lfFaceName, tszFace, _TRUNCATE);
 	}
 }
 
@@ -136,13 +136,13 @@ void RegisterFonts(void)
 
 	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_NEEDRESTART;
-	_tcsncpy_s(fontid.backgroundGroup, SIZEOF(fontid.backgroundGroup), g_szFontGroup, _TRUNCATE);
-	_tcsncpy_s(fontid.group, SIZEOF(fontid.group), g_szFontGroup, _TRUNCATE);
+	_tcsncpy_s(fontid.backgroundGroup, g_szFontGroup, _TRUNCATE);
+	_tcsncpy_s(fontid.group, g_szFontGroup, _TRUNCATE);
 
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++, index++) {
 		FontOptionsList &FO = fontOptionsList[i];
 		strncpy(fontid.dbSettingsGroup, CHATFONT_MODULE, sizeof(fontid.dbSettingsGroup));
-		_tcsncpy_s(fontid.name, SIZEOF(fontid.name), FO.szDescr, _TRUNCATE);
+		_tcsncpy_s(fontid.name, FO.szDescr, _TRUNCATE);
 
 		char idstr[10];
 		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", index);
@@ -152,25 +152,25 @@ void RegisterFonts(void)
 		switch (i) {
 		case 18:
 		case 19:
-			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Nick list background"), _TRUNCATE);
+			_tcsncpy_s(fontid.backgroundName, LPGENT("Nick list background"), _TRUNCATE);
 			break;
 		case 17:
 			if (g_iFontMode == FONTMODE_SKIP)
 				continue;
 			if (g_iFontMode == FONTMODE_USE) {
-				_tcsncpy_s(fontid.name, SIZEOF(fontid.name), LPGENT("Message typing area"), _TRUNCATE);
-				_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Message background"), _TRUNCATE);
+				_tcsncpy_s(fontid.name, LPGENT("Message typing area"), _TRUNCATE);
+				_tcsncpy_s(fontid.backgroundName, LPGENT("Message background"), _TRUNCATE);
 				FO.defColour = RGB(0, 0, 40);
 				break;
 			}
 
-			_tcsncpy_s(fontid.name, SIZEOF(fontid.name), LPGENT("Chat log symbols (Webdings)"), _TRUNCATE);
+			_tcsncpy_s(fontid.name, LPGENT("Chat log symbols (Webdings)"), _TRUNCATE);
 			FO.szDefFace = _T("Webdings");
 			FO.defColour = RGB(170, 170, 170);
 			FO.defCharset = SYMBOL_CHARSET;
 			// fall through
 		default:
-			_tcsncpy_s(fontid.backgroundName, SIZEOF(fontid.backgroundName), LPGENT("Group chat log background"), _TRUNCATE);
+			_tcsncpy_s(fontid.backgroundName, LPGENT("Group chat log background"), _TRUNCATE);
 			break;
 		}
 		_tcsncpy(fontid.deffontsettings.szFace, FO.szDefFace, SIZEOF(fontid.deffontsettings.szFace));

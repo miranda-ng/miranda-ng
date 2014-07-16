@@ -744,7 +744,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 	// we have to reparse the filename
 	TCHAR *tszNow = ci.MakeTimeStamp(_T("%a%d%m%Y"), tTime); // once a day
 	if (_tcscmp(tszOldTimeStamp, tszNow)) {
-		_tcsncpy_s(tszOldTimeStamp, 30, tszNow, _TRUNCATE);
+		_tcsncpy_s(tszOldTimeStamp, tszNow, _TRUNCATE);
 		*si->pszLogFileName = 0;
 	}
 

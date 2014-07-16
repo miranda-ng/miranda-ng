@@ -97,7 +97,7 @@ static void FillContactList(HWND hList)
 			SendMessage(hList, LVM_SETITEM, 0, (LPARAM)&LvItem); // Enter text to SubItems
 
 			LvItem.iSubItem = 2; // protocol
-			_tcsncpy_s(buff, SIZEOF(buff), (pa == NULL) ? _A2T(szProto) : pa->tszAccountName, _TRUNCATE);
+			_tcsncpy_s(buff, (pa == NULL) ? _A2T(szProto) : pa->tszAccountName, _TRUNCATE);
 			ListView_SetItem(hList, &LvItem);
 		}
 		else {

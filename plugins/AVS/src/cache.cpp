@@ -172,13 +172,13 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 			// Get hash
 			char *szProto = GetContactProto(hContact);
 			if (szProto != NULL) {
-				DBVARIANT dbv = {0};
-				if ( !db_get_s(hContact, szProto, "AvatarHash", &dbv)) {
+				DBVARIANT dbv = { 0 };
+				if (!db_get_s(hContact, szProto, "AvatarHash", &dbv)) {
 					if (dbv.type == DBVT_TCHAR)
-						_tcsncpy_s(cacn.hash, SIZEOF(cacn.hash), dbv.ptszVal, _TRUNCATE);
+						_tcsncpy_s(cacn.hash, dbv.ptszVal, _TRUNCATE);
 					else if (dbv.type == DBVT_BLOB) {
-						ptrA szHash( mir_base64_encode(dbv.pbVal, dbv.cpbVal));
-						_tcsncpy_s(cacn.hash, SIZEOF(cacn.hash), _A2T(szHash), _TRUNCATE);
+						ptrA szHash(mir_base64_encode(dbv.pbVal, dbv.cpbVal));
+						_tcsncpy_s(cacn.hash, _A2T(szHash), _TRUNCATE);
 					}
 					db_free(&dbv);
 				}
@@ -206,7 +206,7 @@ void DeleteAvatarFromCache(MCONTACT hContact, BOOL forever)
 	hContact = GetContactThatHaveTheAvatar(hContact);
 	CacheNode *node = FindAvatarInCache(hContact, FALSE);
 	if (node == NULL) {
-		struct CacheNode temp_node = {0};
+		struct CacheNode temp_node = { 0 };
 		temp_node.dwFlags |= (db_mc_isSub(hContact) ? MC_ISSUBCONTACT : 0);
 		NotifyMetaAware(hContact, &temp_node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
 		return;
@@ -252,10 +252,10 @@ void PicLoader(LPVOID param)
 	else if (dwDelay > 100)
 		dwDelay = 100;
 
-	while(!g_shutDown) {
+	while (!g_shutDown) {
 		CacheNode *node = g_Cache;
 
-		while(!g_shutDown && node) {
+		while (!g_shutDown && node) {
 			if (node->mustLoad > 0 && node->ace.hContact) {
 				node->mustLoad = 0;
 				AVATARCACHEENTRY ace_temp;

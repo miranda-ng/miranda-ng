@@ -66,7 +66,7 @@ void RegisterCListFonts()
 		pcli->pfnGetFontSetting(i, &lf, &fontid.deffontsettings.colour);
 		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 
-		_tcsncpy_s(fontid.deffontsettings.szFace, SIZEOF(fontid.deffontsettings.szFace), lf.lfFaceName, _TRUNCATE);
+		_tcsncpy_s(fontid.deffontsettings.szFace, lf.lfFaceName, _TRUNCATE);
 		fontid.deffontsettings.charset = lf.lfCharSet;
 		fontid.deffontsettings.size = (char)lf.lfHeight;
 		fontid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? DBFONTF_BOLD : 0) | (lf.lfItalic ? DBFONTF_ITALIC : 0);

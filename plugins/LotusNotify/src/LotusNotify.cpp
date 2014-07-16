@@ -286,16 +286,15 @@ BOOL checkFilters(TCHAR* str, int field)
 {
 	TCHAR buff[512] = _T("");
 	TCHAR *strptr = NULL;
-	switch(field)
-	{
+	switch(field) {
 	case 0:
-		_tcsncpy_s(buff, SIZEOF(buff), settingFilterSender, SIZEOF(buff));
+		_tcsncpy_s(buff, settingFilterSender, _TRUNCATE);
 		break;
 	case 1:
-		_tcsncpy_s(buff, SIZEOF(buff), settingFilterSubject, SIZEOF(buff));
+		_tcsncpy_s(buff, settingFilterSubject, _TRUNCATE);
 		break;
 	case 2:
-		_tcsncpy_s(buff, SIZEOF(buff), settingFilterTo, SIZEOF(buff));
+		_tcsncpy_s(buff, settingFilterTo, _TRUNCATE);
 		break;
 	}
 
@@ -303,8 +302,8 @@ BOOL checkFilters(TCHAR* str, int field)
 	while(strptr = _tcschr(buff, ';'))
 	{
 		TCHAR tmp[512] = TEXT(""), *ptr;
-		_tcsncpy_s(tmp, SIZEOF(tmp), buff, (strptr-buff));
-		_tcsncpy_s(buff, SIZEOF(buff), strptr + 1, SIZEOF(buff));
+		_tcsncpy_s(tmp, buff, (strptr-buff));
+		_tcsncpy_s(buff, strptr + 1, _TRUNCATE);
 
 		if(_tcsstr(_tcslwr(ptr=_tcsdup(str)),_tcslwr(tmp)))
 		{
@@ -512,8 +511,8 @@ void ErMsgT(TCHAR* msg)
 	log_p(L"Error: %S", msg);
 	if(settingShowError && !isPopupWaiting) {
 		TCHAR buffer[256+14];
-		_tcsncpy_s(buffer, _countof(buffer), _T("LotusNotify: "), SIZEOF(buffer));
-		_tcscat_s(buffer, _countof(buffer), msg);
+		_tcsncpy_s(buffer, _T("LotusNotify: "), _TRUNCATE);
+		_tcscat_s(buffer, msg);
 		isPopupWaiting = TRUE;
 		PUShowMessageT(buffer, SM_WARNING);
 		isPopupWaiting = FALSE;
@@ -761,15 +760,13 @@ void checkthread(void*)
 		ZeroMemory(msgFrom,512);
 		ZeroMemory(msgSubject,512);
 
-		if(wcslen(field_from_UNICODE) < 512 && wcslen(field_from_UNICODE) > 3 && wcsstr(field_from_UNICODE, L"CN=") == field_from_UNICODE){
-			_tcsncpy_s(msgFrom, SIZEOF(msgFrom), &(field_from_UNICODE[3]), wcscspn(field_from_UNICODE, L"/")-3 );
-		} else {
-		    _tcsncpy_s(msgFrom, SIZEOF(msgFrom), field_from_UNICODE, _TRUNCATE);
-		}
+		if(wcslen(field_from_UNICODE) < 512 && wcslen(field_from_UNICODE) > 3 && wcsstr(field_from_UNICODE, L"CN=") == field_from_UNICODE)
+			_tcsncpy_s(msgFrom, &(field_from_UNICODE[3]), wcscspn(field_from_UNICODE, L"/")-3 );
+		else
+			_tcsncpy_s(msgFrom, field_from_UNICODE, _TRUNCATE);
 
-	    for (Att = 0; (MailGetMessageAttachmentInfo1)(note_handle, Att,&bhAttachment, NULL, &cSize, NULL, NULL, NULL, NULL); Att++) {
+	    for (Att = 0; (MailGetMessageAttachmentInfo1)(note_handle, Att,&bhAttachment, NULL, &cSize, NULL, NULL, NULL, NULL); Att++)
 			attSize += cSize;
-		}
 
 		#ifdef _DEBUG
 		log_p(L"checkthread: MAIL INFO: date=[%S], from=[%s], to=[%s], cc=[%s], sub=[%s], attSize=[%d]"
@@ -998,13 +995,13 @@ void LoadSettings()
 	db_free(&dbv);
 
 	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterSender",&dbv))
-		_tcsncpy_s(settingFilterSender, SIZEOF(settingFilterSender), dbv.ptszVal, SIZEOF(settingFilterSender));
+		_tcsncpy_s(settingFilterSender, dbv.ptszVal, _TRUNCATE);
 	db_free(&dbv);
 	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterSubject",&dbv))
-		_tcsncpy_s(settingFilterSubject, SIZEOF(settingFilterSubject), dbv.ptszVal, SIZEOF(settingFilterSubject));
+		_tcsncpy_s(settingFilterSubject, dbv.ptszVal, _TRUNCATE);
 	db_free(&dbv);
 	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterTo",&dbv))
-		_tcsncpy_s(settingFilterTo ,SIZEOF(settingFilterTo), dbv.ptszVal, SIZEOF(settingFilterTo));
+		_tcsncpy_s(settingFilterTo, dbv.ptszVal, _TRUNCATE);
 	db_free(&dbv);
 
 	settingOnceOnly = db_get_b  (NULL, PLUGINNAME, "LNOnceOnly",0);
@@ -1105,28 +1102,28 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				TCHAR buff[512];
 				TCHAR* strptr;
 
-				_tcsncpy_s(buff, SIZEOF(buff), settingFilterSender, SIZEOF(buff));
+				_tcsncpy_s(buff, settingFilterSender, _TRUNCATE);
 				while(strptr = _tcschr(buff, TEXT(';'))) {
 					TCHAR tmp[512] = TEXT("");
-					_tcsncpy_s(tmp, SIZEOF(tmp), buff, (strptr-buff));
+					_tcsncpy_s(tmp, buff, (strptr-buff));
 					SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER , CB_ADDSTRING, 0, (LPARAM)tmp);
-					_tcsncpy_s(buff, SIZEOF(buff), strptr + 1, SIZEOF(buff));
+					_tcsncpy_s(buff, strptr + 1, _TRUNCATE);
 				}
 
-				_tcsncpy_s(buff, SIZEOF(buff), settingFilterSubject, SIZEOF(buff) );
+				_tcsncpy_s(buff, settingFilterSubject, _TRUNCATE);
 				while(strptr = _tcschr(buff, TEXT(';'))) {
 					TCHAR tmp[512] = TEXT("");
-					_tcsncpy_s(tmp, SIZEOF(tmp), buff, (strptr-buff));
+					_tcsncpy_s(tmp, buff, (strptr-buff));
 					SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT , CB_ADDSTRING, 0, (LPARAM)tmp);
-					_tcsncpy_s(buff, SIZEOF(buff), strptr + 1, SIZEOF(buff));
+					_tcsncpy_s(buff, strptr + 1, _TRUNCATE);
 				}
 
-				_tcsncpy_s(buff, SIZEOF(buff), settingFilterTo, SIZEOF(buff) );
+				_tcsncpy_s(buff, settingFilterTo, _TRUNCATE);
 				while(strptr = _tcschr(buff, TEXT(';'))) {
 					TCHAR tmp[512] = TEXT("");
-					_tcsncpy_s(tmp, SIZEOF(tmp), buff, (strptr-buff));
+					_tcsncpy_s(tmp, buff, (strptr-buff));
 					SendDlgItemMessage(hwndDlg, IDC_FILTER_TO , CB_ADDSTRING, 0, (LPARAM)tmp);
-					_tcsncpy_s(buff, SIZEOF(buff), strptr + 1, SIZEOF(buff));
+					_tcsncpy_s(buff, strptr + 1, _TRUNCATE);
 				}
 
 				break;
@@ -1292,7 +1289,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 									db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
 								}
 
-								_tcsncpy_s(settingFilterSender, SIZEOF(settingFilterSender), TEXT(""), SIZEOF(settingFilterSender));
+								settingFilterSender[0] = 0;
 								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCOUNT, 0, (LONG)0); i++){
 									TCHAR text[512] = TEXT("");
 									SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
@@ -1301,7 +1298,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								}
 								db_set_ts(NULL, PLUGINNAME, "LNFilterSender", settingFilterSender);
 
-								_tcsncpy_s(settingFilterSubject, SIZEOF(settingFilterSubject), TEXT(""),SIZEOF(settingFilterSubject));
+								settingFilterSubject[0] = 0;
 								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, (LONG)0); i++){
 									TCHAR text[512] = TEXT("");
 									SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
@@ -1310,7 +1307,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								}
 								db_set_ts(NULL, PLUGINNAME, "LNFilterSubject", settingFilterSubject);
 
-								_tcsncpy_s(settingFilterTo, SIZEOF(settingFilterTo), TEXT(""),SIZEOF(settingFilterTo));
+								settingFilterTo[0] = 0;
 								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, (LONG)0); i++){
 									TCHAR text[512] = TEXT("");
 									SendDlgItemMessage(hwndDlg,IDC_FILTER_TO ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
@@ -1483,12 +1480,12 @@ void checkEnvPath(TCHAR *path)
 	}
 
 	assert(_tcslen(path) + _tcslen(cur) + 1 < SIZEOF(nowy));
-	_tcsncpy_s(nowy, _countof(nowy), _T("PATH="), SIZEOF(nowy));
-	_tcscat_s(nowy, _countof(nowy), cur);
+	_tcsncpy_s(nowy, _T("PATH="), _TRUNCATE);
+	_tcscat_s(nowy, cur);
 	if(cur[_tcslen(cur)-1]!=';')
-		_tcscat_s(nowy, _countof(nowy), _T(";"));
-	_tcscat_s(nowy, _countof(nowy), path);
-	_tcscat_s(nowy, _countof(nowy), _T(";"));
+		_tcscat_s(nowy, _T(";"));
+	_tcscat_s(nowy, path);
+	_tcscat_s(nowy, _T(";"));
 
 	_tputenv(nowy);
 

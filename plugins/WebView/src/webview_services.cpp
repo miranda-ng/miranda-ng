@@ -53,7 +53,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			TCHAR nick[100];
 			ptrT oldnick( db_get_tsa(hContact, "CList", "MyHandle"));
 			if (oldnick != NULL)
-				_tcsncpy_s(nick, SIZEOF(nick), oldnick, _TRUNCATE);
+				_tcsncpy_s(nick, oldnick, _TRUNCATE);
 			else
 				nick[0] = 0;
 

@@ -178,7 +178,7 @@ static __forceinline char *GetPathVarX(char *, int code)
 	switch(code) {
 	case 1:
 		if (hAvatarFolder != NULL)
-			_tcsncpy_s(szFullPath, SIZEOF(szFullPath), tszAvatarRoot, _TRUNCATE);
+			_tcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
 			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 		break;
@@ -262,7 +262,7 @@ static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 	switch(code) {
 	case 1:
 		if (hAvatarFolder != NULL)
-			_tcsncpy_s(szFullPath, SIZEOF(szFullPath), tszAvatarRoot, _TRUNCATE);
+			_tcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
 			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, g_shortProfileName);
 		break;
@@ -434,7 +434,7 @@ static int OnFoldersChanged(WPARAM, LPARAM)
 
 	TCHAR tmpVar[MAX_PATH];
 	if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, SIZEOF(tmpVar), tszAvatarRoot))
-		_tcsncpy_s(tszAvatarRoot, SIZEOF(tszAvatarRoot), tmpVar, SIZEOF(tmpVar));
+		_tcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
 	return 0;
 }
 
@@ -444,7 +444,7 @@ void InitPathVar()
 	if (hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), tszAvatarRoot)) {
 		TCHAR tmpVar[MAX_PATH];
 		if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, SIZEOF(tmpVar), tszAvatarRoot))
-			_tcsncpy_s(tszAvatarRoot, SIZEOF(tszAvatarRoot), tmpVar, SIZEOF(tmpVar));
+			_tcsncpy_s(tszAvatarRoot, tmpVar, _TRUNCATE);
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 	}
 }

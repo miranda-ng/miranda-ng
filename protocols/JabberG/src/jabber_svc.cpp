@@ -156,7 +156,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 						mir_sntprintf(szJid, SIZEOF(szJid), _T("%s/%s"), tszJid, bestResName);
 
 				if (szJid[0] == 0)
-					_tcsncpy_s(szJid, SIZEOF(szJid), tszJid, _TRUNCATE);
+					_tcsncpy_s(szJid, tszJid, _TRUNCATE);
 
 				debugLog(_T("Rereading %s for %s"), isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
@@ -411,7 +411,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 
 	// skip leading prefix
 	TCHAR szUri[ 1024 ];
-	_tcsncpy_s(szUri, SIZEOF(szUri), arg, _TRUNCATE);
+	_tcsncpy_s(szUri, arg, _TRUNCATE);
 	TCHAR *szJid = _tcschr(szUri, _T(':'));
 	if (szJid == NULL)
 		return 1;

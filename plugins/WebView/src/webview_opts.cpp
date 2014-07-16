@@ -49,15 +49,15 @@ void strdel(TCHAR *parBuffer, int len )
 TCHAR* FixButtonText(TCHAR *url, size_t len)
 {
 	TCHAR buttontext[256], stringbefore[256], newbuttontext[256];
-	_tcsncpy_s(buttontext, SIZEOF(buttontext), url, _TRUNCATE);
-	_tcsncpy_s(newbuttontext, SIZEOF(newbuttontext), url, _TRUNCATE);
+	_tcsncpy_s(buttontext, url, _TRUNCATE);
+	_tcsncpy_s(newbuttontext, url, _TRUNCATE);
 
 	if ( _tcschr(newbuttontext, '&') != 0) {
 		while (true) {
 			if ( _tcschr(newbuttontext, '&') == 0)
 				break;
 
-			_tcsncpy_s(buttontext, SIZEOF(buttontext), newbuttontext, _TRUNCATE);
+			_tcsncpy_s(buttontext, newbuttontext, _TRUNCATE);
 			TCHAR *stringafter = _tcschr(buttontext, '&');
 			int pos = (stringafter - buttontext);
 			int posbefore = (stringafter - buttontext) - 1;

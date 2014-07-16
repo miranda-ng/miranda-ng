@@ -803,7 +803,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			TCHAR *p = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui->pszUID);
 			if (p != NULL) {
-				_tcsncpy_s(tszBuf, SIZEOF(tszBuf), p, _TRUNCATE);
+				_tcsncpy_s(tszBuf, p, _TRUNCATE);
 				mir_free(p);
 			}
 		}

@@ -27,7 +27,7 @@ MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDi
 	TCHAR pszGroup[50]; *pszGroup = '\0';
 	ptrT groupName(db_get_tsa(NULL, CHAT_MODULE, "AddToGroup"));
 	if (groupName)
-		_tcsncpy_s(pszGroup, SIZEOF(pszGroup), groupName, _TRUNCATE);
+		_tcsncpy_s(pszGroup, groupName, _TRUNCATE);
 	else
 		_tcscpy(pszGroup, _T("Chat rooms"));
 

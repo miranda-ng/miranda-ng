@@ -912,26 +912,17 @@ bool MyBitmap::loadFromFile(const TCHAR *fn, const TCHAR *fnAlpha)
 	if (bits) freemem();
 
 	if (!_tcsncmp(fn, _T("pixel:"), lstrlen(_T("pixel:"))))
-	{
 		return loadFromFile_pixel(fn, fnAlpha);
-	} else
+
 	if (!_tcsncmp(fn, _T("gradient:"), lstrlen(_T("gradient:"))))
-	{
 		return loadFromFile_gradient(fn, fnAlpha);
-	} else
-	{
-		TCHAR ext[5];
-		_tcsncpy_s(ext, SIZEOF(ext), fn + (_tcslen(fn) - 4), _TRUNCATE);
-		if (!lstrcmpi(ext, _T(".png")))
-		{
-			return loadFromFile_png(fn, fnAlpha);
-		} else
-		{
-			return loadFromFile_default(fn, fnAlpha);
-		}
-	}
-	// unreachable place
-	return false;
+
+	TCHAR ext[5];
+	_tcsncpy_s(ext, fn + (_tcslen(fn) - 4), _TRUNCATE);
+	if (!lstrcmpi(ext, _T(".png")))
+		return loadFromFile_png(fn, fnAlpha);
+
+	return loadFromFile_default(fn, fnAlpha);
 }
 
 void MyBitmap::allocate(int w, int h)
