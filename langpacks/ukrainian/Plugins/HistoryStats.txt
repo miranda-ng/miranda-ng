@@ -557,6 +557,8 @@ PNG з ігноруванням деяких налаштувань
 Шлях до браузера (порожній = браузер за замовчанням)
 [At this time there is no external plugin supported.]
 На даний час зовнішні плагіни не підтримуються.
+[Supported plugins (double-click to learn more):]
+Підтримувані плагіни (натисніть двічі для докладної інформації):
 [HistoryStats supports several plugins. Click to hide info...]
 HistoryStats підтримує деякі плагіни. Натисніть, щоб закрити...
 [History interpretation]

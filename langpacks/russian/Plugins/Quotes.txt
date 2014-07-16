@@ -172,7 +172,7 @@ HTTP подключение Quotes
 [Import]
 Импорт
 [XML File (*.xml)]
-Файл XML  (*.xml)
+Файл XML (*.xml)
 [All files (*.*)]
 Все файлы (*.*)
 [Log File]

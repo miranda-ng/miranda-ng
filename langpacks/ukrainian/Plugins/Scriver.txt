@@ -220,7 +220,7 @@
 [Add new rooms to group:]
 Додавати кімнати до групи:
 [Nick list row height]
-Висота рядка списку користувачів
+Висота рядка у списку користувачів
 [pixels]
 пікселів
 [Log Options]

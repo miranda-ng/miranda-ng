@@ -178,7 +178,7 @@ YAMN: сбой подключения
 [No new mail message]
 Нет новых писем
 [%s - connection error]
-%s  - ошибка соединения
+%s - ошибка соединения
 [An error occurred. Error code: %d]
 Произошла ошибка. Код ошибки: %d
 [Unknown error]

@@ -14,7 +14,7 @@
 [Cancel]
 Скасувати
 [Pounce being sent to]
-Відкл. повідом. надіслано для
+Повідомлення буде надіслано
 [Buddy Pounce]
 Відкладене повідомлення
 [The Message:]
@@ -126,7 +126,7 @@
 [Seconds to wait before sending]
 секунд очікування перед відправкою
 [Pounce being sent to %s in %d seconds]
-Pounce надіслано %s за %d секунд
+Повідомлення буде надіслано %s через %d секунд
 [Retry]
 Повторити
 [Message successfully sent to %s]

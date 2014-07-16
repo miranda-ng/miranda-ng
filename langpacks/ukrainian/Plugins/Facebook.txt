@@ -91,6 +91,12 @@
 Показувати історію при відкритті вікна (експериментально)
 [Number of messages to load:]
 Кількість останніх повідомлень:
+[Do not open chat windows on creation]
+Не відкривати вікно чату при створенні
+[Myself]
+Я
+[User]
+Користувач
 [&Invite user...]
 &Запросити користувача...
 [&Leave chat session]
@@ -147,6 +153,8 @@
 Друзям, крім знайомих
 [Only me]
 Тільки мені
+[%s and more (%d)]
+%s і більше (%d)
 [Contact was removed from your server list.]
 Контакт видалено зі списку на сервері.
 [Error occurred when removing contact from server.]

@@ -6,5 +6,3 @@
 [Becoming active without status change]
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
-[size: %d x %d]
-[loc: %d x %d]

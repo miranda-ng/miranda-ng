@@ -259,6 +259,10 @@
 Праворуч
 [None]
 Немає
+[size: %d x %d]
+розмір: %d x %d
+[loc: %d x %d]
+поз.: %d x %d
 [Hidden]
 Приховане
 [Minimized]

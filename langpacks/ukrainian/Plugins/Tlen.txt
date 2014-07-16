@@ -260,9 +260,9 @@
 [%S mail]
 %S пошта
 [Image sent file://%s]
-Зображення надіслано://%s
+Зображення надіслано file://%s
 [Image received file://%s]
-Отримано зображення://%s
+Отримано зображення file://%s
 [Tlen login]
 Вхід Tlen
 [You need to be connected to Tlen account to set avatar.]

@@ -14,7 +14,7 @@
 [Cancel]
 Отмена
 [Pounce being sent to]
-Отлож. сообщ. послано для
+Сообщение будет отправлено
 [Buddy Pounce]
 Отложенное сообщение
 [The Message:]
@@ -126,7 +126,7 @@
 [Seconds to wait before sending]
 секунд подождать перед отправкой
 [Pounce being sent to %s in %d seconds]
-Pounce отослан %s за %d секунд
+Сообщение будет отправлено %s через %d секунд
 [Retry]
 Ещё раз
 [Message successfully sent to %s]

@@ -325,7 +325,7 @@ dat (плагін mContacts)
 Вхідні події
 [Outgoing events]
 Вихідні події
-[File do not exist. Enter correct file path.]
+[File does not exist. Enter correct file path.]
 Файл відсутній. Введіть вірний шлях до файлу.
 [Invalid file]
 Неправильний файл

@@ -93,5 +93,7 @@
 Відео
 [Document]
 Документ
+[Wall post]
+Запис на стіні
 [Unsupported or unknown attachment type: %s]
 Цей тип вкладень не підтримується: %s

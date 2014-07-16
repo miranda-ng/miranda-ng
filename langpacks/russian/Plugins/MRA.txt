@@ -282,7 +282,7 @@ xСтатус "%s"
 [Please authorize me]
 Пожалуйста, авторизуй
 [Receive files: can't allocate disk space for file, size %lu bytes, error]
-Передача файлов: невозможно выделить место на диске  размер %lu байт, ошибка
+Передача файлов: невозможно выделить место на диске, размер %lu байт, ошибка
 [Receive files: can't open file %s, error]
 Передача файлов: невозможно открыть файл %s, ошибка
 [Receive files: request for file %s not sent, error]

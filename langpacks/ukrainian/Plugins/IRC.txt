@@ -336,7 +336,7 @@ DCC: Запит на продовження закачування файлу в
 [The buddy check function is disabled]
 Функція перевірки приятелів вимкнена
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-Некоректні параметри. Використання: /sleep [ms], ms повинно бути більше 0 і менше, ніж 4000.
+Некоректні параметри. Використання: /sleep [мс], кількість мілісекунд слід вказувати в межах від 0 до 4000.
 [Ignore system is enabled]
 Система ігнорування ввімк.
 [Ignore system is disabled]
