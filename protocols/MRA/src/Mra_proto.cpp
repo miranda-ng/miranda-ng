@@ -959,19 +959,19 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 					else if (fld == "Domain") { // имя было уже задано ранее
 						buf >> val;
-						wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), SIZEOF(szEmail));
+						wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), _TRUNCATE);
 					}
 					else if (fld == "Nickname") {
 						buf >> valW;
-						wcsncpy_s(szNick, valW, SIZEOF(szNick));
+						wcsncpy_s(szNick, valW, _TRUNCATE);
 					}
 					else if (fld == "FirstName") {
 						buf >> valW;
-						wcsncpy_s(szFirstName, valW, SIZEOF(szFirstName));
+						wcsncpy_s(szFirstName, valW, _TRUNCATE);
 					}
 					else if (fld == "LastName") {
 						buf >> valW;
-						wcsncpy_s(szLastName, valW, SIZEOF(szLastName));
+						wcsncpy_s(szLastName, valW, _TRUNCATE);
 					}
 					else buf >> val;
 				}
