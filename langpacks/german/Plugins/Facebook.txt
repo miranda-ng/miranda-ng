@@ -92,7 +92,15 @@ Nur Nachrichten aus "Postfach"-Verzeichnis abrufen
 Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
 [Number of messages to load:]
 Lade Anzahl Nachrichten:
+[Do not open chat windows on creation ]
+
 ;file \protocols\FacebookRM\src\chat.cpp
+[Myself]
+
+[User]
+Benutzer
+[Friend]
+
 [&Invite user...]
 Kontakt e&inladen...
 [&Leave chat session]
@@ -153,6 +161,8 @@ Freunde ohne Bekannte
 [Only me]
 Nur ich
 ;file \protocols\FacebookRM\src\contacts.cpp
+[%s and more (%d)]
+
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
 [Error occurred when removing contact from server.]

@@ -92,7 +92,15 @@ Recevoir uniquement les messages de la boîte de réception
 
 [Number of messages to load:]
 
+[Do not open chat windows on creation ]
+
 ;file \protocols\FacebookRM\src\chat.cpp
+[Myself]
+
+[User]
+Utilisateur
+[Friend]
+
 [&Invite user...]
 &Inviter l'utilisateur...
 [&Leave chat session]
@@ -153,6 +161,8 @@ Public
 [Only me]
 
 ;file \protocols\FacebookRM\src\contacts.cpp
+[%s and more (%d)]
+
 [Contact was removed from your server list.]
 Le contact a été supprimé de votre liste sur le serveur.
 [Error occurred when removing contact from server.]

@@ -92,7 +92,15 @@ Sesiones de mensaje
 
 [Number of messages to load:]
 
+[Do not open chat windows on creation ]
+
 ;file \protocols\FacebookRM\src\chat.cpp
+[Myself]
+
+[User]
+
+[Friend]
+
 [&Invite user...]
 &Invitar usuario...
 [&Leave chat session]
@@ -153,6 +161,8 @@ Amigos menos conocidos
 [Only me]
 Sólo para mí
 ;file \protocols\FacebookRM\src\contacts.cpp
+[%s and more (%d)]
+
 [Contact was removed from your server list.]
 El contacto fue eliminado de la lista de servidores.
 [Error occurred when removing contact from server.]

@@ -92,7 +92,15 @@ URL:
 
 [Number of messages to load:]
 
+[Do not open chat windows on creation ]
+
 ;file \protocols\FacebookRM\src\chat.cpp
+[Myself]
+
+[User]
+
+[Friend]
+
 [&Invite user...]
 
 [&Leave chat session]
@@ -153,6 +161,8 @@ URL:
 [Only me]
 
 ;file \protocols\FacebookRM\src\contacts.cpp
+[%s and more (%d)]
+
 [Contact was removed from your server list.]
 
 [Error occurred when removing contact from server.]
