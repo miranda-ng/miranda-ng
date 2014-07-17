@@ -335,7 +335,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 		if (m_dat->dwFlags & MWF_NEEDHISTORYSAVE) {
 			m_iHistoryCurrent = m_iHistoryTop;
 			if (::GetWindowTextLengthA(hwndEdit) > 0)
-				saveHistory((WPARAM)m_iHistorySize, 0);
+				saveHistory(m_iHistorySize, 0);
 			else
 				m_history[m_iHistorySize].szText[0] = (TCHAR)'\0';
 		}
@@ -353,14 +353,14 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 			if (m_history[m_iHistorySize].szText != NULL) {           // replace the temp buffer
 				::SetWindowText(hwndEdit, _T(""));
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistorySize].szText);
-				::SendMessage(hwndEdit, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
+				::SendMessage(hwndEdit, EM_SETSEL, -1, -1);
 			}
 		}
 		else {
 			if (m_history[m_iHistoryCurrent].szText != NULL) {
 				::SetWindowText(hwndEdit, _T(""));
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistoryCurrent].szText);
-				::SendMessage(hwndEdit, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
+				::SendMessage(hwndEdit, EM_SETSEL, -1, -1);
 			}
 			else ::SetWindowText(hwndEdit, _T(""));
 		}

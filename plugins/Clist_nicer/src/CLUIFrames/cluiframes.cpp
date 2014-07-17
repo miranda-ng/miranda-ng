@@ -1809,16 +1809,13 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 
 	SetWindowPos(Frames[nFramescount].TitleBar.hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	{
-		TOOLINFOA ti;
-		int res;
-
-		ZeroMemory(&ti, sizeof(ti));
+		TOOLINFOA ti = { 0 };
 		ti.cbSize = sizeof(ti);
 		ti.lpszText = "";
 		ti.hinst = g_hInst;
 		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 		ti.uId = (UINT_PTR)Frames[nFramescount].TitleBar.hwnd;
-		res = SendMessageA(Frames[nFramescount].TitleBar.hwndTip, TTM_ADDTOOL, 0, (LPARAM)& ti);
+		SendMessageA(Frames[nFramescount].TitleBar.hwndTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 	}
 
 	SendMessage(Frames[nFramescount].TitleBar.hwndTip, TTM_ACTIVATE, (WPARAM)Frames[nFramescount].TitleBar.ShowTitleBarTip, 0);

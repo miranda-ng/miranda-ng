@@ -37,32 +37,25 @@ int GetRichTextLength(HWND hwnd)
 {
 	GETTEXTLENGTHEX gtl;
 	gtl.flags = GTL_PRECISE;
-	gtl.codepage = CP_ACP ;
-	return (int) SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
+	gtl.codepage = CP_ACP;
+	return (int)SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 }
 
-static void __stdcall ShowRoomFromPopup(void * pi)
+static void __stdcall ShowRoomFromPopup(void *pi)
 {
-	SESSION_INFO *si = (SESSION_INFO*) pi;
+	SESSION_INFO *si = (SESSION_INFO*)pi;
 	ShowRoom(si, WINDOW_VISIBLE, TRUE);
 }
 
-static void TSAPI Chat_OpenPopup(SESSION_INFO *si, HWND hwndPopup)
+static void __stdcall Chat_DismissPopup(void *pi)
 {
-	CallFunctionAsync(ShowRoomFromPopup, si);
-	PUDeletePopup(hwndPopup);
-}
-
-static void TSAPI Chat_DismissPopup(const SESSION_INFO *si, HWND hwndPopup)
-{
+	SESSION_INFO *si = (SESSION_INFO*)pi;
 	if (si->hContact)
-		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
+		if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
+			CallServiceSync(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
 
 	if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
 		FlashWindow(si->hWnd, FALSE);
-
-	PUDeletePopup(hwndPopup);
 }
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -71,12 +64,13 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 	switch (message) {
 	case WM_COMMAND:
-		if ( HIWORD(wParam) == STN_CLICKED) {
+		if (HIWORD(wParam) == STN_CLICKED) {
 			if (si) {
 				if (nen_options.maskActL & MASK_OPEN)
-					Chat_OpenPopup(si, hWnd);
+					CallFunctionAsync(ShowRoomFromPopup, si);
 				else
-					Chat_DismissPopup(si, hWnd);
+					CallFunctionAsync(Chat_DismissPopup, si);
+				PUDeletePopup(hWnd);
 			}
 			return TRUE;
 		}
@@ -85,9 +79,10 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_CONTEXTMENU:
 		if (si && si->hContact) {
 			if (nen_options.maskActR & MASK_OPEN)
-				Chat_OpenPopup(si, hWnd);
+				CallFunctionAsync(ShowRoomFromPopup, si);
 			else
-				Chat_DismissPopup(si, hWnd);
+				CallFunctionAsync(Chat_DismissPopup, si);
+			PUDeletePopup(hWnd);
 		}
 		break;
 	}
@@ -124,8 +119,8 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 
 	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
 	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME - 1, _T("%s - %s"),
-		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
-		pcli->pfnGetContactDisplayName(hContact, 0));
+					  (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
+					  pcli->pfnGetContactDisplayName(hContact, 0));
 
 	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
@@ -215,7 +210,7 @@ passed:
 
 	if (iNewEvent == GC_EVENT_MESSAGE) {
 		ShowPopup(si->hContact, si, pci->hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : pci->aFonts[9].color,
-			TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, pci->RemoveFormatting(gce->ptszText));
+					 TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, pci->RemoveFormatting(gce->ptszText));
 	}
 	else saveCI.DoPopup(si, gce);
 
@@ -289,7 +284,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 			else if (dat->iFlashIcon) {
 				dat->hTabIcon = dat->iFlashIcon;
 
-				TCITEM item = {0};
+				TCITEM item = { 0 };
 				item.mask = TCIF_IMAGE;
 				item.iImage = 0;
 				TabCtrl_SetItem(GetParent(si->hWnd), dat->iTabID, &item);
@@ -400,7 +395,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 				params->sound = "ChatMessage";
 				if (params->bInactive && !(si->wState & STATE_TALK)) {
 					si->wState |= STATE_TALK;
-					db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)(WORD) 40071);
+					db_set_w(si->hContact, si->pszModule, "ApparentMode", ID_STATUS_OFFLINE);
 				}
 				break;
 			case GC_EVENT_ACTION:
@@ -494,8 +489,8 @@ TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 	int i, j, k;
 
 	_tsetlocale(LC_ALL, _T(""));
-	for (i=0;s1[i];i++)
-		for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]);j++, k++)
+	for (i = 0; s1[i]; i++)
+		for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]); j++, k++)
 			if (!s2[k+1])
 				return (TCHAR*)(s1 + i);
 
@@ -528,7 +523,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	*hMenu = GetSubMenu(g_hMenu, iIndex);
 	TranslateMenu(*hMenu);
 
-	GCMENUITEMS gcmi = {0};
+	GCMENUITEMS gcmi = { 0 };
 	gcmi.pszID = si->ptszID;
 	gcmi.pszModule = si->pszModule;
 	gcmi.pszUID = pszUID;
@@ -691,7 +686,7 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 	int dwMask = 0;
 	if (gce->ptszText != NULL)
 		dwMask |= CMUCHighlight::MATCH_TEXT;
-	
+
 	if (gce->ptszNick != NULL) {
 		dwMask |= CMUCHighlight::MATCH_NICKNAME;
 		if (si && g_Settings.bLogClassicIndicators) {
@@ -701,6 +696,6 @@ BOOL IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 			_tcscpy(tmp + 1, gce->ptszNick);
 			evTmp.ptszNick = tmp;
 		}
-	}		
+	}
 	return g_Settings.Highlight->match(&evTmp, si, dwMask);
 }

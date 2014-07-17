@@ -200,7 +200,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 		enlink.lParam = lParam;
 		enlink.chrg.cpMin = cpMin;
 		enlink.chrg.cpMax = cpMax;
-		SendMessage(GetParent(hwndDlg), WM_NOTIFY, (WPARAM)IDC_CHAT_LOG, (LPARAM)&enlink);
+		SendMessage(GetParent(hwndDlg), WM_NOTIFY, IDC_CHAT_LOG, (LPARAM)&enlink);
 	}
 	return bIsCustomLink;
 }
@@ -277,8 +277,8 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	if (dat->iTabID >= 0) {
 		if (db_get_w(si->hContact, si->pszModule, "ApparentMode", 0) != 0)
 			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
-		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
+		if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
+			CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
 
 		SendMessage(hwndDlg, GC_UPDATETITLE, 0, 1);
 		dat->dwTickLastEvent = 0;
@@ -923,7 +923,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)& gtl, 0);
+				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
@@ -948,7 +948,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)& gtl, 0);
+				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
@@ -1189,7 +1189,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					db_set_dw(si->hContact, CHAT_MODULE, "TrayIconMask", dwMask);
 				}
 				Chat_SetFilters(si);
-				SendMessage(si->hWnd, GC_CHANGEFILTERFLAG, 0, (LPARAM)iFlags);
+				SendMessage(si->hWnd, GC_CHANGEFILTERFLAG, 0, iFlags);
 				if (si->bFilterEnabled)
 					SendMessage(si->hWnd, GC_REDRAWLOG, 0, 0);
 			}
@@ -1222,9 +1222,9 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (hFilter == hwnd)
 				SendMessage(hwndParent, GC_SHOWFILTERMENU, 0, 0);
 			if (hColor == hwnd)
-				SendMessage(hwndParent, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_COLOR);
+				SendMessage(hwndParent, GC_SHOWCOLORCHOOSER, 0, IDC_COLOR);
 			if (hBGColor == hwnd)
-				SendMessage(hwndParent, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_BKGCOLOR);
+				SendMessage(hwndParent, GC_SHOWCOLORCHOOSER, 0, IDC_BKGCOLOR);
 		}
 		break;
 	}
@@ -1672,7 +1672,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 						if (iSelectedItems != LB_ERR) {
 							int *pItems = (int *)mir_alloc(sizeof(int) * (iSelectedItems + 1));
 							if (pItems) {
-								if (SendMessage(hwnd, LB_GETSELITEMS, (WPARAM)iSelectedItems, (LPARAM)pItems) != LB_ERR) {
+								if (SendMessage(hwnd, LB_GETSELITEMS, iSelectedItems, (LPARAM)pItems) != LB_ERR) {
 									for (int i=0; i < iSelectedItems; i++) {
 										USERINFO *ui1 = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, pItems[i]);
 										if (ui1)
@@ -1913,7 +1913,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_GETEVENTMASK, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS | ENM_KEYEVENTS);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, (WPARAM)0x7FFFFFFF, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, 0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 			dat->Panel->loadHeight();
@@ -2390,8 +2390,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 
 		case SESSION_TERMINATE:
-			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
+			if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
+				CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
 
 			si->wState &= ~STATE_TALK;
 			dat->bWasDeleted = 1;
@@ -2652,8 +2652,8 @@ LABEL_SHOWWINDOW:
 					if (iCharIndex < 0)
 						break;
 						
-					int iLineIndex = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXLINEFROMCHAR, 0, (LPARAM)iCharIndex);
-					int iChars = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_LINEINDEX, (WPARAM)iLineIndex, 0);
+					int iLineIndex = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXLINEFROMCHAR, 0, iCharIndex);
+					int iChars = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_LINEINDEX, iLineIndex, 0);
 					int start = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
 					int end = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
 
@@ -3137,7 +3137,7 @@ LABEL_SHOWWINDOW:
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_BKGCOLOR)) {
 				if (M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0)
-					SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_BKGCOLOR);
+					SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, IDC_BKGCOLOR);
 				else if (si->bBGSet) {
 					cf.dwMask = CFM_BACKCOLOR;
 					cf.crBackColor = pci->MM_FindModule(si->pszModule)->crColors[si->iBG];
@@ -3160,7 +3160,7 @@ LABEL_SHOWWINDOW:
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_COLOR)) {
 				if (M.GetByte(CHAT_MODULE, "RightClickFilter", 0) == 0)
-					SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_COLOR);
+					SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, IDC_COLOR);
 				else if (si->bFGSet) {
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = pci->MM_FindModule(si->pszModule)->crColors[si->iFG];
@@ -3591,8 +3591,8 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case WM_DESTROY:
-		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)GC_FAKE_EVENT);
+		if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
+			CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
 		si->wState &= ~STATE_TALK;
 		si->hWnd = NULL;
 		si->dat = NULL;

@@ -1036,7 +1036,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					int iQueued = db_get_dw(dat->hContact, "SendLater", "count", 0);
 					gtxl.codepage = CP_UTF8;
 					gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
-					iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
+					iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 					tooltip_active = TRUE;
 
 					const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
