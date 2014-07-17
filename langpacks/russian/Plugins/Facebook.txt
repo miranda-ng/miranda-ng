@@ -89,10 +89,14 @@
 Подгружать последние сообщения при открытии окна (Экспериментально)
 [Number of messages to load:]
 Количество подгружаемых сообщений:
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
 [Myself]
 Я
 [User]
 Пользователь
+[Friend]
+Друг
 [&Invite user...]
 &Пригласить пользователя...
 [&Leave chat session]
@@ -149,6 +153,8 @@
 Друзьям, кроме знакомых
 [Only me]
 Только мне
+[%s and more (%d)]
+%s и ещё (%d)
 [Contact was removed from your server list.]
 Контакт удален из списка на сервере.
 [Error occurred when removing contact from server.]
@@ -255,6 +261,8 @@
 Информация о дружбе
 [Conversation]
 Беседа
+[Message read]
+Сообщение прочтено
 [Visit friendship details]
 Информация о дружбе
 [Visit conversation]
