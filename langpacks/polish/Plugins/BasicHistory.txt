@@ -331,7 +331,7 @@ Nieprawidłowy numer zdarzenia
 Przychodzące zdarzenia
 [Outgoing events]
 Wychodzące zdarzenia
-[File do not exist. Enter correct file path.]
+[File does not exist. Enter correct file path.]
 Plik nie istnieje. Wprowadź poprawną ścieżkę do pliku.
 [Invalid file]
 Nieprawidłowy plik

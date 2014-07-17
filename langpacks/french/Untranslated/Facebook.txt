@@ -13,7 +13,7 @@
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 [Load last messages on opening message window (EXPERIMENTAL)]
 [Number of messages to load:]
-[Do not open chat windows on creation ]
+[Do not open chat windows on creation]
 [Myself]
 [Friend]
 [&Leave chat session]

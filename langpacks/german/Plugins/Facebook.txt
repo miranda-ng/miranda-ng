@@ -92,7 +92,7 @@ Nur Nachrichten aus "Postfach"-Verzeichnis abrufen
 Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
 [Number of messages to load:]
 Lade Anzahl Nachrichten:
-[Do not open chat windows on creation ]
+[Do not open chat windows on creation]
 
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]

@@ -107,7 +107,7 @@
 [Export To Dat (mContacts)]
 [Import From Dat (mContacts)]
 [Invalid event number]
-[File do not exist. Enter correct file path.]
+[File does not exist. Enter correct file path.]
 [Invalid file]
 [Enter filter name]
 [Filter name exists]

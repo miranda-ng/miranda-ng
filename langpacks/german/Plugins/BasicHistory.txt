@@ -331,7 +331,7 @@ Falsche Eventnummer
 Eingehende Ereignisse
 [Outgoing events]
 Ausgehende Ereignisse
-[File do not exist. Enter correct file path.]
+[File does not exist. Enter correct file path.]
 Datei existiert nicht. Geben Sie den richtigen Pfad ein.
 [Invalid file]
 Ungültige Datei

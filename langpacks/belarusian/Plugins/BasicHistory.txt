@@ -331,7 +331,7 @@ Dat (мКантакты)
 Уваходныя падзеі
 [Outgoing events]
 Выходныя падзеі
-[File do not exist. Enter correct file path.]
+[File does not exist. Enter correct file path.]
 Файл адсутнічае. Увядзі дакладны шлях да файла.
 [Invalid file]
 Няслушны файл

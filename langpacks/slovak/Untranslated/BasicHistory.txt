@@ -134,7 +134,7 @@
 [Invalid event number]
 [Incoming events]
 [Outgoing events]
-[File do not exist. Enter correct file path.]
+[File does not exist. Enter correct file path.]
 [Invalid file]
 [All Files (*.*)]
 [Enter filter name]

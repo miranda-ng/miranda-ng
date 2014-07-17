@@ -36,7 +36,7 @@
 [Receive messages from "inbox" folder only]
 [Load last messages on opening message window (EXPERIMENTAL)]
 [Number of messages to load:]
-[Do not open chat windows on creation ]
+[Do not open chat windows on creation]
 [Myself]
 [User]
 [Friend]

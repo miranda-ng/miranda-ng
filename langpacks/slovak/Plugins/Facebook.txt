@@ -92,7 +92,7 @@ Storno
 
 [Number of messages to load:]
 
-[Do not open chat windows on creation ]
+[Do not open chat windows on creation]
 
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]

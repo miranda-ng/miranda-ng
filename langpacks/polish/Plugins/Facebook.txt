@@ -92,7 +92,7 @@ Odbieraj wiadomości tylko z folderu "Odebrane"
 Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
 [Number of messages to load:]
 Liczba wiadomości do załadowania:
-[Do not open chat windows on creation ]
+[Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]
