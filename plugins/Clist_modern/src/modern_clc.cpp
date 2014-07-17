@@ -48,8 +48,6 @@ static BOOL		fMouseUpped;
 static BYTE		IsDragToScrollMode = 0;
 static int		StartDragPos = 0;
 static int		StartScrollPos = 0;
-HANDLE			hSmileyAddOptionsChangedHook = NULL;
-HANDLE			hIconChangedHook = NULL;
 HANDLE			hAckHook = NULL;
 HANDLE			hAvatarChanged = NULL;
 static BOOL		g_bSortTimerIsSet = FALSE;
@@ -115,19 +113,18 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	clcHookIconsChanged(0, 0);
 
-	hIconChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
 
 	// Register smiley category
 	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {
 		SMADD_REGCAT rc;
-
 		rc.cbSize = sizeof(rc);
 		rc.name = "clist";
 		rc.dispname = Translate("Contact list smileys");
 
 		CallService(MS_SMILEYADD_REGISTERCATEGORY, 0, (LPARAM)&rc);
 
-		hSmileyAddOptionsChangedHook = HookEvent(ME_SMILEYADD_OPTIONSCHANGED, clcHookSmileyAddOptionsChanged);
+		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, clcHookSmileyAddOptionsChanged);
 	}
 
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)(LPGEN("List background")"/CLC"), 0);
@@ -425,7 +422,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 	ClcContact *contact;
 	int hit = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
 	if (hit == -1)	return 0;
-	if (contact->type == CLCIT_CONTACT && CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)contact->hContact))	return 0;
+	if (contact->type == CLCIT_CONTACT && CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), contact->hContact))	return 0;
 
 	switch (LOWORD(wParam)) {
 	case POPUP_NEWSUBGROUP:
@@ -1212,7 +1209,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		CLUI_SafeSetTimer(hwnd, TIMERID_RENAME, GetDoubleClickTime(), NULL);
 	else if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
 		TCHAR Wording[500];
-		int res = 0;
+		ClcContact *contDest, *contSour;
 		POINT pt = UNPACK_POINT(lParam);
 		int target = GetDropTargetInformation(hwnd, dat, pt);
 		switch (target) {
@@ -1220,40 +1217,36 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_ONCONTACT:
-			if (ServiceExists(MS_MC_ADDTOMETA)) {
-				ClcContact *contDest, *contSour;
-				int res;
-				MCONTACT handle, hcontact;
+			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+			if (contSour->type == CLCIT_CONTACT) {
+				MCONTACT hcontact = contSour->hContact;
+				if (mir_strcmp(contSour->proto, META_PROTO)) {
+					if (!contSour->isSubcontact) {
+						MCONTACT hDest = contDest->hContact;
+						mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it?"), contDest->szText, contSour->szText);
+						int res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact"), MB_OKCANCEL | MB_ICONQUESTION);
+						if (res == 1) {
+							MCONTACT handle = CallService(MS_MC_CONVERTTOMETA, hDest, 0);
+							if (!handle)
+								return 0;
 
-				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
-				hcontact = contSour->hContact;
-				if (contSour->type == CLCIT_CONTACT) {
-					if (mir_strcmp(contSour->proto, META_PROTO)) {
-						if (!contSour->isSubcontact) {
-							MCONTACT hDest = contDest->hContact;
-							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it?"), contDest->szText, contSour->szText);
-							res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact"), MB_OKCANCEL | MB_ICONQUESTION);
-							if (res == 1) {
-								handle = (MCONTACT)CallService(MS_MC_CONVERTTOMETA, (WPARAM)hDest, 0);
-								if (!handle) return 0;
-								CallService(MS_MC_ADDTOMETA, (WPARAM)hcontact, (LPARAM)handle);
-							}
+							CallService(MS_MC_ADDTOMETA, hcontact, handle);
 						}
-						else {
-							hcontact = contSour->hContact;
-							MCONTACT hfrom = contSour->subcontacts->hContact;
-							MCONTACT hdest = contDest->hContact;
-							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?"), contDest->szText, contSour->szText, contSour->subcontacts->szText);
-							res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
-							if (res == 1) {
-								MCONTACT handle = (MCONTACT)CallService(MS_MC_CONVERTTOMETA, (WPARAM)hdest, 0);
-								if (!handle)
-									return 0;
+					}
+					else {
+						hcontact = contSour->hContact;
+						MCONTACT hfrom = contSour->subcontacts->hContact;
+						MCONTACT hdest = contDest->hContact;
+						mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?"), contDest->szText, contSour->szText, contSour->subcontacts->szText);
+						int res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
+						if (res == 1) {
+							MCONTACT handle = (MCONTACT)CallService(MS_MC_CONVERTTOMETA, (WPARAM)hdest, 0);
+							if (!handle)
+								return 0;
 
-								CallService(MS_MC_REMOVEFROMMETA, 0, (LPARAM)hcontact);
-								CallService(MS_MC_ADDTOMETA, (WPARAM)hcontact, (LPARAM)handle);
-							}
+							CallService(MS_MC_REMOVEFROMMETA, 0, hcontact);
+							CallService(MS_MC_ADDTOMETA, hcontact, handle);
 						}
 					}
 				}
@@ -1261,79 +1254,76 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_ONMETACONTACT:
-			{
-				ClcContact *contDest, *contSour;
-				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
-				if (contSour->type == CLCIT_CONTACT) {
-					if (!strcmp(contSour->proto, META_PROTO))
-						break;
-					if (!contSour->isSubcontact) {
-						MCONTACT hcontact = contSour->hContact;
-						MCONTACT handle = contDest->hContact;
-						mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->szText);
-						int res = MessageBox(hwnd, Wording, TranslateT("Adding contact to metacontact"), MB_OKCANCEL | MB_ICONQUESTION);
-						if (res == 1) {
-							if (!handle) return 0;
-							CallService(MS_MC_ADDTOMETA, (WPARAM)hcontact, (LPARAM)handle);
-						}
+			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+			if (contSour->type == CLCIT_CONTACT) {
+				if (!strcmp(contSour->proto, META_PROTO))
+					break;
+				if (!contSour->isSubcontact) {
+					MCONTACT hcontact = contSour->hContact;
+					MCONTACT handle = contDest->hContact;
+					mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->szText);
+					int res = MessageBox(hwnd, Wording, TranslateT("Adding contact to metacontact"), MB_OKCANCEL | MB_ICONQUESTION);
+					if (res == 1) {
+						if (!handle)
+							return 0;
+						CallService(MS_MC_ADDTOMETA, hcontact, handle);
 					}
-					else {
-						if (contSour->subcontacts == contDest) {
-							MCONTACT hsour = contSour->hContact;
-							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be default?"), contSour->szText);
-							int res = MessageBox(hwnd, Wording, TranslateT("Set default contact"), MB_OKCANCEL | MB_ICONQUESTION);
-							if (res == 1)
-								db_mc_setDefault(contDest->hContact, hsour, true);
-						}
-						else {
-							MCONTACT hcontact = contSour->hContact;
-							MCONTACT hfrom = contSour->subcontacts->hContact;
-							MCONTACT handle = contDest->hContact;
-							mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?"), contSour->szText, contSour->subcontacts->szText, contDest->szText);
-							int res = MessageBox(hwnd, Wording, TranslateT("Changing metacontacts (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
-							if (res == 1) {
-								if (!handle) return 0;
+				}
+				else if (contSour->subcontacts == contDest) {
+					MCONTACT hsour = contSour->hContact;
+					mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be default?"), contSour->szText);
+					int res = MessageBox(hwnd, Wording, TranslateT("Set default contact"), MB_OKCANCEL | MB_ICONQUESTION);
+					if (res == 1)
+						db_mc_setDefault(contDest->hContact, hsour, true);
+				}
+				else {
+					MCONTACT hcontact = contSour->hContact;
+					MCONTACT hfrom = contSour->subcontacts->hContact;
+					MCONTACT handle = contDest->hContact;
+					mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?"), contSour->szText, contSour->subcontacts->szText, contDest->szText);
+					int res = MessageBox(hwnd, Wording, TranslateT("Changing metacontacts (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
+					if (res == 1) {
+						if (!handle)
+							return 0;
 
-								CallService(MS_MC_REMOVEFROMMETA, 0, (LPARAM)hcontact);
-								CallService(MS_MC_ADDTOMETA, (WPARAM)hcontact, (LPARAM)handle);
-							}
-						}
+						CallService(MS_MC_REMOVEFROMMETA, 0, hcontact);
+						CallService(MS_MC_ADDTOMETA, hcontact, handle);
 					}
 				}
 			}
 			break;
 
 		case DROPTARGET_ONSUBCONTACT:
-			{
-				ClcContact *contDest, *contSour;
-				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
-				if (contSour->type == CLCIT_CONTACT) {
-					if (!strcmp(contSour->proto, META_PROTO))
-						break;
-					if (!contSour->isSubcontact) {
-						MCONTACT hcontact = contSour->hContact;
-						MCONTACT handle = contDest->subcontacts->hContact;
-						mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->subcontacts->szText);
-						int res = MessageBox(hwnd, Wording, TranslateT("Changing metacontacts (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
-						if (res == 1) {
-							if (!handle) return 0;
-							CallService(MS_MC_ADDTOMETA, (WPARAM)hcontact, (LPARAM)handle);
-						}
+			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+			if (contSour->type == CLCIT_CONTACT) {
+				if (!strcmp(contSour->proto, META_PROTO))
+					break;
+				if (!contSour->isSubcontact) {
+					MCONTACT hcontact = contSour->hContact;
+					MCONTACT handle = contDest->subcontacts->hContact;
+					mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be added to metacontact '%s'?"), contSour->szText, contDest->subcontacts->szText);
+					int res = MessageBox(hwnd, Wording, TranslateT("Changing metacontacts (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
+					if (res == 1) {
+						if (!handle)
+							return 0;
+						
+						CallService(MS_MC_ADDTOMETA, hcontact, handle);
 					}
-					else if (contSour->subcontacts != contDest->subcontacts) {
-						MCONTACT hcontact = contSour->hContact;
-						MCONTACT hfrom = contSour->subcontacts->hContact;
-						MCONTACT handle = contDest->subcontacts->hContact;
-						mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?"), contSour->szText, contSour->subcontacts->szText, contDest->subcontacts->szText);
-						int res = MessageBox(hwnd, Wording, TranslateT("Changing metacontacts (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
-						if (res == 1) {
-							if (!handle) return 0;
+				}
+				else if (contSour->subcontacts != contDest->subcontacts) {
+					MCONTACT hcontact = contSour->hContact;
+					MCONTACT hfrom = contSour->subcontacts->hContact;
+					MCONTACT handle = contDest->subcontacts->hContact;
+					mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?"), contSour->szText, contSour->subcontacts->szText, contDest->subcontacts->szText);
+					int res = MessageBox(hwnd, Wording, TranslateT("Changing metacontacts (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
+					if (res == 1) {
+						if (!handle)
+							return 0;
 
-							CallService(MS_MC_REMOVEFROMMETA, 0, (LPARAM)hcontact);
-							CallService(MS_MC_ADDTOMETA, (WPARAM)hcontact, (LPARAM)handle);
-						}
+						CallService(MS_MC_REMOVEFROMMETA, 0, hcontact);
+						CallService(MS_MC_ADDTOMETA, hcontact, handle);
 					}
 				}
 			}
@@ -1455,7 +1445,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 		nm.flags = 0;
 		nm.hItem = (HANDLE)wParam;
-		SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
+		SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
 		dat->needsResort = 1;
 	}
 	SetTimer(hwnd, TIMERID_REBUILDAFTER, 1, NULL);

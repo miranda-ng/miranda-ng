@@ -35,7 +35,6 @@ static HWND hwndToolTips = NULL;
 static BOOL	bThemed = FALSE;
 
 static HANDLE hButtonWindowList = NULL;
-static HANDLE hBkgChangedHook = NULL;
 
 static int OnIconLibIconChanged(WPARAM wParam, LPARAM lParam)
 {
@@ -250,11 +249,11 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 	
 	case BUTTONSETMARGINS:
-		if (lParam)	bct->rcMargins = *(RECT*)lParam;
-		else {
-			RECT nillRect = {0};
+		if (!lParam) {
+			RECT nillRect = { 0 };
 			bct->rcMargins = nillRect;
 		}
+		else bct->rcMargins = *(RECT*)lParam;
 		break;
 
 	case BUTTONSETID:
@@ -495,8 +494,8 @@ int Buttons_OnSkinModeSettingsChanged(WPARAM wParam, LPARAM lParam)
 HRESULT ToolbarButtonLoadModule()
 {
 	hButtonWindowList = WindowList_Create();
-	hIconChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
-	hBkgChangedHook = HookEvent(ME_BACKGROUNDCONFIG_CHANGED,Buttons_OnSkinModeSettingsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconLibIconChanged);
+	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, Buttons_OnSkinModeSettingsChanged);
 	return S_OK;
 }
 

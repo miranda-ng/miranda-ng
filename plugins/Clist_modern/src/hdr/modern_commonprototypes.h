@@ -61,7 +61,6 @@ extern BOOL g_mutex_bChangingMode;
 extern UINT g_dwMainThreadID;
 extern HANDLE g_hAwayMsgThread, g_hGetTextAsyncThread, g_hSmoothAnimationThread;
 extern HWND g_hwndViewModeFrame;
-extern HANDLE hSmileyAddOptionsChangedHook,hAvatarChanged,hIconChangedHook;
 extern BYTE gl_TrimText;
 
 /************************************************************************/
