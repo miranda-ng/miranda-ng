@@ -37,7 +37,7 @@ Pliki WAV
 [Sounds]
 Dźwięki
 [XSound Notify]
-Powiadomienia xStatus
+XSound Notify
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
 [Self status]
 Własny status
