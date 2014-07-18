@@ -23,22 +23,22 @@
 Текст:
 [Place:]
 Место:
-[Share]
-Отправить
-[Cancel]
-Отмена
 [Contacts >>]
 Контакты >>
 [Attach contacts:]
 Присоединить контакты:
+[Share]
+Отправить
+[Cancel]
+Отмена
 [User details]
 О пользователе
+[Contacts Settings]
+Настройки контактов
 [Default group:]
 Группа:
 [Automatically set 'Ignore status change' flag]
 Автоматически включать игнорирование смены статусов
-[Contacts Settings]
-Настройки контактов
 [Use bigger avatars]
 Большие аватары
 [Event notifications]

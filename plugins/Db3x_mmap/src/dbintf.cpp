@@ -117,7 +117,7 @@ CDb3Mmap::~CDb3Mmap()
 }
 
 static TCHAR szMsgConvert[] = 
-	LPGENT("Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda");
+	LPGENT("Your database must be converted into the new format. This is potentially dangerous operation and might damage your profile, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda");
 
 int CDb3Mmap::Load(bool bSkipInit)
 {
