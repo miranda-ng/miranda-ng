@@ -25,22 +25,22 @@
 Посилання:
 [Place:]
 Місце:
-[Share]
-Відправити
-[Cancel]
-Скасувати
 [Contacts >>]
 Контакти >>
 [Attach contacts:]
 Приєднати контакти:
+[Share]
+Відправити
+[Cancel]
+Скасувати
 [User details]
 Про користувача
+[Contacts Settings]
+Налаштування контактів
 [Default group:]
 Група:
 [Automatically set 'Ignore status change' flag]
 Автоматично вмикати ігнорування зміни статусів
-[Contacts Settings]
-Налаштування контактів
 [Use bigger avatars]
 Великі аватари
 [Event notifications]

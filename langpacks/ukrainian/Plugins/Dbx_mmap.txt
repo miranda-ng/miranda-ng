@@ -51,8 +51,8 @@
 Ваш профіль застарілого формату. Для оновлення за допомогою PluginUpdater, необхідно спочатку конвертувати профіль у сучасний формат.\n\nНатисніть "Так", щоб дізнатися, як це зробити.
 [Obsolete database format]
 Застарілий формат профілю
-[Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
-Ваша база даних буде сконвертована у новий формат. Це потенційно небезпечна дія, зробіть будь ласка, резервну копію бази.\n\nНатисніть "Так", щоб почати конвертацію, або "Ні", щоб вийти з програми.
+[Your database must be converted into the new format. This is potentially dangerous operation and might damage your profile, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
+Ваша база даних буде сконвертована у новий формат. Це потенційно небезпечна дія, що може спричинити втрату історії переписки або пошкодити ваш профіль, зробіть будь ласка, резервну копію бази.\n\nНатисніть "Так", щоб почати конвертацію, або "Ні", щоб вийти з програми.
 [Database conversion required]
 Конвертація бази
 [Change/remove password]

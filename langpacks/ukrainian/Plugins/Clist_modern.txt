@@ -263,7 +263,7 @@ x100 мс
 Область подій
 [Disabled]
 Вимкнути
-[Show automaticaly]
+[Show automatically]
 Автоматично
 [Always visible]
 Показувати завжди
