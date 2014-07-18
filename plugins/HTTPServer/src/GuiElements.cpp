@@ -1133,7 +1133,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)"");
 					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("Current IP Address: "));
 					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("Current Address: "));
-					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("IP Adress: "));
+					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("IP Address: "));
 					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)LPGENT("You are browsing from"));
 					SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("<HTML><BODY>"));
 				}
