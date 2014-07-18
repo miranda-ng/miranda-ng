@@ -265,7 +265,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Фрейм "Область событий"
 [Disabled]
 Выключен
-[Show automaticaly]
+[Show automatically]
 Автоматически
 [Always visible]
 Всегда видимый
