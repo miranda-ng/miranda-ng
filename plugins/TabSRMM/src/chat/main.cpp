@@ -319,6 +319,13 @@ int Chat_Load()
 // unload the module. final cleanup
 int Chat_Unload(void)
 {
+	if (g_Settings.SelectionBGBrush)
+		DeleteObject(g_Settings.SelectionBGBrush);
+
+	for (int i = 0; i < SIZEOF(g_Settings.UserListFonts); i++)
+		if (g_Settings.UserListFonts[i])
+			DeleteObject(g_Settings.UserListFonts[i]);
+
 	delete g_Settings.Highlight;
 
 	db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);

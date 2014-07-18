@@ -1,7 +1,7 @@
 #define __MAJOR_VERSION       3
 #define __MINOR_VERSION       3
 #define __RELEASE_NUM         1
-#define __BUILD_NUM           5
+#define __BUILD_NUM           6
 
 #include <stdver.h>
 

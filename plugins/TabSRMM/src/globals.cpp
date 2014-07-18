@@ -31,6 +31,8 @@
 
 void Chat_ModulesLoaded();
 
+bool g_bShutdown = false;
+
 CGlobals 	PluginConfig;
 CGlobals*	pConfig = &PluginConfig;
 
@@ -518,6 +520,8 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM lParam)
 
 int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 {
+	g_bShutdown = true;
+
 	::TN_ModuleDeInit();
 	::CloseAllContainers();
 

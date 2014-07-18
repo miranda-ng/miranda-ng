@@ -1209,9 +1209,11 @@ void CSkin::Unload()
 			::DestroyIcon(*(m_skinIcons[i].phIcon));
 	mir_free(m_skinIcons);
 
-	M.getAeroState();				// refresh after unload
-	::FreeTabConfig();
-	::ReloadTabConfig();
+	if (!g_bShutdown) {
+		M.getAeroState();				// refresh after unload
+		::FreeTabConfig();
+		::ReloadTabConfig();
+	}
 
 	m_bAvatarBorderType = AVBORDER_NORMAL;
 	m_avatarBorderClr = ::GetSysColor(COLOR_3DDKSHADOW);

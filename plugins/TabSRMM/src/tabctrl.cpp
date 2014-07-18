@@ -1348,21 +1348,18 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 void TSAPI ReloadTabConfig()
 {
-	NONCLIENTMETRICS nclim;
-	int i=0;
-
 	PluginConfig.tabConfig.m_hPenLight = CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
 	PluginConfig.tabConfig.m_hPenShadow = CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DDKSHADOW));
 	PluginConfig.tabConfig.m_hPenItemShadow = CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
 
+	NONCLIENTMETRICS nclim;
 	nclim.cbSize = sizeof(nclim);
 	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &nclim, 0);
 	PluginConfig.tabConfig.m_hMenuFont = CreateFontIndirect(&nclim.lfMessageFont);
 
-	while (tabcolors[i].szKey != NULL) {
+	for (int i = 0; tabcolors[i].szKey != NULL; i++)
 		PluginConfig.tabConfig.colors[i] = M.GetDword(CSkin::m_skinEnabled ? tabcolors[i].szSkinnedKey : tabcolors[i].szKey, GetSysColor(tabcolors[i].defclr));
-		i++;
-	}
+
 	PluginConfig.tabConfig.m_brushes[0] = CreateSolidBrush(PluginConfig.tabConfig.colors[4]);
 	PluginConfig.tabConfig.m_brushes[1] = CreateSolidBrush(PluginConfig.tabConfig.colors[5]);
 	PluginConfig.tabConfig.m_brushes[2] = CreateSolidBrush(PluginConfig.tabConfig.colors[6]);

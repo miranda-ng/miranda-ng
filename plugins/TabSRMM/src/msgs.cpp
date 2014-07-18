@@ -497,7 +497,6 @@ int LoadSendRecvMessageModule(void)
 	LoadDefaultTemplates();
 
 	BuildCodePageList();
-
 	return 0;
 }
 

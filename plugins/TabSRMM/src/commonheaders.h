@@ -252,31 +252,36 @@ extern HANDLE hUserPrefsWindowList;
 extern TCpTable cpTable[];
 extern HMODULE g_hIconDLL;
 extern HMENU g_hMenu;
+extern bool g_bShutdown;
 
-extern int 	LoadSendRecvMessageModule(void);
-extern int 	SplitmsgShutdown(void);
-extern void LogErrorMessage(HWND hwndDlg, TWindowData *dat, int i, TCHAR *szMsg);
-extern int  Chat_Load(), Chat_Unload();
-extern void FreeLogFonts();
-extern INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern HIMAGELIST CreateStateImageList();
-extern INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam);
-extern INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam);
-extern void ImageDataInsertBitmap(IRichEditOle *ole, HBITMAP hBm);
-extern int CacheIconToBMP(TLogIcon *theIcon, HICON hIcon, COLORREF backgroundColor, int sizeX, int sizeY);
-extern void DeleteCachedIcon(TLogIcon *theIcon);
-extern INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern int TSAPI TBStateConvert2Flat(int state);
-extern int TSAPI RBStateConvert2Flat(int state);
-extern void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat, RECT* rc);
+int  LoadSendRecvMessageModule(void);
+int  SplitmsgShutdown(void);
+void LogErrorMessage(HWND hwndDlg, TWindowData *dat, int i, TCHAR *szMsg);
+int  Chat_Load(), Chat_Unload();
+void FreeLogFonts();
+void ImageDataInsertBitmap(IRichEditOle *ole, HBITMAP hBm);
+int  CacheIconToBMP(TLogIcon *theIcon, HICON hIcon, COLORREF backgroundColor, int sizeX, int sizeY);
+void DeleteCachedIcon(TLogIcon *theIcon);
+
+INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam);
+
+HIMAGELIST CreateStateImageList();
+
+INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+int TSAPI TBStateConvert2Flat(int state);
+int TSAPI RBStateConvert2Flat(int state);
+void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat, RECT* rc);
 
 #define IS_EXTKEY(a) (a & (1 << 24))
 
