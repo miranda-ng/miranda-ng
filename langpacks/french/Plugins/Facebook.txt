@@ -26,22 +26,22 @@ Texte :
 Lien :
 [Place:]
 
-[Share]
-Partager
-[Cancel]
-Annuler
 [Contacts >>]
 Contacts >>
 [Attach contacts:]
 
+[Share]
+Partager
+[Cancel]
+Annuler
 [User details]
 Détails du contact
+[Contacts Settings]
+Configuration des contacts
 [Default group:]
 Groupes :
 [Automatically set 'Ignore status change' flag]
 
-[Contacts Settings]
-Configuration des contacts
 [Use bigger avatars]
 Utiliser des grands avatars
 [Event notifications]

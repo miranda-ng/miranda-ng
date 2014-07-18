@@ -26,22 +26,22 @@ Texto:
 URL:
 [Place:]
 Lugar:
-[Share]
-Compartir
-[Cancel]
-Cancelar
 [Contacts >>]
 Contactos >>]
 [Attach contacts:]
 Adjuntar contactos:
+[Share]
+Compartir
+[Cancel]
+Cancelar
 [User details]
 Detalles del usuario
+[Contacts Settings]
+Configuración de contactos
 [Default group:]
 Grupo predeterminado:
 [Automatically set 'Ignore status change' flag]
 Establecer automáticamente bandera 'Ignorar el cambio de estado'
-[Contacts Settings]
-Configuración de contactos
 [Use bigger avatars]
 Usar avatares grandes
 [Event notifications]

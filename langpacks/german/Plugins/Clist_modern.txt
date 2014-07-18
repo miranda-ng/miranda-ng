@@ -266,7 +266,7 @@ Am Rand kurz stoppen (Snap)
 Ereignisbenachrichtigungsfeld
 [Disabled]
 Deaktiviert
-[Show automaticaly]
+[Show automatically]
 Automatisch zeigen
 [Always visible]
 Immer sichtbar

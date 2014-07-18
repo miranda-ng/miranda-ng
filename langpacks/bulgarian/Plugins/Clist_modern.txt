@@ -266,7 +266,7 @@ x100 ms
 Зона за уведомяване
 [Disabled]
 Изключено
-[Show automaticaly]
+[Show automatically]
 Автоматично показване
 [Always visible]
 Винаги видима

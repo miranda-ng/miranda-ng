@@ -266,7 +266,7 @@ Ajustar a bordes
 Área de notificación evento
 [Disabled]
 Desabilitado
-[Show automaticaly]
+[Show automatically]
 Mostrar de forma automática
 [Always visible]
 Siempre visible

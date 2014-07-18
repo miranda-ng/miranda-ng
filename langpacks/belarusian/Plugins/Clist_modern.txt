@@ -264,7 +264,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Зона падзей
 [Disabled]
 Выключаны
-[Show automaticaly]
+[Show automatically]
 Аўтаматычна
 [Always visible]
 Заўсёды бачны

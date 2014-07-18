@@ -55,7 +55,7 @@ Eliminar
 [Obsolete database format]
 
 ;file \plugins\Db3x_mmap\src\dbintf.cpp
-[Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
+[Your database must be converted into the new format. This is potentially dangerous operation and might damage your profile, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
 
 [Database conversion required]
 

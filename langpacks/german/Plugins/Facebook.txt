@@ -26,22 +26,22 @@ Text:
 URL:
 [Place:]
 Ort:
-[Share]
-Teilen
-[Cancel]
-Abbrechen
 [Contacts >>]
 Kontakte >>
 [Attach contacts:]
 Kontakte anhängen:
+[Share]
+Teilen
+[Cancel]
+Abbrechen
 [User details]
 Kontaktprofil
+[Contacts Settings]
+Kontakteinstellungen
 [Default group:]
 Standardgruppe:
 [Automatically set 'Ignore status change' flag]
 Automatisch 'Ignoriere Statusänderung-Flag' setzen
-[Contacts Settings]
-Kontakteinstellungen
 [Use bigger avatars]
 Größere Avatare nutzen
 [Event notifications]

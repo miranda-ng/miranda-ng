@@ -26,22 +26,22 @@ Tekst:
 Link:
 [Place:]
 Miejsce:
-[Share]
-Wyślij
-[Cancel]
-Anuluj
 [Contacts >>]
 Kontakty >>
 [Attach contacts:]
 Dołącz kontakty:
+[Share]
+Wyślij
+[Cancel]
+Anuluj
 [User details]
 Dane kontaktu
+[Contacts Settings]
+Opcje kontaktu
 [Default group:]
 Domyślna grupa:
 [Automatically set 'Ignore status change' flag]
 Automatycznie ustaw "Ignoruj zmiany statusu"
-[Contacts Settings]
-Opcje kontaktu
 [Use bigger avatars]
 Użyj większych awatarów
 [Event notifications]

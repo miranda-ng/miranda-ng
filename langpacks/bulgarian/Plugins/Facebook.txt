@@ -26,22 +26,22 @@
 URL:
 [Place:]
 
-[Share]
-Сподели
-[Cancel]
-Отказ
 [Contacts >>]
 Контакти >>
 [Attach contacts:]
 
+[Share]
+Сподели
+[Cancel]
+Отказ
 [User details]
 Подробности за потребителя
+[Contacts Settings]
+Настройки за контактите
 [Default group:]
 Стандартна група
 [Automatically set 'Ignore status change' flag]
 Автозадаване на флаг "Игнориране промените на състояния"
-[Contacts Settings]
-Настройки за контактите
 [Use bigger avatars]
 Ползване на по-големи аватари
 [Event notifications]

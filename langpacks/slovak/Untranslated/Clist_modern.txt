@@ -85,7 +85,7 @@
 [Snap to edges]
 [Event notify area]
 [Disabled]
-[Show automaticaly]
+[Show automatically]
 [Always visible]
 [Dock to sides]
 [and minimum]

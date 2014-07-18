@@ -20,7 +20,7 @@
 [Database Panic]
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
 [Obsolete database format]
-[Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
+[Your database must be converted into the new format. This is potentially dangerous operation and might damage your profile, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
 [Database conversion required]
 [Change/remove password]
 [Logo]

@@ -266,7 +266,7 @@ pixelov
 
 [Disabled]
 
-[Show automaticaly]
+[Show automatically]
 
 [Always visible]
 

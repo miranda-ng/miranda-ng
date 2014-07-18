@@ -266,7 +266,7 @@ Bordures franches
 Zone de notification
 [Disabled]
 Désactivé
-[Show automaticaly]
+[Show automatically]
 Afficher automatiquement
 [Always visible]
 Toujours visible

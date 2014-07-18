@@ -26,22 +26,22 @@
 URL:
 [Place:]
 Месца:
-[Share]
-Падзяліцца
-[Cancel]
-Скасаваць
 [Contacts >>]
 Кантакты >>
 [Attach contacts:]
 Далучыць кантакты:
+[Share]
+Падзяліцца
+[Cancel]
+Скасаваць
 [User details]
 Пра кантакт
+[Contacts Settings]
+Налады кантактаў
 [Default group:]
 Гурт:
 [Automatically set 'Ignore status change' flag]
 Аўтаматычна ўключаць ігнараванне змены статусаў
-[Contacts Settings]
-Налады кантактаў
 [Use bigger avatars]
 Вялікія аватары
 [Event notifications]

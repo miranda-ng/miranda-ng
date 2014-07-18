@@ -26,21 +26,21 @@ Heslo:
 URL:
 [Place:]
 
-[Share]
-
-[Cancel]
-Storno
 [Contacts >>]
 
 [Attach contacts:]
 
+[Share]
+
+[Cancel]
+Storno
 [User details]
+
+[Contacts Settings]
 
 [Default group:]
 
 [Automatically set 'Ignore status change' flag]
-
-[Contacts Settings]
 
 [Use bigger avatars]
 
