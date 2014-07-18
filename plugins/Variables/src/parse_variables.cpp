@@ -20,7 +20,7 @@
 #include "variables.h"
 
 // this is for get and put(s)
-static CRITICAL_SECTION csVarRegister;
+static mir_cs csVarRegister;
 static VARIABLEREGISTER *vr = NULL;
 static int vrCount = 0;
 
@@ -59,35 +59,6 @@ static TCHAR *searchVariableRegister(TCHAR *szName)
 			return mir_tstrdup(vr[i].szText);
 
 	return NULL;
-}
-
-int clearVariableRegister(bool bAll)
-{
-	int count = 0;
-	mir_cslock lck(csVarRegister);
-	for (int i = 0; i < vrCount; i++) {
-		if (!bAll && vr[i].dwOwnerThread != GetCurrentThreadId())
-			continue;
-
-		mir_free(vr[i].szName);
-		mir_free(vr[i].szText);
-		if (vrCount > 1) {
-			memcpy(&vr[i], &vr[vrCount-1], sizeof(VARIABLEREGISTER));
-			vr = (VARIABLEREGISTER*)mir_realloc(vr, (vrCount-1)*sizeof(VARIABLEREGISTER));
-			if (vr == NULL)
-				return -1;
-
-			vrCount--;
-		}
-		else {
-			mir_free(vr);
-			vr = NULL;
-			vrCount = 0;
-		}
-		count += 1;
-	}
-
-	return count;
 }
 
 static TCHAR *parsePut(ARGUMENTSINFO *ai)
@@ -131,11 +102,16 @@ void registerVariablesTokens()
 	registerIntToken(GET, parseGet, TRF_FUNCTION, LPGEN("Variables")"\t(x)\t"LPGEN("variable set by put(s) with name x"));
 	registerIntToken(PUT, parsePut, TRF_FUNCTION, LPGEN("Variables")"\t(x,y)\t"LPGEN("x, and stores y as variable named x"));//TRF_UNPARSEDARGS);
 	registerIntToken(PUTS, parsePuts, TRF_FUNCTION, LPGEN("Variables")"\t(x,y)\t"LPGEN("only stores y as variables x"));//TRF_UNPARSEDARGS);
-	InitializeCriticalSection(&csVarRegister);
 }
 
 void unregisterVariablesTokens()
 {
-	clearVariableRegister(true);
-	DeleteCriticalSection(&csVarRegister);
+	mir_cslock lck(csVarRegister);
+	for (int i = 0; i < vrCount; i++) {
+		mir_free(vr[i].szName);
+		mir_free(vr[i].szText);
+	}
+	mir_free(vr);
+	vr = NULL;
+	vrCount = 0;
 }

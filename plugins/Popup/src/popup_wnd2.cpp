@@ -166,13 +166,14 @@ PopupWnd2::~PopupWnd2()
 
 	if (m_hwnd)
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-	if (m_bmp) delete m_bmp;
-	if (m_bmpBase) delete m_bmpBase;
-	if (m_bmpAnimate) delete m_bmpAnimate;
-	if (m_mtText)  MText.Destroy(m_mtText);
+	delete m_bmp;
+	delete m_bmpBase;
+	delete m_bmpAnimate;
+	delete m_avatar;
+	delete []m_actions;
+
+	if (m_mtText) MText.Destroy(m_mtText);
 	if (m_mtTitle) MText.Destroy(m_mtTitle);
-	if (m_avatar) delete m_avatar;
-	if (m_actions) delete [] m_actions;
 }
 
 void PopupWnd2::startThread()

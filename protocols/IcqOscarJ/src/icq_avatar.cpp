@@ -754,6 +754,7 @@ avatars_server_connection::avatars_server_connection(CIcqProto *_ppro, HANDLE _h
 
 avatars_server_connection::~avatars_server_connection()
 {
+	delete m_rates;
 	delete m_ratesMutex;
 	delete localSeqMutex;
 }

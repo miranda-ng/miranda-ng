@@ -36,8 +36,8 @@ HCURSOR hCurSplitNS;
 
 struct ParseOptions gParseOpts;
 
-TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
-
+TCHAR* getArguments(TCHAR *string, TCHAR ***aargv, int *aargc)
+{
 	BOOL bDontParse, bNewArg, bDone;
 	TCHAR *cur, *scur, **argv;
 	int i, argc, brackets;
@@ -550,8 +550,8 @@ int LoadVarModule()
 	return 0;
 }
 
-int UnloadVarModule() {
-
+int UnloadVarModule()
+{
 	UnhookEvent(hOptionsHook);
 	if (hIconsChangedHook != NULL)
 		UnhookEvent(hIconsChangedHook);

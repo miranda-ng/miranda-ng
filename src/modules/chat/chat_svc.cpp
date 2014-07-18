@@ -68,6 +68,7 @@ void LoadChatIcons(void)
 	ci.hIcons[ICON_STATUS4] = LoadIconEx("status4", FALSE);
 	ci.hIcons[ICON_STATUS5] = LoadIconEx("status5", FALSE);
 
+	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
 }
 
@@ -615,7 +616,10 @@ void UnloadChatModule(void)
 {
 	if (!bInited)
 		return;
-	
+
+	mir_free(ci.szActiveWndID);
+	mir_free(ci.szActiveWndModule);
+
 	FreeMsgLogBitmaps();
 	OptionsUnInit();
 

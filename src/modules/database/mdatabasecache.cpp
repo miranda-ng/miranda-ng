@@ -44,6 +44,9 @@ MDatabaseCache::MDatabaseCache() :
 
 MDatabaseCache::~MDatabaseCache()
 {
+	for (int i = 0; i < m_lContacts.getCount(); i++)
+		mir_free(m_lContacts[i]->pSubs);
+
 	HeapDestroy(m_hCacheHeap);
 }
 

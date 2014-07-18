@@ -1063,7 +1063,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_DESTROY:
 		mir_free(dat);
-		return 0;
 	}
 
 	return mir_callNextSubclass(hwnd, MessageSubclassProc, msg, wParam, lParam);
@@ -1210,10 +1209,9 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
  */
 static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HWND hwndParent = GetParent(hwnd);
-
 	switch (msg) {
 	case WM_RBUTTONUP:
+		HWND hwndParent = GetParent(hwnd);
 		HWND hFilter = GetDlgItem(hwndParent, IDC_FILTER);
 		HWND hColor = GetDlgItem(hwndParent, IDC_COLOR);
 		HWND hBGColor = GetDlgItem(hwndParent, IDC_BKGCOLOR);

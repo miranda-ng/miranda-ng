@@ -178,32 +178,31 @@ int  getContactFromString( CONTACTSINFO* );
 int  initContactModule();
 int  deinitContactModule();
 // alias
-void  registerAliasTokens();
+void registerAliasTokens();
 void unregisterAliasTokens();
 // system
-void  registerSystemTokens();
+void registerSystemTokens();
 // external
-void  registerExternalTokens();
+void registerExternalTokens();
 // miranda
-void  registerMirandaTokens();
+void registerMirandaTokens();
 // str
-void  registerStrTokens();
+void registerStrTokens();
 // variables
-void  registerVariablesTokens();
+void registerVariablesTokens();
 void unregisterVariablesTokens();
-int  clearVariableRegister(bool bAll);
 // logic
-void  registerLogicTokens();
+void registerLogicTokens();
 // math
-void  registerMathTokens();
+void registerMathTokens();
 // metacontacts
 void registerMetaContactsTokens();
 // options
 int  OptionsInit(WPARAM wParam, LPARAM);
 // reg exp
-void  registerRegExpTokens();
+void registerRegExpTokens();
 // inet
-void  registerInetTokens();
+void registerInetTokens();
 // help
 INT_PTR  showHelpService(WPARAM wParam, LPARAM lParam);
 INT_PTR  showHelpExService(WPARAM wParam, LPARAM lParam);

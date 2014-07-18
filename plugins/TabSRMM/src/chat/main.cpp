@@ -319,6 +319,8 @@ int Chat_Load()
 // unload the module. final cleanup
 int Chat_Unload(void)
 {
+	delete g_Settings.Highlight;
+
 	db_set_w(NULL, CHAT_MODULE, "SplitterX", (WORD)g_Settings.iSplitterX);
 	db_set_w(NULL, CHAT_MODULE, "splitY", (WORD)g_Settings.iSplitterY);
 

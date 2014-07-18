@@ -45,6 +45,9 @@ void CB_InitCustomButtons()
 
 void CB_DeInitCustomButtons()
 {
+	wipeList(LButtonsList);
+	wipeList(RButtonsList);
+
 	DestroyHookableEvent(hHookToolBarLoadedEvt);
 	DestroyHookableEvent(hHookButtonPressedEvt);
 	DestroyServiceFunction(hButtonsBarAddButton);
