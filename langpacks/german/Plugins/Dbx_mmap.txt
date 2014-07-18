@@ -56,7 +56,7 @@ Dieses Profil ist zu alt um es mit PluginUpdater zu aktualisieren, Ihre Datenban
 Veraltetes Datenbankformat
 ;file \plugins\Db3x_mmap\src\dbintf.cpp
 [Your database must be converted into the new format. This is potentially dangerous operation and might damage your profile, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
-Ihre Datenbank muss in das neue Format konvertiert werden. Dies ist ein möglicherweise gefährlicher Vorgang, legen Sie daher bitte zuvor eine Sicherungskopie an.\n\nKlicken Sie auf Ja, um die Konvertierung zu starten, oder auf Nein, um Miranda zu beenden
+Ihre Datenbank muss in das neue Format konvertiert werden. Dies ist ein möglicherweise gefährlicher Vorgang, der Ihr Profil beschädigen könnte, legen Sie daher bitte zuvor eine Sicherungskopie an.\n\nKlicken Sie auf Ja, um die Konvertierung zu starten, oder auf Nein, um Miranda zu beenden
 [Database conversion required]
 Konvertierung der Datenbank erforderlich
 ;file \plugins\Db3x_mmap\src\dbintf.h

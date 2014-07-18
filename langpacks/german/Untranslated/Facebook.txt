@@ -1,4 +1,0 @@
-﻿[Do not open chat windows on creation]
-[Myself]
-[Friend]
-[%s and more (%d)]

@@ -1672,7 +1672,7 @@ Datenübertragung aus unbekannten Gründen fehlgeschlagen.
 [The checksum of file "%s" does not match, the file is probably damaged.]
 Die Prüfsumme von Datei "%s" stimmt nicht, die Datei ist vermutlich beschädigt.
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
-
+Ihre Dateiübertragung wurde abgebrochen (Fehler=%d), da eine der ausgewählten Dateien nicht mehr von der Festplatte lesbar ist. Möglicherweise haben Sie diese verschoben oder gelöscht.
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <ungültig>

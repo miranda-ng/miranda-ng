@@ -93,14 +93,14 @@ Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
 [Number of messages to load:]
 Lade Anzahl Nachrichten:
 [Do not open chat windows on creation]
-
+Chatfenster bei der Erzeugung nicht öffnen
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]
-
+Ich
 [User]
 Benutzer
 [Friend]
-
+Freund
 [&Invite user...]
 Kontakt e&inladen...
 [&Leave chat session]
@@ -162,7 +162,7 @@ Freunde ohne Bekannte
 Nur ich
 ;file \protocols\FacebookRM\src\contacts.cpp
 [%s and more (%d)]
-
+%s und mehr (%d)
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
 [Error occurred when removing contact from server.]

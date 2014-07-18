@@ -493,23 +493,23 @@ Server bearbeiten
 [<Local IP: ]
 <lokale IP:\s
 [Event: Available]
-
+Ereignis: Verfügbar
 [Event: Away]
-
+Ereignis: Abwesend
 [Event: N/A]
-
+Ereignis: Außer Haus
 [Event: Occupied]
-
+Ereignis: Beschäftigt
 [Event: DND]
-
+Ereignis: Bitte nicht stören
 [Event: Free for chat]
-
+Ereignis: Für Chat bereit
 [Event: On the phone]
-
+Ereignis: Am Telefon
 [Event: Out for lunch]
-
+Ereignis: Beim Essen
 [Event: Disconnect]
-
+Ereignis: Getrennt
 [ALL NETWORKS]
 Alle Netzwerke
 [Click to set commands that will be performed for this event]

@@ -607,7 +607,7 @@ Erstelle Statistik in einem niedrig priorisierten Hintergrundthread
 [Path to browser (leave blank for system default)]
 Pfad zum Browser (leer lassen für Systemstandard)
 [At this time there is no external plugin supported.]
-
+Aktuell werden keine externen Plugins unterstützt.
 [Supported plugins (double-click to learn more):]
 Unterstützte Plugins (Doppelklick für mehr Informationen):
 [HistoryStats supports several plugins. Click to hide info...]

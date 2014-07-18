@@ -386,7 +386,7 @@ Wir haben %d öffentliche Schlüssel und alle privaten Schlüssel erfolgreich ex
 [We have successfully exported all private keys.]
 Wir haben alle privaten Schlüssel erfolgreich exportiert.
 [We have successfully exported %d public keys.]
-Wir haben %d öffentliche Schlüssell erfolgreich exportiert.
+Wir haben %d öffentliche Schlüssel erfolgreich exportiert.
 [Keys export result]
 Ergebnis Schlüssel exportieren
 [We have successfully processed %d public keys and some private keys.]
