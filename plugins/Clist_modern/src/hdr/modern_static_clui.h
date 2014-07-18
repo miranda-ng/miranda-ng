@@ -100,26 +100,15 @@ int CLUI_SizingOnBorder(POINT pt, int size);
 int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam);
 int CLUI_TestCursorOnBorders();
 
-static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam, LPARAM lParam);
 static int CLUI_SmoothAlphaThreadTransition(HWND hwnd);
 
 /*      structs         */
 
-typedef struct tagPROTOTICKS{
-	int     nIconsCount;
-	int     nCycleStartTick;
-	char  * szProto;
-	int     nIndex;
-	BOOL    bTimerCreated;
-	BOOL    bGlobal;
-	HIMAGELIST himlIconList;
-} PROTOTICKS,*LPPROTOTICKS;
-
-typedef struct tagCHECKFILLING
+struct CHECKFILLING
 {
 	HDC hDC;
 	RECT rcRect;
-} CHECKFILLING;
+};
 
 int CheckFramesPos(RECT *wr);			//cluiframes.c
 int CLUIFrames_ApplyNewSizes(int mode); //cluiframes.c
