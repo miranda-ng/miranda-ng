@@ -17,7 +17,6 @@ FONT 8, "MS SHELL DLG"
    CONTROL "Formatting options", 200, BUTTON, BS_GROUPBOX | WS_CHILD | WS_VISIBLE, 6, 44, 302, 45
    CONTROL "Enable BBCodes", 201, BUTTON, BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 12, 54, 140, 11
    CONTROL "Enable SmileyAdd support", 202, BUTTON, BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 12, 64, 140, 11
-   CONTROL "Enable MathModule support", 203, BUTTON, BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 12, 74, 140, 11
    CONTROL "Enable raw RTF support", 204, BUTTON, BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 166, 54, 140, 11
    CONTROL "Display changed avatars", 205, BUTTON, BS_AUTOCHECKBOX | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 166, 64, 140, 11
                                                                                                              
