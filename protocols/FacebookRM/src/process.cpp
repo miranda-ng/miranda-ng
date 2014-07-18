@@ -1143,12 +1143,12 @@ void FacebookProto::SearchAckThread(void *targ)
 
 		if (resp.code == HTTP_CODE_OK)
 		{
-			std::string items = utils::text::source_get_value(&resp.data, 2, "<body", "</body>");
+			std::string items = utils::text::source_get_value(&resp.data, 4, "<body", "name=\"charset_test\"", "<table", "</body>");
 
 			std::string::size_type pos = 0;
 			std::string::size_type pos2 = 0;
 
-			while ((pos = items.find("<td class=\"pic\">", pos)) != std::string::npos) {
+			while ((pos = items.find("<tr", pos)) != std::string::npos) {
 				std::string item = items.substr(pos, items.find("</tr>", pos) - pos);
 				pos++; count++;
 
@@ -1156,10 +1156,10 @@ void FacebookProto::SearchAckThread(void *targ)
 				if (id.empty())
 					id = utils::text::source_get_value2(&item, "?ids=", "&\"");
 
-				std::string name = utils::text::source_get_value(&item, 4, "<td class=\"name\">", "<a", ">", "</");
+				std::string name = utils::text::source_get_value(&item, 3, "<a", ">", "</");
 				std::string surname;
 				std::string nick;
-				std::string common = utils::text::source_get_value(&item, 2, "<span class=\"mfss fcg\">", "</span>");
+				std::string common = utils::text::source_get_value(&item, 4, "</a>", "<span", ">", "</span>");
 
 				if ((pos2 = name.find("<span class=\"alternate_name\">")) != std::string::npos) {
 					nick = name.substr(pos2 + 30, name.length() - pos2 - 31); // also remove brackets around nickname
@@ -1225,7 +1225,7 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 		if (resp.code == HTTP_CODE_OK)
 		{
-			std::string about = utils::text::source_get_value(&resp.data, 2, "<div class=\"timeline", "id=\"footer");
+			std::string about = utils::text::source_get_value(&resp.data, 2, "<div id=\"root\"", "id=\"footer\"");
 		
 			std::string id = utils::text::source_get_value2(&about, ";id=", "&\"");
 			if (id.empty())
