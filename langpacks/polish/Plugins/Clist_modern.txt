@@ -266,7 +266,7 @@ Przyciąganie do krawędzi
 Obszar powiadomień
 [Disabled]
 Wyłączone
-[Show automaticaly]
+[Show automatically]
 Pokaż automatycznie
 [Always visible]
 Zawsze widoczny
