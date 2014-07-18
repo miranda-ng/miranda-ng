@@ -91,6 +91,7 @@ const
   );
 
 const
+  EVENTTYPE_STATUSCHANGE        = 25368;  // from srmm's
   EVENTTYPE_SMTPSIMPLE          = 2350;   // from SMTP Simple
   EVENTTYPE_NICKNAMECHANGE      = 9001;   // from pescuma
   EVENTTYPE_STATUSMESSAGECHANGE = 9002;   // from pescuma
@@ -184,7 +185,7 @@ type
   end;
 
 var
-  EventTable: array[0..27] of TEventTableItem = (
+  EventTable: array[0..28] of TEventTableItem = (
     // must be the first item in array for unknown events
     (EventType: MaxWord;                         MessageType: mtOther;         TextFunction: GetEventTextForOther),
     // events definitions
@@ -194,6 +195,7 @@ var
     (EventType: EVENTTYPE_AUTHREQUEST;           MessageType: mtSystem;        TextFunction: GetEventTextForAuthRequest),
     (EventType: EVENTTYPE_ADDED;                 MessageType: mtSystem;        TextFunction: GetEventTextForYouWereAdded),
     (EventType: EVENTTYPE_CONTACTS;              MessageType: mtContacts;      TextFunction: GetEventTextForContacts),
+    (EventType: EVENTTYPE_STATUSCHANGE;          MessageType: mtStatus;        TextFunction: GetEventTextForStatusChange),
     (EventType: EVENTTYPE_SMTPSIMPLE;            MessageType: mtSMTPSimple;    TextFunction: GetEventTextForMessage),
     (EventType: ICQEVENTTYPE_SMS;                MessageType: mtSMS;           TextFunction: GetEventTextForSMS),
     (EventType: ICQEVENTTYPE_WEBPAGER;           MessageType: mtWebPager;      TextFunction: GetEventTextForWebPager),
