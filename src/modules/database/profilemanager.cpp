@@ -302,6 +302,8 @@ BOOL EnumProfilesForList(TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam)
 			break;
 		}
 	}
+	if (dblink == NULL)
+		item.iImage = 3;
 
 	int iItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	if (lstrcmpi(ped->szProfile, tszFullPath) == 0)
@@ -373,6 +375,52 @@ void DeleteProfile(HWND hwndList, int iItem, DlgProfData *dat)
 	ListView_DeleteItem(hwndList, item.iItem);
 }
 
+static void CheckRun(HWND hwndDlg, int uMsg)
+{
+	DlgProfData *dat = (DlgProfData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	if (dat == NULL)
+		return;
+
+	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROFILELIST);
+	EnableWindow(dat->hwndOK, ListView_GetSelectedCount(hwndList) == 1);
+
+	TCHAR profile[MAX_PATH];
+	LVITEM item = { 0 };
+	item.mask = LVIF_TEXT | LVIF_IMAGE;
+	item.iItem = ListView_GetNextItem(hwndList, -1, LVNI_SELECTED | LVNI_ALL);
+	item.pszText = profile;
+	item.cchTextMax = SIZEOF(profile);
+	if (!ListView_GetItem(hwndList, &item))
+		return;
+
+	switch(item.iImage) {
+	case 3:
+		EnableWindow(dat->hwndOK, false);
+		return;
+
+	case 2:
+		SetWindowText(dat->hwndOK, TranslateT("&Convert"));
+		dat->pd->bRun = false;
+		break;
+
+	default:
+		SetWindowText(dat->hwndOK, TranslateT("&Run"));
+		dat->pd->bRun = true;
+	}
+
+	// profile is placed in "profile_name" subfolder
+
+	TCHAR tmpPath[MAX_PATH];
+	mir_sntprintf(tmpPath, SIZEOF(tmpPath), _T("%s\\%s.dat"), dat->pd->szProfileDir, profile);
+	if (_taccess(tmpPath, 2))
+		mir_sntprintf(dat->pd->szProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profile, profile);
+	else
+		_tcsncpy_s(dat->pd->szProfile, MAX_PATH, tmpPath, _TRUNCATE);
+
+	if (uMsg == NM_DBLCLK)
+		EndDialog(GetParent(hwndDlg), 1);
+}
+
 static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DlgProfData *dat = (DlgProfData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -406,6 +454,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_USERDETAILS));
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_DELETE));
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_MWARNING));
+			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_MERROR));
 
 			// LV will destroy the image list
 			SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE) | LVS_SORTASCENDING);
@@ -446,9 +495,8 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_SHOWWINDOW:
 		if (wParam) {
-			SetWindowText(dat->hwndOK, TranslateT("&Run"));
+			CheckRun(hwndDlg, 0);
 			EnableWindow(dat->hwndSM, TRUE);
-			EnableWindow(dat->hwndOK, ListView_GetSelectedCount(hwndList) == 1);
 		}
 		break;
 
@@ -508,36 +556,19 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_NOTIFY:
 		LPNMHDR hdr = (LPNMHDR)lParam;
-		if (hdr && hdr->code == PSN_INFOCHANGED)
+		if (hdr == NULL)
 			break;
 
-		if (hdr && hdr->idFrom == IDC_PROFILELIST) {
+		if (hdr->idFrom == 0) {
+			CheckRun(hwndDlg, 0);
+			break;
+		}
+
+		if (hdr->idFrom == IDC_PROFILELIST) {
 			switch (hdr->code) {
 			case LVN_ITEMCHANGED:
-				EnableWindow(dat->hwndOK, ListView_GetSelectedCount(hwndList) == 1);
-
 			case NM_DBLCLK:
-				if (dat != NULL) {
-					TCHAR profile[MAX_PATH];
-					LVITEM item = { 0 };
-					item.mask = LVIF_TEXT;
-					item.iItem = ListView_GetNextItem(hwndList, -1, LVNI_SELECTED | LVNI_ALL);
-					item.pszText = profile;
-					item.cchTextMax = SIZEOF(profile);
-
-					if (ListView_GetItem(hwndList, &item)) {
-						// profile is placed in "profile_name" subfolder
-						TCHAR tmpPath[MAX_PATH];
-						mir_sntprintf(tmpPath, SIZEOF(tmpPath), _T("%s\\%s.dat"), dat->pd->szProfileDir, profile);
-						HANDLE hFile = CreateFile(tmpPath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-						if (hFile == INVALID_HANDLE_VALUE)
-							mir_sntprintf(dat->pd->szProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profile, profile);
-						else
-							_tcscpy(dat->pd->szProfile, tmpPath);
-						CloseHandle(hFile);
-						if (hdr->code == NM_DBLCLK) EndDialog(GetParent(hwndDlg), 1);
-					}
-				}
+				CheckRun(hwndDlg, hdr->code);
 				return TRUE;
 
 			case LVN_KEYDOWN:
@@ -817,7 +848,7 @@ static int AddProfileManagerPage(struct DetailsPageInit *opi, OPTIONSDIALOGPAGE 
 	return 0;
 }
 
-int getProfileManager(PROFILEMANAGERDATA * pd)
+int getProfileManager(PROFILEMANAGERDATA *pd)
 {
 	DetailsPageInit opi = { 0 };
 

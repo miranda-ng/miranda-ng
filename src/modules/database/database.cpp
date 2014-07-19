@@ -306,7 +306,15 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 LBL_Show:
 		pd.szProfile = szProfile;
 		pd.szProfileDir = g_profileDir;
-		return getProfileManager(&pd);
+		if (!getProfileManager(&pd))
+			return 0;
+
+		if (!pd.bRun) {
+			CallService(MS_DB_CHECKPROFILE, WPARAM(szProfile), 0);
+			return 0;
+		}
+
+		return 1;
 	}
 
 	if (getProfileAutoRun(szProfile))
