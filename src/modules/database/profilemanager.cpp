@@ -33,7 +33,7 @@ void EnsureCheckerLoaded(bool);
 #define WM_INPUTCHANGED (WM_USER + 0x3000)
 #define WM_FOCUSTEXTBOX (WM_USER + 0x3001)
 
-typedef BOOL (__cdecl *ENUMPROFILECALLBACK) (TCHAR *fullpath, TCHAR *profile, LPARAM lParam);
+typedef BOOL (__cdecl *ENUMPROFILECALLBACK) (TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam);
 
 struct DetailsPageInit
 {
@@ -66,7 +66,7 @@ struct DetailsData
 	int currentPage;
 	DetailsPageData *opd;
 	RECT rcDisplay;
-	struct DlgProfData *prof;
+	DlgProfData *prof;
 };
 
 struct ProfileEnumData
@@ -164,12 +164,12 @@ static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, 
 
 static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct DlgProfData *dat = (struct DlgProfData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	DlgProfData *dat = (DlgProfData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		dat = (struct DlgProfData *)lParam;
+		dat = (DlgProfData*)lParam;
 		{
 			HWND hwndCombo = GetDlgItem(hwndDlg, IDC_PROFILEDRIVERS);
 
@@ -255,13 +255,13 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
+BOOL EnumProfilesForList(TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam)
 {
 	ProfileEnumData *ped = (ProfileEnumData*)lParam;
 	HWND hwndList = GetDlgItem(ped->hwnd, IDC_PROFILELIST);
 
 	TCHAR sizeBuf[64];
-	bool bFileExists = false, bFileLocked = true;
+	bool bFileLocked = true;
 
 	TCHAR *p = _tcsrchr(profile, '.');
 	_tcscpy(sizeBuf, _T("0 KB"));
@@ -273,7 +273,7 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 	item.iItem = 0;
 
 	struct _stat statbuf;
-	if (_tstat(fullpath, &statbuf) == 0) {
+	if (_tstat(tszFullPath, &statbuf) == 0) {
 		if (statbuf.st_size > 1000000) {
 			mir_sntprintf(sizeBuf, SIZEOF(sizeBuf), _T("%.3lf"), (double)statbuf.st_size / 1048576.0);
 			_tcscpy(sizeBuf + 5, _T(" MB"));
@@ -282,14 +282,29 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 			mir_sntprintf(sizeBuf, SIZEOF(sizeBuf), _T("%.3lf"), (double)statbuf.st_size / 1024.0);
 			_tcscpy(sizeBuf + 5, _T(" KB"));
 		}
-		bFileExists = TRUE;
-		bFileLocked = !fileExist(fullpath);
+		bFileLocked = !fileExist(tszFullPath);
 	}
 
-	item.iImage = bFileLocked;
+	DATABASELINK *dblink = NULL;
+	bool bNeedConversion = false;
+	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
+		DATABASELINK *p = arDbPlugins[i];
+		int iErrorCode = p->grokHeader(tszFullPath);
+		if (iErrorCode == 0) {
+			dblink = p;
+			item.iImage = bFileLocked;
+			break;
+		}
+		if (iErrorCode == EGROKPRF_OBSOLETE) {
+			dblink = p;
+			bNeedConversion = true;
+			item.iImage = 2;
+			break;
+		}
+	}
 
 	int iItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
-	if (lstrcmpi(ped->szProfile, fullpath) == 0)
+	if (lstrcmpi(ped->szProfile, tszFullPath) == 0)
 		ListView_SetItemState(hwndList, iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 
 	item.iItem = iItem;
@@ -297,29 +312,16 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 	item.pszText = sizeBuf;
 	SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item);
 
-	if (bFileExists) {
-		TCHAR szPath[MAX_PATH];
-		_tcscpy(szPath, fullpath);
-
-		LVITEM item2;
-		item2.mask = LVIF_TEXT;
-		item2.iItem = iItem;
-
-		DATABASELINK* dblink = FindDatabasePlugin(szPath);
-		if (dblink != NULL) {
-			if (bFileLocked) {
-				// file locked
-				item2.pszText = TranslateT("<In use>");
-				item2.iSubItem = 1;
-				SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
-			}
-			else {
-				item.pszText = TranslateTS(dblink->szFullName);
-				item.iSubItem = 1;
-				SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item);
-			}
-		}
+	if (dblink != NULL) {
+		if (bFileLocked) // file locked
+			item.pszText = TranslateT("<In use>");
+		else
+			item.pszText = TranslateTS(dblink->szFullName);
 	}
+	else item.pszText = TranslateT("<Unknown format>");
+
+	item.iSubItem = 1;
+	SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item);
 	return TRUE;
 }
 
@@ -373,7 +375,7 @@ void DeleteProfile(HWND hwndList, int iItem, DlgProfData *dat)
 
 static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DlgProfData *dat = (struct DlgProfData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	DlgProfData *dat = (DlgProfData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROFILELIST);
 
 	switch (msg) {
@@ -403,6 +405,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 1);
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_USERDETAILS));
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_DELETE));
+			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_MWARNING));
 
 			// LV will destroy the image list
 			SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE) | LVS_SORTASCENDING);
@@ -456,29 +459,32 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			lvht.pt.y = GET_Y_LPARAM(lParam);
 			ScreenToClient(hwndList, &lvht.pt);
 
-			if (ListView_HitTest(hwndList, &lvht) < 0) {
-				if (lParam != -1)
+			bool bConvert = false;
+			if (ListView_HitTest(hwndList, &lvht) != -1) {
+				if (lvht.iItem == -1)
 					break;
 
-				lvht.iItem = ListView_GetSelectionMark(hwndList);
-				RECT rc = { 0 };
-				if (!ListView_GetItemRect(hwndList, lvht.iItem, &rc, LVIR_LABEL))
+				LVITEM tvi;
+				tvi.mask = LVIF_IMAGE;
+				tvi.iItem = lvht.iItem;
+				if (!ListView_GetItem(hwndList, &tvi))
 					break;
-				
-				lvht.pt.x = rc.left;
-				lvht.pt.y = rc.bottom;
-				ClientToScreen(hwndList, &lvht.pt);
+
+				if (tvi.iImage == 2)
+					bConvert = true;
 			}
-			else {
-				lvht.pt.x = GET_X_LPARAM(lParam);
-				lvht.pt.y = GET_Y_LPARAM(lParam);
-			}
+
+			lvht.pt.x = GET_X_LPARAM(lParam);
+			lvht.pt.y = GET_Y_LPARAM(lParam);
 
 			HMENU hMenu = CreatePopupMenu();
 			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
 			AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
 			if (ServiceExists(MS_DB_CHECKPROFILE)) {
-				AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check database"));
+				if (bConvert)
+					AppendMenu(hMenu, MF_STRING, 2, TranslateT("Convert database"));
+				else
+					AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check database"));
 				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
 			}
 			AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
@@ -542,12 +548,12 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			case LVN_GETINFOTIP:
 				NMLVGETINFOTIP *pInfoTip = (NMLVGETINFOTIP *)lParam;
 				if (pInfoTip != NULL) {
-					TCHAR profilename[MAX_PATH], fullpath[MAX_PATH];
+					TCHAR profilename[MAX_PATH], tszFullPath[MAX_PATH];
 					struct _stat statbuf;
 					ListView_GetItemText(hwndList, pInfoTip->iItem, 0, profilename, MAX_PATH);
-					mir_sntprintf(fullpath, SIZEOF(fullpath), _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profilename, profilename);
-					_tstat(fullpath, &statbuf);
-					mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s\n%s: %s\n%s: %s"), fullpath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));
+					mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profilename, profilename);
+					_tstat(tszFullPath, &statbuf);
+					mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s\n%s: %s\n%s: %s"), tszFullPath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));
 				}
 			}
 		}
@@ -565,7 +571,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			DlgProfData *prof = (struct DlgProfData*)lParam;
+			DlgProfData *prof = (DlgProfData*)lParam;
 			PROPSHEETHEADER *psh = prof->psh;
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));

@@ -155,11 +155,12 @@ interface MIDatabaseChecker
 */
 
 // grokHeader() error codes
-#define EGROKPRF_NOERROR	0
-#define EGROKPRF_CANTREAD	1	// can't open the profile for reading
-#define EGROKPRF_UNKHEADER  2	// header not supported, not a supported profile
-#define EGROKPRF_VERNEWER   3	// header correct, version in profile newer than reader/writer
-#define EGROKPRF_DAMAGED	4	// header/version fine, other internal data missing, damaged.
+#define EGROKPRF_NOERROR   0
+#define EGROKPRF_CANTREAD  1  // can't open the profile for reading
+#define EGROKPRF_UNKHEADER 2  // header not supported, not a supported profile
+#define EGROKPRF_VERNEWER  3  // header correct, version in profile newer than reader/writer
+#define EGROKPRF_DAMAGED   4  // header/version fine, other internal data missing, damaged.
+#define EGROKPRF_OBSOLETE  5  // obsolete database version detected, requiring conversion 
 
 // makeDatabase() error codes
 #define EMKPRF_CREATEFAILED 1   // for some reason CreateFile() didnt like something

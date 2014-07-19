@@ -33,14 +33,14 @@ void EnsureCheckerLoaded(bool);
 
 void LoadDatabaseServices();
 
-bool fileExist(TCHAR* fname)
+bool fileExist(const TCHAR *fname)
 {
 	if (*fname == 0)
 		return false;
 
-	FILE* fp = _tfopen(fname, _T("r+"));
+	FILE *fp = _tfopen(fname, _T("r+"));
 	bool res = fp != NULL;
-	if (res) fclose(fp);
+	if (fp) fclose(fp);
 	return res;
 }
 

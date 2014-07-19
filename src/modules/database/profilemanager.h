@@ -31,11 +31,11 @@ struct PROFILEMANAGERDATA
 	DATABASELINK *dblink;	// out
 };
 
-char* makeFileName(const TCHAR* tszOriginalName);
-int getProfileManager(PROFILEMANAGERDATA * pd);
+char* makeFileName(const TCHAR *tszOriginalName);
+int getProfileManager(PROFILEMANAGERDATA *pd);
 int getProfilePath(TCHAR *buf, size_t cch);
 int isValidProfileName(const TCHAR *name);
-bool fileExist(TCHAR* fname);
+bool fileExist(const TCHAR *fname);
 bool shouldAutoCreate(TCHAR *szProfile);
 
 extern TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
