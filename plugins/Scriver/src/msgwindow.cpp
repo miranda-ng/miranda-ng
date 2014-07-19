@@ -560,7 +560,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							if (hParent == NULL) {
 								RECT rc, rcDesktop;
 								newData.hContact = hContact;
-								hParent = (HWND)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)& newData);
+								hParent = (HWND)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)&newData);
 								GetWindowRect(hParent, &rc);
 								rc.right = (rc.right - rc.left);
 								rc.bottom = (rc.bottom - rc.top);
@@ -1569,5 +1569,5 @@ HWND GetParentWindow(MCONTACT hContact, BOOL bChat)
 	if (!(g_dat.flags2 & SMF2_SEPARATECHATSCONTAINERS))
 		newData.isChat = FALSE;
 
-	return CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)& newData);
+	return CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGWIN), NULL, DlgProcParentWindow, (LPARAM)&newData);
 }

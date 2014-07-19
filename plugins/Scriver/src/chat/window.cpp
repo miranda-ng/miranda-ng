@@ -664,7 +664,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			if (sel.cpMin != sel.cpMax) {
 				SendMessage(hwnd, WM_COPY, 0, 0);
 				sel.cpMin = sel.cpMax;
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& sel);
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 			}
 			SetFocus(GetDlgItem(GetParent(hwnd), IDC_CHAT_MESSAGE));
 		}
@@ -676,7 +676,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin != sel.cpMax) {
 				sel.cpMin = sel.cpMax;
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& sel);
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 			}
 		}
 		break;
@@ -710,10 +710,10 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				break;
 
 			case ID_COPYALL:
-				SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)& sel);
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
+				SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&all);
 				SendMessage(hwnd, WM_COPY, 0, 0);
-				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& sel);
+				SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 				PostMessage(GetParent(hwnd), WM_MOUSEACTIVATE, 0, 0);
 				break;
 
@@ -1095,7 +1095,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, (WPARAM)sizeof(TCHAR)* 0x7FFFFFFF, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)& reOleCallback);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
 			if (db_get_b(NULL, CHAT_MODULE, "UseIEView", 0)) {
 				IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
@@ -1609,7 +1609,7 @@ LABEL_SHOWWINDOW:
 				si.nPos = si.nMax - si.nPage + 1;
 				SetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &si, TRUE);
 				sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOG), CP_ACP, FALSE);
-				SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXSETSEL, 0, (LPARAM)& sel);
+				SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXSETSEL, 0, (LPARAM)&sel);
 				PostMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 			}
 		}

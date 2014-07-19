@@ -364,12 +364,12 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			SendMessage(hwnd, WM_COPY, 0, 0);
 			break;
 		case IDM_COPYALL:
-			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
+			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&all);
 			SendMessage(hwnd, WM_COPY, 0, 0);
-			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& sel);
+			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 			break;
 		case IDM_SELECTALL:
-			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)& all);
+			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&all);
 			break;
 		case IDM_CLEAR:
 			SendMessage(GetParent(hwnd), DM_CLEARLOG, 0, 0);
@@ -1817,7 +1817,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				acs.hContact = dat->windowData.hContact;
 				acs.handleType = HANDLE_CONTACT;
 				acs.szProto = 0;
-				CallService(MS_ADDCONTACT_SHOW, (WPARAM) hwndDlg, (LPARAM)& acs);
+				CallService(MS_ADDCONTACT_SHOW, (WPARAM) hwndDlg, (LPARAM)&acs);
 			}
 			if (!db_get_b(dat->windowData.hContact, "CList", "NotOnList", 0))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);

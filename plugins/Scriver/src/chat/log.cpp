@@ -139,7 +139,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 
 	// do we need to restore the selection
 	if (oldsel.cpMax != oldsel.cpMin) {
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& oldsel);
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(hwndRich, NULL, TRUE);
 	}
@@ -147,7 +147,7 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	// need to invalidate the window
 	if (bFlag) {
 		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich, CP_ACP, FALSE);
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& sel);
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
 		SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(hwndRich, NULL, TRUE);
 	}

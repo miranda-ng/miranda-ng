@@ -268,7 +268,7 @@ TCHAR *GetRichEditSelection(HWND hwnd)
 		dwFlags = SF_TEXT|SF_UNICODE|SFF_SELECTION;
 		msi.sendBuffer = NULL;
 		msi.sendBufferSize = 0;
-		SendMessage(hwnd, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)& stream);
+		SendMessage(hwnd, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)&stream);
 		return (TCHAR*)msi.sendBuffer;
 	}
 	return NULL;
@@ -438,7 +438,7 @@ void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
 	ci.szProto = dat->szProto;
 	ci.dwFlag = CNF_UNIQUEID;
 	buf[0] = 0;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			mir_snprintf(buf, maxlen, "%s", ci.pszVal);

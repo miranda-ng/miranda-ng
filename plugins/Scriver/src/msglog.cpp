@@ -95,13 +95,13 @@ TCHAR *GetNickname(MCONTACT hContact, const char* szProto)
 		ci.dwFlag |= CNF_UNICODE;
 
 	TCHAR *szName = NULL;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
 				if (IsUnicodeMIM()) {
 					if (!_tcscmp((TCHAR *)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
 						ci.dwFlag &= ~CNF_UNICODE;
-						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
+						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 							szName = mir_a2t((char*)ci.pszVal);
 					}
 					else szName = mir_tstrdup((TCHAR *)ci.pszVal);
@@ -879,7 +879,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 
 	// IEVIew MOD End
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)& oldSel);
+	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 	streamData.hContact = dat->windowData.hContact;
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.hDbEventLast = dat->hDbEventLast;
@@ -897,20 +897,20 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		gtxl.codepage = 1200;
 		fi.chrg.cpMin = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)& sel);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
 		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, FALSE, 0);
 		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
 		sel.cpMin = 0;
 		sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)& sel);
+		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
 		fi.chrg.cpMin = 0;
 		dat->isMixed = 0;
 	}
 
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)& stream);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)& oldSel);
+	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&oldSel);
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, FALSE, 0);
 	if (g_dat.smileyAddInstalled) {
 		SMADD_RICHEDIT3 smre;

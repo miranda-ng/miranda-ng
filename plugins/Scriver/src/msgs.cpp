@@ -75,15 +75,14 @@ int IsAutoPopup(MCONTACT hContact) {
 
 static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	NewMessageWindowLParam newData = { 0 };
-	HWND hwndExisting;
-	HWND hParent;
+	CLISTEVENT *pcle = (CLISTEVENT*)lParam;
+	MCONTACT hContact = db_mc_tryMeta(pcle->hContact);
 
-	hwndExisting = WindowList_Find(g_dat.hMessageWindowList, ((CLISTEVENT *) lParam)->hContact);
+	HWND hwndExisting = WindowList_Find(g_dat.hMessageWindowList, hContact);
 	if (hwndExisting == NULL) {
-		newData.hContact = ((CLISTEVENT *) lParam)->hContact;
-		hParent = GetParentWindow(newData.hContact, FALSE);
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)& newData);
+		NewMessageWindowLParam newData = { 0 };
+		newData.hContact = hContact;
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), GetParentWindow(hContact, FALSE), DlgProcMessage, (LPARAM)&newData);
 	}
 	else SendMessage(GetParent(hwndExisting), CM_POPUPWINDOW, 0, (LPARAM)hwndExisting);
 	return 0;
@@ -218,7 +217,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 			tn.tszInfo = szTip;
 			tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
 			tn.uTimeout = 1000 * 4;
-			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& tn);
+			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&tn);
 		}
 		else {
 			CLISTEVENT cle = { sizeof(cle) };
@@ -279,13 +278,13 @@ static void RestoreUnreadMessageAlerts(void)
 					newData.hContact = hContact;
 					newData.flags = NMWLP_INCOMING;
 					HWND hParent = GetParentWindow(newData.hContact, FALSE);
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)& newData);
+					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), hParent, DlgProcMessage, (LPARAM)&newData);
 				}
 				else {
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
 					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
-					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
+					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				}
 			}
 			hDbEvent = db_event_next(hContact, hDbEvent);
