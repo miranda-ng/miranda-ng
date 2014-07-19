@@ -126,8 +126,8 @@ Nie wybrano udziału
 Aktualny adres IP:\s
 [Current Address: ]
 Aktualny adres:\s
-[IP Adress: ]
-Adres IP:\s
+[IP Address: ]
+Adres IP: 
 [You are browsing from]
 Przeglądasz z
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]

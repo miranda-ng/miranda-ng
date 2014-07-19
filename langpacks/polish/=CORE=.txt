@@ -2238,14 +2238,20 @@ Problem z utworzeniem profilu
 &Utwórz
 [<In use>]
 <W użyciu>
+[<Unknown format>]
+<Nieznany format>
 [Are you sure you want to remove profile "%s"?]
 Czy na pewno chcesz usunąć profil "%s"?
-[Size]
-Rozmiar
+[&Convert]
+&Konwertuj
 [Run]
 Uruchom
+[Convert database]
+Konwertuj bazę danych
 [Check database]
 Sprawdź profil
+[Size]
+Rozmiar
 [Created]
 Utworzono
 [Modified]
@@ -2659,6 +2665,8 @@ Poproś o autoryzację
 Udziel autoryzacji
 [Revoke authorization]
 Cofnij autoryzację
+[Warning]
+Ostrzeżenie
 [Always visible]
 Zawsze widoczny
 [Always invisible]
