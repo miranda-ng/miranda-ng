@@ -81,7 +81,7 @@ CContactListEntry *CContactList::GetContactData(CListEntry<CContactListEntry*,CC
 tstring CContactList::GetContactGroupPath(MCONTACT hContact)
 {
 	tstring strGroup = _T("");
-	if(db_get_b(0, "MetaContacts", "Enabled", 1) && CAppletManager::IsSubContact(hContact))
+	if(db_get_b(0, "MetaContacts", "Enabled", 1) && db_mc_isSub(hContact))
 	{
 		MCONTACT hMetaContact = db_mc_getMeta(hContact);
 		if(CConfig::GetBoolSetting(CLIST_USEGROUPS))
@@ -159,7 +159,7 @@ void CContactList::AddContact(MCONTACT hContact)
 		}
 		return;
 	}
-	else if(CAppletManager::IsSubContact(hContact)) {
+	else if(db_mc_isSub(hContact)) {
 		MCONTACT hMetaContact = db_mc_getMeta(hContact);
 		// check that the metacontact exists
 		if(!FindContact(hMetaContact))
@@ -167,7 +167,7 @@ void CContactList::AddContact(MCONTACT hContact)
 	}
 
 	CListItem<CContactListEntry*,CContactListGroup*> *pItem = NULL;
-	if((!CAppletManager::IsSubContact(hContact) && !CConfig::GetBoolSetting(CLIST_USEGROUPS)) || strGroup.empty())
+	if((!db_mc_isSub(hContact) && !CConfig::GetBoolSetting(CLIST_USEGROUPS)) || strGroup.empty())
 	{
 		pItem = AddItem(psContact);
 		((CListContainer<CContactListEntry*,CContactListGroup*>*)this)->sort(CContactList::CompareEntries);
@@ -180,7 +180,7 @@ void CContactList::AddContact(MCONTACT hContact)
 		}
 		pItem = pGroup->AddItem(psContact);
 	
-		if(!CAppletManager::IsSubContact(hContact) && iStatus != ID_STATUS_OFFLINE)
+		if(!db_mc_isSub(hContact) && iStatus != ID_STATUS_OFFLINE)
 			ChangeGroupObjectCounters(pGroup->GetGroupData()->strPath,0,1);
 
 		pGroup->sort(CContactList::CompareEntries);
@@ -220,7 +220,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 		if(db_get_b(pEntry->hHandle,"CList","Hidden",0))
 			return false;
 		
-		if(CAppletManager::IsSubContact(pEntry->hHandle)) {
+		if(db_mc_isSub(pEntry->hHandle)) {
 			MCONTACT hMetaContact = db_mc_getMeta(pEntry->hHandle);
 			if(db_get_b(hMetaContact,"CList","Hidden",0))
 				return false;
@@ -266,10 +266,10 @@ void CContactList::RemoveContact(MCONTACT hContact) {
 		// Update the contacts group if it has one
 		if(pGroup->GetType() != ROOT)
 		{
-			if(!CAppletManager::IsSubContact(hContact) && pEntry->iStatus != ID_STATUS_OFFLINE)
+			if(!db_mc_isSub(hContact) && pEntry->iStatus != ID_STATUS_OFFLINE)
 				ChangeGroupObjectCounters(pGroup->GetGroupData()->strPath,0,-1);
 			
-			if(!CAppletManager::IsSubContact(hContact) && pEntry->iMessages > 0)
+			if(!db_mc_isSub(hContact) && pEntry->iMessages > 0)
 				ChangeGroupObjectCounters(pGroup->GetGroupData()->strPath,0,0,-pEntry->iMessages);
 		}
 
@@ -739,10 +739,10 @@ void CContactList::OnStatusChange(MCONTACT hContact,int iStatus)
 	CListContainer<CContactListEntry*,CContactListGroup*>* pGroup = ((CListContainer<CContactListEntry*,CContactListGroup*>*)pContactEntry->GetParent());
 	if(pGroup->GetType() != ROOT)
 	{
-		if(!CAppletManager::IsSubContact(hContact) && iStatus == ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_OFFLINE)
+		if(!db_mc_isSub(hContact) && iStatus == ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_OFFLINE)
 			ChangeGroupObjectCounters(pGroup->GetGroupData()->strPath,0,-1);
 
-		else if(!CAppletManager::IsSubContact(hContact) && iStatus != ID_STATUS_OFFLINE && iOldStatus == ID_STATUS_OFFLINE)
+		else if(!db_mc_isSub(hContact) && iStatus != ID_STATUS_OFFLINE && iOldStatus == ID_STATUS_OFFLINE)
 			ChangeGroupObjectCounters(pGroup->GetGroupData()->strPath,0,1);
 	}
 	
@@ -796,7 +796,7 @@ void CContactList::OnContactAdded(MCONTACT hContact)
 		if(!pGroup)
 			pGroup = CreateGroupObjectByPath(strGroup);
 		
-		if(!CAppletManager::IsSubContact(hContact))
+		if(!db_mc_isSub(hContact))
 			ChangeGroupObjectCounters(strGroup,1);
 	}
 }
@@ -817,7 +817,7 @@ void CContactList::OnContactDeleted(MCONTACT hContact)
 		CContactListGroup *pGroup = GetGroupObjectByPath(strGroup);
 		
 		
-		if(!CAppletManager::IsSubContact(hContact))
+		if(!db_mc_isSub(hContact))
 			ChangeGroupObjectCounters(strGroup,-1);
 		
 		if(pGroup->iMembers <= 0)
@@ -851,7 +851,7 @@ void CContactList::OnContactGroupChanged(MCONTACT hContact,tstring strGroup)
 	if(pContainer->GetType() != ROOT)
 	{
 		pOldGroup = pContainer->GetGroupData();
-		if(!CAppletManager::IsSubContact(hContact))
+		if(!db_mc_isSub(hContact))
 			ChangeGroupObjectCounters(pOldGroup->strPath,-1);
 	}
 	
@@ -861,7 +861,7 @@ void CContactList::OnContactGroupChanged(MCONTACT hContact,tstring strGroup)
 		CContactListGroup *pGroup = GetGroupObjectByPath(strGroup);
 		if(!pGroup)
 			pGroup = CreateGroupObjectByPath(strGroup);
-		if(!CAppletManager::IsSubContact(hContact))
+		if(!db_mc_isSub(hContact))
 			ChangeGroupObjectCounters(strGroup,1);
 	}
 
@@ -1043,7 +1043,7 @@ void CContactList::InitializeGroupObjects()
 				pGroup = CreateGroupObjectByPath(strGroup);
 
 			// update it's counters
-			if(!CAppletManager::IsSubContact(hContact))
+			if(!db_mc_isSub(hContact))
 				ChangeGroupObjectCounters(strGroup,1);
 		}
 

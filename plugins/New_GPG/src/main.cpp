@@ -2271,11 +2271,10 @@ void ImportKey()
 	MCONTACT hContact = new_key_hcnt;
 	new_key_hcnt_mutex.unlock();
 	bool for_all_sub = false;
-	if(metaIsProtoMetaContacts(hContact))
+	if(db_mc_isMeta(hContact)) {
 		if(MessageBox(0, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 			for_all_sub = true;
-	if(metaIsProtoMetaContacts(hContact))
-	{
+
 		if(for_all_sub)
 		{
 			int count = db_mc_getSubCount(hContact);
@@ -2286,11 +2285,10 @@ void ImportKey()
 					db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", new_key.c_str());
 			}
 		}
-		else
-			db_set_ts(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", new_key.c_str());
+		else db_set_ts(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", new_key.c_str());
 	}
-	else
-		db_set_ts(hContact, szGPGModuleName, "GPGPubKey", new_key.c_str());
+	else db_set_ts(hContact, szGPGModuleName, "GPGPubKey", new_key.c_str());
+
 	new_key.clear();
 	{ //gpg execute block
 		std::vector<wstring> cmd;
@@ -2306,7 +2304,7 @@ void ImportKey()
 			_tcscat(tmp2, _T("temporary_exported.asc"));
 			boost::filesystem::remove(tmp2);
 			wfstream f(tmp2, std::ios::out);
-			if(metaIsProtoMetaContacts(hContact))
+			if(db_mc_isMeta(hContact))
 				ptmp = UniGetContactSettingUtf(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", _T(""));
 			else
 				ptmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
@@ -2328,7 +2326,7 @@ void ImportKey()
 		if(result == pxNotFound)
 			return;
 		{
-			if(metaIsProtoMetaContacts(hContact))
+			if(db_mc_isMeta(hContact))
 			{
 				if(for_all_sub)
 				{

@@ -141,8 +141,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 static INT_PTR SendMessageCommandWorker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar)
 {
-	if (db_mc_isSub(hContact))
-		hContact = db_mc_getMeta(hContact);
+	hContact = db_mc_tryMeta(hContact);
 
 	/* does the MCONTACT's protocol support IM messages? */
 	char *szProto = GetContactProto(hContact);
@@ -200,8 +199,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	if (!(g_dat.flags2 & SMF2_SHOWTYPING))
 		return 0;
 
-	if (db_mc_isSub(hContact))
-		hContact = db_mc_getMeta(hContact);
+	hContact = db_mc_tryMeta(hContact);
 
 	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 

@@ -654,20 +654,17 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 			 !strncmp(pdbcws->szSetting, "Anniv", 5) ||
 			 !strncmp(pdbcws->szSetting, "DOB", 3)))
 	{
-		MCONTACT hMeta = db_mc_getMeta(hContact);
-		WORD LastAnswer = IDNONE;
+		// check metacontact instead of subcontact
+		hContact = db_mc_tryMeta(hContact);
+
 		CEvent evt;
 		MTime now;
-
-		// check metacontact instead of subcontact
-		if (hMeta)
-			hContact = hMeta;
-
 		now.GetLocalTime();
-		if (!strcmp(pdbcws->szModule, SvcReminderGetMyBirthdayModule()))
+		if (!strcmp(pdbcws->szModule, SvcReminderGetMyBirthdayModule())) {
+			WORD LastAnswer = IDNONE;
 			CheckContact(hContact, now, evt, FALSE, &LastAnswer);
-		else
-			CheckContact(hContact, now, evt, FALSE, 0);
+		}
+		else CheckContact(hContact, now, evt, FALSE, 0);
 	}
 	return 0;
 }

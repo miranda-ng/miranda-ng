@@ -16,15 +16,6 @@
 
 #include "commonheaders.h"
 
-bool metaIsProtoMetaContacts(MCONTACT hContact)
-{
-	LPSTR proto = GetContactProto(hContact);
-	if(proto && strcmp(proto,"MetaContacts") == 0)
-		return true;
-
-	return false;
-}
-
 bool metaIsDefaultSubContact(MCONTACT hContact) 
 {
 	return db_mc_getDefault(db_mc_getMeta(hContact)) == hContact;
@@ -32,7 +23,7 @@ bool metaIsDefaultSubContact(MCONTACT hContact)
 
 MCONTACT metaGetMostOnline(MCONTACT hContact) 
 {
-	if(metaIsProtoMetaContacts(hContact))
+	if(db_mc_isMeta(hContact))
 		return db_mc_getMostOnline(hContact);
 	return NULL;
 }

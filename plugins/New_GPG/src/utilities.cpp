@@ -150,9 +150,7 @@ INT_PTR LoadKey(WPARAM w, LPARAM)
 
 INT_PTR SendKey(WPARAM w, LPARAM l)
 {
-	MCONTACT hContact = (MCONTACT)w;
-	if(metaIsProtoMetaContacts(hContact))
-		hContact = metaGetMostOnline(hContact);
+	MCONTACT hContact = db_mc_tryMeta(w);
 	char *szMessage;
 	std::string key_id_str;
 	{
@@ -204,13 +202,10 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = (MCONTACT)w;
-	BYTE enc = 0;
-	if(metaIsProtoMetaContacts(hContact))
-		enc = db_get_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
-	else
-		enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
-	if(metaIsProtoMetaContacts(hContact))
+	BYTE enc;
+	if(db_mc_isMeta(hContact))
 	{
+		enc = db_get_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
 		if(MessageBox(0, TranslateT("Do you want to toggle encryption for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 		{
 			int count = db_mc_getSubCount(hContact);
@@ -223,8 +218,10 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 			db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc?0:1);
 		}
 	}
-	else
+	else {
+		enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 		db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc?0:1);
+	}
 	void setSrmmIcon(MCONTACT hContact);
 	void setClistIcon(MCONTACT hContact);
 	setSrmmIcon(hContact);
@@ -239,10 +236,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 
 int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 {
-	MCONTACT hContact = (MCONTACT)w;
-	if(metaIsProtoMetaContacts(hContact))
-		hContact = metaGetMostOnline(hContact);
-	
+	MCONTACT hContact = db_mc_tryMeta(w);
 	{
 		CLISTMENUITEM mi2 = { sizeof(mi2) };
 		LPSTR proto = GetContactProto(hContact);
@@ -405,7 +399,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 								s = out.find(" ID ", s);
 								s += strlen(" ID ");
 								string::size_type s2 = out.find(",",s);
-								if(metaIsProtoMetaContacts(ack->hContact))
+								if(db_mc_isMeta(ack->hContact))
 									db_set_s(metaGetMostOnline(ack->hContact), szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
 								else
 									db_set_s(ack->hContact, szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
@@ -459,10 +453,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 			{
 				std::list<HANDLE>::iterator it = std::find(sent_msgs.begin(), sent_msgs.end(), ack->hProcess);
 				if(it != sent_msgs.end())
-				{
 					HistoryLog(ack->hContact, db_event("Failed to send encrypted message", 0,0, 0));
-					
-				}
 			}
 			else if(ack->result == ACKRESULT_SUCCESS)
 			{
@@ -480,7 +471,7 @@ std::wstring encrypt_file(MCONTACT hContact, TCHAR *filename)
 	string out;
 	DWORD code;
 	pxResult result;
-	MCONTACT hcnt = metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact;
+	MCONTACT hcnt = db_mc_isMeta(hContact)?metaGetMostOnline(hContact):hContact;
 	std::vector<wstring> cmd;
 	cmd.push_back(L"--batch");
 	cmd.push_back(L"--tes");
@@ -1081,7 +1072,7 @@ bool isContactSecured(MCONTACT hContact)
 			debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)));
 		return false;
 	}
-	if(!metaIsProtoMetaContacts(hContact))
+	if(!db_mc_isMeta(hContact))
 	{
 		TCHAR *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
 		if(!key[0])

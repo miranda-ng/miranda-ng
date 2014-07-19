@@ -202,7 +202,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			  bool ismetacontact = false;
 			  MCONTACT meta = NULL;
 			  MCONTACT hContact = user_data[item_num+1];
-			  if(metaIsProtoMetaContacts(hContact))
+			  if(db_mc_isMeta(hContact))
 			  {
 				  meta = hContact;
 				  hContact = metaGetMostOnline(hContact);
@@ -729,9 +729,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			hContact = user_data[1];
 			SetWindowPos(hwndDlg, 0, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
-			MCONTACT hcnt = hContact;
-			if(metaIsProtoMetaContacts(hcnt))
-				hcnt = metaGetMostOnline(hcnt);
+			MCONTACT hcnt = db_mc_tryMeta(hContact);
 			TranslateDialogDefault(hwndDlg);
 			{
 				wstring msg = TranslateT("Load Public GPG Key for ");
@@ -875,7 +873,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					ws2 += _tcslen(end);
 					bool allsubcontacts = false;
 					{
-						if(metaIsProtoMetaContacts(hContact))
+						if(db_mc_isMeta(hContact))
 						{
 							if(MessageBox(0, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 							{
@@ -888,11 +886,9 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 								}
 							}
-							else
-								db_set_ts(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
+							else db_set_ts(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 						}
-						else
-							db_set_ts(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
+						else db_set_ts(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 					}
 					tmp = (TCHAR*)mir_alloc(sizeof( TCHAR) * (key_buf.length()+1));
 					_tcscpy(tmp, key_buf.substr(ws1,ws2-ws1).c_str());
@@ -903,9 +899,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						string output;
 						DWORD exitcode;
 						{
-							MCONTACT hcnt = hContact;
-							if(metaIsProtoMetaContacts(hcnt))
-								hcnt = metaGetMostOnline(hcnt);
+							MCONTACT hcnt = db_mc_tryMeta(hContact);
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 							_tcscpy(tmp2, ptmp);
 							mir_free(ptmp);
@@ -940,7 +934,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						mir_free(end);
 						if(hContact)
 						{
-							if(metaIsProtoMetaContacts(hContact))
+							if(db_mc_isMeta(hContact))
 							{
 								if(allsubcontacts)
 								{
@@ -971,7 +965,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							strcpy(tmp2, output.substr(s,s2-s).c_str());
 							mir_utf8decode(tmp2, 0);
 							{
-								if(metaIsProtoMetaContacts(hContact))
+								if(db_mc_isMeta(hContact))
 								{
 									if(allsubcontacts)
 									{
@@ -1020,7 +1014,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 								mir_utf8decode(tmp2, 0);
 								if(hContact)
 								{
-									if(metaIsProtoMetaContacts(hContact))
+									if(db_mc_isMeta(hContact))
 									{
 										if(allsubcontacts)
 										{
@@ -1032,11 +1026,9 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 													db_set_s(hcnt, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 											}
 										}
-										else
-											db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
+										else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 									}
-									else
-										db_set_s(hContact, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
+									else db_set_s(hContact, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 								}
 								mir_free(tmp2);
 								tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s-1)).c_str());
@@ -1057,7 +1049,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										mir_utf8decode(tmp2, 0);
 										if(hContact)
 										{
-											if(metaIsProtoMetaContacts(hContact))
+											if(db_mc_isMeta(hContact))
 											{
 												if(allsubcontacts)
 												{
@@ -1069,11 +1061,9 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 															db_set_s(hcnt, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 													}
 												}
-												else
-													db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+												else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 											}
-											else
-												db_set_s(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+											else db_set_s(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 										}
 										mir_free(tmp2);
 										s+=3;
@@ -1083,7 +1073,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										mir_utf8decode(tmp2, 0);
 										if(hContact)
 										{
-											if(metaIsProtoMetaContacts(hContact))
+											if(db_mc_isMeta(hContact))
 											{
 												if(allsubcontacts)
 												{
@@ -1112,7 +1102,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										mir_utf8decode(tmp2, 0);
 										if(hContact)
 										{
-											if(metaIsProtoMetaContacts(hContact))
+											if(db_mc_isMeta(hContact))
 											{
 												if(allsubcontacts)
 												{
@@ -1183,7 +1173,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					{
 						if(hContact)
 						{
-							if(metaIsProtoMetaContacts(hContact))
+							if(db_mc_isMeta(hContact))
 							{
 								if(allsubcontacts)
 								{

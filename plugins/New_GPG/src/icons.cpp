@@ -48,26 +48,18 @@ void setClistIcon(MCONTACT hContact)
 {
 	bool enabled = isContactSecured(hContact);
 	extern HANDLE g_hCLIcon;
-	MCONTACT hMC = hContact;
-	if(db_mc_isSub(hContact))
-		hMC = db_mc_getMeta(hContact);
-	else if(metaIsProtoMetaContacts(hContact))
-		hMC = db_mc_getMeta(hContact);
+	MCONTACT hMC = db_mc_tryMeta(hContact);
 	const char *szIconId = (enabled) ? "secured" : NULL;
 	ExtraIcon_SetIcon(g_hCLIcon, hContact, szIconId);
-	if(hMC)
+	if(hMC != hContact)
 		ExtraIcon_SetIcon(g_hCLIcon, hMC, szIconId);
 }
 
 void setSrmmIcon(MCONTACT h)
 {
-	MCONTACT hContact = metaIsProtoMetaContacts(h) ? metaGetMostOnline(h) : h;
+	MCONTACT hContact = db_mc_isMeta(h) ? metaGetMostOnline(h) : h;
 	bool enabled = isContactSecured(hContact);	
-	MCONTACT hMC = NULL;
-	if(db_mc_isSub(hContact))
-		hMC = db_mc_getMeta(hContact);
-	else if(metaIsProtoMetaContacts(hContact))
-		hMC = db_mc_getMeta(hContact);
+	MCONTACT hMC = db_mc_tryMeta(hContact);
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = szGPGModuleName;
@@ -75,14 +67,14 @@ void setSrmmIcon(MCONTACT h)
 	sid.dwId = 1;
 	sid.flags = enabled ? 0 : MBF_HIDDEN;
 	Srmm_ModifyIcon(hContact, &sid);
-	if(hMC)
+	if(hMC != hContact)
 		Srmm_ModifyIcon(hMC, &sid);
 
 	sid.hIcon = IconLibGetIcon("unsecured");
 	sid.dwId = 2;
 	sid.flags = enabled ? MBF_HIDDEN : 0;
 	Srmm_ModifyIcon(hContact, &sid);
-	if(hMC)
+	if(hMC != hContact)
 		Srmm_ModifyIcon(hMC, &sid);
 }
 

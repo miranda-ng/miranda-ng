@@ -50,20 +50,19 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 					}
 					else
 					{
-						db_set_b(metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "GPGEncryption", 1);
+						db_set_b(db_mc_isMeta(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "GPGEncryption", 1);
 						setSrmmIcon(hContact);
 						setClistIcon(hContact);
 					}
 					if(isContactHaveKey(hContact))
 					{
-						db_set_b(metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "GPGEncryption", 1);
+						db_set_b(db_mc_isMeta(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "GPGEncryption", 1);
 						setSrmmIcon(hContact);
 						setClistIcon(hContact);
 					}
 				}
 				else if(MessageBox(0, TranslateT("Do you want to try to decrypt encrypted message?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 				{
-					
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					return;
 				}
@@ -95,7 +94,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 				std::vector<wstring> cmd;
 				cmd.push_back(L"--batch");
 				{
-					char *inkeyid = UniGetContactSettingUtf(metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "InKeyID", "");
+					char *inkeyid = UniGetContactSettingUtf(db_mc_isMeta(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "InKeyID", "");
 					TCHAR *pass = NULL;
 					if(inkeyid[0])
 					{
@@ -190,7 +189,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 						s = out.find(" ID ", s);
 						s += strlen(" ID ");
 						string::size_type s2 = out.find(",",s);
-						db_set_s(metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
+						db_set_s(db_mc_isMeta(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
 					}
 					void ShowLoadKeyPasswordWindow();
 					new_key_hcnt_mutex.lock();
@@ -319,14 +318,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 							str.insert(0, inopentag);
 							str.append(inclosetag);
 						}
-						if(db_mc_isSub(hContact))
-						{
-							char *msg = mir_strdup(toUTF8(str).c_str());
-							HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
-							HistoryLog(db_mc_getMeta(hContact), db_event(msg, timestamp, 0, dbflags));
-							mir_free(msg);
-							return;
-						}
+
 						char *tmp = mir_strdup(toUTF8(str).c_str());
 						HistoryLog(hContact, db_event(tmp, timestamp, 0, dbflags));
 						mir_free(tmp);
@@ -336,14 +328,8 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD flags
 			}
 		}
 	}
-	if(db_get_b(metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "GPGEncryption", 0))
+	if(db_get_b(db_mc_isMeta(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "GPGEncryption", 0))
 	{
-		if(db_mc_isSub(hContact))
-		{
-			HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
-			HistoryLog(db_mc_getMeta(hContact), db_event(msg, timestamp, 0, dbflags));
-			return;
-		}
 		HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags|DBEF_READ));
 		return;
 	}
@@ -363,7 +349,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	if (!msg)
 		return CallService(MS_PROTO_CHAINRECV, w, l);
 	DWORD dbflags = DBEF_UTF;
-	if(metaIsProtoMetaContacts(ccs->hContact))
+	if(db_mc_isMeta(ccs->hContact))
 	{
 		if(!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
 			return CallService(MS_PROTO_CHAINRECV, w, l);
@@ -491,7 +477,6 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					{
 						setSrmmIcon(db_mc_getMeta(ccs->hContact));
 						setClistIcon(db_mc_getMeta(ccs->hContact));
-						HistoryLog(db_mc_getMeta(ccs->hContact), "PGP Encryption turned on by key autoexchange feature");
 					}
 					HistoryLog(ccs->hContact, "PGP Encryption turned on by key autoexchange feature");
 				}
@@ -623,8 +608,6 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	{
 		mir_free(tmp);
 		HistoryLog(hContact, db_event("Failed to encrypt message with GPG (not found key for encryption in db)", 0,0, DBEF_SENT));
-//		hcontact_data[hContact].msgs_to_pass.push_back("Failed to encrypt message with GPG (not found key for encryption in db)");
-		//mir_free(msg);
 		CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
 		return;
 	}
@@ -754,10 +737,8 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	if(str.empty())
 	{
 		HistoryLog(hContact, db_event("Failed to encrypt message with GPG", 0,0, DBEF_SENT));
-//		hcontact_data[hContact].msgs_to_pass.push_back("Failed to encrypt message with GPG");
 		if(bDebugLog)
 			debuglog<<std::string(time_str()+": info: Failed to encrypt message with GPG");
-		//mir_free(msg);
 		CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
 		return;
 	}
@@ -767,26 +748,14 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		str_event.insert(0, toUTF8(outopentag));
 		str_event.append(toUTF8(outclosetag));
 	}
-	/*if(db_mc_isSub(hContact))
-	{
-		hcontact_data[db_mc_getMeta(hContact)].msgs_to_pass.push_back(str_event);
-		if(bDebugLog)
-		{
-			debuglog<<std::string(time_str() + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR)) +"is subcontact of" + toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)db_mc_getMeta(hContact), GCDNF_TCHAR)));
-			debuglog<<std::string(time_str()+": adding event to metacontact: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)db_mc_getMeta(hContact), GCDNF_TCHAR))+" on send message.");
-		}
-		HistoryLog(db_mc_getMeta(hContact), db_event((char*)str_event.c_str(), 0,0, DBEF_SENT|dbflags));
-	}*/  //unneeded ?
-//	hcontact_data[hContact].msgs_to_pass.push_back(str_event);
+
 	if(bDebugLog)
 		debuglog<<std::string(time_str()+": adding event to contact: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" on send message.");
-	//HistoryLog(hContact, db_event((char*)str_event.c_str(), 0,0, dbflags|DBEF_SENT));
+
 	if(!(flags & PREF_UTF))
 		flags |= PREF_UTF; 
 	fix_line_term(str);
 	sent_msgs.push_back((HANDLE)CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)toUTF8(str).c_str()));
-	//mir_free(msg);
-	return;
 }
 
 INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
@@ -816,9 +785,9 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 	}
 	if(bDebugLog)
 		debuglog<<std::string(time_str()+": info: contact have key, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-	if(bDebugLog && metaIsProtoMetaContacts(ccs->hContact))
+	if(bDebugLog && db_mc_isMeta(ccs->hContact))
 		debuglog<<std::string(time_str()+": info: protocol is metacontacts, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
-	if(!isContactSecured(ccs->hContact) || metaIsProtoMetaContacts(ccs->hContact))
+	if(!isContactSecured(ccs->hContact) || db_mc_isMeta(ccs->hContact))
 	{
 		if(bDebugLog)
 			debuglog<<std::string(time_str()+": info: contact not secured, name: "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ccs->hContact, GCDNF_TCHAR)));
@@ -854,7 +823,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			return 1;
 		}
 	}
-	if(metaIsProtoMetaContacts(hContact))
+	if(db_mc_isMeta(hContact))
 		return 0;
 
 	if(!isContactHaveKey(hContact))
@@ -986,7 +955,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			debuglog<<std::string(time_str()+": event message: \""+(char*)dbei->pBlob+"\" passed event filter, contact "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR))+" is unsecured");
 		return 0;
 	}
-	if(!(dbei->flags & DBEF_SENT) && metaIsProtoMetaContacts((MCONTACT)w))
+	if(!(dbei->flags & DBEF_SENT) && db_mc_isMeta((MCONTACT)w))
 	{
 		char tmp[29];
 		strncpy(tmp, (char*)dbei->pBlob, 27);

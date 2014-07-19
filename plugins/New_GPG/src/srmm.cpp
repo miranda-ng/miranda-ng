@@ -36,7 +36,7 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	MCONTACT hMeta = NULL;
-	if(metaIsProtoMetaContacts(hContact))
+	if(db_mc_isMeta(hContact))
 	{
 		hMeta = hContact;
 		hContact = metaGetMostOnline(hContact); // возьмем тот, через который пойдет сообщение

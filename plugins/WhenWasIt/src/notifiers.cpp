@@ -66,11 +66,8 @@ TCHAR *BuildDABText(int dab, TCHAR *name, TCHAR *text, int size)
 
 int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 {
-	if (commonData.bIgnoreSubcontacts) {
-		MCONTACT hMetacontact = db_mc_getMeta(hContact);
-		if (hMetacontact && hMetacontact != hContact) //not main metacontact
-			return 0;
-	}
+	if (commonData.bIgnoreSubcontacts && db_mc_isSub(hContact))
+		return 0;
 
 	TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
 
@@ -109,11 +106,8 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 
 int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 {
-	if (commonData.bIgnoreSubcontacts) {
-		MCONTACT hMetacontact = db_mc_getMeta(hContact);
-		if (hMetacontact && hMetacontact != hContact) //not main metacontact
-			return 0;
-	}
+	if (commonData.bIgnoreSubcontacts && db_mc_isSub(hContact))
+		return 0;
 
 	TCHAR *name = pcli->pfnGetContactDisplayName(hContact, 0);
 

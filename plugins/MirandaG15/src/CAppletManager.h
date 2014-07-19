@@ -89,8 +89,6 @@ public:
 	// returns a formatted timestamp string
 	static tstring GetFormattedTimestamp(tm *time);
 
-	// returns wether or not a contact is a subcontact
-	static bool IsSubContact(MCONTACT hContact);
 	// returns the contacts group
 	static tstring GetContactGroup(MCONTACT hContact);
 	// returns the contacts displayname

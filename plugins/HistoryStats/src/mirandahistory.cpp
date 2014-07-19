@@ -118,7 +118,7 @@ void MirandaHistory::readContacts()
 				}
 				else {
 					// ignore because of meta-contact?
-					if (db_mc_getMeta(hContact))
+					if (db_mc_isMeta(hContact))
 						break;
 				}
 			}

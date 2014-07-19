@@ -430,7 +430,7 @@ int Preview()
 
 void Nudge_ShowPopup(CNudgeElement n, MCONTACT hContact, TCHAR * Message)
 {
-	hContact = Nudge_GethContact(hContact);
+	hContact = db_mc_tryMeta(hContact);
 	TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
@@ -473,11 +473,6 @@ void Nudge_SentStatus(CNudgeElement n, MCONTACT hContact)
 	dbei.eventType = 1;
 	dbei.cbBlob = (DWORD)strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
-
-	MCONTACT hMetaContact = db_mc_getMeta(hContact);
-	if (hMetaContact != NULL) // metacontact
-		db_event_add(hMetaContact, &dbei);
-
 	db_event_add(hContact, &dbei);
 	mir_free(buff);
 }
@@ -495,15 +490,6 @@ void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
 	dbei.pBlob = (PBYTE)buff;
 	db_event_add(hContact, &dbei);
 	mir_free(buff);
-}
-
-MCONTACT Nudge_GethContact(MCONTACT hContact)
-{
-	MCONTACT hMetaContact = db_mc_getMeta(hContact);
-	if (hMetaContact != NULL)
-		return hMetaContact;
-
-	return hContact;
 }
 
 void Nudge_AddAccount(PROTOACCOUNT *proto)

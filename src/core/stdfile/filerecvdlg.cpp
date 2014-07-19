@@ -139,8 +139,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 		mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My received files"));
 
 	if (hContact) {
-		if (db_mc_isSub(hContact))
-			hContact = db_mc_getMeta(hContact);
+		hContact = db_mc_tryMeta(hContact);
 
 		REPLACEVARSDATA dat = { 0 };
 		REPLACEVARSARRAY rvaVarsToReplace[4];

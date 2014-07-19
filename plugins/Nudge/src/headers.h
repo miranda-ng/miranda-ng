@@ -66,11 +66,6 @@ int Preview();
 /*
 *
 ****************************/
-MCONTACT Nudge_GethContact(MCONTACT);
-
-/*
-*
-****************************/
 void Nudge_ShowPopup(CNudgeElement, MCONTACT, TCHAR *);
 
 /*

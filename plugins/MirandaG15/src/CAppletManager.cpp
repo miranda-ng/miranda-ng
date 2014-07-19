@@ -589,7 +589,7 @@ void CAppletManager::HandleEvent(CEvent *pEvent)
 	}
 	pEvent->bLog = pEvent->bNotification;
 
-	if(CAppletManager::IsSubContact(pEvent->hContact))
+	if(db_mc_isSub(pEvent->hContact))
 	{
 		pEvent->bLog = false;
 		pEvent->bNotification = false;
@@ -753,16 +753,6 @@ void CAppletManager::CancelMessageJob(SMessageJob *pJob)
 			return;
 		}
 	}
-}
-
-//************************************************************************
-// returns wether or not a contact is a subcontact
-//************************************************************************
-bool CAppletManager::IsSubContact(MCONTACT hContact)
-{
-	if(!db_get_b(0, "MetaContacts", "Enabled", 1))
-		return false;
-	return db_mc_isSub(hContact) != 0;
 }
 
 //************************************************************************
