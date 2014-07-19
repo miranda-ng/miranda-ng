@@ -82,14 +82,17 @@ static void ThemeDialogBackground(HWND hwnd)
 	EnableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Profile creator
+
 static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARAM lParam)
 {
 	// find in Miranda NG profile subfolders
-	HANDLE hFind = INVALID_HANDLE_VALUE;
-	WIN32_FIND_DATA ffd;
 	TCHAR searchspec[MAX_PATH];
 	mir_sntprintf(searchspec, SIZEOF(searchspec), _T("%s\\*.*"), szProfileDir);
-	hFind = FindFirstFile(searchspec, &ffd);
+	
+	WIN32_FIND_DATA ffd;
+	HANDLE hFind = FindFirstFile(searchspec, &ffd);
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
@@ -254,6 +257,9 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	return FALSE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Profile selector
 
 BOOL EnumProfilesForList(TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam)
 {
@@ -421,6 +427,65 @@ static void CheckRun(HWND hwndDlg, int uMsg)
 		EndDialog(GetParent(hwndDlg), 1);
 }
 
+static void ExecuteMenu(HWND hwndDlg, LPARAM lParam)
+{
+	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROFILELIST);
+	DlgProfData *dat = (DlgProfData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	LVHITTESTINFO lvht = { 0 };
+	lvht.pt.x = GET_X_LPARAM(lParam);
+	lvht.pt.y = GET_Y_LPARAM(lParam);
+	ScreenToClient(hwndList, &lvht.pt);
+
+	bool bConvert = false;
+	if (ListView_HitTest(hwndList, &lvht) == -1)
+		return;
+
+	if (lvht.iItem == -1)
+		return;
+
+	LVITEM tvi;
+	tvi.mask = LVIF_IMAGE;
+	tvi.iItem = lvht.iItem;
+	if (!ListView_GetItem(hwndList, &tvi))
+		return;
+
+	if (tvi.iImage == 2)
+		bConvert = true;
+
+	lvht.pt.x = GET_X_LPARAM(lParam);
+	lvht.pt.y = GET_Y_LPARAM(lParam);
+
+	HMENU hMenu = CreatePopupMenu();
+	if (tvi.iImage < 2) {
+		AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
+		AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+	}
+	if (tvi.iImage != 3 && ServiceExists(MS_DB_CHECKPROFILE)) {
+		if (bConvert)
+			AppendMenu(hMenu, MF_STRING, 2, TranslateT("Convert database"));
+		else
+			AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check database"));
+		AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+	}
+	AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
+	int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, lvht.pt.x, lvht.pt.y, 0, hwndDlg, NULL);
+	switch (index) {
+	case 1:
+		SendMessage(GetParent(hwndDlg), WM_COMMAND, IDOK, 0);
+		break;
+
+	case 2:
+		CheckProfile(hwndList, lvht.iItem, dat);
+		break;
+
+	case 3:
+		DeleteProfile(hwndList, lvht.iItem, dat);
+		break;
+	}
+	DestroyMenu(hMenu);
+}
+
 static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DlgProfData *dat = (DlgProfData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -501,57 +566,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_CONTEXTMENU:
-		{
-			LVHITTESTINFO lvht = { 0 };
-			lvht.pt.x = GET_X_LPARAM(lParam);
-			lvht.pt.y = GET_Y_LPARAM(lParam);
-			ScreenToClient(hwndList, &lvht.pt);
-
-			bool bConvert = false;
-			if (ListView_HitTest(hwndList, &lvht) != -1) {
-				if (lvht.iItem == -1)
-					break;
-
-				LVITEM tvi;
-				tvi.mask = LVIF_IMAGE;
-				tvi.iItem = lvht.iItem;
-				if (!ListView_GetItem(hwndList, &tvi))
-					break;
-
-				if (tvi.iImage == 2)
-					bConvert = true;
-			}
-
-			lvht.pt.x = GET_X_LPARAM(lParam);
-			lvht.pt.y = GET_Y_LPARAM(lParam);
-
-			HMENU hMenu = CreatePopupMenu();
-			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
-			AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-			if (ServiceExists(MS_DB_CHECKPROFILE)) {
-				if (bConvert)
-					AppendMenu(hMenu, MF_STRING, 2, TranslateT("Convert database"));
-				else
-					AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check database"));
-				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-			}
-			AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
-			int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, lvht.pt.x, lvht.pt.y, 0, hwndDlg, NULL);
-			switch (index) {
-			case 1:
-				SendMessage(GetParent(hwndDlg), WM_COMMAND, IDOK, 0);
-				break;
-
-			case 2:
-				CheckProfile(hwndList, lvht.iItem, dat);
-				break;
-
-			case 3:
-				DeleteProfile(hwndList, lvht.iItem, dat);
-				break;
-			}
-			DestroyMenu(hMenu);
-		}
+		ExecuteMenu(hwndDlg, lParam);
 		break;
 
 	case WM_NOTIFY:
@@ -593,6 +608,9 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	return FALSE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Tab manager + its envelope
 
 static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -831,7 +849,7 @@ static int AddProfileManagerPage(struct DetailsPageInit *opi, OPTIONSDIALOGPAGE 
 
 	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount + 1));
 
-	OPTIONSDIALOGPAGE* p = opi->odp + opi->pageCount++;
+	OPTIONSDIALOGPAGE *p = opi->odp + opi->pageCount++;
 	p->cbSize = sizeof(OPTIONSDIALOGPAGE);
 	p->hInstance = odp->hInstance;
 	p->pfnDlgProc = odp->pfnDlgProc;

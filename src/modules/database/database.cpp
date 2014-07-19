@@ -39,7 +39,7 @@ bool fileExist(const TCHAR *fname)
 		return false;
 
 	FILE *fp = _tfopen(fname, _T("r+"));
-	bool res = fp != NULL;
+	bool res = (fp != NULL);
 	if (fp) fclose(fp);
 	return res;
 }
@@ -98,7 +98,7 @@ static bool showProfileManager(void)
 {
 	TCHAR Mgr[32];
 	// is control pressed?
-	if (GetAsyncKeyState(VK_CONTROL)&0x8000)
+	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
 		return 1;
 
 	// wanna show it?
@@ -184,17 +184,15 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 {
 	TCHAR pfd[MAX_PATH];
 	if (isRootDir)
-		_tcsncpy(pfd, VARST( _T("%miranda_path%\\*.dat")), SIZEOF(pfd));
+		_tcsncpy(pfd, VARST(_T("%miranda_path%\\*.dat")), SIZEOF(pfd));
 	else
 		mir_sntprintf(pfd, SIZEOF(pfd), _T("%s\\*.dat"), profiledir);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(pfd, &ffd);
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
+	if (hFind != INVALID_HANDLE_VALUE) {
 		TCHAR *c = _tcsrchr(pfd, '\\'); if (c) *c = 0;
-		do
-		{
+		do {
 			TCHAR path[MAX_PATH], path2[MAX_PATH];
 			TCHAR* profile = mir_tstrdup(ffd.cFileName);
 			TCHAR *c = _tcsrchr(profile, '.'); if (c) *c = 0;
@@ -219,7 +217,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			}
 			mir_free(profile);
 		}
-		while (FindNextFile(hFind, &ffd));
+			while (FindNextFile(hFind, &ffd));
 	}
 	FindClose(hFind);
 }
@@ -256,7 +254,8 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 						if (++found == 1 && nodprof)
 							_tcscpy(szProfile, newProfile);
 				}
-			} while (FindNextFile(hFind, &ffd));
+			}
+				while (FindNextFile(hFind, &ffd));
 
 			FindClose(hFind);
 		}
@@ -301,8 +300,8 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 		return 0;
 	}
 
-	PROFILEMANAGERDATA pd = {0};
-	if ( CmdLine_GetOption( _T("ForceShowPM"))) {
+	PROFILEMANAGERDATA pd = { 0 };
+	if (CmdLine_GetOption(_T("ForceShowPM"))) {
 LBL_Show:
 		pd.szProfile = szProfile;
 		pd.szProfileDir = g_profileDir;
@@ -329,9 +328,9 @@ LBL_Show:
 // carefully converts a file name from TCHAR* to char*
 char* makeFileName(const TCHAR* tszOriginalName)
 {
-	char* szResult = NULL;
-	char* szFileName = mir_t2a(tszOriginalName);
-	TCHAR* tszFileName = mir_a2t(szFileName);
+	char *szResult = NULL;
+	char *szFileName = mir_t2a(tszOriginalName);
+	TCHAR *tszFileName = mir_a2t(szFileName);
 	if (_tcscmp(tszOriginalName, tszFileName)) {
 		TCHAR tszProfile[MAX_PATH];
 		if (GetShortPathName(tszOriginalName, tszProfile, MAX_PATH) != 0)
@@ -352,7 +351,7 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 {
 	bool bWasOpened = false;
 
-	for (int i=arDbPlugins.getCount()-1; i >= 0; i--) {
+	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
 		DATABASELINK *p = arDbPlugins[i];
 
 		// liked the profile?
@@ -383,12 +382,12 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
-static int tryCreateDatabase(const TCHAR* ptszProfile)
+static int tryCreateDatabase(const TCHAR *ptszProfile)
 {
-	TCHAR* tszProfile = NEWTSTR_ALLOCA(ptszProfile);
+	TCHAR *tszProfile = NEWTSTR_ALLOCA(ptszProfile);
 	CreatePathToFileT(tszProfile);
 
-	for (int i=0; i < arDbPlugins.getCount(); i++) {
+	for (int i = 0; i < arDbPlugins.getCount(); i++) {
 		DATABASELINK* p = arDbPlugins[i];
 
 		int err = p->makeDatabase(tszProfile);
@@ -417,7 +416,7 @@ typedef struct {
 static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 {
 	TCHAR classname[256];
-	ENUMMIRANDAWINDOW * x = (ENUMMIRANDAWINDOW *)lParam;
+	ENUMMIRANDAWINDOW *x = (ENUMMIRANDAWINDOW *)lParam;
 	DWORD_PTR res = 0;
 	if (GetClassName(hwnd, classname, SIZEOF(classname)) && lstrcmp(_T("Miranda"), classname) == 0) {
 		if (SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res) {
@@ -430,7 +429,7 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 
 static int FindMirandaForProfile(TCHAR *szProfile)
 {
-	ENUMMIRANDAWINDOW x = {0};
+	ENUMMIRANDAWINDOW x = { 0 };
 	x.profile = szProfile;
 	x.msg = RegisterWindowMessage(_T("Miranda::ProcessProfile"));
 	x.aPath = GlobalAddAtom(szProfile);
@@ -466,7 +465,7 @@ int LoadDatabaseModule(void)
 	int rc;
 	do {
 		retry = false;
-		if ( _taccess(szProfile, 0) && shouldAutoCreate(szProfile))
+		if (_taccess(szProfile, 0) && shouldAutoCreate(szProfile))
 			rc = tryCreateDatabase(szProfile);
 		else
 			rc = tryOpenDatabase(szProfile);
@@ -487,8 +486,7 @@ int LoadDatabaseModule(void)
 				retry = MessageBox(0, buf, TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR) == IDRETRY;
 			}
 		}
-	}
-		while (retry);
+	} while (retry);
 
 	if (rc == ERROR_SUCCESS) {
 		InitIni();
