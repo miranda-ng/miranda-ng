@@ -70,7 +70,7 @@ INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-void OpenDatabase(HWND hdlg, INT iNextPage);
+int OpenDatabase(HWND hdlg, INT iNextPage);
 
 #define STATUS_CLASSMASK  0x0f
 void AddToStatus(int flags, const TCHAR* fmt, ...);

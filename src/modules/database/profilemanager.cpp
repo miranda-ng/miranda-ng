@@ -444,7 +444,7 @@ static void ExecuteMenu(HWND hwndDlg, LPARAM lParam)
 	if (lvht.iItem == -1)
 		return;
 
-	LVITEM tvi;
+	LVITEM tvi = { 0 };
 	tvi.mask = LVIF_IMAGE;
 	tvi.iItem = lvht.iItem;
 	if (!ListView_GetItem(hwndList, &tvi))

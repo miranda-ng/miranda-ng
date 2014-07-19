@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "dbchecker.h"
 
 static bool CheckBroken(const TCHAR *ptszFullPath)
@@ -27,7 +28,7 @@ static bool CheckBroken(const TCHAR *ptszFullPath)
 	return dblink->grokHeader(ptszFullPath) != EGROKPRF_NOERROR;
 }
 
-void OpenDatabase(HWND hdlg, INT iNextPage)
+int OpenDatabase(HWND hdlg, INT iNextPage)
 {
 	TCHAR tszMsg[1024];
 
@@ -35,16 +36,16 @@ void OpenDatabase(HWND hdlg, INT iNextPage)
 		DATABASELINK* dblink = FindDatabasePlugin(opts.filename);
 		if (dblink == NULL) {
 			mir_sntprintf(tszMsg, SIZEOF(tszMsg),
-				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."), 
+				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."),
 				opts.filename);
 LBL_Error:
 			MessageBox(hdlg, tszMsg, TranslateT("Error"), MB_OK | MB_ICONERROR);
-			return;
+			return false;
 		}
 
 		if (dblink->CheckDB == NULL) {
 			mir_sntprintf(tszMsg, SIZEOF(tszMsg),
-				TranslateT("Database driver '%s' doesn't support checking."), 
+				TranslateT("Database driver '%s' doesn't support checking."),
 				TranslateTS(dblink->szFullName));
 			goto LBL_Error;
 		}
@@ -55,15 +56,16 @@ LBL_Error:
 			if ((opts.error = GetLastError()) == 0)
 				opts.error = error;
 			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
-			return;
+			return true;
 		}
 		opts.dblink = dblink;
 	}
-	
+
 	if (iNextPage == IDD_FILEACCESS)
 		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
 	else
 		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+	return true;
 }
 
 void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
@@ -72,13 +74,13 @@ void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
 
 	lstrcpy(szMirandaBootIni, szMirandaDir);
 	lstrcat(szMirandaBootIni, _T("\\mirandaboot.ini"));
-	GetPrivateProfileString( _T("Database"), _T("ProfileDir"), _T("./Profiles"), szProfileDir, SIZEOF(szProfileDir), szMirandaBootIni);
+	GetPrivateProfileString(_T("Database"), _T("ProfileDir"), _T("./Profiles"), szProfileDir, SIZEOF(szProfileDir), szMirandaBootIni);
 	ExpandEnvironmentStrings(szProfileDir, szExpandedProfileDir, SIZEOF(szExpandedProfileDir));
 	_tchdir(szMirandaDir);
-	if ( !_tfullpath(szPath, szExpandedProfileDir, cbPath))
+	if (!_tfullpath(szPath, szExpandedProfileDir, cbPath))
 		lstrcpyn(szPath, szMirandaDir, cbPath);
-	if (szPath[lstrlen(szPath)-1] == '\\')
-		szPath[lstrlen(szPath)-1] = 0;
+	if (szPath[lstrlen(szPath) - 1] == '\\')
+		szPath[lstrlen(szPath) - 1] = 0;
 }
 
 static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
@@ -86,14 +88,14 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 	LV_ITEM lvi;
 	lvi.mask = LVIF_PARAM;
 	lvi.iSubItem = 0;
-	for(lvi.iItem = ListView_GetItemCount(hwndList)-1;lvi.iItem >= 0;lvi.iItem--) {
+	for (lvi.iItem = ListView_GetItemCount(hwndList) - 1; lvi.iItem >= 0; lvi.iItem--) {
 		ListView_GetItem(hwndList, &lvi);
 		if (!_tcsicmp((TCHAR*)lvi.lParam, filename))
 			return lvi.iItem;
 	}
 
 	_stat st;
-	if ( _tstat(filename, &st) == -1)
+	if (_tstat(filename, &st) == -1)
 		return -1;
 
 	DWORD totalSize = st.st_size;
@@ -139,14 +141,13 @@ void FindAdd(HWND hdlg, TCHAR *szProfileDir, TCHAR *szPrefix)
 	hFind = FindFirstFile(szSearchPath, &fd);
 	if (hFind != INVALID_HANDLE_VALUE) {
 		do {
-			if ( !(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !_tcscmp(fd.cFileName, _T(".")) || !_tcscmp(fd.cFileName, _T("..")))
+			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !_tcscmp(fd.cFileName, _T(".")) || !_tcscmp(fd.cFileName, _T("..")))
 				continue;
-				
+
 			mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s\\%s\\%s.dat"), szProfileDir, fd.cFileName, fd.cFileName);
-			if ( _taccess(szFilename, 0) == 0)
+			if (_taccess(szFilename, 0) == 0)
 				AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), szFilename, szPrefix);
-		}
-			while(FindNextFile(hFind, &fd));
+		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
 }
@@ -233,7 +234,10 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		}
 
 		if (bShortMode)
-			OpenDatabase(hdlg, IDD_FILEACCESS);
+			if (!OpenDatabase(hdlg, IDD_FILEACCESS)) {
+				EndDialog(GetParent(hdlg), 1);
+				return FALSE;
+			}
 		return TRUE;
 
 	case WZN_PAGECHANGING:
@@ -241,7 +245,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_FILE:
 			if (HIWORD(wParam) == EN_CHANGE)
 				EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), GetWindowTextLength(GetDlgItem(hdlg, IDC_FILE)));
@@ -249,14 +253,14 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 		case IDC_OTHER:
 			{
-				OPENFILENAME ofn = {0};
+				OPENFILENAME ofn = { 0 };
 				TCHAR str[MAX_PATH];
 
 				// _T("Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0");
 				TCHAR *filter, *tmp, *tmp1, *tmp2;
 				tmp1 = TranslateT("Miranda Databases (*.dat)");
 				tmp2 = TranslateT("All Files");
-				filter = tmp = (TCHAR*)_alloca((_tcslen(tmp1)+_tcslen(tmp2)+11)*sizeof(TCHAR));
+				filter = tmp = (TCHAR*)_alloca((_tcslen(tmp1) + _tcslen(tmp2) + 11)*sizeof(TCHAR));
 				tmp = addstring(tmp, tmp1);
 				tmp = addstring(tmp, _T("*.DAT"));
 				tmp = addstring(tmp, tmp2);
@@ -294,34 +298,31 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_DBLIST:
-			switch(((LPNMLISTVIEW)lParam)->hdr.code) {
+			switch (((LPNMLISTVIEW)lParam)->hdr.code) {
 			case LVN_ITEMCHANGED:
-				{
-					LV_ITEM lvi;
-					lvi.iItem = ListView_GetNextItem(GetDlgItem(hdlg, IDC_DBLIST), -1, LVNI_SELECTED);
-					if (lvi.iItem == -1) break;
-					lvi.mask = LVIF_PARAM;
-					ListView_GetItem(GetDlgItem(hdlg, IDC_DBLIST), &lvi);
-					SetDlgItemText(hdlg, IDC_FILE, (TCHAR*)lvi.lParam);
-					SendMessage(hdlg, WM_COMMAND, MAKEWPARAM(IDC_FILE, EN_CHANGE), (LPARAM)GetDlgItem(hdlg, IDC_FILE));
-				}
-				break;
+				LV_ITEM lvi;
+				lvi.iItem = ListView_GetNextItem(GetDlgItem(hdlg, IDC_DBLIST), -1, LVNI_SELECTED);
+				if (lvi.iItem == -1) break;
+				lvi.mask = LVIF_PARAM;
+				ListView_GetItem(GetDlgItem(hdlg, IDC_DBLIST), &lvi);
+				SetDlgItemText(hdlg, IDC_FILE, (TCHAR*)lvi.lParam);
+				SendMessage(hdlg, WM_COMMAND, MAKEWPARAM(IDC_FILE, EN_CHANGE), (LPARAM)GetDlgItem(hdlg, IDC_FILE));
 			}
 			break;
 		}
 		break;
 
 	case WM_DESTROY:
-		{
-			LV_ITEM lvi;
-			lvi.mask = LVIF_PARAM;
-			for(lvi.iItem = ListView_GetItemCount(GetDlgItem(hdlg, IDC_DBLIST))-1;lvi.iItem >= 0;lvi.iItem--) {
-				ListView_GetItem(GetDlgItem(hdlg, IDC_DBLIST), &lvi);
-				free((char*)lvi.lParam);
-			}
+	{
+		LV_ITEM lvi;
+		lvi.mask = LVIF_PARAM;
+		for (lvi.iItem = ListView_GetItemCount(GetDlgItem(hdlg, IDC_DBLIST)) - 1; lvi.iItem >= 0; lvi.iItem--) {
+			ListView_GetItem(GetDlgItem(hdlg, IDC_DBLIST), &lvi);
+			free((char*)lvi.lParam);
 		}
+	}
 		break;
 	}
 	return FALSE;

@@ -22,19 +22,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR bReturn;
-	if ( DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn))
+	if (DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn))
 		return bReturn;
 
-	switch(message) {
+	switch (message) {
 	case WM_INITDIALOG:
 		EnableWindow(GetDlgItem(GetParent(hdlg), IDC_BACK), FALSE);
 		EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), FALSE);
 		SetDlgItemText(GetParent(hdlg), IDCANCEL, TranslateT("&Finish"));
-		SetWindowLongPtr(GetDlgItem(hdlg, IDC_DBFILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_DBFILE), GWL_STYLE)|SS_PATHELLIPSIS);
+		SetWindowLongPtr(GetDlgItem(hdlg, IDC_DBFILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_DBFILE), GWL_STYLE) | SS_PATHELLIPSIS);
 		SetDlgItemText(hdlg, IDC_DBFILE, opts.filename);
 		if (opts.bBackup) {
 			ShowWindow(GetDlgItem(hdlg, IDC_STBACKUP), TRUE);
-			SetWindowLongPtr(GetDlgItem(hdlg, IDC_BACKUPFILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_BACKUPFILE), GWL_STYLE)|SS_PATHELLIPSIS);
+			SetWindowLongPtr(GetDlgItem(hdlg, IDC_BACKUPFILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_BACKUPFILE), GWL_STYLE) | SS_PATHELLIPSIS);
 			SetDlgItemText(hdlg, IDC_BACKUPFILE, opts.backupFilename);
 		}
 		else ShowWindow(GetDlgItem(hdlg, IDC_STBACKUP), FALSE);
@@ -44,7 +44,7 @@ INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 	case WZN_CANCELCLICKED:
 		bLaunchMiranda = IsDlgButtonChecked(hdlg, IDC_LAUNCHMIRANDA) == BST_CHECKED;
 		CallService(MS_DB_SETDEFAULTPROFILE, (WPARAM)opts.filename, 0);
-		EndDialog( GetParent(hdlg), 1);
+		EndDialog(GetParent(hdlg), 1);
 		return TRUE;
 	}
 	return FALSE;
