@@ -39,63 +39,68 @@ __forceinline HANDLE LoadSkinnedIconHandle(int id) { return (HANDLE)CallService(
 __forceinline HICON  LoadSkinnedIconBig(int id)    { return (HICON) CallService(MS_SKIN_LOADICON, id, 2); }
 __forceinline LPCSTR LoadSkinnedIconName(int id)   { return (LPCSTR)CallService(MS_SKIN_LOADICON, id, 3); }
 
-//event icons
+// event icons
 #define SKINICON_EVENT_MESSAGE       100
 #define SKINICON_EVENT_URL           101
 #define SKINICON_EVENT_FILE          102
 
-//other icons
+// msgbox icons
+#define SKINICON_INFORMATION         150
+#define SKINICON_WARNING             151
+#define SKINICON_ERROR               152
+
+// other icons
 #define SKINICON_OTHER_MIRANDA       200
 #define SKINICON_OTHER_EXIT          201
 #define SKINICON_OTHER_SHOWHIDE      202
-#define SKINICON_OTHER_GROUPOPEN     203     // v.0.1.1.0+
-#define SKINICON_OTHER_USERONLINE    204     // v.0.1.0.1+
-#define SKINICON_OTHER_GROUPSHUT     205     // v.0.1.1.0+
-#define SKINICON_OTHER_CONNECTING    206     // v.0.1.0.1+
-#define SKINICON_OTHER_ADDCONTACT    207     // v.0.7.0.2+
-#define SKINICON_OTHER_USERDETAILS   208     // v.0.7.0.2+
-#define SKINICON_OTHER_HISTORY       209     // v.0.7.0.2+
-#define SKINICON_OTHER_DOWNARROW     210     // v.0.7.0.2+
-#define SKINICON_OTHER_FINDUSER      211     // v.0.7.0.2+
-#define SKINICON_OTHER_OPTIONS       212     // v.0.7.0.2+
-#define SKINICON_OTHER_SENDEMAIL     213     // v.0.7.0.2+
-#define SKINICON_OTHER_DELETE        214     // v.0.7.0.2+
-#define SKINICON_OTHER_RENAME        215     // v.0.7.0.2+
-#define SKINICON_OTHER_SMS           216     // v.0.7.0.2+
-#define SKINICON_OTHER_SEARCHALL     217     // v.0.7.0.2+
-#define SKINICON_OTHER_TICK          218     // v.0.7.0.2+
-#define SKINICON_OTHER_NOTICK        219     // v.0.7.0.2+
-#define SKINICON_OTHER_HELP          220     // v.0.7.0.2+
-#define SKINICON_OTHER_MIRANDAWEB    221     // v.0.7.0.2+
-#define SKINICON_OTHER_TYPING        222     // v.0.7.0.2+
-#define SKINICON_OTHER_SMALLDOT      223     // v.0.7.0.2+
-#define SKINICON_OTHER_FILLEDBLOB    224     // v.0.7.0.2+
-#define SKINICON_OTHER_EMPTYBLOB     225     // v.0.7.0.2+
-#define SKINICON_OTHER_UNICODE       226     // v.0.7.0.19+
-#define SKINICON_OTHER_ANSI          227     // v.0.7.0.19+
-#define SKINICON_OTHER_LOADED        228     // v.0.7.0.19+
-#define SKINICON_OTHER_NOTLOADED     229     // v.0.7.0.19+
-#define SKINICON_OTHER_UNDO          230     // v.0.8.0.4+
-#define SKINICON_OTHER_WINDOW        231     // v.0.8.0.4+
-#define SKINICON_OTHER_WINDOWS       232     // v.0.8.0.4+
-#define SKINICON_OTHER_ACCMGR        233     // v.0.8.0.4+
-#define SKINICON_OTHER_MAINMENU      234     // v.0.8.0.12+
-#define SKINICON_OTHER_STATUS        235     // v.0.8.0.12+
-#define SKINICON_CHAT_JOIN           236     // v.0.8.0.27+
-#define SKINICON_CHAT_LEAVE          237     // v.0.8.0.27+
-#define SKINICON_OTHER_STATUS_LOCKED 238     // v.0.8.0.28+
-#define SKINICON_OTHER_GROUP         239     // v.0.8.0.29+
-#define SKINICON_OTHER_ON            240     // v.0.9.0.9+
-#define SKINICON_OTHER_OFF           241     // v.0.9.0.9+
-#define SKINICON_OTHER_LOADEDGRAY    242     // v.0.10.3.1+
-#define SKINICON_OTHER_NOTLOADEDGRAY 243     // v.0.10.3.1+
-#define SKINICON_OTHER_VISIBLE_ALL   244     // v.0.93.4+
-#define SKINICON_OTHER_INVISIBLE_ALL 245     // v.0.93.4+
-#define SKINICON_OTHER_FRAME         246     // v.0.94.1+
-#define SKINICON_AUTH_ADD            247     // v.0.94.4+
-#define SKINICON_AUTH_REQUEST        248     // v.0.94.4+
-#define SKINICON_AUTH_GRANT          249     // v.0.94.4+
-#define SKINICON_AUTH_REVOKE         250     // v.0.94.4+
+#define SKINICON_OTHER_GROUPOPEN     203
+#define SKINICON_OTHER_USERONLINE    204
+#define SKINICON_OTHER_GROUPSHUT     205
+#define SKINICON_OTHER_CONNECTING    206
+#define SKINICON_OTHER_ADDCONTACT    207
+#define SKINICON_OTHER_USERDETAILS   208
+#define SKINICON_OTHER_HISTORY       209
+#define SKINICON_OTHER_DOWNARROW     210
+#define SKINICON_OTHER_FINDUSER      211
+#define SKINICON_OTHER_OPTIONS       212
+#define SKINICON_OTHER_SENDEMAIL     213
+#define SKINICON_OTHER_DELETE        214
+#define SKINICON_OTHER_RENAME        215
+#define SKINICON_OTHER_SMS           216
+#define SKINICON_OTHER_SEARCHALL     217
+#define SKINICON_OTHER_TICK          218
+#define SKINICON_OTHER_NOTICK        219
+#define SKINICON_OTHER_HELP          220
+#define SKINICON_OTHER_MIRANDAWEB    221
+#define SKINICON_OTHER_TYPING        222
+#define SKINICON_OTHER_SMALLDOT      223
+#define SKINICON_OTHER_FILLEDBLOB    224
+#define SKINICON_OTHER_EMPTYBLOB     225
+#define SKINICON_OTHER_UNICODE       226
+#define SKINICON_OTHER_ANSI          227
+#define SKINICON_OTHER_LOADED        228
+#define SKINICON_OTHER_NOTLOADED     229
+#define SKINICON_OTHER_UNDO          230
+#define SKINICON_OTHER_WINDOW        231
+#define SKINICON_OTHER_WINDOWS       232
+#define SKINICON_OTHER_ACCMGR        233
+#define SKINICON_OTHER_MAINMENU      234
+#define SKINICON_OTHER_STATUS        235
+#define SKINICON_CHAT_JOIN           236
+#define SKINICON_CHAT_LEAVE          237
+#define SKINICON_OTHER_STATUS_LOCKED 238
+#define SKINICON_OTHER_GROUP         239
+#define SKINICON_OTHER_ON            240
+#define SKINICON_OTHER_OFF           241
+#define SKINICON_OTHER_LOADEDGRAY    242
+#define SKINICON_OTHER_NOTLOADEDGRAY 243
+#define SKINICON_OTHER_VISIBLE_ALL   244
+#define SKINICON_OTHER_INVISIBLE_ALL 245
+#define SKINICON_OTHER_FRAME         246
+#define SKINICON_AUTH_ADD            247
+#define SKINICON_AUTH_REQUEST        248
+#define SKINICON_AUTH_GRANT          249
+#define SKINICON_AUTH_REVOKE         250
 
 //menu icons are owned by the module that uses them so are not and should not
 //be skinnable. Except exit and show/hide
