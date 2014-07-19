@@ -2163,14 +2163,20 @@ Miranda NG не может открыть этот профиль
 &Создать
 [<In use>]
 <Используется>
+[<Unknown format>]
+<Неизвестный формат>
 [Are you sure you want to remove profile "%s"?]
 Вы уверены, что хотите удалить профиль "%s"?
-[Size]
-Размер
+[&Convert]
+&Конвертировать
 [Run]
 Запустить
+[Convert database]
+Конвертировать базу
 [Check database]
 Проверить базу
+[Size]
+Размер
 [Created]
 Создан
 [Modified]
@@ -2547,6 +2553,8 @@ ANSI плагин
 Авторизовать
 [Revoke authorization]
 Отозвать авторизацию
+[Warning]
+Предупреждение
 [Always visible]
 Всегда видимый
 [Always invisible]
