@@ -57,9 +57,10 @@
 #define IDI_FINDUSER                    161
 #define IDI_HELP                        162
 #define IDI_OPTIONS                     163
-#define IDI_MERROR                      164
-#define IDI_MWARNING                    165
-#define IDI_MINFO                       166
+#define IDI_MFATAL                      164
+#define IDI_MERROR                      165
+#define IDI_MWARNING                    166
+#define IDI_MINFO                       167
 #define IDI_MIRANDAWEBSITE              172
 #define IDI_RENAME                      173
 #define IDI_HISTORY                     174

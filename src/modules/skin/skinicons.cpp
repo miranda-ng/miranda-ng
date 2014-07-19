@@ -87,9 +87,11 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_AUTH_REQUEST,          LPGEN("Request authorization"), -IDI_AUTH_REQUEST   }, // 48
 	{ SKINICON_AUTH_GRANT,            LPGEN("Grant authorization"),   -IDI_AUTH_GRANT     }, // 49
 	{ SKINICON_AUTH_REVOKE,           LPGEN("Revoke authorization"),  -IDI_AUTH_REVOKE    }, // 50
+	{ SKINICON_FATAL,                 LPGEN("Fatal error"),           -IDI_MFATAL         },
 	{ SKINICON_ERROR,                 LPGEN("Error"),                 -IDI_MERROR         },
 	{ SKINICON_WARNING,               LPGEN("Warning"),               -IDI_MWARNING       },
 	{ SKINICON_INFORMATION,           LPGEN("Information"),           -IDI_MINFO          },
+
 	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),        -IDI_ALWAYSVIS,     0, LPGEN("Contact list") },
 	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),      -IDI_NEVERVIS,      0, LPGEN("Contact list") },
 	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),         -IDI_STATUS_LOCKED, 0, LPGEN("Status icons") },

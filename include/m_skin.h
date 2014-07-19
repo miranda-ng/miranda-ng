@@ -48,6 +48,7 @@ __forceinline LPCSTR LoadSkinnedIconName(int id)   { return (LPCSTR)CallService(
 #define SKINICON_INFORMATION         150
 #define SKINICON_WARNING             151
 #define SKINICON_ERROR               152
+#define SKINICON_FATAL               153
 
 // other icons
 #define SKINICON_OTHER_MIRANDA       200

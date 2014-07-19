@@ -519,7 +519,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_USERDETAILS));
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_DELETE));
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_MWARNING));
-			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_MERROR));
+			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_MFATAL));
 
 			// LV will destroy the image list
 			SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE) | LVS_SORTASCENDING);
