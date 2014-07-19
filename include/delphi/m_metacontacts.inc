@@ -94,6 +94,10 @@ function db_mc_getDefaultNum(hContact:TMCONTACT):int; stdcall;
 function db_mc_getMeta(hContact:TMCONTACT):TMCONTACT; stdcall;
                  external CoreDLL name 'db_mc_getMeta';
 
+{ returns a meta contact for a subcontact or hContact itself otherwise }
+function db_mc_tryMeta(hContact:TMCONTACT):TMCONTACT; stdcall;
+                 external CoreDLL name 'db_mc_tryMeta';
+
 { returns a subcontact with the given index or 0 }
 function db_mc_getSub(hContact:TMCONTACT; idx:int):TMCONTACT; stdcall;
                  external CoreDLL name 'db_mc_getSub';

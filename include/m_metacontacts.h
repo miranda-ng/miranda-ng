@@ -101,8 +101,11 @@ MIR_CORE_DLL(int) db_mc_getDefaultNum(MCONTACT hMetaContact);
 //returns the number of subcontacts, or -1 on failure
 MIR_CORE_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact);
 
-// returns parent hContact for a subcontact or INVALID_CONTACT_ID if it's not a sub
+// returns parent hContact for a subcontact or NULL if it's not a sub
 MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact);
+
+// returns parent hContact for a subcontact or hContact itself if it's not a sub
+MIR_CORE_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact);
 
 // returns a subcontact with the given index
 MIR_CORE_DLL(MCONTACT) db_mc_getSub(MCONTACT hMetaContact, int iNum);

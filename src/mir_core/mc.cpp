@@ -112,13 +112,24 @@ MIR_CORE_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact)
 	return (cc == NULL) ? -1 : cc->nSubs;
 }
 
-// returns parent hContact for a subcontact or INVALID_CONTACT_ID if it's not a sub
+// returns parent hContact for a subcontact or NULL if it's not a sub
 MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
 {
 	if (currDb == NULL) return false;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hSubContact);
 	return (cc == NULL) ? NULL : cc->parentID;
+}
+
+// returns parent hContact for a subcontact or hContact itself if it's not a sub
+MIR_CORE_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact)
+{
+	if (currDb == NULL) return hContact;
+
+	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
+	if (cc == NULL) return hContact;
+
+	return (cc->IsSub()) ? cc->parentID : hContact;
 }
 
 // returns a subcontact with the given index
