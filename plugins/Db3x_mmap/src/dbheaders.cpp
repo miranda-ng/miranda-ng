@@ -57,15 +57,16 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 static TCHAR tszOldHeaders[] = 
 	LPGENT("This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?");
 
-int CDb3Mmap::CheckDbHeaders()
+int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 {
 	if (memcmp(m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
 		 memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
 	{
 		if (!memcmp(&m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)) ||
-			 !memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)) ||
-			 !memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature)))
-		{
+			 !memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
+			return EGROKPRF_OBSOLETE;
+
+		if (bInteractive && !memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature))) {
 			if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
 				TCHAR tszCurPath[MAX_PATH];
 				GetModuleFileName(NULL, tszCurPath, SIZEOF(tszCurPath));
@@ -87,9 +88,12 @@ int CDb3Mmap::CheckDbHeaders()
 	}
 
 	switch (m_dbHeader.version) {
+	case DB_OLD_VERSION:
 	case DB_094_VERSION:
-	case DB_095_1_VERSION:
 	case DB_095_VERSION:
+		return EGROKPRF_OBSOLETE;
+
+	case DB_095_1_VERSION:
 		break;
 
 	default:

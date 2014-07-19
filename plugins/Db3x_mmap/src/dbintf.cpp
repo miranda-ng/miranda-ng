@@ -185,7 +185,7 @@ int CDb3Mmap::Create()
 
 int CDb3Mmap::PrepareCheck()
 {
-	int ret = CheckDbHeaders();
+	int ret = CheckDbHeaders(true);
 	if (ret != ERROR_SUCCESS)
 		return ret;
 

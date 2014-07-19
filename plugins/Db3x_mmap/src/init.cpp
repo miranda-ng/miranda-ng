@@ -63,7 +63,7 @@ static int grokHeader(const TCHAR *profile)
 	if (db->Load(true) != ERROR_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
-	return db->CheckDbHeaders();
+	return db->CheckDbHeaders(false);
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
