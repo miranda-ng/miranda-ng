@@ -493,13 +493,6 @@ void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
 	dbei.timestamp = timestamp;
 	dbei.cbBlob = (DWORD)strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
-
-	MCONTACT hMetaContact = db_mc_getMeta(hContact);
-	if (hMetaContact != NULL) { //metacontact
-		db_event_add(hMetaContact, &dbei);
-		dbei.flags |= DBEF_READ;
-	}
-
 	db_event_add(hContact, &dbei);
 	mir_free(buff);
 }
