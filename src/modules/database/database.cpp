@@ -225,7 +225,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 // returns 1 if a single profile (full path) is found within the profile dir
 static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * noProfiles)
 {
-	int found = 0, allfound = 0;
+	int found = 0;
 
 	if (IsInsideRootDir(profiledir, false))
 		moveProfileDirProfiles(profiledir);
@@ -261,7 +261,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 						_tcsncpy_s(szProfile, cch, newProfile, _TRUNCATE);
 
 				case EGROKPRF_OBSOLETE:
-					allfound++;
+					found++;
 					break;
 				}
 			}
@@ -273,7 +273,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 	}
 
 	if (noProfiles)
-		*noProfiles = (allfound == 0);
+		*noProfiles = (found == 0);
 
 	if (nodprof && !reqfd)
 		szProfile[0] = 0;
