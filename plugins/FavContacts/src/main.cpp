@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
+#include "http_api.h"
+
 CLIST_INTERFACE *pcli;
 
 HINSTANCE g_hInst;
@@ -77,6 +79,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	Icon_Register(g_hInst, LPGEN("Favorites"), iconList, SIZEOF(iconList));
+
+	LoadHttpApi();
 	return 0;
 }
 
@@ -84,6 +88,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 {
 	UninitServices();
 	UninitMenu();
+	UnloadHttpApi();
 
 	if (g_Options.hfntName) DeleteObject(g_Options.hfntName);
 	if (g_Options.hfntSecond) DeleteObject(g_Options.hfntSecond);
