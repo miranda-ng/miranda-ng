@@ -143,7 +143,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				db_set_b(NULL, MODNAME, "SilentMode", opts.bSilentMode);
 				db_set_dw(NULL, MODNAME, "Period", opts.Period);
 
-				InitTimer(1);
+				mir_forkthread(InitTimer, (void*)1);
 
 				if ( IsDlgButtonChecked(hwndDlg, IDC_STABLE))
 					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL);

@@ -138,6 +138,7 @@ static void ApplyUpdates(void *param)
 	// 5) Prepare Restart
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	EndDialog(hDlg, 0);
+	PostMessage(hDlg, WM_DESTROY, 0, 0); // why do we have to call this manually?
 	if (rc == IDYES)
 		CallFunctionAsync(RestartMe, 0);
 }
@@ -319,6 +320,10 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		opts.bSilent = true;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
+		#if MIRANDA_VER >= 0x0A00
+			db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		#endif
+		mir_forkthread(InitTimer, (void*)0);
 		break;
 	}
 
@@ -713,13 +718,13 @@ static void CheckUpdates(void *)
 	}
 	else opts.bSilent = true;
 
-	InitTimer(success ? 0 : 2);	
+	mir_forkthread(InitTimer, (void*)(success ? 0 : 2));	
 	
 	hashes.destroy();
 	hCheckThread = NULL;
 }
 
-void DoCheck(int iFlag)
+void DoCheck()
 {
 	if (hCheckThread)
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("Update checking already started!"), 2, 0);
@@ -727,8 +732,7 @@ void DoCheck(int iFlag)
 		ShowWindow(hwndDialog, SW_SHOW);
 		SetForegroundWindow(hwndDialog);
 		SetFocus(hwndDialog);
-	}
-	else if (iFlag) {
+	} else {
 		#if MIRANDA_VER >= 0x0A00
 			db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 		#endif
@@ -745,7 +749,7 @@ void UninitCheck()
 INT_PTR MenuCommand(WPARAM,LPARAM)
 {
 	opts.bSilent = false;
-	DoCheck(true);
+	DoCheck();
 	return 0;
 }
 

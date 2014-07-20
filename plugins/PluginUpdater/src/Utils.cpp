@@ -362,6 +362,9 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 
 BOOL AllowUpdateOnStartup()
 {
+	if (!opts.bUpdateOnStartup)
+		return FALSE;
+
 	if (opts.bOnlyOnceADay) {
 		time_t now = time(NULL);
 		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
@@ -393,16 +396,15 @@ LONG PeriodToMilliseconds(const int period, BYTE& periodMeasure)
 
 void CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
 {
-	DoCheck(true);
+	DoCheck();
 }
 
-void InitTimer(int type)
+void InitTimer(void *type)
 {
-	CancelWaitableTimer(Timer);
 	if (opts.bUpdateOnPeriod) {
 		LONG interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
 
-		switch (type) {
+		switch ((int)type) {
 		case 0: // default, plan next check relative to last check
 		{
 			time_t now = time(NULL);
@@ -420,9 +422,17 @@ void InitTimer(int type)
 			break;
 		}
 
-		LARGE_INTEGER li = {0};
-		li.QuadPart = -1 * (interval * 10000LL);
+		FILETIME ft;
+		GetSystemTimeAsFileTime(&ft);
+
+		LARGE_INTEGER li;
+		li.LowPart = ft.dwLowDateTime;
+		li.HighPart = ft.dwHighDateTime;
+		li.QuadPart += (ULONGLONG)(interval * 10000LL);
 		SetWaitableTimer(Timer, &li, 0, TimerAPCProc, NULL, 0);
+
+		// Wait in an alertable state for the timer to go off.
+		SleepEx(INFINITE, TRUE);
 	}
 }
 

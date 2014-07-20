@@ -135,7 +135,7 @@ extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
 extern HANDLE Timer, hPipe;
 
-void DoCheck(int iFlag);
+void DoCheck();
 
 void UninitCheck(void);
 void UninitListNew(void);
@@ -206,7 +206,7 @@ void  ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType,
 void  __stdcall RestartMe(void*);
 void  __stdcall OpenPluginOptions(void*);
 BOOL  AllowUpdateOnStartup();
-void  InitTimer(int type = 0);
+void  InitTimer(void *type);
 
 INT_PTR EmptyFolder(WPARAM,LPARAM);
 
