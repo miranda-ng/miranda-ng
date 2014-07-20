@@ -17,3 +17,4 @@
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [View/change &title]
 [Create new chat]
+[Wall post]

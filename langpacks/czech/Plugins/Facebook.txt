@@ -26,22 +26,22 @@ Text:
 Odkaz:
 [Place:]
 Místo:
-[Share]
-Sdílet
-[Cancel]
-Zrušit
 [Contacts >>]
 Kontakty >>
 [Attach contacts:]
 Označit kontakty:
+[Share]
+Sdílet
+[Cancel]
+Zrušit
 [User details]
 Informace o uživateli
+[Contacts Settings]
+Nastavení kontaktů
 [Default group:]
 Výchozí skupina:
 [Automatically set 'Ignore status change' flag]
 Automaticky ignorovat změnu stavu
-[Contacts Settings]
-Nastavení kontaktů
 [Use bigger avatars]
 Zobrazit větší avatary
 [Event notifications]
@@ -92,7 +92,15 @@ Přijímat pouze zprávy ze složky "příchozí"
 Načíst poslední zprávy při otevření komunikačního okna (EXPERIMENTÁLNÍ)
 [Number of messages to load:]
 Počet zpráv pro načtení:
+[Do not open chat windows on creation]
+Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 ;file \protocols\FacebookRM\src\chat.cpp
+[Myself]
+Já
+[User]
+Uživatel
+[Friend]
+Přítel
 [&Invite user...]
 Pozvat k d&iskusi...
 [&Leave chat session]
@@ -153,6 +161,8 @@ Přátelé kromě známých
 [Only me]
 Jenom já
 ;file \protocols\FacebookRM\src\contacts.cpp
+[%s and more (%d)]
+%s a další (%d)
 [Contact was removed from your server list.]
 Kontakt byl odebrán z vašeho seznamu přátel.
 [Error occurred when removing contact from server.]

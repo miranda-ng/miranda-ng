@@ -100,5 +100,7 @@ Audio
 Video
 [Document]
 Dokument
+[Wall post]
+
 [Unsupported or unknown attachment type: %s]
 Nepodporovaný nebo neznámý typ přílohy: %s

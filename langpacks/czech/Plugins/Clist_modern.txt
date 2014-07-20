@@ -266,7 +266,7 @@ Přichytávat k okrajům
 Oblast oznamování událostí
 [Disabled]
 Vypnuto
-[Show automaticaly]
+[Show automatically]
 Zobrazovat automaticky
 [Always visible]
 Vždy viditelný

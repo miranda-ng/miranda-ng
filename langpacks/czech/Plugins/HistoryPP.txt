@@ -705,8 +705,6 @@ Podporovat doplněk SmileyAdd
 Vždy zprava doleva
 [Always LTR]
 Vždy zleva doprava
-[Enable MathModule support]
-Podporovat doplněk MathModule
 [Show event icons]
 Zobrazit ikony událostí
 [View user's history]

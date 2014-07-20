@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.1.1
+;  Version: 0.95.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -54,11 +54,6 @@ Poškození databáze
 Tento profil je příliš starý a nemůže být automaticky aktualizován. Je potřeba jej převést do nového formátu.\n\nPřejete si otevřít stránku s více informacemi?
 [Obsolete database format]
 Zastaralý formát databáze
-;file \plugins\Db3x_mmap\src\dbintf.cpp
-[Your database must be converted into the new format. This is potentially dangerous operation, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda]
-Vaše databáze musí být zkonvertována do nového formátu. Toto je potenciálně nebezpečná operace, vytvořte si nejprve zálohu databáze.\n\nKlikněte na 'Ano' pro provedení konverze nebo na 'Ne' pro ukončení Mirandy
-[Database conversion required]
-Vyžadována konverze databáze
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Změnit/zrušit heslo

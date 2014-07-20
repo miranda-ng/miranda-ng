@@ -136,5 +136,7 @@ Zpráva úspěšně odeslána (komu: %s)
 [Message failed to send to %s]
 Chyba při odesílání zprávy (komu: %s)
 ;file \plugins\BuddyPounce\src\main.cpp
+[&Buddy Pounce]
+Zpráva o&ffline
 [Message Sessions]
 Komunikace

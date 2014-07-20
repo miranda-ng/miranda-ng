@@ -1,4 +1,9 @@
-﻿;file \src\resource.rc
+﻿;============================================================
+;  File: miranda32/64.exe
+;  Module: Miranda Core
+;  Version: 0.95.2
+;============================================================
+;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Zadejte název účtu (např. Google)
 [Choose the protocol type]
@@ -2233,14 +2238,20 @@ Chyba při vytváření profilu
 &Vytvořit
 [<In use>]
 <používáno>
+[<Unknown format>]
+<neznámý formát>
 [Are you sure you want to remove profile "%s"?]
 Opravdu si přejete odstranit profil "%s"?
-[Size]
-Velikost
+[&Convert]
+&Zkonvertovat
 [Run]
 Spustit
+[Convert database]
+Zkonvertovat databázi
 [Check database]
 Zkontrolovat databázi
+[Size]
+Velikost
 [Created]
 Vytvořeno
 [Modified]
@@ -2654,6 +2665,8 @@ Požádat o autorizaci
 Udělit autorizaci
 [Revoke authorization]
 Odvolat autorizaci
+[Warning]
+Upozornění
 [Always visible]
 Tento člověk mě vždy uvidí
 [Always invisible]

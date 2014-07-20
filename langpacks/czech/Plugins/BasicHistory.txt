@@ -331,7 +331,7 @@ Neplatné číslo události
 Příchozí události
 [Outgoing events]
 Odchozí události
-[File do not exist. Enter correct file path.]
+[File does not exist. Enter correct file path.]
 Soubor neexistuje. Zadejte správnou cestu k souboru.
 [Invalid file]
 Neplatný soubor
