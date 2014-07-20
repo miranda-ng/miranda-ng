@@ -31,7 +31,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 {
 	http::response resp;
 	
-	if (parent->isOffline) {
+	if (parent->isOffline()) {
 		resp.code = HTTP_CODE_FAKE_OFFLINE;
 		return resp;
 	}
