@@ -7,7 +7,7 @@
 ;============================================================
 [Color select]
 Colour select
-[Backgroundcolor]
-Backgroundcolour
+[Background color]
+Background colour
 [Text color]
 Text colour

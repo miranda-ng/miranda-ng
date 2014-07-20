@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: mRadio.dll
 ;  Plugin: mRadio Mod
-;  Version: 0.0.2.3
+;  Version: 0.0.2.4
 ;  Authors: Awkward
 ;============================================================
 [Can't initialize device]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_nicer.dll
 ;  Plugin: Clist nicer
-;  Version: 0.9.2.3
+;  Version: 0.9.2.4
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Center groupnames horizontally]

@@ -1,4 +1,4 @@
-#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
 ;  File: WinterSpeak.dll
 ;  Plugin: WinterSpeak

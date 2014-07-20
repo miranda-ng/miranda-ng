@@ -9,5 +9,3 @@
 Request for friendship was cancelled.
 [Error occurred when canceling friendship request.]
 Error occurred when cancelling friendship request.
-[Supports stream initiation (e.g., for filetransfers)]
-Supports stream initiation (e.g. for filetransfers)

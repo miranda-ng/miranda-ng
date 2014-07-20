@@ -1,4 +1,9 @@
-﻿[Send authorization request]
+﻿;============================================================
+;  File: miranda32/64.exe
+;  Module: Miranda Core
+;  Version: 0.95.2
+;============================================================
+[Send authorization request]
 Send authorisation request
 [Authorization request]
 Authorisation request
