@@ -231,7 +231,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 		moveProfileDirProfiles(profiledir);
 	moveProfileDirProfiles(profiledir, FALSE);
 
-	bool nodprof = szProfile[0] == 0;
+	bool nodprof = (*szProfile == 0);
 	bool reqfd = !nodprof && (_taccess(szProfile, 0) == 0 || shouldAutoCreate(szProfile));
 	bool shpm = showProfileManager();
 
@@ -269,11 +269,11 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 
 			FindClose(hFind);
 		}
-		reqfd = !shpm && found == 1 && nodprof;
+		reqfd = (!shpm && found == 1 && nodprof);
 	}
 
 	if (noProfiles)
-		*noProfiles = allfound == 0;
+		*noProfiles = (allfound == 0);
 
 	if (nodprof && !reqfd)
 		szProfile[0] = 0;
@@ -284,6 +284,9 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 // returns 1 if a default profile should be selected instead of showing the manager.
 static int getProfileAutoRun(TCHAR *szProfile)
 {
+	if (*szProfile == 0)
+		return false;
+
 	TCHAR Mgr[32];
 	GetPrivateProfileString(_T("Database"), _T("ShowProfileMgr"), _T(""), Mgr, SIZEOF(Mgr), mirandabootini);
 	if (_tcsicmp(Mgr, _T("never")))
@@ -303,6 +306,12 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 	getDefaultProfile(szProfile, cch, g_profileDir);
 	getProfileCmdLine(szProfile, cch, g_profileDir);
 	getProfileDefault(szProfile, cch, g_profileDir);
+
+	// if default profile was found, verify it
+	if (*szProfile)
+		if (touchDatabase(szProfile, 0) != 0)
+			*szProfile = 0;
+
 	if (IsInsideRootDir(g_profileDir, true)) {
 		MessageBox(NULL,
 			TranslateT("Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location."),
