@@ -47,8 +47,11 @@ void AddToStatus(int flags, const TCHAR* fmt, ...)
 		OutputDebugStringA("\n");
 	#endif
 
-	if ((flags & STATUS_CLASSMASK) == STATUS_ERROR)
+	switch (flags & STATUS_CLASSMASK) {
+	case STATUS_ERROR:
+	case STATUS_FATAL:
 		errorCount++;
+	}
 }
 
 void SetProgressBar(int perThou)
@@ -124,7 +127,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			HFONT hoFont;
 			if ((int)dis->itemID == -1) break;
 			SendMessage(dis->hwndItem, LB_GETTEXT, dis->itemID, (LPARAM)str);
-			switch(dis->itemData&STATUS_CLASSMASK) {
+			switch(dis->itemData & STATUS_CLASSMASK) {
 			case STATUS_MESSAGE:
 				SetTextColor(dis->hDC, RGB(0, 0, 0));
 				break;
@@ -178,9 +181,11 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 	case WZN_CANCELCLICKED:
 		if (bShortModeDone) {
-			if (bLaunchMiranda)
-				CallService(MS_DB_SETDEFAULTPROFILE, (WPARAM)opts.filename, 0);
-			wizardResult = 1;
+			if (!errorCount) {
+				if (bLaunchMiranda)
+					CallService(MS_DB_SETDEFAULTPROFILE, (WPARAM)opts.filename, 0);
+				wizardResult = 1;
+			}
 			return TRUE;
 		}
 
