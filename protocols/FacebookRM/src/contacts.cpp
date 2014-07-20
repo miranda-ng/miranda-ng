@@ -122,7 +122,9 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 		}
 	}
 	
-	// We don't have any contact with thish thread_id cached, we must ask server	
+	// We don't have any contact with this thread_id cached, we must ask server	
+	if (isOffline())
+		return "";
 
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
@@ -153,6 +155,9 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 
 void FacebookProto::LoadContactInfo(facebook_user* fbu)
 {
+	if (isOffline())
+		return;
+
 	// TODO: support for more friends at once
 	std::string get_query = "&ids[0]=" + utils::url::encode(fbu->user_id);
 	
@@ -195,6 +200,9 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 				// TODO: load unknown contact's names from server
 				if (it->second.empty())
 					it->second = it->first;
+
+				//if (isOffline())
+				//	return;
 			}
 		}
 	}
@@ -202,6 +210,9 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 
 void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 {
+	if (isOffline())
+		return;
+
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
@@ -348,6 +359,11 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	if (data == NULL)
 		return;
 
+	if (isOffline()) {
+		delete (std::string*)data;
+		return;
+	}
+
 	std::string id = (*(std::string*)data);
 	delete data;
 
@@ -392,6 +408,11 @@ void FacebookProto::AddContactToServer(void *data)
 	if (data == NULL)
 		return;
 
+	if (isOffline()) {
+		delete (std::string*)data;
+		return;
+	}
+
 	std::string id = (*(std::string*)data);
 	delete data;
 
@@ -426,6 +447,11 @@ void FacebookProto::ApproveContactToServer(void *data)
 	if (data == NULL)
 		return;
 
+	if (isOffline()) {
+		delete (MCONTACT*)data;
+		return;
+	}
+
 	MCONTACT hContact = *(MCONTACT*)data;
 	delete data;
 
@@ -448,6 +474,11 @@ void FacebookProto::CancelFriendsRequest(void *data)
 
 	if (data == NULL)
 		return;
+
+	if (isOffline()) {
+		delete (MCONTACT*)data;
+		return;
+	}
 
 	MCONTACT hContact = *(MCONTACT*)data;
 	delete data;
@@ -479,6 +510,11 @@ void FacebookProto::SendPokeWorker(void *p)
 
 	if (p == NULL)
 		return;
+
+	if (isOffline()) {
+		delete (std::string*)p;
+		return;
+	}
 
 	std::string id = (*(std::string*)p);
 	delete p;

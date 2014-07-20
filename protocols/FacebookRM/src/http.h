@@ -81,6 +81,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define HTTP_CODE_FAKE_DISCONNECTED		0
 #define HTTP_CODE_FAKE_ERROR			1
+#define HTTP_CODE_FAKE_OFFLINE			2
 
 namespace http
 {

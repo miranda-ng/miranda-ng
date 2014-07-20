@@ -811,6 +811,11 @@ void FacebookProto::ReadNotificationWorker(void *p)
 	if (p == NULL)
 		return;
 
+	if (isOffline()) {
+		delete (std::string*)p;
+		return;
+	}
+
 	std::string *id = static_cast<std::string*>(p);
 
 	std::string data = "seen=0&asyncSignal=&__dyn=&__req=a&alert_ids%5B0%5D=" + utils::url::encode(*id);

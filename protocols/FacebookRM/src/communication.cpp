@@ -29,6 +29,13 @@ void facebook_client::client_notify(TCHAR* message)
 
 http::response facebook_client::flap(RequestType request_type, std::string* request_data, std::string* request_get_data, int method)
 {
+	http::response resp;
+	
+	if (parent->isOffline) {
+		resp.code = HTTP_CODE_FAKE_OFFLINE;
+		return resp;
+	}
+
 	NETLIBHTTPREQUEST nlhr = {sizeof(NETLIBHTTPREQUEST)};
 	nlhr.requestType = !method ? choose_method(request_type) : method;
 	
@@ -84,8 +91,6 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 
 	mir_free(nlhr.headers[3].szValue);
 	mir_free(nlhr.headers);
-
-	http::response resp;
 
 	switch (request_type)
 	{

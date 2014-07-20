@@ -284,6 +284,9 @@ void FacebookProto::ProcessFriendList(void*)
 
 void FacebookProto::ProcessUnreadMessages(void*)
 {
+	if (isOffline())
+		return;
+
 	facy.handle_entry("ProcessUnreadMessages");
 
 	// receive messages from all folders by default, use hidden setting to receive only inbox messages
@@ -329,6 +332,11 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 {
 	if (p == NULL)
 		return;
+
+	if (isOffline()) {
+		delete (std::vector<std::string>*)p;
+		return;
+	}
 
 	facy.handle_entry("ProcessUnreadMessage");
 
@@ -433,6 +441,11 @@ void FacebookProto::LoadLastMessages(void *p)
 {
 	if (p == NULL)
 		return;
+
+	if (isOffline()) {
+		delete (MCONTACT*)p;
+		return;
+	}
 
 	facy.handle_entry("LoadLastMessages");
 
@@ -725,6 +738,11 @@ void FacebookProto::ProcessMessages(void* data)
 	if (data == NULL)
 		return;
 
+	if (isOffline()) {
+		delete (std::string*)data;
+		return;
+	}
+
 	std::string* resp = (std::string*)data;
 
 	// receive messages from all folders by default, use hidden setting to receive only inbox messages
@@ -813,6 +831,9 @@ void FacebookProto::ProcessNotifications(void*)
 
 void FacebookProto::ProcessFriendRequests(void*)
 {
+	if (isOffline())
+		return;
+
 	facy.handle_entry("friendRequests");
 
 	// Get notifications
@@ -1076,9 +1097,9 @@ void FacebookProto::ProcessFeeds(void* data)
 	facy.handle_success("feeds");
 }
 
-void FacebookProto::ProcessPages(void *data)
+void FacebookProto::ProcessPages(void*)
 {
-	if (!getByte(FACEBOOK_KEY_LOAD_PAGES, DEFAULT_LOAD_PAGES))
+	if (isOffline() || !getByte(FACEBOOK_KEY_LOAD_PAGES, DEFAULT_LOAD_PAGES))
 		return;
 
 	facy.handle_entry("load_pages");
