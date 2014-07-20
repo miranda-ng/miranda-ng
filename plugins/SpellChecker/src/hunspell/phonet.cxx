@@ -81,7 +81,8 @@ int phonet (const char * inword, char * target,
     char word[MAXPHONETUTF8LEN + 1];
     if (len == -1) len = strlen(inword);
     if (len > MAXPHONETUTF8LEN) return 0;
-    strcpy(word, inword);
+    strncpy(word, inword, MAXPHONETUTF8LEN);
+    word[MAXPHONETUTF8LEN] = '\0';
   
     /**  check word  **/
     i = j = z = 0;
@@ -134,10 +135,10 @@ int phonet (const char * inword, char * target,
               || (*s == '^'  
                   && (i == 0  ||  ! myisalpha(word[i-1]))
                   && (*(s+1) != '$'
-                      || (! myisalpha(word[i+k0]))))
+                      || (! myisalpha(word[i+k0]) )))
               || (*s == '$'  &&  i > 0  
                   &&  myisalpha(word[i-1])
-                  && (! myisalpha(word[i+k0])))) 
+                  && (! myisalpha(word[i+k0]) ))) 
           {
             /**  search for followup rules, if:     **/
             /**  parms.followup and k > 1  and  NO '-' in searchstring **/

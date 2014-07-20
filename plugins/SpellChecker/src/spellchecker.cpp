@@ -69,7 +69,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static int IconsChanged(WPARAM wParam, LPARAM lParam) 
+static int IconsChanged(WPARAM, LPARAM) 
 {
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE_NAME;
@@ -94,7 +94,7 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int PreShutdown(WPARAM wParam, LPARAM lParam)
+static int PreShutdown(WPARAM, LPARAM)
 {
 	mir_free(dictionariesFolder);
 	mir_free(customDictionariesFolder);
@@ -103,7 +103,7 @@ static int PreShutdown(WPARAM wParam, LPARAM lParam)
 }
 
 // Called when all the modules are loaded
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam) 
+static int ModulesLoaded(WPARAM, LPARAM) 
 {
 	variables_enabled = ServiceExists(MS_VARS_FORMATSTRING);
 
@@ -192,14 +192,10 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			dict->load();
 	}
 
-	HookEvent(ME_SKIN2_ICONSCHANGED, &IconsChanged);
-	HookEvent(ME_MSG_WINDOWEVENT, &MsgWindowEvent);
-	HookEvent(ME_MSG_WINDOWPOPUP, &MsgWindowPopup);
-	HookEvent(ME_MSG_ICONPRESSED, &IconPressed);
-
-	CreateServiceFunction(MS_SPELLCHECKER_ADD_RICHEDIT, AddContactTextBoxService);
-	CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);
-	CreateServiceFunction(MS_SPELLCHECKER_SHOW_POPUP_MENU, ShowPopupMenuService);
+	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_MSG_WINDOWEVENT, MsgWindowEvent);
+	HookEvent(ME_MSG_WINDOWPOPUP, MsgWindowPopup);
+	HookEvent(ME_MSG_ICONPRESSED, IconPressed);
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE_NAME;
@@ -250,6 +246,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 
+	CreateServiceFunction(MS_SPELLCHECKER_ADD_RICHEDIT, AddContactTextBoxService);
+	CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);
+	CreateServiceFunction(MS_SPELLCHECKER_SHOW_POPUP_MENU, ShowPopupMenuService);
+	
 	hCheckedBmp = LoadBitmap(NULL, MAKEINTRESOURCE(OBM_CHECK));
 	if (GetObject(hCheckedBmp, sizeof(bmpChecked), &bmpChecked) == 0)
 		bmpChecked.bmHeight = bmpChecked.bmWidth = 10;

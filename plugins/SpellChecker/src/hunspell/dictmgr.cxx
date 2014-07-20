@@ -53,8 +53,7 @@ int  DictMgr::parse_file(const char * dictpath, const char * etype)
     dictentry * pdict = pdentry;
 
     // open the dictionary list file
-    FILE * dictlst;
-    dictlst = fopen(dictpath,"r");
+    FILE *dictlst = myfopen(dictpath,"r");
     if (!dictlst) {
       return 1;
     }
@@ -97,7 +96,8 @@ int  DictMgr::parse_file(const char * dictpath, const char * etype)
                     case 3:
                        free(pdict->region);
                        pdict->region=NULL;
-                    case 2: //deliberate fallthrough
+                       /* FALLTHROUGH */
+                    case 2:
                        free(pdict->lang);
                        pdict->lang=NULL;
                     default:

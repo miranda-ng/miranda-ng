@@ -36,6 +36,21 @@ struct unicode_info2 {
 static struct unicode_info2 * utf_tbl = NULL;
 static int utf_tbl_count = 0; // utf_tbl can be used by multiple Hunspell instances
 
+FILE * myfopen(const char * path, const char * mode) {
+#ifdef _WIN32
+#define WIN32_LONG_PATH_PREFIX "\\\\?\\"
+    if (strncmp(path, WIN32_LONG_PATH_PREFIX, 4) == 0) {
+        int len = MultiByteToWideChar(CP_UTF8, 0, path, -1, NULL, 0);
+        wchar_t *buff = (wchar_t *) malloc(len * sizeof(wchar_t));
+        MultiByteToWideChar(CP_UTF8, 0, path, -1, buff, len);
+        FILE * f = _wfopen(buff, (strcmp(mode, "r") == 0) ? L"r" : L"rb");
+        free(buff);
+        return f;
+    }
+#endif
+    return fopen(path, mode);
+}
+
 /* only UTF-16 (BMP) implementation */
 char * u16_u8(char * dest, int size, const w_char * src, int srclen) {
     signed char * u8 = (signed char *)dest;
@@ -332,7 +347,10 @@ char * line_uniq(char * text, char breakchar) {
     for ( i = 1; i < linenum; i++ ) {
         int dup = 0;
         for (int j = 0; j < i; j++) {
-            if (strcmp(lines[i], lines[j]) == 0) dup = 1;
+            if (strcmp(lines[i], lines[j]) == 0) {
+              dup = 1;
+              break;
+            }
         }
         if (!dup) {
             if ((i > 1) || (*(lines[0]) != '\0')) {
@@ -5412,14 +5430,14 @@ static void toAsciiLowerAndRemoveNonAlphanumeric( const char* pName, char* pBuf 
     while ( *pName )
     {
         /* A-Z */
-        if ( (*pName >= 0x41) && (*pName <= 0x5A))
+        if ( (*pName >= 0x41) && (*pName <= 0x5A) )
         {
             *pBuf = (*pName)+0x20;  /* toAsciiLower */
             pBuf++;
         }
         /* a-z, 0-9 */
         else if ( ((*pName >= 0x61) && (*pName <= 0x7A)) ||
-                  ((*pName >= 0x30) && (*pName <= 0x39)))
+                  ((*pName >= 0x30) && (*pName <= 0x39)) )
         {
             *pBuf = *pName;
             pBuf++;
@@ -5458,7 +5476,15 @@ struct cs_info * get_current_cs(const char * es) {
 // conversion tables static in this file, create them when needed
 // with help the mozilla backend.
 struct cs_info * get_current_cs(const char * es) {
-  struct cs_info *ccs;
+  struct cs_info *ccs = new cs_info[256];
+  // Initialze the array with dummy data so that we wouldn't need
+  // to return null in case of failures.
+  for (int i = 0; i <= 0xff; ++i) {
+    ccs[i].ccase = false;
+    ccs[i].clower = i;
+    ccs[i].cupper = i;
+  }
+
 
   nsCOMPtr<nsIUnicodeEncoder> encoder; 
   nsCOMPtr<nsIUnicodeDecoder> decoder; 
@@ -5466,21 +5492,19 @@ struct cs_info * get_current_cs(const char * es) {
   nsresult rv;
   nsCOMPtr<nsICharsetConverterManager> ccm = do_GetService(kCharsetConverterManagerCID, &rv);
   if (NS_FAILED(rv))
-    return nsnull;
+    return ccs;
 
   rv = ccm->GetUnicodeEncoder(es, getter_AddRefs(encoder));
   if (NS_FAILED(rv))
-    return nsnull;
+    return ccs;
   encoder->SetOutputErrorBehavior(encoder->kOnError_Signal, nsnull, '?');
   rv = ccm->GetUnicodeDecoder(es, getter_AddRefs(decoder));
   if (NS_FAILED(rv))
-    return nsnull;
+    return ccs;
   decoder->SetInputErrorBehavior(decoder->kOnError_Signal);
 
   if (NS_FAILED(rv))
-    return nsnull;
-
-  ccs = new cs_info[256];
+    return ccs;
 
   for (unsigned int i = 0; i <= 0xff; ++i) {
     PRBool success = PR_FALSE;
@@ -5643,7 +5667,7 @@ unsigned short unicodetoupper(unsigned short c, int langnum)
   if (c == 0x0069 && ((langnum == LANG_az) || (langnum == LANG_tr)))
     return 0x0130;
 #ifdef OPENOFFICEORG
-  return u_toupper(c);
+  return static_cast<unsigned short>(u_toupper(c));
 #else
 #ifdef MOZILLA_CLIENT
   return ToUpperCase((PRUnichar) c);
@@ -5661,7 +5685,7 @@ unsigned short unicodetolower(unsigned short c, int langnum)
   if (c == 0x0049 && ((langnum == LANG_az) || (langnum == LANG_tr)))
     return 0x0131;
 #ifdef OPENOFFICEORG
-  return u_tolower(c);
+  return static_cast<unsigned short>(u_tolower(c));
 #else
 #ifdef MOZILLA_CLIENT
   return ToLowerCase((PRUnichar) c);

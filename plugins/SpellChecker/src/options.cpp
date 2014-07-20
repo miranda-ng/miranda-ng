@@ -53,7 +53,7 @@ static OptPageControl autoReplaceControls[] = {
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
-int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
+int InitOptionsCallback(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
