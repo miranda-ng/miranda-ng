@@ -27,8 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 {
-	DWORD bytesWritten;
-
 	CopyMemory(m_dbHeader.signature, &_sign, sizeof(m_dbHeader.signature));
 
 	m_dbHeader.version = DB_095_1_VERSION;
@@ -38,11 +36,14 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 	m_dbHeader.ofsFirstContact = 0;
 	m_dbHeader.ofsModuleNames = 0;
 	m_dbHeader.ofsUser = 0;
-	//create user
+	
+	// create user
 	m_dbHeader.ofsUser = m_dbHeader.ofsFileEnd;
 	m_dbHeader.ofsFileEnd += sizeof(DBContact);
 	SetFilePointer(m_hDbFile, 0, NULL, FILE_BEGIN);
-	WriteFile(m_hDbFile, &m_dbHeader, sizeof(m_dbHeader), &bytesWritten,NULL);
+
+	DWORD bytesWritten;
+	WriteFile(m_hDbFile, &m_dbHeader, sizeof(m_dbHeader), &bytesWritten, NULL);
 
 	DBContact user = { 0 };
 	user.signature = DBCONTACT_SIGNATURE;
@@ -66,23 +67,25 @@ int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 			 !memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
 			return EGROKPRF_OBSOLETE;
 
-		if (bInteractive && !memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature))) {
-			if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
-				TCHAR tszCurPath[MAX_PATH];
-				GetModuleFileName(NULL, tszCurPath, SIZEOF(tszCurPath));
-				TCHAR *p = _tcsrchr(tszCurPath, '\\');
-				if (p) *p = 0;
+		if (!memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature))) {
+			if (bInteractive)
+				if (IDYES == MessageBox(NULL, TranslateTS(tszOldHeaders), TranslateT("Obsolete database format"), MB_YESNO | MB_ICONWARNING)) {
+					TCHAR tszCurPath[MAX_PATH];
+					GetModuleFileName(NULL, tszCurPath, SIZEOF(tszCurPath));
+					TCHAR *p = _tcsrchr(tszCurPath, '\\');
+					if (p) *p = 0;
 
-				HKEY hPathSetting;
-				if (!RegCreateKey(HKEY_CURRENT_USER, _T("Software\\Miranda NG"), &hPathSetting)) {
-					RegSetValue(hPathSetting, _T("InstallPath"), REG_SZ, tszCurPath, sizeof(tszCurPath));
-					RegCloseKey(hPathSetting);
+					HKEY hPathSetting;
+					if (!RegCreateKey(HKEY_CURRENT_USER, _T("Software\\Miranda NG"), &hPathSetting)) {
+						RegSetValue(hPathSetting, _T("InstallPath"), REG_SZ, tszCurPath, sizeof(tszCurPath));
+						RegCloseKey(hPathSetting);
+					}
+
+					CallService(MS_UTILS_OPENURL, 0, LPARAM("http://wiki.miranda-ng.org/index.php?title=Updating_pre-0.94.9_version_to_0.95.1_and_later"));
+					Sleep(1000);
+					exit(0);
 				}
-
-				CallService(MS_UTILS_OPENURL, 0, LPARAM("http://wiki.miranda-ng.org/index.php?title=Updating_pre-0.94.9_version_to_0.95.1_and_later"));
-				Sleep(1000);
-				exit(0);
-			}
+			return EGROKPRF_OBSOLETE;
 		}
 		return EGROKPRF_UNKHEADER;
 	}
