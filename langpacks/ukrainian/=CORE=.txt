@@ -2163,10 +2163,16 @@ Miranda не може відкрити цей профіль
 Створити
 [<In use>]
 Використовується
+[<Unknown format>]
+<Невідомий формат>
 [Are you sure you want to remove profile "%s"?]
 Справді видалити профіль "%s"?
+[&Convert]
+&Конвертувати
 [Run]
 Запуск
+[Convert database]
+Конвертувати базу
 [Check database]
 Перевірити базу
 [Size]
@@ -2547,6 +2553,8 @@ ANSI-плагін
 Авторизувати
 [Revoke authorization]
 Відкликати авторизацію
+[Warning]
+Попередження
 [Always visible]
 Завжди видимий
 [Always invisible]

@@ -97,6 +97,8 @@
 Я
 [User]
 Користувач
+[Friend]
+Друг
 [&Invite user...]
 &Запросити користувача...
 [&Leave chat session]
@@ -154,7 +156,7 @@
 [Only me]
 Тільки мені
 [%s and more (%d)]
-%s і більше (%d)
+%s і ще %d
 [Contact was removed from your server list.]
 Контакт видалено зі списку на сервері.
 [Error occurred when removing contact from server.]

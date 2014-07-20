@@ -115,7 +115,7 @@ Dźwięki są teraz włączone.
 [Sounds are currently disabled.]
 Dźwięki są teraz wyłączone.
 [Sounds were enabled successfully.]
-Dźwięki zostały włączone  pomyślnie.
+Dźwięki zostały włączone pomyślnie.
 [Sounds were disabled successfully.]
 Dźwięki zostały wyłączone pomyślnie.
 [Contact list is currently shown.]
