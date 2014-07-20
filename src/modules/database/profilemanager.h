@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct PROFILEMANAGERDATA
 {
-	TCHAR *szProfile;     // in/out
-	TCHAR *szProfileDir;  // in/out
+	TCHAR *ptszProfile;     // in/out
+	TCHAR *ptszProfileDir;  // in/out
 	BOOL noProfiles;      // in
 	
 	BOOL bRun;            // out

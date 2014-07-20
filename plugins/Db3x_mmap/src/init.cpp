@@ -95,7 +95,7 @@ MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
 		return NULL;
 	}
 
-	if (*error = db->PrepareCheck())
+	if (db->PrepareCheck(error))
 		return NULL;
 
 	return db.release();

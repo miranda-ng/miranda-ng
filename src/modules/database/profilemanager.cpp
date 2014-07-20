@@ -198,10 +198,10 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 
 		// decide if there is a default profile name given in the INI and if it should be used
-		if (dat->pd->noProfiles || (shouldAutoCreate(dat->pd->szProfile) && _taccess(dat->pd->szProfile, 0))) {
-			TCHAR *profile = _tcsrchr(dat->pd->szProfile, '\\');
+		if (dat->pd->noProfiles || (shouldAutoCreate(dat->pd->ptszProfile) && _taccess(dat->pd->ptszProfile, 0))) {
+			TCHAR *profile = _tcsrchr(dat->pd->ptszProfile, '\\');
 			if (profile) ++profile;
-			else profile = dat->pd->szProfile;
+			else profile = dat->pd->ptszProfile;
 
 			TCHAR *p = _tcsrchr(profile, '.');
 			TCHAR c = 0;
@@ -245,11 +245,11 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				break;
 
 			// profile placed in "profile_name" subfolder
-			mir_sntprintf(dat->pd->szProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, szName, szName);
+			mir_sntprintf(dat->pd->ptszProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), dat->pd->ptszProfileDir, szName, szName);
 			dat->pd->newProfile = 1;
 			dat->pd->dblink = (DATABASELINK *)SendDlgItemMessage(hwndDlg, IDC_PROFILEDRIVERS, CB_GETITEMDATA, (WPARAM)curSel, 0);
 
-			if (CreateProfile(dat->pd->szProfile, dat->pd->dblink, hwndDlg) == 0)
+			if (CreateProfile(dat->pd->ptszProfile, dat->pd->dblink, hwndDlg) == 0)
 				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
 		}
 		break;
@@ -340,15 +340,15 @@ void CheckProfile(HWND hwndList, int iItem, DlgProfData *dat)
 
 	TCHAR profile[MAX_PATH], fullName[MAX_PATH];
 	LVITEM item = { 0 };
-	item.mask = LVIF_TEXT;
+	item.mask = LVIF_TEXT | LVIF_IMAGE;
 	item.iItem = iItem;
 	item.pszText = profile;
 	item.cchTextMax = SIZEOF(profile);
 	if (!ListView_GetItem(hwndList, &item))
 		return;
 
-	mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profile, profile);
-	CallService(MS_DB_CHECKPROFILE, (WPARAM)fullName, 0);
+	mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s\\%s.dat"), dat->pd->ptszProfileDir, profile, profile);
+	CallService(MS_DB_CHECKPROFILE, (WPARAM)fullName, item.iImage == 2);
 }
 
 void DeleteProfile(HWND hwndList, int iItem, DlgProfData *dat)
@@ -371,7 +371,7 @@ void DeleteProfile(HWND hwndList, int iItem, DlgProfData *dat)
 	if (IDYES != MessageBox(NULL, profilef, _T("Miranda NG"), MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 		return;
 
-	mir_sntprintf(profilef, SIZEOF(profilef), _T("%s\\%s%c"), dat->pd->szProfileDir, profile, 0);
+	mir_sntprintf(profilef, SIZEOF(profilef), _T("%s\\%s%c"), dat->pd->ptszProfileDir, profile, 0);
 
 	SHFILEOPSTRUCT sf = { 0 };
 	sf.wFunc = FO_DELETE;
@@ -417,11 +417,11 @@ static void CheckRun(HWND hwndDlg, int uMsg)
 	// profile is placed in "profile_name" subfolder
 
 	TCHAR tmpPath[MAX_PATH];
-	mir_sntprintf(tmpPath, SIZEOF(tmpPath), _T("%s\\%s.dat"), dat->pd->szProfileDir, profile);
+	mir_sntprintf(tmpPath, SIZEOF(tmpPath), _T("%s\\%s.dat"), dat->pd->ptszProfileDir, profile);
 	if (_taccess(tmpPath, 2))
-		mir_sntprintf(dat->pd->szProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profile, profile);
+		mir_sntprintf(dat->pd->ptszProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), dat->pd->ptszProfileDir, profile, profile);
 	else
-		_tcsncpy_s(dat->pd->szProfile, MAX_PATH, tmpPath, _TRUNCATE);
+		_tcsncpy_s(dat->pd->ptszProfile, MAX_PATH, tmpPath, _TRUNCATE);
 
 	if (uMsg == NM_DBLCLK)
 		EndDialog(GetParent(hwndDlg), 1);
@@ -528,11 +528,11 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				ListView_GetExtendedListViewStyle(hwndList) | LVS_EX_DOUBLEBUFFER | LVS_EX_INFOTIP | LVS_EX_LABELTIP | LVS_EX_FULLROWSELECT);
 
 			// find all the profiles
-			ProfileEnumData ped = { hwndDlg, dat->pd->szProfile };
-			findProfiles(dat->pd->szProfileDir, EnumProfilesForList, (LPARAM)&ped);
+			ProfileEnumData ped = { hwndDlg, dat->pd->ptszProfile };
+			findProfiles(dat->pd->ptszProfileDir, EnumProfilesForList, (LPARAM)&ped);
 			PostMessage(hwndDlg, WM_FOCUSTEXTBOX, 0, 0);
 
-			dat->hFileNotify = FindFirstChangeNotification(dat->pd->szProfileDir, TRUE, FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE);
+			dat->hFileNotify = FindFirstChangeNotification(dat->pd->ptszProfileDir, TRUE, FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE);
 			if (dat->hFileNotify != INVALID_HANDLE_VALUE)
 				SetTimer(hwndDlg, 0, 1200, NULL);
 			return TRUE;
@@ -546,15 +546,15 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_TIMER:
 		if (WaitForSingleObject(dat->hFileNotify, 0) == WAIT_OBJECT_0) {
 			ListView_DeleteAllItems(hwndList);
-			ProfileEnumData ped = { hwndDlg, dat->pd->szProfile };
-			findProfiles(dat->pd->szProfileDir, EnumProfilesForList, (LPARAM)&ped);
+			ProfileEnumData ped = { hwndDlg, dat->pd->ptszProfile };
+			findProfiles(dat->pd->ptszProfileDir, EnumProfilesForList, (LPARAM)&ped);
 			FindNextChangeNotification(dat->hFileNotify);
 		}
 		break;
 
 	case WM_FOCUSTEXTBOX:
 		SetFocus(hwndList);
-		if (dat->pd->szProfile[0] == 0 || ListView_GetSelectedCount(hwndList) == 0)
+		if (dat->pd->ptszProfile[0] == 0 || ListView_GetSelectedCount(hwndList) == 0)
 			ListView_SetItemState(hwndList, 0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 		break;
 
@@ -597,7 +597,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					TCHAR profilename[MAX_PATH], tszFullPath[MAX_PATH];
 					struct _stat statbuf;
 					ListView_GetItemText(hwndList, pInfoTip->iItem, 0, profilename, MAX_PATH);
-					mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profilename, profilename);
+					mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s\\%s.dat"), dat->pd->ptszProfileDir, profilename, profilename);
 					_tstat(tszFullPath, &statbuf);
 					mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s\n%s: %s\n%s: %s"), tszFullPath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));
 				}
@@ -643,13 +643,13 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			TCITEM tci;
 			tci.mask = TCIF_TEXT;
 			for (int i = 0; i < dat->pageCount; i++) {
-				dat->opd[i].pTemplate = (DLGTEMPLATE *)LockResource(LoadResource(odp[i].hInstance, FindResourceA(odp[i].hInstance, odp[i].pszTemplate, MAKEINTRESOURCEA(5))));
+				dat->opd[i].pTemplate = (DLGTEMPLATE*)LockResource(LoadResource(odp[i].hInstance, FindResourceA(odp[i].hInstance, odp[i].pszTemplate, MAKEINTRESOURCEA(5))));
 				dat->opd[i].dlgProc = odp[i].pfnDlgProc;
 				dat->opd[i].hInst = odp[i].hInstance;
 				dat->opd[i].hwnd = NULL;
 				dat->opd[i].changed = 0;
 				tci.pszText = (TCHAR*)odp[i].ptszTitle;
-				if (dat->prof->pd->noProfiles || shouldAutoCreate(dat->prof->pd->szProfile))
+				if (dat->prof->pd->noProfiles || shouldAutoCreate(dat->prof->pd->ptszProfile))
 					dat->currentPage = 1;
 				TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_TABS), i, &tci);
 			}

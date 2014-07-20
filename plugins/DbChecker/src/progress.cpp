@@ -26,6 +26,7 @@ static HWND hwndStatus, hdlgProgress, hwndBar;
 static bool bShortModeDone;
 HANDLE hEventRun = NULL, hEventAbort = NULL;
 int errorCount;
+LRESULT wizardResult;
 
 void AddToStatus(int flags, const TCHAR* fmt, ...)
 {
@@ -177,7 +178,9 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 	case WZN_CANCELCLICKED:
 		if (bShortModeDone) {
-			EndDialog( GetParent(hdlg), 1);
+			if (bLaunchMiranda)
+				CallService(MS_DB_SETDEFAULTPROFILE, (WPARAM)opts.filename, 0);
+			wizardResult = 1;
 			return TRUE;
 		}
 
@@ -211,11 +214,13 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			else
 				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
 			break;
+
 		case IDOK:
 			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FINISHED, (LPARAM)FinishedDlgProc);
 			break;
 		}
 		break;
+
 	case WM_DESTROY:
 		if (hEventAbort) {
 			CloseHandle(hEventAbort);

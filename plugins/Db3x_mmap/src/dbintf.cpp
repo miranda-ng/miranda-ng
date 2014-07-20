@@ -116,9 +116,6 @@ CDb3Mmap::~CDb3Mmap()
 	free(m_pNull);
 }
 
-static TCHAR szMsgConvert[] = 
-	LPGENT("Your database must be converted into the new format. This is potentially dangerous operation and might damage your profile, so please make a backup before.\n\nClick Yes to proceed with conversion or No to exit Miranda");
-
 int CDb3Mmap::Load(bool bSkipInit)
 {
 	log0("DB logging running");
@@ -146,17 +143,8 @@ int CDb3Mmap::Load(bool bSkipInit)
 
 		// everything is ok, go on
 		if (!m_bReadOnly) {
-			if (m_dbHeader.version < DB_095_1_VERSION) {
-				if (IDYES != MessageBox(NULL, TranslateTS(szMsgConvert), TranslateT("Database conversion required"), MB_YESNO | MB_ICONWARNING))
-					return EGROKPRF_CANTREAD;
-
-				if (m_dbHeader.version < DB_095_VERSION)
-					ConvertContacts();
-				ConvertEvents();
-
-				m_dbHeader.version = DB_095_1_VERSION;
-				DBWrite(sizeof(dbSignatureU), &m_dbHeader.version, sizeof(m_dbHeader.version));
-			}
+			if (m_dbHeader.version < DB_095_1_VERSION)
+				return EGROKPRF_CANTREAD;
 
 			// we don't need events in the service mode
 			if (ServiceExists(MS_DB_SETSAFETYMODE)) {
@@ -183,11 +171,18 @@ int CDb3Mmap::Create()
 	return (m_hDbFile == INVALID_HANDLE_VALUE);
 }
 
-int CDb3Mmap::PrepareCheck()
+int CDb3Mmap::PrepareCheck(int *error)
 {
 	int ret = CheckDbHeaders(true);
-	if (ret != ERROR_SUCCESS)
+	switch (ret) {
+	case ERROR_SUCCESS:
+	case EGROKPRF_OBSOLETE:
+		*error = ret;
+		break;
+
+	default:
 		return ret;
+	}
 
 	InitMap();
 	InitModuleNames();

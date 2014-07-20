@@ -376,36 +376,6 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	return ret;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// contacts convertor
-
-#define OLD_CONTACT_SIZE offsetof(DBContact, dwContactID)
-
-void CDb3Mmap::ConvertContacts()
-{
-	DBContact *pPrev = NULL;
-
-	m_dbHeader.ofsUser = ReallocSpace(m_dbHeader.ofsUser, OLD_CONTACT_SIZE, sizeof(DBContact));
-	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
-
-	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
-		DBContact *pOld = (DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
-		DWORD dwNew = ReallocSpace(dwOffset, OLD_CONTACT_SIZE, sizeof(DBContact));
-		DBContact *pNew = (DBContact*)DBRead(dwNew, sizeof(DBContact), NULL);
-		pNew->dwContactID = m_dwMaxContactId++;
-
-		if (pPrev == NULL)
-			m_dbHeader.ofsFirstContact = dwNew;
-		else
-			pPrev->ofsNext = dwNew;
-		pPrev = pNew;
-
-		m_contactsMap.insert(new ConvertedContact(dwOffset, pNew->dwContactID));
-		dwOffset = pNew->ofsNext;
-	}
-
-	FlushViewOfFile(m_pDbCache, 0);
-}
 
 void CDb3Mmap::FillContacts()
 {
@@ -416,13 +386,9 @@ void CDb3Mmap::FillContacts()
 		if (p->signature != DBCONTACT_SIGNATURE)
 			break;
 
-		DWORD dwContactID;
-		if (m_dbHeader.version >= DB_095_VERSION) {
-			dwContactID = p->dwContactID;
-			if (dwContactID >= m_dwMaxContactId)
-				m_dwMaxContactId = dwContactID + 1;
-		}
-		else dwContactID = m_dwMaxContactId++;
+		DWORD dwContactID = p->dwContactID;
+		if (dwContactID >= m_dwMaxContactId)
+			m_dwMaxContactId = dwContactID + 1;
 
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactID);
 		cc->dwDriverData = dwOffset;

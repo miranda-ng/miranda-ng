@@ -34,7 +34,8 @@ int CDb3Mmap::WorkUser(int firstTime)
 			return ERROR_NO_MORE_ITEMS;
 		}
 
-		if (ReadSegment(m_dbHeader.ofsUser, &user, sizeof(DBContact)) != ERROR_SUCCESS)
+		DWORD dwSize = (m_dbHeader.version < DB_095_VERSION) ? offsetof(DBContact, dwContactID) : sizeof(DBContact);
+		if (ReadSegment(m_dbHeader.ofsUser, &user, dwSize) != ERROR_SUCCESS)
 			return ERROR_NO_MORE_ITEMS;
 
 		if (user.ofsNext) {

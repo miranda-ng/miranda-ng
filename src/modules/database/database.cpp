@@ -303,15 +303,13 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 	PROFILEMANAGERDATA pd = { 0 };
 	if (CmdLine_GetOption(_T("ForceShowPM"))) {
 LBL_Show:
-		pd.szProfile = szProfile;
-		pd.szProfileDir = g_profileDir;
+		pd.ptszProfile = szProfile;
+		pd.ptszProfileDir = g_profileDir;
 		if (!getProfileManager(&pd))
 			return 0;
 
-		if (!pd.bRun) {
-			CallService(MS_DB_CHECKPROFILE, WPARAM(szProfile), 0);
-			return 0;
-		}
+		if (!pd.bRun)
+			return CallService(MS_DB_CHECKPROFILE, WPARAM(szProfile), TRUE);
 
 		return 1;
 	}

@@ -57,6 +57,7 @@ extern HINSTANCE hInst;
 extern DbToolOptions opts;
 extern HANDLE hEventRun, hEventAbort;
 extern int errorCount;
+extern LRESULT wizardResult;
 extern bool bServiceMode, bLaunchMiranda, bShortMode;
 
 int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam, INT_PTR *bReturn);

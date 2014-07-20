@@ -52,8 +52,16 @@ LBL_FinishUp:
 			cb->pfnAddLogMessage(STATUS_ERROR, TranslateT("Contact chain corrupted, further entries ignored"));
 			goto LBL_FinishUp;
 		}
-		if (ReadSegment(ofsThisContact, &dbc, sizeof(dbc)) != ERROR_SUCCESS)
-			goto LBL_FinishUp;
+
+		if (m_dbHeader.version < DB_095_VERSION) {
+			if (ReadSegment(ofsThisContact, &dbc, offsetof(DBContact, dwContactID)) != ERROR_SUCCESS)
+				goto LBL_FinishUp;
+			dbc.dwContactID = m_dwMaxContactId++;
+		}
+		else {
+			if (ReadSegment(ofsThisContact, &dbc, sizeof(dbc)) != ERROR_SUCCESS)
+				goto LBL_FinishUp;
+		}
 
 		ofsNextContact = dbc.ofsNext;
 		dbc.ofsNext = 0;
@@ -64,6 +72,9 @@ LBL_FinishUp:
 				WriteSegment(ofsDestPrevContact + offsetof(DBContact, ofsNext), &ofsDestThis, sizeof(DWORD));
 			else
 				m_dbHeader.ofsFirstContact = ofsDestThis;
+
+			if (m_dbHeader.version < DB_095_VERSION)
+				m_contactsMap.insert(new ConvertedContact(ofsThisContact, ofsDestThis));
 		}
 		else ofsDestThis = ofsThisContact; // needed in event chain worker
 

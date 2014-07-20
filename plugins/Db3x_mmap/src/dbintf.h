@@ -196,7 +196,7 @@ struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObj
 	void SetPassword(const TCHAR *ptszPassword);
 	void UpdateMenuItem(void);
 
-	int  PrepareCheck(void);
+	int  PrepareCheck(int*);
 
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? LPGEN("Change/remove password") : LPGEN("Set password"); }
 
@@ -319,9 +319,6 @@ protected:
 	
 	OBJLIST<ConvertedContact> m_contactsMap;
 
-	void     ConvertContacts(void);
-	void     ConvertContactEvents(DBContact *dbc);
-	void     ConvertEvents(void);
 	int      WipeContactHistory(DBContact *dbc);
 
 	////////////////////////////////////////////////////////////////////////////
@@ -358,6 +355,7 @@ protected:
 
 	DWORD    WriteSegment(DWORD ofs, PVOID buf, int cbBytes);
 	DWORD    WriteEvent(DBEvent *dbe);
+	DWORD    PeekEvent(DWORD ofs, DWORD dwContactID, DBEvent *dbe);
 	void     WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNext);
 	void     FinishUp(DWORD ofsLast, DBContact *dbc);
 

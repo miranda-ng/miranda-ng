@@ -24,6 +24,12 @@ int CDb3Mmap::WorkFinalTasks(int firstTime)
 	FreeModuleChain();
 	cb->pfnAddLogMessage(STATUS_MESSAGE, TranslateT("Processing final tasks"));
 	m_dbHeader.slackSpace = 0;
+
+	if (m_dbHeader.version < DB_095_1_VERSION) {
+		memcpy(&m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature));
+		m_dbHeader.version = DB_095_1_VERSION;
+	}
+
 	if (WriteSegment(0, &m_dbHeader, sizeof(m_dbHeader)) == WS_ERROR)
 		return ERROR_WRITE_FAULT;
 

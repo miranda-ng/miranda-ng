@@ -23,37 +23,120 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+//VERY VERY VERY BASIC ENCRYPTION FUNCTION
+
+static void Encrypt(char *msg, BOOL up)
+{
+	int jump = (up) ? 5 : -5;
+	for (int i = 0; msg[i]; i++)
+		msg[i] = msg[i] + jump;
+}
+
+__forceinline void DecodeString(LPSTR buf)
+{
+	Encrypt(buf, FALSE);
+}
+
 struct VarDescr
 {
 	VarDescr(LPCSTR var, LPCSTR value) :
 		szVar(mir_strdup(var)),
 		szValue(mir_strdup(value))
-	{}
+		{}
 
 	VarDescr(LPCSTR var, LPSTR value) :
 		szVar(mir_strdup(var)),
 		szValue(value)
-	{}
+		{}
 
 	VarDescr(LPCSTR var, PBYTE value, int len) :
 		szVar(mir_strdup(var)),
 		szValue((char*)memcpy(mir_alloc(len), value, len)),
 		iLen(len)
-	{}
+		{}
 
 	ptrA szVar, szValue;
 	int  iLen;
 };
 
+struct SettingUgraderParam
+{
+	CDb3Mmap *db;
+	LPCSTR    szModule;
+	MCONTACT  contactID;
+	OBJLIST<VarDescr>* pList;
+};
+
+int sttSettingUgrader(const char *szSetting, LPARAM lParam)
+{
+	SettingUgraderParam *param = (SettingUgraderParam*)lParam;
+	if (param->db->IsSettingEncrypted(param->szModule, szSetting)) {
+		DBVARIANT dbv = { DBVT_UTF8 };
+		if (!param->db->GetContactSettingStr(param->contactID, param->szModule, szSetting, &dbv)) {
+			if (dbv.type == DBVT_UTF8) {
+				DecodeString(dbv.pszVal);
+				param->pList->insert(new VarDescr(szSetting, (LPCSTR)dbv.pszVal));
+			}
+			param->db->FreeVariant(&dbv);
+		}
+	}
+	return 0;
+}
+
+void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
+{
+	OBJLIST<VarDescr> arSettings(1);
+	SettingUgraderParam param = { db, szModule, contactID, &arSettings };
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
+	dbces.pfnEnumProc = sttSettingUgrader;
+	dbces.szModule = szModule;
+	dbces.lParam = (LPARAM)&param;
+	db->EnumContactSettings(NULL, &dbces);
+
+	for (int i = 0; i < arSettings.getCount(); i++) {
+		VarDescr &p = arSettings[i];
+
+		size_t len;
+		BYTE *pResult = db->m_crypto->encodeString(p.szValue, &len);
+		if (pResult != NULL) {
+			DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
+			dbcws.value.type = DBVT_ENCRYPTED;
+			dbcws.value.pbVal = pResult;
+			dbcws.value.cpbVal = (WORD)len;
+			db->WriteContactSetting(contactID, &dbcws);
+
+			mir_free(pResult);
+		}
+	}
+}
+
+int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
+{
+	CDb3Mmap *db = (CDb3Mmap*)lParam;
+	sttContactEnum(NULL, szModule, db);
+
+	for (MCONTACT contactID = db->FindFirstContact(); contactID; contactID = db->FindNextContact(contactID))
+		sttContactEnum(contactID, szModule, db);
+
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CDb3Mmap::InitCrypt()
 {
+	if (m_dbHeader.version == DB_OLD_VERSION)
+		return 0;
+
 	CRYPTO_PROVIDER *pProvider;
+	bool bMissingKey = false;
 
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_BLOB;
-	if (GetContactSettingStr(NULL, "CryptoEngine", "Provider", &dbv)) {
+	if (GetContactSetting(NULL, "CryptoEngine", "Provider", &dbv)) {
 LBL_CreateProvider:
 		CRYPTO_PROVIDER **ppProvs;
 		int iNumProvs;
@@ -70,6 +153,11 @@ LBL_CreateProvider:
 		WriteContactSetting(NULL, &dbcws);
 	}
 	else {
+		if (dbv.type != DBVT_BLOB) { // old version, clean it up
+			bMissingKey = true;
+			goto LBL_CreateProvider;
+		}
+
 		pProvider = Crypto_GetProvider(LPCSTR(dbv.pbVal));
 		FreeVariant(&dbv);
 		if (pProvider == NULL)
@@ -81,6 +169,8 @@ LBL_CreateProvider:
 
 	dbv.type = DBVT_BLOB;
 	if (GetContactSetting(NULL, "CryptoEngine", "StoredKey", &dbv)) {
+		bMissingKey = true;
+
 LBL_SetNewKey:
 		m_crypto->generateKey(); // unencrypted key
 		StoreKey();		
@@ -94,12 +184,22 @@ LBL_SetNewKey:
 			if (memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
 				goto LBL_SetNewKey;
 
-			if (!EnterPassword(dbv.pbVal, iKeyLength)) // password protected?
-				return 4;
+			if (!EnterPassword(dbv.pbVal, iKeyLength)) { // password protected?
+				if (m_dbHeader.version >= DB_094_VERSION)
+					return 4;
+
+				// one of the early used version of mmap was replaced then by mmap_sa
+				// simply remove old badly generated key
+				bMissingKey = true;
+				goto LBL_SetNewKey;
+			}
 		}
 
 		FreeVariant(&dbv);
 	}
+
+	if (bMissingKey)
+		EnumModuleNames(sttModuleEnum, this);
 
 	dbv.type = DBVT_BYTE;
 	if (!GetContactSetting(NULL, "CryptoEngine", "DatabaseEncryption", &dbv))

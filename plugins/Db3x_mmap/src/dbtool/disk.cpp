@@ -26,8 +26,8 @@ int CDb3Mmap::SignatureValid(DWORD ofs, DWORD signature)
 		return 0;
 	}
 
-	DWORD sig = *(DWORD*)(m_pDbCache + ofs);
-	return sig == signature;
+	DWORD *sig = (DWORD*)(m_pDbCache + ofs);
+	return *sig == signature;
 }
 
 int CDb3Mmap::PeekSegment(DWORD ofs, PVOID buf, int cbBytes)

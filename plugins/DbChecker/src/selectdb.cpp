@@ -31,6 +31,7 @@ static bool CheckBroken(const TCHAR *ptszFullPath)
 int OpenDatabase(HWND hdlg, INT iNextPage)
 {
 	TCHAR tszMsg[1024];
+	int error = 0;
 
 	if (opts.dbChecker == NULL) {
 		DATABASELINK* dblink = FindDatabasePlugin(opts.filename);
@@ -50,7 +51,6 @@ LBL_Error:
 			goto LBL_Error;
 		}
 
-		int error = 0;
 		opts.dbChecker = dblink->CheckDB(opts.filename, &error);
 		if (opts.dbChecker == NULL) {
 			if ((opts.error = GetLastError()) == 0)
@@ -61,7 +61,12 @@ LBL_Error:
 		opts.dblink = dblink;
 	}
 
-	if (iNextPage == IDD_FILEACCESS)
+	// force check
+	if (error == EGROKPRF_OBSOLETE) {
+		opts.bAggressive = opts.bBackup = true;
+		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+	}
+	else if (iNextPage == IDD_FILEACCESS)
 		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
 	else
 		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);

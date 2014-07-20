@@ -102,6 +102,22 @@ void CDb3Mmap::FinishUp(DWORD ofsLast, DBContact *dbc)
 	}
 }
 
+DWORD CDb3Mmap::PeekEvent(DWORD ofs, DWORD dwContactID, DBEvent *dbe)
+{
+	if (m_dbHeader.version == DB_095_1_VERSION)
+		return PeekSegment(ofs, dbe, sizeof(DBEvent));
+
+	DBEvent_094 oldEvent;
+	DWORD ret = PeekSegment(ofs, &oldEvent, sizeof(oldEvent));
+	if (ret != ERROR_SUCCESS)
+		return ret;
+
+	dbe->signature = oldEvent.signature;
+	dbe->contactID = dwContactID;
+	memcpy(&dbe->ofsPrev, &oldEvent.ofsPrev, sizeof(oldEvent) - sizeof(DWORD));
+	return ERROR_SUCCESS;
+}
+
 DWORD CDb3Mmap::WriteEvent(DBEvent *dbe)
 {
 	DWORD ofs = WriteSegment(WSOFS_END, dbe, offsetof(DBEvent, blob) + dbe->cbBlob);
@@ -152,7 +168,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		if (!backLookup && ofsTmp) {
 			backLookup = 1;
 			while (SignatureValid(ofsTmp, DBEVENT_SIGNATURE)) {
-				if (PeekSegment(ofsTmp, &dbeOld, sizeof(dbeOld)) != ERROR_SUCCESS)
+				if (PeekEvent(ofsTmp, dbc->dwContactID, &dbeOld) != ERROR_SUCCESS)
 					break;
 				ofsNew = ofsTmp;
 				ofsTmp = dbeOld.ofsPrev;
@@ -169,7 +185,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		}
 	}
 
-	if (PeekSegment(ofsThisEvent, &dbeOld, sizeof(dbeOld)) != ERROR_SUCCESS) {
+	if (PeekEvent(ofsThisEvent, dbc->dwContactID, &dbeOld) != ERROR_SUCCESS) {
 		FinishUp(ofsDestPrevEvent, dbc);
 		return ERROR_NO_MORE_ITEMS;
 	}
@@ -217,7 +233,20 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 	}
 	dbeNew = memblock;
 
-	if (ReadSegment(ofsThisEvent, dbeNew, offsetof(DBEvent, blob) + dbeOld.cbBlob) != ERROR_SUCCESS) {
+	DWORD ret;
+	if (m_dbHeader.version < DB_095_1_VERSION) {
+		DBEvent_094 oldEvent;
+		ret = ReadSegment(ofsThisEvent, &oldEvent, offsetof(DBEvent_094, blob));
+		if (ret == ERROR_SUCCESS) {
+			dbeNew->signature = oldEvent.signature;
+			dbeNew->contactID = dbc->dwContactID;
+			memcpy(&dbeNew->ofsPrev, &oldEvent.ofsPrev, offsetof(DBEvent_094, blob) - sizeof(DWORD));
+			ret = ReadSegment(ofsThisEvent + offsetof(DBEvent_094, blob), &dbeNew->blob, dbeOld.cbBlob);
+		}
+	}
+	else ret = ReadSegment(ofsThisEvent, dbeNew, offsetof(DBEvent, blob) + dbeOld.cbBlob);
+
+	if (ret != ERROR_SUCCESS) {
 		FinishUp(ofsDestPrevEvent, dbc);
 		return ERROR_NO_MORE_ITEMS;
 	}
@@ -273,7 +302,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		if (cb->bCheckOnly) {
 			if (!cb->bAggressive) {
 				ofsTmp = dbeOld.ofsPrev;
-				while (PeekSegment(ofsTmp, &dbeTmp, sizeof(dbeTmp)) == ERROR_SUCCESS) {
+				while (PeekEvent(ofsTmp, dbc->dwContactID, &dbeTmp) == ERROR_SUCCESS) {
 					if (dbeTmp.ofsPrev == ofsContact) {
 						found = 1;
 						break;

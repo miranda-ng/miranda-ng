@@ -98,7 +98,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_DBTOOL)));
 		hdlgPage = NULL;
-		bLaunchMiranda = false;
 		if (bShortMode)
 			SendMessage(hdlg, WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
 		else
@@ -125,9 +124,11 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 			SendMessage(hdlgPage, WZN_PAGECHANGING, wParam, 0);
 			SendMessage(hdlgPage, message, wParam, lParam);
 			break;
+
 		case IDCANCEL:
-			if (SendMessage(hdlgPage, WZN_CANCELCLICKED, 0, 0)) break;
-			EndDialog(hdlg, 0);
+			wizardResult = 0;
+			SendMessage(hdlgPage, WZN_CANCELCLICKED, 0, 0);
+			EndDialog(hdlg, wizardResult);
 			break;
 		}
 		break;

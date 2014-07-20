@@ -22,15 +22,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int CDb3Mmap::WorkInitialCheckHeaders()
 {
 	if (memcmp(m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
-		 memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
+		 memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)) &&
+		 memcmp(m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)) &&
+		 memcmp(m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
 	{
 		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database signature is corrupted, automatic repair is impossible"));
 		return ERROR_BAD_FORMAT;
 	}
-	if (m_dbHeader.version != DB_095_1_VERSION) {
+	
+	switch (m_dbHeader.version) {
+	case DB_OLD_VERSION:
+	case DB_094_VERSION:
+	case DB_095_VERSION:
+	case DB_095_1_VERSION:
+		break;
+
+	default:
 		cb->pfnAddLogMessage(STATUS_FATAL, TranslateT("Database version doesn't match this driver's one. Convert a database first"));
 		return ERROR_BAD_FORMAT;
 	}
+	
 	return ERROR_SUCCESS;
 }
 
