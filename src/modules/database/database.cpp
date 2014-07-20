@@ -247,16 +247,22 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				// make sure the first hit is actually a *.dat file
-				if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && _tcscmp(ffd.cFileName, _T(".")) && _tcscmp(ffd.cFileName, _T("..")))  {
-					TCHAR newProfile[MAX_PATH];
-					mir_sntprintf(newProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
-					if (_taccess(newProfile, 0) != 0)
-						continue;
+				if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !_tcscmp(ffd.cFileName, _T(".")) || !_tcscmp(ffd.cFileName, _T("..")))
+					continue;
 
+				TCHAR newProfile[MAX_PATH];
+				mir_sntprintf(newProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
+				if (_taccess(newProfile, 0) != 0)
+					continue;
+
+				switch (touchDatabase(newProfile, NULL)) {
+				case 0:
+					if (++found == 1 && nodprof)
+						_tcsncpy_s(szProfile, cch, newProfile, _TRUNCATE);
+
+				case EGROKPRF_OBSOLETE:
 					allfound++;
-					if (touchDatabase(newProfile, NULL) == 0)
-						if (++found == 1 && nodprof)
-							_tcsncpy_s(szProfile, cch, newProfile, _TRUNCATE);
+					break;
 				}
 			}
 				while (FindNextFile(hFind, &ffd));
