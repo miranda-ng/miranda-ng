@@ -225,7 +225,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 // returns 1 if a single profile (full path) is found within the profile dir
 static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * noProfiles)
 {
-	unsigned int found = 0;
+	int found = 0, allfound = 0;
 
 	if (IsInsideRootDir(profiledir, false))
 		moveProfileDirProfiles(profiledir);
@@ -250,9 +250,13 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 				if ((ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && _tcscmp(ffd.cFileName, _T(".")) && _tcscmp(ffd.cFileName, _T("..")))  {
 					TCHAR newProfile[MAX_PATH];
 					mir_sntprintf(newProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
-					if (_taccess(newProfile, 0) == 0)
+					if (_taccess(newProfile, 0) != 0)
+						continue;
+
+					allfound++;
+					if (touchDatabase(newProfile, NULL) == 0)
 						if (++found == 1 && nodprof)
-							_tcscpy(szProfile, newProfile);
+							_tcsncpy_s(szProfile, cch, newProfile, _TRUNCATE);
 				}
 			}
 				while (FindNextFile(hFind, &ffd));
@@ -263,7 +267,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 	}
 
 	if (noProfiles)
-		*noProfiles = found == 0;
+		*noProfiles = allfound == 0;
 
 	if (nodprof && !reqfd)
 		szProfile[0] = 0;
@@ -344,6 +348,28 @@ char* makeFileName(const TCHAR* tszOriginalName)
 	return szResult;
 }
 
+int touchDatabase(const TCHAR *tszProfile, DATABASELINK **dblink)
+{
+	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
+		DATABASELINK *p = arDbPlugins[i];
+		int iErrorCode = p->grokHeader(tszProfile);
+		if (iErrorCode == 0) {
+			if (dblink)
+				*dblink = p;
+			return 0;
+		}
+		if (iErrorCode == EGROKPRF_OBSOLETE) {
+			if (dblink)
+				*dblink = p;
+			return EGROKPRF_OBSOLETE;
+		}
+	}
+	
+	if (dblink)
+		*dblink = NULL;
+	return EGROKPRF_CANTREAD;
+}
+
 // enumerate all plugins that had valid DatabasePluginInfo()
 int tryOpenDatabase(const TCHAR *tszProfile)
 {
@@ -360,6 +386,9 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 			case EGROKPRF_UNKHEADER:
 				// just not supported.
 				continue;
+
+			case EGROKPRF_OBSOLETE:
+				break;
 			}
 			return err;
 		}
@@ -482,7 +511,8 @@ int LoadDatabaseModule(void)
 				retry = MessageBox(0, buf, TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR) == IDRETRY;
 			}
 		}
-	} while (retry);
+	}
+		while (retry);
 
 	if (rc == ERROR_SUCCESS) {
 		InitIni();

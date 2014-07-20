@@ -34,6 +34,7 @@ struct PROFILEMANAGERDATA
 };
 
 char* makeFileName(const TCHAR *tszOriginalName);
+int touchDatabase(const TCHAR *tszProfile, DATABASELINK **pDblink);
 int getProfileManager(PROFILEMANAGERDATA *pd);
 int getProfilePath(TCHAR *buf, size_t cch);
 int isValidProfileName(const TCHAR *name);

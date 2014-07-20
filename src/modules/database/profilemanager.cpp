@@ -291,25 +291,21 @@ BOOL EnumProfilesForList(TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam)
 		bFileLocked = !fileExist(tszFullPath);
 	}
 
-	DATABASELINK *dblink = NULL;
+	DATABASELINK *dblink;
 	bool bNeedConversion = false;
-	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
-		DATABASELINK *p = arDbPlugins[i];
-		int iErrorCode = p->grokHeader(tszFullPath);
-		if (iErrorCode == 0) {
-			dblink = p;
-			item.iImage = bFileLocked;
-			break;
-		}
-		if (iErrorCode == EGROKPRF_OBSOLETE) {
-			dblink = p;
-			bNeedConversion = true;
-			item.iImage = 2;
-			break;
-		}
-	}
-	if (dblink == NULL)
+	switch (touchDatabase(tszFullPath, &dblink)) {
+	case ERROR_SUCCESS:
+		item.iImage = bFileLocked;
+		break;
+
+	case EGROKPRF_OBSOLETE:
+		bNeedConversion = true;
+		item.iImage = 2;
+		break;
+
+	default:
 		item.iImage = 3;
+	}
 
 	int iItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	if (lstrcmpi(ped->szProfile, tszFullPath) == 0)
