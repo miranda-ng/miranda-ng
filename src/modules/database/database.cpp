@@ -257,7 +257,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 
 				switch (touchDatabase(newProfile, NULL)) {
 				case 0:
-					if (++found == 1 && nodprof)
+					if (found == 0 && nodprof)
 						_tcsncpy_s(szProfile, cch, newProfile, _TRUNCATE);
 
 				case EGROKPRF_OBSOLETE:
