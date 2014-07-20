@@ -2165,12 +2165,12 @@ Miranda не може відкрити цей профіль
 Використовується
 [Are you sure you want to remove profile "%s"?]
 Справді видалити профіль "%s"?
-[Size]
-Розмір
 [Run]
 Запуск
 [Check database]
 Перевірити базу
+[Size]
+Розмір
 [Created]
 Створено
 [Modified]

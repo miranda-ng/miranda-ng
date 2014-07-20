@@ -2234,12 +2234,12 @@ Miranda NG не можа адкрыць гэты профіль
 <Выкарыстоўваецца>
 [Are you sure you want to remove profile "%s"?]
 Вы ўпэўнены, што хочаце выдаліць профіль "%s"?
-[Size]
-Памер
 [Run]
 Запусціць
 [Check database]
 Праверыць базу
+[Size]
+Памер
 [Created]
 Створаны
 [Modified]

@@ -126,7 +126,7 @@ Miranda NG HTTP-сервер
 Цяперашні адрас IP:\s
 [Current Address: ]
 Цяперашні адрас:\s
-[IP Adress: ]
+[IP Address: ]
 Адрас IP:\s
 [You are browsing from]
 Вы праглядаеце з

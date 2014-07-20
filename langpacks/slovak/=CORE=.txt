@@ -2238,14 +2238,20 @@ Táto zmena je nebezpečná.
 
 [<In use>]
 
+[<Unknown format>]
+
 [Are you sure you want to remove profile "%s"?]
 
-[Size]
-Veľkosť
+[&Convert]
+
 [Run]
+
+[Convert database]
 
 [Check database]
 
+[Size]
+Veľkosť
 [Created]
 
 [Modified]
@@ -2659,6 +2665,8 @@ Pomoc
 
 [Revoke authorization]
 
+[Warning]
+Varovanie
 [Always visible]
 
 [Always invisible]

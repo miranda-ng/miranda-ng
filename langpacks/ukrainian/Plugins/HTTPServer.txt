@@ -111,7 +111,7 @@ IP-адреса 2
 Поточна IP-адреса:\s
 [Current Address: ]
 Поточна адреса:\s
-[IP Adress: ]
+[IP Address: ]
 IP-адреса:\s
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nс: %s

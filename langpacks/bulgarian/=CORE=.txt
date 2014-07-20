@@ -2238,14 +2238,20 @@ URL
 Създаване
 [<In use>]
 <В употреба>
+[<Unknown format>]
+
 [Are you sure you want to remove profile "%s"?]
 Наистина ли желаете профилът "%s" да бъде изтрит?
-[Size]
-Размер
+[&Convert]
+
 [Run]
 Изпълнение
+[Convert database]
+
 [Check database]
 
+[Size]
+Размер
 [Created]
 Създаден
 [Modified]
@@ -2659,6 +2665,8 @@ ANSI приставка
 Даване на пълномощно
 [Revoke authorization]
 Отнемане на пълномощното
+[Warning]
+
 [Always visible]
 Винаги видимо
 [Always invisible]

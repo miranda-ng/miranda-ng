@@ -2238,14 +2238,20 @@ Fehler beim Erstellen des Profils
 Erstellen
 [<In use>]
 <verwendet>
+[<Unknown format>]
+
 [Are you sure you want to remove profile "%s"?]
 Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
-[Size]
-Größe
+[&Convert]
+
 [Run]
 Starten
+[Convert database]
+
 [Check database]
 Datenbank überprüfen
+[Size]
+Größe
 [Created]
 Erstellt
 [Modified]
@@ -2659,6 +2665,8 @@ Autorisierung anfragen
 Autorisierung gewähren
 [Revoke authorization]
 Autorisierung widerrufen
+[Warning]
+Warnung
 [Always visible]
 Immer sichtbar
 [Always invisible]

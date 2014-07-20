@@ -2238,14 +2238,20 @@ Souci à la création de profil
 &Créer
 [<In use>]
 
+[<Unknown format>]
+
 [Are you sure you want to remove profile "%s"?]
 Êtes-vous sûr que vous voulez supprimer le profil "%s"?
-[Size]
-Taille
+[&Convert]
+
 [Run]
 Lancer
+[Convert database]
+
 [Check database]
 Vérifiez la base de données
+[Size]
+Taille
 [Created]
 Créée
 [Modified]
@@ -2659,6 +2665,8 @@ Demander l'autorisation
 Accorder l'autorisation
 [Revoke authorization]
 Enlever l'autorisation
+[Warning]
+Avertissement
 [Always visible]
 Toujours visible
 [Always invisible]

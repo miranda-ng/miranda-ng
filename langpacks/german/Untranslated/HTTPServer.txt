@@ -11,7 +11,7 @@
 [No share selected]
 [Current IP Address: ]
 [Current Address: ]
-[IP Adress: ]
+[IP Address: ]
 [You are browsing from]
 [Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
 [Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]

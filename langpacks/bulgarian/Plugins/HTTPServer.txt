@@ -126,7 +126,7 @@
 
 [Current Address: ]
 
-[IP Adress: ]
+[IP Address: ]
 
 [You are browsing from]
 

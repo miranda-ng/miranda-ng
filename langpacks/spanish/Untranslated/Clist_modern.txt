@@ -1,5 +1,4 @@
 ﻿[Skin folder]
-[Show automatically]
 [System tray icon mode]
 [Use xStatus icon]
 [Ignore empty extra icons places (arrange to right).]
