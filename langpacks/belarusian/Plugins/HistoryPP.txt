@@ -705,8 +705,6 @@ Wiki-старонка дадатковых параметраў
 Справа налева
 [Always LTR]
 Злева направа
-[Enable MathModule support]
-Падтрымка мат. модуля
 [Show event icons]
 Абразкі з'яваў
 [View user's history]

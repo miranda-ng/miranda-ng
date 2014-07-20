@@ -699,8 +699,6 @@ Wiki-страница дополнительных параметров
 Справа налево
 [Always LTR]
 Слева направо
-[Enable MathModule support]
-Поддержка MathModule
 [Show event icons]
 Значки событий
 [View user's history]

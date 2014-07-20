@@ -705,8 +705,6 @@ Activer le support de SmileyAdd
 
 [Always LTR]
 
-[Enable MathModule support]
-Activer le support de MathModule
 [Show event icons]
 Voir l'icône des évènements
 [View user's history]

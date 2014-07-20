@@ -338,5 +338,4 @@
 [Enable SmileyAdd support]
 [Always RTL]
 [Always LTR]
-[Enable MathModule support]
 [Show event icons]

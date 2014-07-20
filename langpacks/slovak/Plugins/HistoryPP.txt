@@ -705,8 +705,6 @@ Odoslať správu
 
 [Always LTR]
 
-[Enable MathModule support]
-
 [Show event icons]
 
 [View user's history]

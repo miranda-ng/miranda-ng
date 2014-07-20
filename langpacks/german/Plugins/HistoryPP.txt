@@ -705,8 +705,6 @@ SmileyAdd-Unterstützung aktivieren
 Immer RTL
 [Always LTR]
 Immer LTR
-[Enable MathModule support]
-MathModule-Unterstützung aktivieren
 [Show event icons]
 Ereignisicons anzeigen
 [View user's history]
