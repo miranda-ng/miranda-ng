@@ -24,7 +24,7 @@
 [Ignore]
 Игнорировать
 [Copy to Account (Ctrl+click for move to Account)]
-Копировать в уч. запись (Ctrl+клик - перемещение)
+Копировать в учётную запись (Ctrl+клик - перемещение)
 [Send 'You were added']
 Отправить "Вас добавили"
 [Request Authorization]
