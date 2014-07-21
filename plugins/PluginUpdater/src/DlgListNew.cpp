@@ -41,7 +41,7 @@ static void ApplyDownloads(void *param)
 	// if we need to escalate priviledges, launch a atub
 
 	if (!PrepareEscalation()) {
-		SendMessage(hDlg, WM_CLOSE, 0, 0);
+		PostMessage(hDlg, WM_CLOSE, 0, 0);
 		return;
 	}
 
@@ -119,7 +119,7 @@ static void ApplyDownloads(void *param)
 	if (rc == IDYES)
 		CallFunctionAsync(OpenPluginOptions, 0);
 
-	SendMessage(hDlg, WM_CLOSE, 0, 0);
+	PostMessage(hDlg, WM_CLOSE, 0, 0);
 	return;
 }
 
