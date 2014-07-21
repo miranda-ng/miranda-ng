@@ -127,7 +127,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_METAHIDEEXTRA_DEFAULT            0 //"CLC","MetaHideExtra"
 #define SETTING_METAEXPANDING_DEFAULT            1 //"CLC","MetaExpanding"
 #define SETTING_METAHIDEOFFLINESUB_DEFAULT       1 //"CLC","MetaHideOfflineSub"
-#define SETTING_USEMETAICON_DEFAULT              0 //"CLC","Meta"
+#define SETTING_USEMETAICON_DEFAULT              1 //"CLC","Meta"
 #define SETTING_DRAWOVERLAYEDSTATUS_DEFAULT      3 //todo replace by contstants
 
 
