@@ -114,7 +114,7 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 	return 1;
 }
 
-static int CreateProfile(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
+static int CreateProfile(TCHAR *profile, DATABASELINK *link, HWND hwndDlg)
 {
 	TCHAR buf[256];
 	int err = 0;
@@ -251,6 +251,8 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 			if (CreateProfile(dat->pd->ptszProfile, dat->pd->dblink, hwndDlg) == 0)
 				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
+			else
+				dat->pd->bRun = true;
 		}
 		break;
 	}
