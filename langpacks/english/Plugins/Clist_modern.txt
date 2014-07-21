@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.0.13
+;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
@@ -172,18 +172,17 @@
 [System tray icon]
 [System tray icon mode]
 [Use xStatus icon]
+[Additional stuff]
 [Ignore empty extra icons places (arrange to right).]
+[Allow internal requesting of status message text]
+[Remove status message if contact became offline]
+[Use improved search method in contact list]
+[Metacontacts stuff]
 [Use 'Meta' protocol icons for metacontacts]
 [Expand metacontacts]
 [Avoid double click expand]
 [Hide all extra icons for subcontacts]
-[Hide offline subcontacts]
-[Metacontacts stuff]
-[Additional stuff]
-[Allow internal requesting of status message text]
 [Subcontacts indent:]
-[Remove status message if contact became offline]
-[Use improved search method in contact list]
 [Show time only if it is different from current time]
 [Show contact time as row item]
 [Appearance]
