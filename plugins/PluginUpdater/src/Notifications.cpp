@@ -42,13 +42,13 @@ static LRESULT CALLBACK PopupDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM
 				switch (LOWORD(wParam)) {
 				case IDYES:
 					if (IsWindow(pmpd->hDialog))
-						EndDialog(pmpd->hDialog, LOWORD(wParam));
+						DestroyWindow(pmpd->hDialog);
 					PUDeletePopup(hDlg);
 					break;
 
 				case IDNO:
 					if (IsWindow(pmpd->hDialog))
-						EndDialog(pmpd->hDialog, LOWORD(wParam));
+						DestroyWindow(pmpd->hDialog);
 					PUDeletePopup(hDlg);
 					break;
 				}
