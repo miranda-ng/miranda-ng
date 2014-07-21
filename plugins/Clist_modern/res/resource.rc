@@ -460,27 +460,25 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
+    GROUPBOX        "Additional stuff", IDC_FRAME_META2, 2, 12, 218, 65
     CONTROL         "Ignore empty extra icons places (arrange to right).",IDC_METASUBEXTRA_IGN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,25,201,10
-    CONTROL         "Use 'Meta' protocol icons for metacontacts",IDC_META,
+	 CONTROL         "Allow internal requesting of status message text",IDC_DISCOVER_AWAYMSG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,38,201,10
+	 CONTROL         "Remove status message if contact became offline", IDC_REMOVE_OFFLINE_AWAYMSG,
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 11, 50, 201, 10
+	 CONTROL         "Use improved search method in contact list", IDC_FILTER_SEARCH,
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 11, 62, 201, 10
+    GROUPBOX        "Metacontacts stuff",IDC_FRAME_META,2,81,218,88
+	 CONTROL         "Use 'Meta' protocol icons for metacontacts",IDC_META,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,95,201,10
-    CONTROL         "Expand metacontacts",IDC_METAEXPAND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,107,201,16
+	 CONTROL         "Expand metacontacts", IDC_METAEXPAND, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 11, 107, 201, 16
     CONTROL         "Avoid double click expand",IDC_METADBLCLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,124,196,10
     CONTROL         "Hide all extra icons for subcontacts",IDC_METASUBEXTRA,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,137,196,10
-    CONTROL         "Hide offline subcontacts",IDC_METASUB_HIDEOFFLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,151,196,10
-    GROUPBOX        "Metacontacts stuff",IDC_FRAME_META,2,81,218,101
-    GROUPBOX        "Additional stuff",IDC_FRAME_META2,2,12,218,65
-    CONTROL         "Allow internal requesting of status message text",IDC_DISCOVER_AWAYMSG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,38,201,10
-    EDITTEXT        IDC_SUBINDENT,154,163,35,12,ES_NUMBER
-    CONTROL         "",IDC_SUBINDENTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,190,162,11,12
-    LTEXT           "Subcontacts indent:",IDC_SUBIDENTCAPT,26,164,126,10
-    CONTROL         "Remove status message if contact became offline",IDC_REMOVE_OFFLINE_AWAYMSG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,50,201,10
-    CONTROL         "Use improved search method in contact list",IDC_FILTER_SEARCH,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,62,201,10
+    LTEXT           "Subcontacts indent:", IDC_SUBIDENTCAPT, 26, 151, 126, 10
+    EDITTEXT        IDC_SUBINDENT,154,150,35,12,ES_NUMBER
+    CONTROL         "",IDC_SUBINDENTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,190,149,11,12
 END
 
 IDD_OPT_ITEM_CONTACT_TIME DIALOGEX 0, 0, 243, 52

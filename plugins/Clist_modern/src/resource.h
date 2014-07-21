@@ -257,7 +257,6 @@
 #define IDC_AEROGLASS                   1613
 #define IDC_METASUBEXTRA                1614
 #define IDC_METASUBEXTRA_IGN            1615
-#define IDC_METASUB_HIDEOFFLINE         1616
 #define IDC_MIN_ROW_HEIGHT              1616
 #define IDC_MIN_ROW_HEIGHT_SPIN         1617
 #define IDC_TXT_TITLE1                  1617

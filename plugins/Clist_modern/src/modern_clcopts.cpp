@@ -320,7 +320,6 @@ static void CheckButtons(HWND hwndDlg)
 	BYTE t = IsDlgButtonChecked(hwndDlg, IDC_METAEXPAND);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_METADBLCLK), t);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_METASUBEXTRA), t);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_METASUB_HIDEOFFLINE), t);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SUBINDENTSPIN), t);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SUBINDENT), t);
 }
@@ -334,7 +333,6 @@ static INT_PTR CALLBACK DlgProcClistAdditionalOpts(HWND hwndDlg, UINT msg, WPARA
 		CheckDlgButton(hwndDlg, IDC_METADBLCLK, db_get_b(NULL, "CLC", "MetaDoubleClick", SETTING_METAAVOIDDBLCLICK_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
 		CheckDlgButton(hwndDlg, IDC_METASUBEXTRA, db_get_b(NULL, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
 		CheckDlgButton(hwndDlg, IDC_METASUBEXTRA_IGN, db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAAVOIDDBLCLICK_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
-		CheckDlgButton(hwndDlg, IDC_METASUB_HIDEOFFLINE, db_get_b(NULL, "CLC", "MetaHideOfflineSub", SETTING_METAHIDEOFFLINESUB_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
 		CheckDlgButton(hwndDlg, IDC_METAEXPAND, db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
 		CheckDlgButton(hwndDlg, IDC_DISCOVER_AWAYMSG, db_get_b(NULL, "ModernData", "InternalAwayMsgDiscovery", SETTING_INTERNALAWAYMSGREQUEST_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
 		CheckDlgButton(hwndDlg, IDC_REMOVE_OFFLINE_AWAYMSG, db_get_b(NULL, "ModernData", "RemoveAwayMessageForOffline", SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
@@ -364,7 +362,6 @@ static INT_PTR CALLBACK DlgProcClistAdditionalOpts(HWND hwndDlg, UINT msg, WPARA
 				db_set_b(NULL, "CLC", "MetaDoubleClick", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_METADBLCLK));
 				db_set_b(NULL, "CLC", "MetaHideExtra", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_METASUBEXTRA));
 				db_set_b(NULL, "CLC", "MetaIgnoreEmptyExtra", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_METASUBEXTRA_IGN));
-				db_set_b(NULL, "CLC", "MetaHideOfflineSub", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_METASUB_HIDEOFFLINE));
 				db_set_b(NULL, "CLC", "MetaExpanding", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_METAEXPAND));
 				db_set_b(NULL, "ModernData", "InternalAwayMsgDiscovery", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISCOVER_AWAYMSG));
 				db_set_b(NULL, "ModernData", "RemoveAwayMessageForOffline", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_REMOVE_OFFLINE_AWAYMSG));
