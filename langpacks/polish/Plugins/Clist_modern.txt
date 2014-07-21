@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.0.13
+;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
@@ -338,8 +338,18 @@ Ikona w zasobniku
 Tryb ikony w zasobniku
 [Use xStatus icon]
 Użyj ikony xStatusu
+[Additional stuff]
+Pozostałe ustawienia
 [Ignore empty extra icons places (arrange to right).]
 Ignoruj puste miejsca na dodatkowe ikony (rozmieść w prawo)
+[Allow internal requesting of status message text]
+Akceptuj wewnętrzne prośby o treść opisu
+[Remove status message if contact became offline]
+Usuń opis, jeśli kontakt się rozłączy
+[Use improved search method in contact list]
+Użyj ulepszonej metody wyszukiwania na liście kontaktów
+[Metacontacts stuff]
+Elementy metakontaktów
 [Use 'Meta' protocol icons for metacontacts]
 Używaj ikon protokołu "Meta" dla metakontaktów
 [Expand metacontacts]
@@ -348,20 +358,8 @@ Rozwijaj metakontakty
 Unikaj rozwijania przez podwójne kliknięcie
 [Hide all extra icons for subcontacts]
 Ukryj wszystkie dodatkowe ikony podkontaktów
-[Hide offline subcontacts]
-Ukryj rozłączone podkontakty
-[Metacontacts stuff]
-Elementy metakontaktów
-[Additional stuff]
-Pozostałe ustawienia
-[Allow internal requesting of status message text]
-Akceptuj wewnętrzne prośby o treść opisu
 [Subcontacts indent:]
 Wcięcie subkontaktów:
-[Remove status message if contact became offline]
-Usuń opis, jeśli kontakt się rozłączy
-[Use improved search method in contact list]
-Użyj ulepszonej metody wyszukiwania na liście kontaktów
 [Show time only if it is different from current time]
 Pokaż czas tylko wtedy, gdy różni się od bieżącego
 [Show contact time as row item]

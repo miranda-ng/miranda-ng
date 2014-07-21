@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.0.13
+;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
@@ -335,8 +335,18 @@ x100 мс
 Поведінка значка в системному треї
 [Use xStatus icon]
 Значок хСтатусу
+[Additional stuff]
+Додатково
 [Ignore empty extra icons places (arrange to right).]
 Ігнорувати порожні додаткові значки (праворуч)
+[Allow internal requesting of status message text]
+Дозволити внутрішні запити статусних повідомлень
+[Remove status message if contact became offline]
+Видалити статусне повідомлення, якщо контакт офлайн
+[Use improved search method in contact list]
+Пошук у списку з фільтрацією результатів
+[Metacontacts stuff]
+Метаконтакти
 [Use 'Meta' protocol icons for metacontacts]
 Значки "Мета" для метаконтактів
 [Expand metacontacts]
@@ -345,20 +355,8 @@ x100 мс
 Не розгортати за подв. клацанням
 [Hide all extra icons for subcontacts]
 Ховати додаткові значки для субконтактів
-[Hide offline subcontacts]
-Ховати відключені субконтакти
-[Metacontacts stuff]
-Метаконтакти
-[Additional stuff]
-Додатково
-[Allow internal requesting of status message text]
-Дозволити внутрішні запити статусних повідомлень
 [Subcontacts indent:]
 Відступ субконтактів:
-[Remove status message if contact became offline]
-Видалити статусне повідомлення, якщо контакт офлайн
-[Use improved search method in contact list]
-Пошук у списку з фільтрацією результатів
 [Show time only if it is different from current time]
 Показувати час тільки якщо він відрізняється
 [Show contact time as row item]

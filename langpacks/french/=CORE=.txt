@@ -2404,6 +2404,8 @@ Convertir en metacontact
 Éditer
 [Set to default]
 Par défaut
+[MetaContacts]
+
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
 Il y a eu un problème lors de l'assignation du contact à un metacontact

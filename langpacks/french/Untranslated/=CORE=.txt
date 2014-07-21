@@ -85,6 +85,7 @@
 [Toggle off]
 [Toggle on]
 [Add to existing]
+[MetaContacts]
 [Subcontacts]
 [Metacontacts]
 [Sender]

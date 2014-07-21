@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.0.13
+;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
@@ -338,8 +338,18 @@ Icône de la barre des tâches
 
 [Use xStatus icon]
 Utiliser l'icône xStatus
+[Additional stuff]
+Paramètres avancés
 [Ignore empty extra icons places (arrange to right).]
 
+[Allow internal requesting of status message text]
+Autoriser la demande interne du texte de message d'état
+[Remove status message if contact became offline]
+
+[Use improved search method in contact list]
+Utilisez une meilleure méthode de recherche dans la liste de contacts
+[Metacontacts stuff]
+Paramètres pour les metacontacts
 [Use 'Meta' protocol icons for metacontacts]
 Utilisez les 'Meta' icônes pour les protocoles des metacontacts
 [Expand metacontacts]
@@ -348,20 +358,8 @@ Développer les metacontacts
 
 [Hide all extra icons for subcontacts]
 Cachez tous les icônes supplémentaires pour les sous contacts
-[Hide offline subcontacts]
-Cachez les sous contacts hors ligne
-[Metacontacts stuff]
-Paramètres pour les metacontacts
-[Additional stuff]
-Paramètres avancés
-[Allow internal requesting of status message text]
-Autoriser la demande interne du texte de message d'état
 [Subcontacts indent:]
 Décalage des sous-contacts :
-[Remove status message if contact became offline]
-
-[Use improved search method in contact list]
-Utilisez une meilleure méthode de recherche dans la liste de contacts
 [Show time only if it is different from current time]
 Afficher l'heure uniquement si elle diffère de la mienne
 [Show contact time as row item]

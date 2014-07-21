@@ -2404,6 +2404,8 @@ Zu Metakontakt hinzufügen
 Bearbeiten
 [Set to default]
 Als Standard setzen
+[MetaContacts]
+Metakontakte
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
 Bei der Zuweisung des Kontakts zum Metakontakt ist ein Fehler aufgetreten

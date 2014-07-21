@@ -2313,6 +2313,8 @@ Miranda не може відкрити цей профіль
 Редагувати
 [Set to default]
 За замовчанням
+[MetaContacts]
+Метаконтакти
 [There was a problem in assigning the contact to the metacontact]
 Виявлена проблема додавання контакту до метаконтакту
 [This will remove the metacontact permanently.\n\nProceed anyway?]

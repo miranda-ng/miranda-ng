@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.0.13
+;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
@@ -338,8 +338,18 @@ ms между две мигания
 Режим на иконата в трея
 [Use xStatus icon]
 Ползване на икона за хСъстояние
+[Additional stuff]
+И още нещо
 [Ignore empty extra icons places (arrange to right).]
 Заемане мястото на липсващи допълнителни икони (подреждане вдясно).
+[Allow internal requesting of status message text]
+
+[Remove status message if contact became offline]
+
+[Use improved search method in contact list]
+
+[Metacontacts stuff]
+Метаконтакти - настройки
 [Use 'Meta' protocol icons for metacontacts]
 Ползване на метаикони за метаконтактите
 [Expand metacontacts]
@@ -348,20 +358,8 @@ ms между две мигания
 Без разгръщане при двукратно натискане
 [Hide all extra icons for subcontacts]
 Без "Допълнителни икони" за подконтактите
-[Hide offline subcontacts]
-Скриване на подконтактите, които са "Извън линия"
-[Metacontacts stuff]
-Метаконтакти - настройки
-[Additional stuff]
-И още нещо
-[Allow internal requesting of status message text]
-
 [Subcontacts indent:]
 Отстъп на подконтактите:
-[Remove status message if contact became offline]
-
-[Use improved search method in contact list]
-
 [Show time only if it is different from current time]
 Показване само при различен часови пояс
 [Show contact time as row item]

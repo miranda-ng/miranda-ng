@@ -2388,6 +2388,8 @@ Miranda NG не можа адкрыць гэты профіль
 Змяніць
 [Set to default]
 Па змаўчанні
+[MetaContacts]
+Метакантакты
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
 Выяўлена праблема дадання кантакту да метакантакту

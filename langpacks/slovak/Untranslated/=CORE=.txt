@@ -707,6 +707,7 @@
 [Add to existing]
 [Edit]
 [Set to default]
+[MetaContacts]
 [There was a problem in assigning the contact to the metacontact]
 [This will remove the metacontact permanently.\n\nProceed anyway?]
 [Are you sure?]

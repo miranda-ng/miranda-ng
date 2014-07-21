@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.0.13
+;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
@@ -338,8 +338,18 @@ Systemtray-Icon
 Trayicon-Modus
 [Use xStatus icon]
 XStatus-Icon verwenden
+[Additional stuff]
+Zusatzliche Einstellungen
 [Ignore empty extra icons places (arrange to right).]
 Leere Extraicons ignorieren (rechts anordnen)
+[Allow internal requesting of status message text]
+Interne Abfrage der Texte der Statusnachrichten
+[Remove status message if contact became offline]
+Statusnachricht entfernen, wenn Kontakt offline
+[Use improved search method in contact list]
+Verbesserte Suchmethode in Kontaktliste verwenden
+[Metacontacts stuff]
+Einstellungen für Metakontakte
 [Use 'Meta' protocol icons for metacontacts]
 Eigene Icons für Metakontakte verwenden
 [Expand metacontacts]
@@ -348,20 +358,8 @@ Metakontakte aufklappen
 Bei Doppelklick nicht aufklappen
 [Hide all extra icons for subcontacts]
 Keine Extraicons für Unterkontakte
-[Hide offline subcontacts]
-Offlineunterkontakte ausblenden
-[Metacontacts stuff]
-Einstellungen für Metakontakte
-[Additional stuff]
-Zusatzliche Einstellungen
-[Allow internal requesting of status message text]
-Interne Abfrage der Texte der Statusnachrichten
 [Subcontacts indent:]
 Unterkontakte einrücken um Pixel:
-[Remove status message if contact became offline]
-Statusnachricht entfernen, wenn Kontakt offline
-[Use improved search method in contact list]
-Verbesserte Suchmethode in Kontaktliste verwenden
 [Show time only if it is different from current time]
 Zeit nur anzeigen, wenn lokale Zeit anders ist
 [Show contact time as row item]

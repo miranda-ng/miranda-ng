@@ -2404,6 +2404,8 @@ URL
 Редактиране
 [Set to default]
 
+[MetaContacts]
+Метаконтакти
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
 
