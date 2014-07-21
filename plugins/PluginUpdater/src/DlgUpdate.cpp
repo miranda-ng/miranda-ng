@@ -51,7 +51,7 @@ static void ApplyUpdates(void *param)
 
 	// 1) If we need to escalate priviledges, launch a stub
 	if (!PrepareEscalation()) {
-		EndDialog(hDlg, 0);
+		DestroyWindow(hDlg);
 		return;
 	}
 
@@ -137,8 +137,7 @@ static void ApplyUpdates(void *param)
 
 	// 5) Prepare Restart
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
-	EndDialog(hDlg, 0);
-	PostMessage(hDlg, WM_DESTROY, 0, 0); // why do we have to call this manually?
+	DestroyWindow(hDlg);
 	if (rc == IDYES)
 		CallFunctionAsync(RestartMe, 0);
 }
