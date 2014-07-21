@@ -173,14 +173,6 @@ struct DBEvent
 
 #include <poppack.h>
 
-struct ConvertedContact
-{
-	ConvertedContact(MCONTACT _old, MCONTACT _new) :
-		hOld(_old), hNew(_new) {}
-
-	MCONTACT hOld, hNew;
-};
-
 struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
 	CDb3Mmap(const TCHAR *tszFileName, int mode);
@@ -317,8 +309,6 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
 	
-	OBJLIST<ConvertedContact> m_contactsMap;
-
 	int      WipeContactHistory(DBContact *dbc);
 
 	////////////////////////////////////////////////////////////////////////////

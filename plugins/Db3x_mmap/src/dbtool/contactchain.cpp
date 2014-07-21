@@ -72,9 +72,6 @@ LBL_FinishUp:
 				WriteSegment(ofsDestPrevContact + offsetof(DBContact, ofsNext), &ofsDestThis, sizeof(DWORD));
 			else
 				m_dbHeader.ofsFirstContact = ofsDestThis;
-
-			if (m_dbHeader.version < DB_095_VERSION)
-				m_contactsMap.insert(new ConvertedContact(ofsThisContact, ofsDestThis));
 		}
 		else ofsDestThis = ofsThisContact; // needed in event chain worker
 

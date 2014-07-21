@@ -52,8 +52,7 @@ CDb3Mmap::CDb3Mmap(const TCHAR *tszFileName, int iMode) :
 	m_dwMaxContactId(1),
 	m_lMods(50, ModCompare),
 	m_lOfs(50, OfsCompare),
-	m_lResidentSettings(50, stringCompare2),
-	m_contactsMap(50, NumericKeySortT)
+	m_lResidentSettings(50, stringCompare2)
 {
 	m_tszProfileName = mir_tstrdup(tszFileName);
 	InitDbInstance(this);

@@ -298,6 +298,8 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	return ret;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	mir_cslock lck(m_csDbAccess);
@@ -376,10 +378,22 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	return ret;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// initial cycle to fill the contacts' cache
+
+struct COldMeta
+{
+	COldMeta(DWORD _id, DBCachedContact *_cc) :
+		hMetaID(_id), cc(_cc)
+	{}
+
+	DWORD hMetaID;
+	DBCachedContact *cc;
+};
 
 void CDb3Mmap::FillContacts()
 {
-	LIST<void> arMetas(10);
+	OBJLIST<COldMeta> arMetas(10, NumericKeySortT);
 
 	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
 		DBContact *p = (DBContact*)DBRead(dwOffset, sizeof(DBContact), NULL);
@@ -401,17 +415,7 @@ void CDb3Mmap::FillContacts()
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
 				mir_snprintf(setting, sizeof(setting), "Handle%d", i);
-				MCONTACT hSub = (0 != GetContactSetting(dwContactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
-				ConvertedContact *pcc = m_contactsMap.find((ConvertedContact*)&hSub);
-				if (pcc != NULL) {
-					hSub = pcc->hNew;
-
-					DBCONTACTWRITESETTING dbws = { META_PROTO, setting };
-					dbws.value.type = DBVT_DWORD;
-					dbws.value.dVal = hSub;
-					WriteContactSetting(dwContactID, &dbws);
-				}
-				cc->pSubs[i] = hSub;
+				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
 			}
 		}
 		cc->nDefault = (0 != GetContactSetting(dwContactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
@@ -419,17 +423,55 @@ void CDb3Mmap::FillContacts()
 
 		// whether we need conversion or not
 		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv))
-			arMetas.insert((void*)dwContactID);
+			arMetas.insert(new COldMeta(dbv.dVal, cc));
 
 		dwOffset = p->ofsNext;
 	}
 
+	// no need in conversion? quit then
+	if (arMetas.getCount() == 0)
+		return;
+
 	DBVARIANT dbv; dbv.type = DBVT_DWORD;
-	for (int i = 0; i < arMetas.getCount(); i++) {
-		MCONTACT hContact = (MCONTACT)arMetas[i];
-		DBCachedContact *ccMeta = m_cache->GetCachedContact(hContact);
-		if (ccMeta == NULL)
+	for (MCONTACT hh = FindFirstContact(); hh; hh = FindNextContact(hh)) {
+		if (GetContactSetting(hh, META_PROTO, "MetaLink", &dbv))
 			continue;
+
+		COldMeta *p = arMetas.find((COldMeta*)&dbv.dVal);
+		if (p == NULL)
+			continue;
+
+		if (GetContactSetting(hh, META_PROTO, "ContactNumber", &dbv))
+			continue;
+
+		DBCONTACTWRITESETTING dbws = { META_PROTO };
+		dbws.value.type = DBVT_DWORD;
+
+		DBCachedContact *ccMeta = p->cc;
+		if (dbv.dVal < ccMeta->nSubs) {
+			ccMeta->pSubs[dbv.dVal] = hh;
+
+			char setting[100];
+			mir_snprintf(setting, sizeof(setting), "Handle%d", dbv.dVal);
+			dbws.szSetting = setting;
+			dbws.value.dVal = hh;
+			WriteContactSetting(ccMeta->contactID, &dbws);
+		}
+
+		// store contact id instead of the old mc number
+		dbws.szSetting = "ParentMeta";
+		dbws.value.dVal = ccMeta->contactID;
+		WriteContactSetting(hh, &dbws);
+
+		// wipe out old data from subcontacts
+		DeleteContactSetting(hh, META_PROTO, "ContactNumber");
+		DeleteContactSetting(hh, META_PROTO, "MetaLink");
+	}
+
+	for (int i = 0; i < arMetas.getCount(); i++) {
+		COldMeta &p = arMetas[i];
+		DBCachedContact *ccMeta = p.cc;
+		MCONTACT hContact = ccMeta->contactID;
 
 		// we don't need it anymore
 		if (!GetContactSetting(hContact, META_PROTO, "MetaID", &dbv)) {
@@ -438,16 +480,6 @@ void CDb3Mmap::FillContacts()
 		}
 
 		for (int k = 0; k < ccMeta->nSubs; k++) {
-			// store contact id instead of the old mc number
-			DBCONTACTWRITESETTING dbws = { META_PROTO, "ParentMeta" };
-			dbws.value.type = DBVT_DWORD;
-			dbws.value.dVal = hContact;
-			WriteContactSetting(ccMeta->pSubs[k], &dbws);
-
-			// wipe out old data from subcontacts
-			DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "ContactNumber");
-			DeleteContactSetting(ccMeta->pSubs[k], META_PROTO, "MetaLink");
-
 			DBCachedContact *ccSub = m_cache->GetCachedContact(ccMeta->pSubs[k]);
 			if (ccSub) {
 				ccSub->parentID = hContact;
