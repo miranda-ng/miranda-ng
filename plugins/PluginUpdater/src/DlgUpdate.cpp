@@ -510,6 +510,7 @@ static renameTable[] =
 	{ _T("newnr.dll"),                      _T("Plugins\\notesreminders.dll") },
 	{ _T("dbtool.exe"),                     _T("Plugins\\dbchecker.dll") },
 	{ _T("dbtool_sa.exe"),                  _T("Plugins\\dbchecker.dll") },
+	{ _T("clist_mw.dll"),                   _T("Plugins\\clist_nicer.dll") },
 	{ _T("bclist.dll"),                     _T("Plugins\\clist_blind.dll") },
 	{ _T("otr.dll"),                        _T("Plugins\\mirotr.dll") },
 	{ _T("ttnotify.dll"),                   _T("Plugins\\tooltipnotify.dll") },

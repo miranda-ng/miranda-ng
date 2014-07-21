@@ -161,8 +161,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CyrTranslit", "..\plugins\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_modern", "..\plugins\Clist_modern\clist_modern_10.vcxproj", "{D9057E63-AAAA-4FE7-800A-20C02F4761F3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_mw", "..\plugins\Clist_mw\clist_mw_10.vcxproj", "{56997126-0098-407A-94E1-7C5748C1C9EF}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EkHtml", "..\plugins\MirOTR\ekhtml\EkHtml_10.vcxproj", "{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libgcrypt", "..\plugins\MirOTR\libgcrypt-1.4.6\libgcrypt146lib_10.vcxproj", "{40FE7861-E54E-4DA9-BE4D-A5178014E477}"
@@ -1054,14 +1052,6 @@ Global
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|Win32.Build.0 = Release|Win32
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|x64.ActiveCfg = Release|x64
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|x64.Build.0 = Release|x64
-		{56997126-0098-407A-94E1-7C5748C1C9EF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{56997126-0098-407A-94E1-7C5748C1C9EF}.Debug|Win32.Build.0 = Debug|Win32
-		{56997126-0098-407A-94E1-7C5748C1C9EF}.Debug|x64.ActiveCfg = Debug|x64
-		{56997126-0098-407A-94E1-7C5748C1C9EF}.Debug|x64.Build.0 = Debug|x64
-		{56997126-0098-407A-94E1-7C5748C1C9EF}.Release|Win32.ActiveCfg = Release|Win32
-		{56997126-0098-407A-94E1-7C5748C1C9EF}.Release|Win32.Build.0 = Release|Win32
-		{56997126-0098-407A-94E1-7C5748C1C9EF}.Release|x64.ActiveCfg = Release|x64
-		{56997126-0098-407A-94E1-7C5748C1C9EF}.Release|x64.Build.0 = Release|x64
 		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Debug|Win32.Build.0 = Debug|Win32
 		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Debug|x64.ActiveCfg = Debug|x64
