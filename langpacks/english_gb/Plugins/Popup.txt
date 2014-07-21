@@ -8,7 +8,7 @@
 [Go to Customize > Fonts && Colors for fonts and colors options]
 Go to Customise > Fonts && Colours for fonts and colours options
 [Colors can be configured in\r\nCustomize > Fonts and colors]
-Colours can be configured in\r\nCustomise > Fonts && Colours
+Colours can be configured in\r\nCustomise > Fonts and colours
 [With "favorite" overlay]
 With "favourite" overlay
 [Favorite contact]

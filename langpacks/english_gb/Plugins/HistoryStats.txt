@@ -8,7 +8,7 @@
 [Creates detailed, colorful and highly customizable statistics using your message history.]
 Creates detailed, colourful and highly customisable statistics using your message history.
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behavior measures are available.]
-Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behaviour measures are available.
+Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as colour values. Different chatting behaviour measures are available.
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behaviour measures are available.
 [Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
