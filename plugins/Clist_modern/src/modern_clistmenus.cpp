@@ -145,8 +145,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 			mi.flags |= CMIM_FLAGS | CMIM_ICON;
 			Menu_ModifyItem(hFavoriteContactMenuItems[i], &mi);
 		}
-		else
-			hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
+		else hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
 	}
 
 	mi.hIcon = NULL;
@@ -159,8 +158,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 		mi.flags |= CMIM_FLAGS | CMIM_ICON;
 		Menu_ModifyItem(hShowIfOflineItem, &mi);
 	}
-	else
-		hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
+	else hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 
 	return 0;
 }
@@ -168,7 +166,7 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 {
 	if (hContact)
-		db_set_b((MCONTACT)hContact, "CList", "Rate", (BYTE)nRate);
+		db_set_b(hContact, "CList", "Rate", (BYTE)nRate);
 
 	return 0;
 }
@@ -176,7 +174,7 @@ INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 INT_PTR FAV_ToggleShowOffline(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact)
-		db_set_b((MCONTACT)hContact, "CList", "noOffline", !db_get_b((MCONTACT)hContact, "CList", "noOffline", 0));
+		db_set_b(hContact, "CList", "noOffline", !db_get_b(hContact, "CList", "noOffline", 0));
 
 	return 0;
 }

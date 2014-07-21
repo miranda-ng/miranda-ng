@@ -51,38 +51,39 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		cacheEntry = pcli->pfnGetCacheEntry(hsub);
 		WORD wStatus = pdnce___GetStatus(cacheEntry);
 
-		if (showOfflineHereGroup || !bHideOffline || wStatus != ID_STATUS_OFFLINE) {
-			ClcContact& p = cont->subcontacts[i];
-			p.hContact = cacheEntry->hContact;
+		if (!showOfflineHereGroup && bHideOffline && !cacheEntry->m_cache_nNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)
+			continue;
 
-			p.avatar_pos = AVATAR_POS_DONT_HAVE;
-			Cache_GetAvatar(dat, &p);
+		ClcContact& p = cont->subcontacts[i];
+		p.hContact = cacheEntry->hContact;
 
-			p.iImage = corecli.pfnGetContactIcon(cacheEntry->hContact);
-			memset(p.iExtraImage, 0xFF, sizeof(p.iExtraImage));
-			p.proto = cacheEntry->m_cache_cszProto;
-			p.type = CLCIT_CONTACT;
-			p.flags = 0;//CONTACTF_ONLINE;
-			p.isSubcontact = i + 1;
-			p.lastPaintCounter = 0;
-			p.subcontacts = cont;
-			p.image_is_special = FALSE;
-			//p.status = cacheEntry->status;
-			Cache_GetTimezone(dat, (&p)->hContact);
-			Cache_GetText(dat, &p, 1);
+		p.avatar_pos = AVATAR_POS_DONT_HAVE;
+		Cache_GetAvatar(dat, &p);
 
-			char *szProto = cacheEntry->m_cache_cszProto;
-			if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, wStatus))
-				p.flags |= CONTACTF_ONLINE;
-			int apparentMode = szProto != NULL ? cacheEntry->ApparentMode : 0;
-			if (apparentMode == ID_STATUS_OFFLINE)	p.flags |= CONTACTF_INVISTO;
-			else if (apparentMode == ID_STATUS_ONLINE) p.flags |= CONTACTF_VISTO;
-			else if (apparentMode) p.flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
-			if (cacheEntry->NotOnList) p.flags |= CONTACTF_NOTONLIST;
-			int idleMode = szProto != NULL ? cacheEntry->IdleTS : 0;
-			if (idleMode) p.flags |= CONTACTF_IDLE;
-			i++;
-		}
+		p.iImage = corecli.pfnGetContactIcon(cacheEntry->hContact);
+		memset(p.iExtraImage, 0xFF, sizeof(p.iExtraImage));
+		p.proto = cacheEntry->m_cache_cszProto;
+		p.type = CLCIT_CONTACT;
+		p.flags = 0;//CONTACTF_ONLINE;
+		p.isSubcontact = i + 1;
+		p.lastPaintCounter = 0;
+		p.subcontacts = cont;
+		p.image_is_special = FALSE;
+		//p.status = cacheEntry->status;
+		Cache_GetTimezone(dat, (&p)->hContact);
+		Cache_GetText(dat, &p, 1);
+
+		char *szProto = cacheEntry->m_cache_cszProto;
+		if (szProto != NULL && !pcli->pfnIsHiddenMode(dat, wStatus))
+			p.flags |= CONTACTF_ONLINE;
+		int apparentMode = szProto != NULL ? cacheEntry->ApparentMode : 0;
+		if (apparentMode == ID_STATUS_OFFLINE)	p.flags |= CONTACTF_INVISTO;
+		else if (apparentMode == ID_STATUS_ONLINE) p.flags |= CONTACTF_VISTO;
+		else if (apparentMode) p.flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
+		if (cacheEntry->NotOnList) p.flags |= CONTACTF_NOTONLIST;
+		int idleMode = szProto != NULL ? cacheEntry->IdleTS : 0;
+		if (idleMode) p.flags |= CONTACTF_IDLE;
+		i++;
 	}
 
 	cont->SubAllocated = i;
