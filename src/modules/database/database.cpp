@@ -231,14 +231,14 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 		moveProfileDirProfiles(profiledir);
 	moveProfileDirProfiles(profiledir, FALSE);
 
-	bool nodprof = (*szProfile == 0);
-	bool reqfd = !nodprof && (_taccess(szProfile, 0) == 0 || shouldAutoCreate(szProfile));
-	bool shpm = showProfileManager();
+	bool bNoDefaultProfile = (*szProfile == 0);
+	bool reqfd = !bNoDefaultProfile && (_taccess(szProfile, 0) == 0 || shouldAutoCreate(szProfile));
+	bool bShowProfileManager = showProfileManager();
 
 	if (reqfd)
 		found++;
 
-	if (shpm || !reqfd) {
+	if (bShowProfileManager || !reqfd) {
 		TCHAR searchspec[MAX_PATH];
 		mir_sntprintf(searchspec, SIZEOF(searchspec), _T("%s\\*.*"), profiledir);
 
@@ -257,11 +257,12 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 
 				switch (touchDatabase(newProfile, NULL)) {
 				case 0:
-					if (found == 0 && nodprof)
+					if (++found == 1 && bNoDefaultProfile)
 						_tcsncpy_s(szProfile, cch, newProfile, _TRUNCATE);
+					break;
 
 				case EGROKPRF_OBSOLETE:
-					found++;
+					found += 2; // force showing PM even if only one obsolete profile found
 					break;
 				}
 			}
@@ -269,13 +270,13 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 
 			FindClose(hFind);
 		}
-		reqfd = (!shpm && found == 1 && nodprof);
+		reqfd = (!bShowProfileManager && found == 1 && bNoDefaultProfile);
 	}
 
 	if (noProfiles)
 		*noProfiles = (found == 0);
 
-	if (nodprof && !reqfd)
+	if (bNoDefaultProfile && !reqfd)
 		szProfile[0] = 0;
 
 	return reqfd;
