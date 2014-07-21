@@ -56,7 +56,7 @@ void UnloadMetacontacts(void)
 // Called when the plugin is loaded into Miranda
 int LoadMetacontacts(void)
 {
-	Icon_Register(hInst, META_PROTO, iconList, SIZEOF(iconList), "mc");
+	Icon_Register(hInst, LPGEN("MetaContacts"), iconList, SIZEOF(iconList), "mc");
 
 	db_set_resident(META_PROTO, "Status");
 	db_set_resident(META_PROTO, "IdleTS");

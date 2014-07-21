@@ -2313,6 +2313,8 @@ Miranda NG не может открыть этот профиль
 Изменить
 [Set to default]
 По умолчанию
+[MetaContacts]
+Метаконтакты
 [There was a problem in assigning the contact to the metacontact]
 Обнаружена проблема добавления контакта к метаконтакту
 [This will remove the metacontact permanently.\n\nProceed anyway?]

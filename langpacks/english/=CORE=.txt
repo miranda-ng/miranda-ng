@@ -1246,6 +1246,7 @@
 [Add to existing]
 [Edit]
 [Set to default]
+[MetaContacts]
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
 [This will remove the metacontact permanently.\n\nProceed anyway?]
