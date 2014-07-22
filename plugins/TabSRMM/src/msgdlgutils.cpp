@@ -1948,7 +1948,6 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 						rb.max_width, rb.max_height, CSkin::m_default_bf);
 
 				SelectObject(hdcMem, hbmMem);
-				//DeleteObject(hbmMem);
 				DeleteDC(hdcMem);
 				if (hbmNew != hbmAvatar)
 					DeleteObject(hbmNew);

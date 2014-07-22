@@ -1698,25 +1698,15 @@ void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
  */
 void CSkin::setupAeroSkins()
 {
-	TCHAR	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
-
 	M.getAeroState();
 	UnloadAeroTabs();
 
-	BOOL	isOpaque;
-	HBITMAP hbm;
-	BITMAP  bm;
-
-	if (!m_fAeroSkinsValid)
-		return;
-
-	mir_sntprintf(tszBasePath, MAX_PATH, _T("%s"), M.getDataPath());
+	TCHAR	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
+	_tcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
 	if (tszBasePath[lstrlen(tszBasePath) - 1] != '\\')
 		_tcscat(tszBasePath, _T("\\"));
 
-	/*
-	 * load unknown avatar..
-	 */
+	// load unknown avatar..
 	if (0 == PluginConfig.g_hbmUnknown) {
 		mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_unknown.png"), tszBasePath);
 		if (!PathFileExists(tszFilename))
@@ -1729,10 +1719,14 @@ void CSkin::setupAeroSkins()
 		}
 	}
 
+	if (!m_fAeroSkinsValid)
+		return;
+
 	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))
 		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero.png"), tszBasePath);
 
+	BOOL isOpaque = false;
 	if (CMimAPI::m_pfnDwmGetColorizationColor && M.isAero())
 		CMimAPI::m_pfnDwmGetColorizationColor(&m_dwmColor, &isOpaque);
 	else
@@ -1777,7 +1771,7 @@ void CSkin::setupAeroSkins()
 
 	FIBITMAP *fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR | IMGL_RETURNDIB);
 
-	hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
+	HBITMAP hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
 
 	CImageItem::Colorize(hbm, GetRValue(m_dwmColorRGB),
 						 GetGValue(m_dwmColorRGB),
@@ -1785,6 +1779,7 @@ void CSkin::setupAeroSkins()
 
 	CImageItem::PreMultiply(hbm, 1);
 
+	BITMAP bm;
 	GetObject(hbm, sizeof(bm), &bm);
 	m_tabTop = new CImageItem(4, 4, 4, 4, 0, hbm, IMAGE_FLAG_DIVIDED | IMAGE_PERPIXEL_ALPHA,
 							  0, 255, 30, 80, 50, 100);

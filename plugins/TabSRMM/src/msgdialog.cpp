@@ -1062,12 +1062,10 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 			}
 		}
 
-		//Bolshevik: resizes avatar control _FIXED
 		if (dat->hwndContactPic) //if Panel control was created?
 			SetWindowPos(dat->hwndContactPic, HWND_TOP, 1, ((urc->rcItem.bottom - urc->rcItem.top) - (dat->pic.cy)) / 2 + 1,  //resizes it
-			dat->pic.cx - 2,
-			dat->pic.cy - 2, SWP_SHOWWINDOW);
-		//Bolshevik_
+				dat->pic.cx - 2, dat->pic.cy - 2, SWP_SHOWWINDOW);
+
 		if (PluginConfig.g_FlashAvatarAvail) {
 			RECT rc = { urc->rcItem.left, urc->rcItem.top, urc->rcItem.right, urc->rcItem.bottom };
 			FLASHAVATAR fa = { 0 };
