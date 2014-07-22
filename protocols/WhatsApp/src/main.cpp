@@ -75,7 +75,7 @@ int UnpackRegisterUtility(HINSTANCE hInstance, const wchar_t *profileName)
 	wchar_t *RegisterUtilityPath = ::wcsrchr(fileName, '\\');
 	if (RegisterUtilityPath != NULL)
 		*RegisterUtilityPath = 0;
-	::mir_snwprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"WART-1.6.8.0.exe");
+	::mir_snwprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"WART-1.7.0.0.exe");
 	if ( ::GetFileAttributes(fileName) == DWORD(-1))
 	{
 		HRSRC hRes = ::FindResource(hInstance, MAKEINTRESOURCE(IDR_REGISTERUTILITY), L"BIN");
