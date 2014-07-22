@@ -495,8 +495,8 @@ static void SwapValues(MCONTACT hContact, LPCSTR szSetting, int n1, int n2)
 	mir_snprintf(buf2, sizeof(buf2), "%s%d", szSetting, n2);
 
 	DBVARIANT dbv1, dbv2;
-	int ok1 = !db_get_s(hContact, META_PROTO, buf1, &dbv1, 0);
-	int ok2 = !db_get_s(hContact, META_PROTO, buf2, &dbv2, 0);
+	int ok1 = !db_get(hContact, META_PROTO, buf1, &dbv1);
+	int ok2 = !db_get(hContact, META_PROTO, buf2, &dbv2);
 	if (ok1) {
 		db_set(hContact, META_PROTO, buf2, &dbv1);
 		db_free(&dbv1);
