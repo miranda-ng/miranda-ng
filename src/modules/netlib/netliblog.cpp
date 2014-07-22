@@ -302,7 +302,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	}
 
 	/* if the Netlib user handle is NULL, just pretend its not */
-	if (nlu != NULL && !nlu->toLog)
+	if (!(nlu != NULL ? nlu->toLog : logOptions.toLog))
 		return 1;
 
 	LARGE_INTEGER liTimeNow;
