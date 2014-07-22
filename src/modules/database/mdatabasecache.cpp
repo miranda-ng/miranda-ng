@@ -159,10 +159,8 @@ void MDatabaseCache::SetCachedVariant(DBVARIANT* s /* new */, DBVARIANT* d /* ca
 			d->pszVal = (char*)HeapAlloc(m_hCacheHeap, 0, strlen(s->pszVal) + 1);
 		strcpy(d->pszVal, s->pszVal);
 	}
-	else if (szSave != NULL) {
+	else if (szSave != NULL)
 		HeapFree(m_hCacheHeap, 0, szSave);
-		d->pszVal = NULL;
-	}
 }
 
 void MDatabaseCache::FreeCachedVariant(DBVARIANT* V)
