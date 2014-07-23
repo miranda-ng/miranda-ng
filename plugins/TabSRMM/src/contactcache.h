@@ -124,7 +124,7 @@ struct CContactCache : public MZeroedObject
 	void   inputHistoryEvent(WPARAM wParam);
 
 	static CContactCache* getContactCache(MCONTACT hContact);
-	static void cacheUpdateMetaChanged();
+	static int cacheUpdateMetaChanged(WPARAM wParam, LPARAM lParam);
 
 private:
 	void   allocStats();

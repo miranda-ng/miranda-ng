@@ -140,8 +140,6 @@ void CGlobals::reloadSystemModulesChanged()
 	g_iButtonsBarGap = M.GetByte("ButtonsBarGap", 1);
 	m_hwndClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
-	bMetaEnabled = abs(M.GetByte(META_PROTO, "Enabled", -1));
-
 	g_PopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -374,6 +372,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_FONT_RELOAD, ::FontServiceFontsChanged);
 	HookEvent(ME_TTB_MODULELOADED, TopToolbarLoaded);
 
+	HookEvent(ME_MC_ENABLED, &CContactCache::cacheUpdateMetaChanged);
 	HookEvent(ME_MC_DEFAULTTCHANGED, MetaContactEvent);
 	HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaContactEvent);
 	return 0;
@@ -421,13 +420,6 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
 					c->updateFavorite();
 			}
-		}
-	}
-
-	if (hContact == 0 && !lstrcmpA(setting, "Enabled")) {
-		if (!lstrcmpA(cws->szModule, META_PROTO)) { 		// catch the disabled meta contacts
-			PluginConfig.bMetaEnabled = abs(M.GetByte(META_PROTO, "Enabled", -1));
-			CContactCache::cacheUpdateMetaChanged();
 		}
 	}
 

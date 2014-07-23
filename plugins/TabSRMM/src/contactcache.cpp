@@ -71,7 +71,7 @@ void CContactCache::initPhaseTwo()
 
 	m_Valid = (cc->szProto != 0 && m_szAccount != 0) ? true : false;
 	if (m_Valid) {
-		m_isMeta = PluginConfig.bMetaEnabled && !strcmp(cc->szProto, META_PROTO);
+		m_isMeta = db_mc_isMeta(cc->contactID) != 0; // don't use cc->IsMeta() here
 		if (m_isMeta)
 			updateMeta(true);
 		updateState();
@@ -503,25 +503,24 @@ CContactCache* CContactCache::getContactCache(MCONTACT hContact)
  * it is ONLY called from the DBSettingChanged() event handler when the relevant
  * database value is touched.
  */
-void CContactCache::cacheUpdateMetaChanged()
+int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
 {
-	bool fMetaActive = (PluginConfig.bMetaEnabled) ? true : false;
-
 	for (int i=0; i < arContacts.getCount(); i++) {
 		CContactCache &c = arContacts[i];
-		if (c.isMeta() && PluginConfig.bMetaEnabled == false) {
+		if (c.isMeta() && !bMetaEnabled) {
 			c.closeWindow();
 			c.resetMeta();
 		}
 
 		// meta contacts are enabled, but current contact is a subcontact - > close window
-		if (fMetaActive && c.isSubContact())
+		if (bMetaEnabled && c.isSubContact())
 			c.closeWindow();
 
 		// reset meta contact information, if metacontacts protocol became avail
-		if (fMetaActive && !strcmp(c.getProto(), META_PROTO))
+		if (bMetaEnabled && !c.cc->IsMeta())
 			c.resetMeta();
 	}
+	return 0;
 }
 
 /**

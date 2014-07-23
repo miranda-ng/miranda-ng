@@ -138,7 +138,6 @@ public:
    BOOL        m_autoSplit;
    BOOL        m_FlashOnMTN;
    DWORD       dwThreadID;
-   BYTE        bMetaEnabled;
    HANDLE      m_hMessageWindowList, hUserPrefsWindowList;
    HMENU       m_MenuBar;
    COLORREF    m_ipBackgroundGradient;
