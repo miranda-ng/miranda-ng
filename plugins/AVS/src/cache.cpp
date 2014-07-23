@@ -30,10 +30,10 @@ static CRITICAL_SECTION cachecs, alloccs;
  * does not link the new block with the old block(s) - caller needs to do this
  */
 
-static CacheNode *AllocCacheBlock()
+static CacheNode* AllocCacheBlock()
 {
 	CacheNode *allocedBlock = (CacheNode*)malloc(CACHE_BLOCKSIZE * sizeof(struct CacheNode));
-	ZeroMemory((void *)allocedBlock, sizeof(struct CacheNode) * CACHE_BLOCKSIZE);
+	ZeroMemory((void *)allocedBlock, sizeof(CacheNode) * CACHE_BLOCKSIZE);
 
 	for (int i = 0; i < CACHE_BLOCKSIZE - 1; i++)
 		allocedBlock[i].pNextNode = &allocedBlock[i + 1];				// pre-link the alloced block
@@ -45,7 +45,7 @@ static CacheNode *AllocCacheBlock()
 
 	if (g_curBlock == g_maxBlock) {
 		g_maxBlock += 10;
-		g_cacheBlocks = (CacheNode **)realloc(g_cacheBlocks, g_maxBlock * sizeof(CacheNode*));
+		g_cacheBlocks = (CacheNode**)realloc(g_cacheBlocks, g_maxBlock * sizeof(CacheNode*));
 	}
 	g_cacheBlocks[g_curBlock++] = allocedBlock;
 
@@ -88,7 +88,7 @@ static CacheNode* AddToList(CacheNode *node)
 	return pCurrent;
 }
 
-CacheNode *FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
+CacheNode* FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
 {
 	if (g_shutDown)
 		return NULL;
@@ -126,7 +126,6 @@ CacheNode *FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
 	}
 
 	foundNode->ace.hContact = hContact;
-	foundNode->dwFlags |= (db_mc_isSub(hContact) ? MC_ISSUBCONTACT : 0);
 	foundNode->loaded = FALSE;
 	foundNode->mustLoad = 1;        // pic loader will watch this and load images
 	SetEvent(hLoaderEvent);         // wake him up
@@ -142,21 +141,19 @@ CacheNode *FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
  * popup plugin.
  */
 
-void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)-1)
+void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY*)-1)
 {
 	if (g_shutDown)
 		return;
 
-	if (ace == (AVATARCACHEENTRY *)-1)
+	if (ace == (AVATARCACHEENTRY*)-1)
 		ace = &node->ace;
 
 	NotifyEventHooks(hEventChanged, hContact, (LPARAM)ace);
 
-	if ((node->dwFlags & MC_ISSUBCONTACT) && db_get_b(NULL, META_PROTO, "Enabled", 0)) {
-		MCONTACT hMasterContact = db_mc_getMeta(hContact);
-		if (hMasterContact && db_mc_getMostOnline(hMasterContact) == hContact && !db_get_b(hMasterContact, "ContactPhoto", "Locked", 0))
-			NotifyEventHooks(hEventChanged, (WPARAM)hMasterContact, (LPARAM)ace);
-	}
+	MCONTACT hMasterContact = db_mc_getMeta(hContact);
+	if (hMasterContact && db_mc_getMostOnline(hMasterContact) == hContact && !db_get_b(hMasterContact, "ContactPhoto", "Locked", 0))
+		NotifyEventHooks(hEventChanged, (WPARAM)hMasterContact, (LPARAM)ace);
 
 	if (node->dwFlags & AVH_MUSTNOTIFY) {
 		// Fire the event for avatar history
@@ -206,8 +203,7 @@ void DeleteAvatarFromCache(MCONTACT hContact, BOOL forever)
 	hContact = GetContactThatHaveTheAvatar(hContact);
 	CacheNode *node = FindAvatarInCache(hContact, FALSE);
 	if (node == NULL) {
-		struct CacheNode temp_node = { 0 };
-		temp_node.dwFlags |= (db_mc_isSub(hContact) ? MC_ISSUBCONTACT : 0);
+		CacheNode temp_node = { 0 };
 		NotifyMetaAware(hContact, &temp_node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
 		return;
 	}

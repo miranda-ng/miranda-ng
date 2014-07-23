@@ -98,8 +98,8 @@ static TCHAR* getJGMailID(char *szProto)
 
 static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 {
-	ACKDATA *ack = (ACKDATA *) lParam;
-	if (ack != NULL && ack->type == ACKTYPE_AVATAR && ack->hContact != 0 && strcmp(ack->szModule, META_PROTO)) {
+	ACKDATA *ack = (ACKDATA*)lParam;
+	if (ack != NULL && ack->type == ACKTYPE_AVATAR && db_mc_isMeta(ack->hContact)) {
 		if (ack->result == ACKRESULT_SUCCESS) {
 			if (ack->hProcess == NULL)
 				ProcessAvatarInfo(ack->hContact, GAIR_NOAVATAR, NULL, ack->szModule);
@@ -116,33 +116,29 @@ static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 				db_set_b(ack->hContact, "ContactPhoto", "NeedUpdate", 1);
 				QueueAdd(ack->hContact);
 			}
-			else {
-				// Fetch it now
+			else // Fetch it now
 				FetchAvatarFor(ack->hContact, szProto);
-			}
 		}
 	}
 	return 0;
 }
 
-static int MetaChanged(WPARAM hContact, LPARAM lParam)
+static int MetaChanged(WPARAM hMeta, LPARAM hSubContact)
 {
-	if (hContact == 0 || g_shutDown)
+	if (g_shutDown)
 		return 0;
 
 	AVATARCACHEENTRY *ace;
 
-	MCONTACT hSubContact = GetContactThatHaveTheAvatar(hContact);
-
 	// Get the node
 	CacheNode *node = FindAvatarInCache(hSubContact, TRUE);
 	if (node == NULL || !node->loaded) {
-		ace = (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hSubContact);
+		ace = (AVATARCACHEENTRY*)GetProtoDefaultAvatar(hSubContact);
 		QueueAdd(hSubContact);
 	}
 	else ace = &node->ace;
 
-	NotifyEventHooks(hEventChanged, hContact, (LPARAM)ace);
+	NotifyEventHooks(hEventChanged, hMeta, (LPARAM)ace);
 	return 0;
 }
 
@@ -224,16 +220,10 @@ static int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (cws == NULL || g_shutDown)
 		return 0;
 
-	if (hContact == 0) {
+	if (hContact == 0)
 		if (!strcmp(cws->szSetting, "AvatarFile") || !strcmp(cws->szSetting, "PictObject") || !strcmp(cws->szSetting, "AvatarHash") || !strcmp(cws->szSetting, "AvatarSaved"))
 			ReportMyAvatarChanged((WPARAM)cws->szModule, 0);
-		return 0;
-	}
 
-	if (!strcmp(cws->szModule, META_PROTO)) {
-		if (lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 5))
-			MetaChanged(hContact, 0);
-	}
 	return 0;
 }
 
@@ -410,6 +400,8 @@ static int LoadAvatarModule()
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
 	HookEvent(ME_PROTO_ACK, ProtocolAck);
+	HookEvent(ME_MC_DEFAULTTCHANGED, MetaChanged);
+	HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaChanged);
 
 	hEventChanged = CreateHookableEvent(ME_AV_AVATARCHANGED);
 	hEventContactAvatarChanged = CreateHookableEvent(ME_AV_CONTACTAVATARCHANGED);

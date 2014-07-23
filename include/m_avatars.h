@@ -280,8 +280,6 @@ typedef struct _contactAvatarChangedNotification {
 * flags for internal use ONLY
 */
 
-#define MC_ISMASTERCONTACT 0x01
-#define MC_ISSUBCONTACT    0x02
 #define AVH_MUSTNOTIFY     0x04             // node->dwFlags (loader thread must notify avatar history about change/delete event)
 #define AVS_DELETENODEFOREVER 0x08
 
