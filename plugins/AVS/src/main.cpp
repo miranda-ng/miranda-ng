@@ -99,7 +99,7 @@ static TCHAR* getJGMailID(char *szProto)
 static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack != NULL && ack->type == ACKTYPE_AVATAR && db_mc_isMeta(ack->hContact)) {
+	if (ack != NULL && ack->type == ACKTYPE_AVATAR && !db_mc_isMeta(ack->hContact)) {
 		if (ack->result == ACKRESULT_SUCCESS) {
 			if (ack->hProcess == NULL)
 				ProcessAvatarInfo(ack->hContact, GAIR_NOAVATAR, NULL, ack->szModule);
