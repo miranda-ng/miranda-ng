@@ -571,7 +571,7 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask( ClcGroup *group, ClcConta
 	case CLCIT_CONTACT:
 		{
 			ClcContact *mCont = Drawing;
-			if ( Drawing->isSubcontact )
+			if (Drawing->isSubcontact)
 			{
 				_AddParamShort( mpModernMask, hi_Type, hi_SubContact );
 				if ( Drawing->isSubcontact == 1 && Drawing->subcontacts->SubAllocated == 1 )

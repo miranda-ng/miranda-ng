@@ -184,6 +184,18 @@ static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static int clcMetaModeChanged(WPARAM, LPARAM)
+{
+	pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
+	return 0;
+}
+
+static int clcMetacontactChanged(WPARAM hMeta, LPARAM)
+{
+	pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
+	return 0;
+}
+
 static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	if (MirandaExiting())
@@ -191,11 +203,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact == NULL) {
-		if (!mir_strcmp(cws->szModule, META_PROTO)) {
-			if (!mir_strcmp(cws->szSetting, "Enabled"))
-				pcli->pfnClcBroadcast(INTM_RELOADOPTIONS, hContact, lParam);
-		}
-		else if (!mir_strcmp(cws->szModule, "CListGroups"))
+		if (!mir_strcmp(cws->szModule, "CListGroups"))
 			pcli->pfnClcBroadcast(INTM_GROUPSCHANGED, hContact, lParam);
 		else if (!strcmp(cws->szSetting, "XStatusId") || !strcmp(cws->szSetting, "XStatusName"))
 			cliCluiProtocolStatusChanged(0, cws->szModule);
@@ -204,12 +212,6 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 	{
 		if (!strcmp(cws->szSetting, "TickTS"))
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
-		else if (!strcmp(cws->szModule, META_PROTO)) {
-			if (!strcmp(cws->szSetting, "ParentMeta"))
-				pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
-			else if (!strcmp(cws->szSetting, "Default"))
-				pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
-		}
 		else if (!strcmp(cws->szModule, "UserInfo")) {
 			if (!strcmp(cws->szSetting, "Timezone"))
 				pcli->pfnClcBroadcast(INTM_TIMEZONECHANGED, hContact, 0);
@@ -389,7 +391,7 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 	dat->needsResort = 1;
 	dat->MetaIgnoreEmptyExtra = db_get_b(NULL, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
-	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(NULL, META_PROTO, "Enabled", 1);
+	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_MANUALUPDATE)) && db_mc_isEnabled();
 
 	dat->expandMeta = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 	dat->useMetaIcon = db_get_b(NULL, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT);
@@ -1698,6 +1700,8 @@ HRESULT ClcLoadModule()
 {
 	g_himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 
+	HookEvent(ME_MC_SUBCONTACTSCHANGED, clcMetacontactChanged);
+	HookEvent(ME_MC_ENABLED, clcMetaModeChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, clcHookSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, ClcOptInit);
 	hAckHook = (HANDLE)HookEvent(ME_PROTO_ACK, clcHookProtoAck);

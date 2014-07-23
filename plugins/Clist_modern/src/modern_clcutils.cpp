@@ -453,9 +453,9 @@ int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 	}
 	dat->selection = hit;
 
-	if (!mir_strcmp(contact->proto, META_PROTO) && ServiceExists(MS_MC_ADDTOMETA))
+	if (!mir_strcmp(contact->proto, META_PROTO))
 		return DROPTARGET_ONMETACONTACT;
-	if (contact->isSubcontact && ServiceExists(MS_MC_ADDTOMETA))
+	if (contact->isSubcontact)
 		return DROPTARGET_ONSUBCONTACT;
 	return DROPTARGET_ONCONTACT;
 }
