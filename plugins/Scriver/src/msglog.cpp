@@ -916,12 +916,10 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		SMADD_RICHEDIT3 smre;
 		smre.cbSize = sizeof(SMADD_RICHEDIT3);
 		smre.hwndRichEditControl = GetDlgItem(hwndDlg, IDC_LOG);
-		smre.Protocolname = dat->szProto;
-		if (dat->szProto != NULL && strcmp(dat->szProto, META_PROTO) == 0) {
-			MCONTACT hContact = db_mc_getMostOnline(dat->windowData.hContact);
-			if (hContact != NULL)
-				smre.Protocolname = GetContactProto(hContact);
-		}
+		
+		MCONTACT hContact = db_mc_getSrmmSub(dat->windowData.hContact);
+		smre.Protocolname = (hContact != NULL) ? GetContactProto(hContact) : dat->szProto;
+		
 		if (fi.chrg.cpMin > 0) {
 			sel.cpMin = fi.chrg.cpMin;
 			sel.cpMax = -1;

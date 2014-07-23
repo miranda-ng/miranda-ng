@@ -254,16 +254,10 @@ void SetStatusIcon(SrmmWindowData *dat)
 	if (dat->szProto == NULL)
 		return;
 
-	char *szProto = dat->szProto;
-	MCONTACT hContact = dat->windowData.hContact;
-
-	if (!strcmp(dat->szProto, META_PROTO) && db_get_b(NULL,"CLC","Meta",0) == 0) {
-		hContact = db_mc_getMostOnline(dat->windowData.hContact);
-		if (hContact != NULL)
-			szProto = GetContactProto(hContact);
-		else
-			hContact = dat->windowData.hContact;
-	}
+	MCONTACT hContact = db_mc_getSrmmSub(dat->windowData.hContact);
+	if (hContact == NULL)
+		hContact = dat->windowData.hContact;
+	char *szProto = GetContactProto(hContact);
 
 	Skin_ReleaseIcon(dat->statusIcon);
 	dat->statusIcon = LoadSkinnedProtoIcon(szProto, dat->wStatus);
@@ -1749,19 +1743,16 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_SMILEYS:
 			if (g_dat.smileyAddInstalled) {
 				SMADD_SHOWSEL3 smaddInfo;
-				RECT rc;
 				smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
 				smaddInfo.hwndParent = dat->hwndParent;
 				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
 				smaddInfo.targetMessage = EM_REPLACESEL;
 				smaddInfo.targetWParam = TRUE;
-				smaddInfo.Protocolname = dat->szProto;
-				if (dat->szProto != NULL && strcmp(dat->szProto, META_PROTO) == 0) {
-					MCONTACT hContact = db_mc_getMostOnline(dat->windowData.hContact);
-					if (hContact != NULL) {
-						smaddInfo.Protocolname = GetContactProto(hContact);
-					}
-				}
+
+				MCONTACT hContact = db_mc_getSrmmSub(dat->windowData.hContact);
+				smaddInfo.Protocolname = (hContact != NULL) ? GetContactProto(hContact) : dat->szProto;
+	
+				RECT rc;
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYS), &rc);
 				smaddInfo.Direction = 0;
 				smaddInfo.xPosition = rc.left;

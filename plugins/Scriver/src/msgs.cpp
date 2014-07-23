@@ -62,11 +62,11 @@ static int SRMMStatusToPf2(int status)
 int IsAutoPopup(MCONTACT hContact) {
 	if (g_dat.flags & SMF_AUTOPOPUP) {
 		char *szProto = GetContactProto(hContact);
-		if (strcmp(szProto, META_PROTO) == 0) {
-			hContact = db_mc_getMostOnline(hContact);
-			if (hContact != NULL)
-				szProto = GetContactProto(hContact);
-		}
+
+		hContact = db_mc_getSrmmSub(hContact);
+		if (hContact != NULL)
+			szProto = GetContactProto(hContact);
+
 		if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
 			return 1;
 	}
