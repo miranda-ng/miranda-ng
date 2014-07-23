@@ -46,6 +46,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // lParam=0
 #define ME_MC_SUBCONTACTSCHANGED "MetaContacts/SubcontactsChanged"
 
+// wParam=(BOOL)bEnabled
+// lParam=0
+// signalizes that metacontacts are enabled or disabled
+#define ME_MC_ENABLED "MetaContacts/OnEnabled"
+
 // wParam=(HANDLE)hContact
 // lParam=0
 // convert a given contact into a metacontact

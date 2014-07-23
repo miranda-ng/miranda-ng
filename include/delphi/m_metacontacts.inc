@@ -44,6 +44,12 @@ const
     lParam=0 }
   ME_MC_SUBCONTACTSCHANGED = 'MetaContacts/SubcontactsChanged';
 
+  { signalizes that metacontacts are enabled or disabled
+    wParam=(BOOL)bEnabled
+    lParam=0
+  }
+  ME_MC_ENABLED = 'MetaContacts/OnEnabled';
+
   { wParam=(HANDLE)hContact
     lParam=0
     convert a given contact into a metacontact

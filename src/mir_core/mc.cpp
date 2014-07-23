@@ -24,12 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-static HANDLE hEventDefaultChanged;
+static HANDLE hEventDefaultChanged, hEventEnabled;
 static bool g_bEnabled;
 
 void InitMetaContacts()
 {
 	hEventDefaultChanged = CreateHookableEvent(ME_MC_DEFAULTTCHANGED);
+	hEventEnabled = CreateHookableEvent(ME_MC_ENABLED);
 }
 
 DBCachedContact* CheckMeta(MCONTACT hMeta)
@@ -70,6 +71,8 @@ MIR_CORE_DLL(BOOL) db_mc_isEnabled(void)
 MIR_CORE_DLL(void) db_mc_enable(BOOL bEnabled)
 {
 	g_bEnabled = bEnabled != 0;
+
+	NotifyEventHooks(hEventDefaultChanged, g_bEnabled, 0);
 }
 
 MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
