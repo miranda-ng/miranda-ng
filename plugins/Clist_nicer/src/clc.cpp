@@ -97,6 +97,15 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
+static int ClcMetamodeChanged(WPARAM bMetaEnabled, LPARAM lParam)
+{
+	if (bMetaEnabled != cfg::dat.bMetaEnabled) {
+		cfg::dat.bMetaEnabled = (BYTE)bMetaEnabled;
+		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
+	}
+	return 0;
+}
+
 static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	char *szProto = NULL;
@@ -159,13 +168,6 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 				pcli->pfnClcBroadcast(INTM_HIDDENCHANGED, hContact, lParam);
 		}
 	}
-	else if (!__strcmp(cws->szModule, META_PROTO)) {
-		BYTE bMetaEnabled = cfg::getByte(META_PROTO, "Enabled", 1);
-		if (bMetaEnabled != (BYTE)cfg::dat.bMetaEnabled) {
-			cfg::dat.bMetaEnabled = bMetaEnabled;
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-		}
-	}
 	else if (!__strcmp(cws->szModule, "Skin") && !__strcmp(cws->szSetting, "UseSound")) {
 		cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
 		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED);
@@ -217,6 +219,7 @@ int LoadCLCModule(void)
 
 	hCListImages = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 
+	HookEvent(ME_MC_ENABLED, ClcMetamodeChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
 	HookEvent(ME_DB_EVENT_ADDED, ClcEventAdded);
 	HookEvent(ME_OPT_INITIALISE, ClcOptInit);

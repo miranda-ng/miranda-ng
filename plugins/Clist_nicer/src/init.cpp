@@ -173,7 +173,7 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);
 
-	cfg::dat.bMetaEnabled = cfg::getByte(META_PROTO, "Enabled", 1);
+	cfg::dat.bMetaEnabled = db_mc_isEnabled();
 
 	cfg::dat.bAvatarServiceAvail = ServiceExists(MS_AV_GETAVATARBITMAP) ? TRUE : FALSE;
 	if (cfg::dat.bAvatarServiceAvail)

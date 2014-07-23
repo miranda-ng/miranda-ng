@@ -26,7 +26,6 @@
 
 #define NCONVERS_BLINKID ((HANDLE)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
 
-
 HINSTANCE hInst;
 
 int hLangpack;
@@ -36,16 +35,6 @@ HANDLE hThread = NULL;
 HANDLE hFlashEvent;
 HANDLE hExitEvent;
 
-HANDLE hModulesLoaded = NULL;
-HANDLE hMsgEventHook = NULL;
-HANDLE hOptionsInitialize = NULL;
-HANDLE hEnableService = NULL;
-HANDLE hDisableService = NULL;
-HANDLE hStartBlinkService = NULL;
-HANDLE hEventsOpenedService = NULL;
-HANDLE hFlashingEventService = NULL;
-HANDLE hNormalizeSequenceService = NULL;
-
 HHOOK hMirandaMouseHook = NULL;
 HHOOK hMirandaKeyBoardHook = NULL;
 HHOOK hMirandaWndProcHook = NULL;
@@ -53,7 +42,7 @@ UINT hReminderTimer = 0;
 
 HHOOK hMouseHook = NULL;
 HHOOK hKeyBoardHook = NULL;
-BYTE bEmulateKeypresses = 0;
+BYTE  bEmulateKeypresses = 0;
 DWORD dwLastInput = 0;
 POINT lastGlobalMousePos = {0, 0};
 
@@ -128,11 +117,9 @@ BOOL checkOpenWindow(MCONTACT hContact)
 		return TRUE;
 
 	BOOL focus, found = CheckMsgWnd(hContact, &focus);
-	if (!found && bMetaProtoEnabled) {
-		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
-		if (hMetaContact && db_mc_getMeta(hContact) == hMetaContact)
-			found = CheckMsgWnd(hMetaContact, &focus);
-	}
+	if (!found && bMetaProtoEnabled)
+		found = CheckMsgWnd(db_mc_getMeta(hContact), &focus);
+
 	if (!found)
 		return TRUE;
 
@@ -373,7 +360,7 @@ BOOL contactCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 			return FALSE;
 	}
 
-	return (metaCheckProtocol(szProto, hContact, eventType));
+	return metaCheckProtocol(szProto, hContact, eventType);
 }
 
 
@@ -635,7 +622,7 @@ void LoadSettings(void)
 				ProtoList.protoInfo[i].xstatus.enabled[j] = db_get_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
 		}
 
-	bMetaProtoEnabled = db_get_b(NULL, META_PROTO, "Enabled", 1);
+	bMetaProtoEnabled = db_mc_isEnabled();
 
 	destroyProcessList();
 	createProcessList();
@@ -736,6 +723,11 @@ void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 // ** Everything below is just Miranda init/uninit stuff
 // **
 
+static int OnMetaChanged(WPARAM wParam, LPARAM)
+{
+	bMetaProtoEnabled = wParam;
+	return 0;
+}
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -753,15 +745,16 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)FlashThreadFunction, NULL, 0, &IDThread);
 
-	hMsgEventHook = HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, InitializeOptions);
-	hEnableService = CreateServiceFunction(MS_KBDNOTIFY_ENABLE, EnableService);
-	hDisableService = CreateServiceFunction(MS_KBDNOTIFY_DISABLE, DisableService);
-	hStartBlinkService = CreateServiceFunction(MS_KBDNOTIFY_STARTBLINK, StartBlinkService);
-	hEventsOpenedService = CreateServiceFunction(MS_KBDNOTIFY_EVENTSOPENED, EventsWereOpenedService);
-	hFlashingEventService = CreateServiceFunction(MS_KBDNOTIFY_FLASHINGACTIVE, IsFlashingActiveService);
-	hNormalizeSequenceService = CreateServiceFunction(MS_KBDNOTIFY_NORMALSEQUENCE, NormalizeSequenceService);
-
+	HookEvent(ME_MC_ENABLED, OnMetaChanged);
+	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
+	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
+	
+	CreateServiceFunction(MS_KBDNOTIFY_ENABLE, EnableService);
+	CreateServiceFunction(MS_KBDNOTIFY_DISABLE, DisableService);
+	CreateServiceFunction(MS_KBDNOTIFY_STARTBLINK, StartBlinkService);
+	CreateServiceFunction(MS_KBDNOTIFY_EVENTSOPENED, EventsWereOpenedService);
+	CreateServiceFunction(MS_KBDNOTIFY_FLASHINGACTIVE, IsFlashingActiveService);
+	CreateServiceFunction(MS_KBDNOTIFY_NORMALSEQUENCE, NormalizeSequenceService);
 	return 0;
 }
 
@@ -784,8 +777,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	GetWindowsVersion();
 	OpenKeyboardDevice();
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;
 }
 
@@ -809,24 +802,6 @@ void destroyProtocolList(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	UnhookWindowsHooks();
-	if (hModulesLoaded)
-		UnhookEvent(hModulesLoaded);
-	if (hMsgEventHook)
-		UnhookEvent(hMsgEventHook);
-	if (hOptionsInitialize)
-		UnhookEvent(hOptionsInitialize);
-	if (hEnableService)
-		DestroyServiceFunction(hEnableService);
-	if (hDisableService)
-		DestroyServiceFunction(hDisableService);
-	if (hStartBlinkService)
-		DestroyServiceFunction(hStartBlinkService);
-	if (hEventsOpenedService)
-		DestroyServiceFunction(hEventsOpenedService);
-	if (hFlashingEventService)
-		DestroyServiceFunction(hFlashingEventService);
-	if (hNormalizeSequenceService)
-		DestroyServiceFunction(hNormalizeSequenceService);
 
 	// Wait for thread to exit
 	SetEvent(hExitEvent);
@@ -968,7 +943,7 @@ static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPAR
 
 BOOL CheckMsgWnd(MCONTACT hContact, BOOL *focus)
 {
-	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {	// use the new message API
+	if (hContact) {
 		MessageWindowData mwd = { sizeof(MessageWindowData) };
 		MessageWindowInputData mwid = { sizeof(MessageWindowInputData) };
 		mwid.hContact = hContact;
@@ -994,23 +969,23 @@ void countUnopenEvents(int *msgCount, int *fileCount, int *urlCount, int *otherC
 		DBEVENTINFO einfo = readEventInfo(pCLEvent->hDbEvent, pCLEvent->hContact);
 
 		if (metaCheckProtocol(einfo.szModule, pCLEvent->hContact, einfo.eventType))
-			switch (einfo.eventType) {
-				case EVENTTYPE_MESSAGE:
-					if (bFlashOnMsg)
-						(*msgCount)++;
-					break;
-				case EVENTTYPE_URL:
-					if (bFlashOnURL)
-						(*urlCount)++;
-					break;
-				case EVENTTYPE_FILE:
-					if (bFlashOnFile)
-						(*fileCount)++;
-					break;
-				default:
-					if (bFlashOnOther)
-						(*otherCount)++;
-			}
+		switch (einfo.eventType) {
+		case EVENTTYPE_MESSAGE:
+			if (bFlashOnMsg)
+				(*msgCount)++;
+			break;
+		case EVENTTYPE_URL:
+			if (bFlashOnURL)
+				(*urlCount)++;
+			break;
+		case EVENTTYPE_FILE:
+			if (bFlashOnFile)
+				(*fileCount)++;
+			break;
+		default:
+			if (bFlashOnOther)
+				(*otherCount)++;
+		}
 	}
 	if (bFlashOnOther)
 		(*otherCount) += nExternCount;

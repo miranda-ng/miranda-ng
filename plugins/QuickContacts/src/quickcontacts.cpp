@@ -329,7 +329,7 @@ void FreeContacts()
 
 void LoadContacts(HWND hwndDlg, BOOL show_all)
 {
-	BOOL metacontactsEnabled = db_get_b(0, META_PROTO, "Enabled", 1);
+	BOOL metacontactsEnabled = db_mc_isEnabled();
 
 	// Read last-sent-to contact from db and set handle as window-userdata
 	HANDLE hlastsent = (HANDLE)db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1);
