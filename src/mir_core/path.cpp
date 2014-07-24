@@ -31,10 +31,9 @@ static TCHAR szMirandaPathW[MAX_PATH];
 
 MIR_CORE_DLL(int) PathIsAbsolute(const char *path)
 {
-	if (strlen(path) <= 2)
-		return 0;
-	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
-		return 1;
+	if (path && strlen(path) > 2)
+		if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
+			return 1;
 	return 0;
 }
 
@@ -118,10 +117,9 @@ MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
 
 MIR_CORE_DLL(int) PathIsAbsoluteW(const TCHAR *path)
 {
-	if (lstrlen(path) <= 2)
-		return 0;
-	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
-		return 1;
+	if (path && _tcslen(path) > 2)
+		if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
+			return 1;
 	return 0;
 }
 
