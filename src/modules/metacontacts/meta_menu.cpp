@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static HGENMENU hMenuContact[MAX_CONTACTS];
 
 static HGENMENU
-	hMenuRoot,			 // root menu item of all subs
+	hMenuRoot,         // root menu item of all subs
 	hMenuConvert,      // HANDLE to the convert menu item.
 	hMenuAdd,          // HANDLE to the add to menu item.
 	hMenuEdit,         // HANDLE to the edit menu item.
@@ -37,16 +37,16 @@ static HGENMENU
 	hMenuForceDefault, // HANDLE to the delete menu item.
 	hMenuOnOff;	       // HANDLE to the enable/disable menu item.
 
-/** Convert the contact chosen into a MetaContact.
-*
-* Create a new MetaContact, remove the selected contact from the \c CList
-* and attach it to the MetaContact.
-*
-* @param wParam : HANDLE to the contact that has been chosen.
-* @param lParam :	Allways set to 0.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Convert the contact chosen into a MetaContact.
+//
+// Create a new MetaContact, remove the selected contact from the \c CList
+// and attach it to the MetaContact.
+//
+// @param wParam : HANDLE to the contact that has been chosen.
+// @param lParam : Allways set to 0.
 
-INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
+INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 {
 	ptrT tszGroup(db_get_tsa(wParam, "CList", "Group"));
 
@@ -81,6 +81,9 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 
 	return hMetaContact;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Removes a sub from a metacontact
 
 void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateInfo)
 {
@@ -163,14 +166,14 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	}
 }
 
-/** Delete a MetaContact from the database
-*
-* Delete a MetaContact and remove all the information
-* concerning this MetaContact in the contact linked to it.
-*
-* @param wParam : HANDLE to the MetaContact to be deleted, or to the subcontact to be removed from the MetaContact
-* @param lParam : BOOL flag indicating whether to ask 'are you sure' when deleting a MetaContact
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Delete a MetaContact from the database
+//
+// Delete a MetaContact and remove all the information
+// concerning this MetaContact in the contact linked to it.
+//
+// @param wParam : HANDLE to the MetaContact to be deleted, or to the subcontact to be removed from the MetaContact
+// @param lParam : BOOL flag indicating whether to ask 'are you sure' when deleting a MetaContact
 
 INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 {
@@ -209,16 +212,16 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 	return 0;
 }
 
-/** Set contact as MetaContact default
-*
-* Set the given contact to be the default one for the metacontact to which it is linked.
-*
-* @param wParam : 	HANDLE to the MetaContact to be set as default
-* @param lParam :	HWND to the clist window
-(This means the function has been called via the contact menu).
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Set contact as MetaContact default
+//
+// Set the given contact to be the default one for the metacontact to which it is linked.
+//
+// @param wParam : HANDLE to the MetaContact to be set as default
+// @param lParam : HWND to the clist window
+// (This means the function has been called via the contact menu).
 
-INT_PTR Meta_Default(WPARAM hSub, LPARAM wParam)
+INT_PTR Meta_Default(WPARAM hSub, LPARAM)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(db_mc_getMeta(hSub));
 	if (cc && cc->IsMeta())
@@ -226,16 +229,16 @@ INT_PTR Meta_Default(WPARAM hSub, LPARAM wParam)
 	return 0;
 }
 
-/** Called when the context-menu of a contact is about to be displayed
-*
-* This will test which of the 4 menu item should be displayed, depending
-* on which contact triggered the event
-*
-* @param wParam : HANDLE to the contact that triggered the event
-* @param lParam :	Always set to 0;
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Called when the context-menu of a contact is about to be displayed
+//
+// This will test which of the 4 menu item should be displayed, depending
+// on which contact triggered the event
+//
+// @param wParam : HANDLE to the contact that triggered the event
+// @param lParam :	Always set to 0;
 
-int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
+int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
 	if (cc == NULL)
@@ -320,8 +323,9 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 	}
 	else {
 		// The contact is neutral
-		Menu_ShowItem(hMenuAdd, true);
-		Menu_ShowItem(hMenuConvert, true);
+		bool bHideChat = db_get_b(hMeta, cc->szProto, "ChatRoom", 0) == 0;
+		Menu_ShowItem(hMenuAdd, bHideChat);
+		Menu_ShowItem(hMenuConvert, bHideChat);
 		Menu_ShowItem(hMenuEdit, false);
 		Menu_ShowItem(hMenuDelete, false);
 		Menu_ShowItem(hMenuDefault, false);
@@ -333,7 +337,10 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Toggle metacontacts on/off
+
+INT_PTR Meta_OnOff(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON;
@@ -354,6 +361,9 @@ INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
 	Meta_HideMetaContacts(!bToggled);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Menu initialization
 
 void InitMenus()
 {
