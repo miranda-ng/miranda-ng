@@ -992,7 +992,8 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		POINT pt = UNPACK_POINT(lParam);
 		ClientToScreen(hwnd, &pt);
 		HWND window = WindowFromPoint(pt);
-		if (window != hwnd) isOutside = TRUE;
+		if (window != hwnd)
+			isOutside = TRUE;
 	}
 
 	if (hitcontact != NULL) {
@@ -1051,11 +1052,11 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		return 0;
 	}
 
-	if ((dat->dragStage&DRAGSTAGEM_STAGE) == DRAGSTAGE_NOTMOVED && !(dat->exStyle&CLS_EX_DISABLEDRAGDROP))
+	if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_NOTMOVED && !(dat->exStyle & CLS_EX_DISABLEDRAGDROP))
 		if (abs((short)LOWORD(lParam) - dat->ptDragStart.x) >= GetSystemMetrics(SM_CXDRAG) || abs((short)HIWORD(lParam) - dat->ptDragStart.y) >= GetSystemMetrics(SM_CYDRAG))
-			dat->dragStage = (dat->dragStage&~DRAGSTAGEM_STAGE) | DRAGSTAGE_ACTIVE;
+			dat->dragStage = (dat->dragStage & ~DRAGSTAGEM_STAGE) | DRAGSTAGE_ACTIVE;
 
-	if ((dat->dragStage&DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
+	if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
 		RECT clRect;
 		GetClientRect(hwnd, &clRect);
 
@@ -1067,10 +1068,11 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			dat->dragAutoScrolling = 0;
 		}
 		int target = GetDropTargetInformation(hwnd, dat, pt);
-		if (dat->dragStage&DRAGSTAGEF_OUTSIDE && target != DROPTARGET_OUTSIDE) {
-			NMCLISTCONTROL nm;
+		if ((dat->dragStage & DRAGSTAGEF_OUTSIDE) && target != DROPTARGET_OUTSIDE) {
 			ClcContact *contact;
 			cliGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
+
+			NMCLISTCONTROL nm;
 			nm.hdr.code = CLN_DRAGSTOP;
 			nm.hdr.hwndFrom = hwnd;
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
@@ -1080,52 +1082,51 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			dat->dragStage &= ~DRAGSTAGEF_OUTSIDE;
 		}
 
+		ClcContact *contSour, *contDest;
+
 		switch (target) {
 		case DROPTARGET_ONSELF:
 			break;
 
 		case DROPTARGET_ONCONTACT:
-			if (ServiceExists(MS_MC_ADDTOMETA)) {
-				ClcContact *contSour;
-				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-					if (!contSour->isSubcontact)
-						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
-					else
-						hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DROPMETA));
-				}
+			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+			if (contSour->isChat())
+				break;
+			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
+				if (!contSour->isSubcontact)
+					hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
+				else
+					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DROPMETA));
 			}
 			break;
 
 		case DROPTARGET_ONMETACONTACT:
-			if (ServiceExists(MS_MC_ADDTOMETA)) {
-				ClcContact *contSour, *contDest;
-				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
-				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-					if (!contSour->isSubcontact)
-						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
-					else if (contSour->subcontacts == contDest)
-						hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DEFAULTSUB)); ///MakeDefault
-					else
-						hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
-				}
+			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+			if (contSour->isChat() || contDest->isChat())
+				break;
+			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
+				if (!contSour->isSubcontact)
+					hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
+				else if (contSour->subcontacts == contDest)
+					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DEFAULTSUB)); ///MakeDefault
+				else
+					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
 			}
 			break;
 
 		case DROPTARGET_ONSUBCONTACT:
-			if (ServiceExists(MS_MC_ADDTOMETA)) {
-				ClcContact *contSour, *contDest;
-				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
-				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
-				if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
-					if (!contSour->isSubcontact)
-						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
-					else if (contDest->subcontacts == contSour->subcontacts)
-						break;
-					else
-						hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
-				}
+			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+			if (contSour->isChat() || contDest->isChat())
+				break;
+			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->proto, META_PROTO)) {
+				if (!contSour->isSubcontact)
+					hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
+				else if (contDest->subcontacts == contSour->subcontacts)
+					break;
+				else
+					hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
 			}
 			break;
 
@@ -1138,9 +1139,6 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_OUTSIDE:
-		{
-			ClcContact *contact;
-
 			if (pt.x >= 0 && pt.x < clRect.right && ((pt.y < 0 && pt.y>-dat->dragAutoScrollHeight) || (pt.y >= clRect.bottom && pt.y < clRect.bottom + dat->dragAutoScrollHeight))) {
 				if (!dat->dragAutoScrolling) {
 					dat->dragAutoScrolling = (pt.y < 0) ? -1 : 1;
@@ -1150,18 +1148,20 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			dat->dragStage |= DRAGSTAGEF_OUTSIDE;
-			cliGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
+			{
+				ClcContact *contact;
+				cliGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
 
-			NMCLISTCONTROL nm;
-			nm.hdr.code = CLN_DRAGGING;
-			nm.hdr.hwndFrom = hwnd;
-			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-			nm.flags = 0;
-			nm.hItem = ContactToItemHandle(contact, &nm.flags);
-			nm.pt = pt;
-			if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm))
-				return 0;
-		}
+				NMCLISTCONTROL nm;
+				nm.hdr.code = CLN_DRAGGING;
+				nm.hdr.hwndFrom = hwnd;
+				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+				nm.flags = 0;
+				nm.hItem = ContactToItemHandle(contact, &nm.flags);
+				nm.pt = pt;
+				if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm))
+					return 0;
+			}
 			break;
 
 		default:
@@ -1258,6 +1258,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		case DROPTARGET_ONMETACONTACT:
 			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
 			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+			
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!strcmp(contSour->proto, META_PROTO))
 					break;

@@ -233,6 +233,11 @@ struct ClcContact : public ClcContactBase
 	BYTE ext_nItemsNum;
 	BOOL ext_fItemsValid;
 	tContactItems ext_mpItemsDesc[EXTRA_ICON_COUNT+10];  //up to 10 items
+
+	__forceinline bool isChat() const
+	{
+		return (type == CLCIT_CONTACT) && (db_get_b(hContact, proto, "ChatRoom", 0) != 0);
+	}
 };
 
 struct ClcModernFontInfo {
