@@ -51,11 +51,6 @@ int Proto_GetDelayAfterFail(const char *proto);
 BOOL Proto_IsFetchingWhenProtoNotVisibleAllowed(const char *proto);
 BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto);
 
-#ifdef _DEBUG
-int _DebugTrace(const char *fmt, ...);
-int _DebugTrace(MCONTACT hContact, const char *fmt, ...);
-#endif
-
 // Functions ////////////////////////////////////////////////////////////////////////////
 
 // Items with higher priority at end
@@ -68,7 +63,7 @@ static OBJLIST<QueueItem> queue(20, QueueSortItems);
 static CRITICAL_SECTION cs;
 static int waitTime;
 
-void InitPolls() 
+void InitPolls()
 {
 	waitTime = REQUEST_WAIT_TIME;
 	InitializeCriticalSection(&cs);
@@ -77,7 +72,7 @@ void InitPolls()
 	mir_forkthread(RequestThread, NULL);
 }
 
-void UninitPolls() 
+void UninitPolls()
 {
 	DeleteCriticalSection(&cs);
 	queue.destroy();
@@ -116,7 +111,7 @@ static void QueueRemove(MCONTACT hContact)
 {
 	mir_cslock lck(cs);
 
-	for (int i = queue.getCount()-1 ; i >= 0 ; i-- ) {
+	for (int i = queue.getCount() - 1; i >= 0; i--) {
 		QueueItem& item = queue[i];
 		if (item.hContact == hContact)
 			queue.remove(i);
@@ -131,7 +126,7 @@ static void QueueAdd(MCONTACT hContact, int waitTime)
 	mir_cslock lck(cs);
 
 	// Only add if not exists yet
-	for (int i = queue.getCount()-1; i >= 0; i--)
+	for (int i = queue.getCount() - 1; i >= 0; i--)
 		if (queue[i].hContact == hContact)
 			return;
 
@@ -163,17 +158,15 @@ void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATIONT *p
 		db_set_ts(hContact, "ContactPhoto", "File", pai->filename);
 		db_set_w(hContact, "ContactPhoto", "Format", pai->format);
 
-		if (pai->format == PA_FORMAT_PNG || pai->format == PA_FORMAT_JPEG 
-			|| pai->format == PA_FORMAT_ICON  || pai->format == PA_FORMAT_BMP
-			|| pai->format == PA_FORMAT_GIF) {
+		if (pai->format == PA_FORMAT_PNG || pai->format == PA_FORMAT_JPEG
+			 || pai->format == PA_FORMAT_ICON || pai->format == PA_FORMAT_BMP
+			 || pai->format == PA_FORMAT_GIF) {
 			// We can load it!
 			MakePathRelative(hContact, pai->filename);
 			ChangeAvatar(hContact, TRUE, TRUE, pai->format);
 		}
-		else {
-			// As we can't load it, notify but don't load
+		else // As we can't load it, notify but don't load
 			ChangeAvatar(hContact, FALSE, TRUE, pai->format);
-		}
 	}
 	else if (type == GAIR_NOAVATAR) {
 		db_unset(hContact, "ContactPhoto", "NeedUpdate");
@@ -210,20 +203,20 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 
 	if (szProto != NULL && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto)) {
 		// Can have avatar, but must request it?
-		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0))
-			 || (PollCheckProtocol(szProto) && PollCheckContact(hContact, szProto))) 
+		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0)) ||
+			 (PollCheckProtocol(szProto) && PollCheckContact(hContact, szProto)))
 		{
 			// Request it
-			PROTO_AVATAR_INFORMATIONT pai_s = {0};
+			PROTO_AVATAR_INFORMATIONT pai_s = { 0 };
 			pai_s.cbSize = sizeof(pai_s);
 			pai_s.hContact = hContact;
 			INT_PTR res = CallProtoService(szProto, PS_GETAVATARINFOT, GAIF_FORCE, (LPARAM)&pai_s);
 			if (res == CALLSERVICE_NOTFOUND) {
-				PROTO_AVATAR_INFORMATION pai = {0};
+				PROTO_AVATAR_INFORMATION pai = { 0 };
 				pai.cbSize = sizeof(pai);
 				pai.hContact = hContact;
 				res = CallProtoService(szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&pai);
-				MultiByteToWideChar( CP_ACP, 0, pai.filename, -1, pai_s.filename, SIZEOF(pai_s.filename));
+				MultiByteToWideChar(CP_ACP, 0, pai.filename, -1, pai_s.filename, SIZEOF(pai_s.filename));
 				pai_s.format = pai.format;
 			}
 
@@ -240,7 +233,7 @@ static void RequestThread(void *vParam)
 	while (!g_shutDown) {
 		EnterCriticalSection(&cs);
 
-		if ( queue.getCount() == 0 ) {
+		if (queue.getCount() == 0) {
 			// No items, so suspend thread
 			LeaveCriticalSection(&cs);
 			mir_sleep(POOL_DELAY);
@@ -248,7 +241,7 @@ static void RequestThread(void *vParam)
 		}
 
 		// Take a look at first item
-		QueueItem& qi = queue[ queue.getCount()-1 ];
+		QueueItem& qi = queue[queue.getCount() - 1];
 		if (qi.check_time > GetTickCount()) {
 			// Not time to request yet, wait...
 			LeaveCriticalSection(&cs);
@@ -258,17 +251,17 @@ static void RequestThread(void *vParam)
 
 		// Will request this item
 		MCONTACT hContact = qi.hContact;
-		queue.remove( queue.getCount()-1 );
+		queue.remove(queue.getCount() - 1);
 		QueueRemove(hContact);
 		LeaveCriticalSection(&cs);
 
 		if (FetchAvatarFor(hContact) == GAIR_WAITFOR) {
 			// Mark to not request this contact avatar for more 30 min
-			{
-				mir_cslock lock(cs);
-				QueueRemove(hContact);
-				QueueAdd(hContact, REQUEST_WAITFOR_WAIT_TIME);
-			}
+				{
+					mir_cslock lock(cs);
+					QueueRemove(hContact);
+					QueueAdd(hContact, REQUEST_WAITFOR_WAIT_TIME);
+				}
 
 			// Wait a little until requesting again
 			mir_sleep(REQUEST_DELAY);

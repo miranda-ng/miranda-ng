@@ -19,112 +19,22 @@ Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-#ifdef _DEBUG
-
-int _DebugTrace(const char *fmt, ...)
-{
-	char debug[2048];
-	int ibsize = 2047;
-	va_list va;
-	va_start(va, fmt);
-
-	mir_snprintf(debug, SIZEOF(debug) - 10, " ***** AVS [%08d] [ID:%04x]: ", GetTickCount(), GetCurrentThreadId());
-	OutputDebugStringA(debug);
-	mir_vsnprintf(debug, ibsize, fmt, va);
-	OutputDebugStringA(debug);
-	OutputDebugStringA(" ***** \n");
-
-	return 0;
-}
-
-int _DebugTrace(MCONTACT hContact, const char *fmt, ...)
-{
-	char text[1024];
-	size_t len;
-	va_list va;
-
-	char *name = NULL;
-	char *proto = NULL;
-	if (hContact != NULL)
-	{
-		name = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0);
-		proto = GetContactProto(hContact);
-	}
-
-	mir_snprintf(text, SIZEOF(text) - 10, " ***** AVS [%08d] [ID:%04x]: [%08d - %s - %s] ",
-		GetTickCount(), GetCurrentThreadId(), hContact, proto == NULL ? "" : proto, name == NULL ? "" : name);
-	len = strlen(text);
-
-	va_start(va, fmt);
-	mir_vsnprintf(&text[len], SIZEOF(text) - len, fmt, va);
-	va_end(va);
-
-	OutputDebugStringA(text);
-	OutputDebugStringA(" ***** \n");
-
-	return 0;
-}
-
-#endif
-
 void mir_sleep(int time) 
 {
 	if (!g_shutDown)
 		WaitForSingleObject(hShutdownEvent, time);
 }
 
-/*
- * path utilities (make avatar paths relative to *PROFILE* directory, not miranda directory.
- * taken and modified from core services
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// convert the avatar image path to a relative one...
+// given: contact handle, path to image
 
-int AVS_pathIsAbsolute(const TCHAR *path)
-{
-	if (!path || !(lstrlen(path) > 2))
-		return 0;
-	if ((path[1]==':'&&path[2]=='\\')||(path[0]=='\\'&&path[1]=='\\')) return 1;
-	return 0;
-}
-
-size_t AVS_pathToRelative(const TCHAR *pSrc, TCHAR *pOut)
-{
-	if (!pSrc || !*pSrc || _tcslen(pSrc) > MAX_PATH) return 0;
-	if (!AVS_pathIsAbsolute( pSrc ))
-		lstrcpyn(pOut, pSrc, MAX_PATH);
-	else {
-		TCHAR szTmp[MAX_PATH];
-		mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s"), pSrc);
-		_tcslwr(szTmp);
-		if (_tcsstr(szTmp, g_szDataPath))
-			lstrcpyn(pOut, pSrc + _tcslen(g_szDataPath) + 1, MAX_PATH);
-		else
-			lstrcpyn(pOut, pSrc, MAX_PATH);
-	}
-	return _tcslen(pOut);
-}
-
-size_t AVS_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
-{
-	if (!pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
-		return 0;
-
-	if (AVS_pathIsAbsolute(pSrc) || !_istalnum(pSrc[0]))
-		lstrcpyn(pOut, pSrc, MAX_PATH);
-	else
-		mir_sntprintf(pOut, MAX_PATH, _T("%s\\%s"), g_szDataPath, pSrc, MAX_PATH);
-	return lstrlen(pOut);
-}
-
-/*
- * convert the avatar image path to a relative one...
- * given: contact handle, path to image
- */
 void MakePathRelative(MCONTACT hContact, TCHAR *path)
 {
 	TCHAR szFinalPath[MAX_PATH];
 	szFinalPath[0] = '\0';
 
-	size_t result = AVS_pathToRelative(path, szFinalPath);
+	size_t result = PathToRelativeT(path, szFinalPath, g_szDataPath);
 	if (result && szFinalPath[0] != '\0') {
 		db_set_ts(hContact, "ContactPhoto", "RFile", szFinalPath);
 		if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))
@@ -132,25 +42,26 @@ void MakePathRelative(MCONTACT hContact, TCHAR *path)
 	}
 }
 
-/*
- * convert the avatar image path to a relative one...
- * given: contact handle
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// convert the avatar image path to a relative one...
+// given: contact handle
 
 void MakePathRelative(MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
+	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 		MakePathRelative(hContact, dbv.ptszVal);
 		db_free(&dbv);
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // create the avatar in cache
 // returns 0 if not created (no avatar), iIndex otherwise, -2 if has to request avatar, -3 if avatar too big
+
 int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	char *szExt = NULL;
 	TCHAR tszFilename[MAX_PATH];
 	HANDLE hFile = INVALID_HANDLE_VALUE;
@@ -171,30 +82,30 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 			return -1;
 
 		if (db_get_b(hContact, "ContactPhoto", "Locked", 0)
-			&& !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
-				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
-				db_free(&dbv);
-		}
-		else if ( !db_get_ts(hContact, "ContactPhoto", "RFile", &dbv)) {
-			AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
+			 && !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
+			PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
 			db_free(&dbv);
 		}
-		else if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
-			AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
+		else if (!db_get_ts(hContact, "ContactPhoto", "RFile", &dbv)) {
+			PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
+			db_free(&dbv);
+		}
+		else if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
+			PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
 			db_free(&dbv);
 		}
 		else return -2;
 	}
 	else {
 		if (hContact == 0) {				// create a protocol picture in the proto picture cache
-			if ( !db_get_ts(NULL, PPICT_MODULE, szProto, &dbv)) {
-				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
+			if (!db_get_ts(NULL, PPICT_MODULE, szProto, &dbv)) {
+				PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
 				db_free(&dbv);
 			}
 			else {
 				if (lstrcmpA(szProto, AVS_DEFAULT)) {
-					if ( !db_get_ts(NULL, PPICT_MODULE, AVS_DEFAULT, &dbv)) {
-						AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
+					if (!db_get_ts(NULL, PPICT_MODULE, AVS_DEFAULT, &dbv)) {
+						PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
 						db_free(&dbv);
 					}
 
@@ -204,44 +115,45 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 							return -1;
 						char key[MAX_PATH];
 						mir_snprintf(key, SIZEOF(key), "Global avatar for %s accounts", pdescr->szProtoName);
-						if ( !db_get_ts(NULL, PPICT_MODULE, key, &dbv)) {
-							AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
+						if (!db_get_ts(NULL, PPICT_MODULE, key, &dbv)) {
+							PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
 							db_free(&dbv);
 						}
 					}
 				}
 			}
 		}
-		else if (hContact == (MCONTACT)-1) {	// create own picture - note, own avatars are not on demand, they are loaded once at
+		else if (hContact == (MCONTACT)-1) {
+			// create own picture - note, own avatars are not on demand, they are loaded once at
 			// startup and everytime they are changed.
 			if (szProto[0] == '\0') {
 				// Global avatar
-				if ( db_get_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv))
+				if (db_get_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv))
 					return -10;
 
-				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
+				PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
 				db_free(&dbv);
 			}
-			else if ( ProtoServiceExists(szProto, PS_GETMYAVATART)) {
+			else if (ProtoServiceExists(szProto, PS_GETMYAVATART)) {
 				if (CallProtoService(szProto, PS_GETMYAVATART, (WPARAM)tszFilename, (LPARAM)MAX_PATH))
 					tszFilename[0] = '\0';
 			}
-			else if ( ProtoServiceExists(szProto, PS_GETMYAVATAR)) {
-				char szFileName[ MAX_PATH ];
+			else if (ProtoServiceExists(szProto, PS_GETMYAVATAR)) {
+				char szFileName[MAX_PATH];
 				if (CallProtoService(szProto, PS_GETMYAVATAR, (WPARAM)szFileName, (LPARAM)MAX_PATH))
 					tszFilename[0] = '\0';
 				else
-					MultiByteToWideChar( CP_ACP, 0, szFileName, -1, tszFilename, SIZEOF(tszFilename));
+					MultiByteToWideChar(CP_ACP, 0, szFileName, -1, tszFilename, SIZEOF(tszFilename));
 			}
-			else if ( !db_get_ts(NULL, szProto, "AvatarFile", &dbv)) {
-				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
+			else if (!db_get_ts(NULL, szProto, "AvatarFile", &dbv)) {
+				PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
 				db_free(&dbv);
 			}
 			else return -1;
 		}
 	}
 
-	if ( lstrlen(tszFilename) < 4)
+	if (lstrlen(tszFilename) < 4)
 		return -1;
 
 	_tcsncpy_s(tszFilename, VARST(tszFilename), _TRUNCATE);
@@ -251,91 +163,88 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	CloseHandle(hFile);
 	WPARAM isTransparentImage = 0;
 
-	ace->hbmPic = (HBITMAP) BmpFilterLoadBitmap32((WPARAM)&isTransparentImage, (LPARAM)tszFilename);
+	ace->hbmPic = (HBITMAP)BmpFilterLoadBitmap32((WPARAM)&isTransparentImage, (LPARAM)tszFilename);
 	ace->dwFlags = 0;
 	ace->bmHeight = 0;
 	ace->bmWidth = 0;
 	ace->lpDIBSection = NULL;
 	_tcsncpy(ace->szFilename, tszFilename, MAX_PATH);
 	ace->szFilename[MAX_PATH - 1] = 0;
-	if (ace->hbmPic != 0) {
-		BITMAP bminfo;
+	if (ace->hbmPic == 0)
+		return -1;
 
-		GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
+	BITMAP bminfo;
+	GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
 
-		ace->cbSize = sizeof(avatarCacheEntry);
-		ace->dwFlags = AVS_BITMAP_VALID;
-		if (hContact != NULL && db_get_b(hContact, "ContactPhoto", "Hidden", 0))
-			ace->dwFlags |= AVS_HIDEONCLIST;
-		ace->hContact = hContact;
-		ace->bmHeight = bminfo.bmHeight;
-		ace->bmWidth = bminfo.bmWidth;
+	ace->cbSize = sizeof(avatarCacheEntry);
+	ace->dwFlags = AVS_BITMAP_VALID;
+	if (hContact != NULL && db_get_b(hContact, "ContactPhoto", "Hidden", 0))
+		ace->dwFlags |= AVS_HIDEONCLIST;
+	ace->hContact = hContact;
+	ace->bmHeight = bminfo.bmHeight;
+	ace->bmWidth = bminfo.bmWidth;
 
-		BOOL noTransparency = db_get_b(0, AVS_MODULE, "RemoveAllTransparency", 0);
+	BOOL noTransparency = db_get_b(0, AVS_MODULE, "RemoveAllTransparency", 0);
 
-		// Calc image hash
-		if (hContact != 0 && hContact != (MCONTACT)-1) {
-			// Have to reset settings? -> do it if image changed
-			DWORD imgHash = GetImgHash(ace->hbmPic);
-			if (imgHash != db_get_dw(hContact, "ContactPhoto", "ImageHash", 0)) {
-				db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
-				db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
-				db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
+	// Calc image hash
+	if (hContact != 0 && hContact != (MCONTACT)-1) {
+		// Have to reset settings? -> do it if image changed
+		DWORD imgHash = GetImgHash(ace->hbmPic);
+		if (imgHash != db_get_dw(hContact, "ContactPhoto", "ImageHash", 0)) {
+			db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
+			db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
+			db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
 
-				db_set_dw(hContact, "ContactPhoto", "ImageHash", imgHash);
-			}
+			db_set_dw(hContact, "ContactPhoto", "ImageHash", imgHash);
+		}
 
-			// Make transparent?
-			if (!noTransparency && !isTransparentImage
+		// Make transparent?
+		if (!noTransparency && !isTransparentImage
 				&& db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg",
-				db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)))
-			{
-				if (MakeTransparentBkg(hContact, &ace->hbmPic)) {
-					ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
-					GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
-					isTransparentImage = TRUE;
-				}
+				db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0))) {
+			if (MakeTransparentBkg(hContact, &ace->hbmPic)) {
+				ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
+				GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
+				isTransparentImage = TRUE;
 			}
 		}
-		else if (hContact == (MCONTACT)-1) { // My avatars
-			if (!noTransparency && !isTransparentImage
-				&& db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)
-				&& db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0))
-			{
-				if (MakeTransparentBkg(0, &ace->hbmPic)) {
-					ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
-					GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
-					isTransparentImage = TRUE;
-				}
-			}
-		}
-
-		if (db_get_b(0, AVS_MODULE, "MakeGrayscale", 0))
-			ace->hbmPic = MakeGrayscale(hContact, ace->hbmPic);
-
-		if (noTransparency) {
-			fei->FI_CorrectBitmap32Alpha(ace->hbmPic, TRUE);
-			isTransparentImage = FALSE;
-		}
-
-		if (bminfo.bmBitsPixel == 32 && isTransparentImage) {
-			if (fei->FI_Premultiply(ace->hbmPic))
-				ace->dwFlags |= AVS_HASTRANSPARENCY;
-
-			ace->dwFlags |= AVS_PREMULTIPLIED;
-		}
-
-		if (szProto) {
-			protoPicCacheEntry *pAce = (protoPicCacheEntry *)ace;
-			if (hContact == 0)
-				pAce->dwFlags |= AVS_PROTOPIC;
-			else if (hContact == (MCONTACT)-1)
-				pAce->dwFlags |= AVS_OWNAVATAR;
-		}
-
-		return 1;
 	}
-	return -1;
+	else if (hContact == (MCONTACT)-1) { // My avatars
+		if (!noTransparency && !isTransparentImage
+				&& db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)
+				&& db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0)) {
+			if (MakeTransparentBkg(0, &ace->hbmPic)) {
+				ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
+				GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
+				isTransparentImage = TRUE;
+			}
+		}
+	}
+
+	if (db_get_b(0, AVS_MODULE, "MakeGrayscale", 0))
+		ace->hbmPic = MakeGrayscale(hContact, ace->hbmPic);
+
+	if (noTransparency) {
+		fei->FI_CorrectBitmap32Alpha(ace->hbmPic, TRUE);
+		isTransparentImage = FALSE;
+	}
+
+	if (bminfo.bmBitsPixel == 32 && isTransparentImage) {
+		if (fei->FI_Premultiply(ace->hbmPic))
+			ace->dwFlags |= AVS_HASTRANSPARENCY;
+
+		ace->dwFlags |= AVS_PREMULTIPLIED;
+	}
+
+	if (szProto) {
+		protoPicCacheEntry *pAce = (protoPicCacheEntry *)ace;
+		if (hContact == 0)
+			pAce->dwFlags |= AVS_PROTOPIC;
+		else if (hContact == (MCONTACT)-1)
+			pAce->dwFlags |= AVS_OWNAVATAR;
+	}
+
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -346,21 +255,20 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 
 int GetFileHash(TCHAR* filename)
 {
-	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return 0;
 
 	int remainder = 0;
 	char data[1024];
 	DWORD dwRead;
-	do
-	{
+	do {
 		// Read file chunk
 		dwRead = 0;
 		ReadFile(hFile, data, 1024, &dwRead, NULL);
 
 		/* loop through each byte of data */
-		for (int byte = 0; byte < (int) dwRead; ++byte) {
+		for (int byte = 0; byte < (int)dwRead; ++byte) {
 			/* store the next byte into the remainder */
 			remainder ^= (data[byte] << (WIDTH - 8));
 			/* calculate for all 8 bits in the byte */
@@ -373,7 +281,7 @@ int GetFileHash(TCHAR* filename)
 			}
 		}
 	}
-		while(dwRead == 1024);
+	while (dwRead == 1024);
 
 	CloseHandle(hFile);
 
@@ -402,7 +310,7 @@ void protoPicCacheEntry::clear()
 
 BOOL Proto_IsAvatarsEnabled(const char *proto)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_ENABLED, 0);
 
 	return TRUE;
@@ -410,7 +318,7 @@ BOOL Proto_IsAvatarsEnabled(const char *proto)
 
 BOOL Proto_IsAvatarFormatSupported(const char *proto, int format)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_FORMATSUPPORTED, format);
 
 	if (format >= PA_FORMAT_SWF)
@@ -421,7 +329,7 @@ BOOL Proto_IsAvatarFormatSupported(const char *proto, int format)
 
 int Proto_AvatarImageProportion(const char *proto)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_PROPORTION, 0);
 
 	return 0;
@@ -429,9 +337,9 @@ int Proto_AvatarImageProportion(const char *proto)
 
 void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS)) {
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS)) {
 		POINT maxSize;
-		CallProtoService(proto, PS_GETAVATARCAPS, AF_MAXSIZE, (LPARAM) &maxSize);
+		CallProtoService(proto, PS_GETAVATARCAPS, AF_MAXSIZE, (LPARAM)&maxSize);
 		*width = maxSize.y;
 		*height = maxSize.x;
 	}
@@ -453,7 +361,7 @@ void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height)
 
 BOOL Proto_NeedDelaysForAvatars(const char *proto)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_DONTNEEDDELAYS, 0) <= 0;
 
 	return TRUE;
@@ -461,7 +369,7 @@ BOOL Proto_NeedDelaysForAvatars(const char *proto)
 
 int Proto_GetAvatarMaxFileSize(const char *proto)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_MAXFILESIZE, 0);
 
 	return 0;
@@ -469,7 +377,7 @@ int Proto_GetAvatarMaxFileSize(const char *proto)
 
 int Proto_GetDelayAfterFail(const char *proto)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_DELAYAFTERFAIL, 0);
 
 	return 0;
@@ -477,7 +385,7 @@ int Proto_GetDelayAfterFail(const char *proto)
 
 BOOL Proto_IsFetchingWhenProtoNotVisibleAllowed(const char *proto)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_FETCHIFPROTONOTVISIBLE, 0);
 
 	return FALSE;
@@ -485,7 +393,7 @@ BOOL Proto_IsFetchingWhenProtoNotVisibleAllowed(const char *proto)
 
 BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_FETCHIFCONTACTOFFLINE, 0);
 
 	return FALSE;
@@ -499,7 +407,7 @@ protoPicCacheEntry *GetProtoDefaultAvatar(MCONTACT hContact)
 	if (szProto) {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if ( !lstrcmpA(p.szProtoname, szProto) && p.hbmPic != NULL)
+			if (!lstrcmpA(p.szProtoname, szProto) && p.hbmPic != NULL)
 				return &g_ProtoPictures[i];
 		}
 	}
@@ -541,12 +449,12 @@ int ChangeAvatar(MCONTACT hContact, BOOL fLoad, BOOL fNotifyHist, int pa_format)
 
 void DeleteGlobalUserAvatar()
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	if (db_get_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv))
 		return;
 
 	TCHAR szFilename[MAX_PATH];
-	AVS_pathToAbsolute(dbv.ptszVal, szFilename);
+	PathToAbsoluteT(dbv.ptszVal, szFilename, g_szDataPath);
 	db_free(&dbv);
 
 	DeleteFile(szFilename);
@@ -570,5 +478,5 @@ void SetIgnoreNotify(char *protocol, BOOL ignore)
 DWORD GetFileSize(TCHAR *szFilename)
 {
 	struct _stat info;
-	return ( _tstat(szFilename, &info) == -1) ? 0 : info.st_size;
+	return (_tstat(szFilename, &info) == -1) ? 0 : info.st_size;
 }

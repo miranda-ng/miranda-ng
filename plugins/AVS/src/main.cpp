@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+CLIST_INTERFACE *pcli;
+
 HINSTANCE g_hInst = 0;
 HICON g_hIcon = 0;
 bool g_shutDown = false;
@@ -79,13 +81,13 @@ PLUGININFOEX pluginInfoEx = {
 
 static TCHAR* getJGMailID(char *szProto)
 {
-	static TCHAR szJID[MAX_PATH+1]; szJID[0] = '\0';
+	static TCHAR szJID[MAX_PATH + 1]; szJID[0] = '\0';
 
 	DBVARIANT dbva, dbvb;
-	if ( db_get_ts(NULL, szProto, "LoginName", &dbva))
+	if (db_get_ts(NULL, szProto, "LoginName", &dbva))
 		return szJID;
 
-	if ( db_get_ts(NULL, szProto, "LoginServer", &dbvb)) {
+	if (db_get_ts(NULL, szProto, "LoginServer", &dbvb)) {
 		db_free(&dbva);
 		return szJID;
 	}
@@ -104,10 +106,10 @@ static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 			if (ack->hProcess == NULL)
 				ProcessAvatarInfo(ack->hContact, GAIR_NOAVATAR, NULL, ack->szModule);
 			else
-				ProcessAvatarInfo(ack->hContact, GAIR_SUCCESS, (PROTO_AVATAR_INFORMATIONT *) ack->hProcess, ack->szModule);
+				ProcessAvatarInfo(ack->hContact, GAIR_SUCCESS, (PROTO_AVATAR_INFORMATIONT *)ack->hProcess, ack->szModule);
 		}
 		else if (ack->result == ACKRESULT_FAILED) {
-			ProcessAvatarInfo(ack->hContact, GAIR_FAILED, (PROTO_AVATAR_INFORMATIONT *) ack->hProcess, ack->szModule);
+			ProcessAvatarInfo(ack->hContact, GAIR_FAILED, (PROTO_AVATAR_INFORMATIONT *)ack->hProcess, ack->szModule);
 		}
 		else if (ack->result == ACKRESULT_STATUS) {
 			char *szProto = GetContactProto(ack->hContact);
@@ -175,11 +177,11 @@ static void LoadProtoInfo(PROTOCOLDESCRIPTOR *proto)
 static void LoadAccountInfo(PROTOACCOUNT *acc)
 {
 	protoPicCacheEntry *pce = new protoPicCacheEntry;
-	if ( CreateAvatarInCache(0, pce, acc->szModuleName) != 1)
+	if (CreateAvatarInCache(0, pce, acc->szModuleName) != 1)
 		db_unset(0, PPICT_MODULE, acc->szModuleName);
 
-	pce->szProtoname = mir_strdup( acc->szModuleName);
-	pce->tszAccName = mir_tstrdup( acc->tszAccountName);
+	pce->szProtoname = mir_strdup(acc->szModuleName);
+	pce->tszAccName = mir_tstrdup(acc->tszAccountName);
 	g_ProtoPictures.insert(pce);
 
 	pce = new protoPicCacheEntry;
@@ -193,21 +195,21 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 
-	switch( wParam ) {
+	switch (wParam) {
 	case PRAC_ADDED:
 		LoadAccountInfo(pa);
 		break;
 
 	case PRAC_REMOVED:
-		{
-			int idx;
-			protoPicCacheEntry tmp;
-			tmp.szProtoname = mir_strdup(pa->szModuleName);
-			if ((idx = g_ProtoPictures.getIndex( &tmp )) != -1)
-				g_ProtoPictures.remove( idx );
-			if ((idx = g_MyAvatars.getIndex( &tmp )) != -1)
-				g_MyAvatars.remove( idx );
-		}
+	{
+		int idx;
+		protoPicCacheEntry tmp;
+		tmp.szProtoname = mir_strdup(pa->szModuleName);
+		if ((idx = g_ProtoPictures.getIndex(&tmp)) != -1)
+			g_ProtoPictures.remove(idx);
+		if ((idx = g_MyAvatars.getIndex(&tmp)) != -1)
+			g_MyAvatars.remove(idx);
+	}
 		break;
 	}
 
@@ -216,7 +218,7 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 
 static int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (cws == NULL || g_shutDown)
 		return 0;
 
@@ -252,7 +254,7 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 	HRGN rgn = 0, oldRgn = 0;
 	int targetWidth = r->rcDraw.right - r->rcDraw.left;
 	int targetHeight = r->rcDraw.bottom - r->rcDraw.top;
-	BLENDFUNCTION bf = {0};
+	BLENDFUNCTION bf = { 0 };
 
 	hdcAvatar = CreateCompatibleDC(r->hTargetDC);
 	hbmMem = (HBITMAP)SelectObject(hdcAvatar, hbm);
@@ -264,12 +266,12 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 	else if (bmHeight >= bmWidth) {
 		dScale = targetHeight / (float)bmHeight;
 		newHeight = targetHeight;
-		newWidth = (int) (bmWidth * dScale);
+		newWidth = (int)(bmWidth * dScale);
 	}
 	else {
 		dScale = targetWidth / (float)bmWidth;
 		newWidth = targetWidth;
-		newHeight = (int) (bmHeight * dScale);
+		newHeight = (int)(bmHeight * dScale);
 	}
 
 	topoffset = targetHeight > newHeight ? (targetHeight - newHeight) / 2 : 0;
@@ -277,10 +279,9 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 
 	// create the region for the avatar border - use the same region for clipping, if needed.
 
-	oldRgn = CreateRectRgn(0,0,1,1);
+	oldRgn = CreateRectRgn(0, 0, 1, 1);
 
-	if (GetClipRgn(r->hTargetDC, oldRgn) != 1)
-	{
+	if (GetClipRgn(r->hTargetDC, oldRgn) != 1) {
 		DeleteObject(oldRgn);
 		oldRgn = NULL;
 	}
@@ -304,10 +305,12 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 		GdiAlphaBlend(
 			r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight,
 			hdcAvatar, 0, 0, bmWidth, bmHeight, bf);
-	} else {
+	}
+	else {
 		if (bf.SourceConstantAlpha == 255 && bf.AlphaFormat == 0 && !(r->dwFlags & AVDRQ_FORCEALPHA) && !(r->dwFlags & AVDRQ_AERO)) {
 			StretchBlt(r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight, hdcAvatar, 0, 0, bmWidth, bmHeight, SRCCOPY);
-		} else {
+		}
+		else {
 			/*
 			* get around SUCKY AlphaBlend() rescaling quality...
 			*/
@@ -350,13 +353,13 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	int i;
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	TCHAR szEventName[100];
 	int result = 0;
 
 	mir_sntprintf(szEventName, 100, _T("avs_loaderthread_%d"), GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
-	SetThreadPriority( mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
+	SetThreadPriority(mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
 
 	// Folders plugin support
 	hMyAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAT _T("\\Avatars"));
@@ -373,10 +376,10 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		PROTOCOLDESCRIPTOR** proto;
 		int protoCount;
 		CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&proto);
-		for (i=0; i < protoCount; i++ )
-			LoadProtoInfo( proto[i] );
-		for (i=0; i < accCount; i++)
-			LoadAccountInfo( accs[i] );
+		for (i = 0; i < protoCount; i++)
+			LoadProtoInfo(proto[i]);
+		for (i = 0; i < accCount; i++)
+			LoadAccountInfo(accs[i]);
 	}
 
 	// Load global avatar
@@ -411,8 +414,7 @@ static int LoadAvatarModule()
 	InitCache();
 	InitPolls();
 
-	lstrcpyn(g_szDataPath, VARST(_T("%miranda_userdata%")), SIZEOF(g_szDataPath)-1);
-	g_szDataPath[MAX_PATH - 1] = 0;
+	_tcsncpy_s(g_szDataPath, SIZEOF(g_szDataPath), VARST(_T("%miranda_userdata%\\")), _TRUNCATE);
 	_tcslwr(g_szDataPath);
 	return 0;
 }
@@ -431,6 +433,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	INT_PTR result = CALLSERVICE_NOTFOUND;
 	if (ServiceExists(MS_IMG_GETINTERFACE))

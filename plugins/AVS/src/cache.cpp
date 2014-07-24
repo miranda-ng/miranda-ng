@@ -23,12 +23,10 @@ static int g_maxBlock = 0, g_curBlock = 0;
 static CacheNode **g_cacheBlocks = NULL;
 
 static CacheNode *g_Cache = 0;
-static CRITICAL_SECTION cachecs, alloccs;
+static mir_cs alloccs, cachecs;
 
-/*
- * allocate a cache block and add it to the list of blocks
- * does not link the new block with the old block(s) - caller needs to do this
- */
+// allocate a cache block and add it to the list of blocks
+// does not link the new block with the old block(s) - caller needs to do this
 
 static CacheNode* AllocCacheBlock()
 {
@@ -42,7 +40,6 @@ static CacheNode* AllocCacheBlock()
 		g_Cache = allocedBlock;
 
 	// add it to the list of blocks
-
 	if (g_curBlock == g_maxBlock) {
 		g_maxBlock += 10;
 		g_cacheBlocks = (CacheNode**)realloc(g_cacheBlocks, g_maxBlock * sizeof(CacheNode*));
@@ -54,8 +51,6 @@ static CacheNode* AllocCacheBlock()
 
 void InitCache(void)
 {
-	InitializeCriticalSection(&cachecs);
-	InitializeCriticalSection(&alloccs);
 	AllocCacheBlock();
 }
 
@@ -68,20 +63,14 @@ void UnloadCache(void)
 	for (int i = 0; i < g_curBlock; i++)
 		free(g_cacheBlocks[i]);
 	free(g_cacheBlocks);
-
-	DeleteCriticalSection(&alloccs);
-	DeleteCriticalSection(&cachecs);
 }
 
-/*
- * link a new cache block with the already existing chain of blocks
- */
+// link a new cache block with the already existing chain of blocks
 
 static CacheNode* AddToList(CacheNode *node)
 {
 	CacheNode *pCurrent = g_Cache;
-
-	while(pCurrent->pNextNode != 0)
+	while (pCurrent->pNextNode != 0)
 		pCurrent = pCurrent->pNextNode;
 
 	pCurrent->pNextNode = node;
@@ -100,7 +89,7 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
 	mir_cslock lck(cachecs);
 
 	CacheNode *cc = g_Cache, *foundNode = NULL;
-	while(cc) {
+	while (cc) {
 		if (cc->ace.hContact == hContact) {
 			cc->ace.t_lastAccess = time(NULL);
 			foundNode = cc->loaded || findAny ? cc : NULL;
@@ -132,14 +121,12 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
 	return NULL;
 }
 
-/*
- * output a notification message.
- * may accept a hContact to include the contacts nickname in the notification message...
- * the actual message is using printf() rules for formatting and passing the arguments...
- *
- * can display the message either as systray notification (baloon popup) or using the
- * popup plugin.
- */
+// output a notification message.
+// may accept a hContact to include the contacts nickname in the notification message...
+// the actual message is using printf() rules for formatting and passing the arguments...
+//
+// can display the message either as systray notification (baloon popup) or using the
+// popup plugin.
 
 void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY*)-1)
 {
@@ -159,7 +146,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 		// Fire the event for avatar history
 		node->dwFlags &= ~AVH_MUSTNOTIFY;
 		if (node->ace.szFilename[0] != '\0') {
-			CONTACTAVATARCHANGEDNOTIFICATION cacn = {0};
+			CONTACTAVATARCHANGEDNOTIFICATION cacn = { 0 };
 			cacn.cbSize = sizeof(CONTACTAVATARCHANGEDNOTIFICATION);
 			cacn.hContact = hContact;
 			cacn.format = node->pa_format;
@@ -191,10 +178,10 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 	}
 }
 
-
 // Just delete an avatar from cache
 // An cache entry is never deleted. What is deleted is the image handle inside it
 // This is done this way to keep track of which avatars avs have to keep track
+
 void DeleteAvatarFromCache(MCONTACT hContact, BOOL forever)
 {
 	if (g_shutDown)
@@ -233,11 +220,9 @@ int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 	return 0;
 }
 
-/*
- * this thread scans the cache and handles nodes which have mustLoad set to > 0 (must be loaded/reloaded) or
- * nodes where mustLoad is < 0 (must be deleted).
- * its waken up by the event and tries to lock the cache only when absolutely necessary.
- */
+// this thread scans the cache and handles nodes which have mustLoad set to > 0 (must be loaded/reloaded) or
+// nodes where mustLoad is < 0 (must be deleted).
+// its waken up by the event and tries to lock the cache only when absolutely necessary.
 
 void PicLoader(LPVOID param)
 {
@@ -273,23 +258,23 @@ void PicLoader(LPVOID param)
 
 				if (result == 1 && ace_temp.hbmPic != 0) { // Loaded
 					HBITMAP oldPic = node->ace.hbmPic;
-
-					EnterCriticalSection(&cachecs);
-					CopyMemory(&node->ace, &ace_temp, sizeof(AVATARCACHEENTRY));
-					node->loaded = TRUE;
-					LeaveCriticalSection(&cachecs);
+					{
+						mir_cslock l(cachecs);
+						CopyMemory(&node->ace, &ace_temp, sizeof(AVATARCACHEENTRY));
+						node->loaded = TRUE;
+					}
 					if (oldPic)
 						DeleteObject(oldPic);
 					NotifyMetaAware(node->ace.hContact, node);
 				}
 				else if (result == 0 || result == -3) { // Has no avatar
 					HBITMAP oldPic = node->ace.hbmPic;
-
-					EnterCriticalSection(&cachecs);
-					CopyMemory(&node->ace, &ace_temp, sizeof(AVATARCACHEENTRY));
-					node->loaded = FALSE;
-					node->mustLoad = 0;
-					LeaveCriticalSection(&cachecs);
+					{
+						mir_cslock l(cachecs);
+						CopyMemory(&node->ace, &ace_temp, sizeof(AVATARCACHEENTRY));
+						node->loaded = FALSE;
+						node->mustLoad = 0;
+					}
 					if (oldPic)
 						DeleteObject(oldPic);
 					NotifyMetaAware(node->ace.hContact, node);
@@ -299,28 +284,27 @@ void PicLoader(LPVOID param)
 			}
 			else if (node->mustLoad < 0 && node->ace.hContact) {         // delete this picture
 				MCONTACT hContact = node->ace.hContact;
-				EnterCriticalSection(&cachecs);
-				node->mustLoad = 0;
-				node->loaded = 0;
-				if (node->ace.hbmPic)
-					DeleteObject(node->ace.hbmPic);
-				ZeroMemory(&node->ace, sizeof(AVATARCACHEENTRY));
-				if (node->dwFlags & AVS_DELETENODEFOREVER)
-					node->dwFlags &= ~AVS_DELETENODEFOREVER;
-				else
-					node->ace.hContact = hContact;
-
-				LeaveCriticalSection(&cachecs);
+				{
+					mir_cslock l(cachecs);
+					node->mustLoad = 0;
+					node->loaded = 0;
+					if (node->ace.hbmPic)
+						DeleteObject(node->ace.hbmPic);
+					ZeroMemory(&node->ace, sizeof(AVATARCACHEENTRY));
+					if (node->dwFlags & AVS_DELETENODEFOREVER)
+						node->dwFlags &= ~AVS_DELETENODEFOREVER;
+					else
+						node->ace.hContact = hContact;
+				}
 				NotifyMetaAware(hContact, node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
 			}
+
 			// protect this by changes from the cache block allocator as it can cause inconsistencies while working
 			// on allocating a new block.
-			EnterCriticalSection(&alloccs);
+			mir_cslock all(alloccs);     // protect memory block allocation
 			node = node->pNextNode;
-			LeaveCriticalSection(&alloccs);
 		}
 		WaitForSingleObject(hLoaderEvent, INFINITE);
-		//_DebugTrace(0, "pic loader awake...");
 		ResetEvent(hLoaderEvent);
 	}
 }

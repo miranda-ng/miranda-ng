@@ -41,10 +41,6 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap);
 HBITMAP MakeGrayscale(MCONTACT hContact, HBITMAP hBitmap);
 DWORD GetImgHash(HBITMAP hBitmap);
 
-int AVS_pathIsAbsolute(const TCHAR *path);
-size_t AVS_pathToRelative(const TCHAR *sPrc, TCHAR *pOut);
-size_t AVS_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut);
-
 int SaveAvatar( const char* protocol, const TCHAR* tszFileName );
 
 #endif // __IMAGE_UTILS_H__
