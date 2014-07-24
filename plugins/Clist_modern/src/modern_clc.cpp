@@ -616,82 +616,81 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 		ClcContact *contact;
 		ClcGroup *group;
 		int hit = cliGetRowByIndex(dat, dat->selection, &contact, &group);
-		if (hit != -1) {
-			if (contact->type == CLCIT_CONTACT && (contact->isSubcontact || contact->SubAllocated > 0)) {
-				if (contact->isSubcontact && changeGroupExpand == 1) {
-					dat->selection -= contact->isSubcontact;
-					selMoved = 1;
-				}
-				else if (!contact->isSubcontact && contact->SubAllocated > 0) {
-					if (changeGroupExpand == 1 && !contact->SubExpanded) {
-						dat->selection = cliGetRowsPriorTo(&dat->list, group, -1);
-						selMoved = 1;
-					}
-					else if (changeGroupExpand == 1 && contact->SubExpanded) {
-						//Contract
-						ClcContact *ht = NULL;
-						KillTimer(hwnd, TIMERID_SUBEXPAND);
-						contact->SubExpanded = 0;
-						db_set_b(contact->hContact, "CList", "Expanded", 0);
-						ht = contact;
-						dat->needsResort = 1;
-						pcli->pfnSortCLC(hwnd, dat, 1);
-						cliRecalcScrollBar(hwnd, dat);
-						hitcontact = NULL;
-					}
-					else if (changeGroupExpand == 2 && contact->SubExpanded) {
-						dat->selection++;
-						selMoved = 1;
-					}
-					else if (changeGroupExpand == 2 && !contact->SubExpanded && dat->expandMeta) {
-						ClcContact *ht = NULL;
-						KillTimer(hwnd, TIMERID_SUBEXPAND);
-						contact->SubExpanded = 1;
-						db_set_b(contact->hContact, "CList", "Expanded", 1);
-						ht = contact;
-						dat->needsResort = 1;
-						pcli->pfnSortCLC(hwnd, dat, 1);
-						cliRecalcScrollBar(hwnd, dat);
-						if (ht) {
-							ClcContact *contact2;
-							ClcGroup *group2;
-							if (FindItem(hwnd, dat, contact->hContact, &contact2, &group2, NULL, FALSE)) {
-								int i = cliGetRowsPriorTo(&dat->list, group2, GetContactIndex(group2, contact2));
-								pcli->pfnEnsureVisible(hwnd, dat, i + contact->SubAllocated, 0);
-							}
-						}
-						hitcontact = NULL;
-					}
-				}
+		if (hit == -1) {
+			SetCapture(hwnd);
+			return 0;
+		}
+
+		if (contact->type == CLCIT_CONTACT && (contact->isSubcontact || contact->SubAllocated > 0)) {
+			if (contact->isSubcontact && changeGroupExpand == 1) {
+				dat->selection -= contact->isSubcontact;
+				selMoved = 1;
 			}
-			else {
-				if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
-					if (group == &dat->list) { SetCapture(hwnd); return 0; }
+			else if (!contact->isSubcontact && contact->SubAllocated > 0) {
+				if (changeGroupExpand == 1 && !contact->SubExpanded) {
 					dat->selection = cliGetRowsPriorTo(&dat->list, group, -1);
 					selMoved = 1;
 				}
-				else {
-					if (contact->type == CLCIT_GROUP) {
-						if (changeGroupExpand == 1) {
-							if (!contact->group->expanded) {
-								dat->selection--;
-								selMoved = 1;
-							}
-							else pcli->pfnSetGroupExpand(hwnd, dat, contact->group, 0);
+				else if (changeGroupExpand == 1 && contact->SubExpanded) {
+					//Contract
+					ClcContact *ht = NULL;
+					KillTimer(hwnd, TIMERID_SUBEXPAND);
+					contact->SubExpanded = 0;
+					db_set_b(contact->hContact, "CList", "Expanded", 0);
+					ht = contact;
+					dat->needsResort = 1;
+					pcli->pfnSortCLC(hwnd, dat, 1);
+					cliRecalcScrollBar(hwnd, dat);
+					hitcontact = NULL;
+				}
+				else if (changeGroupExpand == 2 && contact->SubExpanded) {
+					dat->selection++;
+					selMoved = 1;
+				}
+				else if (changeGroupExpand == 2 && !contact->SubExpanded && dat->expandMeta) {
+					ClcContact *ht = NULL;
+					KillTimer(hwnd, TIMERID_SUBEXPAND);
+					contact->SubExpanded = 1;
+					db_set_b(contact->hContact, "CList", "Expanded", 1);
+					ht = contact;
+					dat->needsResort = 1;
+					pcli->pfnSortCLC(hwnd, dat, 1);
+					cliRecalcScrollBar(hwnd, dat);
+					if (ht) {
+						ClcContact *contact2;
+						ClcGroup *group2;
+						if (FindItem(hwnd, dat, contact->hContact, &contact2, &group2, NULL, FALSE)) {
+							int i = cliGetRowsPriorTo(&dat->list, group2, GetContactIndex(group2, contact2));
+							pcli->pfnEnsureVisible(hwnd, dat, i + contact->SubAllocated, 0);
 						}
-						else if (changeGroupExpand == 2) {
-							pcli->pfnSetGroupExpand(hwnd, dat, contact->group, 1);
-							dat->selection++;
-							selMoved = 1;
-						}
-						else { SetCapture(hwnd); return 0; }
 					}
+					hitcontact = NULL;
 				}
 			}
 		}
 		else {
-			SetCapture(hwnd);
-			return 0;
+			if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
+				if (group == &dat->list) { SetCapture(hwnd); return 0; }
+				dat->selection = cliGetRowsPriorTo(&dat->list, group, -1);
+				selMoved = 1;
+			}
+			else {
+				if (contact->type == CLCIT_GROUP) {
+					if (changeGroupExpand == 1) {
+						if (!contact->group->expanded) {
+							dat->selection--;
+							selMoved = 1;
+						}
+						else pcli->pfnSetGroupExpand(hwnd, dat, contact->group, 0);
+					}
+					else if (changeGroupExpand == 2) {
+						pcli->pfnSetGroupExpand(hwnd, dat, contact->group, 1);
+						dat->selection++;
+						selMoved = 1;
+					}
+					else { SetCapture(hwnd); return 0; }
+				}
+			}
 		}
 	}
 	if (selMoved) {
@@ -716,10 +715,10 @@ void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay)
 	int delay = nDelay;
 	if (delay == -1) {
 		switch (uIDEvent) {
-		case TIMERID_DELAYEDRESORTCLC: delay = 10;  break;
-		case TIMERID_RECALCSCROLLBAR:  delay = 10;  break;
-		case TIMERID_REBUILDAFTER:     delay = 50;  break;
-		default:                       delay = 100; break;
+			case TIMERID_DELAYEDRESORTCLC: delay = 10;  break;
+			case TIMERID_RECALCSCROLLBAR:  delay = 10;  break;
+			case TIMERID_REBUILDAFTER:     delay = 50;  break;
+			default:                       delay = 100; break;
 		}
 	}
 	CLUI_SafeSetTimer(hwnd, uIDEvent, delay, NULL);
@@ -735,39 +734,40 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	case TIMERID_INVALIDATE:
-	{
-		time_t cur_time = (time(NULL) / 60);
-		if (cur_time != dat->last_tick_time) {
-			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
-			dat->last_tick_time = cur_time;
-		}
-		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-	}
-	case TIMERID_SUBEXPAND:
-	{
-		ClcContact *ht = NULL;
-		KillTimer(hwnd, TIMERID_SUBEXPAND);
-		if (hitcontact && dat->expandMeta) {
-			if (hitcontact->SubExpanded) hitcontact->SubExpanded = 0; else hitcontact->SubExpanded = 1;
-			db_set_b(hitcontact->hContact, "CList", "Expanded", hitcontact->SubExpanded);
-			if (hitcontact->SubExpanded)
-				ht = &(hitcontact->subcontacts[hitcontact->SubAllocated - 1]);
-		}
-
-		dat->needsResort = 1;
-		pcli->pfnSortCLC(hwnd, dat, 1);
-		cliRecalcScrollBar(hwnd, dat);
-		if (ht) {
-			int i = 0;
-			ClcContact *contact;
-			ClcGroup *group;
-			if (FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, NULL, FALSE)) {
-				i = cliGetRowsPriorTo(&dat->list, group, GetContactIndex(group, contact));
-				pcli->pfnEnsureVisible(hwnd, dat, i + hitcontact->SubAllocated, 0);
+		{
+			time_t cur_time = (time(NULL) / 60);
+			if (cur_time != dat->last_tick_time) {
+				CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+				dat->last_tick_time = cur_time;
 			}
 		}
-		hitcontact = NULL;
-	}
+		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+
+	case TIMERID_SUBEXPAND:
+		KillTimer(hwnd, TIMERID_SUBEXPAND);
+		{
+			ClcContact *ht = NULL;
+			if (hitcontact && dat->expandMeta) {
+				if (hitcontact->SubExpanded) hitcontact->SubExpanded = 0; else hitcontact->SubExpanded = 1;
+				db_set_b(hitcontact->hContact, "CList", "Expanded", hitcontact->SubExpanded);
+				if (hitcontact->SubExpanded)
+					ht = &(hitcontact->subcontacts[hitcontact->SubAllocated - 1]);
+			}
+
+			dat->needsResort = 1;
+			pcli->pfnSortCLC(hwnd, dat, 1);
+			cliRecalcScrollBar(hwnd, dat);
+			if (ht) {
+				int i = 0;
+				ClcContact *contact;
+				ClcGroup *group;
+				if (FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, NULL, FALSE)) {
+					i = cliGetRowsPriorTo(&dat->list, group, GetContactIndex(group, contact));
+					pcli->pfnEnsureVisible(hwnd, dat, i + hitcontact->SubAllocated, 0);
+				}
+			}
+			hitcontact = NULL;
+		}
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	case TIMERID_DELAYEDRESORTCLC:
@@ -1221,6 +1221,8 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		case DROPTARGET_ONCONTACT:
 			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
 			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+			if (contSour->isChat() || contDest->isChat())
+				break;
 			if (contSour->type == CLCIT_CONTACT) {
 				MCONTACT hcontact = contSour->hContact;
 				if (mir_strcmp(contSour->proto, META_PROTO)) {
@@ -1258,7 +1260,8 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		case DROPTARGET_ONMETACONTACT:
 			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
 			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
-			
+			if (contSour->isChat() || contDest->isChat())
+				break;
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!strcmp(contSour->proto, META_PROTO))
 					break;
@@ -1300,6 +1303,8 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		case DROPTARGET_ONSUBCONTACT:
 			cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
 			cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+			if (contSour->isChat() || contDest->isChat())
+				break;
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!strcmp(contSour->proto, META_PROTO))
 					break;
