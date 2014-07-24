@@ -26,21 +26,11 @@ public:
 	};
 
 	enum DBEventTypeRaw {
-		ICQEVENTTYPE_AUTH_GRANTED     =  2004, // from ICQ
-		ICQEVENTTYPE_AUTH_DENIED      =  2005, // from ICQ
-		ICQEVENTTYPE_BROADCAST        =  2006, // from ICQ
-		ICQEVENTTYPE_SELF_REMOVE      =  2007, // from ICQ
-		ICQEVENTTYPE_FUTURE_AUTH      =  2008, // from ICQ
-		EVENTTYPE_SMTPSIMPLE          =  2350, // from SMTP Simple
-		EVENTTYPE_VOICE_CALL          =  8739, // from pescuma
-		EVENTTYPE_NICKNAMECHANGE      =  9001, // from pescuma
-		EVENTTYPE_STATUSMESSAGECHANGE =  9002, // from pescuma
 		EVENTTYPE_AVATARCHANGE        =  9003, // from pescuma
-		EVENTTYPE_CONTACTLEFTCHANNEL  =  9004, // from pescuma
 		EVENTTYPE_WAT_REQUEST         =  9601, // from WATrack
 		EVENTTYPE_WAT_ANSWER          =  9602, // from WATrack
 		EVENTTYPE_WAT_ERROR           =  9603, // from WATrack
-		EVENTTYPE_STATUSCHANGE        = 25368, // from SRMMs
+		EVENTTYPE_STATUSCHANGE        = 25368, // from NewXStatusNotify
 	};
 
 	enum DBEventType {
@@ -52,23 +42,13 @@ public:
 		etICQSMS              = ICQEVENTTYPE_SMS,
 		etICQWebPager         = ICQEVENTTYPE_WEBPAGER,
 		etICQEMailExpress     = ICQEVENTTYPE_EMAILEXPRESS,
-		etSMTPSimple          = EVENTTYPE_SMTPSIMPLE,
-		etICQBroadcast        = ICQEVENTTYPE_BROADCAST,
-		etVoiceCall           = EVENTTYPE_VOICE_CALL,
 		// authorization and contacts
 		etAuthRequest         = EVENTTYPE_AUTHREQUEST,
 		etAdded               = EVENTTYPE_ADDED,
 		etContacts            = EVENTTYPE_CONTACTS,
-		etICQAuthGranted      = ICQEVENTTYPE_AUTH_GRANTED,
-		etICQAuthDenied       = ICQEVENTTYPE_AUTH_DENIED,
-		etICQSelfRemove       = ICQEVENTTYPE_SELF_REMOVE,
-		etICQFutureAuth       = ICQEVENTTYPE_FUTURE_AUTH,
 		// status/avatar/nick/... changes
 		etStatusChange        = EVENTTYPE_STATUSCHANGE,
-		etNickNameChange      = EVENTTYPE_NICKNAMECHANGE,
-		etStatusMessageChange = EVENTTYPE_STATUSMESSAGECHANGE,
 		etAvatarChange        = EVENTTYPE_AVATARCHANGE,
-		etContactLeftChannel  = EVENTTYPE_CONTACTLEFTCHANNEL,
 		// WaTrack events
 		etWATRequest          = EVENTTYPE_WAT_REQUEST,
 		etWATAnswer           = EVENTTYPE_WAT_ANSWER,

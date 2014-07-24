@@ -159,10 +159,10 @@ protected:
 #define JABBER_GC_MSG_SLAP				LPGENT("/me slaps %s around a bit with a large trout")
 
 // registered db event types
-#define JABBER_DB_EVENT_TYPE_CHATSTATES          2000
+#define EVENTTYPE_JABBER_CHATSTATES          2000
 #define JS_DB_GETEVENTTEXT_CHATSTATES            "/GetEventText2000"
 #define JABBER_DB_EVENT_CHATSTATES_GONE          1
-#define JABBER_DB_EVENT_TYPE_PRESENCE            2001
+#define EVENTTYPE_JABBER_PRESENCE            2001
 #define JS_DB_GETEVENTTEXT_PRESENCE              "/GetEventText2001"
 #define JABBER_DB_EVENT_PRESENCE_SUBSCRIBE       1
 #define JABBER_DB_EVENT_PRESENCE_SUBSCRIBED      2

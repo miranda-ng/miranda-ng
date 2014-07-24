@@ -89,6 +89,4 @@
 #define HISTORY_HK_IMPDAT 116
 #define HISTORY_HK_ALLCONTACTS 117
 
-#define EVENTTYPE_SMTPSIMPLE            2350
-
 HICON LoadIconEx(int iconId, int big = 0);

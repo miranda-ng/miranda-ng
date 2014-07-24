@@ -1204,7 +1204,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.pBlob = &bEventType;
 		dbei.cbBlob = 1;
-		dbei.eventType = JABBER_DB_EVENT_TYPE_CHATSTATES;
+		dbei.eventType = EVENTTYPE_JABBER_CHATSTATES;
 		dbei.flags = DBEF_READ;
 		dbei.timestamp = time(NULL);
 		dbei.szModule = m_szModuleName;

@@ -167,7 +167,7 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.pBlob = &btEventType;
 	dbei.cbBlob = sizeof(btEventType);
-	dbei.eventType = JABBER_DB_EVENT_TYPE_PRESENCE;
+	dbei.eventType = EVENTTYPE_JABBER_PRESENCE;
 	dbei.flags = DBEF_READ;
 	dbei.timestamp = time(NULL);
 	dbei.szModule = m_szModuleName;

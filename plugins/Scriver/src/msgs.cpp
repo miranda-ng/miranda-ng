@@ -29,7 +29,6 @@ HGENMENU hMsgMenuItem;
 
 extern HWND GetParentWindow(MCONTACT hContact, BOOL bChat);
 
-#define EVENTTYPE_SCRIVER 2010
 #define SCRIVER_DB_GETEVENTTEXT "Scriver/GetText"
 
 static int SRMMStatusToPf2(int status)

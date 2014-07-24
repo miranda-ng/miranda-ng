@@ -56,9 +56,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SRMSGMOD_T "Tab_SRMsg"
 #define TABSRMM_FONTMODULE "TabSRMM_Fonts"
 
-#define EVENTTYPE_DIVIDER 25367
-#define EVENTTYPE_ERRMSG 25366
-
 #define SRMSGSET_SHOWURLS          "ShowURLs"
 #define SRMSGSET_SHOWFILES         "ShowFiles"
 #define SRMSGSET_SHOWSTATUSCHANGES "ShowFiles"

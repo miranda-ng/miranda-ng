@@ -41,7 +41,6 @@ EventNames[] =
 	EVENTTYPE_AUTHREQUEST, LPGENT("Authorization request"),
 	EVENTTYPE_ADDED, LPGENT("You were added"),
 	EVENTTYPE_CONTACTS, LPGENT("Contacts received"),
-	EVENTTYPE_SMTPSIMPLE, LPGENT("SMTP Simple Email"),
 	ICQEVENTTYPE_SMS, LPGENT("SMS message")
 };
 

@@ -243,11 +243,11 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;
-	dbEventType.eventType = JABBER_DB_EVENT_TYPE_CHATSTATES;
+	dbEventType.eventType = EVENTTYPE_JABBER_CHATSTATES;
 	dbEventType.descr = "Chat state notifications";
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
-	dbEventType.eventType = JABBER_DB_EVENT_TYPE_PRESENCE;
+	dbEventType.eventType = EVENTTYPE_JABBER_PRESENCE;
 	dbEventType.descr = "Presence notifications";
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 

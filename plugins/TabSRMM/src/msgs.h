@@ -766,7 +766,6 @@ private:
 #define IDM_CONTAINERMENU 50500
 
 #define EVENTTYPE_STATUSCHANGE 25368
-#define EVENTTYPE_DIVIDER 25367
 #define EVENTTYPE_ERRMSG 25366
 
 // hotkey modifiers...

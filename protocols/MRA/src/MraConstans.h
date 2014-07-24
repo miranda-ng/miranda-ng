@@ -214,7 +214,6 @@ static const LPSTR lpcszMailRuDomains[] =
 //return = 0 for sucess
 
 #define ICQACKTYPE_SMS      1001
-#define ICQEVENTTYPE_SMS    2001    //database event type
 #define MS_ICQ_SENDSMS      "/SendSMS"
 
 // Database setting names
