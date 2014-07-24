@@ -1077,9 +1077,17 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 	return _h;
 }
 
-/**
- * implementation of the CWarning class
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// setting avatar's contact
+
+void Utils::setAvatarContact(HWND hWnd, MCONTACT hContact)
+{
+	MCONTACT hSub = db_mc_getSrmmSub(hContact);
+	SendMessage(hWnd, AVATAR_SETCONTACT, 0, (hSub) ? hSub : hContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// implementation of the CWarning class
 
 /** IMPORTANT note to translators for translation of the warning dialogs:
  *

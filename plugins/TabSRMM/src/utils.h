@@ -92,6 +92,7 @@ public:
 	static void     showDlgControl(const HWND hwnd, UINT id, int showCmd);
 	static int      mustPlaySound(const TWindowData *dat);
 	static HICON    iconFromAvatar(const TWindowData *dat);
+	static void     setAvatarContact(HWND hWnd, MCONTACT hContact);
 	static void     getIconSize(HICON hIcon, int& sizeX, int& sizeY);
 
 	static bool     extractResource(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath, const TCHAR *tszFilename, bool fForceOverwrite);

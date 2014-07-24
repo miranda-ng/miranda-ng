@@ -641,7 +641,7 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		if (dat->showInfoPic) {
 			// panel and contact is shown, reloads contact's avatar -> panel
 			// user avatar -> bottom picture
-			SendMessage(dat->hwndPanelPic, AVATAR_SETCONTACT, 0, (LPARAM)dat->hContact);
+			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
 			if (dat->hwndContactPic)
 				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 		}
@@ -699,7 +699,7 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 		
 		if (dat->hwndContactPic)
-			SendMessage(dat->hwndContactPic, AVATAR_SETCONTACT, 0, (LPARAM)dat->hContact);
+			Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
 	}
 	return dat->showPic;
 }
@@ -1741,7 +1741,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 					}
 					if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == 0 && dat->hwndPanelPic == 0) {
 						dat->hwndPanelPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, dat->hwndPanelPicParent, (HMENU)7000, NULL, NULL);
-						SendMessage(dat->hwndPanelPic, AVATAR_SETCONTACT, 0, (LPARAM)dat->hContact);
+						Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
 					}
 				}
 				else {
@@ -1751,7 +1751,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 					}
 					if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == 0 && dat->hwndContactPic == 0) {
 						dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
-						SendMessage(dat->hwndContactPic, AVATAR_SETCONTACT, 0, (LPARAM)dat->hContact);
+						Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
 					}
 				}
 				dat->hwndFlash = fa.hWindow;
