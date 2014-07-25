@@ -30,14 +30,6 @@ void MirandaImport(HWND hdlgProgress);
 
 TCHAR importFile[MAX_PATH];
 
-// =============
-// == DEFINES ==
-// =============
-
-#define EVENTTYPE_MESSAGE   0
-#define EVENTTYPE_URL       1
-#define EVENTTYPE_FILE      1002
-
 // ====================
 // ====================
 // == IMPLEMENTATION ==
