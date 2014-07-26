@@ -461,7 +461,7 @@ var
   li:LV_ITEMW;
   arr: array [0..255] of WideChar;
 begin
-  idx:=loword(LV_GetLParam(MacroListWindow,group));
+  idx:=smallint(loword(LV_GetLParam(MacroListWindow,group)));
   if idx>=0 then // we have macro to save
   begin
     SaveAction(Dialog,-1,nil);
