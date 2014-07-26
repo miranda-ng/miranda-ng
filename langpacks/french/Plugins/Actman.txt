@@ -367,6 +367,8 @@ Vérifier la présence de mises à jour
 
 [Empty updater download folder]
 
+[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+
 [Enables or disables Popup windows]
 
 [YAPP or Popup]
@@ -382,6 +384,8 @@ Erreur
 [YAPP only]
 
 [Unicode Text]
+
+[Enables or disables Popup windows (maybe deprecated)]
 
 [result of protocol service call]
 
