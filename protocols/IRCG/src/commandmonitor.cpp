@@ -1702,28 +1702,24 @@ bool CIrcProto::OnIrc_WHOIS_END(const CIrcMessage* pmsg)
 
 bool CIrcProto::OnIrc_WHOIS_IDLE(const CIrcMessage* pmsg)
 {
-	int D = 0;
-	int H = 0;
-	int M = 0;
-	int S = 0;
 	if (pmsg->m_bIncoming && m_whoisDlg && pmsg->parameters.getCount() > 2 && m_manualWhoisCount > 0) {
-		S = StrToInt(pmsg->parameters[2].c_str());
-		D = S / (60 * 60 * 24);
+		int S = StrToInt(pmsg->parameters[2].c_str());
+		int D = S / (60 * 60 * 24);
 		S -= (D * 60 * 60 * 24);
-		H = S / (60 * 60);
+		int H = S / (60 * 60);
 		S -= (H * 60 * 60);
-		M = S / 60;
+		int M = S / 60;
 		S -= (M * 60);
 
 		TCHAR temp[100];
 		if (D)
-			mir_sntprintf(temp, 99, _T("%ud, %uh, %um, %us"), D, H, M, S);
+			mir_sntprintf(temp, 99, TranslateT("%ud, %uh, %um, %us"), D, H, M, S);
 		else if (H)
-			mir_sntprintf(temp, 99, _T("%uh, %um, %us"), H, M, S);
+			mir_sntprintf(temp, 99, TranslateT("%uh, %um, %us"), H, M, S);
 		else if (M)
-			mir_sntprintf(temp, 99, _T("%um, %us"), M, S);
+			mir_sntprintf(temp, 99, TranslateT("%um, %us"), M, S);
 		else if (S)
-			mir_sntprintf(temp, 99, _T("%us"), S);
+			mir_sntprintf(temp, 99, TranslateT("%us"), S);
 		else
 			temp[0] = 0;
 
@@ -1731,7 +1727,7 @@ bool CIrcProto::OnIrc_WHOIS_IDLE(const CIrcMessage* pmsg)
 		TCHAR tTimeBuf[128], *tStopStr;
 		time_t ttTime = _tcstol(pmsg->parameters[3].c_str(), &tStopStr, 10);
 		_tcsftime(tTimeBuf, 128, _T("%c"), localtime(&ttTime));
-		mir_sntprintf(temp3, SIZEOF(temp3), _T("online since %s, idle %s"), tTimeBuf, temp);
+		mir_sntprintf(temp3, SIZEOF(temp3), TranslateT("online since %s, idle %s"), tTimeBuf, temp);
 		m_whoisDlg->m_AwayTime.SetText(temp3);
 	}
 	ShowMessage(pmsg);
