@@ -737,6 +737,20 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_QUICKSEARCHCOLOUR);
 	dat->useWindowsColours = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 
+	if (!dat->bkChanged) {
+		dat->bkColour = db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
+		if (dat->hBmpBackground) {
+			DeleteObject(dat->hBmpBackground);
+			dat->hBmpBackground = NULL;
+		}
+		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+			ptrT tszBitmap(db_get_tsa(NULL, "CLC", "BkBitmap"));
+			if (tszBitmap)
+				dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, tszBitmap);
+		}
+		dat->backgroundBmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+	}
+
 	NMHDR hdr;
 	hdr.code = CLN_OPTIONSCHANGED;
 	hdr.hwndFrom = hwnd;

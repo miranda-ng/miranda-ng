@@ -136,19 +136,5 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 	}
 	ReleaseDC(hwnd, hdc);
 
-	if (!dat->bkChanged) {
-		dat->bkColour = db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
-		if (dat->hBmpBackground) {
-			DeleteObject(dat->hBmpBackground);
-			dat->hBmpBackground = NULL;
-		}
-		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrA szBitmap(db_get_sa(NULL, "CLC", "BkBitmap"));
-			if (szBitmap)
-				dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, szBitmap);
-		}
-		dat->backgroundBmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
-	}
-
 	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
 }

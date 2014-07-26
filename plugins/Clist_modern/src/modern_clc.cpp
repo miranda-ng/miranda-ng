@@ -1410,7 +1410,7 @@ static LRESULT clcOnDestroy(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 		DeleteObject(dat->hMenuBackground);
 		dat->hMenuBackground = NULL;
 	}
-	if (!dat->bkChanged && dat->hBmpBackground) {
+	if (dat->hBmpBackground) {
 		DeleteObject(dat->hBmpBackground);
 		dat->hBmpBackground = NULL;
 	}

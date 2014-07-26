@@ -331,18 +331,18 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 	}
 
 	case CLM_SETBKBITMAP:
-		if (!dat->bkChanged && dat->hBmpBackground) {
+		if (dat->hBmpBackground) {
 			DeleteObject(dat->hBmpBackground);
 			dat->hBmpBackground = NULL;
 		}
-		dat->hBmpBackground = (HBITMAP) lParam;
+		dat->hBmpBackground = (HBITMAP)lParam;
 		dat->backgroundBmpUse = wParam;
 		dat->bkChanged = 1;
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		break;
 
 	case CLM_SETBKCOLOR:
-		if (!dat->bkChanged && dat->hBmpBackground) {
+		if (dat->hBmpBackground) {
 			DeleteObject(dat->hBmpBackground);
 			dat->hBmpBackground = NULL;
 		}

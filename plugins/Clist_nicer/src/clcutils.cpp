@@ -572,26 +572,29 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 	dat->bkColour =  cfg::getByte("CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) ?
 		GetSysColor(COLOR_3DFACE) : cfg::getDword("CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 
-	dat->bkChanged = 0;
-	if (cfg::dat.hBrushCLCBk)
-		DeleteObject(cfg::dat.hBrushCLCBk);
-	cfg::dat.hBrushCLCBk = CreateSolidBrush(dat->bkColour);
-	if (dat->hBmpBackground) {
-		if (cfg::dat.hdcPic) {
-			SelectObject(cfg::dat.hdcPic, cfg::dat.hbmPicOld);
-			DeleteDC(cfg::dat.hdcPic);
-			cfg::dat.hdcPic = 0;
-			cfg::dat.hbmPicOld = 0;
-		}
-	}
+	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
 
-	cfg::dat.bmpBackground = dat->hBmpBackground;
-	if (cfg::dat.bmpBackground) {
-		HDC hdcThis = GetDC(pcli->hwndContactList);
-		GetObject(cfg::dat.bmpBackground, sizeof(cfg::dat.bminfoBg), &(cfg::dat.bminfoBg));
-		cfg::dat.hdcPic = CreateCompatibleDC(hdcThis);
-		cfg::dat.hbmPicOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcPic, cfg::dat.bmpBackground));
-		ReleaseDC(pcli->hwndContactList, hdcThis);
+	if (!dat->bkChanged) {
+		if (cfg::dat.hBrushCLCBk)
+			DeleteObject(cfg::dat.hBrushCLCBk);
+		cfg::dat.hBrushCLCBk = CreateSolidBrush(dat->bkColour);
+		if (dat->hBmpBackground) {
+			if (cfg::dat.hdcPic) {
+				SelectObject(cfg::dat.hdcPic, cfg::dat.hbmPicOld);
+				DeleteDC(cfg::dat.hdcPic);
+				cfg::dat.hdcPic = 0;
+				cfg::dat.hbmPicOld = 0;
+			}
+		}
+
+		cfg::dat.bmpBackground = dat->hBmpBackground;
+		if (cfg::dat.bmpBackground) {
+			HDC hdcThis = GetDC(pcli->hwndContactList);
+			GetObject(cfg::dat.bmpBackground, sizeof(cfg::dat.bminfoBg), &(cfg::dat.bminfoBg));
+			cfg::dat.hdcPic = CreateCompatibleDC(hdcThis);
+			cfg::dat.hbmPicOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcPic, cfg::dat.bmpBackground));
+			ReleaseDC(pcli->hwndContactList, hdcThis);
+		}
 	}
 
 	if (cfg::getByte("CLCExt", "EXBK_FillWallpaper", 0)) {
@@ -616,6 +619,4 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 			ReleaseDC(pcli->hwndContactList, hdcThis);
 		}
 	}
-
-	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
 }

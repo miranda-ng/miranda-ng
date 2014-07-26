@@ -1323,7 +1323,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			ImageList_Destroy(dat->himlHighlight);
 		if (dat->hwndRenameEdit)
 			DestroyWindow(dat->hwndRenameEdit);
-		if (!dat->bkChanged && dat->hBmpBackground)
+		if (dat->hBmpBackground)
 			DeleteObject(dat->hBmpBackground);
 		cli.pfnFreeGroup(&dat->list);
 		mir_free(dat);

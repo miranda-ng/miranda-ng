@@ -1902,9 +1902,7 @@ void CLCPaint::_DrawLines( HWND hWnd, ClcData *dat, HDC hdc, int paintMode, RECT
 				if ( paintMode&DM_GREYALTERNATE && line_num&1 )
 				{
 					if ( paintMode&DM_CONTROL || dat->bkChanged )
-					{
 						FillRect( pc.hdcMem, &row_rc, pc.hBrushAlternateGrey );
-					}
 					else
 						SkinDrawGlyph( pc.hdcMem, &row_rc, rcPaint, "CL,ID=GreyAlternate");
 				}

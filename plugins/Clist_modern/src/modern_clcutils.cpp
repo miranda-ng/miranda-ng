@@ -665,16 +665,6 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	if (dat->hMenuBackground) { DeleteObject(dat->hMenuBackground); dat->hMenuBackground = NULL; }
 
 	if (g_CluiData.fDisableSkinEngine) {
-		if (!dat->bkChanged) {
-			dat->bkColour = sttGetColor("CLC", "BkColour", GetSysColor(COLOR_3DFACE));
-
-			if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-				ptrA szBitmap(db_get_sa(NULL, "CLC", "BkBitmap"));
-				if (szBitmap)
-					dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, szBitmap);
-			}
-			dat->backgroundBmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
-		}
 		dat->MenuBkColor = sttGetColor("Menu", "BkColour", CLCDEFAULT_BKCOLOUR);
 		dat->MenuBkHiColor = sttGetColor("Menu", "SelBkColour", CLCDEFAULT_SELBKCOLOUR);
 
@@ -709,6 +699,8 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		IvalidateDisplayNameCache(16);
 
 	corecli.pfnLoadClcOptions(hwnd, dat, bFirst);
+
+	dat->useWindowsColours = false; // because it's missing in the options
 }
 
 int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand)
