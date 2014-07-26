@@ -749,8 +749,9 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 		dat->leftMargin = 4;
 		dat->groupIndent = 10;
 
+		LPARAM dwColor = GetSysColor(COLOR_WINDOWTEXT);
 		for (int i=0; i <= FONTID_MAX; i++)
-			dat->fontInfo[i].colour = GetSysColor(COLOR_WINDOWTEXT);
+			SendMessage(hwnd, CLM_SETTEXTCOLOR, i, dwColor);
 	}
 
 	if (!dat->bkChanged) {
