@@ -657,23 +657,12 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->third_line_use_name_and_message_for_xstatus = 0;
 	}
 
-	dat->leftMargin = db_get_b(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
 	dat->rightMargin = db_get_b(NULL, "CLC", "RightMargin", CLCDEFAULT_RIGHTMARGIN);
-	dat->exStyle = db_get_dw(NULL, "CLC", "ExStyle", GetDefaultExStyle());
-	dat->scrollTime = db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);
 	dat->force_in_dialog = (pcli->hwndContactTree) ? (hwnd != pcli->hwndContactTree) : 0;
-	dat->groupIndent = db_get_b(NULL, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT);
 	dat->subIndent = db_get_b(NULL, "CLC", "SubIndent", CLCDEFAULT_GROUPINDENT);
-	dat->gammaCorrection = db_get_b(NULL, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);
-	dat->showIdle = db_get_b(NULL, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE);
-	dat->noVScrollbar = db_get_b(NULL, "CLC", "NoVScrollBar", CLCDEFAULT_NOVSCROLL);
-	dat->filterSearch = db_get_b(NULL, "CLC", "FilterSearch", 0);
-	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
 
 	if (dat->hBmpBackground) { DeleteObject(dat->hBmpBackground); dat->hBmpBackground = NULL; }
 	if (dat->hMenuBackground) { DeleteObject(dat->hMenuBackground); dat->hMenuBackground = NULL; }
-
-	dat->useWindowsColours = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 
 	if (g_CluiData.fDisableSkinEngine) {
 		if (!dat->bkChanged) {
@@ -700,12 +689,6 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		dat->MenuBmpUse = db_get_w(NULL, "Menu", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 
-	dat->greyoutFlags = db_get_dw(NULL, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);
-	dat->offlineModes = db_get_dw(NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
-	dat->selBkColour = sttGetColor("CLC", "SelBkColour", CLCDEFAULT_SELBKCOLOUR);
-	dat->selTextColour = db_get_dw(NULL, "CLC", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
-	dat->hotTextColour = db_get_dw(NULL, "CLC", "HotTextColour", CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
-	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
 	dat->IsMetaContactsEnabled = (!(GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_MANUALUPDATE)) && db_get_b(NULL, META_PROTO, "Enabled", 1);
 
 	if (pcli->hwndContactTree == NULL || dat->hWnd == pcli->hwndContactTree)
@@ -725,13 +708,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	if ((pcli->hwndContactTree == hwnd || pcli->hwndContactTree == NULL))
 		IvalidateDisplayNameCache(16);
 
-	NMHDR hdr;
-	hdr.code = CLN_OPTIONSCHANGED;
-	hdr.hwndFrom = hwnd;
-	hdr.idFrom = (bFirst) ? 0 : GetDlgCtrlID(hwnd);
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&hdr);
-
-	SendMessage(hwnd, WM_SIZE, 0, 0);
+	corecli.pfnLoadClcOptions(hwnd, dat, bFirst);
 }
 
 int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand)

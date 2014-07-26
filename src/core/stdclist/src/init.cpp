@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 HINSTANCE g_hInst = 0;
-CLIST_INTERFACE* pcli = NULL;
+CLIST_INTERFACE* pcli = NULL, coreCli;
 HIMAGELIST himlCListClc = NULL;
 int hLangpack;
 
@@ -135,8 +135,10 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	mir_getLP( &pluginInfo );
 	mir_getCLI();
 
+	coreCli = *pcli;
 	pcli->hInst = g_hInst;
 	pcli->pfnPaintClc = PaintClc;
+	pcli->pfnLoadClcOptions = LoadClcOptions;
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 

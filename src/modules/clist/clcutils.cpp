@@ -719,28 +719,6 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 {
 	dat->rowHeight = db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
 
-	LOGFONT lf;
-	SIZE fontSize;
-
-	HDC hdc = GetDC(hwnd);
-	for (int i=0; i <= FONTID_MAX; i++) {
-		if (!dat->fontInfo[i].changed)
-			DeleteObject(dat->fontInfo[i].hFont);
-
-		cli.pfnGetFontSetting(i, &lf, &dat->fontInfo[i].colour);
-		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
-
-		dat->fontInfo[i].hFont = CreateFontIndirect(&lf);
-		dat->fontInfo[i].changed = 0;
-
-		HFONT holdfont = (HFONT)SelectObject(hdc, dat->fontInfo[i].hFont);
-		GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
-		SelectObject(hdc, holdfont);
-
-		dat->fontInfo[i].fontHeight = fontSize.cy;
-	}
-	ReleaseDC(hwnd, hdc);
-
 	dat->leftMargin = db_get_b(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
 	dat->exStyle = db_get_dw(NULL, "CLC", "ExStyle", cli.pfnGetDefaultExStyle());
 	dat->scrollTime = db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);
@@ -750,19 +728,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 	dat->noVScrollbar = db_get_b(NULL, "CLC", "NoVScrollBar", 0);
 	dat->filterSearch = db_get_b(NULL, "CLC", "FilterSearch", 1);
 	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
-	if (!dat->bkChanged) {
-		dat->bkColour = db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
-		if (dat->hBmpBackground) {
-			DeleteObject(dat->hBmpBackground);
-			dat->hBmpBackground = NULL;
-		}
-		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrA szBitmap(db_get_sa(NULL, "CLC", "BkBitmap"));
-			if (szBitmap)
-				dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, szBitmap);
-		}
-		dat->backgroundBmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
-	}
+
 	dat->greyoutFlags = db_get_dw(NULL, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);
 	dat->offlineModes = db_get_dw(NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
 	dat->selBkColour = db_get_dw(NULL, "CLC", "SelBkColour", CLCDEFAULT_SELBKCOLOUR);

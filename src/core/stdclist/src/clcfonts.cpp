@@ -112,3 +112,43 @@ void RegisterCListFonts()
 
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
 }
+
+void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
+{
+	HDC hdc = GetDC(hwnd);
+	for (int i = 0; i <= FONTID_MAX; i++) {
+		if (!dat->fontInfo[i].changed)
+			DeleteObject(dat->fontInfo[i].hFont);
+
+		LOGFONT lf;
+		pcli->pfnGetFontSetting(i, &lf, &dat->fontInfo[i].colour);
+		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+
+		dat->fontInfo[i].hFont = CreateFontIndirect(&lf);
+		dat->fontInfo[i].changed = 0;
+
+		HFONT holdfont = (HFONT)SelectObject(hdc, dat->fontInfo[i].hFont);
+		SIZE fontSize;
+		GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
+		SelectObject(hdc, holdfont);
+
+		dat->fontInfo[i].fontHeight = fontSize.cy;
+	}
+	ReleaseDC(hwnd, hdc);
+
+	if (!dat->bkChanged) {
+		dat->bkColour = db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
+		if (dat->hBmpBackground) {
+			DeleteObject(dat->hBmpBackground);
+			dat->hBmpBackground = NULL;
+		}
+		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+			ptrA szBitmap(db_get_sa(NULL, "CLC", "BkBitmap"));
+			if (szBitmap)
+				dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, szBitmap);
+		}
+		dat->backgroundBmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+	}
+
+	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
+}
