@@ -325,7 +325,7 @@ typedef struct
 	DWORD (*pfnGetDefaultExStyle)(void);
 	void  (*pfnGetDefaultFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
 	void  (*pfnGetFontSetting)(int i, LOGFONT* lf, COLORREF* colour);
-	void  (*pfnLoadClcOptions)(HWND hwnd, struct ClcData *dat);
+	void  (*pfnLoadClcOptions)(HWND hwnd, struct ClcData *dat, BOOL bFirst);
 	void  (*pfnRecalculateGroupCheckboxes)(HWND hwnd, struct ClcData *dat);
 	void  (*pfnSetGroupChildCheckboxes)(ClcGroup *group, int checked);
 	void  (*pfnInvalidateItem)(HWND hwnd, struct ClcData *dat, int iItem);

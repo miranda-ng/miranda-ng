@@ -155,7 +155,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 		hInvisibleIcon = ImageList_GetIcon(hIml, 2, ILD_NORMAL);
 		SendDlgItemMessage(hwndDlg, IDC_INVISIBLEICON, STM_SETICON, (WPARAM)hInvisibleIcon, 0);
 
-		ResetListOptions( GetDlgItem(hwndDlg, IDC_LIST));
+		ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
 		SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, 2, 0);
 		{
 			CLCINFOITEM cii = { sizeof(cii) };
@@ -163,82 +163,80 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 			cii.pszText = TranslateT("** All contacts **");
 			hItemAll = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		}
-		SetAllContactIcons( GetDlgItem(hwndDlg, IDC_LIST));
-		SetListGroupIcons( GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+		SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
+		SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 		return TRUE;
 
 	case WM_SETFOCUS:
-		SetFocus( GetDlgItem(hwndDlg, IDC_LIST));
+		SetFocus(GetDlgItem(hwndDlg, IDC_LIST));
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_LIST:
 			switch (((LPNMHDR)lParam)->code) {
 			case CLN_NEWCONTACT:
 			case CLN_LISTREBUILT:
-				SetAllContactIcons( GetDlgItem(hwndDlg, IDC_LIST));
+				SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
 				//fall through
 			case CLN_CONTACTMOVED:
-				SetListGroupIcons( GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 				break;
 
 			case CLN_OPTIONSCHANGED:
-				ResetListOptions( GetDlgItem(hwndDlg, IDC_LIST));
+				ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
 				break;
 
 			case NM_CLICK:
-				{
-					// Make sure we have an extra column
-					NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
-					if (nm->iColumn == -1)
-						break;
+				// Make sure we have an extra column
+				NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
+				if (nm->iColumn == -1)
+					break;
 
-					// Find clicked item
-					DWORD hitFlags;
-					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-					if (hItem == NULL)
-						break;
+				// Find clicked item
+				DWORD hitFlags;
+				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
+				if (hItem == NULL)
+					break;
 
-					// It was not a visbility icon
-					if (!(hitFlags & CLCHT_ONITEMEXTRA))
-						break;
+				// It was not a visbility icon
+				if (!(hitFlags & CLCHT_ONITEMEXTRA))
+					break;
 
-					// Get image in clicked column (0 = none, 1 = visible, 2 = invisible)
-					int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
-					if (iImage == 0)
-						iImage = nm->iColumn + 1;
-					else if (iImage == 1 || iImage == 2)
-						iImage = 0;
+				// Get image in clicked column (0 = none, 1 = visible, 2 = invisible)
+				int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
+				if (iImage == 0)
+					iImage = nm->iColumn + 1;
+				else if (iImage == 1 || iImage == 2)
+					iImage = 0;
 
-					// Get item type (contact, group, etc...)
-					int itemType = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
+				// Get item type (contact, group, etc...)
+				int itemType = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
 
-					// Update list, making sure that the options are mutually exclusive
-					if (itemType == CLCIT_CONTACT) { // A contact
-						SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, iImage));
-						if (iImage && SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn?0:1, 0)) != EMPTY_EXTRA_ICON)
-							SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn?0:1, 0));
-					}
-					else if (itemType == CLCIT_INFO) {	 // All Contacts
-						SetAllChildIcons( GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn, iImage);
-						if (iImage)
-							SetAllChildIcons( GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn?0:1, 0);
-					}
-					else if (itemType == CLCIT_GROUP) { // A group
-						hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-						if (hItem) {
-							SetAllChildIcons( GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn, iImage);
-							if (iImage)
-								SetAllChildIcons( GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn?0:1, 0);
-						}
-					}
-					// Update the all/none icons
-					SetListGroupIcons( GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
-
-					// Activate Apply button
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				// Update list, making sure that the options are mutually exclusive
+				if (itemType == CLCIT_CONTACT) { // A contact
+					SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, iImage));
+					if (iImage && SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn ? 0 : 1, 0)) != EMPTY_EXTRA_ICON)
+						SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn ? 0 : 1, 0));
 				}
+				else if (itemType == CLCIT_INFO) {	 // All Contacts
+					SetAllChildIcons(GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn, iImage);
+					if (iImage)
+						SetAllChildIcons(GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn ? 0 : 1, 0);
+				}
+				else if (itemType == CLCIT_GROUP) { // A group
+					hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+					if (hItem) {
+						SetAllChildIcons(GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn, iImage);
+						if (iImage)
+							SetAllChildIcons(GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn ? 0 : 1, 0);
+					}
+				}
+				// Update the all/none icons
+				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+
+				// Activate Apply button
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;
 
@@ -250,10 +248,10 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 						continue;
 
 					int set = 0;
-					for (int i=0; i < 2; i++) {
+					for (int i = 0; i < 2; i++) {
 						int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
-						if (iImage == i+1) {
-							CallContactService(hContact, PSS_SETAPPARENTMODE, iImage == 1?ID_STATUS_ONLINE:ID_STATUS_OFFLINE, 0);
+						if (iImage == i + 1) {
+							CallContactService(hContact, PSS_SETAPPARENTMODE, iImage == 1 ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
 							set = 1;
 							break;
 						}

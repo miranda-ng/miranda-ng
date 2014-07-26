@@ -387,7 +387,7 @@ type
     pfnGetDefaultExStyle          : function  :dword; cdecl;
     pfnGetDefaultFontSetting      : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
     pfnGetFontSetting             : procedure (i:int; var lf:LOGFONT; var colour:COLORREF); cdecl;
-    pfnLoadClcOptions             : procedure (hwnd:HWND; var dat:TClcData); cdecl;
+    pfnLoadClcOptions             : procedure (hwnd:HWND; var dat:TClcData; bFirst: int); cdecl;
     pfnRecalculateGroupCheckboxes : procedure (hwnd:HWND; var dat:TClcData); cdecl;
     pfnSetGroupChildCheckboxes    : procedure (var group:TClcGroup; checked:int); cdecl;
     pfnInvalidateItem             : procedure (hwnd:HWND; var dat:TClcData; iItem:int); cdecl;

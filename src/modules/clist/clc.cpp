@@ -297,7 +297,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		dat->extraColumnSpacing = 20;
 		dat->list.cl.increment = 30;
 		dat->needsResort = 1;
-		cli.pfnLoadClcOptions(hwnd, dat);
+		cli.pfnLoadClcOptions(hwnd, dat, TRUE);
 		if (!IsWindowVisible(hwnd))
 			SetTimer(hwnd, TIMERID_REBUILDAFTER, 10, NULL);
 		else {
@@ -320,7 +320,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_RELOADOPTIONS:
-		cli.pfnLoadClcOptions(hwnd, dat);
+		cli.pfnLoadClcOptions(hwnd, dat, FALSE);
 		cli.pfnSaveStateAndRebuildList(hwnd, dat);
 		break;
 

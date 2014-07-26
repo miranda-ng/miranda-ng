@@ -715,7 +715,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 	lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 }
 
-void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
+void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 {
 	dat->rowHeight = db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
 
@@ -751,17 +751,15 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 	dat->filterSearch = db_get_b(NULL, "CLC", "FilterSearch", 1);
 	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
 	if (!dat->bkChanged) {
-		DBVARIANT dbv;
 		dat->bkColour = db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (dat->hBmpBackground) {
 			DeleteObject(dat->hBmpBackground);
 			dat->hBmpBackground = NULL;
 		}
 		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			if (!db_get_s(NULL, "CLC", "BkBitmap", &dbv)) {
-				dat->hBmpBackground = (HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM) dbv.pszVal);
-				mir_free(dbv.pszVal);
-			}
+			ptrA szBitmap(db_get_sa(NULL, "CLC", "BkBitmap"));
+			if (szBitmap)
+				dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, szBitmap);
 		}
 		dat->backgroundBmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
@@ -776,8 +774,8 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 	NMHDR hdr;
 	hdr.code = CLN_OPTIONSCHANGED;
 	hdr.hwndFrom = hwnd;
-	hdr.idFrom = GetDlgCtrlID(hwnd);
-	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & hdr);
+	hdr.idFrom = (bFirst) ? 0 : GetDlgCtrlID(hwnd);
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&hdr);
 
 	SendMessage(hwnd, WM_SIZE, 0, 0);
 }

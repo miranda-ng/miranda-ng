@@ -255,7 +255,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 				SetListGroupIcons( GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 				break;
 			case CLN_OPTIONSCHANGED:
-				ResetListOptions( GetDlgItem(hwndDlg, IDC_LIST));
+				ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
 				break;
 			case CLN_CHECKCHANGED:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
