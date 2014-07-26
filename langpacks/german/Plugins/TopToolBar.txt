@@ -80,8 +80,8 @@ Beenden
 Standard
 [TopToolBar background]
 TopToolBar Hintergrund
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
-Frames-Dienst wurde nicht gefunden, also wird das Plugin deaktiviert.\nUm es zu benutzen, müssen Sie ein Kontaktlisten-Plugin installieren und/oder aktivieren, das Frames unterstützt.\n - Modern Contact List\n - MultiWindow (MW)\n - Nicer+\mSie bekommen diese unter http://miranda-ng.org/
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
+Frames-Dienst wurde nicht gefunden, also wird das Plugin deaktiviert.\nUm es zu benutzen, müssen Sie ein Kontaktlisten-Plugin installieren und/oder aktivieren, das Frames unterstützt.\n - Modern Contact List\n - Nicer+\mSie bekommen diese unter http://wiki.miranda-ng.org/Download
 [TopToolBar]
 TopToolBar
 ;file \plugins\TopToolBar\src\ttbopt.cpp

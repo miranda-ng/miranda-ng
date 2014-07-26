@@ -259,8 +259,6 @@ Požiadavka na autorizáciu
 Boli ste pridaný
 [Contacts received]
 
-[SMTP Simple Email]
-
 [SMS message]
 
 [Group list]

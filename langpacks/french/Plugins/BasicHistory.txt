@@ -259,8 +259,6 @@ Demande d'autorisation
 Vous avez été ajouté
 [Contacts received]
 
-[SMTP Simple Email]
-
 [SMS message]
 
 [Group list]

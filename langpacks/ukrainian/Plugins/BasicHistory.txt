@@ -253,8 +253,6 @@ dat (плагін mContacts)
 Вас додали
 [Contacts received]
 Отримання контактів
-[SMTP Simple Email]
-Повідомлення E-mail (SMTP Simple)
 [SMS message]
 Повідомлення SMS
 [Group list]

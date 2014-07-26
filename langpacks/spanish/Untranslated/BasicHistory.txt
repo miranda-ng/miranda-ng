@@ -87,7 +87,6 @@
 [File contains history for different contact. Do you want to change contact and import?]
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 [Contacts received]
-[SMTP Simple Email]
 [SMS message]
 [Group list]
 [Scheduler]

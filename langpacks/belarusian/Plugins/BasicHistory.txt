@@ -259,8 +259,6 @@ Dat (мКантакты)
 Вас дадалі
 [Contacts received]
 Атрыманне кантактаў
-[SMTP Simple Email]
-Паведамленне e-mail (SMTP Simple)
 [SMS message]
 Паведамленне SMS
 [Group list]

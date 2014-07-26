@@ -259,8 +259,6 @@ Eingehende Autorisierungsanfrage
 Sie wurden hinzugefügt.
 [Contacts received]
 Kontakte empfangen
-[SMTP Simple Email]
-SMTP einfache E-Mail
 [SMS message]
 SMS-Nachricht
 [Group list]

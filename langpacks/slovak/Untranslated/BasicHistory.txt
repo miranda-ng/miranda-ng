@@ -102,7 +102,6 @@
 [File transfer]
 [Link]
 [Contacts received]
-[SMTP Simple Email]
 [SMS message]
 [Group list]
 [Messages]

@@ -259,8 +259,6 @@ Prośba o autoryzację
 Zostałeś dodany
 [Contacts received]
 Pobrane kontakty
-[SMTP Simple Email]
-Prosty e-mail SMTP
 [SMS message]
 Wiadomość SMS
 [Group list]

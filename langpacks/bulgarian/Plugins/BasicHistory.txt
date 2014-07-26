@@ -259,8 +259,6 @@
 Вие бяхте добавен
 [Contacts received]
 
-[SMTP Simple Email]
-
 [SMS message]
 SMS съобщение
 [Group list]
