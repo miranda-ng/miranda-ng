@@ -387,7 +387,7 @@ size_t 	MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut);
 #define DROPTARGET_ONCONTACT	4
 #define DROPTARGET_INSERTION	5
 int GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
-void LoadClcOptions(HWND hwnd, struct ClcData *dat);
+void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
 void RecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
 void SetGroupChildCheckboxes(ClcGroup *group, int checked);
 BYTE GetCachedStatusMsg(TExtraCache* p, char *szProto);

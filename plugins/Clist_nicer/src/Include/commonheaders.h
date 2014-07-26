@@ -77,6 +77,8 @@ extern LONG g_cxsmIcon, g_cysmIcon;
 extern LIST<StatusItems_t> arStatusItems;
 extern ImageItem *g_glyphItem;
 
+extern CLIST_INTERFACE coreCli;
+
 typedef  int  (__cdecl *pfnDrawAvatar)(HDC hdcOrig, HDC hdcMem, RECT *rc, ClcContact *contact, int y, struct ClcData *dat, int selected, WORD cstatus, int rowHeight);
 
 BOOL __forceinline GetItemByStatus(int status, StatusItems_t *retitem);

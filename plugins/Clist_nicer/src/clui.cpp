@@ -727,8 +727,6 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 	return 0;
 }
 
-extern LRESULT(CALLBACK *saveContactListWndProc)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
 static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCONTACT hContact)
 {
 	if (item->dwFlags & BUTTON_PASSHCONTACTW || item->dwFlags & BUTTON_PASSHCONTACTL || item->dwFlags & BUTTON_ISCONTACTDBACTION) {
@@ -1847,7 +1845,7 @@ buttons_done:
 		break;
 	}
 
-	return saveContactListWndProc(hwnd, msg, wParam, lParam);
+	return coreCli.pfnContactListWndProc(hwnd, msg, wParam, lParam);
 }
 
 #ifndef CS_DROPSHADOW

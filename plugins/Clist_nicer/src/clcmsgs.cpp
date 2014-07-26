@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //processing of all the CLM_ messages incoming
 
-extern LRESULT ( *saveProcessExternalMessages )(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
-
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -104,5 +102,5 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		return dat->isMultiSelect;
 	}
 
-	return saveProcessExternalMessages(hwnd, dat, msg, wParam, lParam);
+	return coreCli.pfnProcessExternalMessages(hwnd, dat, msg, wParam, lParam);
 }

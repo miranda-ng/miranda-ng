@@ -24,11 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <commonheaders.h>
 
-extern int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
-extern int ( *saveAddInfoItemToGroup )(ClcGroup *group, int flags, const TCHAR *pszText);
-extern ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
-extern ClcGroup* ( *saveAddGroup )(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
-
 static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c, const char *szProto);
 
 //routines for managing adding/removal of items in the list, including sorting
@@ -45,7 +40,7 @@ ClcContact* CreateClcContact( void )
 
 int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 {
-	int i = saveAddInfoItemToGroup(group, flags, pszText);
+	int i = coreCli.pfnAddInfoItemToGroup(group, flags, pszText);
 	ClcContact* p = group->cl.items[i];
 	p->codePage = 0;
 	//p->clientId = -1;
@@ -59,7 +54,7 @@ int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 
 ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
-	ClcGroup *p = saveAddGroup( hwnd, dat, szName, flags, groupId, calcTotalMembers);
+	ClcGroup *p = coreCli.pfnAddGroup(hwnd, dat, szName, flags, groupId, calcTotalMembers);
 	if ( p && p->parent )
 		RTL_DetectGroupName( p->parent->cl.items[ p->parent->cl.count-1] );
 
@@ -94,7 +89,7 @@ void LoadAvatarForContact(ClcContact *p)
 
 int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 {
-	int i = saveAddContactToGroup(dat, group, hContact);
+	int i = coreCli.pfnAddContactToGroup(dat, group, hContact);
 	ClcContact* p = group->cl.items[i];
 
 	p->wStatus = cfg::getWord(hContact, p->proto, "Status", ID_STATUS_OFFLINE);

@@ -26,7 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../cluiframes/cluiframes.h"
 
 HINSTANCE g_hInst = 0;
-CLIST_INTERFACE *pcli = NULL;
+CLIST_INTERFACE *pcli, coreCli;
+
 int hLangpack;
 
 #define DEFAULT_TB_VISIBILITY (1 | 2 | 4 | 8 | 16 | 32 | 64 | 8192)
@@ -53,40 +54,18 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
 int ShowHide(WPARAM wParam, LPARAM lParam);
 int ClcShutdown(WPARAM wParam, LPARAM lParam);
 
-void (*saveLoadClcOptions)(HWND hwnd, struct ClcData *dat);
-void LoadClcOptions(HWND hwnd, struct ClcData *dat);
-
-int (*saveAddContactToGroup)(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
-int AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
-
-CListEvent *(*saveAddEvent)(CLISTEVENT *cle);
 CListEvent *AddEvent(CLISTEVENT *cle);
-
-int (*saveAddInfoItemToGroup)(ClcGroup *group, int flags, const TCHAR *pszText);
-int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
-
-ClcGroup *(*saveAddGroup)(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
 ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers);
 
-LRESULT (CALLBACK *saveContactListWndProc)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-LRESULT (CALLBACK *saveContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-int (*saveIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
-
-LRESULT (*saveProcessExternalMessages)(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
+int     AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
+int     AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
-
-int (*saveRemoveEvent)(MCONTACT hContact, HANDLE hDbEvent);
-int RemoveEvent(MCONTACT hContact, HANDLE hDbEvent);
-
-INT_PTR (*saveTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
+int     RemoveEvent(MCONTACT hContact, HANDLE hDbEvent);
 INT_PTR TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
+void    RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 
-void (*saveRecalcScrollBar)(HWND hwnd, struct ClcData *dat);
-void RecalcScrollBar(HWND hwnd, struct ClcData *dat);
+LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 PLUGININFOEX pluginInfo =
 {
@@ -194,8 +173,10 @@ static int fnIconFromStatusMode(const char *szProto, int status, MCONTACT hConta
 extern "C" int __declspec(dllexport) CListInitialise()
 {
 	mir_getLP( &pluginInfo );
-	mir_getCLI();
 	mir_getTMI(&tmi);
+
+	mir_getCLI();
+	coreCli = *pcli;
 
 	API::onInit();
 	RegisterCLUIFrameClasses();
@@ -286,20 +267,20 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnSetHideOffline = SetHideOffline;
 	pcli->pfnShowHide = ShowHide;
 
-	saveAddContactToGroup = pcli->pfnAddContactToGroup; pcli->pfnAddContactToGroup = AddContactToGroup;
+	pcli->pfnAddContactToGroup = AddContactToGroup;
 
-	saveAddEvent = pcli->pfnAddEvent; pcli->pfnAddEvent = AddEvent;
-	saveRemoveEvent = pcli->pfnRemoveEvent; pcli->pfnRemoveEvent = RemoveEvent;
+	pcli->pfnAddEvent = AddEvent;
+	pcli->pfnRemoveEvent = RemoveEvent;
 
-	saveAddGroup = pcli->pfnAddGroup; pcli->pfnAddGroup = AddGroup;
-	saveAddInfoItemToGroup = pcli->pfnAddInfoItemToGroup; pcli->pfnAddInfoItemToGroup = AddInfoItemToGroup;
-	saveContactListControlWndProc = pcli->pfnContactListControlWndProc; pcli->pfnContactListControlWndProc = ContactListControlWndProc;
-	saveContactListWndProc = pcli->pfnContactListWndProc; pcli->pfnContactListWndProc = ContactListWndProc;
-	saveIconFromStatusMode = pcli->pfnIconFromStatusMode; pcli->pfnIconFromStatusMode = fnIconFromStatusMode;
-	saveLoadClcOptions = pcli->pfnLoadClcOptions; pcli->pfnLoadClcOptions = LoadClcOptions;
-	saveProcessExternalMessages = pcli->pfnProcessExternalMessages; pcli->pfnProcessExternalMessages = ProcessExternalMessages;
-	saveRecalcScrollBar = pcli->pfnRecalcScrollBar; pcli->pfnRecalcScrollBar = RecalcScrollBar;
-	saveTrayIconProcessMessage = pcli->pfnTrayIconProcessMessage; pcli->pfnTrayIconProcessMessage = TrayIconProcessMessage;
+	pcli->pfnAddGroup = AddGroup;
+	pcli->pfnAddInfoItemToGroup = AddInfoItemToGroup;
+	pcli->pfnContactListControlWndProc = ContactListControlWndProc;
+	pcli->pfnContactListWndProc = ContactListWndProc;
+	pcli->pfnIconFromStatusMode = fnIconFromStatusMode;
+	pcli->pfnLoadClcOptions = LoadClcOptions;
+	pcli->pfnProcessExternalMessages = ProcessExternalMessages;
+	pcli->pfnRecalcScrollBar = RecalcScrollBar;
+	pcli->pfnTrayIconProcessMessage = TrayIconProcessMessage;
 
 	int rc = LoadContactListModule();
 	if (rc == 0)

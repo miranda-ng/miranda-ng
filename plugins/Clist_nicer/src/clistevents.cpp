@@ -28,8 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static HWND hwndEventFrame = 0;
 HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHeight);
 
-extern CListEvent* ( *saveAddEvent )(CLISTEVENT *cle);
-extern int ( *saveRemoveEvent )(MCONTACT hContact, HANDLE hDbEvent);
 extern FRAMEWND *wndFrameEventArea;
 
 extern HPEN g_hPenCLUIFrames;
@@ -255,7 +253,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 CListEvent* AddEvent(CLISTEVENT *cle)
 {
-	CListEvent *p = saveAddEvent(cle);
+	CListEvent *p = coreCli.pfnAddEvent(cle);
 	if (p == NULL)
 		return NULL;
 
@@ -355,7 +353,7 @@ int RemoveEvent(MCONTACT hContact, HANDLE hDbEvent)
 				DeleteMenu(cfg::dat.hMenuNotify, pcli->events.items[i]->menuId, MF_BYCOMMAND);
 	}	}	}
 
-	saveRemoveEvent(hContact, hDbEvent);
+	coreCli.pfnRemoveEvent(hContact, hDbEvent);
 
 	if (pcli->events.count == 0) {
 		cfg::dat.bEventAreaEnabled = FALSE;

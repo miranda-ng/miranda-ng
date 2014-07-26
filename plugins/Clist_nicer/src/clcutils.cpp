@@ -542,13 +542,11 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 	SetFocus(dat->hwndRenameEdit);
 }
 
-extern void ( *saveLoadClcOptions )(HWND hwnd,struct ClcData *dat);
-
-void LoadClcOptions(HWND hwnd, struct ClcData *dat)
+void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 {
 	dat->bkChanged = 0;
 
-	saveLoadClcOptions(hwnd, dat);
+	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
 
 	dat->min_row_heigh = (int)cfg::getByte("CLC","RowHeight",CLCDEFAULT_ROWHEIGHT);
 	dat->group_row_height = (int)cfg::getByte("CLC","GRowHeight",CLCDEFAULT_ROWHEIGHT);
@@ -587,9 +585,9 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat)
 		SystemParametersInfoA(SPI_GETDESKWALLPAPER, MAX_PATH, wpbuf, 0);
 
 		// we have a wallpaper string
-		if (wpbuf[0] != 0) {
+		if (wpbuf[0] != 0)
 			dat->hBmpBackground = reinterpret_cast<HBITMAP>(LoadImageA(NULL, wpbuf, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
-		}
+
 		cfg::dat.bmpBackground = dat->hBmpBackground;
 		if (cfg::dat.bmpBackground) {
 			HDC hdcThis = GetDC(pcli->hwndContactList);

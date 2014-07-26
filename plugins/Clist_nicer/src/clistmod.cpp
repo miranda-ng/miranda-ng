@@ -44,8 +44,6 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 	return(g_maxStatus == ID_STATUS_OFFLINE ? pcli->currentDesiredStatusMode : g_maxStatus);
 }
 
-extern int ( *saveIconFromStatusMode )( const char *szProto, int status, MCONTACT hContact );
-
 int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON *phIcon)
 {
 	if (phIcon != NULL)
@@ -73,7 +71,7 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON
 		}
 	}
 
-	return saveIconFromStatusMode(szFinalProto, finalStatus, hContact);
+	return coreCli.pfnIconFromStatusMode(szFinalProto, finalStatus, hContact);
 }
 
 static int MenuItem_LockAvatar(WPARAM wParam, LPARAM lParam)

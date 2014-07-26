@@ -230,8 +230,6 @@ int LoadCLCModule(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // clist_nicer+ control window procedure
 
-extern LRESULT(CALLBACK *saveContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
@@ -289,102 +287,102 @@ LBL_Def:
 		return FrameNCPaint(hwnd, DefWindowProc, wParam, lParam, frameHasTitlebar);
 
 	case INTM_GROUPCHANGED:
-	{
-		WORD iExtraImage[EXTRA_ICON_COUNT];
-		BYTE flags = 0;
-		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
-			memset(iExtraImage, 0xFF, sizeof(iExtraImage));
-		else {
-			memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
-			flags = contact->flags;
-		}
-		pcli->pfnDeleteItemFromTree(hwnd, wParam);
-		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, NULL, dat)) {
-			pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
-			if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
-				memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
-				if (flags & CONTACTF_CHECKED)
-					contact->flags |= CONTACTF_CHECKED;
+		{
+			WORD iExtraImage[EXTRA_ICON_COUNT];
+			BYTE flags = 0;
+			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
+			else {
+				memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
+				flags = contact->flags;
 			}
+			pcli->pfnDeleteItemFromTree(hwnd, wParam);
+			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(wParam, NULL, dat)) {
+				pcli->pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
+				if (FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
+					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
+					if (flags & CONTACTF_CHECKED)
+						contact->flags |= CONTACTF_CHECKED;
+				}
 
-			NMCLISTCONTROL nm;
-			nm.hdr.code = CLN_CONTACTMOVED;
-			nm.hdr.hwndFrom = hwnd;
-			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-			nm.flags = 0;
-			nm.hItem = (HANDLE)wParam;
-			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
+				NMCLISTCONTROL nm;
+				nm.hdr.code = CLN_CONTACTMOVED;
+				nm.hdr.hwndFrom = hwnd;
+				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+				nm.flags = 0;
+				nm.hItem = (HANDLE)wParam;
+				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);
+			}
+			dat->needsResort = TRUE;
+			PostMessage(hwnd, INTM_SORTCLC, 0, 1);
 		}
-		dat->needsResort = TRUE;
-		PostMessage(hwnd, INTM_SORTCLC, 0, 1);
-	}
 		goto LBL_Def;
 
 	case INTM_ICONCHANGED:
-	{
-		int recalcScrollBar = 0;
-		MCONTACT hContact = wParam;
-		WORD status = ID_STATUS_OFFLINE;
-		int  contactRemoved = 0;
-		MCONTACT hSelItem = NULL;
-		ClcContact *selcontact = NULL;
+		{
+			int recalcScrollBar = 0;
+			MCONTACT hContact = wParam;
+			WORD status = ID_STATUS_OFFLINE;
+			int  contactRemoved = 0;
+			MCONTACT hSelItem = NULL;
+			ClcContact *selcontact = NULL;
 
-		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL)
-			status = ID_STATUS_OFFLINE;
-		else
-			status = cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			char *szProto = GetContactProto(hContact);
+			if (szProto == NULL)
+				status = ID_STATUS_OFFLINE;
+			else
+				status = cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-		int shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN ||
-			!CLVM_GetContactHiddenStatus(hContact, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) ||
-			pcli->pfnGetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
+			int shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN ||
+				!CLVM_GetContactHiddenStatus(hContact, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) ||
+				pcli->pfnGetContactIcon(hContact) != lParam); // XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 
-		if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, &group, NULL)) {
-			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
-				if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-					hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
-				pcli->pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
-				recalcScrollBar = 1;
-				FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL);
-				if (contact) {
-					contact->iImage = (WORD)lParam;
-					pcli->pfnNotifyNewContact(hwnd, hContact);
+			if (!FindItem(hwnd, dat, (HANDLE)hContact, &contact, &group, NULL)) {
+				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
+					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
+						hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
+					pcli->pfnAddContactToTree(hwnd, dat, hContact, 0, 0);
+					recalcScrollBar = 1;
+					FindItem(hwnd, dat, (HANDLE)hContact, &contact, NULL, NULL);
+					if (contact) {
+						contact->iImage = (WORD)lParam;
+						pcli->pfnNotifyNewContact(hwnd, hContact);
+					}
 				}
 			}
-		}
-		else {
-			//item in list already
-			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-			if (contact->iImage == (WORD)lParam)
-				break;
-			if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
-				if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-					hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
-				pcli->pfnRemoveItemFromGroup(hwnd, group, contact, 0);
-				contactRemoved = TRUE;
-				recalcScrollBar = 1;
-			}
 			else {
-				contact->iImage = (WORD)lParam;
-				if (!pcli->pfnIsHiddenMode(dat, status))
-					contact->flags |= CONTACTF_ONLINE;
-				else
-					contact->flags &= ~CONTACTF_ONLINE;
+				//item in list already
+				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+				if (contact->iImage == (WORD)lParam)
+					break;
+				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
+					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
+						hSelItem = (MCONTACT)pcli->pfnContactToHItem(selcontact);
+					pcli->pfnRemoveItemFromGroup(hwnd, group, contact, 0);
+					contactRemoved = TRUE;
+					recalcScrollBar = 1;
+				}
+				else {
+					contact->iImage = (WORD)lParam;
+					if (!pcli->pfnIsHiddenMode(dat, status))
+						contact->flags |= CONTACTF_ONLINE;
+					else
+						contact->flags &= ~CONTACTF_ONLINE;
+				}
 			}
+			if (hSelItem) {
+				ClcGroup *selgroup;
+				if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
+					dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)& selgroup->cl, selcontact));
+				else
+					dat->selection = -1;
+			}
+			dat->needsResort = TRUE;
+			PostMessage(hwnd, INTM_SORTCLC, 0, recalcScrollBar);
+			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contactRemoved ? 0 : wParam));
+			if (recalcScrollBar)
+				pcli->pfnRecalcScrollBar(hwnd, dat);
 		}
-		if (hSelItem) {
-			ClcGroup *selgroup;
-			if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-				dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)& selgroup->cl, selcontact));
-			else
-				dat->selection = -1;
-		}
-		dat->needsResort = TRUE;
-		PostMessage(hwnd, INTM_SORTCLC, 0, recalcScrollBar);
-		PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contactRemoved ? 0 : wParam));
-		if (recalcScrollBar)
-			pcli->pfnRecalcScrollBar(hwnd, dat);
-	}
 		goto LBL_Def;
 
 	case INTM_METACHANGED:
@@ -438,53 +436,53 @@ LBL_Def:
 		goto LBL_Def;
 
 	case INTM_AVATARCHANGED:
-	{
-		avatarCacheEntry *cEntry = (struct avatarCacheEntry *)lParam;
 		contact = NULL;
+		{
+			avatarCacheEntry *cEntry = (struct avatarCacheEntry *)lParam;
 
-		if (wParam == 0) {
-			//RemoveFromImgCache(0, cEntry);
-			cfg::dat.bForceRefetchOnPaint = TRUE;
-			RedrawWindow(hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
-			cfg::dat.bForceRefetchOnPaint = FALSE;
-			goto LBL_Def;
+			if (wParam == 0) {
+				//RemoveFromImgCache(0, cEntry);
+				cfg::dat.bForceRefetchOnPaint = TRUE;
+				RedrawWindow(hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
+				cfg::dat.bForceRefetchOnPaint = FALSE;
+				goto LBL_Def;
+			}
+
+			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+				return 0;
+			contact->ace = cEntry;
+			if (cEntry == NULL)
+				contact->cFlags &= ~ECF_AVATAR;
+			else {
+				DWORD dwFlags;
+
+				if (contact->pExtra)
+					dwFlags = contact->pExtra->dwDFlags;
+				else
+					dwFlags = cfg::getDword(contact->hContact, "CList", "CLN_Flags", 0);
+				if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
+					contact->cFlags = (dwFlags & ECF_HIDEAVATAR ? contact->cFlags & ~ECF_AVATAR : contact->cFlags | ECF_AVATAR);
+				else
+					contact->cFlags = (dwFlags & ECF_FORCEAVATAR ? contact->cFlags | ECF_AVATAR : contact->cFlags & ~ECF_AVATAR);
+			}
+			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)contact->hContact);
 		}
-
-		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
-			return 0;
-		contact->ace = cEntry;
-		if (cEntry == NULL)
-			contact->cFlags &= ~ECF_AVATAR;
-		else {
-			DWORD dwFlags;
-
-			if (contact->pExtra)
-				dwFlags = contact->pExtra->dwDFlags;
-			else
-				dwFlags = cfg::getDword(contact->hContact, "CList", "CLN_Flags", 0);
-			if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
-				contact->cFlags = (dwFlags & ECF_HIDEAVATAR ? contact->cFlags & ~ECF_AVATAR : contact->cFlags | ECF_AVATAR);
-			else
-				contact->cFlags = (dwFlags & ECF_FORCEAVATAR ? contact->cFlags | ECF_AVATAR : contact->cFlags & ~ECF_AVATAR);
-		}
-		PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)contact->hContact);
-	}
 		goto LBL_Def;
 
 	case INTM_STATUSMSGCHANGED:
-	{
-		TExtraCache *p;
-		char *szProto = NULL;
+		{
+			TExtraCache *p;
+			char *szProto = NULL;
 
-		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
-			p = cfg::getCache(wParam, NULL);
-		else {
-			p = contact->pExtra;
-			szProto = contact->proto;
+			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+				p = cfg::getCache(wParam, NULL);
+			else {
+				p = contact->pExtra;
+				szProto = contact->proto;
+			}
+			GetCachedStatusMsg(p, szProto);
+			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));
 		}
-		GetCachedStatusMsg(p, szProto);
-		PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));
-	}
 		goto LBL_Def;
 
 	case INTM_STATUSCHANGED:
@@ -526,13 +524,12 @@ LBL_Def:
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL))
 			break;
 
-		if (contact == 0 || group == 0)
-			break;
-		{
+		if (contact && group) {
 			int iItem = pcli->pfnGetRowsPriorTo(&dat->list, group, List_IndexOf((SortedList*) & group->cl, contact));
 			pcli->pfnInvalidateItem(hwnd, dat, iItem);
+			goto LBL_Def;
 		}
-		goto LBL_Def;
+		break;
 
 	case INTM_FORCESORT:
 		dat->needsResort = TRUE;
@@ -684,7 +681,8 @@ LBL_Def:
 				pt.x = dat->iconXSpace + 15;
 				pt.y = RowHeight::getItemTopY(dat, dat->selection) - dat->yScroll + (int)(dat->row_heights[dat->selection] * .7);
 				hitFlags = dat->selection == -1 ? CLCHT_NOWHERE : CLCHT_ONITEMLABEL;
-			} else {
+			}
+			else {
 				ScreenToClient(hwnd, &pt);
 				dat->selection = HitTest(hwnd, dat, pt.x, pt.y, &contact, NULL, &hitFlags);
 			}
@@ -735,5 +733,5 @@ LBL_Def:
 		break;
 	}
 
-	return saveContactListControlWndProc(hwnd, msg, wParam, lParam);
+	return coreCli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }

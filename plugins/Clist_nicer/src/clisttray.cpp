@@ -101,11 +101,9 @@ int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCou
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern INT_PTR (*saveTrayIconProcessMessage)(WPARAM wParam, LPARAM lParam);
-
 INT_PTR TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 {
-	MSG *msg = (MSG *)wParam;
+	MSG *msg = (MSG*)wParam;
 	if (msg->message == TIM_CALLBACK && msg->lParam == WM_MOUSEMOVE ) {
 		if (cfg::dat.bNoTrayTips) {
 			*((LRESULT *)lParam) = 0;
@@ -113,5 +111,5 @@ INT_PTR TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	return saveTrayIconProcessMessage(wParam, lParam);
+	return coreCli.pfnTrayIconProcessMessage(wParam, lParam);
 }
