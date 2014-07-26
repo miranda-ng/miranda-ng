@@ -426,7 +426,7 @@ void    cliBeginRenameSelection(HWND hwnd,ClcData *dat);
 int     cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,ClcGroup **group,DWORD *flags);
 void    cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth);
 int     GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt);
-void    LoadCLCOptions(HWND hwnd,ClcData *dat);
+void    LoadCLCOptions(HWND hwnd,ClcData *dat, BOOL bFirst);
 
 
 //clcpaint.c

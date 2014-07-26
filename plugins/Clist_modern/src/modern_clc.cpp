@@ -404,7 +404,7 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 	dat->menuOwnerType = CLCIT_INVALID;
 
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-	LoadCLCOptions(hwnd, dat);
+	LoadCLCOptions(hwnd, dat, TRUE);
 	if (dat->contact_time_show || dat->second_line_type == TEXT_CONTACT_TIME || dat->third_line_type == TEXT_CONTACT_TIME)
 		CLUI_SafeSetTimer(hwnd, TIMERID_INVALIDATE, 5000, NULL);
 	else
@@ -1693,8 +1693,8 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 static LRESULT clcOnIntmReloadOptions(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
-	pcli->pfnLoadClcOptions(hwnd, dat);
-	LoadCLCOptions(hwnd, dat);
+	pcli->pfnLoadClcOptions(hwnd, dat, FALSE);
+	LoadCLCOptions(hwnd, dat, FALSE);
 	pcli->pfnSaveStateAndRebuildList(hwnd, dat);
 	pcli->pfnSortCLC(hwnd, dat, 1);
 	if (IsWindowVisible(hwnd))
