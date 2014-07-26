@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int hLangpack;
 HINSTANCE g_hInst = 0;
-CLIST_INTERFACE* pcli = NULL;
+CLIST_INTERFACE *pcli = NULL, coreCli;
 HIMAGELIST himlCListClc = NULL;
 
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -35,18 +35,11 @@ void RebuildEntireList(HWND hwnd, ClcData *dat);
 void RebuildEntireListInternal(HWND hwnd, ClcData *dat, BOOL call_orig);
 void SetGroupExpand(HWND hwnd, ClcData *dat, struct ClcGroup *group, int newState);
 void ScrollTo( HWND hwnd, ClcData *dat, int desty, int noSmooth );
-void RecalcScrollBar( HWND hwnd, ClcData *dat );
-void LoadClcOptions( HWND hwnd, ClcData *dat );
+void RecalcScrollBar(HWND hwnd, ClcData *dat);
+void LoadClcOptions(HWND hwnd, ClcData *dat, BOOL);
 int GetRowHeight(ClcData *dat, int item);
 void SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
 
-LRESULT ( CALLBACK *pfnContactListWndProc )( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
-LRESULT ( CALLBACK *pfnContactListControlWndProc )( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
-void ( *pfnRebuildEntireList )( HWND hwnd, ClcData *dat );
-void ( *pfnSetGroupExpand )(HWND hwnd, ClcData *dat, struct ClcGroup *group, int newState);
-void ( *pfnScrollTo )( HWND hwnd, ClcData *dat, int desty, int noSmooth );
-void ( *pfnRecalcScrollBar )( HWND hwnd, ClcData *dat );
-void ( *pfnLoadClcOptions )( HWND hwnd, ClcData *dat );
 int ( *pfnGetRowHeight )(ClcData *dat, int item);
 void ( *pfnSortCLC )( HWND hwnd, ClcData *dat, int useInsertionSort );
 
@@ -142,20 +135,19 @@ extern "C" int __declspec(dllexport) CListInitialise()
 {
 	mir_getCLI();
 
-#define CLIST_SWAP(a)  pfn##a = pcli->pfn##a; pcli->pfn##a = a
-
-	CLIST_SWAP(ContactListWndProc);
-	CLIST_SWAP(ContactListControlWndProc);
-	CLIST_SWAP(RebuildEntireList);
-	CLIST_SWAP(SetGroupExpand);
-	CLIST_SWAP(RecalcScrollBar);
-	CLIST_SWAP(ScrollTo);
-	CLIST_SWAP(LoadClcOptions);
-	CLIST_SWAP(GetRowHeight);
-	CLIST_SWAP(SortCLC);
+	coreCli = *pcli;
 
 	pcli->hInst = g_hInst;
 	pcli->pfnPaintClc = PaintClc;
+	pcli->pfnContactListWndProc = ContactListWndProc;
+	pcli->pfnContactListControlWndProc = ContactListControlWndProc;
+	pcli->pfnRebuildEntireList = RebuildEntireList;
+	pcli->pfnSetGroupExpand = SetGroupExpand;
+	pcli->pfnRecalcScrollBar = RecalcScrollBar;
+	pcli->pfnScrollTo = ScrollTo;
+	pcli->pfnLoadClcOptions = LoadClcOptions;
+	pcli->pfnGetRowHeight = GetRowHeight;
+	pcli->pfnSortCLC = SortCLC;
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 
@@ -348,7 +340,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			break;
 		}
 	}
-	return pfnContactListWndProc(hwnd, msg, wParam, lParam);
+	return coreCli.pfnContactListWndProc(hwnd, msg, wParam, lParam);
 }
 
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -392,7 +384,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		{
 			int key = LOWORD(wParam);
 			if (key == VK_LEFT || key == VK_RIGHT || key == VK_RETURN || key == VK_DELETE || key == VK_F2) {
-				pfnContactListControlWndProc(hwnd, WM_KEYDOWN, key, 0);
+				coreCli.pfnContactListControlWndProc(hwnd, WM_KEYDOWN, key, 0);
 				return dat->selection;
 			}
 
@@ -427,7 +419,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		break;
 	}
 
-	return pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+	return coreCli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
 
 static int GetRealStatus(struct ClcContact *contact, int status)
@@ -535,7 +527,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	BOOL has_focus = (GetFocus() == dat->hwnd_list || GetFocus() == hwnd);
 
 	if (call_orig)
-		pfnRebuildEntireList(hwnd, (ClcData*)dat);
+		coreCli.pfnRebuildEntireList(hwnd, (ClcData*)dat);
 
 	MyDBGetContactSettingTString(NULL, "CLC", "TemplateContact", template_contact, 1024, TranslateT("%name% [%status% %protocol%] %status_message%"));
 	MyDBGetContactSettingTString(NULL, "CLC", "TemplateGroup", template_group, 1024, TranslateT("Group: %name% %count% [%mode%]"));
@@ -675,7 +667,7 @@ void SetGroupExpand(HWND hwnd, ClcData *tmp_dat, struct ClcGroup *group, int new
 {
 	ClcData *dat = (ClcData*)tmp_dat;
 
-	pfnSetGroupExpand(hwnd, tmp_dat, group, newState);
+	coreCli.pfnSetGroupExpand(hwnd, tmp_dat, group, newState);
 	dat->need_rebuild = TRUE;
 }
 
@@ -687,9 +679,9 @@ void RecalcScrollBar(HWND hwnd, ClcData *dat)
 {
 }
 
-void LoadClcOptions(HWND hwnd, ClcData *dat)
+void LoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
-	pfnLoadClcOptions(hwnd, dat);
+	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
 
 	dat->filterSearch = 0;
 	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
