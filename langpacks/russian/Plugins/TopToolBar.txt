@@ -77,8 +77,8 @@
 По умолчанию
 [TopToolBar background]
 Фон панели кнопок
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
-Данный плагин списка контактов не поддерживает сервис фреймов, необходимый для их работы, поэтому плагин панели кнопок был выключен.\nДля работы панели кнопок требуется установить и / или включить один из следующих плагинов списка контактов:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nВы можете скачать их на http://miranda-ng.org/
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
+Данный плагин списка контактов не поддерживает сервис фреймов, необходимый для их работы, поэтому плагин панели кнопок был выключен.\nДля работы панели кнопок требуется установить и / или включить один из следующих плагинов списка контактов:\n- Modern contact list\n- Nicer+\nВы можете скачать их на http://wiki.miranda-ng.org/Download
 [TopToolBar]
 Панель кнопок
 [Contact list]

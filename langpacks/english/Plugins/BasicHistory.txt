@@ -135,7 +135,6 @@
 [Authorization request]
 [You were added]
 [Contacts received]
-[SMTP Simple Email]
 [SMS message]
 [Group list]
 [Messages]

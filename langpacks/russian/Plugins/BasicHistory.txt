@@ -237,8 +237,6 @@ Dat (плагин mContacts)
 Вас добавили
 [Contacts received]
 Получение контактов
-[SMTP Simple Email]
-Сообщение e-mail (SMTP Simple)
 [SMS message]
 Сообщение SMS
 [Group list]
