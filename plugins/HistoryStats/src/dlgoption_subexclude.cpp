@@ -194,15 +194,6 @@ void DlgOption::SubExclude::saveSettings()
 
 void DlgOption::SubExclude::customizeList(HWND hCList)
 {
-	SendMessage(hCList, CLM_SETBKBITMAP, 0, NULL);
-	SendMessage(hCList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hCList, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hCList, CLM_SETLEFTMARGIN, 2, 0);
-	SendMessage(hCList, CLM_SETINDENT, 10, 0);
-
-	for (int i = 0; i <= FONTID_MAX; ++i)
-		SendMessage(hCList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-
 	SetWindowLongPtr(hCList, GWL_STYLE, GetWindowLongPtr(hCList, GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 

@@ -1556,17 +1556,6 @@ INT_PTR CALLBACK Options::DlgProcOptsScheduler(HWND hwndDlg, UINT msg, WPARAM wP
 	return FALSE;
 }
 
-void ResetListOptions(HWND hwnd)
-{
-	SendMessage(hwnd, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwnd, CLM_SETLEFTMARGIN, 2, 0);
-	SendMessage(hwnd, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP) NULL);
-	SendMessage(hwnd, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwnd, CLM_SETINDENT, 10, 0);
-	for (int i = 0; i <= FONTID_MAX; i++)
-		SendMessage(hwnd, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-}
-
 void RebuildList(HWND hwnd, MCONTACT hSystem, TaskOptions* to)
 {
 	HANDLE hItem;
@@ -1739,7 +1728,6 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			cii.pszText = TranslateT("System");
 			hSystem = (MCONTACT)SendMessage(contactList, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
 			SendMessage(contactList, CLM_AUTOREBUILD, 0, 0);
-			ResetListOptions(contactList);
 			RebuildList(contactList, hSystem, to);
 
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_TASK_TYPE, CBN_SELCHANGE), NULL);
@@ -1927,13 +1915,6 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DELTA_TIME_LABEL), showDT);  
 			}
 		}
-		return TRUE;
-
-	case WM_NOTIFY:
-		NMHDR* nmhdr = (NMHDR *) lParam;
-		if (nmhdr->idFrom == IDC_LIST_CONTACTSEX && nmhdr->code == CLN_OPTIONSCHANGED) 
-			ResetListOptions(hwndDlg);
-
 		return TRUE;
 	}
 

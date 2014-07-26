@@ -121,16 +121,7 @@ static void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
 
 static void ResetListOptions(HWND hwndList)
 {
-	int i;
-
-	SendMessage(hwndList, CLM_SETBKBITMAP, 0, 0);
-	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndList, CLM_SETLEFTMARGIN, 4, 0);
-	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
 	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-	for (i=0; i <= FONTID_MAX; i++)
-		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
 static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int iColumn, int iImage)

@@ -1726,14 +1726,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 
 		switch (((NMHDR*)lParam)->idFrom) {
-		case IDC_CLIST:
-			switch (((NMHDR*)lParam)->code) {
-			case CLN_OPTIONSCHANGED:
-				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
-				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
-			}
-			break;
-
 		case IDC_LOG:
 		case IDC_MESSAGE:
 			switch (((NMHDR*)lParam)->code) {

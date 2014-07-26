@@ -406,15 +406,7 @@ static MCONTACT gg_getsubcontact(GGPROTO* gg, MCONTACT hContact)
 
 static void gg_gc_resetclistopts(HWND hwndList)
 {
-	int i;
-	SendMessage(hwndList, CLM_SETLEFTMARGIN, 2, 0);
-	SendMessage(hwndList, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
-	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
 	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
-	for (i = 0; i <= FONTID_MAX; i++)
-		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
 static int gg_gc_countcheckmarks(HWND hwndList)

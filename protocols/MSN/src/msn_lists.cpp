@@ -427,18 +427,6 @@ static void AddPrivacyListEntries(HWND hwndList, CMsnProto *proto)
 	}
 }
 
-static void ResetListOptions(HWND hwndList)
-{
-	SendMessage(hwndList, CLM_SETBKBITMAP, 0, 0);
-	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndList, CLM_SETLEFTMARGIN, 2, 0);
-	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-
-	for (int i=0; i<=FONTID_MAX; i++)
-		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-}
-
 static void SetContactIcons(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 {
 	if (!proto->MSN_IsMyContact(hItem)) {
@@ -594,7 +582,6 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(hwndList, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendMessage(hwndList, CLM_SETEXTRACOLUMNS, 5, 0);
 
-			ResetListOptions(hwndList);
 			EnableWindow(hwndList, ((CMsnProto*)lParam)->msnLoggedIn);
 		}
 		return TRUE;
@@ -638,10 +625,6 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case CLN_LISTREBUILT:
 				AddPrivacyListEntries(nmc->hdr.hwndFrom, proto);
 				SetAllContactIcons(NULL, nmc->hdr.hwndFrom, proto);
-				break;
-
-			case CLN_OPTIONSCHANGED:
-				ResetListOptions(nmc->hdr.hwndFrom);
 				break;
 
 			case NM_CLICK:

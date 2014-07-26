@@ -2352,7 +2352,6 @@ void HistoryWindow::SelectContact(MCONTACT _hContact)
 void ResetCList(HWND hWnd)
 {
 	COLORREF bkCLColor = Options::instance->GetColor(Options::ContactListBackground);
-	SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP) NULL);
 	SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_SETBKCOLOR, bkCLColor, 0);
 	SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_SETUSEGROUPS, Options::instance->showContactGroups, 0);
 }

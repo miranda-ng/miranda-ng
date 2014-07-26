@@ -737,6 +737,22 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_QUICKSEARCHCOLOUR);
 	dat->useWindowsColours = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 
+	if (cli.hwndContactTree != NULL && hwnd != cli.hwndContactTree) {
+		dat->bkChanged = true; // block custom background
+		dat->bkColour = GetSysColor(COLOR_WINDOW);
+		if (dat->hBmpBackground) {
+			DeleteObject(dat->hBmpBackground);
+			dat->hBmpBackground = NULL;
+		}
+
+		dat->greyoutFlags = 0;
+		dat->leftMargin = 4;
+		dat->groupIndent = 10;
+
+		for (int i=0; i <= FONTID_MAX; i++)
+			dat->fontInfo[i].colour = GetSysColor(COLOR_WINDOWTEXT);
+	}
+
 	if (!dat->bkChanged) {
 		dat->bkColour = db_get_dw(NULL, "CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
 		if (dat->hBmpBackground) {

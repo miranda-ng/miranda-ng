@@ -42,15 +42,6 @@ static int cbGroupIds = 0;
 // Init default clist options
 static void ResetCListOptions(HWND hwndList)
 {
-	int i;
-
-	SendMessage(hwndList, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
-	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndList, CLM_SETLEFTMARGIN, 2, 0);
-	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-	for(i=0; i<=FONTID_MAX; i++)
-		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE)|CLS_SHOWHIDDEN);
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS) // hide empty groups
 		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM) TRUE, 0);

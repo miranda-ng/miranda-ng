@@ -439,7 +439,6 @@ void ReloadSkinItemsToCache();
 
 //clcopts.c
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
-DWORD GetDefaultExStyle(void);
 void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 void CluiProtocolStatusChanged( int parStatus, const char* szProto );
 

@@ -305,15 +305,6 @@ int UserInfoInitialise(WPARAM wParam, LPARAM lParam)
 
 void ResetListOptions(HWND hwndList) 
 {
-	SendMessage(hwndList, CLM_SETBKBITMAP, 0, 0);
-	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndList, CLM_SETLEFTMARGIN, 4, 0);
-	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-
-	for (int i = 0; i <= FONTID_MAX; i++)
-		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-
 	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList,GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 

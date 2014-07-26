@@ -302,32 +302,9 @@ static void setAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
 /**
  * set colors, margins, indents, styles etc of list
  */
-static void resetListOptions(HWND hwndList){
-
-	//background image = null
-	SendMessage(hwndList, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
-
-	//background color	//TODO - colours
-	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-
-	//?
-	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-
-	//left margin
-	SendMessage(hwndList, CLM_SETLEFTMARGIN, 2, 0);
-
-	//indent
-	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-
-	//font color	//TODO - colours
-	int i;
-	for(i=0; i<=FONTID_MAX; i++){ // FONTID_MAX - miranda const
-		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-	}
-
-	//?
+static void resetListOptions(HWND hwndList)
+{
 	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList,GWL_STYLE)|CLS_SHOWHIDDEN);
-
 }
 
 

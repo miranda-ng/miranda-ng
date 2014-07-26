@@ -102,7 +102,6 @@ void DialogConfigActive::notify(HWND hwndDlg, LPARAM lParam) {
 			SetListGroupIcons( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
 			break;
 		case CLN_OPTIONSCHANGED:
-			
 			ResetListOptions( GetDlgItem(hwndDlg, IDC_ACTIVE_USERS));
 			break;
 		case CLN_CHECKCHANGED:
@@ -268,16 +267,7 @@ void DialogConfigActive::SetAllContactIcons(HWND hwndList, HWND window) {
 }
 
 void DialogConfigActive::ResetListOptions(HWND listview) {
-	SendMessage(listview, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
-	SendMessage(listview, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(listview, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(listview, CLM_SETLEFTMARGIN, 2, 0);
-	SendMessage(listview, CLM_SETINDENT, 10, 0);
 	SendMessage(listview, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-
-	for (int i=0; i <= FONTID_MAX; i++)
-		SendMessage(listview, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-
 	SetWindowLongPtr(listview, GWL_STYLE, GetWindowLongPtr(listview, GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 

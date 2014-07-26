@@ -160,25 +160,6 @@ int TSendContactsData::SendContacts(HWND hwndDlg)
 
 /* Send Dialog Implementation */
 
-static void ResetListOptions(HWND hwndList)
-{
-	COLORREF bgColour, fgColour;
-
-	SendMessage(hwndList, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
-	bgColour = GetSysColor(COLOR_WINDOW);
-	SendMessage(hwndList, CLM_SETBKCOLOR, bgColour, 0);
-	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndList, CLM_SETLEFTMARGIN, 4, 0);
-	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-	for (int i = 0; i <= FONTID_MAX; i++) {
-		fgColour = (COLORREF)SendMessage(hwndList, CLM_GETTEXTCOLOR, i, 0);
-		if (abs(GetRValue(fgColour) - GetRValue(bgColour)) < 10 &&
-			abs(GetGValue(fgColour) - GetGValue(bgColour)) < 10 &&
-			abs(GetBValue(fgColour) - GetBValue(bgColour)) < 10)
-			SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-	}
-}
-
 static MCONTACT FindNextClistContact(HWND hList, MCONTACT hContact, MCONTACT *phItem)
 {
 	MCONTACT hNextContact = db_find_next(hContact);
@@ -250,7 +231,6 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS)));
-		ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
 		SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), lParam);
 		WindowList_Add(ghSendWindowList, hwndDlg, lParam);
 		wndData = new TSendContactsData(lParam);
@@ -275,9 +255,6 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			case CLN_NEWCONTACT:
 			case CLN_LISTREBUILT: // rebuild list
 				if (wndData) SetAllContactChecks(GetDlgItem(hwndDlg, IDC_LIST), wndData->hContact);
-			case CLN_OPTIONSCHANGED:
-				ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
-				break;
 			}
 		}
 		break;

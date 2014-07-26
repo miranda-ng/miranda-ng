@@ -1100,6 +1100,7 @@ static LRESULT CALLBACK ContactsSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam,
 
 INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	HWND hwndList = GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST);
 	static HANDLE hItemAll, hItemUnknown;
 	
 	switch (msg) {
@@ -1107,7 +1108,6 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwndDlg);
 		{
 			MySetPos(hwndDlg);
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST);
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT)));
 			ImageList_AddIcon(hIml, LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_IGNORE)));
@@ -1143,21 +1143,11 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case UM_CONTACTSDLG_RESETLISTOPTIONS:
-		{
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST);
-			SendMessage(hwndList, CLM_SETBKBITMAP, 0, NULL);
-			SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-			SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-			SendMessage(hwndList, CLM_SETLEFTMARGIN, 4, 0);
-			SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-			SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-			for (int i = 0; i <= FONTID_MAX; i++)
-				SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-		}
+		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 		break;
 
 	case WM_SETFOCUS:
-		SetFocus(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST));
+		SetFocus(hwndList);
 		break;
 
 	case WM_NOTIFY:
@@ -1166,10 +1156,10 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			switch (((LPNMHDR)lParam)->code) {
 			case CLN_NEWCONTACT:
 			case CLN_LISTREBUILT:
-				SetAllContactIcons(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), hItemUnknown);
+				SetAllContactIcons(hwndList, hItemUnknown);
 				// fall through
 			case CLN_CONTACTMOVED:
-				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll);
+				SetListGroupIcons(hwndList, (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll);
 				break;
 			case CLN_OPTIONSCHANGED:
 				SendMessage(hwndDlg, UM_CONTACTSDLG_RESETLISTOPTIONS, 0, 0);
@@ -1179,7 +1169,6 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			case NM_DBLCLK:
 				{
 					NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
-					HWND hwndList = GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST);
 					if (nm->iColumn == -1)
 						break;
 
@@ -1213,19 +1202,19 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_FINDCONTACT, hContact, 0);
+					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					if (hItem)
-						SaveItemState(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), hContact, hItem);
+						SaveItemState(hwndList, hContact, hItem);
 				}
 
-				SaveItemState(GetDlgItem(hwndDlg, IDC_CONTACTSDLG_LIST), INVALID_CONTACT_ID, hItemUnknown);
+				SaveItemState(hwndList, INVALID_CONTACT_ID, hItemUnknown);
 				return true;
 			}
 		}
 		break;
 
 	case WM_DESTROY:
-		HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_CONTACTSDLG_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
+		HIMAGELIST hIml = (HIMAGELIST)SendMessage(hwndList, CLM_GETEXTRAIMAGELIST, 0, 0);
 		_ASSERT(hIml);
 		ImageList_Destroy(hIml);
 		break;

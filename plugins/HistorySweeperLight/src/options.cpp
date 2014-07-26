@@ -86,20 +86,6 @@ void  ReleaseIconEx(const char* name)
 
 HANDLE hAllContacts, hSystemHistory;
 
-void ResetListOptions(HWND hwndList)
-{
-	int i;
-
-	SendMessage(hwndList, CLM_SETBKBITMAP, 0, 0);
-	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwndList, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndList, CLM_SETLEFTMARGIN, 4, 0);
-	SendMessage(hwndList, CLM_SETINDENT, 10, 0);
-
-	for (i=0; i<=FONTID_MAX; i++)
-		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
-}
-
 static void ShowAllContactIcons(HWND hwndList)
 {
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hAllContacts,
@@ -235,7 +221,6 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, 1, 0);
 
 			TranslateDialogDefault(hwndDlg);
-			ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
 			LoadSettings(hwndDlg);
 		}
 		return TRUE;
@@ -268,10 +253,6 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				case CLN_NEWCONTACT:
 				case CLN_LISTREBUILT:
 					ShowAllContactIcons(nmc->hdr.hwndFrom);
-					break;
-
-				case CLN_OPTIONSCHANGED:
-					ResetListOptions(nmc->hdr.hwndFrom);
 					break;
 
 				case NM_CLICK:

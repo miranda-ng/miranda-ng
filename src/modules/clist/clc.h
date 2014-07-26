@@ -106,7 +106,6 @@ int fnRowHitTest(struct ClcData *dat, int y);
 
 /* clcopts.c */
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
-DWORD GetDefaultExStyle(void);
 void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 
 /* clistmenus.c */
