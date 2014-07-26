@@ -328,6 +328,7 @@ void DestroyAnimatedGif(HWND hwnd, ACCData* data)
 	}
 
 	data->showingAnimatedGif = FALSE;
+	data->ag.started = FALSE;
 }
 
 void StartAnimatedGif(HWND hwnd, ACCData* data)
