@@ -156,8 +156,11 @@ begin
     begin
       if atype=ACF_NUMBER then //!!
       begin
-        pcw:='0';
-        SendMessageW(wnd,WM_SETTEXT,0,TLParam(pcw));
+        if SendMessageW(wnd,WM_GETTEXTLENGTH,0,0)=0 then
+        begin
+          pcw:='0';
+          SendMessageW(wnd,WM_SETTEXT,0,TLParam(pcw));
+        end;
       end;
       EnableEditField(wnd,true);
     end;

@@ -84,6 +84,7 @@ begin
       hVolFrmCtrl:=0;
       hVolFrmMute:=0;
       DeleteObject(hbr);
+      hbr:=0;
     end;
 
     WM_INITDIALOG: begin

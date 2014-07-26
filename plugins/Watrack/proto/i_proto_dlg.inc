@@ -38,20 +38,6 @@ begin
   end;
 end;
 
-procedure ResetListOptions(hwndList:HWND);
-var
-  i:integer;
-begin
-  SendMessage(hwndList,CLM_SETBKBITMAP    ,0,0);
-  SendMessage(hwndList,CLM_SETBKCOLOR     ,GetSysColor(COLOR_WINDOW),0);
-  SendMessage(hwndList,CLM_SETGREYOUTFLAGS,0,0);
-  SendMessage(hwndList,CLM_SETLEFTMARGIN  ,2,0);
-  SendMessage(hwndList,CLM_SETINDENT      ,10,0);
-  for i:=0 to FONTID_MAX do
-    SendMessage(hwndList,CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
-  SetWindowLongPtr(hwndList,GWL_STYLE,GetWindowLongPtr(hwndList,GWL_STYLE) or CLS_SHOWHIDDEN);
-end;
-
 procedure SetHistMask(Dlg:HWND);
 begin
   CheckDlgButton(Dlg,IDC_IN_REQUEST ,ORD((HistMask and hmInRequest )<>0));
@@ -92,7 +78,7 @@ begin
       Changed:=DLGED_INIT;
 
       hList:=GetDlgItem(Dialog,IDC_SHARE);
-      ResetListOptions(hList);
+      SetWindowLongPtr(hList,GWL_STYLE,GetWindowLongPtr(hList,GWL_STYLE) or CLS_SHOWHIDDEN);
       SendMessage(hList,CLM_SETUSEGROUPS      ,1,0);
       SendMessage(hList,CLM_SETHIDEEMPTYGROUPS,1,0);
 

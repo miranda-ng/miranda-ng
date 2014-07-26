@@ -77,7 +77,9 @@ procedure ShellSort(size:integer;Compare,Swap:tSortProc);
 //----- String processing -----
 
 function FormatStrW   (fmt:pWideChar; const arr:array of pWideChar):pWideChar;
+function FormatStr    (fmt:pAnsiChar; const arr:array of pAnsiChar):pAnsiChar;
 function FormatSimpleW(fmt:pWideChar; const arr:array of const):pWideChar;
+function FormatSimple (fmt:pAnsiChar; const arr:array of const):pAnsiChar;
 
 const
   SIGN_UNICODE    = $FEFF;
@@ -90,6 +92,8 @@ const
   CP_REVERSEBOM = 65534;
 // trying to recognize text encoding. Returns CP_
 function GetTextFormat(Buffer:pByte;sz:cardinal):integer;
+
+function AdjustLineBreaks(S:pWideChar):pWideChar;
 
 //----- Encoding conversion -----
 
@@ -162,6 +166,8 @@ function GetPairChar(ch:WideChar):WideChar; overload;
 
 //----- String/number conversion -----
 
+function IntStrLen(Value:int64; base:integer=10):integer;
+
 function IntToHex(dst:pWideChar;Value:int64;Digits:integer=0):pWideChar; overload;
 function IntToHex(dst:PAnsiChar;Value:int64;Digits:integer=0):PAnsiChar; overload;
 function IntToStr(dst:pWideChar;Value:int64;Digits:integer=0):pWideChar; overload;
@@ -174,26 +180,6 @@ function NumToInt(src:pWideChar):int64; overload;
 function NumToInt(src:pAnsiChar):int64; overload;
 
 //----- Date and Time -----
-const
-  SecondsPerDay = 24*60*60;
-  // Days between 1/1/0001 and 12/31/1899
-  DateDelta = 693594;
-  // Days between TDateTime basis (12/31/1899) and Unix time_t basis (1/1/1970)
-  UnixDateDelta = 25569;
-  // Days between Unix time_t basis (1/1/1970) and Windows timestamp (1/1/1601)
-  WinDateDelta = 134774; // 
-
-function IsLeapYear(Year:word):Boolean;
-function EncodeTime(Hour, Minute, Sec: cardinal):TDateTime;
-function EncodeDate(Year, Month , Day: cardinal):TDateTime;
-
-function Timestamp(Year,Month,Day:cardinal;Hour:cardinal=0;Minute:cardinal=0;Sec:cardinal=0):dword;
-function GetCurrentTime:dword;
-
-procedure UnixTimeToFileTime(ts:int_ptr; var pft:TFILETIME);
-function FileTimeToUnixTime(const pft: TFILETIME):int_ptr;
-function TimeStampToLocalTimeStamp(ts:int_ptr):int_ptr;
-function TimestampToDateTime(ts:int_ptr):TDateTime;
 
 function TimeToInt(stime:PAnsiChar):integer; overload;
 function TimeToInt(stime:PWideChar):integer; overload;
@@ -1333,6 +1319,46 @@ begin
   pc^:=#0;
 end;
 
+function FormatStr(fmt:pAnsiChar; const arr:array of pAnsiChar):pAnsiChar;
+var
+  i,len:integer;
+  pc:pAnsiChar;
+  number:integer;
+begin
+  result:=nil;
+  if (fmt=nil) or (fmt^=#0) then
+    exit;
+
+  // calculate length
+  len:=StrLen(fmt); // -2*Length(arr)
+  for i:=0 to HIGH(arr) do
+    inc(len,StrLen(arr[i]));
+
+  // format
+  mGetMem(result,len+1);
+  pc:=result;
+  number:=0;
+  while fmt^<>#0 do
+  begin
+    if (fmt^='%') and ((fmt+1)^='s') then
+    begin
+      if number<=HIGH(arr) then
+      begin
+        pc:=StrCopyE(pc,arr[number]);
+        inc(number);
+      end;
+      inc(fmt,2);
+    end
+    else
+    begin
+      pc^:=fmt^;
+      inc(pc);
+      inc(fmt);
+    end;
+  end;
+  pc^:=#0;
+end;
+
 function FormatSimpleW(fmt:pWideChar; const arr:array of const):pWideChar;
 var
   i,len:integer;
@@ -1370,7 +1396,7 @@ begin
           end;
           inc(fmt,2);
         end;
-        'd': begin
+        'd','u': begin
           if number<=HIGH(arr) then
           begin
             pc:=StrEndW(IntToStr(pc,arr[number].VInteger));
@@ -1391,6 +1417,126 @@ begin
     end;
   end;
   pc^:=#0;
+end;
+
+function FormatSimple(fmt:pAnsiChar; const arr:array of const):pAnsiChar;
+var
+  i,len:integer;
+  pc:pAnsiChar;
+  number:integer;
+begin
+  result:=nil;
+  if (fmt=nil) or (fmt^=#0) then
+    exit;
+
+  // calculate length
+  len:=StrLen(fmt); // -2*Length(arr)
+  for i:=0 to HIGH(arr) do
+  begin
+    case arr[i].VType of
+      vtInteger: inc(len,10); // max len of VInteger text
+      vtPChar  : inc(len,StrLen(arr[i].VPChar));
+    end;
+  end;
+
+  // format
+  mGetMem(result,len+1);
+  pc:=result;
+  number:=0;
+  while fmt^<>#0 do
+  begin
+    if (fmt^='%') then
+    begin
+      case (fmt+1)^ of
+        's': begin
+          if number<=HIGH(arr) then
+          begin
+            pc:=StrCopyE(pc,arr[number].VPChar);
+            inc(number);
+          end;
+          inc(fmt,2);
+        end;
+        'd','u': begin
+          if number<=HIGH(arr) then
+          begin
+            pc:=StrEnd(IntToStr(pc,arr[number].VInteger));
+            inc(number);
+          end;
+          inc(fmt,2);
+        end;
+        '%': begin
+          pc^:='%';
+          inc(pc);
+          inc(fmt,2);
+        end;
+      else
+        pc^:=fmt^;
+        inc(pc);
+        inc(fmt);
+      end;
+    end;
+  end;
+  pc^:=#0;
+end;
+
+function AdjustLineBreaks(S:pWideChar):pWideChar;
+var
+  Source, Dest: PWideChar;
+  Extra, len: Integer;
+begin
+  Result := nil;
+  len := StrLenW(S);
+  if len=0 then
+    exit;
+
+  Source := S;
+  Extra := 0;
+  while Source^ <> #0 do
+  begin
+    case Source^ of
+      #10:
+        Inc(Extra);
+      #13:
+        if Source[1] = #10 then
+          Inc(Source)
+        else
+          Inc(Extra);
+    end;
+    Inc(Source);
+  end;
+
+  if Extra = 0 then
+  begin
+    StrDupW(Result, S);
+  end
+  else
+  begin
+    Source := S;
+    mGetMem(Result, (len + Extra + 1) * SizeOf(WideChar));
+    Dest := Result;
+    while Source^ <> #0 do
+    begin
+      case Source^ of
+        #10: begin
+          Dest^ := #13;
+          Inc(Dest);
+          Dest^ := #10;
+        end;
+        #13: begin
+          Dest^ := #13;
+          Inc(Dest);
+          Dest^ := #10;
+          if Source[1] = #10 then
+            Inc(Source);
+        end;
+      else
+        Dest^ := Source^;
+      end;
+      Inc(Dest);
+      Inc(Source);
+    end;
+    Dest^ := #0;
+  end;
 end;
 
 // ----- base string functions -----
@@ -2118,93 +2264,6 @@ end;
 
 //----- Date and Time -----
 
-type
-  PDayTable = ^TDayTable;
-  TDayTable = array [0..11] of cardinal;
-
-const
-  MonthDays: array [Boolean] of TDayTable =
-    ((31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31),
-     (31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31));
-
-function IsLeapYear(Year:word):Boolean;
-begin
-  Result:=(Year mod 4=0) and ((Year mod 100<>0) or (Year mod 400=0));
-end;
-
-function EncodeTime(Hour, Minute, Sec: cardinal): TDateTime;
-begin
-  result := (Hour*3600 + Minute*60 + Sec) / 86400;
-end;
-
-function EncodeDate(Year, Month, Day: cardinal):TDateTime;
-var
-  DayTable: PDayTable;
-begin
-  DayTable := @MonthDays[IsLeapYear(Year)];
-  dec(Month);
-  while Month>0 do
-  begin
-    dec(Month);
-    inc(Day,DayTable^[Month]);
-  end;
-
-  dec(Year);
-  result := Year * 365 + Year div 4 - Year div 100 + Year div 400 + Day - DateDelta;
-end;
-
-function Timestamp(Year,Month,Day:cardinal;Hour:cardinal=0;Minute:cardinal=0;Sec:cardinal=0):dword;
-var
-  t:tDateTime;
-begin
-  t := EncodeDate(Year, Month, Day);
-  if t >= 0 then
-    t := t + EncodeTime(Hour, Minute, Sec)
-  else
-    t := t - EncodeTime(Hour, Minute, Sec);
-  result:=Round((t - UnixDateDelta) * SecondsPerDay);
-end;
-
-function GetCurrentTime:dword;
-var
-  st:tSystemTime;
-begin
-  GetSystemTime(st);
-  result:=Timestamp(st.wYear,st.wMonth,st.wDay,st.wHour,st.wMinute,st.wSecond);
-end;
-
-procedure UnixTimeToFileTime(ts:int_ptr; var pft:TFILETIME);
-var
-  ll:uint64;
-begin
-	ll := (int64(WinDateDelta)*SecondsPerDay + ts) * 10000000;
-	pft.dwLowDateTime  := dword(ll);
-	pft.dwHighDateTime := ll shr 32;
-end;
-
-function FileTimeToUnixTime(const pft: TFILETIME):int_ptr;
-var
-  ll:uint64;
-begin
-	ll := (uint64(pft.dwHighDateTime) shl 32) or pft.dwLowDateTime;
-	ll := (ll div 10000000) - int64(WinDateDelta)*SecondsPerDay;
-	result := int_ptr(ll);
-end;
-
-function TimeStampToLocalTimeStamp(ts:int_ptr):int_ptr;
-var
-  ft,lft:TFileTime;
-begin
-  UnixTimeToFileTime(ts,ft);
-  FileTimeToLocalFileTime(ft, lft);
-  result:=FileTimeToUnixTime(lft);
-end;
-
-function TimestampToDateTime(ts:int_ptr):TDateTime;
-begin
-  Result := UnixDateDelta + TimeStampToLocalTimeStamp(ts) / SecondsPerDay;
-end;
-
 function TimeToInt(stime:PAnsiChar):integer;
 var
   hour,minute,sec,len,i:integer;
@@ -2371,9 +2430,23 @@ begin
   end;
 end;
 
+function IntStrLen(Value:int64; base:integer=10):integer;
+var
+  i:uint64;
+begin
+  result:=0;
+  if (base=10) and (Value<0) then
+    inc(result);
+  i:=ABS(Value);
+  repeat
+    i:=i div base;
+    inc(result);
+  until i=0;
+end;
+
 function IntToStr(dst:PAnsiChar;Value:int64;Digits:integer=0):PAnsiChar;
 var
-  i:dword;
+  i:uint64;
 begin
   if Digits<=0 then
   begin
@@ -2404,7 +2477,7 @@ end;
 
 function IntToStr(dst:pWideChar;Value:int64;Digits:integer=0):pWideChar;
 var
-  i:dword;
+  i:uint64;
 begin
   if Digits<=0 then
   begin
