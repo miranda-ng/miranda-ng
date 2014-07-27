@@ -320,6 +320,16 @@ Pobieranie listy - %u kanałów
 Pobrano: %u kanałów
 [(probably truncated by server)]
 (prawdopodobnie okrojona przez serwer)
+[%ud, %uh, %um, %us]
+%ud, %uh, %um, %us
+[%uh, %um, %us]
+%uh, %um, %us
+[%um, %us]
+%um, %us
+[%us]
+%us
+[online since %s, idle %s]
+dostępny od %s, bezczynny %s
 [Change nickname]
 Zmień nick
 [IRC error]

@@ -50,14 +50,12 @@ Niestandardowa wersja
 Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirande, aby zainstalować pobrane aktualizacje.
 [Notifications]
 Powiadomienia
-[Message boxes (*)]
-Komunikaty
+[Restart]
+Restart
 [Errors]
 Błędy
 [Info messages]
 Informacje
-[Progress dialogs]
-Postęp
 [Back]
 Tło
 [Text]
@@ -86,10 +84,8 @@ Wyświetlaj
 -1 - nie chowaj
 [Sec]
 s
-[* Needs popup actions to be enabled]
-* Wymaga działań popup, które zostaną włączone
-[Not sets for "Message boxes"]
-Nie określa dla "Komunikaty"
+[Not set for "Restart"]
+Nie ustawiony na "Restart"
 [Boxes]
 Okna
 [Popups]
@@ -101,14 +97,14 @@ Tutaj znajduje się kompletna lista brakujących komponentów Mirandy NG. Zaznac
 [Download]
 Pobierz
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
-[Skipped.]
-Pominięto.
 [Downloading...]
 Pobieranie...
-[Failed!]
-Błąd!
 [Succeeded.]
 Pobrano.
+[Failed!]
+Błąd!
+[Skipped.]
+Pominięto.
 [Plugin Updater]
 Aktualizacje
 [Download complete]
@@ -136,21 +132,31 @@ Wczytywanie listy już rozpoczęte!
 Zostanie usunięty!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizacja zakończona. Wciśnij "Tak", aby zrestartować Mirandę teraz lub "Nie", żeby zrobić to później.
+[Core components]
+Komponenty rdzenia
+[Core]
+Rdzeń
 [<< Details]
 << Szczegóły
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Aktualizacja nie powiodła się! Jeden z komponentów nie został prawidłowo pobrany. Spróbuj ponownie później.
+[%d component(s) was updated]
+Zaktualizowano %d komponentów
 [You need to restart your Miranda to apply installed updates.]
 Musisz zrestartować Mirandę, aby zainstalować aktualizacje.
 [Would you like to restart it now?]
 Czy chcesz zrobić to teraz?
-[%d component(s) was updated]
-Zaktualizowano %d komponentów
 [No updates found.]
 Nie znaleziono aktualizacji.
 [Update checking already started!]
 Sprawdzanie aktualizacji już rozpoczęte!
 ;file \plugins\PluginUpdater\src\Events.cpp
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+Zamknij popup
+[Do nothing]
+Nic nie rób
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 godziny
@@ -170,10 +176,6 @@ Aktualizacja zakończona
 [Update failed]
 Aktualizacja nie powiodła się
 ;file \plugins\PluginUpdater\src\Utils.cpp
-['Yes' Button]
-Przycisk "Tak"
-['No' Button]
-Przycisk "Nie"
 [Plugin info]
 Informacje o wtyczkach
 [Plugin list]
