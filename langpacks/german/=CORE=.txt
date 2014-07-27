@@ -2239,15 +2239,15 @@ Erstellen
 [<In use>]
 <verwendet>
 [<Unknown format>]
-
+<unbekanntes Format>
 [Are you sure you want to remove profile "%s"?]
 Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
 [&Convert]
-
+&Umwandeln
 [Run]
 Starten
 [Convert database]
-
+Datenbank umwandeln
 [Check database]
 Datenbank überprüfen
 [Size]

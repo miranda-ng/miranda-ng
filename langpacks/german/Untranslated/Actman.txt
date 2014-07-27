@@ -1,2 +1,0 @@
-﻿[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-[Enables or disables Popup windows (maybe deprecated)]

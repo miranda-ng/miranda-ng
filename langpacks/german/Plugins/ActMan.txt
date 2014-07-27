@@ -368,7 +368,7 @@ ohne Bestätigung
 [Empty updater download folder]
 Updater-Downloadverzeichnis leeren
 [Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-
+Popup Plus (popup.dll), neustes YAPP (yapp.dll)
 [Enables or disables Popup windows]
 Aktiviert oder deaktiviert Popupfenster
 [YAPP or Popup]
@@ -386,7 +386,7 @@ Nur YAPP
 [Unicode Text]
 Unicode-Text
 [Enables or disables Popup windows (maybe deprecated)]
-
+Aktiviert oder deaktiviert Popups (vielleicht veraltet)
 [result of protocol service call]
 Ergebnis des Protokollserviceaufrufes
 [Send a general request through the protocol chain for a contact]
