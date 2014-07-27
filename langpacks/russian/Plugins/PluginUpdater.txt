@@ -49,14 +49,12 @@
 Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
 [Notifications]
 Уведомления
-[Message boxes (*)]
-Диалоги (*)
+[Restart]
+Перезапуск
 [Errors]
 Ошибки
 [Info messages]
 Инфо сообщения
-[Progress dialogs]
-Диалоги прогресса
 [Back]
 Фон
 [Text]
@@ -85,10 +83,8 @@
 -1=Бесконечно
 [Sec]
 сек.
-[* Needs popup actions to be enabled]
-* Необходимы включённые действия вспл. окон
-[Not sets for "Message boxes"]
-Не устанавливает для "Диалоги"
+[Not set for "Restart"]
+"Перезапуск" не установлен
 [Boxes]
 Окна
 [Popups]
@@ -99,14 +95,14 @@
 Ниже перечислены все отсутствующие компоненты Miranda NG. Выберите компоненты, которые вы хотите установить.\n\nНажмите на значок информации, чтобы перейти на страницу компонента на сайте.
 [Download]
 Загрузка
-[Skipped.]
-Пропущено.
 [Downloading...]
 Загрузка...
-[Failed!]
-Ошибка!
 [Succeeded.]
 Завершено.
+[Failed!]
+Ошибка!
+[Skipped.]
+Пропущено.
 [Plugin Updater]
 Обновление плагинов
 [Download complete]
@@ -133,20 +129,28 @@
 Удалено!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Обновление завершено. Нажмите "Да" для немедленной перезагрузки программы или "Нет", чтобы отложить обновление до выхода.
+[Core components]
+Компоненты ядра
+[Core]
+Ядро
 [<< Details]
 << Детали
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Ошибка обновления! Архив одного из закачанных компонентов поврежден. Попробуйте повторить попытку позже.
+[%d component(s) was updated]
+%d компонент(ов) было обновлено
 [You need to restart your Miranda to apply installed updates.]
 Применение обновлений произойдёт после перезапуска программы.
 [Would you like to restart it now?]
 Перезагрузить программу сейчас?
-[%d component(s) was updated]
-%d компонент(ов) было обновлено
 [No updates found.]
 Обновлений нет.
 [Update checking already started!]
 Обновление уже запущено!
+[Close popup]
+Закрыть всплывающее окно
+[Do nothing]
+Ничего не делать
 [hours]
 часа(ов)
 [days]
@@ -163,10 +167,6 @@
 Обновление завершено
 [Update failed]
 Сбой обновления
-['Yes' Button]
-Кнопка 'Да'
-['No' Button]
-Кнопка 'Нет'
 [Plugin info]
 Информация о плагинах
 [Plugin list]
