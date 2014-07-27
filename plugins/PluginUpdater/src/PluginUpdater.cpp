@@ -135,9 +135,9 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	InitEvents();
 
-	//add sounds
-	SkinAddNewSoundEx("updatecompleted",LPGEN("Plugin Updater"),LPGEN("Update completed"));
-	SkinAddNewSoundEx("updatefailed",LPGEN("Plugin Updater"),LPGEN("Update failed"));
+	// add sounds
+	SkinAddNewSoundEx("updatecompleted", LPGEN("Plugin Updater"), LPGEN("Update completed"));
+	SkinAddNewSoundEx("updatefailed", LPGEN("Plugin Updater"), LPGEN("Update failed"));
 	
 	// Upgrade old settings
 	if (!db_get_b(0, MODNAME, "UpdateMode", 0)) {
@@ -155,7 +155,9 @@ extern "C" __declspec(dllexport) int Load(void)
 				db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK_SYMBOLS);
 				db_unset(0, MODNAME, "UpdateURL");
 			}
+			else db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_CUSTOM);
 		}
+		else db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_STABLE);
 	}
 	return 0;
 }
