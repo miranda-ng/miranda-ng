@@ -50,14 +50,12 @@
 
 [Notifications]
 Уведомявания
-[Message boxes (*)]
-Текстови кутии (*)
+[Restart]
+
 [Errors]
 Грешки
 [Info messages]
 Информационни съобщения
-[Progress dialogs]
-Прозорци за напредъка
 [Back]
 фон
 [Text]
@@ -86,9 +84,7 @@
 -1 = безкрайно
 [Sec]
 сек
-[* Needs popup actions to be enabled]
-* Изисква Popup Действията да са включени
-[Not sets for "Message boxes"]
+[Not set for "Restart"]
 
 [Boxes]
 Кутии
@@ -101,14 +97,14 @@
 [Download]
 Сваляне
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
-[Skipped.]
-Пропуснат.
 [Downloading...]
 Сваляне...
-[Failed!]
-Неуспешно!
 [Succeeded.]
 Успешно.
+[Failed!]
+Неуспешно!
+[Skipped.]
+Пропуснат.
 [Plugin Updater]
 Plugin Updater
 [Download complete]
@@ -136,21 +132,31 @@ Plugin Updater
 Ще бъде изтрито!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 
+[Core components]
+
+[Core]
+
 [<< Details]
 <<Подробности
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 
+[%d component(s) was updated]
+
 [You need to restart your Miranda to apply installed updates.]
 
 [Would you like to restart it now?]
-
-[%d component(s) was updated]
 
 [No updates found.]
 Няма налични актуализации.
 [Update checking already started!]
 Вече е стартирана проверка за актуализации!
 ;file \plugins\PluginUpdater\src\Events.cpp
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+
+[Do nothing]
+
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 часове
@@ -170,10 +176,6 @@ Plugin Updater
 [Update failed]
 
 ;file \plugins\PluginUpdater\src\Utils.cpp
-['Yes' Button]
-Бутон "Да"
-['No' Button]
-Бутон "не"
 [Plugin info]
 Инф. за приставката
 [Plugin list]

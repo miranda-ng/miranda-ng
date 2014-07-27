@@ -49,14 +49,10 @@
 Оновлено деякі компоненти.\nОновлення будуть застосовані після перезапуску програми.
 [Notifications]
 Сповіщення
-[Message boxes (*)]
-Діалоги (*)
 [Errors]
 Помилки
 [Info messages]
 Інформація
-[Progress dialogs]
-Діалоги прогресу
 [Back]
 Фон
 [Text]
@@ -85,10 +81,6 @@
 -1=Нескінченно
 [Sec]
 с
-[* Needs popup actions to be enabled]
-* Необхідно ввімкнути дії сплив. вікон
-[Not sets for "Message boxes"]
-Не встановлює для "Діалоги"
 [Boxes]
 Вікна
 [Popups]
@@ -99,14 +91,14 @@
 Нижче перелічено всі відсутні компоненти Miranda NG. Виберіть компоненти, які ви хочете завантажити.\n\nНатисніть на значок інформації, щоб перейти на сторінку компонента на сайті.
 [Download]
 Завантажити
-[Skipped.]
-Пропущено.
 [Downloading...]
 Завантаження...
-[Failed!]
-Помилка!
 [Succeeded.]
 Завершено.
+[Failed!]
+Помилка!
+[Skipped.]
+Пропущено.
 [Plugin Updater]
 Оновлення плагінів
 [Download complete]
@@ -137,12 +129,12 @@
 << Деталі
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Помилка оновлення! Архів одного з компонентів пошкоджений. Спробуйте ще раз пізніше.
+[%d component(s) was updated]
+%d компонентів оновлено.
 [You need to restart your Miranda to apply installed updates.]
 Оновлення будуть застосовані після перезапуску програми.
 [Would you like to restart it now?]
 Перезапустити зараз?
-[%d component(s) was updated]
-%d компонентів оновлено.
 [No updates found.]
 Оновлень немає.
 [Update checking already started!]
@@ -163,10 +155,6 @@
 Оновлення завершено
 [Update failed]
 Помилка оновлення
-['Yes' Button]
-Кнопка "Так"
-['No' Button]
-Кнопка "Ні"
 [Plugin info]
 Інформація
 [Plugin list]

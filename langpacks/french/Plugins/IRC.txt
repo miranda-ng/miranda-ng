@@ -320,6 +320,16 @@ Chargement de la liste - u canaux
 Terminé : %u canaux
 [(probably truncated by server)]
 (probablement tronqué par le serveur)
+[%ud, %uh, %um, %us]
+
+[%uh, %um, %us]
+
+[%um, %us]
+
+[%us]
+
+[online since %s, idle %s]
+
 [Change nickname]
 Changer le pseudo
 [IRC error]

@@ -1,0 +1,6 @@
+﻿[Restart]
+[Not set for "Restart"]
+[Core components]
+[Core]
+[Close popup]
+[Do nothing]

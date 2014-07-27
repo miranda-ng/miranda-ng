@@ -46,14 +46,10 @@
 Зададзеная версія
 [Notifications]
 Абвесткі
-[Message boxes (*)]
-Дыялогі (*)
 [Errors]
 Памылкі
 [Info messages]
 Інфа паведамленні
-[Progress dialogs]
-Дыялогі прагрэсу
 [Back]
 Фон
 [Text]
@@ -82,10 +78,6 @@
 -1=Бясконца
 [Sec]
 сек.
-[* Needs popup actions to be enabled]
-* Неабходны ўключаныя дзеянні успл. вокнаў
-[Not sets for "Message boxes"]
-Не ўстаноўвае для "Гутаркі"
 [Boxes]
 Вокны
 [Popups]
@@ -97,14 +89,14 @@
 [Download]
 Запампаваць
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
-[Skipped.]
-Прапушчана.
 [Downloading...]
 Загрузка...
-[Failed!]
-Памылка!
 [Succeeded.]
 Завершана.
+[Failed!]
+Памылка!
+[Skipped.]
+Прапушчана.
 [Plugin Updater]
 Абнаўленне плагінаў
 [Download complete]
@@ -141,6 +133,8 @@
 [Update checking already started!]
 Абнаўленне ўжо запушчана!
 ;file \plugins\PluginUpdater\src\Events.cpp
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 гадзін(ы)
@@ -156,10 +150,6 @@
 [Available components list]
 Увесь спіс плагінаў
 ;file \plugins\PluginUpdater\src\Utils.cpp
-['Yes' Button]
-Кнопка 'Так'
-['No' Button]
-Кнопка 'Не'
 [Plugin info]
 Пра плагін
 [Plugin list]

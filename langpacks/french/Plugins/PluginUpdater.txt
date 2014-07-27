@@ -50,13 +50,11 @@ Version personnalisée
 
 [Notifications]
 Notifications
-[Message boxes (*)]
+[Restart]
 
 [Errors]
 Erreurs
 [Info messages]
-
-[Progress dialogs]
 
 [Back]
 Fond
@@ -86,9 +84,7 @@ Délai du popup
 -1 = Infini
 [Sec]
 Sec
-[* Needs popup actions to be enabled]
-* Les actions sur popups doivent être activées
-[Not sets for "Message boxes"]
+[Not set for "Restart"]
 
 [Boxes]
 
@@ -101,14 +97,14 @@ Ici se trouve la liste complète des composants manquants de Miranda NG. Cocher 
 [Download]
 Téléchargement
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
-[Skipped.]
-
 [Downloading...]
 Télécharge...
-[Failed!]
-
 [Succeeded.]
 Accompli.
+[Failed!]
+
+[Skipped.]
+
 [Plugin Updater]
 
 [Download complete]
@@ -136,21 +132,31 @@ Liste vide.
 Sera effacé!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Mise à jour accomplie. Appuyer sur Oui pour redémarrer Miranda maintenant.
+[Core components]
+
+[Core]
+
 [<< Details]
 <<Détails
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 
+[%d component(s) was updated]
+
 [You need to restart your Miranda to apply installed updates.]
 
 [Would you like to restart it now?]
-
-[%d component(s) was updated]
 
 [No updates found.]
 Aucune mises à jour trouvée.
 [Update checking already started!]
 Vérification des mises à jour en cours!
 ;file \plugins\PluginUpdater\src\Events.cpp
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+
+[Do nothing]
+
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 heures
@@ -170,10 +176,6 @@ Montrer la liste complète des plugins
 [Update failed]
 
 ;file \plugins\PluginUpdater\src\Utils.cpp
-['Yes' Button]
-Bouton 'Oui'
-['No' Button]
-Bouton 'Non'
 [Plugin info]
 Informations sur le plugin
 [Plugin list]

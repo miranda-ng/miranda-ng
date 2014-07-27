@@ -1,0 +1,4 @@
+﻿[%ud, %uh, %um, %us]
+[%uh, %um, %us]
+[%um, %us]
+[%us]

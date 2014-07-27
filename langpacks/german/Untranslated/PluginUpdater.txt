@@ -1,0 +1,3 @@
+﻿[Not set for "Restart"]
+[Core components]
+[Core]

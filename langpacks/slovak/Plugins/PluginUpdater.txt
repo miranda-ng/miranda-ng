@@ -50,13 +50,11 @@ Vybrať všetko
 
 [Notifications]
 
-[Message boxes (*)]
+[Restart]
 
 [Errors]
 
 [Info messages]
-
-[Progress dialogs]
 
 [Back]
 Späť
@@ -86,9 +84,7 @@ Pravým klikom
 
 [Sec]
 sek
-[* Needs popup actions to be enabled]
-
-[Not sets for "Message boxes"]
+[Not set for "Restart"]
 
 [Boxes]
 
@@ -101,13 +97,13 @@ sek
 [Download]
 
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
-[Skipped.]
-
 [Downloading...]
+
+[Succeeded.]
 
 [Failed!]
 
-[Succeeded.]
+[Skipped.]
 
 [Plugin Updater]
 
@@ -136,21 +132,31 @@ Ikony
 
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 
+[Core components]
+
+[Core]
+
 [<< Details]
 
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 
+[%d component(s) was updated]
+
 [You need to restart your Miranda to apply installed updates.]
 
 [Would you like to restart it now?]
-
-[%d component(s) was updated]
 
 [No updates found.]
 
 [Update checking already started!]
 
 ;file \plugins\PluginUpdater\src\Events.cpp
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+
+[Do nothing]
+
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 
@@ -170,10 +176,6 @@ Ikony
 [Update failed]
 
 ;file \plugins\PluginUpdater\src\Utils.cpp
-['Yes' Button]
-
-['No' Button]
-
 [Plugin info]
 
 [Plugin list]

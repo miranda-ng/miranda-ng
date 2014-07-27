@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_blind.dll
 ;  Plugin: BClist
-;  Version: 0.8.0.1
+;  Version: 0.8.1.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]

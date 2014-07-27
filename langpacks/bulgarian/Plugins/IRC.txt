@@ -320,6 +320,16 @@ CTCP %s отговор от %s: %s
 Направено: %u канала
 [(probably truncated by server)]
 (вероятно е скъсен от сървъра)
+[%ud, %uh, %um, %us]
+
+[%uh, %um, %us]
+
+[%um, %us]
+
+[%us]
+
+[online since %s, idle %s]
+
 [Change nickname]
 Промяна на прякора
 [IRC error]

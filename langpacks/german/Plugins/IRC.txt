@@ -320,6 +320,16 @@ Laden der Liste - %u Channels
 Fertig: %u Channels
 [(probably truncated by server)]
 (wahrscheinlich vom Server unterbrochen)
+[%ud, %uh, %um, %us]
+
+[%uh, %um, %us]
+
+[%um, %us]
+
+[%us]
+
+[online since %s, idle %s]
+Online seit %s, idle %s
 [Change nickname]
 Nickname ändern
 [IRC error]

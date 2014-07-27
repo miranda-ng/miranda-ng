@@ -50,14 +50,12 @@ Versión personalizada
 
 [Notifications]
 Notificaciones
-[Message boxes (*)]
-Cuadros de mensaje
+[Restart]
+
 [Errors]
 Errores
 [Info messages]
 Mensajes de info
-[Progress dialogs]
-Dialogos de progreso
 [Back]
 Atras
 [Text]
@@ -86,10 +84,8 @@ Tiempo de espera
 -1 = Infinito
 [Sec]
 Seg
-[* Needs popup actions to be enabled]
-* Requiere habilitar acciones emergentes
-[Not sets for "Message boxes"]
-No para "Cuadros de mensaje"
+[Not set for "Restart"]
+
 [Boxes]
 Marcos
 [Popups]
@@ -101,14 +97,14 @@ Esta es la lista completa de los componentes que faltan en Miranda NG. Revise lo
 [Download]
 Descargar
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
-[Skipped.]
-Saltado.
 [Downloading...]
 Descargando...
-[Failed!]
-¡Fallido!
 [Succeeded.]
 ¡Fallido!
+[Failed!]
+¡Fallido!
+[Skipped.]
+Saltado.
 [Plugin Updater]
 Plugin actualizador
 [Download complete]
@@ -136,21 +132,31 @@ La lista está vacía.
 ¡Será eliminado!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Actualización completa. Pulse Sí para reiniciar Miranda ahora o en No para posponer el reinicio hasta la salida.
+[Core components]
+
+[Core]
+
 [<< Details]
 << Detalles
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 
+[%d component(s) was updated]
+
 [You need to restart your Miranda to apply installed updates.]
 
 [Would you like to restart it now?]
-
-[%d component(s) was updated]
 
 [No updates found.]
 No se encontraron actualizaciones.
 [Update checking already started!]
 ¡La comprobación de actualización ya ha comenzado!
 ;file \plugins\PluginUpdater\src\Events.cpp
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+
+[Do nothing]
+
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 horas
@@ -170,10 +176,6 @@ Mostrar lista de plugins completa
 [Update failed]
 
 ;file \plugins\PluginUpdater\src\Utils.cpp
-['Yes' Button]
-Botón 'Sí'
-['No' Button]
-Botón 'No'
 [Plugin info]
 Información del plugin
 [Plugin list]

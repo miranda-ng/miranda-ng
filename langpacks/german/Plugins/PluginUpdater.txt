@@ -50,14 +50,12 @@ Eigene Version
 Einige Komponenten wurden aktualisiert.\nSie müssen Miranda neu starten um die Aktualisierungen zu übernehmen.
 [Notifications]
 Benachrichtigungen
-[Message boxes (*)]
-Meldungsfelder (*)
+[Restart]
+Neustart
 [Errors]
 Fehler
 [Info messages]
 Infonachrichten
-[Progress dialogs]
-Fortschrittsdialog
 [Back]
 Hgrd.
 [Text]
@@ -86,10 +84,8 @@ Timeout
 -1 = Unendlich
 [Sec]
 Sek.
-[* Needs popup actions to be enabled]
-(*) Popup-Aktionen müssen aktiviert sein
-[Not sets for "Message boxes"]
-Gilt nicht für Meldungsfelder
+[Not set for "Restart"]
+
 [Boxes]
 Fenster
 [Popups]
@@ -101,14 +97,14 @@ Hier ist eine komplette Liste fehlender Miranda-NG-Komponenten. Wählen Sie die 
 [Download]
 Herunterladen
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
-[Skipped.]
-Übersprungen.
 [Downloading...]
 Herunterladen...
-[Failed!]
-Fehler!
 [Succeeded.]
 Erfolgreich.
+[Failed!]
+Fehler!
+[Skipped.]
+Übersprungen.
 [Plugin Updater]
 Plugin-Updater
 [Download complete]
@@ -136,21 +132,31 @@ Laden der Liste hat bereits begonnen!
 Wird gelöscht!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualisierung abgeschlossen. Klicken Sie Ja um Miranda neu zu starten oder Nein um einen Neustart nach dem Beenden zu machen.
+[Core components]
+
+[Core]
+
 [<< Details]
 << Details
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Aktualisierung fehlgeschlagen! Eine der Komponenten wurde nicht richtig heruntergeladen. Versuchen Sie es später noch einmal.
+[%d component(s) was updated]
+%d Komponente(n) wurde(n) aktualisiert.
 [You need to restart your Miranda to apply installed updates.]
 Sie müssen Miranda NG neu starten um die installierten Aktualisierungen anzuwenden.
 [Would you like to restart it now?]
 Möchten Sie es jetzt neu starten?
-[%d component(s) was updated]
-%d Komponente(n) wurde(n) aktualisiert.
 [No updates found.]
 Keine Aktualisierungen gefunden.
 [Update checking already started!]
 Die Prüfung auf Aktualisierungen wurde bereits gestartet!
 ;file \plugins\PluginUpdater\src\Events.cpp
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+Popup schließen
+[Do nothing]
+Nichts tun
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 Stunden
@@ -170,10 +176,6 @@ Aktualisierung erfolgreich
 [Update failed]
 Aktualisierung fehlgeschlagen
 ;file \plugins\PluginUpdater\src\Utils.cpp
-['Yes' Button]
-'Ja'-Schaltfläche
-['No' Button]
-'Nein'-Schaltfläche
 [Plugin info]
 Plugininfo
 [Plugin list]
