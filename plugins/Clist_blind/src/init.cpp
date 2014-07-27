@@ -40,10 +40,6 @@ void LoadClcOptions(HWND hwnd, ClcData *dat, BOOL);
 int GetRowHeight(ClcData *dat, int item);
 void SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
 
-int ( *pfnGetRowHeight )(ClcData *dat, int item);
-void ( *pfnSortCLC )( HWND hwnd, ClcData *dat, int useInsertionSort );
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // external functions
 
@@ -663,11 +659,9 @@ void RebuildEntireList(HWND hwnd, ClcData *dat)
 	RebuildEntireListInternal(hwnd, dat, TRUE);
 }
 
-void SetGroupExpand(HWND hwnd, ClcData *tmp_dat, struct ClcGroup *group, int newState)
+void SetGroupExpand(HWND hwnd, ClcData *dat, struct ClcGroup *group, int newState)
 {
-	ClcData *dat = (ClcData*)tmp_dat;
-
-	coreCli.pfnSetGroupExpand(hwnd, tmp_dat, group, newState);
+	coreCli.pfnSetGroupExpand(hwnd, dat, group, newState);
 	dat->need_rebuild = TRUE;
 }
 
@@ -687,21 +681,16 @@ void LoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
 }
 
-int GetRowHeight(ClcData *tmp_dat, int item)
+int GetRowHeight(ClcData *dat, int item)
 {
-	ClcData *dat = (ClcData*)tmp_dat;
-
 	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
 	return dat->rowHeight;
 }
 
-void SortCLC(HWND hwnd, ClcData *tmp_dat, int useInsertionSort)
+void SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 {
-	if ( tmp_dat->needsResort )
-	{
-		ClcData *dat = (ClcData*)tmp_dat;
-
-		pfnSortCLC(hwnd, tmp_dat, useInsertionSort);
+	if (dat->needsResort) {
+		coreCli.pfnSortCLC(hwnd, dat, useInsertionSort);
 		dat->need_rebuild = TRUE;
 	}
 }
