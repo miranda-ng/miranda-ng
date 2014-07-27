@@ -30,33 +30,32 @@ typedef struct
 // build criteria
 time_t BuildCriteria(int dwti)
 {
-	time_t tim =  time(NULL);
+	time_t tim = time(NULL);
 
-	switch (dwti)
-	{
-		case 0:
-			tim -= 1 * 24 * 3600;
-			break;
-		case 1:
-			tim -= 3 * 24 * 3600;
-			break;
-		case 2:
-			tim -= 7 * 24 * 3600;
-			break;
-		case 3:
-			tim -= 14 * 24 * 3600;
-			break;
-		case 4:
-			tim -= 30 * 24 * 3600;
-			break;
-		case 5:
-			tim -= 90 * 24 * 3600;
-			break;
-		case 6:
-			tim -= 180 * 24 * 3600;
-			break;
-		default:
-			tim -= 365 * 24 * 3600;
+	switch (dwti) {
+	case 0:
+		tim -= 1 * 24 * 3600;
+		break;
+	case 1:
+		tim -= 3 * 24 * 3600;
+		break;
+	case 2:
+		tim -= 7 * 24 * 3600;
+		break;
+	case 3:
+		tim -= 14 * 24 * 3600;
+		break;
+	case 4:
+		tim -= 30 * 24 * 3600;
+		break;
+	case 5:
+		tim -= 90 * 24 * 3600;
+		break;
+	case 6:
+		tim -= 180 * 24 * 3600;
+		break;
+	default:
+		tim -= 365 * 24 * 3600;
 	}
 	return tim;
 }
@@ -64,45 +63,42 @@ time_t BuildCriteria(int dwti)
 // keep criteria
 int KeepCriteria(int dwti)
 {
-	switch (dwti)
-	{
-		case 0:
-			return 1;
-		case 1:
-			return 2;
-		case 2:
-			return 5;
-		case 3:
-			return 10;
-		case 4:
-			return 20;
-		default:
-			return 50;
+	switch (dwti) {
+	case 0:
+		return 1;
+	case 1:
+		return 2;
+	case 2:
+		return 5;
+	case 3:
+		return 10;
+	case 4:
+		return 20;
+	default:
+		return 50;
 	}
 }
 
-typedef struct
+struct BEventData
 {
 	HANDLE hDBEvent;
 	DWORD CRC32;
 	DWORD Timestamp;
-} BEventData;
+};
 
-static int CompareBookmarks( const void* p1, const void* p2 )
+static int CompareBookmarks(const void* p1, const void* p2)
 {
 	return (BYTE*)((BEventData*)p1)->hDBEvent - (BYTE*)((BEventData*)p2)->hDBEvent;
 }
 
-static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt )
+static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt)
 {
 	*books = NULL;
 	*bookcnt = 0;
 
 	DBVARIANT dbv;
-	if (db_get(hContact, "HistoryPlusPlus", "Bookmarks", &dbv) == 0)
-	{
-		if (dbv.cpbVal > 2 && *(WORD*)dbv.pbVal >= sizeof(BEventData))
-		{
+	if (db_get(hContact, "HistoryPlusPlus", "Bookmarks", &dbv) == 0) {
+		if (dbv.cpbVal > 2 && *(WORD*)dbv.pbVal >= sizeof(BEventData)) {
 			size_t recSize = *(WORD*)dbv.pbVal;
 			size_t numb = (dbv.cpbVal - sizeof(WORD)) / recSize;
 
@@ -112,21 +108,18 @@ static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt 
 			size_t i;
 			BYTE* evs = dbv.pbVal + sizeof(WORD);
 
-			for (i=0; i<numb; ++i)
-			{
+			for (i = 0; i < numb; ++i) {
 				tbooks[tbookcnt++] = *(BEventData*)evs;
 				evs += recSize;
 			}
-			if (tbookcnt != 0)
-			{
+			if (tbookcnt != 0) {
 				qsort(tbooks, tbookcnt, sizeof(BEventData), CompareBookmarks);
 				*bookcnt = tbookcnt;
 				*books = tbooks;
 			}
-			else
-				mir_free(tbooks);
+			else mir_free(tbooks);
 		}
-	
+
 		db_free(&dbv);
 	}
 }
@@ -134,98 +127,124 @@ static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt 
 //Sweep history from specified contact
 void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL keepUnread)
 {
-	int lPolicy;	
+	int lPolicy;
 	if (hContact == NULL)			// for system history
 		lPolicy = db_get_b(NULL, ModuleName, "SweepSHistory", 0);
 	else							// for contact history (or "SweepHistory" - default action)
 		lPolicy = db_get_b(hContact, ModuleName, "SweepHistory", db_get_b(NULL, ModuleName, "SweepHistory", 0));
-	
+
 	if (lPolicy == 0) return;		// nothing to do
-	
+
 	int eventsCnt = db_event_count(hContact);
-	if (eventsCnt != 0) { 
-		BOOL doDelete, unsafe = db_get_b(NULL, ModuleName, "UnsafeMode", 0);
-		BEventData *books, *item, ev = { 0 };
-		size_t bookcnt, btshift;
-		
-		SetCursor(LoadCursor(0, IDC_WAIT));
+	if (eventsCnt == 0)
+		return;
 
-		// switch off SAFETYMODE if necessary
-		if (unsafe)	CallService(MS_DB_SETSAFETYMODE, 0, 0); 
+	BOOL doDelete, unsafe = db_get_b(NULL, ModuleName, "UnsafeMode", 0);
+	BEventData *books, *item, ev = { 0 };
+	size_t bookcnt, btshift;
 
-		GetBookmarks(hContact, &books, &bookcnt);
+	SetCursor(LoadCursor(0, IDC_WAIT));
 
-		//Get first event
-		HANDLE hDBEvent = db_event_first(hContact);
-		while (hDBEvent != NULL) {
-			DBEVENTINFO dbei = { sizeof(dbei) };
-			db_event_get(hDBEvent, &dbei);
+	// switch off SAFETYMODE if necessary
+	if (unsafe)
+		CallService(MS_DB_SETSAFETYMODE, 0, 0);
 
-			// should we stop processing?
-			// lPolicy == 1 - for time criterion, lPolicy == 2 - keep N last events, lPolicy == 3 - delete all events
-			if ( (lPolicy == 1 && (unsigned)Criteria.time < dbei.timestamp) || (lPolicy == 2 && Criteria.keep > --eventsCnt)) break;
-			
-			doDelete = TRUE;
+	GetBookmarks(hContact, &books, &bookcnt);
 
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && keepUnread) doDelete = FALSE;	// keep unread events
+	// Get first event
+	for (HANDLE hDBEvent = db_event_first(hContact); hDBEvent != NULL; ) {
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get(hDBEvent, &dbei);
 
-			if (bookcnt != 0)	// keep bookmarks
-			{
-				ev.hDBEvent = hDBEvent;
-				item = (BEventData*)bsearch( &ev, books, bookcnt, sizeof(BEventData), CompareBookmarks);				
-				if (item != NULL)
-					if (item->Timestamp == dbei.timestamp) 
-					{
-						doDelete = FALSE;
-						btshift = (--bookcnt - (item - books))*sizeof(BEventData);
-						if (btshift) memmove(item, item+1, btshift);
-					}
+		// should we stop processing?
+		// lPolicy == 1 - for time criterion, lPolicy == 2 - keep N last events, lPolicy == 3 - delete all events
+		if ((lPolicy == 1 && (unsigned)Criteria.time < dbei.timestamp) || (lPolicy == 2 && Criteria.keep > --eventsCnt)) break;
+
+		doDelete = TRUE;
+
+		if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && keepUnread) doDelete = FALSE;	// keep unread events
+
+		if (bookcnt != 0) { // keep bookmarks
+			ev.hDBEvent = hDBEvent;
+			item = (BEventData*)bsearch(&ev, books, bookcnt, sizeof(BEventData), CompareBookmarks);
+			if (item != NULL && item->Timestamp == dbei.timestamp) {
+				doDelete = FALSE;
+				btshift = (--bookcnt - (item - books))*sizeof(BEventData);
+				if (btshift)
+					memmove(item, item + 1, btshift);
 			}
-
-			// find next event
-			HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
-
-			if (doDelete)
-				db_event_delete(hContact, hDBEvent);
-			
-			hDBEvent = hDBEventNext;
 		}
 
-		mir_free(books);
+		// find next event
+		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
 
-		// switch ON safety mode as fast as we can to avoid  DB corruption
-		if (unsafe)	CallService(MS_DB_SETSAFETYMODE, 1, 0);
+		if (doDelete)
+			db_event_delete(hContact, hDBEvent);
 
-		SetCursor(LoadCursor(0, IDC_ARROW));
-	} // if (eventsCnt != 0)
+		hDBEvent = hDBEventNext;
+	}
+
+	mir_free(books);
+
+	// switch ON safety mode as fast as we can to avoid  DB corruption
+	if (unsafe)
+		CallService(MS_DB_SETSAFETYMODE, 1, 0);
+
+	SetCursor(LoadCursor(0, IDC_ARROW));
 }
 
 // shutdown action
 void ShutdownAction(void)
-{ 
+{
 	CriteriaStruct Criteria;
 	Criteria.keep = KeepCriteria(db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0));
 	Criteria.time = BuildCriteria(db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0));
 
 	SweepHistoryFromContact(NULL, Criteria, FALSE);				// sweep system history, keepunread==0
-	
+
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		SweepHistoryFromContact(hContact, Criteria, TRUE);		// sweep contact history, keepunread==1
 }
 
 int OnWindowEvent(WPARAM wParam, LPARAM lParam)
 {
-	MessageWindowEventData* msgEvData  = (MessageWindowEventData*)lParam;
+	MessageWindowEventData* msgEvData = (MessageWindowEventData*)lParam;
+	switch (msgEvData->uType) {
+	case MSG_WINDOW_EVT_OPENING:
+		g_hWindows.insert(PVOID(msgEvData->hContact));
+		SetSrmmIcon(msgEvData->hContact);
+		break;
 
-	if (msgEvData->uType == MSG_WINDOW_EVT_CLOSE && db_get_b(NULL, ModuleName, "SweepOnClose", 0))
-	{
-		CriteriaStruct Criteria;
+	case MSG_WINDOW_EVT_CLOSE:
+		if (db_get_b(NULL, ModuleName, "SweepOnClose", 0)) {
+			CriteriaStruct Criteria;
 
-		Criteria.keep = KeepCriteria(db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0));
-		Criteria.time = BuildCriteria(db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0));
+			Criteria.keep = KeepCriteria(db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0));
+			Criteria.time = BuildCriteria(db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0));
 
-		SweepHistoryFromContact(msgEvData->hContact, Criteria, TRUE);
+			SweepHistoryFromContact(msgEvData->hContact, Criteria, TRUE);
+		}
+
+		for (int i = g_hWindows.getCount() - 1; i >= 0; i--)
+			if (g_hWindows[i] == PVOID(msgEvData->hContact))
+				g_hWindows.remove(i);
+		break;
 	}
 
 	return 0;
+}
+
+void SetSrmmIcon(MCONTACT hContact)
+{
+	int sweep = db_get_b(hContact, ModuleName, "SweepHistory", 0);
+
+	StatusIconData sid = { 0 };
+	sid.cbSize = sizeof(sid);
+	sid.szModule = ModuleName;
+
+	for (int i = 0; i < 4; i++) {
+		sid.dwId = i;
+		sid.flags = (sweep == i) ? 0 : MBF_HIDDEN;
+		Srmm_ModifyIcon(hContact, &sid);
+	}
 }

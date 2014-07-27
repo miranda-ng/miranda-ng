@@ -25,8 +25,10 @@ HINSTANCE hInst;
 
 int hLangpack;
 
+LIST<void> g_hWindows(5);
+
 static PLUGININFOEX pluginInfoEx =
-{ 
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -37,7 +39,7 @@ static PLUGININFOEX pluginInfoEx =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {1D9BF74A-44A8-4B3F-A6E5-73069D3A8979}
-	{0x1d9bf74a, 0x44a8, 0x4b3f, {0xa6, 0xe5, 0x73, 0x6, 0x9d, 0x3a, 0x89, 0x79}}
+	{ 0x1d9bf74a, 0x44a8, 0x4b3f, { 0xa6, 0xe5, 0x73, 0x6, 0x9d, 0x3a, 0x89, 0x79 } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -46,21 +48,19 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-int OnIconPressed(WPARAM hContact, LPARAM lParam) 
+int OnIconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
-	if ( !(sicd->flags & MBCF_RIGHTBUTTON) && !lstrcmpA(sicd->szModule, ModuleName) 
-		&& db_get_b(NULL, ModuleName, "ChangeInMW", 0))
-	{
-		int nh = sicd->dwId; 
-		
+	if (!(sicd->flags & MBCF_RIGHTBUTTON) && !lstrcmpA(sicd->szModule, ModuleName) && db_get_b(NULL, ModuleName, "ChangeInMW", 0)) {
+		int nh = sicd->dwId;
+
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = ModuleName;
 		sid.dwId = nh;
 		sid.flags = MBF_HIDDEN;
-		Srmm_ModifyIcon(hContact, &sid);	
-		
+		Srmm_ModifyIcon(hContact, &sid);
+
 		nh = (nh + 1) % 4;
 		db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)nh);
 
@@ -71,10 +71,9 @@ int OnIconPressed(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam) 
+int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	int i, sweep = db_get_b(NULL, ModuleName, "SweepHistory", 0);
+	int sweep = db_get_b(NULL, ModuleName, "SweepHistory", 0);
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = ModuleName;
@@ -109,26 +108,9 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	sid.szTooltip = LPGEN("Delete all events");
 	sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid);
-	
-	// for new contacts
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		ZeroMemory(&sid,sizeof(sid));
-
-		sweep = db_get_b(hContact, ModuleName, "SweepHistory", 0);
-
-		sid.cbSize = sizeof(sid);
-		sid.szModule = ModuleName;
-		
-		for(i = 0; i < 4; i++) {
-			sid.dwId = i;
-			sid.flags = (sweep == i) ? 0 : MBF_HIDDEN;
-			Srmm_ModifyIcon(hContact, &sid);
-		}
-	}
 
 	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, OnIconPressed);
-
 	return 0;
 }
 
@@ -143,14 +125,13 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, HSOptInitialise);
-	
-	InitIcons();
 
+	InitIcons();
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
-{ 
+{
 	ShutdownAction();
 	return 0;
 }

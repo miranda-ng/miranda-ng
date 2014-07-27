@@ -46,10 +46,10 @@ char* keep_strings[] =
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Default Action"), "actG",   IDI_ACTG },
-	{ LPGEN("Action 1"),       "act1",   IDI_ACT1 },
-	{ LPGEN("Action 2"),       "act2",   IDI_ACT2 },
-	{ LPGEN("Delete All"),     "actDel", IDI_ACTDEL }
+	{ LPGEN("Default Action"), "actG", IDI_ACTG },
+	{ LPGEN("Action 1"), "act1", IDI_ACT1 },
+	{ LPGEN("Action 2"), "act2", IDI_ACT2 },
+	{ LPGEN("Delete All"), "actDel", IDI_ACTDEL }
 };
 
 static HANDLE hIconLibItem[SIZEOF(iconList)];
@@ -68,9 +68,7 @@ HICON LoadIconEx(const char* name)
 
 HANDLE GetIconHandle(const char* name)
 {
-	int i;
-
-	for (i=0; i < SIZEOF(iconList); i++)
+	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (lstrcmpA(iconList[i].szName, name) == 0)
 			return hIconLibItem[i];
 
@@ -89,21 +87,23 @@ HANDLE hAllContacts, hSystemHistory;
 static void ShowAllContactIcons(HWND hwndList)
 {
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hAllContacts,
-											MAKELPARAM(0, db_get_b(NULL, ModuleName, "SweepHistory", 0)));
+		MAKELPARAM(0, db_get_b(NULL, ModuleName, "SweepHistory", 0)));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hSystemHistory,
-											MAKELPARAM(0, db_get_b(NULL, ModuleName, "SweepSHistory", 0)));
+		MAKELPARAM(0, db_get_b(NULL, ModuleName, "SweepSHistory", 0)));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem,
-											MAKELPARAM(0, db_get_b(hContact, ModuleName, "SweepHistory", 0)));
+			MAKELPARAM(0, db_get_b(hContact, ModuleName, "SweepHistory", 0)));
 	}
-}//ShowAllContactIcons
+}
 
 void LoadSettings(HWND hwndDlg)
 {
-	int i; CLCINFOITEM cii = {0}; HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
+	int i;
+	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 
+	CLCINFOITEM cii = { 0 };
 	cii.cbSize = sizeof(cii);
 	cii.flags = CLCIIF_GROUPFONT;
 
@@ -118,15 +118,13 @@ void LoadSettings(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_RESETCONTENT, 0, 0);
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_RESETCONTENT, 0, 0);
 
-	for (i = 0; i < SIZEOF(time_stamp_strings); i++)
-	{
+	for (i = 0; i < SIZEOF(time_stamp_strings); i++) {
 		TCHAR* ptszTimeStr = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)time_stamp_strings[i]);
 		SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 		mir_free(ptszTimeStr);
 	}
 
-	for (i = 0; i < SIZEOF(keep_strings); i++)
-	{
+	for (i = 0; i < SIZEOF(keep_strings); i++) {
 		TCHAR* ptszTimeStr = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)keep_strings[i]);
 		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 		mir_free(ptszTimeStr);
@@ -143,7 +141,6 @@ void LoadSettings(HWND hwndDlg)
 
 void SaveSettings(HWND hwndDlg)
 {
-	int st, i;
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 
 	db_set_b(NULL, ModuleName, "StartupShutdownOlder", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_GETCURSEL, 0, 0));
@@ -152,53 +149,54 @@ void SaveSettings(HWND hwndDlg)
 	db_set_b(NULL, ModuleName, "SweepOnClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWEEPONCLOSE));
 	db_set_b(NULL, ModuleName, "ChangeInMW", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HISTMW));
 
-	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = ModuleName;
-
 	db_set_b(NULL, ModuleName, "SweepHistory",
-											(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hAllContacts, 0));
+		(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hAllContacts, 0));
 	db_set_b(NULL, ModuleName, "SweepSHistory",
-											(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
+		(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 
-		st = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, 0);
-		if ( st != 0 )	db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)st);
-		else db_unset(hContact, ModuleName, "SweepHistory");
-
-		// set per-contact icons in status bar
-		for(i = 0; i < 4; i++) {
-			sid.dwId = i;
-			sid.flags = (st == i) ? 0 : MBF_HIDDEN;
-			Srmm_ModifyIcon(hContact, &sid);
-		}
+		int st = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, 0);
+		if (st != 0)
+			db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)st);
+		else
+			db_unset(hContact, ModuleName, "SweepHistory");
 	}
 
-	// set tooltips
-	st = db_get_b(NULL, ModuleName, "SweepHistory", 0);
+	for (int i = 0; i < g_hWindows.getCount(); i++)
+		SetSrmmIcon(MCONTACT(g_hWindows[i]));
 
+	// set tooltips
+	int st = db_get_b(NULL, ModuleName, "SweepHistory", 0);
+
+	StatusIconData sid = { 0 };
+	sid.cbSize = sizeof(sid);
+	sid.szModule = ModuleName;
 	sid.dwId = 0;
-	if		(st == 0)	sid.szTooltip = LPGEN("Keep all events");
+	sid.hIcon = LoadIconEx("actG");
+	if (st == 0)	sid.szTooltip = LPGEN("Keep all events");
 	else if (st == 1)	sid.szTooltip = LPGEN(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
 	else if (st == 2)	sid.szTooltip = LPGEN(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
 	else if (st == 3)	sid.szTooltip = LPGEN("Delete all events");
 	Srmm_ModifyIcon(NULL, &sid);
 
 	sid.dwId = 1;
+	sid.hIcon = LoadIconEx("act1");
 	sid.szTooltip = time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)];
 	Srmm_ModifyIcon(NULL, &sid);
 
 	sid.dwId = 2;
+	sid.hIcon = LoadIconEx("act2");
 	sid.szTooltip = keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)];
 	Srmm_ModifyIcon(NULL, &sid);
 }
 
 INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, 2, 2);
 
@@ -219,20 +217,15 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, 1, 0);
-
-			TranslateDialogDefault(hwndDlg);
-			LoadSettings(hwndDlg);
 		}
+		LoadSettings(hwndDlg);
 		return TRUE;
 
 	case WM_DESTROY:
-		{
-			HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
-			ImageList_Destroy(hIml);
-			ReleaseIconEx("act1");
-			ReleaseIconEx("act2");
-			ReleaseIconEx("actDel");
-		}
+		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0));
+		ReleaseIconEx("act1");
+		ReleaseIconEx("act2");
+		ReleaseIconEx("actDel");
 		break;
 
 	case WM_COMMAND:
@@ -240,46 +233,38 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case WM_NOTIFY:
-		{
-			NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
-			if ( nmc->hdr.idFrom == 0 && nmc->hdr.code == (unsigned)PSN_APPLY )
-			{
-				SaveSettings(hwndDlg);
-			}
-			else if (nmc->hdr.idFrom == IDC_LIST)
-			{
-				switch (nmc->hdr.code)
-				{
-				case CLN_NEWCONTACT:
-				case CLN_LISTREBUILT:
-					ShowAllContactIcons(nmc->hdr.hwndFrom);
+		NMCLISTCONTROL *nmc = (NMCLISTCONTROL*)lParam;
+		if (nmc->hdr.idFrom == 0 && nmc->hdr.code == (unsigned)PSN_APPLY)
+			SaveSettings(hwndDlg);
+		else if (nmc->hdr.idFrom == IDC_LIST) {
+			switch (nmc->hdr.code) {
+			case CLN_NEWCONTACT:
+			case CLN_LISTREBUILT:
+				ShowAllContactIcons(nmc->hdr.hwndFrom);
+				break;
+
+			case NM_CLICK:
+				HANDLE hItem; DWORD hitFlags; int iImage;
+
+				if (nmc->iColumn == -1)
 					break;
 
-				case NM_CLICK:
-					{
-						HANDLE hItem; DWORD hitFlags; int iImage;
-
-						if ( nmc->iColumn == -1 )
-							break;
-
-						// Find clicked item
-						hItem = (HANDLE)SendMessage(nmc->hdr.hwndFrom, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x,nmc->pt.y));
-						// Nothing was clicked
-						if (hItem == NULL || !(IsHContactContact(hItem) || IsHContactInfo(hItem)))
-							break;
-
-						// It was not our extended icon
-						if (!(hitFlags & CLCHT_ONITEMEXTRA))
-							break;
-
-						iImage = SendMessage(nmc->hdr.hwndFrom, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn, 0));
-						SendMessage(nmc->hdr.hwndFrom, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn, (iImage + 1) % 4));
-
-						// Activate Apply button
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
+				// Find clicked item
+				hItem = (HANDLE)SendMessage(nmc->hdr.hwndFrom, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y));
+				// Nothing was clicked
+				if (hItem == NULL || !(IsHContactContact(hItem) || IsHContactInfo(hItem)))
 					break;
-				}
+
+				// It was not our extended icon
+				if (!(hitFlags & CLCHT_ONITEMEXTRA))
+					break;
+
+				iImage = SendMessage(nmc->hdr.hwndFrom, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn, 0));
+				SendMessage(nmc->hdr.hwndFrom, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn, (iImage + 1) % 4));
+
+				// Activate Apply button
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
 			}
 		}
 		break;
@@ -287,7 +272,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	return FALSE;
 }
 
-int HSOptInitialise(WPARAM wParam,LPARAM lParam)
+int HSOptInitialise(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;

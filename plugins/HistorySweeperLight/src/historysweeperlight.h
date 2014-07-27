@@ -44,9 +44,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Plugin name
 #define ModuleName "History Sweeper Light"
 
-
 // main.c
 extern HINSTANCE hInst;
+extern LIST<void> g_hWindows;
 
 // options.c
 extern char* time_stamp_strings[];
@@ -60,5 +60,6 @@ HANDLE GetIconHandle(const char* name);
 // historysweeper.c
 void ShutdownAction(void);
 int OnWindowEvent(WPARAM wParam, LPARAM lParam);
+void SetSrmmIcon(MCONTACT hContact);
 
 #endif
