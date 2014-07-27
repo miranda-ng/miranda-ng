@@ -378,11 +378,11 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 
 	if (f && st.st_size)
 	{
-		char *contacts = (char*)malloc(st.st_size * sizeof(char));
+		char *contacts = (char*)mir_calloc((st.st_size * sizeof(char)) + 1); // zero-terminate it
 		fread(contacts, sizeof(char), st.st_size, f);
 		fclose(f);
 		parsecontacts(contacts);
-		free(contacts);
+		mir_free(contacts);
 
 		MessageBox(NULL, TranslateT("List import successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
