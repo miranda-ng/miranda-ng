@@ -2,6 +2,6 @@
 Language: French (France)
 Locale: 040c
 Authors: Dagobert_78, Jerbifor, soopah
-Last-Modified-Using: Miranda NG 0.95.1
+Last-Modified-Using: Miranda NG 0.95.3
 ;	This translation is automatically generated from the French langpack Miranda IM by Dagobert_78.
 ;	If you want to add, visit the forum http://forum.miranda-ng.org/index.php?board=36.0

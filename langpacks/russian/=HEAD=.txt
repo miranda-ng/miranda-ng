@@ -1,6 +1,6 @@
 ﻿Miranda Language Pack Version 1
 Locale: 0419
-Last-Modified-Using: 0.95.2
+Last-Modified-Using: 0.95.3
 Authors: Homeric (founder), BasiL (maintainer),
 Authors: `arag0rn`, +eRRikon, Abyss, al.dexter, Alexander, Alexander Logvinov, Alexander S. Kiselev, apollo2k4,
 Authors: ALeXey, Alexey Yakovlev, Andrey A. Chernov, Bergelmir, Bravo123, Buser!, CriS,

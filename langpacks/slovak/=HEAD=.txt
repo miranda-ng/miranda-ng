@@ -1,6 +1,6 @@
 ﻿Miranda Language Pack Version 1
 Language: Slovak (SK)
 Locale: 041b
-Last-Modified-Using: Miranda NG 0.95.1
+Last-Modified-Using: Miranda NG 0.95.3
 Authors: RaRo
 Author-email: raro@raro.sk

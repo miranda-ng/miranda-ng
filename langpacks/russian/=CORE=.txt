@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.2
+;  Version: 0.95.3
 ;============================================================
 [Enter account name (for example, My Google)]
 Введите имя (например, Google)

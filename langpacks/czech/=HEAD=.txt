@@ -3,7 +3,7 @@ Language: Czech (CZ)
 Locale: 0405
 Authors: Robert Pösel (Robyer) (viz http://www.robyer.cz)
 Author-email: robyer@seznam.cz
-Last-Modified-Using: Miranda NG 0.95.1
+Last-Modified-Using: Miranda NG 0.95.3
 
 ; Based on translation for Miranda IM (viz http://miranda.kvalitne.cz):
 ; Authors: Vít Šindlář, sir-qwerty, Martin Koníček, Aleš Studený, madmojo, Dave-Dave, Tur McDonnel, waclaw, Lev, Pavel Svátek, Mareman, Richard Nižnik, Laslo Gogolak, Petr Hanuš, churchyard, tapin, Soustruh, Libor Polčák, Jiří Kocman, MiSHAK, Robyer, Fille, Jake

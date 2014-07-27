@@ -3,7 +3,7 @@ Language: Spanish (ES)
 Locale: 0c0a
 Authors: Carlos Sánchez (c-sanchez)
 Author-email: carlos1994sanchez@gmail.com
-Last-Modified-Using: Miranda NG v0.95.1
+Last-Modified-Using: Miranda NG v0.95.3
 
 ; Una nueva traducción al Español para Miranda NG realizada desde cero.
 

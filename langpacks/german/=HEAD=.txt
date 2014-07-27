@@ -4,7 +4,7 @@ Locale: 0407
 Authors: Wishmaster, TuxX
 ; Miranda-im.de Projekt Sprachdatei - diverse Autoren
 Author-email: wishmaster51 at googlemail.com
-Last-Modified-Using: Miranda NG 0.95.2
+Last-Modified-Using: Miranda NG 0.95.3
 ; License: Creative Commons 3.0 (Attribution-Noncommercial-Share Alike)
 ; basiert auf deutsche Sprachdatei für Miranda IM
 ; Author-email: sprachdatei@miranda-im.de (original authors Herzog, Lastwebpage, CHEF-KOCH and more)
