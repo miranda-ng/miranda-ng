@@ -140,7 +140,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	SkinAddNewSoundEx("updatefailed",LPGEN("Plugin Updater"),LPGEN("Update failed"));
 	
 	// Upgrade old settings
-	if (!db_get_b(0, MODNAME, "UpdateMode", UPDATE_MODE_STABLE)) {
+	if (!db_get_b(0, MODNAME, "UpdateMode", 0)) {
 		ptrA dbvUpdateURL(db_get_sa(0, MODNAME, "UpdateURL"));
 		if (dbvUpdateURL) {
 			if (!strcmp(dbvUpdateURL, DEFAULT_UPDATE_URL)) {
