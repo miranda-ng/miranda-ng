@@ -48,11 +48,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 	else
 		EmptyFolder(0, TRUE); // silently
 
-	if (AllowUpdateOnStartup())
-		DoCheck();
+	CheckUpdateOnStartup();
 
 	Timer = CreateWaitableTimer(NULL, FALSE, NULL);
-	mir_forkthread(InitTimer, (void*)0);
+	mir_forkthread(InitTimer, 0);
 
 	return 0;
 }

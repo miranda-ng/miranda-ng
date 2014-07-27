@@ -48,7 +48,6 @@ Boston, MA 02111-1307, USA.
 #include "resource.h"
 
 #if MIRANDA_VER < 0x0A00
-#include <m_popup2.h>
 #include "compat.h"
 #endif
 
@@ -107,16 +106,24 @@ struct PlugOptions
 #define DEFAULT_PERIODMEASURE     1
 
 #if MIRANDA_VER < 0x0A00
-	#define DEFAULT_UPDATEICONS       1
 	#define DEFAULT_ONLYONCEADAY      0
 #else
-	#define DEFAULT_UPDATEICONS       0
 	#define DEFAULT_ONLYONCEADAY      1
 #endif
 
 #define DEFAULT_UPDATE_URL                "http://miranda-ng.org/distr/stable/x%platform%"
 #define DEFAULT_UPDATE_URL_TRUNK          "http://miranda-ng.org/distr/x%platform%"
-#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.now.im/pdb_x%platform%/"
+#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  "http://miranda-ng.now.im/pdb_x%platform%"
+
+#define UPDATE_MODE_CUSTOM			0
+#define UPDATE_MODE_STABLE			1
+#define UPDATE_MODE_TRUNK			2
+#define UPDATE_MODE_TRUNK_SYMBOLS	3
+
+#define POPUP_TYPE_MSG  0
+#define POPUP_TYPE_ERROR 1
+#define POPUP_TYPE_INFO 2
+#define POPUP_TYPE_PROGRESS 2
 
 #define MAX_RETRIES			3
 
@@ -133,7 +140,7 @@ extern FILEINFO *pFileInfo;
 extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
-extern HANDLE Timer, hPipe;
+extern HANDLE Timer, hPipe, hNetlibUser;
 
 void DoCheck();
 
@@ -202,10 +209,10 @@ int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 TCHAR* GetDefaultUrl();
 bool   DownloadFile(FILEURL *pFileURL, HANDLE &nlc);
 
-void  ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType, bool NoMessageBox = false);
+void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
 void  __stdcall RestartMe(void*);
 void  __stdcall OpenPluginOptions(void*);
-BOOL  AllowUpdateOnStartup();
+void  CheckUpdateOnStartup();
 void  InitTimer(void *type);
 
 INT_PTR EmptyFolder(WPARAM,LPARAM);
@@ -214,14 +221,13 @@ INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int  ImageList_AddIconFromIconLib(HIMAGELIST hIml, const char *name);
 
-bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath,bool ch);
+bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);
 void strdel(TCHAR *parBuffer, int len);
 
 ///////////////////////////////////////////////////////////////////////////////
 
 int CalculateModuleHash(const TCHAR *tszFileName, char *dest);
 
-BOOL IsRunAsAdmin();
 BOOL IsProcessElevated();
 bool PrepareEscalation();
 
