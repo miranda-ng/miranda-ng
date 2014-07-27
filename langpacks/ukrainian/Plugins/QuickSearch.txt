@@ -72,7 +72,7 @@ ID користувача
 [Last Event]
 Остання подія
 [Online since]
-В мережі:
+В мережі з:
 [Metacontact]
 Метаконтакт
 [Event count]

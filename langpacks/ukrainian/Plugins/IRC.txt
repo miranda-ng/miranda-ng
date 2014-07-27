@@ -311,6 +311,16 @@ DCC: Запит на продовження закачування файлу в
 Готово: %u чат-кімнат
 [(probably truncated by server)]
 (можливо, обмежено сервером)
+[%ud, %uh, %um, %us]
+%u дн, %u год, %u хв, %u с
+[%uh, %um, %us]
+%u год, %u хв, %u с
+[%um, %us]
+%u хв, %u с
+[%us]
+%u с
+[online since %s, idle %s]
+в мережі з %s, очікування %s
 [Change nickname]
 Змінити нік
 [IRC error]

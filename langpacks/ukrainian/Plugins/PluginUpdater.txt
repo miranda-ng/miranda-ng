@@ -49,6 +49,8 @@
 Оновлено деякі компоненти.\nОновлення будуть застосовані після перезапуску програми.
 [Notifications]
 Сповіщення
+[Restart]
+Перезапуск
 [Errors]
 Помилки
 [Info messages]
@@ -81,6 +83,8 @@
 -1=Нескінченно
 [Sec]
 с
+[Not set for "Restart"]
+Не встановлює для "Перезапуск"
 [Boxes]
 Вікна
 [Popups]
@@ -125,6 +129,10 @@
 Видалено!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Оновлення завершено. Натисніть "Так" для негайного перезапуску програми\nабо "Ні", щоб відкласти застосування оновлень до виходу.
+[Core components]
+Компоненти ядра
+[Core]
+Ядро
 [<< Details]
 << Деталі
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
@@ -139,6 +147,10 @@
 Оновлень немає.
 [Update checking already started!]
 Оновлення вже запущено!
+[Close popup]
+Закрити вікно
+[Do nothing]
+Нічого не робити
 [hours]
 годин
 [days]
