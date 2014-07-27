@@ -140,27 +140,21 @@ extern "C" __declspec(dllexport) int Load(void)
 	SkinAddNewSoundEx("updatefailed",LPGEN("Plugin Updater"),LPGEN("Update failed"));
 	
 	// Upgrade old settings
-	if(!db_set_b(0,MODNAME,"UpdateMode",UPDATE_MODE_STABLE))
-	{
-		DBVARIANT dbvUpdateURL;
-		if (!db_get_s(0,MODNAME, "UpdateURL",&dbvUpdateURL))
-		{
-			if (!strcmp(dbvUpdateURL.pszVal, DEFAULT_UPDATE_URL))
-			{
-				db_set_b(0,MODNAME,"UpdateMode",UPDATE_MODE_STABLE);
-				db_unset(0,MODNAME, "UpdateURL");
+	if (!db_get_b(0, MODNAME, "UpdateMode", UPDATE_MODE_STABLE)) {
+		ptrA dbvUpdateURL(db_get_sa(0, MODNAME, "UpdateURL"));
+		if (dbvUpdateURL) {
+			if (!strcmp(dbvUpdateURL, DEFAULT_UPDATE_URL)) {
+				db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_STABLE);
+				db_unset(0, MODNAME, "UpdateURL");
 			}
-			else if (!strcmp(dbvUpdateURL.pszVal, DEFAULT_UPDATE_URL_TRUNK))
-			{
-				db_set_b(0,MODNAME,"UpdateMode",UPDATE_MODE_TRUNK);
-				db_unset(0,MODNAME, "UpdateURL");
+			else if (!strcmp(dbvUpdateURL, DEFAULT_UPDATE_URL_TRUNK)) {
+				db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK);
+				db_unset(0, MODNAME, "UpdateURL");
 			}
-			else if (!strcmp(dbvUpdateURL.pszVal, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS"/"))
-			{
-				db_set_b(0,MODNAME,"UpdateMode",UPDATE_MODE_TRUNK_SYMBOLS);
-				db_unset(0,MODNAME, "UpdateURL");
+			else if (!strcmp(dbvUpdateURL, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS"/")) {
+				db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK_SYMBOLS);
+				db_unset(0, MODNAME, "UpdateURL");
 			}
-			db_free(&dbvUpdateURL);
 		}
 	}
 	return 0;
