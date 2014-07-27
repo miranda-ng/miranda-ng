@@ -19,8 +19,13 @@ Boston, MA 02111-1307, USA.
 
 #include "Common.h"
 
-HANDLE hNetlibUser = NULL, hPipe = NULL;
+BOOL DlgDld;
+int  Number = 0;
+TCHAR tszDialogMsg[2048] = {0};
+FILEINFO *pFileInfo = NULL;
+HANDLE hNetlibUser = NULL;
 POPUP_OPTIONS PopupOptions = {0};
+aPopups PopupsList[POPUPS];
 extern DWORD g_mirandaVersion;
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +40,8 @@ struct
 static iconList[] =
 {
 	{ "check_update", LPGEN("Check for updates"),           IDI_MENU },
+	{ "btn_ok",	      LPGEN("'Yes' Button"),                IDI_OK },
+	{ "btn_cancel",   LPGEN("'No' Button"),                 IDI_CANCEL },
 	{ "info",         LPGEN("Plugin info"),                 IDI_INFO },
 	{ "plg_list",     LPGEN("Plugin list"),                 IDI_PLGLIST },
 };
@@ -71,6 +78,33 @@ void UnloadNetlib()
 {
 	Netlib_CloseHandle(hNetlibUser);
 	hNetlibUser = NULL;
+}
+
+void InitPopupList()
+{
+	int index = 0;
+	PopupsList[index].ID = index;
+	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
+	PopupsList[index].colorBack = db_get_dw(NULL, MODNAME, "Popups0Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups0Tx", COLOR_TX_DEFAULT);
+
+	index = 1;
+	PopupsList[index].ID = index;
+	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
+	PopupsList[index].colorBack = db_get_dw(NULL, MODNAME, "Popups1Bg", COLOR_BG_SECONDDEFAULT);
+	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups1Tx", COLOR_TX_DEFAULT);
+
+	index = 2;
+	PopupsList[index].ID = index;
+	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
+	PopupsList[index].colorBack = db_get_dw(NULL, MODNAME, "Popups2Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups2Tx", COLOR_TX_DEFAULT);
+
+	index = 3;
+	PopupsList[index].ID = index;
+	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
+	PopupsList[index].colorBack = db_get_dw(NULL, MODNAME, "Popups3Bg", COLOR_BG_SECONDDEFAULT);
+	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups3Tx", COLOR_TX_DEFAULT);
 }
 
 void LoadOptions()
@@ -144,26 +178,16 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 
 TCHAR* GetDefaultUrl()
 {
-#if MIRANDA_VER < 0x0A00
-	return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%"));
-#else
-	// If "UpdateMode" is missing, try to use "UpdateURL" directly
-	BYTE UpdateMode = db_get_b(NULL,MODNAME,"UpdateMode",UPDATE_MODE_CUSTOM);
-	if (UpdateMode==UPDATE_MODE_STABLE)
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL));
-	else if (UpdateMode==UPDATE_MODE_TRUNK)
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK));
-	else if (UpdateMode==UPDATE_MODE_TRUNK_SYMBOLS)
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
-	else {
+	#if MIRANDA_VER < 0x0A00
+		return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%"));
+	#else
 		TCHAR *result = db_get_tsa(NULL, MODNAME, "UpdateURL");
 		if (result == NULL) { // URL is not set
-			db_set_b(NULL,MODNAME,"UpdateMode",UPDATE_MODE_STABLE);
+			db_set_ts(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
 			result = mir_tstrdup( _T(DEFAULT_UPDATE_URL));
 		}
 		return result;
-	}
-#endif
+	#endif
 }
 
 int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
@@ -175,11 +199,11 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 {
 	REPLACEVARSARRAY vars[2];
 	vars[0].lptzKey = _T("platform");
-#ifdef _WIN64
-	vars[0].lptzValue = _T("64");
-#else
-	vars[0].lptzValue = _T("32");
-#endif
+	#ifdef _WIN64
+		vars[0].lptzValue = _T("64");
+	#else
+		vars[0].lptzValue = _T("32");
+	#endif
 	vars[1].lptzKey = vars[1].lptzValue = 0;
 
 	REPLACEVARSDATA dat = { sizeof(REPLACEVARSDATA) };
@@ -189,7 +213,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 
 	// Download version info
 	if (!opts.bSilent)
-		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Checking new updates..."), POPUP_TYPE_INFO);
+		ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Checking new updates..."), 2, 0, true);
 
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), baseUrl);
@@ -202,11 +226,11 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 
 	if (!ret) {
 		if(!opts.bSilent)
-			ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking new updates."), POPUP_TYPE_ERROR);
+			ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occurred while checking new updates."), 1, 0);
 		return false;
 	}
 
-	if(!unzip(pFileUrl.tszDiskPath, tszTempPath, NULL))
+	if(!unzip(pFileUrl.tszDiskPath, tszTempPath, NULL,true))
 		return false;
 	
 	DeleteFile(pFileUrl.tszDiskPath);
@@ -330,12 +354,28 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 	mir_free(szUrl);
 	mir_free(nlhr.headers);
 
+	DlgDld = ret;
 	return ret;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LONG PeriodToMilliseconds(const int period, BYTE periodMeasure)
+BOOL AllowUpdateOnStartup()
+{
+	if (!opts.bUpdateOnStartup)
+		return FALSE;
+
+	if (opts.bOnlyOnceADay) {
+		time_t now = time(NULL);
+		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
+
+		if ((now - was) < 86400)
+			return FALSE;
+	}
+	return TRUE;
+}
+
+LONG PeriodToMilliseconds(const int period, BYTE& periodMeasure)
 {
 	LONG result = period * 1000;
 	switch(periodMeasure) {
@@ -354,7 +394,7 @@ LONG PeriodToMilliseconds(const int period, BYTE periodMeasure)
 	return result;
 }
 
-void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
+void CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
 {
 	DoCheck();
 }
@@ -404,6 +444,76 @@ void strdel(TCHAR *parBuffer, int len)
 
 	p[-len] = '\0';
 }
+
+#if MIRANDA_VER < 0x0A00
+static char szHexTable[] = "0123456789abcdef";
+
+char* bin2hex(const void *pData, size_t len, char *dest)
+{
+	const BYTE *p = (const BYTE*)pData;
+	char *d = dest;
+
+	for (size_t i=0; i < len; i++, p++) {
+		*d++ = szHexTable[*p >> 4];
+		*d++ = szHexTable[*p & 0x0F];
+	}
+	*d = 0;
+
+	return dest;
+}
+
+char* rtrim(char *str)
+{
+	if (str == NULL)
+		return NULL;
+
+	char *p = strchr(str, 0);
+	while (--p >= str) {
+		switch (*p) {
+		case ' ': case '\t': case '\n': case '\r':
+			*p = 0; break;
+		default:
+			return str;
+		}
+	}
+	return str;
+}
+
+void CreatePathToFileT(TCHAR* tszFilePath)
+{
+	TCHAR* pszLastBackslash = _tcsrchr(tszFilePath, '\\');
+	if (pszLastBackslash == NULL)
+		return;
+
+	*pszLastBackslash = '\0';
+	CreateDirectoryTreeT(tszFilePath);
+	*pszLastBackslash = '\\';
+}
+
+void __stdcall RestartMe(void*)
+{
+	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
+	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
+
+	TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), profilename);
+	mir_free(profilename);
+
+	CallService("CloseAction", 0, 0);
+
+	PROCESS_INFORMATION pi;
+	STARTUPINFO si = { sizeof(si) };
+	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+}
+
+#else
+
+void __stdcall RestartMe(void*)
+{
+	CallService(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
+}
+
+#endif
 
 void __stdcall OpenPluginOptions(void*)
 {
@@ -568,65 +678,6 @@ Cleanup:
 	}
 
 	return fIsElevated;
-}
-
-bool PrepareEscalation()
-{
-	// First try to create a file near Miranda32.exe
-	TCHAR szPath[MAX_PATH];
-	GetModuleFileName(NULL, szPath, SIZEOF(szPath));
-	TCHAR *ext = _tcsrchr(szPath, '.');
-	if (ext != NULL)
-		*ext = '\0';
-	_tcscat(szPath, _T(".test"));
-	HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hFile != INVALID_HANDLE_VALUE) {
-		// we are admins or UAC is disable, cool
-		CloseHandle(hFile);
-		DeleteFile(szPath);
-		return true;
-	}
-	else if (IsRunAsAdmin()) {
-		// Check the current process's "run as administrator" status.
-		return true;
-	}
-	else {
-		// Elevate the process. Create a pipe for a stub first
-		TCHAR tszPipeName[MAX_PATH];
-		mir_sntprintf(tszPipeName, MAX_PATH, _T("\\\\.\\pipe\\Miranda_Pu_%d"), GetCurrentProcessId());
-		hPipe = CreateNamedPipe(tszPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, NULL);
-		if (hPipe == INVALID_HANDLE_VALUE) {
-			hPipe = NULL;
-		}
-		else {
-			TCHAR cmdLine[100], *p;
-			GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
-			if ((p = _tcsrchr(szPath, '\\')) != 0)
-				_tcscpy(p+1, _T("pu_stub.exe"));
-			mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("%d"), GetCurrentProcessId());
-
-			// Launch a stub
-			SHELLEXECUTEINFO sei = { sizeof(sei) };
-			sei.lpVerb = L"runas";
-			sei.lpFile = szPath;
-			sei.lpParameters = cmdLine;
-			sei.hwnd = NULL;
-			sei.nShow = SW_NORMAL;
-			if (ShellExecuteEx(&sei)) {
-				if (hPipe != NULL)
-					ConnectNamedPipe(hPipe, NULL);
-				return true;
-			}
-
-			DWORD dwError = GetLastError();
-			if (dwError == ERROR_CANCELLED)
-			{
-				// The user refused to allow privileges elevation.
-				// Do nothing ...
-			}
-		}
-		return false;
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

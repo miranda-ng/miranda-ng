@@ -76,10 +76,9 @@ __forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 	return CallService("Opt/AddPage", wParam, (LPARAM)odp);
 }
 
-char *bin2hex(const void *pData, size_t len, char *dest);
+char* bin2hex(const void *pData, size_t len, char *dest);
 char *rtrim(char *str);
 int CreatePathToFileT(const TCHAR *ptszPath);
-int wildcmpit(const WCHAR *name, const WCHAR *mask);
 
 #define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1) *sizeof(TCHAR)), A)
 
@@ -125,4 +124,23 @@ int __forceinline PUDeletePopup(HWND hWndPopup)
 
 #define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))
 
+int __forceinline wildcmpit(const WCHAR *name, const WCHAR *mask)
+{
+	if (name == NULL || mask == NULL)
+		return false;
 
+	const WCHAR* last = NULL;
+	for (;; mask++, name++) {
+		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
+		if (*name == '\0') return ((BOOL)!*mask);
+	}
+	if (*mask != '*') return FALSE;
+	for (;; mask++, name++) {
+		while(*mask == '*') {
+			last = mask++;
+			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
+		}
+		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
+		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name)) name -= (size_t)(mask - last) - 1, mask = last;
+	}
+}

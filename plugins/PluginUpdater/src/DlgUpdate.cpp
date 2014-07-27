@@ -97,11 +97,12 @@ static void ApplyUpdates(void *param)
 	// 3) Unpack all zips
 	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 	for (int i = 0; i < todo.getCount(); i++) {
-		FILEINFO& p = todo[i];
-		if (p.bEnabled) {
+		if (todo[i].bEnabled) {
+			TCHAR tszBackFile[MAX_PATH];
+			FILEINFO& p = todo[i];
 			if (p.bDeleteOnly) { 
 				// we need only to backup the old file
-				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
+				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1;
 				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
@@ -109,13 +110,13 @@ static void ApplyUpdates(void *param)
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
 				if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
-					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
+					TCHAR tszSrcPath[MAX_PATH];
 					mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
 					mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
-				if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
+				if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack,true))
 					SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 			}
 		}
@@ -138,11 +139,7 @@ static void ApplyUpdates(void *param)
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
 	if (rc == IDYES)
-#if MIRANDA_VER >= 0x0A00
-		CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
-#else
 		CallFunctionAsync(RestartMe, 0);
-#endif
 }
 
 static void ResizeVert(HWND hDlg, int yy)
@@ -183,6 +180,9 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 					DeleteFile(szPath);
 				}
 			}
+			RECT r;
+			GetClientRect(hwndList, &r);
+
 			LVCOLUMN lvc = {0};
 			// Initialize the LVCOLUMN structure.
 			// The mask specifies that the format, width, text, and
@@ -203,55 +203,30 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			//enumerate plugins, fill in list
 			//bool one_enabled = false;
 			ListView_DeleteAllItems(hwndList);
-			///
-			LVGROUP lvg;
-			lvg.cbSize = sizeof(LVGROUP);
-			lvg.mask = LVGF_HEADER | LVGF_GROUPID;
 
-			lvg.pszHeader = TranslateT("Plugins");
-			lvg.iGroupId = 1;
-			ListView_InsertGroup(hwndList, 0, &lvg);
-
-			lvg.pszHeader = TranslateT("Icons");
-			lvg.iGroupId = 2;
-			ListView_InsertGroup(hwndList, 0, &lvg);
-			
-			lvg.pszHeader = TranslateT("Languages");
-			lvg.iGroupId = 3;
-			ListView_InsertGroup(hwndList, 0, &lvg);
-			
-			lvg.pszHeader = TranslateT("Core components");
-			lvg.iGroupId = 4;
-			ListView_InsertGroup(hwndList, 0, &lvg);
-
-			lvg.pszHeader = TranslateT("Core");
-			lvg.iGroupId = 5;
-			ListView_InsertGroup(hwndList, 0, &lvg);
-			
-			ListView_EnableGroupView(hwndList, TRUE);
+			// Some code to create the list-view control.
+			// Initialize LVITEM members that are common to all items.
+			LVITEM lvI = {0};
+			lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
 			bool enableOk = false;
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
 			for (int i = 0; i < todo.getCount(); ++i) {
-				LVITEM lvI = {0};
-				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
-				lvI.iGroupId = (_tcschr(todo[i].tszOldName, L'\\') == NULL) ? 5 :
-					(_tcsstr(todo[i].tszOldName, _T("Plugins")) != NULL) ? 1 :
-						((_tcsstr(todo[i].tszOldName, _T("Icons")) != NULL) ? 2 : 
-							((_tcsstr(todo[i].tszOldName, _T("Languages")) != NULL) ? 3 : 
-								((_tcsstr(todo[i].tszOldName, _T("Core")) != NULL) ? 4 : 5)));
+				lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_IMAGE;
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
 				lvI.pszText = todo[i].tszOldName;
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
 
+				// remember whether the user has decided not to update this component with this particular new version
+				todo[i].bEnabled = db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(todo[i].tszOldName)), true);
 				ListView_SetCheckState(hwndList, lvI.iItem, todo[i].bEnabled);
 				if (todo[i].bEnabled)
 					enableOk = true;
 			}
-			if(enableOk)
-				EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
+			HWND hwOk = GetDlgItem(hDlg, IDOK);
+			EnableWindow(hwOk, enableOk);
 		}
 
 		bShowDetails = false;
@@ -268,26 +243,27 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			case LVN_ITEMCHANGED:
 				if (GetWindowLongPtr(hDlg, GWLP_USERDATA)) {
 					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+
+					LVITEM lvI = {0};
+					lvI.iItem = nmlv->iItem;
+					lvI.iSubItem = 0;
+					lvI.mask = LVIF_PARAM;
+					ListView_GetItem(hwndList, &lvI);
+
+					OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
-						LVITEM lvI = {0};
-						lvI.iItem = nmlv->iItem;
-						lvI.iSubItem = 0;
-						lvI.mask = LVIF_PARAM;
-						ListView_GetItem(hwndList, &lvI);
+						todo[lvI.iItem].bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem);
+						db_set_b(NULL, MODNAME "Files", StrToLower(_T2A(todo[lvI.iItem].tszOldName)), todo[lvI.iItem].bEnabled);
 
-						FILEINFO *p = (FILEINFO*)lvI.lParam;
-						db_set_b(NULL, MODNAME "Files", StrToLower(_T2A(p->tszOldName)), p->bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem));
-
-						// Toggle the Download button
 						bool enableOk = false;
-						OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 						for (int i=0; i < todo.getCount(); ++i) {
 							if (todo[i].bEnabled) {
 								enableOk = true;
 								break;
 							}
 						}
-						EnableWindow(GetDlgItem(hDlg, IDOK), enableOk ? TRUE : FALSE);
+						HWND hwOk = GetDlgItem(hDlg, IDOK);
+						EnableWindow(hwOk, enableOk ? TRUE : FALSE);
 					}
 				}
 				break;
@@ -343,14 +319,35 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		opts.bSilent = true;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
-#if MIRANDA_VER >= 0x0A00
-		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
-#endif
+		#if MIRANDA_VER >= 0x0A00
+			db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		#endif
 		mir_forkthread(InitTimer, (void*)0);
 		break;
 	}
 
 	return FALSE;
+}
+
+static LRESULT CALLBACK PopupDlgProcRestart(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
+	case WM_COMMAND:
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hDlg);
+
+		if (uMsg == WM_COMMAND) {
+			TCHAR tszText[200];
+			mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+
+			if (MessageBox(hDlg, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION) == IDYES)
+				CallFunctionAsync(RestartMe, 0);
+		}
+
+		return TRUE;
+	}
+
+	return DefWindowProc(hDlg, uMsg, wParam, lParam);
 }
 
 static void DlgUpdateSilent(void *lParam)
@@ -381,7 +378,7 @@ static void DlgUpdateSilent(void *lParam)
 	// Count all updates that have been enabled
 	int count = 0;
 	for (int i = 0; i < UpdateFiles.getCount(); i++) {
-		if (UpdateFiles[i].bEnabled && !UpdateFiles[i].bDeleteOnly) {
+		if (db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(UpdateFiles[i].tszOldName)), 1) && !UpdateFiles[i].bDeleteOnly) {
 			// download update
 			FILEURL *pFileUrl = &UpdateFiles[i].File;
 			if (!DownloadFile(pFileUrl, nlc)) {
@@ -397,7 +394,6 @@ static void DlgUpdateSilent(void *lParam)
 	}
 	Netlib_CloseHandle(nlc);
 
-	// All available updates have been disabled
 	if (count == 0) {
 		delete &UpdateFiles;
 		return;
@@ -406,11 +402,11 @@ static void DlgUpdateSilent(void *lParam)
 	// 3) Unpack all zips
 	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 	for (int i = 0; i < UpdateFiles.getCount(); i++) {
-		FILEINFO& p = UpdateFiles[i];
-		if (p.bEnabled) {
-			if (p.bDeleteOnly) {
-				// we need only to backup the old file
-				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
+		if (db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(UpdateFiles[i].tszOldName)), 1)) {
+			TCHAR tszBackFile[MAX_PATH];
+			FILEINFO& p = UpdateFiles[i];
+			if (p.bDeleteOnly) { // we need only to backup the old file
+				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1;
 				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
 				BackupFile(p.tszNewName, tszBackFile);
 			}
@@ -418,15 +414,14 @@ static void DlgUpdateSilent(void *lParam)
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
 				if (_tcsicmp(p.tszOldName, p.tszNewName)) {
-					TCHAR tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
+					TCHAR tszSrcPath[MAX_PATH];
 					mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
 					mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
-				
-				// remove .zip after successful update
-				if (unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
-					SafeDeleteFile(p.File.tszDiskPath);
+
+				if (unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack, true))
+					SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 			}
 		}
 	}
@@ -451,7 +446,18 @@ static void DlgUpdateSilent(void *lParam)
 	mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%d component(s) was updated"), count);		
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
-		ShowPopup(tszTitle,TranslateT("You need to restart your Miranda to apply installed updates."),POPUP_TYPE_MSG);
+		POPUPDATAT_V2 pd = { 0 };
+		pd.cbSize = sizeof(pd);
+		pd.lchContact = NULL;
+		pd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		pd.colorBack = pd.colorText = 0;
+		pd.iSeconds = -1;
+		pd.PluginWindowProc = PopupDlgProcRestart;
+
+		lstrcpyn(pd.lptzText, TranslateT("You need to restart your Miranda to apply installed updates."), MAX_SECONDLINE);
+		lstrcpyn(pd.lptzContactName, tszTitle, MAX_CONTACTNAME);
+
+		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, APF_NEWDATA);
 	} else {
 		bool notified = false;
 
@@ -473,11 +479,7 @@ static void DlgUpdateSilent(void *lParam)
 			mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
-#if MIRANDA_VER >= 0x0A00
-				CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
-#else
 				CallFunctionAsync(RestartMe, 0);
-#endif
 		}
 	}
 }
@@ -516,12 +518,12 @@ static renameTable[] =
 	{ _T("rss.dll"),                        _T("Plugins\\newsaggregator.dll") },
 	{ _T("dbx_3x.dll"),                     _T("Plugins\\dbx_mmap.dll") },
 	
-#if MIRANDA_VER >= 0x0A00
-	{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
-	{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
-	{ _T("rc4.dll"),                        NULL },
-	{ _T("athena.dll"),                     NULL },
-#endif
+	#if MIRANDA_VER >= 0x0A00
+		{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
+		{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
+		{ _T("rc4.dll"),                        NULL },
+		{ _T("athena.dll"),                     NULL },
+	#endif
 
 	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
 	{ _T("clienticons_*.dll"),              _T("Icons\\fp_icons.dll") },
@@ -541,18 +543,19 @@ static renameTable[] =
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
 {
 	for (int i = 0; i < SIZEOF(renameTable); i++) {
-		if (wildcmpit(ptszOldName, renameTable[i].oldName)) {
-			TCHAR *ptszDest = renameTable[i].newName;
-			if (ptszDest == NULL)
-				*pNewName = 0;
-			else {
-				_tcsncpy_s(pNewName, MAX_PATH, ptszDest, _TRUNCATE);
-				size_t cbLen = _tcslen(ptszDest) - 1;
-				if (pNewName[cbLen] == '*')
-					_tcsncpy_s(pNewName + cbLen, MAX_PATH - cbLen, ptszOldName, _TRUNCATE);
-			}
-			return true;
+		if (!wildcmpit(ptszOldName, renameTable[i].oldName))
+			continue;
+
+		TCHAR *ptszDest = renameTable[i].newName;
+		if (ptszDest == NULL)
+			*pNewName = 0;
+		else {
+			_tcsncpy_s(pNewName, MAX_PATH, ptszDest, _TRUNCATE);
+			size_t cbLen = _tcslen(ptszDest) - 1;
+			if (pNewName[cbLen] == '*')
+				_tcsncpy_s(pNewName + cbLen, MAX_PATH - cbLen, ptszOldName, _TRUNCATE);
 		}
+		return true;
 	}
 
 	return false;
@@ -569,15 +572,11 @@ static bool isValidExtension(const TCHAR *ptszFileName)
 
 static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const TCHAR *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles)
 {
+	int count = 0;
+
 	// skip updater's own folder
 	if (!_tcsicmp(tszFolder, tszRoot))
-		return 0;
-
-	// skip profile folder
-	TCHAR tszProfilePath[MAX_PATH];
-	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(tszProfilePath), (LPARAM)tszProfilePath);
-	if (!_tcsicmp(tszFolder, tszProfilePath))
-		return 0;
+		return count;
 
 	TCHAR tszBuf[MAX_PATH];
 	mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\*"), tszFolder);
@@ -585,17 +584,18 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(tszBuf, &ffd);
 	if (hFind == INVALID_HANDLE_VALUE)
-		return 0;
+		return count;
 
-	Netlib_LogfT(hNetlibUser,_T("Scanning folder %s"), tszFolder);
-
-	int count = 0;
 	do {
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-			// Scan recursively all subfolders
 			if (_tcscmp(ffd.cFileName, _T(".")) && _tcscmp(ffd.cFileName, _T(".."))) {
+				// we need to skip profile folder
+				TCHAR tszProfilePath[MAX_PATH];
+				CallService(MS_DB_GETPROFILEPATHT, SIZEOF(tszProfilePath), (LPARAM)tszProfilePath);
+
 				mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
-				count += ScanFolder(tszBuf, cbBaseLen, level+1, tszBaseUrl, hashes, UpdateFiles);
+				if (0 != _tcsicmp(tszBuf, tszProfilePath))
+					count += ScanFolder(tszBuf, cbBaseLen, level+1, tszBaseUrl, hashes, UpdateFiles);
 			}
 		}
 		else if (isValidExtension(ffd.cFileName)) {
@@ -622,7 +622,6 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					if (p[-1] != 'w' && p[-1] != 'W')
 						continue;
 
-					// remove trailing w or W and try again
 					int iPos = int(p - tszNewName)-1;
 					strdel(p-1, 1);
 					if ((item = hashes.find((ServListEntry*)&pName)) == NULL)
@@ -652,22 +651,19 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				ptszUrl = _T("");
 
 			// Compare versions
-			if (bHasNewVersion) {
-				// Yeah, we've got new version.
-				Netlib_LogfT(hNetlibUser,_T("Found update for %s"), tszBuf);
+			if (bHasNewVersion) { // Yeah, we've got new version.
 				FILEINFO *FileInfo = new FILEINFO;
-				// copy the relative old name
-				_tcsncpy(FileInfo->tszOldName, tszBuf+cbBaseLen, SIZEOF(FileInfo->tszOldName));
-				FileInfo->bDeleteOnly = (tszNewName[0] == 0);
-				if (FileInfo->bDeleteOnly) {
-					// save the full old name for deletion
-					_tcsncpy(FileInfo->tszNewName, tszBuf, SIZEOF(FileInfo->tszNewName));
+				_tcscpy(FileInfo->tszOldName, tszBuf+cbBaseLen); // copy the relative old name
+				if (tszNewName[0] == 0) {
+					FileInfo->bDeleteOnly = TRUE;
+					_tcscpy(FileInfo->tszNewName, tszBuf);  // save the full old name for deletion
 				}
 				else {
+					FileInfo->bDeleteOnly = FALSE;
 					_tcsncpy(FileInfo->tszNewName, ptszUrl, SIZEOF(FileInfo->tszNewName));
 				}
 
-				_tcsncpy(tszBuf, ptszUrl, SIZEOF(tszBuf));
+				_tcscpy(tszBuf, ptszUrl);
 				TCHAR *p = _tcsrchr(tszBuf, '.');
 				if (p) *p = 0;
 				p = _tcsrchr(tszBuf, '\\');
@@ -679,13 +675,10 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
 					*p++ = '/';
 
-				// remember whether the user has decided not to update this component with this particular new version
-				FileInfo->bEnabled = db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(FileInfo->tszOldName)), 1);
-
 				FileInfo->File.CRCsum = MyCRC;
 				UpdateFiles->insert(FileInfo);
-
-				if (!opts.bSilent || FileInfo->bEnabled)
+			
+				if (!opts.bSilent || db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(FileInfo->tszNewName)), true))
 					count++;
 			} // end compare versions
 		}
@@ -698,7 +691,8 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 
 static void CheckUpdates(void *)
 {
-	Netlib_LogfT(hNetlibUser,_T("Checking for updates"));
+	char szKey[64] = {0};
+
 	TCHAR tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
@@ -716,7 +710,7 @@ static void CheckUpdates(void *)
 		// Show dialog
 		if (count == 0) {
 			if (!opts.bSilent)
-				ShowPopup(TranslateT("Plugin Updater"), TranslateT("No updates found."), POPUP_TYPE_INFO);
+				ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("No updates found."), 2, 0);
 			delete UpdateFiles;
 			opts.bSilent = true;
 		}
@@ -724,7 +718,7 @@ static void CheckUpdates(void *)
 	}
 	else opts.bSilent = true;
 
-	mir_forkthread(InitTimer, (void*)(success ? 0 : 2));
+	mir_forkthread(InitTimer, (void*)(success ? 0 : 2));	
 	
 	hashes.destroy();
 	hCheckThread = NULL;
@@ -733,15 +727,15 @@ static void CheckUpdates(void *)
 void DoCheck()
 {
 	if (hCheckThread)
-		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Update checking already started!"), POPUP_TYPE_INFO);
+		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("Update checking already started!"), 2, 0);
 	else if (hwndDialog) {
 		ShowWindow(hwndDialog, SW_SHOW);
 		SetForegroundWindow(hwndDialog);
 		SetFocus(hwndDialog);
 	} else {
-#if MIRANDA_VER >= 0x0A00
-		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
-#endif
+		#if MIRANDA_VER >= 0x0A00
+			db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		#endif
 		hCheckThread = mir_forkthread(CheckUpdates, 0);		
 	}
 }
@@ -754,7 +748,6 @@ void UninitCheck()
 
 INT_PTR MenuCommand(WPARAM,LPARAM)
 {
-	Netlib_LogfT(hNetlibUser,_T("Update started manually!"));
 	opts.bSilent = false;
 	DoCheck();
 	return 0;
@@ -769,21 +762,4 @@ void UnloadCheck()
 {
 	if (hCheckThread)
 		hCheckThread = NULL;
-}
-
-void CheckUpdateOnStartup()
-{
-	if(opts.bUpdateOnStartup)
-	{
-		if (opts.bOnlyOnceADay)
-		{
-			time_t now = time(NULL),
-				was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
-
-			if ((now - was) < 86400)
-				return;
-		}
-		Netlib_LogfT(hNetlibUser,_T("Update on startup started!"));
-		DoCheck();
-	}
 }

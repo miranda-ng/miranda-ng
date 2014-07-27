@@ -17,21 +17,29 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-#define POPUPS 3
+#define POPUPS 4
 
 //=== Objects =====
 //This one is used to easily tie status id, icon, text...
 typedef struct
 {
 	int ID;
+	int Icon;
 	COLORREF colorBack;
 	COLORREF colorText;
 } aPopups;
 
+typedef struct _MSGPOPUPDATA
+{
+	POPUPACTION	pa[4];
+	HWND		hDialog;
+}
+MSGPOPUPDATA, *LPMSGPOPUPDATA;
+
 #define DEFAULT_POPUP_LCLICK				1
 #define DEFAULT_POPUP_RCLICK				0
 #define DEFAULT_POPUP_ENABLED				1
-#define DEFAULT_MESSAGE_ENABLED				0
+#define DEFAULT_MESSAGE_ENABLED				1
 #define DEFAULT_TIMEOUT_VALUE				0
 
 #define COLOR_BG_FIRSTDEFAULT	RGB(173,206,247)
@@ -59,6 +67,6 @@ static struct {
 	TCHAR *Text;
 	int Action;
 } PopupActions[] = {
-	LPGENT("Close popup"), PCA_CLOSEPOPUP,
-	LPGENT("Do nothing"), PCA_DONOTHING
+	_T("Close popup"), PCA_CLOSEPOPUP,
+	_T("Do nothing"), PCA_DONOTHING
 };

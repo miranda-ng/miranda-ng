@@ -43,7 +43,7 @@ CAPTION "Updates found!"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CTEXT           "PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.",IDC_UPDATETEXT,9,7,223,24
-    DEFPUSHBUTTON   "Update",IDOK,32,36,50,14,WS_DISABLED
+    DEFPUSHBUTTON   "Update",IDOK,32,36,50,14
     PUSHBUTTON      "Details >>",IDC_DETAILS,95,36,50,14,NOT WS_TABSTOP
     PUSHBUTTON      "Cancel",IDCANCEL,157,36,50,14
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,58,236,1
@@ -84,43 +84,48 @@ BEGIN
     CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,193,247,15,NOT WS_VISIBLE
 END
 
-IDD_POPUP DIALOGEX 0, 0, 316, 138
+IDD_POPUP DIALOGEX 0, 0, 316, 182
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Notifications",IDC_NOTIFY,1,0,172,63
-    CONTROL         "Restart",IDC_MSG_BOXES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,19,79,10
-    CONTROL         "Errors",IDC_ERRORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,32,79,10
-    CONTROL         "Info messages",IDC_INFO_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,45,79,10
+    GROUPBOX        "Notifications",IDC_NOTIFY,1,0,172,79
+    CONTROL         "Message boxes (*)",IDC_MSG_BOXES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,19,79,10
+    CONTROL         "Errors",IDC_ERRORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,32,57,10
+    CONTROL         "Info messages",IDC_INFO_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,45,80,10
+    CONTROL         "Progress dialogs",IDC_PROGR_DLG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,59,80,10
     CTEXT           "Back",IDC_STATIC,90,8,24,8
     CTEXT           "Text",IDC_STATIC,116,8,24,8
     CONTROL         "",IDC_MSG_BOXES_BG,"ColourPicker",WS_TABSTOP,90,17,24,12
     CONTROL         "",IDC_MSG_BOXES_TX,"ColourPicker",WS_TABSTOP,116,17,24,12
-    CONTROL         "",IDC_MSG_BOXES_MSG,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,153,19,8,10
     CONTROL         "",IDC_ERR_BG,"ColourPicker",WS_TABSTOP,90,31,24,12
     CONTROL         "",IDC_ERR_TX,"ColourPicker",WS_TABSTOP,116,31,24,12
-    CONTROL         "",IDC_ERRORS_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,32,8,10
     CONTROL         "",IDC_INFO_MESSAGES_BG,"ColourPicker",WS_TABSTOP,90,44,24,12
     CONTROL         "",IDC_INFO_MESSAGES_TX,"ColourPicker",WS_TABSTOP,116,44,24,12
-    CONTROL         "",IDC_INFO_MESSAGES_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,45,8,10
+    CONTROL         "",IDC_PROGR_DLG_BG,"ColourPicker",WS_TABSTOP,90,58,24,12
+    CONTROL         "",IDC_PROGR_DLG_TX,"ColourPicker",WS_TABSTOP,116,58,24,12
     GROUPBOX        "Colors",IDC_COLORS,178,0,133,44,WS_GROUP
     CONTROL         "Use cus&tom colors",IDC_USEOWNCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,186,8,122,13
     CONTROL         "Use &Windows colors",IDC_USEWINCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,186,30,121,13
     CONTROL         "Use Pop&up colors",IDC_USEPOPUPCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,186,19,102,13
     PUSHBUTTON      "Preview",IDC_PREVIEW,189,104,57,12
-    GROUPBOX        "Click action",IDC_STATIC,1,67,172,67,WS_GROUP
-    LTEXT           "On left click",IDC_STATIC,8,78,161,8
-    COMBOBOX        IDC_LC,6,87,163,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "On right click",IDC_STATIC,8,104,161,8
-    COMBOBOX        IDC_RC,6,114,163,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Click action",IDC_STATIC,1,83,145,67,WS_GROUP
+    COMBOBOX        IDC_LC,6,103,127,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_RC,6,130,127,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "On left click",IDC_STATIC,8,94,121,8
+    LTEXT           "On right click",IDC_STATIC,8,120,121,8
     GROUPBOX        "Timeout",IDC_STATIC,178,45,133,51
     EDITTEXT        IDC_TIMEOUT_VALUE,194,59,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_TIMEOUT_VALUE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,215,59,12,12
     CTEXT           "0 = Default",IDC_STATIC_DEFAULT,250,56,55,8
     CTEXT           "-1 = Infinite",IDC_STATIC_INFINITE,249,66,54,8
     LTEXT           "Sec",IDC_STATIC_SEC,230,61,17,8
-    LTEXT           "Not set for ""Restart""",IDC_STATIC,185,80,123,8
+    LTEXT           "* Needs popup actions to be enabled",IDC_STATIC,4,156,190,8
+    LTEXT           "Not sets for ""Message boxes""",IDC_STATIC,185,80,123,8
+    CONTROL         "",IDC_MSG_BOXES_MSG,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,153,19,8,10
+    CONTROL         "",IDC_ERRORS_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,32,8,10
+    CONTROL         "",IDC_INFO_MESSAGES_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,45,8,10
+    CONTROL         "",IDC_PROGR_DLG_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,59,8,10
     CTEXT           "Boxes",IDC_STATIC,146,8,23,8
     CTEXT           "Popups",IDC_STATIC,7,9,79,8
 END
@@ -132,7 +137,7 @@ CAPTION "Component list"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CTEXT           "Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.",IDC_UPDATETEXT,9,9,223,44
-    DEFPUSHBUTTON   "Download",IDOK,175,218,60,14,WS_DISABLED
+    DEFPUSHBUTTON   "Download",IDOK,175,218,60,14
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,58,236,1
     CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,64,229,149
     PUSHBUTTON      "Select &none",IDC_SELNONE,109,218,60,14,NOT WS_TABSTOP
@@ -187,23 +192,6 @@ BEGIN
         VERTGUIDE, 258
         VERTGUIDE, 264
         BOTTOMMARGIN, 214
-    END
-
-    IDD_POPUP, DIALOG
-    BEGIN
-        VERTGUIDE, 1
-        VERTGUIDE, 7
-        VERTGUIDE, 86
-        VERTGUIDE, 90
-        VERTGUIDE, 114
-        VERTGUIDE, 116
-        VERTGUIDE, 140
-        VERTGUIDE, 153
-        VERTGUIDE, 169
-        VERTGUIDE, 173
-        VERTGUIDE, 178
-        VERTGUIDE, 186
-        VERTGUIDE, 311
     END
 
     IDD_LIST, DIALOG
