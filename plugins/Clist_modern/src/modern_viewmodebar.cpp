@@ -703,15 +703,9 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				style &= (~CLS_SHOWHIDDEN);
 				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST),GWL_STYLE,style);
 			}
+
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)himlViewModes);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRACOLUMNS, ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR,GetSysColor(COLOR_WINDOW),0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN,2,0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT,10, 0);
-			for (i=0; i <= FONTID_MAX; i++)
-				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
 
 			CLCINFOITEM cii = { sizeof(cii) };
 			cii.hParentGroup = 0;

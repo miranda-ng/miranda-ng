@@ -538,15 +538,8 @@ static void FilterContacts(HWND hwndDlg, CVkProto *ppro)
 static void ResetOptions(HWND hwndDlg)
 {
 	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
-	SendMessage(hwndClist, CLM_SETBKBITMAP, 0, 0);
-	SendMessage(hwndClist, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-	SendMessage(hwndClist, CLM_SETGREYOUTFLAGS, 0, 0);
-	SendMessage(hwndClist, CLM_SETLEFTMARGIN, 4, 0);
-	SendMessage(hwndClist, CLM_SETINDENT, 10, 0);
 	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 	SendMessage(hwndClist, CLM_GETHIDEOFFLINEROOT, 1, 0);
-	for (int i = 0; i <= FONTID_MAX; i++)
-		SendMessage(hwndClist, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
 static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

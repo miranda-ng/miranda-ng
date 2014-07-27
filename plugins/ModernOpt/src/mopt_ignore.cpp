@@ -36,15 +36,7 @@ void ModernOptIgnore_AddItem(MODERNOPTOBJECT *obj)
 
 static void ResetListOptions(HWND hwndList)
 {
-	SendMessage(hwndList,CLM_SETBKBITMAP,0,(LPARAM)(HBITMAP)NULL);
-	SendMessage(hwndList,CLM_SETBKCOLOR,GetSysColor(COLOR_WINDOW),0);
-	SendMessage(hwndList,CLM_SETGREYOUTFLAGS,0,0);
-	SendMessage(hwndList,CLM_SETLEFTMARGIN,4,0);
-	SendMessage(hwndList,CLM_SETINDENT,10,0);
-	SendMessage(hwndList,CLM_SETHIDEEMPTYGROUPS,1,0);
-
-	for(int i=0;i<=FONTID_MAX;i++)
-		SendMessage(hwndList,CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
+	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 }
 
 static void SetAllContactIcons(HWND hwndList, int count)
