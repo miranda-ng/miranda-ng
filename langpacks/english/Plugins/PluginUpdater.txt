@@ -45,7 +45,7 @@
 [0 = Default]
 [-1 = Infinite]
 [Sec]
-[For "Restart" setting is always infinity]
+[For "Restart" popup setting is always infinity]
 [Boxes]
 [Popups]
 [Component list]

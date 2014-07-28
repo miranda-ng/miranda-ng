@@ -83,8 +83,8 @@
 -1=Бесконечно
 [Sec]
 сек.
-[For "Restart" setting is always infinity]
-"Перезапуск" всегда бесконечно
+[For "Restart" popup setting is always infinity]
+Всплывающее окно "Перезапуск" всегда  установлено на бесконечность
 [Boxes]
 Окна
 [Popups]
