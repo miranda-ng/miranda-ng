@@ -27,7 +27,7 @@
 [Click action]
 [0 = Default]
 [-1 = Infinite]
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 [Boxes]
 [Popups]
 [Component list]

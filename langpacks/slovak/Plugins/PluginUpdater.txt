@@ -84,7 +84,7 @@ Pravým klikom
 
 [Sec]
 sek
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 
 [Boxes]
 

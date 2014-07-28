@@ -2,7 +2,7 @@
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 [Restart]
 [Info messages]
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 [Boxes]
 [Failed!]
 [Skipped.]

@@ -84,7 +84,7 @@ Timeout
 -1 = Unendlich
 [Sec]
 Sek.
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 
 [Boxes]
 Fenster

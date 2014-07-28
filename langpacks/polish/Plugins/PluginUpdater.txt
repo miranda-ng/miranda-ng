@@ -84,7 +84,7 @@ Wyświetlaj
 -1 - nie chowaj
 [Sec]
 s
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 Nie ustawiony na "Restart"
 [Boxes]
 Okna

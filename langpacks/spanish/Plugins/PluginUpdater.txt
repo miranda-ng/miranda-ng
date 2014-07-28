@@ -84,7 +84,7 @@ Tiempo de espera
 -1 = Infinito
 [Sec]
 Seg
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 
 [Boxes]
 Marcos

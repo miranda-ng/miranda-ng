@@ -1,7 +1,7 @@
 ﻿[Silent mode]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 [Restart]
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 [Core components]
 [Core]
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]

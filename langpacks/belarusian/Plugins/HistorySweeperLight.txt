@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HistorySweeperLight.dll
 ;  Plugin: History sweeper light
-;  Version: 0.0.0.7
+;  Version: 0.1.0.1
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]

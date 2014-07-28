@@ -83,7 +83,7 @@
 -1=Нескінченно
 [Sec]
 с
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 Не встановлює для "Перезапуск"
 [Boxes]
 Вікна

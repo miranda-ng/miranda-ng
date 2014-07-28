@@ -84,7 +84,7 @@ Délai du popup
 -1 = Infini
 [Sec]
 Sec
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 
 [Boxes]
 

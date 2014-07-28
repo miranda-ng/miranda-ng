@@ -84,7 +84,7 @@
 -1 = безкрайно
 [Sec]
 сек
-[Not set for "Restart"]
+[For "Restart" popup setting is always infinity]
 
 [Boxes]
 Кутии
