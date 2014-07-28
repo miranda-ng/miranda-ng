@@ -120,7 +120,7 @@ BEGIN
     CTEXT           "0 = Default",IDC_STATIC_DEFAULT,250,56,55,8
     CTEXT           "-1 = Infinite",IDC_STATIC_INFINITE,249,66,54,8
     LTEXT           "Sec",IDC_STATIC_SEC,230,61,17,8
-    LTEXT           "Not set for ""Restart""",IDC_STATIC,185,80,123,8
+    LTEXT           "For ""Restart"" setting is always infinity",IDC_STATIC,185,80,123,8
     CTEXT           "Boxes",IDC_STATIC,146,8,23,8
     CTEXT           "Popups",IDC_STATIC,7,9,79,8
 END
