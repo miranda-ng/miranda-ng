@@ -25,6 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CORE_H__
 #define M_CORE_H__ 1
 
+#ifndef M_TYPES_H__
+   #include <m_types.h>
+#endif
+
 #ifdef MIR_CORE_EXPORTS
 	#define MIR_CORE_EXPORT __declspec(dllexport)
 #else
