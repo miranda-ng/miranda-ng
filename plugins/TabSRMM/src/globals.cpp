@@ -123,9 +123,6 @@ void CGlobals::reloadSystemModulesChanged()
 		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, ::SmileyAddOptionsChanged);
 	}
 
-	// Flashavatars
-	g_FlashAvatarAvail = (ServiceExists(MS_FAVATAR_GETINFO) ? 1 : 0);
-
 	// ieView
 	BOOL bIEView = ServiceExists(MS_IEVIEW_WINDOW);
 	if (bIEView) {

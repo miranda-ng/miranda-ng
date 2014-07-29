@@ -1747,14 +1747,6 @@ panel_found:
 		return 0;
 
 	case WM_DESTROY:
-		if (PluginConfig.g_FlashAvatarAvail) { // destroy own flash avatar
-			FLASHAVATAR fa = {0};
-			TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-
-			fa.id = 25367;
-			fa.cProto = dat ? dat->szProto : NULL;
-			CallService(MS_FAVATAR_DESTROY, (WPARAM)&fa, 0);
-		}
 		pContainer->hwnd = 0;
 		pContainer->hwndActive = 0;
 		pContainer->hMenuContext = 0;

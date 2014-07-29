@@ -45,7 +45,6 @@ typedef struct
 	int avatarRoundCornerRadius;
 	TCHAR noAvatarText[128];
 	BOOL respectHidden;
-	BOOL showingFlash;
 	BOOL resizeIfSmaller;
 	BOOL fAero;
 	BOOL showingAnimatedGif;
@@ -75,105 +74,6 @@ typedef struct
 
 } ACCData;
 
-
-void ResizeFlash(HWND hwnd, ACCData* data)
-{
-	if ((data->hContact != NULL || data->proto[0] != '\0') && ServiceExists(MS_FAVATAR_RESIZE)) {
-		RECT rc;
-		GetClientRect(hwnd, &rc);
-
-		if (data->borderColor != -1 || data->avatarBorderColor != -1) {
-			rc.left++;
-			rc.right -= 2;
-			rc.top++;
-			rc.bottom -= 2;
-		}
-
-		FLASHAVATAR fa = { 0 };
-		fa.hContact = data->hContact;
-		fa.cProto = data->proto;
-		fa.hParentWindow = hwnd;
-		fa.id = 1675;
-		CallService(MS_FAVATAR_RESIZE, (WPARAM)&fa, (LPARAM)&rc);
-		CallService(MS_FAVATAR_SETPOS, (WPARAM)&fa, (LPARAM)&rc);
-	}
-}
-
-void SetBkgFlash(HWND hwnd, ACCData* data)
-{
-	if ((data->hContact != NULL || data->proto[0] != '\0') && ServiceExists(MS_FAVATAR_SETBKCOLOR)) {
-		FLASHAVATAR fa = { 0 };
-		fa.hContact = data->hContact;
-		fa.cProto = data->proto;
-		fa.hParentWindow = hwnd;
-		fa.id = 1675;
-
-		if (data->bkgColor != -1)
-			CallService(MS_FAVATAR_SETBKCOLOR, (WPARAM)&fa, (LPARAM)data->bkgColor);
-		else
-			CallService(MS_FAVATAR_SETBKCOLOR, (WPARAM)&fa, (LPARAM)RGB(255, 255, 255));
-	}
-}
-
-void DestroyFlash(HWND hwnd, ACCData* data)
-{
-	if (!data->showingFlash)
-		return;
-
-	if ((data->hContact != NULL || data->proto[0] != '\0') && ServiceExists(MS_FAVATAR_DESTROY)) {
-		FLASHAVATAR fa = { 0 };
-		fa.hContact = data->hContact;
-		fa.cProto = data->proto;
-		fa.hParentWindow = hwnd;
-		fa.id = 1675;
-		CallService(MS_FAVATAR_DESTROY, (WPARAM)&fa, 0);
-	}
-
-	data->showingFlash = FALSE;
-}
-
-void StartFlash(HWND hwnd, ACCData* data)
-{
-	if (!ServiceExists(MS_FAVATAR_MAKE))
-		return;
-
-	int format;
-	if (data->hContact != NULL) {
-		format = db_get_w(data->hContact, "ContactPhoto", "Format", 0);
-	}
-	else if (data->proto[0] != '\0') {
-		protoPicCacheEntry *ace = NULL;
-		for (int i = 0; i < g_MyAvatars.getCount(); i++) {
-			if (!lstrcmpA(data->proto, g_MyAvatars[i].szProtoname)) {
-				ace = &g_MyAvatars[i];
-				break;
-			}
-		}
-
-		if (ace != NULL && ace->szFilename != NULL)
-			format = ProtoGetAvatarFormat(ace->szFilename);
-		else
-			format = 0;
-	}
-	else return;
-
-	if (format != PA_FORMAT_XML && format != PA_FORMAT_SWF)
-		return;
-
-	FLASHAVATAR fa = { 0 };
-	fa.hContact = data->hContact;
-	fa.cProto = data->proto;
-	fa.hParentWindow = hwnd;
-	fa.id = 1675;
-	CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
-
-	if (fa.hWindow == NULL)
-		return;
-
-	data->showingFlash = TRUE;
-	ResizeFlash(hwnd, data);
-	SetBkgFlash(hwnd, data);
-}
 
 BOOL AnimatedGifGetData(ACCData* data)
 {
@@ -394,16 +294,12 @@ ERR:
 
 void DestroyAnimation(HWND hwnd, ACCData* data)
 {
-	DestroyFlash(hwnd, data);
 	DestroyAnimatedGif(hwnd, data);
 }
 
 void StartAnimation(HWND hwnd, ACCData* data)
 {
-	StartFlash(hwnd, data);
-
-	if (!data->showingFlash)
-		StartAnimatedGif(hwnd, data);
+	StartAnimatedGif(hwnd, data);
 }
 
 BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
@@ -497,7 +393,6 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		data->bkgColor = -1;
 		data->avatarBorderColor = -1;
 		data->respectHidden = TRUE;
-		data->showingFlash = FALSE;
 		data->resizeIfSmaller = TRUE;
 		data->showingAnimatedGif = FALSE;
 		data->fAero = FALSE;
@@ -550,24 +445,18 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	case AVATAR_SETBKGCOLOR:
 		data->bkgColor = (COLORREF)lParam;
-		if (data->showingFlash)
-			SetBkgFlash(hwnd, data);
 		NotifyAvatarChange(hwnd);
 		Invalidate(hwnd);
 		return TRUE;
 
 	case AVATAR_SETBORDERCOLOR:
 		data->borderColor = (COLORREF)lParam;
-		if (data->showingFlash)
-			ResizeFlash(hwnd, data);
 		NotifyAvatarChange(hwnd);
 		Invalidate(hwnd);
 		return TRUE;
 
 	case AVATAR_SETAVATARBORDERCOLOR:
 		data->avatarBorderColor = (COLORREF)lParam;
-		if (data->showingFlash)
-			ResizeFlash(hwnd, data);
 		NotifyAvatarChange(hwnd);
 		Invalidate(hwnd);
 		return TRUE;
@@ -601,27 +490,13 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	case AVATAR_GETUSEDSPACE:
 		{
-			int *width = (int *)wParam;
-			int *height = (int *)lParam;
+			int *width = (int*)wParam;
+			int *height = (int*)lParam;
 
 			RECT rc;
 			GetClientRect(hwnd, &rc);
 
 			// Get avatar
-			if (data->showingFlash && ServiceExists(MS_FAVATAR_GETINFO)) {
-				FLASHAVATAR fa = { 0 };
-				fa.hContact = data->hContact;
-				fa.cProto = data->proto;
-				fa.hParentWindow = hwnd;
-				fa.id = 1675;
-				CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
-				if (fa.hWindow != NULL) {
-					*width = rc.right - rc.left;
-					*height = rc.bottom - rc.top;
-					return TRUE;
-				}
-			}
-
 			avatarCacheEntry *ace;
 			if (data->hContact == NULL)
 				ace = (avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)data->proto);
@@ -697,22 +572,8 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				DeleteObject(hbrush);
 			}
 
-			if (data->hContact == NULL && data->proto[0] == '\0'
-				 && db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1)) {
+			if (data->hContact == NULL && data->proto[0] == 0 && db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
 				DrawText(hdc, data->hFont, rc, TranslateT("Protocols have different avatars"));
-			}
-
-			// Has a flash avatar
-			else if (data->showingFlash) {
-				// Don't draw
-
-				// Draw control border if needed
-				if (data->borderColor == -1 && data->avatarBorderColor != -1) {
-					HBRUSH hbrush = CreateSolidBrush(data->avatarBorderColor);
-					FrameRect(hdc, &rc, hbrush);
-					DeleteObject(hbrush);
-				}
-			}
 
 			// Has an animated gif
 			// Has a "normal" image
@@ -787,8 +648,6 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case WM_SIZE:
-		if (data->showingFlash)
-			ResizeFlash(hwnd, data);
 		InvalidateRect(hwnd, NULL, TRUE);
 		break;
 

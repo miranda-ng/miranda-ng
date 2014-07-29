@@ -52,7 +52,8 @@ tooltips[] =
 	{ IDC_TOGGLESIDEBAR, LPGENT("Expand or collapse the side bar") }
 };
 
-static struct {
+static struct
+{
 	int id;
 	HICON *pIcon;
 }
@@ -65,7 +66,6 @@ buttonicons[] =
 static void _clrMsgFilter(LPARAM lParam)
 {
 	MSGFILTER *m = reinterpret_cast<MSGFILTER *>(lParam);
-
 	m->msg = 0;
 	m->lParam = 0;
 	m->wParam = 0;
@@ -80,24 +80,21 @@ BOOL TSAPI IsUtfSendAvailable(MCONTACT hContact)
 	return (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
 }
 
-/**
- * show a modified context menu for the richedit control(s)
- * @param dat			message window data
- * @param idFrom		dlg ctrl id
- * @param hwndFrom		src window handle
- * @param pt			mouse pointer position
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// show a modified context menu for the richedit control(s)
+// @param dat			message window data
+// @param idFrom		dlg ctrl id
+// @param hwndFrom		src window handle
+// @param pt			mouse pointer position
+
 static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 {
-	HMENU 		hMenu, hSubMenu;
-	CHARRANGE 	sel, all = { 0, -1};
-	int 		iSelection;
-	unsigned 	oldCodepage = dat->codePage;
-	int 		iPrivateBG = M.GetByte(dat->hContact, "private_bg", 0);
-	MessageWindowPopupData mwpd;
-	HWND		hwndDlg = dat->hwnd;
+	CHARRANGE sel, all = { 0, -1};
+	int  oldCodepage = dat->codePage;
+	int  iPrivateBG = M.GetByte(dat->hContact, "private_bg", 0);
+	HWND hwndDlg = dat->hwnd;
 
-	hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+	HMENU hSubMenu, hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	if (idFrom == IDC_LOG)
 		hSubMenu = GetSubMenu(hMenu, 0);
 	else {
@@ -111,27 +108,26 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 	SendMessage(hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin == sel.cpMax) {
 		EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-		//MAD
 		EnableMenuItem(hSubMenu, IDM_QUOTE, MF_BYCOMMAND | MF_GRAYED);
-		//MAD_
 		if (idFrom == IDC_MESSAGE)
 			EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
 	}
 
 	if (idFrom == IDC_LOG)  {
-		int i;
-		//MAD: quote mod
 		InsertMenuA(hSubMenu, 6/*5*/, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
 		InsertMenu(hSubMenu, 7/*6*/, MF_BYPOSITION | MF_POPUP, (UINT_PTR) PluginConfig.g_hMenuEncoding, TranslateT("Character Encoding"));
-		for (i=0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
+		for (int i=0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, i, MF_BYPOSITION | MF_UNCHECKED);
+
 		if (dat->codePage == CP_ACP)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, 0, MF_BYPOSITION | MF_CHECKED);
 		else
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, dat->codePage, MF_BYCOMMAND | MF_CHECKED);
+
 		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, MF_BYCOMMAND | (dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED ? MF_CHECKED : MF_UNCHECKED));
 	}
 
+	MessageWindowPopupData mwpd;
 	if (idFrom == IDC_LOG || idFrom == IDC_MESSAGE) {
 		// First notification
 		mwpd.cbSize = sizeof(mwpd);
@@ -145,7 +141,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 		NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
 	}
 
-	iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+	int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 
 	if (idFrom == IDC_LOG || idFrom == IDC_MESSAGE) {
 		// Second notification
@@ -154,7 +150,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 		NotifyEventHooks(PluginConfig.m_event_MsgPopup, 0, (LPARAM)&mwpd);
 	}
 
-	if (((iSelection > 800 && iSelection < 1400) || iSelection == 20866)  && idFrom == IDC_LOG) {
+	if (((iSelection > 800 && iSelection < 1400) || iSelection == 20866) && idFrom == IDC_LOG) {
 		dat->codePage = iSelection;
 		db_set_dw(dat->hContact, SRMSGMOD_T, "ANSIcodepage", dat->codePage);
 	}
@@ -247,9 +243,8 @@ LRESULT CALLBACK IEViewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	return mir_callNextSubclass(hwnd, IEViewSubclassProc, msg, wParam, lParam);
 }
 
-/*
- * sublassing procedure for the h++ based message log viewer
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// sublassing procedure for the h++ based message log viewer
 
 LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -258,7 +253,7 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		BOOL isCtrl, isShift, isAlt;
 		KbdState(mwdat, isShift, isCtrl, isAlt);
 
-		switch(msg) {
+		switch (msg) {
 		case WM_NCCALCSIZE:
 			return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, HPPKFSubclassProc);
 		case WM_NCPAINT:
@@ -269,10 +264,11 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (wParam != VK_PRIOR && wParam != VK_NEXT && wParam != VK_DELETE &&
 					 wParam != VK_MENU  && wParam != VK_END  && wParam != VK_HOME &&
 					 wParam != VK_UP    && wParam != VK_DOWN && wParam != VK_LEFT &&
-					 wParam != VK_RIGHT && wParam != VK_TAB  && wParam != VK_SPACE) {
-						SetFocus(GetDlgItem(mwdat->hwnd,IDC_MESSAGE));
-						keybd_event((BYTE)wParam, (BYTE)MapVirtualKey(wParam,0), KEYEVENTF_EXTENDEDKEY | 0, 0);
-						return 0;
+					 wParam != VK_RIGHT && wParam != VK_TAB  && wParam != VK_SPACE)
+				{
+					SetFocus(GetDlgItem(mwdat->hwnd, IDC_MESSAGE));
+					keybd_event((BYTE)wParam, (BYTE)MapVirtualKey(wParam, 0), KEYEVENTF_EXTENDEDKEY | 0, 0);
+					return 0;
 				}
 				break;
 			}
@@ -281,14 +277,13 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return mir_callNextSubclass(hwnd, HPPKFSubclassProc, msg, wParam, lParam);
 }
 
-/*
- * update state of the container - this is called whenever a tab becomes active, no matter how and
- * deals with various things like updating the title bar, removing flashing icons, updating the
- * session list, switching the keyboard layout (autolocale active)  and the general container status.
- *
- * it protects itself from being called more than once per session activation and is valid for
- * normal IM sessions *only*. Group chat sessions have their own activation handler (see chat/window.c)
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// update state of the container - this is called whenever a tab becomes active, no matter how and
+// deals with various things like updating the title bar, removing flashing icons, updating the
+// session list, switching the keyboard layout (autolocale active)  and the general container status.
+//
+// it protects itself from being called more than once per session activation and is valid for
+// normal IM sessions *only*. Group chat sessions have their own activation handler (see chat/window.c)
 
 static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 {
@@ -389,8 +384,8 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 			if (dat->hwndIEView) {
 				if (M.GetByte("subclassIEView", 0)) {
 					mir_subclassWindow(dat->hwndIEView, IEViewSubclassProc);
-					SetWindowPos(dat->hwndIEView, 0, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOMOVE|SWP_NOSIZE|SWP_NOZORDER|SWP_DRAWFRAME);
-					RedrawWindow(dat->hwndIEView, 0, 0, RDW_FRAME|RDW_INVALIDATE|RDW_UPDATENOW);
+					SetWindowPos(dat->hwndIEView, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
+					RedrawWindow(dat->hwndIEView, 0, 0, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
 				}
 			}
 			dat->hwndIWebBrowserControl = WindowFromPoint(pt);
@@ -419,8 +414,7 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 
 void TSAPI ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControls, int state)
 {
-	int i;
-	for (i=0; i < cControls; i++)
+	for (int i = 0; i < cControls; i++)
 		Utils::showDlgControl(hwndDlg, controls[i], state);
 }
 
@@ -475,8 +469,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	SendMessage(hwndDlg, DM_UPDATETITLE, 0, 1);
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 
-	if (!PluginConfig.g_FlashAvatarAvail)
-		Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, FALSE);
+	Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, FALSE);
 
 	dat->Panel->Configure();
 }
@@ -571,10 +564,8 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	if (mwdat == NULL)
 		return 0;
 
-	/*
-	* prevent the rich edit from switching text direction or keyboard layout when
-	* using hotkeys with ctrl-shift or alt-shift modifiers
-	*/
+	// prevent the rich edit from switching text direction or keyboard layout when
+	// using hotkeys with ctrl-shift or alt-shift modifiers
 	if (mwdat->fkeyProcessed && (msg == WM_KEYUP)) {
 		GetKeyboardState(mwdat->kstate);
 		if (mwdat->kstate[VK_CONTROL] & 0x80 || mwdat->kstate[VK_SHIFT] & 0x80)
@@ -807,9 +798,9 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	case WM_USER + 100:
 		SetFocus(hwnd);
 		break;
+
 	case WM_CONTEXTMENU:
 		POINT pt;
-
 		if (lParam == 0xFFFFFFFF) {
 			CHARRANGE sel;
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
@@ -827,6 +818,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	return mir_callNextSubclass(hwnd, MessageEditSubclassProc, msg, wParam, lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // subclasses the avatar display controls, needed for skinning and to prevent
 // it from flickering during resize/move operations.
 
@@ -850,6 +842,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	switch (msg) {
 	case WM_NCHITTEST:
 		return HTCLIENT;
+
 	case WM_SETCURSOR:
 		GetClientRect(hwnd, &rc);
 		SetCursor(rc.right > rc.bottom ? PluginConfig.hCurSplitNS : PluginConfig.hCurSplitWE);
@@ -987,9 +980,8 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
 }
 
-/*
- *  resizer proc for the "new" layout.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// resizer proc for the "new" layout.
 
 static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * urc)
 {
@@ -1066,15 +1058,6 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 			SetWindowPos(dat->hwndContactPic, HWND_TOP, 1, ((urc->rcItem.bottom - urc->rcItem.top) - (dat->pic.cy)) / 2 + 1,  //resizes it
 				dat->pic.cx - 2, dat->pic.cy - 2, SWP_SHOWWINDOW);
 
-		if (PluginConfig.g_FlashAvatarAvail) {
-			RECT rc = { urc->rcItem.left, urc->rcItem.top, urc->rcItem.right, urc->rcItem.bottom };
-			FLASHAVATAR fa = { 0 };
-
-			fa.hContact = !bInfoPanel ? dat->hContact : NULL;
-			fa.id = 25367;
-			fa.cProto = dat->szProto;
-			CallService(MS_FAVATAR_RESIZE, (WPARAM)&fa, (LPARAM)&rc);
-		}
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 
 	case IDC_SPLITTER:
@@ -1656,16 +1639,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			rc.right = cx;
 			rc.bottom--;
 
-			if (PluginConfig.g_FlashAvatarAvail) {
-				RECT rc1 = { 0,  0, rc.right - rc.left, rc.bottom - rc.top };
-				if (dat->Panel->isActive()) {
-					FLASHAVATAR fa = { 0 };
-					fa.hContact = dat->hContact;
-					fa.id = 25367;
-					fa.cProto = dat->szProto;
-					CallService(MS_FAVATAR_RESIZE, (WPARAM)&fa, (LPARAM)&rc1);
-				}
-			}
 			if (dat->showInfoPic && (dat->hwndPanelPic || dat->hwndFlash)) {
 				SetWindowPos(dat->hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, (rc.bottom - rc.top) + 1, 0);
 				ShowWindow(dat->hwndPanelPicParent, (dat->panelWidth == -1) || !dat->Panel->isActive() ? SW_HIDE : SW_SHOW);
@@ -1951,14 +1924,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						}
 						else {
 							if (((NMHDR*)lParam)->idFrom == IDC_MESSAGE) {
-								if (GetSendButtonState(hwndDlg) != PBS_DISABLED && !(dat->pContainer->dwFlags & CNT_HIDETOOLBAR)) {
+								if (GetSendButtonState(hwndDlg) != PBS_DISABLED && !(dat->pContainer->dwFlags & CNT_HIDETOOLBAR))
 									SetFocus(GetDlgItem(hwndDlg, IDOK));
-									return(_dlgReturn(hwndDlg, 1));
-								}
-								else {
+								else
 									SetFocus(GetDlgItem(hwndDlg, IDC_LOG));
-									return(_dlgReturn(hwndDlg, 1));
-								}
+								return(_dlgReturn(hwndDlg, 1));
 							}
 							if (((NMHDR*)lParam)->idFrom == IDC_LOG) {
 								SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
@@ -2217,12 +2187,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 
 	case DM_LOADBUTTONBARICONS:
-		{
-			for (int i=0; i < SIZEOF(buttonicons); i++) {
-				SendDlgItemMessage(hwndDlg, buttonicons[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)*buttonicons[i].pIcon);
-				SendDlgItemMessage(hwndDlg, buttonicons[i].id, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
-			}
+		for (int i=0; i < SIZEOF(buttonicons); i++) {
+			SendDlgItemMessage(hwndDlg, buttonicons[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)*buttonicons[i].pIcon);
+			SendDlgItemMessage(hwndDlg, buttonicons[i].id, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
 		}
+
 		BB_UpdateIcons(hwndDlg, dat);
 		SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 		return 0;
@@ -2253,20 +2222,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 
 	case WM_SETFOCUS:
-		if (PluginConfig.g_FlashAvatarAvail) { // own avatar draw
-			FLASHAVATAR fa = { 0 };
-			fa.cProto = dat->szProto;
-			fa.id = 25367;
-
-			CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
-			if (fa.hWindow) {
-				if (dat->Panel->isActive()) {
-					SetParent(fa.hWindow, GetDlgItem(hwndDlg, IDC_CONTACTPIC));
-					ShowWindow(fa.hWindow, SW_SHOW);
-				}
-				else ShowWindow(fa.hWindow, SW_HIDE);
-			}
-		}
 		MsgWindowUpdateState(dat, WM_SETFOCUS);
 		SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 		return 1;
@@ -2485,7 +2440,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		// for single message sends: basevalue (TIMERID_MSGSEND) + send queue index
 		if (wParam >= TIMERID_MSGSEND) {
 			int iIndex = wParam - TIMERID_MSGSEND;
-
 			if (iIndex < SendQueue::NR_SENDJOBS) {     // single sendjob timer
 				SendJob *job = sendQueue->getJobByIndex(iIndex);
 				KillTimer(hwndDlg, wParam);
@@ -3351,14 +3305,6 @@ quote_from_last:
 	case WM_DESTROY:
 		if (!dat)
 			break;
-
-		if (PluginConfig.g_FlashAvatarAvail) {
-			FLASHAVATAR fa = { 0 };
-			fa.hContact = dat->hContact;
-			fa.id = 25367;
-			fa.cProto = dat->szProto;
-			CallService(MS_FAVATAR_DESTROY, (WPARAM)&fa, 0);
-		}
 
 		if (dat->hwndContactPic)
 			DestroyWindow(dat->hwndContactPic);

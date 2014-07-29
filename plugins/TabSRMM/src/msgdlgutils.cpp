@@ -223,19 +223,8 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	BOOL bBottomToolBar = dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR;
 	BOOL bToolBar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 	bool bInfoPanel = dat->Panel->isActive();
-	int	 iSplitOffset = dat->bIsAutosizingInput ? 1 : 0;
+	int  iSplitOffset = dat->bIsAutosizingInput ? 1 : 0;
 
-	if (PluginConfig.g_FlashAvatarAvail) {
-		FLASHAVATAR fa = { 0 };
-		fa.cProto = dat->szProto;
-		fa.id = 25367;
-		fa.hContact = bInfoPanel ? NULL : dat->hContact;
-		CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
-		if (fa.hWindow) {
-			bminfo->bmHeight = FAVATAR_HEIGHT;
-			bminfo->bmWidth = FAVATAR_WIDTH;
-		}
-	}
 	GetClientRect(dat->hwnd, &rc);
 
 	if (dat->dwFlags & MWF_WASBACKGROUNDCREATE || dat->pContainer->dwFlags & CNT_DEFERREDCONFIGURE || dat->pContainer->dwFlags & CNT_CREATE_MINIMIZED || IsIconic(dat->pContainer->hwnd))
@@ -566,22 +555,8 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		if (bOwnAvatarMode)
 			dat->showPic = FALSE;
 		else {
-			FLASHAVATAR fa = { 0 };
-			if (PluginConfig.g_FlashAvatarAvail) {
-				fa.cProto = dat->szProto;
-				fa.id = 25367;
-				fa.hParentWindow = GetDlgItem(hwndDlg, IDC_CONTACTPIC);
-
-				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
-				if (fa.hWindow != NULL&&dat->hwndContactPic) {
-					DestroyWindow(dat->hwndContactPic);
-					dat->hwndContactPic = NULL;
-				}
-				dat->showPic = ((dat->hOwnPic && dat->hOwnPic != PluginConfig.g_hbmUnknown) || (fa.hWindow != NULL)) ? 1 : 0;
-			}
-			else dat->showPic = (dat->hOwnPic && dat->hOwnPic != PluginConfig.g_hbmUnknown) ? 1 : 0;
-
-			if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == NULL && !dat->hwndContactPic)
+			dat->showPic = (dat->hOwnPic && dat->hOwnPic != PluginConfig.g_hbmUnknown) ? 1 : 0;
+			if (!PluginConfig.g_bDisableAniAvatars && !dat->hwndContactPic)
 				dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
 		}
 
@@ -592,7 +567,6 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		case 0:
 			dat->showInfoPic = 1;
 		case 1:
-			FLASHAVATAR fa = { 0 };
 			HBITMAP hbm = ((dat->ace && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) ? dat->ace->hbmPic : 0);
 
 			if (0 == hbm && 0 == bAvatarMode && !PluginConfig.g_bDisableAniAvatars) {
@@ -600,31 +574,14 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 				break;
 			}
 
-			if (PluginConfig.g_FlashAvatarAvail) {
-				fa.cProto = dat->szProto;
-				fa.id = 25367;
-				fa.hContact = dat->hContact;
-				fa.hParentWindow = dat->hwndPanelPicParent;
-
-				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
-				if (fa.hWindow != NULL && dat->hwndPanelPic) {
-					DestroyWindow(dat->hwndPanelPic);
-					dat->hwndPanelPic = NULL;
-					ShowWindow(dat->hwndPanelPicParent, SW_SHOW);
-					EnableWindow(dat->hwndPanelPicParent, TRUE);
-				}
-			}
-			if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == NULL && !dat->hwndPanelPic) {
+			if (!PluginConfig.g_bDisableAniAvatars && !dat->hwndPanelPic) {
 				dat->hwndPanelPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, dat->hwndPanelPicParent, (HMENU)7000, NULL, NULL);
 				if (dat->hwndPanelPic)
 					SendMessage(dat->hwndPanelPic, AVATAR_SETAEROCOMPATDRAWING, 0, TRUE);
 			}
-			if (bAvatarMode != 0) {
-				if ((hbm && hbm != PluginConfig.g_hbmUnknown) || (fa.hWindow != NULL))
-					dat->showInfoPic = 1;
-				else
-					dat->showInfoPic = 0;
-			}
+
+			if (bAvatarMode != 0)
+				dat->showInfoPic = (hbm && hbm != PluginConfig.g_hbmUnknown);
 			break;
 		}
 
@@ -660,27 +617,11 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		case 3: // on, if present
 		case 1:
 			HBITMAP hbm = (dat->ace && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) ? dat->ace->hbmPic : 0;
-			FLASHAVATAR fa = { 0 };
 
-			if (PluginConfig.g_FlashAvatarAvail) {
-				fa.cProto = dat->szProto;
-				fa.id = 25367;
-				fa.hContact = dat->hContact;
-				fa.hParentWindow = GetDlgItem(hwndDlg, IDC_CONTACTPIC);
-				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
-
-				if (fa.hWindow != NULL&&dat->hwndContactPic) {
-					DestroyWindow(dat->hwndContactPic);
-					dat->hwndContactPic = NULL;
-				}
-			}
-			if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == NULL && !dat->hwndContactPic)
+			if (!PluginConfig.g_bDisableAniAvatars && !dat->hwndContactPic)
 				dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
 
-			if ((hbm && hbm != PluginConfig.g_hbmUnknown) || (fa.hWindow != NULL))
-				dat->showPic = 1;
-			else
-				dat->showPic = 0;
+			dat->showPic = (hbm && hbm != PluginConfig.g_hbmUnknown);
 			break;
 		}
 
@@ -691,7 +632,7 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 
 		// reloads avatars
 		if (dat->showPic)
-			if (dat->hwndPanelPic) //shows contact or user picture, depending on panel visibility
+			if (dat->hwndPanelPic) // shows contact or user picture, depending on panel visibility
 				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 		
 		if (dat->hwndContactPic)
@@ -783,38 +724,9 @@ void TSAPI AdjustBottomAvatarDisplay(TWindowData *dat)
 {
 	if (dat) {
 		bool bInfoPanel = dat->Panel->isActive();
-		HBITMAP hbm = (bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
 		HWND	hwndDlg = dat->hwnd;
 
-		if (PluginConfig.g_FlashAvatarAvail) {
-			FLASHAVATAR fa = { 0 };
-
-			fa.hContact = dat->hContact;
-			fa.hWindow = 0;
-			fa.id = 25367;
-			fa.cProto = dat->szProto;
-			CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
-			if (fa.hWindow) {
-				dat->hwndFlash = fa.hWindow;
-				SetParent(dat->hwndFlash, bInfoPanel ? dat->hwndPanelPicParent : GetDlgItem(dat->hwnd, IDC_CONTACTPIC));
-			}
-			fa.hContact = 0;
-			fa.hWindow = 0;
-			if (bInfoPanel) {
-				fa.hParentWindow = GetDlgItem(hwndDlg, IDC_CONTACTPIC);
-				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
-				if (fa.hWindow) {
-					SetParent(fa.hWindow, GetDlgItem(hwndDlg, IDC_CONTACTPIC));
-					ShowWindow(fa.hWindow, SW_SHOW);
-				}
-			}
-			else {
-				CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
-				if (fa.hWindow)
-					ShowWindow(fa.hWindow, SW_HIDE);
-			}
-		}
-
+		HBITMAP hbm = (bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
 		if (hbm) {
 			dat->showPic = GetAvatarVisibility(hwndDlg, dat);
 			if (dat->dynaSplitter == 0 || dat->splitterY == 0)
@@ -1701,68 +1613,19 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 	}
 	
 	if ((dis->hwndItem == GetDlgItem(hwndDlg, IDC_CONTACTPIC) && (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) && dat->showPic) || (dis->hwndItem == hwndDlg && dat->Panel->isActive() && (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown))) {
-		HBRUSH 		hOldBrush;
-		BITMAP 		bminfo;
-		double 		dAspect = 0, dNewWidth = 0, dNewHeight = 0;
-		DWORD 		iMaxHeight = 0, top, cx, cy;
-		RECT 		rc, rcClient, rcFrame;
-		HDC 		hdcDraw;
-		HBITMAP 	hbmDraw, hbmOld;
-		BOOL 		bPanelPic = dis->hwndItem == hwndDlg;
-		DWORD 		aceFlags = 0;
-		HPEN 		hPenBorder = 0, hPenOld = 0;
-		HRGN 		clipRgn = 0;
-		int  		iRad = PluginConfig.m_WinVerMajor >= 5 ? 4 : 6;
-		BOOL 		flashAvatar = FALSE;
-		bool 		bInfoPanel = dat->Panel->isActive();
-
-		if (PluginConfig.g_FlashAvatarAvail && (!bPanelPic || (bPanelPic && dat->showInfoPic == 1))) {
-			FLASHAVATAR fa = { 0 };
-
-			fa.id = 25367;
-			fa.cProto = dat->szProto;
-			if (!bPanelPic && bInfoPanel) {
-				fa.hParentWindow = GetDlgItem(hwndDlg, IDC_CONTACTPIC);
-				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
-				Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, fa.hWindow != 0);
-			}
-			else {
-				fa.hContact = dat->hContact;
-				fa.hParentWindow = bInfoPanel ? dat->hwndPanelPicParent : GetDlgItem(hwndDlg, IDC_CONTACTPIC);
-				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
-				if (bInfoPanel) {
-					if (fa.hWindow != NULL&&dat->hwndPanelPic) {
-						DestroyWindow(dat->hwndPanelPic);
-						dat->hwndPanelPic = NULL;
-					}
-					if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == 0 && dat->hwndPanelPic == 0) {
-						dat->hwndPanelPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, dat->hwndPanelPicParent, (HMENU)7000, NULL, NULL);
-						Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
-					}
-				}
-				else {
-					if (fa.hWindow != NULL && dat->hwndContactPic) {
-						DestroyWindow(dat->hwndContactPic);
-						dat->hwndContactPic = NULL;
-					}
-					if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == 0 && dat->hwndContactPic == 0) {
-						dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
-						Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
-					}
-				}
-				dat->hwndFlash = fa.hWindow;
-			}
-			if (fa.hWindow != 0) {
-				bminfo.bmHeight = FAVATAR_HEIGHT;
-				bminfo.bmWidth = FAVATAR_WIDTH;
-				CallService(MS_FAVATAR_SETBKCOLOR, (WPARAM)&fa, (LPARAM)GetSysColor(COLOR_3DFACE));
-				flashAvatar = TRUE;
-			}
-		}
+		BITMAP  bminfo;
+		double  dAspect = 0, dNewWidth = 0, dNewHeight = 0;
+		DWORD   iMaxHeight = 0, top, cx, cy;
+		RECT    rc, rcClient, rcFrame;
+		BOOL    bPanelPic = dis->hwndItem == hwndDlg;
+		DWORD   aceFlags = 0;
+		HPEN    hPenBorder = 0, hPenOld = 0;
+		HRGN    clipRgn = 0;
+		int     iRad = PluginConfig.m_WinVerMajor >= 5 ? 4 : 6;
+		bool    bInfoPanel = dat->Panel->isActive();
 
 		if (bPanelPic) {
-			if (!flashAvatar)
-				GetObject(dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown, sizeof(bminfo), &bminfo);
+			GetObject(dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown, sizeof(bminfo), &bminfo);
 
 			if ((dat->ace && dat->showInfoPic && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) || dat->showInfoPic)
 				aceFlags = dat->ace ? dat->ace->dwFlags : 0;
@@ -1824,7 +1687,6 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			}
 		}
 		else {
-
 			if (bminfo.bmHeight > 0)
 				dAspect = (double)dat->iRealAvatarHeight / (double)bminfo.bmHeight;
 			else
@@ -1835,19 +1697,13 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			iMaxHeight = dat->iRealAvatarHeight;
 		}
 
-		if (flashAvatar) {
-			SetWindowPos(dat->hwndPanelPicParent, HWND_TOP, rcClient.left, rcClient.top,
-				(int)dNewWidth, (int)dNewHeight, SWP_SHOWWINDOW | SWP_NOCOPYBITS);
-			return TRUE;
-		}
+		HDC hdcDraw = CreateCompatibleDC(dis->hDC);
+		HBITMAP hbmDraw = CreateCompatibleBitmap(dis->hDC, cx, cy);
+		HBITMAP hbmOld = (HBITMAP)SelectObject(hdcDraw, hbmDraw);
 
-		hdcDraw = CreateCompatibleDC(dis->hDC);
-		hbmDraw = CreateCompatibleBitmap(dis->hDC, cx, cy);
-		hbmOld = (HBITMAP)SelectObject(hdcDraw, hbmDraw);
+		bool bAero = M.isAero();
 
-		bool	bAero = M.isAero();
-
-		hOldBrush = (HBRUSH)SelectObject(hdcDraw, bAero ? (HBRUSH)GetStockObject(HOLLOW_BRUSH) : GetSysColorBrush(COLOR_3DFACE));
+		HBRUSH hOldBrush = (HBRUSH)SelectObject(hdcDraw, bAero ? (HBRUSH)GetStockObject(HOLLOW_BRUSH) : GetSysColorBrush(COLOR_3DFACE));
 		rcFrame = rcClient;
 
 		if (!bPanelPic) {
@@ -1914,10 +1770,8 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				rcFrame.top += height_off;
 				rcFrame.bottom += height_off;
 
-				/*
-				 * prepare border drawing (if avatar is rendered by ACC, the parent control will be responsible for
-				 * the border, so skip it here)
-				 */
+				// prepare border drawing (if avatar is rendered by ACC, the parent control will be responsible for
+				// the border, so skip it here)
 				if (dat->hwndPanelPic == 0) {
 					OffsetRect(&rcClient, -2, 0);
 					if (CSkin::m_bAvatarBorderType == 1)
@@ -1931,9 +1785,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				}
 
 				if (dat->hwndPanelPic) {
-					/*
-					 * paint avatar using ACC
-					 */
+					// paint avatar using ACC
 					SendMessage(dat->hwndPanelPic, AVATAR_SETAEROCOMPATDRAWING, 0, bAero ? TRUE : FALSE);
 					SetWindowPos(dat->hwndPanelPic, HWND_TOP, rcFrame.left + border_off, rcFrame.top + border_off,
 						rb.max_width, rb.max_height, SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOSENDCHANGING);
@@ -2100,7 +1952,7 @@ void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 
 void TSAPI ConfigureSmileyButton(TWindowData *dat)
 {
-	HWND  hwndDlg = dat->hwnd;
+	HWND hwndDlg = dat->hwnd;
 	int nrSmileys = 0;
 	int showToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 	int iItemID = IDC_SMILEYBTN;

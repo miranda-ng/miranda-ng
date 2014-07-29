@@ -1826,20 +1826,6 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		dat->Panel->Invalidate();
 		if (dat->pWnd)
 			dat->pWnd->Invalidate();
-
-		if (PluginConfig.g_FlashAvatarAvail) {
-			FLASHAVATAR fa = {0};
-
-			fa.hContact = dat->hContact;
-			fa.hWindow = 0;
-			fa.id = 25367;
-			fa.cProto = dat->szProto;
-
-			CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
-			dat->hwndFlash = fa.hWindow;
-			if (dat->hwndFlash)
-				SetParent(dat->hwndFlash, dat->Panel->isActive() ? dat->hwndPanelPicParent : GetDlgItem(hwndDlg, IDC_CONTACTPIC));
-		}
 	}
 	// care about MetaContacts and update the statusbar icon with the currently "most online" contact...
 	if (dat->bIsMeta) {
