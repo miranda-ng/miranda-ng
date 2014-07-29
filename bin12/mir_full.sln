@@ -63,8 +63,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FavContacts", "..\plugins\F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FirstRun", "..\plugins\FirstRun\FirstRun_12.vcxproj", "{2CBA4321-8FA3-4385-BAB6-5387668FBBC4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlashAvatars", "..\plugins\FlashAvatars\FlashAvatars_12.vcxproj", "{914B61B9-3383-4FA1-9BA9-350200B734B5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FltContacts", "..\plugins\FloatingContacts\FltCont_12.vcxproj", "{9290A9CC-3FDA-4FD6-A8A2-04AD4BA1C856}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Folders", "..\plugins\Folders\folders_12.vcxproj", "{019FAEBD-BD7B-4470-A15B-A7DB1787E6BD}"
@@ -656,14 +654,6 @@ Global
 		{2CBA4321-8FA3-4385-BAB6-5387668FBBC4}.Release|Win32.Build.0 = Release|Win32
 		{2CBA4321-8FA3-4385-BAB6-5387668FBBC4}.Release|x64.ActiveCfg = Release|x64
 		{2CBA4321-8FA3-4385-BAB6-5387668FBBC4}.Release|x64.Build.0 = Release|x64
-		{914B61B9-3383-4FA1-9BA9-350200B734B5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{914B61B9-3383-4FA1-9BA9-350200B734B5}.Debug|Win32.Build.0 = Debug|Win32
-		{914B61B9-3383-4FA1-9BA9-350200B734B5}.Debug|x64.ActiveCfg = Debug|x64
-		{914B61B9-3383-4FA1-9BA9-350200B734B5}.Debug|x64.Build.0 = Debug|x64
-		{914B61B9-3383-4FA1-9BA9-350200B734B5}.Release|Win32.ActiveCfg = Release|Win32
-		{914B61B9-3383-4FA1-9BA9-350200B734B5}.Release|Win32.Build.0 = Release|Win32
-		{914B61B9-3383-4FA1-9BA9-350200B734B5}.Release|x64.ActiveCfg = Release|x64
-		{914B61B9-3383-4FA1-9BA9-350200B734B5}.Release|x64.Build.0 = Release|x64
 		{9290A9CC-3FDA-4FD6-A8A2-04AD4BA1C856}.Debug|Win32.ActiveCfg = Debug|Win32
 		{9290A9CC-3FDA-4FD6-A8A2-04AD4BA1C856}.Debug|Win32.Build.0 = Debug|Win32
 		{9290A9CC-3FDA-4FD6-A8A2-04AD4BA1C856}.Debug|x64.ActiveCfg = Debug|x64
