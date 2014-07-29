@@ -1033,6 +1033,15 @@ bool facebook_client::reconnect()
 
 		this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
 		parent->debugLogA("      Got self max_conn: %s", this->chat_conn_num_.c_str());
+		
+		this->chat_sticky_num_ = utils::text::source_get_value(&resp.data, 2, "\"sticky_token\":\"", "\"");
+		parent->debugLogA("      Got self sticky_token: %s", this->chat_sticky_num_.c_str());
+
+		//std::string retry_interval = utils::text::source_get_value2(&resp.data, "\"retry_interval\":", ",}");
+		//parent->debugLogA("      Got self retry_interval: %s", retry_interval.c_str());
+
+		//std::string visibility = utils::text::source_get_value2(&resp.data, "\"visibility\":", ",}");
+		//parent->debugLogA("      Got self visibility: %s", visibility);
 
 		return handle_success("reconnect");
 	}
@@ -1073,17 +1082,18 @@ bool facebook_client::channel()
 		parent->debugLogA("      Got self sticky number: %s", this->chat_sticky_num_.c_str());
 	}
 	else if (type == "fullReload" || type == "refresh") {
-		// Something went wrong (server flooding?)
+		// Requested reload of page or relogin (due to some settings change, removing this session, etc.)
 		parent->debugLogA("! ! ! Requested %s", type.c_str());
 
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
 		parent->debugLogA("      Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
-		this->chat_reconnect_reason_ = utils::text::source_get_value2(&resp.data, "\"reason\":", ",}");
-		parent->debugLogA("      Reconnect reason: %s", this->chat_reconnect_reason_.c_str());
+		if (type == "refresh") {
+			this->chat_reconnect_reason_ = utils::text::source_get_value2(&resp.data, "\"reason\":", ",}");
+			parent->debugLogA("      Reconnect reason: %s", this->chat_reconnect_reason_.c_str());
 
-		if (type == "refresh")
 			return this->reconnect();
+		}
 	}
 	else if (!type.empty()) {
 		// Something has been received, throw to new thread to process
