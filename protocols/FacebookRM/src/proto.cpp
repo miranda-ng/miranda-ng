@@ -724,7 +724,7 @@ INT_PTR FacebookProto::ApproveFriendship(WPARAM wParam,LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 1;
 
-	HANDLE *hContact = new HANDLE(reinterpret_cast<HANDLE>(wParam));
+	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
 
 	ForkThread(&FacebookProto::ApproveContactToServer, hContact);
 	return 0;
@@ -735,7 +735,7 @@ INT_PTR FacebookProto::OnCancelFriendshipRequest(WPARAM wParam,LPARAM lParam)
 	if (wParam == NULL || isOffline())
 		return 1;
 
-	HANDLE *hContact = new HANDLE(reinterpret_cast<HANDLE>(wParam));
+	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
 
 	ForkThread(&FacebookProto::CancelFriendsRequest, hContact);
 	return 0;
