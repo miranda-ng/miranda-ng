@@ -159,7 +159,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 				}
 				else
 				{
-					MsnContact *msc = ppro->Lists_Get((LPCSTR)hItem);
+					MsnContact *msc = ppro->Lists_Get((MCONTACT)hItem);
 					if (msc) str.insertn(msc->email);
 				}
 			}
