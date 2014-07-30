@@ -370,6 +370,42 @@ int SplitmsgShutdown(void)
 	return 0;
 }
 
+int AvatarChanged(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == 0) {			// protocol picture has changed...
+		M.BroadcastMessage(DM_PROTOAVATARCHANGED, wParam, lParam);
+		return 0;
+	}
+
+	HWND hwnd = M.FindWindow(wParam);
+	if (hwnd == NULL)
+		return 0;
+
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if (dat == NULL)
+		return 0;
+
+	avatarCacheEntry *ace = (avatarCacheEntry *)lParam;
+	dat->ace = ace;
+	if (dat->hTaskbarIcon)
+		DestroyIcon(dat->hTaskbarIcon);
+	dat->hTaskbarIcon = 0;
+	DM_RecalcPictureSize(dat);
+	if (!dat->bShowAvatar || !dat->bShowInfoAvatar)
+		GetAvatarVisibility(hwnd, dat);
+	if (dat->hwndPanelPic) {
+		dat->panelWidth = -1;				// force new size calculations (not for flash avatars)
+		SendMessage(dat->hwnd, WM_SIZE, 0, 1);
+	}
+	dat->panelWidth = -1;				// force new size calculations (not for flash avatars)
+	RedrawWindow(dat->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+	SendMessage(dat->hwnd, WM_SIZE, 0, 1);
+	ShowPicture(dat, TRUE);
+	dat->dwFlagsEx |= MWF_EX_AVATARCHANGED;
+	dat->pContainer->SideBar->updateSession(dat);
+	return 0;
+}
+
 int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == 0 || IsBadReadPtr((void*)wParam, 4))

@@ -271,6 +271,7 @@ void CGlobals::hookSystemEvents()
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, ::IcoLibIconsChanged);
 	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
+	HookEvent(ME_AV_AVATARCHANGED, ::AvatarChanged);
 }
 
 int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
