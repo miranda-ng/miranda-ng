@@ -1701,6 +1701,9 @@ void CSkin::setupAeroSkins()
 	M.getAeroState();
 	UnloadAeroTabs();
 
+	if (!m_fAeroSkinsValid)
+		return;
+
 	TCHAR	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
 	_tcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
 	if (tszBasePath[lstrlen(tszBasePath) - 1] != '\\')
@@ -1718,9 +1721,6 @@ void CSkin::setupAeroSkins()
 			ReleaseDC(0, dc);
 		}
 	}
-
-	if (!m_fAeroSkinsValid)
-		return;
 
 	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))

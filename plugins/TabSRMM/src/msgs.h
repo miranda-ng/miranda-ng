@@ -283,9 +283,9 @@ struct TWindowData
 	DWORD    dwTickLastEvent, dwUnread;
 	HBITMAP  hOwnPic;
 	SIZE     pic;
-	int      showPic, showInfoPic;
-	BOOL     fMustOffset;
-	BOOL     isHistory;
+	bool     showPic, showInfoPic;
+	bool     fMustOffset;
+	bool     isHistory;
 	int      doSmileys;
 	UINT     codePage;
 	HICON    hSmileyIcon;

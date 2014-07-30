@@ -1042,9 +1042,9 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 		urc->rcItem.left = urc->rcItem.right - (dat->pic.cx + 2);
 		if ((urc->rcItem.bottom - urc->rcItem.top) < (dat->pic.cy/* + 2*/) && dat->showPic) {
 			urc->rcItem.top = urc->rcItem.bottom - dat->pic.cy;
-			dat->fMustOffset = TRUE;
+			dat->fMustOffset = true;
 		}
-		else dat->fMustOffset = FALSE;
+		else dat->fMustOffset = false;
 
 		if (showToolbar && bBottomToolbar && (PluginConfig.m_AlwaysFullToolbarWidth || ((dat->pic.cy - DPISCALEY_S(6)) < rc.bottom))) {
 			urc->rcItem.bottom -= DPISCALEY_S(22);

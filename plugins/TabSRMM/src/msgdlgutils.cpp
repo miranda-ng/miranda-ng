@@ -542,7 +542,7 @@ void TSAPI HandleIconFeedback(TWindowData *dat, HICON iIcon)
 // retrieve the visiblity of the avatar window, depending on the global setting
 // and local mode
 
-int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
+bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 {
 	BYTE bAvatarMode = dat->pContainer->avatarMode;
 	BYTE bOwnAvatarMode = dat->pContainer->ownAvatarMode;
@@ -553,7 +553,7 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 
 	if (dat->Panel->isActive() && bAvatarMode != 3) {
 		if (bOwnAvatarMode)
-			dat->showPic = FALSE;
+			dat->showPic = false;
 		else {
 			dat->showPic = (dat->hOwnPic && dat->hOwnPic != PluginConfig.g_hbmUnknown) ? 1 : 0;
 			if (!PluginConfig.g_bDisableAniAvatars && !dat->hwndContactPic)
@@ -1612,20 +1612,23 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		return TRUE;
 	}
 	
-	if ((dis->hwndItem == GetDlgItem(hwndDlg, IDC_CONTACTPIC) && (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) && dat->showPic) || (dis->hwndItem == hwndDlg && dat->Panel->isActive() && (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown))) {
+	HBITMAP hbmAvatar = dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown;
+	if ((dis->hwndItem == GetDlgItem(hwndDlg, IDC_CONTACTPIC) && dat->showPic) || (dis->hwndItem == hwndDlg && dat->Panel->isActive())) {
+		if (hbmAvatar == NULL)
+			return TRUE;
+
 		BITMAP  bminfo;
 		double  dAspect = 0, dNewWidth = 0, dNewHeight = 0;
 		DWORD   iMaxHeight = 0, top, cx, cy;
 		RECT    rc, rcClient, rcFrame;
-		BOOL    bPanelPic = dis->hwndItem == hwndDlg;
+		bool    bPanelPic = dis->hwndItem == hwndDlg;
 		DWORD   aceFlags = 0;
-		HPEN    hPenBorder = 0, hPenOld = 0;
 		HRGN    clipRgn = 0;
 		int     iRad = PluginConfig.m_WinVerMajor >= 5 ? 4 : 6;
-		bool    bInfoPanel = dat->Panel->isActive();
+		bool    bDrawOwnAvatar = dat->Panel->isActive() && dat->pContainer->avatarMode != 3;
 
 		if (bPanelPic) {
-			GetObject(dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown, sizeof(bminfo), &bminfo);
+			GetObject(hbmAvatar, sizeof(bminfo), &bminfo);
 
 			if ((dat->ace && dat->showInfoPic && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) || dat->showInfoPic)
 				aceFlags = dat->ace ? dat->ace->dwFlags : 0;
@@ -1639,14 +1642,14 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			}
 		}
 		else {
-			if (!bInfoPanel || dat->pContainer->avatarMode == 3) {
+			if (!bDrawOwnAvatar) {		
 				if (dat->ace)
 					aceFlags = dat->ace->dwFlags;
 			}
 			else if (dat->ownAce)
 				aceFlags = dat->ownAce->dwFlags;
 
-			GetObject((bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown), sizeof(bminfo), &bminfo);
+			GetObject(bDrawOwnAvatar ? dat->hOwnPic : hbmAvatar, sizeof(bminfo), &bminfo);
 		}
 
 		GetClientRect(hwndDlg, &rc);
@@ -1728,8 +1731,8 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				else FillRect(hdcDraw, &rcFrame, GetSysColorBrush(COLOR_3DFACE));
 			}
 
-			hPenBorder = CreatePen(PS_SOLID, 1, CSkin::m_avatarBorderClr);
-			hPenOld = (HPEN)SelectObject(hdcDraw, hPenBorder);
+			HPEN hPenBorder = CreatePen(PS_SOLID, 1, CSkin::m_avatarBorderClr);
+			HPEN hPenOld = (HPEN)SelectObject(hdcDraw, hPenBorder);
 
 			if (CSkin::m_bAvatarBorderType == 1)
 				Rectangle(hdcDraw, rcEdge.left, rcEdge.top, rcEdge.right, rcEdge.bottom);
@@ -1737,11 +1740,13 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				clipRgn = CreateRoundRectRgn(rcEdge.left, rcEdge.top, rcEdge.right + 1, rcEdge.bottom + 1, iRad, iRad);
 				SelectClipRgn(hdcDraw, clipRgn);
 			}
+
+			SelectObject(hdcDraw, hPenOld);
+			DeleteObject(hPenBorder);
 		}
 
-		if ((((bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown)) && dat->showPic) || bPanelPic) {
+		if (((bDrawOwnAvatar ? dat->hOwnPic : hbmAvatar) && dat->showPic) || bPanelPic) {
 			HDC hdcMem = CreateCompatibleDC(dis->hDC);
-			HBITMAP hbmAvatar = bPanelPic ? (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) : ((bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown));
 			HBITMAP hbmMem = 0;
 			if (bPanelPic) {
 				bool	bBorder = (CSkin::m_bAvatarBorderType ? true : false);
@@ -1801,7 +1806,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 					DeleteObject(hbmNew);
 			}
 			else {
-				hbmMem = (HBITMAP)SelectObject(hdcMem, hbmAvatar);
+				hbmMem = (HBITMAP)SelectObject(hdcMem, (bDrawOwnAvatar) ? dat->hOwnPic : hbmAvatar);
 				LONG xy_off = 1; //CSkin::m_bAvatarBorderType ? 1 : 0;
 				LONG width_off = 0; //= CSkin::m_bAvatarBorderType ? 0 : 2;
 
@@ -1835,9 +1840,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				DeleteObject(clipRgn);
 			}
 		}
-		SelectObject(hdcDraw, hPenOld);
 		SelectObject(hdcDraw, hOldBrush);
-		DeleteObject(hPenBorder);
 		if (!bPanelPic)
 			BitBlt(dis->hDC, 0, 0, cx, cy, hdcDraw, 0, 0, SRCCOPY);
 		SelectObject(hdcDraw, hbmOld);
