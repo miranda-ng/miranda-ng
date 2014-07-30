@@ -206,7 +206,7 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 		return false;
 	}
 
-	if(!unzip(pFileUrl.tszDiskPath, tszTempPath, NULL))
+	if(!unzip(pFileUrl.tszDiskPath, tszTempPath, NULL,true))
 		return false;
 	
 	DeleteFile(pFileUrl.tszDiskPath);

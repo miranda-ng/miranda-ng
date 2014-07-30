@@ -70,7 +70,7 @@ static void ApplyDownloads(void *param)
 
 			if (DownloadFile(&todo[i].File, nlc)) {
 				ListView_SetItemText(hwndList, i, 2, TranslateT("Succeeded."));
-				if (unzip(todo[i].File.tszDiskPath, tszMirandaPath, tszFileBack))
+				if (unzip(todo[i].File.tszDiskPath, tszMirandaPath, tszFileBack,true))
 					SafeDeleteFile(todo[i].File.tszDiskPath);  // remove .zip after successful update
 			}
 			else
