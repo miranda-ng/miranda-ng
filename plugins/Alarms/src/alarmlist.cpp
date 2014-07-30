@@ -331,7 +331,7 @@ void SaveAlarms() {
 			if (_tcslen(i->szCommand)) {
 				mir_snprintf(buff, SIZEOF(buff), "ActionCommand%d", index);
 				db_set_ts(0, MODULE, buff, i->szCommand);
-				if (_tcslen(i->szCommandParams)) {
+				if (lstrlen(i->szCommandParams)) {
 					mir_snprintf(buff, SIZEOF(buff), "ActionParams%d", index);
 					db_set_ts(0, MODULE, buff, i->szCommandParams);
 				}
