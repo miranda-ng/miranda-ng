@@ -23,10 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void OmegleProto::UpdateChat(const TCHAR *name, const TCHAR *message, bool addtolog)
 {
+	// replace % to %% to not interfere with chat color codes
+	std::tstring smessage = message;
+	utils::text::treplace_all(&smessage, _T("%"), _T("%%"));
+
 	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
-	gce.ptszText = message;
+	gce.ptszText = smessage.c_str();
 
 	if (name == NULL) {
 		gcd.iType = GC_EVENT_INFORMATION;
@@ -55,6 +59,9 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 	case GC_USER_MESSAGE:
 	{		
 		std::string text = mir_t2a_cp(hook->ptszText,CP_UTF8);
+
+		// replace %% back to %, because chat automatically does this to sent messages
+		utils::text::replace_all(&text, "%%", "%");
 
 		if (text.empty())
 			break;

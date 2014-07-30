@@ -33,6 +33,7 @@ namespace utils
 	{
 		void replace_first( std::string* data, std::string from, std::string to );
 		void replace_all( std::string* data, std::string from, std::string to );
+		void treplace_all(std::tstring* data, std::tstring from, std::tstring to);
 		std::string special_expressions_decode( std::string data );
 		std::string slashu_to_utf8( std::string data );
 		std::string trim( std::string data );

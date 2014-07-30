@@ -49,6 +49,18 @@ void utils::text::replace_all( std::string* data, std::string from, std::string 
 	}
 }
 
+void utils::text::treplace_all(std::tstring* data, std::tstring from, std::tstring to)
+{
+	std::tstring::size_type position = 0;
+
+	while ((position = data->find(from, position)) != std::tstring::npos)
+	{
+		data->replace(position, from.size(), to);
+		position++;
+	}
+}
+
+
 std::string utils::text::special_expressions_decode( std::string data )
 {
 	utils::text::replace_all( &data, "\\r", "\r" );
