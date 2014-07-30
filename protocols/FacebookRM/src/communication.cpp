@@ -214,16 +214,16 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_HOME:
 //	case REQUEST_DTSG:
 //	case REQUEST_BUDDY_LIST:
-//	case REQUEST_LOAD_FRIEND:
-//	case REQUEST_LOAD_FRIENDS:
 //	case REQUEST_USER_INFO:
-//	case REQUEST_LOAD_REQUESTS:
+//	case REQUEST_USER_INFO_ALL:
+//	case REQUEST_USER_INFO_MOBILE:
+//	case REQUEST_LOAD_FRIENDSHIPS:
 //	case REQUEST_SEARCH:
 //  case REQUEST_DELETE_FRIEND:
-//	case REQUEST_REQUEST_FRIEND:
+//	case REQUEST_ADD_FRIEND:
 //	case REQUEST_APPROVE_FRIEND:
-//	case REQUEST_CANCEL_REQUEST:
-//	case REQUEST_FRIENDS_REQUEST:
+//	case REQUEST_CANCEL_FRIENDSHIP:
+//	case REQUEST_FRIENDSHIP:
 //	case REQUEST_FEEDS:
 //	case REQUEST_PAGES:
 //	case REQUEST_NOTIFICATIONS:
@@ -232,8 +232,8 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_IDENTITY_SWITCH:
 //	case REQUEST_STATUS_COMPOSER:
 //	case REQUEST_LINK_SCRAPER:
-//	case REQUEST_MESSAGE_SEND:
-//	case REQUEST_MESSAGE_SEND2:
+//	case REQUEST_MESSAGE_SEND_CHAT:
+//	case REQUEST_MESSAGE_SEND_INBOX:
 //	case REQUEST_THREAD_INFO:
 //	case REQUEST_MESSAGES_RECEIVE:
 //	case REQUEST_VISIBILITY:
@@ -259,8 +259,8 @@ int facebook_client::choose_method(RequestType request_type)
 	case REQUEST_IDENTITY_SWITCH:
 	case REQUEST_STATUS_COMPOSER:
 	case REQUEST_LINK_SCRAPER:
-	case REQUEST_MESSAGE_SEND:
-	case REQUEST_MESSAGE_SEND2:
+	case REQUEST_MESSAGE_SEND_CHAT:
+	case REQUEST_MESSAGE_SEND_INBOX:
 	case REQUEST_THREAD_INFO:
 	case REQUEST_VISIBILITY:
 	case REQUEST_POKE:
@@ -270,9 +270,9 @@ int facebook_client::choose_method(RequestType request_type)
 	case REQUEST_TYPING_SEND:
 	case REQUEST_LOGOUT:
 	case REQUEST_DELETE_FRIEND:
-	case REQUEST_REQUEST_FRIEND:
-	case REQUEST_CANCEL_REQUEST:
-	case REQUEST_FRIENDS_REQUEST:
+	case REQUEST_ADD_FRIEND:
+	case REQUEST_CANCEL_FRIENDSHIP:
+	case REQUEST_FRIENDSHIP:
 	case REQUEST_UNREAD_THREADS:
 		return REQUEST_POST;
 
@@ -283,10 +283,10 @@ int facebook_client::choose_method(RequestType request_type)
 //	case REQUEST_PAGES:
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
-//	case REQUEST_LOAD_FRIEND:
-//	case REQUEST_LOAD_FRIENDS:
 //	case REQUEST_USER_INFO:
-//	case REQUEST_LOAD_REQUESTS:
+//	case REQUEST_USER_INFO_ALL:
+//	case REQUEST_USER_INFO_MOBILE:
+//	case REQUEST_LOAD_FRIENDSHIPS:
 //	case REQUEST_SEARCH:
 	default:
 		return REQUEST_GET;
@@ -318,15 +318,15 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 
 	case REQUEST_HOME:
 	case REQUEST_DTSG:
-	case REQUEST_LOAD_REQUESTS:
+	case REQUEST_LOAD_FRIENDSHIPS:
 	case REQUEST_SEARCH:
-	case REQUEST_USER_INFO:
+	case REQUEST_USER_INFO_MOBILE:
 		return FACEBOOK_SERVER_MOBILE;
 
 //	case REQUEST_LOGOUT:
 //	case REQUEST_BUDDY_LIST:
-//	case REQUEST_LOAD_FRIEND:
-//	case REQUEST_LOAD_FRIENDS:
+//	case REQUEST_USER_INFO:
+//	case REQUEST_USER_INFO_ALL:
 //	case REQUEST_FEEDS:
 //	case REQUEST_PAGES:
 //	case REQUEST_NOTIFICATIONS:
@@ -335,8 +335,8 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //	case REQUEST_IDENTITY_SWITCH:
 //	case REQUEST_STATUS_COMPOSER:
 //	case REQUEST_LINK_SCRAPER:
-//	case REQUEST_MESSAGE_SEND:
-//	case REQUEST_MESSAGE_SEND2:
+//	case REQUEST_MESSAGE_SEND_CHAT:
+//	case REQUEST_MESSAGE_SEND_INBOX:
 //	case REQUEST_THREAD_INFO:
 //	case REQUEST_VISIBILITY:
 //	case REQUEST_POKE:
@@ -346,9 +346,9 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //	case REQUEST_TYPING_SEND:
 //	case REQUEST_SETUP_MACHINE:
 //  case REQUEST_DELETE_FRIEND:
-//	case REQUEST_REQUEST_FRIEND:
-//	case REQUEST_CANCEL_REQUEST:
-//	case REQUEST_FRIENDS_REQUEST:
+//	case REQUEST_ADD_FRIEND:
+//	case REQUEST_CANCEL_FRIENDSHIP:
+//	case REQUEST_FRIENDSHIP:
 //	case REQUEST_UNREAD_THREADS:
 	default:
 		return FACEBOOK_SERVER_REGULAR;
@@ -377,7 +377,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	case REQUEST_BUDDY_LIST:
 		return "/ajax/chat/buddy_list.php?__a=1";
 
-	case REQUEST_LOAD_FRIEND:
+	case REQUEST_USER_INFO:
 	{
 		std::string action = "/ajax/chat/user_info.php?__a=1&viewer=%s&__user=%s";
 		utils::text::replace_all(&action, "%s", self_.user_id);
@@ -387,14 +387,14 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return action;
 	}
 
-	case REQUEST_LOAD_FRIENDS:
+	case REQUEST_USER_INFO_ALL:
 	{
 		std::string action = "/ajax/chat/user_info_all.php?__a=1&viewer=%s&__user=%s";
 		utils::text::replace_all(&action, "%s", self_.user_id);
 		return action;
 	}
 
-	case REQUEST_USER_INFO:
+	case REQUEST_USER_INFO_MOBILE:
 	{		
 		std::string action = "/%sv=info";
 		if (get_data != NULL) {
@@ -403,7 +403,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return action;
 	}
 
-	case REQUEST_LOAD_REQUESTS:
+	case REQUEST_LOAD_FRIENDSHIPS:
 	{
 		return "/friends/";
 	}
@@ -431,17 +431,17 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return action;
 	}
 
-	case REQUEST_REQUEST_FRIEND:
+	case REQUEST_ADD_FRIEND:
 	{
 		return "/ajax/add_friend/action.php?__a=1";
 	}
 
-	case REQUEST_CANCEL_REQUEST:
+	case REQUEST_CANCEL_FRIENDSHIP:
 	{
 		return "/ajax/friends/requests/cancel.php?__a=1";
 	}
 
-	case REQUEST_FRIENDS_REQUEST:
+	case REQUEST_FRIENDSHIP:
 	{
 		return "/requests/friends/ajax/?__a=1";
 	}
@@ -502,10 +502,10 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return action;
 	}
 
-	case REQUEST_MESSAGE_SEND:
+	case REQUEST_MESSAGE_SEND_CHAT:
 		return "/ajax/mercury/send_messages.php?__a=1";
 
-	case REQUEST_MESSAGE_SEND2:
+	case REQUEST_MESSAGE_SEND_INBOX:
 		return "/ajax/messaging/send.php";
 
 	case REQUEST_THREAD_INFO:
@@ -576,8 +576,8 @@ bool facebook_client::notify_errors(RequestType request_type)
 	switch (request_type)
 	{
 	case REQUEST_BUDDY_LIST:
-	case REQUEST_MESSAGE_SEND2:
-	case REQUEST_MESSAGE_SEND:
+	case REQUEST_MESSAGE_SEND_INBOX:
+	case REQUEST_MESSAGE_SEND_CHAT:
 	case REQUEST_ASYNC:
 		return false;
 
@@ -1144,7 +1144,7 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 			data += "&fb_dtsg=" + (!dtsg_.empty() ? dtsg_ : "0");
 			data += "&phstamp=0";
 
-			resp = flap(REQUEST_MESSAGE_SEND2, &data);
+			resp = flap(REQUEST_MESSAGE_SEND_INBOX, &data);
 			break;
 		}
 		case MESSAGE_MERCURY:
@@ -1178,7 +1178,7 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 			data += "&__a=1";
 			data += "&phstamp=0";
 
-			resp = flap(REQUEST_MESSAGE_SEND, &data);
+			resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data);
 			break;
 		}
 		case MESSAGE_TID:
@@ -1202,7 +1202,7 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 			data += "&__user=" + this->self_.user_id;
 			data += "&phstamp=0";
 
-			resp = flap(REQUEST_MESSAGE_SEND, &data);
+			resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data);
 			break;
 		}
 		case MESSAGE_ASYNC:

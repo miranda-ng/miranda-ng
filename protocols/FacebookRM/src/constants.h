@@ -103,11 +103,11 @@ enum RequestType {
 	REQUEST_DTSG,				// getting __fb_dtsg__
 	REQUEST_RECONNECT,			// getting __sequence_num__ and __channel_id__
 	REQUEST_VISIBILITY,			// setting chat visibility
-	REQUEST_IDENTITY_SWITCH,	// changing identity to post status from pages
+	REQUEST_IDENTITY_SWITCH,	// changing identity to post status for pages
 
 	REQUEST_FEEDS,				// getting feeds
 	REQUEST_NOTIFICATIONS,		// getting notifications
-	REQUEST_LOAD_REQUESTS,		// getting friend requests
+	REQUEST_LOAD_FRIENDSHIPS,	// getting friendship requests
 	REQUEST_PAGES,				// getting pages list
 
 	REQUEST_POST_STATUS,		// posting status to our or friends's wall
@@ -118,16 +118,16 @@ enum RequestType {
 	REQUEST_NOTIFICATIONS_READ, // marking notifications read
 
 	REQUEST_BUDDY_LIST,			// getting regular updates (friends online, ...)
-	REQUEST_LOAD_FRIEND,		// getting info about particular friend
-	REQUEST_LOAD_FRIENDS,		// getting info about all friends
-	REQUEST_USER_INFO,			// getting info about particular user (from mobile website)
-	REQUEST_REQUEST_FRIEND,		// requesting friendships
+	REQUEST_USER_INFO,			// getting info about particular friend
+	REQUEST_USER_INFO_ALL,		// getting info about all friends
+	REQUEST_USER_INFO_MOBILE,	// getting info about particular user (from mobile website)
+	REQUEST_ADD_FRIEND,			// requesting friendships
 	REQUEST_DELETE_FRIEND,		// deleting friendships
-	REQUEST_CANCEL_REQUEST,		// canceling (our) friendship request
-	REQUEST_FRIENDS_REQUEST,	// approving or ignoring friendship requests
+	REQUEST_CANCEL_FRIENDSHIP,	// canceling (our) friendship request
+	REQUEST_FRIENDSHIP,			// approving or ignoring friendship requests
 
-	REQUEST_MESSAGE_SEND,		// sending message
-	REQUEST_MESSAGE_SEND2,		// sending message through inbox
+	REQUEST_MESSAGE_SEND_CHAT,	// sending message through chat
+	REQUEST_MESSAGE_SEND_INBOX,	// sending message through inbox
 	REQUEST_MESSAGES_RECEIVE,	// receiving messages
 	REQUEST_TYPING_SEND,		// sending typing notification
 

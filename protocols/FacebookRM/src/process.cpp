@@ -157,7 +157,7 @@ void FacebookProto::ProcessFriendList(void*)
 	facy.handle_entry("load_friends");
 
 	// Get buddy list
-	http::response resp = facy.flap(REQUEST_LOAD_FRIENDS);
+	http::response resp = facy.flap(REQUEST_USER_INFO_ALL);
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("load_friends");
@@ -837,7 +837,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 	facy.handle_entry("friendRequests");
 
 	// Get notifications
-	http::response resp = facy.flap(REQUEST_LOAD_REQUESTS);
+	http::response resp = facy.flap(REQUEST_LOAD_FRIENDSHIPS);
 
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("friendRequests");
@@ -1238,11 +1238,11 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 	if (!isOffline())
 	{
-		http::response resp = facy.flap(REQUEST_USER_INFO, NULL, &search);
+		http::response resp = facy.flap(REQUEST_USER_INFO_MOBILE, NULL, &search);
 
 		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
 			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MOBILE"/", "_rdr", true);
-			resp = facy.flap(REQUEST_USER_INFO, NULL, &search);
+			resp = facy.flap(REQUEST_USER_INFO_MOBILE, NULL, &search);
 		}
 
 		if (resp.code == HTTP_CODE_OK)

@@ -161,7 +161,7 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 	// TODO: support for more friends at once
 	std::string get_query = "&ids[0]=" + utils::url::encode(fbu->user_id);
 	
-	http::response resp = facy.flap(REQUEST_LOAD_FRIEND, NULL, &get_query);
+	http::response resp = facy.flap(REQUEST_USER_INFO, NULL, &get_query);
 
 	if (resp.code == HTTP_CODE_OK) {
 		CODE_BLOCK_TRY
@@ -422,7 +422,7 @@ void FacebookProto::AddContactToServer(void *data)
 	query += "&__user=" + facy.self_.user_id;
 
 	// Get unread inbox threads
-	http::response resp = facy.flap(REQUEST_REQUEST_FRIEND, &query);
+	http::response resp = facy.flap(REQUEST_ADD_FRIEND, &query);
 
 	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
 		MCONTACT hContact = ContactIDToHContact(id);
@@ -461,7 +461,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 	query += "&fb_dtsg=" + facy.dtsg_;
 
 	// Ignore friendship request
-	http::response resp = facy.flap(REQUEST_FRIENDS_REQUEST, &query);
+	http::response resp = facy.flap(REQUEST_FRIENDSHIP, &query);
 
 	if (resp.data.find("\"success\":true") != std::string::npos)
 	{
@@ -497,7 +497,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	query += "&friend=" + std::string(id);
 
 	// Cancel (our) friendship request
-	http::response resp = facy.flap(REQUEST_CANCEL_REQUEST, &query);
+	http::response resp = facy.flap(REQUEST_CANCEL_FRIENDSHIP, &query);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{
@@ -531,7 +531,7 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 	query += "&fb_dtsg=" + facy.dtsg_;
 
 	// Ignore friendship request
-	http::response resp = facy.flap(REQUEST_FRIENDS_REQUEST, &query);
+	http::response resp = facy.flap(REQUEST_FRIENDSHIP, &query);
 
 	if (resp.data.find("\"success\":true") != std::string::npos)
 	{
