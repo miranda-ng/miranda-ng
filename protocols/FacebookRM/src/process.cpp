@@ -845,17 +845,17 @@ void FacebookProto::ProcessFriendRequests(void*)
 	}
 	
 	// Parse it
-	std::string reqs = utils::text::source_get_value(&resp.data, 2, "class=\"mRequestItem", "al aps\">");
+	std::string reqs = utils::text::source_get_value(&resp.data, 3, "id=\"friend_requests_section\"", "</h4>", "<h4");
 
 	std::string::size_type pos = 0;
 	std::string::size_type pos2 = 0;
-	bool last = false;
+	bool last = (reqs.find("seenrequesttime=") == std::string::npos); // false when there are some requests
 
 	while (!last && !reqs.empty()) {
 		std::string req;
-		if ((pos2 = reqs.find("class=\"mRequestItem", pos)) != std::string::npos) {
+		if ((pos2 = reqs.find("<img src=", pos)) != std::string::npos) {
 			req = reqs.substr(pos, pos2 - pos);
-			pos = pos2 + 19;
+			pos = pos2 + 9;
 		} else {
 			req = reqs.substr(pos);
 			last = true;
@@ -863,10 +863,11 @@ void FacebookProto::ProcessFriendRequests(void*)
 				
 		std::string get = utils::text::source_get_value(&req, 3, "<form", "action=\"", "\">");
 		std::string time = utils::text::source_get_value2(&get, "seenrequesttime=", "&\"");
+		std::string reason = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<span", ">", "</span>"));
 
 		facebook_user *fbu = new facebook_user();
-		fbu->real_name = utils::text::source_get_value(&req, 2, "class=\"actor\">", "</");
-		fbu->user_id = utils::text::source_get_value(&get, 2, "id=", "&");
+		fbu->real_name = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<strong", ">", "</strong>"));
+		fbu->user_id = utils::text::source_get_value2(&get, "id=", "&\"");
 
 		if (!fbu->user_id.empty() && !fbu->real_name.empty())
 		{
@@ -886,23 +887,23 @@ void FacebookProto::ProcessFriendRequests(void*)
 				setString(hContact, "RequestTime", time.c_str());
 
 				//blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-				//blob is: 0(DWORD), hContact(HANDLE), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
+				//blob is: 0(DWORD), hContact(HANDLE), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 				DBEVENTINFO dbei = {0};
 				dbei.cbSize = sizeof(DBEVENTINFO);
 				dbei.szModule = m_szModuleName;
 				dbei.timestamp = ::time(NULL);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = EVENTTYPE_AUTHREQUEST;
-				dbei.cbBlob = (DWORD)(sizeof(DWORD)*2 + fbu->real_name.length() + 5);
+				dbei.cbBlob = (DWORD)(sizeof(DWORD)*2 + fbu->real_name.length() + fbu->user_id.length() + reason.length() + 5);
 					
 				PBYTE pCurBlob = dbei.pBlob = (PBYTE) mir_alloc(dbei.cbBlob);					
 				*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);                    // UID
 				*(PDWORD)pCurBlob = (DWORD)hContact; pCurBlob += sizeof(DWORD);      // Contact Handle
-				strcpy((char*)pCurBlob, fbu->real_name.data()); pCurBlob += fbu->real_name.length()+1;	// Nickname
+				strcpy((char*)pCurBlob, fbu->real_name.data()); pCurBlob += fbu->real_name.length() + 1;	// Nickname
 				*pCurBlob = '\0'; pCurBlob++;                                        // First Name
 				*pCurBlob = '\0'; pCurBlob++;                                        // Last Name
-				*pCurBlob = '\0'; pCurBlob++;                                        // E-mail
-				*pCurBlob = '\0';                                                    // Reason
+				strcpy((char*)pCurBlob, fbu->user_id.data()); pCurBlob += fbu->user_id.length() + 1;	// E-mail (we use it for string ID)
+				strcpy((char*)pCurBlob, reason.data()); pCurBlob += reason.length() + 1;	// Reason (we use it for info about common friends)
 
 				db_event_add(0, &dbei);				
 
