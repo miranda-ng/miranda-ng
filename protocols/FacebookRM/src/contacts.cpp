@@ -455,17 +455,23 @@ void FacebookProto::ApproveContactToServer(void *data)
 	MCONTACT hContact = *(MCONTACT*)data;
 	delete data;
 
-	std::string post_data = "fb_dtsg=" + facy.dtsg_;
-	post_data += "&charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&confirm_button=";
+	std::string query = "action=confirm";
+	query += "&id=" + std::string(ptrA(getStringA(hContact, FACEBOOK_KEY_ID)));
+	query += "&__user=" + facy.self_.user_id;
+	query += "&fb_dtsg=" + facy.dtsg_;
 
-	std::string get_data = "id=";
+	// Ignore friendship request
+	http::response resp = facy.flap(REQUEST_FRIENDS_REQUEST, &query);
 
-	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-	get_data += id;
+	if (resp.data.find("\"success\":true") != std::string::npos)
+	{
+		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was accepted."), NULL, FACEBOOK_EVENT_OTHER);
+	}
+	else facy.client_notify(TranslateT("Error occurred when accepting friendship request."));
 
-	http::response resp = facy.flap(REQUEST_APPROVE_FRIEND, &post_data, &get_data);
-
-	setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
+	if (resp.code != HTTP_CODE_OK)
+		facy.handle_error("ApproveContactToServer");
 }
 
 void FacebookProto::CancelFriendsRequest(void *data)
@@ -483,14 +489,14 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	MCONTACT hContact = *(MCONTACT*)data;
 	delete data;
 
-	std::string query = "phstamp=0&confirmed=1";
+	std::string query = "confirmed=1";
 	query += "&fb_dtsg=" + facy.dtsg_;
 	query += "&__user=" + facy.self_.user_id;
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	query += "&friend=" + std::string(id);
 
-	// Get unread inbox threads
+	// Cancel (our) friendship request
 	http::response resp = facy.flap(REQUEST_CANCEL_REQUEST, &query);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
@@ -502,6 +508,44 @@ void FacebookProto::CancelFriendsRequest(void *data)
 
 	if (resp.code != HTTP_CODE_OK)
 		facy.handle_error("CancelFriendsRequest");
+}
+
+void FacebookProto::IgnoreFriendshipRequest(void *data)
+{
+	facy.handle_entry("IgnoreFriendshipRequest");
+
+	if (data == NULL)
+		return;
+
+	if (isOffline()) {
+		delete (MCONTACT*)data;
+		return;
+	}
+
+	MCONTACT hContact = *(MCONTACT*)data;
+	delete data;
+
+	std::string query = "action=reject";
+	query += "&id=" + std::string(ptrA(getStringA(hContact, FACEBOOK_KEY_ID)));
+	query += "&__user=" + facy.self_.user_id;
+	query += "&fb_dtsg=" + facy.dtsg_;
+
+	// Ignore friendship request
+	http::response resp = facy.flap(REQUEST_FRIENDS_REQUEST, &query);
+
+	if (resp.data.find("\"success\":true") != std::string::npos)
+	{
+		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was ignored."), NULL, FACEBOOK_EVENT_OTHER);
+
+		// Delete this contact, if he's temporary
+		if (db_get_b(hContact, "CList", "NotOnList", 0))
+			CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+	}
+	else facy.client_notify(TranslateT("Error occurred when ignoring friendship request."));
+
+	if (resp.code != HTTP_CODE_OK)
+		facy.handle_error("IgnoreFriendshipRequest");
 }
 
 void FacebookProto::SendPokeWorker(void *p)

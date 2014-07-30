@@ -151,6 +151,13 @@ void InitContactMenus()
 	mi.pszService = "FacebookProto/ApproveFriendship";
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::ApproveFriendship>);
 	g_hContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
+
+	mi.position = -2000006014;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
+	mi.pszName = LPGEN("Deny friendship request");
+	mi.pszService = "FacebookProto/DenyFriendship";
+	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::DenyFriendship>);
+	g_hContactMenuItems[CMI_AUTH_DENY] = Menu_AddContactMenuItem(&mi);
 }
 
 void UninitContactMenus()
@@ -176,8 +183,9 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_ASK], ctrlPressed || type == CONTACT_NONE || !type);
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || type == CONTACT_APPROVE);
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_DENY], ctrlPressed || type == CONTACT_APPROVE);
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || type == CONTACT_FRIEND);
-		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == CONTACT_REQUEST);
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == CONTACT_REQUEST);		
 
 		Menu_ShowItem(g_hContactMenuItems[CMI_POKE], true);
 	}

@@ -122,9 +122,9 @@ enum RequestType {
 	REQUEST_LOAD_FRIENDS,		// getting info about all friends
 	REQUEST_USER_INFO,			// getting info about particular user (from mobile website)
 	REQUEST_REQUEST_FRIEND,		// requesting friendships
-	REQUEST_APPROVE_FRIEND,		// approving friendships
 	REQUEST_DELETE_FRIEND,		// deleting friendships
-	REQUEST_CANCEL_REQUEST,		// canceling friendship request
+	REQUEST_CANCEL_REQUEST,		// canceling (our) friendship request
+	REQUEST_FRIENDS_REQUEST,	// approving or ignoring friendship requests
 
 	REQUEST_MESSAGE_SEND,		// sending message
 	REQUEST_MESSAGE_SEND2,		// sending message through inbox

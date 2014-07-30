@@ -308,12 +308,7 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	// TODO: hide from facebook requests list
-
-	if (db_get_b(hContact, "CList", "NotOnList", 0))
-		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
-
-	return 0;
+	return DenyFriendship(hContact, NULL);
 }
 
 int FacebookProto::GetInfo(MCONTACT hContact, int infoType)
@@ -727,6 +722,18 @@ INT_PTR FacebookProto::ApproveFriendship(WPARAM wParam,LPARAM lParam)
 	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
 
 	ForkThread(&FacebookProto::ApproveContactToServer, hContact);
+	return 0;
+}
+
+INT_PTR FacebookProto::DenyFriendship(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == NULL || isOffline())
+		return 1;
+
+	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
+
+	ForkThread(&FacebookProto::IgnoreFriendshipRequest, hContact);
+
 	return 0;
 }
 

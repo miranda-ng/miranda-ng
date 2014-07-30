@@ -223,6 +223,7 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_REQUEST_FRIEND:
 //	case REQUEST_APPROVE_FRIEND:
 //	case REQUEST_CANCEL_REQUEST:
+//	case REQUEST_FRIENDS_REQUEST:
 //	case REQUEST_FEEDS:
 //	case REQUEST_PAGES:
 //	case REQUEST_NOTIFICATIONS:
@@ -270,8 +271,8 @@ int facebook_client::choose_method(RequestType request_type)
 	case REQUEST_LOGOUT:
 	case REQUEST_DELETE_FRIEND:
 	case REQUEST_REQUEST_FRIEND:
-	case REQUEST_APPROVE_FRIEND:
 	case REQUEST_CANCEL_REQUEST:
+	case REQUEST_FRIENDS_REQUEST:
 	case REQUEST_UNREAD_THREADS:
 		return REQUEST_POST;
 
@@ -317,7 +318,6 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 
 	case REQUEST_HOME:
 	case REQUEST_DTSG:
-	case REQUEST_APPROVE_FRIEND:
 	case REQUEST_LOAD_REQUESTS:
 	case REQUEST_SEARCH:
 	case REQUEST_USER_INFO:
@@ -348,6 +348,7 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //  case REQUEST_DELETE_FRIEND:
 //	case REQUEST_REQUEST_FRIEND:
 //	case REQUEST_CANCEL_REQUEST:
+//	case REQUEST_FRIENDS_REQUEST:
 //	case REQUEST_UNREAD_THREADS:
 	default:
 		return FACEBOOK_SERVER_REGULAR;
@@ -435,18 +436,14 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/ajax/add_friend/action.php?__a=1";
 	}
 
-	case REQUEST_APPROVE_FRIEND:
-	{
-		std::string action = "/a/notifications.php?__a=1";
-		if (get_data != NULL) {
-			action += "&" + (*get_data);
-		}
-		return action;
-	}
-
 	case REQUEST_CANCEL_REQUEST:
 	{
 		return "/ajax/friends/requests/cancel.php?__a=1";
+	}
+
+	case REQUEST_FRIENDS_REQUEST:
+	{
+		return "/requests/friends/ajax/?__a=1";
 	}
 
 	case REQUEST_FEEDS:

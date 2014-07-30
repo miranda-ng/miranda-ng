@@ -125,6 +125,7 @@ public:
 	INT_PTR __cdecl CancelFriendship(WPARAM, LPARAM);
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
 	INT_PTR __cdecl ApproveFriendship(WPARAM, LPARAM);
+	INT_PTR __cdecl DenyFriendship(WPARAM, LPARAM);
 	INT_PTR __cdecl OnCancelFriendshipRequest(WPARAM, LPARAM);
 	INT_PTR __cdecl CheckNewsfeeds(WPARAM, LPARAM);
 	INT_PTR __cdecl CheckFriendRequests(WPARAM, LPARAM);
@@ -191,6 +192,7 @@ public:
 	void __cdecl ApproveContactToServer(void*);
 	void __cdecl CancelFriendsRequest(void*);
 	void __cdecl SendPokeWorker(void*);
+	void __cdecl IgnoreFriendshipRequest(void*);
 
 	// Contacts handling
 	bool		IsMyContact(MCONTACT, bool include_chat = false);
