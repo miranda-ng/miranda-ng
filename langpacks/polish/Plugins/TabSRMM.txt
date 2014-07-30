@@ -1619,8 +1619,6 @@ Błędy
 Pokaż skórkowalny tooltip w czacie (wymaga wtyczki Tipper)
 [Enable typing sounds]
 Włącz dźwięki przy pisaniu
-[Disable animated GIF avatars (will not affect already open message windows)]
-Wyłącz animowane awatary GIF (brak animacji po otwarciu okna rozmowy)
 [Close current tab on send]
 Zamknij kartę po wysłaniu wiadomości
 [Automatic keyboard layout: Do not load the system default for new contacts]

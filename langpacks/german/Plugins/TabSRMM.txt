@@ -1619,8 +1619,6 @@ Fehlermeldung
 Skinbare Tooltips in Chat anzeigen (benötigt Tipper-Plugin)
 [Enable typing sounds]
 Tipp-Klänge aktivieren
-[Disable animated GIF avatars (will not affect already open message windows)]
-Animierte GIF-Avatare deaktivieren (hat keinen Effekt auf bereits geöffnete Fenster)
 [Close current tab on send]
 Aktuellen Tab nach dem Senden schließen
 [Automatic keyboard layout: Do not load the system default for new contacts]

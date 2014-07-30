@@ -1619,8 +1619,6 @@ TabSRMM съобщение (%s)
 
 [Enable typing sounds]
 Включване на звука при писане
-[Disable animated GIF avatars (will not affect already open message windows)]
-Изключване на анимираните .GIF аварати (няма да се отрази на вече отворените прозорци)
 [Close current tab on send]
 Затваряне на таба след изпращане
 [Automatic keyboard layout: Do not load the system default for new contacts]

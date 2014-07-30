@@ -656,7 +656,6 @@
 [Error feedback]
 [Show skinnable tooltip in chat (Tipper plugin required)]
 [Enable typing sounds]
-[Disable animated GIF avatars (will not affect already open message windows)]
 [Close current tab on send]
 [Automatic keyboard layout: Do not load the system default for new contacts]
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]

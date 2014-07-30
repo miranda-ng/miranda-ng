@@ -1613,8 +1613,6 @@ tabSRMM: %s
 Выкарыстоўваць плагiн Tipper для падказак у чаце
 [Enable typing sounds]
 Уключыць гук набору тэксту
-[Disable animated GIF avatars (will not affect already open message windows)]
-Адключыць анімаваныя GIF-аватары (не паўплывае на ўжо адкрытыя вокны паведамленняў)
 [Close current tab on send]
 Зачыняць укладку пры адпраўцы
 [Automatic keyboard layout: Do not load the system default for new contacts]

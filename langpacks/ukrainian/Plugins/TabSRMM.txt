@@ -1587,8 +1587,6 @@ TabSRMM: %s
 Використовувати плагін Tipper для відображення підказок у чаті
 [Enable typing sounds]
 Увімкнути звук набору тексту
-[Disable animated GIF avatars (will not affect already open message windows)]
-Вимкнути анімовані GIF-аватари (не вплине на відкриті вікна)
 [Close current tab on send]
 Закривати вкладку при надсиланні
 [Automatic keyboard layout: Do not load the system default for new contacts]
