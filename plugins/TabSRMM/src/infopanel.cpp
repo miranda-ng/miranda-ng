@@ -174,7 +174,7 @@ void CInfoPanel::showHide() const
 	HWND hwndDlg = m_dat->hwnd;
 
 	if (!m_isChat) {
-		::ShowWindow(m_dat->hwndPanelPicParent, m_active && m_dat->hwndPanelPic ? SW_SHOW : SW_HIDE);
+		::ShowWindow(m_dat->hwndPanelPicParent, (m_active && m_dat->hwndPanelPic) ? SW_SHOW : SW_HIDE);
 
 		m_dat->iRealAvatarHeight = 0;
 		::AdjustBottomAvatarDisplay(m_dat);
@@ -1015,17 +1015,15 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		HDC dcWin = (HDC)wParam;
 
 		if (M.isAero()) {
-			HDC		hdc;
-			HBITMAP hbm, hbmOld;
-			LONG	cx = rcItem.right - rcItem.left;
-			LONG	cy = rcItem.bottom - rcItem.top;
+			LONG cx = rcItem.right - rcItem.left;
+			LONG cy = rcItem.bottom - rcItem.top;
 
 			rc.left -= 3; rc.right += 3;
 			rc.bottom += 2;
 
-			hdc = CreateCompatibleDC(dcWin);
-			hbm = CSkin::CreateAeroCompatibleBitmap(rc, dcWin);
-			hbmOld = (HBITMAP)SelectObject(hdc, hbm);
+			HDC hdc = CreateCompatibleDC(dcWin);
+			HBITMAP hbm = CSkin::CreateAeroCompatibleBitmap(rc, dcWin);
+			HBITMAP hbmOld = (HBITMAP)SelectObject(hdc, hbm);
 
 			if (CSkin::m_pCurrentAeroEffect == 0)
 				FillRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
@@ -1049,17 +1047,12 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		}
 
 		if (CSkin::m_bAvatarBorderType == 1) {
-			HRGN clipRgn;
+			RECT rcPic;
+			GetClientRect(dat->hwndPanelPic, &rcPic);
+			LONG ix = ((rcItem.right - rcItem.left) - rcPic.right) / 2 - 1;
+			LONG iy = ((rcItem.bottom - rcItem.top) - rcPic.bottom) / 2 - 1;
 
-			if (dat->hwndPanelPic) {
-				RECT	rcPic;
-				GetClientRect(dat->hwndPanelPic, &rcPic);
-				LONG ix = ((rcItem.right - rcItem.left) - rcPic.right) / 2 - 1;
-				LONG iy = ((rcItem.bottom - rcItem.top) - rcPic.bottom) / 2 - 1;
-
-				clipRgn = CreateRectRgn(ix, iy, ix + rcPic.right + 2, iy + rcPic.bottom + 2);
-			}
-			else clipRgn = CreateRectRgn(rcItem.left, rcItem.top, rcItem.right, rcItem.bottom);
+			HRGN clipRgn = CreateRectRgn(ix, iy, ix + rcPic.right + 2, iy + rcPic.bottom + 2);
 
 			HBRUSH hbr = CreateSolidBrush(CSkin::m_avatarBorderClr);
 			FrameRgn(dcWin, clipRgn, hbr, 1, 1);

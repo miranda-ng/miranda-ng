@@ -270,7 +270,6 @@ void CGlobals::hookSystemEvents()
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CMimAPI::PrebuildContactMenu);
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, ::IcoLibIconsChanged);
-	HookEvent(ME_AV_AVATARCHANGED, ::AvatarChanged);
 	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
 }
 

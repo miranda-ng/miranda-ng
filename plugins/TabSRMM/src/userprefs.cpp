@@ -538,12 +538,6 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (dat) {
 					DWORD dwOldFlags = (dat->dwFlags & MWF_LOG_ALL);
 					SetDialogToType(hwnd);
-#if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-					if (dwActionToTake & UPREF_ACTION_SWITCHLOGVIEWER) {
-						unsigned int mode = GetIEViewMode(hwndDlg, dat->hContact);
-						SwitchMessageLog(dat, mode);
-					}
-#endif
 					LoadLocalFlags(hwnd, dat);
 					if ((dat->dwFlags & MWF_LOG_ALL) != dwOldFlags) {
 						bool	fShouldHide = true;

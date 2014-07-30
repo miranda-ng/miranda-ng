@@ -592,14 +592,9 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 			// panel and contact is shown, reloads contact's avatar -> panel
 			// user avatar -> bottom picture
 			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
-			if (dat->hwndContactPic)
-				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 		}
-		else {
-			//show only user picture(contact is unaccessible)
-			if (dat->hwndContactPic)
-				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
-		}
+		
+		SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 	}
 	else {
 		dat->bShowInfoAvatar = false;
@@ -628,12 +623,14 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 			dat->bShowAvatar = hideOverride == 1 ? 1 : dat->bShowAvatar;
 
 		// reloads avatars
-		if (dat->bShowAvatar)
-			if (dat->hwndPanelPic) // shows contact or user picture, depending on panel visibility
-				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
-		
-		if (dat->hwndContactPic)
-			Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
+		if (!dat->bShowAvatar)
+			return false;
+
+		if (dat->hwndPanelPic) { // shows contact or user picture, depending on panel visibility
+			SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
+			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
+		}
+		else Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
 	}
 	return dat->bShowAvatar;
 }
@@ -719,34 +716,32 @@ TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQu
 
 void TSAPI AdjustBottomAvatarDisplay(TWindowData *dat)
 {
-	if (dat) {
-		bool bInfoPanel = dat->Panel->isActive();
-		HWND	hwndDlg = dat->hwnd;
+	if (!dat)
+		return;
 
-		HBITMAP hbm = (bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
-		if (hbm) {
-			dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
-			if (dat->dynaSplitter == 0 || dat->splitterY == 0)
-				LoadSplitter(dat);
-			dat->dynaSplitter = dat->splitterY - DPISCALEY_S(34);
-			DM_RecalcPictureSize(dat);
-			Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->bShowAvatar ? SW_SHOW : SW_HIDE);
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
-		}
-		else {
-			dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
-			Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->bShowAvatar ? SW_SHOW : SW_HIDE);
-			dat->pic.cy = dat->pic.cx = DPISCALEY_S(60);
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
-		}
+	HWND hwndDlg = dat->hwnd;
+	dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
+
+	bool bInfoPanel = dat->Panel->isActive();
+	HBITMAP hbm = (bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
+	if (hbm) {
+		if (dat->dynaSplitter == 0 || dat->splitterY == 0)
+			LoadSplitter(dat);
+		dat->dynaSplitter = dat->splitterY - DPISCALEY_S(34);
+		DM_RecalcPictureSize(dat);
+		Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->bShowAvatar ? SW_SHOW : SW_HIDE);
+		InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
+	}
+	else {
+		Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->bShowAvatar ? SW_SHOW : SW_HIDE);
+		dat->pic.cy = dat->pic.cx = DPISCALEY_S(60);
+		InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
 	}
 }
 
 void TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic)
 {
-	DBVARIANT 	dbv = { 0 };
-	RECT 		rc;
-	HWND		hwndDlg = dat->hwnd;
+	HWND hwndDlg = dat->hwnd;
 
 	if (!dat->Panel->isActive())
 		dat->pic.cy = dat->pic.cx = DPISCALEY_S(60);
@@ -767,6 +762,8 @@ void TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic)
 		dat->bShowAvatar = dat->bShowAvatar ? 0 : 1;
 		db_set_b(dat->hContact, SRMSGMOD_T, "MOD_ShowPic", (BYTE)dat->bShowAvatar);
 	}
+
+	RECT rc;
 	GetWindowRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), &rc);
 	if (dat->minEditBoxSize.cy + DPISCALEY_S(3) > dat->splitterY)
 		SendMessage(hwndDlg, DM_SPLITTERMOVED, (WPARAM)rc.bottom - dat->minEditBoxSize.cy, (LPARAM)GetDlgItem(hwndDlg, IDC_SPLITTER));
@@ -863,7 +860,6 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dw
 
 BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 {
-	TCHAR * p1;
 	BOOL bJustRemovedRTF = TRUE;
 	BOOL bTextHasStarted = FALSE;
 	static int inColor = 0;
@@ -881,7 +877,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 	Utils::CreateColorMap(pszText);
 	// scan the file for rtf commands and remove or parse them
 	inColor = 0;
-	p1 = _tcsstr(pszText, _T("\\pard"));
+	TCHAR *p1 = _tcsstr(pszText, _T("\\pard"));
 	if (!p1)
 		return FALSE;
 
@@ -1140,41 +1136,6 @@ UINT TSAPI GetIEViewMode(HWND hwndDlg, MCONTACT hContact)
 	return iWantHPP ? WANT_HPP_LOG : (iWantIEView ? WANT_IEVIEW_LOG : 0);
 }
 
-#if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-static void CheckAndDestroyHPP(TWindowData *dat)
-{
-	if (dat->hwndHPP) {
-		IEVIEWWINDOW ieWindow;
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-		ieWindow.iType = IEW_DESTROY;
-		ieWindow.hwnd = dat->hwndHPP;
-		if (dat->oldIEViewProc) {
-			SetWindowLongPtr(dat->hwndHPP, GWLP_WNDPROC, (LONG_PTR)dat->oldIEViewProc);
-			dat->oldIEViewProc = 0;
-		}
-		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
-		dat->hwndHPP = 0;
-	}
-}
-
-void TSAPI CheckAndDestroyIEView(TWindowData *dat)
-{
-	if (dat->hwndIEView) {
-		IEVIEWWINDOW ieWindow;
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-		ieWindow.iType = IEW_DESTROY;
-		ieWindow.hwnd = dat->hwndIEView;
-		if (dat->oldIEViewProc){
-			SetWindowLongPtr(dat->hwndIEView, GWLP_WNDPROC, (LONG_PTR)dat->oldIEViewProc);
-			dat->oldIEViewProc =0;
-		}
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-		dat->oldIEViewProc = 0;
-		dat->hwndIEView = 0;
-	}
-}
-#endif
-
 void TSAPI SetMessageLog(TWindowData *dat)
 {
 	HWND		 hwndDlg = dat->hwnd;
@@ -1184,9 +1145,6 @@ void TSAPI SetMessageLog(TWindowData *dat)
 		IEVIEWWINDOW ieWindow;
 
 		ZeroMemory(&ieWindow, sizeof(ieWindow));
-#if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-		CheckAndDestroyHPP(dat);
-#endif
 		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_CREATE;
 		ieWindow.dwFlags = 0;
@@ -1203,9 +1161,6 @@ void TSAPI SetMessageLog(TWindowData *dat)
 	}
 	else if (iLogMode == WANT_HPP_LOG && dat->hwndHPP == 0) {
 		IEVIEWWINDOW ieWindow;
-#if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-		CheckAndDestroyIEView(dat);
-#endif
 		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_CREATE;
 		ieWindow.dwFlags = 0;
@@ -1220,51 +1175,7 @@ void TSAPI SetMessageLog(TWindowData *dat)
 		Utils::showDlgControl(hwndDlg, IDC_LOG, SW_HIDE);
 		Utils::enableDlgControl(hwndDlg, IDC_LOG, FALSE);
 	}
-	else {
-#if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-		if (iLogMode != WANT_IEVIEW_LOG)
-			CheckAndDestroyIEView(dat);
-		if (iLogMode != WANT_HPP_LOG)
-			CheckAndDestroyHPP(dat);
-		Utils::showDlgControl(hwndDlg, IDC_LOG, SW_SHOW);
-		Utils::enableDlgControl(hwndDlg, IDC_LOG, TRUE);
-		dat->hwndIEView = 0;
-		dat->hwndIWebBrowserControl = 0;
-		dat->hwndHPP = 0;
-#endif
-	}
 }
-
-#if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-void TSAPI SwitchMessageLog(TWindowData *dat, int iMode)
-{
-	HWND hwndDlg = dat->hwnd;
-
-	if (iMode) {           // switch from rtf to IEview or hpp
-		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
-		Utils::enableDlgControl(hwndDlg, IDC_LOG, FALSE);
-		Utils::showDlgControl(hwndDlg, IDC_LOG, SW_HIDE);
-		SetMessageLog(dat);
-	} else                    // switch from IEView or hpp to rtf
-		SetMessageLog(dat);
-
-	SetDialogToType(hwndDlg);
-	SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-	SendMessage(hwndDlg, WM_SIZE, 0, 0);
-
-	if (dat->hwndIEView) {
-		if (M.GetByte("subclassIEView", 0)&&dat->oldIEViewProc == 0) {
-			WNDPROC wndProc = (WNDPROC)SetWindowLongPtr(dat->hwndIEView, GWLP_WNDPROC, (LONG_PTR)IEViewSubclassProc);
-			dat->oldIEViewProc = wndProc;
-		}
-	} else if (dat->hwndHPP) {
-		if (dat->oldIEViewProc == 0) {
-			WNDPROC wndProc = (WNDPROC)SetWindowLongPtr(dat->hwndHPP, GWLP_WNDPROC, (LONG_PTR)HPPKFSubclassProc);
-			dat->oldIEViewProc = wndProc;
-		}
-	}
-}
-#endif
 
 void TSAPI FindFirstEvent(TWindowData *dat)
 {
@@ -1480,23 +1391,23 @@ void TSAPI LoadContactAvatar(TWindowData *dat)
 
 	dat->ace = Utils::loadAvatarFromAVS(dat->bIsMeta ? db_mc_getSrmmSub(dat->hContact) : dat->hContact);
 
-	if (!dat->Panel->isActive() || dat->pContainer->avatarMode == 3) {
-		BITMAP bm;
-		dat->iRealAvatarHeight = 0;
+	BITMAP bm;
+	if (dat->ace && dat->ace->hbmPic)
+		GetObject(dat->ace->hbmPic, sizeof(bm), &bm);
+	else if (dat->ace == NULL)
+		GetObject(PluginConfig.g_hbmUnknown, sizeof(bm), &bm);
+	else
+		return;
 
-		if (dat->ace && dat->ace->hbmPic) {
-			AdjustBottomAvatarDisplay(dat);
-			GetObject(dat->ace->hbmPic, sizeof(bm), &bm);
-			CalcDynamicAvatarSize(dat, &bm);
-			PostMessage(dat->hwnd, WM_SIZE, 0, 0);
-		}
-		else if (dat->ace == NULL) {
-			AdjustBottomAvatarDisplay(dat);
-			GetObject(PluginConfig.g_hbmUnknown, sizeof(bm), &bm);
-			CalcDynamicAvatarSize(dat, &bm);
-			PostMessage(dat->hwnd, WM_SIZE, 0, 0);
-		}
+	AdjustBottomAvatarDisplay(dat);
+	CalcDynamicAvatarSize(dat, &bm);
+
+	if (!dat->Panel->isActive() || dat->pContainer->avatarMode == 3) {
+		dat->iRealAvatarHeight = 0;
+		PostMessage(dat->hwnd, WM_SIZE, 0, 0);
 	}
+	else if (dat->Panel->isActive())
+		GetAvatarVisibility(dat->hwnd, dat);
 }
 
 void TSAPI LoadOwnAvatar(TWindowData *dat)
@@ -1772,30 +1683,9 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				rcFrame.top += height_off;
 				rcFrame.bottom += height_off;
 
-				// prepare border drawing (if avatar is rendered by ACC, the parent control will be responsible for
-				// the border, so skip it here)
-				if (dat->hwndPanelPic == 0) {
-					OffsetRect(&rcClient, -2, 0);
-					if (CSkin::m_bAvatarBorderType == 1)
-						clipRgn = CreateRectRgn(rcClient.left + rcFrame.left, rcClient.top + rcFrame.top, rcClient.left + rcFrame.right,
-						rcClient.top + rcFrame.bottom);
-					else if (CSkin::m_bAvatarBorderType == 2) {
-						clipRgn = CreateRoundRectRgn(rcClient.left + rcFrame.left, rcClient.top + rcFrame.top, rcClient.left + rcFrame.right + 1,
-							rcClient.top + rcFrame.bottom + 1, iRad, iRad);
-						SelectClipRgn(dis->hDC, clipRgn);
-					}
-				}
-
-				if (dat->hwndPanelPic) {
-					// paint avatar using ACC
-					SendMessage(dat->hwndPanelPic, AVATAR_SETAEROCOMPATDRAWING, 0, bAero ? TRUE : FALSE);
-					SetWindowPos(dat->hwndPanelPic, HWND_TOP, rcFrame.left + border_off, rcFrame.top + border_off,
-						rb.max_width, rb.max_height, SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOSENDCHANGING);
-				}
-				else
-					GdiAlphaBlend(dis->hDC, rcClient.left + rcFrame.left + border_off, rcClient.top + rcFrame.top + border_off,
-						rb.max_width, rb.max_height, hdcMem, 0, 0,
-						rb.max_width, rb.max_height, CSkin::m_default_bf);
+				SendMessage(dat->hwndPanelPic, AVATAR_SETAEROCOMPATDRAWING, 0, bAero ? TRUE : FALSE);
+				SetWindowPos(dat->hwndPanelPic, HWND_TOP, rcFrame.left + border_off, rcFrame.top + border_off,
+					rb.max_width, rb.max_height, SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOSENDCHANGING);
 
 				SelectObject(hdcMem, hbmMem);
 				DeleteDC(hdcMem);
