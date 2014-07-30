@@ -178,7 +178,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					db_set_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK);
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
 					BYTE oldMode = db_get_b(NULL, MODNAME, "UpdateMode",0);
-					if(oldMode == UPDATE_MODE_TRUNK_SYMBOLS) {
+					 if(oldMode != UPDATE_MODE_TRUNK_SYMBOLS) {
 						opts.bForceRedownload = true;
 						db_set_b(NULL, MODNAME, "ForceRedownload", 1);
 					}
