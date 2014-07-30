@@ -174,7 +174,7 @@ void CInfoPanel::showHide() const
 	HWND hwndDlg = m_dat->hwnd;
 
 	if (!m_isChat) {
-		::ShowWindow(m_dat->hwndPanelPicParent, m_active && (m_dat->hwndPanelPic || m_dat->hwndFlash) ? SW_SHOW : SW_HIDE);
+		::ShowWindow(m_dat->hwndPanelPicParent, m_active && m_dat->hwndPanelPic ? SW_SHOW : SW_HIDE);
 
 		m_dat->iRealAvatarHeight = 0;
 		::AdjustBottomAvatarDisplay(m_dat);
@@ -1009,7 +1009,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 
 		GetClientRect(hwnd, &rcItem);
 		rc = rcItem;
-		if (!IsWindowEnabled(hwnd) || !dat->Panel->isActive() || dat->showInfoPic == 0)
+		if (!IsWindowEnabled(hwnd) || !dat->Panel->isActive() || !dat->bShowInfoAvatar)
 			return TRUE;
 
 		HDC dcWin = (HDC)wParam;

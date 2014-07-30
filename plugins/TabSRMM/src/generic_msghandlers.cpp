@@ -1373,8 +1373,8 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (!lParam)
 		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 
-	ShowWindow(dat->hwndPanelPicParent, PluginConfig.g_bDisableAniAvatars ? SW_HIDE : SW_SHOW);
-	EnableWindow(dat->hwndPanelPicParent, PluginConfig.g_bDisableAniAvatars ? FALSE : TRUE);
+	ShowWindow(dat->hwndPanelPicParent, SW_SHOW);
+	EnableWindow(dat->hwndPanelPicParent, TRUE);
 
 	SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 }

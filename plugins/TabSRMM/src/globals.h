@@ -113,7 +113,6 @@ public:
    BOOL        g_bSoundOnTyping;
    BOOL        m_AllowTab;
    BYTE        m_AllowOfflineMultisend;
-   BOOL        g_bDisableAniAvatars;
    HBITMAP     m_hbmMsgArea;
    BYTE        g_iButtonsBarGap;
    BYTE        m_WinVerMajor;

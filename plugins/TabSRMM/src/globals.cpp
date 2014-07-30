@@ -235,7 +235,6 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 
 void CGlobals::reloadAdv()
 {
-	g_bDisableAniAvatars = M.GetByte("adv_DisableAniAvatars", 0);
 	g_bSoundOnTyping = M.GetByte("adv_soundontyping", 0);
 	m_dontUseDefaultKbd = M.GetByte("adv_leaveKeyboardAlone", 1);
 

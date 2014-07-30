@@ -461,7 +461,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	DM_RecalcPictureSize(dat);
 	GetAvatarVisibility(hwndDlg, dat);
 
-	Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->showPic ? SW_SHOW : SW_HIDE);
+	Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->bShowAvatar ? SW_SHOW : SW_HIDE);
 	Utils::showDlgControl(hwndDlg, IDC_SPLITTER, dat->bIsAutosizingInput ? SW_HIDE : SW_SHOW);
 	Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, (dat->sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 
@@ -1040,7 +1040,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 		GetClientRect(GetDlgItem(hwndDlg, IDC_MESSAGE), &rc);
 		urc->rcItem.top -= dat->splitterY - dat->originalSplitterY;
 		urc->rcItem.left = urc->rcItem.right - (dat->pic.cx + 2);
-		if ((urc->rcItem.bottom - urc->rcItem.top) < (dat->pic.cy/* + 2*/) && dat->showPic) {
+		if ((urc->rcItem.bottom - urc->rcItem.top) < (dat->pic.cy/* + 2*/) && dat->bShowAvatar) {
 			urc->rcItem.top = urc->rcItem.bottom - dat->pic.cy;
 			dat->fMustOffset = true;
 		}
@@ -1073,7 +1073,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 
 	case IDC_MESSAGE:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		if (dat->showPic)
+		if (dat->bShowAvatar)
 			urc->rcItem.right -= dat->pic.cx + 2;
 		urc->rcItem.top -= dat->splitterY - dat->originalSplitterY;
 		if (bBottomToolbar&&showToolbar)
@@ -1304,7 +1304,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				dat->Panel->loadHeight();
 			}
 
-			dat->showPic = GetAvatarVisibility(hwndDlg, dat);
+			dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
 
 			RECT rc;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYBTN), &rc);
@@ -1639,7 +1639,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			rc.right = cx;
 			rc.bottom--;
 
-			if (dat->showInfoPic && (dat->hwndPanelPic || dat->hwndFlash)) {
+			if (dat->bShowInfoAvatar && dat->hwndPanelPic) {
 				SetWindowPos(dat->hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, (rc.bottom - rc.top) + 1, 0);
 				ShowWindow(dat->hwndPanelPicParent, (dat->panelWidth == -1) || !dat->Panel->isActive() ? SW_HIDE : SW_SHOW);
 			}
@@ -2645,7 +2645,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (PtInRect(&rcPicture, pt))
 				menuID = MENU_PICMENU;
 
-			if ((menuID == MENU_PICMENU && ((dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) || dat->hOwnPic) && dat->showPic != 0)) {
+			if ((menuID == MENU_PICMENU && ((dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) || dat->hOwnPic) && dat->bShowAvatar != 0)) {
 				HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, menuID == MENU_PICMENU ? 1 : 11);
 				GetCursorPos(&pt);
 				MsgWindowUpdateMenu(dat, submenu, menuID);

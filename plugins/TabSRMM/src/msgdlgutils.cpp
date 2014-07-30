@@ -549,49 +549,46 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 	char hideOverride = (char)M.GetByte(dat->hContact, "hideavatar", -1);
 
 	// infopanel visible, consider own avatar display
-	dat->showPic = 0;
+	dat->bShowAvatar = false;
 
 	if (dat->Panel->isActive() && bAvatarMode != 3) {
-		if (bOwnAvatarMode)
-			dat->showPic = false;
-		else {
-			dat->showPic = (dat->hOwnPic && dat->hOwnPic != PluginConfig.g_hbmUnknown) ? 1 : 0;
-			if (!PluginConfig.g_bDisableAniAvatars && !dat->hwndContactPic)
+		if (!bOwnAvatarMode) {
+			dat->bShowAvatar = (dat->hOwnPic && dat->hOwnPic != PluginConfig.g_hbmUnknown);
+			if (!dat->hwndContactPic)
 				dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
 		}
 
 		switch (bAvatarMode) {
 		case 2:
-			dat->showInfoPic = 0;
+			dat->bShowInfoAvatar = false;
 			break;
 		case 0:
-			dat->showInfoPic = 1;
+			dat->bShowInfoAvatar = true;
 		case 1:
 			HBITMAP hbm = ((dat->ace && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) ? dat->ace->hbmPic : 0);
-
-			if (0 == hbm && 0 == bAvatarMode && !PluginConfig.g_bDisableAniAvatars) {
-				dat->showInfoPic = 0;
+			if (hbm == NULL && !bAvatarMode) {
+				dat->bShowInfoAvatar = false;
 				break;
 			}
 
-			if (!PluginConfig.g_bDisableAniAvatars && !dat->hwndPanelPic) {
+			if (!dat->hwndPanelPic) {
 				dat->hwndPanelPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, dat->hwndPanelPicParent, (HMENU)7000, NULL, NULL);
 				if (dat->hwndPanelPic)
 					SendMessage(dat->hwndPanelPic, AVATAR_SETAEROCOMPATDRAWING, 0, TRUE);
 			}
 
 			if (bAvatarMode != 0)
-				dat->showInfoPic = (hbm && hbm != PluginConfig.g_hbmUnknown);
+				dat->bShowInfoAvatar = (hbm && hbm != PluginConfig.g_hbmUnknown);
 			break;
 		}
 
-		if (dat->showInfoPic)
-			dat->showInfoPic = hideOverride == 0 ? 0 : dat->showInfoPic;
+		if (dat->bShowInfoAvatar)
+			dat->bShowInfoAvatar = hideOverride == 0 ? false : dat->bShowInfoAvatar;
 		else
-			dat->showInfoPic = hideOverride == 1 ? 1 : dat->showInfoPic;
+			dat->bShowInfoAvatar = hideOverride == 1 ? true : dat->bShowInfoAvatar;
 
 		// reloads avatars
-		if (dat->showInfoPic) {
+		if (dat->bShowInfoAvatar) {
 			// panel and contact is shown, reloads contact's avatar -> panel
 			// user avatar -> bottom picture
 			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
@@ -605,40 +602,40 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		}
 	}
 	else {
-		dat->showInfoPic = 0;
+		dat->bShowInfoAvatar = false;
 
 		switch (bAvatarMode) {
 		case 0: // globally on
-			dat->showPic = 1;
+			dat->bShowAvatar = true;
 			break;
 		case 2: // globally OFF
-			dat->showPic = 0;
+			dat->bShowAvatar = false;
 			break;
 		case 3: // on, if present
 		case 1:
 			HBITMAP hbm = (dat->ace && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) ? dat->ace->hbmPic : 0;
 
-			if (!PluginConfig.g_bDisableAniAvatars && !dat->hwndContactPic)
+			if (!dat->hwndContactPic)
 				dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
 
-			dat->showPic = (hbm && hbm != PluginConfig.g_hbmUnknown);
+			dat->bShowAvatar = (hbm && hbm != PluginConfig.g_hbmUnknown);
 			break;
 		}
 
-		if (dat->showPic)
-			dat->showPic = hideOverride == 0 ? 0 : dat->showPic;
+		if (dat->bShowAvatar)
+			dat->bShowAvatar = hideOverride == 0 ? 0 : dat->bShowAvatar;
 		else
-			dat->showPic = hideOverride == 1 ? 1 : dat->showPic;
+			dat->bShowAvatar = hideOverride == 1 ? 1 : dat->bShowAvatar;
 
 		// reloads avatars
-		if (dat->showPic)
+		if (dat->bShowAvatar)
 			if (dat->hwndPanelPic) // shows contact or user picture, depending on panel visibility
 				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 		
 		if (dat->hwndContactPic)
 			Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
 	}
-	return dat->showPic;
+	return dat->bShowAvatar;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -728,17 +725,17 @@ void TSAPI AdjustBottomAvatarDisplay(TWindowData *dat)
 
 		HBITMAP hbm = (bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
 		if (hbm) {
-			dat->showPic = GetAvatarVisibility(hwndDlg, dat);
+			dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
 			if (dat->dynaSplitter == 0 || dat->splitterY == 0)
 				LoadSplitter(dat);
 			dat->dynaSplitter = dat->splitterY - DPISCALEY_S(34);
 			DM_RecalcPictureSize(dat);
-			Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->showPic ? SW_SHOW : SW_HIDE);
+			Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->bShowAvatar ? SW_SHOW : SW_HIDE);
 			InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
 		}
 		else {
-			dat->showPic = GetAvatarVisibility(hwndDlg, dat);
-			Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->showPic ? SW_SHOW : SW_HIDE);
+			dat->bShowAvatar = GetAvatarVisibility(hwndDlg, dat);
+			Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->bShowAvatar ? SW_SHOW : SW_HIDE);
 			dat->pic.cy = dat->pic.cx = DPISCALEY_S(60);
 			InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
 		}
@@ -767,8 +764,8 @@ void TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic)
 		AdjustBottomAvatarDisplay(dat);
 	}
 	else {
-		dat->showPic = dat->showPic ? 0 : 1;
-		db_set_b(dat->hContact, SRMSGMOD_T, "MOD_ShowPic", (BYTE)dat->showPic);
+		dat->bShowAvatar = dat->bShowAvatar ? 0 : 1;
+		db_set_b(dat->hContact, SRMSGMOD_T, "MOD_ShowPic", (BYTE)dat->bShowAvatar);
 	}
 	GetWindowRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), &rc);
 	if (dat->minEditBoxSize.cy + DPISCALEY_S(3) > dat->splitterY)
@@ -1613,7 +1610,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 	}
 	
 	HBITMAP hbmAvatar = dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown;
-	if ((dis->hwndItem == GetDlgItem(hwndDlg, IDC_CONTACTPIC) && dat->showPic) || (dis->hwndItem == hwndDlg && dat->Panel->isActive())) {
+	if ((dis->hwndItem == GetDlgItem(hwndDlg, IDC_CONTACTPIC) && dat->bShowAvatar) || (dis->hwndItem == hwndDlg && dat->Panel->isActive())) {
 		if (hbmAvatar == NULL)
 			return TRUE;
 
@@ -1630,7 +1627,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		if (bPanelPic) {
 			GetObject(hbmAvatar, sizeof(bminfo), &bminfo);
 
-			if ((dat->ace && dat->showInfoPic && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) || dat->showInfoPic)
+			if ((dat->ace && dat->bShowInfoAvatar && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) || dat->bShowInfoAvatar)
 				aceFlags = dat->ace ? dat->ace->dwFlags : 0;
 			else {
 				if (dat->panelWidth) {
@@ -1745,7 +1742,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			DeleteObject(hPenBorder);
 		}
 
-		if (((bDrawOwnAvatar ? dat->hOwnPic : hbmAvatar) && dat->showPic) || bPanelPic) {
+		if (((bDrawOwnAvatar ? dat->hOwnPic : hbmAvatar) && dat->bShowAvatar) || bPanelPic) {
 			HDC hdcMem = CreateCompatibleDC(dis->hDC);
 			HBITMAP hbmMem = 0;
 			if (bPanelPic) {
@@ -1761,7 +1758,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				rb.max_width = (int)(dNewWidth - (bBorder ? 2 : 0));
 				rb.hBmp = hbmAvatar;
 
-				HBITMAP hbmNew = (HBITMAP)CallService("IMG/ResizeBitmap", (WPARAM)&rb, 0);
+				HBITMAP hbmNew = (HBITMAP)CallService(MS_IMG_RESIZE, (WPARAM)&rb, 0);
 				hbmMem = (HBITMAP)SelectObject(hdcMem, hbmNew);
 
 				rcFrame.left = rcFrame.top = 0;

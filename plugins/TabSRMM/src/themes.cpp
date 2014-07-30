@@ -2151,7 +2151,7 @@ HBITMAP CSkin::ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &must
 		rb.max_width = width;
 		rb.hBmp = hBmpSrc;
 
-		HBITMAP hbmNew = (HBITMAP)CallService("IMG/ResizeBitmap", (WPARAM)&rb, 0);
+		HBITMAP hbmNew = (HBITMAP)CallService(MS_IMG_RESIZE, (WPARAM)&rb, 0);
 		if (hbmNew != hBmpSrc)
 			mustFree = true;
 		return(hbmNew);

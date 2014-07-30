@@ -258,7 +258,7 @@ struct TWindowData
    HICON    iFlashIcon;
    BOOL     mayFlashTab;
    BOOL     bTabFlash;
-   HWND     hwndIEView, hwndFlash, hwndIWebBrowserControl, hwndHPP;
+   HWND     hwndIEView, hwndIWebBrowserControl, hwndHPP;
    HWND     hwndContactPic, hwndPanelPic, hwndPanelPicParent;
    UINT     bbLSideWidth;  //MAD
    UINT     bbRSideWidth;    //MAD
@@ -283,7 +283,7 @@ struct TWindowData
 	DWORD    dwTickLastEvent, dwUnread;
 	HBITMAP  hOwnPic;
 	SIZE     pic;
-	bool     showPic, showInfoPic;
+	bool     bShowAvatar, bShowInfoAvatar;
 	bool     fMustOffset;
 	bool     isHistory;
 	int      doSmileys;

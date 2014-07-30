@@ -397,7 +397,7 @@ int AvatarChanged(WPARAM wParam, LPARAM lParam)
 				DestroyIcon(dat->hTaskbarIcon);
 			dat->hTaskbarIcon = 0;
 			DM_RecalcPictureSize(dat);
-			if (dat->showPic == 0 || dat->showInfoPic == 0)
+			if (!dat->bShowAvatar || !dat->bShowInfoAvatar)
 				GetAvatarVisibility(hwnd, dat);
 			if (dat->hwndPanelPic) {
 				dat->panelWidth = -1;				// force new size calculations (not for flash avatars)
