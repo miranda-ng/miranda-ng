@@ -26,9 +26,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char *name, const char *message, DWORD timestamp)
 {
+	// replace % to %% to not interfere with chat color codes
+	std::string smessage = message;
+	utils::text::replace_all(&smessage, "%", "%%");
+
 	ptrT tid( mir_a2t(id));
 	ptrT tnick( mir_a2t_cp(name,CP_UTF8));
-	ptrT ttext( mir_a2t_cp(message,CP_UTF8));
+	ptrT ttext( mir_a2t_cp(smessage.c_str(),CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, tchat_id, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };

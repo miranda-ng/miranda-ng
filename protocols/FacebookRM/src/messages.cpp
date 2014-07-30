@@ -80,6 +80,9 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	send_chat *data = static_cast<send_chat*>(p);
 	std::string err_message = "";
 
+	// replace %% back to %, because chat automatically does this to sent messages
+	utils::text::replace_all(&data->msg, "%%", "%");
+
 	MCONTACT hContact = ChatIDToHContact(std::tstring(_A2T(data->chat_id.c_str())));
 	if (hContact) {		
 		std::string tid;
