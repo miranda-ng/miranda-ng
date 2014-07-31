@@ -374,6 +374,7 @@ static void DrawText(HDC hdc, HFONT hFont, const RECT &rc, const TCHAR *text)
 static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ACCData *data = (ACCData*)GetWindowLongPtr(hwnd, 0);
+	char *szProto;
 
 	switch (msg) {
 	case WM_NCCREATE:
@@ -414,33 +415,37 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case AVATAR_SETCONTACT:
-		DestroyAnimation(hwnd, data);
+		if (lParam == 0)
+			return FALSE;
 
-		data->hContact = lParam;
-		if (lParam == NULL)
-			data->proto[0] = '\0';
-		else
-			lstrcpynA(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
+		if (data->hContact != lParam) {
+			DestroyAnimation(hwnd, data);
 
-		StartAnimation(hwnd, data);
+			data->hContact = lParam;
+			if (lParam == NULL)
+				data->proto[0] = '\0';
+			else
+				lstrcpynA(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
 
-		NotifyAvatarChange(hwnd);
-		Invalidate(hwnd);
+			StartAnimation(hwnd, data);
+
+			NotifyAvatarChange(hwnd);
+			Invalidate(hwnd);
+		}
 		return TRUE;
 
 	case AVATAR_SETPROTOCOL:
-		DestroyAnimation(hwnd, data);
+		szProto = (lParam == NULL) ? "" : (char*)lParam;
+		if (data->hContact != 0 || strcmp(szProto, data->proto)) {
+			DestroyAnimation(hwnd, data);
 
-		data->hContact = NULL;
-		if (lParam == NULL)
-			data->proto[0] = '\0';
-		else
-			lstrcpynA(data->proto, (char *)lParam, sizeof(data->proto));
+			data->hContact = NULL;
+			strncpy_s(data->proto, szProto, _TRUNCATE);
 
-		StartAnimation(hwnd, data);
-
-		NotifyAvatarChange(hwnd);
-		Invalidate(hwnd);
+			StartAnimation(hwnd, data);
+			NotifyAvatarChange(hwnd);
+			Invalidate(hwnd);
+		}
 		return TRUE;
 
 	case AVATAR_SETBKGCOLOR:
