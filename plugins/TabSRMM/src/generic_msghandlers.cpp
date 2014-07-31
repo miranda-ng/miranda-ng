@@ -168,7 +168,7 @@ LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, TWindowData *dat)
 		}
 		break;
 	case TABSRMM_HK_TOGGLEINFOPANEL:
-		dat->Panel->setActive(dat->Panel->isActive() ? FALSE : TRUE);
+		dat->Panel->setActive(!dat->Panel->isActive());
 		dat->Panel->showHide();
 		return 1;
 	case TABSRMM_HK_EMOTICONS:
