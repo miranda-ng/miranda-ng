@@ -153,11 +153,13 @@ MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bW
 	if (contact_number == -1) 
 		return 1;
 
-	cc->nDefault = contact_number;
-	if (bWriteDb)
-		currDb->MetaSetDefault(cc);
-	
-	NotifyEventHooks(hEventDefaultChanged, hMetaContact, hSub);
+	if (cc->nDefault != contact_number) {
+		cc->nDefault = contact_number;
+		if (bWriteDb)
+			currDb->MetaSetDefault(cc);
+
+		NotifyEventHooks(hEventDefaultChanged, hMetaContact, hSub);
+	}
 	return 0;
 }
 
@@ -170,11 +172,13 @@ MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWri
 	if (iNum >= cc->nSubs || iNum < 0)
 		return 1;
 
-	cc->nDefault = iNum;
-	if (bWriteDb)
-		currDb->MetaSetDefault(cc);
+	if (cc->nDefault != iNum) {
+		cc->nDefault = iNum;
+		if (bWriteDb)
+			currDb->MetaSetDefault(cc);
 
-	NotifyEventHooks(hEventDefaultChanged, hMetaContact, Meta_GetContactHandle(cc, iNum));
+		NotifyEventHooks(hEventDefaultChanged, hMetaContact, Meta_GetContactHandle(cc, iNum));
+	}
 	return 0;
 }
 
