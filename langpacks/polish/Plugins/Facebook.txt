@@ -171,10 +171,18 @@ Błąd podczas usuwania kontaktu z serwera.
 Zaproszenie zostało wysłane.
 [Error occurred when requesting friendship.]
 Błąd podczas zapraszania do grona znajomych.
+[Request for friendship was accepted.]
+Prośba o dodanie do znajomych została zaakceptowana.
+[Error occurred when accepting friendship request.]
+Wystąpił błąd podczas akceptowania prośby o dodanie do znajomych.
 [Request for friendship was canceled.]
 Zaproszenie zostało cofnięte.
 [Error occurred when canceling friendship request.]
 Wystąpił błąd podczas anulowania zaproszenia do grona znajomych
+[Request for friendship was ignored.]
+Prośba o dodanie do znajomych została zignorowana.
+[Error occurred when ignoring friendship request.]
+Wystąpił błąd podczas ignorowania prośby o dodanie do znajomych.
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Domyślny
@@ -289,6 +297,8 @@ Cofnij zaproszenie
 Zaproś do grona znajomych
 [Approve friendship]
 Zatwierdź znajomość
+[Deny friendship request]
+Odrzuć prośbę o dodanie do znajomych
 [Services...]
 Usługi...
 [Refresh Buddy List]
