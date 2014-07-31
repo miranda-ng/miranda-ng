@@ -37,7 +37,6 @@ void FreeXSC(XSTATUSCHANGE *xsc)
 		mir_free(xsc->stzTitle);
 		mir_free(xsc->stzText);
 		mir_free(xsc);
-		xsc = NULL;
 	}
 }
 
@@ -236,8 +235,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 
 	if (copyText) {
 		mir_free(xsc->stzText);
-		xsc->stzText = mir_tstrdup(copyText);
-		mir_free(copyText);
+		xsc->stzText = copyText;
 	}
 }
 
@@ -263,10 +261,8 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 			}
 			break;
 		case TYPE_ICQ_XSTATUS:
-			{
-				int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
-				hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
-			}
+			int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
+			hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
 		}
 	}
 
@@ -534,32 +530,14 @@ void AddXStatusEventThread(void *arg)
 void AddSMsgEventThread(void *arg)
 {
 	MCONTACT hContact = (MCONTACT)arg;
-	STATUSMSGINFO smi;
 
+	STATUSMSGINFO smi;
 	smi.hContact = hContact;
 	smi.proto = GetContactProto(hContact);
 	if (smi.proto == NULL)
 		return;
 
-	DBVARIANT dbv;
-	if (!db_get_s(smi.hContact, "CList", "StatusMsg", &dbv, 0)) {
-		switch (dbv.type) {
-		case DBVT_ASCIIZ:
-			smi.newstatusmsg = mir_dupToUnicodeEx(dbv.pszVal, CP_ACP);
-			break;
-		case DBVT_UTF8:
-			smi.newstatusmsg = mir_dupToUnicodeEx(dbv.pszVal, CP_UTF8);
-			break;
-		case DBVT_WCHAR:
-			smi.newstatusmsg = mir_wstrdup(dbv.pwszVal);
-			break;
-		default:
-			smi.newstatusmsg = NULL;
-			break;
-		}
-		db_free(&dbv);
-	}
-
+	smi.newstatusmsg = db_get_tsa(smi.hContact, "CList", "StatusMsg");
 	LogSMsgToDB(&smi, templates.LogSMsgOpening);
 	mir_free(smi.newstatusmsg);
 }

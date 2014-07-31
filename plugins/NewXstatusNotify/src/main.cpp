@@ -535,7 +535,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 {
 	XSTATUSCHANGE *xsc;
-	STATUSMSGINFO smi;
+	STATUSMSGINFO smi = { 0 };
 	char *szProto = GetContactProto(hContact);
 	smi.hContact = hContact;
 
@@ -556,8 +556,8 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			if (strstr(cws->szSetting, "title")) {
 				smi.compare = CompareStatusMsg(&smi, cws, szSetting);
 				if (smi.compare == COMPARE_SAME) {
-					mir_free(smi.newstatusmsg);
-					mir_free(smi.oldstatusmsg);
+					replaceStrT(smi.newstatusmsg, 0);
+					replaceStrT(smi.oldstatusmsg, 0);
 				}
 
 				if (cws->value.type == DBVT_DELETED)
@@ -573,8 +573,8 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s%s", szSetting, "Msg");
 				smi.compare = CompareStatusMsg(&smi, cws, dbSetting);
 				if (smi.compare == COMPARE_SAME) {
-					mir_free(smi.newstatusmsg);
-					mir_free(smi.oldstatusmsg);
+					replaceStrT(smi.newstatusmsg, 0);
+					replaceStrT(smi.oldstatusmsg, 0);
 				}
 
 				if (cws->value.type == DBVT_DELETED)
@@ -595,8 +595,8 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		if (strcmp(cws->szSetting, "XStatusName") == 0) {
 			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusName");
 			if (smi.compare == COMPARE_SAME) {
-				mir_free(smi.newstatusmsg);
-				mir_free(smi.oldstatusmsg);
+				replaceStrT(smi.newstatusmsg, 0);
+				replaceStrT(smi.oldstatusmsg, 0);
 			}
 
 			if (cws->value.type == DBVT_DELETED)
@@ -610,8 +610,8 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		else if (!strcmp(cws->szSetting, "XStatusMsg")/* || strcmp(cws->szSetting, "StatusNote") == 0*/) {
 			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusMsg");
 			if (smi.compare == COMPARE_SAME) {
-				mir_free(smi.newstatusmsg);
-				mir_free(smi.oldstatusmsg);
+				replaceStrT(smi.newstatusmsg, 0);
+				replaceStrT(smi.oldstatusmsg, 0);
 			}
 
 			if (cws->value.type == DBVT_DELETED)
@@ -706,8 +706,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			_tcsncpy(buff, smi.newstatusmsg, opt.PSMsgLen);
 			buff[opt.PSMsgLen] = 0;
 			_tcscat(buff, _T("..."));
-			mir_free(smi.newstatusmsg);
-			smi.newstatusmsg = mir_tstrdup(buff);
+			replaceStrT(smi.newstatusmsg, buff);
 		}
 
 		TCHAR *str, protoname[MAX_PATH] = { 0 };
@@ -745,8 +744,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 
 		if (copyText) {
 			mir_free(smi.newstatusmsg);
-			smi.newstatusmsg = mir_tstrdup(copyText);
-			mir_free(copyText);
+			smi.newstatusmsg = copyText;
 		}
 	}
 
@@ -787,9 +785,10 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		LogToFile(stzText);
 		mir_free(str);
 	}
+
 skip_notify:
-	mir_free(smi.newstatusmsg);
-	mir_free(smi.oldstatusmsg);
+	replaceStrT(smi.newstatusmsg, 0);
+	replaceStrT(smi.oldstatusmsg, 0);
 	return 1;
 }
 
