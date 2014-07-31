@@ -56,7 +56,8 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		if (cc->IsSub()) {
 			ccSub = cc;
 			// set default sub to the event's source
-			db_mc_setDefault(cc->parentID, contactID, false);
+			if (!(dbei->flags & DBEF_SENT))
+				db_mc_setDefault(cc->parentID, contactID, false);
 			contactID = cc->parentID; // and add an event to a metahistory
 			if (db_mc_isEnabled())
 				contactNotifyID = contactID;
