@@ -21,7 +21,6 @@
 
 #include "common.h"
 
-
 // From NewEventNotify :-)
 bool CheckMsgWnd(MCONTACT hContact)
 {
@@ -33,7 +32,7 @@ bool CheckMsgWnd(MCONTACT hContact)
 	MessageWindowData mwd;
 	mwd.cbSize = sizeof(MessageWindowData);
 	mwd.hContact = hContact;
-	if (CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd) != NULL)
+	if (CallService(MS_MSG_GETWINDOWDATA, (WPARAM)&mwid, (LPARAM)&mwd) != NULL)
 		return false;
 
 	if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
@@ -42,43 +41,17 @@ bool CheckMsgWnd(MCONTACT hContact)
 	return false;
 }
 
-
-
-TCHAR *db2t(DBVARIANT *dbv)
-{
-	TCHAR *buff;
-	switch (dbv->type) {
-		case DBVT_ASCIIZ: buff = mir_a2t(dbv->pszVal); break;
-		case DBVT_WCHAR: buff = mir_tstrdup(dbv->ptszVal); break;
-		case DBVT_UTF8: buff = mir_utf8decodeT(dbv->pszVal); break;
-		default: return NULL;
-	}
-
-	if (buff[0] == 0) {
-		mir_free(buff);
-		buff = NULL;
-	}
-		
-	return buff;
-}
-
 int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSetting, TCHAR *setting, int size, const TCHAR *defaultValue)
 {
 	DBVARIANT dbv;
-	if ( !db_get_ts(hContact, szModule, szSetting, &dbv)) {
+	if (!db_get_ts(hContact, szModule, szSetting, &dbv)) {
 		_tcsncpy(setting, dbv.ptszVal, size);
 		db_free(&dbv);
 		return 0;
-	} 
+	}
 
 	_tcsncpy(setting, defaultValue, size);
 	return 1;
-}
-
-void HigherLower(int maxValue, int minValue) 
-{
-	TCHAR str[64] = { 0 };
-	mir_sntprintf(str, SIZEOF(str), TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
 }
 
 void ShowLog(TCHAR *file)
@@ -88,7 +61,7 @@ void ShowLog(TCHAR *file)
 		MessageBox(0, TranslateT("Can't open the log file!"), TranslateT("NewXstatusNotify"), MB_OK | MB_ICONERROR);
 }
 
-BOOL StatusHasAwayMessage(char *szProto, int status) 
+BOOL StatusHasAwayMessage(char *szProto, int status)
 {
 	if (szProto != NULL) {
 		unsigned long iSupportsSM = (unsigned long)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0);
@@ -111,9 +84,9 @@ BOOL StatusHasAwayMessage(char *szProto, int status)
 }
 
 void LogToFile(TCHAR *stzText)
-{	
+{
 	FILE *fp = _tfopen(opt.LogFilePath, _T("a+b, ccs=UTF-8"));
-	if (fp) { 
+	if (fp) {
 		char *encodedText = mir_utf8encodeT(stzText);
 		if (encodedText) {
 			fprintf(fp, encodedText);
@@ -121,4 +94,41 @@ void LogToFile(TCHAR *stzText)
 		}
 		fclose(fp);
 	}
+}
+
+WCHAR *mir_dupToUnicodeEx(char *ptr, UINT CodePage)
+{
+	if (ptr == NULL)
+		return NULL;
+
+	size_t size = strlen(ptr) + 1;
+	WCHAR *tmp = (WCHAR *)mir_alloc(size * sizeof(WCHAR));
+
+	MultiByteToWideChar(CodePage, 0, ptr, -1, tmp, (int)size * sizeof(WCHAR));
+	return tmp;
+}
+
+TCHAR *AddCR(const TCHAR *stzText)
+{
+	const TCHAR *found;
+	int i = 0, len = lstrlen(stzText), j;
+	TCHAR *tmp = (TCHAR *)mir_alloc(1024 * sizeof(TCHAR));
+	*tmp = _T('\0');
+	while ((found = _tcsstr((stzText + i), _T("\n"))) != NULL && _tcslen(tmp) + 1 < 1024) {
+		j = (int)(found - stzText);
+		if (lstrlen(tmp) + j - i + 2 < 1024)
+			tmp = _tcsncat(tmp, stzText + i, j - i);
+		else
+			break;
+
+		if (j == 0 || *(stzText + j - 1) != _T('\r'))
+			tmp = lstrcat(tmp, _T("\r"));
+
+		tmp = lstrcat(tmp, _T("\n"));
+		i = j + 1;
+	}
+	if (lstrlen(tmp) + len - i + 1 < 1024)
+		tmp = lstrcat(tmp, stzText + i);
+
+	return tmp;
 }

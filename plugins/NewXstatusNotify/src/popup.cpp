@@ -21,9 +21,50 @@
 
 #include "common.h"
 
+void ShowChangePopup(MCONTACT hContact, char *szProto, HICON hIcon, WORD newStatus, TCHAR *stzText, PLUGINDATA *pdp)
+{
+	POPUPDATAT ppd = {0};
+	ppd.lchContact = hContact;
+	ppd.lchIcon = hIcon;//LoadSkinnedProtoIcon(szProto, iconStatus);
+	_tcsncpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_TCHAR), MAX_CONTACTNAME);
+
+	// add group name to popup title
+	if (opt.ShowGroup) {
+		DBVARIANT dbv;
+		if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
+			_tcsncat(ppd.lptzContactName, _T(" ("), MAX_CONTACTNAME);
+			_tcsncat(ppd.lptzContactName, dbv.ptszVal, MAX_CONTACTNAME);
+			_tcsncat(ppd.lptzContactName, _T(")"), MAX_CONTACTNAME);
+			db_free(&dbv);
+		}
+	}
+
+	_tcsncpy(ppd.lptzText, stzText, MAX_SECONDLINE);
+
+	switch (opt.Colors) {
+	case POPUP_COLOR_OWN:
+		ppd.colorBack = StatusList[Index(newStatus)].colorBack;
+		ppd.colorText = StatusList[Index(newStatus)].colorText;
+		break;
+	case POPUP_COLOR_WINDOWS:
+		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+		break;
+	case POPUP_COLOR_POPUP:
+		ppd.colorBack = ppd.colorText = 0;
+		break;
+	}
+
+	ppd.PluginWindowProc = PopupDlgProc;
+
+	ppd.PluginData = pdp;
+	ppd.iSeconds = opt.PopupTimeout;
+	PUAddPopupT(&ppd);
+}
+
 static int AwayMsgHook(WPARAM wParam, LPARAM lParam, LPARAM pObj)
 {
-	PLUGINDATA *pdp = (PLUGINDATA*)pObj;
+	PLUGINDATA *pdp = (PLUGINDATA *)pObj;
 	if (pdp == NULL)
 		return 0;
 
@@ -31,7 +72,7 @@ static int AwayMsgHook(WPARAM wParam, LPARAM lParam, LPARAM pObj)
 	if (ack->type != ACKTYPE_AWAYMSG || ack->hProcess != pdp->hAwayMsgProcess)
 		return 0;
 
-	//The first thing we go is removing the hook from the chain to avoid useless calls.
+	//The first thing we do is removing the hook from the chain to avoid useless calls.
 	UnhookEvent(pdp->hAwayMsgHook);
 	pdp->hAwayMsgHook = NULL;
 
@@ -39,9 +80,9 @@ static int AwayMsgHook(WPARAM wParam, LPARAM lParam, LPARAM pObj)
 		return 0;
 
 	MCONTACT hContact = PUGetContact(pdp->hWnd);
-	ptrT pstzLast( db_get_tsa(hContact, MODULE, "LastPopupText"));
+	ptrT pstzLast(db_get_tsa(hContact, MODULE, "LastPopupText"));
 
-	TCHAR *tszStatus = (TCHAR*)ack->lParam;
+	TCHAR *tszStatus = (TCHAR *)ack->lParam;
 	if (tszStatus == NULL || *tszStatus == 0)
 		return 0;
 
@@ -60,9 +101,8 @@ void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 {
 	MCONTACT hContact = PUGetContact(hWnd);
 	char *szProto = GetContactProto(hContact);
-	if (szProto)
-	{
-		if ((CallProtoService(szProto, PS_GETCAPS,PFLAGNUM_1, 0) & PF1_MODEMSGRECV) &&
+	if (szProto) {
+		if ((CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) &&
 			(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(pdp->newStatus)))
 		{
 			pdp->hWnd = hWnd;
@@ -116,7 +156,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 {
 	PLUGINDATA *pdp = NULL;
 
-	switch(message) {
+	switch (message) {
 	case WM_MEASUREITEM: //Needed by the contact's context menu
 		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 
@@ -150,7 +190,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	case UM_INITPOPUP:
 		pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
 		if (pdp != NULL) {
-			char *szProto = GetContactProto( PUGetContact(hwnd));
+			char *szProto = GetContactProto(PUGetContact(hwnd));
 			if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus)) {
 				WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 				if (myStatus != ID_STATUS_INVISIBLE)

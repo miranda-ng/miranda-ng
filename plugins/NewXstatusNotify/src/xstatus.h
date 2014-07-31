@@ -21,9 +21,10 @@
 #define XSTATUS_H
 
 #define NOTIFY_NEW_XSTATUS		1
-#define NOTIFY_NEW_MESSAGE		2
-#define NOTIFY_REMOVE			4
-#define NOTIFY_OPENING_ML		8
+#define NOTIFY_REMOVE_XSTATUS	2
+#define NOTIFY_NEW_MESSAGE		4
+#define NOTIFY_REMOVE_MESSAGE	8
+#define NOTIFY_OPENING_ML		16
 
 #define TYPE_ICQ_XSTATUS		1
 #define TYPE_JABBER_MOOD		2
@@ -40,40 +41,48 @@
 // Sounds
 #define XSTATUS_SOUND_CHANGED		"XStatusChanged"
 #define XSTATUS_SOUND_MSGCHANGED	"XStatusMsgChanged"
-#define XSTATUS_SOUND_REMOVED		"XStatusRemove"
+#define XSTATUS_SOUND_REMOVED		"XStatusRemoved"
+#define XSTATUS_SOUND_MSGREMOVED	"XStatusMsgRemoved"
 
 // tabSRMM stuff (logging to message window)
-#define EVENTTYPE_STATUSCHANGE			25368
+#define EVENTTYPE_STATUSCHANGE		25368
 
 // Default templates
-#define DEFAULT_POPUP_DELIMITER		_T("%B")
-#define DEFAULT_POPUP_NEW			TranslateT("changed %N to: %T%D%I") 
-#define DEFAULT_POPUP_CHANGEMSG		TranslateT("changed %N message to:%D%I") 
-#define DEFAULT_POPUP_REMOVE		TranslateT("removed %N") 
-#define DEFAULT_POPUP_STATUSMESSAGE	LPGEN("changed his/her status message to %n")
+#define DEFAULT_POPUP_CHANGED		TranslateT("changed %n to: %t")
+#define DEFAULT_POPUP_REMOVED		TranslateT("removed %n")
+#define DEFAULT_POPUP_MSGCHANGED	TranslateT("changed %n message to: %m")
+#define DEFAULT_POPUP_MSGREMOVED	TranslateT("removed %n message")
+#define DEFAULT_POPUP_SMSGCHANGED	TranslateT("changed status message to: %n")
+#define DEFAULT_POPUP_SMSGREMOVED	TranslateT("removed status message")
 
-#define DEFAULT_LOG_DELIMITER		_T(": ")
-#define DEFAULT_LOG_NEW				TranslateT("changed %N @ %T%D%I") 
-#define DEFAULT_LOG_CHANGEMSG		TranslateT("changed %N message @ %I")
-#define DEFAULT_LOG_REMOVE			TranslateT("removed %N") 
-#define DEFAULT_LOG_OPENING			TranslateT("has %N @ %T%D%I")
+#define DEFAULT_LOG_CHANGED			TranslateT("changed %n @ %t: %m")
+#define DEFAULT_LOG_REMOVED			TranslateT("removed %n")
+#define DEFAULT_LOG_MSGCHANGED		TranslateT("changed %n message @ %m")
+#define DEFAULT_LOG_MSGREMOVED		TranslateT("removed %n message")
+#define DEFAULT_LOG_OPENING			TranslateT("has %n @ %t: %m")
+
+#define DEFAULT_LOG_SMSGCHANGED		TranslateT("changed status message @ %n")
+#define DEFAULT_LOG_SMSGREMOVED		TranslateT("removed status message")
+#define DEFAULT_LOG_SMSGOPENING		TranslateT("is %s and has status message @ %n")
 
 // Variables help text
 #define VARIABLES_HELP_TEXT TranslateT("These variables are available:\r\n\r\n\
-%N\textra status name (Xstatus, Mood, Activity)\r\n\
-%T\textra status title\r\n\
-%I\textra status text\r\n\
-%D\tdelimiter\r\n\
-%B\tline break (can be used as delimiter)")
-
-#define VARIABLES_SM_HELP_TEXT TranslateT("These variables are available:\r\n\r\n\
-%n\tNew Status Message\r\n\
-%o\tOld Status Message\r\n\
-%c\tCustom Nickname\r\n\
+%n\textra status name (Xstatus, Mood, Activity)\r\n\
+%t\textra status title\r\n\
+%m\textra status message\r\n\
+%c\tcustom nickname\r\n\
 \\n\tline break\r\n\
 \\t\ttab stop")
 
-typedef struct tagXSTATUSCHANGE 
+#define VARIABLES_SM_HELP_TEXT TranslateT("These variables are available:\r\n\r\n\
+%n\tnew status message\r\n\
+%o\told status message\r\n\
+%c\tcustom nickname\r\n\
+%s\tcurrent status\r\n\
+\\n\tline break\r\n\
+\\t\ttab stop")
+
+typedef struct tagXSTATUSCHANGE
 {
 	MCONTACT hContact;
 	char *szProto;
@@ -83,7 +92,7 @@ typedef struct tagXSTATUSCHANGE
 	TCHAR *stzText;
 } XSTATUSCHANGE;
 
-typedef struct tagDBEVENT  
+typedef struct tagDBEVENT
 {
 	MCONTACT hContact;
 	HANDLE hDBEvent;
@@ -92,13 +101,14 @@ typedef struct tagDBEVENT
 typedef struct tagPROTOTEMPLATE
 {
 	TCHAR *ProtoName;
-	TCHAR ProtoTemplate[MAX_PATH];
+	TCHAR ProtoTemplateMsg[MAX_PATH];
+	TCHAR ProtoTemplateRemoved[MAX_PATH];
 } PROTOTEMPLATE;
 
 TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int bufflen);
 XSTATUSCHANGE *NewXSC(MCONTACT hContact, char *szProto, int xstatusType, int action, TCHAR *stzTitle, TCHAR *stzText);
 void ExtraStatusChanged(XSTATUSCHANGE *xsc);
 void FreeXSC(XSTATUSCHANGE *xsc);
-int  OnWindowEvent(WPARAM wParam, LPARAM lParam);
+int OnWindowEvent(WPARAM wParam, LPARAM lParam);
 
 #endif

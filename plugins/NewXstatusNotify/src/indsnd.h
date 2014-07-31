@@ -22,19 +22,21 @@
 #ifndef INDSND_H
 #define INDSND_H
 
-#define EXTRA_IMAGE_SOUND      0
-#define EXTRA_IMAGE_POPUP      1
-#define EXTRA_IMAGE_XSTATUS    2
-#define EXTRA_IMAGE_LOGGING    3
-#define EXTRA_IMAGE_DISABLEALL 4
-#define EXTRA_IMAGE_ENABLEALL  5
-#define EXTRA_IMAGE_DOT        6
+#define EXTRA_IMAGE_SOUND		0
+#define EXTRA_IMAGE_POPUP		1
+#define EXTRA_IMAGE_XSTATUS		2
+#define EXTRA_IMAGE_XLOGGING	3
+#define EXTRA_IMAGE_STATUSMSG	4
+#define EXTRA_IMAGE_SMSGLOGGING	5
+#define EXTRA_IMAGE_DISABLEALL	6
+#define EXTRA_IMAGE_ENABLEALL	7
+#define EXTRA_IMAGE_DOT			8
 
 #define STATUS_COLUMN			110
 
 #define DEFAULT_SOUND			LPGEN("(default sound)")
 
 int UserInfoInitialise(WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcFiltering(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam); 
+INT_PTR CALLBACK DlgProcFiltering(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif

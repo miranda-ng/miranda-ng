@@ -218,6 +218,8 @@
     <Image Include="res\disable_all.ico" />
     <Image Include="res\enable_all.ico" />
     <Image Include="res\logging.ico" />
+    <Image Include="res\logging_status_message.ico" />
+    <Image Include="res\logging_xstatus.ico" />
     <Image Include="res\main_off.ico" />
     <Image Include="res\main_on.ico" />
     <Image Include="res\popup.ico" />

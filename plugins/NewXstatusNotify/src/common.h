@@ -80,27 +80,38 @@
 #define GENDER_MALE				1
 #define GENDER_FEMALE			2
 
-#define ID_STATUS_FROMOFFLINE	1
-#define ID_STATUS_EXTRASTATUS 40081
-#define ID_STATUS_MIN         ID_STATUS_OFFLINE
-#define ID_STATUS_MAX         ID_STATUS_OUTTOLUNCH
-#define ID_STATUS_MAX2        ID_STATUS_EXTRASTATUS + 1
-#define STATUS_COUNT          ID_STATUS_MAX2 - ID_STATUS_MIN
-#define Index(ID_STATUS)      ID_STATUS - ID_STATUS_OFFLINE
+#define ID_STATUS_FROMOFFLINE	0
+#define ID_STATUS_SMSGREMOVED	1
+#define ID_STATUS_SMSGCHANGED	2
+#define ID_STATUS_XREMOVED		3
+#define ID_STATUS_XCHANGED		4
+#define ID_STATUS_XMSGCHANGED	5
+#define ID_STATUS_XMSGREMOVED	6
+#define ID_STATUSEX_MAX			6
+#define STATUSEX_COUNT			ID_STATUSEX_MAX + 1
+#define ID_STATUS_EXTRASTATUS	40081
+#define ID_STATUS_STATUSMSG		40082
+#define ID_STATUS_MIN			ID_STATUS_OFFLINE
+#define ID_STATUS_MAX			ID_STATUS_OUTTOLUNCH
+#define ID_STATUS_MAX2			ID_STATUS_STATUSMSG
+#define STATUS_COUNT			ID_STATUS_MAX2 - ID_STATUS_MIN + 1
+#define Index(ID_STATUS)		ID_STATUS - ID_STATUS_OFFLINE
 
 #define COLOR_BG_AVAILDEFAULT	RGB(173,206,247)
-#define COLOR_BG_NAVAILDEFAULT RGB(255,189,189)
+#define COLOR_BG_NAVAILDEFAULT	RGB(255,189,189)
 #define COLOR_TX_DEFAULT		RGB(0,0,0)
 
-#define ICO_NOTIFICATION_OFF  "notification_off"
-#define ICO_NOTIFICATION_ON   "notification_on"
+#define ICO_NOTIFICATION_OFF	"notification_off"
+#define ICO_NOTIFICATION_ON		"notification_on"
 
-#define JS_PARSE_XMPP_URI      "/ParseXmppURI"
+#define JS_PARSE_XMPP_URI		"/ParseXmppURI"
+
+#define COMPARE_SAME			0
+#define COMPARE_DIFF			1
+#define COMPARE_DEL				2
 
 typedef struct tagSTATUS
 {
-	int ID;
-	int icon;
 	TCHAR lpzMStatusText[MAX_STATUSTEXT];
 	TCHAR lpzFStatusText[MAX_STATUSTEXT];
 	TCHAR lpzUStatusText[MAX_STATUSTEXT];
@@ -112,18 +123,8 @@ typedef struct tagSTATUS
 	COLORREF colorText;
 } STATUS;
 
-typedef struct tagPLUGINDATA
-{
-	WORD newStatus;
-	WORD oldStatus;
-	HWND hWnd;
-	HANDLE hAwayMsgProcess;
-	HANDLE hAwayMsgHook;
-} PLUGINDATA;
-
 typedef struct {
 	MCONTACT hContact;
-	TCHAR *cust;
 	TCHAR *oldstatusmsg;
 	TCHAR *newstatusmsg;
 	char *proto;
@@ -143,11 +144,17 @@ Cast them to (int) if you need them that way.
 #define MS_STATUSCHANGE_MENUCOMMAND "NewStatusNotify/EnableDisableMenuCommand"
 
 extern OPTIONS opt;
-extern LIST<DBEVENT> eventList;
+extern LIST<DBEVENT> eventListXStatus;
+extern LIST<DBEVENT> eventListStatus;
+extern LIST<DBEVENT> eventListSMsg;
 extern TEMPLATES templates;
 extern HINSTANCE hInst;
 extern HGENMENU hEnableDisableMenu;
 extern STATUS StatusList[STATUS_COUNT];
+extern STATUS StatusListEx[STATUSEX_COUNT];
 
-bool CheckMsgWnd(MCONTACT hContact);
+TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt);
+void LogSMsgToDB(STATUSMSGINFO *smi, const TCHAR *tmplt);
+void BlinkIcon(MCONTACT hContact, char *szProto, HICON hIcon, TCHAR *stzText);
+void PlayChangeSound(MCONTACT hContact, const char *name);
 #endif //COMMON_H

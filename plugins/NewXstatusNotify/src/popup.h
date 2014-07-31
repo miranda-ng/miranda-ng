@@ -37,6 +37,15 @@
 
 #define STRING_SHOWPREVIOUSSTATUS LPGENT("(was %s)")
 
+typedef struct tagPLUGINDATA
+{
+	WORD newStatus;
+	WORD oldStatus;
+	HWND hWnd;
+	HANDLE hAwayMsgProcess;
+	HANDLE hAwayMsgHook;
+} PLUGINDATA;
+
 static struct {
 	TCHAR *Text;
 	int Action;
@@ -49,6 +58,7 @@ static struct {
 	LPGENT("Do nothing"), PCA_DONOTHING
 };
 
+void ShowChangePopup(MCONTACT hContact, char *szProto, HICON hIcon, WORD newStatus, TCHAR *stzText, PLUGINDATA *pdp = NULL);
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 #endif
