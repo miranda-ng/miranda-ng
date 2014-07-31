@@ -695,7 +695,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	case DM_REALODAVATAR:
 		SaveTransparentData(hwndDlg, hContact, IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR));
-		ChangeAvatar(hContact, TRUE);
+		ChangeAvatar(hContact, true);
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
 		break;
 
@@ -880,7 +880,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	case DM_REALODAVATAR:
 		SaveTransparentData(hwndDlg, hContact, IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR));
-		ChangeAvatar(hContact, TRUE);
+		ChangeAvatar(hContact, true);
 		break;
 
 	case WM_NCDESTROY:

@@ -75,7 +75,7 @@ typedef struct
 } ACCData;
 
 
-BOOL AnimatedGifGetData(ACCData* data)
+BOOL AnimatedGifGetData(ACCData *data)
 {
 	FIBITMAP *page = fei->FI_LockPage(data->ag.multi, 0);
 	if (page == NULL)

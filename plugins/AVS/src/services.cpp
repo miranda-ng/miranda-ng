@@ -37,8 +37,7 @@ INT_PTR GetAvatarBitmap(WPARAM hContact, LPARAM lParam)
 	CacheNode *node = FindAvatarInCache(hContact, TRUE);
 	if (node == NULL || !node->loaded)
 		return (INT_PTR)GetProtoDefaultAvatar(hContact);
-	else
-		return (INT_PTR)&node->ace;
+	return (INT_PTR)node;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ INT_PTR ProtectAvatar(WPARAM hContact, LPARAM lParam)
 		db_set_b(hContact, "ContactPhoto", "Locked", lParam ? 1 : 0);
 		if (lParam == 0)
 			MakePathRelative(hContact);
-		ChangeAvatar(hContact, TRUE);
+		ChangeAvatar(hContact, true);
 	}
 	return 0;
 }
@@ -179,9 +178,9 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 	db_set_b(hContact, "ContactPhoto", "Locked", is_locked);
 	db_set_ts(hContact, "ContactPhoto", "File", szFinalName);
 	MakePathRelative(hContact, szFinalName);
-	// Fix cache
-	ChangeAvatar(hContact, TRUE);
 
+	// Fix cache
+	ChangeAvatar(hContact, true);
 	return 0;
 }
 

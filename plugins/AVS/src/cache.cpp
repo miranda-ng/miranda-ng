@@ -19,65 +19,54 @@ Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-static int g_maxBlock = 0, g_curBlock = 0;
-static CacheNode **g_cacheBlocks = NULL;
+CacheNode::CacheNode()
+{
+}
 
-static CacheNode *g_Cache = 0;
+CacheNode::~CacheNode()
+{
+	if (hbmPic != 0)
+		DeleteObject(hbmPic);
+}
+
+void CacheNode::wipeInfo()
+{
+	MCONTACT saveContact = hContact;
+	if (hbmPic)
+		DeleteObject(hbmPic);
+	memset(this, 0, sizeof(CacheNode));
+	hContact = saveContact;
+}
+
+static int CompareNodes(const CacheNode *p1, const CacheNode *p2)
+{
+	return INT_PTR(p1->hContact) - INT_PTR(p2->hContact);
+}
+
+static OBJLIST<CacheNode> arCache(100, CompareNodes);
+static LIST<CacheNode> arQueue(10);
 static mir_cs alloccs, cachecs;
 
 // allocate a cache block and add it to the list of blocks
 // does not link the new block with the old block(s) - caller needs to do this
 
-static CacheNode* AllocCacheBlock()
-{
-	CacheNode *allocedBlock = (CacheNode*)malloc(CACHE_BLOCKSIZE * sizeof(struct CacheNode));
-	ZeroMemory((void *)allocedBlock, sizeof(CacheNode) * CACHE_BLOCKSIZE);
-
-	for (int i = 0; i < CACHE_BLOCKSIZE - 1; i++)
-		allocedBlock[i].pNextNode = &allocedBlock[i + 1];				// pre-link the alloced block
-
-	if (g_Cache == NULL)													// first time only...
-		g_Cache = allocedBlock;
-
-	// add it to the list of blocks
-	if (g_curBlock == g_maxBlock) {
-		g_maxBlock += 10;
-		g_cacheBlocks = (CacheNode**)realloc(g_cacheBlocks, g_maxBlock * sizeof(CacheNode*));
-	}
-	g_cacheBlocks[g_curBlock++] = allocedBlock;
-
-	return(allocedBlock);
-}
-
-void InitCache(void)
-{
-	AllocCacheBlock();
-}
-
 void UnloadCache(void)
 {
-	for (CacheNode *cc = g_Cache; cc; cc = cc->pNextNode)
-		if (cc->ace.hbmPic != 0)
-			DeleteObject(cc->ace.hbmPic);
+	arCache.destroy();
+}
 
-	for (int i = 0; i < g_curBlock; i++)
-		free(g_cacheBlocks[i]);
-	free(g_cacheBlocks);
+void PushAvatarRequest(CacheNode *cc)
+{
+	mir_cslock lck(alloccs);
+	int idx = arQueue.getCount();
+	if (idx > 0)
+		idx--;
+	arQueue.insert(cc, idx);
 }
 
 // link a new cache block with the already existing chain of blocks
 
-static CacheNode* AddToList(CacheNode *node)
-{
-	CacheNode *pCurrent = g_Cache;
-	while (pCurrent->pNextNode != 0)
-		pCurrent = pCurrent->pNextNode;
-
-	pCurrent->pNextNode = node;
-	return pCurrent;
-}
-
-CacheNode* FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
+CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 {
 	if (g_shutDown)
 		return NULL;
@@ -86,38 +75,28 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny)
 	if (szProto == NULL || !db_get_b(NULL, AVS_MODULE, szProto, 1))
 		return NULL;
 
+	avatarCacheEntry tmp;
+	tmp.hContact = hContact;
+
 	mir_cslock lck(cachecs);
 
-	CacheNode *cc = g_Cache, *foundNode = NULL;
-	while (cc) {
-		if (cc->ace.hContact == hContact) {
-			cc->ace.t_lastAccess = time(NULL);
-			foundNode = cc->loaded || findAny ? cc : NULL;
-			return foundNode;
-		}
-
-		// found an empty and usable node
-		if (foundNode == NULL && cc->ace.hContact == 0)
-			foundNode = cc;
-
-		cc = cc->pNextNode;
+	CacheNode *cc = arCache.find((CacheNode*)&tmp);
+	if (cc) {
+		cc->t_lastAccess = time(NULL);
+		return (cc->loaded || findAny) ? cc : NULL;
 	}
 
 	// not found
 	if (!add)
 		return NULL;
 
-	if (foundNode == NULL) {        // no free entry found, create a new and append it to the list
-		mir_cslock all(alloccs);     // protect memory block allocation
-		CacheNode *newNode = AllocCacheBlock();
-		AddToList(newNode);
-		foundNode = newNode;
-	}
+	cc = new CacheNode();
+	cc->hContact = hContact;
+	arCache.insert(cc);
 
-	foundNode->ace.hContact = hContact;
-	foundNode->loaded = FALSE;
-	foundNode->mustLoad = 1;        // pic loader will watch this and load images
-	SetEvent(hLoaderEvent);         // wake him up
+	PushAvatarRequest(cc);
+
+	SetEvent(hLoaderEvent);    // wake him up
 	return NULL;
 }
 
@@ -134,7 +113,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 		return;
 
 	if (ace == (AVATARCACHEENTRY*)-1)
-		ace = &node->ace;
+		ace = node;
 
 	NotifyEventHooks(hEventChanged, hContact, (LPARAM)ace);
 
@@ -145,12 +124,12 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 	if (node->dwFlags & AVH_MUSTNOTIFY) {
 		// Fire the event for avatar history
 		node->dwFlags &= ~AVH_MUSTNOTIFY;
-		if (node->ace.szFilename[0] != '\0') {
+		if (node->szFilename[0] != '\0') {
 			CONTACTAVATARCHANGEDNOTIFICATION cacn = { 0 };
 			cacn.cbSize = sizeof(CONTACTAVATARCHANGEDNOTIFICATION);
 			cacn.hContact = hContact;
 			cacn.format = node->pa_format;
-			_tcsncpy(cacn.filename, node->ace.szFilename, MAX_PATH);
+			_tcsncpy(cacn.filename, node->szFilename, MAX_PATH);
 			cacn.filename[MAX_PATH - 1] = 0;
 
 			// Get hash
@@ -182,22 +161,28 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY
 // An cache entry is never deleted. What is deleted is the image handle inside it
 // This is done this way to keep track of which avatars avs have to keep track
 
-void DeleteAvatarFromCache(MCONTACT hContact, BOOL forever)
+void DeleteAvatarFromCache(MCONTACT hContact, bool bForever)
 {
 	if (g_shutDown)
 		return;
 
-	hContact = GetContactThatHaveTheAvatar(hContact);
-	CacheNode *node = FindAvatarInCache(hContact, FALSE);
-	if (node == NULL) {
-		CacheNode temp_node = { 0 };
+	avatarCacheEntry tmp;
+	tmp.hContact = GetContactThatHaveTheAvatar(hContact);
+
+	mir_cslock lck(cachecs);
+	int idx = arCache.getIndex((CacheNode*)&tmp);
+	if (idx == -1) {
+		CacheNode temp_node;
+		memset(&temp_node, 0, sizeof(temp_node));
 		NotifyMetaAware(hContact, &temp_node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
-		return;
 	}
-	node->mustLoad = -1;                        // mark for deletion
-	if (forever)
-		node->dwFlags |= AVS_DELETENODEFOREVER;
-	SetEvent(hLoaderEvent);
+	else {
+		NotifyMetaAware(hContact, &arCache[idx], (AVATARCACHEENTRY*)GetProtoDefaultAvatar(hContact));
+		if (!bForever)
+			arCache[idx].wipeInfo();
+		else
+			arCache.remove(idx);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -207,15 +192,16 @@ int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 	if (g_shutDown)
 		return 0;
 
-	for (CacheNode *cc = g_Cache; cc; cc = cc->pNextNode) {
-		if (cc->ace.hContact != hContact)
-			continue;
+	avatarCacheEntry tmp;
+	tmp.hContact = hContact;
 
-		DWORD dwFlags = cc->ace.dwFlags;
-		cc->ace.dwFlags = mode ? (cc->ace.dwFlags | attrib) : (cc->ace.dwFlags & ~attrib);
-		if (cc->ace.dwFlags != dwFlags)
+	mir_cslock lck(cachecs);
+	CacheNode *cc = arCache.find((CacheNode*)&tmp);
+	if (cc != NULL) {
+		DWORD dwFlags = cc->dwFlags;
+		cc->dwFlags = mode ? (cc->dwFlags | attrib) : (cc->dwFlags & ~attrib);
+		if (cc->dwFlags != dwFlags)
 			NotifyMetaAware(hContact, cc);
-		break;
 	}
 	return 0;
 }
@@ -224,7 +210,7 @@ int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 // nodes where mustLoad is < 0 (must be deleted).
 // its waken up by the event and tries to lock the cache only when absolutely necessary.
 
-void PicLoader(LPVOID param)
+void PicLoader(LPVOID)
 {
 	DWORD dwDelay = db_get_dw(NULL, AVS_MODULE, "picloader_sleeptime", 80);
 
@@ -234,75 +220,57 @@ void PicLoader(LPVOID param)
 		dwDelay = 100;
 
 	while (!g_shutDown) {
-		CacheNode *node = g_Cache;
-
-		while (!g_shutDown && node) {
-			if (node->mustLoad > 0 && node->ace.hContact) {
-				node->mustLoad = 0;
-				AVATARCACHEENTRY ace_temp;
-
-				if (db_get_b(node->ace.hContact, "ContactPhoto", "NeedUpdate", 0))
-					QueueAdd(node->ace.hContact);
-
-				CopyMemory(&ace_temp, &node->ace, sizeof(AVATARCACHEENTRY));
-				ace_temp.hbmPic = 0;
-
-				int result = CreateAvatarInCache(node->ace.hContact, &ace_temp, NULL);
-				if (result == -2) {
-					char *szProto = GetContactProto(node->ace.hContact);
-					if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
-						QueueAdd(node->ace.hContact);
-					else if (FetchAvatarFor(node->ace.hContact, szProto) == GAIR_SUCCESS) // Try to create again
-						result = CreateAvatarInCache(node->ace.hContact, &ace_temp, NULL);
-				}
-
-				if (result == 1 && ace_temp.hbmPic != 0) { // Loaded
-					HBITMAP oldPic = node->ace.hbmPic;
-					{
-						mir_cslock l(cachecs);
-						CopyMemory(&node->ace, &ace_temp, sizeof(AVATARCACHEENTRY));
-						node->loaded = TRUE;
-					}
-					if (oldPic)
-						DeleteObject(oldPic);
-					NotifyMetaAware(node->ace.hContact, node);
-				}
-				else if (result == 0 || result == -3) { // Has no avatar
-					HBITMAP oldPic = node->ace.hbmPic;
-					{
-						mir_cslock l(cachecs);
-						CopyMemory(&node->ace, &ace_temp, sizeof(AVATARCACHEENTRY));
-						node->loaded = FALSE;
-						node->mustLoad = 0;
-					}
-					if (oldPic)
-						DeleteObject(oldPic);
-					NotifyMetaAware(node->ace.hContact, node);
-				}
-
-				mir_sleep(dwDelay);
+		while (!g_shutDown) {
+			CacheNode *node;
+			{
+				mir_cslock all(alloccs);
+				node = arQueue[0];
+				if (node)
+					arQueue.remove(0);
 			}
-			else if (node->mustLoad < 0 && node->ace.hContact) {         // delete this picture
-				MCONTACT hContact = node->ace.hContact;
+			if (node == NULL)
+				break;
+
+			if (db_get_b(node->hContact, "ContactPhoto", "NeedUpdate", 0))
+				QueueAdd(node->hContact);
+
+			AVATARCACHEENTRY ace_temp;
+			CopyMemory(&ace_temp, node, sizeof(AVATARCACHEENTRY));
+			ace_temp.hbmPic = 0;
+
+			int result = CreateAvatarInCache(node->hContact, &ace_temp, NULL);
+			if (result == -2) {
+				char *szProto = GetContactProto(node->hContact);
+				if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
+					QueueAdd(node->hContact);
+				else if (FetchAvatarFor(node->hContact, szProto) == GAIR_SUCCESS) // Try to create again
+					result = CreateAvatarInCache(node->hContact, &ace_temp, NULL);
+			}
+
+			if (result == 1 && ace_temp.hbmPic != 0) { // Loaded
+				HBITMAP oldPic = node->hbmPic;
 				{
 					mir_cslock l(cachecs);
-					node->mustLoad = 0;
-					node->loaded = 0;
-					if (node->ace.hbmPic)
-						DeleteObject(node->ace.hbmPic);
-					ZeroMemory(&node->ace, sizeof(AVATARCACHEENTRY));
-					if (node->dwFlags & AVS_DELETENODEFOREVER)
-						node->dwFlags &= ~AVS_DELETENODEFOREVER;
-					else
-						node->ace.hContact = hContact;
+					CopyMemory(node, &ace_temp, sizeof(AVATARCACHEENTRY));
+					node->loaded = TRUE;
 				}
-				NotifyMetaAware(hContact, node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
+				if (oldPic)
+					DeleteObject(oldPic);
+				NotifyMetaAware(node->hContact, node);
+			}
+			else if (result == 0 || result == -3) { // Has no avatar
+				HBITMAP oldPic = node->hbmPic;
+				{
+					mir_cslock l(cachecs);
+					CopyMemory(node, &ace_temp, sizeof(AVATARCACHEENTRY));
+					node->loaded = FALSE;
+				}
+				if (oldPic)
+					DeleteObject(oldPic);
+				NotifyMetaAware(node->hContact, node);
 			}
 
-			// protect this by changes from the cache block allocator as it can cause inconsistencies while working
-			// on allocating a new block.
-			mir_cslock all(alloccs);     // protect memory block allocation
-			node = node->pNextNode;
+			mir_sleep(dwDelay);
 		}
 		WaitForSingleObject(hLoaderEvent, INFINITE);
 		ResetEvent(hLoaderEvent);

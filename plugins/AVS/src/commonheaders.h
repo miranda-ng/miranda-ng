@@ -65,15 +65,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-struct CacheNode
+struct CacheNode : public avatarCacheEntry, public MZeroedObject
 {
-	CacheNode *pNextNode;
-	avatarCacheEntry ace;
+	CacheNode();
+	~CacheNode();
 
 	BOOL   loaded;
-	int    mustLoad;
 	DWORD  dwFlags;
 	int    pa_format;
+
+	void   wipeInfo();
 };
 
 // The same fields as avatarCacheEntry + proto name
@@ -127,18 +128,18 @@ void  MakePathRelative(MCONTACT hContact, TCHAR *dest);
 
 HBITMAP LoadPNG(struct avatarCacheEntry *ace, char *szFilename);
 
-void InitCache(void);
 void UnloadCache(void);
 int  CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto);
-void DeleteAvatarFromCache(MCONTACT hContact, BOOL);
+void DeleteAvatarFromCache(MCONTACT hContact, bool bForever);
 void PicLoader(LPVOID param);
 
 void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, DWORD dwFlags);
 
-int ChangeAvatar(MCONTACT hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
+int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist = false, int pa_format = 0);
 void DeleteGlobalUserAvatar();
 int  FetchAvatarFor(MCONTACT hContact, char *szProto = NULL);
-CacheNode* FindAvatarInCache(MCONTACT hContact, BOOL add, BOOL findAny = FALSE);
+CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny = false);
+void PushAvatarRequest(CacheNode *cc);
 int  SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode);
 void SetIgnoreNotify(char *protocol, BOOL ignore);
 

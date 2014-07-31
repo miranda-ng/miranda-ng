@@ -48,11 +48,9 @@ void MakePathRelative(MCONTACT hContact, TCHAR *path)
 
 void MakePathRelative(MCONTACT hContact)
 {
-	DBVARIANT dbv;
-	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
-		MakePathRelative(hContact, dbv.ptszVal);
-		db_free(&dbv);
-	}
+	ptrT tszPath(db_get_tsa(hContact, "ContactPhoto", "File"));
+	if (tszPath)
+		MakePathRelative(hContact, tszPath);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -81,8 +79,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		if (proto == NULL || !db_get_b(NULL, AVS_MODULE, proto, 1))
 			return -1;
 
-		if (db_get_b(hContact, "ContactPhoto", "Locked", 0)
-			 && !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
+		if (db_get_b(hContact, "ContactPhoto", "Locked", 0) && !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
 			PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
 			db_free(&dbv);
 		}
@@ -401,7 +398,7 @@ BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-protoPicCacheEntry *GetProtoDefaultAvatar(MCONTACT hContact)
+protoPicCacheEntry* GetProtoDefaultAvatar(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
@@ -426,7 +423,7 @@ MCONTACT GetContactThatHaveTheAvatar(MCONTACT hContact, int locked)
 	return hContact;
 }
 
-int ChangeAvatar(MCONTACT hContact, BOOL fLoad, BOOL fNotifyHist, int pa_format)
+int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist, int pa_format)
 {
 	if (g_shutDown)
 		return 0;
@@ -441,9 +438,12 @@ int ChangeAvatar(MCONTACT hContact, BOOL fLoad, BOOL fNotifyHist, int pa_format)
 	if (fNotifyHist)
 		node->dwFlags |= AVH_MUSTNOTIFY;
 
-	node->mustLoad = fLoad ? 1 : -1;
 	node->pa_format = pa_format;
-	SetEvent(hLoaderEvent);
+	if (fLoad) {
+		PushAvatarRequest(node);
+		SetEvent(hLoaderEvent);
+	}
+	else node->wipeInfo();
 	return 0;
 }
 

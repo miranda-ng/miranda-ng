@@ -138,7 +138,7 @@ static int MetaChanged(WPARAM hMeta, LPARAM hSubContact)
 		ace = (AVATARCACHEENTRY*)GetProtoDefaultAvatar(hSubContact);
 		QueueAdd(hSubContact);
 	}
-	else ace = &node->ace;
+	else ace = node;
 
 	NotifyEventHooks(hEventChanged, hMeta, (LPARAM)ace);
 	return 0;
@@ -411,7 +411,6 @@ static int LoadAvatarModule()
 	hMyAvatarChanged = CreateHookableEvent(ME_AV_MYAVATARCHANGED);
 
 	InitServices();
-	InitCache();
 	InitPolls();
 
 	_tcsncpy_s(g_szDataPath, SIZEOF(g_szDataPath), VARST(_T("%miranda_userdata%\\")), _TRUNCATE);
