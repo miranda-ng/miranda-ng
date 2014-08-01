@@ -214,19 +214,19 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\crypt.c">
+    <ClCompile Include="src\libyahoo2\crypt.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\libyahoo2.c">
+    <ClCompile Include="src\libyahoo2\libyahoo2.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\yahoo_httplib.c">
+    <ClCompile Include="src\libyahoo2\yahoo_httplib.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\yahoo_list.c">
+    <ClCompile Include="src\libyahoo2\yahoo_list.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\yahoo_util.c">
+    <ClCompile Include="src\libyahoo2\yahoo_util.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>

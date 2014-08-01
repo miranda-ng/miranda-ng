@@ -69,19 +69,19 @@
     <ClCompile Include="src\yahoo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\crypt.c">
+    <ClCompile Include="src\libyahoo2\crypt.cpp">
       <Filter>Source Files\libyahoo2</Filter>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\libyahoo2.c">
+    <ClCompile Include="src\libyahoo2\libyahoo2.cpp">
       <Filter>Source Files\libyahoo2</Filter>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\yahoo_httplib.c">
+    <ClCompile Include="src\libyahoo2\yahoo_httplib.cpp">
       <Filter>Source Files\libyahoo2</Filter>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\yahoo_list.c">
+    <ClCompile Include="src\libyahoo2\yahoo_list.cpp">
       <Filter>Source Files\libyahoo2</Filter>
     </ClCompile>
-    <ClCompile Include="src\libyahoo2\yahoo_util.c">
+    <ClCompile Include="src\libyahoo2\yahoo_util.cpp">
       <Filter>Source Files\libyahoo2</Filter>
     </ClCompile>
     <ClCompile Include="src\links.cpp">
