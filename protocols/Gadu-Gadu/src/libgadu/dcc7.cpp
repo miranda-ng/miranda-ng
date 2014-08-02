@@ -148,7 +148,7 @@ static struct gg_dcc7 *gg_dcc7_session_find(struct gg_session *sess, gg_dcc7_id_
 
 	for (tmp = sess->dcc7_list; tmp; tmp = tmp->next) {
 		if (empty) {
-			if (tmp->peer_uin == uin && !tmp->state == GG_STATE_WAITING_FOR_ACCEPT)
+			if (tmp->peer_uin == uin && tmp->state != GG_STATE_WAITING_FOR_ACCEPT)
 				return tmp;
 		} else {
 			if (!memcmp(&tmp->cid, &id, sizeof(id)))
