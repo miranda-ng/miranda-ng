@@ -342,7 +342,6 @@
 [changed %n message @ %m]
 змінив(ла) повідомлення %n @ %m
 [has %n @ %t: %m]
-[has %n @ %t: %m]
 %n @ %t: %m
 [changed status message @ %n]
 змінив(ла) статусне повідомлення @ %n
