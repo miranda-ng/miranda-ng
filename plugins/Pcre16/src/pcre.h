@@ -343,7 +343,7 @@ typedef struct real_pcre32_jit_stack pcre32_jit_stack;
 a 16 bit wide signed data type. Otherwise it can be a dummy data type since
 pcre16 functions are not implemented. There is a check for this in pcre_internal.h. */
 #ifndef PCRE_UCHAR16
-#define PCRE_UCHAR16 unsigned short
+#define PCRE_UCHAR16 wchar_t
 #endif
 
 #ifndef PCRE_SPTR16
