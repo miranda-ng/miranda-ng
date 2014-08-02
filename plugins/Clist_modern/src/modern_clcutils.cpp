@@ -700,6 +700,9 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 	corecli.pfnLoadClcOptions(hwnd, dat, bFirst);
 
+	dat->selTextColour = db_get_dw(NULL, "CLC", "SelTextColour", CLCDEFAULT_MODERN_SELTEXTCOLOUR);
+	dat->hotTextColour = db_get_dw(NULL, "CLC", "HotTextColour", CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
+	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
 	dat->useWindowsColours = false; // because it's missing in the options
 }
 
