@@ -54,7 +54,7 @@
 [Notification screen title]
 Заголовок вікна сповіщення
 [Hide it]
-Без заголовку
+Без заголовка
 [Show the plugin name]
 Показувати ім'я плагіна
 [Show a short event summary]

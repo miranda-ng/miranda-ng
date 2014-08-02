@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.1
+;  Version: 3.4.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -304,7 +304,7 @@ ID користувача в панелі статусу
 [Hide title bar]
 Сховати заголовок
 [Title bar format]
-Формат заголовку:
+Формат заголовка:
 [Available formats]
 Доступні формати
 [Use this to specify a private message log theme for this container. This will have no effect when using IEView or another message log viewer and should NOT be confused with skins.]

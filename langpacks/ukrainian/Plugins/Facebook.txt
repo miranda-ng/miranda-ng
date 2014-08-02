@@ -165,10 +165,18 @@
 Запит дружби надіслано.
 [Error occurred when requesting friendship.]
 Помилка при надсиланні запиту дружби.
+[Request for friendship was accepted.]
+Запит дружби підтверджено.
+[Error occurred when accepting friendship request.]
+Помилка під час підтвердження запиту дружби.
 [Request for friendship was canceled.]
 Запит дружби відкликано.
 [Error occurred when canceling friendship request.]
 Помилка під час відкликання запиту дружби.
+[Request for friendship was ignored.]
+Запит дружби проігноровано.
+[Error occurred when ignoring friendship request.]
+Помилка під час ігнорування запиту дружби.
 [Default]
 За замовчанням
 [<< Contacts]
@@ -277,6 +285,8 @@
 Запитати додавання в друзі
 [Approve friendship]
 Підтвердити додавання в друзі
+[Deny friendship request]
+Відхилити додавання в друзі
 [Services...]
 Служби...
 [Refresh Buddy List]

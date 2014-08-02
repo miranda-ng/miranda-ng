@@ -628,7 +628,7 @@ x100 мс
 [Status bar background]
 Фон панелі статусів
 [Frames title bar background]
-Фон заголовку фреймів
+Фон заголовка фреймів
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Хочете конвертувати '%s' в метаконтакт і додати до нього '%s'?
 [Converting to metacontact]

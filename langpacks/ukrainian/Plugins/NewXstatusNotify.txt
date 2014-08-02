@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
@@ -31,6 +31,12 @@
 Телефоную
 [Always when changing from offline]
 Із статусу "Відключений"
+[Notify when contact changes]
+Сповіщати, коли контакт змінює
+[Extra status]
+хСтатус
+[Status message]
+Повідомлення статусу
 [Plugin activation]
 Активізація плагіна
 [Automatically turn off Popups and Sounds on status change]
@@ -39,20 +45,18 @@
 Налаштувати
 [Notify me for people not on my contact list]
 Сповіщати про контакти поза списком контактів
-[Blink icon in the system tray]
-Блимаючий значок у треї
-[Use status icon]
-Значок статусу
 [Use individual sounds]
 Індивідуальні звуки
+[Blink icon in the system tray]
+Блимаючий значок у треї
+[Also when extra status or status message changes]
+При зміні хСтатусів чи повідомлень статусу
+[Use status icon]
+Значок статусу
 [Log to file]
 Запис у файл
-[Extra status]
-хСтатус
 [Open]
 Відкрити
-[Status message]
-Повідомлення статусу
 [Change]
 Змінити
 [Preview]
@@ -72,13 +76,19 @@
 [Popups]
 Спливаючі вікна
 [Extra status notify]
-хСтатус
+хСтатуси
 [Extra status logging]
 Запис хСтатусів
 [Disable all]
-Вимкнути всі
+Вимкнути все
 [Enable all]
-Ввімкнути всі
+Ввімкнути все
+[Status message notify]
+Статусні повідомлення
+[Status message logging]
+Запис ст. повідомлень
+[Popups when status changes to:]
+Сплив. вікно, коли статус змінився на:
 [Background]
 Фон
 [Text]
@@ -93,70 +103,118 @@
 Кольори спливаючих вікон
 [Popup text]
 Текст спливаючих вікон
-[Read status message]
-Читати статусне повідомлення
-[Show previous status too]
-Показувати попередній статус
-[Timeout]
-Таймаут
-[Popups when status changes to:]
-Сплив. вікно, коли статус змінився на:
-[Click action]
-Дії по кліку
 [Show contact group name]
 Показувати ім'я групи контакту
+[Show status description]
+Показувати опис статусу
 [Use alternative descriptions]
-Використовувати альтернативний опис
-[0 = Default]
-0=Замовчання
-[-1 = Infinite]
--1=Нескінченно
+Альтернативний опис
+[Show previous status too]
+Показувати попередній статус
+[Read status message]
+Читати статусне повідомлення
+[Timeout]
+Таймаут
 [Sec]
 с
+[Connection timeout]
+Затримка на старті
+[0 = Default]
+0 = Замовчання
+[-1 = Infinite]
+-1 = Нескінченно
+[Click action]
+Дії по кліку
 [On left click]
 Лівий клік
 [On right click]
 Правий клік
-[Show status description]
-Показувати опис статусу
-[Connection timeout]
-Затримка на старті
 [Notification]
 Сповіщення
+[Show Popups when I connect]
+Показувати спливаючі вікна, коли я підключаюся
 [Disable for extra status 'Music']
 Вимкнути для хСтатусу "Музика"
 [Truncate message length to:]
-Обрізати повідомлення:
+Обрізати повідомлення до
 [characters]
 символів
 [Templates]
 Шаблони
+[Notify when contact changes extra status]
+Сповіщати про зміни хСтатусів
+[Template:]
+Шаблон:
+[Notify when contact removes extra status]
+Сповіщати про видалення хСтатусів
+[Notify when contact changes extra status message]
+Сповіщати про зміни повідомлень хСтатусу
+[Notify when contact removes extra status message]
+Сповіщати про видалення повідомлень хСтатусу
 [Variables]
 Змінні
 [Reset]
 Скинути
-[Show Popups when I connect]
-Показувати спливаючі вікна, коли я підключаюся
 [Disable notifications]
 Вимкнути сповіщення
-[Cancel]
-Скасувати
 [Disable globally]
 Вимкнути повністю
-[Disable only if I change global status]
-Вимикати лише при зміні глобального статусу
 [Disable when my status is:]
 Вимикати, коли мій статус:
+[Disable only if I change global status]
+Вимикати лише при зміні глобального статусу
+[Cancel]
+Скасувати
+[Log extra status changes]
+Записувати зміни хСтатусів
+[Log extra status changes to file]
+У файл
+[Log extra status changes to history]
+В історію
 [Only when message window is open]
 Тільки якщо вікно повідомлень відкрите
+[Remove events from history when closing message window]
+Видаляти події з історії після закриття вікна повідомлень
+[Log when contact changes extra status]
+Записувати зміни хСтатусів
+[Log when contact removes extra status]
+Записувати видалення хСтатусів
+[Log when contact changes extra status message]
+Записувати зміни повідомлень хСтатусу
+[Log when contact removes extra status message]
+Записувати видалення повідомлень хСтатусу
+[Log extra status when opening message window]
+Записувати хСтатуси при відкритті вікна повідомлень
 [General]
 Загальне
 [Accounts]
 Облікові записи
 [Enable/Disable accounts which you don't wish to be notified for:]
 Ввімкнути/Вимкнути сповіщення для облікових записів:
+[Notify when contact changes status message]
+Сповіщати про зміни статусних повідомлень
+[Notify when contact removes status message]
+Сповіщати про видалення статусних повідомлень
+[Log status changes]
+Записувати зміни статусів
+[Log status changes to file]
+У файл
 [Log status changes to history]
-Записувати зміни статусів в історію
+В історію
+[Log previous status too]
+Записувати також попередній статус
+[Log status message changes]
+Записувати зміни статусних повідомлень
+[Log status message changes to file]
+У файл
+[Log status message changes to history]
+В історію
+[Log when contact changes status message]
+Записувати зміни статусних повідомлень
+[Log when contact removes status message]
+Записувати видалення статусних повідомлень
+[Log status message when opening message window]
+Записувати статусні повідомлення при відкритті вікна повідомлень
 [Sound files]
 Звукові файли
 [All files]
@@ -165,6 +223,8 @@
 Файли WAV
 [Status]
 Статус
+[Sound file]
+Файл
 [** All contacts **]
 ** Усі контакти **
 [(default sound)]
@@ -177,12 +237,16 @@
 <невідомо>
 [%s is now %s]
 %s зараз %s
+[%s, %s. %s changed status to %s (was %s)\r\n]
+%s, %s. %s змінив(ла) статус на %s (був(ла) %s)\r\n
 [connecting]
 підключається
 [aborting]
 відключається
 [playing]
 грає
+[%s changed status message to %s]
+%s змінив(ла) статусне повідомлення на %s
 [(M) is back online!]
 знову в мережі!
 [(F) is back online!]
@@ -265,12 +329,18 @@
 Користувач: телефонує
 [User: from offline (has priority!)]
 Користувач: з офлайну (має пріоритет!)
+[Status message removed]
+Видалено статусне повідомлення
+[Status message changed]
+Змінено статусне повідомлення
 [Extra status removed]
-хСтатус видалено
+Видалено хСтатус
 [Extra status message changed]
 Змінено повідомлення хСтатусу
 [Extra status changed]
-хСтатус змінено
+Змінено хСтатус
+[Extra status message removed]
+Видалено повідомлення хСтатусу
 [Enable status notification]
 Ввімкнути сповіщення про зміну статусу
 [Disable status notification]
@@ -290,7 +360,9 @@
 [Log]
 Журнал
 [This is status message]
-Це повідомлення статусу
+Повідомлення статусу
+[This is extra status]
+хСтатус
 [Show available variables]
 Доступні змінні
 [Reset all templates to default]
@@ -299,18 +371,20 @@
 Ви хочете скинути всі шаблони на стандартні?
 [Reset templates]
 Скинути шаблони
-[Protocol]
-Протокол
+[Account]
+Обліковий запис
+[Logging]
+Запис хСтатусів
 [Filtering]
 Фільтрація
 [Message log]
-Журнал
+Запис статусів
 [(was %s)]
 (був(ла) %s)
 [Open message window]
 Відкрити вікно бесіди
 [Close popup]
-Закрити вікно
+Закрити спливаюче вікно
 [Open contact details window]
 Відкрити вікно деталей контакту
 [Open contact menu]
@@ -329,14 +403,22 @@
 Заняття
 [Xstatus]
 хСтатус
+[<no title>]
+<без заголовка>
+[%s changed %s]
+%s змінив(ла) %s
 [changed %n to: %t]
 змінив(ла) %n на: %t
 [removed %n]
 видалив(ла) %n
 [changed %n message to: %m]
-змінив(ла) повідомлення %n: %m
+змінив(ла) повідомлення %n на: %m
+[removed %n message]
+видалив(ла) повідомлення %n
 [changed status message to: %n]
-змінив(ла) статусне повідомлення: на %n
+змінив(ла) статусне повідомлення на: %n
+[removed status message]
+видалив(ла) статусне повідомлення
 [changed %n @ %t: %m]
 змінив(ла) %n @ %t: %m
 [changed %n message @ %m]
@@ -345,3 +427,9 @@
 %n @ %t: %m
 [changed status message @ %n]
 змінив(ла) статусне повідомлення @ %n
+[is %s and has status message @ %n]
+зараз %s @ %n
+[These variables are available:\r\n\r\n%n\textra status name (Xstatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Доступні змінні:\r\n\r\n%n\tназва хСтатусу (хСтатус, Настрій, Заняття)\r\n%t\tзаголовок хСтатусу\r\n%m\tповідомлення хСтатусу\r\n%c\tнік\r\n\\n\tперенос рядка\r\n\\t\tтабуляція
+[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
+Доступні змінні:\r\n\r\n%n\tнове повідомлення статусу\r\n%o\tстаре повідомлення статусу\r\n%c\tнік\r\n%s\tпоточний статус\r\n\\n\tперенос рядка\r\n\\t\tтабуляція
