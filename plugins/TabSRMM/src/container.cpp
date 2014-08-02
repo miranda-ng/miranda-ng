@@ -1131,7 +1131,6 @@ panel_found:
 	case DM_UPDATETITLE:
 		{
 			MCONTACT hContact = 0;
-			const TCHAR *szNewTitle = NULL;
 			TWindowData *dat = NULL;
 
 			if (lParam) {               // lParam != 0 means sent by a chat window
@@ -1166,7 +1165,7 @@ panel_found:
 			}
 			if (dat) {
 				SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->hXStatusIcon ? dat->hXStatusIcon : dat->hTabStatusIcon));
-				szNewTitle = Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat);
+				const TCHAR *szNewTitle = Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat);
 				if (szNewTitle) {
 					SetWindowText(hwndDlg, szNewTitle);
 					mir_free((void*)szNewTitle);

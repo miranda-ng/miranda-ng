@@ -433,8 +433,10 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		if (lstrlenA(setting) > 6 && lstrlenA(setting) < 9 && !strncmp(setting, "Status", 6)) {
 			fChanged = true;
-			if (c)
+			if (c) {
 				c->updateMeta();
+				c->updateUIN();
+			}
 		}
 		else if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);

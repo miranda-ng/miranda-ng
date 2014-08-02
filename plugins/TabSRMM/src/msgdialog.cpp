@@ -1228,8 +1228,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->bIsMeta = dat->cache->isMeta();
 			if (dat->bIsMeta)
 				dat->cache->updateMeta();
-			else
-				dat->cache->updateUIN();
+
+			dat->cache->updateUIN();
 
 			if (dat->hContact && dat->szProto != NULL) {
 				dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
