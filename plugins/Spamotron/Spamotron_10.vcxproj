@@ -85,9 +85,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>src\pcre\pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -109,9 +107,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>src\pcre\pcre64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
@@ -138,9 +134,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>src\pcre\pcre.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
@@ -167,9 +161,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>src\pcre\pcre64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
@@ -192,7 +184,6 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\pcre\pcre.h" />
     <ClInclude Include="src\sqlite3\sqlite3.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\resource.h" />
@@ -201,6 +192,11 @@
   <ItemGroup>
     <ResourceCompile Include="res\spamotron.rc" />
     <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pcre16\pcre16_12.vcxproj">
+      <Project>{6124e997-426e-4a0b-9617-d6d577d5e7d7}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

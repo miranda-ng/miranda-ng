@@ -19,7 +19,7 @@
 
 #include "m_folders.h"
 
-#include "pcre/pcre.h"
+#include "..\pcre16\src\pcre.h"
 
 #include "resource.h"
 #include "version.h"

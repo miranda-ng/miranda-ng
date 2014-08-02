@@ -26,24 +26,24 @@ TCHAR *_tcstoupper(TCHAR *dst)
 BOOL _isregex(TCHAR* strSearch)
 {
 	BOOL ret = FALSE;
-	pcre *re;
+	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	char *regex;
-	char regex_parse[] = "/(.*)/([igsm]*)";
+	TCHAR *regex;
+	TCHAR regex_parse[] = _T("/(.*)/([igsm]*)");
 	int ovector[9];
 	
-	re = pcre_compile(regex_parse, 0, &error, &erroroffs, NULL);
+	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, NULL);
 	if (!re)
 		return FALSE;
 	
-	regex = mir_u2a(strSearch);
-	rc = pcre_exec(re, NULL, regex, (int)strlen(regex), 0, 0, ovector, 9);
+	regex = mir_tstrdup(strSearch);
+	rc = pcre16_exec(re, NULL, regex, (int)lstrlen(regex), 0, 0, ovector, 9);
 	if (rc == 3)
 		ret = TRUE;
 	
 	if (re)
-		pcre_free(re);
+		pcre16_free(re);
 	if (regex)
 		mir_free(regex);
 	
@@ -53,21 +53,21 @@ BOOL _isregex(TCHAR* strSearch)
 BOOL _isvalidregex(TCHAR* strSearch)
 {
 	BOOL ret;
-	pcre *re;
+	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	char *regex, *regexp, *mod;
+	TCHAR *regex, *regexp, *mod;
 	int opts = 0;
-	char regex_parse[] = "/(.*)/([igsm]*)";
+	TCHAR regex_parse[] = _T("/(.*)/([igsm]*)");
 	int ovector[9];
 	
-	re = pcre_compile(regex_parse, 0, &error, &erroroffs, NULL);
+	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, NULL);
 	if (!re)
 		return FALSE;
 
-	regex = mir_u2a(strSearch);
-	rc = pcre_exec(re, NULL, regex, (int)strlen(regex), 0, 0, ovector, 9);
-	pcre_free(re);
+	regex = mir_tstrdup(strSearch);
+	rc = pcre16_exec(re, NULL, regex, (int)lstrlen(regex), 0, 0, ovector, 9);
+	pcre16_free(re);
 
 	if (rc == 3) {
 		regexp = regex + ovector[2];
@@ -75,19 +75,19 @@ BOOL _isvalidregex(TCHAR* strSearch)
 		mod = regex + ovector[4];
 		mod[ovector[5]-ovector[4]] = 0;
 
-		if (strstr(mod, "i"))
+		if (_tcsstr(mod, _T("i")))
 			opts |= PCRE_CASELESS;
-		if (strstr(mod, "m"))
+		if (_tcsstr(mod, _T("m")))
 			opts |= PCRE_MULTILINE;
-		if (strstr(mod, "s"))
+		if (_tcsstr(mod, _T("s")))
 			opts |= PCRE_DOTALL;
 
-		re = pcre_compile(regexp, opts, &error, &erroroffs, NULL);
+		re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
 		ret = (re) ? TRUE : FALSE;
 	}
 
 	if (re)
-		pcre_free(re);
+		pcre16_free(re);
 	if (regex)
 		mir_free(regex);
 	
@@ -97,20 +97,20 @@ BOOL _isvalidregex(TCHAR* strSearch)
 BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 {
 	BOOL ret;
-	pcre *re;
+	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	char *regex, *regexp, *data, *mod;
+	TCHAR *regex, *regexp, *data, *mod;
 	int opts = 0;
-	char regex_parse[] = "^/(.*)/([igsm]*)";
+	TCHAR regex_parse[] = _T("^/(.*)/([igsm]*)");
 	int ovector[9];
 
-	re = pcre_compile(regex_parse, 0, &error, &erroroffs, NULL);
+	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, NULL);
 	if (!re)
 		return FALSE; // [TODO] and log some error
 
-	regex = mir_u2a(strSearch);
-	rc = pcre_exec(re, NULL, regex, (int)strlen(regex), 0, 0, ovector, 9);
+	regex = mir_tstrdup(strSearch);
+	rc = pcre16_exec(re, NULL, regex, (int)lstrlen(regex), 0, 0, ovector, 9);
 	if (rc != 3) {
 		mir_free(regex);
 		return FALSE; // [TODO] and log some error (better check for valid regex on options save)
@@ -120,25 +120,25 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 	regexp[ovector[3]-ovector[2]] = 0;
 	mod = regex + ovector[4];
 	mod[ovector[5]-ovector[4]] = 0;
-	pcre_free(re);
+	pcre16_free(re);
 
-	data = mir_u2a(str);
+	data = mir_tstrdup(str);
 
-	if (strstr(mod, "i"))
+	if (_tcsstr(mod, _T("i")))
 		opts |= PCRE_CASELESS;
-	if (strstr(mod, "m"))
+	if (_tcsstr(mod, _T("m")))
 		opts |= PCRE_MULTILINE;
-	if (strstr(mod, "s"))
+	if (_tcsstr(mod, _T("s")))
 		opts |= PCRE_DOTALL;
 
-	re = pcre_compile(regexp, opts, &error, &erroroffs, NULL);
+	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
 	if (!re) {
 		mir_free(regex);
 		mir_free(data);
 		return FALSE;
 	}
 	
-	rc = pcre_exec(re, NULL, data, (int)strlen(data), 0, 0, NULL, 0);
+	rc = pcre16_exec(re, NULL, data, (int)lstrlen(data), 0, 0, NULL, 0);
 	if (rc < 0) {
 		ret = FALSE;
 	} else {
@@ -146,7 +146,7 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 	}
 
 	if (re)
-		pcre_free(re);
+		pcre16_free(re);
 	if (regex)
 		mir_free(regex);
 	if (data)
@@ -158,31 +158,31 @@ BOOL _regmatch(TCHAR* str, TCHAR* strSearch)
 int get_response_id(const TCHAR* strvar)
 {
 	int ret;
-	pcre *re;
+	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	char *_str, *_strvar;
+	TCHAR *_str, *_strvar;
 	int opts = 0;
-	char regex[] = "^%response([#-_]([0-9]+))?%$";
+	TCHAR regex[] = _T("^%response([#-_]([0-9]+))?%$");
 	int ovector[9];
 
-	re = pcre_compile(regex, 0, &error, &erroroffs, NULL);
+	re = pcre16_compile(regex, 0, &error, &erroroffs, NULL);
 	if (!re)
 		return FALSE; // [TODO] and log some error
 	
-	_strvar = mir_u2a(strvar);
-	rc = pcre_exec(re, NULL, _strvar, (int)strlen(_strvar), 0, 0, ovector, 9);
+	_strvar = mir_tstrdup(strvar);
+	rc = pcre16_exec(re, NULL, _strvar, (int)lstrlen(_strvar), 0, 0, ovector, 9);
 	if (rc < 0) {
 		ret = -1;
 	} else if (rc == 3) {
 		_str = _strvar + ovector[4];
 		_str[ovector[5]-ovector[4]] = 0;
-		ret = atoi(_str);
+		ret = _ttoi(_str);
 	} else
 		ret = 0;
 
 	if (re)
-		pcre_free(re);
+		pcre16_free(re);
 	if (_strvar)
 		mir_free(_strvar);
 	
@@ -365,17 +365,17 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 {
 	TCHAR response[2048];
 	int ret, i = 1;
-	pcre *re;
+	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	char *_str, *tmp;
+	TCHAR *_str, *tmp;
 	TCHAR **r;
 	TCHAR *ttmp, *dstcopy;
 	int opts = 0;
-	char regex[] = "%response([#-_]([0-9]+))?%";
+	TCHAR regex[] = _T("%response([#-_]([0-9]+))?%");
 	int ovector[9];
 
-	re = pcre_compile(regex, 0, &error, &erroroffs, NULL);
+	re = pcre16_compile(regex, 0, &error, &erroroffs, NULL);
 	if (!re)
 		return FALSE; // [TODO] and log some error
 	
@@ -393,11 +393,11 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 	}
 
 	do {
-		_str = mir_u2a(dst);
+		_str = mir_tstrdup(dst);
 		dstcopy = (TCHAR*)malloc((_tcslen(dst)+1)*sizeof(TCHAR));
 		_tcscpy(dstcopy, dst);
 		
-		rc = pcre_exec(re, NULL, _str, (int)strlen(_str), 0, 0, ovector, 9);
+		rc = pcre16_exec(re, NULL, _str, (int)lstrlen(_str), 0, 0, ovector, 9);
 		if (rc < 0) {
 			ret = -1;
 		} else if (rc == 3) {
@@ -405,7 +405,7 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 			ttmp[ovector[1]-ovector[0]] = 0;
 			tmp = _str + ovector[4];
 			tmp[ovector[5]-ovector[4]] = 0;
-			ret = atoi(tmp);
+			ret = _ttoi(tmp);
 		} else {
 			ttmp = dstcopy + ovector[0];
 			ttmp[ovector[1]-ovector[0]] = 0;
@@ -428,7 +428,7 @@ TCHAR* ReplaceVarsNum(TCHAR *dst, unsigned int len, int num)
 	} while (rc >= 0);
 
 	if (re)
-		pcre_free(re);
+		pcre16_free(re);
 
 	return dst;
 } 

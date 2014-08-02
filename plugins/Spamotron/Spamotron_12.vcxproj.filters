@@ -15,9 +15,6 @@
     <Filter Include="Header Files\sqlite3">
       <UniqueIdentifier>{c2cd5aa5-923e-4b82-aa84-48bbdd5a2d47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\pcre">
-      <UniqueIdentifier>{5c4a0315-c2e2-4685-97e1-4131819b7dbc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -55,9 +52,6 @@
     </ClInclude>
     <ClInclude Include="src\sqlite3\sqlite3.h">
       <Filter>Header Files\sqlite3</Filter>
-    </ClInclude>
-    <ClInclude Include="src\pcre\pcre.h">
-      <Filter>Header Files\pcre</Filter>
     </ClInclude>
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
