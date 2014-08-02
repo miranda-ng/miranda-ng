@@ -91,12 +91,12 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>pcred.lib;pdh.lib;Ws2_32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pdh.lib;Ws2_32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>src\pcre\lib;$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -119,14 +119,14 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>pcre.lib;pdh.lib;Ws2_32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pdh.lib;Ws2_32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>src\pcre\lib;$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,14 +144,14 @@
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>pcre.lib;pdh.lib;Ws2_32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pdh.lib;Ws2_32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>src\pcre\lib64;$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
@@ -171,12 +171,12 @@
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>pcred.lib;pdh.lib;Ws2_32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pdh.lib;Ws2_32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>src\pcre\lib64;$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
@@ -233,6 +233,11 @@
   <ItemGroup>
     <ResourceCompile Include="res\Variables.rc" />
     <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pcre16\pcre16_12.vcxproj">
+      <Project>{6124e997-426e-4a0b-9617-d6d577d5e7d7}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

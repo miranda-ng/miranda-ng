@@ -34,15 +34,12 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai)
 
 	ai->flags = AIF_FALSE;
 
-	ptrA arg1(mir_t2a(ai->targv[1]));
-	ptrA arg2(mir_t2a(ai->targv[2]));
-
-	pcre *ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
+	pcre16 *ppat = pcre16_compile(ai->targv[1], 0, &err, &erroffset, NULL);
 	if (ppat == NULL)
 		return NULL;
 
-	pcre_extra *extra = pcre_study(ppat, 0, &err);
-	int nmat = pcre_exec(ppat, extra, arg2, (int)strlen(arg2), 0, 0, offsets, 99);
+	pcre16_extra *extra = pcre16_study(ppat, 0, &err);
+	int nmat = pcre16_exec(ppat, extra, ai->targv[2], (int)lstrlen(ai->targv[2]), 0, 0, offsets, 99);
 	if (nmat > 0) {
 		ai->flags &= ~AIF_FALSE;
 		_ltoa(nmat, szVal, 10);
@@ -57,36 +54,33 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai)
 	*/
 static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 {
-	const char *err, *substring;
+	const char *err;
+	const TCHAR *substring;
 	int erroffset, number;
 	int offsets[99];
 
 	if (ai->argc != 4)
 		return NULL;
 
-	ptrA arg1(mir_t2a(ai->targv[1]));
-	ptrA arg2(mir_t2a(ai->targv[2]));
-	ptrA arg3(mir_t2a(ai->targv[3]));
-
-	number = atoi(arg3);
+	number = _ttoi(ai->targv[3]);
 	if (number < 0)
 		return NULL;
 
 	ai->flags = AIF_FALSE;
-	pcre *ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
+	pcre16 *ppat = pcre16_compile(ai->targv[1], 0, &err, &erroffset, NULL);
 	if (ppat == NULL)
 		return NULL;
 
-	pcre_extra *extra = pcre_study(ppat, 0, &err);
-	int nmat = pcre_exec(ppat, extra, arg2, (int)strlen(arg2), 0, 0, offsets, 99);
+	pcre16_extra *extra = pcre16_study(ppat, 0, &err);
+	int nmat = pcre16_exec(ppat, extra, ai->targv[2], (int)lstrlen(ai->targv[2]), 0, 0, offsets, 99);
 	if (nmat >= 0)
 		ai->flags &= ~AIF_FALSE;
 
-	if (pcre_get_substring(arg2, offsets, nmat, number, &substring) < 0)
+	if (pcre16_get_substring(ai->targv[2], offsets, nmat, number, &substring) < 0)
 		ai->flags |= AIF_FALSE;
 	else {
-		TCHAR *tres = mir_a2t(substring);
-		pcre_free_substring(substring);
+		TCHAR *tres = mir_tstrdup(substring);
+		pcre16_free_substring(substring);
 		return tres;
 	}
 

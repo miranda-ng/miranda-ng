@@ -19,7 +19,6 @@
 
 #define _CRT_NON_CONFORMING_SWPRINTFS
 #define _CRT_SECURE_NO_WARNINGS
-#define PCRE_STATIC
 
 #include <malloc.h>
 #include <windows.h>
@@ -44,13 +43,13 @@
 #include <m_clui.h>
 #include <m_clc.h>
 #include <m_string.h>
+#include <m_metacontacts.h>
 
 #include <m_variables.h>
-#include <m_metacontacts.h>
 
 #include "..\helpers\gen_helpers.h"
 
-#include "pcre\include\pcre.h"
+#include "..\pcre16\src\pcre.h"
 
 #include "resource.h"
 #include "version.h"
