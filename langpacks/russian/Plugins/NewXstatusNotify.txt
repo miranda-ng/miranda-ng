@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
@@ -31,6 +31,10 @@
 На телефоне
 [Always when changing from offline]
 Из статуса "Отключён"
+[Extra status]
+xСтатус
+[Status message]
+Сообщение статуса
 [Plugin activation]
 Активизация плагина
 [Automatically turn off Popups and Sounds on status change]
@@ -39,20 +43,16 @@
 Настроить
 [Notify me for people not on my contact list]
 Уведомлять меня о контактах не из списка контактов
+[Use individual sounds]
+Индивидуальные звуки
 [Blink icon in the system tray]
 Мигающий значок в сист. панели
 [Use status icon]
 Значок статуса
-[Use individual sounds]
-Индивидуальные звуки
 [Log to file]
 Запись в файл
-[Extra status]
-xСтатус
 [Open]
 Открыть
-[Status message]
-Сообщение статуса
 [Change]
 Изменить
 [Preview]
@@ -79,6 +79,8 @@ xСтатус
 Отключить все
 [Enable all]
 Включить все
+[Popups when status changes to:]
+Окна, когда статус изменился на:
 [Background]
 Фон
 [Text]
@@ -93,36 +95,36 @@ xСтатус
 Цвета всплывающих окон
 [Popup text]
 Текст всплывающих окон
-[Read status message]
-Читать статусное сообщение
-[Show previous status too]
-Показывать предыдущий cтатус
-[Timeout]
-Таймаут
-[Popups when status changes to:]
-Окна, когда статус изменился на:
-[Click action]
-Действия по щелчку
 [Show contact group name]
 Показывать имя группы контакта
+[Show status description]
+Показывать описание статуса
 [Use alternative descriptions]
 Использовать альтернативное описание
+[Show previous status too]
+Показывать предыдущий cтатус
+[Read status message]
+Читать статусное сообщение
+[Timeout]
+Таймаут
+[Sec]
+сек.
+[Connection timeout]
+Таймаут на старте
 [0 = Default]
 0=Умолчание
 [-1 = Infinite]
 -1=Бесконечно
-[Sec]
-сек.
+[Click action]
+Действия по щелчку
 [On left click]
 Левый щелчок
 [On right click]
 Правый щелчок
-[Show status description]
-Показывать описание статуса
-[Connection timeout]
-Таймаут на старте
 [Notification]
 Уведомление
+[Show Popups when I connect]
+Окна при подключении
 [Disable for extra status 'Music']
 Отключить для хСтатуса "Музыка"
 [Truncate message length to:]
@@ -135,18 +137,16 @@ xСтатус
 Переменные
 [Reset]
 Сброс
-[Show Popups when I connect]
-Окна при подключении
 [Disable notifications]
 Выключить уведомления
-[Cancel]
-Отмена
 [Disable globally]
 Отключить полностью
-[Disable only if I change global status]
-Отключать, только при изменении глобального статуса
 [Disable when my status is:]
 Отключать, когда мой статсус:
+[Disable only if I change global status]
+Отключать, только при изменении глобального статуса
+[Cancel]
+Отмена
 [Only when message window is open]
 Только если открыто окно сообщений
 [General]
@@ -301,8 +301,6 @@ xСтатус изменен
 Вы хотите сбросить все шаблоны на стандартные?
 [Reset templates]
 Сбросить шаблоны
-[Protocol]
-Протокол
 [Filtering]
 Фильтрация
 [Message log]
