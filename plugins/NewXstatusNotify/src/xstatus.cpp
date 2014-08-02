@@ -187,7 +187,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 		{
 			DBVARIANT dbv;
 			char szSetting[64];
-			mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity", "icon");
+			mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
 			if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
 				hIcon = Skin_GetIcon(dbv.pszVal);
 				db_free(&dbv);
@@ -195,10 +195,8 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 			break;
 		}
 	case TYPE_ICQ_XSTATUS:
-		{
-			int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
-			hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
-		}
+		int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
+		hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
 	}
 
 	if (hIcon == NULL)
@@ -244,8 +242,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 	HICON hIcon = NULL;
 	TCHAR str[256] = {0};
 	TCHAR stzType[32];
-	mir_sntprintf(str, SIZEOF(str), TranslateT("%s changed %s"),
-		CallService(MS_CLIST_GETCONTACTDISPLAYNAME, xsc->hContact, GCDNF_TCHAR), GetStatusTypeAsString(xsc->type, stzType));
+	mir_sntprintf(str, SIZEOF(str), TranslateT("%s changed %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, xsc->hContact, GCDNF_TCHAR), GetStatusTypeAsString(xsc->type, stzType));
 
 	if (opt.BlinkIcon_Status) {
 		DBVARIANT dbv;
@@ -254,7 +251,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 		switch (xsc->type) {
 		case TYPE_JABBER_MOOD:
 		case TYPE_JABBER_ACTIVITY:
-			mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity", "icon");
+			mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
 			if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
 				hIcon = Skin_GetIcon(dbv.pszVal);
 				db_free(&dbv);
@@ -289,7 +286,7 @@ void PlayXStatusSound(MCONTACT hContact, int action)
 
 void LogChangeToDB(XSTATUSCHANGE *xsc)
 {
-	if (opt.XLogToDB_WinOpen && (CheckMsgWnd(xsc->hContact) == false))
+	if (opt.XLogToDB_WinOpen && !CheckMsgWnd(xsc->hContact))
 		return;
 
 	TCHAR *Template = _T("");
@@ -357,11 +354,9 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 		Template = templates.LogXMsgRemoved; break;
 	}
 
-	TCHAR *stzLogText;
-	stzLogText = ReplaceVars(xsc, Template);
+	TCHAR *stzLogText = ReplaceVars(xsc, Template);
 
-	mir_sntprintf(stzText, SIZEOF(stzText), TranslateT("%s, %s. %s %s\r\n"), stzDate, stzTime,
-		CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR), stzLogText);
+	mir_sntprintf(stzText, SIZEOF(stzText), _T("%s, %s. %s %s\r\n"), stzDate, stzTime, CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR), stzLogText);
 
 	LogToFile(stzText);
 	mir_free(stzLogText);
@@ -499,12 +494,12 @@ void LogXstatusChange(MCONTACT hContact, char *szProto, int xstatusType, TCHAR *
 void AddXStatusEventThread(void *arg)
 {
 	MCONTACT hContact = (MCONTACT)arg;
-	TCHAR stzTitle[MAX_TITLE_LEN], stzText[MAX_TEXT_LEN];
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return;
 
+	TCHAR stzTitle[MAX_TITLE_LEN], stzText[MAX_TEXT_LEN];
 	if (ProtoServiceExists(szProto, JS_PARSE_XMPP_URI)) {
 		GetJabberAdvStatusText(hContact, szProto, "mood", "title", stzTitle, SIZEOF(stzTitle));
 		if (stzTitle[0]) {
@@ -545,21 +540,22 @@ void AddSMsgEventThread(void *arg)
 int OnWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
+	if (mwed->uType == MSG_WINDOW_EVT_CLOSE) {
+		if(opt.XLogToDB && opt.XLogToDB_WinOpen && opt.XLogToDB_Remove)
+			RemoveLoggedEventsXStatus(mwed->hContact);
 
-	if ((mwed->uType == MSG_WINDOW_EVT_CLOSE) && opt.XLogToDB && opt.XLogToDB_WinOpen && opt.XLogToDB_Remove)
-		RemoveLoggedEventsXStatus(mwed->hContact);
+		if (opt.LogToDB && opt.LogToDB_WinOpen && opt.LogToDB_Remove)
+			RemoveLoggedEventsStatus(mwed->hContact);
 
-	if ((mwed->uType == MSG_WINDOW_EVT_CLOSE) && opt.LogToDB && opt.LogToDB_WinOpen && opt.LogToDB_Remove)
-		RemoveLoggedEventsStatus(mwed->hContact);
+		if (opt.SMsgLogToDB && opt.SMsgLogToDB_WinOpen && opt.SMsgLogToDB_Remove)
+			RemoveLoggedEventsSMsg(mwed->hContact);
+	}
+	else if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
+		if (opt.XLogToDB && (templates.LogXFlags & NOTIFY_OPENING_ML) && db_get_b(mwed->hContact, MODULE, "EnableXLogging", 1))
+			mir_forkthread(AddXStatusEventThread, (void *)mwed->hContact);
 
-	if ((mwed->uType == MSG_WINDOW_EVT_CLOSE) && opt.SMsgLogToDB && opt.SMsgLogToDB_WinOpen && opt.SMsgLogToDB_Remove)
-		RemoveLoggedEventsSMsg(mwed->hContact);
-
-	if ((mwed->uType == MSG_WINDOW_EVT_OPEN) && opt.XLogToDB && (templates.LogXFlags & NOTIFY_OPENING_ML) && db_get_b(mwed->hContact, MODULE, "EnableXLogging", 1))
-		mir_forkthread(AddXStatusEventThread, (void *)mwed->hContact);
-
-	if ((mwed->uType == MSG_WINDOW_EVT_OPEN) && opt.SMsgLogToDB && (templates.LogSMsgFlags & NOTIFY_OPENING_ML) && db_get_b(mwed->hContact, MODULE, "EnableSMsgLogging", 1))
-		mir_forkthread(AddSMsgEventThread, (void *)mwed->hContact);
-
+		if (opt.SMsgLogToDB && (templates.LogSMsgFlags & NOTIFY_OPENING_ML) && db_get_b(mwed->hContact, MODULE, "EnableSMsgLogging", 1))
+			mir_forkthread(AddSMsgEventThread, (void *)mwed->hContact);
+	}
 	return 0;
 }
