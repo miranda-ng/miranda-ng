@@ -497,7 +497,7 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM lParam)
 		if (c) {
 			c->updateMeta();
 			if (c->getHwnd()) {
-				::PostMessage(c->getHwnd(), DM_UPDATETITLE, 0, 0);
+				::PostMessage(c->getHwnd(), DM_UPDATETITLE, 0, 1);
 				::PostMessage(c->getHwnd(), DM_UPDATEPICLAYOUT, 0, 0);
 			}
 		}

@@ -131,8 +131,7 @@ void CInfoPanel::saveHeight(bool fFlush)
 				}
 			}
 		}
-		else
-			db_set_dw(m_dat->hContact, SRMSGMOD_T, "panelheight", MAKELONG(m_height, 0xffff));
+		else db_set_dw(m_dat->hContact, SRMSGMOD_T, "panelheight", MAKELONG(m_height, 0xffff));
 	}
 }
 

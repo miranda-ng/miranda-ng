@@ -156,6 +156,9 @@ void CContactCache::updateMeta()
 		m_hSub = db_mc_getSrmmSub(cc->contactID);
 		m_szMetaProto = GetContactProto(m_hSub);
 		m_wMetaStatus = (WORD)db_get_w(m_hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
+		PROTOACCOUNT *pa = ProtoGetAccount(m_szMetaProto);
+		if (pa)
+			m_szAccount = pa->tszAccountName;
 
 		if (hOldSub != m_hSub) {
 			updateStatus();
