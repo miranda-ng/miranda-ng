@@ -61,6 +61,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 
 	db_set_dw(hMetaContact, META_PROTO, "NumContacts", 0);
 	cc->nSubs = 0;
+	currDb->MetaSetDefault(cc); // explicitly write default sub to a db
 
 	// Add the MetaContact protocol to the new meta contact
 	CallService(MS_PROTO_ADDTOCONTACT, hMetaContact, (LPARAM)META_PROTO);
