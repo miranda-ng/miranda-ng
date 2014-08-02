@@ -433,10 +433,8 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 		if (lstrlenA(setting) > 6 && lstrlenA(setting) < 9 && !strncmp(setting, "Status", 6)) {
 			fChanged = true;
-			if (c) {
-				c->updateMeta(true);
-				c->updateUIN();
-			}
+			if (c)
+				c->updateMeta();
 		}
 		else if (!strcmp(setting, "MirVer"))
 			PostMessage(hwnd, DM_CLIENTCHANGED, 0, 0);
@@ -495,9 +493,8 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM lParam)
 	if (hContact) {
 		CContactCache *c = CContactCache::getContactCache(hContact);
 		if (c) {
-			c->updateMeta(true);
+			c->updateMeta();
 			if (c->getHwnd()) {
-				c->updateUIN();   // only do this for open windows, not needed normally
 				::PostMessage(c->getHwnd(), DM_UPDATETITLE, 0, 0);
 				::PostMessage(c->getHwnd(), DM_UPDATEPICLAYOUT, 0, 0);
 			}

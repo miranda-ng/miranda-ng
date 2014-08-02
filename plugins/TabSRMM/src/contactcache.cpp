@@ -73,7 +73,7 @@ void CContactCache::initPhaseTwo()
 	if (m_Valid) {
 		m_isMeta = db_mc_isMeta(cc->contactID) != 0; // don't use cc->IsMeta() here
 		if (m_isMeta)
-			updateMeta(true);
+			updateMeta();
 		updateState();
 		updateFavorite();
 	}
@@ -149,15 +149,22 @@ bool CContactCache::updateStatus()
  * MC protocol fires one of its events OR when a relevant database value changes
  * in the master contact.
  */
-void CContactCache::updateMeta(bool fForce)
+void CContactCache::updateMeta()
 {
 	if (m_Valid) {
-		MCONTACT hSub = db_mc_getSrmmSub(cc->contactID);
-		m_szMetaProto = GetContactProto(hSub);
-		m_wMetaStatus = (WORD)db_get_w(hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
-		m_xStatus = (WORD)db_get_w(hSub, m_szMetaProto, "XStatusId", ID_STATUS_OFFLINE);
+		MCONTACT hOldSub = m_hSub;
+		m_hSub = db_mc_getSrmmSub(cc->contactID);
+		m_szMetaProto = GetContactProto(m_hSub);
+		m_wMetaStatus = (WORD)db_get_w(m_hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
+
+		if (hOldSub != m_hSub) {
+			updateStatus();
+			updateNick();
+			updateUIN();
+		}
 	}
 	else {
+		m_hSub = 0;
 		m_szMetaProto = NULL;
 		m_wMetaStatus = ID_STATUS_OFFLINE;
 		m_xStatus = 0;
@@ -608,9 +615,4 @@ int CContactCache::getMaxMessageLength()
 		}
 	}
 	return m_nMax;
-}
-
-const MCONTACT CContactCache::getActiveContact() const
-{
-	return (m_isMeta) ? db_mc_getSrmmSub(m_hContact) : m_hContact;
 }

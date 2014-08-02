@@ -77,7 +77,7 @@ struct CContactCache : public MZeroedObject
 	const WORD     getOldStatus() const { return m_wOldStatus; }
 	const TCHAR*   getNick() const { return m_szNick; }
 	const MCONTACT getContact() const { return m_hContact; }
-	const MCONTACT getActiveContact() const;
+	const MCONTACT getActiveContact() const { return (m_isMeta) ? m_hSub : m_hContact; }
 	const DWORD    getIdleTS() const { return m_idleTS; }
 	const char*    getProto() const { return cc->szProto; }
 	const char*    getActiveProto() const { return m_isMeta ? (m_szMetaProto ? m_szMetaProto : cc->szProto) : cc->szProto; }
@@ -106,7 +106,7 @@ struct CContactCache : public MZeroedObject
 	void   updateState();
 	bool   updateStatus();
 	bool   updateNick();
-	void   updateMeta(bool fForce = false);
+	void   updateMeta();
 	bool   updateUIN();
 	void   updateStatusMsg(const char *szKey = 0);
 	void   setWindowData(const HWND hwnd = 0, TWindowData *dat = 0);
@@ -132,7 +132,7 @@ private:
 	void   allocHistory();
 	void   releaseAlloced();
 
-	MCONTACT m_hContact;
+	MCONTACT m_hContact, m_hSub;
 	WORD     m_wStatus, m_wOldStatus, m_wMetaStatus;
 	char    *m_szMetaProto;
 	TCHAR   *m_szAccount;
