@@ -287,7 +287,7 @@ static struct gg_dcc *gg_dcc_transfer(uint32_t ip, uint16_t port, uin_t my_uin, 
 		return NULL;
 	}
 
-	if (!(d = (void*) calloc(1, sizeof(*d)))) {
+	if (!(d = (gg_dcc*)calloc(1, sizeof(*d)))) {
 		gg_debug(GG_DEBUG_MISC, "// gg_dcc_transfer() not enough memory\n");
 		return NULL;
 	}
@@ -468,7 +468,7 @@ struct gg_dcc *gg_dcc_socket_create(uin_t uin, uint16_t port)
 
 	gg_debug(GG_DEBUG_MISC, "// gg_create_dcc_socket() bound to port %d\n", port);
 
-	if (!(c = malloc(sizeof(*c)))) {
+	if (!(c = (gg_dcc*)malloc(sizeof(*c)))) {
 		gg_debug(GG_DEBUG_MISC, "// gg_create_dcc_socket() not enough memory for struct\n");
 		gg_sock_close(sock);
 		return NULL;
@@ -608,7 +608,7 @@ struct gg_event *gg_dcc_watch_fd(struct gg_dcc *h)
 		return NULL;
 	}
 
-	if (!(e = (void*) calloc(1, sizeof(*e)))) {
+	if (!(e = (gg_event*)calloc(1, sizeof(*e)))) {
 		gg_debug(GG_DEBUG_MISC, "// gg_dcc_watch_fd() not enough memory\n");
 		return NULL;
 	}
@@ -620,7 +620,7 @@ struct gg_event *gg_dcc_watch_fd(struct gg_dcc *h)
 		struct gg_dcc *c;
 		SOCKET fd;
 		int one = 1;
-		unsigned int sin_len = sizeof(sin);
+		int sin_len = sizeof(sin);
 
 		if ((fd = accept(h->fd, (struct sockaddr*) &sin, &sin_len)) == -1) {
 			gg_debug(GG_DEBUG_MISC, "// gg_dcc_watch_fd() can't accept() new connection (errno=%d, %s)\n", errno, strerror(errno));
@@ -641,7 +641,7 @@ struct gg_event *gg_dcc_watch_fd(struct gg_dcc *h)
 			return e;
 		}
 
-		if (!(c = (void*) calloc(1, sizeof(*c)))) {
+		if (!(c = (gg_dcc*)calloc(1, sizeof(*c)))) {
 			gg_debug(GG_DEBUG_MISC, "// gg_dcc_watch_fd() not enough memory for client data\n");
 
 			free(e);
@@ -667,7 +667,8 @@ struct gg_event *gg_dcc_watch_fd(struct gg_dcc *h)
 		struct gg_dcc_small_packet small;
 		struct gg_dcc_big_packet big;
 		int size, tmp, res;
-		unsigned int utmp, res_size = sizeof(res);
+		unsigned int utmp;
+		int res_size = sizeof(res);
 		char buf[1024], ack[] = "UDAG";
 
 		struct gg_dcc_file_info_packet {
@@ -813,7 +814,7 @@ struct gg_event *gg_dcc_watch_fd(struct gg_dcc *h)
 				h->state = GG_STATE_READING_FILE_HEADER;
 				h->chunk_size = sizeof(big);
 				h->chunk_offset = 0;
-				if (!(h->chunk_buf = malloc(sizeof(big)))) {
+				if (!(h->chunk_buf = (char*)malloc(sizeof(big)))) {
 					gg_debug(GG_DEBUG_MISC, "// gg_dcc_watch_fd() out of memory\n");
 					free(e);
 					return NULL;
@@ -926,7 +927,7 @@ struct gg_event *gg_dcc_watch_fd(struct gg_dcc *h)
 				h->chunk_size = small.type;
 				h->chunk_offset = 0;
 
-				if (!(h->voice_buf = malloc(h->chunk_size))) {
+				if (!(h->voice_buf = (char*)malloc(h->chunk_size))) {
 					gg_debug(GG_DEBUG_MISC, "// gg_dcc_watch_fd() out of memory for voice frame\n");
 					free(e);
 					return NULL;
@@ -1305,7 +1306,7 @@ struct gg_event *gg_dcc_watch_fd(struct gg_dcc *h)
 					h->timeout = GG_DEFAULT_TIMEOUT;
 					h->chunk_offset = 0;
 					h->chunk_size = sizeof(big);
-					if (!(h->chunk_buf = malloc(sizeof(big)))) {
+					if (!(h->chunk_buf = (char*)malloc(sizeof(big)))) {
 						gg_debug(GG_DEBUG_MISC, "// gg_dcc_watch_fd() out of memory\n");
 						free(e);
 						return NULL;

@@ -425,7 +425,7 @@ static struct gg_dcc7 *gg_dcc7_send_file_common(struct gg_session *sess, uin_t r
 		goto fail;
 	}
 
-	if (!(dcc = malloc(sizeof(struct gg_dcc7)))) {
+	if (!(dcc = (gg_dcc7*)malloc(sizeof(struct gg_dcc7)))) {
 		gg_debug_session(sess, GG_DEBUG_MISC, "// gg_dcc7_send_file_common() not enough memory\n");
 		goto fail;
 	}
@@ -674,7 +674,7 @@ int gg_dcc7_abort(struct gg_dcc7 *dcc)
  */
 int gg_dcc7_handle_id(struct gg_session *sess, struct gg_event *e, void *payload, int len)
 {
-	struct gg_dcc7_id_reply *p = payload;
+	struct gg_dcc7_id_reply *p = (gg_dcc7_id_reply*)payload;
 	struct gg_dcc7 *tmp;
 
 	gg_debug_session(sess, GG_DEBUG_FUNCTION, "** gg_dcc7_handle_id(%p, %p, %p, %d)\n", sess, e, payload, len);
@@ -724,7 +724,7 @@ int gg_dcc7_handle_id(struct gg_session *sess, struct gg_event *e, void *payload
  */
 int gg_dcc7_handle_accept(struct gg_session *sess, struct gg_event *e, void *payload, int len)
 {
-	struct gg_dcc7_accept *p = payload;
+	struct gg_dcc7_accept *p = (struct gg_dcc7_accept*)payload;
 	struct gg_dcc7 *dcc;
 
 	gg_debug_session(sess, GG_DEBUG_FUNCTION, "** gg_dcc7_handle_accept(%p, %p, %p, %d)\n", sess, e, payload, len);
@@ -766,7 +766,7 @@ int gg_dcc7_handle_accept(struct gg_session *sess, struct gg_event *e, void *pay
  */
 int gg_dcc7_handle_info(struct gg_session *sess, struct gg_event *e, void *payload, int len)
 {
-	struct gg_dcc7_info *p = payload;
+	struct gg_dcc7_info *p = (gg_dcc7_info*)payload;
 	struct gg_dcc7 *dcc;
 	char *tmp;
 
@@ -916,7 +916,7 @@ int gg_dcc7_handle_info(struct gg_session *sess, struct gg_event *e, void *paylo
  */
 int gg_dcc7_handle_reject(struct gg_session *sess, struct gg_event *e, void *payload, int len)
 {
-	struct gg_dcc7_reject *p = payload;
+	struct gg_dcc7_reject *p = (struct gg_dcc7_reject*)payload;
 	struct gg_dcc7 *dcc;
 
 	gg_debug_session(sess, GG_DEBUG_FUNCTION, "** gg_dcc7_handle_reject(%p, %p, %p, %d)\n", sess, e, payload, len);
@@ -955,7 +955,7 @@ int gg_dcc7_handle_reject(struct gg_session *sess, struct gg_event *e, void *pay
  */
 int gg_dcc7_handle_abort(struct gg_session *sess, struct gg_event *e, void *payload, int len)
 {
-	struct gg_dcc7_aborted *p = payload;
+	struct gg_dcc7_aborted *p = (gg_dcc7_aborted*)payload;
 	struct gg_dcc7 *dcc;
 
 	gg_debug_session(sess, GG_DEBUG_FUNCTION, "** gg_dcc7_handle_abort(%p, %p, %p, %d)\n", sess, e, payload, len);
@@ -996,14 +996,14 @@ int gg_dcc7_handle_abort(struct gg_session *sess, struct gg_event *e, void *payl
  */
 int gg_dcc7_handle_new(struct gg_session *sess, struct gg_event *e, void *payload, int len)
 {
-	struct gg_dcc7_new *p = payload;
+	struct gg_dcc7_new *p = (gg_dcc7_new*)payload;
 	struct gg_dcc7 *dcc;
 
 	gg_debug_session(sess, GG_DEBUG_FUNCTION, "** gg_dcc7_handle_new(%p, %p, %p, %d)\n", sess, e, payload, len);
 
 	switch (gg_fix32(p->type)) {
 		case GG_DCC7_TYPE_FILE:
-			if (!(dcc = malloc(sizeof(struct gg_dcc7)))) {
+			if (!(dcc = (gg_dcc7*)malloc(sizeof(struct gg_dcc7)))) {
 				gg_debug_session(sess, GG_DEBUG_MISC, "// gg_dcc7_handle_new() not enough memory\n");
 				return -1;
 			}
@@ -1035,7 +1035,7 @@ int gg_dcc7_handle_new(struct gg_session *sess, struct gg_event *e, void *payloa
 			break;
 
 		case GG_DCC7_TYPE_VOICE:
-			if (!(dcc = malloc(sizeof(struct gg_dcc7)))) {
+			if (!(dcc = (gg_dcc7*)malloc(sizeof(struct gg_dcc7)))) {
 				gg_debug_session(sess, GG_DEBUG_MISC, "// gg_dcc7_handle_packet() not enough memory\n");
 				return -1;
 			}
@@ -1136,7 +1136,7 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 		return NULL;
 	}
 
-	if (!(e = malloc(sizeof(struct gg_event)))) {
+	if (!(e = (gg_event*)malloc(sizeof(struct gg_event)))) {
 		gg_debug_session((dcc) ? (dcc)->sess : NULL, GG_DEBUG_MISC, "// gg_dcc7_watch_fd() not enough memory\n");
 		return NULL;
 	}
@@ -1150,7 +1150,7 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 			struct sockaddr_in sin;
 			SOCKET fd;
 			int one = 1;
-			unsigned int sin_len = sizeof(sin);
+			int sin_len = sizeof(sin);
 
 			gg_debug_session((dcc) ? (dcc)->sess : NULL, GG_DEBUG_MISC, "// gg_dcc7_watch_fd() GG_STATE_LISTENING\n");
 
@@ -1194,7 +1194,7 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 		case GG_STATE_CONNECTING:
 		{
 			int res = 0, error = 0;
-			unsigned int error_size = sizeof(error);
+			int error_size = sizeof(error);
 
 			gg_debug_session((dcc) ? (dcc)->sess : NULL, GG_DEBUG_MISC, "// gg_dcc7_watch_fd() GG_STATE_CONNECTING\n");
 
@@ -1495,7 +1495,7 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 		case GG_STATE_CONNECTING_RELAY:
 		{
 			int res;
-			unsigned int res_size = sizeof(res);
+			int res_size = sizeof(res);
 			struct gg_dcc7_relay_req pkt;
 
 			gg_debug_session((dcc) ? (dcc)->sess : NULL, GG_DEBUG_MISC, "// gg_dcc7_watch_fd() GG_STATE_CONNECTING_RELAY\n");
@@ -1569,7 +1569,7 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 
 			dcc->relay_index = 0;
 			dcc->relay_count = gg_fix32(pkt->rcount);
-			dcc->relay_list = malloc(dcc->relay_count * sizeof(gg_dcc7_relay_t));
+			dcc->relay_list = (gg_dcc7_relay*)malloc(dcc->relay_count * sizeof(gg_dcc7_relay_t));
 
 			if (dcc->relay_list == NULL) {
 				gg_debug_session((dcc) ? (dcc)->sess : NULL, GG_DEBUG_MISC, "// gg_dcc7_watch_fd() not enough memory");

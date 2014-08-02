@@ -607,7 +607,7 @@ int gg_pubdir_watch_fd(struct gg_http *h)
 	
 	h->state = GG_STATE_DONE;
 	
-	if (!(h->data = p = malloc(sizeof(struct gg_pubdir)))) {
+	if (!(h->data = p = (gg_pubdir*)malloc(sizeof(struct gg_pubdir)))) {
 		gg_debug(GG_DEBUG_MISC, "=> pubdir, not enough memory for results\n");
 		return -1;
 	}
@@ -812,7 +812,7 @@ int gg_token_watch_fd(struct gg_http *h)
 		if (!h->async)
 			gg_token_watch_fd(h);
 
-		if (!(h->data = t = malloc(sizeof(struct gg_token)))) {
+		if (!(h->data = t = (struct gg_token*)malloc(sizeof(struct gg_token)))) {
 			gg_debug(GG_DEBUG_MISC, "=> token, not enough memory for token data\n");
 			free(tokenid);
 			return -1;
@@ -844,7 +844,7 @@ void gg_token_free(struct gg_http *h)
 	if (!h)
 		return;
 
-	if ((t = h->data))
+	if (t = (struct gg_token*)h->data)
 		free(t->tokenid);
 	
 	free(h->data);

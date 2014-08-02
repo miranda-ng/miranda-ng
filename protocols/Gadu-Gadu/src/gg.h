@@ -88,10 +88,8 @@
 #include "resource.h"
 
 // libgadu headers
-extern "C" {
 #include "libgadu/libgadu.h"
 #include "dynstuff.h"
-};
 
 // Search
 // Extended search result structure, used for all searches

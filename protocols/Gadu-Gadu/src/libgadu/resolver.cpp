@@ -206,7 +206,7 @@ struct in_addr *gg_gethostbyname(const char *hostname)
 {
 	struct in_addr *addr;
 
-	if (!(addr = malloc(sizeof(struct in_addr))))
+	if (!(addr = (in_addr*)malloc(sizeof(struct in_addr))))
 		return NULL;
 
 	if (gg_gethostbyname_real(hostname, addr, 0)) {
@@ -255,7 +255,7 @@ static int gg_resolver_fork_start(SOCKET *fd, void **priv_data, const char *host
 		return -1;
 	}
 
-	data = malloc(sizeof(struct gg_resolver_fork_data));
+	data = (gg_resolver_fork_data*)malloc(sizeof(struct gg_resolver_fork_data));
 
 	if (data == NULL) {
 		gg_debug(GG_DEBUG_MISC, "// gg_resolver_fork_start() out of memory for resolver data\n");
@@ -393,7 +393,7 @@ static void gg_resolver_pthread_cleanup(void **priv_data, int force)
  */
 static void *__stdcall gg_resolver_pthread_thread(void *arg)
 {
-	struct gg_resolver_pthread_data *data = arg;
+	struct gg_resolver_pthread_data *data = (gg_resolver_pthread_data*)arg;
 	struct in_addr addr;
 
 	pthread_detach(pthread_self());
@@ -442,7 +442,7 @@ static int gg_resolver_pthread_start(SOCKET *fd, void **priv_data, const char *h
 		return -1;
 	}
 
-	data = malloc(sizeof(struct gg_resolver_pthread_data));
+	data = (gg_resolver_pthread_data*)malloc(sizeof(struct gg_resolver_pthread_data));
 
 	if (data == NULL) {
 		gg_debug(GG_DEBUG_MISC, "// gg_resolver_pthread_start() out of memory for resolver data\n");

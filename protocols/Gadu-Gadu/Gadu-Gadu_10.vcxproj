@@ -220,40 +220,40 @@
     <ClCompile Include="src\gg.cpp" />
     <ClCompile Include="src\token.cpp" />
     <ClCompile Include="src\userutils.cpp" />
-    <ClCompile Include="src\libgadu\common.c">
+    <ClCompile Include="src\libgadu\common.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\dcc.c">
+    <ClCompile Include="src\libgadu\dcc.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\dcc7.c">
+    <ClCompile Include="src\libgadu\dcc7.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\events.c">
+    <ClCompile Include="src\libgadu\events.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\http.c">
+    <ClCompile Include="src\libgadu\http.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\libgadu.c">
+    <ClCompile Include="src\libgadu\libgadu.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\pthread.c">
+    <ClCompile Include="src\libgadu\pthread.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\pubdir.c">
+    <ClCompile Include="src\libgadu\pubdir.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\pubdir50.c">
+    <ClCompile Include="src\libgadu\pubdir50.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\resolver.c">
+    <ClCompile Include="src\libgadu\resolver.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\sha1.c">
+    <ClCompile Include="src\libgadu\sha1.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\libgadu\win32.c">
+    <ClCompile Include="src\libgadu\win32.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>

@@ -88,7 +88,7 @@ struct gg_http *gg_http_connect(const char *hostname, int port, int async, const
 		return NULL;
 	}
 
-	if (!(h = malloc(sizeof(*h))))
+	if (!(h = (gg_http*)malloc(sizeof(*h))))
 		return NULL;
 	memset(h, 0, sizeof(*h));
 
@@ -239,7 +239,7 @@ int gg_http_watch_fd(struct gg_http *h)
 
 	if (h->state == GG_STATE_CONNECTING) {
 		int res = 0;
-		unsigned int res_size = sizeof(res);
+		int res_size = sizeof(res);
 
 		if (h->async && (gg_getsockopt(h->fd, SOL_SOCKET, SO_ERROR, &res, &res_size) || res)) {
 			gg_debug(GG_DEBUG_MISC, "=> http, async connection failed (errno=%d, %s)\n", (res) ? res : errno , strerror((res) ? res : errno));
@@ -309,7 +309,7 @@ int gg_http_watch_fd(struct gg_http *h)
 
 		gg_debug(GG_DEBUG_MISC, "=> http, read %d bytes of header\n", res);
 
-		if (!(tmp = realloc(h->header, h->header_size + res + 1))) {
+		if (!(tmp = (char*)realloc(h->header, h->header_size + res + 1))) {
 			gg_debug(GG_DEBUG_MISC, "=> http, not enough memory for header\n");
 			free(h->header);
 			h->header = NULL;
@@ -371,7 +371,7 @@ int gg_http_watch_fd(struct gg_http *h)
 
 			gg_debug(GG_DEBUG_MISC, "=> http, body_size=%d\n", h->body_size);
 
-			if (!(h->body = malloc(h->body_size + 1))) {
+			if (!(h->body = (char*)malloc(h->body_size + 1))) {
 				gg_debug(GG_DEBUG_MISC, "=> http, not enough memory (%d bytes for body_buf)\n", h->body_size + 1);
 				free(h->header);
 				h->header = NULL;
@@ -431,7 +431,7 @@ int gg_http_watch_fd(struct gg_http *h)
 
 			gg_debug(GG_DEBUG_MISC, "=> http, too much data (%d bytes, %d needed), enlarging buffer\n", h->body_done + res, h->body_size);
 
-			if (!(tmp = realloc(h->body, h->body_done + res + 1))) {
+			if (!(tmp = (char*)realloc(h->body, h->body_done + res + 1))) {
 				gg_debug(GG_DEBUG_MISC, "=> http, not enough memory for data (%d needed)\n", h->body_done + res + 1);
 				free(h->body);
 				h->body = NULL;

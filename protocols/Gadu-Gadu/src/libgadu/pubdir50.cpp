@@ -53,7 +53,7 @@
  */
 gg_pubdir50_t gg_pubdir50_new(int type)
 {
-	gg_pubdir50_t res = malloc(sizeof(struct gg_pubdir50_s));
+	gg_pubdir50_t res = (gg_pubdir50_t)malloc(sizeof(struct gg_pubdir50_s));
 
 	gg_debug(GG_DEBUG_FUNCTION, "** gg_pubdir50_new(%d);\n", type);
 
@@ -109,7 +109,7 @@ static int gg_pubdir50_add_n(gg_pubdir50_t req, int num, const char *field, cons
 		return -1;
 	}
 
-	if (!(tmp = realloc(req->entries, sizeof(struct gg_pubdir50_entry) * (req->entries_count + 1)))) {
+	if (!(tmp = (gg_pubdir50_entry*)realloc(req->entries, sizeof(struct gg_pubdir50_entry) * (req->entries_count + 1)))) {
 		gg_debug(GG_DEBUG_MISC, "// gg_pubdir50_add_n() out of memory\n");
 		free(dupfield);
 		free(dupvalue);
@@ -255,7 +255,7 @@ uint32_t gg_pubdir50(struct gg_session *sess, gg_pubdir50_t req)
 		}
 	}
 
-	if (!(buf = malloc(size))) {
+	if (!(buf = (char*)malloc(size))) {
 		gg_debug_session(sess, GG_DEBUG_MISC, "// gg_pubdir50() out of memory (%d bytes)\n", size);
 		return 0;
 	}

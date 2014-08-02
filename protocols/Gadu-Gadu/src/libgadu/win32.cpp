@@ -26,7 +26,7 @@ int sockpipe(SOCKET filedes[2])
 {
 	SOCKET sock;
 	struct sockaddr_in sin;
-	unsigned int len = sizeof(sin);
+	int len = sizeof(sin);
 
 	filedes[0] = filedes[1] = INVALID_SOCKET;
 

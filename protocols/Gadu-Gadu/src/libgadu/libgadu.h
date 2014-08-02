@@ -45,10 +45,6 @@
 #pragma pack(push, 1)
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -169,8 +165,8 @@ typedef   signed int    int32_t;
 #    define GG_CONFIG_HAVE_STRTOULL
 #    define strtoull	_strtoui64
 #  endif
-#  define gg_sock_write(sock,buf,len)	send(sock,(void *)(buf),len,0)
-#  define gg_sock_read(sock,buf,len)	recv(sock,(void *)(buf),len,0)
+#  define gg_sock_write(sock,buf,len)	send(sock,(const char*)(buf),len,0)
+#  define gg_sock_read(sock,buf,len)	recv(sock,(char*)(buf),len,0)
 #  define gg_sock_close(sock)			closesocket(sock)
 #  define gg_getsockopt(sock,level,name,val,len) getsockopt(sock,level,name,(char *)val,len)
 #else
@@ -2287,10 +2283,6 @@ struct gg_dcc7_aborted {
 #define GG_DCC7_TIMEOUT_GET 1800	/* 30 minut */
 #define GG_DCC7_TIMEOUT_FILE_ACK 300	/* 5 minut */
 #define GG_DCC7_TIMEOUT_VOICE_ACK 300	/* 5 minut */
-
-#ifdef __cplusplus
-}
-#endif
 
 #if defined(__cplusplus) || defined(_WIN32)
 #ifdef _WIN32

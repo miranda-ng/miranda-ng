@@ -217,7 +217,7 @@ char *gg_vsaprintf(const char *format, va_list ap)
 		size = 128;
 		do {
 			size *= 2;
-			if (!(tmp = realloc(buf, size))) {
+			if (!(tmp = (char*)realloc(buf, size))) {
 				free(buf);
 				return NULL;
 			}
@@ -375,7 +375,7 @@ SOCKET gg_connect(void *addr, int port, int async)
 	SOCKET sock;
 	int one = 1, errno2;
 	struct sockaddr_in sin;
-	struct in_addr *a = addr;
+	struct in_addr *a = (in_addr*)addr;
 	struct sockaddr_in myaddr;
 
 	gg_debug(GG_DEBUG_FUNCTION, "** gg_connect(%s, %d, %d);\n", inet_ntoa(*a), port, async);
@@ -493,7 +493,7 @@ char *gg_urlencode(const char *str)
 			size += 2;
 	}
 
-	if (!(buf = malloc(size + 1)))
+	if (!(buf = (char*)malloc(size + 1)))
 		return NULL;
 
 	for (p = str, q = buf; *p; p++, q++) {
@@ -582,7 +582,7 @@ char *gg_base64_encode(const char *buf)
 	char *out, *res;
 	unsigned int i = 0, j = 0, k = 0, len = (unsigned int)strlen(buf);
 
-	res = out = malloc((len / 3 + 1) * 4 + 2);
+	res = out = (char*)malloc((len / 3 + 1) * 4 + 2);
 
 	if (!res)
 		return NULL;
@@ -645,7 +645,7 @@ char *gg_base64_decode(const char *buf)
 	if (!buf)
 		return NULL;
 
-	save = res = calloc(1, (strlen(buf) / 4 + 1) * 3 + 2);
+	save = res = (char*)calloc(1, (strlen(buf) / 4 + 1) * 3 + 2);
 
 	if (!save)
 		return NULL;
@@ -702,7 +702,7 @@ char *gg_proxy_auth()
 	if (!gg_proxy_enabled || !gg_proxy_username || !gg_proxy_password)
 		return NULL;
 
-	if (!(tmp = malloc((tmp_size = strlen(gg_proxy_username) + strlen(gg_proxy_password) + 2))))
+	if (!(tmp = (char*)malloc((tmp_size = strlen(gg_proxy_username) + strlen(gg_proxy_password) + 2))))
 		return NULL;
 
 	snprintf(tmp, tmp_size, "%s:%s", gg_proxy_username, gg_proxy_password);
@@ -714,7 +714,7 @@ char *gg_proxy_auth()
 
 	free(tmp);
 
-	if (!(out = malloc(strlen(enc) + 40))) {
+	if (!(out = (char*)malloc(strlen(enc) + 40))) {
 		free(enc);
 		return NULL;
 	}
@@ -827,7 +827,7 @@ char *gg_cp_to_utf8(const char *b)
 		else			newlen += 3;
 	}
 
-	if (!(newbuf = malloc(newlen+1))) {
+	if (!(newbuf = (char*)malloc(newlen + 1))) {
 		gg_debug(GG_DEBUG_MISC, "// gg_cp_to_utf8() not enough memory\n");
 		return NULL;
 	}
@@ -927,7 +927,7 @@ char *gg_utf8_to_cp(const char *b)
 			i++;
 	}
 
-	if (!(newbuf = malloc(newlen+1))) {
+	if (!(newbuf = (char*)malloc(newlen + 1))) {
 		gg_debug(GG_DEBUG_MISC, "// gg_utf8_to_cp() not enough memory\n");
 		return NULL;
 	}

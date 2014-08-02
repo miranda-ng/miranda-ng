@@ -445,7 +445,7 @@ int gg_write(struct gg_session *sess, const char *buf, int length)
 		if (res < length) {
 			char *tmp;
 
-			if (!(tmp = realloc(sess->send_buf, sess->send_left + length - res))) {
+			if (!(tmp = (char*)realloc(sess->send_buf, sess->send_left + length - res))) {
 				errno = ENOMEM;
 				return -1;
 			}
@@ -513,7 +513,7 @@ void *gg_recv_packet(struct gg_session *sess)
 				if (errno == EAGAIN) {
 					gg_debug_session(sess, GG_DEBUG_MISC, "// gg_recv_packet() header recv() incomplete header received\n");
 
-					if (!(sess->header_buf = malloc(sess->header_done))) {
+					if (!(sess->header_buf = (char*)malloc(sess->header_done))) {
 						gg_debug_session(sess, GG_DEBUG_MISC, "// gg_recv_packet() header recv() not enough memory\n");
 						return NULL;
 					}
@@ -552,7 +552,7 @@ void *gg_recv_packet(struct gg_session *sess)
 		offset = sess->recv_done;
 		buf = sess->recv_buf;
 	} else {
-		if (!(buf = malloc(sizeof(h) + h.length + 1))) {
+		if (!(buf = (char*)malloc(sizeof(h) + h.length + 1))) {
 			gg_debug_session(sess, GG_DEBUG_MISC, "// gg_recv_packet() not enough memory for packet data\n");
 			return NULL;
 		}
@@ -625,7 +625,7 @@ int gg_send_packet(struct gg_session *sess, int type, ...)
 
 	tmp_length = sizeof(struct gg_header);
 
-	if (!(tmp = malloc(tmp_length))) {
+	if (!(tmp = (char*)malloc(tmp_length))) {
 		gg_debug_session(sess, GG_DEBUG_MISC, "// gg_send_packet() not enough memory for packet header\n");
 		return -1;
 	}
@@ -639,7 +639,7 @@ int gg_send_packet(struct gg_session *sess, int type, ...)
 
 		payload_length = va_arg(ap, unsigned int);
 
-		if (!(tmp2 = realloc(tmp, tmp_length + payload_length))) {
+		if (!(tmp2 = (char*)realloc(tmp, tmp_length + payload_length))) {
 			gg_debug_session(sess, GG_DEBUG_MISC, "// gg_send_packet() not enough memory for payload\n");
 			free(tmp);
 			va_end(ap);
@@ -750,7 +750,7 @@ struct gg_session *gg_login(const struct gg_login_params *p)
 
 	gg_debug(GG_DEBUG_FUNCTION, "** gg_login(%p: [uin=%u, async=%d, ...]);\n", p, p->uin, p->async);
 
-	if (!(sess = malloc(sizeof(struct gg_session)))) {
+	if (!(sess = (gg_session*)malloc(sizeof(struct gg_session)))) {
 		gg_debug(GG_DEBUG_MISC, "// gg_login() not enough memory for session data\n");
 		goto fail;
 	}
@@ -1692,7 +1692,7 @@ int gg_send_message_confer_richtext(struct gg_session *sess, int msgclass, int r
 
 		len = gg_convert_to_html(NULL, utf_msg, format + 3, formatlen - 3);
 
-		html_msg = malloc(len + 1);
+		html_msg = (char*)malloc(len + 1);
 
 		if (html_msg == NULL) {
 			seq_no = -1;
@@ -1711,7 +1711,7 @@ int gg_send_message_confer_richtext(struct gg_session *sess, int msgclass, int r
 		r.flag = 0x01;
 		r.count = gg_fix32(recipients_count - 1);
 
-		recps = malloc(sizeof(uin_t) * recipients_count);
+		recps = (uin_t*)malloc(sizeof(uin_t) * recipients_count);
 
 		if (!recps) {
 			seq_no = -1;
@@ -1858,7 +1858,7 @@ int gg_image_request(struct gg_session *sess, uin_t recipient, int size, uint32_
 	res = gg_send_packet(sess, GG_SEND_MSG, &s, sizeof(s), &dummy, 1, &r, sizeof(r), NULL);
 
 	if (!res) {
-		struct gg_image_queue *q = malloc(sizeof(*q));
+		struct gg_image_queue *q = (gg_image_queue*)malloc(sizeof(*q));
 		char *buf;
 
 		if (!q) {
@@ -1866,7 +1866,7 @@ int gg_image_request(struct gg_session *sess, uin_t recipient, int size, uint32_
 			return -1;
 		}
 
-		buf = malloc(size);
+		buf = (char*)malloc(size);
 		if (size && !buf)
 		{
 			gg_debug_session(sess, GG_DEBUG_MISC, "// gg_image_request() not enough memory for image\n");
@@ -1948,7 +1948,7 @@ int gg_image_reply(struct gg_session *sess, uin_t recipient, const char *filenam
 	s.msgclass = gg_fix32(GG_CLASS_MSG);
 
 	buf[0] = 0;
-	r = (void*) &buf[1];
+	r = (gg_msg_image_reply*)&buf[1];
 
 	r->flag = 0x05;
 	r->size = gg_fix32(size);
