@@ -123,7 +123,7 @@ struct CREOleCallback : public IRichEditOleCallback
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
-int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat);
+int DbEventIsShown(DBEVENTINFO * dbei);
 void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend);
 HANDLE SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto);
 

@@ -790,7 +790,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						DBEVENTINFO dbei = { sizeof(dbei) };
 						dat->hDbEventFirst = hPrevEvent;
 						db_event_get(hPrevEvent, &dbei);
-						if (!DbEventIsShown(&dbei, dat))
+						if (!DbEventIsShown(&dbei))
 							i++;
 					}
 					break;
@@ -1312,8 +1312,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
-			if (DbEventIsShown(&dbei, dat) && !(dbei.flags & DBEF_READ)) {
-				if ((dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)) && !(dbei.flags & DBEF_SENT)) {
+			if (DbEventIsShown(&dbei) && !(dbei.flags & DBEF_READ)) {
+				if ((dbei.eventType == EVENTTYPE_MESSAGE) && !(dbei.flags & DBEF_SENT)) {
 					if (GetForegroundWindow() == hwndDlg)
 						SkinPlaySound("RecvMsgActive");
 					else

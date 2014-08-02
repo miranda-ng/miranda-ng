@@ -168,27 +168,22 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 
 static char *CreateRTFHeader(SrmmWindowData *dat)
 {
-	char *buffer;
-	int bufferAlloced, bufferEnd;
-	int i;
-	LOGFONT lf;
-	COLORREF colour;
-	HDC hdc;
-
-	hdc = GetDC(NULL);
+	HDC hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ReleaseDC(NULL, hdc);
-	bufferEnd = 0;
-	bufferAlloced = 1024;
-	buffer = (char *)mir_alloc(bufferAlloced);
+	int bufferEnd = 0;
+	int bufferAlloced = 1024;
+	char *buffer = (char *)mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
 
-	for (i = 0; LoadMsgDlgFont(i, &lf, NULL); i++)
+	LOGFONT lf;
+	for (int i = 0; LoadMsgDlgFont(i, &lf, NULL); i++)
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
 
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ");
-	for (i = 0; LoadMsgDlgFont(i, NULL, &colour); i++)
+	COLORREF colour;
+	for (int i = 0; LoadMsgDlgFont(i, NULL, &colour); i++)
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 
 	if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL)
@@ -204,12 +199,9 @@ static char *CreateRTFHeader(SrmmWindowData *dat)
 //mir_free() the return value
 static char *CreateRTFTail(SrmmWindowData *dat)
 {
-	char *buffer;
-	int bufferAlloced, bufferEnd;
-
-	bufferEnd = 0;
-	bufferAlloced = 1024;
-	buffer = (char *)mir_alloc(bufferAlloced);
+	int bufferEnd = 0;
+	int bufferAlloced = 1024;
+	char *buffer = (char *)mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}");
 	return buffer;
@@ -232,17 +224,9 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat)
+int DbEventIsShown(DBEVENTINFO *dbei)
 {
-	switch (dbei->eventType) {
-	case EVENTTYPE_MESSAGE:
-		return 1;
-	case EVENTTYPE_JABBER_CHATSTATES:
-	case EVENTTYPE_JABBER_PRESENCE:
-	case EVENTTYPE_FILE:
-		return (dbei->flags & DBEF_READ) == 0;
-	}
-	return DbEventIsForMsgWindow(dbei);
+	return (dbei->eventType==EVENTTYPE_MESSAGE) ||  DbEventIsForMsgWindow(dbei);
 }
 
 //mir_free() the return value
@@ -259,7 +243,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 
 	dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 	db_event_get(hDbEvent, &dbei);
-	if (!DbEventIsShown(&dbei, dat)) {
+	if (!DbEventIsShown(&dbei)) {
 		mir_free(dbei.pBlob);
 		return NULL;
 	}
@@ -294,23 +278,8 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 	}
 
 	if (g_dat.flags & SMF_SHOWICONS) {
-		int i;
-
-		switch (dbei.eventType) {
-		case EVENTTYPE_MESSAGE:
-			if (dbei.flags & DBEF_SENT)
-				i = LOGICON_MSG_OUT;
-			else
-				i = LOGICON_MSG_IN;
-			break;
-
-		case EVENTTYPE_JABBER_CHATSTATES:
-		case EVENTTYPE_JABBER_PRESENCE:
-		case EVENTTYPE_FILE:
-		default:
-			i = LOGICON_MSG_NOTICE;
-			break;
-		}
+		int i = (dbei.eventType ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
+		
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
 		while (bufferAlloced - bufferEnd < logIconBmpSize[i])
 			bufferAlloced += 1024;
@@ -594,7 +563,6 @@ void LoadMsgLogIcons(void)
 
 void FreeMsgLogIcons(void)
 {
-	int i;
-	for (i = 0; i < SIZEOF(pLogIconBmpBits); i++)
+	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++)
 		mir_free(pLogIconBmpBits[i]);
 }
