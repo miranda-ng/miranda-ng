@@ -122,7 +122,7 @@ bool CContactCache::updateNick()
 	bool	fChanged = false;
 
 	if (m_Valid) {
-		TCHAR	*tszNick = pcli->pfnGetContactDisplayName(m_hContact, 0);
+		TCHAR	*tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
 		if (tszNick)
 			fChanged = (_tcscmp(m_szNick, tszNick) ? true : false);
 		mir_sntprintf(m_szNick, 80, _T("%s"), tszNick ? tszNick : _T("<undef>"));
@@ -140,7 +140,7 @@ bool CContactCache::updateStatus()
 		return false;
 
 	m_wOldStatus = m_wStatus;
-	m_wStatus = (WORD)db_get_w(m_hContact, cc->szProto, "Status", ID_STATUS_OFFLINE);
+	m_wStatus = (WORD)db_get_w(getActiveContact(), getActiveProto(), "Status", ID_STATUS_OFFLINE);
 	return m_wOldStatus != m_wStatus;
 }
 
