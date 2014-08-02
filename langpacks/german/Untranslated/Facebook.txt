@@ -1,0 +1,5 @@
+﻿[Request for friendship was accepted.]
+[Error occurred when accepting friendship request.]
+[Request for friendship was ignored.]
+[Error occurred when ignoring friendship request.]
+[Deny friendship request]

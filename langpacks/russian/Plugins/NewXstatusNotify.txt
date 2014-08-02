@@ -7,6 +7,8 @@
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Уведомляет вас об изменениях статусов, xСтатусов или статусных сообщений контактов.
+[Notify when contact changes to one of these statuses]
+Сообщать, когда статус контакта изменяется на:
 [Online]
 В сети
 [Offline]
@@ -35,6 +37,8 @@
 Выключать всплывающие окна и звуки при изменении статуса
 [Configure]
 Настроить
+[Notify me for people not on my contact list]
+Уведомлять меня о контактах не из списка контактов
 [Blink icon in the system tray]
 Мигающий значок в сист. панели
 [Use status icon]
@@ -151,6 +155,8 @@ xСтатус
 Учётные записи
 [Enable/Disable accounts which you don't wish to be notified for:]
 Включить/Выключить уведомления для учётных записей:
+[Log status changes to history]
+Записывать изменения статусов в историю
 [Sound files]
 Звуковые файлы
 [All files]
@@ -171,6 +177,8 @@ xСтатус
 <неизвестно>
 [%s is now %s]
 %s сейчас %s
+[%s, %s. %s changed status to %s (was %s)\r\n]
+%s, %s. %s изменил(а) статус на %s (был(а) %s)\r\n
 [connecting]
 подключается
 [aborting]
@@ -225,6 +233,12 @@ xСтатус
 отсутствует!
 [User: Not available]
 Пользователь: недоступен
+[(M) has something else to do]
+занят чем-то другим
+[(F) has something else to do]
+занята чем-то другим
+[(U) has something else to do]
+занят(а) чем-то другим
 [User: Occupied]
 Пользователь: занят
 [(M) doesn't want to be disturbed!]
@@ -317,5 +331,31 @@ xСтатус изменен
 Занятие
 [Xstatus]
 хСтатус
+[%s changed %s]
+%s изменил(а) %s
+[changed %n to: %t]
+изменил(а) %n на: %t
 [removed %n]
-удалил(а) %N
+удалил(а) %n
+[changed %n message to: %m]
+изменил(а) сообщение %n на: %m
+[removed %n message]
+удалил(а) сообщение %n
+[changed status message to: %n]
+сменил(а) статусное сообщение на: %n
+[removed status message]
+удалил(а) статусное сообщение
+[changed %n @ %t: %m]
+изменил(а) %n @ %t: %m
+[changed %n message @ %m]
+изменил(а) сообщение %n @ %m
+[has %n @ %t: %m]
+%n @ %t: %m
+[changed status message @ %n]
+изменил(а) статусное сообщение @ %n
+[is %s and has status message @ %n]
+теперь %s со статусным сообщением @ %n
+[These variables are available:\r\n\r\n%n\textra status name (Xstatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Доступные переменные:\r\n\r\n%n\tназвание xСтатуса (хСтатус, Настроение, Занятие)\r\n%t\tзаголовок xСтатуса\r\n%m\tтекст xСтатуса\r\n%c\tПрисвоенное имя\r\n\\n\tразрыв строки\r\n\\t\tТабуляция
+[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
+Доступные переменные:\r\n\r\n%n\tНовое сообщение статуса\r\n%o\tСтарое сообщение статуса\r\n%c\tПрисвоенное имя\r\n%s\tтекущий статус\r\n\\n\tРазрыв строки\r\n\\t\tТабуляция

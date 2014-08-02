@@ -171,10 +171,18 @@ Ein Fehler ist beim Entfernen des Kontaktes vom Server aufgetreten
 Freundschaftsanfrage wurde gesendet.
 [Error occurred when requesting friendship.]
 Fehler bei der Freundschaftsanfrage aufgetreten
+[Request for friendship was accepted.]
+
+[Error occurred when accepting friendship request.]
+
 [Request for friendship was canceled.]
 Freundschaftsanfrage wurde zurückgezogen.
 [Error occurred when canceling friendship request.]
 Fehler beim Zurückziehen der Freundschaftsanfrage
+[Request for friendship was ignored.]
+
+[Error occurred when ignoring friendship request.]
+
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Standard
@@ -289,6 +297,8 @@ Freundschaftsanfrage abbrechen
 Freundschaftsanfrage
 [Approve friendship]
 Freundschaft genehmigen
+[Deny friendship request]
+
 [Services...]
 Dienste...
 [Refresh Buddy List]

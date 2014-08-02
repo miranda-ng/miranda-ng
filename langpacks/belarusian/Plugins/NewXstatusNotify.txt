@@ -8,7 +8,7 @@
 [Notifies you when a contact changes his/her (X)status or status message.]
 Абвяшчае вас пра змены статусаў, хстатусаў ці статусных паведамленняў.
 ;file \plugins\NewXstatusNotify\res\resource.rc
-[Notify when a contact changes to one of these statuses]
+[Notify when contact changes to one of these statuses]
 Паведамляць, калі статус кантакту змяняецца на:
 [Online]
 Далучаны
@@ -38,7 +38,7 @@
 Выключаць успл. вакна і гукі пры змене статусу
 [Configure]
 Наладзіць
-[Notify me for people not in my Contact List]
+[Notify me for people not on my contact list]
 Абвяшчаць мяне пра кантакты не ў спісе
 [Blink icon in the system tray]
 Абразок, што мігае у сіст. трэі
@@ -48,20 +48,12 @@
 Індывідуальныя гукі
 [Log to file]
 Запіс у файл
-[Enable]
-Уключана
 [Extra status]
 Даатковы статус
 [Open]
 Адкрыць
 [Status message]
 Паведамленне статусу
-[Log in history]
-Весьці лог
-[Log status changes in history]
-Запісваць змены статусаў у гісторыю
-[Only when message window is open]
-Толькі калі адчынена вакно паведамленняў
 [Change]
 Змена
 [Preview]
@@ -128,8 +120,6 @@
 Правая пстрычка
 [Show status description]
 Паказваць апісанне статусу
-[Ignore empty status and xStatus messages]
-Ігнараваць пустыя паведамленні
 [Connection timeout]
 Чаканне пры старце
 [Notification]
@@ -142,18 +132,12 @@
 знакаў
 [Templates]
 Шаблоны
-[Title - text delimiter:]
-Загаловак-тэкст падзельнік:
-[Remove:]
-Выдаленне:
-[New message:]
-Новае паведамленне:
-[New status:]
-Новы статус:
 [Variables]
 Зменныя
 [Reset]
 Скід
+[Show Popups when I connect]
+Вокны пры злучэнні
 [Disable notifications]
 Выключыць Абвесткі
 [Cancel]
@@ -164,24 +148,16 @@
 Адключаць, толькі пры змене глабальнага статусу
 [Disable when my status is:]
 Адключаць, калі мой статус:
-[Extra status log]
-Запіс дад. статусаў
-[Enable logging extra status to message window]
-Уключыць запіс дад. статусаў у вакно гутаркі
-[Keep events in history]
-Захоўваць падзеі ў гісторыю
-[Prevent identical logs]
-Прадухіляць аднолькавыя запісы
-[On opening ML:]
-Адкрыццё вакна:
+[Only when message window is open]
+Толькі калі адчынена вакно паведамленняў
 [General]
 Агульнае
-[Show Popups when I connect]
-Вокны пры злучэнні
 [Accounts]
 Конты
 [Enable/Disable accounts which you don't wish to be notified for:]
 Уключыць/Выключыць абвесткі для контаў:
+[Log status changes to history]
+Запісваць змены статусаў у гісторыю
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Файлы гукаў
@@ -191,10 +167,6 @@
 Файлы Wave
 [Status]
 Статус
-[Sound for the status]
-Гук для статусу
-[From offline]
-Далучаецца
 [** All contacts **]
 ** Усе кантакты **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
@@ -205,16 +177,18 @@
 <няма паведамлення статусу>
 [Contact]
 Кантакт
+[<unknown>]
+<невядома>
+[%s is now %s]
+%s зараз %s
+[%s, %s. %s changed status to %s (was %s)\r\n]
+%s, %s. %s змяніў(ла) статус: %s (быў(ла) %s)\r\n
 [connecting]
 далучаецца
 [aborting]
 адключаецца
 [playing]
 грае
-[%s is now %s]
-%s зараз %s
-[%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s змяніў(ла): %s (быў(ла): %s).\r\n
 [(M) is back online!]
 далучаны ізноў!
 [(F) is back online!]
@@ -245,13 +219,13 @@
 вольная!
 [(U) feels talkative!]
 вольны(ая)!
-[User: Free For Chat]
+[User: Free for chat]
 Кантакт: Вольны
-[(M) went Away]
+[(M) went away]
 адышоў
-[(F) went Away]
+[(F) went away]
 адышла
-[(U) went Away]
+[(U) went away]
 адышоў
 [User: Away]
 Кантакт: Адсутнічае
@@ -261,14 +235,14 @@
 адсутнічае!
 [(U) isn't there anymore!]
 адсутнічае!
-[User: Not Available]
+[User: Not available]
 Кантакт: Недасяжны
-[(M) has something else to do.]
-заняты чымсьці іншым.
-[(F) has something else to do.]
-занята чымсьці іншым.
-[(U) has something else to do.]
-заняты чымсьці іншым.
+[(M) has something else to do]
+заняты чымсьці іншым
+[(F) has something else to do]
+занята чымсьці іншым
+[(U) has something else to do]
+заняты чымсьці іншым
 [User: Occupied]
 Кантакт: заняты
 [(M) doesn't want to be disturbed!]
@@ -277,7 +251,7 @@
 просьба не турбаваць!
 [(U) doesn't want to be disturbed!]
 просіць не турбаваць!
-[User: Do Not Disturb]
+[User: Do not disturb]
 Кантакт: Не турбаваць
 [(M) is eating something]
 нешта есць
@@ -285,7 +259,7 @@
 нешта есць
 [(U) is eating something]
 нешта есць
-[User: Out To Lunch]
+[User: Out to lunch]
 Кантакт: Абедае
 [(M) had to answer the phone]
 тэлефануе
@@ -293,8 +267,16 @@
 тэлефануе
 [(U) had to answer the phone]
 теэлефануе
-[User: On The Phone]
+[User: On the phone]
 Кантакт: Тэлефануе
+[User: from offline (has priority!)]
+Кантакт:  далучаецца (мае прыярытэт!)
+[Extra status removed]
+Дадатковы статус выдалены
+[Extra status message changed]
+Зменена дадатковага статусу
+[Extra status changed]
+Дадатковы статус зменены
 [Enable status notification]
 Уключыць абвесткі пра змену статусу
 [Disable status notification]
@@ -305,14 +287,6 @@
 Абвесткі выключаны
 [New Status Notify]
 Змены статуса
-[User: from offline (has priority!)]
-Кантакт:  далучаецца (мае прыярытэт!)
-[Extra status changed]
-Дадатковы статус зменены
-[Extra status message changed]
-Зменена дадатковага статусу
-[Extra status removed]
-Дадатковы статус выдалены
 [Toggle status notification]
 Укл/Выкл абвесткі пра змену статусу
 [Status change]
@@ -324,14 +298,14 @@
 Лог
 [This is status message]
 Гэта паведамленне статусу
-[Do you want to reset all templates to default?]
-Вы жадаеце скінуць усе шаблоны на стандартныя?
-[Reset templates]
-Скінуць шаблоны
 [Show available variables]
 Даступныя зменныя
 [Reset all templates to default]
 Скінуць усе шаблоны на стандартныя
+[Do you want to reset all templates to default?]
+Вы жадаеце скінуць усе шаблоны на стандартныя?
+[Reset templates]
+Скінуць шаблоны
 [Protocol]
 Пратакол
 [Filtering]
@@ -354,8 +328,6 @@
 [Do nothing]
 Нічога не рабіць
 ;file \plugins\NewXstatusNotify\src\utils.cpp
-[You cannot specify a value lower than %d and higher than %d.]
-Значэнне меншае %d ці большае %d не дапушчаецца.
 [Can't open the log file!]
 Не магу адкрыць файл лога!
 [NewXstatusNotify]
@@ -367,28 +339,22 @@
 Занятак
 [Xstatus]
 хстатус
-[<unknown>]
-<невядома>
-[%s, %s. %s removed %s.\r\n]
-%s, %s. %s выдаліў %s.\r\n
-[%s, %s. %s changed %s to: %s.\r\n]
-%s, %s. %s змяніў%s на: %s.\r\n
 ;file \plugins\NewXstatusNotify\src\xstatus.h
-[changed %N to: %T%D%I]
-змяніў(ла) %N на: %T%D%I
-[changed %N message to:%D%I]
-змяніў(ла) паведамленне %N на:%D%I
-[removed %N]
-выдаліў(ла) %N
-[changed his/her status message to %n]
+[changed %n to: %t]
+змяніў(ла) %n на: %t
+[removed %n]
+выдаліў(ла) %n
+[changed %n message to: %m]
+змяніў(ла) паведамленне %n на: %m
+[removed %n message]
+выдаліў(ла) паведамленне %n
+[changed status message to: %n]
 змяніў(ла) статуснае паведамленне на %n
-[changed %N @ %T%D%I]
-змяніў(ла) %N @ %T%D%I
-[changed %N message @ %I]
-змяніў(ла) паведамленне %N @ %I
-[has %N @ %T%D%I]
-%N @ %T%D%I
-[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
-Даступныя зменныя:\r\n\r\n%N\tназва xСтатуса (хСтатус, Настрой, Занятак)\r\n%Т\tзагаловак xСтатуса\r\n%I\tтэкст xСтатуса\r\n% D\tпадзельнік\r\n% B\tнаступны радок (можна як падзельнік)
-[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Даступныя зменныя:\r\n\r\n%n\tНовае паведамленне статуса\r\n%o\tСтарое паведамленне статуса\r\n%c\tМянушка\r\n\\n\tНаступны радок\r\n\\t\tТабуляцыя
+[removed status message]
+выдаліў(ла) статуснае паведамленне
+[changed %n @ %t: %m]
+змяніў(ла) %n @ %t: %m
+[changed %n message @ %m]
+змяніў(ла) паведамленне %n @ %m
+[changed status message @ %n]
+змяніў(ла) статуснае паведамленне @ %n

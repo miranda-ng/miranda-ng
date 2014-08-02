@@ -7,7 +7,7 @@
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Сповіщає про зміни статусів, хСтатусів та статусних повідомлень контактів.
-[Notify when a contact changes to one of these statuses]
+[Notify when contact changes to one of these statuses]
 Сповіщати, коли статус контакту змінюється на:
 [Online]
 В мережі
@@ -37,7 +37,7 @@
 Вимикати сплив. вікна і звуки при зміні статусу
 [Configure]
 Налаштувати
-[Notify me for people not in my Contact List]
+[Notify me for people not on my contact list]
 Сповіщати про контакти поза списком контактів
 [Blink icon in the system tray]
 Блимаючий значок у треї
@@ -47,20 +47,12 @@
 Індивідуальні звуки
 [Log to file]
 Запис у файл
-[Enable]
-Ввімкнено
 [Extra status]
 хСтатус
 [Open]
 Відкрити
 [Status message]
 Повідомлення статусу
-[Log in history]
-Запис в історію
-[Log status changes in history]
-Записувати зміни статусів в історію
-[Only when message window is open]
-Тільки якщо вікно повідомлень відкрите
 [Change]
 Змінити
 [Preview]
@@ -127,8 +119,6 @@
 Правий клік
 [Show status description]
 Показувати опис статусу
-[Ignore empty status and xStatus messages]
-Ігнорувати порожні повідомлення
 [Connection timeout]
 Затримка на старті
 [Notification]
@@ -141,18 +131,12 @@
 символів
 [Templates]
 Шаблони
-[Title - text delimiter:]
-Роздільник заголовока - тексту:
-[Remove:]
-Видалення:
-[New message:]
-Нове повідомлення:
-[New status:]
-Новий статус:
 [Variables]
 Змінні
 [Reset]
 Скинути
+[Show Popups when I connect]
+Показувати спливаючі вікна, коли я підключаюся
 [Disable notifications]
 Вимкнути сповіщення
 [Cancel]
@@ -163,24 +147,16 @@
 Вимикати лише при зміні глобального статусу
 [Disable when my status is:]
 Вимикати, коли мій статус:
-[Extra status log]
-Запис хСтатусів
-[Enable logging extra status to message window]
-Ввімкнути запис хСтатусів у вікно повідомлень
-[Keep events in history]
-Зберігати події в історію
-[Prevent identical logs]
-Уникати однакових записів
-[On opening ML:]
-Відкриття вікна:
+[Only when message window is open]
+Тільки якщо вікно повідомлень відкрите
 [General]
 Загальне
-[Show Popups when I connect]
-Показувати спливаючі вікна, коли я підключаюся
 [Accounts]
 Облікові записи
 [Enable/Disable accounts which you don't wish to be notified for:]
 Ввімкнути/Вимкнути сповіщення для облікових записів:
+[Log status changes to history]
+Записувати зміни статусів в історію
 [Sound files]
 Звукові файли
 [All files]
@@ -189,10 +165,6 @@
 Файли WAV
 [Status]
 Статус
-[Sound for the status]
-Звук для статусу
-[From offline]
-З офлайну
 [** All contacts **]
 ** Усі контакти **
 [(default sound)]
@@ -201,16 +173,16 @@
 <немає повідомлення статусу>
 [Contact]
 Контакт
+[<unknown>]
+<невідомо>
+[%s is now %s]
+%s зараз %s
 [connecting]
 підключається
 [aborting]
 відключається
 [playing]
 грає
-[%s is now %s]
-%s зараз %s
-[%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s змінив(ла): %s (був(ла): %s).\r\n
 [(M) is back online!]
 знову в мережі!
 [(F) is back online!]
@@ -241,13 +213,13 @@
 готова поговорити!
 [(U) feels talkative!]
 готовий поговорити!
-[User: Free For Chat]
+[User: Free for chat]
 Користувач: готовий до чату
-[(M) went Away]
+[(M) went away]
 відійшов
-[(F) went Away]
+[(F) went away]
 відійшла
-[(U) went Away]
+[(U) went away]
 відійшов
 [User: Away]
 Користувач: відсутній
@@ -257,14 +229,14 @@
 відсутня!
 [(U) isn't there anymore!]
 відсутній!
-[User: Not Available]
+[User: Not available]
 Користувач: недоступний
-[(M) has something else to do.]
-зайнятий чимось іншим.
-[(F) has something else to do.]
-зайнята чимось іншим.
-[(U) has something else to do.]
-зайнятий чимось іншим.
+[(M) has something else to do]
+зайнятий чимось іншим
+[(F) has something else to do]
+зайнята чимось іншим
+[(U) has something else to do]
+зайнятий чимось іншим
 [User: Occupied]
 Користувач: зайнятий
 [(M) doesn't want to be disturbed!]
@@ -273,7 +245,7 @@
 не хотіла б, щоб її турбували!
 [(U) doesn't want to be disturbed!]
 не хотів би, щоб його турбували!
-[User: Do Not Disturb]
+[User: Do not disturb]
 Користувач: не турбувати
 [(M) is eating something]
 щось їсть
@@ -281,7 +253,7 @@
 щось їсть
 [(U) is eating something]
 щось їсть
-[User: Out To Lunch]
+[User: Out to lunch]
 Користувач: обідає
 [(M) had to answer the phone]
 говорить по телефону
@@ -289,8 +261,16 @@
 говорить по телефону
 [(U) had to answer the phone]
 говорить по телефону
-[User: On The Phone]
+[User: On the phone]
 Користувач: телефонує
+[User: from offline (has priority!)]
+Користувач: з офлайну (має пріоритет!)
+[Extra status removed]
+хСтатус видалено
+[Extra status message changed]
+Змінено повідомлення хСтатусу
+[Extra status changed]
+хСтатус змінено
 [Enable status notification]
 Ввімкнути сповіщення про зміну статусу
 [Disable status notification]
@@ -301,14 +281,6 @@
 Сповіщення вимкнено
 [New Status Notify]
 Зміна статусу
-[User: from offline (has priority!)]
-Користувач: з офлайну (має пріоритет!)
-[Extra status changed]
-хСтатус змінено
-[Extra status message changed]
-Змінено повідомлення хСтатусу
-[Extra status removed]
-хСтатус видалено
 [Toggle status notification]
 Ввімк./Вимк. сповіщення про зміну статусу
 [Status change]
@@ -319,14 +291,14 @@
 Журнал
 [This is status message]
 Це повідомлення статусу
-[Do you want to reset all templates to default?]
-Ви хочете скинути всі шаблони на стандартні?
-[Reset templates]
-Скинути шаблони
 [Show available variables]
 Доступні змінні
 [Reset all templates to default]
 Скинути всі шаблони на стандартні
+[Do you want to reset all templates to default?]
+Ви хочете скинути всі шаблони на стандартні?
+[Reset templates]
+Скинути шаблони
 [Protocol]
 Протокол
 [Filtering]
@@ -347,8 +319,6 @@
 Відкрити історію контакту
 [Do nothing]
 Нічого не робити
-[You cannot specify a value lower than %d and higher than %d.]
-Значення менше %d або більше %d не допускається.
 [Can't open the log file!]
 Неможливо відкрити файл журналу!
 [NewXstatusNotify]
@@ -359,27 +329,20 @@
 Заняття
 [Xstatus]
 хСтатус
-[<unknown>]
-<невідомо>
-[%s, %s. %s removed %s.\r\n]
-%s, %s. %s видалив(ла) %s.\r\n
-[%s, %s. %s changed %s to: %s.\r\n]
-%s, %s. %s змінив(ла) %s на: %s.\r\n
-[changed %N to: %T%D%I]
-змінив(ла) %N на: %T%D%I
-[changed %N message to:%D%I]
-змінив(ла) повідомлення %N:%D%I
-[removed %N]
-видалив(ла) %N
-[changed his/her status message to %n]
-змінив(ла) статусне повідомлення на %n
-[changed %N @ %T%D%I]
-змінив(ла) %N @ %T%D%I
-[changed %N message @ %I]
-змінив(ла) повідомлення %N @ %I
-[has %N @ %T%D%I]
-%N @ %T%D%I
-[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
-Доступні змінні:\r\n\r\n%N\tназва хСтатусу (хСтатус, Настрій, Заняття)\r\n%T\tзаголовок хСтатусу\r\n%I\tтекст хСтатусу\r\n%D\tроздільник\r\n%B\tперенос рядка (можна використовувати в якості роздільника)
-[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Доступні змінні:\r\n\r\n%n\tНове повідомлення статусу\r\n%o\tСтаре повідомлення статусу\r\n%c\tНік\r\n\\n\tПеренос рядка\r\n\\t\tТабуляція
+[changed %n to: %t]
+змінив(ла) %n на: %t
+[removed %n]
+видалив(ла) %n
+[changed %n message to: %m]
+змінив(ла) повідомлення %n: %m
+[changed status message to: %n]
+змінив(ла) статусне повідомлення: на %n
+[changed %n @ %t: %m]
+змінив(ла) %n @ %t: %m
+[changed %n message @ %m]
+змінив(ла) повідомлення %n @ %m
+[has %n @ %t: %m]
+[has %n @ %t: %m]
+%n @ %t: %m
+[changed status message @ %n]
+змінив(ла) статусне повідомлення @ %n

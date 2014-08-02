@@ -8,7 +8,7 @@
 [Notifies you when a contact changes his/her (X)status or status message.]
 Benachrichtigt Sie, wenn ein Kontakt seinen xStatus- oder Status(nachricht) ändert.
 ;file \plugins\NewXstatusNotify\res\resource.rc
-[Notify when a contact changes to one of these statuses]
+[Notify when contact changes to one of these statuses]
 Melden, wenn ein Kontakt den Status ändert in:
 [Online]
 Online
@@ -38,7 +38,7 @@ Plugin-Aktivierung
 Popups und Klänge bei Statusänderung automatisch deaktivieren
 [Configure]
 Einstellungen
-[Notify me for people not in my Contact List]
+[Notify me for people not on my contact list]
 Benachrichtigen bei Leuten, die nicht in meiner Kontaktliste sind
 [Blink icon in the system tray]
 Icon blinkt im Systemtray
@@ -48,20 +48,16 @@ Statusicon verwenden
 Individuelle Klänge verwenden
 [Log to file]
 In Datei speichern
-[Enable]
-Aktivieren
 [Extra status]
 Extra Status
 [Open]
 Öffnen
 [Status message]
 Statusnachricht
-[Log in history]
-In Verlauf speichern
-[Log status changes in history]
-Statusänderungen im Verlauf speichern
-[Only when message window is open]
-Nur wenn Nachrichtenfenster offen ist
+[Also when extra status or status message changes]
+
+[Notify when contact changes]
+
 [Change]
 Ändern
 [Preview]
@@ -88,6 +84,10 @@ Extrastatusaufzeichnung
 Alle deaktivieren
 [Enable all]
 Alle aktivieren
+[Status message notify]
+
+[Status message logging]
+
 [Background]
 Hintergrund
 [Text]
@@ -128,8 +128,6 @@ Bei Linksklick
 Bei Rechtsklick
 [Show status description]
 Statusbeschreibung anzeigen
-[Ignore empty status and xStatus messages]
-Leere (x)Statusnachrichten ignorieren
 [Connection timeout]
 Verbindungs-Timeout
 [Notification]
@@ -142,18 +140,22 @@ Länge der Nachricht kürzen auf:
 Zeichen
 [Templates]
 Vorlagen
-[Title - text delimiter:]
-Titel-Text-Trennzeichen:
-[Remove:]
-Entfernen:
-[New message:]
-Neue Nachricht:
-[New status:]
-Neuer Status:
+[Template:]
+Vorlage:
+[Notify when contact removes extra status]
+
+[Notify when contact changes extra status message]
+
+[Notify when contact changes extra status]
+
 [Variables]
 Variablen
 [Reset]
 Standard
+[Notify when contact removes extra status message]
+
+[Show Popups when I connect]
+Popups beim Verbinden
 [Disable notifications]
 Benachrichtigungen deaktivieren
 [Cancel]
@@ -164,24 +166,56 @@ Global deaktivieren
 Deaktiviere nur, falls ich den globalen Status ändere
 [Disable when my status is:]
 Deaktivieren, wenn mein Status:
-[Extra status log]
-Extra-Status-Verlauf
-[Enable logging extra status to message window]
-Extra-Status-Aufzeichnung im Nachrichtenfenster aktivieren
-[Keep events in history]
-Ereignisse im Verlauf behalten
-[Prevent identical logs]
-Identische Aufzeichnungen verhindern
-[On opening ML:]
-Bei Verlaufsöffnung:
+[Log extra status changes]
+
+[Log extra status changes to file]
+
+[Only when message window is open]
+Nur wenn Nachrichtenfenster offen ist
+[Log extra status changes to history]
+
+[Remove events from history when closing message window]
+
+[Log when contact removes extra status]
+
+[Log when contact changes extra status message]
+
+[Log when contact changes extra status]
+
+[Log extra status when opening message window]
+
+[Log when contact removes extra status message]
+
 [General]
 Allgemein
-[Show Popups when I connect]
-Popups beim Verbinden
 [Accounts]
 Konten
 [Enable/Disable accounts which you don't wish to be notified for:]
 Konten (de-)aktivieren, für die Sie nicht benachrichtigt werden wollen:
+[Notify when contact changes status message]
+
+[Notify when contact removes status message]
+
+[Log status changes]
+Statuswechsel aufzeichnen
+[Log status changes to file]
+
+[Log status changes to history]
+Statusänderungen im Verlauf speichern
+[Log previous status too]
+Vorherigen Status ebenfalls speichern
+[Log status message changes]
+Statusnachrichtenänderungen speichern
+[Log status message changes to file]
+
+[Log status message changes to history]
+
+[Log when contact changes status message]
+
+[Log when contact removes status message]
+
+[Log status message when opening message window]
+
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Klangdateien
@@ -191,10 +225,8 @@ Alle Dateien
 Wave-Dateien
 [Status]
 Status
-[Sound for the status]
-Klang für den Status
-[From offline]
-Von offline
+[Sound file]
+
 [** All contacts **]
 ** Alle Kontakte **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
@@ -205,16 +237,22 @@ Standardton
 <keine Statusnachricht>
 [Contact]
 Kontakt
+[<unknown>]
+<unbekannt>
+[%s is now %s]
+%s ist nun %s
+[%s, %s. %s changed status to %s (was %s)\r\n]
+
 [connecting]
 verbinde
 [aborting]
 breche ab
 [playing]
 spiele
-[%s is now %s]
-%s ist nun %s
-[%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s ändert zu: %s (was: %s).\r\n
+[%s changed status message to %s]
+
+[%s, %s. %s %s\r\n]
+%s, %s. %s %s\r\n
 [(M) is back online!]
 Er ist wieder online!
 [(F) is back online!]
@@ -245,13 +283,13 @@ Er fühlt sich gesprächig!
 Sie fühlt sich gesprächig!
 [(U) feels talkative!]
 Kontakt fühlt sich gesprächig!
-[User: Free For Chat]
+[User: Free for chat]
 Kontakt: Für Chat bereit
-[(M) went Away]
+[(M) went away]
 Er ist abwesend.
-[(F) went Away]
+[(F) went away]
 Sie ist abwesend.
-[(U) went Away]
+[(U) went away]
 Kontakt ist abwesend.
 [User: Away]
 Kontakt: Abwesend
@@ -261,14 +299,14 @@ Er ist nicht da!
 Sie ist nicht da!
 [(U) isn't there anymore!]
 Kontakt ist nicht da!
-[User: Not Available]
+[User: Not available]
 Kontakt: Außer Haus
-[(M) has something else to do.]
-Er ist beschäftigt.
-[(F) has something else to do.]
-Sie ist beschäftigt.
-[(U) has something else to do.]
-Kontakt ist beschäftigt.
+[(M) has something else to do]
+Er ist beschäftigt
+[(F) has something else to do]
+Sie ist beschäftigt
+[(U) has something else to do]
+Kontakt ist beschäftigt
 [User: Occupied]
 Kontakt: Beschäftigt
 [(M) doesn't want to be disturbed!]
@@ -277,7 +315,7 @@ Er möchte nicht gestört werden!
 Sie möchte nicht gestört werden!
 [(U) doesn't want to be disturbed!]
 Kontakt möchte nicht gestört werden!
-[User: Do Not Disturb]
+[User: Do not disturb]
 Kontakt: Bitte nicht stören
 [(M) is eating something]
 Er isst gerade.
@@ -285,7 +323,7 @@ Er isst gerade.
 Sie isst gerade.
 [(U) is eating something]
 Kontakt isst gerade.
-[User: Out To Lunch]
+[User: Out to lunch]
 Kontakt: Zum Essen
 [(M) had to answer the phone]
 Er telefoniert gerade.
@@ -293,8 +331,22 @@ Er telefoniert gerade.
 Sie telefoniert gerade.
 [(U) had to answer the phone]
 Kontakt telefoniert gerade.
-[User: On The Phone]
+[User: On the phone]
 Kontakt: Am Telefon
+[User: from offline (has priority!)]
+Kontakt: war offline (hat Priorität!)
+[Status message removed]
+
+[Status message changed]
+
+[Extra status removed]
+Extra-Status wurde entfernt
+[Extra status message changed]
+Extra-Statusnachricht wurde geändert
+[Extra status changed]
+Extra-Status wurde geändert
+[Extra status message removed]
+
 [Enable status notification]
 Statusbenachrichtigungen aktivieren
 [Disable status notification]
@@ -305,14 +357,6 @@ Benachrichtigung aktiviert
 Benachrichtigung deaktiviert
 [New Status Notify]
 New Status Notify
-[User: from offline (has priority!)]
-Kontakt: war offline (hat Priorität!)
-[Extra status changed]
-Extra-Status wurde geändert
-[Extra status message changed]
-Extra-Statusnachricht wurde geändert
-[Extra status removed]
-Extra-Status wurde entfernt
 [Toggle status notification]
 Wechsel Statusbenachrichtigungen
 [Status change]
@@ -324,16 +368,20 @@ Alle Dateien
 Verlauf
 [This is status message]
 Dies ist eine Statusnachricht
-[Do you want to reset all templates to default?]
-Möchten Sie alle Vorlagen auf Standard zurücksetzen?
-[Reset templates]
-Vorlagen zurücksetzen
+[This is extra status]
+
 [Show available variables]
 Verfügbare Variablen anzeigen
 [Reset all templates to default]
 Alle Vorlagen auf Standard zurücksetzen
+[Do you want to reset all templates to default?]
+Möchten Sie alle Vorlagen auf Standard zurücksetzen?
+[Reset templates]
+Vorlagen zurücksetzen
 [Protocol]
 Protokoll
+[Logging]
+Speichern
 [Filtering]
 Filtern
 [Message log]
@@ -354,8 +402,6 @@ Gesprächsverlauf öffnen
 [Do nothing]
 Nichts tun
 ;file \plugins\NewXstatusNotify\src\utils.cpp
-[You cannot specify a value lower than %d and higher than %d.]
-Werte kleiner als %d und größer als %d sind nicht zulässig.
 [Can't open the log file!]
 Log konnte nicht geöffnet werden!
 [NewXstatusNotify]
@@ -367,28 +413,34 @@ Stimmung
 Aktivität
 [Xstatus]
 XStatus
-[<unknown>]
-<unbekannt>
-[%s, %s. %s removed %s.\r\n]
-%s, %s. %s entfernt %s.\r\n
-[%s, %s. %s changed %s to: %s.\r\n]
-%s, %s. %s ändert %s.\r\n
+[<no title>]
+
+[%s changed %s]
+
 ;file \plugins\NewXstatusNotify\src\xstatus.h
-[changed %N to: %T%D%I]
-änderte %N in: %T%D%I
-[changed %N message to:%D%I]
-änderte %N-Nachricht in:%D%I
-[removed %N]
-entfernte %N
-[changed his/her status message to %n]
-ändert seine/ihre Statusnachricht zu %n
-[changed %N @ %T%D%I]
-änderte %N @ %T%D%I
-[changed %N message @ %I]
-änderte Nachricht für %N @ %I
-[has %N @ %T%D%I]
-hat %N @ %T%D%I
-[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
-Folgende Variablen sind verfügbar:\r\n\r\n%N\tExtra Status name (XStatus, Stimmung, Aktivität)\r\n%T\tExtra Status Titel\r\n%I\tExtra Status Text\r\n%D\tBegrenzung\r\n%B\tZeilenumbruch (kann als Begrenzung verwendet werden)
-[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Folgende Variablen sind verfügbar:\r\n\r\n\ %n\tNeue Statusnachricht\r\n\ %o\tAlte Statusnachricht\r\n\ %c\tBenutzerdef. Nickname\r\n\ \\n\tZeilenumbruch\r\n\ \\t\tTabstopp
+[changed %n to: %t]
+änderte %n in: %t
+[removed %n]
+entfernte %n
+[changed %n message to: %m]
+änderte %n-Nachricht in: %m
+[removed %n message]
+
+[changed status message to: %n]
+
+[removed status message]
+
+[changed %n @ %t: %m]
+änderte %n @ %t: %m .
+[changed %n message @ %m]
+änderte Nachricht für %n @ %m
+[has %n @ %t: %m]
+hat %n @ %t: %m
+[changed status message @ %n]
+
+[is %s and has status message @ %n]
+
+[These variables are available:\r\n\r\n%n\textra status name (Xstatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+
+[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
+

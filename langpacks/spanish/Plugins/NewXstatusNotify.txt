@@ -8,7 +8,7 @@
 [Notifies you when a contact changes his/her (X)status or status message.]
 
 ;file \plugins\NewXstatusNotify\res\resource.rc
-[Notify when a contact changes to one of these statuses]
+[Notify when contact changes to one of these statuses]
 
 [Online]
 En línea
@@ -38,7 +38,7 @@ En el teléfono
 
 [Configure]
 Configurar
-[Notify me for people not in my Contact List]
+[Notify me for people not on my contact list]
 
 [Blink icon in the system tray]
 
@@ -48,19 +48,15 @@ Configurar
 
 [Log to file]
 
-[Enable]
-Habilitar
 [Extra status]
 
 [Open]
 
 [Status message]
 
-[Log in history]
+[Also when extra status or status message changes]
 
-[Log status changes in history]
-
-[Only when message window is open]
+[Notify when contact changes]
 
 [Change]
 
@@ -87,6 +83,10 @@ Ventanas emergentes
 [Disable all]
 
 [Enable all]
+
+[Status message notify]
+
+[Status message logging]
 
 [Background]
 Fondo
@@ -128,8 +128,6 @@ En clic izquierdo
 En clic derecho
 [Show status description]
 
-[Ignore empty status and xStatus messages]
-
 [Connection timeout]
 
 [Notification]
@@ -142,18 +140,22 @@ Notificación
 
 [Templates]
 Plantillas
-[Title - text delimiter:]
+[Template:]
 
-[Remove:]
+[Notify when contact removes extra status]
 
-[New message:]
+[Notify when contact changes extra status message]
 
-[New status:]
+[Notify when contact changes extra status]
 
 [Variables]
 Variables
 [Reset]
 Reiniciar
+[Notify when contact removes extra status message]
+
+[Show Popups when I connect]
+
 [Disable notifications]
 
 [Cancel]
@@ -164,23 +166,55 @@ Cancelar
 
 [Disable when my status is:]
 
-[Extra status log]
+[Log extra status changes]
 
-[Enable logging extra status to message window]
+[Log extra status changes to file]
 
-[Keep events in history]
+[Only when message window is open]
 
-[Prevent identical logs]
+[Log extra status changes to history]
 
-[On opening ML:]
+[Remove events from history when closing message window]
+
+[Log when contact removes extra status]
+
+[Log when contact changes extra status message]
+
+[Log when contact changes extra status]
+
+[Log extra status when opening message window]
+
+[Log when contact removes extra status message]
 
 [General]
 General
-[Show Popups when I connect]
-
 [Accounts]
 Cuentas
 [Enable/Disable accounts which you don't wish to be notified for:]
+
+[Notify when contact changes status message]
+
+[Notify when contact removes status message]
+
+[Log status changes]
+
+[Log status changes to file]
+
+[Log status changes to history]
+
+[Log previous status too]
+
+[Log status message changes]
+
+[Log status message changes to file]
+
+[Log status message changes to history]
+
+[Log when contact changes status message]
+
+[Log when contact removes status message]
+
+[Log status message when opening message window]
 
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
@@ -191,9 +225,7 @@ Todos los archivos
 
 [Status]
 Estado
-[Sound for the status]
-
-[From offline]
+[Sound file]
 
 [** All contacts **]
 ** Todos los contactos **
@@ -205,15 +237,21 @@ Estado
 
 [Contact]
 Contacto
+[<unknown>]
+<desconocido>
+[%s is now %s]
+
+[%s, %s. %s changed status to %s (was %s)\r\n]
+
 [connecting]
 conectando
 [aborting]
 
 [playing]
 
-[%s is now %s]
+[%s changed status message to %s]
 
-[%s, %s. %s changed to: %s (was: %s).\r\n]
+[%s, %s. %s %s\r\n]
 
 [(M) is back online!]
 
@@ -245,13 +283,13 @@ conectando
 
 [(U) feels talkative!]
 
-[User: Free For Chat]
+[User: Free for chat]
 
-[(M) went Away]
+[(M) went away]
 
-[(F) went Away]
+[(F) went away]
 
-[(U) went Away]
+[(U) went away]
 
 [User: Away]
 
@@ -261,13 +299,13 @@ conectando
 
 [(U) isn't there anymore!]
 
-[User: Not Available]
+[User: Not available]
 
-[(M) has something else to do.]
+[(M) has something else to do]
 
-[(F) has something else to do.]
+[(F) has something else to do]
 
-[(U) has something else to do.]
+[(U) has something else to do]
 
 [User: Occupied]
 
@@ -277,7 +315,7 @@ conectando
 
 [(U) doesn't want to be disturbed!]
 
-[User: Do Not Disturb]
+[User: Do not disturb]
 
 [(M) is eating something]
 
@@ -285,7 +323,7 @@ conectando
 
 [(U) is eating something]
 
-[User: Out To Lunch]
+[User: Out to lunch]
 
 [(M) had to answer the phone]
 
@@ -293,7 +331,21 @@ conectando
 
 [(U) had to answer the phone]
 
-[User: On The Phone]
+[User: On the phone]
+
+[User: from offline (has priority!)]
+
+[Status message removed]
+
+[Status message changed]
+
+[Extra status removed]
+
+[Extra status message changed]
+
+[Extra status changed]
+
+[Extra status message removed]
 
 [Enable status notification]
 
@@ -304,14 +356,6 @@ conectando
 [Notification disabled]
 
 [New Status Notify]
-
-[User: from offline (has priority!)]
-
-[Extra status changed]
-
-[Extra status message changed]
-
-[Extra status removed]
 
 [Toggle status notification]
 
@@ -324,16 +368,20 @@ Todos los archivos
 Registro
 [This is status message]
 
-[Do you want to reset all templates to default?]
-
-[Reset templates]
+[This is extra status]
 
 [Show available variables]
 
 [Reset all templates to default]
 
+[Do you want to reset all templates to default?]
+
+[Reset templates]
+
 [Protocol]
 Protocolo
+[Logging]
+
 [Filtering]
 Filtrando
 [Message log]
@@ -354,8 +402,6 @@ Cerrar popup
 [Do nothing]
 No hacer nada
 ;file \plugins\NewXstatusNotify\src\utils.cpp
-[You cannot specify a value lower than %d and higher than %d.]
-
 [Can't open the log file!]
 
 [NewXstatusNotify]
@@ -367,28 +413,34 @@ No hacer nada
 
 [Xstatus]
 
-[<unknown>]
-<desconocido>
-[%s, %s. %s removed %s.\r\n]
+[<no title>]
 
-[%s, %s. %s changed %s to: %s.\r\n]
+[%s changed %s]
 
 ;file \plugins\NewXstatusNotify\src\xstatus.h
-[changed %N to: %T%D%I]
+[changed %n to: %t]
 
-[changed %N message to:%D%I]
+[removed %n]
 
-[removed %N]
+[changed %n message to: %m]
 
-[changed his/her status message to %n]
+[removed %n message]
 
-[changed %N @ %T%D%I]
+[changed status message to: %n]
 
-[changed %N message @ %I]
+[removed status message]
 
-[has %N @ %T%D%I]
+[changed %n @ %t: %m]
 
-[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
+[changed %n message @ %m]
 
-[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+[has %n @ %t: %m]
+
+[changed status message @ %n]
+
+[is %s and has status message @ %n]
+
+[These variables are available:\r\n\r\n%n\textra status name (Xstatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+
+[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
 

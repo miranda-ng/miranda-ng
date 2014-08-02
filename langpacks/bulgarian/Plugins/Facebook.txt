@@ -171,9 +171,17 @@ URL:
 
 [Error occurred when requesting friendship.]
 
+[Request for friendship was accepted.]
+
+[Error occurred when accepting friendship request.]
+
 [Request for friendship was canceled.]
 
 [Error occurred when canceling friendship request.]
+
+[Request for friendship was ignored.]
+
+[Error occurred when ignoring friendship request.]
 
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
@@ -288,6 +296,8 @@ URL:
 [Request friendship]
 Молба за приятелство
 [Approve friendship]
+
+[Deny friendship request]
 
 [Services...]
 Услуги...

@@ -171,10 +171,18 @@ Se produjo un error al quitar el contacto del servidor.
 La solicitud de amistad se ha enviado.
 [Error occurred when requesting friendship.]
 Se produjo un error al solicitar la amistad.
+[Request for friendship was accepted.]
+
+[Error occurred when accepting friendship request.]
+
 [Request for friendship was canceled.]
 La solicitud de amistad fue cancelada.
 [Error occurred when canceling friendship request.]
 Se produjo un error al cancelar la solicitud de amistad.
+[Request for friendship was ignored.]
+
+[Error occurred when ignoring friendship request.]
+
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Por defecto
@@ -289,6 +297,8 @@ Cancelar solicitud de amistad
 Solicitud de amistad
 [Approve friendship]
 Aprobar amistad
+[Deny friendship request]
+
 [Services...]
 Servicios...
 [Refresh Buddy List]
