@@ -544,6 +544,9 @@ static int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 				p->m_hSub = db_mc_getMostOnline(cc->contactID);
 				p->m_hWnd = mwed->hwndWindow;
 				arMetaWindows.insert(p);
+
+				if (p->m_hSub != db_mc_getDefault(cc->contactID))
+					db_mc_setDefault(cc->contactID, p->m_hSub, false);
 			}
 		}
 	}
