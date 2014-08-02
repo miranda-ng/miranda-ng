@@ -125,6 +125,9 @@
     <ClInclude Include="src\parse_variables.h">
       <Filter>Header Files\Parse</Filter>
     </ClInclude>
+    <ClInclude Include="src\parse_xml.h">
+      <Filter>Header Files\Parse</Filter>
+    </ClInclude>
     <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
