@@ -27,20 +27,10 @@
 #include "CString.h"
 #include "pcre.h"
 
-
-HMODULE hPcreDLL = NULL;
-
-static pcre* (*pcre_compile)(const char*, int, const char**, int*, const unsigned char*);
-static int (*pcre_config)(int, void*);
-static int (*pcre_exec)(const pcre*, const pcre_extra*, const char*, int, int, int, int*, int);
-static void (*pcre_free)(void*);
-static pcre_extra* (*pcre_study)(const pcre*, int, const char **);
-
-
 typedef struct
 {
-	pcre *pPcre;
-	pcre_extra *pExtra;
+	pcre16 *pPcre;
+	pcre16_extra *pExtra;
 	TCString Pattern; // used when it's not a valid regexp
 	int ID; // user-defined ID of the pattern; returned by PcreCheck on a match
 } sPcreCompileData;
@@ -55,10 +45,10 @@ void FreePcreCompileData()
 	{
 		if (PcreCompileData[I].pPcre)
 		{
-			pcre_free(PcreCompileData[I].pPcre);
+			pcre16_free(PcreCompileData[I].pPcre);
 			if (PcreCompileData[I].pExtra)
 			{
-				pcre_free(PcreCompileData[I].pExtra);
+				pcre16_free(PcreCompileData[I].pExtra);
 			}
 		}
 	}
@@ -72,7 +62,7 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 	sPcreCompileData s = {0};
 	int NewID = PcreCompileData.AddElem(s);
 	PcreCompileData[NewID].ID = ID;
-	if (hPcreDLL && !bAddAsUsualSubstring)
+	if (!bAddAsUsualSubstring)
 	{
 		const char *Err;
 		int ErrOffs;
@@ -129,12 +119,11 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 			Regexp.ReleaseBuffer();
 		}
 
-		PcreCompileData[NewID].pPcre = pcre_compile(WCHAR2UTF8(Regexp).GetData(), PCRE_UTF8 | PCRE_NO_UTF8_CHECK | Flags, &Err, &ErrOffs, NULL);
+		PcreCompileData[NewID].pPcre = pcre16_compile(Regexp, PCRE_UTF8 | PCRE_NO_UTF8_CHECK | Flags, &Err, &ErrOffs, NULL);
 
 		if (PcreCompileData[NewID].pPcre) {
 			PcreCompileData[NewID].pExtra = NULL;
-			if (pcre_study)
-				PcreCompileData[NewID].pExtra = pcre_study(PcreCompileData[NewID].pPcre, 0, &Err);
+			PcreCompileData[NewID].pExtra = pcre16_study(PcreCompileData[NewID].pPcre, 0, &Err);
 		} 
 		else {
 			// Result += LogMessage(TranslateT("Syntax error in regexp\n%s\nat offset %d: %s."), (TCHAR*)Regexp, ErrOffs, (TCHAR*)ANSI2TCHAR(Err)) + _T("\n\n");
@@ -145,91 +134,6 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 
 	return Result;
 }
-
-
-HMODULE LoadPcreLibrary(const char *szPath)
-{
-	_ASSERT(szPath);
-	HMODULE hModule = LoadLibraryA(szPath);
-	if (!hModule)
-	{
-		return NULL;
-	}
-	*(FARPROC*)&pcre_config = GetProcAddress(hModule, "pcre_config");
-	*(FARPROC*)&pcre_compile = GetProcAddress(hModule, "pcre_compile");
-	*(FARPROC*)&pcre_exec = GetProcAddress(hModule, "pcre_exec");
-	*(FARPROC*)&pcre_study = GetProcAddress(hModule, "pcre_study");
-	*(FARPROC*)&pcre_free = *(FARPROC*)GetProcAddress(hModule, "pcre_free"); // pcre_free is a pointer to a variable containing pointer to the function %)
-	if (pcre_compile && pcre_exec && pcre_free)
-	{
-
-		int Utf8Supported = 0;
-		if (pcre_config)
-		{
-			pcre_config(PCRE_CONFIG_UTF8, &Utf8Supported);
-		}
-		if (Utf8Supported)
-		{
-			return hModule;
-		}
-
-	}
-	FreeLibrary(hModule);
-	return NULL;
-}
-
-
-void InitPcre()
-{
-	_ASSERT(!hPcreDLL);
-	hPcreDLL = LoadPcreLibrary("pcre.dll");
-	if (!hPcreDLL)
-	{
-		hPcreDLL = LoadPcreLibrary("pcre3.dll");
-	}
-	if (!hPcreDLL)
-	{
-		char path[MAX_PATH];
-		GetModuleFileNameA(NULL, path, sizeof(path));
-		char *p = strrchr(path, '\\');
-		if (p)
-		{
-			strcpy(p + 1, "pcre.dll");
-		} else
-		{
-			strcpy(path, "pcre.dll");
-		}
-		hPcreDLL = LoadPcreLibrary(path);
-		if (!hPcreDLL)
-		{
-			if (p)
-			{
-				strcpy(p + 1, "pcre3.dll");
-			} else
-			{
-				strcpy(path, "pcre3.dll");
-			}
-			hPcreDLL = LoadPcreLibrary(path);
-		}
-	}
-}
-
-
-void UninitPcre()
-{
-	if (hPcreDLL)
-	{
-		FreePcreCompileData();
-		FreeLibrary(hPcreDLL);
-	}
-}
-
-
-int PcreEnabled()
-{
-	return (int)hPcreDLL;
-}
-
 
 int PcreCheck(TCString Str, int StartingID)
 { // StartingID specifies the pattern from which to start checking, i.e. the check starts from the next pattern after the one that has ID == StartingID
@@ -250,11 +154,10 @@ int PcreCheck(TCString Str, int StartingID)
 	}
 	for (; I < PcreCompileData.GetSize(); I++)
 	{
-		if (hPcreDLL && PcreCompileData[I].pPcre)
+		if (PcreCompileData[I].pPcre)
 		{
 
-			CHARARRAY Utf8Str = WCHAR2UTF8(Str);
-			int Res = pcre_exec(PcreCompileData[I].pPcre, PcreCompileData[I].pExtra, Utf8Str.GetData(), Utf8Str.GetSize() - 1, 0, PCRE_NOTEMPTY | PCRE_NO_UTF8_CHECK, NULL, 0);
+			int Res = pcre16_exec(PcreCompileData[I].pPcre, PcreCompileData[I].pExtra, Str, Str.GetLen() - 1, 0, PCRE_NOTEMPTY | PCRE_NO_UTF8_CHECK, NULL, 0);
 			
 			if (Res >= 0)
 			{

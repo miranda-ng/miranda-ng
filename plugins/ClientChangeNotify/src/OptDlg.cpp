@@ -59,10 +59,7 @@ void EnablePopupOptDlgControls()
 		g_PopupOptPage.Find(IDC_POPUPOPTDLG_VERCHGNOTIFY)->Enable(false);
 		g_PopupOptPage.Find(IDC_POPUPOPTDLG_SHOWVER)->Enable(false);
 	}
-	if (PcreEnabled())
-	{
-		SetDlgItemText(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_STATIC_REGEXP, TranslateT("(you can use regular expressions here)"));
-	}
+	SetDlgItemText(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_STATIC_REGEXP, TranslateT("(you can use regular expressions here)"));
 	g_PopupOptPage.MemToPage(true);
 	InvalidateRect(GetDlgItem(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_POPUPDELAY_SPIN), NULL, false); // update spin control
 }

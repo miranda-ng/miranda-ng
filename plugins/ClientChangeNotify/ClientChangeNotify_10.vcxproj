@@ -202,7 +202,6 @@
     <ClInclude Include="src\Misc.h" />
     <ClInclude Include="src\CommonLibs\Options.h" />
     <ClInclude Include="src\CommonLibs\pcre.h" />
-    <ClInclude Include="src\CommonLibs\pcre_main.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\CommonLibs\TMyArray.h" />
     <ClInclude Include="src\Version.h" />
@@ -210,6 +209,11 @@
   <ItemGroup>
     <ResourceCompile Include="res\Resources.rc" />
     <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pcre16\pcre16_10.vcxproj">
+      <Project>{6124e997-426e-4a0b-9617-d6d577d5e7d7}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

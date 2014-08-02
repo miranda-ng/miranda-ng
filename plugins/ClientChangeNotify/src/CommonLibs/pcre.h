@@ -18,13 +18,10 @@
 */
 
 #include "CString.h"
-#include "pcre_main.h"
+#include "..\..\..\pcre16\src\pcre.h"
 
 #pragma once
 
-void InitPcre();
-void UninitPcre();
-int PcreEnabled();
 int PcreCheck(TCString Str, int StartingID = -1);
 void FreePcreCompileData();
 TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring = 0, int ID = 0);

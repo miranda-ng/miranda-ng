@@ -321,7 +321,6 @@ static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 
 int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 {
-	InitPcre();
 	ModuleLoad(0, 0);
 	COptPage PopupOptPage(g_PopupOptPage);
 	PopupOptPage.DBToMem();
@@ -377,6 +376,5 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload()
 {
 	CloseHandle(g_hMainThread);
-	UninitPcre();
 	return 0;
 }
