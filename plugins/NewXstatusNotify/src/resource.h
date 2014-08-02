@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\miranda-ng\plugins\NewXstatusNotify\res\resource.rc
 //
 #define IDD_OPT_XPOPUP                  101
 #define IDD_INFO_SOUNDS                 102
@@ -97,6 +97,8 @@
 #define IDC_ED_TXSTATUSREMOVED          1062
 #define IDC_ED_TMSGCHANGED              1063
 #define IDC_CHK_MSGREMOVED              1064
+#define IDC_CHECK1                      1064
+#define IDC_ONEFORALL                   1064
 #define IDC_ED_TMSGCHANGED2             1065
 #define IDC_ED_TMSGREMOVED              1065
 #define IDC_TIMEOUT_VALUE               1066
@@ -194,7 +196,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1064
+#define _APS_NEXT_CONTROL_VALUE         1065
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

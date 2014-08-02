@@ -17,14 +17,14 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1250)
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_OPT_GENERAL DIALOGEX 0, 0, 300, 234
+IDD_OPT_GENERAL DIALOGEX 0, 0, 300, 218
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -42,24 +42,24 @@ BEGIN
     CONTROL         "On the phone",IDC_CHK_ONTHEPHONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,47,89,8
     CONTROL         "Always when changing from offline",IDC_CHK_FROMOFFLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,47,187,8
+    GROUPBOX        "Notify when contact changes",IDC_STATIC,3,64,294,25,WS_GROUP
+    CONTROL         "Extra status",IDC_CHK_XSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,87,8
+    CONTROL         "Status message",IDC_CHK_STATUS_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,75,87,8
     GROUPBOX        "Plugin activation",IDC_STATIC,3,92,294,80,WS_GROUP
     CONTROL         "Automatically turn off Popups and Sounds on status change",IDC_AUTODISABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,103,228,10
     PUSHBUTTON      "Configure",IDC_CONFIGUREAUTODISABLE,242,101,46,14
     CONTROL         "Notify me for people not on my contact list",IDC_HIDDENCONTACTSTOO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,114,228,10
-    CONTROL         "Blink icon in the system tray",IDC_BLINKICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,136,280,10
-    CONTROL         "Use status icon",IDC_BLINKICON_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,158,272,10
     CONTROL         "Use individual sounds",IDC_USEINDIVSOUNDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,125,280,10
+    CONTROL         "Blink icon in the system tray",IDC_BLINKICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,136,280,10
+    CONTROL         "Also when extra status or status message changes",IDC_BLINKICON_FORMSGS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,147,272,10
+    CONTROL         "Use status icon",IDC_BLINKICON_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,158,272,10
     GROUPBOX        "Log to file",IDC_STATIC,3,175,294,34
-    CONTROL         "Extra status",IDC_CHK_XSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,87,8
     EDITTEXT        IDC_LOGFILE,10,186,216,14,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "...",IDC_BT_CHOOSELOGFILE,229,186,18,14
     PUSHBUTTON      "Open",IDC_BT_VIEWLOG,249,186,41,14
-    CONTROL         "Status message",IDC_CHK_STATUS_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,103,75,87,8
-    CONTROL         "Also when extra status or status message changes",IDC_BLINKICON_FORMSGS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,147,272,10
-    GROUPBOX        "Notify when contact changes",IDC_STATIC,3,64,294,25,WS_GROUP
 END
 
 IDD_INFO_SOUNDS DIALOGEX 0, 0, 222, 152
@@ -106,71 +106,71 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
+    GROUPBOX        "Popups when status changes to:",IDC_STATIC,3,3,136,208,WS_GROUP
     CTEXT           "Background",IDC_STATIC,64,13,44,8
     CTEXT           "Text",IDC_STATIC,107,13,24,8
+    LTEXT           "Offline",IDC_STATIC,10,28,56,8
     CONTROL         "",IDC_OFFLINE_BG,"ColourPicker",WS_TABSTOP,73,26,24,12
     CONTROL         "",IDC_OFFLINE_TX,"ColourPicker",WS_TABSTOP,106,26,24,12
+    LTEXT           "Online",IDC_STATIC,10,43,56,8
     CONTROL         "",IDC_ONLINE_BG,"ColourPicker",WS_TABSTOP,73,41,24,12
     CONTROL         "",IDC_ONLINE_TX,"ColourPicker",WS_TABSTOP,106,41,24,12
+    LTEXT           "Away",IDC_STATIC,10,58,56,8
     CONTROL         "",IDC_AWAY_BG,"ColourPicker",WS_TABSTOP,73,56,24,12
     CONTROL         "",IDC_AWAY_TX,"ColourPicker",WS_TABSTOP,106,56,24,12
+    LTEXT           "NA",IDC_STATIC,10,73,56,8
     CONTROL         "",IDC_NA_BG,"ColourPicker",WS_TABSTOP,73,71,24,12
     CONTROL         "",IDC_NA_TX,"ColourPicker",WS_TABSTOP,106,71,24,12
+    LTEXT           "Occupied",IDC_STATIC,10,88,56,8
     CONTROL         "",IDC_OCCUPIED_BG,"ColourPicker",WS_TABSTOP,73,86,24,12
     CONTROL         "",IDC_OCCUPIED_TX,"ColourPicker",WS_TABSTOP,106,86,24,12
+    LTEXT           "DND",IDC_STATIC,10,103,56,8
     CONTROL         "",IDC_DND_BG,"ColourPicker",WS_TABSTOP,73,101,24,12
     CONTROL         "",IDC_DND_TX,"ColourPicker",WS_TABSTOP,106,101,24,12
+    LTEXT           "Free for chat",IDC_STATIC,10,118,56,8
     CONTROL         "",IDC_FREEFORCHAT_BG,"ColourPicker",WS_TABSTOP,73,116,24,12
     CONTROL         "",IDC_FREEFORCHAT_TX,"ColourPicker",WS_TABSTOP,106,116,24,12
+    LTEXT           "Out to lunch",IDC_STATIC,10,148,56,8
     CONTROL         "",IDC_INVISIBLE_BG,"ColourPicker",WS_TABSTOP,73,131,24,12
     CONTROL         "",IDC_INVISIBLE_TX,"ColourPicker",WS_TABSTOP,106,131,24,12
+    LTEXT           "Invisible",IDC_STATIC,10,133,56,8
     CONTROL         "",IDC_OUTTOLUNCH_BG,"ColourPicker",WS_TABSTOP,73,146,24,12
     CONTROL         "",IDC_OUTTOLUNCH_TX,"ColourPicker",WS_TABSTOP,106,146,24,12
+    LTEXT           "On the phone",IDC_STATIC,10,163,56,8
     CONTROL         "",IDC_ONTHEPHONE_BG,"ColourPicker",WS_TABSTOP,73,161,24,12
     CONTROL         "",IDC_ONTHEPHONE_TX,"ColourPicker",WS_TABSTOP,106,161,24,12
+    LTEXT           "Extra status",IDC_STATIC,10,178,56,8
+    CONTROL         "",IDC_XSTATUS_TX,"ColourPicker",WS_TABSTOP,106,176,24,12
+    CONTROL         "",IDC_XSTATUS_BG,"ColourPicker",WS_TABSTOP,73,176,24,12
+    LTEXT           "Status message",IDC_STATIC,10,193,56,8
+    CONTROL         "",IDC_STATUSMSG_BG,"ColourPicker",WS_TABSTOP,73,191,24,12
+    CONTROL         "",IDC_STATUSMSG_TX,"ColourPicker",WS_TABSTOP,106,191,24,12
+    PUSHBUTTON      "Preview",IDC_PREVIEW,41,214,60,16
     GROUPBOX        "Colors",IDC_STATIC,144,3,162,42,WS_GROUP
     CONTROL         "Use custom colors",IDC_USEOWNCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,151,13,148,8
     CONTROL         "Use Windows colors",IDC_USEWINCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,151,33,148,8
     CONTROL         "Use Popup colors",IDC_USEPOPUPCOLORS,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | BS_NOTIFY,151,23,148,8
     GROUPBOX        "Popup text",IDC_STATIC,144,45,162,72,WS_GROUP
-    CONTROL         "Read status message",IDC_READAWAYMSG,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,151,105,148,8
+    CONTROL         "Show contact group name",IDC_SHOWGROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,57,148,8
+    CONTROL         "Show status description",IDC_SHOWSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,69,148,8
+    CONTROL         "Use alternative descriptions",IDC_SHOWALTDESCS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,81,139,8
     CONTROL         "Show previous status too",IDC_SHOWPREVIOUSSTATUS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,160,93,139,8
+    CONTROL         "Read status message",IDC_READAWAYMSG,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,151,105,148,8
     GROUPBOX        "Timeout",IDC_STATIC,144,117,162,48
     EDITTEXT        IDC_TIMEOUT_VALUE,151,129,32,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_TIMEOUT_VALUE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,174,131,11,12
-    PUSHBUTTON      "Preview",IDC_PREVIEW,41,214,60,16
-    GROUPBOX        "Popups when status changes to:",IDC_STATIC,3,3,136,208,WS_GROUP
-    GROUPBOX        "Click action",IDC_STATIC,144,165,162,65,WS_GROUP
-    CONTROL         "Show contact group name",IDC_SHOWGROUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,57,148,8
-    CONTROL         "Use alternative descriptions",IDC_SHOWALTDESCS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,81,139,8
-    CTEXT           "0 = Default",IDC_STATIC,217,130,82,8
-    CTEXT           "-1 = Infinite",IDC_STATIC,217,140,82,8
     LTEXT           "Sec",IDC_STATIC,188,132,29,8
-    COMBOBOX        IDC_STATUS_LC,151,185,148,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_STATUS_RC,151,211,148,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "On left click",IDC_STATIC,151,175,148,8
-    LTEXT           "On right click",IDC_STATIC,151,201,148,8
-    CONTROL         "",IDC_XSTATUS_TX,"ColourPicker",WS_TABSTOP,106,176,24,12
-    CONTROL         "",IDC_XSTATUS_BG,"ColourPicker",WS_TABSTOP,73,176,24,12
-    LTEXT           "Offline",IDC_STATIC,10,28,56,8
-    LTEXT           "Online",IDC_STATIC,10,43,56,8
-    LTEXT           "Away",IDC_STATIC,10,58,56,8
-    LTEXT           "NA",IDC_STATIC,10,73,56,8
-    LTEXT           "Occupied",IDC_STATIC,10,88,56,8
-    LTEXT           "DND",IDC_STATIC,10,103,56,8
-    LTEXT           "Free for chat",IDC_STATIC,10,118,56,8
-    LTEXT           "Invisible",IDC_STATIC,10,133,56,8
-    LTEXT           "Out to lunch",IDC_STATIC,10,148,56,8
-    LTEXT           "On the phone",IDC_STATIC,10,163,56,8
-    LTEXT           "Extra status",IDC_STATIC,10,178,56,8
-    CONTROL         "Show status description",IDC_SHOWSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,69,148,8
+    LTEXT           "Connection timeout",IDC_STATIC,217,150,82,8
     EDITTEXT        IDC_CONNECTIONTIMEOUT_VALUE,151,147,32,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_CONNECTIONTIMEOUT_VALUE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,173,148,11,12
     LTEXT           "Sec",IDC_STATIC,188,150,29,8
-    LTEXT           "Connection timeout",IDC_STATIC,217,150,82,8
-    LTEXT           "Status message",IDC_STATIC,10,193,56,8
-    CONTROL         "",IDC_STATUSMSG_BG,"ColourPicker",WS_TABSTOP,73,191,24,12
-    CONTROL         "",IDC_STATUSMSG_TX,"ColourPicker",WS_TABSTOP,106,191,24,12
+    CTEXT           "0 = Default",IDC_STATIC,217,130,82,8
+    CTEXT           "-1 = Infinite",IDC_STATIC,217,140,82,8
+    GROUPBOX        "Click action",IDC_STATIC,144,165,162,65,WS_GROUP
+    LTEXT           "On left click",IDC_STATIC,151,175,148,8
+    COMBOBOX        IDC_STATUS_LC,151,185,148,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "On right click",IDC_STATIC,151,201,148,8
+    COMBOBOX        IDC_STATUS_RC,151,211,148,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_OPT_XPOPUP DIALOGEX 0, 0, 305, 230
@@ -179,6 +179,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Notification",IDC_STATIC,3,6,299,50
+    CONTROL         "Show Popups when I connect",IDC_XONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,18,285,8
     CONTROL         "Disable for extra status 'Music'",IDC_CHK_DISABLEMUSIC,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,30,285,8
     CONTROL         "Truncate message length to:",IDC_CHK_CUTMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,42,140,8
@@ -186,25 +187,24 @@ BEGIN
     CONTROL         "",IDC_UD_MSGLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,176,38,11,14
     LTEXT           "characters",IDC_STATIC,191,42,104,8
     GROUPBOX        "Templates",IDC_STATIC,3,60,299,161
-    EDITTEXT        IDC_ED_TCHANGE,74,87,221,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_ED_TCHANGEMSG,74,147,221,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_ED_TREMOVE,74,117,221,12,ES_AUTOHSCROLL
-    LTEXT           "Template:",IDC_STATIC,22,87,45,8
-    CONTROL         "Notify when contact removes extra status",IDC_CHK_REMOVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,105,285,8
-    CONTROL         "Notify when contact changes extra status message",IDC_CHK_MSGCHANGE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,135,285,8
     CONTROL         "Notify when contact changes extra status",IDC_CHK_XSTATUSCHANGE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,285,8
-    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,10,199,16,14
-    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,199,16,14
-    LTEXT           "Template:",IDC_STATIC,22,117,45,8
-    LTEXT           "Template:",IDC_STATIC,22,147,45,8
+    RTEXT           "Template:",IDC_STATIC,22,87,45,8
+    EDITTEXT        IDC_ED_TCHANGE,74,87,221,12,ES_AUTOHSCROLL
+    CONTROL         "Notify when contact removes extra status",IDC_CHK_REMOVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,105,285,8
+    RTEXT           "Template:",IDC_STATIC,22,117,45,8
+    EDITTEXT        IDC_ED_TREMOVE,74,117,221,12,ES_AUTOHSCROLL
+    CONTROL         "Notify when contact changes extra status message",IDC_CHK_MSGCHANGE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,135,285,8
+    RTEXT           "Template:",IDC_STATIC,22,147,45,8
+    EDITTEXT        IDC_ED_TCHANGEMSG,74,147,221,12,ES_AUTOHSCROLL
     CONTROL         "Notify when contact removes extra status message",IDC_CHK_MSGREMOVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,165,285,8
-    LTEXT           "Template:",IDC_STATIC,22,177,45,8
+    RTEXT           "Template:",IDC_STATIC,22,177,45,8
     EDITTEXT        IDC_ED_TREMOVEMSG,74,177,221,12,ES_AUTOHSCROLL
-    CONTROL         "Show Popups when I connect",IDC_XONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,18,285,8
+    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,10,199,16,14
+    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,199,16,14
 END
 
 IDD_AUTODISABLE DIALOGEX 0, 0, 286, 192
@@ -213,6 +213,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Disable notifications"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
+    GROUPBOX        "Popups",IDC_STATIC,6,8,132,136
+    CONTROL         "Disable globally",IDC_CHK_PGLOBAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,20,116,10
+    LTEXT           "Disable when my status is:",IDC_STATIC,15,37,116,8
     CONTROL         "Online",IDC_CHK_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,49,116,10
     CONTROL         "Invisible",IDC_CHK_INVISIBLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,59,116,10
     CONTROL         "Free for chat",IDC_CHK_FREECHAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,69,116,10
@@ -222,8 +225,9 @@ BEGIN
     CONTROL         "DND",IDC_CHK_DND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,109,116,10
     CONTROL         "Out to lunch",IDC_CHK_OUTTOLUNCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,129,116,10
     CONTROL         "On the phone",IDC_CHK_ONTHEPHONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,119,116,10
-    PUSHBUTTON      "OK",IDC_OK,90,169,50,14
-    GROUPBOX        "Popups",IDC_STATIC,6,8,132,136
+    GROUPBOX        "Sounds",IDC_STATIC,147,8,132,136
+    CONTROL         "Disable globally",IDC_CHK_SGLOBAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,20,116,10
+    LTEXT           "Disable when my status is:",IDC_STATIC,157,36,116,8
     CONTROL         "Online",IDC_CHK_ONLINE2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,50,116,10
     CONTROL         "Invisible",IDC_CHK_INVISIBLE2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,60,116,10
     CONTROL         "Free for chat",IDC_CHK_FREECHAT2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,70,116,10
@@ -233,14 +237,10 @@ BEGIN
     CONTROL         "DND",IDC_CHK_DND2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,110,116,10
     CONTROL         "Out to lunch",IDC_CHK_OUTTOLUNCH2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,130,116,10
     CONTROL         "On the phone",IDC_CHK_ONTHEPHONE2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,120,116,10
-    GROUPBOX        "Sounds",IDC_STATIC,147,8,132,136
-    PUSHBUTTON      "Cancel",IDC_CANCEL,144,169,50,14
-    CONTROL         "Disable globally",IDC_CHK_PGLOBAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,20,116,10
-    CONTROL         "Disable globally",IDC_CHK_SGLOBAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,20,116,10
     CONTROL         "Disable only if I change global status",IDC_CHK_ONLYGLOBAL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,151,258,10
-    LTEXT           "Disable when my status is:",IDC_STATIC,15,37,116,8
-    LTEXT           "Disable when my status is:",IDC_STATIC,157,36,116,8
+    PUSHBUTTON      "OK",IDC_OK,90,169,50,14
+    PUSHBUTTON      "Cancel",IDC_CANCEL,144,169,50,14
 END
 
 IDD_OPT_XLOG DIALOGEX 0, 0, 300, 234
@@ -250,37 +250,37 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Log extra status changes",65534,3,3,294,69
     CONTROL         "Log extra status changes to file",IDC_XLOGTOFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,14,280,8
-    CONTROL         "Only when message window is open",IDC_XLOGTODB_WINOPEN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,36,272,8
     CONTROL         "Log extra status changes to history",IDC_XLOGTODB,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,280,8
-    CONTROL         "Disable for extra status 'Music'",IDC_CHK_DISABLEMUSIC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,58,280,8
+    CONTROL         "Only when message window is open",IDC_XLOGTODB_WINOPEN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,36,272,8
     CONTROL         "Remove events from history when closing message window",IDC_XLOGTODB_REMOVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,47,264,10
+    CONTROL         "Disable for extra status 'Music'",IDC_CHK_DISABLEMUSIC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,58,280,8
     GROUPBOX        "Templates",IDC_STATIC,3,75,294,156
-    EDITTEXT        IDC_ED_TXSTATUSCHANGED,74,96,216,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_ED_TXSTATUSOPENING,74,192,216,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_ED_TMSGCHANGED,74,144,216,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_ED_TXSTATUSREMOVED,74,120,216,12,ES_AUTOHSCROLL
-    CONTROL         "Log when contact removes extra status",IDC_CHK_XSTATUSREMOVED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,110,280,8
-    CONTROL         "Log when contact changes extra status message",IDC_CHK_MSGCHANGED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,134,280,8
     CONTROL         "Log when contact changes extra status",IDC_CHK_XSTATUSCHANGED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,86,280,8
-    CONTROL         "Log extra status when opening message window",IDC_CHK_XSTATUSOPENING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,182,280,8
-    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,10,212,16,14
-    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,212,16,14
-    LTEXT           "Template:",IDC_STATIC,18,98,50,8
-    LTEXT           "Template:",IDC_STATIC,18,122,50,8
-    LTEXT           "Template:",IDC_STATIC,18,146,50,8
-    LTEXT           "Template:",IDC_STATIC,18,194,50,8
+    RTEXT           "Template:",IDC_STATIC,10,98,60,8
+    EDITTEXT        IDC_ED_TXSTATUSCHANGED,74,96,216,12,ES_AUTOHSCROLL
+    CONTROL         "Log when contact removes extra status",IDC_CHK_XSTATUSREMOVED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,110,280,8
+    RTEXT           "Template:",IDC_STATIC,10,122,60,8
+    EDITTEXT        IDC_ED_TXSTATUSREMOVED,74,120,216,12,ES_AUTOHSCROLL
+    CONTROL         "Log when contact changes extra status message",IDC_CHK_MSGCHANGED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,134,280,8
+    RTEXT           "Template:",IDC_STATIC,10,146,60,8
+    EDITTEXT        IDC_ED_TMSGCHANGED,74,144,216,12,ES_AUTOHSCROLL
     CONTROL         "Log when contact removes extra status message",IDC_CHK_MSGREMOVED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,158,280,8
-    LTEXT           "Template:",IDC_STATIC,18,170,50,8
+    RTEXT           "Template:",IDC_STATIC,10,170,60,8
     EDITTEXT        IDC_ED_TMSGREMOVED,74,168,216,12,ES_AUTOHSCROLL
+    CONTROL         "Log extra status when opening message window",IDC_CHK_XSTATUSOPENING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,182,280,8
+    RTEXT           "Template:",IDC_STATIC,10,194,60,8
+    EDITTEXT        IDC_ED_TXSTATUSOPENING,74,192,216,12,ES_AUTOHSCROLL
+    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,10,212,16,14
+    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,212,16,14
 END
 
 IDD_OPT_SMPOPUP DIALOGEX 0, 0, 300, 234
@@ -290,24 +290,24 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "General",IDC_STATIC,3,3,294,35
     CONTROL         "Show Popups when I connect",IDC_ONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,280,8
-    GROUPBOX        "Accounts",IDC_STATIC,3,40,294,106
-    CTEXT           "Enable/Disable accounts which you don't wish to be notified for:",IDC_STATIC,10,50,280,10
-    CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,50,60,201,80
-    GROUPBOX        "Templates",IDC_STATIC,3,148,294,83
-    EDITTEXT        IDC_ED_TNEWSMSG,74,170,216,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
-    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,10,211,16,14
-    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,211,16,14
-    CONTROL         "Notify when contact changes status message",IDC_CHK_NEWSMSG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,160,280,8
-    CONTROL         "Notify when contact removes status message",IDC_CHK_SMSGREMOVE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,184,280,8
-    EDITTEXT        IDC_ED_TSMSGREMOVE,74,194,216,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
     CONTROL         "Truncate message length to:",IDC_CHK_CUTSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,131,8
     EDITTEXT        IDC_ED_SMSGLEN,152,21,34,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_UD_SMSGLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,174,20,11,14
     LTEXT           "characters",IDC_STATIC,191,25,99,8
-    LTEXT           "Template:",IDC_STATIC,18,172,49,8
-    LTEXT           "Template:",IDC_STATIC,18,196,49,8
+    GROUPBOX        "Accounts",IDC_STATIC,3,40,294,106
+    CTEXT           "Enable/Disable accounts which you don't wish to be notified for:",IDC_STATIC,10,50,280,10
+    CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,50,60,201,81
+    GROUPBOX        "Templates",IDC_STATIC,3,148,294,83
+    CONTROL         "Notify when contact changes status message",IDC_CHK_NEWSMSG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,160,280,8
+    RTEXT           "Template:",IDC_STATIC,10,172,58,8
+    EDITTEXT        IDC_ED_TNEWSMSG,74,170,216,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    CONTROL         "Notify when contact removes status message",IDC_CHK_SMSGREMOVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,184,280,8
+    RTEXT           "Template:",IDC_STATIC,10,196,58,8
+    EDITTEXT        IDC_ED_TSMSGREMOVE,74,194,216,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,10,211,16,14
+    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,211,16,14
 END
 
 IDD_OPT_LOG DIALOGEX 0, 0, 300, 234
@@ -332,20 +332,20 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,108,272,8
     CONTROL         "Remove events from history when closing message window",IDC_SMSGLOGTODB_REMOVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,119,264,8
-    EDITTEXT        IDC_LOG_TSMSGCHANGED,74,140,216,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
-    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,10,206,16,14
-    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,206,16,14
     CONTROL         "Log when contact changes status message",IDC_LOG_SMSGCHANGED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,130,280,8
+    RTEXT           "Template:",IDC_STATIC,10,142,60,8
+    EDITTEXT        IDC_LOG_TSMSGCHANGED,74,140,216,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
     CONTROL         "Log when contact removes status message",IDC_LOG_SMSGREMOVED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,154,280,8
+    RTEXT           "Template:",IDC_STATIC,10,166,60,8
     EDITTEXT        IDC_LOG_TSMSGREMOVED,74,164,216,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
-    LTEXT           "Template:",IDC_STATIC,18,142,50,8
-    LTEXT           "Template:",IDC_STATIC,18,166,50,8
     CONTROL         "Log status message when opening message window",IDC_LOG_SMSGOPENING,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,178,280,8
+    RTEXT           "Template:",IDC_STATIC,10,190,60,8
     EDITTEXT        IDC_LOG_TSMSGOPENING,74,188,216,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
-    LTEXT           "Template:",IDC_STATIC,18,190,50,8
+    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,10,206,16,14
+    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,206,16,14
 END
 
 
@@ -416,7 +416,7 @@ BEGIN
         VERTGUIDE, 238
         VERTGUIDE, 290
         TOPMARGIN, 3
-        BOTTOMMARGIN, 231
+        BOTTOMMARGIN, 215
     END
 
     IDD_INFO_SOUNDS, DIALOG
@@ -453,6 +453,10 @@ BEGIN
         BOTTOMMARGIN, 227
     END
 
+    IDD_AUTODISABLE, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_XLOG, DIALOG
     BEGIN
         LEFTMARGIN, 3
@@ -460,6 +464,7 @@ BEGIN
         VERTGUIDE, 10
         VERTGUIDE, 18
         VERTGUIDE, 26
+        VERTGUIDE, 70
         VERTGUIDE, 74
         VERTGUIDE, 290
         TOPMARGIN, 3
@@ -472,6 +477,7 @@ BEGIN
         RIGHTMARGIN, 297
         VERTGUIDE, 10
         VERTGUIDE, 18
+        VERTGUIDE, 68
         VERTGUIDE, 74
         VERTGUIDE, 150
         VERTGUIDE, 191
@@ -487,6 +493,7 @@ BEGIN
         VERTGUIDE, 10
         VERTGUIDE, 18
         VERTGUIDE, 26
+        VERTGUIDE, 70
         VERTGUIDE, 74
         VERTGUIDE, 290
         TOPMARGIN, 3

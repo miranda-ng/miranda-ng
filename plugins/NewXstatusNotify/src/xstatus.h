@@ -100,7 +100,7 @@ typedef struct tagDBEVENT
 
 typedef struct tagPROTOTEMPLATE
 {
-	TCHAR *ProtoName;
+	char *ProtoName;
 	TCHAR ProtoTemplateMsg[MAX_PATH];
 	TCHAR ProtoTemplateRemoved[MAX_PATH];
 } PROTOTEMPLATE;

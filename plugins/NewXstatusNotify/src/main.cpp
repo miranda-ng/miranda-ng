@@ -306,13 +306,13 @@ void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, TCHAR *stz
 	if (opt.UseAlternativeText) {
 		switch (GetGender(hContact)) {
 		case GENDER_MALE:
-			_tcsncpy(stzStatusText, _tcsninc(StatusList[Index(newStatus)].lpzMStatusText, 4), MAX_STATUSTEXT);
+			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzMStatusText, MAX_STATUSTEXT);
 			break;
 		case GENDER_FEMALE:
-			_tcsncpy(stzStatusText, _tcsninc(StatusList[Index(newStatus)].lpzFStatusText, 4), MAX_STATUSTEXT);
+			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzFStatusText, MAX_STATUSTEXT);
 			break;
 		case GENDER_UNSPECIFIED:
-			_tcsncpy(stzStatusText, _tcsninc(StatusList[Index(newStatus)].lpzUStatusText, 4), MAX_STATUSTEXT);
+			_tcsncpy(stzStatusText, StatusList[Index(newStatus)].lpzUStatusText, MAX_STATUSTEXT);
 			break;
 		}
 	}
@@ -858,10 +858,8 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 					db_set_b(0, MODULE, "OldUseSound", hlpUseSound);
 					db_set_b(0, "Skin", "UseSound", FALSE);
 				}
-				else {
-					if (hlpUseSound == FALSE)
-						db_set_b(0, "Skin", "UseSound", db_get_b(0, MODULE, "OldUseSound", 1));
-				}
+				else if (hlpUseSound == FALSE)
+					db_set_b(0, "Skin", "UseSound", db_get_b(0, MODULE, "OldUseSound", 1));
 			}
 		}
 	}
@@ -1080,7 +1078,7 @@ int ProtoAck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR EnableDisableMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	opt.TempDisabled = !opt.TempDisabled;
 	db_set_b(0, MODULE, "TempDisable", opt.TempDisabled);
@@ -1148,7 +1146,7 @@ int InitTopToolbar(WPARAM, LPARAM)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitMainMenuItem();
 

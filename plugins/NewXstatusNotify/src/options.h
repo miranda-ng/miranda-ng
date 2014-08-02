@@ -86,6 +86,8 @@ typedef struct tagTEMPLATES {
 	BYTE PopupSMsgFlags;
 	BYTE LogXFlags;
 	BYTE LogSMsgFlags;
+	BYTE UseOneForAll;
+	BYTE bEnabled;
 	TCHAR PopupXstatusChanged[256];
 	TCHAR PopupXstatusRemoved[256];
 	TCHAR PopupXMsgChanged[256];

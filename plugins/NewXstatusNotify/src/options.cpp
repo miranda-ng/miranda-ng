@@ -134,14 +134,11 @@ void SaveTemplates()
 
 	for (int i = 0; i < ProtoTemplates.getCount(); i++) {
 		PROTOTEMPLATE *prototemplate = ProtoTemplates[i];
-		TCHAR str[MAX_PATH];
-		mir_sntprintf(str, SIZEOF(str), _T("%s_TPopupSMsgChanged"), prototemplate->ProtoName);
-		char *szstr = mir_t2a(str);
-		db_set_ts(0, MODULE, szstr, prototemplate->ProtoTemplateMsg);
-		mir_sntprintf(str, SIZEOF(str), _T("%s_TPopupSMsgRemoved"), prototemplate->ProtoName);
-		szstr = mir_t2a(str);
-		db_set_ts(0, MODULE, szstr, prototemplate->ProtoTemplateRemoved);
-		mir_free(szstr);
+		char str[MAX_PATH];
+		mir_snprintf(str, SIZEOF(str), "%s_TPopupSMsgChanged", prototemplate->ProtoName);
+		db_set_ts(0, MODULE, str, prototemplate->ProtoTemplateMsg);
+		mir_snprintf(str, SIZEOF(str), "%s_TPopupSMsgRemoved", prototemplate->ProtoName);
+		db_set_ts(0, MODULE, str, prototemplate->ProtoTemplateRemoved);
 	}
 }
 
@@ -233,17 +230,20 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			{
 				case IDC_CONFIGUREAUTODISABLE:
 					CreateDialog(hInst, MAKEINTRESOURCE(IDD_AUTODISABLE), hwndDlg, DlgProcAutoDisableOpts);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					return FALSE;
 				case IDC_AUTODISABLE:
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CONFIGUREAUTODISABLE), IsDlgButtonChecked(hwndDlg, IDC_AUTODISABLE));
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 				case IDC_BLINKICON:
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKICON_STATUS), IsDlgButtonChecked(hwndDlg, IDC_BLINKICON));
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKICON_FORMSGS), IsDlgButtonChecked(hwndDlg, IDC_BLINKICON));
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 				case IDC_BT_VIEWLOG:
 					ShowLog(opt.LogFilePath);
-					return FALSE;
+					break;
 				case IDC_BT_CHOOSELOGFILE:
 				{
 					TCHAR buff[MAX_PATH];
@@ -262,14 +262,16 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					ofn.lpstrInitialDir = buff;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
 					ofn.lpstrDefExt = _T("log");
-					if (GetSaveFileName(&ofn))
+					if (GetSaveFileName(&ofn)) {
 						SetDlgItemText(hwndDlg, IDC_LOGFILE, buff);
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
 					break;
 				}
+			default:
+				if (HIWORD(wParam) == BN_CLICKED || (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()))
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
-
-			if (HIWORD(wParam) == BN_CLICKED || (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()))
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 			break;
 		}
@@ -379,13 +381,13 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					{
 						TCHAR str[MAX_SECONDLINE] = {0};
 						for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
-							_tcscpy(str, _T(""));
+							_tcsncpy(str, _T(""), MAX_SECONDLINE);
 
 							if (opt.ShowStatus) {
 								if (opt.UseAlternativeText == 1)
-									_tcscpy(str, _tcsninc(StatusList[Index(i)].lpzUStatusText, 4));
+									_tcsncpy(str, StatusList[Index(i)].lpzUStatusText, MAX_SECONDLINE);
 								else
-									_tcscpy(str, StatusList[Index(i)].lpzStandardText);
+									_tcsncpy(str, StatusList[Index(i)].lpzStandardText, MAX_SECONDLINE);
 
 								if (opt.ShowPreviousStatus) {
 									TCHAR buff[MAX_STATUSTEXT];
@@ -397,14 +399,14 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							if (opt.ReadAwayMsg) {
 								if (str[0])
 									_tcscat(str, _T("\n"));
-								_tcscat(str, TranslateT("This is status message"));
+								_tcsncat(str, TranslateT("This is status message"), MAX_SECONDLINE);
 							}
 
 							ShowChangePopup(NULL, NULL, LoadSkinnedProtoIcon(NULL, i), i, str);
 						}
-						_tcscpy(str, TranslateT("This is extra status"));
+						_tcsncpy(str, TranslateT("This is extra status"), MAX_SECONDLINE);
 						ShowChangePopup(NULL, NULL, LoadSkinnedProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
-						_tcscpy(str, TranslateT("This is status message"));
+						_tcsncpy(str, TranslateT("This is status message"), MAX_SECONDLINE);
 						ShowChangePopup(NULL, NULL, LoadSkinnedProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
 
 						return FALSE;
@@ -475,13 +477,14 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_CHK_SGLOBAL, opt.DisableSoundGlobally);
 		CheckDlgButton(hwndDlg, IDC_CHK_ONLYGLOBAL, opt.OnlyGlobalChanges);
 
-		char str[8];
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
+			char str[8];
 			mir_snprintf(str, SIZEOF(str), "p%d", i);
 			CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, str, 0));
 		}
 
 		for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
+			char str[8];
 			mir_snprintf(str, SIZEOF(str), "s%d", i);
 			CheckDlgButton(hwndDlg, (i + 2000), db_get_b(NULL, MODULE, str, 0));
 		}
@@ -490,17 +493,18 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_OK:
-			char str[8];
 			opt.DisablePopupGlobally = IsDlgButtonChecked(hwndDlg, IDC_CHK_PGLOBAL);
 			opt.DisableSoundGlobally = IsDlgButtonChecked(hwndDlg, IDC_CHK_SGLOBAL);
 			opt.OnlyGlobalChanges = IsDlgButtonChecked(hwndDlg, IDC_CHK_ONLYGLOBAL);
 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
+				char str[8];
 				mir_snprintf(str, SIZEOF(str), "p%d", i);
 				db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i));
 			}
 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
+				char str[8];
 				mir_snprintf(str, SIZEOF(str), "s%d", i);
 				db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i + 2000));
 			}
@@ -686,12 +690,12 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TSMSGREMOVE), templates.PopupSMsgFlags & NOTIFY_REMOVE_MESSAGE);
 
 			// Buttons
-			SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Show available variables"), BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Show available variables"), BATF_TCHAR);
 			HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_VARIABLES));
 			SendDlgItemMessage(hwndDlg, IDC_BT_VARIABLES, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			DestroyIcon(hIcon);
 
-			SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Reset all templates to default"), BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Reset all templates to default"), BATF_TCHAR);
 			hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RESET));
 			SendDlgItemMessage(hwndDlg, IDC_BT_RESET, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			DestroyIcon(hIcon);
@@ -701,7 +705,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendMessage(hList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 			LVCOLUMN lvCol = {0};
 			lvCol.mask = LVCF_WIDTH | LVCF_TEXT;
-			lvCol.pszText = TranslateT("Protocol");
+			lvCol.pszText = TranslateT("Account");
 			lvCol.cx = 118;
 			ListView_InsertColumn(hList, 0, &lvCol);
 			// fill the list
@@ -711,46 +715,43 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			lvItem.iSubItem = 0;
 
 			int count;
-			PROTOACCOUNT** protos;
+			PROTOACCOUNT **protos;
 			ProtoEnumAccounts(&count, &protos);
 
 			for (int i = 0; i < count; i++) {
-				if (!IsSuitableProto(protos[i]))
-					continue;
+				if (IsSuitableProto(protos[i])) {
+					UpdateListFlag = TRUE;
+					lvItem.pszText = protos[i]->tszAccountName;
+					lvItem.lParam = (LPARAM)protos[i]->szModuleName;
+					PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)mir_alloc(sizeof(PROTOTEMPLATE));
+					prototemplate->ProtoName = protos[i]->szModuleName;
 
-				UpdateListFlag = TRUE;
-				lvItem.pszText = protos[i]->tszAccountName;
-				lvItem.lParam = (LPARAM)protos[i]->szModuleName;
-				PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)mir_alloc(sizeof(PROTOTEMPLATE));
-				prototemplate->ProtoName = protos[i]->tszAccountName;
-				TCHAR protoname[MAX_PATH] = {0};
-				mir_sntprintf(protoname, SIZEOF(protoname), _T("%s_TPopupSMsgChanged"), protos[i]->tszAccountName);
-				char *szprotoname = mir_t2a(protoname);
-				DBVARIANT dbVar = {0};
-				db_get_ts(NULL, MODULE, szprotoname, &dbVar);
-				if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
-					db_free(&dbVar);
-					_tcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, SIZEOF(prototemplate->ProtoTemplateMsg));
+					DBVARIANT dbVar = {0};
+					char protoname[MAX_PATH] = {0};
+					mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgChanged", protos[i]->szModuleName);
+					if (db_get_ts(NULL, MODULE, protoname, &dbVar))
+						_tcsncpy(prototemplate->ProtoTemplateMsg, DEFAULT_POPUP_SMSGCHANGED, SIZEOF(prototemplate->ProtoTemplateMsg));
+					else {
+						_tcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateMsg));
+						db_free(&dbVar);
+					}
+
+					mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgRemoved", protos[i]->szModuleName);
+					if (db_get_ts(NULL, MODULE, protoname, &dbVar))
+						_tcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, SIZEOF(prototemplate->ProtoTemplateRemoved));
+					else {
+						_tcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateRemoved));
+						db_free(&dbVar);
+					}
+
+					ListView_InsertItem(hList, &lvItem);
+					ProtoTemplates.insert(prototemplate, ProtoTemplates.getCount());
+
+					char dbSetting[128];
+					mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", protos[i]->szModuleName);
+					ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULE, dbSetting, TRUE));
+					lvItem.iItem++;
 				}
-				else _tcsncpy(prototemplate->ProtoTemplateMsg, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateMsg));
-
-				mir_sntprintf(protoname, SIZEOF(protoname), _T("%s_TPopupSMsgRemoved"), protos[i]->tszAccountName);
-				szprotoname = mir_t2a(protoname);
-				db_get_ts(NULL, MODULE, szprotoname, &dbVar);
-				if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
-					db_free(&dbVar);
-					_tcsncpy(prototemplate->ProtoTemplateRemoved, DEFAULT_POPUP_SMSGREMOVED, SIZEOF(prototemplate->ProtoTemplateRemoved));
-				}
-				else _tcsncpy(prototemplate->ProtoTemplateRemoved, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplateRemoved));
-
-				mir_free(szprotoname);
-				ListView_InsertItem(hList, &lvItem);
-				ProtoTemplates.insert(prototemplate, ProtoTemplates.getCount());
-
-				char dbSetting[128];
-				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", protos[i]->szModuleName);
-				ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULE, dbSetting, TRUE));
-				lvItem.iItem++;
 			}
 
 			if (lvItem.iItem)
