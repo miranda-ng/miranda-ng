@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
@@ -32,6 +32,12 @@ Na obede
 Telefonuje
 [Always when changing from offline]
 
+[Notify when contact changes]
+
+[Extra status]
+
+[Status message]
+
 [Plugin activation]
 Aktivácia pluginu
 [Automatically turn off Popups and Sounds on status change]
@@ -40,23 +46,17 @@ Automaticky vypni oznamy a zvuky pri zmene štatútu
 Konfigurovať
 [Notify me for people not on my contact list]
 
-[Blink icon in the system tray]
-
-[Use status icon]
-
 [Use individual sounds]
 
-[Log to file]
-
-[Extra status]
-
-[Open]
-
-[Status message]
+[Blink icon in the system tray]
 
 [Also when extra status or status message changes]
 
-[Notify when contact changes]
+[Use status icon]
+
+[Log to file]
+
+[Open]
 
 [Change]
 
@@ -88,6 +88,8 @@ Zvuky
 
 [Status message logging]
 
+[Popups when status changes to:]
+
 [Background]
 Pozadie
 [Text]
@@ -102,36 +104,36 @@ Farby
 
 [Popup text]
 
-[Read status message]
+[Show contact group name]
+
+[Show status description]
+
+[Use alternative descriptions]
 
 [Show previous status too]
 
+[Read status message]
+
 [Timeout]
 Časový limit
-[Popups when status changes to:]
-
-[Click action]
-
-[Show contact group name]
-
-[Use alternative descriptions]
+[Sec]
+sek
+[Connection timeout]
 
 [0 = Default]
 
 [-1 = Infinite]
 
-[Sec]
-sek
+[Click action]
+
 [On left click]
 јavým klikom
 [On right click]
 Pravým klikom
-[Show status description]
-
-[Connection timeout]
-
 [Notification]
 
+[Show Popups when I connect]
+Zobraz oznámenie ak je pripojený
 [Disable for extra status 'Music']
 
 [Truncate message length to:]
@@ -140,51 +142,49 @@ Pravým klikom
 
 [Templates]
 
+[Notify when contact changes extra status]
+
 [Template:]
 
 [Notify when contact removes extra status]
 
 [Notify when contact changes extra status message]
 
-[Notify when contact changes extra status]
+[Notify when contact removes extra status message]
 
 [Variables]
 
 [Reset]
 Reset
-[Notify when contact removes extra status message]
-
-[Show Popups when I connect]
-Zobraz oznámenie ak je pripojený
 [Disable notifications]
 
-[Cancel]
-Storno
 [Disable globally]
-
-[Disable only if I change global status]
 
 [Disable when my status is:]
 
+[Disable only if I change global status]
+
+[Cancel]
+Storno
 [Log extra status changes]
 
 [Log extra status changes to file]
 
-[Only when message window is open]
-
 [Log extra status changes to history]
 
+[Only when message window is open]
+
 [Remove events from history when closing message window]
+
+[Log when contact changes extra status]
 
 [Log when contact removes extra status]
 
 [Log when contact changes extra status message]
 
-[Log when contact changes extra status]
+[Log when contact removes extra status message]
 
 [Log extra status when opening message window]
-
-[Log when contact removes extra status message]
 
 [General]
 
@@ -378,7 +378,7 @@ Log
 
 [Reset templates]
 
-[Protocol]
+[Account]
 
 [Logging]
 

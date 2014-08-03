@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
@@ -32,6 +32,12 @@
 На телефона
 [Always when changing from offline]
 Винаги при промяна от "Извън линия"
+[Notify when contact changes]
+
+[Extra status]
+Допълнително състояние
+[Status message]
+Текст за състояние
 [Plugin activation]
 Активиране на приставката
 [Automatically turn off Popups and Sounds on status change]
@@ -40,23 +46,17 @@
 Настройване
 [Notify me for people not on my contact list]
 
-[Blink icon in the system tray]
-Мигане на иконата в трея
-[Use status icon]
-Показване на икона за състоянието
 [Use individual sounds]
 Ползване на индивидуални звуци
-[Log to file]
-Запис във файл
-[Extra status]
-Допълнително състояние
-[Open]
-
-[Status message]
-Текст за състояние
+[Blink icon in the system tray]
+Мигане на иконата в трея
 [Also when extra status or status message changes]
 
-[Notify when contact changes]
+[Use status icon]
+Показване на икона за състоянието
+[Log to file]
+Запис във файл
+[Open]
 
 [Change]
 Промяна
@@ -88,6 +88,8 @@ Popups
 
 [Status message logging]
 
+[Popups when status changes to:]
+При променено състояние на:
 [Background]
 Фон
 [Text]
@@ -102,36 +104,36 @@ Popups
 От Popup приставката
 [Popup text]
 Текст на Popup-а
-[Read status message]
-Показване на текста за състояние
-[Show previous status too]
-Показване и на предишното състояние
-[Timeout]
-Времетраене
-[Popups when status changes to:]
-При променено състояние на:
-[Click action]
-Действие на бутоните на мишката
 [Show contact group name]
 Показване на групата (в която е контакта)
+[Show status description]
+Описание на състоянието
 [Use alternative descriptions]
 Алтернативни описания
+[Show previous status too]
+Показване и на предишното състояние
+[Read status message]
+Показване на текста за състояние
+[Timeout]
+Времетраене
+[Sec]
+Сек
+[Connection timeout]
+
 [0 = Default]
 0 = стандарт
 [-1 = Infinite]
 -1 = безкрайно
-[Sec]
-Сек
+[Click action]
+Действие на бутоните на мишката
 [On left click]
 Ляв бутон
 [On right click]
 Десен бутон
-[Show status description]
-Описание на състоянието
-[Connection timeout]
-
 [Notification]
 Уведомяване
+[Show Popups when I connect]
+
 [Disable for extra status 'Music']
 Изключване за допълнително състояние "Слуша музика"
 [Truncate message length to:]
@@ -140,51 +142,49 @@ Popups
 знака
 [Templates]
 Шаблони
+[Notify when contact changes extra status]
+
 [Template:]
 
 [Notify when contact removes extra status]
 
 [Notify when contact changes extra status message]
 
-[Notify when contact changes extra status]
+[Notify when contact removes extra status message]
 
 [Variables]
 Променливи
 [Reset]
 Анулиране
-[Notify when contact removes extra status message]
-
-[Show Popups when I connect]
-
 [Disable notifications]
 Без уведомяване
-[Cancel]
-Отказ
 [Disable globally]
 Изключване за всички
-[Disable only if I change global status]
-Изключване само при промяна на общото състояние
 [Disable when my status is:]
 Изключване, при състояние:
+[Disable only if I change global status]
+Изключване само при промяна на общото състояние
+[Cancel]
+Отказ
 [Log extra status changes]
 
 [Log extra status changes to file]
 
-[Only when message window is open]
-
 [Log extra status changes to history]
 
+[Only when message window is open]
+
 [Remove events from history when closing message window]
+
+[Log when contact changes extra status]
 
 [Log when contact removes extra status]
 
 [Log when contact changes extra status message]
 
-[Log when contact changes extra status]
+[Log when contact removes extra status message]
 
 [Log extra status when opening message window]
-
-[Log when contact removes extra status message]
 
 [General]
 Основни
@@ -378,8 +378,8 @@ Popups
 Желаете ли да бъдат възстановени стандартните шаблони?
 [Reset templates]
 Анулиране на шаблоните
-[Protocol]
-Протокол
+[Account]
+
 [Logging]
 
 [Filtering]

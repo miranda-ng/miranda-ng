@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
@@ -32,6 +32,12 @@ Parti manger
 Au téléphone
 [Always when changing from offline]
 Notifier dés qu'un contact se connecte
+[Notify when contact changes]
+
+[Extra status]
+
+[Status message]
+
 [Plugin activation]
 Activation du plugin
 [Automatically turn off Popups and Sounds on status change]
@@ -40,24 +46,18 @@ Activation du plugin
 Configurer
 [Notify me for people not on my contact list]
 
-[Blink icon in the system tray]
-Faire clignoter l'icône du systray
-[Use status icon]
-Utiliser l'icône d'état
 [Use individual sounds]
 
-[Log to file]
+[Blink icon in the system tray]
+Faire clignoter l'icône du systray
+[Also when extra status or status message changes]
 
-[Extra status]
+[Use status icon]
+Utiliser l'icône d'état
+[Log to file]
 
 [Open]
 Ouvrir
-[Status message]
-
-[Also when extra status or status message changes]
-
-[Notify when contact changes]
-
 [Change]
 
 [Preview]
@@ -88,6 +88,8 @@ Popups
 
 [Status message logging]
 
+[Popups when status changes to:]
+
 [Background]
 Arrière-plan
 [Text]
@@ -102,35 +104,35 @@ Utiliser les couleurs Windows
 
 [Popup text]
 Texte des popups
-[Read status message]
-Lire le message d'état
-[Show previous status too]
-
-[Timeout]
-Délai du popup
-[Popups when status changes to:]
-
-[Click action]
-Action du clic
 [Show contact group name]
 
+[Show status description]
+
 [Use alternative descriptions]
+
+[Show previous status too]
+
+[Read status message]
+Lire le message d'état
+[Timeout]
+Délai du popup
+[Sec]
+secondes
+[Connection timeout]
 
 [0 = Default]
 0 = Défaut
 [-1 = Infinite]
 -1 = Infini
-[Sec]
-secondes
+[Click action]
+Action du clic
 [On left click]
 Clic gauche
 [On right click]
 Clic droit
-[Show status description]
-
-[Connection timeout]
-
 [Notification]
+
+[Show Popups when I connect]
 
 [Disable for extra status 'Music']
 
@@ -140,51 +142,49 @@ Clic droit
 caractères
 [Templates]
 Modèles
+[Notify when contact changes extra status]
+
 [Template:]
 Modèle :
 [Notify when contact removes extra status]
 
 [Notify when contact changes extra status message]
 
-[Notify when contact changes extra status]
+[Notify when contact removes extra status message]
 
 [Variables]
 
 [Reset]
 RAZ
-[Notify when contact removes extra status message]
-
-[Show Popups when I connect]
-
 [Disable notifications]
 
-[Cancel]
-Annuler
 [Disable globally]
-
-[Disable only if I change global status]
 
 [Disable when my status is:]
 
+[Disable only if I change global status]
+
+[Cancel]
+Annuler
 [Log extra status changes]
 
 [Log extra status changes to file]
 
-[Only when message window is open]
-
 [Log extra status changes to history]
 
+[Only when message window is open]
+
 [Remove events from history when closing message window]
+
+[Log when contact changes extra status]
 
 [Log when contact removes extra status]
 
 [Log when contact changes extra status message]
 
-[Log when contact changes extra status]
+[Log when contact removes extra status message]
 
 [Log extra status when opening message window]
-
-[Log when contact removes extra status message]
 
 [General]
 Général
@@ -378,8 +378,8 @@ Journal
 
 [Reset templates]
 
-[Protocol]
-Protocole
+[Account]
+Compte
 [Logging]
 
 [Filtering]

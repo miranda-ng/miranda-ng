@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
@@ -32,6 +32,12 @@ Zum Essen
 Am Telefon
 [Always when changing from offline]
 Immer, wenn er vorher offline war
+[Notify when contact changes]
+
+[Extra status]
+Extra Status
+[Status message]
+Statusnachricht
 [Plugin activation]
 Plugin-Aktivierung
 [Automatically turn off Popups and Sounds on status change]
@@ -40,24 +46,18 @@ Popups und Klänge bei Statusänderung automatisch deaktivieren
 Einstellungen
 [Notify me for people not on my contact list]
 Benachrichtigen bei Leuten, die nicht in meiner Kontaktliste sind
-[Blink icon in the system tray]
-Icon blinkt im Systemtray
-[Use status icon]
-Statusicon verwenden
 [Use individual sounds]
 Individuelle Klänge verwenden
-[Log to file]
-In Datei speichern
-[Extra status]
-Extra Status
-[Open]
-Öffnen
-[Status message]
-Statusnachricht
+[Blink icon in the system tray]
+Icon blinkt im Systemtray
 [Also when extra status or status message changes]
 
-[Notify when contact changes]
-
+[Use status icon]
+Statusicon verwenden
+[Log to file]
+In Datei speichern
+[Open]
+Öffnen
 [Change]
 Ändern
 [Preview]
@@ -88,6 +88,8 @@ Alle aktivieren
 
 [Status message logging]
 
+[Popups when status changes to:]
+Popup, wenn Status ändert in:
 [Background]
 Hintergrund
 [Text]
@@ -102,36 +104,36 @@ Windowsfarben verwenden
 Popup-Farben verwenden
 [Popup text]
 Popup-Text
-[Read status message]
-Statusnachricht lesen
-[Show previous status too]
-Vorherigen Status ebenfalls anzeigen
-[Timeout]
-Timeout
-[Popups when status changes to:]
-Popup, wenn Status ändert in:
-[Click action]
-Aktion bei Klick
 [Show contact group name]
 Kontaktgruppenname anzeigen
+[Show status description]
+Statusbeschreibung anzeigen
 [Use alternative descriptions]
 Alternative Beschreibung verwenden
+[Show previous status too]
+Vorherigen Status ebenfalls anzeigen
+[Read status message]
+Statusnachricht lesen
+[Timeout]
+Timeout
+[Sec]
+Sek.
+[Connection timeout]
+Verbindungs-Timeout
 [0 = Default]
 0 = Standard
 [-1 = Infinite]
 -1 = Unendlich
-[Sec]
-Sek.
+[Click action]
+Aktion bei Klick
 [On left click]
 Bei Linksklick
 [On right click]
 Bei Rechtsklick
-[Show status description]
-Statusbeschreibung anzeigen
-[Connection timeout]
-Verbindungs-Timeout
 [Notification]
 Benachrichtigung
+[Show Popups when I connect]
+Popups beim Verbinden
 [Disable for extra status 'Music']
 Für den Extra Status 'Musik' deaktivieren
 [Truncate message length to:]
@@ -140,51 +142,49 @@ Länge der Nachricht kürzen auf:
 Zeichen
 [Templates]
 Vorlagen
+[Notify when contact changes extra status]
+
 [Template:]
 Vorlage:
 [Notify when contact removes extra status]
 
 [Notify when contact changes extra status message]
 
-[Notify when contact changes extra status]
+[Notify when contact removes extra status message]
 
 [Variables]
 Variablen
 [Reset]
 Standard
-[Notify when contact removes extra status message]
-
-[Show Popups when I connect]
-Popups beim Verbinden
 [Disable notifications]
 Benachrichtigungen deaktivieren
-[Cancel]
-Abbrechen
 [Disable globally]
 Global deaktivieren
-[Disable only if I change global status]
-Deaktiviere nur, falls ich den globalen Status ändere
 [Disable when my status is:]
 Deaktivieren, wenn mein Status:
+[Disable only if I change global status]
+Deaktiviere nur, falls ich den globalen Status ändere
+[Cancel]
+Abbrechen
 [Log extra status changes]
 
 [Log extra status changes to file]
 
-[Only when message window is open]
-Nur wenn Nachrichtenfenster offen ist
 [Log extra status changes to history]
 
+[Only when message window is open]
+Nur wenn Nachrichtenfenster offen ist
 [Remove events from history when closing message window]
+
+[Log when contact changes extra status]
 
 [Log when contact removes extra status]
 
 [Log when contact changes extra status message]
 
-[Log when contact changes extra status]
+[Log when contact removes extra status message]
 
 [Log extra status when opening message window]
-
-[Log when contact removes extra status message]
 
 [General]
 Allgemein
@@ -378,8 +378,8 @@ Alle Vorlagen auf Standard zurücksetzen
 Möchten Sie alle Vorlagen auf Standard zurücksetzen?
 [Reset templates]
 Vorlagen zurücksetzen
-[Protocol]
-Protokoll
+[Account]
+Konto
 [Logging]
 Speichern
 [Filtering]

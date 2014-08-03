@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
@@ -32,6 +32,12 @@ Na obiedzie
 Pod telefonem
 [Always when changing from offline]
 Z rozłączonego
+[Notify when contact changes]
+
+[Extra status]
+xStatus
+[Status message]
+Opis
 [Plugin activation]
 Aktywacja wtyczki
 [Automatically turn off Popups and Sounds on status change]
@@ -40,24 +46,18 @@ Automatyczne wyłącz popupy i dźwięki po zmianie statusu
 Konfiguruj
 [Notify me for people not on my contact list]
 Powiadamiaj o kontaktach spoza listy kontaktów
-[Blink icon in the system tray]
-Migaj ikoną w zasobniku systemowym
-[Use status icon]
-Użyj ikon statusu
 [Use individual sounds]
 Użyj indywidualnych dźwięków
-[Log to file]
-Zapisuj w pliku
-[Extra status]
-xStatus
-[Open]
-Otwórz
-[Status message]
-Opis
+[Blink icon in the system tray]
+Migaj ikoną w zasobniku systemowym
 [Also when extra status or status message changes]
 
-[Notify when contact changes]
-
+[Use status icon]
+Użyj ikon statusu
+[Log to file]
+Zapisuj w pliku
+[Open]
+Otwórz
 [Change]
 Zmień
 [Preview]
@@ -88,6 +88,8 @@ Wszystkie włączone
 
 [Status message logging]
 
+[Popups when status changes to:]
+Pokaż, gdy status zmienia się na:
 [Background]
 Tło
 [Text]
@@ -102,36 +104,36 @@ Użyj kolorów Windows
 Użyj kolorów Popup
 [Popup text]
 Tekst popupu
-[Read status message]
-Czytaj opis kontaktu
-[Show previous status too]
-Pokaż poprzedni status
-[Timeout]
-Wyświetlaj
-[Popups when status changes to:]
-Pokaż, gdy status zmienia się na:
-[Click action]
-Akcje przycisku
 [Show contact group name]
 Pokaż nazwę grupy kontaktu
+[Show status description]
+Pokaż opis statusu
 [Use alternative descriptions]
 Użyj alternatywnych określeń
+[Show previous status too]
+Pokaż poprzedni status
+[Read status message]
+Czytaj opis kontaktu
+[Timeout]
+Wyświetlaj
+[Sec]
+s
+[Connection timeout]
+Limit czasu połączenia
 [0 = Default]
 0 - domyślnie
 [-1 = Infinite]
 -1 - nie chowaj
-[Sec]
-s
+[Click action]
+Akcje przycisku
 [On left click]
 LPM
 [On right click]
 PPM
-[Show status description]
-Pokaż opis statusu
-[Connection timeout]
-Limit czasu połączenia
 [Notification]
 Powiadomienie
+[Show Popups when I connect]
+Pokaż popupy podczas łączenia
 [Disable for extra status 'Music']
 Wyłącz dla xStatusu "Muzyka"
 [Truncate message length to:]
@@ -140,51 +142,49 @@ Przytnij wiadomość do:
 znaków
 [Templates]
 Szablony
+[Notify when contact changes extra status]
+
 [Template:]
 Szablon:
 [Notify when contact removes extra status]
 
 [Notify when contact changes extra status message]
 
-[Notify when contact changes extra status]
+[Notify when contact removes extra status message]
 
 [Variables]
 Zmienne
 [Reset]
 Domyślne
-[Notify when contact removes extra status message]
-
-[Show Popups when I connect]
-Pokaż popupy podczas łączenia
 [Disable notifications]
 Wyłącz powiadomienia
-[Cancel]
-Anuluj
 [Disable globally]
 Globalnie wyłączony
-[Disable only if I change global status]
-Wyłączyć jedynie w przypadku zmiany statusu globalnego
 [Disable when my status is:]
 Wyłącz kiedy mój status to:
+[Disable only if I change global status]
+Wyłączyć jedynie w przypadku zmiany statusu globalnego
+[Cancel]
+Anuluj
 [Log extra status changes]
 
 [Log extra status changes to file]
 
-[Only when message window is open]
-Tylko gdy okno rozmowy jest otwarte
 [Log extra status changes to history]
 
+[Only when message window is open]
+Tylko gdy okno rozmowy jest otwarte
 [Remove events from history when closing message window]
+
+[Log when contact changes extra status]
 
 [Log when contact removes extra status]
 
 [Log when contact changes extra status message]
 
-[Log when contact changes extra status]
+[Log when contact removes extra status message]
 
 [Log extra status when opening message window]
-
-[Log when contact removes extra status message]
 
 [General]
 Ogólne
@@ -378,8 +378,8 @@ Przywróć domyślne szablony
 Czy na pewno chcesz przywrócić domyślne szablony?
 [Reset templates]
 Przywracanie szablonów
-[Protocol]
-Protokół
+[Account]
+Konto
 [Logging]
 Zapisywanie
 [Filtering]

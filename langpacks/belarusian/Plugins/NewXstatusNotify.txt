@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
@@ -32,6 +32,10 @@
 На тэлефоне
 [Always when changing from offline]
 Са статусу "Адключаны"
+[Extra status]
+Даатковы статус
+[Status message]
+Паведамленне статусу
 [Plugin activation]
 Актывізацыя плагiна
 [Automatically turn off Popups and Sounds on status change]
@@ -40,20 +44,16 @@
 Наладзіць
 [Notify me for people not on my contact list]
 Абвяшчаць мяне пра кантакты не ў спісе
+[Use individual sounds]
+Індывідуальныя гукі
 [Blink icon in the system tray]
 Абразок, што мігае у сіст. трэі
 [Use status icon]
 Абразок статусу
-[Use individual sounds]
-Індывідуальныя гукі
 [Log to file]
 Запіс у файл
-[Extra status]
-Даатковы статус
 [Open]
 Адкрыць
-[Status message]
-Паведамленне статусу
 [Change]
 Змена
 [Preview]
@@ -80,6 +80,8 @@
 Адключыць усё
 [Enable all]
 Уключыць усё
+[Popups when status changes to:]
+Вокны, калі статус змяніўся на:
 [Background]
 Фон
 [Text]
@@ -94,36 +96,36 @@
 Колеры ўсплывальных вокнаў
 [Popup text]
 Тэкст усплывальных вокнаў
-[Read status message]
-Чытаць статуснае паведамленне
-[Show previous status too]
-Паказваць папярэдні cтатус
-[Timeout]
-Затрымка
-[Popups when status changes to:]
-Вокны, калі статус змяніўся на:
-[Click action]
-Дзеянні па пстрычцы
 [Show contact group name]
 Паказваць імя гурта кантакту
+[Show status description]
+Паказваць апісанне статусу
 [Use alternative descriptions]
 Выкарыстоўваць альтэрнатыўнае апісанне
+[Show previous status too]
+Паказваць папярэдні cтатус
+[Read status message]
+Чытаць статуснае паведамленне
+[Timeout]
+Затрымка
+[Sec]
+сек.
+[Connection timeout]
+Чаканне пры старце
 [0 = Default]
 0=Змаўчанне
 [-1 = Infinite]
 -1=Бясконца
-[Sec]
-сек.
+[Click action]
+Дзеянні па пстрычцы
 [On left click]
 Левая пстрычка
 [On right click]
 Правая пстрычка
-[Show status description]
-Паказваць апісанне статусу
-[Connection timeout]
-Чаканне пры старце
 [Notification]
 Абвесткі
+[Show Popups when I connect]
+Вокны пры злучэнні
 [Disable for extra status 'Music']
 Адключыць для дад. статусу "Музыка"
 [Truncate message length to:]
@@ -136,18 +138,16 @@
 Зменныя
 [Reset]
 Скід
-[Show Popups when I connect]
-Вокны пры злучэнні
 [Disable notifications]
 Выключыць Абвесткі
-[Cancel]
-Скасаваць
 [Disable globally]
 Адключыць цалкам
-[Disable only if I change global status]
-Адключаць, толькі пры змене глабальнага статусу
 [Disable when my status is:]
 Адключаць, калі мой статус:
+[Disable only if I change global status]
+Адключаць, толькі пры змене глабальнага статусу
+[Cancel]
+Скасаваць
 [Only when message window is open]
 Толькі калі адчынена вакно паведамленняў
 [General]
@@ -306,8 +306,6 @@
 Вы жадаеце скінуць усе шаблоны на стандартныя?
 [Reset templates]
 Скінуць шаблоны
-[Protocol]
-Пратакол
 [Filtering]
 Фільтраванне
 [Message log]
