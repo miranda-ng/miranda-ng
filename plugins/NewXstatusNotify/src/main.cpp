@@ -539,56 +539,58 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	char *szProto = GetContactProto(hContact);
 	smi.hContact = hContact;
 
-	if (ProtoServiceExists(szProto, JS_PARSE_XMPP_URI)) {
-		if (strstr(cws->szSetting, "/mood/") || strstr(cws->szSetting, "/activity/")) { // Jabber mood or activity changed
-			char *szSetting;
-			int type;
+	if (strstr(cws->szSetting, "/mood/") || strstr(cws->szSetting, "/activity/")) { // Jabber mood or activity changed
+		if (!ProtoServiceExists(szProto, JS_PARSE_XMPP_URI))
+			return 0;
 
-			if (strstr(cws->szSetting, "/mood/")) {
-				type = TYPE_JABBER_MOOD;
-				szSetting = "LastJabberMood";
-			}
-			else {
-				type = TYPE_JABBER_ACTIVITY;
-				szSetting = "LastJabberActivity";
-			}
+		char *szSetting;
+		int type;
 
-			if (strstr(cws->szSetting, "title")) {
-				smi.compare = CompareStatusMsg(&smi, cws, szSetting);
-				if (smi.compare == COMPARE_SAME) {
-					replaceStrT(smi.newstatusmsg, 0);
-					replaceStrT(smi.oldstatusmsg, 0);
-				}
-
-				if (cws->value.type == DBVT_DELETED)
-					db_unset(hContact, "UserOnline", szSetting);
-				else
-					db_set(hContact, "UserOnline", szSetting, &cws->value);
-
-				xsc = NewXSC(hContact, szProto, type, smi.compare, smi.newstatusmsg, NULL);
-				ExtraStatusChanged(xsc);
-			}
-			else if (strstr(cws->szSetting, "text")) {
-				char dbSetting[128];
-				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s%s", szSetting, "Msg");
-				smi.compare = CompareStatusMsg(&smi, cws, dbSetting);
-				if (smi.compare == COMPARE_SAME) {
-					replaceStrT(smi.newstatusmsg, 0);
-					replaceStrT(smi.oldstatusmsg, 0);
-				}
-
-				if (cws->value.type == DBVT_DELETED)
-					db_unset(hContact, "UserOnline", dbSetting);
-				else
-					db_set(hContact, "UserOnline", dbSetting, &cws->value);
-
-				xsc = NewXSC(hContact, szProto, type, smi.compare * 4, NULL, smi.newstatusmsg);
-				ExtraStatusChanged(xsc);
-			}
-			return 1;
+		if (strstr(cws->szSetting, "/mood/")) {
+			type = TYPE_JABBER_MOOD;
+			szSetting = "LastJabberMood";
 		}
+		else {
+			type = TYPE_JABBER_ACTIVITY;
+			szSetting = "LastJabberActivity";
+		}
+
+		if (strstr(cws->szSetting, "title")) {
+			smi.compare = CompareStatusMsg(&smi, cws, szSetting);
+			if (smi.compare == COMPARE_SAME) {
+				replaceStrT(smi.newstatusmsg, 0);
+				replaceStrT(smi.oldstatusmsg, 0);
+			}
+
+			if (cws->value.type == DBVT_DELETED)
+				db_unset(hContact, "UserOnline", szSetting);
+			else
+				db_set(hContact, "UserOnline", szSetting, &cws->value);
+
+			xsc = NewXSC(hContact, szProto, type, smi.compare, smi.newstatusmsg, NULL);
+			ExtraStatusChanged(xsc);
+		}
+		else if (strstr(cws->szSetting, "text")) {
+			char dbSetting[128];
+			mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s%s", szSetting, "Msg");
+			smi.compare = CompareStatusMsg(&smi, cws, dbSetting);
+			if (smi.compare == COMPARE_SAME) {
+				replaceStrT(smi.newstatusmsg, 0);
+				replaceStrT(smi.oldstatusmsg, 0);
+			}
+
+			if (cws->value.type == DBVT_DELETED)
+				db_unset(hContact, "UserOnline", dbSetting);
+			else
+				db_set(hContact, "UserOnline", dbSetting, &cws->value);
+
+			xsc = NewXSC(hContact, szProto, type, smi.compare * 4, NULL, smi.newstatusmsg);
+			ExtraStatusChanged(xsc);
+		}
+		return 1;
 	}
-	else if (strstr(cws->szSetting, "XStatus")/* || strcmp(cws->szSetting, "StatusNote") == 0*/) {
+	
+	if (strstr(cws->szSetting, "XStatus")) {
 		if (strcmp(cws->szModule, szProto))
 			return 0;
 
@@ -607,7 +609,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, smi.compare, smi.newstatusmsg, NULL);
 			ExtraStatusChanged(xsc);
 		}
-		else if (!strcmp(cws->szSetting, "XStatusMsg")/* || strcmp(cws->szSetting, "StatusNote") == 0*/) {
+		else if (!strcmp(cws->szSetting, "XStatusMsg")) {
 			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusMsg");
 			if (smi.compare == COMPARE_SAME) {
 				replaceStrT(smi.newstatusmsg, 0);
@@ -804,15 +806,15 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 		if (ProcessExtraStatus(cws, hContact))
-			return 1;
+			return 0;
 
 	if (!strcmp(cws->szSetting, "Status"))
 		if (ProcessStatus(cws, hContact))
-			return 1;
+			return 0;
 
 	if (!strcmp(cws->szModule, "CList") && !strcmp(cws->szSetting, "StatusMsg"))
 		if (ProcessStatusMessage(cws, hContact))
-			return 1;
+			return 0;
 
 	return 0;
 }
