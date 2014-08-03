@@ -251,8 +251,6 @@ conectando
 
 [%s changed status message to %s]
 
-[%s, %s. %s %s\r\n]
-
 [(M) is back online!]
 
 [(F) is back online!]

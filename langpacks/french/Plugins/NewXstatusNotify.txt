@@ -251,8 +251,6 @@ Connexion...
 en lecture
 [%s changed status message to %s]
 
-[%s, %s. %s %s\r\n]
-%s, %s. %s %s\r\n
 [(M) is back online!]
 est connecté
 [(F) is back online!]

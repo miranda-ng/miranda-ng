@@ -251,8 +251,6 @@ breche ab
 spiele
 [%s changed status message to %s]
 
-[%s, %s. %s %s\r\n]
-%s, %s. %s %s\r\n
 [(M) is back online!]
 Er ist wieder online!
 [(F) is back online!]

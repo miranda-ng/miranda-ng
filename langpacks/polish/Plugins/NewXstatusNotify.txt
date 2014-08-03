@@ -251,8 +251,6 @@ Zatrzymano
 Odtwarzanie...
 [%s changed status message to %s]
 
-[%s, %s. %s %s\r\n]
-%s, %s. %s %s\r\n
 [(M) is back online!]
 jest znowu Dostępny!
 [(F) is back online!]

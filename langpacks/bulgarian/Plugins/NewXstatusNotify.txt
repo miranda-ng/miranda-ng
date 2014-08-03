@@ -251,8 +251,6 @@ Popups
 
 [%s changed status message to %s]
 
-[%s, %s. %s %s\r\n]
-%s, %s. %s %s\r\n
 [(M) is back online!]
 (M) е пак на линия!
 [(F) is back online!]

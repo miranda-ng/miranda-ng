@@ -86,7 +86,6 @@
 [aborting]
 [playing]
 [%s changed status message to %s]
-[%s, %s. %s %s\r\n]
 [(M) hides in shadows...]
 [(F) hides in shadows...]
 [(U) hides in shadows...]
