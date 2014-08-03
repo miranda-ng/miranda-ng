@@ -711,32 +711,31 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			replaceStrT(smi.newstatusmsg, buff);
 		}
 
-		TCHAR *str, protoname[MAX_PATH] = { 0 };
-		char *szprotoname;
+		TCHAR *str;
+		char protoname[MAX_PATH];
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		if (smi.compare == COMPARE_DEL) {
-			mir_sntprintf(protoname, SIZEOF(protoname), _T("%s_TPopupSMsgRemoved"), pa->tszAccountName);
-			szprotoname = mir_t2a(protoname);
+			mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgRemoved", pa->szModuleName);
 			DBVARIANT dbVar = { 0 };
-			db_get_ts(NULL, MODULE, szprotoname, &dbVar);
-			if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
-				db_free(&dbVar);
+			if (db_get_ts(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGREMOVED);
 			}
-			else str = GetStr(&smi, dbVar.ptszVal);
+			else  {
+				str = GetStr(&smi, dbVar.ptszVal);
+				db_free(&dbVar);
+			}
 		}
 		else {
-			mir_sntprintf(protoname, SIZEOF(protoname), _T("%s_TPopupSMsgChanged"), pa->tszAccountName);
-			szprotoname = mir_t2a(protoname);
+			mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgChanged", pa->szModuleName);
 			DBVARIANT dbVar = { 0 };
-			db_get_ts(NULL, MODULE, szprotoname, &dbVar);
-			if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
-				db_free(&dbVar);
+			if (db_get_ts(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGCHANGED);
 			}
-			else str = GetStr(&smi, dbVar.ptszVal);
+			else {
+				str = GetStr(&smi, dbVar.ptszVal);
+				db_free(&dbVar);
+			}
 		}
-		mir_free(szprotoname);
 
 		ShowChangePopup(hContact, szProto,
 			LoadSkinnedProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)),
