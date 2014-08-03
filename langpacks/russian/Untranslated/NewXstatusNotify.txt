@@ -29,7 +29,6 @@
 [Log status message when opening message window]
 [Sound file]
 [%s changed status message to %s]
-[%s, %s. %s %s\r\n]
 [Status message removed]
 [Status message changed]
 [Extra status message removed]
