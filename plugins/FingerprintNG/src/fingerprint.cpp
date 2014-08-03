@@ -868,6 +868,8 @@ static int OnMetaDefaultChanged(WPARAM hMeta, LPARAM hSub)
 			ptrT tszMirver(db_get_tsa(hSub, szProto, "MirVer"));
 			if (tszMirver)
 				db_set_ts(hMeta, META_PROTO, "MirVer", tszMirver);
+			else
+				db_unset(hMeta, META_PROTO, "MirVer");
 		}
 	}
 
