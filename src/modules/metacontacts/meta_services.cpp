@@ -619,11 +619,6 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 	return 0;
 }
 
-int NudgeRecieved(WPARAM wParam, LPARAM lParam)
-{
-	return 0;
-}
-
 /** Called when all the plugin are loaded into Miranda.
 *
 * Initializes the 4 menus present in the context-menu
@@ -637,7 +632,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, Meta_SrmmIconClicked);
 
-	//////////////////////////////////////////////////////////////////////////////////////
+	// create menu items
 	InitMenus();
 
 	// create srmm icon
@@ -645,19 +640,6 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	sid.szModule = META_PROTO;
 	sid.hIcon = LoadSkinnedProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid);
-
-	// hook protocol nudge events to forward to subcontacts
-	int numberOfProtocols;
-	PROTOACCOUNT ** ppProtocolDescriptors;
-	ProtoEnumAccounts(&numberOfProtocols, &ppProtocolDescriptors);
-
-	for (int i = 0; i < numberOfProtocols; i++)
-		if (strcmp(ppProtocolDescriptors[i]->szModuleName, META_PROTO)) {
-			char str[MAXMODULELABELLENGTH + 10];
-			mir_snprintf(str, SIZEOF(str), "%s/Nudge", ppProtocolDescriptors[i]->szModuleName);
-			HookEvent(str, NudgeRecieved);
-		}
-
 	return 0;
 }
 
