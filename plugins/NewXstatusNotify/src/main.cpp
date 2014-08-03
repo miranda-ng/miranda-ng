@@ -712,10 +712,9 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		}
 
 		TCHAR *str;
-		char protoname[MAX_PATH];
-		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		if (smi.compare == COMPARE_DEL) {
-			mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgRemoved", pa->szModuleName);
+			char protoname[MAX_PATH];
+			mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgRemoved", szProto);
 			DBVARIANT dbVar = { 0 };
 			if (db_get_ts(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGREMOVED);
@@ -726,7 +725,8 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			}
 		}
 		else {
-			mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgChanged", pa->szModuleName);
+			char protoname[MAX_PATH];
+			mir_snprintf(protoname, SIZEOF(protoname), "%s_TPopupSMsgChanged", szProto);
 			DBVARIANT dbVar = { 0 };
 			if (db_get_ts(NULL, MODULE, protoname, &dbVar)) {
 				str = GetStr(&smi, DEFAULT_POPUP_SMSGCHANGED);
@@ -1037,7 +1037,7 @@ void InitStatusList()
 	lstrcpyn(StatusListEx[index].lpzSkinSoundDesc, LPGENT("Extra status message removed"), MAX_SKINSOUNDDESC);
 }
 
-VOID CALLBACK ConnectionTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK ConnectionTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	if (uMsg == WM_TIMER) {
 		KillTimer(hwnd, idEvent);
