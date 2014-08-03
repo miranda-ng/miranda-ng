@@ -148,13 +148,13 @@
 [Accounts per line]
 Уч. записей в строке
 [* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Изменение высоты строки статусов: "Главное меню->Фреймы->Панель статусов->Плавающий режим" и растяните панель.
+* Изменение высоты панели статусов: "Главное меню->Фреймы->Панель статусов->Плавающий режим" и растяните панель.
 [Hold [Shift] to inverse [Right Click] behavior.]
 Shift+Правый клик - Главное меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
 Ctrl+Левый клик вкл. фильтр по протоколу, клик по пустому месту - откл.
 [Set options per account]
-Поаккаунтная настройка
+Настройки для каждой уч. записи
 [Enable custom account settings]
 Настроить учётную запись
 [Hide account completely]
@@ -520,7 +520,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Bottom/Right]
 Право/низ
 [Position (vertical)]
-Позиция (вертикаль)
+Положение (вертикаль)
 [Align]
 Выравнивание
 [Options]

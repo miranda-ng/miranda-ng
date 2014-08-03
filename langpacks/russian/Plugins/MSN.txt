@@ -22,7 +22,7 @@
 [Manage server groups]
 Управлять группами на сервере
 [Allow people on my contact list send messages to mobile device]
-Разрешить контактам из списка отправлять сообщения на мобильник
+Разрешить контактам из списка отправлять сообщения на мобильный телефон
 [Run the following application when new Hotmail arrives]
 Запустить приложение при появлении новой почты
 [Connection settings]
@@ -34,7 +34,7 @@
 [Reset]
 Сброс
 [Notify me when a message delivery has failed]
-Оповещать о неудачной доставке сообщений
+Уведомлять о неудачной доставке сообщений
 [Incoming file transfers]
 Приём файлов
 [Your host (or router):]
@@ -252,7 +252,7 @@ Live уведомление
 [%s plugin connections]
 %s подключение к серверу
 [Contact already in your contact list]
-Контакт уже в вашем списке
+Контакт уже в вашем списке контактов
 [Protocol is offline]
 Протокол не в сети
 [You cannot send message to yourself]

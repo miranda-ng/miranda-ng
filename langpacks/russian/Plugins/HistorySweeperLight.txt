@@ -18,7 +18,7 @@
 [Sweep on closing message window]
 Очищать при закрытии окна сообщений
 [Clicking on the icon in the status bar will change settings]
-Щелчок по иконке в панели статусов меняет настройки
+Щелчок по значку в строке состояния меняет настройки
 [Use UNSAFE mode (sweep as fast as possible, but dangerous for database)]
 Использовать НЕБЕЗОПАСНЫЙ режим (быстрее, но опаснее для профиля)
 [Keep all events]

@@ -32,15 +32,15 @@
 [Sending text]
 Текст отправки
 [Receiving text]
-Текст приема
+Текст приёма
 [Privacy]
 Приватность
 [Allow sending* one nudge to the same contact every:]
 Отправка тряски одному и тому же контакту каждые:
 [Allow receiving one nudge from the same contact every:]
-Прием тряски от одного контакта каждые:
+Приём тряски от одного контакта каждые:
 [* Nudge sending delay is hardcoded and cannot be changed.]
-* Это число нельзя изменять, оно забито в коде плагина.
+* Это число невозможно изменить, оно задано в коде плагина.
 [Preview]
 Тест
 [Text]

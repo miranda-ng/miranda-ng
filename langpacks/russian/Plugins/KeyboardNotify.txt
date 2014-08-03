@@ -52,7 +52,7 @@
 [All other situations]
 Все другие ситуации
 [Only notify if status is]
-Показывать, если статус
+Уведомлять, если статус
 [Online]
 В сети
 [Away]

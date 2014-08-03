@@ -188,7 +188,7 @@
 [Append protocol name]
 Добавить имя протокола
 [Tipper smileys]
-Подсказки
+Встроенные смайлы
 [You must enter a label]
 Вы должны ввести метку
 [Invalid Substitution]

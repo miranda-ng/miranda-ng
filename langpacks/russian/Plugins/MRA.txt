@@ -26,7 +26,7 @@
 [Automatically add contacts to server list on logon]
 Автоматически добавлять контакты на сервер при подключении
 [Automatically grant authorization to users in contact list]
-Автоматически авторизовывать пользователей из списка
+Автоматически авторизовывать пользователей из списка контактов
 [Automatically grant authorization to new users]
 Автоматически авторизовывать новых пользователей
 [Automatic authorization on Mail.ru web services]
@@ -36,13 +36,13 @@
 [Notify about new mail if increment]
 Уведомлять о почте, только если счётчик увеличился
 [Notify about new mail tray icon]
-Показывать значок в трее при приходе почты
+Показывать значок в трее при наличии новой почты
 [Click to Inbox]
 Проверить почту щелчком
 [Show received formatted text (receive RTF)]
 Показывать принятый форматированный текст
 [Send formatted text (send RTF)]
-Отправлять Форматированный текст
+Отправлять форматированный текст
 [Background color]
 Цвет фона
 [Font]

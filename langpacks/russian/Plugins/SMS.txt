@@ -6,7 +6,7 @@
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
-Отсылка SMS сообщений на мобильные телефоны посредством IM сетей.
+Отправка SMS сообщений на мобильные телефоны посредством IM сетей.
 [Received SMS]
 Полученное SMS
 [&Reply]
@@ -38,7 +38,7 @@
 [&Send]
 &Отправить
 [SMS Message Didn't Send]
-SMS сообщение не послано
+SMS сообщение не отправлено
 [&Try again]
 &Попытаться еще
 [&Cancel]
@@ -60,7 +60,7 @@ SMS сообщение не послано
 [Auto popup on new message]
 Автоокно на новое сообщение
 [Save window position per contact]
-Сохранять позицию окна поконтактно
+Сохранять положение окна поконтактно
 [SMS Message Sent]
 SMS сообщение послано
 [Message ID:]
@@ -92,7 +92,7 @@ SMS подтверждение от %s
 [Shows How Much Chars You've Typed]
 Показывает, сколько знаков набрано
 [The SMS message send to %s timed out.]
-Истекло время посылки SMS к %s.
+Истекло время отправки SMS к %s.
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Телефон должен начинаться с + и состоять только из цифр, пробелов, скобок и тире.
 [Invalid Phone Number]
@@ -118,4 +118,4 @@ SMS подтверждение от %s
 [Incoming SMS Message]
 Входящее SMS сообщение
 [Incoming SMS Confirmation]
-Подтверждение SMS доставки
+Подтверждение доставки SMS

@@ -470,7 +470,7 @@ Jabber Ad-Hoc команды на %s
 [Can report local time of the user]
 Сообщение локального времени
 [Can send and receive ping requests]
-Прием и отправка пингов (ping)
+Приём и отправка пингов (ping)
 [Supports data forms]
 Формы данных
 [Can request and respond to events relating to the delivery, display, and composition of messages]
@@ -490,7 +490,7 @@ xHTML формат чат сообщений
 [Can report information about user moods]
 Отправка настроений
 [Receives information about user moods]
-Прием настроений
+Приём настроений
 [Supports generic publish-subscribe functionality]
 Основная функциональность подписок
 [Supports SecureIM plugin for Miranda NG]
@@ -500,11 +500,11 @@ xHTML формат чат сообщений
 [Blocks packets from another users/groupchats using Privacy lists]
 Блокировка пользователей с использованием списков приватности
 [Supports Message Receipts]
-Прием сообщений
+Приём сообщений
 [Can report information about the music to which a user is listening]
 Отправка мелодий (слушаю музыку)
 [Receives information about the music to which a user is listening]
-Прием мелодий (слушает музыку)
+Приём мелодий (слушает музыку)
 [Supports private XML Storage (for bookmarks and other)]
 Хранение XML (для закладок и пр.)
 [Supports attention requests ('nudge')]
@@ -512,7 +512,7 @@ xHTML формат чат сообщений
 [Can report information about user activity]
 Сообщение об активности пользователя
 [Receives information about user activity]
-Прием информации о занятии пользователя
+Приём информации о занятии пользователя
 [Supports Miranda NG notes extension]
 Поддержка заметок Miranda NG
 [Supports Jingle]
@@ -1370,11 +1370,11 @@ Jabber ошибка
 [Log presence errors]
 Записывать ошибки присутствия
 [Enable user moods receiving]
-Включить прием настроений
+Включить приём настроений
 [Enable user tunes receiving]
-Включить прием мелодий
+Включить приём мелодий
 [Enable user activity receiving]
-Включить прием занятий
+Включить приём занятий
 [Receive notes]
 Принимать заметки
 [Automatically save received notes]
@@ -1650,11 +1650,11 @@ XML для MS Excel (кодировка UTF-8)
 [Disable remote controlling (check twice what you are doing)]
 Выключить удалённое управление (проверяйте дважды, что вы делаете)
 [There is no messages to forward]
-Нет сообщений для отправки
+Нет сообщений для пересылки
 [Forward options]
 Опции пересылки
 [%d message(s) to be forwarded]
-%d сообщений(я) для отправки
+%d сообщений(я) для пересылки
 [Mark messages as read]
 Пометить сообщения прочитанными
 [%d message(s) forwarded]
@@ -1718,7 +1718,7 @@ XML для MS Excel (кодировка UTF-8)
 [Message redirected from: %s\r\n%s]
 Сообщение переслано от %s\r\n%s
 [Sending registration information...]
-Отсылка регистрационной информации...
+Отправка регистрационной информации...
 [Resource]
 Ресурс
 [<not specified>]

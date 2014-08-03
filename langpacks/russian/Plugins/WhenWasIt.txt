@@ -6,9 +6,9 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
-Уведомление о предстоящих днях рождения.
+Напоминает о предстоящих днях рождения.
 [Notify of birthdays:]
-Сообщать о днях рождения:
+Напоминать о днях рождения:
 [Popups]
 Всплывающие окна
 [Popup timeout:]
@@ -56,7 +56,7 @@
 [seconds]
 секунд
 [Notify for]
-Уведомления
+Напоминания
 [afterwards]
  после
 [In background]
@@ -108,7 +108,7 @@
 [All contacts except hidden and ignored ones]
 Все, кроме скрытых и игнорируемых
 [Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
-Устанавливает задержку уведомления о приближающихся др.\nФормат: задержка по умолчанию [ | задержка для др сегодня]
+Устанавливает задержку напоминания о приближающихся др.\nФормат: задержка по умолчанию [ | задержка для др сегодня]
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 Выберите плагин хранения дней рождений.\r\n"UserInfo" по умолчанию.\r\nИcп. "Плагин протокола" чтобы видеть данные в данных контакта\n"mBirthday плагин" сохраняет так же, как и плагин mBirthday
 [Set birthday for %s:]

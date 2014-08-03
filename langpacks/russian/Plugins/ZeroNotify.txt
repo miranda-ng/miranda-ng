@@ -6,7 +6,7 @@
 ;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
-Автоматическое запрещение различных событий, в зависимости от определённого статуса.
+Автоматическое запрещение различных уведомлений, в зависимости от определённого статуса.
 [No sounds when:]
 Нет звуков, если:
 [No CList blink when:]

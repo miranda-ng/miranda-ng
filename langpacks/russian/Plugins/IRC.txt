@@ -206,7 +206,7 @@ Wildcard поиск по сети
 [none]
 нет
 [everyone on the contact list]
-всех в списке
+всех в списке контактов
 [everyone]
 всех
 [Disconnect DCC chats when disconnecting from server]
@@ -226,7 +226,7 @@ Wildcard поиск по сети
 [Get IP address from server]
 Получить IP у сервера
 [Auto-accept from:]
-Автоприем от:
+Автоприём от:
 [Send notice]
 Отправить уведомление
 [CTCP Chat Request]

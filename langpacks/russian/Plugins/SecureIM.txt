@@ -116,7 +116,7 @@
 [Show a popup on each secure send]
 Отправка зашифрованного сообщения
 [Show a popup on each secure receive]
-Прием зашифрованного сообщения
+Приём зашифрованного сообщения
 [Please type in your password]
 Введите ваш пароль
 [Username:]

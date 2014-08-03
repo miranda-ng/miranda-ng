@@ -8,7 +8,7 @@
 [Notifies you when a contact changes his/her (X)status or status message.]
 Уведомляет вас об изменениях статусов, xСтатусов или статусных сообщений контактов.
 [Notify when contact changes to one of these statuses]
-Сообщать, когда статус контакта изменяется на:
+Уведомлять, когда статус контакта изменяется на:
 [Online]
 В сети
 [Offline]

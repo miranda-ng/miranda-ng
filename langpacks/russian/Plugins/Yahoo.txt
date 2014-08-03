@@ -22,7 +22,7 @@
 [Auto login to Yahoo Website(s)]
 Автоматически подключаться к Yahoo сайту(ам)
 [Display Yahoo notifications]
-Показывать сообщения Yahoo
+Показывать уведомления Yahoo
 [Show Errors]
 Показывать ошибки
 [Yahoo Japan]

@@ -42,7 +42,7 @@
 [Ignore words in UPPER CASE]
 Игнорировать слова ЗАГЛАВНЫМИ БУКВАМИ
 [Ask before sending a message with spelling errors]
-Спрашивать перед отсылкой сообщения с ошибками
+Спрашивать перед отправкой сообщения с ошибками
 [Download more dictionaries]
 Загрузить другие словари
 [Advanced]

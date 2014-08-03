@@ -36,7 +36,7 @@
 [&Copy Link]
 &Копировать ссылку
 [WATrack notify]
-WATrack уведомление
+Уведомление WATrack
 [Open Link]
 Открыть ссылку
 [WATrack: information request]
@@ -320,7 +320,7 @@ WATrack: запрос запрещён
 [Outgoing file transfer: %s]
 Передача файла: %s
 [Incoming file transfer: %s]
-Прием файла: %s
+Приём файла: %s
 [Authorization request by %s (%s%d): %s]
 Запрос авторизации от %s (%s%d): %s
 [You were added by %s (%s%d)]
@@ -328,7 +328,7 @@ WATrack: запрос запрещён
 [Outgoing contacts: %s]
 Отправка контактов: %s
 [Incoming contacts: %s]
-Прием контактов: %s
+Приём контактов: %s
 [Webpager message from %s (%s): %s]
 Cообщение Webpager от %s (%s): %s
 [Email express from %s (%s): %s]

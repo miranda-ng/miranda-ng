@@ -292,7 +292,7 @@ HTTP неизвестная ошибка
 [Select picture to send]
 Выберите изображение для отправки
 [Image exceeds maximum allowed size of 255 KB.]
-Допустимый размер в 255Кб превышен
+Размер изображения превышает допустимый (255 Кб).
 [You have to be connected before you can import/export contacts from/to server.]
 Установите соединение перед импортом/экспортом контактов с/на сервер.
 [Text files]

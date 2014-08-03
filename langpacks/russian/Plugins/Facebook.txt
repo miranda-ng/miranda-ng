@@ -124,7 +124,7 @@
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Требуется подтверждение разрешения отправки сообщений на другие клиенты.\nОткройте сайт Facebook и попробуйте заново отправить сообщение этому контакту!
 [Timeout when sending message.]
-Таймаут отсылки сообщения.
+Таймаут отправки сообщения.
 [Status update was successful.]
 Успешное обновление статуса.
 [Please enter a username.]

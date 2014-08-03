@@ -102,7 +102,7 @@ Cтатус-профиль
 [s]
 с
 [Set window location]
-Позиция окна
+Положение окна
 [Set window size]
 Размер окна
 [Allow override]
@@ -284,9 +284,9 @@ Cтатус-профиль
 [There is a maximum of 6 menu items]
 Максимум 6 пунктов меню
 [Pressed toolbar icon]
-Зажатая иконка панели
+Нажатый значок панели
 [Released toolbar icon]
-Отпущенная иконка панели
+Отпущенный значок панели
 [I've been away since %time%.]
 Отошел в %time%.
 [Give it up, I'm not in!]

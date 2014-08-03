@@ -46,7 +46,7 @@
 [Enable integration with DOS plugin]
 Включить интеграцию с DOS плагином
 [Exclude contacts which we sending something from spam check]
-Отключать антиспам для контактов, которым послали сообщение
+Отключать антиспам для контактов, которым отправили сообщение
 [Remove Excluded contacts after restart]
 Удалять временно добавленные контакты после перезапуска
 [Add contacts to specified group:]
@@ -78,7 +78,7 @@
 [Remove Temporary Contacts]
 Удалить временные контакты
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
-Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nСообщения от пользователей в вашем списке приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются: плагин отвечает простым вопросом и, если пользователь дает правильный ответ, добавляет его в список, чтобы он мог связаться с вами.
+Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nСообщения от пользователей из вашего списка контактов приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются: плагин отвечает простым вопросом и, если пользователь дает правильный ответ, добавляет его в список контактов, чтобы он мог связаться с вами.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 Здравствуйте! Вы говорите с антиспам-ботом. Пожалуйста, напишите слово "nospam" без кавычек, чтобы пройти проверку на спам.
 [StopSpam: send a message and reply to an anti-spam bot question.]

@@ -100,7 +100,7 @@ SMS подтверждение
 [Received %d contacts.]
 Получено %d контактов.
 [ added you to the contact list]
- добавил вас в свой список
+ добавил вас в свой список контактов
 [ requested authorization]
  запросил(а) авторизацию
 [This is a sample message event :-)]

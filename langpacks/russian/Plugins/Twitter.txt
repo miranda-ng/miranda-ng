@@ -38,9 +38,9 @@ URL:
 [Please cycle your connection for these changes to take effect]
 Пожалуйста, переподключитесь что бы изменения вступили с силу
 [Treat tweets as messages]
-Твиты как сообщения
+Твиты в виде сообщений
 [Enable popup notifications for tweets]
-Всплывающие окна для Tweets
+Уведомлять о твитах всплывающими окнами
 [Colors]
 Цвета
 [Use Windows colors]
@@ -68,7 +68,7 @@ URL:
 [Enter Twitter PIN]
 Введите PIN-код из Twitter-а
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-Введите PIN-код, предоставленный Twitter-ом, чтобы завершить процесс входа. Это требуется сделать один раз, пока вы не пересоздадите вашу учётную запись Miranda Twitter.
+Введите PIN-код, предоставленный Twitter-ом, чтобы завершить процесс входа. Это требуется сделать один раз, пока вы не пересоздадите вашу учётную запись Twitter в Miranda NG.
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
 Переменные OAuth потеряли последовательность и были обнулены. Пожалуйста, подсоединитесь снова и авторизуйте Miranda на Twitter.com (еще раз с PIN-кодом)
 [Send Tweet...]

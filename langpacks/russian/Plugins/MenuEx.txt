@@ -90,7 +90,7 @@
 [Typing Notify]
 Набирает текст
 [Please authorize me to add you to my contact list.]
-Разрешите, пожалуйста, добавить вас в список.
+Разрешите, пожалуйста, добавить вас в список контактов.
 [Do you want to send authorization request\nto new contact?]
 Отправить запрос авторизации\nновому контакту?
 [MenuItemEx]

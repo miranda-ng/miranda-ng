@@ -48,7 +48,7 @@
 [Use online contacts when no new mail]
 Показывать контакты, когда нет новой почты
 [Enable icon selection and icon in status bar (restart)]
-Значки протокола в панели статусов (необходим перезапуск)
+Значок протокола в панели статусов (необходим перезапуск)
 [This is a shared computer so disable auto login]
 Отключить автоматическую проверку почты
 [Log unread threads into database (enable history)]

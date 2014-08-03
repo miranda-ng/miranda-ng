@@ -490,7 +490,7 @@ ID города
 [Remove Old Data then Update All]
 Удалить данные и обновить все
 [Weather Notification]
-Напоминание о погоде
+Уведомление о погоде
 [Display in a frame]
 Показывать во фрейме
 [Unable to retrieve weather information for %s]

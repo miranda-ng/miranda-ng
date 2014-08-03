@@ -40,7 +40,7 @@
 [Open dialog]
 Открыть диалог
 [Send file]
-Передать файл
+Отправить файл
 [Send URL]
 Отправить URL
 [Open user info]

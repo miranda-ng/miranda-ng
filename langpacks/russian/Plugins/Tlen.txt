@@ -246,7 +246,7 @@ Tlen входящие
 [<Last message>]
 (Последнее сообщение)
 [Forwarding]
-Перенаправление
+Пересылка
 [Image sent file://%s]
 Отправлено изображение file://%s
 [Image received file://%s]

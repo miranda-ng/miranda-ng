@@ -20,7 +20,7 @@ AIM Детали пользователя
 [AIM Options]
 AIM Опции
 [Message Delivery Confirmation]
-Подтверждение приема
+Подтверждение приёма
 [Do Not Autoreply When Away]
 Не отвечать авт. когда Отсутствую
 [Convert Incoming Messages to BBCode]

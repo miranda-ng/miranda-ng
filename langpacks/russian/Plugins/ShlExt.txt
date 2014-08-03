@@ -28,7 +28,7 @@
 [Do not show status icons in menus]
 Не показывать в меню значки статуса
 [Do not show contacts that are offline, even if my contact list does]
-Не показывать контакты, не находящиеся в сети
+Не показывать контакты, которые находятся не в сети
 [Problem, registration missing/deleted.]
 Проблема! Интеграция в оболочку отсутствует!
 [Successfully created shell registration.]

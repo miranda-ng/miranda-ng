@@ -6,7 +6,7 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Уведомление и просмотр новой почты для Miranda NG. Встроен протокол POP3.
+Уведомления о новой почте и её просмотр в Miranda NG. Поддерживает протокол POP3.
 [Installed plugins]
 Установленные дополнительные плагины
 [Version:]
@@ -52,7 +52,7 @@
 [Check from menu]
 Из меню IM
 [Use contact notification for this account]
-Нотификация контактом
+Уведомление в списке контактов
 [Replace nickname]
 Заменить ник
 [Disable Events]

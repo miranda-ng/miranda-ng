@@ -256,7 +256,7 @@
 [Contact is a favorite contact]
 Контакт находится в избранном
 [Force ANSI send / receive]
-Прием/отправка всегда в ANSI
+Приём/отправка всегда в ANSI
 [Ignore sending timeouts]
 Игнорировать таймаут отправки
 [Load only actual history]
@@ -312,7 +312,7 @@ ID пользователя в строке состояния
 [Use this to specify a private message log theme for this container. This will have no effect when using IEView or another message log viewer and should NOT be confused with skins.]
 Используйте для указания личных тем журнала сообщений для этого контейнера. Это не будет иметь эффекта при использовании IEView или другого просмотрщика журнала сообщений и НЕ следует путать со скинами.
 [Use global container size and position]
-Общий размер и позиция контейнеров
+Общий размер и положение контейнеров
 [Save current as global]
 Сохранить текущие для всех
 [Enable transparency]
@@ -342,7 +342,7 @@ ID пользователя в строке состояния
 [Use button tabs (*)]
 Вкладки-кнопки (*)
 [You have chosen to disable all event notifications for open message windows.]
-Вы отключли все уведомления о событиях, которые открывают окно сообщений.
+Вы отключили все уведомления о событиях, которые открывают окно сообщений.
 [Show contact avatars]
 Показывать аватары
 [Show my own avatars]
@@ -720,7 +720,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Leave Chat Room]
 Покинуть комнату чата
 [Save Tab Position]
-Сохранить позицию
+Сохранить положение
 [Clear saved Tab Position]
 Очистить сохранённую
 [Attach to Container...]
@@ -788,7 +788,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Favorites]
 Избранные
 [Show the Tray Icon]
-Показывать иконку в трее
+Показывать значок в трее
 [Disable All Event Notifications]
 Выключить все уведомления
 [Don't create Windows automatically]
@@ -834,13 +834,13 @@ Esc закрывает сессию (иначе - сворачивает)
 [dummy]
 Пусто
 [Set Position for this Session]
-Установить позицию для этой сессии
+Установить положение для этой сессии
 [Set and Save for all Sessions]
 Установить и сохранить для всех сессий
 [Set and Save for this Contact only]
 Установить и сохранить для этого контакта
 [Revert to old Position]
-Вернуть предыдущую позицию
+Вернуть предыдущее положение
 [Queue manager]
 Менеджер очереди
 [Mark Selected for Removal]
@@ -906,7 +906,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [Show Popups for all inactive sessions]
 Показывать для всех окон диалогов, если они неактивны
 [Save current Window Position as Default]
-Сохранить текущую позицию окна
+Сохранить текущее положение окна
 [Help]
 Справка
 [About TabSRMM...]
@@ -1526,9 +1526,9 @@ TabSRMM: Набирает
 [Message window warning]
 Предупреждение окна беседы
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
-Сообщение помещено в очередь для последующей доставки.\nОно будет доставлено как можно раньше и вы будете уведомлены всплывающим окном.
+Сообщение помещено в очередь для последующей доставки.\nОно будет отправлено как можно раньше и вы будете уведомлены всплывающим окном.
 [The send later feature is not available on this protocol.]
-Доставка с задержкой не поддерживается данным протоколом
+Отправка с задержкой не поддерживается данным протоколом
 [\n(Sent delayed. Original timestamp %s)]
 \n(Отправлено с задержкой. Время отправки %s)
 [Like tabs, vertical text orientation]
@@ -1602,7 +1602,7 @@ TabSRMM: %s
 [On the button bar]
 На панели кнопок
 [Disable error popups on sending failures]
-Отключить всплывающие окна о неудачной доставке
+Отключить всплывающие окна о неудачной отправке
 [Show a preview of the event]
 Предпросмотр события
 [Don't announce event when message dialog is open]
@@ -1632,7 +1632,7 @@ TabSRMM: %s
 [Remove popups for a contact when I start typing a reply]
 Убирать, когда я начинаю набирать ответ
 [Remove popups for a contact when I send a reply]
-Убирать, когда я посылаю ответ
+Убирать, когда я отправляю ответ
 [Disable notifications]
 Выключить уведомления
 [System tray icon]
@@ -1764,7 +1764,7 @@ TabSRMM: %s
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Предупреждение Aero peek|Вы включили использование особенностей Aero Peek и используете скин окна диалогов\n\nЭто может привести к незначительным визуальным искажениям в быстром просмотре.
 [File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
-Проблема передачи файла|Неудачная пересылка изображения.\n\nВозможные причины: передача файлов не поддерживается, контакт не в сети, вы находитесь в стаусе "Невидимый" и контакт, которому отсылается файл, не в списке видимых.
+Проблема передачи файла|Неудачная отправка изображения.\n\nВозможные причины: передача файлов не поддерживается, контакт не в сети, вы находитесь в стаусе "Невидимый" и контакт, которому отправляется файл, не в списке видимых.
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Проблема с настройками|Опция \\b1 История->Имитировать API IEView\\b0  активна и плагин History++ активен. Это может вызвать проблемы при использовании IEView в качестве журнала сообщений.\n\nСкорректировать настройки (необходим перезапуск)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
@@ -1936,7 +1936,7 @@ TabSRMM: %s
 [Hide or show the window by double click in the contact list]
 Открыть или скрыть окно чата по двойному щелчку в списке контактов
 [Sync splitter position with standard IM sessions]
-Синхронизировать позицию разделителя со стандартом
+Синхронизировать положение разделителя со стандартом
 [Show contact's status modes if supported by the protocol]
 Показывать значки статусов, если поддерживается протоколом
 [Display contact's status icon before user role icon]

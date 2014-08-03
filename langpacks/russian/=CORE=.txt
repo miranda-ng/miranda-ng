@@ -1012,7 +1012,7 @@ UIN, E-mail и т.д.
 [Close]
 Закрыть
 [Receiving files]
-Прием файлов
+Приём файлов
 [Received files folder:]
 Каталог для файлов:
 [Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
@@ -1048,7 +1048,7 @@ UIN, E-mail и т.д.
 [Rename (append " (1)", etc.)]
 Дописать " (1)" и т.д.
 [You will always be asked about files from people not on your contact list]
-Запрос всегда будет показан, если человек не в списке
+Запрос всегда будет показан, если человек не в списке контактов
 [About Miranda NG]
 О программе
 [Credits >]
@@ -1154,7 +1154,7 @@ UIN, E-mail и т.д.
 [minutes old]
 минут назад
 [Send typing notifications to the following users when you are typing a message to them:]
-Оповещать отмеченных пользователей о том, что вы набираете сообщение:
+Уведомлять отмеченных пользователей о том, что вы набираете сообщение:
 [Show typing notifications when a user is typing a message]
 Показывать уведомления о наборе текста
 [Update inactive message window icons when a user is typing]
@@ -1166,7 +1166,7 @@ UIN, E-mail и т.д.
 [Show balloon popup]
 Показывать всплывающую подсказку
 [Save the window position for each contact]
-Сохранять позицию окна для каждого контакта
+Сохранять положение окна для каждого контакта
 [Message window behavior:]
 Поведение окна сообщений:
 [Messaging:]
@@ -1360,7 +1360,7 @@ UIN, E-mail и т.д.
 [Show new windows cascaded]
 Уложить каскадом
 [Save the size and position of chat rooms]
-Сохранять размер и позицию окон комнат
+Сохранять размер и положение окон комнат
 [Show the topic of the room on your contact list (if supported)]
 Показывать тему комнаты чата в списке контактов (если поддерживается)
 [Do not play sounds when the chat room is focused]
@@ -2410,7 +2410,7 @@ Miranda NG не может открыть этот профиль
 [Unable to load plugin in service mode!]
 Невозможно загрузить плагин в служебном режиме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Невозможно загрузить ни один из установленных плагинов списка контактов. Даже отключённые в настройках не запускаются.
+Невозможно загрузить ни один из установленных плагинов списка контактов. Не удалось загрузить даже отключённые плагины.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не найден плагин списка контактов! Вам нужен StdClist.dll или один из плагинов clist_*.dll.
 [Plugin]

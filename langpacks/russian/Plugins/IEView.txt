@@ -122,6 +122,6 @@
 [Yesterday]
 Вчера
 [File sent]
-Отправка файла
+Файл отправлен
 [File received]
 Файл получен

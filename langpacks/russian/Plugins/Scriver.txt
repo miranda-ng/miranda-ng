@@ -126,7 +126,7 @@
 [Typing Notification Options]
 Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]
-Оповещать отмеченных пользователей о том, что вы набираете сообщение:
+Уведомлять отмеченных пользователей о том, что вы набираете сообщение:
 [Show typing notification switch in the status bar]
 Переключатель "Уведомление о наборе" в строке состояния
 [Show typing notifications when a user is typing a message]
@@ -144,7 +144,7 @@
 [An error has occurred. The protocol reported the following error:]
 Протокол вернул следующую ошибку:
 [while sending the following message:]
-при посылке следующего сообщения:
+при отправке следующего сообщения:
 [Try again]
 Ещё раз
 [Cancel]
@@ -520,7 +520,7 @@
 [File sent]
 Отправлен файл
 [File received]
-Файл получен
+Получен файл
 [URL sent]
 Отправлен URL
 [URL received]

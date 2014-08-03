@@ -76,7 +76,7 @@
 [Messages]
 Сообщения
 [Online Notification]
-Уведомление В сети
+Уведомление "В сети"
 [All Events]
 Все события
 [None]

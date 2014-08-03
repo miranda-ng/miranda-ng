@@ -36,7 +36,7 @@
 [Use only alphanumeric encoding on transfer]
 Только буквенно-цифровая кодировка для передачи
 [Extra options: Events > File Transfers, "Receiving files" group]
-Доп. настройки: События > Передача файлов, "Прием файлов"
+Доп. настройки: События > Передача файлов, "Приём файлов"
 [File already exists. Overwrite?]
 Файл уже есть. Перезаписать?
 [Couldn't open a file]

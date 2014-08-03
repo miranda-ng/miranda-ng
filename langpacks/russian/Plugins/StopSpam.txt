@@ -50,7 +50,7 @@
 [StopSpam]
 Антиспам
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
-Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nСообщения от пользователей в вашем списке приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются: плагин отвечает простым вопросом и, если пользователь дает правильный ответ, добавляет его в список, чтобы он мог связаться с вами.
+Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nСообщения от пользователей из вашего списка контактов приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются: плагин отвечает простым вопросом и, если пользователь дает правильный ответ, добавляет его в список контактов, чтобы он мог связаться с вами.
 [StopSpam automatic message:\r\n]
 Сообщение антиспама:\r\n
 [Not In List]

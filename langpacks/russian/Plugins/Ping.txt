@@ -44,7 +44,7 @@
 [Repeats for success/failure:]
 Повторять до результата:
 [Attach to contact list]
-Добавить в список
+Добавить в список контактов
 [Use CSV format]
 Формат CSV
 [Add]
