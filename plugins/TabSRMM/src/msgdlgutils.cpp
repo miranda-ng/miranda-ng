@@ -217,24 +217,19 @@ void TSAPI FlashTab(TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *bState,
 
 void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 {
+	if (dat->dwFlags & MWF_WASBACKGROUNDCREATE || dat->pContainer->dwFlags & CNT_DEFERREDCONFIGURE || dat->pContainer->dwFlags & CNT_CREATE_MINIMIZED || IsIconic(dat->pContainer->hwnd))
+		return;  // at this stage, the layout is not yet ready...
+
 	RECT rc;
-	double aspect = 0, newWidth = 0, picAspect = 0;
-	double picProjectedWidth = 0;
+	GetClientRect(dat->hwnd, &rc);
+
 	BOOL bBottomToolBar = dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR;
 	BOOL bToolBar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 	bool bInfoPanel = dat->Panel->isActive();
 	int  iSplitOffset = dat->bIsAutosizingInput ? 1 : 0;
 
-	GetClientRect(dat->hwnd, &rc);
-
-	if (dat->dwFlags & MWF_WASBACKGROUNDCREATE || dat->pContainer->dwFlags & CNT_DEFERREDCONFIGURE || dat->pContainer->dwFlags & CNT_CREATE_MINIMIZED || IsIconic(dat->pContainer->hwnd))
-		return;  // at this stage, the layout is not yet ready...
-
-	if (bminfo->bmWidth == 0 || bminfo->bmHeight == 0)
-		picAspect = 1.0;
-	else
-		picAspect = (double)(bminfo->bmWidth / (double)bminfo->bmHeight);
-	picProjectedWidth = (double)((dat->dynaSplitter - ((bBottomToolBar && bToolBar) ? DPISCALEX_S(24) : 0) + ((dat->showUIElements != 0) ? DPISCALEX_S(28) : DPISCALEX_S(2)))) * picAspect;
+	double picAspect = (bminfo->bmWidth == 0 || bminfo->bmHeight == 0) ? 1.0 : (double)(bminfo->bmWidth / (double)bminfo->bmHeight);
+	double picProjectedWidth = (double)((dat->dynaSplitter - ((bBottomToolBar && bToolBar) ? DPISCALEX_S(24) : 0) + ((dat->showUIElements != 0) ? DPISCALEX_S(28) : DPISCALEX_S(2)))) * picAspect;
 
 	if ((rc.right - (int)picProjectedWidth) > (dat->iButtonBarReallyNeeds) && !PluginConfig.m_AlwaysFullToolbarWidth && bToolBar)
 		dat->iRealAvatarHeight = dat->dynaSplitter + 3 + (dat->showUIElements ? DPISCALEY_S(28) : DPISCALEY_S(2));
@@ -249,12 +244,8 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	if (M.GetByte(dat->hContact, "dontscaleavatars", M.GetByte("dontscaleavatars", 0)))
 		dat->iRealAvatarHeight = min(bminfo->bmHeight, dat->iRealAvatarHeight);
 
-	if (bminfo->bmHeight != 0)
-		aspect = (double)dat->iRealAvatarHeight / (double)bminfo->bmHeight;
-	else
-		aspect = 1;
-
-	newWidth = (double)bminfo->bmWidth * aspect;
+	double aspect = (bminfo->bmHeight != 0) ? (double)dat->iRealAvatarHeight / (double)bminfo->bmHeight : 1.0;
+	double newWidth = (double)bminfo->bmWidth * aspect;
 	if (newWidth > (double)(rc.right) * 0.8)
 		newWidth = (double)(rc.right) * 0.8;
 	dat->pic.cy = dat->iRealAvatarHeight + 2;
@@ -369,7 +360,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 					avOverrideMode = 1;
 				db_set_b(dat->hContact, SRMSGMOD_T, "hideavatar", avOverrideMode);
 			}
-			dat->panelWidth = -1;
+
 			ShowPicture(dat, FALSE);
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			DM_ScrollToBottom(dat, 0, 1);
@@ -594,7 +585,7 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
 		}
 		
-		SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
+		SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->cache->getActiveProto());
 	}
 	else {
 		dat->bShowInfoAvatar = false;
@@ -627,7 +618,7 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 			return false;
 
 		if (dat->hwndPanelPic) { // shows contact or user picture, depending on panel visibility
-			SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
+			SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->cache->getActiveProto());
 			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
 		}
 		else Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
@@ -749,7 +740,6 @@ void TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic)
 	if (showNewPic) {
 		if (dat->Panel->isActive() && dat->pContainer->avatarMode != 3) {
 			if (!dat->hwndPanelPic) {
-				dat->panelWidth = -1;
 				InvalidateRect(dat->hwnd, NULL, TRUE);
 				UpdateWindow(dat->hwnd);
 				SendMessage(dat->hwnd, WM_SIZE, 0, 0);
@@ -1525,29 +1515,19 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		if (hbmAvatar == NULL)
 			return TRUE;
 
-		BITMAP  bminfo;
-		double  dAspect = 0, dNewWidth = 0, dNewHeight = 0;
-		DWORD   iMaxHeight = 0, top, cx, cy;
-		RECT    rc, rcClient, rcFrame;
+		int     iMaxHeight = 0, top, cx, cy;
+		RECT    rcClient, rcFrame;
 		bool    bPanelPic = dis->hwndItem == hwndDlg;
 		DWORD   aceFlags = 0;
-		HRGN    clipRgn = 0;
-		int     iRad = PluginConfig.m_WinVerMajor >= 5 ? 4 : 6;
 		bool    bDrawOwnAvatar = dat->Panel->isActive() && dat->pContainer->avatarMode != 3;
 
+		BITMAP bminfo;
 		if (bPanelPic) {
-			GetObject(hbmAvatar, sizeof(bminfo), &bminfo);
-
-			if ((dat->ace && dat->bShowInfoAvatar && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) || dat->bShowInfoAvatar)
-				aceFlags = dat->ace ? dat->ace->dwFlags : 0;
-			else {
-				if (dat->panelWidth) {
-					dat->panelWidth = -1;
-					if (!CSkin::m_skinEnabled)
-						SendMessage(hwndDlg, WM_SIZE, 0, 0);
-				}
+			if (!dat->bShowInfoAvatar)
 				return TRUE;
-			}
+
+			aceFlags = dat->ace ? dat->ace->dwFlags : 0;
+			GetObject(hbmAvatar, sizeof(bminfo), &bminfo);
 		}
 		else {
 			if (!bDrawOwnAvatar) {		
@@ -1560,6 +1540,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			GetObject(bDrawOwnAvatar ? dat->hOwnPic : hbmAvatar, sizeof(bminfo), &bminfo);
 		}
 
+		RECT rc;
 		GetClientRect(hwndDlg, &rc);
 		if (bPanelPic) {
 			rcClient = dis->rcItem;
@@ -1575,45 +1556,13 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		if (cx < 5 || cy < 5)
 			return TRUE;
 
-		if (bPanelPic) {
-			if (bminfo.bmHeight > bminfo.bmWidth) {
-				if (bminfo.bmHeight > 0)
-					dAspect = (double)(cy /*- 2*/) / (double)bminfo.bmHeight;
-				else
-					dAspect = 1.0;
-				dNewWidth = (double)bminfo.bmWidth * dAspect;
-				dNewHeight = cy;// - 2;
-			}
-			else {
-				if (bminfo.bmWidth > 0)
-					dAspect = (double)(cy /*- 2*/) / (double)bminfo.bmWidth;
-				else
-					dAspect = 1.0;
-				dNewHeight = (double)bminfo.bmHeight * dAspect;
-				dNewWidth = cy;// - 2;
-			}
-			if (dat->panelWidth == -1) {
-				dat->panelWidth = (int)dNewWidth;
-				return 0;
-			}
-		}
-		else {
-			if (bminfo.bmHeight > 0)
-				dAspect = (double)dat->iRealAvatarHeight / (double)bminfo.bmHeight;
-			else
-				dAspect = 1.0;
-			dNewWidth = (double)bminfo.bmWidth * dAspect;
-			if (dNewWidth > (double)(rc.right) * 0.8)
-				dNewWidth = (double)(rc.right) * 0.8;
-			iMaxHeight = dat->iRealAvatarHeight;
-		}
-
 		HDC hdcDraw = CreateCompatibleDC(dis->hDC);
 		HBITMAP hbmDraw = CreateCompatibleBitmap(dis->hDC, cx, cy);
 		HBITMAP hbmOld = (HBITMAP)SelectObject(hdcDraw, hbmDraw);
 
 		bool bAero = M.isAero();
 
+		HRGN clipRgn = 0;
 		HBRUSH hOldBrush = (HBRUSH)SelectObject(hdcDraw, bAero ? (HBRUSH)GetStockObject(HOLLOW_BRUSH) : GetSysColorBrush(COLOR_3DFACE));
 		rcFrame = rcClient;
 
@@ -1645,6 +1594,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			if (CSkin::m_bAvatarBorderType == 1)
 				Rectangle(hdcDraw, rcEdge.left, rcEdge.top, rcEdge.right, rcEdge.bottom);
 			else if (CSkin::m_bAvatarBorderType == 2) {
+				int iRad = PluginConfig.m_WinVerMajor >= 5 ? 4 : 6;
 				clipRgn = CreateRoundRectRgn(rcEdge.left, rcEdge.top, rcEdge.right + 1, rcEdge.bottom + 1, iRad, iRad);
 				SelectClipRgn(hdcDraw, clipRgn);
 			}
@@ -1654,46 +1604,31 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		}
 
 		if (((bDrawOwnAvatar ? dat->hOwnPic : hbmAvatar) && dat->bShowAvatar) || bPanelPic) {
-			HDC hdcMem = CreateCompatibleDC(dis->hDC);
-			HBITMAP hbmMem = 0;
 			if (bPanelPic) {
-				bool	bBorder = (CSkin::m_bAvatarBorderType ? true : false);
+				bool bBorder = (CSkin::m_bAvatarBorderType ? true : false);
 
-				LONG 	height_off = 0;
-				LONG	border_off = bBorder ? 1 : 0;
-
-				ResizeBitmap rb;
-				rb.size = sizeof(rb);
-				rb.fit = RESIZEBITMAP_STRETCH;
-				rb.max_height = (int)(dNewHeight - (bBorder ? 2 : 0));
-				rb.max_width = (int)(dNewWidth - (bBorder ? 2 : 0));
-				rb.hBmp = hbmAvatar;
-
-				HBITMAP hbmNew = (HBITMAP)CallService(MS_IMG_RESIZE, (WPARAM)&rb, 0);
-				hbmMem = (HBITMAP)SelectObject(hdcMem, hbmNew);
+				int border_off = bBorder ? 1 : 0;
+				int iMaxHeight = dat->iPanelAvatarY - (bBorder ? 2 : 0);
+				int iMaxWidth = dat->iPanelAvatarX - (bBorder ? 2 : 0);
 
 				rcFrame.left = rcFrame.top = 0;
 				rcFrame.right = (rcClient.right - rcClient.left);
 				rcFrame.bottom = (rcClient.bottom - rcClient.top);
 
-				rcFrame.left = rcFrame.right - (LONG)dNewWidth;
-				rcFrame.bottom = (LONG)dNewHeight;
+				rcFrame.left = rcFrame.right - (LONG)dat->iPanelAvatarX;
+				rcFrame.bottom = (LONG)dat->iPanelAvatarY;
 
-				height_off = ((cy)-(rb.max_height + (bBorder ? 2 : 0))) / 2;
+				int height_off = (cy - iMaxHeight - (bBorder ? 2 : 0)) / 2;
 				rcFrame.top += height_off;
 				rcFrame.bottom += height_off;
 
 				SendMessage(dat->hwndPanelPic, AVATAR_SETAEROCOMPATDRAWING, 0, bAero ? TRUE : FALSE);
 				SetWindowPos(dat->hwndPanelPic, HWND_TOP, rcFrame.left + border_off, rcFrame.top + border_off,
-					rb.max_width, rb.max_height, SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOSENDCHANGING);
-
-				SelectObject(hdcMem, hbmMem);
-				DeleteDC(hdcMem);
-				if (hbmNew != hbmAvatar)
-					DeleteObject(hbmNew);
+					iMaxWidth, iMaxHeight, SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOSENDCHANGING);
 			}
 			else {
-				hbmMem = (HBITMAP)SelectObject(hdcMem, (bDrawOwnAvatar) ? dat->hOwnPic : hbmAvatar);
+				HDC hdcMem = CreateCompatibleDC(dis->hDC);
+				HBITMAP hbmMem = (HBITMAP)SelectObject(hdcMem, (bDrawOwnAvatar) ? dat->hOwnPic : hbmAvatar);
 				LONG xy_off = 1; //CSkin::m_bAvatarBorderType ? 1 : 0;
 				LONG width_off = 0; //= CSkin::m_bAvatarBorderType ? 0 : 2;
 
@@ -1704,14 +1639,14 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 					HBITMAP hbmOld = (HBITMAP)SelectObject(hdcTemp, hbmTemp);
 
 					SetStretchBltMode(hdcTemp, HALFTONE);
-					StretchBlt(hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, hdcDraw, xy_off, top + xy_off, (int)dNewWidth + width_off, iMaxHeight + width_off, SRCCOPY);
+					StretchBlt(hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, hdcDraw, xy_off, top + xy_off, (int)dat->iPanelAvatarX + width_off, iMaxHeight + width_off, SRCCOPY);
 					GdiAlphaBlend(hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, hdcMem, 0, 0, bminfo.bmWidth, bminfo.bmHeight, CSkin::m_default_bf);
-					StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dNewWidth + width_off, iMaxHeight + width_off, hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
+					StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dat->iPanelAvatarX + width_off, iMaxHeight + width_off, hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
 					SelectObject(hdcTemp, hbmOld);
 					DeleteObject(hbmTemp);
 					DeleteDC(hdcTemp);
 				}
-				else StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dNewWidth + width_off, iMaxHeight + width_off, hdcMem, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
+				else StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dat->iPanelAvatarX + width_off, iMaxHeight + width_off, hdcMem, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
 
 				SelectObject(hdcMem, hbmMem);
 				DeleteObject(hbmMem);

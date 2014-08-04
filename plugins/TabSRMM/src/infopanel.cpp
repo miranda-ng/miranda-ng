@@ -58,7 +58,7 @@ int CInfoPanel::setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 				if (dat->pContainer->settings->fPrivate && srcDat->pContainer != dat->pContainer)
 					return 0;
-				dat->panelWidth = -1;
+
 				dat->Panel->setHeight((LONG)lParam);
 			}
 		}
@@ -1202,7 +1202,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 							db_unset(m_dat->hContact, SRMSGMOD_T, "hideavatar");
 						else
 							db_set_b(m_dat->hContact, SRMSGMOD_T, "hideavatar", vNew);
-						m_dat->panelWidth = -1;
+
 						::ShowPicture(m_dat, FALSE);
 						::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
 						::DM_ScrollToBottom(m_dat, 0, 1);
@@ -1256,7 +1256,6 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			if (m_height != lOldHeight) {
 				::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
-				m_dat->panelWidth = -1;
 				::SetAeroMargins(m_dat->pContainer);
 				::RedrawWindow(m_dat->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 				::RedrawWindow(GetParent(m_dat->hwnd), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
@@ -1294,7 +1293,7 @@ int CInfoPanel::invokeConfigDialog(const POINT& pt)
 	RECT rc;
 	::GetWindowRect(m_dat->hwnd, &rc);
 	rc.bottom = rc.top + m_height;
-	rc.right -= m_dat->panelWidth;
+	rc.right -= m_dat->iPanelAvatarX;
 
 	POINT	ptTest = pt;
 	if (!::PtInRect(&rc, ptTest))

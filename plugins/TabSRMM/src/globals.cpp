@@ -271,7 +271,6 @@ void CGlobals::hookSystemEvents()
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, ::IcoLibIconsChanged);
 	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
-	HookEvent(ME_AV_AVATARCHANGED, ::AvatarChanged);
 }
 
 int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
@@ -517,10 +516,8 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 
 	::SI_DeinitStatusIcons();
 	::CB_DeInitCustomButtons();
-	/*
-	 * the event API
-	 */
 
+	// the event API
 	DestroyHookableEvent(PluginConfig.m_event_MsgWin);
 	DestroyHookableEvent(PluginConfig.m_event_MsgPopup);
 	DestroyHookableEvent(PluginConfig.m_event_WriteEvent);

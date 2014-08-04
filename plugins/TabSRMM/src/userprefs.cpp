@@ -284,7 +284,6 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					}
 					if (hWnd && dat) {
 						SendMessage(hWnd, DM_CONFIGURETOOLBAR, 0, 1);
-						dat->panelWidth = -1;
 						ShowPicture(dat, FALSE);
 						SendMessage(hWnd, WM_SIZE, 0, 0);
 						DM_ScrollToBottom(dat, 0, 1);

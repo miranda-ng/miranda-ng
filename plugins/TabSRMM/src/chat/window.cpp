@@ -2463,14 +2463,13 @@ LABEL_SHOWWINDOW:
 				GetClientRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rc);
 				if ((pt.y + 2 >= MIN_PANELHEIGHT + 2) && (pt.y + 2 < 100) && (pt.y + 2 < rc.bottom - 30))
 					dat->Panel->setHeight(pt.y + 2);
-				dat->panelWidth = -1;
 				RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
 				if (M.isAero())
 					InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
 				SendMessage(hwndDlg, WM_SIZE, DM_SPLITTERMOVED, 0);
 				break;
 			}
-	}
+		}
 		break;
 
 	case GC_FIREHOOK:

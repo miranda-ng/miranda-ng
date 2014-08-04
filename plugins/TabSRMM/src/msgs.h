@@ -307,7 +307,7 @@ struct TWindowData
 	int      iEventQueueSize;
 	LCID     lcid;
 	TCHAR    lcID[10];
-	int      panelWidth;
+	int      iPanelAvatarX, iPanelAvatarY;
 	DWORD    idle;
 	HWND     hwndTip;
 	TOOLINFO ti;

@@ -902,7 +902,6 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		DM_ScrollToBottom(dat, 0, 1);
 		if (dat && dat->bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_PANELSPLITTER)) {
 			SendMessage(hwndParent, WM_SIZE, 0, 0);
-			dat->panelWidth = -1;
 			RedrawWindow(hwndParent, NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
 		}
 		else if ((dat && dat->bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_SPLITTER)) || 
@@ -1299,7 +1298,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->bIsAutosizingInput = IsAutoSplitEnabled(dat);
 			dat->iInputAreaHeight = -1;
 			SetMessageLog(dat);
-			dat->panelWidth = -1;
 			if (dat->hContact) {
 				dat->codePage = M.GetDword(dat->hContact, "ANSIcodepage", CP_ACP);
 				dat->Panel->loadHeight();
@@ -1630,59 +1628,70 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			BB_SetButtonsPos(dat);
 
 			// size info panel fields
-			LONG cx = rc.right;
-			LONG panelHeight = dat->Panel->getHeight();
-			LONG panelWidth = (dat->panelWidth != -1 ? dat->panelWidth : 0);
+			if (dat->Panel->isActive()) {
+				LONG cx = rc.right;
+				LONG panelHeight = dat->Panel->getHeight();
 
-			rc.top = 1;
-			rc.left = cx - (panelWidth > 0 ? panelWidth : panelHeight);
-			rc.bottom = rc.top + (panelHeight - 3);
-			rc.right = cx;
-			rc.bottom--;
+				hbm = (m_pContainer->avatarMode == 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
+				double dHeight = 0, dWidth = 0;
+				Utils::scaleAvatarHeightLimited(hbm, dWidth, dHeight, panelHeight);
 
-			if (dat->bShowInfoAvatar) {
-				SetWindowPos(dat->hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, (rc.bottom - rc.top) + 1, 0);
-				ShowWindow(dat->hwndPanelPicParent, (dat->panelWidth == -1) || !dat->Panel->isActive() ? SW_HIDE : SW_SHOW);
+				LONG panelAvatarWidth = dat->iPanelAvatarX = (int)dWidth;
+				dat->iPanelAvatarY = (int)dHeight;
+
+				rc.top = 1;
+				rc.left = cx - (panelAvatarWidth > 0 ? panelAvatarWidth : panelHeight);
+				rc.bottom = rc.top + (panelHeight - 3);
+				rc.right = cx;
+				rc.bottom--;
+
+				if (dat->bShowInfoAvatar) {
+					SetWindowPos(dat->hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, (rc.bottom - rc.top) + 1, 0);
+					ShowWindow(dat->hwndPanelPicParent, (dat->iPanelAvatarX == 0) || !dat->Panel->isActive() ? SW_HIDE : SW_SHOW);
+				}
+				else {
+					ShowWindow(dat->hwndPanelPicParent, SW_HIDE);
+					panelAvatarWidth = dat->iPanelAvatarX = dat->iPanelAvatarY = 0;
+				}
+
+				dat->rcPic = rc;
+
+				rc.right = cx - panelAvatarWidth;
+				rc.left = cx - panelAvatarWidth - dat->panelStatusCX;
+				rc.bottom = panelHeight - 3;
+				rc.top = rc.bottom - dat->ipFieldHeight;
+				dat->rcStatus = rc;
+
+				rc.left = CInfoPanel::LEFT_OFFSET_LOGO;
+				rc.right = cx - dat->iPanelAvatarX - (panelHeight < CInfoPanel::DEGRADE_THRESHOLD ? (dat->rcStatus.right - dat->rcStatus.left) + 3 : 0);
+				rc.bottom = panelHeight - (panelHeight >= CInfoPanel::DEGRADE_THRESHOLD ? dat->ipFieldHeight : 0) - 1;
+				rc.top = 1;
+				dat->rcNick = rc;
+
+				rc.left = CInfoPanel::LEFT_OFFSET_LOGO;
+				rc.right = cx - (dat->iPanelAvatarX + 2) - dat->panelStatusCX;
+				rc.bottom = panelHeight - 3;
+				rc.top = rc.bottom - dat->ipFieldHeight;
+				dat->rcUIN = rc;
+
+				if (GetDlgItem(hwndDlg, IDC_CLIST) != 0) {
+					RECT rc, rcClient, rcLog;
+					GetClientRect(hwndDlg, &rcClient);
+					GetClientRect(GetDlgItem(hwndDlg, IDC_LOG), &rcLog);
+					rc.top = 0;
+					rc.right = rcClient.right;
+					rc.left = rcClient.right - dat->multiSplitterX;
+					rc.bottom = rcLog.bottom;
+					if (dat->Panel->isActive())
+						rc.top += (dat->Panel->getHeight() + 1);
+					MoveWindow(GetDlgItem(hwndDlg, IDC_CLIST), rc.left, rc.top, rc.right - rc.left, rcLog.bottom - rcLog.top, FALSE);
+				}
+
+				dat->Panel->Invalidate();
 			}
-			else ShowWindow(dat->hwndPanelPicParent, SW_HIDE);
-
-			dat->rcPic = rc;
-
-			rc.right = cx - panelWidth;
-			rc.left = cx - panelWidth - dat->panelStatusCX;
-			rc.bottom = panelHeight - 3;
-			rc.top = rc.bottom - dat->ipFieldHeight;
-			dat->rcStatus = rc;
-
-			rc.left = CInfoPanel::LEFT_OFFSET_LOGO;
-			rc.right = cx - dat->panelWidth - (panelHeight < CInfoPanel::DEGRADE_THRESHOLD ? (dat->rcStatus.right - dat->rcStatus.left) + 3 : 0);
-			rc.bottom = panelHeight - (panelHeight >= CInfoPanel::DEGRADE_THRESHOLD ? dat->ipFieldHeight : 0) - 1;
-			rc.top = 1;
-			dat->rcNick = rc;
-
-			rc.left = CInfoPanel::LEFT_OFFSET_LOGO;
-			rc.right = cx - (dat->panelWidth + 2) - dat->panelStatusCX;
-			rc.bottom = panelHeight - 3;
-			rc.top = rc.bottom - dat->ipFieldHeight;
-			dat->rcUIN = rc;
-
-			if (GetDlgItem(hwndDlg, IDC_CLIST) != 0) {
-				RECT rc, rcClient, rcLog;
-				GetClientRect(hwndDlg, &rcClient);
-				GetClientRect(GetDlgItem(hwndDlg, IDC_LOG), &rcLog);
-				rc.top = 0;
-				rc.right = rcClient.right;
-				rc.left = rcClient.right - dat->multiSplitterX;
-				rc.bottom = rcLog.bottom;
-				if (dat->Panel->isActive())
-					rc.top += (dat->Panel->getHeight() + 1);
-				MoveWindow(GetDlgItem(hwndDlg, IDC_CLIST), rc.left, rc.top, rc.right - rc.left, rcLog.bottom - rcLog.top, FALSE);
-			}
-
 			if (dat->hwndIEView || dat->hwndHPP)
 				ResizeIeView(dat, 0, 0, 0, 0);
 
-			dat->Panel->Invalidate();
 			DetermineMinHeight(dat);
 		}
 		break;
@@ -2305,7 +2314,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ScreenToClient(hwndDlg, &pt);
 			if ((pt.y + 2 >= MIN_PANELHEIGHT + 2) && (pt.y + 2 < 100) && (pt.y + 2 < rc.bottom - 30))
 				dat->Panel->setHeight(pt.y + 2, true);
-			dat->panelWidth = -1;
+
 			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
 			if (M.isAero())
 				InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
@@ -3081,7 +3090,7 @@ quote_from_last:
 
 	case DM_PROTOAVATARCHANGED:
 		dat->ace = Utils::loadAvatarFromAVS(dat->hContact);
-		dat->panelWidth = -1;				// force new size calculations
+
 		ShowPicture(dat, TRUE);
 		if (dat->Panel->isActive())
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
