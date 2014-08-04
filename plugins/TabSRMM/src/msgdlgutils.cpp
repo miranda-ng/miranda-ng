@@ -614,14 +614,14 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 			dat->bShowAvatar = hideOverride == 1 ? 1 : dat->bShowAvatar;
 
 		// reloads avatars
-		if (!dat->bShowAvatar)
-			return false;
-
 		if (dat->hwndPanelPic) { // shows contact or user picture, depending on panel visibility
 			SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->cache->getActiveProto());
 			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
 		}
 		else Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
+
+		if (!dat->bShowAvatar)
+			return false;
 	}
 	return dat->bShowAvatar;
 }
