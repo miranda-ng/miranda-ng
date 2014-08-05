@@ -542,6 +542,7 @@ void TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam)
 
 		dat->ace = Utils::loadAvatarFromAVS(dat->hContact);
 
+		GetAvatarVisibility(hwndDlg, dat);
 		ShowPicture(dat, TRUE);
 		if (dat->Panel->isActive())
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -597,13 +598,7 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		else
 			dat->bShowInfoAvatar = hideOverride == 1 ? true : dat->bShowInfoAvatar;
 
-		// reloads avatars
-		if (dat->bShowInfoAvatar) {
-			// panel and contact is shown, reloads contact's avatar -> panel
-			// user avatar -> bottom picture
-			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
-		}
-		
+		Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
 		SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->cache->getActiveProto());
 	}
 	else {
@@ -638,9 +633,6 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 			Utils::setAvatarContact(dat->hwndPanelPic, dat->hContact);
 		}
 		else Utils::setAvatarContact(dat->hwndContactPic, dat->hContact);
-
-		if (!dat->bShowAvatar)
-			return false;
 	}
 	return dat->bShowAvatar;
 }
