@@ -378,12 +378,10 @@ Popups
 Анулиране на шаблоните
 [Account]
 
-[Logging]
+[Status logging]
 
 [Filtering]
 Филтриране
-[Message log]
-Дневник за съобщения
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (беше %s)
@@ -409,7 +407,7 @@ Popups
 Настроение
 [Activity]
 Дейност
-[Xstatus]
+[XStatus]
 хСъстояние
 [<no title>]
 

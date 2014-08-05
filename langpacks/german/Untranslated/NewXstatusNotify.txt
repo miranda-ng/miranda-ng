@@ -30,6 +30,7 @@
 [Status message changed]
 [Extra status message removed]
 [This is extra status]
+[Status logging]
 [<no title>]
 [%s changed %s]
 [removed %n message]

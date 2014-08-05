@@ -378,12 +378,10 @@ Registro
 
 [Account]
 
-[Logging]
+[Status logging]
 
 [Filtering]
 Filtrando
-[Message log]
-Registro de mensaje
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (era %s)
@@ -409,7 +407,7 @@ No hacer nada
 
 [Activity]
 
-[Xstatus]
+[XStatus]
 
 [<no title>]
 

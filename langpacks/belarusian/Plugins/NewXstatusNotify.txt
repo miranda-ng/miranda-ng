@@ -308,8 +308,6 @@
 Скінуць шаблоны
 [Filtering]
 Фільтраванне
-[Message log]
-Лог
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (быў(ла) %s)
@@ -335,7 +333,7 @@
 Настрой
 [Activity]
 Занятак
-[Xstatus]
+[XStatus]
 хстатус
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]

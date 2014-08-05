@@ -378,12 +378,10 @@ Möchten Sie alle Vorlagen auf Standard zurücksetzen?
 Vorlagen zurücksetzen
 [Account]
 Konto
-[Logging]
-Speichern
+[Status logging]
+
 [Filtering]
 Filtern
-[Message log]
-Nachrichtenverlauf
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (war %s)
@@ -409,7 +407,7 @@ NewXstatusNotify
 Stimmung
 [Activity]
 Aktivität
-[Xstatus]
+[XStatus]
 XStatus
 [<no title>]
 

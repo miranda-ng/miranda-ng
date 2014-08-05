@@ -378,11 +378,9 @@ Log
 
 [Account]
 
-[Logging]
+[Status logging]
 
 [Filtering]
-
-[Message log]
 
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
@@ -409,7 +407,7 @@ Log
 
 [Activity]
 
-[Xstatus]
+[XStatus]
 
 [<no title>]
 

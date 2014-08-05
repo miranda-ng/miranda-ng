@@ -378,12 +378,10 @@ Journal
 
 [Account]
 Compte
-[Logging]
+[Status logging]
 
 [Filtering]
 Filtres
-[Message log]
-Historique récent
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 
@@ -409,7 +407,7 @@ Historique récent
 
 [Activity]
 
-[Xstatus]
+[XStatus]
 
 [<no title>]
 

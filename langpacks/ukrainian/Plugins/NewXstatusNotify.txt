@@ -373,12 +373,8 @@
 Скинути шаблони
 [Account]
 Обліковий запис
-[Logging]
-Запис хСтатусів
 [Filtering]
 Фільтрація
-[Message log]
-Запис статусів
 [(was %s)]
 (був(ла) %s)
 [Open message window]
@@ -401,7 +397,7 @@
 Настрій
 [Activity]
 Заняття
-[Xstatus]
+[XStatus]
 хСтатус
 [<no title>]
 <без заголовка>

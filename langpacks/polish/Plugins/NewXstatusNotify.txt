@@ -378,12 +378,10 @@ Czy na pewno chcesz przywrócić domyślne szablony?
 Przywracanie szablonów
 [Account]
 Konto
-[Logging]
-Zapisywanie
+[Status logging]
+
 [Filtering]
 Filtrowanie
-[Message log]
-Dziennik wiadomości
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (był %s)
@@ -409,7 +407,7 @@ Zmiany statusu
 Nastrój
 [Activity]
 Aktywność
-[Xstatus]
+[XStatus]
 xStatus
 [<no title>]
 
