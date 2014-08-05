@@ -31,6 +31,8 @@
 На телефоне
 [Always when changing from offline]
 Из статуса "Отключён"
+[Notify when contact changes]
+Уведомлять, когда контакт меняет
 [Extra status]
 xСтатус
 [Status message]
@@ -46,7 +48,9 @@ xСтатус
 [Use individual sounds]
 Индивидуальные звуки
 [Blink icon in the system tray]
-Мигающий значок в сист. панели
+Мигающий значок в трее
+[Also when extra status or status message changes]
+При смене хСтатуса или сообщения статуса
 [Use status icon]
 Значок статуса
 [Log to file]
@@ -79,6 +83,10 @@ xСтатус
 Отключить все
 [Enable all]
 Включить все
+[Status message notify]
+Сообщения статуса
+[Status message logging]
+Запись сообщ. статуса
 [Popups when status changes to:]
 Окна, когда статус изменился на:
 [Background]
@@ -108,13 +116,13 @@ xСтатус
 [Timeout]
 Таймаут
 [Sec]
-сек.
+с
 [Connection timeout]
 Таймаут на старте
 [0 = Default]
-0=Умолчание
+0 = умолчание
 [-1 = Infinite]
--1=Бесконечно
+-1 = бесконечно
 [Click action]
 Действия по щелчку
 [On left click]
@@ -124,7 +132,7 @@ xСтатус
 [Notification]
 Уведомление
 [Show Popups when I connect]
-Окна при подключении
+Вспл. окна при подключении
 [Disable for extra status 'Music']
 Отключить для хСтатуса "Музыка"
 [Truncate message length to:]
@@ -133,6 +141,16 @@ xСтатус
 символов
 [Templates]
 Шаблоны
+[Notify when contact changes extra status]
+Уведомлять о смене хСтатуса
+[Template:]
+Шаблон:
+[Notify when contact removes extra status]
+Уведомлять об удалении хСтатуса
+[Notify when contact changes extra status message]
+Уведомлять о смене сообщения хСтатуса
+[Notify when contact removes extra status message]
+Уведомлять об удалении сообщения хСтатуса
 [Variables]
 Переменные
 [Reset]
@@ -147,16 +165,56 @@ xСтатус
 Отключать, только при изменении глобального статуса
 [Cancel]
 Отмена
+[Log extra status changes]
+Записывать смены хСтатусов
+[Log extra status changes to file]
+В файл
+[Log extra status changes to history]
+В историю
 [Only when message window is open]
 Только если открыто окно сообщений
+[Remove events from history when closing message window]
+Удалять события из истории после закрытыя окна сообщений
+[Log when contact changes extra status]
+Записывать смены хСтатусов
+[Log when contact removes extra status]
+Записывать удаление хСтатусов
+[Log when contact changes extra status message]
+Записывать смены сообщения хСтатуса
+[Log when contact removes extra status message]
+Записывать удаление сообщения хСтатуса
+[Log extra status when opening message window]
+Записывать хСтатусы при открытии окна сообщений
 [General]
 Общее
 [Accounts]
 Учётные записи
 [Enable/Disable accounts which you don't wish to be notified for:]
 Включить/Выключить уведомления для учётных записей:
+[Notify when contact changes status message]
+Уведомлять о смене сообщения статуса
+[Notify when contact removes status message]
+Уведомлять об удалении сообщения статуса
+[Log status changes]
+Записывать смены статусов
+[Log status changes to file]
+В файл
 [Log status changes to history]
-Записывать изменения статусов в историю
+В историю
+[Log previous status too]
+Записывать также предыдущий статус
+[Log status message changes]
+Записывать смены сообщений статуса
+[Log status message changes to file]
+В файл
+[Log status message changes to history]
+В историю
+[Log when contact changes status message]
+Записывать смены сообщений статуса
+[Log when contact removes status message]
+Записывать удаление сообщений статуса
+[Log status message when opening message window]
+Записывать сообщения статуса при открытии окна сообщений
 [Sound files]
 Звуковые файлы
 [All files]
@@ -165,6 +223,8 @@ xСтатус
 Файлы Wave
 [Status]
 Статус
+[Sound file]
+Файл
 [** All contacts **]
 ** Все контакты **
 [(default sound)]
@@ -185,6 +245,8 @@ xСтатус
 отключается
 [playing]
 играет
+[%s changed status message to %s]
+%s изменил(а) сообщение статуса на %s
 [(M) is back online!]
 снова в сети!
 [(F) is back online!]
@@ -267,12 +329,18 @@ xСтатус
 Пользователь: на телефоне
 [User: from offline (has priority!)]
 Пользователь:  из оффлайна (имеет приоритет!)
+[Status message removed]
+Удалено сообщение статуса
+[Status message changed]
+Изменено сообщение статуса
 [Extra status removed]
 xСтатус удален
 [Extra status message changed]
 Изменено сообщение xСтатуса
 [Extra status changed]
 xСтатус изменен
+[Extra status message removed]
+Удалено сообщение xСтатуса
 [Enable status notification]
 Включить уведомления о смене статуса
 [Disable status notification]
@@ -292,7 +360,9 @@ xСтатус изменен
 [Log]
 Журнал
 [This is status message]
-Это сообщение статуса
+Сообщение статуса
+[This is extra status]
+хСтатус
 [Show available variables]
 Доступные переменные
 [Reset all templates to default]
@@ -301,6 +371,8 @@ xСтатус изменен
 Вы хотите сбросить все шаблоны на стандартные?
 [Reset templates]
 Сбросить шаблоны
+[Account]
+Учётная запись
 [Filtering]
 Фильтрация
 [Message log]
@@ -329,6 +401,8 @@ xСтатус изменен
 Занятие
 [Xstatus]
 хСтатус
+[<no title>]
+<без заголовка>
 [%s changed %s]
 %s изменил(а) %s
 [changed %n to: %t]
@@ -340,7 +414,7 @@ xСтатус изменен
 [removed %n message]
 удалил(а) сообщение %n
 [changed status message to: %n]
-сменил(а) статусное сообщение на: %n
+изменил(а) статусное сообщение на: %n
 [removed status message]
 удалил(а) статусное сообщение
 [changed %n @ %t: %m]
