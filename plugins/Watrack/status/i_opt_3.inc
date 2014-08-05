@@ -19,7 +19,7 @@ begin
         'changed next time.');
       CheckDlgButton(Dialog,IDC_SIMPLEMODE,SimpleMode);
       MakeHint(Dialog,IDC_INDEPENDED,
-        'If this option is "ON", XStatus doesn''t depend on protocol status.');
+        'If this option is "ON", xStatus doesn''t depend on protocol status.');
       CheckDlgButton(Dialog,IDC_INDEPENDED,XIndepended);
       MakeHint(Dialog,IDC_USESTATUS,
         'If this option is "ON", status text will be replaced by music info.');
@@ -29,13 +29,13 @@ begin
         'message window pressing hotkey.');
       CheckDlgButton(Dialog,IDC_USEMSGS,UseMessages);
       MakeHint(Dialog,IDC_KEEPSTATUS,
-        'If this option is "ON", XStatus won''t be changed when player is shut down.');
+        'If this option is "ON", xStatus won''t be changed when player is shut down.');
       CheckDlgButton(Dialog,IDC_KEEPSTATUS,KeepStatus);
       MakeHint(Dialog,IDC_CLEARXSTAT,
         'xStatus will be cleared before text changing and restored with new text later.');
       CheckDlgButton(Dialog,IDC_CLEARXSTAT,ClearXStat);
       MakeHint(Dialog,IDC_EXTSTATUS,
-        'If this option is "ON", XStatus will be changed to "Music" and '+
+        'If this option is "ON", xStatus will be changed to "Music" and '+
         'status text will be replaced by music info.');
       CheckDlgButton(Dialog,IDC_EXTSTATUS ,UseExtStatus);
       MakeHint(Dialog,IDC_LISTENINGTO,
@@ -45,9 +45,9 @@ begin
 
       wnd:=GetDlgItem(Dialog,IDC_SETXSTATUS);
 //      SendMessage(wnd,CB_RESETCONTENT,0,0);
-      CB_AddStrDataW(wnd,TranslateW('any XStatus is set'           ),0,0);
+      CB_AddStrDataW(wnd,TranslateW('any xStatus is set'           ),0,0);
       CB_AddStrDataW(wnd,TranslateW('''Music'' status is set'      ),1,1);
-      CB_AddStrDataW(wnd,TranslateW('XStatus is empty or ''Music'''),2,2);
+      CB_AddStrDataW(wnd,TranslateW('xStatus is empty or ''Music'''),2,2);
       CB_SelectData(wnd,XStatusSet);
 
       SendMessage(Dialog,WM_COMMAND,(BN_CLICKED shl 16)+IDC_EXTSTATUS,

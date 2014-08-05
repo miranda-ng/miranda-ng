@@ -54,7 +54,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
 
-	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", LPGEN("Mail.ru Xstatus"), "mra_xstatus25");
+	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", LPGEN("Mail.ru xStatus"), "mra_xstatus25");
 	hExtraInfo = ExtraIcon_Register("MRAStatus", LPGEN("Mail.ru extra info"), MRA_XSTATUS_UNKNOWN_STR);
 
 	bHideXStatusUI = FALSE;

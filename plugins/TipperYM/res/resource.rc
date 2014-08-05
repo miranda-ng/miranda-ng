@@ -172,7 +172,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,123,273,10
     CONTROL         "Disable in invisible status",IDC_CHK_DISABLEINVISIBLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,138,258,10
-    CONTROL         "Retrieve XStatus details if auto-retrieve is disabled",IDC_CHK_RETRIEVEXSTATUS,
+    CONTROL         "Retrieve xStatus details if auto-retrieve is disabled",IDC_CHK_RETRIEVEXSTATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,153,273,10
     GROUPBOX        "Status bar and tray tooltip",IDC_STATIC,7,176,284,46
     CONTROL         "Limit status messages in status bar and tray tooltips to:",IDC_CHK_LIMITMSG,

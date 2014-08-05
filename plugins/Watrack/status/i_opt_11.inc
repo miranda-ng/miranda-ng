@@ -243,7 +243,7 @@ begin
   SendMessage(wnd,CB_RESETCONTENT,0,0);
 
   CB_AddStrDataW(wnd,TranslateW('Status'),0);
-  if IsXStatusSupported(uint_ptr(proto)) then CB_AddStrDataW(wnd,TranslateW('XStatus'),1);
+  if IsXStatusSupported(uint_ptr(proto)) then CB_AddStrDataW(wnd,TranslateW('xStatus'),1);
   if IsTunesSupported  (uint_ptr(proto)) then CB_AddStrDataW(wnd,TranslateW('Tunes'  ),2);
 
   SendMessage(wnd,CB_SETCURSEL,0,0);

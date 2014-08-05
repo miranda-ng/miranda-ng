@@ -67,7 +67,7 @@
 
 // Variables help text
 #define VARIABLES_HELP_TEXT TranslateT("These variables are available:\r\n\r\n\
-%n\textra status name (Xstatus, Mood, Activity)\r\n\
+%n\textra status name (xStatus, Mood, Activity)\r\n\
 %t\textra status title\r\n\
 %m\textra status message\r\n\
 %c\tcustom nickname\r\n\

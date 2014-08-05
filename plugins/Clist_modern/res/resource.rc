@@ -679,8 +679,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,76,99,18
     CONTROL         "Show listening to if there is no status message",IDC_SHOW_LISTENING_IF_NOAWAY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,94,99,18
-    CONTROL         "XStatus has priority",IDC_XSTATUS_HAS_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,111,99,12
-    CONTROL         "Use 'XStatus: XMessage'",IDC_USE_NAME_AND_MESSAGE,
+    CONTROL         "xStatus has priority",IDC_XSTATUS_HAS_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,111,99,12
+    CONTROL         "Use 'xStatus: xMessage'",IDC_USE_NAME_AND_MESSAGE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,122,99,12
     RTEXT           "(Variables will be replaced)",IDC_VARIABLES_L,141,136,108,8
 END
@@ -708,8 +708,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,76,99,18
     CONTROL         "Show listening to if there is no status message",IDC_SHOW_LISTENING_IF_NOAWAY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_TOP | BS_MULTILINE | WS_TABSTOP,150,94,99,18
-    CONTROL         "XStatus has priority",IDC_XSTATUS_HAS_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,111,99,12
-    CONTROL         "Use 'XStatus: XMessage'",IDC_USE_NAME_AND_MESSAGE,
+    CONTROL         "xStatus has priority",IDC_XSTATUS_HAS_PRIORITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,111,99,12
+    CONTROL         "Use 'xStatus: xMessage'",IDC_USE_NAME_AND_MESSAGE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,122,99,12
     RTEXT           "(Variables will be replaced)",IDC_VARIABLES_L,141,136,108,8
 END

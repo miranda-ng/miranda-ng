@@ -37,13 +37,13 @@ BEGIN
     CONTROL         "Video",IDC_ENABLE_VIDEO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,40,52,11
     CONTROL         "Others",IDC_ENABLE_OTHERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,224,40,52,11
     LTEXT           "You also have to enable it per protocol in the main menu",IDC_STATIC,12,55,262,13
-    GROUPBOX        "XStatus",IDC_XSTATUS_G,3,74,282,88
-    LTEXT           "For protocols that don't support listening to but support XStatus:",IDC_XSTATUS_L,12,88,263,11
-    CONTROL         "Set XStatus to Music and show listening info",IDC_SET_XSTATUS,
+    GROUPBOX        "xStatus",IDC_XSTATUS_G,3,74,282,88
+    LTEXT           "For protocols that don't support listening to but support xStatus:",IDC_XSTATUS_L,12,88,263,11
+    CONTROL         "Set xStatus to Music and show listening info",IDC_SET_XSTATUS,
                     "Button",BS_AUTORADIOBUTTON,19,101,257,12
-    CONTROL         "If other XStatus is not set, set XStatus to Music and show listening info",IDC_CHECK_XSTATUS,
+    CONTROL         "If other xStatus is not set, set xStatus to Music and show listening info",IDC_CHECK_XSTATUS,
                     "Button",BS_AUTORADIOBUTTON,19,115,257,12
-    CONTROL         "If XStatus is Music, show listening info",IDC_CHECK_XSTATUS_MUSIC,
+    CONTROL         "If xStatus is Music, show listening info",IDC_CHECK_XSTATUS_MUSIC,
                     "Button",BS_AUTORADIOBUTTON,19,129,257,12
     CONTROL         "Do nothing",IDC_IGNORE_XSTATUS,"Button",BS_AUTORADIOBUTTON,19,143,257,12
     GROUPBOX        "Contacts",IDC_CONTACTS_G,3,166,282,32
@@ -93,7 +93,7 @@ BEGIN
     LTEXT           "%type% - Media type (Music, Radio, Video, etc.)",IDC_TYPE_L,11,99,265,8
     LTEXT           "When variable not found, use:",IDC_UNKNOWN_L,11,117,108,10
     EDITTEXT        IDC_UNKNOWN,122,114,152,13,ES_AUTOHSCROLL
-    GROUPBOX        "XStatus",IDC_XSTATUS_G,3,137,282,79
+    GROUPBOX        "xStatus",IDC_XSTATUS_G,3,137,282,79
     LTEXT           "Title:",IDC_NAME_L,11,152,55,10
     EDITTEXT        IDC_XSTATUS_NAME,72,150,202,13,ES_AUTOHSCROLL
     LTEXT           "Message:",IDC_MESSAGE_L,11,167,55,10

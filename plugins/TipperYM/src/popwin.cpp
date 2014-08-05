@@ -152,7 +152,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							swzAdvTitle = GetProtoExtraStatusTitle(pwd->clcit.szProto);
 							if (swzAdvTitle) {
 								StripBBCodesInPlace(swzAdvTitle);
-								AddRow(pwd, TranslateT("XStatus:"), swzAdvTitle, pwd->clcit.szProto, true, false, true);
+								AddRow(pwd, TranslateT("xStatus:"), swzAdvTitle, pwd->clcit.szProto, true, false, true);
 							}
 
 							// xstatus message
@@ -1567,7 +1567,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							swzAdvTitle = GetProtoExtraStatusTitle(pa->szModuleName);
 							if (swzAdvTitle) {
 								StripBBCodesInPlace(swzAdvTitle);
-								AddRow(pwd, TranslateT("XStatus:"), swzAdvTitle, pa->szModuleName, true, false, false);
+								AddRow(pwd, TranslateT("xStatus:"), swzAdvTitle, pa->szModuleName, true, false, false);
 								mir_free(swzAdvTitle);
 							}
 

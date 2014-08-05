@@ -84,7 +84,7 @@ TCHAR *GetStatusTypeAsString(int type, TCHAR *buff)
 	case TYPE_JABBER_ACTIVITY:
 		_tcscpy(buff, TranslateT("Activity")); break;
 	case TYPE_ICQ_XSTATUS:
-		_tcscpy(buff, TranslateT("XStatus")); break;
+		_tcscpy(buff, TranslateT("xStatus")); break;
 	default:
 		_tcscpy(buff, TranslateT("<unknown>"));
 	}

@@ -34,8 +34,8 @@ struct {
 }
 static const statusMsg[] = {
 	{	"CList",		"StatusMsg",			LPGENT("Status message"),	1	},
-	{	0,				"XStatusName",			LPGENT("XStatus title"),	4	},
-	{	0,				"XStatusMsg",			LPGENT("XStatus message"),	2	},
+	{	0,				"XStatusName",			LPGENT("xStatus title"),	4	},
+	{	0,				"XStatusMsg",			LPGENT("xStatus message"),	2	},
 	{	"AdvStatus",	"tune/text",			LPGENT("Listening to"),		8	},
 	{	"AdvStatus",	"activity/title",		LPGENT("Activity title"),	8	},
 	{	"AdvStatus",	"activity/text",		LPGENT("Activity text"),	8	}
