@@ -249,6 +249,8 @@ VOID CheckCurrentFeed(MCONTACT hContact)
 										TCHAR *string = mir_tstrdup(xi.getText(itemval));
 										ClearText(string);
 										author = mir_tstrdup(string);
+										if (1 == _stscanf(author, _T("%*s (%[^ \t\r\n)]s)"), string))
+											replaceStrT(author, string);
 										mir_free(string);
 									}
 									else if (!lstrcmpi(xi.getName(itemval), _T("comments"))) {
@@ -394,7 +396,7 @@ VOID CheckCurrentFeed(MCONTACT hContact)
 							if (!lstrcmpi(xi.getName(child), _T("author"))) {
 								for (int x = 0; x < xi.getChildCount(child); x++) {
 									HXML authorval = xi.getChild(child, x);
-									if (!lstrcmpi(xi.getName(authorval), _T("name"))) {
+									if (!lstrcmpi(xi.getName(authorval), _T("email"))) {
 										db_set_ts(hContact, MODULE, "e-mail", xi.getText(authorval));
 										break;
 									}
