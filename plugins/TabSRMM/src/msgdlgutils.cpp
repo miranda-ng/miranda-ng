@@ -537,10 +537,14 @@ void TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam)
 	if (((LPNMHDR)lParam)->code == NM_AVATAR_CHANGED) {
 		HWND hwndDlg = GetParent(hwnd);
 		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		if (dat) {
-			GetAvatarVisibility(hwndDlg, dat);
-			SendMessage(hwndDlg, WM_SIZE, 0, 1);
-		}
+		if (!dat)
+			return;
+
+		dat->ace = Utils::loadAvatarFromAVS(dat->hContact);
+
+		ShowPicture(dat, TRUE);
+		if (dat->Panel->isActive())
+			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 	}
 }
 

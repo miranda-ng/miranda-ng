@@ -3093,14 +3093,6 @@ quote_from_last:
 		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 		break;
 
-	case DM_PROTOAVATARCHANGED:
-		dat->ace = Utils::loadAvatarFromAVS(dat->hContact);
-
-		ShowPicture(dat, TRUE);
-		if (dat->Panel->isActive())
-			SendMessage(hwndDlg, WM_SIZE, 0, 0);
-		return 0;
-
 	case DM_MYAVATARCHANGED:
 		{
 			const char *szProto = dat->cache->getActiveProto();

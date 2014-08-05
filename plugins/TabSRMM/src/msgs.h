@@ -571,7 +571,6 @@ struct TNewWindowData
 #define DM_DELAYEDSCROLL         (TM_USER+78)
 #define DM_REPLAYQUEUE           (TM_USER+79)
 #define DM_REFRESHTABINDEX       (TM_USER+83)
-#define DM_PROTOAVATARCHANGED    (TM_USER+84)
 #define DM_SMILEYOPTIONSCHANGED  (TM_USER+85)
 #define DM_MYAVATARCHANGED	      (TM_USER+86)
 #define DM_PRINTCLIENT           (TM_USER+87)
