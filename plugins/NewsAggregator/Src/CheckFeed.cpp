@@ -163,6 +163,13 @@ VOID CheckCurrentFeed(MCONTACT hContact)
 								mir_free(string);
 								continue;
 							}
+							if (!lstrcmpi(xi.getName(child), _T("copyright")) && xi.getText(child)) {
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
+								db_set_s(hContact, "UserInfo", "MyNotes", _T2A(string));
+								mir_free(string);
+								continue;
+							}
 							if (!lstrcmpi(xi.getName(child), _T("image"))) {
 								for (int x = 0; x < xi.getChildCount(child); x++) {
 									HXML imageval = xi.getChild(child, x);
@@ -210,6 +217,7 @@ VOID CheckCurrentFeed(MCONTACT hContact)
 								TCHAR *title = NULL, *link = NULL, *datetime = NULL, *descr = NULL, *author = NULL, *comments = NULL, *guid = NULL, *category = NULL;
 								for (int z = 0; z < xi.getChildCount(child); z++) {
 									HXML itemval = xi.getChild(child, z);
+									TCHAR *tmp = (TCHAR*)xi.getName(itemval);
 									if (!lstrcmpi(xi.getName(itemval), _T("title"))) {
 										TCHAR *string = mir_tstrdup(xi.getText(itemval));
 										ClearText(string);
@@ -231,7 +239,7 @@ VOID CheckCurrentFeed(MCONTACT hContact)
 									else if (!lstrcmpi(xi.getName(itemval), _T("dc:date"))) {
 										datetime = (TCHAR *)xi.getText(itemval);
 									}
-									else if (!lstrcmpi(xi.getName(itemval), _T("description"))) {
+									else if (!lstrcmpi(xi.getName(itemval), _T("description")) || !lstrcmpi(xi.getName(itemval), _T("encoded"))) {
 										TCHAR *string = mir_tstrdup(xi.getText(itemval));
 										ClearText(string);
 										descr = mir_tstrdup(string);

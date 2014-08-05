@@ -210,7 +210,7 @@ time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType)
 		TCHAR weekday[4], monthstr[4], timezonesign[2];
 		INT day, month, year, hour, min, sec, timezoneh, timezonem;
 		if (_tcsstr(p, _T(","))) {
-			_stscanf( p, _T("%3s, %d %3s %d %d:%d:%d %1s%02d%02d"), &weekday, &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			_stscanf(p, _T("%3s, %d %3s %d %d:%d:%d %1s%02d%02d"), &weekday, &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!lstrcmpi(monthstr, _T("Jan")))
 				month = 1;
 			if (!lstrcmpi(monthstr, _T("Feb")))
@@ -244,9 +244,13 @@ time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType)
 			else
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
 		}
+		else if (_tcsstr(p, _T("T"))) {
+			_stscanf(p, _T("%d-%d-%dT%d:%d:%d"), &year, &month, &day, &hour, &min, &sec);
+			mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+		}
 		else
 		{
-			_stscanf( p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day,  &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			_stscanf(p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day,  &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!lstrcmp(timezonesign, _T("+")))
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
 			else if (!lstrcmp(timezonesign, _T("-")))
