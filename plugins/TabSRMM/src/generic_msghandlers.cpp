@@ -129,7 +129,7 @@ void TSAPI DM_InitTip(TWindowData *dat)
 
 	ZeroMemory(&dat->ti, sizeof(dat->ti));
 	dat->ti.cbSize = sizeof(dat->ti);
-	dat->ti.lpszText = PluginConfig.m_szNoStatus;
+	dat->ti.lpszText = TranslateT("No status message");
 	dat->ti.hinst = g_hInst;
 	dat->ti.hwnd = dat->hwnd;
 	dat->ti.uFlags = TTF_TRACK | TTF_IDISHWND | TTF_TRANSPARENT;

@@ -125,7 +125,6 @@ public:
    int         m_IdleDetect;
    int         m_smcxicon, m_smcyicon;
    int         m_PasteAndSend;
-   TCHAR      *m_szNoStatus;
    COLORREF    crIncoming, crOutgoing, crOldIncoming, crOldOutgoing, crStatus;
    BOOL        bUnicodeBuild;
    HFONT       hFontCaption;

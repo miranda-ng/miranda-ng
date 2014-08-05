@@ -195,7 +195,6 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_smcxicon = 16;
 	m_smcyicon = 16;
 	m_PasteAndSend = M.GetByte("pasteandsend", 1);
-	m_szNoStatus = TranslateT("No status message");
 	m_LangPackCP = ServiceExists(MS_LANGPACK_GETCODEPAGE) ? CallService(MS_LANGPACK_GETCODEPAGE, 0, 0) : CP_ACP;
 	m_visualMessageSizeIndicator = M.GetByte("msgsizebar", 0);
 	m_autoSplit = M.GetByte("autosplit", 0);
