@@ -501,9 +501,9 @@ x100 мс
 Статус, якщо немає статусного повідомлення
 [Show listening to if there is no status message]
 "Слухаю", якщо немає статусного повідомлення
-[XStatus has priority]
+[xStatus has priority]
 Пріоритет хСтатусу
-[Use 'XStatus: XMessage']
+[Use 'xStatus: xMessage']
 хСтатус: хПовідомлення
 [(Variables will be replaced)]
 (Змінні замінюються)

@@ -21,15 +21,15 @@
 Інше
 [You also have to enable it per protocol in the main menu]
 Налаштування для кожного протоколу знаходиться в головному меню
-[XStatus]
+[xStatus]
 хСтатус
-[For protocols that don't support listening to but support XStatus:]
+[For protocols that don't support listening to but support xStatus:]
 Для протоколів без підтримки ListeningTo але з хСтатусами:
-[Set XStatus to Music and show listening info]
+[Set xStatus to Music and show listening info]
 Встановити хСтатус "Музика" і показувати інформацію про музику
-[If other XStatus is not set, set XStatus to Music and show listening info]
+[If other xStatus is not set, set xStatus to Music and show listening info]
 Якщо є хСтатус, але він не "Музика", то виконати попередній пункт
-[If XStatus is Music, show listening info]
+[If xStatus is Music, show listening info]
 Якщо хСтатус "Музика", то показувати інформацію про музику
 [Do nothing]
 Нічого не робити

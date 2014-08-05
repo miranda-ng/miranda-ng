@@ -1603,7 +1603,7 @@ ID користувача
 хСтатус
 [Greeting card:]
 Листівка:
-[ICQ XStatus]
+[ICQ xStatus]
 хСтатус ICQ
 [ICQ Warning]
 Попередження ICQ

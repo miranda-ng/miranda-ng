@@ -319,7 +319,7 @@
 Спливаючі вікна
 [%s connection]
 Підключення %s
-[Mail.ru Xstatus]
+[Mail.ru xStatus]
 Mail.ru хСтатус
 [Mail.ru extra info]
 Mail.ru додатково

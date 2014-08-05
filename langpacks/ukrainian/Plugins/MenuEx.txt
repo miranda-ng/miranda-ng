@@ -53,9 +53,9 @@
 Ховати при "Ignore all"
 [Status message]
 Повідомлення статусу
-[XStatus title]
+[xStatus title]
 Заголовок хСтатусу
-[XStatus message]
+[xStatus message]
 Повідомлення хСтатусу
 [Listening to]
 Слухаю

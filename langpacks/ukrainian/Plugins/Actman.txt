@@ -235,7 +235,7 @@
 Любов
 [Sets owner current custom status]
 Встановлює хСтатус
-[Display XStatus detail]
+[Display xStatus detail]
 Показує докладний хСтатус
 [Show All Users]
 Показує всіх користувачів
