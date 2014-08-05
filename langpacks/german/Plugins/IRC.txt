@@ -321,15 +321,15 @@ Fertig: %u Channels
 [(probably truncated by server)]
 (wahrscheinlich vom Server unterbrochen)
 [%ud, %uh, %um, %us]
-
+%uT, %uS, %uM, %uS
 [%uh, %um, %us]
-
+%uS, %uM, %uS
 [%um, %us]
-
+%uM, %uS
 [%us]
-
+%uS
 [online since %s, idle %s]
-Online seit %s, idle %s
+Online seit %s, untätig %s
 [Change nickname]
 Nickname ändern
 [IRC error]

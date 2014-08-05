@@ -85,7 +85,7 @@ Timeout
 [Sec]
 Sek.
 [For "Restart" popup setting is always infinity]
-
+Für "Neustart" ist Timeout immer unendlich
 [Boxes]
 Fenster
 [Popups]
@@ -133,9 +133,9 @@ Wird gelöscht!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualisierung abgeschlossen. Klicken Sie Ja um Miranda neu zu starten oder Nein um einen Neustart nach dem Beenden zu machen.
 [Core components]
-
+Kernkomponenten
 [Core]
-
+Kern
 [<< Details]
 << Details
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]

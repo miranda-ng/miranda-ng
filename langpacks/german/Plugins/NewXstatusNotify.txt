@@ -33,9 +33,9 @@ Am Telefon
 [Always when changing from offline]
 Immer, wenn er vorher offline war
 [Notify when contact changes]
-
+Benachrichtigen wenn Kontakt Folgendes ändert
 [Extra status]
-Extra Status
+Zusatzstatus
 [Status message]
 Statusnachricht
 [Plugin activation]
@@ -51,11 +51,11 @@ Individuelle Klänge verwenden
 [Blink icon in the system tray]
 Icon blinkt im Systemtray
 [Also when extra status or status message changes]
-
+Auch wenn sich Zusatzstatus oder Statusnachricht ändert
 [Use status icon]
 Statusicon verwenden
 [Log to file]
-In Datei speichern
+In Datei aufzeichnen
 [Open]
 Öffnen
 [Change]
@@ -77,17 +77,17 @@ Klänge
 [Popups]
 Popups
 [Extra status notify]
-Extrastatusbenachrichtigung
+Zusatzstatusbenachrichtigung
 [Extra status logging]
-Extrastatusaufzeichnung
+Zusatzstatusaufzeichnunung
 [Disable all]
 Alle deaktivieren
 [Enable all]
 Alle aktivieren
 [Status message notify]
-
+Statusnachrichtenbenachrichtigung
 [Status message logging]
-
+Statusnachrichtenaufzeichnung
 [Popups when status changes to:]
 Popup, wenn Status ändert in:
 [Background]
@@ -135,7 +135,7 @@ Benachrichtigung
 [Show Popups when I connect]
 Popups beim Verbinden
 [Disable for extra status 'Music']
-Für den Extra Status 'Musik' deaktivieren
+Für den Zusatzstatus 'Musik' deaktivieren
 [Truncate message length to:]
 Länge der Nachricht kürzen auf:
 [characters]
@@ -143,15 +143,15 @@ Zeichen
 [Templates]
 Vorlagen
 [Notify when contact changes extra status]
-
+Benachrichtigen wenn ein Kontakt seinen Zusatzstatus ändert
 [Template:]
 Vorlage:
 [Notify when contact removes extra status]
-
+Benachrichtigen wenn ein Kontakt seinen Zusatzstatus entfernt
 [Notify when contact changes extra status message]
-
+Benachrichtigen wenn ein Kontakt seine Zusatzstatusnachricht ändert
 [Notify when contact removes extra status message]
-
+Benachrichtigen wenn ein Kontakt seine Zusatzstatusnachricht entfernt
 [Variables]
 Variablen
 [Reset]
@@ -167,25 +167,25 @@ Deaktiviere nur, falls ich den globalen Status ändere
 [Cancel]
 Abbrechen
 [Log extra status changes]
-
+Zusatzstatusänderungen aufzeichnen
 [Log extra status changes to file]
-
+Zusatzstatusänderungen in Datei aufzeichnen
 [Log extra status changes to history]
-
+Zusatzstatusänderungen im Verlauf aufzeichnen
 [Only when message window is open]
 Nur wenn Nachrichtenfenster offen ist
 [Remove events from history when closing message window]
-
+Ereignisse beim Schließen des Nachrichtenfensters aus dem Verlauf entfernen
 [Log when contact changes extra status]
-
+Aufzeichnen wenn ein Kontakt seinen Zusatzstatus ändert
 [Log when contact removes extra status]
-
+Aufzeichnen wenn ein Kontakt seinen Zusatzstatus entfernt
 [Log when contact changes extra status message]
-
+Aufzeichnen wenn ein Kontakt seine Zusatzstatusnachricht ändert
 [Log when contact removes extra status message]
-
+Aufzeichnen wenn ein Kontakt seine Zusatzstatusnachricht entfernt
 [Log extra status when opening message window]
-
+Zusatzstatus beim Öffnen des Nachrichtenfensters aufzeichnen
 [General]
 Allgemein
 [Accounts]
@@ -193,29 +193,29 @@ Konten
 [Enable/Disable accounts which you don't wish to be notified for:]
 Konten (de-)aktivieren, für die Sie nicht benachrichtigt werden wollen:
 [Notify when contact changes status message]
-
+Benachrichtigen wenn ein Kontakt seine Statusnachricht ändert.
 [Notify when contact removes status message]
-
+Benachrichtigen wenn ein Kontakt seine Statusnachricht entfernt.
 [Log status changes]
-Statuswechsel aufzeichnen
+Statusänderungen aufzeichnen
 [Log status changes to file]
-
+Statusänderungen in Datei aufzeichnen
 [Log status changes to history]
-Statusänderungen im Verlauf speichern
+Statusänderungen im Verlauf aufzeichnen
 [Log previous status too]
-Vorherigen Status ebenfalls speichern
+Vorherigen Status ebenfalls aufzeichnen
 [Log status message changes]
-Statusnachrichtenänderungen speichern
+Statusnachrichtenänderungen aufzeichnen
 [Log status message changes to file]
-
+Statusnachrichtenänderungen in Datei aufzeichnen
 [Log status message changes to history]
-
+Statusnachrichtenänderungen im Verlauf aufzeichnen
 [Log when contact changes status message]
-
+Aufzeichnen wenn ein Kontakt seine Statusnachricht ändert
 [Log when contact removes status message]
-
+Aufzeichnen wenn ein Kontakt seine Statusnachricht entfernt
 [Log status message when opening message window]
-
+Statusnachricht beim Öffnen des Nachrichtenfensters aufzeichnen
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Klangdateien
@@ -226,7 +226,7 @@ Wave-Dateien
 [Status]
 Status
 [Sound file]
-
+Klangdatei
 [** All contacts **]
 ** Alle Kontakte **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
@@ -242,7 +242,7 @@ Kontakt
 [%s is now %s]
 %s ist nun %s
 [%s, %s. %s changed status to %s (was %s)\r\n]
-
+%s, %s. %s ändert Status zu %s (war %s)\r\n
 [connecting]
 verbinde
 [aborting]
@@ -250,7 +250,7 @@ breche ab
 [playing]
 spiele
 [%s changed status message to %s]
-
+%s ändert Statusnachricht zu %s
 [(M) is back online!]
 Er ist wieder online!
 [(F) is back online!]
@@ -334,17 +334,17 @@ Kontakt: Am Telefon
 [User: from offline (has priority!)]
 Kontakt: war offline (hat Priorität!)
 [Status message removed]
-
+Statusnachricht wurde entfernt
 [Status message changed]
-
+Statusnachricht wurde geändert
 [Extra status removed]
-Extra-Status wurde entfernt
+Zusatzstatus wurde entfernt
 [Extra status message changed]
-Extra-Statusnachricht wurde geändert
+Zusatzstatusnachricht wurde geändert
 [Extra status changed]
-Extra-Status wurde geändert
+Zusatzstatus wurde geändert
 [Extra status message removed]
-
+Zusatzstatusnachricht wurde entfernt
 [Enable status notification]
 Statusbenachrichtigungen aktivieren
 [Disable status notification]
@@ -356,7 +356,7 @@ Benachrichtigung deaktiviert
 [New Status Notify]
 New Status Notify
 [Toggle status notification]
-Wechsel Statusbenachrichtigungen
+Statusbenachrichtigungen (de)aktivieren
 [Status change]
 Statusänderung
 ;file \plugins\NewXstatusNotify\src\options.cpp
@@ -367,7 +367,7 @@ Verlauf
 [This is status message]
 Dies ist eine Statusnachricht
 [This is extra status]
-
+Das ist ein Zusatzstatus
 [Show available variables]
 Verfügbare Variablen anzeigen
 [Reset all templates to default]
@@ -379,7 +379,7 @@ Vorlagen zurücksetzen
 [Account]
 Konto
 [Status logging]
-
+Statusaufzeichnung
 [Filtering]
 Filtern
 ;file \plugins\NewXstatusNotify\src\popup.h
@@ -410,33 +410,33 @@ Aktivität
 [XStatus]
 XStatus
 [<no title>]
-
+<kein Titel>
 [%s changed %s]
-
+%s ändert %s
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]
-änderte %n in: %t
+ändert %n in: %t
 [removed %n]
 entfernte %n
 [changed %n message to: %m]
-änderte %n-Nachricht in: %m
+änderte %n-Nachricht zu: %m
 [removed %n message]
-
+entfernte %n-nachricht
 [changed status message to: %n]
-
+änderte Statusnachricht zu: %n
 [removed status message]
-
+entfernte Statusnachricht
 [changed %n @ %t: %m]
-änderte %n @ %t: %m .
+änderte %n zu %t: %m .
 [changed %n message @ %m]
-änderte Nachricht für %n @ %m
+änderte %n-Nachricht zu %m
 [has %n @ %t: %m]
 hat %n @ %t: %m
 [changed status message @ %n]
-
+änderte Statusnachricht zu %n
 [is %s and has status message @ %n]
-
+ist %s und hat Statusnachricht @ %n
 [These variables are available:\r\n\r\n%n\textra status name (Xstatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-
+Folgende Variablen sind verfügbar:\r\n\r\n%N\tZusatzstatusname (XStatus, Stimmung, Aktivität)\r\n%T\tZusatzstatustitel\r\n%I\tZusatzstatustext\r\n%c\tselbstgewählter Nickname\r\n\\n\tZeilenumbruch\r\n\\t\tTabstop
 [These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
-
+Folgende Variablen sind verfügbar:\r\n\r\n%n\tneue Statusnachricht\r\n%o\talte Statusnachricht\r\n%c\tselbstgewählter Nickname\r\n%s\taktueller Status\r\n\\n\tZeilenumbruch\r\n\\t\tTabstop

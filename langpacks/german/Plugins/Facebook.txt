@@ -172,17 +172,17 @@ Freundschaftsanfrage wurde gesendet.
 [Error occurred when requesting friendship.]
 Fehler bei der Freundschaftsanfrage aufgetreten
 [Request for friendship was accepted.]
-
+Freundschaftsanfrage wurde angenommen.
 [Error occurred when accepting friendship request.]
-
+Fehler beim Annehmen der Freundschaftsanfrage.
 [Request for friendship was canceled.]
 Freundschaftsanfrage wurde zurückgezogen.
 [Error occurred when canceling friendship request.]
 Fehler beim Zurückziehen der Freundschaftsanfrage
 [Request for friendship was ignored.]
-
+Freundschaftsanfrage wurde ignoriert.
 [Error occurred when ignoring friendship request.]
-
+Fehler beim Ignorieren der Freundschaftsanfrage.
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Standard
@@ -298,7 +298,7 @@ Freundschaftsanfrage
 [Approve friendship]
 Freundschaft genehmigen
 [Deny friendship request]
-
+Freundschaftsanfrage ablehnen
 [Services...]
 Dienste...
 [Refresh Buddy List]

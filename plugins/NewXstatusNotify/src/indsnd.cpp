@@ -146,7 +146,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						lvi.iSubItem = 0;
 						lvi.iImage = Index(i);
 						lvi.lParam = (LPARAM)i;
-						lvi.pszText = StatusList[Index(i)].lpzSkinSoundDesc;
+						lvi.pszText = TranslateTS(StatusList[Index(i)].lpzSkinSoundDesc);
 						lvi.iItem = ListView_InsertItem(hList, &lvi);
 
 						if (!db_get_ts(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
@@ -167,7 +167,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					lvi.iSubItem = 0;
 					lvi.iImage = Index(ID_STATUS_MAX) + 1; // additional icon
 					lvi.lParam = (LPARAM)i;
-					lvi.pszText = StatusListEx[i].lpzSkinSoundDesc;
+					lvi.pszText = TranslateTS(StatusListEx[i].lpzSkinSoundDesc);
 					lvi.iItem = ListView_InsertItem(hList, &lvi);
 
 					if (!db_get_ts(hContact, MODULE, StatusList[i].lpzSkinSoundName, &dbv)) {

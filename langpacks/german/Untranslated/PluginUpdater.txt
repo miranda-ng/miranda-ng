@@ -1,3 +1,0 @@
-﻿[For "Restart" popup setting is always infinity]
-[Core components]
-[Core]
