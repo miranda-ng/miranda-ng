@@ -1009,7 +1009,7 @@ static void LoadSettings()
 	gWrapLen = db_get_b(NULL, "Console", "Wrap", DEFAULT_WRAPLEN);
 	if ( gWrapLen < MIN_WRAPLEN ) gWrapLen = DEFAULT_WRAPLEN;
 
-	gLimit = db_get_dw(NULL, "Console", "Limit", MAX_LIMIT);
+	gLimit = db_get_dw(NULL, "Console", "Limit", MIN_LIMIT);
 	if (gLimit > MAX_LIMIT) gLimit = MAX_LIMIT;
 	if (gLimit < MIN_LIMIT) gLimit = MIN_LIMIT;
 }
