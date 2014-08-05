@@ -97,7 +97,7 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 	if(Number != POPUP_TYPE_MSG) {
 		char setting[100];
 		mir_snprintf(setting, SIZEOF(setting), "Popups%d", Number);
-		if(!db_get_b(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED))
+		if(!db_get_b(NULL, MODNAME, setting, DEFAULT_POPUP_ENABLED))
 			return;
 	}
 
