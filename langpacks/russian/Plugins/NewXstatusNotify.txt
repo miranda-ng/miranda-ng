@@ -373,10 +373,10 @@ xСтатус изменен
 Сбросить шаблоны
 [Account]
 Учётная запись
+[XStatus logging]
+Журналирование хСтатусов
 [Filtering]
 Фильтрация
-[Message log]
-Журнал
 [(was %s)]
 (был(а) %s)
 [Open message window]
@@ -399,7 +399,7 @@ xСтатус изменен
 Настроение
 [Activity]
 Занятие
-[Xstatus]
+[XStatus]
 хСтатус
 [<no title>]
 <без заголовка>

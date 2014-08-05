@@ -1,1 +1,1 @@
-﻿[Logging]
+﻿[Satatus logging]

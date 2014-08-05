@@ -1232,19 +1232,19 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcGeneralOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Logging");
+	odp.pszTab = LPGEN("Satatus logging");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOG);
 	odp.pfnDlgProc = DlgProcLogOpts;
+	Options_AddPage(wParam, &odp);
+	
+	odp.pszTab = LPGEN("XStatus logging");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XLOG);
+	odp.pfnDlgProc = DlgProcXLogOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTab = LPGEN("Filtering");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILTERS);
 	odp.pfnDlgProc = DlgProcFiltering;
-	Options_AddPage(wParam, &odp);
-
-	odp.pszTab = LPGEN("Message log");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XLOG);
-	odp.pfnDlgProc = DlgProcXLogOpts;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {

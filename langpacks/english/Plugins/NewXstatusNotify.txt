@@ -194,9 +194,9 @@
 [Do you want to reset all templates to default?]
 [Reset templates]
 [Account]
-[Logging]
+[Satatus logging]
+[XStatus logging]
 [Filtering]
-[Message log]
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 [Open message window]
@@ -211,7 +211,7 @@
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 [Activity]
-[Xstatus]
+[XStatus]
 [<no title>]
 [%s changed %s]
 ;file \plugins\NewXstatusNotify\src\xstatus.h
