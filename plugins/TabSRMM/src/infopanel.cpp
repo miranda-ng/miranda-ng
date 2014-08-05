@@ -1002,6 +1002,10 @@ void CInfoPanel::hideTip(const HWND hwndNew)
 LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
+	case WM_NOTIFY:
+		ProcessAvatarChange(hwnd, lParam);
+		break;
+			
 	case WM_ERASEBKGND:
 		/*
 		 * parent window of the infopanel ACC control

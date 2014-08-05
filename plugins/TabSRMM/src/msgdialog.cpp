@@ -827,8 +827,13 @@ static LRESULT CALLBACK AvatarSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	switch (msg) {
 	case WM_ERASEBKGND:
 		return TRUE;
+	
 	case WM_UPDATEUISTATE:
 		return TRUE;
+
+	case WM_NOTIFY:
+		ProcessAvatarChange(hwnd, lParam);
+		break;
 	}
 	return mir_callNextSubclass(hwnd, AvatarSubclassProc, msg, wParam, lParam);
 }

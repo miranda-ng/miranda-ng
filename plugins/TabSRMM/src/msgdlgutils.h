@@ -39,6 +39,7 @@ char*  TSAPI GetCurrentMetaContactProto(TWindowData *dat);
 int    TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID);
 int    TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId);
 bool   TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat);
+void   TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam);
 void   TSAPI UpdateStatusBar(const TWindowData *dat);
 int    TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact);
 TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQuotes);
