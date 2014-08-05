@@ -21,16 +21,6 @@ Boston, MA 02111-1307, USA.
 
 PlugOptions opts;
 
-#if MIRANDA_VER < 0x0A00
-	#define MIID_UPDATER	{0x4a47b19b, 0xde5a, 0x4436, { 0xab, 0x4b, 0xe1, 0xf3, 0xa0, 0x22, 0x5d, 0xe7}}
-
-	PLUGINLINK *pluginLink;
-	MM_INTERFACE mmi;
-	LIST_INTERFACE li;
-	MD5_INTERFACE md5i;
-	UTF8_INTERFACE utfi;
-#endif
-
 HINSTANCE hInst = NULL;
 TCHAR tszRoot[MAX_PATH] = {0}, tszTempPath[MAX_PATH];
 int hLangpack;
@@ -59,16 +49,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-#if MIRANDA_VER < 0x0A00
-static const MUUID interfaces[] = {MIID_UPDATER, MIID_LAST};
-
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-#endif
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	g_mirandaVersion = mirandaVersion;
 	return &pluginInfoEx;

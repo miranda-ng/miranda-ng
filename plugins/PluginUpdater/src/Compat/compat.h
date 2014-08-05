@@ -1,3 +1,5 @@
+#define MIID_UPDATER	{0x4a47b19b, 0xde5a, 0x4436, { 0xab, 0x4b, 0xe1, 0xf3, 0xa0, 0x22, 0x5d, 0xe7}}
+
 #define db_free(A) DBFreeVariant(A)
 
 #define db_get_b(A,B,C,D)  DBGetContactSettingByte(A,B,C,D)
@@ -13,6 +15,9 @@
 #define db_get_sa				DBGetStringA
 #define db_get_wsa			DBGetStringW
 #define db_get_tsa			DBGetStringT
+
+#define PUAddPopupT PUAddPopUpT
+#define PUDeletePopup PUDeletePopUp
 
 template<class T> class mir_ptr
 {
@@ -78,7 +83,7 @@ __forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 
 char *bin2hex(const void *pData, size_t len, char *dest);
 char *rtrim(char *str);
-int CreatePathToFileT(const TCHAR *ptszPath);
+void CreatePathToFileT(TCHAR *ptszPath);
 int wildcmpit(const WCHAR *name, const WCHAR *mask);
 
 #define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1) *sizeof(TCHAR)), A)
@@ -117,10 +122,6 @@ __forceinline INT_PTR Hotkey_Register(HOTKEYDESC *hk)
 
 __forceinline INT_PTR CreateDirectoryTreeT(const TCHAR *ptszPath)
 {	return CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)ptszPath);
-}
-
-int __forceinline PUDeletePopup(HWND hWndPopup)
-{	return (int)SendMessage(hWndPopup, UM_DESTROYPOPUP, 0, 0);
 }
 
 #define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))

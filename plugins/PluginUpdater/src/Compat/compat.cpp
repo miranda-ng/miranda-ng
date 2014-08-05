@@ -19,6 +19,21 @@ Boston, MA 02111-1307, USA.
   This file contains some compatibility functions for Miranda IM
 */
 
+#include "Common.h"
+
+PLUGINLINK *pluginLink;
+MM_INTERFACE mmi;
+LIST_INTERFACE li;
+MD5_INTERFACE md5i;
+UTF8_INTERFACE utfi;
+
+static const MUUID interfaces[] = {MIID_UPDATER, MIID_LAST};
+
+extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
+{
+	return interfaces;
+}
+
 static char szHexTable[] = "0123456789abcdef";
 
 char *bin2hex(const void *pData, size_t len, char *dest)
