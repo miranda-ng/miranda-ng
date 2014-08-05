@@ -78,7 +78,7 @@ xСтатус
 [Extra status notify]
 xСтатус
 [Extra status logging]
-Запись xСтатусов
+Журналирование xСтатусов
 [Disable all]
 Отключить все
 [Enable all]
@@ -373,10 +373,8 @@ xСтатус изменен
 Сбросить шаблоны
 [Account]
 Учётная запись
-[Satatus logging]
+[Status logging]
 Журналирование статусов
-[XStatus logging]
-Журналирование хСтатусов
 [Filtering]
 Фильтрация
 [(was %s)]

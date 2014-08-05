@@ -194,8 +194,7 @@
 [Do you want to reset all templates to default?]
 [Reset templates]
 [Account]
-[Satatus logging]
-[XStatus logging]
+[Status logging]
 [Filtering]
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
