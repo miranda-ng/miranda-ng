@@ -99,8 +99,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.pszPopupName = LPGEN("Database");
 
 	for (int i = 0; i < SIZEOF(iconList); i++) {
-		if (i == 2 && !ServiceExists(MS_DB_CHECKPROFILE))
-			continue;
 		mi.pszName = iconList[i].szDescr;
 		mi.pszService = iconList[i].szName;
 		mi.icolibItem = iconList[i].hIcolib;
