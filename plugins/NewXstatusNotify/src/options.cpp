@@ -1232,7 +1232,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcGeneralOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Satatus logging");
+	odp.pszTab = LPGEN("Status logging");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LOG);
 	odp.pfnDlgProc = DlgProcLogOpts;
 	Options_AddPage(wParam, &odp);
