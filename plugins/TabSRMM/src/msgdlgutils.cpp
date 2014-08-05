@@ -540,7 +540,7 @@ void TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam)
 		if (!dat)
 			return;
 
-		dat->ace = Utils::loadAvatarFromAVS(dat->hContact);
+		dat->ace = Utils::loadAvatarFromAVS(dat->cache->getActiveContact());
 
 		GetAvatarVisibility(hwndDlg, dat);
 		ShowPicture(dat, TRUE);
