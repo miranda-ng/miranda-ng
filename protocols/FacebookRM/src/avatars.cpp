@@ -38,7 +38,7 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *
 		if (!getTString(ai.hContact, FACEBOOK_KEY_ID, &dbv)) {
 			std::string ext = new_url.substr(new_url.rfind('.'), 4);
 			std::tstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());
-			db_free(&dbv);			
+			db_free(&dbv);
 
 			_tcsncpy_s(ai.filename, filename.c_str(), _TRUNCATE);
 			ai.format = ProtoGetAvatarFormat(ai.filename);
@@ -53,35 +53,39 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, std::string image_url)
 	// Facebook contacts always have some avatar - keep avatar in database even if we have loaded empty one (e.g. for 'On Mobile' contacts)
 	if (image_url.empty())
 		return;
-	
+
+	// First remove all eventual parameters
+	std::tstring::size_type pos = image_url.find("?");
+	if (pos != std::tstring::npos)
+		image_url = image_url.substr(0, pos);
+
+	utils::text::replace_first(&image_url, "/v/", "/");
+
 	// We've got url to avatar of default size 32x32px, let's change it to bigger one
-	if (image_url.find("oh=") == std::tstring::npos) {
-		// We can change avatar size only when there are no parameters (hashes) in URL
-		if (getBool(FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS)) {
-			// Remove cropping and use bigger size
-			std::tstring::size_type pos = image_url.find("/t1.0-1/");
-			if (pos != std::tstring::npos) {
-				pos += 8;
+	if (getBool(FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS)) {
+		// Remove cropping and use bigger size
+		pos = image_url.find("/t1.0-1/");
+		if (pos != std::tstring::npos) {
+			pos += 8;
 
-				std::tstring::size_type pos2 = image_url.find("/", pos);
-				if (pos2 != std::tstring::npos && image_url.find("/", pos2 + 1) != std::tstring::npos)
-					pos2 = image_url.find("/", pos2 + 1);
+			std::tstring::size_type pos2 = image_url.find("/", pos);
+			if (pos2 != std::tstring::npos && image_url.find("/", pos2 + 1) != std::tstring::npos)
+				pos2 = image_url.find("/", pos2 + 1);
 
-				// TODO: crop it somehow to square image
+			// TODO: crop it somehow to square image
 
-				if (pos2 != std::tstring::npos)
-					image_url.replace(pos, pos2 - pos, "p180x180");
+			if (pos2 != std::tstring::npos)
+				image_url.replace(pos, pos2 - pos, "p180x180");
 
-				// Allow big images
-				if ((pos = image_url.rfind("_s.")) != std::tstring::npos || (pos = image_url.rfind("_t.")) != std::tstring::npos) {
-					image_url = image_url.replace(pos, 3, "_q.");
-				}
+			// Allow big images
+			if ((pos = image_url.rfind("_s.")) != std::tstring::npos || (pos = image_url.rfind("_t.")) != std::tstring::npos) {
+				image_url = image_url.replace(pos, 3, "_q.");
 			}
-		} else {
-			// Try to get slighly bigger (but still square) image
-			utils::text::replace_first(&image_url, ".32.32/", ".50.50/");
-			utils::text::replace_first(&image_url, "32x32/", "50x50/");
 		}
+	} else {
+		// Try to get slighly bigger (but still square) image
+		utils::text::replace_first(&image_url, ".32.32/", ".50.50/");
+		utils::text::replace_first(&image_url, "32x32/", "50x50/");
 	}
 
 	// Check for avatar change
