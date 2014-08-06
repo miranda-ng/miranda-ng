@@ -7,7 +7,7 @@ wchar_t *CSkypeProto::LogoutReasons[] =
 	LPGENW("HTTPS proxy authentication failed")							/* HTTPS_PROXY_AUTH_FAILED		*/,
 	LPGENW("SOCKS proxy authentication failed")							/* SOCKS_PROXY_AUTH_FAILED		*/,
 	LPGENW("P2P connection failed")										/* P2P_CONNECT_FAILED			*/,
-	LPGENW("SERVER_CONNECT_FAILED")										/* SERVER_CONNECT_FAILED		*/,
+	LPGENW("Connection to server failed. SkypeKit has been deprecated by Microsoft.")	/* SERVER_CONNECT_FAILED		*/,
 	LPGENW("Server is overloaded")										/* SERVER_OVERLOADED			*/,
 	LPGENW("SkypeKit database already in use")							/* DB_IN_USE					*/,
 	LPGENW("Invalid Skype name")										/* INVALID_SKYPENAME			*/,
