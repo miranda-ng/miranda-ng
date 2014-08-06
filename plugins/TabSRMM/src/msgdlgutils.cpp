@@ -1526,30 +1526,13 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		if (hbmAvatar == NULL)
 			return TRUE;
 
-		int     iMaxHeight = 0, top, cx, cy;
-		RECT    rcClient, rcFrame;
-		bool    bPanelPic = dis->hwndItem == hwndDlg;
-		DWORD   aceFlags = 0;
-		bool    bDrawOwnAvatar = dat->Panel->isActive() && dat->pContainer->avatarMode != 3;
+		int  iMaxHeight = 0, top, cx, cy;
+		RECT rcClient, rcFrame;
+		bool bPanelPic = dis->hwndItem == hwndDlg;
+		bool bDrawOwnAvatar = dat->Panel->isActive() && dat->pContainer->avatarMode != 3;
 
-		BITMAP bminfo;
-		if (bPanelPic) {
-			if (!dat->bShowInfoAvatar)
-				return TRUE;
-
-			aceFlags = dat->ace ? dat->ace->dwFlags : 0;
-			GetObject(hbmAvatar, sizeof(bminfo), &bminfo);
-		}
-		else {
-			if (!bDrawOwnAvatar) {		
-				if (dat->ace)
-					aceFlags = dat->ace->dwFlags;
-			}
-			else if (dat->ownAce)
-				aceFlags = dat->ownAce->dwFlags;
-
-			GetObject(bDrawOwnAvatar ? dat->hOwnPic : hbmAvatar, sizeof(bminfo), &bminfo);
-		}
+		if (bPanelPic && !dat->bShowInfoAvatar)
+			return TRUE;
 
 		RECT rc;
 		GetClientRect(hwndDlg, &rc);
@@ -1587,17 +1570,15 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				FillRect(hdcDraw, &rcFrame, br);
 				DeleteObject(br);
 			}
-			else {
-				if (bAero && CSkin::m_pCurrentAeroEffect) {
-					COLORREF clr = PluginConfig.m_tbBackgroundHigh ? PluginConfig.m_tbBackgroundHigh :
-						(CSkin::m_pCurrentAeroEffect ? CSkin::m_pCurrentAeroEffect->m_clrToolbar : 0xf0f0f0);
+			else if (bAero && CSkin::m_pCurrentAeroEffect) {
+				COLORREF clr = PluginConfig.m_tbBackgroundHigh ? PluginConfig.m_tbBackgroundHigh :
+					(CSkin::m_pCurrentAeroEffect ? CSkin::m_pCurrentAeroEffect->m_clrToolbar : 0xf0f0f0);
 
-					HBRUSH br = CreateSolidBrush(clr);
-					FillRect(hdcDraw, &rcFrame, br);
-					DeleteObject(br);
-				}
-				else FillRect(hdcDraw, &rcFrame, GetSysColorBrush(COLOR_3DFACE));
+				HBRUSH br = CreateSolidBrush(clr);
+				FillRect(hdcDraw, &rcFrame, br);
+				DeleteObject(br);
 			}
+			else FillRect(hdcDraw, &rcFrame, GetSysColorBrush(COLOR_3DFACE));
 
 			HPEN hPenBorder = CreatePen(PS_SOLID, 1, CSkin::m_avatarBorderClr);
 			HPEN hPenOld = (HPEN)SelectObject(hdcDraw, hPenBorder);
@@ -1608,62 +1589,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				int iRad = PluginConfig.m_WinVerMajor >= 5 ? 4 : 6;
 				clipRgn = CreateRoundRectRgn(rcEdge.left, rcEdge.top, rcEdge.right + 1, rcEdge.bottom + 1, iRad, iRad);
 				SelectClipRgn(hdcDraw, clipRgn);
-			}
 
-			SelectObject(hdcDraw, hPenOld);
-			DeleteObject(hPenBorder);
-		}
-
-		if (((bDrawOwnAvatar ? dat->hOwnPic : hbmAvatar) && dat->bShowAvatar) || bPanelPic) {
-			if (bPanelPic) {
-				bool bBorder = (CSkin::m_bAvatarBorderType ? true : false);
-
-				int border_off = bBorder ? 1 : 0;
-				int iMaxHeight = dat->iPanelAvatarY - (bBorder ? 2 : 0);
-				int iMaxWidth = dat->iPanelAvatarX - (bBorder ? 2 : 0);
-
-				rcFrame.left = rcFrame.top = 0;
-				rcFrame.right = (rcClient.right - rcClient.left);
-				rcFrame.bottom = (rcClient.bottom - rcClient.top);
-
-				rcFrame.left = rcFrame.right - (LONG)dat->iPanelAvatarX;
-				rcFrame.bottom = (LONG)dat->iPanelAvatarY;
-
-				int height_off = (cy - iMaxHeight - (bBorder ? 2 : 0)) / 2;
-				rcFrame.top += height_off;
-				rcFrame.bottom += height_off;
-
-				SendMessage(dat->hwndPanelPic, AVATAR_SETAEROCOMPATDRAWING, 0, bAero ? TRUE : FALSE);
-				SetWindowPos(dat->hwndPanelPic, HWND_TOP, rcFrame.left + border_off, rcFrame.top + border_off,
-					iMaxWidth, iMaxHeight, SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOSENDCHANGING);
-			}
-			else {
-				HDC hdcMem = CreateCompatibleDC(dis->hDC);
-				HBITMAP hbmMem = (HBITMAP)SelectObject(hdcMem, (bDrawOwnAvatar) ? dat->hOwnPic : hbmAvatar);
-				LONG xy_off = 1; //CSkin::m_bAvatarBorderType ? 1 : 0;
-				LONG width_off = 0; //= CSkin::m_bAvatarBorderType ? 0 : 2;
-
-				SetStretchBltMode(hdcDraw, HALFTONE);
-				if (aceFlags & AVS_PREMULTIPLIED) {
-					HDC hdcTemp = CreateCompatibleDC(hdcDraw);
-					HBITMAP hbmTemp = CreateCompatibleBitmap(hdcMem, bminfo.bmWidth, bminfo.bmHeight);
-					HBITMAP hbmOld = (HBITMAP)SelectObject(hdcTemp, hbmTemp);
-
-					SetStretchBltMode(hdcTemp, HALFTONE);
-					StretchBlt(hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, hdcDraw, xy_off, top + xy_off, (int)dat->iPanelAvatarX + width_off, iMaxHeight + width_off, SRCCOPY);
-					GdiAlphaBlend(hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, hdcMem, 0, 0, bminfo.bmWidth, bminfo.bmHeight, CSkin::m_default_bf);
-					StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dat->iPanelAvatarX + width_off, iMaxHeight + width_off, hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
-					SelectObject(hdcTemp, hbmOld);
-					DeleteObject(hbmTemp);
-					DeleteDC(hdcTemp);
-				}
-				else StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dat->iPanelAvatarX + width_off, iMaxHeight + width_off, hdcMem, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
-
-				SelectObject(hdcMem, hbmMem);
-				DeleteObject(hbmMem);
-				DeleteDC(hdcMem);
-			}
-			if (clipRgn) {
 				HBRUSH hbr = CreateSolidBrush(CSkin::m_avatarBorderClr);
 				if (bPanelPic)
 					FrameRgn(dis->hDC, clipRgn, hbr, 1, 1);
@@ -1672,7 +1598,34 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				DeleteObject(hbr);
 				DeleteObject(clipRgn);
 			}
+
+			SelectObject(hdcDraw, hPenOld);
+			DeleteObject(hPenBorder);
 		}
+
+		if (bPanelPic) {
+			bool bBorder = (CSkin::m_bAvatarBorderType ? true : false);
+
+			int border_off = bBorder ? 1 : 0;
+			int iMaxHeight = dat->iPanelAvatarY - (bBorder ? 2 : 0);
+			int iMaxWidth = dat->iPanelAvatarX - (bBorder ? 2 : 0);
+
+			rcFrame.left = rcFrame.top = 0;
+			rcFrame.right = (rcClient.right - rcClient.left);
+			rcFrame.bottom = (rcClient.bottom - rcClient.top);
+
+			rcFrame.left = rcFrame.right - (LONG)dat->iPanelAvatarX;
+			rcFrame.bottom = (LONG)dat->iPanelAvatarY;
+
+			int height_off = (cy - iMaxHeight - (bBorder ? 2 : 0)) / 2;
+			rcFrame.top += height_off;
+			rcFrame.bottom += height_off;
+
+			SendMessage(dat->hwndPanelPic, AVATAR_SETAEROCOMPATDRAWING, 0, bAero ? TRUE : FALSE);
+			SetWindowPos(dat->hwndPanelPic, HWND_TOP, rcFrame.left + border_off, rcFrame.top + border_off,
+				iMaxWidth, iMaxHeight, SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOSENDCHANGING);
+		}
+
 		SelectObject(hdcDraw, hOldBrush);
 		if (!bPanelPic)
 			BitBlt(dis->hDC, 0, 0, cx, cy, hdcDraw, 0, 0, SRCCOPY);

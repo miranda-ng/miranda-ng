@@ -1639,16 +1639,15 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				hbm = (m_pContainer->avatarMode == 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
 				double dHeight = 0, dWidth = 0;
-				Utils::scaleAvatarHeightLimited(hbm, dWidth, dHeight, panelHeight);
-
-				LONG panelAvatarWidth = dat->iPanelAvatarX = (int)dWidth;
+				Utils::scaleAvatarHeightLimited(hbm, dWidth, dHeight, panelHeight-2);
+				dat->iPanelAvatarX = (int)dWidth;
 				dat->iPanelAvatarY = (int)dHeight;
 
 				rc.top = 1;
-				rc.left = cx - (panelAvatarWidth > 0 ? panelAvatarWidth : panelHeight);
-				rc.bottom = rc.top + (panelHeight - 3);
+				rc.left = cx - dat->iPanelAvatarX;
+				rc.bottom = panelHeight - (CSkin::m_bAvatarBorderType ? 2 : 0);
 				rc.right = cx;
-				rc.bottom--;
+				dat->rcPic = rc;
 
 				if (dat->bShowInfoAvatar) {
 					SetWindowPos(dat->hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, (rc.bottom - rc.top) + 1, 0);
@@ -1656,13 +1655,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 				else {
 					ShowWindow(dat->hwndPanelPicParent, SW_HIDE);
-					panelAvatarWidth = dat->iPanelAvatarX = dat->iPanelAvatarY = 0;
+					dat->iPanelAvatarX = dat->iPanelAvatarY = 0;
 				}
 
-				dat->rcPic = rc;
-
-				rc.right = cx - panelAvatarWidth;
-				rc.left = cx - panelAvatarWidth - dat->panelStatusCX;
+				rc.right = cx - dat->iPanelAvatarX;
+				rc.left = rc.right - dat->panelStatusCX;
 				rc.bottom = panelHeight - 3;
 				rc.top = rc.bottom - dat->ipFieldHeight;
 				dat->rcStatus = rc;
