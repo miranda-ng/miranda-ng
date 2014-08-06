@@ -365,11 +365,12 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
+	if (mwid == NULL || (mwid->cbSize != sizeof(MessageWindowInputData)) || (mwid->hContact == NULL) || (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH))
+		return 1;
+
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if (mwid == NULL || mwd == NULL) return 1;
-	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(SrmmWindowData)) return 1;
-	if (mwid->hContact == NULL) return 1;
-	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH) return 1;
+	if(mwd == NULL || (mwd->cbSize != sizeof(MessageWindowData)))
+		return 1;
 
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
