@@ -68,49 +68,45 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// service function. retrieves the message window data for a given hcontact or window
-// wParam == hContact of the window to find
-// lParam == window handle (set it to 0 if you want search for hcontact, otherwise it
-// is directly used as the handle for the target window
+//wparam = (MessageWindowInputData*)
+//lparam = (MessageWindowData*)
+//returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	MessageWindowOutputData *mwod = (MessageWindowOutputData*)lParam;
+	if (mwid == NULL || (mwid->cbSize != sizeof(MessageWindowInputData)) || (mwid->hContact == NULL) || (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)) 
+		return 1; 
 
-	if (mwid == NULL || mwod == NULL)
+	MessageWindowData *mwd = (MessageWindowData*)lParam;
+	if(mwd == NULL || (mwd->cbSize != sizeof(MessageWindowData)))
 		return 1;
-	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwod->cbSize != sizeof(MessageWindowOutputData))
-		return 1;
-	if (mwid->hContact == NULL)
-		return 1;
-	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
-		return 1;
+
 	HWND hwnd = M.FindWindow(mwid->hContact);
 	if (hwnd) {
-		mwod->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-		mwod->hwndWindow = hwnd;
-		mwod->local = GetParent(GetParent(hwnd));
+		mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+		mwd->hwndWindow = hwnd;
+		mwd->local = GetParent(GetParent(hwnd));
 		SendMessage(hwnd, DM_GETWINDOWSTATE, 0, 0);
-		mwod->uState = GetWindowLongPtr(hwnd, DWLP_MSGRESULT);
+		mwd->uState = GetWindowLongPtr(hwnd, DWLP_MSGRESULT);
 		return 0;
 	}
 	else
 	{
 		SESSION_INFO *si = SM_FindSessionByHCONTACT(mwid->hContact);
 		if (si != NULL && si->hWnd != 0) {
-			mwod->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-			mwod->hwndWindow = si->hWnd;
-			mwod->local = GetParent(GetParent(si->hWnd));
+			mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+			mwd->hwndWindow = si->hWnd;
+			mwd->local = GetParent(GetParent(si->hWnd));
 			SendMessage(si->hWnd, DM_GETWINDOWSTATE, 0, 0);
-			mwod->uState = GetWindowLongPtr(si->hWnd, DWLP_MSGRESULT);
+			mwd->uState = GetWindowLongPtr(si->hWnd, DWLP_MSGRESULT);
 			return 0;
 		}
 		else {
-			mwod->uState = 0;
-			mwod->hContact = 0;
-			mwod->hwndWindow = 0;
-			mwod->uFlags = 0;
+			mwd->uState = 0;
+			mwd->hContact = 0;
+			mwd->hwndWindow = 0;
+			mwd->uFlags = 0;
 		}
 	}
 	return 1;
@@ -163,7 +159,7 @@ static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 
 // service function - open the tray menu from the TTB button
 
-static INT_PTR Service_OpenTrayMenu(WPARAM wParam, LPARAM lParam)
+static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
 {
 	SendMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, lParam == 0 ? WM_LBUTTONUP : WM_RBUTTONUP);
 	return 0;
@@ -325,7 +321,7 @@ INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 // open a window when user clicks on the flashing "typing message" tray icon.
 // just calls SendMessageCommand() for the given contact.
 
-static INT_PTR TypingMessageCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR TypingMessageCommand(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 	if (cle)
@@ -380,14 +376,14 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int IcoLibIconsChanged(WPARAM wParam, LPARAM lParam)
+int IcoLibIconsChanged(WPARAM, LPARAM)
 {
 	LoadFromIconLib();
 	CacheMsgLogIcons();
 	return 0;
 }
 
-int IconsChanged(WPARAM wParam, LPARAM lParam)
+int IconsChanged(WPARAM, LPARAM)
 {
 	CreateImageList(FALSE);
 	CacheMsgLogIcons();
@@ -737,7 +733,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 
 int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned int subType)
 {
-	if (hContact == NULL || hwnd == NULL || !M.GetByte("_eventapi", 1))
+	if (hContact == NULL || hwnd == NULL)
 		return 0;
 
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -843,18 +839,16 @@ static int GetIconPackVersion(HMODULE hDLL)
 
 	if (LoadStringA(hDLL, IDS_IDENTIFY, szIDString, sizeof(szIDString)) == 0)
 		version = 0;
-	else {
-		if (!strcmp(szIDString, "__tabSRMM_ICONPACK 1.0__"))
-			version = 1;
-		else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 2.0__"))
-			version = 2;
-		else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 3.0__"))
-			version = 3;
-		else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 3.5__"))
-			version = 4;
-		else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 5.0__"))
-			version = 5;
-	}
+	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 1.0__"))
+		version = 1;
+	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 2.0__"))
+		version = 2;
+	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 3.0__"))
+		version = 3;
+	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 3.5__"))
+		version = 4;
+	else if (!strcmp(szIDString, "__tabSRMM_ICONPACK 5.0__"))
+		version = 5;
 
 	if (version < 5)
 		CWarning::show(CWarning::WARN_ICONPACK_VERSION, MB_OK | MB_ICONERROR);

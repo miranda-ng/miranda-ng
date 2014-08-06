@@ -891,20 +891,6 @@ struct TABSRMM_SessionInfo {
 	void *local;
 };
 
-typedef struct {
-	int cbSize;
-	MCONTACT hContact;
-	int uFlags;  // should be same as input data unless 0, then it will be the actual type
-	HWND hwndWindow; //top level window for the contact or NULL if no window exists
-	int uState; // see window states
-	void *local; // used to store pointer to custom data
-} MessageWindowOutputData;
-
-#define MS_MSG_GETWINDOWDATA "MessageAPI/GetWindowData"
-//wparam=(MessageWindowInputData*)
-//lparam=(MessageWindowData*)
-//returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
-
 // callback for the user menu entry
 
 #define MS_TABMSG_SETUSERPREFS	"SRMsg_MOD/SetUserPrefs"
