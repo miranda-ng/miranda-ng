@@ -519,6 +519,7 @@ static renameTable[] =
 #if MIRANDA_VER >= 0x0A00
 	{ _T("dbx_mmap_sa.dll"),                _T("Plugins\\dbx_mmap.dll") },
 	{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
+	{ _T("skype.dll"),                      _T("Plugins\\skypeclassic") },
 	{ _T("rc4.dll"),                        NULL },
 	{ _T("athena.dll"),                     NULL },
 #endif
