@@ -1035,6 +1035,8 @@ BB-коди ([b][i][u])
 Невідомий модуль або контакт
 [Rich Edit file]
 Файл RTF
+[No status message]
+Немає повідомлення статусу
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Проблема конфігурації|Автоматичне надсилання вимкнено. \\b1Відправка з затримкою \\b0 і \\b1 мультивідправка \\b0 залежать від цієї опції.\n\nВи можете увімкнути її: \\b1Налаштування -> Бесіди -> Додаткові налаштування\\b0. Після зміни цієї опції потрібен перезапуск.
 [You cannot edit user notes when there are unsent messages]
@@ -1069,8 +1071,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Вихідні
 [Message send error]
 Помилка надсилання
-[No status message]
-Немає повідомлення статусу
 [Other]
 Інше
 [TabSRMM: Typing]

@@ -151,6 +151,8 @@ SkypeKit.exe не розпакований.
 Аутентифікація за SOCKS проксі не вдалася
 [P2P connection failed]
 З'єднання по P2P не вдалося
+[Connection to server failed. SkypeKit has been deprecated by Microsoft.]
+Не вдалося з'єднатися з сервером, оскільки Microsoft припинив підтримку SkypeKit.
 [Server is overloaded]
 Сервер перевантажений
 [SkypeKit database already in use]

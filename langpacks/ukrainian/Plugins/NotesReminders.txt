@@ -213,8 +213,8 @@
 &Видалити всі нотатки
 [&Bring All to Front]
 Перемістити на передній план
-[Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Неможливо завантажити плагін Notes & Reminders, оскільки RICHED20.DLL відсутній. Якщо ви використовуєте Windows 95 або WINE, будь ласка, переконайтеся, що riched20.dll встановлено. Натисніть "Так" для продовження.
+[Miranda could not load the Notes & Reminders plugin, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Неможливо завантажити плагін Notes & Reminders, оскільки riched20.dll відсутній. Якщо ви використовуєте WINE, будь ласка, переконайтеся, що riched20.dll встановлено. Натисніть "Так", щоб продовжити запуск Miranda NG.
 [Black]
 Чорний
 [Maroon]
