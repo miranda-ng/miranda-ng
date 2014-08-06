@@ -18,7 +18,7 @@
 [It is recommended that you create a backup of your current Miranda profile before importing.]
 Рекомендуется создать резервную копию текущего профиля перед импортированием.
 [If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
-Нажмите "Далее", чтобы импортировать еще одну базу, или "Завершить", чтобы запустить Miranda NG
+Нажмите "Далее", чтобы импортировать ещё одну базу, или "Завершить", чтобы запустить Miranda NG
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
 Скорее всего, вам больше не пригодится этот мастер. Вы можете освободить память, не загружая его при запуске Miranda NG.
 [Do not load the import plugin at startup again]

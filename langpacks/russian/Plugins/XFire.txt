@@ -163,6 +163,8 @@ exe игры:
 Голос
 [Buddy start a game]
 Начало игры
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
+Вы впервые запустили плагин. Загрузить xfire_games.ini и icons.dll?\r\nБез xfire_games.ini не удастся обнаружить установленные игры.
 [&XFire Online Profile]
 Онлайн профиль &XFire
 [XFire &Clan Site]
@@ -203,10 +205,16 @@ exe игры:
 Вы действительно хотите удалить %s?
 [Confirm Delete]
 Подтвердите удаление
+[Block this user from ever contacting you again?]
+Навсегда прекратить общение с этим пользователем?
+[Block Confirmation]
+Подтверждение блокировки
 [Avatars]
 Аватары
 [Disable avatars]
 Выключить аватары
+[Don't download avatars of clan members]
+Не загружать аватары пользователей из клана
 [Use alternate way for Avatar download]
 Использовать альтернативный путь скачивания аватаров
 [General]
@@ -235,6 +243,8 @@ exe игры:
 Всплывающие окна, если кто-нибудь начинает игру
 [Don't automatically create clan groups]
 Не создавать автоматически группы кланов
+[Enable MBot support]
+Поддержка MBot
 [Game detection]
 Обнаружение игры
 [Disable game detection]
@@ -255,6 +265,8 @@ exe игры:
 Не создавать бекапы при обновлении
 [Background updating]
 Обновлять фон
+[The username must be lowercase, so it will be lowercased saved.]
+Имя пользователя должно быть в нижнем регистре, поэтому оно будет сохранено в таком виде.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Сделанные вами изменения требуют, что бы вы переподключились к сети XFire для вступления их в силу.
 [Hidden]
@@ -279,6 +291,8 @@ exe игры:
 Ошибка: неизвестный ID игры.
 [Not supported]
 Не поддерживается
+[Configuration saved!]
+Настройки сохранены!
 [Game not found?!]
 Игра не найдена?!
 [Network]

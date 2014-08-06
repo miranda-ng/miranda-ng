@@ -70,7 +70,7 @@ URL:
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
 Введите PIN-код, предоставленный Twitter-ом, чтобы завершить процесс входа. Это требуется сделать один раз, пока вы не пересоздадите вашу учётную запись Twitter в Miranda NG.
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
-Переменные OAuth потеряли последовательность и были обнулены. Пожалуйста, подсоединитесь снова и авторизуйте Miranda на Twitter.com (еще раз с PIN-кодом)
+Переменные OAuth потеряли последовательность и были обнулены. Пожалуйста, подсоединитесь снова и авторизуйте Miranda на Twitter.com (ещё раз с PIN-кодом)
 [Send Tweet...]
 Отправить твит...
 [Network]
@@ -83,6 +83,8 @@ URL:
 %s подключение к серверу
 [%s avatar connection]
 %s подключение аватаров
+[%s Protocol]
+Протокол %s
 [Twitter Icon]
 Значок Twitter
 [Tweet]

@@ -86,7 +86,7 @@
 [Automatically close dialog window after]
 Автоматически закрывать окно после
 [Remember last dialog window position]
-Помнить последнюю позицию окна
+Помнить последнее положение окна
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Удалять символы возврата каретки (CR = '\\r' = #0D) из сообщений статуса
 [Show 'Status message...' item in status menu]
@@ -111,6 +111,8 @@
 Независимая настройка для каждого протокола
 [Pop up dialog asking for status message]
 Показывать диалог запроса смены статуса
+[More variables...]
+Ещё переменные...
 [Cut]
 Вырезать
 [Copy]
@@ -121,18 +123,22 @@
 Удалить
 [Select all]
 Выделить всё
+[Failed to retrieve %s message.]
+Не удалось получить сообщение %s.
 [&Close]
 &Закрыть
 [Re&ad %s message]
-&Прочитать сообщение "%s"
+&Прочесть сообщение "%s"
 [Copy %s message]
 Копировать сообщение %s
+[&Go to URL in %s message]
+&Открыть ссылку в сообщении %s
 [Re&ad Away message]
 Пр&очесть сообщение "Отсутствую"
 [Copy Away message]
 Скопировать сообщение статуса
 [&Go to URL in Away message]
-&Открыть ссылку
+О&ткрыть ссылку в сообщении "Отсутствую"
 [Change status message]
 Сменить сообщение статуса
 [Open status message dialog]

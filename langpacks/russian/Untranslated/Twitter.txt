@@ -3,4 +3,3 @@
 [Unable to get Netlib connection for Twitter]
 [Twitter]
 [Unable to get avatar Netlib connection for Twitter]
-[%s Protocol]

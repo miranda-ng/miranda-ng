@@ -69,8 +69,14 @@
 Копировать
 [Error]
 Ошибка
+[GCHAT error]
+Ошибка GCHAT
 [An unknown error has occurred.]
 Неизвестная ошибка.
+[Unable to initiate %s.]
+Не удалось инициировать %s.
+[MAPI error (%i):\n%s.]
+Ошибка MAPI (%i):\n%s.
 [Unknown response from %s (%i)]
 Неизвестный ответ от %s (%i)
 [Got no response from %s (%i)]

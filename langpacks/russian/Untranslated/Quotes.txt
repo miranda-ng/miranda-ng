@@ -7,8 +7,6 @@
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
 [Enter text to display in contact list.]
-[Auto Update Enabled]
-[Auto Update Disabled]
 [Enable/Disable Auto Update]
 [Miranda could not load Quotes plugin. XML parser is missing.]
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]

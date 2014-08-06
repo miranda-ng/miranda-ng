@@ -203,3 +203,7 @@ ID ключа:
 Вы хотите убрать ключ для метаконтакта (всех субконтактов)?
 [LOG files]
 Файлы журнала
+[New passwords do not match]
+Новый пароль не совпадает
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
+Старый пароль не совпадает, вы можете продолжить, но GPG не примет неверный пароль.\nПродолжить?

@@ -54,7 +54,7 @@
 [Obey 'Suppress online notification' settings]
 Включить временный запрет уведомлений
 [Auto positioning]
-Автопозиция
+Автомат. положение
 [Transparent input]
 Прозрачный клик
 [Preview]

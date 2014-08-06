@@ -102,7 +102,7 @@
 [s]
 с
 [Set window location]
-Позиция окна
+Положение окна
 [Set window size]
 Размер окна
 [Allow override]

@@ -31,6 +31,8 @@
 0=Умолчание
 [-1 = Infinite]
 -1=Бесконечно
+[Colors]
+Цвета
 [Background]
 Фон
 [Use default]

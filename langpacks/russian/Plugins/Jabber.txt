@@ -946,7 +946,7 @@ Jabber ошибка
 [Last active (%s)]
 Последний активный (%s)
 [No activity yet, use server's choice]
-Активного еще нет, используйте по выбору сервера
+Активного ещё нет, используйте по выбору сервера
 [Highest priority (server's choice)]
 Высочайший приоритет (по выбору сервера)
 [Status Message]

@@ -237,6 +237,14 @@ ID клиента
 Добавить цвет
 [QuickSearch window hotkey]
 Открыть окно быстрого поиска
+[Column content is contact property (see list). Can be empty.]
+Колонка содержит свойство контакта (см. список). Может быть пустой.
+[Content is time of last contact event.]
+Содержит время последнего события контакта.
+[Content is metacontact info.]
+Содержит информацию метаконтакта.
+[Content is count of ALL contact events (not messages only)]
+Содержит количество ВСЕХ событий контакта (не только сообщений)
 [Change setting through QS]
 Изменить с помощью QuickSearch
 [default]

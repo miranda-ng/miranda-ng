@@ -188,7 +188,7 @@ History++ для истории окон
 [Maximum width]
 Максимум
 [Position:]
-Позиция:
+Положение:
 [Layout:]
 Порядок:
 [Reorder popups]

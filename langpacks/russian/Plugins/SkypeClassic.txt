@@ -12,7 +12,7 @@
 [Delete]
 Удалить
 [Start Skype with Miranda NG if not running using the following command line options:]
-Запускать Skype вместе с Miranda, если еще не запущен, со следующими ключами:
+Запускать Skype вместе с Miranda, если ещё не запущен, со следующими ключами:
 [/NOSPLASH - Don't show splash screen on startup]
 /NOSPLASH - Не показывать заставку при старте
 [/MINIMIZED - Start Skype minimized]

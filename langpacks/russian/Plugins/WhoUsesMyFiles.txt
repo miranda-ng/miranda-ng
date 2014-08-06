@@ -78,7 +78,7 @@ WUMF: Текущие соединения
 [Common Dialog Error 0x%lx]
 Ошибка диалога 0x%lx
 [Not implemented yet...]
-Еще не реализовано...
+Ещё не реализовано...
 [Show connections list]
 Показать список подключений
 [Who uses my files]

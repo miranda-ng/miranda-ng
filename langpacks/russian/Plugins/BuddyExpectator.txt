@@ -100,7 +100,7 @@
 [Contact returned]
 Контакт вернулся
 [Contact still absent]
-Контакт всё еще отсутствует
+Контакт всё ещё отсутствует
 [Miss you event]
 Событие "Жду тебя"
 [Hide contact event]

@@ -188,7 +188,7 @@ URL доп. информации
 [Variable List]
 Переменные
 [More Variables]
-Еще переменные
+Ещё переменные
 [Reset]
 Сброс
 [Status Message]

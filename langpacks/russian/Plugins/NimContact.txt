@@ -99,6 +99,12 @@
 Ссылки и настройки списка контактов
 [Files]
 Файлы
+[Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]
+Вы уверены, что хотите перезаписать содержимое файла?\r\n\r\nНажмите "Нет", чтобы дописать эти контакты в конец файла.
+[File couldn't be opened]
+Не удалось открыть файл
+[File couldn't be opened,2]
+Не удалось открыть файл,2
 [Non-IM Contacts]
 Не-IM контакты
 [Plugins]

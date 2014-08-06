@@ -650,7 +650,7 @@
 [Question]
 Вопрос
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
-Эта функция удалит все настройки, которые вы сделали \nВсе настройки дерева, позиций окна, и др.!\n\nВы действительно хотите продолжить?
+Эта функция удалит все настройки, которые вы сделали \nВсе настройки дерева, положений окна, и др.!\n\nВы действительно хотите продолжить?
 [Ready]
 Готово
 [Everything is done!]

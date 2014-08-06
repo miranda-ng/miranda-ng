@@ -60,7 +60,7 @@
 [you are already authorized]
 вы уже авторизованы
 [you are not authorized yet]
-вы еще не авторизованы
+вы ещё не авторизованы
 [Send files to Dropbox]
 Файл через Dropbox
 [Network]

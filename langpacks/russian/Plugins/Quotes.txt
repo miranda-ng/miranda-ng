@@ -125,6 +125,10 @@
 Информация предоставлена
 [Enter positive number.]
 Введите положительное число.
+[Auto Update Enabled]
+Автоматическое обновление включено
+[Auto Update Disabled]
+Автоматическое обновление отключено
 [Quotes]
 Котировки
 [Refresh All Quotes\\Rates]

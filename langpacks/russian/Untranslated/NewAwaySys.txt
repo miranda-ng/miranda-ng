@@ -1,5 +1,4 @@
-﻿[Colors]
-[Configure autoaway]
+﻿[Configure autoaway]
 [Store for each status separately]
 [Use default...]
 [When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]

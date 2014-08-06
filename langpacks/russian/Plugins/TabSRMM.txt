@@ -1238,7 +1238,7 @@ TabSRMM: Набирает
 [The message send timed out]
 время отправки истекло
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-Вы редактируете заметки о пользователе. Нажмите на кнопку еще раз или используйте горячие клавиши (по умолчанию: Alt-N), чтобы сохранить заметки и вернуться в нормальный режим сообщений
+Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячие клавиши (по умолчанию: Alt-N), чтобы сохранить заметки и вернуться в нормальный режим сообщений
 [Contact is offline and this protocol does not support sending files to offline users.]
 Контакт не в сети и этот протокол не поддерживает оффлайн сообщения.
 [Error creating destination directory]
@@ -1520,7 +1520,7 @@ TabSRMM: Набирает
 [A message delivery has failed.\nClick to open the message window.]
 Доставка сообщения не удалась.\nНажмите для открытия окна беседы
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
-Не удалось передать сообщения после закрытия окна беседы. Возможно, вам нужно отправить его еще раз
+Не удалось передать сообщения после закрытия окна беседы. Возможно, вам нужно отправить его ещё раз
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 В очереди есть неотправленные сообщения, ждущие подтверждения.\nЕсли вы закроете окно, Miranda попытается отправить их, но не сможет предупредить о возможных ошибках.\nВы действительно хотите закрыть окно(а)?
 [Message window warning]

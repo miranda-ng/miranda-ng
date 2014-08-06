@@ -40,7 +40,7 @@
 [SMS Message Didn't Send]
 SMS сообщение не отправлено
 [&Try again]
-&Попытаться еще
+&Попытаться ещё
 [&Cancel]
 О&тмена
 [The SMS message send timed out]

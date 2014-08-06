@@ -58,7 +58,7 @@
 [Show whole message on 'mouse over' event]
 Показывать полное сообщение при наведении мыши
 [Save window position individually for each contact]
-Сохранять позицию окна отдельно для каждого контакта
+Сохранять положение окна отдельно для каждого контакта
 [Show...]
 Показывать...
 [Date]
