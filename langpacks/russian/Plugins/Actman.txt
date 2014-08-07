@@ -235,7 +235,7 @@
 Любовь
 [Sets owner current custom status]
 Устанавливает xСтатус
-[Display XStatus detail]
+[Display xStatus detail]
 Отображает подробный хСтатус
 [int hMenu handle]
 целочисленный хендл hMenu

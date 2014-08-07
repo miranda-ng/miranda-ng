@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.7.0
+;  Version: 0.2.8.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -39,14 +39,26 @@
 Группа:
 [Automatically set 'Ignore status change' flag]
 Автоматически включать игнорирование смены статусов
+[News feeds (WARNING: Causes excessive network traffic!)]
+Новости (Предупреждение: высокое потребление сетевого трафика)
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Стикеры, как пользовательские смайлы (Экспериментально!)
+[Request for friendship was accepted.]
+Запрос дружбы одобрен.
+[Error occurred when accepting friendship request.]
+Произошла ошибка при запросе дружбы!
+[Request for friendship was ignored.]
+Запрос дружбы был проигнорирован.
+[Error occurred when ignoring friendship request.]
+Произошла ошибка игнора запроса дружбы.
+[Deny friendship request]
+Отклонить запрос дружбы
 [Use bigger avatars]
 Большие аватары
 [Event notifications]
 Уведомления
 [Notifications]
 Уведомления
-[News feeds]
-Новости
 [News feed types to notify:]
 Уведомлять о типах новостей:
 [Don't show advertising posts]
@@ -75,8 +87,6 @@
 Разрешить публиковать статусы на своих страницах (замедляет вход)
 [Use this server for opening links:]
 Тип сайта для открытия ссылок:
-[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
-Поддержка пользовательских смайлов (Экспериментально!)
 [Use local time for received messages]
 Локальное время для принятых сообщений
 [Message sessions]
@@ -235,6 +245,8 @@
 Обновление списка друзей...
 [Do you want to cancel your friendship with '%s'?]
 Вы уверены, что хотите удалить '%s' из друзей?
+[News feeds]
+Новости
 [Visit profile]
 Профиль
 [Visit notifications]

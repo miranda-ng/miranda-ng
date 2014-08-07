@@ -53,9 +53,9 @@
 Скрывать при 'Ignore all'
 [Status message]
 Сообщение статуса
-[XStatus title]
+[xStatus title]
 Заголовок хСтатуса
-[XStatus message]
+[xStatus message]
 Сообщение xСтатуса
 [Listening to]
 Слушаю

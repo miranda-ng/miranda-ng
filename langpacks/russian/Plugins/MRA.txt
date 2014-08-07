@@ -321,7 +321,7 @@ xСтатус "%s"
 Всплывающие окна
 [%s connection]
 %s подключение
-[Mail.ru Xstatus]
+[Mail.ru xStatus]
 Mail.ru хСтатус
 [Mail.ru extra info]
 Mail.ru дополнительно

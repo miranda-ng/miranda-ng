@@ -123,7 +123,7 @@
 Запрашивать сообщение статуса
 [Disable in invisible status]
 Отключить запрос, когда невидимый
-[Retrieve XStatus details if auto-retrieve is disabled]
+[Retrieve xStatus details if auto-retrieve is disabled]
 Запрашивать подробный xСтатус, если автозапрос выключен
 [Status bar and tray tooltip]
 Панель статусов и подсказка в трее
@@ -301,7 +301,7 @@ xСтатус
 Статусное сообщение:
 [Mood:]
 Настроение:
-[XStatus:]
+[xStatus:]
 хСтатус:
 [Activity:]
 Занятие:
@@ -373,13 +373,13 @@ xСтатус
 Время контакта
 [Time:]
 Время:
-[XStatus title]
+[xStatus title]
 Заголовок хСтатуса
-[XStatus title:]
+[xStatus title:]
 Заголовок хСтатуса:
-[XStatus text]
+[xStatus text]
 Текст хСтатуса
-[XStatus text:]
+[xStatus text:]
 Текст хСтатуса:
 [[jabber.dll] Activity title]
 (jabber.dll) Заголовок занятия

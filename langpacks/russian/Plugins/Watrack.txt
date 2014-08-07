@@ -13,9 +13,9 @@
 Эмуляция мультимедийных клавиш
 [xStatus will be cleared before text changing and restored with new text later.]
 хСтатус будет очищен перед изменением текста и восстановлен с новым текстом позже
-[Use XStatus]
+[Use xStatus]
 Использовать хСтатус
-[If this option is "ON", XStatus doesn't depend on protocol status.]
+[If this option is "ON", xStatus doesn't depend on protocol status.]
 Если включена эта опция, xСтатус не будет зависеть от статуса протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Использовать плагин "Variables" или нет. Этот плагин позволяет вам преобразовывать строки, использовать математические функции и функции даты. Без этого плагина WATrack будет работать быстрее.
@@ -203,19 +203,17 @@ FPS (кадров в секунду), только для видео
 Кодовая страница перевода юникод - ANSI:
 [VBR macro]
 Отображение VBR
-[\[X\]Status Title / Text]
+[\[x\]Status Title / Text]
 Заголовок и текст xCтатуса
 [Insert in messages]
 Вставлять в сообщения
 [Use status messages]
 Использовать сообщения статуса
-[Independed XStatus]
-Независимый хСтатус
 [Use process implantation]
 Встраиваться в процесс
 [Simple Template mode]
 Режим простых шаблонов
-[Use existing XStatus]
+[Use existing xStatus]
 Использовать текущий xСтатус
 [Only if 'Music' status was set]
 Только при статусе "Музыка"
@@ -237,9 +235,9 @@ FPS (кадров в секунду), только для видео
 Пользователю
 [Channel message]
 В чат
-[If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
+[If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
 Если включено, хСтатус не изменится, но сообщение xСтатуса будет заменено по шаблону WATrack
-[Keep 'Music' XStatus]
+[Keep 'Music' xStatus]
 Оставлять xСтатус "Музыка"
 [No-music text]
 Если нет музыки
@@ -295,13 +293,13 @@ VBR или пусто
 Если опция включена, все настройки сохранятся в INI-файле и сотрутся из базы Miranda, иначе - удалится INI-файл (если был).
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 Если опция включена, плагин попытается получить информацию о музыке от плеера, работает не со всеми плеерами
-[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
+[If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Если опция включена, xСтатус меняется только при уже установленном в "Музыка" статусе.
-[If this option is "ON", XStatus doesn't depend of ICQ's status.]
+[If this option is "ON", xStatus doesn't depend of ICQ's status.]
 Если включена эта опция, xСтатус не зависит от статуса ICQ.
-[If this option is "ON", XStatus won't be changed when player is shut down.]
+[If this option is "ON", xStatus won't be changed when player is shut down.]
 Если опция включена, хСтатус не изменится при выключении плеера.
-[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
+[If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
 Если опция включена, xСтатус для ICQ заменится на "Музыка" и его текст изменится на информацию о музыке
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Если опция включена, то будет применён один шаблон для всех протоколов, а также плееров и статусов. Страница настройки шаблонов изменится после перезагрузки
@@ -369,8 +367,6 @@ VBR или пусто
 статус плеера (остановлен, играет, на паузе)
 [player]
 плеер
-[Independed Xstatus]
-Независимый хСтатус
 ["Variables" ANSI output]
 Выводить "Variables" в ANSI
 [FPS (Frames per second)]
@@ -433,7 +429,7 @@ VBR или нет
 Название файла отчёта не указано
 [Status Template]
 Шаблон xСтатуса
-[XStatus Title]
+[xStatus Title]
 Сообщение xСтатуса
 ['mono' / 'stereo']
 моно/стерео
@@ -455,13 +451,13 @@ VBR или нет
 - длина песни в секундах
 [- track number]
 - номер трека
-[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music xStatus sets already.\n  Keep 'Music' xStatus - if player stopped or shutdowned, save or not 'Music' xStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
  Время обновления (сек) - обновление информации в статусных сообщениях. Если нуль, автообновление выключено\n Работает, только если xСтатус "Музыка".\n Если плеер выключен или остановлен, xСтатус убирается.\n Если текст пуст, статусное сообщение не меняется.\n Если настройки хранятся в ini файле, они удалятся из базы Miranda, иначе ini файл будет удален.
 ["Variables" module use]
 Использовать "Variables"
 [Acoustic]
 Акустика
-[Use ICQ XStatus]
+[Use ICQ xStatus]
 Использовать xCтатус ICQ
 [Winamp Track]
 Сейчас играет (WATrack)
@@ -489,7 +485,7 @@ VBR или нет
 Если опция включена, то поле "Listening To" будет заполнено информацией о музыке.
 [Enable Status message]
 Включить сообщение статуса
-[Enable XStatus message]
+[Enable xStatus message]
 Включить сообщение ХСтатуса
 [Enable Tunes message]
 Включить сообщение мелодии
@@ -541,13 +537,13 @@ VBR или нет
 Статус (общее)
 [Status (templates)]
 Статус (шаблоны)
-[Set XStatus when...]
+[Set xStatus when...]
 Устанавливать хСтатус когда...
-[XStatus is empty or 'Music']
+[xStatus is empty or 'Music']
 нет хСтатуса или хСтатус "Музыка"
 ['Music' status is set]
 установлен хСтатус "Музыка"
-[any XStatus is set]
+[any xStatus is set]
 установлен любой хСтатус
 [Players list\n(F1 for note)]
 Список плееров\n(Нажмите F1 для доп. инф-ии)
@@ -615,7 +611,7 @@ VBR или нет
 Шрифт...
 [Genres]
 Жанры
-[[X]Status Title / Text]
+[[x]Status Title / Text]
 Заголовок/текст статусов
 [Scrobble at]
 Скробблить с

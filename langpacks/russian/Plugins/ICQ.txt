@@ -1603,7 +1603,7 @@ xСтатус %s
 хСтатус
 [Greeting card:]
 Открытка:
-[ICQ XStatus]
+[ICQ xStatus]
 хСтатус ICQ
 [ICQ Warning]
 Предупреждение ICQ

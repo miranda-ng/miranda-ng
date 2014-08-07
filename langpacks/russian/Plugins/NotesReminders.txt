@@ -139,8 +139,6 @@
 &Показать заметки
 [&Bring All To Front]
 &Переместить на передний план
-[Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Не удалось загрузить плагин NotesReminders из-за отсутствующего файла RICHED20.DLL. Если вы используете Windows 95 или WINE, то убедитесь в наличии файла riched20.dll. Нажмите 'Да' для продолжения работы программы.
 [Edi&t Note]
 Редактирова&ть заметку
 [&Visible]

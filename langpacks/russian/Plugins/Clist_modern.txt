@@ -503,9 +503,9 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Статус, если нет статусного сообщения
 [Show listening to if there is no status message]
 "Слушаю", если нет статусного сообщения
-[XStatus has priority]
+[xStatus has priority]
 Приоритет xСтатуса
-[Use 'XStatus: XMessage']
+[Use 'xStatus: xMessage']
 'xСтатус: хСообщение'
 [(Variables will be replaced)]
 (Переменные заменяются)
