@@ -361,6 +361,10 @@ void tox_callback_connection_status(Tox *tox, void (*function)(Tox *tox, int32_t
 uint32_t tox_get_nospam(const Tox *tox);
 void tox_set_nospam(Tox *tox, uint32_t nospam);
 
+/* Copy the public and secret key from the Tox object.
+   public_key and secret_key must be 32 bytes big.
+   if the pointer is NULL, no data will be copied to it.*/
+void tox_get_keys(Tox *tox, uint8_t *public_key, uint8_t *secret_key);
 
 /**********GROUP CHAT FUNCTIONS: WARNING Group chats will be rewritten so this might change ************/
 
@@ -484,6 +488,8 @@ uint32_t tox_get_chatlist(const Tox *tox, int *out_list, uint32_t list_size);
  * 2. Wait for the callback set with tox_callback_file_control(...) to be called with receive_send == 1 and control_type == TOX_FILECONTROL_ACCEPT
  * 3. Send the data with tox_file_send_data(...) with chunk size tox_file_data_size(...)
  * 4. When sending is done, send a tox_file_send_control(...) with send_receive = 0 and message_id = TOX_FILECONTROL_FINISHED
+ * 5. when the callback set with tox_callback_file_control(...) is called with receive_send == 1 and control_type == TOX_FILECONTROL_FINISHED
+ * the other person has received the file correctly.
  *
  * HOW TO RECEIVE FILES CORRECTLY:
  * 1. wait for the callback set with tox_callback_file_send_request(...)
@@ -491,6 +497,7 @@ uint32_t tox_get_chatlist(const Tox *tox, int *out_list, uint32_t list_size);
  * 3. save all the data received with the callback set with tox_callback_file_data(...) to a file.
  * 4. when the callback set with tox_callback_file_control(...) is called with receive_send == 0 and control_type == TOX_FILECONTROL_FINISHED
  * the file is done transferring.
+ * 5. send a tox_file_send_control(...) with send_receive = 1 and message_id = TOX_FILECONTROL_FINISHED to confirm that we did receive the file.
  *
  * tox_file_data_remaining(...) can be used to know how many bytes are left to send/receive.
  *

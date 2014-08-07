@@ -16,7 +16,7 @@
 #include "version.h"
 #include "resource.h"
 
-#include "..\include\tox\tox.h"
+#include "tox\tox.h"
 
 extern HINSTANCE g_hInstance;
 

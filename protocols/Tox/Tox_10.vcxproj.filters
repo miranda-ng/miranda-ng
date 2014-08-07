@@ -7,11 +7,11 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{ea03e4bb-b8dd-4b5b-b409-2513240d2511}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\tox">
-      <UniqueIdentifier>{283e5715-d541-4bda-9ec6-31b29865e1f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{b818611d-200d-4eb8-be7a-f15b396ae26d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tox">
+      <UniqueIdentifier>{dcda5d79-c0d1-4515-9513-7eda6a003978}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,11 +24,17 @@
     <ClInclude Include="src\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\tox\tox.h">
-      <Filter>Header Files\tox</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tox\tox.h">
+      <Filter>Header Files\tox</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tox\toxav.h">
+      <Filter>Header Files\tox</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tox\toxdns.h">
+      <Filter>Header Files\tox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
