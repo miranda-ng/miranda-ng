@@ -39,26 +39,14 @@
 Группа:
 [Automatically set 'Ignore status change' flag]
 Автоматически включать игнорирование смены статусов
-[News feeds (WARNING: Causes excessive network traffic!)]
-Новости (Предупреждение: высокое потребление сетевого трафика)
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Стикеры, как пользовательские смайлы (Экспериментально!)
-[Request for friendship was accepted.]
-Запрос дружбы одобрен.
-[Error occurred when accepting friendship request.]
-Произошла ошибка при запросе дружбы!
-[Request for friendship was ignored.]
-Запрос дружбы был проигнорирован.
-[Error occurred when ignoring friendship request.]
-Произошла ошибка игнора запроса дружбы.
-[Deny friendship request]
-Отклонить запрос дружбы
 [Use bigger avatars]
 Большие аватары
 [Event notifications]
 Уведомления
 [Notifications]
 Уведомления
+[News feeds (WARNING: Causes excessive network traffic!)]
+Новости (Предупреждение: высокое потребление сетевого трафика)
 [News feed types to notify:]
 Уведомлять о типах новостей:
 [Don't show advertising posts]
@@ -87,6 +75,8 @@
 Разрешить публиковать статусы на своих страницах (замедляет вход)
 [Use this server for opening links:]
 Тип сайта для открытия ссылок:
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Стикеры, как пользовательские смайлы (Экспериментально!)
 [Use local time for received messages]
 Локальное время для принятых сообщений
 [Message sessions]
@@ -173,10 +163,18 @@
 Запрос дружбы отослан.
 [Error occurred when requesting friendship.]
 Произошла ошибка запроса дружбы.
+[Request for friendship was accepted.]
+Запрос дружбы одобрен.
+[Error occurred when accepting friendship request.]
+Произошла ошибка при запросе дружбы!
 [Request for friendship was canceled.]
 Запрос дружбы был отменён.
 [Error occurred when canceling friendship request.]
 Произошла ошибка отмены запроса дружбы.
+[Request for friendship was ignored.]
+Запрос дружбы был проигнорирован.
+[Error occurred when ignoring friendship request.]
+Произошла ошибка игнора запроса дружбы.
 [Default]
 По умолчанию
 [<< Contacts]
@@ -287,6 +285,8 @@
 Запросить добавление в друзья
 [Approve friendship]
 Подтвердить добавление в друзья
+[Deny friendship request]
+Отклонить запрос дружбы
 [Services...]
 Службы...
 [Refresh Buddy List]
