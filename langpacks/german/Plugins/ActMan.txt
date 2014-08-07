@@ -235,8 +235,8 @@ Pro7
 Liebe
 [Sets owner current custom status]
 Aktuellen eigenen Custom Status setzen
-[Display XStatus detail]
-XStatus-Detail anzeigen
+[Display xStatus detail]
+xStatus-Detail anzeigen
 [int hMenu handle]
 int hMenu handle
 [Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]

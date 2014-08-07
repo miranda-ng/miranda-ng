@@ -13,9 +13,9 @@ Czyść xStatus przed ustawieniem kolejnego
 Emuluj klawisze multimedialne
 [xStatus will be cleared before text changing and restored with new text later.]
 xStatus zostanie wyczyszczony przed zmianą tekstu i ustawiony na nowo później.
-[Use XStatus]
+[Use xStatus]
 Użyj xStatusu
-[If this option is "ON", XStatus doesn't depend on protocol status.]
+[If this option is "ON", xStatus doesn't depend on protocol status.]
 Jeśli ta opcja zostanie włączona, xStatus nie będzie zależny od zmiany statusu protokołu.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Jeśli użyjesz wtyczki "Variables", możesz zmienić zawartość tekstu o nowe funkcje. Jeśli wtyczka nie zostanie użyta, wtyczka będzie pracowała szybciej.
@@ -203,19 +203,19 @@ według długości
 Strona kodowa konwersji z Unicode do Ansi:
 [VBR macro]
 Makro VBR
-[\[X\]Status Title / Text]
-\[x\]Opis/Tekst
+[\[x\]Status Title / Text]
+Tytuł [x]Statusu/Tekst
 [Insert in messages]
 Użyj w wiadomościach
 [Use status messages]
 Użyj opisu
-[Independed XStatus]
+[Independent xStatus]
 Niezależny xStatus
 [Use process implantation]
 Użyj procesu implantacji
 [Simple Template mode]
 Tryb prostego szablonu
-[Use existing XStatus]
+[Use existing xStatus]
 Użyj istniejący xStatus
 [Only if 'Music' status was set]
 Tylko, gdy ustawiony jest status "Muzyka"
@@ -237,9 +237,9 @@ Brak odtwarzacza
 Wiadomość użytkownika
 [Channel message]
 Kanał wiadomości
-[If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
+[If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
 Jeśli opcja jest włączona, numer xStatus nie zmieni się, tylko wiadomości będą zmieniane wg. szablonu WATrack
-[Keep 'Music' XStatus]
+[Keep 'Music' xStatus]
 Utrzymuj xStatus "Muzyka"
 [No-music text]
 Brak tekstu muzyki
@@ -295,13 +295,13 @@ Jeśli ta opcja jest włączona, tekst statusu będzie zastąpiony wg info muzyc
 Jeśli ta opcja jest włączona, wszystkie ustawienia wtyczki będą zapisywane w ini, a usunięte z profilu Mirandy. Inny plik INI zostanie usunięty.
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 Jeśli ta opcja jest włączona, wtyczka będzie próbowała pobrać info z odtwarzacza.
-[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
+[If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Gdy ta opcja jest włączona, xStatus zmieni się tylko wtedy, gdy xStatus z muzyką jest już ustawiony.
-[If this option is "ON", XStatus doesn't depend of ICQ's status.]
+[If this option is "ON", xStatus doesn't depend of ICQ's status.]
 Jeśli ta opcja jest włączona, xStatus nie zależy od statusu ICQ.
-[If this option is "ON", XStatus won't be changed when player is shut down.]
+[If this option is "ON", xStatus won't be changed when player is shut down.]
 Jeśli ta opcja jest włączona, xStatus nie zmieni się kiedy odtwarzacz będzie wyłączony.
-[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
+[If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
 Jeśli ta opcja jest włączona, xStatus ulegnie zmianie na "Muzyka" i tekst statusu będzie zamieniony na informacje o odtwarzanych multimediach.
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Jeśli ta opcja jest włączona, jeden szablon będzie używany we wszystkich protokołach, statusy protokołów i odtwarzaczy. Opcje szablony zostaną zmienione następnym razem.
@@ -369,8 +369,6 @@ Próbuj użyć interfejs OLE
 Status odtwarzacza (stop, gra, pauza)
 [player]
 odtwarzacz
-[Independed Xstatus]
-Niezależny xStatus
 ["Variables" ANSI output]
 "Variables" wyjście ANSI
 [FPS (Frames per second)]
@@ -433,7 +431,7 @@ Menu kontekstowe
 Nazwa pliku raportu niezdefiniowana
 [Status Template]
 Szablon statusu
-[XStatus Title]
+[xStatus Title]
 Nazwa xStatus
 ['mono' / 'stereo']
 "mono"/"stereo"
@@ -455,13 +453,13 @@ Nazwa xStatus
 - całkowita długość utworu (s)
 [- track number]
 - numer ścieżki
-[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music xStatus sets already.\n  Keep 'Music' xStatus - if player stopped or shutdowned, save or not 'Music' xStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
 Czas odświeżania (w sekundach) to czas, co jaki odświeżane są informacje o muzyce oraz opisy. Gdy 0, automatyczne odświeżanie jest wyłączone.\nTylko jeśli ustawiony status "Muzyka" - zmień status, gdy ustawiony jest już xStatus.\nUtrzymuj xStatus "Muzyka" - jeśli odtwarzanie zostanie zatrzymane lub odtwarzacz zamknięty, utrzymaj lub nie xStatus "Muzyka" (w przeciwnym razie zmień na pusty).
 ["Variables" module use]
 Użyto moduł "Variables"
 [Acoustic]
 Akustyka
-[Use ICQ XStatus]
+[Use ICQ xStatus]
 Użyj xStatus ICQ
 [Winamp Track]
 Utwór w Winampie
@@ -489,7 +487,7 @@ Użyj "Teraz odtwarzane"
 Jeśli ta opcja jest włączona, "Teraz odtwarzane" zostanie wypełnione przez informacje o odtwarzanych multimediach.
 [Enable Status message]
 Włącz opisy statusów
-[Enable XStatus message]
+[Enable xStatus message]
 Włącz opisy xStatus
 [Enable Tunes message]
 Włącz opis Tunes
@@ -541,13 +539,13 @@ Statystyki
 Status (wspólny)
 [Status (templates)]
 Status (szablon)
-[Set XStatus when...]
+[Set xStatus when...]
 Użyj xStatus kiedy...
-[XStatus is empty or 'Music']
+[xStatus is empty or 'Music']
 xStatus jest pusty lub "Muzyka"
 ['Music' status is set]
 status to "Muzyka"
-[any XStatus is set]
+[any xStatus is set]
 jakikolwiek xStatus
 [Players list\n(F1 for note)]
 Lista odtwarzaczy\n(F1 - info)
@@ -615,7 +613,7 @@ Sprawdź
 Ustaw czcionkę...
 [Genres]
 Gatunki
-[[X]Status Title / Text]
+[[x]Status Title / Text]
 Tytuł [x]Statusu/Tekst
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]

@@ -235,7 +235,7 @@ Regarde pro7 à la télé
 
 [Sets owner current custom status]
 
-[Display XStatus detail]
+[Display xStatus detail]
 
 [int hMenu handle]
 

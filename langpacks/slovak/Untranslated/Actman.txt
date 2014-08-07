@@ -93,7 +93,7 @@
 [Watching pro7 on TV]
 [Love]
 [Sets owner current custom status]
-[Display XStatus detail]
+[Display xStatus detail]
 [int hMenu handle]
 [Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
 [Show All Users]

@@ -235,7 +235,7 @@ Oglądam pro7 w TV
 Miłość
 [Sets owner current custom status]
 Ustawia obecny własny status właściciela
-[Display XStatus detail]
+[Display xStatus detail]
 Wyświetl szczegóły xStatusu
 [int hMenu handle]
 uchwyt int hMenu

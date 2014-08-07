@@ -13,9 +13,9 @@
 Емулиране на мултимедийни клавиши
 [xStatus will be cleared before text changing and restored with new text later.]
 хСъстоянието ще бъде изчиствано преди промяна на текста и възстановено по-късно с нов текст.
-[Use XStatus]
+[Use xStatus]
 Ползване на хСъстояние
-[If this option is "ON", XStatus doesn't depend on protocol status.]
+[If this option is "ON", xStatus doesn't depend on protocol status.]
 Опцията прави хСъстоянието независимо от състоянието на протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 
@@ -203,19 +203,19 @@ Popup етикет / Текст
 Кодова таблица при Unicode<->Ansi превод:
 [VBR macro]
 
-[\[X\]Status Title / Text]
-
+[\[x\]Status Title / Text]
+\[х]Състояние / Съобщение
 [Insert in messages]
 Вмъкване в съобщения
 [Use status messages]
 Ползване на текст за състояние
-[Independed XStatus]
+[Independent xStatus]
 Независимо хСъстояние
 [Use process implantation]
 Внедряване в процеса
 [Simple Template mode]
 
-[Use existing XStatus]
+[Use existing xStatus]
 Ползване на зададеното хСъстояние
 [Only if 'Music' status was set]
 Само при зададено състояние "Слуша музика"
@@ -237,9 +237,9 @@ Popup етикет / Текст
 Съобщение до потребител
 [Channel message]
 Съобщение за канал
-[If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
+[If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
 хСъстоянието няма да бъде променяно, а само текстът, съгласно шаблоните.
-[Keep 'Music' XStatus]
+[Keep 'Music' xStatus]
 Запазване на хСъстояние "Слуша музика"
 [No-music text]
 
@@ -295,13 +295,13 @@ VBR или празно
 
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 
-[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
+[If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 хСъстоянието ще бъде променяно само при условие, че предварително е зададено състояние "Слуша музика".
-[If this option is "ON", XStatus doesn't depend of ICQ's status.]
+[If this option is "ON", xStatus doesn't depend of ICQ's status.]
 
-[If this option is "ON", XStatus won't be changed when player is shut down.]
+[If this option is "ON", xStatus won't be changed when player is shut down.]
 хСъстоянието няма да бъде променяно след изключване на плейъра.
-[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
+[If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
 "Слуша музика" ще бъде задавано като хСъстояние, а текстът на състоянието ще бъде заменен от информация относно музиката.
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Един шаблон ще бъде използван за всеки протокол, състояние и плейър. Необходимо е рестартиране за визуализиране на единната страница на шаблоните.
@@ -369,8 +369,6 @@ VBR или празно
 
 [player]
 
-[Independed Xstatus]
-Независимо хСъстояние
 ["Variables" ANSI output]
 
 [FPS (Frames per second)]
@@ -433,7 +431,7 @@ URL (домашна страница на плейъра)
 
 [Status Template]
 
-[XStatus Title]
+[xStatus Title]
 
 ['mono' / 'stereo']
 
@@ -455,13 +453,13 @@ URL (домашна страница на плейъра)
 
 [- track number]
 
-[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music xStatus sets already.\n  Keep 'Music' xStatus - if player stopped or shutdowned, save or not 'Music' xStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
 
 ["Variables" module use]
 
 [Acoustic]
 
-[Use ICQ XStatus]
+[Use ICQ xStatus]
 
 [Winamp Track]
 
@@ -489,7 +487,7 @@ URL (домашна страница на плейъра)
 Ако включите тази опция, полето "Слуша" (Listening To) на протоколите ще бъде попълнена с текущата музикална информация.
 [Enable Status message]
 Ползване на текст за състояние
-[Enable XStatus message]
+[Enable xStatus message]
 Ползване на хСъстояние
 [Enable Tunes message]
 
@@ -541,13 +539,13 @@ URL (домашна страница на плейъра)
 Общи
 [Status (templates)]
 Шаблони
-[Set XStatus when...]
+[Set xStatus when...]
 Задаване на хСъстояние, когато..
-[XStatus is empty or 'Music']
+[xStatus is empty or 'Music']
 хСъстоянието или "Слуша музика" е празно
 ['Music' status is set]
 е зададено състояние "Слуша музика"
-[any XStatus is set]
+[any xStatus is set]
 е зададено някое хСъстояние
 [Players list\n(F1 for note)]
 Списък с плейъри - натиснете\nF1 за повече информация
@@ -615,8 +613,8 @@ URL (домашна страница на плейъра)
 Избор на шрифт...
 [Genres]
 
-[[X]Status Title / Text]
-хСъстояние / Съобщение
+[[x]Status Title / Text]
+\[х]Състояние / Съобщение
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 

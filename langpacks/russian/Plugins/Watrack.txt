@@ -204,7 +204,7 @@ FPS (кадров в секунду), только для видео
 [VBR macro]
 Отображение VBR
 [\[x\]Status Title / Text]
-Заголовок и текст xCтатуса
+Заголовок/текст статусов
 [Insert in messages]
 Вставлять в сообщения
 [Use status messages]

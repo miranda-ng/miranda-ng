@@ -235,7 +235,7 @@
 Каханне
 [Sets owner current custom status]
 Усталюе xСтатус
-[Display XStatus detail]
+[Display xStatus detail]
 Паказвае падрабязны хСтатус
 [Show All Users]
 Паказваць усе кантакты

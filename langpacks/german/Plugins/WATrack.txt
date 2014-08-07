@@ -8,15 +8,15 @@
 [Paste played music info into message window or status text]
 Fügt Infos über die abgespielte Musik im Nachrichtenfenster oder in die Statusnachricht ein.
 [Clear xStatus before set new one]
-XStatus zurücksetzen, bevor ein neuer gesetzt wird.
+xStatus zurücksetzen, bevor ein neuer gesetzt wird.
 [Emulate Multimedia keys]
 Multimedia-Tasten emulieren
 [xStatus will be cleared before text changing and restored with new text later.]
-Der XStatus wird kurzzeitig zurückgesetzt, um bestimmte ICQ-Clients dazu zu zwingen, die XStatus-Nachricht erneut auszulesen.
-[Use XStatus]
-XStatus verwenden
-[If this option is "ON", XStatus doesn't depend on protocol status.]
-Wenn diese Einstellung aktiv ist, wird der XStatus "Musik" immer und unabhängig vom normalen Status des Protokolls gesetzt.
+Der xStatus wird kurzzeitig zurückgesetzt, um bestimmte ICQ-Clients dazu zu zwingen, die xStatus-Nachricht erneut auszulesen.
+[Use xStatus]
+xStatus verwenden
+[If this option is "ON", xStatus doesn't depend on protocol status.]
+Wenn diese Einstellung aktiv ist, wird der xStatus "Musik" immer und unabhängig vom normalen Status des Protokolls gesetzt.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 "Variables"-Plugin verwenden oder nicht. Mit diesem Plugin können erweiterte Funktionen verwendet werden, ohne dieses Plugin arbeitet WATrack schneller.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
@@ -203,22 +203,22 @@ nach Länge
 Unicode- nach ANSI-Kodierung:
 [VBR macro]
 VBR-Anzeige
-[\[X\]Status Title / Text]
-\[X]Status-Titel/-Text
+[\[x\]Status Title / Text]
+\[x]Status-Titel/-Text
 [Insert in messages]
 In Nachrichten einfügen
 [Use status messages]
 Statusnachrichten verwenden
-[Independed XStatus]
-Unabhängiger XStatus
+[Independent xStatus]
+Unabhängiger xStatus
 [Use process implantation]
 Prozess-Implantation nutzen
 [Simple Template mode]
 Vereinfachter Vorlagenmodus
-[Use existing XStatus]
-Vorhandenen XStatus verwenden
+[Use existing xStatus]
+Vorhandenen xStatus verwenden
 [Only if 'Music' status was set]
-Nur bei 'XStatus Musik' aktiv werden
+Nur bei 'xStatus Musik' aktiv werden
 [Keep 'Music' status]
 "Musik" Status beibehalten
 [Replace underlines with spaces]
@@ -237,10 +237,10 @@ Kein Player
 Benutzernachricht
 [Channel message]
 Channelnachricht
-[If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
-Wenn diese Einstellung aktiv ist, wird ein bereits gesetzter XStatus nicht geändert, sondern nur dessen Nachricht von WATrack durch Musikinfos ersetzt.
-[Keep 'Music' XStatus]
-'XStatus Musik' beibehalten
+[If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
+Wenn diese Einstellung aktiv ist, wird ein bereits gesetzter xStatus nicht geändert, sondern nur dessen Nachricht von WATrack durch Musikinfos ersetzt.
+[Keep 'Music' xStatus]
+'xStatus Musik' beibehalten
 [No-music text]
 "Keine Musik"-Text
 [No-player text]
@@ -295,14 +295,14 @@ Wenn diese Einstellung aktiv ist, wird die Statusnachricht durch Musikinfos erse
 Wenn diese Einstellung aktiv ist, werden alle Plugin-Einstellungen in der INI-Datei gespeichert und aus der Miranda-DB gelöscht, anderenfalls wird die INI-Datei gelöscht.
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 Wenn diese Einstellung aktiv ist, versucht das Plugin unbekannte Formatangaben vom Player zu beziehen (funktioniert nicht mit allen Playern!)
-[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
-Wenn diese Einstellung aktiv ist, ändert sich der XStatus nur, wenn XStatus "Musik" bereits gesetzt ist.
-[If this option is "ON", XStatus doesn't depend of ICQ's status.]
-Wenn diese Einstellung aktiv ist, hängt der XStatus nicht vom ICQ-Status ab.
-[If this option is "ON", XStatus won't be changed when player is shut down.]
-Wenn diese Einstellung aktiv ist, ändert sich der XStatus nach dem Beenden des Players nicht.
-[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
-Wenn diese Einstellung aktiv ist, ändert sich der XStatus zu "Musik", und Musikinfos werden in die Statusnachricht eingefügt.
+[If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
+Wenn diese Einstellung aktiv ist, ändert sich der xStatus nur, wenn xStatus "Musik" bereits gesetzt ist.
+[If this option is "ON", xStatus doesn't depend of ICQ's status.]
+Wenn diese Einstellung aktiv ist, hängt der xStatus nicht vom ICQ-Status ab.
+[If this option is "ON", xStatus won't be changed when player is shut down.]
+Wenn diese Einstellung aktiv ist, ändert sich der xStatus nach dem Beenden des Players nicht.
+[If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
+Wenn diese Einstellung aktiv ist, ändert sich der xStatus zu "Musik", und Musikinfos werden in die Statusnachricht eingefügt.
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Wenn diese Einstellung aktiv ist, muss lediglich eine Vorlage für alle Protokolle, Protokoll- und Playerstatus definiert werden.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
@@ -369,8 +369,6 @@ Versuche OLE-Interface zu verwenden
 Playerzustand (angehalten, spielt, pausiert)
 [player]
 Player
-[Independed Xstatus]
-Unabhängiger XStatus
 ["Variables" ANSI output]
 "Variables" ANSI-Ausgabe
 [FPS (Frames per second)]
@@ -433,7 +431,7 @@ Kontextmenü
 Berichtsdateiname nicht definiert!
 [Status Template]
 Statusvorlage
-[XStatus Title]
+[xStatus Title]
 xStatus-Titel
 ['mono' / 'stereo']
 'mono' / 'stereo'
@@ -455,13 +453,13 @@ xStatus-Titel
 - Gesamte Liedlänge (Sek.)
 [- track number]
 - Tracknummer
-[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
-  Aktualisierungszeit (Sek.) ist die Zeit, in der Musikinfo und Statusnachricht aktualisiert werden. Bei Null ist automatische Aktualisierung deaktiviert.\nNur wenn 'Musik'-Status gesetzt war - ändert Ihren Status nur, wenn Musik XStatus bereits gesetzt ist.\n'Musik'-XStatus beibehalten - wenn Player gestoppt oder beendet wird wird XStatus 'Musik' beibehalten.\nWenn der Text nach der Verarbeitung leer ist dann ändert sich die Statusnachricht nicht.\Wenn die Einstellungen in der INI-Datei gespeichert sind, dann wird die Einstellung aus der Miranda-Datenbank gelöscht. Sonst wird die INI-Datei gelöscht.
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music xStatus sets already.\n  Keep 'Music' xStatus - if player stopped or shutdowned, save or not 'Music' xStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+  Aktualisierungszeit (Sek.) ist die Zeit, in der Musikinfo und Statusnachricht aktualisiert werden. Bei Null ist automatische Aktualisierung deaktiviert.\nNur wenn 'Musik'-Status gesetzt war - ändert Ihren Status nur, wenn Musik xStatus bereits gesetzt ist.\n'Musik'-xStatus beibehalten - wenn Player gestoppt oder beendet wird wird xStatus 'Musik' beibehalten.\nWenn der Text nach der Verarbeitung leer ist dann ändert sich die Statusnachricht nicht.\Wenn die Einstellungen in der INI-Datei gespeichert sind, dann wird die Einstellung aus der Miranda-Datenbank gelöscht. Sonst wird die INI-Datei gelöscht.
 ["Variables" module use]
 "Variablen"-Modul verwenden
 [Acoustic]
 Akustisch
-[Use ICQ XStatus]
+[Use ICQ xStatus]
 ICQ-xStatus verwenden
 [Winamp Track]
 Winamp Track
@@ -489,7 +487,7 @@ Export-Vorlage
 Wenn diese Einstellung aktiv ist, wird das "Listening To"-Feld mit Musikinfos gefüllt.
 [Enable Status message]
 Statusnachricht setzen
-[Enable XStatus message]
+[Enable xStatus message]
 xStatus-Nachricht setzen
 [Enable Tunes message]
 "Ich höre gerade"-Nachricht setzen
@@ -541,13 +539,13 @@ Musikstatistik
 Status (Allgemein)
 [Status (templates)]
 Status (Vorlagen)
-[Set XStatus when...]
+[Set xStatus when...]
 Setze xStatus, wenn...
-[XStatus is empty or 'Music']
+[xStatus is empty or 'Music']
 xStatus leer oder 'Musik' ist
 ['Music' status is set]
 xStatus 'Musik' gesetzt ist
-[any XStatus is set]
+[any xStatus is set]
 irgendein xStatus gesetzt ist
 [Players list\n(F1 for note)]
 Liste der Player\n(F1 für Hilfe)
@@ -615,8 +613,8 @@ Ausgehend
 Schriftart wählen
 [Genres]
 Genres
-[[X]Status Title / Text]
-\[X]Status Titel / Text
+[[x]Status Title / Text]
+\[x]Status-Titel/-Text
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Scrobbeln bei
