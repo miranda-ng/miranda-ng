@@ -334,7 +334,7 @@ std::string utils::text::slashu_to_utf8(std::string data)
 
 std::string utils::text::trim(std::string data, bool rtrim)
 {
-	std::string spaces = "  \t\r\n";
+	std::string spaces = " \t\r\n";
 	std::string::size_type begin = rtrim ? 0 : data.find_first_not_of(spaces);
 	std::string::size_type end = data.find_last_not_of(spaces);
 
