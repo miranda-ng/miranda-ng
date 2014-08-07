@@ -48,8 +48,8 @@ Größere Avatare nutzen
 Ereignisbenachrichtigungen
 [Notifications]
 Benachrichtigung
-[News feeds]
-News-Feeds
+[News feeds (WARNING: Causes excessive network traffic!)]
+
 [News feed types to notify:]
 Newsfeed-Ereignisse melden:
 [Don't show advertising posts]
@@ -256,6 +256,8 @@ Freundschaftsanfragen überprüfen...
 Freundesliste aktualisieren...
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" beenden?
+[News feeds]
+News-Feeds
 [Visit profile]
 Profil besuchen
 [Visit notifications]

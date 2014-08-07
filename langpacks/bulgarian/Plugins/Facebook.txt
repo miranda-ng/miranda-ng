@@ -48,8 +48,8 @@ URL:
 Уведомявания за събития
 [Notifications]
 Уведомявания
-[News feeds]
-Новини
+[News feeds (WARNING: Causes excessive network traffic!)]
+
 [News feed types to notify:]
 Уведомяване за следните новини:
 [Don't show advertising posts]
@@ -256,6 +256,8 @@ URL:
 
 [Do you want to cancel your friendship with '%s'?]
 
+[News feeds]
+Новини
 [Visit profile]
 
 [Visit notifications]

@@ -1,0 +1,1 @@
+﻿[Connection to server failed. SkypeKit has been deprecated by Microsoft.]

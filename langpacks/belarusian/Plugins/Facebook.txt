@@ -48,8 +48,6 @@ URL:
 Абвесткі
 [Notifications]
 Абвесткі
-[News feeds]
-Навіны
 [News feed types to notify:]
 Абвяшчаць пра тыпы навін:
 [Other events]
@@ -230,6 +228,8 @@ Facebook ID павінна быць лічбавым значэннем.
 Абнаўленне спісу сяброў...
 [Do you want to cancel your friendship with '%s'?]
 Хочаце адмяніць сяброўства з '%s'?
+[News feeds]
+Навіны
 [Visit profile]
 Профіль
 [Show 'Share status' window]

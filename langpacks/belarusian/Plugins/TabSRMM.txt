@@ -1046,6 +1046,8 @@ Esc зачыняе сесію (інакш - згортвае)
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Файл RTF
+[No status message]
+Няма паведамлення статусу
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Праблема канфігурацыі|Аўтаматычная адпраўка адключана. \\b1Адпраўка з затрымкай\\b0 і \\b1мультыадпраўка\\b0 залежаць ад яе.\n\nВы павінны ўключыць яе \\b1Налады->Гутаркі->Дадатковыя налады\\b0. Пасля змены гэтай опцыі, патрабуецца перазапуск.
 [You cannot edit user notes when there are unsent messages]
@@ -1081,8 +1083,6 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Выходныя
 [Message send error]
 Памылка адпраўкі паведамлення
-[No status message]
-Няма паведамлення статусу
 [Other]
 Іншае
 [TabSRMM: Typing]

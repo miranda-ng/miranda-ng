@@ -1046,6 +1046,8 @@ Unbekanntes Modul oder Kontakt
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Rich-Edit-Datei
+[No status message]
+Keine Statusnachricht
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Konfigurationsproblem|Die Funktion zum unbeaufsichtigten Senden ist deaktiviert. Die Funktionen \\b1 später senden\\b0 und \\b1 an mehrere Kontakte senden\\b0 hängen davon ab.\n\nSie müssen sie unter \\b1Optionen->Nachrichtensitzungen->Erw. Einstellungen\\b0 aktivieren. Ein Neustart ist erforderlich.
 [You cannot edit user notes when there are unsent messages]
@@ -1081,8 +1083,6 @@ Eingehend (Neue Sitzung)
 Ausgehend
 [Message send error]
 Fehler beim Senden der Nachricht
-[No status message]
-Keine Statusnachricht
 [Other]
 Sonstige
 [TabSRMM: Typing]

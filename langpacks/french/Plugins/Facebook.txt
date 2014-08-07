@@ -48,8 +48,8 @@ Utiliser des grands avatars
 
 [Notifications]
 Notifications
-[News feeds]
-Fil d'actualité
+[News feeds (WARNING: Causes excessive network traffic!)]
+
 [News feed types to notify:]
 
 [Don't show advertising posts]
@@ -256,6 +256,8 @@ Partager le statut
 
 [Do you want to cancel your friendship with '%s'?]
 
+[News feeds]
+Fil d'actualité
 [Visit profile]
 Visiter le profil
 [Visit notifications]

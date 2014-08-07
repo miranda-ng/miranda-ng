@@ -1046,6 +1046,8 @@ TabSRMM предупреждение
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 
+[No status message]
+Няма текст за състоянието
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Проблем с настройките|Функцията за автоматично изпращане е изключена.\\b1 Изпращането след време\\b0  и \\b1 до няколко потребителя\\b0  зависят от нея.\n\nМожете да я включите от \\b1Настройки>Разговори>Допълнителни настройки\\b0. Промяната изисква рестартиране.
 [You cannot edit user notes when there are unsent messages]
@@ -1081,8 +1083,6 @@ UID: %s (SHIFT+ляв бутон = копиране в клипборда)\nЛя
 Изходящи
 [Message send error]
 Грешка при опит за изпращане на съобщение
-[No status message]
-Няма текст за състоянието
 [Other]
 Друго
 [TabSRMM: Typing]

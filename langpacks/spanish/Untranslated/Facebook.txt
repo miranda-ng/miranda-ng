@@ -1,4 +1,5 @@
-﻿[Don't show advertising posts]
+﻿[News feeds (WARNING: Causes excessive network traffic!)]
+[Don't show advertising posts]
 [Keep messages as unread on server (don't send "seen" info)]
 [Receive messages from "inbox" folder only]
 [Load last messages on opening message window (EXPERIMENTAL)]

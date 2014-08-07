@@ -1046,6 +1046,8 @@ Nieznany moduł lub kontakt
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Plik pola edycji z formatowaniem
+[No status message]
+Kontakt nie ma opisu.
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Problem konfiguracji|Funkcja wysyłania wiadomości nienadzorowanych jest wyłączona. \\b1 Wyślij później\\b0 i \\b1wyślij do wielu\\b0  jest od niej zależna.\n\nMusisz włączyć je w \\b1Opcje -> Okno rozmowy -> Zaawansowane poprawki\\b0. Zmiana tej opcji wymaga ponownego uruchomienia komunikatora.
 [You cannot edit user notes when there are unsent messages]
@@ -1081,8 +1083,6 @@ Przychodzące (Nowa sesja)
 Wychodzące
 [Message send error]
 Błąd wysyłania wiadomości
-[No status message]
-Kontakt nie ma opisu.
 [Other]
 Inne
 [TabSRMM: Typing]

@@ -47,8 +47,6 @@
 Сповіщення про події
 [Notifications]
 Сповіщення
-[News feeds]
-Новини
 [News feed types to notify:]
 Сповіщати про типи новин:
 [Don't show advertising posts]
@@ -245,6 +243,8 @@
 Оновлення списку друзів...
 [Do you want to cancel your friendship with '%s'?]
 Ви впевнені, що хочете видалити "%s" з друзів?
+[News feeds]
+Новини
 [Visit profile]
 Профіль
 [Visit notifications]

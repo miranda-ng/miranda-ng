@@ -1046,6 +1046,8 @@ Archivo entrante
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 
+[No status message]
+
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 
 [You cannot edit user notes when there are unsent messages]
@@ -1081,8 +1083,6 @@ Entrante (Nueva sesión)
 Saliendo
 [Message send error]
 Enviar mensaje de error
-[No status message]
-
 [Other]
 Otro
 [TabSRMM: Typing]

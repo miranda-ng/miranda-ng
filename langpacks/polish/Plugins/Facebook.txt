@@ -48,8 +48,8 @@ Użyj większych awatarów
 Zdarzenia
 [Notifications]
 Powiadomienia
-[News feeds]
-Aktualności
+[News feeds (WARNING: Causes excessive network traffic!)]
+
 [News feed types to notify:]
 Powiadamiaj o następujących typach aktualności:
 [Don't show advertising posts]
@@ -256,6 +256,8 @@ Sprawdzanie zaproszeń do grona znajomych...
 Odświeżanie listy kontaktów...
 [Do you want to cancel your friendship with '%s'?]
 Czy chcesz anulować znajomość z "%s"?
+[News feeds]
+Aktualności
 [Visit profile]
 Odwiedź profil
 [Visit notifications]

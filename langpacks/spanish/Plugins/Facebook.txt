@@ -48,8 +48,8 @@ Usar avatares grandes
 Notificaciones de eventos
 [Notifications]
 Notificaciones
-[News feeds]
-Nuevas noticias
+[News feeds (WARNING: Causes excessive network traffic!)]
+
 [News feed types to notify:]
 Tipos de noticias a notificar:
 [Don't show advertising posts]
@@ -256,6 +256,8 @@ Comprobando solicitudes de amistad...
 Refrescando lista de amigos...
 [Do you want to cancel your friendship with '%s'?]
 ¿Quiere cancelar su amistad con '%s'?
+[News feeds]
+Nuevas noticias
 [Visit profile]
 Visitar perfil
 [Visit notifications]

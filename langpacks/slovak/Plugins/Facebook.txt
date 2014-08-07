@@ -48,7 +48,7 @@ Storno
 
 [Notifications]
 
-[News feeds]
+[News feeds (WARNING: Causes excessive network traffic!)]
 
 [News feed types to notify:]
 
@@ -255,6 +255,8 @@ Podrobne
 [Refreshing buddy list...]
 
 [Do you want to cancel your friendship with '%s'?]
+
+[News feeds]
 
 [Visit profile]
 

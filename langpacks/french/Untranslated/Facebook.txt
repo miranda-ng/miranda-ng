@@ -2,6 +2,7 @@
 [Attach contacts:]
 [Automatically set 'Ignore status change' flag]
 [Event notifications]
+[News feeds (WARNING: Causes excessive network traffic!)]
 [News feed types to notify:]
 [Don't show advertising posts]
 [Client notifications]
