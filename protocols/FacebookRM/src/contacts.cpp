@@ -580,7 +580,7 @@ void FacebookProto::SendPokeWorker(void *p)
 		if (message.empty()) // message has different format, show whole message
 			message = resp.data;
 
-		message = utils::text::special_expressions_decode(
+		message = utils::text::html_entities_decode(
 			utils::text::remove_html(message));
 
 		ptrT tmessage( mir_utf8decodeT(message.c_str()));

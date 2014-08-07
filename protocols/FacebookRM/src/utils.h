@@ -56,7 +56,7 @@ namespace utils
 		void replace_first(std::string* data, std::string from, std::string to);
 		void replace_all(std::string* data, std::string from, std::string to);
 		unsigned int count_all(std::string* data, std::string term);
-		std::string special_expressions_decode(std::string data);
+		std::string html_entities_decode(std::string data);
 		std::string edit_html(std::string data);
 		std::string remove_html(std::string data);
 		std::string slashu_to_utf8(std::string data);

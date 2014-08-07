@@ -1021,12 +1021,12 @@ void FacebookProto::ProcessFeeds(void* data)
 		facebook_newsfeed* nf = new facebook_newsfeed;
 
 		nf->title = utils::text::trim(
-			utils::text::special_expressions_decode(
+			utils::text::html_entities_decode(
 				utils::text::remove_html(post_header)));
 
 		nf->user_id = utils::text::source_get_value(&post_header, 2, "user.php?id=", "&amp;");
 		
-		nf->link = utils::text::special_expressions_decode(post_link);
+		nf->link = utils::text::html_entities_decode(post_link);
 		
 		// Check if we don't want to show ads posts
 		bool filtered = filterAds && (nf->link.find("/about/ads") != std::string::npos
@@ -1034,7 +1034,7 @@ void FacebookProto::ProcessFeeds(void* data)
 			|| post.find("href=\"/about/ads\"") != std::string::npos);
 
 		nf->text = utils::text::trim(
-			utils::text::special_expressions_decode(
+			utils::text::html_entities_decode(
 				utils::text::remove_html(
 					utils::text::edit_html(post_message))));		
 
@@ -1116,7 +1116,7 @@ void FacebookProto::ProcessPages(void*)
 		start = content.find("<li", start + 1);
 
 		std::string id = utils::text::source_get_value(&item, 3, "data-gt=", "bmid&quot;:&quot;", "&quot;");
-		std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&item, 3, "data-gt=", "title=\"", "\"")));
+		std::string title = utils::text::slashu_to_utf8(utils::text::source_get_value(&item, 3, "data-gt=", "title=\"", "\""));
 		std::string href = utils::text::source_get_value(&item, 3, "data-gt=", "href=\"", "\"");
 
 		// Ignore pages channel
@@ -1186,10 +1186,10 @@ void FacebookProto::SearchAckThread(void *targ)
 					continue;
 
 				ptrT tid( mir_utf8decodeT(id.c_str()));
-				ptrT tname( mir_utf8decodeT(utils::text::special_expressions_decode(name).c_str()));
-				ptrT tsurname( mir_utf8decodeT(utils::text::special_expressions_decode(surname).c_str()));
-				ptrT tnick( mir_utf8decodeT(utils::text::special_expressions_decode(nick).c_str()));
-				ptrT tcommon( mir_utf8decodeT(utils::text::special_expressions_decode(common).c_str()));
+				ptrT tname( mir_utf8decodeT(utils::text::html_entities_decode(name).c_str()));
+				ptrT tsurname( mir_utf8decodeT(utils::text::html_entities_decode(surname).c_str()));
+				ptrT tnick( mir_utf8decodeT(utils::text::html_entities_decode(nick).c_str()));
+				ptrT tcommon( mir_utf8decodeT(utils::text::html_entities_decode(common).c_str()));
 
 				PROTOSEARCHRESULT isr = {0};
 				isr.cbSize = sizeof(isr);

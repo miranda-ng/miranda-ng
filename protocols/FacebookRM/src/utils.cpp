@@ -150,7 +150,7 @@ void utils::text::append_ordinal(unsigned long value, std::string* data)
 	}
 }
 
-std::string utils::text::special_expressions_decode(std::string data)
+std::string utils::text::html_entities_decode(std::string data)
 {
 	utils::text::replace_all(&data, "&amp;", "&");
 	utils::text::replace_all(&data, "&quot;", "\"");

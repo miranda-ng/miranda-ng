@@ -135,7 +135,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 				if (pos != std::string::npos) {
 					pos += 20;
 					error = resp.data.substr(pos, resp.data.find("\"", pos) - pos);
-					error = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(error)));
+					error = utils::text::trim(utils::text::html_entities_decode(utils::text::slashu_to_utf8(error)));
 					error = ptrA( mir_utf8decodeA(error.c_str()));	
 				}
 
@@ -144,7 +144,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 				if (pos != std::string::npos) {
 					pos += 16;
 					title = resp.data.substr(pos, resp.data.find("\"", pos) - pos);
-					title = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(title)));
+					title = utils::text::trim(utils::text::html_entities_decode(utils::text::slashu_to_utf8(title)));
 					title = ptrA( mir_utf8decodeA(title.c_str()));	
 				}
 
@@ -723,7 +723,7 @@ void facebook_client::clear_chatrooms()
 
 void loginError(FacebookProto *proto, std::string error_str) {
 	error_str = utils::text::trim(
-			utils::text::special_expressions_decode(
+			utils::text::html_entities_decode(
 				utils::text::remove_html(
 					utils::text::edit_html(error_str))));
 	
@@ -1294,7 +1294,7 @@ bool facebook_client::post_status(status_data *status)
 		data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
 		data += "&loaded_components[0]=maininput&loaded_components[1]=backdateicon&loaded_components[2]=withtaggericon&loaded_components[3]=cameraicon&loaded_components[4]=placetaggericon&loaded_components[5]=mainprivacywidget&loaded_components[6]=withtaggericon&loaded_components[7]=backdateicon&loaded_components[8]=placetaggericon&loaded_components[9]=cameraicon&loaded_components[10]=mainprivacywidget&loaded_components[11]=maininput&loaded_components[12]=explicitplaceinput&loaded_components[13]=hiddenplaceinput&loaded_components[14]=placenameinput&loaded_components[15]=hiddensessionid&loaded_components[16]=withtagger&loaded_components[17]=backdatepicker&loaded_components[18]=placetagger&loaded_components[19]=citysharericon";
 		http::response resp = flap(REQUEST_LINK_SCRAPER, &data, &status->url);
-		resp.data = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(resp.data));
+		resp.data = utils::text::slashu_to_utf8(resp.data);
 
 		data = "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&ttstamp=0";
 		std::string form = utils::text::source_get_value(&resp.data, 2, "<form", "</form>");

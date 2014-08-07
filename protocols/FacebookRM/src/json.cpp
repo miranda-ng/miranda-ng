@@ -151,9 +151,9 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 			JSONNODE *thumbSrc = json_get(it, "thumbSrc");
 
 			if (name != NULL)
-				current->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(name)));
+				current->real_name = utils::text::slashu_to_utf8(json_as_pstring(name));
 			if (thumbSrc != NULL)			
-				current->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(thumbSrc)));
+				current->image_url = utils::text::slashu_to_utf8(json_as_pstring(thumbSrc));
 		}
 	}
 
@@ -181,11 +181,11 @@ void parseUser(JSONNODE *it, facebook_user *fbu)
 
 	
 	if (name)
-		fbu->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(name)));
+		fbu->real_name = utils::text::slashu_to_utf8(json_as_pstring(name));
 	if (thumbSrc)
-		fbu->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(thumbSrc)));
+		fbu->image_url = utils::text::slashu_to_utf8(json_as_pstring(thumbSrc));
 	if (vanity)
-		fbu->username = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(vanity)));
+		fbu->username = utils::text::slashu_to_utf8(json_as_pstring(vanity));
 
 	if (gender)
 		switch (json_as_int(gender)) {
@@ -259,7 +259,7 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 		if (markup == NULL || unread == NULL || json_as_int(unread) == 0)
 			continue;
 
-		std::string text = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(markup)));
+		std::string text = utils::text::slashu_to_utf8(json_as_pstring(markup));
 
 		facebook_notification* notification = new facebook_notification();
 
@@ -518,7 +518,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (json_as_bool(filtered) && message_text.empty())
 					message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
 
-				message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
+				message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
 				if (message_text.empty())
 					continue;
 
@@ -529,7 +529,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 				message->user_id = id;
 				message->message_id = message_id;
-				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name))); // TODO: or if not incomming use my own name from facy.self_ ?
+				message->sender_name = utils::text::slashu_to_utf8(json_as_pstring(sender_name)); // TODO: or if not incomming use my own name from facy.self_ ?
 				message->thread_id = json_as_pstring(tid); // TODO: or if not incomming use my own id from facy.self_ ?
 
 				JSONNODE *gthreadinfo = json_get(msg, "group_thread_info");
@@ -571,7 +571,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 					facebook_notification* notification = new facebook_notification();
 					notification->text = utils::text::slashu_to_utf8(json_as_pstring(text));
-  					notification->link = utils::text::special_expressions_decode(json_as_pstring(url));					
+  					notification->link = json_as_pstring(url);					
 					notification->id = json_as_pstring(alert_id);
 
 					std::string::size_type pos = notification->id.find(":");
@@ -674,7 +674,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			text = utils::text::slashu_to_utf8(text);
 
 			text = utils::text::trim(
-					utils::text::special_expressions_decode(
+					utils::text::html_entities_decode(
 						utils::text::source_get_value(&text, 3, "<h5", ">", "</h5>")));
 			
 			// TODO: notify ticker updates
@@ -885,7 +885,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		if (json_as_bool(filtered) && message_text.empty())
 			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
 		
-		message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
+		message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
 		if (message_text.empty())
 			continue;
 
