@@ -849,15 +849,18 @@ bool facebook_client::login(const char *username, const char *password)
 	case HTTP_CODE_OK: // OK page returned, but that is regular login page we don't want in fact
 	{ 
 		// Check whether captcha code is required
-		if (resp.data.find("id=\"captcha\"") != std::string::npos)
-		{
+		if (resp.data.find("id=\"captcha\"") != std::string::npos) {
 			client_notify(TranslateT("Login error: Captcha code is required. Bad login credentials?"));
 			parent->debugLogA(" ! !  Login error: Captcha code is required.");
 			return handle_error("login", FORCE_QUIT);
 		}
 
 		// Get and notify error message
-		loginError(parent, utils::text::source_get_value(&resp.data, 4, "login_error_box", "<div", ">", "</div>")); 
+		std::string error = utils::text::source_get_value(&resp.data, 4, "login_error_box", "<div", ">", "</div>");
+		if (error.empty())
+			error = utils::text::source_get_value(&resp.data, 3, "<form", "title=\"", "\"");
+
+		loginError(parent, error); 
 	}
 	case HTTP_CODE_FORBIDDEN: // Forbidden
 	case HTTP_CODE_NOT_FOUND: // Not Found
