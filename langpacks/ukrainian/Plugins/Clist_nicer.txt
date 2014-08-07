@@ -180,7 +180,7 @@
 [Dim idle contacts]
 Затемняти неактивних користувачів
 [Replace status icons with xStatus]
-Замінити значки статусу хСтатусом
+Замінити значки статусу xСтатусом
 [Window]
 Вікно
 [Always on top]
@@ -306,7 +306,7 @@
 [Draw background skin]
 Використовувати скін для фону
 [Show ICQ extended status icons]
-Показувати значки хСтатусу
+Показувати значки xСтатусу
 [Mark protocols locked from global status changes]
 Позначати протоколи, для яких не застосовується зміна статусу
 [Available view modes]

@@ -22,16 +22,16 @@
 Іншае
 [You also have to enable it per protocol in the main menu]
 Налада па пратаколах знаходзіцца ў галоўным меню
-[XStatus]
-хстатус
-[For protocols that don't support listening to but support XStatus:]
-Пры адсутнасці прамой падтрымкі пратаколам, але падтрымцы хстатусаў:
-[Set XStatus to Music and show listening info]
-Усталяваць хстатус "Музыка" і паказваць інфармацыю пра музыку
-[If other XStatus is not set, set XStatus to Music and show listening info]
-Калі ёсць хстатус, але ён не "Музыка", тое выканаць папярэдні пункт
-[If XStatus is Music, show listening info]
-Калі хстатус "Музыка", тое паказваць інфармацыю пра музыку
+[xStatus]
+xСтатус
+[For protocols that don't support listening to but support xStatus:]
+Пры адсутнасці прамой падтрымкі пратаколам, але падтрымцы xСтатусаў:
+[Set xStatus to Music and show listening info]
+Усталяваць xСтатус "Музыка" і паказваць інфармацыю пра музыку
+[If other xStatus is not set, set xStatus to Music and show listening info]
+Калі ёсць xСтатус, але ён не "Музыка", тое выканаць папярэдні пункт
+[If xStatus is Music, show listening info]
+Калі xСтатус "Музыка", тое паказваць інфармацыю пра музыку
 [Do nothing]
 Нічога не рабіць
 [Contacts]

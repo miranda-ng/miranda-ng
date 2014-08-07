@@ -22,16 +22,16 @@
 Други
 [You also have to enable it per protocol in the main menu]
 Необходимо е да определите протоколи от главното меню
-[XStatus]
-хСъстояние
-[For protocols that don't support listening to but support XStatus:]
-За протоколи, които не поддържат "Слуша", но поддържат хСъстояние:
-[Set XStatus to Music and show listening info]
-Задаване на хСъстояние "Слуша музика" и показване на информация
-[If other XStatus is not set, set XStatus to Music and show listening info]
-Задаване на "Слуша музика", ако няма зададено хСъстояние и показване на информация
-[If XStatus is Music, show listening info]
-Показване на информация, ако е зададено хСъстояние "Слуша музика"
+[xStatus]
+xСъстояние
+[For protocols that don't support listening to but support xStatus:]
+За протоколи, които не поддържат "Слуша", но поддържат xСъстояние:
+[Set xStatus to Music and show listening info]
+Задаване на xСъстояние "Слуша музика" и показване на информация
+[If other xStatus is not set, set xStatus to Music and show listening info]
+Задаване на "Слуша музика", ако няма зададено xСъстояние и показване на информация
+[If xStatus is Music, show listening info]
+Показване на информация, ако е зададено xСъстояние "Слуша музика"
 [Do nothing]
 Нищо
 [Contacts]

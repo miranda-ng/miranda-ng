@@ -178,7 +178,7 @@
 [Dim idle contacts]
 Затемнить неактивных пользователей
 [Replace status icons with xStatus]
-Заменить значки статуса хСтатусом
+Заменить значки статуса xСтатусом
 [Window]
 Окно
 [Always on top]

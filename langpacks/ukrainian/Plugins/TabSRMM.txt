@@ -1156,7 +1156,7 @@ TabSRMM: Набирає
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\tab \\ul\\b Повідомлення статусу:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b хСтатус:\\ul0\\b0 \\par\s
+\\par\\par\\tab \\ul\\b xСтатус:\\ul0\\b0 \\par\s
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\tab \\ul\\b Слухає:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
@@ -1706,7 +1706,7 @@ TabSRMM: %s
 [Show status text on tabs]
 Показувати текст статусу у вкладці
 [Prefer xStatus icons when available]
-Показувати значок хСтатусу, коли доступний (замість статусу)
+Показувати значок xСтатусу, коли доступний (замість статусу)
 [Detailed tooltip on tabs (requires Tipper plugin)]
 Показувати підказку на вкладках (потрібен плагін Tipper)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]

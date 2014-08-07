@@ -54,7 +54,7 @@
 [Status message]
 Сообщение статуса
 [xStatus title]
-Заголовок хСтатуса
+Заголовок xСтатуса
 [xStatus message]
 Сообщение xСтатуса
 [Listening to]
@@ -72,7 +72,7 @@
 [Copy to Account]
 Копировать в учётную запись
 [Copy xStatus Message]
-Копировать сообщение ХСтатуса
+Копировать сообщение xСтатуса
 [All]
 Все
 [Messages]

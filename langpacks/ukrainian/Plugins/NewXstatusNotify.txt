@@ -6,7 +6,7 @@
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
-Сповіщає про зміни статусів, хСтатусів та статусних повідомлень контактів.
+Сповіщає про зміни статусів, xСтатусів та статусних повідомлень контактів.
 [Notify when contact changes to one of these statuses]
 Сповіщати, коли статус контакту змінюється на:
 [Online]
@@ -34,7 +34,7 @@
 [Notify when contact changes]
 Сповіщати, коли контакт змінює
 [Extra status]
-хСтатус
+xСтатус
 [Status message]
 Повідомлення статусу
 [Plugin activation]
@@ -50,7 +50,7 @@
 [Blink icon in the system tray]
 Блимаючий значок у треї
 [Also when extra status or status message changes]
-При зміні хСтатусів чи повідомлень статусу
+При зміні xСтатусів чи повідомлень статусу
 [Use status icon]
 Значок статусу
 [Log to file]
@@ -76,9 +76,9 @@
 [Popups]
 Спливаючі вікна
 [Extra status notify]
-хСтатуси
+xСтатуси
 [Extra status logging]
-Запис хСтатусів
+Запис xСтатусів
 [Disable all]
 Вимкнути все
 [Enable all]
@@ -134,7 +134,7 @@
 [Show Popups when I connect]
 Показувати спливаючі вікна, коли я підключаюся
 [Disable for extra status 'Music']
-Вимкнути для хСтатусу "Музика"
+Вимкнути для xСтатусу "Музика"
 [Truncate message length to:]
 Обрізати повідомлення до
 [characters]
@@ -142,15 +142,15 @@
 [Templates]
 Шаблони
 [Notify when contact changes extra status]
-Сповіщати про зміни хСтатусів
+Сповіщати про зміни xСтатусів
 [Template:]
 Шаблон:
 [Notify when contact removes extra status]
-Сповіщати про видалення хСтатусів
+Сповіщати про видалення xСтатусів
 [Notify when contact changes extra status message]
-Сповіщати про зміни повідомлень хСтатусу
+Сповіщати про зміни повідомлень xСтатусу
 [Notify when contact removes extra status message]
-Сповіщати про видалення повідомлень хСтатусу
+Сповіщати про видалення повідомлень xСтатусу
 [Variables]
 Змінні
 [Reset]
@@ -166,7 +166,7 @@
 [Cancel]
 Скасувати
 [Log extra status changes]
-Записувати зміни хСтатусів
+Записувати зміни xСтатусів
 [Log extra status changes to file]
 У файл
 [Log extra status changes to history]
@@ -176,15 +176,15 @@
 [Remove events from history when closing message window]
 Видаляти події з історії після закриття вікна повідомлень
 [Log when contact changes extra status]
-Записувати зміни хСтатусів
+Записувати зміни xСтатусів
 [Log when contact removes extra status]
-Записувати видалення хСтатусів
+Записувати видалення xСтатусів
 [Log when contact changes extra status message]
-Записувати зміни повідомлень хСтатусу
+Записувати зміни повідомлень xСтатусу
 [Log when contact removes extra status message]
-Записувати видалення повідомлень хСтатусу
+Записувати видалення повідомлень xСтатусу
 [Log extra status when opening message window]
-Записувати хСтатуси при відкритті вікна повідомлень
+Записувати xСтатуси при відкритті вікна повідомлень
 [General]
 Загальне
 [Accounts]
@@ -334,13 +334,13 @@
 [Status message changed]
 Змінено статусне повідомлення
 [Extra status removed]
-Видалено хСтатус
+Видалено xСтатус
 [Extra status message changed]
-Змінено повідомлення хСтатусу
+Змінено повідомлення xСтатусу
 [Extra status changed]
-Змінено хСтатус
+Змінено xСтатус
 [Extra status message removed]
-Видалено повідомлення хСтатусу
+Видалено повідомлення xСтатусу
 [Enable status notification]
 Ввімкнути сповіщення про зміну статусу
 [Disable status notification]
@@ -362,7 +362,7 @@
 [This is status message]
 Повідомлення статусу
 [This is extra status]
-хСтатус
+xСтатус
 [Show available variables]
 Доступні змінні
 [Reset all templates to default]
@@ -400,7 +400,7 @@
 [Activity]
 Заняття
 [xStatus]
-хСтатус
+xСтатус
 [<no title>]
 <без заголовка>
 [%s changed %s]
@@ -428,6 +428,6 @@
 [is %s and has status message @ %n]
 зараз %s @ %n
 [These variables are available:\r\n\r\n%n\textra status name (xStatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Доступні змінні:\r\n\r\n%n\tназва хСтатусу (хСтатус, Настрій, Заняття)\r\n%t\tзаголовок хСтатусу\r\n%m\tповідомлення хСтатусу\r\n%c\tнік\r\n\\n\tперенос рядка\r\n\\t\tтабуляція
+Доступні змінні:\r\n\r\n%n\tназва xСтатусу (xСтатус, Настрій, Заняття)\r\n%t\tзаголовок xСтатусу\r\n%m\tповідомлення xСтатусу\r\n%c\tнік\r\n\\n\tперенос рядка\r\n\\t\tтабуляція
 [These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
 Доступні змінні:\r\n\r\n%n\tнове повідомлення статусу\r\n%o\tстаре повідомлення статусу\r\n%c\tнік\r\n%s\tпоточний статус\r\n\\n\tперенос рядка\r\n\\t\tтабуляція

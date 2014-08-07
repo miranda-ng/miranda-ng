@@ -55,10 +55,10 @@
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Текст за състояние
-[XStatus title]
-хСъстояние
-[XStatus message]
-Текст на хСъстояние
+[xStatus title]
+xСъстояние
+[xStatus message]
+Текст на xСъстояние
 [Listening to]
 Слуша..
 [Activity title]

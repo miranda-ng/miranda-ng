@@ -330,7 +330,7 @@ Chyba
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 
-[Mail.ru Xstatus]
+[Mail.ru xStatus]
 
 [Mail.ru extra info]
 

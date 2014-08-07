@@ -80,7 +80,7 @@
 [Offline]
 Не в мережі
 [xStatuses]
-хСтатуси
+xСтатуси
 [Keys to flash]
 Чим блимати
 [Flashing effects]
@@ -164,7 +164,7 @@
 [Ignore]
 Ігнорувати
 [Set xStatus list]
-Список хСтатусів
+Список xСтатусів
 [** All contacts **]
 ** Усі контакти **
 [** Unknown contacts **]

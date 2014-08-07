@@ -55,9 +55,9 @@ Zu lange ID kürzen
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Statusnachricht
-[XStatus title]
+[xStatus title]
 xStatus-Titel
-[XStatus message]
+[xStatus message]
 xStatus-Nachricht
 [Listening to]
 Höre gerade

@@ -55,9 +55,9 @@ Solicitar autorización
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 
-[XStatus title]
+[xStatus title]
 
-[XStatus message]
+[xStatus message]
 
 [Listening to]
 

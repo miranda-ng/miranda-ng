@@ -48,7 +48,7 @@ Yahoo Японія
 [&Remove]
 &Очистити
 [Set Custom Status]
-Встановлення хСтатусу
+Встановлення xСтатусу
 [Show as busy]
 Показати як "Зайнятий"
 [Cancel]
@@ -164,7 +164,7 @@ HTTP-з'єднання Yahoo
 [You need to be connected to refresh your buddy list]
 Ви повинні бути підключені для оновлення списку
 [Set &Custom Status]
-Встановити хСтатус
+Встановити xСтатус
 [&Edit My Profile]
 &Редагувати мій профіль
 [&My Profile]

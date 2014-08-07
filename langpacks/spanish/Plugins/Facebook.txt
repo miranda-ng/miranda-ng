@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.7.0
+;  Version: 0.2.8.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -78,8 +78,8 @@ Mapa de estados no estándar a Invisible (en lugar de en línea)
 Permitir publicar estados a mis páginas (puede ralentizar sesión)
 [Use this server for opening links:]
 Abrir enlaces con este servidor:
-[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
-Activar soporte para emoticonos personalizados (¡EXPERIMENTAL + BUGGY!)
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Activar soporte para emoticonos personalizados (EXPERIMENTAL)
 [Use local time for received messages]
 Usar la hora local para los mensajes recibidos
 [Message sessions]

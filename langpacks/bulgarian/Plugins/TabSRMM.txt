@@ -1738,7 +1738,7 @@ TabSRMM съобщение (%s)
 [Show status text on tabs]
 Показване на състоянието в табовете
 [Prefer xStatus icons when available]
-Ползване на икона за хСъстояние, ако е налично
+Ползване на икона за xСъстояние, ако е налично
 [Detailed tooltip on tabs (requires Tipper plugin)]
 Подробни подсказки (изисква приставка Tipper)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]

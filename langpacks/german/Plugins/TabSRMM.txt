@@ -1738,7 +1738,7 @@ Erzeugen von Tabs und Fenstern für eintreffende Nachrichten
 [Show status text on tabs]
 Statustext auf den Tabs
 [Prefer xStatus icons when available]
-XStatus-Icon bevorzugen, wenn vorhanden
+xStatus-Icon bevorzugen, wenn vorhanden
 [Detailed tooltip on tabs (requires Tipper plugin)]
 Detaillierte Tooltips auf Tabs (erfordert Tipper-Plugin)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]

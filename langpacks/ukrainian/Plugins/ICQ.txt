@@ -104,13 +104,13 @@
 [Extra Features]
 Додаткові можливості
 [Enable Custom status support for xtraz]
-Увімкнути підтримку хСтатусів для доповнень
+Увімкнути підтримку xСтатусів для доповнень
 [Enable Custom status support for moods]
-Увімкнути підтримку хСтатусів для настроїв
+Увімкнути підтримку xСтатусів для настроїв
 [Reset Custom status on status change]
-Скинути хСтатус при зміні статусу
+Скинути xСтатус при зміні статусу
 [Auto-retrieve Custom status details]
-Автозавантаження хСтатусів
+Автозавантаження xСтатусів
 [Block known Spam Bots]
 Блок. відомі спам-боти
 [Enable AIM contacts support]
@@ -256,7 +256,7 @@
 [Synchronize]
 Синхронізувати
 [Custom Status "%s" Details]
-хСтатус "%s"
+xСтатус "%s"
 [Closing in %d]
 Закрити (%d)
 [Title:]
@@ -264,7 +264,7 @@
 [Message:]
 Діалог:
 [Retrieving custom status details...]
-Запит тексту хСтатуса...
+Запит тексту xСтатуса...
 [&Save changes]
 &Зберегти зміни
 [Confirm Password Change]
@@ -1304,7 +1304,7 @@ Web-дизайн
 [Add to server list]
 Додати в список на сервері
 [Show custom status details]
-Докладний хСтатус
+Докладний xСтатус
 [Open ICQ profile]
 Профіль на сайті ICQ
 [Display all problems]
@@ -1596,15 +1596,15 @@ ID користувача
 [Writing]
 Пишу
 [%s Custom Status]
-хСтатус %s
+xСтатус %s
 [None]
 Немає
 [Custom Status]
-хСтатус
+xСтатус
 [Greeting card:]
 Листівка:
 [ICQ xStatus]
-хСтатус ICQ
+xСтатус ICQ
 [ICQ Warning]
 Попередження ICQ
 [ICQ Error]

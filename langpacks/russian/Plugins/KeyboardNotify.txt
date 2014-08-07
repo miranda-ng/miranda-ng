@@ -80,7 +80,7 @@
 [Offline]
 Не в сети
 [xStatuses]
-хСтатусы
+xСтатусы
 [Keys to flash]
 Чем моргать
 [Flashing effects]
@@ -164,7 +164,7 @@
 [Ignore]
 Игнорировать
 [Set xStatus list]
-Список хСтатусов
+Список xСтатусов
 [** All contacts **]
 ** Все контакты **
 [** Unknown contacts **]

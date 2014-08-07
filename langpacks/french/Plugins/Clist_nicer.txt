@@ -185,7 +185,7 @@ Utiliser les icônes de sur-couche sur les avatars
 [Dim idle contacts]
 Estomper les contacts inactifs
 [Replace status icons with xStatus]
-Remplacer les icônes d'états par celui de XStatus
+Remplacer les icônes d'états par celui de xStatus
 [Window]
 Fenêtre
 [Always on top]

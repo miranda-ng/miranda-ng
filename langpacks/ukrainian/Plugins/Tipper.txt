@@ -124,7 +124,7 @@
 [Disable in invisible status]
 Вимкнути запит, коли невидимий
 [Retrieve xStatus details if auto-retrieve is disabled]
-Запитувати докладний хСтатус, якщо автозапит вимкнено
+Запитувати докладний xСтатус, якщо автозапит вимкнено
 [Status bar and tray tooltip]
 Панель статусів і підказка в треї
 [Limit status messages in status bar and tray tooltips to:]
@@ -272,7 +272,7 @@
 [Status message]
 Повідомлення статусу
 [Extra status]
-хСтатус
+xСтатус
 [Listening to]
 Слухаю
 [Miranda uptime]
@@ -302,7 +302,7 @@
 [Mood:]
 Настрій:
 [xStatus:]
-хСтатус:
+xСтатус:
 [Activity:]
 Заняття:
 [Listening to:]
@@ -374,13 +374,13 @@
 [Time:]
 Час:
 [xStatus title]
-Заголовок хСтатусу
+Заголовок xСтатусу
 [xStatus title:]
-Заголовок хСтатусу:
+Заголовок xСтатусу:
 [xStatus text]
-Текст хСтатусу
+Текст xСтатусу
 [xStatus text:]
-Текст хСтатусу:
+Текст xСтатусу:
 [[jabber.dll] Activity title]
 (jabber.dll) Заголовок заняття
 [Activity title:]
@@ -512,7 +512,7 @@
 [DWORD timestamp to date (long)]
 Подв. слово - в дату (довгу)
 [xStatus: empty xStatus name to default name]
-хСтатус: порожнє ім'я в ім'я за замовчанням
+xСтатус: порожнє ім'я в ім'я за замовчанням
 [DWORD seconds to time difference]
 Подв. слово секунд у часову різницю
 [BYTE timezone to time]

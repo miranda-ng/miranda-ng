@@ -81,7 +81,7 @@
 [Offline]
 Адключаны
 [xStatuses]
-хстатусы
+xСтатусы
 [Keys to flash]
 Чым лыпаць
 [Num Lock]
@@ -177,7 +177,7 @@ Scroll
 [Ignore]
 Ігнараваць
 [Set xStatus list]
-Спіс хстатусаў
+Спіс xСтатусаў
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Усе кантакты **

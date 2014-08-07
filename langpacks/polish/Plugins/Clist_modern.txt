@@ -504,9 +504,9 @@ Czas kontaktu
 Pokaż status, jeśli nie ma opisu
 [Show listening to if there is no status message]
 Pokaż "Teraz odtwarzane", jeśli nie ma opisu
-[XStatus has priority]
+[xStatus has priority]
 xStatus ma priorytet
-[Use 'XStatus: XMessage']
+[Use 'xStatus: xMessage']
 Użyj "xStatus: xOpis"
 [(Variables will be replaced)]
 (Zmienne zostaną zastąpione)

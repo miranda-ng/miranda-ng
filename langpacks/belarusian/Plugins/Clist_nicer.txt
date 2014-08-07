@@ -179,7 +179,7 @@
 [Dim idle contacts]
 Прыцьміць неактыўных
 [Replace status icons with xStatus]
-Замяніць значкі статусу хстатусам
+Замяніць значкі статусу xСтатусам
 [Window]
 Акно
 [Always on top]

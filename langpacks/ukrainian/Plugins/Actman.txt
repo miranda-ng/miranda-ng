@@ -234,9 +234,9 @@
 [Love]
 Любов
 [Sets owner current custom status]
-Встановлює хСтатус
+Встановлює xСтатус
 [Display xStatus detail]
-Показує докладний хСтатус
+Показує докладний xСтатус
 [Show All Users]
 Показує всіх користувачів
 [Show only Online Users]

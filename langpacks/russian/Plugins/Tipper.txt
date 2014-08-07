@@ -302,7 +302,7 @@ xСтатус
 [Mood:]
 Настроение:
 [xStatus:]
-хСтатус:
+xСтатус:
 [Activity:]
 Занятие:
 [Listening to:]
@@ -374,13 +374,13 @@ xСтатус
 [Time:]
 Время:
 [xStatus title]
-Заголовок хСтатуса
+Заголовок xСтатуса
 [xStatus title:]
-Заголовок хСтатуса:
+Заголовок xСтатуса:
 [xStatus text]
-Текст хСтатуса
+Текст xСтатуса
 [xStatus text:]
-Текст хСтатуса:
+Текст xСтатуса:
 [[jabber.dll] Activity title]
 (jabber.dll) Заголовок занятия
 [Activity title:]
@@ -512,7 +512,7 @@ xСтатус
 [DWORD timestamp to date (long)]
 Дв. слово - в дату (длинную)
 [xStatus: empty xStatus name to default name]
-хСтатус: пустое имя в имя по умолчанию
+xСтатус: пустое имя в имя по умолчанию
 [DWORD seconds to time difference]
 Дв. слово секунд во временную разницу
 [BYTE timezone to time]

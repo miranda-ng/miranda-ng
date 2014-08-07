@@ -260,7 +260,7 @@
 [Celebrating]
 [Sushi]
 [Greeting card:]
-[ICQ XStatus]
+[ICQ xStatus]
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 [The file transfer was aborted by the other user.]

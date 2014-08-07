@@ -6,14 +6,14 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 [This plugin offers simple management functions to keep your extra statuses on one place.]
-Гэты плагін падае просты ў выкарыстанні мэнэджар хстатусу ICQ і магчымасць захоўвання хстатусаў у адным месцы.
+Гэты плагін падае просты ў выкарыстанні мэнэджар xСтатусу ICQ і магчымасць захоўвання xСтатусаў у адным месцы.
 ;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 Карыстацкі спіс статусаў
 [No items available in the database.\nClick the Add button to define some.]
 Няма запісаў у базе дадзеных.\n Націсніце на кнопку "Дадаць новы пункт" для запаўнення спісу.
 [Add/Modify Custom Status]
-Дадаць/Змяніць хстатус
+Дадаць/Змяніць xСтатус
 [Add/Modify]
 Дадаць/Змяніць
 [Cancel]
@@ -85,10 +85,10 @@
 [No change]
 Без змен
 [Clear custom status (reset to None) and close]
-Сцерці хстатус (паставіць у Няма) і зачыніць
+Сцерці xСтатус (паставіць у Няма) і зачыніць
 [Clear]
 Сцерці
 [Set custom status to selected one and close]
-Уст. хстатус на абраны і зачыніць
+Уст. xСтатус на абраны і зачыніць
 [Set]
 Абраць

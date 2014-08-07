@@ -163,13 +163,13 @@
 [Show status name]
 Името на състоянието
 [Show xStatus name]
-Името на хСъстоянието
+Името на xСъстоянието
 [Show protocol icon]
 Показване на икони за протоколите
 [Use connecting icon]
 Индикирай свързването с анимиране
 [Show xStatus icon]
-Показване на икона за хСъстояние
+Показване на икона за xСъстояние
 [Show both icons]
 Показване и на 2те икони
 [Show normal status as overlay]
@@ -337,7 +337,7 @@ ms между две мигания
 [System tray icon mode]
 Режим на иконата в трея
 [Use xStatus icon]
-Ползване на икона за хСъстояние
+Ползване на икона за xСъстояние
 [Additional stuff]
 И още нещо
 [Ignore empty extra icons places (arrange to right).]
@@ -504,10 +504,10 @@ ms между две мигания
 Изобразяване на състоянието, когато няма текст за състояние
 [Show listening to if there is no status message]
 Изобразяване на "Слуша...", когато няма текст за състояние
-[XStatus has priority]
-Предимство на хСъстоянието
-[Use 'XStatus: XMessage']
-"хСъстояние: хТекст"
+[xStatus has priority]
+Предимство на xСъстоянието
+[Use 'xStatus: xMessage']
+"xСъстояние: xТекст"
 [(Variables will be replaced)]
 (Променливите се заменят)
 [Show third line]

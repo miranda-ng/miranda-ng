@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.7.0
+;  Version: 0.2.8.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -78,7 +78,7 @@ Poster les statuts de Miranda sur le mur
 
 [Use this server for opening links:]
 Utiliser ce serveur pour ouvrir les liens :
-[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+[Show stickers as custom smileys (EXPERIMENTAL)]
 
 [Use local time for received messages]
 Utiliser l'heure locale pour les messages reçus

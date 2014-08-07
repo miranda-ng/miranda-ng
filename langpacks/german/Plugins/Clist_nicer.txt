@@ -185,7 +185,7 @@ Metakontakticons anstelle der Icons der Unterkontakte verwenden
 [Dim idle contacts]
 Inaktive Kontakte abblenden
 [Replace status icons with xStatus]
-Ersetze Status- durch XStatusicons
+Ersetze Status- durch xStatusicons
 [Window]
 Fenster
 [Always on top]

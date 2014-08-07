@@ -604,8 +604,8 @@ URL атрыманы
 %s набірае тэкст
 [Typing Notification]
 Абвестка пра набор тэксту
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda не змагла загрузіць убудаваную сістэму сообпаведамленняў, бо адсутнічае riched20.dll. Калі ў вас Windows 95 або WINE, праверце наяўнасць файла riched20.dll. Нажміце "Да", каб працягнуць загрузку.
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda не змагла загрузіць убудаваную сістэму сообпаведамленняў, бо адсутнічае riched20.dll. Калі ў вас WINE, праверце наяўнасць файла riched20.dll. Нажміце "Да", каб працягнуць загрузку.
 [Instant messages]
 Паведамленні IM
 [Incoming (Focused Window)]

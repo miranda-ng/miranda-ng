@@ -330,8 +330,8 @@ Popups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 %s Verbindung
-[Mail.ru Xstatus]
-Mail.ru Xstatus
+[Mail.ru xStatus]
+Mail.ru xStatus
 [Mail.ru extra info]
 Mail.ru extra info
 [E-mail address]

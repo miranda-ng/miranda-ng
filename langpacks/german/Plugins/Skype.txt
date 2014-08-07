@@ -160,8 +160,8 @@ HTTPS Proxy Authentifizierung fehlgeschlagen
 SOCKS Proxy Authentifizierung fehlgeschlagen
 [P2P connection failed]
 P2P-Verbindung fehlgeschlagen
-[SERVER_CONNECT_FAILED]
-SERVER_CONNECT_FAILED
+[Connection to server failed. SkypeKit has been deprecated by Microsoft.]
+
 [Server is overloaded]
 Server ist überladen
 [SkypeKit database already in use]

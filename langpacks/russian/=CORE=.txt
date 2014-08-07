@@ -2038,7 +2038,7 @@ URL от %s
 [The topic is '%s' (set by %s)]
 Тема '%s' (установлена %s)
 [Custom status]
-хСтатус
+xСтатус
 [%s (locked)]
 %s (заблокирован)
 [Status menu]

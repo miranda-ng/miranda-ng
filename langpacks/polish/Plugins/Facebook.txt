@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.7.0
+;  Version: 0.2.8.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -78,7 +78,7 @@ Niestandardowy status jako Niewidoczny (zamiast Dostępnego)
 Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
 [Use this server for opening links:]
 Użyj tego serwera do otwierania linków:
-[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+[Show stickers as custom smileys (EXPERIMENTAL)]
 Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
 [Use local time for received messages]
 Użyj czasu lokalnego dla odebranych wiadomości

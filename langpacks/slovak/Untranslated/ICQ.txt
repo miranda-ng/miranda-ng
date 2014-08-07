@@ -707,7 +707,7 @@
 [%s Custom Status]
 [Custom Status]
 [Greeting card:]
-[ICQ XStatus]
+[ICQ xStatus]
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]

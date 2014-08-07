@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.7.0
+;  Version: 0.2.8.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -78,7 +78,7 @@ Storno
 
 [Use this server for opening links:]
 
-[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+[Show stickers as custom smileys (EXPERIMENTAL)]
 
 [Use local time for received messages]
 

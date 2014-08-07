@@ -22,16 +22,16 @@ Video
 Autres
 [You also have to enable it per protocol in the main menu]
 Vous devez également l'activer par protocole dans le menu principal
-[XStatus]
+[xStatus]
 
-[For protocols that don't support listening to but support XStatus:]
-Pour les protocoles qui ne supportent pas "En écoute", mais XStatus :
-[Set XStatus to Music and show listening info]
-Changer le XStatus en "Écoute de la musique" et afficher "En écoute"
-[If other XStatus is not set, set XStatus to Music and show listening info]
-Si le XStatus est inactif, changer en "Écoute de la musique" et afficher "En écoute"
-[If XStatus is Music, show listening info]
-Si le XStatus est "Écoute de la musique", afficher "En écoute"
+[For protocols that don't support listening to but support xStatus:]
+Pour les protocoles qui ne supportent pas "En écoute", mais xStatus :
+[Set xStatus to Music and show listening info]
+Changer le xStatus en "Écoute de la musique" et afficher "En écoute"
+[If other xStatus is not set, set xStatus to Music and show listening info]
+Si le xStatus est inactif, changer en "Écoute de la musique" et afficher "En écoute"
+[If xStatus is Music, show listening info]
+Si le xStatus est "Écoute de la musique", afficher "En écoute"
 [Do nothing]
 
 [Contacts]

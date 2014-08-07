@@ -22,16 +22,16 @@ Video
 Sonstiges
 [You also have to enable it per protocol in the main menu]
 Diese Funktion muss für jedes Protokoll seperat im Hauptmenü aktiviert werden
-[XStatus]
-XStatus
-[For protocols that don't support listening to but support XStatus:]
+[xStatus]
+xStatus
+[For protocols that don't support listening to but support xStatus:]
 Für Protokolle ohne ListeningTo, aber mit xStatus:
-[Set XStatus to Music and show listening info]
-XStatus auf Musik setzen und Musikinfo als Nachricht setzen
-[If other XStatus is not set, set XStatus to Music and show listening info]
-Solange kein anderer XStatus gesetzt ist, XStatus auf 'Musik' und Musikinfo setzen
-[If XStatus is Music, show listening info]
-Musikinfo nur als Nachricht setzen, wenn XStatus 'Musik' bereits gesetzt
+[Set xStatus to Music and show listening info]
+xStatus auf Musik setzen und Musikinfo als Nachricht setzen
+[If other xStatus is not set, set xStatus to Music and show listening info]
+Solange kein anderer xStatus gesetzt ist, xStatus auf 'Musik' und Musikinfo setzen
+[If xStatus is Music, show listening info]
+Musikinfo nur als Nachricht setzen, wenn xStatus 'Musik' bereits gesetzt
 [Do nothing]
 Nichts tun
 [Contacts]

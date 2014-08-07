@@ -50,7 +50,7 @@ xСтатус
 [Blink icon in the system tray]
 Мигающий значок в трее
 [Also when extra status or status message changes]
-При смене хСтатуса или сообщения статуса
+При смене xСтатуса или сообщения статуса
 [Use status icon]
 Значок статуса
 [Log to file]
@@ -134,7 +134,7 @@ xСтатус
 [Show Popups when I connect]
 Вспл. окна при подключении
 [Disable for extra status 'Music']
-Отключить для хСтатуса "Музыка"
+Отключить для xСтатуса "Музыка"
 [Truncate message length to:]
 Обрезать сообщение до:
 [characters]
@@ -142,15 +142,15 @@ xСтатус
 [Templates]
 Шаблоны
 [Notify when contact changes extra status]
-Уведомлять о смене хСтатуса
+Уведомлять о смене xСтатуса
 [Template:]
 Шаблон:
 [Notify when contact removes extra status]
-Уведомлять об удалении хСтатуса
+Уведомлять об удалении xСтатуса
 [Notify when contact changes extra status message]
-Уведомлять о смене сообщения хСтатуса
+Уведомлять о смене сообщения xСтатуса
 [Notify when contact removes extra status message]
-Уведомлять об удалении сообщения хСтатуса
+Уведомлять об удалении сообщения xСтатуса
 [Variables]
 Переменные
 [Reset]
@@ -166,7 +166,7 @@ xСтатус
 [Cancel]
 Отмена
 [Log extra status changes]
-Записывать смены хСтатусов
+Записывать смены xСтатусов
 [Log extra status changes to file]
 В файл
 [Log extra status changes to history]
@@ -176,15 +176,15 @@ xСтатус
 [Remove events from history when closing message window]
 Удалять события из истории после закрытыя окна сообщений
 [Log when contact changes extra status]
-Записывать смены хСтатусов
+Записывать смены xСтатусов
 [Log when contact removes extra status]
-Записывать удаление хСтатусов
+Записывать удаление xСтатусов
 [Log when contact changes extra status message]
-Записывать смены сообщения хСтатуса
+Записывать смены сообщения xСтатуса
 [Log when contact removes extra status message]
-Записывать удаление сообщения хСтатуса
+Записывать удаление сообщения xСтатуса
 [Log extra status when opening message window]
-Записывать хСтатусы при открытии окна сообщений
+Записывать xСтатусы при открытии окна сообщений
 [General]
 Общее
 [Accounts]
@@ -362,7 +362,7 @@ xСтатус изменен
 [This is status message]
 Сообщение статуса
 [This is extra status]
-хСтатус
+xСтатус
 [Show available variables]
 Доступные переменные
 [Reset all templates to default]
@@ -400,7 +400,7 @@ xСтатус изменен
 [Activity]
 Занятие
 [xStatus]
-хСтатус
+xСтатус
 [<no title>]
 <без заголовка>
 [%s changed %s]
@@ -428,6 +428,6 @@ xСтатус изменен
 [is %s and has status message @ %n]
 теперь %s со статусным сообщением @ %n
 [These variables are available:\r\n\r\n%n\textra status name (xStatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Доступные переменные:\r\n\r\n%n\tназвание xСтатуса (хСтатус, Настроение, Занятие)\r\n%t\tзаголовок xСтатуса\r\n%m\tтекст xСтатуса\r\n%c\tПрисвоенное имя\r\n\\n\tразрыв строки\r\n\\t\tТабуляция
+Доступные переменные:\r\n\r\n%n\tназвание xСтатуса (xСтатус, Настроение, Занятие)\r\n%t\tзаголовок xСтатуса\r\n%m\tтекст xСтатуса\r\n%c\tПрисвоенное имя\r\n\\n\tразрыв строки\r\n\\t\tТабуляция
 [These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
 Доступные переменные:\r\n\r\n%n\tНовое сообщение статуса\r\n%o\tСтарое сообщение статуса\r\n%c\tПрисвоенное имя\r\n%s\tтекущий статус\r\n\\n\tРазрыв строки\r\n\\t\tТабуляция

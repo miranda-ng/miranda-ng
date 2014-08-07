@@ -12,11 +12,11 @@
 [Emulate Multimedia keys]
 Емулиране на мултимедийни клавиши
 [xStatus will be cleared before text changing and restored with new text later.]
-хСъстоянието ще бъде изчиствано преди промяна на текста и възстановено по-късно с нов текст.
+xСъстоянието ще бъде изчиствано преди промяна на текста и възстановено по-късно с нов текст.
 [Use xStatus]
-Ползване на хСъстояние
+Ползване на xСъстояние
 [If this option is "ON", xStatus doesn't depend on protocol status.]
-Опцията прави хСъстоянието независимо от състоянието на протокола.
+Опцията прави xСъстоянието независимо от състоянието на протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
@@ -210,13 +210,13 @@ Popup етикет / Текст
 [Use status messages]
 Ползване на текст за състояние
 [Independent xStatus]
-Независимо хСъстояние
+Независимо xСъстояние
 [Use process implantation]
 Внедряване в процеса
 [Simple Template mode]
 
 [Use existing xStatus]
-Ползване на зададеното хСъстояние
+Ползване на зададеното xСъстояние
 [Only if 'Music' status was set]
 Само при зададено състояние "Слуша музика"
 [Keep 'Music' status]
@@ -238,9 +238,9 @@ Popup етикет / Текст
 [Channel message]
 Съобщение за канал
 [If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
-хСъстоянието няма да бъде променяно, а само текстът, съгласно шаблоните.
+xСъстоянието няма да бъде променяно, а само текстът, съгласно шаблоните.
 [Keep 'Music' xStatus]
-Запазване на хСъстояние "Слуша музика"
+Запазване на xСъстояние "Слуша музика"
 [No-music text]
 
 [No-player text]
@@ -296,13 +296,13 @@ VBR или празно
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
-хСъстоянието ще бъде променяно само при условие, че предварително е зададено състояние "Слуша музика".
+xСъстоянието ще бъде променяно само при условие, че предварително е зададено състояние "Слуша музика".
 [If this option is "ON", xStatus doesn't depend of ICQ's status.]
 
 [If this option is "ON", xStatus won't be changed when player is shut down.]
-хСъстоянието няма да бъде променяно след изключване на плейъра.
+xСъстоянието няма да бъде променяно след изключване на плейъра.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
-"Слуша музика" ще бъде задавано като хСъстояние, а текстът на състоянието ще бъде заменен от информация относно музиката.
+"Слуша музика" ще бъде задавано като xСъстояние, а текстът на състоянието ще бъде заменен от информация относно музиката.
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Един шаблон ще бъде използван за всеки протокол, състояние и плейър. Необходимо е рестартиране за визуализиране на единната страница на шаблоните.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
@@ -488,7 +488,7 @@ URL (домашна страница на плейъра)
 [Enable Status message]
 Ползване на текст за състояние
 [Enable xStatus message]
-Ползване на хСъстояние
+Ползване на xСъстояние
 [Enable Tunes message]
 
 [Tunes]
@@ -540,13 +540,13 @@ URL (домашна страница на плейъра)
 [Status (templates)]
 Шаблони
 [Set xStatus when...]
-Задаване на хСъстояние, когато..
+Задаване на xСъстояние, когато..
 [xStatus is empty or 'Music']
-хСъстоянието или "Слуша музика" е празно
+xСъстоянието или "Слуша музика" е празно
 ['Music' status is set]
 е зададено състояние "Слуша музика"
 [any xStatus is set]
-е зададено някое хСъстояние
+е зададено някое xСъстояние
 [Players list\n(F1 for note)]
 Списък с плейъри - натиснете\nF1 за повече информация
 [Chat Template]

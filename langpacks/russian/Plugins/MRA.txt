@@ -302,7 +302,7 @@ xСтатус "%s"
 [Extra status]
 Дополнительный статус
 [Custom Status]
-хСтатус
+xСтатус
 [None]
 Нет
 [Debug]
@@ -322,7 +322,7 @@ xСтатус "%s"
 [%s connection]
 %s подключение
 [Mail.ru xStatus]
-Mail.ru хСтатус
+Mail.ru xСтатус
 [Mail.ru extra info]
 Mail.ru дополнительно
 [E-mail address]

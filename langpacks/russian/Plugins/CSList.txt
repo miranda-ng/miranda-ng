@@ -6,13 +6,13 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 [This plugin offers simple management functions to keep your extra statuses on one place.]
-Этот плагин предоставляет простой в использовании менеджер хСтатусов и возможность хранения хСтатусов в одном месте.
+Этот плагин предоставляет простой в использовании менеджер xСтатусов и возможность хранения xСтатусов в одном месте.
 [Custom Status List]
 Пользовательский список статусов
 [No items available in the database.\nClick the Add button to define some.]
 Нет записей в базе данных.\nНажмите на кнопку "Добавить новый пункт" для заполнения списка.
 [Add/Modify Custom Status]
-Добавить/изменить хСтатус
+Добавить/изменить xСтатус
 [Add/Modify]
 Добавить/изменить
 [Cancel]
@@ -82,10 +82,10 @@
 [No change]
 без изм.
 [Clear custom status (reset to None) and close]
-Очистить хСтатус (поставить в Нет) и закрыть
+Очистить xСтатус (поставить в Нет) и закрыть
 [Clear]
 Очистить
 [Set custom status to selected one and close]
-Уст. хСтатус на выбранный и закрыть
+Уст. xСтатус на выбранный и закрыть
 [Set]
 Выбрать

@@ -124,7 +124,7 @@
 Запытваць паведамленне статусу
 [Disable in invisible status]
 Адключыць запыт, калі нябачны
-[Retrieve XStatus details if auto-retrieve is disabled]
+[Retrieve xStatus details if auto-retrieve is disabled]
 Запытваць падрабязны xСтатус, калі аўтазапыт выключаны
 [Status bar and tray tooltip]
 Панэль статусу і падказка ў трэі
@@ -306,8 +306,8 @@
 Статуснае паведамленне:
 [Mood:]
 Настрой:
-[XStatus:]
-хстатус:
+[xStatus:]
+xСтатус:
 [Activity:]
 Занятак:
 [Listening to:]
@@ -379,14 +379,14 @@ Email
 Час кантакту
 [Time:]
 Час:
-[XStatus title]
-Загаловак хстатуса
-[XStatus title:]
-Загаловак хстатуса:
-[XStatus text]
-Тэкст хстатуса
-[XStatus text:]
-Тэкст хстатуса:
+[xStatus title]
+Загаловак xСтатуса
+[xStatus title:]
+Загаловак xСтатуса:
+[xStatus text]
+Тэкст xСтатуса
+[xStatus text:]
+Тэкст xСтатуса:
 [[jabber.dll] Activity title]
 (jabber.dll) Загаловак занятку
 [Activity title:]
@@ -512,7 +512,7 @@ Email
 [DWORD timestamp to date (long)]
 Дв. слова - у дату (доўгую)
 [xStatus: empty xStatus name to default name]
-хстатус: пустое імя ў імя па змаўчанні
+xСтатус: пустое імя ў імя па змаўчанні
 [DWORD seconds to time difference]
 Дв. слова секунд у часавую розніцу
 [BYTE timezone to time]

@@ -16,7 +16,7 @@
 [* Use Ctrl+click to see popup with the copied text]
 [Hide contact on 'Ignore all']
 [Status message]
-[XStatus message]
+[xStatus message]
 [Activity title]
 [Activity text]
 [Show in list]

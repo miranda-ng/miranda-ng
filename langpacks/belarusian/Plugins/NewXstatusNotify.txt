@@ -6,7 +6,7 @@
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
-Абвяшчае вас пра змены статусаў, хстатусаў ці статусных паведамленняў.
+Абвяшчае вас пра змены статусаў, xСтатусаў ці статусных паведамленняў.
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when contact changes to one of these statuses]
 Паведамляць, калі статус кантакту змяняецца на:
@@ -333,8 +333,8 @@
 Настрой
 [Activity]
 Занятак
-[XStatus]
-хстатус
+[xStatus]
+xСтатус
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]
 змяніў(ла) %n на: %t

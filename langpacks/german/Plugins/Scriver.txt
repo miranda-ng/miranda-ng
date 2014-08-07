@@ -628,8 +628,8 @@ Nachricht von %s
 %s tippt eine Nachricht
 [Typing Notification]
 Tippbenachrichtigungen
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda konnte nicht das eingebaute Nachrichtenmodul laden, riched20.dll fehlt. Falls Sie Windows 95 oder Wine benutzen, stellen Sie sicher das sie die riched20.dll installiert haben. Drücken Sie "Ja" um Miranda NG weiter laden zu können.
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda konnte nicht das eingebaute Nachrichtenmodul laden, riched20.dll fehlt. Falls Sie Wine benutzen, stellen Sie sicher das sie die riched20.dll installiert haben. Drücken Sie "Ja" um Miranda NG weiter laden zu können.
 [Instant messages]
 Sofortnachrichten
 [Incoming (Focused Window)]

@@ -124,7 +124,7 @@ Pokaż podpowiedź gdy zawartość będzie gotowa (awatar i opis)
 Pobierz nowe opisy
 [Disable in invisible status]
 Wyłącz gdy status to "Niewidoczny"
-[Retrieve XStatus details if auto-retrieve is disabled]
+[Retrieve xStatus details if auto-retrieve is disabled]
 Pobierz szczegóły xStatus, jeśli auto-pobieranie jest wyłączone
 [Status bar and tray tooltip]
 Pasek statusu i podpowiedzi w zasobniku
@@ -306,7 +306,7 @@ Status:
 Opis:
 [Mood:]
 Nastrój:
-[XStatus:]
+[xStatus:]
 xStatus:
 [Activity:]
 Aktywność:
@@ -379,13 +379,13 @@ Wysłanych wiadomości:
 Czas kontaktu
 [Time:]
 Czas:
-[XStatus title]
+[xStatus title]
 Tytuł xStatus
-[XStatus title:]
+[xStatus title:]
 Tytuł xStatus:
-[XStatus text]
+[xStatus text]
 Opis xStatus
-[XStatus text:]
+[xStatus text:]
 Opis xStatus:
 [[jabber.dll] Activity title]
 \[jabber.dll] Tytuł aktywności

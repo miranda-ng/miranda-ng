@@ -81,7 +81,7 @@ Minuten
 [Offline]
 Offline
 [xStatuses]
-XStatus
+xStatus
 [Keys to flash]
 Folgende LEDs
 [Num Lock]
@@ -177,7 +177,7 @@ Nichts ignorieren
 [Ignore]
 Ignorieren
 [Set xStatus list]
-Stelle XStatus Liste ein
+Stelle xStatus Liste ein
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Alle Kontakte **

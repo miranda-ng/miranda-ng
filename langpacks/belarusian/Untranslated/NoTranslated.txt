@@ -81,7 +81,6 @@
 [?upper(string)]
 [?scroll(string,numchars,numchars)]
 [LOGOUT_CALLED]
-[SERVER_CONNECT_FAILED]
 [REJECTED_AS_UNDERAGE]
 [NO_SUCH_IDENTITY]
 [PERIODIC_UIC_UPDATE_FAILED]

@@ -2094,7 +2094,7 @@ URL ад %s
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
-хстатус
+xСтатус
 [%s (locked)]
 %s (заблакаваны)
 [Status menu]

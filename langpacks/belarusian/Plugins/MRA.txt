@@ -309,7 +309,7 @@ Mail.ru
 [Extra status]
 Дадаткова
 [Custom Status]
-хСтатус
+xСтатус
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Няма
@@ -330,8 +330,8 @@ Mail.ru
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 Злучэнне %s
-[Mail.ru Xstatus]
-Mail.ru Хстатус
+[Mail.ru xStatus]
+Mail.ru xСтатус
 [Mail.ru extra info]
 Mail.ru дадаткова
 [E-mail address]

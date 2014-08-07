@@ -124,7 +124,7 @@ Options avancées
 
 [Disable in invisible status]
 
-[Retrieve XStatus details if auto-retrieve is disabled]
+[Retrieve xStatus details if auto-retrieve is disabled]
 
 [Status bar and tray tooltip]
 
@@ -306,7 +306,7 @@ E-mails non-lus
 Message d'état :
 [Mood:]
 Humeur :
-[XStatus:]
+[xStatus:]
 
 [Activity:]
 
@@ -379,13 +379,13 @@ Nom :
 
 [Time:]
 Durée :
-[XStatus title]
-XStatus - Titre
-[XStatus title:]
+[xStatus title]
+xStatus - Titre
+[xStatus title:]
 
-[XStatus text]
+[xStatus text]
 
-[XStatus text:]
+[xStatus text:]
 
 [[jabber.dll] Activity title]
 

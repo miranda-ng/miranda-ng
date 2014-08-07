@@ -55,9 +55,9 @@ Ukryj gdy "Zablokowany"
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Opis
-[XStatus title]
+[xStatus title]
 xStatus
-[XStatus message]
+[xStatus message]
 Opis xStatus
 [Listening to]
 Teraz odtwarzane

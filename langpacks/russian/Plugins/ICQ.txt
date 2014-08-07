@@ -104,9 +104,9 @@
 [Extra Features]
 Дополнительные возможности
 [Enable Custom status support for xtraz]
-Включить поддержку хСтатусов для дополнений
+Включить поддержку xСтатусов для дополнений
 [Enable Custom status support for moods]
-Включить поддержку хСтатусов для настроений
+Включить поддержку xСтатусов для настроений
 [Reset Custom status on status change]
 Сбросить xСтатус при смене статуса
 [Auto-retrieve Custom status details]
@@ -264,7 +264,7 @@ xСтатус "%s"
 [Message:]
 Диалог:
 [Retrieving custom status details...]
-Запрос текста хСтатуса...
+Запрос текста xСтатуса...
 [&Save changes]
 &Сохранить изменения
 [Confirm Password Change]
@@ -1600,11 +1600,11 @@ xСтатус %s
 [None]
 Нет
 [Custom Status]
-хСтатус
+xСтатус
 [Greeting card:]
 Открытка:
 [ICQ xStatus]
-хСтатус ICQ
+xСтатус ICQ
 [ICQ Warning]
 Предупреждение ICQ
 [ICQ Error]

@@ -221,8 +221,8 @@ Notiz &ansehen
 Alle Notizen &löschen
 [&Bring All to Front]
 Alle in Vordergrund &bringen
-[Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda konnte das 'Note & Reminders'-Plugin nicht laden, RICHED20.dll fehlt. Wenn Sie Windows 95 oder WINE nutzen, dann stellen Sie sicher, dass Sie riched20.dll haben. Drücken Sie 'Ja' Um Miranda zu laden.
+[Miranda could not load the Notes & Reminders plugin, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda konnte das 'Note & Reminders'-Plugin nicht laden, riched20.dll fehlt. Wenn Sie WINE nutzen, dann stellen Sie sicher, dass Sie riched20.dll haben. Drücken Sie 'Ja' Um Miranda zu laden.
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Schwarz

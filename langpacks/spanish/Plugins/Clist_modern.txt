@@ -163,13 +163,13 @@ Ocultar cuenta por completo
 [Show status name]
 Muestrar nombre de estado
 [Show xStatus name]
-Muestre nombre xstatus
+Muestre nombre xStatus
 [Show protocol icon]
 Mostrar icono de protocolo
 [Use connecting icon]
 Usar icono de conexión
 [Show xStatus icon]
-Mostrar icono xstatus
+Mostrar icono xStatus
 [Show both icons]
 Mostrar ambos iconos
 [Show normal status as overlay]
@@ -504,9 +504,9 @@ Apodo
 
 [Show listening to if there is no status message]
 
-[XStatus has priority]
+[xStatus has priority]
 
-[Use 'XStatus: XMessage']
+[Use 'xStatus: xMessage']
 
 [(Variables will be replaced)]
 

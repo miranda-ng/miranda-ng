@@ -1625,7 +1625,7 @@ Niestandardowy status
 [Greeting card:]
 Kartka powitalna:
 ;file \protocols\IcqOscarJ\src\init.cpp
-[ICQ XStatus]
+[ICQ xStatus]
 ICQ xStatus
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]

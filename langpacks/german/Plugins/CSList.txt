@@ -6,7 +6,7 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 [This plugin offers simple management functions to keep your extra statuses on one place.]
-Dieses Plugin stellt einfache Managementfunktionalitäten zur Verfügung, welche Sie alle XStatus in einem Platz verwalten lassen.
+Dieses Plugin stellt einfache Managementfunktionalitäten zur Verfügung, welche Sie alle xStatus in einem Platz verwalten lassen.
 ;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 Custom-Status-Liste
@@ -81,14 +81,14 @@ Liste filtern
 [Filter]
 Filter
 [Close without changing custom status]
-Schließen, ohne XStatus zu speichern
+Schließen, ohne xStatus zu speichern
 [No change]
 Keine Änder.
 [Clear custom status (reset to None) and close]
-XStatus ausschalten (auf "keine" setzen) und schließen
+xStatus ausschalten (auf "keine" setzen) und schließen
 [Clear]
 Löschen
 [Set custom status to selected one and close]
-XStatus zu ausgewähltem setzen und schließen
+xStatus zu ausgewähltem setzen und schließen
 [Set]
 Setzen

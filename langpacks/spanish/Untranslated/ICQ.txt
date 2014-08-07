@@ -528,7 +528,7 @@
 [Writing]
 [%s Custom Status]
 [Greeting card:]
-[ICQ XStatus]
+[ICQ xStatus]
 [ICQ Warning]
 [ICQ Error]
 [ICQ Fatal]

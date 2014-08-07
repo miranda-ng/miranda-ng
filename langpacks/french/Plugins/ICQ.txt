@@ -1625,7 +1625,7 @@ Aucun
 [Greeting card:]
 
 ;file \protocols\IcqOscarJ\src\init.cpp
-[ICQ XStatus]
+[ICQ xStatus]
 
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]

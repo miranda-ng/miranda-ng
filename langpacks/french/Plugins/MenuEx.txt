@@ -55,9 +55,9 @@ Voir Les Fichiers Reçus
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 
-[XStatus title]
-XStatus - Titre
-[XStatus message]
+[xStatus title]
+xStatus - Titre
+[xStatus message]
 
 [Listening to]
 Écoute

@@ -1,7 +1,7 @@
 ﻿[Handles listening information to/for contacts.]
 [Listening to information]
 [Enable sending listening information to contacts:]
-[XStatus]
+[xStatus]
 [Do nothing]
 [Winamp (*)]
 [Windows Media Player]

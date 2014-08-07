@@ -124,8 +124,8 @@ Tooltip erst anzeigen, wenn Inhalt verfügbar (Avatar && Statusnachricht)
 Neue Statusnachricht abrufen
 [Disable in invisible status]
 Im Unsichtbar-Status deaktivieren
-[Retrieve XStatus details if auto-retrieve is disabled]
-XStatus-Details abrufen, auch wenn automatischer Empfang deaktiviert
+[Retrieve xStatus details if auto-retrieve is disabled]
+xStatus-Details abrufen, auch wenn automatischer Empfang deaktiviert
 [Status bar and tray tooltip]
 Statusleisten- und Tray-Tooltips
 [Limit status messages in status bar and tray tooltips to:]
@@ -306,8 +306,8 @@ Status:
 Statusnachricht:
 [Mood:]
 Stimmung:
-[XStatus:]
-XStatus:
+[xStatus:]
+xStatus:
 [Activity:]
 Aktivität:
 [Listening to:]
@@ -379,14 +379,14 @@ Anzahl ausgehender Nachrichten:
 Kontaktzeit
 [Time:]
 Zeit:
-[XStatus title]
+[xStatus title]
 xStatus-Titel
-[XStatus title:]
-XStatustitel:
-[XStatus text]
-XStatusnachricht
-[XStatus text:]
-XStatusnachricht:
+[xStatus title:]
+xStatustitel:
+[xStatus text]
+xStatusnachricht
+[xStatus text:]
+xStatusnachricht:
 [[jabber.dll] Activity title]
 \[jabber.dll] Aktivitätstitel
 [Activity title:]
@@ -522,7 +522,7 @@ DWORD-Zeitstempel in Datum (kurzes Format)
 [DWORD timestamp to date (long)]
 DWORD-Zeitstempel in Datum (langes Format)
 [xStatus: empty xStatus name to default name]
-XStatus: leerer XStatus-Titel in Standardtitel
+xStatus: leerer xStatus-Titel in Standardtitel
 [DWORD seconds to time difference]
 DWORD-Sekunden in Zeitunterschied
 [BYTE timezone to time]

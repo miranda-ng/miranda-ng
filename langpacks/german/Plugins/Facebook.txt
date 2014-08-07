@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.7.0
+;  Version: 0.2.8.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -78,8 +78,8 @@ Nicht-Standard-Status auf 'Unsichtbar' setzen (anstatt 'Online')
 Posten von Status auf meinen Seiten erlauben (kann Anmeldung verlangsamen)
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
-[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
-Unterstützung für Custom Smileys aktivieren (EXPERIMENTELL + VERBUGGT!)
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Unterstützung für Custom Smileys aktivieren (EXPERIMENTELL)
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
 [Message sessions]

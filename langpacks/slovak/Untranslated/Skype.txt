@@ -60,7 +60,7 @@
 [HTTPS proxy authentication failed]
 [SOCKS proxy authentication failed]
 [P2P connection failed]
-[SERVER_CONNECT_FAILED]
+[Connection to server failed. SkypeKit has been deprecated by Microsoft.]
 [Server is overloaded]
 [SkypeKit database already in use]
 [Invalid Skype name]

@@ -8,13 +8,13 @@
 [Paste played music info into message window or status text]
 Устаўляе інфармацыю пра прайграваную музыку ў вакно гутаркі ці ў статуснае паведамленне
 [Clear xStatus before set new one]
-Чысціць хстатус перад устаноўкай новага
+Чысціць xСтатус перад устаноўкай новага
 [Emulate Multimedia keys]
 Эмуляцыя мультымедыйных клавіш
 [xStatus will be cleared before text changing and restored with new text later.]
-хстатус будзе вычышчаны перад зменай тэксту і адноўлены з новым тэкстам пазней
+xСтатус будзе вычышчаны перад зменай тэксту і адноўлены з новым тэкстам пазней
 [Use xStatus]
-Выкарыстоўваць хстатус
+Выкарыстоўваць xСтатус
 [If this option is "ON", xStatus doesn't depend on protocol status.]
 Калі ўключана гэта опцыя, xСтатус не будзе залежаць ад статусу пратаколу.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
@@ -210,7 +210,7 @@ FPS (кадраў у секунду), толькі для відэа
 [Use status messages]
 Выкарыстоўваць паведамлення статусу
 [Independent xStatus]
-Незалежны хстатус
+Незалежны xСтатус
 [Use process implantation]
 Убудоўвацца ў працэс
 [Simple Template mode]
@@ -238,7 +238,7 @@ FPS (кадраў у секунду), толькі для відэа
 [Channel message]
 У чат
 [If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
-Калі ўключана, хстатус не зменіцца, але паведамленне xСтатуса будзе заменена па шаблоне WATrack
+Калі ўключана, xСтатус не зменіцца, але паведамленне xСтатуса будзе заменена па шаблоне WATrack
 [Keep 'Music' xStatus]
 Пакідаць xСтатус "Музыка"
 [No-music text]
@@ -300,7 +300,7 @@ VBR ці пуста
 [If this option is "ON", xStatus doesn't depend of ICQ's status.]
 Калі ўключана гэта опцыя, xСтатус не залежыць ад статусу ICQ.
 [If this option is "ON", xStatus won't be changed when player is shut down.]
-Калі опцыя ўключана, хстатус не зменіцца пры выключэнні плэера.
+Калі опцыя ўключана, xСтатус не зменіцца пры выключэнні плэера.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
 Калі опцыя ўключана, xСтатус для ICQ заменіцца на "Музыка" і яго тэкст зменіцца на інфармацыю пра музыку
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
@@ -488,7 +488,7 @@ VBR ці няма
 [Enable Status message]
 Уключыць паведамленне статусу
 [Enable xStatus message]
-Уключыць паведамленне хСтатуса
+Уключыць паведамленне xСтатуса
 [Enable Tunes message]
 Уключыць паведамленне мелодыі
 [Tunes]
@@ -540,13 +540,13 @@ VBR ці няма
 [Status (templates)]
 Статус (шаблоны)
 [Set xStatus when...]
-Ставіць хСтатус калі
+Ставіць xСтатус калі
 [xStatus is empty or 'Music']
-няма хСтатуса ці хстатус "Музыка"
+няма xСтатуса ці xСтатус "Музыка"
 ['Music' status is set]
-усталяваны хстатус "Музыка"
+усталяваны статус "Музыка"
 [any xStatus is set]
-усталяваны любы хСтатус
+усталяваны любы xСтатус
 [Players list\n(F1 for note)]
 Спіс плэераў\n(Націсніце F1 для спраўкі)
 [Chat Template]

@@ -55,9 +55,9 @@
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Паведамленне статусу
-[XStatus title]
-Загаловак хстатуса
-[XStatus message]
+[xStatus title]
+Загаловак xСтатуса
+[xStatus message]
 Паведамленне xСтатуса
 [Listening to]
 Слухаю
@@ -74,7 +74,7 @@
 [Copy to Account]
 Капіяваць ва ўліковы запіс
 [Copy xStatus Message]
-Капіяваць паведамленне Хстатусу
+Капіяваць паведамленне xСтатусу
 [All]
 Усё
 [Messages]

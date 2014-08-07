@@ -163,13 +163,13 @@ Account nicht anzeigen
 [Show status name]
 Statusnamen anzeigen
 [Show xStatus name]
-XStatus-Namen anzeigen
+xStatus-Namen anzeigen
 [Show protocol icon]
 Protokollicon anzeigen
 [Use connecting icon]
 Verbindungsicon verwenden
 [Show xStatus icon]
-XStatus-Icon anzeigen
+xStatus-Icon anzeigen
 [Show both icons]
 Beide Icons anzeigen
 [Show normal status as overlay]
@@ -337,7 +337,7 @@ Systemtray-Icon
 [System tray icon mode]
 Trayicon-Modus
 [Use xStatus icon]
-XStatus-Icon verwenden
+xStatus-Icon verwenden
 [Additional stuff]
 Zusatzliche Einstellungen
 [Ignore empty extra icons places (arrange to right).]
@@ -504,10 +504,10 @@ Kontaktzeit
 Status anzeigen, falls keine Statusnachricht
 [Show listening to if there is no status message]
 "Hört gerade", falls keine Statusnachricht
-[XStatus has priority]
-XStatus hat Priorität
-[Use 'XStatus: XMessage']
-'XStatus: XMessage' nutzen
+[xStatus has priority]
+xStatus hat Priorität
+[Use 'xStatus: xMessage']
+'xStatus: xMessage' nutzen
 [(Variables will be replaced)]
 (Variablen werden ersetzt)
 [Show third line]

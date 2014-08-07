@@ -124,7 +124,7 @@ Rozšírené nastavenia
 
 [Disable in invisible status]
 
-[Retrieve XStatus details if auto-retrieve is disabled]
+[Retrieve xStatus details if auto-retrieve is disabled]
 
 [Status bar and tray tooltip]
 
@@ -306,7 +306,7 @@ Stav:
 
 [Mood:]
 
-[XStatus:]
+[xStatus:]
 
 [Activity:]
 
@@ -379,13 +379,13 @@ Meno
 
 [Time:]
 Čas:
-[XStatus title]
+[xStatus title]
 
-[XStatus title:]
+[xStatus title:]
 
-[XStatus text]
+[xStatus text]
 
-[XStatus text:]
+[xStatus text:]
 
 [[jabber.dll] Activity title]
 

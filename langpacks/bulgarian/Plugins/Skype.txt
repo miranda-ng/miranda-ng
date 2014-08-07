@@ -160,7 +160,7 @@
 
 [P2P connection failed]
 
-[SERVER_CONNECT_FAILED]
+[Connection to server failed. SkypeKit has been deprecated by Microsoft.]
 
 [Server is overloaded]
 

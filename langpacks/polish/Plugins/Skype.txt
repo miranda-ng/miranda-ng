@@ -160,8 +160,8 @@ Autoryzacja serwera HTTPS proxy nie powiodła się
 Autoryzacja serwera SOCKS proxy nie powiodła się
 [P2P connection failed]
 Połączenie P2P nieudane
-[SERVER_CONNECT_FAILED]
-Połączenie z serwerem nie powiodło się
+[Connection to server failed. SkypeKit has been deprecated by Microsoft.]
+
 [Server is overloaded]
 Serwer jest przeciążony
 [SkypeKit database already in use]

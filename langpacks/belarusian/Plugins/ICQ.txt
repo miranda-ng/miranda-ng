@@ -105,13 +105,13 @@
 [Extra Features]
 Дадатковыя магчымасці
 [Enable Custom status support for xtraz]
-Уключыць падтрымку хстатусаў для дадаткаў
+Уключыць падтрымку xСтатусаў для дадаткаў
 [Enable Custom status support for moods]
-Уключыць падтрымку хстатусаў для настрояў
+Уключыць падтрымку xСтатусаў для настрояў
 [Reset Custom status on status change]
 Скінуць xСтатус пры змене статусу
 [Auto-retrieve Custom status details]
-Аўтазагрузка хстатусаў
+Аўтазагрузка xСтатусаў
 [Block known Spam Bots]
 Блок. вядомыя спамботы
 [Enable AIM contacts support]
@@ -265,7 +265,7 @@ xСтатус "%s"
 [Message:]
 паведамленне:
 [Retrieving custom status details...]
-Запыт тэксту хстатуса...
+Запыт тэксту xСтатуса...
 [&Save changes]
 Захаваць змены
 [Confirm Password Change]
@@ -1620,13 +1620,13 @@ xСтатус %s
 [None]
 Няма
 [Custom Status]
-хстатус
+xСтатус
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Паштоўка:
 ;file \protocols\IcqOscarJ\src\init.cpp
-[ICQ XStatus]
-хстатус ICQ
+[ICQ xStatus]
+xСтатус ICQ
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 Заўвага ICQ

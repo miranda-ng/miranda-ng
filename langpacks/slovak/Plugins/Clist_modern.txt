@@ -504,9 +504,9 @@ Prezívka
 
 [Show listening to if there is no status message]
 
-[XStatus has priority]
+[xStatus has priority]
 
-[Use 'XStatus: XMessage']
+[Use 'xStatus: xMessage']
 
 [(Variables will be replaced)]
 

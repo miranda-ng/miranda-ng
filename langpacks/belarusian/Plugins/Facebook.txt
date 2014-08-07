@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.7.0
+;  Version: 0.2.8.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -76,7 +76,7 @@ URL:
 Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
 [Use this server for opening links:]
 Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
-[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+[Show stickers as custom smileys (EXPERIMENTAL)]
 Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
 [Use local time for received messages]
 Выкарыстоўваць мясцовы час для прынятых паведамленняў

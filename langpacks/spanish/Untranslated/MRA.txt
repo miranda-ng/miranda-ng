@@ -118,7 +118,7 @@
 [Question]
 [NewMail]
 [%s connection]
-[Mail.ru Xstatus]
+[Mail.ru xStatus]
 [Mail.ru extra info]
 [Unread mail is available: %lu/%lu messages]
 [From: %S\r\nSubject: %S\r\n%s]

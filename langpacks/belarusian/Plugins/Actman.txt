@@ -236,7 +236,7 @@
 [Sets owner current custom status]
 Усталюе xСтатус
 [Display xStatus detail]
-Паказвае падрабязны хСтатус
+Паказвае падрабязны xСтатус
 [Show All Users]
 Паказваць усе кантакты
 [Show only Online Users]

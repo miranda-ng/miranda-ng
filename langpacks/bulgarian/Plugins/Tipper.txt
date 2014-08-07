@@ -124,8 +124,8 @@
 
 [Disable in invisible status]
 
-[Retrieve XStatus details if auto-retrieve is disabled]
-Извличане на подробности за хСъстояние при изключено автоизвличане
+[Retrieve xStatus details if auto-retrieve is disabled]
+Извличане на подробности за xСъстояние при изключено автоизвличане
 [Status bar and tray tooltip]
 Подсказки в лентата за състояние и трея
 [Limit status messages in status bar and tray tooltips to:]
@@ -306,8 +306,8 @@ Jabber дейност
 Текст за състоянието:
 [Mood:]
 Настроение:
-[XStatus:]
-хСъстояние:
+[xStatus:]
+xСъстояние:
 [Activity:]
 Дейност:
 [Listening to:]
@@ -379,14 +379,14 @@ Miranda работи от:
 Часът при контакта
 [Time:]
 Време:
-[XStatus title]
-хСъстояние
-[XStatus title:]
-хСъстояние:
-[XStatus text]
-хСъстояние текст
-[XStatus text:]
-хСъстояние текст:
+[xStatus title]
+xСъстояние
+[xStatus title:]
+xСъстояние:
+[xStatus text]
+xСъстояние текст
+[xStatus text:]
+xСъстояние текст:
 [[jabber.dll] Activity title]
 \[jabber.dll] Етикет на дейността
 [Activity title:]

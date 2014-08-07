@@ -236,7 +236,7 @@
 [Sets owner current custom status]
 Устанавливает xСтатус
 [Display xStatus detail]
-Отображает подробный хСтатус
+Отображает подробный xСтатус
 [int hMenu handle]
 целочисленный хендл hMenu
 [Show All Users]

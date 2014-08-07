@@ -8,13 +8,13 @@
 [Paste played music info into message window or status text]
 Вставляет информацию о проигрываемой музыке в окно сообщения или в статусное сообщение.
 [Clear xStatus before set new one]
-Очищать хСтатус перед установкой нового
+Очищать xСтатус перед установкой нового
 [Emulate Multimedia keys]
 Эмуляция мультимедийных клавиш
 [xStatus will be cleared before text changing and restored with new text later.]
-хСтатус будет очищен перед изменением текста и восстановлен с новым текстом позже
+xСтатус будет очищен перед изменением текста и восстановлен с новым текстом позже
 [Use xStatus]
-Использовать хСтатус
+Использовать xСтатус
 [If this option is "ON", xStatus doesn't depend on protocol status.]
 Если включена эта опция, xСтатус не будет зависеть от статуса протокола.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
@@ -236,7 +236,7 @@ FPS (кадров в секунду), только для видео
 [Channel message]
 В чат
 [If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
-Если включено, хСтатус не изменится, но сообщение xСтатуса будет заменено по шаблону WATrack
+Если включено, xСтатус не изменится, но сообщение xСтатуса будет заменено по шаблону WATrack
 [Keep 'Music' xStatus]
 Оставлять xСтатус "Музыка"
 [No-music text]
@@ -298,7 +298,7 @@ VBR или пусто
 [If this option is "ON", xStatus doesn't depend of ICQ's status.]
 Если включена эта опция, xСтатус не зависит от статуса ICQ.
 [If this option is "ON", xStatus won't be changed when player is shut down.]
-Если опция включена, хСтатус не изменится при выключении плеера.
+Если опция включена, xСтатус не изменится при выключении плеера.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
 Если опция включена, xСтатус для ICQ заменится на "Музыка" и его текст изменится на информацию о музыке
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
@@ -486,7 +486,7 @@ VBR или нет
 [Enable Status message]
 Включить сообщение статуса
 [Enable xStatus message]
-Включить сообщение ХСтатуса
+Включить сообщение xСтатуса
 [Enable Tunes message]
 Включить сообщение мелодии
 [Tunes]
@@ -538,13 +538,13 @@ VBR или нет
 [Status (templates)]
 Статус (шаблоны)
 [Set xStatus when...]
-Устанавливать хСтатус когда...
+Устанавливать xСтатус когда...
 [xStatus is empty or 'Music']
-нет хСтатуса или хСтатус "Музыка"
+нет xСтатуса или xСтатус "Музыка"
 ['Music' status is set]
-установлен хСтатус "Музыка"
+установлен xСтатус "Музыка"
 [any xStatus is set]
-установлен любой хСтатус
+установлен любой xСтатус
 [Players list\n(F1 for note)]
 Список плееров\n(Нажмите F1 для доп. инф-ии)
 [Chat Template]

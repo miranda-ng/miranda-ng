@@ -160,13 +160,13 @@ Ctrl+ЛКМ - ввімк. фільтр за протоколом, клік по 
 [Show status name]
 Ім'я статусу
 [Show xStatus name]
-Ім'я хСтатусу
+Ім'я xСтатусу
 [Show protocol icon]
 Значок протоколу
 [Use connecting icon]
 Значок з'єднання
 [Show xStatus icon]
-Значок хСтатусу
+Значок xСтатусу
 [Show both icons]
 Обидва значки
 [Show normal status as overlay]
@@ -334,7 +334,7 @@ x100 мс
 [System tray icon mode]
 Поведінка значка в системному треї
 [Use xStatus icon]
-Значок хСтатусу
+Значок xСтатусу
 [Additional stuff]
 Додатково
 [Ignore empty extra icons places (arrange to right).]
@@ -460,7 +460,7 @@ x100 мс
 [Always show "Always visibile" icon]
 Значок видимості завжди
 [Use extra status icon instead protocol]
-Значок хСтатусу замість протоколу
+Значок xСтатусу замість протоколу
 [Draw normal status as overlay]
 Звичайний статус оверлеєм
 [Right-to-left reading mode (mirror template)]
@@ -502,9 +502,9 @@ x100 мс
 [Show listening to if there is no status message]
 "Слухаю", якщо немає статусного повідомлення
 [xStatus has priority]
-Пріоритет хСтатусу
+Пріоритет xСтатусу
 [Use 'xStatus: xMessage']
-хСтатус: хПовідомлення
+xСтатус: xПовідомлення
 [(Variables will be replaced)]
 (Змінні замінюються)
 [Show third line]

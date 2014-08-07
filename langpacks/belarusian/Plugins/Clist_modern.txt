@@ -161,7 +161,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Show status name]
 Імя Статуса
 [Show xStatus name]
-Імя хСтатуса
+Імя xСтатуса
 [Show protocol icon]
 Абразок пратаколу
 [Use connecting icon]
@@ -461,7 +461,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Always show "Always visibile" icon]
 Абразок бачнасці заўсёды
 [Use extra status icon instead protocol]
-Абразок хстатуса замест конту
+Абразок xСтатуса замест конту
 [Draw normal status as overlay]
 Звычайны статус адбіткам
 [Right-to-left reading mode (mirror template)]
@@ -502,10 +502,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Паказаць стан, калі няма паведамлення
 [Show listening to if there is no status message]
 Паказаць "Слухаю", калі няма паведамлення
-[XStatus has priority]
+[xStatus has priority]
 Прыярытэт xСтатуса
-[Use 'XStatus: XMessage']
-'xСтатус: хпаведамленне:
+[Use 'xStatus: xMessage']
+'xСтатус: xПаведамленне'
 [(Variables will be replaced)]
 (Зменныя замяняюцца)
 [Show third line]

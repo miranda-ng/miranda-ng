@@ -462,7 +462,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Always show "Always visibile" icon]
 Значок видимости всегда
 [Use extra status icon instead protocol]
-Значок хСтатуса вместо протокола
+Значок xСтатуса вместо протокола
 [Draw normal status as overlay]
 Обычный статус оверлеем
 [Right-to-left reading mode (mirror template)]
@@ -506,7 +506,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [xStatus has priority]
 Приоритет xСтатуса
 [Use 'xStatus: xMessage']
-'xСтатус: хСообщение'
+'xСтатус: xСообщение'
 [(Variables will be replaced)]
 (Переменные заменяются)
 [Show third line]

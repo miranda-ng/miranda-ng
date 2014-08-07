@@ -463,7 +463,7 @@ Masquer l'icône des groupes
 [Always show "Always visibile" icon]
 Montrer l'icône "Toujours visible"
 [Use extra status icon instead protocol]
-Utiliser l'icône Xstatus à la place du protocole
+Utiliser l'icône xStatus à la place du protocole
 [Draw normal status as overlay]
 État normal en surcouche
 [Right-to-left reading mode (mirror template)]
@@ -504,10 +504,10 @@ Pseudo
 
 [Show listening to if there is no status message]
 
-[XStatus has priority]
-Préférer XStatus
-[Use 'XStatus: XMessage']
-Utiliser 'XStatus : XMessage'
+[xStatus has priority]
+Préférer xStatus
+[Use 'xStatus: xMessage']
+Utiliser 'xStatus : xMessage'
 [(Variables will be replaced)]
 (Utilisé des variables)
 [Show third line]
