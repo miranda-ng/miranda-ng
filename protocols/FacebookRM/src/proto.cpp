@@ -346,15 +346,11 @@ int FacebookProto::GetInfo(MCONTACT hContact, int infoType)
 
 INT_PTR FacebookProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv = { DBVT_TCHAR };
-	if (!getTString("StatusMsg", &dbv) && lstrlen(dbv.ptszVal) != 0)
-	{
-		int res = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(dbv.ptszVal) : (INT_PTR)mir_t2a(dbv.ptszVal);
-		db_free(&dbv);
-		return res;
-	} else {
+	ptrT statusMsg(getTStringA("StatusMsg"));
+	if (statusMsg == NULL || _tcslen(statusMsg) == 0)
 		return 0;
-	}
+
+	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(statusMsg) : (INT_PTR)mir_t2a(statusMsg);
 }
 
 int FacebookProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)

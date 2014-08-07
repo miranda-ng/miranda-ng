@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,33 +40,32 @@ void FacebookProto::SendMsgWorker(void *p)
 
 	send_direct *data = static_cast<send_direct*>(p);
 
-	DBVARIANT dbv;
+	ptrA id(getStringA(data->hContact, FACEBOOK_KEY_ID));
 
-	if (!isOnline())
-	{
+	if (!isOnline()) {
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
-	}
-	else if (!getString(data->hContact, FACEBOOK_KEY_ID, &dbv))
-	{
+	} else if (id == NULL) {
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, 0);
+	} else {
 		//ParseSmileys(data->msg, data->hContact);
 
 		int retries = 5;
 		std::string error_text = "";
 		bool result = false;
 		while (!result && retries > 0) {
-			result = facy.send_message(data->hContact, dbv.pszVal, data->msg, &error_text, retries % 2 == 0 ? MESSAGE_INBOX : MESSAGE_MERCURY);
+			result = facy.send_message(data->hContact, std::string(id), data->msg, &error_text, retries % 2 == 0 ? MESSAGE_INBOX : MESSAGE_MERCURY);
 			retries--;
 		}
 		if (result) {
 			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, data->msgid, 0);
-			
+
 			// Remove from "readers" list and clear statusbar
 			facy.readers.erase(data->hContact);
 			CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)data->hContact, NULL);
-		} else {
+		}
+		else {
 			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)error_text.c_str());
 		}
-		db_free(&dbv);
 	}
 
 	delete data;
@@ -84,12 +83,11 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	utils::text::replace_all(&data->msg, "%%", "%");
 
 	MCONTACT hContact = ChatIDToHContact(std::tstring(_A2T(data->chat_id.c_str())));
-	if (hContact) {		
+	if (hContact) {
+		ptrA tid_(getStringA(hContact, FACEBOOK_KEY_TID));
 		std::string tid;
-		DBVARIANT dbv;
-		if (!getString(hContact, FACEBOOK_KEY_TID, &dbv)) {
-			tid = dbv.pszVal;
-			db_free(&dbv);
+		if (tid_ != NULL) {
+			tid = tid_;
 		} else {
 			std::string post_data = "threads[group_ids][0]=" + utils::url::encode(data->chat_id);
 			post_data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");

@@ -143,8 +143,6 @@ bool FacebookProto::NegotiateConnection()
 {
 	debugLogA("***** Negotiating connection with Facebook");
 
-	DBVARIANT dbv = {0};
-
 	ptrA username( getStringA(FACEBOOK_KEY_LOGIN));
 	if (!username || !strlen(username)) {
 		NotifyEvent(m_tszUserName,TranslateT("Please enter a username."),NULL,FACEBOOK_EVENT_CLIENT);

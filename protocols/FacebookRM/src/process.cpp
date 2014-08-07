@@ -180,15 +180,12 @@ void FacebookProto::ProcessFriendList(void*)
 		if ( isChatRoom(hContact))
 			continue;
 
-		DBVARIANT dbv;
 		facebook_user *fbu;
-		if (!getString(hContact, FACEBOOK_KEY_ID, &dbv)) {
-			std::string id = dbv.pszVal;
-			db_free(&dbv);
-			
+		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+		if (id != NULL) {
 			std::map< std::string, facebook_user* >::iterator iter;
 			
-			if ((iter = friends.find(id)) != friends.end()) {
+			if ((iter = friends.find(std::string(id))) != friends.end()) {
 				// Found contact, update it and remove from map
 				fbu = iter->second;
 
@@ -247,8 +244,10 @@ void FacebookProto::ProcessFriendList(void*)
 				if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND) {
 					setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
 					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-
+					
 					std::string contactname = id;
+
+					DBVARIANT dbv;
 					if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
 						contactname = dbv.pszVal;
 						db_free(&dbv);
@@ -874,15 +873,8 @@ void FacebookProto::ProcessFriendRequests(void*)
 			MCONTACT hContact = AddToContactList(fbu, CONTACT_APPROVE);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_APPROVE);
 
-			bool seen = false;
-
-			DBVARIANT dbv;
-			if (!getString(hContact, "RequestTime", &dbv)) {
-				seen = !strcmp(dbv.pszVal, time.c_str());
-				db_free(&dbv);
-			}
-
-			if (!seen) {
+			ptrA oldTime(getStringA(hContact, "RequestTime"));
+			if (oldTime == NULL || strcmp(oldTime, time.c_str())) {
 				// This is new request
 				setString(hContact, "RequestTime", time.c_str());
 

@@ -38,37 +38,33 @@ static BOOL StoreDBCheckState(FacebookProto* ppro, HWND hwnd, int idCtrl, const 
 
 INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
-	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 	switch (message)
 	{
 
 	case WM_INITDIALOG:
+	{
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<FacebookProto*>(lparam);
-		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-		DBVARIANT dbv;
-		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
-		{
-			SetDlgItemTextA(hwnd,IDC_UN,dbv.pszVal);
-			db_free(&dbv);
-		}
+		ptrA login(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
+		if (login != NULL)
+			SetDlgItemTextA(hwnd, IDC_UN, login);
 
-		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
-		{
-			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
-			db_free(&dbv);
-		}
+		ptrA password(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS));
+		if (password != NULL)
+			SetDlgItemTextA(hwnd, IDC_PW, password);
 
 		if (!proto->isOffline())
 		{
-			SendMessage(GetDlgItem(hwnd,IDC_UN),EM_SETREADONLY,1,0);
-			SendMessage(GetDlgItem(hwnd,IDC_PW),EM_SETREADONLY,1,0);
+			SendMessage(GetDlgItem(hwnd, IDC_UN), EM_SETREADONLY, 1, 0);
+			SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0);
 		}
 		return TRUE;
-
+	}
 	case WM_COMMAND:
 		if (LOWORD(wparam) == IDC_NEWACCOUNTLINK)
 		{
@@ -92,11 +88,11 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		{
 			char str[128];
 
-			GetDlgItemTextA(hwnd,IDC_UN,str,sizeof(str));
-			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,str);
+			GetDlgItemTextA(hwnd, IDC_UN, str, sizeof(str));
+			db_set_s(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN, str);
 
-			GetDlgItemTextA(hwnd,IDC_PW,str,sizeof(str));
-			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,str);
+			GetDlgItemTextA(hwnd, IDC_PW, str, sizeof(str));
+			db_set_s(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS, str);
 			return TRUE;
 		}
 		break;
@@ -345,18 +341,13 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		proto = reinterpret_cast<FacebookProto*>(lparam);
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
-		DBVARIANT dbv;
-		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
-		{
-			SetDlgItemTextA(hwnd,IDC_UN,dbv.pszVal);
-			db_free(&dbv);
-		}
+		ptrA login(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
+		if (login != NULL)
+			SetDlgItemTextA(hwnd, IDC_UN, login);
 
-		if (!db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
-		{
-			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
-			db_free(&dbv);
-		}
+		ptrA password(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS));
+		if (password!= NULL)
+			SetDlgItemTextA(hwnd, IDC_PW, password);
 
 		if (!proto->isOffline())
 	    {
@@ -366,11 +357,9 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 		SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
 
-		if (!db_get_ts(0,proto->ModuleName(),FACEBOOK_KEY_DEF_GROUP,&dbv))
-		{
-			SetDlgItemText(hwnd,IDC_GROUP,dbv.ptszVal);
-			db_free(&dbv);
-		}
+		ptrT group(db_get_tsa(NULL, proto->ModuleName(), FACEBOOK_KEY_DEF_GROUP));
+		if (group != NULL)
+			SetDlgItemText(hwnd, IDC_GROUP, group);
 
 		LoadDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, DEFAULT_DISABLE_STATUS_NOTIFY);
 		LoadDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
