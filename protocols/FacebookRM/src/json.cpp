@@ -259,7 +259,7 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 		if (markup == NULL || unread == NULL || json_as_int(unread) == 0)
 			continue;
 
-		std::string text = utils::text::slashu_to_utf8(json_as_pstring(markup));
+		std::string text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(json_as_pstring(markup)));
 
 		facebook_notification* notification = new facebook_notification();
 
