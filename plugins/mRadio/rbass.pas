@@ -218,13 +218,13 @@ function MyInitBASS:bool;
 var
   num:integer;
 begin
-  if BassSTatus=rbs_null then
+  if BassStatus=rbs_null then
   begin
     result:=false;
     exit;
     // or can do this:
     MyLoadBass;
-    if BassSTatus=rbs_null then
+    if BassStatus=rbs_null then
     begin
       result:=false;
       exit;
@@ -393,7 +393,7 @@ begin
         repeat
           StrCopyW(pc,fd.cFileName);
           if BASS_PluginLoad(pAnsiChar(basspath),BASS_UNICODE)=0 then
-            break;
+;//            break; // ignore if unsuccefull plugin load
         until not FindNextFileW(fh,fd);
         FindClose(fh);
       end;
