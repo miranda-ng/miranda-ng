@@ -230,7 +230,6 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_RECONNECT:
 //	case REQUEST_POST_STATUS:
 //	case REQUEST_IDENTITY_SWITCH:
-//	case REQUEST_STATUS_COMPOSER:
 //	case REQUEST_LINK_SCRAPER:
 //	case REQUEST_MESSAGE_SEND_CHAT:
 //	case REQUEST_MESSAGE_SEND_INBOX:
@@ -257,7 +256,6 @@ int facebook_client::choose_method(RequestType request_type)
 	case REQUEST_BUDDY_LIST:
 	case REQUEST_POST_STATUS:
 	case REQUEST_IDENTITY_SWITCH:
-	case REQUEST_STATUS_COMPOSER:
 	case REQUEST_LINK_SCRAPER:
 	case REQUEST_MESSAGE_SEND_CHAT:
 	case REQUEST_MESSAGE_SEND_INBOX:
@@ -333,7 +331,6 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //	case REQUEST_RECONNECT:
 //	case REQUEST_POST_STATUS:
 //	case REQUEST_IDENTITY_SWITCH:
-//	case REQUEST_STATUS_COMPOSER:
 //	case REQUEST_LINK_SCRAPER:
 //	case REQUEST_MESSAGE_SEND_CHAT:
 //	case REQUEST_MESSAGE_SEND_INBOX:
@@ -489,9 +486,6 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_IDENTITY_SWITCH:
 		return "/identity_switch.php?__a=1";
-
-	case REQUEST_STATUS_COMPOSER:
-		return "/ajax/profile/composer.php?__a=1";
 
 	case REQUEST_LINK_SCRAPER:
 	{
@@ -1284,25 +1278,21 @@ bool facebook_client::post_status(status_data *status)
 	}
 
 	std::string data;
-	RequestType request = REQUEST_POST_STATUS;
-
 	if (!status->url.empty()) {
 		data = "fb_dtsg=" + (!this->dtsg_.empty() ? this->dtsg_ : "0");
-		data += "&composerid=u_jsonp_2_b";
 		data += "&targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
+		data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=0";
 		data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
 		data += "&loaded_components[0]=maininput&loaded_components[1]=backdateicon&loaded_components[2]=withtaggericon&loaded_components[3]=cameraicon&loaded_components[4]=placetaggericon&loaded_components[5]=mainprivacywidget&loaded_components[6]=withtaggericon&loaded_components[7]=backdateicon&loaded_components[8]=placetaggericon&loaded_components[9]=cameraicon&loaded_components[10]=mainprivacywidget&loaded_components[11]=maininput&loaded_components[12]=explicitplaceinput&loaded_components[13]=hiddenplaceinput&loaded_components[14]=placenameinput&loaded_components[15]=hiddensessionid&loaded_components[16]=withtagger&loaded_components[17]=backdatepicker&loaded_components[18]=placetagger&loaded_components[19]=citysharericon";
 		http::response resp = flap(REQUEST_LINK_SCRAPER, &data, &status->url);
-		resp.data = utils::text::slashu_to_utf8(resp.data);
+		std::string temp = utils::text::html_entities_decode(utils::text::slashu_to_utf8(resp.data));
 
 		data = "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&ttstamp=0";
-		std::string form = utils::text::source_get_value(&resp.data, 2, "<form", "</form>");
+		std::string form = utils::text::source_get_value(&temp, 2, "<form", "</form>");
 		utils::text::replace_all(&form, "\\\"", "\"");
 		data += "&" + utils::text::source_get_form_data(&form) + "&";
 		//data += "&no_picture=0";
-
-		request = REQUEST_STATUS_COMPOSER;
 	}
 
 	std::string text = utils::url::encode(status->text);
@@ -1318,7 +1308,7 @@ bool facebook_client::post_status(status_data *status)
 		data += "&composertags_place_name=";
 		data += utils::url::encode(status->place);
 	}
-	for(std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++) {
+	for (std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++) {
 		data += "&composertags_with[" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
 		data += "]=" + status->users[i]->user_id;
 		data += "&text_composertags_with[" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
@@ -1329,7 +1319,7 @@ bool facebook_client::post_status(status_data *status)
 
 	data += "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_0_2y&is_explicit_place=&composertags_place=&composertags_city=";
 
-	http::response resp = flap(request, &data);
+	http::response resp = flap(REQUEST_POST_STATUS, &data);
 
 	if (status->isPage) {
 		std::string data = "fb_dtsg=" + (!this->dtsg_.empty() ? this->dtsg_ : "0");

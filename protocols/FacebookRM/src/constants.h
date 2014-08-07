@@ -112,7 +112,6 @@ enum RequestType {
 	REQUEST_PAGES,				// getting pages list
 
 	REQUEST_POST_STATUS,		// posting status to our or friends's wall
-	REQUEST_STATUS_COMPOSER,	// posting status to our or friends's wall with url links
 	REQUEST_LINK_SCRAPER,		// getting data for some url link
 	REQUEST_SEARCH,				// searching
 	REQUEST_POKE,				// sending pokes
