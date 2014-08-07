@@ -12,8 +12,6 @@ BYTE nameOrder[NAMEORDERCOUNT];
 HGENMENU hUserMenu;
 WatchListArrayStruct WatchListArray;
 MCONTACT hRestore;
-HANDLE sMenuCommand, sImport, sServicemodeLaunch;
-HANDLE hModulesLoadedHook = NULL, hSettingsChangedHook = NULL, hOptInitHook = NULL, hPreShutdownHook = NULL;
 IconItem iconList[];
 
 //========================
@@ -175,8 +173,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_EXT, 'D');
 	Hotkey_Register(&hkd);
 
-	UnhookEvent(hModulesLoadedHook);
-
 	usePopups = db_get_b(NULL, modname, "UsePopUps", 0);
 
 	// Load the name order
@@ -202,20 +198,15 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	if (hwnd2watchedVarsWindow) DestroyWindow(hwnd2watchedVarsWindow);
 	if (hwnd2mainWindow) DestroyWindow(hwnd2mainWindow);
 	if (hwnd2importWindow) DestroyWindow(hwnd2importWindow);
-
-	UnhookEvent(hSettingsChangedHook);
-	UnhookEvent(hOptInitHook);
-	UnhookEvent(hPreShutdownHook);
-
-	DestroyServiceFunction(sServicemodeLaunch);
-	DestroyServiceFunction(sMenuCommand);
-	DestroyServiceFunction(sImport);
 	return 0;
 }
 
 INT_PTR ServiceMode(WPARAM wParam, LPARAM lParam)
 {
 	bServiceMode = TRUE;
+
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
+
 	return SERVICE_ONLYDB;  // load database and then call us
 }
 
@@ -233,15 +224,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	hRestore = NULL;
 	g_db = GetCurrentDatabase();
 
-	hSettingsChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
-	hOptInitHook = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hPreShutdownHook = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	hModulesLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
-	sMenuCommand = CreateServiceFunction("DBEditorpp/MenuCommand", DBEditorppMenuCommand);
-	sImport = CreateServiceFunction("DBEditorpp/Import", ImportFromFile);
+	CreateServiceFunction("DBEditorpp/MenuCommand", DBEditorppMenuCommand);
+	CreateServiceFunction("DBEditorpp/Import", ImportFromFile);
 
-	sServicemodeLaunch = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
+	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 
 	// Ensure that the common control DLL is loaded.
 	INITCOMMONCONTROLSEX icex;
