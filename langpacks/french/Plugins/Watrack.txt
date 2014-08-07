@@ -613,8 +613,6 @@ Vérifier
 Police...
 [Genres]
 
-[[x]Status Title / Text]
-Titre xStatus / Texte
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 

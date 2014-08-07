@@ -298,7 +298,6 @@
 [Output]
 [Check]
 [Genres]
-[[x]Status Title / Text]
 [Scrobble at]
 [Timeout, ms]
 [Get Series Info]

@@ -309,7 +309,6 @@
 [Check]
 [Choose font...]
 [Genres]
-[[x]Status Title / Text]
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 [Timeout, ms]

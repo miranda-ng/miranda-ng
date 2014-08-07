@@ -613,8 +613,6 @@ xСъстоянието или "Слуша музика" е празно
 Избор на шрифт...
 [Genres]
 
-[[x]Status Title / Text]
-\[х]Състояние / Съобщение
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 

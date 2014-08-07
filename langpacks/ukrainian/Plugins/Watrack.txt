@@ -613,8 +613,6 @@ VBR чи ні
 Шрифт...
 [Genres]
 Жанри
-[[x]Status Title / Text]
-Заголовок/текст статусів
 [Scrobble at]
 Скробблити з
 [Timeout, ms]

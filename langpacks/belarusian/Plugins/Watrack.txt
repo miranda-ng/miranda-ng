@@ -613,8 +613,6 @@ VBR ці няма
 Шрыфт...
 [Genres]
 Жанр
-[[x]Status Title / Text]
-Загаловак і тэкст статусу
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Скробліць з

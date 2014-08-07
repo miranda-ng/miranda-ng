@@ -613,8 +613,6 @@ Sprawdź
 Ustaw czcionkę...
 [Genres]
 Gatunki
-[[x]Status Title / Text]
-Tytuł [x]Statusu/Tekst
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Scrobbluj co

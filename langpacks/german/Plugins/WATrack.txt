@@ -613,8 +613,6 @@ Ausgehend
 Schriftart wählen
 [Genres]
 Genres
-[[x]Status Title / Text]
-\[x]Status-Titel/-Text
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Scrobbeln bei
