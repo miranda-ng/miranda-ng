@@ -319,7 +319,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				DWORD dwFlags = THEME_READ_FONTS;
 
 				if (szFilename != NULL) {
-					int result = MessageBox(0, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all."),
+					int result = MessageBox(0, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all."),
 						TranslateT("Load theme"), MB_YESNOCANCEL);
 					if (result == IDCANCEL)
 						return 1;
