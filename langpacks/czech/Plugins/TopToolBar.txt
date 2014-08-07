@@ -80,8 +80,8 @@ Ukončit
 Výchozí
 [TopToolBar background]
 Pozadí horní lišty
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org/]
-Služba pro rámečky nebyla nalezena, doplněk bude deaktivován.\nPro použití musíte nainstalovat a nebo povolit podporovaný doplněk pro seznam kontaktů:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nMůžete je stáhnout z http://miranda-ng.org
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
+Služba pro rámečky nebyla nalezena, doplněk bude deaktivován.\nPro použití musíte nainstalovat a nebo povolit podporovaný doplněk pro seznam kontaktů:\n- Modern contact list\n- Nicer+\nMůžete je stáhnout z http://wiki.miranda-ng.org/Download
 [TopToolBar]
 Horní lišta
 ;file \plugins\TopToolBar\src\ttbopt.cpp

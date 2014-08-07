@@ -320,6 +320,16 @@ Stahování seznamu - %u kanálů
 Počet kanálů: %u
 [(probably truncated by server)]
 (pravděpodobně oříznuto serverem)
+[%ud, %uh, %um, %us]
+%ud, %uh, %um, %us
+[%uh, %um, %us]
+%uh, %um, %us
+[%um, %us]
+%um, %us
+[%us]
+%us
+[online since %s, idle %s]
+online od %s, nečinnost %s
 [Change nickname]
 Změnit přezdívku
 [IRC error]

@@ -50,14 +50,12 @@ Vlastní verze
 Některé komponenty byly aktualizovány.\nJe nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
 [Notifications]
 Upozornění
-[Message boxes (*)]
-Dialogové okna (*)
+[Restart]
+Restart
 [Errors]
 Chyby
 [Info messages]
 Informační zprávy
-[Progress dialogs]
-Dialogy s postupem
 [Back]
 Pozadí
 [Text]
@@ -86,10 +84,8 @@ Doba zobrazení
 -1 = neustále
 [Sec]
 sek.
-[* Needs popup actions to be enabled]
-* Vyžaduje povolené akce v doplňku pro oznámení
-[Not sets for "Message boxes"]
-Není aplikováno pro dialogové okna
+[For "Restart" popup setting is always infinity]
+Oznámení s žádostí o restart je zobrazeno trvale
 [Boxes]
 Dialogy
 [Popups]
@@ -101,14 +97,14 @@ Zde je kompletní seznam dostupných komponent pro Mirandu NG. Zaškrtněte komp
 [Download]
 Stáhnout
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
-[Skipped.]
-Přeskočeno.
 [Downloading...]
 Stahování...
-[Failed!]
-Chyba!
 [Succeeded.]
 Staženo.
+[Failed!]
+Chyba!
+[Skipped.]
+Přeskočeno.
 [Plugin Updater]
 Aktualizátor
 [Download complete]
@@ -136,21 +132,31 @@ Načítání seznamu již probíhá!
 Bude smazán!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizace dokončena. Přejete si nyní restartovat Mirandu?
+[Core components]
+Komponenty jádra
+[Core]
+Jádro
 [<< Details]
 << Detaily
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Aktualizace se nezdařila! Některá z komponent nebyla správně stažena. Zkuste to znovu později.
+[%d component(s) was updated]
+%d komponent bylo aktualizováno
 [You need to restart your Miranda to apply installed updates.]
 Je nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
 [Would you like to restart it now?]
 Přejete si ji nyní restartovat?
-[%d component(s) was updated]
-%d komponent bylo aktualizováno
 [No updates found.]
 Žádné aktualizace nenalezeny.
 [Update checking already started!]
 Kontrola aktualizací již probíhá!
 ;file \plugins\PluginUpdater\src\Events.cpp
+;file \plugins\PluginUpdater\src\Notifications.cpp
+;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+Zavřít oznámení
+[Do nothing]
+Nedělat nic
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 hodin
@@ -170,10 +176,6 @@ Aktualizace dokončena
 [Update failed]
 Aktualizace selhala
 ;file \plugins\PluginUpdater\src\Utils.cpp
-['Yes' Button]
-Tlačítko 'Ano'
-['No' Button]
-Tlačítko 'Ne'
 [Plugin info]
 Informace
 [Plugin list]

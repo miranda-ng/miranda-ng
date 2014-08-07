@@ -31,8 +31,8 @@
 [Hide contact on 'Ignore all']
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
-[XStatus title]
-[XStatus message]
+[xStatus title]
+[xStatus message]
 [Listening to]
 [Activity title]
 [Activity text]

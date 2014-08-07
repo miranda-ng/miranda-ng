@@ -1625,7 +1625,7 @@ Rozšířený stav
 [Greeting card:]
 Pohlednice:
 ;file \protocols\IcqOscarJ\src\init.cpp
-[ICQ XStatus]
+[ICQ xStatus]
 ICQ XStatus
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]

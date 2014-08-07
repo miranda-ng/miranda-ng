@@ -235,7 +235,7 @@ koukám na pro7
 láska
 [Sets owner current custom status]
 
-[Display XStatus detail]
+[Display xStatus detail]
 
 [int hMenu handle]
 
@@ -367,6 +367,8 @@ Zjistit aktualizace
 
 [Empty updater download folder]
 
+[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
+
 [Enables or disables Popup windows]
 
 [YAPP or Popup]
@@ -382,6 +384,8 @@ Zobrazit text
 [YAPP only]
 
 [Unicode Text]
+
+[Enables or disables Popup windows (maybe deprecated)]
 
 [result of protocol service call]
 

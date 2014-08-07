@@ -124,7 +124,7 @@ Zobrazit tip až po načtení celého obsahu (avatar && zpráva stavu)
 Načíst novou zprávu stavu
 [Disable in invisible status]
 Zakázat ve stavu Neviditelný
-[Retrieve XStatus details if auto-retrieve is disabled]
+[Retrieve xStatus details if auto-retrieve is disabled]
 Zjišťovat rozšířený stav i když je automatika vypnuta
 [Status bar and tray tooltip]
 Tipy stavového řádku a oznamovací oblasti
@@ -306,7 +306,7 @@ Stav:
 Zpráva stavu:
 [Mood:]
 Nálada:
-[XStatus:]
+[xStatus:]
 Rozšířený stav:
 [Activity:]
 Činnost:
@@ -379,13 +379,13 @@ Počet zpráv [odeslaných]:
 Čas
 [Time:]
 Čas:
-[XStatus title]
+[xStatus title]
 Název rozšířeného stavu
-[XStatus title:]
+[xStatus title:]
 Název rozšířeného stavu:
-[XStatus text]
+[xStatus text]
 Zpráva rozšířeného stavu
-[XStatus text:]
+[xStatus text:]
 Zpráva rozšířeného stavu:
 [[jabber.dll] Activity title]
 \[jabber.dll] Název aktivity

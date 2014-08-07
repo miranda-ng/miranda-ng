@@ -259,8 +259,6 @@ Adresa
 Byli jste přidáni
 [Contacts received]
 Přijaty kontakty
-[SMTP Simple Email]
-Zpráva SMTP
 [SMS message]
 Zpráva SMS
 [Group list]

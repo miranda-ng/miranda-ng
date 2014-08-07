@@ -55,9 +55,9 @@ Skrýt kontakt při 'Všechno'
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Zpráva stavu
-[XStatus title]
+[xStatus title]
 Název rozšířeného stavu
-[XStatus message]
+[xStatus message]
 Zpráva rozš.stavu
 [Listening to]
 Poslech hudby

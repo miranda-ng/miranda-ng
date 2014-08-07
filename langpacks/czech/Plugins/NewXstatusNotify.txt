@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: xStatus notify
-;  Version: 1.4.0.9
+;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
 Oznamuje, když si kontakt změní svůj stav, rozšířený stav nebo zprávu stavu.
 ;file \plugins\NewXstatusNotify\res\resource.rc
-[Notify when a contact changes to one of these statuses]
+[Notify when contact changes to one of these statuses]
 Oznámení změny stavu ostatních kontaktů
 [Online]
 Online
@@ -32,36 +32,32 @@ Jsem na obědě
 Mám telefon
 [Always when changing from offline]
 Vždy při přechodu ze stavu offline
+[Notify when contact changes]
+Oznámit když kontakt změní
+[Extra status]
+Rozšířený stav
+[Status message]
+Zpráva stavu
 [Plugin activation]
 Aktivace doplňku
 [Automatically turn off Popups and Sounds on status change]
 Automaticky vypnout oznámení a zvuky při změně stavu
 [Configure]
 Nastavit...
-[Notify me for people not in my Contact List]
+[Notify me for people not on my contact list]
 Oznamovat i pro kontakty mimo můj seznam kontaktů
-[Blink icon in the system tray]
-Blikat v oznamovací části lišty
-[Use status icon]
-Použít ikonu stavu
 [Use individual sounds]
 Použít individuální zvuky
+[Blink icon in the system tray]
+Blikat v oznamovací části lišty
+[Also when extra status or status message changes]
+Také při změně zprávy [rozšířeného] stavu
+[Use status icon]
+Použít ikonu stavu
 [Log to file]
 Uložit do souboru
-[Enable]
-Aktivovat
-[Extra status]
-Rozšířený stav
 [Open]
 Otevřít
-[Status message]
-Zpráva stavu
-[Log in history]
-Uložit do historie
-[Log status changes in history]
-Ukládat změny stavů do historie
-[Only when message window is open]
-Pouze pokud je otevřeno komunikační okno
 [Change]
 Změnit
 [Preview]
@@ -88,6 +84,12 @@ Záznam rozšířeného stavu
 Vypnout vše
 [Enable all]
 Aktivovat vše
+[Status message notify]
+Oznámení zpráv stavu
+[Status message logging]
+Záznam zpráv stavu
+[Popups when status changes to:]
+Oznamovat tyto změny stavu:
 [Background]
 Pozadí
 [Text]
@@ -102,38 +104,36 @@ Použít barvy Windows
 Použít výchozí barvy
 [Popup text]
 Text oznámení
-[Read status message]
-Přečíst zprávu stavu
-[Show previous status too]
-Zobrazit i předchozí stav
-[Timeout]
-Doba zobrazení
-[Popups when status changes to:]
-Oznamovat tyto změny stavu:
-[Click action]
-Při kliknutí myší
 [Show contact group name]
 Zobrazit název skupiny uživatele
+[Show status description]
+Zobrazit popis stavu
 [Use alternative descriptions]
 Použít alternativní popis stavů
+[Show previous status too]
+Zobrazit i předchozí stav
+[Read status message]
+Přečíst zprávu stavu
+[Timeout]
+Doba zobrazení
+[Sec]
+sek.
+[Connection timeout]
+Prodleva pro připojení
 [0 = Default]
 0 = výchozí
 [-1 = Infinite]
 -1 = neustále
-[Sec]
-sek.
+[Click action]
+Při kliknutí myší
 [On left click]
 Levé tlačítko
 [On right click]
 Pravé tlačítko
-[Show status description]
-Zobrazit popis stavu
-[Ignore empty status and xStatus messages]
-Ignorovat prázdné stavové zprávy a rozšířené stavy
-[Connection timeout]
-Prodleva pro připojení
 [Notification]
 Oznámení
+[Show Popups when I connect]
+Zobrazit oznámení při připojení
 [Disable for extra status 'Music']
 Vypnout pro rozšířený stav 'Hudba'
 [Truncate message length to:]
@@ -142,46 +142,80 @@ Oříznout délku zprávy na:
 znaků
 [Templates]
 Šablony
-[Title - text delimiter:]
-Oddělovač nadpisu a textu:
-[Remove:]
-Zrušení stavu:
-[New message:]
-Nová zpráva:
-[New status:]
-Nový stav:
+[Notify when contact changes extra status]
+Oznámit při změně rozšířeného stavu
+[Template:]
+Šablona:
+[Notify when contact removes extra status]
+Oznámit při zrušení rozšířeného stavu
+[Notify when contact changes extra status message]
+Oznámit při změně zprávy rozšířeného stavu
+[Notify when contact removes extra status message]
+Oznámit při zrušení zprávy rozšířeného stavu
 [Variables]
 Proměnné
 [Reset]
 Reset
 [Disable notifications]
 Vypnout oznámení
-[Cancel]
-Zrušit
 [Disable globally]
 Vypnout globálně
-[Disable only if I change global status]
-Vypnout pouze při změně globálního stavu
 [Disable when my status is:]
 Vypnout když jsem ve stavu:
-[Extra status log]
-Záznam rozšířených stavů
-[Enable logging extra status to message window]
-Povolit záznam rozšířených stavů do komunikačního okna
-[Keep events in history]
-Ponechat události v historii
-[Prevent identical logs]
-Zabránit duplicitním záznamům
-[On opening ML:]
-Při otevření komunikačního okna:
+[Disable only if I change global status]
+Vypnout pouze při změně globálního stavu
+[Cancel]
+Zrušit
+[Log extra status changes]
+Záznam změn rozšířených stavů
+[Log extra status changes to file]
+Záznam změn rozšířených stavů do souboru
+[Log extra status changes to history]
+Záznam změn rozšířených stavů do historie
+[Only when message window is open]
+Pouze pokud je otevřeno komunikační okno
+[Remove events from history when closing message window]
+Odstranit události z historie při zavření komunikačního okna
+[Log when contact changes extra status]
+Záznam změny rozřířeného stavu
+[Log when contact removes extra status]
+Záznam zrušení rozšířeného stavu
+[Log when contact changes extra status message]
+Záznam změny zprávy rozšířeného stavu
+[Log when contact removes extra status message]
+Záznam zrušení zprávy rozšířeného stavu
+[Log extra status when opening message window]
+Záznam rozšířeného stavu při otevření komunikačního okna
 [General]
 Obecné
-[Show Popups when I connect]
-Zobrazit oznámení při připojení
 [Accounts]
 Účty
 [Enable/Disable accounts which you don't wish to be notified for:]
 Zvolte účty, pro které chcete být oznamování:
+[Notify when contact changes status message]
+Oznámit při změně zprávy stavu
+[Notify when contact removes status message]
+Oznámit při zrušení zprávy stavu
+[Log status changes]
+Zaznamenávat změny stavu
+[Log status changes to file]
+Záznam změny stavu do souboru
+[Log status changes to history]
+Záznam změny stavu do historie
+[Log previous status too]
+Zobrazit i předchozí stav
+[Log status message changes]
+Záznamenávat změny zprávy stavu
+[Log status message changes to file]
+Záznam změny zprávy stavu do souboru
+[Log status message changes to history]
+Záznam změny zprávy stavu do historie
+[Log when contact changes status message]
+Záznam změny zprávy stavu
+[Log when contact removes status message]
+Záznam zrušení zprávy stavu
+[Log status message when opening message window]
+Záznam zprávy stavu při otevření komunikačního okna
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Zvukové soubory
@@ -191,10 +225,8 @@ Všechny soubory
 Soubory Wave
 [Status]
 Stavy
-[Sound for the status]
-Zvuky
-[From offline]
-Ze stavu offline
+[Sound file]
+Zvukový soubor
 [** All contacts **]
 ** všechny kontakty **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
@@ -205,16 +237,20 @@ Ze stavu offline
 <zpráva není zadaná>
 [Contact]
 Kontakt
+[<unknown>]
+<neznámý>
+[%s is now %s]
+%s je nyní %s
+[%s, %s. %s changed status to %s (was %s)\r\n]
+%s, %s. %s změnil(a) stav na %s (dříve %s)\r\n
 [connecting]
 připojování
 [aborting]
 rušení
 [playing]
 přehrávání
-[%s is now %s]
-%s je nyní %s
-[%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s změna na: %s (dříve: %s).\r\n
+[%s changed status message to %s]
+%s změnil(a) zprávu stavu na %s
 [(M) is back online!]
 je opět online
 [(F) is back online!]
@@ -245,13 +281,13 @@ má volno
 má volno
 [(U) feels talkative!]
 má volno
-[User: Free For Chat]
+[User: Free for chat]
 Stav (mám volno)
-[(M) went Away]
+[(M) went away]
 odběhl pryč
-[(F) went Away]
+[(F) went away]
 odběhla pryč
-[(U) went Away]
+[(U) went away]
 odběhl pryč
 [User: Away]
 Stav (na chvíli pryč)
@@ -261,14 +297,14 @@ bude pryč delší dobu
 bude pryč delší dobu
 [(U) isn't there anymore!]
 bude pryč delší dobu
-[User: Not Available]
+[User: Not available]
 Stav (nejsem tady)
-[(M) has something else to do.]
-nemá čas
-[(F) has something else to do.]
-nemá čas
-[(U) has something else to do.]
-nemá čas
+[(M) has something else to do]
+má na práci něco jiného
+[(F) has something else to do]
+má na práci něco jiného
+[(U) has something else to do]
+má na práci něco jiného
 [User: Occupied]
 Stav (nemám čas)
 [(M) doesn't want to be disturbed!]
@@ -277,7 +313,7 @@ nechce být vyrušován!
 nechce být vyrušována!
 [(U) doesn't want to be disturbed!]
 nechce být vyrušován!
-[User: Do Not Disturb]
+[User: Do not disturb]
 Stav (nerušit!)
 [(M) is eating something]
 je na obědě
@@ -285,7 +321,7 @@ je na obědě
 je na obědě
 [(U) is eating something]
 je na obědě
-[User: Out To Lunch]
+[User: Out to lunch]
 Stav (na obědě)
 [(M) had to answer the phone]
 telefonuje
@@ -293,8 +329,22 @@ telefonuje
 telefonuje
 [(U) had to answer the phone]
 telefonuje
-[User: On The Phone]
+[User: On the phone]
 Stav (mám telefon)
+[User: from offline (has priority!)]
+Uživatel: z offline (má prioritu!)
+[Status message removed]
+Zrušení zprávy stavu
+[Status message changed]
+Změna zprávy stavu
+[Extra status removed]
+Zrušení rozšířeného stavu
+[Extra status message changed]
+Změna zprávy rozšířeného stavu
+[Extra status changed]
+Změna rozšířeného stavu
+[Extra status message removed]
+Zrušení zprávy rozšířeného stavu
 [Enable status notification]
 Zapnout oznámení stavu
 [Disable status notification]
@@ -305,14 +355,6 @@ Oznámení jsou zapnuty
 Oznámení jsou vypnuty
 [New Status Notify]
 Oznámení stavu
-[User: from offline (has priority!)]
-Uživatel: z offline (má prioritu!)
-[Extra status changed]
-Změna rozšířeného stavu
-[Extra status message changed]
-Změna zprávy rozšířeného stavu
-[Extra status removed]
-Zrušení rozšířeného stavu
 [Toggle status notification]
 Přepnout oznámení stavu
 [Status change]
@@ -324,20 +366,22 @@ Všechny soubory
 Záznam
 [This is status message]
 Toto je zpráva stavu
-[Do you want to reset all templates to default?]
-Přejete si obnovit všechny šablony do výchozího nastavení?
-[Reset templates]
-Resetovat šablony
+[This is extra status]
+Toto je rozšířený stav
 [Show available variables]
 Zobrazit dostupné proměnné
 [Reset all templates to default]
 Resetovat všechny šablony
-[Protocol]
-Protokol
+[Do you want to reset all templates to default?]
+Přejete si obnovit všechny šablony do výchozího nastavení?
+[Reset templates]
+Resetovat šablony
+[Account]
+Účet
+[Status logging]
+Záznam stavu
 [Filtering]
 Filtrování
-[Message log]
-Záznam komunikace
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (předtím %s)
@@ -354,8 +398,6 @@ Zobrazit historii kontaktu
 [Do nothing]
 Nedělat nic
 ;file \plugins\NewXstatusNotify\src\utils.cpp
-[You cannot specify a value lower than %d and higher than %d.]
-Nelze zadat hodnotu nižší než %d a vyšší než %d.
 [Can't open the log file!]
 Nelze otevřít záznamový soubor!
 [NewXstatusNotify]
@@ -365,30 +407,36 @@ Oznámení stavu
 Nálada
 [Activity]
 Činnost
-[Xstatus]
+[xStatus]
 Rozšířený stav
-[<unknown>]
-<neznámý>
-[%s, %s. %s removed %s.\r\n]
-%s, %s. %s zrušil %s.\r\n
-[%s, %s. %s changed %s to: %s.\r\n]
-%s, %s. %s změnil %s na: %s.\r\n
+[<no title>]
+<bez názvu>
+[%s changed %s]
+%s změnil(a) %s
 ;file \plugins\NewXstatusNotify\src\xstatus.h
-[changed %N to: %T%D%I]
-změna %N na: %T%D%I
-[changed %N message to:%D%I]
-změna zprávy %N na:%D%I
-[removed %N]
-zrušení %N
-[changed his/her status message to %n]
-změna zprávy stavu na %n
-[changed %N @ %T%D%I]
-změna %N @ %T%D%I
-[changed %N message @ %I]
-změna zprávy %N @ %I
-[has %N @ %T%D%I]
-má %N @ %T%D%I
-[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
-Dostupné jsou tyto proměnné:\r\n\r\n%N\tnázev rozšířeného stavu (nálady, aktivity)\r\n%T\tnadpis rozšířeného stavu\r\n%I\ttext rozšířeného stavu\r\n%D\toddělovač\r\n%B\tnový řádek (může být použit jako oddělovač)
-[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Dostupné jsou tyto proměnné:\r\n\r\n%n\tnová zpráva stavu\r\n%o\tstará zpráva stavu\r\n%c\tvlastní přezdívka\r\n\\n\tnový řádek\r\n\\t\ttabulátor
+[changed %n to: %t]
+změnil(a) %n na: %t
+[removed %n]
+zrušil(a) %N
+[changed %n message to: %m]
+změnil(a) zprávu %n na: %m
+[removed %n message]
+zrušil(a) zprávu %n
+[changed status message to: %n]
+změnil(a) zprávu stavu na: %n
+[removed status message]
+zrušil(a) zprávu stavu
+[changed %n @ %t: %m]
+změnil(a) %n @ %t: %m
+[changed %n message @ %m]
+změnil(a) zprávu %n @ %m
+[has %n @ %t: %m]
+má %n @ %t: %m
+[changed status message @ %n]
+změnil(a) zprávu stavu @ %n
+[is %s and has status message @ %n]
+je %s a má zprávu stavu @ %n
+[These variables are available:\r\n\r\n%n\textra status name (xStatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Dostupné jsou tyto proměnné:\r\n\r\n%N\tnázev rozšířeného stavu (nálady, aktivity)\r\n%t\tnázev rozšířeného stavu\r\n%m\tzpráva rozšířeného stavu\r\n%c\tvlastní přezdívka\r\n\\n\tnový řádek\t\n\\t\ttabulátor
+[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
+Dostupné jsou tyto proměnné:\r\n\r\n%n\tnová zpráva stavu\r\n%o\tstará zpráva stavu\r\n%c\tvlastní přezdívka\r\n%s\taktuální stav\r\n\\n\tnový řádek\t\n\\t\ttabulátor

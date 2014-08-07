@@ -2404,6 +2404,8 @@ Přidat k existujícímu
 Upravit
 [Set to default]
 Nastavit jako výchozí
+[MetaContacts]
+Metakontakty
 ;file \src\modules\metacontacts\meta_menu.cpp
 [There was a problem in assigning the contact to the metacontact]
 Během přiřazování kontaktu k metakontaktu se vyskytly problémy.

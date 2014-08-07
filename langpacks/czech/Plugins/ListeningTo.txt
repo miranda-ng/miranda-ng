@@ -22,15 +22,15 @@ Video
 Ostatní
 [You also have to enable it per protocol in the main menu]
 Poznámka: Musíte povolit i jednotlivé protokoly v hlavní nabídce.
-[XStatus]
+[xStatus]
 Rozšířený stav
-[For protocols that don't support listening to but support XStatus:]
+[For protocols that don't support listening to but support xStatus:]
 V případě protokolů, které podporují jen tzv. rozšířený stav (XStatus):
-[Set XStatus to Music and show listening info]
+[Set xStatus to Music and show listening info]
 Změnit stav na 'Poslouchám hudbu' a přidat informaci o skladbě
-[If other XStatus is not set, set XStatus to Music and show listening info]
+[If other xStatus is not set, set xStatus to Music and show listening info]
 Totéž jako výše, ale pouze tehdy, není-li už rozšířený stav používaný
-[If XStatus is Music, show listening info]
+[If xStatus is Music, show listening info]
 Je-li už rozšířený stav 'Poslouchám hudbu', přidat informaci o skladbě
 [Do nothing]
 Nedělat nic

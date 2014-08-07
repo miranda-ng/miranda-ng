@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.11.0.2
+;  Version: 2.11.1.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -628,8 +628,8 @@ Zpráva od: %s
 %s píše zprávu
 [Typing Notification]
 Upozornění na psaní zprávy
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Chybí knihovna riched20.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Chybí knihovna riched20.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte emulaci WINE, doinstalujte si tuto knihovnu. Stiskněte 'Ano' pro pokračování v načítání Mirandy.
 [Instant messages]
 Zprávy
 [Incoming (Focused Window)]

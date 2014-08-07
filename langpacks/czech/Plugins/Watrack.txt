@@ -13,9 +13,9 @@ Před nastavením rozšířeného stavu nastavit prázdný
 Emulovat multimediální klávesy
 [xStatus will be cleared before text changing and restored with new text later.]
 Rozšířený stav bude na chvilku zrušen a poté se zpět změní na "Poslouchám hudbu" s novým textem.
-[Use XStatus]
+[Use xStatus]
 Použít rozšířený stav
-[If this option is "ON", XStatus doesn't depend on protocol status.]
+[If this option is "ON", xStatus doesn't depend on protocol status.]
 Jestliže je tato možnost zapnuta, nezávisí rozšířený stav na stavu protokolu.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 Jestliže je tato možnost zapnuta, je možné používat transformační, datové a matematické funkce. Je-li podpora neaktivní, bude pracovat WATrack rychleji.
@@ -180,7 +180,7 @@ Počet položek
 [Report file]
 Soubor se zápisem
 [Report format]
-
+Formát zápisu
 [Show in report]
 Zobrazit v zápisu
 [Sort]
@@ -202,25 +202,25 @@ délky
 [Unicode to Ansi translation codepage:]
 Kódování jazyka, definice skriptu:
 [VBR macro]
-
-[\[X\]Status Title / Text]
-
+VBR makro
+[\[x\]Status Title / Text]
+Název / text [rozšířeného] stavu
 [Insert in messages]
 Vložit do zprávy
 [Use status messages]
 Použít zprávu stavu
-[Independed XStatus]
+[Independent xStatus]
 Nezávislý rozšířený stav
 [Use process implantation]
 Implantovat proces
 [Simple Template mode]
 Režim zjednodušených šablon
-[Use existing XStatus]
+[Use existing xStatus]
 Použít existující rozš. stav
 [Only if 'Music' status was set]
 Pouze pro rozšířený stav 'Hudba'
 [Keep 'Music' status]
-
+Zachovat rozšířený stav 'Hudba'
 [Replace underlines with spaces]
 Nahradit podtržítka mezerami
 [Check file time]
@@ -237,9 +237,9 @@ Ponechat starý soubor
 Zpráva uživateli
 [Channel message]
 Zpráva na kanál
-[If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
+[If this option is "ON", xStatus number will not be changed, only message will be replaced by WATrack templates]
 Jestliže je tato možnost zapnuta, nezmění se typ rozšířeného stavu, ale jen zpráva daná šablonou.
-[Keep 'Music' XStatus]
+[Keep 'Music' xStatus]
 Ponechat rozšířený stav 'Hudba' i po vypnutí přehrávače
 [No-music text]
 
@@ -248,11 +248,11 @@ Ponechat rozšířený stav 'Hudba' i po vypnutí přehrávače
 [Protocol list]
 
 [Use Status:]
-
+Použít stav:
 [Text+Graph]
-
+Text+graf
 [Use external style]
-
+Použít externí styl
 [Add report file ext.]
 Přidat externí zápis
 [Freq. artists]
@@ -276,7 +276,7 @@ Globální klávesová zkratka
 [Only if messages not used]
 
 [Don't use]
-
+Nepoužívat
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled.]
 
 [All uppercase]
@@ -295,13 +295,13 @@ Jestliže je tato možnost zapnuta, bude hláška stavu nahrazena informací o h
 
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 Jestliže je tato možnost zapnuta, pokusí se doplněk získat informace o neznámém hudebním formátu z přehrávače (ne všechny přehrávače fungují!)
-[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
+[If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Jestliže je tato možnost zapnuta, bude rozšířený stav změněn na "Poslouchám hudbu" pouze tehdy, byl-li takto změněn už předtím ručně.
-[If this option is "ON", XStatus doesn't depend of ICQ's status.]
+[If this option is "ON", xStatus doesn't depend of ICQ's status.]
 
-[If this option is "ON", XStatus won't be changed when player is shut down.]
+[If this option is "ON", xStatus won't be changed when player is shut down.]
 Jestliže je tato možnost zapnuta, bude rozšířený stav ponechán i po vypnutí přehrávače
-[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
+[If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
 Jestliže je tato možnost zapnuta, bude rozšířený stav změněn na "Poslouchám hudbu" a hláška stavu bude nahrazena informací o hudbě
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
 Jestliže je tato možnost zapnuta, bude použita na všechny protokoly, přehrávače a stavy jedna šablona. Záložka se šablonami se změní po restartu.
@@ -369,8 +369,6 @@ celková délka (sek.)
 
 [player]
 
-[Independed Xstatus]
-Nezávislý rozšířený stav
 ["Variables" ANSI output]
 
 [FPS (Frames per second)]
@@ -433,7 +431,7 @@ Kontextová nabídka
 
 [Status Template]
 
-[XStatus Title]
+[xStatus Title]
 Název rozšířeného stavu
 ['mono' / 'stereo']
 
@@ -455,13 +453,13 @@ Název rozšířeného stavu
 
 [- track number]
 
-[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music xStatus sets already.\n  Keep 'Music' xStatus - if player stopped or shutdowned, save or not 'Music' xStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
 
 ["Variables" module use]
 
 [Acoustic]
 
-[Use ICQ XStatus]
+[Use ICQ xStatus]
 
 [Winamp Track]
 Sledování hudby
@@ -489,7 +487,7 @@ Pozastasvit  (stisknuto)
 
 [Enable Status message]
 
-[Enable XStatus message]
+[Enable xStatus message]
 
 [Enable Tunes message]
 
@@ -541,13 +539,13 @@ Hudební statistiky
 
 [Status (templates)]
 
-[Set XStatus when...]
+[Set xStatus when...]
 
-[XStatus is empty or 'Music']
+[xStatus is empty or 'Music']
 
 ['Music' status is set]
 
-[any XStatus is set]
+[any xStatus is set]
 
 [Players list\n(F1 for note)]
 
@@ -615,7 +613,7 @@ Kontrola
 Vybrat písmo...
 [Genres]
 
-[[X]Status Title / Text]
+[[x]Status Title / Text]
 Záhlaví a text rozšířeného stavu
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]

@@ -160,8 +160,8 @@ Autentizace HTTPS proxy se nezdařila
 Autentizace SOCKS proxy se nezdařila
 [P2P connection failed]
 P2P připojení se nezdařilo
-[SERVER_CONNECT_FAILED]
-Chyba připojení k serveru
+[Connection to server failed. SkypeKit has been deprecated by Microsoft.]
+Připojení k serveru se nezdařilo. Microsoft zrušil podporu SkypeKitu.
 [Server is overloaded]
 Server je přetížen
 [SkypeKit database already in use]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.0.13
+;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
@@ -338,8 +338,18 @@ Ikona v oznamovací oblasti
 Chování v oznamovací oblasti
 [Use xStatus icon]
 Zobrazit ikonu rozšířeného stavu
+[Additional stuff]
+Další možnosti
 [Ignore empty extra icons places (arrange to right).]
 Ignorovat prázdná místa po extra ikonách (posunout >>)
+[Allow internal requesting of status message text]
+Povolit interní požadavky o text zprávy stavu
+[Remove status message if contact became offline]
+Odstranit stavovou zprávu při odpojení kontaktu
+[Use improved search method in contact list]
+Použít vylepšené vyhledávání v seznamu kontaktů
+[Metacontacts stuff]
+Další možnosti metakontaktů
 [Use 'Meta' protocol icons for metacontacts]
 Použít ikony protokolu 'Meta' pro metakontakty
 [Expand metacontacts]
@@ -348,20 +358,8 @@ Rozbalit metakontakty
 Nerozbalovat dvojím kliknutím
 [Hide all extra icons for subcontacts]
 Skrýt všechny 'Extra ikony' pro podkontakty
-[Hide offline subcontacts]
-Skrýt podkontakty offline
-[Metacontacts stuff]
-Další možnosti metakontaktů
-[Additional stuff]
-Další možnosti
-[Allow internal requesting of status message text]
-Povolit interní požadavky o text zprávy stavu
 [Subcontacts indent:]
 Odsazení podkontaktů:
-[Remove status message if contact became offline]
-Odstranit stavovou zprávu při odpojení kontaktu
-[Use improved search method in contact list]
-Použít vylepšené vyhledávání v seznamu kontaktů
 [Show time only if it is different from current time]
 Zobrazit čas pouze když se liší od místního
 [Show contact time as row item]
@@ -506,9 +504,9 @@ Poslech hudby
 Zobrazit stav pokud není zadána zpráva stavu
 [Show listening to if there is no status message]
 Zobrazit informace o hudbě pokud není zadána zpráva stavu
-[XStatus has priority]
+[xStatus has priority]
 Preferovat rozšířený stav
-[Use 'XStatus: XMessage']
+[Use 'xStatus: xMessage']
 Rozšířená autom. odpověď
 [(Variables will be replaced)]
 (Proměnné budou nahrazeny)

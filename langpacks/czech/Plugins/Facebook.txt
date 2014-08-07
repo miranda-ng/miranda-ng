@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.7.0
+;  Version: 0.2.8.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -78,8 +78,8 @@ Pro nestandardní stavy použít Neviditelný (nikoli Online)
 Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
 [Use this server for opening links:]
 Pro otevírání odkazů použít tento server:
-[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
-Aktivovat podporu pro vlastní smajlíky (EXPERIMENTÁLNÍ + CHYBOVÉ!)
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Zobrazovat samolepky jako vlastní smajlíky (EXPERIMENTÁLNÍ)
 [Use local time for received messages]
 Použít lokální čas počítače pro příchozí zprávy
 [Message sessions]
@@ -171,10 +171,18 @@ Nastala chyba při odebírání kontaktu z vašeho seznamu přátel.
 Požadavek o přátelství byl odeslán.
 [Error occurred when requesting friendship.]
 Nastala chyba při žádání o přátelství.
+[Request for friendship was accepted.]
+Požadavek o přátelství byl přijat.
+[Error occurred when accepting friendship request.]
+Nastala chyba při pokusu o přijetí požadavku o přátelství.
 [Request for friendship was canceled.]
 Požadavek o přátelství byl zrušen.
 [Error occurred when canceling friendship request.]
 Nastala chyba při rušení požadavku o přátelství.
+[Request for friendship was ignored.]
+Požadavek o přátelství byl ignorován.
+[Error occurred when ignoring friendship request.]
+Nastala chyba při pokusu o ignorování požadavku o přátelství.
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Výchozí
@@ -289,6 +297,8 @@ Zrušit požadavek o přátelství
 Požádat o přátelství
 [Approve friendship]
 Potvrdit přátelství
+[Deny friendship request]
+Odmítnout požadavek o přátelství
 [Services...]
 Služby
 [Refresh Buddy List]

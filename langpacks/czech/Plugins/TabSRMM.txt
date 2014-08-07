@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.3.1.6
+;  Version: 3.4.0.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1046,6 +1046,8 @@ Neznámý modul nebo uživatel
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
 Rich Edit soubor
+[No status message]
+Žádná zpráva stavu
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Problém v nastavení|Funkce bezobslužného odesílání je zakázána. Funkce \\b1 zpožděné odesílání\\b0  a \\b1 poslat více kontaktům\\b0  ji však vyžadují.\n\nNutno povolit v \\b1Možnosti->Komunikace->Pokročilé úpravy\\b0. Změna tohoto nastavení vyžaduje restart.
 [You cannot edit user notes when there are unsent messages]
@@ -1081,8 +1083,6 @@ Příchozí (nová konverzace)
 Odchozí
 [Message send error]
 Chyba při odesílání
-[No status message]
-Žádná zpráva stavu
 [Other]
 Ostatní
 [TabSRMM: Typing]
@@ -1619,8 +1619,6 @@ Hlášení o chybách
 Zobrazit skinovatelné tipy v chatu (vyžaduje doplněk Tipper)
 [Enable typing sounds]
 Povolit zvuky psaní
-[Disable animated GIF avatars (will not affect already open message windows)]
-Zakázat animované GIF avatary (nebude mít vliv na právě otevřená komunikační okna)
 [Close current tab on send]
 Zavřít panel po odeslání
 [Automatic keyboard layout: Do not load the system default for new contacts]

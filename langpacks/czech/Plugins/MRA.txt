@@ -330,7 +330,7 @@ Oznámení
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 %s - spojení se serverem
-[Mail.ru Xstatus]
+[Mail.ru xStatus]
 
 [Mail.ru extra info]
 
