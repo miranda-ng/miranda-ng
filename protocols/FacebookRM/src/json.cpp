@@ -294,7 +294,7 @@ bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text)
 	return false;
 }
 
-void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE *it)
+void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE *it, std::string thread_id)
 {
 	// Process attachements and stickers
 	JSONNODE *has_attachment = json_get(it, "has_attachment");
@@ -333,6 +333,22 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 						filename.clear();
 
 					attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + link + "\n";
+
+					// Stickers as smileys
+					if (type == "sticker" && proto->getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
+						JSONNODE *metadata = json_get(itAttachment, "metadata");
+						if (metadata != NULL) {
+							JSONNODE *stickerId_ = json_get(metadata, "stickerID");
+							if (stickerId_ != NULL) {
+								std::string sticker = "[[sticker:" + json_as_pstring(stickerId_) + "]]";
+								attachments_text += sticker;
+
+								// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
+								MCONTACT hContact = proto->ContactIDToHContact(proto->ThreadIDToContactID(thread_id));
+								proto->StickerAsSmiley(sticker, link, hContact);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -488,11 +504,12 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					continue;
 
 				std::string id = json_as_pstring(sender_fbid);
+				std::string thread_id = json_as_pstring(tid);
 				std::string message_id = json_as_pstring(mid);
 				std::string message_text = json_as_pstring(body);
 
 				// Process attachements and stickers
-				parseAttachments(proto, &message_text, msg);
+				parseAttachments(proto, &message_text, msg, thread_id);
 
 				// Ignore duplicits or messages sent from miranda
 				if (body == NULL || ignore_duplicits(proto, message_id, message_text))
@@ -863,7 +880,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			author_id = author_id.substr(pos+1);
 
 		// Process attachements and stickers
-		parseAttachments(proto, &message_text, it);
+		parseAttachments(proto, &message_text, it, thread_id);
 
 		if (json_as_bool(filtered) && message_text.empty())
 			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");

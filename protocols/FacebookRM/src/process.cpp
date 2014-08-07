@@ -655,8 +655,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
 				setString(hChatContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
 
-			ParseSmileys(messages[i]->message_text, hChatContact);
-
 			// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?
 			// ... we must add some new "type" field into facebook_message structure and use it also for Pokes and similar)
 			UpdateChat(tthread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), timestamp);
@@ -699,8 +697,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
 			if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
 				setString(hContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
-
-			ParseSmileys(messages[i]->message_text, hContact);
 
 			if (messages[i]->isIncoming && messages[i]->isUnread) {
 				PROTORECVEVENT recv = { 0 };

@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
+Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,8 +47,6 @@ void FacebookProto::SendMsgWorker(void *p)
 	} else if (id == NULL) {
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, 0);
 	} else {
-		//ParseSmileys(data->msg, data->hContact);
-
 		int retries = 5;
 		std::string error_text = "";
 		bool result = false;
@@ -196,44 +194,25 @@ void FacebookProto::ReadMessageWorker(void *p)
 	facy.flap(REQUEST_MARK_READ, &data);
 }
 
-void FacebookProto::ParseSmileys(std::string message, MCONTACT hContact)
+void FacebookProto::StickerAsSmiley(std::string sticker, std::string url, MCONTACT hContact)
 {
-	if (!getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS))
-		return;
+	std::string b64 = ptrA( mir_base64_encode((PBYTE)sticker.c_str(), (unsigned)sticker.length()));
+	b64 = utils::url::encode(b64);
 
-	HANDLE nlc = NULL;
-	std::string::size_type pos = 0;
-	bool anything = false;
-	while ((pos = message.find("[[", pos)) != std::string::npos) {
-		std::string::size_type pos2 = message.find("]]", pos);
-		if (pos2 == std::string::npos)
-			break;
-
-		std::string smiley = message.substr(pos, pos2+2-pos);
-		pos = pos2;
-		
-		std::string url = FACEBOOK_URL_PICTURE;
-		utils::text::replace_first(&url, "%s", smiley.substr(2, smiley.length()-4));
-
-		std::string b64 = ptrA( mir_base64_encode((PBYTE)smiley.c_str(), (unsigned)smiley.length()));
-		b64 = utils::url::encode(b64);
-
-		std::tstring filename = GetAvatarFolder() + L"\\smileys\\" + (TCHAR*)_A2T(b64.c_str()) + _T(".jpg");
-		FILE *f = _tfopen(filename.c_str(), _T("r"));
-		if (f) {
-			fclose(f);
-		} else {
-			facy.save_url(url, filename, nlc);
-		}
-		ptrT path( _tcsdup(filename.c_str()));
-
-		SMADD_CONT cont;
-		cont.cbSize = sizeof(SMADD_CONT);
-		cont.hContact = hContact;
-		cont.type = 1;
-		cont.path = path;
-
-		CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+	std::tstring filename = GetAvatarFolder() + _T("\\stickers\\") + (TCHAR*)_A2T(b64.c_str()) + _T(".png");
+	
+	// Check if we have this sticker already and download it it not
+	if (GetFileAttributes(filename.c_str()) == INVALID_FILE_ATTRIBUTES) {
+		HANDLE nlc = NULL;
+		facy.save_url(url, filename, nlc);
+		Netlib_CloseHandle(nlc);
 	}
-	Netlib_CloseHandle(nlc);
+
+	SMADD_CONT cont;
+	cont.cbSize = sizeof(SMADD_CONT);
+	cont.hContact = hContact;
+	cont.type = 1;
+	cont.path = ptrT(_tcsdup(filename.c_str()));
+
+	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 }

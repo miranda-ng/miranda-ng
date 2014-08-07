@@ -157,7 +157,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,79,281,10
     RTEXT           "Use this server for opening links:",IDC_STATIC,13,94,139,8
     COMBOBOX        IDC_URL_SERVER,156,91,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)",IDC_CUSTOM_SMILEYS,
+    CONTROL         "Show stickers as custom smileys (EXPERIMENTAL)",IDC_CUSTOM_SMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,129,281,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,142,281,10
