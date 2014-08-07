@@ -124,7 +124,7 @@
 [%u is not available]
 %u вне доступности.
 [%u does not want to be disturbed]
-%u не хочет, чтобы беспокоили.
+%u не хочет, чтобы его беспокоили.
 [%u is occupied]
 %u в режиме "Занят".
 [%u is free for chat]

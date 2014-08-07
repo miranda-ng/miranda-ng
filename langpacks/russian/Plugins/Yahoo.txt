@@ -160,7 +160,7 @@ Yahoo Игнор
 [Yahoo Login Error]
 Ошибка подключения Yahoo
 [You need to be connected to set the custom message]
-Вы должны быть подключены чтобы задать сообщение
+Вы должны быть подключены, чтобы задать сообщение
 [You need to be connected to refresh your buddy list]
 Вы должны быть подключены для обновления списка
 [Set &Custom Status]

@@ -190,7 +190,7 @@ WATrack: запрос запрещён
 [Ready to search]
 Готово к поиску
 [Click Search button to start]
-Нажмите кнопку "Поиск" чтобы начать
+Чтобы начать, нажмите кнопку "Поиск"
 [From %s]
 От %s
 [To %s]
@@ -198,7 +198,7 @@ WATrack: запрос запрещён
 [Advanced <<]
 Дополнительно <
 [HotSearch: %s (F3 to find next)]
-Быстрый поиск: %s (F3 чтобы продолжить)
+Быстрый поиск: %s (чтобы продолжить, нажмите F3)
 [You have reached the end of the history.]
 Вы добрались до конца истории.
 [Do you want to continue searching at the beginning?]

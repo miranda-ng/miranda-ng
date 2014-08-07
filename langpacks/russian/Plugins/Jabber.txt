@@ -370,7 +370,7 @@ HTTP авторизация\nПринять или отклонить входя
 [Request method is:]
 Метод запроса:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
-Нажмите "авторизовать" чтобы принять запрос или нажмите "запретить" для отклонения.
+Нажмите "авторизовать", чтобы принять запрос или нажмите "запретить" для отклонения.
 [Authorize]
 Авторизовать
 [Deny]
@@ -1354,7 +1354,7 @@ Jabber ошибка
 [Account removal warning]
 Удаление учётной записи
 [You can change your password only when you are online]
-Что бы сменить пароль, вам нужно подключиться к сети
+Чтобы сменить пароль, необходимо подключиться к сети
 [You must be online]
 Вам нужно подключиться к сети
 [Messaging]

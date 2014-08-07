@@ -246,7 +246,7 @@ HTTP неизвестная ошибка
 ['Unknown']
 'Неизвестно'
 [You have to be connected to open new conference.]
-Вы должны быть подключены чтобы начинать конференции.
+Вы должны быть подключены, чтобы начинать конференции.
 [All ignored conferences are now unignored and the conference policy will act again.]
 Список игнорируемых конференций очищен и применяется общая политика конференций.
 [There are no ignored conferences.]

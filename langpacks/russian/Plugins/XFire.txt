@@ -268,7 +268,7 @@ exe игры:
 [The username must be lowercase, so it will be lowercased saved.]
 Имя пользователя должно быть в нижнем регистре, поэтому оно будет сохранено в таком виде.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
-Сделанные вами изменения требуют, что бы вы переподключились к сети XFire для вступления их в силу.
+Для вступления в силу сделанных вами изменений необходимо переподключиться к сети XFire
 [Hidden]
 Скрытый
 [Message box]
