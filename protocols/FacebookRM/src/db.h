@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_USERNAME				"Username"
 #define FACEBOOK_KEY_PASS					"Password"
 #define FACEBOOK_KEY_DEVICE_ID				"DeviceID"
-#define FACEBOOK_KEY_AV_URL					"AvatarURL"
+#define FACEBOOK_KEY_AVATAR					"Avatar"
 #define FACEBOOK_KEY_DELETED				"Deleted"
 #define FACEBOOK_KEY_CONTACT_TYPE			"ContactType"
 #define FACEBOOK_KEY_DEF_GROUP				"DefaultGroup"

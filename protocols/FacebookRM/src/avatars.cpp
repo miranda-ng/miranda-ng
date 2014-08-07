@@ -24,76 +24,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url)
 {
-	DBVARIANT dbv;
-	if (!getString(ai.hContact, FACEBOOK_KEY_AV_URL, &dbv)) {
-		std::string new_url = dbv.pszVal;
-		db_free(&dbv);
+	ptrA id(getStringA(ai.hContact, FACEBOOK_KEY_ID));
+	if (id == NULL)
+		return false;
 
-		if (new_url.empty())
-			return false;
-	
-		if (url)
-			*url = new_url;
-
-		if (!getTString(ai.hContact, FACEBOOK_KEY_ID, &dbv)) {
-			std::string ext = new_url.substr(new_url.rfind('.'), 4);
-			std::tstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());
-			db_free(&dbv);
-
-			_tcsncpy_s(ai.filename, filename.c_str(), _TRUNCATE);
-			ai.format = ProtoGetAvatarFormat(ai.filename);
-			return true;
-		}
+	if (url) {
+		*url = FACEBOOK_URL_PICTURE;
+		utils::text::replace_first(url, "%s", std::string(id));
 	}
-	return false;
+
+	std::tstring filename = GetAvatarFolder() + _T('\\') + std::tstring(_A2T(id)) + _T(".jpg");
+
+	_tcsncpy_s(ai.filename, filename.c_str(), _TRUNCATE);
+	ai.format = ProtoGetAvatarFormat(ai.filename);
+
+	return true;
 }
 
 void FacebookProto::CheckAvatarChange(MCONTACT hContact, std::string image_url)
 {
+	std::tstring::size_type pos = image_url.rfind("/");
+	
 	// Facebook contacts always have some avatar - keep avatar in database even if we have loaded empty one (e.g. for 'On Mobile' contacts)
-	if (image_url.empty())
+	if (image_url.empty() || pos == std::tstring::npos)
 		return;
 
-	// First remove all eventual parameters
-	std::tstring::size_type pos = image_url.find("?");
+	// Get name of image
+	std::string image_name = image_url.substr(pos + 1);
+
+	// Remove eventual parameters from name
+	pos = image_name.rfind("?");
 	if (pos != std::tstring::npos)
-		image_url = image_url.substr(0, pos);
+		image_name = image_name.substr(0, pos);
+	
+	// Append our parameters to allow comparing for avatar/settings change
+	if (getBool(FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS))
+		image_name += "?big";
+	
+	// Check for avatar change
+	ptrA old_name(getStringA(hContact, FACEBOOK_KEY_AVATAR));
+	bool update_required = (old_name == NULL || image_name.compare(old_name) != 0);
 
-	utils::text::replace_first(&image_url, "/v/", "/");
-
-	// We've got url to avatar of default size 32x32px, let's change it to bigger one
-	if (getBool(FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS)) {
-		// Remove cropping and use bigger size
-		pos = image_url.find("/t1.0-1/");
-		if (pos != std::tstring::npos) {
-			pos += 8;
-
-			std::tstring::size_type pos2 = image_url.find("/", pos);
-			if (pos2 != std::tstring::npos && image_url.find("/", pos2 + 1) != std::tstring::npos)
-				pos2 = image_url.find("/", pos2 + 1);
-
-			// TODO: crop it somehow to square image
-
-			if (pos2 != std::tstring::npos)
-				image_url.replace(pos, pos2 - pos, "p180x180");
-
-			// Allow big images
-			if ((pos = image_url.rfind("_s.")) != std::tstring::npos || (pos = image_url.rfind("_t.")) != std::tstring::npos) {
-				image_url = image_url.replace(pos, 3, "_q.");
-			}
-		}
-	} else {
-		// Try to get slighly bigger (but still square) image
-		utils::text::replace_first(&image_url, ".32.32/", ".50.50/");
-		utils::text::replace_first(&image_url, "32x32/", "50x50/");
+	// TODO: Remove this in some newer version
+	if (old_name == NULL) {
+		// Remove AvatarURL value, which was used in previous versions of plugin
+		delSetting(hContact, "AvatarURL");
 	}
 
-	// Check for avatar change
-	ptrA old_url(getStringA(hContact, FACEBOOK_KEY_AV_URL));
-	bool update_required = (old_url == NULL || image_url.compare(old_url) != 0);
-
 	if (update_required)
-		setString(hContact, FACEBOOK_KEY_AV_URL, image_url.c_str());
+		setString(hContact, FACEBOOK_KEY_AVATAR, image_name.c_str());
 
 	if (!hContact) {
 		PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
@@ -111,6 +90,8 @@ void FacebookProto::UpdateAvatarWorker(void *)
 
 	debugLogA("***** UpdateAvatarWorker");
 
+	std::string params = getBool(FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS) ? "?width=200&height=200" : "?width=80&height=80";
+
 	for (;;)
 	{
 		std::string url;
@@ -126,7 +107,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 		if (GetDbAvatarInfo(ai, &url))
 		{
 			debugLogA("***** Updating avatar: %s", url.c_str());
-			bool success = facy.save_url(url, ai.filename, nlc);
+			bool success = facy.save_url(url + params, ai.filename, nlc);
 
 			if (ai.hContact)
 				ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);

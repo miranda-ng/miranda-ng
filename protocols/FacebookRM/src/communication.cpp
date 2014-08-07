@@ -1362,7 +1362,7 @@ bool facebook_client::save_url(const std::string &url,const std::tstring &filena
 
 	if (resp) {
 		nlc = resp->nlc;
-		parent->debugLogA("@@@@@ Saving avatar URL %s to path %s", url.c_str(), _T2A(filename.c_str()));
+		parent->debugLogA("@@@@@ Saving URL %s to file %s", url.c_str(), _T2A(filename.c_str()));
 
 		// Create folder if necessary
 		std::tstring dir = filename.substr(0,filename.rfind('\\'));
