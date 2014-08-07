@@ -128,7 +128,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Event notifications",IDC_STATIC,6,7,292,106
     CONTROL         "Notifications",IDC_NOTIFICATIONS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,23,272,8
-    CONTROL         "News feeds",IDC_FEEDS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,39,272,8
+    CONTROL         "News feeds (WARNING: Causes excessive network traffic!)",IDC_FEEDS_ENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,39,272,8
     RTEXT           "News feed types to notify:",IDC_STATIC,26,51,117,8
     COMBOBOX        IDC_FEED_TYPE,150,49,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,67,138,8

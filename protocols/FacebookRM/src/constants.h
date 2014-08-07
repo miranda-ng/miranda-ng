@@ -85,7 +85,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_HIDE_CHATS						0
 
 #define DEFAULT_EVENT_NOTIFICATIONS_ENABLE		1
-#define DEFAULT_EVENT_FEEDS_ENABLE				1
+#define DEFAULT_EVENT_FEEDS_ENABLE				0
 #define DEFAULT_EVENT_OTHER_ENABLE				1
 #define DEFAULT_EVENT_CLIENT_ENABLE				1
 
