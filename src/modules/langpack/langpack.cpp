@@ -76,7 +76,7 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 		/* file date */
 		if (GetModuleFileName(NULL, pack.tszFullPath, SIZEOF(pack.tszFullPath))) {
-			lstrcpy(pack.tszFileName, _tcsrchr(pack.tszFullPath, '\\') + 1);
+			lstrcpy(pack.tszFileName, _T("default"));
 			HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 			if (hFile != INVALID_HANDLE_VALUE) {
 				GetFileTime(hFile, NULL, NULL, &pack.ftFileDate);

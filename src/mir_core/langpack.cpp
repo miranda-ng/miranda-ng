@@ -373,7 +373,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 {
-	if (ptszLangPack == NULL)
+	if (ptszLangPack == NULL || !lstrcmpi(ptszLangPack, _T("")))
 		return 1;
 
 	// ensure that a lang's name is a full file name
@@ -634,23 +634,28 @@ MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(int) LoadLangPackModule(void)
+TCHAR tszDefaultLang[100];
+
+void GetDefaultLang()
 {
-	bModuleInitialized = TRUE;
-
-	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
-
 	// calculate the langpacks' root
 	PathToAbsoluteT(_T("\\Languages"), g_tszRoot);
 	if (_taccess(g_tszRoot, 0) != 0) // directory Languages exists
 		PathToAbsoluteT(_T("."), g_tszRoot);
 
 	// look into mirandaboot.ini
-	TCHAR tszDefaultLang[100], tszPath[MAX_PATH];
+	TCHAR tszPath[MAX_PATH];
 	PathToAbsoluteT(_T("\\mirandaboot.ini"), tszPath);
-	if (GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), tszPath))
-		if (!LoadLangPack(tszDefaultLang))
-			return 0;
+	GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), tszPath);
+
+	if (!lstrcmpi(tszDefaultLang, _T("default"))) {
+		db_set_ts(NULL, "Langpack", "Current", _T("default"));
+		return;
+	}
+	else if (!LoadLangPack(tszDefaultLang)) {
+		db_set_ts(NULL, "Langpack", "Current", tszDefaultLang);
+		return;
+	}
 
 	// finally try to load first file
 	mir_sntprintf(tszPath, SIZEOF(tszPath), _T("%s\\langpack_*.txt"), g_tszRoot);
@@ -662,15 +667,22 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 			/* search first langpack that could be loaded */
 			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				continue;
-			
+
 			if (!LoadLangPack(fd.cFileName)) {
 				db_set_ts(NULL, "Langpack", "Current", fd.cFileName);
 				break;
 			}
-		}
-			while (FindNextFile(hFind, &fd));
+		} while (FindNextFile(hFind, &fd));
 		FindClose(hFind);
-	}
+	} else
+		db_set_ts(NULL, "Langpack", "Current", _T("default"));
+}
+
+MIR_CORE_DLL(int) LoadLangPackModule(void)
+{
+	bModuleInitialized = TRUE;
+	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
+	GetDefaultLang();
 	return 0;
 }
 
