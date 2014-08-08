@@ -245,6 +245,8 @@ void exportDB(MCONTACT hContact, char *module)
 			}
 
 			hContact = db_find_first();
+			if (hContact)
+				fprintf(file, "\n\n");
 
 			while (hContact)
 			{
