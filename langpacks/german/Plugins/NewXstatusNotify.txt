@@ -79,7 +79,7 @@ Popups
 [Extra status notify]
 Zusatzstatusbenachrichtigung
 [Extra status logging]
-Zusatzstatusaufzeichnunung
+Zusatzstatusaufzeichnung
 [Disable all]
 Alle deaktivieren
 [Enable all]
@@ -415,19 +415,19 @@ xStatus
 %s ändert %s
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]
-ändert %n in: %t
+änderte %n in: %t
 [removed %n]
 entfernte %n
 [changed %n message to: %m]
 änderte %n-Nachricht zu: %m
 [removed %n message]
-entfernte %n-nachricht
+entfernte %n-Nachricht
 [changed status message to: %n]
 änderte Statusnachricht zu: %n
 [removed status message]
 entfernte Statusnachricht
 [changed %n @ %t: %m]
-änderte %n zu %t: %m .
+änderte %n zu %t: %m
 [changed %n message @ %m]
 änderte %n-Nachricht zu %m
 [has %n @ %t: %m]

@@ -49,7 +49,7 @@ Ereignisbenachrichtigungen
 [Notifications]
 Benachrichtigung
 [News feeds (WARNING: Causes excessive network traffic!)]
-
+Newsfeeds (WARNUNG: Verursacht exzessiven Netzwerkverkehr!)
 [News feed types to notify:]
 Newsfeed-Ereignisse melden:
 [Don't show advertising posts]
@@ -79,7 +79,7 @@ Posten von Status auf meinen Seiten erlauben (kann Anmeldung verlangsamen)
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
 [Show stickers as custom smileys (EXPERIMENTAL)]
-Unterstützung für Custom Smileys aktivieren (EXPERIMENTELL)
+Sticker als Custom Smileys anzeigen (EXPERIMENTELL)
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
 [Message sessions]
@@ -257,7 +257,7 @@ Freundesliste aktualisieren...
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" beenden?
 [News feeds]
-News-Feeds
+Newsfeeds
 [Visit profile]
 Profil besuchen
 [Visit notifications]
