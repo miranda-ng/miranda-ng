@@ -181,11 +181,11 @@ void FacebookProto::ProcessFriendList(void*)
 			continue;
 
 		facebook_user *fbu;
-		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-		if (id != NULL) {
+		std::string id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
+		if (!id.empty()) {
 			std::map< std::string, facebook_user* >::iterator iter;
 			
-			if ((iter = friends.find(std::string(id))) != friends.end()) {
+			if ((iter = friends.find(id)) != friends.end()) {
 				// Found contact, update it and remove from map
 				fbu = iter->second;
 
