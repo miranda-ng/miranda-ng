@@ -181,11 +181,11 @@ void FacebookProto::ProcessFriendList(void*)
 			continue;
 
 		facebook_user *fbu;
-		std::string id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
-		if (!id.empty()) {
+		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+		if (id != NULL) {
 			std::map< std::string, facebook_user* >::iterator iter;
 			
-			if ((iter = friends.find(id)) != friends.end()) {
+			if ((iter = friends.find(std::string(id))) != friends.end()) {
 				// Found contact, update it and remove from map
 				fbu = iter->second;
 
@@ -226,7 +226,7 @@ void FacebookProto::ProcessFriendList(void*)
 				if (getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
 					delSetting(hContact, FACEBOOK_KEY_DELETED);
 
-					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
+					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
 
 					ptrT szTitle( mir_utf8decodeT(fbu->real_name.c_str()));
 					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
@@ -253,7 +253,7 @@ void FacebookProto::ProcessFriendList(void*)
 						db_free(&dbv);
 					}
 
-					std::string url = FACEBOOK_URL_PROFILE + id;
+					std::string url = FACEBOOK_URL_PROFILE + std::string(id);
 
 					ptrT szTitle( mir_utf8decodeT(contactname.c_str()));
 					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
