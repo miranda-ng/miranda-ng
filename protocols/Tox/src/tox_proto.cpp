@@ -121,7 +121,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 
 			uint8_t *pub_key = HexToBinString(BOOTSTRAP_KEY);
 			res = tox_bootstrap_from_address(tox, BOOTSTRAP_ADDRESS, 0, htons(BOOTSTRAP_PORT), pub_key);
-			//mir_free(pub_key);
+			mir_free(pub_key);
 			if (!res)
 			{
 				SetStatus(ID_STATUS_OFFLINE);
