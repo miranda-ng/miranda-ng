@@ -71,35 +71,39 @@ public:
 	static void       UninitInstances();
 
 private:
+	Tox *tox;
+	mir_cs tox_lock;
+	HANDLE poolingThread;
+	bool isTerminated;
 
 	// instances
 	static LIST<CToxProto> instanceList;
 	static int CompareProtos(const CToxProto *p1, const CToxProto *p2);
 
-	static void CALLBACK TimerProc(HWND, UINT, UINT_PTR idEvent, DWORD);
-
-	// Instance data:
-	Tox *_tox;
-	UINT_PTR _timer;
-
 	//services
 	INT_PTR __cdecl CreateAccMgrUI(WPARAM, LPARAM);
 
 	//events
+	void __cdecl PollingThread(void*);
+
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
-    static void OnFriendMessage(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
-    static void OnFriendNameChange(Tox *tox, const int friendId, const uint8_t *name, const uint16_t nameSize, void *arg);
-    static void OnStatusMessageChanged(Tox *tox, const int friendId, const uint8_t* message, const uint16_t messageSize, void *arg);
+	static void OnFriendMessage(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnFriendNameChange(Tox *tox, const int friendId, const uint8_t *name, const uint16_t nameSize, void *arg);
+	static void OnStatusMessageChanged(Tox *tox, const int friendId, const uint8_t* message, const uint16_t messageSize, void *arg);
 	static void OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t TOX_USERSTATUS, void *userdata);
-    static void OnConnectionStatusChanged(Tox *tox, const int friendId, const uint8_t status, void *arg);
-    static void OnAction(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnConnectionStatusChanged(Tox *tox, const int friendId, const uint8_t status, void *arg);
+	static void OnAction(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
 
 	// contacts
 	bool IsProtoContact(MCONTACT hContact);
 	MCONTACT GetContactByUserId(const wchar_t *userId);
 	MCONTACT CToxProto::AddContact(const wchar_t*userId, const wchar_t *nick, bool isHidden = false);
-	
+
 	void __cdecl SearchByUidAsync(void* arg);
+
+	// utils
+	uint8_t *HexToBinString(char *hex_string);
+	char *BinToHexString(uint8_t *bin_string);
 
 	// dialogs
 	static INT_PTR CALLBACK AccountManagerProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

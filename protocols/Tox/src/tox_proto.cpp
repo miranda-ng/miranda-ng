@@ -1,30 +1,24 @@
 #include "common.h"
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CToxProto>(protoName, userName),
-	_tox(tox_new(0))
+	PROTO<CToxProto>(protoName, userName)
 {
-	tox_callback_friend_request(_tox, OnFriendRequest, this);
-	tox_callback_friend_message(_tox, OnFriendMessage, this);
-	tox_callback_friend_action(_tox, OnAction, this);
-	tox_callback_name_change(_tox, OnFriendNameChange, this);
-	tox_callback_status_message(_tox, OnStatusMessageChanged, this);
-	tox_callback_user_status(_tox, OnUserStatusChanged, this);
-	tox_callback_connection_status(_tox, OnConnectionStatusChanged, this);
+	tox = tox_new(0);
+
+	tox_callback_friend_request(tox, OnFriendRequest, this);
+	tox_callback_friend_message(tox, OnFriendMessage, this);
+	tox_callback_friend_action(tox, OnAction, this);
+	tox_callback_name_change(tox, OnFriendNameChange, this);
+	tox_callback_status_message(tox, OnStatusMessageChanged, this);
+	tox_callback_user_status(tox, OnUserStatusChanged, this);
+	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::CreateAccMgrUI);
 }
 
 CToxProto::~CToxProto()
 {
-	tox_kill(_tox);
-}
-
-void CALLBACK CToxProto::TimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
-{
-	CToxProto *ppro = (CToxProto*)idEvent;
-
-	tox_do(ppro->_tox);
+	tox_kill(tox);
 }
 
 MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
@@ -62,6 +56,8 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 		return (INT_PTR)"User Id";
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)"UserId";
+	case PFLAG_MAXLENOFMESSAGE:
+		return TOX_MAX_MESSAGE_LENGTH;
 	}
 
 	return 0;
@@ -104,7 +100,8 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
-		// lgout
+		// logout
+		isTerminated = true;
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -118,7 +115,26 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 			m_iStatus = ID_STATUS_CONNECTING;
 
 			// login
-			//_timer = SetTimer(NULL, (UINT_PTR)this, 30, (TIMERPROC)CToxProto::TimerProc);
+			isTerminated = false;
+			char *name = "my_nickname";
+			int res = tox_set_name(tox, (uint8_t*)name, strlen(name));
+
+			uint8_t *pub_key = HexToBinString(BOOTSTRAP_KEY);
+			res = tox_bootstrap_from_address(tox, BOOTSTRAP_ADDRESS, 0, htons(BOOTSTRAP_PORT), pub_key);
+			//mir_free(pub_key);
+			if (!res)
+			{
+				SetStatus(ID_STATUS_OFFLINE);
+			}
+
+			res = tox_isconnected(tox);
+			if (!res)
+			{
+				SetStatus(ID_STATUS_OFFLINE);
+				return 0;
+			}
+
+			poolingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
 		}
 		else
 		{
@@ -139,7 +155,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 				userstatus = TOX_USERSTATUS_INVALID;
 				break;
 			}
-			tox_set_user_status(_tox, userstatus);
+			tox_set_user_status(tox, userstatus);
 
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 

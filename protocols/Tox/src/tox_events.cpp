@@ -1,5 +1,22 @@
 #include "common.h"
 
+void CToxProto::PollingThread(void*)
+{
+	debugLogA("CToxProto::PollingThread: entering");
+	while (!isTerminated)
+	{
+		uint32_t interval = 1000;
+		{
+			//mir_cslock lock(tox_lock);
+
+			tox_do(tox);
+			interval = tox_do_interval(tox);
+		}
+		Sleep(interval);
+	}
+	debugLogA("CToxProto::PollingThread: leaving");
+}
+
 void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
 }
