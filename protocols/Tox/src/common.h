@@ -14,17 +14,12 @@
 #include <m_database.h>
 #include <m_langpack.h>
 
-#include "version.h"
-#include "resource.h"
-
 #include "tox\tox.h"
 
-extern HINSTANCE g_hInstance;
-
-#define BOOTSTRAP_ADDRESS "23.226.230.47"
-#define BOOTSTRAP_PORT 33445
-#define BOOTSTRAP_KEY "A09162D68618E742FFBCA1C2C70385E6679604B2D80EA6E84AD0996A1AC8A074"
-
+#include "version.h"
+#include "resource.h"
 #include "tox_proto.h"
+
+extern HINSTANCE g_hInstance;
 
 #endif //_COMMON_H_

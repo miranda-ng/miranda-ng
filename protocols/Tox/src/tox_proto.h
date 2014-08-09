@@ -104,6 +104,7 @@ private:
 	// utils
 	char *HexToBinString(const char *hex_string);
 	char *BinToHexString(uint8_t *bin_string);
+	void do_bootstrap(Tox *tox);
 
 	// dialogs
 	static INT_PTR CALLBACK AccountManagerProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

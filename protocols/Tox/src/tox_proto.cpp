@@ -157,34 +157,27 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 			char *name = "my_nickname";
 			int res = tox_set_name(tox, (uint8_t*)name, strlen(name));
 
-			char *pub_key = HexToBinString(BOOTSTRAP_KEY);
-			res = tox_bootstrap_from_address(tox, BOOTSTRAP_ADDRESS, 1, htons(BOOTSTRAP_PORT), (uint8_t *)pub_key);
-			//mir_free(pub_key);
-			if (!res)
-			{
-				SetStatus(ID_STATUS_OFFLINE);
-			}
+			do_bootstrap(tox);
 
 			time_t timestamp0 = time(NULL);
 			int on = 0;
 
 			while (1) {
+				tox_do(tox);
+
 				if (on == 0) {
 					if (tox_isconnected(tox)) {
-						//new_lines("[i] connected to DHT");
 						on = 1;
-						mir_free(pub_key);
 					}
 					else {
 						time_t timestamp1 = time(NULL);
 
 						if (timestamp0 + 10 < timestamp1) {
 							timestamp0 = timestamp1;
-							tox_bootstrap_from_address(tox, BOOTSTRAP_ADDRESS, 1, htons(BOOTSTRAP_PORT), (uint8_t *)pub_key);
+							do_bootstrap(tox);
 						}
 					}
 				}
-				tox_do(tox);
 			}
 
 			res = tox_isconnected(tox);
