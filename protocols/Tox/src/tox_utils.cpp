@@ -1,25 +1,16 @@
 #include "common.h"
 
-uint8_t *CToxProto::HexToBinString(char *hex_string)
+char *CToxProto::HexToBinString(const char *hex_string)
 {
-	// byte is represented by exactly 2 hex digits, so lenth of binary string
-	// is half of that of the hex one. only hex string with even length valid.
-	// the more proper implementation would be to check if strlen(hex_string)
-	// is odd and return error code if it is. we assume strlen is even.
-	// if it's not then the last byte just won't be written in 'ret'.
-	int length = strlen(hex_string) / 2;
-	uint8_t *ret = (uint8_t*)mir_alloc(length);
-	char *pos = hex_string;
+	size_t len = strlen(hex_string);
+	char *val = (char*)mir_alloc(len);
 
-	for (int i = 0; i < length; i++, pos += 2)
-	{
-		//sscanf(pos, "%2hhx", &ret[i]);
-		uint8_t byteval;
-		sscanf(pos, "%2hhx", &byteval);
-		ret[i] = byteval;
-	}
+	size_t i;
 
-	return ret;
+	for (i = 0; i < len; ++i, hex_string += 2)
+		sscanf(hex_string, "%2hhx", &val[i]);
+
+	return val;
 }
 
 char *CToxProto::BinToHexString(uint8_t *bin_string)

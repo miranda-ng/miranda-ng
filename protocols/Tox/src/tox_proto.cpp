@@ -1,9 +1,44 @@
 #include "common.h"
 
+#define FRADDR_TOSTR_CHUNK_LEN 8 
+
+static void fraddr_to_str(uint8_t *id_bin, char *id_str)
+{
+	uint32_t i, delta = 0, pos_extra, sum_extra = 0;
+
+	for (i = 0; i < TOX_FRIEND_ADDRESS_SIZE; i++) {
+		sprintf(&id_str[2 * i + delta], "%02hhX", id_bin[i]);
+
+		if ((i + 1) == TOX_CLIENT_ID_SIZE)
+			pos_extra = 2 * (i + 1) + delta;
+
+		if (i >= TOX_CLIENT_ID_SIZE)
+			sum_extra |= id_bin[i];
+
+		if (!((i + 1) % FRADDR_TOSTR_CHUNK_LEN)) {
+			id_str[2 * (i + 1) + delta] = ' ';
+			delta++;
+		}
+	}
+
+	id_str[2 * i + delta] = 0;
+
+	if (!sum_extra)
+		id_str[pos_extra] = 0;
+} 
+
+void get_id(Tox *m, char *data)
+{
+	int offset = strlen(data);
+	uint8_t address[TOX_FRIEND_ADDRESS_SIZE];
+	tox_get_address(m, address);
+	fraddr_to_str(address, data + offset);
+}
+
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CToxProto>(protoName, userName)
 {
-	tox = tox_new(0);
+	tox = tox_new(1);
 
 	tox_callback_friend_request(tox, OnFriendRequest, this);
 	tox_callback_friend_message(tox, OnFriendMessage, this);
@@ -12,6 +47,9 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	tox_callback_status_message(tox, OnStatusMessageChanged, this);
 	tox_callback_user_status(tox, OnUserStatusChanged, this);
 	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
+
+	char idstring[200] = { 0 };
+	get_id(tox, idstring);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::CreateAccMgrUI);
 }
@@ -119,12 +157,34 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 			char *name = "my_nickname";
 			int res = tox_set_name(tox, (uint8_t*)name, strlen(name));
 
-			uint8_t *pub_key = HexToBinString(BOOTSTRAP_KEY);
-			res = tox_bootstrap_from_address(tox, BOOTSTRAP_ADDRESS, 0, htons(BOOTSTRAP_PORT), pub_key);
-			mir_free(pub_key);
+			char *pub_key = HexToBinString(BOOTSTRAP_KEY);
+			res = tox_bootstrap_from_address(tox, BOOTSTRAP_ADDRESS, 1, htons(BOOTSTRAP_PORT), (uint8_t *)pub_key);
+			//mir_free(pub_key);
 			if (!res)
 			{
 				SetStatus(ID_STATUS_OFFLINE);
+			}
+
+			time_t timestamp0 = time(NULL);
+			int on = 0;
+
+			while (1) {
+				if (on == 0) {
+					if (tox_isconnected(tox)) {
+						//new_lines("[i] connected to DHT");
+						on = 1;
+						mir_free(pub_key);
+					}
+					else {
+						time_t timestamp1 = time(NULL);
+
+						if (timestamp0 + 10 < timestamp1) {
+							timestamp0 = timestamp1;
+							tox_bootstrap_from_address(tox, BOOTSTRAP_ADDRESS, 1, htons(BOOTSTRAP_PORT), (uint8_t *)pub_key);
+						}
+					}
+				}
+				tox_do(tox);
 			}
 
 			res = tox_isconnected(tox);

@@ -102,7 +102,7 @@ private:
 	void __cdecl SearchByUidAsync(void* arg);
 
 	// utils
-	uint8_t *HexToBinString(char *hex_string);
+	char *HexToBinString(const char *hex_string);
 	char *BinToHexString(uint8_t *bin_string);
 
 	// dialogs
