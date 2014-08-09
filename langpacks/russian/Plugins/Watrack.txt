@@ -209,6 +209,8 @@ FPS (кадров в секунду), только для видео
 Вставлять в сообщения
 [Use status messages]
 Использовать сообщения статуса
+[Independent xStatus]
+Независимый xСтатус
 [Use process implantation]
 Встраиваться в процесс
 [Simple Template mode]

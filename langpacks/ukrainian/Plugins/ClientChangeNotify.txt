@@ -51,6 +51,8 @@
 Тест
 [Ignore these clients (separated by semicolons):]
 Ігнорувати ці клієнти (через крапку з комою):
+[(you have to install pcre16.dll to use regular expressions here)]
+(встановіть pcre16.dll щоб використовувати тут регулярні вирази)
 [changed client to %s (was %s)]
 змінив клієнт на %s (був %s)
 [changed client to %s]

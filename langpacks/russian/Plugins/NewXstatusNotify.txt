@@ -224,7 +224,7 @@ xСтатус
 [Status]
 Статус
 [Sound file]
-Файл
+Звук
 [** All contacts **]
 ** Все контакты **
 [(default sound)]
