@@ -120,11 +120,11 @@
 [&Export]
 &Експорт
 [Entire &database]
-Всю &базу...
+Усю &базу...
 [All &settings]
-Всі &налаштування...
+Усі &налаштування...
 [All &contacts]
-Всі &контакти...
+Усі &контакти...
 [&Import]
 Імпорт
 [From a &file]
@@ -254,7 +254,7 @@
 [INI Files]
 Файли INI
 [All Files]
-Всі файли
+Усі файли
 [Export to file]
 Експорт
 [Error loading module list]
@@ -274,13 +274,13 @@
 [Found]
 Знайдено
 [%s Module "%s" in contact "%s"]
-%s модуль "%s" у контакті "%s"
+%s модуль "%s" в контакті "%s"
 [%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-%s налаштування "%s" у модулі "%s" контакту "%s" - "%s"
+%s налаштування "%s" в модулі "%s" контакту "%s" - "%s"
 [%s Setting "%s" in module "%s" in contact "%s"]
 %s налаштування "%s" у модулі "%s" контакту "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-%s "%s" у налаштуванні "%s" у модулі "%s" контакту "%s"
+%s "%s" в налаштуванні "%s" в модулі "%s" контакту "%s"
 [Searching...]
 Пошук...
 [Error Loading Setting List]

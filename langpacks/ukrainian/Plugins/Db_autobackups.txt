@@ -48,7 +48,7 @@
 [All files]
 Усі файли
 [Backup in progress]
-Резервування у процесі
+Резервування в процесі
 [Copying database file...]
 Копіювання файлу бази даних...
 [Database backed up]

@@ -6,7 +6,7 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Сповіщення і перегляд нової пошти для Miranda NG. Вбудований протокол POP3.
+Сповіщення про нову пошту та її перегляд у Miranda NG. Підтримується протокол POP3.
 [Installed plugins]
 Встановлені додаткові плагіни
 [Version:]
@@ -244,11 +244,11 @@ YAMN (внутрішній POP3) помилка читання
 [Memory allocation error while data reading]
 Помилка розподілу пам'яті під час читання даних.
 [Reading file error. File already in use?]
-Помилка читання файлу. Файл вже використовується?
+Помилка читання файлу. Файл уже використовується?
 [Error while copying data to disk occurred. Is file in use?]
 Помилка копіювання даних на диск. Файл уже використовується?
 [POP3 plugin - write file error]
-POP3 плагін - помилка запису в файл
+POP3 плагін - помилка запису у файл
 [Connecting to server]
 З'єднання з сервером
 [Entering POP3 account]
@@ -326,7 +326,7 @@ OpenSSL не завантажений.
 [Executables]
 Виконувані файли
 [All Files]
-Всі файли
+Усі файли
 [Select executable used for notification]
 Вибір програми для сповіщення
 [Dialog box error]

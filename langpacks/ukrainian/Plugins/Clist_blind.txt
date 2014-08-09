@@ -32,7 +32,7 @@
 [URL:]
 Посилання:
 [Open in new browser window]
-Відкрити у новому вікні
+Відкрити в новому вікні
 [Show Options]
 Налаштування
 [Hide offline users]
@@ -118,7 +118,7 @@
 [If window is partially covered, bring to front instead of hiding]
 Помістити вікно на передній план, якщо його перекрито іншими вікнами
 [Show drop shadow (restart required)]
-Ввімкнути тінь (потрібен перезапуск)
+Увімкнути тінь (потрібен перезапуск)
 [Pin to desktop]
 Прикріпити до столу
 [Items]

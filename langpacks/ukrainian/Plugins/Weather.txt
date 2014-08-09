@@ -210,7 +210,7 @@ URL додаткової інформації
 [More...]
 Ще...
 [Weather Protocol INI Setup]
-Налаштування INI-файлу плагіну "Погода"
+Налаштування INI-файлу плагіна "Погода"
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Установка INI погоди\nВстановлюйте і завантажуйте INI-файли погоди
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
@@ -224,7 +224,7 @@ URL додаткової інформації
 [Add new weather station and close this dialog]
 Додайте нове місто і закрийте це вікно
 [Total INI files]
-Всього файлів INI
+Усього файлів INI
 [Total memory used]
 Використано пам'яті
 [Reload INI]
@@ -254,7 +254,7 @@ URL додаткової інформації
 [To default]
 За замовчанням
 [Enable/disable auto update]
-Ввімк./Вимк. автооновлення
+Увімк./вимк. автооновлення
 [Auto Update Enabled]
 Автооновлення ввімкнено
 [Auto Update Disabled]
@@ -360,7 +360,7 @@ INI-файл погоди для цієї станції не знайдений
 [Text Files]
 Текстові файли
 [All Files]
-Всі файли
+Усі файли
 [mb]
 мбар
 [in]
@@ -472,7 +472,7 @@ ID міста
 [Disable &weather notification]
 Вимкнути сповіщення про зміну погоди
 [Enable &weather notification]
-Ввімкнути сповіщення про зміну погоди
+Увімкнути сповіщення про зміну погоди
 [Update Weather]
 Оновити погоду
 [Remove Old Data then Update]
@@ -484,13 +484,13 @@ ID міста
 [Weather]
 Погода
 [Enable/Disable Weather Update]
-Ввімк./Вимк. оновлення погоди
+Увімк./вимк. оновлення погоди
 [Update All Weather]
 Оновити погоду
 [Remove Old Data then Update All]
 Видалити дані та оновити всі
 [Weather Notification]
-Нагадування про погоду
+Сповіщення про погоду
 [Display in a frame]
 Показувати у фреймі
 [Unable to retrieve weather information for %s]

@@ -10,7 +10,7 @@
 [Replacements]
 Заміни
 [Enable auto-replacements]
-Ввімкнути автозаміну
+Увімкнути автозаміну
 [Language:]
 Мова:
 [Add...]
@@ -104,9 +104,9 @@
 [Flags DLL]
 Бібліотека з прапорами (DLL)
 [Enable/disable spell checker]
-Ввімкнути/вимкнути перевірку орфографії
+Увімк./вимк. перевірку орфографії
 [Enabled]
-Ввімкнено
+Увімкнено
 [Disabled]
 Вимкнено
 [Unknown]
@@ -128,6 +128,6 @@
 [Language]
 Мова
 [Enable spell checking]
-Ввімкнути перевірку орфографії
+Увімкнути перевірку орфографії
 [Wrong words]
 Слова з помилками

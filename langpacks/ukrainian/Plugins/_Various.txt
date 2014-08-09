@@ -45,7 +45,7 @@
 [Messages sent]
 Надіслано повідомлень
 [Total messages: %sys:msg_count_all%]
-Всього повідомлень: %sys:msg_count_all%
+Усього повідомлень: %sys:msg_count_all%
 [Last message: (%sys:last_msg_reltime% along)]
 Останнє повідомлення: (%sys:last_msg_reltime% тому)
 [(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]

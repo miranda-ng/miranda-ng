@@ -10,7 +10,7 @@
 [Popup notification]
 Спливаюче вікно
 [Popup text format]
-Формат повідомлення у сплив. вікні
+Формат повідомлення в сплив. вікні
 [Preview]
 Тест
 [V]
@@ -142,7 +142,7 @@
 [Store contact autoreply/ignore settings for each status separately]
 Зберігати налаштування автовідповідача/ігнору контакта окремо для кожного статусу
 [Enable contact menu items]
-Ввімкнути меню контакту
+Увімкнути меню контакту
 [Use protocol specific nick for %nas_mynick%]
 Використовувати нік протоколу для %nas_mynick%
 [Update status messages for non-ICQ protocols every]
@@ -276,7 +276,7 @@
 [Re&ad %s message]
 &Прочитати повідомлення "%s"
 [Toggle autoreply on/off]
-Автовідповідач ввімк./вимк.
+Автовідповідач увімк./вимк.
 [Toggle autoreply off]
 Вимкнути автовідповідач
 [Toggle autoreply on]
@@ -304,9 +304,9 @@
 [Stranger]
 Незнайомець
 [%d hours]
-%d год.
+%d год
 [%d minutes]
-%d хв.
+%d хв
 [%d seconds]
 %d с
 [Read status message]
@@ -314,7 +314,7 @@
 [Set status message]
 Встановити статусне повідомлення
 [On]
-Ввімк.
+Увімк.
 [Off]
 Вимк.
 [Use the default setting]

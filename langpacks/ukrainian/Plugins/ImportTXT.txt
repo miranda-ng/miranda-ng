@@ -8,7 +8,7 @@
 [Imports history saved in TXT files from other clients.]
 Імпортує історію з текстових файлів.
 [Import history to ]
-Імпортувати історію у\s
+Імпортувати історію в\s
 [Import history]
 Імпорт історії
 [Choose a file...]
@@ -26,7 +26,7 @@
 [No Files Patterns Found]
 Не знайдені файли шаблонів
 [No messages in this file]
-В цьому файлі немає повідомлень
+У цьому файлі немає повідомлень
 [Import started...]
 Імпорт запущений...
 [Added: %d messages]
@@ -50,7 +50,7 @@
 [Import Text Files Wizard]
 Майстер імпорту текстових файлів
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
-Цей майстер допоможе вам імпортувати повідомлення з деяких інших клієнтів і плагінів Miranda NG, збережені у текстових файлах.
+Цей майстер допоможе вам імпортувати повідомлення з деяких інших клієнтів і плагінів Miranda NG, збережені в текстових файлах.
 [Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
 Клацніть "Далі", щоб вибрати інформацію для імпортування, або "Скасувати", щоб вийти з цього майстра.
 [Choose type of imported files:]
@@ -62,7 +62,7 @@
 [Directory...]
 Директорія...
 [All previous chosen files will try to import to this protocol.]
-Всі вибрані файли будуть імпортовані у цей протокол.
+Усі вибрані файли будуть імпортовані в цей протокол.
 [Select protocol or account:]
 Виберіть протокол або обліковий запис:
 [Click "Next" to start Import or "Cancel" to Abort.]
@@ -92,4 +92,4 @@
 [Error at initialization XML parser]
 Помилка ініціалізації XML-парсера
 [Import history to %s (%s)]
-Імпортувати історію у %s (%s)
+Імпортувати історію в %s (%s)

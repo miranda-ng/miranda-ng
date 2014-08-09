@@ -138,7 +138,7 @@
 [Flash in the system tray and in the contact list]
 Блиманням у треї та списку контактів
 [Show balloon popup]
-Підказкою у треї
+Підказкою в треї
 [Send Error]
 Помилка надсилання
 [An error has occurred. The protocol reported the following error:]
@@ -220,7 +220,7 @@
 [Add new rooms to group:]
 Додавати кімнати до групи:
 [Nick list row height]
-Висота рядка у списку користувачів
+Висота рядка в списку користувачів
 [pixels]
 пікселів
 [Log Options]
@@ -330,7 +330,7 @@
 [Typing notification off]
 Сповіщення про друк вимк.
 [Unicode is on]
-Unicode ввімкнено
+Unicode увімкнено
 [Unicode is off]
 Unicode вимкнено
 [Sending]
@@ -452,13 +452,13 @@ Unicode вимкнено
 [Navigate: Tab %d]
 Навігація: Вкладка %d
 [Window: Toggle status bar]
-Вікно: Ввімк./вимк. панель статусу
+Вікно: Увімк./вимк. панель статусу
 [Window: Toggle title bar]
-Вікно: Ввімк./вимк. заголовок
+Вікно: Увімк./вимк. заголовок
 [Window: Toggle toolbar]
-Вікно: Ввімк./вимк. панель кнопок
+Вікно: Увімк./вимк. панель кнопок
 [Window: Toggle info bar]
-Вікно: Ввімк./вимк. панель інформації
+Вікно: Увімк./вимк. панель інформації
 [Window: Clear log]
 Вікно: Очистити журнал
 [Window: Minimize]
@@ -546,7 +546,7 @@ Unicode вимкнено
 [Outgoing time]
 Час надсилання
 [Outgoing colon]
-Двокрапка у вихідних повідомленнях
+Двокрапка в надісланих повідомленнях
 [Incoming name]
 Ім'я співрозмовника
 [Incoming time]

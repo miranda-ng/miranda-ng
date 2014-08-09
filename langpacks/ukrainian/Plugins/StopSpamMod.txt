@@ -32,17 +32,17 @@
 [Enable auth. requests blocking]
 Блокувати запити авторизації
 [Hide unanswered contacts and spammers from contact list]
-Приховати зі списку контактів тих, хто не відповів
+Ховати зі списку контактів тих, хто не відповів
 [Ignore spammers (do not write messages to history)]
 Ігнорувати спамерів (не писати повідомлення в історію)
 [Log spam to file]
-Записувати спам в файл
+Записувати спам у файл
 [Case insensitive answer checking]
 Не враховувати регістр відповіді
 [Disable question in invisible mode]
 Відключити питання при статусі "Невидимий"
 [Enable integration with DOS plugin]
-Ввімкнути інтеграцію з плагіном DOS
+Увімкнути інтеграцію з плагіном DOS
 [Exclude contacts which we sending something from spam check]
 Відключати антиспам для контактів, яким надсилаєте повідомлення
 [Remove Excluded contacts after restart]
@@ -76,9 +76,9 @@
 [Remove Temporary Contacts]
 Видалити тимчасові контакти
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
-Немає більше спаму! Роботи відпочивають!\r\n\r\nЦей плагін працює просто:\r\nПовідомлення від користувачів у вашому списку приходять без перевірки на спам, а повідомлення від невідомих користувачів вам не доставляються. Але вони не ігноруються: плагін відповідає простим питанням і, якщо користувач дає правильну відповідь, додає його до списку, щоб він міг зв'язатися з вами.
+Немає більше спаму! Роботи відпочивають!\r\n\r\nЦей плагін працює просто:\r\nПовідомлення від користувачів з вашого списку контактів приходять без перевірки на спам, а повідомлення від невідомих користувачів вам не доставляються. Але вони не ігноруються: плагін відповідає простим питанням і, якщо користувач відповідає правильно, додає його до списку контактів, щоб він міг зв'язатися з вами.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
-Доброго дня! Ви говорите з антиспам-ботом. Будь ласка, напишіть слово "nospam" без лапок, щоб пройти перевірку на спам.
+Доброго дня! З вами говорить антиспам-бот. Будь ласка, напишіть слово "nospam" без лапок, щоб пройти перевірку на спам.
 [StopSpam: send a message and reply to an anti-spam bot question.]
 StopSpam: надішліть повідомлення і дайте відповідь на питання антиспам-бота.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]

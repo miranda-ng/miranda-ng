@@ -12,7 +12,7 @@
 [Select existing]
 Вибрати існуючий
 [Turn on encryption]
-Ввімкнути шифрування
+Увімкнути шифрування
 [Import key from keyserver]
 Імпортувати ключі з сервера ключів
 [Set own key]
@@ -50,7 +50,7 @@ ID ключа:
 [Browse]
 Огляд
 [Turn on key autoexchange]
-Ввімкнути автообмін ключами
+Увімкнути автообмін ключами
 [The new public key was received]
 Отримано новий відкритий ключ.
 [Import key]
@@ -110,7 +110,7 @@ ID ключа:
 [Export PubKey]
 Зберегти ключ
 [Turn on debug log]
-Ввімк. запис налагодження
+Увімк. запис налагодження
 [Use Jabber API on Miranda NG (recommended)]
 Використовувати Jabber API Miranda NG (Рекомендується)
 [Encrypt file transfers]
@@ -134,7 +134,7 @@ ID ключа:
 [Strip all tags in outgoing messages]
 Видаляти всі мітки з вихідних повідомлень
 [Turn on presence signing (Jabber) (required by XEP 0-27)]
-Ввімкнути підпис повідомлень присутності (Jabber)
+Увімкнути підпис повідомлень присутності (Jabber)
 [GPG encryption status]
 Статус шифрування GPG
 [Export GPG Public keys]
@@ -178,7 +178,7 @@ ID ключа:
 [Please set keyring's home directory]
 Виберіть директорію з ключами GnuPG
 [There is existing key for contact, would you like to replace it with new key?]
-Отримано ключ, але у контакту вже є ключ. Ви хочете його замінити новим?
+Отримано ключ, але в контакту вже є ключ. Ви хочете його замінити новим?
 [New public key was received, do you want to import it?]
 Отримано новий відкритий ключ. Ви хочете його прийняти?
 [Replace]
@@ -217,3 +217,7 @@ ID ключа:
 Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
 [LOG files]
 Файли журналу
+[New passwords do not match]
+Нові паролі не збігаються
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
+Старий пароль не збігається, ви можете продовжити, але GPG не прийме неправильний пароль.\nПродовжити?

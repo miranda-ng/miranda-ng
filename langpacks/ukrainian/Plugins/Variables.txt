@@ -42,7 +42,7 @@
 [Close]
 Закрити
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
-Служба змінних підставляє різним маркерам відповідні значення. Приклад: Я використовую Miranda NG версії %mirandaversion%. В маркер %mirandaversion% буде підставлений номер версії вашої Miranda NG. Наступний список показує всі доступні маркери.
+Служба змінних підставляє різним маркерам відповідні значення. Приклад: Я використовую Miranda NG версії %mirandaversion%. У маркер %mirandaversion% буде підставлений номер версії вашої Miranda NG. Наступний список показує всі доступні маркери.
 [Notes]
 Нотатки
 [Variables...]
@@ -156,7 +156,7 @@ X - Y - ...
 [get default subcontact x]
 повертає субконтакт за замовчанням метаконтакту X
 [get the 'most online' subcontact x]
-повертає субконтакт "у мережі" метаконтакту X
+повертає субконтакт "В мережі" метаконтакту X
 [Miranda Core Global]
 Змінні ядра Miranda
 [path to Miranda root folder]
@@ -344,7 +344,7 @@ Y > 0: рядок номер Y з файлу X, Y = 0: увесь файл, Y < 
 [uptime in seconds]
 час роботи системи в секундах
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-будь-яка змінна оточення, визначена у поточній сесії Windows (наприклад, %systemroot%, %allusersprofile% тощо)
+будь-яка змінна оточення, визначена в поточній сесії Windows (наприклад, %systemroot%, %allusersprofile% тощо)
 [expand environment variable x]
 розширює змінну оточення X
 [user name]

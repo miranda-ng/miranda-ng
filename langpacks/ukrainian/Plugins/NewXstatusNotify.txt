@@ -64,13 +64,13 @@ xСтатус
 [Delete]
 Видалити
 [Enable sounds]
-Ввімкнути звуки
+Увімкнути звуки
 [Enable popups]
 Спливаючі вікна
 [Status Notify]
 Зміна статусу
 [Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
-Індивідуальні звуки вимкнено.\n\nЩоб увімкнути, пройдіть у Налаштування -> Статус -> Зміна статусу, ввімкніть\n"Індивідуальні звуки" і відкрийте це вікно знову.
+Індивідуальні звуки вимкнено.\n\nЩоб увімкнути, відкрийте Налаштування -> Статус -> Зміна статусу, ввімкніть\n"Індивідуальні звуки" і відкрийте це вікно знову.
 [Sounds]
 Звуки
 [Popups]
@@ -82,7 +82,7 @@ xСтатуси
 [Disable all]
 Вимкнути все
 [Enable all]
-Ввімкнути все
+Увімкнути все
 [Status message notify]
 Статусні повідомлення
 [Status message logging]
@@ -190,7 +190,7 @@ xСтатуси
 [Accounts]
 Облікові записи
 [Enable/Disable accounts which you don't wish to be notified for:]
-Ввімкнути/Вимкнути сповіщення для облікових записів:
+Увімкнути/вимкнути сповіщення для облікових записів:
 [Notify when contact changes status message]
 Сповіщати про зміни статусних повідомлень
 [Notify when contact removes status message]
@@ -224,7 +224,7 @@ xСтатуси
 [Status]
 Статус
 [Sound file]
-Файл
+Звук
 [** All contacts **]
 ** Усі контакти **
 [(default sound)]
@@ -342,7 +342,7 @@ xСтатуси
 [Extra status message removed]
 Видалено повідомлення xСтатусу
 [Enable status notification]
-Ввімкнути сповіщення про зміну статусу
+Увімкнути сповіщення про зміну статусу
 [Disable status notification]
 Вимкнути сповіщення про зміну статусу
 [Notification enabled]
@@ -352,7 +352,7 @@ xСтатуси
 [New Status Notify]
 Зміна статусу
 [Toggle status notification]
-Ввімк./Вимк. сповіщення про зміну статусу
+Увімк./вимк. сповіщення про зміну статусу
 [Status change]
 Зміна статусу
 [All Files]

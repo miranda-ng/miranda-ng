@@ -8,7 +8,7 @@
 [Simple Auto Replier.]
 Простий автовідповідач.
 [Enable Auto Replier]
-Ввімкнути автовідповідь
+Увімкнути автовідповідь
 [Reply Message Heading:]
 Заголовок:
 [Reply Message when]
@@ -16,7 +16,7 @@
 [No-repeat Interval:]
 Не повторювати:
 [mins]
-хв.
+хв
 [&Default]
 За замовчанням
 [I am currently away. I will reply to you when I am back.]
@@ -38,7 +38,7 @@
 [Turn off Autoanswer]
 Вимкнути автовідповідач
 [Turn on Autoanswer]
-Ввімкнути автовідповідач
+Увімкнути автовідповідач
 [Dear %user%, the owner left the following message:]
 Вітаю %user%, %username% залишив вам повідомлення:
 [Simple Auto Replier]

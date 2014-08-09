@@ -44,7 +44,7 @@
 [Add protocol name]
 Додати протокол
 [Show ID in menu item]
-Показати ID у контекстному меню
+Показати ID в контекстному меню
 [Trim too long ID]
 Обрізати довгий ID
 [* Use Ctrl+click to see popup with the copied text]
@@ -64,7 +64,7 @@
 [Activity text]
 Текст заняття
 [Show in list]
-Показувати у списку
+Показувати в списку
 [Always visible]
 Завжди видимий
 [Never visible]
@@ -74,7 +74,7 @@
 [Copy xStatus Message]
 Копіювати повідомлення xСтатусу
 [All]
-Всі
+Усі
 [Messages]
 Повідомлення
 [URL]
@@ -90,7 +90,7 @@
 [Typing Notify]
 Набирає текст
 [Please authorize me to add you to my contact list.]
-Дозвольте, будь ласка, додати вас до списку.
+Будь ласка, дозвольте додати вас до списку контактів.
 [Do you want to send authorization request\nto new contact?]
 Надіслати запит авторизації\nновому контакту?
 [MenuItemEx]

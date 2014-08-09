@@ -36,9 +36,9 @@
 [Show links from unknown contacts]
 Показувати посилання від невідомих контактів
 [Enable avatars]
-Ввімкнути аватари
+Увімкнути аватари
 [You will need to reconnect for the changes you have made on this page to take effect.]
-Зміни вступлять в силу при наступному вході в мережу.
+Зміни вступлять у силу при наступному вході в мережу.
 [Conference policy]
 Політика конференцій
 [if total participant count greater than:]
@@ -332,7 +332,7 @@ HTTP невідома помилка
 [Cannot open image file. ERROR: %d: %s\n%s]
 Не вдалося відкрити файл зображення. Помилка: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
-Допустимий розмір в 255 КБ перевищено
+Розмір зображення перевищує допустимий (255 КБ).
 [You have to be connected before you can import/export contacts from/to server.]
 Встановіть з'єднання перед імпортом/експортом контактів з/на сервер.
 [List cannot be imported because of error:\n\t%s (Error: %d)]
@@ -342,7 +342,7 @@ HTTP невідома помилка
 [Text files]
 Текстовий файл
 [All Files]
-Всі файли
+Усі файли
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
 Не вдалося імпортувати список з файлу "%s" через помилку:\n\t%s (Помилка: %d)
 [contacts]

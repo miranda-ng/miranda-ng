@@ -88,7 +88,7 @@
 [Only when statuses differ]
 при різних статусах
 [Do not show system tray icon tooltips on mouse over]
-Не показувати спливаючі підказки при наведенні на значок в треї
+Не показувати спливаючі підказки при наведенні на значок у треї
 [Groups]
 Групи
 [Draw a line alongside group names]
@@ -198,7 +198,7 @@
 [Pin to desktop]
 Прикріпити до столу
 [Show drop shadow (restart required)]
-Ввімкнути тінь (потрібен перезапуск)
+Увімкнути тінь (потрібен перезапуск)
 [Hide contact list after it has been idle for]
 Ховати список після неактивності:
 [seconds]
@@ -398,7 +398,7 @@
 [Suppress added notifications]
 Заборона "Вас додали"
 [Suppress online notifications]
-Заборона "У мережі"
+Заборона "В мережі"
 [Ignore all]
 Усі події
 [Ignore none]
@@ -414,7 +414,7 @@
 [Hide this contact from the list]
 Сховати контакт зі списку
 [To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
-Щоб повернути прихований контакт до списку, відкрийте Налаштування -> Контакти -> Ігнорувати, знайдіть контакт і поставте відмітку навпроти його імені.
+Щоб повернути прихований контакт до списку, відкрийте Налаштування -> Контакти -> Ігнорувати, знайдіть контакт і поставте позначку навпроти його імені.
 [Show contact with priority]
 Контакт з пріоритетом
 [Show avatar:]
@@ -660,13 +660,13 @@
 [Global]
 Глобальні
 [Toggle show online/offline]
-Ввімк./Вимк. користувачів не в мережі
+Увімк./вимк. користувачів не в мережі
 [Toggle groups]
-Ввімк./Вимк. групи
+Увімк./вимк. групи
 [Find contacts]
 Знайти контакти
 [Toggle sounds]
-Ввімк./Вимк. звуки
+Увімк./вимк. звуки
 [Show TabSRMM session list]
 Список сесій TabSRMM
 [Show TabSRMM menu]

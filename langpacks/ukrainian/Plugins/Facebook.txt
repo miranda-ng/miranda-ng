@@ -6,7 +6,7 @@
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
-Підтримка протоколу Facebook в Miranda NG.
+Підтримка протоколу Facebook у Miranda NG.
 [E-mail:]
 Пошта:
 [Password:]
@@ -47,6 +47,8 @@
 Сповіщення про події
 [Notifications]
 Сповіщення
+[News feeds (WARNING: Causes excessive network traffic!)]
+Новини (Увага: підвищує споживання мережевого трафіку!)
 [News feed types to notify:]
 Сповіщати про типи новин:
 [Don't show advertising posts]
@@ -76,7 +78,7 @@
 [Use this server for opening links:]
 Тип сайту для відкриття посилань:
 [Show stickers as custom smileys (EXPERIMENTAL)]
-Підтримка користувальницьких смайлів (експериментально)
+Стікери у вигляді користувацьких смайлів (експериментально)
 [Use local time for received messages]
 Локальний час для прийнятих повідомлень
 [Message sessions]
@@ -114,9 +116,9 @@
 [Login error: Some Facebook things are required.]
 Помилка входу: Деякі речі Facebook є обов'язковими.
 [Login error: Captcha code is required. Bad login credentials?]
-Помилка входу: Потрібна капча. Погані облікові дані для входу?
+Помилка входу: Потрібна капча. Неправильні облікові дані для входу?
 [Login error, probably bad login credentials.]
-Помилка входу: ймовірно, погані дані облікового запису.
+Помилка входу: імовірно, неправильні дані облікового запису.
 [Your account requires HTTPS connection. Activating.]
 Обліковий запис вимагає з'єднання HTTPS. Активовано.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
@@ -144,7 +146,7 @@
 [Smartphone website]
 Сайт для смартфонів
 [Public]
-Всім
+Усім
 [Friends of friends]
 Друзям друзів
 [Friends]
@@ -182,7 +184,7 @@
 [What's on your mind, %s?]
 Про що ви думаєте, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Переконайтеся, що опцію "Перевіряти сертифікати SSL" вимкнено у Налаштування -> Мережа.
+Переконайтеся, що опцію "Перевіряти сертифікати SSL" вимкнено в Налаштування -> Мережа.
 [Sample event]
 Приклад події
 [Sample request]

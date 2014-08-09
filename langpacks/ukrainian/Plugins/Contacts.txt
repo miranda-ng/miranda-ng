@@ -62,7 +62,7 @@
 [Last Name]
 Прізвище
 [Add Contact Permanently to List]
-Додати у список
+Додати в список
 [View User's Details]
 Інформація про користувача
 [View User's History]

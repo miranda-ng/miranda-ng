@@ -10,7 +10,7 @@
 [Dialog]
 Діалог
 [All]
-Всі
+Усі
 [None]
 Немає
 [Cancel]
@@ -170,7 +170,7 @@ HTTP-з'єднання SendSS
 [Description off]
 Опис вимк.
 [Description on]
-Опис ввімк.
+Опис увімк.
 [Delete off]
 Видалення вимк.
 [Delete on]

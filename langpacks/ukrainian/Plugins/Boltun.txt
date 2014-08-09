@@ -26,7 +26,7 @@
 [Time before the answer]
 Час перед відповіддю
 [Typing time depends on message length (in chars)]
-Час друку залежить від довжини повідомлення (у символах)
+Час друку залежить від довжини повідомлення (в символах)
 [Typing and thinking time can be much longer]
 Час друку і обмірковування може збільшуватися
 [Typing time (for a message of 4 words):]

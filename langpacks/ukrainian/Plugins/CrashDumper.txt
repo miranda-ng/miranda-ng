@@ -14,7 +14,7 @@
 [Copy To Clipboard]
 Копіювати в буфер
 [To File]
-В файл
+У файл
 [Support for miranda-vi.org]
 Підтримка miranda-vi.org
 [Username]
@@ -78,7 +78,7 @@
 [Crash Report write location is not available]
 Шлях для запису звіту про помилку недоступний
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-Miranda NG була завершена аварійно. Звіт збережено у\n %s\n\nЗберегти його в буфер обміну?
+Miranda NG була завершена аварійно. Звіт збережено в\n %s\n\nЗберегти його в буфер обміну?
 [View Version Information (with DLLs)]
 Інформація про версії (з бібліотеками)
 [VersionInfo upload successful,\n %d old plugins]

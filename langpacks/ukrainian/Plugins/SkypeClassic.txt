@@ -18,7 +18,7 @@
 [/MINIMIZED - Start Skype minimized]
 /MINIMIZED - Запустити Skype згорнутим до трею
 [/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
-/NOTRAY - Значок Skype в треї стає сірим - "Невидимий"
+/NOTRAY - Значок Skype у треї стає сірим - "Невидимий"
 [/REMOVEABLE - For running portable Skype]
 /REMOVEABLE - Для запуску портативного Skype
 [/SECONDARY - This is the second instance]
@@ -64,7 +64,7 @@
 [Port:]
 Порт:
 [* You must restart Miranda NG in order to let the settings take effect]
-* Зміни вступлять в силу після перезапуску Miranda NG.
+* Зміни вступлять у силу після перезапуску Miranda NG.
 [This Skype proxy requires password authentication:]
 Проксі вимагає аутентифікацію по паролю:
 [Name:]
@@ -88,7 +88,7 @@
 [Save]
 Зберегти
 [Enable Skype menu options (currently: Find/Add user)]
-Ввімкнути опції меню (зараз тільки: Знайти/додати контакти)
+Увімкнути опції меню (зараз тільки: Знайти/додати контакти)
 [Use popup plugin for displaying messages]
 Використовувати спливаючі вікна для повідомлень
 [Suppress all error messages (not recommended, but if it annoys you... ;)]

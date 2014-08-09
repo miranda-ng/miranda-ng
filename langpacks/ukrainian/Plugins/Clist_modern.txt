@@ -146,13 +146,13 @@
 [Accounts per line]
 Обл. записів у рядку
 [* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-* Зміна висоти рядка статусів: Головне меню -> Фрейми -> Панель статусів -> Плаваючий режим (перетягніть панель)
+* Зміна висоти панелі статусів: Головне меню -> Фрейми -> Панель статусів -> Плаваючий режим (розтягніть панель)
 [Hold [Shift] to inverse [Right Click] behavior.]
 Shift+правий клік - Головне меню
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
-Ctrl+ЛКМ - ввімк. фільтр за протоколом, клік по порожньому місцю - вимк.
+Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по порожньому місцю - вимк.
 [Set options per account]
-Пооблікові налаштування
+Налаштувати обл. записи окремо
 [Enable custom account settings]
 Налаштувати обліковий запис
 [Hide account completely]
@@ -206,7 +206,7 @@ Ctrl+ЛКМ - ввімк. фільтр за протоколом, клік по 
 [Ask before deleting contacts]
 Запит перед видаленням
 [Don't move offline user to bottom]
-Не переміщати відключених вниз
+Не переміщати відключених униз
 [Contact list]
 Список контактів
 [Contact list sorting]
@@ -384,7 +384,7 @@ x100 мс
 [Translucency options]
 Прозорість
 [Enable drop shadow (restart required)]
-Ввімкнути тінь (потрібен перезапуск)
+Увімкнути тінь (потрібен перезапуск)
 [Frames]
 Фрейми
 [Between frames:]
@@ -476,7 +476,7 @@ x100 мс
 [Align to right]
 Вирівняти праворуч
 [Append nick if different from custom name]
-Додавати нік, якщо він відмінний від імені у списку
+Додавати нік, якщо він відмінний від імені в списку
 [Trim long text with ellipsis]
 Обрізати довгий текст трикрапкою
 [Show second line]
@@ -484,7 +484,7 @@ x100 мс
 [Top space:]
 Позиція:
 [Draw smileys on second line]
-Смайли у другому рядку
+Смайли в другому рядку
 [Text:]
 Текст:
 [Status]
@@ -510,7 +510,7 @@ xСтатус: xПовідомлення
 [Show third line]
 Показувати третій рядок
 [Draw smileys on third line]
-Смайли у третьому рядку
+Смайли в третьому рядку
 [Preview]
 Тест
 [Top/Left]
@@ -608,7 +608,7 @@ xСтатус: xПовідомлення
 [&Hide offline users in here]
 Сховати &відключених у групі
 [&Show offline users in here]
-Показати відключених в групі
+Показати відключених у групі
 [&Rename group]
 &Перейменувати групу
 [&Delete group]
@@ -908,13 +908,13 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Find user]
 Знайти
 [Use/Disable groups]
-Ввімк./Вимк. групи
+Увімк./вимк. групи
 [Use groups]
-Ввімкнути сортування по групах
+Увімкнути сортування по групах
 [Enable/Disable sounds]
-Ввімк./Вимк. звуки
+Увімк./вимк. звуки
 [Enable sounds]
-Ввімкнути звуки
+Увімкнути звуки
 [Disable sounds]
 Вимкнути звуки
 [Minimize]

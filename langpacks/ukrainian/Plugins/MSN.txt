@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
-Підтримка протоколу Microsoft Network (MSN) в Miranda NG.
+Підтримка протоколу Microsoft Network (MSN) у Miranda NG.
 [Password:]
 Пароль:
 [Nickname:]
@@ -16,7 +16,7 @@
 [Expert]
 Експерт
 [Send message font color/size info inside messages]
-Відправляти інформацію про шрифт/колір в повідомленні
+Відправляти інформацію про шрифт/колір у повідомленні
 [Disable all contacts not included into my contact list]
 Відключити всі контакти не в списку контактів
 [Manage server groups]
@@ -50,13 +50,13 @@
 [Blocked contact]
 Заблокований контакт
 [Somebody included you in his/her server list]
-Ви в списку контакту на сервері
+Вас додали до списку контактів на сервері
 [Refresh]
 Оновити
 [Hotmail]
 Пошта
 [Disable Popup notifications]
-Вимкнути сповіщення у спливаючих вікнах
+Вимкнути сповіщення в спливаючих вікнах
 [Disable Tray notifications]
 Вимкнути повідомлення в треї
 [Ignore new messages not in Inbox folder]
@@ -70,7 +70,7 @@
 [Enable 'Contact left channel' popup]
 Спливаюче вікно "Контакт покинув канал"
 [Disable Contact List notifications]
-Вимкнути сповіщення у списку контактів
+Вимкнути сповіщення в списку контактів
 [Set Nickname]
 Введення ніка
 [Cancel]
@@ -152,7 +152,7 @@
 [MSN Link Protocol]
 Протокол MSN
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Контакт %s був видалений з сервера.\nХочете залишити його у локальному списку, щоб зберегти історію?
+Контакт %s був видалений з сервера.\nХочете залишити його в локальному списку, щоб зберегти історію?
 [%s protocol]
 Протокол %s
 [Subject: %s]
@@ -202,7 +202,7 @@
 [Block user]
 Заблокувати
 [Invite to chat]
-Запросити у чат
+Запросити в чат
 [Start Netmeeting]
 Запустити Netmeeting
 [Contact list]
@@ -268,6 +268,6 @@
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для мережі MSN таймаут відправлення повідомлення повинен бути не менш ніж 60 секунд. Будь ласка, налаштуйте ваш плагін повідомлень.
 [Convert to Chat]
-Конвертувати у чат
+Конвертувати в чат
 [Chat session dropped due to inactivity]
 Сесія скинута через неактивність

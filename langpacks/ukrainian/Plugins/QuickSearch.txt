@@ -136,7 +136,7 @@ ID користувача
 [Save]
 Зберегти
 [All]
-Все
+Усе
 [Close]
 Закрити
 [Refresh]
@@ -206,7 +206,7 @@ ID користувача
 [&Copy]
 &Копіювати
 [C&onvert to Meta]
-&Конвертувати у метаконтакт
+&Конвертувати в метаконтакт
 [Attach to &Tab container]
 Приєднати до контейнера
 [&Move to Group]
@@ -242,7 +242,7 @@ ID користувача
 [Column content is simple database setting.]
 Вміст - налаштування в базі
 [Column content is script result.\r\nMore help from "Help" button in script dialog.]
-Вміст - результат скрипта.\r\nНатисність "Довідка" у діалозі скрипта для докладної інформації.
+Вміст - результат скрипта.\r\nНатисність "Довідка" в діалозі скрипта для докладної інформації.
 [Column content is contact property (see list). Can be empty.]
 Вміст - властивості контакту (див. список). Може бути порожнім.
 [Content is last online time.]

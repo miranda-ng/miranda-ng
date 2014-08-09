@@ -10,7 +10,7 @@
 [Last Sent]
 Остання відправлена подія
 [Enable last-sent-to]
-Ввімкнути останню подію
+Увімкнути останню подію
 [recognize all messages sent]
 Визначати всі надіслані повідомлення
 [recognize messages sent with hotkey only]
@@ -40,7 +40,7 @@
 [Open dialog]
 Відкрити діалог
 [Send file]
-Передати файл
+Надіслати файл
 [Send URL]
 Надіслати URL
 [Open user info]

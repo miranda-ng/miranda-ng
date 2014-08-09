@@ -6,7 +6,7 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
-Підтримка протоколу Twitter в Miranda NG.
+Підтримка протоколу Twitter у Miranda NG.
 [Server:]
 Сервер:
 [Create a new Twitter account]
@@ -40,7 +40,7 @@ URL:
 [Treat tweets as messages]
 Твіти як повідомлення
 [Enable popup notifications for tweets]
-Спливаючі вікна для твітів
+Сповіщати про твіти спливаючими вікнам
 [Colors]
 Кольори
 [Use Windows colors]
@@ -68,7 +68,7 @@ URL:
 [Enter Twitter PIN]
 Введіть PIN-код з Twitter-у
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-Введіть PIN-код, наданий Twitter, щоб завершити процес входу. Це потрібно зробити один раз, поки ви не перестворите ваш обліковий запис Twitter в Miranda.
+Введіть PIN-код, наданий Twitter, щоб завершити процес входу. Це потрібно зробити один раз, поки ви не перестворите ваш обліковий запис Twitter у Miranda.
 [OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorize Miranda to Twitter.com (do the PIN stuff again)]
 Змінні OAuth втратили послідовність і були обнулені. Будь ласка, з'єднайтеся знову і авторизуйте Miranda на Twitter.com (ще раз з PIN-кодом)
 [Send Tweet...]

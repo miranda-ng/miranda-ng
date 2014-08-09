@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
-Підтримка протоколу Lotus Sametime в Miranda NG.
+Підтримка протоколу Lotus Sametime у Miranda NG.
 [Connection]
 Підключення
 [Password:]
@@ -76,7 +76,7 @@ ID клієнта
 [Start conference]
 Створити чат-кімнату
 [No common encryption method. Try to enable encryption in protocol options.]
-Шифрування недоступне. Спробуйте ввімкнути шифрування у налаштуваннях протоколу.
+Шифрування недоступне. Спробуйте ввімкнути шифрування в налаштуваннях протоколу.
 [SERVICE NOT IMPLEMENTED. %s]
 Служба не реалізована. %s
 [Client proto version: %03d.%03d]

@@ -192,7 +192,7 @@ xСтатуси
 [Keyboard Notify Theme]
 Тема сповіщення
 [All Files]
-Всі файли
+Усі файли
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 \n; Файл теми для Keyboard Notify\n\n\n
 [\n; End of automatically generated Keyboard Notify Theme file\n]

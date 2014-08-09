@@ -6,7 +6,7 @@
 ;  Authors: Rozhuk Ivan
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
-Підтримка протоколу Mail.ru Агент (MRA) в Miranda NG.
+Підтримка протоколу Mail.ru Агент (MRA) у Miranda NG.
 [E-mail:]
 Пошта
 [Password:]
@@ -26,7 +26,7 @@
 [Automatically add contacts to server list on logon]
 Автоматично додавати контакти на сервер при підключенні
 [Automatically grant authorization to users in contact list]
-Автоматично авторизувати користувачів зі списку
+Автоматично авторизувати користувачів зі списку контактів
 [Automatically grant authorization to new users]
 Автоматично авторизувати нових користувачів
 [Automatic authorization on Mail.ru web services]
@@ -36,7 +36,7 @@
 [Notify about new mail if increment]
 Сповіщати про пошту тільки якщо лічильник збільшився
 [Notify about new mail tray icon]
-Показувати значок в треї при приході пошти
+Показувати значок у треї при приході пошти
 [Click to Inbox]
 Перевірити пошту клацанням
 [Show received formatted text (receive RTF)]
@@ -80,7 +80,7 @@
 [Remember]
 Нагадування
 [Enable avatars support (loading)]
-Ввімкнути підтримку аватарів (завантажувати)
+Увімкнути підтримку аватарів (завантажувати)
 [Server:]
 Сервер:
 [Updates check interval, min]
@@ -100,7 +100,7 @@
 [Out connections: ignore additional ports (443, 2041)]
 Вихідні підключення: ігнорувати дод. порти (443, 2041)
 [Hide my IP addresses]
-Приховувати мої IP-адреси
+Не показувати мої IP-адреси
 [Add extra address]
 Додати додаткові адреси
 [Your host (or router):]
@@ -130,7 +130,7 @@
 [Popup settings]
 Налаштування спливаючих вікон
 [Enable]
-Ввімкнено
+Увімкнено
 [&Use Windows colors]
 &Кольори Windows
 [Back Color]
@@ -330,7 +330,7 @@ Mail.ru додатково
 [From: %S\r\nSubject: %S\r\n%s]
 Від: %S\r\nТема: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
-Непрочитаної пошти немає\r\nВсього повідомлень: %lu
+Непрочитаної пошти немає\r\nУсього повідомлень: %lu
 [Closing in %ld]
 Закрито %ld
 [Reply to %s blog status]
@@ -354,9 +354,9 @@ Mail.ru додатково
 [Avatars]
 Аватари
 [Please, setup e-mail in options]
-Будь ласка, введіть E-mail в налаштуваннях
+Будь ласка, введіть E-mail у налаштуваннях
 [Please, setup password in options]
-Будь ласка, введіть пароль в налаштуваннях
+Будь ласка, введіть пароль у налаштуваннях
 [Thread creation failure]
 Помилка створення потоку
 [Logon error: invalid login/password]
@@ -392,7 +392,7 @@ MRIM_CS_SMS_ACK: не знайдений у черзі
 [Compass]
 Компас
 [On WC]
-У туалеті
+В туалеті
 [Cooking]
 Готую їжу
 [Walking]

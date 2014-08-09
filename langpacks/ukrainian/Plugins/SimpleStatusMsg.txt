@@ -48,7 +48,7 @@
 [Set the following message:]
 Наступне повідомлення:
 [Put default message in message list]
-Стандартне повідомлення у списку
+Стандартне повідомлення в списку
 [Variables]
 Змінні
 [Update variables in status messages every]
@@ -70,7 +70,7 @@
 [Show status list]
 Меню списку статусів
 [Show status profiles in status list]
-Показувати профілі у списку статусів
+Показувати профілі в списку статусів
 [Show icons in status list]
 Значки списку статусів
 [Buttons:]
@@ -132,13 +132,13 @@
 [Copy %s message]
 Копіювати повідомлення %s
 [&Go to URL in %s message]
-&Відкрити посилання з %s
+&Відкрити посилання в повідомленні %s
 [Re&ad Away message]
 Пр&очитити повідомлення "Відсутній"
 [Copy Away message]
 Копіювати повідомлення статусу
 [&Go to URL in Away message]
-&Відкрити посилання
+&Відкрити посилання в повідомленні "Відсутній"
 [Change status message]
 Змінити повідомлення статусу
 [Open status message dialog]
@@ -182,7 +182,7 @@
 [Flat, next to cancel button]
 Гладко, за кнопкою "Скасувати"
 [Show in message list]
-Показати у списку повідомлень
+Показати в списку повідомлень
 [Are you sure you want to clear predefined status messages?]
 Ви впевнені, що хочете видалити стандартні повідомлення статусу?
 [Confirm clearing predefined]

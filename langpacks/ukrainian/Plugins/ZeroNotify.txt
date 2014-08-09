@@ -6,15 +6,15 @@
 ;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
-Автоматична заборона різних сповіщень в залежності від певного статусу.
+Автоматична заборона різних сповіщень у залежності від певного статусу.
 [No sounds when:]
 Без звуків, якщо:
 [No CList blink when:]
 Без блимання у СК:
 [No SysTray blink when:]
-Без блимання у треї:
+Без блимання в треї:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
-Сховати "Ввімк./Вимк. звук" у головному меню (потрібен перезапуск)
+Сховати "Увімк./вимк. звук" у головному меню (потрібен перезапуск)
 [Disable &Sounds]
 Заборонити звуки
 [Enable &Sounds]

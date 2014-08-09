@@ -140,7 +140,7 @@
 [Quotes]
 Котування
 [Enable/Disable Auto Update]
-Ввімк./вимк. автооновлення
+Увімк./вимк. автооновлення
 [Refresh All Quotes\\Rates]
 Оновити всі котування\\курси валют
 [Currency Converter...]
@@ -158,7 +158,7 @@
 [Edit Settings...]
 Налаштування...
 [Enable/Disable Quotes Auto Update]
-Ввімк./вимк. автооновлення котувань
+Увімк./вимк. автооновлення котувань
 [Quotes Auto Update Enabled]
 Автооновлення котувань увімкнено
 [Quotes Auto Update Disabled]
@@ -194,7 +194,7 @@ HTTP-з'єднання Quotes
 [Miranda's History]
 Історія
 [All]
-Всі
+Усі
 [Last Day]
 День
 [Last Week]

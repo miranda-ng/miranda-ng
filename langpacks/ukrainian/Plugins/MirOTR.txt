@@ -34,7 +34,7 @@ OTR: Створення приватного ключа
 [Show OTR system messages inline]
 Показувати системні повідомлення у вікні бесід
 [Show OTR system messages as popup]
-Показувати системні повідомлення у спливаючому вікні
+Показувати системні повідомлення в спливаючому вікні
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
 Повертати завершені сесії в звичайний текст по тайм-ауту
 [Show verification dialog when receiving unverified fingerprint]
@@ -228,7 +228,7 @@ OTR не є безпечним
 [Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
 Відбиток '%s' використовується в бесіді з '%s' (%s). Ви не можете його видалити!
 [Cannot start OTR for '%s'. SecureIM is already running]
-Неможливо запустити OTR для '%s'. Вже запущений SecureIM.
+Неможливо запустити OTR для '%s'. Уже запущений SecureIM.
 [OTR: SecureIM installed]
 OTR: встановлений SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]

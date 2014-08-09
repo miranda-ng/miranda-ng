@@ -182,7 +182,7 @@ FPS (кадрів в секунду), тільки для відео
 [Report format]
 Формат звіту
 [Show in report]
-Показувати в звіті
+Показувати у звіті
 [Sort]
 Сортування
 [Sort log file]
@@ -284,7 +284,7 @@ VBR або порожній
 [Do not change]
 Не змінювати
 [All lowercase]
-Всі малі
+Усі малі
 [lowercase %type%]
 рядковий %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
@@ -310,7 +310,7 @@ VBR або порожній
 [Keep opened file as active, not newly founded.]
 Використовувати відкритий файл в якості активного, а не новостворений.
 [Use this option if WATrack freeze while player running. Slower processing.]
-Ввімкніть, якщо WATrack підвисає під час програвання. Більше навантаження на процесор.
+Увімкніть, якщо WATrack підвисає під час програвання. Більше навантаження на процесор.
 [Use "Variables" plugin]
 Використовувати плагін Variables
 [Sorry, but i don't use WATrack right now!]
@@ -376,7 +376,7 @@ FPS (кадрів в секунду)
 [If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
 Якщо використовується плагін Variables, значення, що повертаються, будуть в кодуванні ANSI (за замовчанням - UTF-8)
 [Save settings in INI-file]
-Зберігати налаштування в файл
+Зберігати налаштування у файл
 [VBR or not]
 VBR чи ні
 [video codec]
@@ -474,7 +474,7 @@ VBR чи ні
 [WATrack popup hotkey]
 Спливаюче вікно
 [Switch ON these modules]
-Ввімк./вимк. модулів Watrack
+Увімк./вимк. модулів Watrack
 [Modules]
 Модулі
 [Statistic]
@@ -506,7 +506,7 @@ VBR чи ні
 [Disable Plugin]
 Вимкнути плагін
 [Enable Plugin]
-Ввімкнути плагін
+Увімкнути плагін
 [Don't forget to enter Login and Password to use Last.fm service]
 Не забудьте ввести логін і пароль, щоб користуватися сервісом Last.fm
 [Don't forget to enter Login and Password to use MyShows service]

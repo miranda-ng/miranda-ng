@@ -18,7 +18,7 @@
 [Use popup plugin]
 Спливаючі вікна
 [Default snooze:]
-Пауза за замовчанням:
+Пауза за замовч.:
 [minutes]
 хвилин
 [Row height:]
@@ -34,7 +34,7 @@
 [Period (hours):]
 Період (годин):
 [Hide/show with clist]
-Пок./приховати зі списком
+Показ./ховати зі списком
 [Auto size vertically]
 Підганяти висоту
 [Transparency (%):]
@@ -42,7 +42,7 @@
 [Alert window]
 Вікно нагадування
 [Round corners]
-Закруглені кути
+Заокруглені кути
 [Don't steal focus unless idle]
 Якщо не активний, не перехоплювати фокус
 [Preview]
@@ -92,11 +92,11 @@
 [Date and time]
 Дата і час
 [Disable next occurrence]
-Відключити наступне нагадування
+Вимкнути наступне нагадування
 [Don't trigger on startup]
 Не спрацьовувати при завантаженні
 [No reminder]
-Не показувати у списку
+Не показувати в списку
 [Dismiss]
 Прибрати
 [Snooze]
@@ -116,7 +116,7 @@
 [Unknown command issued: "%s"]
 Невідома команда повернула: "%s"
 [Set alarm]
-Встановлення нагадування
+Встановити нагадування
 [Example alarm]
 Приклад нагадування
 [Some example text. Example, example, example.]
@@ -140,7 +140,7 @@
 [Window]
 Вікно
 [Hide reminders]
-Приховати нагадування
+Сховати нагадування
 [Show reminders]
 Показати нагадування
 [Frames]
@@ -156,7 +156,7 @@
 [Alarm: System tray]
 Трей
 [Menu: Show/Hide reminders]
-Меню: Показати/Приховати нагадування
+Меню: Показати/сховати нагадування
 [Sunday]
 Неділя
 [Monday]

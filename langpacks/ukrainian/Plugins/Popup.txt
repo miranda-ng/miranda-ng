@@ -98,7 +98,7 @@ History++ для історії вікон
 [General]
 Загальне
 [Enable popup actions]
-Ввімкнути дії
+Увімкнути дії
 [Popup actions are those tiny buttons below notification text.]
 Дії - це маленькі кнопки під текстом вікна.
 [Common actions]
@@ -106,9 +106,9 @@ History++ для історії вікон
 [Please choose in what cases default actions should be added:]
 Виберіть, у яких випадках додавати загальні дії:
 [Add info && menu for IM contacts only]
-Меню та інфо тільки у контактів
+Меню та інфо тільки в контактів
 [Add default actions for contacts only]
-Заг. дії тільки у контактів
+Заг. дії тільки в контактів
 [Don't close popups on default actions]
 Не закривати вікна загальних дій
 [Size and position]
@@ -138,7 +138,7 @@ History++ для історії вікон
 [General options]
 Загальні параметри
 [Enable this notification]
-Ввімкнути це сповіщення
+Увімкнути це сповіщення
 [Popup timeout:]
 Тривалість:
 [Left click action:]
@@ -294,9 +294,9 @@ History++ для історії вікон
 [Advanced]
 Додатково
 [Toggle Popups]
-Ввімк./Вимк. сплив. вікна
+Увімк./вимк. сплив. вікна
 [Enable Popups]
-Ввімкнути спливаючі вікна
+Увімкнути спливаючі вікна
 [Disable Popups]
 Вимкнути спливаючі вікна
 [Popup Plus]
@@ -352,7 +352,7 @@ History++ для історії вікон
 [You cannot specify a value lower than %d and higher than %d.]
 Значення менше %d або більше %d не допускається.
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nВвімкнути впорядкування (зсув) вікон?\r\n
+Налаштування "Впорядковувати (зсувати) вікна" вимкнено.\r\nЦе може призвести до перекосу при використанні з\r\nаватарами і заміною тексту (з плагіном NewXstatusNotify).\r\n\r\nУвімкнути впорядкування (зсув) вікон?\r\n
 [Popup Plus Warning]
 Попередження Popup Plus
 [Failed to register %s class.]

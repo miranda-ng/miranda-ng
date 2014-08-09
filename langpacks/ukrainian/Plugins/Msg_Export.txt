@@ -114,7 +114,7 @@ UTF8 у нових файлах
 [Executable files]
 Виконувані файли
 [All files]
-Всі файли
+Усі файли
 [Select Destination Directory]
 Вибрати папку для запису
 [Export Protocols]

@@ -118,7 +118,7 @@
 [Advanced options]
 Додатково
 [Show tooltip after all content is ready (avatar && status message)]
-Показати підказку тільки після завантаження усього вмісту
+Показати підказку тільки після завантаження всього вмісту
 [Retrieve new status message]
 Запитувати повідомлення статусу
 [Disable in invisible status]
@@ -188,7 +188,7 @@
 [Append protocol name]
 Додати ім'я протоколу
 [Tipper smileys]
-Підказки
+Підказки Tipper
 [You must enter a label]
 Ви повинні ввести мітку
 [Invalid Substitution]
@@ -466,7 +466,7 @@ xСтатус:
 [Values]
 Значення
 [Tray title]
-Заголовок в треї
+Заголовок у треї
 [Tipper]
 Підказки
 [Female]
@@ -482,13 +482,13 @@ xСтатус:
 [WORD to status description]
 Слово - в опис статусу
 [DWORD timestamp to time]
-Подв. слово - у час
+Подв. слово - в час
 [DWORD timestamp to time difference]
 Подв. слово - в різницю часу
 [BYTE to Yes/No]
-Байт - в значення Так/Ні
+Байт - у значення Так/Ні
 [BYTE to Male/Female (ICQ)]
-Байт - в стать (Ч/Ж) (ICQ)
+Байт - у стать (Ч/Ж) (ICQ)
 [WORD to country name]
 Слово - в назву країни
 [DWORD to IP address]
@@ -498,15 +498,15 @@ xСтатус:
 [<prefix>Day|Month|Year to age]
 <префікс>день|місяць|рік - у вік
 [<prefix>Hours|Minutes|Seconds to time]
-<префікс>години|хвилини|секунди - у час
+<префікс>години|хвилини|секунди - в час
 [<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
 <префікс>день|місяць|рік|години|хв|сек - в різницю часу
 [<prefix>Day|Month to days to next birthday]
-<префікс>день|місяць - в днях до наступного дня народження
+<префікс>день|місяць - у днях до наступного дня народження
 [DWORD timestamp to time (no seconds)]
 Подв. слово - в дату (без секунд)
 [<prefix>Hours|Minutes to time]
-<префікс>години|хвилини - у час
+<префікс>години|хвилини - в час
 [DWORD timestamp to date (short)]
 Подв. слово - в дату (коротку)
 [DWORD timestamp to date (long)]

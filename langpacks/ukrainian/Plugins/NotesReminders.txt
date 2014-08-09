@@ -48,7 +48,7 @@
 [Reset to defaults]
 Скинути
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
-Дозволяє різним звукам програватися одночасно (можливі небажані наслідки, якщо встановлений плагін користувальницьких звуків.)
+Дозволяє різним звукам програватися одночасно (можливі небажані наслідки, якщо встановлений плагін користувацьких звуків.)
 [Add Reminder]
 Додати нагадування
 [Trigger On Time && Date:]
@@ -160,9 +160,9 @@
 [New Reminder]
 Нове нагадування
 [Are you sure you want to delete all notes?]
-Впевнені, що хочете видалити усі нотатки?!
+Впевнені, що хочете видалити всі нотатки?!
 [Are you sure you want to delete all reminders?]
-Впевнені, що хочете видалити усі нагадування?!
+Впевнені, що хочете видалити всі нагадування?!
 [Delete All Notes]
 Видалити всі нотатки
 [Show/Hide Notes]

@@ -28,7 +28,7 @@
 [Do not show status icons in menus]
 Не показувати в меню значки статусу
 [Do not show contacts that are offline, even if my contact list does]
-Не показувати контакти, які не у мережі
+Не показувати контакти, які знаходяться не в мережі
 [Problem, registration missing/deleted.]
 Проблема! Інтеграція в оболонку відсутня!
 [Successfully created shell registration.]
@@ -38,7 +38,7 @@
 [Approved]
 Дозволено
 [Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Ви впевнені? Це видалить всі налаштування даного плагіна у вашому профілі та всі ключі реєстру, що відповідають за його інтеграцію в оболонку ОС.
+Ви впевнені? Це видалить усі налаштування даного плагіна у вашому профілі та всі ключі реєстру, що відповідають за його інтеграцію в оболонку ОС.
 [Disable/Remove shlext]
 Вимкнути/Видалити ShlExt
 [Recently]

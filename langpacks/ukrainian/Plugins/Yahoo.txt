@@ -40,7 +40,7 @@ Yahoo Японія
 [Yahoo Ignore List]
 Ігнорувати на Yahoo
 [Ignore anyone who is not on my Yahoo buddy list]
-Ігнорувати всіх, хто не у моєму списку друзів
+Ігнорувати всіх, хто не в моєму списку друзів
 [Ignore only the people below:]
 Ігнорувати позначених:
 [&Add]
@@ -58,7 +58,7 @@ Yahoo Японія
 [Client:]
 Клієнт:
 [Chat Room Invitation Request]
-Запрошення у чат-кімнату
+Запрошення в чат-кімнату
 [&Join]
 %Зайти
 [&Deny]
@@ -98,7 +98,7 @@ Yahoo Японія
 [User &history]
 &Історія
 [Join My Conference...]
-Заходь в мою чат-кімнату...
+Заходь у мою чат-кімнату...
 [No, thank you...]
 Ні, дякую...
 [Main]
@@ -180,7 +180,7 @@ HTTP-з'єднання Yahoo
 [&Show Profile]
 &Профіль
 [[miranda] Got webcam invite. (not currently supported)]
-(Miranda NG) Запрошення в відеоконференцію (поки що не підтримується)
+(Miranda NG) Запрошення у відеоконференцію (поки що не підтримується)
 [Calendar Reminder]
 Календар нагадувань
 [%s has rejected your request and sent the following message:]

@@ -12,13 +12,13 @@
 [Settings for the next Computer Name:]
 Налаштування для комп'ютера:
 [Enable silence at startup]
-Ввімкнути тихий запуск
+Увімкнути тихий запуск
 [for]
 на
 [10-300 seconds (Default 20)]
 10-300 секунд (Замовчання 20)
 [Show Popup notification]
-Сповіщати у спливаючих вікнах
+Сповіщати в спливаючих вікнах
 [Popup time 1-30 seconds (Default 5)]
 Час показу 1-30 секунд (Замовчання 5)
 [Main Menu Item (plugin reload or Miranda restart required)]
@@ -36,7 +36,7 @@
 [Filtered popups only (leave uncheck for no popups)]
 Тільки відфільтровані сплив. вікна (не вмикайте, щоб сплив. вікон не було)
 [Enable sounds]
-Ввімкнути звуки
+Увімкнути звуки
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
 Дозволити звуки та відфільтровані сплив. вікна після запуску (вимкніть опцію для всіх сплив. вікон і звуків)
 [Allow mRadio or Weather popups, etc.]
@@ -48,11 +48,11 @@
 [Toggle Silence OFF]
 Вимкнути тихий запуск
 [Toggle Silence ON]
-Ввімкнути тихий запуск
+Увімкнути тихий запуск
 [Toggle Silence OFF TTB]
 Вимкнено тихий запуск TTB
 [Toggle Silence ON TTB]
-Ввімкнено тихий запуск TTB
+Увімкнено тихий запуск TTB
 [Sounds and popups are enabled]
 Звуки і спливаючі вікна ввімкнено
 [Filtered mode ON]
@@ -62,15 +62,15 @@
 [Sounds and popups are disabled temporarily\nAllow mRadio or Weather popups, etc.]
 Звуки і спливаючі вікна тимчасово вимкнено.\nДозволено сплив. вікна mRadio, Weather тощо.
 [Silent Startup mode changed to ON]
-Тихий запуск ввімкнено
+Тихий запуск увімкнено
 [Silent Startup mode changed to OFF]
 Тихий запуск вимкнено
 [Silence At Startup is ON]
-Тихий запуск ввімкнено
+Тихий запуск увімкнено
 [Silence At Startup is OFF]
 Тихий запуск вимкнено
 [Toggle Silence At Startup]
-Тихий запуск Ввімк./Вимк.
+Тихий запуск увімк./вимк.
 [You have to install TopToolBar to use this option.]
 Для використання цієї функції потрібно встановити плагін TopToolBar
 [You have to install "YAPP" or "Popup+" to use this option.]

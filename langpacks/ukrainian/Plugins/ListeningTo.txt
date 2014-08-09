@@ -10,7 +10,7 @@
 [Listening to information]
 Слухаю
 [Enable sending listening information to contacts:]
-Ввімкнути відправку інформації контактам
+Увімкнути відправку інформації контактам
 [Music]
 Музика
 [Radio]
@@ -38,7 +38,7 @@ xСтатус
 [Apply template for info from contacts (overrides contacts template)]
 Застосувати шаблон для інформації від контактів
 [Get info from WATrack plugin]
-Отримати інформацію з плагіну WATrack
+Отримати інформацію з плагіна WATrack
 [Get info from these players:]
 Отримувати інформацію з плеєрів:
 [Windows Media Player]
@@ -126,13 +126,13 @@ foobar2000 (встановіть плагін вручну)
 [Don't send to any protocols]
 Не відправляти всім протоколам
 [Toggle send to all protocols]
-Ввімк./Вимк. відправляти всім протоколам
+Увімк./вимк. відправляти всім протоколам
 [Enable/Disable sending Listening To info (to all protocols)]
-Ввімк./Вимк. відправку інформації про музику (всі протоколи)
+Увімк./вимк. відправку інформації про музику (всі протоколи)
 [Disable ListeningTo (to all protocols)]
 Вимкнути "Слухаю" (для всіх протоколів)
 [Enable ListeningTo (to all protocols)]
-Ввімкнути "Слухаю" (для всіх протоколів)
+Увімкнути "Слухаю" (для всіх протоколів)
 [<Unknown>]
 <Невідомо>
 [<Nothing is playing now>]

@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
-Забороняє збереження історії повідомлень в Miranda NG.
+Забороняє збереження історії повідомлень у Miranda NG.
 [Keep history for this contact]
 Зберігати історію контакту
 [Disable history for this contact]
@@ -16,7 +16,7 @@
 [Clear History]
 Очистити історію
 [Enable History]
-Ввімкнути історію
+Увімкнути історію
 [Disable History]
 Вимкнути історію
 [History Enabled]
@@ -26,7 +26,7 @@
 [Disable]
 Вимкнути
 [Enable]
-Ввімкнути
+Увімкнути
 [Clear]
 Очистити
 [No History]

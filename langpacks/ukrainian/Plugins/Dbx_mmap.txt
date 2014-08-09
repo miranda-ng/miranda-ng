@@ -8,7 +8,7 @@
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів тощо.
 [Login to Miranda NG]
-Вхід в Miranda NG
+Вхід у Miranda NG
 [Cancel]
 Скасувати
 [New password]
@@ -60,7 +60,7 @@
 [Too many errors!]
 Дуже багато помилок!
 [Password is not correct!]
-Невірний пароль!
+Неправильний пароль!
 [Please type in your password]
 Будь ласка, введіть ваш пароль
 [Wrong old password entered!]
@@ -90,7 +90,7 @@
 [Error reading, database truncated? (%u)]
 Помилка при читанні, бази даних пошкоджена? (%u)
 [Can't write to working file, aggressive mode may be too aggressive now]
-Неможливо записати у робочий файл, агресивний режим може бути занадто агресивним
+Неможливо записати в робочий файл, агресивний режим може бути занадто агресивним
 [Can't write to output file - disk full? (%u)]
 Неможливо записати у файл - диск переповнений? (%u)
 [Event count marked wrongly: correcting]

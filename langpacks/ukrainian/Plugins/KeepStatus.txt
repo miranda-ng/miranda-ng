@@ -190,7 +190,7 @@
 [Accounts]
 Облікові записи
 [Enable checking]
-Ввімкнути перевірку
+Увімкнути перевірку
 [Disable checking]
 Вимкнути перевірку
 [Set status message]

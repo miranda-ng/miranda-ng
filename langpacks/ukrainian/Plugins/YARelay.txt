@@ -10,7 +10,7 @@
 [Forward messages from...]
 Переадресація повідомлень від...
 [Everyone]
-Всіх
+Усіх
 [Contact]
 Контакт
 [Forward when your status is...]
@@ -18,7 +18,7 @@
 [Offline]
 Не в мережі
 [Online]
-У мережі
+В мережі
 [Away]
 Відсутній
 [NA]
@@ -56,7 +56,7 @@
 [Note: messages from this contact will not be forwarded]
 Примітка: повідомлення від цього контакту не будуть переадресовані
 [!EVERYONE!]
-!ВСІМ!
+!УСІМ!
 [!DON'T FORWARD!]
 !НЕ ПЕРЕСИЛАТИ!
 [Message Sessions]

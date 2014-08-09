@@ -48,7 +48,7 @@
 [Delay]
 Затримка
 [From Popup plugin]
-З плагіну сплив. викон
+З плагіна сплив. вікон
 [Custom]
 Обрані
 [Permanent]
@@ -84,15 +84,15 @@
 [History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 Історія зберігається в БД Miranda. Вона може бути відображена вбудованим переглядачем або плагіном History++
 [All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
-Всі аватари зберігаються як <Профіль>\\Avatars History\\<Хеш Аватара>
+Усі аватари зберігаються як <Профіль>\\Avatars History\\<Хеш аватара>
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
-Всі аватари зберігаються як <Профіль>\\Avatars History\\<Протокол>\\<Хеш Аватара>
+Усі аватари зберігаються як <Профіль>\\Avatars History\\<Протокол>\\<Хеш аватара>
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
-Всі аватари зберігаються як <Профіль>\\Avatars History\\<Протокол>\\<Хеш аватара> і мають ярлик в історії <Профіль>\\Avatars History\\<Протокол>\\<ID контакту>\\<Час>
+Усі аватари зберігаються як <Профіль>\\Avatars History\\<Протокол>\\<Хеш аватара> і мають ярлик в історії <Профіль>\\Avatars History\\<Протокол>\\<ID контакту>\\<Час>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 Історія зберігається тільки на диск. Її можна переглянути вбудованим переглядачем.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
-Всі аватари зберігаються як <Профіль>\\Avatars History\\<Протокол>\\<ID контакту>\\<час> (однакові аватари можуть бути збережені кілька разів)
+Усі аватари зберігаються як <Профіль>\\Avatars History\\<Протокол>\\<ID контакту>\\<час> (однакові аватари можуть бути збережені кілька разів)
 [Avatar History for %s]
 Історія аватарів для %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]

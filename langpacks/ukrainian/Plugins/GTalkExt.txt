@@ -10,19 +10,19 @@
 [Popup notifications (needs popup plugin)]
 Спливаючі сповіщення (потрібен плагін спливаючих вікон)
 [Notify in fullscreen mode too]
-Також сповіщати у повноекранному режимі
+Також сповіщати в повноекранному режимі
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Використовуйте це якщо ваш плагін спливаючих вікон неправильно визначає повноекранний режим. Він забере у вас фокус вводу.
 [Notify in contact list]
-Сповіщати у списку контактів
+Сповіщати в списку контактів
 [Clear pseudocontact history before adding new events]
 Очищати історію псевдоконтакта перед додаванням нових подій
 [Mark history event read when popup closed]
 Закриваючи спливаюче вікно, позначати подію прочитаною
 [Add message snip to notification]
-Додавати у сповіщення фрагмент листа
+Додавати в сповіщення фрагмент листа
 [Try to login before open mailbox]
-Намагатися увійти перед переходом в поштову скриньку
+Намагатися ввійти перед переходом у поштову скриньку
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
 Це працює тільки якщо пароль збережений в БД. Не впливає на посилання в журналі повідомлень псевдоконтакта.
 [Choose GMail view you use in web interface]

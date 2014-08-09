@@ -20,7 +20,7 @@
 [px.]
 пікс.
 [Hide for transparent avatars]
-Приховати для прозорих аватарів
+Сховати для прозорих аватарів
 [Use system colors and fonts]
 Системні кольори і шрифти
 [Hotkey shows menu centered on screen]

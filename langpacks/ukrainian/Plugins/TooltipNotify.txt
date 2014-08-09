@@ -40,7 +40,7 @@
 [ms]
 мс
 [Duration x2 upon online event]
-В 2 рази довша для "У мережі"
+У 2 рази довша для "В мережі"
 [Double click on tooltip]
 Двічі клацніть по підказці
 [Shows/Hides contact list]
@@ -52,7 +52,7 @@
 [Misc]
 Інше
 [Obey 'Suppress online notification' settings]
-Ввімкнути тимчасову заборону сповіщень
+Увімкнути тимчасову заборону сповіщень
 [Auto positioning]
 Автопозиция
 [Transparent input]

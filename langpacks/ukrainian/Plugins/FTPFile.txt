@@ -40,7 +40,7 @@
 [Autosend download link to contact]
 Автоматично надсилати посилання
 [Menu items]
-Пункти у меню
+Пункти в меню
 [Use submenu (restart required)]
 Використовувати підменю (потрібне перезавантаження)
 [Hide inactive accounts]
@@ -104,7 +104,7 @@
 [Cancel]
 Скасувати
 [File exists]
-Файл вже існує
+Файл уже існує
 [Rename]
 Перейменувати
 [Overwrite]
@@ -128,9 +128,9 @@
 [Copy Link to Clipboard]
 Копіювати посилання в буфер обміну
 [%d minutes]
-%d хв.
+%d хв
 [%d hours]
-%d год.
+%d год
 [%d days]
 %d днів
 [Do you really want to cancel all running jobs?]
@@ -146,7 +146,7 @@ FTP-сервер 4
 [FTP Server 5]
 FTP-сервер 5
 [Send file]
-Передати файл
+Надіслати файл
 [Resume]
 Продовжити
 [FTP File]
@@ -208,7 +208,7 @@ FTP-сервер 5
 [Status: %s\r\nFile: %s\r\nServer: %s]
 Статус: %s\r\nФайл: %s\r\nСервер: %s
 [File exists - %s]
-Файл вже існує - %s
+Файл уже існує - %s
 [Error occurred when opening local file.\nAborting file upload...]
 Неможливо відкрити локальний файл.\nЗавантаження припиняється...
 [Error occurred when initializing libcurl.\nAborting file upload...]

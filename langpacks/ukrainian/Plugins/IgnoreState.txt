@@ -6,7 +6,7 @@
 ;  Authors: Kildor
 ;============================================================
 [Shows ignore state of contact in contact list.]
-Показує стан ігнорування контакта у списку контактів.
+Показує стан ігнорування контакта в списку контактів.
 [Plugin settings]
 Налаштування
 [Filtered events:]
@@ -14,7 +14,7 @@
 [Use Miranda ignore settings for All Contacts]
 Використовувати налаштування ігнорування Miranda NG для всіх контактів
 [All]
-Всі
+Усі
 [Messages]
 Повідомлення
 [URL]

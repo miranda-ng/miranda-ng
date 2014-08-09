@@ -104,7 +104,7 @@
 [Export Feeds]
 Експорт каналів
 [Auto Update Enabled]
-Автооновлення увімкнено
+Автооновлення ввімкнено
 [Auto Update Disabled]
 Автооновлення вимкнено
 [Check feed]
@@ -150,7 +150,7 @@ URL сторінки з коментарями до новини.
 [Avatars]
 Аватари
 [Enable/disable auto update]
-Увімк./Вимк. автооновлення
+Увімк./вимк. автооновлення
 [NewsAggregator HTTP connection]
 HTTP-з'єднання каналів новин
 [Feed]

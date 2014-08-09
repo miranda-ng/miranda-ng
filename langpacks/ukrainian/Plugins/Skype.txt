@@ -8,7 +8,7 @@
 [Skype protocol support for Miranda NG.]
 Підтримка протоколу Skype в Miranda NG.
 [Invite contacts to conference]
-Запросити у конференцію
+Запросити в конференцію
 [Skype name:]
 Логін Skype:
 [&Invite]
@@ -116,7 +116,7 @@
 [Allow IMs from...]
 Дозволити миттєві повідомлення від...
 [Anyone]
-Всіх
+Усіх
 [People in my Contact list only]
 Користувачів з мого списку контактів
 [Allow calls from...]
@@ -156,7 +156,7 @@ SkypeKit.exe не розпакований.
 [Server is overloaded]
 Сервер перевантажений
 [SkypeKit database already in use]
-База даних SkypeKit вже використовується
+База даних SkypeKit уже використовується
 [Invalid Skype name]
 Неправильний логін Skype
 [Invalid email]
@@ -200,7 +200,7 @@ SkypeKit.exe не розпакований.
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
 Ви не ввели Skype ID.\nВведіть Skype ID в Налаштування -> Мережа -> %s і спробуйте знову.
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
-Ви дійсно хочете заблокувати "%s" (%s)? Заблоковані користувачі не зможуть зв'язатися з вами і не будуть відображатися у списку контактів.
+Ви дійсно хочете заблокувати "%s" (%s)? Заблоковані користувачі не зможуть зв'язатися з вами і не будуть відображатися в списку контактів.
 [Name]
 Ім'я
 [Conferences]
@@ -256,7 +256,7 @@ SkypeKit.exe не розпакований.
 [Hi! I'd like to add you to my contact list]
 Привіт! Я хотів би додати вас у свій список контактів
 [Contact already in your contact list]
-Контакт вже в списку
+Контакт уже в списку
 [Enter a password for %s:]
 Введіть пароль для %s:
 [Password can't be empty.]

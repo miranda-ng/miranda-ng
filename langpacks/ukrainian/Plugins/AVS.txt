@@ -54,7 +54,7 @@
 [Protect the picture]
 Захистити зображення
 [Set as hidden]
-Приховати
+Сховати
 [Try to make picture background transparent]
 Спробувати зробити фон прозорим
 [Use defaults]

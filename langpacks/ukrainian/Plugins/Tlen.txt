@@ -6,7 +6,7 @@
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
 [Tlen protocol support for Miranda NG.]
-Підтримка протоколу Tlen в Miranda NG.
+Підтримка протоколу Tlen у Miranda NG.
 [Username:]
 Користувач:
 [Password:]
@@ -28,7 +28,7 @@
 [Show offline users with status messages as invisible in contact list]
 Показувати відключених користувачів з повідомленнями статусу як невидимих
 [Enable avatars]
-Ввімкнути аватари
+Увімкнути аватари
 [Send and receive client version information]
 Відправляти і отримувати версії клієнтів
 [Alert policy]
@@ -60,9 +60,9 @@
 [Keep connection alive]
 Підтримувати з'єднання
 [Enable encryption]
-Ввімкнути шифрування
+Увімкнути шифрування
 [Enable Always Visible and Never Visible]
-Ввімк. Завжди видимий і Завжди невидимий
+Увімк. Завжди видимий і Завжди невидимий
 [P2P Connections]
 З'єднання P2P
 [Use proxy for incoming connections]
@@ -76,7 +76,7 @@
 [Mail Notification]
 Сповіщення про пошту
 [Enable incoming mail notification]
-Ввімк. сповіщення про вхідну пошту
+Увімк. сповіщення про вхідну пошту
 [Colors]
 Кольори
 [Background]
@@ -228,7 +228,7 @@
 [Network]
 Мережа
 [These changes will take effect the next time you connect to the Tlen network.]
-Зміни вступлять в силу при наступному вході в мережу Tlen.
+Зміни вступлять у силу при наступному вході в мережу Tlen.
 [Tlen Protocol Option]
 Налаштування протоколу Tlen
 [Accept all alerts]

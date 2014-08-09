@@ -8,7 +8,7 @@
 [Anti-spam plugin with captcha and Bayes filtering.]
 Антиспам з капчею та Байєсівською фільтрацією.
 [Enabled]
-Ввімкнений
+Увімкнений
 [Learned ham messages:]
 Не спам повідомлень у базі:
 [Learned spam messages:]
@@ -44,7 +44,7 @@
 [Settings]
 Налаштування
 [Enabled accounts:]
-Ввімкнути для:
+Увімкнути для:
 [Auto approve on:]
 Автопідтвердження при:
 [Outgoing message]
@@ -78,7 +78,7 @@
 [Send challenge on incoming message:]
 Надсилати запитання при вхідному повідомленні:
 [Responses: (saved in %response%, %response-n% variables)]
-Відповіді: (знаходяться в змінних %response%, %response-n%)
+Відповіді (знаходяться в змінних %response%, %response-n%):
 [Reply on success:]
 Сповіщати при підтвердженні:
 [Send challenge on authorization request:]
@@ -90,7 +90,7 @@
 [Reset to defaults]
 За замовчанням
 [Enable popup notifications]
-Ввімк. сповіщення у спливаючих вікнах
+Увімк. сповіщення в спливаючих вікнах
 [Appearance]
 Зовнішній вигляд
 [Foreground]
@@ -162,7 +162,7 @@
 [Message from %s dropped because it has a word from black list.]
 Повідомлення від %s заблоковано, оскільки містить слово з чорного списку.
 [Message from %s dropped because of high spam score.]
-Повідомлення від %s заблоковано, тому що у нього висока ймовірність спаму.
+Повідомлення від %s заблоковано, тому що в нього висока ймовірність спаму.
 [Sending plain challenge to %s.]
 Відправка контрольного питання %s.
 [Sending round-robin challenge to %s.]

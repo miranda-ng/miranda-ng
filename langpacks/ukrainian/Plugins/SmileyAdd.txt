@@ -6,7 +6,7 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
-Підтримка смайлів в Miranda NG.
+Підтримка смайлів у Miranda NG.
 [Smiley categories]
 Категорії смайлів
 [Specify smiley pack for each category]
@@ -46,7 +46,7 @@
 [Input area]
 Поле вводу
 [Enable smileys]
-Ввімкнути смайли
+Увімкнути смайли
 [Don't replace at cursor]
 Не замінювати під курсором
 [Built-in message dialog support]
@@ -94,6 +94,6 @@ HTTP-з'єднання SmileyAdd
 [Standard]
 Стандартні
 [Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
-Регулярний вираз "%s" у наборі смайлів "%s" може виводити "порожнє значення".
+Регулярний вираз "%s" в наборі смайлів "%s" може виводити "порожнє значення".
 [Regular expression "%s" in smiley pack "%s" malformed.]
-Помилковий регулярний вираз "%s" у наборі смайлів "%s".
+Помилковий регулярний вираз "%s" в наборі смайлів "%s".

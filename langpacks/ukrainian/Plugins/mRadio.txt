@@ -106,7 +106,7 @@ BASS.DLL не знайдено!
 [Station]
 Станція
 [Custom INI file]
-Користувальницький INI-файл
+Користувацький INI-файл
 [Radio station URL]
 URL-адреса радіостанції
 [Start record]
@@ -160,7 +160,7 @@ URL станції/плейлиста
 [Tries to connect]
 Спроб підключення
 [Mute]
-Ввімк./Вимк. звук
+Увімк./вимк. звук
 [mRadio volume control]
 Рівень гучності mRadio
 [mRadio off]

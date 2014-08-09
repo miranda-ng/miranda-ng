@@ -88,11 +88,11 @@ TCP-з'єднання
 [Graph]
 Граф
 [Enable]
-Ввімкнено
+Увімкнено
 [Disable all pings]
 Вимкнути всі пінги
 [Enable all pings]
-Ввімкнути всі пінги
+Увімкнути всі пінги
 [Options...]
 Налаштування...
 [Hosts...]
@@ -108,7 +108,7 @@ TCP-з'єднання
 [<none>]
 <немає>
 [<all>]
-<всі>
+<усі>
 [Settings]
 Налаштування
 [Hosts]
@@ -142,7 +142,7 @@ TCP-з'єднання
 [Disable]
 Вимкнути
 [enabled]
-ввімкнений
+увімкнений
 [double clicked]
 подвійне натискання
 [Show/Hide &Ping Window]

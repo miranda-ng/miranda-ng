@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-Підтримка протоколу AOL Instant Messenger (AIM) в Miranda NG.
+Підтримка протоколу AOL Instant Messenger (AIM) у Miranda NG.
 [AIM User Details]
 AIM Деталі користувача
 [Screen Name:]
@@ -74,9 +74,9 @@ AIM Встановити Instant Idle
 [Users who can contact me:]
 Хто може зв'язатися зі мною:
 [Allow all users]
-Всі користувачі
+Усі користувачі
 [Allow only users on contact list]
-Всі з мого списку контактів
+Усі з мого списку контактів
 [Allow only users below]
 Тільки зі списку нижче
 [Block all users]
@@ -92,7 +92,7 @@ AIM Встановити Instant Idle
 [Allow contacts to be notified of:]
 Сповіщати користувачів про:
 [Join Chat Room]
-Зайти у чат
+Зайти в чат
 [Chat Room]
 Чат
 [&Join]

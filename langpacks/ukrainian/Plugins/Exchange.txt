@@ -40,7 +40,7 @@
 [times before giving up]
 разів до відмови
 [Show email notifications using popup module]
-Сповіщати про пошту у спливаючих вікнах
+Сповіщати про пошту в спливаючих вікнах
 [Entry ID]
 ID запису
 [Subject]

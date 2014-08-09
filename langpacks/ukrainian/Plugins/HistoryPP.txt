@@ -126,7 +126,7 @@ WATrack: запит заборонений
 [Search any word]
 Шукати будь-яке слово
 [Search all words]
-Шукати усі слова
+Шукати всі слова
 [Search exact phrase]
 Шукати точний вираз
 [Include password-protected contacts]
@@ -164,7 +164,7 @@ WATrack: запит заборонений
 [%.0n items in %d contacts found. Searched for %.1f sec in %.0n items.]
 Знайдено %.0n записів у %d контактах за %.1f секунд у %.0n записах.
 [All Results]
-Всі результати
+Усі результати
 [&System History]
 Сис&темна історія
 [System History]
@@ -238,7 +238,7 @@ WATrack: запит заборонений
 [Open &Link]
 Відкрити &посилання
 [Open Link in New &Window]
-Відкрити посилання у новому &вікні
+Відкрити посилання в новому &вікні
 [Open &File]
 Відкрити &файл
 [Open File Fo&lder]
@@ -248,7 +248,7 @@ WATrack: запит заборонений
 [Export as &HTML...]
 Експортувати в &HTML...
 [Export as &XML...]
-Експортувати у &XML...
+Експортувати в &XML...
 [Export as &RTF...]
 Експортувати в &RTF...
 [Export as &mContacts...]
@@ -284,7 +284,7 @@ WATrack: запит заборонений
 [%0.n events (%s)]
 %0.n подій (%s)
 [Enable &Processing]
-Ввімкнути обробку
+Увімкнути обробку
 [Do you really want to delete ALL items (%.0f) for this contact?]
 Видалити ВСІ записи (%.0f) для цього контакту?
 [Note: It can take several minutes for large history.]
@@ -348,15 +348,15 @@ Email Express від %s (%s): %s
 [Broadcast message from %s (%s): %s]
 Широкомовне повідомлення від %s (%s): %s
 [All except status]
-Всі, крім статусу
+Усі, крім статусу
 [Show all events]
-Всі події
+Усі події
 [Avatar changes]
 Зміни аватарів
 [All except changes]
-Всі, крім змін
+Усі, крім змін
 [All except system]
-Всі, крім системних
+Усі, крім системних
 [Other events (unknown)]
 Інші події (невідомо)
 [Webpager message]
@@ -380,7 +380,7 @@ Enter для подробиць події
 [History search]
 Пошук в історії
 [Search All Results]
-Всі результати
+Усі результати
 [Bookmark enabled]
 Закладка є
 [Bookmark disabled]
@@ -530,7 +530,7 @@ Enter для подробиць події
 [(time and date)]
 (дата і час)
 [All Items]
-Всі події
+Усі події
 [and]
 і
 [Authorization Request by %s (%s%s%d): %s]
@@ -680,7 +680,7 @@ Wiki-сторінка додаткових параметрів
 [Outgoing timestamp]
 Вихідний час
 [Open in &new window]
-Відкрити у &новому вікні
+Відкрити в &новому вікні
 [Open in existing &window]
 &Відкрити в існуючому вікні
 [Copy &Link]

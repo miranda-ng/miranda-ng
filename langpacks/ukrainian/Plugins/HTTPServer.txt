@@ -38,7 +38,7 @@ IP-адреса 2
 [Write log file]
 Записувати журнал
 [Enable / Disable HTTP server]
-Ввімк./Вимк. HTTP-сервер
+Увімк./вимк. HTTP-сервер
 [Main menu items]
 Елементи головного меню
 [Open log]
@@ -86,7 +86,7 @@ IP-адреса 2
 [Share Current Directory]
 Розшарити поточку папку
 [All files]
-Всі файли
+Усі файли
 [Specify a file to share]
 Файл для доступу
 [Failed to share new file]
@@ -136,8 +136,8 @@ HTTP Новий розшарений файл
 [Failed to write xml header to file ]
 Помилка запису в заголовок XML файлу\s
 [Failed to write xml data to file ]
-Помилка запису у XML файл\s
+Помилка запису в XML файл\s
 [Disable HTTP server]
 Вимкнути HTTP-сервер
 [Enable HTTP server]
-Ввімкнути HTTP-сервер
+Увімкнути HTTP-сервер

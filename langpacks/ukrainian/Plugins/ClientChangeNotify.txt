@@ -16,7 +16,7 @@
 [Don't remind me anymore]
 Більше не нагадувати
 [Enable notification]
-Ввімкнути сповіщення
+Увімкнути сповіщення
 [Show previous client name]
 Показувати попереднє ім'я клієнта
 [Notify also when just client version changes]
@@ -51,8 +51,6 @@
 Тест
 [Ignore these clients (separated by semicolons):]
 Ігнорувати ці клієнти (через крапку з комою):
-[(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
-(встановіть pcre.dll або pcre3.dll щоб використовувати тут регулярні вирази)
 [changed client to %s (was %s)]
 змінив клієнт на %s (був %s)
 [changed client to %s]
@@ -62,7 +60,7 @@
 [Disable c&lient change notification]
 Вимкнути сповіщення про зміну к&лієнта
 [Enable c&lient change notification]
-Ввімкнути сповіщення про зміну клієнта
+Увімкнути сповіщення про зміну клієнта
 [Popups]
 Спливаючі вікна
 [ClientChangeNotify: Client changed]

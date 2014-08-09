@@ -28,7 +28,7 @@
 [You can choose the Miranda profile database to compact or repair.]
 Виберіть профіль Miranda NG для стиснення або відновлення.
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-Виберіть профіль бази зі списку. Якщо його немає у списку, натисніть "Ще..." для пошуку на комп'ютері.
+Виберіть профіль бази зі списку. Якщо його немає в списку, натисніть "Ще..." для пошуку на комп'ютері.
 [&File:]
 Файл:
 [&Other...]
@@ -68,7 +68,7 @@
 [Mark all events read]
 Позначити як прочитані
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
-Позначити усі події як прочитані. Це виправить проблеми зі старими повідомленнями, які завжди відображаються у вікні повідомлень.
+Позначити всі події як прочитані. Це виправить проблеми зі старими повідомленнями, які завжди відображаються у вікні повідомлень.
 [Convert old Unicode messages to UTF8]
 Конвертувати старі Unicode повідомлення в UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
@@ -80,7 +80,7 @@
 [Finished!]
 Закінчено
 [All tasks have been completed.]
-Всі завдання завершені.
+Усі завдання завершені.
 [Launch Miranda with this profile]
 Запустити Miranda NG з цим профілем
 [Launches Miranda with the profile that was just worked on.]
@@ -136,6 +136,6 @@
 [Elapsed time: %d sec]
 Витрачено часу: %d с
 [All tasks completed but with errors (%d)]
-Всі завдання завершені, але %d з помилками
+Усі завдання завершені, але %d з помилками
 [All tasks completed successfully]
-Всі завдання завершені
+Усі завдання завершені

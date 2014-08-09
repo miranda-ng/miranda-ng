@@ -60,7 +60,7 @@
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
 Цей список містить заблокованих користувачів. Ви можете видалити одного, що дозволить йому надсилати вам повідомлення.
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
-Ви можете заблокувати кого-небудь просто клацнувши правою кнопкою по користувачеві у списку контактів.
+Ви можете заблокувати кого-небудь просто клацнувши правою кнопкою по користувачеві в списку контактів.
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Цей файл використовується для пошуку і виявлення ігор. Файл містить підтримувані ігри Xfire.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
@@ -193,6 +193,8 @@ IP сервера
 Протокол Xfire
 [Buddy start a game]
 Початок гри
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
+Ви запустили плагін уперше. Завантажити xfire_games.ini та icons.dll?\r\nБез xfire_games.ini неможливе виявлення встановлених ігор.
 [&XFire Online Profile]
 &Онлайн-профіль XFire
 [XFire &Clan Site]
@@ -251,6 +253,8 @@ XFire не підтримує надсилання офлайн-повідомл
 Аватари
 [Disable avatars]
 Вимкнути аватари
+[Don't download avatars of clan members]
+Не завантажувати аватари гравців з клану
 [Use alternate way for Avatar download]
 Використовувати альтернативний шлях скачування аватарів
 [General]
@@ -258,11 +262,11 @@ XFire не підтримує надсилання офлайн-повідомл
 [Automatically reconnect on protocol version changes]
 Автоматично перепідключатися при зміні версії протоколу
 [No IP/Port in StatusMsg]
-Не показувати IP/Port в статусних повідомленнях
+Не показувати IP/Port у статусних повідомленнях
 [Use Online status for unsupported global statuses]
 Використовувати статус "В мережі" для непідтримуваних глобальних статусів
 [Don't move friends to clan groups]
-Не переміщати друзів в групу клану
+Не переміщати друзів у групу клану
 [GameServerQuery support]
 Підтримка GameServerQuery
 [No custom away message]
@@ -327,6 +331,8 @@ XFire не підтримує надсилання офлайн-повідомл
 Помилка: невідомий ID гри.
 [Not supported]
 Не підтримується
+[Configuration saved!]
+Налаштування збережено!
 [Network]
 Мережа
 [Account]

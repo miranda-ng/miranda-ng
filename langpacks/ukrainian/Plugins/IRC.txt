@@ -6,7 +6,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-Підтримка протоколу Internet Relay Chat (IRC) в Miranda NG.
+Підтримка протоколу Internet Relay Chat (IRC) у Miranda NG.
 [Default network]
 Мережа за замовчанням
 [Enable]
@@ -14,7 +14,7 @@
 [Server name]
 Ім'я сервера
 [Internet address]
-Адреса у мережі
+Адреса в мережі
 [Port range]
 Діапазон портів
 [Password]
@@ -46,7 +46,7 @@ ID користувача
 [Other]
 Інше
 [Force visible (-i)]
-Ввімкнути видимість (-i)
+Увімкнути видимість (-i)
 [Rejoin channel if kicked]
 Перезайти після стусана
 [Rejoin channels on reconnect]
@@ -126,11 +126,11 @@ ID користувача
 [Server code page:]
 Кодова сторінка сервера:
 [Enable UTF8 autodetection]
-Ввімкнути автоматичне UTF8
+Увімкнути автоматичне UTF8
 [Add server]
 Додати сервер
 [On]
-Ввімк.
+Увімк.
 [Auto]
 Авто
 [Off]
@@ -208,7 +208,7 @@ Wildcard пошук по мережі
 [everyone on the contact list]
 у списку
 [everyone]
-всіх
+усіх
 [Disconnect DCC chats when disconnecting from server]
 Відключати DCC-чати при виході з сервера
 [Manually set external IP:]
@@ -342,7 +342,7 @@ DCC: Запит на продовження закачування файлу в
 [IRC Error]
 Помилка IRC
 [The buddy check function is enabled]
-Функція перевірки приятелів ввімкнена
+Функція перевірки приятелів увімкнена
 [The buddy check function is disabled]
 Функція перевірки приятелів вимкнена
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
@@ -468,7 +468,7 @@ DCC-запит на передачу файлу надісланий %s [%s]
 [Korean (Johab)]
 Корейська (Johab)
 [Please complete all fields]
-Заповніть всі поля
+Заповніть усі поля
 [Add a new network]
 Додати мережу
 [Edit this network]
@@ -578,9 +578,9 @@ WallOps від %s:\s
 [Please enter a unique nickname]
 Введіть унікальний нік
 [Please enter your authentication code]
-Введіть код автентифікації
+Введіть код аутентифікації
 [Authenticate nick]
-Автентифікувати
+Аутентифікувати
 [Are you sure you want to unregister your current nick?]
 Ви впевнені, що хочете видалити ваш нік?
 [Delete nick]
@@ -662,13 +662,13 @@ WallOps від %s:\s
 [Kill unauthorized: off]
 Вбити заборонених: вимк.
 [Kill unauthorized: on]
-Вбити заборонених: ввімк.
+Вбити заборонених: увімк.
 [Kill unauthorized: quick]
 Вбити заборонених: швидко
 [Hide nick from list]
 Сховати нік у списку
 [Show nick to list]
-Показати у списку
+Показати в списку
 [Show the server &window]
 Показати вікно сервера
 [&Leave the channel]

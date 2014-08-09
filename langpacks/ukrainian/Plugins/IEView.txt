@@ -30,7 +30,7 @@
 [Enable support for Flash files in smileys and BBCodes]
 Підтримка flash-файлів (*.swf) у смайлах і BB-кодах
 [Enable workaround for PNG transparency]
-Ввімкнути прозорість для PNG
+Увімкнути прозорість для PNG
 [Replace smileys in user names]
 Смайли в іменах
 [Hide window border]

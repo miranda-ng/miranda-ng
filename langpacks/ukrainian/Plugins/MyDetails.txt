@@ -20,7 +20,7 @@
 [Auto-resize frame]
 Вирівнювати фрейм
 [Use contact list smileys]
-Смайли у списку контактів
+Смайли в списку контактів
 [Replace smileys]
 Замінювати смайли
 [Resize smileys]
@@ -102,7 +102,7 @@
 [Set my status message...]
 Змінити статусне повідомлення...
 [Enable listening to]
-Ввімкнути "Слухаю"
+Увімкнути "Слухаю"
 [Show next account]
 Наступний обліковий запис
 [Show previous account]
@@ -130,7 +130,7 @@
 [Show my details]
 Показати мої деталі
 [Enable listening to for %s]
-Ввімкнути "Слухаю" для %s
+Увімкнути "Слухаю" для %s
 [Set my avatar for %s...]
 Змінити мій аватар для %s...
 [Set my nickname for %s...]

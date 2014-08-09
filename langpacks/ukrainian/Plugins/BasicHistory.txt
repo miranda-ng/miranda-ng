@@ -14,7 +14,7 @@
 [Always show contact list]
 Завжди показувати список контактів
 [Show groups in contact list]
-Показувати групи у списку контактів
+Показувати групи в списку контактів
 [Do not show Find control border]
 Не показувати рамку рядка пошуку
 [Default Event Filter]
@@ -56,7 +56,7 @@
 [Show seconds in timestamps]
 Показувати секунди
 [Enable Smileys]
-Ввімкнути смайли
+Увімкнути смайли
 [Search forward in list group]
 Шукати далі в групі
 [Search forward in message window]
@@ -72,7 +72,7 @@
 [Only Selected Group]
 Тільки вибрана група
 [All Contacts]
-Всі контакти
+Усі контакти
 [Export To Txt]
 Експорт в текст
 [File encoding*]
@@ -154,7 +154,7 @@
 [Show Contacts]
 Показати контакти
 [Hide Contacts]
-Приховати контакти
+Сховати контакти
 [Find Next]
 Знайти далі
 [Find Previous]
@@ -166,7 +166,7 @@
 [History]
 Історія
 [All events]
-Всі події
+Усі події
 [Default history events]
 Події за замовчанням
 [History for %s]
@@ -194,7 +194,7 @@
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Ви дійсно хочете видалити всі імпортовані повідомлення для цього контакту?\nПримітка: наступне завдання планувача імпортує ці повідомлення знову.
 [Open in &new window]
-&Відкрити у новому вікні
+&Відкрити в новому вікні
 [&Open in existing window]
 Відкрити в &поточному вікні
 [&Copy link]
@@ -234,7 +234,7 @@ dat (плагін mContacts)
 [Save window position for all contacts]
 Зберегти положення вікна для всіх контактів
 [Do you want to save imported messages to local profile?]
-Ви хочете зберегти імпортовані повідомлення у локальний профіль?
+Ви хочете зберегти імпортовані повідомлення в локальний профіль?
 [File contains history for different contact. Do you want to change contact and import?]
 Файл містить історію для іншого контакту. Хочете змінити контакт і імпорт?
 [Error]
@@ -300,7 +300,7 @@ dat (плагін mContacts)
 [Switch Match Whole Word]
 Слово цілком
 [Show/Hide Contacts]
-Показати/приховати контакти
+Показати/сховати контакти
 [Switch Only Incoming Messages]
 Тільки вхідні повідомлення
 [Switch Only Outgoing Messages]
@@ -308,9 +308,9 @@ dat (плагін mContacts)
 [Switch Only Selected Group]
 Тільки вибрані групи
 [Switch All Contacts]
-Всі контакти
+Усі контакти
 [Export To Binary]
-Експорт в двійковий файл
+Експорт у двійковий файл
 [Import From Binary]
 Імпорт з двійкового файлу
 [Export To Dat (mContacts)]
@@ -324,7 +324,7 @@ dat (плагін mContacts)
 [Outgoing events]
 Вихідні події
 [File does not exist. Enter correct file path.]
-Файл відсутній. Введіть вірний шлях до файлу.
+Файл відсутній. Вкажіть правильний шлях до файлу.
 [Invalid file]
 Неправильний файл
 [All Files (*.*)]
@@ -340,9 +340,9 @@ dat (плагін mContacts)
 [Save WinSCP log file]
 Зберегти журнал WinSCP у файл
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-Ви ввели невірну кодову сторінку. Виберіть кодову сторінку з випадаючого списку або введіть правильне ім'я.
+Ви ввели неправильну кодову сторінку. Виберіть кодову сторінку з випадаючого списку або введіть правильне ім'я.
 [Invalid codepage]
-Невірна кодова сторінка
+Неправильна кодова сторінка
 [Browse CSS file]
 Вибрати CSS файл
 [Export and Delete]
@@ -424,7 +424,7 @@ dat (плагін mContacts)
 [Path to output file]
 Шлях до файлу
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
-Щоб створити сесію, відкрийте WinSCP, натисніть "Нова сесія", введіть дату та збережіть під певним ім'ям. Пам'ятайте, якщо FTP-сервер використовує пароль, то ви повинні зберегти його в WinSCP.
+Щоб створити сесію, відкрийте WinSCP, натисніть "Нова сесія", введіть дату та збережіть під певним ім'ям. Пам'ятайте, якщо FTP-сервер використовує пароль, то ви повинні зберегти його у WinSCP.
 [Path to file]
 Шлях до файлу
 [FTP path must contain '/' instead '\\' and start with '/'.]

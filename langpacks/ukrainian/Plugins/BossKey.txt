@@ -22,7 +22,7 @@
 [Disable Sounds]
 Вимкнути звуки
 [Show the Tray Icon]
-Показувати значок в треї
+Показувати значок у треї
 [When I return:]
 При поверненні...
 [Request password:]
@@ -46,7 +46,7 @@ Windows не активна
 [Miranda is inactive]
 Програма неактивна
 [min]
-хв.
+хв
 [Miranda is started]
 Програма запускається
 [Others]

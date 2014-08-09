@@ -58,12 +58,12 @@
 [Disable sounds]
 Вимкнути звуки
 [Enable sounds]
-Ввімкнути звуки
+Увімкнути звуки
 [Frame background]
 Фон
 [Bass library]
 Бібліотека BASS
 [Sounds enabled]
-Звук ввімкнено
+Звук увімкнено
 [Sounds disabled]
 Звук вимкнено

@@ -100,9 +100,9 @@
 [Downloading update...]
 Завантаження оновлення...
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Завантаження завершені. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
+Завантаження завершені. Приступити до оновлення? Усі дані будуть збережені, а Miranda NG закрита.
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Завантаження завершено. Приступити до оновлення? Всі дані будуть збережені, а Miranda NG закрита.
+Завантаження завершено. Приступити до оновлення? Усі дані будуть збережені, а Miranda NG закрита.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Ви відмовилися від негайної установки оновлення збірки.\nВи можете встановити це оновлення вручну звідси:\n\n%s
 [Close popup]

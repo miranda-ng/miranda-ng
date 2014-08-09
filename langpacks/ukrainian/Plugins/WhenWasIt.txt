@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
-Сповіщення про дні народження.
+Нагадування про майбутні дні народження.
 [Notify of birthdays:]
 Нагадувати про дні народження:
 [Popups]
@@ -56,7 +56,7 @@
 [seconds]
 секунд
 [Notify for]
-Сповіщення
+Нагадування
 [afterwards]
 після
 [In background]
@@ -100,15 +100,15 @@
 [Message window]
 Вікно повідомлення
 [All contacts]
-Всі контакти
+Усі контакти
 [All contacts except hidden ones]
-Всі, крім прихованих
+Усі, крім прихованих
 [All contacts except ignored ones]
-Всі, крім ігнорованих
+Усі, крім ігнорованих
 [All contacts except hidden and ignored ones]
-Всі, крім прихованих і ігнорованих
+Усі, крім прихованих і ігнорованих
 [Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
-Встановлює затримку сповіщення про наближення ДН.\nФормат: затримка за замовчанням [ | затримка для ДН сьогодні]
+Встановлює затримку нагадування про наближення ДН.\nФормат: затримка за замовчанням [ | затримка для ДН сьогодні]
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 Виберіть плагін зберігання днів народжень.\r\n"UserInfo" за замовчанням.\r\nВик. "Плагін протоколу" щоб бачити дані в даних контакту\n"mBirthday" зберігає так само, як і плагін mBirthday
 [Set birthday for %s:]
@@ -216,7 +216,7 @@
 [Done importing birthdays]
 Імпорт завершено
 [All Files]
-Всі файли
+Усі файли
 [Please select a file to export birthdays to...]
 Виберіть файл для експорту днів народження
 [Exporting birthdays to file: %s]

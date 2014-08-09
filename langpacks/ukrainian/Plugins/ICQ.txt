@@ -62,7 +62,7 @@
 [Manage server's list...]
 Керування списком...
 [Enable server-side contact lists *]
-Використовувати список на сервері *
+Використовувати список контактів на сервері *
 [Add contacts to the server's list when I add them to mine]
 Додавати контакти на сервер, коли я додаю їх до свого списку
 [Update my contacts' details from the server *]
@@ -78,11 +78,11 @@
 [Load avatars automatically (like ICQ Lite)]
 Завантажувати аватари автоматично (як ICQ Lite)
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Зміни вступлять в силу при наступному вході в мережу ICQ.
+Зміни вступлять у силу при наступному вході в мережу ICQ.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
-Неможливо увімкнути/вимкнути список на сервері під час підключення до мережі ICQ.
+Неможливо ввімкнути/вимкнути зберігання списку контактів на сервері під час підключення до мережі ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
-Примітка: налаштування, відмічені зірочкою, мають побічні ефекти, які можуть бути не задокументовані в довідці.
+Примітка: налаштування, позначені зірочкою, мають побічні ефекти, які можуть бути не задокументовані в довідці.
 [Messaging]
 Повідомлення
 [Enable unicode messaging support]
@@ -128,7 +128,7 @@
 [Contact List Authorization]
 Авторизація
 [All users may add me to their Contact List]
-Всі користувачі можуть додати мене до списку
+Усі користувачі можуть додати мене до свого списку контактів
 [I want to be asked when someone wants to add me to their Contact List]
 Потрібен мій дозвіл
 [Misc Settings]
@@ -190,7 +190,7 @@
 [Online since:]
 В мережі з:
 [System up since:]
-Ввімкнений з:
+Увімкнений з:
 [Idle since:]
 Простоює з:
 [Status:]
@@ -294,13 +294,13 @@ xСтатус "%s"
 [The server sent warning, this version is getting old.\nTry to look for a new one.]
 Попередження сервера: ця версія клієнта застаріла.\nСпробуйте пошукати нову версію.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
-Невдале з'єднання.\nСервер не прийняв вас з невідомої причини.\nЦе може статися, якщо ваш номер вже підключено.
+Невдале з'єднання.\nСервер не прийняв вас з невідомої причини.\nЦе може статися, якщо ваш номер уже підключено.
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
 Невдале з'єднання.\nБезпечний вхід (MD5) не підтримується для цього облікового запису.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
 Невдале з'єднання.\nНевідома помилка при вході: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
-Сервер закрив з'єднання, тому що ви увійшли з іншого місця, використовуючи цей номер ICQ.
+Сервер закрив з'єднання, тому що ви ввійшли з іншого місця, використовуючи цей номер ICQ.
 [Unknown runtime error: 0x%02x]
 Невідома помилка: 0x%02x
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
@@ -1276,11 +1276,11 @@ Web-дизайн
 [Single]
 Наодинці
 [Close relationships]
-В близьких відносинах
+У близьких відносинах
 [Engaged]
 Заручений(а)
 [Married]
-В шлюбі
+У шлюбі
 [Divorced]
 Розлучений(а)
 [Separated]
@@ -1294,7 +1294,7 @@ Web-дизайн
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Передачу файлів скасовано, тому що один з вибраних файлів не читається з диска. Можливо, його було переміщено або видалено.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
-Передачу файлів скасовано, тому що неможливо відкрити локальний файл на запис. Швидше за все, ви намагаєтесь зберегти файл у папку, де немає права на запис.
+Передачу файлів скасовано, неможливо відкрити локальний файл на запис. Імовірно, ви намагаєтесь зберегти файл у папку, де немає права на запис.
 [Request authorization]
 Запитати авторизацію
 [Grant authorization]
@@ -1308,7 +1308,7 @@ Web-дизайн
 [Open ICQ profile]
 Профіль на сайті ICQ
 [Display all problems]
-Всі проблеми
+Усі проблеми
 [Display problems causing possible loss of data]
 Проблеми з можливою втратою даних
 [Display explanations for disconnection]
@@ -1364,13 +1364,13 @@ Web-дизайн
 [User ID]
 ID користувача
 [You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-Ви не ввели номер ICQ.\nВведіть його у розділі Налаштування -> Мережа -> ICQ і спробуйте знову.
+Ви не ввели номер ICQ.\nВведіть його в розділі Налаштування -> Мережа -> ICQ і спробуйте знову.
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Неможливо встановити SSL-з'єднання з сервером ICQ
 [Unable to connect to ICQ login server]
 Неможливо підключитися до сервера ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Не вдалося виділити порт для з'єднань між клієнтами. Всі функції ICQ будуть доступні, але можливі проблеми з передачею файлів.\n\nЯкщо у вас встановлений брандмауер (firewall), налаштуйте в ньому кілька портів і вкажіть їх в налаштуваннях (Мережа - з'єднання між користувачами).
+Не вдалося виділити порт для з'єднань між клієнтами. Усі функції ICQ будуть доступні, але можливі проблеми з передачею файлів.\n\nЯкщо у вас встановлений брандмауер (firewall), налаштуйте в ньому кілька портів і вкажіть їх в налаштуваннях (Мережа - з'єднання між користувачами).
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Невдале з'єднання.\nПослідовність входу не вдалася з невідомої причини.\nСпробуйте пізніше.
 [Your connection with the ICQ server was abortively closed]
@@ -1382,9 +1382,9 @@ ID користувача
 [NOT FOUND]
 НЕ ЗНАЙДЕНО
 [ALREADY EXISTS]
-ВЖЕ ІСНУЄ
+УЖЕ ІСНУЄ
 [INVALID DATA]
-НЕВІРНІ ДАНІ
+НЕПРАВИЛЬНІ ДАНІ
 [LIST FULL]
 ПОВНИЙ СПИСОК
 [FAILED]
@@ -1420,7 +1420,7 @@ ID користувача
 [Deleting group "%s"...]
 Видаляю групу "%s"...
 [All operations complete]
-Всі операції завершені
+Усі операції завершені
 [Close]
 Закрити
 [You have to be online to synchronize the server-list!]
@@ -1616,7 +1616,7 @@ xСтатус ICQ
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Спроба підключення до сервера завершилася помилкою. Можливо, трапився обрив з'єднання з локальною мережею.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Не вдалося визначити IP-адресу сервера за його ім'ям. Швидше за все, це пов'язано з відсутністю підключення до Інтернету (наприклад, ваш модем відключився). Якщо ви використовуєте проксі, спробуйте увімкнути опцію "Надсилати запити DNS через проксі": Налаштування -> Мережа.
+Не вдалося визначити IP-адресу сервера за його ім'ям. Можливо, це пов'язано з відсутністю підключення до Інтернету (наприклад, ваш модем відключився). Якщо ви використовуєте проксі, спробуйте ввімкнути опцію "Надсилати запити DNS через проксі": Налаштування -> Мережа.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Не вдалося підключитися до сервера. Можливо, сервер не працює, спробуйте підключитися пізніше.
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
@@ -1810,7 +1810,7 @@ xСтатус ICQ
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Ви не підключені до мережі ICQ. Щоб оновлювати дані на сервері, потрібно підключитися до мережі ICQ.
 [Please authorize me to add you to my contact list.]
-Дозвольте, будь ласка, додати вас до списку.
+Будь ласка, дозвольте додати вас до списку контактів.
 [Enter a password for UIN %u:]
 Введіть пароль для %u:
 [ (DC Established)]

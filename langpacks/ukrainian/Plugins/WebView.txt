@@ -6,7 +6,7 @@
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
-Додає веб-сторінки як контакти до списку контактів і відображає текст і/або видаває сповіщення про зміни цих сторінок у вікно.
+Додає веб-сторінки як контакти до списку контактів і відображає текст і/або видає сповіщення про зміни цих сторінок у вікно.
 [Webview]
 WebView
 [Update data every]
@@ -54,9 +54,9 @@ WebView
 [(not recommended)]
 (не рекомендовано)
 [Display data in popup on alert]
-Дані у сплив. вікні при сповіщенні
+Дані в сплив. вікні при сповіщенні
 [Display data in popup]
-Показувати дані у сплив. вікні
+Показувати дані в сплив. вікні
 [You may need to restart Miranda NG for this change to take effect.]
 Потрібно перезапустити Miranda NG щоб цей ефект вступив у силу.
 [Contact name:]
@@ -74,7 +74,7 @@ WebView
 [End:]
 Кінець:
 [Copy strings to alerts]
-Копіювати рядок в сповіщення
+Копіювати рядок у сповіщення
 [Double click action]
 Дія при подвійному кліку
 [Opens web page]
@@ -102,9 +102,9 @@ WebView
 [Events and alerts]
 Події та сповіщення
 [Enable alerts]
-Ввімкнути сповіщення
+Увімкнути сповіщення
 [Always log to file]
-Завжди записувати в файл
+Завжди записувати у файл
 [Add time and date of alert to contact name]
 Додавати час і дату сповіщення до імені контакту
 [Use 24 hour time format instead of 12 hour]
@@ -248,7 +248,7 @@ WebView
 [Stop processing]
 Зупинити обробку
 [Click here to open this URL in a browser window.]
-Клікніть тут для видкриття цього посилання у браузері.
+Клікніть тут для видкриття цього посилання в браузері.
 [Stick to the front]
 Поверх усіх вікон
 [Disable stick to the front]
@@ -292,7 +292,7 @@ URL-адреса не поставляється
 [Online]
 В мережі
 [A site is already downloading, try again in a moment.]
-Сайт вже завантажується, спробуйте пізніше.
+Сайт уже завантажується, спробуйте пізніше.
 [Bytes in display]
 Байтів відображено
 [Bytes downloaded]
@@ -338,7 +338,7 @@ URL-адреса не поставляється
 [Cache folder does not exist.]
 Папки кешу не існує.
 [Missing "psite.bat" file.]
-Відсутній файл "psite.bat"
+Відсутній файл psite.bat
 [Site URL]
 Посилання на сайт
 [Please select site in Find/Add contacts...]

@@ -80,7 +80,7 @@
 [Notify in tray]
 У треї
 [Suppress tray notifications for focused channel windows]
-Вимкнути сповіщення у треї при активному вікні чату
+Вимкнути сповіщення в треї при активному вікні чату
 [Do not show popups when the channel window is not open]
 Вимкнути спливаючі вікна при закритому вікні чату
 [Highlight event]
@@ -118,9 +118,9 @@
 [Link]
 Посилання
 [Open a &new browser window]
-Відкрити у &новому вікні
+Відкрити в &новому вікні
 [&Open in current browser window]
-&Відкрити у поточному вікні
+&Відкрити в поточному вікні
 [&Copy link]
 Копіювати по&силання
 [Message]
@@ -176,7 +176,7 @@
 [Other options]
 Інше
 [Note: All settings are applied immediately]
-Примітка: всі параметри вступають в силу негайно
+Примітка: усі параметри вступають у силу негайно
 [The container is using private settings. The panel height will not be shared with other containers.]
 Контейнер використовує окремі налаштування. Висота панелі не застосовується до інших контейнерів.
 [Show picture for this contact]
@@ -192,7 +192,7 @@
 [entries]
 пунктів
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Параметри, позначені (*), вступлять в силу тільки після перезавантаження Miranda NG.
+Параметри, позначені (*), вступлять у силу тільки після перезавантаження Miranda NG.
 [More about advanced tweaks]
 Детальніше про додаткові налаштування
 [Revert to (safe) defaults]
@@ -284,9 +284,9 @@
 [Enable popups if minimized]
 Увімкнути, якщо згорнуте
 [Enable popups if unfocused]
-Увімкнути, якщо вікно не в фокусі
+Увімкнути, якщо вікно не у фокусі
 [Enable popups if focused]
-Увімкнути, якщо вікно в фокусі
+Увімкнути, якщо вікно у фокусі
 [Show popups for inactive tabs in active containers]
 Увімкнути для неактивних вкладок активного контейнера
 [Hide the status bar]
@@ -352,7 +352,7 @@ ID користувача в панелі статусу
 [Play sounds when minimized]
 Сповіщати, коли контейнер згорнутий
 [Play sounds when not focused]
-Сповіщати, коли контейнер не в фокусі
+Сповіщати, коли контейнер не у фокусі
 [Play sounds for inactive tabs in active containers]
 Сповіщати для неактивних вкладок контейнера
 [Play sounds for the active tab / window]
@@ -390,7 +390,7 @@ ID користувача в панелі статусу
 [Load unread events only]
 Лише непереглянуті події
 [Load number of previous events]
-Попередні події у кількості
+Попередні події в кількості
 [Load previous events less than]
 Події, отримані пізніше ніж
 [minutes old]
@@ -452,7 +452,7 @@ ID користувача в панелі статусу
 [Insert Separator]
 Вставити роздільник
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
-Налаштовуйте у діалозі "Налаштування контейнера". Він доступний:\n1. З системного меню контейнера (Alt+стрілка).\n2. За правим клацанням на вкладці або панелі кнопок у вікні повідомлень.
+Налаштовуйте в діалозі "Налаштування контейнера". Він доступний:\n1. З системного меню контейнера (Alt+стрілка).\n2. За правим клацанням на вкладці або панелі кнопок у вікні повідомлень.
 [Tabs should be used in the following way]
 Вкладки можуть використовуватися в одному з наступних режимів:
 [Use contact list groups for organizing tabs (one window per group)]
@@ -698,9 +698,9 @@ Esc закриває сесію (інакше - згортає)
 [Freeze Log]
 Заморозити журнал
 [Open in &new window]
-Відкрити у &новому вікні
+Відкрити в &новому вікні
 [&Open in existing window]
-&Відкрити у поточному вікні
+&Відкрити в поточному вікні
 [Editor]
 Редактор
 [Paste formatted Text]
@@ -874,7 +874,7 @@ BB-коди ([b][i][u])
 [Show toolbar]
 Показувати панель кнопок
 [Place toolbar at bottom]
-Помістити панель кнопок вниз
+Помістити панель кнопок униз
 [Title Bar]
 Заголовок
 [Tabs at the bottom]
@@ -898,7 +898,7 @@ BB-коди ([b][i][u])
 [Show Popups if Window is minimized]
 Показувати, якщо вікно згорнуте
 [Show Popups if Window is unfocused]
-Показувати, якщо не в фокусі
+Показувати, якщо не у фокусі
 [Show Popups if Window is focused]
 Показувати, якщо у фокусі
 [Show Popups for all inactive sessions]
@@ -940,9 +940,9 @@ BB-коди ([b][i][u])
 [Change background color]
 Змінити колір фону
 [Toggle nick list]
-Ввімк./Вимк. список учасників
+Увімк./вимк. список учасників
 [Event filter - right click to setup, left click to activate/deactivate]
-Фільтр подій - клацання правою кнопкою для налаштування, лівою - ввімк./вимк.
+Фільтр подій - клацання правою кнопкою для налаштування, лівою - увімк./вимк.
 [Channel manager]
 Налаштування кімнати
 [<Separator>]
@@ -1038,7 +1038,7 @@ BB-коди ([b][i][u])
 [No status message]
 Немає повідомлення статусу
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-Проблема конфігурації|Автоматичне надсилання вимкнено. \\b1Відправка з затримкою \\b0 і \\b1 мультивідправка \\b0 залежать від цієї опції.\n\nВи можете увімкнути її: \\b1Налаштування -> Бесіди -> Додаткові налаштування\\b0. Після зміни цієї опції потрібен перезапуск.
+Проблема конфігурації|Автоматичне надсилання вимкнено. \\b1Відправка з затримкою \\b0 і \\b1 мультивідправка \\b0 залежать від цієї опції.\n\nВи можете ввімкнути її: \\b1Налаштування -> Бесіди -> Додаткові налаштування\\b0. Після зміни цієї опції потрібен перезапуск.
 [You cannot edit user notes when there are unsent messages]
 Не можна правити нотатки, якщо є ненадіслані повідомлення
 [Version]
@@ -1054,11 +1054,11 @@ BB-коди ([b][i][u])
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автопрокрутка вимкнена, %d повідомлень у черзі (натисніть F12, щоб увімкнути)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - керування метаконтактом\nСтрілка вниз - додавання/видалення користувача із вибраного.
+UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - керування метаконтактом\nСтрілка вниз - додавання/видалення користувача з вибраного.
 [No UID]
 немає UID
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
-UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача із вибраного.
+UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача з вибраного.
 [Instant messages]
 Повідомлення
 [Incoming (Focused Window)]
@@ -1104,7 +1104,7 @@ TabSRMM: Набирає
 [Quote message]
 Цитувати повідомлення
 [Toggle send later]
-Ввімк./Вимк. відправлення із затримкою
+Увімк./вимк. відправлення із затримкою
 [Send message]
 Надіслати
 [Smiley selector]
@@ -1122,7 +1122,7 @@ TabSRMM: Набирає
 [Toggle text direction]
 Перемкнути напрямок тексту
 [Toggle multi send]
-Ввімк./Вимк. мультивідправку
+Увімк./вимк. мультивідправку
 [Clear message log]
 Очистити журнал повідомлень
 [Collapse side bar]
@@ -1246,7 +1246,7 @@ TabSRMM: Набирає
 [Image files]
 Файли зображень
 [The file exists. Do you want to overwrite it?]
-Файл вже існує. Перезаписати?
+Файл уже існує. Перезаписати?
 [Set Your Avatar...]
 Змінити аватар...
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
@@ -1335,7 +1335,7 @@ TabSRMM: Набирає
 Кодування за замовчанням
 [<no skin>]
 <без скіна>
-[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
+[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]
 Завантажити налаштування шаблонів повідомлень з цієї теми?\nУвага: це перепише ваш набір шаблонів, що може істотно змінити вигляд вашого вікна повідомлень.\nНатисніть "Скасувати", щоб не завантажувати нічого.
 [Load theme]
 Завантажити тему
@@ -1524,7 +1524,7 @@ TabSRMM: Набирає
 [Message window warning]
 Попередження вікна бесіди
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
-Повідомлення розміщено у чергу для подальшої доставки.\nВоно буде доставлено якомога раніше і ви будете повідомлені спливаючим вікном.
+Повідомлення розміщено у чергу для подальшої доставки.\nВоно буде надіслане якомога раніше і ви будете сповіщені спливаючим вікном.
 [The send later feature is not available on this protocol.]
 Відправлення з затримкою не підтримується протоколом.
 [\n(Sent delayed. Original timestamp %s)]
@@ -1610,7 +1610,7 @@ TabSRMM: %s
 [Enable the system tray icon]
 Показувати значок у треї
 [Merge new events for the same contact into existing popup]
-Додавати нові події у вже існуюче спливаюче вікно
+Додавати нові події в існуюче спливаюче вікно
 [Show headers]
 Показувати заголовки
 [Dismiss popup]
@@ -1922,9 +1922,9 @@ TabSRMM: %s
 [Activate chat window on highlight]
 Активувати вікно чату при підсвіченій події
 [Show list of users in the chat room]
-Показувати у кімнаті чату список користувачів
+Показувати в кімнаті чату список користувачів
 [Colorize nicknames in member list]
-Кольорові ніки у списку користувачів
+Кольорові ніки в списку користувачів
 [Show button menus when right clicking the buttons]
 Показувати меню кнопки за натисненням правою кнопкою миші
 [Show topic as status message on the contact list]
@@ -1956,7 +1956,7 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 [Add a colon (:) to auto-completed user names]
 Додавати ":" до імен користувачів
 [Start private conversation on double click in nick list (insert nick if unchecked)]
-Приват при подвійному кліку у списку ніків (інакше вставляти нік)
+Приват при подвійному кліку в списку ніків (інакше вставляти нік)
 [Strip colors from messages in the log]
 Заборонити кольори в журналі
 [Enable the 'event filter' for new rooms]

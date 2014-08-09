@@ -66,7 +66,7 @@
 [Timer interval (in seconds)]
 Інтервал (у секундах)
 [This will take affect after Non-IM Contacts' status is changed]
-Зміни вступлять в силу після зміни статусу контактів
+Зміни вступлять у силу після зміни статусу контактів
 [Timer Options]
 Опції таймера
 [String Maker]
@@ -108,7 +108,7 @@
 [Edit Non-IM Contact "%s"]
 Редагувати "%s"
 [Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]
-Перезаписати вміст файлу?\r\n\r\nНатисніть "Ні", щоб дописати ці дані у кінець файлу.
+Перезаписати вміст файлу?\r\n\r\nНатисніть "Ні", щоб дописати ці дані в кінець файлу.
 [File couldn't be opened]
 Неможливо відкрити файл
 [Non-IM Contacts]
@@ -126,7 +126,7 @@
 [&View/Edit Files]
 &Перегляд/редагування файлів
 [&Export all Non-IM Contacts]
-&Експорт всіх не-IM контактів
+&Експорт усіх не-IM контактів
 [&Import Non-IM Contacts]
 &Імпорт не-IM контактів
 [&String Maker]

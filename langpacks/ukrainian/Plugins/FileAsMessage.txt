@@ -38,7 +38,7 @@
 [Extra options: Events > File Transfers, "Receiving files" group]
 Дод. налаштування: Події -> Передача файлів, "Прийом файлів"
 [File already exists. Overwrite?]
-Файл вже існує. Перезаписати?
+Файл уже існує. Перезаписати?
 [Couldn't open a file]
 Не вдалося відкрити файл
 [Size: %d bytes]

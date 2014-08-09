@@ -6,7 +6,7 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
-Сповіщає про отримання повідомлення, URL, файлу або іншої події, відображаючи інформацію у спливаючих вікнах.
+Сповіщає про отримання повідомлення, URL, файлу або іншої події, відображаючи інформацію в спливаючих вікнах.
 [General options]
 Загальне
 [Show entry in the Popups menu]

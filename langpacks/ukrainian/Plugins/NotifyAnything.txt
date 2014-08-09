@@ -6,7 +6,7 @@
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
-Сповіщає у спливаючих вікнах про різні події, викликані UDP-пакетами.
+Сповіщає в спливаючих вікнах про різні події, викликані UDP-пакетами.
 [Property Page]
 Властивості
 [Security]

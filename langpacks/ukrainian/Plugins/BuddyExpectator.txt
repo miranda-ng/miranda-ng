@@ -28,9 +28,9 @@
 [When a contact is absent for]
 Коли контакт відсутній
 [Hide when no messages for]
-Приховати, якщо немає повідомлень
+Ховати, якщо немає повідомлень
 [Enable "Miss you" feature]
-Ввімкнути функцію "Чекаю тебе"
+Увімкнути функцію "Чекаю тебе"
 [Colors]
 Кольори
 [Background]
@@ -64,11 +64,11 @@
 [Never hide this contact]
 Ніколи не ховати цей контакт
 [Enable Miss You]
-Ввімкнути "Чекаю тебе"
+Увімкнути "Чекаю тебе"
 [Notify always]
 Сповіщати завжди
 [Tray/popup icon]
-Значок в треї/спливаючому вікні
+Значок у треї/спливаючому вікні
 [Enabled]
 Увімкнено
 [Disabled]
@@ -100,7 +100,7 @@
 [Contact returned]
 Контакт повернувся
 [Contact still absent]
-Контакт все ще відсутній
+Контакт усе ще відсутній
 [Miss you event]
 Подія "Чекаю тебе"
 [Hide contact event]

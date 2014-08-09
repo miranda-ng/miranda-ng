@@ -10,7 +10,7 @@
 [Edit contact information]
 Редагувати дані контакту
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Редагувати дані контакту\nСписок включає усі свята ваших контактів.
+Редагувати дані контакту\nСписок включає всі свята ваших контактів.
 [Origin]
 Походження
 [&Update]
@@ -110,7 +110,7 @@
 [Icon flashing on event]
 Блимання значка при події
 [Enabled]
-Ввімкнено
+Увімкнено
 [Perform check on each startup]
 Перевіряти при запуску
 [Time of last check:]
@@ -142,7 +142,7 @@
 [Permanent]
 Постійно
 [Show reminder messages as popups (if reminder is enabled)]
-Нагадування у спливаючих вікнах (якщо можна)
+Нагадування в спливаючих вікнах (якщо можна)
 [Anniversary popup colors]
 Свята
 [Replace progress dialogs with popups]
@@ -170,7 +170,7 @@
 [Anniversary list]
 Список свят
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
-Майбутні свята\nСписок містить всі свята ваших контактів
+Майбутні свята\nСписок містить усі свята ваших контактів
 [Statistics:]
 Статистика:
 [with birthday:]
@@ -186,7 +186,7 @@
 [View]
 Вигляд
 [Show &during the next]
-Дати у &найближчі
+Дати в &найближчі
 [day(s)]
 днів
 [Reminder]
@@ -204,7 +204,7 @@
 [Scan subcontacts for missing information]
 Пошук відсутньої інформації в субконтактах
 [Enable extended 'send/receive e-mail' service (*)]
-Ввімкнути розширений сервіс електронної пошти *
+Увімкнути розширений сервіс електронної пошти *
 [Use Windows timezone]
 Часовий пояс Windows
 [(*) Requires Miranda to be restarted.]
@@ -220,7 +220,7 @@
 [Changed information]
 Змінені дані
 [Enable colors to give information about information's status.]
-Ввімкнути кольори для показу статусу інформації
+Увімкнути кольори для показу статусу інформації
 [Make protocol based contact information read only]
 Заборонити зміну інформації, що базується на протоколі
 [Enable groups in details dialog's treeview]
@@ -248,7 +248,7 @@
 [Dialog]
 Діалог
 [All]
-Всі
+Усі
 [None]
 Немає
 [Show menu item]
@@ -448,7 +448,7 @@
 [Creating the image list failed!]
 Помилка при створенні imagelist.
 [Could not find contact's protocol. Maybe it is not active!]
-Неможливо знайти протокол контакту. Ймовірно, він відключений.
+Неможливо знайти протокол контакту. Імовірно, він відключений.
 [No pages have been added. Canceling dialog creation!]
 Сторінки не додані. Створення діалогу скасовано.
 [Details dialog failed to be created. Returning error is %d.]
@@ -588,7 +588,7 @@
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 Увага: версія вашого набору значків відрізняється від версії UserInfoEx.\nДеякі значки можуть виводитися неправильно.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-Увага: набір значків не знайдено у жодній з папок: Customize\Icons, Icons чи Plugins.
+Увага: набір значків не знайдено в жодній з папок: Customize\Icons, Icons чи Plugins.
 [Main]
 Головний
 [Extended user info]
@@ -650,7 +650,7 @@
 [Question]
 Запитання
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
-Ця функція видалить всі налаштування, які ви зробили!\nУсі налаштування дерева, позицій вікна тощо.\n\nВи дійсно хочете продовжити?
+Ця функція видалить усі налаштування, які ви зробили!\nУсі налаштування дерева, позицій вікна тощо.\n\nВи дійсно хочете продовжити?
 [Ready]
 Готово
 [Everything is done!]
@@ -1034,11 +1034,11 @@ Web-дизайн
 [Single]
 Наодинці
 [Close relationships]
-В близьких відносинах
+У близьких відносинах
 [Engaged]
 Заручений(а)
 [Married]
-В шлюбі
+У шлюбі
 [Divorced]
 Розлучений(а)
 [Separated]
@@ -1120,7 +1120,7 @@ Web-дизайн
 [contact identification]
 ідентифікація контакта
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
-У користувача %s(%s) немає унікального номера у vCard,\nале у списку контактів є контакт з таким самим ніком і протоколом.\nВикористати його номер для цього контакту?
+У користувача %s(%s) немає унікального номера у vCard,\nале в списку контактів є контакт з таким самим ніком і протоколом.\nВикористати його номер для цього контакту?
 [Importing a new contact was aborted!]
 Імпорт нового контакту скасовано.
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]

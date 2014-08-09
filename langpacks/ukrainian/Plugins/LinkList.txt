@@ -18,13 +18,13 @@
 [Message types]
 Типи повідомлень
 [All directions]
-Всі напрямки
+Усі напрямки
 [Incoming only]
 Тільки вхідні
 [Outgoing only]
 Тільки вихідні
 [All types]
-Всі види
+Усі види
 [Mail addresses only]
 Тільки адреси E-mail
 [Web addresses only]
@@ -100,7 +100,7 @@
 [Open]
 Відкрити
 [Open in new window]
-Відкрити у новому вікні
+Відкрити в новому вікні
 [Copy to clipboard]
 Копіювати в буфер
 [Show message]

@@ -20,7 +20,7 @@
 [If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
 Натисніть "Далі", щоб імпортувати ще одну базу, або "Завершити", щоб запустити Miranda NG
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
-Швидше за все, вам більше не знадобиться цей майстер. Ви можете звільнити пам'ять, не завантажуючи його при запуску Miranda NG.
+Імовірно, вам більше не знадобиться цей майстер. Ви можете звільнити пам'ять, не завантажуючи його при запуску Miranda NG.
 [Do not load the import plugin at startup again]
 Не завантажувати майстер при наступному запуску
 [Import completed]
@@ -28,7 +28,7 @@
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Якщо вам у майбутньому знадобиться цей майстер, увімкніть плагін import.dll в налаштуваннях (розділ "Плагіни").
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Знайдено наступні профілі. Виберіть профіль зі списку або натисніть "Інший профіль", якщо вашого профілю немає у списку чи список порожній.
+Знайдено наступні профілі. Виберіть профіль зі списку або натисніть "Інший профіль", якщо вашого профілю немає в списку чи список порожній.
 [&Other Profile...]
 &Інший профіль...
 [&Filename:]
@@ -146,7 +146,7 @@
 [Miranda NG database]
 База Miranda NG
 [All Files]
-Всі файли
+Усі файли
 [Skipping duplicate group %s.]
 Пропуск дубліката групи %s
 [Finish]

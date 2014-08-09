@@ -26,7 +26,7 @@
 [s]
 с
 [Enable popup notification]
-Ввімкнути спливаючі вікна
+Увімкнути спливаючі вікна
 [Respect ignore settings (status changes)]
 Врахувати налаштування ігнору (зміни статусів)
 [Sending text]
@@ -40,7 +40,7 @@
 [Allow receiving one nudge from the same contact every:]
 Прийом трясіння від одного контакту кожні:
 [* Nudge sending delay is hardcoded and cannot be changed.]
-* Це число не можна змінювати, воно забито в коді плагіна.
+* Це число неможливо змінити, воно задане в коді плагіна.
 [Preview]
 Тест
 [Text]

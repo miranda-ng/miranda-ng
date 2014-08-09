@@ -78,7 +78,7 @@
 [Result action]
 Результат дії
 [Show in popup]
-Показувати у спливаючому вікні
+Показувати в спливаючому вікні
 [Show in messagebox]
 Показувати у звичайному вікні
 [Insert into message]
@@ -118,7 +118,7 @@
 [Service name]
 Ім'я служби
 [Use Variables]
-Ввімкнути змінні
+Увімкнути змінні
 [Don't use Variables]
 Вимкнути змінні
 [Miranda service help]
@@ -226,7 +226,7 @@
 [I'm high]
 Дмухаю
 [On WC]
-У туалеті
+В туалеті
 [To be or not to be]
 Бути чи не бути?
 [Watching pro7 on TV]
@@ -592,7 +592,7 @@ UTF16+сигнатури
 [Yes to &All]
 Так &усім
 [N&o to All]
-Ні у&сім
+Ні в&сім
 [Action "$" exists, do you want to rewrite it?]
 Дія "$" вже існує, бажаєте її переписати?
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
@@ -677,7 +677,7 @@ UTF16+сигнатури
 [Process script after]
 Скрипт після макроса
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(имя[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
+^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(name[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
 [RTL]
 Справа наліво
 [Right justified text]

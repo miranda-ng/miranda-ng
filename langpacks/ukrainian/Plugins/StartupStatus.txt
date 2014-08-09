@@ -6,7 +6,7 @@
 ;  Authors: P Boon
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
-Дозволяє встановлювати статус, який буде виставлений при запуску Miranda у кожного протоколу.
+Дозволяє встановлювати статус, який буде виставлений при запуску Miranda в кожного протоколу.
 [Check connection]
 Перевіряти
 [Max. retries]
@@ -190,7 +190,7 @@
 [Accounts]
 Облікові записи
 [Enable checking]
-Ввімкнути перевірку
+Увімкнути перевірку
 [Disable checking]
 Вимкнути перевірку
 [Set status message]
@@ -284,7 +284,7 @@
 [There is a maximum of 6 menu items]
 Максимум 6 пунктів меню
 [Pressed toolbar icon]
-Затиснутий значок панелі
+Натиснутий значок панелі
 [Released toolbar icon]
 Відпущений значок панелі
 [I've been away since %time%.]
