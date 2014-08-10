@@ -112,7 +112,12 @@ private:
 	TOX_USERSTATUS MirandaToToxStatus(int status);
 	uint8_t *HexStringToData(const char *hex_string);
 	char *DataToHexString(const uint8_t *bin_string);
-	void do_bootstrap(Tox *tox);
+
+	int LoadToxData(const char *path);
+	int SaveToxData(const char *path);
+
+	static void fraddr_to_str(uint8_t *id_bin, char *id_str);
+	static void get_id(Tox *m, char *data);
 
 	// dialogs
 	static INT_PTR CALLBACK AccountManagerProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

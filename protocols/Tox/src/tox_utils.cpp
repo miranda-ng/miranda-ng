@@ -38,12 +38,11 @@ uint8_t *HexStringToData(const char *hex_string)
 
 char *CToxProto::DataToHexString(const uint8_t *bin_string)
 {
-	uint32_t i, delta = 0, pos_extra, sum_extra = 0;
-	char *ret = (char*)mir_alloc(TOX_FRIEND_ADDRESS_SIZE);
+	uint32_t delta = 0, pos_extra, sum_extra = 0;
+	char *ret = (char*)mir_alloc(TOX_FRIEND_ADDRESS_SIZE + 1);
 
-	for (i = 0; i < TOX_FRIEND_ADDRESS_SIZE; i++)
-	{
-		sprintf(&ret[2 * i + delta], "%02hhX", bin_string[i]);
+	for (uint32_t i = 0; i < TOX_FRIEND_ADDRESS_SIZE; i++) {
+		sprintf(&ret[2 * i + delta], "%02X", bin_string[i]);
 
 		if ((i + 1) == TOX_CLIENT_ID_SIZE)
 			pos_extra = 2 * (i + 1) + delta;
@@ -54,10 +53,10 @@ char *CToxProto::DataToHexString(const uint8_t *bin_string)
 		/*if (!((i + 1) % FRADDR_TOSTR_CHUNK_LEN)) {
 			id_str[2 * (i + 1) + delta] = ' ';
 			delta++;
-			}*/
+		}*/
 	}
 
-	ret[2 * i + delta] = 0;
+	//ret[2 * i + delta] = 0;
 
 	if (!sum_extra)
 		ret[pos_extra] = 0;
@@ -65,9 +64,80 @@ char *CToxProto::DataToHexString(const uint8_t *bin_string)
 	return ret;
 }
 
+int CToxProto::LoadToxData(const char *path)
+{
+	FILE *hFile = fopen(path, "r");
+
+	if (hFile)
+	{
+		fseek(hFile, 0, SEEK_END);
+		size_t size = ftell(hFile);
+		rewind(hFile);
+
+		uint8_t *data = (uint8_t*)mir_alloc(size);
+
+		if (fread(data, sizeof(uint8_t), size, hFile) != size)
+		{
+			mir_free(data);
+			//fputs("[!] could not read data file!\n", stderr);
+			fclose(hFile);
+			return 0;
+		}
+
+		tox_load(tox, data, size);
+
+		mir_free(data);
+
+		if (fclose(hFile) < 0)
+		{
+			//perror("[!] fclose failed");
+			/* we got it open and the expected data read... let it be ok */
+			/* return 0; */
+		}
+
+		return 1;
+	}
+
+	return 0;
+}
+
+int CToxProto::SaveToxData(const char *path)
+{
+	FILE *hFile = fopen(path, "w");
+
+	if (!hFile)
+	{
+		//perror("[!] load_key");
+		return 0;
+	}
+
+	int res = 1;
+	size_t size = tox_size(tox);
+	uint8_t *data = (uint8_t*)mir_alloc(size);
+
+	tox_save(tox, data);
+
+	if (fwrite(data, sizeof(uint8_t), size, hFile) != size)
+	{
+		mir_free(data);
+		//fputs("[!] could not write data file (1)!", stderr);
+		res = 0;
+	}
+
+	mir_free(data);
+
+	if (fclose(hFile) < 0)
+	{
+		//perror("[!] could not write data file (2)");
+		res = 0;
+	}
+
+	return res;
+}
+
 #define FRADDR_TOSTR_CHUNK_LEN 8 
 
-static void fraddr_to_str(uint8_t *id_bin, char *id_str)
+void CToxProto::fraddr_to_str(uint8_t *id_bin, char *id_str)
 {
 	uint32_t i, delta = 0, pos_extra, sum_extra = 0;
 
@@ -92,7 +162,7 @@ static void fraddr_to_str(uint8_t *id_bin, char *id_str)
 		id_str[pos_extra] = 0;
 }
 
-void get_id(Tox *m, char *data)
+void CToxProto::get_id(Tox *m, char *data)
 {
 	int offset = strlen(data);
 	uint8_t address[TOX_FRIEND_ADDRESS_SIZE];

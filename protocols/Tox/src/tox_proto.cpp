@@ -5,6 +5,17 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 {
 	tox = tox_new(TOX_ENABLE_IPV6_DEFAULT);
 
+	char idstring[200] = { 0 };
+	get_id(tox, idstring);
+
+	char dataPath[MAX_PATH];
+	mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), m_tszUserName);
+
+	LoadToxData(dataPath);
+
+	char idstring2[200] = { 0 };
+	get_id(tox, idstring2);
+
 	tox_callback_friend_request(tox, OnFriendRequest, this);
 	tox_callback_friend_message(tox, OnFriendMessage, this);
 	tox_callback_friend_action(tox, OnAction, this);
@@ -18,6 +29,11 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 CToxProto::~CToxProto()
 {
+	char dataPath[MAX_PATH];
+	mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), m_tszUserName);
+
+	SaveToxData(dataPath);
+
 	tox_kill(tox);
 }
 
