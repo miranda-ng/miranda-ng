@@ -167,8 +167,6 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, i);
 				if (i == idx) {
 					db_set_ts(NULL, "Langpack", "Current", pack->tszFileName);
-					PathToAbsoluteT(_T("\\mirandaboot.ini"), tszPath);
-					WritePrivateProfileString(_T("Language"), _T("DefaultLanguage"), pack->tszFileName, tszPath);
 					lstrcpy(tszPath, pack->tszFullPath);
 					pack->flags |= LPF_ENABLED;
 				}
