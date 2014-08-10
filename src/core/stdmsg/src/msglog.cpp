@@ -232,7 +232,6 @@ int DbEventIsShown(DBEVENTINFO *dbei)
 //mir_free() the return value
 static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEvent, struct LogStreamData *streamData)
 {
-	char *buffer;
 	int bufferAlloced, bufferEnd;
 	int showColon = 0;
 
@@ -256,7 +255,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 	}
 	bufferEnd = 0;
 	bufferAlloced = 1024;
-	buffer = (char *)mir_alloc(bufferAlloced);
+	char *buffer = (char *)mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 
 	if (!dat->bIsAutoRTL && !streamData->isEmpty)
@@ -329,16 +328,8 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 	if (showColon)
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s :", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 
-	switch (dbei.eventType) {
 	TCHAR *msg, *szName;
-	default:
-	case EVENTTYPE_MESSAGE:
-		msg = DbGetEventTextT(&dbei, CP_ACP);
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, msg);
-		mir_free(msg);
-		break;
-
+	switch (dbei.eventType) {
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
 		if (dbei.flags & DBEF_SENT) {
@@ -368,14 +359,13 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 		}
 		break;
 
-	case EVENTTYPE_FILE:
+	case EVENTTYPE_FILE: {
 		char* filename = (char*)dbei.pBlob + sizeof(DWORD);
 		char* descr = filename + strlen(filename) + 1;
 		TCHAR* ptszFileName = DbGetEventStringT(&dbei, filename);
 
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced,
-									 (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
+		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, ": ");
 		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, ptszFileName);
 		mir_free(ptszFileName);
@@ -388,6 +378,14 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 			mir_free(ptszDescr);
 		}
 		break;
+	}
+	case EVENTTYPE_MESSAGE:
+	default:
+		msg = DbGetEventTextT(&dbei, CP_ACP);
+		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
+		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, msg);
+		mir_free(msg);
+
 	}
 
 	if (dat->bIsAutoRTL)

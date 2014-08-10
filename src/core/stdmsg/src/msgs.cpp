@@ -87,21 +87,20 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	TCHAR toolTip[256], *contactName;
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.hContact = hContact;
 	cle.hDbEvent = (HANDLE)lParam;
 	cle.flags = CLEF_TCHAR;
 	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
-	contactName = pcli->pfnGetContactDisplayName(hContact, 0);
-	mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
+	TCHAR toolTip[256];
+	mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	cle.ptszTooltip = toolTip;
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	return 0;
 }
 
-INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar)
+INT_PTR SendMessageCmd(MCONTACT hContact, char *msg, int isWchar)
 {
 	/* does the MCONTACT's protocol support IM messages? */
 	char *szProto = GetContactProto(hContact);
@@ -110,16 +109,14 @@ INT_PTR SendMessageCmd(MCONTACT hContact, char* msg, int isWchar)
 
 	hContact = db_mc_tryMeta(hContact);
 
-	HWND hwnd;
-	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact)) {
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	if (hwnd) {
 		if (msg) {
-			HWND hEdit;
-			hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
-			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
+			SendDlgItemMessage(hwnd, IDC_MESSAGE, EM_SETSEL, -1, SendDlgItemMessage(hwnd, IDC_MESSAGE, WM_GETTEXTLENGTH, 0, 0));
 			if (isWchar)
-				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)msg);
+				SendDlgItemMessageW(hwnd, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 			else
-				SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)msg);
+				SendDlgItemMessageA(hwnd, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 		}
 		ShowWindow(hwnd, SW_RESTORE);
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
@@ -215,10 +212,11 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int ContactDeleted(WPARAM wParam, LPARAM lParam)
+// If a contact gets deleted, close its message window if there is any
+static int ContactDeleted(WPARAM wParam, LPARAM)
 {
-	HWND hwnd;
-	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam))
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
+	if (hwnd)
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
 
 	return 0;
@@ -260,7 +258,7 @@ static void RestoreUnreadMessageAlerts(void)
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
 					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
-					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
+					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				}
 			}
 		}
@@ -269,7 +267,7 @@ static void RestoreUnreadMessageAlerts(void)
 
 void RegisterSRMMFonts(void);
 
-static int FontsChanged(WPARAM wParam, LPARAM lParam)
+static int FontsChanged(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 	return 0;
@@ -329,7 +327,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR GetWindowAPI(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetWindowAPI(WPARAM, LPARAM)
 {
 	return PLUGIN_MAKE_VERSION(0, 0, 0, 4);
 }

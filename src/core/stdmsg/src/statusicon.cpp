@@ -38,14 +38,12 @@ static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 
 void DrawStatusIcons(MCONTACT hContact, HDC hDC, RECT r, int gap)
 {
-	HICON hIcon;
 	int x = r.left;
 
 	int nIcon = 0;
-	StatusIconData *sid;
-	while ((sid = Srmm_GetNthIcon(hContact, nIcon++)) != 0 && x < r.right) {
-		if ((sid->flags & MBF_DISABLED) && sid->hIconDisabled) hIcon = sid->hIconDisabled;
-		else hIcon = sid->hIcon;
+	StatusIconData *sid = Srmm_GetNthIcon(hContact, nIcon++);
+	while (sid != 0 && x < r.right) {
+		HICON hIcon = ((sid->flags & MBF_DISABLED) && sid->hIconDisabled) ? sid->hIconDisabled : sid->hIcon;
 
 		SetBkMode(hDC, TRANSPARENT);
 		DrawIconEx(hDC, x, (r.top + r.bottom - GetSystemMetrics(SM_CYSMICON)) >> 1, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);

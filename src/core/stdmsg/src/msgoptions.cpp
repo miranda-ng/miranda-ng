@@ -43,7 +43,7 @@ static const fontOptionsList[] =
 	{ LPGENT("Incoming time"),     RGB(0, 0, 0),       _T("Terminal"), DBFONTF_BOLD, -9},
 	{ LPGENT("Incoming colon"),    RGB(215, 0, 0),     _T("Arial"),    0, -11},
 	{ LPGENT("Message area"),      RGB(0, 0, 0),       _T("Arial"),    0, -12},
-	{ LPGENT("Notices"),           RGB(90, 90, 160),   _T("Arial"),    0, -12},
+	{ LPGENT("Other events"),      RGB(90, 90, 160),   _T("Arial"),    0, -12},
 };
 
 static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
@@ -553,7 +553,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-static int OptInitialise(WPARAM wParam, LPARAM lParam)
+static int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 910000000;

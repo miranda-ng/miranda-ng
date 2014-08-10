@@ -43,19 +43,18 @@ static const UINT sendControls[] = { IDC_MESSAGE };
 
 static void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 {
-	if (hContact == NULL || hwnd == NULL)
-		return;
-
-	MessageWindowEventData mwe = { 0 };
-	mwe.cbSize = sizeof(mwe);
-	mwe.hContact = hContact;
-	mwe.hwndWindow = hwnd;
-	mwe.szModule = SRMMMOD;
-	mwe.uType = type;
-	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
-	mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
-	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
+	if (hContact != NULL && hwnd != NULL) {
+		MessageWindowEventData mwe = { 0 };
+		mwe.cbSize = sizeof(mwe);
+		mwe.hContact = hContact;
+		mwe.hwndWindow = hwnd;
+		mwe.szModule = SRMMMOD;
+		mwe.uType = type;
+		mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
+		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
+		NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
+	}
 }
 
 static BOOL IsUtfSendAvailable(MCONTACT hContact)
@@ -149,10 +148,10 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFil
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
-		HANDLE hFind;
 		TCHAR szPath[MAX_PATH];
 		mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\*"), szFilename);
-		if ((hFind = FindFirstFile(szPath, &fd)) != INVALID_HANDLE_VALUE) {
+		HANDLE hFind = FindFirstFile(szPath, &fd);
+		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				if (!_tcscmp(fd.cFileName, _T(".")) || !_tcscmp(fd.cFileName, _T(".."))) continue;
 				mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\%s"), szFilename, fd.cFileName);
@@ -199,12 +198,12 @@ static void ShowTime(SrmmWindowData *dat)
 
 static void SetupStatusBar(HWND hwndDlg, SrmmWindowData *dat)
 {
-	int icons_width, cx, i = 0, statwidths[4];
-	RECT rc;
+	int i = 0, statwidths[4];
+	int icons_width = GetStatusIconsCount(dat->hContact) * (GetSystemMetrics(SM_CXSMICON) + 2) + SB_GRIP_WIDTH;
 
-	icons_width = GetStatusIconsCount(dat->hContact) * (GetSystemMetrics(SM_CXSMICON) + 2) + SB_GRIP_WIDTH;
+	RECT rc;
 	GetWindowRect(dat->hwndStatus, &rc);
-	cx = rc.right - rc.left;
+	int cx = rc.right - rc.left;
 
 	if (dat->hTimeZone) {
 		if (g_dat.flags & SMF_SHOWREADCHAR)
@@ -225,9 +224,7 @@ static void SetupStatusBar(HWND hwndDlg, SrmmWindowData *dat)
 
 static void SetDialogToType(HWND hwndDlg)
 {
-	SrmmWindowData *dat;
-
-	dat = (SrmmWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	SrmmWindowData *dat = (SrmmWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (dat->hContact)
 		ShowMultipleControls(hwndDlg, infoLineControls, SIZEOF(infoLineControls), (g_dat.flags&SMF_SHOWINFO) ? SW_SHOW : SW_HIDE);
 	else
@@ -378,8 +375,6 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 	case WM_CONTEXTMENU:
 	{
-		HMENU hMenu;
-		CHARRANGE sel;
 		static const CHARRANGE all = { 0, -1 };
 
 		MessageWindowPopupData mwpd = { 0 };
@@ -389,11 +384,12 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		mwpd.hContact = pdat->hContact;
 		mwpd.hwnd = hwnd;
 
-		hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+		HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 
 		mwpd.hMenu = GetSubMenu(hMenu, 2);
 		TranslateMenu(mwpd.hMenu);
 
+		CHARRANGE sel;
 		SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (sel.cpMin == sel.cpMax) {
 			EnableMenuItem(mwpd.hMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
@@ -1099,26 +1095,22 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_UPDATETITLE:
 		{
-			TCHAR newtitle[256], oldtitle[256], *szStatus;
-			TCHAR *contactName, *pszNewTitleEnd;
-			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
-
-			pszNewTitleEnd = _T("Message Session");
+			TCHAR newtitle[256];
 			if (dat->hContact) {
 				if (dat->szProto) {
-					TCHAR buf[128] = _T("");
 					int statusIcon = db_get_b(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON);
 
 					dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-					contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+					TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
+					TCHAR buf[128] = _T("");
 					if (strcmp(dat->szProto, META_PROTO)) {
 						CONTACTINFO ci = { 0 };
 						ci.cbSize = sizeof(ci);
 						ci.hContact = dat->hContact;
 						ci.szProto = dat->szProto;
 						ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
+						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 							switch (ci.type) {
 							case CNFT_ASCIIZ:
 								mir_sntprintf(buf, SIZEOF(buf), _T("%s"), (TCHAR*)ci.pszVal);
@@ -1135,12 +1127,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					else
 						SetDlgItemText(hwndDlg, IDC_NAME, contactName);
 
-					szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
+					TCHAR *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
 					if (statusIcon)
-						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s - %s"), contactName, TranslateTS(pszNewTitleEnd));
+						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s - %s"), contactName, TranslateT("Message Session"));
 					else
-						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateTS(pszNewTitleEnd));
-
+						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Session"));
+					
+					DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
 					if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status"))) {
 						InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), NULL, TRUE);
 						if (statusIcon)
@@ -1150,8 +1143,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dat->wOldStatus = dat->wStatus;
 				}
 			}
-			else lstrcpyn(newtitle, pszNewTitleEnd, SIZEOF(newtitle));
+			else
+				lstrcpyn(newtitle, TranslateT("Message Session"), SIZEOF(newtitle));
 
+			TCHAR oldtitle[256];
 			GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));
 			if (_tcscmp(newtitle, oldtitle)) { //swt() flickers even if the title hasn't actually changed
 				SetWindowText(hwndDlg, newtitle);
@@ -1682,9 +1677,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						case IDM_COPYLINK:
 							if (OpenClipboard(hwndDlg)) {
-								HGLOBAL hData;
 								EmptyClipboard();
-								hData = GlobalAlloc(GMEM_MOVEABLE, (_tcslen(tr.lpstrText) + 1) * sizeof(TCHAR));
+								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (_tcslen(tr.lpstrText) + 1) * sizeof(TCHAR));
 								_tcscpy((TCHAR*)GlobalLock(hData), tr.lpstrText);
 								GlobalUnlock(hData);
 								SetClipboardData(CF_UNICODETEXT, hData);
