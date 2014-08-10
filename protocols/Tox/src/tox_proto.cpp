@@ -5,16 +5,11 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 {
 	tox = tox_new(TOX_ENABLE_IPV6_DEFAULT);
 
-	char idstring[200] = { 0 };
-	get_id(tox, idstring);
-
-	char dataPath[MAX_PATH];
-	mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), _T2A(m_tszUserName));
-
-	LoadToxData(dataPath);
-
-	char idstring2[200] = { 0 };
-	get_id(tox, idstring2);
+	ptrA dataPath(getStringA("DataPath"));
+	if (dataPath)
+	{
+		LoadToxData(dataPath);
+	}
 
 	tox_callback_friend_request(tox, OnFriendRequest, this);
 	tox_callback_friend_message(tox, OnFriendMessage, this);
@@ -24,15 +19,16 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	tox_callback_user_status(tox, OnUserStatusChanged, this);
 	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
 
-	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::CreateAccMgrUI);
+	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 }
 
 CToxProto::~CToxProto()
 {
-	char dataPath[MAX_PATH];
-	mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), _T2A(m_tszUserName));
-
-	SaveToxData(dataPath);
+	ptrA dataPath(getStringA("DataPath"));
+	if (dataPath)
+	{
+		SaveToxData(dataPath);
+	}
 
 	tox_kill(tox);
 }
@@ -69,9 +65,9 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_4:
 		return PF4_SUPPORTTYPING;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)"User Id";
+		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)"UserId";
+		return (DWORD_PTR)"ToxID";
 	case PFLAG_MAXLENOFMESSAGE:
 		return TOX_MAX_MESSAGE_LENGTH;
 	}
@@ -154,4 +150,13 @@ int __cdecl CToxProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg) { return 0;
 
 int __cdecl CToxProto::UserIsTyping(MCONTACT hContact, int type) { return 0; }
 
-int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) { return 0; }
+int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
+{
+	switch (iEventType)
+	{
+	case EV_PROTO_ONLOAD:
+		return OnModulesLoaded(wParam, lParam);
+	}
+
+	return 1;
+}

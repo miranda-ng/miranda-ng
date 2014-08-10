@@ -45,21 +45,12 @@ void CToxProto::ConnectionThread(void*)
 	{
 		DoBootstrap();
 
-		uint8_t name[TOX_MAX_NAME_LENGTH + 1];
-		uint16_t namelen = tox_get_self_name(tox, name);
-		name[namelen] = 0;
-
 		if (tox_isconnected(tox))
 		{
 			isConnected = true;
-
-			char dataPath[MAX_PATH];
-			mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), _T2A(m_tszUserName));
-
-			SaveToxData(dataPath);
-
-			char idstring3[200] = { 0 };
-			get_id(tox, idstring3);
+			
+			m_iStatus = m_iDesiredStatus = ID_STATUS_ONLINE;
+			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 
 			break;
 		}
@@ -67,10 +58,10 @@ void CToxProto::ConnectionThread(void*)
 		DoTox();
 	}
 
+	debugLogA("CToxProto::ConnectionThread: leaving");
+
 	if (!isTerminated && isConnected)
 	{
 		poolingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
 	}
-
-	debugLogA("CToxProto::ConnectionThread: leaving");
 }

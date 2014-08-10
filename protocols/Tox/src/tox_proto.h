@@ -90,6 +90,10 @@ private:
 	void __cdecl PollingThread(void*);
 
 	//events
+	int OnModulesLoaded(WPARAM, LPARAM);
+	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
+	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
+
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendMessage(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendId, const uint8_t *name, const uint16_t nameSize, void *arg);
@@ -106,7 +110,8 @@ private:
 	void __cdecl SearchByUidAsync(void* arg);
 
 	//services
-	INT_PTR __cdecl CreateAccMgrUI(WPARAM, LPARAM);
+	
+	
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
@@ -120,7 +125,7 @@ private:
 	static void get_id(Tox *m, char *data);
 
 	// dialogs
-	static INT_PTR CALLBACK AccountManagerProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
 
 #endif //_TOX_PROTO_H_

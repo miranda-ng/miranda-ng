@@ -39,6 +39,7 @@
     <ClInclude Include="src\tox_bootstrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="res\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">
@@ -66,6 +67,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tox_account.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

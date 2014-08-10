@@ -197,6 +197,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\tox\tox.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="src\tox_account.cpp" />
     <ClCompile Include="src\tox_events.cpp" />
     <ClCompile Include="src\tox_instances.cpp" />
+    <ClCompile Include="src\tox_options.cpp" />
     <ClCompile Include="src\tox_proto.cpp" />
     <ClCompile Include="src\tox_services.cpp" />
     <ClCompile Include="src\tox_contacts.cpp" />
