@@ -66,7 +66,7 @@ char *CToxProto::DataToHexString(const uint8_t *bin_string)
 
 int CToxProto::LoadToxData(const char *path)
 {
-	FILE *hFile = fopen(path, "r");
+	FILE *hFile = fopen(path, "rb");
 
 	if (hFile)
 	{
@@ -103,7 +103,7 @@ int CToxProto::LoadToxData(const char *path)
 
 int CToxProto::SaveToxData(const char *path)
 {
-	FILE *hFile = fopen(path, "w");
+	FILE *hFile = fopen(path, "wb");
 
 	if (!hFile)
 	{
@@ -112,7 +112,7 @@ int CToxProto::SaveToxData(const char *path)
 	}
 
 	int res = 1;
-	size_t size = tox_size(tox);
+	uint32_t size = tox_size(tox);
 	uint8_t *data = (uint8_t*)mir_alloc(size);
 
 	tox_save(tox, data);

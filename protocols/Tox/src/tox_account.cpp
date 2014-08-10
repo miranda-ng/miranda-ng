@@ -54,7 +54,7 @@ void CToxProto::ConnectionThread(void*)
 			isConnected = true;
 
 			char dataPath[MAX_PATH];
-			mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), m_tszUserName);
+			mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), _T2A(m_tszUserName));
 
 			SaveToxData(dataPath);
 

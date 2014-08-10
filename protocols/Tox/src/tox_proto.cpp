@@ -9,7 +9,7 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	get_id(tox, idstring);
 
 	char dataPath[MAX_PATH];
-	mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), m_tszUserName);
+	mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), _T2A(m_tszUserName));
 
 	LoadToxData(dataPath);
 
@@ -30,7 +30,7 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 CToxProto::~CToxProto()
 {
 	char dataPath[MAX_PATH];
-	mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), m_tszUserName);
+	mir_snprintf(dataPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_profile%\\%miranda_profilename%"), _T2A(m_tszUserName));
 
 	SaveToxData(dataPath);
 
