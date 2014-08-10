@@ -73,19 +73,23 @@ public:
 private:
 	Tox *tox;
 	mir_cs tox_lock;
+	HANDLE connectionThread;
 	HANDLE poolingThread;
 	bool isTerminated;
+	bool isConnected;
 
 	// instances
 	static LIST<CToxProto> instanceList;
 	static int CompareProtos(const CToxProto *p1, const CToxProto *p2);
 
-	//services
-	INT_PTR __cdecl CreateAccMgrUI(WPARAM, LPARAM);
-
-	//events
+	// account
+	void DoBootstrap();
+	void DoTox();
+	
+	void __cdecl ConnectionThread(void*);
 	void __cdecl PollingThread(void*);
 
+	//events
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendMessage(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendId, const uint8_t *name, const uint16_t nameSize, void *arg);
@@ -97,13 +101,17 @@ private:
 	// contacts
 	bool IsProtoContact(MCONTACT hContact);
 	MCONTACT GetContactByUserId(const wchar_t *userId);
-	MCONTACT CToxProto::AddContact(const wchar_t*userId, const wchar_t *nick, bool isHidden = false);
+	MCONTACT AddContact(const wchar_t*userId, const wchar_t *nick, bool isHidden = false);
 
 	void __cdecl SearchByUidAsync(void* arg);
 
+	//services
+	INT_PTR __cdecl CreateAccMgrUI(WPARAM, LPARAM);
+
 	// utils
-	char *HexToBinString(const char *hex_string);
-	char *BinToHexString(uint8_t *bin_string);
+	TOX_USERSTATUS MirandaToToxStatus(int status);
+	uint8_t *HexStringToData(const char *hex_string);
+	char *DataToHexString(const uint8_t *bin_string);
 	void do_bootstrap(Tox *tox);
 
 	// dialogs

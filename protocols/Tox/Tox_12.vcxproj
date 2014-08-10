@@ -202,6 +202,7 @@
     <ClInclude Include="src\tox\tox.h" />
     <ClInclude Include="src\tox\toxav.h" />
     <ClInclude Include="src\tox\toxdns.h" />
+    <ClInclude Include="src\tox_bootstrap.h" />
     <ClInclude Include="src\tox_proto.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
@@ -210,6 +211,7 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\tox_account.cpp" />
     <ClCompile Include="src\tox_events.cpp" />
     <ClCompile Include="src\tox_instances.cpp" />
     <ClCompile Include="src\tox_proto.cpp" />

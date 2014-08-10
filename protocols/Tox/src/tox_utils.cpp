@@ -1,19 +1,42 @@
 #include "common.h"
 
-char *CToxProto::HexToBinString(const char *hex_string)
+TOX_USERSTATUS CToxProto::MirandaToToxStatus(int status)
 {
-	size_t len = strlen(hex_string);
-	char *val = (char*)mir_alloc(len);
-
-	size_t i;
-
-	for (i = 0; i < len; ++i, hex_string += 2)
-		sscanf(hex_string, "%2hhx", &val[i]);
-
-	return val;
+	TOX_USERSTATUS userstatus;
+	switch (status)
+	{
+	case ID_STATUS_ONLINE:
+		userstatus = TOX_USERSTATUS_NONE;
+		break;
+	case ID_STATUS_AWAY:
+		userstatus = TOX_USERSTATUS_AWAY;
+		break;
+	case ID_STATUS_OCCUPIED:
+		userstatus = TOX_USERSTATUS_BUSY;
+		break;
+	default:
+		userstatus = TOX_USERSTATUS_INVALID;
+		break;
+	}
+	return userstatus;
 }
 
-char *CToxProto::BinToHexString(uint8_t *bin_string)
+uint8_t *HexStringToData(const char *hex_string)
+{
+	size_t legth = strlen(hex_string) / 2;
+	uint8_t *data = (uint8_t*)mir_alloc(legth);
+
+	for (size_t i = 0; i < legth; i++)
+	{
+		unsigned int val;
+		sscanf(&hex_string[i * 2], "%2hhx", &val);
+		data[i] = val;
+	}
+
+	return data;
+}
+
+char *CToxProto::DataToHexString(const uint8_t *bin_string)
 {
 	uint32_t i, delta = 0, pos_extra, sum_extra = 0;
 	char *ret = (char*)mir_alloc(TOX_FRIEND_ADDRESS_SIZE);
@@ -31,7 +54,7 @@ char *CToxProto::BinToHexString(uint8_t *bin_string)
 		/*if (!((i + 1) % FRADDR_TOSTR_CHUNK_LEN)) {
 			id_str[2 * (i + 1) + delta] = ' ';
 			delta++;
-		}*/
+			}*/
 	}
 
 	ret[2 * i + delta] = 0;
@@ -42,88 +65,37 @@ char *CToxProto::BinToHexString(uint8_t *bin_string)
 	return ret;
 }
 
-#define _HTONS(x) (uint16_t)((x << 8) | (x >> 8))
+#define FRADDR_TOSTR_CHUNK_LEN 8 
 
-struct bootstrap_node {
-	char *address;
-	uint16_t port;
-	uint8_t key[32];
-} bootstrap_nodes[] = {
-		{
-			"192.254.75.98",
-			_HTONS(33445),
-			{
-				0x95, 0x1C, 0x88, 0xB7, 0xE7, 0x5C, 0x86, 0x74, 0x18, 0xAC, 0xDB, 0x5D, 0x27, 0x38, 0x21, 0x37,
-				0x2B, 0xB5, 0xBD, 0x65, 0x27, 0x40, 0xBC, 0xDF, 0x62, 0x3A, 0x4F, 0xA2, 0x93, 0xE7, 0x5D, 0x2F
-			}
-		},
-
-		{
-			"37.187.46.132",
-			_HTONS(33445),
-			{
-				0xA9, 0xD9, 0x82, 0x12, 0xB3, 0xF9, 0x72, 0xBD, 0x11, 0xDA, 0x52, 0xBE, 0xB0, 0x65, 0x8C, 0x32,
-				0x6F, 0xCC, 0xC1, 0xBF, 0xD4, 0x9F, 0x34, 0x7F, 0x9C, 0x2D, 0x3D, 0x8B, 0x61, 0xE1, 0xB9, 0x27
-			}
-		},
-
-		{
-			"144.76.60.215",
-			_HTONS(33445),
-			{
-				0x04, 0x11, 0x9E, 0x83, 0x5D, 0xF3, 0xE7, 0x8B, 0xAC, 0xF0, 0xF8, 0x42, 0x35, 0xB3, 0x00, 0x54,
-				0x6A, 0xF8, 0xB9, 0x36, 0xF0, 0x35, 0x18, 0x5E, 0x2A, 0x8E, 0x9E, 0x0A, 0x67, 0xC8, 0x92, 0x4F
-			}
-		},
-
-		{
-			"23.226.230.47",
-			_HTONS(33445),
-			{
-				0xA0, 0x91, 0x62, 0xD6, 0x86, 0x18, 0xE7, 0x42, 0xFF, 0xBC, 0xA1, 0xC2, 0xC7, 0x03, 0x85, 0xE6,
-				0x67, 0x96, 0x04, 0xB2, 0xD8, 0x0E, 0xA6, 0xE8, 0x4A, 0xD0, 0x99, 0x6A, 0x1A, 0xC8, 0xA0, 0x74
-			}
-		},
-
-		{
-			"54.199.139.199",
-			_HTONS(33445),
-			{
-				0x7F, 0x9C, 0x31, 0xFE, 0x85, 0x0E, 0x97, 0xCE, 0xFD, 0x4C, 0x45, 0x91, 0xDF, 0x93, 0xFC, 0x75,
-				0x7C, 0x7C, 0x12, 0x54, 0x9D, 0xDD, 0x55, 0xF8, 0xEE, 0xAE, 0xCC, 0x34, 0xFE, 0x76, 0xC0, 0x29
-			}
-		},
-
-		{
-			"109.169.46.133",
-			_HTONS(33445),
-			{
-				0x7F, 0x31, 0xBF, 0xC9, 0x3B, 0x8E, 0x40, 0x16, 0xA9, 0x02, 0x14, 0x4D, 0x0B, 0x11, 0x0C, 0x3E,
-				0xA9, 0x7C, 0xB7, 0xD4, 0x3F, 0x1C, 0x4D, 0x21, 0xBC, 0xAE, 0x99, 0x8A, 0x7C, 0x83, 0x88, 0x21
-			}
-		},
-
-		{
-			"192.210.149.121",
-			_HTONS(33445),
-			{
-				0xF4, 0x04, 0xAB, 0xAA, 0x1C, 0x99, 0xA9, 0xD3, 0x7D, 0x61, 0xAB, 0x54, 0x89, 0x8F, 0x56, 0x79,
-				0x3E, 0x1D, 0xEF, 0x8B, 0xD4, 0x6B, 0x10, 0x38, 0xB9, 0xD8, 0x22, 0xE8, 0x46, 0x0F, 0xAB, 0x67
-			}
-		},
-};
-
-#undef _HTONS
-
-/* bootstrap to dht with bootstrap_nodes */
-void CToxProto::do_bootstrap(Tox *tox)
+static void fraddr_to_str(uint8_t *id_bin, char *id_str)
 {
-	static int j = 0;
-	int i = 0;
-	while (i < 2) {
-		struct bootstrap_node *d = &bootstrap_nodes[j % SIZEOF(bootstrap_nodes)];
-		tox_bootstrap_from_address(tox, d->address, 1, d->port, d->key);
-		i++;
-		j++;
+	uint32_t i, delta = 0, pos_extra, sum_extra = 0;
+
+	for (i = 0; i < TOX_FRIEND_ADDRESS_SIZE; i++) {
+		sprintf(&id_str[2 * i + delta], "%02hhX", id_bin[i]);
+
+		if ((i + 1) == TOX_CLIENT_ID_SIZE)
+			pos_extra = 2 * (i + 1) + delta;
+
+		if (i >= TOX_CLIENT_ID_SIZE)
+			sum_extra |= id_bin[i];
+
+		if (!((i + 1) % FRADDR_TOSTR_CHUNK_LEN)) {
+			id_str[2 * (i + 1) + delta] = ' ';
+			delta++;
+		}
 	}
+
+	id_str[2 * i + delta] = 0;
+
+	if (!sum_extra)
+		id_str[pos_extra] = 0;
+}
+
+void get_id(Tox *m, char *data)
+{
+	int offset = strlen(data);
+	uint8_t address[TOX_FRIEND_ADDRESS_SIZE];
+	tox_get_address(m, address);
+	fraddr_to_str(address, data + offset);
 }

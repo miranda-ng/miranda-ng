@@ -1,44 +1,9 @@
 #include "common.h"
 
-#define FRADDR_TOSTR_CHUNK_LEN 8 
-
-static void fraddr_to_str(uint8_t *id_bin, char *id_str)
-{
-	uint32_t i, delta = 0, pos_extra, sum_extra = 0;
-
-	for (i = 0; i < TOX_FRIEND_ADDRESS_SIZE; i++) {
-		sprintf(&id_str[2 * i + delta], "%02hhX", id_bin[i]);
-
-		if ((i + 1) == TOX_CLIENT_ID_SIZE)
-			pos_extra = 2 * (i + 1) + delta;
-
-		if (i >= TOX_CLIENT_ID_SIZE)
-			sum_extra |= id_bin[i];
-
-		if (!((i + 1) % FRADDR_TOSTR_CHUNK_LEN)) {
-			id_str[2 * (i + 1) + delta] = ' ';
-			delta++;
-		}
-	}
-
-	id_str[2 * i + delta] = 0;
-
-	if (!sum_extra)
-		id_str[pos_extra] = 0;
-} 
-
-void get_id(Tox *m, char *data)
-{
-	int offset = strlen(data);
-	uint8_t address[TOX_FRIEND_ADDRESS_SIZE];
-	tox_get_address(m, address);
-	fraddr_to_str(address, data + offset);
-}
-
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CToxProto>(protoName, userName)
 {
-	tox = tox_new(1);
+	tox = tox_new(TOX_ENABLE_IPV6_DEFAULT);
 
 	tox_callback_friend_request(tox, OnFriendRequest, this);
 	tox_callback_friend_message(tox, OnFriendMessage, this);
@@ -47,9 +12,6 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	tox_callback_status_message(tox, OnStatusMessageChanged, this);
 	tox_callback_user_status(tox, OnUserStatusChanged, this);
 	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
-
-	char idstring[200] = { 0 };
-	get_id(tox, idstring);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::CreateAccMgrUI);
 }
@@ -152,63 +114,12 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		{
 			m_iStatus = ID_STATUS_CONNECTING;
 
-			// login
-			isTerminated = false;
-			char *name = "my_nickname";
-			int res = tox_set_name(tox, (uint8_t*)name, strlen(name));
-
-			do_bootstrap(tox);
-
-			time_t timestamp0 = time(NULL);
-			int on = 0;
-
-			while (1) {
-				tox_do(tox);
-
-				if (on == 0) {
-					if (tox_isconnected(tox)) {
-						on = 1;
-					}
-					else {
-						time_t timestamp1 = time(NULL);
-
-						if (timestamp0 + 10 < timestamp1) {
-							timestamp0 = timestamp1;
-							do_bootstrap(tox);
-						}
-					}
-				}
-			}
-
-			res = tox_isconnected(tox);
-			if (!res)
-			{
-				SetStatus(ID_STATUS_OFFLINE);
-				return 0;
-			}
-
-			poolingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
+			connectionThread = ForkThreadEx(&CToxProto::ConnectionThread, 0, NULL);
 		}
 		else
 		{
 			// set tox status
-			TOX_USERSTATUS userstatus;
-			switch (iNewStatus)
-			{
-			case ID_STATUS_ONLINE:
-				userstatus = TOX_USERSTATUS_NONE;
-				break;
-			case ID_STATUS_AWAY:
-				userstatus = TOX_USERSTATUS_AWAY;
-				break;
-			case ID_STATUS_OCCUPIED:
-				userstatus = TOX_USERSTATUS_BUSY;
-				break;
-			default:
-				userstatus = TOX_USERSTATUS_INVALID;
-				break;
-			}
-			tox_set_user_status(tox, userstatus);
+			tox_set_user_status(tox, MirandaToToxStatus(iNewStatus));
 
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
