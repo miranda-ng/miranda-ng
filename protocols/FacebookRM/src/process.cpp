@@ -461,7 +461,7 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	bool isChat = isChatRoom(hContact);
 
-	if (isChat && m_disableChat)
+	if (isChat && !m_enableChat)
 		return;
 
 	ptrA item_id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
@@ -601,7 +601,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 		DWORD timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
 
 		if (messages[i]->isChat) {
-			if (m_disableChat) {
+			if (!m_enableChat) {
 				delete messages[i];
 				continue;
 			}

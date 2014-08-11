@@ -36,7 +36,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
 
 	m_invisible = false;
-	m_disableChat = getBool(FACEBOOK_KEY_DISABLE_CHAT, false);
+	m_enableChat = getBool(FACEBOOK_KEY_ENABLE_CHAT, true);
 
 	CreateProtoService(PS_CREATEACCMGRUI,		&FacebookProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETMYAWAYMSG,			&FacebookProto::GetMyAwayMsg);
@@ -45,7 +45,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	CreateProtoService(PS_GETAVATARCAPS,		&FacebookProto::GetAvatarCaps);
 	CreateProtoService(PS_GETUNREADEMAILCOUNT,	&FacebookProto::GetNotificationsCount);
 
-	if (!m_disableChat) {
+	if (m_enableChat) {
 		CreateProtoService(PS_JOINCHAT, &FacebookProto::OnJoinChat);
 		CreateProtoService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
 	}
@@ -119,7 +119,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT hContact)
 	{
 	case PFLAGNUM_1:
 	{
-		DWORD_PTR flags = PF1_IM | (!m_disableChat ? PF1_CHAT : 0) | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
+		DWORD_PTR flags = PF1_IM | (m_enableChat ? PF1_CHAT : 0) | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
 
 		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, 0))
 			return flags |= PF1_MODEMSG;
@@ -419,7 +419,7 @@ INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 int FacebookProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	// Register group chat
-	if (!m_disableChat) {
+	if (m_enableChat) {
 		GCREGISTER gcr = { sizeof(gcr) };
 		gcr.dwFlags = 0; //GC_ACKMSG;
 		gcr.pszModule = m_szModuleName;
