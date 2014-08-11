@@ -2,7 +2,7 @@
 
 Import plugin for Miranda NG
 
-Copyright (C) 2012 George Hazan
+Copyright (C) 2012-14 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -24,9 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL IsProtocolLoaded(char* pszProtocolName)
+bool IsProtocolLoaded(const char *pszProtocolName)
 {
-	return CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pszProtocolName) ? TRUE : FALSE;
+	return CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pszProtocolName) != 0;
 }
 
 // ------------------------------------------------
@@ -35,25 +35,26 @@ BOOL IsProtocolLoaded(char* pszProtocolName)
 // If contact is specified adds it to group
 // ------------------------------------------------
 // Returns 1 if successful and 0 when it fails.
+
 int CreateGroup(const TCHAR* group, MCONTACT hContact)
 {
 	if (group == NULL)
 		return 0;
 
 	size_t cbName = _tcslen(group);
-	TCHAR *tszGrpName = (TCHAR*)_alloca(( cbName+2 )*sizeof( TCHAR ));
+	TCHAR *tszGrpName = (TCHAR*)_alloca((cbName + 2)*sizeof(TCHAR));
 	tszGrpName[0] = 1 | GROUPF_EXPANDED;
-	_tcscpy(tszGrpName+1, group);
+	_tcscpy(tszGrpName + 1, group);
 
 	// Check for duplicate & find unused id
 	char groupIdStr[11];
-	for (int groupId = 0; ; groupId++) {
+	for (int groupId = 0;; groupId++) {
 		DBVARIANT dbv;
-		itoa(groupId, groupIdStr,10);
+		itoa(groupId, groupIdStr, 10);
 		if (db_get_ts(NULL, "CListGroups", groupIdStr, &dbv))
 			break;
 
-		if ( !lstrcmp(dbv.ptszVal + 1, tszGrpName + 1 )) {
+		if (!lstrcmp(dbv.ptszVal + 1, tszGrpName + 1)) {
 			if (hContact)
 				db_set_ts(hContact, "CList", "Group", tszGrpName + 1);
 			else
@@ -66,16 +67,24 @@ int CreateGroup(const TCHAR* group, MCONTACT hContact)
 		db_free(&dbv);
 	}
 
-	db_set_ts( NULL, "CListGroups", groupIdStr, tszGrpName );
+	db_set_ts(NULL, "CListGroups", groupIdStr, tszGrpName);
 
 	if (hContact)
-		db_set_ts( hContact, "CList", "Group", tszGrpName+1 );
+		db_set_ts(hContact, "CList", "Group", tszGrpName + 1);
 
 	return 1;
 }
 
+static bool IsEqualEvent(const DBEVENTINFO &ev1, const DBEVENTINFO &ev2)
+{
+	return (ev1.timestamp == ev2.timestamp &&
+			  ev1.eventType == ev2.eventType &&
+			  ev1.cbBlob == ev2.cbBlob &&
+			  (ev1.flags & DBEF_SENT) == (ev2.flags & DBEF_SENT));
+}
+
 // Returns TRUE if the event already exist in the database
-BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
+bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 {
 	static DWORD dwPreviousTimeStamp = -1;
 	static MCONTACT hPreviousContact = INVALID_CONTACT_ID;
@@ -121,7 +130,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			dwPreviousTimeStamp = dwEventTimeStamp;
 			hPreviousDbEvent = hExistingDbEvent;
 
-			if ( dbei.timestamp != dwEventTimeStamp )
+			if (dbei.timestamp != dwEventTimeStamp)
 				return FALSE;
 		}
 	}
@@ -132,10 +141,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 		dbeiExisting.cbSize = sizeof(dbeiExisting);
 		db_event_get(hPreviousDbEvent, &dbeiExisting);
 
-		if ((dbei.timestamp == dbeiExisting.timestamp) &&
-			(dbei.eventType == dbeiExisting.eventType) &&
-			(dbei.cbBlob == dbeiExisting.cbBlob) &&
-			((dbei.flags & DBEF_SENT) == (dbeiExisting.flags & DBEF_SENT)))
+		if (IsEqualEvent(dbei, dbeiExisting))
 			return TRUE;
 
 		// find event with another timestamp
@@ -174,11 +180,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			}
 
 			// Compare event with import candidate
-			if ((dbei.timestamp == dbeiExisting.timestamp) &&
-				(dbei.eventType == dbeiExisting.eventType) &&
-				(dbei.cbBlob == dbeiExisting.cbBlob) &&
-				((dbei.flags & DBEF_SENT) == (dbeiExisting.flags & DBEF_SENT)))
-			{
+			if (IsEqualEvent(dbei, dbeiExisting)) {
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
@@ -204,11 +206,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			}
 
 			// Compare event with import candidate
-			if ((dbei.timestamp == dbeiExisting.timestamp) &&
-				(dbei.eventType == dbeiExisting.eventType) &&
-				(dbei.cbBlob == dbeiExisting.cbBlob) &&
-				((dbei.flags&DBEF_SENT) == (dbeiExisting.flags&DBEF_SENT)))
-			{
+			if (IsEqualEvent(dbei, dbeiExisting)) {
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;

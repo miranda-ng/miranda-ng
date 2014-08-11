@@ -2,7 +2,7 @@
 
 Import plugin for Miranda NG
 
-Copyright (C) 2012 George Hazan
+Copyright (C) 2012-14 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -103,8 +103,8 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPA
 INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-BOOL IsProtocolLoaded(char* pszProtocolName);
-BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
+bool IsProtocolLoaded(const char* pszProtocolName);
+bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 
 int CreateGroup(const TCHAR* name, MCONTACT hContact);
 

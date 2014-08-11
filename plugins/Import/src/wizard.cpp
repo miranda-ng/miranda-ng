@@ -2,7 +2,7 @@
 
 Import plugin for Miranda NG
 
-Copyright (C) 2012 George Hazan
+Copyright (C) 2012-14 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -24,29 +24,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch( message ) {
+	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		SendMessage(GetParent(hdlg), WIZM_DISABLEBUTTON, 0, 0);
 		return TRUE;
-		
+
 	case WM_COMMAND:
-		switch( LOWORD( wParam )) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
 			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_MIRANDADB, (LPARAM)MirandaPageProc);
 			break;
-			
+
 		case IDCANCEL:
 			PostMessage(GetParent(hdlg), WM_CLOSE, 0, 0);
 			break;
-	}	}
-	
+		}
+	}
+
 	return FALSE;
 }
 
 INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch( message ) {
+	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		SendMessage(GetParent(hdlg), WIZM_DISABLEBUTTON, 0, 0);
@@ -55,18 +56,16 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 		return TRUE;
 
 	case WM_COMMAND:
-		switch( LOWORD( wParam )) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
 			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_MIRANDADB, (LPARAM)MirandaPageProc);
 			break;
 
 		case IDCANCEL:
-			if ( IsDlgButtonChecked( hdlg, IDC_DONTLOADPLUGIN )) {			
+			if (IsDlgButtonChecked(hdlg, IDC_DONTLOADPLUGIN)) {
 				char sModuleFileName[MAX_PATH];
-				char *pszFileName;
-
 				GetModuleFileNameA(hInst, sModuleFileName, sizeof(sModuleFileName));
-				pszFileName = strrchr(sModuleFileName, '\\' );
+				char *pszFileName = strrchr(sModuleFileName, '\\');
 				if (pszFileName == NULL)
 					pszFileName = sModuleFileName;
 				else
@@ -93,11 +92,11 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 {
 	static HWND hwndPage;
 
-	switch ( message ) {
+	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		hwndPage = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARDINTRO), hdlg, WizardIntroPageProc);
-		SetWindowPos(hwndPage, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
+		SetWindowPos(hwndPage, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		ShowWindow(hwndPage, SW_SHOW);
 		ShowWindow(hdlg, SW_SHOW);
 		SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(hIcoHandle));
@@ -110,12 +109,12 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		EnableWindow(GetDlgItem(hdlg, IDCANCEL), TRUE);
 		SetDlgItemText(hdlg, IDCANCEL, TranslateT("Cancel"));
 		hwndPage = CreateDialog(hInst, MAKEINTRESOURCE(wParam), hdlg, (DLGPROC)lParam);
-		SetWindowPos(hwndPage, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
+		SetWindowPos(hwndPage, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		ShowWindow(hwndPage, SW_SHOW);
 		break;
 
 	case WIZM_DISABLEBUTTON:
-		switch ( wParam ) {
+		switch (wParam) {
 		case 0:
 			EnableWindow(GetDlgItem(hdlg, IDC_BACK), FALSE);
 			break;
@@ -131,7 +130,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 	case WIZM_ENABLEBUTTON:
-		switch ( wParam ) {
+		switch (wParam) {
 		case 0:
 			EnableWindow(GetDlgItem(hdlg, IDC_BACK), TRUE);
 			break;
@@ -159,6 +158,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		DestroyWindow(hdlg);
 		break;
 	}
-	
+
 	return FALSE;
 }
