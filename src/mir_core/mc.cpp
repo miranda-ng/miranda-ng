@@ -72,7 +72,7 @@ MIR_CORE_DLL(void) db_mc_enable(BOOL bEnabled)
 {
 	g_bEnabled = bEnabled != 0;
 
-	NotifyEventHooks(hEventDefaultChanged, g_bEnabled, 0);
+	NotifyEventHooks(hEventEnabled, g_bEnabled, 0);
 }
 
 MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
