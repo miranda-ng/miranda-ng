@@ -67,3 +67,20 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendId, const ui
 void CToxProto::OnAction(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
 }
+
+void CToxProto::OnReadReceipt(Tox *tox, int32_t friendnumber, uint32_t receipt, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+	tox_get_client_id(tox, friendnumber, &clientId[0]);
+	std::string toxId = proto->DataToHexString(clientId);
+
+	MCONTACT hContact = proto->GetContactByClientId(toxId.c_str());
+
+	proto->ProtoBroadcastAck(
+		hContact,
+		ACKTYPE_MESSAGE,
+		ACKRESULT_SUCCESS,
+		(HANDLE)receipt, 0);
+}

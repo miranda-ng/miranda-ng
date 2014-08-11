@@ -21,7 +21,7 @@ TOX_USERSTATUS CToxProto::MirandaToToxStatus(int status)
 	return userstatus;
 }
 
-std::vector<uint8_t> HexStringToData(const std::string hex)
+std::vector<uint8_t> CToxProto::HexStringToData(std::string hex)
 {
 	std::stringstream ss;
 	std::vector<uint8_t> data;
@@ -29,16 +29,16 @@ std::vector<uint8_t> HexStringToData(const std::string hex)
 	size_t count = hex.length() / 2;
 	for (size_t i = 0; i < count; i++)
 	{
-		uint8_t temp;
-		ss << std::hex << hex.substr(i * 2, 2);
-		ss >> temp;
-		data.push_back(temp);
+		unsigned byte;
+		std::istringstream hex_byte(hex.substr(i * 2, 2));
+		hex_byte >> std::hex >> byte;
+		data.push_back(static_cast<unsigned char>(byte));
 	}
 
 	return data;
 }
 
-std::string CToxProto::DataToHexString(const std::vector<uint8_t> data)
+std::string CToxProto::DataToHexString(std::vector<uint8_t> data)
 {
 	std::stringstream ss;
 	ss << std::hex << std::uppercase;

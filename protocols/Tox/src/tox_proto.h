@@ -83,9 +83,11 @@ private:
 	static int CompareProtos(const CToxProto *p1, const CToxProto *p2);
 
 	// account
+	bool IsOnline();
+
 	void DoBootstrap();
 	void DoTox();
-	
+
 	void __cdecl ConnectionThread(void*);
 	void __cdecl PollingThread(void*);
 
@@ -101,10 +103,11 @@ private:
 	static void OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t TOX_USERSTATUS, void *userdata);
 	static void OnConnectionStatusChanged(Tox *tox, const int friendId, const uint8_t status, void *arg);
 	static void OnAction(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnReadReceipt(Tox *tox, int32_t friendnumber, uint32_t receipt, void *arg);
 
 	// contacts
 	bool IsProtoContact(MCONTACT hContact);
-	MCONTACT GetContactByUserId(const char *clientId);
+	MCONTACT GetContactByClientId(const char *clientId);
 	MCONTACT AddContact(const char *clientId, const char *nick, bool isHidden = false);
 
 	void LoadContactList();
@@ -118,8 +121,8 @@ private:
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
 	
-	std::vector<uint8_t> HexStringToData(const std::string hex);
-	std::string DataToHexString(const std::vector<uint8_t>);
+	std::vector<uint8_t> HexStringToData(std::string hex);
+	std::string DataToHexString(std::vector<uint8_t>);
 
 	int LoadToxData(const char *path);
 	int SaveToxData(const char *path);

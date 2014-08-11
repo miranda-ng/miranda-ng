@@ -5,7 +5,7 @@ bool CToxProto::IsProtoContact(MCONTACT hContact)
 	return ::lstrcmpiA(::GetContactProto(hContact), m_szModuleName) == 0;
 }
 
-MCONTACT CToxProto::GetContactByUserId(const char *clientId)
+MCONTACT CToxProto::GetContactByClientId(const char *clientId)
 {
 	MCONTACT hContact = NULL;
 
@@ -25,7 +25,7 @@ MCONTACT CToxProto::GetContactByUserId(const char *clientId)
 
 MCONTACT CToxProto::AddContact(const char *clientId, const char *nick, bool isHidden)
 {
-	MCONTACT hContact = GetContactByUserId(clientId);
+	MCONTACT hContact = GetContactByClientId(clientId);
 	if (!hContact)
 	{
 		hContact = (MCONTACT)::CallService(MS_DB_CONTACT_ADD, 0, 0);

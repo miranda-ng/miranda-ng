@@ -17,6 +17,7 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	tox_callback_name_change(tox, OnFriendNameChange, this);
 	tox_callback_status_message(tox, OnStatusMessageChanged, this);
 	tox_callback_user_status(tox, OnUserStatusChanged, this);
+	tox_callback_read_receipt(tox, OnReadReceipt, this);
 	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
@@ -63,7 +64,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
-		return PF4_SUPPORTTYPING;
+		return PF4_IMSENDUTF | PF4_SUPPORTTYPING;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:
@@ -97,7 +98,24 @@ int __cdecl CToxProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT* hContactsList) { return 0; }
 HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles) { return 0; }
-int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg) { return 0; }
+
+int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
+{
+	if (!IsOnline())
+	{
+		return 1;
+	}
+
+	std::string toxId(getStringA(hContact, TOX_SETTING_ID));
+	std::vector<uint8_t> clientId = HexStringToData(toxId);
+
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
+	
+	int messageId = tox_send_message(tox, number, (uint8_t*)msg, strlen(msg));
+	
+	return messageId;
+}
+
 int __cdecl CToxProto::SendUrl(MCONTACT hContact, int flags, const char* url) { return 0; }
 
 int __cdecl CToxProto::SetApparentMode(MCONTACT hContact, int mode) { return 0; }

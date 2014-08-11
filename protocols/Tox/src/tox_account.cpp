@@ -1,6 +1,11 @@
 #include "common.h"
 #include "tox_bootstrap.h"
 
+bool CToxProto::IsOnline()
+{
+	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
+}
+
 void CToxProto::DoBootstrap()
 {
 	static int j = 0;
