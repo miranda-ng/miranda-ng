@@ -39,7 +39,6 @@
     <ClInclude Include="src\tox_bootstrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="res\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">

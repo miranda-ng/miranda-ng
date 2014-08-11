@@ -19,7 +19,7 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			if (!dataPath)
 			{
 				char defaultPath[MAX_PATH];
-				mir_snprintf(defaultPath, MAX_PATH, "%s\\Tox\\%s.tox", VARS("%miranda_userdata%"), _T2A(proto->m_tszUserName));
+				mir_snprintf(defaultPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_userdata%"), _T2A(proto->m_tszUserName));
 				dataPath = mir_strdup(defaultPath);
 			}
 			SetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath);

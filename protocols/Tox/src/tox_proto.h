@@ -104,8 +104,10 @@ private:
 
 	// contacts
 	bool IsProtoContact(MCONTACT hContact);
-	MCONTACT GetContactByUserId(const wchar_t *userId);
-	MCONTACT AddContact(const wchar_t*userId, const wchar_t *nick, bool isHidden = false);
+	MCONTACT GetContactByUserId(const char *clientId);
+	MCONTACT AddContact(const char *clientId, const char *nick, bool isHidden = false);
+
+	void LoadContactList();
 
 	void __cdecl SearchByUidAsync(void* arg);
 
@@ -115,8 +117,9 @@ private:
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
-	uint8_t *HexStringToData(const char *hex_string);
-	char *DataToHexString(const uint8_t *bin_string);
+	
+	std::vector<uint8_t> HexStringToData(const std::string hex);
+	std::string DataToHexString(const std::vector<uint8_t>);
 
 	int LoadToxData(const char *path);
 	int SaveToxData(const char *path);

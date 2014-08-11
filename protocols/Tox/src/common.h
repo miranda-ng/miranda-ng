@@ -5,6 +5,11 @@
 #include <windows.h>
 #include <time.h>
 
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <vector>
+
 #include <newpluginapi.h>
 
 #include <m_protoint.h>
@@ -23,5 +28,7 @@
 #include "tox_proto.h"
 
 extern HINSTANCE g_hInstance;
+
+#define TOX_SETTING_ID "ToxID"
 
 #endif //_COMMON_H_

@@ -35,9 +35,9 @@ CToxProto::~CToxProto()
 
 MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	MCONTACT hContact = AddContact(psr->id, psr->nick);
+//	MCONTACT hContact = AddContact(psr->id, psr->nick);
 
-	return hContact;
+	return NULL;
 }
 
 MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return 0; }
@@ -67,7 +67,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)"ToxID";
+		return (DWORD_PTR)TOX_SETTING_ID;
 	case PFLAG_MAXLENOFMESSAGE:
 		return TOX_MAX_MESSAGE_LENGTH;
 	}

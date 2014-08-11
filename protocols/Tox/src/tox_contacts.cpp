@@ -5,7 +5,7 @@ bool CToxProto::IsProtoContact(MCONTACT hContact)
 	return ::lstrcmpiA(::GetContactProto(hContact), m_szModuleName) == 0;
 }
 
-MCONTACT CToxProto::GetContactByUserId(const wchar_t *userId)
+MCONTACT CToxProto::GetContactByUserId(const char *clientId)
 {
 	MCONTACT hContact = NULL;
 
@@ -13,8 +13,8 @@ MCONTACT CToxProto::GetContactByUserId(const wchar_t *userId)
 
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		ptrW cUserId(::db_get_wsa(hContact, m_szModuleName, "UserID"));
-		if (lstrcmpi(cUserId, userId) == 0)
+		ptrA contactId(getStringA(hContact, TOX_SETTING_ID));
+		if (lstrcmpiA(contactId, clientId) == 0)
 			break;
 	}
 
@@ -23,24 +23,47 @@ MCONTACT CToxProto::GetContactByUserId(const wchar_t *userId)
 	return hContact;
 }
 
-MCONTACT CToxProto::AddContact(const wchar_t *userId, const wchar_t *nick, bool isHidden)
+MCONTACT CToxProto::AddContact(const char *clientId, const char *nick, bool isHidden)
 {
-	MCONTACT hContact = GetContactByUserId(userId);
-	if ( !hContact)
+	MCONTACT hContact = GetContactByUserId(clientId);
+	if (!hContact)
 	{
 		hContact = (MCONTACT)::CallService(MS_DB_CONTACT_ADD, 0, 0);
-		::CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
+		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 
-		db_set_b(hContact, "CList", "NotOnList", 1);
+		/*db_set_b(hContact, "CList", "NotOnList", 1);
 
 		if (isHidden)
+		{
 			db_set_b(hContact, "CList", "Hidden", 1);
+		}*/
 
-		setWString(hContact, "UserId", userId);
-		setWString(hContact, "Nick", nick);
+		setString(hContact, TOX_SETTING_ID, clientId);
+		setString(hContact, "Nick", nick);
 	}
 
 	return hContact;
+}
+
+void CToxProto::LoadContactList()
+{
+	uint32_t count = tox_count_friendlist(tox);
+	if (count > 0)
+	{
+		int32_t *friends = (int32_t*)mir_alloc(count * sizeof(int32_t));
+		tox_get_friendlist(tox, friends, count);
+		std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+		std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
+		for (uint32_t i = 0; i < count; ++i)
+		{
+			tox_get_client_id(tox, friends[i], &clientId[0]);
+			std::string toxId = DataToHexString(clientId);
+			tox_get_name(tox, friends[i], &username[0]);
+			std::string nick(username.begin(), username.end());
+
+			AddContact(toxId.c_str(), nick.c_str());
+		}
+	}
 }
 
 void __cdecl CToxProto::SearchByUidAsync(void* arg)

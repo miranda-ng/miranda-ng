@@ -21,47 +21,32 @@ TOX_USERSTATUS CToxProto::MirandaToToxStatus(int status)
 	return userstatus;
 }
 
-uint8_t *HexStringToData(const char *hex_string)
+std::vector<uint8_t> HexStringToData(const std::string hex)
 {
-	size_t legth = strlen(hex_string) / 2;
-	uint8_t *data = (uint8_t*)mir_alloc(legth);
+	std::stringstream ss;
+	std::vector<uint8_t> data;
 
-	for (size_t i = 0; i < legth; i++)
+	size_t count = hex.length() / 2;
+	for (size_t i = 0; i < count; i++)
 	{
-		unsigned int val;
-		sscanf(&hex_string[i * 2], "%2hhx", &val);
-		data[i] = val;
+		uint8_t temp;
+		ss << std::hex << hex.substr(i * 2, 2);
+		ss >> temp;
+		data.push_back(temp);
 	}
 
 	return data;
 }
 
-char *CToxProto::DataToHexString(const uint8_t *bin_string)
+std::string CToxProto::DataToHexString(const std::vector<uint8_t> data)
 {
-	uint32_t delta = 0, pos_extra, sum_extra = 0;
-	char *ret = (char*)mir_alloc(TOX_FRIEND_ADDRESS_SIZE + 1);
-
-	for (uint32_t i = 0; i < TOX_FRIEND_ADDRESS_SIZE; i++) {
-		sprintf(&ret[2 * i + delta], "%02X", bin_string[i]);
-
-		if ((i + 1) == TOX_CLIENT_ID_SIZE)
-			pos_extra = 2 * (i + 1) + delta;
-
-		if (i >= TOX_CLIENT_ID_SIZE)
-			sum_extra |= bin_string[i];
-
-		/*if (!((i + 1) % FRADDR_TOSTR_CHUNK_LEN)) {
-			id_str[2 * (i + 1) + delta] = ' ';
-			delta++;
-		}*/
+	std::stringstream ss;
+	ss << std::hex << std::uppercase;
+	for (uint32_t i = 0; i < data.size(); i++)
+	{
+		ss << (int)data[i];
 	}
-
-	//ret[2 * i + delta] = 0;
-
-	if (!sum_extra)
-		ret[pos_extra] = 0;
-
-	return ret;
+	return ss.str();
 }
 
 int CToxProto::LoadToxData(const char *path)
