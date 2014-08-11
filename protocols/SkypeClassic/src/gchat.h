@@ -11,6 +11,11 @@
 
 #define MAX_BUF 256    // Buffer for topic-string
 
+// In case this you compile for Miranda NG with a non-Tchar aware Groupchat plugin, null the flag out
+#ifndef GC_TCHAR
+#define GC_TCHAR 0
+#endif
+
 typedef struct {
 	MCONTACT hContact;
 	TCHAR who[33];
@@ -44,4 +49,4 @@ INT_PTR GCOnLeaveChat(WPARAM wParam,LPARAM lParam);
 INT_PTR GCOnJoinChat(WPARAM wParam,LPARAM lParam);
 void GCInit(void);
 void GCExit(void);
-void SetChatTopic (const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet);
+void SetChatTopic (TCHAR *szChatId, TCHAR *szTopic, BOOL bSet);

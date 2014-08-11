@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "pthread.h"
 #include "gchat.h"
 #include "m_toptoolbar.h"
+#include "voiceservice.h"
 #include "msglist.h"
 #include "memlist.h"
 #include <sys/timeb.h>
@@ -39,6 +40,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #pragma warning (disable: 4706) // assignment within conditional expression
+
+#ifdef IS_MIRANDAIM
+PLUGINLINK *pluginLink;
+struct MM_INTERFACE   mmi;
+#endif
 
 POPUPDATAT MessagePopup;
 
@@ -171,6 +177,9 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
+#ifdef IS_MIRANDAIM
+	0,		//doesn't replace anything built-in
+#endif
 	// {A71F8335-7B87-4432-B8A3-81479431C6F5}
 	{ 0xa71f8335, 0x7b87, 0x4432, { 0xb8, 0xa3, 0x81, 0x47, 0x94, 0x31, 0xc6, 0xf5 } }
 };
@@ -185,6 +194,58 @@ void RegisterToDbeditorpp(void)
 	// known modules list
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)SKYPE_PROTONAME, 0);
+}
+
+void RegisterToUpdate(void)
+{
+#ifdef IS_MIRANDAIM
+	//Use for the Updater plugin
+	if(ServiceExists(MS_UPDATE_REGISTER)) 
+	{
+		Update update = {0};
+		char szVersion[16];
+
+		update.szComponentName = pluginInfo.shortName;
+		update.pbVersion = (BYTE *)CreateVersionStringPlugin((PLUGININFO *)&pluginInfo, szVersion);
+		update.cpbVersion = (DWORD)strlen((char *)update.pbVersion);
+
+#ifdef _WIN64
+#ifdef _UNICODE
+		update.szBetaUpdateURL = "http://dose.0wnz.at/miranda/Skype/Skype_protocol_unicode_x64.zip";
+#else
+		update.szBetaUpdateURL = "http://dose.0wnz.at/miranda/Skype/Skype_protocol_x64.zip";
+#endif
+		update.szBetaVersionURL = "http://dose.0wnz.at/miranda/Skype/";
+		update.pbBetaVersionPrefix = (BYTE *)"SKYPE version ";
+		update.szUpdateURL = update.szBetaUpdateURL;	// FIXME!!
+		update.szVersionURL = update.szBetaVersionURL; // FIXME
+		update.pbVersionPrefix = update.pbBetaVersionPrefix; //FIXME
+#else /* _WIN64 */
+#ifdef _UNICODE
+		update.szBetaUpdateURL = "http://dose.0wnz.at/miranda/Skype/Skype_protocol_unicode.zip";
+#else
+	    update.szBetaUpdateURL = "http://dose.0wnz.at/miranda/Skype/Skype_protocol.zip";
+#endif
+		update.szBetaVersionURL = "http://dose.0wnz.at/miranda/Skype/";
+		update.pbBetaVersionPrefix = (BYTE *)"SKYPE version ";
+#ifdef _UNICODE
+		update.szUpdateURL = update.szBetaUpdateURL;	// FIXME!!
+		update.szVersionURL = update.szBetaVersionURL; // FIXME
+		update.pbVersionPrefix = update.pbBetaVersionPrefix; //FIXME
+#else
+		update.szUpdateURL = "http://addons.miranda-im.org/feed.php?dlfile=3200";
+		update.szVersionURL = "http://addons.miranda-im.org/details.php?action=viewfile&id=3200";
+		update.pbVersionPrefix = (BYTE *)"<span class=\"fileNameHeader\">Skype Protocol</span>";
+#endif
+#endif
+
+		update.cpbVersionPrefix = (DWORD)strlen((char *)update.pbVersionPrefix);
+		update.cpbBetaVersionPrefix = (DWORD)strlen((char *)update.pbBetaVersionPrefix);
+
+		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
+
+	}
+#endif
 }
 
 /*
@@ -421,6 +482,32 @@ void BasicSearchThread(char *nick) {
 	return;
 }
 
+#ifdef IS_MIRANDAIM
+INT_PTR SkypeDBWriteContactSettingUTF8String(HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+{
+	DBCONTACTWRITESETTING cws;
+	INT_PTR iRet;
+
+	// Try to save it as UTF8 sting to DB. If this doesn't succeed (i.e. older Miranda version), we convert
+	// accordingly and try to save again.
+
+	cws.szModule=szModule;
+	cws.szSetting=szSetting;
+	cws.value.type=DBVT_UTF8;
+	cws.value.pszVal=(char*)val;
+	// DBVT_UTF8 support started with version 0.5.0.0, right...?
+	if (mirandaVersion < 0x050000 || (iRet = CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws)))
+	{
+		// Failed, try to convert and then try again
+		cws.value.type=DBVT_TCHAR;
+		if (!(cws.value.ptszVal = make_tchar_string((const unsigned char*)val))) return -1;
+		iRet = CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+		free (cws.value.pszVal);
+	}
+	return iRet;
+}
+#endif
+
 // added by TioDuke
 void GetDisplaynameThread(char *dummy) {
 	DBVARIANT dbv;
@@ -489,6 +576,82 @@ int SearchFriends(void) {
 	return iRet;
 }
 
+static void QueryUserWaitingAuthorization(char *pszNick, char *pszAuthRq)
+{
+	CCSDATA ccs={0};
+	PROTORECVEVENT pre={0};
+	MCONTACT hContact;
+	char *firstname=NULL, *lastname=NULL, *pCurBlob, *authmsg=NULL;
+	
+	LOG(("Awaiting auth: %s", pszNick));
+	ccs.szProtoService=PSR_AUTH;
+	ccs.hContact = hContact = add_contact(pszNick, PALF_TEMPORARY);
+	ccs.wParam = 0;
+	ccs.lParam = (LPARAM)&pre;
+	pre.flags = 0;
+	pre.timestamp = (DWORD)SkypeTime(NULL);
+
+	/* blob is: */
+	//DWORD protocolSpecific HANDLE hContact
+	//ASCIIZ nick, firstName, lastName, e-mail, requestReason
+	if (firstname=SkypeGet("USER", pszNick, "FULLNAME")) {
+		if (mirandaVersion < 0x070000) {
+			char *tmp;
+
+			if (utf8_decode(firstname, &tmp)!=-1) {
+				free (firstname);
+				firstname = tmp;
+			}
+		}
+		if (lastname=strchr(firstname, ' ')) {
+			*lastname=0;
+			lastname++;
+		}
+	}
+
+	pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + strlen(pszNick) + 5;
+	if (firstname) pre.lParam += strlen(firstname);
+	if (lastname) pre.lParam += strlen(lastname);
+	if (pszAuthRq) authmsg = strdup(pszAuthRq);
+	if (authmsg || ((protocol>=4 || bIsImoproxy) && (authmsg=SkypeGetID("USER", pszNick, "RECEIVEDAUTHREQUEST"))))
+		pre.lParam+=strlen(authmsg);
+	if (pre.szMessage  = pCurBlob = (char *)calloc(1, pre.lParam)) {
+		pCurBlob+=sizeof(DWORD); // Not used
+		memcpy(pCurBlob, &hContact, sizeof(HANDLE));	pCurBlob += sizeof(HANDLE);
+
+		if (mirandaVersion >= 0x070000) // 0.7.0+ supports PREF_UTF flag, no need to decode UTF8
+			pre.flags |= PREF_UTF;
+		else {
+			char *tmp;
+
+			if (authmsg && utf8_decode(authmsg, &tmp)!=-1) {
+				free (authmsg);
+				authmsg = tmp;
+			}
+		}
+
+		sprintf (pCurBlob, "%s%c%s%c%s%c%c%s", pszNick, 0, firstname?firstname:"", 0, lastname?lastname:"", 0, 0, authmsg?authmsg:"");
+
+		CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+		free(pre.szMessage);
+	}
+	if (firstname) free(firstname);
+	if (authmsg) free (authmsg);
+	return;
+}
+
+
+void __cdecl ProcessAuthRq(void *pPmsg) {
+	char *nick, *auth;
+
+	strtok ((char*)pPmsg, " ");
+	nick = strtok (NULL, " ");
+	strtok (NULL, " ");
+	auth = strtok (NULL, "");
+	QueryUserWaitingAuthorization(nick, auth);
+	free (pPmsg);
+}
+
 void __cdecl SearchUsersWaitingMyAuthorization(void *dummy) {
 	char *cmd, *token, *nextoken;
 
@@ -503,47 +666,8 @@ void __cdecl SearchUsersWaitingMyAuthorization(void *dummy) {
 
 	token = strtok_r(cmd + 10, ", ", &nextoken);
 	while (token) {
-		CCSDATA ccs = { 0 };
-		PROTORECVEVENT pre = { 0 };
-		MCONTACT hContact;
-		char *firstname = NULL, *lastname = NULL, *pCurBlob;
-
-		LOG(("Awaiting auth: %s", token));
-		ccs.szProtoService = PSR_AUTH;
-		ccs.hContact = hContact = add_contact(token, PALF_TEMPORARY);
-		ccs.wParam = 0;
-		ccs.lParam = (LPARAM)&pre;
-		pre.flags = 0;
-		pre.timestamp = (DWORD)SkypeTime(NULL);
-
-		/* blob is: */
-		//DWORD protocolSpecific MCONTACT hContact
-		//ASCIIZ nick, firstName, lastName, e-mail, requestReason
-		if (firstname = SkypeGet("USER", token, "FULLNAME"))
-			if (lastname = strchr(firstname, ' ')) {
-			*lastname = 0;
-			lastname++;
-			}
-
-		pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + strlen(token) + 5;
-		if (firstname) pre.lParam += strlen(firstname);
-		if (lastname) pre.lParam += strlen(lastname);
-		if (pre.szMessage = pCurBlob = (char *)calloc(1, pre.lParam)) {
-			pCurBlob += sizeof(DWORD); // Not used
-			memcpy(pCurBlob, &hContact, sizeof(HANDLE));	pCurBlob += sizeof(HANDLE);
-			strcpy((char *)pCurBlob, token);				pCurBlob += strlen((char *)pCurBlob) + 1;
-			if (firstname) {
-				strcpy((char *)pCurBlob, firstname);
-				if (lastname) {
-					pCurBlob += strlen((char *)pCurBlob) + 1;
-					strcpy((char *)pCurBlob, lastname);
-				}
-			}
-			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-			free(pre.szMessage);
-		}
-		if (firstname) free(firstname);
-		token = strtok_r(NULL, ", ", &nextoken);
+		QueryUserWaitingAuthorization (token, NULL);
+		token=strtok_r(NULL, ", ", &nextoken);
 	}
 	free(cmd);
 	return;
@@ -728,7 +852,7 @@ void __cdecl SkypeSystemInit(char *dummy) {
 		SkypeSend("CREATE APPLICATION libpurple_typing");
 		testfor("CREATE APPLICATION libpurple_typing", 2000);
 	}
-	if (protocol >= 5 || bIsImoproxy) {
+	if (protocol>=5) {
 		SearchUsersWaitingMyAuthorization(NULL);
 		if (db_get_b(NULL, SKYPE_PROTONAME, "UseGroupchat", 0))
 			SearchRecentChats(NULL);
@@ -799,10 +923,19 @@ int CreateTopToolbarButton(WPARAM wParam, LPARAM lParam) {
 
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.name = Translate("Do a SkypeOut-call");
+#ifdef TTB_WINDOW_HANDLE
+	/* New Top toolbar */
 	ttb.hIconHandleDn = ttb.hIconHandleUp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_CALL));
 	ttb.pszService = SKYPEOUT_CALL;
-	ttb.name = Translate("Do a SkypeOut-call");
 	if ((int)(TopToolbar_AddButton(&ttb)) == -1) httbButton = 0;
+#else
+	/* Old Top toolbar */
+	ttb.dwFlags |= TTBBF_DRAWBORDER;
+	ttb.hbBitmapDown = ttb.hbBitmapUp = LoadBitmap(hInst,MAKEINTRESOURCE(IDB_CALL));
+	ttb.pszServiceDown = ttb.pszServiceUp = SKYPEOUT_CALL;
+	if ((int)(httbButton=(HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb, 0))==-1) httbButton=0;
+#endif
 	return 0;
 }
 
@@ -818,18 +951,27 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	logoff_contacts(FALSE);
 
 	HookEventsLoaded();
+	RegisterToUpdate();
 	RegisterToDbeditorpp();
+	VoiceServiceModulesLoaded();
 	GCInit();
 
 	add_contextmenu(NULL);
 	if (ServiceExists(MS_GC_REGISTER))
 	{
-		static COLORREF crCols[1] = { 0 };
+		GCREGISTER gcr = {0};
+		static COLORREF crCols[1] = {0};
 		char szEvent[MAXMODULELABELLENGTH];
 
-		GCREGISTER gcr = { sizeof(gcr) };
+
+		gcr.cbSize = sizeof( GCREGISTER );
 		gcr.dwFlags = GC_CHANMGR; // |GC_ACKMSG; // TODO: Not implemented yet
+#ifdef GC_TCHAR
+		gcr.dwFlags |= GC_TCHAR;
+		gcr.ptszModuleDispName = _T("Skype protocol");
+#else
 		gcr.ptszDispName = _T("Skype protocol");
+#endif
 		gcr.pszModule = SKYPE_PROTONAME;
 		if (CallService(MS_GC_REGISTER, 0, (LPARAM)&gcr))
 			OUTPUT(_T("Unable to register with Groupchat module!"));
@@ -894,9 +1036,13 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 
 	// Get Timestamp
 	if (!args.pMsgEntry || !args.pMsgEntry->tEdited) {
-		if (!(ptr = SkypeGet(cmdMessage, args.msgnum, "TIMESTAMP"))) return;
-		if (strncmp(ptr, "ERROR", 5)) timestamp = atol(ptr);
-		else timestamp = (DWORD)SkypeTime(NULL);
+		if (!(ptr=SkypeGet (cmdMessage, args.msgnum, "TIMESTAMP"))) return;
+		if (strncmp(ptr, "ERROR", 5)) {
+			timestamp=atol(ptr);
+			// Ensure time correction on clock skew...
+			if (timestamp>(DWORD)SkypeTime(NULL)) timestamp=(DWORD)SkypeTime(NULL);
+		}
+		else timestamp=(DWORD)SkypeTime(NULL);
 		free(ptr);
 	}
 	else timestamp = (DWORD)(args.pMsgEntry->tEdited);
@@ -929,14 +1075,21 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type, "KICKED"))
 				{
+					GCDEST gcd = {0};
+					GCEVENT gce = {0};
+					CONTACTINFO ci = {0};
+
 					if (!hChat) __leave;
-					GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_KICK };
-					GCEVENT gce = { sizeof(gce), &gcd };
-					gce.dwFlags = GCEF_ADDTOLOG;
+					gcd.pszModule = SKYPE_PROTONAME;
+					gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
+					gcd.iType = GC_EVENT_KICK;
+					gce.cbSize = sizeof(GCEVENT);
+					gce.pDest = &gcd;
+					gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 					gce.time = timestamp;
 
 					if (users = SkypeGetErr(cmdMessage, args.msgnum, "USERS")) {
-						CONTACTINFO ci = { 0 };
+
 						ci.hContact = find_contact(users);
 						gce.ptszUID = make_nonutf_tchar_string((const unsigned char*)users);
 						if (who = SkypeGetErr(cmdMessage, args.msgnum, szPartnerHandle)) {
@@ -959,6 +1112,9 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type, "SETROLE"))
 				{
+					GCDEST gcd = {0};
+					GCEVENT gce = {0};
+					CONTACTINFO ci = {0};
 					gchat_contact *gcContact;
 					char *pszRole;
 
@@ -966,15 +1122,18 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 					// USERS - Wessen Rolle wurde gesetzt
 					// ROLE - Die neue Rolle
 					if (!hChat) __leave;
-					GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_REMOVESTATUS };
-					GCEVENT gce = { sizeof(gce), &gcd };
-					gce.dwFlags = GCEF_ADDTOLOG;
+					gcd.pszModule = SKYPE_PROTONAME;
+					gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
+					gcd.iType = GC_EVENT_REMOVESTATUS;
+					gce.cbSize = sizeof(GCEVENT);
+					gce.pDest = &gcd;
+					gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 					gce.time = timestamp;
 
 					if (users = SkypeGetErr(cmdMessage, args.msgnum, "USERS")) {
 						gce.ptszUID = make_nonutf_tchar_string((const unsigned char*)users);
 						if (who = SkypeGetErr(cmdMessage, args.msgnum, szPartnerHandle)) {
-							CONTACTINFO ci = { 0 };
+
 							ci.cbSize = sizeof(ci);
 							ci.szProto = SKYPE_PROTONAME;
 							ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
@@ -1012,13 +1171,20 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type, "SETTOPIC"))
 				{
+					GCDEST gcd = {0};
+					GCEVENT gce = {0};
+					CONTACTINFO ci = {0};
+
 					LOG(("FetchMessageThread CHAT SETTOPIC"));
-					GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_TOPIC };
-					GCEVENT gce = { sizeof(gce), &gcd };
-					gce.dwFlags = GCEF_ADDTOLOG;
+					gcd.pszModule = SKYPE_PROTONAME;
+					gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
+					gcd.iType = GC_EVENT_TOPIC;
+					gce.cbSize = sizeof(GCEVENT);
+					gce.pDest = &gcd;
+					gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 					gce.time = timestamp;
 					if (who = SkypeGetErr(cmdMessage, args.msgnum, szPartnerHandle)) {
-						CONTACTINFO ci = { 0 };
+
 						ci.hContact = find_contact(who);
 						gce.ptszUID = make_nonutf_tchar_string((const unsigned char*)who);
 						ci.cbSize = sizeof(ci);
@@ -1046,14 +1212,24 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				}
 				if (!strcmp(type, "LEFT") || (bAddedMembers = strcmp(type, "ADDEDMEMBERS") == 0))
 				{
+					GCDEST gcd = {0};
+					GCEVENT gce = {0};
+					CONTACTINFO ci = {0};
+					char *pszInvited = Translate("invited");
+
 					LOG(("FetchMessageThread CHAT LEFT or ADDEDMEMBERS"));
 					if (bAddedMembers) {
-						GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), GC_EVENT_ACTION };
-						GCEVENT gce = { sizeof(gce), &gcd };
-						gce.dwFlags = GCEF_ADDTOLOG;
+						gcd.pszModule = SKYPE_PROTONAME;
+						gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
+						gcd.iType = GC_EVENT_ACTION;
+						gce.cbSize = sizeof(GCEVENT);
+						gce.pDest = &gcd;
+						gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 						gce.time = timestamp;
 						if (users = SkypeGetErr(cmdMessage, args.msgnum, "USERS")) {
-							CMString(FORMAT, _T("%S %s"), users, TranslateT("invited"));
+							// We assume that users buffer has enough room for "invited" string
+							memmove (users+strlen(pszInvited), users, strlen(users)+1);
+							memcpy (users, pszInvited, strlen(pszInvited));
 							gce.ptszText = make_tchar_string((const unsigned char*)users);
 							if (who = SkypeGetErr(cmdMessage, args.msgnum, szPartnerHandle)) {
 								DBVARIANT dbv;
@@ -1063,7 +1239,6 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 								}
 								gce.ptszUID = make_nonutf_tchar_string((const unsigned char*)who);
 
-								CONTACTINFO ci = { 0 };
 								ci.cbSize = sizeof(ci);
 								if (!gce.bIsMe)
 									ci.hContact = find_contact(who);
@@ -1187,7 +1362,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 						mir_free(ci.pszVal);
 					}
 				}
-				newlen = int(strlen(msgptr) + (pszUTFnick ? strlen(pszUTFnick) : 0) + 9);
+				newlen = strlen(msgptr) + (pszUTFnick ? strlen(pszUTFnick) : 0) + 9;
 				if (pMsg = (char *)malloc(newlen)) {
 					sprintf(pMsg, "** %s%s%s **", (pszUTFnick ? pszUTFnick : ""), (pszUTFnick ? " " : ""), (char*)msgptr);
 					free(ptr);
@@ -1215,7 +1390,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 #ifdef _UNICODE
 				msglen = (int)strlen(msg) + 1;
 				msgptr = (char*)make_unicode_string((const unsigned char*)msgptr);
-				wcLen = int(_tcslen((TCHAR*)msgptr) + 1)*sizeof(TCHAR);
+				wcLen = (int)(_tcslen((TCHAR*)msgptr) + 1)*sizeof(TCHAR);
 				msg = (char*)realloc(msg, msglen + wcLen);
 				memcpy(msg + msglen, msgptr, wcLen);
 				free(msgptr);
@@ -1235,12 +1410,17 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			bHasPartList) || msgptr[0] == 0) __leave;
 
 		if (isGroupChat && bUseGroupChat) {
+
+			GCDEST gcd = { 0 };
+			GCEVENT gce = { sizeof(gce), &gcd };
 			DBVARIANT dbv = { 0 };
+			CONTACTINFO ci = { 0 };
 
 			LOG(("FetchMessageThread This is a group chat message"));
 			if (!hChat) ChatStart(chat, FALSE);
-			GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)chat), bEmoted ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
-			GCEVENT gce = { sizeof(gce), &gcd };
+			gcd.pszModule = SKYPE_PROTONAME;
+			gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)chat);
+			gcd.iType = bEmoted?GC_EVENT_ACTION:GC_EVENT_MESSAGE;
 			if ((gce.bIsMe = (direction&DBEF_SENT) ? TRUE : FALSE) && db_get_s(NULL, SKYPE_PROTONAME, SKYPE_NAME, &dbv) == 0)
 			{
 				free(who);
@@ -1250,7 +1430,6 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			gce.ptszUID = make_nonutf_tchar_string((const unsigned char*)who);
 			gce.ptszNick = gce.ptszUID;
 
-			CONTACTINFO ci = { 0 };
 			ci.cbSize = sizeof(ci);
 			ci.szProto = SKYPE_PROTONAME;
 			ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
@@ -1258,8 +1437,9 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 				gce.ptszNick = ci.pszVal;
 			gce.time = timestamp > 0 ? timestamp : (DWORD)SkypeTime(NULL);
-			gce.ptszText = (TCHAR*)(msgptr + msglen);
-			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.pszText = msgptr;
+			if (pre.flags & PREF_UNICODE) gce.pszText += msglen;
+			gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 			CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 			MsgList_Add(pre.lParam, INVALID_HANDLE_VALUE);	// Mark as groupchat
 			if (ci.pszVal) mir_free(ci.pszVal);
@@ -1290,7 +1470,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				TYP_MSGLENTRY *pme;
 
 				LOG(("FetchMessageThread Adding event"));
-				if (!(dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0)))
+				if (!(dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)))
 					dbei.szModule = SKYPE_PROTONAME;
 				dbei.cbBlob = msglen;
 				if (pre.flags & PREF_UNICODE)
@@ -1444,7 +1624,9 @@ MCONTACT GetCallerContact(char *szSkypeMsg)
 
 MCONTACT GetMetaHandle(DWORD dwId)
 {
-	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+	MCONTACT hContact;
+
+	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, "MetaContacts") &&
 			db_get_dw(hContact, "MetaContacts", "MetaID", MAXDWORD) == dwId)
@@ -1515,6 +1697,11 @@ void RingThread(char *szSkypeMsg) {
 		goto l_exitRT;;
 	}
 
+	if (!strncmp(ptr, "INCOMING", 8))
+		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_RINGING);
+	else
+		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_CALLING);
+
 	if (!strncmp(ptr, "INCOMING", 8)) {
 		if (!hContact) {
 			char *szHandle;
@@ -1531,6 +1718,11 @@ void RingThread(char *szSkypeMsg) {
 			}
 			else goto l_exitRT;
 		}
+	}
+
+	if (HasVoiceService()) {
+		// Voice service will handle it
+		goto l_exitRT;
 	}
 
 	dbei.cbSize = sizeof(dbei);
@@ -1550,7 +1742,7 @@ void RingThread(char *szSkypeMsg) {
 			unsigned int popupBackColor, popupTextColor;
 			int popupTimeSec;
 			POPUPDATAT InCallPopup;
-			TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+			TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 
 			popupTimeSec = db_get_dw(NULL, SKYPE_PROTONAME, "popupTimeSec", 4);
 			popupTextColor = db_get_dw(NULL, SKYPE_PROTONAME, "popupTextColor", GetSysColor(COLOR_WINDOWTEXT));
@@ -1580,7 +1772,7 @@ void RingThread(char *szSkypeMsg) {
 		dbei.flags = DBEF_READ;
 		cle.hContact = hContact;
 		cle.hDbEvent = db_event_add(hContact, &dbei);
-		_snprintf(toolTip, sizeof(toolTip), Translate("Incoming call from %s"), (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
+		_snprintf(toolTip, sizeof(toolTip), Translate("Incoming call from %s"), (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
 		cle.pszTooltip = toolTip;
 		CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	}
@@ -1628,27 +1820,31 @@ void EndCallThread(char *szSkypeMsg) {
 	}
 	if (hContact)
 	{
+		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_ENDED);
+
 		db_unset(hContact, SKYPE_PROTONAME, "CallId");
 
-		dbei.cbSize = sizeof(dbei);
-		hDbEvent = db_event_firstUnread(hContact);
-		while (hDbEvent) {
-			dbei.cbBlob = 0;
-			db_event_get(hDbEvent, &dbei);
-			if (!(dbei.flags&(DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_CALL) {
-				db_event_markRead(hContact, hDbEvent);
-				CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)hDbEvent);
+		if (!HasVoiceService()) {
+			dbei.cbSize = sizeof(dbei);
+			hDbEvent = db_event_firstUnread(hContact);
+			while (hDbEvent) {
+				dbei.cbBlob = 0;
+				db_event_get(hDbEvent, &dbei);
+				if (!(dbei.flags&(DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_CALL) {
+					db_event_markRead(hContact, hDbEvent);
+					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
+				}
+				if (dbei.pBlob) free(dbei.pBlob);
+				hDbEvent = db_event_next(hContact, hDbEvent);
 			}
-			free(dbei.pBlob);
-			hDbEvent = db_event_next(hContact, hDbEvent);
 		}
 
 		if (!db_get_s(hContact, SKYPE_PROTONAME, "SkypeOutNr", &dbv)) {
 			db_free(&dbv);
-			if (!strcmp((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0), SKYPE_PROTONAME) &&
+			if (!strcmp((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0), SKYPE_PROTONAME) &&
 				db_get_b(hContact, "CList", "NotOnList", 0)
 				)
-				CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+				CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 		}
 	}
 	free(szSkypeMsg);
@@ -1665,6 +1861,7 @@ void HoldCallThread(char *szSkypeMsg) {
 	}
 	if (hContact = GetCallerContact(szSkypeMsg)) {
 		db_set_b(hContact, SKYPE_PROTONAME, "OnHold", 1);
+		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_ON_HOLD);
 	}
 	free(szSkypeMsg);
 	LOG(("HoldCallThread terminated gracefully"));
@@ -1680,6 +1877,7 @@ void ResumeCallThread(char *szSkypeMsg) {
 	}
 	if (hContact = GetCallerContact(szSkypeMsg)) {
 		db_unset(hContact, SKYPE_PROTONAME, "OnHold");
+		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_TALKING);
 	}
 	free(szSkypeMsg);
 	LOG(("ResumeCallThread terminated gracefully."));
@@ -1828,7 +2026,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 										LPARAM lTyping = PROTOTYPE_CONTACTTYPING_OFF;
 
 										if (!strcmp(p, "PURPLE_TYPING")) lTyping = PROTOTYPE_CONTACTTYPING_INFINITE;
-										CallService(MS_PROTO_CONTACTISTYPING, hContact, lTyping);
+										CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, lTyping);
 										break;
 									}
 								}
@@ -1894,7 +2092,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 						if (nm = strtok_r(NULL, " ", &nextoken))
 						{
 							db_set_utf(hContact, SKYPE_PROTONAME, "FirstName", nm);
-							if (!(nm = strtok_r(NULL, "", &nextoken))) db_unset(hContact, SKYPE_PROTONAME, "LastName");
+							if (!(nm = strtok_r(NULL, "", &nextoken))) {db_unset(hContact, SKYPE_PROTONAME, "LastName");}
 							else
 								db_set_utf(hContact, SKYPE_PROTONAME, "LastName", nm);
 						}
@@ -2013,7 +2211,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 				else { // BUDDYSTATUS:
 					flag = 0;
 					switch (atoi(ptr + 12)) {
-					case 1: if (hContact = find_contact(nick)) CallService(MS_DB_CONTACT_DELETE, hContact, 0); break;
+					case 1: if (hContact = find_contact(nick)) CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0); break;
 					case 0: break;
 					case 2: flag = PALF_TEMPORARY;
 					case 3: add_contact(nick, flag);
@@ -2062,12 +2260,18 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 						*ptr = 0;
 						if (hContact = find_chatA(szSkypeMsg + 5))
 						{
+							GCDEST gcd = {0};
+							GCEVENT gce = {0};
 							if (db_get_w(hContact, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE) !=
 								ID_STATUS_OFFLINE)
 							{
-								GCDEST gcd = { SKYPE_PROTONAME, make_nonutf_tchar_string((const unsigned char*)szSkypeMsg + 5), GC_EVENT_CHANGESESSIONAME };
-								GCEVENT gce = { sizeof(gce), &gcd };
-								gce.ptszText = make_tchar_string((const unsigned char*)ptr + 14);
+								gcd.pszModule = SKYPE_PROTONAME;
+								gcd.ptszID = make_nonutf_tchar_string((const unsigned char*)szSkypeMsg+5);
+								gcd.iType = GC_EVENT_CHANGESESSIONAME;
+								gce.cbSize = sizeof(GCEVENT);
+								gce.pDest = &gcd;
+								gce.ptszText = make_tchar_string((const unsigned char*)ptr+14);
+								gce.dwFlags = GC_TCHAR;
 								if (gce.ptszText) {
 									CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 									db_set_ts(hContact, SKYPE_PROTONAME, "Nick", gce.ptszText);
@@ -2214,6 +2418,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 		KillTimer(hWndDlg, 1);
 		break;
 	case WM_COPYDATALOCAL:
+		--iReentranceCnt;
 		return WndProc(hWndDlg, WM_COPYDATA, wParam, lParam);
 
 	default:
@@ -2332,7 +2537,8 @@ INT_PTR SkypeSetStatus(WPARAM wParam, LPARAM lParam)
 
 int __stdcall SendBroadcast(MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	ACKDATA ack = { sizeof(ACKDATA) };
+	ACKDATA ack = {0};
+	ack.cbSize = sizeof( ACKDATA );
 	ack.szModule = SKYPE_PROTONAME;
 	ack.hContact = hContact;
 	ack.type = type;
@@ -2899,7 +3105,7 @@ void CleanupNicknames(char *dummy) {
 
 	LOG(("CleanupNicknames Cleaning up..."));
 	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) &&
 			db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 		{
@@ -3113,16 +3319,24 @@ void __cdecl MsgPump(char *dummy)
 
 // DLL Stuff //
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
+__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirVersion)
+{
+	mirandaVersion = mirVersion;
+
+	pluginInfo.cbSize = sizeof(PLUGININFO);
+	return (PLUGININFO*) &pluginInfo;
+}
+
+__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
 {
 	mirandaVersion = mirVersion;
 
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MUUID_SKYPE_CALL, MIID_LAST };
+__declspec(dllexport) const MUUID MirandaInterfaces[] = { MUUID_SKYPE_CALL, MIID_LAST };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	UNREFERENCED_PARAMETER(fdwReason);
 	UNREFERENCED_PARAMETER(lpvReserved);
@@ -3140,20 +3354,31 @@ int PreShutdown(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+#ifdef IS_MIRANDAIM
+int __declspec(dllexport) Load(PLUGINLINK *link)
+#else
+int __declspec(dllexport) Load(void)
+#endif
 {
+	PROTOCOLDESCRIPTOR pd = { 0 };
 	DWORD Buffsize;
 	HKEY MyKey;
 	BOOL SkypeInstalled;
 	BOOL UseCustomCommand;
 	WSADATA wsaData;
+	char path[MAX_PATH];
 
+#ifdef IS_MIRANDAIM
+	pluginLink = link;
+	mir_getMMI( &mmi ); 
+#else
 	mir_getLP(&pluginInfo);
+#endif
 
-	// RM: commented so it will always use predefined name - or was this really needed?
-	///GetModuleFileNameA( hInst, path, sizeof( path ));
-	///_splitpath (path, NULL, NULL, SKYPE_PROTONAME, NULL);
-	///CharUpperA( SKYPE_PROTONAME );
+	// Used to enable Copy DLL hack in older Miranda versions for muliple accounts
+	GetModuleFileNameA( hInst, path, sizeof( path ));
+	_splitpath (path, NULL, NULL, SKYPE_PROTONAME, NULL);
+	CharUpperA( SKYPE_PROTONAME );
 
 	InitializeCriticalSection(&RingAndEndcallMutex);
 	InitializeCriticalSection(&QueryThreadMutex);
@@ -3242,10 +3467,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	/* Register the module */
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
+	pd.cbSize = sizeof(pd);
 	pd.szName = SKYPE_PROTONAME;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+
+	VoiceServiceInit();
 
 	CreateServices();
 	HookEvents();
@@ -3262,7 +3489,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 
 
-extern "C" int __declspec(dllexport) Unload(void)
+int __declspec(dllexport) Unload(void)
 {
 	BOOL UseCustomCommand = db_get_b(NULL, SKYPE_PROTONAME, "UseCustomCommand", 0);
 	BOOL Shutdown = db_get_b(NULL, SKYPE_PROTONAME, "Shutdown", 0);
@@ -3299,6 +3526,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UnhookEvent(hChatMenu);
 	UnhookEvent(hEvInitChat);
 	DestroyHookableEvent(hInitChat);
+	VoiceServiceExit();
 	GCExit();
 	MsgList_Exit();
 

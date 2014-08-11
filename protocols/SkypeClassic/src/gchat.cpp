@@ -24,6 +24,12 @@
 #define STR "%s"
 #endif
 
+/* VC6 PSDK compatibility */
+#if !defined(_WIN64) && !defined(SetWindowLongPtr)
+#define SetWindowLongPtr  SetWindowLong
+#define GetWindowLongPtr  GetWindowLong
+#endif
+
 #pragma warning (disable: 4706) // assignment within conditional expression
 
 extern HANDLE hInitChat;
@@ -113,6 +119,8 @@ static int AddChatContact(gchat_contacts *gc, char *who, TCHAR *pszRole)
 {
 	int i = -2;
 	MCONTACT hContact;
+	GCDEST gcd = {0};
+	GCEVENT gce = {0};
 	CONTACTINFO ci = {0};
 	TCHAR *twho;
 
@@ -122,11 +130,15 @@ static int AddChatContact(gchat_contacts *gc, char *who, TCHAR *pszRole)
 	if ((i=ExistsChatContact(gc, twho))>=0) return i;
 	hContact=find_contact(who);
 
-	GCDEST gcd = { SKYPE_PROTONAME, gc->szChatName, GC_EVENT_JOIN };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	gcd.pszModule = SKYPE_PROTONAME;
+	gcd.ptszID = gc->szChatName;
+	gcd.iType = GC_EVENT_JOIN;
+
+	gce.cbSize = sizeof(GCEVENT);
+	gce.pDest = &gcd;
+	gce.ptszStatus = pszRole?pszRole:_T("USER");
 	gce.time = (DWORD)time(NULL);
-	gce.dwFlags = GCEF_ADDTOLOG;
-	gce.ptszStatus = pszRole ? pszRole : _T("USER");
+	gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 
 	ci.cbSize = sizeof(ci);
 	ci.szProto = SKYPE_PROTONAME;
@@ -172,7 +184,7 @@ MCONTACT find_chat(LPCTSTR chatname) {
 	DBVARIANT dbv;
 
 	for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
-		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
+		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) &&
 			db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==1)
 		{
@@ -194,7 +206,7 @@ MCONTACT find_chatA(char *chatname) {
 	DBVARIANT dbv;
 
 	for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
-		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, hContact, 0 );
+		szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
 		if (szProto!=NULL && !strcmp(szProto, SKYPE_PROTONAME) &&
 			db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==1)
 		{
@@ -274,10 +286,17 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 		}
 		// Quit contacts which are no longer there
 		if (iRet == 0 && contactmask) {
-			GCDEST gcd = { SKYPE_PROTONAME, szChatId, GC_EVENT_QUIT };
-			GCEVENT gce = { sizeof(gce), &gcd };
+			GCDEST gcd = {0};
+			GCEVENT gce = {0};
+
+			gcd.pszModule = SKYPE_PROTONAME;
+			gcd.ptszID = szChatId;
+			gcd.iType = GC_EVENT_QUIT;
+
+			gce.cbSize = sizeof(GCEVENT);
+			gce.pDest = &gcd;
 			gce.time = (DWORD)time(NULL);
-			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
         
 			ci.cbSize = sizeof(ci);
 			ci.szProto = SKYPE_PROTONAME;
@@ -361,18 +380,22 @@ INT_PTR CALLBACK InputBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				lParam = 1 - Create groupchat, but don't open it
 				         0 - Default - open groupchat after init
 */
-
-int __cdecl  ChatInit(WPARAM wParam, LPARAM lParam)
-{
+int __cdecl  ChatInit(WPARAM wParam, LPARAM lParam) {
+	GCSESSION gcw = {0};
+	GCEVENT gce = {0};
+	GCDEST gcd = {0};
 	DBVARIANT dbv, dbv2;
 	char *szChatName;
 	int iRet = -1;
 
+	UNREFERENCED_PARAMETER(lParam);
+
 	if (!wParam) return -1;
 
-	GCSESSION gcw = { sizeof(gcw) };
+	gcw.cbSize = sizeof(GCSESSION);
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = SKYPE_PROTONAME;
+	gcw.dwFlags = GC_TCHAR;
 
 	if (!(szChatName = SkypeGet ("CHAT", (char *)wParam, "FRIENDLYNAME")) || !*szChatName)
 		gcw.ptszName=TranslateT("Unknown"); else {
@@ -390,9 +413,13 @@ int __cdecl  ChatInit(WPARAM wParam, LPARAM lParam)
 	if (!CallService(MS_GC_NEWSESSION, 0, (LPARAM)&gcw)) {
 		char *szChatRole;
 
-		GCDEST gcd = { SKYPE_PROTONAME, gcw.ptszID, GC_EVENT_ADDGROUP };
-		GCEVENT gce = { sizeof(gce), &gcd };
+		gce.cbSize = sizeof(GCEVENT);
+		gcd.pszModule = SKYPE_PROTONAME;
+		gcd.ptszID = (TCHAR*)gcw.ptszID;
+		gcd.iType = GC_EVENT_ADDGROUP;
+		gce.pDest = &gcd;
 		gce.ptszStatus = _T("CREATOR");
+		gce.dwFlags = GC_TCHAR;
 		// BUG: Groupchat returns nonzero on success here in earlier versions, so we don't check
 		// it here
 		CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
@@ -430,9 +457,10 @@ int __cdecl  ChatInit(WPARAM wParam, LPARAM lParam)
 				gce.bIsMe = TRUE;
 				gce.dwFlags |= GCEF_ADDTOLOG;
 				if (!CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce)) {
+					gce.cbSize = sizeof(GCEVENT);
 					gcd.iType = GC_EVENT_CONTROL;
-					if (!lParam)
-						CallService(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
+					gce.pDest = &gcd;
+					if (!lParam) CallService(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
 					CallService(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 					CallService(MS_GC_EVENT, lParam ? WINDOW_HIDDEN : WINDOW_VISIBLE, (LPARAM)&gce);
 					SkypeSend ("GET CHAT %s MEMBERS", (char *)wParam);
@@ -462,11 +490,14 @@ int  __cdecl ChatStart(char *szChatId, BOOL bJustCreate) {
 }
 
 
-void KillChatSession(GCDEST *gcd)
-{
-	GCEVENT gce = { sizeof(gce), gcd };
+void KillChatSession(GCDEST *gcd) {
+	GCEVENT gce = {0};
+
 	EnterCriticalSection(&m_GCMutex);
 	LOG(("KillChatSession: Groupchatsession terminated."));
+	gce.cbSize = sizeof(GCEVENT);
+	gce.dwFlags = GC_TCHAR;
+	gce.pDest = gcd;
 	gcd->iType = GC_EVENT_CONTROL;
 	if (SkypeSend ("ALTER CHAT "STR" LEAVE", gcd->ptszID) == 0)
 	{
@@ -494,7 +525,7 @@ void InviteUser(const TCHAR *szChatId)
     
 	// generate a list of contact
 	while (hContact) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact,0 );
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact,0 );
 		if (szProto && !strcmp(SKYPE_PROTONAME, szProto) &&
 			!db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) &&
 			 db_get_w(hContact, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE)!=ID_STATUS_OFFLINE) 
@@ -508,7 +539,7 @@ void InviteUser(const TCHAR *szChatId)
 			}
             if (!alreadyInSession)
 				AppendMenu(tMenu, MF_STRING, (UINT_PTR)hContact, 
-					(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+					(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
         }
 		hContact = db_find_next(hContact);
 	}
@@ -535,13 +566,21 @@ static void KickUser (MCONTACT hContact, GCHOOK *gch)
 	if (SkypeSend ("ALTER CHAT "STR" KICK "STR, gch->pDest->ptszID, gch->ptszUID)!=-1) {
 		if (ptr=SkypeRcv("ALTER CHAT KICK", 2000)) {
 			if (strncmp(ptr, "ERROR", 5)) {
-				GCDEST gcd = { SKYPE_PROTONAME, gch->pDest->ptszID, GC_EVENT_KICK };
-				GCEVENT gce = { sizeof(gce), &gcd };
-				gce.time = (DWORD)time(NULL);
-				gce.dwFlags = GCEF_ADDTOLOG;
-				gce.ptszUID = gch->ptszUID;
-
+				GCDEST gcd = {0};
+				GCEVENT gce = {0};
 				CONTACTINFO ci = {0};
+				DBVARIANT dbv;
+
+				gcd.pszModule = SKYPE_PROTONAME;
+				gcd.ptszID = (TCHAR*)gch->pDest->ptszID;
+				gcd.iType = GC_EVENT_KICK;
+
+				gce.cbSize = sizeof(GCEVENT);
+				gce.pDest = &gcd;
+				gce.time = (DWORD)time(NULL);
+				gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
+				gce.ptszUID= gch->ptszUID;
+
 				ci.cbSize = sizeof(ci);
 				ci.szProto = SKYPE_PROTONAME;
 				ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
@@ -549,7 +588,6 @@ static void KickUser (MCONTACT hContact, GCHOOK *gch)
 				if (hContact && !CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) gce.ptszNick=ci.pszVal; 
 				else gce.ptszNick=gce.ptszUID;
         
-				DBVARIANT dbv;
 				if (!db_get_ts(NULL, SKYPE_PROTONAME, "Nick", &dbv)) {
 					gce.ptszStatus = dbv.ptszVal;		
 					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
@@ -564,16 +602,22 @@ static void KickUser (MCONTACT hContact, GCHOOK *gch)
 	LeaveCriticalSection(&m_GCMutex);
 }
 
-void SetChatTopic(const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
+void SetChatTopic(TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
 {
+	GCDEST gcd = {0};
+	GCEVENT gce = {0};
 	MCONTACT hContact = find_chat (szChatId);
 	char *szUTFTopic;
 
-	GCDEST gcd = { SKYPE_PROTONAME, szChatId, GC_EVENT_TOPIC };
-	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.cbSize = sizeof(GCEVENT);
+	gcd.pszModule = SKYPE_PROTONAME;
+	gcd.ptszID = szChatId;
+	gcd.iType = GC_EVENT_TOPIC;
+	gce.pDest = &gcd;
 	gce.ptszText = szTopic;
-	gce.dwFlags = GCEF_ADDTOLOG;
+	gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 	gce.time = (DWORD)time (NULL);
+	gce.dwFlags = GC_TCHAR;
 	CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 	gcd.iType = GC_EVENT_SETSBTEXT;
@@ -622,7 +666,7 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				}
 				// Delete Chatroom from Contact list, as we don't need it anymore...?
 				if (hContact = find_chat(gc->szChatName))
-					CallService(MS_DB_CONTACT_DELETE, hContact, 0); 
+					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0); 
 				RemChat(gc->szChatName);
 
 				break;
@@ -631,6 +675,8 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				if(gch && gch->ptszText && _tcslen(gch->ptszText) > 0) {
 					DBVARIANT dbv, dbv2;
 					CCSDATA ccs = {0};
+					GCDEST gcd = { 0 };
+					GCEVENT gce = { sizeof(gce), &gcd };
 					TCHAR *pEnd;
 
 					// remove the ending linebreak
@@ -662,8 +708,8 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 					}
 
 					// Add our line to the chatlog	
-					GCDEST gcd = { gch->pDest->pszModule, gch->pDest->ptszID, 0 };
-					GCEVENT gce = { sizeof(gce), &gcd };
+					gcd.pszModule = gch->pDest->pszModule;
+					gcd.ptszID = gch->pDest->ptszID;
 					if ( _tcsncmp(gch->ptszText, _T("/me "), 4)==0 && _tcslen(gch->ptszText)>4) {
 						gce.ptszText = gch->ptszText+4;
 						gcd.iType = GC_EVENT_ACTION;
@@ -692,7 +738,7 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				break;
 			case GC_USER_PRIVMESS: {
 				MCONTACT hContact = find_contactT(gch->ptszUID);
-				if (hContact) CallService(MS_MSG_SENDMESSAGE, hContact, 0);
+				if (hContact) CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 				break;
 
 			}
@@ -717,8 +763,8 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 				MCONTACT hContact = find_contactT(gch->ptszUID);
 
 				switch(gch->dwData) {
-				case 10:CallService(MS_USERINFO_SHOWDIALOG, hContact, 0); break;
-				case 20:CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0); break;
+				case 10:CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0); break;
+				case 20:CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0); break;
 				case 30: KickUser(hContact, gch); break;
 				case 110: KillChatSession(gch->pDest); break;
 				}
@@ -828,7 +874,11 @@ INT_PTR GCOnLeaveChat(WPARAM wParam,LPARAM lParam)
 
 	if (db_get_ts(hContact, SKYPE_PROTONAME, "ChatRoomID", &dbv) == 0)
 	{
-		GCDEST gcd = { SKYPE_PROTONAME, dbv.ptszVal, GC_EVENT_CONTROL };
+		GCDEST gcd = {0};
+
+		gcd.pszModule = SKYPE_PROTONAME;
+		gcd.iType = GC_EVENT_CONTROL;
+		gcd.ptszID = dbv.ptszVal;
 		KillChatSession(&gcd);
 		db_free(&dbv);
 	}
