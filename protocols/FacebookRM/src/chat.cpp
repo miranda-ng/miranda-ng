@@ -254,7 +254,8 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM suppress)
 	ptrT idT( getTStringA(hContact, "ChatRoomID"));
 	ptrT nameT( getTStringA(hContact, "Nick"));
 
-	AddChat(idT, nameT);
+	if (idT && nameT)
+		AddChat(idT, nameT);
 
 /*	GCSESSION gcw = {sizeof(gcw)};
 

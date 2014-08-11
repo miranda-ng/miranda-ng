@@ -314,7 +314,6 @@ int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 int FacebookProto::GetInfo(MCONTACT hContact, int infoType)
 {
 	ptrA user_id(getStringA(hContact, FACEBOOK_KEY_ID));
-
 	if (user_id == NULL)
 		return 1;
 	
@@ -487,8 +486,12 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 
 	MCONTACT hContact = MCONTACT(wParam);
 
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+	if (!id)
+		return 1;
+	
 	wall_data *wall = new wall_data();
-	wall->user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
+	wall->user_id = id;
 	wall->isPage = false;
 	if (wall->user_id == facy.self_.user_id) {
 		wall->title = _tcsdup(TranslateT("Own wall"));
@@ -606,6 +609,8 @@ INT_PTR FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 		return 1;
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+	if (!id)
+		return 1;
 
 	std::string url = FACEBOOK_URL_PROFILE;
 	url += facy.self_.user_id;
@@ -622,14 +627,12 @@ INT_PTR FacebookProto::VisitConversation(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0 || !IsMyContact(hContact, true))
 		return 1;
 
-	std::string url = FACEBOOK_URL_CONVERSATION;
+	bool isChat = isChatRoom(hContact);
+	ptrA id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
+	if (id == NULL)
+		return 1;
 
-	if (isChatRoom(hContact)) {
-		url += "conversation-";
-		url += ptrA(getStringA(hContact, FACEBOOK_KEY_TID));
-	} else {
-		url += ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
-	}
+	std::string url = FACEBOOK_URL_CONVERSATION + (isChat ? "conversation-" : "") + std::string(id);
 
 	OpenUrl(url);
 	return 0;
@@ -672,6 +675,9 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	ptrT tname(getTStringA(hContact, FACEBOOK_KEY_NICK));
 	if (tname == NULL)
 		tname = getTStringA(hContact, FACEBOOK_KEY_ID);
+	
+	if (tname == NULL)
+		return 1;
 
 	TCHAR tstr[256];
 	mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), tname);

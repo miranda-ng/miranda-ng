@@ -152,8 +152,15 @@ void GetSelectedContacts(FacebookProto *proto, MCONTACT hItem, HWND hwndList, st
 		} else {
 			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				facebook_user *fu = new facebook_user();
-				fu->user_id = ptrA(proto->getStringA(hItem, FACEBOOK_KEY_ID));
-				fu->real_name = _T2A(ptrT(proto->getTStringA(hItem, FACEBOOK_KEY_NICK)));
+				
+				ptrA userId(proto->getStringA(hItem, FACEBOOK_KEY_ID));
+				if (userId)
+					fu->user_id = userId;
+				
+				ptrt realName(proto->getTStringA(hItem, FACEBOOK_KEY_NICK));
+				if (realName)
+					fu->real_name = _T2A(realName);
+
 				contacts->push_back(fu);
 			}
 		}
@@ -265,7 +272,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 
 			TCHAR mindMessageT[FACEBOOK_MIND_LIMIT+1];
 			TCHAR urlT[1024];
-			TCHAR placeT[100];		
+			TCHAR placeT[100];
 
 			GetDlgItemText(hwnd, IDC_MINDMSG, mindMessageT, SIZEOF(mindMessageT));
 			GetDlgItemText(hwnd, IDC_PLACE, placeT, SIZEOF(placeT));

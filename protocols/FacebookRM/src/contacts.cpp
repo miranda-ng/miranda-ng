@@ -109,16 +109,14 @@ MCONTACT FacebookProto::ContactIDToHContact(std::string user_id)
 
 std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 {
-	std::string user_id;
-
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!IsMyContact(hContact))
 			continue;
 
 		ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
 		if (tid && !strcmp(tid, thread_id.c_str())) {
-			user_id = ptrA( getStringA(hContact, FACEBOOK_KEY_ID));
-			return user_id;
+			ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+			return (id ? id : "");
 		}
 	}
 	
@@ -132,8 +130,9 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 	data += "&threads[thread_ids][0]=" + utils::url::encode(thread_id);
 
+	std::string user_id;
 	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data);
-
+	
 	if (resp.code == HTTP_CODE_OK) {
 		CODE_BLOCK_TRY
 
@@ -455,8 +454,12 @@ void FacebookProto::ApproveContactToServer(void *data)
 	MCONTACT hContact = *(MCONTACT*)data;
 	delete data;
 
+	ptrA id(ptrA(getStringA(hContact, FACEBOOK_KEY_ID)));
+	if (!id)
+		return;
+
 	std::string query = "action=confirm";
-	query += "&id=" + std::string(ptrA(getStringA(hContact, FACEBOOK_KEY_ID)));
+	query += "&id=" + std::string(id);
 	query += "&__user=" + facy.self_.user_id;
 	query += "&fb_dtsg=" + facy.dtsg_;
 
@@ -489,11 +492,13 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	MCONTACT hContact = *(MCONTACT*)data;
 	delete data;
 
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+	if (!id)
+		return;
+
 	std::string query = "confirmed=1";
 	query += "&fb_dtsg=" + facy.dtsg_;
 	query += "&__user=" + facy.self_.user_id;
-
-	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	query += "&friend=" + std::string(id);
 
 	// Cancel (our) friendship request
@@ -525,8 +530,12 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 	MCONTACT hContact = *(MCONTACT*)data;
 	delete data;
 
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+	if (!id)
+		return;
+	
 	std::string query = "action=reject";
-	query += "&id=" + std::string(ptrA(getStringA(hContact, FACEBOOK_KEY_ID)));
+	query += "&id=" + std::string(id);
 	query += "&__user=" + facy.self_.user_id;
 	query += "&fb_dtsg=" + facy.dtsg_;
 
