@@ -28,7 +28,6 @@ int nCustomOptions;
 static HANDLE hImportService = NULL;
 
 HINSTANCE hInst;
-HANDLE hIcoHandle;
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 static HWND hwndWizard = NULL;
@@ -105,22 +104,18 @@ static int OnExit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static IconItem iconList[] = { 
-	{ LPGEN("Import..."), "import_main", IDI_IMPORT }
-};
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
 
 	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
 
-	// icon
-	Icon_Register(hInst, "Import", iconList, SIZEOF(iconList));
+	RegisterIcons();
 	
 	// menu item
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = iconList[0].hIcolib;
+	CLISTMENUITEM mi = { 0 };
+	mi.cbSize = sizeof(mi);
+	mi.icolibItem = GetIconHandle(IDI_IMPORT);
 	mi.pszName = LPGEN("&Import...");
 	mi.position = 500050000;
 	mi.pszService = IMPORT_SERVICE;
@@ -141,8 +136,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	if (hImportService)
-		DestroyServiceFunction(hImportService);
-
+	DestroyServiceFunction(hImportService);
 	return 0;
 }

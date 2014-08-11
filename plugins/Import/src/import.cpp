@@ -63,30 +63,25 @@ static void mySet(MCONTACT hContact, const char *module, const char *var, DBVARI
 
 static MCONTACT HContactFromNumericID(char *pszProtoName, char *pszSetting, DWORD dwID)
 {
-	MCONTACT hContact = dstDb->FindFirstContact();
-	while (hContact != NULL) {
-		if ( db_get_dw((MCONTACT)hContact, pszProtoName, pszSetting, 0) == dwID) {
-			char* szProto = GetContactProto((MCONTACT)hContact);
+	for (MCONTACT hContact = dstDb->FindFirstContact(); hContact; hContact = dstDb->FindNextContact(hContact)) {
+		if (db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID) {
+			char* szProto = GetContactProto(hContact);
 			if (szProto != NULL && !lstrcmpA(szProto, pszProtoName))
 				return hContact;
 		}
-		hContact = dstDb->FindNextContact((MCONTACT)hContact);
 	}
 	return INVALID_CONTACT_ID;
 }
 
 static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, TCHAR *pwszID)
 {
-	MCONTACT hContact = dstDb->FindFirstContact();
-	while (hContact != NULL) {
-		char* szProto = GetContactProto((MCONTACT)hContact);
-		if ( !lstrcmpA(szProto, pszProtoName)) {
-			ptrW id(db_get_tsa((MCONTACT)hContact, pszProtoName, pszSetting));
-			if ( !lstrcmp(pwszID, id))
+	for (MCONTACT hContact = dstDb->FindFirstContact(); hContact; hContact = dstDb->FindNextContact(hContact)) {
+		char *szProto = GetContactProto(hContact);
+		if (!lstrcmpA(szProto, pszProtoName)) {
+			ptrW id(db_get_tsa(hContact, pszProtoName, pszSetting));
+			if (!lstrcmp(pwszID, id))
 				return hContact;
 		}
-
-		hContact = (MCONTACT)dstDb->FindNextContact(hContact);
 	}
 	return INVALID_CONTACT_ID;
 }
@@ -95,7 +90,7 @@ static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, 
 {
 	MCONTACT hContact = HContactFromNumericID(szModuleName, "UIN", uin);
 	if (hContact == NULL) {
-		AddMessage( LPGENT("Ignored event from/to self"));
+		AddMessage(LPGENT("Ignored event from/to self"));
 		return INVALID_CONTACT_ID;
 	}
 
@@ -105,10 +100,10 @@ static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, 
 	if (!addUnknown)
 		return INVALID_CONTACT_ID;
 
-	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)szModuleName);
-	db_set_dw((MCONTACT)hContact, szModuleName, "UIN", uin);
-	AddMessage( LPGENT("Added contact %u (found in history)"), uin );
+	db_set_dw(hContact, szModuleName, "UIN", uin);
+	AddMessage(LPGENT("Added contact %u (found in history)"), uin);
 	return hContact;
 }
 
@@ -116,7 +111,7 @@ static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, 
 
 static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSetting, DBVARIANT* id, const TCHAR* pszUserID, TCHAR *nick, TCHAR *group)
 {
-	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	MCONTACT hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)szProto) != 0) {
 		CallService(MS_DB_CONTACT_DELETE, hContact, 0);
 		AddMessage(LPGENT("Failed to add %S contact %s"), szProto, pszUserID);
@@ -125,10 +120,10 @@ static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSett
 
 	mySet(hContact, szProto, pszUniqueSetting, id);
 
-	CreateGroup(group, (MCONTACT)hContact);
+	CreateGroup(group, hContact);
 
 	if (nick && *nick) {
-		db_set_ws((MCONTACT)hContact, "CList", "MyHandle", nick);
+		db_set_ws(hContact, "CList", "MyHandle", nick);
 		AddMessage(LPGENT("Added %S contact %s, '%s'"), szProto, pszUserID, nick);
 	}
 	else AddMessage(LPGENT("Added %S contact %s"), szProto, pszUserID);
@@ -139,11 +134,11 @@ static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSett
 
 static int ImportGroup(const char* szSettingName, LPARAM lParam)
 {
-	int* pnGroups = (int*)lParam;
+	int *pnGroups = (int*)lParam;
 
 	TCHAR* tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
 	if (tszGroup != NULL) {
-		if ( CreateGroup( tszGroup+1, NULL ))
+		if (CreateGroup(tszGroup + 1, NULL))
 			pnGroups[0]++;
 		mir_free(tszGroup);
 	}
@@ -167,7 +162,7 @@ static int ImportGroups()
 static MCONTACT ImportContact(MCONTACT hSrc)
 {
 	MCONTACT hDst;
-	TCHAR id[ 40 ], *pszUniqueID;
+	TCHAR id[40], *pszUniqueID;
 	char  szProto[100];
 
 	// Check what protocol this contact belongs to
@@ -182,7 +177,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	// Skip protocols with no unique id setting (some non IM protocols return NULL)
-	char* pszUniqueSetting = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	char *pszUniqueSetting = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	if (!pszUniqueSetting || (INT_PTR)pszUniqueSetting == CALLSERVICE_NOTFOUND) {
 		AddMessage(LPGENT("Skipping non-IM contact (%S)"), szProto);
 		return NULL;
@@ -403,15 +398,14 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 			if (!skip) {
 				// Check for duplicate entries
-				if (!IsDuplicateEvent((MCONTACT)hDst, dbei)) {
+				if (!IsDuplicateEvent(hDst, dbei)) {
 					// Add dbevent
 					if (dstDb->AddEvent(hDst, &dbei) != NULL)
 						nMessagesCount++;
 					else
 						AddMessage(LPGENT("Failed to add message"));
 				}
-				else
-					nDupes++;
+				else nDupes++;
 			}
 		}
 
@@ -438,9 +432,6 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 void MirandaImport(HWND hdlg)
 {
-	DWORD dwTimer;
-	char* pszModuleName = NULL;
-
 	// Just to keep the macros happy
 	hdlgProgress = hdlg;
 	if ((dstDb = GetCurrentDatabase()) == NULL) {
@@ -477,7 +468,7 @@ void MirandaImport(HWND hdlg)
 	dstDb->SetCacheSafetyMode(FALSE);
 
 	// Start benchmark timer
-	dwTimer = time(NULL);
+	DWORD dwTimer = time(NULL);
 
 	// Import Groups
 	if (nImportOption == IMPORT_ALL || (nCustomOptions & IOPT_GROUPS)) {

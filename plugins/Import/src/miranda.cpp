@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "import.h"
 
-void MirandaImport(HWND hdlgProgress);
-
 // =====================
 // == LOCAL VARIABLES ==
 // =====================
@@ -173,7 +171,6 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg, UINT message, WPARAM wParam, 
 			if (IsDlgButtonChecked(hdlg, IDC_RADIO_ALL)) {
 				nImportOption = IMPORT_ALL;
 				nCustomOptions = 0;//IOPT_MSGSENT|IOPT_MSGRECV|IOPT_URLSENT|IOPT_URLRECV;
-				DoImport = MirandaImport;
 				PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 				break;
 			}
@@ -181,7 +178,6 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg, UINT message, WPARAM wParam, 
 			if (IsDlgButtonChecked(hdlg, IDC_RADIO_CONTACTS)) {
 				nImportOption = IMPORT_CONTACTS;
 				nCustomOptions = 0;
-				DoImport = MirandaImport;
 				PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 				break;
 			}
@@ -233,7 +229,6 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg, UINT message, WPARAM wPara
 			break;
 
 		case IDOK:
-			DoImport = MirandaImport;
 			nImportOption = IMPORT_CUSTOM;
 			nCustomOptions = 0;
 

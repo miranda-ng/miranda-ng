@@ -24,9 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define PROGM_START   (WM_USER+100)
 
-INT_PTR CALLBACK FinishedPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
+void MirandaImport(HWND);
 
-void (*DoImport)(HWND);
+INT_PTR CALLBACK FinishedPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
 
 INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -52,7 +52,7 @@ INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 		break;
 
 	case PROGM_START:
-		DoImport(hdlg);
+		MirandaImport(hdlg);
 		SendMessage(GetParent(hdlg), WIZM_ENABLEBUTTON, 1, 0);
 		SendMessage(GetParent(hdlg), WIZM_ENABLEBUTTON, 2, 0);
 		break;
