@@ -602,7 +602,7 @@ static void KickUser (MCONTACT hContact, GCHOOK *gch)
 	LeaveCriticalSection(&m_GCMutex);
 }
 
-void SetChatTopic(TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
+void SetChatTopic(const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
 {
 	GCDEST gcd = {0};
 	GCEVENT gce = {0};

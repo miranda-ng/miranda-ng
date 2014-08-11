@@ -49,4 +49,4 @@ INT_PTR GCOnLeaveChat(WPARAM wParam,LPARAM lParam);
 INT_PTR GCOnJoinChat(WPARAM wParam,LPARAM lParam);
 void GCInit(void);
 void GCExit(void);
-void SetChatTopic (TCHAR *szChatId, TCHAR *szTopic, BOOL bSet);
+void SetChatTopic (const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet);

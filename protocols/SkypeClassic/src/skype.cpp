@@ -26,7 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "pthread.h"
 #include "gchat.h"
 #include "m_toptoolbar.h"
+
+#ifdef IS_MIRANDAIM
 #include "voiceservice.h"
+#else
+inline BOOL HasVoiceService() { return FALSE; }
+#endif
+
 #include "msglist.h"
 #include "memlist.h"
 #include <sys/timeb.h>
@@ -953,7 +959,9 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	HookEventsLoaded();
 	RegisterToUpdate();
 	RegisterToDbeditorpp();
+#ifdef IS_MIRANDAIM
 	VoiceServiceModulesLoaded();
+#endif
 	GCInit();
 
 	add_contextmenu(NULL);
@@ -968,7 +976,11 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		gcr.dwFlags = GC_CHANMGR; // |GC_ACKMSG; // TODO: Not implemented yet
 #ifdef GC_TCHAR
 		gcr.dwFlags |= GC_TCHAR;
+#ifdef IS_MIRANDAIM
 		gcr.ptszModuleDispName = _T("Skype protocol");
+#else
+		gcr.ptszDispName = _T("Skype protocol");
+#endif
 #else
 		gcr.ptszDispName = _T("Skype protocol");
 #endif
@@ -1437,8 +1449,14 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 				gce.ptszNick = ci.pszVal;
 			gce.time = timestamp > 0 ? timestamp : (DWORD)SkypeTime(NULL);
+
+#ifdef IS_MIRANDAIM
 			gce.pszText = msgptr;
 			if (pre.flags & PREF_UNICODE) gce.pszText += msglen;
+#else
+			gce.ptszText = (TCHAR*)(msgptr + msglen);
+#endif
+
 			gce.dwFlags = GCEF_ADDTOLOG | GC_TCHAR;
 			CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 			MsgList_Add(pre.lParam, INVALID_HANDLE_VALUE);	// Mark as groupchat
@@ -1697,10 +1715,12 @@ void RingThread(char *szSkypeMsg) {
 		goto l_exitRT;;
 	}
 
+#ifdef IS_MIRANDAIM
 	if (!strncmp(ptr, "INCOMING", 8))
 		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_RINGING);
 	else
 		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_CALLING);
+#endif
 
 	if (!strncmp(ptr, "INCOMING", 8)) {
 		if (!hContact) {
@@ -1820,7 +1840,9 @@ void EndCallThread(char *szSkypeMsg) {
 	}
 	if (hContact)
 	{
+#ifdef IS_MIRANDAIM
 		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_ENDED);
+#endif
 
 		db_unset(hContact, SKYPE_PROTONAME, "CallId");
 
@@ -1861,7 +1883,9 @@ void HoldCallThread(char *szSkypeMsg) {
 	}
 	if (hContact = GetCallerContact(szSkypeMsg)) {
 		db_set_b(hContact, SKYPE_PROTONAME, "OnHold", 1);
+#ifdef IS_MIRANDAIM
 		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_ON_HOLD);
+#endif
 	}
 	free(szSkypeMsg);
 	LOG(("HoldCallThread terminated gracefully"));
@@ -1877,7 +1901,9 @@ void ResumeCallThread(char *szSkypeMsg) {
 	}
 	if (hContact = GetCallerContact(szSkypeMsg)) {
 		db_unset(hContact, SKYPE_PROTONAME, "OnHold");
+#ifdef IS_MIRANDAIM
 		NofifyVoiceService(hContact, szSkypeMsg, VOICE_STATE_TALKING);
+#endif
 	}
 	free(szSkypeMsg);
 	LOG(("ResumeCallThread terminated gracefully."));
@@ -3319,24 +3345,26 @@ void __cdecl MsgPump(char *dummy)
 
 // DLL Stuff //
 
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirVersion)
+#ifdef IS_MIRANDAIM
+extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirVersion)
 {
 	mirandaVersion = mirVersion;
 
 	pluginInfo.cbSize = sizeof(PLUGININFO);
 	return (PLUGININFO*) &pluginInfo;
 }
-
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
+#else
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
 {
 	mirandaVersion = mirVersion;
 
 	return &pluginInfo;
 }
+#endif
 
-__declspec(dllexport) const MUUID MirandaInterfaces[] = { MUUID_SKYPE_CALL, MIID_LAST };
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MUUID_SKYPE_CALL, MIID_LAST };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	UNREFERENCED_PARAMETER(fdwReason);
 	UNREFERENCED_PARAMETER(lpvReserved);
@@ -3355,9 +3383,9 @@ int PreShutdown(WPARAM wParam, LPARAM lParam) {
 }
 
 #ifdef IS_MIRANDAIM
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 #else
-int __declspec(dllexport) Load(void)
+extern "C" int __declspec(dllexport) Load(void)
 #endif
 {
 	PROTOCOLDESCRIPTOR pd = { 0 };
@@ -3472,7 +3500,9 @@ int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
+#ifdef IS_MIRANDAIM
 	VoiceServiceInit();
+#endif
 
 	CreateServices();
 	HookEvents();
@@ -3489,7 +3519,7 @@ int __declspec(dllexport) Load(void)
 
 
 
-int __declspec(dllexport) Unload(void)
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	BOOL UseCustomCommand = db_get_b(NULL, SKYPE_PROTONAME, "UseCustomCommand", 0);
 	BOOL Shutdown = db_get_b(NULL, SKYPE_PROTONAME, "Shutdown", 0);
@@ -3526,7 +3556,9 @@ int __declspec(dllexport) Unload(void)
 	UnhookEvent(hChatMenu);
 	UnhookEvent(hEvInitChat);
 	DestroyHookableEvent(hInitChat);
+#ifdef IS_MIRANDAIM
 	VoiceServiceExit();
+#endif
 	GCExit();
 	MsgList_Exit();
 
