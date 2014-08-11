@@ -444,6 +444,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				JSONNODE *threadid = json_get(it, "tid");
 				if (threadid != NULL) { // multi user chat
+					if (proto->m_disableChat)
+						continue;
+
 					std::tstring tid = json_as_string(threadid);
 					std::string reader_id = json_as_pstring(reader);
 
@@ -603,6 +606,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				proto->StopTyping(hContact);
 		} else if (t == "ttyp") {
 			// multi chat typing notification
+			if (proto->m_disableChat)
+				continue;
 
 			JSONNODE *from_ = json_get(it, "from");
 			JSONNODE *thread_ = json_get(it, "thread");
@@ -683,6 +688,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			}*/
 		} else if (t == "mercury") {
 			// rename multi user chat, ...
+			if (proto->m_disableChat)
+				continue;
 
 			JSONNODE *actions_ = json_get(it, "actions");
 			if (actions_ == NULL)

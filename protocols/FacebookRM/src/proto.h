@@ -52,6 +52,7 @@ public:
 	}
 
 	bool m_invisible;
+	bool m_disableChat;
 
 	// DB utils missing in proto_interface
 

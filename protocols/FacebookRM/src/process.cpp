@@ -461,6 +461,9 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	bool isChat = isChatRoom(hContact);
 
+	if (isChat && m_disableChat)
+		return;
+
 	ptrA item_id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
 	if (item_id == NULL) {
 		debugLogA("!!!!! LoadLastMessages: Contact has no TID/ID");
@@ -598,6 +601,11 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 		DWORD timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
 
 		if (messages[i]->isChat) {
+			if (m_disableChat) {
+				delete messages[i];
+				continue;
+			}
+
 			// Multi-user message
 			debugLogA("      Got chat message: %s", messages[i]->message_text.c_str());
 

@@ -32,6 +32,7 @@ Info:
 "KeepUnread" (Byte) - 1 = Don't mark messages as read on server (works globally or per contact)
 "NaseemsSpamMode" (Byte) - 1 = Don't add contacts when we send message to them from other instances, add them only when they reply
 "NameAsNick" (Byte) - 0 = don't use real name as nickname, use nickname if possible (default is 1)
+"DisableChat" (Byte) - 1 = don't use multi user chat at all
 
 --------------------------------
        Version history
