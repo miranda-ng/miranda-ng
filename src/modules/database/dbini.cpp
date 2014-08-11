@@ -414,7 +414,7 @@ static void DoAutoExec(void)
 	if (!lstrcmpi(szUse, _T("no"))) return;
 	GetPrivateProfileString(_T("AutoExec"), _T("Safe"), _T("CLC Icons CLUI CList SkinSounds PluginUpdater"), buf, SIZEOF(buf), mirandabootini);
 	szSafeSections = mir_t2a(buf);
-	GetPrivateProfileString(_T("AutoExec"), _T("Unsafe"), _T("AIM Facebook GG ICQ IRC JABBER MRA MSN SKYPE Tlen TWITTER XFire"), buf, SIZEOF(buf), mirandabootini);
+	GetPrivateProfileString(_T("AutoExec"), _T("Unsafe"), _T("AIM Facebook GG ICQ IRC JABBER MRA MSN SKYPE Tlen TWITTER VKontakte XFire"), buf, SIZEOF(buf), mirandabootini);
 	szUnsafeSections = mir_t2a(buf);
 	GetPrivateProfileString(_T("AutoExec"), _T("Warn"), _T("notsafe"), szSecurity, SIZEOF(szSecurity), mirandabootini);
 	if (!lstrcmpi(szSecurity, _T("none"))) secur = 0;
