@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -157,7 +157,7 @@ void GetSelectedContacts(FacebookProto *proto, MCONTACT hItem, HWND hwndList, st
 				if (userId)
 					fu->user_id = userId;
 				
-				ptrt realName(proto->getTStringA(hItem, FACEBOOK_KEY_NICK));
+				ptrT realName(proto->getTStringA(hItem, FACEBOOK_KEY_NICK));
 				if (realName)
 					fu->real_name = _T2A(realName);
 
