@@ -98,9 +98,6 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	// IcoLib support
 	Icon_Register(g_hInst, "Mobile State", &icon, 1);
 
-	// Extra icons
-	hExtraIcon = ExtraIcon_Register("mobilestate", LPGEN("Mobile State"), "mobile_icon");
-
 	// Set initial value for all contacts
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		ExtraIconsApply(hContact, 1);
@@ -115,6 +112,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraIconsApply);
+
+	// Extra icons
+	hExtraIcon = ExtraIcon_Register("mobilestate", LPGEN("Mobile State"), "mobile_icon");
+
 	return 0;
 }
 

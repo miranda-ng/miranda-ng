@@ -844,9 +844,6 @@ static void UpdateTimer(BYTE bStartup)
 void SvcReminderEnable(BYTE bEnable)
 {
 	if (bEnable) { // Reminder is on
-		if (ExtraIcon == INVALID_HANDLE_VALUE)
-			ExtraIcon = ExtraIcon_Register("Reminder", LPGEN("Reminder (uinfoex)"), ICO_COMMON_ANNIVERSARY);
-
 		// init hooks
 		if (!ghCListIA)
 			ghCListIA = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcon);
@@ -932,6 +929,10 @@ void SvcReminderLoadModule(void)
 	hk.pszDescription = LPGEN("Check anniversaries");
 	hk.pszService = MS_USERINFO_REMINDER_CHECK;
 	Hotkey_Register(&hk);
+
+	if (db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) != REMIND_OFF && ExtraIcon == INVALID_HANDLE_VALUE)
+		ExtraIcon = ExtraIcon_Register("Reminder", LPGEN("Reminder (uinfoex)"), ICO_COMMON_ANNIVERSARY);
+
 }
 
 /**

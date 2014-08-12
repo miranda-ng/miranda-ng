@@ -212,6 +212,16 @@ void SvcFlagsLoadModule()
 	g_bShowStatusIconFlag = db_get_b(NULL, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
 
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnStatusIconsChanged);
+
+	// get local langID for descIcon (try to use user local Flag as icon)
+	DWORD langid = 0;
+	int r = GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_ICOUNTRY | LOCALE_RETURN_NUMBER, (LPTSTR)&langid, sizeof(langid) / sizeof(TCHAR));
+	if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER, langid, 0))
+		langid = 1;
+
+	char szId[20];
+	mir_snprintf(szId, SIZEOF(szId), (langid == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", langid); /* buffer safe */
+	hExtraIconSvc = ExtraIcon_Register("Flags", LPGEN("Flags (uinfoex)"), szId);
 }
 
 /**
@@ -224,16 +234,6 @@ void SvcFlagsLoadModule()
 
 void SvcFlagsOnModulesLoaded()
 {
-	// get local langID for descIcon (try to use user local Flag as icon)
-	DWORD langid = 0;
-	int r = GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_ICOUNTRY | LOCALE_RETURN_NUMBER, (LPTSTR)&langid, sizeof(langid) / sizeof(TCHAR));
-	if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER, langid, 0))
-		langid = 1;
-
-	char szId[20];
-	mir_snprintf(szId, SIZEOF(szId), (langid == 0xFFFF) ? "%s_0x%X" : "%s_%i", "flags", langid); /* buffer safe */
-	hExtraIconSvc = ExtraIcon_Register("Flags", LPGEN("Flags (uinfoex)"), szId);
-
 	/* Status Icon */
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODNAMEFLAGS;

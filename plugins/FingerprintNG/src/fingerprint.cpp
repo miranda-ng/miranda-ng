@@ -952,9 +952,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	RegisterIcons();
 
-	hExtraIcon = ExtraIcon_Register("Client", LPGEN("Fingerprint"), "client_Miranda_Unknown",
-		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
-
 	if (db_get_b(NULL, MODULENAME, "StatusBarIcon", 1)) {
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODULENAME;
@@ -974,4 +971,7 @@ void InitFingerModule()
 	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
 	CreateServiceFunction(MS_FP_GETCLIENTDESCRW, ServiceGetClientDescrW);
 	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
+
+	hExtraIcon = ExtraIcon_Register("Client", LPGEN("Fingerprint"), "client_Miranda_unknown",
+		OnExtraIconListRebuild, OnExtraImageApply, OnExtraIconClick);
 }

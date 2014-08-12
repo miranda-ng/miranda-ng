@@ -217,8 +217,6 @@ static int onModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onRebuildContactMenu);
 
-	g_hCLIcon = ExtraIcon_Register(MODULENAME, LPGEN("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
-
 	// hook init options
 	HookEvent(ME_OPT_INITIALISE, onRegisterOptions);
 	if (bPopupExists)
@@ -380,6 +378,9 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	CreateServiceFunction(MODULENAME"/MODE_PGP", Service_ModePGP);
 	CreateServiceFunction(MODULENAME"/MODE_GPG", Service_ModeGPG);
 	CreateServiceFunction(MODULENAME"/MODE_RSA", Service_ModeRSAAES);
+
+	g_hCLIcon = ExtraIcon_Register(MODULENAME, LPGEN("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
+
 	return 0;
 }
 

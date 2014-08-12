@@ -78,7 +78,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	aim_links_init();
-	InitExtraIcons();
 
 	return 0;
 }
@@ -113,6 +112,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM) & pd);
 
 	InitIcons();
+	InitExtraIcons();
 
 	return 0;
 }

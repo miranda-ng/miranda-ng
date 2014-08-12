@@ -65,6 +65,8 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l);
 INT_PTR SendKey(WPARAM w, LPARAM l);
 INT_PTR ExportGpGKeys(WPARAM w, LPARAM l);
 INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
+int onExtraImageListRebuilding(WPARAM, LPARAM);
+int onExtraImageApplying(WPARAM wParam, LPARAM);
 
 void init_vars()
 {
@@ -112,8 +114,6 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	int GetJabberInterface(WPARAM w, LPARAM l);
 	int onWindowEvent(WPARAM wParam, LPARAM lParam);
 	int onIconPressed(WPARAM wParam, LPARAM lParam);
-	int onExtraImageListRebuilding(WPARAM, LPARAM);
-	int onExtraImageApplying(WPARAM wParam, LPARAM);
 	int onProtoAck(WPARAM, LPARAM);
 	INT_PTR onSendFile(WPARAM, LPARAM);
 	void InitIconLib();
@@ -154,8 +154,6 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	HookEvent(ME_MSG_WINDOWEVENT, onWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, onIconPressed);
-
-	g_hCLIcon = ExtraIcon_Register(szGPGModuleName, Translate("GPG encryption status"), "secured", (MIRANDAHOOK)onExtraImageListRebuilding, (MIRANDAHOOK)onExtraImageApplying);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = szGPGModuleName;
@@ -225,6 +223,8 @@ extern "C" int __declspec(dllexport) Load()
 	mi.ptszName=LPGENT("Import GPG Public keys");
 	mi.pszService="/ImportGPGKeys";
 	hImportGpgKeys = Menu_AddMainMenuItem(&mi);
+
+	g_hCLIcon = ExtraIcon_Register(szGPGModuleName, Translate("GPG encryption status"), "secured", onExtraImageListRebuilding, onExtraImageApplying);
 
 	return 0;
 }

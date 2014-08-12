@@ -54,7 +54,6 @@ void LoadOptions()
 	options.notifyFirstOnline  = db_get_b(NULL, MODULE_NAME, "bShowFirstSight", 0) ? true : false;
 	options.hideInactive       = db_get_b(NULL, MODULE_NAME, "bHideInactive", 0) ? true : false;
 	options.enableMissYou      = db_get_b(NULL, MODULE_NAME, "bMissYouEnabled", 1) ? true : false;
-	options.MissYouIcon        = db_get_b(NULL, MODULE_NAME, "bMissYouIcon", 0);
 }
 
 void SaveOptions()

@@ -200,7 +200,7 @@ void InitExtraImg(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ExtraImgSettingChanged);
 
 	/* Extra Image */
-	hExtraIcon = ExtraIcon_Register("flags_extra", LPGEN("Country flag"));
+	hExtraIcon = ExtraIcon_Register("flags_extra", LPGEN("Country flag"), "flags_0");
 	if (bShowExtraIcon)
 		EnsureExtraImages();
 }

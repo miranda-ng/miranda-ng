@@ -136,8 +136,7 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			CallServiceSync("BuddyExpectator/actionMissYou", (WPARAM)PUGetContact(hWnd), 0);
 			if ( !db_get_b(PUGetContact(hWnd), MODULE_NAME, "MissYouNotifyAlways", 0)) {
 				db_set_b(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
-				if (options.MissYouIcon)
-					ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
+				ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			}
 			PUDeletePopup(hWnd);
 		}
@@ -150,8 +149,7 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case UM_POPUPACTION:
 		if (wParam == 1) {
 			db_set_b(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
-			if (options.MissYouIcon)
-				ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
+			ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			PUDeletePopup(hWnd);
 		}
 		break;
@@ -421,13 +419,11 @@ INT_PTR MenuMissYouClick(WPARAM hContact, LPARAM)
 {
 	if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
 		db_set_b(hContact, MODULE_NAME, "MissYou", 0);
-		if (options.MissYouIcon)
-			ExtraIcon_Clear(hExtraIcon, hContact);
+		ExtraIcon_Clear(hExtraIcon, hContact);
 	}
 	else {
 		db_set_b(hContact, MODULE_NAME, "MissYou", 1);
-		if (options.MissYouIcon)
-			ExtraIcon_SetIcon(hExtraIcon, hContact, "enabled_icon");
+		ExtraIcon_SetIcon(hExtraIcon, hContact, "enabled_icon");
 	}
 
 	return 0;
@@ -615,8 +611,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded2);
-	if (options.MissYouIcon)
-		hExtraIcon = ExtraIcon_Register("buddy_exp", LPGEN("Buddy Expectator"), "enabled_icon");
 
 	////////////////////////////////////////////////////////////////////////////
 
@@ -707,6 +701,8 @@ extern "C" int __declspec(dllexport) Load(void)
 		else
 			db_set_dw(hContact, MODULE_NAME, "CreationTime", current_time);
 	}
+
+	hExtraIcon = ExtraIcon_Register("buddy_exp", LPGEN("Buddy Expectator"), "enabled_icon");
 
 	return 0;
 }

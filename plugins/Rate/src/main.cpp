@@ -102,9 +102,6 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
    // IcoLib support
 	Icon_Register(g_hInst, LPGEN("Contact rate"), iconList, SIZEOF(iconList));
 
-	// Extra icon support
-	hExtraIcon = ExtraIcon_Register("contact_rate", LPGEN("Contact rate"), "rate_high");
-
 	// Set initial value for all contacts
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		setExtraIcon(hContact, -1, FALSE);
@@ -128,6 +125,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
    HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
    HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
+
+   // Extra icon support
+   hExtraIcon = ExtraIcon_Register("contact_rate", LPGEN("Contact rate"), "rate_high");
+
    return 0;
 }
 

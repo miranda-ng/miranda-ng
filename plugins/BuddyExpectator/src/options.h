@@ -39,7 +39,6 @@ typedef struct {
 	bool notifyFirstOnline;
 	bool enableMissYou;
 	bool hideInactive;
-	byte MissYouIcon;
 
 	int iAbsencePeriod2;	// notify period for contacts that have remained away
 	int iShowPopup2;
