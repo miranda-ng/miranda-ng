@@ -55,6 +55,32 @@ HANDLE CToxProto::AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWOR
 	return db_event_add(hContact, &dbei);
 }
 
+void CToxProto::RaiseAuthRequestEvent(DWORD timestamp, const char* toxId, const char* reason)
+{
+	MCONTACT hContact = this->AddContact(toxId);
+
+	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)*/
+	DWORD cbBlob = (DWORD)
+		(sizeof(DWORD) * 2 +
+		strlen(toxId) +
+		strlen(reason) +
+		5);
+
+	PBYTE pBlob, pCurBlob;
+	pCurBlob = pBlob = (PBYTE)mir_calloc(cbBlob);
+
+	*((PDWORD)pCurBlob) = 0;
+	pCurBlob += sizeof(DWORD);
+	*((PDWORD)pCurBlob) = (DWORD)hContact;
+	pCurBlob += sizeof(DWORD);
+	pCurBlob += 3;
+	strcpy((char *)pCurBlob, toxId);
+	pCurBlob += strlen(toxId) + 1;
+	strcpy((char *)pCurBlob, reason);
+
+	AddDbEvent(hContact, EVENTTYPE_AUTHREQUEST, timestamp, DBEF_UTF, cbBlob, pBlob);
+}
+
 std::vector<uint8_t> CToxProto::HexStringToData(std::string hex)
 {
 	std::stringstream ss;
@@ -152,39 +178,4 @@ int CToxProto::SaveToxData(const char *path)
 	}
 
 	return res;
-}
-
-#define FRADDR_TOSTR_CHUNK_LEN 8 
-
-void CToxProto::fraddr_to_str(uint8_t *id_bin, char *id_str)
-{
-	uint32_t i, delta = 0, pos_extra, sum_extra = 0;
-
-	for (i = 0; i < TOX_FRIEND_ADDRESS_SIZE; i++) {
-		sprintf(&id_str[2 * i + delta], "%02hhX", id_bin[i]);
-
-		if ((i + 1) == TOX_CLIENT_ID_SIZE)
-			pos_extra = 2 * (i + 1) + delta;
-
-		if (i >= TOX_CLIENT_ID_SIZE)
-			sum_extra |= id_bin[i];
-
-		if (!((i + 1) % FRADDR_TOSTR_CHUNK_LEN)) {
-			id_str[2 * (i + 1) + delta] = ' ';
-			delta++;
-		}
-	}
-
-	id_str[2 * i + delta] = 0;
-
-	if (!sum_extra)
-		id_str[pos_extra] = 0;
-}
-
-void CToxProto::get_id(Tox *m, char *data)
-{
-	int offset = strlen(data);
-	uint8_t address[TOX_FRIEND_ADDRESS_SIZE];
-	tox_get_address(m, address);
-	fraddr_to_str(address, data + offset);
 }

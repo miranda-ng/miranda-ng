@@ -42,6 +42,12 @@ int CToxProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 
 void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
+	CToxProto *proto = (CToxProto*)arg;
+
+	std::vector<uint8_t> clientId(userId, userId + TOX_CLIENT_ID_SIZE);
+	std::string toxId = proto->DataToHexString(clientId);
+
+	proto->RaiseAuthRequestEvent(time(NULL), toxId.c_str(), (char*)message);
 }
 
 void CToxProto::OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg)

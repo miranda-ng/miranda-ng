@@ -17,6 +17,26 @@ void CToxProto::SetAllContactsStatus(WORD status)
 	}
 }
 
+MCONTACT CToxProto::GetContactFromAuthEvent(HANDLE hEvent)
+{
+	DWORD body[3];
+	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+	dbei.cbBlob = sizeof(DWORD)* 2;
+	dbei.pBlob = (PBYTE)&body;
+
+	if (::db_event_get(hEvent, &dbei))
+		return INVALID_CONTACT_ID;
+
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
+		return INVALID_CONTACT_ID;
+
+	if (strcmp(dbei.szModule, m_szModuleName) != 0)
+		return INVALID_CONTACT_ID;
+
+	return DbGetAuthEventContact(&dbei);
+}
+
+
 bool CToxProto::IsProtoContact(MCONTACT hContact)
 {
 	return lstrcmpiA(GetContactProto(hContact), m_szModuleName) == 0;

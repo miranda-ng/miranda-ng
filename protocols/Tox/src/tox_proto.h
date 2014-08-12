@@ -113,6 +113,8 @@ private:
 	MCONTACT FindContact(const char *clientId);
 	MCONTACT AddContact(const char *clientId, bool isHidden = false);
 
+	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
+
 	void LoadContactList();
 
 	void __cdecl SearchByUidAsync(void* arg);
@@ -126,6 +128,7 @@ private:
 	int ToxToMirandaStatus(TOX_USERSTATUS userstatus);
 
 	HANDLE AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+	void RaiseAuthRequestEvent(DWORD timestamp, const char* toxId, const char* reason);
 	
 	std::vector<uint8_t> HexStringToData(std::string hex);
 	std::string DataToHexString(std::vector<uint8_t>);

@@ -47,7 +47,26 @@ MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return 0; }
 
-int __cdecl CToxProto::Authorize(HANDLE hDbEvent) { return 0; }
+int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
+{
+	if (this->IsOnline() && hDbEvent)
+	{
+		MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
+		if (hContact == INVALID_CONTACT_ID)
+			return 1;
+
+		std::string toxId = getStringA(hContact, TOX_SETTING_ID);
+		std::vector<uint8_t> clientId = HexStringToData(toxId);
+
+		if (tox_add_friend_norequest(tox, &clientId[0]) >= 0)
+		{
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
 int __cdecl CToxProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason) { return 0; }
 int __cdecl CToxProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage) { return 0; }
@@ -64,11 +83,11 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch(type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_ADDSEARCHRES;
+		return PF1_IM | PF1_AUTHREQ;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
-		return PF4_IMSENDUTF | PF4_SUPPORTTYPING;
+		return PF4_IMSENDUTF | PF4_NOAUTHDENYREASON;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:
