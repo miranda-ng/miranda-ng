@@ -614,18 +614,17 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		case 3: // on, if present
 		case 1:
 			HBITMAP hbm = (dat->ace && !(dat->ace->dwFlags & AVS_HIDEONCLIST)) ? dat->ace->hbmPic : 0;
-
-			if (!dat->hwndContactPic)
-				dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
-
 			dat->bShowAvatar = (hbm && hbm != PluginConfig.g_hbmUnknown);
 			break;
 		}
 
-		if (dat->bShowAvatar)
+		if (dat->bShowAvatar) {
+			if (!dat->hwndContactPic)
+				dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
+
 			dat->bShowAvatar = hideOverride == 0 ? 0 : dat->bShowAvatar;
-		else
-			dat->bShowAvatar = hideOverride == 1 ? 1 : dat->bShowAvatar;
+		}
+		else dat->bShowAvatar = hideOverride == 1 ? 1 : dat->bShowAvatar;
 
 		// reloads avatars
 		if (dat->hwndPanelPic) { // shows contact or user picture, depending on panel visibility

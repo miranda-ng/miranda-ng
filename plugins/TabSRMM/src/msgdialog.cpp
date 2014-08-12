@@ -1650,7 +1650,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				dat->rcPic = rc;
 
 				if (dat->bShowInfoAvatar) {
-					SetWindowPos(dat->hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, (rc.bottom - rc.top) + 1, 0);
+					SetWindowPos(dat->hwndPanelPicParent, HWND_TOP, rc.left - 2, rc.top, rc.right - rc.left, rc.bottom - rc.top + 1, 0);
 					ShowWindow(dat->hwndPanelPicParent, (dat->iPanelAvatarX == 0) || !dat->Panel->isActive() ? SW_HIDE : SW_SHOW);
 				}
 				else {
