@@ -1307,14 +1307,16 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
-			if (DbEventIsShown(&dbei) && !(dbei.flags & DBEF_READ)) {
-				if ((dbei.eventType == EVENTTYPE_MESSAGE) && !(dbei.flags & DBEF_SENT)) {
+			bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
+			if (DbEventIsShown(&dbei)) {
+				// Sounds *only* for sent messages, not for custom events
+				if (isMessage && !isSent) {
 					if (GetForegroundWindow() == hwndDlg)
 						SkinPlaySound("RecvMsgActive");
 					else
 						SkinPlaySound("RecvMsgInactive");
 				}
-				if ((dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)) && dat->hwndStatus && !(dbei.flags & DBEF_SENT)) {
+				if ((isMessage || DbEventIsForMsgWindow(&dbei)) && dat->hwndStatus && !isSent) {
 					dat->lastMessage = dbei.timestamp;
 					SendMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
 				}
@@ -1323,7 +1325,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				else
 					SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 
-				if (!(dbei.flags & DBEF_SENT)) {
+				// Flash window *only* for messages, not for custom events
+				if (isMessage && !isSent) {
 					if (GetActiveWindow() == hwndDlg && GetForegroundWindow() == hwndDlg) {
 						HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
 						if (GetWindowLongPtr(hwndLog, GWL_STYLE) & WS_VSCROLL) {

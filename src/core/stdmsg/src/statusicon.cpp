@@ -41,8 +41,8 @@ void DrawStatusIcons(MCONTACT hContact, HDC hDC, RECT r, int gap)
 	int x = r.left;
 
 	int nIcon = 0;
-	StatusIconData *sid = Srmm_GetNthIcon(hContact, nIcon++);
-	while (sid != 0 && x < r.right) {
+	StatusIconData *sid;
+	while ((sid = Srmm_GetNthIcon(hContact, nIcon++)) != 0 && x < r.right) {
 		HICON hIcon = ((sid->flags & MBF_DISABLED) && sid->hIconDisabled) ? sid->hIconDisabled : sid->hIcon;
 
 		SetBkMode(hDC, TRANSPARENT);

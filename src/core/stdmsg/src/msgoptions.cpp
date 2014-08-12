@@ -115,6 +115,8 @@ void RegisterSRMMFonts(void)
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		_tcscpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace);
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
+		_tcsncpy(fontid.backgroundGroup, LPGENT("Message log"),SIZEOF(fontid.backgroundGroup));
+		_tcsncpy(fontid.backgroundName, LPGENT("Background"),SIZEOF(fontid.backgroundName));
 		FontRegisterT(&fontid);
 	}
 

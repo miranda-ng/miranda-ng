@@ -277,7 +277,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 	}
 
 	if (g_dat.flags & SMF_SHOWICONS) {
-		int i = (dbei.eventType ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
+		int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
 		
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
 		while (bufferAlloced - bufferEnd < logIconBmpSize[i])
