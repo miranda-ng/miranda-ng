@@ -21,6 +21,8 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
+
+	hMessageProcess = 1;
 }
 
 CToxProto::~CToxProto()
@@ -93,7 +95,10 @@ HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner) { return 0; }
 
 int __cdecl CToxProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT*) { return 0; }
-int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
+int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
+{
+	return (INT_PTR)AddDbEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
+}
 int __cdecl CToxProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT* hContactsList) { return 0; }
@@ -111,7 +116,9 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
 	
-	int messageId = tox_send_message(tox, number, (uint8_t*)msg, strlen(msg));
+	ULONG messageId = InterlockedIncrement(&hMessageProcess);
+
+	tox_send_message_withid(tox, number, messageId, (uint8_t*)msg, strlen(msg));
 	
 	return messageId;
 }

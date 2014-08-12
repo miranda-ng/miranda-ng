@@ -44,8 +44,24 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *
 {
 }
 
-void CToxProto::OnFriendMessage(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg)
+void CToxProto::OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
+	CToxProto *proto = (CToxProto*)arg;
+
+	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+	tox_get_client_id(tox, friendnumber, &clientId[0]);
+	std::string toxId = proto->DataToHexString(clientId);
+
+	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	if (hContact)
+	{
+		PROTORECVEVENT recv = { 0 };
+		recv.flags = PREF_UTF;
+		recv.timestamp = time(NULL);
+		recv.szMessage = mir_strdup((char*)message);
+
+		ProtoChainRecvMsg(hContact, &recv);
+	}
 }
 
 void CToxProto::OnFriendNameChange(Tox *tox, const int friendId, const uint8_t *name, const uint16_t nameSize, void *arg)
@@ -76,7 +92,7 @@ void CToxProto::OnReadReceipt(Tox *tox, int32_t friendnumber, uint32_t receipt, 
 	tox_get_client_id(tox, friendnumber, &clientId[0]);
 	std::string toxId = proto->DataToHexString(clientId);
 
-	MCONTACT hContact = proto->GetContactByClientId(toxId.c_str());
+	MCONTACT hContact = proto->FindContact(toxId.c_str());
 
 	proto->ProtoBroadcastAck(
 		hContact,

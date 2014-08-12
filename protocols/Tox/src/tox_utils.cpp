@@ -21,6 +21,19 @@ TOX_USERSTATUS CToxProto::MirandaToToxStatus(int status)
 	return userstatus;
 }
 
+HANDLE CToxProto::AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+{
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = timestamp;
+	dbei.eventType = type;
+	dbei.cbBlob = cbBlob;
+	dbei.pBlob = pBlob;
+	dbei.flags = flags;
+
+	return db_event_add(hContact, &dbei);
+}
+
 std::vector<uint8_t> CToxProto::HexStringToData(std::string hex)
 {
 	std::stringstream ss;

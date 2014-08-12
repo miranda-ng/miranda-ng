@@ -77,6 +77,7 @@ private:
 	HANDLE poolingThread;
 	bool isTerminated;
 	bool isConnected;
+	ULONG hMessageProcess;
 
 	// instances
 	static LIST<CToxProto> instanceList;
@@ -97,7 +98,7 @@ private:
 	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
-	static void OnFriendMessage(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendId, const uint8_t *name, const uint16_t nameSize, void *arg);
 	static void OnStatusMessageChanged(Tox *tox, const int friendId, const uint8_t* message, const uint16_t messageSize, void *arg);
 	static void OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t TOX_USERSTATUS, void *userdata);
@@ -107,7 +108,7 @@ private:
 
 	// contacts
 	bool IsProtoContact(MCONTACT hContact);
-	MCONTACT GetContactByClientId(const char *clientId);
+	MCONTACT FindContact(const char *clientId);
 	MCONTACT AddContact(const char *clientId, const char *nick, bool isHidden = false);
 
 	void LoadContactList();
@@ -120,6 +121,8 @@ private:
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
+
+	HANDLE AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	
 	std::vector<uint8_t> HexStringToData(std::string hex);
 	std::string DataToHexString(std::vector<uint8_t>);
