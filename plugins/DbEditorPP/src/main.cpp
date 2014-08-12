@@ -143,9 +143,6 @@ static int OnTTBLoaded(WPARAM wParam, LPARAM lParam)
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	// icons
-	addIcons();
-
 	// Register menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1900000001;
@@ -219,6 +216,9 @@ INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+
+	// icons
+	addIcons();
 
 	hwnd2mainWindow = hwnd2watchedVarsWindow = hwnd2importWindow = 0;
 	hRestore = NULL;

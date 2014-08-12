@@ -614,12 +614,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	////////////////////////////////////////////////////////////////////////////
 
-	Icon_Register(hInst, "BuddyExpectator", iconList, SIZEOF(iconList));
-
-	HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
-
-	onIconsChanged(0,0);
-
 	if (options.enableMissYou) {
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
@@ -701,6 +695,12 @@ extern "C" int __declspec(dllexport) Load(void)
 		else
 			db_set_dw(hContact, MODULE_NAME, "CreationTime", current_time);
 	}
+
+	Icon_Register(hInst, "BuddyExpectator", iconList, SIZEOF(iconList));
+
+	HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
+
+	onIconsChanged(0, 0);
 
 	hExtraIcon = ExtraIcon_Register("buddy_exp", LPGEN("Buddy Expectator"), "enabled_icon");
 

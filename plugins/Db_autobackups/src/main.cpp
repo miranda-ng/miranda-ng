@@ -42,8 +42,6 @@ static void FoldersInit(void)
 
 static void MenuInit(void)
 {
-	Icon_Register(hInst, LPGEN("Database")"/"LPGEN("Database backups"), iconList, SIZEOF(iconList));
-
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszPopupName = LPGEN("Database");
 
@@ -95,6 +93,8 @@ void SysInit()
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
+
+	Icon_Register(hInst, LPGEN("Database")"/"LPGEN("Database backups"), iconList, SIZEOF(iconList));
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

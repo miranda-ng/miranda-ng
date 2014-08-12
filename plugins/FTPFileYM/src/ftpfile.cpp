@@ -378,9 +378,7 @@ INT_PTR MainMenuService(WPARAM wParam, LPARAM lParam)
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	InitIcolib();
 	InitMenuItems();
-	InitHotkeys();
 	InitTabsrmmButton();
 
 	SkinAddNewSoundEx(SOUND_UPCOMPLETE, LPGEN("FTP File"), LPGEN("File upload complete"));
@@ -428,6 +426,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	hServiceShowManager = CreateServiceFunction(MS_FTPFILE_SHOWMANAGER, ShowManagerService);
 	hServiceContactMenu = CreateServiceFunction(MS_FTPFILE_CONTACTMENU, ContactMenuService);
 	hServiceMainMenu = CreateServiceFunction(MS_FTPFILE_MAINMENU, MainMenuService);
+
+	InitIcolib();
+	InitHotkeys();
 
 	opt.loadOptions();
 	deleteTimer.init();

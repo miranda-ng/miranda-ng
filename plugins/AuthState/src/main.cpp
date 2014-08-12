@@ -165,9 +165,6 @@ static IconItem iconList[] =
 
 int onModulesLoaded(WPARAM, LPARAM)
 {
-	// IcoLib support
-	Icon_Register(g_hInst, "Auth State", iconList, SIZEOF(iconList));
-
 	// Set initial value for all contacts
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		onExtraImageApplying(hContact, 1);
@@ -210,6 +207,9 @@ extern "C" int __declspec(dllexport) Load(void)
 		mi.pszService = "AuthState/MenuItem";
 		hUserMenu = Menu_AddContactMenuItem(&mi);
 	}
+
+	// IcoLib support
+	Icon_Register(g_hInst, "Auth State", iconList, SIZEOF(iconList));
 
 	// extra icons
 	hExtraIcon = ExtraIcon_Register("authstate", LPGEN("Auth State"), "authgrant_icon");

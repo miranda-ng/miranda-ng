@@ -133,9 +133,6 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 
-	//IcoLib support
-	Icon_Register(g_hInst, LPGEN("Ignore State"), iconList, SIZEOF(iconList));
-
 	fill_filter();
 
 	// Set initial value for all contacts
@@ -168,6 +165,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
+
+	//IcoLib support
+	Icon_Register(g_hInst, LPGEN("Ignore State"), iconList, SIZEOF(iconList));
 
 	hExtraIcon = ExtraIcon_Register("ignore", LPGEN("Ignore State"), "ignore_full");
 

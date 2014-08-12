@@ -115,21 +115,13 @@ static int Openfile(TCHAR *outputFile, int selection);
 
 static HANDLE hTTBButt = 0;
 
-static IconItem iconList[] =
-{
-	{ "Show", "Console_Up",   IDI_BTN_UP },
-	{ "Hide", "Console_Down", IDI_BTN_DN },
-};
-
 static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 {
 	int state = IsWindowVisible(hwndConsole);
 
-	Icon_Register(hInst, "Console", iconList, SIZEOF(iconList));
-
 	TTBButton ttb = { sizeof(ttb) };
-	ttb.hIconHandleUp = iconList[0].hIcolib;
-	ttb.hIconHandleDn = iconList[1].hIcolib;
+	ttb.hIconHandleUp = LoadIcon(IDI_BTN_UP);
+	ttb.hIconHandleDn = LoadIcon(IDI_BTN_DN);
 	ttb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_CONSOLE_SHOW_HIDE;
 	ttb.name = LPGEN("Show/Hide Console");

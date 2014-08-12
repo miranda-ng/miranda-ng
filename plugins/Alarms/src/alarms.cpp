@@ -172,9 +172,6 @@ static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 
 static int MainInit(WPARAM wparam,LPARAM lparam)
 {
-	// initialize icons
-	InitIcons();
-
 	// TopToolbar support
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbarButton);
 
@@ -205,7 +202,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	LoadOptions();
 	InitList();
 
-	HookEvent(ME_OPT_INITIALISE, OptInit );
+	// initialize icons
+	InitIcons();
+
+	HookEvent(ME_OPT_INITIALISE, OptInit);
 
 	return 0;
 }

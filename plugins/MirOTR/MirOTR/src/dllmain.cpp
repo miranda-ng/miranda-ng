@@ -43,7 +43,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	InitOptions();
 
 	InitDBFilter();
-	InitIcons();
 	InitMenu();
 
 	InitSRMM();
@@ -66,6 +65,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP( &pluginInfo );
 	/* for timezones
 	 mir_getTMI(&tmi);  */
+
+	InitIcons();
 
 	OTRL_INIT;
 	INITCOMMONCONTROLSEX icce = {0};

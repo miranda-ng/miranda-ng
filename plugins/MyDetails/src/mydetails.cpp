@@ -594,10 +594,6 @@ static int MainInit(WPARAM wparam, LPARAM lparam)
 
 	InitFrames();
 
-	if (Skin_GetIcon("LISTENING_TO_ICON") == NULL)
-		Icon_Register(hInst, LPGEN("Contact list"), iconList, 1);
-
-	Icon_Register(hInst, LPGEN("My details"), iconList + 1, SIZEOF(iconList) - 1);
 	return 0;
 }
 
@@ -623,6 +619,11 @@ extern "C" __declspec(dllexport) int Load()
 
 	// Options
 	InitOptions();
+
+	if (Skin_GetIcon("LISTENING_TO_ICON") == NULL)
+		Icon_Register(hInst, LPGEN("Contact list"), iconList, 1);
+
+	Icon_Register(hInst, LPGEN("My details"), iconList + 1, SIZEOF(iconList) - 1);
 
 	// Register services
 	CreateServiceFunction(MS_MYDETAILS_SETMYNICKNAME, PluginCommand_SetMyNickname);

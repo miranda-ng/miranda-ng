@@ -110,5 +110,6 @@ extern MainOptions moOptions;
 extern PopupOptions poOptions, poOptionsTemp;
 
 LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam);
+int OnIconsChanged(WPARAM wParam, LPARAM lParam);
 
 #endif

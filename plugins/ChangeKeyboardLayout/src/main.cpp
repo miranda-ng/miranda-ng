@@ -43,6 +43,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Popup"), "ckl_popup_icon", IDI_POPUPICON },
+	{ LPGEN("Copy to clipboard"), "ckl_copy_icon", IDI_COPYICON }
+};
+
 extern "C" __declspec(dllexport) int Load(void)
 {	
 	mir_getLP(&pluginInfoEx);
@@ -53,6 +59,14 @@ extern "C" __declspec(dllexport) int Load(void)
 	
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+
+	// IcoLib support
+	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList));
+
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
+
+	OnIconsChanged(0, 0);
+
 	return 0;
 }
 

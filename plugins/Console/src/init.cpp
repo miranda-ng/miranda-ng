@@ -53,9 +53,25 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
+static IconItem iconList[] =
+{
+	{ "Show", "Console_Up", IDI_BTN_UP },
+	{ "Hide", "Console_Down", IDI_BTN_DN },
+};
+
+HANDLE LoadIcon(int iIconID)
+{
+	for (int i = 0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == iIconID)
+		return iconList[i].hIcolib;
+	return NULL;
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+
+	Icon_Register(hInst, "Console", iconList, SIZEOF(iconList));
 
 	InitCommonControls();
 	InitConsole();

@@ -964,9 +964,6 @@ static int PluginInit(WPARAM wparam, LPARAM lparam)
 {
 	int pos = 1000, i = 0;
 
-	Icon_Register(hinstance, LPGEN("MenuItemEx"), iconList, SIZEOF(iconList));
-	Icon_Register(hinstance, LPGEN("MenuItemEx"), overlayIconList, SIZEOF(overlayIconList));
-
 	CreateServiceFunction(MS_SETINVIS, onSetInvis);
 	CreateServiceFunction(MS_SETVIS, onSetVis);
 	CreateServiceFunction(MS_HIDE, onHide);
@@ -1096,6 +1093,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+
+	Icon_Register(hinstance, LPGEN("MenuItemEx"), iconList, SIZEOF(iconList));
+	Icon_Register(hinstance, LPGEN("MenuItemEx"), overlayIconList, SIZEOF(overlayIconList));
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);

@@ -103,6 +103,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Listening to (enabled)"), "listening_to_icon", IDI_LISTENINGTO },
+	{ LPGEN("Listening to (disabled)"), "listening_off_icon", IDI_LISTENINGOFF },
+};
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -132,6 +138,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitMusic();
 	InitOptions();
+
+	// icons
+	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, SIZEOF(iconList));
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME "_icon", LPGEN("Listening to music"), "listening_to_icon");
@@ -271,18 +280,9 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 // Called when all the modules are loaded
 
-static IconItem iconList[] = 
-{
-	{ LPGEN("Listening to (enabled)"), "listening_to_icon", IDI_LISTENINGTO },
-	{ LPGEN("Listening to (disabled)"), "listening_off_icon", IDI_LISTENINGOFF },
-};
-
 int ModulesLoaded(WPARAM, LPARAM)
 {
 	EnableDisablePlayers();
-
-	// icons
-	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, SIZEOF(iconList));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);

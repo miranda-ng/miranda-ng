@@ -93,12 +93,6 @@ int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static IconItem iconList[] =
-{
-	{ LPGEN("Popup"), "ckl_popup_icon", IDI_POPUPICON },
-	{ LPGEN("Copy to clipboard"), "ckl_copy_icon", IDI_COPYICON }
-};
-
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	LPCTSTR ptszEmptySting = _T("");
@@ -138,12 +132,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hGetLayoutOfText = CreateServiceFunction(MS_CKL_GETLAYOUTOFTEXT, APIGetLayoutOfText);
 	hChangeTextLayout = CreateServiceFunction(MS_CKL_CHANGETEXTLAYOUT, APIChangeTextLayout);
 
-	// IcoLib support
-	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList));
-
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
-
-	OnIconsChanged(0, 0);
 	RegPopupActions();
 
 	db_set_dw(NULL, ModuleName, "CurrentVer", PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
