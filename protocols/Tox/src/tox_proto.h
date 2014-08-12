@@ -97,6 +97,8 @@ private:
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
 
+	INT_PTR __cdecl OnContactDeleted(WPARAM, LPARAM);
+
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendnumber, const uint8_t *name, const uint16_t nameSize, void *arg);

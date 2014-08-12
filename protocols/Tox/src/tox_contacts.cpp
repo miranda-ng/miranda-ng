@@ -96,6 +96,16 @@ void CToxProto::LoadContactList()
 			std::string toxId = DataToHexString(clientId);
 
 			MCONTACT hContact = AddContact(toxId.c_str());
+			if (hContact)
+			{
+				tox_get_name(tox, friends[i], &username[0]);
+				std::string nick(username.begin(), username.end());
+				setString(hContact, "Nick", nick.c_str());
+
+				uint8_t userstatus = tox_get_user_status(tox, friends[i]);
+				int status = ToxToMirandaStatus((TOX_USERSTATUS)userstatus);
+				SetContactStatus(hContact, status);
+			}
 		}
 	}
 }

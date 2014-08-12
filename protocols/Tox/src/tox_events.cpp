@@ -40,6 +40,24 @@ int CToxProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+INT_PTR CToxProto::OnContactDeleted(WPARAM wParam, LPARAM)
+{
+	MCONTACT hContact = (MCONTACT)wParam;
+	if (hContact)
+	{
+		std::string toxId(getStringA(hContact, TOX_SETTING_ID));
+		std::vector<uint8_t> clientId = HexStringToData(toxId);
+
+		uint32_t number = tox_get_friend_number(tox, clientId.data());
+		if (tox_del_friend(tox, number) == -1)
+		{
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
 void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;

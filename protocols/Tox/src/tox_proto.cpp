@@ -83,7 +83,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch(type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ;
+		return PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
@@ -207,6 +207,9 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 	{
 	case EV_PROTO_ONLOAD:
 		return OnModulesLoaded(wParam, lParam);
+
+	case EV_PROTO_ONCONTACTDELETED:
+		return OnContactDeleted(wParam, lParam);
 	}
 
 	return 1;
