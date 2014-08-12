@@ -823,7 +823,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				do {
 					DBEVENTINFO dbei = { sizeof(dbei) };
 					db_event_get(hdbEvent, &dbei);
-					if ((dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)) && !(dbei.flags & DBEF_SENT)) {
+					if ((dbei.eventType == EVENTTYPE_MESSAGE) && !(dbei.flags & DBEF_SENT)) {
 						dat->lastMessage = dbei.timestamp;
 						PostMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
 						break;
@@ -1316,7 +1316,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					else
 						SkinPlaySound("RecvMsgInactive");
 				}
-				if ((isMessage || DbEventIsForMsgWindow(&dbei)) && dat->hwndStatus && !isSent) {
+				if (isMessage && !isSent) {
 					dat->lastMessage = dbei.timestamp;
 					SendMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
 				}
