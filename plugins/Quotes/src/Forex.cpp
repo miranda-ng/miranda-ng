@@ -472,6 +472,7 @@ extern "C"
 		}
 
 		Quotes_IconsInit();
+		Quotes_InitExtraIcons();
 
 		PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 		pd.szName = QUOTES_PROTOCOL_NAME;

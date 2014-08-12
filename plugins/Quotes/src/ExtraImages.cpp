@@ -1,31 +1,15 @@
 #include "StdAfx.h"
 
-CExtraImages::CExtraImages() :
-	m_hExtraIcons(ExtraIcon_Register(ICON_STR_QUOTE,QUOTES_PROTOCOL_NAME,Quotes_MakeIconName(ICON_STR_MAIN).c_str())),
-	m_bExtraImagesInit(false)
+static HANDLE hExtraIcon;
+
+void Quotes_InitExtraIcons()
 {
-	m_ahExtraImages[eiUp] = INVALID_HANDLE_VALUE;
-	m_ahExtraImages[eiDown] = INVALID_HANDLE_VALUE;
-	m_ahExtraImages[eiNotChanged] = INVALID_HANDLE_VALUE;
+	hExtraIcon = ExtraIcon_Register(ICON_STR_QUOTE, QUOTES_PROTOCOL_NAME, Quotes_MakeIconName(ICON_STR_MAIN).c_str());
 }
 
-CExtraImages::~CExtraImages()
+bool SetContactExtraImage(MCONTACT hContact,EImageIndex nIndex)
 {
-}
-
-CExtraImages& CExtraImages::GetInstance()
-{
-	static CExtraImages s_ei;
-	return s_ei;
-}
-
-void CExtraImages::RebuildExtraImages()
-{
-}
-
-bool CExtraImages::SetContactExtraImage(MCONTACT hContact,EImageIndex nIndex)const
-{
-	if (!m_hExtraIcons)
+	if (!hExtraIcon)
 		return false;
 
 	HANDLE hIcolib;
@@ -42,17 +26,5 @@ bool CExtraImages::SetContactExtraImage(MCONTACT hContact,EImageIndex nIndex)con
 	default:
 		hIcolib = NULL;
 	}
-	return ExtraIcon_SetIcon(m_hExtraIcons, hContact, hIcolib) == 0;
+	return ExtraIcon_SetIcon(hExtraIcon, hContact, hIcolib) == 0;
 }
-
-// int QuotesEventFunc_onExtraImageApply(WPARAM wp,LPARAM lp)
-// {
-// 	MCONTACT hContact = MCONTACT(wp);
-// 
-// 	const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
-// 	CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
-// 	if(pProvider)
-// 		pProvider->SetContactExtraIcon(hContact);
-// 
-// 	return 0;
-// }

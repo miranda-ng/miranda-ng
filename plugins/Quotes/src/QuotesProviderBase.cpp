@@ -273,7 +273,7 @@ void CQuotesProviderBase::SetContactStatus(MCONTACT hContact,int nNewStatus)
 				db_set_ts(hContact,LIST_MODULE_NAME,CONTACT_LIST_NAME,sSymbol.c_str());
 			}
 
-			CExtraImages::GetInstance().SetContactExtraImage(hContact,CExtraImages::eiEmpty);
+			SetContactExtraImage(hContact, eiEmpty);
 		}
 	}
 }
@@ -588,19 +588,15 @@ namespace
 
 		//if(true == IsWithinAccuracy(dCurrRate,dPrevRate))
 		if(CTendency::NotChanged == nComparison)
-		{
-			bResult = CExtraImages::GetInstance().SetContactExtraImage(hContact,CExtraImages::eiNotChanged);			
-		}
-		else if(CTendency::Up == nComparison)//(dCurrRate > dPrevRate)
-		{
-			bResult = CExtraImages::GetInstance().SetContactExtraImage(hContact,CExtraImages::eiUp);
-		}
-		else if(CTendency::Down == nComparison)//(dCurrRate < dPrevRate)
-		{
-			bResult = CExtraImages::GetInstance().SetContactExtraImage(hContact,CExtraImages::eiDown);
-		}
+			return SetContactExtraImage(hContact, eiNotChanged);			
 
-		return bResult;
+		if(CTendency::Up == nComparison)//(dCurrRate > dPrevRate)
+			return SetContactExtraImage(hContact, eiUp);
+
+		if(CTendency::Down == nComparison)//(dCurrRate < dPrevRate)
+			return SetContactExtraImage(hContact, eiDown);
+
+		return false;
 	}
 
 	bool show_popup(const IQuotesProvider* pProvider,
