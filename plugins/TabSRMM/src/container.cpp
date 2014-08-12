@@ -1449,12 +1449,6 @@ panel_found:
 			szTitleFormat[0] = 0;
 
 			if (pContainer->isCloned && pContainer->hContactFrom != 0) {
-				//if (pContainer->settings == 0)
-				//	pContainer->settings = (TContainerSettings *)mir_alloc(sizeof(TContainerSettings));
-
-				//CopyMemory((void*)pContainer->settings, (void*)&PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
-				//Utils::ReadContainerSettingsFromDB(pContainer->hContactFrom, pContainer->settings);
-
 				pContainer->settings = &PluginConfig.globalContainerSettings;
 
 				pContainer->szRelThemeFile[0] = pContainer->szAbsThemeFile[0] = 0;
