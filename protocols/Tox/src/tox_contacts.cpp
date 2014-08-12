@@ -1,8 +1,25 @@
 #include "common.h"
 
+void CToxProto::SetContactStatus(MCONTACT hContact, WORD status)
+{
+	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+	if (oldStatus != status)
+	{
+		setWord(hContact, "Status", status);
+	}
+}
+
+void CToxProto::SetAllContactsStatus(WORD status)
+{
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	{
+		setWord(hContact, "Status", status);
+	}
+}
+
 bool CToxProto::IsProtoContact(MCONTACT hContact)
 {
-	return ::lstrcmpiA(::GetContactProto(hContact), m_szModuleName) == 0;
+	return lstrcmpiA(GetContactProto(hContact), m_szModuleName) == 0;
 }
 
 MCONTACT CToxProto::FindContact(const char *clientId)
@@ -23,7 +40,7 @@ MCONTACT CToxProto::FindContact(const char *clientId)
 	return hContact;
 }
 
-MCONTACT CToxProto::AddContact(const char *clientId, const char *nick, bool isHidden)
+MCONTACT CToxProto::AddContact(const char *clientId, bool isHidden)
 {
 	MCONTACT hContact = FindContact(clientId);
 	if (!hContact)
@@ -39,7 +56,6 @@ MCONTACT CToxProto::AddContact(const char *clientId, const char *nick, bool isHi
 		}*/
 
 		setString(hContact, TOX_SETTING_ID, clientId);
-		setString(hContact, "Nick", nick);
 	}
 
 	return hContact;
@@ -59,10 +75,7 @@ void CToxProto::LoadContactList()
 			tox_get_client_id(tox, friends[i], &clientId[0]);
 			std::string toxId = DataToHexString(clientId);
 
-			tox_get_name(tox, friends[i], &username[0]);
-			std::string nick(username.begin(), username.end());
-
-			MCONTACT hContact = AddContact(toxId.c_str(), nick.c_str());
+			MCONTACT hContact = AddContact(toxId.c_str());
 		}
 	}
 }

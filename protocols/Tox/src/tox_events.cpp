@@ -64,16 +64,50 @@ void CToxProto::OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t 
 	}
 }
 
-void CToxProto::OnFriendNameChange(Tox *tox, const int friendId, const uint8_t *name, const uint16_t nameSize, void *arg)
+void CToxProto::OnFriendNameChange(Tox *tox, const int friendnumber, const uint8_t *name, const uint16_t nameSize, void *arg)
 {
+	CToxProto *proto = (CToxProto*)arg;
+
+	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+	tox_get_client_id(tox, friendnumber, &clientId[0]);
+	std::string toxId = proto->DataToHexString(clientId);
+
+	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	if (hContact)
+	{
+		proto->setString(hContact, "Nick", (char*)name);
+	}
 }
 
-void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendId, const uint8_t* message, const uint16_t messageSize, void *arg)
+void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendnumber, const uint8_t* message, const uint16_t messageSize, void *arg)
 {
+	CToxProto *proto = (CToxProto*)arg;
+
+	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+	tox_get_client_id(tox, friendnumber, &clientId[0]);
+	std::string toxId = proto->DataToHexString(clientId);
+
+	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	if (hContact)
+	{
+		db_set_s(hContact, "CList", "StatusMsg", (char*)message);
+	}
 }
 
-void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t TOX_USERSTATUS, void *userdata)
+void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t usertatus, void *arg)
 {
+	CToxProto *proto = (CToxProto*)arg;
+
+	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+	tox_get_client_id(tox, friendnumber, &clientId[0]);
+	std::string toxId = proto->DataToHexString(clientId);
+
+	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	if (hContact)
+	{
+		int status = proto->ToxToMirandaStatus((TOX_USERSTATUS)usertatus);
+		proto->SetContactStatus(hContact, status);
+	}
 }
 
 void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendId, const uint8_t status, void *arg)

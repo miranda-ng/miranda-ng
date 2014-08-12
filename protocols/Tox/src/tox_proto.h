@@ -99,17 +99,19 @@ private:
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg);
-	static void OnFriendNameChange(Tox *tox, const int friendId, const uint8_t *name, const uint16_t nameSize, void *arg);
-	static void OnStatusMessageChanged(Tox *tox, const int friendId, const uint8_t* message, const uint16_t messageSize, void *arg);
-	static void OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t TOX_USERSTATUS, void *userdata);
+	static void OnFriendNameChange(Tox *tox, const int friendnumber, const uint8_t *name, const uint16_t nameSize, void *arg);
+	static void OnStatusMessageChanged(Tox *tox, const int friendnumber, const uint8_t* message, const uint16_t messageSize, void *arg);
+	static void OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t usertatus, void *arg);
 	static void OnConnectionStatusChanged(Tox *tox, const int friendId, const uint8_t status, void *arg);
 	static void OnAction(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnReadReceipt(Tox *tox, int32_t friendnumber, uint32_t receipt, void *arg);
 
 	// contacts
+	void SetContactStatus(MCONTACT hContact, WORD status);
+	void SetAllContactsStatus(WORD status);
 	bool IsProtoContact(MCONTACT hContact);
 	MCONTACT FindContact(const char *clientId);
-	MCONTACT AddContact(const char *clientId, const char *nick, bool isHidden = false);
+	MCONTACT AddContact(const char *clientId, bool isHidden = false);
 
 	void LoadContactList();
 
@@ -121,6 +123,7 @@ private:
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
+	int ToxToMirandaStatus(TOX_USERSTATUS userstatus);
 
 	HANDLE AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	

@@ -21,6 +21,27 @@ TOX_USERSTATUS CToxProto::MirandaToToxStatus(int status)
 	return userstatus;
 }
 
+int CToxProto::ToxToMirandaStatus(TOX_USERSTATUS userstatus)
+{
+	int status;
+	switch (userstatus)
+	{
+	case TOX_USERSTATUS_NONE:
+		status = ID_STATUS_ONLINE;
+		break;
+	case TOX_USERSTATUS_AWAY:
+		status = ID_STATUS_AWAY;
+		break;
+	case TOX_USERSTATUS_BUSY:
+		status = ID_STATUS_OCCUPIED;
+		break;
+	default:
+		status = ID_STATUS_OFFLINE;
+		break;
+	}
+	return status;
+}
+
 HANDLE CToxProto::AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };

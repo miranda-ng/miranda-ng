@@ -22,6 +22,8 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
+	SetAllContactsStatus(ID_STATUS_OFFLINE);
+
 	hMessageProcess = 1;
 }
 
@@ -142,6 +144,11 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		if (!Miranda_Terminated())
+		{
+			SetAllContactsStatus(ID_STATUS_OFFLINE);
+		}
 
 		return 0;
 	}
