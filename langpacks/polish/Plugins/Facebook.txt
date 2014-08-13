@@ -49,7 +49,7 @@ Zdarzenia
 [Notifications]
 Powiadomienia
 [News feeds (WARNING: Causes excessive network traffic!)]
-
+Aktualności (OSTRZEŻENIE): powoduje zwiększony przesył danych!
 [News feed types to notify:]
 Powiadamiaj o następujących typach aktualności:
 [Don't show advertising posts]

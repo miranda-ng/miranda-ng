@@ -33,7 +33,7 @@ Pod telefonem
 [Always when changing from offline]
 Z rozłączonego
 [Notify when contact changes]
-
+Powiadom kiedy kontak zmienia
 [Extra status]
 xStatus
 [Status message]
@@ -51,7 +51,7 @@ Użyj indywidualnych dźwięków
 [Blink icon in the system tray]
 Migaj ikoną w zasobniku systemowym
 [Also when extra status or status message changes]
-
+Także gdy zmienia się opis lub xstatus
 [Use status icon]
 Użyj ikon statusu
 [Log to file]
@@ -85,9 +85,9 @@ Wszystkie wyłączone
 [Enable all]
 Wszystkie włączone
 [Status message notify]
-
+Powiadomienia o zmianie opisu
 [Status message logging]
-
+Zapisywanie opisów
 [Popups when status changes to:]
 Pokaż, gdy status zmienia się na:
 [Background]
@@ -143,15 +143,15 @@ znaków
 [Templates]
 Szablony
 [Notify when contact changes extra status]
-
+Powiadom, gdy kontakt zmieni xstatus
 [Template:]
 Szablon:
 [Notify when contact removes extra status]
-
+Powiadom, gdy kontakt usunie xstatus
 [Notify when contact changes extra status message]
-
+Powiadom, gdy kontakt zmieni opis xstatusu
 [Notify when contact removes extra status message]
-
+Powiadom, gdy kontakt usunie opis xstatusu
 [Variables]
 Zmienne
 [Reset]
@@ -167,25 +167,25 @@ Wyłączyć jedynie w przypadku zmiany statusu globalnego
 [Cancel]
 Anuluj
 [Log extra status changes]
-
+Zapisuj zmiany xstatusu
 [Log extra status changes to file]
-
+Zapisuj  zmiany xstatusu do pliku
 [Log extra status changes to history]
-
+Zapisuj zmiany xstatusu w historii
 [Only when message window is open]
 Tylko gdy okno rozmowy jest otwarte
 [Remove events from history when closing message window]
-
+Usuń zdarzenia z historii po zamknięciu okna rozmowy
 [Log when contact changes extra status]
-
+Zapisuj, gdy kontakt zmieni xstatus
 [Log when contact removes extra status]
-
+Zapisuj, gdy kontakt usunie xstatus
 [Log when contact changes extra status message]
-
+Zapisuj, gdy kontakt zmienia opis xstatusu
 [Log when contact removes extra status message]
-
+Zapisuj, gdy kontakt usuwa opis xstatusu
 [Log extra status when opening message window]
-
+Zapisuj xstatus podczas otwierania okna rozmowy
 [General]
 Ogólne
 [Accounts]
@@ -193,29 +193,29 @@ Konta
 [Enable/Disable accounts which you don't wish to be notified for:]
 Włącz/Wyłącz konta dla których nie chcesz powiadomień:
 [Notify when contact changes status message]
-
+Powiadom, gdy kontakt zmienia opis
 [Notify when contact removes status message]
-
+Powiadom, gdy kontakt usuwa opis
 [Log status changes]
 Pokazuj zmiany statusu
 [Log status changes to file]
-
+Zapisuj zmiany statusu do pliku
 [Log status changes to history]
 Zapisuj zmiany statusu w historii
 [Log previous status too]
-
+Zapisz także poprzedni status
 [Log status message changes]
-
+Zapisuj zmiany opisu
 [Log status message changes to file]
-
+Zapisuj zmiany opisu do pliku
 [Log status message changes to history]
-
+Zapisuj zmiany opisu w historii
 [Log when contact changes status message]
-
+Zapisuj, gdy kontakt zmieni opis
 [Log when contact removes status message]
-
+Zapisuj, gdy kontakt usunie opis
 [Log status message when opening message window]
-
+Zapisz opis podczas otwierania okna rozmowy
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Pliki dźwiękowe
@@ -226,7 +226,7 @@ Pliki WAV
 [Status]
 Status
 [Sound file]
-
+Plik dźwiękowy
 [** All contacts **]
 ** Wszystkie kontakty **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
@@ -250,7 +250,7 @@ Zatrzymano
 [playing]
 Odtwarzanie...
 [%s changed status message to %s]
-
+%s zmienił opis na %s
 [(M) is back online!]
 jest znowu Dostępny!
 [(F) is back online!]
@@ -334,9 +334,9 @@ Status: Przy telefonie
 [User: from offline (has priority!)]
 Status: Z rozłączonego (ma priorytet!)
 [Status message removed]
-
+usunięto opis
 [Status message changed]
-
+zmieniono opis
 [Extra status removed]
 xStatus: Usunięcie
 [Extra status message changed]
@@ -344,7 +344,7 @@ xStatus: Zmiana opisu
 [Extra status changed]
 xStatus: Zmiana statusu
 [Extra status message removed]
-
+usunięto xstatus
 [Enable status notification]
 Włącz powiadomienie o statusie
 [Disable status notification]
@@ -367,7 +367,7 @@ Dziennik
 [This is status message]
 To jest opis statusu
 [This is extra status]
-
+To jest xstatus
 [Show available variables]
 Pokaż dostępne zmienne
 [Reset all templates to default]
@@ -379,7 +379,7 @@ Przywracanie szablonów
 [Account]
 Konto
 [Status logging]
-
+Zapisywanie statusu
 [Filtering]
 Filtrowanie
 ;file \plugins\NewXstatusNotify\src\popup.h
@@ -410,9 +410,9 @@ Aktywność
 [xStatus]
 xStatus
 [<no title>]
-
+<brak tytułu>
 [%s changed %s]
-
+%s zmienił %s
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %n to: %t]
 %n: %t
@@ -421,11 +421,11 @@ Usunięto: %n
 [changed %n message to: %m]
 %n: %m
 [removed %n message]
-
+Usunięto opis %n
 [changed status message to: %n]
-
+zmieniono opis na: %n
 [removed status message]
-
+usunięto opis
 [changed %n @ %t: %m]
 %t: %m (%n)
 [changed %n message @ %m]
@@ -433,10 +433,10 @@ Usunięto: %n
 [has %n @ %t: %m]
 %t: %m (%n)
 [changed status message @ %n]
-
+zmieniono opis @ %n
 [is %s and has status message @ %n]
-
+jest %s z opisem @ %n
 [These variables are available:\r\n\r\n%n\textra status name (xStatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-
+Dostępne są następujące zmienne:\r\n\r\n%n\textra status name (xStatus, Nastrój, Czynność)\r\n%t\tytuł xstatusu\r\n%m\topis xstatusu\r\n%c\twłasny nick\r\n\\n\tnowa linia\r\n\\t\ttab stop
 [These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
-
+Dostępne są następujące zmienne:\r\n\r\n%n\tnowy opis\r\n%o\tstary opis\r\n%c\twłasny nick\r\n%s\tobecny status\r\n\\n\tnowa linia\r\n\\t\ttab stop

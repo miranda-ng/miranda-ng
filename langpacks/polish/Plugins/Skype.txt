@@ -161,7 +161,7 @@ Autoryzacja serwera SOCKS proxy nie powiodła się
 [P2P connection failed]
 Połączenie P2P nieudane
 [Connection to server failed. SkypeKit has been deprecated by Microsoft.]
-
+Łączenie z serwerem nie powiodło się. SkypeKit został porzucony przez Microsoft.
 [Server is overloaded]
 Serwer jest przeciążony
 [SkypeKit database already in use]
