@@ -815,7 +815,7 @@ static INT_PTR CALLBACK CallstatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			if (!db_get_s((MCONTACT)lParam, SKYPE_PROTONAME, "CallId", &dbv)) {
 
 				// Check, if another call is in progress
-				for (hContact=db_find_first(SKYPE_PROTONAME);hContact != NULL;hContact=db_find_next(hContact)) {
+				for (hContact=db_find_first();hContact != NULL;hContact=db_find_next(hContact)) {
 					char *szProto = (char*)CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
 					if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && hContact != (MCONTACT)lParam &&
 						db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0 &&

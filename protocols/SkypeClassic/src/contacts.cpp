@@ -317,9 +317,9 @@ MCONTACT find_contact(char *name)
 	DBVARIANT dbv;
 
 	// already on list?
-	for (hContact = db_find_first(SKYPE_PROTONAME); hContact != NULL; hContact = db_find_next(hContact))
+	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 	{
-		char *szProto = (char*)GetContactProto(hContact);
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 		{
 			if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
@@ -339,7 +339,7 @@ MCONTACT find_contactT(TCHAR *name)
 	DBVARIANT dbv;
 
 	// already on list?
-	for (hContact = db_find_first(SKYPE_PROTONAME); hContact != NULL; hContact = db_find_next(hContact))
+	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 	{
 		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
@@ -400,7 +400,7 @@ void logoff_contacts(BOOL bCleanup) {
 	DBVARIANT dbv = { 0 };
 
 	LOG(("logoff_contacts: Logging off contacts."));
-	for (hContact = db_find_first(SKYPE_PROTONAME); hContact != NULL; hContact = db_find_next(hContact)) {
+	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME))
 		{

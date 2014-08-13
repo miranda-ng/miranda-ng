@@ -602,7 +602,7 @@ static void KickUser (MCONTACT hContact, GCHOOK *gch)
 	LeaveCriticalSection(&m_GCMutex);
 }
 
-void SetChatTopic(TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
+void SetChatTopic(const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
 {
 	GCDEST gcd = {0};
 	GCEVENT gce = {0};
@@ -754,7 +754,7 @@ int GCEventHook(WPARAM wParam,LPARAM lParam) {
 						_tcscpy(buf, ptr);
 						free(ptr);
 						if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INPUTBOX), NULL, InputBoxDlgProc, (LPARAM)&buf))
-							SetChatTopic((TCHAR*)gch->pDest->ptszID, buf, TRUE);
+							SetChatTopic(gch->pDest->ptszID, buf, TRUE);
 						break;
 					}
 				}

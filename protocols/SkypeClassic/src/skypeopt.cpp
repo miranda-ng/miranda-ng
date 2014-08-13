@@ -162,7 +162,7 @@ INT_PTR CALLBACK OptPopupDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					MCONTACT hContact;
 					TCHAR * lpzContactName;
 
-					hContact = db_find_first(SKYPE_PROTONAME);
+					hContact = db_find_first();
 					lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR);
 					InCallPopup.lchContact = hContact;
 					InCallPopup.lchIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_CALL));
