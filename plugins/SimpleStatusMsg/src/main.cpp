@@ -1774,7 +1774,6 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 #ifdef _DEBUG
 	log2file("### Session started ###");
 #endif
-	IconsInit();
 	OnAccListChanged(0, 0);
 
 	LoadAwayMsgModule();
@@ -1918,6 +1917,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+
+	IconsInit();
 
 	return 0;
 }

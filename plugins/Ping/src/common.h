@@ -134,4 +134,6 @@ extern CRITICAL_SECTION thread_finished_cs, list_changed_cs, data_list_cs;
 
 extern PINGLIST data_list;
 
+int ReloadIcons(WPARAM, LPARAM);
+
 #endif

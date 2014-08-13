@@ -50,8 +50,6 @@ static IconItem icon = { LPGEN("Button smiley"), "SmileyAdd_ButtonSmiley", IDI_S
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	Icon_Register(g_hInst, "SmileyAdd", &icon, 1);
-
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTPOPUP;
 	mi.popupPosition = 2000070050;
@@ -89,6 +87,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	}
 
 	InitImageCache();
+
+	Icon_Register(g_hInst, "SmileyAdd", &icon, 1);
 
 	g_SmileyCategories.SetSmileyPackStore(&g_SmileyPacks);
 

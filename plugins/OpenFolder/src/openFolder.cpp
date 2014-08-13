@@ -59,9 +59,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	HookEvent(ME_TTB_MODULELOADED, ToptoolBarHook);
 	
-	// icolib (0.7+)
-	Icon_Register(hInst, LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
-
 	// hotkeys service (0.8+)
 	HOTKEYDESC hotkey = { 0 };
 	hotkey.cbSize = sizeof(hotkey);
@@ -104,6 +101,10 @@ extern "C" int __declspec( dllexport ) Load()
 	hServiceOpenFolder = CreateServiceFunction(MS_OPENFOLDER_OPEN, MenuCommand_OpenFolder);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+
+	// icolib (0.7+)
+	Icon_Register(hInst, LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
+
 	return 0;
 }
 

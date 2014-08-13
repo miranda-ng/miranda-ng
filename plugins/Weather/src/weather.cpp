@@ -122,7 +122,6 @@ int WeatherInit(WPARAM wParam,LPARAM lParam)
 	// initialize netlib
 	NetlibInit();
 
-	InitIcons();
 	InitMwin();
 
 	// load weather menu items
@@ -184,6 +183,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// load options and set defaults
 	LoadOptions();
+
+	InitIcons();
 
 	// reset the weather data at startup for individual contacts
 	EraseAllInfo();
