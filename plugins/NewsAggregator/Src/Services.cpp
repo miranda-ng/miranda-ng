@@ -58,7 +58,6 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	}
 
 	NetlibInit();
-	InitIcons();
 	InitMenu();
 
 	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);

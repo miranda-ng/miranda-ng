@@ -99,6 +99,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'O') | HKF_MIRANDA_LOCAL;
 	Hotkey_Register(&hkd);
 
+	InitIcons();
+
 	return 0;
 }
 

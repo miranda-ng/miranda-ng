@@ -883,9 +883,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hkd.pszService = MS_SESSIONS_CLOSESESSION;
 	Hotkey_Register(&hkd);
 
-	// Icons
-	Icon_Register(hinstance, MODNAME, iconList, SIZEOF(iconList));
-
 	// Main menu
 	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 1000000000;
@@ -977,5 +974,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
 	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
+
+	// Icons
+	Icon_Register(hinstance, MODNAME, iconList, SIZEOF(iconList));
+
 	return 0;
 }

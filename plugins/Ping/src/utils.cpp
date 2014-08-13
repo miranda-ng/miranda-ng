@@ -307,7 +307,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-static int ReloadIcons(WPARAM, LPARAM)
+int ReloadIcons(WPARAM, LPARAM)
 {
 	hIconResponding = Skin_GetIcon("ping_responding");
 	hIconNotResponding = Skin_GetIcon("ping_not_responding");
@@ -318,24 +318,12 @@ static int ReloadIcons(WPARAM, LPARAM)
 	return 0;
 }
 
-static IconItem iconList[] = 
-{
-	{ LPGEN("Responding"), "ping_responding", IDI_ICON_RESPONDING },
-	{ LPGEN("Not Responding"), "ping_not_responding", IDI_ICON_NOTRESPONDING },
-	{ LPGEN("Testing"), "ping_testing", IDI_ICON_TESTING },
-	{ LPGEN("Disabled"), "ping_disabled", IDI_ICON_DISABLED },
-};
-
 void InitUtils()
 {
-	Icon_Register(hInst, LPGEN("Ping"), iconList, SIZEOF(iconList));
-
 	hIconResponding = Skin_GetIcon("ping_responding");
 	hIconNotResponding = Skin_GetIcon("ping_not_responding");
 	hIconTesting = Skin_GetIcon("ping_testing");
 	hIconDisabled = Skin_GetIcon("ping_disabled");
-
-	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 
 	POPUPCLASS test = { sizeof(test) };
 	test.flags = PCF_TCHAR;

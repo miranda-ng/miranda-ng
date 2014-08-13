@@ -67,6 +67,7 @@ INT_PTR ExportGpGKeys(WPARAM w, LPARAM l);
 INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
 int onExtraImageListRebuilding(WPARAM, LPARAM);
 int onExtraImageApplying(WPARAM wParam, LPARAM);
+void InitIconLib();
 
 void init_vars()
 {
@@ -116,14 +117,12 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	int onIconPressed(WPARAM wParam, LPARAM lParam);
 	int onProtoAck(WPARAM, LPARAM);
 	INT_PTR onSendFile(WPARAM, LPARAM);
-	void InitIconLib();
 
 	void InitCheck();
 	void FirstRun();
 	FirstRun();
 	if(!db_get_b(NULL, szGPGModuleName, "FirstRun", 1))
 		InitCheck();
-	InitIconLib();
 
 	HICON IconLibGetIcon(const char* ident);
 
@@ -223,6 +222,8 @@ extern "C" int __declspec(dllexport) Load()
 	mi.ptszName=LPGENT("Import GPG Public keys");
 	mi.pszService="/ImportGPGKeys";
 	hImportGpgKeys = Menu_AddMainMenuItem(&mi);
+
+	InitIconLib();
 
 	g_hCLIcon = ExtraIcon_Register(szGPGModuleName, Translate("GPG encryption status"), "secured", onExtraImageListRebuilding, onExtraImageApplying);
 

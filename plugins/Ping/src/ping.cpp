@@ -117,6 +117,14 @@ int OnModulesLoaded(WPARAM, LPARAM) {
 	return 0;
 }
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Responding"), "ping_responding", IDI_ICON_RESPONDING },
+	{ LPGEN("Not Responding"), "ping_not_responding", IDI_ICON_NOTRESPONDING },
+	{ LPGEN("Testing"), "ping_testing", IDI_ICON_TESTING },
+	{ LPGEN("Disabled"), "ping_disabled", IDI_ICON_DISABLED },
+};
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	//if(init_raw_ping()) {
@@ -147,6 +155,10 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, PingOptInit );
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
+
+	Icon_Register(hInst, LPGEN("Ping"), iconList, SIZEOF(iconList));
+
+	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 
 	return 0;
 }
