@@ -46,21 +46,22 @@
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\alogon.cpp" />
-    <ClCompile Include="src\contacts.cpp" />
-    <ClCompile Include="src\debug.cpp" />
-    <ClCompile Include="src\gchat.cpp" />
-    <ClCompile Include="src\memlist.cpp" />
-    <ClCompile Include="src\msglist.cpp" />
-    <ClCompile Include="src\msgq.cpp" />
-    <ClCompile Include="src\pthread.cpp" />
-    <ClCompile Include="src\skype.cpp" />
-    <ClCompile Include="src\skypeapi.cpp" />
-    <ClCompile Include="src\skypeopt.cpp" />
-    <ClCompile Include="src\skypeprofile.cpp" />
-    <ClCompile Include="src\skypesvc.cpp" />
-    <ClCompile Include="src\utf8.cpp" />
-    <ClCompile Include="src\util.cpp" />
+    <ClCompile Include="src\alogon.c" />
+    <ClCompile Include="src\contacts.c" />
+    <ClCompile Include="src\debug.c" />
+    <ClCompile Include="src\gchat.c" />
+    <ClCompile Include="src\memlist.c" />
+    <ClCompile Include="src\msglist.c" />
+    <ClCompile Include="src\msgq.c" />
+    <ClCompile Include="src\pthread.c" />
+    <ClCompile Include="src\skype.c" />
+    <ClCompile Include="src\skypeapi.c" />
+    <ClCompile Include="src\skypeopt.c" />
+    <ClCompile Include="src\skypeprofile.c" />
+    <ClCompile Include="src\skypesvc.c" />
+    <ClCompile Include="src\utf8.c" />
+    <ClCompile Include="src\util.c" />
+    <ClCompile Include="src\voiceservice.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\alogon.h" />
@@ -146,6 +147,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <WarningLevel>Level3</WarningLevel>
+      <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
