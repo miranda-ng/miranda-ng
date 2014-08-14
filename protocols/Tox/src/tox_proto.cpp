@@ -38,11 +38,30 @@ CToxProto::~CToxProto()
 	tox_kill(tox);
 }
 
+DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
+{
+	switch (type)
+	{
+	case PFLAGNUM_1:
+		return PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH;
+	case PFLAGNUM_2:
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
+	case PFLAGNUM_4:
+		return PF4_IMSENDUTF | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED;
+	case PFLAG_UNIQUEIDTEXT:
+		return (INT_PTR)"Tox ID";
+	case PFLAG_UNIQUEIDSETTING:
+		return (DWORD_PTR)TOX_SETTINGS_ID;
+	case PFLAG_MAXLENOFMESSAGE:
+		return TOX_MAX_MESSAGE_LENGTH;
+	}
+
+	return 0;
+}
+
 MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-//	MCONTACT hContact = AddContact(psr->id, psr->nick);
-
-	return NULL;
+	return AddContact(_T2A(psr->id));
 }
 
 MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return 0; }
@@ -55,7 +74,7 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
 
-		std::string toxId = getStringA(hContact, TOX_SETTING_ID);
+		std::string toxId = getStringA(hContact, TOX_SETTINGS_ID);
 		std::vector<uint8_t> clientId = HexStringToData(toxId);
 
 		if (tox_add_friend_norequest(tox, &clientId[0]) >= 0)
@@ -69,7 +88,31 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 
 int __cdecl CToxProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason) { return 0; }
 int __cdecl CToxProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
-int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage) { return 0; }
+
+int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
+{
+	std::string toxId = getStringA(hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> clientId = HexStringToData(toxId);
+
+	ptrA reason(mir_utf8encodeW(szMessage));
+
+	int32_t friendnumber = tox_add_friend(tox, &clientId[0], (uint8_t*)(char*)reason, strlen(reason));
+	if (friendnumber >= 0)
+	{
+		clientId.resize(TOX_CLIENT_ID_SIZE);
+		tox_get_client_id(tox, friendnumber, &clientId[0]);
+		std::string toxId = DataToHexString(clientId);
+
+		setString(hContact, TOX_SETTINGS_ID, toxId.c_str());
+
+		db_unset(hContact, "CList", "NotOnList");
+		db_unset(hContact, "CList", "Auth");
+
+		return 0;
+	}
+
+	return 1;
+}
 
 HANDLE __cdecl CToxProto::ChangeInfo(int iInfoType, void* pInfoData) { return 0; }
 
@@ -78,36 +121,9 @@ int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer) { return 
 int __cdecl CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason) { return 0; }
 int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename) { return 0; }
 
-DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
-{
-	switch(type)
-	{
-	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH;
-	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
-	case PFLAGNUM_4:
-		return PF4_IMSENDUTF | PF4_NOAUTHDENYREASON;
-	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)"Tox ID";
-	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR)TOX_SETTING_ID;
-	case PFLAG_MAXLENOFMESSAGE:
-		return TOX_MAX_MESSAGE_LENGTH;
-	}
-
-	return 0;
-}
 int __cdecl CToxProto::GetInfo(MCONTACT hContact, int infoType) { return 0; }
 
-HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR* id)
-{
-	//if ( !IsOnline()) return 0;
-
-	this->ForkThread(&CToxProto::SearchByUidAsync, (void*)id);
-
-	return (HANDLE)TOX_SEARCH_BYUID;
-}
+HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR* id) { return 0; }
 
 HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR* email) { return 0; }
 HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName) { return 0; }
@@ -132,7 +148,7 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 		return 1;
 	}
 
-	std::string toxId(getStringA(hContact, TOX_SETTING_ID));
+	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
 	std::vector<uint8_t> clientId = HexStringToData(toxId);
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());

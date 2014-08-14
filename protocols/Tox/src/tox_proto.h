@@ -3,8 +3,6 @@
 
 #include "common.h"
 
-#define TOX_SEARCH_BYUID 1001
-
 struct CToxProto : public PROTO<CToxProto>
 {
 public:
@@ -113,13 +111,11 @@ private:
 	void SetAllContactsStatus(WORD status);
 	bool IsProtoContact(MCONTACT hContact);
 	MCONTACT FindContact(const char *clientId);
-	MCONTACT AddContact(const char *clientId, bool isHidden = false);
+	MCONTACT AddContact(const char *clientId, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
 
 	void LoadContactList();
-
-	void __cdecl SearchByUidAsync(void* arg);
 
 	//services
 	
@@ -137,9 +133,6 @@ private:
 
 	int LoadToxData(const char *path);
 	int SaveToxData(const char *path);
-
-	static void fraddr_to_str(uint8_t *id_bin, char *id_str);
-	static void get_id(Tox *m, char *data);
 
 	// dialogs
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
