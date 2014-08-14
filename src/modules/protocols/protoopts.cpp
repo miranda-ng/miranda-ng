@@ -59,16 +59,121 @@ extern HANDLE hAccListChanged;
 
 int UnloadPlugin(TCHAR* buf, int bufLen);
 
+PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const TCHAR *tszAccountName)
+{
+	PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
+	if (pa == NULL)
+		return NULL;
+
+	pa->cbSize = sizeof(PROTOACCOUNT);
+	pa->bIsEnabled = pa->bIsVisible = true;
+	pa->iOrder = accounts.getCount();
+	pa->szProtoName = mir_strdup(szBaseProto);
+
+	// if the internal name is empty, generate new one
+	if (lstrlenA(szModuleName) == 0) {
+		char buf[100];
+		int count = 1;
+		while (true) {
+			mir_snprintf(buf, SIZEOF(buf), "%s_%d", szBaseProto, count++);
+			if (ptrA(db_get_sa(NULL, buf, "AM_BaseProto")) == NULL)
+				break;
+		}
+		pa->szModuleName = mir_strdup(buf);
+	}
+	else pa->szModuleName = mir_strdup(szModuleName);
+
+	pa->tszAccountName = mir_tstrdup(tszAccountName);
+
+	db_set_s(NULL, pa->szModuleName, "AM_BaseProto", szBaseProto);
+	accounts.insert(pa);
+
+	if (ActivateAccount(pa)) {
+		pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
+		if (!db_get_b(NULL, "CList", "MoveProtoMenus", true))
+			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
+	}
+
+	return pa;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Account edit form
 // Gets PROTOACCOUNT* as a parameter, or NULL to edit a new one
 
-typedef struct
+struct AccFormDlgParam
 {
 	int action;
 	PROTOACCOUNT *pa;
+};
+
+static bool FindAccountByName(const char *szModuleName)
+{
+	if (!lstrlenA(szModuleName))
+		return false;
+
+	for (int i = 0; i < accounts.getCount(); i++)
+		if (_stricmp(szModuleName, accounts[i]->szModuleName) == 0)
+			return true;
+
+	return false;
 }
-	AccFormDlgParam;
+
+static bool OnCreateAccount(HWND hwndDlg)
+{
+	AccFormDlgParam* param = (AccFormDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	PROTOACCOUNT *pa = param->pa;
+
+	TCHAR tszAccName[256];
+	GetDlgItemText(hwndDlg, IDC_ACCNAME, tszAccName, SIZEOF(tszAccName));
+	rtrimt(tszAccName);
+	if (tszAccName[0] == 0) {
+		MessageBox(hwndDlg, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+		return false;
+	}
+
+	if (param->action == PRAC_ADDED) {
+		char buf[200];
+		GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, SIZEOF(buf));
+		if (FindAccountByName(rtrim(buf))) {
+			MessageBox(hwndDlg, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+			return false;
+		}
+	}
+
+	if (param->action == PRAC_UPGRADED) {
+		BOOL oldProto = pa->bOldProto;
+		TCHAR szPlugin[MAX_PATH];
+		mir_sntprintf(szPlugin, SIZEOF(szPlugin), _T("%s.dll"), StrConvT(pa->szProtoName));
+		int idx = accounts.getIndex(pa);
+		UnloadAccount(pa, false, false);
+		accounts.remove(idx);
+		if (oldProto && UnloadPlugin(szPlugin, SIZEOF(szPlugin))) {
+			TCHAR szNewName[MAX_PATH];
+			mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s~"), szPlugin);
+			MoveFile(szPlugin, szNewName);
+		}
+		param->action = PRAC_ADDED;
+	}
+
+	if (param->action == PRAC_ADDED) {
+		char buf[200];
+		GetDlgItemTextA(hwndDlg, IDC_PROTOTYPECOMBO, buf, SIZEOF(buf));
+		char *szBaseProto = NEWSTR_ALLOCA(buf);
+		
+		GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, SIZEOF(buf));
+		rtrim(buf);
+
+		pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
+	}
+	else replaceStrT(pa->tszAccountName, tszAccName);
+
+	WriteDbAccounts();
+	NotifyEventHooks(hAccListChanged, param->action, (LPARAM)pa);
+
+	SendMessage(GetParent(hwndDlg), WM_MY_REFRESH, 0, 0);
+	return true;
+}
 
 static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -116,95 +221,8 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDOK:
-			{
-				AccFormDlgParam* param = (AccFormDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				PROTOACCOUNT *pa = param->pa;
-
-				if (param->action == PRAC_ADDED) {
-					char buf[200];
-					GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, SIZEOF(buf));
-					rtrim(buf);
-					if (buf[0]) {
-						for (int i=0; i < accounts.getCount(); i++)
-							if (_stricmp(buf, accounts[i]->szModuleName) == 0) {
-								MessageBox(hwndDlg, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
-								return FALSE;
-							}
-					}
-				}
-
-				switch(param->action) {
-				case PRAC_UPGRADED:
-					{
-						BOOL oldProto = pa->bOldProto;
-						TCHAR szPlugin[MAX_PATH];
-						mir_sntprintf(szPlugin, SIZEOF(szPlugin), _T("%s.dll"), StrConvT(pa->szProtoName));
-						int idx = accounts.getIndex(pa);
-						UnloadAccount(pa, false, false);
-						accounts.remove(idx);
-						if (oldProto && UnloadPlugin(szPlugin, SIZEOF(szPlugin))) {
-							TCHAR szNewName[MAX_PATH];
-							mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s~"), szPlugin);
-							MoveFile(szPlugin, szNewName);
-						}
-					}
-					// fall through
-
-				case PRAC_ADDED:
-					pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-					pa->cbSize = sizeof(PROTOACCOUNT);
-					pa->bIsEnabled = TRUE;
-					pa->bIsVisible = TRUE;
-
-					pa->iOrder = accounts.getCount();
-					break;
-				}
-				{
-					TCHAR buf[256];
-					GetDlgItemText(hwndDlg, IDC_ACCNAME, buf, SIZEOF(buf));
-					mir_free(pa->tszAccountName);
-					pa->tszAccountName = mir_tstrdup(buf);
-				}
-				if (param->action == PRAC_ADDED || param->action == PRAC_UPGRADED) {
-					char buf[200];
-					GetDlgItemTextA(hwndDlg, IDC_PROTOTYPECOMBO, buf, SIZEOF(buf));
-					pa->szProtoName = mir_strdup(buf);
-					GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, SIZEOF(buf));
-					rtrim(buf);
-					if (buf[0] == 0) {
-						int count = 1;
-						for (;;) {
-							DBVARIANT dbv;
-							mir_snprintf(buf, SIZEOF(buf), "%s_%d", pa->szProtoName, count++);
-							if (db_get_s(NULL, buf, "AM_BaseProto", &dbv))
-								break;
-							db_free(&dbv);
-						}
-					}
-					pa->szModuleName = mir_strdup(buf);
-
-					if (!pa->tszAccountName[0]) {
-						mir_free(pa->tszAccountName);
-						pa->tszAccountName = mir_a2t(buf);
-					}
-
-					db_set_s(NULL, pa->szModuleName, "AM_BaseProto", pa->szProtoName);
-					accounts.insert(pa);
-
-					if ( ActivateAccount(pa)) {
-						pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
-						if (!db_get_b(NULL, "CList", "MoveProtoMenus", TRUE))
-							pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
-					}
-				}
-
-				WriteDbAccounts();
-				NotifyEventHooks(hAccListChanged, param->action, (LPARAM)pa);
-
-				SendMessage(GetParent(hwndDlg), WM_MY_REFRESH, 0, 0);
-			}
-
-			EndDialog(hwndDlg, TRUE);
+			if (OnCreateAccount(hwndDlg))
+				EndDialog(hwndDlg, TRUE);
 			break;
 
 		case IDCANCEL:
@@ -463,59 +481,57 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 	switch(message) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		Window_SetIcon_IcoLib(hwndDlg, SKINICON_OTHER_ACCMGR);
+
+		dat = (TAccMgrData *)mir_alloc(sizeof(TAccMgrData));
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
+
+		Button_SetIcon_IcoLib(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("New account"));
+		Button_SetIcon_IcoLib(hwndDlg, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit"));
+		Button_SetIcon_IcoLib(hwndDlg, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove account"));
+		Button_SetIcon_IcoLib(hwndDlg, IDC_OPTIONS, SKINICON_OTHER_OPTIONS, LPGEN("Configure..."));
+		Button_SetIcon_IcoLib(hwndDlg, IDC_UPGRADE, SKINICON_OTHER_ACCMGR, LPGEN("Upgrade account"));
+
+		EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS), FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_UPGRADE), FALSE);
 		{
-			TAccMgrData *dat = (TAccMgrData *)mir_alloc(sizeof(TAccMgrData));
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
+			LOGFONT lf;
+			GetObject((HFONT)SendMessage(hwndDlg, WM_GETFONT, 0, 0), sizeof(lf), &lf);
+			dat->hfntText = CreateFontIndirect(&lf);
 
-			TranslateDialogDefault(hwndDlg);
-			Window_SetIcon_IcoLib(hwndDlg, SKINICON_OTHER_ACCMGR);
+			GetObject((HFONT)SendMessage(hwndDlg, WM_GETFONT, 0, 0), sizeof(lf), &lf);
+			lf.lfWeight = FW_BOLD;
+			dat->hfntTitle = CreateFontIndirect(&lf);
 
-			Button_SetIcon_IcoLib(hwndDlg, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("New account"));
-			Button_SetIcon_IcoLib(hwndDlg, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit"));
-			Button_SetIcon_IcoLib(hwndDlg, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove account"));
-			Button_SetIcon_IcoLib(hwndDlg, IDC_OPTIONS, SKINICON_OTHER_OPTIONS, LPGEN("Configure..."));
-			Button_SetIcon_IcoLib(hwndDlg, IDC_UPGRADE, SKINICON_OTHER_ACCMGR, LPGEN("Upgrade account"));
+			HDC hdc = GetDC(hwndDlg);
+			HFONT hfnt = (HFONT)SelectObject(hdc, dat->hfntTitle);
 
-			EnableWindow( GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
-			EnableWindow( GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
-			EnableWindow( GetDlgItem(hwndDlg, IDC_OPTIONS), FALSE);
-			EnableWindow( GetDlgItem(hwndDlg, IDC_UPGRADE), FALSE);
-			{
-				LOGFONT lf;
-				GetObject((HFONT)SendMessage(hwndDlg, WM_GETFONT, 0, 0), sizeof(lf), &lf);
-				dat->hfntText = CreateFontIndirect(&lf);
+			TEXTMETRIC tm;
+			GetTextMetrics(hdc, &tm);
+			dat->titleHeight = tm.tmHeight;
+			SelectObject(hdc, dat->hfntText);
 
-				GetObject((HFONT)SendMessage(hwndDlg, WM_GETFONT, 0, 0), sizeof(lf), &lf);
-				lf.lfWeight = FW_BOLD;
-				dat->hfntTitle = CreateFontIndirect(&lf);
+			GetTextMetrics(hdc, &tm);
+			dat->textHeight = tm.tmHeight;
+			SelectObject(hdc, hfnt);
+			ReleaseDC(hwndDlg, hdc);
 
-				HDC hdc = GetDC(hwndDlg);
-				HFONT hfnt = (HFONT)SelectObject(hdc, dat->hfntTitle);
-
-				TEXTMETRIC tm;
-				GetTextMetrics(hdc, &tm);
-				dat->titleHeight = tm.tmHeight;
-				SelectObject(hdc, dat->hfntText);
-
-				GetTextMetrics(hdc, &tm);
-				dat->textHeight = tm.tmHeight;
-				SelectObject(hdc, hfnt);
-				ReleaseDC(hwndDlg, hdc);
-
-				dat->normalHeight = 4 + max(dat->titleHeight, GetSystemMetrics(SM_CYSMICON));
-				dat->selectedHeight = dat->normalHeight + 4 + 2 * dat->textHeight;
-
-				SendDlgItemMessage(hwndDlg, IDC_NAME, WM_SETFONT, (WPARAM)dat->hfntTitle, 0);
-				SendDlgItemMessage(hwndDlg, IDC_TXT_ACCOUNT, WM_SETFONT, (WPARAM)dat->hfntTitle, 0);
-				SendDlgItemMessage(hwndDlg, IDC_TXT_ADDITIONAL, WM_SETFONT, (WPARAM)dat->hfntTitle, 0);
-			}
-
-			dat->iSelected = -1;
-			sttSubclassAccList( GetDlgItem(hwndDlg, IDC_ACCLIST), TRUE);
-			SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
-
-			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, "AccMgr", "");
+			dat->normalHeight = 4 + max(dat->titleHeight, GetSystemMetrics(SM_CYSMICON));
+			dat->selectedHeight = dat->normalHeight + 4 + 2 * dat->textHeight;
 		}
+
+		SendDlgItemMessage(hwndDlg, IDC_NAME, WM_SETFONT, (WPARAM)dat->hfntTitle, 0);
+		SendDlgItemMessage(hwndDlg, IDC_TXT_ACCOUNT, WM_SETFONT, (WPARAM)dat->hfntTitle, 0);
+		SendDlgItemMessage(hwndDlg, IDC_TXT_ADDITIONAL, WM_SETFONT, (WPARAM)dat->hfntTitle, 0);
+
+		dat->iSelected = -1;
+		sttSubclassAccList( GetDlgItem(hwndDlg, IDC_ACCLIST), TRUE);
+		SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
+
+		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, "AccMgr", "");
 		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
@@ -542,8 +558,6 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 	case WM_DRAWITEM:
 		{
-			int tmp;
-			TCHAR *text;
 			HBRUSH hbrBack;
 			SIZE sz;
 
@@ -552,7 +566,6 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			LPDRAWITEMSTRUCT lps = (LPDRAWITEMSTRUCT)lParam;
 			PROTOACCOUNT *acc = (PROTOACCOUNT *)lps->itemData;
-
 			if ((lps->CtlID != IDC_ACCLIST) || (lps->itemID == -1) || !acc)
 				break;
 
@@ -571,6 +584,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			lps->rcItem.top += 2;
 			lps->rcItem.bottom -= 2;
 
+			int tmp;
 			if (acc->bOldProto)
 				tmp = SKINICON_OTHER_ON;
 			else if (acc->bDynDisabled)
@@ -593,7 +607,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			int length = SendDlgItemMessage(hwndDlg, IDC_ACCLIST, LB_GETTEXTLEN, lps->itemID, 0);
 			int size = max(length+1, 256);
-			text = (TCHAR *)_alloca(sizeof(TCHAR) * size);
+			TCHAR *text = (TCHAR *)_alloca(sizeof(TCHAR) * size);
 			SendDlgItemMessage(hwndDlg, IDC_ACCLIST, LB_GETTEXT, lps->itemID, (LPARAM)text);
 
 			SelectObject(lps->hDC, dat->hfntTitle);

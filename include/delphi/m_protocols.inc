@@ -273,20 +273,29 @@ type
   end;
   tagACCOUNT = TPROTOACCOUNT;
 
-const
 //account enumeration service
 //wParam=(WPARAM)(int)piNumAccounts
 //lParam=(LPARAM)(PROTOACCOUNT**)paAccounts
+const
   MS_PROTO_ENUMACCOUNTS:PAnsiChar = 'Proto/EnumAccounts';
 
-  MS_PROTO_ENUMPROTOS   :PAnsiChar = 'Proto/EnumProtos';   // MIRANDA_VER >= $800
-//  MS_PROTO_ENUMPROTOCOLS:PAnsiChar = 'Proto/EnumProtocols';// MIRANDA_VER < $800
+  MS_PROTO_ENUMPROTOS:PAnsiChar = 'Proto/EnumProtos';   // MIRANDA_VER >= $800
 
-(*
-__inline int ProtoEnumAccounts( int* accNumber, PROTOACCOUNT*** accArray )
-{  return CallService( MS_PROTO_ENUMACCOUNTS, ( WPARAM )accNumber, (LPARAM)accArray );
-}
-*)
+type
+  PACC_CREATE = ^ACC_CREATE;
+  ACC_CREATE = record
+	 pszBaseProto   :PAnsiChar;
+    pszInternal    :PAnsiChar;
+    ptszAccountName:PWideChar;
+  end;
+
+const
+// creates new account
+// wParam = 0
+// lParam = (LPARAM)(ACC_CREATE*) account definition
+// return value = PROTOACCOUNT* or NULL
+  MS_PROTO_CREATEACCOUNT:PAnsiChar = 'Proto/CreateAccount';
+
 //retrieves an account's interface by its physical name (database module)
 //wParam=0
 //lParam=(LPARAM)(AnsiChar*)szAccountName
