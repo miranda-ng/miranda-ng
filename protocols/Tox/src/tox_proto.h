@@ -131,8 +131,8 @@ private:
 	std::vector<uint8_t> HexStringToData(std::string hex);
 	std::string DataToHexString(std::vector<uint8_t>);
 
-	int LoadToxData(const char *path);
-	int SaveToxData(const char *path);
+	int LoadToxData();
+	int SaveToxData();
 
 	// dialogs
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

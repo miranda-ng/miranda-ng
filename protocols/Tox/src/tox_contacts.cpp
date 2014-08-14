@@ -108,9 +108,9 @@ void CToxProto::LoadContactList()
 				std::string nick(username.begin(), username.end());
 				setString(hContact, "Nick", nick.c_str());
 
-				uint8_t userstatus = tox_get_user_status(tox, friends[i]);
+				/*uint8_t userstatus = tox_get_user_status(tox, friends[i]);
 				int status = ToxToMirandaStatus((TOX_USERSTATUS)userstatus);
-				SetContactStatus(hContact, status);
+				SetContactStatus(hContact, status);*/
 			}
 		}
 	}
