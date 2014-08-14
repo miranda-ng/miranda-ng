@@ -49,13 +49,15 @@ INT_PTR CToxProto::OnContactDeleted(WPARAM wParam, LPARAM)
 		std::vector<uint8_t> clientId = HexStringToData(toxId);
 
 		uint32_t number = tox_get_friend_number(tox, clientId.data());
-		if (tox_del_friend(tox, number) == -1)
+		if (tox_del_friend(tox, number) == 0)
 		{
-			return 1;
+			SaveToxData();
+
+			return 0;
 		}
 	}
 
-	return 0;
+	return 1;
 }
 
 void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg)
@@ -66,6 +68,8 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *
 	std::string toxId = proto->DataToHexString(clientId);
 
 	proto->RaiseAuthRequestEvent(time(NULL), toxId.c_str(), (char*)message);
+	
+	proto->SaveToxData();
 }
 
 void CToxProto::OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg)

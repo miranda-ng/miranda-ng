@@ -5,11 +5,12 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 {
 	tox = tox_new(TOX_ENABLE_IPV6_DEFAULT);
 
-	ptrA dataPath(getStringA("DataPath"));
-	if (dataPath)
-	{
-		LoadToxData(dataPath);
-	}
+	LoadToxData();
+
+	std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
+	tox_get_self_name(tox, &username[0]);
+	std::string nick(username.begin(), username.end());
+	setString("Nick", nick.c_str());
 
 	tox_callback_friend_request(tox, OnFriendRequest, this);
 	tox_callback_friend_message(tox, OnFriendMessage, this);
@@ -29,11 +30,7 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 CToxProto::~CToxProto()
 {
-	ptrA dataPath(getStringA("DataPath"));
-	if (dataPath)
-	{
-		SaveToxData(dataPath);
-	}
+	SaveToxData();
 
 	tox_kill(tox);
 }
@@ -79,6 +76,8 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 
 		if (tox_add_friend_norequest(tox, &clientId[0]) >= 0)
 		{
+			SaveToxData();
+
 			return 0;
 		}
 	}
@@ -99,6 +98,8 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 	int32_t friendnumber = tox_add_friend(tox, &clientId[0], (uint8_t*)(char*)reason, strlen(reason));
 	if (friendnumber >= 0)
 	{
+		SaveToxData();
+
 		clientId.resize(TOX_CLIENT_ID_SIZE);
 		tox_get_client_id(tox, friendnumber, &clientId[0]);
 		std::string toxId = DataToHexString(clientId);
@@ -132,10 +133,12 @@ HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner) { return 0; }
 
 int __cdecl CToxProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT*) { return 0; }
+
 int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	return (INT_PTR)AddDbEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
 }
+
 int __cdecl CToxProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT* hContactsList) { return 0; }
@@ -198,7 +201,10 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		else
 		{
 			// set tox status
-			tox_set_user_status(tox, MirandaToToxStatus(iNewStatus));
+			if (tox_set_user_status(tox, MirandaToToxStatus(iNewStatus)) == 0)
+			{
+				SaveToxData();
+			}
 
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 

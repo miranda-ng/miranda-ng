@@ -13,7 +13,7 @@ TOX_USERSTATUS CToxProto::MirandaToToxStatus(int status)
 		break;
 	case ID_STATUS_OCCUPIED:
 		userstatus = TOX_USERSTATUS_BUSY;
-		break;
+break;
 	default:
 		userstatus = TOX_USERSTATUS_INVALID;
 		break;
@@ -61,7 +61,7 @@ void CToxProto::RaiseAuthRequestEvent(DWORD timestamp, const char* toxId, const 
 
 	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)*/
 	DWORD cbBlob = (DWORD)
-		(sizeof(DWORD) * 2 +
+		(sizeof(DWORD)* 2 +
 		strlen(toxId) +
 		strlen(reason) +
 		5);
@@ -109,8 +109,14 @@ std::string CToxProto::DataToHexString(std::vector<uint8_t> data)
 	return ss.str();
 }
 
-int CToxProto::LoadToxData(const char *path)
+int CToxProto::LoadToxData()
 {
+	ptrA path(getStringA("DataPath"));
+	if (!path)
+	{
+		return 0;
+	}
+
 	FILE *hFile = fopen(path, "rb");
 
 	if (hFile)
@@ -146,8 +152,14 @@ int CToxProto::LoadToxData(const char *path)
 	return 0;
 }
 
-int CToxProto::SaveToxData(const char *path)
+int CToxProto::SaveToxData()
 {
+	ptrA path(getStringA("DataPath"));
+	if (!path)
+	{
+		return 0;
+	}
+
 	FILE *hFile = fopen(path, "wb");
 
 	if (!hFile)

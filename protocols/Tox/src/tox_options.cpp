@@ -107,6 +107,11 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 				GetDlgItemTextA(hwnd, IDC_USERNAME, username, SIZEOF(username));
 				proto->setString("Username", username);
 
+				if (tox_set_name(proto->tox, (uint8_t*)&username[0], strlen(username)) == 0)
+				{
+					proto->SaveToxData();
+				}
+
 				char dataPath[128];
 				GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
 				proto->setString("DataPath", dataPath);
