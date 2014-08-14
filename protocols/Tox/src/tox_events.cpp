@@ -45,7 +45,7 @@ INT_PTR CToxProto::OnContactDeleted(WPARAM wParam, LPARAM)
 	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact)
 	{
-		std::string toxId(getStringA(hContact, TOX_SETTING_ID));
+		std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
 		std::vector<uint8_t> clientId = HexStringToData(toxId);
 
 		uint32_t number = tox_get_friend_number(tox, clientId.data());

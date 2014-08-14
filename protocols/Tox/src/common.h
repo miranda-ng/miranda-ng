@@ -29,6 +29,7 @@
 
 extern HINSTANCE g_hInstance;
 
-#define TOX_SETTING_ID "ToxID"
+#define TOX_SETTINGS_ID "ToxID"
+#define TOX_SETTINGS_DEFAULT_GROUP "DefaultGroup"
 
 #endif //_COMMON_H_
