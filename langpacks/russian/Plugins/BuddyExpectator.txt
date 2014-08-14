@@ -105,10 +105,10 @@
 Событие "Жду тебя"
 [Hide contact event]
 Спрятать событие контакта
-[Buddy Expectator]
-Жду тебя
 [Hide contact]
 Скрыть контакт
+[Buddy Expectator]
+Жду тебя
 [weeks]
 недель
 [months]

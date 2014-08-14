@@ -57,8 +57,8 @@
 [Contact still absent]
 [Miss you event]
 [Hide contact event]
-[Buddy Expectator]
 [Hide contact]
+[Buddy Expectator]
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 [months]

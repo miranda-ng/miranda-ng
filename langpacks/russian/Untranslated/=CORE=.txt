@@ -1,6 +1,8 @@
 ﻿[AaBbYyZz]
 [&E-mail]
+[Other events]
 [ID]
+[Account name must be filled.]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

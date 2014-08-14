@@ -69,14 +69,14 @@
 Пропущены следующие контакты:
 [Alert when user status changes]
 Предупреждать при изменении статуса
-[last seen history]
-история последней встречи
-[View User's Details]
-Информация о пользователе
 [User Menu]
 Меню пользователя
+[View User's Details]
+Информация о пользователе
 [Send Instant Message]
 Отправить мгновенное сообщение
+[last seen history]
+история последней встречи
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Дата: %d.%m.%y(%Y)\n Описание: %W - %w - %E - %e\n Время: %H:%M:%S (%h-%p)\n Пользователь: %n - %u\n Статус: %s\n IP: %i - %r
 [LastSeen]

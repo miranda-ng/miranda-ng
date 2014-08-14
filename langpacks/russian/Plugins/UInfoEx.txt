@@ -1111,14 +1111,14 @@ Web Дизайн
 Нет праздников, о которых надо уведомлять
 [Backing up and syncing all birthdays complete!]
 Резервирование и синхронизация всех Дней рождений завершены!
-[Reminder (uinfoex)]
-Напоминание (uinfoex)
 [Birthday reminder]
 Напоминание о дне рождения
 [Birthday reminder: it's coming]
 Напоминание о приближающемся дне рождения
 [Anniversary Reminder]
 Напоминание о празднике
+[Reminder (uinfoex)]
+Напоминание (uinfoex)
 [contact identification]
 идентификация контакта
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]

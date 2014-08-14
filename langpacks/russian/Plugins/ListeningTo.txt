@@ -89,8 +89,6 @@ foobar2000 (установите плагин вручную)
 %listening% - преднастроенная выше информация
 [When nothing is playing, replace %listening% with:]
 Когда ничего не играет, писать:
-[Send to %s]
-Отправлять в %s
 [Listening to (enabled)]
 Музыка (включено)
 [Listening to (disabled)]
@@ -99,6 +97,8 @@ foobar2000 (установите плагин вручную)
 Музыка в статусе
 [Listening to music]
 Слушаю музыку
+[Send to %s]
+Отправлять в %s
 [Send to all protocols]
 Отправлять всем протоколам
 [Listening info]

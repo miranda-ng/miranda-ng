@@ -73,8 +73,6 @@
 Тест
 [ChangeKeyboardLayout]
 Смена раскладки
-[Popup]
-Всплывающее окно
 [Changing Layout]
 Смена раскладки
 [Changing Case]
@@ -83,3 +81,5 @@
 Беседы
 [Popups]
 Всплывающие окна
+[Popup]
+Всплывающее окно
