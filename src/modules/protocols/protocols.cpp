@@ -319,6 +319,20 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(const char* accName)
 	return accounts[idx];
 }
 
+static INT_PTR srvProto_CreateAccount(WPARAM, LPARAM lParam)
+{
+	ACC_CREATE *p = (ACC_CREATE*)lParam;
+	if (p == NULL)
+		return NULL;
+
+	PROTOACCOUNT *pa = Proto_CreateAccount(p->pszBaseProto, p->pszInternal, p->ptszAccountName);
+	if (pa) {
+		WriteDbAccounts();
+		NotifyEventHooks(hAccListChanged, PRAC_ADDED, (LPARAM)pa);
+	}
+	return (INT_PTR)pa;
+}
+
 static INT_PTR srvProto_GetAccount(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)Proto_GetAccount((char*)lParam);
@@ -682,6 +696,7 @@ int LoadProtocolsModule(void)
 
 	CreateServiceFunction("Proto/EnumProtocols",     Proto_EnumAccounts);
 	CreateServiceFunction(MS_PROTO_ENUMACCOUNTS,     Proto_EnumAccounts);
+	CreateServiceFunction(MS_PROTO_CREATEACCOUNT,    srvProto_CreateAccount);
 	CreateServiceFunction(MS_PROTO_GETACCOUNT,       srvProto_GetAccount);
 
 	CreateServiceFunction(MS_PROTO_ISACCOUNTENABLED, srvProto_IsAccountEnabled);

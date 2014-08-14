@@ -144,14 +144,16 @@ void KillModuleMenus(int hLangpack);
 
 extern LIST<PROTOACCOUNT> accounts;
 
-PROTOACCOUNT* __fastcall Proto_GetAccount(const char* accName);
+PROTOACCOUNT* Proto_CreateAccount(const char *szProtoName, const char *szBaseProto, const TCHAR *tszAccountName);
+
+PROTOACCOUNT* __fastcall Proto_GetAccount(const char *accName);
 PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
-PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char* szProtoName);
+PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char *szProtoName);
 
 bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT *pa);
 bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT *pa);
 
-PROTO_INTERFACE* AddDefaultAccount(const char* szProtoName);
+PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName);
 int  FreeDefaultAccount(PROTO_INTERFACE* ppi);
 
 BOOL ActivateAccount(PROTOACCOUNT *pa);
