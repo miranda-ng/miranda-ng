@@ -7,7 +7,6 @@
 #include "debug.h"
 #include "pthread.h"
 #include "gchat.h"
-#include "voiceservice.h"
 
 #pragma warning (push)
 #pragma warning (disable: 4100) // unreferenced formal parameter
@@ -156,20 +155,16 @@ HANDLE add_contextmenu(MCONTACT hContact) {
 
 	UNREFERENCED_PARAMETER(hContact);
 
-	if (!HasVoiceService()) {
-		mi = CallItem();
-		hMenuCallItem = Menu_AddContactMenuItem(&mi);
-		mi = HupItem();
-		hMenuCallHangup = Menu_AddContactMenuItem(&mi);
-	}
+	mi = CallItem();
+	hMenuCallItem = Menu_AddContactMenuItem(&mi);
+	mi = HupItem();
+	hMenuCallHangup = Menu_AddContactMenuItem(&mi);
 
 	mi = SkypeOutCallItem();
 	hMenuSkypeOutCallItem = Menu_AddContactMenuItem(&mi);
 
-	if (!HasVoiceService()) {
-		mi = HoldCallItem();
-		hMenuHoldCallItem = Menu_AddContactMenuItem(&mi);
-	}
+	mi = HoldCallItem();
+	hMenuHoldCallItem = Menu_AddContactMenuItem(&mi);
 
 	// We cannot use flag PF1_FILESEND for sending files, as Skype opens its own
 	// sendfile-Dialog.
@@ -216,42 +211,37 @@ int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
 
 	if (!(szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0))) return 0;
 
-	if (!HasVoiceService())
-	{
-		// Clear hold-Item in case it exists
-		mi = HoldCallItem();
-		mi.flags |= CMIM_ALL;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuHoldCallItem, (LPARAM)&mi);
-	}
+	// Clear hold-Item in case it exists
+	mi = HoldCallItem();
+	mi.flags |= CMIM_ALL;
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuHoldCallItem, (LPARAM)&mi);
 
 	if (!strcmp(szProto, SKYPE_PROTONAME)) {
-		if (!HasVoiceService()) {
-			if (!db_get((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
-				if (db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "OnHold", 0))
-					mi = ResumeCallItem(); else mi = HoldCallItem();
-				mi.flags = CMIM_ALL;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuHoldCallItem, (LPARAM)&mi);
+		if (!db_get((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+			if (db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "OnHold", 0))
+				mi = ResumeCallItem(); else mi = HoldCallItem();
+			mi.flags = CMIM_ALL;
+			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuHoldCallItem, (LPARAM)&mi);
 
-				callAvailable = FALSE;
-				hangupAvailable = TRUE;
+			callAvailable = FALSE;
+			hangupAvailable = TRUE;
 
-				db_free(&dbv);
-			}
-			else { callAvailable = TRUE; hangupAvailable = FALSE; }
-
-			if (db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "ChatRoom", 0) != 0) {
-				callAvailable = FALSE;
-				hangupAvailable = FALSE;
-			}
-
-			mi = CallItem();
-			mi.flags |= CMIM_ALL | (!callAvailable ? CMIF_HIDDEN : 0);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuCallItem, (LPARAM)&mi);
-
-			mi = HupItem();
-			mi.flags |= CMIM_ALL | (!hangupAvailable ? CMIF_HIDDEN : 0);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuCallHangup, (LPARAM)&mi);
+			db_free(&dbv);
 		}
+		else { callAvailable = TRUE; hangupAvailable = FALSE; }
+
+		if (db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "ChatRoom", 0) != 0) {
+			callAvailable = FALSE;
+			hangupAvailable = FALSE;
+		}
+
+		mi = CallItem();
+		mi.flags |= CMIM_ALL | (!callAvailable ? CMIF_HIDDEN : 0);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuCallItem, (LPARAM)&mi);
+
+		mi = HupItem();
+		mi.flags |= CMIM_ALL | (!hangupAvailable ? CMIF_HIDDEN : 0);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuCallHangup, (LPARAM)&mi);
 
 		// Clear SkypeOut menu in case it exists
 		mi = SkypeOutCallItem();
@@ -313,13 +303,12 @@ return 0;
 MCONTACT find_contact(char *name)
 {
 	int tCompareResult;
-	MCONTACT hContact;
 	DBVARIANT dbv;
 
 	// already on list?
-	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 	{
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 		{
 			if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
@@ -335,13 +324,12 @@ MCONTACT find_contact(char *name)
 MCONTACT find_contactT(TCHAR *name)
 {
 	int tCompareResult;
-	MCONTACT hContact;
 	DBVARIANT dbv;
 
 	// already on list?
-	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 	{
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 		{
 			if (db_get_ts(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
@@ -373,9 +361,9 @@ MCONTACT add_contact(char *name, DWORD flags)
 	LOG(("add_contact: Adding %s", name));
 	hContact = (MCONTACT)CallServiceSync(MS_DB_CONTACT_ADD, 0, 0);
 	if (hContact) {
-		if (CallServiceSync(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)SKYPE_PROTONAME) != 0) {
+		if (CallServiceSync(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)SKYPE_PROTONAME) != 0) {
 			LOG(("add_contact: Ouch! MS_PROTO_ADDTOCONTACT failed for some reason"));
-			CallServiceSync(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+			CallServiceSync(MS_DB_CONTACT_DELETE, hContact, 0);
 			return NULL;
 		}
 		if (name[0]) db_set_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, name);
@@ -401,7 +389,7 @@ void logoff_contacts(BOOL bCleanup) {
 
 	LOG(("logoff_contacts: Logging off contacts."));
 	for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME))
 		{
 			if (db_get_w(hContact, SKYPE_PROTONAME, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)

@@ -5,6 +5,7 @@
 #define CP_ACP		0 
 
 #define code_page CP_ACP;
+#define MIRANDA_CUSTOM_LP
 
 
 // System includes
@@ -43,9 +44,7 @@
 #include <m_contacts.h>
 #include <m_metacontacts.h>
 #include <m_popup.h>
-#include <m_core.h>
-
-#define MIRANDA_CUSTOM_LP
+#include <m_string.h>
 
 #pragma warning (pop)
 
