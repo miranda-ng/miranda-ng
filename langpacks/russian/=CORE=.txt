@@ -1805,6 +1805,8 @@ UIN, E-mail и т.д.
 Двоеточие во входящих сообщениях
 [Message area]
 Область сообщения
+[Other events]
+Другие события
 [Message log]
 Журнал
 [** New contacts **]
@@ -2431,6 +2433,8 @@ Miranda NG не может открыть этот профиль
 Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет"
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки программы.
+[Account name must be filled.]
+Имя учётной записи должно быть заполнено.
 [Account error]
 Ошибка учётной записи
 [Account name has to be unique. Please enter unique name.]
