@@ -86,12 +86,12 @@
 ;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
 [GPG Turn on encryption]
-[GPG encryption status]
 [Load GPG public key]
 [Toggle GPG encryption]
 [Send public key]
 [Export GPG Public keys]
 [Import GPG Public keys]
+[GPG encryption status]
 ;file \plugins\New_GPG\src\main.cpp
 [Email]
 [Name]

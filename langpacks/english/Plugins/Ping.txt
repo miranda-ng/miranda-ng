@@ -64,6 +64,10 @@
 [Hosts]
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
+[Responding]
+[Not Responding]
+[Testing]
+[Disabled]
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 [Show stats]
@@ -88,7 +92,3 @@
 ;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
 [Unknown]
-[Responding]
-[Not Responding]
-[Testing]
-[Disabled]

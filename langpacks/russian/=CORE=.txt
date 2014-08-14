@@ -1781,6 +1781,8 @@ UIN, E-mail и т.д.
 Исходящее сообщение (10x10)
 [Last message received on %s at %s.]
 Последнее сообщение вы получили %s в %s.
+[Message Session]
+Беседа
 [%s is typing a message...]
 %s набирает текст...
 [File sent]
@@ -2429,16 +2431,16 @@ Miranda NG не может открыть этот профиль
 Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет"
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки программы.
+[Account error]
+Ошибка учётной записи
+[Account name has to be unique. Please enter unique name.]
+Имя учётной записи должно быть уникальным. Введите уникальное имя.
 [Create new account]
 Новая учётная запись
 [Editing account]
 Изменение учётной записи
 [Upgrading account]
 Модернизация учётной записи
-[Account name has to be unique. Please enter unique name.]
-Имя учётной записи должно быть уникальным. Введите уникальное имя.
-[Account error]
-Ошибка учётной записи
 [Account is disabled. Please activate it to access options.]
 Учётная запись отключена. Активируйте её для получения доступа к настройкам.
 [New account]

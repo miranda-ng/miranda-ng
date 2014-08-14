@@ -125,12 +125,12 @@ ID ключа:
 Концу
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений
-[GPG encryption status]
-Статус шифрования GPG
 [Export GPG Public keys]
 Экспортировать публичные GPG ключи
 [Import GPG Public keys]
 Импортировать публичные GPG ключи
+[GPG encryption status]
+Статус шифрования GPG
 [Email]
 Почта
 [Name]
