@@ -489,13 +489,69 @@ int SearchFriends(void) {
 	return iRet;
 }
 
-void __cdecl SearchUsersWaitingMyAuthorization(void *dummy) {
+static void QueryUserWaitingAuthorization(char *pszNick, char *pszAuthRq)
+{
+	CCSDATA ccs = { 0 };
+	PROTORECVEVENT pre = { 0 };
+	MCONTACT hContact;
+	char *firstname = NULL, *lastname = NULL, *pCurBlob, *authmsg = NULL;
+
+	LOG(("Awaiting auth: %s", pszNick));
+	ccs.szProtoService = PSR_AUTH;
+	ccs.hContact = hContact = add_contact(pszNick, PALF_TEMPORARY);
+	ccs.wParam = 0;
+	ccs.lParam = (LPARAM)&pre;
+	pre.flags = 0;
+	pre.timestamp = (DWORD)SkypeTime(NULL);
+
+	/* blob is: */
+	//DWORD protocolSpecific MCONTACT hContact
+	//ASCIIZ nick, firstName, lastName, e-mail, requestReason
+	if (firstname = SkypeGet("USER", pszNick, "FULLNAME")) {
+		if (lastname = strchr(firstname, ' ')) {
+			*lastname = 0;
+			lastname++;
+		}
+	}
+
+	pre.lParam = sizeof(DWORD)+sizeof(HANDLE)+strlen(pszNick) + 5;
+	if (firstname) pre.lParam += strlen(firstname);
+	if (lastname) pre.lParam += strlen(lastname);
+	if (pszAuthRq) authmsg = strdup(pszAuthRq);
+	if (authmsg || ((protocol >= 4 || bIsImoproxy) && (authmsg = SkypeGetID("USER", pszNick, "RECEIVEDAUTHREQUEST"))))
+		pre.lParam += strlen(authmsg);
+	if (pre.szMessage = pCurBlob = (char *)calloc(1, pre.lParam)) {
+		pCurBlob += sizeof(DWORD); // Not used
+		memcpy(pCurBlob, &hContact, sizeof(HANDLE));	pCurBlob += sizeof(HANDLE);
+
+		pre.flags |= PREF_UTF;
+
+		sprintf(pCurBlob, "%s%c%s%c%s%c%c%s", pszNick, 0, firstname ? firstname : "", 0, lastname ? lastname : "", 0, 0, authmsg ? authmsg : "");
+
+		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+		free(pre.szMessage);
+	}
+	if (firstname) free(firstname);
+	if (authmsg) free(authmsg);
+	return;
+}
+
+void __cdecl ProcessAuthRq(void *pPmsg) {
+	char *nick, *auth;
+
+	strtok((char*)pPmsg, " ");
+	nick = strtok(NULL, " ");
+	strtok(NULL, " ");
+	auth = strtok(NULL, "");
+	QueryUserWaitingAuthorization(nick, auth);
+	free(pPmsg);
+}
+
+void __cdecl SearchUsersWaitingMyAuthorization() {
 	char *cmd, *token, *nextoken;
 
-	UNREFERENCED_PARAMETER(dummy);
-
-	if (SkypeSend("#UWA SEARCH USERSWAITINGMYAUTHORIZATION")) return;
-	if (!(cmd = SkypeRcv("#UWA USERS", INFINITE))) return;
+	if (SkypeSend("#UWA SEARCH USERSWAITINGMYAUTHORIZATION") || !(cmd = SkypeRcv("#UWA USERS", INFINITE)))
+		return;
 	if (!strncmp(cmd, "ERROR", 5)) {
 		free(cmd);
 		return;
@@ -503,46 +559,7 @@ void __cdecl SearchUsersWaitingMyAuthorization(void *dummy) {
 
 	token = strtok_r(cmd + 10, ", ", &nextoken);
 	while (token) {
-		CCSDATA ccs = { 0 };
-		PROTORECVEVENT pre = { 0 };
-		MCONTACT hContact;
-		char *firstname = NULL, *lastname = NULL, *pCurBlob;
-
-		LOG(("Awaiting auth: %s", token));
-		ccs.szProtoService = PSR_AUTH;
-		ccs.hContact = hContact = add_contact(token, PALF_TEMPORARY);
-		ccs.wParam = 0;
-		ccs.lParam = (LPARAM)&pre;
-		pre.flags = 0;
-		pre.timestamp = (DWORD)SkypeTime(NULL);
-
-		/* blob is: */
-		//DWORD protocolSpecific MCONTACT hContact
-		//ASCIIZ nick, firstName, lastName, e-mail, requestReason
-		if (firstname = SkypeGet("USER", token, "FULLNAME"))
-			if (lastname = strchr(firstname, ' ')) {
-			*lastname = 0;
-			lastname++;
-			}
-
-		pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + strlen(token) + 5;
-		if (firstname) pre.lParam += strlen(firstname);
-		if (lastname) pre.lParam += strlen(lastname);
-		if (pre.szMessage = pCurBlob = (char *)calloc(1, pre.lParam)) {
-			pCurBlob += sizeof(DWORD); // Not used
-			memcpy(pCurBlob, &hContact, sizeof(HANDLE));	pCurBlob += sizeof(HANDLE);
-			strcpy((char *)pCurBlob, token);				pCurBlob += strlen((char *)pCurBlob) + 1;
-			if (firstname) {
-				strcpy((char *)pCurBlob, firstname);
-				if (lastname) {
-					pCurBlob += strlen((char *)pCurBlob) + 1;
-					strcpy((char *)pCurBlob, lastname);
-				}
-			}
-			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-			free(pre.szMessage);
-		}
-		if (firstname) free(firstname);
+		QueryUserWaitingAuthorization(token, NULL);
 		token = strtok_r(NULL, ", ", &nextoken);
 	}
 	free(cmd);
@@ -728,8 +745,8 @@ void __cdecl SkypeSystemInit(char *dummy) {
 		SkypeSend("CREATE APPLICATION libpurple_typing");
 		testfor("CREATE APPLICATION libpurple_typing", 2000);
 	}
-	if (protocol >= 5 || bIsImoproxy) {
-		SearchUsersWaitingMyAuthorization(NULL);
+	if (protocol >= 5) {
+		SearchUsersWaitingMyAuthorization();
 		if (db_get_b(NULL, SKYPE_PROTONAME, "UseGroupchat", 0))
 			SearchRecentChats(NULL);
 	}
@@ -895,7 +912,11 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 	// Get Timestamp
 	if (!args.pMsgEntry || !args.pMsgEntry->tEdited) {
 		if (!(ptr = SkypeGet(cmdMessage, args.msgnum, "TIMESTAMP"))) return;
-		if (strncmp(ptr, "ERROR", 5)) timestamp = atol(ptr);
+		if (strncmp(ptr, "ERROR", 5)) {
+			timestamp = atol(ptr);
+			// Ensure time correction on clock skew...
+			if (timestamp>(DWORD)SkypeTime(NULL)) timestamp = (DWORD)SkypeTime(NULL);
+		}
 		else timestamp = (DWORD)SkypeTime(NULL);
 		free(ptr);
 	}
@@ -1841,188 +1862,188 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 				char *nextoken;
 
 				buf = _strdup(szSkypeMsg + 5);
-				nick = strtok_r(buf, " ", &nextoken);
-				ptr = strtok_r(NULL, " ", &nextoken);
+				if ((nick = strtok_r(buf, " ", &nextoken)) && (ptr = strtok_r(NULL, " ", &nextoken)))
+				{
+					if (strcmp(ptr, "BUDDYSTATUS")) {
+						if (!strcmp(ptr, "RECEIVEDAUTHREQUEST")) {
+							pthread_create((pThreadFunc)ProcessAuthRq, strdup(szSkypeMsg));
+							free(buf);
+							break;
+						}
 
-				if (strcmp(ptr, "BUDDYSTATUS")) {
-					if (!strcmp(ptr, "RECEIVEDAUTHREQUEST")) {
-						pthread_create((pThreadFunc)SearchUsersWaitingMyAuthorization, NULL);
-						free(buf);
-						break;
-					}
+						if (!(hContact = find_contact(nick)) && strcmp(ptr, "FULLNAME")) {
+							SkypeSend("GET USER %s BUDDYSTATUS", nick);
+							free(buf);
+							break;
+						}
 
-					if (!(hContact = find_contact(nick)) && strcmp(ptr, "FULLNAME")) {
-						SkypeSend("GET USER %s BUDDYSTATUS", nick);
-						free(buf);
-						break;
-					}
-
-					if (!strcmp(ptr, "ONLINESTATUS")) {
-						if (SkypeStatus != ID_STATUS_OFFLINE)
-						{
-							db_set_w(hContact, SKYPE_PROTONAME, "Status", (WORD)SkypeStatusToMiranda(ptr + 13));
-							if ((WORD)SkypeStatusToMiranda(ptr + 13) != ID_STATUS_OFFLINE)
+						if (!strcmp(ptr, "ONLINESTATUS")) {
+							if (SkypeStatus != ID_STATUS_OFFLINE)
 							{
-								LOG(("WndProc Status is not offline so get user info"));
-								pthread_create(GetInfoThread, (void*)hContact);
-							}
-						}
-					}
-
-
-					/* We handle the following properties right here in the wndProc, in case that
-					 * Skype protocol broadcasts them to us.
-					 *
-					 * However, we still let them be added to the Message queue im memory, as they
-					 * may get consumed by GetInfoThread.
-					 * This is necessary to have a proper error handling in case the property is
-					 * not supported (i.e. imo2sproxy).
-					 *
-					 * If one of the property GETs returns an error, the error-message has to be
-					 * removed from the message queue, as the error is the answer to the query.
-					 * If we don't remove the ERRORs from the list, another consumer may see the ERROR
-					 * as a reply to his query and process it.
-					 * In case the SKYPE Protocol really broadcasts one of these messages without being
-					 * requested by GetInfoThread (i.e. MOOD_TEXT), the garbage collector will take
-					 * care of them and remove them after some time.
-					 * This may not be the most efficient way, but ensures that we finally do proper
-					 * error handling.
-					 */
-					if (!strcmp(ptr, "FULLNAME")) {
-						char *nm;
-
-						if (nm = strtok_r(NULL, " ", &nextoken))
-						{
-							db_set_utf(hContact, SKYPE_PROTONAME, "FirstName", nm);
-							if (!(nm = strtok_r(NULL, "", &nextoken))) db_unset(hContact, SKYPE_PROTONAME, "LastName");
-							else
-								db_set_utf(hContact, SKYPE_PROTONAME, "LastName", nm);
-						}
-					}
-					else
-						if (!strcmp(ptr, "BIRTHDAY")) {
-						unsigned int y, m, d;
-						if (sscanf(ptr + 9, "%04d%02d%02d", &y, &m, &d) == 3) {
-							db_set_w(hContact, SKYPE_PROTONAME, "BirthYear", (WORD)y);
-							db_set_b(hContact, SKYPE_PROTONAME, "BirthMonth", (BYTE)m);
-							db_set_b(hContact, SKYPE_PROTONAME, "BirthDay", (BYTE)d);
-						}
-						else {
-							db_unset(hContact, SKYPE_PROTONAME, "BirthYear");
-							db_unset(hContact, SKYPE_PROTONAME, "BirthMonth");
-							db_unset(hContact, SKYPE_PROTONAME, "BirthDay");
-						}
-						}
-						else
-							if (!strcmp(ptr, "COUNTRY")) {
-						if (ptr[8]) {
-							struct CountryListEntry *countries;
-							int countryCount, i;
-
-							CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&countryCount, (LPARAM)&countries);
-							for (i = 0; i < countryCount; i++) {
-								if (countries[i].id == 0 || countries[i].id == 0xFFFF) continue;
-								if (!_stricmp(countries[i].szName, ptr + 8))
+								db_set_w(hContact, SKYPE_PROTONAME, "Status", (WORD)SkypeStatusToMiranda(ptr + 13));
+								if ((WORD)SkypeStatusToMiranda(ptr + 13) != ID_STATUS_OFFLINE)
 								{
-									db_set_w(hContact, SKYPE_PROTONAME, "Country", (BYTE)countries[i].id);
-									break;
+									LOG(("WndProc Status is not offline so get user info"));
+									pthread_create(GetInfoThread, (void*)hContact);
 								}
 							}
 						}
-						else db_unset(hContact, SKYPE_PROTONAME, "Country");
+
+
+						/* We handle the following properties right here in the wndProc, in case that
+						 * Skype protocol broadcasts them to us.
+						 *
+						 * However, we still let them be added to the Message queue im memory, as they
+						 * may get consumed by GetInfoThread.
+						 * This is necessary to have a proper error handling in case the property is
+						 * not supported (i.e. imo2sproxy).
+						 *
+						 * If one of the property GETs returns an error, the error-message has to be
+						 * removed from the message queue, as the error is the answer to the query.
+						 * If we don't remove the ERRORs from the list, another consumer may see the ERROR
+						 * as a reply to his query and process it.
+						 * In case the SKYPE Protocol really broadcasts one of these messages without being
+						 * requested by GetInfoThread (i.e. MOOD_TEXT), the garbage collector will take
+						 * care of them and remove them after some time.
+						 * This may not be the most efficient way, but ensures that we finally do proper
+						 * error handling.
+						 */
+						if (!strcmp(ptr, "FULLNAME")) {
+							char *nm;
+
+							if (nm = strtok_r(NULL, " ", &nextoken))
+							{
+								db_set_utf(hContact, SKYPE_PROTONAME, "FirstName", nm);
+								if (!(nm = strtok_r(NULL, "", &nextoken))) db_unset(hContact, SKYPE_PROTONAME, "LastName");
+								else
+									db_set_utf(hContact, SKYPE_PROTONAME, "LastName", nm);
+							}
+						}
+						else
+							if (!strcmp(ptr, "BIRTHDAY")) {
+							unsigned int y, m, d;
+							if (sscanf(ptr + 9, "%04d%02d%02d", &y, &m, &d) == 3) {
+								db_set_w(hContact, SKYPE_PROTONAME, "BirthYear", (WORD)y);
+								db_set_b(hContact, SKYPE_PROTONAME, "BirthMonth", (BYTE)m);
+								db_set_b(hContact, SKYPE_PROTONAME, "BirthDay", (BYTE)d);
+							}
+							else {
+								db_unset(hContact, SKYPE_PROTONAME, "BirthYear");
+								db_unset(hContact, SKYPE_PROTONAME, "BirthMonth");
+								db_unset(hContact, SKYPE_PROTONAME, "BirthDay");
+							}
 							}
 							else
-								if (!strcmp(ptr, "SEX")) {
-						if (ptr[4]) {
-							BYTE sex = 0;
-							if (!_stricmp(ptr + 4, "MALE")) sex = 0x4D;
-							if (!_stricmp(ptr + 4, "FEMALE")) sex = 0x46;
-							if (sex) db_set_b(hContact, SKYPE_PROTONAME, "Gender", sex);
-						}
-						else db_unset(hContact, SKYPE_PROTONAME, "Gender");
+								if (!strcmp(ptr, "COUNTRY")) {
+							if (ptr[8]) {
+								struct CountryListEntry *countries;
+								int countryCount, i;
+
+								CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&countryCount, (LPARAM)&countries);
+								for (i = 0; i < countryCount; i++) {
+									if (countries[i].id == 0 || countries[i].id == 0xFFFF) continue;
+									if (!_stricmp(countries[i].szName, ptr + 8))
+									{
+										db_set_w(hContact, SKYPE_PROTONAME, "Country", (BYTE)countries[i].id);
+										break;
+									}
+								}
+							}
+							else db_unset(hContact, SKYPE_PROTONAME, "Country");
 								}
 								else
-									if (!strcmp(ptr, "MOOD_TEXT")){
-
-						LOG(("WndProc MOOD_TEXT"));
-						db_set_utf(hContact, "CList", "StatusMsg", ptr + 10);
+									if (!strcmp(ptr, "SEX")) {
+							if (ptr[4]) {
+								BYTE sex = 0;
+								if (!_stricmp(ptr + 4, "MALE")) sex = 0x4D;
+								if (!_stricmp(ptr + 4, "FEMALE")) sex = 0x46;
+								if (sex) db_set_b(hContact, SKYPE_PROTONAME, "Gender", sex);
+							}
+							else db_unset(hContact, SKYPE_PROTONAME, "Gender");
 									}
 									else
-										if (!strcmp(ptr, "TIMEZONE")){
-						time_t temp;
-						struct tm tms;
-						int value = atoi(ptr + 9), tz;
+										if (!strcmp(ptr, "MOOD_TEXT")){
 
-						LOG(("WndProc: TIMEZONE %s", nick));
-
-						if (value && !db_get_b(NULL, SKYPE_PROTONAME, "IgnoreTimeZones", 0)) {
-							temp = SkypeTime(NULL);
-							tms = *localtime(&temp);
-							//memcpy(&tms,localtime(&temp), sizeof(tm));
-							//tms = localtime(&temp)
-							tz = (value >= 86400) ? (256 - ((2 * (atoi(ptr + 9) - 86400)) / 3600)) : ((-2 * (atoi(ptr + 9) - 86400)) / 3600);
-							if (tms.tm_isdst == 1 && db_get_b(NULL, SKYPE_PROTONAME, "UseTimeZonePatch", 0))
-							{
-								LOG(("WndProc: Using the TimeZonePatch"));
-								db_set_b(hContact, "UserInfo", "Timezone", (BYTE)(tz + 2));
-							}
-							else
-							{
-								LOG(("WndProc: Not using the TimeZonePatch"));
-								db_set_b(hContact, "UserInfo", "Timezone", (BYTE)(tz + 0));
-							}
-						}
-						else 	{
-							LOG(("WndProc: Deleting the TimeZone in UserInfo Section"));
-							db_unset(hContact, "UserInfo", "Timezone");
-						}
+							LOG(("WndProc MOOD_TEXT"));
+							db_set_utf(hContact, "CList", "StatusMsg", ptr + 10);
 										}
 										else
-											if (!strcmp(ptr, "IS_VIDEO_CAPABLE")){
-						if (!_stricmp(ptr + 17, "True"))
-							db_set_s(hContact, SKYPE_PROTONAME, "MirVer", "Skype 2.0");
-						else
-							db_set_s(hContact, SKYPE_PROTONAME, "MirVer", "Skype");
+											if (!strcmp(ptr, "TIMEZONE")){
+							time_t temp;
+							struct tm tms;
+							int value = atoi(ptr + 9), tz;
+
+							LOG(("WndProc: TIMEZONE %s", nick));
+
+							if (value && !db_get_b(NULL, SKYPE_PROTONAME, "IgnoreTimeZones", 0)) {
+								temp = SkypeTime(NULL);
+								tms = *localtime(&temp);
+								//memcpy(&tms,localtime(&temp), sizeof(tm));
+								//tms = localtime(&temp)
+								tz = (value >= 86400) ? (256 - ((2 * (atoi(ptr + 9) - 86400)) / 3600)) : ((-2 * (atoi(ptr + 9) - 86400)) / 3600);
+								if (tms.tm_isdst == 1 && db_get_b(NULL, SKYPE_PROTONAME, "UseTimeZonePatch", 0))
+								{
+									LOG(("WndProc: Using the TimeZonePatch"));
+									db_set_b(hContact, "UserInfo", "Timezone", (BYTE)(tz + 2));
+								}
+								else
+								{
+									LOG(("WndProc: Not using the TimeZonePatch"));
+									db_set_b(hContact, "UserInfo", "Timezone", (BYTE)(tz + 0));
+								}
+							}
+							else 	{
+								LOG(("WndProc: Deleting the TimeZone in UserInfo Section"));
+								db_unset(hContact, "UserInfo", "Timezone");
+							}
 											}
 											else
-												if (!strcmp(ptr, "RICH_MOOD_TEXT")) {
-						db_set_s(hContact, SKYPE_PROTONAME, "MirVer", "Skype 3.0");
+												if (!strcmp(ptr, "IS_VIDEO_CAPABLE")){
+							if (!_stricmp(ptr + 17, "True"))
+								db_set_s(hContact, SKYPE_PROTONAME, "MirVer", "Skype 2.0");
+							else
+								db_set_s(hContact, SKYPE_PROTONAME, "MirVer", "Skype");
 												}
 												else
-													if (!strcmp(ptr, "DISPLAYNAME")) {
-						// Skype Bug? -> If nickname isn't customised in the Skype-App, this won't return anything :-(
-						if (ptr[12])
-							db_set_utf(hContact, SKYPE_PROTONAME, "Nick", ptr + 12);
+													if (!strcmp(ptr, "RICH_MOOD_TEXT")) {
+							db_set_s(hContact, SKYPE_PROTONAME, "MirVer", "Skype 3.0");
 													}
-													else	// Other proerties that can be directly assigned to a DB-Value
-													{
-														int i;
-														char *pszProp;
+													else
+														if (!strcmp(ptr, "DISPLAYNAME")) {
+							// Skype Bug? -> If nickname isn't customised in the Skype-App, this won't return anything :-(
+							if (ptr[12])
+								db_set_utf(hContact, SKYPE_PROTONAME, "Nick", ptr + 12);
+														}
+														else	// Other proerties that can be directly assigned to a DB-Value
+														{
+															int i;
+															char *pszProp;
 
-														for (i = 0; i < sizeof(m_settings) / sizeof(m_settings[0]); i++) {
-															if (!strcmp(ptr, m_settings[i].SkypeSetting)) {
-																pszProp = ptr + strlen(m_settings[i].SkypeSetting) + 1;
-																if (*pszProp)
-																	db_set_utf(hContact, SKYPE_PROTONAME, m_settings[i].MirandaSetting, pszProp);
-																else
-																	db_unset(hContact, SKYPE_PROTONAME, m_settings[i].MirandaSetting);
+															for (i = 0; i < sizeof(m_settings) / sizeof(m_settings[0]); i++) {
+																if (!strcmp(ptr, m_settings[i].SkypeSetting)) {
+																	pszProp = ptr + strlen(m_settings[i].SkypeSetting) + 1;
+																	if (*pszProp)
+																		db_set_utf(hContact, SKYPE_PROTONAME, m_settings[i].MirandaSetting, pszProp);
+																	else
+																		db_unset(hContact, SKYPE_PROTONAME, m_settings[i].MirandaSetting);
+																}
 															}
 														}
-													}
-				}
-				else { // BUDDYSTATUS:
-					flag = 0;
-					switch (atoi(ptr + 12)) {
-					case 1: if (hContact = find_contact(nick)) CallService(MS_DB_CONTACT_DELETE, hContact, 0); break;
-					case 0: break;
-					case 2: flag = PALF_TEMPORARY;
-					case 3: add_contact(nick, flag);
-						SkypeSend("GET USER %s ONLINESTATUS", nick);
+					}
+					else { // BUDDYSTATUS:
+						flag = 0;
+						switch (atoi(ptr + 12)) {
+						case 1: if (hContact = find_contact(nick)) CallService(MS_DB_CONTACT_DELETE, hContact, 0); break;
+						case 0: break;
+						case 2: flag = PALF_TEMPORARY;
+						case 3: add_contact(nick, flag);
+							SkypeSend("GET USER %s ONLINESTATUS", nick);
+							break;
+						}
+						free(buf);
+						if (!SetEvent(hBuddyAdded)) TellError(GetLastError());
 						break;
 					}
-					free(buf);
-					if (!SetEvent(hBuddyAdded)) TellError(GetLastError());
-					break;
 				}
 				free(buf);
 			}
@@ -2214,6 +2235,7 @@ LONG APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 		KillTimer(hWndDlg, 1);
 		break;
 	case WM_COPYDATALOCAL:
+		--iReentranceCnt;
 		return WndProc(hWndDlg, WM_COPYDATA, wParam, lParam);
 
 	default:
@@ -2804,6 +2826,7 @@ INT_PTR SkypeRecvAuth(WPARAM wParam, LPARAM lParam) {
 	dbei.szModule = SKYPE_PROTONAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0);
+	dbei.flags |= (pre->flags & PREF_UTF) ? DBEF_UTF : 0;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = pre->lParam;
 	dbei.pBlob = (PBYTE)pre->szMessage;
