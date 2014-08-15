@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -92,7 +92,7 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;lib\x86</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalDependencies>libtox.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;libtox.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -199,6 +199,7 @@
     <ClInclude Include="src\tox\tox.h" />
     <ClInclude Include="src\tox\toxav.h" />
     <ClInclude Include="src\tox\toxdns.h" />
+    <ClInclude Include="src\tox_bootstrap.h" />
     <ClInclude Include="src\tox_proto.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
@@ -207,11 +208,14 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\tox_account.cpp" />
     <ClCompile Include="src\tox_events.cpp" />
     <ClCompile Include="src\tox_instances.cpp" />
+    <ClCompile Include="src\tox_options.cpp" />
     <ClCompile Include="src\tox_proto.cpp" />
     <ClCompile Include="src\tox_services.cpp" />
     <ClCompile Include="src\tox_contacts.cpp" />
+    <ClCompile Include="src\tox_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
