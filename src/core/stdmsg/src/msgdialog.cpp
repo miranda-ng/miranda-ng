@@ -1129,9 +1129,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					TCHAR *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
 					if (statusIcon)
-						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s - %s"), contactName, TranslateT("Message Session"));
+						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s - %s"), contactName, TranslateT("Message session"));
 					else
-						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Session"));
+						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
 					
 					DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
 					if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status"))) {
@@ -1144,7 +1144,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 			}
 			else
-				lstrcpyn(newtitle, TranslateT("Message Session"), SIZEOF(newtitle));
+				lstrcpyn(newtitle, TranslateT("Message session"), SIZEOF(newtitle));
 
 			TCHAR oldtitle[256];
 			GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));
