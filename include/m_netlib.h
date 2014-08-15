@@ -701,40 +701,24 @@ typedef struct
 static INT_PTR Netlib_Logf(HANDLE hUser, const char *fmt, ...)
 {
 	va_list va;
+	va_start(va, fmt);
 	char szText[1024];
-
-	__try
-	{
-		va_start(va, fmt);
-		mir_vsnprintf(szText, sizeof(szText), fmt, va);
-		va_end(va);
-		return CallService(MS_NETLIB_LOG, (WPARAM)hUser, (LPARAM)szText);
-	}
-	__except(EXCEPTION_EXECUTE_HANDLER) {}
-	return 0;
+	mir_vsnprintf(szText, sizeof(szText), fmt, va);
+	va_end(va);
+	return CallService(MS_NETLIB_LOG, (WPARAM)hUser, (LPARAM)szText);
 }
 
-#ifdef _UNICODE
-	static INT_PTR Netlib_LogfW(HANDLE hUser, const wchar_t *fmt, ...)
-	{
-		va_list va;
-		wchar_t szText[1024];
+static INT_PTR Netlib_LogfW(HANDLE hUser, const wchar_t *fmt, ...)
+{
+	va_list va;
+	va_start(va, fmt);
+	wchar_t szText[1024];
+	mir_vsnwprintf(szText, SIZEOF(szText), fmt, va);
+	va_end(va);
+	return CallService(MS_NETLIB_LOGW, (WPARAM)hUser, (LPARAM)szText);
+}
 
-		__try
-		{
-			va_start(va, fmt);
-			mir_vsntprintf(szText, sizeof(szText), fmt, va);
-			va_end(va);
-			return CallService(MS_NETLIB_LOGW, (WPARAM)hUser, (LPARAM)szText);
-		}
-		__except(EXCEPTION_EXECUTE_HANDLER) {}
-		return 0;
-	}
-	#define Netlib_LogfT Netlib_LogfW
-#else
-	#define Netlib_LogfT Netlib_Logf
-#endif
-
+#define Netlib_LogfT Netlib_LogfW
 #endif //defined va_start
 
 /////////////////////////////////////////////////////////////////////////////////////////
