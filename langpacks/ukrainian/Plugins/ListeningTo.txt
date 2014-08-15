@@ -89,8 +89,6 @@ foobar2000 (встановіть плагін вручну)
 %listening% - вказана вище інформація
 [When nothing is playing, replace %listening% with:]
 Коли нічого не грає, писати:
-[Send to %s]
-Відправляти в %s
 [Listening to (enabled)]
 Музика (ввімкнено)
 [Listening to (disabled)]
@@ -99,6 +97,8 @@ foobar2000 (встановіть плагін вручну)
 Музика в статусі
 [Listening to music]
 Слухаю музику
+[Send to %s]
+Відправляти в %s
 [Send to all protocols]
 Відправляти всім протоколам
 [Listening info]

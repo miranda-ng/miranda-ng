@@ -93,11 +93,11 @@
 Будь ласка, дозвольте додати вас до списку контактів.
 [Do you want to send authorization request\nto new contact?]
 Надіслати запит авторизації\nновому контакту?
-[MenuItemEx]
-Дод. пункти меню
 [Open ignore settings]
 Відкрити налаштування ігнорування
 [Request authorization]
 Запитати авторизацію
+[MenuItemEx]
+Дод. пункти меню
 [Customize]
 Тонке налаштування

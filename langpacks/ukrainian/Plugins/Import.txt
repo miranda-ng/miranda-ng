@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.11.0.1
+;  Version: 0.95.3.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -135,8 +135,6 @@
 Пропущено %d дублікатів та %d відфільтрованих подій.
 [Skipped %d duplicates.]
 Пропущено %d дублікатів.
-[Import...]
-Імпорт...
 [&Import...]
 &Імпорт...
 [The given file does not exist. Please check that you have entered the name correctly.]
@@ -149,5 +147,7 @@
 Усі файли
 [Skipping duplicate group %s.]
 Пропуск дубліката групи %s
+[Import...]
+Імпорт...
 [Finish]
 Завершити

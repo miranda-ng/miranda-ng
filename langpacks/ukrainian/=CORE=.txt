@@ -1781,6 +1781,8 @@ UIN, E-mail тощо
 Вихідне повідомлення (10x10)
 [Last message received on %s at %s.]
 Останнє повідомлення отримано %s о %s
+[Message Session]
+Вікно повідомлень
 [%s is typing a message...]
 %s друкує вам повідомлення...
 [File sent]
@@ -1803,6 +1805,8 @@ UIN, E-mail тощо
 Двокрапка в отриманих повідомленнях
 [Message area]
 Поле вводу повідомлення
+[Other events]
+Інші події
 [Message log]
 Журнал
 [** New contacts **]
@@ -2429,16 +2433,18 @@ Miranda не може відкрити цей профіль
 Ваш обліковий запис успішно оновлено. Для його активації необхідно перезапустити Miranda\n\n\Щоб перезапустити програму зараз, натисніть "Так". Щоб оновити інший обліковий запис, натисніть "Ні".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Цей обліковий запис використовує застарілий протокол. Зміна особистих даних користувача відбувається в основному діалозі налаштувань.
+[Account name must be filled.]
+Введіть ім'я облікового запису.
+[Account error]
+Помилка облікового запису
+[Account name has to be unique. Please enter unique name.]
+Назва облікового запису має бути унікальною. Вкажіть унікальну назву.
 [Create new account]
 Створити новий запис
 [Editing account]
 Зміна облікового запису
 [Upgrading account]
 Оновлення облікового запису
-[Account name has to be unique. Please enter unique name.]
-Назва облікового запису має бути унікальною. Вкажіть унікальну назву.
-[Account error]
-Помилка облікового запису
 [Account is disabled. Please activate it to access options.]
 Обліковий запис вимкнено. Активуйте його для доступу до налаштувань.
 [New account]

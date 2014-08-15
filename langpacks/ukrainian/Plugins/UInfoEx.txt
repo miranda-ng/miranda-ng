@@ -1109,14 +1109,14 @@ Web-дизайн
 Немає свят, про які треба нагадати
 [Backing up and syncing all birthdays complete!]
 Резервування і синхронізацію всіх днів народження завершено.
-[Reminder (uinfoex)]
-Нагадування (uinfoex)
 [Birthday reminder]
 Нагадування про день народження
 [Birthday reminder: it's coming]
 Нагадування про день народження, що наближається
 [Anniversary Reminder]
 Нагадування про свято
+[Reminder (uinfoex)]
+Нагадування (uinfoex)
 [contact identification]
 ідентифікація контакта
 [The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]

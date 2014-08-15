@@ -105,10 +105,10 @@
 Подія "Чекаю тебе"
 [Hide contact event]
 Сховати подію контакту
-[Buddy Expectator]
-Чекаю тебе
 [Hide contact]
 Сховати контакт
+[Buddy Expectator]
+Чекаю тебе
 [weeks]
 тижнів
 [months]

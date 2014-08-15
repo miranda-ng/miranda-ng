@@ -73,8 +73,6 @@
 Тест
 [ChangeKeyboardLayout]
 Зміна розкладки
-[Popup]
-Спливаюче вікно
 [Changing Layout]
 Зміна розкладки
 [Changing Case]
@@ -83,3 +81,5 @@
 Бесіди
 [Popups]
 Спливаючі вікна
+[Popup]
+Спливаюче вікно

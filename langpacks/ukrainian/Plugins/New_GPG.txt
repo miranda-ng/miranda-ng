@@ -135,12 +135,12 @@ ID ключа:
 Видаляти всі мітки з вихідних повідомлень
 [Turn on presence signing (Jabber) (required by XEP 0-27)]
 Увімкнути підпис повідомлень присутності (Jabber)
-[GPG encryption status]
-Статус шифрування GPG
 [Export GPG Public keys]
 Експортувати публічні ключі GPG
 [Import GPG Public keys]
 Імпортувати публічні ключі GPG
+[GPG encryption status]
+Статус шифрування GPG
 [Email]
 Пошта
 [Name]
