@@ -95,12 +95,12 @@ URL
 Моля, упълномощете ме да ви добавя в списъка си с контакти.
 [Do you want to send authorization request\nto new contact?]
 Желаете ли да бъде изпратена молба за упълномощаване до\nновия контакт?
-[MenuItemEx]
-
 [Open ignore settings]
 Отваряне настройките за игнориране
 [Request authorization]
 Молба за упълномощаване
+[MenuItemEx]
+
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Персонализиране

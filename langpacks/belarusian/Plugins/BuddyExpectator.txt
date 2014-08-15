@@ -107,10 +107,10 @@
 Падзея "Чакаю цябе"
 [Hide contact event]
 Схаваць падзею кантакту
-[Buddy Expectator]
-Чакаю цябе
 [Hide contact]
 Схаваць кантакт
+[Buddy Expectator]
+Чакаю цябе
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 тыдняў

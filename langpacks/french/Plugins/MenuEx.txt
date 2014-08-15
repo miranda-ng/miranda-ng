@@ -95,12 +95,12 @@ Notification de frappe
 
 [Do you want to send authorization request\nto new contact?]
 
-[MenuItemEx]
-
 [Open ignore settings]
 
 [Request authorization]
 Demander l'autorisation
+[MenuItemEx]
+
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Apparence

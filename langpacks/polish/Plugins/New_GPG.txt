@@ -165,8 +165,6 @@ Importuj klucze
 Wyłącz GPG
 [GPG Turn on encryption]
 Włącz GPG
-[GPG encryption status]
-Status szyfrowania GPG
 [Load GPG public key]
 Wczytaj klucz publiczny GPG
 [Toggle GPG encryption]
@@ -177,6 +175,8 @@ Wyślij klucz publiczny
 Eksportuj klucze publiczne GPG
 [Import GPG Public keys]
 Importuj klucze publiczne GPG
+[GPG encryption status]
+Status szyfrowania GPG
 ;file \plugins\New_GPG\src\main.cpp
 [Email]
 E-mail

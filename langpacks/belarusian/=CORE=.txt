@@ -1818,6 +1818,8 @@ UIN, E-mail і г.д.
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
+[Message Session]
+Гутарка
 [%s is typing a message...]
 %s набірае тэкст...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -2515,16 +2517,16 @@ Miranda NG не можа адкрыць гэты профіль
 Ваш конт паспяхова адноўлены. Для яго актывацыі неабходна перазапусціць Miranda\n\nДля перазапуску націсніце "Так", калі жадаеце аднавіць іншы конт, націсніце "Не".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Гэты конт выкарыстоўвае стары пратакол. Змена налад карыстача робіцца праз асноўныя налады.
+[Account error]
+Памылка конта
+[Account name has to be unique. Please enter unique name.]
+Імя конта павінна быць унікальным. Калі ласка, увядзіце іншае імя.
 [Create new account]
 Новы конт
 [Editing account]
 Кіраваць конт
 [Upgrading account]
 Аднавіць конт
-[Account name has to be unique. Please enter unique name.]
-Імя конта павінна быць унікальным. Калі ласка, увядзіце іншае імя.
-[Account error]
-Памылка конта
 [Account is disabled. Please activate it to access options.]
 Конт адключаны. Уключыце для кіравання.
 [New account]

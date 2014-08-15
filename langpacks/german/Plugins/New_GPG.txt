@@ -165,8 +165,6 @@ Schlüssel importieren
 GPG-Verschlüsselung ausschalten
 [GPG Turn on encryption]
 GPG-Verschlüsselung einschalten
-[GPG encryption status]
-GPG-Verschlüsselungsstatus
 [Load GPG public key]
 Öffentlichen GPG-Schlüssel laden
 [Toggle GPG encryption]
@@ -177,6 +175,8 @@ GPG-Verschlüsselung umschalten
 Öffentliche GPG-Schlüssel exportieren
 [Import GPG Public keys]
 Öffentliche GPG-Schlüssel importieren
+[GPG encryption status]
+GPG-Verschlüsselungsstatus
 ;file \plugins\New_GPG\src\main.cpp
 [Email]
 E-Mail

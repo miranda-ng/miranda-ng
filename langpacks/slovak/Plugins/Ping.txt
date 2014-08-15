@@ -119,6 +119,14 @@ Všetky súbory
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 
+[Responding]
+
+[Not Responding]
+
+[Testing]
+
+[Disabled]
+
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 
@@ -163,11 +171,3 @@ Zoznam
 
 [Unknown]
 neznáme
-[Responding]
-
-[Not Responding]
-
-[Testing]
-
-[Disabled]
-

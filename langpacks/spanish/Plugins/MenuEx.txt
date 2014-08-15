@@ -95,12 +95,12 @@ Notificación de escritura
 
 [Do you want to send authorization request\nto new contact?]
 
-[MenuItemEx]
-
 [Open ignore settings]
 
 [Request authorization]
 Solicitar autorización
+[MenuItemEx]
+
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Personalizar

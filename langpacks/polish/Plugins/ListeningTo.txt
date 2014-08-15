@@ -97,8 +97,6 @@ Inne zmienne:
 [When nothing is playing, replace %listening% with:]
 Jeśli niczego nie odtwarzam zamień %listening% na:
 ;file \plugins\ListeningTo\src\listeningto.cpp
-[Send to %s]
-Wyślij do %s
 [Listening to (enabled)]
 Teraz odtwarzane (włączony)
 [Listening to (disabled)]
@@ -107,6 +105,8 @@ Teraz odtwarzane (wyłączony)
 Teraz odtwarzane
 [Listening to music]
 Tune
+[Send to %s]
+Wyślij do %s
 [Send to all protocols]
 Wyślij do wszystkich protokołów
 [Listening info]

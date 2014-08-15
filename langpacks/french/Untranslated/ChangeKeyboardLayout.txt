@@ -17,6 +17,6 @@
 [Permanent]
 [Dismiss]
 [ChangeKeyboardLayout]
-[Popup]
 [Changing Layout]
 [Changing Case]
+[Popup]

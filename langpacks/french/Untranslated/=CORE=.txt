@@ -99,6 +99,7 @@
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 [Unable to load plugin in service mode!]
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+[Account name must be filled.]
 [Account error]
 [Account %s is being disabled]
 [Ctrl + ]

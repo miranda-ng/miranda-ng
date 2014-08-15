@@ -70,15 +70,15 @@ Zuletzt gesehen
 Du hast folgende Kontakte verpasst:
 [Alert when user status changes]
 Melden, wenn Benutzerstatus sich ändert
+[User Menu]
+Kontaktmenü
+[View User's Details]
+Kontaktprofil anzeigen
+[Send Instant Message]
+Nachricht senden
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 Zuletzt gesehen-Verlauf
-[View User's Details]
-Kontaktprofil anzeigen
-[User Menu]
-Kontaktmenü
-[Send Instant Message]
-Nachricht senden
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Datum: %d.%m.%y(%Y) \n Beschr.: %W - %w - %E - %e \n Zeit: %H:%M:%S (%h-%p) \n Benutzer: %n - %u \n Status: %s \n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp

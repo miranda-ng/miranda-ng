@@ -14,7 +14,7 @@
 [Use default]
 [Preview]
 [Ignore these clients (separated by semicolons):]
-[(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
+[(you have to install pcre16.dll to use regular expressions here)]
 [changed client to %s (was %s)]
 [changed client to %s]
 [%s (was %s)]

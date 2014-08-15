@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.11.0.1
+;  Version: 0.95.3.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -138,8 +138,6 @@ Prenos súboru
 [Skipped %d duplicates.]
 
 ;file \plugins\Import\src\main.cpp
-[Import...]
-
 [&Import...]
 
 ;file \plugins\Import\src\miranda.cpp
@@ -153,6 +151,8 @@ Prenos súboru
 Všetky súbory
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
+
+[Import...]
 
 ;file \plugins\Import\src\wizard.cpp
 [Finish]

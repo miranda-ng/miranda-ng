@@ -119,6 +119,14 @@ Hosty
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Wtyczka Ping
+[Responding]
+Odpowiadaj
+[Not Responding]
+Nie odpowiadaj
+[Testing]
+Testowanie
+[Disabled]
+Wyłączone
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Pokaż linie siatki
@@ -163,11 +171,3 @@ Host %s prosi o zredukowanie produkowanego przez ciebie ruchu.
 Nieznany adres
 [Unknown]
 Nieznany
-[Responding]
-Odpowiadaj
-[Not Responding]
-Nie odpowiadaj
-[Testing]
-Testowanie
-[Disabled]
-Wyłączone

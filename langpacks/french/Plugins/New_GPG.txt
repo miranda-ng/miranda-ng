@@ -165,8 +165,6 @@ Passe actuel :
 
 [GPG Turn on encryption]
 
-[GPG encryption status]
-
 [Load GPG public key]
 
 [Toggle GPG encryption]
@@ -176,6 +174,8 @@ Passe actuel :
 [Export GPG Public keys]
 
 [Import GPG Public keys]
+
+[GPG encryption status]
 
 ;file \plugins\New_GPG\src\main.cpp
 [Email]

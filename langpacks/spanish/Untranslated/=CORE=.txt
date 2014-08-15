@@ -20,6 +20,7 @@
 [Lock name to first contact]
 [Current language:]
 [Group chat log background]
+[Other events]
 [Chat log symbols (Webdings)]
 [&Leave chat]
 [&Open chat window]
@@ -76,4 +77,5 @@
 [Could not write unique ID of contact to metacontact]
 [Could not write nickname of contact to metacontact]
 [<mixed>]
+[Account name must be filled.]
 [Warning]

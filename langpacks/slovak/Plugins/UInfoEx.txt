@@ -1145,13 +1145,13 @@ Odoslať e-mail
 
 [Backing up and syncing all birthdays complete!]
 
-[Reminder (uinfoex)]
-
 [Birthday reminder]
 
 [Birthday reminder: it's coming]
 
 [Anniversary Reminder]
+
+[Reminder (uinfoex)]
 
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]

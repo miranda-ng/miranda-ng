@@ -70,14 +70,14 @@ Popup цветове
 Изпуснахте следните контакти:
 [Alert when user status changes]
 Уведомяване, ако контакта смени състоянието си
-;file \plugins\SeenPlugin\src\history.cpp
-[last seen history]
-
-[View User's Details]
-Подробности за потребителя
 [User Menu]
 Потребителско меню
+[View User's Details]
+Подробности за потребителя
 [Send Instant Message]
+
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
 
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 

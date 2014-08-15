@@ -119,6 +119,14 @@ Ajustes
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 
+[Responding]
+
+[Not Responding]
+
+[Testing]
+
+[Disabled]
+Desabilitado
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 
@@ -163,11 +171,3 @@ Lista
 
 [Unknown]
 Desconocido
-[Responding]
-
-[Not Responding]
-
-[Testing]
-
-[Disabled]
-Desabilitado
