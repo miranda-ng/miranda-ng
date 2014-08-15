@@ -325,7 +325,7 @@ static INT_PTR srvProto_CreateAccount(WPARAM, LPARAM lParam)
 	if (p == NULL)
 		return NULL;
 
-	PROTOACCOUNT *pa = Proto_CreateAccount(p->pszBaseProto, p->pszInternal, p->ptszAccountName);
+	PROTOACCOUNT *pa = Proto_CreateAccount(p->pszInternal, p->pszBaseProto, p->ptszAccountName);
 	if (pa) {
 		WriteDbAccounts();
 		NotifyEventHooks(hAccListChanged, PRAC_ADDED, (LPARAM)pa);
