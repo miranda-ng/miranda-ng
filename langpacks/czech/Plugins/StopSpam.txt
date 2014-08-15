@@ -54,7 +54,7 @@ Zprávy
 
 ;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
-
+Už žádný další spam! Roboti nemají šanci, zde si povídají lidé!\r\n\r\nTento doplněk pracuje na jednoduchém principu:\r\nZatímco zprávy od lidí ze seznamu kontaktů projdou vždy, jako by tu žádný filtr nebyl, zprávy od neznámých kontaktů doručeny nebudou. Tyto zprávy ale nejsou ignorovány, jen je jejich autorům nejdříve automaticky zaslána jednoduchá otázka. Teprve až po jejím správném zodpovězení vás může dotyčný kontaktovat.
 [StopSpam automatic message:\r\n]
 
 ;file \plugins\StopSpamPlus\src\services.cpp

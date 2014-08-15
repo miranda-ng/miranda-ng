@@ -115,6 +115,14 @@ TCP-з'єднання
 Хости
 [Ping Plugin]
 Плагін пінг
+[Responding]
+Відповідає
+[Not Responding]
+Не відповідає
+[Testing]
+Тестування
+[Disabled]
+Вимкнено
 [Show grid lines]
 Показувати лінії
 [Show stats]
@@ -155,11 +163,3 @@ TCP-з'єднання
 Невідома адреса
 [Unknown]
 Невідомо
-[Responding]
-Відповідає
-[Not Responding]
-Не відповідає
-[Testing]
-Тестування
-[Disabled]
-Вимкнено

@@ -134,7 +134,7 @@
 [Random]
 Випадковий
 [Will be automatically evaluated from %mathexpr%]
-Буде автоматично обчислена виходячи з %mathexpr%
+Буде автоматично обчислена, виходячи з %mathexpr%
 [Invalid regular expression.\nKeeping previous value.]
 Помилка в регулярному виразі.\nБуде використано старе значення.
 [Message score]
