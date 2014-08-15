@@ -1824,6 +1824,8 @@ Wychodząca wiadomość (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Ostatnia wiadomość %s o %s.
+[Message Session]
+Sesja Rozmowy
 [%s is typing a message...]
 %s pisze wiadomość...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -1848,6 +1850,8 @@ Przychodzący czas
 Przychodzący dwukropek
 [Message area]
 Pole tekstowe
+[Other events]
+Inne zdarzenia
 [Message log]
 Dziennik wiadomości
 [** New contacts **]
@@ -2531,16 +2535,18 @@ UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i 
 Twoje konto zostało pomyślnie zaktualizowane. Do jego aktywacji niezbędny jest restart Mirandy.\n\nJeśli chcesz zrestartować Mirandę teraz, naciśnij "Tak". Jeśli chcesz zaktualizować kolejne konto, naciśnij "Nie".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 To konto można skonfigurować w opcjach Mirandy NG.
+[Account name must be filled.]
+Nazwa konta musi zostać podana.
+[Account error]
+Błąd konta
+[Account name has to be unique. Please enter unique name.]
+Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
 [Create new account]
 Utwórz nowe konto
 [Editing account]
 Edycja konta
 [Upgrading account]
 Aktualizowanie konta
-[Account name has to be unique. Please enter unique name.]
-Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
-[Account error]
-Błąd konta
 [Account is disabled. Please activate it to access options.]
 Konto jest wyłączone. Proszę je aktywować, by pokazać jego opcje.
 [New account]
