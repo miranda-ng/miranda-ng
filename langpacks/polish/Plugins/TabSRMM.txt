@@ -1356,7 +1356,7 @@ Użyj domyślnej strony kodowej
 [<no skin>]
 <brak skórki>
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]
-Czy chcesz także, aby szablony wiadomości zostały odczytane z motywu?\nUwaga: to nadpisze obecnie załadowany zestaw szablonów  co może znacznie wpłynąć na wygląd twojego okna rozmowy.\nNaciśnij Anuluj, aby nie ładować nic.
+Czy chcesz także, aby szablony wiadomości zostały odczytane z motywu?\nUwaga: to nadpisze obecnie załadowany zestaw szablonów co może znacznie wpłynąć na wygląd Twojego okna rozmowy.\nNaciśnij Anuluj, aby nie ładować nic.
 [Load theme]
 Załaduj skórkę
 [Internal message log]
