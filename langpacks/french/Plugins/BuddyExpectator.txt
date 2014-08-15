@@ -107,10 +107,10 @@ Cacher
 
 [Hide contact event]
 
-[Buddy Expectator]
-
 [Hide contact]
 Cacher le contact
+[Buddy Expectator]
+
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 semaines

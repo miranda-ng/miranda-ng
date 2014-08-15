@@ -1145,14 +1145,14 @@ un anniversaire
 Aucun anniversaire pour
 [Backing up and syncing all birthdays complete!]
 
-[Reminder (uinfoex)]
-
 [Birthday reminder]
 Rappel d'anniversaire
 [Birthday reminder: it's coming]
 Rappel d'anniversaire : c'est bientôt
 [Anniversary Reminder]
 Rappel d'anniversaire
+[Reminder (uinfoex)]
+
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 

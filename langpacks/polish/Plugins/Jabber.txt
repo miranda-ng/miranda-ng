@@ -409,12 +409,12 @@ Powiązanie protokołu Jabbera
 Ramka tytułu
 [Frame text]
 Ramka tekstu
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
+Błąd krytyczny, nie znaleziono usługi obrazów. Protokół Jabber zostanie wyłączony.
 [Jabber Activity]
 Aktywność
 [Jabber Mood]
 Nastrój
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-Błąd krytyczny, nie znaleziono usługi obrazów. Protokół Jabber zostanie wyłączony.
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z http://miranda-ng.org/.

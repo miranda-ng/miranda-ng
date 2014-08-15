@@ -1824,6 +1824,8 @@ O programe &Miranda...
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 
+[Message Session]
+Rozhovor
 [%s is typing a message...]
 
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -1847,6 +1849,8 @@ O programe &Miranda...
 [Incoming colon]
 
 [Message area]
+
+[Other events]
 
 [Message log]
 
@@ -2531,15 +2535,17 @@ Nastavenia...
 
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 
+[Account name must be filled.]
+
+[Account error]
+
+[Account name has to be unique. Please enter unique name.]
+
 [Create new account]
 
 [Editing account]
 
 [Upgrading account]
-
-[Account name has to be unique. Please enter unique name.]
-
-[Account error]
 
 [Account is disabled. Please activate it to access options.]
 

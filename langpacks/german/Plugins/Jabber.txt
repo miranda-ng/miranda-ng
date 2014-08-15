@@ -409,12 +409,12 @@ Jabber-Link-Protokoll
 Frame Titel
 [Frame text]
 Frame Text
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
+Schwerer Fehler, Bilddienste nicht gefunden. Jabber-Protokoll wird deaktiviert.
 [Jabber Activity]
 Jabber-Aktivität
 [Jabber Mood]
 Jabber-Stimmung
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-Schwerer Fehler, Bilddienste nicht gefunden. Jabber-Protokoll wird deaktiviert.
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter http://miranda-ng.org.

@@ -119,6 +119,14 @@ Hosts
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Ping-Plugin
+[Responding]
+Antwortet
+[Not Responding]
+Antwortet nicht
+[Testing]
+Teste
+[Disabled]
+Deaktiviert
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Gitter zeichnen
@@ -163,11 +171,3 @@ Host %s fordert Sie dazu auf, die Menge an gesendetem Datenverkehr zu reduzieren
 Unbekannte Adresse
 [Unknown]
 Unbekannt
-[Responding]
-Antwortet
-[Not Responding]
-Antwortet nicht
-[Testing]
-Teste
-[Disabled]
-Deaktiviert

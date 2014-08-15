@@ -1113,14 +1113,14 @@ Web Дызайн
 Няма свят, пра якія трэба абвясціць
 [Backing up and syncing all birthdays complete!]
 Рэзерваванне і сінхранізацыя ўсіх Дзён нараджэнняў завершаны!
-[Reminder (uinfoex)]
-Напамінак (uinfoex)
 [Birthday reminder]
 Напамінак пра дзень нараджэння
 [Birthday reminder: it's coming]
 Напамінак пра надыходзячы дзень нараджэння
 [Anniversary Reminder]
 Напамінак пра свята
+[Reminder (uinfoex)]
+Напамінак (uinfoex)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 ідэнтыфікацыя кантакту

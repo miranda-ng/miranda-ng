@@ -70,14 +70,14 @@ Odpojený
 
 [Alert when user status changes]
 
-;file \plugins\SeenPlugin\src\history.cpp
-[last seen history]
-
-[View User's Details]
-Zobraziť informácie o užívatelovi
 [User Menu]
 Menu užívatela
+[View User's Details]
+Zobraziť informácie o užívatelovi
 [Send Instant Message]
+
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
 
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 

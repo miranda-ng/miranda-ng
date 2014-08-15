@@ -70,15 +70,15 @@
 Прапушчаны наступныя кантакты:
 [Alert when user status changes]
 Папярэджваць пры змене статусу
+[User Menu]
+Меню кантакта
+[View User's Details]
+Пра кантакт
+[Send Instant Message]
+Адправіць імгненнае паведамленне
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 гісторыя апошняй сустрэчы
-[View User's Details]
-Пра кантакт
-[User Menu]
-Меню кантакта
-[Send Instant Message]
-Адправіць імгненнае паведамленне
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Дата: %d.%m.%y(%Y) \nАдносная дата: %W - %w - %E - %e \nЧас: %H:%M:%S (%h-%p) \nкантакт: %n - %u \nСтатус: %s \nIP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp

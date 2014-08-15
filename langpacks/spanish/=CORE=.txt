@@ -1824,6 +1824,8 @@ Mensaje saliente (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Último mensaje recibido el %s a %s.
+[Message Session]
+Sesión de mensaje
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -1848,6 +1850,8 @@ Tiempo entrante
 Puntos de entrada
 [Message area]
 Área de mensaje
+[Other events]
+
 [Message log]
 Registro de mensaje
 [** New contacts **]
@@ -2531,16 +2535,18 @@ Plugins
 Tu cuenta ha sido actualizada correctamente. Para activarla, es necesario reiniciar Miranda.\n\nSi desea reiniciar Miranda ahora, pulse Sí, si usted desea actualizar otra cuenta, presione No
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Esta cuenta utiliza protocolo heredado de plugin. Use diálogos de opciones de Miranda NG para cambiar sus preferencias.
+[Account name must be filled.]
+
+[Account error]
+Error de cuenta
+[Account name has to be unique. Please enter unique name.]
+El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
 [Create new account]
 Crear nueva cuenta
 [Editing account]
 Editar cuenta
 [Upgrading account]
 Actualizar cuenta
-[Account name has to be unique. Please enter unique name.]
-El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
-[Account error]
-Error de cuenta
 [Account is disabled. Please activate it to access options.]
 Cuenta deshabilitada. Active para acceder a las opciones.
 [New account]

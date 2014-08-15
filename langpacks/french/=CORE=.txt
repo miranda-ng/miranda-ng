@@ -1824,6 +1824,8 @@ Message sortant (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Dernier message reçu le %s à %s
+[Message Session]
+Session message
 [%s is typing a message...]
 %s vous écrit un message...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -1848,6 +1850,8 @@ Heure entrante
 ":" entrant
 [Message area]
 Zone de message
+[Other events]
+Autres événements
 [Message log]
 Historique récent
 [** New contacts **]
@@ -2531,16 +2535,18 @@ ATTENTION! Le compte va être supprimé. Cela signifie que tous les paramètres,
 Votre compte a été mis à jour. Pour l'activer, un redémarrage de Miranda est nécessaire. \n\nSi vous voulez redémarrer Miranda maintenant, appuyez sur Oui, si vous voulez mettre à jour un autre compte, appuyez sur Non
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 
+[Account name must be filled.]
+
+[Account error]
+
+[Account name has to be unique. Please enter unique name.]
+Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
 [Create new account]
 Créer un compte
 [Editing account]
 Modifier ce compte
 [Upgrading account]
 Mise à jour du compte
-[Account name has to be unique. Please enter unique name.]
-Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
-[Account error]
-
 [Account is disabled. Please activate it to access options.]
 Ce compte a été désactivé; Vous devez le réactiver afin d'accéder à ses options.
 [New account]

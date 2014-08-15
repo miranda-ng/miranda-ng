@@ -76,8 +76,6 @@ Pravým klikom
 [ChangeKeyboardLayout]
 
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
-[Popup]
-
 [Changing Layout]
 
 [Changing Case]
@@ -85,4 +83,7 @@ Pravým klikom
 [Message Sessions]
 
 [Popups]
+
+;file \plugins\ChangeKeyboardLayout\src\main.cpp
+[Popup]
 

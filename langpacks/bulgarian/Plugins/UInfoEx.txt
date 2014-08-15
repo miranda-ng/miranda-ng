@@ -1145,14 +1145,14 @@ Web дизайн
 Няма годишнини за напомняне
 [Backing up and syncing all birthdays complete!]
 Синхронизирането и архивирането на рождените дни приключи!
-[Reminder (uinfoex)]
-Напомняне / (uinfoex)
 [Birthday reminder]
 Напомняне за рожден ден
 [Birthday reminder: it's coming]
 Напомняне за рожден ден: предстои
 [Anniversary Reminder]
 Напомняне за годишнина
+[Reminder (uinfoex)]
+Напомняне / (uinfoex)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 идентификация на контакта

@@ -95,12 +95,12 @@ Pisanie
 Proszę autoryzuj mnie, bym mógł dodać cię do swoich kontaktów.
 [Do you want to send authorization request\nto new contact?]
 Czy chcesz wysłać prośbę o autoryzacje?\ndo nowego kontaktu?
-[MenuItemEx]
-Rozszerzone menu
 [Open ignore settings]
 Otwórz opcje ignorowania
 [Request authorization]
 Poproś o autoryzację
+[MenuItemEx]
+Rozszerzone menu
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Personalizacja

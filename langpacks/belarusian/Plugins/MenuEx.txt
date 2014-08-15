@@ -95,12 +95,12 @@
 Дазволіце, калі ласка, дадаць Вас у спіс.
 [Do you want to send authorization request\nto new contact?]
 Ці жадаеце вы паслаць запыт аўтарызацыі\nноваму кантакту?
-[MenuItemEx]
-Дадатковае меню
 [Open ignore settings]
 Адкрыць налады ігнаравання
 [Request authorization]
 Запытаць аўтарызацыю
+[MenuItemEx]
+Дадатковае меню
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Тонкая налада

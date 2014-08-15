@@ -97,8 +97,6 @@ mRadio
 [When nothing is playing, replace %listening% with:]
 Ако няма възпроизвеждане, %listening% се заменя с:
 ;file \plugins\ListeningTo\src\listeningto.cpp
-[Send to %s]
-Изпращане до %s
 [Listening to (enabled)]
 ListeningTo (включена)
 [Listening to (disabled)]
@@ -107,6 +105,8 @@ ListeningTo (изключена)
 ListeningTo
 [Listening to music]
 Слуша музика
+[Send to %s]
+Изпращане до %s
 [Send to all protocols]
 Изпращане до всеки акаунт
 [Listening info]

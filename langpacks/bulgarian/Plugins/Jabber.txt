@@ -409,12 +409,12 @@ XML конзола
 Заглавие на рамката
 [Frame text]
 Текст в рамката
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
+
 [Jabber Activity]
 Jabber дейност
 [Jabber Mood]
 Jabber настроение
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Аз съм щастлив потребил на Miranda NG. Можете да свалите програмата от http://miranda-ng.org/.

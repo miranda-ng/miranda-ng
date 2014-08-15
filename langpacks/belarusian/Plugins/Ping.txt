@@ -119,6 +119,14 @@ TCP злучэнне
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 Плагін пінг
+[Responding]
+Адказвае
+[Not Responding]
+Не адказвае
+[Testing]
+Тэставанне
+[Disabled]
+Выключаны
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 Паказваць лініі
@@ -157,11 +165,3 @@ TCP злучэнне
 Невядомы адрас
 [Unknown]
 Невядома
-[Responding]
-Адказвае
-[Not Responding]
-Не адказвае
-[Testing]
-Тэставанне
-[Disabled]
-Выключаны

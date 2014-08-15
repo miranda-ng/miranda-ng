@@ -95,12 +95,12 @@ Tippbenachrichtigungen
 Bitte autorisieren Sie mich, Sie zu meiner Kontaktliste hinzufügen zu können.
 [Do you want to send authorization request\nto new contact?]
 Wollen Sie eine Autorisierungsanfrage an\nden neuen Kontakt senden?
-[MenuItemEx]
-MenuItemEx
 [Open ignore settings]
 Ignorier-Einstellungen öffnen
 [Request authorization]
 Autorisierung anfragen
+[MenuItemEx]
+MenuItemEx
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Customize

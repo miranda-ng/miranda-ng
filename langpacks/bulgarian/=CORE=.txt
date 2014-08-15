@@ -1824,6 +1824,8 @@ Popups за изобразяване
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Последното съобщение е получено на %s в %s.
+[Message Session]
+Разговор
 [%s is typing a message...]
 %s пише съобщение...
 ;file \src\core\stdmsg\src\msglog.cpp
@@ -1848,6 +1850,8 @@ Popups за изобразяване
 Двоеточие във входящите съобщения
 [Message area]
 Поле за съобщения
+[Other events]
+
 [Message log]
 Дневник за съобщения
 [** New contacts **]
@@ -2531,16 +2535,18 @@ Miranda NG настройки
 Вашият акаунт е надграден успешно. Необходимо е да рестартирате Miranda NG, за да се активира.\n\nАко желаете Miranda NG да бъде рестартирана сега натиснете "Да", в противен случай - "Не".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Акаунтът изисква много стара приставка за протокола. Променете настройките на акаунта през прозореца с настройки на Miranda NG.
+[Account name must be filled.]
+
+[Account error]
+Грешка в акаунт
+[Account name has to be unique. Please enter unique name.]
+Името на акаунта трябва да бъде уникално.
 [Create new account]
 Създаване на акаунт
 [Editing account]
 Редактиране на акаунта
 [Upgrading account]
 Надграждане на акаунт
-[Account name has to be unique. Please enter unique name.]
-Името на акаунта трябва да бъде уникално.
-[Account error]
-Грешка в акаунт
 [Account is disabled. Please activate it to access options.]
 Акаунтът е изключен. За достъп до настройките е необходимо да бъде включен.
 [New account]

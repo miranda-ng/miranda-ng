@@ -70,15 +70,15 @@ Wtyczka Last seen
 Przegapiłeś następujące kontakty:
 [Alert when user status changes]
 Alarmuj kiedy użytkownik zmieni status
+[User Menu]
+Menu użytkownika
+[View User's Details]
+Zobacz dane kontaktu
+[Send Instant Message]
+Wyślij szybką wiadomość
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 Historia ostatnio widzianych
-[View User's Details]
-Zobacz dane kontaktu
-[User Menu]
-Menu użytkownika
-[Send Instant Message]
-Wyślij szybką wiadomość
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Data: %d.%m.%y(%Y) \n Opis daty: %W - %w - %E - %e \n Czas: %H:%M:%S (%h-%p) \n Użytkownik: %n - %u \n Status: %s \n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp

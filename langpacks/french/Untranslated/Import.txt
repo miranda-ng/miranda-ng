@@ -33,7 +33,7 @@
 [Skipped %d contacts.]
 [Skipped %d duplicates and %d filtered events.]
 [Skipped %d duplicates.]
-[Import...]
 [Miranda Import]
 [Skipping duplicate group %s.]
+[Import...]
 [Finish]

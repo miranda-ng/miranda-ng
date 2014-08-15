@@ -1145,14 +1145,14 @@ On/Ona
 Brak rocznic do przypomnienia
 [Backing up and syncing all birthdays complete!]
 Wykonywanie kopii zapasowych i synchronizacji wszystkich rocznic kompletny!
-[Reminder (uinfoex)]
-Rocznice (uinfoex)
 [Birthday reminder]
 Przypominanie o urodzinach
 [Birthday reminder: it's coming]
 Przypominanie o rocznicach: nadchodzących
 [Anniversary Reminder]
 Przypominanie o rocznicach
+[Reminder (uinfoex)]
+Rocznice (uinfoex)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 identyfikacja kontaktu

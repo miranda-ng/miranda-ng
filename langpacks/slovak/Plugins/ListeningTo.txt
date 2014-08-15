@@ -97,8 +97,6 @@ Názov:
 [When nothing is playing, replace %listening% with:]
 
 ;file \plugins\ListeningTo\src\listeningto.cpp
-[Send to %s]
-
 [Listening to (enabled)]
 
 [Listening to (disabled)]
@@ -106,6 +104,8 @@ Názov:
 [ListeningTo]
 
 [Listening to music]
+
+[Send to %s]
 
 [Send to all protocols]
 

@@ -70,15 +70,15 @@ Hors ligne
 
 [Alert when user status changes]
 
+[User Menu]
+Menu Contact
+[View User's Details]
+Voir les détails du contact
+[Send Instant Message]
+Envoyer un message instantané
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 
-[View User's Details]
-Voir les détails du contact
-[User Menu]
-Menu Contact
-[Send Instant Message]
-Envoyer un message instantané
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 
 ;file \plugins\SeenPlugin\src\main.cpp

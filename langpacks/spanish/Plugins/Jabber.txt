@@ -409,11 +409,11 @@ Enviar
 
 [Frame text]
 
+[Fatal error, image services not found. Jabber Protocol will be disabled.]
+
 [Jabber Activity]
 
 [Jabber Mood]
-
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
 
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]

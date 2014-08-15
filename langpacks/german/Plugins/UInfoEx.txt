@@ -1145,14 +1145,14 @@ Er/Sie
 Es gibt keine Jahrestage in absehbarer Zeit.
 [Backing up and syncing all birthdays complete!]
 Sicherung und Synchronisation\nder Geburtsdaten fertiggestellt!
-[Reminder (uinfoex)]
-Erinnern (UInfoEx)
 [Birthday reminder]
 Geburtstags-Erinnerung
 [Birthday reminder: it's coming]
 Kommende Geburtstage
 [Anniversary Reminder]
 Jahrestagserinnerung
+[Reminder (uinfoex)]
+Erinnern (UInfoEx)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 Kontaktidentifizierung

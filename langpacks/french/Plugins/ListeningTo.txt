@@ -97,8 +97,6 @@ Message :
 [When nothing is playing, replace %listening% with:]
 Si rien n'est en lecture, remplacer %listening% par :
 ;file \plugins\ListeningTo\src\listeningto.cpp
-[Send to %s]
-Envoyer à %s
 [Listening to (enabled)]
 
 [Listening to (disabled)]
@@ -107,6 +105,8 @@ Envoyer à %s
 
 [Listening to music]
 
+[Send to %s]
+Envoyer à %s
 [Send to all protocols]
 Envoyer à tous les protocoles
 [Listening info]
