@@ -175,7 +175,7 @@ static int AimLinksModulesLoaded(WPARAM wParam,LPARAM lParam)
 	UNREFERENCED_PARAMETER(lParam);
     mir_snprintf(service_name,sizeof(service_name),"%s%s",AIM_PROTOCOL_NAME,"ParseAimLink");
 	/* or "AOL Instant Messenger Links" */
-    AssocMgr_AddNewUrlType("aim:",Translate("AIM Link Protocol"),conn.hInstance,IDI_AOL,service_name,0);
+    AssocMgr_AddNewUrlType("aim:",Translate("AIM link protocol"),conn.hInstance,IDI_AOL,service_name,0);
     return 0;
 }
 
@@ -369,8 +369,8 @@ static int IcqFilesModulesLoaded(WPARAM wParam,LPARAM lParam)
 	UNREFERENCED_PARAMETER(lParam);
 	strcat(strcpy(szService,gpszICQProtoName),"OpenFile");
 	/* .icq files are not used, just by the ProtoLink plugin */
-    //AssocMgr_AddNewFileTypeT(".icq","application/x-icq",TranslateT("ICQ Link Shortcut"),TranslateT("&Add to contact list..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT|FTDF_DEFAULTDISABLED);
-    AssocMgr_AddNewFileTypeT(".uin","application/x-icq",TranslateT("ICQ Link Shortcut"),TranslateT("&Add to contact list..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT);
+    //AssocMgr_AddNewFileTypeT(".icq","application/x-icq",TranslateT("ICQ link shortcut"),TranslateT("&Add to contact list..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT|FTDF_DEFAULTDISABLED);
+    AssocMgr_AddNewFileTypeT(".uin","application/x-icq",TranslateT("ICQ link shortcut"),TranslateT("&Add to contact list..."),hInst,IDI_ICQ,szService,FTDF_BROWSERAUTOOPEN|FTDF_ISTEXT|FTDF_ISSHORTCUT);
     return 0;
 }
 
@@ -480,7 +480,7 @@ static int YmsgrLinksModulesLoaded(WPARAM wParam,LPARAM lParam)
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
     mir_snprintf(szService,sizeof(szService),"%s%s",yahooProtocolName,"ParseYmsgrLink");
-    AssocMgr_AddNewUrlType("ymsgr:",Translate("Yahoo Link Protocol"),hinstance,IDI_YAHOO,szService,0);
+    AssocMgr_AddNewUrlType("ymsgr:",Translate("Yahoo link protocol"),hinstance,IDI_YAHOO,szService,0);
     return 0;
 }
 
@@ -587,7 +587,7 @@ static int MsnLinksModulesLoaded(WPARAM wParam,LPARAM lParam)
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
     mir_snprintf(szService,sizeof(szService),"%s%s",msnProtocolName,"ParseMsnimLink");
-    AssocMgr_AddNewUrlType("msnim:",Translate("MSN Link Protocol"),hInst,IDI_MSN,szService,0);
+    AssocMgr_AddNewUrlType("msnim:",Translate("MSN link protocol"),hInst,IDI_MSN,szService,0);
     return 0;
 }
 
@@ -652,7 +652,7 @@ static int LinksModulesLoaded(WPARAM wParam,LPARAM lParam)
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
     mir_snprintf(szService,sizeof(szService),"%s%s",GG_PROTO,"ParseMsnimLink");
-    AssocMgr_AddNewUrlType("gg:",Translate("Gadu-Gadu Link Protocol"),hInstance,IDI_GG,szService,0);
+    AssocMgr_AddNewUrlType("gg:",Translate("Gadu-Gadu link protocol"),hInstance,IDI_GG,szService,0);
     return 0;
 }
 
@@ -778,7 +778,7 @@ static int JabberLinksModulesLoaded(WPARAM wParam,LPARAM lParam)
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
     mir_snprintf(szService,sizeof(szService),"%s%s",jabberProtoName,"ParseXmppURI");
-    AssocMgr_AddNewUrlType("xmpp:",Translate("Jabber Link Protocol"),hInst,IDI_JABBER,szService,0);
+    AssocMgr_AddNewUrlType("xmpp:",Translate("Jabber link protocol"),hInst,IDI_JABBER,szService,0);
     return 0;
 }
 
