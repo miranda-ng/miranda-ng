@@ -933,7 +933,6 @@
 [Outgoing message (10x10)]
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
-[Message Session]
 [%s is typing a message...]
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
