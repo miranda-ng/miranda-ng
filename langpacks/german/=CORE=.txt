@@ -1824,8 +1824,6 @@ Ausgehende Nachricht (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Letzte Nachricht am %s um %s erhalten.
-[Message Session]
-Nachrichtensitzung
 [%s is typing a message...]
 %s tippt eine Nachricht...
 ;file \src\core\stdmsg\src\msglog.cpp

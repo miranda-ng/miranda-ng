@@ -1818,8 +1818,6 @@ UIN, E-mail і г.д.
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Апошняе паведамленне вы атрымалі %s у %s.
-[Message Session]
-Гутарка
 [%s is typing a message...]
 %s набірае тэкст...
 ;file \src\core\stdmsg\src\msglog.cpp

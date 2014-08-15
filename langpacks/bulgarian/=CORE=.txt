@@ -1824,8 +1824,6 @@ Popups за изобразяване
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Последното съобщение е получено на %s в %s.
-[Message Session]
-Разговор
 [%s is typing a message...]
 %s пише съобщение...
 ;file \src\core\stdmsg\src\msglog.cpp
