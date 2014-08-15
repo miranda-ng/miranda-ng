@@ -52,8 +52,8 @@ Tekst
 Podgląd
 [Ignore these clients (separated by semicolons):]
 Ignoruj klientów (oddzielaj średnikami):
-[(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
-(musisz zainstalować pcre.dll lub pcre3.dll do używania wyrażeń regularnych)
+[(you have to install pcre16.dll to use regular expressions here)]
+Musisz zainstalować pcre16.dll, aby móc używać wyrażeń regularnych tutaj.
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [changed client to %s (was %s)]
 zmienił(a) klienta na %s (z %s)
