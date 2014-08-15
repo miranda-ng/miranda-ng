@@ -1781,8 +1781,6 @@ UIN, E-mail тощо
 Вихідне повідомлення (10x10)
 [Last message received on %s at %s.]
 Останнє повідомлення отримано %s о %s
-[Message Session]
-Вікно повідомлень
 [%s is typing a message...]
 %s друкує вам повідомлення...
 [File sent]
