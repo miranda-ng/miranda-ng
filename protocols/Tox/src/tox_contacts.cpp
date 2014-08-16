@@ -1,8 +1,18 @@
 #include "common.h"
 
+WORD CToxProto::GetContactStatus(MCONTACT hContact)
+{
+	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
+}
+
+bool CToxProto::IsContactOnline(MCONTACT hContact)
+{
+	return GetContactStatus(hContact) == ID_STATUS_ONLINE;
+}
+
 void CToxProto::SetContactStatus(MCONTACT hContact, WORD status)
 {
-	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+	WORD oldStatus = GetContactStatus(hContact);
 	if (oldStatus != status)
 	{
 		setWord(hContact, "Status", status);
@@ -13,7 +23,7 @@ void CToxProto::SetAllContactsStatus(WORD status)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		setWord(hContact, "Status", status);
+		SetContactStatus(hContact, status);
 	}
 }
 
@@ -112,4 +122,25 @@ void CToxProto::LoadContactList()
 			//tox_get_last_online
 		}
 	}
+}
+
+void CToxProto::SearchByIdAsync(void* arg)
+{
+	std::string clientId = mir_utf8encodeT((TCHAR*)arg);
+	clientId.erase(clientId.begin() + TOX_CLIENT_ID_SIZE * 2, clientId.end());
+
+	MCONTACT hContact = FindContact(clientId.c_str());
+	if (hContact)
+	{
+		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+		return;
+	}
+
+	PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
+	psr.flags = PSR_TCHAR;
+	psr.id = (TCHAR*)arg;
+
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }

@@ -21,6 +21,8 @@
 #include <m_clist.h>
 #include <m_options.h>
 #include <m_netlib.h>
+#include <m_popup.h>
+#include <m_icolib.h>
 
 #include "tox\tox.h"
 
@@ -29,6 +31,8 @@
 #include "tox_proto.h"
 
 extern HINSTANCE g_hInstance;
+
+#define MODULE "Tox"
 
 #define TOX_SETTINGS_ID "ToxID"
 #define TOX_SETTINGS_ADDRES "ToxAddress"

@@ -26,6 +26,26 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
 	hMessageProcess = 1;
+
+	// icons
+	wchar_t filePath[MAX_PATH];
+	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
+
+	wchar_t sectionName[100];
+	mir_sntprintf(sectionName, SIZEOF(sectionName), _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
+
+	char settingName[100];
+	mir_snprintf(settingName, SIZEOF(settingName), "%s_%s", MODULE, "main");
+
+	SKINICONDESC sid = { 0 };
+	sid.cbSize = sizeof(SKINICONDESC);
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.ptszDefaultFile = filePath;
+	sid.pszName = settingName;
+	sid.ptszSection = sectionName;
+	sid.ptszDescription = LPGENT("Protocol icon");
+	sid.iDefaultIndex = -IDI_TOX;
+	Skin_AddIcon(&sid);
 }
 
 CToxProto::~CToxProto()
@@ -46,7 +66,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_4:
 		return PF4_IMSENDUTF | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)"Tox ID";
+		return (INT_PTR)MODULE" ID";
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)TOX_SETTINGS_ID;
 	case PFLAG_MAXLENOFMESSAGE:
@@ -114,10 +134,6 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 		std::string nick(username.begin(), username.end());
 		setString(hContact, "Nick", nick.c_str());
 
-		/*uint8_t userstatus = tox_get_user_status(tox, friends[i]);
-		int status = ToxToMirandaStatus((TOX_USERSTATUS)userstatus);
-		SetContactStatus(hContact, status);*/
-
 		return 0;
 	}
 
@@ -133,7 +149,17 @@ int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 
 int __cdecl CToxProto::GetInfo(MCONTACT hContact, int infoType) { return 0; }
 
-HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR* id) { return 0; }
+HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR* id)
+{
+	if (!this->IsOnline())
+	{
+		return 0;
+	}
+
+	ForkThread(&CToxProto::SearchByIdAsync, mir_tstrdup(id));
+
+	return (HANDLE)1;
+}
 
 HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR* email) { return 0; }
 HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName) { return 0; }
@@ -155,9 +181,9 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 
 int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 {
-	if (!IsOnline())
+	if (!IsOnline() || !hContact || !IsContactOnline(hContact))
 	{
-		return 1;
+		return 0;
 	}
 
 	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
@@ -171,7 +197,7 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 	if (result < 0)
 	{
 		debugLogA("CToxProto::SendMsg: error sending message %i", result);
-		return 1;
+		return 0;
 	}
 	
 	return messageId;
