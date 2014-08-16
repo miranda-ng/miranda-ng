@@ -114,6 +114,8 @@ private:
 	static void OnReadReceipt(Tox *tox, int32_t friendnumber, uint32_t receipt, void *arg);
 
 	// contacts
+	WORD GetContactStatus(MCONTACT hContact);
+	bool IsContactOnline(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 	bool IsProtoContact(MCONTACT hContact);
@@ -124,9 +126,14 @@ private:
 
 	void LoadContactList();
 
+	void __cdecl SearchByIdAsync(void* arg);
+
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
 	int ToxToMirandaStatus(TOX_USERSTATUS userstatus);
+
+	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
 	HANDLE AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	void RaiseAuthRequestEvent(DWORD timestamp, const char* toxId, const char* reason);
