@@ -24,7 +24,7 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			}
 			SetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath);
 
-			ptrW groupName(proto->getTStringA(TOX_SETTINGS_DEFAULT_GROUP));
+			ptrW groupName(proto->getTStringA(TOX_SETTINGS_GROUP));
 			SetDlgItemText(hwnd, IDC_GROUP, groupName);
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
 
@@ -121,11 +121,11 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			GetDlgItemText(hwnd, IDC_GROUP, groupName, SIZEOF(groupName));
 			if (lstrlen(groupName) > 0)
 			{
-				proto->setWString(NULL, TOX_SETTINGS_DEFAULT_GROUP, groupName);
+				proto->setWString(NULL, TOX_SETTINGS_GROUP, groupName);
 				Clist_CreateGroup(0, groupName);
 			}
 			else
-				proto->delSetting(NULL, TOX_SETTINGS_DEFAULT_GROUP);
+				proto->delSetting(NULL, TOX_SETTINGS_GROUP);
 
 			return TRUE;
 		}

@@ -20,6 +20,7 @@
 #include <m_langpack.h>
 #include <m_clist.h>
 #include <m_options.h>
+#include <m_netlib.h>
 
 #include "tox\tox.h"
 
@@ -30,6 +31,7 @@
 extern HINSTANCE g_hInstance;
 
 #define TOX_SETTINGS_ID "ToxID"
-#define TOX_SETTINGS_DEFAULT_GROUP "DefaultGroup"
+#define TOX_SETTINGS_ADDRES "ToxAddress"
+#define TOX_SETTINGS_GROUP "DefaultGroup"
 
 #endif //_COMMON_H_

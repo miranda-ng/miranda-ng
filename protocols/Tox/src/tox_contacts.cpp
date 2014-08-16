@@ -77,7 +77,7 @@ MCONTACT CToxProto::AddContact(const char *clientId, bool isTemporary)
 		setString(hContact, TOX_SETTINGS_ID, clientId);
 
 		DBVARIANT dbv;
-		if (!getTString(TOX_SETTINGS_DEFAULT_GROUP, &dbv))
+		if (!getTString(TOX_SETTINGS_GROUP, &dbv))
 		{
 			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
 			db_free(&dbv);
@@ -107,11 +107,9 @@ void CToxProto::LoadContactList()
 				tox_get_name(tox, friends[i], &username[0]);
 				std::string nick(username.begin(), username.end());
 				setString(hContact, "Nick", nick.c_str());
-
-				/*uint8_t userstatus = tox_get_user_status(tox, friends[i]);
-				int status = ToxToMirandaStatus((TOX_USERSTATUS)userstatus);
-				SetContactStatus(hContact, status);*/
 			}
+
+			//tox_get_last_online
 		}
 	}
 }
