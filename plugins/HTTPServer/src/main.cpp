@@ -627,19 +627,17 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 	if (!hDirectBoundPort) {
 		NETLIBUSERSETTINGS nus = { 0 };
 		nus.cbSize = sizeof(nus);
-		if (! CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM) hNetlibUser, (LPARAM) &nus)) {
-			Netlib_LogfT(hNetlibUser, _T("Failed to get NETLIBUSERSETTINGS using MS_NETLIB_GETUSERSETTINGS"));
-		}
+		if (!CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM) hNetlibUser, (LPARAM) &nus))
+			Netlib_Logf(hNetlibUser, "Failed to get NETLIBUSERSETTINGS using MS_NETLIB_GETUSERSETTINGS");
 
 		NETLIBBIND nlb = { 0 };
 		nlb.cbSize = sizeof(NETLIBBIND);
 		nlb.pfnNewConnection = ConnectionOpen;
 		if (nus.specifyIncomingPorts && nus.szIncomingPorts && nus.szIncomingPorts[0])
 			nlb.wPort = 0;
-		else {
-			//MessageBox( NULL, "Debug message using default port!", MSG_BOX_TITEL, MB_OK );
+		else
 			nlb.wPort = 80;
-		}
+
 		hDirectBoundPort = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) hNetlibUser, (LPARAM) & nlb);
 		if (!hDirectBoundPort) {
 			TCHAR szTemp[200];
@@ -653,16 +651,14 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 
 		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DISABLE_SERVER));
 		mi.ptszName = LPGENT("Disable HTTP server");
-		Netlib_LogfT(hNetlibUser, mi.ptszName);
-	} else if (hDirectBoundPort && wparam == 0) {
+	}
+	else if (hDirectBoundPort && wparam == 0) {
 		Netlib_CloseHandle(hDirectBoundPort);
 		hDirectBoundPort = 0;
 		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 		mi.ptszName = LPGENT("Enable HTTP server");
-		Netlib_LogfT(hNetlibUser, mi.ptszName);
-	} else {
-		return 0; // no changes;
 	}
+	else return 0; // no changes;
 
 	if (hAcceptConnectionsMenuItem)
 		Menu_ModifyItem(hAcceptConnectionsMenuItem, &mi);
