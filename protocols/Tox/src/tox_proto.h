@@ -76,10 +76,15 @@ private:
 	bool isTerminated;
 	bool isConnected;
 	ULONG hMessageProcess;
+	HANDLE hNetlibUser;
 
 	// instances
 	static LIST<CToxProto> instanceList;
 	static int CompareProtos(const CToxProto *p1, const CToxProto *p2);
+
+	// netlib
+	void InitNetlib();
+	void UninitNetlib();
 
 	// account
 	bool IsOnline();
@@ -91,7 +96,9 @@ private:
 	void __cdecl PollingThread(void*);
 
 	//events
-	int OnModulesLoaded(WPARAM, LPARAM);
+	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
+	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
 
@@ -102,8 +109,8 @@ private:
 	static void OnFriendNameChange(Tox *tox, const int friendnumber, const uint8_t *name, const uint16_t nameSize, void *arg);
 	static void OnStatusMessageChanged(Tox *tox, const int friendnumber, const uint8_t* message, const uint16_t messageSize, void *arg);
 	static void OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t usertatus, void *arg);
-	static void OnConnectionStatusChanged(Tox *tox, const int friendId, const uint8_t status, void *arg);
-	static void OnAction(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnConnectionStatusChanged(Tox *tox, const int friendnumber, const uint8_t status, void *arg);
+	static void OnAction(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnReadReceipt(Tox *tox, int32_t friendnumber, uint32_t receipt, void *arg);
 
 	// contacts
@@ -116,10 +123,6 @@ private:
 	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
 
 	void LoadContactList();
-
-	//services
-	
-	
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);

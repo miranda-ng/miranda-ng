@@ -58,7 +58,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 
 MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	return AddContact(_T2A(psr->id));
+	return AddContact(_T2A(psr->id), true);
 }
 
 MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return 0; }
@@ -109,6 +109,15 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 		db_unset(hContact, "CList", "NotOnList");
 		db_unset(hContact, "CList", "Auth");
 
+		std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
+		tox_get_name(tox, friendnumber, &username[0]);
+		std::string nick(username.begin(), username.end());
+		setString(hContact, "Nick", nick.c_str());
+
+		/*uint8_t userstatus = tox_get_user_status(tox, friends[i]);
+		int status = ToxToMirandaStatus((TOX_USERSTATUS)userstatus);
+		SetContactStatus(hContact, status);*/
+
 		return 0;
 	}
 
@@ -158,7 +167,12 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 	
 	ULONG messageId = InterlockedIncrement(&hMessageProcess);
 
-	tox_send_message_withid(tox, number, messageId, (uint8_t*)msg, strlen(msg));
+	int result = tox_send_message_withid(tox, number, messageId, (uint8_t*)msg, strlen(msg));
+	if (result < 0)
+	{
+		debugLogA("CToxProto::SendMsg: error sending message %i", result);
+		return 1;
+	}
 	
 	return messageId;
 }
@@ -232,6 +246,9 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
+
+	case EV_PROTO_ONEXIT:
+		return OnPreShutdown(wParam, lParam);
 	}
 
 	return 1;

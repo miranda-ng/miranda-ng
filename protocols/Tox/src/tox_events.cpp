@@ -2,7 +2,15 @@
 
 int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	InitNetlib();
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
+
+	return 0;
+}
+
+int CToxProto::OnPreShutdown(WPARAM, LPARAM)
+{
+	UninitNetlib();
 
 	return 0;
 }
@@ -124,6 +132,12 @@ void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendnumber, const u
 
 void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t usertatus, void *arg)
 {
+	TOX_USERSTATUS userstatus = (TOX_USERSTATUS)usertatus;
+	if (userstatus == TOX_USERSTATUS::TOX_USERSTATUS_NONE)
+	{
+		return;
+	}
+
 	CToxProto *proto = (CToxProto*)arg;
 
 	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
@@ -133,17 +147,30 @@ void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t user
 	MCONTACT hContact = proto->FindContact(toxId.c_str());
 	if (hContact)
 	{
-		int status = proto->ToxToMirandaStatus((TOX_USERSTATUS)usertatus);
+		int status = proto->ToxToMirandaStatus(userstatus);
 		proto->SetContactStatus(hContact, status);
 	}
 }
 
-void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendId, const uint8_t status, void *arg)
+void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendnumber, const uint8_t status, void *arg)
 {
+	CToxProto *proto = (CToxProto*)arg;
+
+	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+	tox_get_client_id(tox, friendnumber, &clientId[0]);
+	std::string toxId = proto->DataToHexString(clientId);
+
+	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	if (hContact)
+	{
+		int newStatus = status ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
+		proto->SetContactStatus(hContact, newStatus);
+	}
 }
 
-void CToxProto::OnAction(Tox *tox, const int friendId, const uint8_t *message, const uint16_t messageSize, void *arg)
+void CToxProto::OnAction(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
+
 }
 
 void CToxProto::OnReadReceipt(Tox *tox, int32_t friendnumber, uint32_t receipt, void *arg)

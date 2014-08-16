@@ -2,20 +2,14 @@
 
 TOX_USERSTATUS CToxProto::MirandaToToxStatus(int status)
 {
-	TOX_USERSTATUS userstatus;
+	TOX_USERSTATUS userstatus = TOX_USERSTATUS_NONE;
 	switch (status)
 	{
-	case ID_STATUS_ONLINE:
-		userstatus = TOX_USERSTATUS_NONE;
-		break;
 	case ID_STATUS_AWAY:
 		userstatus = TOX_USERSTATUS_AWAY;
 		break;
 	case ID_STATUS_OCCUPIED:
 		userstatus = TOX_USERSTATUS_BUSY;
-break;
-	default:
-		userstatus = TOX_USERSTATUS_INVALID;
 		break;
 	}
 	return userstatus;
@@ -23,7 +17,7 @@ break;
 
 int CToxProto::ToxToMirandaStatus(TOX_USERSTATUS userstatus)
 {
-	int status;
+	int status = ID_STATUS_OFFLINE;
 	switch (userstatus)
 	{
 	case TOX_USERSTATUS_NONE:
@@ -34,9 +28,6 @@ int CToxProto::ToxToMirandaStatus(TOX_USERSTATUS userstatus)
 		break;
 	case TOX_USERSTATUS_BUSY:
 		status = ID_STATUS_OCCUPIED;
-		break;
-	default:
-		status = ID_STATUS_OFFLINE;
 		break;
 	}
 	return status;
