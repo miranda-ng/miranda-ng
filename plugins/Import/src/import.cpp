@@ -22,19 +22,72 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "import.h"
 
-time_t dwSinceDate = 0;
+#define SetProgress(n)  SendMessage(hdlgProgress,PROGM_SETPROGRESS,n,0)
 
-HWND hdlgProgress;
+struct AccountMap
+{
+	AccountMap(const char *_src, const char *_dst) :
+		szSrcAcc(mir_strdup(_src)),
+		szDstAcc(mir_strdup(_dst))
+	{}
 
+	~AccountMap() {}
+
+	ptrA szSrcAcc, szDstAcc;
+};
+
+static int CompareAccs(const AccountMap *p1, const AccountMap *p2)
+{	return stricmp(p1->szSrcAcc, p2->szSrcAcc);
+}
+
+static OBJLIST<AccountMap> arAccountMap(5, CompareAccs);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// local data
+
+static HWND hdlgProgress;
 static DWORD nDupes, nContactsCount, nMessagesCount, nGroupsCount, nSkippedEvents, nSkippedContacts;
 static MIDatabase *srcDb, *dstDb;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void AddMessage(const TCHAR* fmt, ...)
+{
+	va_list args;
+	TCHAR msgBuf[4096];
+	va_start(args, fmt);
+	mir_vsntprintf(msgBuf, SIZEOF(msgBuf), TranslateTS(fmt), args);
+
+	SendMessage(hdlgProgress, PROGM_ADDMESSAGE, 0, (LPARAM)msgBuf);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool CompareDb(DBVARIANT &dbv1, DBVARIANT &dbv2)
+{
+	if (dbv1.type == dbv2.type) {
+		switch (dbv1.type) {
+		case DBVT_DWORD:
+			return dbv1.dVal == dbv2.dVal;
+
+		case DBVT_ASCIIZ:
+		case DBVT_UTF8:
+			return 0 == strcmp(dbv1.pszVal, dbv2.pszVal);
+		}
+	}
+	return false;
+}
+
 static int myGet(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	dbv->type = 0;
 	return srcDb->GetContactSetting(hContact, szModule, szSetting, dbv);
+}
+
+static int myGetD(MCONTACT hContact, const char *szModule, const char *szSetting, int iDefault)
+{
+	DBVARIANT dbv = { DBVT_DWORD };
+	return srcDb->GetContactSetting(hContact, szModule, szSetting, &dbv) ? iDefault : dbv.dVal;
 }
 
 static TCHAR* myGetWs(MCONTACT hContact, const char *szModule, const char *szSetting)
@@ -43,20 +96,11 @@ static TCHAR* myGetWs(MCONTACT hContact, const char *szModule, const char *szSet
 	return srcDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? NULL : dbv.ptszVal;
 }
 
-static BOOL myGetS(MCONTACT hContact, const char *szModule, const char *szSetting, char* dest)
+static BOOL myGetS(MCONTACT hContact, const char *szModule, const char *szSetting, char *dest)
 {
 	DBVARIANT dbv = { DBVT_ASCIIZ };
 	dbv.pszVal = dest; dbv.cchVal = 100;
 	return srcDb->GetContactSettingStatic(hContact, szModule, szSetting, &dbv);
-}
-
-static void mySet(MCONTACT hContact, const char *module, const char *var, DBVARIANT *dbv)
-{
-	DBCONTACTWRITESETTING dbw;
-	dbw.szModule = module;
-	dbw.szSetting = var;
-	dbw.value = *dbv;
-	dstDb->WriteContactSetting(hContact, &dbw);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -86,7 +130,7 @@ static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, TCHAR *pwsz
 	return INVALID_CONTACT_ID;
 }
 
-static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DWORD uin, int addUnknown)
+static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char *szModuleName, DWORD uin, int addUnknown)
 {
 	MCONTACT hContact = HContactFromNumericID(szModuleName, "UIN", uin);
 	if (hContact == NULL) {
@@ -109,6 +153,127 @@ static MCONTACT HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static int CopySettingsEnum(const char *szSetting, LPARAM lParam)
+{
+	LIST<char> *pSettings = (LIST<char>*)lParam;
+	pSettings->insert(mir_strdup(szSetting));
+	return 0;
+}
+
+void CopySettings(MCONTACT srcID, const char *szSrcModule, MCONTACT dstID, const char *szDstModule)
+{
+	LIST<char> arSettings(50);
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
+	dbces.szModule = szSrcModule;
+	dbces.pfnEnumProc = CopySettingsEnum;
+	dbces.lParam = (LPARAM)&arSettings;
+	srcDb->EnumContactSettings(srcID, &dbces);
+
+	for (int i = arSettings.getCount() - 1; i >= 0; i--) {
+		DBVARIANT dbv = { 0 };
+		if (!srcDb->GetContactSetting(srcID, szSrcModule, arSettings[i], &dbv))
+			db_set(dstID, szDstModule, arSettings[i], &dbv);
+		mir_free(arSettings[i]);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
+{
+	int destProtoCount;
+	PROTOACCOUNT **destAccs;
+	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&destProtoCount, (LPARAM)&destAccs);
+
+	for (int i = 0; i < destProtoCount; i++) {
+		PROTOACCOUNT *pa = destAccs[i];
+		if (lstrcmpA(pa->szProtoName, szBaseProto))
+			continue;
+
+		if (pa->bOldProto)
+			return pa;
+
+		char *pszUniqueSetting = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		if (!pszUniqueSetting || INT_PTR(pszUniqueSetting) == CALLSERVICE_NOTFOUND)
+			continue;
+
+		DBVARIANT dbSrc, dbDst;
+		if (dstDb->GetContactSetting(NULL, pa->szModuleName, pszUniqueSetting, &dbDst))
+			continue;
+
+		bool bEqual = false;
+		if (!myGet(NULL, szProto, pszUniqueSetting, &dbSrc)) {
+			bEqual = CompareDb(dbSrc, dbDst);
+			srcDb->FreeVariant(&dbSrc);
+		}
+		dstDb->FreeVariant(&dbDst);
+
+		if (bEqual)
+			return pa;
+	}
+	return NULL;
+}
+
+void ImportAccounts()
+{
+	int protoCount = myGetD(NULL, "Protocols", "ProtoCount", 0);
+
+	for (int i = 0; i < protoCount; i++) {
+		char szSetting[100], szProto[100];
+		itoa(i, szSetting, 10);
+		if (myGetS(NULL, "Protocols", szSetting, szProto))
+			continue;
+
+		// check if it's an account-based proto or an old style proto
+		char szBaseProto[100];
+		if (myGetS(NULL, szProto, "AM_BaseProto", szBaseProto)) {
+			arAccountMap.insert(new AccountMap(szProto, NULL));
+			continue;
+		}
+
+		PROTOACCOUNT *pa = FindMyAccount(szProto, szBaseProto);
+		if (pa) {
+			arAccountMap.insert(new AccountMap(szProto, pa->szModuleName));
+			continue;
+		}
+
+		itoa(800+i, szSetting, 10);
+		ptrT tszAccountName(myGetWs(NULL, "Protocols", szSetting));
+		if (tszAccountName == NULL)
+			tszAccountName = mir_a2t(szProto);
+		
+		ACC_CREATE newacc;
+		newacc.pszBaseProto = szBaseProto;
+		newacc.pszInternal = NULL;
+		newacc.ptszAccountName = tszAccountName;
+		
+		pa = ProtoCreateAccount(&newacc);
+		if (pa == NULL) {
+			arAccountMap.insert(new AccountMap(szProto, NULL));
+			continue;
+		}
+
+		arAccountMap.insert(new AccountMap(szProto, pa->szModuleName));
+
+		itoa(400 + i, szSetting, 10);
+		int iVal = myGetD(NULL, "Protocols", szSetting, 1);
+		itoa(400 + pa->iOrder, szSetting, 10);
+		db_set_dw(NULL, "Protocols", szSetting, iVal);
+		pa->bIsVisible = iVal != 0;
+
+		itoa(600 + i, szSetting, 10);
+		iVal = myGetD(NULL, "Protocols", szSetting, 1);
+		itoa(600 + pa->iOrder, szSetting, 10);
+		db_set_dw(NULL, "Protocols", szSetting, iVal);
+		pa->bIsEnabled = iVal != 0;
+
+		CopySettings(NULL, szProto, NULL, pa->szModuleName);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSetting, DBVARIANT* id, const TCHAR* pszUserID, TCHAR *nick, TCHAR *group)
 {
 	MCONTACT hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
@@ -118,7 +283,7 @@ static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSett
 		return INVALID_CONTACT_ID;
 	}
 
-	mySet(hContact, szProto, pszUniqueSetting, id);
+	db_set(hContact, szProto, pszUniqueSetting, id);
 
 	CreateGroup(group, hContact);
 
@@ -161,119 +326,122 @@ static int ImportGroups()
 
 static MCONTACT ImportContact(MCONTACT hSrc)
 {
-	MCONTACT hDst;
 	TCHAR id[40], *pszUniqueID;
-	char  szProto[100];
 
 	// Check what protocol this contact belongs to
-	if (myGetS(hSrc, "Protocol", "p", szProto)) {
+	DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hSrc);
+	if (cc == NULL || cc->szProto == NULL) {
 		AddMessage(LPGENT("Skipping contact with no protocol"));
 		return NULL;
 	}
 
-	if (!IsProtocolLoaded(szProto)) {
-		AddMessage(LPGENT("Skipping contact, %S not installed."), szProto);
+	AccountMap *pda = arAccountMap.find((AccountMap*)&cc->szProto);
+	if (pda == NULL) {
+		AddMessage(LPGENT("Skipping contact, account %S cannot be mapped."), cc->szProto);
+		return NULL;
+	}
+
+	if (!IsProtocolLoaded(pda->szDstAcc)) {
+		AddMessage(LPGENT("Skipping contact, %S not installed."), cc->szProto);
 		return NULL;
 	}
 
 	// Skip protocols with no unique id setting (some non IM protocols return NULL)
-	char *pszUniqueSetting = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	char *pszUniqueSetting = (char*)CallProtoService(pda->szDstAcc, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	if (!pszUniqueSetting || (INT_PTR)pszUniqueSetting == CALLSERVICE_NOTFOUND) {
-		AddMessage(LPGENT("Skipping non-IM contact (%S)"), szProto);
+		AddMessage(LPGENT("Skipping non-IM contact (%S)"), cc->szProto);
 		return NULL;
 	}
 
 	DBVARIANT dbv;
-	if (myGet(hSrc, szProto, pszUniqueSetting, &dbv)) {
-		AddMessage(LPGENT("Skipping %S contact, ID not found"), szProto);
+	if (myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
+		AddMessage(LPGENT("Skipping %S contact, ID not found"), cc->szProto);
 		return NULL;
 	}
 
 	// Does the contact already exist?
+	MCONTACT hDst;
 	switch (dbv.type) {
 	case DBVT_DWORD:
 		pszUniqueID = _ltot(dbv.dVal, id, 10);
-		hDst = HContactFromNumericID(szProto, pszUniqueSetting, dbv.dVal);
+		hDst = HContactFromNumericID(cc->szProto, pszUniqueSetting, dbv.dVal);
 		break;
 
 	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
 		pszUniqueID = NEWTSTR_ALLOCA(_A2T(dbv.pszVal));
-		hDst = HContactFromID(szProto, pszUniqueSetting, pszUniqueID);
-		break;
-
-	case DBVT_WCHAR:
-		pszUniqueID = NEWTSTR_ALLOCA(dbv.ptszVal);
-		hDst = HContactFromID(szProto, pszUniqueSetting, pszUniqueID);
+		hDst = HContactFromID(cc->szProto, pszUniqueSetting, pszUniqueID);
 		break;
 	}
 
 	if (hDst != INVALID_CONTACT_ID) {
-		AddMessage(LPGENT("Skipping duplicate %S contact %s"), szProto, pszUniqueID);
+		AddMessage(LPGENT("Skipping duplicate %S contact %s"), cc->szProto, pszUniqueID);
 		srcDb->FreeVariant(&dbv);
 		return NULL;
 	}
 
 	TCHAR *tszGroup = myGetWs(hSrc, "CList", "Group"), *tszNick = myGetWs(hSrc, "CList", "MyHandle");
 	if (tszNick == NULL)
-		tszNick = myGetWs(hSrc, szProto, "Nick");
+		tszNick = myGetWs(hSrc, cc->szProto, "Nick");
 
-	hDst = AddContact(hdlgProgress, szProto, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
+	hDst = AddContact(hdlgProgress, pda->szDstAcc, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
 	mir_free(tszGroup), mir_free(tszNick);
 
 	if (hDst != INVALID_CONTACT_ID) {
 		// Hidden?
 		if (!myGet(hSrc, "CList", "Hidden", &dbv)) {
-			mySet(hDst, "CList", "Hidden", &dbv);
+			db_set(hDst, "CList", "Hidden", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Ignore settings
 		if (!myGet(hSrc, "Ignore", "Mask1", &dbv)) {
-			mySet(hDst, "Ignore", "Mask1", &dbv);
+			db_set(hDst, "Ignore", "Mask1", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Apparent mode
-		if (!myGet(hSrc, szProto, "ApparentMode", &dbv)) {
-			mySet(hDst, szProto, "ApparentMode", &dbv);
+		if (!myGet(hSrc, cc->szProto, "ApparentMode", &dbv)) {
+			db_set(hDst, pda->szDstAcc, "ApparentMode", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Nick
-		if (!myGet(hSrc, szProto, "Nick", &dbv)) {
-			mySet(hDst, szProto, "Nick", &dbv);
+		if (!myGet(hSrc, cc->szProto, "Nick", &dbv)) {
+			db_set(hDst, pda->szDstAcc, "Nick", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Myhandle
-		if (!myGet(hSrc, szProto, "MyHandle", &dbv)) {
-			mySet(hDst, szProto, "MyHandle", &dbv);
+		if (!myGet(hSrc, cc->szProto, "MyHandle", &dbv)) {
+			db_set(hDst, pda->szDstAcc, "MyHandle", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// First name
-		if (!myGet(hSrc, szProto, "FirstName", &dbv)) {
-			mySet(hDst, szProto, "FirstName", &dbv);
+		if (!myGet(hSrc, cc->szProto, "FirstName", &dbv)) {
+			db_set(hDst, pda->szDstAcc, "FirstName", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// Last name
-		if (!myGet(hSrc, szProto, "LastName", &dbv)) {
-			mySet(hDst, szProto, "LastName", &dbv);
+		if (!myGet(hSrc, cc->szProto, "LastName", &dbv)) {
+			db_set(hDst, pda->szDstAcc, "LastName", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 
 		// About
-		if (!myGet(hSrc, szProto, "About", &dbv)) {
-			mySet(hDst, szProto, "About", &dbv);
+		if (!myGet(hSrc, cc->szProto, "About", &dbv)) {
+			db_set(hDst, pda->szDstAcc, "About", &dbv);
 			srcDb->FreeVariant(&dbv);
 		}
 	}
-	else AddMessage(LPGENT("Unknown error while adding %S contact %s"), szProto, pszUniqueID);
+	else AddMessage(LPGENT("Unknown error while adding %S contact %s"), pda->szDstAcc, pszUniqueID);
 
 	return hDst;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // This function should always be called after contact import. That is
 // why there are no messages for errors related to contacts. Those
 // would only be a repetition of the messages printed during contact
@@ -432,8 +600,8 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 void MirandaImport(HWND hdlg)
 {
-	// Just to keep the macros happy
 	hdlgProgress = hdlg;
+
 	if ((dstDb = GetCurrentDatabase()) == NULL) {
 		AddMessage(LPGENT("Error retrieving current profile, exiting."));
 		return;
@@ -469,6 +637,8 @@ void MirandaImport(HWND hdlg)
 
 	// Start benchmark timer
 	DWORD dwTimer = time(NULL);
+
+	ImportAccounts();
 
 	// Import Groups
 	if (nImportOption == IMPORT_ALL || (nCustomOptions & IOPT_GROUPS)) {
