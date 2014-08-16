@@ -479,6 +479,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_ACCLIST);
 	PROTOACCOUNT *pa;
 	int idx;
+	PSHNOTIFY pshn;
 
 	switch (message) {
 	case WM_INITDIALOG:
@@ -720,7 +721,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			}
 
 			if (iItem != LB_ERR) {
-				PROTOACCOUNT *pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, iItem);
+				pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, iItem);
 				HMENU hMenu = CreatePopupMenu();
 				if (!pa->bOldProto && !pa->bDynDisabled)
 					AppendMenu(hMenu, MF_STRING, 1, TranslateT("Rename"));
@@ -833,11 +834,11 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			break;
 
 		case IDC_ADD:
-			{
-				AccFormDlgParam param = { PRAC_ADDED, NULL };
-				if (IDOK == DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param))
-					SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
-			}
+		{
+			AccFormDlgParam param = { PRAC_ADDED, NULL };
+			if (IDOK == DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param))
+				SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
+		}
 			break;
 
 		case IDC_EDIT:
@@ -854,7 +855,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Account %s is being deleted"), pa->tszAccountName);
 				if (pa->bOldProto) {
 					MessageBox(hwndDlg, TranslateT("You need to disable plugin to delete this account"), buf,
-								  MB_ICONERROR | MB_OK);
+						MB_ICONERROR | MB_OK);
 					break;
 				}
 				if (IDYES == MessageBox(hwndDlg, errMsg, buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO)) {
@@ -885,7 +886,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 		case IDC_OPTIONS:
 			idx = ListBox_GetCurSel(hwndList);
 			if (idx != -1) {
-				PROTOACCOUNT *pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, idx);
+				pa = (PROTOACCOUNT*)ListBox_GetItemData(hwndList, idx);
 				if (pa->bOldProto) {
 					OPENOPTIONSDIALOG ood;
 					ood.cbSize = sizeof(ood);
@@ -907,12 +908,11 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			break;
 
 		case IDC_LNK_NETWORK:
+			pshn.hdr.idFrom = 0;
+			pshn.hdr.code = PSN_APPLY;
+			pshn.hdr.hwndFrom = hwndDlg;
+			SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&pshn);
 			{
-				PSHNOTIFY pshn = { 0 };
-				pshn.hdr.code = PSN_APPLY;
-				pshn.hdr.hwndFrom = hwndDlg;
-				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&pshn);
-
 				OPENOPTIONSDIALOG ood = { 0 };
 				ood.cbSize = sizeof(ood);
 				ood.pszPage = "Network";
@@ -925,60 +925,59 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			break;
 
 		case IDOK:
-			{
-				PSHNOTIFY pshn = { 0 };
-				pshn.hdr.code = PSN_APPLY;
-				pshn.hdr.hwndFrom = hwndDlg;
-				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&pshn);
-				DestroyWindow(hwndDlg);
-			}
+			pshn.hdr.idFrom = 0;
+			pshn.hdr.code = PSN_APPLY;
+			pshn.hdr.hwndFrom = hwndDlg;
+			SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&pshn);
+			DestroyWindow(hwndDlg);
 			break;
 
 		case IDCANCEL:
-			{
-				PSHNOTIFY pshn = { 0 };
-				pshn.hdr.code = PSN_RESET;
-				pshn.hdr.hwndFrom = hwndDlg;
-				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&pshn);
-				DestroyWindow(hwndDlg);
-			}
+			pshn.hdr.idFrom = 0;
+			pshn.hdr.code = PSN_RESET;
+			pshn.hdr.hwndFrom = hwndDlg;
+			SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&pshn);
+			DestroyWindow(hwndDlg);
 			break;
+		}
+		break;
 
-		case PSM_CHANGED:
-			idx = ListBox_GetCurSel(hwndList);
-			if (idx != -1) {
-				PROTOACCOUNT *acc = (PROTOACCOUNT *)ListBox_GetItemData(hwndList, idx);
-				if (acc) {
-					acc->bAccMgrUIChanged = TRUE;
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
+	case PSM_CHANGED:
+		idx = ListBox_GetCurSel(hwndList);
+		if (idx != -1) {
+			pa = (PROTOACCOUNT *)ListBox_GetItemData(hwndList, idx);
+			if (pa) {
+				pa->bAccMgrUIChanged = TRUE;
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
 		break;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == 0) {
-			PSHNOTIFY pshn = { 0 };
-
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
+				pshn.hdr.idFrom = 0;
 				pshn.hdr.code = PSN_APPLY;
 				for (int i = 0; i < accounts.getCount(); i++) {
-					if (accounts[i]->hwndAccMgrUI && accounts[i]->bAccMgrUIChanged) {
-						pshn.hdr.hwndFrom = accounts[i]->hwndAccMgrUI;
-						SendMessage(accounts[i]->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
-						accounts[i]->bAccMgrUIChanged = FALSE;
+					pa = accounts[i];
+					if (pa->hwndAccMgrUI && pa->bAccMgrUIChanged) {
+						pshn.hdr.hwndFrom = pa->hwndAccMgrUI;
+						SendMessage(pa->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
+						pa->bAccMgrUIChanged = FALSE;
 					}
 				}
 				return TRUE;
 
 			case PSN_RESET:
+				pshn.hdr.idFrom = 0;
 				pshn.hdr.code = PSN_RESET;
 				for (int i = 0; i < accounts.getCount(); i++) {
-					if (accounts[i]->hwndAccMgrUI && accounts[i]->bAccMgrUIChanged) {
-						pshn.hdr.hwndFrom = accounts[i]->hwndAccMgrUI;
-						SendMessage(accounts[i]->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
-						accounts[i]->bAccMgrUIChanged = FALSE;
+					pa = accounts[i];
+					if (pa->hwndAccMgrUI && pa->bAccMgrUIChanged) {
+						pshn.hdr.hwndFrom = pa->hwndAccMgrUI;
+						SendMessage(pa->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
+						pa->bAccMgrUIChanged = FALSE;
 					}
 				}
 				return TRUE;
@@ -988,10 +987,11 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 	case WM_DESTROY:
 		for (int i = 0; i < accounts.getCount(); i++) {
-			accounts[i]->bAccMgrUIChanged = FALSE;
-			if (accounts[i]->hwndAccMgrUI) {
-				DestroyWindow(accounts[i]->hwndAccMgrUI);
-				accounts[i]->hwndAccMgrUI = NULL;
+			pa = accounts[i];
+			pa->bAccMgrUIChanged = FALSE;
+			if (pa->hwndAccMgrUI) {
+				DestroyWindow(pa->hwndAccMgrUI);
+				pa->hwndAccMgrUI = NULL;
 			}
 		}
 
