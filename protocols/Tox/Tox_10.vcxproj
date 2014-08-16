@@ -211,6 +211,7 @@
     <ClCompile Include="src\tox_account.cpp" />
     <ClCompile Include="src\tox_events.cpp" />
     <ClCompile Include="src\tox_instances.cpp" />
+    <ClCompile Include="src\tox_netlib.cpp" />
     <ClCompile Include="src\tox_options.cpp" />
     <ClCompile Include="src\tox_proto.cpp" />
     <ClCompile Include="src\tox_services.cpp" />
@@ -220,6 +221,9 @@
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\tox.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
