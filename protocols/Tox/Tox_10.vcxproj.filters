@@ -36,7 +36,9 @@
     <ClInclude Include="src\tox\toxdns.h">
       <Filter>Header Files\tox</Filter>
     </ClInclude>
-    <ClInclude Include="src\tox_bootstrap.h" />
+    <ClInclude Include="src\tox_bootstrap.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">
@@ -60,9 +62,18 @@
     <ClCompile Include="src\tox_contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\tox_account.cpp" />
-    <ClCompile Include="src\tox_options.cpp" />
-    <ClCompile Include="src\tox_utils.cpp" />
+    <ClCompile Include="src\tox_account.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_netlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -71,5 +82,10 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\tox.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
