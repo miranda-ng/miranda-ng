@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void MirandaImport(HWND);
 
-INT_PTR CALLBACK FinishedPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-
 INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
@@ -69,24 +67,4 @@ INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 		break;
 	}
 	return FALSE;
-}
-
-void AddMessage(const TCHAR* fmt, ...)
-{
-	va_list args;
-	TCHAR msgBuf[4096];
-	va_start(args, fmt);
-
-	mir_vsntprintf(msgBuf, SIZEOF(msgBuf), TranslateTS(fmt), args);
-
-#ifdef _LOGGING
-	{
-		FILE *stream;
-		stream = fopen("Import Debug.log", "a");
-		fprintf(stream, "%S\n", msgBuf);
-		fclose(stream);
-	}
-#endif
-
-	SendMessage(hdlgProgress, PROGM_ADDMESSAGE, 0, (LPARAM)msgBuf);
 }

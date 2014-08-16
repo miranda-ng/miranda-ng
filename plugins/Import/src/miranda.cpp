@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // == LOCAL VARIABLES ==
 // =====================
 
+time_t dwSinceDate = 0;
+
 TCHAR importFile[MAX_PATH];
 
 // ====================
@@ -74,10 +76,10 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		{
-			ptrT pfd(VARST(_T("%miranda_path%\\Profiles")));
-			ptrT pfd1(VARST(_T("%miranda_path%")));
-			ptrT pfd2(VARST(_T("%miranda_profile%")));
-			ptrT pfn(VARST(_T("%miranda_profilename%")));
+			VARST pfd(_T("%miranda_path%\\Profiles"));
+			VARST pfd1(_T("%miranda_path%"));
+			VARST pfd2(_T("%miranda_profile%"));
+			VARST pfn(_T("%miranda_profilename%"));
 
 			SearchForLists(hdlg, pfd2, pfn);
 			SearchForLists(hdlg, pfd1, NULL);

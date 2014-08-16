@@ -62,7 +62,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define PROGM_SETPROGRESS  (WM_USER+10)   //wParam=0..100
 #define PROGM_ADDMESSAGE   (WM_USER+11)   //lParam=(char*)szText
-#define SetProgress(n)  SendMessage(hdlgProgress,PROGM_SETPROGRESS,n,0)
 
 #define ICQOSCPROTONAME  "ICQ"
 #define MSNPROTONAME     "MSN"
@@ -92,15 +91,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IOPT_CONTACTS   4096
 #define IOPT_GROUPS     8192
 
-void AddMessage( const TCHAR* fmt, ... );
-
-void mySet(MCONTACT hContact, const char* module, const char* var, DBVARIANT* dbv );
+void AddMessage(const TCHAR* fmt, ...);
 
 INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK ProgressPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK MirandaPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 bool IsProtocolLoaded(const char* pszProtocolName);
