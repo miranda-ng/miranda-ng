@@ -1,0 +1,17 @@
+﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+;============================================================
+;  File: Tox.dll
+;  Plugin: Tox Protocol
+;  Version: 0.11.0.1
+;  Authors: ForNeVeR, Mataes, unsane
+;============================================================
+;file \protocols\Tox\res\resource.rc
+[Username:]
+Карыстач:
+;file \protocols\Tox\src\tox_contacts.cpp
+;file \protocols\Tox\src\tox_events.cpp
+[Network]
+Сеціва
+;file \protocols\Tox\src\tox_netlib.cpp
+;file \protocols\Tox\src\tox_options.cpp
+;file \protocols\Tox\src\tox_proto.cpp

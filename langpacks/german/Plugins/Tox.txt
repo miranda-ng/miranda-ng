@@ -6,32 +6,40 @@
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
-Поддержка протокола Tox в Miranda NG.
+
+;file \protocols\Tox\res\resource.rc
 [Username:]
-Имя пользователя:
+Benutzername:
 [Data file:]
-Файл-"ключ":
+
 [Default group:]
-Группа:
+Standardgruppe:
 [Connection settings]
-Настройки подключения
+Verbindungseinstellungen
 [Disable UDP (force Tox to use TCP)]
-Отключить UDP (принудительно использовать TCP)
+
 [Disable IPv6]
-Отключить IPv6
+
+[Tox]
+
+;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
-Контакт уже в вашем списке контактов
+Der Kontakt ist bereits in Ihrer Kontaktliste
+;file \protocols\Tox\src\tox_events.cpp
 [Network]
-Сеть
+Netzwerk
 [Account]
-Учётная запись
+Konto
+;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
-%s подключение
+%s-Verbindung
+;file \protocols\Tox\src\tox_options.cpp
 [All Files (*.*)]
-Все файлы (*.*)
+Alle Dateien (*.*)
 [Select data file]
-Выберите файл-"ключ"
+
+;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
-Протоколы
+Protokolle
 [Protocol icon]
-Значок протокола
+Protokollicon

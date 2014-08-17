@@ -1,0 +1,6 @@
+﻿[Tox protocol support for Miranda NG.]
+[Data file:]
+[Disable UDP (force Tox to use TCP)]
+[Disable IPv6]
+[Tox]
+[Select data file]
