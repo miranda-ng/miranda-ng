@@ -223,7 +223,7 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\tox.ico" />
+    <Image Include="res\tox.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
