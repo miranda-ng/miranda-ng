@@ -170,16 +170,15 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
-	ULONG messageId = InterlockedIncrement(&hMessageProcess);
+	//ULONG messageId = InterlockedIncrement(&hMessageProcess);
 
-	int result = tox_send_message_withid(tox, number, messageId, (uint8_t*)msg, strlen(msg));
-	if (result <= 0)
+	int result = tox_send_message(tox, number, (uint8_t*)msg, strlen(msg));
+	if (result == 0)
 	{
-		debugLogA("CToxProto::SendMsg: error sending message %i", result);
-		return 0;
+		debugLogA("CToxProto::SendMsg: could not to send message");
 	}
 
-	return messageId;
+	return result;
 }
 
 int __cdecl CToxProto::SendUrl(MCONTACT hContact, int flags, const char* url) { return 0; }
