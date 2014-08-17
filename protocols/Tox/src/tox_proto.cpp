@@ -173,7 +173,7 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 	ULONG messageId = InterlockedIncrement(&hMessageProcess);
 
 	int result = tox_send_message_withid(tox, number, messageId, (uint8_t*)msg, strlen(msg));
-	if (result < 0)
+	if (result <= 0)
 	{
 		debugLogA("CToxProto::SendMsg: error sending message %i", result);
 		return 0;
