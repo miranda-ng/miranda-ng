@@ -24,14 +24,6 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 
 			CheckDlgButton(hwnd, IDC_DISABLE_UDP, proto->getByte("DisableUDP", 0));
 			CheckDlgButton(hwnd, IDC_DISABLE_IPV6, proto->getByte("DisableIPv6", 0));
-
-			if (proto->IsOnline())
-			{
-				EnableWindow(GetDlgItem(hwnd, IDC_USERNAME), FALSE);
-				EnableWindow(GetDlgItem(hwnd, IDC_DATAPATH), FALSE);
-				EnableWindow(GetDlgItem(hwnd, IDC_DISABLE_UDP), FALSE);
-				EnableWindow(GetDlgItem(hwnd, IDC_DISABLE_IPV6), FALSE);
-			}
 		}
 		return TRUE;
 
@@ -42,7 +34,6 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 		case IDC_USERNAME:
 			if ((HWND)lParam == GetFocus())
 			{
-				EnableWindow(GetDlgItem(hwnd, IDC_USERNAME), !proto->IsOnline());
 				if (HIWORD(wParam) != EN_CHANGE) return 0;
 				char username[128];
 				GetDlgItemTextA(hwnd, IDC_USERNAME, username, SIZEOF(username));
@@ -53,7 +44,6 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 		case IDC_DATAPATH:
 			if ((HWND)lParam == GetFocus())
 			{
-				EnableWindow(GetDlgItem(hwnd, IDC_DATAPATH), !proto->IsOnline());
 				if (HIWORD(wParam) != EN_CHANGE) return 0;
 				char dataPath[128];
 				GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
@@ -62,36 +52,36 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			break;
 
 		case IDC_BROWSE:
+		{
+			char dataPath[MAX_PATH];
+			GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
+
+			char filter[MAX_PATH] = "";
+			mir_snprintf(filter, MAX_PATH, "%s\0*.*\0", Translate("All Files (*.*)"));
+
+			OPENFILENAMEA ofn = { 0 };
+			ofn.lStructSize = sizeof(ofn);
+			ofn.hwndOwner = 0;
+			ofn.lpstrFilter = filter;
+			ofn.nFilterIndex = 1;
+			ofn.lpstrFile = dataPath;
+			ofn.lpstrTitle = Translate("Select data file");
+			ofn.nMaxFile = SIZEOF(dataPath);
+			ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
+			if (GetOpenFileNameA(&ofn) && dataPath[0])
 			{
-				char dataPath[MAX_PATH];
-				GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
-
-				char filter[MAX_PATH] = "";
-				mir_snprintf(filter, MAX_PATH, "%s\0*.*\0", Translate("All Files (*.*)"));
-
-				OPENFILENAMEA ofn = { 0 };
-				ofn.lStructSize = sizeof(ofn);
-				ofn.hwndOwner = 0;
-				ofn.lpstrFilter = filter;
-				ofn.nFilterIndex = 1;
-				ofn.lpstrFile = strrchr(dataPath, '\\') + 1;
-				ofn.lpstrTitle = Translate("Select data file");
-				ofn.nMaxFile = SIZEOF(dataPath);
-				ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
-				if (GetOpenFileNameA(&ofn) && dataPath[0])
-				{
-					SetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath);
-					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-				}
+				SetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath);
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
+		}
 			break;
 
 		case IDC_GROUP:
-			{
-				if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-					return 0;
-				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			}
+		{
+			if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+				return 0;
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+		}
 			break;
 
 		case IDC_DISABLE_UDP:
@@ -108,24 +98,13 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
 		{
-			if (!proto->IsOnline())
-			{
-				char username[128];
-				GetDlgItemTextA(hwnd, IDC_USERNAME, username, SIZEOF(username));
-				proto->setString("Username", username);
-				tox_set_name(proto->tox, (uint8_t*)&username[0], strlen(username));
+			char username[128];
+			GetDlgItemTextA(hwnd, IDC_USERNAME, username, SIZEOF(username));
+			proto->setString("Username", username);
+			tox_set_name(proto->tox, (uint8_t*)&username[0], strlen(username));
 
-				proto->UninitToxCore();
-
-				char dataPath[128];
-				GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
-				proto->setString("DataPath", dataPath);
-
-				proto->setByte("DisableUDP", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_UDP));
-				proto->setByte("DisableIPv6", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_IPV6));
-
-				proto->InitToxCore();
-			}
+			proto->setByte("DisableUDP", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_UDP));
+			proto->setByte("DisableIPv6", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_IPV6));
 
 			wchar_t groupName[128];
 			GetDlgItemText(hwnd, IDC_GROUP, groupName, SIZEOF(groupName));
@@ -136,6 +115,15 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			}
 			else
 				proto->delSetting(NULL, TOX_SETTINGS_GROUP);
+
+			char dataPath[128];
+			GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
+			if (proto->GetToxProfilePath().compare(dataPath) != 0)
+			{
+				proto->UninitToxCore();
+				proto->setString("DataPath", dataPath);
+				proto->InitToxCore();
+			}
 
 			return TRUE;
 		}
