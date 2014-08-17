@@ -1,0 +1,31 @@
+﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+;============================================================
+;  File: Tox.dll
+;  Plugin: Tox Protocol
+;  Version: 0.11.0.1
+;  Authors: ForNeVeR, Mataes, unsane
+;============================================================
+[Tox protocol support for Miranda NG.]
+Поддержка протокола Tox в Miranda NG.
+[Contact already in your contact list]
+Контакт уже в вашем контакт-лист
+[Network]
+Сеть
+[Account]
+Учётная запись
+[%s connection]
+%s подключение
+[All Files (*.*)]
+Все файлы
+[Select data file]
+Выберите файл "ключ"
+[Data file:]
+Файл "ключ":
+[Protocols]
+Протокол
+[Protocol icon]
+Значок протокола
+[Disable UDP (force Tox to use TCP)]
+Отключить UDP (принудить Tox использовать TCP)
+[Disable IPv6]
+Отключить IPv6
