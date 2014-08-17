@@ -6,22 +6,22 @@
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
-
+Wsparcie protokołu Tox dla Mirandy NG.
 ;file \protocols\Tox\res\resource.rc
 [Username:]
 Użytkownik:
 [Data file:]
-
+Plik danych:
 [Default group:]
 Domyślna grupa:
 [Connection settings]
 Ustawienia połączenia
 [Disable UDP (force Tox to use TCP)]
-
+Wyłącz UDP (zmuś Tox do używania TCP)
 [Disable IPv6]
-
+Wyłącz IPV6
 [Tox]
-
+Tox
 ;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów
@@ -37,7 +37,7 @@ Połączenie %s
 [All Files (*.*)]
 Wszystkie pliki (*.*)
 [Select data file]
-
+Wybierz plik danych
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokoły
