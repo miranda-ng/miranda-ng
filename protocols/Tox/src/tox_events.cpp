@@ -2,7 +2,6 @@
 
 int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	InitNetlib();
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
 
 	return 0;
@@ -10,8 +9,6 @@ int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
 
 int CToxProto::OnPreShutdown(WPARAM, LPARAM)
 {
-	UninitNetlib();
-
 	return 0;
 }
 

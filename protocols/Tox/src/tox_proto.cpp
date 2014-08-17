@@ -3,23 +3,8 @@
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CToxProto>(protoName, userName)
 {
-	tox = tox_new(TOX_ENABLE_IPV6_DEFAULT);
-
-	LoadToxData();
-
-	std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
-	tox_get_self_name(tox, &username[0]);
-	std::string nick(username.begin(), username.end());
-	setString("Nick", nick.c_str());
-
-	tox_callback_friend_request(tox, OnFriendRequest, this);
-	tox_callback_friend_message(tox, OnFriendMessage, this);
-	tox_callback_friend_action(tox, OnAction, this);
-	tox_callback_name_change(tox, OnFriendNameChange, this);
-	tox_callback_status_message(tox, OnStatusMessageChanged, this);
-	tox_callback_user_status(tox, OnUserStatusChanged, this);
-	tox_callback_read_receipt(tox, OnReadReceipt, this);
-	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
+	InitNetlib();
+	InitToxCore();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
@@ -50,9 +35,8 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 CToxProto::~CToxProto()
 {
-	SaveToxData();
-
-	tox_kill(tox);
+	UninitToxCore();
+	UninitNetlib();
 }
 
 DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
@@ -181,16 +165,11 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 
 int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 {
-	if (!IsOnline() || !hContact || !IsContactOnline(hContact))
-	{
-		return 0;
-	}
-
 	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
 	std::vector<uint8_t> clientId = HexStringToData(toxId);
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
-	
+
 	ULONG messageId = InterlockedIncrement(&hMessageProcess);
 
 	int result = tox_send_message_withid(tox, number, messageId, (uint8_t*)msg, strlen(msg));
@@ -199,7 +178,7 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 		debugLogA("CToxProto::SendMsg: error sending message %i", result);
 		return 0;
 	}
-	
+
 	return messageId;
 }
 

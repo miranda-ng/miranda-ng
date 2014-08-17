@@ -10,14 +10,14 @@ int CToxProto::CompareProtos(const CToxProto *p1, const CToxProto *p2)
 CToxProto* CToxProto::InitProtoInstance(const char* protoName, const wchar_t* userName)
 {
 	CToxProto *ppro = new CToxProto(protoName, userName);
-	CToxProto::instanceList.insert(ppro);
+	instanceList.insert(ppro);
 
 	return ppro;
 }
 
 int CToxProto::UninitProtoInstance(CToxProto* ppro)
 {
-	CToxProto::instanceList.remove(ppro);
+	instanceList.remove(ppro);
 
 	delete ppro;
 
@@ -26,19 +26,19 @@ int CToxProto::UninitProtoInstance(CToxProto* ppro)
 
 void CToxProto::UninitInstances()
 {
-	CToxProto::instanceList.destroy();
+	instanceList.destroy();
 }
 
 CToxProto* CToxProto::GetContactInstance(MCONTACT hContact)
 {
-	char *proto = (char *)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
 	if (proto == NULL)
 		return NULL;
 
-	for (int i = 0; i < CToxProto::instanceList.getCount(); i++)
-		if ( !::strcmp(proto, CToxProto::instanceList[i]->m_szModuleName))
-			return CToxProto::instanceList[i];
+	for (int i = 0; i < instanceList.getCount(); i++)
+		if ( !::strcmp(proto, instanceList[i]->m_szModuleName))
+			return instanceList[i];
 
 	return NULL;
 }

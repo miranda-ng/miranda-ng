@@ -603,39 +603,54 @@ uint64_t tox_file_data_remaining(const Tox *tox, int32_t friendnumber, uint8_t f
  */
 
 /* Resolves address into an IP address. If successful, sends a "get nodes"
- *   request to the given node with ip, port (in network byte order, HINT: use htons())
+ *   request to the given node with ip, port (in host byte order).
  *   and public_key to setup connections
  *
  * address can be a hostname or an IP address (IPv4 or IPv6).
- * if ipv6enabled is 0 (zero), the resolving sticks STRICTLY to IPv4 addresses
- * if ipv6enabled is not 0 (zero), the resolving looks for IPv6 addresses first,
- *   then IPv4 addresses.
  *
  *  returns 1 if the address could be converted into an IP address
  *  returns 0 otherwise
  */
-int tox_bootstrap_from_address(Tox *tox, const char *address, uint8_t ipv6enabled,
-                               uint16_t port, const uint8_t *public_key);
+int tox_bootstrap_from_address(Tox *tox, const char *address, uint16_t port, const uint8_t *public_key);
 
 /*  return 0 if we are not connected to the DHT.
  *  return 1 if we are.
  */
 int tox_isconnected(const Tox *tox);
 
+typedef struct {
+    /*
+    *  The type of UDP socket created depends on ipv6enabled:
+    *  If set to 0 (zero), creates an IPv4 socket which subsequently only allows
+    *    IPv4 communication
+    *  If set to anything else (default), creates an IPv6 socket which allows both IPv4 AND
+    *    IPv6 communication
+    */
+    uint8_t ipv6enabled;
+
+    /* Set to 1 to disable udp support. (default: 0)
+       This will force Tox to use TCP only which may slow things down.
+       Disabling udp support is necessary when using anonymous proxies or Tor.*/
+    uint8_t udp_disabled;
+
+    /* Enable proxy support. (only basic TCP socks5 proxy currently supported.) (default: 0 (disabled))*/
+    uint8_t proxy_enabled;
+    char proxy_address[256]; /* Proxy ip or domain in NULL terminated string format. */
+    uint16_t proxy_port; /* Proxy port: in host byte order. */
+} Tox_Options;
+
 /*
  *  Run this function at startup.
  *
- * Initializes a tox structure
- *  The type of communication socket depends on ipv6enabled:
- *  If set to 0 (zero), creates an IPv4 socket which subsequently only allows
- *    IPv4 communication
- *  If set to anything else, creates an IPv6 socket which allows both IPv4 AND
- *    IPv6 communication
+ * Options are some options that can be passed to the Tox instance (see above struct).
  *
+ * If options is NULL, tox_new() will use default settings.
+ *
+ * Initializes a tox structure
  *  return allocated instance of tox on success.
- *  return 0 if there are problems.
+ *  return NULL on failure.
  */
-Tox *tox_new(uint8_t ipv6enabled);
+Tox *tox_new(Tox_Options *options);
 
 /* Run this before closing shop.
  * Free all datastructures. */
