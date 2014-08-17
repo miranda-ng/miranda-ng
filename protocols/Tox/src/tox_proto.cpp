@@ -10,8 +10,6 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
-	hMessageProcess = 1;
-
 	// icons
 	wchar_t filePath[MAX_PATH];
 	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
@@ -170,8 +168,6 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
-	//ULONG messageId = InterlockedIncrement(&hMessageProcess);
-
 	int result = tox_send_message(tox, number, (uint8_t*)msg, strlen(msg));
 	if (result == 0)
 	{
@@ -196,7 +192,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
 		// logout
-		isTerminated = true;
+		isTerminated = isConnected = false;
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -210,11 +206,12 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 	}
 	else
 	{
-		if (old_status == ID_STATUS_OFFLINE/* && !this->IsOnline()*/)
+		if (old_status == ID_STATUS_OFFLINE && !IsOnline())
 		{
 			m_iStatus = ID_STATUS_CONNECTING;
 
-			connectionThread = ForkThreadEx(&CToxProto::ConnectionThread, 0, NULL);
+			DoBootstrap();
+			hPollingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
 		}
 		else
 		{

@@ -49,6 +49,8 @@ void CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
+	isTerminated = isConnected = false;
+
 	SaveToxData();
 
 	tox_kill(tox);
@@ -68,10 +70,8 @@ void CToxProto::DoBootstrap()
 
 void CToxProto::DoTox()
 {
-	uint32_t interval = 1000;
+	uint32_t interval = 50;
 	{
-		//mir_cslock lock(tox_lock);
-
 		tox_do(tox);
 		interval = tox_do_interval(tox);
 	}
@@ -81,42 +81,30 @@ void CToxProto::DoTox()
 void CToxProto::PollingThread(void*)
 {
 	debugLogA("CToxProto::PollingThread: entering");
-
+	
 	while (!isTerminated)
 	{
 		DoTox();
+
+		if (!isConnected)
+		{
+			if (tox_isconnected(tox))
+			{
+				isConnected = true;
+
+				LoadContactList();
+
+				m_iStatus = m_iDesiredStatus = ID_STATUS_ONLINE;
+				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
+
+				debugLogA("CToxProto::PollingThread: successfuly connected to DHT");
+			}
+			else
+			{
+				DoBootstrap();
+			}
+		}
 	}
 
 	debugLogA("CToxProto::PollingThread: leaving");
-}
-
-void CToxProto::ConnectionThread(void*)
-{
-	debugLogA("CToxProto::ConnectionThread: entering");
-
-	while (!isTerminated && !isConnected)
-	{
-		DoBootstrap();
-
-		if (tox_isconnected(tox))
-		{
-			isConnected = true;
-
-			LoadContactList();
-
-			m_iStatus = m_iDesiredStatus = ID_STATUS_ONLINE;
-			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-
-			break;
-		}
-
-		DoTox();
-	}
-
-	debugLogA("CToxProto::ConnectionThread: leaving");
-
-	if (!isTerminated && isConnected)
-	{
-		poolingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
-	}
 }

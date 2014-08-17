@@ -111,6 +111,9 @@ void CToxProto::LoadContactList()
 			tox_get_client_id(tox, friends[i], &clientId[0]);
 			std::string toxId = DataToHexString(clientId);
 
+			debugLogA("CToxProto::SendMsg: friend id is %s", toxId.c_str());
+			debugLogA("CToxProto::SendMsg: friend number is %d", friends[i]);
+
 			MCONTACT hContact = AddContact(toxId.c_str());
 			if (hContact)
 			{

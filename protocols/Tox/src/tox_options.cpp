@@ -15,14 +15,8 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			ptrA username(proto->getStringA("Username"));
 			SetDlgItemTextA(hwnd, IDC_USERNAME, username);
 
-			ptrA dataPath(proto->getStringA("DataPath"));
-			if (!dataPath)
-			{
-				char defaultPath[MAX_PATH];
-				mir_snprintf(defaultPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_userdata%"), _T2A(proto->m_tszUserName));
-				dataPath = mir_strdup(defaultPath);
-			}
-			SetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath);
+			std::string toxProfilePath = proto->GetToxProfilePath();
+			SetDlgItemTextA(hwnd, IDC_DATAPATH, toxProfilePath.c_str());
 
 			ptrW groupName(proto->getTStringA(TOX_SETTINGS_GROUP));
 			SetDlgItemText(hwnd, IDC_GROUP, groupName);
@@ -80,7 +74,7 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 				ofn.hwndOwner = 0;
 				ofn.lpstrFilter = filter;
 				ofn.nFilterIndex = 1;
-				ofn.lpstrFile = dataPath;
+				ofn.lpstrFile = strrchr(dataPath, '\\') + 1;
 				ofn.lpstrTitle = Translate("Select data file");
 				ofn.nMaxFile = SIZEOF(dataPath);
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
