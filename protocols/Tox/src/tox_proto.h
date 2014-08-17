@@ -71,11 +71,9 @@ public:
 private:
 	Tox *tox;
 	mir_cs tox_lock;
-	HANDLE connectionThread;
-	HANDLE poolingThread;
+	HANDLE hPollingThread;
 	bool isTerminated;
 	bool isConnected;
-	ULONG hMessageProcess;
 	HANDLE hNetlibUser;
 
 	// tox
@@ -96,7 +94,6 @@ private:
 	void DoBootstrap();
 	void DoTox();
 
-	void __cdecl ConnectionThread(void*);
 	void __cdecl PollingThread(void*);
 
 	//events
@@ -144,6 +141,8 @@ private:
 	
 	std::vector<uint8_t> HexStringToData(std::string hex);
 	std::string DataToHexString(std::vector<uint8_t>);
+
+	std::string GetToxProfilePath();
 
 	int LoadToxData();
 	int SaveToxData();

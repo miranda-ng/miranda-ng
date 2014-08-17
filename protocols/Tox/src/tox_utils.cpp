@@ -116,24 +116,36 @@ std::vector<uint8_t> CToxProto::HexStringToData(std::string hex)
 
 std::string CToxProto::DataToHexString(std::vector<uint8_t> data)
 {
-	std::stringstream ss;
-	ss << std::hex << std::uppercase;
-	for (uint32_t i = 0; i < data.size(); i++)
+	std::ostringstream oss;
+	oss << std::setfill('0');
+	for (int i = 0; i < data.size(); i++)
 	{
-		ss << (int)data[i];
+		oss << std::setw(2) << std::hex << std::uppercase << static_cast<int>(data[i]);
 	}
-	return ss.str();
+	return oss.str();
+}
+
+std::string CToxProto::GetToxProfilePath()
+{
+	std::string profilePath;
+	ptrA path(getStringA("DataPath"));
+	if (path)
+	{
+		profilePath = path;
+	}
+	if (profilePath.empty())
+	{
+		char defaultPath[MAX_PATH];
+		mir_snprintf(defaultPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_userdata%"), _T2A(m_tszUserName));
+		profilePath = defaultPath;
+	}
+	return profilePath;
 }
 
 int CToxProto::LoadToxData()
 {
-	ptrA path(getStringA("DataPath"));
-	if (!path)
-	{
-		return 0;
-	}
-
-	FILE *hFile = fopen(path, "rb");
+	std::string toxProfilePath = GetToxProfilePath();
+	FILE *hFile = fopen(toxProfilePath.c_str(), "rb");
 
 	if (hFile)
 	{
