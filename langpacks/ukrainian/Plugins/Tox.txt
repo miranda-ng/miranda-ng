@@ -5,7 +5,33 @@
 ;  Version: 0.11.0.1
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
+[Tox protocol support for Miranda NG.]
+Підтримка протоколу Tox у Miranda NG.
 [Username:]
 Користувач:
+[Data file:]
+Файл-"ключ":
+[Default group:]
+Група:
+[Connection settings]
+Налаштування підключення
+[Disable UDP (force Tox to use TCP)]
+Вимкнути UDP (примусово використ. TCP)
+[Disable IPv6]
+Вимкнути IPv6
+[Contact already in your contact list]
+Контакт уже в списку
 [Network]
 Мережа
+[Account]
+Обліковий запис
+[%s connection]
+З'єднання %s
+[All Files (*.*)]
+Усі файли (*.*)
+[Select data file]
+Виберіть файл-"ключ"
+[Protocols]
+Протоколи
+[Protocol icon]
+Значок протоколу
