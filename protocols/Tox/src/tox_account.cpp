@@ -41,10 +41,11 @@ void CToxProto::InitToxCore()
 
 	LoadToxData();
 
-	std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
+	int size = tox_get_self_name_size(tox);
+	std::vector<uint8_t> username(size);
 	tox_get_self_name(tox, &username[0]);
 	std::string nick(username.begin(), username.end());
-	setString("Nick", nick.c_str());
+	setWString("Nick", ptrW(Utf8DecodeW(nick.c_str())));
 }
 
 void CToxProto::UninitToxCore()

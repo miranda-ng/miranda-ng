@@ -105,21 +105,19 @@ void CToxProto::LoadContactList()
 		int32_t *friends = (int32_t*)mir_alloc(count * sizeof(int32_t));
 		tox_get_friendlist(tox, friends, count);
 		std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-		std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
 		for (uint32_t i = 0; i < count; ++i)
 		{
 			tox_get_client_id(tox, friends[i], &clientId[0]);
 			std::string toxId = DataToHexString(clientId);
 
-			debugLogA("CToxProto::SendMsg: friend id is %s", toxId.c_str());
-			debugLogA("CToxProto::SendMsg: friend number is %d", friends[i]);
-
 			MCONTACT hContact = AddContact(toxId.c_str());
 			if (hContact)
 			{
+				int size = tox_get_name_size(tox, friends[i]);
+				std::vector<uint8_t> username(size);
 				tox_get_name(tox, friends[i], &username[0]);
 				std::string nick(username.begin(), username.end());
-				setString(hContact, "Nick", nick.c_str());
+				setWString(hContact, "Nick", ptrW(Utf8DecodeW(nick.c_str())));
 			}
 
 			//tox_get_last_online

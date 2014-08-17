@@ -81,8 +81,6 @@ void CToxProto::OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t 
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	proto->debugLogA("CToxProto::OnFriendMessage: friend number is %d", friendnumber);
-
 	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
 	tox_get_client_id(tox, friendnumber, &clientId[0]);
 	std::string toxId = proto->DataToHexString(clientId);

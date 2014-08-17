@@ -117,10 +117,10 @@ std::vector<uint8_t> CToxProto::HexStringToData(std::string hex)
 std::string CToxProto::DataToHexString(std::vector<uint8_t> data)
 {
 	std::ostringstream oss;
-	oss << std::setfill('0');
+	oss << std::hex << std::uppercase << std::setfill('0');
 	for (int i = 0; i < data.size(); i++)
 	{
-		oss << std::setw(2) << std::hex << std::uppercase << static_cast<int>(data[i]);
+		oss << std::setw(2) << static_cast<int>(data[i]);
 	}
 	return oss.str();
 }
