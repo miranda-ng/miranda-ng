@@ -28,11 +28,16 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			SetDlgItemText(hwnd, IDC_GROUP, groupName);
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
 
-			/*if (proto->IsOnline())
+			CheckDlgButton(hwnd, IDC_DISABLE_UDP, proto->getByte("DisableUDP", 0));
+			CheckDlgButton(hwnd, IDC_DISABLE_IPV6, proto->getByte("DisableIPv6", 0));
+
+			if (proto->IsOnline())
 			{
 				EnableWindow(GetDlgItem(hwnd, IDC_USERNAME), FALSE);
 				EnableWindow(GetDlgItem(hwnd, IDC_DATAPATH), FALSE);
-			}*/
+				EnableWindow(GetDlgItem(hwnd, IDC_DISABLE_UDP), FALSE);
+				EnableWindow(GetDlgItem(hwnd, IDC_DISABLE_IPV6), FALSE);
+			}
 		}
 		return TRUE;
 
@@ -43,7 +48,7 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 		case IDC_USERNAME:
 			if ((HWND)lParam == GetFocus())
 			{
-				//EnableWindow(GetDlgItem(hwnd, IDC_USERNAME), !proto->IsOnline());
+				EnableWindow(GetDlgItem(hwnd, IDC_USERNAME), !proto->IsOnline());
 				if (HIWORD(wParam) != EN_CHANGE) return 0;
 				char username[128];
 				GetDlgItemTextA(hwnd, IDC_USERNAME, username, SIZEOF(username));
@@ -54,7 +59,7 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 		case IDC_DATAPATH:
 			if ((HWND)lParam == GetFocus())
 			{
-				//EnableWindow(GetDlgItem(hwnd, IDC_DATAPATH), !proto->IsOnline());
+				EnableWindow(GetDlgItem(hwnd, IDC_DATAPATH), !proto->IsOnline());
 				if (HIWORD(wParam) != EN_CHANGE) return 0;
 				char dataPath[128];
 				GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
@@ -94,6 +99,14 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
 			break;
+
+		case IDC_DISABLE_UDP:
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_DISABLE_IPV6:
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			break;
 		}
 	}
 		break;
@@ -101,20 +114,23 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
 		{
-			//if (!proto->IsOnline())
+			if (!proto->IsOnline())
 			{
 				char username[128];
 				GetDlgItemTextA(hwnd, IDC_USERNAME, username, SIZEOF(username));
 				proto->setString("Username", username);
+				tox_set_name(proto->tox, (uint8_t*)&username[0], strlen(username));
 
-				if (tox_set_name(proto->tox, (uint8_t*)&username[0], strlen(username)) == 0)
-				{
-					proto->SaveToxData();
-				}
+				proto->UninitToxCore();
 
 				char dataPath[128];
 				GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
 				proto->setString("DataPath", dataPath);
+
+				proto->setByte("DisableUDP", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_UDP));
+				proto->setByte("DisableIPv6", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_IPV6));
+
+				proto->InitToxCore();
 			}
 
 			wchar_t groupName[128];

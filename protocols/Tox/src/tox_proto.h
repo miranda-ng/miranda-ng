@@ -78,6 +78,10 @@ private:
 	ULONG hMessageProcess;
 	HANDLE hNetlibUser;
 
+	// tox
+	void InitToxCore();
+	void UninitToxCore();
+
 	// instances
 	static LIST<CToxProto> instanceList;
 	static int CompareProtos(const CToxProto *p1, const CToxProto *p2);
