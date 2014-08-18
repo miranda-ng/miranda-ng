@@ -155,54 +155,46 @@ std::tstring CToxProto::GetToxProfilePath()
 	return profilePath;
 }
 
-int CToxProto::LoadToxData()
+void CToxProto::LoadToxData()
 {
 	std::tstring toxProfilePath = GetToxProfilePath();
 	FILE *hFile = _wfopen(toxProfilePath.c_str(), _T("rb"));
-	if (hFile)
+	if (!hFile)
 	{
-		fseek(hFile, 0, SEEK_END);
-		size_t size = ftell(hFile);
-		rewind(hFile);
-
-		uint8_t *data = (uint8_t*)mir_alloc(size);
-
-		if (fread(data, sizeof(uint8_t), size, hFile) != size)
-		{
-			mir_free(data);
-			//fputs("[!] could not read data file!\n", stderr);
-			fclose(hFile);
-			return 0;
-		}
-
-		tox_load(tox, data, size);
-
-		mir_free(data);
-
-		if (fclose(hFile) < 0)
-		{
-			//perror("[!] fclose failed");
-			/* we got it open and the expected data read... let it be ok */
-			/* return 0; */
-		}
-
-		return 1;
+		debugLogA("CToxProto::LoadToxData: could not open tox profile");
+		return;
 	}
 
-	return 0;
+	fseek(hFile, 0, SEEK_END);
+	uint32_t size = ftell(hFile);
+	rewind(hFile);
+
+	uint8_t *data = (uint8_t*)mir_alloc(size);
+
+	if (fread(data, sizeof(uint8_t), size, hFile) != size)
+	{
+		debugLogA("CToxProto::LoadToxData: could not read tox profile");
+		fclose(hFile);
+		mir_free(data);
+		return;
+	}
+
+	tox_load(tox, data, size);
+
+	mir_free(data);
+	fclose(hFile);
 }
 
-int CToxProto::SaveToxData()
+void CToxProto::SaveToxData()
 {
 	std::tstring toxProfilePath = GetToxProfilePath();
 	FILE *hFile = _wfopen(toxProfilePath.c_str(), _T("wb"));
 	if (!hFile)
 	{
-		//perror("[!] load_key");
-		return 0;
+		debugLogA("CToxProto::LoadToxData: could not open tox profile");
+		return;
 	}
 
-	int res = 1;
 	uint32_t size = tox_size(tox);
 	uint8_t *data = (uint8_t*)mir_alloc(size);
 
@@ -210,18 +202,9 @@ int CToxProto::SaveToxData()
 
 	if (fwrite(data, sizeof(uint8_t), size, hFile) != size)
 	{
-		mir_free(data);
-		//fputs("[!] could not write data file (1)!", stderr);
-		res = 0;
+		debugLogA("CToxProto::LoadToxData: could not write tox profile");
 	}
 
 	mir_free(data);
-
-	if (fclose(hFile) < 0)
-	{
-		//perror("[!] could not write data file (2)");
-		res = 0;
-	}
-
-	return res;
+	fclose(hFile);
 }
