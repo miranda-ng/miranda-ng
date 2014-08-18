@@ -57,7 +57,7 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			GetDlgItemTextA(hwnd, IDC_DATAPATH, dataPath, SIZEOF(dataPath));
 
 			char filter[MAX_PATH] = "";
-			mir_snprintf(filter, MAX_PATH, "%s\0*.*\0", Translate("All Files (*.*)"));
+			mir_snprintf(filter, MAX_PATH, "%s\0*.*\0", Translate("All files (*.*)"));
 
 			OPENFILENAMEA ofn = { 0 };
 			ofn.lStructSize = sizeof(ofn);
