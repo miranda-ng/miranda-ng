@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CMsnProto::AvatarQueue_Init()
 {
-	::InitializeCriticalSection(&csAvatarQueue);
 	hevAvatarQueue = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	ForkThread(&CMsnProto::MSN_AvatarsThread, 0);
@@ -30,7 +29,6 @@ void CMsnProto::AvatarQueue_Init()
 
 void CMsnProto::AvatarQueue_Uninit()
 {
-	::DeleteCriticalSection(&csAvatarQueue);
 	::CloseHandle(hevAvatarQueue);
 }
 

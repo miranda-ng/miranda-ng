@@ -29,18 +29,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void CMsnProto::MsgQueue_Init(void)
 {
 	msgQueueSeq = 1;
-	InitializeCriticalSection(&csMsgQueue);
 }
 
 void CMsnProto::MsgQueue_Uninit(void)
 {
 	MsgQueue_Clear();
-	DeleteCriticalSection(&csMsgQueue);
 }
 
 int CMsnProto::MsgQueue_Add(const char* wlid, int msgType, const char* msg, int msgSize, filetransfer* ft, int flags, STRLIST *cnt)
 {
-	EnterCriticalSection(&csMsgQueue);
+	mir_cslock lck(csMsgQueue);
 
 	MsgQueueEntry* E = new MsgQueueEntry;
 	lsMessageQueue.insert(E);
@@ -60,55 +58,45 @@ int CMsnProto::MsgQueue_Add(const char* wlid, int msgType, const char* msg, int 
 	E->flags = flags;
 	E->allocatedToThread = 0;
 	E->ts = time(NULL);
-
-	LeaveCriticalSection(&csMsgQueue);
 	return seq;
 }
 
 // shall we create another session?
 const char* CMsnProto::MsgQueue_CheckContact(const char* wlid, time_t tsc)
 {
-	EnterCriticalSection(&csMsgQueue);
-
 	time_t ts = time(NULL);
-	const char* ret = NULL;
-	for (int i=0; i < lsMessageQueue.getCount(); i++)
-	{
-		if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0 && (tsc == 0 || (ts - lsMessageQueue[i].ts) < tsc))
-		{
-			ret = wlid;
-			break;
-		}
-	}
 
-	LeaveCriticalSection(&csMsgQueue);
-	return ret;
+	mir_cslock lck(csMsgQueue);
+
+	for (int i=0; i < lsMessageQueue.getCount(); i++)
+		if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0 && (tsc == 0 || (ts - lsMessageQueue[i].ts) < tsc))
+			return wlid;
+
+	return NULL;
 }
 
 //for threads to determine who they should connect to
 const char* CMsnProto::MsgQueue_GetNextRecipient(void)
 {
-	EnterCriticalSection(&csMsgQueue);
+	mir_cslock lck(csMsgQueue);
 
-	const char* ret = NULL;
 	for (int i=0; i < lsMessageQueue.getCount(); i++)
 	{
 		MsgQueueEntry& E = lsMessageQueue[i];
 		if (!E.allocatedToThread)
 		{
 			E.allocatedToThread = 1;
-			ret = E.wlid;
 
+			const char *ret = E.wlid;
 			while(++i < lsMessageQueue.getCount())
 				if (_stricmp(lsMessageQueue[i].wlid, ret) == 0)
 					lsMessageQueue[i].allocatedToThread = 1;
 
-			break;
+			return ret;
 		}
 	}
 
-	LeaveCriticalSection(&csMsgQueue);
-	return ret;
+	return NULL;
 }
 
 //deletes from list. Must mir_free() return value
@@ -116,8 +104,8 @@ bool CMsnProto::MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal)
 {
 	int i;
 
-	EnterCriticalSection(&csMsgQueue);
-	for(i=0; i < lsMessageQueue.getCount(); i++)
+	mir_cslock lck(csMsgQueue);
+	for (i = 0; i < lsMessageQueue.getCount(); i++)
 		if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0)
 			break;
 
@@ -127,19 +115,18 @@ bool CMsnProto::MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal)
 		retVal = lsMessageQueue[i];
 		lsMessageQueue.remove(i);
 	}
-	LeaveCriticalSection(&csMsgQueue);
+
 	return res;
 }
 
 int CMsnProto::MsgQueue_NumMsg(const char* wlid)
 {
 	int res = 0;
-	EnterCriticalSection(&csMsgQueue);
+	mir_cslock lck(csMsgQueue);
 
 	for(int i=0; i < lsMessageQueue.getCount(); i++)
 		res += (_stricmp(lsMessageQueue[i].wlid, wlid) == 0);
 
-	LeaveCriticalSection(&csMsgQueue);
 	return res;
 }
 
@@ -147,10 +134,9 @@ void CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 {
 	int i;
 
-	EnterCriticalSection(&csMsgQueue);
+	mir_cslockfull lck(csMsgQueue);
 	if (wlid == NULL)
 	{
-
 		for(i=0; i < lsMessageQueue.getCount(); i++)
 		{
 			const MsgQueueEntry& E = lsMessageQueue[i];
@@ -184,19 +170,17 @@ void CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 				if (E.cont) delete E.cont;
 				lsMessageQueue.remove(i);
 
-				if (msgfnd)
-				{
-					LeaveCriticalSection(&csMsgQueue);
+				if (msgfnd) {
+					lck.unlock();
 					MCONTACT hContact = MSN_HContactFromEmail(wlid);
 					ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq,
 						(LPARAM)Translate("Message delivery failed"));
 					i = 0;
-					EnterCriticalSection(&csMsgQueue);
+					lck.lock();
 				}
 			}
 		}
 	}
-	LeaveCriticalSection(&csMsgQueue);
 }
 
 void __cdecl CMsnProto::MsgQueue_AllClearThread(void* arg)

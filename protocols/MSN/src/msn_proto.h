@@ -123,23 +123,23 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	char *abCacheKey, *sharingCacheKey, *storageCacheKey;
 
-	CRITICAL_SECTION csLists;
+	mir_cs csLists;
 	OBJLIST<MsnContact> contList;
 
 	LIST<ServerGroupItem> grpList;
 
-	CRITICAL_SECTION sttLock;
+	mir_cs csThreads;
 	OBJLIST<ThreadData> sttThreads;
 
-	CRITICAL_SECTION sessionLock;
+	mir_cs sessionLock;
 	OBJLIST<filetransfer> sessionList;
 	OBJLIST<directconnection> dcList;
 
-	CRITICAL_SECTION csMsgQueue;
+	mir_cs csMsgQueue;
 	int msgQueueSeq;
 	OBJLIST<MsgQueueEntry> lsMessageQueue;
 
-	CRITICAL_SECTION csAvatarQueue;
+	mir_cs csAvatarQueue;
 	LIST<AvatarQueueEntry> lsAvatarQueue;
 	HANDLE hevAvatarQueue;
 
@@ -148,7 +148,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	int msnPingTimeout;
 	HANDLE hKeepAliveThreadEvt;
 
-	char*    msnModeMsgs[MSN_NUM_MODES];
+	char* msnModeMsgs[MSN_NUM_MODES];
 
 	LISTENINGTOINFO     msnCurrentMedia;
 	MYOPTIONS			MyOptions;
@@ -286,7 +286,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	void         Threads_Uninit(void);
 	void         MSN_CloseConnections(void);
-	void         MSN_InitThreads(void);
 	int          MSN_GetChatThreads(ThreadData** parResult);
 	int          MSN_GetActiveThreads(ThreadData**);
 	ThreadData*  MSN_GetThreadByConnection(HANDLE hConn);
@@ -375,7 +374,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 	void  p2p_unregisterSession(filetransfer* ft);
 	void  p2p_sessionComplete(filetransfer* ft);
 
-	void P2pSessions_Init(void);
 	void P2pSessions_Uninit(void);
 
 	filetransfer*  p2p_getAvatarSession(MCONTACT hContact);
@@ -434,7 +432,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 	MsnPlace* Lists_GetPlace(const char* wlid);
 	MsnPlace* Lists_AddPlace(const char* email, const char* id, unsigned cap1, unsigned cap2);
 
-	void     Lists_Init(void);
 	void     Lists_Uninit(void);
 
 	void     AddDelUserContList(const char* email, const int list, const int netId, const bool del);

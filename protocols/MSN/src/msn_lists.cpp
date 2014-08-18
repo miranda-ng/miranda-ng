@@ -24,90 +24,70 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include "m_smileyadd.h"
 
-void CMsnProto::Lists_Init(void)
-{
-	InitializeCriticalSection(&csLists);
-}
-
 void CMsnProto::Lists_Uninit(void)
 {
 	Lists_Wipe();
-	DeleteCriticalSection(&csLists);
 }
 
 void CMsnProto::Lists_Wipe(void)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 	contList.destroy();
-	LeaveCriticalSection(&csLists);
 }
 
 bool CMsnProto::Lists_IsInList(int list, const char* email)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 
 	MsnContact* p = contList.find((MsnContact*)&email);
 	bool res = p != NULL;
 	if (res && list != -1)
 		res &= ((p->list & list) == list);
-
-	LeaveCriticalSection(&csLists);
 	return res;
 }
 
 MsnContact* CMsnProto::Lists_Get(const char* email)
 {
-	EnterCriticalSection(&csLists);
-
-	MsnContact* p = contList.find((MsnContact*)&email);
-
-	LeaveCriticalSection(&csLists);
-	return p;
+	mir_cslock lck(csLists);
+	return contList.find((MsnContact*)&email);
 }
 
 MsnContact* CMsnProto::Lists_Get(MCONTACT hContact)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 
-	MsnContact* p = NULL;
 	for (int i = 0; i < contList.getCount(); ++i)
-	{
 		if (contList[i].hContact == hContact)
-		{
-			p = &contList[i];
-			break;
-		}
-	}
+			return &contList[i];
 
-	LeaveCriticalSection(&csLists);
-	return p;
+	return NULL;
 }
 
 MsnPlace* CMsnProto::Lists_GetPlace(const char* wlid)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 
 	char *szEmail, *szInst;
 	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, &szInst);
 
-	if (szInst == NULL) szInst = (char*)sttVoidUid;
+	if (szInst == NULL)
+		szInst = (char*)sttVoidUid;
 
 	MsnPlace* pl = NULL;
 	MsnContact* p = contList.find((MsnContact*)&szEmail);
-	if (p) pl = p->places.find((MsnPlace*)&szInst);
+	if (p)
+		pl = p->places.find((MsnPlace*)&szInst);
 
-	LeaveCriticalSection(&csLists);
 	return pl;
 }
 
 MsnPlace* CMsnProto::Lists_AddPlace(const char* email, const char* id, unsigned cap1, unsigned cap2)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 
 	MsnPlace* pl = NULL;
 	MsnContact* p = contList.find((MsnContact*)&email);
-	if (p)
-	{
+	if (p) {
 		pl = p->places.find((MsnPlace*)&id);
 		if (!pl) {
 			pl = new MsnPlace;
@@ -117,84 +97,70 @@ MsnPlace* CMsnProto::Lists_AddPlace(const char* email, const char* id, unsigned 
 			pl->cap2 = cap2;
 			pl->p2pMsgId = 0;
 			pl->p2pPktNum = 0;
-
 			p->places.insert(pl);
 		}
 	}
 
-	LeaveCriticalSection(&csLists);
 	return pl;
 }
 
 MsnContact* CMsnProto::Lists_GetNext(int& i)
 {
-	MsnContact* p =  NULL;
+	MsnContact* p = NULL;
 
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 
 	while (p == NULL && ++i < contList.getCount())
-	{
-		if (contList[i].hContact) p = &contList[i];
-	}
+		if (contList[i].hContact)
+			p = &contList[i];
 
-	LeaveCriticalSection(&csLists);
 	return p;
 }
 
 int CMsnProto::Lists_GetMask(const char* email)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 
 	MsnContact* p = contList.find((MsnContact*)&email);
-	int res = p ? p->list : 0;
-
-	LeaveCriticalSection(&csLists);
-	return res;
+	return p ? p->list : 0;
 }
 
 int CMsnProto::Lists_GetNetId(const char* email)
 {
 	if (email[0] == 0) return NETID_UNKNOWN;
 
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 
 	MsnContact* p = contList.find((MsnContact*)&email);
-	int res = p ? p->netId : NETID_UNKNOWN;
-
-	LeaveCriticalSection(&csLists);
-	return res;
+	return p ? p->netId : NETID_UNKNOWN;
 }
 
 unsigned CMsnProto::p2p_getMsgId(const char* wlid, int inc)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 	MsnPlace* p = Lists_GetPlace(wlid);
 
 	unsigned res = p && p->p2pMsgId ? p->p2pMsgId : MSN_GenRandom();
-	if (p) p->p2pMsgId = res + inc;
+	if (p)
+		p->p2pMsgId = res + inc;
 
-	LeaveCriticalSection(&csLists);
 	return res;
 }
 
 unsigned CMsnProto::p2p_getPktNum(const char* wlid)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
+
 	MsnPlace* p = Lists_GetPlace(wlid);
-
-	unsigned res = p ? p->p2pPktNum++ : 0;
-
-	LeaveCriticalSection(&csLists);
-	return res;
+	return p ? p->p2pPktNum++ : 0;
 }
 
 int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hContact, const char* nick, const char* invite)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
 
 	MsnContact* p = contList.find((MsnContact*)&email);
-	if (p == NULL)
-	{
+	if (p == NULL) {
 		p = new MsnContact;
 		p->list = list;
 		p->netId = netId;
@@ -205,8 +171,7 @@ int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hConta
 		p->p2pMsgId = 0;
 		contList.insert(p);
 	}
-	else
-	{
+	else {
 		p->list |= list;
 		if (invite) replaceStr(p->invite, invite);
 		if (hContact) p->hContact = hContact;
@@ -214,25 +179,21 @@ int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hConta
 		if (p->netId == NETID_UNKNOWN && netId != NETID_UNKNOWN)
 			p->netId = netId;
 	}
-	int result = p->list;
-
-	LeaveCriticalSection(&csLists);
-	return result;
+	return p->list;
 }
 
 void CMsnProto::Lists_Remove(int list, const char* email)
 {
-	EnterCriticalSection(&csLists);
+	mir_cslock lck(csLists);
+
 	int i = contList.getIndex((MsnContact*)&email);
-	if (i != -1)
-	{
-		MsnContact& p = contList[i];
+	if (i != -1) {
+		MsnContact &p = contList[i];
 		p.list &= ~list;
 		if (list & LIST_PL) { mir_free(p.invite); p.invite = NULL; }
 		if (p.list == 0 && p.hContact == NULL)
 			contList.remove(i);
 	}
-	LeaveCriticalSection(&csLists);
 }
 
 
@@ -258,7 +219,7 @@ void CMsnProto::Lists_Populate(void)
 
 void CMsnProto::MSN_CleanupLists(void)
 {
-	for (int i=contList.getCount(); i--;) {
+	for (int i = contList.getCount(); i--;) {
 		MsnContact& p = contList[i];
 		if (p.list & LIST_FL)
 			MSN_SetContactDb(p.hContact, p.email);
@@ -316,72 +277,63 @@ void CMsnProto::MSN_CreateContList(void)
 
 	char cxml[8192];
 
-	size_t sz = mir_snprintf(cxml , sizeof(cxml), "<ml l=\"1\">");
-
-	EnterCriticalSection(&csLists);
-
-	for (int i=0; i < contList.getCount(); i++)
+	size_t sz = mir_snprintf(cxml, sizeof(cxml), "<ml l=\"1\">");
 	{
-		if (used[i]) continue;
+		mir_cslock lck(csLists);
 
-		const char* lastds = strchr(contList[i].email, '@');
-		bool newdom = true;
+		for (int i = 0; i < contList.getCount(); i++) {
+			if (used[i]) continue;
 
-		for (int j=0; j < contList.getCount(); j++)
-		{
-			if (used[j]) continue;
+			const char* lastds = strchr(contList[i].email, '@');
+			bool newdom = true;
 
-			const MsnContact& C = contList[j];
+			for (int j = 0; j < contList.getCount(); j++) {
+				if (used[j]) continue;
 
-			if (C.list == LIST_RL || C.list == LIST_PL || C.list == LIST_LL)
-			{
-				used[j] = true;
-				continue;
-			}
-
-			const char* dom = strchr(C.email, '@');
-			if (dom == NULL && lastds == NULL)
-			{
-				if (sz == 0) sz = mir_snprintf(cxml+sz, sizeof(cxml), "<ml l=\"1\">");
-				if (newdom)
-				{
-					sz += mir_snprintf(cxml+sz, sizeof(cxml)-sz, "<t>");
-					newdom = false;
+				const MsnContact& C = contList[j];
+				if (C.list == LIST_RL || C.list == LIST_PL || C.list == LIST_LL) {
+					used[j] = true;
+					continue;
 				}
 
-				sz += mir_snprintf(cxml+sz, sizeof(cxml)-sz, "<c n=\"%s\" l=\"%d\"/>", C.email, C.list & ~(LIST_RL | LIST_LL));
-				used[j] = true;
-			}
-			else if (dom != NULL && lastds != NULL && _stricmp(lastds, dom) == 0)
-			{
-				if (sz == 0) sz = mir_snprintf(cxml, sizeof(cxml), "<ml l=\"1\">");
-				if (newdom)
-				{
-					sz += mir_snprintf(cxml+sz, sizeof(cxml)-sz, "<d n=\"%s\">", lastds+1);
-					newdom = false;
+				const char *dom = strchr(C.email, '@');
+				if (dom == NULL && lastds == NULL) {
+					if (sz == 0) sz = mir_snprintf(cxml + sz, sizeof(cxml), "<ml l=\"1\">");
+					if (newdom) {
+						sz += mir_snprintf(cxml + sz, sizeof(cxml) - sz, "<t>");
+						newdom = false;
+					}
+
+					sz += mir_snprintf(cxml + sz, sizeof(cxml) - sz, "<c n=\"%s\" l=\"%d\"/>", C.email, C.list & ~(LIST_RL | LIST_LL));
+					used[j] = true;
+				}
+				else if (dom != NULL && lastds != NULL && _stricmp(lastds, dom) == 0) {
+					if (sz == 0) sz = mir_snprintf(cxml, sizeof(cxml), "<ml l=\"1\">");
+					if (newdom) {
+						sz += mir_snprintf(cxml + sz, sizeof(cxml) - sz, "<d n=\"%s\">", lastds + 1);
+						newdom = false;
+					}
+
+					*(char*)dom = 0;
+					sz += mir_snprintf(cxml + sz, sizeof(cxml) - sz, "<c n=\"%s\" l=\"%d\" t=\"%d\"/>", C.email, C.list & ~(LIST_RL | LIST_LL), C.netId);
+					*(char*)dom = '@';
+					used[j] = true;
 				}
 
-				*(char*)dom = 0;
-				sz += mir_snprintf(cxml+sz, sizeof(cxml)-sz, "<c n=\"%s\" l=\"%d\" t=\"%d\"/>", C.email, C.list & ~(LIST_RL | LIST_LL), C.netId);
-				*(char*)dom = '@';
-				used[j] = true;
+				if (used[j] && sz > 7400) {
+					sz += mir_snprintf(cxml + sz, sizeof(cxml) - sz, "</%c></ml>", lastds ? 'd' : 't');
+					msnNsThread->sendPacket("ADL", "%d\r\n%s", sz, cxml);
+					sz = 0;
+					newdom = true;
+				}
 			}
-
-			if (used[j] && sz > 7400)
-			{
-				sz += mir_snprintf(cxml+sz, sizeof(cxml)-sz, "</%c></ml>", lastds ? 'd' : 't');
-				msnNsThread->sendPacket("ADL", "%d\r\n%s", sz, cxml);
-				sz = 0;
-				newdom = true;
-			}
+			if (!newdom)
+				sz += mir_snprintf(cxml + sz, sizeof(cxml) - sz, lastds ? "</d>" : "</t>");
 		}
-		if (!newdom) sz += mir_snprintf(cxml+sz, sizeof(cxml)-sz, lastds ? "</d>" : "</t>");
 	}
-	LeaveCriticalSection(&csLists);
 
-	if (sz)
-	{
-		sz += mir_snprintf(cxml+sz, sizeof(cxml)-sz,  "</ml>");
+	if (sz) {
+		sz += mir_snprintf(cxml + sz, sizeof(cxml) - sz, "</ml>");
 		msnNsThread->sendPacket("ADL", "%d\r\n%s", sz, cxml);
 	}
 
@@ -393,14 +345,13 @@ void CMsnProto::MSN_CreateContList(void)
 
 static void AddPrivacyListEntries(HWND hwndList, CMsnProto *proto)
 {
-	CLCINFOITEM cii = {0};
+	CLCINFOITEM cii = { 0 };
 	cii.cbSize = sizeof(cii);
 	cii.flags = CLCIIF_BELOWCONTACTS;
 
 	// Delete old info
 	HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
-	while (hItem)
-	{
+	while (hItem) {
 		HANDLE hItemNext = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
 		if (IsHContactInfo(hItem))
@@ -410,19 +361,17 @@ static void AddPrivacyListEntries(HWND hwndList, CMsnProto *proto)
 	}
 
 	// Add new info
-	for (int i=0; i<proto->contList.getCount(); ++i)
-	{
+	for (int i = 0; i < proto->contList.getCount(); ++i) {
 		MsnContact &cont = proto->contList[i];
-		if (!(cont.list & (LIST_FL | LIST_LL)))
-		{
-			cii.pszText  = (TCHAR*)cont.email;
+		if (!(cont.list & (LIST_FL | LIST_LL))) {
+			cii.pszText = (TCHAR*)cont.email;
 			HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEMA, 0, (LPARAM)&cii);
 
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0,(cont.list & LIST_LL)?1:0));
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1,(cont.list & LIST_FL)?2:0));
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2,(cont.list & LIST_AL)?3:0));
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3,(cont.list & LIST_BL)?4:0));
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(4,(cont.list & LIST_RL)?5:0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, (cont.list & LIST_LL) ? 1 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, (cont.list & LIST_FL) ? 2 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2, (cont.list & LIST_AL) ? 3 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3, (cont.list & LIST_BL) ? 4 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(4, (cont.list & LIST_RL) ? 5 : 0));
 		}
 	}
 }
@@ -441,11 +390,11 @@ static void SetContactIcons(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 	}
 
 	DWORD dwMask = proto->Lists_GetMask(szEmail);
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0,(dwMask & LIST_LL)?1:0));
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1,(dwMask & LIST_FL)?2:0));
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2,(dwMask & LIST_AL)?3:0));
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3,(dwMask & LIST_BL)?4:0));
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(4,(dwMask & LIST_RL)?5:0));
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, (dwMask & LIST_LL) ? 1 : 0));
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, (dwMask & LIST_FL) ? 2 : 0));
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2, (dwMask & LIST_AL) ? 3 : 0));
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3, (dwMask & LIST_BL) ? 4 : 0));
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(4, (dwMask & LIST_RL) ? 5 : 0));
 }
 
 static void SetAllContactIcons(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
@@ -453,8 +402,7 @@ static void SetAllContactIcons(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 	if (hItem == NULL)
 		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
-	while (hItem)
-	{
+	while (hItem) {
 		MCONTACT hItemN = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
 		if (IsHContactGroup(hItem)) {
@@ -492,8 +440,7 @@ static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 	if (hItem == NULL)
 		hItem = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
-	while (hItem)
-	{
+	while (hItem) {
 		if (IsHContactGroup(hItem)) {
 			MCONTACT hItemT = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 			if (hItemT)
@@ -514,24 +461,21 @@ static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 			}
 
 			int dwMask = proto->Lists_GetMask(szEmail);
-			SaveListItem(hItem, szEmail, LIST_LL, (dwMask & LIST_LL)?1:0, SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0,0)), proto);
-			SaveListItem(hItem, szEmail, LIST_FL, (dwMask & LIST_FL)?2:0, SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1,0)), proto);
-			SaveListItem(hItem, szEmail, LIST_AL, (dwMask & LIST_AL)?3:0, SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2,0)), proto);
-			SaveListItem(hItem, szEmail, LIST_BL, (dwMask & LIST_BL)?4:0, SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3,0)), proto);
+			SaveListItem(hItem, szEmail, LIST_LL, (dwMask & LIST_LL) ? 1 : 0, SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, 0)), proto);
+			SaveListItem(hItem, szEmail, LIST_FL, (dwMask & LIST_FL) ? 2 : 0, SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, 0)), proto);
+			SaveListItem(hItem, szEmail, LIST_AL, (dwMask & LIST_AL) ? 3 : 0, SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2, 0)), proto);
+			SaveListItem(hItem, szEmail, LIST_BL, (dwMask & LIST_BL) ? 4 : 0, SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3, 0)), proto);
 
 			int newMask = proto->Lists_GetMask(szEmail);
 			int xorMask = newMask ^ dwMask;
 
-			if (xorMask && newMask & (LIST_FL | LIST_LL))
-			{
+			if (xorMask && newMask & (LIST_FL | LIST_LL)) {
 				MCONTACT hContact = IsHContactInfo(hItem) ? proto->MSN_HContactFromEmail(szEmail, szEmail, true, false) : hItem;
 				proto->MSN_SetContactDb(hContact, szEmail);
 			}
 
-			if (xorMask & (LIST_FL | LIST_LL) && !(newMask & (LIST_FL | LIST_LL)))
-			{
-				if (!IsHContactInfo(hItem))
-				{
+			if (xorMask & (LIST_FL | LIST_LL) && !(newMask & (LIST_FL | LIST_LL))) {
+				if (!IsHContactInfo(hItem)) {
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hItem, 0);
 					MsnContact* msc = proto->Lists_Get(szEmail);
 					if (msc) msc->hContact = NULL;
@@ -544,8 +488,9 @@ static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 
 INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
-	{
+	CMsnProto *proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
@@ -557,23 +502,23 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ImageList_AddIcon(hIml, hIcon);
 			Skin_ReleaseIcon(hIcon);
 
-			hIcon =  LoadIconEx("list_lc");
+			hIcon = LoadIconEx("list_lc");
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ICON_LC, STM_SETICON, (WPARAM)hIcon, 0);
 
-			hIcon =  LoadIconEx("list_fl");
+			hIcon = LoadIconEx("list_fl");
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ICON_FL, STM_SETICON, (WPARAM)hIcon, 0);
 
-			hIcon =  LoadIconEx("list_al");
+			hIcon = LoadIconEx("list_al");
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ICON_AL, STM_SETICON, (WPARAM)hIcon, 0);
 
-			hIcon =  LoadIconEx("list_bl");
+			hIcon = LoadIconEx("list_bl");
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ICON_BL, STM_SETICON, (WPARAM)hIcon, 0);
 
-			hIcon =  LoadIconEx("list_rl");
+			hIcon = LoadIconEx("list_rl");
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ICON_RL, STM_SETICON, (WPARAM)hIcon, 0);
 
