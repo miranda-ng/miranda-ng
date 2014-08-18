@@ -97,13 +97,14 @@ private:
 	void __cdecl PollingThread(void*);
 
 	//events
-	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
+	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
+	int __cdecl OnContactDeleted(WPARAM, LPARAM);
+	int __cdecl OnSettingsChanged(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
+	static int __cdecl OnAccountListChanged(void *obj, WPARAM wParam, LPARAM lParam);
 	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
-
-	INT_PTR __cdecl OnContactDeleted(WPARAM, LPARAM);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg);
@@ -142,13 +143,16 @@ private:
 	std::vector<uint8_t> HexStringToData(std::string hex);
 	std::string DataToHexString(std::vector<uint8_t>);
 
-	std::string GetToxProfilePath();
+	static bool IsFileExists(std::tstring path);
+
+	std::tstring GetToxProfilePath();
 
 	int LoadToxData();
 	int SaveToxData();
 
 	// dialogs
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
 
 #endif //_TOX_PROTO_H_

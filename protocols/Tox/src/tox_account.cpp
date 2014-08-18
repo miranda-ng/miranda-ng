@@ -1,11 +1,6 @@
 #include "common.h"
 #include "tox_bootstrap.h"
 
-bool CToxProto::IsOnline()
-{
-	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
-}
-
 void CToxProto::InitToxCore()
 {
 	Tox_Options options = { 0 };
@@ -21,7 +16,7 @@ void CToxProto::InitToxCore()
 		{
 			if (nlus.proxyType == PROXYTYPE_SOCKS4 || nlus.proxyType == PROXYTYPE_SOCKS5)
 			{
-				debugLogA("Setting socks user proxy config");
+				debugLogA("CToxProto::InitToxCore: Setting socks user proxy config");
 				options.proxy_enabled = 1;
 				strcpy(&options.proxy_address[0], nlus.szProxyServer);
 				options.proxy_port = nlus.wProxyPort;
@@ -50,11 +45,13 @@ void CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
-	isTerminated = isConnected = false;
-
 	SaveToxData();
-
 	tox_kill(tox);
+}
+
+bool CToxProto::IsOnline()
+{
+	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
 }
 
 void CToxProto::DoBootstrap()
