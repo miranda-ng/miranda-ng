@@ -147,8 +147,8 @@ private:
 
 	std::tstring GetToxProfilePath();
 
-	int LoadToxData();
-	int SaveToxData();
+	void LoadToxData();
+	void SaveToxData();
 
 	// dialogs
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
