@@ -121,23 +121,16 @@ int AvaChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-CRITICAL_SECTION g_csSetAvatar;
+mir_cs g_csSetAvatar;
 HANDLE hAvaChanged = 0;
-BOOL initialized = FALSE;
 
 BOOL InitAvaUnit(BOOL init)
 {
 	if (init) {
 		hAvaChanged = HookEvent(ME_AV_AVATARCHANGED, AvaChanged);
-		InitializeCriticalSection(&g_csSetAvatar);
-		initialized = TRUE;
 		return hAvaChanged != 0;
 	}
 	else {
-		if (initialized) {
-			initialized = FALSE;
-			DeleteCriticalSection(&g_csSetAvatar);
-		}
 		if (hAvaChanged) {
 			UnhookEvent(hAvaChanged);
 			hAvaChanged = 0;
