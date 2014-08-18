@@ -57,17 +57,17 @@ Miranda NG не может открыть "%S".\n\nДанная ссылка н�
 Доступ запрещён:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Предупреждение
-[AIM Link Protocol]
+[AIM link protocol]
 Протокол AIM
-[ICQ Link Shortcut]
+[ICQ link shortcut]
 Протокол ICQ
 [&Add to contact list...]
 &Добавить в список контактов...
-[Yahoo Link Protocol]
+[Yahoo link protocol]
 Протокол Yahoo
-[MSN Link Protocol]
+[MSN link protocol]
 Протокол MSN
-[Gadu-Gadu Link Protocol]
+[Gadu-Gadu link protocol]
 Протокол Gadu-Gadu
-[Jabber Link Protocol]
+[Jabber link protocol]
 Протокол Jabber
