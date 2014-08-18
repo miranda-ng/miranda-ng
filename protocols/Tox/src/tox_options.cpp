@@ -86,7 +86,7 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 INT_PTR CALLBACK CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	TCHAR *profilePath = (TCHAR*)GetWindowLongPtr(hwnd, DWL_USER);
+	TCHAR *profilePath = (TCHAR*)GetWindowLongPtr(hwnd, DWLP_USER);
 
 	switch (uMsg)
 	{
@@ -97,7 +97,7 @@ INT_PTR CALLBACK CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM w
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 
 			profilePath = (TCHAR*)mir_calloc(sizeof(TCHAR) * MAX_PATH);
-			SetWindowLongPtr(hwnd, DWL_USER, (LONG_PTR)profilePath);
+			SetWindowLongPtr(hwnd, DWLP_USER, (LONG_PTR)profilePath);
 
 			CheckDlgButton(hwnd, IDC_CREATE_NEW, TRUE);
 		}

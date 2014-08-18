@@ -3,6 +3,7 @@
 int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
+	HookEventObj(ME_USERINFO_INITIALISE, OnUserInfoInit, this);
 	HookEventObj(ME_PROTO_ACCLISTCHANGED, OnAccountListChanged, this);
 
 	InitNetlib();
@@ -66,6 +67,42 @@ int CToxProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 
 	mir_free(title);
+
+	return 0;
+}
+
+int CToxProto::OnUserInfoInit(void *obj, WPARAM wParam, LPARAM hContact)
+{
+	return 0;
+
+	CToxProto *proto = (CToxProto*)obj;
+
+	if ((!proto->IsProtoContact(hContact) && hContact))
+		return 0;
+
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.flags = ODPF_TCHAR | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
+	odp.hInstance = g_hInstance;
+	odp.dwInitParam = (LPARAM)obj;
+	odp.position = -1900000000;
+	odp.ptszTitle = proto->m_tszUserName;
+
+	if (hContact)
+	{
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+		if (szProto != NULL && !strcmp(szProto, proto->m_szModuleName)) {
+			//odp.pfnDlgProc = SkypeDlgProc;
+			//odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
+			UserInfo_AddPage(wParam, &odp);
+		}
+	}
+	else
+	{
+		//odp.pfnDlgProc = ContactSkypeDlgProc;
+		//odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_CONTACT);
+		odp.ptszTab = LPGENT("Contacts");
+		UserInfo_AddPage(wParam, &odp);
+	}
 
 	return 0;
 }
