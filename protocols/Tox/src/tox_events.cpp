@@ -1,14 +1,19 @@
 #include "common.h"
 
-int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
+int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
+	HookEventObj(ME_PROTO_ACCLISTCHANGED, OnAccountListChanged, this);
+
+	InitNetlib();
 
 	return 0;
 }
 
 int CToxProto::OnPreShutdown(WPARAM, LPARAM)
 {
+	UninitNetlib();
+
 	return 0;
 }
 
@@ -16,13 +21,33 @@ INT_PTR CToxProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(
 		g_hInstance,
-		MAKEINTRESOURCE(IDD_ACCMGR),
+		MAKEINTRESOURCE(IDD_ACCOUNT_MANAGER),
 		(HWND)lParam,
-		&CToxProto::MainOptionsProc,
+		CToxProto::MainOptionsProc,
 		(LPARAM)this);
 }
 
-int CToxProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
+int CToxProto::OnAccountListChanged(void *obj, WPARAM wParam, LPARAM lParam)
+{
+	CToxProto *proto = (CToxProto*)obj;
+	PROTOACCOUNT* account = (PROTOACCOUNT*)lParam;
+
+	if (wParam == PRAC_ADDED && !strcmp(account->szModuleName, proto->m_szModuleName))
+	{
+		proto->UninitToxCore();
+		DialogBoxParam(
+			g_hInstance,
+			MAKEINTRESOURCE(IDD_PROFILE_MANAGER),
+			account->hwndAccMgrUI,
+			CToxProto::ToxProfileManagerProc,
+			(LPARAM)proto);
+		proto->InitToxCore();
+	}
+
+	return 0;
+}
+
+int CToxProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM)
 {
 	CToxProto *proto = (CToxProto*)obj;
 
@@ -36,7 +61,7 @@ int CToxProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 	odp.pszGroup = LPGEN("Network");
 
 	odp.pszTab = LPGEN("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MAIN);
 	odp.pfnDlgProc = MainOptionsProc;
 	Options_AddPage(wParam, &odp);
 
@@ -45,9 +70,8 @@ int CToxProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CToxProto::OnContactDeleted(WPARAM wParam, LPARAM)
+int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
 	if (hContact)
 	{
 		std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
@@ -63,6 +87,20 @@ INT_PTR CToxProto::OnContactDeleted(WPARAM wParam, LPARAM)
 	}
 
 	return 1;
+}
+
+int CToxProto::OnSettingsChanged(MCONTACT hContact, LPARAM lParam)
+{
+	DBCONTACTWRITESETTING* dbcws = (DBCONTACTWRITESETTING*)lParam;
+	if (hContact == NULL && !strcmp(dbcws->szModule, m_szModuleName) && !strcmp(dbcws->szSetting, "Nick"))
+	{
+		if (tox_set_name(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), _tcslen(dbcws->value.ptszVal)))
+		{
+			SaveToxData();
+		}
+	}
+
+	return 0;
 }
 
 void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg)
@@ -91,7 +129,7 @@ void CToxProto::OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t 
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_UTF;
 		recv.timestamp = time(NULL);
-		recv.szMessage = mir_strdup((char*)message);
+		recv.szMessage = (char*)message;
 
 		ProtoChainRecvMsg(hContact, &recv);
 	}

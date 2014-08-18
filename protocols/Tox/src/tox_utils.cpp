@@ -125,18 +125,31 @@ std::string CToxProto::DataToHexString(std::vector<uint8_t> data)
 	return oss.str();
 }
 
-std::string CToxProto::GetToxProfilePath()
+bool CToxProto::IsFileExists(std::tstring path)
 {
-	std::string profilePath;
-	ptrA path(getStringA("DataPath"));
-	if (path)
+	//return ::GetFileAttributes(fileName) != DWORD(-1)
+	WIN32_FIND_DATA wfd;
+	HANDLE hFind = FindFirstFile(path.c_str(), &wfd);
+	if (INVALID_HANDLE_VALUE != hFind)
 	{
-		profilePath = path;
+		FindClose(hFind);
+		return true;
 	}
-	if (profilePath.empty())
+	return false;
+}
+
+std::tstring CToxProto::GetToxProfilePath()
+{
+	std::tstring profilePath;
+	//ptrA path(getStringA("DataPath"));
+	//if (path)
+	//{
+	//	profilePath = path;
+	//}
+	//if (profilePath.empty())
 	{
-		char defaultPath[MAX_PATH];
-		mir_snprintf(defaultPath, MAX_PATH, "%s\\%s.tox", VARS("%miranda_userdata%"), _T2A(m_tszUserName));
+		TCHAR defaultPath[MAX_PATH];
+		mir_sntprintf(defaultPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), m_tszUserName);
 		profilePath = defaultPath;
 	}
 	return profilePath;
@@ -144,9 +157,8 @@ std::string CToxProto::GetToxProfilePath()
 
 int CToxProto::LoadToxData()
 {
-	std::string toxProfilePath = GetToxProfilePath();
-	FILE *hFile = fopen(toxProfilePath.c_str(), "rb");
-
+	std::tstring toxProfilePath = GetToxProfilePath();
+	FILE *hFile = _wfopen(toxProfilePath.c_str(), _T("rb"));
 	if (hFile)
 	{
 		fseek(hFile, 0, SEEK_END);
@@ -182,14 +194,8 @@ int CToxProto::LoadToxData()
 
 int CToxProto::SaveToxData()
 {
-	ptrA path(getStringA("DataPath"));
-	if (!path)
-	{
-		return 0;
-	}
-
-	FILE *hFile = fopen(path, "wb");
-
+	std::tstring toxProfilePath = GetToxProfilePath();
+	FILE *hFile = _wfopen(toxProfilePath.c_str(), _T("wb"));
 	if (!hFile)
 	{
 		//perror("[!] load_key");

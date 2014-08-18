@@ -3,7 +3,6 @@
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CToxProto>(protoName, userName)
 {
-	InitNetlib();
 	InitToxCore();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
@@ -34,7 +33,6 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 CToxProto::~CToxProto()
 {
 	UninitToxCore();
-	UninitNetlib();
 }
 
 DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
@@ -153,7 +151,13 @@ int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT*) { return 0; 
 
 int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
-	return (INT_PTR)AddDbEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
+	return (INT_PTR)AddDbEvent(
+		hContact,
+		EVENTTYPE_MESSAGE,
+		pre->timestamp,
+		DBEF_UTF,
+		lstrlenA(pre->szMessage),
+		(BYTE*)pre->szMessage);
 }
 
 int __cdecl CToxProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
@@ -192,17 +196,16 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
 		// logout
-		isTerminated = isConnected = false;
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+		isTerminated = true;
+		isConnected = false;
 
 		if (!Miranda_Terminated())
 		{
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
 		}
 
-		return 0;
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
 	else
 	{
@@ -210,7 +213,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		{
 			m_iStatus = ID_STATUS_CONNECTING;
 
-			DoBootstrap();
+			isTerminated = isConnected = false;
 			hPollingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
 		}
 		else
@@ -220,10 +223,6 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 			{
 				SaveToxData();
 			}
-
-			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
-			return 0;
 		}
 	}
 
@@ -243,10 +242,13 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 	switch (iEventType)
 	{
 	case EV_PROTO_ONLOAD:
-		return OnModulesLoaded(wParam, lParam);
+		return OnAccountLoaded(wParam, lParam);
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
+
+	case EV_PROTO_DBSETTINGSCHANGED:
+		return OnSettingsChanged(wParam, lParam);
 
 	case EV_PROTO_ONEXIT:
 		return OnPreShutdown(wParam, lParam);
