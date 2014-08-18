@@ -125,32 +125,29 @@ bool CJabberProto::FilterXml(HXML node, DWORD flags)
 	if (!m_filterInfo.iq && !lstrcmp(xmlGetName(node), _T("iq"))) return false;
 	if (m_filterInfo.type == TFilterInfo::T_OFF) return true;
 
-	bool result = false;
-	EnterCriticalSection(&m_filterInfo.csPatternLock);
+	mir_cslock lck(m_filterInfo.csPatternLock);
 
 	const TCHAR *attrValue;
 	switch (m_filterInfo.type) {
 	case TFilterInfo::T_JID:
 		attrValue = xmlGetAttrValue(node, (flags & JCPF_OUT) ? _T("to") : _T("from"));
 		if (attrValue)
-			result = JabberStrIStr(attrValue, m_filterInfo.pattern) ? true : false;
+			return JabberStrIStr(attrValue, m_filterInfo.pattern) != NULL;
 		break;
 
 	case TFilterInfo::T_XMLNS:
 		if (xmlGetChildCount(node)) {
 			attrValue = xmlGetAttrValue(xmlGetChild(node, 0), _T("xmlns"));
 			if (attrValue)
-				result = JabberStrIStr(attrValue, m_filterInfo.pattern) ? true : false;
+				return JabberStrIStr(attrValue, m_filterInfo.pattern) != NULL;
 		}
 		break;
 
 	case TFilterInfo::T_ANY:
-		result = RecursiveCheckFilter(node, flags);
-		break;
+		return RecursiveCheckFilter(node, flags);
 	}
 
-	LeaveCriticalSection(&m_filterInfo.csPatternLock);
-	return result;
+	return false;
 }
 
 static void sttAppendBufRaw(StringBuf *buf, const char *str)
@@ -557,7 +554,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				int idx = SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETCURSEL, 0, 0);
 				int len = SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXTLEN, idx, 0) + 1;
 
-				EnterCriticalSection(&m_proto->m_filterInfo.csPatternLock);
+				mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
 
 				if (len > SIZEOF(m_proto->m_filterInfo.pattern)) {
 					TCHAR *buf = (TCHAR *)_alloca(len * sizeof(TCHAR));
@@ -565,13 +562,10 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					lstrcpyn(m_proto->m_filterInfo.pattern, buf, SIZEOF(m_proto->m_filterInfo.pattern));
 				}
 				else SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)m_proto->m_filterInfo.pattern);
-
-				LeaveCriticalSection(&m_proto->m_filterInfo.csPatternLock);
 			}
 			else if (HIWORD(wParam) == CBN_EDITCHANGE) {
-				EnterCriticalSection(&m_proto->m_filterInfo.csPatternLock);
+				mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
 				GetWindowText(GetDlgItem(m_hwnd, IDC_CB_FILTER), m_proto->m_filterInfo.pattern, SIZEOF(m_proto->m_filterInfo.pattern));
-				LeaveCriticalSection(&m_proto->m_filterInfo.csPatternLock);
 			}
 			break;
 
@@ -626,7 +620,6 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 void CJabberProto::ConsoleInit()
 {
 	LoadLibraryA("riched20.dll");
-	InitializeCriticalSection(&m_filterInfo.csPatternLock);
 	m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId);
 }
 

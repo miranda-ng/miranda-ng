@@ -69,8 +69,8 @@ struct TFilterInfo
 	volatile BOOL msg, presence, iq;
 	volatile Type type;
 
-	CRITICAL_SECTION csPatternLock;
-	TCHAR pattern[256];
+	mir_cs csPatternLock;
+	TCHAR  pattern[256];
 };
 
 struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
@@ -168,7 +168,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	UINT   m_nJabberCodePage;
 	TCHAR *m_tszSelectedLang;
 
-	CRITICAL_SECTION m_csModeMsgMutex;
+	mir_cs m_csModeMsgMutex;
 	JABBER_MODEMSGS m_modeMsgs;
 	BOOL   m_bModeMsgStatusChangePending;
 
@@ -222,8 +222,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CJabberInfoFrame *m_pInfoFrame;
 
 	LIST<JABBER_LIST_ITEM> m_lstRoster;
-	CRITICAL_SECTION m_csLists;
-	BOOL m_bListInitialised;
+	mir_cs m_csLists;
+	BOOL   m_bListInitialised;
 
 	LIST<JabberFeatCapPairDynamic> m_lstJabberFeatCapPairsDynamic; // list of features registered through IJabberNetInterface::RegisterFeature()
 	JabberCapsBits m_uEnabledFeatCapsDynamic;

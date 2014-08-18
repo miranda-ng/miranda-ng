@@ -268,7 +268,7 @@ class CJabberClientCapsManager
 {
 
 protected:
-	CRITICAL_SECTION m_cs;
+	mir_cs m_cs;
 	CJabberClientCaps *m_pClients;
 	CJabberProto *ppro;
 
@@ -278,13 +278,6 @@ protected:
 public:
 	CJabberClientCapsManager(CJabberProto* proto);
 	~CJabberClientCapsManager();
-
-	__inline void Lock()
-	{	EnterCriticalSection(&m_cs);
-	}
-	__inline void Unlock()
-	{	LeaveCriticalSection(&m_cs);
-	}
 
 	void AddDefaultCaps();
 

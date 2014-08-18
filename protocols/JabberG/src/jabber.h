@@ -590,7 +590,6 @@ extern struct CountryListEntry* g_countries;
 
 extern FI_INTERFACE *FIP;
 
-extern CRITICAL_SECTION mutex;
 extern HANDLE hExtListInit, hDiscoInfoResult;
 extern int bSecureIM, bMirOTR, bNewGPG, bPlatform;
 

@@ -35,7 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CJabberIqManager::CJabberIqManager(CJabberProto* proto)
 {
-	InitializeCriticalSection(&m_cs);
 	m_dwLastUsedHandle = 0;
 	m_pIqs = NULL;
 	m_hExpirerThread = NULL;
@@ -56,7 +55,6 @@ CJabberIqManager::~CJabberIqManager()
 		}
 		m_pPermanentHandlers = NULL;
 	}
-	DeleteCriticalSection(&m_cs);
 }
 
 BOOL CJabberIqManager::Start()

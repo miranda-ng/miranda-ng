@@ -520,7 +520,6 @@ BOOL CJabberClientCaps::SetPartialCaps(int nIqId, JabberCapsBits jcbCaps)
 CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto* proto)
 {
 	ppro = proto;
-	InitializeCriticalSection(&m_cs);
 	m_pClients = NULL;
 }
 
@@ -528,7 +527,6 @@ CJabberClientCapsManager::~CJabberClientCapsManager()
 {
 	if (m_pClients)
 		delete m_pClients;
-	DeleteCriticalSection(&m_cs);
 }
 
 CJabberClientCaps * CJabberClientCapsManager::FindClient(const TCHAR *szNode)
@@ -556,45 +554,43 @@ void CJabberClientCapsManager::AddDefaultCaps()
 
 JabberCapsBits CJabberClientCapsManager::GetClientCaps(TCHAR *szNode, TCHAR *szVer)
 {
-	Lock();
+	mir_cslockfull lck(m_cs);
 	CJabberClientCaps *pClient = FindClient(szNode);
 	if (!pClient) {
-		Unlock();
+		lck.unlock();
 		ppro->debugLog(_T("CAPS: get no caps for: %s, %s"), szNode, szVer);
 		return JABBER_RESOURCE_CAPS_UNINIT;
 	}
 	JabberCapsBits jcbCaps = pClient->GetPartialCaps(szVer);
-	Unlock();
+	lck.unlock();
 	ppro->debugLog(_T("CAPS: get caps %I64x for: %s, %s"), jcbCaps, szNode, szVer);
 	return jcbCaps;
 }
 
 BOOL CJabberClientCapsManager::SetClientCaps(const TCHAR *szNode, const TCHAR *szVer, JabberCapsBits jcbCaps, int nIqId /*= -1*/)
 {
-	Lock();
+	mir_cslockfull lck(m_cs);
 	CJabberClientCaps *pClient = FindClient(szNode);
 	if (!pClient) {
 		pClient = new CJabberClientCaps(szNode);
-		if (!pClient) {
-			Unlock();
+		if (!pClient)
 			return FALSE;
-		}
+
 		pClient->SetNext(m_pClients);
 		m_pClients = pClient;
 	}
 	BOOL bOk = pClient->SetPartialCaps(szVer, jcbCaps, nIqId);
-	Unlock();
+	lck.unlock();
 	ppro->debugLog(_T("CAPS: set caps %I64x for: %s, %s"), jcbCaps, szNode, szVer);
 	return bOk;
 }
 
 BOOL CJabberClientCapsManager::SetClientCaps(int nIqId, JabberCapsBits jcbCaps)
 {
-	Lock();
-	if (!m_pClients) {
-		Unlock();
+	mir_cslock lck(m_cs);
+	if (!m_pClients)
 		return FALSE;
-	}
+
 	BOOL bOk = FALSE;
 	CJabberClientCaps *pClient = m_pClients;
 	while (pClient) {
@@ -605,7 +601,6 @@ BOOL CJabberClientCapsManager::SetClientCaps(int nIqId, JabberCapsBits jcbCaps)
 		}
 		pClient = pClient->GetNext();
 	}
-	Unlock();
 	return bOk;
 }
 
