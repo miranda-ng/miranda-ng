@@ -131,7 +131,7 @@ int CToxProto::OnSettingsChanged(MCONTACT hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING* dbcws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact == NULL && !strcmp(dbcws->szModule, m_szModuleName) && !strcmp(dbcws->szSetting, "Nick"))
 	{
-		if (tox_set_name(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), _tcslen(dbcws->value.ptszVal)))
+		if (tox_set_name(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
 		{
 			SaveToxData();
 		}
@@ -205,7 +205,7 @@ void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendnumber, const u
 void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t usertatus, void *arg)
 {
 	TOX_USERSTATUS userstatus = (TOX_USERSTATUS)usertatus;
-	if (userstatus == TOX_USERSTATUS::TOX_USERSTATUS_NONE)
+	if (userstatus == TOX_USERSTATUS_NONE)
 	{
 		return;
 	}
