@@ -64,9 +64,6 @@ static void InitLog()
 		hLogger = NULL;
 	}
 
-	if (!logOptions.toFile)
-		return;
-
 	ptrT szBuf(db_get_tsa(NULL, "Netlib", "File"));
 	if (lstrlen(szBuf)) {
 		logOptions.tszUserFile = szBuf;
@@ -80,7 +77,8 @@ static void InitLog()
 		logOptions.tszFile = Utils_ReplaceVarsT(logOptions.tszUserFile);
 	}
 
-	hLogger = mir_createLog("Netlib", LPGENT("Standard netlib log"), logOptions.tszFile, 0);
+	if (logOptions.toFile)
+		hLogger = mir_createLog("Netlib", LPGENT("Standard netlib log"), logOptions.tszFile, 0);
 }
 
 static const TCHAR* szTimeFormats[] =
