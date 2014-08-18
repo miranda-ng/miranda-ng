@@ -118,7 +118,7 @@ std::string CToxProto::DataToHexString(std::vector<uint8_t> data)
 {
 	std::ostringstream oss;
 	oss << std::hex << std::uppercase << std::setfill('0');
-	for (int i = 0; i < data.size(); i++)
+	for (size_t i = 0; i < data.size(); i++)
 	{
 		oss << std::setw(2) << static_cast<int>(data[i]);
 	}

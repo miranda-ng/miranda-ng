@@ -95,7 +95,7 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 
 	ptrA reason(mir_utf8encodeW(szMessage));
 
-	int32_t friendnumber = tox_add_friend(tox, &clientId[0], (uint8_t*)(char*)reason, strlen(reason));
+	int32_t friendnumber = tox_add_friend(tox, &clientId[0], (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
 	if (friendnumber >= 0)
 	{
 		SaveToxData();
@@ -172,7 +172,7 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
-	int result = tox_send_message(tox, number, (uint8_t*)msg, strlen(msg));
+	int result = tox_send_message(tox, number, (uint8_t*)msg, (uint16_t)strlen(msg));
 	if (result == 0)
 	{
 		debugLogA("CToxProto::SendMsg: could not to send message");

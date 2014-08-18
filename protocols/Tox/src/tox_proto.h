@@ -98,8 +98,8 @@ private:
 
 	//events
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
-	int __cdecl OnContactDeleted(WPARAM, LPARAM);
-	int __cdecl OnSettingsChanged(WPARAM, LPARAM);
+	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
+	int __cdecl OnSettingsChanged(MCONTACT, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
