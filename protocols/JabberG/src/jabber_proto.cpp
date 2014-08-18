@@ -71,9 +71,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	m_lstJabberFeatCapPairsDynamic(2),
 	m_uEnabledFeatCapsDynamic(0)
 {
-	InitializeCriticalSection(&m_csModeMsgMutex);
-	InitializeCriticalSection(&m_csLists);
-
 	m_szXmlStreamToBeInitialized = NULL;
 
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
@@ -177,13 +174,9 @@ CJabberProto::~CJabberProto()
 	DestroyHookableEvent(m_hEventXStatusChanged);
 
 	ListWipe();
-	DeleteCriticalSection(&m_csLists);
 
 	mir_free(m_tszSelectedLang);
 	mir_free(m_AuthMechs.m_gssapiHostName);
-
-	DeleteCriticalSection(&m_filterInfo.csPatternLock);
-	DeleteCriticalSection(&m_csModeMsgMutex);
 
 	mir_free(m_modeMsgs.szOnline);
 	mir_free(m_modeMsgs.szAway);
@@ -195,11 +188,10 @@ CJabberProto::~CJabberProto()
 
 	mir_free(m_szStreamId);
 
-	int i;
-	for (i=0; i < m_lstTransports.getCount(); i++)
+	for (int i=0; i < m_lstTransports.getCount(); i++)
 		mir_free(m_lstTransports[i]);
 
-	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
+	for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szExt);
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szFeature);
 		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szDescription);

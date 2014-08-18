@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CJabberMessageManager::CJabberMessageManager(CJabberProto *proto)
 {
-	InitializeCriticalSection(&m_cs);
 	m_pPermanentHandlers = NULL;
 	ppro = proto;
 }
@@ -42,8 +41,6 @@ CJabberMessageManager::~CJabberMessageManager()
 		pInfo = pTmp;
 	}
 	m_pPermanentHandlers = NULL;
-
-	DeleteCriticalSection(&m_cs);
 }
 
 void CJabberMessageManager::FillPermanentHandlers()

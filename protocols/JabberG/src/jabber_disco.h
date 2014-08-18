@@ -410,7 +410,7 @@ public:
 		RemoveAll();
 	}
 
-	CRITICAL_SECTION& cs() { return m_cs; }
+	mir_cs& cs() { return m_cs; }
 
 	void RemoveAll()
 	{
