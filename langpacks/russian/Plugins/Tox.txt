@@ -42,7 +42,7 @@
 [All files (*.*)]
 Все файлы (*.*)
 [Select tox profile]
-Выбрать профиль Tox
+Выберите профиль Tox
 [Protocols]
 Протоколы
 [Protocol icon]
