@@ -62,17 +62,17 @@ Miranda NG не можа адчыніць "% S".\n\nДадзеная спасы�
 [Registry warning]
 Заўвага рэестра
 ;file \plugins\AssocMgr\src\test.cpp
-[AIM Link Protocol]
+[AIM link protocol]
 Спасылка AIM
-[ICQ Link Shortcut]
+[ICQ link shortcut]
 Спасылка ICQ
 [&Add to contact list...]
 Дадаць кантакт у спіс
-[Yahoo Link Protocol]
+[Yahoo link protocol]
 Спасылка Yahoo
-[MSN Link Protocol]
+[MSN link protocol]
 Спасылка MSN
-[Gadu-Gadu Link Protocol]
+[Gadu-Gadu link protocol]
 Спасылка Gadu-Gadu
-[Jabber Link Protocol]
+[Jabber link protocol]
 Спасылка Jabber

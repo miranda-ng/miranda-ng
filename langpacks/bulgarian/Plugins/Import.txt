@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.3.1
+;  Version: 0.95.3.2
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -89,6 +89,8 @@ URL адреси
 
 [Skipping contact with no protocol]
 Пропуснати контакти без протокол.
+[Skipping contact, account %S cannot be mapped.]
+
 [Skipping contact, %S not installed.]
 
 [Skipping non-IM contact (%S)]

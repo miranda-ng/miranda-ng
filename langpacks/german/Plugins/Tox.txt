@@ -8,12 +8,12 @@
 [Tox protocol support for Miranda NG.]
 
 ;file \protocols\Tox\res\resource.rc
-[Username:]
-Benutzername:
-[Data file:]
-
+[Name:]
+Name:
 [Default group:]
 Standardgruppe:
+[Username:]
+Benutzername:
 [Connection settings]
 Verbindungseinstellungen
 [Disable UDP (force Tox to use TCP)]
@@ -21,6 +21,16 @@ Verbindungseinstellungen
 [Disable IPv6]
 
 [Tox]
+
+[Tox profile]
+
+[Cancel]
+Abbrechen
+[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
+
+[Create new profile]
+Neues Profil erstellen
+[Use existing profile]
 
 ;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
@@ -30,13 +40,15 @@ Der Kontakt ist bereits in Ihrer Kontaktliste
 Netzwerk
 [Account]
 Konto
+[Contacts]
+Kontakte
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
 ;file \protocols\Tox\src\tox_options.cpp
-[All Files (*.*)]
+[All files (*.*)]
 Alle Dateien (*.*)
-[Select data file]
+[Select tox profile]
 
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]

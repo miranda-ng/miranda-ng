@@ -404,7 +404,7 @@ Dialogue
 
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
-
+Raccourci du protocole Jabber
 [Frame title]
 
 [Frame text]

@@ -62,17 +62,17 @@ Zugriff fehlgeschlagen:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Registrierungswarnung
 ;file \plugins\AssocMgr\src\test.cpp
-[AIM Link Protocol]
+[AIM link protocol]
 AIM-Link-Protokoll
-[ICQ Link Shortcut]
+[ICQ link shortcut]
 ICQ-Link-Verknüpfung
 [&Add to contact list...]
 Zu Kont&aktliste hinzufügen...
-[Yahoo Link Protocol]
+[Yahoo link protocol]
 Yahoo-Link-Protokoll
-[MSN Link Protocol]
+[MSN link protocol]
 MSN-Link-Protokoll
-[Gadu-Gadu Link Protocol]
+[Gadu-Gadu link protocol]
 Gadu-Gadu-Link-Protokoll
-[Jabber Link Protocol]
+[Jabber link protocol]
 Jabber-Link-Protokoll

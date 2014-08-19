@@ -62,17 +62,17 @@ Brak dostępu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Ostrzeżenie rejestru
 ;file \plugins\AssocMgr\src\test.cpp
-[AIM Link Protocol]
+[AIM link protocol]
 Powiązanie protokołu AIM
-[ICQ Link Shortcut]
+[ICQ link shortcut]
 Powiązanie protokołu ICQ
 [&Add to contact list...]
 &Dodaj do listy kontaktów...
-[Yahoo Link Protocol]
+[Yahoo link protocol]
 Powiązanie protokołu Yahoo
-[MSN Link Protocol]
+[MSN link protocol]
 Powiązanie protokołu MSN
-[Gadu-Gadu Link Protocol]
+[Gadu-Gadu link protocol]
 Powiązanie protokołu Gadu-Gadu
-[Jabber Link Protocol]
+[Jabber link protocol]
 Powiązanie protokołu Jabbera
