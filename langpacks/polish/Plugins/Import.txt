@@ -90,7 +90,7 @@ Dodano %S kontakt %s
 [Skipping contact with no protocol]
 Pomijanie kontaktu bez przypisanego protokołu
 [Skipping contact, account %S cannot be mapped.]
-
+Pomijanie kontaktu, konto %s nie może zostać przypisane.
 [Skipping contact, %S not installed.]
 Pomijanie kontaktu, %S jest niezainstalowane.
 [Skipping non-IM contact (%S)]
