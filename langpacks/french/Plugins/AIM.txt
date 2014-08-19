@@ -279,7 +279,7 @@ File du serveur pleine.
 
 ;file \protocols\AimOscar\src\links.cpp
 [AIM Link Protocol]
-
+Raccourci du protocole AIM
 ;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
 %s protocole

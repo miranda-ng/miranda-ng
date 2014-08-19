@@ -386,7 +386,7 @@ Exporter la liste vers un fichier &Texte
 [Gadu-Gadu account chooser]
 
 [Gadu-Gadu Link Protocol]
-
+Raccourci du protocole Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 

@@ -62,17 +62,17 @@ neznáme
 [Registry warning]
 
 ;file \plugins\AssocMgr\src\test.cpp
-[AIM Link Protocol]
+[AIM link protocol]
 
-[ICQ Link Shortcut]
+[ICQ link shortcut]
 
 [&Add to contact list...]
 
-[Yahoo Link Protocol]
+[Yahoo link protocol]
 
-[MSN Link Protocol]
+[MSN link protocol]
 
-[Gadu-Gadu Link Protocol]
+[Gadu-Gadu link protocol]
 
-[Jabber Link Protocol]
+[Jabber link protocol]
 

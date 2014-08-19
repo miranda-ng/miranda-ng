@@ -38,7 +38,6 @@
 [XML Console]
 [Reset log]
 [Send]
-[Jabber Link Protocol]
 [Frame title]
 [Frame text]
 [Fatal error, image services not found. Jabber Protocol will be disabled.]

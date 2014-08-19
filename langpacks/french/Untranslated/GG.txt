@@ -49,7 +49,6 @@
 [List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
 [List cannot be exported because of error:\n\t%s (Error: %d)]
 [Gadu-Gadu account chooser]
-[Gadu-Gadu Link Protocol]
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 [Notify]
 [Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]

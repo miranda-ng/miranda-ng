@@ -71,7 +71,6 @@
 [Email Host Fail.]
 [DNS Fail.]
 [Failed to open file: %s : %s]
-[AIM Link Protocol]
 [Open mail account?]
 [%s Client-to-client connection]
 [Contact tried to open an audio/video conference (not currently supported)]
