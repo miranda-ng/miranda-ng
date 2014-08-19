@@ -119,12 +119,10 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			if (szRun)
 				SetDlgItemTextA(hwndDlg, IDC_RUNATSTART, szRun);
 
-			TVINSERTSTRUCT tvis = { 0 };
 			HWND hwndFilter = GetDlgItem(hwndDlg, IDC_FILTER);
-
 			SetWindowLongPtr(hwndFilter, GWL_STYLE, GetWindowLongPtr(hwndFilter, GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
 
-			tvis.hParent = NULL;
+			TVINSERTSTRUCT tvis = { 0 };
 			tvis.hInsertAfter = TVI_SORT;
 			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -218,8 +216,6 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			GetWindowText(GetDlgItem(hwndDlg, IDC_PATH), str, MAX_PATH);
 			logOptions.tszFile = rtrimt(str);
 
-			InitLog();
-
 			db_set_b(NULL, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV));
 			db_set_b(NULL, "Netlib", "DumpSent", logOptions.dumpSent = IsDlgButtonChecked(hwndDlg, IDC_DUMPSENT));
 			db_set_b(NULL, "Netlib", "DumpProxy", logOptions.dumpProxy = IsDlgButtonChecked(hwndDlg, IDC_DUMPPROXY));
@@ -254,7 +250,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					tvi.hItem = TreeView_GetNextSibling(hwndFilter, tvi.hItem);
 				}
 			}
-
+			InitLog();
+			// fall through
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 		}
