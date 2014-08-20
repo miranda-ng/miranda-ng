@@ -27,7 +27,8 @@ void CToxProto::InitToxCore()
 	tox = tox_new(&options);
 	tox_callback_friend_request(tox, OnFriendRequest, this);
 	tox_callback_friend_message(tox, OnFriendMessage, this);
-	tox_callback_friend_action(tox, OnAction, this);
+	tox_callback_typing_change(tox, OnFriendTyping, this);
+	//tox_callback_friend_action(tox, OnAction, this);
 	tox_callback_name_change(tox, OnFriendNameChange, this);
 	tox_callback_status_message(tox, OnStatusMessageChanged, this);
 	tox_callback_user_status(tox, OnUserStatusChanged, this);

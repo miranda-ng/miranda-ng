@@ -105,10 +105,10 @@ private:
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 	static int __cdecl OnAccountListChanged(void *obj, WPARAM wParam, LPARAM lParam);
 	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
-	static int __cdecl OnUserInfoInit(void *obj, WPARAM wParam, LPARAM lParam);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnFriendTyping(Tox *tox, const int friendnumber, uint8_t isTyping, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendnumber, const uint8_t *name, const uint16_t nameSize, void *arg);
 	static void OnStatusMessageChanged(Tox *tox, const int friendnumber, const uint8_t* message, const uint16_t messageSize, void *arg);
 	static void OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t usertatus, void *arg);

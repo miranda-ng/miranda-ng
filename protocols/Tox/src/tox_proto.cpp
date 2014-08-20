@@ -1,7 +1,7 @@
 #include "common.h"
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CToxProto>(protoName, userName)
+PROTO<CToxProto>(protoName, userName)
 {
 	InitToxCore();
 
@@ -44,7 +44,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
-		return PF4_IMSENDUTF | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED;
+		return PF4_IMSENDUTF | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:
@@ -229,7 +229,24 @@ HANDLE __cdecl CToxProto::GetAwayMsg(MCONTACT hContact) { return 0; }
 int __cdecl CToxProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt) { return 0; }
 int __cdecl CToxProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg) { return 0; }
 
-int __cdecl CToxProto::UserIsTyping(MCONTACT hContact, int type) { return 0; }
+int __cdecl CToxProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	if (hContact && IsOnline())
+	{
+		std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
+		std::vector<uint8_t> clientId = HexStringToData(toxId);
+
+		uint32_t number = tox_get_friend_number(tox, clientId.data());
+
+		if (number >= 0)
+		{
+			tox_set_user_is_typing(tox, number, type);
+			return 0;
+		}
+	}
+
+	return 1;
+}
 
 int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
