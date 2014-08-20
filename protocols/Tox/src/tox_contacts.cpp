@@ -118,9 +118,13 @@ void CToxProto::LoadContactList()
 				tox_get_name(tox, friends[i], &username[0]);
 				std::string nick(username.begin(), username.end());
 				setWString(hContact, "Nick", ptrW(Utf8DecodeW(nick.c_str())));
-			}
 
-			//tox_get_last_online
+				uint64_t timestamp = tox_get_last_online(tox, friends[i]);
+				if (timestamp)
+				{
+					setDword(hContact, "LastEventDateTS", timestamp);
+				}
+			}
 		}
 	}
 }
