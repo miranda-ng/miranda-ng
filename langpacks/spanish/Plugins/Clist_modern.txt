@@ -955,7 +955,7 @@ Habilitar sonidos
 Desabilitar sonidos
 [Minimize]
 Minimizar
-[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 Para ver una barra de herramientas en Clist_modern necesitas el plugin TopToolBar. Haga clic en Sí para descargarlo o Cancelar para continuar
 [Toolbar background]
 

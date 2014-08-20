@@ -955,7 +955,7 @@ Menu stavov
 
 [Minimize]
 
-[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 
 [Toolbar background]
 

@@ -955,7 +955,7 @@ Włącz dźwięki
 Wyłącz dźwięki
 [Minimize]
 Minimalizuj
-[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 Aby wyświetlić pasek narzędzi w Clist_modern wymagana jest wtyczka TopToolBar. Kliknij Tak aby pobrać lub Nie aby kontynuować.
 [Toolbar background]
 Tło paska narzędzi

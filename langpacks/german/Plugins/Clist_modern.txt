@@ -955,7 +955,7 @@ Klänge aktivieren
 Klänge deaktivieren
 [Minimize]
 Minimieren
-[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 Um eine Toolbar in Clist Modern zu sehen, benötigen Sie das TopToolBar Plugin. Klicken Sie Ja um es zu installieren, oder Abbrechen um fortzusetzen.
 [Toolbar background]
 Toolbar Hintergrund

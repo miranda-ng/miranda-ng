@@ -6551,7 +6551,7 @@ Ctrl+Лівий клік вкл. фільтр за протоколом, клі�
 Вимкнути звуки
 [Minimize]
 Згорнути
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 Для відображення панелі кнопок в Clist Modern необхідний плагін TopToolBar. Натисніть кнопку "Так", щоб завантажити плагін, або "Ні", щоб продовжити, не завантажуючи.
 [Toolbar upgrade]
 Оновлення панелі кнопок
