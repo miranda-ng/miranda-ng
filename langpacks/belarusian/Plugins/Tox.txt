@@ -8,16 +8,10 @@
 ;file \protocols\Tox\res\resource.rc
 [Name:]
 Імя:
-[Username:]
-Карыстач:
-[Cancel]
-Скасаваць
 ;file \protocols\Tox\src\tox_contacts.cpp
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Сеціва
-[Contacts]
-Кантакты
 ;file \protocols\Tox\src\tox_netlib.cpp
 ;file \protocols\Tox\src\tox_options.cpp
 ;file \protocols\Tox\src\tox_proto.cpp

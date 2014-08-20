@@ -11,8 +11,6 @@
 Ім'я:
 [Default group:]
 Група:
-[Username:]
-Користувач:
 [Connection settings]
 Налаштування підключення
 [Disable UDP (force Tox to use TCP)]
@@ -21,8 +19,6 @@
 Вимкнути IPv6
 [Tox profile]
 Профіль Tox
-[Cancel]
-Скасувати
 [Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
 Профіль Tox містить ваш ID та список друзів.\r\nСтворіть новий профіль, якщо раніше ви ніколи не користувались Tox, або використовуйте профіль Tox від іншого клієнта.
 [Create new profile]
@@ -35,8 +31,6 @@
 Мережа
 [Account]
 Обліковий запис
-[Contacts]
-Контакти
 [%s connection]
 З'єднання %s
 [All files (*.*)]

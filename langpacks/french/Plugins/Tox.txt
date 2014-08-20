@@ -10,10 +10,12 @@
 ;file \protocols\Tox\res\resource.rc
 [Name:]
 Nom :
+[Tox ID:]
+
 [Default group:]
 Groupes :
-[Username:]
-Identifiant :
+[C]
+
 [Connection settings]
 
 [Disable UDP (force Tox to use TCP)]
@@ -24,8 +26,6 @@ Identifiant :
 
 [Tox profile]
 
-[Cancel]
-Annuler
 [Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
 
 [Create new profile]
@@ -40,8 +40,6 @@ Annuler
 Réseau
 [Account]
 Compte
-[Contacts]
-Contacts
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 

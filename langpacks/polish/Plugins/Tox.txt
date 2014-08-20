@@ -10,10 +10,12 @@ Wsparcie protokołu Tox dla Mirandy NG.
 ;file \protocols\Tox\res\resource.rc
 [Name:]
 Nazwa:
+[Tox ID:]
+
 [Default group:]
 Domyślna grupa:
-[Username:]
-Użytkownik:
+[C]
+
 [Connection settings]
 Ustawienia połączenia
 [Disable UDP (force Tox to use TCP)]
@@ -24,8 +26,6 @@ Wyłącz IPV6
 Tox
 [Tox profile]
 Profil Tox
-[Cancel]
-Anuluj
 [Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
 Profil Tox zawiera twoje ID oraz listę znajomych.\r\nMożesz założyć nowy profil jeśli nigdy przedtem nie używałeś tox lub zaimportować istniejący profil z innego klienta tox.
 [Create new profile]
@@ -40,8 +40,6 @@ Kontakt jest już na liście kontaktów
 Protokoły
 [Account]
 Konto
-[Contacts]
-Kontakty
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
