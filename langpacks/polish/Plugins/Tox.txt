@@ -11,11 +11,11 @@ Wsparcie protokołu Tox dla Mirandy NG.
 [Name:]
 Nazwa:
 [Tox ID:]
-
+Tox ID:
 [Default group:]
 Domyślna grupa:
 [C]
-
+C
 [Connection settings]
 Ustawienia połączenia
 [Disable UDP (force Tox to use TCP)]
