@@ -11,8 +11,6 @@
 Имя:
 [Default group:]
 Группа:
-[Username:]
-Имя пользователя:
 [Connection settings]
 Настройки подключения
 [Disable UDP (force Tox to use TCP)]
@@ -21,8 +19,6 @@
 Отключить IPv6
 [Tox profile]
 Профиль Tox
-[Cancel]
-Отмена
 [Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
 Профиль Tox содержит ваш ID и список друзей.\r\nВы можете создать новый профиль, если вы никогда раньше не использовали Tox, либо использовать профиль Tox от другого клиента.
 [Create new profile]
@@ -35,8 +31,6 @@
 Сеть
 [Account]
 Учётная запись
-[Contacts]
-Контакты
 [%s connection]
 %s подключение
 [All files (*.*)]
