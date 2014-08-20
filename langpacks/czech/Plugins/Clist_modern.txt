@@ -955,7 +955,7 @@ Povolit zvuky
 Zakázat zvuky
 [Minimize]
 Minimalizovat
-[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 Pro zobrazení lišty tlačítek v seznamu kontaktů potřebujete doplněk TopToolBar. Klikněte na Ano pro stažení nebo Zrušit pro pokračování
 [Toolbar background]
 Pozadí tlačítkové lišty

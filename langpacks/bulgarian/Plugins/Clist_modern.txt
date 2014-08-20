@@ -955,7 +955,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 Изключване на звука
 [Minimize]
 Минимизиране
-[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 За да имате лента с инструменти в Clist_modern се нуждаете от приставката TopToolBar.\nНатиснете "Да" ако искате да я свалите или "Отказ" за да продължите
 [Toolbar background]
 

@@ -919,7 +919,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 Вимкнути звуки
 [Minimize]
 Згорнути
-[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 Для відображення панелі кнопок в Clist_modern необхідний плагін TopToolBar. Натисніть кнопку "Так", щоб завантажити плагін, або "Ні", щоб продовжити, не завантажуючи.
 [Toolbar background]
 Фон панелі кнопок

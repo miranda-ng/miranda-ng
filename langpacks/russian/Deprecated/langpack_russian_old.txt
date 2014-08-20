@@ -9380,7 +9380,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 
 [Toolbar upgrade]
 Обновление панели кнопок
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 Для отображения панели кнопок в Clist Modern необходим плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
 
 ;-СКИН СПИСКА-
