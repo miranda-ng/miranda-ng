@@ -173,9 +173,6 @@ INT_PTR CALLBACK CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM w
 			}
 			break;
 
-		case IDCANCEL:
-			EndDialog(hwnd, 0);
-			break;
 		}
 		break;
 	}

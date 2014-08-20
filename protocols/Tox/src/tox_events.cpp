@@ -129,11 +129,22 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 int CToxProto::OnSettingsChanged(MCONTACT hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING* dbcws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact == NULL && !strcmp(dbcws->szModule, m_szModuleName) && !strcmp(dbcws->szSetting, "Nick"))
+	if (hContact == NULL && !strcmp(dbcws->szModule, m_szModuleName))
 	{
-		if (tox_set_name(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
+		if (!strcmp(dbcws->szSetting, "Nick"))
 		{
-			SaveToxData();
+			if (tox_set_name(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
+			{
+				SaveToxData();
+			}
+		}
+
+		if (!strcmp(dbcws->szSetting, "StatusMsg") || !strcmp(dbcws->szSetting, "StatusNote"))
+		{
+			if (tox_set_status_message(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
+			{
+				SaveToxData();
+			}
 		}
 	}
 
@@ -148,7 +159,7 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *
 	std::string toxId = proto->DataToHexString(clientId);
 
 	proto->RaiseAuthRequestEvent(time(NULL), toxId.c_str(), (char*)message);
-	
+
 	proto->SaveToxData();
 }
 
@@ -198,7 +209,8 @@ void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendnumber, const u
 	MCONTACT hContact = proto->FindContact(toxId.c_str());
 	if (hContact)
 	{
-		db_set_s(hContact, "CList", "StatusMsg", (char*)message);
+		ptrW statusMessage(mir_utf8decodeW((char*)message));
+		db_set_ws(hContact, "CList", "StatusMsg", statusMessage);
 	}
 }
 
