@@ -14,7 +14,7 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
 
 	wchar_t sectionName[100];
-	mir_sntprintf(sectionName, SIZEOF(sectionName), _T("%s/%s"), LPGENT("Protocols"), LPGENT(MODULE));
+	mir_sntprintf(sectionName, SIZEOF(sectionName), _T("%s/%s"), LPGENT("Protocols"), MODULE);
 
 	char settingName[100];
 	mir_snprintf(settingName, SIZEOF(settingName), "%s_%s", MODULE, "main");
