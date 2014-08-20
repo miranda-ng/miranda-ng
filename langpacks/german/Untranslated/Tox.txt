@@ -1,4 +1,6 @@
 ﻿[Tox protocol support for Miranda NG.]
+[Tox ID:]
+[C]
 [Disable UDP (force Tox to use TCP)]
 [Disable IPv6]
 [Tox]

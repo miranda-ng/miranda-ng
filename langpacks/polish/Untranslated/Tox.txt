@@ -1,5 +1,2 @@
-﻿[Tox profile]
-[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
-[Create new profile]
-[Use existing profile]
-[Select tox profile]
+﻿[Tox ID:]
+[C]
