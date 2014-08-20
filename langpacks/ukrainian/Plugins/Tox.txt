@@ -19,8 +19,16 @@
 Вимкнути UDP (примусово використ. TCP)
 [Disable IPv6]
 Вимкнути IPv6
+[Tox profile]
+Профіль Tox
 [Cancel]
 Скасувати
+[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
+Профіль Tox містить ваш ID та список друзів.\r\nСтворіть новий профіль, якщо раніше ви ніколи не користувались Tox, або використовуйте профіль Tox від іншого клієнта.
+[Create new profile]
+Створити новий профіль
+[Use existing profile]
+Використати існуючий
 [Contact already in your contact list]
 Контакт уже в списку
 [Network]
@@ -33,6 +41,8 @@
 З'єднання %s
 [All files (*.*)]
 Усі файли (*.*)
+[Select tox profile]
+Виберіть профіль Tox
 [Protocols]
 Протоколи
 [Protocol icon]
