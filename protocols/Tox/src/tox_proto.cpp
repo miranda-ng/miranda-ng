@@ -151,13 +151,7 @@ int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT*) { return 0; 
 
 int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
-	return (INT_PTR)AddDbEvent(
-		hContact,
-		EVENTTYPE_MESSAGE,
-		pre->timestamp,
-		DBEF_UTF,
-		lstrlenA(pre->szMessage),
-		(BYTE*)pre->szMessage);
+	return Proto_RecvMessage(hContact, pre);
 }
 
 int __cdecl CToxProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 0; }

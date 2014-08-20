@@ -3,7 +3,7 @@
 int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
-	HookEventObj(ME_USERINFO_INITIALISE, OnUserInfoInit, this);
+	//HookEventObj(ME_USERINFO_INITIALISE, OnUserInfoInit, this);
 	HookEventObj(ME_PROTO_ACCLISTCHANGED, OnAccountListChanged, this);
 
 	InitNetlib();
