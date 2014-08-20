@@ -15,6 +15,9 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			ptrW nick(proto->getTStringA("Nick"));
 			SetDlgItemText(hwnd, IDC_NAME, nick);
 
+			ptrA toxId(proto->getStringA(TOX_SETTINGS_ID));
+			SetDlgItemTextA(hwnd, IDC_TOXID, toxId);
+
 			ptrW group(proto->getTStringA(TOX_SETTINGS_GROUP));
 			SetDlgItemText(hwnd, IDC_GROUP, group);
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
@@ -33,6 +36,22 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			{
 				if (HIWORD(wParam) != EN_CHANGE) return 0;
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			}
+			break;
+
+		case IDC_CLIPBOARD:
+			{
+				char toxId[TOX_FRIEND_ADDRESS_SIZE * 2 + 1];
+				GetDlgItemTextA(hwnd, IDC_TOXID, toxId, SIZEOF(toxId));
+				if (OpenClipboard(GetDlgItem(hwnd, IDC_TOXID)))
+				{
+					EmptyClipboard();
+					HGLOBAL hMem = GlobalAlloc(GMEM_FIXED, SIZEOF(toxId));
+					memcpy(GlobalLock(hMem), toxId, SIZEOF(toxId));
+					GlobalUnlock(hMem);
+					SetClipboardData(CF_TEXT, hMem);
+					CloseClipboard();
+				}
 			}
 			break;
 
