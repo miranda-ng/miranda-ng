@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IEHistory.dll
 ;  Plugin: IEHistory
-;  Version: 0.0.1.6
+;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Close]

@@ -1257,8 +1257,20 @@ UIN, E-mail и т.д.
 Должность:
 [Website:]
 Сайт:
-[position:]
-Должность:
+[e-mail:]
+Почта:
+[phone:]
+Телефон:
+[web page:]
+Сайт:
+[past background:]
+Прошлое:
+[interests:]
+Интересы:
+[about:]
+Информация:
+[my notes:]
+Мои заметки:
 [street:]
 Улица:
 [city:]
@@ -1269,8 +1281,18 @@ UIN, E-mail и т.д.
 Индекс:
 [country:]
 Страна:
-[website:]
-Сайт:
+[spoken languages:]
+Языки:
+[timezone:]
+Часовой пояс:
+[local time:]
+Местное время:
+[set custom time zone]
+Установить часовой пояс
+[company:]
+Компания:
+[department:]
+Отдел:
 [%s requests authorization]
 %s запрашивает авторизацию
 [%u requests authorization]
