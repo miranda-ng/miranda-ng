@@ -99,12 +99,13 @@ private:
 	//events
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
-	int __cdecl OnSettingsChanged(MCONTACT, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+	
+	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
+	static int __cdecl OnSettingsChanged(void *obj, WPARAM wParam, LPARAM lParam);
+	static int __cdecl OnAccountListChanged(void *obj, WPARAM wParam, LPARAM lParam);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
-	static int __cdecl OnAccountListChanged(void *obj, WPARAM wParam, LPARAM lParam);
-	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg);
@@ -153,6 +154,7 @@ private:
 	void SaveToxData();
 
 	// dialogs
+	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };

@@ -2,15 +2,20 @@
 // Microsoft Visual C++ generated include file.
 // Used by e:\Projects\C++\MirandaNG\protocols\Tox\res\resource.rc
 //
+#define IDD_SEARCH                      138
 #define IDI_TOX                         1000
 #define IDD_PROFILE_MANAGER             1001
 #define IDC_TOXID                       1002
 #define IDD_ACCOUNT_MANAGER             1003
 #define IDC_CLIPBOARD                   1004
 #define IDD_OPTIONS_MAIN                1005
+#define IDC_RADIO1                      1005
+#define IDC_SEARCH_TOXMESE              1005
 #define IDC_CREATE_NEW                  1006
-#define IDC_USE_EXISTING                1007
 #define IDC_PROFILE_PATH                1006
+#define IDC_SEARCH                      1006
+#define IDC_USE_EXISTING                1007
+#define IDC_ADDTOLIST                   1007
 #define IDC_BROWSE_PROFILE              1009
 #define IDC_NAME                        1010
 #define IDC_GROUP                       1011
@@ -23,7 +28,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1005
+#define _APS_NEXT_CONTROL_VALUE         1008
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
