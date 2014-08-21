@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -32,6 +32,10 @@ Profil Tox zawiera twoje ID oraz listę znajomych.\r\nMożesz założyć nowy pr
 Utwórz nowy profil
 [Use existing profile]
 Użyj istniejącego profilu
+[Search via toxme.se]
+
+[Add to friend list]
+
 ;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów

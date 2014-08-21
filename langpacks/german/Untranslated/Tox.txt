@@ -7,4 +7,6 @@
 [Tox profile]
 [Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
 [Use existing profile]
+[Search via toxme.se]
+[Add to friend list]
 [Select tox profile]
