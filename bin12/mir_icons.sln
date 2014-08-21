@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_12.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
@@ -74,9 +74,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\proto
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols\MRA\xstatus_MRA\xstatus_MRA_12.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\plugins\Icons\proto_metacontacts\Proto_MetaContacts_12.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Sametime", "..\protocols\Sametime\proto_sametime\Proto_Sametime_12.vcxproj", "{217C99B1-0D5E-4A85-A84F-836FCA167B25}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\src\icons\proto_metacontacts\Proto_MetaContacts_12.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -374,14 +374,6 @@ Global
 		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|Win32.Build.0 = Release|Win32
 		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|x64.ActiveCfg = Release|x64
 		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|x64.Build.0 = Release|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.ActiveCfg = Debug|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.Build.0 = Debug|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.ActiveCfg = Debug|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.Build.0 = Debug|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.ActiveCfg = Release|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|Win32.ActiveCfg = Debug|Win32
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|Win32.Build.0 = Debug|Win32
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|x64.ActiveCfg = Debug|x64
@@ -390,6 +382,14 @@ Global
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|Win32.Build.0 = Release|Win32
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|x64.ActiveCfg = Release|x64
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|x64.Build.0 = Release|x64
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.ActiveCfg = Debug|Win32
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.Build.0 = Debug|Win32
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.ActiveCfg = Debug|x64
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.Build.0 = Debug|x64
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.ActiveCfg = Release|Win32
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
