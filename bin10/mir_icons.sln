@@ -62,7 +62,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Weather", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_YAMN", "..\plugins\YAMN\proto_yamn\proto_YAMN_10.vcxproj", "{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fp_icons", "..\plugins\FingerprintNG\iconpacks\fp_icons_10.vcxproj", "{7F854B13-37EA-4956-BAEE-9715AE9F4579}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fingerprint Icons", "..\plugins\FingerprintNG\iconpacks\fp_icons_10.vcxproj", "{7F854B13-37EA-4956-BAEE-9715AE9F4579}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Skype", "..\protocols\Skype\proto_skype\Proto_Skype_10.vcxproj", "{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}"
 EndProject
@@ -70,9 +70,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_conn_Skype", "..\prot
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte_10.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\plugins\Icons\proto_metacontacts\Proto_MetaContacts_10.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Sametime", "..\protocols\Sametime\proto_sametime\Proto_Sametime_10.vcxproj", "{217C99B1-0D5E-4A85-A84F-836FCA167B25}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\src\icons\proto_metacontacts\Proto_MetaContacts_10.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -362,14 +362,6 @@ Global
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|Win32.Build.0 = Release|Win32
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|x64.ActiveCfg = Release|x64
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Release|x64.Build.0 = Release|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.ActiveCfg = Debug|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.Build.0 = Debug|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.ActiveCfg = Debug|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.Build.0 = Debug|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.ActiveCfg = Release|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
-		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|Win32.ActiveCfg = Debug|Win32
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|Win32.Build.0 = Debug|Win32
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Debug|x64.ActiveCfg = Debug|x64
@@ -378,6 +370,14 @@ Global
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|Win32.Build.0 = Release|Win32
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|x64.ActiveCfg = Release|x64
 		{217C99B1-0D5E-4A85-A84F-836FCA167B25}.Release|x64.Build.0 = Release|x64
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.ActiveCfg = Debug|Win32
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|Win32.Build.0 = Debug|Win32
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.ActiveCfg = Debug|x64
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Debug|x64.Build.0 = Debug|x64
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.ActiveCfg = Release|Win32
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
+		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
