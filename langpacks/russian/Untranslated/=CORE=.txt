@@ -1,5 +1,4 @@
 ﻿[AaBbYyZz]
-[list1]
 [&E-mail]
 [ID]
 [Ctrl + ]
