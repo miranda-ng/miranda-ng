@@ -1008,7 +1008,7 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 				continue;
 
 			int protoCaps = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-			if (protoCaps & (PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_EXTSEARCHUI))
+			if (protoCaps & PF1_ANYSEARCH)
 				netProtoCount++;
 		}
 		if (netProtoCount > 0)
@@ -1049,7 +1049,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	for (int i=0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
 		int protoCaps = CallProtoServiceInt(NULL, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-		if (protoCaps & (PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_EXTSEARCHUI))
+		if (protoCaps & PF1_ANYSEARCH)
 			netProtoCount++;
 	}
 
