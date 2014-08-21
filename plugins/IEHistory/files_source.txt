@@ -1,0 +1,4 @@
+IEHistory\res\*.*
+IEHistory\*.*
+docs\*.*
+*.*
