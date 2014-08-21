@@ -22,7 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "math.h"
 #include <commctrl.h>
 
-#define GAP_SIZE 2
+//#define GAP_SIZE 2
+#define GAP_SIZE 0
 #define MIN_HISTORY_WIDTH 350
 #define MIN_HISTORY_HEIGHT 100
 
@@ -45,24 +46,30 @@ int ScrollToBottom(HWND hWnd);
 
 void RefreshButtonStates(HWND hWnd);
 
-HANDLE GetNeededEvent(HANDLE hLastFirstEvent, int index, int direction);
+HANDLE GetNeededEvent(HANDLE hLastFirstEvent, int num, int direction);
 
 int CalcIEViewPos(IEVIEWWINDOW *ieWnd, HWND hMainWindow)
 {
 	RECT rect;
-	GetWindowRect(GetDlgItem(hMainWindow, IDC_IEVIEW_PLACEHOLDER), &rect);
-	ScreenToClient(hMainWindow, &rect);
+	GetWindowRect(GetDlgItem(hMainWindow,IDC_IEVIEW_PLACEHOLDER), &rect);
+	rect.right-=rect.left; rect.bottom-=rect.top;
+	ScreenToClient(hMainWindow, (POINT*)&rect);
 
-	ieWnd->x = rect.left + GAP_SIZE;
-	ieWnd->y = rect.top + GAP_SIZE;
-	ieWnd->cx = rect.right - rect.left - (2 * GAP_SIZE);
-	ieWnd->cy = rect.bottom - rect.top - (2 * GAP_SIZE);
+	/// @todo : find out why -1/+1 is required... or why IEView uses a border...
+	ieWnd->x = -1+rect.left + GAP_SIZE;
+	ieWnd->y = -1+rect.top + GAP_SIZE;
+	ieWnd->cx = 2+rect.right - (2 * GAP_SIZE);
+	ieWnd->cy = 2+rect.bottom - (2 * GAP_SIZE);
 	return 0;
 }
 
 void LoadName(HWND hWnd)
 {
 	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
+	if(!data->contact){
+		SetWindowText(hWnd, TranslateT("System History"));
+		return;
+	}
 	TCHAR *szOther = GetContactName(data->contact);
 	TCHAR buffer[1024];
 	sntprintf(buffer, 1024, _T("'%s' - IEHistory"), szOther);
@@ -82,8 +89,6 @@ int LoadIEView(HWND hWnd)
 	CallService(MS_IEVIEW_WINDOW, 0, (LPARAM) &ieWnd);
 	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	data->hIEView = ieWnd.hwnd;
-	SetWindowPos(GetDlgItem(hWnd, IDC_IEVIEW_PLACEHOLDER), HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-	//ShowWindow(GetDlgItem(hWnd, IDC_IEVIEW_PLACEHOLDER), SW_HIDE);
 	return 0;
 }
 

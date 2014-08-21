@@ -55,7 +55,8 @@ INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM lParam)
 		SetWindowLongPtr(historyDlg, DWLP_USER, (LONG_PTR)data);
 		
 		WindowList_Add(hOpenWindowsList, historyDlg, (MCONTACT) wParam);
-	}
+	}else
+		SetForegroundWindow(historyDlg);
 	ShowWindow(historyDlg, SW_SHOWNORMAL);
 	return 0;
 }
