@@ -642,6 +642,14 @@
 [Department:]
 [Position:]
 [Website:]
+;file \src\icons\proto_metacontacts\res\Proto_MetaContacts.rc
+[position:]
+[street:]
+[city:]
+[state:]
+[postal code:]
+[country:]
+[website:]
 ;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 [%u requests authorization]

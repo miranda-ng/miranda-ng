@@ -1,0 +1,53 @@
+﻿#muuid {2f093b88-f389-44f1-9e2a-37c29194203a}
+;============================================================
+;  File: IEHistory.dll
+;  Plugin: IEHistory
+;  Version: 0.0.1.6
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+[Close]
+Закрыть
+[&Prev]
+Пред
+[&Next]
+Далее
+[&Search]
+&Искать
+[Number of events to load]
+Кол-во событий для загр.
+[Load all events]
+Загр. все события
+[Load only ]
+Загр. только
+[events per page.]
+событий на странице.
+[Show last page first]
+Посл. страница первой
+[Load items in background]
+Загружать в фоне
+[RTL is default text direction.]
+RTL по умолчанию.
+[Search]
+Поиск
+[&Find next]
+&Следующий
+[Cancel]
+Отмена
+[Text :]
+Текст:
+[Out of a total of]
+Всего из
+[Error]
+Ошибка
+[Text search]
+Поиск текста
+[Time search]
+Поиск времени
+[Search finished. No more entries ...]
+Поиск закончен. Больше результатов нет ...
+[Information]
+Информация
+[History]
+История
+[View &history]
+&История
