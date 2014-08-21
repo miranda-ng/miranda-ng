@@ -1,2 +1,0 @@
-IEHistory\Release\IEHistory.dll
-IEHistory\Release UNICODE\IEHistoryW.dll
