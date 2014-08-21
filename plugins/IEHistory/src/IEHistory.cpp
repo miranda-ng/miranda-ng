@@ -19,8 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-
-#include "commonheaders.h"
 #include "services.h"
 
 int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
@@ -31,12 +29,6 @@ HANDLE hOpenWindowsList = NULL;
 
 HMODULE hUxTheme = 0;
 BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = NULL;
-
-#ifdef _UNICODE
-#define IEHISTORY_PLUGININFO_SUFFIX " (Unicode)"
-#else
-#define IEHISTORY_PLUGININFO_SUFFIX ""
-#endif
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -55,14 +47,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = {MIID_UIHISTORY, MIID_LAST};
+static const MUUID interfaces[] = { MIID_UIHISTORY, MIID_LAST };
 
 extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
 {
 	return interfaces;
 }
-
-#include <commctrl.h>
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -73,16 +63,15 @@ extern "C" int __declspec(dllexport) Load(void)
 	icex.dwICC = ICC_DATE_CLASSES;
 
 	InitCommonControlsEx(&icex);
-	
-	if((hUxTheme = LoadLibraryA("uxtheme.dll")) != 0){
-		MyEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	}
+
+	if ((hUxTheme = LoadLibraryA("uxtheme.dll")) != 0)
+		MyEnableThemeDialogTexture = (BOOL(WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 
 	//all initialization here
 	hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HISTORYICON));
 
 	InitServices();
-	
+
 	HookEvents();
 	return 0;
 }
@@ -90,7 +79,7 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload()
 {
 	DestroyServices();
-	
+
 	WindowList_Broadcast(hOpenWindowsList, WM_CLOSE, 0, 0);
 	return 0;
 }
@@ -98,7 +87,7 @@ extern "C" int __declspec(dllexport) Unload()
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInstance = hinstDLL;
-	if(fdwReason == DLL_PROCESS_ATTACH){
+	if (fdwReason == DLL_PROCESS_ATTACH) {
 		DisableThreadLibraryCalls(hinstDLL);
 		LogInit();
 	}
