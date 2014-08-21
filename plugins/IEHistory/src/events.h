@@ -23,13 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-extern HANDLE hModulesLoaded;
 extern HANDLE hOptionsInitialize;
 
 int HookEvents();
 int UnhookEvents();
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 int OnOptionsInitialize(WPARAM wParam, LPARAM lParam);
 
 #endif //M_HISTORY_HOOKED_EVENTS_H

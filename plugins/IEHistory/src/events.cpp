@@ -21,44 +21,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "events.h"
 
-HANDLE hModulesLoaded;
 HANDLE hOptionsInitialize;
 
 int HookEvents()
 {
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	return 0;
 }
 
 int UnhookEvents()
 {
-	UnhookEvent(hModulesLoaded);
 	UnhookEvent(hOptionsInitialize);
-	return 0;
-}
-
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	CLISTMENUITEM menuItem = {0};
-	menuItem.cbSize = sizeof(CLISTMENUITEM);
-	menuItem.flags = 0;
-	menuItem.pszContactOwner = NULL; //all contacts
-	menuItem.hIcon = hIcon;
-
-	menuItem.position = 1000090000;
-	
-	menuItem.pszName = Translate("View &history");
-	menuItem.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-
-	Menu_AddContactMenuItem(&menuItem);
-	
-/// @todo (White-Tiger#1#08/19/14): fully implement
-	menuItem.pszName = Translate("&System History");
-	Menu_AddMainMenuItem(&menuItem);
-	//PLUGININFO pInfo = pluginInfo;
-	//pInfo.shortName = "IEView History Viewer";
-	hOpenWindowsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	return 0;
 }
 
