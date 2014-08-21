@@ -21,10 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_IEHISTORY_UTILS_H
 #define M_IEHISTORY_UTILS_H
 
-#include "stdafx.h"
-#include <time.h>
-#include <m_core.h>
-
 #define ANCHOR_LEFT     0x000001
 #define ANCHOR_RIGHT		0x000002
 #define ANCHOR_TOP      0x000004

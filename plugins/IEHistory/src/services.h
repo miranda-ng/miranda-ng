@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_IEHISTORY_PROVIDED_SERVICES_H
 #define M_IEHISTORY_PROVIDED_SERVICES_H
 
-#include "commonheaders.h"
+#include "stdafx.h"
 #include "dlgHandlers.h"
 
 int InitServices();

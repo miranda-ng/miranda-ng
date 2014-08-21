@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_HISTORY_DLG_HANDLERS_H
 #define M_HISTORY_DLG_HANDLERS_H
 
-#include "commonheaders.h"
+#include "stdafx.h"
 
 #define LOAD_IN_BACKGROUND 0x00000001
 

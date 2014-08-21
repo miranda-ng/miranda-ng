@@ -79,7 +79,7 @@
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>comctl32.lib;User32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -106,7 +106,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>comctl32.lib;User32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -129,7 +129,7 @@
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>comctl32.lib;User32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -155,7 +155,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>comctl32.lib;User32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -182,7 +182,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\dlgHandlers.h" />
     <ClInclude Include="src\events.h" />
     <ClInclude Include="src\resource.h" />

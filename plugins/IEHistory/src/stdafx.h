@@ -18,27 +18,76 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#pragma once
+#ifndef M_COMMON_HEADERS_H
+#define M_COMMON_HEADERS_H
 
-// Modify the following defines if you have to target a platform prior to the ones specified below.
-// Refer to MSDN for the latest info on corresponding values for different platforms.
-#ifndef WINVER				// Allow use of features specific to Windows XP or later.
-#define WINVER 0x0501		// Change this to the appropriate value to target other versions of Windows.
-#endif
+#define EVENTTYPE_STATUS 25368 //tabsrmm status events
 
-#ifndef _WIN32_WINNT		// Allow use of features specific to Windows XP or later.                   
-#define _WIN32_WINNT 0x0501	// Change this to the appropriate value to target other versions of Windows.
-#endif						
+#define WINVER 0x0501
+#define _WIN32_WINNT 0x0501
+#define _WIN32_WINDOWS 0x0410
+#define _WIN32_IE 0x0600
 
-#ifndef _WIN32_WINDOWS		// Allow use of features specific to Windows 98 or later.
-#define _WIN32_WINDOWS 0x0410 // Change this to the appropriate value to target Windows Me or later.
-#endif
-
-#ifndef _WIN32_IE			// Allow use of features specific to IE 6.0 or later.
-#define _WIN32_IE 0x0600	// Change this to the appropriate value to target other versions of IE.
-#endif
-
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <CommCtrl.h>
+#include "prsht.h"
 
+#include <malloc.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <uxtheme.h>
+
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_utils.h>
+#include <m_system.h>
+#include <m_skin.h>
+#include <m_options.h>
+#include <m_clist.h>
+#include <m_langpack.h>
+#include <m_history.h>
+#include <m_contacts.h>
+#include <m_metacontacts.h>
+#include <m_protocols.h>
+#include <m_popup.h>
+#include <m_ieview.h>
+
+#include "resource.h"
+#include "version.h"
+
+#include "utils.h"
+#include "events.h"
+#include "dlgHandlers.h"
+
+static FILE* fopen_s2(const char* file,const char* mode){
+	FILE* ret=NULL; fopen_s(&ret,file,mode);
+	return ret;
+}
+#define fopen fopen_s2
+#define strcat strcat_s
+#define _vsnprintf _vsnprintf_s
+#define snprintf _snprintf_s
+#define snwprintf _snwprintf_s
+#define sprintf sprintf_s
+#define itow _itow_s
+#ifndef _UNICODE
+#	define itot itoa
+#	define sntprintf snprintf
+#else
+#	define itot itow
+#	define sntprintf snwprintf
+#endif
+
+extern HICON hIcon; //history icon
+extern int hLangpack;
+extern char ModuleName[];
+extern HINSTANCE hInstance; //dll instance
+extern HANDLE hOpenWindowsList;
+
+extern PLUGININFOEX pluginInfo;
+
+extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
+
+#endif
