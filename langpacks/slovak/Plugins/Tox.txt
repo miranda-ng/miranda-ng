@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -31,6 +31,10 @@
 [Create new profile]
 
 [Use existing profile]
+
+[Search via toxme.se]
+
+[Add to friend list]
 
 ;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
