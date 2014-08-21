@@ -67,10 +67,23 @@ extern "C" int __declspec(dllexport) Load(void)
 	if ((hUxTheme = LoadLibraryA("uxtheme.dll")) != 0)
 		MyEnableThemeDialogTexture = (BOOL(WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 
-	//all initialization here
+	/// all initialization here
 	hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HISTORYICON));
+	hOpenWindowsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	InitServices();
+	
+	/// menu items
+	CLISTMENUITEM menuItem = { sizeof(CLISTMENUITEM) };
+	menuItem.ptszName = LPGENT("View &history");
+	menuItem.flags = CMIF_TCHAR;
+	menuItem.position = 1000090000;
+	menuItem.hIcon = hIcon;
+	menuItem.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
+	Menu_AddContactMenuItem(&menuItem);
+/// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^
+	menuItem.ptszName = LPGENT("&System History");
+	Menu_AddMainMenuItem(&menuItem);
 
 	HookEvents();
 	return 0;
