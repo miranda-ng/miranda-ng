@@ -40,7 +40,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_SEARCHBYEMAIL;
+		return PF1_IM | PF1_AUTHREQ | PF1_EXTSEARCH;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
@@ -129,33 +129,54 @@ int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 
 int __cdecl CToxProto::GetInfo(MCONTACT hContact, int infoType) { return 0; }
 
-HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR* id)
-{
-	if (!this->IsOnline())
-	{
-		return 0;
-	}
+HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR* id) { return 0; }
 
-	ForkThread(&CToxProto::SearchByIdAsync, mir_tstrdup(id));
-
-	return (HANDLE)1;
-}
-
-HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR* email)
-{
-	if (!this->IsOnline())
-	{
-		return 0;
-	}
-
-	ForkThread(&CToxProto::SearchByNameAsync, mir_tstrdup(email));
-
-	return (HANDLE)1;
-}
+HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR* email) { return 0; }
 
 HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName) { return 0; }
-HWND __cdecl CToxProto::SearchAdvanced(HWND owner) { return 0; }
-HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner) { return 0; }
+
+HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
+{
+	if (IsDlgButtonChecked(owner, IDC_SEARCH_TOXMESE))
+	{
+		TCHAR address[MAX_PATH];
+		GetDlgItemText(owner, IDC_SEARCH, address, SIZEOF(address));
+
+		ForkThread(&CToxProto::SearchByNameAsync, mir_tstrdup(address));
+	}
+	else
+	{
+		ADDCONTACTSTRUCT acs = { 0 };
+
+		PROTOSEARCHRESULT psr = { 0 };
+		psr.cbSize = sizeof(psr);
+		psr.flags = PSR_TCHAR;
+
+		TCHAR toxId[TOX_MAX_NAME_LENGTH];
+		GetDlgItemText(owner, IDC_SEARCH, toxId, TOX_MAX_NAME_LENGTH);
+		psr.id = toxId;
+
+		acs.psr = &psr;
+		acs.szProto = m_szModuleName;
+
+		acs.handleType = HANDLE_SEARCHRESULT;
+		CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
+
+		ForkThread(&CToxProto::SearchByIdAsync, mir_tstrdup(toxId));
+	}
+
+	return (HWND)1;
+}
+
+HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner)
+{
+	return CreateDialogParam(
+		g_hInstance,
+		MAKEINTRESOURCE(IDD_SEARCH),
+		owner,
+		SearchDlgProc,
+		(LPARAM)this);
+}
 
 int __cdecl CToxProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT*) { return 0; }
@@ -268,9 +289,6 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
-
-	case EV_PROTO_DBSETTINGSCHANGED:
-		return OnSettingsChanged(wParam, lParam);
 
 	case EV_PROTO_ONEXIT:
 		return OnPreShutdown(wParam, lParam);

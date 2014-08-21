@@ -121,8 +121,18 @@ BEGIN
     LTEXT           "Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.",IDC_STATIC,7,7,221,33
     CONTROL         "Create new profile",IDC_CREATE_NEW,"Button",BS_AUTORADIOBUTTON,7,43,221,10
     CONTROL         "Use existing profile",IDC_USE_EXISTING,"Button",BS_AUTORADIOBUTTON,7,55,221,10
-    EDITTEXT        IDC_PROFILE_PATH,18,67,191,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_CREATE_NEW,18,67,191,14,ES_AUTOHSCROLL | WS_DISABLED
     PUSHBUTTON      "...",IDC_BROWSE_PROFILE,212,67,16,14,WS_DISABLED
+END
+
+IDD_SEARCH DIALOGEX 0, 0, 109, 113
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Search via toxme.se",IDC_SEARCH_TOXMESE,"Button",BS_AUTORADIOBUTTON,0,32,109,10
+    EDITTEXT        IDC_SEARCH,0,3,109,14,ES_AUTOHSCROLL
+    CONTROL         "Add to friend list",IDC_ADDTOLIST,"Button",BS_AUTORADIOBUTTON,0,20,109,10
 END
 
 
@@ -172,6 +182,10 @@ BEGIN
         HORZGUIDE, 43
         HORZGUIDE, 55
         HORZGUIDE, 67
+    END
+
+    IDD_SEARCH, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED

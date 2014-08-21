@@ -1,6 +1,26 @@
 #include "common.h"
 
-INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+
+	switch (uMsg)
+	{
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwnd);
+		{
+			proto = (CToxProto*)lParam;
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
+
+			CheckDlgButton(hwnd, IDC_ADDTOLIST, 1);
+		}
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -40,19 +60,19 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 			break;
 
 		case IDC_CLIPBOARD:
+		{
+			char toxId[TOX_FRIEND_ADDRESS_SIZE * 2 + 1];
+			GetDlgItemTextA(hwnd, IDC_TOXID, toxId, SIZEOF(toxId));
+			if (OpenClipboard(GetDlgItem(hwnd, IDC_TOXID)))
 			{
-				char toxId[TOX_FRIEND_ADDRESS_SIZE * 2 + 1];
-				GetDlgItemTextA(hwnd, IDC_TOXID, toxId, SIZEOF(toxId));
-				if (OpenClipboard(GetDlgItem(hwnd, IDC_TOXID)))
-				{
-					EmptyClipboard();
-					HGLOBAL hMem = GlobalAlloc(GMEM_FIXED, SIZEOF(toxId));
-					memcpy(GlobalLock(hMem), toxId, SIZEOF(toxId));
-					GlobalUnlock(hMem);
-					SetClipboardData(CF_TEXT, hMem);
-					CloseClipboard();
-				}
+				EmptyClipboard();
+				HGLOBAL hMem = GlobalAlloc(GMEM_FIXED, SIZEOF(toxId));
+				memcpy(GlobalLock(hMem), toxId, SIZEOF(toxId));
+				GlobalUnlock(hMem);
+				SetClipboardData(CF_TEXT, hMem);
+				CloseClipboard();
 			}
+		}
 			break;
 
 		case IDC_GROUP:
@@ -102,7 +122,7 @@ INT_PTR CALLBACK CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam,
 	return FALSE;
 }
 
-INT_PTR CALLBACK CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	TCHAR *profilePath = (TCHAR*)GetWindowLongPtr(hwnd, DWLP_USER);
@@ -115,7 +135,7 @@ INT_PTR CALLBACK CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM w
 			proto = (CToxProto*)lParam;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 
-			profilePath = (TCHAR*)mir_calloc(sizeof(TCHAR) * MAX_PATH);
+			profilePath = (TCHAR*)mir_calloc(sizeof(TCHAR)* MAX_PATH);
 			SetWindowLongPtr(hwnd, DWLP_USER, (LONG_PTR)profilePath);
 
 			CheckDlgButton(hwnd, IDC_CREATE_NEW, TRUE);
@@ -139,38 +159,38 @@ INT_PTR CALLBACK CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM w
 			break;
 
 		case IDC_BROWSE_PROFILE:
+		{
+			TCHAR filter[MAX_PATH] = { 0 };
+			mir_sntprintf(filter, MAX_PATH, _T("%s\0*.*"), TranslateT("All files (*.*)"));
+
+			OPENFILENAME ofn = { sizeof(ofn) };
+			ofn.hwndOwner = hwnd;
+			ofn.lpstrFilter = filter;
+			ofn.nFilterIndex = 1;
+			ofn.lpstrFile = profilePath;
+			ofn.lpstrTitle = TranslateT("Select tox profile");
+			ofn.nMaxFile = MAX_PATH;
+			ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
+
+			if (GetOpenFileName(&ofn) && profilePath)
 			{
-				TCHAR filter[MAX_PATH] = { 0 };
-				mir_sntprintf(filter, MAX_PATH, _T("%s\0*.*"), TranslateT("All files (*.*)"));
-
-				OPENFILENAME ofn = { sizeof(ofn) };
-				ofn.hwndOwner = hwnd;
-				ofn.lpstrFilter = filter;
-				ofn.nFilterIndex = 1;
-				ofn.lpstrFile = profilePath;
-				ofn.lpstrTitle = TranslateT("Select tox profile");
-				ofn.nMaxFile = MAX_PATH;
-				ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
-
-				if (GetOpenFileName(&ofn) && profilePath)
-				{
-					SetDlgItemText(hwnd, IDC_PROFILE_PATH, profilePath);
-				}
+				SetDlgItemText(hwnd, IDC_PROFILE_PATH, profilePath);
 			}
+		}
 			break;
 
 		case IDOK:
+		{
+			if (IsDlgButtonChecked(hwnd, IDC_USE_EXISTING))
 			{
-				if (IsDlgButtonChecked(hwnd, IDC_USE_EXISTING))
+				if (profilePath != NULL)
 				{
-					if (profilePath != NULL)
-					{
-						std::tstring toxProfilePath = proto->GetToxProfilePath();
-						CopyFile(profilePath, toxProfilePath.c_str(), FALSE);
-					}
+					std::tstring toxProfilePath = proto->GetToxProfilePath();
+					CopyFile(profilePath, toxProfilePath.c_str(), FALSE);
 				}
-				EndDialog(hwnd, 1);
 			}
+			EndDialog(hwnd, 1);
+		}
 			break;
 
 		}

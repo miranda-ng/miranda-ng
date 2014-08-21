@@ -132,18 +132,21 @@ void CToxProto::LoadContactList()
 void CToxProto::SearchByIdAsync(void* arg)
 {
 	std::string clientId = mir_utf8encodeT((TCHAR*)arg);
-	clientId.erase(clientId.begin() + TOX_CLIENT_ID_SIZE * 2, clientId.end());
+	if (clientId.length() > TOX_CLIENT_ID_SIZE * 2)
+	{
+		clientId.erase(clientId.begin() + TOX_CLIENT_ID_SIZE * 2, clientId.end());
+	}
 
 	std::string toxId = clientId;
 	MCONTACT hContact = FindContact(clientId.c_str());
 	if (hContact)
 	{
 		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HWND)1, 0);
 		return;
 	}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
 }
 
 void CToxProto::SearchByNameAsync(void* arg)
@@ -154,19 +157,23 @@ void CToxProto::SearchByNameAsync(void* arg)
 	request.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 	
 	request.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*2);
-	request.headers[0].szName = mir_strdup("Content-Type");
-	request.headers[0].szValue = mir_strdup("text/plain; charset=utf-8");
+	request.headers[0].szName = "Content-Type";
+	request.headers[0].szValue = "text/plain; charset=utf-8";
 	request.headersCount = 1;
 
-	char data[128];
-	ptrA search(mir_utf8encodeT((TCHAR*)arg));
-	ptrA searchEncoded(mir_urlEncode(search));
-	mir_snprintf(data, SIZEOF(data), "{\"action\":3,\"name\":\"%s\"}", searchEncoded);
+	std::tstring search = (TCHAR*)arg;
+	size_t at = search.find('@');
+	if (at != std::string::npos)
+	{
+		search.erase(search.begin() + at, search.end());
+	}
 
-	request.dataLength = strlen(data);
-	request.pData = (char*)mir_alloc(request.dataLength + 1);
-	memcpy(request.pData, data, request.dataLength);
-	request.pData[request.dataLength] = 0;
+	std::string query = "{\"action\":3,\"name\":\"";
+	query += ptrA(mir_utf8encodeT(search.c_str()));
+	query += "\"}";
+
+	request.dataLength = query.length();
+	request.pData = (char*)query.c_str();
 
 	NETLIBHTTPREQUEST* response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&request);
 
@@ -194,9 +201,6 @@ void CToxProto::SearchByNameAsync(void* arg)
 	}
 
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
-	mir_free(request.pData);
-	mir_free(request.headers[0].szName);
-	mir_free(request.headers[0].szValue);
 	mir_free(request.headers);
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);

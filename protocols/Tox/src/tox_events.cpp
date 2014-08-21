@@ -4,6 +4,7 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
 	HookEventObj(ME_PROTO_ACCLISTCHANGED, OnAccountListChanged, this);
+	HookEventObj(ME_DB_CONTACT_SETTINGCHANGED, OnSettingsChanged, this);
 
 	InitNetlib();
 
@@ -89,26 +90,28 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 	return 1;
 }
 
-int CToxProto::OnSettingsChanged(MCONTACT hContact, LPARAM lParam)
+int CToxProto::OnSettingsChanged(void *obj, WPARAM hContact, LPARAM lParam)
 {
+	CToxProto *proto = (CToxProto*)obj;
+
 	DBCONTACTWRITESETTING* dbcws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact == NULL && !strcmp(dbcws->szModule, m_szModuleName))
+	if (hContact == NULL && !strcmp(dbcws->szModule, proto->m_szModuleName))
 	{
-		if (!strcmp(dbcws->szSetting, "Nick"))
+		if (!strcmp(dbcws->szSetting, "Nick") && dbcws->value.pszVal)
 		{
-			if (tox_set_name(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
+			if (tox_set_name(proto->tox, (uint8_t*)dbcws->value.pszVal, (uint16_t)strlen(dbcws->value.pszVal)))
 			{
-				SaveToxData();
+				proto->SaveToxData();
 			}
 		}
 
-		if (!strcmp(dbcws->szSetting, "StatusMsg") || !strcmp(dbcws->szSetting, "StatusNote"))
+		/*if (!strcmp(dbcws->szSetting, "StatusMsg") || !strcmp(dbcws->szSetting, "StatusNote"))
 		{
 			if (tox_set_status_message(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
 			{
 				SaveToxData();
 			}
-		}
+		}*/
 	}
 
 	return 0;
