@@ -40,7 +40,23 @@ static int CompareAccs(const AccountMap *p1, const AccountMap *p2)
 {	return stricmp(p1->szSrcAcc, p2->szSrcAcc);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct ContactMap
+{
+	ContactMap(MCONTACT _src, MCONTACT _dst) :
+		srcID(_src),
+		dstID(_dst)
+	{}
+
+	MCONTACT srcID, dstID;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static OBJLIST<AccountMap> arAccountMap(5, CompareAccs);
+static OBJLIST<ContactMap> arContactMap(50, NumericKeySortT);
+static LIST<DBCachedContact> arMetas(10);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // local data
@@ -191,7 +207,8 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
 		if (lstrcmpA(pa->szProtoName, szBaseProto))
 			continue;
 
-		if (pa->bOldProto)
+		// these protocols have no accounts, and their name match -> success
+		if (pa->bOldProto || pa->bIsVirtual || pa->bDynDisabled)
 			return pa;
 
 		char *pszUniqueSetting = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -297,6 +314,8 @@ static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSett
 	return hContact;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int ImportGroup(const char* szSettingName, LPARAM lParam)
 {
 	int *pnGroups = (int*)lParam;
@@ -310,8 +329,6 @@ static int ImportGroup(const char* szSettingName, LPARAM lParam)
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static int ImportGroups()
 {
 	int nGroups = 0;
@@ -324,6 +341,15 @@ static int ImportGroups()
 	return nGroups;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void ImportMeta(DBCachedContact *cc)
+{
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static MCONTACT ImportContact(MCONTACT hSrc)
 {
 	TCHAR id[40], *pszUniqueID;
@@ -332,6 +358,11 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hSrc);
 	if (cc == NULL || cc->szProto == NULL) {
 		AddMessage(LPGENT("Skipping contact with no protocol"));
+		return NULL;
+	}
+
+	if (cc->IsMeta()) {
+		arMetas.insert(cc);
 		return NULL;
 	}
 
@@ -354,7 +385,11 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	DBVARIANT dbv;
-	if (myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
+	if (!strcmp(cc->szProto, META_PROTO)) {
+		dbv.type = DBVT_DWORD;
+		dbv.dVal = hSrc;
+	}
+	else if (myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
 		AddMessage(LPGENT("Skipping %S contact, ID not found"), cc->szProto);
 		return NULL;
 	}
@@ -386,6 +421,8 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 
 	hDst = AddContact(hdlgProgress, pda->szDstAcc, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
 	mir_free(tszGroup), mir_free(tszNick);
+
+	arContactMap.insert(new ContactMap(hSrc, hDst));
 
 	if (hDst != INVALID_CONTACT_ID) {
 		// Hidden?
@@ -673,6 +710,9 @@ void MirandaImport(HWND hdlg)
 			// Get next contact in chain
 			hContact = srcDb->FindNextContact(hContact);
 		}
+
+		for (i = 0; i < arMetas.getCount(); i++)
+			ImportMeta(arMetas[i]);
 	}
 	else AddMessage(LPGENT("Skipping new contacts import."));
 	AddMessage(_T(""));
@@ -736,4 +776,8 @@ void MirandaImport(HWND hdlg)
 			LPGENT("Skipped %d duplicates and %d filtered events.") : LPGENT("Skipped %d duplicates."),
 			nDupes, nSkippedEvents);
 	}
+
+	arMetas.destroy();
+	arAccountMap.destroy();
+	arContactMap.destroy();
 }
