@@ -1257,6 +1257,20 @@ UIN, E-mail и т.д.
 Должность:
 [Website:]
 Сайт:
+[position:]
+Должность:
+[street:]
+Улица:
+[city:]
+Город:
+[state:]
+Штат:
+[postal code:]
+Индекс:
+[country:]
+Страна:
+[website:]
+Сайт:
 [%s requests authorization]
 %s запрашивает авторизацию
 [%u requests authorization]
