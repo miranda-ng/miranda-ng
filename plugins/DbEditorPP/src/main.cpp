@@ -143,6 +143,8 @@ static int OnTTBLoaded(WPARAM wParam, LPARAM lParam)
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	addIcons();
+
 	// Register menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1900000001;
@@ -200,6 +202,7 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ServiceMode(WPARAM wParam, LPARAM lParam)
 {
+	addIcons();
 	bServiceMode = TRUE;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
@@ -216,9 +219,6 @@ INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-
-	// icons
-	addIcons();
 
 	hwnd2mainWindow = hwnd2watchedVarsWindow = hwnd2importWindow = 0;
 	hRestore = NULL;
