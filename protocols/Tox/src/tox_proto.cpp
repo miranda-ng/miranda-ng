@@ -40,7 +40,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH;
+		return PF1_IM | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_SEARCHBYEMAIL;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
@@ -141,7 +141,18 @@ HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR* id)
 	return (HANDLE)1;
 }
 
-HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR* email) { return 0; }
+HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR* email)
+{
+	if (!this->IsOnline())
+	{
+		return 0;
+	}
+
+	ForkThread(&CToxProto::SearchByNameAsync, mir_tstrdup(email));
+
+	return (HANDLE)1;
+}
+
 HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName) { return 0; }
 HWND __cdecl CToxProto::SearchAdvanced(HWND owner) { return 0; }
 HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner) { return 0; }

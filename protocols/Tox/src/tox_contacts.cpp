@@ -134,6 +134,7 @@ void CToxProto::SearchByIdAsync(void* arg)
 	std::string clientId = mir_utf8encodeT((TCHAR*)arg);
 	clientId.erase(clientId.begin() + TOX_CLIENT_ID_SIZE * 2, clientId.end());
 
+	std::string toxId = clientId;
 	MCONTACT hContact = FindContact(clientId.c_str());
 	if (hContact)
 	{
@@ -142,10 +143,61 @@ void CToxProto::SearchByIdAsync(void* arg)
 		return;
 	}
 
-	PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
-	psr.flags = PSR_TCHAR;
-	psr.id = (TCHAR*)arg;
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
+}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+void CToxProto::SearchByNameAsync(void* arg)
+{
+	NETLIBHTTPREQUEST request = { sizeof(NETLIBHTTPREQUEST) };
+	request.requestType = REQUEST_POST;
+	request.szUrl = "https://toxme.se/api";
+	request.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
+	
+	request.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*2);
+	request.headers[0].szName = mir_strdup("Content-Type");
+	request.headers[0].szValue = mir_strdup("text/plain; charset=utf-8");
+	request.headersCount = 1;
+
+	char data[128];
+	ptrA search(mir_utf8encodeT((TCHAR*)arg));
+	ptrA searchEncoded(mir_urlEncode(search));
+	mir_snprintf(data, SIZEOF(data), "{\"action\":3,\"name\":\"%s\"}", searchEncoded);
+
+	request.dataLength = strlen(data);
+	request.pData = (char*)mir_alloc(request.dataLength + 1);
+	memcpy(request.pData, data, request.dataLength);
+	request.pData[request.dataLength] = 0;
+
+	NETLIBHTTPREQUEST* response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&request);
+
+	if (response)
+	{
+		std::smatch match;
+		std::regex regex("\"public_key\": \"(.+?)\"");
+
+		const std::string content = response->pData;
+
+		if (std::regex_search(content, match, regex))
+		{
+			std::string toxId = match[1];
+
+			PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
+			psr.flags = PSR_TCHAR;
+			psr.id = mir_a2t(toxId.c_str());
+
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+			return;
+		}
+	}
+
+	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+	mir_free(request.pData);
+	mir_free(request.headers[0].szName);
+	mir_free(request.headers[0].szValue);
+	mir_free(request.headers);
+
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
 }

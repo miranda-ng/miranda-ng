@@ -130,6 +130,7 @@ private:
 	void LoadContactList();
 
 	void __cdecl SearchByIdAsync(void* arg);
+	void __cdecl SearchByNameAsync(void* arg);
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
