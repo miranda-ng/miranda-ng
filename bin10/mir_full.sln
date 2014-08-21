@@ -417,6 +417,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GmailNotifier", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pcre16", "..\plugins\Pcre16\pcre16_10.vcxproj", "{6124E997-426E-4A0B-9617-D6D577D5E7D7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IEHistory", "..\plugins\IEHistory\IEHistory_10.vcxproj", "{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1847,6 +1849,14 @@ Global
 		{6124E997-426E-4A0B-9617-D6D577D5E7D7}.Release|Win32.Build.0 = Release|Win32
 		{6124E997-426E-4A0B-9617-D6D577D5E7D7}.Release|x64.ActiveCfg = Release|x64
 		{6124E997-426E-4A0B-9617-D6D577D5E7D7}.Release|x64.Build.0 = Release|x64
+		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Debug|Win32.Build.0 = Debug|Win32
+		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Debug|x64.ActiveCfg = Debug|x64
+		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Debug|x64.Build.0 = Debug|x64
+		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|Win32.ActiveCfg = Release|Win32
+		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|Win32.Build.0 = Release|Win32
+		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|x64.ActiveCfg = Release|x64
+		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
