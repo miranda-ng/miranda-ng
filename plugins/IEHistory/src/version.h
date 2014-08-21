@@ -24,30 +24,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __MAJOR_VERSION   0
 #define __MINOR_VERSION   0
 #define __RELEASE_NUM     1
-#define __BUILD_NUM       4
+#define __BUILD_NUM       5
 
-#define VERSION PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM)
+#include <stdver.h>
 
-#define __PLUGINVERSION_STRING      __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __PLUGINVERSION_STRING_DOTS	__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
-#define __STRINGIFY_(x) #x
-#define __STRINGIFY(x) __STRINGIFY_(x)
-#define __VERSION_STRING            __STRINGIFY(__PLUGINVERSION_STRING_DOTS)
-
-#ifdef _UNICODE
-#define __DESC                  "IEView history viewer for unicode cores."
-#else
-#define __DESC                  "IEView history viewer for non unicode cores."
-#endif
-#define __AUTHOR                "Cristian Libotean"
-#define __AUTHOREMAIL           "eblis102@yahoo.com"
-#define __COPYRIGHT             "© 2006 Cristian Libotean"
-#define __AUTHORWEB             "http://www.miranda-im.org/"
-
-#ifdef _UNICODE
-#define __PLUGIN_DISPLAY_NAME   "IEView History Viewer (Unicode)"
-#else
+#define __DESC                  "IEView History Viewer"
+#define __AUTHOR                "Cristian Libotean, Miranda NG team"
+//#define __AUTHOREMAIL           "eblis102@yahoo.com"
+#define __AUTHOREMAIL           ""
+#define __COPYRIGHT             "© 2006 Cristian Libotean, 2014 Miranda NG team"
+#define __AUTHORWEB             "http://miranda-ng.org/p/IEHistory"
 #define __PLUGIN_DISPLAY_NAME   "IEView History Viewer"
-#endif
 
 #endif //M_IEHISTORY_VERSION_H

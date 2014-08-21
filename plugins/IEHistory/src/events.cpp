@@ -39,7 +39,6 @@ int UnhookEvents()
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	Log("%s", "Entering function " __FUNCTION__);
 	CLISTMENUITEM menuItem = {0};
 	menuItem.cbSize = sizeof(CLISTMENUITEM);
 	menuItem.flags = 0;
@@ -48,41 +47,32 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	menuItem.position = 1000090000;
 	
-	menuItem.pszName = Translate("View contact's history");
+	menuItem.pszName = Translate("View &history");
 	menuItem.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 
-	Log("%s", "Adding first menu (view contact's history)");
-	CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (WPARAM) &menuItem);
+	Menu_AddContactMenuItem(&menuItem);
 	
-	menuItem.ptszName = TranslateT("View system history");
-	//CallService(MS_CLIST_ADDMAINMENUITEM, 0, (WPARAM) &menuItem);
+/// @todo (White-Tiger#1#08/19/14): fully implement
+	menuItem.pszName = Translate("&System History");
+	Menu_AddMainMenuItem(&menuItem);
 	//PLUGININFO pInfo = pluginInfo;
 	//pInfo.shortName = "IEView History Viewer";
-	Log("%s", "Adding plugin to updater list");
-	CallService(MS_UPDATE_REGISTERFL, (WPARAM) 2553, (LPARAM) &pluginInfo);
-	Log("%s", "Creating the open windows list");
 	hOpenWindowsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	
-	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;
 }
 
 int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	Log("%s", "Entering function " __FUNCTION__);
-	OPTIONSDIALOGPAGE odp = { 0 };
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
-	odp.hInstance = hInstance;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
-	odp.pszTitle = Translate("IEHistory");
-	odp.pszGroup = Translate("Message Sessions");
-	odp.groupPosition = 910000000;
-	odp.flags=ODPF_BOLDGROUPS;
+//	odp.ptszTitle = _T("IEHistory");
+	odp.ptszTitle = LPGENT("History");
 	odp.pfnDlgProc = OptionsDlgProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
-	
-	return 0;	
-	Log("%s", "Leaving function " __FUNCTION__);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
+	odp.hInstance = hInstance;
+//	odp.ptszGroup = LPGENT("Message Sessions");
+//	odp.groupPosition = 910000000;
+	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
+	Options_AddPage(wParam,&odp);
+	return 0;
 }

@@ -20,18 +20,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
+#ifdef _DEBUG
 int LogInit()
 {
-#ifdef _DEBUG
 	FILE *fout = fopen("IEHistory.log", "wt");
 	fclose(fout);
-#endif
 	return 0;
 }
-
 int Log(char *format, ...)
 {
-#ifdef _DEBUG
 	char		str[4096];
 	va_list	vararg;
 	int tBytes;
@@ -56,10 +53,9 @@ int Log(char *format, ...)
 		}
 	fputs(str, fout);
 	fclose(fout);
-#endif
 	return 0;
-
 }
+#endif
 
 
 
@@ -69,7 +65,7 @@ int Info(char *title, char *format, ...)
 	va_list vararg;
 	int tBytes;
 	va_start(vararg, format);
-	tBytes = _snprintf(str, sizeof(str), format, vararg);
+	tBytes = snprintf(str, sizeof(str), format, vararg);
 	if (tBytes > 0)
 		{
 			str[tBytes] = 0;
@@ -82,42 +78,24 @@ int Info(char *title, char *format, ...)
 returns the name of a contact
 */
 
-#pragma warning (disable: 4312) 
-TCHAR *GetContactName(HANDLE hContact, char *szProto)
+TCHAR *GetContactName(MCONTACT contact)
 {
-	CONTACTINFO ctInfo;
-	int ret;
-	
-	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));	
-	ctInfo.cbSize = sizeof(ctInfo);
-	ctInfo.szProto = szProto;
+	CONTACTINFO ctInfo={sizeof(ctInfo)};
+//	if(db_mc_isMeta(contact))
+//		contact=db_mc_getMostOnline(contact);
+	ctInfo.szProto = GetContactProto(contact);
 	ctInfo.dwFlag = CNF_DISPLAY;
 #ifdef _UNICODE
 	ctInfo.dwFlag += CNF_UNICODE;
-#endif	
-	ctInfo.hContact = hContact;
-	//_debug_message("retrieving contact name for %d", hContact);
-	ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
-	//_debug_message("	contact name %s", ctInfo.pszVal);
-	TCHAR *buffer;
-	if (!ret)
-		{
-			buffer = _tcsdup(ctInfo.pszVal);
-		}
-		else{
-			return NULL;
-		}
-	MirandaFree(ctInfo.pszVal);
-	if (!ret)
-		{
-			return buffer;
-		}
-		else{
-			return NULL;
-		}
+#endif
+	ctInfo.hContact = contact;
+	if(CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ctInfo)){
+		return NULL;
+	}
+	TCHAR* buffer = _tcsdup(ctInfo.pszVal);
+	mir_free(ctInfo.pszVal);
 	return buffer;
 }
-#pragma warning (default: 4312)
 
 /*
 Moves a control with regard to certain anchors (like delphi, c#, ...)
@@ -201,7 +179,6 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	return rChild;
 }
 
-#pragma warning (disable: 4244)
 void UnixTimeToFileTime(time_t t, LPFILETIME pft)
 {
  // Note that LONGLONG is a 64-bit value
@@ -211,7 +188,6 @@ void UnixTimeToFileTime(time_t t, LPFILETIME pft)
  pft->dwLowDateTime = (DWORD)ll;
  pft->dwHighDateTime = ll >> 32;
 }
-#pragma warning (default: 4244)
 
 void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst)
 {
@@ -222,38 +198,34 @@ void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst)
 	SystemTimeToTzSpecificLocalTime(NULL, &st, pst);
 }
 
-HANDLE GetNeededEvent(HANDLE hLastFirstEvent, int index, int direction)
+HANDLE GetNeededEvent(HANDLE hEvent, int num, int direction)
 {
 	int i;
-	HANDLE hEvent = hLastFirstEvent;
-	const char *service;
-	if (direction == DIRECTION_BACK)
-		{
-			service = MS_DB_EVENT_FINDPREV;
-		}
-		else{
-			service = MS_DB_EVENT_FINDNEXT;
-		}
+	typedef HANDLE (__stdcall *db_event_step_t)(MCONTACT hContact,HANDLE hDbEvent);
+	db_event_step_t db_event_step;
+	if(direction==DIRECTION_BACK){
+		db_event_step=db_event_prev;
+	}else{
+		db_event_step=db_event_next;
+	}
 	
-	for (i = 0; i < index; i++)
-		{
-			hEvent = (HANDLE) CallService(service, (WPARAM) hEvent, 0);
-		}
+	for (i = 0; i < num; ++i){
+		hEvent = db_event_step(0,hEvent);
+	}
 	return hEvent;
 }
 
-SearchResult SearchHistory(HANDLE hContact, HANDLE hFirstEvent,  void *searchData, int direction, int type)
+SearchResult SearchHistory(MCONTACT contact, HANDLE hFirstEvent,  void *searchData, int direction, int type)
 {
-	if (hFirstEvent == NULL)
-		{
-			const char *service = (direction == DIRECTION_BACK) ? MS_DB_EVENT_FINDLAST : MS_DB_EVENT_FINDFIRST;
-			hFirstEvent = (HANDLE) CallService(service, (WPARAM) hContact, 0);
-		}
+	if (hFirstEvent == NULL){
+		typedef HANDLE (__stdcall *db_event_start_t)(MCONTACT contact);
+		db_event_start_t db_event_start=(direction==DIRECTION_BACK) ? db_event_last : db_event_first;
+		hFirstEvent=db_event_start(contact);
+	}
 	int index = 0;
 	HANDLE hEvent = hFirstEvent;
 	void *buffer = NULL;
 	TCHAR *search;
-	wchar_t TEMP[2048];
 	bool found = false;
 	int oldSize, newSize;
 	oldSize = newSize = 0;
@@ -261,67 +233,65 @@ SearchResult SearchHistory(HANDLE hContact, HANDLE hFirstEvent,  void *searchDat
 	DBEVENTINFO dbEvent = {0};
 	dbEvent.cbSize = sizeof(dbEvent);
 	
-	while ((!found) && (hEvent))
-		{
-			newSize = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM) hEvent, 0);
-			if (newSize > oldSize)
+	while ((!found) && (hEvent)){
+		newSize = db_event_getBlobSize(hEvent);
+		if (newSize > oldSize)
+			{
+				buffer = (TCHAR *) realloc(buffer, newSize);
+				oldSize = newSize;
+			}
+		dbEvent.pBlob = (PBYTE) buffer;
+		dbEvent.cbBlob = newSize;
+		if (db_event_get(hEvent,&dbEvent) == 0){ //successful
+			switch (type)
 				{
-					buffer = (TCHAR *) realloc(buffer, newSize);
-					oldSize = newSize;
-				}
-			dbEvent.pBlob = (PBYTE) buffer;
-			dbEvent.cbBlob = newSize;
-			if (CallService(MS_DB_EVENT_GET, (WPARAM) hEvent, (LPARAM) &dbEvent) == 0) //successful
-				{
-					switch (type)
+					case SEARCH_TEXT:
 						{
-							case SEARCH_TEXT:
-								{
 #ifdef _UNICODE
-									unsigned int size = strlen((char *) dbEvent.pBlob) + 1;
-									if (size < dbEvent.cbBlob)
-									{
-										search = (wchar_t *) &dbEvent.pBlob[size];
-									}
-									else{
-										MultiByteToWideChar(CP_ACP, 0, (char *) buffer, size, TEMP, 2048);
-										search = TEMP;
-									}
+							wchar_t TEMP[2048];
+							size_t size = strlen((char *) dbEvent.pBlob) + 1;
+							if (size < dbEvent.cbBlob)
+							{
+								search = (wchar_t *) &dbEvent.pBlob[size];
+							}
+							else{
+								MultiByteToWideChar(CP_ACP, 0, (char *) buffer, (int)size, TEMP, 2048);
+								search = TEMP;
+							}
 #else
-									search = (char *) buffer;
-#endif								
-									TCHAR *data = (TCHAR *) searchData;
-									TCHAR *tmp = _tcsstr(search, data);
-									if (tmp)
-										{
-											found = true;
-										}
-									break;
-								}
-							case SEARCH_TIME:
+							search = (char *) buffer;
+#endif
+							TCHAR *data = (TCHAR *) searchData;
+							TCHAR *tmp = _tcsstr(search, data);
+							if (tmp)
 								{
-									SYSTEMTIME time;
-									TimeSearchData *data = (TimeSearchData *) searchData;
-									UnixTimeToSystemTime((time_t) dbEvent.timestamp, &time);
-									found = ((data->flags & TSDF_DATE_SET) || (data->flags & TSDF_TIME_SET)) ? true : false;
-									if (data->flags & TSDF_DATE_SET)
-										{
-											found = ((time.wYear == data->time.wYear) && (time.wMonth == data->time.wMonth) && (time.wDay == data->time.wDay));
-										}
-									if (data->flags & TSDF_TIME_SET)
-										{
-											found = found & ((time.wHour == data->time.wHour) && (time.wMinute == data->time.wMinute));
-										}
-									break;
+									found = true;
 								}
+							break;
+						}
+					case SEARCH_TIME:
+						{
+							SYSTEMTIME time;
+							TimeSearchData *data = (TimeSearchData *) searchData;
+							UnixTimeToSystemTime((time_t) dbEvent.timestamp, &time);
+							found = ((data->flags & TSDF_DATE_SET) || (data->flags & TSDF_TIME_SET)) ? true : false;
+							if (data->flags & TSDF_DATE_SET)
+								{
+									found = ((time.wYear == data->time.wYear) && (time.wMonth == data->time.wMonth) && (time.wDay == data->time.wDay));
+								}
+							if (data->flags & TSDF_TIME_SET)
+								{
+									found = found & ((time.wHour == data->time.wHour) && (time.wMinute == data->time.wMinute));
+								}
+							break;
 						}
 				}
-			if (!found)
-				{
-					hEvent = GetNeededEvent(hEvent, 1, direction);
-					index++;
-				}
 		}
+		if (!found){
+			hEvent = GetNeededEvent(hEvent, 1, direction);
+			index++;
+		}
+	}
 	free(buffer);
 	SearchResult sr;
 	sr.index = index;

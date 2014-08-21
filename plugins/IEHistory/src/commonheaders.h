@@ -34,27 +34,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 #include "utils.h"
-#include "mirandaMem.h"
 #include "events.h"
 #include "dlgHandlers.h"
 
-#include "../../../include/newpluginapi.h"
-#include "../../../include/m_database.h"
-#include "../../../include/m_utils.h"
-#include "../../../include/m_system.h"
-#include "../../../include/m_skin.h"
-#include "../../../include/m_options.h"
-#include "../../../include/m_clist.h"
-#include "../../../include/m_langpack.h"
-#include "../../../include/m_history.h"
-#include "../../../include/m_contacts.h"
-//#include "../../../include/m_utils.h"
-#include "../../../include/m_popup.h"
-#include "../../../include/m_ieview.h"
-#include "../../../include/m_updater.h"
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_utils.h>
+#include <m_system.h>
+#include <m_skin.h>
+#include <m_options.h>
+#include <m_clist.h>
+#include <m_langpack.h>
+#include <m_history.h>
+#include <m_contacts.h>
+#include <m_metacontacts.h>
+#include <m_protocols.h>
+//#include <m_utils.h>
+#include <m_popup.h>
+#include <m_ieview.h>
 
+static FILE* fopen_s2(const char* file,const char* mode){
+	FILE* ret=NULL; fopen_s(&ret,file,mode);
+	return ret;
+}
+#define fopen fopen_s2
+#define strcat strcat_s
+#define _vsnprintf _vsnprintf_s
+#define snprintf _snprintf_s
+#define snwprintf _snwprintf_s
+#define sprintf sprintf_s
+#define itow _itow_s
+#ifndef _UNICODE
+#	define itot itoa
+#	define sntprintf snprintf
+#else
+#	define itot itow
+#	define sntprintf snwprintf
+#endif
 
 extern HICON hIcon; //history icon
+extern int hLangpack;
 extern char ModuleName[];
 extern HINSTANCE hInstance; //dll instance
 extern HANDLE hOpenWindowsList;
@@ -62,23 +81,5 @@ extern HANDLE hOpenWindowsList;
 extern PLUGININFOEX pluginInfo;
 
 extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
-
-#define OLD_MIRANDAPLUGININFO_SUPPORT PLUGININFO oldPluginInfo = { \
-	sizeof(PLUGININFO), \
-	pluginInfo.shortName, \
-	pluginInfo.version, \
-	pluginInfo.description, \
-	pluginInfo.author, \
-	pluginInfo.authorEmail, \
-	pluginInfo.copyright, \
-	pluginInfo.homepage, \
-	pluginInfo.flags, \
-	pluginInfo.replacesDefaultModule \
-}; \
-\
-extern "C" __declspec(dllexport) PLUGININFO *MirandaPluginInfo(DWORD mirandaVersion) \
-{ \
-	return &oldPluginInfo; \
-}
 
 #endif

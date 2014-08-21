@@ -32,7 +32,7 @@ struct WorkerThreadData{
 	IEVIEWEVENT ieEvent;
 };
 
-int LoadName(HWND hWnd);
+void LoadName(HWND hWnd);
 int CalcIEViewPos(IEVIEWWINDOW *ieWnd, HWND hMainWindow);
 int LoadIEView(HWND hWnd);
 int MoveIEView(HWND hWnd);
@@ -60,25 +60,19 @@ int CalcIEViewPos(IEVIEWWINDOW *ieWnd, HWND hMainWindow)
 	return 0;
 }
 
-int LoadName(HWND hWnd)
+void LoadName(HWND hWnd)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
-	HANDLE hEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRST, (WPARAM) data->hContact, 0);
-	DBEVENTINFO event = {0};
-	event.cbSize = sizeof(event);
-	CallService(MS_DB_EVENT_GET, (WPARAM) hEvent, (LPARAM) &event); //to get the protocol
-	TCHAR *szOther = GetContactName(data->hContact, event.szModule);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
+	TCHAR *szOther = GetContactName(data->contact);
 	TCHAR buffer[1024];
-	_sntprintf(buffer, 1024, _T("%s: IEHistory"), szOther);
+	sntprintf(buffer, 1024, _T("'%s' - IEHistory"), szOther);
 	SetWindowText(hWnd, buffer);
-	free(szOther);
-	return 0;
+	mir_free(szOther);
 }
 
 int LoadIEView(HWND hWnd)
 {
-	IEVIEWWINDOW ieWnd = {0};
-	ieWnd.cbSize = sizeof(ieWnd);
+	IEVIEWWINDOW ieWnd = {sizeof(ieWnd)};
 	ieWnd.iType = IEW_CREATE;
 	ieWnd.dwMode = IEWM_HISTORY;
 	ieWnd.dwFlags = 0;
@@ -86,7 +80,7 @@ int LoadIEView(HWND hWnd)
 	CalcIEViewPos(&ieWnd, hWnd);
 	
 	CallService(MS_IEVIEW_WINDOW, 0, (LPARAM) &ieWnd);
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	data->hIEView = ieWnd.hwnd;
 	SetWindowPos(GetDlgItem(hWnd, IDC_IEVIEW_PLACEHOLDER), HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	//ShowWindow(GetDlgItem(hWnd, IDC_IEVIEW_PLACEHOLDER), SW_HIDE);
@@ -95,7 +89,7 @@ int LoadIEView(HWND hWnd)
 
 int MoveIeView(HWND hWnd)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	if (data)
 		{
 			IEVIEWWINDOW ieWnd = {0};
@@ -111,7 +105,7 @@ int MoveIeView(HWND hWnd)
 
 int DestroyIEView(HWND hWnd)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	IEVIEWWINDOW ieWnd = {0};
 	ieWnd.cbSize = sizeof(ieWnd);
 	ieWnd.parent = hWnd;
@@ -142,7 +136,7 @@ void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, PBYTE blob)
 	fillData->bIsMe = (dbInfo.flags & DBEF_SENT);
 	fillData->dwFlags = (dbInfo.flags & DBEF_SENT) ? IEEDF_SENT : 0;
 	fillData->time = dbInfo.timestamp;
-	unsigned int len = strlen((char *) blob) + 1;
+	size_t len = strlen((char *) blob) + 1;
 	PBYTE pos;
 	
 	fillData->pszText = (char *) blob;
@@ -166,7 +160,6 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 	int target = data->ieEvent.count;
 	int cLoad = LOAD_COUNT;
 	int i;
-	IEVIEWEVENT ieEvent = {0};
 	IEVIEWEVENTDATA ieData[LOAD_COUNT] = {0};
 	PBYTE messages[LOAD_COUNT] = {0};
 	HANDLE dbEvent = data->ieEvent.hDbEventFirst;
@@ -176,7 +169,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 			ieData[i].next = &ieData[i + 1]; //it's a vector, so v[i]'s next element is v[i + 1]
 		}
 	ieData[LOAD_COUNT - 1].next = NULL;
-	ieEvent = data->ieEvent;
+	IEVIEWEVENT ieEvent = data->ieEvent;
 	ieEvent.iType = IEE_LOG_MEM_EVENTS;
 	ieEvent.eventData = ieData;
 	DBEVENTINFO dbInfo = {0};
@@ -190,7 +183,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 			
 			for (i = 0; i < cLoad; i++)
 				{
-					newSize = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM) dbEvent, 0);
+					newSize = db_event_getBlobSize(dbEvent);
 					if (newSize > oldSize)
 						{
 							buffer = (PBYTE) realloc(buffer, newSize);
@@ -199,13 +192,13 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 						}
 					messages[i] = (PBYTE) realloc(messages[i], newSize);
 					dbInfo.cbBlob = newSize;
-					if (!CallService(MS_DB_EVENT_GET, (WPARAM) dbEvent, (LPARAM) &dbInfo))
+					if (!db_event_get(dbEvent,&dbInfo))
 						{
 							memmove(messages[i], dbInfo.pBlob, newSize);
 							FillIEViewInfo(&ieData[i], dbInfo, messages[i]);
 						}
 					//FillIEViewEventData(&ieData[i], dbEvent);
-					dbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) dbEvent, 0);
+					dbEvent = db_event_next(0,dbEvent);
 				}
 			ieData[cLoad - 1].next = NULL; //cLoad < LOAD_COUNT will only happen once, at the end
 			CallService(MS_IEVIEW_EVENT, 0, (LPARAM) &ieEvent);
@@ -248,11 +241,11 @@ int DoLoadEvents(HWND hWnd, HistoryWindowData *data, IEVIEWEVENT ieEvent)
 			ScrollToBottom(hWnd);
 			
 			TCHAR buffer[256];
-			_itot(data->index + 1, buffer, 10);
+			itot(data->index + 1, buffer, 10);
 			SendDlgItemMessage(hWnd, IDC_STATUSBAR, SB_SETTEXT, 0 | SBT_POPOUT, (LPARAM) buffer);
-			_itot(data->index + ieEvent.count, buffer, 10);
+			itot(data->index + ieEvent.count, buffer, 10);
 			SendDlgItemMessage(hWnd, IDC_STATUSBAR, SB_SETTEXT, 1 | SBT_POPOUT, (LPARAM) buffer);
-			_itot(data->count, buffer, 10);
+			itot(data->count, buffer, 10);
 			SendDlgItemMessage(hWnd, IDC_STATUSBAR, SB_SETTEXT, 3 | SBT_POPOUT, (LPARAM) buffer);
 			RefreshButtonStates(hWnd);
 		}
@@ -261,31 +254,30 @@ int DoLoadEvents(HWND hWnd, HistoryWindowData *data, IEVIEWEVENT ieEvent)
 
 int LoadEvents(HWND hWnd)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
-	int count = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM) data->hContact, 0);
-	int bLastFirst = DBGetContactSettingByte(NULL, ModuleName, "ShowLastPageFirst", 0);
-	int bRTL = DBGetContactSettingByte(NULL, ModuleName, "EnableRTL", 0);
-	bRTL = DBGetContactSettingByte(data->hContact, "Tab_SRMsg", "RTL", bRTL);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
+	int count = db_event_count(data->contact);
+	int bLastFirst = db_get_b(NULL, ModuleName, "ShowLastPageFirst", 0);
+	int bRTL = db_get_b(NULL, ModuleName, "EnableRTL", 0);
+	bRTL = db_get_b(data->contact, "Tab_SRMsg", "RTL", bRTL);
 	data->bEnableRTL = bRTL;
 	data->count = count;
 	if (data->itemsPerPage > count)
 		{
 			data->itemsPerPage = count;
 		}
-	IEVIEWEVENT ieEvent = {0};
-	ieEvent.cbSize = sizeof(ieEvent);
+	IEVIEWEVENT ieEvent = {sizeof(ieEvent)};
 	ieEvent.hwnd = data->hIEView;
-	ieEvent.hContact = data->hContact;
+	ieEvent.hContact = data->contact;
 	ieEvent.count = (data->itemsPerPage <= 0) ? count : data->itemsPerPage;
 	
-	HANDLE hFirstEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRST, (WPARAM) data->hContact, 0);
-	int index = 0;
+	HANDLE hFirstEvent = db_event_first(data->contact);
+	int num = 0;
 	if ((data->itemsPerPage > 0) && (bLastFirst))
 		{
-			index = data->count - data->itemsPerPage;
-			hFirstEvent = GetNeededEvent(hFirstEvent, index, DIRECTION_FORWARD);
+			num = data->count - data->itemsPerPage;
+			hFirstEvent = GetNeededEvent(hFirstEvent, num, DIRECTION_FORWARD);
 		}
-	data->index = index;
+	data->index = num;
 	data->hLastFirstEvent = hFirstEvent;
 	ieEvent.hDbEventFirst = hFirstEvent;
 	if (data->bEnableRTL)
@@ -298,13 +290,12 @@ int LoadEvents(HWND hWnd)
 
 int LoadPage(HWND hWnd, HANDLE hFirstEvent, long index, long shiftCount, long readCount, int direction)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	int count = shiftCount;
 	int newIndex = index;
-	IEVIEWEVENT ieEvent = {0};
-	ieEvent.cbSize = sizeof(ieEvent);
+	IEVIEWEVENT ieEvent = {sizeof(ieEvent)};
 	ieEvent.hwnd = data->hIEView;
-	ieEvent.hContact = data->hContact;
+	ieEvent.hContact = data->contact;
 	
 	if (direction == DIRECTION_BACK)
 		{
@@ -333,12 +324,12 @@ int LoadPage(HWND hWnd, HANDLE hFirstEvent, long index, long shiftCount, long re
 			ieEvent.dwFlags |= IEEF_RTL;
 		}
 	DoLoadEvents(hWnd, data, ieEvent);
-	return 0;	
+	return 0;
 }
 
 int LoadPrev(HWND hWnd)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	LoadPage(hWnd, data->hLastFirstEvent, data->index, data->itemsPerPage, data->itemsPerPage, DIRECTION_BACK);
 	int finish = data->index <= 0;
 	return finish;
@@ -346,7 +337,7 @@ int LoadPrev(HWND hWnd)
 
 int LoadNext(HWND hWnd)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	LoadPage(hWnd, data->hLastFirstEvent, data->index, data->itemsPerPage, data->itemsPerPage, DIRECTION_FORWARD);
 	int finish = data->index + data->itemsPerPage >= data->count;
 	return finish;
@@ -354,7 +345,7 @@ int LoadNext(HWND hWnd)
 
 int ScrollToBottom(HWND hWnd)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	IEVIEWWINDOW ieWnd = {0};
 	ieWnd.cbSize = sizeof(ieWnd);
 	ieWnd.iType = IEW_SCROLLBOTTOM;
@@ -372,7 +363,7 @@ void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOW
 
 void RefreshButtonStates(HWND hWnd)
 {
-	HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+	HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 	int bPrev = data->index > 0;
 	int bNext = data->index + data->itemsPerPage < data->count;
 	EnableWindow(GetDlgItem(hWnd, IDC_PREV), bPrev);
@@ -381,7 +372,7 @@ void RefreshButtonStates(HWND hWnd)
 
 
 
-BOOL CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 		{
@@ -391,10 +382,10 @@ BOOL CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					TranslateDialogDefault(hWnd);
 					SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM) hIcon);
 					//SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-					int bRTL = DBGetContactSettingByte(NULL, ModuleName, "EnableRTL", 0);
+					int bRTL = db_get_b(NULL, ModuleName, "EnableRTL", 0);
 					if (bRTL)
 						{
-							SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_RTLREADING);
+							SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_RTLREADING);
 						}
 					//InitCommonControls();
 					HWND hStatusBar = CreateWindow(STATUSCLASSNAME, //class
@@ -414,7 +405,6 @@ BOOL CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					//SendMessage(hStatusBar, SB_SETTIPTEXT, 2, (LPARAM) TranslateT("Last event shown in page"));
 					SendMessage(hStatusBar, SB_SETTEXT, 2 | SBT_POPOUT, (LPARAM) TranslateT("Out of a total of"));
 					return TRUE;
-					break;
 				}
 			case WM_SHOWWINDOW:
 				{
@@ -423,9 +413,9 @@ BOOL CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					LoadIEView(hWnd);
 					LoadEvents(hWnd);
 					
-					HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+					HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 					bool bAll = (data->itemsPerPage <= 0) || (data->itemsPerPage >= data->count);
-					int bLastFirst = DBGetContactSettingByte(NULL, ModuleName, "ShowLastPageFirst", 0);
+					int bLastFirst = db_get_b(NULL, ModuleName, "ShowLastPageFirst", 0);
 					if (!bLastFirst)
 						{
 							EnableWindow(GetDlgItem(hWnd, IDC_PREV), FALSE);
@@ -442,7 +432,7 @@ BOOL CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 			case WM_DESTROY:
 				{
-					HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+					HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 					DestroyIEView(hWnd);
 					free(data);
 					WindowList_Remove(hOpenWindowsList, hWnd);
@@ -522,13 +512,13 @@ BOOL CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 											sprintf(buffer, "Error #%d", GetLastError());
 											MessageBoxA(0, buffer, "Error", MB_OK);
 										}
-									HistoryWindowData *data = (HistoryWindowData *) GetWindowLong(hWnd, DWL_USER);
+									HistoryWindowData *data = (HistoryWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 									SearchWindowData *searchData = (SearchWindowData *) malloc(sizeof(SearchWindowData));
-									searchData->hContact = data->hContact;
+									searchData->contact = data->contact;
 									searchData->hHistoryWindow = hWnd;
 									searchData->hLastFoundEvent = NULL;
 									searchData->index = 0;
-									SetWindowLong(hSearch, DWL_USER, (LONG) searchData);
+									SetWindowLongPtr(hSearch, DWLP_USER, (LONG_PTR)searchData);
 									ShowWindow(hSearch, SW_SHOW);
 									//sprintf(buffer, "Error #%d", GetLastError());
 									//MessageBoxA(0, buffer, "Error", MB_OK);
@@ -547,24 +537,24 @@ BOOL CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 #include "prsht.h" //PSN_APPLY
 
-BOOL CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 		{
 			case WM_INITDIALOG:
 				{
 					TranslateDialogDefault(hWnd);
-					int count = DBGetContactSettingDword(NULL, ModuleName, "EventsToLoad", 0);
+					int count = db_get_dw(NULL, ModuleName, "EventsToLoad", 0);
 					EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), count > 0);
 					EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), count > 0);
 					
 					CheckDlgButton(hWnd, IDC_LOAD_ALL, count <= 0);
 					CheckDlgButton(hWnd, IDC_LOAD_NUMBER, count > 0);
-					CheckDlgButton(hWnd, IDC_ENABLE_RTL, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "EnableRTL", 0));
-					CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "ShowLastPageFirst", 0));
-					CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "UseWorkerThread", 0));
+					CheckDlgButton(hWnd, IDC_ENABLE_RTL, (BOOL) db_get_b(NULL, ModuleName, "EnableRTL", 0));
+					CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, (BOOL) db_get_b(NULL, ModuleName, "ShowLastPageFirst", 0));
+					CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, (BOOL) db_get_b(NULL, ModuleName, "UseWorkerThread", 0));
 					TCHAR buffer[1024];
-					_itot(count, buffer, 10);
+					itot(count, buffer, 10);
 					SetWindowText(GetDlgItem(hWnd, IDC_EVENTS_COUNT), buffer);
 					
 					break;
@@ -619,10 +609,10 @@ BOOL CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 															count = _tstol(buffer);
 															count = (count < 0) ? 0 : count;
 														}
-													DBWriteContactSettingByte(NULL, ModuleName, "ShowLastPageFirst", IsDlgButtonChecked(hWnd, IDC_SHOW_LAST_FIRST));
-													DBWriteContactSettingByte(NULL, ModuleName, "EnableRTL", IsDlgButtonChecked(hWnd, IDC_ENABLE_RTL));
-													DBWriteContactSettingByte(NULL, ModuleName, "UseWorkerThread", IsDlgButtonChecked(hWnd, IDC_LOAD_BACKGROUND));
-													DBWriteContactSettingDword(NULL, ModuleName, "EventsToLoad", count);
+													db_set_b(NULL, ModuleName, "ShowLastPageFirst", IsDlgButtonChecked(hWnd, IDC_SHOW_LAST_FIRST));
+													db_set_b(NULL, ModuleName, "EnableRTL", IsDlgButtonChecked(hWnd, IDC_ENABLE_RTL));
+													db_set_b(NULL, ModuleName, "UseWorkerThread", IsDlgButtonChecked(hWnd, IDC_LOAD_BACKGROUND));
+													db_set_dw(NULL, ModuleName, "EventsToLoad", count);
 													
 													break;
 												}
@@ -643,7 +633,7 @@ BOOL CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 #include "commctrl.h" //tab control
 
-BOOL CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 		{
@@ -675,7 +665,7 @@ BOOL CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 			case WM_DESTROY:
 				{
-					SearchWindowData *data = (SearchWindowData *) GetWindowLong(hWnd, DWL_USER);
+					SearchWindowData *data = (SearchWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 					free(data);
 					//DestroyWindow(hWnd);
 					break;
@@ -692,7 +682,7 @@ BOOL CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							case IDC_SEARCH_DATE:
 							case IDC_SEARCH_TIME:
 								{
-									SearchWindowData *data = (SearchWindowData *) GetWindowLong(hWnd, DWL_USER);
+									SearchWindowData *data = (SearchWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 									data->hLastFoundEvent = NULL; //start from top if changes occur
 									break;
 								}
@@ -725,7 +715,7 @@ BOOL CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 										{
 											case EN_CHANGE:
 												{
-													SearchWindowData *data = (SearchWindowData *) GetWindowLong(hWnd, DWL_USER);
+													SearchWindowData *data = (SearchWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
 													data->hLastFoundEvent = NULL; //start from top if changes occur
 													break;
 												}
@@ -739,8 +729,8 @@ BOOL CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								}
 							case IDC_FIND_NEXT:
 								{
-									SearchWindowData *data = (SearchWindowData *) GetWindowLong(hWnd, DWL_USER);
-									const HistoryWindowData *histData = (HistoryWindowData *) GetWindowLong(data->hHistoryWindow, DWL_USER);
+									SearchWindowData *data = (SearchWindowData *) GetWindowLongPtr(hWnd, DWLP_USER);
+									const HistoryWindowData *histData = (HistoryWindowData *) GetWindowLongPtr(data->hHistoryWindow, DWLP_USER);
 									int direction = IsDlgButtonChecked(hWnd, IDC_DIRECTION_UP) ? DIRECTION_BACK : DIRECTION_FORWARD;
 									int tab = SendMessage(GetDlgItem(hWnd, IDC_TABS), TCM_GETCURSEL, 0, 0);
 									int type = (tab == 0) ? SEARCH_TEXT : SEARCH_TIME;
@@ -756,8 +746,8 @@ BOOL CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 									if (type == SEARCH_TEXT) //text search
 										{
 											TCHAR text[2048]; //TODO buffer overrun
-											SendMessage(GetDlgItem(hWnd, IDC_SEARCH_TEXT), WM_GETTEXT, 2048, (LPARAM) text);
-											searchResult = SearchHistory(data->hContact, data->hLastFoundEvent, text, direction, type);
+											SendMessage(GetDlgItem(hWnd, IDC_SEARCH_TEXT), WM_GETTEXT, SIZEOF(text), (LPARAM) text);
+											searchResult = SearchHistory(data->contact, data->hLastFoundEvent, text, direction, type);
 										}
 										else{//time search
 											TimeSearchData tsData = {0};
@@ -774,7 +764,7 @@ BOOL CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 													date.wMilliseconds = time.wMilliseconds;
 												}
 											tsData.time = date;
-											searchResult = SearchHistory(data->hContact, data->hLastFoundEvent, &tsData, direction, type);
+											searchResult = SearchHistory(data->contact, data->hLastFoundEvent, &tsData, direction, type);
 										}
 									if (searchResult.hEvent)
 										{
