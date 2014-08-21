@@ -822,7 +822,8 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETCURSEL, 0, 0);
 			if (curSel != CB_ERR) {
 				int idx = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETITEMDATA, (WPARAM)curSel, 0);
-				SetServiceModePlugin(servicePlugins[idx]);
+				if (idx != CB_ERR)
+					SetServiceModePlugin(servicePlugins[idx]);
 			}
 		}
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));

@@ -123,7 +123,7 @@ int LoadDefaultModules(void)
 
 //	if ( LoadErrorsModule()) return 1;
 
-	switch ( LoadServiceModePlugin()) {
+	switch (LoadServiceModePlugin()) {
 	case SERVICE_CONTINUE:  // continue loading Miranda normally
 		break;
 	case SERVICE_ONLYDB:    // load database and go to the message cycle
