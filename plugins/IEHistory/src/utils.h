@@ -22,7 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_IEHISTORY_UTILS_H
 
 #include "stdafx.h"
-#include "time.h"
+#include <time.h>
+#include <m_core.h>
 
 #define ANCHOR_LEFT     0x000001
 #define ANCHOR_RIGHT		0x000002
@@ -60,27 +61,26 @@ struct SearchResult{
 	HANDLE hEvent;
 };
 
-//#ifdef _DEBUG
+#ifdef _DEBUG
 int LogInit();
 int Log(char *format, ...);
-//#endif
+#else
+#	define LogInit()
+#	define Log(fmt,...)
+#endif
 
 void ScreenToClient(HWND hWnd, LPRECT rect);
 
 int Info(char *title, char *format, ...);
-TCHAR *GetContactName(HANDLE hContact, char *szProto);
+TCHAR *GetContactName(MCONTACT contact);
 void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors);
 RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos, int anchors);
 
 void UnixTimeToFileTime(time_t t, LPFILETIME pft);
 void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst);
 
-HANDLE GetNeededEvent(HANDLE hLastFirstEvent, int index, int direction);
-SearchResult SearchHistory(HANDLE hContact, HANDLE hFirstEvent,  void *searchData, int direction, int type);
-
-extern void *(*MirandaMalloc)(size_t size);
-extern void *(*MirandaRealloc)(void *data, size_t newSize); 
-extern void (*MirandaFree) (void *data);
+HANDLE GetNeededEvent(HANDLE hLastFirstEvent, int num, int direction);
+SearchResult SearchHistory(MCONTACT contact, HANDLE hFirstEvent,  void *searchData, int direction, int type);
 
 /*
 static __inline int mir_snprintf(char *buffer, size_t count, const char* fmt, ...) {

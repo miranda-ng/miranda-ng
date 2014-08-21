@@ -34,29 +34,28 @@ int DestroyServices()
 	return 0;
 }
 
-int ShowContactHistoryService(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM lParam)
 {
 	Log("%s", "Entering function " __FUNCTION__);
 	HWND historyDlg;
 	HWND parent = NULL;
-	historyDlg = WindowList_Find(hOpenWindowsList, (HANDLE) wParam);
-	if (historyDlg == NULL)
-		{
-			int count = DBGetContactSettingDword(NULL, ModuleName, "EventsToLoad", 0);
-			int loadInBackground = DBGetContactSettingByte(NULL, ModuleName, "UseWorkerThread", 0);
-			HistoryWindowData *data;
-			data = (HistoryWindowData *) malloc(sizeof(HistoryWindowData));
-			data->hContact = (HANDLE) wParam;
-			data->hIEView = NULL;
-			data->itemsPerPage = count;
-			data->index = 0;
-			data->count = 0;
-			data->loadMethod = (loadInBackground) ? LOAD_IN_BACKGROUND : 0;
-			historyDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_HISTORY), parent, HistoryDlgProc);
-			SetWindowLong(historyDlg, DWL_USER, (LONG) data);
-			
-			WindowList_Add(hOpenWindowsList, historyDlg, (HANDLE) wParam);
-		}
-	ShowWindow(historyDlg, SW_SHOW);
+	historyDlg = WindowList_Find(hOpenWindowsList, (MCONTACT)wParam);
+	if (historyDlg == NULL){
+		int count = db_get_dw(NULL, ModuleName, "EventsToLoad", 0);
+		int loadInBackground = db_get_b(NULL, ModuleName, "UseWorkerThread", 0);
+		HistoryWindowData *data;
+		data = (HistoryWindowData *) malloc(sizeof(HistoryWindowData));
+		data->contact = (MCONTACT) wParam;
+		data->hIEView = NULL;
+		data->itemsPerPage = count;
+		data->index = 0;
+		data->count = 0;
+		data->loadMethod = (loadInBackground) ? LOAD_IN_BACKGROUND : 0;
+		historyDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_HISTORY), parent, HistoryDlgProc);
+		SetWindowLongPtr(historyDlg, DWLP_USER, (LONG_PTR)data);
+		
+		WindowList_Add(hOpenWindowsList, historyDlg, (MCONTACT) wParam);
+	}
+	ShowWindow(historyDlg, SW_SHOWNORMAL);
 	return 0;
 }

@@ -27,6 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int InitServices();
 int DestroyServices();
 
-int ShowContactHistoryService(WPARAM wParam, LPARAM lParam);
+INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM lParam);
 
 #endif //M_IEHISTORY_PROVIDED_SERVICES_H

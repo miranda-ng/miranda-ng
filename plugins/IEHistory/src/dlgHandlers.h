@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LOAD_IN_BACKGROUND 0x00000001
 
 struct HistoryWindowData{
-	HANDLE hContact;
+	MCONTACT contact;
 	long count;
 	long index;
 	short loadMethod;
@@ -38,13 +38,13 @@ struct HistoryWindowData{
 
 struct SearchWindowData{
 	long index;
-	HANDLE hContact;
+	MCONTACT contact;
 	HWND hHistoryWindow;
 	HANDLE hLastFoundEvent;
 };
 
-BOOL CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-BOOL CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-BOOL CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif //M_HISTORY_DLG_HANDLERS_H
