@@ -33,9 +33,9 @@ Utwórz nowy profil
 [Use existing profile]
 Użyj istniejącego profilu
 [Search via toxme.se]
-
+Szukaj przez toxme.se
 [Add to friend list]
-
+Dodaj do znajomych
 ;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów
