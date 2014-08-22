@@ -19,8 +19,7 @@
 [Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
 [Create new profile]
 [Use existing profile]
-[Search via toxme.se]
-[Add to friend list]
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
 ;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
 ;file \protocols\Tox\src\tox_events.cpp
@@ -29,6 +28,7 @@
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp
+[Query]
 [All files (*.*)]
 [Select tox profile]
 ;file \protocols\Tox\src\tox_proto.cpp

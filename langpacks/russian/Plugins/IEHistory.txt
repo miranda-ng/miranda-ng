@@ -47,7 +47,7 @@
 Вверх
 [Down]
 Вниз
-[System history]
+[System History]
 Системная история
 [Out of a total of]
 Всего из
@@ -69,5 +69,5 @@
 История
 [View &history]
 &История
-[&System history]
+[&System History]
 &Системная история
