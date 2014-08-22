@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[IEView History Viewer]
+[Shows the history for a given contact using IEView.]
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 [Close]
@@ -14,16 +14,16 @@
 [&Search]
 [Number of events to load]
 [Load all events]
-[Load only ]
-[events per page.]
+[Load only]
+[events per page]
 [Show last page first]
 [Other options]
 [Load items in background]
-[RTL is default text direction.]
+[RTL is default text direction]
 [Search]
 [&Find next]
 [Cancel]
-[Text :]
+[Text:]
 [Direction]
 [Up]
 [Down]
@@ -34,7 +34,8 @@
 [Error]
 [Text search]
 [Time search]
-[Search finished. No more entries ...]
+[Time:]
+[Search finished. No more entries...]
 [Information]
 ;file \plugins\IEHistory\src\events.cpp
 [History]
