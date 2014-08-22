@@ -130,9 +130,8 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Search via toxme.se",IDC_SEARCH_TOXMESE,"Button",BS_AUTORADIOBUTTON,0,32,109,10
-    EDITTEXT        IDC_SEARCH,0,3,109,14,ES_AUTOHSCROLL
-    CONTROL         "Add to friend list",IDC_ADDTOLIST,"Button",BS_AUTORADIOBUTTON,0,20,109,10
+    EDITTEXT        IDC_SEARCH,0,4,109,14,ES_AUTOHSCROLL
+    LTEXT           "If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.",IDC_STATIC,0,20,109,93
 END
 
 

@@ -9,8 +9,6 @@
 #define IDD_ACCOUNT_MANAGER             1003
 #define IDC_CLIPBOARD                   1004
 #define IDD_OPTIONS_MAIN                1005
-#define IDC_RADIO1                      1005
-#define IDC_SEARCH_TOXMESE              1005
 #define IDC_CREATE_NEW                  1006
 #define IDC_PROFILE_PATH                1006
 #define IDC_SEARCH                      1006

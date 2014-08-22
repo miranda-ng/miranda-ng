@@ -137,24 +137,23 @@ HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* f
 
 HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 {
-	if (IsDlgButtonChecked(owner, IDC_SEARCH_TOXMESE))
-	{
-		TCHAR address[MAX_PATH];
-		GetDlgItemText(owner, IDC_SEARCH, address, SIZEOF(address));
+	std::smatch match;
+	std::regex regex("^\\s*([A-Fa-f0-9]{76})\\s*$");
 
-		ForkThread(&CToxProto::SearchByNameAsync, mir_tstrdup(address));
-	}
-	else
+	char text[TOX_FRIEND_ADDRESS_SIZE * 2 + 1];
+	GetDlgItemTextA(owner, IDC_SEARCH, text, SIZEOF(text));
+
+	const std::string query = text;
+	if (std::regex_search(query, match, regex))
 	{
+		std::string clientId = match[1];
+
 		ADDCONTACTSTRUCT acs = { 0 };
 
 		PROTOSEARCHRESULT psr = { 0 };
 		psr.cbSize = sizeof(psr);
 		psr.flags = PSR_TCHAR;
-
-		TCHAR toxId[TOX_MAX_NAME_LENGTH];
-		GetDlgItemText(owner, IDC_SEARCH, toxId, TOX_MAX_NAME_LENGTH);
-		psr.id = toxId;
+		psr.id = mir_a2t(query.c_str());
 
 		acs.psr = &psr;
 		acs.szProto = m_szModuleName;
@@ -162,7 +161,16 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 		acs.handleType = HANDLE_SEARCHRESULT;
 		CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
 
-		ForkThread(&CToxProto::SearchByIdAsync, mir_tstrdup(toxId));
+		ForkThread(&CToxProto::SearchByIdAsync, mir_strdup(query.c_str()));
+	}
+	else
+	{
+		regex = "^\\s*([A-Za-z]+)(@toxme.se)?\\s*$";
+		if (std::regex_search(query, match, regex))
+		{
+			std::string query = match[1];
+			ForkThread(&CToxProto::SearchByNameAsync, mir_strdup(query.c_str()));
+		}
 	}
 
 	return (HWND)1;
