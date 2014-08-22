@@ -72,7 +72,12 @@ MCONTACT CToxProto::FindContact(const char *clientId)
 
 MCONTACT CToxProto::AddContact(const char *clientId, bool isTemporary)
 {
-	MCONTACT hContact = FindContact(clientId);
+	std::string toxId = clientId;
+	if (toxId.length() > TOX_CLIENT_ID_SIZE * 2)
+	{
+		toxId.erase(toxId.begin() + TOX_CLIENT_ID_SIZE * 2, toxId.end());
+	}
+	MCONTACT hContact = FindContact(toxId.c_str());
 	if (!hContact)
 	{
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
@@ -84,7 +89,7 @@ MCONTACT CToxProto::AddContact(const char *clientId, bool isTemporary)
 			db_set_b(hContact, "CList", "Auth", 1);
 		}
 
-		setString(hContact, TOX_SETTINGS_ID, clientId);
+		setString(hContact, TOX_SETTINGS_ID, toxId.c_str());
 
 		DBVARIANT dbv;
 		if (!getTString(TOX_SETTINGS_GROUP, &dbv))
@@ -131,22 +136,20 @@ void CToxProto::LoadContactList()
 
 void CToxProto::SearchByIdAsync(void* arg)
 {
-	std::string clientId = mir_utf8encodeT((TCHAR*)arg);
-	if (clientId.length() > TOX_CLIENT_ID_SIZE * 2)
-	{
-		clientId.erase(clientId.begin() + TOX_CLIENT_ID_SIZE * 2, clientId.end());
-	}
+	std::string toxId = (char*)arg;
+	toxId.erase(toxId.begin() + TOX_CLIENT_ID_SIZE * 2, toxId.end());
 
-	std::string toxId = clientId;
-	MCONTACT hContact = FindContact(clientId.c_str());
+	MCONTACT hContact = FindContact(toxId.c_str());
 	if (hContact)
 	{
 		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HWND)1, 0);
+		mir_free(arg);
 		return;
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
+	mir_free(arg);
 }
 
 void CToxProto::SearchByNameAsync(void* arg)
@@ -161,15 +164,8 @@ void CToxProto::SearchByNameAsync(void* arg)
 	request.headers[0].szValue = "text/plain; charset=utf-8";
 	request.headersCount = 1;
 
-	std::tstring search = (TCHAR*)arg;
-	size_t at = search.find('@');
-	if (at != std::string::npos)
-	{
-		search.erase(search.begin() + at, search.end());
-	}
-
 	std::string query = "{\"action\":3,\"name\":\"";
-	query += ptrA(mir_utf8encodeT(search.c_str()));
+	query += (char*)arg;
 	query += "\"}";
 
 	request.dataLength = query.length();
@@ -204,4 +200,5 @@ void CToxProto::SearchByNameAsync(void* arg)
 	mir_free(request.headers);
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
+	mir_free(arg);
 }
