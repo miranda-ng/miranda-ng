@@ -221,11 +221,11 @@ int __cdecl CToxProto::SetApparentMode(MCONTACT hContact, int mode) { return 0; 
 
 int __cdecl CToxProto::SetStatus(int iNewStatus)
 {
-	if (iNewStatus == this->m_iDesiredStatus)
+	if (iNewStatus == m_iDesiredStatus)
 		return 0;
 
-	int old_status = this->m_iStatus;
-	this->m_iDesiredStatus = iNewStatus;
+	int old_status = m_iStatus;
+	m_iDesiredStatus = iNewStatus;
 
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
@@ -239,7 +239,6 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
 	else
 	{
@@ -253,6 +252,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		else
 		{
 			// set tox status
+			m_iStatus = iNewStatus;
 			if (tox_set_user_status(tox, MirandaToToxStatus(iNewStatus)) == 0)
 			{
 				SaveToxData();
@@ -261,7 +261,6 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
 	return 0;
 }
 

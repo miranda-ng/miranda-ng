@@ -197,12 +197,6 @@ void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendnumber, const u
 
 void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t usertatus, void *arg)
 {
-	TOX_USERSTATUS userstatus = (TOX_USERSTATUS)usertatus;
-	if (userstatus == TOX_USERSTATUS_NONE)
-	{
-		return;
-	}
-
 	CToxProto *proto = (CToxProto*)arg;
 
 	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
@@ -212,6 +206,7 @@ void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t user
 	MCONTACT hContact = proto->FindContact(toxId.c_str());
 	if (hContact)
 	{
+		TOX_USERSTATUS userstatus = (TOX_USERSTATUS)usertatus;
 		int status = proto->ToxToMirandaStatus(userstatus);
 		proto->SetContactStatus(hContact, status);
 	}
