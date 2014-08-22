@@ -71,6 +71,17 @@ struct TCHAR_PARAM : public PARAM
 };
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const TCHAR_PARAM&);
 
+struct CVkSendMsgParam
+{
+	CVkSendMsgParam(MCONTACT _p1, int _p2) :
+		hContact(_p1),
+		iMsgID(_p2)
+	{}
+
+	MCONTACT hContact;
+	int iMsgID;
+};
+
 struct CVkChatMessage : public MZeroedObject
 {
 	CVkChatMessage(int _id) : m_mid(_id) {}
