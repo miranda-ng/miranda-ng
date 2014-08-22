@@ -49,7 +49,7 @@ Do góry
 [Down]
 W dół
 ;file \plugins\IEHistory\src\dlgHandlers.cpp
-[System history]
+[System History]
 Historia systemowa
 [Out of a total of]
 z całkowitych
@@ -73,5 +73,5 @@ Historia
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 Zobacz &historię
-[&System history]
+[&System History]
 Historia &systemowa
