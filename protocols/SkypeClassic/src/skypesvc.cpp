@@ -133,6 +133,7 @@ INT_PTR SkypeGetCaps(WPARAM wParam, LPARAM lParam) {
 #endif		
 			if (!db_get_b(NULL, SKYPE_PROTONAME, "NoSkype3Stats", 0))
 				ret |= PF2_LONGAWAY | PF2_FREECHAT;
+			ret |= Proto_Status2Flag(db_get_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", ID_STATUS_ONTHEPHONE));
             break;
 
         case PFLAGNUM_3:
@@ -143,6 +144,9 @@ INT_PTR SkypeGetCaps(WPARAM wParam, LPARAM lParam) {
             ret = PF4_FORCEAUTH | PF4_FORCEADDED | PF4_AVATARS | PF4_SUPPORTTYPING /* Not really, but libgaim compat. */;
 			if (mirandaVersion >= 0x070000) ret |= PF4_IMSENDUTF;
             break;
+		case PFLAGNUM_5:
+			ret = Proto_Status2Flag(db_get_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", ID_STATUS_ONTHEPHONE));
+			break;
         case PFLAG_UNIQUEIDTEXT:
             ret = (INT_PTR)Translate("Skype ID");
             break;
