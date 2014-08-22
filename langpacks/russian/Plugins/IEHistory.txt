@@ -22,7 +22,7 @@
 [Load all events]
 Загружать все события
 [Load only ]
-Загружать только
+Загружать только\s
 [events per page]
 событий на странице
 [Show last page first]
@@ -61,7 +61,7 @@
 Поиск времени
 [Time:]
 Время:
-[Search finished. No more entries ...]
+[Search finished. No more entries...]
 Поиск закончен. Больше результатов нет...
 [Information]
 Информация

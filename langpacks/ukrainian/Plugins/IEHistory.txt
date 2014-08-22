@@ -22,7 +22,7 @@
 [Load all events]
 Усі
 [Load only ]
-Тільки
+Тільки\s
 [events per page]
 подій на сторінці
 [Show last page first]
@@ -61,7 +61,7 @@ RTL за замовчанням
 Шукати час
 [Time:]
 Час:
-[Search finished. No more entries ...]
+[Search finished. No more entries...]
 Пошук завершено. Більше результатів немає...
 [Information]
 Інформація

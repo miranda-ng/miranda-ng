@@ -674,7 +674,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				data->index += (direction == DIRECTION_BACK) ? -searchResult.index : searchResult.index;
 				LoadPage(data->hHistoryWindow, searchResult.hEvent, data->index, histData->itemsPerPage / 2, histData->itemsPerPage, DIRECTION_BACK);
 			}
-			else MessageBox(0, TranslateT("Search finished. No more entries ..."), TranslateT("Information"), MB_OK | MB_ICONINFORMATION);
+			else MessageBox(0, TranslateT("Search finished. No more entries..."), TranslateT("Information"), MB_OK | MB_ICONINFORMATION);
 
 			data->hLastFoundEvent = searchResult.hEvent;
 			break;
