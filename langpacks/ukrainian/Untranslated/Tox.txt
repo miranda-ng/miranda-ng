@@ -1,5 +1,3 @@
 ﻿[Tox ID:]
 [C]
 [Tox]
-[Search via toxme.se]
-[Add to friend list]
