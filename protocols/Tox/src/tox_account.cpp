@@ -76,6 +76,8 @@ void CToxProto::DoTox()
 {
 	uint32_t interval = 50;
 	{
+		mir_cs(tox_lock);
+
 		tox_do(tox);
 		interval = tox_do_interval(tox);
 	}
