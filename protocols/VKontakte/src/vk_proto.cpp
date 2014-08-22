@@ -171,15 +171,19 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	if (flags & PREF_UTF)
 		szMsg = mir_strdup(msg);
 	else if (flags & PREF_UNICODE)
-		msg = mir_utf8encodeW((wchar_t*)&msg[strlen(msg)+1]);
+		szMsg = mir_utf8encodeW((wchar_t*)&msg[strlen(msg)+1]);
 	else
-		msg = mir_utf8encode(msg);
+		szMsg = mir_utf8encode(msg);
 
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
-		<< INT_PARAM("type", 0) << INT_PARAM("uid", userID) << CHAR_PARAM("message", msg);
-	pReq->pData = (char*)hContact;
-	pReq->pUserInfo = (void*)msgId;
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
+		<< INT_PARAM("type", 0) << INT_PARAM("uid", userID);
+	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+	
+	CMStringA szBody(FORMAT, "message=%s", szMsg);
+	pReq->pData = mir_strdup(szBody);
+	pReq->dataLength = szBody.GetLength();
+	pReq->pUserInfo = new CVkSendMsgParam(hContact, msgId); 
 	Push(pReq);
 
 	if (!m_bServerDelivery)
@@ -190,6 +194,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	int iResult = ACKRESULT_FAILED;
+	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 
 	debugLogA("CVkProto::OnSendMessage %d", reply->resultCode);
 	if (reply->resultCode == 200) {
@@ -202,8 +207,8 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 
 	if (m_bServerDelivery)
-		ProtoBroadcastAck((MCONTACT)pReq->pData, ACKTYPE_MESSAGE, iResult, pReq->pUserInfo, 0);
-	pReq->pData = NULL;
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, HANDLE(param->iMsgID), 0);
+	delete param;
 }
 
 //////////////////////////////////////////////////////////////////////////////

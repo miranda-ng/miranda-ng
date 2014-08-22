@@ -477,7 +477,11 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (isOut)
 			recv.flags |= PREF_SENT;
 		recv.timestamp = datetime;
-		recv.tszMessage = ptszBody;
+		
+		CMStringW szBody = ptszBody;
+		szBody.Replace(_T("<br>"),_T("\n"));
+		recv.tszMessage = (TCHAR *) szBody.c_str();
+		
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)strlen(szMid);
