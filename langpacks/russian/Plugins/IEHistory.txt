@@ -18,13 +18,13 @@
 [&Search]
 &Искать
 [Number of events to load]
-Кол-во событий для загрузки
+Количество событий для загрузки
 [Load all events]
 Загружать все события
 [Load only ]
-Загр. только
+Загружать только
 [events per page.]
-событий на странице.
+событий на странице
 [Show last page first]
 Последняя страница первой
 [Other options]
