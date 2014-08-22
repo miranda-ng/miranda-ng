@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[IEView History Viewer]
+[Shows the history for a given contact using IEView.]
 
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
@@ -22,9 +22,9 @@
 
 [Load all events]
 
-[Load only ]
+[Load only]
 
-[events per page.]
+[events per page]
 
 [Show last page first]
 
@@ -32,7 +32,7 @@
 
 [Load items in background]
 
-[RTL is default text direction.]
+[RTL is default text direction]
 
 [Search]
 Търсене
@@ -40,7 +40,7 @@
 Намери >>
 [Cancel]
 Отказ
-[Text :]
+[Text:]
 
 [Direction]
 
@@ -61,7 +61,9 @@
 
 [Time search]
 
-[Search finished. No more entries ...]
+[Time:]
+Време:
+[Search finished. No more entries...]
 
 [Information]
 Информация

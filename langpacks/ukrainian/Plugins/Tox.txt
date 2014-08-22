@@ -25,10 +25,6 @@
 Створити новий профіль
 [Use existing profile]
 Використати існуючий
-[Search via toxme.se]
-Шукати через toxme.se
-[Add to friend list]
-Додати до списку друзів
 [Contact already in your contact list]
 Контакт уже в списку
 [Network]

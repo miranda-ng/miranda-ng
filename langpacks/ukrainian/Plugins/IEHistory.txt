@@ -47,7 +47,7 @@ RTL за замовчанням
 Вгору
 [Down]
 Вниз
-[System history]
+[System History]
 Системна історія
 [Out of a total of]
 Усього подій:
@@ -69,5 +69,5 @@ RTL за замовчанням
 Історія
 [View &history]
 &Історія
-[&System history]
+[&System History]
 Сис&темна історія

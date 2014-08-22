@@ -47,7 +47,7 @@ RTL па змаўчанні
 [Down]
 Уніз
 ;file \plugins\IEHistory\src\dlgHandlers.cpp
-[System history]
+[System History]
 Сістэмная гісторыя
 [Out of a total of]
 Усяго з
@@ -69,5 +69,5 @@ RTL па змаўчанні
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 &Гісторыя
-[&System history]
+[&System History]
 &Сістэмная гісторыя
