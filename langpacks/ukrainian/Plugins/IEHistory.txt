@@ -1,0 +1,25 @@
+﻿#muuid {2f093b88-f389-44f1-9e2a-37c29194203a}
+;============================================================
+;  File: IEHistory.dll
+;  Plugin: IEHistory
+;  Version: 0.0.1.7
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+[Close]
+Закрити
+[&Search]
+&Знайти
+[Search]
+Знайти
+[&Find next]
+Н&аступний
+[Cancel]
+Скасувати
+[Error]
+Помилка
+[Information]
+Інформація
+[History]
+Історія
+[View &history]
+Історія

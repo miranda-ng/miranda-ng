@@ -1,0 +1,75 @@
+﻿#muuid {2f093b88-f389-44f1-9e2a-37c29194203a}
+;============================================================
+;  File: IEHistory.dll
+;  Plugin: IEHistory
+;  Version: 0.0.1.7
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+[IEView History Viewer]
+
+;file \plugins\IEHistory\res\IEHistory.rc
+[Dialog]
+Dialogue
+[Close]
+Fermer
+[&Prev]
+
+[&Next]
+
+[&Search]
+&Recherche
+[Number of events to load]
+
+[Load all events]
+
+[Load only ]
+
+[events per page.]
+
+[Show last page first]
+
+[Other options]
+Autres options
+[Load items in background]
+
+[RTL is default text direction.]
+
+[Search]
+Recherche
+[&Find next]
+&Suivant
+[Cancel]
+Annuler
+[Text :]
+
+[Direction]
+
+[Up]
+Haut
+[Down]
+Bas
+;file \plugins\IEHistory\src\dlgHandlers.cpp
+[System History]
+Historique Système
+[Out of a total of]
+
+[You can't close the window now, wait for all events to load.]
+
+[Error]
+Erreur
+[Text search]
+
+[Time search]
+
+[Search finished. No more entries ...]
+
+[Information]
+Informations
+;file \plugins\IEHistory\src\events.cpp
+[History]
+Historique
+;file \plugins\IEHistory\src\IEHistory.cpp
+[View &history]
+Voir l'&historique
+[&System History]
+&Historique
