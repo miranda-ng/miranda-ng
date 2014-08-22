@@ -294,7 +294,7 @@ Czy chcesz załadować klucz dla wszystkich subkontaktów?
 Wykryto metakontakt
 ;file \plugins\New_GPG\src\messages.cpp
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
-Otrzymaliśmy zaszyfrowaną wiadomość od kontaktu, dla którego szyfrowanie jest wyłączone.\nCzy chcesz włączyć szyfrowanie dla tego kontaktu?
+Otrzymano zaszyfrowaną wiadomość od kontaktu, dla którego szyfrowanie jest wyłączone.\nCzy chcesz włączyć szyfrowanie dla tego kontaktu?
 [Do you want to try to decrypt encrypted message?]
 Czy chcesz spróbować odszyfrować zaszyfrowaną wiadomość?
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
@@ -382,17 +382,17 @@ Nie udało się sprawdzić wsparcia dla odszyfrowania po drugiej stronie.\nOdbio
 [encrypting file for transfer]
 Szyfrowanie pliku do wysłania
 [We have successfully exported %d public keys and all private keys.]
-Pomyślnie wyeksportowaliśmy %d kluczy prywatnych i wszystkie klucze publiczne.
+Pomyślnie wyeksportowano %d kluczy prywatnych i wszystkie klucze publiczne.
 [We have successfully exported all private keys.]
-Pomyślnie wyeksportowaliśmy wszystkie klucze prywatne.
+Pomyślnie wyeksportowano wszystkie klucze prywatne.
 [We have successfully exported %d public keys.]
-Pomyślnie wyeksportowaliśmy %d kluczy publicznych
+Pomyślnie wyeksportowano %d kluczy publicznych
 [Keys export result]
 Wynik eksportu kluczy
 [We have successfully processed %d public keys and some private keys.]
-Pomyślnie przetworzyliśmy %d kluczy publicznych i ileś kluczy prywatnych.
+Pomyślnie przetworzono %d kluczy publicznych i ileś kluczy prywatnych.
 [We have successfully processed %d public keys.]
-Pomyślie przetworzyliśmy %d kluczy publicznych.
+Pomyślnie przetworzono %d kluczy publicznych.
 [Keys import result]
 Wynik importu kluczy
 [New passwords do not match]

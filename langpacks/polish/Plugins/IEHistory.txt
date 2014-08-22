@@ -13,9 +13,9 @@ Okno
 [Close]
 Zamknij
 [&Prev]
-&poprz.
+&Poprzedni
 [&Next]
-&Nast.
+&Następny
 [&Search]
 &Szukaj
 [Number of events to load]

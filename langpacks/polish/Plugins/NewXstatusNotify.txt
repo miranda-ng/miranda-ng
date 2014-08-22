@@ -33,7 +33,7 @@ Pod telefonem
 [Always when changing from offline]
 Z rozłączonego
 [Notify when contact changes]
-Powiadom kiedy kontak zmienia
+Powiadom kiedy kontakt zmienia
 [Extra status]
 xStatus
 [Status message]

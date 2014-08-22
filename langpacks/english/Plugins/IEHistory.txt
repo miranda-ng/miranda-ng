@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[IEView History Viewer]
+[Shows the history for a given contact using IEView]
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 [Close]
@@ -15,11 +15,11 @@
 [Number of events to load]
 [Load all events]
 [Load only ]
-[events per page.]
+[events per page]
 [Show last page first]
 [Other options]
 [Load items in background]
-[RTL is default text direction.]
+[RTL is default text direction]
 [Search]
 [&Find next]
 [Cancel]
@@ -28,7 +28,7 @@
 [Up]
 [Down]
 ;file \plugins\IEHistory\src\dlgHandlers.cpp
-[System History]
+[System history]
 [Out of a total of]
 [You can't close the window now, wait for all events to load.]
 [Error]
@@ -40,4 +40,4 @@
 [History]
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
-[&System History]
+[&System history]

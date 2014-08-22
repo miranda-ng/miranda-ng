@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
-Implementacja wiadomośći błyskawicznych dla protokołu Lotus Sametime
+Implementacja wiadomości błyskawicznych dla protokołu Lotus Sametime
 ;file \protocols\Sametime\res\resource.rc
 [Connection]
 Połączenie
@@ -68,7 +68,7 @@ Nie ma mnie tu.
 [Invitation rejected - already present.]
 Zaproszenie odrzucone - już istnieje.
 [Your invitation has been rejected.]
-Twoje zaproszenie zostąło odrzucone.
+Twoje zaproszenie zostało odrzucone.
 [Please join this meeting.]
 Proszę dołączyć do tego spotkania.
 [Normal]
