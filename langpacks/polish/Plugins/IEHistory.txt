@@ -23,7 +23,7 @@ Liczba zdarzeń do załadowania
 [Load all events]
 Ładuj wszystkie zdarzenia
 [Load only ]
-Ładuj tylko
+Ładuj tylko\s
 [events per page.]
 zdarzeń na stronę.
 [Show last page first]
