@@ -53,7 +53,7 @@
 [Miranda NG profile manager]
 Мэнэджар профіляў Miranda
 [&Run]
-выканаць
+Выканаць
 [&Exit]
 Выхад
 [Start in service mode with]
@@ -281,7 +281,7 @@
 [e.g., Workplace]
 напр. "Працоўны"
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Вы можаце абраць  іншы драйвер базы дадзеных, які мае больш магчымасцяў. Калі не ўпэўнены, выкарыстоўвайце драйвер па змаўчанні.
+Вы можаце абраць іншы драйвер базы дадзеных, які мае больш магчымасцяў. Калі не ўпэўнены, выкарыстоўвайце драйвер па змаўчанні.
 [e.g., dbx mmap]
 напрыклад, dbx_mmap
 [Driver]
@@ -1360,7 +1360,7 @@ UIN, E-mail і г.д.
 [Flash window when someone speaks]
 Міргаць вакном, пры новым паведамленні
 [Flash window when a word is highlighted]
-Міргаць вакном, прыпадсветленым  паведамленні
+Міргаць вакном, пры падсветленым паведамленні
 [Show list of users in the chat room]
 Паказваць спіс удзельнікаў чата
 [Show button for sending messages]
@@ -2207,7 +2207,7 @@ Miranda NG не можа адкрыць гэты профіль
 [This change is not known to be safe.]
 Невядома, ці будзе змена бяспечнай.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-Наслушны тып налады для  '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h цi n.
+Наслушны тып налады для '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h цi n.
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
 Запыт аўтарызацыі от %s%s: %s
