@@ -6,19 +6,61 @@
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 ;file \plugins\IEHistory\res\IEHistory.rc
+[Dialog]
+Дыялог
 [Close]
 Зачыніць
+[&Prev]
+&Назад
+[&Next]
+&Далей
 [&Search]
 Шукаць
+[Number of events to load]
+Колькасць падзей для загрузкі
+[Load all events]
+Грузіць усе падзеі
+[Load only]
+Грузіць толькі
+[events per page]
+падзей на старонцы
+[Show last page first]
+Апошняя старонка першай
+[Other options]
+Іншыя налады
+[Load items in background]
+Загружаць у фоне
+[RTL is default text direction]
+RTL па змаўчанні
 [Search]
 Пошук
 [&Find next]
 &Наступны
 [Cancel]
 Скасаваць
+[Text:]
+Тэкст:
+[Direction]
+Кірунак
+[Up]
+Угару
+[Down]
+Уніз
 ;file \plugins\IEHistory\src\dlgHandlers.cpp
+[System history]
+Сістэмная гісторыя
+[Out of a total of]
+Усяго з
 [Error]
 Памылка
+[Text search]
+Пошук тэксту
+[Time search]
+Пошук часу
+[Time:]
+Час:
+[Search finished. No more entries...]
+Пошук завершаны. Больш вынікаў няма...
 [Information]
 Інфармацыя
 ;file \plugins\IEHistory\src\events.cpp
@@ -27,3 +69,5 @@
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 &Гісторыя
+[&System history]
+&Сістэмная гісторыя
