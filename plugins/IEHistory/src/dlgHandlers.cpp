@@ -66,7 +66,7 @@ void LoadName(HWND hWnd)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
 	if (!data->contact) {
-		SetWindowText(hWnd, TranslateT("System history"));
+		SetWindowText(hWnd, TranslateT("System History"));
 		return;
 	}
 	TCHAR *szOther = GetContactName(data->contact);
