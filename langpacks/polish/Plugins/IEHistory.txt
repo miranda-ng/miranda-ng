@@ -5,8 +5,8 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[IEView History Viewer]
-Przeglądarka historii IEView
+[Shows the history for a given contact using IEView.]
+Przeglądarka historii IEView.
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 Okno
@@ -22,26 +22,26 @@ Zamknij
 Liczba zdarzeń do załadowania
 [Load all events]
 Ładuj wszystkie zdarzenia
-[Load only ]
-Ładuj tylko\s
-[events per page.]
-zdarzeń na stronę.
+[Load only]
+Ładuj tylko
+[events per page]
+zdarzeń na stronę
 [Show last page first]
 Pokaż najpierw ostatnią stronę
 [Other options]
 Inne opcje
 [Load items in background]
 Ładuj elementy w tle
-[RTL is default text direction.]
-Z prawej do lewej jako domyślny kierunek tekstu.
+[RTL is default text direction]
+Z prawej do lewej jako domyślny kierunek tekstu
 [Search]
 Szukaj
 [&Find next]
 &szukaj następnego
 [Cancel]
 Anuluj
-[Text :]
-Tekst :
+[Text:]
+Tekst:
 [Direction]
 Kierunek
 [Up]
@@ -49,7 +49,7 @@ Do góry
 [Down]
 W dół
 ;file \plugins\IEHistory\src\dlgHandlers.cpp
-[System History]
+[System history]
 Historia systemowa
 [Out of a total of]
 z całkowitych
@@ -61,8 +61,10 @@ Błąd
 Wyszukiwanie tekstu
 [Time search]
 Wyszukiwanie czasu
-[Search finished. No more entries ...]
-Wyszukiwanie zakończone. Nie ma więcej wpisów ...
+[Time:]
+Czas:
+[Search finished. No more entries...]
+Wyszukiwanie zakończone. Nie ma więcej wpisów...
 [Information]
 Informacje
 ;file \plugins\IEHistory\src\events.cpp
@@ -71,5 +73,5 @@ Historia
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 Zobacz &historię
-[&System History]
+[&System history]
 Historia &systemowa

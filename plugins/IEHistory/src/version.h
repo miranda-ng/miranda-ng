@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdver.h>
 
-#define __DESC                  "Shows the history for a given contact using IEView"
+#define __DESC                  "Shows the history for a given contact using IEView."
 #define __AUTHOR                "Cristian Libotean, Miranda NG team"
 //#define __AUTHOREMAIL           "eblis102@yahoo.com"
 #define __AUTHOREMAIL           ""
