@@ -6,34 +6,34 @@
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [IEView History Viewer]
-
+Przeglądarka historii IEView
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 Okno
 [Close]
 Zamknij
 [&Prev]
-
+&poprz.
 [&Next]
-
+&Nast.
 [&Search]
 &Szukaj
 [Number of events to load]
-
+Liczba zdarzeń do załadowania
 [Load all events]
-
+Ładuj wszystkie zdarzenia
 [Load only ]
-
+Ładuj tylko
 [events per page.]
-
+zdarzeń na stronę.
 [Show last page first]
-
+Pokaż najpierw ostatnią stronę
 [Other options]
 Inne opcje
 [Load items in background]
-
+Ładuj elementy w tle
 [RTL is default text direction.]
-
+Z prawej do lewej jako domyślny kierunek tekstu.
 [Search]
 Szukaj
 [&Find next]
@@ -41,7 +41,7 @@ Szukaj
 [Cancel]
 Anuluj
 [Text :]
-
+Tekst :
 [Direction]
 Kierunek
 [Up]
@@ -52,17 +52,17 @@ W dół
 [System History]
 Historia systemowa
 [Out of a total of]
-
+z całkowitych
 [You can't close the window now, wait for all events to load.]
-
+Nie możesz teraz zamknąć okna, poczekaj, aż załadują się wszystkie zdarzenia.
 [Error]
 Błąd
 [Text search]
-
+Wyszukiwanie tekstu
 [Time search]
-
+Wyszukiwanie czasu
 [Search finished. No more entries ...]
-
+Wyszukiwanie zakończone. Nie ma więcej wpisów ...
 [Information]
 Informacje
 ;file \plugins\IEHistory\src\events.cpp
