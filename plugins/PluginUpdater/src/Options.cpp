@@ -171,7 +171,11 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				db_set_dw(NULL, MODNAME, "Period", opts.Period);
 
 				mir_forkthread(InitTimer, (void*)1);
-
+				
+				if (!IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
+					opts.bForceRedownload = false;
+					db_unset(NULL, MODNAME, "ForceRedownload");
+				}
 				if ( IsDlgButtonChecked(hwndDlg, IDC_STABLE))
 					db_set_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_STABLE);
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK))
