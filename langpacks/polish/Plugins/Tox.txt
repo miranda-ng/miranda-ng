@@ -32,10 +32,8 @@ Profil Tox zawiera twoje ID oraz listę znajomych.\r\nMożesz założyć nowy pr
 Utwórz nowy profil
 [Use existing profile]
 Użyj istniejącego profilu
-[Search via toxme.se]
-Szukaj przez toxme.se
-[Add to friend list]
-Dodaj do znajomych
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
+Jeśli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o jego dodanie do listy znajomych. W przeciwnym razie Miranda wyszuka to zapytanie w toxme.se.
 ;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów
@@ -48,6 +46,8 @@ Konto
 [%s connection]
 Połączenie %s
 ;file \protocols\Tox\src\tox_options.cpp
+[Query]
+Zapytanie
 [All files (*.*)]
 Wszystkie pliki (*.*)
 [Select tox profile]
