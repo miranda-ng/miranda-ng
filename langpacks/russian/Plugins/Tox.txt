@@ -26,7 +26,7 @@
 [Use existing profile]
 Использовать существующий профиль
 [If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
-При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе Miranda будет искать в директории сервиса в toxme.se.
+При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе Miranda будет искать в базе данных сервиса в toxme.se.
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов
 [Network]
