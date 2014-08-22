@@ -5,21 +5,69 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
+[Shows the history for a given contact using IEView]
+Перегляд історії контакту за допомогою IEView.
+[Dialog]
+Діалог
 [Close]
 Закрити
+[&Prev]
+&Назад
+[&Next]
+&Далі
 [&Search]
 &Знайти
+[Number of events to load]
+Завантажувати події
+[Load all events]
+Усі
+[Load only ]
+Тільки
+[events per page]
+подій на сторінці
+[Show last page first]
+Останню сторінку першою
+[Other options]
+Інше
+[Load items in background]
+Завантажувати у фоні
+[RTL is default text direction]
+RTL за замовчанням
 [Search]
 Знайти
 [&Find next]
 Н&аступний
 [Cancel]
 Скасувати
+[Text:]
+Текст:
+[Direction]
+Напрямок
+[Up]
+Вгору
+[Down]
+Вниз
+[System history]
+Системна історія
+[Out of a total of]
+Усього подій:
+[You can't close the window now, wait for all events to load.]
+Дочекайтеся завантаження всіх подій, перш ніж закрити це вікно.
 [Error]
 Помилка
+[Text search]
+Шукати текст
+[Time search]
+Шукати час
+[Time:]
+Час:
+[Search finished. No more entries ...]
+Пошук завершено. Більше результатів немає...
 [Information]
 Інформація
 [History]
 Історія
 [View &history]
-Історія
+&Історія
+[&System history]
+Сис&темна історія
