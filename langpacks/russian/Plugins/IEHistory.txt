@@ -12,9 +12,9 @@
 [Close]
 Закрыть
 [&Prev]
-Пред
+&Назад
 [&Next]
-Далее
+&Далее
 [&Search]
 &Искать
 [Number of events to load]
@@ -60,7 +60,7 @@ RTL по умолчанию
 [Time search]
 Поиск времени
 [Search finished. No more entries ...]
-Поиск закончен. Больше результатов нет ...
+Поиск закончен. Больше результатов нет...
 [Information]
 Информация
 [History]
