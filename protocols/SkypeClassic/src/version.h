@@ -1,7 +1,7 @@
 #define __MAJOR_VERSION            0
 #define __MINOR_VERSION            0
 #define __RELEASE_NUM              0
-#define __BUILD_NUM               54
+#define __BUILD_NUM               55
 
 #include <stdver.h>
 
@@ -12,4 +12,4 @@
 #define __AUTHOR                   "leecher, tweety, jls17"
 #define __AUTHOREMAIL              "leecher@dose.0wnz.at; tweety@user.berlios.de"
 #define __AUTHORWEB                "http://miranda-ng.org/p/SkypeClassic/"
-#define __COPYRIGHT                "© 2004-2012 leecher, tweety"
+#define __COPYRIGHT                "© 2004-2014 leecher, tweety"
