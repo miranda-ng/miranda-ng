@@ -5,6 +5,10 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
+[IEView History Viewer]
+Просмотрщик истории, использующий движок IE.
+[Dialog]
+Диалог
 [Close]
 Закрыть
 [&Prev]
@@ -14,19 +18,21 @@
 [&Search]
 &Искать
 [Number of events to load]
-Кол-во событий для загр.
+Кол-во событий для загрузки
 [Load all events]
-Загр. все события
+Загружать все события
 [Load only ]
 Загр. только
 [events per page.]
 событий на странице.
 [Show last page first]
-Посл. страница первой
+Последняя страница первой
+[Other options]
+Прочие настройки
 [Load items in background]
 Загружать в фоне
 [RTL is default text direction.]
-RTL по умолчанию.
+RTL по умолчанию
 [Search]
 Поиск
 [&Find next]
@@ -35,8 +41,18 @@ RTL по умолчанию.
 Отмена
 [Text :]
 Текст:
+[Direction]
+Направление
+[Up]
+Вверх
+[Down]
+Вниз
+[System History]
+Системная история
 [Out of a total of]
 Всего из
+[You can't close the window now, wait for all events to load.]
+Дождитесь загрузки всех событий, прежде чем закрыть это окно.
 [Error]
 Ошибка
 [Text search]
@@ -51,3 +67,5 @@ RTL по умолчанию.
 История
 [View &history]
 &История
+[&System History]
+&Системная история
