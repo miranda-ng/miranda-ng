@@ -613,7 +613,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				ShowWindow(GetDlgItem(hWnd, IDC_SEARCH_DATE), (tab == 1) ? SW_SHOW : SW_HIDE);
 				ShowWindow(GetDlgItem(hWnd, IDC_SEARCH_TIME), (tab == 1) ? SW_SHOW : SW_HIDE);
 				ShowWindow(GetDlgItem(hWnd, IDC_SEARCH_TEXT), (tab == 0) ? SW_SHOW : SW_HIDE);
-				SendMessage(GetDlgItem(hWnd, IDC_SEARCH_TEXT_STATIC), WM_SETTEXT, 0, (LPARAM)((tab == 0) ? _T("Text :") : _T("Time :")));
+				SendMessage(GetDlgItem(hWnd, IDC_SEARCH_TEXT_STATIC), WM_SETTEXT, 0, (LPARAM)((tab == 0) ? TranslateT("Text:") : TranslateT("Time:")));
 				break;
 			}
 			break;
