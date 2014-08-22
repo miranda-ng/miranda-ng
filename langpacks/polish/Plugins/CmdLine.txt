@@ -157,11 +157,11 @@ Nie udało się znaleźć uchwytu dla kontaktu "%s".
 [byte:%d]
 bajt:%d
 [word:%d]
-słowo:%d
+word:%d
 [dword:%ld]
 dword:%ld
 [string:'%s']
-Ciąg:'%s'
+ciąg:'%s'
 [wide string:'%S']
 szeroki ciąg:'%S'
 [utf8:'%s']
@@ -177,7 +177,7 @@ ciąg
 [byte]
 bajt
 [word]
-słowo
+word
 [dword]
 dword
 [wide string]

@@ -483,7 +483,7 @@ Użyj nazwy kontaktu
 [Contact labels]
 Etykiety kontaktu
 [When I click on a sub in the popup menu...]
-Gdy klikam na podkontakt w wyskakującym menu
+Gdy klikam na subkontakt w wyskakującym menu
 [Set default and open message window]
 Ustaw domyślne i otwórz okno rozmowy
 [Show subcontact context menu]

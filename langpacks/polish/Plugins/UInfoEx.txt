@@ -203,7 +203,7 @@ Pokazuj ikony na każdym przycisku
 [Metacontacts]
 Metakontakty
 [Scan subcontacts for missing information]
-Skanuj podkontakt w poszukiwaniu brakujących informacji
+Skanuj subkontakt w poszukiwaniu brakujących informacji
 [Enable extended 'send/receive e-mail' service (*)]
 Włącz rozszerzoną usługę "wyślij/odbierz" e-mail(*)
 [Use Windows timezone]
@@ -229,7 +229,7 @@ Włącz grupy w widoku drzewa w oknie szczegółów
 [Sort all tree items alphabetically]
 Sortuj wszystkie elementy drzewa alfabetycznie
 [Info of a metacontact's subcontact]
-Informacje o podkontakcie metakontaktu
+Informacje o subkontakcie metakontaktu
 [Colors]
 Kolory
 [Common]
@@ -610,7 +610,7 @@ Ogólne
 Rozszerzone dane kontaktu
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
-Eksportuj/importuj kontak
+Eksportuj/importuj kontakt
 [User &details]
 &Dane kontaktu
 [&Export user details]

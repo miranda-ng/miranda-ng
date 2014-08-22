@@ -53,7 +53,7 @@ Używaj wyboru ikon oraz ikon w pasku stanu (restart)
 [This is a shared computer so disable auto login]
 To jest komputer współdzielony, więc wyłącz automatyczne logowanie
 [Log unread threads into database (enable history)]
-Zapisuj nieczytane wątki w bazie daych(włącz historię)
+Zapisuj nieczytane wątki w bazie danych(włącz historię)
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Sprawdzanie...

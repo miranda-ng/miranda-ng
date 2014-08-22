@@ -1672,7 +1672,7 @@ Negocjacja transferu plików nieudana z nieznanej przyczyny.
 [The checksum of file "%s" does not match, the file is probably damaged.]
 Suma kontrolna pliku "%s" nie zgadza się. Prawdopodobnie plik jest uszkodzony.
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
-Transfer pliku został anulowany (błąd=%d), ponieważ jeden z wybranych przez Ciebie plików nie może zostać odczytany z dysku. Być może go usunąłeś lub przeniosłeś.
+Transfer pliku został anulowany (błąd=%d), ponieważ jeden z wybranych przez Ciebie plików nie może zostać odczytany z dysku. Być może został usunięty lub przeniesiony.
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <niepoprawny>
