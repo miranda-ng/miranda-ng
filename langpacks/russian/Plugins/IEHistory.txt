@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[IEView History Viewer]
+[Shows the history for a given contact using IEView]
 Просмотрщик истории, использующий движок IE.
 [Dialog]
 Диалог
@@ -23,7 +23,7 @@
 Загружать все события
 [Load only ]
 Загружать только
-[events per page.]
+[events per page]
 событий на странице
 [Show last page first]
 Последняя страница первой
@@ -31,15 +31,15 @@
 Прочие настройки
 [Load items in background]
 Загружать в фоне
-[RTL is default text direction.]
-RTL по умолчанию
+[RTL is default text direction]
+Справа налево по умолчанию
 [Search]
 Поиск
 [&Find next]
 &Следующий
 [Cancel]
 Отмена
-[Text :]
+[Text:]
 Текст:
 [Direction]
 Направление
@@ -47,7 +47,7 @@ RTL по умолчанию
 Вверх
 [Down]
 Вниз
-[System History]
+[System history]
 Системная история
 [Out of a total of]
 Всего из
@@ -59,6 +59,8 @@ RTL по умолчанию
 Поиск текста
 [Time search]
 Поиск времени
+[Time:]
+Время:
 [Search finished. No more entries ...]
 Поиск закончен. Больше результатов нет...
 [Information]
@@ -67,5 +69,5 @@ RTL по умолчанию
 История
 [View &history]
 &История
-[&System History]
+[&System history]
 &Системная история
