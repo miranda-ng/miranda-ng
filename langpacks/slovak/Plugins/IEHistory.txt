@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[IEView History Viewer]
+[Shows the history for a given contact using IEView.]
 
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
@@ -22,9 +22,9 @@ Hľadať
 
 [Load all events]
 
-[Load only ]
+[Load only]
 
-[events per page.]
+[events per page]
 
 [Show last page first]
 
@@ -32,7 +32,7 @@ Hľadať
 
 [Load items in background]
 
-[RTL is default text direction.]
+[RTL is default text direction]
 
 [Search]
 Hľadať
@@ -40,7 +40,7 @@ Hľadať
 Hľadať ďalšie
 [Cancel]
 Storno
-[Text :]
+[Text:]
 
 [Direction]
 
@@ -61,7 +61,9 @@ Chyba
 
 [Time search]
 
-[Search finished. No more entries ...]
+[Time:]
+Čas:
+[Search finished. No more entries...]
 
 [Information]
 

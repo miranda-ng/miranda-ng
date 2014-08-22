@@ -32,9 +32,7 @@
 
 [Use existing profile]
 
-[Search via toxme.se]
-
-[Add to friend list]
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
 
 ;file \protocols\Tox\src\tox_contacts.cpp
 [Contact already in your contact list]
@@ -48,6 +46,8 @@
 [%s connection]
 
 ;file \protocols\Tox\src\tox_options.cpp
+[Query]
+
 [All files (*.*)]
 
 [Select tox profile]
