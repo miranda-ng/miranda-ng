@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[Shows the history for a given contact using IEView]
+[Shows the history for a given contact using IEView.]
 Перегляд історії контакту за допомогою IEView.
 [Dialog]
 Діалог
@@ -21,8 +21,8 @@
 Завантажувати події
 [Load all events]
 Усі
-[Load only ]
-Тільки\s
+[Load only]
+Тільки
 [events per page]
 подій на сторінці
 [Show last page first]
