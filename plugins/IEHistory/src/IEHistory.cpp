@@ -83,7 +83,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	menuItem.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddContactMenuItem(&menuItem);
 /// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^
-	menuItem.ptszName = LPGENT("&System History");
+	menuItem.ptszName = LPGENT("&System history");
 	Menu_AddMainMenuItem(&menuItem);
 
 	HookEvents();
