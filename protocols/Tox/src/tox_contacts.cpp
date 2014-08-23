@@ -61,7 +61,7 @@ MCONTACT CToxProto::FindContact(const std::string &id)
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		std::string contactId = ToxAddressToId(getStringA(hContact, TOX_SETTINGS_ID));
-		if (id.compare(contactId))
+		if (id.compare(contactId) == 0)
 		{
 			break;
 		}
@@ -121,7 +121,7 @@ void CToxProto::LoadContactList()
 			tox_get_client_id(tox, friends[i], &clientId[0]);
 			std::string id = DataToHexString(clientId);
 
-			MCONTACT hContact = AddContact(id.c_str());
+			MCONTACT hContact = AddContact(id);
 			if (hContact)
 			{
 				int size = tox_get_name_size(tox, friends[i]);
