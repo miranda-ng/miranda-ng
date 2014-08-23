@@ -125,6 +125,15 @@ std::string CToxProto::DataToHexString(std::vector<uint8_t> data)
 	return oss.str();
 }
 
+std::string  CToxProto::ToxAddressToId(std::string address)
+{
+	if (address.length() > TOX_CLIENT_ID_SIZE * 2)
+	{
+		address.erase(address.begin() + TOX_CLIENT_ID_SIZE * 2, address.end());
+	}
+	return address;
+}
+
 bool CToxProto::IsFileExists(std::tstring path)
 {
 	//return ::GetFileAttributes(fileName) != DWORD(-1)

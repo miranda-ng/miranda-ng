@@ -58,18 +58,29 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 
 MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	return AddContact(_T2A(psr->id), true);
+	std::string address(mir_t2a(psr->id));
+	std::string id = ToxAddressToId(address);
+	std::string myId = ToxAddressToId(getStringA(TOX_SETTINGS_ID));
+	if (myId.compare(id))
+	{
+		debugLogA("CToxProto::AddToList: you cannot add yourself to friend list");
+		return NULL;
+	}
+	// we set tox address as contact id
+	return AddContact(address, flags & PALF_TEMPORARY);
 }
 
 MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return 0; }
 
 int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 {
-	if (this->IsOnline() && hDbEvent)
+	if (IsOnline() && hDbEvent)
 	{
 		MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_CONTACT_ID)
+		{
 			return 1;
+		}
 
 		std::string toxId = getStringA(hContact, TOX_SETTINGS_ID);
 		std::vector<uint8_t> clientId = HexStringToData(toxId);
@@ -90,8 +101,8 @@ int __cdecl CToxProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT*) { return 0; 
 
 int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
 {
-	std::string toxId = getStringA(hContact, TOX_SETTINGS_ID);
-	std::vector<uint8_t> clientId = HexStringToData(toxId);
+	std::string address = getStringA(hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> clientId = HexStringToData(address);
 
 	ptrA reason(mir_utf8encodeW(szMessage));
 
@@ -100,14 +111,12 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 	{
 		SaveToxData();
 
-		clientId.resize(TOX_CLIENT_ID_SIZE);
-		tox_get_client_id(tox, friendnumber, &clientId[0]);
-		std::string toxId = DataToHexString(clientId);
-
-		setString(hContact, TOX_SETTINGS_ID, toxId.c_str());
+		// change tox address in contact id by tox id
+		std::string id = ToxAddressToId(address);
+		setString(hContact, TOX_SETTINGS_ID, id.c_str());
 
 		db_unset(hContact, "CList", "NotOnList");
-		db_unset(hContact, "CList", "Auth");
+		delSetting(hContact, "Auth");
 
 		std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
 		tox_get_name(tox, friendnumber, &username[0]);
@@ -137,6 +146,12 @@ HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* f
 
 HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 {
+	if (!IsOnline())
+	{
+		// we cannot add someone to friend list while tox is offline
+		return NULL;
+	}
+
 	std::smatch match;
 	std::regex regex("^\\s*([A-Fa-f0-9]{76})\\s*$");
 
@@ -146,33 +161,36 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 	const std::string query = text;
 	if (std::regex_search(query, match, regex))
 	{
-		std::string clientId = match[1];
+		std::string address = match[1];
+		std::string id = ToxAddressToId(address);
+		MCONTACT hContact = FindContact(id);
+		if (!hContact)
+		{
+			PROTOSEARCHRESULT psr = { sizeof(psr) };
+			psr.flags = PSR_TCHAR;
+			psr.id = mir_a2t(query.c_str());
 
-		ADDCONTACTSTRUCT acs = { 0 };
+			ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
+			acs.szProto = m_szModuleName;
+			acs.psr = &psr;
 
-		PROTOSEARCHRESULT psr = { 0 };
-		psr.cbSize = sizeof(psr);
-		psr.flags = PSR_TCHAR;
-		psr.id = mir_a2t(query.c_str());
-
-		acs.psr = &psr;
-		acs.szProto = m_szModuleName;
-
-		acs.handleType = HANDLE_SEARCHRESULT;
-		CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
-
+			CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
+		}
+		else
+		{
+			ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
+		}
 		ForkThread(&CToxProto::SearchByIdAsync, mir_strdup(query.c_str()));
 	}
 	else
 	{
-		regex = "^\\s*([A-Za-z]+)(@toxme.se)?\\s*$";
+		regex = "^\\s*([^ @/:;()\"']+)(@toxme.se)?\\s*$";
 		if (std::regex_search(query, match, regex))
 		{
 			std::string query = match[1];
 			ForkThread(&CToxProto::SearchByNameAsync, mir_strdup(query.c_str()));
 		}
 	}
-
 	return (HWND)1;
 }
 
@@ -224,6 +242,8 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 	if (iNewStatus == m_iDesiredStatus)
 		return 0;
 
+	debugLogA("CToxProto::SetStatus: changing status from %i to %i", m_iStatus, iNewStatus);
+
 	int old_status = m_iStatus;
 	m_iDesiredStatus = iNewStatus;
 
@@ -231,14 +251,13 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 	{
 		// logout
 		isTerminated = true;
-		isConnected = false;
 
 		if (!Miranda_Terminated())
 		{
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
 		}
 
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		m_iStatus = ID_STATUS_OFFLINE;
 	}
 	else
 	{
@@ -246,7 +265,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		{
 			m_iStatus = ID_STATUS_CONNECTING;
 
-			isTerminated = isConnected = false;
+			isTerminated = false;
 			hPollingThread = ForkThreadEx(&CToxProto::PollingThread, 0, NULL);
 		}
 		else

@@ -27,8 +27,7 @@ void CToxProto::InitToxCore()
 	tox = tox_new(&options);
 	tox_callback_friend_request(tox, OnFriendRequest, this);
 	tox_callback_friend_message(tox, OnFriendMessage, this);
-	tox_callback_typing_change(tox, OnFriendTyping, this);
-	//tox_callback_friend_action(tox, OnAction, this);
+	tox_callback_typing_change(tox, OnTypingChanged, this);
 	tox_callback_name_change(tox, OnFriendNameChange, this);
 	tox_callback_status_message(tox, OnStatusMessageChanged, this);
 	tox_callback_user_status(tox, OnUserStatusChanged, this);
@@ -87,7 +86,11 @@ void CToxProto::DoTox()
 void CToxProto::PollingThread(void*)
 {
 	debugLogA("CToxProto::PollingThread: entering");
-	
+
+	isConnected = false;
+	time_t timestamp0 = time(NULL);
+	DoBootstrap();
+
 	while (!isTerminated)
 	{
 		DoTox();
@@ -97,20 +100,25 @@ void CToxProto::PollingThread(void*)
 			if (tox_isconnected(tox))
 			{
 				isConnected = true;
+				debugLogA("CToxProto::PollingThread: successfuly connected to DHT");
 
 				LoadContactList();
 
-				m_iStatus = m_iDesiredStatus = ID_STATUS_ONLINE;
+				m_iStatus = ID_STATUS_ONLINE;
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-
-				debugLogA("CToxProto::PollingThread: successfuly connected to DHT");
 			}
 			else
 			{
-				DoBootstrap();
+				time_t timestamp1 = time(NULL);
+				if (timestamp0 + 250 < timestamp1) {
+					timestamp0 = timestamp1;
+					DoBootstrap();
+				}
 			}
 		}
 	}
+
+	isConnected = false;
 
 	debugLogA("CToxProto::PollingThread: leaving");
 }
