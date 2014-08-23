@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Shows the history for a given contact using IEView.]
-Przeglądarka historii IEView.
+Pokazuje historię wybranego kontaktu przy użyciu IEView.
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 Okno
