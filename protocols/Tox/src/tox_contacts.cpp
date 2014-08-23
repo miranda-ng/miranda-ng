@@ -34,7 +34,7 @@ MCONTACT CToxProto::GetContactFromAuthEvent(HANDLE hEvent)
 	dbei.cbBlob = sizeof(DWORD)* 2;
 	dbei.pBlob = (PBYTE)&body;
 
-	if (::db_event_get(hEvent, &dbei))
+	if (db_event_get(hEvent, &dbei))
 		return INVALID_CONTACT_ID;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
@@ -52,7 +52,7 @@ bool CToxProto::IsProtoContact(MCONTACT hContact)
 	return lstrcmpiA(GetContactProto(hContact), m_szModuleName) == 0;
 }
 
-MCONTACT CToxProto::FindContact(const char *clientId)
+MCONTACT CToxProto::FindContact(const std::string &id)
 {
 	MCONTACT hContact = NULL;
 
@@ -60,9 +60,11 @@ MCONTACT CToxProto::FindContact(const char *clientId)
 
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		ptrA contactId(getStringA(hContact, TOX_SETTINGS_ID));
-		if (lstrcmpiA(contactId, clientId) == 0)
+		std::string contactId = ToxAddressToId(getStringA(hContact, TOX_SETTINGS_ID));
+		if (id.compare(contactId))
+		{
 			break;
+		}
 	}
 
 	//LeaveCriticalSection(&contact_search_lock);
@@ -70,26 +72,25 @@ MCONTACT CToxProto::FindContact(const char *clientId)
 	return hContact;
 }
 
-MCONTACT CToxProto::AddContact(const char *clientId, bool isTemporary)
+MCONTACT CToxProto::FindContact(const int friendNumber)
 {
-	std::string toxId = clientId;
-	if (toxId.length() > TOX_CLIENT_ID_SIZE * 2)
-	{
-		toxId.erase(toxId.begin() + TOX_CLIENT_ID_SIZE * 2, toxId.end());
-	}
-	MCONTACT hContact = FindContact(toxId.c_str());
+	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+	tox_get_client_id(tox, friendNumber, &clientId[0]);
+	std::string id = DataToHexString(clientId);
+
+	return FindContact(id);
+}
+
+MCONTACT CToxProto::AddContact(const std::string &id, bool isTemporary)
+{
+	MCONTACT hContact = FindContact(id);
 	if (!hContact)
 	{
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 
-		if (isTemporary)
-		{
-			db_set_b(hContact, "CList", "NotOnList", 1);
-			db_set_b(hContact, "CList", "Auth", 1);
-		}
-
-		setString(hContact, TOX_SETTINGS_ID, toxId.c_str());
+		setString(hContact, TOX_SETTINGS_ID, id.c_str());
+		setByte(hContact, "Auth", 1);
 
 		DBVARIANT dbv;
 		if (!getTString(TOX_SETTINGS_GROUP, &dbv))
@@ -97,8 +98,12 @@ MCONTACT CToxProto::AddContact(const char *clientId, bool isTemporary)
 			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
 			db_free(&dbv);
 		}
-	}
 
+		if (isTemporary)
+		{
+			db_set_b(hContact, "CList", "NotOnList", 1);
+		}
+	}
 	return hContact;
 }
 
@@ -109,13 +114,14 @@ void CToxProto::LoadContactList()
 	{
 		int32_t *friends = (int32_t*)mir_alloc(count * sizeof(int32_t));
 		tox_get_friendlist(tox, friends, count);
+
 		std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
 		for (uint32_t i = 0; i < count; ++i)
 		{
 			tox_get_client_id(tox, friends[i], &clientId[0]);
-			std::string toxId = DataToHexString(clientId);
+			std::string id = DataToHexString(clientId);
 
-			MCONTACT hContact = AddContact(toxId.c_str());
+			MCONTACT hContact = AddContact(id.c_str());
 			if (hContact)
 			{
 				int size = tox_get_name_size(tox, friends[i]);
@@ -132,24 +138,15 @@ void CToxProto::LoadContactList()
 			}
 		}
 	}
+	else
+	{
+		debugLogA("CToxProto::LoadContactList: your friend list is empty");
+	}
 }
 
-void CToxProto::SearchByIdAsync(void* arg)
+void CToxProto::SearchByIdAsync(void*)
 {
-	std::string toxId = (char*)arg;
-	toxId.erase(toxId.begin() + TOX_CLIENT_ID_SIZE * 2, toxId.end());
-
-	MCONTACT hContact = FindContact(toxId.c_str());
-	if (hContact)
-	{
-		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HWND)1, 0);
-		mir_free(arg);
-		return;
-	}
-
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
-	mir_free(arg);
 }
 
 void CToxProto::SearchByNameAsync(void* arg)
@@ -158,8 +155,8 @@ void CToxProto::SearchByNameAsync(void* arg)
 	request.requestType = REQUEST_POST;
 	request.szUrl = "https://toxme.se/api";
 	request.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
-	
-	request.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*2);
+
+	request.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)* 2);
 	request.headers[0].szName = "Content-Type";
 	request.headers[0].szValue = "text/plain; charset=utf-8";
 	request.headersCount = 1;

@@ -117,27 +117,24 @@ int CToxProto::OnSettingsChanged(void *obj, WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *userId, const uint8_t *message, const uint16_t messageSize, void *arg)
+void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	std::vector<uint8_t> clientId(userId, userId + TOX_CLIENT_ID_SIZE);
-	std::string toxId = proto->DataToHexString(clientId);
+	// trim tox address to tox id
+	std::vector<uint8_t> clientId(address, address + TOX_CLIENT_ID_SIZE);
+	std::string id = proto->DataToHexString(clientId);
 
-	proto->RaiseAuthRequestEvent(time(NULL), toxId.c_str(), (char*)message);
+	proto->RaiseAuthRequestEvent(time(NULL), id.c_str(), (char*)message);
 
 	proto->SaveToxData();
 }
 
-void CToxProto::OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg)
+void CToxProto::OnFriendMessage(Tox *tox, const int number, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-	tox_get_client_id(tox, friendnumber, &clientId[0]);
-	std::string toxId = proto->DataToHexString(clientId);
-
-	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
 		PROTORECVEVENT recv = { 0 };
@@ -149,45 +146,33 @@ void CToxProto::OnFriendMessage(Tox *tox, const int friendnumber, const uint8_t 
 	}
 }
 
-void CToxProto::OnFriendTyping(Tox *tox, const int friendnumber, uint8_t isTyping, void *arg)
+void CToxProto::OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-	tox_get_client_id(tox, friendnumber, &clientId[0]);
-	std::string toxId = proto->DataToHexString(clientId);
-
-	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)isTyping);
 	}
 }
 
-void CToxProto::OnFriendNameChange(Tox *tox, const int friendnumber, const uint8_t *name, const uint16_t nameSize, void *arg)
+void CToxProto::OnFriendNameChange(Tox *tox, const int number, const uint8_t *name, const uint16_t nameSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-	tox_get_client_id(tox, friendnumber, &clientId[0]);
-	std::string toxId = proto->DataToHexString(clientId);
-
-	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
 		proto->setString(hContact, "Nick", (char*)name);
 	}
 }
 
-void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendnumber, const uint8_t* message, const uint16_t messageSize, void *arg)
+void CToxProto::OnStatusMessageChanged(Tox *tox, const int number, const uint8_t* message, const uint16_t messageSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-	tox_get_client_id(tox, friendnumber, &clientId[0]);
-	std::string toxId = proto->DataToHexString(clientId);
-
-	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
 		ptrW statusMessage(mir_utf8decodeW((char*)message));
@@ -195,15 +180,11 @@ void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendnumber, const u
 	}
 }
 
-void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t usertatus, void *arg)
+void CToxProto::OnUserStatusChanged(Tox *tox, int32_t number, uint8_t usertatus, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-	tox_get_client_id(tox, friendnumber, &clientId[0]);
-	std::string toxId = proto->DataToHexString(clientId);
-
-	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
 		TOX_USERSTATUS userstatus = (TOX_USERSTATUS)usertatus;
@@ -212,15 +193,11 @@ void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendnumber, uint8_t user
 	}
 }
 
-void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendnumber, const uint8_t status, void *arg)
+void CToxProto::OnConnectionStatusChanged(Tox *tox, const int number, const uint8_t status, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-	tox_get_client_id(tox, friendnumber, &clientId[0]);
-	std::string toxId = proto->DataToHexString(clientId);
-
-	MCONTACT hContact = proto->FindContact(toxId.c_str());
+	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
 		int newStatus = status ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
@@ -228,24 +205,17 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendnumber, cons
 	}
 }
 
-void CToxProto::OnAction(Tox *tox, const int friendnumber, const uint8_t *message, const uint16_t messageSize, void *arg)
-{
-
-}
-
-void CToxProto::OnReadReceipt(Tox *tox, int32_t friendnumber, uint32_t receipt, void *arg)
+void CToxProto::OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-	tox_get_client_id(tox, friendnumber, &clientId[0]);
-	std::string toxId = proto->DataToHexString(clientId);
-
-	MCONTACT hContact = proto->FindContact(toxId.c_str());
-
-	proto->ProtoBroadcastAck(
-		hContact,
-		ACKTYPE_MESSAGE,
-		ACKRESULT_SUCCESS,
-		(HANDLE)receipt, 0);
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		proto->ProtoBroadcastAck(
+			hContact,
+			ACKTYPE_MESSAGE,
+			ACKRESULT_SUCCESS,
+			(HANDLE)receipt, 0);
+	}
 }
