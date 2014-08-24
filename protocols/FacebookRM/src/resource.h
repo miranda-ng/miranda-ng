@@ -10,12 +10,14 @@
 #define IDD_OPTIONS                     113
 #define IDD_OPTIONS_EVENTS              114
 #define IDD_OPTIONS_ADVANCED            115
+#define IDD_CAPTCHAFORM                 116
 #define IDI_POKE                        127
 #define IDI_NOTIFICATION                128
 #define IDI_NEWSFEED                    129
 #define IDI_FRIENDS                     130
 #define IDI_CONVERSATION                131
 #define IDI_READ                        132
+#define IDI_KEYS                        133
 #define IDC_UN                          1001
 #define IDC_PW                          1002
 #define IDC_NEWACCOUNTLINK              1003
@@ -54,14 +56,22 @@
 #define IDC_CCLIST_LABEL                1208
 #define IDC_MESSAGES_COUNT              1209
 #define IDC_MESSAGES_COUNT_SPIN         1210
+#define IDC_VALUE                       1211
+#define IDC_WHITERECT                   1212
+#define IDC_TITLE                       1213
+#define IDC_INSTRUCTION                 1214
+#define IDC_FRAME1                      1215
+#define IDC_FRAME2                      1216
+#define IDC_SUBMIT                      1217
+
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        133
+#define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1211
+#define _APS_NEXT_CONTROL_VALUE         1218
 #define _APS_NEXT_SYMED_VALUE           132
 #endif
 #endif

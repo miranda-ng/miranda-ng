@@ -1141,19 +1141,26 @@ bool facebook_client::channel()
 	}
 }
 
-bool facebook_client::send_message(MCONTACT hContact, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method)
+int facebook_client::send_message(MCONTACT hContact, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method, std::string captcha_persist_data, std::string captcha)
 {
 	ScopedLock s(send_message_lock_);
 
 	handle_entry("send_message");
 
 	http::response resp;
+	std::string data = "";
+
+	if (!captcha.empty()) {
+		data += "&captcha_persist_data=" + captcha_persist_data;
+		data += "&recaptcha_challenge_field=";
+		data += "&captcha_response=" + captcha;
+	}
 
 	switch (method) {
 		case MESSAGE_INBOX:
 		{
 			parent->debugLogA("    > Sending message through INBOX");
-			std::string data = "action=send";
+			data += "&action=send";
 			data += "&body=" + utils::url::encode(message_text);
 			data += "&recipients[0]=" + message_recipient;
 			data += "&__user=" + this->self_.user_id;
@@ -1167,7 +1174,7 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 		case MESSAGE_MERCURY:
 		{
 			parent->debugLogA("    > Sending message through CHAT");
-			std::string data = "message_batch[0][action_type]=ma-type:user-generated-message";
+			data += "&message_batch[0][action_type]=ma-type:user-generated-message";
 			data += "&message_batch[0][thread_id]";
 			data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
 			data += "&message_batch[0][author_email]";
@@ -1201,7 +1208,7 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 		case MESSAGE_TID:
 		{
 			parent->debugLogA("    > Sending message through MERCURY (TID)");
-			std::string data = "message_batch[0][action_type]=ma-type:user-generated-message";
+			data += "&message_batch[0][action_type]=ma-type:user-generated-message";
 			data += "&message_batch[0][thread_id]=" + message_recipient;
 			data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
 			data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
@@ -1225,7 +1232,7 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 		case MESSAGE_ASYNC:
 		{
 			parent->debugLogA("    > Sending message through ASYNC");
-			std::string data = "action=send";
+			data += "&action=send";
 			data += "&body=" + utils::url::encode(message_text);
 			data += "&recipients[0]=" + message_recipient;
 			data += "&lsd=";
@@ -1250,31 +1257,49 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 		messages_ignore.insert(std::make_pair(mid, 0));
 	} break;
 
-    //case 1356002: // You are offline - wtf??
+    //case 1356002: // You are offline (probably you can't use mercury or some other request when chat is offline)
 
 	case 1356003: // Contact is offline
 	{
 		MCONTACT hContact = parent->ContactIDToHContact(message_recipient);
 		if (hContact != NULL)
   			parent->setWord(hContact, "Status", ID_STATUS_OFFLINE);
-		return false;
-	} break;
+		return SEND_MESSAGE_ERROR;
+	}
 
   	case 1356026: // Contact has alternative client
 	{
 		client_notify(TranslateT("Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!"));
-		return false;
-	} break;
+		return SEND_MESSAGE_ERROR;
+	}
+
+	case 1357007: // Security check (captcha) is required
+	{
+		std::string imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
+		std::string captchaPersistData = utils::text::source_get_value(&resp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
+
+		parent->debugLogA("Got imageUrl: %s", imageUrl.c_str());
+		parent->debugLogA("Got captchaPersistData: %s", captchaPersistData.c_str());
+
+		std::string result;
+		if (!parent->RunCaptchaForm(imageUrl, result)) {
+			*error_text = Translate("User cancel captcha challenge.");
+			return SEND_MESSAGE_CANCEL;
+		}
+
+		return send_message(hContact, message_recipient, message_text, error_text, method, captchaPersistData, result);
+	}
  
     default: // Other error
 		parent->debugLogA(" !!!  Send message error #%d: %s", resp.error_number, resp.error_text);
-		return false;
+		return SEND_MESSAGE_ERROR;
  	}
 
 	switch (resp.code)
 	{
 	case HTTP_CODE_OK:
-		return handle_success("send_message");
+		handle_success("send_message");
+		return SEND_MESSAGE_OK;
 
 	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
@@ -1282,7 +1307,7 @@ bool facebook_client::send_message(MCONTACT hContact, std::string message_recipi
 		*error_text = Translate("Timeout when sending message.");
 
 		handle_error("send_message");
-		return false;
+		return SEND_MESSAGE_ERROR;
 	}
 }
 

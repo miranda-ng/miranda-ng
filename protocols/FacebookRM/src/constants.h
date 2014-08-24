@@ -95,6 +95,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_EVENT_NOTIFICATION				0x40000000 // Facebook new notification
 #define FACEBOOK_EVENT_OTHER					0x80000000 // Facebook other event - friend requests/new messages
 
+// Send message return values
+#define SEND_MESSAGE_OK							0
+#define SEND_MESSAGE_ERROR						1
+#define SEND_MESSAGE_CANCEL						-1
+
 // Facebook request types // TODO: Provide MS_ and release in FB plugin API?
 enum RequestType {
 	REQUEST_LOGIN,				// connecting physically

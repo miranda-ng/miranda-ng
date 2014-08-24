@@ -175,6 +175,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\avatars.cpp" />
+    <ClCompile Include="src\captcha.cpp" />
     <ClCompile Include="src\chat.cpp" />
     <ClCompile Include="src\communication.cpp" />
     <ClCompile Include="src\connection.cpp" />
@@ -223,6 +224,7 @@
     <Image Include="res\poke.ico" />
     <Image Include="res\conversation.ico" />
     <Image Include="res\read.ico" />
+    <Image Include="res\key.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

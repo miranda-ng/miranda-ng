@@ -66,6 +66,9 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\captcha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\client.h">
@@ -145,6 +148,9 @@
       <Filter>Resource Files\Icons</Filter>
     </Image>
     <Image Include="res\read.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\key.ico">
       <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>

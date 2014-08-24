@@ -161,7 +161,7 @@ public:
 	std::map<std::string, int> messages_ignore;
 
 	bool    channel();
-	bool    send_message(MCONTACT, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method);
+	int		send_message(MCONTACT, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method, std::string captchaPersistData = "", std::string captcha = "");
 	////////////////////////////////////////////////////////////
 
 	// Status handling

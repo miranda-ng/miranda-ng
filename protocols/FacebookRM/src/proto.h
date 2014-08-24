@@ -233,6 +233,7 @@ public:
 	void OpenUrl(std::string url);
 	void __cdecl OpenUrlThread(void*);
 	void MessageRead(MCONTACT hContact);
+	bool RunCaptchaForm(std::string imageUrl, std::string &result);
 
 	// Handles, Locks
 	HGENMENU m_hMenuRoot, m_hMenuServicesRoot, m_hStatusMind;

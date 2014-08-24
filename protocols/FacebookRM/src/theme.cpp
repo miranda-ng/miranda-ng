@@ -34,6 +34,7 @@ static IconItem icons[] =
 	{ LPGEN("Friendship details"),        "friendship",    IDI_FRIENDS },
 	{ LPGEN("Conversation"),              "conversation",  IDI_CONVERSATION },
 	{ LPGEN("Message read"),              "read",          IDI_READ },
+	{ LPGEN("Captcha form icon"),         "key",           IDI_KEYS }
 };
 
 // TODO: uninit
