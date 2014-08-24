@@ -822,16 +822,26 @@ bool facebook_client::login(const char *username, const char *password)
 				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 				inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
 				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+
+			} else if (resp.data.find("name=\"submit[OK]\"") != std::string::npos) {
+				
+				inner_data = "submit[OK]=OK";
+				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+
+				if (resp.data.find("security-essentials") != std::string::npos) {
+					// Computer was probably infected by malware and needs cleaning (actually this may happen because Miranda doesn't support FB's captcha)
+					inner_data = "submit[Continue]=Continue";
+					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					
+					// Mark that used cleaned his computer already, because he must confirm it anyway to be able to continue
+					inner_data += "&confirm=1";
+
+					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
+				}
 			}
-
-			// Save actual machine name
-			// inner_data = "machine_name=Miranda%20NG&submit[Don't%20Save]=Don't%20Save"; // Don't save
-			inner_data = "machine_name=Miranda%20NG&submit[Save%20Device]=Save%20Device"; // Save
-			inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"");
-			inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-			inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
-
-			resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 		}
 	}
 
@@ -867,9 +877,19 @@ bool facebook_client::login(const char *username, const char *password)
 	default:
 		return handle_error("login", FORCE_QUIT);
 
-	case HTTP_CODE_FOUND: // Found and redirected to Home, Logged in, everything is OK
+	case HTTP_CODE_FOUND: // Found and redirected somewhere
 	{
+		if (resp.headers.find("Location") != resp.headers.end()) {
+			std::string url = (this->https_ ? "https://"FACEBOOK_SERVER_REGULAR"/" : "http://"FACEBOOK_SERVER_REGULAR"/");
+
+			if (resp.headers["Location"] != url) {
+				// Unexpected redirect, but we try to ignore it - maybe we were logged in anyway
+				parent->debugLogA(" ! !  Login error: Unexpected redirect: %s", resp.headers["Location"].c_str());
+			}
+		}
+
 		if (cookies.find("c_user") != cookies.end()) {
+			// Probably logged in, everything seems OK
 			this->self_.user_id = cookies.find("c_user")->second;
 			parent->setString(FACEBOOK_KEY_ID, this->self_.user_id.c_str());
 			parent->debugLogA("      Got self user id: %s", this->self_.user_id.c_str());
