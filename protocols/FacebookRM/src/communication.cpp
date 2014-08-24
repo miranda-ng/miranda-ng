@@ -798,20 +798,20 @@ bool facebook_client::login(const char *username, const char *password)
 					// 1) Continue
 					inner_data = "submit[Continue]=Continue";
 					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 
 					// 2) Approve last unknown login
 					// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
 					inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
 					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 
 					// 3) Save last device
 					inner_data = "submit[Continue]=Continue";
 					inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
 					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 				}
@@ -819,7 +819,7 @@ bool facebook_client::login(const char *username, const char *password)
 				// Save this actual device
 				inner_data = "submit[Continue]=Continue";
 				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-				inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+				inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 				inner_data += "&name_action_selected=save_device"; // Save device - or "dont_save"
 				resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 			}
@@ -829,7 +829,7 @@ bool facebook_client::login(const char *username, const char *password)
 			inner_data = "machine_name=Miranda%20NG&submit[Save%20Device]=Save%20Device"; // Save
 			inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"");
 			inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-			inner_data += "&fb_dtsg=" + utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+			inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 
 			resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 		}
@@ -928,7 +928,7 @@ bool facebook_client::home()
 		return home();
 	}
 
-	this->dtsg_ = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
+	this->dtsg_ = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 	parent->debugLogA("      Got self dtsg: %s", this->dtsg_.c_str());
 
 	if (this->dtsg_.empty())
