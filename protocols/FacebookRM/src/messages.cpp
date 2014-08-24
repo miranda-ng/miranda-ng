@@ -49,12 +49,12 @@ void FacebookProto::SendMsgWorker(void *p)
 	} else {
 		int retries = 5;
 		std::string error_text = "";
-		bool result = false;
-		while (!result && retries > 0) {
+		int result = SEND_MESSAGE_ERROR;
+		while (result == SEND_MESSAGE_ERROR && retries > 0) {
 			result = facy.send_message(data->hContact, std::string(id), data->msg, &error_text, retries % 2 == 0 ? MESSAGE_INBOX : MESSAGE_MERCURY);
 			retries--;
 		}
-		if (result) {
+		if (result == SEND_MESSAGE_OK) {
 			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, data->msgid, 0);
 
 			// Remove from "readers" list and clear statusbar
@@ -100,7 +100,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 		}		
 		
 		if (!tid.empty()) {
-			if (facy.send_message(hContact, tid, data->msg, &err_message, MESSAGE_TID))
+			if (facy.send_message(hContact, tid, data->msg, &err_message, MESSAGE_TID) == SEND_MESSAGE_OK)
 				UpdateChat(_A2T(data->chat_id.c_str()), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
 			else
 				UpdateChat(_A2T(data->chat_id.c_str()), NULL, NULL, err_message.c_str());

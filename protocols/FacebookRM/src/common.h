@@ -60,6 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_smileyadd.h>
 #include <m_toptoolbar.h>
 #include <m_json.h>
+#include <m_imgsrvc.h>
 
 class FacebookProto;
 
