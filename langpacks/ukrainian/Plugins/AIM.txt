@@ -178,9 +178,9 @@ AIM Встановити Instant Idle
 [%s Protocol]
 Протокол %s
 [%s server connection]
-%s підключення до сервера
+З'єднання з сервером %s
 [%s Client-to-client connection]
-%s підключення між клієнтами
+З'єднання між клієнтами %s
 [[Auto-Response]:]
 (Автовідповідь):
 [No information has been provided by the server.]

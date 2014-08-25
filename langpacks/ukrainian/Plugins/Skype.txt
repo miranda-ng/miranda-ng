@@ -348,7 +348,7 @@ SkypeKit не запустився.
 [Done!]
 Готово!
 [%s connection]
-%s підключення
+З'єднання %s
 [Skype name]
 Логін Skype
 [Validation succeeded]

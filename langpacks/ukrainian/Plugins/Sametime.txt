@@ -94,7 +94,7 @@ ID клієнта
 [Error]
 Помилка
 [%s connection]
-%s з'єднання
+З'єднання %s
 [Sametime administrator message]
 Повідомлення адміністратора Sametime
 [Session announcement - from '%s']

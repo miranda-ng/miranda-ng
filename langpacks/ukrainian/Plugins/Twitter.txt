@@ -80,11 +80,11 @@ URL:
 [Popups]
 Спливаючі вікна
 [%s server connection]
-%s підключення до сервера
+З'єднання з сервером %s
 [Unable to get Netlib connection for Twitter]
 Не вдається встановити з'єднання з Twitter
 [%s avatar connection]
-%s підключення аватарів
+З'єднання аватарів %s
 [Unable to get avatar Netlib connection for Twitter]
 Не вдається встановити з'єднання для аватарів Twitter
 [%s Protocol]

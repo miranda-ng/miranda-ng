@@ -254,7 +254,7 @@ HTTP невідома помилка
 [Contact list]
 Список контактів
 [%s connection]
-%s з'єднання
+З'єднання %s
 [Images]
 Зображення
 [Gadu-Gadu Number]

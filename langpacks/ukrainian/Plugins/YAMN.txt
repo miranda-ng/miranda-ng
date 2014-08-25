@@ -230,7 +230,7 @@ YAMN: помилка підключення
 [Part]
 Частина
 [%s connection]
-Підключення %s
+З'єднання %s
 [Disconnected]
 Вимкнено
 [POP3 protocol (internal)]

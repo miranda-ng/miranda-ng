@@ -1358,9 +1358,9 @@ Web-дизайн
 [Sample Spambot]
 Приклад спам-бота
 [%s server connection]
-Підключення до сервера %s
+З'єднання з сервером %s
 [%s client-to-client connections]
-Підключення між клієнтами %s
+З'єднання між клієнтами %s
 [User ID]
 ID користувача
 [You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]

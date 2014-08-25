@@ -34,7 +34,7 @@
 [Name]
 Ім'я
 [%s connection]
-%s подключення
+З'єднання %s
 [Network]
 Мережа
 [Blocked contacts]

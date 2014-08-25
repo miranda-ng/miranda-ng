@@ -152,7 +152,7 @@ HTTP-з'єднання Yahoo
 [New E-mail available in Inbox]
 Нова пошта в папці "Вхідні"
 [%s plugin connections]
-%s підключення до сервера
+З'єднання з сервером %s
 [Please enter your Yahoo ID in Options/Network/Yahoo]
 Введіть ваш Yahoo ID: Налаштування -> Мережа -> Yahoo
 [Please enter your Yahoo password in Options/Network/Yahoo]
