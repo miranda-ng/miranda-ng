@@ -121,7 +121,7 @@ BEGIN
     LTEXT           "Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.",IDC_STATIC,7,7,221,33
     CONTROL         "Create new profile",IDC_CREATE_NEW,"Button",BS_AUTORADIOBUTTON,7,43,221,10
     CONTROL         "Use existing profile",IDC_USE_EXISTING,"Button",BS_AUTORADIOBUTTON,7,55,221,10
-    EDITTEXT        IDC_CREATE_NEW,18,67,191,14,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_PROFILE_PATH, 18, 67, 191, 14, ES_AUTOHSCROLL | WS_DISABLED
     PUSHBUTTON      "...",IDC_BROWSE_PROFILE,212,67,16,14,WS_DISABLED
 END
 
