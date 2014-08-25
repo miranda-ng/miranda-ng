@@ -195,6 +195,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\file_transfer.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\tox\tox.h" />
     <ClInclude Include="src\tox\toxav.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="src\tox_proto.cpp" />
     <ClCompile Include="src\tox_services.cpp" />
     <ClCompile Include="src\tox_contacts.cpp" />
+    <ClCompile Include="src\tox_transfers.cpp" />
     <ClCompile Include="src\tox_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
