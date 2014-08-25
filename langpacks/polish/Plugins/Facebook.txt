@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.8.0
+;  Version: 0.2.9.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -94,6 +94,15 @@ Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
 Liczba wiadomości do załadowania:
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
+[Bots challenge test]
+Test sprawdzający obecność botów
+[Instruction:]
+Instrukcja:
+[Submit]
+Wyślij
+;file \protocols\FacebookRM\src\captcha.cpp
+[Enter the text you see]
+Wprowadź tekst, który widzisz
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]
 Ja
@@ -128,6 +137,8 @@ Twoje konto wymaga połączenia HTTPS.
 Coś stało się z Facebook. Może było trochę więcej aktualizacji, więc poczekaj na aktualizację.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Potrzebujesz potwierdzenia dla wysyłania wiadomości do innych klientów.\nOtwórz stronę Facebook i spróbuj wysłać wiadomość do kontaktu ponownie!
+[User cancel captcha challenge.]
+
 [Timeout when sending message.]
 Upłynęło zbyt dużo czasu wysyłania wiadomości.
 [Status update was successful.]
@@ -287,6 +298,8 @@ Dane znajomości
 Rozmowa
 [Message read]
 Wiadomość odczytana
+[Captcha form icon]
+Ikona formularza Captcha
 [Visit friendship details]
 Sprawdź dane znajomości
 [Visit conversation]
