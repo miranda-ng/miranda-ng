@@ -2140,7 +2140,7 @@ Jabber vCard: редагування телефону
 [Note]
 Нотатка
 [%s connection]
-%s з'єднання
+З'єднання %s
 [Afraid]
 Переляканий
 [Amazed]

@@ -80,7 +80,7 @@
 [Account]
 Обліковий запис
 [%s server connection]
-Підключення до серверу %s
+З'єднання з сервером %s
 [Create new chat]
 Створити новий чат
 [Attachments:]

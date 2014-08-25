@@ -318,7 +318,7 @@ xСтатус
 [Popups]
 Спливаючі вікна
 [%s connection]
-Підключення %s
+З'єднання %s
 [Mail.ru xStatus]
 Mail.ru xСтатус
 [Mail.ru extra info]

@@ -220,7 +220,7 @@
 [Contact is no longer on server-list.]
 Контакт видалений зі списку на сервері.
 [%s server connection]
-%s з'єднання з сервером
+З'єднання з сервером %s
 [Unable to get Netlib connection for Facebook]
 Не вдається встановити з'єднання з Facebook
 [Facebook ID must be numeric value.]

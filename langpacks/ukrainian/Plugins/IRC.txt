@@ -388,9 +388,9 @@ DCC: Запит на продовження закачування файлу в
 [DCC ERROR: Unable to bind local port for passive file transfer]
 Помилка DCC: Неможливо відкрити локальний порт для пасивної передачі файлів
 [%s server connection]
-Підключення до сервера %s
+З'єднання з сервером %s
 [%s client-to-client connections]
-Підключення між клієнтами %s
+З'єднання між клієнтами %s
 [Nickname]
 Нік
 [DCC ERROR: No valid files specified]

@@ -152,6 +152,6 @@ URL сторінки з коментарями до новини.
 [Enable/disable auto update]
 Увімк./вимк. автооновлення
 [NewsAggregator HTTP connection]
-HTTP-з'єднання каналів новин
+HTTP-з'єднання NewsAggregator
 [Feed]
 Канал

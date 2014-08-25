@@ -250,9 +250,9 @@
 [Live Alert]
 Сповіщення Live
 [%s plugin HTTPS connections]
-%s підключення по HTTPS
+HTTPS-з'єднання %s
 [%s plugin connections]
-%s підключення до сервера
+З'єднання з сервером %s
 [Contact already in your contact list]
 Контакт у вашому списку
 [Protocol is offline]

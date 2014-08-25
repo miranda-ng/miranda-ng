@@ -310,6 +310,6 @@ Web-повідомлення
 [Default]
 За замовчанням
 [%s connection]
-%s з'єднання
+З'єднання %s
 [%s SOCKS connection]
-%s SOCKS з'єднання
+SOCKS-з'єднання %s
