@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.8.0
+;  Version: 0.2.9.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -50,6 +50,11 @@
 [Load last messages on opening message window (EXPERIMENTAL)]
 [Number of messages to load:]
 [Do not open chat windows on creation]
+[Bots challenge test]
+[Instruction:]
+[Submit]
+;file \protocols\FacebookRM\src\captcha.cpp
+[Enter the text you see]
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]
 [User]
@@ -68,6 +73,7 @@
 [Your account requires HTTPS connection. Activating.]
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
+[User cancel captcha challenge.]
 [Timeout when sending message.]
 [Status update was successful.]
 ;file \protocols\FacebookRM\src\connection.cpp
@@ -152,6 +158,7 @@
 [Friendship details]
 [Conversation]
 [Message read]
+[Captcha form icon]
 [Visit friendship details]
 [Visit conversation]
 [Cancel friendship]
