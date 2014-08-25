@@ -1,7 +1,9 @@
 #include "common.h"
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-PROTO<CToxProto>(protoName, userName)
+	PROTO<CToxProto>(protoName, userName),
+	fileSendQueue(1, NumericKeySortT),
+	hFileProcess(0)
 {
 	InitToxCore();
 
@@ -61,7 +63,7 @@ MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	std::string address(mir_t2a(psr->id));
 	std::string id = ToxAddressToId(address);
 	std::string myId = ToxAddressToId(getStringA(TOX_SETTINGS_ID));
-	if (myId.compare(id))
+	if (myId == id)
 	{
 		debugLogA("CToxProto::AddToList: you cannot add yourself to friend list");
 		return NULL;
@@ -215,7 +217,16 @@ int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 int __cdecl CToxProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT* hContactsList) { return 0; }
-HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles) { return 0; }
+
+HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+{
+	CFileTransfer *transfer = new CFileSendTransfer(hContact, InterlockedIncrement(&hFileProcess));
+	transfer->ProcessTransferedFiles(ppszFiles);
+
+	ForkThread(&CToxProto::SendFilesAsync, transfer);
+
+	return transfer->GetTransferHandler();
+}
 
 int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 {
@@ -257,10 +268,15 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
 		}
 
-		m_iStatus = ID_STATUS_OFFLINE;
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 	}
 	else
 	{
+		if (old_status == ID_STATUS_CONNECTING)
+		{
+			return 0;
+		}
+
 		if (old_status == ID_STATUS_OFFLINE && !IsOnline())
 		{
 			m_iStatus = ID_STATUS_CONNECTING;

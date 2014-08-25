@@ -1,8 +1,6 @@
 #ifndef _TOX_BOOTSTRAP_H_
 #define _TOX_BOOTSTRAP_H_
 
-#include "common.h"
-
 struct bootstrap_node {
 	char *address;
 	uint16_t port;
