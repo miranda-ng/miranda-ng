@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.8.0
+;  Version: 0.2.9.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -94,6 +94,15 @@ Recevoir uniquement les messages de la boîte de réception
 
 [Do not open chat windows on creation]
 
+[Bots challenge test]
+
+[Instruction:]
+Instruction :
+[Submit]
+Soumettre
+;file \protocols\FacebookRM\src\captcha.cpp
+[Enter the text you see]
+
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]
 
@@ -127,6 +136,8 @@ Erreur inconnue
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
+
+[User cancel captcha challenge.]
 
 [Timeout when sending message.]
 
@@ -286,6 +297,8 @@ Poke
 [Conversation]
 Conversation
 [Message read]
+
+[Captcha form icon]
 
 [Visit friendship details]
 Voir les détails

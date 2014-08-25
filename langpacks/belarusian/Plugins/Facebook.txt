@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.8.0
+;  Version: 0.2.9.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -84,6 +84,7 @@ URL:
 Не пазначаць паведамленні прачытанымі
 [Receive messages from "inbox" folder only]
 Прымаць паведамленні толькі з тэчкі "уваходныя"
+;file \protocols\FacebookRM\src\captcha.cpp
 ;file \protocols\FacebookRM\src\chat.cpp
 [&Invite user...]
 &Запрасіць кантакт...

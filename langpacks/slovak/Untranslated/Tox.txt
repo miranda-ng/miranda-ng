@@ -12,7 +12,6 @@
 [Create new profile]
 [Use existing profile]
 [If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
-[Contact already in your contact list]
 [Account]
 [%s connection]
 [Query]
@@ -20,3 +19,4 @@
 [Select tox profile]
 [Protocols]
 [Protocol icon]
+[Contact already in your contact list]

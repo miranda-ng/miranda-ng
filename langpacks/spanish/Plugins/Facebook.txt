@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.8.0
+;  Version: 0.2.9.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -94,6 +94,15 @@ Sesiones de mensaje
 
 [Do not open chat windows on creation]
 
+[Bots challenge test]
+
+[Instruction:]
+
+[Submit]
+
+;file \protocols\FacebookRM\src\captcha.cpp
+[Enter the text you see]
+
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]
 
@@ -128,6 +137,8 @@ Su cuenta requiere una conexión HTTPS. Activando.
 Algo le pasó a Facebook. Tal vez hubo alguna actualización importante por lo que debe esperar a una actualización.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Necesita confirmación para enviar mensajes a otros clientes.\n¡Abrir el sitio web de Facebook y tratar de enviar un mensaje a este contacto de nuevo!
+[User cancel captcha challenge.]
+
 [Timeout when sending message.]
 Tiempo de espera al enviar el mensaje
 [Status update was successful.]
@@ -286,6 +297,8 @@ Detalles de amistad
 [Conversation]
 
 [Message read]
+
+[Captcha form icon]
 
 [Visit friendship details]
 Visitar detalles de amistad
