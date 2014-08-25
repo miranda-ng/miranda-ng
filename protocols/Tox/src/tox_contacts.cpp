@@ -56,18 +56,16 @@ MCONTACT CToxProto::FindContact(const std::string &id)
 {
 	MCONTACT hContact = NULL;
 
-	//EnterCriticalSection(&contact_search_lock);
+	//mir_cs(contact_search_lock);
 
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		std::string contactId = ToxAddressToId(getStringA(hContact, TOX_SETTINGS_ID));
-		if (id.compare(contactId) == 0)
+		if (id == contactId)
 		{
 			break;
 		}
 	}
-
-	//LeaveCriticalSection(&contact_search_lock);
 
 	return hContact;
 }

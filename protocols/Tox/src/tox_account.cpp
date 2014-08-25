@@ -33,6 +33,7 @@ void CToxProto::InitToxCore()
 	tox_callback_user_status(tox, OnUserStatusChanged, this);
 	tox_callback_read_receipt(tox, OnReadReceipt, this);
 	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
+	tox_callback_file_control(tox, OnFileRequest, this);
 
 	LoadToxData();
 
@@ -88,7 +89,6 @@ void CToxProto::PollingThread(void*)
 	debugLogA("CToxProto::PollingThread: entering");
 
 	isConnected = false;
-	time_t timestamp0 = time(NULL);
 	DoBootstrap();
 
 	while (!isTerminated)
@@ -104,16 +104,13 @@ void CToxProto::PollingThread(void*)
 
 				LoadContactList();
 
-				m_iStatus = ID_STATUS_ONLINE;
+				debugLogA("CToxProto::PollingThread: changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
+				m_iStatus = m_iDesiredStatus;
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 			}
 			else
 			{
-				time_t timestamp1 = time(NULL);
-				if (timestamp0 + 250 < timestamp1) {
-					timestamp0 = timestamp1;
-					DoBootstrap();
-				}
+				DoBootstrap();
 			}
 		}
 	}

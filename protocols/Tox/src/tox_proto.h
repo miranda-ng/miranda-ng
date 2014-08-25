@@ -1,7 +1,7 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
-#include "common.h"
+class CFile;
 
 struct CToxProto : public PROTO<CToxProto>
 {
@@ -75,6 +75,8 @@ private:
 	bool isTerminated;
 	bool isConnected;
 	HANDLE hNetlibUser;
+	ULONG hFileProcess;
+	LIST<CFile> fileSendQueue;
 
 	// tox
 	void InitToxCore();
@@ -116,6 +118,9 @@ private:
 	static void OnConnectionStatusChanged(Tox *tox, const int number, const uint8_t status, void *arg);
 	static void OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *arg);
 
+	//static void OnFileControlCallback(Tox *tox, int32_t number, uint8_t hFile, uint64_t fileSize, uint8_t *name, uint16_t nameSize, void *arg);
+	static void OnFileRequest(Tox *tox, int32_t number, uint8_t isSend, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg);
+
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
 	bool IsContactOnline(MCONTACT hContact);
@@ -132,6 +137,10 @@ private:
 
 	void __cdecl SearchByIdAsync(void* arg);
 	void __cdecl SearchByNameAsync(void* arg);
+
+	// file transfer
+	static int FileSendQueueCompare(const CFile* p1, const CFile* p2);
+	void __cdecl SendFilesAsync(void* arg);
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);

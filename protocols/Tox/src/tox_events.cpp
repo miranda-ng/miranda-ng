@@ -219,3 +219,15 @@ void CToxProto::OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *
 			(HANDLE)receipt, 0);
 	}
 }
+
+void CToxProto::OnFileRequest(Tox *tox, int32_t number, uint8_t isSend, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		if (isSend && type == TOX_FILECONTROL_ACCEPT)
+		{
+		}
+	}
+}

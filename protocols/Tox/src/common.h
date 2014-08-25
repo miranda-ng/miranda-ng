@@ -32,6 +32,7 @@
 #include "version.h"
 #include "resource.h"
 #include "tox_proto.h"
+#include "file_transfer.h"
 
 extern HINSTANCE g_hInstance;
 
