@@ -12,8 +12,6 @@ INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			proto = (CToxProto*)lParam;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 
-			CheckDlgButton(hwnd, IDC_ADDTOLIST, 1);
-
 			//ShowWindow(GetDlgItem(GetParent(hwnd), 1408/*IDC_BYCUSTOM*/), SW_HIDE);
 			//ShowWindow(GetDlgItem(GetParent(hwnd), 1402/*IDC_ADVANCEDGROUP*/), SW_HIDE);
 			SetDlgItemText(GetParent(hwnd), 1408/*IDC_BYCUSTOM*/, TranslateT("Query"));
