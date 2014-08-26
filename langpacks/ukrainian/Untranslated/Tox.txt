@@ -1,5 +1,3 @@
 ﻿[Tox ID:]
 [C]
 [Tox]
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
-[Query]

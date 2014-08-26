@@ -93,6 +93,14 @@
 Кількість останніх повідомлень:
 [Do not open chat windows on creation]
 Не відкривати вікно чату при створенні
+[Bots challenge test]
+Захист від ботів
+[Instruction:]
+Інструкція:
+[Submit]
+Передати
+[Enter the text you see]
+Введіть текст, який бачите
 [Myself]
 Я
 [User]
@@ -125,6 +133,8 @@
 Проблеми з Facebook. Можливо, на сайті відбулися серйозні зміни, і доведеться зачекати на оновлення плагіна.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Щоб надсилати повідомлення для інших клієнтів, необхідне підтвердження.\nВідкрийте сайт Facebook і спробуйте надіслати повідомлення знову!
+[User cancel captcha challenge.]
+Користувач скасував перевірку.
 [Timeout when sending message.]
 Час надсилання повідомлення вичерпано.
 [Status update was successful.]
@@ -275,6 +285,8 @@
 Бесіда
 [Message read]
 Прочитане повідомлення
+[Captcha form icon]
+Значок форми з капчею
 [Visit friendship details]
 Інформація про дружбу
 [Visit conversation]

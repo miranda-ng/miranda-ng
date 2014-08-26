@@ -8,7 +8,7 @@
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 Підтримка протоколу AOL Instant Messenger (AIM) у Miranda NG.
 [AIM User Details]
-AIM Деталі користувача
+Обліковий запис AIM
 [Screen Name:]
 Ім'я AIM:
 [Display Name:]
@@ -22,17 +22,17 @@ AIM Деталі користувача
 [Message Delivery Confirmation]
 Підтвердження прийому
 [Do Not Autoreply When Away]
-Не відповідати авт. коли Відсутній
+Вимикати автовідп. коли Відсутній
 [Convert Incoming Messages to BBCode]
-Переводити вх. повідомлення у BBCode
+Переводити вхідні повід. у BBCode
 [Convert Outgoing Messages to HTML]
-Переводити вих. повідомлення в HTML
+Переводити вихідні повід. в HTML
 [Disable Avatars]
-Відключити аватари
+Вимкнути аватари
 [Disable Account Type Icons]
-Відключити значки типів облікових записів
+Вимкнути значки типів обл. записів
 [Disable Extended Status Icons]
-Відключити розширені значки статусу
+Вимкнути розширені значки статусу
 [Notify about new mail]
 Сповіщати про нову пошту
 [Advanced Options]
@@ -52,7 +52,7 @@ AIM Деталі користувача
 [Reset]
 Скинути
 [Disable SSL]
-Вимк. SSL
+Вимкнути SSL
 [Manage Server Groups]
 Керувати групами на сервері
 [Force Single Client]

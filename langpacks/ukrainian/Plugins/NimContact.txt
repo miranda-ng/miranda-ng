@@ -114,7 +114,7 @@
 [Non-IM Contacts]
 Не-IM контакти
 [Plugins]
-Плагини
+Плагіни
 [Main Icon]
 Головний значок
 [Non-IM Contact]
