@@ -384,7 +384,7 @@ HTTP-авторизація\nПрийняти або відхилити вхід
 [Jabber notebook\nStore notes on server and access them from anywhere.]
 Записник Jabber\nЗберігання нотаток на сервері і доступ до них звідусіль.
 [Bots Challenge Test]
-Захист від роботів
+Захист від ботів
 [XML Console]
 XML-консоль
 [Reset log]
@@ -532,7 +532,7 @@ xHTML-формат повідомлень чату
 [Supports direct chat invitations (XEP-0249)]
 Підтримка прямих запрошень до чату (XEP-0249)
 [Enter the text you see]
-Введіть текст, який ви бачите
+Введіть текст, який бачите
 [None]
 Немає
 [Member]

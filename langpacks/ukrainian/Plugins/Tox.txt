@@ -25,12 +25,16 @@
 Створити новий профіль
 [Use existing profile]
 Використати існуючий
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
+Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. У іншому разі Miranda шукатиме в базі даних сервису toxme.se.
 [Network]
 Мережа
 [Account]
 Обліковий запис
 [%s connection]
 З'єднання %s
+[Query]
+Запит
 [All files (*.*)]
 Усі файли (*.*)
 [Select tox profile]
