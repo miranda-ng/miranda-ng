@@ -436,8 +436,11 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (pMsg == NULL)
 			continue;
 
-		char szMid[40];
 		int mid = json_as_int(json_get(pMsg, "mid"));
+		if (!CheckMid(mid))
+			continue;
+
+		char szMid[40];
 		_itoa(mid, szMid, 10);
 		if (!mids.IsEmpty())
 			mids.AppendChar(',');
@@ -479,8 +482,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		recv.timestamp = datetime;
 		
 		CMStringW szBody = ptszBody;
-		szBody.Replace(_T("<br>"),_T("\n"));
-		recv.tszMessage = (TCHAR *) szBody.c_str();
+		MyHtmlDecode(szBody);
+		recv.tszMessage = szBody.GetBuffer();
 		
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;

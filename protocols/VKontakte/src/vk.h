@@ -52,3 +52,6 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
 
 void InitIcons(void);
 HANDLE GetIconHandle(int iCommand);
+
+void MyHtmlDecode(CMStringW &str);
+

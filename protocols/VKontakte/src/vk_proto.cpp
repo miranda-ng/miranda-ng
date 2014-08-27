@@ -335,8 +335,11 @@ int CVkProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **filename
 
 int CVkProto::GetInfo(MCONTACT hContact, int infoType)
 {
-	// TODO: Most probably some ProtoAck should be here instead
-	return 1;
+	LONG userID = getDword(hContact, "ID", -1);
+	if (userID == -1)
+		return 1;
+	RetrieveUserInfo(userID);
+	return 0;
 }
 
 HWND CVkProto::SearchAdvanced(HWND owner)
