@@ -960,12 +960,8 @@ bool facebook_client::home()
 	{
 	case HTTP_CODE_OK:
 	{		
-		// Get real name
-		this->self_.real_name = utils::text::source_get_value(&resp.data, 2, "<strong class=\"profileName\">", "</strong>");
-		
-		// Try to get name again, if we've got some some weird version of Facebook
-		if (this->self_.real_name.empty())
-			this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
+		// Get real name (for mobile FB version since 27.8.2014)
+		this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</a>", "<div", ">", "<img");
 
 		// Get and strip optional nickname
 		std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
@@ -975,6 +971,9 @@ bool facebook_client::home()
 
 			this->self_.real_name = this->self_.real_name.substr(0, pos - 1);
 		}
+
+		this->self_.real_name = utils::text::remove_html(this->self_.real_name);
+
 		parent->debugLogA("      Got self real name: %s", this->self_.real_name.c_str());
 
 		if (this->self_.real_name.empty()) {
@@ -986,7 +985,7 @@ bool facebook_client::home()
 		parent->SaveName(NULL, &this->self_);
 
 		// Get avatar
-		this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "class=\"l\"", "<img src=\"", "\"");
+		this->self_.image_url = utils::text::source_get_value(&resp.data, 4, "id=\"root", "class=\"l\"", "<img src=\"", "\"");
 		parent->debugLogA("      Got self avatar: %s", this->self_.image_url.c_str());
 		parent->CheckAvatarChange(NULL, this->self_.image_url);
 
