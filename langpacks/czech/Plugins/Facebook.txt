@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.8.0
+;  Version: 0.2.9.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -48,8 +48,8 @@ Zobrazit větší avatary
 Oznámení události
 [Notifications]
 Upozornění
-[News feeds]
-Novinky
+[News feeds (WARNING: Causes excessive network traffic!)]
+Novinky (VAROVÁNÍ: Způsobuje zvýšený síťový přenos dat!)
 [News feed types to notify:]
 Upozorňovat na tyto novinky:
 [Don't show advertising posts]
@@ -94,6 +94,15 @@ Načíst poslední zprávy při otevření komunikačního okna (EXPERIMENTÁLN�
 Počet zpráv pro načtení:
 [Do not open chat windows on creation]
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
+[Bots challenge test]
+Kontrola robotů
+[Instruction:]
+Instrukce:
+[Submit]
+Potvrdit
+;file \protocols\FacebookRM\src\captcha.cpp
+[Enter the text you see]
+Zadejte text, který vidíte
 ;file \protocols\FacebookRM\src\chat.cpp
 [Myself]
 Já
@@ -128,6 +137,8 @@ Váš účet vyžaduje zabezpečené spojení. Aktivováno.
 Chyba při připojování k síti Facebook. Důvodem mohou být větší změny na straně serveru, což vyžaduje zároveň změny na straně Mirandy.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Vyžadováno potvrzení pro odesílání zpráv jiným klientům.\nOtevřte stránky Facebooku a odešlete znovu zprávu tomuto kontaktu!
+[User cancel captcha challenge.]
+Uživatel nezadal captcha kód.
 [Timeout when sending message.]
 Vypršel čas na odeslání zprávy.
 [Status update was successful.]
@@ -256,6 +267,8 @@ Kontrola žádostí o přátelství...
 Obnovování seznamu kontaktů...
 [Do you want to cancel your friendship with '%s'?]
 Přejete si zrušit vaše přátelství s '%s'?
+[News feeds]
+Novinky
 [Visit profile]
 Zobrazit profil
 [Visit notifications]
@@ -285,6 +298,8 @@ Podrobnosti o přátelství
 Konverzace
 [Message read]
 Zpráva přečtena
+[Captcha form icon]
+Ikona okna s captcha kódem
 [Visit friendship details]
 Zobrazit podrobnosti o přátelství
 [Visit conversation]

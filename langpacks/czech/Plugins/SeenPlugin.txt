@@ -70,15 +70,15 @@ Sledování změny stavu
 Zmeškali jste tyto kontakty:
 [Alert when user status changes]
 Upozornit při změně stavu
+[User Menu]
+Uživatelské menu
+[View User's Details]
+Zobrazit osobní údaje
+[Send Instant Message]
+Odeslat zprávu
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 Historie změn stavu
-[View User's Details]
-Zobrazit osobní údaje
-[User Menu]
-Uživatelské menu
-[Send Instant Message]
-Odeslat zprávu
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Datum: %d.%m.%y(%Y) \n Popis data: %W - %w - %E - %e \n Čas: %H:%M:%S (%h-%p) \n Uživatel: %n - %u \n Stav: %s \n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp

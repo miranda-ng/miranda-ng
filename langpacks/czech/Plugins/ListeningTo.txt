@@ -97,8 +97,6 @@ Jiné proměnné:
 [When nothing is playing, replace %listening% with:]
 Pokud nehraje hudba, namísto %listening% použít:
 ;file \plugins\ListeningTo\src\listeningto.cpp
-[Send to %s]
-Poslat %s
 [Listening to (enabled)]
 Poslech hudby (zapnuto)
 [Listening to (disabled)]
@@ -107,6 +105,8 @@ Poslech hudby (vypnuto)
 Poslech hudby
 [Listening to music]
 Poslouchám hudbu
+[Send to %s]
+Poslat %s
 [Send to all protocols]
 Poslat všem protokolům
 [Listening info]

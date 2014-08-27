@@ -52,8 +52,8 @@ Text
 Náhled
 [Ignore these clients (separated by semicolons):]
 Ignorovat tyto klienty (oddělené středníkem):
-[(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
-(potřebujete mít pcre.dll nebo pcre3.dll pro použití regulérních výrazů)
+[(you have to install pcre16.dll to use regular expressions here)]
+(potřebujete mít pcre16.dll pro použití regulérních výrazů)
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [changed client to %s (was %s)]
 změnil klienta na %s (předtím %s)

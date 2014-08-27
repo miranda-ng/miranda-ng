@@ -95,12 +95,12 @@ Psaní zprávy
 Prosím potvrďte můj požadavek o přidání vás do mého seznamu kontaktů.
 [Do you want to send authorization request\nto new contact?]
 Přejete si odeslat požadavek o autorizaci\nnového kontaktu?
-[MenuItemEx]
-Rozšíření menu
 [Open ignore settings]
 Otevřít možnosti filtrování
 [Request authorization]
 Požádat o autorizaci
+[MenuItemEx]
+Rozšíření menu
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Vlastní úpravy

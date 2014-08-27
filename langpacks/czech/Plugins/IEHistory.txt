@@ -1,0 +1,77 @@
+﻿#muuid {2f093b88-f389-44f1-9e2a-37c29194203a}
+;============================================================
+;  File: IEHistory.dll
+;  Plugin: IEHistory
+;  Version: 0.0.1.7
+;  Authors: Cristian Libotean, Miranda NG team
+;============================================================
+[Shows the history for a given contact using IEView.]
+
+;file \plugins\IEHistory\res\IEHistory.rc
+[Dialog]
+Dialog
+[Close]
+Zavřít
+[&Prev]
+
+[&Next]
+
+[&Search]
+&Hledat
+[Number of events to load]
+
+[Load all events]
+
+[Load only]
+
+[events per page]
+
+[Show last page first]
+
+[Other options]
+Ostatní možnosti
+[Load items in background]
+
+[RTL is default text direction]
+Zprava doleva je výchozí směr psaní
+[Search]
+Hledat
+[&Find next]
+&Najít další
+[Cancel]
+Zrušit
+[Text:]
+Text:
+[Direction]
+Směr
+[Up]
+Nahoru
+[Down]
+Dolů
+;file \plugins\IEHistory\src\dlgHandlers.cpp
+[System History]
+Historie systému
+[Out of a total of]
+
+[You can't close the window now, wait for all events to load.]
+
+[Error]
+Chyba
+[Text search]
+
+[Time search]
+
+[Time:]
+Čas:
+[Search finished. No more entries...]
+
+[Information]
+Informace
+;file \plugins\IEHistory\src\events.cpp
+[History]
+Historie
+;file \plugins\IEHistory\src\IEHistory.cpp
+[View &history]
+Zobrazit &historii
+[&System History]
+Historie &systému

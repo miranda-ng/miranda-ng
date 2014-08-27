@@ -1145,14 +1145,14 @@ Přezdívka: %s, zbývá dnů: %d
 Není co připomenout z výročí
 [Backing up and syncing all birthdays complete!]
 Zálohování a synchronizace všech narozenin hotova!
-[Reminder (uinfoex)]
-Připomínka (uinfoex)
 [Birthday reminder]
 Narozeniny
 [Birthday reminder: it's coming]
 Narozeniny (již brzy!)
 [Anniversary Reminder]
 Upozorňování na výročí
+[Reminder (uinfoex)]
+Připomínka (uinfoex)
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 identifikace kontaktu

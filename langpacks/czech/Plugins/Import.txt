@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.11.0.1
+;  Version: 0.95.3.2
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -89,6 +89,8 @@ Přidán %S kontakt %s, '%s'
 Přidán %S kontakt %s
 [Skipping contact with no protocol]
 Přeskakování kontaktu bez protokolu
+[Skipping contact, account %S cannot be mapped.]
+Přeskakování kontaktu, účet %S nemůže být přiřazen.
 [Skipping contact, %S not installed.]
 Přeskakování kontaktu, %S není nainstalován
 [Skipping non-IM contact (%S)]
@@ -138,8 +140,6 @@ Přeskočeno %d duplicit a %d filtrovaných událostí.
 [Skipped %d duplicates.]
 Přeskočeno %d duplicit.
 ;file \plugins\Import\src\main.cpp
-[Import...]
-Importovat...
 [&Import...]
 &Importovat...
 ;file \plugins\Import\src\miranda.cpp
@@ -154,6 +154,8 @@ Všechny soubory
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Přeskakování duplicitní skupiny %s.
+[Import...]
+Importovat...
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 Dokončit

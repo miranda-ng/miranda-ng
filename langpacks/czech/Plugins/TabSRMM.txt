@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.2
+;  Version: 3.4.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1355,7 +1355,7 @@ Výchozí kódování
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 <žádný skin>
-[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
+[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]
 Chcete se vzhledem nahrát také šablony záznamu?\nUPOZORNĚNÍ: Tato volba přepíše uloženou sadu šablon, což může významě ovlivnit vzhled záznamu komunikace.\nPokud zvolíte Storno, nenahraje se vůbec nic.
 [Load theme]
 Nahrát vzhled

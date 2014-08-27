@@ -1848,6 +1848,8 @@ Příchozí čas
 Příchozí dvojtečka
 [Message area]
 Oblast se zprávou
+[Other events]
+Jiné události
 [Message log]
 Záznam komunikace
 [** New contacts **]
@@ -1969,6 +1971,7 @@ In&formace o sobě...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s je online
+;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Přidat kontakt
@@ -2531,16 +2534,18 @@ POZOR!!! Vybraný účet bude smazán. V důsledku to znamená, že bude odstran
 Vybraný účet byl úspěšně zaktualizován a nyní ho už zbývá jen aktivovat, což vyžaduje restart Mirandy.\n\nPomocí tlačítka 'Ano' provedete restart, kliknutím na tlačítko 'Ne' lze aktualizovat další účet.
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Tento účet používá starší generaci doplňku pro podporu daného protokolu. Konfigurovat ho můžete jen v okně s nastavením pro celou Mirandu.
+[Account name must be filled.]
+Je potřeba zadat název účtu.
+[Account error]
+Chyba účtu
+[Account name has to be unique. Please enter unique name.]
+Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
 [Create new account]
 Zřídit nový účet
 [Editing account]
 Upravit účet
 [Upgrading account]
 Aktualizace účtu
-[Account name has to be unique. Please enter unique name.]
-Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
-[Account error]
-Chyba účtu
 [Account is disabled. Please activate it to access options.]
 Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
 [New account]
