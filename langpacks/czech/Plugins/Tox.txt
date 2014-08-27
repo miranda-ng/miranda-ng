@@ -1,0 +1,58 @@
+﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+;============================================================
+;  File: Tox.dll
+;  Plugin: Tox Protocol
+;  Version: 0.11.0.2
+;  Authors: ForNeVeR, Mataes, unsane
+;============================================================
+[Tox protocol support for Miranda NG.]
+Tox protokol pro Mirandu NG.
+;file \protocols\Tox\res\resource.rc
+[Name:]
+Název:
+[Tox ID:]
+Tox ID:
+[Default group:]
+Výchozí skupina:
+[C]
+C
+[Connection settings]
+Možnosti připojení
+[Disable UDP (force Tox to use TCP)]
+Zakázat UDP (vynutí použití TCP)
+[Disable IPv6]
+Zakázat IPv6
+[Tox]
+Tox
+[Tox profile]
+Tox profil
+[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
+Tox profil obsahuje vaše ID a seznam kontaktů.\r\nMůžete si vytvořit nový profil pokud jste Tox ještě nepoužívali nebo načíst existující z jiného Tox klienta.
+[Create new profile]
+Vytvořit nový profil
+[Use existing profile]
+Použít existující profil
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
+Pokud toto pole obsahuje adresu Tox (76 hex znaků), budete zobrazen dialog pro přidání do vašeho seznamu kontaktů. V opačném případě bude Miranda hledat pomocí toxme.se.
+;file \protocols\Tox\src\tox_events.cpp
+[Network]
+Sítě
+[Account]
+Účet
+;file \protocols\Tox\src\tox_netlib.cpp
+[%s connection]
+%s - spojení se serverem
+;file \protocols\Tox\src\tox_options.cpp
+[Query]
+Dotaz
+[All files (*.*)]
+Všechny soubory (*.*)
+[Select tox profile]
+Vyberte Tox profil
+;file \protocols\Tox\src\tox_proto.cpp
+[Protocols]
+Protokoly
+[Protocol icon]
+Ikona protokolu
+[Contact already in your contact list]
+Kontakt je již ve vašem seznamu

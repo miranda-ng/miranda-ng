@@ -612,9 +612,7 @@ Kontrola
 [Choose font...]
 Vybrat písmo...
 [Genres]
-
-[[x]Status Title / Text]
-Záhlaví a text rozšířeného stavu
+Žánry
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 
@@ -623,12 +621,12 @@ Prodleva (ms)
 [Get Series Info]
 
 [Episode]
-
+Epizoda
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
-
+Last.fm chyba:\s
 [Client is banned]
-
+Klient je zakázán
 [Bad Auth. Check login and password]
 
 [Bad TimeStamp]
@@ -649,7 +647,7 @@ Posuvník
 [Slider Pushed]
 
 [WATrack status]
-
+Stav WATracku
 [Enable WATrack]
 Povolit WATrack
 [Disable WATrack]

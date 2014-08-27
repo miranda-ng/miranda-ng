@@ -107,10 +107,10 @@ Kontakt je stále pryč
 Událost "Chybíš mi"
 [Hide contact event]
 Skrýt událost kontaktu
-[Buddy Expectator]
-Tak ty žiješ, Karle
 [Hide contact]
 Skrýt kontakt
+[Buddy Expectator]
+Tak ty žiješ, Karle
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 týdnů

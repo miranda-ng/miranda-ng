@@ -11,7 +11,6 @@
 [Create group chat]
 [Mark users you want to invite to a new chat]
 [New chat's title:]
-[Captcha form icon]
 [VKontakte]
 [Enter new chat title]
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]

@@ -62,17 +62,17 @@ Selhání přístupu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Varování registrů
 ;file \plugins\AssocMgr\src\test.cpp
-[AIM Link Protocol]
+[AIM link protocol]
 Odkaz protokolu AIM
-[ICQ Link Shortcut]
+[ICQ link shortcut]
 Odkaz protokolu ICQ
 [&Add to contact list...]
 &Přidat do seznamu kontaktů...
-[Yahoo Link Protocol]
+[Yahoo link protocol]
 Odkaz protokolu Yahoo
-[MSN Link Protocol]
+[MSN link protocol]
 Odkaz protokolu MSN
-[Gadu-Gadu Link Protocol]
+[Gadu-Gadu link protocol]
 Odkaz protokolu Gadu-Gadu
-[Jabber Link Protocol]
+[Jabber link protocol]
 Odkaz protokolu Jabber

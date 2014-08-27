@@ -76,8 +76,6 @@ Náhled
 [ChangeKeyboardLayout]
 Změna rozvržení klávesnice
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
-[Popup]
-Oznámení
 [Changing Layout]
 Změna rozvržení
 [Changing Case]
@@ -85,4 +83,7 @@ Změna velikosti písmen
 [Message Sessions]
 Komunikace
 [Popups]
+Oznámení
+;file \plugins\ChangeKeyboardLayout\src\main.cpp
+[Popup]
 Oznámení
