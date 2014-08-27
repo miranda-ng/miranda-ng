@@ -437,8 +437,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			continue;
 
 		int mid = json_as_int(json_get(pMsg, "mid"));
-		if (!CheckMid(mid))
-			continue;
 
 		char szMid[40];
 		_itoa(mid, szMid, 10);
@@ -488,7 +486,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)strlen(szMid);
-		ProtoChainRecvMsg(hContact, &recv);
+		if (!CheckMid(mid))
+			ProtoChainRecvMsg(hContact, &recv);
 	}
 
 	MarkMessagesRead(mids);
