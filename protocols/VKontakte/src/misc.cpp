@@ -51,6 +51,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hNewContact, (LPARAM)m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
 	db_set_ts(hNewContact, "CList", "Group", m_defaultGroup);
+	RetrieveUserInfo(dwUserid);
 	return hNewContact;
 }
 
@@ -107,6 +108,16 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	JSONROOT pRoot;
 	CheckJsonResponse(pReq, reply, pRoot);
+}
+
+void MyHtmlDecode(CMStringW &str)
+{
+	str.Replace(_T("<br>"), _T("\n"));
+	str.Replace(_T("&amp;"), _T("&"));
+	str.Replace(_T("&pos;"), _T("\'"));
+	str.Replace(_T("&gt;"), _T(">"));
+	str.Replace(_T("&lt;"), _T("<"));
+	str.Replace(_T("&quot;"), _T("\""));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

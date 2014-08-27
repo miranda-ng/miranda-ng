@@ -335,9 +335,15 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
 			rtrimt(buf);
 			UnEscapeChatTags(buf);
-			
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg)
-				<< INT_PARAM("type", 1) << INT_PARAM("chat_id", cc->m_chatid) << TCHAR_PARAM("message", buf));
+				
+			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,  &CVkProto::OnSendChatMsg)
+				<< INT_PARAM("type", 1) << INT_PARAM("chat_id", cc->m_chatid);
+			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+	
+			CMStringA szBody(FORMAT, "message=%s", ptrA(mir_urlEncode(mir_utf8encodeT(buf))));
+			pReq->pData = mir_strdup(szBody);
+			pReq->dataLength = szBody.GetLength();
+			Push(pReq);
 		}
 
 	case GC_USER_LOGMENU:
