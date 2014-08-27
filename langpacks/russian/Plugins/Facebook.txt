@@ -91,6 +91,14 @@
 Количество подгружаемых сообщений:
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
+[Bots challenge test]
+Защита от ботов
+[Instruction:]
+Инструкция:
+[Submit]
+Передать
+[Enter the text you see]
+Введите текст, который видите
 [Myself]
 Я
 [User]
@@ -123,6 +131,8 @@
 Что-то происходит с сервисом Facebook. Возможно там было крупное обновление, в таком случае подождите обновления с нашей стороны.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Требуется подтверждение разрешения отправки сообщений на другие клиенты.\nОткройте сайт Facebook и попробуйте заново отправить сообщение этому контакту!
+[User cancel captcha challenge.]
+Прервано пользователем.
 [Timeout when sending message.]
 Таймаут отправки сообщения.
 [Status update was successful.]
@@ -273,6 +283,8 @@
 Беседа
 [Message read]
 Сообщение прочтено
+[Captcha form icon]
+Значок формы с капчей
 [Visit friendship details]
 Информация о дружбе
 [Visit conversation]

@@ -1,7 +1,1 @@
 ﻿[URL:]
-[Bots challenge test]
-[Instruction:]
-[Submit]
-[Enter the text you see]
-[User cancel captcha challenge.]
-[Captcha form icon]
