@@ -30,6 +30,15 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	sid.ptszDescription = LPGENT("Protocol icon");
 	sid.iDefaultIndex = -IDI_TOX;
 	Skin_AddIcon(&sid);
+
+	// custom event
+	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	dbEventType.module = this->m_szModuleName;
+	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
+
+	dbEventType.eventType = TOX_DB_EVENT_TYPE_ACTION;
+	dbEventType.descr = "Tox action";
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 }
 
 CToxProto::~CToxProto()
@@ -235,7 +244,16 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
-	int result = tox_send_message(tox, number, (uint8_t*)msg, (uint16_t)strlen(msg));
+	int result = 0;
+	if (strncmp(msg, "/me ", 4) != 0)
+	{
+		result = tox_send_message(tox, number, (uint8_t*)msg, (uint16_t)strlen(msg));
+	}
+	else
+	{
+		result = tox_send_action(tox, number, (uint8_t*)&msg[4], (uint16_t)strlen(msg) - 4);
+	}
+
 	if (result == 0)
 	{
 		debugLogA("CToxProto::SendMsg: could not to send message");

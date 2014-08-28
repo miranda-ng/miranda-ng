@@ -2,9 +2,10 @@
 
 int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
-	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
-	HookEventObj(ME_PROTO_ACCLISTCHANGED, OnAccountListChanged, this);
-	HookEventObj(ME_DB_CONTACT_SETTINGCHANGED, OnSettingsChanged, this);
+	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
+	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CToxProto::OnAccountListChanged);
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CToxProto::OnSettingsChanged);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
 
 	InitNetlib();
 
@@ -28,36 +29,33 @@ INT_PTR CToxProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
 		(LPARAM)this);
 }
 
-int CToxProto::OnAccountListChanged(void *obj, WPARAM wParam, LPARAM lParam)
+int CToxProto::OnAccountListChanged(WPARAM wParam, LPARAM lParam)
 {
-	CToxProto *proto = (CToxProto*)obj;
 	PROTOACCOUNT* account = (PROTOACCOUNT*)lParam;
 
-	if (wParam == PRAC_ADDED && !strcmp(account->szModuleName, proto->m_szModuleName))
+	if (wParam == PRAC_ADDED && !strcmp(account->szModuleName, m_szModuleName))
 	{
-		proto->UninitToxCore();
+		UninitToxCore();
 		DialogBoxParam(
 			g_hInstance,
 			MAKEINTRESOURCE(IDD_PROFILE_MANAGER),
 			account->hwndAccMgrUI,
 			CToxProto::ToxProfileManagerProc,
-			(LPARAM)proto);
-		proto->InitToxCore();
+			(LPARAM)this);
+		InitToxCore();
 	}
 
 	return 0;
 }
 
-int CToxProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM)
+int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
-	CToxProto *proto = (CToxProto*)obj;
-
-	char *title = mir_t2a(proto->m_tszUserName);
+	char *title = mir_t2a(m_tszUserName);
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInstance;
 	odp.pszTitle = title;
-	odp.dwInitParam = LPARAM(obj);
+	odp.dwInitParam = (LPARAM)this;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Network");
 
@@ -90,31 +88,52 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 	return 1;
 }
 
-int CToxProto::OnSettingsChanged(void *obj, WPARAM hContact, LPARAM lParam)
+int CToxProto::OnSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
-	CToxProto *proto = (CToxProto*)obj;
-
 	DBCONTACTWRITESETTING* dbcws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact == NULL && !strcmp(dbcws->szModule, proto->m_szModuleName))
+	if (hContact == NULL && !strcmp(dbcws->szModule, m_szModuleName))
 	{
 		if (!strcmp(dbcws->szSetting, "Nick") && dbcws->value.pszVal)
 		{
-			if (tox_set_name(proto->tox, (uint8_t*)dbcws->value.pszVal, (uint16_t)strlen(dbcws->value.pszVal)))
+			if (tox_set_name(tox, (uint8_t*)dbcws->value.pszVal, (uint16_t)strlen(dbcws->value.pszVal)))
 			{
-				proto->SaveToxData();
+				SaveToxData();
 			}
 		}
 
 		/*if (!strcmp(dbcws->szSetting, "StatusMsg") || !strcmp(dbcws->szSetting, "StatusNote"))
 		{
-			if (tox_set_status_message(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
-			{
-				SaveToxData();
-			}
+		if (tox_set_status_message(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
+		{
+		SaveToxData();
+		}
 		}*/
 	}
 
 	return 0;
+}
+
+int CToxProto::OnPreCreateMessage(WPARAM wParam, LPARAM lParam)
+{
+	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
+	if (strcmp(GetContactProto(evt->hContact), m_szModuleName))
+	{
+		return 0;
+	}
+
+	char *message = (char*)evt->dbei->pBlob;
+	if (strncmp(message, "/me ", 4) == 0)
+	{
+		BYTE *action = (BYTE*)mir_alloc(sizeof(BYTE) * (evt->dbei->cbBlob - 4));
+		memcpy(action, (char*)&evt->dbei->pBlob[4], evt->dbei->cbBlob - 4);
+		mir_free(evt->dbei->pBlob);
+		evt->dbei->pBlob = action;
+		evt->dbei->cbBlob -= 4;
+
+		evt->dbei->eventType = TOX_DB_EVENT_TYPE_ACTION;
+	}
+
+	return 1;
 }
 
 void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t *message, const uint16_t messageSize, void *arg)
@@ -143,6 +162,23 @@ void CToxProto::OnFriendMessage(Tox *tox, const int number, const uint8_t *messa
 		recv.szMessage = (char*)message;
 
 		ProtoChainRecvMsg(hContact, &recv);
+	}
+}
+
+void CToxProto::OnFriendAction(Tox *tox, const int number, const uint8_t *action, const uint16_t actionSize, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		proto->AddDbEvent(
+			hContact,
+			TOX_DB_EVENT_TYPE_ACTION,
+			time(NULL),
+			DBEF_UTF,
+			actionSize,
+			(BYTE*)action);
 	}
 }
 

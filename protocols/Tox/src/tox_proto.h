@@ -103,14 +103,16 @@ private:
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	
-	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
-	static int __cdecl OnSettingsChanged(void *obj, WPARAM wParam, LPARAM lParam);
-	static int __cdecl OnAccountListChanged(void *obj, WPARAM wParam, LPARAM lParam);
+	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
+	int __cdecl OnSettingsChanged(WPARAM wParam, LPARAM lParam);
+	int __cdecl OnAccountListChanged(WPARAM wParam, LPARAM lParam);
+	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendMessage(Tox *tox, const int number, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnFriendAction(Tox *tox, const int number, const uint8_t *action, const uint16_t actionSize, void *arg);
 	static void OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int number, const uint8_t *name, const uint16_t nameSize, void *arg);
 	static void OnStatusMessageChanged(Tox *tox, const int number, const uint8_t* message, const uint16_t messageSize, void *arg);
