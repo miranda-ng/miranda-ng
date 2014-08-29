@@ -35,6 +35,8 @@ void CToxProto::InitToxCore()
 	tox_callback_read_receipt(tox, OnReadReceipt, this);
 	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
 	tox_callback_file_control(tox, OnFileRequest, this);
+	tox_callback_file_send_request(tox, OnFriendFile, this);
+	tox_callback_file_data(tox, OnFileData, this);
 
 	LoadToxData();
 
