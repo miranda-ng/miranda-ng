@@ -2,7 +2,7 @@
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CToxProto>(protoName, userName),
-	fileSendQueue(1, NumericKeySortT),
+	fileTransfers(1, NumericKeySortT),
 	hFileProcess(0)
 {
 	InitToxCore();
@@ -51,11 +51,11 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_AUTHREQ | PF1_EXTSEARCH;
+		return PF1_IM | PF1_FILERECV | PF1_AUTHREQ | PF1_EXTSEARCH;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
-		return PF4_IMSENDUTF | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING;
+		return PF4_IMSENDUTF | PF4_SINGLEFILEONLY | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:
@@ -142,9 +142,41 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 
 HANDLE __cdecl CToxProto::ChangeInfo(int iInfoType, void* pInfoData) { return 0; }
 
-HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath) { return 0; }
-int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer) { return 0; }
-int __cdecl CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason) { return 0; }
+HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszPath)
+{
+	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
+	std::vector<uint8_t> clientId = HexStringToData(toxId);
+
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
+	uint8_t fileNumber = (uint8_t)hTransfer;
+
+	transfers.at(fileNumber)->pfts.tszWorkingDir = mir_tstrdup(tszPath);
+
+	tox_file_send_control(tox, number, 1, fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0);
+
+	return hTransfer;
+}
+
+int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+{
+	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
+	std::vector<uint8_t> clientId = HexStringToData(toxId);
+
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
+	uint8_t fileNumber = (uint8_t)hTransfer;
+
+	transfers.erase(fileNumber);
+
+	int result = tox_file_send_control(tox, number, 1, fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
+
+	return result + 1;
+}
+
+int __cdecl CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
+{
+	return FileCancel(hContact, hTransfer);
+}
+
 int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename) { return 0; }
 
 int __cdecl CToxProto::GetInfo(MCONTACT hContact, int infoType) { return 0; }
@@ -216,7 +248,11 @@ HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner)
 }
 
 int __cdecl CToxProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
-int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT*) { return 0; }
+
+int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT *pre)
+{
+	return Proto_RecvFile(hContact, pre);
+}
 
 int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
@@ -234,7 +270,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 
 	ForkThread(&CToxProto::SendFilesAsync, transfer);
 
-	return transfer->GetTransferHandler();
+	return (HANDLE)transfer->GetTransferNumber();
 }
 
 int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)

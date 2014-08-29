@@ -124,7 +124,7 @@ int CToxProto::OnPreCreateMessage(WPARAM wParam, LPARAM lParam)
 	char *message = (char*)evt->dbei->pBlob;
 	if (strncmp(message, "/me ", 4) == 0)
 	{
-		BYTE *action = (BYTE*)mir_alloc(sizeof(BYTE) * (evt->dbei->cbBlob - 4));
+		BYTE *action = (BYTE*)mir_alloc(sizeof(BYTE)* (evt->dbei->cbBlob - 4));
 		memcpy(action, (char*)&evt->dbei->pBlob[4], evt->dbei->cbBlob - 4);
 		mir_free(evt->dbei->pBlob);
 		evt->dbei->pBlob = action;
@@ -256,14 +256,83 @@ void CToxProto::OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *
 	}
 }
 
-void CToxProto::OnFileRequest(Tox *tox, int32_t number, uint8_t isSend, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg)
+void CToxProto::OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
+
 	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
-		if (isSend && type == TOX_FILECONTROL_ACCEPT)
+		FileTransferParam *transfer = new FileTransferParam(fileNumber, ptrT(mir_utf8decodeT((const char*)fileName)), fileSize);
+		transfer->pfts.hContact = hContact;
+		transfer->pfts.flags |= PFTS_RECEIVING;
+		proto->transfers[fileNumber] = transfer;
+
+		PROTORECVFILET pre = { 0 };
+		pre.flags = PREF_TCHAR;
+		pre.fileCount = 1;
+		pre.timestamp = time(NULL);
+		pre.tszDescription = _T("");
+		pre.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)* 2);
+		pre.ptszFiles[0] = mir_utf8decodeT((char*)fileName);
+		pre.ptszFiles[1] = NULL;
+		pre.lParam = (LPARAM)fileNumber;
+		ProtoChainRecvFile(hContact, &pre);
+	}
+}
+
+void CToxProto::OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const uint8_t *data, uint16_t size, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		FileTransferParam *transfer = proto->transfers.at(fileNumber);
+
+		TCHAR filePath[MAX_PATH];
+		mir_sntprintf(filePath, SIZEOF(filePath), _T("%s%s"), transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
+
+		FILE *hFile = NULL;
+		if (transfer->pfts.currentFileProgress == 0)
 		{
+			hFile = _tfopen(filePath, _T("wb"));
+			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)fileNumber, 0);
+		}
+		else
+		{
+			hFile = _tfopen(filePath, _T("ab"));
+		}
+		if (hFile != NULL)
+		{
+			if (fwrite(data, sizeof(uint8_t), size, hFile) == size)
+			{
+				transfer->pfts.totalProgress = transfer->pfts.currentFileProgress += size;
+				proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)fileNumber, (LPARAM)&transfer->pfts);
+			}
+			fclose(hFile);
+		}
+	}
+}
+
+void CToxProto::OnFileRequest(Tox *tox, int32_t number, uint8_t isSend, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		FileTransferParam *transfer = proto->transfers.at(fileNumber);
+
+		switch (type)
+		{
+		case TOX_FILECONTROL_ACCEPT:
+			break;
+
+		case TOX_FILECONTROL_FINISHED:
+			tox_file_send_control(proto->tox, number, 1, fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
+			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fileNumber, 0);
+			break;
 		}
 	}
 }

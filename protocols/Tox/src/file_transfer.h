@@ -6,16 +6,16 @@ class CFileTransfer;
 class CFile
 {
 private:
-	HANDLE hProcess;
-
-	const CFileTransfer *transfer;
-	
+	int number;
 	char *name;
 	const TCHAR *path;
 	size_t size;
 
+	const CFileTransfer *transfer;
+
 public:
-	CFile(const CFileTransfer *fileTransfer, const TCHAR *filePath, size_t fileSize)
+	CFile(const CFileTransfer *fileTransfer, const TCHAR *filePath, size_t fileSize) :
+		number(-1)
 	{
 		transfer = fileTransfer;
 
@@ -24,14 +24,25 @@ public:
 		size = fileSize;
 	}
 
+	CFile(int number) : number(number), name(NULL) { }
+
 	~CFile()
 	{
-		mir_free(name);
+		number = -1;
+		if (name != NULL)
+		{
+			mir_free(name);
+		}
 	}
 
-	void SetHandle(HANDLE hFileProcess)
+	const CFileTransfer *GetTransfer() const
 	{
-		hProcess = hFileProcess;
+		return this->transfer;
+	}
+
+	void SetNumber(int fileNumber)
+	{
+		number = fileNumber;
 	}
 
 	const TCHAR* GetPath() const
@@ -53,15 +64,19 @@ public:
 class CFileTransfer
 {
 private:
-	HANDLE hProcess;
+	ULONG number;
+
+	HANDLE hWait;
 	LIST<CFile> files;
+	PROTOFILETRANSFERSTATUS pfts;
+	const PROTO_INTERFACE *proto;
 
 public:
-	PROTOFILETRANSFERSTATUS pfts;
-
-	CFileTransfer(MCONTACT hContact, ULONG hProcess, DWORD flags) :
-		files(1)
+	CFileTransfer(const PROTO_INTERFACE *proto, MCONTACT hContact, ULONG transferNumber, DWORD flags) :
+		files(1, NumericKeySortT)
 	{
+		this->proto = proto;
+
 		pfts.cbSize = sizeof(pfts);
 		pfts.flags = PFTS_TCHAR | flags;
 		pfts.hContact = hContact;
@@ -75,7 +90,7 @@ public:
 		pfts.tszWorkingDir = NULL;
 		pfts.tszCurrentFile = NULL;
 
-		this->hProcess = (HANDLE)hProcess;
+		number = transferNumber;
 	}
 
 	~CFileTransfer()
@@ -120,30 +135,61 @@ public:
 				fclose(file);
 			}
 
-			files.insert(new CFile(this, pfts.ptszFiles[i], fileSize));
+			files.insert(new CFile(this, ppszFiles[i], fileSize));
 		}
+	}
+
+	const PROTO_INTERFACE *GetProtoInstance() const
+	{
+		return proto;
+	}
+
+	ULONG GetTransferNumber() const
+	{
+		return number;
+	}
+
+	MCONTACT GetContactHandle() const
+	{
+		return pfts.hContact;
 	}
 
 	int GetFileCount() const
 	{
-		return files.getCount();
+		return pfts.totalFiles;
 	}
 
-	CFile * const GetFileAt(int idx) const
+	CFile *GetFileAt(int idx) const
 	{
 		return files[idx];
 	}
 
-	HANDLE GetTransferHandler() const
+	CFile *GetFileByNumber(int number) const
 	{
-		return hProcess;
+		CFile *search = new CFile(number);
+		CFile *file = files.find(search);
+		delete search;
+
+		return file;
+	}
+
+	bool HasFile(int number) const
+	{
+		const CFile *file = GetFileByNumber(number);
+
+		return file != NULL;
+	}
+
+	void Wait()
+	{
+		WaitForSingleObject(hWait, INFINITE);
 	}
 };
 
 class CFileSendTransfer : public CFileTransfer
 {
 public:
-	CFileSendTransfer(MCONTACT hContact, ULONG hProcess) : CFileTransfer(hContact, hProcess, PFTS_SENDING)
+	CFileSendTransfer(MCONTACT hContact, ULONG hProcess) : CFileTransfer(NULL, hContact, hProcess, PFTS_SENDING)
 	{
 	}
 };

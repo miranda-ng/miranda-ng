@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <vector>
 #include <regex>
+#include <map>
 
 #include <newpluginapi.h>
 

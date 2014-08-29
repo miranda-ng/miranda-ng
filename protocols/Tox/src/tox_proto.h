@@ -1,7 +1,38 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
-class CFile;
+class CFileTransfer;
+
+struct FileTransferParam
+{
+	PROTOFILETRANSFERSTATUS pfts;
+	uint8_t number;
+
+	FileTransferParam(uint8_t number, const TCHAR* fileName, size_t fileSize)
+	{
+		pfts = { sizeof(PROTOFILETRANSFERSTATUS) };
+		pfts.flags = PFTS_TCHAR;
+		pfts.totalFiles = 1;
+		pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*(pfts.totalFiles + 1));
+		pfts.ptszFiles[0] = pfts.tszCurrentFile = mir_tstrdup(fileName);
+		pfts.ptszFiles[pfts.totalFiles] = NULL;
+		pfts.totalBytes = pfts.currentFileSize = fileSize;
+		pfts.totalProgress = pfts.currentFileProgress = 0;
+		pfts.currentFileNumber = 0;
+		pfts.tszWorkingDir = NULL;
+	}
+
+	~FileTransferParam()
+	{
+		if (pfts.tszWorkingDir != NULL)
+		{
+			mir_free(pfts.tszWorkingDir);
+		}
+
+		mir_free(pfts.pszFiles[0]);
+		mir_free(pfts.pszFiles);
+	}
+};
 
 struct CToxProto : public PROTO<CToxProto>
 {
@@ -26,10 +57,10 @@ public:
 
 	virtual	HANDLE   __cdecl ChangeInfo(int iInfoType, void* pInfoData);
 
-	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
+	virtual	HANDLE   __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszPath);
 	virtual	int      __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
-	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename);
+	virtual	int      __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszReason);
+	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** tszFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
@@ -76,7 +107,8 @@ private:
 	bool isConnected;
 	HANDLE hNetlibUser;
 	ULONG hFileProcess;
-	LIST<CFile> fileSendQueue;
+	LIST<CFileTransfer> fileTransfers;
+	std::map<uint8_t, FileTransferParam*> transfers;
 
 	// tox
 	void InitToxCore();
@@ -122,6 +154,8 @@ private:
 
 	//static void OnFileControlCallback(Tox *tox, int32_t number, uint8_t hFile, uint64_t fileSize, uint8_t *name, uint16_t nameSize, void *arg);
 	static void OnFileRequest(Tox *tox, int32_t number, uint8_t isSend, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg);
+	static void OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg);
+	static void OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
 
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
@@ -141,8 +175,10 @@ private:
 	void __cdecl SearchByNameAsync(void* arg);
 
 	// file transfer
-	static int FileSendQueueCompare(const CFile* p1, const CFile* p2);
+	void __cdecl SendFileAsync(void* arg);
 	void __cdecl SendFilesAsync(void* arg);
+
+	CFileTransfer *GetFileTransferByFileNumber(int fileNumber);
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
