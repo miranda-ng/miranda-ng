@@ -138,26 +138,34 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 void __cdecl ChooseFilesThread(void* param)
 {
 	HWND hwndDlg = (HWND)param;
-	TCHAR filter[128], *pfilter;
-	TCHAR *buf = (TCHAR*)mir_alloc(sizeof(TCHAR)* 32767);
+	FileDlgData *dat = (FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	TCHAR *buf = (TCHAR*)mir_alloc(sizeof(TCHAR) * 32767);
 	if (buf == NULL) {
 		PostMessage(hwndDlg, M_FILECHOOSEDONE, 0, (LPARAM)(TCHAR*)NULL);
 		return;
 	}
 
-	OPENFILENAME ofn = { 0 };
-	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	ofn.hwndOwner = hwndDlg;
+	TCHAR filter[128];
 	lstrcpy(filter, TranslateT("All files"));
 	lstrcat(filter, _T(" (*)"));
-	pfilter = filter + lstrlen(filter) + 1;
+	TCHAR *pfilter = filter + lstrlen(filter) + 1;
 	lstrcpy(pfilter, _T("*"));
 	pfilter = filter + lstrlen(filter) + 1;
 	pfilter[0] = '\0';
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+	ofn.hwndOwner = hwndDlg;
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = buf; *buf = 0;
 	ofn.nMaxFile = 32767;
-	ofn.Flags = OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
+	ofn.Flags = OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
+	
+	char *szProto = GetContactProto(dat->hContact);
+	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SINGLEFILEONLY))
+		ofn.Flags |= OFN_ALLOWMULTISELECT;
+
 	if (GetOpenFileName(&ofn))
 		PostMessage(hwndDlg, M_FILECHOOSEDONE, 0, (LPARAM)buf);
 	else {

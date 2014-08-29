@@ -131,19 +131,21 @@ static __inline unsigned long Proto_Status2Flag(int status)
 	return 0;
 }
 
-#define PFLAGNUM_4	 4			//misc options
+#define PFLAGNUM_4           4          // another bunch of flags
+
 #define PF4_FORCEAUTH	     0x00000001 // forces auth requests to be sent when adding users
 #define PF4_FORCEADDED	     0x00000002 // forces "you were added" requests to be sent
 #define PF4_NOCUSTOMAUTH     0x00000004 // protocol doesn't support custom auth text (doesn't show auth text box)
-#define PF4_SUPPORTTYPING    0x00000008 // protocol supports user is typing messages v0.3.3+
-#define PF4_SUPPORTIDLE      0x00000010 // protocol understands idle, added during v0.3.4+ (2004/09/13)
-#define PF4_AVATARS		     0x00000020 // protocol has avatar support, added during v0.3.4 (2004/09/13)
-#define PF4_OFFLINEFILES     0x00000040 // protocols supports sending files to offline users (v0.5.2)
-#define PF4_IMSENDUTF        0x00000080 // protocol is able to process messages in utf-8 (v.0.7.0+)
-#define PF4_IMSENDOFFLINE    0x00000100 // protocol supports sending offline messages (v0.8.0+)
-#define PF4_INFOSETTINGSVC   0x00000200 // protocol supports user info translation services (v0.8.0+)
-#define PF4_NOAUTHDENYREASON 0x00000400 // protocol doesn't support authorization deny reason (v0.9.0+)
-#define PF4_GROUPCHATFILES   0x00000800 // protocol supports sending files to group chats (v0.95.2+)
+#define PF4_SUPPORTTYPING    0x00000008 // protocol supports user is typing messages
+#define PF4_SUPPORTIDLE      0x00000010 // protocol understands idle
+#define PF4_AVATARS		     0x00000020 // protocol has avatar support
+#define PF4_OFFLINEFILES     0x00000040 // protocols supports sending files to offline users
+#define PF4_IMSENDUTF        0x00000080 // protocol is able to process messages in utf-8
+#define PF4_IMSENDOFFLINE    0x00000100 // protocol supports sending offline messages
+#define PF4_INFOSETTINGSVC   0x00000200 // protocol supports user info translation services
+#define PF4_NOAUTHDENYREASON 0x00000400 // protocol doesn't support authorization deny reason
+#define PF4_GROUPCHATFILES   0x00000800 // protocol supports sending files to group chats
+#define PF4_SINGLEFILEONLY   0x00001000 // protocol supports sending files one by one only
 
 #define PFLAG_UNIQUEIDTEXT  100    //returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL
 
