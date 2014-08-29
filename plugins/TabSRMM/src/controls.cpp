@@ -125,31 +125,32 @@ void CMenuBar::releaseHook()
 		m_hHook = 0;
 	}
 }
-/**
- * Retrieve the height of the rebar control
- *
- * @return LONG: height of the rebar, in pixels
- */
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Retrieve the height of the rebar control
+// 
+// @return LONG: height of the rebar, in pixels
+
 LONG CMenuBar::getHeight() const
 {
 	return((m_pContainer->dwFlags & CNT_NOMENUBAR) ? 0 : m_size_y);
 }
 
-/**
- * process all relevant messages. Must be called by the parent window's
- * window procedure.
- *
- * @param msg
- * @param wParam
- * @param lParam
- *
- * @return LRESULT: message processing result. Win32 conform.
-         * -1 means: nothing processed, caller should continue as usual.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// process all relevant messages. Must be called by the parent window's
+// window procedure.
+// 
+// @param msg
+// @param wParam
+// @param lParam
+// 
+// @return LRESULT: message processing result. Win32 conform.
+//  -1 means: nothing processed, caller should continue as usual.
+
 LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM wParam, const LPARAM lParam)
 {
 	if (msg == WM_NOTIFY) {
-		NMHDR* pNMHDR = (NMHDR*)lParam;
+		NMHDR *pNMHDR = (NMHDR*)lParam;
 		switch(pNMHDR->code) {
 		case NM_CUSTOMDRAW:
 			{
@@ -190,10 +191,9 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM wParam, const LPARAM 
 	return -1;
 }
 
-/**
- * subclass the toolbar control to handle some keyboard events and improve
- * keyboard navigation
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclass the toolbar control to handle some keyboard events and improve
+// keyboard navigation
 
 LRESULT CALLBACK CMenuBar::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -210,17 +210,17 @@ LRESULT CALLBACK CMenuBar::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 	return ::mir_callNextSubclass(hWnd, CMenuBar::wndProc, msg, wParam, lParam);
 }
 
-/**
- * Implements NM_CUSTOMDRAW for the toolbar
- *
- * @param nm     NMCUSTOMDRAW *: sent via NM_CUSTOMDRAW message
- *
- * @return LONG_PTR: see Win32 NM_CUSTOMDRAW message. The function must return a valid
-         * message return value to indicate how Windows should continue with the drawing process.
- *
-         * It may return zero in which case, the caller should allow default processing for
-         * the NM_CUSTOMDRAW message.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Implements NM_CUSTOMDRAW for the toolbar
+// 
+// @param nm     NMCUSTOMDRAW *: sent via NM_CUSTOMDRAW message
+// 
+// @return LONG_PTR: see Win32 NM_CUSTOMDRAW message. The function must return a valid
+// message return value to indicate how Windows should continue with the drawing process.
+// 
+// It may return zero in which case, the caller should allow default processing for
+// the NM_CUSTOMDRAW message.
+
 LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 {
 	bool fMustDraw = true;
@@ -265,12 +265,11 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 					else
 						::FillRect(m_hdcDraw, &nm->rc, GetSysColorBrush(COLOR_3DFACE));
 				}
-				return(CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE);
+				return CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE;
 			}
-			else {
-				m_hdcDraw = 0;
-				return(CDRF_DODEFAULT);
-			}
+			
+			m_hdcDraw = 0;
+			return CDRF_DODEFAULT;
 
 		case CDDS_ITEMPREPAINT:
 			if (fMustDraw) {
@@ -278,11 +277,10 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 				bool	fDraw = true;
 
 				int iIndex = idToIndex(nmtb->nmcd.dwItemSpec);
-
 				if (iIndex >= 0 && iIndex < NR_BUTTONS)
 					szText = (TCHAR*)m_TbButtons[iIndex].iString;
 
-				UINT	uState = nmtb->nmcd.uItemState;
+				UINT uState = nmtb->nmcd.uItemState;
 
 				nmtb->nmcd.rc.bottom--;
 				if (CSkin::m_skinEnabled) {
@@ -326,18 +324,18 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 					(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
 					16, 16, 0, 0, DI_NORMAL);
 
-				return(CDRF_SKIPDEFAULT);
+				return CDRF_SKIPDEFAULT;
 			}
-			else return(CDRF_DODEFAULT);
+			else return CDRF_DODEFAULT;
 
 		case CDDS_PREERASE:
 		case CDDS_ITEMPOSTERASE:
 		case CDDS_ITEMPOSTPAINT:
 		case CDDS_ITEMPREERASE:
-			return(fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT);
+			return fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT;
 
 		case CDDS_POSTERASE:
-			return(fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT);
+			return fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT;
 
 		case CDDS_POSTPAINT:
 			if (nmtb->nmcd.dwItemSpec == 0 && m_hdcDraw) {
@@ -350,44 +348,41 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 				m_hdcDraw = 0;
 				if (m_hTheme)
 					CloseThemeData(m_hTheme);
-				return(CDRF_SKIPDEFAULT);
+				return CDRF_SKIPDEFAULT;
 			}
-			else
-				return(CDRF_DODEFAULT);
+			return CDRF_DODEFAULT;
 
 		default:
-			return(CDRF_DODEFAULT);
+			return CDRF_DODEFAULT;
 		}
-
-		return 0;
 	}
 	return 0;
 }
 
-/**
- * Handle the TBN_DROPDOWN notification message sent by the
- * toolbar control.
- *
- * @param nmtb   NMTOOLBAR *: notification message structure
- *
- * @return LONG_PTR: must be a valid return value. See Win32 API, TBN_DROPDOWN
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Handle the TBN_DROPDOWN notification message sent by the
+// toolbar control.
+// 
+// @param nmtb   NMTOOLBAR *: notification message structure
+// 
+// @return LONG_PTR: must be a valid return value. See Win32 API, TBN_DROPDOWN
+
 LONG_PTR CMenuBar::Handle(const NMTOOLBAR *nmtb)
 {
 	if (nmtb->hdr.hwndFrom != m_hwndToolbar)
-		return(TBDDRET_NODEFAULT);
+		return TBDDRET_NODEFAULT;
 
 	const int index = idToIndex(nmtb->iItem);
 	invoke(nmtb->iItem);
 
-	return(TBDDRET_DEFAULT);
+	return TBDDRET_DEFAULT;
 }
 
-/**
- * Invoke the dropdown menu for the button with the given control id.
- *
- * @param id     int: the control id of the toolbar button which has been activated
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Invoke the dropdown menu for the button with the given control id.
+//
+// @param id     int: the control id of the toolbar button which has been activated
+
 void CMenuBar::invoke(const int id)
 {
 	const int index = idToIndex(id);
@@ -440,9 +435,6 @@ void CMenuBar::cancel(const int id)
 	::EndMenu();
 }
 
-/**
- * Cancel menu tracking completely
- */
 void CMenuBar::Cancel(void)
 {
 	cancel(0);
@@ -453,7 +445,6 @@ void CMenuBar::Cancel(void)
 void CMenuBar::updateState(const HMENU hMenu) const
 {
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
-
 	if (dat) {
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
@@ -483,19 +474,18 @@ void CMenuBar::updateState(const HMENU hMenu) const
 	}
 }
 
-/*
- * this updates the container menu bar and other window elements depending on the current child
- * session (IM, chat etc.). It fully supports IEView and will disable/enable the message log menus
- * depending on the configuration of IEView (e.g. when template mode is on, the message log settin
- * menus have no functionality, thus can be disabled to improve ui feedback quality).
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// this updates the container menu bar and other window elements depending on the current 
+// child session (IM, chat etc.). It fully supports IEView and will disable/enable the 
+// message log menus depending on the configuration of IEView (e.g. when template mode
+// is on, the message log settin menus have no functionality, thus can be disabled to 
+// improve ui feedback quality).
 
 void CMenuBar::configureMenu() const
 {
-	TWindowData *dat = (TWindowData*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
-
 	BOOL fDisable = FALSE;
 
+	TWindowData *dat = (TWindowData*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 	if (dat) {
 		bool fChat = (dat->bType == SESSIONTYPE_CHAT);
 
@@ -508,10 +498,10 @@ void CMenuBar::configureMenu() const
 	}
 }
 
-/**
- * Automatically shows or hides the menu bar. Depends on the current state,
- * used when the ALT key is hit in the message window.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Automatically shows or hides the menu bar. Depends on the current state,
+// used when the ALT key is hit in the message window.
+
 void CMenuBar::autoShow(const int showcmd)
 {
 	if (m_mustAutoHide && !(m_pContainer->dwFlags & CNT_NOMENUBAR)) {
@@ -531,11 +521,10 @@ void CMenuBar::autoShow(const int showcmd)
 		m_pContainer->dwFlags &= ~CNT_NOMENUBAR;
 		::SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 1);
 	}
-	else											// do nothing, already visible
+	else // do nothing, already visible
 		m_mustAutoHide = false;
-	//obtainHook();
+
 	::SetFocus(m_hwndToolbar);
-	//::SendMessage(m_hwndToolbar, TB_SETHOTITEM, 0, HICF_ACCELERATOR);
 }
 
 void CMenuBar::checkButtons()
@@ -543,8 +532,8 @@ void CMenuBar::checkButtons()
 	if (!m_buttonsInit) {
 		::ZeroMemory(m_TbButtons, sizeof(m_TbButtons));
 
-		m_TbButtons[0].iBitmap = 0;//I_IMAGENONE;
-		m_TbButtons[0].iString = 0;//(INT_PTR)TranslateT("&Main");
+		m_TbButtons[0].iBitmap = 0;
+		m_TbButtons[0].iString = 0;
 		m_TbButtons[0].fsState = TBSTATE_ENABLED;
 		m_TbButtons[0].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[0].idCommand = 100;
@@ -621,17 +610,15 @@ void CMenuBar::resetLP()
 	checkButtons();
 }
 
-/**
- * Message hook function, installed by the menu handler to support
- * hot-tracking and keyboard navigation for the menu bar while a modal
- * popup menu is active.
- *
- * Hook is only active while a (modal) popup menu is processed.
- *
- * @params See Win32, message hooks
- *
- * @return
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Message hook function, installed by the menu handler to support
+// hot-tracking and keyboard navigation for the menu bar while a modal
+// popup menu is active.
+// 
+// Hook is only active while a (modal) popup menu is processed.
+// 
+// @params See Win32, message hooks
+
 LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
 	MSG *pMsg = reinterpret_cast<MSG *>(lParam);
@@ -662,9 +649,7 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 				return 0;
 			}
 
-		/*
-		* allow hottracking by the toolbar control
-		*/
+		// allow hottracking by the toolbar control
 		case WM_MOUSEMOVE:
 			::GetCursorPos(&pt);
 			::ScreenToClient(m_Owner->m_hwndToolbar, &pt);
@@ -673,9 +658,7 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 
-		/*
-		* some key event requested to cancel the menu
-		*/
+		// some key event requested to cancel the menu
 		if (fCancel) {
 			int iIndex = m_Owner->idToIndex(m_Owner->m_activeID);
 			if (iIndex != -1)
@@ -689,17 +672,16 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 	return ::CallNextHookEx(m_hHook, nCode, wParam, lParam);
 }
 
-/*
- *  window procedure for the status bar class.
- */
+// window procedure for the status bar class.
 
-static 	int 	tooltip_active = FALSE;
-static 	POINT 	ptMouse = {0};
-RECT 			rcLastStatusBarClick;		// remembers click (down event) point for status bar clicks
+static int   tooltip_active = FALSE;
+static POINT ptMouse = {0};
+RECT   rcLastStatusBarClick;		// remembers click (down event) point for status bar clicks
 
 LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hWnd), GWLP_USERDATA);
+	POINT pt;
 
 	if (OldStatusBarproc == 0) {
 		WNDCLASSEX wc = {0};
@@ -707,28 +689,27 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		GetClassInfoEx(g_hInst, STATUSCLASSNAME, &wc);
 		OldStatusBarproc = wc.lpfnWndProc;
 	}
+	
 	switch (msg) {
 	case WM_CREATE:
+		LRESULT ret;
 		{
 			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
-			LRESULT ret;
 			HWND hwndParent = GetParent(hWnd);
-			/*
-			* dirty trick to get rid of that annoying sizing gripper
-			*/
+			
+			// dirty trick to get rid of that annoying sizing gripper
 			SetWindowLongPtr(hwndParent, GWL_STYLE, GetWindowLongPtr(hwndParent, GWL_STYLE) & ~WS_THICKFRAME);
 			SetWindowLongPtr(hwndParent, GWL_EXSTYLE, GetWindowLongPtr(hwndParent, GWL_EXSTYLE) & ~WS_EX_APPWINDOW);
 			cs->style &= ~SBARS_SIZEGRIP;
 			ret = CallWindowProc(OldStatusBarproc, hWnd, msg, wParam, lParam);
 			SetWindowLongPtr(hwndParent, GWL_STYLE, GetWindowLongPtr(hwndParent, GWL_STYLE) | WS_THICKFRAME);
 			SetWindowLongPtr(hwndParent, GWL_EXSTYLE, GetWindowLongPtr(hwndParent, GWL_EXSTYLE) | WS_EX_APPWINDOW);
-			return ret;
 		}
+		return ret;
 
 	case WM_NCHITTEST:
+		RECT r;
 		{
-			RECT r;
-			POINT pt;
 			LRESULT lr = SendMessage(GetParent(hWnd), WM_NCHITTEST, wParam, lParam);
 			int clip = CSkin::m_bClipBorder;
 
@@ -748,33 +729,25 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		return 1;
 
 	case WM_PAINT:
+		PAINTSTRUCT ps;
 		{
-			PAINTSTRUCT 	ps;
-			TCHAR 			szText[1024];
-			int 			i;
-			RECT 			itemRect;
-			HICON 			hIcon;
-			LONG 			height, width;
-			HDC 			hdc = BeginPaint(hWnd, &ps);
-			HFONT 			hFontOld = 0;
-			UINT 			nParts = SendMessage(hWnd, SB_GETPARTS, 0, 0);
-			LRESULT 		result;
-			RECT 			rcClient;
-			HDC 			hdcMem;
-			HBITMAP 		hbm, hbmOld;
-			HANDLE 			hbp = 0;
-			CSkinItem *		item = &SkinItems[ID_EXTBKSTATUSBARPANEL];
-			COLORREF		clr = 0;
+			HDC hdc = BeginPaint(hWnd, &ps);
+			int nParts = SendMessage(hWnd, SB_GETPARTS, 0, 0);
+			CSkinItem *item = &SkinItems[ID_EXTBKSTATUSBARPANEL];
 
-			BOOL			bAero = M.isAero();
-			HANDLE  		hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : 0;
+			BOOL bAero = M.isAero();
+			HANDLE hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : 0;
+
 			TWindowData *dat = 0;
-
 			if (pContainer)
 				dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
+			RECT rcClient;
 			GetClientRect(hWnd, &rcClient);
 
+			HBITMAP hbm, hbmOld;
+			HANDLE hbp = 0;
+			HDC hdcMem;
 			if (CMimAPI::m_haveBufferedPaint)
 				hbp = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rcClient, BPBF_TOPDOWNDIB, NULL, &hdcMem);
 			else {
@@ -785,16 +758,17 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 			SetBkMode(hdcMem, TRANSPARENT);
 
-			clr = CSkin::m_skinEnabled ? CSkin::m_DefaultFontColor : (PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor : GetSysColor(COLOR_BTNTEXT));
+			COLORREF clr = CSkin::m_skinEnabled ? CSkin::m_DefaultFontColor : (PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor : GetSysColor(COLOR_BTNTEXT));
 
-			hFontOld = (HFONT)SelectObject(hdcMem, GetStockObject(DEFAULT_GUI_FONT));
+			HFONT hFontOld = (HFONT)SelectObject(hdcMem, GetStockObject(DEFAULT_GUI_FONT));
 
 			if (pContainer && CSkin::m_skinEnabled)
 				CSkin::SkinDrawBG(hWnd, GetParent(hWnd), pContainer, &rcClient, hdcMem);
 			else if (bAero) {
 				FillRect(hdcMem, &rcClient, CSkin::m_BrushBack);
 				CSkin::ApplyAeroEffect(hdcMem, &rcClient, CSkin::AERO_EFFECT_AREA_STATUSBAR);
-			} else {
+			}
+			else {
 				CSkin::FillBack(hdcMem, &rcClient);
 				RECT rcFrame = rcClient;
 				if (PluginConfig.m_fillColor == 0) {
@@ -806,7 +780,9 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					CSkin::m_switchBarItem->Render(hdcMem, &rcFrame, true);
 				}
 			}
-			for (i=0; i < (int)nParts; i++) {
+			
+			for (int i = 0; i < nParts; i++) {
+				RECT itemRect;
 				SendMessage(hWnd, SB_GETRECT, (WPARAM)i, (LPARAM)&itemRect);
 				if (!item->IGNORED && !bAero && pContainer && CSkin::m_skinEnabled)
 					CSkin::DrawItem(hdcMem, &itemRect, item);
@@ -814,17 +790,13 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				if (i == 0)
 					itemRect.left += 2;
 
-				/*
-				* draw visual message length indicator in the leftmost status bar field
-				*/
-
+				// draw visual message length indicator in the leftmost status bar field
 				if (PluginConfig.m_visualMessageSizeIndicator && i == 0) {
-
 					if (dat && dat->bType == SESSIONTYPE_IM) {
 						HBRUSH br = CreateSolidBrush(RGB(0, 255, 0));
 						HBRUSH brOld = (HBRUSH)SelectObject(hdcMem, br);
+						
 						RECT rc = itemRect;
-
 						rc.top = rc.bottom - 3;
 						rc.left = 0;
 
@@ -835,7 +807,8 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 							rc.right = (LONG)fx;
 							FillRect(hdcMem, &rc, br);
-						} else {
+						}
+						else {
 							float baselen = (dat->textLen <= dat->nMax) ? (float)dat->textLen : (float)dat->nMax;
 							float fMax = (float)dat->nMax;
 							float uPercent = baselen / ((fMax / (float)100.0) ? (fMax / (float)100.0) : (float)75.0);
@@ -864,14 +837,14 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					}
 				}
 
-				height = itemRect.bottom - itemRect.top;
-				width = itemRect.right - itemRect.left;
-				hIcon = (HICON)SendMessage(hWnd, SB_GETICON, i, 0);
-				szText[0] = 0;
-				result = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)szText);
+				int height = itemRect.bottom - itemRect.top;
+				int width = itemRect.right - itemRect.left;
+				HICON hIcon = (HICON)SendMessage(hWnd, SB_GETICON, i, 0);
+
+				TCHAR szText[1024]; szText[0] = 0;
+				LRESULT result = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)szText);
 				if (i == 2 && pContainer) {
 					TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-
 					if (dat)
 						DrawStatusIcons(dat, hdcMem, itemRect, 2);
 				}
@@ -880,24 +853,23 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						if (LOWORD(result) > 1) {				// we have a text
 							DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, 0, DI_NORMAL);
 							if (dat) {
-								if (dat->showTyping == 2)
+								if (dat->bShowTyping == 2)
 									DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, PluginConfig.g_iconOverlayEnabled, 16, 16, 0, 0, DI_NORMAL);
 							}
 							itemRect.left += 20;
 							CSkin::RenderText(hdcMem, hTheme, szText, &itemRect, DT_VCENTER | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX,
 								CSkin::m_glowSize, clr);
 						}
-						else
-							DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, 0, DI_NORMAL);
+						else DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, 0, DI_NORMAL);
 					}
 					else {
 						itemRect.left += 2;
 						itemRect.right -= 2;
-						CSkin::RenderText(hdcMem, hTheme, szText, &itemRect, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX,
-							CSkin::m_glowSize, clr);
+						CSkin::RenderText(hdcMem, hTheme, szText, &itemRect, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX, CSkin::m_glowSize, clr);
 					}
 				}
 			}
+
 			if (hbp)
 				CSkin::FinalizeBufferedPaint(hbp, &rcClient);
 			else {
@@ -915,10 +887,8 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		}
 		return 0;
 
-	/*
-	 * tell status bar to update the part layout (re-calculate part widths)
-	 * needed when an icon is added to or removed from the icon area
-	 */
+	// tell status bar to update the part layout (re-calculate part widths)
+	// needed when an icon is added to or removed from the icon area
 	case WM_USER + 101:
 		{
 			int list_icons = 0;
@@ -941,54 +911,45 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		return 0;
 
 	case WM_SETCURSOR:
-		{
-			POINT pt;
+		GetCursorPos(&pt);
+		SendMessage(GetParent(hWnd), msg, wParam, lParam);
+		if (pt.x == ptMouse.x && pt.y == ptMouse.y)
+			return 1;
 
-			GetCursorPos(&pt);
-			SendMessage(GetParent(hWnd), msg, wParam, lParam);
-			if (pt.x == ptMouse.x && pt.y == ptMouse.y)
-				return 1;
-
-			ptMouse = pt;
-			if (tooltip_active) {
-				KillTimer(hWnd, TIMERID_HOVER);
-				CallService("mToolTip/HideTip", 0, 0);
-				tooltip_active = FALSE;
-			}
+		ptMouse = pt;
+		if (tooltip_active) {
 			KillTimer(hWnd, TIMERID_HOVER);
-			SetTimer(hWnd, TIMERID_HOVER, 450, 0);
+			CallService("mToolTip/HideTip", 0, 0);
+			tooltip_active = FALSE;
 		}
+		KillTimer(hWnd, TIMERID_HOVER);
+		SetTimer(hWnd, TIMERID_HOVER, 450, 0);
 		break;
 
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
-		{
-			POINT 	pt;
+		KillTimer(hWnd, TIMERID_HOVER);
+		CallService("mToolTip/HideTip", 0, 0);
+		tooltip_active = FALSE;
+		GetCursorPos(&pt);
+		rcLastStatusBarClick.left = pt.x - 2;
+		rcLastStatusBarClick.right = pt.x + 2;
+		rcLastStatusBarClick.top = pt.y - 2;
+		rcLastStatusBarClick.bottom = pt.y + 2;
 
-			KillTimer(hWnd, TIMERID_HOVER);
-			CallService("mToolTip/HideTip", 0, 0);
-			tooltip_active = FALSE;
-			GetCursorPos(&pt);
-			rcLastStatusBarClick.left = pt.x - 2;
-			rcLastStatusBarClick.right = pt.x + 2;
-			rcLastStatusBarClick.top = pt.y - 2;
-			rcLastStatusBarClick.bottom = pt.y + 2;
+		if (pContainer->dwFlags & CNT_NOTITLE) {
+			POINT	pt1 = pt;
+			ScreenToClient(hWnd, &pt1);
 
-			if (pContainer->dwFlags & CNT_NOTITLE) {
-				POINT	pt1 = pt;
-				RECT	rcIconpart;
-
-				ScreenToClient(hWnd, &pt1);
-				SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rcIconpart);
-				if (!PtInRect(&rcIconpart, pt1))
-					return SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
-			}
+			RECT rcIconpart;
+			SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rcIconpart);
+			if (!PtInRect(&rcIconpart, pt1))
+				return SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
 		break;
 
 	case WM_TIMER:
 		if (wParam == TIMERID_HOVER) {
-			POINT pt;
 			CLCINFOTIP ti = {0};
 			ti.cbSize = sizeof(ti);
 
@@ -1073,4 +1034,3 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	}
 	return CallWindowProc(OldStatusBarproc, hWnd, msg, wParam, lParam);
 }
-

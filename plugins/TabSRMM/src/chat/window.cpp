@@ -2224,7 +2224,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			dat->nTypeSecs = (int) lParam > 0 ? (int) lParam : 0;
 
 			if(dat->nTypeSecs)
-				dat->showTyping = 0;
+				dat->bShowTyping = 0;
 
 			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, preTyping);
 		}

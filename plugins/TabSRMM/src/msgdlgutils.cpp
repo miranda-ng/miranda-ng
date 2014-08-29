@@ -229,10 +229,10 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	int  iSplitOffset = dat->bIsAutosizingInput ? 1 : 0;
 
 	double picAspect = (bminfo->bmWidth == 0 || bminfo->bmHeight == 0) ? 1.0 : (double)(bminfo->bmWidth / (double)bminfo->bmHeight);
-	double picProjectedWidth = (double)((dat->dynaSplitter - ((bBottomToolBar && bToolBar) ? DPISCALEX_S(24) : 0) + ((dat->showUIElements != 0) ? DPISCALEX_S(28) : DPISCALEX_S(2)))) * picAspect;
+	double picProjectedWidth = (double)((dat->dynaSplitter - ((bBottomToolBar && bToolBar) ? DPISCALEX_S(24) : 0) + ((dat->bShowUIElements) ? DPISCALEX_S(28) : DPISCALEX_S(2)))) * picAspect;
 
 	if ((rc.right - (int)picProjectedWidth) > (dat->iButtonBarReallyNeeds) && !PluginConfig.m_AlwaysFullToolbarWidth && bToolBar)
-		dat->iRealAvatarHeight = dat->dynaSplitter + 3 + (dat->showUIElements ? DPISCALEY_S(28) : DPISCALEY_S(2));
+		dat->iRealAvatarHeight = dat->dynaSplitter + 3 + (dat->bShowUIElements ? DPISCALEY_S(28) : DPISCALEY_S(2));
 	else
 		dat->iRealAvatarHeight = dat->dynaSplitter + DPISCALEY_S(6) + DPISCALEY_S(iSplitOffset);
 
@@ -1747,14 +1747,14 @@ void TSAPI ConfigureSmileyButton(TWindowData *dat)
 
 	if (PluginConfig.g_SmileyAddAvail) {
 		nrSmileys = CheckValidSmileyPack(dat->cache->getActiveProto(), dat->cache->getActiveContact());
-		dat->doSmileys = 1;
+		dat->bShowSmileys = true;
 	}
 
 	if (nrSmileys == 0 || dat->hContact == 0)
-		dat->doSmileys = 0;
+		dat->bShowSmileys = false;
 
-	Utils::showDlgControl(hwndDlg, iItemID, (dat->doSmileys && showToolbar) ? SW_SHOW : SW_HIDE);
-	Utils::enableDlgControl(hwndDlg, iItemID, dat->doSmileys ? TRUE : FALSE);
+	Utils::showDlgControl(hwndDlg, iItemID, (dat->bShowSmileys && showToolbar) ? SW_SHOW : SW_HIDE);
+	Utils::enableDlgControl(hwndDlg, iItemID, dat->bShowSmileys);
 }
 
 HICON TSAPI GetXStatusIcon(const TWindowData *dat)

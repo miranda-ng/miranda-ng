@@ -272,21 +272,19 @@ struct TWindowData
 	int      splitterY, originalSplitterY, dynaSplitter, savedSplitter, savedSplitY, savedDynaSplit;
 	int      multiSplitterX;
 	SIZE     minEditBoxSize;
-	int      showUIElements;
 	int      nTypeSecs;
 	int      nTypeMode;
 	DWORD    nLastTyping;
-	int      showTyping;
 	DWORD    lastMessage;
 	int      iTabID;
 	HKL      hkl;                                    // keyboard layout identifier
 	DWORD    dwTickLastEvent, dwUnread;
 	HBITMAP  hOwnPic;
 	SIZE     pic;
-	bool     bShowAvatar, bShowInfoAvatar;
-	bool     fMustOffset;
-	bool     isHistory;
-	int      doSmileys;
+	BYTE     bShowTyping;
+	bool     bShowAvatar, bShowInfoAvatar, bShowSmileys, bShowUIElements;
+	bool     bUseOffset;
+	bool     bIsHistory, bIsMeta, bNotOnList;
 	UINT     codePage;
 	HICON    hSmileyIcon;
 	int      iLastEventType;
@@ -296,10 +294,8 @@ struct TWindowData
 	DWORD    dwLastActivity;
 	int      iOpenJobs;
 	int      iCurrentQueueError;
-	BOOL     bIsMeta;
 	HANDLE   hFlashingEvent;
 	TCHAR    myUin[80];
-	BOOL     bNotOnList;
 	int      SendFormat;
 	HANDLE  *hQueuedEvents;
 	int      iNextQueuedEvent;

@@ -458,7 +458,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 				TWindowData *dat = c->getDat();
 				if (dat) {
 					dat->nTypeSecs = 0;
-					dat->showTyping = 0;
+					dat->bShowTyping = 0;
 					dat->szStatusBar[0] = 0;
 					PostMessage(c->getHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
 				}
