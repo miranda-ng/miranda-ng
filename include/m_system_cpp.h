@@ -165,9 +165,9 @@ template<class T> struct LIST
 		return (!List_GetIndex((SortedList*)this, p, &idx)) ? -1 : idx;
 	}
 
-	__inline void destroy(void)        { List_Destroy((SortedList*)this); }
-	__inline T*   find(T *p)            { return (T*)List_Find((SortedList*)this, p); }
-	__inline int  indexOf(T *p)         { return List_IndexOf((SortedList*)this, p); }
+	__inline void destroy(void)         { List_Destroy((SortedList*)this); }
+	__inline T*   find(T *p) const      { return (T*)List_Find((SortedList*)this, p); }
+	__inline int  indexOf(T *p) const   { return List_IndexOf((SortedList*)this, p); }
 	__inline int  insert(T *p, int idx) { return List_Insert((SortedList*)this, p, idx); }
 	__inline int  remove(int idx)       { return List_Remove((SortedList*)this, idx); }
 
