@@ -1046,9 +1046,9 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 		urc->rcItem.left = urc->rcItem.right - (dat->pic.cx + 2);
 		if ((urc->rcItem.bottom - urc->rcItem.top) < (dat->pic.cy/* + 2*/) && dat->bShowAvatar) {
 			urc->rcItem.top = urc->rcItem.bottom - dat->pic.cy;
-			dat->fMustOffset = true;
+			dat->bUseOffset = true;
 		}
-		else dat->fMustOffset = false;
+		else dat->bUseOffset = false;
 
 		if (showToolbar && bBottomToolbar && (PluginConfig.m_AlwaysFullToolbarWidth || ((dat->pic.cy - DPISCALEY_S(6)) < rc.bottom))) {
 			urc->rcItem.bottom -= DPISCALEY_S(22);
@@ -1071,7 +1071,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 		OffsetRect(&urc->rcItem, 0, 1);
 		urc->rcItem.left = 0;
 
-		if (dat->fMustOffset)
+		if (dat->bUseOffset)
 			urc->rcItem.right -= (dat->pic.cx); // + DPISCALEX(2));
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_BOTTOM;
 
@@ -1252,7 +1252,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->hwndPanelPicParent = CreateWindowEx(WS_EX_TOPMOST, _T("Static"), _T(""), SS_OWNERDRAW | WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, hwndDlg, (HMENU)6000, NULL, NULL);
 			mir_subclassWindow(dat->hwndPanelPicParent, CInfoPanel::avatarParentSubclass);
 
-			dat->showUIElements = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
+			dat->bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
 			dat->sendMode |= M.GetByte(dat->hContact, "forceansi", 0) ? SMODE_FORCEANSI : 0;
 			dat->sendMode |= dat->hContact == 0 ? SMODE_MULTIPLE : 0;
 			dat->sendMode |= M.GetByte(dat->hContact, "no_ack", 0) ? SMODE_NOACK : 0;
@@ -1290,12 +1290,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dat->hContact && M.GetDword(dat->hContact, "mwmask", 0))
 				LoadLocalFlags(hwndDlg, dat);
 
-			// allow disabling emoticons per contact (note: currently unused feature)
-			{
-				int dwLocalSmAdd = M.GetByte(dat->hContact, "doSmileys", 0xff);
-				if (dwLocalSmAdd != 0xffffffff)
-					dat->doSmileys = dwLocalSmAdd;
-			}
 			DM_InitTip(dat);
 			dat->Panel->getVisibility();
 
@@ -2150,7 +2144,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->nTypeSecs = (int)lParam > 0 ? (int)lParam : 0;
 
 			if (dat->nTypeSecs)
-				dat->showTyping = 0;
+				dat->bShowTyping = 0;
 
 			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, preTyping);
 		}
@@ -2181,7 +2175,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	// configures the toolbar only... if lParam != 0, then it also calls
 	// SetDialogToType() to reconfigure the message window
 	case DM_CONFIGURETOOLBAR:
-		dat->showUIElements = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
+		dat->bShowUIElements = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_SPLITTER), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_SPLITTER), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 

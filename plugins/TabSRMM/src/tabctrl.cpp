@@ -1503,33 +1503,35 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 int TSAPI RegisterTabCtrlClass(void)
 {
-	WNDCLASSEX wc = { sizeof(wc) };
-	wc.lpszClassName  = _T("TSTabCtrlClass");
-	wc.lpfnWndProc    = TabControlSubclassProc;
-	wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra     = sizeof(TabControlData*);
-	wc.style          = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
+	WNDCLASSEX wc = { 0 };
+	wc.cbSize = sizeof(wc);
+
+	wc.lpszClassName = _T("TSTabCtrlClass");
+	wc.lpfnWndProc = TabControlSubclassProc;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra = sizeof(TabControlData*);
+	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
-	wc.lpszClassName  = _T("TSStatusBarClass");
-	wc.lpfnWndProc    = StatusBarSubclassProc;
-	wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra     = sizeof(void*);
-	wc.style          = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
+	wc.lpszClassName = _T("TSStatusBarClass");
+	wc.lpfnWndProc = StatusBarSubclassProc;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra = sizeof(void*);
+	wc.style = CS_GLOBALCLASS | CS_DBLCLKS | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
-	wc.lpszClassName  = _T("TS_SideBarClass");
-	wc.lpfnWndProc    = CSideBar::wndProcStub;
-	wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra     = sizeof(void*);
-	wc.style          = CS_GLOBALCLASS;// | CS_DBLCLKS; // | CS_PARENTDC;
+	wc.lpszClassName = _T("TS_SideBarClass");
+	wc.lpfnWndProc = CSideBar::wndProcStub;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra = sizeof(void*);
+	wc.style = CS_GLOBALCLASS;// | CS_DBLCLKS; // | CS_PARENTDC;
 	RegisterClassEx(&wc);
 
-	wc.lpszClassName  = _T("TSHK");
-	wc.lpfnWndProc    = HotkeyHandlerDlgProc;
-	wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra     = sizeof(void*);
-	wc.style          = CS_GLOBALCLASS;// | CS_DBLCLKS; // | CS_PARENTDC;
+	wc.lpszClassName = _T("TSHK");
+	wc.lpfnWndProc = HotkeyHandlerDlgProc;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra = sizeof(void*);
+	wc.style = CS_GLOBALCLASS;// | CS_DBLCLKS; // | CS_PARENTDC;
 	RegisterClassEx(&wc);
 	return 0;
 }

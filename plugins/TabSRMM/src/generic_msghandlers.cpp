@@ -298,7 +298,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_SMILEYBTN:
-		if (dat->doSmileys && PluginConfig.g_SmileyAddAvail) {
+		if (dat->bShowSmileys && PluginConfig.g_SmileyAddAvail) {
 			MCONTACT hContact = dat->cache->getActiveContact();
 			if (CheckValidSmileyPack(dat->cache->getProto(), hContact) != 0) {
 				SMADD_SHOWSEL3 smaddInfo = {0};
@@ -1050,7 +1050,7 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 		return;
 
 	TCHAR szBuf[100];
-	if (dat->showTyping) {
+	if (dat->bShowTyping) {
 		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message..."), dat->cache->getNick());
 	}
@@ -1353,7 +1353,7 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 	LoadTimeZone(dat);
 
-	dat->showUIElements = m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
+	dat->bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
 
 	dat->dwFlagsEx = M.GetByte(dat->hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
 	dat->Panel->getVisibility();
@@ -1391,7 +1391,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 	if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - dat->nLastTyping > TIMEOUT_TYPEOFF)
 		DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
 
-	if (dat->showTyping == 1) {
+	if (dat->bShowTyping == 1) {
 		if (dat->nTypeSecs > 0) {
 			dat->nTypeSecs--;
 			if (GetForegroundWindow() == hwndContainer)
@@ -1399,7 +1399,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 		}
 		else {
 			if (!fForceOff) {
-				dat->showTyping = 2;
+				dat->bShowTyping = 2;
 				dat->nTypeSecs = 86400;
 
 				mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar), TranslateT("%s has entered text."), dat->cache->getNick());
@@ -1417,12 +1417,12 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				ReflashContainer(dat->pContainer);
 		}
 	}
-	else if (dat->showTyping == 2) {
+	else if (dat->bShowTyping == 2) {
 		if (dat->nTypeSecs > 0)
 			dat->nTypeSecs--;
 		else {
 			dat->szStatusBar[0] = 0;
-			dat->showTyping = 0;
+			dat->bShowTyping = 0;
 		}
 		UpdateStatusBar(dat);
 	}
@@ -1455,7 +1455,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 		if ((GetForegroundWindow() != hwndContainer) || (dat->pContainer->hwndStatus == 0) || (dat->pContainer->hwndActive != hwndDlg))
 			SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 
-		dat->showTyping = 1;
+		dat->bShowTyping = 1;
 	}
 }
 
@@ -1576,10 +1576,10 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
 		dat->lastMessage = dbei.timestamp;
 		dat->szStatusBar[0] = 0;
-		if (dat->showTyping) {
+		if (dat->bShowTyping) {
 			dat->nTypeSecs = 0;
 			DM_Typing(dat, true);
-			dat->showTyping = 0;
+			dat->bShowTyping = 0;
 		}
 		HandleIconFeedback(dat, (HICON)-1);
 		if (m_pContainer->hwndStatus)
