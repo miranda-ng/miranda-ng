@@ -163,7 +163,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>xcopy dll\x86\*.dll $(SolutionDir)$(Configuration) /Y</Command>
+      <Command>xcopy tox\dll\x86\*.dll $(SolutionDir)$(Configuration) /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -193,7 +193,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>xcopy dll\x64\*.dll $(SolutionDir)$(Configuration)64 /Y</Command>
+      <Command>xcopy tox\dll\x64\*.dll $(SolutionDir)$(Configuration)64 /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
