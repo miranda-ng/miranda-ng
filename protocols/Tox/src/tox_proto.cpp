@@ -170,7 +170,7 @@ int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	std::vector<uint8_t> clientId = HexStringToData(toxId);
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
-	uint8_t fileNumber = (uint8_t)hTransfer;
+	int fileNumber = (int)hTransfer;
 
 	transfers.erase(fileNumber);
 
@@ -322,6 +322,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 	if (fileNumber < 0)
 	{
 		debugLogA("CToxProto::SendFilesAsync: cannot send file");
+		return NULL;
 	}
 
 	FileTransferParam *transfer = new FileTransferParam(fileNumber, fileName, fileSize);
