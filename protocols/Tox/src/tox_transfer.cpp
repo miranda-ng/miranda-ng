@@ -40,6 +40,7 @@ void CToxProto::SendFileAsync(void* arg)
 	else
 	{
 		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer->number, 0);
+		transfers.erase(transfer->number);
 	}
 }
 
@@ -122,6 +123,7 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t number, uint8_t isSend, uint8_t 
 		case TOX_FILECONTROL_FINISHED:
 			tox_file_send_control(proto->tox, number, 1, fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
 			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fileNumber, 0);
+			proto->transfers.erase(fileNumber);
 			break;
 		}
 	}
