@@ -10,9 +10,6 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{b818611d-200d-4eb8-be7a-f15b396ae26d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\tox">
-      <UniqueIdentifier>{dcda5d79-c0d1-4515-9513-7eda6a003978}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\version.h">
@@ -27,19 +24,7 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\tox\tox.h">
-      <Filter>Header Files\tox</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tox\toxav.h">
-      <Filter>Header Files\tox</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tox\toxdns.h">
-      <Filter>Header Files\tox</Filter>
-    </ClInclude>
     <ClInclude Include="src\tox_bootstrap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\file_transfer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,16 +35,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\tox_instances.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\tox_events.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tox_services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tox_contacts.cpp">
@@ -77,7 +53,19 @@
     <ClCompile Include="src\tox_netlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\tox_transfers.cpp">
+    <ClCompile Include="src\tox_profile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_transfer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_messages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_accounts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

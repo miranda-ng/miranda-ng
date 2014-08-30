@@ -71,32 +71,6 @@ HANDLE CToxProto::AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWOR
 	return db_event_add(hContact, &dbei);
 }
 
-void CToxProto::RaiseAuthRequestEvent(DWORD timestamp, const char* toxId, const char* reason)
-{
-	MCONTACT hContact = this->AddContact(toxId);
-
-	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)*/
-	DWORD cbBlob = (DWORD)
-		(sizeof(DWORD)* 2 +
-		strlen(toxId) +
-		strlen(reason) +
-		5);
-
-	PBYTE pBlob, pCurBlob;
-	pCurBlob = pBlob = (PBYTE)mir_calloc(cbBlob);
-
-	*((PDWORD)pCurBlob) = 0;
-	pCurBlob += sizeof(DWORD);
-	*((PDWORD)pCurBlob) = (DWORD)hContact;
-	pCurBlob += sizeof(DWORD);
-	pCurBlob += 3;
-	strcpy((char *)pCurBlob, toxId);
-	pCurBlob += strlen(toxId) + 1;
-	strcpy((char *)pCurBlob, reason);
-
-	AddDbEvent(hContact, EVENTTYPE_AUTHREQUEST, timestamp, DBEF_UTF, cbBlob, pBlob);
-}
-
 std::vector<uint8_t> CToxProto::HexStringToData(std::string hex)
 {
 	std::stringstream ss;

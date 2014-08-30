@@ -46,18 +46,9 @@ MCONTACT CToxProto::GetContactFromAuthEvent(HANDLE hEvent)
 	return DbGetAuthEventContact(&dbei);
 }
 
-
-bool CToxProto::IsProtoContact(MCONTACT hContact)
-{
-	return lstrcmpiA(GetContactProto(hContact), m_szModuleName) == 0;
-}
-
 MCONTACT CToxProto::FindContact(const std::string &id)
 {
 	MCONTACT hContact = NULL;
-
-	//mir_cs(contact_search_lock);
-
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		std::string contactId = ToxAddressToId(getStringA(hContact, TOX_SETTINGS_ID));
@@ -66,7 +57,6 @@ MCONTACT CToxProto::FindContact(const std::string &id)
 			break;
 		}
 	}
-
 	return hContact;
 }
 
@@ -105,7 +95,7 @@ MCONTACT CToxProto::AddContact(const std::string &id, bool isTemporary)
 	return hContact;
 }
 
-void CToxProto::LoadContactList()
+void CToxProto::LoadFriendList()
 {
 	uint32_t count = tox_count_friendlist(tox);
 	if (count > 0)
@@ -142,58 +132,100 @@ void CToxProto::LoadContactList()
 	}
 }
 
-void CToxProto::SearchByIdAsync(void*)
+int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 {
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
-}
-
-void CToxProto::SearchByNameAsync(void* arg)
-{
-	NETLIBHTTPREQUEST request = { sizeof(NETLIBHTTPREQUEST) };
-	request.requestType = REQUEST_POST;
-	request.szUrl = "https://toxme.se/api";
-	request.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
-
-	request.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)* 2);
-	request.headers[0].szName = "Content-Type";
-	request.headers[0].szValue = "text/plain; charset=utf-8";
-	request.headersCount = 1;
-
-	std::string query = "{\"action\":3,\"name\":\"";
-	query += (char*)arg;
-	query += "\"}";
-
-	request.dataLength = query.length();
-	request.pData = (char*)query.c_str();
-
-	NETLIBHTTPREQUEST* response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&request);
-
-	if (response)
+	if (hContact)
 	{
-		std::smatch match;
-		std::regex regex("\"public_key\": \"(.+?)\"");
+		std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
+		std::vector<uint8_t> clientId = HexStringToData(toxId);
 
-		const std::string content = response->pData;
-
-		if (std::regex_search(content, match, regex))
+		uint32_t number = tox_get_friend_number(tox, clientId.data());
+		if (tox_del_friend(tox, number) == 0)
 		{
-			std::string toxId = match[1];
+			SaveToxData();
 
-			PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
-			psr.flags = PSR_TCHAR;
-			psr.id = mir_a2t(toxId.c_str());
-
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
-			return;
+			return 0;
 		}
 	}
 
-	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
-	mir_free(request.headers);
+	return 1;
+}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
-	mir_free(arg);
+void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t *message, const uint16_t messageSize, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	// trim tox address to tox id
+	std::vector<uint8_t> clientId(address, address + TOX_CLIENT_ID_SIZE);
+	std::string id = proto->DataToHexString(clientId);
+
+	MCONTACT hContact = proto->AddContact(id, true);
+
+	PROTORECVEVENT pre = { 0 };
+	pre.flags = PREF_UTF;
+	pre.timestamp = time(NULL);
+	pre.lParam = (DWORD)(sizeof(DWORD)* 2 + id.length() + messageSize + 5);
+
+	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)*/
+	PBYTE pBlob, pCurBlob;
+	pCurBlob = pBlob = (PBYTE)mir_calloc(pre.lParam);
+
+	*((PDWORD)pCurBlob) = 0;
+	pCurBlob += sizeof(DWORD);
+	*((PDWORD)pCurBlob) = (DWORD)hContact;
+	pCurBlob += sizeof(DWORD);
+	pCurBlob += 3;
+	strcpy((char *)pCurBlob, id.c_str());
+	pCurBlob += id.length() + 1;
+	strcpy((char *)pCurBlob, (char*)message);
+
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+}
+
+void CToxProto::OnFriendNameChange(Tox *tox, const int number, const uint8_t *name, const uint16_t nameSize, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		proto->setString(hContact, "Nick", (char*)name);
+	}
+}
+
+void CToxProto::OnStatusMessageChanged(Tox *tox, const int number, const uint8_t* message, const uint16_t messageSize, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		ptrW statusMessage(mir_utf8decodeW((char*)message));
+		db_set_ws(hContact, "CList", "StatusMsg", statusMessage);
+	}
+}
+
+void CToxProto::OnUserStatusChanged(Tox *tox, int32_t number, uint8_t usertatus, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		TOX_USERSTATUS userstatus = (TOX_USERSTATUS)usertatus;
+		int status = proto->ToxToMirandaStatus(userstatus);
+		proto->SetContactStatus(hContact, status);
+	}
+}
+
+void CToxProto::OnConnectionStatusChanged(Tox *tox, const int number, const uint8_t status, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		int newStatus = status ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
+		proto->SetContactStatus(hContact, newStatus);
+	}
 }
