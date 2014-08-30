@@ -1,9 +1,7 @@
 #include "common.h"
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CToxProto>(protoName, userName),
-	fileTransfers(1, NumericKeySortT),
-	hFileProcess(0)
+PROTO<CToxProto>(protoName, userName)
 {
 	InitToxCore();
 
@@ -51,7 +49,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILERECV | PF1_AUTHREQ | PF1_EXTSEARCH;
+		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_EXTSEARCH;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
@@ -108,7 +106,12 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 }
 
 int __cdecl CToxProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason) { return 0; }
-int __cdecl CToxProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
+
+int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
+{
+	return Proto_AuthRecv(m_szModuleName, pre);
+	// return 0;
+}
 
 int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
 {
@@ -117,8 +120,8 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 
 	ptrA reason(mir_utf8encodeW(szMessage));
 
-	int32_t friendnumber = tox_add_friend(tox, &clientId[0], (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
-	if (friendnumber >= 0)
+	int32_t number = tox_add_friend(tox, &clientId[0], (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
+	if (number >= 0)
 	{
 		SaveToxData();
 
@@ -130,7 +133,7 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 		delSetting(hContact, "Auth");
 
 		std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
-		tox_get_name(tox, friendnumber, &username[0]);
+		tox_get_name(tox, number, &username[0]);
 		std::string nick(username.begin(), username.end());
 		setString(hContact, "Nick", nick.c_str());
 
@@ -150,9 +153,13 @@ HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
 	uint8_t fileNumber = (uint8_t)hTransfer;
 
-	transfers.at(fileNumber)->pfts.tszWorkingDir = mir_tstrdup(tszPath);
+	FileTransferParam *transfer = transfers.at(fileNumber);
+	transfer->pfts.tszWorkingDir = mir_tstrdup(tszPath);
 
-	tox_file_send_control(tox, number, 1, fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0);
+	//if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)fileNumber, (LPARAM)&transfer->pfts))
+	{
+		tox_file_send_control(tox, number, 1, fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0);
+	}
 
 	return hTransfer;
 }
@@ -177,7 +184,31 @@ int __cdecl CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTO
 	return FileCancel(hContact, hTransfer);
 }
 
-int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename) { return 0; }
+int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
+{
+	uint8_t fileNumber = (uint8_t)hTransfer;
+	FileTransferParam *transfer = transfers.at(fileNumber);
+
+	switch (*action)
+	{
+	case FILERESUME_SKIP:
+		/*if (ft->p2p_appID != 0)
+		p2p_sendStatus(ft, 603);
+		else
+		msnftp_sendAcceptReject (ft, false);*/
+		break;
+
+	case FILERESUME_RESUME:
+		//replaceStrT(ft->std.tszCurrentFile, *szFilename);
+		break;
+
+	case FILERESUME_RENAME:
+		replaceStrT(transfer->pfts.tszCurrentFile, *szFilename);
+		break;
+	}
+
+	return 0;
+}
 
 int __cdecl CToxProto::GetInfo(MCONTACT hContact, int infoType) { return 0; }
 
@@ -265,12 +296,41 @@ int __cdecl CToxProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 
 HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
 {
-	CFileTransfer *transfer = new CFileSendTransfer(hContact, InterlockedIncrement(&hFileProcess));
-	transfer->ProcessTransferedFiles(ppszFiles);
+	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
+	std::vector<uint8_t> clientId = HexStringToData(toxId);
 
-	ForkThread(&CToxProto::SendFilesAsync, transfer);
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
-	return (HANDLE)transfer->GetTransferNumber();
+	TCHAR *fileName = _tcsrchr(ppszFiles[0], '\\') + 1;
+
+	size_t fileDirLength = fileName - ppszFiles[0];
+	TCHAR *fileDir = (TCHAR*)mir_alloc(sizeof(TCHAR)*fileDirLength);
+	_tcsncpy(fileDir, ppszFiles[0], fileDirLength);
+	fileDir[fileDirLength] = '\0';
+
+	size_t fileSize = 0;
+	FILE *file = _tfopen(ppszFiles[0], _T("rb"));
+	if (file != NULL)
+	{
+		fseek(file, 0, SEEK_END);
+		fileSize = ftell(file);
+		fseek(file, 0, SEEK_SET);
+		fclose(file);
+	}
+
+	int fileNumber = tox_new_file_sender(tox, number, fileSize, (uint8_t*)(char*)ptrA(mir_utf8encodeT(fileName)), _tcslen(fileName));
+	if (fileNumber < 0)
+	{
+		debugLogA("CToxProto::SendFilesAsync: cannot send file");
+	}
+
+	FileTransferParam *transfer = new FileTransferParam(fileNumber, fileName, fileSize);
+	transfer->pfts.hContact = hContact;
+	transfer->pfts.flags |= PFTS_RECEIVING;
+	transfer->pfts.tszWorkingDir = fileDir;
+	transfers[fileNumber] = transfer;
+
+	return (HANDLE)fileNumber;
 }
 
 int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)

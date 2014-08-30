@@ -1,16 +1,16 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
-class CFileTransfer;
-
 struct FileTransferParam
 {
 	PROTOFILETRANSFERSTATUS pfts;
-	uint8_t number;
+	int number;
 
-	FileTransferParam(uint8_t number, const TCHAR* fileName, size_t fileSize)
+	FileTransferParam(int fileNumber, const TCHAR* fileName, size_t fileSize)
 	{
-		pfts = { sizeof(PROTOFILETRANSFERSTATUS) };
+		number = fileNumber;
+
+		pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 		pfts.flags = PFTS_TCHAR;
 		pfts.totalFiles = 1;
 		pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*(pfts.totalFiles + 1));
@@ -93,30 +93,34 @@ public:
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
 	// instances
-	static CToxProto* InitProtoInstance(const char* protoName, const wchar_t* userName);
-	static int        UninitProtoInstance(CToxProto* ppro);
-
-	static CToxProto* GetContactInstance(MCONTACT hContact);
-	static void       UninitInstances();
+	static CToxProto* InitAccount(const char* protoName, const wchar_t* userName);
+	static int        UninitAccount(CToxProto* ppro);
 
 private:
 	Tox *tox;
-	mir_cs tox_lock;
-	HANDLE hPollingThread;
-	bool isTerminated;
-	bool isConnected;
-	HANDLE hNetlibUser;
-	ULONG hFileProcess;
-	LIST<CFileTransfer> fileTransfers;
+	mir_cs toxLock;
+	HANDLE hNetlib, hPollingThread;
+	bool isTerminated, isConnected;
 	std::map<uint8_t, FileTransferParam*> transfers;
 
 	// tox
 	void InitToxCore();
 	void UninitToxCore();
 
-	// instances
-	static LIST<CToxProto> instanceList;
-	static int CompareProtos(const CToxProto *p1, const CToxProto *p2);
+	// ???
+	void DoBootstrap();
+	void DoTox();
+
+	void __cdecl PollingThread(void*);
+
+	// tox profile
+	static INT_PTR CALLBACK ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	// accounts
+	static LIST<CToxProto> accounts;
+	static int CompareAccounts(const CToxProto *p1, const CToxProto *p2);
+
+	int __cdecl OnAccountListChanged(WPARAM wParam, LPARAM lParam);
 
 	// netlib
 	void InitNetlib();
@@ -124,61 +128,62 @@ private:
 
 	// account
 	bool IsOnline();
-
-	void DoBootstrap();
-	void DoTox();
-
-	void __cdecl PollingThread(void*);
-
-	//events
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
-	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
+
+
+	// events
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
-	
-	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnSettingsChanged(WPARAM wParam, LPARAM lParam);
-	int __cdecl OnAccountListChanged(WPARAM wParam, LPARAM lParam);
-	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
+	
+	// options
+	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
-
-	static void OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t *message, const uint16_t messageSize, void *arg);
-	static void OnFriendMessage(Tox *tox, const int number, const uint8_t *message, const uint16_t messageSize, void *arg);
-	static void OnFriendAction(Tox *tox, const int number, const uint8_t *action, const uint16_t actionSize, void *arg);
-	static void OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, void *arg);
-	static void OnFriendNameChange(Tox *tox, const int number, const uint8_t *name, const uint16_t nameSize, void *arg);
-	static void OnStatusMessageChanged(Tox *tox, const int number, const uint8_t* message, const uint16_t messageSize, void *arg);
-	static void OnUserStatusChanged(Tox *tox, int32_t number, uint8_t usertatus, void *arg);
-	static void OnConnectionStatusChanged(Tox *tox, const int number, const uint8_t status, void *arg);
-	static void OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *arg);
-
-	//static void OnFileControlCallback(Tox *tox, int32_t number, uint8_t hFile, uint64_t fileSize, uint8_t *name, uint16_t nameSize, void *arg);
-	static void OnFileRequest(Tox *tox, int32_t number, uint8_t isSend, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg);
-	static void OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg);
-	static void OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
 
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
 	bool IsContactOnline(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
-	bool IsProtoContact(MCONTACT hContact);
+
 	MCONTACT FindContact(const std::string &id);
 	MCONTACT FindContact(const int friendNumber);
 	MCONTACT AddContact(const std::string &id, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
 
-	void LoadContactList();
+	void LoadFriendList();
 
+	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
+
+	static void OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnFriendNameChange(Tox *tox, const int number, const uint8_t *name, const uint16_t nameSize, void *arg);
+	static void OnStatusMessageChanged(Tox *tox, const int number, const uint8_t* message, const uint16_t messageSize, void *arg);
+	static void OnUserStatusChanged(Tox *tox, int32_t number, uint8_t usertatus, void *arg);
+	static void OnConnectionStatusChanged(Tox *tox, const int number, const uint8_t status, void *arg);
+
+	// contacts search
 	void __cdecl SearchByIdAsync(void* arg);
 	void __cdecl SearchByNameAsync(void* arg);
 
-	// file transfer
-	void __cdecl SendFileAsync(void* arg);
-	void __cdecl SendFilesAsync(void* arg);
+	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	CFileTransfer *GetFileTransferByFileNumber(int fileNumber);
+	// messages
+	static void OnFriendMessage(Tox *tox, const int number, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnFriendAction(Tox *tox, const int number, const uint8_t *action, const uint16_t actionSize, void *arg);
+	static void OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, void *arg);
+	static void OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *arg);
+
+	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
+
+	// transfer
+	void __cdecl SendFileAsync(void* arg);
+
+	//static void OnFileControlCallback(Tox *tox, int32_t number, uint8_t hFile, uint64_t fileSize, uint8_t *name, uint16_t nameSize, void *arg);
+	static void OnFileRequest(Tox *tox, int32_t number, uint8_t isSend, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg);
+	static void OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg);
+	static void OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
@@ -188,7 +193,6 @@ private:
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
 	HANDLE AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
-	void RaiseAuthRequestEvent(DWORD timestamp, const char* toxId, const char* reason);
 	
 	std::vector<uint8_t> HexStringToData(std::string hex);
 	std::string DataToHexString(std::vector<uint8_t>);
@@ -201,11 +205,6 @@ private:
 
 	void LoadToxData();
 	void SaveToxData();
-
-	// dialogs
-	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
 
 #endif //_TOX_PROTO_H_

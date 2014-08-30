@@ -82,18 +82,18 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>tox\include;..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <StringPooling>false</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib;lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>tox\lib\x86;$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
@@ -104,7 +104,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>xcopy dll\x86\*.dll $(SolutionDir)$(Configuration) /Y</Command>
+      <Command>xcopy tox\dll\x86\*.dll $(SolutionDir)$(Configuration) /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,7 +123,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin12\lib;lib\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>tox\lib\x64;$(ProfileDir)..\..\bin12\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>libtox-x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -133,7 +133,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>xcopy dll\x64\*.dll $(SolutionDir)$(Configuration)64 /Y</Command>
+      <Command>xcopy tox\dll\x64\*.dll $(SolutionDir)$(Configuration)64 /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -198,29 +198,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h" />
-    <ClInclude Include="src\file_transfer.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\tox\tox.h" />
-    <ClInclude Include="src\tox\toxav.h" />
-    <ClInclude Include="src\tox\toxdns.h" />
     <ClInclude Include="src\tox_bootstrap.h" />
     <ClInclude Include="src\tox_proto.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\tox_account.cpp" />
     <ClCompile Include="src\tox_events.cpp" />
-    <ClCompile Include="src\tox_instances.cpp" />
+    <ClCompile Include="src\tox_accounts.cpp" />
+    <ClCompile Include="src\tox_messages.cpp" />
     <ClCompile Include="src\tox_netlib.cpp" />
     <ClCompile Include="src\tox_options.cpp" />
+    <ClCompile Include="src\tox_profile.cpp" />
     <ClCompile Include="src\tox_proto.cpp" />
-    <ClCompile Include="src\tox_services.cpp" />
+    <ClCompile Include="src\tox_search.cpp" />
     <ClCompile Include="src\tox_contacts.cpp" />
-    <ClCompile Include="src\tox_transfers.cpp" />
+    <ClCompile Include="src\tox_transfer.cpp" />
     <ClCompile Include="src\tox_utils.cpp" />
   </ItemGroup>
   <ItemGroup>

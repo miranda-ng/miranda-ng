@@ -39,8 +39,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "TOX";
 	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = (pfnInitProto)CToxProto::InitProtoInstance;
-	pd.fnUninit = (pfnUninitProto)CToxProto::UninitProtoInstance;
+	pd.fnInit = (pfnInitProto)CToxProto::InitAccount;
+	pd.fnUninit = (pfnUninitProto)CToxProto::UninitAccount;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	return 0;

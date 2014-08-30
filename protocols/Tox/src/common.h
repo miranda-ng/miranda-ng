@@ -29,12 +29,11 @@
 #include <m_addcontact.h>
 #include <m_message.h>
 
-#include "tox\tox.h"
+#include <tox.h>
 
 #include "version.h"
 #include "resource.h"
 #include "tox_proto.h"
-#include "file_transfer.h"
 
 extern HINSTANCE g_hInstance;
 

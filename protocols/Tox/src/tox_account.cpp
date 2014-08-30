@@ -1,16 +1,33 @@
 #include "common.h"
 #include "tox_bootstrap.h"
 
+bool CToxProto::IsOnline()
+{
+	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
+}
+
+int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
+{
+	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
+	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CToxProto::OnAccountListChanged);
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CToxProto::OnSettingsChanged);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
+
+	InitNetlib();
+
+	return 0;
+}
+
 void CToxProto::InitToxCore()
 {
 	Tox_Options options = { 0 };
 	options.udp_disabled = getByte("DisableUDP", 0);
 	options.ipv6enabled = !getByte("DisableIPv6", 0);
 
-	if (hNetlibUser)
+	if (hNetlib)
 	{
 		NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
-		CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)hNetlibUser, (LPARAM)&nlus);
+		CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)hNetlib, (LPARAM)&nlus);
 
 		if (nlus.useProxy)
 		{
@@ -58,11 +75,6 @@ void CToxProto::UninitToxCore()
 	tox_kill(tox);
 }
 
-bool CToxProto::IsOnline()
-{
-	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
-}
-
 void CToxProto::DoBootstrap()
 {
 	static int j = 0;
@@ -77,13 +89,10 @@ void CToxProto::DoBootstrap()
 
 void CToxProto::DoTox()
 {
-	uint32_t interval = 50;
-	{
-		mir_cs(tox_lock);
+	mir_cslock((CRITICAL_SECTION&)toxLock);
 
-		tox_do(tox);
-		interval = tox_do_interval(tox);
-	}
+	tox_do(tox);
+	uint32_t interval = tox_do_interval(tox);
 	Sleep(interval);
 }
 
@@ -105,7 +114,7 @@ void CToxProto::PollingThread(void*)
 				isConnected = true;
 				debugLogA("CToxProto::PollingThread: successfuly connected to DHT");
 
-				LoadContactList();
+				LoadFriendList();
 
 				debugLogA("CToxProto::PollingThread: changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
 				m_iStatus = m_iDesiredStatus;
@@ -114,6 +123,14 @@ void CToxProto::PollingThread(void*)
 			else
 			{
 				DoBootstrap();
+			}
+		}
+		else
+		{
+			if (!tox_isconnected(tox))
+			{
+				debugLogA("CToxProto::PollingThread: disconnected from DHT");
+				SetStatus(ID_STATUS_OFFLINE);
 			}
 		}
 	}
