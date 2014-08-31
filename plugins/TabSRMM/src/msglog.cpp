@@ -1155,14 +1155,16 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 		dat->bufferOffset = 0;
 		switch (dat->stage) {
 		case STREAMSTAGE_HEADER:
-			replaceStr(dat->buffer, CreateRTFHeader(dat->dlgDat));
+			mir_free(dat->buffer);
+			dat->buffer = CreateRTFHeader(dat->dlgDat);
 			dat->stage = STREAMSTAGE_EVENTS;
 			break;
 
 		case STREAMSTAGE_EVENTS:
 			if (dat->eventsToInsert) {
 				do {
-					replaceStr(dat->buffer, Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, !dat->isEmpty, dat));
+					mir_free(dat->buffer);
+					dat->buffer = Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, !dat->isEmpty, dat);
 					if (dat->buffer)
 						dat->hDbEventLast = dat->hDbEvent;
 					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
@@ -1178,7 +1180,8 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 			//fall through
 		case STREAMSTAGE_TAIL:
-			replaceStr(dat->buffer, CreateRTFTail(dat->dlgDat));
+			mir_free(dat->buffer);
+			dat->buffer = CreateRTFTail(dat->dlgDat);
 			dat->stage = STREAMSTAGE_STOP;
 			break;
 
