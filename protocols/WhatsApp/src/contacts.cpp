@@ -276,16 +276,9 @@ void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
 	if (lastSeen != -1)
 	{
 		time_t timestamp = time(NULL) - lastSeen;
-
-		FILETIME ft;
-		UnixTimeToFileTime(timestamp, &ft);
-		SYSTEMTIME st;
-		FileTimeToSystemTime(&ft, &st);
-		
-		TCHAR stzDate[MAX_PATH], stzTime[MAX_PATH];
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st,0, stzTime, SIZEOF(stzTime));
-		GetDateFormat(LOCALE_USER_DEFAULT, 0, &st,0, stzDate, SIZEOF(stzDate));
-		ss << TranslateT("Last seen on ") << stzDate << TranslateT(" at ") << stzTime;
+		TCHAR stzLastSeen[MAX_PATH];
+		_tcsftime(stzLastSeen,SIZEOF(stzLastSeen),TranslateT("Last seen on %x at %X"),localtime(&timestamp));
+		ss << stzLastSeen;
 	}
 
 	int state = getDword(hContact, WHATSAPP_KEY_LAST_MSG_STATE, 2);
