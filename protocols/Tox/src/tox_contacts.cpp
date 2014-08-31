@@ -166,7 +166,7 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t 
 	pre.timestamp = time(NULL);
 	pre.lParam = (DWORD)(sizeof(DWORD)* 2 + id.length() + messageSize + 5);
 
-	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), sid(ASCIIZ), reason(ASCIIZ)*/
+	/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), id(ASCIIZ), reason(ASCIIZ)*/
 	PBYTE pBlob, pCurBlob;
 	pCurBlob = pBlob = (PBYTE)mir_calloc(pre.lParam);
 
@@ -178,6 +178,7 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t 
 	strcpy((char *)pCurBlob, id.c_str());
 	pCurBlob += id.length() + 1;
 	strcpy((char *)pCurBlob, (char*)message);
+	pre.szMessage = (char*)pBlob;
 
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
