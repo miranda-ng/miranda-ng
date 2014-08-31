@@ -39,6 +39,8 @@ extern HINSTANCE g_hInstance;
 
 #define MODULE "Tox"
 
+#define TOX_ERROR -1
+
 #define TOX_SETTINGS_ID "ToxID"
 #define TOX_SETTINGS_GROUP "DefaultGroup"
 
