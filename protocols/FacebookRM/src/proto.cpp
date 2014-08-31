@@ -65,6 +65,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
+	db_set_resident(m_szModuleName, FACEBOOK_KEY_MESSAGE_READ);
 
 	InitHotkeys();
 	InitPopups();
@@ -981,12 +982,17 @@ void FacebookProto::InitSounds()
  */
 void FacebookProto::MessageRead(MCONTACT hContact)
 {
-	std::map<MCONTACT, time_t>::iterator it = facy.readers.find(hContact);
+	/*std::map<MCONTACT, time_t>::iterator it = facy.readers.find(hContact);
 	if (it == facy.readers.end())
+		return;*/
+
+	// We may use this instead of checing map as we have this info already in memory (this value is resident)
+	time_t time = getDword(hContact, FACEBOOK_KEY_MESSAGE_READ, 0);
+	if (!time)
 		return;
 	
 	TCHAR ttime[64];
-	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&it->second));
+	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&time));
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);

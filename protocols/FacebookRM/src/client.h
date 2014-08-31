@@ -114,6 +114,9 @@ public:
 	void    clear_cookies();
 	void	clear_notifications();
 	void	clear_chatrooms();
+	void	clear_readers();
+	void	insert_reader(MCONTACT, time_t);
+	void	erase_reader(MCONTACT);
 
 	////////////////////////////////////////////////////////////
 
