@@ -1155,16 +1155,14 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 		dat->bufferOffset = 0;
 		switch (dat->stage) {
 		case STREAMSTAGE_HEADER:
-			if (dat->buffer) mir_free(dat->buffer);
-			dat->buffer = CreateRTFHeader(dat->dlgDat);
+			replaceStr(dat->buffer, CreateRTFHeader(dat->dlgDat));
 			dat->stage = STREAMSTAGE_EVENTS;
 			break;
 
 		case STREAMSTAGE_EVENTS:
 			if (dat->eventsToInsert) {
 				do {
-					if (dat->buffer) mir_free(dat->buffer);
-					dat->buffer = Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, !dat->isEmpty, dat);
+					replaceStr(dat->buffer, Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, !dat->isEmpty, dat));
 					if (dat->buffer)
 						dat->hDbEventLast = dat->hDbEvent;
 					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
@@ -1180,8 +1178,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 			//fall through
 		case STREAMSTAGE_TAIL:
-			if (dat->buffer) mir_free(dat->buffer);
-			dat->buffer = CreateRTFTail(dat->dlgDat);
+			replaceStr(dat->buffer, CreateRTFTail(dat->dlgDat));
 			dat->stage = STREAMSTAGE_STOP;
 			break;
 
@@ -1194,10 +1191,8 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
 	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
-	if (dat->bufferOffset == dat->bufferLen) {
-		mir_free(dat->buffer);
-		dat->buffer = NULL;
-	}
+	if (dat->bufferOffset == dat->bufferLen)
+		replaceStr(dat->buffer, NULL);
 	return 0;
 }
 
@@ -1429,11 +1424,11 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	streamData.eventsToInsert = count;
 	streamData.isEmpty = fAppend ? GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOG)) == 0 : 1;
 	streamData.dbei = dbei_s;
+	streamData.isAppend = fAppend;
 
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = LogStreamInEvents;
-	stream.dwCookie = (DWORD_PTR)& streamData;
-	streamData.isAppend = fAppend;
+	stream.dwCookie = (DWORD_PTR)&streamData;
 
 	LONG startAt;
 	if (fAppend) {
@@ -1494,7 +1489,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(GetDlgItem(hwndDlg, IDC_LOG), NULL, FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
-	if (streamData.buffer) mir_free(streamData.buffer);
+	mir_free(streamData.buffer);
 }
 
 // NLS functions (for unicode version only) encoding stuff..
