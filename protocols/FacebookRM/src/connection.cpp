@@ -53,11 +53,11 @@ void FacebookProto::ChangeStatus(void*)
 		facy.clear_cookies();
 		facy.clear_notifications();
 		facy.clear_chatrooms();
+		facy.clear_readers();
 		facy.buddies.clear();
 		facy.messages_ignore.clear();
 		facy.pages.clear();
 		facy.typers.clear();
-		facy.readers.clear();
 
 		if (facy.hMsgCon)
 			Netlib_CloseHandle(facy.hMsgCon);

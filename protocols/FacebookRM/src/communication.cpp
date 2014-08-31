@@ -715,6 +715,38 @@ void facebook_client::clear_chatrooms()
 	chat_rooms.clear();
 }
 
+/**
+ * Clears readers info for all contacts from readers list and db
+ */
+void facebook_client::clear_readers()
+{
+	for (std::map<MCONTACT, time_t>::iterator it = readers.begin(); it != readers.end();) {
+		parent->delSetting(it->first, FACEBOOK_KEY_MESSAGE_READ);
+		it = readers.erase(it);
+	}
+	readers.clear();
+}
+
+/**
+ * Inserts info to readers list, db and writes to statusbar
+ */
+void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp)
+{
+	parent->setDword(hContact, FACEBOOK_KEY_MESSAGE_READ, timestamp);
+	readers.insert(std::make_pair(hContact, timestamp));
+	parent->MessageRead(hContact);
+}
+
+/**
+ * Removes info from readers list, db and clears statusbar
+ */
+void facebook_client::erase_reader(MCONTACT hContact)
+{
+	parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READ);
+	readers.erase(hContact);
+	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, NULL);
+}
+
 void loginError(FacebookProto *proto, std::string error_str) {
 	error_str = utils::text::trim(
 			utils::text::html_entities_decode(

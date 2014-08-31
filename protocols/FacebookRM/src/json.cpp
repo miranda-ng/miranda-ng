@@ -482,8 +482,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
  				} else { // classic contact
 					MCONTACT hContact = proto->ContactIDToHContact(json_as_pstring(reader));
 					if (hContact) {
-						proto->facy.readers.insert(std::make_pair(hContact, timestamp));
-						proto->MessageRead(hContact);
+						proto->facy.insert_reader(hContact, timestamp);
 					}
 				}
 			} else if (t == "deliver") {
