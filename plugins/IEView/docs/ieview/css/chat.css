@@ -1,0 +1,37 @@
+/* this changes the way main window background looks like */
+.body {margin: 0px; text-align: left; background-color: #E6E8E6; overflow: auto;}
+/* this changes the way your links look like */
+.link {color: #0000FF; text-decoration: underline;}
+/* this changes the way smileys and log icons look like */
+.img {vertical-align: middle;}
+/* this changes the way incoming (received) events look like including timestamp, name, etc. */
+.divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+/* this changes the way outgoing (sent) events look like including timestamp, name, etc. */
+.divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divUserJoined {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divUserLeft {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divUserKicked {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divUserDisconnected {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divNickChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divTopicChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divNotice {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divInformation {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.divError {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #E6E8E6;}
+.timestamp {font-family: Verdana; font-size: 6pt; font-weight: bold; color: #000000;  }
+.nameIn {font-family: Verdana; font-size: 10pt; font-weight: normal; color: #323772;  }
+.nameOut {font-family: Verdana; font-size: 10pt; font-weight: bold; color: #A45344;  }
+.messageIn {font-family: Verdana; font-size: 10pt; font-weight: normal; color: #000000;  }
+.messageOut {font-family: Verdana; font-size: 10pt; font-weight: normal; color: #805050; font-style: italic; }
+.userJoined {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.userLeft {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #B91313; font-style: italic; }
+.userDisconnected {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.userKicked {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.nickChange {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.topicChange {font-family: Verdana; font-size: 10pt; font-weight: normal; color: #531A99; font-style: italic; }
+.notice {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.information {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.statusEnable {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.statusDisable {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.action {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.highlight {font-family: Verdana; font-size: 8pt; font-weight: normal; color: #0F880F; font-style: italic; }
+.error {font-family: Verdana; font-size: 10pt; font-weight: bold; color: #D01010;  }
