@@ -84,13 +84,15 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 		if (accounts.getCount() == 1)
 			return cli.pfnTrayIconMakeTooltip(szPrefix, accounts[0]->szModuleName);
 
-		if (szPrefix && szPrefix[0]) {
-			lstrcpyn(cli.szTip, szPrefix, MAX_TIP_SIZE);
-			if (!db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT))
-				return cli.szTip;
-		}
-
 		CMString tszTip;
+
+		if (szPrefix && szPrefix[0]) {
+			if (!db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
+				_tcsncpy_s(cli.szTip, MAX_TIP_SIZE, szPrefix, _TRUNCATE);
+				return cli.szTip;
+			}
+			tszTip.Append(szPrefix);
+		}
 
 		for (int t = 0; t < accounts.getCount(); t++) {
 			int i = cli.pfnGetAccountIndexByPos(t);
