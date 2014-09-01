@@ -53,22 +53,26 @@ format:
 
 Were name can be any of the following:
 
-uid              - contact's unique identifier
-uidname          - name of unique identifier
-proto            - contact's protocol
-account          - contact's user-defined account name
-time             - contact's time
-status_msg       - contact's status message
-last_msg         - last message received from contact
-last_msg_time    - time of last received message
-last_msg_date    - date of last received message
-last_msg_reltime - relative time of last message (i.e. time between then and now)
-meta_subname     - nickname of active subcontact (for metacontacts)
-meta_subuid      - unique id of active subcontact
-meta_subproto    - active subcontact protocol (also for metacontacts)
-msg_count_all    - number of all messages in db for contact (sent + received)
-msg_count_out    - number of sent messages to contact
-msg_count_in     - number of received messages from contact
+uid                  - contact's unique identifier
+uidname              - name of unique identifier
+proto                - contact's protocol
+account              - contact's user-defined account name
+time                 - contact's time
+status_msg           - contact's status message
+last_msg             - last message received from contact
+last_msg_out         - last message sent to contact
+last_msg_time        - time of last received message
+last_msg_out_time    - time of last sent message
+last_msg_date        - date of last received message
+last_msg_out_date    - date of last sent message
+last_msg_reltime     - relative time of last message (i.e. time between then and now)
+last_msg_out_reltime - relative time of last sent message (i.e. time between then and now)
+meta_subname         - nickname of active subcontact (for metacontacts)
+meta_subuid          - unique id of active subcontact
+meta_subproto        - active subcontact protocol (also for metacontacts)
+msg_count_all        - number of all messages in db for contact (sent + received)
+msg_count_out        - number of sent messages to contact
+msg_count_in         - number of received messages from contact
 
 If a substitution's value results in no text (or nothing but spaces, tabs, newlines, and carriage returns), the whole item containing that 
 substitution will not be displayed. If there is an error during the substitution process (e.g. a substitution name that does not exist, an odd 
