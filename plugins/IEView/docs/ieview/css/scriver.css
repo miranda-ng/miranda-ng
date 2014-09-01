@@ -1,0 +1,51 @@
+/* this changes the way main window background looks like */
+.body {margin-left: 0px; margin-right: 0px; margin-top: 0px; margin-bottom: 0px; text-align: left; background-attachment: scroll; background-color: #FFFFFF;  background-image: url(D:\mim\mim_bkg.jpg); overflow: auto;}
+/* this changes the way your links look like */
+.link {color: #0000FF; text-decoration: underline;}
+/* this changes the way smileys and log icons look like */
+.img {vertical-align: middle;}
+/* this changes the way incoming (received) events look like including timestamp, name, etc. */
+.divIn {word-wrap: break-word; background-color: #FFFFFF;}
+/* this changes the way outgoing (sent) events look like including timestamp, name, etc. */
+.divOut {word-wrap: break-word; background-color: #FFFFFF;}
+/* this changes the way incoming (received) events look like including timestamp, name, etc. */
+.divInGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #000000; background-color: #FFFFFF;}
+/* this changes the way outgoing (sent) events look like including timestamp, name, etc. */
+.divOutGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #000000; background-color: #FFFFFF;}
+/* this changes the way incoming (received) events look like including timestamp, name, etc. */
+.divNotice {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}
+/* this changes the way outgoing (sent) events look like including timestamp, name, etc. */
+.divNoticeGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #000000}
+/* this changes the way outgoing (sent by you) messages look like */
+.messageOut {font-family: Arial; font-size: 12pt; font-weight: 900; color: #6A6A6A; }
+/* this changes the way incoming (received from your contact) messages look like */
+.messageIn {font-family: Arial; font-size: 12pt; font-weight: 300; color: #000000; font-style: italic}
+/* this changes the way your name looks like in outgoing events */
+.nameOut {font-family: Arial; font-size: 12pt; font-weight: 900; color: #5369C1; }
+/* this changes the way timestamp looks like in outgoing events */
+.timeOut {font-family: Terminal; font-size: 9pt; font-weight: 900; color: #74B928; }
+/* this changes the way a colon looks like in outgoing events */
+.colonOut {font-family: Arial; font-size: 11pt; font-weight: 900; color: #56C099; }
+/* this changes the way a contact's name looks like in incoming events */
+.nameIn {font-family: Arial; font-size: 12pt; font-weight: 900; color: #D70000; }
+/* this changes the way timestamp looks like in incoming events */
+.timeIn {font-family: Terminal; font-size: 9pt; font-weight: 900; color: #000000; }
+/* this changes the way a colon looks like in incoming events */
+.colonIn {font-family: Arial; font-size: 11pt; font-weight: 900; color: #B96A8D; font-style: italic}
+/* NOT USED */
+.inputArea {font-family: Arial; font-size: 12pt; font-weight: 300; color: #000000; }
+/* this changes the way status change event look like */
+.notices {font-family: Arial; font-size: 12pt; font-weight: 300; color: #5A5AA0; }
+/* RTL-related styles */
+/* this changes the way incoming (received) events look like including timestamp, name, etc. */
+.divInRTL {text-align: right; direction:RTL; unicode-bidi:embed; word-wrap: break-word; background-color: #FFFFFF;}
+/* this changes the way outgoing (sent) events look like including timestamp, name, etc. */
+.divOutRTL {text-align: right; direction:RTL; unicode-bidi:embed; word-wrap: break-word; background-color: #FFFFFF;}
+/* this changes the way incoming (received) events look like including timestamp, name, etc. */
+.divInGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #000000; background-color: #FFFFFF;}
+/* this changes the way outgoing (sent) events look like including timestamp, name, etc. */
+.divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #000000; background-color: #FFFFFF;}
+/* this changes the way incoming (received) events look like including timestamp, name, etc. */
+.divNoticeRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word;}
+/* this changes the way outgoing (sent) events look like including timestamp, name, etc. */
+.divNoticeGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #000000}
