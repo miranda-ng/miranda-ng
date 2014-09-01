@@ -606,7 +606,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				MarkChanges(2, hwndDlg);
 				break;
 			case IDC_BROWSE_TEMPLATES:
-				mir_snprintf(filter, SIZEOF(filter), "%s (*.ivt)%c*.ivt%c%s%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
+				mir_snprintf(filter, SIZEOF(filter), "%s (*.ivt)%c*.ivt%c%s (*.*)%c*.*%c%c", Translate("Template"), 0, 0, Translate("All Files"), 0, 0, 0);
 				if (BrowseFile(hwndDlg, filter, "ivt", path, SIZEOF(path))) {
 					SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path);
 					UpdateTemplateIcons(hwndDlg, path);
@@ -614,21 +614,21 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 				break;
 			case IDC_BROWSE_BACKGROUND_IMAGE:
-				mir_snprintf(filter, SIZEOF(filter), "%s (*.jpg,*.gif,*.png,*.bmp)%c*.ivt%c%s%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
+				mir_snprintf(filter, SIZEOF(filter), "%s (*.jpg,*.jpeg,*.gif,*.png,*.bmp)%c*.jpg;*.jpeg;*.gif;*.png;*.bmp%c%s (*.*)%c*.*%c%c", Translate("All Images"), 0, 0, Translate("All Files"), 0, 0, 0);
 				if (BrowseFile(hwndDlg, filter, "jpg", path, SIZEOF(path))) {
 					SetDlgItemTextA(hwndDlg,IDC_BACKGROUND_IMAGE_FILENAME,path);
 					MarkChanges(2, hwndDlg);
 				}
 				break;
 			case IDC_BROWSE_EXTERNALCSS:
-				mir_snprintf(filter, SIZEOF(filter), "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+				mir_snprintf(filter, SIZEOF(filter), "%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
 				if (BrowseFile(hwndDlg, filter, "css", path, SIZEOF(path))) {
 					SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path);
 					MarkChanges(2, hwndDlg);
 				}
 				break;
 			case IDC_BROWSE_EXTERNALCSS_RTL:
-				mir_snprintf(filter, SIZEOF(filter), "%s (*.css)%c*.ivt%c%s%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
+				mir_snprintf(filter, SIZEOF(filter), "%s (*.css)%c*.css%c%s (*.*)%c*.*%c%c", Translate("Style Sheet"), 0, 0, Translate("All Files"), 0, 0, 0);
 				if (BrowseFile(hwndDlg, filter, "css", path, SIZEOF(path))) {
 					SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME_RTL, path);
 					MarkChanges(2, hwndDlg);
