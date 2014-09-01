@@ -119,12 +119,12 @@ void StripBBCodesInPlace(TCHAR *swzText)
 	}
 }
 
-DWORD LastMessageTimestamp(MCONTACT hContact)
+DWORD LastMessageTimestamp(MCONTACT hContact, bool received)
 {
 	for (HANDLE hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDbEvent, &dbei);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received)
 			return dbei.timestamp;
 	}
 
@@ -166,12 +166,12 @@ bool UidName(char *szProto, TCHAR *buff, int bufflen)
 	return false;
 }
 
-TCHAR *GetLastMessageText(MCONTACT hContact)
+TCHAR *GetLastMessageText(MCONTACT hContact, bool received)
 {
 	for (HANDLE hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = {	sizeof(dbei) };
 		db_event_get(hDbEvent, &dbei);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received) {
 			dbei.pBlob = (BYTE *)alloca(dbei.cbBlob);
 			db_event_get(hDbEvent, &dbei);
 			if (dbei.cbBlob == 0 || dbei.pBlob == 0)
@@ -252,6 +252,8 @@ TCHAR* GetStatusMessageText(MCONTACT hContact)
 
 bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int bufflen)
 {
+	bool recv = false;
+
 	if (!_tcscmp(swzRawSpec, _T("uid")))
 		return Uid(hContact, 0, buff, bufflen);
 
@@ -293,8 +295,8 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			return true;
 		}
 	}
-	else if (!_tcscmp(swzRawSpec, _T("last_msg"))) {
-		TCHAR *swzMsg = GetLastMessageText(hContact);
+	else if ((recv = !_tcscmp(swzRawSpec, _T("last_msg"))) || !_tcscmp(swzRawSpec, _T("last_msg_out"))) {
+		TCHAR *swzMsg = GetLastMessageText(hContact, recv);
 		if (swzMsg) {
 			_tcsncpy(buff, swzMsg, bufflen);
 			mir_free(swzMsg);
@@ -324,20 +326,20 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 			return false;
 		return GetSysSubstText(hSubContact, _T("account"), buff, bufflen);
 	}
-	else if (!_tcscmp(swzRawSpec, _T("last_msg_time"))) {
-		DWORD ts = LastMessageTimestamp(hContact);
+	else if ((recv = !_tcscmp(swzRawSpec, _T("last_msg_time"))) || !_tcscmp(swzRawSpec, _T("last_msg_out_time"))) {
+		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		FormatTimestamp(ts, "t", buff, bufflen);
 		return true;
 	}
-	else if (!_tcscmp(swzRawSpec, _T("last_msg_date"))) {
-		DWORD ts = LastMessageTimestamp(hContact);
+	else if ((recv = !_tcscmp(swzRawSpec, _T("last_msg_date"))) || !_tcscmp(swzRawSpec, _T("last_msg_out_date"))) {
+		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		FormatTimestamp(ts, "d", buff, bufflen);
 		return true;
 	}
-	else if (!_tcscmp(swzRawSpec, _T("last_msg_reltime"))) {
-		DWORD ts = LastMessageTimestamp(hContact);
+	else if ((recv = !_tcscmp(swzRawSpec, _T("last_msg_reltime"))) || !_tcscmp(swzRawSpec, _T("last_msg_out_reltime"))) {
+		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
 		DWORD t = (DWORD)time(0);
 		DWORD diff = (t - ts);
