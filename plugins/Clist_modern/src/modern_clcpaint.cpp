@@ -2533,6 +2533,8 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *D
 				counts_size.cx = counts_rc.right - counts_rc.left;
 				counts_size.cy = min( counts_rc.bottom - counts_rc.top, free_height );
 
+				counts_size.cx += 1; // FIXME: This is workaround for sometimes stripped user counts by one pixel, it somehow wrongly counts width of space or counts text (used wrong font?)
+
 				text_width = free_row_rc.right - free_row_rc.left - space_size.cx - counts_size.cx;
 
 				if ( text_width > 4 )
