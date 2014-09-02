@@ -75,7 +75,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_DISCONNECT_CHAT					0
 #define DEFAULT_MAP_STATUSES					0
 #define DEFAULT_CUSTOM_SMILEYS					0
-#define DEFAULT_LOCAL_TIME						0
+#define DEFAULT_LOCAL_TIME						1
 #define DEFAULT_LOAD_PAGES						0
 #define DEFAULT_KEEP_UNREAD						0
 #define DEFAULT_INBOX_ONLY						0
