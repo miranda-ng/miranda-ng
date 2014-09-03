@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.11
+;  Version: 0.1.0.12
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -28,6 +28,12 @@ Potwierdzenie dostarczenia ze strony serwera
 Ukryj czaty podczas startu
 [Automatically wipe local contacts missing in your Friends list]
 Automatycznie czyść lokalne kontakty, których brak na twojej liście znajomych
+[Always notify as unread for all incoming message]
+Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
+[Mark read on reply]
+Oznaczaj jako przeczytane po udzieleniu odpowiedzi
+[Automatically sync last messages ]
+Automatycznie synchronizuj ostatnie wiadomości
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
@@ -89,7 +95,17 @@ Konto
 Połączenie %s
 [Create new chat]
 Utwórz nowy czat
+[Reload all messages from vk.com]
+Załaduj ponownie wszystkie wiadomości z vk.com
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Are you sure to reload all messages from vk.com?\n]
+Czy napewno chcesz załadować ponownie wszystkie wiadomości z vk.com?\n
+[Local contact history will be deleted and reloaded from the server.\n]
+Lokalna historia kontaktu zostanie usunięta i załadowana ponownie z serwera.
+[It may take a long time. \nDo you want to continue?]
+To może zająć dużo czasu.\nCzy chcesz kontynuować?
+[Attention!]
+Uwaga!
 [Attachments:]
 Załączniki:
 [Photo]
