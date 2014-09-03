@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.11
+;  Version: 0.1.0.12
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
 [E-mail or phone number:]
-Пошта або номер телефону:
+Пошта або № телефону:
 [Password:]
 Пароль:
 [Open VKontakte site]
@@ -27,6 +27,12 @@
 Не відкривати вікна чатів при старті
 [Automatically wipe local contacts missing in your Friends list]
 Автоматично видаляти локальні контакти, яких немає в списку друзів
+[Always notify as unread for all incoming message]
+Позначати всі вхідні повідомлення непрочитаними
+[Mark read on reply]
+Позначати прочитаними при відповіді
+[Automatically sync last messages]
+Автоматично синхронізувати останні повідомлення
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
@@ -83,6 +89,12 @@
 З'єднання з сервером %s
 [Create new chat]
 Створити новий чат
+[Reload all messages from vk.com]
+Завантажити історію з сайту
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+Вы впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
+[Attention!]
+Увага!
 [Attachments:]
 Вкладення:
 [Photo]
