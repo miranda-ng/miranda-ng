@@ -54,6 +54,11 @@ BEGIN
     CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,134,278,10
     CONTROL         "Automatically wipe local contacts missing in your Friends list",IDC_AUTOCLEAN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,148,278,10
+    CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,162,278,10
+    CONTROL         "Mark read on reply",IDC_MARKREADONREPLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,176,278,10
+    CONTROL         "Automatically sync last messages ",IDC_SYNCHISTOTYONONLINE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,190,278,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224

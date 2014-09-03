@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Myranda\protocols\VKontakte\res\resource.rc
+// Used by d:\svn\protocols\VKontakte\res\resource.rc
 //
 #define IDD_ACCMGRUI                    101
 #define IDD_CAPTCHAFORM                 102
@@ -24,6 +24,10 @@
 #define IDC_HIDECHATS                   1014
 #define IDC_CONTACT                     1015
 #define IDC_AUTOCLEAN                   1020
+#define IDC_MESASUREAD                  1025
+#define IDC_MARKREADONREPLY             1026
+#define IDC_SYNCHISTOTYONONLINE         1027
+
 
 // Next default values for new objects
 // 
@@ -32,7 +36,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        108
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1021
+#define _APS_NEXT_CONTROL_VALUE         1030
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

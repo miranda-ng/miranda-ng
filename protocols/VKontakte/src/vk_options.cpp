@@ -121,6 +121,9 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery);
 		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats);
 		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getByte("AutoClean", 0));
+		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread);
+		CheckDlgButton(hwndDlg, IDC_MARKREADONREPLY, ppro->m_bMarkReadOnReply);
+		CheckDlgButton(hwndDlg, IDC_SYNCHISTOTYONONLINE, ppro->m_bAutoSyncHistory);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -139,6 +142,9 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		case IDC_DELIVERY:
 		case IDC_HIDECHATS:
 		case IDC_AUTOCLEAN:
+		case IDC_MESASUREAD: 
+		case IDC_MARKREADONREPLY:
+		case IDC_SYNCHISTOTYONONLINE:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -156,7 +162,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				ppro->setGroup(str);
 				ppro->setTString("ProtoGroup", str);
 			}
-
+			
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
 			ptrA szRawPasswd(mir_utf8encodeT(str));
 			if (szRawPasswd != NULL)
@@ -169,6 +175,16 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			ppro->setByte("HideChats", ppro->m_bHideChats);
 
 			ppro->setByte("AutoClean", IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAN) == BST_CHECKED);
+			
+			ppro->m_bMesAsUnread = IsDlgButtonChecked(hwndDlg, IDC_MESASUREAD) == BST_CHECKED;
+			ppro->setByte("MesAsUnread", ppro->m_bMesAsUnread);
+
+			ppro->m_bMarkReadOnReply = IsDlgButtonChecked(hwndDlg, IDC_MARKREADONREPLY) == BST_CHECKED;
+			ppro->setByte("MarkReadOnReply", ppro->m_bMarkReadOnReply);
+
+			ppro->m_bAutoSyncHistory = IsDlgButtonChecked(hwndDlg, IDC_SYNCHISTOTYONONLINE) == BST_CHECKED;
+			ppro->setByte("AutoSyncHistory", ppro->m_bAutoSyncHistory);
+						
 		}
 		break;
 

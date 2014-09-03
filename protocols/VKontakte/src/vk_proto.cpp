@@ -54,6 +54,9 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	m_bServerDelivery = getBool("ServerDelivery", true);
 	m_bHideChats = getBool("HideChats", true);
+	m_bMesAsUnread = getBool("MesAsUnread", false);
+	m_bMarkReadOnReply = getBool("MarkReadOnReply", false);
+	m_bAutoSyncHistory = getBool("AutoSyncHistory", true);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -91,6 +94,20 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
 	mi.pszName = LPGEN("Create new chat");
 	Menu_AddProtoMenuItem(&mi);
+
+	//Server History
+	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
+	mi.pszService = szService;
+	mi.pszContactOwner = m_szModuleName;
+	mi.flags = CMIF_TCHAR;
+	mi.position = -200001000+1;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	mi.position = -201001000+102;
+	mi.ptszName = LPGENT("Reload all messages from vk.com");
+	Menu_AddContactMenuItem(&mi);
+
 	return 0;
 }
 
@@ -201,7 +218,12 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		JSONROOT pRoot;
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 		if (pResponse != NULL) {
-			m_sendIds.insert((HANDLE)json_as_int(pResponse));
+			UINT mid = json_as_int(pResponse);
+			m_sendIds.insert((HANDLE)mid);
+			if (mid>getDword(param->hContact, "lastmsgid", 0))
+				setDword(param->hContact, "lastmsgid", mid);
+			if (m_bMarkReadOnReply)
+				MarkMessagesRead(param->hContact);
 			iResult = ACKRESULT_SUCCESS;
 		}
 	}
