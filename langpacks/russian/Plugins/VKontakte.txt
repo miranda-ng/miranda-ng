@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.11
+;  Version: 0.1.0.12
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -27,6 +27,12 @@ E-mail или номер телефона:
 Не открывать окна комнат чата при входе
 [Automatically wipe local contacts missing in your Friends list]
 Автоматически очищать локальные контакты, которых нет в списке друзей
+[Always notify as unread for all incoming message]
+Помечать все входящие сообщения как "Непрочитанное"
+[Mark read on reply]
+Помечать как "Прочитанное" при ответе
+[Automatically sync last messages ]
+Автоматически синхронизировать последние сообщения\s
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
@@ -83,6 +89,16 @@ Cоздать комнату чата
 Подключение к серверу %s
 [Create new chat]
 Создать новый чат
+[Reload all messages from vk.com]
+Загрузить историю с сайта
+[Are you sure to reload all messages from vk.com?\n]
+Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\n
+[Local contact history will be deleted and reloaded from the server.\n]
+Локальная история контакта будет удалена и загружена с сервера.\n
+[It may take a long time. \nDo you want to continue?]
+Это может занять много времени. \nВы уверены, что хотите продолжить?
+[Attention!]
+Внимание!
 [Attachments:]
 Вложения:
 [Photo]
