@@ -16,6 +16,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #define PS_CREATECHAT "/CreateNewChat"
+#define PS_GETALLSERVERHISTORY "/GetAllServerHystory"
+#define MAXHISTORYMIDSPERONE 200
 
 struct CVkProto;
 typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
@@ -185,6 +187,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM wParam, LPARAM);
 
 	//==== Misc ==========================================================================
 
@@ -200,11 +203,14 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void MarkMessagesRead(const CMStringA &mids);
+	void MarkMessagesRead(const MCONTACT hContact);
 	void RetrieveMessagesByIds(const CMStringA &mids);
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-
+	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
+	void GetHistoryDlg(MCONTACT hContact, int iLastMsg);
+	void GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCount, int lastcount);
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
@@ -277,7 +283,7 @@ private:
 
 	void   __cdecl SendMsgAck(void *param);
 
-	bool   m_bOnline, m_bHideChats;
+	bool   m_bOnline, m_bHideChats, m_bMesAsUnread, m_bMarkReadOnReply, m_bAutoSyncHistory;
 
 	LONG   m_myUserId;
 	ptrA   m_szAccessToken;
