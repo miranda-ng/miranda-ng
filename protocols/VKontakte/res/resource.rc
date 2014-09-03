@@ -57,7 +57,7 @@ BEGIN
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,162,278,10
     CONTROL         "Mark read on reply",IDC_MARKREADONREPLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,176,278,10
-    CONTROL         "Automatically sync last messages ",IDC_SYNCHISTOTYONONLINE,
+    CONTROL         "Automatically sync last messages",IDC_SYNCHISTOTYONONLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,190,278,10
 END
 

@@ -655,11 +655,8 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM wParam, LPARAM)
 {
-	LPCWSTR str = LPGENT("Are you sure to reload all messages from vk.com?\n")
-		LPGENT("Local contact history will be deleted and reloaded from the server.\n")
-		LPGENT("It may take a long time. \nDo you want to continue?");
-	if (IDNO==MessageBox(NULL, str, 
-			LPGENT("Attention!"), MB_ICONWARNING|MB_YESNO))
+	LPCWSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
+	if (IDNO==MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING|MB_YESNO))
 		return 0;
 	
 	LONG userID = getDword((MCONTACT)wParam, "ID", -1); 
