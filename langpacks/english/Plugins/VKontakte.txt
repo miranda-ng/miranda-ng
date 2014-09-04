@@ -19,6 +19,7 @@
 [Automatically wipe local contacts missing in your Friends list]
 [Always notify as unread for all incoming message]
 [Mark read on reply]
+[Mark read on typing]
 [Automatically sync last messages]
 [Bots challenge test]
 [Instruction:]
