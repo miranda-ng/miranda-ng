@@ -32,6 +32,8 @@ Automatycznie czyść lokalne kontakty, których brak na twojej liście znajomyc
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
 [Mark read on reply]
 Oznaczaj jako przeczytane po udzieleniu odpowiedzi
+[Mark read on typing]
+Oznacz jako przeczytaną podczas pisania
 [Automatically sync last messages]
 Automatycznie synchronizuj ostatnie wiadomości
 [Bots challenge test]
