@@ -12,7 +12,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Английский (США) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -51,14 +51,15 @@ BEGIN
     EDITTEXT        IDC_GROUPNAME,167,86,121,12,ES_AUTOHSCROLL
     GROUPBOX        "Advanced",IDC_STATIC,4,108,293,108
     CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,120,278,10
-    CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,134,278,10
+    CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,133,278,10
     CONTROL         "Automatically wipe local contacts missing in your Friends list",IDC_AUTOCLEAN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,148,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,146,278,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,162,278,10
-    CONTROL         "Mark read on reply",IDC_MARKREADONREPLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,176,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,159,278,10
+    CONTROL         "Mark read on reply",IDC_MARKREADONREPLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,171,278,10
+    CONTROL         "Mark read on typing",IDC_MARKREADONTYPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,184,267,10
     CONTROL         "Automatically sync last messages",IDC_SYNCHISTOTYONONLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,190,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,197,278,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
@@ -177,7 +178,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (United States) resources
+#endif    // Английский (США) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

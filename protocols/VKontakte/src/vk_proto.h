@@ -283,7 +283,12 @@ private:
 
 	void   __cdecl SendMsgAck(void *param);
 
-	bool   m_bOnline, m_bHideChats, m_bMesAsUnread, m_bMarkReadOnReply, m_bAutoSyncHistory;
+	bool	m_bOnline, 
+			m_bHideChats, 
+			m_bMesAsUnread, 
+			m_bMarkReadOnReply, 
+			m_bMarkReadOnTyping,
+			m_bAutoSyncHistory;
 
 	LONG   m_myUserId;
 	ptrA   m_szAccessToken;

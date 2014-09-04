@@ -56,6 +56,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bHideChats = getBool("HideChats", true);
 	m_bMesAsUnread = getBool("MesAsUnread", false);
 	m_bMarkReadOnReply = getBool("MarkReadOnReply", false);
+	m_bMarkReadOnTyping = getBool("MarkReadOnTyping", false) && m_bMarkReadOnReply;
 	m_bAutoSyncHistory = getBool("AutoSyncHistory", true);
 
 	// Set all contacts offline -- in case we crashed
@@ -322,7 +323,20 @@ int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 
 int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 { 
-	return 0;
+	if (PROTOTYPE_SELFTYPING_ON == type) {
+		LONG userID = getDword(hContact, "ID", -1);
+		if ((userID == -1)||(!IsOnline()))
+			return 1;
+		
+		if (m_bMarkReadOnTyping)
+			MarkMessagesRead(hContact);
+		
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth)
+			<< INT_PARAM("user_id", userID) 
+			<< CHAR_PARAM("type", "typing"));
+		return 0;
+	}
+	return 1;
 }
 
 MCONTACT CVkProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
