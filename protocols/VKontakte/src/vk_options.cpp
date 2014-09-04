@@ -123,6 +123,8 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getByte("AutoClean", 0));
 		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread);
 		CheckDlgButton(hwndDlg, IDC_MARKREADONREPLY, ppro->m_bMarkReadOnReply);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_MARKREADONTYPING), ppro->m_bMarkReadOnReply);
+		CheckDlgButton(hwndDlg, IDC_MARKREADONTYPING, ppro->m_bMarkReadOnTyping);
 		CheckDlgButton(hwndDlg, IDC_SYNCHISTOTYONONLINE, ppro->m_bAutoSyncHistory);
 		return TRUE;
 
@@ -143,10 +145,16 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		case IDC_HIDECHATS:
 		case IDC_AUTOCLEAN:
 		case IDC_MESASUREAD: 
-		case IDC_MARKREADONREPLY:
+		case IDC_MARKREADONTYPING:
 		case IDC_SYNCHISTOTYONONLINE:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		case IDC_MARKREADONREPLY:
+			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus()){
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);	
+				EnableWindow(GetDlgItem(hwndDlg, IDC_MARKREADONTYPING), (IsDlgButtonChecked(hwndDlg, IDC_MARKREADONREPLY) == BST_CHECKED));
+			}
 			break;
 		}
 		break;
@@ -181,6 +189,9 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 			ppro->m_bMarkReadOnReply = IsDlgButtonChecked(hwndDlg, IDC_MARKREADONREPLY) == BST_CHECKED;
 			ppro->setByte("MarkReadOnReply", ppro->m_bMarkReadOnReply);
+
+			ppro->m_bMarkReadOnTyping = (IsDlgButtonChecked(hwndDlg, IDC_MARKREADONREPLY) == BST_CHECKED) && (IsDlgButtonChecked(hwndDlg, IDC_MARKREADONTYPING) == BST_CHECKED);
+			ppro->setByte("MarkReadOnTyping", ppro->m_bMarkReadOnTyping);
 
 			ppro->m_bAutoSyncHistory = IsDlgButtonChecked(hwndDlg, IDC_SYNCHISTOTYONONLINE) == BST_CHECKED;
 			ppro->setByte("AutoSyncHistory", ppro->m_bAutoSyncHistory);

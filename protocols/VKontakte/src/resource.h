@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by d:\svn\protocols\VKontakte\res\resource.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется d:\svn\protocols\VKontakte\res\resource.rc
 //
 #define IDD_ACCMGRUI                    101
 #define IDD_CAPTCHAFORM                 102
@@ -27,7 +27,7 @@
 #define IDC_MESASUREAD                  1025
 #define IDC_MARKREADONREPLY             1026
 #define IDC_SYNCHISTOTYONONLINE         1027
-
+#define IDC_MARKREADONTYPING            1028
 
 // Next default values for new objects
 // 
