@@ -995,6 +995,10 @@ bool facebook_client::home()
 		// Get real name (for mobile FB version since 27.8.2014)
 		this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</a>", "<div", ">", "<img");
 
+		// Try to get name again, if we've got some some weird version of Facebook
+		if (this->self_.real_name.empty())
+			this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
+
 		// Get and strip optional nickname
 		std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
 		if (pos != std::string::npos) {
