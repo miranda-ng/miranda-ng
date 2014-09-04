@@ -429,7 +429,7 @@ void CDb3Mmap::FillContacts()
 	}
 
 	// no need in conversion? quit then
-	if (arMetas.getCount() == 0)
+	if (m_bReadOnly || arMetas.getCount() == 0)
 		return;
 
 	DBVARIANT dbv; dbv.type = DBVT_DWORD;
@@ -448,7 +448,7 @@ void CDb3Mmap::FillContacts()
 		dbws.value.type = DBVT_DWORD;
 
 		DBCachedContact *ccMeta = p->cc;
-		if (dbv.dVal < ccMeta->nSubs) {
+		if (int(dbv.dVal) < ccMeta->nSubs) {
 			ccMeta->pSubs[dbv.dVal] = hh;
 
 			char setting[100];
