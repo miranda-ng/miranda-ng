@@ -113,7 +113,7 @@ void dbg_msg(std::tstring str, int type)
 	str = strip(str);
 
 	if (g_settings.debug_messages)
-		PUShowMessageT((TCHAR*)str.c_str(), type);
+		CallServiceSync(MS_POPUP_SHOWMESSAGE, (WPARAM)str.c_str(), (LPARAM)type);
 
 	if (g_settings.log_to_file) {
 		time_t t_;
@@ -409,8 +409,7 @@ void processSingleAction(const std::tstring &what, bool &closeflag)
 		args = strip(args);
 		dir = /*unquote(*/strip(dir)/*)*/;
 
-		if ((int)ShellExecute(0, decode_se_arg(verb), decode_se_arg(file),
-			decode_se_arg(args), decode_se_arg(dir), SW_SHOWNORMAL) <= 32)
+		if ((int)ShellExecute(0, decode_se_arg(verb), decode_se_arg(file), decode_se_arg(args), decode_se_arg(dir), SW_SHOWNORMAL) <= 32)
 			throw _T("Failed: ") + what;
 	}
 	else if (what == _T("close"))
@@ -436,10 +435,9 @@ void processAction(const std::tstring &what, bool &closeflag)
 	}
 }
 
-static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	popup_t *pd = 0;
-	pd = (popup_t *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)pd);
+	popup_t *pd = (popup_t *)PUGetPluginData(hWnd);
 	if (!pd)
 		return FALSE;
 
@@ -517,7 +515,7 @@ int showMessage(const popup_t &msg)
 	ppd.colorBack = msg.background;
 	ppd.colorText = msg.foreground;
 	ppd.lchIcon = getIcon(msg.icon);
-	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppd.PluginWindowProc = PopupDlgProc;
 	ppd.iSeconds = msg.delay;
 
 	EnterCS(&g_popups_cs);
@@ -1008,11 +1006,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load()
 {
 	g_firstrun = true;
@@ -1032,7 +1025,6 @@ extern "C" int __declspec(dllexport) Load()
 	load_settings();
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	start_threads();
 	return 0;
