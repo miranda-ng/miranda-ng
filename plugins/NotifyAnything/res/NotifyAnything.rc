@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -53,15 +51,16 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     NA_OPTIONS, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 229
         VERTGUIDE, 13
-        VERTGUIDE, 55
-        VERTGUIDE, 61
+        VERTGUIDE, 76
+        VERTGUIDE, 81
+        VERTGUIDE, 222
         TOPMARGIN, 7
         BOTTOMMARGIN, 184
     END
@@ -82,24 +81,25 @@ BEGIN
     GROUPBOX        "Security",IDC_STATIC,7,7,222,77
     CONTROL         "Only listen to localhost",NA_LOCAL_CHECK,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,19,209,10
     GROUPBOX        "Sound",IDC_STATIC,7,91,222,43
-    CONTROL         "Play sounds",NA_SOUND_CHECK,"Button",BS_AUTO3STATE | WS_GROUP | WS_TABSTOP,13,102,114,10
-    CONTROL         "Use internal speaker",NA_PCSPEAKER_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,118,127,10
+    CONTROL         "Play sounds",NA_SOUND_CHECK,"Button",BS_AUTO3STATE | WS_GROUP | WS_TABSTOP,13,102,209,10
+    CONTROL         "Use internal speaker",NA_PCSPEAKER_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,118,209,10
     GROUPBOX        "Debug",IDC_STATIC,7,142,222,42
     CONTROL         "Log to file",NA_LOG_CHECK,"Button",BS_AUTO3STATE | WS_GROUP | WS_TABSTOP,13,152,98,10
-    CONTROL         "Message debugging",NA_DEBUG_MSG_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,152,102,10
-    EDITTEXT        NA_PORT,49,31,40,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Port:",IDC_STATIC,13,33,17,8
-    LTEXT           "(Default is 12001)",IDC_STATIC,95,33,89,8
+    CONTROL         "Message debugging",NA_DEBUG_MSG_CHECK,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,118,152,102,10
+    EDITTEXT        NA_PORT,81,31,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Port:",IDC_STATIC,13,33,63,8,0,WS_EX_RIGHT
+    LTEXT           "(Default is 12001)",IDC_STATIC,131,34,91,8
     CONTROL         "Allow actions to execute programs",NA_ALLOW_EXECUTE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,66,207,10
-    EDITTEXT        NA_PASSWORD,49,48,77,14,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,13,51,34,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,66,209,10
+    EDITTEXT        NA_PASSWORD,81,48,77,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,13,51,63,8,0,WS_EX_RIGHT
     EDITTEXT        NA_LOG_FILENAME,13,165,187,13,ES_AUTOHSCROLL
     PUSHBUTTON      "...",NA_LOG_BROWSE,206,165,17,13
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
+
 
 
 #ifndef APSTUDIO_INVOKED
