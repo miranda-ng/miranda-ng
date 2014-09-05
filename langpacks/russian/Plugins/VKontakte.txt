@@ -70,7 +70,7 @@ Cоздать комнату чата
 [Enter new chat title]
 Введите новый заголовок чата
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Этот чат будет уничтожен со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
+Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
 [Warning]
 Предупреждение
 [&Invite a user]
@@ -94,7 +94,7 @@ Cоздать комнату чата
 [Reload all messages from vk.com]
 Загрузить историю с сайта
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
-Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени. \nВы уверены, что хотите продолжить?
+Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
 [Attention!]
 Внимание!
 [Attachments:]

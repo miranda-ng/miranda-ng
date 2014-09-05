@@ -2432,7 +2432,7 @@ Miranda NG не может открыть этот профиль
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки программы.
 [Account name must be filled.]
-Имя учётной записи должно быть заполнено.
+Необходимо указать имя учётной записи.
 [Account error]
 Ошибка учётной записи
 [Account name has to be unique. Please enter unique name.]
