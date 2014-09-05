@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_12.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
@@ -63,10 +63,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_YAMN", "..\plugins\YAMN\proto_yamn\proto_YAMN_12.vcxproj", "{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fp_icons", "..\plugins\FingerprintNG\iconpacks\fp_icons_12.vcxproj", "{7F854B13-37EA-4956-BAEE-9715AE9F4579}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Skype", "..\protocols\Skype\proto_skype\Proto_Skype_12.vcxproj", "{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_conn_Skype", "..\protocols\Skype\proto_conn_skype\Proto_conn_Skype_12.vcxproj", "{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_WhatsApp", "..\protocols\WhatsApp\proto_whatsapp\Proto_WhatsApp_12.vcxproj", "{64A2B403-90AF-4CF8-BC69-4E8D33872D64}"
 EndProject
@@ -334,22 +330,6 @@ Global
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|Win32.Build.0 = Release|Win32
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|x64.ActiveCfg = Release|x64
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|x64.Build.0 = Release|x64
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|Win32.ActiveCfg = Debug|Win32
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|Win32.Build.0 = Debug|Win32
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|x64.ActiveCfg = Debug|x64
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|x64.Build.0 = Debug|x64
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.ActiveCfg = Release|Win32
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.Build.0 = Release|Win32
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.ActiveCfg = Release|x64
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.Build.0 = Release|x64
-		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Debug|Win32.Build.0 = Debug|Win32
-		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Debug|x64.ActiveCfg = Debug|x64
-		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Debug|x64.Build.0 = Debug|x64
-		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|Win32.ActiveCfg = Release|Win32
-		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|Win32.Build.0 = Release|Win32
-		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|x64.ActiveCfg = Release|x64
-		{A3A599DF-AE0F-DAFC-106D-7E3769E18E6D}.Release|x64.Build.0 = Release|x64
 		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|Win32.ActiveCfg = Debug|Win32
 		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|Win32.Build.0 = Debug|Win32
 		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|x64.ActiveCfg = Debug|x64
