@@ -174,8 +174,8 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.pszTemplate = MAKEINTRESOURCEA(NA_OPTIONS);
 	odp.pfnDlgProc = DlgProcOpts;
-	odp.pszTitle = "Notify Anything";
-	odp.pszGroup = Translate("Plugins");
+	odp.pszTitle = LPGEN("Notify Anything");
+	odp.pszGroup = LPGEN("Plugins");
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.groupPosition = 910000000;
