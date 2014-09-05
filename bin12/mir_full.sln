@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_12.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -386,8 +386,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConnectionNotify", "..\plugins\ConnectionNotify\ConnectionNotify_12.vcxproj", "{3C83B0AB-9739-41C1-A127-ED7DB9551F76}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exchange", "..\plugins\Exchange\Exchange_12.vcxproj", "{F462FDA1-BDCD-49B2-B996-D7DE71D07393}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Skype", "..\protocols\Skype\Skype_12.vcxproj", "{F5282DBC-756B-4071-B186-3E82C0E8E1F7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebView", "..\plugins\WebView\webview_12.vcxproj", "{475ED6ED-C311-4188-ACB2-1C41830B22EE}"
 EndProject
@@ -1729,10 +1727,6 @@ Global
 		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|Win32.Build.0 = Release|Win32
 		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|x64.ActiveCfg = Release|x64
 		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|x64.Build.0 = Release|x64
-		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Debug|x64.ActiveCfg = Debug|x64
-		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Release|Win32.ActiveCfg = Release|Win32
-		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Release|x64.ActiveCfg = Release|x64
 		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|Win32.ActiveCfg = Debug|Win32
 		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|Win32.Build.0 = Debug|Win32
 		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|x64.ActiveCfg = Debug|x64

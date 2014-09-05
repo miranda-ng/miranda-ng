@@ -385,8 +385,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConnectionNotify", "..\plug
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exchange", "..\plugins\Exchange\Exchange_10.vcxproj", "{F462FDA1-BDCD-49B2-B996-D7DE71D07393}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Skype", "..\protocols\Skype\Skype_10.vcxproj", "{F5282DBC-756B-4071-B186-3E82C0E8E1F7}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebView", "..\plugins\WebView\webview_10.vcxproj", "{475ED6ED-C311-4188-ACB2-1C41830B22EE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShlExt", "..\plugins\ShellExt\shellext_10.vcxproj", "{B27B85B5-0EF1-496D-99D7-0702A98A342A}"
@@ -1727,10 +1725,6 @@ Global
 		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|Win32.Build.0 = Release|Win32
 		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|x64.ActiveCfg = Release|x64
 		{F462FDA1-BDCD-49B2-B996-D7DE71D07393}.Release|x64.Build.0 = Release|x64
-		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Debug|x64.ActiveCfg = Debug|x64
-		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Release|Win32.ActiveCfg = Release|Win32
-		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Release|x64.ActiveCfg = Release|x64
 		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|Win32.ActiveCfg = Debug|Win32
 		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|Win32.Build.0 = Debug|Win32
 		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|x64.ActiveCfg = Debug|x64

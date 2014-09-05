@@ -521,6 +521,8 @@ static renameTable[] =
 	{ _T("dbx_tree.dll"),                   _T("Plugins\\dbx_mmap.dll") },
 	{ _T("rc4.dll"),                        NULL },
 	{ _T("athena.dll"),                     NULL },
+	{ _T("skype.dll"),                      NULL },
+	{ _T("skypekit.exe"),                   NULL },
 #else
 	{ _T("skype.dll"),                      _T("Plugins\\skypeclassic.dll") },
 #endif
