@@ -3,18 +3,6 @@
 #define EnterCS(cs) EnterCriticalSection(cs)
 #define LeaveCS(cs) LeaveCriticalSection(cs)
 
-//---------------------------
-//---Internal Hooks
-//---(Workaround till CallServiceSync is available)
-
-/*
-Stolen from NewEventNotify:
-The idea for this is taken from "NewStatusNotify" by Hrk, thx *g*
-This is needed to send a message with safe multithrading.
-We'll create a private hook and we'll call it via NotifyEventHooks, which brings execution
-back to the main thread.
-*/
-
 void cslog(const TCHAR *what, const TCHAR *file, int line)
 {
 	if (g_settings.log_to_file) {
@@ -113,7 +101,8 @@ void dbg_msg(std::tstring str, int type)
 	str = strip(str);
 
 	if (g_settings.debug_messages)
-		CallServiceSync(MS_POPUP_SHOWMESSAGE, (WPARAM)str.c_str(), (LPARAM)type);
+		// Execute it in main thread
+		CallServiceSync(MS_POPUP_SHOWMESSAGEW, (WPARAM)str.c_str(), (LPARAM)type);
 
 	if (g_settings.log_to_file) {
 		time_t t_;
@@ -170,7 +159,15 @@ void registerSound(const std::tstring &name)
 	std::tstring id = _T("NotifyAnything_") + name;
 	std::tstring desc = _T("NotifyAnything: ") + name;
 	std::tstring file = name + _T(".wav");
-	SkinAddNewSound(_T2A(id.c_str()), _T2A(desc.c_str()), _T2A(file.c_str()));
+
+	SKINSOUNDDESCEX ssd = { 0 };
+	ssd.cbSize = sizeof(ssd);
+	ssd.dwFlags = SSDF_TCHAR;
+	ssd.pszName = _T2A(id.c_str());
+	ssd.ptszSection = LPGENT("Notify Anything");
+	ssd.ptszDescription = desc.c_str();
+	ssd.ptszDefaultFile = file.c_str();
+	Skin_AddSound(&ssd);
 }
 
 HICON getIcon(const std::tstring &name)
@@ -872,7 +869,7 @@ void initWinsock()
 	LeaveCS(&g_wsocklock);
 }
 
-DWORD udptcpThreadFunc(LPVOID useUdp)
+DWORD WINAPI udptcpThreadFunc(LPVOID useUdp)
 {
 	try
 	{
@@ -984,10 +981,8 @@ void start_threads()
 {
 	g_exit_threads = false;
 	DWORD id;
-	g_udp_thread = CreateThread(NULL, 0,
-		(LPTHREAD_START_ROUTINE)udptcpThreadFunc, (LPVOID)1, 0, &id);
-	g_tcp_thread = CreateThread(NULL, 0,
-		(LPTHREAD_START_ROUTINE)udptcpThreadFunc, NULL, 0, &id);
+	g_udp_thread = CreateThread(NULL, 0, udptcpThreadFunc, (void *) 1, 0, &id);
+	g_tcp_thread = CreateThread(NULL, 0, udptcpThreadFunc, NULL, 0, &id);
 }
 
 void stop_threads()
