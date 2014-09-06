@@ -25,20 +25,53 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "jabber.h"
-#include "jabber_presence_manager.h"
 
-BOOL CJabberPresenceManager::FillPermanentHandlers()
+static int CompareItems(const CJabberPresencePermanentInfo *p1, const CJabberPresencePermanentInfo *p2)
 {
-	return TRUE;
+	return p1->getPriority() - p2->getPriority();
 }
 
-BOOL CJabberPresenceManager::HandlePresencePermanent(HXML node, ThreadData *pThreadData)
+CJabberPresenceManager::CJabberPresenceManager(CJabberProto *proto) :
+	m_arHandlers(1, &CompareItems)
+{
+	ppro = proto;
+}
+
+CJabberPresenceManager::~CJabberPresenceManager()
+{
+}
+
+CJabberPresencePermanentInfo* CJabberPresenceManager::AddPermanentHandler(
+	JABBER_PRESENCE_HANDLER pHandler,
+	void *pUserData,
+	PRESENCE_USER_DATA_FREE_FUNC pUserDataFree,
+	int iPriority)
+{
+	CJabberPresencePermanentInfo* pInfo = new CJabberPresencePermanentInfo();
+	pInfo->m_pHandler = pHandler;
+	pInfo->m_pUserData = pUserData;
+	pInfo->m_pUserDataFree = pUserDataFree;
+	pInfo->m_iPriority = iPriority;
+
+	mir_cslock lck(m_cs);
+	m_arHandlers.insert(pInfo);
+	return pInfo;
+}
+
+bool CJabberPresenceManager::DeletePermanentHandler(CJabberPresencePermanentInfo *pInfo)
 {
 	mir_cslock lck(m_cs);
-	for (CJabberPresencePermanentInfo *pInfo = m_pPermanentHandlers; pInfo; pInfo = pInfo->m_pNext) {
+	return m_arHandlers.remove(pInfo) == 1;
+}
+
+bool CJabberPresenceManager::HandlePresencePermanent(HXML node, ThreadData *pThreadData)
+{
+	for (int i = 0; i < m_arHandlers.getCount(); i++) {
+		CJabberPresencePermanentInfo &pInfo = m_arHandlers[i];
+		
 		CJabberPresenceInfo presenceInfo;
-		presenceInfo.m_pUserData = pInfo->m_pUserData;
-		if ((ppro->*(pInfo->m_pHandler))(node, pThreadData, &presenceInfo))
+		presenceInfo.m_pUserData = pInfo.m_pUserData;
+		if ((ppro->*(pInfo.m_pHandler))(node, pThreadData, &presenceInfo))
 			return true;
 	}
 

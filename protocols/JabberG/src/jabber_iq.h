@@ -143,8 +143,6 @@ class CJabberIqPermanentInfo : public MZeroedObject
 {
 	friend class CJabberIqManager;
 
-	CJabberIqPermanentInfo *m_pNext;
-
 	JABBER_PERMANENT_IQ_HANDLER m_pHandler;
 	DWORD m_dwParamsToParse;
 	int m_nIqTypes;
@@ -163,6 +161,8 @@ public:
 		mir_free(m_szXmlns);
 		mir_free(m_szTag);
 	}
+
+	__forceinline int getPriority() const { return m_iPriority; }
 };
 
 class CJabberIqManager
@@ -175,7 +175,7 @@ protected:
 	HANDLE m_hExpirerThread;
 	BOOL m_bExpirerThreadShutdownRequest;
 
-	CJabberIqPermanentInfo* m_pPermanentHandlers;
+	OBJLIST<CJabberIqPermanentInfo> m_arHandlers;
 
 	CJabberIqInfo* DetachInfo(int nIqId);
 	CJabberIqInfo* DetachInfo(void *pUserData);
@@ -184,31 +184,31 @@ protected:
 	void ExpireInfo(CJabberIqInfo *pInfo, void *pUserData = NULL);
 	
 	// inserts pInfo at a place determined by pInfo->m_iPriority
-	BOOL InsertIq(CJabberIqInfo *pInfo);
+	bool InsertIq(CJabberIqInfo *pInfo);
 
 public:
 	CJabberIqManager(CJabberProto* proto);
 	~CJabberIqManager();
 
-	BOOL Start();
-	BOOL Shutdown();
+	bool Start();
+	void Shutdown();
 
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
 	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const TCHAR *szReceiver, DWORD dwParamsToParse, int nIqId, void *pUserData, int iPriority);
 	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const TCHAR *szXmlns, BOOL bAllowPartialNs, const TCHAR *szTag, void *pUserData = NULL, IQ_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
 
 	// returns TRUE when pInfo found, or FALSE otherwise
-	BOOL DeletePermanentHandler(CJabberIqPermanentInfo *pInfo);
-	BOOL DeleteHandler(CJabberIqInfo *pInfo);
+	bool DeletePermanentHandler(CJabberIqPermanentInfo *pInfo);
+	bool DeleteHandler(CJabberIqInfo *pInfo);
 
-	BOOL HandleIq(int nIqId, HXML pNode);
-	BOOL HandleIqPermanent(HXML pNode);
+	bool HandleIq(int nIqId, HXML pNode);
+	bool HandleIqPermanent(HXML pNode);
 
-	BOOL ExpireIq(int nIqId);
+	bool ExpireIq(int nIqId);
 	void ExpirerThread(void);
-	BOOL ExpireByUserData(void *pUserData);
-	BOOL ExpireAll(void *pUserData = NULL);
-	BOOL FillPermanentHandlers();
+	bool ExpireByUserData(void *pUserData);
+	bool ExpireAll(void *pUserData = NULL);
+	void FillPermanentHandlers();
 };
 
 #endif

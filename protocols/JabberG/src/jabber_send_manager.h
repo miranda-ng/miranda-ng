@@ -75,11 +75,14 @@ public:
 	{
 		ZeroMemory(this, sizeof(CJabberSendPermanentInfo));
 	}
+	
 	~CJabberSendPermanentInfo()
 	{
 		if (m_pUserDataFree)
 			m_pUserDataFree(m_pUserData);
 	}
+
+	__forceinline int getPriority() const { return m_iPriority; }
 };
 
 class CJabberSendManager
@@ -87,86 +90,16 @@ class CJabberSendManager
 protected:
 	CJabberProto *ppro;
 	mir_cs m_cs;
-	CJabberSendPermanentInfo* m_pPermanentHandlers;
+	OBJLIST<CJabberSendPermanentInfo> m_arHandlers;
 
 public:
-	CJabberSendManager(CJabberProto* proto)
-	{
-		m_pPermanentHandlers = NULL;
-		ppro = proto;
-	}
-	~CJabberSendManager()
-	{
-		CJabberSendPermanentInfo *pInfo = m_pPermanentHandlers;
-		while (pInfo) {
-			CJabberSendPermanentInfo *pTmp = pInfo->m_pNext;
-			delete pInfo;
-			pInfo = pTmp;
-		}
-		m_pPermanentHandlers = NULL;
-	}
-	BOOL Start()
-	{
-		return TRUE;
-	}
-	BOOL Shutdown()
-	{
-		return TRUE;
-	}
-	CJabberSendPermanentInfo* AddPermanentHandler(JABBER_SEND_HANDLER pHandler, void *pUserData = NULL, SEND_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT)
-	{
-		CJabberSendPermanentInfo* pInfo = new CJabberSendPermanentInfo();
-		if (!pInfo)
-			return NULL;
+	CJabberSendManager(CJabberProto* proto);
+	~CJabberSendManager();
 
-		pInfo->m_pHandler = pHandler;
-		pInfo->m_pUserData = pUserData;
-		pInfo->m_pUserDataFree = pUserDataFree;
-		pInfo->m_iPriority = iPriority;
+	CJabberSendPermanentInfo* AddPermanentHandler(JABBER_SEND_HANDLER pHandler, void *pUserData = NULL, SEND_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT);
+	bool DeletePermanentHandler(CJabberSendPermanentInfo *pInfo);
 
-		mir_cslock lck(m_cs);
-		if (!m_pPermanentHandlers)
-			m_pPermanentHandlers = pInfo;
-		else {
-			if (m_pPermanentHandlers->m_iPriority > pInfo->m_iPriority) {
-				pInfo->m_pNext = m_pPermanentHandlers;
-				m_pPermanentHandlers = pInfo;
-			}
-			else {
-				CJabberSendPermanentInfo* pTmp = m_pPermanentHandlers;
-				while (pTmp->m_pNext && pTmp->m_pNext->m_iPriority <= pInfo->m_iPriority)
-					pTmp = pTmp->m_pNext;
-				pInfo->m_pNext = pTmp->m_pNext;
-				pTmp->m_pNext = pInfo;
-			}
-		}
-		return pInfo;
-	}
-	BOOL DeletePermanentHandler(CJabberSendPermanentInfo *pInfo)
-	{ // returns TRUE when pInfo found, or FALSE otherwise
-		mir_cslock lck(m_cs);
-		if (!m_pPermanentHandlers)
-			return FALSE;
-
-		if (m_pPermanentHandlers == pInfo) { // check first item
-			m_pPermanentHandlers = m_pPermanentHandlers->m_pNext;
-			delete pInfo;
-			return TRUE;
-		}
-
-		CJabberSendPermanentInfo* pTmp = m_pPermanentHandlers;
-		while (pTmp->m_pNext) {
-			if (pTmp->m_pNext == pInfo) {
-				pTmp->m_pNext = pTmp->m_pNext->m_pNext;
-				delete pInfo;
-				return TRUE;
-			}
-			pTmp = pTmp->m_pNext;
-		}
-		return FALSE;
-	}
-	BOOL HandleSendPermanent(HXML node, ThreadData *pThreadData);
-	BOOL FillPermanentHandlers();
+	bool HandleSendPermanent(HXML node, ThreadData *pThreadData);
 };
 
 #endif

@@ -127,9 +127,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	m_iqManager.FillPermanentHandlers();
 	m_iqManager.Start();
 	m_messageManager.FillPermanentHandlers();
-	m_presenceManager.FillPermanentHandlers();
-	m_presenceManager.Start();
-	m_sendManager.Start();
 	m_adhocManager.FillDefaultNodes();
 	m_clientCapsManager.AddDefaultCaps();
 
@@ -293,8 +290,6 @@ int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 
 	m_iqManager.ExpireAll();
 	m_iqManager.Shutdown();
-	m_presenceManager.Shutdown();
-	m_sendManager.Shutdown();
 	ConsoleUninit();
 
 	StatusIconData sid = { sizeof(sid) };

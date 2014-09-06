@@ -25,20 +25,49 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "jabber.h"
-#include "jabber_send_manager.h"
 
-BOOL CJabberSendManager::FillPermanentHandlers()
+static int CompareItems(const CJabberSendPermanentInfo *p1, const CJabberSendPermanentInfo *p2)
 {
-	return TRUE;
+	return p1->getPriority() - p2->getPriority();
 }
 
-BOOL CJabberSendManager::HandleSendPermanent(HXML node, ThreadData *pThreadData)
+CJabberSendManager::CJabberSendManager(CJabberProto* proto) :
+	m_arHandlers(1, CompareItems)
 {
+	ppro = proto;
+}
+
+CJabberSendManager::~CJabberSendManager()
+{
+}
+
+CJabberSendPermanentInfo* CJabberSendManager::AddPermanentHandler(JABBER_SEND_HANDLER pHandler, void *pUserData, SEND_USER_DATA_FREE_FUNC pUserDataFree, int iPriority)
+{
+	CJabberSendPermanentInfo *pInfo = new CJabberSendPermanentInfo();
+	pInfo->m_pHandler = pHandler;
+	pInfo->m_pUserData = pUserData;
+	pInfo->m_pUserDataFree = pUserDataFree;
+	pInfo->m_iPriority = iPriority;
+
 	mir_cslock lck(m_cs);
-	for (CJabberSendPermanentInfo *pInfo = m_pPermanentHandlers; pInfo; pInfo = pInfo->m_pNext) {
+	m_arHandlers.insert(pInfo);
+	return pInfo;
+}
+
+bool CJabberSendManager::DeletePermanentHandler(CJabberSendPermanentInfo *pInfo)
+{ 
+	mir_cslock lck(m_cs);
+	return m_arHandlers.remove(pInfo) == 1;
+}
+
+bool CJabberSendManager::HandleSendPermanent(HXML node, ThreadData *pThreadData)
+{
+	for (int i = 0; i < m_arHandlers.getCount(); i++) {
+		CJabberSendPermanentInfo &pInfo = m_arHandlers[i];
+
 		CJabberSendInfo sendInfo;
-		sendInfo.m_pUserData = pInfo->m_pUserData;
-		if ((ppro->*(pInfo->m_pHandler))(node, pThreadData, &sendInfo))
+		sendInfo.m_pUserData = pInfo.m_pUserData;
+		if ((ppro->*(pInfo.m_pHandler))(node, pThreadData, &sendInfo))
 			return true;
 	}
 
