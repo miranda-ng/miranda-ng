@@ -17,6 +17,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static int sttCompareProtocols(const CVkProto *p1, const CVkProto *p2)
+{
+	return lstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+}
+
+LIST<CVkProto> vk_Instances(1, sttCompareProtocols);
+
 static COLORREF sttColors[] = { 0, 1, 2, 3, 4, 5, 6 };
 
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
@@ -61,12 +68,14 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
+	vk_Instances.insert(this);
 }
 
 CVkProto::~CVkProto()
 {
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	UninitQueue();
+	vk_Instances.remove(this);
 }
 
 int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)

@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+UINT_PTR CVkProto::m_timer;
+
 char szBlankUrl[] = "http://api.vk.com/blank.html";
 
 void CVkProto::ShutdownSession()
@@ -38,22 +40,23 @@ void CVkProto::ConnectionFailed(int iReason)
 	ShutdownSession();
 }
 
-static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR pObject, DWORD)
+static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	CVkProto *ppro = (CVkProto*)pObject;
-	ppro->SetServerStatus(ppro->m_iStatus);
+	for (int i=0; i < vk_Instances.getCount(); i++)
+		vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iStatus);
 }
 
 static void CALLBACK VKSetTimer(void *pObject)
 {
-	CVkProto *ppro = (CVkProto*)pObject;
-	ppro->m_timer = SetTimer(NULL, (UINT_PTR)ppro, 870000, TimerProc);
+	CVkProto::m_timer = SetTimer(NULL, 0, 60000, TimerProc);
 }
 
 static void CALLBACK VKUnsetTimer(void *pObject)
 {
 	CVkProto *ppro = (CVkProto*)pObject;
-	KillTimer(NULL, ppro->m_timer);
+	if (CVkProto::m_timer)
+		KillTimer(NULL, CVkProto::m_timer);
+	CVkProto::m_timer = 0;
 }
 
 void CVkProto::OnLoggedIn()
@@ -62,7 +65,8 @@ void CVkProto::OnLoggedIn()
 	SetServerStatus(m_iDesiredStatus);
 
 	// initialize online timer
-	CallFunctionAsync(VKSetTimer, this);
+	if (!m_timer)
+		CallFunctionAsync(VKSetTimer, this);
 }
 
 void CVkProto::OnLoggedOut()
@@ -75,7 +79,11 @@ void CVkProto::OnLoggedOut()
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
-	CallFunctionAsync(VKUnsetTimer, this);
+	bool bOnline = false;
+	for (int i=0; i < vk_Instances.getCount(); i++)
+		bOnline = bOnline&&vk_Instances[i]->IsOnline();
+	if(!bOnline)
+		CallFunctionAsync(VKUnsetTimer, this);
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 	m_chats.destroy();
 }
