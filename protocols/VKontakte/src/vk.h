@@ -46,6 +46,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 	#define VK_NODUMPHEADERS NLHRF_NODUMPHEADERS
 #endif
 
+struct CVkProto;
+extern LIST<CVkProto> vk_Instances;
 extern HINSTANCE hInst;
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
