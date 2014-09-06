@@ -2,7 +2,7 @@
 
 void CToxProto::AddToTransferList(FileTransferParam *transfer)
 {
-	if (transfers.find(transfer->number) != transfers.end())
+	if (transfers.find(transfer->number) == transfers.end())
 	{
 		transfers[transfer->number] = transfer;
 	}
@@ -28,7 +28,14 @@ void CToxProto::OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint6
 	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
-		FileTransferParam *transfer = new FileTransferParam(fileNumber, ptrT(mir_utf8decodeT((const char*)fileName)), fileSize);
+		TCHAR *name = mir_utf8decodeT((char*)fileName);
+		if (name == NULL)
+		{
+			// uTox send file name in ansi
+			name = mir_a2u((char*)fileName);
+		}
+
+		FileTransferParam *transfer = new FileTransferParam(fileNumber, name, fileSize);
 		transfer->pfts.hContact = hContact;
 		transfer->pfts.flags |= PFTS_RECEIVING;
 		proto->AddToTransferList(transfer);
@@ -39,7 +46,7 @@ void CToxProto::OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint6
 		pre.timestamp = time(NULL);
 		pre.tszDescription = _T("");
 		pre.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)* 2);
-		pre.ptszFiles[0] = mir_utf8decodeT((char*)fileName);
+		pre.ptszFiles[0] = name;
 		pre.ptszFiles[1] = NULL;
 		pre.lParam = (LPARAM)transfer;
 		ProtoChainRecvFile(hContact, &pre);
@@ -58,11 +65,11 @@ HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 	transfer->pfts.tszWorkingDir = mir_tstrdup(tszPath);
 
 	// stupid fix
-	//TCHAR fullPath[MAX_PATH];
-	//mir_sntprintf(fullPath, SIZEOF(fullPath), _T("%s\\%s"), transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
-	//replaceStrT(transfer->pfts.tszCurrentFile, fullPath);
+	TCHAR fullPath[MAX_PATH];
+	mir_sntprintf(fullPath, SIZEOF(fullPath), _T("%s\\%s"), transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
+	transfer->ChangeFileName(fullPath);
 
-	//if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))
+	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))
 	{
 		tox_file_send_control(tox, number, 1, transfer->number, TOX_FILECONTROL_ACCEPT, NULL, 0);
 	}
@@ -70,42 +77,39 @@ HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 	return hTransfer;
 }
 
-// file request is denied
-int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+// if file is exists
+int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
 {
-	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
+	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
+
+	std::string toxId(getStringA(transfer->pfts.hContact, TOX_SETTINGS_ID));
 	std::vector<uint8_t> clientId = HexStringToData(toxId);
 
 	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
-	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
-	RemoveFromTransferList(transfer);
-
-	tox_file_send_control(tox, number, 1, transfer->number, TOX_FILECONTROL_KILL, NULL, 0);
-
-	return 0;
-}
-
-// file request is denied
-int __cdecl CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
-{
-	return FileCancel(hContact, hTransfer);
-}
-
-// some file request stuff
-int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
-{
-	uint8_t fileNumber = (uint8_t)hTransfer;
-	FileTransferParam *transfer = transfers.at(fileNumber);
-
 	switch (*action)
 	{
-	case FILERESUME_RESUME:
-		//replaceStrT(ft->std.tszCurrentFile, *szFilename);
+	case FILERESUME_RENAME:
+		// rename file
+		transfer->ChangeFileName(*szFilename);
+		tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_ACCEPT, NULL, 0);
 		break;
 
-	case FILERESUME_RENAME:
-		replaceStrT(transfer->pfts.tszCurrentFile, *szFilename);
+	case FILERESUME_OVERWRITE:
+		// truncate file to zero
+		fclose(_tfopen(transfer->pfts.tszCurrentFile, _T("w+")));
+		tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_ACCEPT, NULL, 0);
+		break;
+
+	case FILERESUME_SKIP:
+		// deny file request
+		tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_KILL, NULL, 0);
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		RemoveFromTransferList(transfer);
+		break;
+
+	case FILERESUME_RESUME:
+		tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_ACCEPT, NULL, 0);
 		break;
 	}
 
@@ -122,19 +126,7 @@ void CToxProto::OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const u
 	{
 		FileTransferParam *transfer = proto->transfers.at(fileNumber);
 
-		TCHAR filePath[MAX_PATH];
-		mir_sntprintf(filePath, SIZEOF(filePath), _T("%s%s"), transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
-
-		FILE *hFile = NULL;
-		if (transfer->pfts.currentFileProgress == 0)
-		{
-			hFile = _tfopen(filePath, _T("wb+"));
-			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)transfer, 0);
-		}
-		else
-		{
-			hFile = _tfopen(filePath, _T("ab"));
-		}
+		FILE *hFile = _tfopen(transfer->pfts.tszCurrentFile, _T("ab"));
 		if (hFile != NULL)
 		{
 			if (fwrite(data, sizeof(uint8_t), size, hFile) == size)
@@ -161,7 +153,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 	TCHAR *fileName = _tcsrchr(ppszFiles[0], '\\') + 1;
 
 	size_t fileDirLength = fileName - ppszFiles[0];
-	TCHAR *fileDir = (TCHAR*)mir_alloc(sizeof(TCHAR)*fileDirLength);
+	TCHAR *fileDir = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileDirLength + 1));
 	_tcsncpy(fileDir, ppszFiles[0], fileDirLength);
 	fileDir[fileDirLength] = '\0';
 
@@ -175,7 +167,8 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 		fclose(file);
 	}
 
-	int fileNumber = tox_new_file_sender(tox, number, fileSize, (uint8_t*)(char*)ptrA(mir_utf8encodeT(fileName)), _tcslen(fileName));
+	char *name = mir_utf8encodeW(fileName);
+	int fileNumber = tox_new_file_sender(tox, number, fileSize, (uint8_t*)name, strlen(name));
 	if (fileNumber < 0)
 	{
 		debugLogA("CToxProto::SendFilesAsync: cannot send file");
@@ -184,7 +177,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 
 	FileTransferParam *transfer = new FileTransferParam(fileNumber, fileName, fileSize);
 	transfer->pfts.hContact = hContact;
-	transfer->pfts.flags |= PFTS_RECEIVING;
+	transfer->pfts.flags |= PFTS_SENDING;
 	transfer->pfts.tszWorkingDir = fileDir;
 	AddToTransferList(transfer);
 
@@ -201,6 +194,8 @@ void CToxProto::SendFileAsync(void* arg)
 
 	if (uint32_t number = tox_get_friend_number(tox, clientId.data()) > TOX_ERROR)
 	{
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)transfer, 0);
+
 		size_t fileSize = transfer->pfts.currentFileSize;
 		size_t fileProgress = 0;
 		TCHAR filePath[MAX_PATH];
@@ -210,7 +205,7 @@ void CToxProto::SendFileAsync(void* arg)
 		if (!hFile)
 		{
 			ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
-			RemoveFromTransferList(transfer);
+			tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_KILL, NULL, 0);
 			return;
 		}
 
@@ -228,11 +223,35 @@ void CToxProto::SendFileAsync(void* arg)
 			}
 		}
 		mir_free(data);
-		tox_file_send_control(tox, number, 0, transfer->number, TOX_FILECONTROL_FINISHED, NULL, 0);
+
+		uint8_t receive_send = transfer->GetTransferStatus();
+		tox_file_send_control(tox, number, receive_send, transfer->number, TOX_FILECONTROL_FINISHED, NULL, 0);
 	}
 }
 
 /* GENERAL */
+
+// file request is cancelled
+int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+{
+	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
+	std::vector<uint8_t> clientId = HexStringToData(toxId);
+
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
+
+	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
+
+	tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_KILL, NULL, 0);
+	RemoveFromTransferList(transfer);
+
+	return 0;
+}
+
+// file request is denied
+int __cdecl CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR*)
+{
+	return FileCancel(hContact, hTransfer);
+}
 
 void CToxProto::OnFileRequest(Tox *tox, int32_t number, uint8_t receive_send, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg)
 {
@@ -245,25 +264,26 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t number, uint8_t receive_send, ui
 
 		switch (type)
 		{
-			// if friend allow file request
 		case TOX_FILECONTROL_ACCEPT:
-			proto->ForkThread(&CToxProto::SendFileAsync, transfer);
-			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)transfer, 0);
-			break;
-
-			// if file transfer is paused
-		case TOX_FILECONTROL_PAUSE:
-			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, 0);
+			if (receive_send == 1)
+			{
+				// if friend allow file request
+				proto->ForkThread(&CToxProto::SendFileAsync, transfer);
+			}
 			break;
 
 			// if file transfer is cancelled
 		case TOX_FILECONTROL_KILL:
 			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+			proto->RemoveFromTransferList(transfer);
 			break;
 
 			// if file transfer is finished
 		case TOX_FILECONTROL_FINISHED:
-			tox_file_send_control(proto->tox, number, 1, fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
+			if (receive_send == 0)
+			{
+				tox_file_send_control(proto->tox, number, 1, fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
+			}
 			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)transfer, 0);
 			proto->RemoveFromTransferList(transfer);
 			break;
