@@ -637,7 +637,7 @@ object fmGlobalSearch: TfmGlobalSearch
       OnClick = SendMessage1Click
     end
     object ReplyQuoted1: TMenuItem
-      Caption = 'Reply &Quoted'
+      Caption = '&Reply Quoted'
       ShortCut = 16466
       OnClick = ReplyQuoted1Click
     end
