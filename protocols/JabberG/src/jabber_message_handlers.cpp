@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "jabber.h"
-#include "jabber_message_manager.h"
 
 BOOL CJabberProto::OnMessageError(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo)
 {

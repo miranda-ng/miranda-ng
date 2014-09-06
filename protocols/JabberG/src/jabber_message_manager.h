@@ -92,8 +92,6 @@ class CJabberMessagePermanentInfo : public MZeroedObject
 {
 	friend class CJabberMessageManager;
 
-	CJabberMessagePermanentInfo* m_pNext;
-
 	JABBER_PERMANENT_MESSAGE_HANDLER m_pHandler;
 	DWORD m_dwParamsToParse;
 	int m_nMessageTypes;
@@ -112,6 +110,8 @@ public:
 		mir_free(m_szXmlns);
 		mir_free(m_szTag);
 	}
+
+	__forceinline int getPriority() const { return m_iPriority; }
 };
 
 class CJabberMessageManager
@@ -119,7 +119,7 @@ class CJabberMessageManager
 protected:
 	CJabberProto *ppro;
 	mir_cs m_cs;
-	CJabberMessagePermanentInfo* m_pPermanentHandlers;
+	OBJLIST<CJabberMessagePermanentInfo> m_arHandlers;
 
 public:
 	CJabberMessageManager(CJabberProto* proto);
