@@ -22,13 +22,22 @@ struct FileTransferParam
 		pfts.tszWorkingDir = NULL;
 	}
 
+	void ChangeFileName(const TCHAR* fileName)
+	{
+		pfts.ptszFiles[0] = replaceStrT(pfts.tszCurrentFile, fileName);
+	}
+
+	uint8_t GetTransferStatus() const
+	{
+		return pfts.flags & PFTS_SENDING ? 0 : 1;
+	}
+
 	~FileTransferParam()
 	{
 		if (pfts.tszWorkingDir != NULL)
 		{
 			mir_free(pfts.tszWorkingDir);
 		}
-
 		mir_free(pfts.pszFiles[0]);
 		mir_free(pfts.pszFiles);
 	}

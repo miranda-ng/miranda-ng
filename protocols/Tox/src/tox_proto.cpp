@@ -49,7 +49,7 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_EXTSEARCH;
+		return PF1_IM | PF1_FILERECV | PF1_AUTHREQ | PF1_EXTSEARCH;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
