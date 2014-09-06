@@ -59,7 +59,7 @@ object EventDetailsFrm: TEventDetailsFrm
         Top = 4
         Width = 116
         Height = 25
-        Caption = 'Reply &Quoted'
+        Caption = '&Reply Quoted'
         TabOrder = 0
         OnClick = bnReplyClick
       end
