@@ -142,19 +142,14 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 	return crc^0xffffffff;
 }
 
-TCHAR* GetDefaultUrl()
+int GetUpdateMode()
 {
-#if MIRANDA_VER < 0x0A00
-	return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%"));
-#else
 	int UpdateMode = db_get_b(NULL, MODNAME, "UpdateMode", -1);
-
-	TCHAR *url = NULL;
 
 	// Check if there is url for custom mode
 	if (UpdateMode == UPDATE_MODE_CUSTOM) {
-		url = db_get_tsa(NULL, MODNAME, "UpdateUrl");
-		if (url == NULL) {
+		ptrT url( db_get_tsa(NULL, MODNAME, "UpdateUrl"));
+		if (url == NULL || !_tcslen(url)) {
 			// No url for custom mode, reset that setting so it will be determined automatically			
 			db_unset(NULL, MODNAME, "UpdateMode");
 			UpdateMode = -1;
@@ -168,17 +163,24 @@ TCHAR* GetDefaultUrl()
 		UpdateMode = (strstr(coreVersion, "alpha") == NULL) ? UPDATE_MODE_STABLE : UPDATE_MODE_TRUNK;
 	}
 
-	if (UpdateMode == UPDATE_MODE_STABLE) {
-		url = mir_tstrdup(_T(DEFAULT_UPDATE_URL));
-	} else if (UpdateMode == UPDATE_MODE_TRUNK) {
-		url = mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK));
-	} else if (UpdateMode == UPDATE_MODE_TRUNK_SYMBOLS) {
-		url = mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
-	} else if (UpdateMode == UPDATE_MODE_CUSTOM) {
-		// url was loaded in the beginning, no need to load it again
-	}
+	return UpdateMode;
+}
 
-	return url;
+TCHAR* GetDefaultUrl()
+{
+#if MIRANDA_VER < 0x0A00
+	return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%"));
+#else
+	switch (GetUpdateMode()) {
+	case UPDATE_MODE_STABLE:
+		return mir_tstrdup(_T(DEFAULT_UPDATE_URL));
+	case UPDATE_MODE_TRUNK:
+		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK));
+	case UPDATE_MODE_TRUNK_SYMBOLS:
+		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
+	case UPDATE_MODE_CUSTOM:
+		return db_get_tsa(NULL, MODNAME, "UpdateUrl");
+	}
 #endif
 }
 
