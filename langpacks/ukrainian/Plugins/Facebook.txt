@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.1
+;  Version: 0.2.9.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -69,10 +69,10 @@
 Публікувати статуси Miranda на стіну
 [Use secure connection also for channel requests]
 Безпечне з'єднання для запитів каналу
-[Also disconnect chat when going to offline]
-Відключати чат на сайті при виході в офлайн
-[Map non-standard statuses to Invisible (instead of Online)]
-Нестандартні статуси як "Невидимий" (замість "В мережі")
+[Turn off chat on Facebook when going to offline in Miranda]
+Відключати чат на сайті при виході Miranda в офлайн
+[Map unsupported statuses to Invisible (instead of Online)]
+Непідтримувані статуси як "Невидимий" (замість "В мережі")
 [Allow posting statuses to my pages (may slow down login)]
 Дозволити публікувати статуси на своїх сторінках (уповільнює вхід)
 [Use this server for opening links:]
@@ -120,17 +120,21 @@
 [Unknown error]
 Невідома помилка
 [Login error: Invalid request.]
-Помилка входу: Недопустимий запит.
+Помилка входу: недопустимий запит.
 [Login error: Some Facebook things are required.]
-Помилка входу: Деякі речі Facebook є обов'язковими.
-[Login error: Captcha code is required. Bad login credentials?]
-Помилка входу: Потрібна капча. Неправильні облікові дані для входу?
+Помилка входу: деякі речі Facebook є обов'язковими.
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+Помилка входу: ваш обліковий запис заблоковано. Необхідно виконати підтвердження в браузері.
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
+Помилка входу: потрібно ввести капчу. Необхідно виконати підтвердження в браузері.
 [Login error, probably bad login credentials.]
 Помилка входу: імовірно, неправильні дані облікового запису.
 [Your account requires HTTPS connection. Activating.]
 Обліковий запис вимагає з'єднання HTTPS. Активовано.
-[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-Проблеми з Facebook. Можливо, на сайті відбулися серйозні зміни, і доведеться зачекати на оновлення плагіна.
+[Could not load communication token. You should report this and wait for plugin update.]
+Неможливо отримати токен авторизації. Повідомте про цю помилку та чекайте на оновлення плагіна.
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+Неможливо отримати всі необхідні дані. Можливо, плагін працюватиме коректно, але краще повідомити про цю помилку та дочекатися оновлення плагіна.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Щоб надсилати повідомлення для інших клієнтів, необхідне підтвердження.\nВідкрийте сайт Facebook і спробуйте надіслати повідомлення знову!
 [User cancel captcha challenge.]
