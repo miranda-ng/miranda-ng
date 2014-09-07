@@ -1754,11 +1754,6 @@ protected:
 		else m_proto->delSetting("Password");
 
 		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
-		case ACC_OK:
-			m_proto->m_options.IgnoreRosterGroups = TRUE;
-			m_proto->m_options.UseSSL = FALSE;
-			m_proto->m_options.UseTLS = TRUE;
-
 		case ACC_PUBLIC:
 			m_proto->m_options.UseSSL = m_proto->m_options.UseTLS = FALSE;
 			break;
@@ -1780,6 +1775,11 @@ protected:
 
 		case ACC_FBOOK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
+			
+		case ACC_OK:
+			m_proto->m_options.IgnoreRosterGroups = TRUE;
+			m_proto->m_options.UseSSL = FALSE;
+			m_proto->m_options.UseTLS = TRUE;
 
 		case ACC_TLS:
 		case ACC_LJTALK:
