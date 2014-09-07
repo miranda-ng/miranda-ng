@@ -67,7 +67,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				db_free(&dbv);
 			}
 			else
-				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, ptrT(GetDefaultUrl()));
 		}
 	}
 		return TRUE;
@@ -116,7 +116,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					db_free(&dbv);
 				}
 				else
-					SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
+					SetDlgItemText(hwndDlg, IDC_CUSTOMURL, ptrT(GetDefaultUrl()));
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;

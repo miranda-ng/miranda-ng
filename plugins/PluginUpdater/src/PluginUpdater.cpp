@@ -138,7 +138,6 @@ extern "C" __declspec(dllexport) int Load(void)
 			}
 			else db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_CUSTOM);
 		}
-		else db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_STABLE);
 	}
 	return 0;
 }
