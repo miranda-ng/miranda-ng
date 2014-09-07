@@ -1677,7 +1677,7 @@ protected:
 			m_cbType.SetCurSel(ACC_FBOOK);
 			m_canregister = false;
 		}
-		else if (!lstrcmpA(manualServer, "xmpp.odnoklassniki.ru")) {
+		else if (!lstrcmpA(server, "xmpp.odnoklassniki.ru")) {
 			m_cbType.SetCurSel(ACC_OK);
 			m_canregister = false;
 		}
@@ -2079,33 +2079,15 @@ void CJabberDlgAccMgrUI::setupFB()
 	m_btnRegister.Disable();
 }
 
-void CJabberDlgAccMgrUI::setupVK()
-{
-	m_canregister = false;
-	m_gotservers = true;
-	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("VK.com");
-	m_cbServer.AddStringA("VK.com");
-	m_chkManualHost.SetState(BST_UNCHECKED);
-	m_txtManualHost.SetTextA("");
-	m_txtPort.SetInt(5222);
-
-	m_cbServer.Disable();
-	m_chkManualHost.Disable();
-	m_txtManualHost.Disable();
-	m_txtPort.Disable();
-	m_btnRegister.Disable();
-}
-
 void CJabberDlgAccMgrUI::setupOK()
 {
 	m_canregister = false;
 	m_gotservers = true;
 	m_cbServer.ResetContent();
-	m_cbServer.SetTextA("odnoklassniki.ru");
-	m_cbServer.AddStringA("odnoklassniki.ru");
-	m_chkManualHost.SetState(BST_CHECKED);
-	m_txtManualHost.SetTextA("xmpp.odnoklassniki.ru");
+	m_cbServer.SetTextA("xmpp.odnoklassniki.ru");
+	m_cbServer.AddStringA("xmpp.odnoklassniki.ru");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("");
 	m_txtPort.SetInt(5222);
 
 	m_cbServer.Disable();
