@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.1
+;  Version: 0.2.9.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -38,8 +38,8 @@
 [Force secure (HTTPS) connection]
 [Post Miranda statuses to Wall]
 [Use secure connection also for channel requests]
-[Also disconnect chat when going to offline]
-[Map non-standard statuses to Invisible (instead of Online)]
+[Turn off chat on Facebook when going to offline in Miranda]
+[Map unsupported statuses to Invisible (instead of Online)]
 [Allow posting statuses to my pages (may slow down login)]
 [Use this server for opening links:]
 [Show stickers as custom smileys (EXPERIMENTAL)]
@@ -68,10 +68,12 @@
 [Unknown error]
 [Login error: Invalid request.]
 [Login error: Some Facebook things are required.]
-[Login error: Captcha code is required. Bad login credentials?]
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
 [Login error, probably bad login credentials.]
 [Your account requires HTTPS connection. Activating.]
-[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+[Could not load communication token. You should report this and wait for plugin update.]
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 [User cancel captcha challenge.]
 [Timeout when sending message.]

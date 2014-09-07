@@ -13,6 +13,14 @@
 Безопасность
 [Only listen to localhost]
 Только от этого компьютера
+[Port:]
+Порт:
+[(Default is 12001)]
+(по умолчанию 12001)
+[Password:]
+Пароль:
+[Allow actions to execute programs]
+Разрешить выполнение программ
 [Sound]
 Звук
 [Play sounds]
@@ -25,14 +33,6 @@
 Запись в файл
 [Message debugging]
 Отладка сообщений
-[Port:]
-Порт:
-[(Default is 12001)]
-(по умолчанию 12001)
-[Allow actions to execute programs]
-Разрешить выполнение программ
-[Password:]
-Пароль:
 [N/A: Failed to format error message]
 N/A: Ошибка форматирования сообщения об ошибке
 [N/A: FormatMessage failed, error code was 0x]
