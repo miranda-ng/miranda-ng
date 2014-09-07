@@ -833,6 +833,14 @@ bool facebook_client::login(const char *username, const char *password)
 					inner_data += "&fb_dtsg=" + utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					resp = flap(REQUEST_SETUP_MACHINE, &inner_data);
 
+					// In this step might be needed identity confirmation
+					if (resp.data.find("name=\"birthday_captcha_") != std::string::npos) {
+						// Account is locked and needs identity confirmation
+						client_notify(TranslateT("Login error: Your account is temporarily locked. You need to confirm this device from web browser."));
+						parent->debugLogA(" ! !  Login error: Birthday confirmation.");
+						return handle_error("login", FORCE_QUIT);
+					}
+
 					// 2) Approve last unknown login
 					// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
 					inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
@@ -892,7 +900,7 @@ bool facebook_client::login(const char *username, const char *password)
 	{ 
 		// Check whether captcha code is required
 		if (resp.data.find("id=\"captcha\"") != std::string::npos) {
-			client_notify(TranslateT("Login error: Captcha code is required. Bad login credentials?"));
+			client_notify(TranslateT("Login error: Captcha code is required. You need to confirm this device from web browser."));
 			parent->debugLogA(" ! !  Login error: Captcha code is required.");
 			return handle_error("login", FORCE_QUIT);
 		}
