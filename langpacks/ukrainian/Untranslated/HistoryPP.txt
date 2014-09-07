@@ -1,4 +1,3 @@
 ﻿[WebPager]
 [EMail Express]
 [SMTP Simple]
-[Prev]

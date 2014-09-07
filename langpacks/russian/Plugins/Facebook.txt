@@ -130,9 +130,9 @@
 [Your account requires HTTPS connection. Activating.]
 Ваша учётная запись требует соединения по HTTPS. Включим его.
 [Could not load communication token. You should report this and wait for plugin update.]
-Невозможно загрузить токен авторизации. Оставьте отчёт о данной ощибке и ждите обновления плагина.
+Невозможно загрузить токен авторизации. Оставьте отчёт о данной ошибке и ждите обновления плагина.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-Невозможно загрузить все требуемые данные. Возможна корректная работа плагина, тем не менее оставьте отчёт о данной ощибке и ждите обновления плагина.
+Невозможно загрузить все требуемые данные. Возможна корректная работа плагина, тем не менее оставьте отчёт о данной ошибке и ждите обновления плагина.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Требуется подтверждение разрешения отправки сообщений на другие клиенты.\nОткройте сайт Facebook и попробуйте заново отправить сообщение этому контакту!
 [User cancel captcha challenge.]
