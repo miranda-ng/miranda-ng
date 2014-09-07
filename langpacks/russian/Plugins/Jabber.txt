@@ -308,7 +308,7 @@ JID / URL:
 [Incoming presence]
 Вход. присутствие
 [Outgoing presence]
-Nсход. присутствие
+Исход. присутствие
 [New privacy list name:]
 Новое имя списка приватности:
 [Enter the name of the new list:]
