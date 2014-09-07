@@ -43,6 +43,9 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	url.append(choose_server(request_type, request_data, request_get_data));
 	url.append(choose_action(request_type, request_data, request_get_data));
 
+	if (!parent->m_locale.empty())
+		url += "&locale=" + parent->m_locale;
+
 	nlhr.szUrl = (char*)url.c_str();
 	nlhr.flags = NLHRF_HTTP11 | choose_security_level(request_type);
 	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);
@@ -363,7 +366,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/checkpoint/?next";
 
 	case REQUEST_LOGOUT:
-		return "/logout.php";
+		return "/logout.php?";
 
 	case REQUEST_HOME:
 		return "/profile.php?v=info";
@@ -402,7 +405,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_LOAD_FRIENDSHIPS:
 	{
-		return "/friends/";
+		return "/friends/?";
 	}
 
 	case REQUEST_SEARCH:
@@ -456,7 +459,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_PAGES:
 	{
-		return "/bookmarks/pages";
+		return "/bookmarks/pages?";
 	}
 
 	case REQUEST_NOTIFICATIONS:
@@ -500,7 +503,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/ajax/mercury/send_messages.php?__a=1";
 
 	case REQUEST_MESSAGE_SEND_INBOX:
-		return "/ajax/messaging/send.php";
+		return "/ajax/messaging/send.php?";
 
 	case REQUEST_THREAD_INFO:
 		return "/ajax/mercury/thread_info.php?__a=1";
@@ -782,10 +785,6 @@ bool facebook_client::login(const char *username, const char *password)
 	std::string data = "persistent=1";
 	data += "&email=" + utils::url::encode(username);
 	data += "&pass=" + utils::url::encode(password);
-
-	ptrA locale(parent->getStringA(FACEBOOK_KEY_LOCALE));
-	if (locale != NULL)
-		data += "&locale=" + std::string(locale);
 
 	// Send validation
 	http::response resp = flap(REQUEST_LOGIN, &data);
