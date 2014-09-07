@@ -33,22 +33,26 @@ void FacebookProto::ChangeStatus(void*)
 	if (new_status == ID_STATUS_OFFLINE)
 	{ // Logout	
 		debugLogA("##### Beginning SignOff process");
+		m_signingOut = true;
 
-		m_iStatus = facy.self_.status_id = ID_STATUS_OFFLINE;
 		SetEvent(update_loop_lock_);
+
+		// Shutdown and close channel handle
 		Netlib_Shutdown(facy.hMsgCon);
+		if (facy.hMsgCon)
+			Netlib_CloseHandle(facy.hMsgCon);
+		facy.hMsgCon = NULL;
+
+		// Turn off chat on Facebook
+		if (getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT))
+			facy.chat_state(false);
+
+		facy.logout();
 
 		OnLeaveChat(NULL, NULL);
 		SetAllContactStatuses(ID_STATUS_OFFLINE);
 		ToggleStatusMenuItems(false);
 		delSetting("LogonTS");
-
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
-		if (getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT))
-			facy.chat_state(false);
-
-		facy.logout();
 
 		facy.clear_cookies();
 		facy.clear_notifications();
@@ -59,10 +63,15 @@ void FacebookProto::ChangeStatus(void*)
 		facy.pages.clear();
 		facy.typers.clear();
 
-		if (facy.hMsgCon)
-			Netlib_CloseHandle(facy.hMsgCon);
-		facy.hMsgCon = NULL;
+		// Close connection handle
+		if (facy.hFcbCon)
+			Netlib_CloseHandle(facy.hFcbCon);
+		facy.hFcbCon = NULL;
 
+		m_iStatus = facy.self_.status_id = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		m_signingOut = false;
 		debugLogA("##### SignOff complete");
 
 		return;
@@ -208,7 +217,7 @@ void FacebookProto::MessageLoop(void *)
 
 	while (facy.channel())
 	{
-		if (isOffline())
+		if (isOffline() || m_signingOut)
 			break;
 		debugLogA("***** FacebookProto::MessageLoop[%d] refreshing...", tim);
 	}
