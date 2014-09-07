@@ -835,7 +835,7 @@ void FacebookProto::ReadNotificationWorker(void *p)
 	std::string *id = static_cast<std::string*>(p);
 
 	std::string data = "seen=0&asyncSignal=&__dyn=&__req=a&alert_ids%5B0%5D=" + utils::url::encode(*id);
-	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
 
 	facy.flap(REQUEST_NOTIFICATIONS_READ, NULL, &data);

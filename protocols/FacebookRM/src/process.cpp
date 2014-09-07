@@ -296,7 +296,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		data += "&folders[1]=other";
 	data += "&client=mercury";
 	data += "__user=" + facy.self_.user_id;
-	data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
+	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 
 	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
@@ -355,7 +355,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 	while (!threads.empty()) {
 		std::string data = "client=mercury";
 		data += "&__user=" + facy.self_.user_id;
-		data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
+		data += "&fb_dtsg=" + facy.dtsg_;
 		data += "&__a=1&__dyn=&__req=&ttstamp=0";
 	
 		for (std::vector<std::string>::size_type i = 0; i < threads.size(); i++) {
@@ -456,7 +456,7 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
-	data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
+	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 
 	bool isChat = isChatRoom(hContact);

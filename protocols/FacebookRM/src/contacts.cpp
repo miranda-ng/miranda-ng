@@ -126,7 +126,7 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
-	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 	data += "&threads[thread_ids][0]=" + utils::url::encode(thread_id);
 
@@ -214,7 +214,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
-	data += "&fb_dtsg=" + (!facy.dtsg_.empty() ? facy.dtsg_ : "0");
+	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 
 	std::string thread_id = utils::url::encode(std::string(_T2A(fbc->thread_id.c_str())));
@@ -574,7 +574,7 @@ void FacebookProto::SendPokeWorker(void *p)
 
 	std::string data = "poke_target=" + id;
 	data += "&do_confirm=0&phstamp=0";
-	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
 
 	// Send poke
