@@ -1614,7 +1614,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_OKACC_OK, ACC_SMS };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_OK, ACC_SMS };
 
 	void OnInitDialog()
 	{
