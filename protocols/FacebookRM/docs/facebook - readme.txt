@@ -26,12 +26,12 @@ Info:
 --------------------------------
 "TimeoutsLimit" (Byte) - Errors limit (default 3) after which fb disconnects
 "PollRate" (Byte) - Waiting time between buddy list and newsfeed parsing.
-"Locale" (String) - Get facebook errors in specific language, "en_US", "cs_CZ", etc.
+"Locale" (String) - Get facebook errors in specific language, "en_US", "cs_CZ", etc. (requires restart to apply)
 "UseLocalTimestampUnread" (Byte) - 1 = Use local timestamp for offline (unread) messages
 "KeepUnread" (Byte) - 1 = Don't mark messages as read on server (works globally or per contact)
 "NaseemsSpamMode" (Byte) - 1 = Don't add contacts when we send message to them from other instances, add them only when they reply
 "NameAsNick" (Byte) - 0 = don't use real name as nickname, use nickname if possible (default is 1)
-"EnableChat" (Byte) - 0 = don't use multi user chat at all (default is 1)
+"EnableChat" (Byte) - 0 = don't use multi user chat at all (default is 1) (requires restart to apply)
 
 --------------------------------
        Version history
