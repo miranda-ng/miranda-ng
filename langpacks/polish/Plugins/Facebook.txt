@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.1
+;  Version: 0.2.9.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -70,10 +70,10 @@ Wymuś szyfrowane połączenie (HTTPS)
 Pokazuj statusy Mirandy jako posty na Tablicy
 [Use secure connection also for channel requests]
 Używaj bezpiecznego połączenia również dla kanału próśb o dodanie do znajomych
-[Also disconnect chat when going to offline]
-Rozłączaj również "Czat" przechodząc w status rozłączony
-[Map non-standard statuses to Invisible (instead of Online)]
-Niestandardowy status jako Niewidoczny (zamiast Dostępnego)
+[Turn off chat on Facebook when going to offline in Miranda]
+Wyłącz czat Facebooka gdy rozłączasz się z Mirandą
+[Map unsupported statuses to Invisible (instead of Online)]
+Mapuj nieznane statusy jako niewidoczny zamiast dostępnego
 [Allow posting statuses to my pages (may slow down login)]
 Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
 [Use this server for opening links:]
@@ -127,14 +127,18 @@ Nieznany błąd
 Błąd logowania: Nieprawidłowe żądanie.
 [Login error: Some Facebook things are required.]
 Błąd logowania: Nieznana przyczyna.
-[Login error: Captcha code is required. Bad login credentials?]
-Błąd logowania: Wymagany kod Captcha. Złe dane logowania?
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+Błąd logowania: twoje konto jest tymczasowo zablokowane. Musisz potwierdzić to urządzenie w przeglądarce.
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
+Błąd logowania: wymagany jest kod CAPTCHA. Musisz potwierdzić to urządzenie w przeglądarce.
 [Login error, probably bad login credentials.]
 Błąd logowania, sprawdź login i hasło.
 [Your account requires HTTPS connection. Activating.]
 Twoje konto wymaga połączenia HTTPS.
-[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-Coś stało się z Facebook. Może było trochę więcej aktualizacji, więc poczekaj na aktualizację.
+[Could not load communication token. You should report this and wait for plugin update.]
+Nie udało się załadować tokenu komunikacji. Powinieneś to zgłosić i czekać na aktualizację wtyczki.
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+Nie udało się załadować wszystkich wymaganych danych. Wtyczka powinna działać poprawnie, ale powinieneś to zgłosić i czekać na jej aktualizację.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Potrzebujesz potwierdzenia dla wysyłania wiadomości do innych klientów.\nOtwórz stronę Facebook i spróbuj wysłać wiadomość do kontaktu ponownie!
 [User cancel captcha challenge.]

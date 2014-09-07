@@ -14,6 +14,14 @@ Właściwości strony
 Bezpieczeństwo
 [Only listen to localhost]
 Nasłuchuj tylko localhost
+[Port:]
+Port:
+[(Default is 12001)]
+(Domyślny to 12001)
+[Password:]
+Hasło:
+[Allow actions to execute programs]
+Zezwalaj na uruchamianie programów
 [Sound]
 Dźwięk
 [Play sounds]
@@ -26,18 +34,12 @@ Analizuj
 Zapisuj w pliku
 [Message debugging]
 Debugowanie wiadomości
-[Port:]
-Port:
-[(Default is 12001)]
-(Domyślny to 12001)
-[Allow actions to execute programs]
-Zezwalaj na uruchamianie programów
-[Password:]
-Hasło:
 ;file \plugins\NotifyAnything\src\common.h
 [NotifyAnything]
 Powiadamiaj o wszystkim
 ;file \plugins\NotifyAnything\src\main.cpp
+[Notify Anything]
+Notify Anything
 [N/A: Failed to format error message]
 N/A: Nie udało się sformatować komunikatu błędu
 [N/A: FormatMessage failed, error code was 0x]
