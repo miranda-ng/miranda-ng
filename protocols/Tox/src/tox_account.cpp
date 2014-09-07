@@ -89,7 +89,7 @@ void CToxProto::DoBootstrap()
 
 void CToxProto::DoTox()
 {
-	mir_cslock((CRITICAL_SECTION&)toxLock);
+	mir_cslock lck(toxLock);
 
 	tox_do(tox);
 	uint32_t interval = tox_do_interval(tox);
