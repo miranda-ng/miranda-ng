@@ -153,7 +153,7 @@ TCHAR* GetDefaultUrl()
 
 	// Check if there is url for custom mode
 	if (UpdateMode == UPDATE_MODE_CUSTOM) {
-		url = db_get_tsa(NULL, MODNAME, "UpdateMode");
+		url = db_get_tsa(NULL, MODNAME, "UpdateUrl");
 		if (url == NULL) {
 			// No url for custom mode, reset that setting so it will be determined automatically			
 			db_unset(NULL, MODNAME, "UpdateMode");
