@@ -119,6 +119,7 @@ struct PlugOptions
 #define UPDATE_MODE_STABLE			1
 #define UPDATE_MODE_TRUNK			2
 #define UPDATE_MODE_TRUNK_SYMBOLS	3
+#define UPDATE_MODE_MAX_VALUE		3 // when adding new mode, increment this number
 
 #define POPUP_TYPE_MSG  0
 #define POPUP_TYPE_ERROR 1

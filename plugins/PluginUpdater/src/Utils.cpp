@@ -147,22 +147,38 @@ TCHAR* GetDefaultUrl()
 #if MIRANDA_VER < 0x0A00
 	return mir_tstrdup(_T("http://miranda-ng.org/distr/deprecated/0.94.9/x%platform%"));
 #else
-	// If "UpdateMode" is missing, try to use "UpdateURL" directly
-	BYTE UpdateMode = db_get_b(NULL,MODNAME,"UpdateMode",UPDATE_MODE_CUSTOM);
-	if (UpdateMode==UPDATE_MODE_STABLE)
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL));
-	else if (UpdateMode==UPDATE_MODE_TRUNK)
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK));
-	else if (UpdateMode==UPDATE_MODE_TRUNK_SYMBOLS)
-		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
-	else {
-		TCHAR *result = db_get_tsa(NULL, MODNAME, "UpdateURL");
-		if (result == NULL) { // URL is not set
-			db_set_b(NULL,MODNAME,"UpdateMode",UPDATE_MODE_STABLE);
-			result = mir_tstrdup( _T(DEFAULT_UPDATE_URL));
+	int UpdateMode = db_get_b(NULL, MODNAME, "UpdateMode", -1);
+
+	TCHAR *url = NULL;
+
+	// Check if there is url for custom mode
+	if (UpdateMode == UPDATE_MODE_CUSTOM) {
+		url = db_get_tsa(NULL, MODNAME, "UpdateMode");
+		if (url == NULL) {
+			// No url for custom mode, reset that setting so it will be determined automatically			
+			db_unset(NULL, MODNAME, "UpdateMode");
+			UpdateMode = -1;
 		}
-		return result;
 	}
+
+	if (UpdateMode < 0 || UpdateMode > UPDATE_MODE_MAX_VALUE) {
+		// Missing or unknown mode, determine correct from version of running core
+		char coreVersion[512];
+		CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(coreVersion), (LPARAM)coreVersion);
+		UpdateMode = (strstr(coreVersion, "alpha") == NULL) ? UPDATE_MODE_STABLE : UPDATE_MODE_TRUNK;
+	}
+
+	if (UpdateMode == UPDATE_MODE_STABLE) {
+		url = mir_tstrdup(_T(DEFAULT_UPDATE_URL));
+	} else if (UpdateMode == UPDATE_MODE_TRUNK) {
+		url = mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK));
+	} else if (UpdateMode == UPDATE_MODE_TRUNK_SYMBOLS) {
+		url = mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
+	} else if (UpdateMode == UPDATE_MODE_CUSTOM) {
+		// url was loaded in the beginning, no need to load it again
+	}
+
+	return url;
 #endif
 }
 
