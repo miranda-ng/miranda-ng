@@ -715,3 +715,5 @@ Voir l'historique
 Voir l'&historique
 [User Menu]
 Menu Contact
+[Prev]
+Préc

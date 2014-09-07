@@ -32,6 +32,8 @@ Avancé
 
 [Mark read on reply]
 
+[Mark read on typing]
+
 [Automatically sync last messages]
 
 [Bots challenge test]

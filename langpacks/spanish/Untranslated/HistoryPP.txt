@@ -336,3 +336,4 @@
 [Always RTL]
 [Always LTR]
 [Show event icons]
+[Prev]
