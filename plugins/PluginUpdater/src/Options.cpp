@@ -45,7 +45,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
 
-		BYTE UpdateMode = db_get_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_STABLE);
+		int UpdateMode = GetUpdateMode();
 		if (UpdateMode == UPDATE_MODE_STABLE) {
 			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
 			CheckDlgButton(hwndDlg, IDC_STABLE, TRUE);
@@ -61,13 +61,9 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		else {
 			CheckDlgButton(hwndDlg, IDC_CUSTOM, TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
-			DBVARIANT dbv;
-			if (!db_get_s(NULL, MODNAME, "UpdateURL", &dbv)) {
-				SetDlgItemTextA(hwndDlg, IDC_CUSTOMURL, dbv.pszVal);
-				db_free(&dbv);
-			}
-			else
-				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, ptrT(GetDefaultUrl()));
+
+			ptrT url(db_get_tsa(NULL, MODNAME, "UpdateURL"));
+			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, (url == NULL) ? ptrT(GetDefaultUrl()) : url);
 		}
 	}
 		return TRUE;
@@ -110,13 +106,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_CUSTOM:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 			{
-				DBVARIANT dbv;
-				if (!db_get_ts(NULL, MODNAME, "UpdateURL", &dbv)) {
-					SetDlgItemText(hwndDlg, IDC_CUSTOMURL, dbv.ptszVal);
-					db_free(&dbv);
-				}
-				else
-					SetDlgItemText(hwndDlg, IDC_CUSTOMURL, ptrT(GetDefaultUrl()));
+				ptrT url(db_get_tsa(NULL, MODNAME, "UpdateURL"));
+				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, (url == NULL) ? ptrT(GetDefaultUrl()) : url);
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -181,7 +172,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK))
 					db_set_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK);
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
-					BYTE oldMode = db_get_b(NULL, MODNAME, "UpdateMode",0);
+					int oldMode = GetUpdateMode();
 					 if(oldMode != UPDATE_MODE_TRUNK_SYMBOLS) {
 						opts.bForceRedownload = true;
 						db_set_b(NULL, MODNAME, "ForceRedownload", 1);
