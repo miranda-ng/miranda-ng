@@ -150,9 +150,9 @@ BEGIN
     CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,13,44,281,10
     CONTROL         "Use secure connection also for channel requests",IDC_SECURE_CHANNEL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,33,262,10
-    CONTROL         "Also disconnect chat when going to offline",IDC_DISCONNECT_CHAT,
+    CONTROL         "Turn off chat on Facebook when going to offline in Miranda",IDC_DISCONNECT_CHAT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,55,281,10
-    CONTROL         "Map non-standard statuses to Invisible (instead of Online)",IDC_MAP_STATUSES,
+    CONTROL         "Map unsupported statuses to Invisible (instead of Online)",IDC_MAP_STATUSES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,67,281,10
     CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,79,281,10

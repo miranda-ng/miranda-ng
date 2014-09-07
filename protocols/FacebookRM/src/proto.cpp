@@ -36,6 +36,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
 
 	m_invisible = false;
+	m_signingOut = false;
 	m_enableChat = getBool(FACEBOOK_KEY_ENABLE_CHAT, true);
 
 	CreateProtoService(PS_CREATEACCMGRUI,		&FacebookProto::SvcCreateAccMgrUI);

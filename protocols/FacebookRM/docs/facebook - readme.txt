@@ -25,7 +25,6 @@ Info:
       Hidden settings
 --------------------------------
 "TimeoutsLimit" (Byte) - Errors limit (default 3) after which fb disconnects
-"DisableLogout" (Byte) - 1 = Disable logout procedure, 0 = default
 "PollRate" (Byte) - Waiting time between buddy list and newsfeed parsing.
 "Locale" (String) - Get facebook errors in specific language, "en_US", "cs_CZ", etc.
 "UseLocalTimestampUnread" (Byte) - 1 = Use local timestamp for offline (unread) messages

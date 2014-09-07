@@ -937,9 +937,6 @@ bool facebook_client::login(const char *username, const char *password)
 
 bool facebook_client::logout()
 {
-	if (parent->getByte(FACEBOOK_KEY_DISABLE_LOGOUT, 0))
-		return true;
-
 	handle_entry("logout");
 
 	std::string data = "fb_dtsg=" + (!this->dtsg_.empty() ? this->dtsg_ : "0");
@@ -947,12 +944,7 @@ bool facebook_client::logout()
 
 	http::response resp = flap(REQUEST_LOGOUT, &data);
 
-	if (hFcbCon)
-		Netlib_CloseHandle(hFcbCon);
-	hFcbCon = NULL;
-
-	// Process result
-	username_ = password_ = self_.user_id = "";
+	this->username_ = this->password_ = this->self_.user_id = "";
 
 	switch (resp.code)
 	{
@@ -983,8 +975,11 @@ bool facebook_client::home()
 	this->dtsg_ = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 	parent->debugLogA("      Got self dtsg: %s", this->dtsg_.c_str());
 
-	if (this->dtsg_.empty())
-		return false;
+	if (this->dtsg_.empty()) {
+		parent->debugLogA("!!!!! Empty dtsg. Source code:\n%s", resp.data.c_str());
+		client_notify(TranslateT("Could not load communication token. You should report this and wait for plugin update."));
+		return handle_error("home", FORCE_QUIT);
+	}
 		
 	resp = flap(REQUEST_HOME);
 
@@ -992,12 +987,12 @@ bool facebook_client::home()
 	{
 	case HTTP_CODE_OK:
 	{		
-		// Get real name (for mobile FB version since 27.8.2014)
-		this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</a>", "<div", ">", "<img");
+		// Get real name
+		this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
 
 		// Try to get name again, if we've got some some weird version of Facebook
 		if (this->self_.real_name.empty())
-			this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
+			this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</a>", "<div", ">", "</div>");
 
 		// Get and strip optional nickname
 		std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
@@ -1009,25 +1004,22 @@ bool facebook_client::home()
 		}
 
 		this->self_.real_name = utils::text::remove_html(this->self_.real_name);
-
 		parent->debugLogA("      Got self real name: %s", this->self_.real_name.c_str());
-
-		if (this->self_.real_name.empty()) {
-			client_notify(TranslateT("Something happened to Facebook. Maybe there was some major update so you should wait for an update."));
-			return handle_error("home", FORCE_QUIT);
-		}
-
-		// Save name and nickname
 		parent->SaveName(NULL, &this->self_);
 
 		// Get avatar
-		this->self_.image_url = utils::text::source_get_value(&resp.data, 4, "id=\"root", "class=\"l\"", "<img src=\"", "\"");
+		this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "<img src=\"", "\"");
 		parent->debugLogA("      Got self avatar: %s", this->self_.image_url.c_str());
 		parent->CheckAvatarChange(NULL, this->self_.image_url);
 
 		// Get logout hash
 		this->logout_hash_ = utils::text::source_get_value2(&resp.data, "/logout.php?h=", "&\"");
 		parent->debugLogA("      Got self logout hash: %s", this->logout_hash_.c_str());
+
+		if (this->self_.real_name.empty() || this->self_.image_url.empty() || this->logout_hash_.empty()) {
+			parent->debugLogA("!!!!! Empty nick/avatar/hash. Source code:\n%s", resp.data.c_str());
+			client_notify(TranslateT("Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update."));
+		}
 
 		return handle_success("home");
 	}
@@ -1048,7 +1040,7 @@ bool facebook_client::chat_state(bool online)
 	std::string data = (online ? "visibility=1" : "visibility=0");
 	data += "&window_id=0";
 	data += "&fb_dtsg=" + (!dtsg_.empty() ? dtsg_ : "0");
-	data += "&phstamp=0&__user=" + self_.user_id;
+	data += "&__user=" + self_.user_id;
 	http::response resp = flap(REQUEST_VISIBILITY, &data);
 	
 	if (!resp.error_title.empty())
