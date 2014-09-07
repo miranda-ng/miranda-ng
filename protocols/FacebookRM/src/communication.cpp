@@ -939,7 +939,7 @@ bool facebook_client::logout()
 {
 	handle_entry("logout");
 
-	std::string data = "fb_dtsg=" + (!this->dtsg_.empty() ? this->dtsg_ : "0");
+	std::string data = "fb_dtsg=" + this->dtsg_;
 	data += "&ref=mb&h=" + this->logout_hash_;
 
 	http::response resp = flap(REQUEST_LOGOUT, &data);
@@ -1039,7 +1039,7 @@ bool facebook_client::chat_state(bool online)
   
 	std::string data = (online ? "visibility=1" : "visibility=0");
 	data += "&window_id=0";
-	data += "&fb_dtsg=" + (!dtsg_.empty() ? dtsg_ : "0");
+	data += "&fb_dtsg=" + dtsg_;
 	data += "&__user=" + self_.user_id;
 	http::response resp = flap(REQUEST_VISIBILITY, &data);
 	
@@ -1192,7 +1192,7 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 			data += "&recipients[0]=" + message_recipient;
 			data += "&__user=" + this->self_.user_id;
 			data += "&__a=1";
-			data += "&fb_dtsg=" + (!dtsg_.empty() ? dtsg_ : "0");
+			data += "&fb_dtsg=" + this->dtsg_;
 			data += "&phstamp=0";
 
 			resp = flap(REQUEST_MESSAGE_SEND_INBOX, &data);
@@ -1224,7 +1224,7 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 			data += "&message_batch[0][message_id]";
 			data += "&message_batch[0][client_thread_id]=user:" + message_recipient;
 			data += "&client=mercury";
-			data += "&fb_dtsg=" + (!dtsg_.empty() ? dtsg_ : "0");
+			data += "&fb_dtsg=" + this->dtsg_;
 			data += "&__user=" + this->self_.user_id;
 			data += "&__a=1";
 			data += "&phstamp=0";
@@ -1249,7 +1249,7 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 			data += "&message_batch[0][has_attachment]=false";
 			data += "&message_batch[0][is_html]=false";
 			data += "&message_batch[0][message_id]=";
-			data += "&fb_dtsg=" + (!dtsg_.empty() ? dtsg_ : "0");
+			data += "&fb_dtsg=" + this->dtsg_;
 			data += "&__user=" + this->self_.user_id;
 			data += "&phstamp=0";
 
@@ -1263,7 +1263,7 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 			data += "&body=" + utils::url::encode(message_text);
 			data += "&recipients[0]=" + message_recipient;
 			data += "&lsd=";
-			data += "&fb_dtsg=" + (!dtsg_.empty() ? dtsg_ : "0");
+			data += "&fb_dtsg=" + this->dtsg_;
 
 			resp = flap(REQUEST_ASYNC, &data);
 			break;
@@ -1346,7 +1346,7 @@ bool facebook_client::post_status(status_data *status)
 	handle_entry("post_status");
 
 	if (status->isPage) {
-		std::string data = "fb_dtsg=" + (!this->dtsg_.empty() ? this->dtsg_ : "0");
+		std::string data = "fb_dtsg=" + this->dtsg_;
 		data += "&user_id=" + status->user_id;
 		data += "&url=" + std::string(FACEBOOK_URL_HOMEPAGE);
 		flap(REQUEST_IDENTITY_SWITCH, &data);
@@ -1354,7 +1354,7 @@ bool facebook_client::post_status(status_data *status)
 
 	std::string data;
 	if (!status->url.empty()) {
-		data = "fb_dtsg=" + (!this->dtsg_.empty() ? this->dtsg_ : "0");
+		data = "fb_dtsg=" + this->dtsg_;
 		data += "&targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 		data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=0";
@@ -1372,7 +1372,7 @@ bool facebook_client::post_status(status_data *status)
 
 	std::string text = utils::url::encode(status->text);
 
-	data += "fb_dtsg=" + (!this->dtsg_.empty() ? this->dtsg_ : "0");
+	data += "fb_dtsg=" + this->dtsg_;
 	data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 	data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
 	data += "&xhpc_message=" + text;
@@ -1397,7 +1397,7 @@ bool facebook_client::post_status(status_data *status)
 	http::response resp = flap(REQUEST_POST_STATUS, &data);
 
 	if (status->isPage) {
-		std::string data = "fb_dtsg=" + (!this->dtsg_.empty() ? this->dtsg_ : "0");
+		std::string data = "fb_dtsg=" + this->dtsg_;
 		data += "&user_id=" + this->self_.user_id;
 		data += "&url=" + std::string(FACEBOOK_URL_HOMEPAGE);
 		flap(REQUEST_IDENTITY_SWITCH, &data);
