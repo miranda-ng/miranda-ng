@@ -1614,7 +1614,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_OK, ACC_SMS };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_OKACC_OK, ACC_SMS };
 
 	void OnInitDialog()
 	{
@@ -1756,6 +1756,8 @@ protected:
 		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
 		case ACC_OK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
+			m_proto->m_options.UseSSL = FALSE;
+			m_proto->m_options.UseTLS = TRUE;
 
 		case ACC_PUBLIC:
 			m_proto->m_options.UseSSL = m_proto->m_options.UseTLS = FALSE;
