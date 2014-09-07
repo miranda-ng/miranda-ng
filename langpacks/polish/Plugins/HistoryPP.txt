@@ -715,3 +715,5 @@ Zobacz historię użytkownika
 Zobacz &historię
 [User Menu]
 Menu użytkownika
+[Prev]
+Poprzedni

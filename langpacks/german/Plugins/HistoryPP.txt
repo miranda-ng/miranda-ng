@@ -715,3 +715,5 @@ Verlauf anzeigen
 Verlauf anzeigen
 [User Menu]
 Kontaktmenü
+[Prev]
+Zurück
