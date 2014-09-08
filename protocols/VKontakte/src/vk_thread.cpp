@@ -323,14 +323,17 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (pResponse == NULL)
 		return;
 
-	bool bCleanContacts = getByte("AutoClean", 0) != 0;
+	bool bCleanContacts = getBool("AutoClean", false);
 	LIST<void> arContacts(10, PtrKeySortT);
 	if (bCleanContacts)
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 			if (!isChatRoom(hContact))
 				arContacts.insert((HANDLE)hContact);
 
-	for (int i = 0; (pInfo = json_at(pResponse, i)) != NULL; i++) {
+	int iCount = json_as_int(json_get(pResponse, "count"));
+	JSONNODE *pItems = json_get(pResponse, "items");
+
+	for (int i = 0; (pInfo = json_at(pItems, i)) != NULL; i++) {
 		ptrT szValue(json_as_string(json_get(pInfo, "id")));
 		if (szValue == NULL)
 			continue;
@@ -441,13 +444,14 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				continue;
 
 			int chatid = json_as_int(json_get(pDlg, "chat_id"));
-			if (chatid != 0){
-				if (m_chats.find((CVkChatInfo*)&chatid) == NULL) 
-					AppendChat(chatid, pDlg);	
-			}else if (m_bAutoSyncHistory){
+			if (chatid != 0) {
+				if (m_chats.find((CVkChatInfo*)&chatid) == NULL)
+					AppendChat(chatid, pDlg);
+			}
+			else if (m_bAutoSyncHistory) {
 				int mid = json_as_int(json_get(pDlg, "mid"));
 				int uid = json_as_int(json_get(pDlg, "uid"));
-				MCONTACT hContact = FindUser(uid, true);	
+				MCONTACT hContact = FindUser(uid, true);
 				debugLogA("CVkProto::GetHistoryDlg %d", mid);
 				GetHistoryDlg(hContact, mid);
 			}
@@ -506,7 +510,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_TCHAR;
-		if (isRead&&!m_bMesAsUnread)
+		if (isRead && !m_bMesAsUnread)
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
@@ -537,30 +541,30 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 {
 	int lastmsgid = getDword(hContact, "lastmsgid", -1);
-	if (-1==lastmsgid){
+	if (lastmsgid == -1) {
 		setDword(hContact, "lastmsgid", iLastMsg);
 		return;
 	}
 	int maxOffset = iLastMsg - lastmsgid;
 	setDword(hContact, "new_lastmsgid", iLastMsg);
-	GetHistoryDlgMessages (hContact, 0, maxOffset, -1);
+	GetHistoryDlgMessages(hContact, 0, maxOffset, -1);
 }
 
 void CVkProto::GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCount, int lastcount)
 {
 	LONG userID = getDword(hContact, "ID", -1);
-	if (-1==userID)
+	if (-1 == userID)
 		return;
 
-	if ((0==lastcount)||(iMaxCount<1)){
+	if (lastcount == 0 || iMaxCount < 1) {
 		setDword(hContact, "lastmsgid", getDword(hContact, "new_lastmsgid", -1));
 		db_unset(hContact, m_szModuleName, "new_lastmsgid");
 		db_unset(hContact, m_szModuleName, "ImportHistory");
 		return;
 	}
-	
-	int iReqCount = iMaxCount>MAXHISTORYMIDSPERONE?MAXHISTORYMIDSPERONE:iMaxCount;
-	
+
+	int iReqCount = iMaxCount > MAXHISTORYMIDSPERONE ? MAXHISTORYMIDSPERONE : iMaxCount;
+
 	debugLogA("CVkProto::GetHistoryDlgMessages %d %d %d", userID, iOffset, iReqCount);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getHistory.json", true, &CVkProto::OnReceiveHistoryMessages)
 		<< INT_PARAM("offset", iOffset) 
@@ -577,15 +581,15 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	debugLogA("CVkProto::OnReceiveHistoryMessages %d", reply->resultCode);
 	if (reply->resultCode != 200)
 		return;
-	
+
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
-	
+
 	CMStringA mids;
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	int numMessages = json_as_int(json_get(pResponse, "count")), 
+	int numMessages = json_as_int(json_get(pResponse, "count")),
 		i = 0,
 		lastmsgid = getDword(param->hContact, "lastmsgid", -1),
 		mid = -1;
@@ -599,18 +603,18 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		JSONNODE *pMsg = json_at(pMsgs, i);
 		if (pMsg == NULL)
 			break;
-		
+
 		mid = json_as_int(json_get(pMsg, "id"));
-		if (his&&(-1==new_lastmsgid)){
+		if (his && new_lastmsgid == -1) {
 			new_lastmsgid = mid;
 			setDword(param->hContact, "new_lastmsgid", mid);
 		}
-		if (mid <= lastmsgid) 
+		if (mid <= lastmsgid)
 			break;
-		
+
 		char szMid[40];
 		_itoa(mid, szMid, 10);
-				
+
 		ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
 		int datetime = json_as_int(json_get(pMsg, "date"));
 		int isOut = json_as_int(json_get(pMsg, "out"));
@@ -629,7 +633,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (isOut)
 			recv.flags |= PREF_SENT;
 		recv.timestamp = datetime;
-		
+
 		CMStringW szBody = ptszBody;
 		MyHtmlDecode(szBody);
 		recv.tszMessage = szBody.GetBuffer();
@@ -671,27 +675,26 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, NULL, NULL);
 }
 
-INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM wParam, LPARAM)
+INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 {
-	LPCWSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
-	if (IDNO==MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING|MB_YESNO))
+	LPCTSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
+	if (IDNO == MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
-	
-	LONG userID = getDword((MCONTACT)wParam, "ID", -1); 
-	if (-1==userID)
+
+	LONG userID = getDword(hContact, "ID", -1);
+	if (userID == -1)
 		return 0;
-	
-	setByte((MCONTACT)wParam, "ImportHistory", 1);
-	setDword((MCONTACT)wParam, "lastmsgid", 0);
-	
-	while (HANDLE hd = db_event_first((MCONTACT)wParam))
-		db_event_delete((MCONTACT)wParam, hd);
-	
+
+	setByte(hContact, "ImportHistory", 1);
+	setDword(hContact, "lastmsgid", 0);
+
+	while (HANDLE hd = db_event_first(hContact))
+		db_event_delete(hContact, hd);
+
 	debugLogA("CVkProto::SvcGetAllServerHistory");
-	GetHistoryDlgMessages((MCONTACT)wParam, 0, INT_MAX, -1);
+	GetHistoryDlgMessages(hContact, 0, INT_MAX, -1);
 	return 1;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
