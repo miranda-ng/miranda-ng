@@ -203,11 +203,10 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		szMsg = mir_utf8encode(msg);
 
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
-	// need rework - change reply format and uid => user_id, type not supported yet 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
-		<< INT_PARAM("type", 0) << INT_PARAM("uid", userID);
+		<< INT_PARAM("user_id", userID)
+		<< VER_API;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	
 	CMStringA szBody(FORMAT, "message=%s", ptrA(mir_urlEncode(szMsg)));
 	pReq->pData = mir_strdup(szBody);
 	pReq->dataLength = szBody.GetLength();
