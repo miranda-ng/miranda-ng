@@ -203,6 +203,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		szMsg = mir_utf8encode(msg);
 
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
+	// need rework - change reply format and uid => user_id, type not supported yet 
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
 		<< INT_PARAM("type", 0) << INT_PARAM("uid", userID);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -342,7 +343,8 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 		
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth)
 			<< INT_PARAM("user_id", userID) 
-			<< CHAR_PARAM("type", "typing"));
+			<< CHAR_PARAM("type", "typing")
+			<< VER_API);
 		return 0;
 	}
 	return 1;
