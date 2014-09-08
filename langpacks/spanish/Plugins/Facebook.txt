@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.1
+;  Version: 0.2.9.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -70,10 +70,10 @@ Forzar conexión segura (HTTPS)
 Enviar estados de Miranda al Muro
 [Use secure connection also for channel requests]
 Usar conexión segura también para solicitudes de canal
-[Also disconnect chat when going to offline]
-También desconectar charla cuando se va a fuera de línea
-[Map non-standard statuses to Invisible (instead of Online)]
-Mapa de estados no estándar a Invisible (en lugar de en línea)
+[Turn off chat on Facebook when going to offline in Miranda]
+
+[Map unsupported statuses to Invisible (instead of Online)]
+
 [Allow posting statuses to my pages (may slow down login)]
 Permitir publicar estados a mis páginas (puede ralentizar sesión)
 [Use this server for opening links:]
@@ -127,14 +127,18 @@ Error desconocido
 Error de inicio de sesión: Solicitud no válida.
 [Login error: Some Facebook things are required.]
 Error de inicio de sesión: Se necesitan algunas cosas de Facebook.
-[Login error: Captcha code is required. Bad login credentials?]
-Error de inicio de sesión: Es necesario el código Captcha. ¿Malas contraseñas credenciales?
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
+
 [Login error, probably bad login credentials.]
 Error de inicio de sesión, las credenciales de inicio de sesión probablemente son malas.
 [Your account requires HTTPS connection. Activating.]
 Su cuenta requiere una conexión HTTPS. Activando.
-[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-Algo le pasó a Facebook. Tal vez hubo alguna actualización importante por lo que debe esperar a una actualización.
+[Could not load communication token. You should report this and wait for plugin update.]
+
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Necesita confirmación para enviar mensajes a otros clientes.\n¡Abrir el sitio web de Facebook y tratar de enviar un mensaje a este contacto de nuevo!
 [User cancel captcha challenge.]

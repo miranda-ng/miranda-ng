@@ -14,6 +14,14 @@
 
 [Only listen to localhost]
 
+[Port:]
+Puerto:
+[(Default is 12001)]
+
+[Password:]
+Contraseña:
+[Allow actions to execute programs]
+
 [Sound]
 
 [Play sounds]
@@ -26,18 +34,12 @@
 
 [Message debugging]
 
-[Port:]
-Puerto:
-[(Default is 12001)]
-
-[Allow actions to execute programs]
-
-[Password:]
-Contraseña:
 ;file \plugins\NotifyAnything\src\common.h
 [NotifyAnything]
 
 ;file \plugins\NotifyAnything\src\main.cpp
+[Notify Anything]
+
 [N/A: Failed to format error message]
 
 [N/A: FormatMessage failed, error code was 0x]

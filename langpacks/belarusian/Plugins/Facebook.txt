@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.1
+;  Version: 0.2.9.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -66,10 +66,8 @@ URL:
 Публікаваць статусы Miranda на сцяну
 [Use secure connection also for channel requests]
 Бяспечнае злучэнне таксама для запытаў канала
-[Also disconnect chat when going to offline]
+[Turn off chat on Facebook when going to offline in Miranda]
 Адключаць чат на сайце пры адключэнні
-[Map non-standard statuses to Invisible (instead of Online)]
-Нестандартныя статусы, як Нябачны (замест 'Далучаны')
 [Allow posting statuses to my pages (may slow down login)]
 Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
 [Use this server for opening links:]
@@ -103,14 +101,10 @@ URL:
 Памылка далучэння: Памылковы запрос.
 [Login error: Some Facebook things are required.]
 Памылка далучэння: Неабходны некаторыя рэчы Facebook.
-[Login error: Captcha code is required. Bad login credentials?]
-Памылка: Патрабуецца ўвесці код абароны. Няслушныя дадзеныя конта?
 [Login error, probably bad login credentials.]
 Памылка далучэння, верагодна, няслушныя дадзеныя для ўваходу.
 [Your account requires HTTPS connection. Activating.]
 Ваш конт патрабуе HTTPS злучэнне. Актывацыя.
-[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-Нешта здарылася з Facebook. Верагодна, было сур'ёзнае абнаўленне, таму чакайце абнаўлення плагіна.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\nАдкрыйце сайт Facebook і паспрабуйце там адправіць паведамленне гэтаму кантакту!
 [Timeout when sending message.]

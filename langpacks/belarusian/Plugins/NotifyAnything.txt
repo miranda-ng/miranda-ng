@@ -14,6 +14,14 @@
 Бяспека
 [Only listen to localhost]
 Толькі ад гэтага кампутара
+[Port:]
+Порт:
+[(Default is 12001)]
+(Па змаўчанні 12001)
+[Password:]
+Пароль:
+[Allow actions to execute programs]
+Дазволіць выкананне праграм
 [Sound]
 Гук
 [Play sounds]
@@ -26,14 +34,6 @@
 Запіс у файл
 [Message debugging]
 Адладка паведамленняў
-[Port:]
-Порт:
-[(Default is 12001)]
-(Па змаўчанні 12001)
-[Allow actions to execute programs]
-Дазволіць выкананне праграм
-[Password:]
-Пароль:
 ;file \plugins\NotifyAnything\src\common.h
 ;file \plugins\NotifyAnything\src\main.cpp
 [N/A: Failed to format error message]
