@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.1
+;  Version: 0.2.9.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -70,10 +70,10 @@ URL:
 Публикуване на състоянията от Miranda на стената
 [Use secure connection also for channel requests]
 
-[Also disconnect chat when going to offline]
-Изключване на чат функционалността при "Извън линия"
-[Map non-standard statuses to Invisible (instead of Online)]
-Ползване на състояние Невидим вместо "На линия" при нестандартно за Facebook състояние
+[Turn off chat on Facebook when going to offline in Miranda]
+
+[Map unsupported statuses to Invisible (instead of Online)]
+
 [Allow posting statuses to my pages (may slow down login)]
 
 [Use this server for opening links:]
@@ -127,14 +127,18 @@ URL:
 
 [Login error: Some Facebook things are required.]
 Грешка при вписване: Необходими са някой неща за Facebook.
-[Login error: Captcha code is required. Bad login credentials?]
-Грешка при вписване: Необходим е Captcha код. Сгрешени данни за вписване?
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
+
 [Login error, probably bad login credentials.]
 Грешка при вписване вероятно поради сгрешени данни за вписване.
 [Your account requires HTTPS connection. Activating.]
 Акаунтът изисква HTTPS връзка. Активиране.
-[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-Проблем с Facebook - вероятно уебсайта е обновен. Очаквайте актуализация на протокола Facebook.
+[Could not load communication token. You should report this and wait for plugin update.]
+
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уеб страницата на Facebook и опитайте да изпратите съобщението до контакта отново!
 [User cancel captcha challenge.]
