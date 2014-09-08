@@ -38,7 +38,11 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	m_invisible = false;
 	m_signingOut = false;
 	m_enableChat = getBool(FACEBOOK_KEY_ENABLE_CHAT, true);
-	m_locale = ptrA( getStringA(FACEBOOK_KEY_LOCALE));
+	
+	// Load custom locale, if set
+	ptrA locale( getStringA(FACEBOOK_KEY_LOCALE));
+	if (locale != NULL)
+		m_locale = locale;
 
 	CreateProtoService(PS_CREATEACCMGRUI,		&FacebookProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETMYAWAYMSG,			&FacebookProto::GetMyAwayMsg);
