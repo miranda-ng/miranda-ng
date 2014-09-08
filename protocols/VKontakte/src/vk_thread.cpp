@@ -201,7 +201,8 @@ LBL_NoForm:
 void CVkProto::RetrieveMyInfo()
 {
 	// Old method
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo));
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo)
+		<< VER_API);
 }
 
 void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -216,16 +217,10 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
-
-	for (size_t i = 0; i < json_size(pResponse); i++) {
-		JSONNODE *it = json_at(pResponse, i);
-		LPCSTR id = json_name(it);
-		if (!_stricmp(id, "user_id")) {
-			m_myUserId = json_as_int(it);
-			setDword("ID", m_myUserId);
-		}
-	}
-
+	
+	m_myUserId = json_as_int(json_get(json_at(pResponse, 0), "id"));
+	setDword("ID", m_myUserId);
+		
 	OnLoggedIn();
 	RetrieveUserInfo(m_myUserId);
 	RetrieveFriends();
@@ -237,10 +232,11 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
-	// Old method
-	// replaced to users.get
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/getProfiles.json", true, &CVkProto::OnReceiveUserInfo)
-		<< INT_PARAM("uids", userID) << CHAR_PARAM("fields", "uid,first_name,last_name,photo_medium,sex,bdate,city,relation"));
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveUserInfo)
+		<< INT_PARAM("user_ids", userID) 
+		<< CHAR_PARAM("fields", "id, first_name, last_name, photo_100, sex, country, timezone, contacts, online")
+		<< CHAR_PARAM("name_case", "nom")
+		<< VER_API);
 }
 
 void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -256,9 +252,10 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	for (size_t i=0; ; i++) {
 		JSONNODE *pRecord = json_at(pResponse, i);
-		if (pRecord == NULL) break;
+		if (pRecord == NULL) 
+			break;
 
-		LONG userid = json_as_int( json_get(pRecord, "uid"));
+		LONG userid = json_as_int( json_get(pRecord, "id"));
 		if (userid == 0)
 			return;
 
@@ -295,8 +292,10 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			}
 		}
 
-		szValue = json_as_string( json_get(pRecord, "photo_medium"));
+		szValue = json_as_string( json_get(pRecord, "photo_100"));
 		SetAvatarUrl(hContact, szValue);
+		
+		setWord(hContact, "Status", (json_as_int(json_get(pRecord, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
 	}
 }
 
@@ -308,7 +307,9 @@ void CVkProto::RetrieveFriends()
 	// Old method
 	// fields 'country' and 'city' replaced to objects
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
-		<< INT_PARAM("count", 1000) << CHAR_PARAM("fields", "uid,first_name,last_name,photo_medium,sex,country,timezone,contacts"));
+		<< INT_PARAM("count", 1000) 
+		<< CHAR_PARAM("fields", "id, first_name, last_name, photo_100, sex, country, timezone, contacts, online")
+		<<VER_API);
 }
 
 void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -330,7 +331,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 				arContacts.insert((HANDLE)hContact);
 
 	for (int i = 0; (pInfo = json_at(pResponse, i)) != NULL; i++) {
-		ptrT szValue(json_as_string(json_get(pInfo, "uid")));
+		ptrT szValue(json_as_string(json_get(pInfo, "id")));
 		if (szValue == NULL)
 			continue;
 
@@ -353,7 +354,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		if (!tszNick.IsEmpty())
 			setTString(hContact, "Nick", tszNick);
 
-		szValue = json_as_string(json_get(pInfo, "photo_medium"));
+		szValue = json_as_string(json_get(pInfo, "photo_100"));
 		SetAvatarUrl(hContact, szValue);
 
 		setWord(hContact, "Status", (json_as_int(json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
