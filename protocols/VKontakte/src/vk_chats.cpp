@@ -82,6 +82,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 
 void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 {
+	//need rework
 	CMStringA szQuery("return { ");
 
 	// retrieve title & owner id
@@ -335,7 +336,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
 			rtrimt(buf);
 			UnEscapeChatTags(buf);
-				
+			// need rework - change reply format and type not supported yet 
 			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,  &CVkProto::OnSendChatMsg)
 				<< INT_PARAM("type", 1) << INT_PARAM("chat_id", cc->m_chatid);
 			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -425,7 +426,9 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	case IDM_TOPIC:
 		if (LPTSTR ptszNew = ChangeChatTopic(cc)) {
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.editChat.json", true, &CVkProto::OnReceiveSmth)
-				<< TCHAR_PARAM("title", ptszNew) << INT_PARAM("chat_id", cc->m_chatid));
+				<< TCHAR_PARAM("title", ptszNew) 
+				<< INT_PARAM("chat_id", cc->m_chatid)
+				<< VER_API);
 			mir_free(ptszNew);
 		}
 		break;
@@ -436,7 +439,9 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			int uid = getDword(hContact, "ID", -1);
 			if (uid != -1)
 				Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth)
-					<< INT_PARAM("uid", uid) << INT_PARAM("chat_id", cc->m_chatid));
+					<< INT_PARAM("user_id", uid) 
+					<< INT_PARAM("chat_id", cc->m_chatid)
+					<< VER_API);
 		}
 		break;
 
@@ -445,6 +450,9 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
 			TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
 		{
+			// need rework
+			// hmmm 
+			// deleteDialog not support chat_id yet
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.deleteDialog.json", true, &CVkProto::OnChatDestroy)
 				<< INT_PARAM("chat_id", cc->m_chatid))->pUserInfo = cc;
 		}
@@ -486,7 +494,9 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		
 	case IDM_KICK:
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.removeChatUser.json", true, &CVkProto::OnReceiveSmth)
-			<< INT_PARAM("chat_id", cc->m_chatid) << INT_PARAM("uid", cu->m_uid));
+			<< INT_PARAM("chat_id", cc->m_chatid) 
+			<< INT_PARAM("uid", cu->m_uid)
+			<< VER_API);
 		cu->m_bUnknown = true;
 		break;
 	}
@@ -619,7 +629,9 @@ INT_PTR CVkProto::SvcCreateChat(WPARAM, LPARAM)
 void CVkProto::CreateNewChat(LPCSTR uids, LPCTSTR ptszTitle)
 {
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.createChat.json", true, &CVkProto::OnCreateNewChat)
-		<< TCHAR_PARAM("title", ptszTitle) << CHAR_PARAM("uids", uids));
+		<< TCHAR_PARAM("title", ptszTitle) 
+		<< CHAR_PARAM("user_ids", uids)
+		<< VER_API);
 }
 
 void CVkProto::OnCreateNewChat(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

@@ -40,6 +40,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKFLAG_MSGFIXED    256 // сообщение проверено пользователем на спам
 #define VKFLAG_MSGMEDIA    512 // сообщение содержит медиаконтент
 
+#define VK_API_VER "5.24"
+#define VER_API CHAR_PARAM("v", VK_API_VER)
+
+
 #if defined(_DEBUG)
 	#define VK_NODUMPHEADERS 0
 #else

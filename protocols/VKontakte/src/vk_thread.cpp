@@ -97,11 +97,13 @@ void CVkProto::SetServerStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = ID_STATUS_OFFLINE; 
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth));
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
+			<< VER_API);
 	}
 	else if (iNewStatus != ID_STATUS_INVISIBLE) {
 		m_iStatus = ID_STATUS_ONLINE; 
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth));
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth)
+			<< VER_API);
 	}
 	else m_iStatus = ID_STATUS_INVISIBLE; 
 
@@ -198,6 +200,7 @@ LBL_NoForm:
 
 void CVkProto::RetrieveMyInfo()
 {
+	// Old method
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/getUserInfoEx.json", true, &CVkProto::OnReceiveMyInfo));
 }
 
@@ -234,6 +237,8 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
+	// Old method
+	// replaced to users.get
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/getProfiles.json", true, &CVkProto::OnReceiveUserInfo)
 		<< INT_PARAM("uids", userID) << CHAR_PARAM("fields", "uid,first_name,last_name,photo_medium,sex,bdate,city,relation"));
 }
@@ -300,7 +305,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 void CVkProto::RetrieveFriends()
 {
 	debugLogA("CVkProto::RetrieveFriends");
-	
+	// Old method
+	// fields 'country' and 'city' replaced to objects
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
 		<< INT_PARAM("count", 1000) << CHAR_PARAM("fields", "uid,first_name,last_name,photo_medium,sex,country,timezone,contacts"));
 }
@@ -380,7 +386,7 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth)
-		<< CHAR_PARAM("mids", mids));
+		<< CHAR_PARAM("message_ids", mids) << VER_API);
 }
 
 void CVkProto::MarkMessagesRead(const MCONTACT hContact)
@@ -390,14 +396,15 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth)
-		<< INT_PARAM("peer_id", userID));
+		<< INT_PARAM("peer_id", userID) << VER_API);
 }
 
 void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 {
 	if (mids.IsEmpty())
 		return;
-
+	// Old method
+	//  change 'message' object and mids => message_ids
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages)
 		<< CHAR_PARAM("mids", mids));
 }
@@ -405,7 +412,8 @@ void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 void CVkProto::RetrieveUnreadMessages()
 {
 	debugLogA("CVkProto::RetrieveMessages");
-
+	// Old method
+	//  change 'message' and dialogs object and filters=1 not suported
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages)
 		<< CHAR_PARAM("code", "return { \"msgs\":API.messages.get({\"filters\":1}), \"dlgs\":API.messages.getDialogs() };"));
 }
@@ -557,7 +565,7 @@ void CVkProto::GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCou
 		<< INT_PARAM("offset", iOffset) 
 		<< INT_PARAM("count", iReqCount) 
 		<< INT_PARAM("user_id", userID) 
-		<< CHAR_PARAM("v", "5.24");
+		<< VER_API;
 
 	pReq->pUserInfo = new CVkSendMsgParam(hContact, iOffset);
 	Push(pReq);
@@ -640,7 +648,8 @@ void CVkProto::RetrievePollingInfo()
 {
 	debugLogA("CVkProto::RetrievePollingInfo");
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo));
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo)
+		<< VER_API);
 }
 
 void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -744,6 +753,7 @@ int CVkProto::PollServer()
 {
 	debugLogA("CVkProto::PollServer");
 
+	//need rework
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
@@ -796,6 +806,8 @@ void CVkProto::PollingThread(void*)
 
 CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 {
+	// need rework
+	
 	CMString res;
 	res.AppendChar('\n');
 	res += TranslateT("Attachments:");
