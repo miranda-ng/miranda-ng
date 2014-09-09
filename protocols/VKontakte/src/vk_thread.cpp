@@ -461,6 +461,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			mids.Append(szMid);
 		}
 
+		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
+		if (chat_id != 0) {
+			AppendChatMessage(chat_id, pMsg, false);
+			continue;
+		}
+
 		PROTORECVEVENT recv = { 0 };
 			recv.flags = PREF_TCHAR;
 		if (isRead&&!m_bMesAsUnread)

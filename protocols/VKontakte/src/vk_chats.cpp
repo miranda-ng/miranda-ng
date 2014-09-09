@@ -218,9 +218,9 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 	if (cc == NULL)
 		return;
 
-	int mid = json_as_int(json_get(pMsg, "mid"));
+	int mid = json_as_int(json_get(pMsg, "id"));
 	int isOut = json_as_int(json_get(pMsg, "out"));
-	int uid = json_as_int(json_get(pMsg, "uid"));
+	int uid = json_as_int(json_get(pMsg, "user_id"));
 
 	int msgTime = json_as_int(json_get(pMsg, "date"));
 	time_t now = time(NULL);
