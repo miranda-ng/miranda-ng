@@ -143,6 +143,11 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 		std::vector<uint8_t> id;
 		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 		{
+			if (dbv.type != DBVT_BLOB)
+			{
+				return 0;
+			}
+
 			memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
 			db_free(&dbv);
 
