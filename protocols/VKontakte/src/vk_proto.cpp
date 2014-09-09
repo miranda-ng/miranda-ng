@@ -205,11 +205,9 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
 		<< INT_PARAM("user_id", userID)
+		<< CHAR_PARAM("message", szMsg, reqPOST)
 		<< VER_API;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	CMStringA szBody(FORMAT, "message=%s", ptrA(mir_urlEncode(szMsg)));
-	pReq->pData = mir_strdup(szBody);
-	pReq->dataLength = szBody.GetLength();
 	pReq->pUserInfo = new CVkSendMsgParam(hContact, msgId); 
 	Push(pReq);
 

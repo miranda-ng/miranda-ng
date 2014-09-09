@@ -113,25 +113,52 @@ void CVkProto::WorkerThread(void*)
 
 AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT_PARAM &param)
 {
-	CMStringA &s = pReq->m_szUrl;
-	s.AppendFormat("%c%s=%i", pReq->m_bHasParams ? '&' : '?', param.szName, param.iValue);
-	pReq->m_bHasParams = true;
+	if (param.rtType == reqGET){
+		CMStringA &s = pReq->m_szUrl;
+		s.AppendFormat("%c%s=%i", pReq->m_bHasGParams ? '&' : '?', param.szName, param.iValue);
+		pReq->m_bHasGParams = true;
+	}
+	else {
+		CMStringA s = pReq->pData;
+		s.AppendFormat("%s%s=%i", pReq->m_bHasPParams ? "&" : "?", param.szName, param.iValue);
+		pReq->pData = mir_strdup(s);
+		pReq->dataLength = s.GetLength();
+		pReq->m_bHasPParams = true;
+	}
 	return pReq;
 }
 
 AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const CHAR_PARAM &param)
 {
-	CMStringA &s = pReq->m_szUrl;
-	s.AppendFormat("%c%s=%s", pReq->m_bHasParams ? '&' : '?', param.szName, ptrA(mir_urlEncode(param.szValue)));
-	pReq->m_bHasParams = true;
+	if (param.rtType == reqGET){
+		CMStringA &s = pReq->m_szUrl;
+		s.AppendFormat("%c%s=%s", pReq->m_bHasGParams ? '&' : '?', param.szName, ptrA(mir_urlEncode(param.szValue)));
+		pReq->m_bHasGParams = true;
+	}
+	else {
+		CMStringA s = pReq->pData;
+		s.AppendFormat("%s%s=%s", pReq->m_bHasPParams ? "&" : "", param.szName, ptrA(mir_urlEncode(param.szValue)));
+		pReq->pData = mir_strdup(s);
+		pReq->dataLength = s.GetLength();
+		pReq->m_bHasPParams = true;
+	}
 	return pReq;
 }
 
 AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const TCHAR_PARAM &param)
 {
 	ptrA szValue(mir_utf8encodeT(param.tszValue));
-	CMStringA &s = pReq->m_szUrl;
-	s.AppendFormat("%c%s=%s", pReq->m_bHasParams ? '&' : '?', param.szName, ptrA(mir_urlEncode(szValue)));
-	pReq->m_bHasParams = true;
+	if (param.rtType == reqGET){
+		CMStringA &s = pReq->m_szUrl;
+		s.AppendFormat("%c%s=%s", pReq->m_bHasGParams ? '&' : '?', param.szName, ptrA(mir_urlEncode(szValue)));
+		pReq->m_bHasGParams = true;
+	}
+	else{
+		CMStringA s = pReq->pData;
+		s.AppendFormat("%s%s=%s", pReq->m_bHasGParams ? "&" : "?", param.szName, ptrA(mir_urlEncode(szValue)));
+		pReq->pData = mir_strdup(s);
+		pReq->dataLength = s.GetLength();
+		pReq->m_bHasPParams = true;
+	}
 	return pReq;
 }
