@@ -75,13 +75,15 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest*, const TCHAR_PARAM&);
 
 struct CVkSendMsgParam
 {
-	CVkSendMsgParam(MCONTACT _p1, int _p2) :
+	CVkSendMsgParam(MCONTACT _p1, int _p2, int _p3 = 0) :
 		hContact(_p1),
-		iMsgID(_p2)
+		iMsgID(_p2),
+		iCount(_p3)
 	{}
 
 	MCONTACT hContact;
 	int iMsgID;
+	int iCount;
 };
 
 struct CVkChatMessage : public MZeroedObject
@@ -207,6 +209,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveMessagesByIds(const CMStringA &mids);
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
 	void GetHistoryDlg(MCONTACT hContact, int iLastMsg);

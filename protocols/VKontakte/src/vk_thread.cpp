@@ -200,7 +200,6 @@ LBL_NoForm:
 
 void CVkProto::RetrieveMyInfo()
 {
-	// Old method
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo)
 		<< VER_API);
 }
@@ -304,8 +303,6 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 void CVkProto::RetrieveFriends()
 {
 	debugLogA("CVkProto::RetrieveFriends");
-	// Old method
-	// fields 'country' and 'city' replaced to objects
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
 		<< INT_PARAM("count", 1000) 
 		<< CHAR_PARAM("fields", "id, first_name, last_name, photo_100, sex, country, timezone, contacts, online")
@@ -390,39 +387,39 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth)
-		<< CHAR_PARAM("message_ids", mids) << VER_API);
+		<< CHAR_PARAM("message_ids", mids) 
+		<< VER_API);
 }
 
 void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 {
 	LONG userID = getDword(hContact, "ID", -1);
-	if (-1==userID)
+	if (userID == -1)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth)
-		<< INT_PARAM("peer_id", userID) << VER_API);
+		<< INT_PARAM("peer_id", userID) 
+		<< VER_API);
 }
 
 void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 {
 	if (mids.IsEmpty())
 		return;
-	// Old method
-	//  change 'message' object and mids => message_ids
+
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages)
-		<< CHAR_PARAM("mids", mids));
+		<< CHAR_PARAM("message_ids", mids)
+		<< VER_API);
 }
 
 void CVkProto::RetrieveUnreadMessages()
 {
-	debugLogA("CVkProto::RetrieveMessages");
-	// Old method
-	//  change 'message' and dialogs object and filters=1 not suported
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveMessages)
-		<< CHAR_PARAM("code", "return { \"msgs\":API.messages.get({\"filters\":1}), \"dlgs\":API.messages.getDialogs() };"));
+	debugLogA("CVkProto::RetrieveUnreadMessages");
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getDialogs.json", true, &CVkProto::OnReceiveDlgs)
+		<< VER_API);
 }
 
-static char* szImageTypes[] = { "src_xxxbig", "src_xxbig", "src_xbig", "src_big", "src", "src_small" };
+static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_130", "photo_75" };
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
@@ -435,91 +432,43 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (pResponse == NULL)
 		return;
 
-	JSONNODE *pDlgs = json_as_array(json_get(pResponse, "dlgs"));
-	if (pDlgs != NULL) {
-		int numDialogs = json_as_int(json_at(pDlgs, 0));
-		for (int i = 1; i <= numDialogs; i++) {
-			JSONNODE *pDlg = json_at(pDlgs, i);
-			if (pDlg == NULL)
-				continue;
+	CMStringA mids;
+	int numMessages = json_as_int(json_get(pResponse, "count"));
+	JSONNODE *pMsgs = json_get(pResponse, "items");
 
-			int chatid = json_as_int(json_get(pDlg, "chat_id"));
-			if (chatid != 0) {
-				if (m_chats.find((CVkChatInfo*)&chatid) == NULL)
-					AppendChat(chatid, pDlg);
-			}
-			else if (m_bAutoSyncHistory) {
-				int mid = json_as_int(json_get(pDlg, "mid"));
-				int uid = json_as_int(json_get(pDlg, "uid"));
-				MCONTACT hContact = FindUser(uid, true);
-				debugLogA("CVkProto::GetHistoryDlg %d", mid);
-				GetHistoryDlg(hContact, mid);
-			}
-		}
-	}
-
-	CMStringA mids, lmids;
-	bool bDirectArray = false;
-
-	JSONNODE *pMsgs = json_as_array(json_get(pResponse, "msgs"));
-	if (pMsgs == NULL) {
-		pMsgs = pResponse;
-		bDirectArray = true;
-	}
-
-	int numMessages = json_as_int(json_at(pMsgs, 0));
-	for (int i = 1; i <= numMessages; i++) {
+	for (int i = 0; i < numMessages; i++) {
 		JSONNODE *pMsg = json_at(pMsgs, i);
 		if (pMsg == NULL)
-			continue;
+			break;
 
-		UINT mid = json_as_int(json_get(pMsg, "mid"));
-
-		char szMid[40];
-		_itoa(mid, szMid, 10);
-		if (!mids.IsEmpty())
-			mids.AppendChar(',');
-		mids.Append(szMid);
-
-		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
-		if (chat_id != 0) {
-			AppendChatMessage(chat_id, pMsg, false);
-			continue;
-		}
-
-		// VK documentation lies: even if you specified preview_length=0, 
-		// long messages get cut out. So we need to retrieve them from scratch
+		UINT mid = json_as_int(json_get(pMsg, "id"));
 		ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
-		if (!bDirectArray && _tcslen(ptszBody) > 1000) {
-			if (!lmids.IsEmpty())
-				lmids.AppendChar(',');
-			lmids.Append(szMid);
-			continue;
-		}
-
 		int datetime = json_as_int(json_get(pMsg, "date"));
 		int isOut = json_as_int(json_get(pMsg, "out"));
-		int uid = json_as_int(json_get(pMsg, "uid"));
 		int isRead = json_as_int(json_get(pMsg, "read_state"));
-
+		int uid = json_as_int(json_get(pMsg, "user_id"));
 		JSONNODE *pAttachments = json_get(pMsg, "attachments");
+
 		if (pAttachments != NULL)
 			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments));
 
 		MCONTACT hContact = FindUser(uid, true);
+		char szMid[40];
+		_itoa(mid, szMid, 10);
+		if (!m_bMarkReadOnReply){
+			if (!mids.IsEmpty())
+				mids.AppendChar(',');
+			mids.Append(szMid);
+		}
 
 		PROTORECVEVENT recv = { 0 };
-		recv.flags = PREF_TCHAR;
-		if (isRead && !m_bMesAsUnread)
+			recv.flags = PREF_TCHAR;
+		if (isRead&&!m_bMesAsUnread)
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
 		recv.timestamp = datetime;
-		
-		CMStringW szBody = ptszBody;
-		MyHtmlDecode(szBody);
-		recv.tszMessage = szBody.GetBuffer();
-		
+		recv.tszMessage = ptszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)strlen(szMid);
@@ -533,13 +482,74 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	if (!m_bMarkReadOnReply)
 		MarkMessagesRead(mids);
-	RetrieveMessagesByIds(lmids);
+}
+
+void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	debugLogA("CVkProto::OnReceiveDlgs %d", reply->resultCode);
+	if (reply->resultCode != 200)
+		return;
+
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+	if (pResponse == NULL)
+		return;
+
+	int numDlgs = json_as_int(json_get(pResponse, "count"));
+	JSONNODE *pDlgs = json_get(pResponse, "items");
+	
+	if (pDlgs == NULL)
+		return;
+		
+	for (int i = 0; i < numDlgs; i++) {
+		JSONNODE *pDlg = json_at(pDlgs, i);
+		if (pDlg == NULL)
+			break; 
+		
+		int numUnread = json_as_int(json_get(pDlg, "unread"));
+		
+		pDlg = json_get(pDlg, "message");
+		if (pDlg == NULL)
+			break; 
+
+		int chatid = json_as_int(json_get(pDlg, "chat_id"));
+		if (chatid != 0) {
+			if (m_chats.find((CVkChatInfo*)&chatid) == NULL)
+				AppendChat(chatid, pDlg);
+		}
+		else if (m_bAutoSyncHistory) {
+			int mid = json_as_int(json_get(pDlg, "id"));
+			int uid = json_as_int(json_get(pDlg, "user_id"));
+			MCONTACT hContact = FindUser(uid, true);
+			
+			if ((getDword(hContact, "lastmsgid", -1) == -1) && numUnread){
+				setDword(hContact, "new_lastmsgid", mid);
+				GetHistoryDlgMessages(hContact, 0, numUnread, -1);
+			}
+			else
+				GetHistoryDlg(hContact, mid);
+			
+			if (!m_bMarkReadOnReply)
+				MarkMessagesRead(hContact);
+		}
+		else if (numUnread) {
+			int mid = json_as_int(json_get(pDlg, "id"));
+			int uid = json_as_int(json_get(pDlg, "user_id"));
+			MCONTACT hContact = FindUser(uid, true);
+			setDword(hContact, "new_lastmsgid", mid);
+			GetHistoryDlgMessages(hContact, 0, numUnread, -1);
+			
+			if (!m_bMarkReadOnReply)
+				MarkMessagesRead(hContact);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 {
+	debugLogA("CVkProto::GetHistoryDlg %d", iLastMsg);
 	int lastmsgid = getDword(hContact, "lastmsgid", -1);
 	if (lastmsgid == -1) {
 		setDword(hContact, "lastmsgid", iLastMsg);
@@ -572,7 +582,7 @@ void CVkProto::GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCou
 		<< INT_PARAM("user_id", userID) 
 		<< VER_API;
 
-	pReq->pUserInfo = new CVkSendMsgParam(hContact, iOffset);
+	pReq->pUserInfo = new CVkSendMsgParam(hContact, iOffset, iMaxCount);
 	Push(pReq);
 }
 
@@ -633,19 +643,13 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		if (isOut)
 			recv.flags |= PREF_SENT;
 		recv.timestamp = datetime;
-
-		CMStringW szBody = ptszBody;
-		MyHtmlDecode(szBody);
-		recv.tszMessage = szBody.GetBuffer();
+		recv.tszMessage = ptszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)strlen(szMid);
 		ProtoChainRecvMsg(hContact, &recv);
 	}
-	
-	int inewCount = mid - getDword(param->hContact, "lastmsgid", -1);
-	inewCount = (0>mid)?0:inewCount;
-	GetHistoryDlgMessages(param->hContact, param->iMsgID+i, inewCount, i);
+	GetHistoryDlgMessages(param->hContact, param->iMsgID + i, param->iCount - i, i);
 	delete param;
 }
 
@@ -810,8 +814,6 @@ void CVkProto::PollingThread(void*)
 
 CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 {
-	// need rework
-	
 	CMString res;
 	res.AppendChar('\n');
 	res += TranslateT("Attachments:");
@@ -841,7 +843,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			JSONNODE *pAudio = json_get(pAttach, "audio");
 			if (pAudio == NULL) continue;
 
-			int  aid = json_as_int(json_get(pAudio, "aid"));
+			int  aid = json_as_int(json_get(pAudio, "id"));
 			int  ownerID = json_as_int(json_get(pAudio, "owner_id"));
 			ptrT ptszArtist(json_as_string(json_get(pAudio, "artist")));
 			ptrT ptszTitle(json_as_string(json_get(pAudio, "title")));
@@ -853,7 +855,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			if (pVideo == NULL) continue;
 
 			ptrT ptszTitle(json_as_string(json_get(pVideo, "title")));
-			int  vid = json_as_int(json_get(pVideo, "vid"));
+			int  vid = json_as_int(json_get(pVideo, "id"));
 			int  ownerID = json_as_int(json_get(pVideo, "owner_id"));
 			res.AppendFormat(_T("%s: %s - http://vk.com/video%d_%d"),
 				TranslateT("Video"), ptszTitle, ownerID, vid);
