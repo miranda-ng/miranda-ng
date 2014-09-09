@@ -15,8 +15,15 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			ptrW nick(proto->getTStringA("Nick"));
 			SetDlgItemText(hwnd, IDC_NAME, nick);
 
-			ptrA toxId(proto->getStringA(TOX_SETTINGS_ID));
-			SetDlgItemTextA(hwnd, IDC_TOXID, toxId);
+			DBVARIANT dbv;
+			;
+			if (!db_get(NULL, proto->m_szModuleName, TOX_SETTINGS_ID, &dbv))
+			{
+				std::vector<uint8_t> address(dbv.pbVal, dbv.pbVal + TOX_FRIEND_ADDRESS_SIZE);
+				std::string toxId = proto->DataToHexString(address);
+				SetDlgItemTextA(hwnd, IDC_TOXID, toxId.c_str());
+				db_free(&dbv);
+			}
 
 			ptrW group(proto->getTStringA(TOX_SETTINGS_GROUP));
 			SetDlgItemText(hwnd, IDC_GROUP, group);

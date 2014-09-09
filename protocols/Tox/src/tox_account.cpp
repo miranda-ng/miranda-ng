@@ -65,8 +65,7 @@ void CToxProto::InitToxCore()
 
 	std::vector<uint8_t> address(TOX_FRIEND_ADDRESS_SIZE);
 	tox_get_address(tox, &address[0]);
-	std::string toxId = DataToHexString(address);
-	setString(TOX_SETTINGS_ID, toxId.c_str());
+	db_set_blob(NULL, m_szModuleName, TOX_SETTINGS_ID, (uint8_t*)address.data(), TOX_FRIEND_ADDRESS_SIZE);
 }
 
 void CToxProto::UninitToxCore()

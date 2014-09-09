@@ -33,15 +33,38 @@ void CToxProto::OnFriendAction(Tox *tox, const int number, const uint8_t *action
 	}
 }
 
-void CToxProto::OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, void *arg)
+int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 {
-	CToxProto *proto = (CToxProto*)arg;
-
-	MCONTACT hContact = proto->FindContact(number);
-	if (hContact)
+	DBVARIANT dbv;
+	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
+	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 	{
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)isTyping);
+		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
+		db_free(&dbv);
 	}
+
+	uint32_t number = tox_get_friend_number(tox, id.data());
+	if (number == TOX_ERROR)
+	{
+		debugLogA("CToxProto::SendMsg: failed to get friend number");
+		return 0;
+	}
+
+	int result = 0;
+	if (strncmp(msg, "/me ", 4) != 0)
+	{
+		result = tox_send_message(tox, number, (uint8_t*)msg, (uint16_t)strlen(msg));
+	}
+	else
+	{
+		result = tox_send_action(tox, number, (uint8_t*)&msg[4], (uint16_t)strlen(msg) - 4);
+	}
+	if (result == 0)
+	{
+		debugLogA("CToxProto::SendMsg: could not to send message");
+	}
+
+	return result;
 }
 
 void CToxProto::OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *arg)
@@ -77,6 +100,39 @@ int CToxProto::OnPreCreateMessage(WPARAM wParam, LPARAM lParam)
 		evt->dbei->cbBlob -= 4;
 
 		evt->dbei->eventType = TOX_DB_EVENT_TYPE_ACTION;
+	}
+
+	return 1;
+}
+
+void CToxProto::OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, void *arg)
+{
+	CToxProto *proto = (CToxProto*)arg;
+
+	MCONTACT hContact = proto->FindContact(number);
+	if (hContact)
+	{
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)isTyping);
+	}
+}
+
+int __cdecl CToxProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	if (hContact && IsOnline())
+	{
+		DBVARIANT dbv;
+		std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
+		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
+		{
+			memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
+			db_free(&dbv);
+		}
+		uint32_t number = tox_get_friend_number(tox, id.data());
+		if (number >= 0)
+		{
+			tox_set_user_is_typing(tox, number, type);
+			return 0;
+		}
 	}
 
 	return 1;

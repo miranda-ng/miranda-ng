@@ -156,9 +156,9 @@ private:
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 
-	MCONTACT FindContact(const std::string &id);
+	MCONTACT FindContact(const std::vector<uint8_t> &id);
 	MCONTACT FindContact(const int friendNumber);
-	MCONTACT AddContact(const std::string &id, bool isTemporary = false);
+	MCONTACT AddContact(const std::vector<uint8_t> &id, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
 
