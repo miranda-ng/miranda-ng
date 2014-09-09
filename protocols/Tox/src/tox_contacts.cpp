@@ -46,15 +46,19 @@ MCONTACT CToxProto::GetContactFromAuthEvent(HANDLE hEvent)
 	return DbGetAuthEventContact(&dbei);
 }
 
-MCONTACT CToxProto::FindContact(const std::string &id)
+MCONTACT CToxProto::FindContact(const std::vector<uint8_t> &id)
 {
+	DBVARIANT dbv;
 	MCONTACT hContact = NULL;
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		std::string contactId = ToxAddressToId(getStringA(hContact, TOX_SETTINGS_ID));
-		if (id == contactId)
+		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 		{
-			break;
+			if (dbv.type == DBVT_BLOB && memcmp(id.data(), dbv.pbVal, TOX_CLIENT_ID_SIZE) == 0)
+			{
+				break;
+			}
+			db_free(&dbv);
 		}
 	}
 	return hContact;
@@ -62,14 +66,13 @@ MCONTACT CToxProto::FindContact(const std::string &id)
 
 MCONTACT CToxProto::FindContact(const int friendNumber)
 {
-	std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
-	tox_get_client_id(tox, friendNumber, &clientId[0]);
-	std::string id = DataToHexString(clientId);
+	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
+	tox_get_client_id(tox, friendNumber, id.data());
 
 	return FindContact(id);
 }
 
-MCONTACT CToxProto::AddContact(const std::string &id, bool isTemporary)
+MCONTACT CToxProto::AddContact(const std::vector<uint8_t> &id, bool isTemporary)
 {
 	MCONTACT hContact = FindContact(id);
 	if (!hContact)
@@ -77,7 +80,7 @@ MCONTACT CToxProto::AddContact(const std::string &id, bool isTemporary)
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 
-		setString(hContact, TOX_SETTINGS_ID, id.c_str());
+		db_set_blob(hContact, m_szModuleName, TOX_SETTINGS_ID, (uint8_t*)id.data(), TOX_CLIENT_ID_SIZE);
 		setByte(hContact, "Auth", 1);
 
 		DBVARIANT dbv;
@@ -103,12 +106,10 @@ void CToxProto::LoadFriendList()
 		int32_t *friends = (int32_t*)mir_alloc(count * sizeof(int32_t));
 		tox_get_friendlist(tox, friends, count);
 
-		std::vector<uint8_t> clientId(TOX_CLIENT_ID_SIZE);
+		std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
 		for (uint32_t i = 0; i < count; ++i)
 		{
-			tox_get_client_id(tox, friends[i], &clientId[0]);
-			std::string id = DataToHexString(clientId);
-
+			tox_get_client_id(tox, friends[i], id.data());
 			MCONTACT hContact = AddContact(id);
 			if (hContact)
 			{
@@ -125,6 +126,8 @@ void CToxProto::LoadFriendList()
 				}
 			}
 		}
+
+		mir_free(friends);
 	}
 	else
 	{
@@ -136,15 +139,20 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 {
 	if (hContact)
 	{
-		std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
-		std::vector<uint8_t> clientId = HexStringToData(toxId);
-
-		uint32_t number = tox_get_friend_number(tox, clientId.data());
-		if (tox_del_friend(tox, number) == 0)
+		DBVARIANT dbv;
+		std::vector<uint8_t> id;
+		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 		{
-			SaveToxData();
+			memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
+			db_free(&dbv);
 
-			return 0;
+			uint32_t number = tox_get_friend_number(tox, id.data());
+			if (tox_del_friend(tox, number) == 0)
+			{
+				SaveToxData();
+
+				return 0;
+			}
 		}
 	}
 
@@ -159,7 +167,7 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t 
 	std::vector<uint8_t> clientId(address, address + TOX_CLIENT_ID_SIZE);
 	std::string id = proto->DataToHexString(clientId);
 
-	MCONTACT hContact = proto->AddContact(id, true);
+	MCONTACT hContact = proto->AddContact(clientId, true);
 
 	PROTORECVEVENT pre = { 0 };
 	pre.flags = PREF_UTF;

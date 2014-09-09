@@ -67,16 +67,20 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 
 MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
+	DBVARIANT dbv;
 	std::string address(mir_t2a(psr->id));
-	std::string id = ToxAddressToId(address);
-	std::string myId = ToxAddressToId(getStringA(TOX_SETTINGS_ID));
-	if (myId == id)
+	std::vector<uint8_t> id = HexStringToData(address);
+	if (!db_get(NULL, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 	{
-		debugLogA("CToxProto::AddToList: you cannot add yourself to friend list");
-		return NULL;
+		if (memcmp(id.data(), dbv.pbVal, TOX_CLIENT_ID_SIZE) == 0)
+		{
+			debugLogA("CToxProto::AddToList: you cannot add yourself to friend list");
+			return NULL;
+		}
+		db_free(&dbv);
 	}
-	// we set tox address as contact id
-	return AddContact(address, flags & PALF_TEMPORARY);
+	// set tox address as contact id
+	return AddContact(id, flags & PALF_TEMPORARY);
 }
 
 MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return 0; }
@@ -91,14 +95,16 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 			return 1;
 		}
 
-		std::string toxId = getStringA(hContact, TOX_SETTINGS_ID);
-		std::vector<uint8_t> clientId = HexStringToData(toxId);
-
-		if (tox_add_friend_norequest(tox, &clientId[0]) >= 0)
+		DBVARIANT dbv;
+		if (!db_get(NULL, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 		{
-			SaveToxData();
-
-			return 0;
+			if (tox_add_friend_norequest(tox, (uint8_t*)dbv.pbVal) != TOX_ERROR)
+			{
+				SaveToxData();
+				db_free(&dbv);
+				return 0;
+			}
+			db_free(&dbv);
 		}
 	}
 
@@ -115,19 +121,23 @@ int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 
 int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
 {
-	std::string address = getStringA(hContact, TOX_SETTINGS_ID);
-	std::vector<uint8_t> clientId = HexStringToData(address);
+	std::vector<uint8_t> id;
+	DBVARIANT dbv;
+	if (!db_get(NULL, m_szModuleName, TOX_SETTINGS_ID, &dbv))
+	{
+		memcpy(&id[0], (uint8_t*)dbv.pbVal, TOX_CLIENT_ID_SIZE);
+		db_free(&dbv);
+	}
 
 	ptrA reason(mir_utf8encodeW(szMessage));
 
-	int32_t number = tox_add_friend(tox, &clientId[0], (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
-	if (number >= 0)
+	int32_t number = tox_add_friend(tox, id.data(), (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
+	if (number != TOX_ERROR)
 	{
 		SaveToxData();
 
 		// change tox address in contact id by tox id
-		std::string id = ToxAddressToId(address);
-		setString(hContact, TOX_SETTINGS_ID, id.c_str());
+		db_set_blob(hContact, m_szModuleName, TOX_SETTINGS_ID, (uint8_t*)id.data(), TOX_CLIENT_ID_SIZE);
 
 		db_unset(hContact, "CList", "NotOnList");
 		delSetting(hContact, "Auth");
@@ -171,7 +181,7 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 	if (std::regex_search(query, match, regex))
 	{
 		std::string address = match[1];
-		std::string id = ToxAddressToId(address);
+		std::vector<uint8_t> id = HexStringToData(address);
 		MCONTACT hContact = FindContact(id);
 		if (!hContact)
 		{
@@ -228,31 +238,6 @@ int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 int __cdecl CToxProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT* hContactsList) { return 0; }
-
-int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
-{
-	std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
-	std::vector<uint8_t> clientId = HexStringToData(toxId);
-
-	uint32_t number = tox_get_friend_number(tox, clientId.data());
-
-	int result = 0;
-	if (strncmp(msg, "/me ", 4) != 0)
-	{
-		result = tox_send_message(tox, number, (uint8_t*)msg, (uint16_t)strlen(msg));
-	}
-	else
-	{
-		result = tox_send_action(tox, number, (uint8_t*)&msg[4], (uint16_t)strlen(msg) - 4);
-	}
-
-	if (result == 0)
-	{
-		debugLogA("CToxProto::SendMsg: could not to send message");
-	}
-
-	return result;
-}
 
 int __cdecl CToxProto::SendUrl(MCONTACT hContact, int flags, const char* url) { return 0; }
 
@@ -312,25 +297,6 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 HANDLE __cdecl CToxProto::GetAwayMsg(MCONTACT hContact) { return 0; }
 int __cdecl CToxProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt) { return 0; }
 int __cdecl CToxProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg) { return 0; }
-
-int __cdecl CToxProto::UserIsTyping(MCONTACT hContact, int type)
-{
-	if (hContact && IsOnline())
-	{
-		std::string toxId(getStringA(hContact, TOX_SETTINGS_ID));
-		std::vector<uint8_t> clientId = HexStringToData(toxId);
-
-		uint32_t number = tox_get_friend_number(tox, clientId.data());
-
-		if (number >= 0)
-		{
-			tox_set_user_is_typing(tox, number, type);
-			return 0;
-		}
-	}
-
-	return 1;
-}
 
 int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
