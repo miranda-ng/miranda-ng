@@ -529,7 +529,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			else
 				GetHistoryDlg(hContact, mid);
 			
-			if (!m_bMarkReadOnReply)
+			if (!m_bMarkReadOnReply&&numUnread)
 				MarkMessagesRead(hContact);
 		}
 		else if (numUnread) {
