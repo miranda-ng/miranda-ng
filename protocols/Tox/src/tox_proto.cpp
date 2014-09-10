@@ -83,7 +83,10 @@ MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return AddContact(id, flags & PALF_TEMPORARY);
 }
 
-MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return 0; }
+MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+{
+	return 0;
+}
 
 int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 {
@@ -96,10 +99,13 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 		}
 
 		DBVARIANT dbv;
-		if (!db_get(NULL, m_szModuleName, TOX_SETTINGS_ID, &dbv))
+		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 		{
-			if (tox_add_friend_norequest(tox, (uint8_t*)dbv.pbVal) != TOX_ERROR)
+			std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
+			memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
+			if (tox_add_friend_norequest(tox, id.data()) != TOX_ERROR)
 			{
+				db_unset(hContact, m_szModuleName, "Auth");
 				SaveToxData();
 				db_free(&dbv);
 				return 0;
