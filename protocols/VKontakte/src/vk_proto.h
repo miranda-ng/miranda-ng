@@ -239,11 +239,11 @@ private:
 	friend struct AsyncHttpRequest;
 
 	LIST<AsyncHttpRequest> m_arRequestsQueue;
-	CRITICAL_SECTION m_csRequestsQueue;
-	CMStringA m_prevUrl;
+	mir_cs m_csRequestsQueue;
 	HANDLE m_evRequestsQueue;
 	HANDLE m_hWorkerThread;
 	bool   m_bTerminated, m_bServerDelivery;
+	CMStringA m_prevUrl;
 
 	struct Cookie
 	{
