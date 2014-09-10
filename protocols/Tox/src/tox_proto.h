@@ -173,7 +173,7 @@ private:
 	static void OnConnectionStatusChanged(Tox *tox, const int number, const uint8_t status, void *arg);
 
 	// contacts search
-	void __cdecl SearchByIdAsync(void* arg);
+	void __cdecl SearchFailedAsync(void* arg);
 	void __cdecl SearchByNameAsync(void* arg);
 
 	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

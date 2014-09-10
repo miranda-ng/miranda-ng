@@ -31,7 +31,7 @@ MCONTACT CToxProto::GetContactFromAuthEvent(HANDLE hEvent)
 {
 	DWORD body[3];
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
-	dbei.cbBlob = sizeof(DWORD)* 2;
+	dbei.cbBlob = sizeof(DWORD)*2;
 	dbei.pBlob = (PBYTE)&body;
 
 	if (db_event_get(hEvent, &dbei))

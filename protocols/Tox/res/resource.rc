@@ -121,7 +121,7 @@ BEGIN
     LTEXT           "Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.",IDC_STATIC,7,7,221,33
     CONTROL         "Create new profile",IDC_CREATE_NEW,"Button",BS_AUTORADIOBUTTON,7,43,221,10
     CONTROL         "Use existing profile",IDC_USE_EXISTING,"Button",BS_AUTORADIOBUTTON,7,55,221,10
-    EDITTEXT        IDC_PROFILE_PATH, 18, 67, 191, 14, ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_PROFILE_PATH,18,67,191,14,ES_AUTOHSCROLL | WS_DISABLED
     PUSHBUTTON      "...",IDC_BROWSE_PROFILE,212,67,16,14,WS_DISABLED
 END
 
@@ -131,7 +131,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_SEARCH,0,4,109,14,ES_AUTOHSCROLL
-    LTEXT           "If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.",IDC_STATIC,0,20,109,93
+    LTEXT           "If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.",IDC_STATIC,0,20,109,93
 END
 
 

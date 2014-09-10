@@ -26,6 +26,10 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* How to use this api to make secure tox dns3 requests:
  *
  * 1. Get the public key of a server that supports tox dns3.
@@ -61,7 +65,7 @@ void tox_dns3_kill(void *dns3_object);
  * This is what the string returned looks like:
  * 4haaaaipr1o3mz0bxweox541airydbovqlbju51mb4p0ebxq.rlqdj4kkisbep2ks3fj2nvtmk4daduqiueabmexqva1jc
  *
- * returns length of string on sucess.
+ * returns length of string on success.
  * returns -1 on failure.
  */
 int tox_generate_dns3_string(void *dns3_object, uint8_t *string, uint16_t string_max_len, uint32_t *request_id,
@@ -81,5 +85,9 @@ int tox_generate_dns3_string(void *dns3_object, uint8_t *string, uint16_t string
  */
 int tox_decrypt_dns3_TXT(void *dns3_object, uint8_t *tox_id, uint8_t *id_record, uint32_t id_record_len,
                          uint32_t request_id);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
