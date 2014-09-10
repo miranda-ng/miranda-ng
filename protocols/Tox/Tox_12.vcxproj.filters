@@ -27,6 +27,9 @@
     <ClInclude Include="src\tox_bootstrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tox_dns.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">

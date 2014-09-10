@@ -3,6 +3,7 @@
 
 #include <winsock2.h>
 #include <windows.h>
+#include <windns.h>
 #include <time.h>
 
 #include <string>
@@ -30,6 +31,7 @@
 #include <m_message.h>
 
 #include <tox.h>
+#include <toxdns.h>
 
 #include "version.h"
 #include "resource.h"
