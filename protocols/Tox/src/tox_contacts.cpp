@@ -54,9 +54,26 @@ MCONTACT CToxProto::FindContact(const std::vector<uint8_t> &id)
 	{
 		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 		{
-			if (dbv.type == DBVT_BLOB && memcmp(id.data(), dbv.pbVal, TOX_CLIENT_ID_SIZE) == 0)
+			// temporary code for contact id conversion
+			if (dbv.type == DBVT_ASCIIZ)
 			{
-				break;
+				std::vector<uint8_t> contactId = HexStringToData(dbv.pszVal);
+				db_unset(hContact, m_szModuleName, TOX_SETTINGS_ID);
+				db_set_blob(hContact, m_szModuleName, TOX_SETTINGS_ID, (uint8_t*)contactId.data(), TOX_CLIENT_ID_SIZE);
+
+				if (memcmp(id.data(), contactId.data(), TOX_CLIENT_ID_SIZE) == 0)
+				{
+					db_free(&dbv);
+					break;
+				}
+			}
+			else if (dbv.type == DBVT_BLOB)
+			{
+				if (memcmp(id.data(), dbv.pbVal, TOX_CLIENT_ID_SIZE) == 0)
+				{
+					db_free(&dbv);
+					break;
+				}
 			}
 			db_free(&dbv);
 		}
