@@ -35,7 +35,18 @@ void CVkProto::UninitQueue()
 void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 LBL_Restart:
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
+	if (pReq->m_szParam.IsEmpty())
+		pReq->szUrl = pReq->m_szUrl.GetBuffer();
+	else if (pReq->requestType == REQUEST_GET){
+		CMStringA str(FORMAT, "%s?%s", pReq->m_szUrl, pReq->m_szParam);
+		pReq->szUrl = str.GetBuffer();
+	}
+	else{
+		pReq->szUrl = pReq->m_szUrl.GetBuffer();
+		pReq->pData = pReq->m_szParam.GetBuffer();
+		pReq->dataLength = pReq->m_szParam.GetLength();
+	}
+
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
 	if (reply != NULL) {
 		if (pReq->m_pFunc != NULL)
@@ -113,52 +124,28 @@ void CVkProto::WorkerThread(void*)
 
 AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT_PARAM &param)
 {
-	if (param.rtType == reqGET){
-		CMStringA &s = pReq->m_szUrl;
-		s.AppendFormat("%c%s=%i", pReq->m_bHasGParams ? '&' : '?', param.szName, param.iValue);
-		pReq->m_bHasGParams = true;
-	}
-	else {
-		CMStringA s = pReq->pData;
-		s.AppendFormat("%s%s=%i", pReq->m_bHasPParams ? "&" : "?", param.szName, param.iValue);
-		pReq->pData = mir_strdup(s);
-		pReq->dataLength = s.GetLength();
-		pReq->m_bHasPParams = true;
-	}
+	CMStringA &s = pReq->m_szParam;
+	if (!s.IsEmpty())
+		s.AppendChar('&');
+	s.AppendFormat("%s=%i", param.szName, param.iValue);
 	return pReq;
 }
 
 AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const CHAR_PARAM &param)
 {
-	if (param.rtType == reqGET){
-		CMStringA &s = pReq->m_szUrl;
-		s.AppendFormat("%c%s=%s", pReq->m_bHasGParams ? '&' : '?', param.szName, ptrA(mir_urlEncode(param.szValue)));
-		pReq->m_bHasGParams = true;
-	}
-	else {
-		CMStringA s = pReq->pData;
-		s.AppendFormat("%s%s=%s", pReq->m_bHasPParams ? "&" : "", param.szName, ptrA(mir_urlEncode(param.szValue)));
-		pReq->pData = mir_strdup(s);
-		pReq->dataLength = s.GetLength();
-		pReq->m_bHasPParams = true;
-	}
+	CMStringA &s = pReq->m_szParam;
+	if (!s.IsEmpty())
+		s.AppendChar('&');
+	s.AppendFormat("%s=%s", param.szName, ptrA(mir_urlEncode(param.szValue)));
 	return pReq;
 }
 
 AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const TCHAR_PARAM &param)
 {
 	ptrA szValue(mir_utf8encodeT(param.tszValue));
-	if (param.rtType == reqGET){
-		CMStringA &s = pReq->m_szUrl;
-		s.AppendFormat("%c%s=%s", pReq->m_bHasGParams ? '&' : '?', param.szName, ptrA(mir_urlEncode(szValue)));
-		pReq->m_bHasGParams = true;
-	}
-	else{
-		CMStringA s = pReq->pData;
-		s.AppendFormat("%s%s=%s", pReq->m_bHasGParams ? "&" : "?", param.szName, ptrA(mir_urlEncode(szValue)));
-		pReq->pData = mir_strdup(s);
-		pReq->dataLength = s.GetLength();
-		pReq->m_bHasPParams = true;
-	}
+	CMStringA &s = pReq->m_szParam;
+	if (!s.IsEmpty())
+		s.AppendChar('&');
+	s.AppendFormat("%s=%s", param.szName, ptrA(mir_urlEncode(szValue)));
 	return pReq;
 }

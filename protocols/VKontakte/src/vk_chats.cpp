@@ -338,12 +338,10 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			UnEscapeChatTags(buf);
 			// need rework - change reply format and type not supported yet 
 			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,  &CVkProto::OnSendChatMsg)
-				<< INT_PARAM("type", 1) << INT_PARAM("chat_id", cc->m_chatid);
+				<< INT_PARAM("type", 1) 
+				<< INT_PARAM("chat_id", cc->m_chatid) 
+				<< CHAR_PARAM("message", mir_utf8encodeT(buf));
 			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	
-			CMStringA szBody(FORMAT, "message=%s", ptrA(mir_urlEncode(mir_utf8encodeT(buf))));
-			pReq->pData = mir_strdup(szBody);
-			pReq->dataLength = szBody.GetLength();
 			Push(pReq);
 		}
 

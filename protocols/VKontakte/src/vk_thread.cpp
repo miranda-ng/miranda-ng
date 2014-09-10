@@ -186,8 +186,7 @@ LBL_NoForm:
 	pReq = new AsyncHttpRequest();
 	pReq->requestType = REQUEST_POST;
 	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	pReq->pData = mir_strdup(szBody);
-	pReq->dataLength = szBody.GetLength();
+	pReq->m_szParam = szBody;
 	pReq->m_szUrl = szAction; m_prevUrl = pReq->m_szUrl;
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
