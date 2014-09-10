@@ -42,8 +42,10 @@ void CVkProto::ConnectionFailed(int iReason)
 
 static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	for (int i=0; i < vk_Instances.getCount(); i++)
+	for (int i = 0; i < vk_Instances.getCount(); i++){
 		vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iStatus);
+		vk_Instances[i]->RetrieveUsersInfo(1);
+	}
 }
 
 static void CALLBACK VKSetTimer(void *pObject)
@@ -228,11 +230,33 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static char fieldsName[] = "id, first_name, last_name, photo_100, sex, country, timezone, contacts, online, status, about";
+
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveUserInfo)
 		<< INT_PARAM("user_ids", userID) 
-		<< CHAR_PARAM("fields", "id, first_name, last_name, photo_100, sex, country, timezone, contacts, online")
+		<< CHAR_PARAM("fields", fieldsName)
+		<< CHAR_PARAM("name_case", "nom")
+		<< VER_API);
+}
+
+void CVkProto::RetrieveUsersInfo(int flag)
+{
+	CMStringA userIDs;
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
+		LONG userID = getDword(hContact, "ID", -1);
+		if (userID == -1)
+			continue;
+		if (!userIDs.IsEmpty())
+			userIDs.AppendChar(',');
+		userIDs.AppendFormat("%i", userID);
+
+	}
+		
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/users.get.json", true, &CVkProto::OnReceiveUserInfo)
+		<< CHAR_PARAM("user_ids", userIDs)
+		<< CHAR_PARAM("fields", flag?"online,status":fieldsName)
 		<< CHAR_PARAM("name_case", "nom")
 		<< VER_API);
 }
@@ -264,6 +288,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			return;
 
 		CMString tszNick;
+		int iValue;
 		ptrT szValue( json_as_string( json_get(pRecord, "first_name")));
 		if (szValue) {
 			setTString(hContact, "FirstName", szValue);
@@ -294,6 +319,26 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		SetAvatarUrl(hContact, szValue);
 		
 		setWord(hContact, "Status", (json_as_int(json_get(pRecord, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+
+		if ((iValue = json_as_int(json_get(pRecord, "timezone"))) != 0)
+			setByte(hContact, "Timezone", iValue * -2);
+
+		szValue = json_as_string(json_get(pRecord, "mobile_phone"));
+		if (szValue && *szValue)
+			setTString(hContact, "Cellular", szValue);
+		szValue = json_as_string(json_get(pRecord, "home_phone"));
+		if (szValue && *szValue)
+			setTString(hContact, "Phone", szValue);
+
+		szValue = json_as_string(json_get(pRecord, "status"));
+		if (szValue && *szValue)
+			db_set_ts(hContact, "CList", "StatusMsg", szValue);
+
+		szValue = json_as_string(json_get(pRecord, "about"));
+		if (szValue && *szValue)
+			setTString(hContact, "About", szValue);
+
+
 	}
 }
 
@@ -304,7 +349,7 @@ void CVkProto::RetrieveFriends()
 	debugLogA("CVkProto::RetrieveFriends");
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
 		<< INT_PARAM("count", 1000) 
-		<< CHAR_PARAM("fields", "id, first_name, last_name, photo_100, sex, country, timezone, contacts, online")
+		<< CHAR_PARAM("fields", fieldsName)
 		<<VER_API);
 }
 
@@ -371,6 +416,14 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		szValue = json_as_string(json_get(pInfo, "home_phone"));
 		if (szValue && *szValue)
 			setTString(hContact, "Phone", szValue);
+		
+		szValue = json_as_string(json_get(pInfo, "status"));
+		if (szValue && *szValue)
+			db_set_ts(hContact, "CList", "StatusMsg", szValue);
+
+		szValue = json_as_string(json_get(pInfo, "about"));
+		if (szValue && *szValue)
+			setTString(hContact, "About", szValue);
 	}
 
 	if (bCleanContacts)
@@ -487,6 +540,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	if (!m_bMarkReadOnReply)
 		MarkMessagesRead(mids);
+	RetrieveUsersInfo();
 }
 
 void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
