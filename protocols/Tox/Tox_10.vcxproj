@@ -92,7 +92,7 @@
       <AdditionalLibraryDirectories>tox\lib\x86;$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalDependencies>ws2_32.lib;libtox.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;dnsapi.lib;libtox.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -120,7 +120,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>tox\lib\x64;$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>libtox-x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dnsapi.lib;libtox-x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
     <ResourceCompile>
@@ -151,7 +151,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>tox\lib\x86;$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>libtox.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dnsapi.lib;libtox.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/PDBALTPATH:%_PDB% %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <ResourceCompile>
@@ -180,7 +180,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalDependencies>libtox-x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dnsapi.lib;libtox-x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>tox\lib\x64;$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalOptions>/PDBALTPATH:%_PDB% %(AdditionalOptions)</AdditionalOptions>
@@ -197,6 +197,7 @@
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\tox_bootstrap.h" />
+    <ClInclude Include="src\tox_dns.h" />
     <ClInclude Include="src\tox_proto.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
