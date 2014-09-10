@@ -34,16 +34,18 @@ void CVkProto::UninitQueue()
 
 void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
+	CMStringA str;
+
 LBL_Restart:
 	if (pReq->m_szParam.IsEmpty())
 		pReq->szUrl = pReq->m_szUrl.GetBuffer();
 	else if (pReq->requestType == REQUEST_GET){
-		CMStringA str(FORMAT, "%s?%s", pReq->m_szUrl, pReq->m_szParam);
+		str.Format("%s?%s", pReq->m_szUrl, pReq->m_szParam);
 		pReq->szUrl = str.GetBuffer();
 	}
 	else{
 		pReq->szUrl = pReq->m_szUrl.GetBuffer();
-		pReq->pData = pReq->m_szParam.GetBuffer();
+		pReq->pData = mir_strdup(pReq->m_szParam.GetBuffer());
 		pReq->dataLength = pReq->m_szParam.GetLength();
 	}
 
