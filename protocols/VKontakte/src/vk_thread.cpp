@@ -221,8 +221,8 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		
 	OnLoggedIn();
 	RetrieveUserInfo(m_myUserId);
-	RetrieveFriends();
 	RetrieveUnreadMessages();
+	RetrieveFriends();
 	RetrievePollingInfo();
 }
 
