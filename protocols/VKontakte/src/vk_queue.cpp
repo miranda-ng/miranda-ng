@@ -37,23 +37,23 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	CMStringA str;
 
 LBL_Restart:
-	if (pReq->m_szParam.IsEmpty())
-		pReq->szUrl = pReq->m_szUrl.GetBuffer();
-	else if (pReq->requestType == REQUEST_GET){
+	if (pReq->requestType == REQUEST_GET) {
 		str.Format("%s?%s", pReq->m_szUrl, pReq->m_szParam);
 		pReq->szUrl = str.GetBuffer();
 	}
-	else{
+	else {
 		pReq->szUrl = pReq->m_szUrl.GetBuffer();
-		pReq->pData = mir_strdup(pReq->m_szParam.GetBuffer());
-		pReq->dataLength = pReq->m_szParam.GetLength();
+		if (!pReq->m_szParam.IsEmpty()) {
+			pReq->pData = mir_strdup(pReq->m_szParam.GetBuffer());
+			pReq->dataLength = pReq->m_szParam.GetLength();
+		}
 	}
 
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
 	if (reply != NULL) {
 		if (pReq->m_pFunc != NULL)
 			(this->*(pReq->m_pFunc))(reply, pReq);
-		
+
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
 		if (pReq->bNeedsRestart)
 			goto LBL_Restart;
