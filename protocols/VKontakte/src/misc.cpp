@@ -51,7 +51,6 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hNewContact, (LPARAM)m_szModuleName);
 	setDword(hNewContact, "ID", dwUserid);
 	db_set_ts(hNewContact, "CList", "Group", m_defaultGroup);
-	RetrieveUserInfo(dwUserid);
 	return hNewContact;
 }
 
