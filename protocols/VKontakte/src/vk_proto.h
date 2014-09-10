@@ -32,25 +32,23 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	void Redirect(NETLIBHTTPREQUEST*);
 
 	CMStringA m_szUrl;
-	bool bNeedsRestart, bIsMainConn, m_bHasGParams, m_bHasPParams;
+	CMStringA m_szParam;
+	bool bNeedsRestart, bIsMainConn;
 	VK_REQUEST_HANDLER m_pFunc;
 	void *pUserInfo;
 };
 
-enum ReqType {reqGET, reqPOST};
-
 struct PARAM
 {
 	LPCSTR szName;
-	ReqType rtType;
-	__forceinline PARAM(LPCSTR _name, ReqType _type = reqGET) : szName(_name), rtType(_type) {}
+	__forceinline PARAM(LPCSTR _name) : szName(_name) {}
 };
 
 struct INT_PARAM : public PARAM
 {
 	int iValue;
-	__forceinline INT_PARAM(LPCSTR _name, int _value, ReqType _type = reqGET) :
-		PARAM(_name, _type), iValue(_value)
+	__forceinline INT_PARAM(LPCSTR _name, int _value) :
+		PARAM(_name), iValue(_value)
 	{
 	}
 };
@@ -59,8 +57,8 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT_PARAM&);
 struct CHAR_PARAM : public PARAM
 {
 	LPCSTR szValue;
-	__forceinline CHAR_PARAM(LPCSTR _name, LPCSTR _value, ReqType _type = reqGET) :
-		PARAM(_name, _type), szValue(_value)
+	__forceinline CHAR_PARAM(LPCSTR _name, LPCSTR _value) :
+		PARAM(_name), szValue(_value)
 	{
 	}
 };
@@ -69,8 +67,8 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest*, const CHAR_PARAM&);
 struct TCHAR_PARAM : public PARAM
 {
 	LPCTSTR tszValue;
-	__forceinline TCHAR_PARAM(LPCSTR _name, LPCTSTR _value, ReqType _type = reqGET) :
-		PARAM(_name, _type), tszValue(_value)
+	__forceinline TCHAR_PARAM(LPCSTR _name, LPCTSTR _value) :
+		PARAM(_name), tszValue(_value)
 	{
 	}
 };
