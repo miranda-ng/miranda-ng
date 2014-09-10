@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CVkProto::InitQueue()
 {
-	::InitializeCriticalSection(&m_csRequestsQueue);
 	m_evRequestsQueue = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
 
@@ -27,7 +26,6 @@ void CVkProto::UninitQueue()
 {
 	m_arRequestsQueue.destroy();
 	CloseHandle(m_evRequestsQueue);
-	::DeleteCriticalSection(&m_csRequestsQueue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -37,13 +35,13 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	CMStringA str;
 
 LBL_Restart:
-	if (pReq->requestType == REQUEST_GET) {
-		str.Format("%s?%s", pReq->m_szUrl, pReq->m_szParam);
-		pReq->szUrl = str.GetBuffer();
-	}
-	else {
-		pReq->szUrl = pReq->m_szUrl.GetBuffer();
-		if (!pReq->m_szParam.IsEmpty()) {
+	pReq->szUrl = pReq->m_szUrl.GetBuffer();
+	if (!pReq->m_szParam.IsEmpty()) {
+		if (pReq->requestType == REQUEST_GET) {
+			str.Format("%s?%s", pReq->m_szUrl, pReq->m_szParam);
+			pReq->szUrl = str.GetBuffer();
+		}
+		else {
 			pReq->pData = mir_strdup(pReq->m_szParam.GetBuffer());
 			pReq->dataLength = pReq->m_szParam.GetLength();
 		}
