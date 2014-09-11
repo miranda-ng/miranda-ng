@@ -2775,6 +2775,7 @@ INT_PTR SkypeRecvMessage(WPARAM wParam, LPARAM lParam)
 INT_PTR SkypeUserIsTyping(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv = { 0 };
 	MCONTACT hContact = (MCONTACT)wParam;
+	char szWhat[128];
 
 	if (protocol < 5 && !bIsImoproxy) return 0;
 	if (db_get_s(hContact, SKYPE_PROTONAME, "Typing_Stream", &dbv)) {
@@ -2792,8 +2793,10 @@ INT_PTR SkypeUserIsTyping(WPARAM wParam, LPARAM lParam) {
 		return 0;
 	}
 
-	SkypeSend("ALTER APPLICATION libpurple_typing DATAGRAM %s %s", dbv.pszVal,
+	sprintf(szWhat, "ALTER APPLICATION libpurple_typing DATAGRAM %s", dbv.pszVal);
+	SkypeSend("%s %s", szWhat,
 		(lParam == PROTOTYPE_SELFTYPING_ON ? "PURPLE_TYPING" : "PURPLE_NOT_TYPING"));
+	testfor(szWhat, 2000);
 	db_free(&dbv);
 	return 0;
 }
