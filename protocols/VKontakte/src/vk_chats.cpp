@@ -82,24 +82,24 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 
 void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 {
-	//need rework
 	CMStringA szQuery("return { ");
 
 	// retrieve title & owner id
 	szQuery.AppendFormat("\"info\": API.messages.getChat({\"chat_id\":%d}),", cc->m_chatid);
 
 	// retrieve users
-	szQuery.AppendFormat("\"users\": API.messages.getChatUsers({\"chat_id\":%d, \"fields\":\"uid,first_name,last_name\"})", cc->m_chatid);
+	szQuery.AppendFormat("\"users\": API.messages.getChatUsers({\"chat_id\":%d, \"fields\":\"id,first_name,last_name\"})", cc->m_chatid);
 
 	if (!cc->m_bHistoryRead)
-		szQuery.AppendFormat(",\"msgs\": API.messages.getHistory({\"chat_id\":%d, \"count\":\"20\", \"rev\":\"0\"})", cc->m_chatid);
+		szQuery.AppendFormat(",\"msgs\": API.messages.getHistory({\"chat_id\":%d, \"count\":20, \"rev\":0})", cc->m_chatid);
 
 	szQuery.Append("};");
 
 	debugLogA("CVkProto::RetrieveChantInfo(%d)", cc->m_chatid);
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveChatInfo) 
-		<< CHAR_PARAM("code", szQuery))->pUserInfo = cc;
+		<< CHAR_PARAM("code", szQuery)
+		<< VER_API )->pUserInfo = cc;
 }
 
 void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -143,7 +143,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			if (pUser == NULL)
 				break;
 
-			int uid = json_as_int(json_get(pUser, "uid"));
+			int uid = json_as_int(json_get(pUser, "id"));
 			TCHAR tszId[20];
 			_itot(uid, tszId, 10);
 
@@ -191,16 +191,20 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 	}
 
-	JSONNODE *msgs = json_as_array(json_get(pResponse, "msgs"));
+	JSONNODE *msgs = json_get(pResponse, "msgs");
 	if (msgs != NULL) {
-		for (int i = 1;; i++) {
-			JSONNODE *pMsg = json_at(msgs, i);
-			if (pMsg == NULL)
-				break;
+		int numMessages = json_as_int(json_get(msgs, "count"));
+		msgs = json_as_array(json_get(msgs, "items"));
+		if (msgs != NULL){
+			for (int i = 0; i < numMessages; i++) {
+				JSONNODE *pMsg = json_at(msgs, i);
+				if (pMsg == NULL)
+					break;
 
-			AppendChatMessage(cc->m_chatid, pMsg, true);
+				AppendChatMessage(cc->m_chatid, pMsg, true);
+			}
+			cc->m_bHistoryRead = true;
 		}
-		cc->m_bHistoryRead = true;
 	}
 
 	for (int j = 0; j < cc->m_msgs.getCount(); j++) {
@@ -336,11 +340,10 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
 			rtrimt(buf);
 			UnEscapeChatTags(buf);
-			// need rework - change reply format and type not supported yet 
 			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,  &CVkProto::OnSendChatMsg)
-				<< INT_PARAM("type", 1) 
 				<< INT_PARAM("chat_id", cc->m_chatid) 
-				<< CHAR_PARAM("message", mir_utf8encodeT(buf));
+				<< CHAR_PARAM("message", mir_utf8encodeT(buf))
+				<< VER_API;
 			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			Push(pReq);
 		}
@@ -448,11 +451,14 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
 			TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
 		{
-			// need rework
-			// hmmm 
-			// deleteDialog not support chat_id yet
-			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.deleteDialog.json", true, &CVkProto::OnChatDestroy)
-				<< INT_PARAM("chat_id", cc->m_chatid))->pUserInfo = cc;
+			CMStringA code;
+			code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
+				"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
+				"while (countMsg > 1) { API.messages.delete({\"message_ids\":itemsMsg});"
+				"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
+				"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, cc->m_chatid);
+			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnChatDestroy)
+					<< CHAR_PARAM("code", code))->pUserInfo = cc;
 		}
 		break;
 	}
@@ -493,7 +499,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	case IDM_KICK:
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.removeChatUser.json", true, &CVkProto::OnReceiveSmth)
 			<< INT_PARAM("chat_id", cc->m_chatid) 
-			<< INT_PARAM("uid", cu->m_uid)
+			<< INT_PARAM("user_id", cu->m_uid)
 			<< VER_API);
 		cu->m_bUnknown = true;
 		break;
