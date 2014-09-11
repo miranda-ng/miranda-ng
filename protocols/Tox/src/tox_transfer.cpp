@@ -57,7 +57,7 @@ void CToxProto::OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint6
 HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszPath)
 {
 	DBVARIANT dbv;
-	std::vector<uint8_t> id;
+	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
 	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 	{
 		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
@@ -88,7 +88,7 @@ int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 
 	DBVARIANT dbv;
-	std::vector<uint8_t> id;
+	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
 	if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 	{
 		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
@@ -263,7 +263,7 @@ void CToxProto::SendFileAsync(void* arg)
 int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
 	DBVARIANT dbv;
-	std::vector<uint8_t> id;
+	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
 	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 	{
 		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
