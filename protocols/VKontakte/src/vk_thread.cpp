@@ -44,7 +44,7 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	for (int i = 0; i < vk_Instances.getCount(); i++){
 		vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iStatus);
-		vk_Instances[i]->RetrieveUsersInfo(1);
+		vk_Instances[i]->RetrieveUsersInfo(true);
 	}
 }
 
@@ -241,7 +241,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 		<< VER_API);
 }
 
-void CVkProto::RetrieveUsersInfo(int flag)
+void CVkProto::RetrieveUsersInfo(bool flag)
 {
 	CMStringA userIDs;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){

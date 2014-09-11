@@ -109,15 +109,6 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	CheckJsonResponse(pReq, reply, pRoot);
 }
 
-void MyHtmlDecode(CMStringW &str)
-{
-	str.Replace(_T("<br>"), _T("\n"));
-	str.Replace(_T("&amp;"), _T("&"));
-	str.Replace(_T("&pos;"), _T("\'"));
-	str.Replace(_T("&gt;"), _T(">"));
-	str.Replace(_T("&lt;"), _T("<"));
-	str.Replace(_T("&quot;"), _T("\""));
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
