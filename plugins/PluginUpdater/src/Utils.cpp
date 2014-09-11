@@ -178,7 +178,7 @@ TCHAR* GetDefaultUrl()
 		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK));
 	case UPDATE_MODE_TRUNK_SYMBOLS:
 		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
-	case UPDATE_MODE_CUSTOM:
+	default:
 		return db_get_tsa(NULL, MODNAME, "UpdateUrl");
 	}
 #endif
