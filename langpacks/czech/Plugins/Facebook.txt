@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.0
+;  Version: 0.2.9.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -70,10 +70,10 @@ Použít zabezpečené spojení (HTTPS)
 Odesílat stav Mirandy na zeď Facebooku
 [Use secure connection also for channel requests]
 Zabezpečit i servisní spojení
-[Also disconnect chat when going to offline]
-Po odpojení zároveň odejít i z diskuse
-[Map non-standard statuses to Invisible (instead of Online)]
-Pro nestandardní stavy použít Neviditelný (nikoli Online)
+[Turn off chat on Facebook when going to offline in Miranda]
+Vypnout chat na Facebooku při odpojení v Mirandě
+[Map unsupported statuses to Invisible (instead of Online)]
+Pro nepodporované stavy použít Neviditelný (nikoli Online)
 [Allow posting statuses to my pages (may slow down login)]
 Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
 [Use this server for opening links:]
@@ -127,14 +127,18 @@ Neznámá chyba
 Chyba připojení: Neplatný požadavek.
 [Login error: Some Facebook things are required.]
 Chyba připojení: Něco je vyžadováno.
-[Login error: Captcha code is required. Bad login credentials?]
-Chyba připojení: Je vyžadována captcha. Špatné přihlašovací údaje?
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+Chyba připojení: Váš účet je dočasně zablokován. Musíte potvrdit toto zařízení z webového prohlížeče.
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
+Chyba připojení: Je vyžadována captcha. Musíte potvrdit toto zařízení z webového prohlížeče.
 [Login error, probably bad login credentials.]
 Chyba při přihlašování, možná máte špatné přihlašovací údaje.
 [Your account requires HTTPS connection. Activating.]
 Váš účet vyžaduje zabezpečené spojení. Aktivováno.
-[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-Chyba při připojování k síti Facebook. Důvodem mohou být větší změny na straně serveru, což vyžaduje zároveň změny na straně Mirandy.
+[Could not load communication token. You should report this and wait for plugin update.]
+Nelze načíst komunikační token. Měli byste tento problém nahlásit a počkat na aktualizaci.
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+Nelze načíst všechna požadovaná data. Doplněk může stále fungovat korektně, ale měli byste tento problém nahlásit a počkat na aktualizaci.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Vyžadováno potvrzení pro odesílání zpráv jiným klientům.\nOtevřte stránky Facebooku a odešlete znovu zprávu tomuto kontaktu!
 [User cancel captcha challenge.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.11
+;  Version: 0.1.0.12
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -27,6 +27,14 @@ Extra
 [Hide chats on startup]
 
 [Automatically wipe local contacts missing in your Friends list]
+
+[Always notify as unread for all incoming message]
+
+[Mark read on reply]
+
+[Mark read on typing]
+
+[Automatically sync last messages]
 
 [Bots challenge test]
 Kontrola robotů
@@ -89,7 +97,13 @@ Sítě
 %s - spojení se serverem
 [Create new chat]
 
+[Reload all messages from vk.com]
+
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+
+[Attention!]
+
 [Attachments:]
 Přílohy:
 [Photo]

@@ -1971,7 +1971,6 @@ In&formace o sobě...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is online]
 %s je online
-;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Přidat kontakt
