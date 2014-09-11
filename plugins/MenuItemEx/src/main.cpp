@@ -283,7 +283,14 @@ void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID)
 		else if (dbv_uniqueid.type == DBVT_WORD)
 			wsprintfA(szID, "%u", dbv_uniqueid.wVal); //!!!!!!!!!
 		else if (dbv_uniqueid.type == DBVT_BLOB)
-			wsprintfA(szID, "%s", dbv_uniqueid.cpbVal); //!!!!!!!!!
+		{
+			for (int i = 0; i < dbv_uniqueid.cpbVal; i++)
+			{
+				char tmp[3];
+				mir_snprintf(tmp, SIZEOF(tmp), "%02X", (BYTE)dbv_uniqueid.pbVal[i]);
+				strcat(szID, tmp); //!!!!!!!!!
+			}
+		}
 		else
 			wsprintfA(szID, "%s", dbv_uniqueid.pszVal); //!!!!!!!!
 
