@@ -156,7 +156,7 @@ void CToxProto::OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const u
 HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
 {
 	DBVARIANT dbv;
-	std::vector<uint8_t> id;
+	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
 	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 	{
 		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
@@ -205,14 +205,15 @@ void CToxProto::SendFileAsync(void* arg)
 	FileTransferParam *transfer = (FileTransferParam*)arg;
 
 	DBVARIANT dbv;
-	std::vector<uint8_t> id;
+	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
 	if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 	{
 		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
 		db_free(&dbv);
 	}
 
-	if (uint32_t number = tox_get_friend_number(tox, id.data()) > TOX_ERROR)
+	int32_t number = tox_get_friend_number(tox, id.data());
+	if (number > TOX_ERROR)
 	{
 		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)transfer, 0);
 
@@ -231,25 +232,23 @@ void CToxProto::SendFileAsync(void* arg)
 
 		size_t chunkSize = min(fileSize, (size_t)tox_file_data_size(tox, number));
 		uint8_t *data = (uint8_t*)mir_alloc(chunkSize);
-		data = NULL;
 		while (!feof(hFile) && fileProgress < fileSize)
 		{
 			size_t size = min(chunkSize, fileSize - fileProgress);
-			if (data == NULL)
+			if (fread(data, sizeof(uint8_t), size, hFile) != size)
 			{
-				fread(data, sizeof(uint8_t), size, hFile);// == size
+				ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+				tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_KILL, NULL, 0);
+				return;
 			}
 
-			if (tox_file_send_data(tox, number, transfer->number, data, size) != TOX_ERROR)
-			{
-				data = NULL;
-				transfer->pfts.totalProgress = transfer->pfts.currentFileProgress = fileProgress += size;
-				ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)transfer, (LPARAM)&transfer->pfts);
-			}
-			else
+			while (tox_file_send_data(tox, number, transfer->number, data, size) == TOX_ERROR)
 			{
 				Sleep(50);
 			}
+
+			transfer->pfts.totalProgress = transfer->pfts.currentFileProgress = fileProgress += size;
+			ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)transfer, (LPARAM)&transfer->pfts);
 		}
 		mir_free(data);
 
