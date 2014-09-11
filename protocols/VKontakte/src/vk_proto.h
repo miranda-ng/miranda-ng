@@ -200,7 +200,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveUserInfo(LONG userId);
-	void RetrieveUsersInfo(int flag = 0);
+	void RetrieveUsersInfo(bool flag = false);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void RetrieveFriends();
