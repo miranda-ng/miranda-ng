@@ -90,28 +90,26 @@ MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 
 int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 {
-	if (IsOnline() && hDbEvent)
+	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
+	if (hContact == INVALID_CONTACT_ID)
 	{
-		MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
-		if (hContact == INVALID_CONTACT_ID)
-		{
-			return 1;
-		}
+		return 1;
+	}
 
-		DBVARIANT dbv;
-		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
+	DBVARIANT dbv;
+	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
+	{
+		std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
+		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
+		if (tox_add_friend_norequest(tox, id.data()) != TOX_ERROR)
 		{
-			std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
-			memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
-			if (tox_add_friend_norequest(tox, id.data()) != TOX_ERROR)
-			{
-				db_unset(hContact, m_szModuleName, "Auth");
-				SaveToxData();
-				db_free(&dbv);
-				return 0;
-			}
+			db_unset(hContact, "CList", "NotOnList");
+			delSetting(hContact, "Auth");
+			SaveToxData();
 			db_free(&dbv);
+			return 0;
 		}
+		db_free(&dbv);
 	}
 
 	return 1;
@@ -127,30 +125,29 @@ int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 
 int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
 {
-	std::vector<uint8_t> id;
 	DBVARIANT dbv;
-	if (!db_get(NULL, m_szModuleName, TOX_SETTINGS_ID, &dbv))
+	std::vector<uint8_t> address(TOX_FRIEND_ADDRESS_SIZE);
+	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 	{
-		memcpy(&id[0], (uint8_t*)dbv.pbVal, TOX_CLIENT_ID_SIZE);
+		memcpy(&address[0], (uint8_t*)dbv.pbVal, TOX_FRIEND_ADDRESS_SIZE);
 		db_free(&dbv);
 	}
 
 	ptrA reason(mir_utf8encodeW(szMessage));
 
-	int32_t number = tox_add_friend(tox, id.data(), (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
-	if (number != TOX_ERROR)
+	int32_t number = tox_add_friend(tox, address.data(), (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
+	if (number > TOX_ERROR)
 	{
 		SaveToxData();
 
 		// change tox address in contact id by tox id
-		db_set_blob(hContact, m_szModuleName, TOX_SETTINGS_ID, (uint8_t*)id.data(), TOX_CLIENT_ID_SIZE);
+		db_set_blob(hContact, m_szModuleName, TOX_SETTINGS_ID, (uint8_t*)address.data(), TOX_CLIENT_ID_SIZE);
 
 		db_unset(hContact, "CList", "NotOnList");
 		delSetting(hContact, "Auth");
 
-		std::vector<uint8_t> username(TOX_MAX_NAME_LENGTH);
-		tox_get_name(tox, number, &username[0]);
-		std::string nick(username.begin(), username.end());
+		std::string nick("", TOX_MAX_NAME_LENGTH);
+		tox_get_name(tox, number, (uint8_t*)&nick[0]);
 		setString(hContact, "Nick", nick.c_str());
 
 		return 0;
