@@ -423,9 +423,11 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			setTString(hContact, "Phone", szValue);
 		
 		szValue = json_as_string(json_get(pInfo, "status"));
-		if (szValue && *szValue)
-			if (_tcscmp(db_get_tsa(hContact, "CList", "StatusMsg"), szValue))
+		if (szValue && *szValue) {
+			ptrT tszOldStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
+			if (_tcscmp(tszOldStatus, szValue))
 				db_set_ts(hContact, "CList", "StatusMsg", szValue);
+		}
 
 		szValue = json_as_string(json_get(pInfo, "about"));
 		if (szValue && *szValue)
