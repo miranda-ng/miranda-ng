@@ -456,7 +456,8 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 				"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
 				"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, cc->m_chatid);
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnChatDestroy)
-					<< CHAR_PARAM("code", code))->pUserInfo = cc;
+				<< CHAR_PARAM("code", code)
+				<< VER_API)->pUserInfo = cc;
 		}
 		break;
 	}
