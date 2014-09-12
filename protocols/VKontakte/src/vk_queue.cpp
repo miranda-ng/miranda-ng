@@ -103,6 +103,7 @@ void CVkProto::WorkerThread(void*)
 			break;
 
 		AsyncHttpRequest *pReq;
+		bool need_sleep = false;
 		while(true) {
 			{
 				mir_cslock lck(m_csRequestsQueue);
@@ -111,8 +112,11 @@ void CVkProto::WorkerThread(void*)
 
 				pReq = m_arRequestsQueue[0];
 				m_arRequestsQueue.remove(0);
+				need_sleep = (m_arRequestsQueue.getCount() > 1); // more than two to not gather
 			}
 			ExecuteRequest(pReq);
+			if (need_sleep)	// There can be maximum 3 requests to API methods per second from a client
+				Sleep(330);	// (c) https://vk.com/dev/api_requests
 		}
 	}
 

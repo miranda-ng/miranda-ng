@@ -365,8 +365,6 @@ void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	if (reply->resultCode == 200) {
 		JSONROOT pRoot;
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-		if (pResponse != NULL)
-			m_sendIds.insert((void*)json_as_int(pResponse));
 	}
 }
 
