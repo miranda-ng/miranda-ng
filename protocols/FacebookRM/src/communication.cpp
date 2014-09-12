@@ -1001,6 +1001,10 @@ bool facebook_client::home()
 		if (this->self_.real_name.empty())
 			this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</a>", "<div", ">", "</div>");
 
+		// Another attempt to get name
+		if (this->self_.real_name.empty())
+			this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</td>", "<div", ">", "</td>");
+
 		// Get and strip optional nickname
 		std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
 		if (pos != std::string::npos) {
