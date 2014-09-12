@@ -27,16 +27,32 @@ int CToxProto::OnAccountListChanged(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT* account = (PROTOACCOUNT*)lParam;
 
-	if (wParam == PRAC_ADDED && !strcmp(account->szModuleName, m_szModuleName))
+	if (!strcmp(account->szModuleName, m_szModuleName))
 	{
-		UninitToxCore();
-		DialogBoxParam(
-			g_hInstance,
-			MAKEINTRESOURCE(IDD_PROFILE_MANAGER),
-			account->hwndAccMgrUI,
-			CToxProto::ToxProfileManagerProc,
-			(LPARAM)this);
-		InitToxCore();
+		switch (wParam)
+		{
+		case PRAC_ADDED:
+			UninitToxCore();
+			DialogBoxParam(
+				g_hInstance,
+				MAKEINTRESOURCE(IDD_PROFILE_MANAGER),
+				account->hwndAccMgrUI,
+				CToxProto::ToxProfileManagerProc,
+				(LPARAM)this);
+			InitToxCore();
+			break;
+
+		case PRAC_CHANGED:
+			UninitToxCore();
+			std::tstring newPath = GetToxProfilePath();
+			TCHAR oldPath[MAX_PATH];
+			mir_sntprintf(oldPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), accountName);
+			MoveFileEx(oldPath, newPath.c_str(), MOVEFILE_REPLACE_EXISTING);
+			mir_free(accountName);
+			accountName = mir_tstrdup(m_tszUserName);
+			InitToxCore();
+			break;
+		}
 	}
 
 	return 0;

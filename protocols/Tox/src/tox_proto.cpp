@@ -3,6 +3,8 @@
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 PROTO<CToxProto>(protoName, userName)
 {
+	accountName = mir_tstrdup(userName);
+
 	InitToxCore();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
@@ -42,6 +44,8 @@ PROTO<CToxProto>(protoName, userName)
 CToxProto::~CToxProto()
 {
 	UninitToxCore();
+
+	mir_free(accountName);
 }
 
 DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)

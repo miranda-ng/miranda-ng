@@ -108,6 +108,7 @@ public:
 private:
 	Tox *tox;
 	mir_cs toxLock;
+	TCHAR *accountName;
 	HANDLE hNetlib, hPollingThread;
 	bool isTerminated, isConnected;
 	std::map<uint8_t, FileTransferParam*> transfers;
