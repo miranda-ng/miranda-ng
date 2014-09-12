@@ -133,7 +133,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		cc->m_admin_id = json_as_int(json_get(info, "admin_id"));
 	}
 
-	JSONNODE *users = json_as_array(json_get(pResponse, "users"));
+	JSONNODE *users = json_get(pResponse, "users");
 	if (users != NULL) {
 		for (int i = 0; i < cc->m_users.getCount(); i++)
 			cc->m_users[i].m_bDel = true;
@@ -194,7 +194,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	JSONNODE *msgs = json_get(pResponse, "msgs");
 	if (msgs != NULL) {
 		int numMessages = json_as_int(json_get(msgs, "count"));
-		msgs = json_as_array(json_get(msgs, "items"));
+		msgs = json_get(msgs, "items");
 		if (msgs != NULL){
 			for (int i = 0; i < numMessages; i++) {
 				JSONNODE *pMsg = json_at(msgs, i);
