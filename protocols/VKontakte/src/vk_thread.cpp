@@ -318,7 +318,9 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		szValue = json_as_string( json_get(pRecord, "photo_100"));
 		SetAvatarUrl(hContact, szValue);
 		
-		setWord(hContact, "Status", (json_as_int(json_get(pRecord, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+		int iNewStatus = (json_as_int(json_get(pRecord, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
+		if (getWord(hContact, "Status", 0) != iNewStatus)
+			setWord(hContact, "Status", iNewStatus);
 
 		if ((iValue = json_as_int(json_get(pRecord, "timezone"))) != 0)
 			setByte(hContact, "Timezone", iValue * -2);
@@ -332,7 +334,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		szValue = json_as_string(json_get(pRecord, "status"));
 		if (szValue && *szValue)
-			db_set_ts(hContact, "CList", "StatusMsg", szValue);
+			if (_tcscmp(db_get_tsa(hContact, "CList", "StatusMsg"), szValue))
+				db_set_ts(hContact, "CList", "StatusMsg", szValue);
 
 		szValue = json_as_string(json_get(pRecord, "about"));
 		if (szValue && *szValue)
@@ -401,7 +404,9 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		szValue = json_as_string(json_get(pInfo, "photo_100"));
 		SetAvatarUrl(hContact, szValue);
 
-		setWord(hContact, "Status", (json_as_int(json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+		int iNewStatus = (json_as_int(json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
+		if (getWord(hContact, "Status", 0) != iNewStatus)
+			setWord(hContact, "Status", iNewStatus);
 
 		int iValue = json_as_int(json_get(pInfo, "sex"));
 		if (iValue)
@@ -419,7 +424,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		
 		szValue = json_as_string(json_get(pInfo, "status"));
 		if (szValue && *szValue)
-			db_set_ts(hContact, "CList", "StatusMsg", szValue);
+			if (_tcscmp(db_get_tsa(hContact, "CList", "StatusMsg"), szValue))
+				db_set_ts(hContact, "CList", "StatusMsg", szValue);
 
 		szValue = json_as_string(json_get(pInfo, "about"));
 		if (szValue && *szValue)
