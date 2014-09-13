@@ -53,7 +53,7 @@ struct DetailsPageData
 struct DlgProfData
 {
 	PROPSHEETHEADER *psh;
-	HWND hwndOK, hwndSM;
+	HWND hwndOK;
 	PROFILEMANAGERDATA *pd;
 	HANDLE hFileNotify;
 };
@@ -226,7 +226,6 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	case WM_SHOWWINDOW:
 		if (wParam) {
-			EnableWindow(dat->hwndSM, FALSE);
 			SetWindowText(dat->hwndOK, TranslateT("&Create"));
 			SendMessage(hwndDlg, WM_INPUTCHANGED, 0, 0);
 		}
@@ -365,7 +364,6 @@ void DeleteProfile(HWND hwndList, int iItem, DlgProfData *dat)
 		return;
 
 	mir_sntprintf(profilef, SIZEOF(profilef), TranslateT("Are you sure you want to remove profile \"%s\"?"), profile);
-
 	if (IDYES != MessageBox(NULL, profilef, _T("Miranda NG"), MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 		return;
 
@@ -557,10 +555,8 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_SHOWWINDOW:
-		if (wParam) {
+		if (wParam)
 			CheckRun(hwndDlg, 0);
-			EnableWindow(dat->hwndSM, TRUE);
-		}
 		break;
 
 	case WM_CONTEXTMENU:
@@ -625,7 +621,6 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			dat = (DetailsData*)mir_alloc(sizeof(DetailsData));
 			dat->prof = prof;
 			prof->hwndOK = GetDlgItem(hwndDlg, IDOK);
-			prof->hwndSM = GetDlgItem(hwndDlg, IDC_SM_COMBO);
 			EnableWindow(prof->hwndOK, FALSE);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
@@ -818,14 +813,13 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_DESTROY:
-		if (dat->currentPage != 1) {
-			LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETCURSEL, 0, 0);
-			if (curSel != CB_ERR) {
-				int idx = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETITEMDATA, (WPARAM)curSel, 0);
-				if (idx != CB_ERR)
-					SetServiceModePlugin(servicePlugins[idx]);
-			}
+		LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETCURSEL, 0, 0);
+		if (curSel != CB_ERR) {
+			int idx = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETITEMDATA, (WPARAM)curSel, 0);
+			if (idx != CB_ERR)
+				SetServiceModePlugin(servicePlugins[idx]);
 		}
+
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		DeleteObject(dat->hBoldFont);
