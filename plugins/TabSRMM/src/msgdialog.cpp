@@ -559,6 +559,7 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	BOOL isCtrl, isShift, isAlt;
 	HWND hwndParent = GetParent(hwnd);
 	TWindowData *mwdat = (TWindowData*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
 	if (mwdat == NULL)
@@ -587,32 +588,28 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		break;
 
 	case WM_CHAR:
-		{
-			BOOL isCtrl, isShift, isAlt;
-			KbdState(mwdat, isShift, isCtrl, isAlt);
+		KbdState(mwdat, isShift, isCtrl, isAlt);
 
-			if (PluginConfig.g_bSoundOnTyping && !isAlt && !isCtrl && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_AllowTab))
-				SkinPlaySound("SoundOnTyping");
+		if (PluginConfig.g_bSoundOnTyping && !isAlt && !isCtrl && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_AllowTab))
+			SkinPlaySound("SoundOnTyping");
 
-			if (isCtrl && !isAlt) {
-				switch (wParam) {
-				case 0x02:               // bold
-					if (mwdat->SendFormat)
-						SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTBOLD, IDC_MESSAGE), 0);
-					return 0;
-				case 0x09:
-					if (mwdat->SendFormat)
-						SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTITALIC, IDC_MESSAGE), 0);
-					return 0;
-				case 21:
-					if (mwdat->SendFormat)
-						SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTUNDERLINE, IDC_MESSAGE), 0);
-					return 0;
-				case 0x0b:
-					SetWindowText(hwnd, _T(""));
-					return 0;
-				}
-				break;
+		if (isCtrl && !isAlt) {
+			switch (wParam) {
+			case 0x02:               // bold
+				if (mwdat->SendFormat)
+					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTBOLD, IDC_MESSAGE), 0);
+				return 0;
+			case 0x09:
+				if (mwdat->SendFormat)
+					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTITALIC, IDC_MESSAGE), 0);
+				return 0;
+			case 21:
+				if (mwdat->SendFormat)
+					SendMessage(hwndParent, WM_COMMAND, MAKELONG(IDC_FONTUNDERLINE, IDC_MESSAGE), 0);
+				return 0;
+			case 0x0b:
+				SetWindowText(hwnd, _T(""));
+				return 0;
 			}
 		}
 		break;
@@ -625,9 +622,9 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	case WM_PASTE:
 	case EM_PASTESPECIAL:
 		if (OpenClipboard(hwnd)) {
-			HANDLE hClip;
-			if (hClip = GetClipboardData(CF_TEXT)) {
-				if (lstrlenA((char *)hClip) > mwdat->nMax) {
+			HANDLE hClip = GetClipboardData(CF_TEXT);
+			if (hClip) {
+				if (lstrlenA((char*)hClip) > mwdat->nMax) {
 					TCHAR szBuffer[512];
 					if (M.GetByte("autosplit", 0))
 						mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
@@ -644,104 +641,101 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		break;
 
 	case WM_KEYDOWN:
-		{
-			BOOL isCtrl, isShift, isAlt;
-			KbdState(mwdat, isShift, isCtrl, isAlt);
+		KbdState(mwdat, isShift, isCtrl, isAlt);
 
-			if (PluginConfig.g_bSoundOnTyping && !isAlt && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam == VK_DELETE)
-				SkinPlaySound("SoundOnTyping");
+		if (PluginConfig.g_bSoundOnTyping && !isAlt && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam == VK_DELETE)
+			SkinPlaySound("SoundOnTyping");
 
-			if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
-				mwdat->fInsertMode = !mwdat->fInsertMode;
-				SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
-			}
-			if (wParam == VK_CAPITAL || wParam == VK_NUMLOCK)
-				SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
+		if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
+			mwdat->fInsertMode = !mwdat->fInsertMode;
+			SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
+		}
+		if (wParam == VK_CAPITAL || wParam == VK_NUMLOCK)
+			SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
 
-			if (wParam == VK_RETURN) {
-				if (mwdat->fEditNotesActive)
-					break;
+		if (wParam == VK_RETURN) {
+			if (mwdat->fEditNotesActive)
+				break;
 
-				if (isShift) {
-					if (PluginConfig.m_SendOnShiftEnter) {
-						PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
-						return 0;
-					}
-					else break;
-				}
-				if ((isCtrl && !isShift) ^ (0 != PluginConfig.m_SendOnEnter)) {
-					PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
-					return 0;
-				}
-				if (PluginConfig.m_SendOnEnter || PluginConfig.m_SendOnDblEnter) {
-					if (isCtrl)
-						break;
-
-					if (PluginConfig.m_SendOnDblEnter) {
-						LONG_PTR lastEnterTime = GetWindowLongPtr(hwnd, GWLP_USERDATA);
-						if (lastEnterTime + 2 < time(NULL)) {
-							lastEnterTime = time(NULL);
-							SetWindowLongPtr(hwnd, GWLP_USERDATA, lastEnterTime);
-							break;
-						}
-						else {
-							SendMessage(hwnd, WM_KEYDOWN, VK_BACK, 0);
-							SendMessage(hwnd, WM_KEYUP, VK_BACK, 0);
-							PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
-							return 0;
-						}
-					}
+			if (isShift) {
+				if (PluginConfig.m_SendOnShiftEnter) {
 					PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
 					return 0;
 				}
 				else break;
 			}
-			else SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-
-			if (isCtrl && !isAlt && !isShift) {
-				if (!isShift && (wParam == VK_UP || wParam == VK_DOWN)) {          // input history scrolling (ctrl-up / down)
-					SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-					if (mwdat)
-						mwdat->cache->inputHistoryEvent(wParam);
-					return 0;
-				}
+			if ((isCtrl && !isShift) ^ (0 != PluginConfig.m_SendOnEnter)) {
+				PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
+				return 0;
 			}
-			if (isCtrl && isAlt && !isShift) {
-				switch (wParam) {
-				case VK_UP:
-				case VK_DOWN:
-				case VK_PRIOR:
-				case VK_NEXT:
-				case VK_HOME:
-				case VK_END:
-					WPARAM wp = 0;
+			if (PluginConfig.m_SendOnEnter || PluginConfig.m_SendOnDblEnter) {
+				if (isCtrl)
+					break;
 
-					SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-					if (wParam == VK_UP)
-						wp = MAKEWPARAM(SB_LINEUP, 0);
-					else if (wParam == VK_PRIOR)
-						wp = MAKEWPARAM(SB_PAGEUP, 0);
-					else if (wParam == VK_NEXT)
-						wp = MAKEWPARAM(SB_PAGEDOWN, 0);
-					else if (wParam == VK_HOME)
-						wp = MAKEWPARAM(SB_TOP, 0);
-					else if (wParam == VK_END) {
-						DM_ScrollToBottom(mwdat, 0, 0);
+				if (PluginConfig.m_SendOnDblEnter) {
+					LONG_PTR lastEnterTime = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+					if (lastEnterTime + 2 < time(NULL)) {
+						lastEnterTime = time(NULL);
+						SetWindowLongPtr(hwnd, GWLP_USERDATA, lastEnterTime);
+						break;
+					}
+					else {
+						SendMessage(hwnd, WM_KEYDOWN, VK_BACK, 0);
+						SendMessage(hwnd, WM_KEYUP, VK_BACK, 0);
+						PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
 						return 0;
 					}
-					else if (wParam == VK_DOWN)
-						wp = MAKEWPARAM(SB_LINEDOWN, 0);
+				}
+				PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
+				return 0;
+			}
+			else break;
+		}
+		else SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 
-					if (mwdat->hwndIEView == 0 && mwdat->hwndHPP == 0)
-						SendMessage(GetDlgItem(hwndParent, IDC_LOG), WM_VSCROLL, wp, 0);
-					else
-						SendMessage(mwdat->hwndIWebBrowserControl, WM_VSCROLL, wp, 0);
+		if (isCtrl && !isAlt && !isShift) {
+			if (!isShift && (wParam == VK_UP || wParam == VK_DOWN)) {          // input history scrolling (ctrl-up / down)
+				SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+				if (mwdat)
+					mwdat->cache->inputHistoryEvent(wParam);
+				return 0;
+			}
+		}
+		if (isCtrl && isAlt && !isShift) {
+			switch (wParam) {
+			case VK_UP:
+			case VK_DOWN:
+			case VK_PRIOR:
+			case VK_NEXT:
+			case VK_HOME:
+			case VK_END:
+				WPARAM wp = 0;
+
+				SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+				if (wParam == VK_UP)
+					wp = MAKEWPARAM(SB_LINEUP, 0);
+				else if (wParam == VK_PRIOR)
+					wp = MAKEWPARAM(SB_PAGEUP, 0);
+				else if (wParam == VK_NEXT)
+					wp = MAKEWPARAM(SB_PAGEDOWN, 0);
+				else if (wParam == VK_HOME)
+					wp = MAKEWPARAM(SB_TOP, 0);
+				else if (wParam == VK_END) {
+					DM_ScrollToBottom(mwdat, 0, 0);
 					return 0;
 				}
+				else if (wParam == VK_DOWN)
+					wp = MAKEWPARAM(SB_LINEDOWN, 0);
+
+				if (mwdat->hwndIEView == 0 && mwdat->hwndHPP == 0)
+					SendMessage(GetDlgItem(hwndParent, IDC_LOG), WM_VSCROLL, wp, 0);
+				else
+					SendMessage(mwdat->hwndIWebBrowserControl, WM_VSCROLL, wp, 0);
+				return 0;
 			}
-			if (wParam == VK_RETURN)
-				break;
 		}
+		if (wParam == VK_RETURN)
+			break;
 
 	case WM_SYSKEYDOWN:
 		mwdat->fkeyProcessed = false;
@@ -763,22 +757,18 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			mwdat->fkeyProcessed = false;
 			return 0;
 		}
-		{
-			HWND hwndDlg = hwndParent;
-			BOOL isCtrl, isShift, isAlt;
 
-			KbdState(mwdat, isShift, isCtrl, isAlt);
-			if ((wParam >= '0' && wParam <= '9') && isAlt) {      // ALT-1 -> ALT-0 direct tab selection
-				BYTE bChar = (BYTE)wParam;
-				int iIndex;
+		KbdState(mwdat, isShift, isCtrl, isAlt);
+		if ((wParam >= '0' && wParam <= '9') && isAlt) {      // ALT-1 -> ALT-0 direct tab selection
+			BYTE bChar = (BYTE)wParam;
+			int iIndex;
 
-				if (bChar == '0')
-					iIndex = 10;
-				else
-					iIndex = bChar - (BYTE)'0';
-				SendMessage(mwdat->pContainer->hwnd, DM_SELECTTAB, DM_SELECT_BY_INDEX, (LPARAM)iIndex);
-				return 0;
-			}
+			if (bChar == '0')
+				iIndex = 10;
+			else
+				iIndex = bChar - (BYTE)'0';
+			SendMessage(mwdat->pContainer->hwnd, DM_SELECTTAB, DM_SELECT_BY_INDEX, (LPARAM)iIndex);
+			return 0;
 		}
 		break;
 
@@ -3042,7 +3032,7 @@ quote_from_last:
 		return 0;
 
 	case DM_UINTOCLIPBOARD: 
-		Utils::CopyToClipBoard(const_cast<TCHAR *>(dat->cache->getUIN()), hwndDlg);
+		Utils::CopyToClipBoard(dat->cache->getUIN(), hwndDlg);
 		return 0;
 	
 	// broadcasted when GLOBAL info panel setting changes

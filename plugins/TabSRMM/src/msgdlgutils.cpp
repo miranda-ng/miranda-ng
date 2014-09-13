@@ -858,7 +858,9 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dw
 // convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
 // tags and return plain text
 
-BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
+#define SETCHAR(c) InsertThis[0]=c; InsertThis[1]=0;
+
+BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 {
 	BOOL bJustRemovedRTF = TRUE;
 	BOOL bTextHasStarted = FALSE;
@@ -888,13 +890,13 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 	MoveMemory(pszText, p1, (lstrlen(p1) + 1) * sizeof(TCHAR));
 	p1 = pszText;
 	// iterate through all characters, if rtf control character found then take action
-	while (*p1 != (TCHAR) '\0') {
+	while (*p1 != '\0') {
 		mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T(""));
 		iRemoveChars = 0;
 
 		switch (*p1) {
-		case (TCHAR) '\\':
-			if (p1 == _tcsstr(p1, _T("\\cf"))) { // foreground color
+		case '\\':
+			if (!_tcsncmp(p1, _T("\\cf"), 3)) { // foreground color
 				TCHAR szTemp[20];
 				int iCol = _ttoi(p1 + 3);
 				int iInd = Utils::RTFColorToIndex(iCol);
@@ -906,7 +908,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 					mir_sntprintf(InsertThis, SIZEOF(InsertThis), (iInd > 0) ? (inColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (inColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
 				inColor = iInd > 0 ? 1 : 0;
 			}
-			else if (p1 == _tcsstr(p1, _T("\\highlight"))) { //background color
+			else if (!_tcsncmp(p1, _T("\\highlight"), 10)) { //background color
 				TCHAR szTemp[20];
 				int iCol = _ttoi(p1 + 10);
 				bJustRemovedRTF = TRUE;
@@ -914,120 +916,123 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
 				iRemoveChars = 10 + lstrlen(szTemp);
 			}
-			else if (p1 == _tcsstr(p1, _T("\\par"))) { // newline
+			else if (!_tcsncmp(p1, _T("\\par"), 4)) { // newline
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 4;
 			}
-			else if (p1 == _tcsstr(p1, _T("\\line"))) { // soft line break;
+			else if (!_tcsncmp(p1, _T("\\line"), 5)) { // soft line break;
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 5;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\n"));
+				SETCHAR('\n');
 			}
-			else if (p1 == _tcsstr(p1, _T("\\endash"))) {
+			else if (!_tcsncmp(p1, _T("\\endash"), 7)) {
 				bTextHasStarted = bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2013);
+				SETCHAR(0x2013);
 			}
-			else if (p1 == _tcsstr(p1, _T("\\emdash"))) {
+			else if (!_tcsncmp(p1, _T("\\emdash"), 7)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2014);
+				SETCHAR(0x2014);
 			}
-			else if (p1 == _tcsstr(p1, _T("\\bullet"))) {
+			else if (!_tcsncmp(p1, _T("\\bullet"), 7)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2022);
+				SETCHAR(0x2022);
 			}
-			else if (p1 == _tcsstr(p1, _T("\\ldblquote"))) {
+			else if (!_tcsncmp(p1, _T("\\ldblquote"), 10)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 10;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201C);
+				SETCHAR(0x201C);
 			}
-			else if (p1 == _tcsstr(p1, _T("\\rdblquote"))) {
+			else if (!_tcsncmp(p1, _T("\\rdblquote"), 10)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 10;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201D);
+				SETCHAR(0x201D);
 			}
-			else if (p1 == _tcsstr(p1, _T("\\lquote"))) {
+			else if (!_tcsncmp(p1, _T("\\lquote"), 7)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2018);
+				SETCHAR(0x2018);
 			}
-			else if (p1 == _tcsstr(p1, _T("\\rquote"))) {
+			else if (!_tcsncmp(p1, _T("\\rquote"), 7)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2019);
+				SETCHAR(0x2019);
 			}
-			else if (p1 == _tcsstr(p1, _T("\\b"))) { //bold
+			else if (!_tcsncmp(p1, _T("\\b"), 2)) { //bold
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
-				iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
+				iRemoveChars = (p1[2] != '0') ? 2 : 3;
 				if (!(lf.lfWeight == FW_BOLD)) { // only allow bold if the font itself isn't a bold one, otherwise just strip it..
 					if (dat->SendFormat)
-						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[b]") : _T("[/b]"));
+						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != '0') ? _T("[b]") : _T("[/b]"));
 				}
 			}
-			else if (p1 == _tcsstr(p1, _T("\\i"))) { // italics
+			else if (!_tcsncmp(p1, _T("\\i"), 2)) { // italics
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
-				iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
+				iRemoveChars = (p1[2] != '0') ? 2 : 3;
 				if (!lf.lfItalic) { // same as for bold
 					if (dat->SendFormat)
-						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[i]") : _T("[/i]"));
+						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != '0') ? _T("[i]") : _T("[/i]"));
 				}
 			}
-			else if (p1 == _tcsstr(p1, _T("\\strike"))) { // strike-out
+			else if (!_tcsncmp(p1, _T("\\strike"), 7)) { // strike-out
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
-				iRemoveChars = (p1[7] != (TCHAR) '0') ? 7 : 8;
+				iRemoveChars = (p1[7] != '0') ? 7 : 8;
 				if (!lf.lfStrikeOut) { // same as for bold
 					if (dat->SendFormat)
-						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[7] != (TCHAR) '0') ? _T("[s]") : _T("[/s]"));
+						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[7] != '0') ? _T("[s]") : _T("[/s]"));
 				}
 			}
-			else if (p1 == _tcsstr(p1, _T("\\ul"))) { // underlined
+			else if (!_tcsncmp(p1, _T("\\ul"), 3)) { // underlined
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
-				if (p1[3] == (TCHAR) 'n')
+				if (p1[3] == 'n')
 					iRemoveChars = 7;
-				else if (p1[3] == (TCHAR) '0')
+				else if (p1[3] == '0')
 					iRemoveChars = 4;
 				else
 					iRemoveChars = 3;
-				if (!lf.lfUnderline) { // same as for bold
+				if (!lf.lfUnderline)  // same as for bold
 					if (dat->SendFormat)
-						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != (TCHAR) '0' && p1[3] != (TCHAR) 'n') ? _T("[u]") : _T("[/u]"));
-				}
+						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != '0' && p1[3] != 'n') ? _T("[u]") : _T("[/u]"));
 			}
-			else if (p1 == _tcsstr(p1, _T("\\tab"))) { // tab
+			else if (!_tcsncmp(p1, _T("\\tab"), 4)) { // tab
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 4;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x09);
+				SETCHAR('\t');
 			}
-			else if (p1[1] == (TCHAR) '\\' || p1[1] == (TCHAR) '{' || p1[1] == (TCHAR) '}') { // escaped characters
+			else if (p1[1] == '\\' || p1[1] == '{' || p1[1] == '}') { // escaped characters
 				bTextHasStarted = TRUE;
-				//bJustRemovedRTF = TRUE;
 				iRemoveChars = 2;
-				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), p1[1]);
+				SETCHAR(p1[1]);
 			}
-			else if (p1[1] == (TCHAR) '\'') { // special character
+			else if (p1[1] == '~') { // non-breaking space
+				bTextHasStarted = TRUE;
+				iRemoveChars = 2;
+				SETCHAR(0xA0);
+			}
+			else if (p1[1] == '\'') { // special character
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = FALSE;
-				if (p1[2] != (TCHAR) ' ' && p1[2] != (TCHAR) '\\') {
+				if (p1[2] != ' ' && p1[2] != '\\') {
 					int iLame = 0;
 					TCHAR * p3;
 					TCHAR *stoppedHere;
 
-					if (p1[3] != (TCHAR) ' ' && p1[3] != (TCHAR) '\\') {
+					if (p1[3] != ' ' && p1[3] != '\\') {
 						_tcsncpy(InsertThis, p1 + 2, 3);
 						iRemoveChars = 4;
 						InsertThis[2] = 0;
@@ -1040,27 +1045,25 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 					// convert string containing char in hex format to int.
 					p3 = InsertThis;
 					iLame = _tcstol(p3, &stoppedHere, 16);
-					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), (TCHAR)iLame);
-
+					SETCHAR(iLame);
 				}
-				else
-					iRemoveChars = 2;
+				else iRemoveChars = 2;
 			}
 			else { // remove unknown RTF command
 				int j = 1;
 				bJustRemovedRTF = TRUE;
-				while (!_tcschr(_T(" !$%()#*\"'"), p1[j]) && p1[j] != (TCHAR) '§' && p1[j] != (TCHAR) '\\' && p1[j] != (TCHAR) '\0')
+				while (!_tcschr(_T(" !$%()#*\"'"), p1[j]) && p1[j] != '§' && p1[j] != '\\' && p1[j] != '\0')
 					j++;
 				iRemoveChars = j;
 			}
 			break;
 
-		case (TCHAR) '{': // other RTF control characters
-		case (TCHAR) '}':
+		case '{': // other RTF control characters
+		case '}':
 			iRemoveChars = 1;
 			break;
 
-		case (TCHAR) ' ': // remove spaces following a RTF command
+		case ' ': // remove spaces following a RTF command
 			if (bJustRemovedRTF)
 				iRemoveChars = 1;
 			bJustRemovedRTF = FALSE;
@@ -1074,10 +1077,11 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 		}
 
 		// move the memory and paste in new commands instead of the old RTF
-		if (lstrlen(InsertThis) || iRemoveChars) {
-			MoveMemory(p1 + lstrlen(InsertThis), p1 + iRemoveChars, (lstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
-			CopyMemory(p1, InsertThis, lstrlen(InsertThis) * sizeof(TCHAR));
-			p1 += lstrlen(InsertThis);
+		if (InsertThis[0] || iRemoveChars) {
+			size_t cbLen = _tcslen(InsertThis);
+			MoveMemory(p1 + cbLen, p1 + iRemoveChars, (lstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
+			CopyMemory(p1, InsertThis, cbLen * sizeof(TCHAR));
+			p1 += cbLen;
 		}
 		else p1++;
 	}

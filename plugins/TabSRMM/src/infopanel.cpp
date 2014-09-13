@@ -770,11 +770,11 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
 	switch (cmd) {
 	case CMD_IP_COPY:
 		if (m_hoverFlags & HOVER_NICK) {
-			Utils::CopyToClipBoard(const_cast<wchar_t *>(m_dat->cache->getNick()), m_dat->hwnd);
+			Utils::CopyToClipBoard(m_dat->cache->getNick(), m_dat->hwnd);
 			return(S_OK);
 		}
 		if (m_hoverFlags & HOVER_UIN) {
-			Utils::CopyToClipBoard(m_isChat ? m_dat->si->ptszTopic : const_cast<wchar_t *>(m_dat->cache->getUIN()), m_dat->hwnd);
+			Utils::CopyToClipBoard(m_isChat ? m_dat->si->ptszTopic : m_dat->cache->getUIN(), m_dat->hwnd);
 			return(S_OK);
 		}
 		break;

@@ -1110,16 +1110,14 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM w
 	if (OpenClipboard(hwnd)) {
 		HANDLE hClip = GetClipboardData(CF_UNICODETEXT);
 		if (hClip) {
-			HGLOBAL hgbl;
-			TCHAR *tszLocked;
 			TCHAR *tszText = (TCHAR*)mir_alloc((lstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
 
 			lstrcpy(tszText, (TCHAR*)hClip);
 			Utils::FilterEventMarkers(tszText);
 			EmptyClipboard();
 
-			hgbl = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(tszText) + 1) * sizeof(TCHAR));
-			tszLocked = (TCHAR*)GlobalLock(hgbl);
+			HGLOBAL hgbl = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(tszText) + 1) * sizeof(TCHAR));
+			TCHAR *tszLocked = (TCHAR*)GlobalLock(hgbl);
 			lstrcpy(tszLocked, tszText);
 			GlobalUnlock(hgbl);
 			SetClipboardData(CF_UNICODETEXT, hgbl);

@@ -818,7 +818,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						if (!job)
 							continue;
 
-						switch(HIWORD(wParam)) {
+						switch (HIWORD(wParam)) {
 						case ID_QUEUEMANAGER_MARKSELECTEDFORREMOVAL:
 							job->bCode = CSendLaterJob::JOB_REMOVABLE;
 							job->fFailed = true;
@@ -832,7 +832,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							job->writeFlags();
 							break;
 						case ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD:
-							Utils::CopyToClipBoard((TCHAR*)ptrT( mir_utf8decodeT(job->sendBuffer)), m_hwndDlg);
+							Utils::CopyToClipBoard((TCHAR*)ptrT(mir_utf8decodeT(job->sendBuffer)), m_hwndDlg);
 							break;
 						case ID_QUEUEMANAGER_RESETSELECTED:
 							if (job->bCode == CSendLaterJob::JOB_DEFERRED) {
