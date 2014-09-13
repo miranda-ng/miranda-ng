@@ -68,7 +68,6 @@ TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 		}
 		break;
 	}
-	//mad
 
 	while (true) {
 		if ((beginmark = text.find( _T("\xAA"))) != text.npos) {
@@ -86,11 +85,10 @@ TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 	return wszText;
 }
 
-/**
-* this translates formatting tags into rtf sequences...
-* flags: loword = words only for simple  * /_ formatting
-*        hiword = bbcode support (strip bbcodes if 0)
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// this translates formatting tags into rtf sequences...
+// flags: loword = words only for simple  * /_ formatting
+//        hiword = bbcode support (strip bbcodes if 0)
 
 const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent)
 {
@@ -195,6 +193,7 @@ invalid_code:
 				beginmark++;
 				continue;
 			}
+
 			// search a corresponding endmarker which fulfills the criteria
 			INT_PTR tempmark = beginmark + 1;
 			while ((endmark = message.find(endmarker, tempmark)) != message.npos) {
@@ -226,11 +225,8 @@ ok:
 			break;
 		}
 
-		/*
-		* check if the code enclosed by simple formatting tags is a valid smiley code and skip formatting if
-		* it really is one.
-		*/
-
+		// check if the code enclosed by simple formatting tags is a valid smiley code and skip formatting if
+		// it really is one.
 		if (PluginConfig.g_SmileyAddAvail && (endmark > (beginmark + 1))) {
 			tstring smcode;
 			smcode.assign(message, beginmark, (endmark - beginmark) + 1);
@@ -258,10 +254,9 @@ ok:
 	return(message.c_str());
 }
 
-/**
-* format the title bar string for IM chat sessions using placeholders.
-* the caller must mir_free() the returned string
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// format the title bar string for IM chat sessions using placeholders.
+// the caller must mir_free() the returned string
 
 const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 {
@@ -358,7 +353,6 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 		case 'm': {
 			TCHAR *szFinalStatus = NULL;
 			BYTE  xStatus = dat->cache->getXStatusId();
-
 			if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
 				DBVARIANT dbv = {0};
 
@@ -380,10 +374,8 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			title.erase(tempmark, 2);
 			break;
 		}
-		/*
-		* status message (%T will skip the "No status message" for empty
-		* messages)
-		*/
+
+		// status message (%T will skip the "No status message" for empty messages)
 		case 't':
 		case 'T': {
 			TCHAR	*tszStatusMsg = dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true);
@@ -432,7 +424,7 @@ char* Utils::FilterEventMarkers(char *szText)
 		}
 		break;
 	}
-	//mad
+
 	while (true) {
 		if ((beginmark = text.find( "\xAA")) != text.npos) {
 			endmark = beginmark+2;
@@ -468,13 +460,13 @@ const TCHAR* Utils::DoubleAmpersands(TCHAR *pszText)
 	return pszText;
 }
 
-/**
- * Get a preview of the text with an ellipsis appended (...)
- *
- * @param szText	source text
- * @param iMaxLen	max length of the preview
- * @return TCHAR*   result (caller must mir_free() it)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Get a preview of the text with an ellipsis appended(...)
+//
+// @param szText	source text
+// @param iMaxLen	max length of the preview
+// @return TCHAR*   result (caller must mir_free() it)
+
 TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 {
 	size_t   uRequired;
@@ -505,10 +497,9 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 	return szResult;
 }
 
-/*
- * returns != 0 when one of the installed keyboard layouts belongs to an rtl language
- * used to find out whether we need to configure the message input box for bidirectional mode
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// returns != 0 when one of the installed keyboard layouts belongs to an rtl language
+// used to find out whether we need to configure the message input box for bidirectional mode
 
 int Utils::FindRTLLocale(TWindowData *dat)
 {
@@ -533,9 +524,8 @@ int Utils::FindRTLLocale(TWindowData *dat)
 	return result;
 }
 
-/*
- * init default color table. the table may grow when using custom colors via bbcodes
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// init default color table. the table may grow when using custom colors via bbcodes
 
 void Utils::RTF_CTableInit()
 {
@@ -547,9 +537,8 @@ void Utils::RTF_CTableInit()
 	rtf_ctable_size = RTF_CTABLE_DEFSIZE;
 }
 
-/*
- * add a color to the global rtf color table
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// add a color to the global rtf color table
 
 void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
 {
@@ -612,9 +601,9 @@ int Utils::RTFColorToIndex(int iCol)
 	return 0;
 }
 
-/**
- * generic error popup dialog procedure
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// generic error popup dialog procedure
+
 INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)PUGetPluginData(hWnd);
@@ -636,12 +625,12 @@ INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-/**
- * read a blob from db into the container settings structure
- * @param hContact:	contact handle (0 = read global)
- * @param cs		TContainerSettings* target structure
- * @return			0 on success, 1 failure (blob does not exist OR is not a valid private setting structure
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// read a blob from db into the container settings structure
+// @param hContact:	contact handle (0 = read global)
+// @param cs		TContainerSettings* target structure
+// @return			0 on success, 1 failure (blob does not exist OR is not a valid private setting structure
+
 int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey)
 {
 	CopyMemory(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
@@ -686,12 +675,12 @@ void Utils::ContainerToSettings(TContainerData *pContainer)
 	pContainer->settings->ownAvatarMode = pContainer->ownAvatarMode;
 }
 
-/**
- * read settings for a container with private settings enabled.
- *
- * @param pContainer	container window info struct
- * @param fForce		true -> force them private, even if they were not marked as private in the db
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// read settings for a container with private settings enabled.
+// 
+// @param pContainer	container window info struct
+// @param fForce		true -> force them private, even if they were not marked as private in the db
+
 void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce)
 {
 	char	szCname[50];
@@ -731,12 +720,12 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 	}
 }
 
-/**
- * calculate new width and height values for a user picture (avatar)
- * 
- * @param: maxHeight -	determines maximum height for the picture, width will
- *						be scaled accordingly.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// calculate new width and height values for a user picture (avatar)
+// 
+// @param: maxHeight -	determines maximum height for the picture, width will
+// 					be scaled accordingly.
+
 void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, double& dNewHeight, LONG maxHeight)
 {
 	BITMAP	bm;
@@ -762,13 +751,13 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
 	}
 }
 
-/**
- * convert the avatar bitmap to icon format so that it can be used on the task bar
- * tries to keep correct aspect ratio of the avatar image
- *
- * @param dat: _MessageWindowData* pointer to the window data
- * @return HICON: the icon handle
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// convert the avatar bitmap to icon format so that it can be used on the task bar
+// tries to keep correct aspect ratio of the avatar image
+// 
+// @param dat: _MessageWindowData* pointer to the window data
+// @return HICON: the icon handle
+
 HICON Utils::iconFromAvatar(const TWindowData *dat)
 {
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP) || dat == NULL)
@@ -781,11 +770,9 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 	LONG lIconSize = Win7Taskbar->getIconSize();
 	double dNewWidth, dNewHeight;
 	scaleAvatarHeightLimited(ace->hbmPic, dNewWidth, dNewHeight, lIconSize);
-	/*
-	* resize picture to fit it on the task bar, use an image list for converting it to
-	* 32bpp icon format
-	* dat->hTaskbarIcon will cache it until avatar is changed
-	*/
+
+	// resize picture to fit it on the task bar, use an image list for converting it to
+	// 32bpp icon format. dat->hTaskbarIcon will cache it until avatar is changed
 	bool fFree = false;
 	HBITMAP hbmResized = CSkin::ResizeBitmap(ace->hbmPic, (LONG)dNewWidth, (LONG)dNewHeight, fFree);
 	HIMAGELIST hIml_c = ::ImageList_Create(lIconSize, lIconSize, ILC_COLOR32 | ILC_MASK, 1, 0);
@@ -850,16 +837,16 @@ void Utils::getIconSize(HICON hIcon, int& sizeX, int& sizeY)
 	::DeleteObject(ii.hbmColor);
 }
 
-/**
- * add a menu item to a ownerdrawn menu. mii must be pre-initialized
- *
- * @param m			menu handle
- * @param mii		menu item info structure
- * @param hIcon		the icon (0 allowed -> no icon)
- * @param szText	menu item text (must NOT be 0)
- * @param uID		the item command id
- * @param pos		zero-based position index
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// add a menu item to a ownerdrawn menu. mii must be pre-initialized
+// 
+// @param m			menu handle
+// @param mii		menu item info structure
+// @param hIcon		the icon (0 allowed -> no icon)
+// @param szText	menu item text (must NOT be 0)
+// @param uID		the item command id
+// @param pos		zero-based position index
+
 void Utils::addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TCHAR *szText, UINT uID, UINT pos)
 {
 	mii.wID = uID;
@@ -870,10 +857,10 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TC
 	::InsertMenuItem(m, pos, TRUE, &mii);
 }
 
-/**
- * return != 0 when the sound effect must be played for the given
- * session. Uses container sound settings
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// return != 0 when the sound effect must be played for the given
+// session. Uses container sound settings
+
 int Utils::mustPlaySound(const TWindowData *dat)
 {
 	if (!dat)
@@ -889,15 +876,11 @@ int Utils::mustPlaySound(const TWindowData *dat)
 	bool fActiveTab = (dat->pContainer->hwndActive == dat->hwnd ? true : false);
 	bool fIconic = (::IsIconic(dat->pContainer->hwnd) ? true : false);
 
-	/*
-	* window minimized, check if sound has to be played
-	*/
+	// window minimized, check if sound has to be played
 	if (fIconic)
 		return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
 
-	/*
-	* window in foreground
-	*/
+	// window in foreground
 	if (fActiveWindow) {
 		if (fActiveTab)
 			return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
@@ -910,25 +893,25 @@ int Utils::mustPlaySound(const TWindowData *dat)
 	return 1;
 }
 
-/**
- * enable or disable a dialog control
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// enable or disable a dialog control
+
 void Utils::enableDlgControl(const HWND hwnd, UINT id, BOOL fEnable)
 {
 	::EnableWindow(::GetDlgItem(hwnd, id), fEnable);
 }
 
-/**
- * show or hide a dialog control
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// show or hide a dialog control
+
 void Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 {
 	::ShowWindow(::GetDlgItem(hwnd, id), showCmd);
 }
 
-/*
- * stream function to write the contents of the message log to an rtf file
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// stream function to write the contents of the message log to an rtf file
+
 DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	HANDLE hFile;
@@ -944,10 +927,10 @@ DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG
 	return 1;
 }
 
-/**
- * extract a resource from the given module
- * tszPath must end with \
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// extract a resource from the given module
+// tszPath must end with \
+
 bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
 								  const TCHAR *tszFilename, bool fForceOverwrite)
 {
@@ -975,12 +958,12 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszNam
 	return true;
 }
 
-/**
- * extract the clicked URL from a rich edit control. Return the URL as TCHAR*
- * caller MUST mir_free() the returned string
- * @param 	hwndRich -  rich edit window handle
- * @return	wchar_t*	extracted URL
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// extract the clicked URL from a rich edit control. Return the URL as TCHAR*
+// caller MUST mir_free() the returned string
+// @param 	hwndRich -  rich edit window handle
+// @return	wchar_t*	extracted URL
+
 const wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 {
 	TEXTRANGEW 	tr = {0};
@@ -1000,10 +983,10 @@ const wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRi
 	return(tr.lpstrText);
 }
 
-/**
- * generic command dispatcher
- * used in various places (context menus, info panel menus etc.)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// generic command dispatcher
+// used in various places (context menus, info panel menus etc.)
+
 LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, TWindowData *dat, TContainerData *pContainer)
 {
 	switch (uType) {
@@ -1025,12 +1008,12 @@ LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, 
 	return 0;
 }
 
-/**
- * filter out invalid characters from a string used as part of a file
- * or folder name. All invalid characters will be replaced by spaces.
- *
- * @param tszFilename - string to filter.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// filters out invalid characters from a string used as part of a file
+// or folder name. All invalid characters will be replaced by spaces.
+// 
+// @param tszFilename - string to filter.
+
 void Utils::sanitizeFilename(wchar_t* tszFilename)
 {
 	static wchar_t *forbiddenCharacters = L"%/\\':|\"<>?";
@@ -1043,22 +1026,22 @@ void Utils::sanitizeFilename(wchar_t* tszFilename)
 	}
 }
 
-/**
- * ensure that a path name ends on a trailing backslash
- * @param szPathname - pathname to check
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// ensure that a path name ends on a trailing backslash
+// @param szPathname - pathname to check
+
 void Utils::ensureTralingBackslash(wchar_t *szPathname)
 {
 	if (szPathname[lstrlenW(szPathname) - 1] != '\\')
 		wcscat(szPathname, L"\\");
 }
 
-/**
- * load a system library from the Windows system path and return its module
- * handle.
- *
- * return 0 and throw an exception if something goes wrong.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// load a system library from the Windows system path and return its module
+// handle.
+// 
+// return 0 and throw an exception if something goes wrong.
+
 HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 {
 	wchar_t sysPathName[MAX_PATH + 2];
@@ -1084,6 +1067,56 @@ void Utils::setAvatarContact(HWND hWnd, MCONTACT hContact)
 {
 	MCONTACT hSub = db_mc_getSrmmSub(hContact);
 	SendMessage(hWnd, AVATAR_SETCONTACT, 0, (hSub) ? hSub : hContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// stub for copying data to clipboard
+
+size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
+{
+	if (!OpenClipboard(hwndOwner) || str == 0)
+		return 0;
+
+	size_t i = sizeof(TCHAR) * (lstrlen(str) + 1);
+
+	EmptyClipboard();
+	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
+
+	CopyMemory((void*)GlobalLock(hData), str, i);
+	GlobalUnlock(hData);
+	SetClipboardData(CF_UNICODETEXT, hData);
+	CloseClipboard();
+	return i;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// file list handler
+
+void Utils::AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename)
+{
+	*pppFiles = (TCHAR**)mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(TCHAR*));
+	(*pppFiles)[*totalCount] = NULL;
+	(*pppFiles)[*totalCount - 1] = mir_tstrdup(szFilename);
+
+	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
+		WIN32_FIND_DATA fd;
+		HANDLE hFind;
+		TCHAR szPath[MAX_PATH];
+		lstrcpy(szPath, szFilename);
+		lstrcat(szPath, _T("\\*"));
+		if ((hFind = FindFirstFile(szPath, &fd)) != INVALID_HANDLE_VALUE) {
+			do {
+				if (!lstrcmp(fd.cFileName, _T(".")) || !lstrcmp(fd.cFileName, _T("..")))
+					continue;
+				lstrcpy(szPath, szFilename);
+				lstrcat(szPath, _T("\\"));
+				lstrcat(szPath, fd.cFileName);
+				AddToFileList(pppFiles, totalCount, szPath);
+			}
+				while (FindNextFile(hFind, &fd));
+			FindClose(hFind);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

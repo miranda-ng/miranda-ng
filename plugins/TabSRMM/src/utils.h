@@ -107,61 +107,12 @@ public:
 
 	static HMODULE  loadSystemLibrary(const wchar_t* szFilename);
 
-	static INT_PTR CALLBACK PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	static LPCTSTR extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
+	static INT_PTR  CALLBACK PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LPCTSTR  extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
 
-	template<typename T> static size_t  CopyToClipBoard(T* _t, const HWND hwndOwner)
-	{
-		if (!OpenClipboard(hwndOwner) || _t == 0)
-			return 0;
-
-		std::basic_string<T> *s = new std::basic_string<T>(_t);
-		size_t _s = sizeof(T);
-		size_t i = _s * (s->length() + 1);
-
-		EmptyClipboard();
-		HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
-
-		CopyMemory((void*)GlobalLock(hData), (void*)_t, i);
-		GlobalUnlock(hData);
-		SetClipboardData(_s == sizeof(char) ? CF_TEXT : CF_UNICODETEXT, hData);
-		CloseClipboard();
-		delete s;
-		return(i);
-	}
-
-	template<typename T> static void AddToFileList(T ***pppFiles, int *totalCount, LPCTSTR szFilename)
-	{
-		size_t _s = sizeof(T);
-
-		*pppFiles = (T**)mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(T*));
-		(*pppFiles)[*totalCount] = NULL;
-
-		if (_s == 1)
-			(*pppFiles)[*totalCount-1] = reinterpret_cast<T *>(mir_t2a(szFilename));
-		else
-			(*pppFiles)[*totalCount-1] = reinterpret_cast<T *>(mir_tstrdup(szFilename));
-
-		if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
-			WIN32_FIND_DATA fd;
-			HANDLE hFind;
-			TCHAR szPath[MAX_PATH];
-
-			lstrcpy(szPath, szFilename);
-			lstrcat(szPath, _T("\\*"));
-			if ((hFind = FindFirstFile(szPath, &fd)) != INVALID_HANDLE_VALUE) {
-				do {
-					if (!lstrcmp(fd.cFileName, _T(".")) || !lstrcmp(fd.cFileName, _T("..")))
-						continue;
-					lstrcpy(szPath, szFilename);
-					lstrcat(szPath, _T("\\"));
-					lstrcat(szPath, fd.cFileName);
-					AddToFileList(pppFiles, totalCount, szPath);
-				} while (FindNextFile(hFind, &fd));
-				FindClose(hFind);
-			}
-		}
-	}
+	static size_t   CopyToClipBoard(const wchar_t *str, const HWND hwndOwner);
+	
+	static void     AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename);
 
 	/**
 	 * safe strlen function - do not overflow the given buffer length
