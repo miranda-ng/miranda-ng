@@ -147,7 +147,7 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 {
 	servicemode = true;
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL, DlgProcView, VI_FLAG_PRNVAR | VI_FLAG_PRNDLL);
+	ViewVersionInfo(1, 0);
 	return SERVICE_ONLYDB;
 }
 
