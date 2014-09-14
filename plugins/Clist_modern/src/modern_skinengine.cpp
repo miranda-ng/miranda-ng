@@ -1031,35 +1031,32 @@ HRGN ske_CreateOpaqueRgn(BYTE Level, bool Opaque)
 	if (!g_pCachedWindow)
 		return NULL;
 
-	RGBQUAD * buf = (RGBQUAD *) g_pCachedWindow->hImageDIBByte;
+	RGBQUAD *buf = (RGBQUAD *) g_pCachedWindow->hImageDIBByte;
+	if (buf == NULL)
+		return NULL;
 
-	int x,y;
 	unsigned int cRect = 64;
 	PRGNDATA pRgnData = (PRGNDATA)malloc(sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
 	memset(pRgnData, 0, sizeof(RGNDATAHEADER));
 	pRgnData->rdh.dwSize = sizeof(RGNDATAHEADER);
 	pRgnData->rdh.iType = RDH_RECTANGLES;
 
-	for (y = 0; y < g_pCachedWindow->Height; ++y)
-	{
+	for (int y = 0; y < g_pCachedWindow->Height; ++y) {
 		bool inside = false;
 		bool lastin = false;
 		unsigned int entry = 0;
 
-		for (x = 0; x < g_pCachedWindow->Width; ++x)
-		{
+		for (int x = 0; x < g_pCachedWindow->Width; ++x) {
 			inside = Opaque ? (buf->rgbReserved > Level) : (buf->rgbReserved < Level);
 			++buf;
 
-			if (inside != lastin)
-			{
-				if (inside)
-				{
+			if (inside != lastin) {
+				if (inside) {
 					lastin = true;
 					entry = x;
-				} else {
-					if (pRgnData->rdh.nCount == cRect)
-					{
+				}
+				else {
+					if (pRgnData->rdh.nCount == cRect) {
 						cRect = cRect + 64;
 						pRgnData = (PRGNDATA)realloc(pRgnData, sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
 					}
@@ -1071,21 +1068,19 @@ HRGN ske_CreateOpaqueRgn(BYTE Level, bool Opaque)
 			}
 		}
 
-		if (lastin)
-		{
-			if (pRgnData->rdh.nCount == cRect)
-			{
+		if (lastin) {
+			if (pRgnData->rdh.nCount == cRect) {
 				cRect = cRect + 64;
 				pRgnData = (PRGNDATA)realloc(pRgnData, sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
 			}
-			SetRect(((LPRECT)pRgnData->Buffer) + pRgnData->rdh.nCount, entry, g_pCachedWindow->Height - y, x, g_pCachedWindow->Height - y + 1);
+			SetRect(((LPRECT)pRgnData->Buffer) + pRgnData->rdh.nCount, entry, g_pCachedWindow->Height - y, g_pCachedWindow->Width, g_pCachedWindow->Height - y + 1);
 
 			pRgnData->rdh.nCount++;
 		}
 	}
+	
 	HRGN hRgn = ExtCreateRegion(NULL, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount*sizeof(RECT), (LPRGNDATA)pRgnData);
 	free(pRgnData);
-
 	return hRgn;
 }
 
