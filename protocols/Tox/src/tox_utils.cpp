@@ -124,17 +124,10 @@ bool CToxProto::IsFileExists(std::tstring path)
 std::tstring CToxProto::GetToxProfilePath()
 {
 	std::tstring profilePath;
-	//ptrA path(getStringA("DataPath"));
-	//if (path)
-	//{
-	//	profilePath = path;
-	//}
-	//if (profilePath.empty())
-	{
-		TCHAR defaultPath[MAX_PATH];
-		mir_sntprintf(defaultPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), m_tszUserName);
-		profilePath = defaultPath;
-	}
+	TCHAR defaultPath[MAX_PATH];
+	mir_sntprintf(defaultPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), m_tszUserName);
+	profilePath = defaultPath;
+
 	return profilePath;
 }
 
@@ -180,7 +173,6 @@ void CToxProto::SaveToxData()
 
 	uint32_t size = tox_size(tox);
 	uint8_t *data = (uint8_t*)mir_alloc(size);
-
 	tox_save(tox, data);
 
 	if (fwrite(data, sizeof(uint8_t), size, hFile) != size)

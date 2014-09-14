@@ -5,11 +5,6 @@ WORD CToxProto::GetContactStatus(MCONTACT hContact)
 	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
-bool CToxProto::IsContactOnline(MCONTACT hContact)
-{
-	return GetContactStatus(hContact) == ID_STATUS_ONLINE;
-}
-
 void CToxProto::SetContactStatus(MCONTACT hContact, WORD status)
 {
 	WORD oldStatus = GetContactStatus(hContact);
