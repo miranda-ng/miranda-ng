@@ -21,30 +21,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 HWND hViewWnd;
 extern HINSTANCE hInst;
 
-
-HDWP MyResizeWindow (HDWP hDwp, HWND hwndDlg, HWND hwndCtrl, int nHorizontalOffset, int nVerticalOffset, 
-					 int nWidthOffset, int nHeightOffset) 
+HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndCtrl, int nHorizontalOffset, int nVerticalOffset, int nWidthOffset, int nHeightOffset)
 {
-	POINT pt;
-	RECT rcinit;
-
 	// get current bounding rectangle
+	RECT rcinit;
 	GetWindowRect(hwndCtrl, &rcinit);
 
 	// get current top left point
+	POINT pt;
 	pt.x = rcinit.left;
 	pt.y = rcinit.top;
 	ScreenToClient(hwndDlg, &pt);
 
 	return DeferWindowPos(hDwp, hwndCtrl, NULL,
-		pt.x + nHorizontalOffset, 
+		pt.x + nHorizontalOffset,
 		pt.y + nVerticalOffset,
-		rcinit.right - rcinit.left + nWidthOffset, 
+		rcinit.right - rcinit.left + nWidthOffset,
 		rcinit.bottom - rcinit.top + nHeightOffset,
 		SWP_NOZORDER);
 }
 
-BOOL MyResizeGetOffset(HWND hwndCtrl, int nWidth, int nHeight, int* nDx, int* nDy) 
+BOOL MyResizeGetOffset(HWND hwndCtrl, int nWidth, int nHeight, int* nDx, int* nDy)
 {
 	RECT rcinit;
 
@@ -58,13 +55,14 @@ BOOL MyResizeGetOffset(HWND hwndCtrl, int nWidth, int nHeight, int* nDx, int* nD
 	return rcinit.bottom != rcinit.top && nHeight > 0;
 }
 
-INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	RECT rc;
+
 	switch (msg) {
 	case WM_INITDIALOG:
-		if (hViewWnd == NULL) {
-			hViewWnd = hwndDlg;
-			TranslateDialogDefault(hwndDlg);
+		TranslateDialogDefault(hwndDlg);
+		{
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(IDI_VI, true));
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx(IDI_VI));
 
@@ -78,37 +76,30 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			PrintVersionInfo(buffer, (unsigned int)lParam);
 			SetDlgItemText(hwndDlg, IDC_VIEWVERSIONINFO, buffer.c_str());
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-			if(lParam & VI_FLAG_PRNDLL)
-				SetWindowText(hwndDlg,TranslateT("View Version Information (with DLLs)"));
-
-			Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, PluginName, "ViewInfo_");
-			ShowWindow(hwndDlg, SW_SHOW);
 		}
-		else DestroyWindow(hwndDlg);
+
+		if (lParam & VI_FLAG_PRNDLL)
+			SetWindowText(hwndDlg, TranslateT("View Version Information (with DLLs)"));
+
+		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, PluginName, "ViewInfo_");
+		ShowWindow(hwndDlg, SW_SHOW);
 		break;
 
-	case WM_SIZE: 
-		{
-			int dx, dy, bsz;
-			HDWP hDwp;
-			RECT rc;
+	case WM_SIZE:
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_FILEVER), &rc);
 
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_FILEVER), &rc);
-			bsz = rc.bottom - rc.top;
-
-			if (MyResizeGetOffset(GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO), LOWORD(lParam)-20, HIWORD(lParam)-30-bsz, &dx, &dy)) {
-				hDwp = BeginDeferWindowPos(4);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_FILEVER), 0, dy, 0, 0);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_CLIPVER), dx/2, dy, 0, 0);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDCANCEL), dx, dy, 0, 0);
-				hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO), 0, 0, dx, dy);
-				EndDeferWindowPos(hDwp);
-			}
-		}				
+		int dx, dy;
+		if (MyResizeGetOffset(GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO), LOWORD(lParam) - 20, HIWORD(lParam) - 30 - (rc.bottom - rc.top), &dx, &dy)) {
+			HDWP hDwp = BeginDeferWindowPos(4);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_FILEVER), 0, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_CLIPVER), dx / 2, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDCANCEL), dx, dy, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO), 0, 0, dx, dy);
+			EndDeferWindowPos(hDwp);
+		}
 		break;
 
-	case WM_GETMINMAXINFO: 
+	case WM_GETMINMAXINFO:
 		{
 			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
 			mmi->ptMinTrackSize.x = 350; // The minimum width in points
@@ -117,7 +108,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_CLIPVER:
 			CallService(MS_CRASHDUMPER_STORETOCLIP, 0, GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			break;
@@ -135,21 +126,19 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_CONTEXTMENU:
 		{
 			HWND hView = GetDlgItem(hwndDlg, IDC_VIEWVERSIONINFO);
-			RECT rc;
 			GetWindowRect(hView, &rc);
 
 			POINT pt;
-			pt.x = LOWORD(lParam); 
-			pt.y = HIWORD(lParam); 
-			if (PtInRect(&rc, pt))
-			{
+			pt.x = LOWORD(lParam);
+			pt.y = HIWORD(lParam);
+			if (PtInRect(&rc, pt)) {
 				static const CHARRANGE all = { 0, -1 };
 
 				HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 				HMENU hSubMenu = GetSubMenu(hMenu, 0);
 				TranslateMenu(hSubMenu);
 
-				CHARRANGE sel; 
+				CHARRANGE sel;
 				SendMessage(hView, EM_EXGETSEL, 0, (LPARAM)&sel);
 				if (sel.cpMin == sel.cpMax)
 					EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
@@ -174,12 +163,13 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		break;
 
-	case WM_DESTROY: 
+	case WM_DESTROY:
 		hViewWnd = NULL;
 		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 		Utils_SaveWindowPosition(hwndDlg, NULL, PluginName, "ViewInfo_");
-		if (servicemode) PostQuitMessage(0); 
+		if (servicemode)
+			PostQuitMessage(0);
 		break;
 	}
 	return FALSE;
@@ -188,12 +178,13 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 void DestroyAllWindows(void)
 {
-	if (hViewWnd != NULL) DestroyWindow(hViewWnd);
-	hViewWnd = NULL;
+	if (hViewWnd != NULL) {
+		DestroyWindow(hViewWnd);
+		hViewWnd = NULL;
+	}
 }
 
-
-INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -215,7 +206,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_COMMAND:
-		if ((HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == BN_CLICKED) && (HWND)lParam == GetFocus()) 
+		if ((HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == BN_CLICKED) && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
@@ -228,8 +219,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szSetting, SIZEOF(szSetting));
 			db_set_s(NULL, PluginName, "Password", szSetting);
 
-			db_set_b(NULL, PluginName, "UploadChanged", 
-				(BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
+			db_set_b(NULL, PluginName, "UploadChanged", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
 
 			clsdates = IsDlgButtonChecked(hwndDlg, IDC_CLASSICDATES) == BST_CHECKED;
 			if (clsdates)
@@ -286,11 +276,11 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void ShowMessage(int type, const TCHAR* format, ...)
 {
-	POPUPDATAT pi = {0};
+	POPUPDATAT pi = { 0 };
 
 	va_list va;
 	va_start(va, format);
-	int len = mir_vsntprintf(pi.lptzText, SIZEOF(pi.lptzText)-1, format, va);
+	int len = mir_vsntprintf(pi.lptzText, SIZEOF(pi.lptzText) - 1, format, va);
 	pi.lptzText[len] = 0;
 	va_end(va);
 

@@ -23,7 +23,7 @@ HANDLE hNetlibUser;
 static void arrayToHex(BYTE* data, size_t datasz, char* res)
 {
 	char* resptr = res;
-	for (unsigned i=0; i<datasz ; i++) {
+	for (unsigned i = 0; i < datasz; i++) {
 		const BYTE ch = data[i];
 
 		const char ch0 = (char)(ch >> 4);
@@ -33,7 +33,7 @@ static void arrayToHex(BYTE* data, size_t datasz, char* res)
 		*resptr++ = (char)((ch1 <= 9) ? ('0' + ch1) : (('a' - 10) + ch1));
 	}
 	*resptr = '\0';
-} 
+}
 
 void GetLoginStr(char* user, size_t szuser, char* pass)
 {
@@ -68,7 +68,7 @@ void OpenAuthUrl(const char* url)
 	if (user[0] && pass[0]) {
 		char str[256];
 		mir_snprintf(str, sizeof(str), url, user);
-		mir_snprintf(str, sizeof(str), "http://www.miranda-vi.org/cdlogin?name=%s&pass=%s&redir=%s", user, pass, ptrA( mir_urlEncode(str)));
+		mir_snprintf(str, sizeof(str), "http://www.miranda-vi.org/cdlogin?name=%s&pass=%s&redir=%s", user, pass, ptrA(mir_urlEncode(str)));
 		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)str);
 	}
 	else CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.miranda-vi.org/");
@@ -81,35 +81,35 @@ void CreateAuthString(char* auth)
 
 	char str[110];
 	int len = mir_snprintf(str, sizeof(str), "%s:%s", user, pass);
-	mir_snprintf(auth, 250, "Basic %s", ptrA( mir_base64_encode((PBYTE)str, len)));
+	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode((PBYTE)str, len)));
 }
 
 
-bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq) 
+bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 {
 	int result = 0xBADBAD;
-	char* szRedirUrl  = NULL;
-	NETLIBHTTPREQUEST nlhr = {0};
+	char* szRedirUrl = NULL;
+	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_POST;
-	nlhr.flags =  NLHRF_HTTP11 | NLHRF_NODUMP;
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_NODUMP;
 	nlhr.szUrl = (char*)szUrl;
 
 	nlhr.headersCount = 6;
-	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[0].szName  = "Connection";
+	nlhr.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
+	nlhr.headers[0].szName = "Connection";
 	nlhr.headers[0].szValue = "close";
-	nlhr.headers[1].szName  = "Cache-Control";
+	nlhr.headers[1].szName = "Cache-Control";
 	nlhr.headers[1].szValue = "no-cache";
-	nlhr.headers[2].szName  = "Pragma";
+	nlhr.headers[2].szName = "Pragma";
 	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName  = "Content-Type";
+	nlhr.headers[3].szName = "Content-Type";
 	nlhr.headers[3].szValue = "text/plain; charset=utf-8";
-	nlhr.headers[4].szName  = "AutoUpload";
+	nlhr.headers[4].szName = "AutoUpload";
 	nlhr.headers[4].szValue = (char*)(szReq->autot ? "1" : "0");
-	nlhr.headers[5].szName  = "Authorization";
+	nlhr.headers[5].szName = "Authorization";
 
 	char auth[256];
 	CreateAuthString(auth);
@@ -120,17 +120,17 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 
 	while (result == 0xBADBAD) {
 		// download the page
-		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
+		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 		if (nlhrReply) {
 			int i;
 
 			// if the recieved code is 200 OK
-			switch(nlhrReply->resultCode) {
-			case 200: 
+			switch (nlhrReply->resultCode) {
+			case 200:
 				if (db_get_b(NULL, PluginName, "UploadChanged", 0))
 					ProcessVIHash(true);
 
-				for (i=nlhrReply->headersCount; i--; )
+				for (i = nlhrReply->headersCount; i--;)
 					if (_stricmp(nlhrReply->headers[i].szName, "OldPlugins") == 0) {
 						i = atoi(nlhrReply->headers[i].szValue);
 						break;
@@ -160,7 +160,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			case 307:
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
-				for (i=0; i<nlhrReply->headersCount; i++) {
+				for (i = 0; i < nlhrReply->headersCount; i++) {
 					if (!strcmp(nlhrReply->headers[i].szName, "Location")) {
 						size_t rlen = 0;
 						if (nlhrReply->headers[i].szValue[0] == '/') {
@@ -168,14 +168,14 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 							const char* szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
 							szPath = strchr(szPref, '/');
-							rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl); 
+							rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl);
 						}
 
-						szRedirUrl = (char*)mir_realloc(szRedirUrl, 
-							rlen + strlen(nlhrReply->headers[i].szValue)*3 + 1);
+						szRedirUrl = (char*)mir_realloc(szRedirUrl,
+							rlen + strlen(nlhrReply->headers[i].szValue) * 3 + 1);
 
 						strncpy(szRedirUrl, szUrl, rlen);
-						strcpy(szRedirUrl+rlen, nlhrReply->headers[i].szValue); 
+						strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue);
 
 						nlhr.szUrl = szRedirUrl;
 						break;
@@ -193,7 +193,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			ShowMessage(0, TranslateT("Cannot upload VersionInfo. Host unreachable."));
 		}
 
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
 
 	mir_free(szRedirUrl);
@@ -210,7 +210,7 @@ void __cdecl VersionInfoUploadThread(void* arg)
 	mir_free(trn);
 }
 
-void UploadInit(void) 
+void UploadInit(void)
 {
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_TCHAR;
@@ -219,7 +219,7 @@ void UploadInit(void)
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }
 
-void UploadClose(void) 
+void UploadClose(void)
 {
 	Netlib_CloseHandle(hNetlibUser);
 }
