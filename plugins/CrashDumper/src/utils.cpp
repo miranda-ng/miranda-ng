@@ -37,10 +37,10 @@ void CheckForOtherCrashReportingPlugins(void)
 		TEXT("Miranda Crash Dumper"), MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
 }
 
-void GetOSDisplayString(CMString& buffer)
+void GetOSDisplayString(CMString &buffer)
 {
-	OSVERSIONINFOEX osvi = {0};
-	SYSTEM_INFO si = {0};
+	OSVERSIONINFOEX osvi = { 0 };
+	SYSTEM_INFO si = { 0 };
 	BOOL bOsVersionInfoEx;
 	DWORD dwType = 0;
 
@@ -49,7 +49,7 @@ void GetOSDisplayString(CMString& buffer)
 	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
 	if (!bOsVersionInfoEx) {
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-		if (!GetVersionEx((OSVERSIONINFO*)&osvi)) 
+		if (!GetVersionEx((OSVERSIONINFO*)&osvi))
 			return;
 	}
 
@@ -64,21 +64,21 @@ void GetOSDisplayString(CMString& buffer)
 			case 0:
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					buffer.Append(TEXT("Windows Vista "));
-				else 
+				else
 					buffer.Append(TEXT("Windows Server 2008 "));
 				break;
 
 			case 1:
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					buffer.Append(TEXT("Windows 7 "));
-				else 
+				else
 					buffer.Append(TEXT("Windows Server 2008 R2 "));
 				break;
-				
+
 			case 2:
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					buffer.Append(TEXT("Windows 8 "));
-				else 
+				else
 					buffer.Append(TEXT("Windows Server 2012 "));
 				break;
 
@@ -93,7 +93,7 @@ void GetOSDisplayString(CMString& buffer)
 			if (pGetProductInfo)
 				pGetProductInfo(6, 0, 0, 0, &dwType);
 
-			switch(dwType) {
+			switch (dwType) {
 			case PRODUCT_ULTIMATE:
 				buffer.Append(TEXT("Ultimate Edition"));
 				break;
@@ -147,18 +147,18 @@ void GetOSDisplayString(CMString& buffer)
 				break;
 			}
 
-			if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_AMD64)
+			if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
 				buffer.Append(TEXT(", 64-bit"));
-			else if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_INTEL)
+			else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL)
 				buffer.Append(TEXT(", 32-bit"));
 		}
 
 		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) {
 			if (GetSystemMetrics(SM_SERVERR2))
 				buffer.Append(TEXT("Windows Server 2003 R2, "));
-			else if (osvi.wSuiteMask==VER_SUITE_STORAGE_SERVER)
+			else if (osvi.wSuiteMask == VER_SUITE_STORAGE_SERVER)
 				buffer.Append(TEXT("Windows Storage Server 2003"));
-			else if (osvi.wProductType == VER_NT_WORKSTATION && 
+			else if (osvi.wProductType == VER_NT_WORKSTATION &&
 				si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
 				buffer.Append(TEXT("Windows XP Professional x64 Edition"));
 			else buffer.Append(TEXT("Windows Server 2003, "));
@@ -166,24 +166,24 @@ void GetOSDisplayString(CMString& buffer)
 			// Test for the server type.
 			if (osvi.wProductType != VER_NT_WORKSTATION) {
 				if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64) {
-					if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
+					if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
 						buffer.Append(TEXT("Datacenter Edition for Itanium-based Systems"));
-					else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
+					else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
 						buffer.Append(TEXT("Enterprise Edition for Itanium-based Systems"));
 				}
 				else if (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
-					if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
+					if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
 						buffer.Append(TEXT("Datacenter x64 Edition"));
-					else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
+					else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
 						buffer.Append(TEXT("Enterprise x64 Edition"));
 					else buffer.Append(TEXT("Standard x64 Edition"));
 				}
 				else {
 					if (osvi.wSuiteMask & VER_SUITE_COMPUTE_SERVER)
 						buffer.Append(TEXT("Compute Cluster Edition"));
-					else if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
+					else if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
 						buffer.Append(TEXT("Datacenter Edition"));
-					else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
+					else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
 						buffer.Append(TEXT("Enterprise Edition"));
 					else if (osvi.wSuiteMask & VER_SUITE_BLADE)
 						buffer.Append(TEXT("Web Edition"));
@@ -196,7 +196,7 @@ void GetOSDisplayString(CMString& buffer)
 			buffer.Append(TEXT("Windows XP "));
 			if (osvi.wSuiteMask & VER_SUITE_PERSONAL)
 				buffer.Append(TEXT("Home Edition"));
-			else 
+			else
 				buffer.Append(TEXT("Professional"));
 		}
 
@@ -205,9 +205,9 @@ void GetOSDisplayString(CMString& buffer)
 
 			if (osvi.wProductType == VER_NT_WORKSTATION)
 				buffer.Append(TEXT("Professional"));
-			else if(osvi.wSuiteMask & VER_SUITE_DATACENTER)
+			else if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
 				buffer.Append(TEXT("Datacenter Server"));
-			else if(osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
+			else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
 				buffer.Append(TEXT("Advanced Server"));
 			else
 				buffer.Append(TEXT("Server"));
@@ -227,22 +227,22 @@ void GetOSDisplayString(CMString& buffer)
 				buffer.Append(TEXT("Workstation 4.0 "));
 			else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
 				buffer.Append(TEXT("Server 4.0, Enterprise Edition "));
-			else 
+			else
 				buffer.Append(TEXT("Server 4.0 "));
 		}
 
 		if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && osvi.dwMajorVersion == 4) {
 			if (osvi.dwMinorVersion == 0) {
 				buffer.Append(TEXT("Microsoft Windows 95 "));
-				if (osvi.szCSDVersion[1]==TEXT('C') || osvi.szCSDVersion[1]==TEXT('B'))
+				if (osvi.szCSDVersion[1] == TEXT('C') || osvi.szCSDVersion[1] == TEXT('B'))
 					buffer.Append(TEXT("OSR2 "));
-			} 
+			}
 
 			if (osvi.dwMinorVersion == 10) {
 				buffer.Append(TEXT("Microsoft Windows 98 "));
-				if (osvi.szCSDVersion[1]==TEXT('A') || osvi.szCSDVersion[1]==TEXT('B'))
+				if (osvi.szCSDVersion[1] == TEXT('A') || osvi.szCSDVersion[1] == TEXT('B'))
 					buffer.Append(TEXT("SE "));
-			} 
+			}
 
 			if (osvi.dwMinorVersion == 90)
 				buffer.Append(TEXT("Microsoft Windows Millennium Edition"));
@@ -256,12 +256,11 @@ void GetOSDisplayString(CMString& buffer)
 
 int GetTZOffset(void)
 {
-	TIME_ZONE_INFORMATION tzInfo = {0};
+	TIME_ZONE_INFORMATION tzInfo = { 0 };
 	DWORD type = GetTimeZoneInformation(&tzInfo);
 
 	int offset = 0;
-	switch (type)
-	{
+	switch (type) {
 	case TIME_ZONE_ID_DAYLIGHT:
 		offset = -(tzInfo.Bias + tzInfo.DaylightBias);
 		break;
@@ -277,7 +276,7 @@ int GetTZOffset(void)
 	return offset;
 }
 
-void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, DWORD dwSize)
+void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, DWORD dwSize)
 {
 	SYSTEMTIME loctime;
 	if (stLocal == NULL) {
@@ -288,20 +287,20 @@ void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, DWORD dwSize)
 	if (clsdates) {
 		GetDateFormat(LOCALE_INVARIANT, 0, stLocal, TEXT("d MMM yyyy"), lpszString, dwSize);
 		int dlen = (int)_tcslen(lpszString);
-		GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, TEXT(" H:mm:ss"), lpszString+dlen, dwSize-dlen);
+		GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, TEXT(" H:mm:ss"), lpszString + dlen, dwSize - dlen);
 	}
 	else {
 		int offset = GetTZOffset();
 
 		// Build a string showing the date and time.
-		mir_sntprintf(lpszString, dwSize, TEXT("%d-%02d-%02d %02d:%02d:%02d%+03d%02d"), 
-			stLocal->wYear, stLocal->wMonth, stLocal->wDay, 
+		mir_sntprintf(lpszString, dwSize, TEXT("%d-%02d-%02d %02d:%02d:%02d%+03d%02d"),
+			stLocal->wYear, stLocal->wMonth, stLocal->wDay,
 			stLocal->wHour, stLocal->wMinute, stLocal->wSecond,
 			offset / 60, offset % 60);
 	}
 }
 
-void GetLastWriteTime(FILETIME* ftime, LPTSTR lpszString, DWORD dwSize)
+void GetLastWriteTime(FILETIME *ftime, LPTSTR lpszString, DWORD dwSize)
 {
 	FILETIME ftLocal;
 	SYSTEMTIME stLocal;
@@ -335,26 +334,26 @@ PLUGININFOEX* GetMirInfo(HMODULE hModule)
 	return bpi(mirandaVersion);
 }
 
-void GetInternetExplorerVersion(CMString& buffer)
+void GetInternetExplorerVersion(CMString &buffer)
 {
 	HKEY hKey;
 	DWORD size;
 
-	TCHAR ieVersion[1024] = {0};
-	TCHAR ieBuild[512] = {0};
-	TCHAR iVer[64] = {0};
+	TCHAR ieVersion[1024] = { 0 };
+	TCHAR ieBuild[512] = { 0 };
+	TCHAR iVer[64] = { 0 };
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Internet Explorer"), 0, KEY_QUERY_VALUE, &hKey)) {
 		size = SIZEOF(ieBuild);
-		if (RegQueryValueEx(hKey, TEXT("Build"), NULL, NULL, (LPBYTE) ieBuild, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("Build"), NULL, NULL, (LPBYTE)ieBuild, &size) != ERROR_SUCCESS)
 			ieBuild[0] = 0;
 
 		size = SIZEOF(ieVersion);
-		if (RegQueryValueEx(hKey, TEXT("Version"), NULL, NULL, (LPBYTE) ieVersion, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("Version"), NULL, NULL, (LPBYTE)ieVersion, &size) != ERROR_SUCCESS)
 			ieVersion[0] = 0;
 
 		size = SIZEOF(iVer);
-		if (RegQueryValueEx(hKey, TEXT("IVer"), NULL, NULL, (LPBYTE) iVer, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("IVer"), NULL, NULL, (LPBYTE)iVer, &size) != ERROR_SUCCESS)
 			iVer[0] = 0;
 
 		RegCloseKey(hKey);
@@ -379,7 +378,7 @@ void GetInternetExplorerVersion(CMString& buffer)
 		buffer.AppendFormat(TEXT(" (build %s)"), ieBuild);
 }
 
-void TrimMultiSpaces(TCHAR* str)
+void TrimMultiSpaces(TCHAR *str)
 {
 	TCHAR *src = str, *dest = str;
 	bool trimst = false;
@@ -395,26 +394,26 @@ void TrimMultiSpaces(TCHAR* str)
 			trimst = false;
 			*dest++ = *src;
 		}
-		if (*src++ == 0) break; 
+		if (*src++ == 0) break;
 	}
-}				
+}
 
-void GetProcessorString(CMString& buffer)
+void GetProcessorString(CMString &buffer)
 {
 	HKEY hKey;
 	DWORD size;
 
-	TCHAR cpuIdent[512] = {0};
-	TCHAR cpuName[512] = {0};
+	TCHAR cpuIdent[512] = { 0 };
+	TCHAR cpuName[512] = { 0 };
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Hardware\\Description\\System\\CentralProcessor\\0"), 0, KEY_QUERY_VALUE, &hKey)) {
 		size = SIZEOF(cpuName);
-		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), NULL, NULL, (LPBYTE) cpuName, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), NULL, NULL, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
 			_tcscpy(cpuName, TEXT("Unknown"));
 
 		size = SIZEOF(cpuIdent);
-		if (RegQueryValueEx(hKey, TEXT("Identifier"), NULL, NULL, (LPBYTE) cpuIdent, &size) != ERROR_SUCCESS)
-			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), NULL, NULL, (LPBYTE) cpuIdent, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("Identifier"), NULL, NULL, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
+			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), NULL, NULL, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
 				_tcscpy(cpuIdent, TEXT("Unknown"));
 
 		RegCloseKey(hKey);
@@ -425,28 +424,28 @@ void GetProcessorString(CMString& buffer)
 	if (IsProcessorFeaturePresent(PF_NX_ENABLED))
 		buffer.Append(TEXT(" [DEP Enabled]"));
 
-	SYSTEM_INFO si = {0};
+	SYSTEM_INFO si = { 0 };
 	GetSystemInfo(&si);
 
 	if (si.dwNumberOfProcessors > 1)
 		buffer.AppendFormat(TEXT(" [%u CPUs]"), si.dwNumberOfProcessors);
 }
 
-void GetFreeMemoryString(CMString& buffer)
+void GetFreeMemoryString(CMString &buffer)
 {
 	unsigned ram;
-	MEMORYSTATUSEX ms = {0};
+	MEMORYSTATUSEX ms = { 0 };
 	ms.dwLength = sizeof(ms);
 	GlobalMemoryStatusEx(&ms);
-	ram = (unsigned int) ((ms.ullTotalPhys / (1024 * 1024)) + 1);
+	ram = (unsigned int)((ms.ullTotalPhys / (1024 * 1024)) + 1);
 	buffer.AppendFormat(TEXT("Installed RAM: %u MBytes"), ram);
 }
 
-void GetFreeDiskString(LPCTSTR dirname, CMString& buffer)
+void GetFreeDiskString(LPCTSTR dirname, CMString &buffer)
 {
-	ULARGE_INTEGER tnb, tfb, fs = {0};
+	ULARGE_INTEGER tnb, tfb, fs = { 0 };
 	GetDiskFreeSpaceEx(dirname, &fs, &tnb, &tfb);
-	fs.QuadPart /= (1024*1024);
+	fs.QuadPart /= (1024 * 1024);
 
 	buffer.AppendFormat(TEXT("Free disk space on Miranda partition: %u MBytes"), fs.LowPart);
 }
@@ -529,14 +528,14 @@ void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMString& buffer)
 		break;
 
 	default:
-		buffer.AppendFormat(TEXT("%x"), excrec->ExceptionCode); 
+		buffer.AppendFormat(TEXT("%x"), excrec->ExceptionCode);
 		break;
 	}
 
-	buffer.AppendFormat(TEXT(" at address %p."), excrec->ExceptionAddress); 
+	buffer.AppendFormat(TEXT(" at address %p."), excrec->ExceptionAddress);
 
 	if (excrec->ExceptionCode == EXCEPTION_ACCESS_VIOLATION || excrec->ExceptionCode == EXCEPTION_IN_PAGE_ERROR) {
-		switch(excrec->ExceptionInformation[0]) {
+		switch (excrec->ExceptionInformation[0]) {
 		case 0:
 			buffer.AppendFormat(TEXT(" Reading from address %p."), (LPVOID)excrec->ExceptionInformation[1]);
 			break;
@@ -552,31 +551,31 @@ void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMString& buffer)
 	}
 }
 
-void GetAdminString(CMString& buffer)
+void GetAdminString(CMString &buffer)
 {
 	BOOL b;
 	__try {
 		SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
-		PSID AdministratorsGroup; 
+		PSID AdministratorsGroup;
 
 		b = AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
-			DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &AdministratorsGroup); 
+			DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &AdministratorsGroup);
 		if (b) {
 			if (!CheckTokenMembership(NULL, AdministratorsGroup, &b))
 				b = FALSE;
-			FreeSid(AdministratorsGroup); 
+			FreeSid(AdministratorsGroup);
 		}
 		else b = GetLastError() == ERROR_CALL_NOT_IMPLEMENTED;
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER) 
+	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		b = TRUE;
 	}
 
-	buffer.AppendFormat(TEXT("Administrator privileges: %s"), b ? TEXT("Yes") : TEXT ("No"));
+	buffer.AppendFormat(TEXT("Administrator privileges: %s"), b ? TEXT("Yes") : TEXT("No"));
 }
 
-void GetLanguageString(CMString& buffer)
+void GetLanguageString(CMString &buffer)
 {
 	TCHAR name1[256], name2[256], name3[256], name4[256];
 
@@ -589,13 +588,13 @@ void GetLanguageString(CMString& buffer)
 	buffer.AppendFormat(TEXT("OS Languages: (UI | Locale (User/System)) : %s/%s | %s/%s"), name3, name4, name1, name2);
 }
 
-void GetLanguagePackString(CMString& buffer)
+void GetLanguagePackString(CMString &buffer)
 {
-	buffer.Append(TEXT("Language pack: ")); 
+	buffer.Append(TEXT("Language pack: "));
 	if (packlcid != LOCALE_USER_DEFAULT) {
 		TCHAR lang[MAX_PATH], ctry[MAX_PATH];
-		if(GetLocaleInfo(packlcid, LOCALE_SENGLANGUAGE, lang, MAX_PATH)) {
-			if(GetLocaleInfo(packlcid, LOCALE_SISO3166CTRYNAME, ctry, MAX_PATH))
+		if (GetLocaleInfo(packlcid, LOCALE_SENGLANGUAGE, lang, MAX_PATH)) {
+			if (GetLocaleInfo(packlcid, LOCALE_SISO3166CTRYNAME, ctry, MAX_PATH))
 				buffer.AppendFormat(TEXT("%s (%s) [%04x]"), lang, ctry, packlcid);
 			else
 				buffer.Append(lang);
@@ -603,17 +602,18 @@ void GetLanguagePackString(CMString& buffer)
 		else
 			buffer.Append(TEXT("Locale id invalid"));
 	}
-	else 
+	else
 		buffer.Append(TEXT("No language pack installed"));
 }
 
-void GetWow64String(CMString& buffer)
+void GetWow64String(CMString &buffer)
 {
 	BOOL wow64 = 0;
 	if (!IsWow64Process(GetCurrentProcess(), &wow64))
 		wow64 = 0;
 
-	if (wow64) buffer.Append(TEXT(" [running inside WOW64]")); 
+	if (wow64)
+		buffer.Append(TEXT(" [running inside WOW64]"));
 }
 
 
@@ -640,9 +640,9 @@ void GetVersionInfo(HMODULE hLib, CMString& buffer)
 {
 	HRSRC hVersion = FindResource(hLib, MAKEINTRESOURCE(VS_VERSION_INFO), RT_VERSION);
 	if (hVersion != NULL) {
-		HGLOBAL hGlobal = LoadResource(hLib, hVersion); 
-		if (hGlobal != NULL) {  
-			LPVOID versionInfo  = LockResource(hGlobal);  
+		HGLOBAL hGlobal = LoadResource(hLib, hVersion);
+		if (hGlobal != NULL) {
+			LPVOID versionInfo = LockResource(hGlobal);
 			if (versionInfo != NULL) {
 				int vl = *(unsigned short*)versionInfo;
 				unsigned *res = (unsigned*)versionInfo;
@@ -650,12 +650,12 @@ void GetVersionInfo(HMODULE hLib, CMString& buffer)
 
 				if (((char*)res - (char*)versionInfo) < vl) {
 					VS_FIXEDFILEINFO *vsInfo = (VS_FIXEDFILEINFO*)res;
-					buffer.AppendFormat(TEXT(" v.%u.%u.%u.%u"), 
+					buffer.AppendFormat(TEXT(" v.%u.%u.%u.%u"),
 						HIWORD(vsInfo->dwFileVersionMS), LOWORD(vsInfo->dwFileVersionMS),
 						HIWORD(vsInfo->dwFileVersionLS), LOWORD(vsInfo->dwFileVersionLS));
 				}
 			}
-			FreeResource(hGlobal);  
+			FreeResource(hGlobal);
 		}
 	}
 }

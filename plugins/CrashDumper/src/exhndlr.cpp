@@ -24,19 +24,18 @@ void RemoveExceptionHandler(void)
 
 int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 {
-	if (code ==	VcppException(ERROR_SEVERITY_ERROR, ERROR_MOD_NOT_FOUND) ||
-		 code == VcppException(ERROR_SEVERITY_ERROR, ERROR_PROC_NOT_FOUND))
-	{
+	if (code == VcppException(ERROR_SEVERITY_ERROR, ERROR_MOD_NOT_FOUND) ||
+		code == VcppException(ERROR_SEVERITY_ERROR, ERROR_PROC_NOT_FOUND)) {
 		PDelayLoadInfo dlld = (PDelayLoadInfo)ep->ExceptionRecord->ExceptionInformation[0];
 
 		char str[256];
 		int off = mir_snprintf(str, SIZEOF(str), "dbghelp.dll v.5.0 or later required to provide a crash report\n");
-		off += mir_snprintf(str+off, SIZEOF(str)-off, "Missing Module: %s ", dlld->szDll);
+		off += mir_snprintf(str + off, SIZEOF(str) - off, "Missing Module: %s ", dlld->szDll);
 
 		if (dlld->dlp.fImportByName)
-			mir_snprintf(str+off, SIZEOF(str)-off, "Function: %s ", dlld->dlp.szProcName);
+			mir_snprintf(str + off, SIZEOF(str) - off, "Function: %s ", dlld->dlp.szProcName);
 		else
-			mir_snprintf(str+off, SIZEOF(str)-off, "Ordinal: %x ", dlld->dlp.dwOrdinal);
+			mir_snprintf(str + off, SIZEOF(str) - off, "Ordinal: %x ", dlld->dlp.dwOrdinal);
 
 		MessageBoxA(NULL, str, "Miranda Crash Dumper", MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
 	}
@@ -63,7 +62,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 		}
 		else
 			mir_sntprintf(path, MAX_PATH, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
-				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+			st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hDumpFile != INVALID_HANDLE_VALUE)
@@ -73,7 +72,9 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 			TEXT("Miranda Crash Dumper"), MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
 
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER) {}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+	}
 
 	bool empty = GetFileSize(hDumpFile, NULL) == 0;
 	CloseHandle(hDumpFile);
@@ -88,7 +89,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 		}
 		else
 			mir_sntprintf(path, MAX_PATH, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
-				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+			st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -97,7 +98,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 		if (hDumpFile != INVALID_HANDLE_VALUE)
 			CreateCrashReport(hDumpFile, exc_ptr, notify ? path : NULL);
 	}
-	__except(myDebugFilter(GetExceptionCode(), GetExceptionInformation())) {}
+	__except (myDebugFilter(GetExceptionCode(), GetExceptionInformation())) {}
 
 	bool empty1 = GetFileSize(hDumpFile, NULL) == 0;
 	CloseHandle(hDumpFile);

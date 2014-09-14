@@ -50,7 +50,7 @@ static const PLUGININFOEX pluginInfoEx =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {F62C1D7A-FFA4-4065-A251-4C9DD9101CC8}
-	{0xf62c1d7a, 0xffa4, 0x4065, {0xa2, 0x51, 0x4c, 0x9d, 0xd9, 0x10, 0x1c, 0xc8}}
+	{ 0xf62c1d7a, 0xffa4, 0x4065, { 0xa2, 0x51, 0x4c, 0x9d, 0xd9, 0x10, 0x1c, 0xc8 } }
 };
 
 const PLUGININFOEX* GetPluginInfoEx(void) { return &pluginInfoEx; }
@@ -62,7 +62,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVers
 }
 
 // MirandaInterfaces - returns the protocol interface to the core
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SERVICEMODE, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_LAST };
 
 INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 {
@@ -72,9 +72,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	mir_sntprintf(path, MAX_PATH, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (hDumpFile != INVALID_HANDLE_VALUE)
-	{
+	if (hDumpFile != INVALID_HANDLE_VALUE) {
 		CMString buffer;
 		PrintVersionInfo(buffer, (unsigned int)lParam | VI_FLAG_PRNVAR);
 
@@ -86,8 +84,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 
 		ShowMessage(3, TranslateT("VersionInfo stored into file %s"), path);
 	}
-	else
-		ShowMessage(2, TranslateT("VersionInfo file %s is inaccessible"), path);
+	else ShowMessage(2, TranslateT("VersionInfo file %s is inaccessible"), path);
 
 	return 0;
 }
@@ -121,15 +118,13 @@ INT_PTR UploadVersionInfo(WPARAM, LPARAM lParam)
 
 INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 {
-	if(hViewWnd)
-	{
+	if (hViewWnd) {
 		SetForegroundWindow(hViewWnd);
 		SetFocus(hViewWnd);
 	}
-	else
-	{
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL,
-			DlgProcView, wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR);
+	else {
+		DWORD dwFlags = wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR;
+		hViewWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL, DlgProcView, dwFlags);
 	}
 
 	return 0;
@@ -137,8 +132,7 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 
 INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 {
-	switch (wParam)
-	{
+	switch (wParam) {
 	case 0:
 		ShellExecute(NULL, TEXT("explore"), CrashLogFolder, NULL, NULL, SW_SHOW);
 		break;
@@ -153,20 +147,21 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 {
 	servicemode = true;
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL, DlgProcView, VI_FLAG_PRNVAR | VI_FLAG_PRNDLL);
 	return SERVICE_ONLYDB;
 }
 
 static int FoldersPathChanged(WPARAM, LPARAM)
 {
-	FOLDERSGETDATA fgd = {0};
+	FOLDERSGETDATA fgd = { 0 };
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
 	fgd.nMaxPathSize = MAX_PATH;
 	fgd.szPathT = CrashLogFolder;
 	fgd.flags = FF_TCHAR;
-	CallService(MS_FOLDERS_GET_PATH, (WPARAM) hCrashLogFolder, (LPARAM) &fgd);
+	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hCrashLogFolder, (LPARAM)&fgd);
 
 	fgd.szPathT = VersionInfoFolder;
-	CallService(MS_FOLDERS_GET_PATH, (WPARAM) hVerInfoFolder, (LPARAM) &fgd);
+	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hVerInfoFolder, (LPARAM)&fgd);
 	return 0;
 }
 
@@ -218,8 +213,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	crs_a2t(vertxt, temp);
 
 	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
-	if ( ServiceExists(MS_FOLDERS_REGISTER_PATH))
-		profpath = mir_tstrdup( _T("%miranda_userdata%"));
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+		profpath = mir_tstrdup(_T("%miranda_userdata%"));
 	else
 		profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 
@@ -229,7 +224,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	SetExceptionHandler();
 
 	hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
-	hVerInfoFolder  = FoldersRegisterCustomPathT(PluginName, LPGEN("Version Information"), VersionInfoFolder);
+	hVerInfoFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Version Information"), VersionInfoFolder);
 
 	FoldersPathChanged(0, 0);
 
@@ -263,40 +258,40 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_CRASHDUMPER_STORETOFILE;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.position  = 2000089997;
+	mi.position = 2000089997;
 	mi.ptszName = LPGENT("Show");
 	mi.icolibItem = GetIconHandle(IDI_VISHOW);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.popupPosition = 1;
-	mi.position  = 2000089998;
+	mi.position = 2000089998;
 	mi.ptszName = LPGENT("Show with DLLs");
 	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.popupPosition = 0;
-	mi.position  = 2000089999;
+	mi.position = 2000089999;
 	mi.ptszName = LPGENT("Upload");
 	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.position  = 2000099990;
+	mi.position = 2000099990;
 	mi.ptszName = LPGENT("Open crash report directory");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_FILE);
 	mi.pszService = MS_CRASHDUMPER_URL;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.popupPosition = 1;
-	mi.position  = 2000099991;
+	mi.position = 2000099991;
 	mi.ptszName = LPGENT("Open miranda-vi.org");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 	mi.pszService = MS_CRASHDUMPER_URL;
 	Menu_AddMainMenuItem(&mi);
 
-	HOTKEYDESC hk = {0};
+	HOTKEYDESC hk = { 0 };
 	hk.cbSize = sizeof(hk);
 	hk.pszSection = PluginName;
 
@@ -328,6 +323,9 @@ static int PreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
+	if (LoadLibraryA("riched20.dll") == NULL)
+		return 1;
+
 	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
 
 	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
@@ -367,8 +365,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID /*lpvReserved*/)
 {
-	switch(fdwReason)
-	{
+	switch (fdwReason) {
 	case DLL_PROCESS_ATTACH:
 		DisableThreadLibraryCalls(hinstDLL);
 		hInst = hinstDLL;
