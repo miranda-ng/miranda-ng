@@ -433,7 +433,6 @@ static void ExecuteMenu(HWND hwndDlg, LPARAM lParam)
 	lvht.pt.y = GET_Y_LPARAM(lParam);
 	ScreenToClient(hwndList, &lvht.pt);
 
-	bool bConvert = false;
 	if (ListView_HitTest(hwndList, &lvht) == -1)
 		return;
 
@@ -446,8 +445,7 @@ static void ExecuteMenu(HWND hwndDlg, LPARAM lParam)
 	if (!ListView_GetItem(hwndList, &tvi))
 		return;
 
-	if (tvi.iImage == 2)
-		bConvert = true;
+	bool bConvert = (tvi.iImage == 2);
 
 	lvht.pt.x = GET_X_LPARAM(lParam);
 	lvht.pt.y = GET_Y_LPARAM(lParam);
@@ -490,7 +488,6 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		EnsureCheckerLoaded(true);
 		{
 			dat = (DlgProfData*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
@@ -861,9 +858,13 @@ static int AddProfileManagerPage(struct DetailsPageInit *opi, OPTIONSDIALOGPAGE 
 
 int getProfileManager(PROFILEMANAGERDATA *pd)
 {
+	EnsureCheckerLoaded(true);
+
 	DetailsPageInit opi = { 0 };
 
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+
 	odp.pszTitle = LPGEN("My profiles");
 	odp.pfnDlgProc = DlgProfileSelect;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROFILE_SELECTION);
