@@ -153,7 +153,6 @@ private:
 
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
-	bool IsContactOnline(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 
