@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.0.4.22
+;  Version: 0.0.5.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper for Miranda NG.]
