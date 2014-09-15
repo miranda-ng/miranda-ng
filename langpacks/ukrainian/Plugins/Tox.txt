@@ -25,8 +25,8 @@
 Створити новий профіль
 [Use existing profile]
 Використати існуючий
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
-Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. У іншому разі Miranda шукатиме в базі даних сервісу toxme.se.
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
+Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. У іншому разі Miranda шукатиме за допомогою сервісу DNS Discovery.
 [Network]
 Мережа
 [Account]
@@ -37,11 +37,13 @@
 Усі файли (*.*)
 [Select tox profile]
 Виберіть профіль Tox
+[Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
+Профіль Tox з таким ім'ям уже існує.\r\nЯкщо подовжити, профіль буде втрачено!
 [Protocols]
 Протоколи
 [Protocol icon]
 Значок протоколу
-[Contact already in your contact list]
-Контакт уже в списку
 [Query]
 Запит
+[Contact already in your contact list]
+Контакт уже в списку

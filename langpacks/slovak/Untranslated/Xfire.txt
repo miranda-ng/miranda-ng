@@ -24,7 +24,7 @@
 [icons.dll]
 [Blocked User List]
 [This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
-[You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
+[You can simply block someone if you right click on his friend request in contact list and choose Block User...]
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 [This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
 [Be sure you put these files in following folder:]

@@ -39,6 +39,8 @@ SMS-код:
 Введіть нік
 [Please enter a password.]
 Введіть пароль
+[Last seen on %x at %X]
+Остання поява %x о %X
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS-повідомлення з реєстраційним кодом буде відправлено на ваш мобільний телефон.\nНагадуемо, що ви не зможете використовувати справжній WhatsApp і цей плагін одночасно!\nПродовжити?
 [Please correctly specify your registration code received by SMS]
