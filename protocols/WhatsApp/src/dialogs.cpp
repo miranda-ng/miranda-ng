@@ -86,7 +86,7 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 				if (!pw.empty())
 				{
 					proto->setString(WHATSAPP_KEY_PASS, pw.c_str());
-					MessageBox(NULL, TranslateT("Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!"), PRODUCT_NAME, MB_ICONWARNING);
+					MessageBox(NULL, TranslateT("Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!"), PRODUCT_NAME, MB_ICONWARNING);
 				}
 			}
 		}

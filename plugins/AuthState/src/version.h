@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "Authorization state"
 #define __FILENAME               "AuthState.dll"
-#define __DESCRIPTION             "If a contact didn't authorize you this plugin puts an icon in front of the contact's name."
+#define __DESCRIPTION             "If a contact didn't authorize you, this plugin puts an icon in front of the contact's name."
 #define __AUTHOR               "Thief, idea by snwbrdr"
 #define __AUTHOREMAIL            "thief@miranda.im"
 #define __AUTHORWEB               "http://miranda-ng.org/p/AuthState/"

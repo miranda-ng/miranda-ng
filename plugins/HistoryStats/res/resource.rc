@@ -274,7 +274,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "HistoryStats - Conflicting files"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.",
+    LTEXT           "Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files, there is an option for this.",
                     IDC_STATIC,5,5,285,25
     LTEXT           "The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.",
                     IDC_STATIC,5,30,285,25

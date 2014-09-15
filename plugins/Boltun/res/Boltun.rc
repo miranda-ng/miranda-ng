@@ -106,7 +106,7 @@ BEGIN
     PUSHBUTTON      "...",IDC_BTNPATH,226,18,16,16
     GROUPBOX        "Base of remarks",IDC_TXTREPLICPATH,5,6,297,36
     PUSHBUTTON      "Reload",IDC_BTNRELOAD,246,18,52,16
-    CONTROL         "Stay silent, if have no good aswers",IDC_ENGINE_SILENT,
+    CONTROL         "Stay silent if have no good aswers",IDC_ENGINE_SILENT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,62,283,10
     CONTROL         "Start answers with a lowercase letter",IDC_ENGINE_LOWERCASE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,94,282,10

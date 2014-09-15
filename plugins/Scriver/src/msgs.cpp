@@ -514,7 +514,7 @@ int OnLoadModule(void)
 	if (LoadLibraryA("riched20.dll") == NULL) {
 		if (IDYES != MessageBox(0,
 			TranslateT
-			("Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."),
+			("Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."),
 			TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;
