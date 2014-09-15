@@ -230,7 +230,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static char fieldsName[] = "id, first_name, last_name, photo_100, sex, country, timezone, contacts, online, status, about";
+static char fieldsName[] = "id, first_name, last_name, photo_100, sex, timezone, contacts, online, status, about";
 
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
@@ -333,9 +333,12 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			setTString(hContact, "Phone", szValue);
 
 		szValue = json_as_string(json_get(pRecord, "status"));
-		if (szValue && *szValue)
-			if (_tcscmp(db_get_tsa(hContact, "CList", "StatusMsg"), szValue))
-				db_set_ts(hContact, "CList", "StatusMsg", szValue);
+		if (szValue && *szValue) {
+			ptrT tszOldStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
+			if (tszOldStatus)
+				if (_tcscmp(tszOldStatus, szValue))
+					db_set_ts(hContact, "CList", "StatusMsg", szValue);
+		}
 
 		szValue = json_as_string(json_get(pRecord, "about"));
 		if (szValue && *szValue)
@@ -425,8 +428,9 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		szValue = json_as_string(json_get(pInfo, "status"));
 		if (szValue && *szValue) {
 			ptrT tszOldStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
-			if (_tcscmp(tszOldStatus, szValue))
-				db_set_ts(hContact, "CList", "StatusMsg", szValue);
+			if (tszOldStatus)
+				if (_tcscmp(tszOldStatus, szValue))
+					db_set_ts(hContact, "CList", "StatusMsg", szValue);
 		}
 
 		szValue = json_as_string(json_get(pInfo, "about"));
@@ -548,7 +552,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	if (!m_bMarkReadOnReply)
 		MarkMessagesRead(mids);
-	RetrieveUsersInfo();
 }
 
 void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -610,6 +613,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 	}
+	RetrieveUsersInfo();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -828,10 +832,10 @@ int CVkProto::PollServer()
 {
 	debugLogA("CVkProto::PollServer");
 
-	//need rework
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
-	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken));
+	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106));
+	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT;
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;

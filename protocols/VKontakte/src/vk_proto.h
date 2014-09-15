@@ -36,6 +36,7 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	bool bNeedsRestart, bIsMainConn;
 	VK_REQUEST_HANDLER m_pFunc;
 	void *pUserInfo;
+	bool m_bApiReq;
 };
 
 struct PARAM

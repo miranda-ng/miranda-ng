@@ -91,10 +91,13 @@ void CVkProto::WorkerThread(void*)
 	else {
 		// Initialize new OAuth session
 		extern char szBlankUrl[];
-		//need rework
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/oauth/authorize", false, &CVkProto::OnOAuthAuthorize)
-			<< INT_PARAM("client_id", VK_APP_ID) << CHAR_PARAM("scope", "friends,photos,audio,video,wall,messages,offline")
-			<< CHAR_PARAM("redirect_uri", szBlankUrl) << CHAR_PARAM("display", "wap") << CHAR_PARAM("response_type", "token"));
+			<< INT_PARAM("client_id", VK_APP_ID) 
+			<< CHAR_PARAM("scope", "friends,photos,audio,video,wall,messages,offline,status")
+			<< CHAR_PARAM("redirect_uri", szBlankUrl) 
+			<< CHAR_PARAM("display", "mobile") 
+			<< CHAR_PARAM("response_type", "token")
+			<< VER_API)->m_bApiReq = false;;
 	}
 
 	while(true) {
@@ -112,7 +115,7 @@ void CVkProto::WorkerThread(void*)
 
 				pReq = m_arRequestsQueue[0];
 				m_arRequestsQueue.remove(0);
-				need_sleep = (m_arRequestsQueue.getCount() > 1); // more than two to not gather
+				need_sleep = (m_arRequestsQueue.getCount() > 1) && (pReq->m_bApiReq); // more than two to not gather
 			}
 			ExecuteRequest(pReq);
 			if (need_sleep)	// There can be maximum 3 requests to API methods per second from a client

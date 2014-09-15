@@ -114,7 +114,6 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.flags = CMIF_TCHAR;
 	mi.position = -200001000+1;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
-	mi.position = -201001000+102;
 	mi.ptszName = LPGENT("Reload all messages from vk.com");
 	Menu_AddContactMenuItem(&mi);
 

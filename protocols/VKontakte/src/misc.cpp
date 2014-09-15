@@ -211,7 +211,7 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 AsyncHttpRequest::AsyncHttpRequest()
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
-
+	m_bApiReq = true;
 	AddHeader("Connection", "keep-alive");
 	AddHeader("Accept-Encoding", "booo");
 }
@@ -219,7 +219,7 @@ AsyncHttpRequest::AsyncHttpRequest()
 AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc)
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
-
+	m_bApiReq = true;
 	AddHeader("Connection", "keep-alive");
 	AddHeader("Accept-Encoding", "booo");
 
