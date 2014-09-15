@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -32,8 +32,8 @@ Profil Tox zawiera twoje ID oraz listę znajomych.\r\nMożesz założyć nowy pr
 Utwórz nowy profil
 [Use existing profile]
 Użyj istniejącego profilu
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
-Jeśli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o jego dodanie do listy znajomych. W przeciwnym razie Miranda wyszuka to zapytanie w toxme.se.
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
+Jeśli pole to zawiera adres Tox (76 znaków heksadecymalnych), zostaniesz poproszony o dodanie go do listy znajomych. W przeciwnym razie Miranda wyszuka zapytanie w przeglądarce DNS tox.
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Protokoły
@@ -42,17 +42,20 @@ Konto
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
-;file \protocols\Tox\src\tox_options.cpp
-[Query]
-Zapytanie
+;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 Wszystkie pliki (*.*)
 [Select tox profile]
 Wybierz profil tox
+[Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
+Profil tox o tej samej nazwie już istnieje.\r\nKontynuując utracisz go!
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokoły
 [Protocol icon]
 Ikona protokołu
+;file \protocols\Tox\src\tox_search.cpp
+[Query]
+Zapytanie
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów
