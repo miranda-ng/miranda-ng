@@ -39,6 +39,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFOT, &CVkProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CVkProto::SvcGetAvatarCaps);
+	CreateProtoService(PS_SET_LISTENINGTO, &CVkProto::SetListeningTo);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CVkProto::OnOptionsInit);
 

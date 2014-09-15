@@ -192,6 +192,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM wParam, LPARAM);
+	INT_PTR __cdecl SetListeningTo(WPARAM, LPARAM);
 
 	//==== Misc ==========================================================================
 
@@ -200,6 +201,8 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
+	void RetrieveStatusMusic();
+	void RetrieveStatusMsg(const CMString &StatusMsg);
 	void RetrieveUserInfo(LONG userId);
 	void RetrieveUsersInfo(bool flag = false);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

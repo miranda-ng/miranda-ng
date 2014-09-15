@@ -60,6 +60,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_toptoolbar.h>
 #include <m_userinfo.h>
 #include <m_utils.h>
+#include <m_proto_listeningto.h>
 
 #include <m_folders.h>
 
