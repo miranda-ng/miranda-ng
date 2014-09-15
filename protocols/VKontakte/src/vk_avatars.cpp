@@ -83,6 +83,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		pReq->pUserInfo = (char*)AI->hContact;
 		pReq->m_pFunc = &CVkProto::OnReceiveAvatar;
 		pReq->requestType = REQUEST_GET;
+		pReq->m_bApiReq = false;
 		Push(pReq);
 
 		debugLogA("Requested to read an avatar from '%s'", szUrl);
