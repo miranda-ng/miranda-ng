@@ -335,9 +335,10 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		szValue = json_as_string(json_get(pRecord, "status"));
 		if (szValue && *szValue) {
 			ptrT tszOldStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
-			if (tszOldStatus)
-				if (_tcscmp(tszOldStatus, szValue))
-					db_set_ts(hContact, "CList", "StatusMsg", szValue);
+			if (!tszOldStatus)
+				db_set_ts(hContact, "CList", "StatusMsg", szValue);
+			else if (_tcscmp(tszOldStatus, szValue))
+				db_set_ts(hContact, "CList", "StatusMsg", szValue);
 		}
 
 		szValue = json_as_string(json_get(pRecord, "about"));
@@ -428,9 +429,10 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		szValue = json_as_string(json_get(pInfo, "status"));
 		if (szValue && *szValue) {
 			ptrT tszOldStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
-			if (tszOldStatus)
-				if (_tcscmp(tszOldStatus, szValue))
-					db_set_ts(hContact, "CList", "StatusMsg", szValue);
+			if (!tszOldStatus)
+				db_set_ts(hContact, "CList", "StatusMsg", szValue);
+			else if (_tcscmp(tszOldStatus, szValue))
+				db_set_ts(hContact, "CList", "StatusMsg", szValue);
 		}
 
 		szValue = json_as_string(json_get(pInfo, "about"));
