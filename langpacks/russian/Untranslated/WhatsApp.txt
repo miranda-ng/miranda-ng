@@ -1,1 +1,2 @@
-﻿[Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
+﻿[Last seen on %x at %X]
+[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
