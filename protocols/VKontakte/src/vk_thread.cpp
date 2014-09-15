@@ -106,7 +106,6 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		m_iStatus = ID_STATUS_ONLINE; 
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
-		RetrieveStatusMusic();
 	}
 	else m_iStatus = ID_STATUS_INVISIBLE; 
 
@@ -751,12 +750,6 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, NULL, NULL);
 }
 
-void CVkProto::RetrieveStatusMusic()
-{
-	CMString  wszListeningTo = db_get_tsa(NULL, m_szModuleName, "ListeningTo");
-	RetrieveStatusMsg(wszListeningTo);
-}
-
 void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMsg");
@@ -769,18 +762,21 @@ void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 INT_PTR __cdecl CVkProto::SetListeningTo(WPARAM wParam, LPARAM lParam)
 {
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
-
+	CMStringW wszListeningTo;
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO)) 
 		db_unset(NULL, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
-		CMStringW wszListeningTo;
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
 			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo));
 		else
-			wszListeningTo.Format(L"%s. %s - %s - %s", pliInfo->ptszTrack ? pliInfo->ptszTrack : _T(""), pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""), pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""), pliInfo->ptszPlayer ? pliInfo->ptszPlayer : _T(""));
-
+			wszListeningTo.Format(L"%s. %s - %s - %s", 
+				pliInfo->ptszTrack ? pliInfo->ptszTrack : _T(""), 
+				pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""), 
+				pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""), 
+				pliInfo->ptszPlayer ? pliInfo->ptszPlayer : _T(""));
 		setTString("ListeningTo", wszListeningTo);
 	}
+	RetrieveStatusMsg(wszListeningTo);
 	return 0;
 }
 

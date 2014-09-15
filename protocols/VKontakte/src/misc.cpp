@@ -106,7 +106,8 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	JSONROOT pRoot;
-	CheckJsonResponse(pReq, reply, pRoot);
+	JSONNODE *Resp = CheckJsonResponse(pReq, reply, pRoot);
+	debugLogA("CVkProto::OnReceiveSmth %s", json_as_string(Resp));
 }
 
 

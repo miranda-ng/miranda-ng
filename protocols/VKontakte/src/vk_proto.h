@@ -201,7 +201,6 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	void RetrieveStatusMusic();
 	void RetrieveStatusMsg(const CMString &StatusMsg);
 	void RetrieveUserInfo(LONG userId);
 	void RetrieveUsersInfo(bool flag = false);
