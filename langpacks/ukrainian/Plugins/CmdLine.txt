@@ -10,131 +10,139 @@
 [No help for '%s'.]
 Немає допомоги для '%s'.
 [Available commands: ]
-Доступні команди:\s
+Доступнi команди:\s
 [Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
-Miranda була закрита або сталася помилка при очікуванні результату, неможливо обробити запит.
+Miranda була закрита або сталася помилка при очiкуваннi результату, неможливо обробити запит.
 [%s usage:\n]
 %s використання:\n
 [%s <command> [<param> [<param> [...]]].\n]
 %s <команда> [<аргумент> [<аргумент> [...]]].\n
 [This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
-Передача Miranda вказаної команди на виконання. Команди можуть мати жодного, один або більше аргументів. Використовуйте '%s help' для отримання списку доступних команд.\n
+Передача Miranda вказаної команди на виконання. Команди можуть мати жодного, один або бiльше аргументiв. Використовуйте '%s help' для отримання списку доступних команд.\n
 [No command can have more than %d parameters.\n]
-Команди не можуть мати більше %d аргументів.\n
+Команди не можуть мати бiльше %d аргументiв.\n
 [%s version %s]
-%s версія %s
+%s версiя %s
 [Unknown command '%s'.\n]
-Невідома команда '%s'.\n
+Невiдома команда '%s'.\n
 [Could not initialize CmdLine plugin property]
-Не вдалося ініціалізувати власності CmdLine
+Не вдалося iнiцiалiзувати власностi CmdLine
 [Error]
 Помилка
 [Changes account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is the name of the account. If it's not specified then the command will issue a global status change.]
-Зміна статусу облікового запису або глобального статусу.\nВикористання: статус <статус> [<обліковий запис>].\nМожливі значення <статус>: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Обліковий запис> - ім'я облікового запису. Якщо не вказано - буде встановлено глобальний статус.
+Змiна статусу облiкового запису або глобального статусу.\nВикористання: статус <статус> [<облiковий запис>].\nМожливi значення <статус>: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Облiковий запис> - iм'я облiкового запису. Якщо не вказано - буде встановлено глобальний статус.
 [Changes away message either globally or per account.\nUsage: awaymsg <message> [<account>].\n<Message> is the new away message.\n<Account> is an optional parameter specifying the account to set the away message for. If not specified then the away message will be set globally.]
-Зміна повідомлення статусу облікового запису або глобально.\nВикористання: awaymsg <повідомлення> [<обліковий запис>].\n<Повідомлення> - текст повідомлення статусу.\n<Обліковий запис> - додатковий параметр, який вказує ім'я облікового запису для установки повідомлення. Якщо не вказано - повідомлення статусу буде встановлено глобально.
+Змiна повiдомлення статусу облiкового запису або глобально.\nВикористання: awaymsg <повiдомлення> [<облiковий запис>].\n<Повiдомлення> - текст повiдомлення статусу.\n<Облiковий запис> - додатковий параметр, який вказує iм'я облiкового запису для установки повiдомлення. Якщо не вказано - повiдомлення статусу буде встановлено глобально.
 [Changes extended status either globally or per account.\nUsage: xstatus <xStatus> [<account>].\n<xStatus> is the new extended status to set. Possible values are: ...\n<Account> is an optional parameter specifying the account for which extended status is set. If not specified then extended status for all accounts will be changed.\nNOTE: Not all accounts/protocols support extended status.]
-Зміна розширеного статусу облікового запису або глобально.\nВикористання: xstatus <повідомлення> [<обліковий запис>].\n<Повідомлення> - текст повідомлення розширеного статусу. Можливі значення: ...\n<Обліковий запис> - додатковий параметр, який вказує ім'я облікового запису для установки повідомлення розширеного статусу. Якщо не вказано - повідомлення буде встановлено для всіх облікових записів.\nУВАГА: Не всі облікові записи/протоколи підтримують розширений статус.
+Змiна розширеного статусу облiкового запису або глобально.\nВикористання: xstatus <повiдомлення> [<облiковий запис>].\n<Повiдомлення> - текст повiдомлення розширеного статусу. Можливi значення: ...\n<Облiковий запис> - додатковий параметр, який вказує iм'я облiкового запису для установки повiдомлення розширеного статусу. Якщо не вказано - повiдомлення буде встановлено для всiх облiкових записiв.\nУВАГА: Не всi облiковi записи/протоколи пiдтримують розширений статус.
 [Disables or enables popups display.\nUsage: popups (disable | enable | toggle).\nThe command will either enable or disable popups display.]
-Вмикає або вимикає спливаючі вікна.\nВикористання: popups (disable | enable | toggle)*\nКоманда або вмикає, або вимикає відображення спливаючих вікон.\n*disable - вимкнути\n*enable - увімкнути\n*toggle - перемкнути стан.
+Вмикає або вимикає спливаючi вiкна.\nВикористання: popups (disable | enable | toggle)*\nКоманда або вмикає, або вимикає вiдображення спливаючих вiкон.\n*disable - вимкнути\n*enable - увiмкнути\n*toggle - перемкнути стан.
 [Disables or enables sounds.\nUsage: sounds (disable | enable | toggle).\nThe command will either disable or enable sounds.]
-Вмикає або вимикає звуки.\nВикористання: sounds (disable | enable | toggle)*\nКоманда або вмикає, або відключає звуки.\n*disable - вимкнути\n*enable - увімкнути\n*toggle - перемкнути стан.
+Вмикає або вимикає звуки.\nВикористання: sounds (disable | enable | toggle)*\nКоманда або вмикає, або вимикає звуки.\n*disable - вимкнути\n*enable - увiмкнути\n*toggle - перемкнути стан.
 [Hides or shows the contact list window.\nUsage: clist (show | hide | toggle).\nThe command will either show or hide the contact list window.]
-Ховає або показує вікно списку контактів.\nВикористання: clist (show | hide | toggle)*\nКоманда або показує, або ховає вікно списку контактів.\n*show - показати\n*hide - сховати\n*toggle - перемкнути стан.
+Ховає або показує вiкно списку контактiв.\nВикористання: clist (show | hide | toggle)*\nКоманда або показує, або ховає вiкно списку контактiв.\n*show - показати\n*hide - сховати\n*toggle - перемкнути стан.
 [Closes Miranda.\nUsage: quit [wait].\nIf wait is used then the command will return only when CmdLine plugin has been unloaded by Miranda.]
-Закриває Miranda.\nВикористання: quit [wait].\nЯкщо [wait] вказано, повернення в консоль відбудеться тільки після того, як плагін CmdLine буде вивантажений з Miranda.
+Закриває Miranda.\nВикористання: quit [wait].\nЯкщо [wait] вказано, повернення в консоль вiдбудеться тiльки пiсля того, як плагiн CmdLine буде вивантажений з Miranda.
 [Provides help on other commands.\nUsage: help [<command>].\nThe command will print help information for other commands. If run without any parameters it will print available commands.]
-Відображає допомогу по іншим командам.\nВикористання: help [<команда>].\nКоманда відобразить на екрані довідкову інформацію по іншій команді. При запуску без параметрів відображає список доступних команд.
+Вiдображає допомогу по iншим командам.\nВикористання: help [<команда>].\nКоманда вiдобразить на екранi довiдкову iнформацiю по iншiй командi. При запуску без параметрiв вiдображає список доступних команд.
 [Notifies Exchange plugin to check for email.\nUsage: exchange check.]
-Запускає перевірку пошти в плагіні Exchangе.\nВикористання: exchange check.
+Запускає перевiрку пошти в плагiнi Exchangе.\nВикористання: exchange check.
 [Notifies YAMN plugin to check for email.\nUsage: yamn check.]
-Запускає перевірку пошти в плагіні YAMN.\nВикористання: yamn check.
+Запускає перевiрку пошти в плагiнi YAMN.\nВикористання: yamn check.
 [Calls a Miranda service.\nUsage: callservice <service> (d|s)<wParam> (d|s)<lParam>.\nThe command will call Miranda <service> service using wParam and lParam as arguments; the first letter of the paramater must be either 'd' if the parameter is a decimal number or 's' if the parameter is a string. Be careful when you use this function as you can only pass numbers and strings as data.\nNOTE: If you pass invalid data to a service, Miranda might crash.]
-Викликає сервіс Miranda.\nВикористання: callservice <сервіс> (d|s)<wParam> (d|s)<lParam>.\nКоманда викликає <сервіс> Miranda з використанням в якості аргументів wParam і lParam. Перша літера параметра повинна бути або 'd' (якщо параметр - десятковий), або 's' (якщо параметр - рядок). Будьте обережні з використанням цієї команди, оскільки передавати як значення параметрів можна тільки числа і рядки.\nУВАГА: Неправильні дані в параметрах сервісу можуть викликати аварійне завершення Miranda.
+Викликає сервiс Miranda.\nВикористання: callservice <сервiс> (d|s)<wParam> (d|s)<lParam>.\nКоманда викликає <сервiс> Miranda з використанням в якостi аргументiв wParam i lParam. Перша лiтера параметра повинна бути або 'd' (якщо параметр - десятковий), або 's' (якщо параметр - рядок). Будьте обережнi з використанням цiєї команди, оскiльки передавати як значення параметрiв можна тiльки числа i рядки.\nУВАГА: Неправильнi данi в параметрах сервiсу можуть викликати аварiйне завершення Miranda.
 [Sends a message to the specified contact(s).\nUsage: message <contact> [<contact> [<contact> [...]]] <message>.\nThe command will send <message> to the specified contact(s) - at least one contact must be specified - all parameters except the last one are considered recipients.\n<Contact> has the following format: <name>[:<account>]. <Name> is the contact display name or unique ID and <account> is an optional parameter representing the account of the contact (useful in case there is more than one contact with the same name).\nNOTE: The message string cannot exceed 512 characters. You can use \\n for new line (and \\\\n for \\n).]
-Надсилає повідомлення вказаному контакту або контактам.\nВикористання: message <контакт> [<контакт> [<контакт>] [...]]] <повідомлення>.\nКоманда відправить <повідомлення> вказаним контактам. Повинен бути вказаний як мінімум один контакт - усі параметри, за винятком останнього, вважаються одержувачами.\n<Контакт> має наступний формат: <ім'я>[:<обліковий запис>]. <Ім'я> - коротке ім'я контакту або його унікальний ID, <обліковий запис> - додатковий параметр, який вказує протокол контакту (використовується, якщо є кілька контактів з однаковим ім'ям).\nУВАГА: <повідомлення> не повинно перевищувати 512 символів. Використовуйте \\n для нового рядка (і \\\\n для \\n).
+Надсилає повiдомлення вказаному контакту або контактам.\nВикористання: message <контакт> [<контакт> [<контакт>] [...]]] <повiдомлення>.\nКоманда вiдправить <повiдомлення> вказаним контактам. Повинен бути вказаний як мiнiмум один контакт - усi параметри, за винятком останнього, вважаються одержувачами.\n<Контакт> має наступний формат: <iм'я>[:<облiковий запис>]. <Iм'я> - коротке iм'я контакту або його унiкальний ID, <облiковий запис> - додатковий параметр, який вказує протокол контакту (використовується, якщо є кiлька контактiв з однаковим iм'ям).\nУВАГА: <повiдомлення> не повинно перевищувати 512 символiв. Використовуйте \\n для нового рядка (i \\\\n для \\n).
 [Allows you to manage database settings.\nUsage:\n  db set <module> <name> (b|i|d|s|w)<value>\n  db delete <module> <name>\n  db get <module> <name>.\nThe command can set a database entry to the specified value (if the entry does not exist, it will be created) as well as read or delete a specified database entry. <Module> is the name of the module where the key should be located, <name> is the name of the key and <value> is the value to be written. A character must be placed before <value> in order to specify what kind of data to write: b - byte, i - integer (word), d - double word, s - string, w - wide string.]
-Дозволяє керувати настройками в базі даних.\nВикористання:\n  db set <модуль> <ім'я> (b|i|d|s|w)<значення>\n  db delete <модуль> <ім'я>\n  db get <модуль> <ім'я>.\nКоманда дозволяє зчитувати, видаляти і встановлювати значення параметрів в базі (якщо зазначеного параметра немає, він буде створений).\n<Модуль> - ім'я модуля, в якому знаходиться ключ, <ім'я> - ім'я ключа, а <значення> це дані ключа. Перед <значення> повинен бути вказаний символ для вказівки типу даних ключа: b - байт, i - ціле (слово), d - подвійне слово, s - рядок, w - юнікод.
+Дозволяє керувати настройками в базi даних.\nВикористання:\n  db set <модуль> <iм'я> (b|i|d|s|w)<значення>\n  db delete <модуль> <iм'я>\n  db get <модуль> <iм'я>.\nКоманда дозволяє зчитувати, видаляти i встановлювати значення параметрiв в базi (якщо зазначеного параметра немає, вiн буде створений).\n<Модуль> - iм'я модуля, в якому знаходиться ключ, <iм'я> - iм'я ключа, а <значення> - данi ключа. Перед <значення> необхiдно вказувати тип даних ключа: b - байт, i - цiле (слово), d - подвiйне слово, s - рядок, w - юнiкод.
 [Configures proxy settings either globally or per account.\nUsage: proxy (global|<account>) <setting> [<params>].\n<Setting> is one of the following settings:\n  status (disable | enable | toggle)\n  server <proxy type> <server> <port>.]
-Налаштовує проксі-сервер для облікового запису або глобально.\nВикористання: proxy (global|<обліковий запис>) <настройка> [<параметри>].\n<Настройка> - одне з наступних значень:\n  status (disable | enable | toggle)*\n  server <тип проксі> <сервер> <порт>.\n*disable - вимкнути\n*enable - увімкнути\n*toggle - перемкнути стан.
+Налаштовує проксi-сервер для облiкового запису або глобально.\nВикористання: proxy (global|<облiковий запис>) <настройка> [<параметри>].\n<Настройка> - одне з наступних значень:\n  status (disable | enable | toggle)*\n  server <тип проксi> <сервер> <порт>.\n*disable - вимкнути\n*enable - увiмкнути\n*toggle - перемкнути стан.
 [Allows you to search/list contacts or open a message windows for specified contacts.\nUsage:\n  contacts list [<keyword> [account:<account>] [id:<id>] [status:<status>] [<keyword> [...]]].\nThe command will search all contacts and display the ones matching the search criteria. To search for a specific account use the keyword 'account:<account>'. To search for contacts that have a certain ID use the keyword 'id:<id>'. To search for contacts that have a certain status use 'status:<status>'.\n  contacts open [<keyword> [account:<account>] [id:<id>] [status:<status>] [<keyword> [...]]].\nThe command will open a message window for all contacts that match the search criteria. To search for a specific account use the keyword 'account:<account>'. To search for contacts that have a certain ID use the keyword 'id:<id>'. To search for contacts that have a certain status use 'status:<status>'. If no keyword is specified, the command will open a message window for all contacts that have unread messages.]
-Дозволяє шукати/відображати контакти або відкривати вікно повідомлень для вказаних контактів.\nВикористання:\n  contacts list [<ключ> [account:<обліковий запис>] [id:<id>] [status:<статус>] [<ключ> [...]]].\nКоманда відобразить усі контакти, знайдені за вказаними критеріями.\nДля пошуку за обліковим записом використовуйте параметр 'account:<обліковий запис>'.\nДля пошуку контакту за ID використовуйте ключ 'id:<id>'.\nДля пошуку контактів із вказаним статусом, використовуйте 'status:<статус>'.\n  contacts open [<ключ> [account:<обліковий запис>] [id:<id>] [status:<статус>] [<ключ> [...]]].\nКоманда відкриє вікно повідомлень для всіх контактів, знайдених за вказаними критеріями.\nДля пошуку за обліковим записом використовуйте параметр 'account:<обліковий запис>'.\nДля пошуку контакту за ID використовуйте ключ 'id:<id>'.\nДля пошуку контактів із вказаним статусом, використовуйте 'status:<статус>'.\nЯкщо не вказано жодного ключа, команда відкриє вікно повідомлень для всіх контактів з непрочитаними повідомленнями.
+Дозволяє шукати/вiдображати контакти або вiдкривати вiкно повiдомлень для вказаних контактiв.\nВикористання:\n  contacts list [<ключ> [account:<облiковий запис>] [id:<id>] [status:<статус>] [<ключ> [...]]].\nКоманда вiдобразить усi контакти, знайденi за вказаними критерiями.\nДля пошуку за облiковим записом використовуйте параметр 'account:<облiковий запис>'.\nДля пошуку контакту за ID використовуйте ключ 'id:<id>'.\nДля пошуку контактiв iз вказаним статусом, використовуйте 'status:<статус>'.\n  contacts open [<ключ> [account:<облiковий запис>] [id:<id>] [status:<статус>] [<ключ> [...]]].\nКоманда вiдкриє вiкно повiдомлень для всiх контактiв, знайдених за вказаними критерiями.\nДля пошуку за облiковим записом використовуйте параметр 'account:<облiковий запис>'.\nДля пошуку контакту за ID використовуйте ключ 'id:<id>'.\nДля пошуку контактiв iз вказаним статусом, використовуйте 'status:<статус>'.\nЯкщо не вказано жодного ключа, команда вiдкриє вiкно повiдомлень для всiх контактiв з непрочитаними повiдомленнями.
 [Shows history or unread messages for a contact.\nUsage: history <command> <contact>.\n<Command> is one of the following commands:\n  unread - show unread messages for that contact.\n  show <contact> <start> <finish> - show history from event number <start> to <finish>. If any number is negative, it is interpreted as a relative index from the last event number +1 (so the last event for a contact is -1).]
-Відображає непрочитані повідомлення або історію контакту.\nВикористання: history <команда> <контакт>.\n<Команда> - одна з наступних команд:\n  unread - відобразити непрочитані повідомлення від вказаного контакту.\n  show <контакт> <старт> <фініш> - відобразити історію, починаючи з події <старт> по <фініш>.\nБудь-яке від'ємне значення інтерпретується як відносний індекс від останнього значення +1. Т.ч. остання подія для контакту це -1.
+Вiдображає непрочитанi повiдомлення або iсторiю контакту.\nВикористання: history <команда> <контакт>.\n<Команда> - одна з наступних команд:\n  unread - вiдобразити непрочитанi повiдомлення вiд вказаного контакту.\n  show <контакт> <старт> <фiнiш> - вiдобразити iсторiю, починаючи з подiї <старт> по <фiнiш>.\nБудь-яке вiд'ємне значення iнтерпретується як вiдносний iндекс вiд останнього значення +1. Т.ч. остання подiя для контакту це -1.
 [Shows version information for Miranda and CmdLine plugin. If VersionInfo plugin is installed, it will use its report instead.\nUsage: version.\nThe command will print Miranda's and CmdLine's version numbers or, if VersionInfo plugin is installed, it will show VersionInfo's report.]
-Відображає інформацію про версії Miranda і плагіна CmdLine. Якщо встановлений плагін VersionInfo, буде використовуватися звіт цього плагіна.\nВикористання: version.\nКоманда відобразить версії Miranda і плагіна CmdLine або, якщо встановлений плагін VersionInfo, буде відображений звіт VersionInfo.
+Вiдображає iнформацiю про версiї Miranda i плагiна CmdLine. Якщо встановлений плагiн VersionInfo, буде використовуватися звiт цього плагiна.\nВикористання: version.\nКоманда вiдобразить версiї Miranda i плагiна CmdLine або, якщо встановлений плагiн VersionInfo, буде вiдображений звiт VersionInfo.
 [Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
-Змінює нік користувача на вказаному протоколі.\nВикористання: setnickname <протокол> новий_нік.
+Змiнює нiк користувача на вказаному протоколi.\nВикористання: setnickname <протокол> новий_нiк.
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
-Встановлення або зняття прапора "ігнорувати" для вказаних контактів.\nВикористання: ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда перемкне (встановить або видалить) ігнорування для вказаних контактів.
+Встановлення або зняття прапора "iгнорувати" для вказаних контактiв.\nВикористання: ignore (block | unblock) <контакт> [<контакт> [<контакт> [...]]].\nКоманда перемкне (встановить або видалить) iгнорування для вказаних контактiв.
 [Wrong number of parameters for command '%s'.]
-Неправильна кількість параметрів для команди '%s'
+Неправильна кiлькiсть параметрiв для команди '%s'
 [Unknown parameter '%s' for command '%s'.]
-Невідомий аргумент '%s' для команди '%s'.
+Невiдомий аргумент '%s' для команди '%s'.
 [Current global status: %s.%s]
 Глобальний статус: %s.%s
 [Changed global status to '%s' (previous status was '%s').]
-Глобальний статус змінено на '%s' (попередній був '%s').
+Глобальний статус змiнено на '%s' (попереднiй був '%s').
 [Changed '%s' status to '%s' (previous status was '%s').]
-Статус '%s' змінено на '%s' (попередній був '%s').
+Статус '%s' змiнено на '%s' (попереднiй був '%s').
 ['%s' doesn't seem to be a valid account.]
-Обліковий запис '%s' вказаний неправильно або не існує.
+Облiковий запис '%s' вказаний неправильно або не iснує.
 [Failed to change status for account '%s' to '%s'.]
-Не вдалося змінити статус для облікового запису '%s' на '%s'.
+Не вдалося змiнити статус для облiкового запису '%s' на '%s'.
 [Failed to set '%S' status message to '%s' (status is '%s').]
-Не вдалося встановити повідомлення статусу '%S' для '%s' (статус '%s').
+Не вдалося встановити повiдомлення статусу '%S' для '%s' (статус '%s').
 [Successfully set '%S' status message to '%s' (status is '%s').]
-Повідомлення статусу '%S' успішно встановлено для '%s' (статус '%s').
+Повiдомлення статусу '%S' успiшно встановлено для '%s' (статус '%s').
 [Account '%S' does not support away messages, skipping.]
-Обліковий запис '%S' не підтримує повідомлень статусу, пропуск.
+Облiковий запис '%S' не пiдтримує повiдомлень статусу, пропуск.
 [Changed '%s' status message to '%s' (status is '%s').]
-Повідомлення статусу '%s' змінено на '%s' (статус '%s').
+Повiдомлення статусу '%s' змiнено на '%s' (статус '%s').
 [Account '%s' does not support away messages, skipping.]
-Обліковий запис '%s' не підтримує повідомлень статусу, пропуск.
+Облiковий запис '%s' не пiдтримує повiдомлень статусу, пропуск.
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
-Не вдалося змінити повідомлення статусу для облікового запису '%s' на '%s' (статус '%s').
+Не вдалося змiнити повiдомлення статусу для облiкового запису '%s' на '%s' (статус '%s').
 [Popups are currently enabled.]
-Спливаючі вікна зараз увімкнено.
+Спливаючi вiкна зараз увiмкнено.
 [Popups are currently disabled.]
-Спливаючі вікна зараз вимкнено.
+Спливаючi вiкна зараз вимкнено.
 [Popups were enabled successfully.]
-Спливаючі вікна ввімкнено.
+Спливаючi вiкна ввiмкнено.
 [Popups could not be enabled.]
-Неможливо ввімкнути спливаючі вікна
+Неможливо ввiмкнути спливаючi вiкна
 [Popups were disabled successfully.]
-Спливаючі вікна вимкнено.
+Спливаючi вiкна вимкнено.
 [Popups could not be disabled.]
-Неможливо вимкнути спливаючі вікна
+Неможливо вимкнути спливаючi вiкна
 [Sounds are currently enabled.]
-Звуки зараз увімкнено.
+Звуки зараз увiмкнено.
 [Sounds are currently disabled.]
 Звуки зараз вимкнено.
 [Sounds were enabled successfully.]
-Звуки ввімкнено.
+Звуки ввiмкнено.
 [Sounds were disabled successfully.]
 Звуки вимкнено.
+[Contact list is currently shown.]
+Список контактiв зараз вiдкрито.
+[Contact list is currently hidden.]
+Список контактiв зараз згорнуто.
+[Contact list was shown successfully.]
+Список контактiв вiдкрито.
+[Contact list was hidden successfully.]
+Список контактiв згорнуто.
 [Issued check email command to Exchange plugin.]
-Відправлена команда перевірки пошти для плагіна Exchange.
+Вiдправлена команда перевiрки пошти для плагiна Exchange.
 [Exchange plugin is not running.]
-Плагін Exchange не запущений.
+Плагiн Exchange не запущений.
 [Issued check email command to YAMN plugin.]
-Відправлена команда перевірки пошти для плагіна YAMN.
+Вiдправлена команда перевiрки пошти для плагiна YAMN.
 [YAMN plugin is not running.]
-Плагін YAMN не запущений.
+Плагiн YAMN не запущений.
 [CallService call successful: service '%s' returned %p.]
-Успішний виклик команди CallService: команда '%s' повернула %p.
+Успiшний виклик команди CallService: команда '%s' повернула %p.
 [Invalid parameter '%s' passed to CallService command.]
 Неправильний аргумент '%s' для команди CallService.
 [Service '%s' does not exist.]
-Служба '%s' не існує.
+Служба '%s' не iснує.
 [Message sent to '%s'.]
-Повідомлення надіслано для '%s'.
+Повiдомлення надiслано для '%s'.
 [Message to '%s' was marked as sent but the account seems to be offline]
-Повідомлення для '%s' позначено як надіслане, але обліковий запис, здається, відключений.
+Повiдомлення для '%s' позначено як надiслане, але облiковий запис, здається, вiдключений.
 [Could not send message to '%s'.]
-Неможливо надіслати повідомлення для '%s'.
+Неможливо надiслати повiдомлення для '%s'.
 [Timed out while waiting for acknowledgement for contact '%s'.]
-Час очікування підтвердження від контакту '%s' вичерпано.
+Час очiкування пiдтвердження вiд контакту '%s' вичерпано.
 [Could not find contact handle for contact '%s'.]
 Неможливо знайти обробник для контакту '%s'.
 [byte:%d]
@@ -146,9 +154,9 @@ Miranda була закрита або сталася помилка при оч
 [string:'%s']
 рядок:'%s'
 [wide string:'%S']
-юнікод:'%S'
+юнiкод:'%S'
 [unknown value]
-невідоме значення
+невiдоме значення
 [Setting '%s/%s' deleted.]
 Налаштування '%s/%s' видалено.
 [string]
@@ -160,7 +168,7 @@ Miranda була закрита або сталася помилка при оч
 [dword]
 подв. слово
 [wide string]
-юнікод
+юнiкод
 [Wrote '%s:%s' to database entry '%s/%s'.]
 Записано '%s:%s' у запис '%s/%s' бази даних.
 [Could not retrieve setting '%s/%s': %s.]
@@ -168,32 +176,32 @@ Miranda була закрита або сталася помилка при оч
 [Setting '%s/%s' was not found.]
 Налаштування '%s/%s' не знайдено.
 ['%s' proxy was disabled.]
-Проксі '%s' вимкнений.
+Проксi '%s' вимкнений.
 ['%s' proxy was enabled.]
-Проксі '%s' увімкнений.
+Проксi '%s' увiмкнений.
 [%s proxy server: %s %s:%d.]
-%s проксі-сервер: %s %s:%d.
+%s проксi-сервер: %s %s:%d.
 [%s proxy set to %s %s:%d.]
-%s проксі встановлений на %s %s:%d.
+%s проксi встановлений на %s %s:%d.
 [%s The port or the proxy type parameter is invalid.]
-%s Порт або тип проксі неправильний.
+%s Порт або тип проксi неправильний.
 [[me]]
 \[Я]
 [No unread messages found.]
-Немає непрочитаних повідомлень.
+Немає непрочитаних повiдомлень.
 [%s:%s - %d unread events.]
-%s:%s - %d непрочитаних повідомлень.
+%s:%s - %d непрочитаних повiдомлень.
 [Contact '%s' has %d events in history.]
-Контакт '%s' має %d подій в історії.
+Контакт '%s' має %d подiй в iсторiї.
 [Error setting nickname to '%s' for protocol '%s']
-Помилка зміни ніку на '%s' для протоколу '%s'.
+Помилка змiни нiку на '%s' для протоколу '%s'.
 [Command '%s' is not currently supported.]
-Команда '%s' не підтримується.
+Команда '%s' не пiдтримується.
 [Could not create CommandLine listening server!]
 Неможливо створити сервер CommandLine!
 [You can only run one instance of CmdLine plugin.]
-Ви можете запускати тільки одну копію плагіна CmdLine.
+Ви можете запускати тiльки одну копiю плагiна CmdLine.
 [Notify]
-Сповіщення
+Сповiщення
 [Warning]
 Попередження
