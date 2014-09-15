@@ -229,9 +229,9 @@ void DlgOption::SubGlobal::onWMInitDialog()
 	hTemp = m_Options.insertGroup(NULL, TranslateT("Graphics"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
 	m_hGraphicsMode = m_Options.insertRadio(hTemp, NULL, TranslateT("Only use HTML to simulate graphics"));
 	m_hGraphicsModePNG = m_Options.insertRadio(hTemp, m_hGraphicsMode, TranslateT("Generate PNG files to represent graphics"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	m_hPNGMode = m_Options.insertRadio(m_hGraphicsModePNG, NULL, TranslateT("Fall back to HTML output, if column options require HTML output"));
+	m_hPNGMode = m_Options.insertRadio(m_hGraphicsModePNG, NULL, TranslateT("Fall back to HTML output if column options require HTML output"));
 	m_Options.insertRadio(m_hGraphicsModePNG, m_hPNGMode, TranslateT("Enforce PNG output, possibly ignoring some column options"));
-	m_Options.insertRadio(m_hGraphicsModePNG, m_hPNGMode, TranslateT("Prefer HTML output over PNG output, if available"));
+	m_Options.insertRadio(m_hGraphicsModePNG, m_hPNGMode, TranslateT("Prefer HTML output over PNG output if available"));
 	hTemp = m_Options.insertGroup(NULL, TranslateT("Miscellaneous"), OptionsCtrl::OCF_ROOTGROUP);
 	m_hThreadLowPriority = m_Options.insertCheck(hTemp, TranslateT("Generate statistics in background thread with low priority"));
 	m_hPathToBrowser = m_Options.insertEdit(hTemp, TranslateT("Path to browser (leave blank for system default)"));

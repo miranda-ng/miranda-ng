@@ -86,7 +86,7 @@ BEGIN
     RTEXT           "Current protocol version:",IDC_STC16,178,206,94,11,SS_CENTERIMAGE | SS_REALSIZEIMAGE | NOT WS_GROUP
     EDITTEXT        IDC_PVER,274,207,24,12,ES_READONLY | NOT WS_BORDER,WS_EX_CLIENTEDGE
     EDITTEXT        IDC_LASTGAME,2,51,298,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
-    LTEXT           "Note: You can only change these settings, if you are connected to Xfire.",IDC_STC22,6,73,290,11,NOT WS_GROUP
+    LTEXT           "Note: You can only change these settings if you are connected to Xfire.",IDC_STC22,6,73,290,11,NOT WS_GROUP
     CONTROL         "Create a new Xfire account on website",IDC_URLNEWACC,
                     "Hyperlink",WS_TABSTOP,170,14,126,9
     CONTROL         "Lost password?",IDC_LOSTPW,"Hyperlink",WS_TABSTOP,170,33,124,9
@@ -132,10 +132,10 @@ BEGIN
     GROUPBOX        "Blocked User List",IDC_GRP8,2,1,300,91
     LISTBOX         IDC_BLOCKUSER,6,11,128,78,LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | NOT WS_BORDER | WS_TABSTOP,WS_EX_CLIENTEDGE
     PUSHBUTTON      "",IDC_REMUSER,138,42,16,15,BS_ICON
-    LTEXT           "This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.",IDC_STC9,160,12,136,74,NOT WS_GROUP
-    LTEXT           "You can simply block someone, if you right click on his friend request in contact list and choose Block User...",IDC_STC19,160,48,130,39,NOT WS_GROUP
+    LTEXT           "This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.",IDC_STC9,160,12,136,74,NOT WS_GROUP
+    LTEXT           "You can simply block someone if you right click on his friend request in contact list and choose Block User...",IDC_STC19,160,48,130,39,NOT WS_GROUP
     LTEXT           "This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.",IDC_STC20,92,105,206,28,NOT WS_GROUP
-    LTEXT           "This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.",IDC_STC21,92,136,206,30,NOT WS_GROUP
+    LTEXT           "This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.",IDC_STC21,92,136,206,30,NOT WS_GROUP
     LTEXT           "Be sure you put these files in following folder:",IDC_STC24,7,171,290,9,NOT WS_GROUP
     EDITTEXT        IDC_FILESSHOULDBE,7,183,290,13,ES_READONLY | NOT WS_BORDER,WS_EX_CLIENTEDGE
 END
@@ -147,14 +147,14 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Status Message",IDC_GRP1,2,1,300,214
     CONTROL         "Enable",IDC_ENABLESTSMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,14,132,9
-    LTEXT           "With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.",IDC_STC28,10,38,286,24,NOT WS_GROUP
+    LTEXT           "With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.",IDC_STC28,10,38,286,24,NOT WS_GROUP
     LTEXT           "Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%",IDC_STC29,10,96,286,19,NOT WS_GROUP
     EDITTEXT        IDC_STATUSMSG,8,131,286,70,ES_MULTILINE | NOT WS_BORDER,WS_EX_CLIENTEDGE
     LTEXT           "Status message:",IDC_STC30,10,118,94,9,NOT WS_GROUP
     LTEXT           "",IDC_STC31,6,203,134,9,NOT WS_GROUP
     CONTROL         "Change the status to occupied or dnd",IDC_CHGSTATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,14,154,9
-    LTEXT           "The status message and status will be reset, if you close the game.",IDC_STC32,10,72,286,20,NOT WS_GROUP
+    LTEXT           "The status message and status will be reset if you close the game.",IDC_STC32,10,72,286,20,NOT WS_GROUP
     CONTROL         "Prefer dnd when it is available",IDC_DNDFIRST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,142,25,154,9
 END
 
@@ -286,7 +286,7 @@ BEGIN
     LTEXT           "Send game ID:",IDC_STC42,60,86,50,9,NOT WS_GROUP
     EDITTEXT        IDC_ADD_SENDID,60,97,36,13,NOT WS_BORDER,WS_EX_CLIENTEDGE
     PUSHBUTTON      "?",IDC_SENDIDHELP,98,97,14,13
-    LTEXT           "Status message for Xfire, if this game will be started:",IDC_STC43,4,114,188,9,NOT WS_GROUP
+    LTEXT           "Status message for Xfire if this game will be started:",IDC_STC43,4,114,188,9,NOT WS_GROUP
     EDITTEXT        IDC_ADD_STATUSMSG,4,125,188,56,ES_MULTILINE | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE
     LTEXT           "Parameter:",IDC_STC44,116,86,74,9,NOT WS_GROUP
     EDITTEXT        IDC_ADD_CUSTOMPARAMS,116,97,76,13,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE

@@ -639,7 +639,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Message sending:",IDC_TXT_TITLE2,0,64,185,8
     LTEXT           "Window:",IDC_TXT_TITLE1,1,0,182,8
-    CONTROL         "Esc closes sessions (minimizes window, if disabled)",IDC_CLOSEONESC,
+    CONTROL         "Esc closes sessions (minimizes window if disabled)",IDC_CLOSEONESC,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,174,10
     CONTROL         "Always pop up and activate new windows",IDC_ALWAYSPOPUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,174,10
