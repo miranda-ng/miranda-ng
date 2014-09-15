@@ -264,7 +264,7 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUserInfo %d", reply->resultCode);
-	if (reply->resultCode != 200)
+	if ((reply->resultCode != 200) || !IsOnline())
 		return;
 
 	JSONROOT pRoot;
@@ -362,7 +362,7 @@ void CVkProto::RetrieveFriends()
 void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveFriends %d", reply->resultCode);
-	if (reply->resultCode != 200)
+	if ((reply->resultCode != 200) || !IsOnline())
 		return;
 
 	JSONROOT pRoot;
