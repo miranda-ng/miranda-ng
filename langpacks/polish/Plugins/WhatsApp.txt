@@ -46,8 +46,8 @@ Wprowadź hasło.
 SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie możesz używać prawdziwego WhatsApp i tej wtyczki równocześnie.\nKontynuować?
 [Please correctly specify your registration code received by SMS]
 Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
-[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
-Twoje hasło zostało ustawione automatycznie.\nJeśli zmienisz je ręcznie, możesz je stracić i będziesz musiał zażądać nowego kodu weryfikacyjnego.
+[Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
+Twoje hasło zostało ustawione automatycznie.\nJeżęli zmienisz je ręcznie, możesz je utracić i będziesz musiał zażądać nowego kodu!
 ;file \protocols\WhatsApp\src\main.cpp
 [Did not unpack WART (registration utility).]
 Nie wypakowano narzędzia rejestracji WART.
