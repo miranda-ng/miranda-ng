@@ -60,7 +60,7 @@
 Спіс блакаваных кантактаў
 [This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
 Гэты спіс утрымоўвае заблакаваныя кантакты. Вы можаце выдаліць аднаго, што дазволіць яму пасылаць вам паведамленні.
-[You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
+[You can simply block someone if you right click on his friend request in contact list and choose Block User...]
 Вы можаце проста заблакаваць каго-небудзь, пстрычкай правай кнопкі па кантакту ў кантакт лісце.
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Гэты файл выкарыстоўваецца для пошуку гульняў. Ён змяшчае ўсе падтрымоўваемыя XFire гульні.

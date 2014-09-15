@@ -66,7 +66,7 @@ icons.dll
 Gesperrte Benutzer
 [This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
 Die Liste enthält all Ihre blockierten XFire-Nutzer. Sie können einen entfernen, wenn Sie ihm erlauben möchten, Ihnen eine Freundeseinladung zu schicken.
-[You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
+[You can simply block someone if you right click on his friend request in contact list and choose Block User...]
 Sie können einen Nutzer zu der Liste hinzufügen, indem Sie in Ihrer Kontaktliste einen Rechtsklick auf ihn machen und "Benutzer ignorieren" auswählen.
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Diese Datei ist für die Spielsuche, Spielerkennung und Spiel-ID-Auflösung zuständig. Sie beinhaltet alle von XFire unterstützten Spiele.

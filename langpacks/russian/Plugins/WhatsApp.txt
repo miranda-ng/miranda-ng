@@ -39,10 +39,14 @@ SMS-код:
 Введите ник.
 [Please enter a password.]
 Введите пароль.
+[Last seen on %x at %X]
+Последнее появление %x в %X
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код регистрации придет на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
 [Please correctly specify your registration code received by SMS]
 Пожалуйста, верно укажите свой код регистрации, полученный в SMS
+[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
+Ваш пароль установлен автоматически.\nЕсли вы измените его вручную, то можете потерять его и придется запросить новый код!
 [Did not unpack WART (registration utility).]
 Не распакована программа WART (необходима для регистрации).
 [%s server connection]

@@ -1,7 +1,6 @@
 ﻿[XFire]
 [xfire_games.ini]
 [icons.dll]
-[You can simply block someone if you right click on his friend request in contact list and choose Block User...]
 [Prefer dnd when it is available]
 [Add new game]
 [Don't show in start menu]
