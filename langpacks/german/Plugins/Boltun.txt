@@ -40,7 +40,7 @@ Sprachmodul
 
 [Reload]
 Neu laden
-[Stay silent, if have no good aswers]
+[Stay silent if have no good aswers]
 Ruhig bleiben, wenn keine gute Antwort einfällt
 [Start answers with a lowercase letter]
 Antworten mit einem Kleinbuchstaben beginnen

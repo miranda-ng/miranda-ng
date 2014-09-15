@@ -647,7 +647,7 @@ RTL по умолчанию
 Отправка сообщений:
 [Window:]
 Окно сообщений:
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 Esc закрывает сессию (иначе - сворачивает)
 [Always pop up and activate new windows]
 Всегда открывать новое окно сообщений

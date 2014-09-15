@@ -53,7 +53,7 @@
 [StopSpam]
 Антыспам
 ;file \plugins\StopSpamPlus\src\options.cpp
-[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты плагін працуе проста:\r\nУ той час як паведамленні ад кантактаў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых кантактаў вам не дастаўляюцца. Але яны не ігнаруюцца, плагін адказвае простым пытаннем, і калі кантакт дае правільны адказ, плагін дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
 [StopSpam automatic message:\r\n]
 Паведамленне антыспама:\r\n

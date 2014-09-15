@@ -18,7 +18,7 @@ XFire
 Nick:
 [Current protocol version:]
 Derzeitige Protokollversion:
-[Note: You can only change these settings, if you are connected to Xfire.]
+[Note: You can only change these settings if you are connected to Xfire.]
 Diese Einstellungen können nur geändert werden, wenn Sie mit XFire verbunden sind.
 [Create a new Xfire account on website]
 Ein neues XFire-Konto auf der Webseite erstellen
@@ -64,13 +64,13 @@ xfire_games.ini
 icons.dll
 [Blocked User List]
 Gesperrte Benutzer
-[This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
+[This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
 Die Liste enthält all Ihre blockierten XFire-Nutzer. Sie können einen entfernen, wenn Sie ihm erlauben möchten, Ihnen eine Freundeseinladung zu schicken.
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 Sie können einen Nutzer zu der Liste hinzufügen, indem Sie in Ihrer Kontaktliste einen Rechtsklick auf ihn machen und "Benutzer ignorieren" auswählen.
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Diese Datei ist für die Spielsuche, Spielerkennung und Spiel-ID-Auflösung zuständig. Sie beinhaltet alle von XFire unterstützten Spiele.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
 Diese Datei beinhaltet alle Spielicons. Man kann die Einstellung aktivieren, dass die Icons heruntergeladen werden, wenn sie nicht vorhanden sind.
 [Be sure you put these files in following folder:]
 Die Dateien müssen in folgendem Ordner sein:
@@ -78,7 +78,7 @@ Die Dateien müssen in folgendem Ordner sein:
 Statusnachricht
 [Enable]
 Aktivieren
-[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
 Die Einstellung ermöglicht es, dass eine Statusnachricht bei anderen aktiven Protokollen gesetzt wird, wenn man im Spiel ist. Ihre anderen Kontakte können sehen, was Sie spielen. Es wird auch der Onlinestatus auf Beschäftigt gestellt, wenn die Option dafür aktiviert wurde.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Folgende Variablen sind verfügbar: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -86,7 +86,7 @@ Folgende Variablen sind verfügbar: %myxfiregame%, %myxfirevoice%, %myxfireserve
 Statusnachricht:
 [Change the status to occupied or dnd]
 Status auf Beschäftigt oder DND ändern
-[The status message and status will be reset, if you close the game.]
+[The status message and status will be reset if you close the game.]
 Die Statusnachricht und Status werden wieder zurückgesetzt, wenn das Spiel geschlossen wird.
 [Prefer dnd when it is available]
 DND bevorzugen wenn verfügbar
@@ -162,7 +162,7 @@ Launcher-exe (optional):
 Spiel-ID:
 [Send game ID:]
 Sende Spiel-ID:
-[Status message for Xfire, if this game will be started:]
+[Status message for Xfire if this game will be started:]
 Statusnachricht für XFire, wenn dieses Spiel läuft:
 [Parameter:]
 Parameter:

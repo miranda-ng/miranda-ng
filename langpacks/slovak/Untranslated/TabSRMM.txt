@@ -290,7 +290,7 @@
 [Do not show this message again]
 [Message sending:]
 [Window:]
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 [Always pop up and activate new windows]
 [Create new windows in minimized state]
 [Send on Shift+Enter]

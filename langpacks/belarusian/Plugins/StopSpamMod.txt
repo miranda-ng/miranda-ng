@@ -80,7 +80,7 @@
 [Remove Temporary Contacts]
 Выдаліць часовыя кантакты
 ;file \plugins\StopSpamMod\src\options.cpp
-[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты плагін працуе проста:\r\nУ той час як паведамленні ад кантактаў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых кантактаў вам не дастаўляюцца. Але яны не ігнаруюцца, плагін адказвае простым пытаннем, і калі кантакт дае правільны адказ, плагін дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 Прывітанне! Вы гавораце з с анты-спам ботам. Клі ласка, напішыце "nospam" без двукоссяў, каб прайсці праверку.
@@ -88,8 +88,8 @@
 StopSpam: адпраўце паведамленне і адкажыце на простае пытанне анты-спам бота.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Віншуем! Вы прайшлі тэст, зараз можаце адпраўляць паведамленні канаткту.
-[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
-Калі адключаны матэматычныя выразы, іх магчыма выкарыстоўваць у тэксце пытання:\nXX+XX-X/X*X\nкожны X будзе заменены выпадковай лічбай, адказам будзе рашэнне\nПытанне можа ўключаць толькі адзін выраз, запісаны без прабелаў
+[If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces.]
+Калі адключаны матэматычныя выразы, іх магчыма выкарыстоўваць у тэксце пытання:\nXX+XX-X/X*X\nкожны X будзе заменены выпадковай лічбай, адказам будзе рашэнне.\nПытанне можа ўключаць толькі адзін выраз, запісаны без прабелаў.
 [Info]
 Інфа
 [Message Sessions]

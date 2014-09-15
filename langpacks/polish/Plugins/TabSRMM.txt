@@ -650,7 +650,7 @@ Nie
 Wysyłanie wiadomości:
 [Window:]
 Okno:
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 ESC zamyka sesję (minimalizuje okno, jeśli wyłączone)
 [Always pop up and activate new windows]
 Zawsze wyskakuj i aktywuj nowe okna

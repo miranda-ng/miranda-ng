@@ -18,7 +18,7 @@ xFire
 Nick:
 [Current protocol version:]
 Wersja protokołu:
-[Note: You can only change these settings, if you are connected to Xfire.]
+[Note: You can only change these settings if you are connected to Xfire.]
 Info. Aby zmienić ustawienia protokołu musisz się połączyć.
 [Create a new Xfire account on website]
 Utwórz nowe koto xFire na stronie www
@@ -64,13 +64,13 @@ xfire_games.ini
 icons.dll
 [Blocked User List]
 Lista zablokowanych
-[This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
+[This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
 Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usunąć osobę z listy aby móc z nim porozmawiać.
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 Możesz łatwo blokować osoby, kiedy klikniesz PPM na znajomego na liście i wybierając opcje Zablokuj kontakt...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Ten plik zostaje użyty do poszukiwania gier.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
 Ten plik posiada wszystkie oryginalne ikonki gier. Możesz również aktywować opcje pobierania dodatkowych ikon.
 [Be sure you put these files in following folder:]
 Upewnij się że pliki znajdują się w folderze:
@@ -78,7 +78,7 @@ Upewnij się że pliki znajdują się w folderze:
 Opis
 [Enable]
 Włącz
-[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
 Dzięki tej funkcji następujący opis zostanie ustawiony dla wszystkich protokołów, gdy grasz tak, by twoi znajomi mogli także wiedzieć w co grasz. Zmieni ona także status na "Zajęty" jeżęli ta funkcja jest włączona.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Dostępne zmienne: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -86,7 +86,7 @@ Dostępne zmienne: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoi
 Opis:
 [Change the status to occupied or dnd]
 Zmień status na Zajęty lub Niedostępny
-[The status message and status will be reset, if you close the game.]
+[The status message and status will be reset if you close the game.]
 Opis zmieni się kiedy zresetujesz grę lub ją zamkniesz.
 [Prefer dnd when it is available]
 Preferuj nie przeszkadzać jeśli możliwe
@@ -162,7 +162,7 @@ Plik exe wczytujący grę (opcjonalnie):
 ID gry:
 [Send game ID:]
 Wyślij ID gry:
-[Status message for Xfire, if this game will be started:]
+[Status message for Xfire if this game will be started:]
 Opis statusu dla xFire, jeśli gra będzie uruchomiona:
 [Parameter:]
 Parametr:

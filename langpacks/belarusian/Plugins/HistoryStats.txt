@@ -22,7 +22,7 @@ HistoryStats - Дадаць калонку
 Дадаць
 [HistoryStats - Conflicting files]
 HistoryStats - Канфлікт файлаў
-[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
+[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files, there is an option for this.]
 Некаторыя файлы часова захаваны ў іншым месцы, каб пазбегнуць перазапісы існых файлаў. Калі вы жадаеце заўсёды перазапісваць існыя файлы, у наладах HistoryStats ёсць опцыя для гэтага.
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
 Наступныя файлы не могуць быць запісаны, таму што, у тэчцы прызначэння ўжо існуюць файлы з такімі імёнамі. Калі ласка абярыце, ці перазапісаць існыя, ці пазбавіцца ад згенераваных файлаў.
@@ -504,11 +504,11 @@ HTML выснова немагчымы.
 Выкарыстоўваць толькі HTML для стварэння графікі
 [Generate PNG files to represent graphics]
 Ствараць PNG файл для малюнка графікі
-[Fall back to HTML output, if column options require HTML output]
+[Fall back to HTML output if column options require HTML output]
 Вярнуцца да высновы HTML, калі налады калонкі патрабуюць выснова HTML
 [Enforce PNG output, possibly ignoring some column options]
 Прымусова выводзіць PNG, магчыма ігнаруючы некаторыя налады калонкі
-[Prefer HTML output over PNG output, if available]
+[Prefer HTML output over PNG output if available]
 Аддаваць перавагу выснову HTML, чым PNG, калі даступна
 [Miscellaneous]
 Іншае

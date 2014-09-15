@@ -650,7 +650,7 @@ RTL па змаўчанні
 Адпраўка паведамленняў:
 [Window:]
 Вакно гутаркі:
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 Esc зачыняе сесію (інакш - згортвае)
 [Always pop up and activate new windows]
 Заўсёды адкрываць новае вакно гутаркі

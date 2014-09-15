@@ -40,7 +40,7 @@
 База рэплік
 [Reload]
 Перагрузіць
-[Stay silent, if have no good aswers]
+[Stay silent if have no good aswers]
 Маўчаць, калі няма добрых адказаў
 [Start answers with a lowercase letter]
 Пачынаць адказы з маленькай літары.

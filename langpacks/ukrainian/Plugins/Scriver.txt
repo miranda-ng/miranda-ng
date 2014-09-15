@@ -605,7 +605,7 @@ Unicode вимкнено
 %s друкує вам повідомлення
 [Typing Notification]
 Сповіщення про друк
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Неможливо завантажити вбудований модуль повідомлень, оскільки riched20.dll відсутній. Якщо ви використовуєте WINE, будь ласка, переконайтеся, що riched20.dll встановлено. Натисніть "Так", щоб продовжити запуск Miranda NG.
 [Instant messages]
 Повідомлення

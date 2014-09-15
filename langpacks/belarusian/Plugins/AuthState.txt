@@ -5,7 +5,7 @@
 ;  Version: 0.0.2.1
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
-[If a contact didn't authorize you this plugin puts an icon in front of the contact's name.]
+[If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Гэты плагiн змесціць абразок насупраць імя, калі кантакт не аўтарызаваў вас, ці вы яго.
 ;file \plugins\AuthState\res\authstate.rc
 [Show Auth icon]

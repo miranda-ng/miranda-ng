@@ -21,7 +21,7 @@ HistoryStats - Добавить колонку
 Добавить
 [HistoryStats - Conflicting files]
 HistoryStats - Конфликт файлов
-[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
+[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files, there is an option for this.]
 Некоторые файлы временно сохранены в другом месте, чтобы избежать перезаписи существующих файлов. Если вы хотите всегда перезаписывать существующие файлы, в настройках HistoryStats есть опция для этого.
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
 Следующие файлы не могут быть записаны, потому что в папке назначения уже существуют файлы с такими именами. Пожалуйста выберите, перезаписать ли существующие, или избавиться от сгенерированных файлов.
@@ -545,11 +545,11 @@ HTML вывод невозможен.
 Использовать только HTML для создания графики
 [Generate PNG files to represent graphics]
 Создавать файлы PNG для изображения графики
-[Fall back to HTML output, if column options require HTML output]
+[Fall back to HTML output if column options require HTML output]
 Вернуться к выводу HTML, если настройки колонки требуют вывод HTML
 [Enforce PNG output, possibly ignoring some column options]
 Принудительно выводить PNG, возможно игнорируя некоторые настройки колонки
-[Prefer HTML output over PNG output, if available]
+[Prefer HTML output over PNG output if available]
 Предпочитать вывод HTML выводу PNG, если доступно
 [Miscellaneous]
 Прочее

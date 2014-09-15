@@ -40,7 +40,7 @@ Silnik
 Baza odpowiedzi
 [Reload]
 Odśwież
-[Stay silent, if have no good aswers]
+[Stay silent if have no good aswers]
 Siedź cicho, gdy nie ma dobrych odpowiedzi
 [Start answers with a lowercase letter]
 Zaczynaj odpowiedzi z małej litery

@@ -14,7 +14,7 @@
 [Launcher exe (optional):]
 [Game ID:]
 [Send game ID:]
-[Status message for Xfire, if this game will be started:]
+[Status message for Xfire if this game will be started:]
 [Parameter:]
 [Please wait, game.ini will be currently parsed...]
 [If you add a mod of an Xfire supported game, then you can specify what game ID will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game ID and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]

@@ -124,7 +124,7 @@
 [Display popups for completed jobs]
 [Do not show this message again]
 [Message sending:]
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 [Always pop up and activate new windows]
 [Send on Shift+Enter]
 [Tabs:]

@@ -650,7 +650,7 @@ Log status changes (само в отворените прозорци)
 Изпращане на съобщение:
 [Window:]
 Прозорец:
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 Esc затваря разговора (минимизира прозореца, ако е изключено)
 [Always pop up and activate new windows]
 Изскачане и активиране на новите прозорци

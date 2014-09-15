@@ -15,7 +15,7 @@
 Ник:
 [Current protocol version:]
 Текущая версия протокола
-[Note: You can only change these settings, if you are connected to Xfire.]
+[Note: You can only change these settings if you are connected to Xfire.]
 Примечание: Вы можете изменить настройки, только если подключены к Xfire.
 [Create a new Xfire account on website]
 Создать новую учётную запись на сайте
@@ -57,13 +57,13 @@
 Файлы
 [Blocked User List]
 Заблокированный список пользователей
-[This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
+[This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
 Этот список содержит заблокированных пользователей. Вы можете удалить одного, что позволит ему отправлять вам сообщения.
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 Вы можете просто заблокировать кого-нибудь, щелчком правой кнопки по пользователю в списке контактов...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Этот файл используется для поиска и обнаружения игры. Файл содержит поддерживаемые игры Xfire.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
 Этот файл содержит оригинальные значки игр. Вы можете так же активировать автоматическую загрузку, если этого файла у вас нет.
 [Be sure you put these files in following folder:]
 Будьте внимательны, вы поместите файлы в эту папку:
@@ -71,7 +71,7 @@
 Статусное сообщение
 [Enable]
 Включено
-[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
 С этой возможностью, следующее статусное сообщение будет установлено на другой протокол, если вы в игре. Так ваши друзья будут видеть, что вы играете. Это так же изменит ваш статус на "занят", если вы включили эту функцию.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Доступны следующие переменные: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -79,7 +79,7 @@
 Статусное сообщение:
 [Change the status to occupied or dnd]
 Менять статус на Занят или Не беспокоить
-[The status message and status will be reset, if you close the game.]
+[The status message and status will be reset if you close the game.]
 Статусное сообщение и статус будут сброшены, если вы закроете игру.
 [Games]
 Игры

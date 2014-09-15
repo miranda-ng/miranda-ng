@@ -33,8 +33,8 @@ Define up to 5 colours which you can use with some variables
 Load fonts and colours provided by skin
 [You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
 You can export and import all your colour and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.
-[Esc closes sessions (minimizes window, if disabled)]
-Esc closes sessions (minimises window, if disabled)
+[Esc closes sessions (minimizes window if disabled)]
+Esc closes sessions (minimises window if disabled)
 [Create new windows in minimized state]
 Create new windows in minimised state
 [Minimize the message window on send]

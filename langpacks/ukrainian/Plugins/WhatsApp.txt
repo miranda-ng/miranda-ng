@@ -43,7 +43,7 @@ SMS-код:
 SMS-повідомлення з реєстраційним кодом буде відправлено на ваш мобільний телефон.\nНагадуемо, що ви не зможете використовувати справжній WhatsApp і цей плагін одночасно!\nПродовжити?
 [Please correctly specify your registration code received by SMS]
 Будь ласка, правильно вкажіть ваш реєстраційний код, отриманий в SMS
-[Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
+[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
 Ваш пароль встановлений автоматично.\nЯкщо ви зміните пароль вручну, ви можете його втратити, і буде потрібно робити запит на новий код!
 [Did not unpack WART (registration utility).]
 Не розпакована програма для реєстрації WART.

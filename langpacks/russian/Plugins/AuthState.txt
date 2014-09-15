@@ -5,7 +5,7 @@
 ;  Version: 0.0.2.1
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
-[If a contact didn't authorize you this plugin puts an icon in front of the contact's name.]
+[If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Этот плагин поместит значок напротив имени, если контакт не авторизовал вас, или вы не авторизовали его.
 [Show Auth icon]
 Показывать значок "Запрос"

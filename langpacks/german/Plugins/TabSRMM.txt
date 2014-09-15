@@ -650,7 +650,7 @@ Nein
 Nachrichten senden:
 [Window:]
 Fenster:
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 Esc schließt Sitzungen, anstatt sie zu minimieren
 [Always pop up and activate new windows]
 Neue Fenster immer öffnen und aktivieren

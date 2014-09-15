@@ -24,7 +24,7 @@ Beschreibung
 Hinzufügen
 [HistoryStats - Conflicting files]
 HistoryStats - Dateien im Konflikt
-[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
+[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files, there is an option for this.]
 Einige Dateien wurden temporär an einer anderen Stelle gespeichert, um bereits existierende Dateien nicht zu überschreiben. Sollten Sie die Dateien immer überschreiben wollen, so gibt es dafür eine Option.
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
 Die folgenden Dateien konnten nicht geschrieben werden, weil Dateien mit gleichem Namen bereits existieren. Bitte entscheiden Sie, ob Sie die existierenden Dateien überschreiben oder die erstellten Dateien verwerfen wollen.
@@ -594,11 +594,11 @@ Grafiken
 Benutze nur HTML um Grafiken zu simulieren
 [Generate PNG files to represent graphics]
 Erstelle PNG-Dateien, um Grafiken zu repräsentieren
-[Fall back to HTML output, if column options require HTML output]
+[Fall back to HTML output if column options require HTML output]
 Auf HTML-Ausgabe zurückfallen, wenn Spalteneinstellungen HTML-Ausgabe erfordern
 [Enforce PNG output, possibly ignoring some column options]
 Erzwinge PNG-Ausgabe, auch wenn Spalteneinstellungen dadurch ignoriert werden
-[Prefer HTML output over PNG output, if available]
+[Prefer HTML output over PNG output if available]
 Bevorzuge HTML-Ausgabe vor PNG-Ausgabe, falls verfügbar
 [Miscellaneous]
 Sonstiges
