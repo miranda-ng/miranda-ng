@@ -8,7 +8,7 @@
 [New supported games:]
 [Launcher exe (optional):]
 [Send game ID:]
-[Status message for Xfire, if this game will be started:]
+[Status message for Xfire if this game will be started:]
 [Parameter:]
 [Please wait, game.ini will be currently parsed...]
 [Every game in Xfire needs an ID. Use a number above the last used ID to avoid problems with used IDs. Every number above 10000 should be save. This ID will not be sent to Xfire, when you start a game.]

@@ -80,7 +80,7 @@ StopSpam-Logs
 [Remove Temporary Contacts]
 Temporäre Kontakte entfernen
 ;file \plugins\StopSpamMod\src\options.cpp
-[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Nie wieder Spam! Spambots haben keine Chance! Nur Menschen sind eingeladen!\r\n\r\nDieses Plugin arbeitet sehr einfach:\r\nNachrichten von Ihren Kontakten werden behandelt, als gäbe es kein Anti-Spam-System. Auf der anderen Seite werden Nachrichten von unbekannten Kontakten nicht direkt an Sie weitergeleitet. Sie werden aber auch nicht ignoriert, sondern dieses Plugin stellt eine einfache Frage. Wird diese richtig beantwortet, wird der Kontakt ihrer Kontaktliste hinzugefügt und kann Sie nun kontaktieren.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 Spammer haben mich dazu gebracht, ein kleines Anti-Spam-System zu installieren, mit dem Sie nun sprechen.\r\nBitte antworten Sie mit "nospam" ohne Anführungszeichen, wenn Sie mich kontaktieren möchten.
@@ -88,7 +88,7 @@ Spammer haben mich dazu gebracht, ein kleines Anti-Spam-System zu installieren, 
 StopSpam: senden Sie eine Nachricht und antworten Sie auf die Frage des Anti-Spam-Bots.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Glückwunsch! Sie haben gerade den Mensch-/Robotertest bestanden. Nun können Sie eine Nachricht schreiben.
-[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
+[If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces.]
 Wenn mathematischer Ausdruck aktiviert ist dann können Sie folgenden Ausdruck im Nachrichtentext verwenden:\nXX+XX-X/X*X\nJedes X wird durch eine Zufallszahl ersetzt und die Antwort wird das Ergebnis des Ausdruckes sein.\nNachricht darf nur einen Ausdruck ohne Leerzeichen enthalten.
 [Info]
 Info

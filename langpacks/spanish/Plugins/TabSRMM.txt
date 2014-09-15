@@ -650,7 +650,7 @@ No
 
 [Window:]
 Ventana:
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 
 [Always pop up and activate new windows]
 

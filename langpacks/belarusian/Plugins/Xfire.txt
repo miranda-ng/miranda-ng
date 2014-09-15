@@ -16,7 +16,7 @@
 Мянушка:
 [Current protocol version:]
 Бягучая версія пратаколу:
-[Note: You can only change these settings, if you are connected to Xfire.]
+[Note: You can only change these settings if you are connected to Xfire.]
 Нататка: Вы можаце змяніць налады, толькі калі далучаны да Xfire.
 [Create a new Xfire account on website]
 Стварыць новы конт праз вэб-сайт
@@ -58,13 +58,13 @@
 Файлы
 [Blocked User List]
 Спіс блакаваных кантактаў
-[This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
+[This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
 Гэты спіс утрымоўвае заблакаваныя кантакты. Вы можаце выдаліць аднаго, што дазволіць яму пасылаць вам паведамленні.
 [You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
 Вы можаце проста заблакаваць каго-небудзь, пстрычкай правай кнопкі па кантакту ў кантакт лісце.
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Гэты файл выкарыстоўваецца для пошуку гульняў. Ён змяшчае ўсе падтрымоўваемыя XFire гульні.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
 Гэты файл утрымоўвае арыгінальныя значкі гульняў. Вы можаце гэтак жа актываваць аўтаматычную загрузку, калі гэтага файла ў вас няма.
 [Be sure you put these files in following folder:]
 Будзьце ўважлівыя, вы змесціце файлы ў гэту тэчку:
@@ -72,7 +72,7 @@
 Статуснае паведамленне
 [Enable]
 Уключана
-[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
 З гэтай магчымасцю, наступнае статуснае паведамленне будзе ўсталявана на іншы пратакол, калі вы ў гульні. Так вашы сябры будуць бачыць, што вы гуляеце. Гэта гэтак жа зменіць ваш статус на "заняты", калі вы ўключылі гэту функцыю.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Даступныя наступныя зменныя: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -80,7 +80,7 @@
 Статуснае паведамленне:
 [Change the status to occupied or dnd]
 Змяняць статус на Заняты ці Не турбаваць
-[The status message and status will be reset, if you close the game.]
+[The status message and status will be reset if you close the game.]
 Статуснае паведамленне і статус будуць скінуты, калі вы зачыніце гульню.
 [Prefer dnd when it is available]
 Не турбаваць, калі магчыма

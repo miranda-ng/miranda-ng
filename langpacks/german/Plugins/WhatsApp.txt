@@ -46,7 +46,7 @@ Bitte geben Sie ein Passwort ein.
 Eine SMS mit dem Registrierungscode wird an Ihr Mobiltelefon geschickt.\nBeachten Sie, dass Sie das richtige WhatsApp und dieses Plugin nicht gleichzeitig nutzen können.\nFortfahren?
 [Please correctly specify your registration code received by SMS]
 Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
-[Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
+[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
 Ihr Passwort wurde automatisch gesetzt.\nWenn Sie Ihr Passwort manuell ändern, können Sie es verlieren und müssen einen neuen Code anfordern.
 ;file \protocols\WhatsApp\src\main.cpp
 [Did not unpack WART (registration utility).]

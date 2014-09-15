@@ -40,7 +40,7 @@
 
 [Reload]
 Обновяване
-[Stay silent, if have no good aswers]
+[Stay silent if have no good aswers]
 
 [Start answers with a lowercase letter]
 

@@ -24,7 +24,7 @@ Opis
 Dodaj
 [HistoryStats - Conflicting files]
 HistoryStats - pliki, które mogą się nadpisać
-[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
+[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files, there is an option for this.]
 Niektóre pliki zostały tymczasowo zapisane w innym miejscu, by uniknąć nadpisania. Jeśli zawsze chcesz nadpisywać istniejące pliki, jest od tego opcja.
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
 Następujące pliki, nie mogły zostać zapisane, ponieważ istnieją już pliki o tej samej nazwie. Proszę zdecydować czy powinny być nadpisane czy anulowane.
@@ -594,11 +594,11 @@ Grafika
 Użyj tylko HTML do symulacji graficznej
 [Generate PNG files to represent graphics]
 Generuj pliki PNG do reprezentowania grafik
-[Fall back to HTML output, if column options require HTML output]
+[Fall back to HTML output if column options require HTML output]
 Powrót do wyjścia HTML, jeśli opcje kolumn go wymagają
 [Enforce PNG output, possibly ignoring some column options]
 Wymuś wyjście PNG, ignorując ewentualnie niektóre opcje kolumn
-[Prefer HTML output over PNG output, if available]
+[Prefer HTML output over PNG output if available]
 Preferuj wyjście HTML zamiast PNG, jeśli dostępne
 [Miscellaneous]
 Różne

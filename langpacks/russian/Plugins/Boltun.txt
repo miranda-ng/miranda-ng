@@ -39,7 +39,7 @@
 База реплик
 [Reload]
 Перегрузить
-[Stay silent, if have no good aswers]
+[Stay silent if have no good aswers]
 Молчать, если нет хороших ответов
 [Start answers with a lowercase letter]
 Начинать ответы с маленькой буквы.

@@ -645,7 +645,7 @@ RTL за замовчанням
 Повідомлення:
 [Window:]
 Вікно:
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 Esc закриває сесію (інакше - згортає)
 [Always pop up and activate new windows]
 Завжди відкривати нове вікно повідомлень

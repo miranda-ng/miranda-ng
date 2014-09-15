@@ -47,7 +47,7 @@
 Облікові записи
 [StopSpam]
 Антиспам
-[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Немає більше спаму! Роботи відпочивають!\r\n\r\nЦей плагін працює просто:\r\nПовідомлення від користувачів з вашого списку контактів приходять без перевірки на спам, а повідомлення від невідомих користувачів вам не доставляються. Але вони не ігноруються: плагін відповідає простим питанням і, якщо користувач відповідає правильно, додає його до списку контактів, щоб він міг зв'язатися з вами.
 [StopSpam automatic message:\r\n]
 Повідомлення антиспаму:\r\n

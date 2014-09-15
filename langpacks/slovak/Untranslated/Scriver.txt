@@ -248,7 +248,7 @@
 [Typing Notify]
 [%s is typing a message]
 [Typing Notification]
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 [Instant messages]
 [Incoming (Focused Window)]
 [Incoming (Unfocused Window)]
