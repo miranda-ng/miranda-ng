@@ -1660,21 +1660,22 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				rc.top = rc.bottom - dat->ipFieldHeight;
 				dat->rcUIN = rc;
 
-				if (GetDlgItem(hwndDlg, IDC_CLIST) != 0) {
-					RECT rc, rcClient, rcLog;
-					GetClientRect(hwndDlg, &rcClient);
-					GetClientRect(GetDlgItem(hwndDlg, IDC_LOG), &rcLog);
-					rc.top = 0;
-					rc.right = rcClient.right;
-					rc.left = rcClient.right - dat->multiSplitterX;
-					rc.bottom = rcLog.bottom;
-					if (dat->Panel->isActive())
-						rc.top += (dat->Panel->getHeight() + 1);
-					MoveWindow(GetDlgItem(hwndDlg, IDC_CLIST), rc.left, rc.top, rc.right - rc.left, rcLog.bottom - rcLog.top, FALSE);
-				}
-
 				dat->Panel->Invalidate();
 			}
+
+			if (GetDlgItem(hwndDlg, IDC_CLIST) != 0) {
+				RECT rc, rcClient, rcLog;
+				GetClientRect(hwndDlg, &rcClient);
+				GetClientRect(GetDlgItem(hwndDlg, IDC_LOG), &rcLog);
+				rc.top = 0;
+				rc.right = rcClient.right;
+				rc.left = rcClient.right - dat->multiSplitterX;
+				rc.bottom = rcLog.bottom;
+				if (dat->Panel->isActive())
+					rc.top += (dat->Panel->getHeight() + 1);
+				MoveWindow(GetDlgItem(hwndDlg, IDC_CLIST), rc.left, rc.top, rc.right - rc.left, rcLog.bottom - rcLog.top, FALSE);
+			}
+
 			if (dat->hwndIEView || dat->hwndHPP)
 				ResizeIeView(dat, 0, 0, 0, 0);
 
