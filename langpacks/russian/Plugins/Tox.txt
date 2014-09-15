@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -25,16 +25,12 @@
 Создать новый профиль
 [Use existing profile]
 Использовать существующий профиль
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
-При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе Miranda будет искать в базе данных сервиса toxme.se.
 [Network]
 Сеть
 [Account]
 Учётная запись
 [%s connection]
 %s подключение
-[Query]
-Запрос
 [All files (*.*)]
 Все файлы (*.*)
 [Select tox profile]
@@ -43,5 +39,7 @@
 Протоколы
 [Protocol icon]
 Значок протокола
+[Query]
+Запрос
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов

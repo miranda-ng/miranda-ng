@@ -24,10 +24,12 @@
 [Please enter a phone-number without country code.]
 [Please enter a nickname.]
 [Please enter a password.]
+;file \protocols\WhatsApp\src\contacts.cpp
+[Last seen on %x at %X]
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 [Please correctly specify your registration code received by SMS]
-[Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]
+[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
 ;file \protocols\WhatsApp\src\main.cpp
 [Did not unpack WART (registration utility).]
 ;file \protocols\WhatsApp\src\proto.cpp
