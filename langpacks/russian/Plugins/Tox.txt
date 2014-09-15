@@ -25,6 +25,8 @@
 Создать новый профиль
 [Use existing profile]
 Использовать существующий профиль
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
+При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведен при помощи dns сервиса обнаружения Tox.
 [Network]
 Сеть
 [Account]
@@ -35,6 +37,8 @@
 Все файлы (*.*)
 [Select tox profile]
 Выберите профиль Tox
+[Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
+Профиль Tox с тем же именем уже сужествует.\r\nЕсли вы хотите продолжить, профиль будет утерян!
 [Protocols]
 Протоколы
 [Protocol icon]
