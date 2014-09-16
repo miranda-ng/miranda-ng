@@ -308,11 +308,6 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 	getProfileCmdLine(szProfile, cch, g_profileDir);
 	getProfileDefault(szProfile, cch, g_profileDir);
 
-	// if default profile was found, verify it
-	if (*szProfile)
-		if (touchDatabase(szProfile, 0) != 0)
-			*szProfile = 0;
-
 	if (IsInsideRootDir(g_profileDir, true)) {
 		MessageBox(NULL,
 			TranslateT("Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location."),
