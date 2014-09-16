@@ -260,9 +260,9 @@
 [News feeds]
 Новости
 [Visit profile]
-Профиль
+Профиль на сайте
 [Visit notifications]
-Уведомления
+Уведомления на сайте
 [Show 'Share status' window]
 Сообщение статуса Facebook
 [Notification]
