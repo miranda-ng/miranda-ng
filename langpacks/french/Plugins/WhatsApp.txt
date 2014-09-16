@@ -41,6 +41,9 @@ Annuler
 
 [Please enter a password.]
 S'il vous plaît entrer un mot de passe.
+;file \protocols\WhatsApp\src\contacts.cpp
+[Last seen on %x at %X]
+
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 

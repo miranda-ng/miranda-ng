@@ -41,6 +41,7 @@
 Увядзіце мянушку
 [Please enter a password.]
 Калі ласка, увядзіце пароль.
+;file \protocols\WhatsApp\src\contacts.cpp
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код рэгістрацыі прыйдзе на ваш тэлефон СМС-паведамленнем.\nМайце на ўвазе, што адначасовае выкарыстанне гэтага плагіна і сапраўднага WhatsApp немагчыма!\nПрацягнуць?
