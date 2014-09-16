@@ -697,8 +697,8 @@ private:
 #define SRMSGSET_SENDONENTER       "SendOnEnter"
 #define SRMSGDEFSET_SENDONENTER    0
 #define SRMSGSET_MSGTIMEOUT        "MessageTimeout"
-#define SRMSGDEFSET_MSGTIMEOUT     60000
-#define SRMSGSET_MSGTIMEOUT_MIN    30000 // minimum value (30 seconds)
+#define SRMSGDEFSET_MSGTIMEOUT     30000
+#define SRMSGSET_MSGTIMEOUT_MIN    5000 // minimum value (5 seconds)
 
 #define SRMSGSET_LOADHISTORY       "LoadHistory"
 #define SRMSGDEFSET_LOADHISTORY    LOADHISTORY_COUNT
