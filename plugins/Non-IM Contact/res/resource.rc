@@ -41,7 +41,7 @@ BEGIN
     LTEXT           "URL",IDC_STATIC,4,22,41,8
     LTEXT           "Update URL every",IDC_STATIC,4,39,75,8
     LTEXT           "Intervals",IDC_STATIC,117,39,33,8
-    LTEXT           "If the protocol timer is disabled web pages won't be updated",IDC_STATIC,4,52,188,8
+    LTEXT           "If the protocol timer is disabled, web pages won't be updated",IDC_STATIC,4,52,188,8
 END
 
 IDD_CONTACT_INFO DIALOG 0, 0, 283, 190
