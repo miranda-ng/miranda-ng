@@ -25,14 +25,14 @@ end;
 procedure LoadOpt;
 begin
   SimpleMode    :=DBReadByte(0,PluginShort,opt_SimplMode  ,BST_CHECKED);
-  UseStatus     :=DBReadByte(0,PluginShort,opt_UseStatus  ,BST_CHECKED);
+  UseStatus     :=DBReadByte(0,PluginShort,opt_UseStatus  ,BST_UNCHECKED);
   UseExtStatus  :=DBReadByte(0,PluginShort,opt_UseExtStat ,BST_CHECKED);
   UseMessages   :=DBReadByte(0,PluginShort,opt_UseMsgs    ,BST_CHECKED);
   KeepStatus    :=DBReadByte(0,PluginShort,opt_KeepStatus ,BST_UNCHECKED);
   XIndepended   :=DBReadByte(0,PluginShort,opt_Independed ,BST_CHECKED);
   ClearXStat    :=DBReadByte(0,PluginShort,opt_ClearXStat ,BST_UNCHECKED);
-  UseListeningTo:=DBReadByte(0,PluginShort,opt_ListeningTo,BST_UNCHECKED);
-  XStatusSet    :=DBReadByte(0,PluginShort,opt_XStatusSet ,1);
+  UseListeningTo:=DBReadByte(0,PluginShort,opt_ListeningTo,BST_CHECKED);
+  XStatusSet    :=DBReadByte(0,PluginShort,opt_XStatusSet ,2);
 end;
 
 procedure SaveOpt;
