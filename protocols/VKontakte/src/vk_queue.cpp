@@ -35,6 +35,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	CMStringA str;
 
 LBL_Restart:
+	pReq->bNeedsRestart = false;
 	pReq->szUrl = pReq->m_szUrl.GetBuffer();
 	if (!pReq->m_szParam.IsEmpty()) {
 		if (pReq->requestType == REQUEST_GET) {

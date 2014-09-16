@@ -100,8 +100,10 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 	else if (iErrorCode == 14) // captcha
 		ApplyCaptcha(pReq, pError);
-	else if (iErrorCode == 6) // Too many requests per second 
+	else if (iErrorCode == 6) {// Too many requests per second 
 		pReq->bNeedsRestart = true;
+		Sleep(330); //Pause for fix err 6
+	}
 	return iErrorCode == 0;
 }
 
