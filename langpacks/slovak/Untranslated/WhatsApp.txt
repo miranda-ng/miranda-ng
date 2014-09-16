@@ -12,6 +12,7 @@
 [Please enter a phone-number without country code.]
 [Please enter a nickname.]
 [Please enter a password.]
+[Last seen on %x at %X]
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 [Please correctly specify your registration code received by SMS]
 [Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]

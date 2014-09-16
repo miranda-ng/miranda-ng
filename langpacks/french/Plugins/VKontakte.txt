@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.12
+;  Version: 0.1.0.14
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -97,6 +97,8 @@ Compte
 %s serveur connexion
 [Create new chat]
 
+[Visit profile]
+Visiter le profil
 [Reload all messages from vk.com]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
