@@ -24,7 +24,7 @@
 Абнаўляць URL праз
 [Intervals]
 перыядаў
-[If the protocol timer is disabled web pages won't be updated]
+[If the protocol timer is disabled, web pages won't be updated]
 Пры выключаным таймеры спасылкі не абнаўляюцца
 [Contacts display name]
 Адлюстроўванае імя

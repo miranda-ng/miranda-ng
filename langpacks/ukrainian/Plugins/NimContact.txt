@@ -23,7 +23,7 @@
 Оновлювати URL через
 [Intervals]
 періодів
-[If the protocol timer is disabled web pages won't be updated]
+[If the protocol timer is disabled, web pages won't be updated]
 При вимкненому таймері посилання не оновлюються
 [Contacts display name]
 Коротке ім'я

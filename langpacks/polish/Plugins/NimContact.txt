@@ -24,7 +24,7 @@ Link
 Aktualizuj link co
 [Intervals]
 Odstępy
-[If the protocol timer is disabled web pages won't be updated]
+[If the protocol timer is disabled, web pages won't be updated]
 Jeśli timer protokołu jest wyłączony, strony nie będą aktualizowane
 [contact display info]
 Wyświetlane dane kontaktu
