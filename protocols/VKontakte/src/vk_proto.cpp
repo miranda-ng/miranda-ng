@@ -153,7 +153,8 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 void CVkProto::UnInitMenus()
 {
-	// ??? ProtoMenu
+	for (int i = 0; i < PMI_COUNT; i++)
+		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hProtoMenuItems[i], 0);
 
 	for (int i = 0; i < CMI_COUNT; i++)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[i], 0);
