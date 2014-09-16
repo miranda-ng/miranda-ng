@@ -1456,7 +1456,7 @@ ID пользователя
 [On the phone]
 На телефоне
 [Gaming]
-Играю
+В игре
 [Studying]
 Учусь
 [Shopping]
