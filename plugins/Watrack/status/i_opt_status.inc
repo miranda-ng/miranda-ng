@@ -32,7 +32,7 @@ begin
   XIndepended   :=DBReadByte(0,PluginShort,opt_Independed ,BST_CHECKED);
   ClearXStat    :=DBReadByte(0,PluginShort,opt_ClearXStat ,BST_UNCHECKED);
   UseListeningTo:=DBReadByte(0,PluginShort,opt_ListeningTo,BST_CHECKED);
-  XStatusSet    :=DBReadByte(0,PluginShort,opt_XStatusSet ,2);
+  XStatusSet    :=DBReadByte(0,PluginShort,opt_XStatusSet ,1);
 end;
 
 procedure SaveOpt;
