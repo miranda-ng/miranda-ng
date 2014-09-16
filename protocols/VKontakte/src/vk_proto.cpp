@@ -39,7 +39,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFOT, &CVkProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CVkProto::SvcGetAvatarCaps);
-	CreateProtoService(PS_SET_LISTENINGTO, &CVkProto::SetListeningTo);
+	CreateProtoService(PS_SET_LISTENINGTO, &CVkProto::SvcSetListeningTo);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CVkProto::OnOptionsInit);
 
@@ -76,6 +76,7 @@ CVkProto::~CVkProto()
 {
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	UninitQueue();
+	UnInitMenus();
 	vk_Instances.remove(this);
 }
 
@@ -88,37 +89,74 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	gcr.nColors = SIZEOF(sttColors);
 	gcr.pColors = sttColors;
 	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
-
-	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
-
+	
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
 
-	char szService[100];
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_CREATECHAT);
+	InitMenus();
+	return 0;
+}
+
+void CVkProto::InitMenus()
+{
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CVkProto::OnPreBuildContactMenu);
+
+	//Contact Menu Services
+	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
+	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
+	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
+	char szService[100];
+
+	// Proto menu
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.hParentMenu = MO_GetProtoRootMenu(m_szModuleName);
+	
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_CREATECHAT);
 	mi.pszService = szService;
-	mi.position = 10009;
+	mi.position = 10009 + PMI_CREATECHAT;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
 	mi.pszName = LPGEN("Create new chat");
-	Menu_AddProtoMenuItem(&mi);
-
-	//Server History
-	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
-
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
+	g_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi);
+	
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_VISITPROFILE);
 	mi.pszService = szService;
+	mi.position = 10009 + PMI_VISITPROFILE;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
+	mi.pszName = LPGEN("Visit profile");
+	g_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi);
+
+	//Contact Menu Items
 	mi.pszContactOwner = m_szModuleName;
 	mi.flags = CMIF_TCHAR;
-	mi.position = -200001000+1;
+
+	mi.position = -200001000 + CMI_VISITPROFILE;
+	mi.ptszName = LPGENT("Visit profile");
+	g_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
+	mi.position = -200001000 + CMI_GETALLSERVERHISTORY;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
 	mi.ptszName = LPGENT("Reload all messages from vk.com");
-	Menu_AddContactMenuItem(&mi);
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 
+}
+
+int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
+{
+	for (int i = 0; i < CMI_COUNT; i++)
+		Menu_ShowItem(g_hContactMenuItems[i], !isChatRoom(hContact));
 	return 0;
+}
+
+void CVkProto::UnInitMenus()
+{
+	// ??? ProtoMenu
+
+	for (int i = 0; i < CMI_COUNT; i++)
+		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[i], 0);
 }
 
 int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)

@@ -17,6 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define PS_CREATECHAT "/CreateNewChat"
 #define PS_GETALLSERVERHISTORY "/GetAllServerHystory"
+#define PS_VISITPROFILE "/VisitProfile"
 #define MAXHISTORYMIDSPERONE 200
 
 struct CVkProto;
@@ -191,9 +192,16 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM wParam, LPARAM);
-	INT_PTR __cdecl SetListeningTo(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcSetListeningTo(WPARAM, LPARAM);
 
+	//==== Menus ==========================================================================
+
+	INT_PTR __cdecl SvcVisitProfile(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
+	void InitMenus();
+	void UnInitMenus();
+	int  __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
+	
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
@@ -248,6 +256,20 @@ private:
 	HANDLE m_hWorkerThread;
 	bool   m_bTerminated, m_bServerDelivery;
 	CMStringA m_prevUrl;
+
+	enum CLMenuIndexes {
+		CMI_GETALLSERVERHISTORY,
+		CMI_VISITPROFILE,
+		CMI_COUNT
+	};
+	enum ProtoMenuIndexes {
+		PMI_CREATECHAT,
+		PMI_VISITPROFILE,
+		PMI_COUNT
+	};
+
+	HGENMENU g_hContactMenuItems[CMI_COUNT];
+	HGENMENU g_hProtoMenuItems[PMI_COUNT];
 
 	struct Cookie
 	{
