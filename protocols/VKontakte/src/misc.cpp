@@ -100,14 +100,16 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 	else if (iErrorCode == 14) // captcha
 		ApplyCaptcha(pReq, pError);
+	else if (iErrorCode == 6) // Too many requests per second 
+		pReq->bNeedsRestart = true;
 	return iErrorCode == 0;
 }
 
 void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	JSONROOT pRoot;
-	JSONNODE *Resp = CheckJsonResponse(pReq, reply, pRoot);
-	debugLogA("CVkProto::OnReceiveSmth %s", json_as_string(Resp));
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+	debugLogA("CVkProto::OnReceiveSmth %s", json_as_string(pResponse));
 }
 
 
