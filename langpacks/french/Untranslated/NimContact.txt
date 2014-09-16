@@ -1,5 +1,5 @@
 ﻿[Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
-[If the protocol timer is disabled web pages won't be updated]
+[If the protocol timer is disabled, web pages won't be updated]
 [contact display info]
 [Contacts display name]
 [Link Settings]
