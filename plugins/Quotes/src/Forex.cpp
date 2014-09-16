@@ -444,7 +444,7 @@ namespace
 
 	inline int Quotes_RemoveMenuItem(HGENMENU h)
 	{
-		return CallService(MS_CLIST_REMOVECONTACTMENUITEM,reinterpret_cast<WPARAM>(h),0);
+		return CallService(MO_REMOVEMENUITEM, reinterpret_cast<WPARAM>(h), 0);
 	}
 
 }

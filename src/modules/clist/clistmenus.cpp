@@ -274,12 +274,6 @@ INT_PTR FreeOwnerDataMainMenu(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CONTACT MENU
 
-static INT_PTR RemoveContactMenuItem(WPARAM wParam, LPARAM)
-{
-	CallService(MO_REMOVEMENUITEM, wParam, 0);
-	return 0;
-}
-
 static INT_PTR AddContactMenuItem(WPARAM, LPARAM lParam)
 {
 	TMO_MenuItem tmi;
@@ -1287,7 +1281,6 @@ void InitCustomMenus(void)
 
 	CreateServiceFunction("CList/AddContactMenuItem", AddContactMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDCONTACT, BuildContactMenu);
-	CreateServiceFunction(MS_CLIST_REMOVECONTACTMENUITEM, RemoveContactMenuItem);
 
 	CreateServiceFunction(MS_CLIST_SHOWHIDEMENUITEM, ShowHideMenuItem);
 	CreateServiceFunction(MS_CLIST_MODIFYMENUITEM, ModifyCustomMenuItem);

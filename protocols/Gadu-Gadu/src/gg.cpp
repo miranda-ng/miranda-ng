@@ -264,7 +264,7 @@ void GGPROTO::block_init()
 
 void GGPROTO::block_uninit()
 {
-   CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hBlockMenuItem, 0);
+   CallService(MO_REMOVEMENUITEM, (WPARAM)hBlockMenuItem, 0);
 }
 
 //////////////////////////////////////////////////////////

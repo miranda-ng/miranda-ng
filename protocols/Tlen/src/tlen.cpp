@@ -351,11 +351,12 @@ void uninitMenuItems(TlenProtocol *proto)
 	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuMUC, (LPARAM) 0);
 	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuInbox, (LPARAM) 0);
 	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuRoot, (LPARAM) 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)proto->hMenuContactMUC, (LPARAM) 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)proto->hMenuPicture, (LPARAM) 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)proto->hMenuContactVoice, (LPARAM) 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)proto->hMenuContactRequestAuth, (LPARAM) 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)proto->hMenuContactGrantAuth, (LPARAM) 0);
+	
+	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuContactMUC, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuPicture, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuContactVoice, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuContactRequestAuth, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuContactGrantAuth, 0);
 }
 
 TlenProtocol* tlenProtoInit(const char* pszProtoName, const TCHAR* tszUserName)

@@ -893,7 +893,7 @@ int EnumProtoSubmenu(WPARAM wparam, LPARAM lparam)
 		{
 			if (hProtoItem[i])
 			{
-				CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hProtoItem[i], 0);
+				CallService(MO_REMOVEMENUITEM, (WPARAM)hProtoItem[i], 0);
 				hProtoItem[i] = 0;
 			}
 		}

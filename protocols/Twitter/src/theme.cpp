@@ -106,7 +106,7 @@ void InitContactMenus()
 void UninitContactMenus()
 {
 	for(size_t i=0; i<SIZEOF(g_hMenuItems); i++)
-		CallService(MS_CLIST_REMOVECONTACTMENUITEM,(WPARAM)g_hMenuItems[i],0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuItems[i], 0);
 
 	UnhookEvent(g_hMenuEvts[0]);
 	for(size_t i=1; i<SIZEOF(g_hMenuEvts); i++)

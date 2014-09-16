@@ -553,7 +553,7 @@ void CSametimeProto::InitConferenceMenu()
 void CSametimeProto::DeinitConferenceMenu()
 {
 	debugLog(_T("CSametimeProto::DeinitConferenceMenu()"));
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hLeaveChatMenuItem, (LPARAM)0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hCreateChatMenuItem, (LPARAM)0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hLeaveChatMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hCreateChatMenuItem, 0);
 }
 

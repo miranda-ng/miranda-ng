@@ -317,8 +317,8 @@ void CAimProto::RemoveMainMenus(void)
 
 void CAimProto::RemoveContactMenus(void)
 {
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hHTMLAwayContextMenuItem, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hReadProfileMenuItem, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hAddToServerListContextMenuItem, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hBlockContextMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hHTMLAwayContextMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hReadProfileMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hAddToServerListContextMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hBlockContextMenuItem, 0);
 }

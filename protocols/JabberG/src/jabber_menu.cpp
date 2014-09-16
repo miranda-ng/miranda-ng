@@ -330,14 +330,14 @@ void g_MenuUninit(void)
 {
 	DestroyHookableEvent(hStatusMenuInit);
 
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuRequestAuth, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuGrantAuth, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuRevokeAuth, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuConvert, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuRosterAdd, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuLogin, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuRefresh, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuAddBookmark, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuRequestAuth, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuGrantAuth, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuRevokeAuth, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuConvert, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuRosterAdd, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuLogin, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuRefresh, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuAddBookmark, 0);
 
 	WindowList_Destroy(hDialogsList);
 }
@@ -912,7 +912,7 @@ void CJabberProto::GlobalMenuUninit()
 {
 	if (m_phMenuResourceItems) {
 		for (int i=0; i < m_nMenuResourceItems; i++)
-			CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)m_phMenuResourceItems[i], 0);
+			CallService(MO_REMOVEMENUITEM, (WPARAM)m_phMenuResourceItems[i], 0);
 		mir_free(m_phMenuResourceItems);
 		m_phMenuResourceItems = NULL;
 	}
