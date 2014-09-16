@@ -230,7 +230,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static char fieldsName[] = "id, first_name, last_name, photo_100, sex, timezone, contacts, online, status, about";
+static char fieldsName[] = "id, first_name, last_name, photo_100, sex, timezone, contacts, online, status, about, domain";
 
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
@@ -345,6 +345,10 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (szValue && *szValue)
 			setTString(hContact, "About", szValue);
 
+		szValue = json_as_string(json_get(pRecord, "domain"));
+		if (szValue && *szValue)
+			setTString(hContact, "domain", szValue);
+
 
 	}
 }
@@ -438,6 +442,10 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		szValue = json_as_string(json_get(pInfo, "about"));
 		if (szValue && *szValue)
 			setTString(hContact, "About", szValue);
+
+		szValue = json_as_string(json_get(pInfo, "domain"));
+		if (szValue && *szValue)
+			setTString(hContact, "domain", szValue);
 	}
 
 	if (bCleanContacts)
@@ -761,7 +769,7 @@ void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 		<< VER_API);
 }
 
-INT_PTR __cdecl CVkProto::SetListeningTo(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM wParam, LPARAM lParam)
 {
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
 	CMStringW wszListeningTo;
@@ -782,6 +790,21 @@ INT_PTR __cdecl CVkProto::SetListeningTo(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
+{
+	LONG userID = getDword(hContact, "ID", -1);
+	ptrT tszDomain(db_get_tsa(hContact, m_szModuleName, "domain"));
+	CMString tszUrl("https://vk.com/");
+
+	if (tszDomain)
+		tszUrl.Append(tszDomain);
+	else
+		tszUrl.AppendFormat(_T("id%i"), userID);
+	
+	CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)tszUrl.GetBuffer());
+	
+	return 0;
+}
 
 INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 {
