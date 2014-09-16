@@ -225,31 +225,32 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
+int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
 	debugLogA("");
 	char text[200];
-	strcpy(text,m_szModuleName);
-	char *tDest = text+strlen(text);
+	strcpy(text, m_szModuleName);
+	char *tDest = text + strlen(text);
 
-	CLISTMENUITEM mi = {sizeof(mi)};
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
 	if (hRoot == NULL) {
 		mi.popupPosition = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | ( this->isOnline() ? 0 : CMIF_GRAYED );
-		mi.icolibItem = GetIconHandle( "whatsApp" );
+		mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | (this->isOnline() ? 0 : CMIF_GRAYED);
+		mi.icolibItem = GetIconHandle("whatsApp");
 		mi.ptszName = m_tszUserName;
 		hRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
-	} else {
-		if ( m_hMenuRoot )
-			CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )m_hMenuRoot, 0 );
+	}
+	else {
+		if (m_hMenuRoot)
+			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
 		m_hMenuRoot = NULL;
 	}
 
-	mi.flags = CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
+	mi.flags = CMIF_CHILDPOPUP | (this->isOnline() ? 0 : CMIF_GRAYED);
 	mi.position = 201001;
 
 	CreateProtoService("/CreateGroup", &WhatsAppProto::OnCreateGroup);
@@ -262,11 +263,11 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-void WhatsAppProto::ToggleStatusMenuItems( BOOL bEnable )
+void WhatsAppProto::ToggleStatusMenuItems(BOOL bEnable)
 {
-	CLISTMENUITEM clmi = {sizeof(clmi)};
-	clmi.flags = CMIM_FLAGS | (( bEnable ) ? 0 : CMIF_GRAYED);
+	CLISTMENUITEM clmi = { sizeof(clmi) };
+	clmi.flags = CMIM_FLAGS | ((bEnable) ? 0 : CMIF_GRAYED);
 
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM ) m_hMenuRoot,	( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM ) m_hMenuCreateGroup, ( LPARAM )&clmi );
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hMenuRoot, (LPARAM)&clmi);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hMenuCreateGroup, (LPARAM)&clmi);
 }
