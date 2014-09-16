@@ -92,7 +92,7 @@ Cоздать комнату чата
 [Create new chat]
 Создать новый чат
 [Visit profile]
-профиль на сайте
+Профиль на сайте
 [Reload all messages from vk.com]
 Загрузить историю с сайта
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
