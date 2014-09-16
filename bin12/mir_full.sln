@@ -419,6 +419,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pcre16", "..\plugins\Pcre16
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IEHistory", "..\plugins\IEHistory\IEHistory_12.vcxproj", "{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhatsApp", "..\protocols\WhatsApp\WhatsApp_12.vcxproj", "{13E796AD-BEA4-4213-A1B8-E18E2397E544}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1853,6 +1855,14 @@ Global
 		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|Win32.Build.0 = Release|Win32
 		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|x64.ActiveCfg = Release|x64
 		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|x64.Build.0 = Release|x64
+		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|Win32.ActiveCfg = Debug|Win32
+		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|Win32.Build.0 = Debug|Win32
+		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|x64.ActiveCfg = Debug|x64
+		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|x64.Build.0 = Debug|x64
+		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|Win32.ActiveCfg = Release|Win32
+		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|Win32.Build.0 = Release|Win32
+		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|x64.ActiveCfg = Release|x64
+		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
