@@ -445,7 +445,6 @@ extern HANDLE hMainThread;
 /*******************************************************************
  * Function declarations
  *******************************************************************/
-void uninitMenuItems(TlenProtocol *proto);
 HICON GetIcolibIcon(int iconId);
 void ReleaseIcolibIcon(HICON hIcon);
 

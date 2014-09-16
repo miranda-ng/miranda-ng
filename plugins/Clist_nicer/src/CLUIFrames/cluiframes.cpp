@@ -1473,7 +1473,7 @@ static int CLUIFramesLoadMainMenu()
 		return -1;
 
 	if (MainMIRoot != (HANDLE)-1) {
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)MainMIRoot, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)MainMIRoot, 0);
 		MainMIRoot = (HGENMENU)-1;
 	}
 

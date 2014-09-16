@@ -85,7 +85,7 @@ begin
       if doTray then
         CallService(MS_CLIST_REMOVETRAYMENUITEM,tmp.menuitem,0)
       else
-        CallService(MS_CLIST_REMOVEMAINMENUITEM,tmp.menuitem,0);
+        CallService(MO_REMOVEMENUITEM,tmp.menuitem,0);
       mFreeMem(tmp);
       List_Remove(@trayStations,i);
     end;
@@ -317,5 +317,5 @@ begin
   if doTray then
     CallService(MS_CLIST_REMOVETRAYMENUITEM,trayradioparent,0)
   else
-    CallService(MS_CLIST_REMOVEMAINMENUITEM,trayradioparent,0);
+    CallService(MO_REMOVEMENUITEM,trayradioparent,0);
 end;

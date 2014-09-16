@@ -186,12 +186,6 @@ __forceinline HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
 //wParam=lParam=0
 #define ME_CLIST_PREBUILDSTATUSMENU "CList/PreBuildStatusMenu"
 
-//remove a item from main menu
-//wParam=hMenuItem returned by MS_CLIST_ADDMAINMENUITEM
-//lParam=0
-//returns 0 on success, nonzero on failure
-#define MS_CLIST_REMOVEMAINMENUITEM					"CList/RemoveMainMenuItem"
-
 //builds the main menu
 //wParam=lParam=0
 //returns a HMENU identifying the menu.

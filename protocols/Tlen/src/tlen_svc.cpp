@@ -1273,7 +1273,6 @@ TlenProtocol::TlenProtocol( const char *aProtoName, const TCHAR *aUserName) :
 
 TlenProtocol::~TlenProtocol()
 {
-	uninitMenuItems(this);
 	TlenVoiceCancelAll(this);
 	TlenFileCancelAll(this);
 	if (hTlenNudge)

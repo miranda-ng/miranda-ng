@@ -383,7 +383,7 @@ void CYahooProto::MenuMainInit( void )
 	}
 	else {
 		if (mainMenuRoot)
-			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
+			CallService(MO_REMOVEMENUITEM, (WPARAM)mainMenuRoot, 0);
 		mainMenuRoot = NULL;
 	}
 
@@ -488,7 +488,7 @@ void CYahooProto::MenuContactInit( void )
 void CYahooProto::MenuUninit( void )
 {
 	if ( mainMenuRoot )
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)mainMenuRoot, 0);
 
 	CallService(MO_REMOVEMENUITEM, (WPARAM)hShowProfileMenuItem, 0);
 }

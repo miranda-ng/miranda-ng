@@ -359,19 +359,17 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 		case CHECK_OPT_MI_GROUP:
 		case CHECK_OPT_MI_SUBGROUP:
 		case CHECK_OPT_MI_ACCOUNT:
-			{
-				for (int i = 0; i < SIZEOF(ctrl_Menu); i++) {
-					if (ctrl_Menu[i].idCheckbox == LOWORD(wParam)) {
-						const int idMenuItems[] = { ctrl_Menu[i].idCheckbox + 1, ctrl_Menu[i].idNONE, ctrl_Menu[i].idALL, ctrl_Menu[i].idEXIMPORT };
-						EnableControls(hDlg, idMenuItems, SIZEOF(idMenuItems),
-							Button_GetCheck((HWND)lParam) && ServiceExists(MS_CLIST_REMOVEMAINMENUITEM));
-						break;
-					}
+			for (int i = 0; i < SIZEOF(ctrl_Menu); i++) {
+				if (ctrl_Menu[i].idCheckbox == LOWORD(wParam)) {
+					const int idMenuItems[] = { ctrl_Menu[i].idCheckbox + 1, ctrl_Menu[i].idNONE, ctrl_Menu[i].idALL, ctrl_Menu[i].idEXIMPORT };
+					EnableControls(hDlg, idMenuItems, SIZEOF(idMenuItems), Button_GetCheck((HWND)lParam));
+					break;
 				}
-				if (bInitialized)
-					NotifyParentOfChange(hDlg);
 			}
+			if (bInitialized)
+				NotifyParentOfChange(hDlg);
 			break;
+
 		case RADIO_OPT_MI_MAIN_ALL:
 		case RADIO_OPT_MI_MAIN_NONE:
 		case RADIO_OPT_MI_MAIN_EXIMPORT:

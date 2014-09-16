@@ -312,7 +312,7 @@ void CAimProto::InitContactMenus(void)
 void CAimProto::RemoveMainMenus(void)
 {
 	if (hMenuRoot)
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
 }
 
 void CAimProto::RemoveContactMenus(void)

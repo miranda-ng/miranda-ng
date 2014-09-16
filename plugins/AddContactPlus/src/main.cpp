@@ -102,7 +102,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		if (!hMainMenuItem)
 			return 0;
 
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMainMenuItem, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)hMainMenuItem, 0);
 		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hToolBarItem, 0);
 		hMainMenuItem = 0;
 	}

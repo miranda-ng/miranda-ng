@@ -149,7 +149,7 @@ CIrcProto::~CIrcProto()
 	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = NULL;
 
 	if (hMenuRoot)
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
 
 	mir_free(m_alias);
 

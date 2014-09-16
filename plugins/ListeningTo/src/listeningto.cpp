@@ -188,7 +188,7 @@ void RebuildMenu()
 		ProtocolInfo *info = &proto_items[i];
 
 		if (info->hMenu != NULL)
-			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM) info->hMenu, 0);
+			CallService(MO_REMOVEMENUITEM, (WPARAM) info->hMenu, 0);
 
 		TCHAR text[512];
 		mir_sntprintf(text, SIZEOF(text), TranslateT("Send to %s"), info->account);
@@ -252,7 +252,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 		}
 		else if (wParam == PRAC_REMOVED || (wParam == PRAC_CHECKED && !proto->bIsEnabled))
 		{
-			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM) info->hMenu, 0);
+			CallService(MO_REMOVEMENUITEM, (WPARAM) info->hMenu, 0);
 
 			for(std::vector<ProtocolInfo>::iterator it = proto_items.begin(); it != proto_items.end(); ++it)
 			{
