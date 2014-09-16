@@ -329,7 +329,7 @@ void CMsnProto::MsnInitMainMenu(void)
 void CMsnProto::MsnRemoveMainMenus(void)
 {
 	if (mainMenuRoot)
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)mainMenuRoot, 0);
 }
 
 void CMsnProto::MSN_EnableMenuItems(bool bEnable)

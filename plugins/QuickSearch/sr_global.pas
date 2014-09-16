@@ -264,10 +264,9 @@ begin
 
   begin
 {
-    if (MainMenuItem<>0) and
-       (ServiceExists(MS_CLIST_REMOVEMAINMENUITEM)<>0) then
+    if (MainMenuItem<>0) then
     begin
-      CallService(MS_CLIST_REMOVEMAINMENUITEM,MainMenuItem,0);
+      CallService(MO_REMOVEMENUITEM,MainMenuItem,0);
       MainMenuItem:=0;
     end;
 }

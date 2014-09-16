@@ -324,7 +324,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			// Если отключается показ пункта главного меню, то удаляем его.
 			if (!unOptions.ShowMainMenuItem && hTrafficMainMenuItem)
 			{
-				CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hTrafficMainMenuItem, 0);
+				CallService(MO_REMOVEMENUITEM, (WPARAM)hTrafficMainMenuItem, 0);
 				hTrafficMainMenuItem = NULL;
 			}
 			// Если включается, то создаём.

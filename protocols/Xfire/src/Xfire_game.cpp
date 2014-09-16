@@ -460,7 +460,7 @@ void Xfire_game::remoteMenuitem()
 {
 	if (menuhandle!=NULL)
 	{
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )menuhandle, 0 );
+		CallService(MO_REMOVEMENUITEM, (WPARAM)menuhandle, 0 );
 		menuhandle=NULL;
 	}
 }

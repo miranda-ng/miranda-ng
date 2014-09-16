@@ -1706,7 +1706,7 @@ static int CLUIFramesLoadMainMenu()
 		return -1;
 
 	if (_hmiRoot != HGENMENU_ROOT) {
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)_hmiRoot, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)_hmiRoot, 0);
 		_hmiRoot = HGENMENU_ROOT;
 	}
 
@@ -3870,7 +3870,7 @@ static INT_PTR UnloadMainMenu()
 {
 	CLUIFrameOnModulesUnload(0, 0);
 	if (_hmiRoot != HGENMENU_ROOT) {
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)_hmiRoot, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)_hmiRoot, 0);
 		_hmiRoot = HGENMENU_ROOT;
 	}
 

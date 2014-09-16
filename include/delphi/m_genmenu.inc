@@ -203,14 +203,6 @@ const
 //!!  MS_CLIST_ADDSTATUSMENUITEM = 'CList/AddStatusMenuItem'; // defined in m_clist.inc
 
 {
-  remove a item from main menu
-  wParam=hMenuItem returned by MS_CLIST_ADDMAINMENUITEM
-  lParam=0
-  returns 0 on success, nonzero on failure
-}
-  MS_CLIST_REMOVEMAINMENUITEM:PAnsiChar = 'CList/RemoveMainMenuItem';
-
-{
   builds the main menu
   wParam=lParam=0
   returns a HMENU identifying the menu.

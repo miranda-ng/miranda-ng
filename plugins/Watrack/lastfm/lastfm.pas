@@ -261,7 +261,7 @@ begin
   else
     DestroyServiceFunction(slastinf);
 
-  CallService(MS_CLIST_REMOVEMAINMENUITEM,hMenuLast,0);
+  CallService(MO_REMOVEMENUITEM,hMenuLast,0);
   hMenuLast:=0;
   DestroyServiceFunction(slast);
   UnhookEvent(plStatusHook);

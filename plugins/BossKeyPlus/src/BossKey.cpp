@@ -562,7 +562,7 @@ void BossKeyMenuItemInit(void) // Add menu item
 
 void BossKeyMenuItemUnInit(void) // Remove menu item
 {
-	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)g_hMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)g_hMenuItem, 0);
 	g_hMenuItem = 0;
 }
 

@@ -615,7 +615,7 @@ begin
   if aSetDisable then
     SetModStatus(0);
 
-  CallService(MS_CLIST_REMOVEMAINMENUITEM,hMenuReport,0);
+  CallService(MO_REMOVEMENUITEM,hMenuReport,0);
   UnhookEvent(plStatusHook);
   UnhookEvent(sic);
   DestroyServiceFunction(hPackLog);

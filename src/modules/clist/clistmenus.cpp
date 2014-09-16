@@ -181,17 +181,6 @@ int fnGetAverageMode(int *pNetProtoCount)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MAIN MENU
 
-/*
-wparam=handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
-return 0 on success.
-*/
-
-static INT_PTR RemoveMainMenuItem(WPARAM wParam, LPARAM)
-{
-	CallService(MO_REMOVEMENUITEM, wParam, 0);
-	return 0;
-}
-
 static INT_PTR BuildMainMenu(WPARAM, LPARAM)
 {
 	ListParam param = { 0 };
@@ -1276,7 +1265,6 @@ void InitCustomMenus(void)
 	CreateServiceFunction("CList/AddMainMenuItem", AddMainMenuItem);
 	CreateServiceFunction("CList/AddStatusMenuItem", AddStatusMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUGETMAIN, MenuGetMain);
-	CreateServiceFunction(MS_CLIST_REMOVEMAINMENUITEM, RemoveMainMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDMAIN, BuildMainMenu);
 
 	CreateServiceFunction("CList/AddContactMenuItem", AddContactMenuItem);

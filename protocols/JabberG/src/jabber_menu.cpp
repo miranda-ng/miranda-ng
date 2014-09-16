@@ -619,7 +619,7 @@ void CJabberProto::MenuInit()
 	}
 	else {
 		if (m_hMenuRoot)
-			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
+			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
 		m_hMenuRoot = NULL;
 	}
 
@@ -919,7 +919,7 @@ void CJabberProto::GlobalMenuUninit()
 	m_nMenuResourceItems = 0;
 
 	if (m_hMenuRoot)
-		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
 	m_hMenuRoot = NULL;
 }
 

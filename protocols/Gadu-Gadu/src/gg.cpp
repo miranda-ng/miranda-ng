@@ -297,7 +297,7 @@ void GGPROTO::menus_init()
       hCLRoot = Menu_AddProtoMenuItem(&mi);
 
       if (hMenuRoot)
-         CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
+         CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
       hMenuRoot = NULL;
    }
 

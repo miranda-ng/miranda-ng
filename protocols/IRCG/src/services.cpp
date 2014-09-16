@@ -41,7 +41,7 @@ void CIrcProto::InitMainMenus(void)
 	}
 	else {
 		if (hMenuRoot)
-			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
+			CallService(MO_REMOVEMENUITEM, (WPARAM)hMenuRoot, 0);
 		hMenuRoot = NULL;
 	}
 

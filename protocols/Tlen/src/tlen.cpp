@@ -345,20 +345,6 @@ void TlenProtocol::initMenuItems()
 	hMenuContactGrantAuth = Menu_AddContactMenuItem(&mi);
 }
 
-void uninitMenuItems(TlenProtocol *proto)
-{
-	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuChats, (LPARAM) 0);
-	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuMUC, (LPARAM) 0);
-	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuInbox, (LPARAM) 0);
-	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuRoot, (LPARAM) 0);
-	
-	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuContactMUC, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuPicture, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuContactVoice, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuContactRequestAuth, 0);
-	CallService(MO_REMOVEMENUITEM, (WPARAM)proto->hMenuContactGrantAuth, 0);
-}
-
 TlenProtocol* tlenProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
 	TlenProtocol* ppro = new TlenProtocol( pszProtoName, tszUserName );
