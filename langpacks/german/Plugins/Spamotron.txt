@@ -55,7 +55,7 @@ eingehender Nachricht, die folgende Wörter enthält:
 [Hide contact until verified]
 Kontakt bis zur Verifizierung verstecken
 [Add permanently to list on verified]
-Verifizierte Kontakte dauerhaft zur CList hinzufügen
+Nach Verifizierung dauerhaft zur Kontaktliste hzfg.
 [Log actions to system history]
 Aktionen im Systemverlauf loggen
 [Flood protection]

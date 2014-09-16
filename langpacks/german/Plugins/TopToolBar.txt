@@ -9,7 +9,7 @@
 Fügt eine Toolbar der Kontaktliste hinzu.
 ;file \plugins\TopToolBar\res\main.rc
 [Buttons order and visibility]
-Buttonreihenfolge && Sichtbarkeit
+Buttonreihenfolge && -sichtbarkeit
 [Button height]
 Buttonhöhe
 [Button width]
@@ -23,7 +23,7 @@ Automatische Größenanpassung
 [Single line]
 Einzeilig
 [Buttons order:]
-Button-Reihenfolge:
+Buttonreihenfolge:
 [Add separator]
 Platzhalter hinzufügen
 [Add launch]

@@ -205,7 +205,7 @@ Offline-Kontakte ausblenden
 [Hide empty groups]
 Leere Gruppen ausblenden
 [Disable groups]
-Gruppenfunktion ausschalten
+Gruppen deaktivieren
 [Ask before deleting contacts]
 Vor Löschen von Kontakten fragen
 [Don't move offline user to bottom]

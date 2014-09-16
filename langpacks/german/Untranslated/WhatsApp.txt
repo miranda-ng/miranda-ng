@@ -1,1 +1,0 @@
-﻿[Last seen on %x at %X]

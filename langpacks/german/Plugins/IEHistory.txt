@@ -6,32 +6,32 @@
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Shows the history for a given contact using IEView.]
-
+Zeigt den Verlauf Ihrer Kontakte mit IEView an.
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 Dialog
 [Close]
 Schließen
 [&Prev]
-
+&Vorheriges
 [&Next]
-
+&Nächstes
 [&Search]
 &Suchen
 [Number of events to load]
-
+Anzahl zu ladender Ereignisse
 [Load all events]
-
+Alle Ereignisse laden
 [Load only]
-
+Lade nur
 [events per page]
-
+Ereignisse pro Seite
 [Show last page first]
-
+Letzte Seite zuerst anzeigen
 [Other options]
 Andere Einstellungen
 [Load items in background]
-
+Einträge im Hintergund laden
 [RTL is default text direction]
 RTL ist Standardtextrichtung
 [Search]
@@ -52,19 +52,19 @@ Ab
 [System History]
 Systemverlauf
 [Out of a total of]
-
+Aus insgesamt
 [You can't close the window now, wait for all events to load.]
-
+Sie können das Fenster jetzt nicht schließen, Sie müssen warten bis alle Ereignisse geladen wurden.
 [Error]
 Fehler
 [Text search]
-
+Textsuche
 [Time search]
-
+Zeitsuche
 [Time:]
 Zeit:
 [Search finished. No more entries...]
-
+Suche beendet. Keine weiteren Einträge...
 [Information]
 Information
 ;file \plugins\IEHistory\src\events.cpp
@@ -72,6 +72,6 @@ Information
 Verlauf
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
-Verlauf anzeigen
+&Verlauf anzeigen
 [&System History]
 &Systemverlauf

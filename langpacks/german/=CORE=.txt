@@ -109,7 +109,7 @@ Nein für alle
 [&View contents]
 Inhalt &zeigen
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Sicherheitssystem, um arglistige Änderungen zu erkennen, ist angeschaltet, und Sie werden gewarnt, bevor Änderungen, die nicht als sicher bekannt sind, durchgeführt werden.
+Sicherheitssystem, um arglistige Änderungen zu erkennen, ist angeschaltet und Sie werden gewarnt, bevor Änderungen, die nicht als sicher bekannt sind, durchgeführt werden.
 [Database setting change]
 Änderung Datenbankeinstellungen
 [Database settings are being imported from]
@@ -582,7 +582,7 @@ Grund:
 [Denial reason:]
 Grund der Ablehnung:
 [Add to contact list if authorized]
-Zur Kontakliste hinzufügen falls autorisiert
+Zur Kontaktliste hinzufügen, falls autorisiert
 [You were added]
 Sie wurden hinzugefügt
 [&Close]
@@ -2500,7 +2500,7 @@ Miranda-NG-Einstellungen
 &Einstellungen...
 ;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Core-Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
+Kern-Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
 [Fatal error]
 Fataler Fehler
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
@@ -2534,7 +2534,7 @@ Dieses Konto wurde erfolgreich aktualisiert. Um es zu aktivieren, muss Miranda n
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Dieses Konto verwendet ein Protokoll, welches die Kontenverwaltung nicht unterstützt. Verwenden Sie bitte die Miranda NG Einstellungen, um die zugehörigen Einstellungen zu ändern.
 [Account name must be filled.]
-
+Kontenname muss ausgefüllt werden.
 [Account error]
 Konto-Fehler
 [Account name has to be unique. Please enter unique name.]
@@ -2556,7 +2556,7 @@ Einstellungen...
 [Upgrade account]
 Konto aktualisieren
 [Account ID]
-Account ID
+Konto-ID
 [<unknown>]
 <unbekannt>
 [Protocol is not loaded.]
@@ -2660,7 +2660,7 @@ Ein
 [Off]
 Aus
 [Running core plugin]
-Geladenes Core-Plugin
+Geladenes Kern-Plugin
 [Non-loadable plugin]
 Nicht-ladbares Plugin
 [Frames]

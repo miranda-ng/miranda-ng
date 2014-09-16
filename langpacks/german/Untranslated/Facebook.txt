@@ -1,7 +1,0 @@
-﻿[Turn off chat on Facebook when going to offline in Miranda]
-[Map unsupported statuses to Invisible (instead of Online)]
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-[Could not load communication token. You should report this and wait for plugin update.]
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-[User cancel captcha challenge.]

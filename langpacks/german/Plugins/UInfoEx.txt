@@ -293,7 +293,7 @@ Benutze Tierkreiszeichen als Standard-Avatar
 [Country flags]
 Länderflaggen
 [Use &unknown flag if country cannot be determined]
-&Unbekannte Flagge verwenden wenn Land nicht bestimmt werden kann
+&Unbekannte Flagge verwenden, wenn Land nicht bestimmt werden kann
 [Show country flag as &status icon on message window]
 Länderflagge als &Statusicon im Nachrichtenfenster anzeigen
 [Birthday]
@@ -458,7 +458,7 @@ Es besteht momentan keine Verbindung mit dem ICQ-Netzwerk.\nUm das Profil hochla
 [Uploading]
 Lade hoch
 [Creating the image list failed!]
-Das erstellen der Bildliste ist fehlgeschlagen!
+Das Erstellen der Bildliste ist fehlgeschlagen!
 [Could not find contact's protocol. Maybe it is not active!]
 Das Kontaktprotokoll konnte nicht gefunden werden. Vielleicht ist es nicht aktiv!
 [No pages have been added. Canceling dialog creation!]
@@ -1197,9 +1197,9 @@ Import abgeschlossen
 [Some basic statistics]
 Einige grundlegende Statistiken
 [Added %d of %d contacts stored in the ini-file.]
-%d von %d Kontakten in der .ini-Datei hinzugefügt.
+%d von %d Kontakten aus der .ini-Datei hinzugefügt.
 [The ini-file "%s"\nfor reading contact information could not be opened.]
-Die .ini-Datei "%s"\nfür das lesen der Kontaktinformationen konnte nicht geöffnet werden.
+Die .ini-Datei "%s"\nfür das Lesen der Kontaktinformationen konnte nicht geöffnet werden.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 alle Kontakte

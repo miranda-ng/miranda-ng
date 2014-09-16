@@ -53,7 +53,7 @@ Vorschau
 [Ignore these clients (separated by semicolons):]
 Folgende Clients ignorieren (durch Semikolon trennen):
 [(you have to install pcre16.dll to use regular expressions here)]
-(pcre16.dll müssen installiert werden um reguläre Ausdrücke zu verwenden)
+(pcre16.dll muss installiert werden um reguläre Ausdrücke zu verwenden)
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [changed client to %s (was %s)]
 ändert Client zu %s (war %s)

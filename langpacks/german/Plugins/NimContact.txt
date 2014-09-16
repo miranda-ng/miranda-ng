@@ -25,7 +25,7 @@ URL erneuern alle
 [Intervals]
 Intervalle
 [If the protocol timer is disabled web pages won't be updated]
-Wenn der Protokoll-Timer deaktiviert ist dann werden Webseiten nicht aktualisiert
+Wenn der Protokoll-Timer deaktiviert ist, so werden Webseiten nicht aktualisiert
 [contact display info]
 Kontakt-Anzeigeinformationen
 [Contacts display name]
@@ -39,9 +39,9 @@ Link
 [Program parameters:]
 Programmparameter:
 [O&pen File]
-Datei öffnen
+&Datei öffnen
 [O&pen Folder]
-Ordner öffnen
+&Ordner öffnen
 [Link Settings]
 Link-Einstellungen
 [Contact list settings]
@@ -49,9 +49,9 @@ Kontaktlisteneinstellungen
 [Group:]
 Gruppe:
 [Status Icon]
-Statussymbol
+Statusicon
 [Group\\Sub-Group]
-Gruppe\\Sub-Gruppe
+Gruppe\\Untergruppe
 [Timer Settings]
 Timereinstellungen
 [Use Timer]
@@ -77,7 +77,7 @@ Timereinstellungen
 [String Maker]
 Stringersteller
 [&Test String]
-String testen
+String &testen
 [&Exit]
 B&eenden
 [String to test]
@@ -103,20 +103,20 @@ Hilfe
 [Copy / Export contact]
 Kontakt kopieren/exportieren
 [&Export Non-IM Contact]
-Nicht-IM-Kontakt exportieren
+Nicht-IM-Kontakt &exportieren
 [Co&py Non-IM Contact]
-Nicht-IM-Kontakt kopieren
+Nicht-IM-Kontakt ko&pieren
 [Type one replace string per line in the format "original text,new text"]
-Geben Sie einen String pro Zeile im Format "original Text,neuer Text" ein
+Geben Sie einen String pro Zeile im Format "Originaltext,neuer Text" ein
 [EXAMPLE: %fn1,%fn2]
 BEISPIEL: %fn1,%fn2
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
 [Select Folder]
 Ordner wählen
 [Non-IM Contact protocol timer is Disabled]
-Nicht-IM-Kontakt Protokolltimer deaktiviert
+Nicht-IM-Kontakt-Protokolltimer deaktiviert
 [Timer intervals... Non-IM Contact Protocol timer is %d seconds]
-Timer-Intervalle....Nicht-IM-Kontakte Protokolltimer ist %d Sek.
+Timer-Intervalle....Nicht-IM-Kontakte-Protokolltimer ist %d Sek.
 [New Non-IM Contact]
 Neuer Nicht-IM-Kontakt
 ;file \plugins\Non-IM Contact\src\dialog.cpp
@@ -134,16 +134,16 @@ Dateien
 Nicht-IM-Kontakt "%s" bearbeiten
 ;file \plugins\Non-IM Contact\src\files.cpp
 [Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]
-Möchten Sie den Inhalt der Datei überschreiben?\r\n\r\nWenn Sie Nein klicken dann werden diese Kontakte an das Ende der Datei angehängt.
+Möchten Sie den Inhalt der Datei überschreiben?\r\n\r\nWenn Sie Nein klicken, so werden diese Kontakte an das Ende der Datei angehängt.
 [File couldn't be opened]
-
+Datei konnte nicht geöffnet werden
 [File couldn't be opened,2]
-
+Datei konnte nicht geöffnet werden,2
 [line(%-3d) = | %s]
-
+Zeile(%-3d) = | %s
 ;file \plugins\Non-IM Contact\src\http.cpp
 [Non-IM Contacts]
-Non-IM Kontakte
+Non-IM-Kontakte
 ;file \plugins\Non-IM Contact\src\main.cpp
 [Plugins]
 Plugins
@@ -154,21 +154,21 @@ Nicht-IM-Kontakt
 [&Non-IM Contact]
 &Nicht-IM-Kontakt
 [&Add Non-IM Contact]
-Nicht-IM-Kontakt hinzufügen
+Nicht-IM-Kontakt &hinzufügen
 [&View/Edit Files]
-Daten zeigen/bearbeiten
+Daten &zeigen/bearbeiten
 [&Export all Non-IM Contacts]
 Alle Nicht-IM-Kontakte &exportieren
 [&Import Non-IM Contacts]
 Nicht-IM-Kontakte &importieren
 [&String Maker]
-Stringersteller
+&Stringersteller
 [E&dit Contact Settings]
-Kontakteinstellungen bearbeiten
+Kontakteinstellungen &bearbeiten
 ;file \plugins\Non-IM Contact\src\namereplacing.cpp
 [%s - ERROR: no line specified or line not found (in %s)]
-
+%s - FEHLER: keine Zeile angegeben oder Zeile nicht gefunden (in %s)
 [%s - ERROR: file couldn't be opened (in %s)]
-
+%s - FEHLER: Datei konnte nicht geöffnet werden (in %s)
 [%s - ERROR: no file specified in settings (in %s)]
-
+%s - FEHLER: keine Datei in den Einstellungen angegeben (in %s)

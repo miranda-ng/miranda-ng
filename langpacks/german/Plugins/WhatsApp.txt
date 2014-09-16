@@ -43,7 +43,7 @@ Bitte geben Sie einen Nicknamen ein.
 Bitte geben Sie ein Passwort ein.
 ;file \protocols\WhatsApp\src\contacts.cpp
 [Last seen on %x at %X]
-
+Zuletzt gesehen am %x um %X
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Eine SMS mit dem Registrierungscode wird an Ihr Mobiltelefon geschickt.\nBeachten Sie, dass Sie das richtige WhatsApp und dieses Plugin nicht gleichzeitig nutzen können.\nFortfahren?
