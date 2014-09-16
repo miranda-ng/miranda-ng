@@ -76,7 +76,6 @@ plugin may add different menu items with some service.
 
 25-11-2002		Full support of runtime build of all menus.
 				Contact		MS_CLIST_ADDCONTACTMENUITEM
-								MS_CLIST_REMOVECONTACTMENUITEM
 								MS_CLIST_MENUBUILDCONTACT
 								ME_CLIST_PREBUILDCONTACTMENU
 
@@ -198,20 +197,11 @@ __forceinline HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
 //returns a HMENU identifying the menu.
 #define MS_CLIST_MENUBUILDMAIN						"CList/MenuBuildMain"
 
-
-
 //the main menu is about to be built
 //wParam=lParam=0
 #define ME_CLIST_PREBUILDMAINMENU					"CList/PreBuildMainMenu"
 
 
-
-
-//remove a item from contact menu
-//wParam=hMenuItem returned by MS_CLIST_ADDCONTACTMENUITEM
-//lParam=0
-//returns 0 on success, nonzero on failure
-#define MS_CLIST_REMOVECONTACTMENUITEM			"CList/RemoveContactMenuItem"
 /*GENMENU_MODULE*/
 
 #define SETTING_NOOFFLINEBOTTOM_DEFAULT 0

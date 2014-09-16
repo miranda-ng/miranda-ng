@@ -254,7 +254,7 @@ INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 	}
 
 	for (int i=0; i < menuHandleArray.getCount(); i++)
-		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)menuHandleArray[i], 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)menuHandleArray[i], 0);
 	menuHandleArray.destroy();
 
 	return TRUE;
@@ -277,7 +277,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 	Menu_ShowItem(hContactMenuItem, haveMenu);
 
 	for (int i=0; i < menuHandleArray.getCount(); i++)
-		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)menuHandleArray[i], 0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)menuHandleArray[i], 0);
 	menuHandleArray.destroy();
 
 	if (haveMenu) {

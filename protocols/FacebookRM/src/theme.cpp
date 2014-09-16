@@ -164,7 +164,7 @@ void InitContactMenus()
 void UninitContactMenus()
 {
 	for(size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
-		CallService(MS_CLIST_REMOVECONTACTMENUITEM,(WPARAM)g_hContactMenuItems[i],0);
+		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[i], 0);
 }
 
 int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)

@@ -587,7 +587,7 @@ void CSametimeProto::InitSessionMenu()
 void CSametimeProto::DeinitSessionMenu()
 {
 	debugLog(_T("CSametimeProto::DeinitSessionMenu()"));
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hSessionAnnounceMenuItem, (LPARAM)0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hSessionAnnounceMenuItem, 0);
 }
 
 void CSametimeProto::InitCritSection()

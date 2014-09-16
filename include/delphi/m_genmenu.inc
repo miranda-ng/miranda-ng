@@ -67,7 +67,6 @@ plugin may add different menu items with some service.
 
 25-11-2002    Full support of runtime build of all menus.
    Contact      MS_CLIST_ADDCONTACTMENUITEM
-           MS_CLIST_REMOVECONTACTMENUITEM
            MS_CLIST_MENUBUILDCONTACT
            ME_CLIST_PREBUILDCONTACTMENU
 
@@ -223,14 +222,6 @@ const
   wParam=lParam=0
 }
   ME_CLIST_PREBUILDMAINMENU:PAnsiChar = 'CList/PreBuildMainMenu';
-
-{
-  remove a item from contact menu
-  wParam=hMenuItem returned by MS_CLIST_ADDCONTACTMENUITEM
-  lParam=0
-  returns 0 on success, nonzero on failure
-}
-  MS_CLIST_REMOVECONTACTMENUITEM:PAnsiChar = 'CList/RemoveContactMenuItem';
 
 // GENMENU_MODULE
 

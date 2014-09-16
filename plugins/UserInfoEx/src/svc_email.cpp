@@ -196,7 +196,7 @@ void SvcEMailRebuildMenu()
 			UnhookEvent(ME_CLIST_PREBUILDCONTACTMENU), hPrebuildMenuHook = NULL;
 
 		if (ghMenuItem) {
-			CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)ghMenuItem, NULL);
+			CallService(MO_REMOVEMENUITEM, (WPARAM)ghMenuItem, NULL);
 			ghMenuItem = NULL;
 		}
 	}

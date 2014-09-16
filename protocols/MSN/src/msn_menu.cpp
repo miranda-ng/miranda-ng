@@ -446,11 +446,11 @@ void MSN_InitContactMenu(void)
 
 void MSN_RemoveContactMenus(void)
 {
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hBlockMenuItem, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hLiveSpaceMenuItem, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hNetmeetingMenuItem, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hChatInviteMenuItem, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hOpenInboxMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hBlockMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hLiveSpaceMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hNetmeetingMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hChatInviteMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hOpenInboxMenuItem, 0);
 
 	DestroyServiceFunction(hNetMeeting);
 	DestroyServiceFunction(hBlockCom);

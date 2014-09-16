@@ -490,7 +490,7 @@ void CYahooProto::MenuUninit( void )
 	if ( mainMenuRoot )
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
 
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hShowProfileMenuItem, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hShowProfileMenuItem, 0);
 }
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)

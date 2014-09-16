@@ -175,10 +175,11 @@ void InitContactMenus(void)
 
 void UninitContactMenus(void)
 {
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hUMenuChanSettings, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hUMenuWhois, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hUMenuDisconnect, 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hUMenuIgnore, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hUMenuChanSettings, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hUMenuWhois, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hUMenuDisconnect, 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)hUMenuIgnore, 0);
+	
 	DestroyServiceFunction(hMenuChanSettings);
 	DestroyServiceFunction(hMenuWhois);
 	DestroyServiceFunction(hMenuDisconnect);
