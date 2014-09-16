@@ -70,6 +70,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Sametime", "..\protoc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\src\icons\proto_metacontacts\Proto_MetaContacts_10.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_WhatsApp", "..\protocols\WhatsApp\proto_whatsapp\Proto_WhatsApp_10.vcxproj", "{64A2B403-90AF-4CF8-BC69-4E8D33872D64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -358,6 +360,14 @@ Global
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
+		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|Win32.ActiveCfg = Debug|Win32
+		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|Win32.Build.0 = Debug|Win32
+		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|x64.ActiveCfg = Debug|x64
+		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|x64.Build.0 = Debug|x64
+		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Release|Win32.ActiveCfg = Release|Win32
+		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Release|Win32.Build.0 = Release|Win32
+		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Release|x64.ActiveCfg = Release|x64
+		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
