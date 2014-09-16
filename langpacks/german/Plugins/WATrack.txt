@@ -58,7 +58,7 @@ Cover anstelle des Bildes verwenden
 [Show trackbar]
 Schieberegler zeigen
 [Cover padding]
-Cover Abstände
+Cover-Abstände
 [Frame refresh time]
 Frame-Aktualisierungsrate
 [Hide frame when no music played]
@@ -98,17 +98,17 @@ Pause überfahren
 [Prev Hovered]
 Vorheriges überfahren
 [Play Hovered]
-Play überfahren
+Wiedergabe überfahren
 [Stop Hovered]
-Stop überfahren
+Stopp überfahren
 [Next Hovered]
 Nächstes überfahren
 [Prev Pushed]
 Vorheriges gedrückt
 [Play Pushed]
-Spielen gedrückt
+Wiedergabe gedrückt
 [Stop Pushed]
-Stop gedrückt
+Stopp gedrückt
 [Next Pushed]
 Nächstes gedrückt
 [Volume Down]

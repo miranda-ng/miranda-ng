@@ -588,9 +588,9 @@ Raumeinstellungen wurden geändert.]
 [Outcast]
 Ausgestoßener
 [Affiliation of %s was changed to '%s'.]
-Mitgliedschaft von %s wurde geändert in '%s'.
+Mitgliedschaft von %s wurde in '%s' geändert.
 [Role of %s was changed to '%s'.]
-Rolle von %s wurde geändert in '%s'.
+Rolle von %s wurde in '%s' geändert.
 [because room is now members-only]
 weil der Raum nun nur für Mitglieder offen ist
 [user banned]
@@ -620,7 +620,7 @@ Außgestoßene-Liste (&Bann)
 [View/change &topic]
 &Thema ansehen/ändern
 [Add to &bookmarks]
-Als Lesezeichen speichern
+Als &Lesezeichen speichern
 [&Configure...]
 &Einstellungen...
 [&Destroy room]

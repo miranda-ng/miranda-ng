@@ -35,7 +35,7 @@ Durchsuchen...
 [Interface]
 Oberfläche
 [Do not change icon when testing]
-Symbol beim Testen nicht ändern
+Icon beim Testen nicht ändern
 [Use the Customize/Fonts options to change text size and color.]
 Verwenden Sie Customize/Schriften, um Textgröße und -farbe zu ändern.
 [Indent:]

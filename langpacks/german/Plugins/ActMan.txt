@@ -827,7 +827,7 @@ Speicherung
 [LastResult to ]
 Letztes Ergebnis zu\s
 [LastResult from]
-Letztes Ergebnis von\s
+Letztes Ergebnis von
 [Slot 0]
 Slot 0
 [Slot 1]

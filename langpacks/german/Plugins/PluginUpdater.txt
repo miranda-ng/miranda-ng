@@ -131,7 +131,7 @@ Laden der Liste hat bereits begonnen!
 [Will be deleted!]
 Wird gelöscht!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
-Aktualisierung abgeschlossen. Klicken Sie Ja um Miranda neu zu starten oder Nein um einen Neustart nach dem Beenden zu machen.
+Aktualisierung abgeschlossen. Klicken Sie auf Ja, um Miranda neu zu starten, oder auf Nein, um einen Neustart nach dem Beenden zu machen.
 [Core components]
 Kernkomponenten
 [Core]
@@ -185,4 +185,4 @@ Plugin-Updater-HTTP-Verbindung
 [Checking new updates...]
 Prüfe auf neue Aktualisierungen...
 [An error occurred while checking new updates.]
-Ein Fehler trat bei der Prüfung nach Aktualisierungen auf.
+Ein Fehler trat bei der Prüfung auf Aktualisierungen auf.

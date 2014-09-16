@@ -90,7 +90,7 @@ Hinzufügen des %S-Kontakts %s fehlgeschlagen
 [Skipping contact with no protocol]
 Überspringe Kontakt ohne Protokoll
 [Skipping contact, account %S cannot be mapped.]
-
+Überspringe Kontakt, Konto %S konnte nicht abgebildet werden.
 [Skipping contact, %S not installed.]
 Überspringe Kontakt, %S nicht installiert.
 [Skipping non-IM contact (%S)]

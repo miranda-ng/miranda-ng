@@ -39,7 +39,7 @@ Nachrichtendebugging
 NotifyAnything
 ;file \plugins\NotifyAnything\src\main.cpp
 [Notify Anything]
-
+Notify Anything
 [N/A: Failed to format error message]
 N/A: Formatieren der Fehlernachricht fehlgeschlagen
 [N/A: FormatMessage failed, error code was 0x]
