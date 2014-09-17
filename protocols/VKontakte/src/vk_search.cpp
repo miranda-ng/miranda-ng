@@ -28,7 +28,7 @@ void CVkProto::SearchBasicThread(void* id)
 
 void __cdecl CVkProto::SearchByStringThread(void* str)
 {
-	debugLogA("CVkProto::OnSearchBasicThread");
+	debugLogA("CVkProto::SearchByStringThread");
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
 		<< TCHAR_PARAM("q", (TCHAR *)str)
 		<< INT_PARAM("count", 200)
