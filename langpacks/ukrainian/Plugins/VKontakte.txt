@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.14
+;  Version: 0.1.0.15
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -35,6 +35,8 @@
 Позначати прочитаними при наборі тексту
 [Automatically sync last messages]
 Автоматично синхронізувати останні повідомлення
+[Use local time for received messages]
+Локальний час для прийнятих повідомлень
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
@@ -91,6 +93,8 @@
 З'єднання з сервером %s
 [Create new chat]
 Створити новий чат
+[Visit profile]
+Профіль на сайті
 [Reload all messages from vk.com]
 Завантажити історію з сайту
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
