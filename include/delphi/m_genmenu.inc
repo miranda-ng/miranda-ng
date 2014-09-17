@@ -160,14 +160,6 @@ const
 
 // TRAY MENU
 {
-  remove a item from tray menu
-  wParam=hMenuItem returned by MS_CLIST_ADDTRAYMENUITEM
-  lParam=0
-  returns 0 on success, nonzero on failure
-}
-  MS_CLIST_REMOVETRAYMENUITEM:PAnsiChar = 'CList/RemoveTrayMenuItem';
-
-{
   builds the tray menu
   wParam=lParam=0
   returns a HMENU identifying the menu.

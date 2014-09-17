@@ -394,17 +394,6 @@ typedef struct{
 }
 TrayMenuExecParam, *lpTrayMenuExecParam;
 
-/*
-wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
-return 0 on success.
-*/
-
-static INT_PTR RemoveTrayMenuItem(WPARAM wParam, LPARAM lParam)
-{
-	CallService(MO_REMOVEMENUITEM, wParam, 0);
-	return 0;
-}
-
 static INT_PTR BuildTrayMenu(WPARAM wParam, LPARAM lParam)
 {
 	HMENU hMenu = CreatePopupMenu();
@@ -505,7 +494,6 @@ void InitTrayMenus(void)
 	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuonAddService", TrayMenuonAddService);
 
 	CreateServiceFunction("CList/AddTrayMenuItem", AddTrayMenuItem);
-	CreateServiceFunction(MS_CLIST_REMOVETRAYMENUITEM, RemoveTrayMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY, BuildTrayMenu);
 
 	// Tray menu
