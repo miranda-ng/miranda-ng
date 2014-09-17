@@ -345,7 +345,10 @@ HANDLE CVkProto::SearchByEmail(const PROTOCHAR* email)
 
 HANDLE CVkProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
 {
-	return 0;
+	TCHAR arg[200];
+	mir_sntprintf(arg, SIZEOF(arg), _T("%s %s %s"), nick, firstName, lastName);
+	ForkThread(&CVkProto::SearchByStringThread, (void *)arg);
+	return (HANDLE)1;
 }
 
 MCONTACT CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)

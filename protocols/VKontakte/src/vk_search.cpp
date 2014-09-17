@@ -20,15 +20,24 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CVkProto::SearchBasicThread(void* id)
 {
 	debugLogA("CVkProto::OnSearchBasicThread");
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearchBasic)
-		<< TCHAR_PARAM("user_ids", (TCHAR *) id)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
+		<< TCHAR_PARAM("user_ids", (TCHAR *)id)
 		<< VER_API);
 
 }
 
-void CVkProto::OnSearchBasic(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+void __cdecl CVkProto::SearchByStringThread(void* str)
 {
-	debugLogA("CVkProto::OnSearchBasic %d", reply->resultCode);
+	debugLogA("CVkProto::OnSearchBasicThread");
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
+		<< TCHAR_PARAM("q", (TCHAR *)str)
+		<< INT_PARAM("count", 200)
+		<< VER_API);
+}
+
+void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	debugLogA("CVkProto::OnSearch %d", reply->resultCode);
 	if (reply->resultCode != 200){
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
@@ -41,11 +50,19 @@ void CVkProto::OnSearchBasic(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	for (size_t i = 0;; i++) {
+	int iCount = json_as_int(json_get(pResponse, "count"));
+	JSONNODE *pItems = json_get(pResponse, "items");
+	if (!pItems){
+		pItems = pResponse;
+		iCount = 1;
+	} 
+
+
+	for (size_t i = 0; i<iCount; i++) {
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 
-		JSONNODE *pRecord = json_at(pResponse, i);
+		JSONNODE *pRecord = json_at(pItems, i);
 		if (pRecord == NULL)
 			break;
 		
