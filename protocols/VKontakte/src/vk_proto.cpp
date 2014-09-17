@@ -331,10 +331,10 @@ int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
 HANDLE CVkProto::SearchBasic(const PROTOCHAR* id)
 {
-	return 0;
+	ForkThread(&CVkProto::SearchBasicThread, (void *) id);
+	return (HANDLE)1;
 }
 
 HANDLE CVkProto::SearchByEmail(const PROTOCHAR* email)
@@ -349,7 +349,13 @@ HANDLE CVkProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName,
 
 MCONTACT CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	return NULL;
+	int uid = _ttoi(psr->id);
+	if (!uid)
+		return NULL;
+
+	MCONTACT hConnact = FindUser(uid, true);
+	RetrieveUserInfo(uid);
+	return hConnact;
 }
 
 int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR *message)

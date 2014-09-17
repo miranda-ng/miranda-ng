@@ -202,6 +202,11 @@ struct CVkProto : public PROTO<CVkProto>
 	void UnInitMenus();
 	int  __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
 	
+	//==== Search ========================================================================
+	
+	void __cdecl SearchBasicThread(void* id);
+	void OnSearchBasic(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
