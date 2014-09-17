@@ -530,7 +530,7 @@ recvRest:
 		}
 
 		if (info->type == JABBER_SESSION_NORMAL) {
-			m_iqManager.ExpireAll(info);
+			m_iqManager.ExpireAll();
 			m_bJabberOnline = FALSE;
 			info->zlibUninit();
 			EnableMenuItems(FALSE);

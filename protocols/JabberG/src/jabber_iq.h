@@ -54,79 +54,50 @@ class CJabberIqInfo
 protected:
 	friend class CJabberIqManager;
 	JABBER_IQ_HANDLER m_pHandler;
-	CJabberIqInfo *m_pNext;
 
-	int    m_nIqId;
-	DWORD  m_dwParamsToParse;
-	DWORD  m_dwRequestTime;
-	DWORD  m_dwTimeout;
-	TCHAR *m_szReceiver;
-	int    m_iPriority;
+	int      m_nIqId;
+	DWORD    m_dwParamsToParse;
+	DWORD    m_dwRequestTime;
+	DWORD    m_dwTimeout;
+	TCHAR   *m_szReceiver;
+	int      m_iPriority;
 
 public:
-	void  *m_pUserData;
-	int    m_nIqType;
-	TCHAR *m_szFrom;
-	TCHAR *m_szChildTagXmlns;
-	TCHAR *m_szChildTagName;
-	HXML   m_pChildNode;
+	void    *m_pUserData;
+	int      m_nIqType;
+	TCHAR   *m_szFrom;
+	TCHAR   *m_szChildTagXmlns;
+	TCHAR   *m_szChildTagName;
+	HXML     m_pChildNode;
 	MCONTACT m_hContact;
-	TCHAR *m_szTo;
-	TCHAR *m_szId;
+	TCHAR   *m_szTo;
+	TCHAR   *m_szId;
 
 public:
 	__forceinline CJabberIqInfo()
-	{
-		memset(this, 0, sizeof(*this));
+	{	memset(this, 0, sizeof(*this));
 	}
 	__forceinline ~CJabberIqInfo()
-	{
-		mir_free(m_szReceiver);
+	{	mir_free(m_szReceiver);
 	}
 
-	__forceinline void SetReceiver(const TCHAR *szReceiver)
-	{	replaceStrT(m_szReceiver, szReceiver);
-	}
-	__forceinline TCHAR* GetReceiver()
-	{	return m_szReceiver;
-	}
-	__forceinline void SetParamsToParse(DWORD dwParamsToParse)
-	{	m_dwParamsToParse = dwParamsToParse;
-	}
-	__forceinline void SetTimeout(DWORD dwTimeout)
-	{	m_dwTimeout = dwTimeout;
-	}
-	__forceinline int GetIqId()
-	{	return m_nIqId;
-	}
-	__forceinline DWORD GetRequestTime()
-	{	return m_dwRequestTime;
-	}
-	__forceinline int GetIqType()
-	{	return m_nIqType;
-	}
-	__forceinline void* GetUserData()
-	{	return m_pUserData;
-	}
-	__forceinline TCHAR* GetFrom()
-	{	return m_szFrom;
-	}
-	__forceinline TCHAR* GetTo()
-	{	return m_szTo;
-	}
-	__forceinline TCHAR* GetIdStr()
-	{	return m_szId;
-	}
-	__forceinline MCONTACT GetHContact()
-	{	return m_hContact;
-	}
-	__forceinline HXML GetChildNode()
-	{	return m_pChildNode;
-	}
-	__forceinline TCHAR* GetChildNodeName()
-	{	return m_szChildTagName;
-	}
-	
+	__forceinline void SetReceiver(const TCHAR *szReceiver) { replaceStrT(m_szReceiver, szReceiver); }
+	__forceinline void SetParamsToParse(DWORD dwParamsToParse) { m_dwParamsToParse = dwParamsToParse; }
+	__forceinline void SetTimeout(DWORD dwTimeout) { m_dwTimeout = dwTimeout; }
+
+	__forceinline int      GetIqId() const { return m_nIqId; }
+	__forceinline DWORD    GetRequestTime() const { return m_dwRequestTime; }
+	__forceinline int      GetIqType() const { return m_nIqType; }	
+	__forceinline void*    GetUserData() const {	return m_pUserData; }
+	__forceinline TCHAR*   GetFrom() const {	return m_szFrom; }
+	__forceinline TCHAR*   GetTo() const { return m_szTo; }
+	__forceinline TCHAR*   GetIdStr() const { return m_szId; }
+	__forceinline MCONTACT GetHContact() const { return m_hContact; }
+	__forceinline HXML     GetChildNode() const { return m_pChildNode; }
+	__forceinline TCHAR*   GetChildNodeName() const { return m_szChildTagName; }
+	__forceinline TCHAR*   GetReceiver() const { return m_szReceiver; }
+	__forceinline int      GetPriority() const { return m_iPriority; }
+
 	char* GetCharIqType()
 	{
 		switch (m_nIqType) {
@@ -169,22 +140,22 @@ class CJabberIqManager
 {
 protected:
 	CJabberProto *ppro;
-	mir_cs m_cs;
-	DWORD m_dwLastUsedHandle;
-	CJabberIqInfo *m_pIqs; // list of iqs ordered by priority
-	HANDLE m_hExpirerThread;
-	BOOL m_bExpirerThreadShutdownRequest;
 
+	mir_cs m_cs;
+	DWORD  m_dwLastUsedHandle;
+
+	HANDLE m_hExpirerThread;
+	BOOL   m_bExpirerThreadShutdownRequest;
+
+	LIST<CJabberIqInfo> m_arIqs;
 	OBJLIST<CJabberIqPermanentInfo> m_arHandlers;
 
-	CJabberIqInfo* DetachInfo(int nIqId);
-	CJabberIqInfo* DetachInfo(void *pUserData);
-	CJabberIqInfo* DetachExpired();
+	CJabberIqInfo* DetouchInfo();
+	CJabberIqInfo* DetouchInfo(int nIqId);
+	CJabberIqInfo* DetouchInfo(void *pUserData);
+	CJabberIqInfo* DetouchExpired();
 
-	void ExpireInfo(CJabberIqInfo *pInfo, void *pUserData = NULL);
-	
-	// inserts pInfo at a place determined by pInfo->m_iPriority
-	bool InsertIq(CJabberIqInfo *pInfo);
+	void ExpireInfo(CJabberIqInfo *pInfo);
 
 public:
 	CJabberIqManager(CJabberProto* proto);
@@ -204,10 +175,10 @@ public:
 	bool HandleIq(int nIqId, HXML pNode);
 	bool HandleIqPermanent(HXML pNode);
 
-	bool ExpireIq(int nIqId);
+	void ExpireIq(int nIqId);
 	void ExpirerThread(void);
 	bool ExpireByUserData(void *pUserData);
-	bool ExpireAll(void *pUserData = NULL);
+	void ExpireAll();
 	void FillPermanentHandlers();
 };
 
