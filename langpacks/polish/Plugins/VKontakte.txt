@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.14
+;  Version: 0.1.0.15
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -36,6 +36,8 @@ Oznaczaj jako przeczytane po udzieleniu odpowiedzi
 Oznacz jako przeczytaną podczas pisania
 [Automatically sync last messages]
 Automatycznie synchronizuj ostatnie wiadomości
+[Use local time for received messages]
+Używaj czasu lokalnego dla odebranych wiadomości
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
