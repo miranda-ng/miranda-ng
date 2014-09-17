@@ -303,6 +303,20 @@ INI файлы
 Неизвестный контакт
 [Known contact]
 Известный контакт
+[Open user tree]
+Открыть список пользователей
+[BLOB setting]
+BLOB
+[Byte setting]
+Байт
+[Word setting]
+Слово
+[Dword setting]
+Двойное слово
+[String setting]
+Строка
+[Unicode setting]
+Unicode
 [Handle]
 Название
 [Open Database Editor]
