@@ -82,10 +82,7 @@ begin
     begin
       mFreeMem(tmp.name);
       DestroyServiceFunction(tmp.service);
-      if doTray then
-        CallService(MS_CLIST_REMOVETRAYMENUITEM,tmp.menuitem,0)
-      else
-        CallService(MO_REMOVEMENUITEM,tmp.menuitem,0);
+      CallService(MO_REMOVEMENUITEM,tmp.menuitem,0);
       mFreeMem(tmp);
       List_Remove(@trayStations,i);
     end;
@@ -307,15 +304,11 @@ begin
     tmp:=pTrayRadioStation(trayStations.Items[i]);
     mFreeMem(tmp.name);
     DestroyServiceFunction(tmp.service);
-//    CallService(MS_CLIST_REMOVETRAYMENUITEM,tmp.menuitem,0);
     mFreeMem(tmp);
   end;
   List_Destroy(@trayStations);
   DestroyServiceFunction(srvtrayplaypause);
   DestroyServiceFunction(srvtraystop);
 
-  if doTray then
-    CallService(MS_CLIST_REMOVETRAYMENUITEM,trayradioparent,0)
-  else
-    CallService(MO_REMOVEMENUITEM,trayradioparent,0);
+  CallService(MO_REMOVEMENUITEM,trayradioparent,0);
 end;
