@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.14
+;  Version: 0.1.0.15
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -21,6 +21,7 @@
 [Mark read on reply]
 [Mark read on typing]
 [Automatically sync last messages]
+[Use local time for received messages]
 [Bots challenge test]
 [Instruction:]
 [Submit]
