@@ -154,13 +154,7 @@ __forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM
 
 // Group MENU
 
-
 // TRAY MENU
-//remove a item from tray menu
-//wParam=hMenuItem returned by MS_CLIST_ADDTRAYMENUITEM
-//lParam=0
-//returns 0 on success, nonzero on failure
-#define MS_CLIST_REMOVETRAYMENUITEM					"CList/RemoveTrayMenuItem"
 
 //builds the tray menu
 //wParam=lParam=0
