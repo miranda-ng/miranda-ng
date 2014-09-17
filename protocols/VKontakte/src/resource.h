@@ -28,6 +28,7 @@
 #define IDC_MARKREADONREPLY             1026
 #define IDC_SYNCHISTOTYONONLINE         1027
 #define IDC_MARKREADONTYPING            1028
+#define IDC_USE_LOCAL_TIME              1029
 
 // Next default values for new objects
 // 

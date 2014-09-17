@@ -323,7 +323,8 @@ private:
 			m_bMesAsUnread, 
 			m_bMarkReadOnReply, 
 			m_bMarkReadOnTyping,
-			m_bAutoSyncHistory;
+			m_bAutoSyncHistory,
+			m_bUseLocalTime;
 
 	LONG   m_myUserId;
 	ptrA   m_szAccessToken;
