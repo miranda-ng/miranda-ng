@@ -17,7 +17,7 @@ typedef struct AddEditParam_tag {
 	BOOL self_add;
 } AddEditParam;
 
-HANDLE hMainMenuItem = 0, hGroupMenuItem;
+HGENMENU hMainMenuItem = 0;
 
 // store options dialog window handle statically so it can be refreshed by non-modal add alarm dialog
 HWND hwndOptionsDialog = 0;
@@ -700,10 +700,10 @@ void AddMenuItem()
 	mi.position = 500010000;
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 		mi.pszPopupName = "Alarms";
-	if (ServiceExists(MS_CLIST_REMOVEGROUPMENUITEM)) {
-		GroupMenuParam gmp = {0};
-		hGroupMenuItem = Menu_AddGroupMenuItem(&gmp, &mi);
-	}
+
+	GroupMenuParam gmp = {0};
+	Menu_AddGroupMenuItem(&gmp, &mi);
+
 	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 }
 

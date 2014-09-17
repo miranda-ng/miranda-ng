@@ -45,12 +45,6 @@ static INT_PTR AddContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
 	return CallService(MO_ADDNEWMENUITEM, (WPARAM)hFrameMenuObject, (LPARAM)&tmi);
 }
 
-static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
-{
-	CallService(MO_REMOVEMENUITEM, wParam, 0);
-	return 0;
-}
-
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
@@ -110,7 +104,6 @@ int InitFramesMenus(void)
 	CreateServiceFunction("FrameMenuCheckService", FrameMenuCheckService);
 	CreateServiceFunction("FrameMenuFreeService", FreeOwnerDataFrameMenu);
 
-	CreateServiceFunction(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, RemoveContextFrameMenuItem);
 	CreateServiceFunction("CList/AddContextFrameMenuItem", AddContextFrameMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDFRAMECONTEXT, BuildContextFrameMenu);
 	CreateServiceFunction(MS_CLIST_FRAMEMENUNOTIFY, ContextFrameMenuNotify);

@@ -237,13 +237,6 @@ __forceinline HGENMENU Menu_AddContextFrameMenuItem(CLISTMENUITEM *mi)
 }
 
 //////////////////////////////////////////////////////////////////////////
-//remove a item from context frame menu
-//wParam=hMenuItem returned by MS_CLIST_ADDCONTACTMENUITEM
-//lParam=0
-//returns 0 on success, nonzero on failure
-#define MS_CLIST_REMOVECONTEXTFRAMEMENUITEM			"CList/RemoveContextFrameMenuItem"
-
-//////////////////////////////////////////////////////////////////////////
 //builds the context menu for a frame
 //wparam=frameid
 //lParam=0
