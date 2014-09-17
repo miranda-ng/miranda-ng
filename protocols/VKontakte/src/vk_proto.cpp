@@ -66,6 +66,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bMarkReadOnReply = getBool("MarkReadOnReply", false);
 	m_bMarkReadOnTyping = getBool("MarkReadOnTyping", false) && m_bMarkReadOnReply;
 	m_bAutoSyncHistory = getBool("AutoSyncHistory", true);
+	m_bUseLocalTime = getBool("LocalTime", false);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);

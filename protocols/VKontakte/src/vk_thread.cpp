@@ -547,7 +547,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
-		recv.timestamp = datetime;
+
+		recv.timestamp = m_bUseLocalTime?time(NULL):datetime;
 		recv.tszMessage = ptszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
