@@ -99,16 +99,12 @@ plugin may add different menu items with some service.
 // SubGroup MENU
 
 // Group MENU
-typedef struct{
-int wParam;
-int lParam;
-}GroupMenuParam,*lpGroupMenuParam;
-
-//remove a item from SubGroup menu
-//wParam=hMenuItem returned by MS_CLIST_ADDSubGroupMENUITEM
-//lParam=0
-//returns 0 on success, nonzero on failure
-#define MS_CLIST_REMOVESUBGROUPMENUITEM					"CList/RemoveSubGroupMenuItem"
+typedef struct
+{
+	int wParam;
+	int lParam;
+}
+GroupMenuParam,*lpGroupMenuParam;
 
 //builds the SubGroup menu
 //wParam=lParam=0
@@ -128,11 +124,7 @@ __forceinline HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUI
 //wParam=lParam=0
 #define ME_CLIST_PREBUILDSUBGROUPMENU						"CList/PreBuildSubGroupMenu"
 
-//remove a item from Group menu
-//wParam=hMenuItem returned by MS_CLIST_ADDGROUPMENUITEM
-//lParam=0
-//returns 0 on success, nonzero on failure
-#define MS_CLIST_REMOVEGROUPMENUITEM					"CList/RemoveGroupMenuItem"
+// Group MENU
 
 //builds the Group menu
 //wParam=lParam=0
@@ -151,8 +143,6 @@ __forceinline HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM
 //the Group menu is about to be built
 //wParam=lParam=0
 #define ME_CLIST_PREBUILDGROUPMENU						"CList/PreBuildGroupMenu"
-
-// Group MENU
 
 // TRAY MENU
 

@@ -51,14 +51,6 @@ typedef struct {
 	int Param1,Param2;
 } GroupMenuExecParam, *lpGroupMenuExecParam;
 
-//wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
-//return 0 on success.
-static INT_PTR RemoveGroupMenuItem(WPARAM wParam, LPARAM lParam)
-{
-	CallService(MO_REMOVEMENUITEM, wParam, 0);
-	return 0;
-}
-
 static INT_PTR BuildGroupMenu(WPARAM wParam, LPARAM lParam)
 {
 	int tick;
@@ -248,7 +240,6 @@ void InitGroupMenus(void)
 	CreateServiceFunction("CLISTMENUSGroup/HideOfflineRootHelper", HideOfflineRootHelper);
 
 	CreateServiceFunction("CList/AddGroupMenuItem", AddGroupMenuItem);
-	CreateServiceFunction(MS_CLIST_REMOVEGROUPMENUITEM, RemoveGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDGROUP, BuildGroupMenu);
 	hPreBuildGroupMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDGROUPMENU);
 	HookEvent(ME_CLIST_PREBUILDGROUPMENU, OnBuildGroupMenu);
@@ -387,14 +378,6 @@ typedef struct {
 	int Param1, Param2;
 } SubGroupMenuExecParam, *lpSubGroupMenuExecParam;
 
-//wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
-//return 0 on success.
-static INT_PTR RemoveSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
-{
-	CallService(MO_REMOVEMENUITEM, wParam, 0);
-	return 0;
-}
-
 static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM lParam)
 {
 	ClcGroup *group = (ClcGroup *)wParam;
@@ -532,7 +515,6 @@ void InitSubGroupMenus(void)
 	//CreateServiceFunction("CLISTMENUSSubGroup/HideOfflineRootHelper", HideOfflineRootHelper);
 
 	CreateServiceFunction("CList/AddSubGroupMenuItem", AddSubGroupMenuItem);
-	CreateServiceFunction(MS_CLIST_REMOVESUBGROUPMENUITEM, RemoveSubGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDSUBGROUP, BuildSubGroupMenu);
 	hPreBuildSubGroupMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDSUBGROUPMENU);
 	HookEvent(ME_CLIST_PREBUILDSUBGROUPMENU, OnBuildSubGroupMenu);

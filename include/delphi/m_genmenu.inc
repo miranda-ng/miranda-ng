@@ -71,12 +71,10 @@ plugin may add different menu items with some service.
            ME_CLIST_PREBUILDCONTACTMENU
 
    MainMenu    MS_CLIST_ADDMAINMENUITEM
-             MS_CLIST_REMOVEMAINMENUITEM
              MS_CLIST_MENUBUILDMAIN
              ME_CLIST_PREBUILDMAINMENU
 
    FrameMenu    MS_CLIST_ADDCONTEXTFRAMEMENUITEM
-             MS_CLIST_REMOVECONTEXTFRAMEMENUITEM
              MS_CLIST_MENUBUILDFRAMECONTEXT
              ME_CLIST_PREBUILDFRAMEMENU
 
@@ -90,14 +88,7 @@ plugin may add different menu items with some service.
 const
 {
   SubGroup MENU
-  remove a item from SubGroup menu
-  wParam=hMenuItem returned by MS_CLIST_ADDSubGroupMENUITEM
-  lParam=0
-  returns 0 on success, nonzero on failure
-}
-  MS_CLIST_REMOVESUBGROUPMENUITEM:PAnsiChar = 'CList/RemoveSubGroupMenuItem';
 
-{
   builds the SubGroup menu
   wParam=lParam=0
   returns a HMENU identifying the menu.
@@ -128,14 +119,6 @@ type
   end;
 
 const
-{
-  remove a item from Group menu
-  wParam=hMenuItem returned by MS_CLIST_ADDGroupMENUITEM
-  lParam=0
-  returns 0 on success, nonzero on failure
-}
-  MS_CLIST_REMOVEGROUPMENUITEM:PAnsiChar = 'CList/RemoveGroupMenuItem';
-
 {
   builds the Group menu
   wParam=lParam=0
