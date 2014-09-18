@@ -131,5 +131,3 @@ void ProtocolTreeNode::require(ProtocolTreeNode *node, const string& tag) {
    if (!tagEquals(node, tag))
 	   throw WAException("failed require. node:" + node->toString() + "tag: " + tag, WAException::CORRUPT_STREAM_EX, 0);
 }
-
-

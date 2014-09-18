@@ -147,9 +147,3 @@ void ByteArrayOutputStream::print() {
 	_LOGDATA("%s", numbers.c_str());
 	_LOGDATA("]");
 }
-
-
-
-
-
-

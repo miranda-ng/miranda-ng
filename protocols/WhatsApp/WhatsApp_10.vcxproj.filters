@@ -113,6 +113,12 @@
     <ClCompile Include="src\OpenSSL\rsa_sign.c">
       <Filter>WhatsAPI++\OpenSSL</Filter>
     </ClCompile>
+    <ClCompile Include="src\WhatsAPI++\PhoneNumber.cpp">
+      <Filter>WhatsAPI++\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WhatsAPI++\WARegister.cpp">
+      <Filter>WhatsAPI++\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">
@@ -188,6 +194,15 @@
       <Filter>WhatsAPI++\OpenSSL</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
+      <Filter>Miranda Plugin\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WhatsAPI++\WARegister.h">
+      <Filter>WhatsAPI++\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WhatsAPI++\PhoneNumber.h">
+      <Filter>WhatsAPI++\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
       <Filter>Miranda Plugin\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

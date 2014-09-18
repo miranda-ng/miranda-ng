@@ -49,9 +49,6 @@ std::string base64_encode(void*, size_t);
 void md5_string(const std::string& data, unsigned char digest[16]);
 
 namespace Utilities{
-	void configureLogging(const char* ident);
-	void closeLog();
-	string getCountryCode();
 	string getMcc();
 	string getMnc();
 	string reverseString(const string& str);
@@ -78,9 +75,5 @@ namespace Utilities{
 	std::vector<unsigned char>* getChallengeData(const std::string& file);
 	bool saveChallengeData(const std::vector<unsigned char>& data, const std::string& file);
 	std::string utf8_to_utf16(const std::string& utf8);
-	std::string string_format(const std::string fmt, ...);
-	std::string string_format(const std::string fmt, va_list ap);
-	std::string string_format(const char* fmt, va_list ap);
 }
 #endif
-

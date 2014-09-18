@@ -462,5 +462,4 @@ class WAConnection {
 	void sendDeleteAccount() throw(WAException);
 };
 
-
 #endif /* WACONNECTION_H_ */
