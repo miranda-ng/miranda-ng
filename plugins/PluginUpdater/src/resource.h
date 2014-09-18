@@ -5,7 +5,6 @@
 #define IDD_UPDATE                      101
 #define IDD_OPT_UPDATENOTIFY            102
 #define IDD_POPUP                       103
-#define IDD_POPUPDUMMI                  104
 #define IDD_LIST                        105
 #define IDI_MENU                        201
 #define IDI_OK                          202

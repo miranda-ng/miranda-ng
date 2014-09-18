@@ -30,47 +30,40 @@ int OnFoldersChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
-
-	hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHT _T("\\")DEFAULT_UPDATES_FOLDER);
-	if (hPluginUpdaterFolder)
-		OnFoldersChanged(0, 0);
-	else
-		lstrcpyn(tszRoot, VARST( _T("%miranda_path%\\"DEFAULT_UPDATES_FOLDER)), SIZEOF(tszRoot));
-
-	opts.bSilent = true;
-
-	int iRestartCount = db_get_b(NULL, MODNAME, "RestartCount", 2);
-	if (iRestartCount > 0)
-		db_set_b(NULL, MODNAME, "RestartCount", iRestartCount-1);
-	else
-		EmptyFolder(0, TRUE); // silently
-
-	CheckUpdateOnStartup();
-
-	Timer = CreateWaitableTimer(NULL, FALSE, NULL);
-	mir_forkthread(InitTimer, 0);
-
-	return 0;
-}
-
-INT_PTR EmptyFolder(WPARAM,LPARAM lParam)
+void EmptyFolder()
 {
 	SHFILEOPSTRUCT file_op = {
 		NULL,
 		FO_DELETE,
 		tszRoot,
 		_T(""),
-		FOF_NOERRORUI |
-		FOF_SILENT,
+		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
 		false,
 		0,
 		_T("") };
-	if (lParam)
-		file_op.fFlags |= FOF_NOCONFIRMATION;
 	SHFileOperation(&file_op);
+}
+
+int ModulesLoaded(WPARAM, LPARAM)
+{
+	if (hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHT _T("\\")DEFAULT_UPDATES_FOLDER)) {
+		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
+		OnFoldersChanged(0, 0);
+	}
+	else
+		lstrcpyn(tszRoot, VARST( _T("%miranda_path%\\"DEFAULT_UPDATES_FOLDER)), SIZEOF(tszRoot));
+
+	int iRestartCount = db_get_b(NULL, MODNAME, "RestartCount", 2);
+	if (iRestartCount > 0)
+		db_set_b(NULL, MODNAME, "RestartCount", iRestartCount-1);
+	else
+		EmptyFolder(); // silently
+
+	CheckUpdateOnStartup();
+
+	Timer = CreateWaitableTimer(NULL, FALSE, NULL);
+	mir_forkthread(InitTimer, 0);
+
 	return 0;
 }
 

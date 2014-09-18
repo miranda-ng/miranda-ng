@@ -189,7 +189,7 @@ int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 	return _tcsicmp(p1->m_name, p2->m_name);
 }
 
-bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
+bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 {
 	REPLACEVARSARRAY vars[2];
 	vars[0].lptzKey = _T("platform");
@@ -219,41 +219,49 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 	Netlib_CloseHandle(nlc);
 
 	if (!ret) {
-		if(!opts.bSilent)
-			ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking new updates."), POPUP_TYPE_ERROR);
+		Netlib_LogfT(hNetlibUser,_T("Downloading list of available updates from %s failed"),baseUrl);
+		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking new updates."), POPUP_TYPE_ERROR);
+		SkinPlaySound("updatefailed");
 		return false;
 	}
 
-	if(!unzip(pFileUrl.tszDiskPath, tszTempPath, NULL,true))
+	if(!unzip(pFileUrl.tszDiskPath, tszTempPath, NULL,true)) {
+		Netlib_LogfT(hNetlibUser,_T("Unzipping list of available updates from %s failed"),baseUrl);
+		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking new updates."), POPUP_TYPE_ERROR);
+		SkinPlaySound("updatefailed");
 		return false;
+	}
 	
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	TCHAR tszTmpIni[MAX_PATH] = {0};
 	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszTempPath);
 	FILE *fp = _tfopen(tszTmpIni, _T("r"));
-	if (!fp)
+	if (!fp) {
+		Netlib_LogfT(hNetlibUser,_T("Opening %s failed"), tszTempPath);
+		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking new updates."), POPUP_TYPE_ERROR);
 		return false;
+	}
 
 	char str[200];
 	while(fgets(str, SIZEOF(str), fp) != NULL) {
 		rtrim(str);
+		Netlib_Logf(hNetlibUser,"Update: %s", str);
 		char *p = strchr(str, ' ');
-		if (p == NULL)
-			continue;
+		if (p != NULL) {
+			*p++ = 0;
+			_strlwr(p);
 
-		*p++ = 0;
-		_strlwr(p);
-
-		int dwCrc32;
-		char *p1 = strchr(p, ' ');
-		if (p1 == NULL)
-			dwCrc32 = 0;
-		else {
-			*p1++ = 0;
-			sscanf(p1, "%08x", &dwCrc32);
+			int dwCrc32;
+			char *p1 = strchr(p, ' ');
+			if (p1 == NULL)
+				dwCrc32 = 0;
+			else {
+				*p1++ = 0;
+				sscanf(p1, "%08x", &dwCrc32);
+			}
+			arHashes.insert(new ServListEntry(str, p, dwCrc32));
 		}
-		arHashes.insert(new ServListEntry(str, p, dwCrc32));
 	}
 	fclose(fp);
 	DeleteFile(tszTmpIni);
@@ -263,8 +271,6 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 
 bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 {
-	DWORD dwBytes;
-
 	NETLIBHTTPREQUEST nlhr = {0};
 #if MIRANDA_VER < 0x0A00
 	nlhr.cbSize = NETLIBHTTPREQUEST_V1_SIZE;
@@ -296,21 +302,24 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 		if (pReply) {
 			nlc = pReply->nlc;
 			if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
+				// Check CRC sum
+				if (pFileURL->CRCsum) {
+					InitCrcTable();
+					int crc = Get_CRC((unsigned char*)pReply->pData, pReply->dataLength);
+					if (crc != pFileURL->CRCsum) {
+						// crc check failed, try again
+						Netlib_LogfT(hNetlibUser,_T("crc check failed for file %s"),pFileURL->tszDiskPath);
+						CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
+						continue;
+					}
+				}
+
 				HANDLE hFile = CreateFile(pFileURL->tszDiskPath, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				if (hFile != INVALID_HANDLE_VALUE) {
+					DWORD dwBytes;
 					// write the downloaded file directly
 					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 					CloseHandle(hFile);
-					if (pFileURL->CRCsum) {
-						InitCrcTable();
-						int crc = Get_CRC((unsigned char*)pReply->pData, (long)dwBytes);
-						if (crc == pFileURL->CRCsum)
-							ret = true;
-						else
-							Netlib_LogfT(hNetlibUser,_T("crc check failed for %s"),pFileURL->tszDownloadURL);
-					}
-					else
-						ret = true;
 				}
 				else {
 					// try to write it via PU stub
@@ -318,27 +327,20 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 					mir_sntprintf(tszTempFile, SIZEOF(tszTempFile), _T("%s\\pulocal.tmp"), tszTempPath);
 					hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					if (hFile != INVALID_HANDLE_VALUE) {
+						DWORD dwBytes;
 						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 						CloseHandle(hFile);
 						SafeMoveFile(tszTempFile, pFileURL->tszDiskPath);
-						if (pFileURL->CRCsum) {
-							InitCrcTable();
-							int crc = Get_CRC((unsigned char*)pReply->pData, (long)dwBytes);
-							if (crc == pFileURL->CRCsum)
-								ret = true;
-							else
-								Netlib_LogfT(hNetlibUser,_T("crc check failed for %s"),pFileURL->tszDownloadURL);
-						}
-						else
-							ret = true;
 					}
 				}
+				ret = true;
 			}
 			else
 				Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed with error %d"),pFileURL->tszDownloadURL,pReply->resultCode);
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 		}
 		else {
+			Netlib_LogfT(hNetlibUser,_T("Downloading file %s failed, host is propably temporary down."),pFileURL->tszDownloadURL);
 			nlc = NULL;
 		}
 	}
@@ -353,7 +355,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LONG PeriodToMilliseconds(const int period, BYTE periodMeasure)
+LONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
 {
 	LONG result = period * 1000;
 	switch(periodMeasure) {
@@ -374,7 +376,7 @@ LONG PeriodToMilliseconds(const int period, BYTE periodMeasure)
 
 void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
 {
-	DoCheck();
+	DoCheck(true);
 }
 
 void InitTimer(void *type)
@@ -721,6 +723,12 @@ int SafeCreateFilePath(TCHAR *pFolder)
 	}
 
 	return TransactPipe(5, pFolder, NULL);
+}
+
+void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName)
+{
+	SafeCreateFilePath(ptszBackFileName);
+	SafeMoveFile(ptszSrcFileName, ptszBackFileName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

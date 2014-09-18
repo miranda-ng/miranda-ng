@@ -121,10 +121,6 @@ struct PlugOptions
 #define UPDATE_MODE_TRUNK_SYMBOLS	3
 #define UPDATE_MODE_MAX_VALUE		3 // when adding new mode, increment this number
 
-#define POPUP_TYPE_MSG  0
-#define POPUP_TYPE_ERROR 1
-#define POPUP_TYPE_INFO 2
-#define POPUP_TYPE_PROGRESS 2
 
 #define MAX_RETRIES			3
 
@@ -143,7 +139,7 @@ extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
 extern HANDLE Timer, hPipe, hNetlibUser;
 
-void DoCheck();
+void DoCheck(bool bSilent);
 
 void UninitCheck(void);
 void UninitListNew(void);

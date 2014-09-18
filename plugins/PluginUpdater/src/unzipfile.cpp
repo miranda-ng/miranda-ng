@@ -39,12 +39,6 @@ static void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath,
 			*p = '\\'; 
 }
 
-void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName)
-{
-	SafeCreateFilePath(ptszBackFileName);
-	SafeMoveFile(ptszSrcFileName, ptszBackFileName);
-}
-
 bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bool ch)
 {
 	unz_file_info64 file_info;
@@ -57,6 +51,8 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 	for (char *p = strchr(filename, '/'); p; p = strchr(p+1, '/'))
 		*p = '\\';
 		
+	// This is because there may be more then one file in a single zip
+	// So we need to check each file
 	if (ch && !db_get_b(NULL, MODNAME "Files", StrToLower(ptrA(mir_strdup(filename))), 1))
 		return true;
 
