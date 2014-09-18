@@ -53,12 +53,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_WHATSAPPACCOUNT, DIALOG
-    BEGIN
-        VERTGUIDE, 60
-        VERTGUIDE, 178
-    END
-
     IDD_WHATSAPOPTIONS, DIALOG
     BEGIN
         VERTGUIDE, 60
@@ -82,53 +76,21 @@ END
 // Dialog
 //
 
-IDD_WHATSAPPACCOUNT DIALOGEX 0, 0, 185, 168
+IDD_WHATSAPOPTIONS DIALOGEX 0, 0, 185, 126
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    LTEXT           "Phone-Number",IDC_STATIC,6,6,48,8
+    LTEXT           "Phone number",IDC_STATIC,6,8,47,8
     EDITTEXT        IDC_CC,60,6,24,12,ES_AUTOHSCROLL
-    LTEXT           "-",IDC_STATIC,86,122,8,12,NOT WS_VISIBLE | WS_DISABLED
     EDITTEXT        IDC_LOGIN,84,6,95,12,ES_AUTOHSCROLL
     LTEXT           "Including country code, without '+' or '00'",IDC_STATIC,60,21,118,17
-    LTEXT           "Nickname",IDC_STATIC,6,42,48,12
-    EDITTEXT        IDC_NICK,60,42,120,12,ES_AUTOHSCROLL
-    LTEXT           "Password",IDC_STATIC,6,60,47,8
-    EDITTEXT        IDC_PW,60,60,119,12,ES_PASSWORD | ES_AUTOHSCROLL
-    PUSHBUTTON      "Request Code",IDC_BUTTON_REQUEST_CODE,6,150,54,17,NOT WS_VISIBLE | WS_DISABLED
-    PUSHBUTTON      "Register Code",IDC_BUTTON_REGISTER,66,149,60,18,NOT WS_VISIBLE | WS_DISABLED
-    LTEXT           "SMS-Code:",IDC_STATIC,6,120,36,8,NOT WS_VISIBLE | WS_DISABLED
-    EDITTEXT        IDC_REG_CODE_1,60,120,24,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
-    EDITTEXT        IDC_REG_CODE_2,90,120,24,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
-    LTEXT           "Will only be used for registration",IDC_STATIC,60,134,118,10,NOT WS_VISIBLE | WS_DISABLED
-    LTEXT           "Paste password from WART utility",IDC_STATIC,60,76,118,8
-    LTEXT           "Use WART utility from Plugins folder for registering your number and generating password",IDC_STATIC,6,85,174,22
-    CONTROL         "Use SSL connection (443 port)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,108,173,10
-END
-
-IDD_WHATSAPOPTIONS DIALOGEX 0, 0, 185, 168
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 400, 0, 0x0
-BEGIN
-    LTEXT           "Phone-Number",IDC_STATIC,6,6,48,8
-    EDITTEXT        IDC_CC,60,6,24,12,ES_AUTOHSCROLL
-    LTEXT           "-",IDC_STATIC,86,122,8,12,NOT WS_VISIBLE | WS_DISABLED
-    EDITTEXT        IDC_LOGIN,84,6,95,12,ES_AUTOHSCROLL
-    LTEXT           "Including country code, without '+' or '00'",IDC_STATIC,60,21,118,17
-    LTEXT           "Nickname",IDC_STATIC,6,42,48,12
-    EDITTEXT        IDC_NICK,60,42,120,12,ES_AUTOHSCROLL
-    LTEXT           "Password",IDC_STATIC,6,60,47,8
-    EDITTEXT        IDC_PW,60,60,119,12,ES_PASSWORD | ES_AUTOHSCROLL
-    PUSHBUTTON      "Request Code",IDC_BUTTON_REQUEST_CODE,6,150,54,17,NOT WS_VISIBLE | WS_DISABLED
-    PUSHBUTTON      "Register Code",IDC_BUTTON_REGISTER,66,149,60,18,NOT WS_VISIBLE | WS_DISABLED
-    LTEXT           "SMS-Code:",IDC_STATIC,6,120,36,8,NOT WS_VISIBLE | WS_DISABLED
-    EDITTEXT        IDC_REG_CODE_1,60,120,24,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
-    EDITTEXT        IDC_REG_CODE_2,90,120,24,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
-    LTEXT           "Will only be used for registration",IDC_STATIC,60,134,114,10,NOT WS_VISIBLE | WS_DISABLED
-    LTEXT           "Paste password from WART utility",IDC_STATIC,60,76,118,8
-    LTEXT           "Use WART utility from Plugins folder for registering your number and generating password",IDC_STATIC,6,85,174,22
+    LTEXT           "Nickname",IDC_STATIC,6,43,48,12
+    EDITTEXT        IDC_NICK,60,42,119,12,ES_AUTOHSCROLL
+    LTEXT           "SMS code",IDC_STATIC,6,62,47,8
+    EDITTEXT        IDC_PW,60,60,119,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Request code",IDC_BUTTON_REQUEST_CODE,13,80,81,18
+    PUSHBUTTON      "Register code",IDC_BUTTON_REGISTER,98,80,81,18
     CONTROL         "Use SSL connection (443 port)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,108,173,10
 END
 
@@ -158,13 +120,6 @@ IDI_ADD_USER_TO_GROUP   ICON                    "add-user-to-group.ico"
 IDI_CHANGE_GROUP_SUBJECT ICON                    "change-group-subject.ico"
 IDI_LEAVE_GROUP         ICON                    "leave-group.ico"
 IDI_REMOVE_USER_FROM_GROUP ICON                    "remove-user-from-group.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// BIN
-//
-
-IDR_REGISTERUTILITY     BIN                     "WART-1.7.1.0.exe"
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 

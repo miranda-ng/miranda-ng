@@ -1,8 +1,7 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by whatsapp.rc
+// Used by d:\miranda-ng\protocols\WhatsApp\res\whatsapp.rc
 //
-#define IDD_WHATSAPPACCOUNT             101
 #define IDD_INPUTBOX                    102
 #define IDR_REGISTERUTILITY             103
 #define IDD_WHATSAPOPTIONS              104
@@ -24,10 +23,6 @@
 #define IDC_CANCEL                      1011
 #define IDC_OK                          1012
 #define IDC_TEXT                        1014
-#define IDC_REG_CODE_1                  1015
-#define IDC_REG_CODE_2                  1016
-#define IDC_REG_CODE_3                  1017
-#define IDC_REG_CODE_4                  1018
 
 // Next default values for new objects
 // 

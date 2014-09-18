@@ -264,4 +264,3 @@ BinTreeNodeWriter::~BinTreeNodeWriter() {
 	if (this->out != NULL)
 		delete this->out;
 }
-

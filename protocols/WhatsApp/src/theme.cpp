@@ -106,7 +106,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
 	MCONTACT hContact = MCONTACT(wParam);
 	if (hContact)
-		debugLogA(this->GetContactDisplayName(hContact).c_str());
+		debugLog(pcli->pfnGetContactDisplayName(hContact, 0));
 	else
 		debugLogA("No contact found");
 
@@ -153,11 +153,10 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 			{
 				fullSvcName = svcName + dbv.pszVal;
 				mi.pszService = (char*) fullSvcName.c_str();
-				mi.ptszName = mir_a2t_cp(this->GetContactDisplayName(it->first).c_str(), CP_UTF8);
+				mi.ptszName = pcli->pfnGetContactDisplayName(it->first, 0);
 				CreateServiceFunctionParam(mi.pszService, GlobalServiceParam<&WhatsAppProto::OnAddContactToGroup>, (LPARAM) it->first);
 				Menu_AddContactMenuItem(&mi);
 				db_free(&dbv);
-				mir_free(mi.ptszName);
 				iGrpCount++;
 			}
 		}
@@ -205,12 +204,11 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 					{
 						fullSvcName = svcName + dbv.pszVal;
 						mi.pszService = (char*) fullSvcName.c_str();
-						mi.ptszName = mir_a2t_cp(this->GetContactDisplayName(it->first).c_str(), CP_UTF8);
+						mi.ptszName = pcli->pfnGetContactDisplayName(it->first, 0);
 						CreateServiceFunctionParam(mi.pszService,
 							GlobalServiceParam<&WhatsAppProto::OnRemoveContactFromGroup>, (LPARAM) it->first);
 						Menu_AddContactMenuItem(&mi);
 						db_free(&dbv);
-						mir_free(mi.ptszName);
 						bShow = true;
 					}
 				}
@@ -227,7 +225,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
-	debugLogA("");
+	
 	char text[200];
 	strcpy(text, m_szModuleName);
 	char *tDest = text + strlen(text);

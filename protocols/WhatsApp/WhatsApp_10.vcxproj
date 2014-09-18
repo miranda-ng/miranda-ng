@@ -224,6 +224,9 @@
     <ClCompile Include="src\WhatsAPI++\FMessage.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\WhatsAPI++\PhoneNumber.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\WhatsAPI++\ProtocolTreeNode.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -234,6 +237,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\WhatsAPI++\WALogin.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\WhatsAPI++\WARegister.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
@@ -247,6 +253,7 @@
     <ClInclude Include="src\OpenSSL\hmac.h" />
     <ClInclude Include="src\OpenSSL\rc4.h" />
     <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\theme.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\version.h" />
@@ -257,12 +264,14 @@
     <ClInclude Include="src\WhatsAPI++\FMessage.h" />
     <ClInclude Include="src\WhatsAPI++\IMutex.h" />
     <ClInclude Include="src\WhatsAPI++\ISocketConnection.h" />
+    <ClInclude Include="src\WhatsAPI++\PhoneNumber.h" />
     <ClInclude Include="src\WhatsAPI++\ProtocolTreeNode.h" />
     <ClInclude Include="src\WhatsAPI++\targetver.h" />
     <ClInclude Include="src\WhatsAPI++\utilities.h" />
     <ClInclude Include="src\WhatsAPI++\WAConnection.h" />
     <ClInclude Include="src\WhatsAPI++\WAException.h" />
     <ClInclude Include="src\WhatsAPI++\WALogin.h" />
+    <ClInclude Include="src\WhatsAPI++\WARegister.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\version.rc" />

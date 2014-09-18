@@ -125,4 +125,3 @@ unsigned char FMessage::getMessage_WA_Type(std::string* type) {
 
 	return WA_TYPE_UNDEFINED;
 }
-

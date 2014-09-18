@@ -11,14 +11,14 @@
 class WASocketConnection : public ISocketConnection
 {
 public:
-   static HANDLE hNetlibUser;
+	static HANDLE hNetlibUser;
 
 private:
 	int readSize;
 	int maxBufRead;
 	bool connected;
 
-   HANDLE hConn;
+	HANDLE hConn;
 
 public:
 	WASocketConnection(const std::string& dir, int port) throw (WAException);

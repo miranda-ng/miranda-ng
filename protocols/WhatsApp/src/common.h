@@ -58,6 +58,7 @@ Copyright © 2013-14 Uli Hecht
 #include <m_protoint.h>
 #include <m_protomod.h>
 #include <m_skin.h>
+#include <m_string.h>
 #include <statusmodes.h>
 #include <m_userinfo.h>
 #include <m_addcontact.h>

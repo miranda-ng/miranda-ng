@@ -12,8 +12,7 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 	bool isChatRoom = !paramFMessage->remote_resource.empty();
 
 	std::string* msg;
-	switch (paramFMessage->media_wa_type)
-	{
+	switch (paramFMessage->media_wa_type) {
 	case FMessage::WA_TYPE_IMAGE:
 	case FMessage::WA_TYPE_AUDIO:
 	case FMessage::WA_TYPE_VIDEO:
@@ -23,15 +22,14 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 		msg = &paramFMessage->data;
 	}
 
-	if (isChatRoom)
-	{
+	if (isChatRoom) {
 		msg->insert(0, std::string("[").append(paramFMessage->notifyname).append("]: "));
 	}
 
-	MCONTACT hContact = this->AddToContactList(paramFMessage->key->remote_jid, 0, false, 
+	MCONTACT hContact = this->AddToContactList(paramFMessage->key->remote_jid, 0, false,
 		isChatRoom ? NULL : paramFMessage->notifyname.c_str(), isChatRoom);
 
-	PROTORECVEVENT recv = {0};
+	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.szMessage = const_cast<char*>(msg->c_str());
 	recv.timestamp = paramFMessage->timestamp; //time(NULL);
@@ -42,32 +40,29 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
-	debugLogA("");
+	
 	int msgId = ++(this->msgId);
 
-	ForkThread( &WhatsAppProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE) msgId, flags & IS_CHAT));
+	ForkThread(&WhatsAppProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE)msgId, flags & IS_CHAT));
 	return this->msgIdHeader + msgId;
 }
 
 void WhatsAppProto::SendMsgWorker(void* p)
 {
-	debugLogA("");
+	
 	if (p == NULL)
 		return;
 
 	DBVARIANT dbv;
 	send_direct *data = static_cast<send_direct*>(p);
 
-	if (getByte(data->hContact, "SimpleChatRoom", 0) > 0 && getByte(data->hContact, "IsGroupMember", 0) == 0)
-	{
+	if (getByte(data->hContact, "SimpleChatRoom", 0) > 0 && getByte(data->hContact, "IsGroupMember", 0) == 0) {
 		debugLogA("not a group member");
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-			(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages to groups if you are not a member.");
+			(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages to groups if you are not a member.");
 	}
-	else if (!getString(data->hContact, "ID", &dbv) && this->connection != NULL)
-	{
-		try
-		{
+	else if (!getString(data->hContact, "ID", &dbv) && this->connection != NULL) {
+		try {
 			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_STATE, 2);
 			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_ID_HEADER, this->msgIdHeader);
 			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_ID, this->msgId);
@@ -83,24 +78,21 @@ void WhatsAppProto::SendMsgWorker(void* p)
 
 			this->connection->sendMessage(&fmsg);
 		}
-		catch (exception &e)
-		{
+		catch (exception &e) {
 			debugLogA("exception: %s", e.what());
-			ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
-				(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) e.what());
+			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
+				(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM)e.what());
 		}
-		catch (...)
-		{
+		catch (...) {
 			debugLogA("unknown exception");
-			ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
-			  (HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "Failed sending message");
+			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
+				(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM) "Failed sending message");
 		}
 	}
-	else
-	{
+	else {
 		debugLogA("No connection");
-		ProtoBroadcastAck(data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED,
-			(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages when you are offline.");
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
+			(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages when you are offline.");
 	}
 
 	delete data;
@@ -121,16 +113,15 @@ void WhatsAppProto::RecvMsgWorker(void *p)
 void WhatsAppProto::onIsTyping(const std::string& paramString, bool paramBoolean)
 {
 	MCONTACT hContact = this->AddToContactList(paramString, 0, false);
-	if (hContact != NULL)
-	{
-		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, (LPARAM)
+	if (hContact != NULL) {
+		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)
 			paramBoolean ? PROTOTYPE_CONTACTTYPING_INFINITE : PROTOTYPE_CONTACTTYPING_OFF);
 	}
 }
 
 
-int WhatsAppProto::UserIsTyping(MCONTACT hContact,int type)
-{ 
+int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)
+{
 	if (hContact && isOnline())
 		ForkThread(&WhatsAppProto::SendTypingWorker, new send_typing(hContact, type));
 
@@ -139,31 +130,30 @@ int WhatsAppProto::UserIsTyping(MCONTACT hContact,int type)
 
 void WhatsAppProto::SendTypingWorker(void* p)
 {
-	if(p == NULL)
+	if (p == NULL)
 		return;
 
 	send_typing *typing = static_cast<send_typing*>(p);
 
 	// Don't send typing notifications to contacts which are offline 
-	if ( getWord(typing->hContact, "Status", 0) == ID_STATUS_OFFLINE)
+	if (getWord(typing->hContact, "Status", 0) == ID_STATUS_OFFLINE)
 		return;
 
 	DBVARIANT dbv;
-	if ( !getString(typing->hContact, WHATSAPP_KEY_ID,&dbv) &&
-		this->isOnline())
-	{
+	if (!getString(typing->hContact, WHATSAPP_KEY_ID, &dbv) &&
+		this->isOnline()) {
 		if (typing->status == PROTOTYPE_SELFTYPING_ON)
 			this->connection->sendComposing(dbv.pszVal);
 		else
 			this->connection->sendPaused(dbv.pszVal);
-	}		
+	}
 
 	delete typing;
 }
 
 void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 {
-	debugLogA("");
+	
 
 	MCONTACT hContact = this->ContactIDToHContact(fmsg->key->remote_jid);
 	if (hContact == 0)
@@ -176,20 +166,19 @@ void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 	int header;
 	int id;
 	size_t delimPos = fmsg->key->id.find("-");
-	
+
 	std::stringstream ss;
 	ss << fmsg->key->id.substr(0, delimPos);
 	ss >> header;
-	
+
 	ss.clear();
 	ss << fmsg->key->id.substr(delimPos + 1);
 	ss >> id;
 
 	if (state == 1)
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) (header + id),0);
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)(header + id), 0);
 
-	if (getDword(hContact, WHATSAPP_KEY_LAST_MSG_ID_HEADER, 0) == header && getDword(hContact, WHATSAPP_KEY_LAST_MSG_ID, -1) == id)
-	{
+	if (getDword(hContact, WHATSAPP_KEY_LAST_MSG_ID_HEADER, 0) == header && getDword(hContact, WHATSAPP_KEY_LAST_MSG_ID, -1) == id) {
 		setDword(hContact, WHATSAPP_KEY_LAST_MSG_STATE, state);
 		this->UpdateStatusMsg(hContact);
 	}

@@ -342,6 +342,3 @@ int BinTreeNodeReader::readInt24(ISocketConnection* in) {
 
 	return value;
 }
-
-
-
