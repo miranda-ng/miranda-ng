@@ -28,8 +28,7 @@ static void SelectAll(HWND hDlg, bool bEnable)
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 
 	for (int i=0; i < todo.getCount(); i++) {
-		ListView_SetCheckState(hwndList, i, bEnable);
-		todo[i].bEnabled = bEnable;
+		ListView_SetCheckState(hwndList, i, todo[i].bEnabled = bEnable);
 	}
 }
 
@@ -59,25 +58,25 @@ static void ApplyDownloads(void *param)
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
 	SafeCreateDirectory(tszFileTemp);
 
-	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
+	VARST tszMirandaPath(_T("%miranda_path%"));
 
 	HANDLE nlc = NULL;
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if (todo[i].bEnabled) {
 			// download update
-			ListView_SetItemText(hwndList, i, 2, TranslateT("Downloading..."));
+			ListView_SetItemText(hwndList, i, 1, TranslateT("Downloading..."));
 
 			if (DownloadFile(&todo[i].File, nlc)) {
-				ListView_SetItemText(hwndList, i, 2, TranslateT("Succeeded."));
+				ListView_SetItemText(hwndList, i, 1, TranslateT("Succeeded."));
 				if (unzip(todo[i].File.tszDiskPath, tszMirandaPath, tszFileBack,false))
 					SafeDeleteFile(todo[i].File.tszDiskPath);  // remove .zip after successful update
 			}
 			else
-				ListView_SetItemText(hwndList, i, 2, TranslateT("Failed!"));
+				ListView_SetItemText(hwndList, i, 1, TranslateT("Failed!"));
 		}
 		else
-			ListView_SetItemText(hwndList, i, 2, TranslateT("Skipped."));
+			ListView_SetItemText(hwndList, i, 1, TranslateT("Skipped."));
 	}
 	Netlib_CloseHandle(nlc);
 
@@ -100,7 +99,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		LVHITTESTINFO hi;
 		hi.pt.x = LOWORD(lParam); hi.pt.y = HIWORD(lParam);
 		ListView_SubItemHitTest(hwnd, &hi);
-		if (hi.iSubItem == 1) {
+		if ((hi.iSubItem == 0) && (hi.flags & LVHT_ONITEMICON)) {
 			LVITEM lvi = {0};
 			lvi.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_GROUPID;
 			lvi.stateMask = -1;
@@ -180,13 +179,9 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			lvc.cx = 220; // width of column in pixels
 			ListView_InsertColumn(hwndList, 0, &lvc);
 
-			lvc.pszText = L"";
-			lvc.cx = 32 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
-			ListView_InsertColumn(hwndList, 1, &lvc);
-
 			lvc.pszText = TranslateT("State");
-			lvc.cx = 100 - GetSystemMetrics(SM_CXVSCROLL); // width of column in pixels
-			ListView_InsertColumn(hwndList, 2, &lvc);
+			lvc.cx = 100; // width of column in pixels
+			ListView_InsertColumn(hwndList, 1, &lvc);
 
 			///
 			LVGROUP lvg;
@@ -228,19 +223,9 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				lvi.iItem = i;
 				lvi.lParam = (LPARAM)&todo[i];
 				lvi.iGroupId = groupId;
-				lvi.iImage = -1;
+				lvi.iImage = ((groupId ==1) ? 0 : -1);
 				lvi.pszText = todo[i].tszOldName;
-				int iRow = ListView_InsertItem(hwndList, &lvi);
-
-				if (iRow != -1) {
-					lvi.iItem = iRow;
-					if (groupId == 1) {
-						lvi.mask = LVIF_IMAGE;
-						lvi.iSubItem = 1;
-						lvi.iImage = 0;
-						ListView_SetItem(hwndList, &lvi);
-					}
-				}
+				ListView_InsertItem(hwndList, &lvi);
 			}
 		}
 
@@ -366,7 +351,7 @@ static void GetList(void *)
 	}
 
 	FILELIST *UpdateFiles = new FILELIST(20);
-	TCHAR *dirname = Utils_ReplaceVarsT(_T("%miranda_path%"));
+	VARST dirname(_T("%miranda_path%"));
 
 	for (int i=0; i < hashes.getCount(); i++) {
 		ServListEntry &hash = hashes[i];
@@ -402,12 +387,9 @@ static void GetList(void *)
 		}
 	}
 
-	mir_free(dirname);
-
 	// Show dialog
 	if (UpdateFiles->getCount() == 0) {
-		if (!opts.bSilent)
-			ShowPopup(TranslateT("Plugin Updater"), TranslateT("List is empty."), POPUP_TYPE_INFO);
+		ShowPopup(TranslateT("Plugin Updater"), TranslateT("List is empty."), POPUP_TYPE_INFO);
 		delete UpdateFiles;
 	}
 	else CallFunctionAsync(LaunchListDialog, UpdateFiles);
@@ -436,7 +418,6 @@ void UninitListNew()
 
 INT_PTR ShowListCommand(WPARAM,LPARAM)
 {
-	opts.bSilent = false;
 	DoGetList();
 	return 0;
 }

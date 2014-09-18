@@ -94,51 +94,44 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 
 void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 {
-	if(Number != POPUP_TYPE_MSG) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 		char setting[100];
 		mir_snprintf(setting, SIZEOF(setting), "Popups%d", Number);
-		if(!db_get_b(NULL, MODNAME, setting, DEFAULT_POPUP_ENABLED))
+		if(db_get_b(NULL, MODNAME, setting, DEFAULT_POPUP_ENABLED)) {
+			POPUPDATAT pd = { 0 };
+			pd.lchContact = NULL;
+			pd.lchIcon = Skin_GetIcon("check_update");
+			if(Number == POPUP_TYPE_MSG) {
+				pd.PluginWindowProc = PopupDlgProcRestart;
+				pd.iSeconds = -1;
+			}
+			else {
+				pd.PluginWindowProc = PopupDlgProc;
+				pd.iSeconds = PopupOptions.Timeout;
+			}
+
+			lstrcpyn(pd.lptzText, ptszText, MAX_SECONDLINE);
+			lstrcpyn(pd.lptzContactName, ptszTitle, MAX_CONTACTNAME);
+
+			switch (PopupOptions.DefColors) {
+			case byCOLOR_WINDOWS:
+				pd.colorBack = GetSysColor(COLOR_BTNFACE);
+				pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+				break;
+			case byCOLOR_OWN:
+				pd.colorBack = PopupsList[Number].colorBack;
+				pd.colorText = PopupsList[Number].colorText;
+				break;
+			case byCOLOR_POPUP:
+				pd.colorBack = pd.colorText = 0;
+				break;
+			}
+			PUAddPopupT(&pd);
 			return;
+		}
 	}
-
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
-		POPUPDATAT pd = { 0 };
-		pd.lchContact = NULL;
-		pd.lchIcon = Skin_GetIcon("check_update");
-		if(Number == POPUP_TYPE_MSG) {
-			pd.PluginWindowProc = PopupDlgProcRestart;
-			pd.iSeconds = -1;
-		}
-		else {
-			pd.PluginWindowProc = PopupDlgProc;
-			pd.iSeconds = PopupOptions.Timeout;
-		}
-
-		lstrcpyn(pd.lptzText, ptszText, MAX_SECONDLINE);
-		lstrcpyn(pd.lptzContactName, ptszTitle, MAX_CONTACTNAME);
-
-		switch (PopupOptions.DefColors) {
-		case byCOLOR_WINDOWS:
-			pd.colorBack = GetSysColor(COLOR_BTNFACE);
-			pd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-			break;
-		case byCOLOR_OWN:
-			pd.colorBack = PopupsList[Number].colorBack;
-			pd.colorText = PopupsList[Number].colorText;
-			break;
-		case byCOLOR_POPUP:
-			pd.colorBack = pd.colorText = 0;
-			break;
-		}
-
-		PUAddPopupT(&pd);
-	} else  {
-		if(Number != POPUP_TYPE_MSG) {
-			char setting[100];
-			mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
-			if (!db_get_b(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED))
-				return;
-		}
+	
+	if(Number == POPUP_TYPE_ERROR) {
 		int iMsgType;
 		switch( Number ) {
 			case POPUP_TYPE_MSG: iMsgType = MB_ICONSTOP; break;

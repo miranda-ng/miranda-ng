@@ -95,7 +95,7 @@ static void ApplyUpdates(void *param)
 	Netlib_CloseHandle(nlc);
 
 	// 3) Unpack all zips
-	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
+	VARST tszMirandaPath(_T("%miranda_path%"));
 	for (int i = 0; i < todo.getCount(); i++) {
 		FILEINFO& p = todo[i];
 		if (p.bEnabled) {
@@ -340,13 +340,12 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_SMALL, 0));
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
 		hwndDialog = NULL;
-		opts.bSilent = true;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 #if MIRANDA_VER >= 0x0A00
 		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 #endif
-		mir_forkthread(InitTimer, (void*)0);
+		mir_forkthread(InitTimer, 0);
 		break;
 	}
 
@@ -404,7 +403,7 @@ static void DlgUpdateSilent(void *lParam)
 	}
 
 	// 3) Unpack all zips
-	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
+	VARST tszMirandaPath(_T("%miranda_path%"));
 	for (int i = 0; i < UpdateFiles.getCount(); i++) {
 		FILEINFO& p = UpdateFiles[i];
 		if (p.bEnabled) {
@@ -618,8 +617,9 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			int MyCRC = 0;
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
 
+			BOOL bDeleteOnly = (tszNewName[0] == 0);
 			// this file is not marked for deletion
-			if (tszNewName[0]) {
+			if (!bDeleteOnly) {
 				TCHAR *pName = tszNewName;
 				ServListEntry *item = hashes.find((ServListEntry*)&pName);
 				if (item == NULL) {
@@ -663,7 +663,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				FILEINFO *FileInfo = new FILEINFO;
 				// copy the relative old name
 				_tcsncpy(FileInfo->tszOldName, tszBuf+cbBaseLen, SIZEOF(FileInfo->tszOldName));
-				FileInfo->bDeleteOnly = (tszNewName[0] == 0);
+				FileInfo->bDeleteOnly = bDeleteOnly;
 				if (FileInfo->bDeleteOnly) {
 					// save the full old name for deletion
 					_tcsncpy(FileInfo->tszNewName, tszBuf, SIZEOF(FileInfo->tszNewName));
@@ -723,19 +723,17 @@ static void CheckUpdates(void *)
 			if (!opts.bSilent)
 				ShowPopup(TranslateT("Plugin Updater"), TranslateT("No updates found."), POPUP_TYPE_INFO);
 			delete UpdateFiles;
-			opts.bSilent = true;
 		}
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
 	}
-	else opts.bSilent = true;
 
-	mir_forkthread(InitTimer, (void*)(success ? 0 : 2));
+	mir_forkthread(InitTimer, (success ? 0 :(void*) 2));
 	
 	hashes.destroy();
 	hCheckThread = NULL;
 }
 
-void DoCheck()
+void DoCheck(bool bSilent)
 {
 	if (hCheckThread)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Update checking already started!"), POPUP_TYPE_INFO);
@@ -744,6 +742,7 @@ void DoCheck()
 		SetForegroundWindow(hwndDialog);
 		SetFocus(hwndDialog);
 	} else {
+		opts.bSilent = bSilent;
 #if MIRANDA_VER >= 0x0A00
 		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 #endif
@@ -760,8 +759,7 @@ void UninitCheck()
 INT_PTR MenuCommand(WPARAM,LPARAM)
 {
 	Netlib_LogfT(hNetlibUser,_T("Update started manually!"));
-	opts.bSilent = false;
-	DoCheck();
+	DoCheck(false);
 	return 0;
 }
 
@@ -789,6 +787,6 @@ void CheckUpdateOnStartup()
 				return;
 		}
 		Netlib_LogfT(hNetlibUser,_T("Update on startup started!"));
-		DoCheck();
+		DoCheck(true);
 	}
 }
