@@ -17,28 +17,56 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+
+static bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
+{
+	TCHAR s1[200], s2[200];
+	mir_sntprintf(s1, SIZEOF(s1), _T("%s"), _s1);
+	mir_sntprintf(s2, SIZEOF(s2), _T("%s"), _s2);
+	CharLowerBuff(s1, SIZEOF(s1));
+	CharLowerBuff(s2, SIZEOF(s2));
+	return (_tcsstr(s1, s2)==NULL);
+}
+
 void CVkProto::SearchBasicThread(void* id)
 {
 	debugLogA("CVkProto::OnSearchBasicThread");
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnSearch)
 		<< TCHAR_PARAM("user_ids", (TCHAR *)id)
-		<< VER_API);
-
+		<< CHAR_PARAM("fields", "nickname, domain")
+		<< VER_API;
+	pReq->pUserInfo = NULL;
+	Push(pReq);
 }
 
-void __cdecl CVkProto::SearchByStringThread(void* str)
+void __cdecl CVkProto::SearchThread(void* p)
 {
-	debugLogA("CVkProto::SearchByStringThread");
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
-		<< TCHAR_PARAM("q", (TCHAR *)str)
+	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
+		
+	TCHAR arg[200];
+	mir_sntprintf(arg, SIZEOF(arg), _T("%s %s %s"), pParam->pszFirstName, pParam->pszNick, pParam->pszLastName);
+	debugLog(_T("CVkProto::SearchThread %s"), arg);
+
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/users.search.json", true, &CVkProto::OnSearch)
+		<< TCHAR_PARAM("q", (TCHAR *)arg)
+		<< CHAR_PARAM("fields", "nickname, domain")
 		<< INT_PARAM("count", 200)
-		<< VER_API);
+		<< VER_API;
+	pReq->pUserInfo = p;
+	Push(pReq);
 }
 
 void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
+	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)pReq->pUserInfo;
 	debugLogA("CVkProto::OnSearch %d", reply->resultCode);
 	if (reply->resultCode != 200){
+		if (pParam){
+			mir_free(pParam->pszFirstName);
+			mir_free(pParam->pszLastName);
+			mir_free(pParam->pszNick);
+			delete pParam;
+		}
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
@@ -46,6 +74,12 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL){
+		if (pParam){
+			mir_free(pParam->pszFirstName);
+			mir_free(pParam->pszLastName);
+			mir_free(pParam->pszNick);
+			delete pParam;
+		}
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
@@ -57,26 +91,40 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		iCount = 1;
 	} 
 
-
-	for (size_t i = 0; i<iCount; i++) {
-		PROTOSEARCHRESULT psr = { sizeof(psr) };
-		psr.flags = PSR_TCHAR;
-
+	for (int i = 0; i<iCount; i++) {
 		JSONNODE *pRecord = json_at(pItems, i);
 		if (pRecord == NULL)
 			break;
 		
-		CMString tszNick;
+		PROTOSEARCHRESULT psr = { sizeof(psr) };
+		psr.flags = PSR_TCHAR;
+
 		psr.id = mir_wstrdup(json_as_string(json_get(pRecord, "id")));
 		psr.firstName = mir_wstrdup(json_as_string(json_get(pRecord, "first_name")));
 		psr.lastName = mir_wstrdup(json_as_string(json_get(pRecord, "last_name")));
-		tszNick.Append(psr.firstName);
-		tszNick.AppendChar(' ');
-		tszNick.Append(psr.lastName);
-		psr.nick = mir_wstrdup(tszNick.GetBuffer());
+		psr.nick = mir_wstrdup(json_as_string(json_get(pRecord, "nickname")));
+		if (!psr.nick || !psr.nick[0])
+			psr.nick = mir_wstrdup(json_as_string(json_get(pRecord, "domain")));
 		
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+		bool filter = true;
+		if (pParam){
+			if (psr.firstName&&pParam->pszFirstName)
+				filter = tlstrstr(psr.firstName, pParam->pszFirstName) && filter;
+			if (psr.lastName&&pParam->pszLastName)
+				filter = tlstrstr(psr.lastName, pParam->pszLastName) && filter;
+			if (psr.nick&&pParam->pszNick)
+				filter = tlstrstr(psr.nick, pParam->pszNick) && filter;
+		}
+
+		if (filter)
+			ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
 
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	if (pParam){
+		mir_free(pParam->pszFirstName);
+		mir_free(pParam->pszLastName);
+		mir_free(pParam->pszNick);
+		delete pParam;
+	}
 }
