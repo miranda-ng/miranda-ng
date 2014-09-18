@@ -85,8 +85,6 @@
 сек.
 [For "Restart" popup setting is always infinity]
 Всплывающее окно "Перезапуск" всегда установлено на бесконечность
-[Boxes]
-Окна
 [Popups]
 Всплывающие окна
 [Component list]
