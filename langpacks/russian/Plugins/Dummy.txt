@@ -1,0 +1,21 @@
+﻿#muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
+;============================================================
+;  File: Dummy.dll
+;  Plugin: Dummy protocol
+;  Version: 0.1.0.0
+;  Authors: Robert Pösel
+;============================================================
+[Dummy protocol for Miranda NG.]
+Протокол-заглушка для Miranda NG.
+[Unique ID setting:]
+Уникальные настройки ID
+[Name of setting that holds unique identifier of contacts]
+Название настроек содержит уникальный идентификатор контактов
+[Unique ID text:]
+Уникальный текст ID
+[Visible name of unique identifier of contacts]
+Видимое имя уникального идентификатора контактов
+[Restart is required to apply these changes.]
+Необходим перезапуск для применения настроек.
+[Dummy protocol is too dumb to send messages.]
+Протокол-заглушка чересчур туп для отсылки сообщений.

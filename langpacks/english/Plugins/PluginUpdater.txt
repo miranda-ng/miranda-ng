@@ -46,7 +46,6 @@
 [-1 = Infinite]
 [Sec]
 [For "Restart" popup setting is always infinity]
-[Boxes]
 [Popups]
 [Component list]
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]

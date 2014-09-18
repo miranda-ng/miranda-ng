@@ -2,31 +2,23 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.0.2.1
+;  Version: 0.1.0.1
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 Поддержка протокола WhatsApp в Miranda NG.
-[Phone-Number]
-Телефон
+[Phone number]
+Номер телефона
 [Including country code, without '+' or '00']
 Включая код страны, без '+' или '00'
 [Nickname]
 Ник
-[Password]
-Пароль
-[Request Code]
+[SMS code]
+Код SMS
+[Request code]
 Код запроса
-[Register Code]
+[Register code]
 Код регистрации
-[SMS-Code:]
-SMS-код:
-[Will only be used for registration]
-Нужен только для регистрации
-[Paste password from WART utility]
-Вставьте пароль из программы WART
-[Use WART utility from Plugins folder for registering your number and generating password]
-Для регистрации номера и получения пароля воспользуйтесь программой WART из папки Plugins
 [Use SSL connection (443 port)]
 Подключение по SSL (порт 443)
 [Cancel]
@@ -39,22 +31,42 @@ SMS-код:
 Введите ник.
 [Please enter a password.]
 Введите пароль.
+[is now known as '%s']
+теперь известен, как '%s'
 [Last seen on %x at %X]
 Последнее появление %x в %X
+[You have been added to the group]
+Вы добавлены в группу
+[User '%s' has been added to the group]
+Пользователь '%s' добавлен в группу
+[You have been removed from the group]
+Вы удалены из группы
+[User '%s' has been removed from the group]
+Пользователь '%s' удалён из группы
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код регистрации придет на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
 [Please correctly specify your registration code received by SMS]
 Пожалуйста, верно укажите свой код регистрации, полученный в SMS
 [Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
 Ваш пароль установлен автоматически.\nЕсли вы измените его вручную, то можете потерять его и придется запросить новый код!
-[Did not unpack WART (registration utility).]
-Не распакована программа WART (необходима для регистрации).
 [%s server connection]
 %s подключение к серверу
 [Unable to get Netlib connection for WhatsApp]
 Невозможно создать подключение Netlib для WhatsApp
 [Network-connection error.]
 Ошибка соединения
+[Registration]
+Регистрация
+[Registration failed. Invalid server response.]
+Неудачная регистрация. Неверный ответ сервера.
+[Registration failed due to stale code. Please request a new code]
+Неудачная регистрация, вследствие устаревшего кода. Пожалуйста, запросите новый код
+[Registration failed.]
+Неудачная регистрация.
+[Please try again in %i seconds]
+Пожалуйста, попробуйте ещё раз через %i секунд
+[Registration code has been sent to your phone.]
+Код регистрации был выслан на ваш телефон.
 [Network]
 Сеть
 [Account]
