@@ -67,9 +67,9 @@ void LoadDbAccounts(void)
 {
 	DBVARIANT dbv;
 	int ver = db_get_dw(NULL, "Protocols", "PrVer", -1);
-	int count = db_get_dw(NULL, "Protocols", "ProtoCount", 0), i;
+	int count = db_get_dw(NULL, "Protocols", "ProtoCount", 0);
 
-	for (i=0; i < count; i++) {
+	for (int i=0; i < count; i++) {
 		char buf[10];
 		_itoa(i, buf, 10);
 		if (db_get_s(NULL, "Protocols", buf, &dbv))
@@ -151,8 +151,6 @@ static int enumDB_ProtoProc(const char* szSetting, LPARAM lParam)
 
 void WriteDbAccounts()
 {
-	int i;
-
 	// enum all old settings to delete
 	enumDB_ProtoProcParam param = { 0, NULL };
 
@@ -165,8 +163,7 @@ void WriteDbAccounts()
 
 	// delete all settings
 	if (param.arrlen) {
-		int i;
-		for (i=0; i < param.arrlen; i++) {
+		for (int i=0; i < param.arrlen; i++) {
 			db_unset(0, "Protocols", param.pszSettingName[i]);
 			mir_free(param.pszSettingName[i]);
 		}
@@ -174,7 +171,7 @@ void WriteDbAccounts()
 	}
 
 	// write new data
-	for (i=0; i < accounts.getCount(); i++) {
+	for (int i=0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
 
 		char buf[ 20 ];
@@ -241,6 +238,11 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 	if (count == 0 && !db_get_b(NULL, "FirstRun", "AccManager", 0)) {
 		db_set_b(NULL, "FirstRun", "AccManager", 1);
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
+	}
+	// This is for pack creators with a profile with predefined accounts
+	else if(db_get_b(NULL, "FirstRun", "ForceShowAccManager", 0)) {
+		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
+		db_unset(NULL, "FirstRun", "ForceShowAccManager");
 	}
 	return 0;
 }
