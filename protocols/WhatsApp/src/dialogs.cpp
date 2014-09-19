@@ -13,7 +13,8 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 
 		proto = reinterpret_cast<WhatsAppProto*>(lparam);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
-		SendDlgItemMessage(hwnd, IDC_PW, EM_LIMITTEXT, 6, 0);
+		SendDlgItemMessage(hwnd, IDC_PW, EM_LIMITTEXT, 3, 0);
+		SendDlgItemMessage(hwnd, IDC_PW2, EM_LIMITTEXT, 3, 0);
 		CheckDlgButton(hwnd, IDC_SSL, db_get_b(NULL, proto->ModuleName(), WHATSAPP_KEY_SSL, 0));
 		DBVARIANT dbv;
 
@@ -33,12 +34,14 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 		}
 
 		EnableWindow(GetDlgItem(hwnd, IDC_PW), FALSE);
+		EnableWindow(GetDlgItem(hwnd, IDC_PW2), FALSE);
 
 		if (!proto->isOffline()) {
 			SendDlgItemMessage(hwnd, IDC_CC, EM_SETREADONLY, 1, 0);
 			SendDlgItemMessage(hwnd, IDC_LOGIN, EM_SETREADONLY, 1, 0);
 			SendDlgItemMessage(hwnd, IDC_NICK, EM_SETREADONLY, 1, 0);
 			SendDlgItemMessage(hwnd, IDC_PW, EM_SETREADONLY, 1, 0);
+			SendDlgItemMessage(hwnd, IDC_PW2, EM_SETREADONLY, 1, 0);
 			EnableWindow(GetDlgItem(hwnd, IDC_SSL), FALSE);
 		}
 
@@ -88,6 +91,7 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 			case IDC_NICK:
 			case IDC_SSL:
 			case IDC_PW:
+			case IDC_PW2:
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
 		}
