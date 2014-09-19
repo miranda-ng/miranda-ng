@@ -554,7 +554,7 @@
 [has set the subject to:]
 [%s\nIncoming group chat invitation.]
 ;file \protocols\JabberG\src\jabber_icolib.cpp
-[Status icons/%s/%S %s]
+[Status icons]
 [transport]
 [Notes]
 [Multi-User Conference]
