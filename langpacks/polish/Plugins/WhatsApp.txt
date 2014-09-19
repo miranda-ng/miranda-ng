@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -49,10 +49,10 @@ Użytkownik "%s" został usunięty z grupy
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie możesz używać prawdziwego WhatsApp i tej wtyczki równocześnie.\nKontynuować?
+[Your password has been set automatically. You can proceed with login now]
+Twoje hasło zostało ustawione automatycznie. Możesz teraz przejść do logowania
 [Please correctly specify your registration code received by SMS]
 Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
-[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
-Twoje hasło zostało ustawione automatycznie.\nJeżęli zmienisz je ręcznie, możesz je utracić i będziesz musiał zażądać nowego kodu!
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Połączenie %s
