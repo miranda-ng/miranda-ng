@@ -92,6 +92,17 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
+
+	// register special type of event
+	// there's no need to declare the special service for getting text
+	// because a blob contains only text
+	DBEVENTTYPEDESCR evtype = { sizeof(evtype) };
+	evtype.module = m_szModuleName;
+	evtype.eventType = FACEBOOK_EVENTTYPE_CALL;
+	evtype.descr = LPGEN("Video call");
+	evtype.eventIcon = GetIconHandle("facebook");
+	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
+	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&evtype);
 }
 
 FacebookProto::~FacebookProto()

@@ -100,6 +100,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SEND_MESSAGE_ERROR						1
 #define SEND_MESSAGE_CANCEL						-1
 
+// Event types
+#define FACEBOOK_EVENTTYPE_CALL					10010
+
 // Facebook request types // TODO: Provide MS_ and release in FB plugin API?
 enum RequestType {
 	REQUEST_LOGIN,				// connecting physically
@@ -162,6 +165,11 @@ enum ClientType {
 	CLIENT_MESSENGER = 3,	// Facebook Messenger application
 	CLIENT_OTHER	 = 4,	// Facebook over XMPP
 	CLIENT_MOBILE	 = 5	// Facebook on unknown mobile client (can't be determined for offline contacts)
+};
+
+enum MessageType {
+	MESSAGE = 1,	// Classic message
+	CALL	= 2,	// Video call
 };
 
 typedef struct {
