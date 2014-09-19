@@ -80,7 +80,7 @@ Lotus Notes Extension Manager не зареєстровано. Функція а
 [LotusNotify plugin configuration]
 Конфігурація плагіна LotusNotify
 [notes.ini modified correctly. Miranda restart required.]
-notes.ini модифіковано коректно. Необхідно перезавантажити програму.
+notes.ini модифіковано коректно. Необхідно перезапустити програму.
 [notes.ini seem to be set correctly.]
 Здається, налаштування notes.ini правильні.
 [Now checking Lotus, try again later]

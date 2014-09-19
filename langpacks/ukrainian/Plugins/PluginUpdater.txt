@@ -85,8 +85,6 @@
 с
 [For "Restart" popup setting is always infinity]
 Спливаюче вікно "Перезапуск" завжди встановлене на нескінченність
-[Boxes]
-Вікна
 [Popups]
 Спливаючі вікна
 [Component list]
