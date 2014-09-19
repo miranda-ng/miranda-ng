@@ -33,51 +33,43 @@ void WhatsAppProto::ChangeStatus(void*)
 
 void WhatsAppProto::stayConnectedLoop(void*)
 {
-	bool error = true;
 	std::string cc, in, pass;
 	DBVARIANT dbv = { 0 };
 
 	if (!getString(WHATSAPP_KEY_CC, &dbv)) {
 		cc = dbv.pszVal;
 		db_free(&dbv);
-		error = cc.empty();
 	}
-	if (error) {
+	if (cc.empty()) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a country-code."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
 
-	error = true;
 	if (!getString(WHATSAPP_KEY_LOGIN, &dbv)) {
 		in = dbv.pszVal;
 		db_free(&dbv);
-		error = in.empty();
 	}
-	if (error) {
+	if (in.empty()) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a phone-number without country code."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
 	this->phoneNumber = cc + in;
 	this->jid = this->phoneNumber + "@s.whatsapp.net";
 
-	error = true;
 	if (!getString(WHATSAPP_KEY_NICK, &dbv)) {
 		this->nick = dbv.pszVal;
 		db_free(&dbv);
-		error = nick.empty();
 	}
-	if (error) {
+	if (nick.empty()) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a nickname."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
 
-	error = true;
 	if (!getString(WHATSAPP_KEY_PASS, &dbv)) {
 		pass = dbv.pszVal;
 		db_free(&dbv);
-		error = pass.empty();
 	}
-	if (error) {
+	if (pass.empty()) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a password."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
@@ -87,6 +79,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	Mutex writerMutex;
 	WALogin* login = NULL;
 	int desiredStatus;
+	bool error = false;
 
 	this->conn = NULL;
 

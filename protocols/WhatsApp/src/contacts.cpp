@@ -156,28 +156,26 @@ void WhatsAppProto::SetAllContactStatuses(int status, bool reset_client)
 void WhatsAppProto::ProcessBuddyList(void*)
 {
 	std::vector<std::string> jids;
-	DBVARIANT dbv;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			continue;
 
-		if (!getString(hContact, WHATSAPP_KEY_ID, &dbv)) {
-			std::string id(dbv.pszVal);
-			db_free(&dbv);
-
+		ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
+		if (jid) {
 			try {
 				if (!db_get_b(hContact, "CList", "Hidden", 0)) {
 					// Do not request picture for inactive groups - this would make the group visible again
-					jids.push_back(id);
+					jids.push_back(string(jid));
 				}
 				if (getByte(hContact, "SimpleChatRoom", 0) == 0) {
-					this->connection->sendQueryLastOnline(id);
-					this->connection->sendPresenceSubscriptionRequest(id);
+					this->connection->sendQueryLastOnline((char*)jid);
+					this->connection->sendPresenceSubscriptionRequest((char*)jid);
 				}
 			}
 			CODE_BLOCK_CATCH_ALL
 		}
 	}
+
 	if (jids.size() > 0) {
 		try {
 			this->connection->sendGetPictureIds(jids);
@@ -197,8 +195,8 @@ void WhatsAppProto::SearchAckThread(void *targ)
 	std::string jid(id);
 	jid.append("@s.whatsapp.net");
 
-	this->connection->sendQueryLastOnline(jid);
-	this->connection->sendPresenceSubscriptionRequest(jid);
+	this->connection->sendQueryLastOnline(jid.c_str());
+	this->connection->sendPresenceSubscriptionRequest(jid.c_str());
 
 	mir_free(targ);
 	mir_free(id);
@@ -596,11 +594,11 @@ void __cdecl WhatsAppProto::SendSetGroupNameWorker(void* data)
 	input_box_ret* ibr(static_cast<input_box_ret*>(data));
 	string groupName(ibr->value);
 	mir_free(ibr->value);
-	DBVARIANT dbv;
-	if (!getString(*((MCONTACT*)ibr->userData), WHATSAPP_KEY_ID, &dbv) && this->isOnline()) {
-		this->connection->sendSetNewSubject(dbv.pszVal, groupName);
-		db_free(&dbv);
-	}
+
+	ptrA jid(getStringA(*((MCONTACT*)ibr->userData), WHATSAPP_KEY_ID));
+	if (jid && this->isOnline())
+		this->connection->sendSetNewSubject((char*)jid, groupName);
+
 	delete ibr->userData;
 	delete ibr;
 }
@@ -640,11 +638,10 @@ INT_PTR __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM hContact, LPARAM lPar
 
 INT_PTR __cdecl WhatsAppProto::OnLeaveGroup(WPARAM hContact, LPARAM)
 {
-	DBVARIANT dbv;
-	if (this->isOnline() && !getString(hContact, WHATSAPP_KEY_ID, &dbv)) {
+	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
+	if (jid && this->isOnline()) {
 		setByte(hContact, "IsGroupMember", 0);
-		this->connection->sendLeaveGroup(dbv.pszVal);
-		db_free(&dbv);
+		this->connection->sendLeaveGroup((char*)jid);
 	}
 	return 0;
 }

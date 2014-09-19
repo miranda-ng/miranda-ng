@@ -1,35 +1,36 @@
 #include "common.h"
 #include "WASocketConnection.h"
 
-
 HANDLE WASocketConnection::hNetlibUser = NULL;
 
-void WASocketConnection::initNetwork(HANDLE hNetlibUser) throw (WAException) {
+void WASocketConnection::initNetwork(HANDLE hNetlibUser) throw (WAException)
+{
 	WASocketConnection::hNetlibUser = hNetlibUser;
 }
 
-void WASocketConnection::quitNetwork() {
+void WASocketConnection::quitNetwork()
+{
 }
 
 WASocketConnection::WASocketConnection(const std::string& dir, int port) throw (WAException)
 {
-	NETLIBOPENCONNECTION	noc = {sizeof(noc)};
+	NETLIBOPENCONNECTION	noc = { sizeof(noc) };
 	noc.szHost = dir.c_str();
 	noc.wPort = port;
 	noc.flags = NLOCF_V2; // | NLOCF_SSL;
-	this->hConn = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, reinterpret_cast<WPARAM>(this->hNetlibUser),
-		reinterpret_cast<LPARAM>(&noc));
-	if (this->hConn == NULL)
-	{
+	this->hConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, reinterpret_cast<WPARAM>(this->hNetlibUser),
+												 reinterpret_cast<LPARAM>(&noc));
+	if (this->hConn == NULL) {
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
 	}
 
 	this->connected = true;
 }
 
-void WASocketConnection::write(int i) {
+void WASocketConnection::write(int i)
+{
 	char buffer;
-	buffer = (char) i;
+	buffer = (char)i;
 
 	NETLIBBUFFER nlb;
 	nlb.buf = &buffer;
@@ -42,12 +43,14 @@ void WASocketConnection::write(int i) {
 	}
 }
 
-void WASocketConnection::makeNonBlock() {
+void WASocketConnection::makeNonBlock()
+{
 	//if (fcntl(socket->channel, F_SETFL, O_NONBLOCK) == -1) // #TODO !?
-		throw WAException("Error setting socket nonblocking!",  WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
+	throw WAException("Error setting socket nonblocking!", WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
 }
 
-int WASocketConnection::waitForRead() {
+int WASocketConnection::waitForRead()
+{
 	// #TODO Is this called at all?
 	return 0;
 
@@ -79,13 +82,13 @@ void WASocketConnection::flush() {}
 void WASocketConnection::write(const std::vector<unsigned char>& bytes, int offset, int length)
 {
 	NETLIBBUFFER nlb;
-	std::string tmpBuf = std::string(bytes.begin(), bytes.end()); 
-	nlb.buf = (char*) &(tmpBuf.c_str()[offset]);
+	std::string tmpBuf = std::string(bytes.begin(), bytes.end());
+	nlb.buf = (char*)&(tmpBuf.c_str()[offset]);
 	nlb.len = length;
 	nlb.flags = 0; //MSG_NOHTTPGATEWAYWRAP | MSG_NODUMP;
 
 	int result = CallService(MS_NETLIB_SEND, reinterpret_cast<WPARAM>(this->hConn),
-		reinterpret_cast<LPARAM>(&nlb));
+									 reinterpret_cast<LPARAM>(&nlb));
 	if (result < length) {
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_SEND);
 	}
@@ -96,13 +99,14 @@ void WASocketConnection::write(const std::vector<unsigned char>& bytes, int leng
 	this->write(bytes, 0, length);
 }
 
-unsigned char WASocketConnection::read() {
+unsigned char WASocketConnection::read()
+{
 	char c;
 
 	SetLastError(0);
 	int result;
 	//do {
-		result = Netlib_Recv(this->hConn, &c, 1, 0 /*MSG_NOHTTPGATEWAYWRAP | MSG_NODUMP*/);
+	result = Netlib_Recv(this->hConn, &c, 1, 0 /*MSG_NOHTTPGATEWAYWRAP | MSG_NODUMP*/);
 	//} while  (WSAGetLastError() == EINTR);
 	if (result <= 0) {
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_RECV);
@@ -110,7 +114,8 @@ unsigned char WASocketConnection::read() {
 	return c;
 }
 
-int WASocketConnection::read(std::vector<unsigned char>& b, int off, int length) {
+int WASocketConnection::read(std::vector<unsigned char>& b, int off, int length)
+{
 	if (off < 0 || length < 0) {
 		throw new WAException("Out of bounds", WAException::SOCKET_EX, WAException::SOCKET_EX_RECV);
 	}
@@ -129,11 +134,13 @@ int WASocketConnection::read(std::vector<unsigned char>& b, int off, int length)
 	return result;
 }
 
-void WASocketConnection::forceShutdown() {
+void WASocketConnection::forceShutdown()
+{
 	Netlib_Shutdown(this->hConn);
 }
 
-WASocketConnection::~WASocketConnection() {
+WASocketConnection::~WASocketConnection()
+{
 	this->forceShutdown();
 	Netlib_CloseHandle(this->hConn);
 }

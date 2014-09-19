@@ -1,25 +1,25 @@
 #include "common.h"
 
 std::string getLastErrorMsg()
-{ 
-	 // Retrieve the system error message for the last-error code
+{
+	// Retrieve the system error message for the last-error code
 
-	 LPVOID lpMsgBuf;
-	 DWORD dw = WSAGetLastError(); 
+	LPVOID lpMsgBuf;
+	DWORD dw = WSAGetLastError();
 
-	 FormatMessageA(
-		  FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-		  FORMAT_MESSAGE_FROM_SYSTEM |
-		  FORMAT_MESSAGE_IGNORE_INSERTS,
-		  NULL,
-		  dw,
-		  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		  (LPSTR) &lpMsgBuf,
-		  0, NULL );
+	FormatMessageA(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		dw,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPSTR)&lpMsgBuf,
+		0, NULL);
 
-	 std::string ret((LPSTR) lpMsgBuf);
-	 LocalFree(lpMsgBuf);
-	 return ret;
+	std::string ret((LPSTR)lpMsgBuf);
+	LocalFree(lpMsgBuf);
+	return ret;
 }
 
 BYTE* utils::md5string(const BYTE *data, int size, BYTE *digest)

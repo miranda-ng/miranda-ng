@@ -20,17 +20,17 @@ void InitIcons(void)
 
 HANDLE GetIconHandle(const char* name)
 {
-	for(size_t i=0; i<SIZEOF(icons); i++)
-		if(strcmp(icons[i].szName, name) == 0)
+	for (size_t i = 0; i < SIZEOF(icons); i++)
+		if (strcmp(icons[i].szName, name) == 0)
 			return icons[i].hIcolib;
 
 	return 0;
 }
 
-char *GetIconDescription(const char* name)
+char* GetIconDescription(const char* name)
 {
-	for(size_t i=0; i<SIZEOF(icons); i++)
-		if(strcmp(icons[i].szName, name) == 0)
+	for (size_t i = 0; i < SIZEOF(icons); i++)
+		if (strcmp(icons[i].szName, name) == 0)
 			return icons[i].szDescr;
 
 	return "";
@@ -43,50 +43,50 @@ HGENMENU g_hContactMenuItems[CMITEMS_COUNT];
 static WhatsAppProto* GetInstanceByHContact(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
-	if( !proto )
+	if (!proto)
 		return 0;
 
-	for(int i=0; i<g_Instances.getCount(); i++)
-		if(!strcmp(proto,g_Instances[i].m_szModuleName))
+	for (int i = 0; i < g_Instances.getCount(); i++)
+		if (!strcmp(proto, g_Instances[i].m_szModuleName))
 			return &g_Instances[i];
 
 	return 0;
 }
 
-template<INT_PTR (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM)>
-INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
+template<INT_PTR(__cdecl WhatsAppProto::*Fcn)(WPARAM, LPARAM)>
+INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 {
 	WhatsAppProto *proto = GetInstanceByHContact(MCONTACT(wParam));
-	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
+	return proto ? (proto->*Fcn)(wParam, lParam) : 0;
 }
 
-template<INT_PTR (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM,LPARAM)>
-INT_PTR GlobalServiceParam(WPARAM wParam,LPARAM lParam, LPARAM lParam2)
+template<INT_PTR(__cdecl WhatsAppProto::*Fcn)(WPARAM, LPARAM, LPARAM)>
+INT_PTR GlobalServiceParam(WPARAM wParam, LPARAM lParam, LPARAM lParam2)
 {
 	WhatsAppProto *proto = GetInstanceByHContact(MCONTACT(wParam));
-	return proto ? (proto->*Fcn)(wParam,lParam,lParam2) : 0;
+	return proto ? (proto->*Fcn)(wParam, lParam, lParam2) : 0;
 }
 
-static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
+static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
+	for (size_t i = 0; i < SIZEOF(g_hContactMenuItems); i++)
 		Menu_ShowItem(g_hContactMenuItems[i], false);
 
 	WhatsAppProto *proto = GetInstanceByHContact(MCONTACT(wParam));
-	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
+	return proto ? proto->OnPrebuildContactMenu(wParam, lParam) : 0;
 }
 
 void WhatsAppProto::InitContactMenus()
 {
 	::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	CLISTMENUITEM mi = {sizeof(mi)};
+	CLISTMENUITEM mi = { sizeof(mi) };
 
 	mi.position = -2000006100;
 	mi.icolibItem = GetIconHandle("leaveGroup");
 	mi.pszName = GetIconDescription("leaveGroup");
 	mi.pszService = "WhatsAppProto/LeaveGroup";
-	CreateServiceFunction(mi.pszService,GlobalService<&WhatsAppProto::OnLeaveGroup>);
+	CreateServiceFunction(mi.pszService, GlobalService<&WhatsAppProto::OnLeaveGroup>);
 	g_hContactMenuItems[CMI_LEAVE_GROUP] = Menu_AddContactMenuItem(&mi);
 
 	mi.position = -2000006100;
@@ -98,12 +98,12 @@ void WhatsAppProto::InitContactMenus()
 	mi.icolibItem = GetIconHandle("changeGroupSubject");
 	mi.pszName = GetIconDescription("changeGroupSubject");
 	mi.pszService = "WhatsAppProto/ChangeGroupSubject";
-	CreateServiceFunction(mi.pszService,GlobalService<&WhatsAppProto::OnChangeGroupSubject>);
+	CreateServiceFunction(mi.pszService, GlobalService<&WhatsAppProto::OnChangeGroupSubject>);
 	g_hContactMenuItems[CMI_CHANGE_GROUP_SUBJECT] = Menu_AddContactMenuItem(&mi);
 }
 
-int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
-{	
+int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+{
 	MCONTACT hContact = MCONTACT(wParam);
 	if (hContact)
 		debugLog(pcli->pfnGetContactDisplayName(hContact, 0));
@@ -111,31 +111,29 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		debugLogA("No contact found");
 
 	if (g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP] != NULL)
-		CallService("CList/RemoveContactMenuItem", (WPARAM) g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], (LPARAM) 0);
+		CallService("CList/RemoveContactMenuItem", (WPARAM)g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], (LPARAM)0);
 
 	if (g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP] != NULL)
-		CallService("CList/RemoveContactMenuItem", (WPARAM) g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP], (LPARAM) 0);
-	
+		CallService("CList/RemoveContactMenuItem", (WPARAM)g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP], (LPARAM)0);
+
 	int chatType = getByte(hContact, "SimpleChatRoom", 0);
 
-	CLISTMENUITEM mi = {sizeof(mi)};
+	CLISTMENUITEM mi = { sizeof(mi) };
 
-	if (chatType == 0)
-	{
+	if (chatType == 0) {
 		mi.flags = CMIF_CHILDPOPUP;
-		mi.position= -2000006102;
+		mi.position = -2000006102;
 		mi.icolibItem = GetIconHandle("addContactToGroup");
 		mi.pszName = GetIconDescription("addContactToGroup");
 		mi.pszService = NULL;
 		g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP] = Menu_AddContactMenuItem(&mi);
 
-		if (!isOnline())
-		{
+		if (!isOnline()) {
 			Menu_ShowItem(g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], false);
 			return 0;
 		}
 
-		mi.hParentMenu = (HGENMENU) g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP];
+		mi.hParentMenu = (HGENMENU)g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP];
 		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 
 		int iGrpCount = 0;
@@ -145,16 +143,14 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		DBVARIANT dbv;
 
 		for (map<MCONTACT, map<MCONTACT, bool>>::iterator it = this->isMemberByGroupContact.begin();
-			it != this->isMemberByGroupContact.end(); ++it)
-		{
+			  it != this->isMemberByGroupContact.end(); ++it) {
 			map<MCONTACT, bool>::iterator memberIt = it->second.find(hContact);
 			// Only, if current contact is not already member of this group
-			if ((memberIt == it->second.end() || memberIt->second == false) && !getString(it->first, "ID", &dbv))
-			{
+			if ((memberIt == it->second.end() || memberIt->second == false) && !getString(it->first, "ID", &dbv)) {
 				fullSvcName = svcName + dbv.pszVal;
-				mi.pszService = (char*) fullSvcName.c_str();
+				mi.pszService = (char*)fullSvcName.c_str();
 				mi.ptszName = pcli->pfnGetContactDisplayName(it->first, 0);
-				CreateServiceFunctionParam(mi.pszService, GlobalServiceParam<&WhatsAppProto::OnAddContactToGroup>, (LPARAM) it->first);
+				CreateServiceFunctionParam(mi.pszService, GlobalServiceParam<&WhatsAppProto::OnAddContactToGroup>, (LPARAM)it->first);
 				Menu_AddContactMenuItem(&mi);
 				db_free(&dbv);
 				iGrpCount++;
@@ -163,34 +159,28 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		if (!iGrpCount)
 			Menu_ShowItem(g_hContactMenuItems[CMI_ADD_CONTACT_TO_GROUP], false);
 	}
-	else if (chatType == 1)
-	{
+	else if (chatType == 1) {
 		mi.flags = CMIM_FLAGS;
 		if (!isOnline() || getByte(hContact, "IsGroupMember", 0) == 0)
 			mi.flags |= CMIF_GRAYED;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) g_hContactMenuItems[CMI_LEAVE_GROUP], (LPARAM) &mi);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hContactMenuItems[CMI_LEAVE_GROUP], (LPARAM)&mi);
 	}
-	else if (chatType == 2)
-	{
+	else if (chatType == 2) {
 		// owning chat/group
 		mi.flags = CMIF_CHILDPOPUP;
-		mi.position= -2000006102;
+		mi.position = -2000006102;
 		mi.icolibItem = GetIconHandle("removeContactFromGroup");
 		mi.pszName = GetIconDescription("removeContactFromGroup");
 		mi.pszService = NULL;
 		g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP] = Menu_AddContactMenuItem(&mi);
 
 		bool bShow = false;
-		if (isOnline() && getByte(hContact, "IsGroupMember", 0) == 1)
-		{
+		if (isOnline() && getByte(hContact, "IsGroupMember", 0) == 1) {
 			map<MCONTACT, map<MCONTACT, bool>>::iterator groupsIt = this->isMemberByGroupContact.find(hContact);
 			if (groupsIt == this->isMemberByGroupContact.end())
-			{
 				debugLogA("Group exists only on contact list");
-			}
-			else
-			{
-				mi.hParentMenu = (HGENMENU) g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP];
+			else {
+				mi.hParentMenu = (HGENMENU)g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP];
 				mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 
 				string fullSvcName;
@@ -198,15 +188,13 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 				svcName += "/RemoveContactFromGroup_";
 				DBVARIANT dbv;
 
-				for (map<MCONTACT, bool>::iterator it = groupsIt->second.begin(); it != groupsIt->second.end(); ++it)
-				{
-					if (!getString(it->first, "ID", &dbv))
-					{
+				for (map<MCONTACT, bool>::iterator it = groupsIt->second.begin(); it != groupsIt->second.end(); ++it) {
+					if (!getString(it->first, "ID", &dbv)) {
 						fullSvcName = svcName + dbv.pszVal;
-						mi.pszService = (char*) fullSvcName.c_str();
+						mi.pszService = (char*)fullSvcName.c_str();
 						mi.ptszName = pcli->pfnGetContactDisplayName(it->first, 0);
 						CreateServiceFunctionParam(mi.pszService,
-							GlobalServiceParam<&WhatsAppProto::OnRemoveContactFromGroup>, (LPARAM) it->first);
+															GlobalServiceParam<&WhatsAppProto::OnRemoveContactFromGroup>, (LPARAM)it->first);
 						Menu_AddContactMenuItem(&mi);
 						db_free(&dbv);
 						bShow = true;
@@ -225,7 +213,6 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 {
-	
 	char text[200];
 	strcpy(text, m_szModuleName);
 	char *tDest = text + strlen(text);
