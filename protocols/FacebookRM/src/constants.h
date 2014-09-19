@@ -113,6 +113,7 @@ enum RequestType {
 	REQUEST_RECONNECT,			// getting __sequence_num__ and __channel_id__
 	REQUEST_VISIBILITY,			// setting chat visibility
 	REQUEST_IDENTITY_SWITCH,	// changing identity to post status for pages
+	REQUEST_CAPTCHA_REFRESH,	// refreshing captcha dialog (changing captcha type)
 
 	REQUEST_FEEDS,				// getting feeds
 	REQUEST_NOTIFICATIONS,		// getting notifications
