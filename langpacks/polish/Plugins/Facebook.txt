@@ -249,6 +249,8 @@ Kontakt jest już na liście serwera.
 Połączenie %s
 [Unable to get Netlib connection for Facebook]
 Nie można uzyskać połączenia Netlib Facebook
+[Video call]
+Rozmowa video
 [Facebook ID must be numeric value.]
 Facebook ID musi być wartością numeryczną.
 [Network]
