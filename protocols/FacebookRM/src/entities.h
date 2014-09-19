@@ -110,6 +110,7 @@ struct facebook_message
 	bool isIncoming;
 	bool isUnread;
 	bool isChat;
+	MessageType type;
 
 	int flag_;
 
@@ -119,6 +120,7 @@ struct facebook_message
 		this->time = 0;
 		this->isUnread = this->isIncoming = true;
 		this->isChat = false;
+		this->type = MESSAGE;
 		this->flag_ = 0;
 	}
 
@@ -133,6 +135,7 @@ struct facebook_message
 		this->isIncoming = msg.isIncoming;
 		this->isUnread = msg.isUnread;
 		this->isChat = msg.isChat;
+		this->type = msg.type;
 		this->flag_ = msg.flag_;
 	}
 };

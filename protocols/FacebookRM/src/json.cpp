@@ -686,9 +686,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				proto->NotifyEvent()
 			}*/
 		} else if (t == "mercury") {
-			// rename multi user chat, ...
-			if (!proto->m_enableChat)
-				continue;
+			// rename multi user chat, video call, ...
 
 			JSONNODE *actions_ = json_get(it, "actions");
 			if (actions_ == NULL)
@@ -700,18 +698,50 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				JSONNODE *thread_id_ = json_get(action_, "thread_id");
 				JSONNODE *log_body_ = json_get(action_, "log_message_body");
 				JSONNODE *log_data_ = json_get(action_, "log_message_data");
-				if (!log_data_ || !thread_id_)
+				JSONNODE *log_type_ = json_get(action_, "log_message_type");
+				if (!log_data_ || !log_body_ || !thread_id_ || !log_type_)
 					continue;
 
-				JSONNODE *name_ = json_get(log_data_, "name");
-				std::string name = json_as_pstring(name_);
 				std::tstring thread_id = json_as_string(thread_id_);
-				std::string message = json_as_pstring(log_body_);
+				std::string type = json_as_pstring(log_type_);
+				std::string message_text = json_as_pstring(log_body_);
 
-				// proto->RenameChat(thread_id.c_str(), name.c_str()); // this don't work, why?
-				proto->setStringUtf(proto->ChatIDToHContact(thread_id), FACEBOOK_KEY_NICK, name.c_str());
+				if (type == "log:video-call") {
+					JSONNODE *other_user_fbid_ = json_get(action_, "other_user_fbid");
+					std::string id = json_as_pstring(other_user_fbid_);
 
-				proto->UpdateChat(thread_id.c_str(), NULL, NULL, message.c_str());
+					JSONNODE *timestamp = json_get(action_, "timestamp");
+					JSONNODE *mid_ = json_get(action_, "message_id");
+					
+					std::string message_id = json_as_pstring(mid_);
+					
+					facebook_message* message = new facebook_message();
+					message->isChat = false;
+					message->isUnread = true;
+					message->isIncoming = (id != proto->facy.self_.user_id);
+					message->message_text = message_text;
+					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+					message->user_id = id;
+					message->message_id = message_id;
+					message->sender_name = "";
+					message->thread_id = json_as_pstring(thread_id_);
+					message->type = CALL;
+
+					messages->push_back(message);
+				} else {
+					// TODO: check for other types, now we expect this is rename chat
+
+					if (!proto->m_enableChat)
+						continue;
+
+					JSONNODE *name_ = json_get(log_data_, "name");
+					std::string name = json_as_pstring(name_);
+
+					// proto->RenameChat(thread_id.c_str(), name.c_str()); // this don't work, why?
+					proto->setStringUtf(proto->ChatIDToHContact(thread_id), FACEBOOK_KEY_NICK, name.c_str());
+
+					proto->UpdateChat(thread_id.c_str(), NULL, NULL, message_text.c_str());
+				}
 			}
 		} else if (t == "notifications_read" || t == "notifications_seen") {
 			JSONNODE *alerts = json_get(it, "alert_ids");

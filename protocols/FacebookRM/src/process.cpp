@@ -706,7 +706,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
 				setString(hContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
 
-			if (messages[i]->isIncoming && messages[i]->isUnread) {
+			if (messages[i]->isIncoming && messages[i]->isUnread && messages[i]->type == MESSAGE) {
 				PROTORECVEVENT recv = { 0 };
 				recv.flags = PREF_UTF;
 				recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
@@ -715,7 +715,12 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			} else {
 				DBEVENTINFO dbei = { 0 };
 				dbei.cbSize = sizeof(dbei);
-				dbei.eventType = EVENTTYPE_MESSAGE;
+				
+				if (messages[i]->type == CALL)
+					dbei.eventType = FACEBOOK_EVENTTYPE_CALL;
+				else
+					dbei.eventType = EVENTTYPE_MESSAGE;
+				
 				dbei.flags = DBEF_UTF;
 
 				if (!messages[i]->isIncoming)
