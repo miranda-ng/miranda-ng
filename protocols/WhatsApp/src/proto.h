@@ -86,7 +86,6 @@ public:
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 
-	int __cdecl RefreshBuddyList(WPARAM, LPARAM);
 	int __cdecl RequestFriendship(WPARAM, LPARAM);
 
 	// Events
@@ -134,7 +133,7 @@ public:
 	}
 
 	// Registration
-	string Register(int state, const string &cc, const string &number, const string &code);
+	bool Register(int state, const string &cc, const string &number, const string &code, string &password);
 
 	// Helpers
 	std::tstring GetAvatarFolder();

@@ -119,7 +119,6 @@ void WhatsAppProto::onIsTyping(const std::string& paramString, bool paramBoolean
 	}
 }
 
-
 int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (hContact && isOnline())
@@ -139,13 +138,12 @@ void WhatsAppProto::SendTypingWorker(void* p)
 	if (getWord(typing->hContact, "Status", 0) == ID_STATUS_OFFLINE)
 		return;
 
-	DBVARIANT dbv;
-	if (!getString(typing->hContact, WHATSAPP_KEY_ID, &dbv) &&
-		this->isOnline()) {
+	ptrA jid(getStringA(typing->hContact, WHATSAPP_KEY_ID));
+	if (jid && this->isOnline()) {
 		if (typing->status == PROTOTYPE_SELFTYPING_ON)
-			this->connection->sendComposing(dbv.pszVal);
+			this->connection->sendComposing((char*)jid);
 		else
-			this->connection->sendPaused(dbv.pszVal);
+			this->connection->sendPaused((char*)jid);
 	}
 
 	delete typing;

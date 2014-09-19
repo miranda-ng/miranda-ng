@@ -155,15 +155,14 @@ static NETLIBHTTPHEADER s_registerHeaders[] =
 	{ "Content-Type", "application/x-www-form-urlencoded" }
 };
 
-string WhatsAppProto::Register(int state, const string &cc, const string &number, const string &code)
+bool WhatsAppProto::Register(int state, const string &cc, const string &number, const string &code, string &ret)
 {
 	string idx;
-	string ret;
 	DBVARIANT dbv;
 
 	if (WASocketConnection::hNetlibUser == NULL) {
 		NotifyEvent(m_tszUserName, TranslateT("Network-connection error."), NULL, WHATSAPP_EVENT_CLIENT);
-		return ret;
+		return false;
 	}
 
 	if (!getString(WHATSAPP_KEY_IDX, &dbv)) {
@@ -182,7 +181,7 @@ string WhatsAppProto::Register(int state, const string &cc, const string &number
 
 	CMStringA url = WARegister::RequestCodeUrl(cc + number, code);
 	if (url.IsEmpty())
-		return ret;
+		return false;
 
 	NETLIBHTTPREQUEST nlhr = { sizeof(NETLIBHTTPREQUEST) };
 	nlhr.requestType = REQUEST_POST;
@@ -197,7 +196,7 @@ string WhatsAppProto::Register(int state, const string &cc, const string &number
 	const TCHAR *ptszTitle = TranslateT("Registration");
 	if (pnlhr == NULL) {
 		this->NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
-		return ret;
+		return false;
 	}
 
 	debugLogA("Server response: %s", pnlhr->pData);
@@ -205,7 +204,7 @@ string WhatsAppProto::Register(int state, const string &cc, const string &number
 	JSONROOT resp(pnlhr->pData);
 	if (resp == NULL) {
 		this->NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
-		return ret;
+		return false;
 	}
 
 	// Status = fail
@@ -222,26 +221,30 @@ string WhatsAppProto::Register(int state, const string &cc, const string &number
 			CMString tmp(FORMAT, TranslateT("Please try again in %i seconds"), json_as_int(tmpVal));
 			this->NotifyEvent(ptszTitle, tmp, NULL, WHATSAPP_EVENT_OTHER);
 		}
-		return ret;
+		return false;
 	}
 
 	//  Request code
 	if (state == REG_STATE_REQ_CODE) {
-		if (!lstrcmp(ptrT(json_as_string(val)), _T("sent")))
+		val = json_get(resp, "pw");
+		if (val != NULL)
+			ret = _T2A(ptrT(json_as_string(val)));
+		else if (!lstrcmp(ptrT(json_as_string(val)), _T("sent")))
 			this->NotifyEvent(ptszTitle, TranslateT("Registration code has been sent to your phone."), NULL, WHATSAPP_EVENT_OTHER);
-		return "ok";
+		return true;
 	}
 
 	// Register
 	if (state == REG_STATE_REG_CODE) {
 		val = json_get(resp, "pw");
-		if (val == NULL)
-			this->NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
-		else
+		if (val != NULL) {
 			ret = _T2A(ptrT(json_as_string(val)));
+			return true;
+		}
+		this->NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
 	}
 
-	return ret;
+	return false;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -270,25 +273,15 @@ int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int WhatsAppProto::RefreshBuddyList(WPARAM, LPARAM)
-{
-	if (!isOffline()) {
-		//ForkThread(
-	}
-	return 0;
-}
-
 int WhatsAppProto::RequestFriendship(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact == NULL || isOffline())
 		return 0;
 
-	DBVARIANT dbv;
-	if (!getString(hContact, WHATSAPP_KEY_ID, &dbv)) {
-		std::string id(dbv.pszVal);
-		this->connection->sendQueryLastOnline(id);
-		this->connection->sendPresenceSubscriptionRequest(id);
-		db_free(&dbv);
+	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
+	if (jid) {
+		this->connection->sendQueryLastOnline((char*)jid);
+		this->connection->sendPresenceSubscriptionRequest((char*)jid);
 	}
 
 	return 0;

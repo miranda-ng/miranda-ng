@@ -1,5 +1,8 @@
 #include "common.h"
 
+#define szAskSendSms  LPGEN("An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
+#define szPasswordSet LPGEN("Your password has been set automatically. You can proceed with login now")
+
 INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	WhatsAppProto *proto;
@@ -45,17 +48,21 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 		if (LOWORD(wparam) == IDC_BUTTON_REQUEST_CODE || LOWORD(wparam) == IDC_BUTTON_REGISTER) {
 			proto = reinterpret_cast<WhatsAppProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
+			string password;
 			char cc[5];
 			GetDlgItemTextA(hwnd, IDC_CC, cc, sizeof(cc));
 			char number[128];
 			GetDlgItemTextA(hwnd, IDC_LOGIN, number, sizeof(number));
 
 			if (LOWORD(wparam) == IDC_BUTTON_REQUEST_CODE) {
-				if (MessageBox(NULL, TranslateT("An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?"),
-					PRODUCT_NAME, MB_YESNO) == IDYES) {
-					string res = proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), string());
-					if (!res.empty())
-						EnableWindow(GetDlgItem(hwnd, IDC_PW), TRUE);
+				if (IDYES == MessageBox(NULL, TranslateT(szAskSendSms), PRODUCT_NAME, MB_YESNO)) {
+					if (proto->Register(REG_STATE_REQ_CODE, string(cc), string(number), string(), password)) {
+						if (!password.empty()) {
+							MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
+							proto->setString(WHATSAPP_KEY_PASS, password.c_str());
+						}
+						else EnableWindow(GetDlgItem(hwnd, IDC_PW), TRUE); // unblock sms code entry field
+					}
 				}
 			}
 			else if (LOWORD(wparam) == IDC_BUTTON_REGISTER) {
@@ -63,14 +70,13 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 				GetDlgItemTextA(hwnd, IDC_PW, code, sizeof(code));
 
 				if (strlen(code) != 6) {
-					MessageBox(NULL, TranslateT("Please correctly specify your registration code received by SMS"),
-						PRODUCT_NAME, MB_ICONEXCLAMATION);
+					MessageBox(NULL, TranslateT("Please correctly specify your registration code received by SMS"), PRODUCT_NAME, MB_ICONEXCLAMATION);
 					return TRUE;
 				}
-				string pw = proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code));
-				if (!pw.empty()) {
-					proto->setString(WHATSAPP_KEY_PASS, pw.c_str());
-					MessageBox(NULL, TranslateT("Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!"), PRODUCT_NAME, MB_ICONWARNING);
+
+				if (proto->Register(REG_STATE_REG_CODE, string(cc), string(number), string(code), password)) {
+					proto->setString(WHATSAPP_KEY_PASS, password.c_str());
+					MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
 				}
 			}
 		}
