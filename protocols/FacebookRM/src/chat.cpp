@@ -47,7 +47,9 @@ void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char
 	
 	// TODO: keep it here or move it somewhere else?
 	std::map<std::tstring, facebook_chatroom*>::iterator chatroom = facy.chat_rooms.find(tchat_id);
-	chatroom->second->message_readers = "";
+	if (chatroom != facy.chat_rooms.end()) {
+		chatroom->second->message_readers = "";
+	}
 }
 
 void FacebookProto::RenameChat(const char *chat_id, const char *name)
