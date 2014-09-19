@@ -64,7 +64,10 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 							MessageBox(NULL, TranslateT(szPasswordSet), PRODUCT_NAME, MB_ICONWARNING);
 							proto->setString(WHATSAPP_KEY_PASS, password.c_str());
 						}
-						else EnableWindow(GetDlgItem(hwnd, IDC_PW), TRUE); // unblock sms code entry field
+						else {
+							EnableWindow(GetDlgItem(hwnd, IDC_PW), TRUE); // unblock sms code entry field
+							EnableWindow(GetDlgItem(hwnd, IDC_PW2), TRUE);
+						}
 					}
 				}
 			}
