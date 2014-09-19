@@ -773,6 +773,8 @@ Jabber ошибка
 установил(а) тему:
 [%s\nIncoming group chat invitation.]
 %s\nПриглашение в конференцию.
+[Status icons/%s/%S %s]
+Значки статуса/%s/%S %s
 [transport]
 транспорт
 [Notes]
