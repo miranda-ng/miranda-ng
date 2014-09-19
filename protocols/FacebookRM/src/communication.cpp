@@ -233,6 +233,7 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_RECONNECT:
 //	case REQUEST_POST_STATUS:
 //	case REQUEST_IDENTITY_SWITCH:
+//	case REQUEST_CAPTCHA_REFRESH:
 //	case REQUEST_LINK_SCRAPER:
 //	case REQUEST_MESSAGE_SEND_CHAT:
 //	case REQUEST_MESSAGE_SEND_INBOX:
@@ -289,6 +290,7 @@ int facebook_client::choose_method(RequestType request_type)
 //	case REQUEST_USER_INFO_MOBILE:
 //	case REQUEST_LOAD_FRIENDSHIPS:
 //	case REQUEST_SEARCH:
+//	case REQUEST_CAPTCHA_REFRESH:
 	default:
 		return REQUEST_GET;
 	}
@@ -334,6 +336,7 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //	case REQUEST_RECONNECT:
 //	case REQUEST_POST_STATUS:
 //	case REQUEST_IDENTITY_SWITCH:
+//	case REQUEST_CAPTCHA_REFRESH:
 //	case REQUEST_LINK_SCRAPER:
 //	case REQUEST_MESSAGE_SEND_CHAT:
 //	case REQUEST_MESSAGE_SEND_INBOX:
@@ -489,6 +492,15 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_IDENTITY_SWITCH:
 		return "/identity_switch.php?__a=1";
+
+	case REQUEST_CAPTCHA_REFRESH:
+	{
+		std::string action = "/captcha/refresh_ajax.php?__a=1";
+		if (get_data != NULL) {
+			action += "&" + (*get_data);
+		}
+		return action;
+	}
 
 	case REQUEST_LINK_SCRAPER:
 	{
@@ -1315,17 +1327,31 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 	{
 		std::string imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
 		std::string captchaPersistData = utils::text::source_get_value(&resp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
+		
+		parent->debugLogA("Got imageUrl (first): %s", imageUrl.c_str());
+		parent->debugLogA("Got captchaPersistData (first): %s", captchaPersistData.c_str());
 
-		parent->debugLogA("Got imageUrl: %s", imageUrl.c_str());
-		parent->debugLogA("Got captchaPersistData: %s", captchaPersistData.c_str());
+		std::string data = "new_captcha_type=TFBCaptcha&skipped_captcha_data=" + captchaPersistData;
+		data += "&__dyn=&__req=&__rev=&__user=" + this->self_.user_id;
+		http::response resp = flap(REQUEST_CAPTCHA_REFRESH, NULL, &data);
 
-		std::string result;
-		if (!parent->RunCaptchaForm(imageUrl, result)) {
-			*error_text = Translate("User cancel captcha challenge.");
-			return SEND_MESSAGE_CANCEL;
+		if (resp.code == HTTP_CODE_OK) {
+			imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
+			captchaPersistData = utils::text::source_get_value(&resp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
+
+			parent->debugLogA("Got imageUrl (second): %s", imageUrl.c_str());
+			parent->debugLogA("Got captchaPersistData (second): %s", captchaPersistData.c_str());
+
+			std::string result;
+			if (!parent->RunCaptchaForm(imageUrl, result)) {
+				*error_text = Translate("User cancel captcha challenge.");
+				return SEND_MESSAGE_CANCEL;
+			}
+
+			return send_message(hContact, message_recipient, message_text, error_text, method, captchaPersistData, result);
 		}
 
-		return send_message(hContact, message_recipient, message_text, error_text, method, captchaPersistData, result);
+		return SEND_MESSAGE_CANCEL; // Cancel because we failed to load captcha image so we can't continue only with error
 	}
  
     default: // Other error
