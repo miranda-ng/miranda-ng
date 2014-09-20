@@ -37,7 +37,7 @@ Wprowadź hasło.
 [is now known as '%s']
 jest od teraz znany jako "%s"
 [Last seen on %x at %X]
-Ostatnio widziany %x o %x
+Ostatnio widziany %x o %X
 [You have been added to the group]
 Zostałeś dodany do grupy
 [User '%s' has been added to the group]
