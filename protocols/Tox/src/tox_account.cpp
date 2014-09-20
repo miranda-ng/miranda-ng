@@ -63,9 +63,10 @@ void CToxProto::InitToxCore()
 	std::string nick(username.begin(), username.end());
 	setWString("Nick", ptrW(Utf8DecodeW(nick.c_str())));
 
-	std::vector<uint8_t> address(TOX_FRIEND_ADDRESS_SIZE);
-	tox_get_address(tox, &address[0]);
-	db_set_blob(NULL, m_szModuleName, TOX_SETTINGS_ID, (uint8_t*)address.data(), TOX_FRIEND_ADDRESS_SIZE);
+	std::vector<uint8_t> pubKey(TOX_FRIEND_ADDRESS_SIZE);
+	tox_get_address(tox, &pubKey[0]);
+	std::string address = DataToHexString(pubKey);
+	setString(NULL, TOX_SETTINGS_ID, address.c_str());
 }
 
 void CToxProto::UninitToxCore()

@@ -35,15 +35,9 @@ void CToxProto::OnFriendAction(Tox *tox, const int number, const uint8_t *action
 
 int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 {
-	DBVARIANT dbv;
-	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
-	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
-	{
-		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
-		db_free(&dbv);
-	}
-
-	uint32_t number = tox_get_friend_number(tox, id.data());
+	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> clientId = HexStringToData(id);
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
 	if (number == TOX_ERROR)
 	{
 		debugLogA("CToxProto::SendMsg: failed to get friend number");
@@ -120,14 +114,9 @@ int __cdecl CToxProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (hContact && IsOnline())
 	{
-		DBVARIANT dbv;
-		std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
-		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
-		{
-			memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
-			db_free(&dbv);
-		}
-		uint32_t number = tox_get_friend_number(tox, id.data());
+		std::string id = getStringA(hContact, TOX_SETTINGS_ID);
+		std::vector<uint8_t> clientId = HexStringToData(id);
+		uint32_t number = tox_get_friend_number(tox, clientId.data());
 		if (number >= 0)
 		{
 			tox_set_user_is_typing(tox, number, type);

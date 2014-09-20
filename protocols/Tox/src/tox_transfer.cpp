@@ -56,15 +56,9 @@ void CToxProto::OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint6
 // file request is allowed
 HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszPath)
 {
-	DBVARIANT dbv;
-	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
-	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
-	{
-		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
-		db_free(&dbv);
-	}
-
-	uint32_t number = tox_get_friend_number(tox, id.data());
+	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> clientId = HexStringToData(id);
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 	transfer->pfts.tszWorkingDir = mir_tstrdup(tszPath);
@@ -87,15 +81,9 @@ int __cdecl CToxProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 
-	DBVARIANT dbv;
-	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
-	if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
-	{
-		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
-		db_free(&dbv);
-	}
-
-	uint32_t number = tox_get_friend_number(tox, id.data());
+	std::string id = getStringA(transfer->pfts.hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> clientId = HexStringToData(id);
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
 	switch (*action)
 	{
@@ -155,15 +143,9 @@ void CToxProto::OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const u
 // send request through tox
 HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
 {
-	DBVARIANT dbv;
-	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
-	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
-	{
-		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
-		db_free(&dbv);
-	}
-
-	uint32_t number = tox_get_friend_number(tox, id.data());
+	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> clientId = HexStringToData(id);
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
 	TCHAR *fileName = _tcsrchr(ppszFiles[0], '\\') + 1;
 
@@ -204,15 +186,9 @@ void CToxProto::SendFileAsync(void* arg)
 {
 	FileTransferParam *transfer = (FileTransferParam*)arg;
 
-	DBVARIANT dbv;
-	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
-	if (!db_get(transfer->pfts.hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
-	{
-		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
-		db_free(&dbv);
-	}
-
-	int32_t number = tox_get_friend_number(tox, id.data());
+	std::string id = getStringA(transfer->pfts.hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> clientId = HexStringToData(id);
+	int32_t number = tox_get_friend_number(tox, clientId.data());
 	if (number > TOX_ERROR)
 	{
 		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)transfer, 0);
@@ -262,15 +238,9 @@ void CToxProto::SendFileAsync(void* arg)
 // file request is cancelled
 int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
-	DBVARIANT dbv;
-	std::vector<uint8_t> id(TOX_CLIENT_ID_SIZE);
-	if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
-	{
-		memcpy(&id[0], dbv.pbVal, TOX_CLIENT_ID_SIZE);
-		db_free(&dbv);
-	}
-
-	uint32_t number = tox_get_friend_number(tox, id.data());
+	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> clientId = HexStringToData(id);
+	uint32_t number = tox_get_friend_number(tox, clientId.data());
 
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 

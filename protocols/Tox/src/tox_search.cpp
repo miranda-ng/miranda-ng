@@ -6,7 +6,7 @@ void CToxProto::SearchFailedAsync(void*)
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
 }
 
-void CToxProto::SearchByNameAsync(void* arg)
+void CToxProto::SearchByNameAsync(void *arg)
 {
 	char *query = (char*)arg;
 	char *name = strtok(query, "@");
@@ -44,6 +44,14 @@ void CToxProto::SearchByNameAsync(void* arg)
 						if (tox_decrypt_dns3_TXT(dns, &address[0], (uint8_t*)recordId, strlen(recordId), requestId) != TOX_ERROR)
 						{
 							std::string id = DataToHexString(address);
+
+							if (IsMe(id))
+							{
+								ShowNotification(TranslateT("You cannot add yourself to friend list"), 0);
+								ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
+								mir_free(arg);
+								return;
+							}
 
 							PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
 							psr.flags = PSR_TCHAR;
@@ -115,23 +123,29 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 	if (std::regex_search(query, match, regex))
 	{
 		std::string address = match[1];
-		std::vector<uint8_t> id = HexStringToData(address);
-		MCONTACT hContact = FindContact(id);
-		if (!hContact)
+		if (IsMe(address))
 		{
-			PROTOSEARCHRESULT psr = { sizeof(psr) };
-			psr.flags = PSR_TCHAR;
-			psr.id = mir_a2t(query.c_str());
-
-			ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
-			acs.szProto = m_szModuleName;
-			acs.psr = &psr;
-
-			CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
+			ShowNotification(TranslateT("You cannot add yourself to friend list"), 0);
 		}
 		else
 		{
-			ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
+			MCONTACT hContact = FindContact(address);
+			if (!hContact)
+			{
+				PROTOSEARCHRESULT psr = { sizeof(psr) };
+				psr.flags = PSR_TCHAR;
+				psr.id = mir_a2t(query.c_str());
+
+				ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
+				acs.szProto = m_szModuleName;
+				acs.psr = &psr;
+
+				CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
+			}
+			else
+			{
+				ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
+			}
 		}
 		ForkThread(&CToxProto::SearchFailedAsync, NULL);
 	}
