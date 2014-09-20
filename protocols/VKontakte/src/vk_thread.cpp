@@ -230,7 +230,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static char fieldsName[] = "id, first_name, last_name, photo_100, sex, timezone, contacts, online, status, about, domain";
+static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, contacts, online, status, about, domain";
 
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
