@@ -72,8 +72,10 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 				}
 			}
 			else if (LOWORD(wparam) == IDC_BUTTON_REGISTER) {
-				char code[100];
+				char code[100], str[10];
 				GetDlgItemTextA(hwnd, IDC_PW, code, sizeof(code));
+				GetDlgItemTextA(hwnd, IDC_PW2, str, sizeof(str));
+				strcat(code, str);
 
 				if (strlen(code) != 6) {
 					MessageBox(NULL, TranslateT("Please correctly specify your registration code received by SMS"), PRODUCT_NAME, MB_ICONEXCLAMATION);
