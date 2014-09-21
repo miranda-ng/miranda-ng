@@ -73,7 +73,7 @@ MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 	int low = 0;
 	int high = p_list->realCount - 1;
 
-	switch ((INT_PTR)) {
+	switch ((INT_PTR)p_list->sortFunc) {
 	case HandleKeySort:
 	#ifdef _WIN64
 		{
