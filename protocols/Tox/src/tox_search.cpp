@@ -45,14 +45,6 @@ void CToxProto::SearchByNameAsync(void *arg)
 						{
 							std::string id = DataToHexString(address);
 
-							if (IsMe(id))
-							{
-								ShowNotification(TranslateT("You cannot add yourself to friend list"), 0);
-								ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
-								mir_free(arg);
-								return;
-							}
-
 							PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
 							psr.flags = PSR_TCHAR;
 							psr.id = mir_a2t(id.c_str());
