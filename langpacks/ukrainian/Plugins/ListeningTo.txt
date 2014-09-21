@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Handles listening information to/for contacts.]
-Повідомляє вашим контактам яку музику ви слухаєте.
+Повідомляє вашим контактам, яку музику ви слухаєте.
 [Listening to information]
 Слухаю
 [Enable sending listening information to contacts:]

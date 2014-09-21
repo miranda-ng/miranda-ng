@@ -1059,6 +1059,8 @@ JID видавців
 встановив(ла) тему:
 [%s\nIncoming group chat invitation.]
 %s\nЗапрошення в конференцію.
+[Status icons]
+Статуси
 [transport]
 транспорт
 [Notes]

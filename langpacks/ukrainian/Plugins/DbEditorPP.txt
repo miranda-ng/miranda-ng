@@ -318,7 +318,7 @@ BLOB
 [Unicode setting]
 Unicode
 [Handle]
-Назва
+ID користувача
 [Open Database Editor]
 Відкрити редактор бази
 [Open user tree in DBE++]
@@ -336,7 +336,7 @@ Unicode
 [Contacts]
 Контакти
 [HANDLE]
-НАЗВА
+ID користувача
 [Add module to contact "%s"]
 Додати модуль контакту "%s"
 [Database]
