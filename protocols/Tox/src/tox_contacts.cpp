@@ -50,10 +50,10 @@ bool CToxProto::IsMe(const std::string &id)
 
 MCONTACT CToxProto::FindContact(const std::string &id)
 {
-	DBVARIANT dbv;
 	MCONTACT hContact = NULL;
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
+		DBVARIANT dbv;
 		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
 		{
 			std::string clientId;
@@ -65,7 +65,7 @@ MCONTACT CToxProto::FindContact(const std::string &id)
 				memcpy(&pubKey[0], dbv.pbVal, dbv.cpbVal);
 				clientId = DataToHexString(pubKey);
 				delSetting(hContact, TOX_SETTINGS_ID);
-				setString(hContact, TOX_SETTINGS_ID, id.c_str());
+				setString(hContact, TOX_SETTINGS_ID, clientId.c_str());
 			}
 			else if (dbv.type == DBVT_ASCIIZ)
 			{
