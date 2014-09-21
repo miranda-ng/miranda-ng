@@ -639,6 +639,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 			else
 				db_unset(NULL, CHAT_MODULE, "NicklistRowDist");
 
+			pci->ReloadSettings();
 			pci->SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 			return TRUE;
 		}
