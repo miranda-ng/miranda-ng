@@ -47,7 +47,7 @@ Scriver - за изпращане и получаване на съобщени�
 [characters]
 знака
 [Show close button on each tab]
-
+Бутон за затваряне на всеки таб
 [Switch to active tab]
 Превключване към активния таб
 [Limit number of tabs per window to]
@@ -59,7 +59,7 @@ Scriver - за изпращане и получаване на съобщени�
 [Layout]
 Изглед
 [Show title bar]
-Показване на заглавна лента
+Заглавна лента
 [Show status bar]
 Показване на лента за състояние
 [Show toolbar]
@@ -153,17 +153,17 @@ Scriver - за изпращане и получаване на съобщени�
 [Message Session]
 Разговор
 [&User menu]
-
+Потребителско меню
 [User &details]
 Подробности за потребителя
 [&Emoticons]
-
+Емотикони
 [&Add]
 Добавяне
 [&History]
-
+История
 [&Quote]
-
+Цитиране
 [Send To All Tabs]
 Изпращане до всички табове
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -175,21 +175,21 @@ Scriver - за изпращане и получаване на съобщени�
 [No]
 Не
 [&Bold]
-
+Получер
 [&Italic]
-
+Курсив
 [&Underline]
 Подчертан
 [&Color]
-
+Цвят
 [&Background color]
-
+Фонов цвят
 [&Filter]
-
+Филтър
 [&Room Settings]
-
+Настройки на стаята
 [&Show/hide nick list]
-
+Скриване/Показване на списъка с прякори
 [Show these events only:]
 Показване само на следните събития:
 [Actions]
@@ -239,7 +239,7 @@ Scriver - за изпращане и получаване на съобщени�
 [Enable highlighting]
 Отличаване на думи
 [Words to highlight (wildcards allowed)]
-Думи за отличаване (wildcards allowed)
+Думи за отличаване (може да ползвате wildcards)
 [Save logs]
 Запис на разговорите в дневник на диска
 [Location]
@@ -362,7 +362,7 @@ Unicode е изключен
 [Text color]
 Цвят на текста
 [Background color]
-Фонов цвят
+Цвят на фона
 [Bold]
 Удебеляване
 [Italics]
@@ -486,7 +486,7 @@ Latin I
 [Quote]
 Цитиране
 [Smiley]
-
+Smiley
 [Add Contact]
 Добавяне на контакт
 [User Menu]
@@ -531,7 +531,7 @@ Latin I
 [to tiny bits, in Thy mercy]
 
 [My Contact]
-
+Мой контакт
 [Lorem ipsum dolor sit amet,]
 
 [consectetur adipisicing elit]
@@ -656,7 +656,7 @@ Latin I
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
 [Group chat log background]
-
+Фон на дневника за групов чат
 [Nick list background]
 Фон на списъка с прякори
 [Nick list lines]
@@ -685,7 +685,7 @@ Latin I
 [Display contact status icon before role icon]
 Иконата за състояние пред икона на протокола
 [Add ':' to auto-completed names]
-
+Добавяне на ":" като наставка след автоматично завършените имена
 [Prefix all events with a timestamp]
 Времева марка като представка за всички събития
 [Only prefix with timestamp if it has changed]
@@ -699,7 +699,7 @@ Latin I
 [Strip colors from messages]
 Премахване на цветовете от съобщенията
 [Enable 'event filter' for new rooms]
-
+Включване на "филтър на събития" за новите стаи
 [Show topic changes]
 Промяна на тема
 [Show users joining]
@@ -767,7 +767,7 @@ Latin I
 [Show popup for users kicking other user]
 Показване на popups при изгонване на потребител
 [Show popup for notices]
-Показване на popup при известие
+Показване на popup за известие
 [Show popup for name changes]
 Показване на popups при промяна на име
 [Show popup for information messages]
@@ -797,7 +797,7 @@ Latin I
 [will return parsed string %miranda_userdata%\\Logs]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-
+като променливата %APPDATA% за вписаният, в момента, потребител на Windows
 [username for currently logged-on Windows user]
 потребителско име на текущия потребител вписан в Windows
 ["My Documents" folder for currently logged-on Windows user]
@@ -835,15 +835,15 @@ Latin I
 [Select Folder]
 Избор на папка
 [Popups]
-Popups
+Рopups
 ;file \plugins\Scriver\src\chat\tools.cpp
 [&Message %s]
-
+Съобщение %s
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
-Наклоняване
+Наклонен
 [Underline]
-Подчертаване
+Подчертан
 [Filter]
 Филтър
 [Manager]
@@ -873,7 +873,7 @@ Popups
 [Nickname]
 Прякор
 [Unique ID]
-
+Уникален ID
 [Status]
 Състояние
 [%s: Chat Room (%u user)]

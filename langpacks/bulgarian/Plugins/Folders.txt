@@ -9,7 +9,7 @@
 
 ;file \plugins\Folders\res\folders.rc
 [Dialog]
-
+Прозорец
 [Custom folders]
 Персонални папки
 [Preview]

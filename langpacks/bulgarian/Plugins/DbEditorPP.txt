@@ -49,7 +49,7 @@ Database Editor++ търсене и заместване
 [Popup timeout (0 for infinite)]
 Popup времетраене (0=безкрайност)
 [Background color]
-Фонов цвят
+Цвят на фона
 [Add a module to contact]
 Добавяне на модул към контакта
 [Add a module named]
@@ -67,9 +67,9 @@ Popup времетраене (0=безкрайност)
 [Base]
 
 [Hexadecimal]
-
+Шестнадесетичнa
 [Decimal]
-
+Десетична
 [Save value as:]
 Запис на стойността като:
 [Byte]
@@ -111,7 +111,7 @@ Database Editor++
 [&Search and replace]
 Търсене и замяна
 [&Delete module]
-Изтриване на модула
+Изтриване на модул
 [&Watches]
 Наблюдавани
 [&View all]
@@ -155,7 +155,7 @@ Database Editor++
 [&Edit/rename]
 Редактиране/Преименуване
 [New]
-Ново
+Нов
 [&Byte]
 Byte
 [&Word]
@@ -256,7 +256,7 @@ BLOB
 [Delete module from database... Loading]
 Изтриване на модула от базата от данни... Зареждане
 [Delete module from all contacts (including Setting)]
-
+Изтриване от всички Контакти (и Настройки)
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI файлове

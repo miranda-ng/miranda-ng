@@ -95,7 +95,7 @@
 [P&ermanent]
 Постоянно
 [Preview]
-Преглед
+Образец
 [Tlen Password]
 
 [Cancel]
@@ -125,7 +125,7 @@
 [Publicly visible status]
 
 [Save changes]
-
+Запис на промените
 [Avatar]
 Аватар
 [Avatar Options]
@@ -159,7 +159,7 @@
 [Quality]
 
 [In]
-
+in
 [Out]
 
 [Finish]
@@ -279,7 +279,7 @@
 
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for %s]
-Въведете парола за %s.
+Въведете парола за %s
 [Tlen Connection Error]
 
 [%s Web Messages]

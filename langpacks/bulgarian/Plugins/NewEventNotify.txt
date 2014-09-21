@@ -9,7 +9,7 @@
 
 ;file \plugins\NewEventNotify\res\resource.rc
 [General options]
-
+Основни настройки
 [Show entry in the Popups menu]
 
 [Temporarily disable event popups]
@@ -31,7 +31,7 @@ URL
 [Background]
 Фон
 [Timeout]
-
+Времетраене
 [Notify me of...]
 
 [Left click actions]
@@ -39,9 +39,9 @@ URL
 [Dismiss popup]
 Затваряне на Popup
 [Open event]
-
+Отваряне на събитието
 [Dismiss event]
-
+Затваряне на събитието
 [Right click actions]
 
 [Timeout actions]
@@ -57,13 +57,13 @@ URL
 [Merge popups from one user]
 
 [Preview]
-Преглед
+Образец
 [Show date]
-
+Показване на дата
 [Show time]
-
+Показване на час
 [Show headers]
-
+Показване на горните колонтитули
 [Number of begin shown messages]
 
 [Last message display first]
@@ -78,7 +78,7 @@ URL
 
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
-Popups
+Рopups
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 Контакти
@@ -91,7 +91,7 @@ Popups
 [ICQ Email express]
 
 [SMS Message]
-
+SMS съобщение
 [SMS Confirmation]
 
 [Unknown Event]
@@ -111,7 +111,7 @@ Popups
 [ added you to the contact list]
 
 [ requested authorization]
-
+ заявено упълномощаване
 [This is a sample message event :-)]
 Пример за текстово събитие :-)
 [This is a sample URL event ;-)]

@@ -39,7 +39,7 @@ popup когато контакта промени аватара си
 [Colors]
 Цветове
 [Background color]
-Фонов цвят
+Цвят на фона
 [Text color]
 Цвят на текста
 [Use Windows colors]
@@ -67,7 +67,7 @@ popup когато контакта промени аватара си
 [Avatar removal:]
 Премахване на аватар:
 [Preview]
-Преглед
+Образец
 [Avatar History: Select how to store history avatars]
 История на аватари: Изберете начин за съхраняване на историята
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
@@ -162,7 +162,7 @@ popup когато контакта промени аватара си
 [Avatar]
 Аватар
 [Popups]
-Popups
+Рopups
 [Avatar Change]
 Промяна на аватар
 ;file \plugins\AvatarHistory\src\utils.cpp

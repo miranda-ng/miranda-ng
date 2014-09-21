@@ -267,7 +267,7 @@
 [Notes]
 Бележки
 [Note text]
-
+Бележки (текст)
 [Date/Title]
 
 ;file \plugins\NotesAndReminders\src\options.cpp
@@ -287,7 +287,7 @@
 [Hours]
 Часове
 [Hour]
-
+час
 [Day]
 Ден
 [Days]

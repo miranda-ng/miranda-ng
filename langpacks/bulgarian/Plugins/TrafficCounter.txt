@@ -37,7 +37,7 @@ Popup времетраене
 [Custom]
 Избор
 [Test]
-Проба
+Тест
 [Show now]
 Покажи сега
 [Space between lines:]
@@ -96,12 +96,12 @@ Popup времетраене
 [Statistics]
 Статистика
 [Popups]
-Popups
+Рopups
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Байта
 [KB]
-
+KB
 [MB]
 МБ
 [Adaptive]

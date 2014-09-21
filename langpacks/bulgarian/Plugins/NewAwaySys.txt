@@ -105,7 +105,7 @@
 [&Save]
 Запис
 [Title:]
-
+Заглавие:
 [Use this message as default for]
 
 [New message]
@@ -313,15 +313,15 @@ URL
 [Stranger]
 
 [%d hours]
-
+%d часа
 [%d minutes]
-
+%d минути
 [%d seconds]
 
 [Read status message]
-
+Показване на текста за състояние
 [Set status message]
-
+Задаване на текст за състояние
 [On]
 Включено
 [Off]

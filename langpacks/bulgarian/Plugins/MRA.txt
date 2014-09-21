@@ -33,7 +33,7 @@
 [Automatic authorization on Mail.ru web services]
 
 [Notify me when a message delivery has failed]
-
+Уведомяване при неуспешно доставяне на съобщение
 [Notify about new mail if increment]
 
 [Notify about new mail tray icon]
@@ -45,7 +45,7 @@
 [Send formatted text (send RTF)]
 
 [Background color]
-Фонов цвят
+Цвят на фона
 [Font]
 Шрифт
 [Summary]
@@ -67,7 +67,7 @@
 [Birthday:]
 Рожден ден:
 [Zodiac:]
-
+Зодия:
 [Location]
 Местоположение
 [Country:]
@@ -105,7 +105,7 @@
 [Add extra address]
 
 [Your host (or router):]
-
+Ваш хост (или рутер):
 [File send block size:]
 
 [512 - 65536 bytes]
@@ -147,7 +147,7 @@ E-поща:
 [Closing in %d]
 Затваряне след %d
 [Title:]
-Титла:
+Заглавие:
 [Message:]
 Съобщение:
 [Cancel]
@@ -164,53 +164,53 @@ E-поща:
 [Female]
 Жена
 [January]
-
+януари
 [February]
-
+февруари
 [March]
-
+март
 [April]
-
+април
 [May]
-
+май
 [June]
-
+юни
 [July]
-
+юли
 [August]
-
+август
 [September]
-
+септември
 [October]
-
+октомври
 [November]
-
+ноември
 [December]
-
+декември
 [Aries]
-
+Овен
 [Taurus]
-
+Телец
 [Gemini]
-
+Близнаци
 [Cancer]
-
+Рак
 [Leo]
-
+Лъв
 [Virgo]
-
+Дева
 [Libra]
-
+Везни
 [Scorpio]
-
+Скорпион
 [Sagittarius]
-
+Стрелец
 [Capricorn]
-
+Козирог
 [Aquarius]
-
+Водолей
 [Pisces]
-
+Риби
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
@@ -299,7 +299,7 @@ E-поща:
 
 ;file \protocols\MRA\src\MraIcons.cpp
 [Protocols]
-
+Протоколи
 [MRA]
 
 [Main Menu]
@@ -326,7 +326,7 @@ E-поща:
 [NewMail]
 
 [Popups]
-Popups
+Рopups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 %s връзка
@@ -355,7 +355,7 @@ Popups
 [Are you sure?]
 Сигурни ли сте?
 [Services...]
-
+Услуги...
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Мрежа
@@ -412,7 +412,7 @@ Popups
 [Cooking]
 Готви
 [Walking]
-
+разхожда се
 [Alien]
 
 [Shrimp]

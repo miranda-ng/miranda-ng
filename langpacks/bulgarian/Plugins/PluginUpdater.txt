@@ -11,21 +11,21 @@
 [Updates found!]
 Налични са актуализации!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
-Засечени са по-нови версии на някои компоненти. Натиснете бутона "Подробности>>" за повече информация.
+Налични са по-нови версии на някои компоненти. Натиснете бутона "Информация>" за повече подробности.
 [Update]
 Обнови
 [Details >>]
-Подробности>>
+Информация>
 [Cancel]
 Отказ
 [Select &all]
-Всички
+Марк. всички
 [Select &none]
 Нищо
 [Hotkey]
 Клавишна комбинация
 [Go to Customize -> Hotkeys to change the hotkey]
-Отидете в Персонализиране>Клавишни комбинации, за да промените клавишите
+За промени отидете в Персонализиране>Клавишни комбинации
 [Plugin updates options]
 Настройки за актуализирането
 [On startup]
@@ -35,7 +35,7 @@
 [Every]
 Всеки
 [Silent mode]
-
+Тих режим
 [Files source]
 Кая версия да се сваля
 [Stable version]
@@ -47,17 +47,17 @@
 [Custom version]
 Персонализирана версия
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-
+Някои компоненти са актуализирани.\nНеобхдимо е да рестартирате Miranda за да бъдат приложени актуализациите.
 [Notifications]
 Уведомявания
 [Restart]
-
+Рестартиране
 [Errors]
 Грешки
 [Info messages]
-Информационни съобщения
+Инф. съобщения
 [Back]
-фон
+Назад
 [Text]
 Текст
 [Colors]
@@ -67,7 +67,7 @@
 [Use &Windows colors]
 Цветове от Windows
 [Use Pop&up colors]
-Цветове от Popup приставката
+От Popup приставката
 [Preview]
 Образец
 [Click action]
@@ -86,8 +86,6 @@
 сек
 [For "Restart" popup setting is always infinity]
 
-[Boxes]
-Кутии
 [Popups]
 Рopups
 [Component list]
@@ -114,7 +112,7 @@ Plugin Updater
 [Component Name]
 Име на компонента
 [State]
-Състояние
+Област
 [Plugins]
 Приставки
 [Icons]
@@ -131,7 +129,7 @@ Plugin Updater
 [Will be deleted!]
 Ще бъде изтрито!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
-
+Актуализирането приключи. Кликнете върху "Да" за рестартиране на Miranda сега или "Не" за да откажете.
 [Core components]
 
 [Core]
@@ -139,13 +137,13 @@ Plugin Updater
 [<< Details]
 <<Подробности
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-
+Неуспешно актуализиране! Един от компонентите не е свален коректно. Опитайте пак по-късно.
 [%d component(s) was updated]
-
+%d компонента са актуализирани
 [You need to restart your Miranda to apply installed updates.]
-
+Необходимо е да рестартирате Miranda NG за да бъдат приложени актуализациите.
 [Would you like to restart it now?]
-
+Желаете ли да бъде рестартирана сега?
 [No updates found.]
 Няма налични актуализации.
 [Update checking already started!]
@@ -154,12 +152,12 @@ Plugin Updater
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 ;file \plugins\PluginUpdater\src\Notifications.h
 [Close popup]
-
+Затваря popup
 [Do nothing]
-
+Нищо
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
-часове
+часа
 [days]
 дни
 [Test]
@@ -172,9 +170,9 @@ Plugin Updater
 [Available components list]
 Пълният списък с приставки
 [Update completed]
-
+Приключено актуализиране
 [Update failed]
-
+Провалено актуализиране
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Инф. за приставката

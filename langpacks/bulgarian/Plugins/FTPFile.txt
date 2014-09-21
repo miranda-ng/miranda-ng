@@ -41,7 +41,7 @@ URL
 [Autosend download link to contact]
 Автоизпращане на връзка за сваляне на контакта
 [Menu items]
-Елементи на менюто
+Елементи
 [Use submenu (restart required)]
 Ползване на подменю (изисква рестарт)
 [Hide inactive accounts]
@@ -211,11 +211,11 @@ FTP File: Изберете папка
 [Error occurred when zipping the file(s).]
 Възникна грешка при архивирането на файла(овете).
 [%0.1f kB/s]
-
+%0.1f кБ/сек
 [%0.1f%% (%d kB/%d kB)]
-
+%0.1f%% (%d кБ/%d кБ)
 [%s (%d kB/%d kB)]
-
+%s (%d кБ/%d кБ)
 [Do you really want to cancel this upload?]
 Наистина ли желаете качването да бъде отменено?
 [Status: %s\r\nFile: %s\r\nServer: %s]
@@ -252,7 +252,7 @@ SFTP (Secure FTP over SSH)
 [minutes]
 минути
 [hours]
-часове
+часа
 [days]
 дни
 [Services]

@@ -63,7 +63,7 @@ URL
 [Timer Intervals.  ]
 
 [Dialog]
-
+Прозорец
 [Away as another status]
 
 [Disable timer]

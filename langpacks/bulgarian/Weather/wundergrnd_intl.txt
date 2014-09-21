@@ -5,7 +5,7 @@
 [Light Rain Showers]
 Слаби дъждовни превалявания
 [Thunderstorms And Rain]
-
+Гръмотевици и дъжд
 [Light Thunderstorm]
 
 [Light Drizzle Mist]
@@ -19,7 +19,7 @@
 [Thunderstorm Rain]
 Дъжд с гръмотевици
 [N/a]
-
+НД
 [Thunderstorm]
 Гръмотевична буря
 [Overcast]
@@ -55,7 +55,7 @@
 [Steady]
 Без промяна
 [Stable]
-
+Стабилно
 [Falling]
 Понижаване
 [Var]
@@ -109,7 +109,7 @@
 [Waxing Gibbous]
 Нарастваща полупълна
 [of the Moon is Illuminated]
-
+от луната е осветена
 [Latitude]
 Геогр. ширина
 [Longitude]
@@ -169,9 +169,9 @@
 [Chance Of Snow 30% Chance Of Precipitation]
 Вероятен снеговалеж, 30% вероятност за преваляване
 [Chance Of Snow 40% Chance Of Precipitation]
-
+Вероятен снеговалеж, 40% вероятност за преваляване
 [Chance Of Snow 50% Chance Of Precipitation]
-
+Вероятен снеговалеж, 50% вероятност за преваляване
 [Forecast Day 1 Condition]
 Днес: условия
 [Forecast Day 1 Day]
@@ -249,9 +249,9 @@
 [Wind Direction DEG]
 Вятър (посока в градуси)
 [Max]
-
+макс.
 [Min]
-
+мин.
 [Moon]
 Лунна фаза
 [UV Index]
@@ -317,7 +317,7 @@
 [Light Fog]
 
 [Showers Snow]
-
+Превалявания от сняг
 [Heavy Showers Snow]
 
 [Light Snow Grains Mist]
@@ -447,7 +447,7 @@
 [Day Length Diff]
 
 [Elevation]
-
+Височина
 [Feel]
 Усеща се като
 [Alert]
@@ -525,13 +525,13 @@
 [Chance Rain 90% Chance Of Precipitation]
 
 [Chance Of T-Storms 70% Chance Of Precipitation]
-
+Вероятна гръмотевична буря, 70% вероятност за преваляване
 [T-Storms 30% Chance Of Precipitation]
-
+Гръмотевична буря, 30% вероятност за преваляване
 [Chance Of T-Storms 90% Chance Of Precipitation]
 Вероятна гръмотевична буря, 90% вероятност за преваляване
 [Chance Of T-Storms 80% Chance Of Precipitation]
-
+Вероятна гръмотевична буря, 80% вероятност за преваляване
 [Snow Showers 70% Chance Of Precipitation]
 
 [Snow Showers 60% Chance Of Precipitation]

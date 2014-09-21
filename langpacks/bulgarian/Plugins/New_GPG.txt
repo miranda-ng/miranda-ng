@@ -121,7 +121,7 @@
 [Change private key password]
 
 [Current password:]
-
+Текуща парола:
 [New password twice:]
 
 [User list:]
@@ -343,7 +343,7 @@
 [Set log file]
 
 [LOG files]
-
+Дневници (файлове)
 [Choose gpg.exe]
 
 [Set home directory]

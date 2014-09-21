@@ -9,7 +9,7 @@
 Изпращане и получаване на съобщения плюс модул за чат стаи за Miranda NG.
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
-
+Можете да добавяте потребители по име или идентификатор (ID). Позволена употребата на Wildcards.
 [Cancel]
 Отказ
 [Show these events]
@@ -93,15 +93,15 @@
 [Enable highlighting for user names]
 Включване
 [Also look in user IDs]
-
+Търсене и в ID-тата на потребителите
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
-Имена за отличаване, wildcards like * and ? are allowed, разделете записите с интервал
+Имена за отличаване, разрешени са wildcards като * и ?, разделяйте записите с интервал
 [Highlight message text]
 Отличаване на текст от съобщения
 [Enable highlighting for message text]
 Включване
 [Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
-Думи за отличаване, wildcards like * and ? are allowed, разделете записите с интервал. Не въвеждайте думи ако желаете само вашият прякор да бъде отличаван.
+Думи за отличаване, разрешени са wildcards като * и ?, разделяйте записите с интервал. Не въвеждайте думи ако желаете само вашият прякор да бъде отличаван.
 [Highlight messages containing my own nickname]
 Отличаване на съобщения, които съдържат моя прякор
 [List]
@@ -233,7 +233,7 @@ Popup настройки
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
 Системата за уведомяване е неактивна, защото не е открита съвместима Popup приставка.
 [Dialog]
-
+Прозорец
 [All modes]
 Всички режими
 [Choose modes]
@@ -405,7 +405,7 @@ ID на потребителя в лентата за състояние
 [Typing Notification]
 Уведомявания при писане
 [Send typing notifications to the following users when you are typing a message to them:]
-Изпращане на уведомяване за писане на съобщение до следните потребители, когато им пишете съобщение:
+Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
 [        Show typing notifications in the message window]
           Уведомяване при писане в прозореца за съобщения
 [Flash window once on typing events (only if flashing enabled)]
@@ -487,7 +487,7 @@ Windows Aero - настройки
 [Use Windows 7 task bar enhancements (restart required)]
 Ползване функциите на лентата за задачи в Windwos 7 за табовете (изисква рестарт)
 [Popups]
-Popups
+Рopups
 [...is &typing]
 ...пише
 [...stopped t&yping]
@@ -503,7 +503,7 @@ Popups
 [Show &entry in the main menu]
 Добавяне на елемент в главното меню
 [...is typing]
-
+...пише съобщение
 [From Popup plugin]
 От приставката Popup
 [From protocol]
@@ -513,9 +513,9 @@ Popups
 [Custom]
 Избор
 [...stopped typing]
-
+...спря да пише
 [Popups timeout]
-
+Времетраене
 [Templates]
 Шаблони
 [Edit template]
@@ -565,7 +565,7 @@ Popups
 [Selected skin]
 Избран облик
 [Rescan]
-Повторно сканиране
+Сканирай пак
 [Load this skin on startup]
 Зареждане на облика при стартиране
 [Reload active skin]
@@ -661,7 +661,7 @@ Esc затваря разговора (минимизира прозореца, 
 [Send message on 'Enter']
 Изпращане на съобщение с "Enter"
 [Send message on double 'Enter']
-Изпращане на съобщение с двукратно натискане на бутона "Enter"
+Двукратно натискане на "Enter" изпраща съобщение
 [Minimize the message window on send]
 Минимизиране на прозореца след изпращане
 [Tabs:]
@@ -1036,7 +1036,7 @@ TabSRMM предупреждение
 [No description given]
 Няма описание
 [Incoming file (invalid format)]
-
+Входящ файл (невалиден форма)
 [Unknown event]
 Неизвестно събитие
 [New messages: ]
@@ -1121,7 +1121,7 @@ TabSRMM Меню
 [Send message]
 Изпращане на съобщение
 [Smiley selector]
-Избиране на усмивка
+Избор на усмивка
 [Show message history]
 Показване на историята
 [Show user menu]
@@ -1146,11 +1146,11 @@ TabSRMM Меню
 Показване прозореца на сървъра
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
-
+%s    Бездейства: %dч,%02dмин
 [  Client: %s]
-
+  Клиент: %s
 [  Client not cached yet]
-
+  Клиентът не е кеширан, все още
 [Topic is: %s]
 Темата е: %s
 [no topic set.]
@@ -1166,7 +1166,7 @@ TabSRMM Меню
 [Close Session]
 Затваряне на разговора
 [Copy To Clipboard]
-Запис в клипборда
+Копиране в клипборда
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\tab \\ul\\b Текст за състоянието:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
@@ -1360,7 +1360,7 @@ Latin I
 [Load theme]
 Зареждане на тема
 [Internal message log]
-
+Вградения дневник за съобщения
 [IEView plugin]
 Приставката IEView
 [History++ plugin]
@@ -1417,9 +1417,9 @@ Latin I
 Избор на състояния
 ;file \plugins\TabSRMM\src\msgs.cpp
 [The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-
+Приставката осигуряваща услуги за изображения (advaimg.dll) не е инсталирана правилно.\n\nTabSRMM е изключена.
 [TabSRMM fatal error]
-
+TabSRMM - фатална грешка
 [Image tag]
 
 [Quote text]
@@ -1441,7 +1441,7 @@ Latin I
 [Format strike-through]
 Зачертаване
 [Background color]
-Фонов цвят
+Цвят на фона
 [Room settings]
 Конфигуриране на стаята
 [Event filter]
@@ -1595,28 +1595,28 @@ TabSRMM съобщение (%s)
 [No effect]
 Без ефект
 [Milky Glass]
-
+Млечно стъкло
 [Carbon]
-
+Карбон
 [Semi transparent, custom colors]
-
+Полупрозрачност, избор на цвят
 [Silver shadow]
-
+Сребърна сянка
 [Custom (use own gradient colors)]
-
+Избор на цветове за градиент
 [All message containers need to close before the skin can be changed\nProceed?]
 Всички контейнери трябва да се затворят, преди да бъде сменен обликът\nЖелаете ли да бъдат затворени сега?
 [Change skin]
 Смяна на облика
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
-
+Допълнителни настройки на прозореца за съобщения
 [Display metacontact icons]
-
+Показване на икони за метаконтакти
 [Error feedback]
 При грешка
 [Show skinnable tooltip in chat (Tipper plugin required)]
-
+Ползване на облик и за подсказките в чата (изисква приставката Tipper)
 [Enable typing sounds]
 Включване на звука при писане
 [Close current tab on send]
@@ -1626,11 +1626,11 @@ TabSRMM съобщение (%s)
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)*
 [Show client description in info panel]
-
+Описание на клиента  в информационния панел
 [On tab control]
-
+В таба
 [On the button bar]
-
+В лентата с бутони
 [Disable error popups on sending failures]
 Без popups при неуспешно изпращане на съобщение
 [Show a preview of the event]
@@ -1646,7 +1646,7 @@ TabSRMM съобщение (%s)
 [Show headers]
 Показване на горните колонтитули
 [Dismiss popup]
-Затваряне на popup
+Затваряне на Popup
 [Open event]
 Отваряне на събитието
 [Dismiss event]
@@ -2055,9 +2055,9 @@ TabSRMM съобщение (%s)
 [Information (10x10)]
 Информация (10х10)
 [Group chat windows]
-
+Прозорци за групов чат
 [Group chat log]
-
+Дневник за груповите чатове
 [Appearance and functionality of chat room windows]
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
@@ -2083,7 +2083,7 @@ TabSRMM съобщение (%s)
 [Nick list background]
 Фон на списъка с прякори
 [Group chat log background]
-
+Фон на дневника за групов чат
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -2103,7 +2103,7 @@ TabSRMM съобщение (%s)
 [will return parsed string %miranda_userdata%\\Logs]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-
+като променливата %APPDATA% за вписаният, в момента, потребител на Windows
 [username for currently logged-on Windows user]
 потребителско име на текущия потребител вписан в Windows
 ["My Documents" folder for currently logged-on Windows user]
@@ -2125,7 +2125,7 @@ TabSRMM съобщение (%s)
 [full month name]
 име на месеца
 [year without century, 01-99]
-година без век, 01-99
+година без век (01-99)
 [year with century, 1901-9999]
 година (1901-9999)
 [abbreviated weekday name]
@@ -2152,14 +2152,14 @@ TabSRMM съобщение (%s)
 [No word to look up]
 Няма дума за търсене
 [&Message %s]
-
+Съобщение %s
 [Highlight User...]
 Отличаване на потребителя...
 [Edit Highlight List...]
 Редактиране списъка за отличаване...
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
-
+Уникален ID
 [Nick]
 Прякор
 [%s: Chat Room (%u user%s)]
@@ -2175,7 +2175,7 @@ TabSRMM съобщение (%s)
 [, %d %s, %d %s idle]
 , %d %s и %d %s бездействие
 [hours]
-часове
+часа
 [hour]
 час
 [minutes]

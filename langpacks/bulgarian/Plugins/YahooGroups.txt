@@ -9,7 +9,7 @@
 
 ;file \plugins\YahooGroups\res\YahooGroups.rc
 [Dialog]
-
+Прозорец
 [Move Yahoo contacts to groups now]
 
 [Move Yahoo contacts automatically on startup]

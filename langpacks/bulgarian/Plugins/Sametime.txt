@@ -9,9 +9,9 @@
 
 ;file \protocols\Sametime\res\resource.rc
 [Connection]
-
+Връзка
 [ID:]
-
+Идентификатор (ID):
 [Password:]
 Парола:
 [Server name:]
@@ -27,7 +27,7 @@
 [Use message boxes]
 
 [Use popups]
-
+Ползване на popups
 [Use system tray balloons]
 
 [Contacts]
@@ -72,7 +72,7 @@
 [Please join this meeting.]
 
 [Normal]
-
+Нормално
 [%s's conference]
 
 [Leave conference]
@@ -94,18 +94,18 @@
 Мрежа
 ;file \protocols\Sametime\src\sametime.cpp
 [Protocol icon]
-
+Икона на протокола
 [Announce]
 
 [Notification]
-
+Уведомяване
 [Error]
 Грешка
 ;file \protocols\Sametime\src\sametime_proto.cpp
 [%s connection]
-
+%s връзка
 [ID]
-
+Идентификатор
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 
@@ -126,7 +126,7 @@
 [Name]
 Име
 [Description]
-
+Описание
 [Group?]
 
 [True]

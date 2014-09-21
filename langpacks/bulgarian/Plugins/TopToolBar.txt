@@ -48,11 +48,11 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Show status menu]
 
 [Show/hide offline contacts]
-
+Показване/Скриване на контактите "Извън линия"
 [Hide offline contacts]
-
+Скриване на контактите "Извън линия"
 [Show offline contacts]
-
+Показване на контактите "Извън линия"
 [Enable/disable metacontacts]
 
 [Disable metacontacts]
@@ -66,13 +66,13 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Disable groups]
 Без групи
 [Enable/disable sounds]
-
+Включване/Изключване на звука
 [Disable sounds]
-
+Изключване на звука
 [Enable sounds]
-
+Включване на звука
 [Minimize contact list]
-
+Минимизиране на списъка с контакти
 [Exit]
 Изход
 ;file \plugins\TopToolBar\src\toolbar.cpp

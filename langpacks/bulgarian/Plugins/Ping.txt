@@ -17,13 +17,13 @@
 [Logging]
 
 [Log to File]
-
+Запис във файл
 [Log Filename:]
 
 [Network]
 Мрежа
 [Popups]
-Popups
+Рopups
 [Reply]
 
 [Block Repetitions]
@@ -107,7 +107,7 @@ Popups
 [All Files]
 Всички файлове
 [Open log file]
-
+Отваряне на дневника
 [<none>]
 <няма>
 [<all>]

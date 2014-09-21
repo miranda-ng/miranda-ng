@@ -37,7 +37,7 @@
 [Filtered popups only (leave uncheck for no popups)]
 
 [Enable sounds]
-
+Включване на звука
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
 
 [Allow mRadio or Weather popups, etc.]

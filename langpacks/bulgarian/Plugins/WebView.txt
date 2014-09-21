@@ -37,9 +37,9 @@
 [Bold]
 Удебеляване
 [Italic]
-Наклоняване
+Наклонен
 [Underline]
-Подчертаване
+Подчертан
 [Save individual window positions]
 
 [Error messages]
@@ -127,7 +127,7 @@ URL:
 [Alert when specific area of web page changes]
 
 [Log to file]
-
+Запис във файл
 [Log file:]
 
 [Append data to file]
@@ -139,7 +139,7 @@ Popup времетраене
 [Delay]
 Закъснение
 [From Popup plugin]
-
+От приставката Popup
 [Permanent]
 Постоянно
 [Preview]
@@ -163,7 +163,7 @@ Popup времетраене
 [Open web page]
 
 [Dismiss popup]
-Затваряне на popup
+Затваряне на Popup
 [Right click action]
 
 [Log]
@@ -215,7 +215,7 @@ Popup времетраене
 [Network]
 Мрежа
 [Popups]
-Popups
+Рopups
 ;file \plugins\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 

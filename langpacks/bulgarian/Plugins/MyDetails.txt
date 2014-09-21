@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
-
+Показва (в списъка с контакти) и позволява редактиране на подробностите за акаунтите ви във всеки протокол.
 ;file \plugins\MyDetails\res\resource.rc
 [Set my nickname]
 Задаване на прякор
@@ -29,35 +29,35 @@
 [Resize smileys]
 Оразмеряване на усмивките
 [Global on...]
-
+Общо за...
 [...avatar]
-
+...аватар
 [...nickname]
-
+...прякор
 [...status]
-
+...състояние
 [...status message]
-
+...текст на състоянието
 [Account]
 Акаунт
 [Show account name]
-
+Показвай име на акаунта
 [Show account cycle button]
-
+Бутон за превключване на акаунтите
 [Cycle through accounts every:]
-
+Превключване на акаунтите през:
 [seconds]
 секунди
 [Avatar]
 Аватар
 [Custom size:]
-Задаване на размер:
+Размер:
 [pixels]
 пиксела
 [Allow it to grow]
 Възможност за увеличаване
 [Draw border]
-
+Граница
 [Round corners]
 Закръглени ъгли
 [Custom corner size:]
@@ -65,7 +65,7 @@
 [Use free space (under avatar) to other texts]
 Ползване на мястото под аватара за друг текст
 [Frame options]
-
+Опции за рамката
 [Top:]
 Горе:
 [Bottom:]
@@ -77,7 +77,7 @@
 [Set my status message for all status]
 Текст за състояние за всички състояния
 [Status message:]
-Текст за състояние:
+Текст за състоянието:
 [&Offline]
 Извън линия
 [On&line]
@@ -107,16 +107,16 @@
 [Enable listening to]
 Включване на "Слуша"
 [Show next account]
-
+Показване на следващия акаунт
 [Show previous account]
-
+Показване на предишния акаунт
 [Cycle through accounts]
-
+Превключване между акаунтите
 [Don't cycle through accounts]
-
+Без превключване между акаунтите
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
-
+<състоянието няма име>
 ;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
 Прякор
@@ -125,13 +125,13 @@
 [Status message]
 Текст за състояние
 [Listening to]
-Слуша...
+Слуша..
 [My details]
 Моите детайли
 [Background]
 Фон
 [Avatar border]
-
+Рамка на аватара
 [Show my details]
 Показване на моите детайли
 [Enable listening to for %s]

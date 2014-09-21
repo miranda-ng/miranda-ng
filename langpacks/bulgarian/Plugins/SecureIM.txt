@@ -87,7 +87,7 @@
 [Debug]
 
 [Log to File]
-
+Запис във файл
 [Save Pass]
 
 [Back]
@@ -107,7 +107,7 @@
 [Events]
 Събития
 [Popup Timeout]
-
+Popup времетраене
 [Time in Seconds]
 
 [0 = Default Popup Timeout Value]
@@ -125,7 +125,7 @@
 [Show a popup on each secure receive]
 
 [Please type in your password]
-
+Моля, въведете паролата
 [Username:]
 Потребител:
 [Password:]
@@ -345,9 +345,9 @@
 [Establish Secure Connection]
 
 [Message Window]
-
+Прозорец за съобщения
 [Popups]
-Popups
+Рopups
 [Secure Connection Disabled]
 
 [Secure Connection Established]

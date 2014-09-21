@@ -14,25 +14,25 @@
 [New]
 Нов
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Reload]
-
+Обновяване
 [Delete]
 Изтриване
 [Test]
-
+Тест
 [Export]
-
+Износ
 [Append data to file?]
 
 [Import]
-
+Внос
 [Help]
 Помощ
 [Action]
-
+Действие
 [Open contact window]
 
 [Contact]
@@ -90,7 +90,7 @@
 [Hexadecimal]
 
 [String]
-
+STRING
 [Structure]
 Структура
 [Free memory]
@@ -136,7 +136,7 @@ Unicode низ
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' в името на услугата ще бъде заменено с името на протокола за съответния контакт
 [Undefined]
-
+Неуточнено
 [Manage Jabber Bookmarks]
 
 [Offline]
@@ -164,75 +164,75 @@ Unicode низ
 [int 0, if successful]
 
 [Set status message]
-
+Задаване на текст за състояние
 [Set protocol status]
 
 [None]
 Няма
 [Angry]
-
+Ядосан
 [Taking a bath]
-
+Къпе се
 [Tired]
-
+Уморен
 [Birthday]
-
+Рожден ден
 [Drinking beer]
-
+Пие бира
 [Thinking]
-
+Мисли
 [Eating]
-
+Яде
 [Watching TV]
-
+Гледа телевизия
 [Meeting]
-
+Среща
 [Coffee]
-
+Кафе
 [Listening to music]
-
+Слуша музика
 [Business]
-
+Бизнес
 [Shooting]
-
+Снима
 [Having fun]
-
+Забавлява се
 [On the phone]
 На телефона
 [Gaming]
-
+Играе
 [Studying]
-
+Учи
 [Shopping]
-
+Пазарува
 [Feeling sick]
-
+Болен
 [Sleeping]
-
+Спи
 [Surfing]
-
+Сърфира
 [Browsing]
 
 [Working]
-
+Работи
 [Typing]
 Пише
 [Picnic]
-
+Пикник
 [Cooking]
-
+Готви
 [Smoking]
-
+Пуши
 [I'm high]
 
 [On WC]
-
+В тоалетната
 [To be or not to be]
-
+Да бъда или да не бъда
 [Watching pro7 on TV]
-
+Гледа pro7
 [Love]
-
+Любов
 [Sets owner current custom status]
 
 [Display xStatus detail]
@@ -254,11 +254,11 @@ Unicode низ
 [Switch contact list status]
 
 [Hide All Titlebars]
-
+Скриване на всички заглавни ленти
 [Show All Frames]
-
+Показване на всички рамки
 [Show All Titlebars]
-
+Показване на всички заглавни ленти
 [Closes Miranda]
 
 [Show or hide netlog console window]
@@ -296,7 +296,7 @@ Unicode низ
 [Go to Miranda Homepage]
 
 [System]
-
+Система
 [Shows contact history or (wParam=0) system history]
 
 [Erases contact's history. hContact can be NULL(0) to empty system history]
@@ -304,7 +304,7 @@ Unicode низ
 [Show Global history search window. If already opened, bring it to front.]
 
 [Ignore all]
-
+Игнорирай всичко
 [Ignore messages]
 
 [Ignore URLs]
@@ -328,7 +328,7 @@ Unicode низ
 [Restarts Miranda]
 
 [Station name]
-
+Име на станцията
 [wParam is Handle]
 
 [wParam is Ansi station name]
@@ -360,7 +360,7 @@ Unicode низ
 [Open Options dialog]
 
 [Check for updates]
-
+Проверка за актуализации
 [with confirmation]
 
 [without confirmation]
@@ -374,13 +374,13 @@ Unicode низ
 [YAPP or Popup]
 
 [Warning]
-
+Предупреждение
 [Notify]
-
+Уведомяване
 [Error]
 Грешка
 [Popup window]
-
+Рopup прозорец
 [YAPP only]
 
 [Unicode Text]
@@ -470,7 +470,7 @@ Unicode низ
 [length]
 
 [data]
-
+Данни
 [Data align]
 
 [Native]
@@ -484,11 +484,11 @@ Unicode низ
 [8 bytes]
 
 [Byte]
-
+BYTE
 [Word]
-
+WORD
 [DWord]
-
+DWORD
 [QWord]
 
 [NativeInt]
@@ -514,7 +514,7 @@ Unicode низ
 [&Change]
 
 [&OK]
-
+Добре
 [C&ancel]
 Отказ
 [Process options]
@@ -544,7 +544,7 @@ Unicode низ
 [Program args]
 
 [Clipboard]
-
+Клипборд
 [Copy to]
 Копиране в
 [Paste from]
@@ -562,7 +562,7 @@ Unicode низ
 [UTF16+sign]
 
 [Message window]
-
+Прозорец за съобщения
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
 [Text to insert]
@@ -572,11 +572,11 @@ Unicode низ
 [NOT]
 
 [Value]
-
+Стойност
 [Math]
 
 [Variables]
-
+Променливи
 [Result as integer]
 
 [Operation]
@@ -592,29 +592,29 @@ Unicode низ
 [Own settings]
 Собствени настройки
 [Manual]
-
+Ръчно
 [Module]
-
+Модул
 [Setting]
-
+Настройка
 [Unicode]
-
+UNICODE
 [Message title]
 Заглавие на съобщението
 [Message text]
-
+Текст на съобщението
 [Keep last result]
 Запазване на последния резултат
 [Icons]
 Икони
 [Question]
-
+Въпрос
 [Info]
-
+Информация
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
 
 [Buttons]
-
+Бутони
 [OK, Cancel]
 ОК, Отказ
 [Abort, Retry, Ignore]
@@ -638,13 +638,13 @@ Unicode низ
 [Start immediately]
 
 [Days]
-
+Дни
 [Time]
-
+Час
 [Date]
-
+Дата
 [Repeat]
-
+Повтаряне
 [Repeat, times]
 Повторение (пъти)
 [Interval]
@@ -658,7 +658,7 @@ Unicode низ
 [Hooks]
 
 [Description]
-
+Описание
 [hook sample]
 
 [Apply]
@@ -682,7 +682,7 @@ Unicode низ
 [Where to use]
 Къде да се ползва
 [TopToolbar]
-
+TopToolBar
 [TabSRMM toolbar]
 
 [Core Hotkey]
@@ -696,9 +696,9 @@ Unicode низ
 [Protocol menus]
 Менюта на протоколите
 [Status menu]
-
+Меню на състоянието
 [Common]
-
+Общи
 [2 state button/item]
 Елемент/бутон с 2 състояния
 [Save button/item state]
@@ -720,9 +720,9 @@ Unicode низ
 [Choose action]
 Изберете действие
 [&Yes]
-&Да
+Да
 [&No]
-&Не
+Не
 [A&ppend]
 Добавяне
 [Yes to &All]
@@ -739,9 +739,9 @@ Unicode низ
 Регистрирани действия
 ; Actman30
 [INI]
-
+INI
 [INI file name]
-
+име на INI файла
 [Section]
 
 [Use LastResult]
@@ -763,7 +763,7 @@ Unicode низ
 [Argument]
 
 [Result]
-
+РЕЗУЛТАТ
 [DLL Handle Cache]
 
 [Keep to end]
@@ -773,7 +773,7 @@ Unicode низ
 [Close for macro]
 
 [Refresh]
-
+Обновяване
 [Get from active window]
 
 [Chain]
@@ -785,7 +785,7 @@ Unicode низ
 [Do not wait until the end of execution]
 
 [In/Out]
-
+Входящи/Изходящи
 [Autosend]
 
 [Jump]
@@ -815,11 +815,11 @@ Unicode низ
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
 [RTL]
-
+Л<Д
 [Right justified text]
 
 [Database]
-
+База от данни
 [Save value]
 
 [Storage]
@@ -849,7 +849,7 @@ Unicode низ
 [Slot 9]
 
 [Settings]
-
+Настройки
 [Contact list]
 Списък с контакти
 [Contact list format]
@@ -859,7 +859,7 @@ Unicode низ
 [Service list format]
 
 [value]
-
+Стойност
 [name]
 име
 [value (name)]
@@ -888,7 +888,7 @@ Unicode низ
 [Text Editor]
 
 [Script]
-
+Скрипт
 [Wrap Text]
 
 [Structure size]

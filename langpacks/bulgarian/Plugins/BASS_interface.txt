@@ -6,7 +6,7 @@
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
-
+Приставката е интерфейс за библиотеката BASS на un4seen
 ;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 Интерфейс за библиотеката BASS на un4seen
@@ -63,7 +63,7 @@ BASS интерфейс
 [Enable sounds]
 Включване на звука
 [Frame background]
-
+Фон на рамката
 [Bass library]
 Библиотеката Bass
 [Sounds enabled]

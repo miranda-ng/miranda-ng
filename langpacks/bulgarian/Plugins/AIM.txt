@@ -357,7 +357,7 @@ AIM икона
 [Not Confirmed]
 Непотвърдено
 [Blocked list]
-
+Списък "Блокирани"
 [AOL]
 AOL
 [Foreground Color]
@@ -365,7 +365,7 @@ AOL
 [Background Color]
 Цвят за фон
 [Bold]
-Удебелен
+Удебеляване
 [Not Bold]
 Неудебелен
 [Italic]

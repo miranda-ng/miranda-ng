@@ -33,7 +33,7 @@
 [Cancel]
 Отказ
 [Spell Checker]
-
+Spell Checker
 [Default language:]
 Стандартен език:
 [Auto-replace words with dictionary suggestions]
@@ -72,12 +72,12 @@
 [The correction can't be empty!]
 Не сте попълнили полето "Поправка"
 [The correction can't be equal to the wrong word!]
-
+Корекцията не може да съвпада с грешната дума!
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [Tagalog (Philippines)]
-
+тагалог/тагалски (Филипини)
 [German (Germany)]
-
+немски (Германия)
 ;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Разговори

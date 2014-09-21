@@ -46,6 +46,6 @@ URL
 
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
-
+Промяна на състояние
 [Status]
 Състояние

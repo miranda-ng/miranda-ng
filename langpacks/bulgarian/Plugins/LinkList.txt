@@ -41,7 +41,7 @@
 [Plugin default]
 
 [Preview]
-Преглед
+Образец
 [Outgoing messages]
 Изходящи съобщения
 [Background color]
@@ -149,7 +149,7 @@
 [No messages found!\nPlease change current filter options.]
 
 [RTF file]
-
+RTF файл
 [All files]
 Всички файлове
 [Save RTF File]

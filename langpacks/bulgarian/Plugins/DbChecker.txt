@@ -17,7 +17,7 @@
 [This program is licensed under the terms of the GNU General Public License.]
 Тази програма е лицензирана според условията на GNU General Public License.
 [Miranda Database Tool]
-
+Инструмент за базата от данни на Miranda
 [< &Back]
 < Назад
 [&Next >]

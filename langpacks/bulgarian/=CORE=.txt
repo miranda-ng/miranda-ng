@@ -51,7 +51,7 @@
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Ако не желаете контактите Ви да бъдат изобразявани с прякора им можете да изберете друг тип име. Влачете за да промените подредбата:
 [Miranda NG profile manager]
-Miranda NG диспечер на профили
+Miranda NG - диспечер на профили
 [&Run]
 Изпълнение
 [&Exit]
@@ -281,9 +281,9 @@ URL адреси
 [e.g., Workplace]
 напр. raboten
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Можете да изберете драйвер за профила, който да предлага повече функции. Ако имате съмнения използвайте стандартния.
+Можете да изберете драйвер за профила, който предлага повече функции. Ако имате съмнения използвайте стандартния.
 [e.g., dbx mmap]
-напр. db3x mmap driver
+напр. dbx mmap driver
 [Driver]
 Драйвер
 [Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
@@ -453,13 +453,13 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Можете да групирате/дегрупирате иконите като ги избирате чрез ляв бутон+CTRL и popup менюто (десен бутон)
 [Add to existing metacontact]
-
+Добавяне към съществуващ метаконтакт
 [Please select a metacontact:]
-
+Моля, изберете метаконтакт:
 [Sort alphabetically]
-
+По азбучен ред
 [Editing]
-
+Редактиране
 [Information]
 Информация
 [Contacts]
@@ -467,39 +467,39 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 [&Remove]
 Премахване
 [&Set as default]
-
+Стандартен
 [Move &up]
-
+Нагоре
 [Move &down]
-
+Надолу
 [Send &offline]
 
 [Context menu]
 Контекстно меню
 [Use contact's unique ID]
-
+С уникалния идентификатор
 [Use contact's display name]
-
+С display name
 [Contact labels]
-
+Именуване на контактите
 [When I click on a sub in the popup menu...]
 
 [Set default and open message window]
-
+Да се отваря прозореца за съобщения
 [Show subcontact context menu]
-
+Да се показва контекстното меню на подконтакта
 [Show user information]
-
+Информация за потребителя
 [Contact list]
 Списък с контакти
 [Display subcontact nickname]
-
+Показване прякора на подконтакта
 [Display subcontact display name]
-
+Показване на display name на подконтакта
 [Lock name to first contact]
 
 [Current language:]
-
+Текущ език:
 [Last modified using:]
 Посл. промяна с:
 [Date:]
@@ -614,23 +614,23 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 [&Send]
 Изпращане
 [&Emoticons]
-
+Емотикони
 [&Bold]
-
+Получер
 [&Italic]
-
+Курсив
 [&Color]
-
+Цвят
 [&Background color]
-
+Фонов цвят
 [&History]
-
+История
 [&Filter]
-
+Филтър
 [&Room settings]
-
+Настройки на стаята
 [&Show/Hide nick list]
-
+Скриване/Показване на списъка с прякори
 [Show these events only:]
 Показване само на следните събития:
 [Actions]
@@ -958,7 +958,7 @@ Wikipedia
 [Total size:]
 Общ размер:
 [&User menu]
-
+Потребителско меню
 [Incoming file transfer]
 Входящ файл
 [A&ccept]
@@ -1008,7 +1008,7 @@ Wikipedia
 [Open file]
 Отвари файла
 [Open folder]
-
+Отваряне на папка
 [File properties]
 Инф. за файла
 [File being received]
@@ -1141,7 +1141,7 @@ Wikipedia
 [Message session]
 Разговор
 [&Details]
-
+Подробности
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
 [Show names]
@@ -1341,13 +1341,13 @@ Wikipedia
 [Chat module]
 Чат модул
 [Group chat log background]
-
+Фон на дневника за групов чат
 [Message background]
 Фон на съобщенията
 [Nick list background]
 Фон на списъка с прякори
 [Nick list lines]
-
+Редове на списък с прякори
 [Nick list background (selected)]
 Фон на списъка с прякори (маркирано)
 ;file \src\core\stdchat\src\options.cpp
@@ -1607,7 +1607,7 @@ Popups за изобразяване
 [No word to look up]
 Няма дума за търсене
 [&Message %s]
-
+Съобщение %s
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Вмъкване на усмивка
@@ -1642,7 +1642,7 @@ Popups за изобразяване
 [Nickname]
 Прякор
 [Unique ID]
-
+Уникален ID
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Стандартни контакти
@@ -1695,7 +1695,7 @@ Popups за изобразяване
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\encrypt.cpp
 [Standard crypto provider]
-
+Стандартен доставчик на криптиране
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Потребителят не е задал имейл
@@ -1760,7 +1760,7 @@ Popups за изобразяване
 [Contact menu]
 Меню на контактите
 [Open...]
-
+Отваряне...
 [sec]
 сек
 [remaining]
@@ -1849,7 +1849,7 @@ Popups за изобразяване
 [Message area]
 Поле за съобщения
 [Other events]
-
+Други събития
 [Message log]
 Дневник за съобщения
 [** New contacts **]
@@ -2031,10 +2031,10 @@ URL
 [&Join chat]
 Влизане
 [&Leave chat]
-
+Излизане
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
-
+Отваряне на чат прозореца
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s влезе
@@ -2106,7 +2106,7 @@ URL
 [%s (locked)]
 %s (заключен)
 [Status menu]
-
+Меню на състоянието
 [Main menu]
 Главно меню
 ;file \src\modules\clist\clistsettings.cpp
@@ -2138,7 +2138,7 @@ URL
 [FirstName LastName]
 Име Фамилия
 [LastName FirstName]
-
+Фамилия Име
 ['(Unknown contact)' (not movable)]
 "Непознат контакт" (неподвижно)
 ['(Unknown contact)']
@@ -2218,11 +2218,11 @@ URL
 Невалиден тип настройка за "%s". Първият знак на всяка стойност трябва да бъде b, w, d, l, s, e, u, g, h или n.
 ;file \src\modules\database\dbutils.cpp
 [Authorization request from %s%s: %s]
-
+Молба за упълномощаване от %s%s: %s
 [You were added by %s%s]
-
+Бяхте добавени от %s%s
 [Contacts: ]
-
+Контакти: 
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профилът "%s" вече съществува. Желаете ли да бъде преместен в Кошчето?\n\nВНИМАНИЕ:Профилът ще бъде изтрит ако Кошчето е изключено.\nВНИМАНИЕ: Профилът може да съдържа поверителна и лична информация, затова е препоръчително да го изтриете по подходящ начин.
@@ -2241,11 +2241,11 @@ URL
 [<In use>]
 <В употреба>
 [<Unknown format>]
-
+<Неизвестен формат>
 [Are you sure you want to remove profile "%s"?]
 Наистина ли желаете профилът "%s" да бъде изтрит?
 [&Convert]
-
+Конвертиране
 [Run]
 Изпълнение
 [Convert database]
@@ -2259,7 +2259,7 @@ URL
 [Modified]
 Променен
 [Manage your Miranda NG profile]
-
+Управление профилите за Miranda NG
 [My profiles]
 Моите профили
 [New profile]
@@ -2356,7 +2356,7 @@ URL
 Езици
 ;file \src\modules\metacontacts\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
-
+Ще бъдат премахнати всички контакти добавени в метаконтакта.\nТова ще изтрие метаконтакта.\n\nНаистина ли го желаете?
 ;file \src\modules\metacontacts\meta_addto.cpp
 [Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
 
@@ -2373,18 +2373,18 @@ URL
 [a contact]
 
 [Adding %s...]
-
+Добавяне на %s...
 [Please select a metacontact]
-
+Моля, изберете метаконтакт
 [No metacontact selected]
-
+Не сте избрали метаконтакт
 [Assignment to the metacontact failed.]
-
+Неуспешно добавяне към метаконтакт.
 [Assignment failure]
-
+Провалено добавяне
 ;file \src\modules\metacontacts\meta_edit.cpp
 [ID]
-
+Идентификатор
 [Protocol]
 Протокол
 [Send offline]
@@ -2392,14 +2392,14 @@ URL
 [Send &online]
 
 [Delete metacontact?]
-
+Изтриване на метаконтакта?
 ;file \src\modules\metacontacts\meta_main.cpp
 [Toggle off]
 
 [Toggle on]
 
 [Convert to metacontact]
-
+Конвертиране в метаконтакт
 [Add to existing]
 
 [Edit]
@@ -2412,7 +2412,7 @@ URL
 [There was a problem in assigning the contact to the metacontact]
 
 [This will remove the metacontact permanently.\n\nProceed anyway?]
-
+Метаконтакта ще бъде премахнат.\n\nТова ли желаете?
 [Are you sure?]
 Сигурни ли сте?
 [Remove from metacontact]
@@ -2422,9 +2422,9 @@ URL
 [Toggle metacontacts on]
 
 [Add to existing metacontact...]
-
+Добавяне към съществуващ метаконтакт...
 [Edit metacontact...]
-
+Редактиране на метаконтакта...
 [Set as metacontact default]
 
 [Delete metacontact]
@@ -2593,7 +2593,7 @@ Win +\s
 [Scope:]
 Обхват:
 [System]
-
+Система
 [Actions:]
 Действия:
 [Add binding]
@@ -2672,7 +2672,7 @@ ANSI приставка
 [Revoke authorization]
 Отнемане на пълномощното
 [Warning]
-
+Предупреждение
 [Always visible]
 Винаги видимо
 [Always invisible]

@@ -51,7 +51,7 @@ ms
 [Border]
 Рамка
 [Draw border]
-
+Граница
 [Left-top edge's color:]
 
 [Right-bottom edge's color:]

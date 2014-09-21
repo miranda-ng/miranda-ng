@@ -6,4 +6,4 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Displays the Accounts window at the first start.]
-
+Показва прозореца за акаунти при стартиране за първи път.

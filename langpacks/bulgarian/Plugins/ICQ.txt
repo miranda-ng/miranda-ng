@@ -95,7 +95,7 @@ ICQ аватари
 [Make me temporarily visible to contacts I send message to]
 Желая да бъда временно видим за контактите до които изпращам съобщения
 [Notify me when a message delivery has failed]
-
+Уведомяване при неуспешно доставяне на съобщение
 [Peer-to-peer Messaging]
 
 [Enable peer-to-peer message connections]
@@ -179,7 +179,7 @@ ICQ аватари
 [Use default colors]
 Стандартни цветове
 [UIN:]
-
+UIN:
 [External IP:]
 Външно IP:
 [Internal IP:]
@@ -205,7 +205,7 @@ ICQ аватари
 [Last name:]
 Фамилия:
 [E-mail:]
-Е-поща:
+Имейл:
 [Gender:]
 Пол:
 [Age:]
@@ -261,7 +261,7 @@ ICQ аватари
 [Closing in %d]
 Затваряне след %d
 [Title:]
-Титла:
+Заглавие:
 [Message:]
 Съобщение:
 [Retrieving custom status details...]
@@ -300,7 +300,7 @@ ICQ аватари
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
 Неуспешно свързване.\nАкаунтът не поддържа Сигурно (MD5) вписване.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
-
+Неуспешно свързване.\nНеизвестна грешка по време на вписването: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
 Изключен сте от мрежата ICQ поради вписване от друго място със същия ICQ номер.
 [Unknown runtime error: 0x%02x]
@@ -333,7 +333,7 @@ ICQ аватари
 [You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
 Изпратихте твърде дълго съобщение. Клиента на получателя не поддържа такива съобщения.\r\nSNAC(4.1) Грешка x0A
 [The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
-
+SNAC формата е отхвърлен от сървъра.\nSNAC(4.1) грешка x0E
 [The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
 Потребителя временно не е наличен. Моля опитайте отново след малко.\r\nSNAC(4.1) Грешка x13
 [SNAC(4.1) SENDMSG Error (x%02x)]
@@ -373,9 +373,9 @@ ICQ бележка
 Потребителя "%s" беше премахнат от списъка на сървъра.
 ;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
-
+Неуспешен опит за сигурно вписване.\nНевалиден отговор на сървъра.
 [Secure login failed.\nInvalid key length.]
-
+Неуспешен опит за сигурно вписване.\nНевалидна дължина на ключа.
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 Желаете ли да оттеглите пълномощното на контакта?\nЩе бъдете премахнати от списъка му, само за някои клиенти.
@@ -498,7 +498,7 @@ ICQ бележка
 [Congo, Democratic Republic of the]
 Демократична република Конго
 [Congo, Republic of the]
-Република Конго
+Конго
 [Cook Islands]
 острови Кук (Cook)
 [Costa Rica]
@@ -630,7 +630,7 @@ ICQ бележка
 [Kyrgyzstan]
 Киргизстан
 [Laos]
-Лаос
+Лаоска народнодемократична република
 [Latvia]
 Латвия
 [Lebanon]
@@ -648,7 +648,7 @@ ICQ бележка
 [Luxembourg]
 Люксембург
 [Macau]
-Макао
+Монако
 [Macedonia, Republic of]
 Македония
 [Madagascar]
@@ -818,7 +818,7 @@ ICQ бележка
 [Syria]
 Сирия
 [Taiwan]
-Тайван
+Тайван, провинция на Китай
 [Tajikistan]
 Таджикистан
 [Tanzania]
@@ -864,9 +864,9 @@ ICQ бележка
 [Vanuatu]
 Вануату
 [Vatican City]
-Ватикана
+Ватикан
 [Venezuela]
-Венецуела
+Венесуела, Боливарска република
 [Vietnam]
 Виетнам
 [Virgin Islands (UK)]
@@ -876,7 +876,7 @@ ICQ бележка
 [Wales]
 Уелс
 [Wallis and Futuna]
-Уолис и Футуна
+острови Уолис и Футуна
 [Yemen]
 Йемен
 [Yugoslavia]
@@ -892,13 +892,13 @@ ICQ бележка
 [Zimbabwe]
 Зимбабве
 [50's]
-
+50-те
 [60's]
-
+60-те
 [70's]
-
+70-те
 [80's]
-
+80-те
 [Art]
 Изкуство
 [Astronomy]
@@ -1186,7 +1186,7 @@ Web дизайн
 [High Tech]
 Високи технологии
 [Legal]
-
+Право
 [Manufacturing]
 Производство
 [Medical & Health Care]
@@ -1244,7 +1244,7 @@ Web изграждане
 [Other Services]
 Други услуги
 [Alumni Org.]
-
+Орг. с идеална цел
 [Charity Org.]
 Благотворителни орг.
 [Club/Social Org.]
@@ -1306,7 +1306,7 @@ Web изграждане
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Прехвърлянето е прекратено поради липса на един от избраните файлове. Вероятно сте изтрили или преместили файла.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
-
+Прехвърлянето е прекратено защото Miranda не може да отвори файла за писане. Вероятно сте задали файлът да се съхрани в папка, която е само за четене.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Молба за упълномощаване
@@ -1358,7 +1358,7 @@ Latin I
 [Privacy]
 Поверителност
 [Popups]
-РopUps
+Рopups
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]
 Popup заглавие
@@ -1383,7 +1383,7 @@ Popup заглавие
 Не сте въвели ICQ номер.\nВъведете го в Настройки>Мрежа>ICQ и опитайте отново.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
-
+Свързването с ICQ сървъра не е възможно - не може да се договори SSL
 [Unable to connect to ICQ login server]
 Вписването в сървъра на ICQ е невъзможно
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
@@ -1602,7 +1602,7 @@ Popup заглавие
 [Beetle]
 Бръмбар
 [Double Rainbow]
-
+Двойна дъга
 [Basketball]
 Баскетбол
 [Cupid shot me]
@@ -1626,14 +1626,14 @@ Popup заглавие
 Поздравителна картичка:
 ;file \protocols\IcqOscarJ\src\init.cpp
 [ICQ xStatus]
-
+ICQ хСъстояние
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ предупреждение
 [ICQ Error]
 ICQ грешка
 [ICQ Fatal]
-
+ICQ фаталност
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
 Сървърът не отговоря на опита за свързване в разумен период от време, може бе не работи временно. Опитайте по-късно.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
@@ -1660,7 +1660,7 @@ ICQ грешка
 [The file transfer failed: Proxy unavailable]
 Прехвърлянето на файла не е успешно: Няма налично прокси
 [Failed to Initialize File Transfer. No valid files were specified.]
-
+Стартирането на прехвърляне се провали. Не са посочени валидни файлове.
 [The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Файловете са твърде големи, за да бъдат изпратени на един път. Файлове по-големи от 4ГБ могат да бъдат изпратени поотделно.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
@@ -1668,11 +1668,11 @@ ICQ грешка
 [Connection lost during file transfer.]
 Загубена връзка по време на прехвърлянето на файла.
 [File transfer negotiation failed for unknown reason.]
-
+Договарянето на прехвърлянето на файла се провали поради неизвестни причини.
 [The checksum of file "%s" does not match, the file is probably damaged.]
 
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
-
+Прехвърлянето е прекратено (грешка=%d) защото един от файловете които сте избрали за изпращане не е наличен на диска. Вероятно е изтрит или прееместен.
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <невалидно>

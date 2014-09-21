@@ -19,7 +19,7 @@
 [Version:]
 Версия:
 [Preview]
-Преглед
+Образец
 [Display]
 Изобразяване
 [Replace only smileys surrounded by spaces]

@@ -75,7 +75,7 @@ Popup настройки...
 [Use user-defined colors]
 Избор на цветове
 [Background color]
-Фонов цвят
+Цвят на фона
 [Text color]
 Цвят на текста
 [Delay]
@@ -149,9 +149,9 @@ Quote\\Инф. за курса
 Въведете положително число.
 ;file \plugins\Quotes\src\Forex.cpp
 [Auto Update Enabled]
-
+Автообновяването е включено
 [Auto Update Disabled]
-
+Автообновяването е изключено
 [Quotes]
 
 [Enable/Disable Auto Update]

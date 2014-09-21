@@ -9,35 +9,35 @@
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Login to Miranda NG]
-
+Вписване в Miranda NG
 [Cancel]
 Отказ
 [New password]
-
+Нова парола
 [Please enter your new password]
-
+Моля, въведете новата парола
 [Enter password]
-
+Въведете парола
 [Change password]
-
+Промяна на паролата
 [Change]
-
+Промяна
 [Remove]
 Премахване
 [Old password]
-
+Стара парола
 [Database encryption mode]
-
+Режим за криптиране на базата от данни
 [Standard]
-
+Стандарт
 [Total]
-
+Тотално
 [Only critical data are encrypted (passwords, security tokens, etc). All another settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-
+Само критичните данни ще бъдат криптирани (като пароли). Всички други настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
-
+Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от профила!
 [Set password]
-
+Задаване на парола
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shut down.]
 Дискът е пълен. Miranda ще бъде изключена сега.
@@ -46,36 +46,36 @@
 [Database Error]
 Грешка в базата от данни
 [Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-
+Засечена е повреда в базата от данни. Има шанш за отстраняването ѝ от приставката DbChecker. Моля, свалете я от http://miranda-ng.org/p/DbChecker/. Сега Miranda ще бъде изключена.
 [Database Panic]
-
+Паника в Базата от данни
 ;file \plugins\Db3x_mmap\src\dbheaders.cpp
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
-
+Профилът е твърде стара верия - необходимо е да се актуализира с PluginUpdater. Първо базата от дани ще бъде конвертирана.\n\nЖелаете ли да прочетете как става?
 [Obsolete database format]
-	
+Формата на баата от данни е стар
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
-
+Промяна/премахване на парола
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 
 [Password]
-
+Парола
 [Too many errors!]
-
+Твърде много грешки!
 [Password is not correct!]
-
+Паролата е грешна!
 [Please type in your password]
-
+Моля, въведете паролата
 [Wrong old password entered!]
-
+Въведената стара парола е грешна!
 [Password is too short!]
-
+Паролата е твърде кратка!
 [Passwords do not match!]
-
+Паролите не са еднакви!
 [Database]
-
+База от данни
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 
@@ -133,7 +133,7 @@
 [Database signature is corrupted, automatic repair is impossible]
 
 [Database version doesn't match this driver's one. Convert a database first]
-
+Несъответствие между версията на базата от данни и драйвъра. Конвертирайте базата от данни.
 [Database is newly created and has no data to process]
 Базата от данни е нова и не съдържа данни за обработване
 [Processing completed successfully]

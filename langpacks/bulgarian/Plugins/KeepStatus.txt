@@ -25,7 +25,7 @@
 [Dial-Up]
 
 [Don't reconnect if no internet connection seems available]
-Без опити за автовписване, когато няма интернет
+Без автовписване, когато връзката с интернет се възстанови
 [Continuously check for internet connection]
 Периодична проверка за наличие на връзка с интернет
 [Do so by pinging host]
@@ -121,7 +121,7 @@ ms
 [Dial-up (experimental)]
 Dial-up (експериментално)
 [Background color]
-Фонов цвят
+Цвят на фона
 [Text color]
 Цвят на текста
 [Use Windows colors]
@@ -301,7 +301,7 @@ Dial-up (експериментално)
 [You broke the Internet!]
 
 [Popups]
-Popups
+Рopups
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Отсъствам от %time%.

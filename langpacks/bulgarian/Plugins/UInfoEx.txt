@@ -6,7 +6,7 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-
+Приставката Extended UserInfo за Miranda NG осигурява интерфейс за редактиране на цялата информация за контактите.
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Редактиране на информацията за контакта
@@ -27,7 +27,7 @@
 [Display name:]
 
 [Title:]
-Титла:
+Заглавие:
 [First name:]
 Име:
 [Second name:]
@@ -75,7 +75,7 @@
 [Occupation:]
 Работа:
 [Superior:]
-
+Разделител:
 [Assistant:]
 Помощник:
 [Add phone number]
@@ -107,7 +107,7 @@
 [Check every]
 Проверка на всеки
 [hours]
-часове
+часа
 [Icon flashing on event]
 Мигане на иконата при събитие
 [Enabled]
@@ -127,7 +127,7 @@
 [Birthday popup colors]
 popup за рожден ден
 [Background color]
-Фонов цвят
+Цвят на фона
 [Text color]
 Цвят на текста
 [Use Windows colors]
@@ -249,9 +249,9 @@ popup за годишнина
 [John Doe (1/10)]
 
 [Dialog]
-
+Прозорец
 [All]
-Всичко
+Всички
 [None]
 Няма
 [Show menu item]
@@ -303,7 +303,7 @@ popup за годишнина
 [Zodiac:]
 Зодия:
 [not found]
-
+НЕ Е ОТКРИТО
 [Use global reminder settings]
 Ползване на общите настройки за напомняне
 [Don't remind me of this anniversary]
@@ -641,7 +641,7 @@ UserInfoEx
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
-Мои бележки:
+Бележки:
 [About:]
 Относно:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
@@ -694,7 +694,7 @@ UserInfoEx
 [Details dialog]
 Прозорец за подробности
 [Popups]
-Popups
+Рopups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Минало
@@ -976,13 +976,13 @@ Web дизайн
 [Social science]
 Социални науки
 [60's]
-
+60-те
 [70's]
-
+70-те
 [80's]
-
+80-те
 [50's]
-
+50-те
 [Finance and corporate]
 Финанси
 [Entertainment]
@@ -1010,7 +1010,7 @@ Web дизайн
 [Home automation]
 Домашна автоматизация
 [Alumni Org.]
-
+Орг. с идеална цел
 [Charity Org.]
 Благотворителни орг.
 [Club/Social Org.]

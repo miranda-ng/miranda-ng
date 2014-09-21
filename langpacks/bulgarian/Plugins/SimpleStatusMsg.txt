@@ -99,7 +99,7 @@
 [* This feature is available only when using StartupStatus plugin.]
 
 [Status on startup]
-
+Състояние при стартиране
 [Set status after]
 
 [milliseconds]
@@ -233,7 +233,7 @@
 [Confirm clearing predefined]
 
 [<last status>]
-
+<Последно състояние>
 [Status]
 Състояние
 [General]

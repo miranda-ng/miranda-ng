@@ -6,56 +6,56 @@
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
-
+Осигурява комуникация чрез протокола Tox в Miranda NG.
 ;file \protocols\Tox\res\resource.rc
 [Name:]
 Име:
 [Tox ID:]
-
+Tox ID:
 [Default group:]
-
+Станд. група:
 [C]
-
+Ко
 [Connection settings]
-
+Настройки за свързване
 [Disable UDP (force Tox to use TCP)]
-
+Изключване на UDP (налага ползването на TCP от Tox)
 [Disable IPv6]
-
+Изключване на IPv6
 [Tox]
-
+Tox
 [Tox profile]
-
+Tox профил
 [Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
-
+Tox профилът съдържа вашето ID и списъка с приятели.\r\nМожете да създадете нов профил ако ползвате Tox за първи път или да заредите съществуващ профил от друг клиент.
 [Create new profile]
-
+Създаване на нов профил
 [Use existing profile]
-
+Ползване на съществуващ профил
 [If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
-
+Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Мрежа
 [Account]
-
+Акаунт
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
-
+%s връзка
 ;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
-
+Всички файлове (*.*)
 [Select tox profile]
-
+Изберете Tox профил
 [Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
-
+Вече съществува Tox профил със същото име.\r\nАко продължите профилът ще бъде унищожен!
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
-
+Протоколи
 [Protocol icon]
-
+Икона на протокола
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
-
+Търсене
 [Contact already in your contact list]
-
+Контактът вече присъства в списъка ви с контакти

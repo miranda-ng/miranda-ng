@@ -9,65 +9,65 @@
 Приставка за бързо въвеждане на предварително дефиниране съобщения в полето за въвеждане на текст.
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [Button Right-Click value]
-
+Меню от кликване с десен бутон на мишката
 [Button Left-Click menu]
-
+Меню от кликване с ляв бутон на мишката
 [Buttons]
 Бутони
 [Menu entry value:]
-
+Стойност:
 [Misc.]
-
+Разни
 [Auto-send on Left-Click]
-
+Автоизпращане с ляв бутон
 [Auto-send on Right-Click]
-
+Автоизпращане с десен бутон
 [Add to QuickMenu]
-
+Добавяне към QuickMenu
 [Enable QuickMenu]
-
+Включване на QuickMenu
 [Consider as ServiceName]
-
+Считай за име на услуга
 [You have changed the plugin settings via database.\nThis requires restart!]
-
+Променили сте настройките на приставката в базата от данни.\nТова налага рестартиране!
 [Quick Messages Help]
-
+Помощ за Quick Messages
 [- Selected text]
-
+- Маркиран текст
 [List of variables:]
-
+Списък на променливите
 [- Text from Clipboard]
-
+- Текст от клипборда
 [- Contacts Protocol name (upper case)]
-
+- Протокол на контакт (главни букви)
 [- Contact display name]
-
+- Display name на контакт
 [Tips:]
-
+Съвети:
 [*Rename menu item into "---" to insert separator]
-
+*За разделител добавете елемент със стойност "---"
 [*Use drag'n'drop for arranging menu items]
-
+*Влачете, за да пренаредите елементите
 [- Contact first name]
-
+- Първо име на контакт
 [- Contact last name]
-
+- Последно име на контакт
 ;file \plugins\QuickMessages\src\main.cpp
 [Quick Messages]
-
+Quick Messages
 ;file \plugins\QuickMessages\src\options.cpp
 [Enter Value]
-
+Въведете стойност
 [Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
-
+Поздравления!\r\nКликнахте върху бутона 100 пъти!\r\nИ възникна грешка...\r\Ще се наложи да изчакате малко! :D
 [You win!]
 Вие победихте!
 [New Button]
-
+Нов бутон
 [New Menu Entry]
-
+Ново меню
 [Message Sessions]
 Разговори
 ;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]
-
+Клавиш за Quick Messages %u

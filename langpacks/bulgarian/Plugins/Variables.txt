@@ -6,7 +6,7 @@
 ;  Authors: P Boon
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
-
+Добавя поддръжка за променливи стойности/низове към приставките.
 ;file \plugins\Variables\res\Variables.rc
 [Parse options]
 
@@ -79,7 +79,7 @@
 [Stopped]
 
 [Paused]
-
+ПАУЗА
 [External Applications]
 Външни приложения
 [retrieves song name of the song currently playing in Winamp]
@@ -184,7 +184,7 @@
 [Miranda Core OS]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-
+като променливата %APPDATA% за вписаният, в момента, потребител на Windows
 [username for currently logged-on Windows user]
 потребителско име на текущия потребител вписан в Windows
 ["My Documents" folder for currently logged-on Windows user]
@@ -361,7 +361,7 @@
 [expand environment variable x]
 
 [user name]
-
+Потребителско име
 [text from clipboard]
 
 ;file \plugins\Variables\src\parse_variables.cpp

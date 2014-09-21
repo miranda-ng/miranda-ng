@@ -57,7 +57,7 @@
 [Hang up]
 
 [Dialog]
-
+Прозорец
 [Use Skype proxy connection over network instead of local Skype API]
 
 [Host:]
@@ -71,7 +71,7 @@
 [Name:]
 Име:
 [Birthday:]
-
+Рожден ден:
 [Sex:]
 
 [City:]
@@ -87,7 +87,7 @@
 [Homepage:]
 Страница:
 [Save]
-
+Запис
 [Enable Skype menu options (currently: Find/Add user)]
 
 [Use popup plugin for displaying messages]
@@ -131,7 +131,7 @@
 [Text]
 Текст
 [Preview]
-
+Образец
 [Error Messages]
 
 [Display error messages]
@@ -161,17 +161,17 @@
 [Unknown]
 Неизвестно
 [&Invite user...]
-
+Покани потребител...
 [Me]
-
+Аз
 [&Leave chat session]
-
+Напускане от разговора
 [Set &Topic...]
 
 [User &details]
 Подробности за потребителя
 [User &history]
-
+История на потребителя
 [&Kick user]
 
 ;file \protocols\SkypeClassic\src\skype.cpp
@@ -199,7 +199,7 @@
 [Skype proxy]
 
 [Avatar]
-
+Аватар
 [Details]
 
 [MALE]

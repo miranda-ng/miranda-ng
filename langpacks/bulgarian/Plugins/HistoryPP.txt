@@ -28,7 +28,7 @@
 [Group log messages]
 
 [Need more options?]
-
+Още опции?
 [Incoming WATrack notify]
 Входящо уведомяване от WATrack
 [Outgoing WATrack notify]
@@ -38,13 +38,13 @@
 [WATrack notify]
 WATrack уведомяване
 [Open Link]
-
+Отваряне на връзка
 [WATrack: information request]
 WATrack: заявка за информация
 [Artist: %s\\nTitle: %s\\nAlbum: %s]
 
 [WATrack: %s]
-
+WATrack: %s
 [WATrack: request denied]
 WATrack: отхвърлена молба
 [Imitate IEView API]
@@ -60,7 +60,7 @@ WATrack: отхвърлена молба
 [Grid messages]
 
 [History Actions]
-
+Действия с историята
 [Advanced search options]
 Разширени опции за търсене
 [Limit search range]
@@ -114,13 +114,13 @@ WATrack: отхвърлена молба
 [&Select All]
 
 [SMS Message]
-
+SMS съобщение
 [WebPager]
 
 [EMail Express]
 
 [Other event]
-
+Друго събитие
 [Global History Search]
 Общо търсене в историята
 [Search for]
@@ -134,7 +134,7 @@ WATrack: отхвърлена молба
 [Search exact phrase]
 Търсене на точен израз
 [Include password-protected contacts]
-
+Включително и контактите защитени с парола
 [Starting up...]
 Стартиране...
 [No items found]
@@ -184,13 +184,13 @@ History++ износ
 [Searching... %.0n items in %d contacts found]
 Търсене... Намерени са %.0n елемента в %d абоната
 [Enter the history password to search.]
-
+За да търсите въведете паролата за историята.
 [Please wait while closing the window...]
 Моля, изчакайте докато прозореца се затвори
 [Partial History [%s] - [%s]]
 Част от историята за [%s] - [%s]
 [Delete &Bookmark]
-
+Изтриване на на отметката
 [Remove &Bookmark]
 Премахване на отметката
 [Ready to search]
@@ -224,7 +224,7 @@ History++ Търсене
 [Do you really want to delete selected item?]
 Наистина ли желаете маркираният елемент да бъде изтрит?
 [%s - History++]
-
+%s - History++
 [History is empty]
 Историята е празна
 [No such items]
@@ -232,7 +232,7 @@ History++ Търсене
 [Conversations]
 Разговори
 [Conversations (F4)]
-
+Разговори (F4)
 [History Search]
 Търсене в историята
 [His&tory Search]
@@ -240,13 +240,13 @@ History++ Търсене
 [&Open]
 Отваряне
 [Open &Link]
-
+Отваряне на връзката
 [Open Link in New &Window]
-
+Отваряне в нов прозорец
 [Open &File]
-
+Отваряне на файл
 [Open File Fo&lder]
-
+Отваряне папката на файла
 [Disable &Processing]
 
 [Export as &HTML...]
@@ -290,33 +290,33 @@ ANSI кодиране
 [Enable &Processing]
 
 [Do you really want to delete ALL items (%.0f) for this contact?]
-
+Наистина ли желаете всички (%.0f) елементи от историята да бъдат изтрити?
 [Note: It can take several minutes for large history.]
-
+Бележка: Може да отнеме няколко минути при голяма история.
 [Empty History]
 Изтриване на историята
 [Search Up (Ctrl+Up)]
-
+Търсене нагоре (Ctrl+Up)
 [Search Down (Ctrl+Down)]
-
+Търсене надолу (Ctrl+Down)
 [HTML file (*.html; *.htm)|*.html;*.htm]
-
+HTML файлове (*.html; *.htm)|*.html;*.htm
 [XML file (*.xml)|*.xml]
-
+XML файлове (*.xml)|*.xml
 [RTF file (*.rtf)|*.rtf]
-
+RTF файлове (*.rtf)|*.rtf
 [Unicode text file (*.txt)|*.txt]
-
+Текстови Unicode файлове (*.txt)|*.txt
 [Text file (*.txt)|*.txt]
-
+Текстови файлове (*.txt)|*.txt
 [All files (*.*)|*.*]
-
+Всички файлове (*.*)|*.*
 [Conversation started at %s]
 Начало на разговора в %s
 [Remove bookmark]
 Премахване на отметката
 [Bookmark]
-
+Отметка
 [Remove Bookmark]
 Премахване на отметката
 [Set Bookmark]
@@ -338,7 +338,7 @@ ANSI кодиране
 [Webpager message from %s (%s): %s]
 Webpager съобщение от %s (%s): %s
 [Email express from %s (%s): %s]
-
+Email express от %s (%s): %s
 [Status change: %s]
 Промяна на състоянието: %s
 [Authorization request granted by %s (%d): %s]
@@ -452,19 +452,19 @@ Enter отваря подробности за събитието
 [Link URLs]
 URL връзки
 [History++]
-
+History++
 [Unicode text file]
-
+Текстови Unicode файл
 [RTF file]
-
+RTF файл
 [XML file]
-
+XML файл
 [Appearance options]
 Настройки на външния вид
 [Message log options]
 Настройки на дневника за съобщения
 [HTML file]
-
+HTML файл
 [&Browse Received Files]
 Разглеждане на получените файлове
 [Include custom event type (0-65535)]
@@ -522,23 +522,23 @@ URL връзки
 [Running version of Emoticons is not supported]
 Инсталираната версия на Emoticons не се поддържа
 [%.0f items in history]
-
+%.0f елемента в историята
 [%s (to %s)]
 
 [%s Header]
 
 [&Additional]
-
+Допълнително
 [&Delete All]
-
+Изтриване на всичко
 [&Password Protection...]
-
+Защита с парола...
 [(time and date)]
-
+(час и дата)
 [All Items]
-
+Всички елементи
 [and]
-
+И
 [Authorization Request by %s (%s%s%d): %s]
 
 [Authorization Request Sample]
@@ -550,29 +550,29 @@ URL връзки
 [Customize the look of %s Event. Select it's font, font color and background color.]
 
 [Date Font Color]
-
+Цвят за даа
 [Date Font]
-
+Шрифт за дата
 [Event Icons]
-
+Икони за събития
 [Forward &Message]
 
 [History++ Options]
-
+History++ - Настройки
 [History++ [%s]]
-
+History++ [%s]
 [HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
-
+HTML файл (*.htm)|*.htm;*.html|Всички файлове (*.*)|*.*
 [HTML file (*.htm; *.html)|*.htm;*.html]
-
+HTML файл (*.htm; *.html)|*.htm;*.html
 [Incoming File Transfer Sample]
-
+Пример за входящо прехвърляне на файл
 [Incoming File Transfer:]
-
+Входящо прехвърляне на файл:
 [Incoming Message Sample]
-
+Пример за входящо съобщение
 [Incoming URL Sample]
-
+Входящо съобщение
 [Incoming Url]
 Входящ url адрес
 [Make shure you have CAPS LOCK turned off.]
@@ -580,49 +580,49 @@ URL връзки
 [Make sure you have CAPS LOCK turned off.]
 
 [Miranda's settings used]
-
+Ползват се настройките на Miranda
 [Nick Font Color]
-
+Цвят за прякор
 [Nick Font]
-
+Шрифт за прякор
 [Nothing selected. Select item from the left and change it's properties below.]
-
+Нищо не е маркирано. Изберете елемент отляво и променете свойствата му по-долу.
 [Nothing Selected]
-
+Нищо не е маркирано
 [Outgoing File Transfer Sample]
-
+Пример за изходящо прехвърляне на файл
 [Outgoing File Transfer:]
-
+Изходящо прехвърляне на файл:
 [Outgoing Message Sample]
-
+Пример за изходящо съобщение
 [Outgoing URL Sample]
-
+Пример за изходящ url адрес
 [Outgoing Url]
 Изходящ url адрес
 [Recent at bottom]
-
+Скорошните на дъното
 [Recent on top]
-
+Скорошните на върха
 [Save All as &HTML...]
-
+Записване на всички като &HTML...
 [Save All as &Text...]
-
+Записване на всички като &Text...
 [Save All as &XML...]
-
+Записване на всички като &XML...
 [Select search mode:]
-
+Изберете режим на търсене:
 [Selected file and contact file folder not found]
-
+Избраният файл и папката не са намерени
 [SMS Sample]
-
+Пример за SMS
 [Some Contact]
-
+Някой контакт
 [System History (%s)]
-
+Системна история (%s)
 [System Message Sample]
-
+Пример за системна история
 [Use Miranda default settings]
-
+Ползване на стандартните настройки
 [You were added by %s (%s%s%d)]
 
 [You Were Added Message Sample]
@@ -646,15 +646,15 @@ URL връзки
 [&Code Editor...]
 
 [&Load...]
-
+Зареждане...
 [&Save...]
-
+Записване...
 [&User Name:]
-
+Потребител:
 [(Unknown Contact)']
 (Непознат контакт)"
 [0 lines]
-
+0 реда
 [Other (unknown)]
 
 [Database:]
@@ -662,13 +662,13 @@ URL връзки
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
 
 [History++ Error]
-
+History++ Грешка
 [History++ Warning]
-
+History++ Предупреждение
 [%0.1n h]
-
+%0.1n часа
 [%d min]
-
+%d мин
 [&Reset to Default]
 Стандарт
 [Contact history]
@@ -688,11 +688,11 @@ URL връзки
 [Open in &new window]
 Отваряне в нов прозорец
 [Open in existing &window]
-
+Отваряне в съществуващ прозорец
 [Copy &Link]
-
+Копиране на връзката
 [Co&py]
-
+Копиране
 [Select &All]
 Маркиране на всичко
 [Send &Message]
@@ -700,13 +700,13 @@ URL връзки
 [User Details]
 Подробности за потребителя
 [Enable SmileyAdd support]
-
+Поддръжка на приставката SmileyAdd
 [Always RTL]
-
+Винаги Л < Д
 [Always LTR]
-
+Винаги Л > Д
 [Show event icons]
-
+Показване на икони за събитията
 [View user's history]
 История на съобщенията
 [View User's History]
@@ -716,4 +716,4 @@ URL връзки
 [User Menu]
 Потребителско меню
 [Prev]
-
+Предишно

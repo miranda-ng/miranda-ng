@@ -9,9 +9,9 @@
 Изобразява контакти, уведомявания за събития, състояние на протоколите.
 ;file \plugins\Clist_nicer\res\resource.rc
 [Clist Nicer exception]
-
+CList Nicer изключение
 [Copy to clipboard]
-Копиране в клипборда
+Запис в клипборда
 [Continue]
 Продължение
 [Exit Miranda]
@@ -241,7 +241,7 @@ ms
 [Items]
 Елементи
 [Show divider between online and offline contacts]
-Разделител между контактите които са "На линия" и тези "Извън линия"
+Разделител м/у контактите "На/Извън линия"
 [Hot track items as mouse passes over]
 Изтъкване на посочените с курсора елементи
 [Disable drag and drop of items]
@@ -267,7 +267,7 @@ ms
 [Hide vertical scroll bar]
 Без вертикална лента за придвижване
 [Gray out entire list when:]
-Посивяване на списъка с контакти, при състояние:
+Посивяване на списъка, когато:
 [Tree Gray Out]
 
 [Contact list background]
@@ -395,7 +395,7 @@ ms
 [Export to skin file]
 Износ като облик
 [Dialog]
-
+Прозорец
 [Ignore these events]
 Игнориране на следните събития
 [Messages]
@@ -551,7 +551,7 @@ URL събития
 Не се поддържа
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
-
+Копирай от
 [<None>]
 <Няма>
 [Raised]
@@ -649,7 +649,7 @@ URL събития
 [Background]
 Фон
 [Row items]
-Редове на контакти
+Елементи на реда
 [Contacts]
 Контакти
 [Groups and layout]
@@ -862,19 +862,19 @@ URL събития
 [Visible]
 Видима
 [Show title bar]
-Показване на заглавна лента
+Заглавна лента
 [Skinned frame]
 Облицована рамка
 [Floating]
 Плаващо
 ;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
-
+Меню на рамките
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [New group]
 Нова група
 [Group menu]
-
+Меню на групите
 [&Hide/show]
 Показване/Скриване
 [&Find/add contacts...]
@@ -884,4 +884,4 @@ URL събития
 [&About the contact list...]
 Относно списъка с контакти...
 [Subgroup menu]
-
+Меню на подгрупите
