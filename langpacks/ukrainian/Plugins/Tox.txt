@@ -43,6 +43,8 @@
 Протоколи
 [Protocol icon]
 Значок протоколу
+[You cannot add yourself to friend list]
+Ви не можете додати себе до списку друзів
 [Query]
 Запит
 [Contact already in your contact list]

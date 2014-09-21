@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.2
+;  Version: 0.2.9.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -237,6 +237,8 @@
 З'єднання з сервером %s
 [Unable to get Netlib connection for Facebook]
 Не вдається встановити з'єднання з Facebook
+[Video call]
+Відеовиклик
 [Facebook ID must be numeric value.]
 Вкажіть Facebook ID цифрами.
 [Network]

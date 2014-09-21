@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.0.1
+;  Version: 0.1.0.3
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -45,10 +45,10 @@ SMS-код
 Користувача %s видалили з групи
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS-повідомлення з реєстраційним кодом буде відправлено на ваш мобільний телефон.\nНагадуємо, що ви не зможете використовувати справжній WhatsApp і цей плагін одночасно!\nПродовжити?
+[Your password has been set automatically. You can proceed with login now]
+Ваш пароль встановлений автоматично, можете підключитися до протоколу.
 [Please correctly specify your registration code received by SMS]
 Будь ласка, правильно вкажіть ваш реєстраційний код, отриманий в SMS
-[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
-Ваш пароль встановлений автоматично.\nЯкщо ви зміните пароль вручну, ви можете його втратити, і буде потрібно робити запит на новий код!
 [%s server connection]
 З'єднання з сервером %s
 [Unable to get Netlib connection for WhatsApp]
