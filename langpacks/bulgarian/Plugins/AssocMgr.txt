@@ -71,8 +71,8 @@
 [Yahoo link protocol]
 
 [MSN link protocol]
-
+MSN Link Protocol
 [Gadu-Gadu link protocol]
 
 [Jabber link protocol]
-
+Jabber Link Protocol

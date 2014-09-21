@@ -89,6 +89,6 @@
 [Services]
 Услуги
 [Popups]
-Popups
+Рopups
 [WUMF: Show connections]
 

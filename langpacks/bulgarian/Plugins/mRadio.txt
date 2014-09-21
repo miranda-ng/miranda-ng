@@ -24,7 +24,7 @@ mRadio Mod
 [Dizzy]
 Замайване
 [Generic]
-
+Общ
 [Bathroom]
 Баня
 [Parking Lot]
@@ -108,7 +108,7 @@ BASS.DLL не може да бъде намерен!
 [Custom INI file]
 Зададен .INI файл
 [Radio station URL]
-
+URL адрес на станцията
 [Start record]
 Начало на запис
 [Stop record]
@@ -126,9 +126,9 @@ URL, който се възпроизвежда в момента
 [aborting]
 прекратяване
 [Can't initialize device]
-
+Устройството не може да бъде инициализирано
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-
+Свързването с интернет не е възможно. Моля, проверете "Work offline" опцията в Internet Explorer
 [Start broadcasting]
 Начало на предаване
 [Stop broadcasting]
@@ -142,19 +142,19 @@ URL, който се възпроизвежда в момента
 [Status message template]
 Шаблон за текста за състоянието
 [Equalizer presets]
-
+Шаблони за еквалайзера
 [Export All]
 Износ на всичко
 [Current status]
 Текущо състояние
 [Broadcast ON]
-
+Начало на предаване
 [Broadcast OFF]
-
+Край на предаването
 [Add EQ preset]
-
+Добавяне
 [Delete EQ preset]
-
+Изтриване
 [BASS library path (empty for default)]
 Път до библиотеката BASS (празно=стандартния)
 [Tries to connect]
@@ -164,27 +164,27 @@ URL, който се възпроизвежда в момента
 [mRadio volume control]
 mRadio - управление силата на звука
 [mRadio off]
-
+mRadio изкл.
 [mRadio on]
-
+mRadio вкл.
 [Import File]
 Внос от файл
 [Play Station]
-
+Възпроизведи станция
 [Forced Mono]
 Направи моно
 [Play/Pause]
-
+Възпроизведи/Пауза
 [Oops! BASS error]
-
+Опа! BASS грешка
 [Mute with Miranda]
-
+При спиране звука на Miranda спирай и този на mRadio
 [Advanced]
 Разширени
 [Stop]
 Стоп
 [Play]
-
+Възпроизведи
 [Frame background]
 Фон на рамката
 [OFF]
@@ -192,8 +192,8 @@ mRadio - управление силата на звука
 [Volume]
 Звук
 [Device list]
-
+Списък на устройствата
 [Equalizer]
 Еквалайзер
 [New]
-Ново
+Нов

@@ -10,19 +10,19 @@
 [Quick Search]
 
 [Title]
-
+Заглавие
 [Module/InfoType]
 
 [Setting]
-
+Настройка
 [Reload]
-
+Обновяване
 [New]
-
+Нов
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Delete]
 Изтриване
 [Default]
@@ -42,21 +42,21 @@
 [Show Client Icons]
 Показване икона на клиента
 [Settings]
-
+Настройки
 [Title:]
-
+Заглавие:
 [Account]
-
+Акаунт
 [Gender]
-
+Пол
 [UserID]
 
 [Nickname]
 Прякор
 [First name]
-
+Име
 [Last name]
-
+Фамилия
 [Group]
 Група
 [Container]
@@ -94,23 +94,23 @@
 [Data type:]
 
 [Byte]
-
+BYTE
 [Word]
-
+WORD
 [DWord]
-
+DWORD
 [Signed]
 
 [As hex]
 
 [String]
-
+STRING
 [IP]
 
 [TimeStamp]
 Времева марка
 [Module:]
-
+Модул:
 [Setting:]
 Настройка:
 [Service:]
@@ -118,31 +118,31 @@
 [Param]
 
 [number value]
-
+числова стойност
 [ANSI string]
-
+ANSI низ
 [Unicode string]
-
+Unicode низ
 [current contact]
-
+текущ контакт
 [last result]
-
+последен резултат
 [parameter]
 
 [Result]
-
+РЕЗУЛТАТ
 [Result type]
 
 [Free memory]
 Свободна памет
 [Save]
-
+Запис
 [All]
-
+Всички
 [Close]
 Затваряне
 [Refresh]
-
+Обновяване
 [QuickSearch]
 
 [Show Offline contacts]
@@ -176,7 +176,7 @@
 [Script Editor]
 Редактор на скриптове
 [Normal background]
-
+Фон на табовете
 [Normal foreground]
 Стандартен фон
 [Odd background]
@@ -218,7 +218,7 @@
 [Do you really want to delete selected contacts?]
 Желаете ли избраните контакти да бъдат изтрити?
 [Warning]
-
+Предупреждение
 [One or more contacts in same Meta already. Try to convert anyway?]
 
 [Editing of column ]
@@ -232,11 +232,11 @@
 [Online]
 На линия
 [deleted]
-
+Изтрито
 [off]
 изкл.
 [active]
-
+активно
 [Colorize]
 Оцветяване
 [QuickSearch window hotkey]
@@ -268,7 +268,7 @@
 [Unknown]
 Неизвестно
 [Stay on Top]
-
+Винаги отгоре
 ; these lines are not present in the sources, but they are present in compiled plugin
 [Text Editor]
 

@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tool Tip notification windows.]
-
+Осигурява малки подсказващи прозорци - подсказки които се появяват за кратко, за да известят потребителя за дадено събитие.
 ;file \plugins\TipperYM\res\resource.rc
 [Layout]
 Изглед
@@ -51,7 +51,7 @@
 [Options]
 Настройки
 [Show title]
-
+Показване на заглавие
 [Status bar tips]
 
 [Avatar border]
@@ -167,7 +167,7 @@
 [Opacity (%):]
 Плътност (%):
 [Aero Glass (Vista+)]
-
+Aero Glass (Vista+)
 [Enable tray tooltips]
 Подсказки в трея
 [Handle tray tooltips by Tipper]
@@ -223,7 +223,7 @@ Tipper усмивки
 [Top]
 Горе
 [Center]
-Център
+Централно
 [Bottom]
 Долу
 [Left]
@@ -258,11 +258,11 @@ Tipper усмивки
 Допълнителни
 ;file \plugins\TipperYM\src\options.h
 [Show for all contact types]
-
+За всеки тип контакти
 [Show only for contacts]
-
+Само за контакти
 [Show only for chatrooms]
-
+Само за чат стаи
 [Number of contacts]
 Брой контакти
 [Protocol lock status]
@@ -270,7 +270,7 @@ Tipper усмивки
 [Logon time]
 Време на вписване
 [Unread emails]
-Непрочетени e-писма
+Непрочетени имейли
 [Status]
 Състояние
 [Status message]
@@ -295,7 +295,7 @@ Jabber дейност
 [%s (locked)]
 %s (заключен)
 [%s ago]
-
+преди %s
 [Log on:]
 
 [Unread emails:]
@@ -330,9 +330,9 @@ xСъстояние:
 Miranda работи от:
 ;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
-
+Акаунт
 [Account:]
-
+Акаунт:
 [Birthday]
 Рожден ден
 [Birthday:]
@@ -456,11 +456,11 @@ xСъстояние текст:
 \# запълване с плътен цвят
 ;file \plugins\TipperYM\src\subst.cpp
 [%dd %dh %dm]
-
+%dден %dчас %dмин
 [%dh %dm]
-
+%dчас %dмин
 [%dm]
-
+%dмин
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон
@@ -477,62 +477,62 @@ xСъстояние текст:
 [Tray title]
 Имена на протоколите в трея
 [Tipper]
-
+Tipper
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Жена
 [Male]
 Мъж
 [%dy %dd %dh %dm]
-
+%dгод %dден %dчас %dмин
 [%dd]
-
+%dден
 [[No translation]]
 
 [WORD to status description]
-
+WORD към описание на състояние
 [DWORD timestamp to time]
-
+DWORD времева марка към час
 [DWORD timestamp to time difference]
-
+DWORD времева марка към часова разлика
 [BYTE to Yes/No]
-
+BYTE към Да/Не
 [BYTE to Male/Female (ICQ)]
-
+BYTE към Мъж/Жена (ICQ)
 [WORD to country name]
-
+WORD към име на държава
 [DWORD to IP address]
-
+DWORD към IP адрес
 [<prefix>Day|Month|Year to date]
-
+<представка>Ден|Месец|Година към дата
 [<prefix>Day|Month|Year to age]
-
+<представка>Ден|Месец|Година към възраст
 [<prefix>Hours|Minutes|Seconds to time]
-
+<представка>Часове|Минути|Секунди към час
 [<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-
+<представка>Ден|Месец|Година|Часове|Минути|Секунди към часова разлика
 [<prefix>Day|Month to days to next birthday]
-
+<представка>Ден|Месец към дни оставащи до рожден ден
 [DWORD timestamp to time (no seconds)]
-
+DWORD времева марка към час (без секунди)
 [<prefix>Hours|Minutes to time]
-
+<представка>Часове|Минути към час
 [DWORD timestamp to date (short)]
-
+DWORD времева марка към дата (къса)
 [DWORD timestamp to date (long)]
-
+DWORD времева марка към (дълга)
 [xStatus: empty xStatus name to default name]
-
+хСъстояние: празно име на хСъстояние към стандартното
 [DWORD seconds to time difference]
-
+DWORD секунди към часова разлика
 [BYTE timezone to time]
-
+BYTE към часови пояс
 [WORD to name of a day (0..6, 0 is Sunday)]
-
+WORD към име на ден (0 до 6, 0 е неделя)
 [WORD to name of a month (1..12, 1 is January)]
-
+WORD към име на месец (1 до 12, 1 е януари)
 [BYTE to language (ICQ)]
-
+BYTE към език (ICQ)
 ;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 африкаанс (бурски)

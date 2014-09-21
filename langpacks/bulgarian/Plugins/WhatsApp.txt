@@ -2,31 +2,23 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.0.2.1
+;  Version: 0.1.0.2
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 
 ;file \protocols\WhatsApp\res\whatsapp.rc
-[Phone-Number]
-
+[Phone number]
+Телефонен номер
 [Including country code, without '+' or '00']
 
 [Nickname]
 Прякор
-[Password]
+[SMS code]
 
-[Request Code]
+[Request code]
 
-[Register Code]
-
-[SMS-Code:]
-
-[Will only be used for registration]
-
-[Paste password from WART utility]
-
-[Use WART utility from Plugins folder for registering your number and generating password]
+[Register code]
 
 [Use SSL connection (443 port)]
 
@@ -42,17 +34,24 @@
 [Please enter a password.]
 Моля, въведете парола.
 ;file \protocols\WhatsApp\src\contacts.cpp
+[is now known as '%s']
+
 [Last seen on %x at %X]
+
+[You have been added to the group]
+
+[User '%s' has been added to the group]
+
+[You have been removed from the group]
+
+[User '%s' has been removed from the group]
 
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 
+[Your password has been set automatically. You can proceed with login now]
+
 [Please correctly specify your registration code received by SMS]
-
-[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
-
-;file \protocols\WhatsApp\src\main.cpp
-[Did not unpack WART (registration utility).]
 
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
@@ -61,10 +60,22 @@
 
 [Network-connection error.]
 
+[Registration]
+
+[Registration failed. Invalid server response.]
+
+[Registration failed due to stale code. Please request a new code]
+
+[Registration failed.]
+
+[Please try again in %i seconds]
+
+[Registration code has been sent to your phone.]
+
 [Network]
 Мрежа
 [Account]
-
+Акаунт
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp Icon]
 

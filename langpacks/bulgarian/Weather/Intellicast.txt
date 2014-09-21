@@ -67,17 +67,17 @@
 [Forecast Day 9]
 Ден 9: _Прогноза
 [Forecast Day 10]
-
+Ден 10: _Прогноза
 [Forecast today]
-
+Прогнозата днес
 [Heat Index]
 
 [Moon]
 Лунна фаза
 [MoonRise]
-
+Луна (изгрев)
 [MoonSet]
-
+Луна (залез)
 [Update1]
 
 [Update2]

@@ -61,7 +61,7 @@
 [Change]
 Промяна
 [Preview]
-Преглед
+Образец
 [Delete]
 Изтриване
 [Enable sounds]
@@ -75,7 +75,7 @@
 [Sounds]
 Звук
 [Popups]
-Popups
+Рopups
 [Extra status notify]
 
 [Extra status logging]
@@ -117,7 +117,7 @@ Popups
 [Timeout]
 Времетраене
 [Sec]
-Сек
+сек
 [Connection timeout]
 
 [0 = Default]
@@ -145,7 +145,7 @@ Popups
 [Notify when contact changes extra status]
 
 [Template:]
-
+Шаблон:
 [Notify when contact removes extra status]
 
 [Notify when contact changes extra status message]
@@ -197,7 +197,7 @@ Popups
 [Notify when contact removes status message]
 
 [Log status changes]
-
+Запис на промените на състоянията
 [Log status changes to file]
 
 [Log status changes to history]
@@ -358,7 +358,7 @@ Popups
 [Toggle status notification]
 
 [Status change]
-
+Промяна на състояние
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Всички файлове
@@ -377,7 +377,7 @@ Popups
 [Reset templates]
 Анулиране на шаблоните
 [Account]
-
+Акаунт
 [Status logging]
 
 [Filtering]

@@ -140,7 +140,7 @@
 Отказ
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
-
+Отваря историята
 [View &History]
 Преглед на историята
 [Delete All User History]
@@ -175,7 +175,7 @@
 [History for %s]
 История за %s
 [System]
-
+Система
 [Me]
 Аз
 [Invalid Message]
@@ -356,9 +356,9 @@ SMS съобщение
 [Import and Marge]
 
 [Minute]
-
+минута
 [Hour]
-
+час
 [At Start]
 
 [At Finish]

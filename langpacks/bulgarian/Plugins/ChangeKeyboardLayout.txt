@@ -45,7 +45,7 @@
 [Colors]
 Цветове
 [Popup colors]
-
+Popup цветове
 [Windows colors]
 Цветове от Windows
 [Custom colors]
@@ -65,13 +65,13 @@
 [On left click]
 Ляв бутон
 [Copy to clipboard]
-Копиране в клипборда
+Запис в клипборда
 [Dismiss]
 Затваряне
 [On right click]
 Десен бутон
 [Preview]
-Преглед
+Образец
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
 
@@ -83,7 +83,7 @@
 [Message Sessions]
 Разговори
 [Popups]
-Popups
+Рopups
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Рopup

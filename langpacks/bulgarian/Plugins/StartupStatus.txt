@@ -121,7 +121,7 @@ ms
 [Dial-up (experimental)]
 Dial-up (експериментално)
 [Background color]
-Фонов цвят
+Цвят на фона
 [Text color]
 Цвят на текста
 [Use Windows colors]

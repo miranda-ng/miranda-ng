@@ -53,7 +53,7 @@
 [sec]
 сек
 [Preview]
-Преглед
+Образец
 [Last seen online:]
 
 [Last input message:]
@@ -113,7 +113,7 @@
 
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
-
+Седмици
 [months]
 
 [years]
@@ -129,10 +129,10 @@
 [Contacts]
 Контакти
 [Popups]
-Popups
+Рopups
 [not detected]
 
 [not found]
-
+НЕ Е ОТКРИТО
 [This contact has been absent for an extended period of time.]
 

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.14
+;  Version: 0.1.0.15
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -36,12 +36,14 @@
 
 [Automatically sync last messages]
 
+[Use local time for received messages]
+
 [Bots challenge test]
-
+Тест за ботове
 [Instruction:]
-
+Инструкции:
 [Submit]
-
+Пращане
 [Cancel]
 Отказ
 [Invite user to chat]
@@ -58,17 +60,17 @@
 [Captcha form icon]
 
 [Protocols]
-
+Протоколи
 [VKontakte]
 
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
-
+Въведете текста, който виждате
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
-
+Участници
 [Owners]
-
+Собственици
 [Unknown]
 Неизвестно
 [Enter new chat title]
@@ -76,25 +78,25 @@
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 
 [Warning]
-
+Предупреждение
 [&Invite a user]
-
+Поканване на потребител
 [View/change &title]
 
 [&Destroy room]
-
+Унищожаване на стаята
 [&User details]
-
+Подробности за потребителя
 [&Kick]
-
+Изгонване
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Мрежа
 [Account]
-
+Акаунт
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [Create new chat]
 
 [Visit profile]
@@ -109,11 +111,11 @@
 [Attachments:]
 
 [Photo]
-
+Снимка
 [Audio]
 
 [Video]
-
+Видео
 [Document]
 
 [Wall post]

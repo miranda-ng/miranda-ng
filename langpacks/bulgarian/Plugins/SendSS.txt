@@ -9,7 +9,7 @@
 
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
-
+Прозорец
 [All]
 Всички
 [None]
@@ -25,7 +25,7 @@
 [Time (secs):]
 
 [&Format:]
-
+Формат:
 [Send B&y:]
 
 [E&xplore]
@@ -61,11 +61,11 @@
 [Target Tool]
 
 [File:]
-
+Файл:
 [Description:]
 Описание:
 [Result]
-
+РЕЗУЛТАТ
 [Thumbnail]
 
 [&Copy]
@@ -133,10 +133,10 @@
 [The user canceled one of the dialog boxes]
 
 [Unknown Error]
-
+Непозната грешка
 ;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
-Обмен на файл
+Прехвърляне на файл
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 
@@ -230,7 +230,7 @@
 [Buttons]
 Бутони
 [Overlays]
-
+Насложени икони за
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 

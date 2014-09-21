@@ -13,7 +13,7 @@
 [Events to react on]
 
 [Incoming messages]
-Входящи съобщения
+Входящите съобщения
 [Incoming files]
 Входящи файлове
 [Incoming URLs]
@@ -119,7 +119,7 @@
 [Theme]
 
 [Test]
-Проба
+Тест
 [Add]
 Добавяне
 [Update]

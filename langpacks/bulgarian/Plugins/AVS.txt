@@ -41,7 +41,7 @@
 [Resize the avatar to fit max allowed protocol size]
 Оразмеряване на аватара до максималния размер за протокола
 [Dialog]
-
+Прозорец
 [Contact picture]
 
 [Change]

@@ -41,7 +41,7 @@ SSL
 [Ident]
 
 [System]
-
+Система
 [Port]
 Порт
 [only while connecting]
@@ -225,7 +225,7 @@ CTCP информация
 [Send mode:]
 Режим на изпращане:
 [Packet size (bytes):]
-Размер на пакета (б):
+Размер на пакета (байта):
 [Get IP address from server]
 Назначаване на IP от сървъра
 [Auto-accept from:]
@@ -321,15 +321,15 @@ CTCP %s отговор от %s: %s
 [(probably truncated by server)]
 (вероятно е скъсен от сървъра)
 [%ud, %uh, %um, %us]
-
+%uдни, %uчаса, %uмин, %uсек
 [%uh, %um, %us]
-
+%uчаса, %uмин, %uсек
 [%um, %us]
-
+%uмин, %uсек
 [%us]
-
+%uсек
 [online since %s, idle %s]
-
+на линия от %s, бездейства %s
 [Change nickname]
 Промяна на прякора
 [IRC error]
@@ -378,7 +378,7 @@ IRC грешка
 [The time interval for the buddy check function is now %u seconds]
 
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Ползването на командата в мрежа с подобен размер не е препоръчително!\r\nВероятно ще предизвика голямо натоварване на процесора и/или интензивен трафик\r\nза %u до %u минути.\r\n\r\nНаистина ли желаете това?
+Ползването на командата в мрежа с подобен размер не е препоръчително!\r\nВероятно ще предизвика голямо натоварване на процесора и/или интензивен трафик за %u до %u минути.\r\n\r\nНаистина ли желаете това?
 [IRC warning]
 IRC предупреждение
 [Aborted]
@@ -545,7 +545,7 @@ Latin I
 [Account]
 Акаунт
 [DCC and CTCP]
-
+DCC и CTCP
 [Advanced]
 Разширени
 ;file \protocols\IRCG\src\output.cpp
@@ -647,7 +647,7 @@ Latin I
 [Invite to channel]
 Поканете в канал
 [NickServ]
-
+NickServ
 [Register nick]
 Регистриране на прякора
 [Auth nick]
@@ -766,7 +766,7 @@ Voice (имащ право да говори)
 [Mode]
 Режим
 [%s - Filtered - %d items]
-
+%s - Филтриране - %d елемента
 [---- Not listed server ----]
 ---- Няма въведен сървър ----
 [Type new server address here]
@@ -790,7 +790,7 @@ Voice (имащ право да говори)
 [Add exception]
 Добавяне на изключение
 [Please enter the hostmask (nick!user@host)]
-
+Моля, въведете hostmask (прякор!потребител@хост)
 [Edit ban]
 Редактиране на банове
 [Edit invite?]

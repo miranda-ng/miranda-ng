@@ -40,7 +40,7 @@
 Изключване на Popups
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
-
+База от данни на Miranda NG
 [Created by:]
 
 [Miranda NG databases]
@@ -76,7 +76,7 @@
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-
+като променливата %APPDATA% за вписаният, в момента, потребител на Windows
 [username for currently logged-on Windows user]
 потребителско име на текущия потребител вписан в Windows
 ["My Documents" folder for currently logged-on Windows user]
@@ -90,7 +90,7 @@
 [days]
 дни
 [hours]
-часове
+часа
 [minutes]
 минути
 [Select backup folder]

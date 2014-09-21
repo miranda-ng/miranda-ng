@@ -78,9 +78,9 @@ URL адреси
 Друго
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
-
+Пропуснато събитие от/към мен
 [Added contact %u (found in history)]
-
+Добавен контакт %u (открит в историята)
 [Failed to add %S contact %s]
 
 [Added %S contact %s, '%s']
@@ -88,7 +88,7 @@ URL адреси
 [Added %S contact %s]
 
 [Skipping contact with no protocol]
-Пропуснати контакти без протокол.
+Пропуснат контакт без протокол
 [Skipping contact, account %S cannot be mapped.]
 
 [Skipping contact, %S not installed.]

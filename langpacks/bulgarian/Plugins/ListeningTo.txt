@@ -138,9 +138,9 @@ ListeningTo
 [Enable/Disable sending Listening To info (to all protocols)]
 Включване/Изключване изпращането на "Слуша" (до вс. протоколи)
 [Disable ListeningTo (to all protocols)]
-
+Изключи ListeningTo за всички протоколи
 [Enable ListeningTo (to all protocols)]
-
+Включи ListeningTo за всички протоколи
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Неизвестно>
@@ -156,7 +156,7 @@ ListeningTo
 Плейъри
 ;file \plugins\ListeningTo\src\players\generic.cpp
 [Miranda ListeningTo receiver]
-
+Miranda ListeningTo приемник
 ;file \plugins\ListeningTo\src\players\wmp.cpp
 [Miranda ListeningTo WMP receiver]
-
+Miranda ListeningTo WMP приемник

@@ -13,11 +13,11 @@
 [&Add]
 Добавяне
 [&User menu]
-
+Потребителско меню
 [User &details]
 Подробности за потребителя
 [&History]
-
+История
 [Choose contacts to be send:]
 
 [&Send]
@@ -31,7 +31,7 @@
 [Add to &group:]
 
 [&Details]
-
+Подробности
 [Close]
 Затваряне
 [Contacts send error]
@@ -54,16 +54,16 @@
 [Contacts]
 Контакти
 [Incoming Contacts]
-
+Входящи контакти
 [Outgoing Contacts]
-
+Изходящи контакти
 ;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
 Прякор
 [First Name]
-
+Име
 [Last Name]
-
+Фамилия
 [Add Contact Permanently to List]
 Добавяне на контакта за постоянно в списъка
 [View User's Details]

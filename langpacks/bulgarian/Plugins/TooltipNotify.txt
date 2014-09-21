@@ -49,7 +49,7 @@ ms
 [Opens message dialog]
 
 [Behavior]
-
+Поведение
 [Misc]
 Разни
 [Obey 'Suppress online notification' settings]
@@ -82,7 +82,7 @@ ms
 [Tooltip Notify: Typing]
 
 [Popups]
-Popups
+Рopups
 [** New contacts **]
 ** Нови контакти **
 [** Unknown contacts **]

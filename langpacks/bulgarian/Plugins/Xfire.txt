@@ -111,7 +111,7 @@
 [Extra Command Line Parameters:]
 
 [Edit...]
-
+Редактиране
 [Username:]
 Потребител:
 [Game]
@@ -129,11 +129,11 @@
 [Copy]
 Копиране
 [Enter Password]
-
+Въведете парола
 [Join]
 
 [Set Nickname]
-
+Задаване на прякор
 [Cancel]
 Отказ
 [New xfire_games.ini]
@@ -296,9 +296,9 @@
 [&Rescan my games...]
 
 [Set &Nickname]
-
+Задаване на прякор
 [Protocols]
-
+Протоколи
 [XFire game icon]
 
 [XFire voice icon]
@@ -333,7 +333,7 @@
 [Avatars]
 Аватари
 [Disable avatars]
-
+Изключване на аватарите
 [Don't download avatars of clan members]
 
 [Use alternate way for Avatar download]
@@ -442,4 +442,4 @@
 
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait...]
-
+Моля, изчакайте...

@@ -107,7 +107,7 @@
 [Agent]
 
 [Completed]
-
+ГОТОВО
 [Speed]
 
 [Selected link size is 0]

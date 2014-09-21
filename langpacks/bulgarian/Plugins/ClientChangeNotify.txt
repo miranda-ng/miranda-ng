@@ -49,7 +49,7 @@
 [Text]
 Текст
 [Preview]
-Преглед
+Образец
 [Ignore these clients (separated by semicolons):]
 
 [(you have to install pcre16.dll to use regular expressions here)]
@@ -66,7 +66,7 @@
 [Enable c&lient change notification]
 
 [Popups]
-Popups
+Рopups
 [ClientChangeNotify: Client changed]
 
 ;file \plugins\ClientChangeNotify\src\Misc.h

@@ -67,7 +67,7 @@ ms
 [Enter session name:]
 
 [Save and Close]
-
+Запис и затваряне
 [adv.]
 
 [Sessions Manager]

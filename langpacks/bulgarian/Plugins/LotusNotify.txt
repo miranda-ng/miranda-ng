@@ -15,7 +15,7 @@
 [Set popup colors]
 
 [Popup options]
-
+Popup настройки
 [Background]
 Фон
 [Text]
@@ -33,7 +33,7 @@
 [Remember newest message ID\n and don't show older]
 
 [version:]
-
+Версия:
 [Clear popups history]
 
 [Filter messages contain below strings in:]

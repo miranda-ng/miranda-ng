@@ -313,7 +313,7 @@ Gadu-Gadu номер
 [Account settings]
 Настройки на акаунта
 [Block user]
-
+Блокиране
 [Previous image]
 Предишно изображение
 [Next image]
@@ -422,7 +422,7 @@ IP адрес
 [Copy Text]
 Копиране на текста
 [Whois]
-
+Кой е
 [Concurrent &sessions]
 Едновременни сесии
 ;file \protocols\Gadu-Gadu\src\token.cpp

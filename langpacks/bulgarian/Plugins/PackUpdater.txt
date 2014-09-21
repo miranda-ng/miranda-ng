@@ -49,7 +49,7 @@
 [Message boxes (*)]
 Текстови кутии (*)
 [Back]
-Фон
+Назад
 [Text]
 Текст
 [Colors]
@@ -61,7 +61,7 @@
 [Use Pop&up colors]
 От Popup приставката
 [Preview]
-Преглед
+Образец
 [Click action]
 Действие на бутоните на мишката
 [On left click]
@@ -75,7 +75,7 @@
 [-1 = Infinite]
 -1 = безкрайно
 [Sec]
-Сек
+сек
 [* Needs popup actions to be enabled]
 * Изисква Popup Действията да са включени
 [Not sets for "Message boxes"]
@@ -83,12 +83,12 @@
 [Boxes]
 Кутии
 [Popups]
-Popups
+Рopups
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 Проверка за актуализации
 [Pack Updater]
-
+Pack Updater
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occurred while downloading the update.]
 Възникна грешка при свалянето на актуализацията.
@@ -115,7 +115,7 @@ Popups
 Нищо
 ;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
-часове
+часа
 [days]
 дни
 [Test]
@@ -124,7 +124,7 @@ Popups
 Услуги
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
 [Clear pack updates folder]
-
+Изчистване папката на Pack Updater
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
 Бутон "Да"
@@ -137,7 +137,7 @@ HTTP връзки на Pack Updater
 [Downloading version info...]
 Сваляне на инф. за версията...
 [Name of Update's file is not supported.]
-
+Имената на свалените файлове не се поддържат.
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
 Актуализирането е невъзможно.\nНямате администраторски права.\nМоля, стартирайте Miranda NG като администратор.
 [No updates found.]

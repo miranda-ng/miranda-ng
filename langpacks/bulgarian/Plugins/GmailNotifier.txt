@@ -17,15 +17,15 @@
 [Add]
 Добавяне
 [Save]
-
+Запис
 [Delete]
 Изтриване
 [Configuration]
-
+Настройване
 [Check Gmail inbox every]
 
 [minutes]
-
+минути
 [Notify using:]
 
 [Duration:]

@@ -15,7 +15,7 @@
 [Mark as read]
 
 [Dialog]
-
+Прозорец
 [Connection]
 Връзка
 [Username:]

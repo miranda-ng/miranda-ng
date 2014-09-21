@@ -11,7 +11,7 @@
 [Set popup colors]
 
 [Popup options]
-
+Popup настройки
 [Background]
 Фон
 [Text]
@@ -39,7 +39,7 @@
 [DN]
 
 [UP]
-
+Нагоре
 [Rule editor]
 
 [Application name]

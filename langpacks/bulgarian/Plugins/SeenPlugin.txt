@@ -105,7 +105,7 @@ Popup цветове
 [Last seen]
 Последно видян
 [Popups]
-Popups
+Рopups
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]
 
@@ -246,7 +246,7 @@ AM/PM
 [Apr.]
 
 [Jun.]
-
+младши
 [Jul.]
 
 [Aug.]

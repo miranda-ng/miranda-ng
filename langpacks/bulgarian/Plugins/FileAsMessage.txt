@@ -85,7 +85,7 @@ ms
 
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
-
+Възпроизведи
 [Pause]
 Пауза
 [Revive]

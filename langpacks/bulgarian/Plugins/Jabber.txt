@@ -151,7 +151,7 @@ Jabber парола
 [Department:]
 Отдел:
 [Title:]
-Титла:
+Заглавие:
 [E-mail:]
 Имейл:
 [Phone:]
@@ -375,13 +375,13 @@ JID:
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP упълномощаване\nПриемете или отхвърлете запитването
 [Someone (maybe you) has requested the following file:]
-
+Някой (можеби Вие) заяви следния файл:
 [Request was sent from JID:]
 Молбата е изпратена от JID:
 [The transaction identifier is:]
 
 [Request method is:]
-
+Заявения метод е:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
 Ако желаете да удовлетворите молбата натиснете "Приемане", в противен случай натиснете "Отхвърляне".
 [Authorize]
@@ -389,7 +389,7 @@ HTTP упълномощаване\nПриемете или отхвърлете 
 [Deny]
 Отхвърляне
 [Dialog]
-
+Прозорец
 [Jabber Notebook]
 Jabber бележник
 [Jabber notebook\nStore notes on server and access them from anywhere.]
@@ -404,20 +404,20 @@ XML конзола
 Изпращане
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
-
+Jabber Link Protocol
 [Frame title]
 Заглавие на рамката
 [Frame text]
 Текст в рамката
 [Fatal error, image services not found. Jabber Protocol will be disabled.]
-
+Фатална грешка - услугата за изображения не е открита. Протоколът Jabber ще бъде изключен.
 [Jabber Activity]
 Jabber дейност
 [Jabber Mood]
 Jabber настроение
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Аз съм щастлив потребил на Miranda NG. Можете да свалите програмата от http://miranda-ng.org/.
+Аз съм щастлив потребител на Miranda NG. Можете да свалите програмата от http://miranda-ng.org/.
 [/me slaps %s around a bit with a large trout]
 
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -464,73 +464,73 @@ Jabber настроение
 Няма налично прокси тип Bytestream
 ;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
-
+Поддържа Service Discovery информация
 [Supports Service Discovery items list]
 
 [Can inform about its Jabber capabilities]
-
+Може да информира за Jabber способностите
 [Supports stream initiation (e.g., for filetransfers)]
-
+Поддържа инициализиране на поток (например за прехвърляне на файлове)
 [Supports stream initiation for file transfers]
-
+Поддържа инициализиране на поток за прехвърляне на файлове
 [Supports file transfers via SOCKS5 Bytestreams]
-
+Поддържа прехвърляне на файлове през SOCKS5 Bytestreams
 [Supports file transfers via In-Band Bytestreams]
-
+Поддържа прехвърляне на файлове през In-Band Bytestreams
 [Supports file transfers via Out-of-Band Bytestreams]
-
+Поддържа прехвърляне на файлове през Out-of-Band Bytestreams
 [Supports execution of Ad-Hoc commands]
-
+Поддържа изпълнението на Ad-Hoc команди
 [Supports in-band registration]
-
+Поддържа in-band регистриране
 [Supports multi-user chat]
-
+Поддържа чат между много потребители
 [Can report chat state in a chat session]
-
+Може да докладва за състоянието си в чат сесиите 
 [Can report information about the last activity of the user]
-
+Може да докладва за последната дейност на потребителя
 [Can report own version information]
-
+Може да докладва информация за версията
 [Can report local time of the user]
-
+Може да докладва местното време на потребителя
 [Can send and receive ping requests]
-
+Може да изпраща и получава ping заявки
 [Supports data forms]
-
+Поддържаdata forms
 [Can request and respond to events relating to the delivery, display, and composition of messages]
 
 [Supports vCard]
-
+ПоддържаvCard
 [Supports iq-based avatars]
-
+Поддържа iq базирани аватари
 [Supports XHTML formatting of chat messages]
-
+Поддържа XHTML форматирани съобщения
 [Supports Jabber Browsing]
-
+ПоддържаJabber Browsing
 [Can negotiate options for specific features]
-
+Може да договаря настройки за специфични функции
 [Can request advanced processing of message stanzas]
 
 [Can report information about user moods]
-
+Може да докладва информация за настроението на потребителя
 [Receives information about user moods]
-
+Получава информация за настроенията на потребителите
 [Supports generic publish-subscribe functionality]
 
 [Supports SecureIM plugin for Miranda NG]
-
+Поддържа приставката SecureIM за Miranda NG
 [Supports OTR (Off-the-Record Messaging)]
-
+Поддържа OTR (Off-the-Record Messaging)
 [Supports New_GPG plugin for Miranda NG]
-
+Поддържа приставката New_GPG за Miranda NG
 [Blocks packets from another users/groupchats using Privacy lists]
-
+Блокира пакети от потребители/групови чатове посредством списък за поверителност
 [Supports Message Receipts]
 
 [Can report information about the music to which a user is listening]
-
+Може да докладва каква музика слуша потребителя
 [Receives information about the music to which a user is listening]
-
+Получава информация относно каква музика слушат потребителите
 [Supports private XML Storage (for bookmarks and other)]
 
 [Supports attention requests ('nudge')]
@@ -538,19 +538,19 @@ Jabber настроение
 [Supports chat history retrieving]
 
 [Supports chat history management]
-
+Поддържа управление на историята на разговорите
 [Can report information about user activity]
-
+Може да докладва информация за дейността на потребителя
 [Receives information about user activity]
-
+Получава информация за дейността на потребителите
 [Supports Miranda NG notes extension]
 
 [Supports Jingle]
-
+Поддържа Jingle
 [Supports Roster Exchange]
-
+Поддържа обмяна на списъци с хора
 [Supports direct chat invitations (XEP-0249)]
-
+Поддържа пкани за директен чат (XEP-0249)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Въведете текста, който виждате
@@ -644,7 +644,7 @@ Jabber настроение
 [Free for chat]
 Готов за чат
 [&Leave chat session]
-Напускане на разговора
+Напускане от разговора
 [&Slap]
 Шамар
 [&User details]
@@ -692,25 +692,25 @@ Jabber настроение
 [%s\nSend group chat invitation.]
 %s\nИзпращане на покана за групов чат.
 [%s (not on roster)]
-%s не е в списъка с хора
+%s (не е в списъка с хора)
 [Member Info: %s]
 Членска информация: %s
 [Member Information\n%s from %s]
-
+Членска информация\n%s от %s
 [Real JID not available]
 Истинският JID не е наличен
 [Reason to kick %s]
-Причина за изгонването %s
+Причина за изгонването на %s
 [Reason to ban %s]
-Причина за банване %s
+Причина за банването на %s
 [Invite %s to %s]
 Покани %s в %s
 [Set topic for %s]
 Задаване на тема за %s
 [Change nickname in %s]
-
+Промяна на прякор в %s
 [Reason to destroy %s]
-Причина за унищожаване %s
+Причина за унищожаването на %s
 ;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Изпращането на данни е невъзможно извън линия.
@@ -854,7 +854,7 @@ Jabber грешка
 [The family (last) name of a user]
 
 [The text of a welcome message]
-
+Текст на приветственото съобщение
 [A list of entities with whom communication is allowed]
 
 [First Name]
@@ -864,7 +864,7 @@ Jabber грешка
 [Desired Nickname]
 Желан прякор
 [Your URL]
-
+Ваш URL адрес
 [Email Address]
 Имейл адрес
 [FAQ Entry]
@@ -1081,12 +1081,14 @@ Jabber грешка
 [Bookmarks...]
 Отметки...
 [Change nickname in <%s>]
-
+Промяна на прякор в <%s>
 [has set the subject to:]
 зададе темата:
 [%s\nIncoming group chat invitation.]
 %s\nВходяща покана за групов чат.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+Икони на състоянията
 [transport]
 транспорт
 [Notes]
@@ -1200,13 +1202,13 @@ Jabber удостоверяване
 [Reason to ban]
 Причина за банване
 [Removing %s?]
-
+Премахване на %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Получена е HTTP молба за удостоверяване
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
-
+Избор на Jabber акаунт
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
@@ -1248,9 +1250,9 @@ Jabber източник
 [Resource priority]
 Предимство на източника
 [Increase priority by %d]
-
+Увеличаване на предимството с %d
 [Decrease priority by %d]
-
+Намаляване на предимството с  %d
 [Resource priority [%d]]
 Предимство на източника [%d]
 [Join conference]
@@ -1262,7 +1264,7 @@ Jabber източник
 [Service discovery]
 Откриване на услуги
 [Last active (%s)]
-Последно активен (%s)
+Последна активност (%s)
 [No activity yet, use server's choice]
 Все още няма активност, сървърът избира
 [Highest priority (server's choice)]
@@ -1766,7 +1768,7 @@ Jabber източник
 [Status changes]
 Промяна на състояние
 [Don't notify history messages]
-
+Без уведомяване за съобщения от историята
 [JID]
 JID
 [Group]
@@ -1832,7 +1834,7 @@ Facebook чат
 [Error occurred while setting default list]
 Възникна грешка при задаването на стандартен списък
 [Allow]
-
+Позволи
 [Simple mode]
 Прост режим
 [Advanced mode]
@@ -1872,13 +1874,13 @@ Facebook чат
 [Message]
 Съобщение
 [Presence (in)]
-
+Присъствие (вход)
 [Presence (out)]
-
+Присъствие (изход)
 [Query]
-
+Търсене
 [List has no rules, empty lists will be deleted then changes applied]
-
+Списъкът няма правила. Празните списъци ще бъдат изтривани, а промените ще се прилагат след това
 [allow ]
 позволяване\s
 [deny ]
@@ -1924,11 +1926,11 @@ Facebook чат
 [Please save list before you make it the default list]
 Моля, запишете списъка преди да го направите стандартен
 [No list selected]
-
+Не сте избрали списък
 [Can't remove active or default list]
-
+Активният или стандартният списък не може да бъдат премахнати
 [Sorry]
-
+Извинете
 [Unable to save list because you are currently offline.]
 Списъка не може да бъде запаметен защото сте извън линия.
 [List Editor...]
@@ -2038,11 +2040,11 @@ Facebook чат
 [Nick:]
 Прякор:
 [Status:]
-
+Състояние:
 [Status text:]
-
+Текст на състояние:
 [Real JID:]
-
+Истински JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Въведете парола за %s
@@ -2055,7 +2057,7 @@ Facebook чат
 [Requesting registration instruction...]
 Изтегляне на инструкции за регистрация...
 [Authentication failed for %s@%S.]
-
+Неуспешно удостоверяване за %s@%S.
 [Message redirected from: %s\r\n%s]
 Пренасочено съобщение от: %s\r\n%s
 [Sending registration information...]
@@ -2070,7 +2072,7 @@ Facebook чат
 [Version]
 Версия
 [System]
-
+Система
 [unknown]
 неизвестен
 [Idle since]
@@ -2139,7 +2141,7 @@ Facebook чат
 [Forbidden]
 Забранено
 [Not found]
-
+НЕ Е ОТКРИТО
 [Not allowed]
 Неразрешено
 [Not acceptable]
@@ -2153,9 +2155,9 @@ Facebook чат
 [Internal server error]
 Вътресървърна грешка
 [Not implemented]
-
+Функцията не е реализирана
 [Remote server error]
-
+Грешка в сървъра
 [Service unavailable]
 Услугата не е налична
 [Remote server timeout]
@@ -2426,7 +2428,7 @@ Jabber vCard: Редактиране на телефонен номер
 [Grooming]
 
 [at the spa]
-
+на СПА
 [brushing teeth]
 мие си зъбите
 [getting a haircut]
@@ -2444,7 +2446,7 @@ Jabber vCard: Редактиране на телефонен номер
 [day off]
 почивен ден
 [hanging out]
-
+мотае се
 [hiding]
 крие се
 [on vacation]
@@ -2452,7 +2454,7 @@ Jabber vCard: Редактиране на телефонен номер
 [praying]
 моли се
 [scheduled holiday]
-
+в планирана ваканция
 [sleeping]
 спи
 [thinking]
@@ -2476,9 +2478,9 @@ Jabber vCard: Редактиране на телефонен номер
 [smoking]
 пуши
 [socializing]
-
+социализира се
 [sunbathing]
-
+на слънчева баня
 [watching TV]
 гледа телевизия
 [watching a movie]

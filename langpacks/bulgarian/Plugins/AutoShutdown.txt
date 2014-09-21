@@ -68,7 +68,7 @@
 [Time left:]
 
 [Paused]
-
+ПАУЗА
 [&Unpause Countdown]
 
 [&Pause Countdown]
@@ -97,11 +97,11 @@
 [Second(s)]
 
 [Minute(s)]
-
+минута (и)
 [Hour(s)]
 
 [Day(s)]
-
+ден (дни)
 [Week(s)]
 
 [Month(s)]

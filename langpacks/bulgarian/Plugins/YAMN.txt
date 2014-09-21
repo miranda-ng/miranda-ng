@@ -159,7 +159,7 @@ APOP
 [Preview]
 Образец
 [Background color]
-Фонов цвят
+Цвят на фона
 [Text color]
 Цвят на текста
 ;file \plugins\YAMN\src\main.cpp
@@ -220,7 +220,7 @@ APOP
 [Run application]
 
 [Delete selected]
-
+Изтриване на маркираните
 [Select All]
 Избор - всичко
 [From]
@@ -330,7 +330,7 @@ APOP
 [Plugins]
 Приставки
 [Popups]
-Popups
+Рopups
 [No account selected]
 
 [Time left to next check [s]: %d]

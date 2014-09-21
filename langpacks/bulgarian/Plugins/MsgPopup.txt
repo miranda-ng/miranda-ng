@@ -11,7 +11,7 @@
 [ASTERISK style]
 
 [Background color]
-Фон
+Цвят на фона
 [Text color]
 Цвят на текста
 [ERROR style]
@@ -21,7 +21,7 @@
 [QUESTION style]
 
 [Preview]
-Преглед
+Образец
 [Timeout]
 Времетраене
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
@@ -38,7 +38,7 @@
 [MessagePopup]
 
 [Popups]
-Popups
+Рopups
 ;file \plugins\MsgPopup\src\options.cpp
 [Message with question]
 

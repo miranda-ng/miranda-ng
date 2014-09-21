@@ -6,7 +6,7 @@
 ;  Authors: vu1tur
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
-
+Приставка за борба с нежеланите съобщения (SPAM) посредством captcha и Bayes филтриране.
 ;file \plugins\Spamotron\res\spamotron.rc
 [Enabled]
 Включено
@@ -111,7 +111,7 @@ Flood защита
 [Windows colors]
 Цветове от Windows
 [Default timeout]
-Станд. времетраене
+Стандартно времетраене
 [Preview]
 Образец
 ;file \plugins\Spamotron\src\bayes.cpp
@@ -134,7 +134,7 @@ Flood защита
 [Math expression]
 Математически израз
 [Round-robin]
-
+Round-robin
 [Random]
 Произволен
 [Will be automatically evaluated from %mathexpr%]
@@ -150,14 +150,14 @@ Flood защита
 [Bayes]
 Бейс филтриране
 [Popups]
-Popups
+Рopups
 ;file \plugins\Spamotron\src\popups.cpp
 [Message blocked due to preview action]
-
+Блокирано съобщение
 [Contact approved due to preview action]
-
+Одобряване на контакт
 [Challenge sent to preview contact]
-
+Изпращане на запитване към контакт
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 Контактът %s е потвърден.
@@ -172,9 +172,9 @@ Popups
 [Sending plain challenge to %s.]
 Изпращане на запитване до %s.
 [Sending round-robin challenge to %s.]
-
+Изпращане на round-robin запитване до %s.
 [Sending random challenge to %s.]
-
+Изпращане на произволно запитване до %s.
 [Sending math expression challenge to %s.]
 Изпращане на математически израз до %s.
 ;file \plugins\Spamotron\src\utils.cpp

@@ -269,7 +269,7 @@ x100 ms
 [Show automatically]
 Автоматично показване
 [Always visible]
-Винаги видима
+Винаги видимо
 [Dock to sides]
 Загнездване отстрани
 [and minimum]
@@ -925,7 +925,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 [Top]
 Горе
 [Bottom]
-
+Долу
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Главно меню
@@ -1047,7 +1047,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 Заключване на рамката
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
-
+Меню на рамките
 ;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
 Нова група

@@ -49,7 +49,7 @@
 
 ;file \plugins\FavContacts\src\main.cpp
 [Favorite Contact]
-
+Любим контакт
 [Regular Contact]
 
 [Favorites]

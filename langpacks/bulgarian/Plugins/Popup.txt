@@ -55,7 +55,7 @@
 [Transparency]
 Прозрачност
 [Use transparency]
-
+Прозрачност
 [opacity:]
 плътност:
 [Opaque popups under cursor]
@@ -65,11 +65,11 @@
 [Effect:]
 Ефект:
 [Time (in):]
-
+Появяване за:
 [ms]
 ms
 [Time (out):]
-Избледняване:
+Изчезване за:
 [Limit window amount to:]
 Максимален брой прозорци:
 [Skins]
@@ -81,7 +81,7 @@ ms
 [Preview]
 Образец
 [Download more skins]
-
+Сваляне на още облици
 [Popup History]
 Popup история
 [Desktop]
@@ -113,7 +113,7 @@ Popup действията са малките бутони под текста.
 [Don't close popups on default actions]
 Без затваряне на popup-a след д-е
 [Size and position]
-
+Размер и позиция
 [Use large icons]
 Ползване на големи икони
 [Popup actions will be displayed as:]
@@ -127,7 +127,7 @@ Popup действията са малките бутони под текста.
 [Show actions: (requires apply)]
 Действия:(натиснете "Прилагане")
 [Mouse actions overwrite]
-
+Подмяна действието на бутоните
 [Left button]
 Ляв бутон
 [Middle button]
@@ -204,7 +204,7 @@ Popup действията са малките бутони под текста.
 
 ;file \plugins\Popup\src\actions.cpp
 [No overwrite]
-
+без подмяна
 [Send message]
 Изпращане на съобщение
 [Quick reply]
@@ -214,7 +214,7 @@ Popup действията са малките бутони под текста.
 [Contact menu]
 Меню на контактите
 [Dismiss popup]
-Затваряне на popup
+Затваряне на Popup
 [Pin popup]
 Прилепване на popup-а
 [Copy to clipboard]
@@ -229,7 +229,7 @@ Popup действията са малките бутони под текста.
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Тестови образец за настройките на popup приставката. Би трябвало да е достатъчно дълъг, за да не се събере на един ред...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
-
+Специален тестови образец за настройките на popup приставката. Заглавието и текста са достатъчно дълги за да донагласите облика и темата към вашия вкус :)
 [This is a notification message]
 Това е уведомяване
 [This is a warning message]
@@ -243,7 +243,7 @@ Popup действията са малките бутони под текста.
 [Popups]
 Рopups
 [Title]
-
+Заглавие
 [Clock]
 Час
 [Text]
@@ -253,18 +253,18 @@ Popup действията са малките бутони под текста.
 [Background]
 Фон
 [Border]
-
+Рамка
 [Sidebar]
-
+Странична лента
 [Title underline]
-
+Подчертаване на заглавието
 [Avatar border]
-
+Рамка на аватара
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
-
+Popup историята е изклюена
 [Popup History message]
-
+Popup история на съобщенията
 ;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 Popups са включени
@@ -308,9 +308,9 @@ Popup група
 [Disable Popups]
 Изключване на Popups
 [Popup Plus]
-
+Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
-
+Грешка: Неуспешно регистриране на Popup Window class.\r\nПриставката няма да може да работи.
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Без ефект
@@ -318,9 +318,9 @@ Popup група
 Избледняване/Изсветляване
 ;file \plugins\Popup\src\opt_class.cpp
 [CLASS Plugins]
-
+CLASS приставки
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
-
+Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!
 ;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
 Извън линия
@@ -368,9 +368,9 @@ Popup група
 Popup Plus Предупреждение
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
-
+Неуспешно регистриране на %s class.
 [Skin preview]
-Образец на облика
+Образец
 [Just take a look at this skin... ;)]
 Просто погледнете този облик... ;)
 [Show clock]
@@ -404,7 +404,7 @@ Popup Plus Предупреждение
 Уведомяване
 ;file \plugins\Popup\src\skin.cpp
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-
+Обликът който се опитвате да заредите е разработен\r\nза по-нова версия на Popup Plus. Затова\r\nняма да работи нормално.\r\n\r\nМоля, изберете друг облик.
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Auto]
 Авто
@@ -415,8 +415,8 @@ Popup Plus Предупреждение
 [Popup Mode: Auto]
 Popup режим: Автоматичен
 [Popup Mode: Favorite]
-
+Popup режим: Любим
 [Popup Mode: Ignore fullscreen]
-
+Popup режим: Игнориране на режим "цял екран"
 [Popup Mode: Block contact]
 Popup режим: Блокиране на контакта

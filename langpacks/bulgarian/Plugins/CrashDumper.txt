@@ -58,7 +58,7 @@ Crash Dumper за Miranda NG.
 [Version Information]
 Информация за версията
 [Copy to clipboard]
-Копиране в клипборда
+Запис в клипборда
 [Store to file]
 Запис като файл
 [Show]

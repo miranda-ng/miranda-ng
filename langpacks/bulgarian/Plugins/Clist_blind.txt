@@ -57,7 +57,7 @@ URL:
 [Disable icon blinking]
 Без мигане на икони
 [ms delay]
-ms времетраене
+мс времетраене
 [Show]
 Показване
 [icon when statuses differ]

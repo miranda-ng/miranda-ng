@@ -43,7 +43,7 @@
 [* Nudge sending delay is hardcoded and cannot be changed.]
 
 [Preview]
-Преглед
+Образец
 [Text]
 Текст
 [Allow nudges when you're:]

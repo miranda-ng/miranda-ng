@@ -9,9 +9,9 @@
 [Forecast Day 1 Condition]
 Днес: условия
 [Forecast Day 1 Date]
-
+Днес: дата
 [Forecast Day 1 Day]
-Днес: денем
+Днес: ден
 [Forecast Day 1 High]
 Днес: максимална
 [Forecast Day 1 Low]
@@ -23,7 +23,7 @@
 [Wind Speed]
 Вятър (скорост)
 [Wind Direction Degrees]
-
+Вятър (посока в градуси)
 [Mon]
 пон
 [Tue]

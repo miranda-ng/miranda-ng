@@ -11,7 +11,7 @@
 [Thunderstorm Rain]
 Дъжд с гръмотевици
 [N/a]
-
+НД
 [Thunderstorm]
 Гръмотевична буря
 [Overcast]
@@ -25,7 +25,7 @@
 [Light Showers Rain]
 Слаби дъждовни превалявания
 [Showers Rain]
-
+Превалявания от дъжд
 [Shallow Fog]
 Слаба мъгла
 [Snow]

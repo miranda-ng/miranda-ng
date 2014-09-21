@@ -6,30 +6,30 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
-
+Приставката позволява контролирането на Miranda от командния ред.
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 
 [Available commands: ]
-
+Налични команди: 
 [Miranda has been closed or an error has occurred while waiting for the result, could not process request.]
 
 ;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
 [%s usage:\n]
-
+%s употреба:\n
 [%s <command> [<param> [<param> [...]]].\n]
 
 [This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
-
+Така ще окажете на Miranda да изпълни определена команда. Командите може да са без параметър, с един или повече параметри. Ползвайте "%s help" за да получите пълния списък с команди.\n
 [No command can have more than %d parameters.\n]
-
+Командите не могат да имат повече от %d параметъра.\n
 [%s version %s]
-
+%s версия %s
 [Unknown command '%s'.\n]
-
+Неизвестна команда "%s".\n
 ;file \plugins\CmdLine\src\CmdLine.cpp
 [Could not initialize CmdLine plugin property]
-
+Приставката CmdLine не може да бъде инициализирана коректно
 [Error]
 Грешка
 ;file \plugins\CmdLine\src\mimcmd_data.h
@@ -155,33 +155,33 @@
 [Could not find contact handle for contact '%s'.]
 
 [byte:%d]
-
+byte:%d
 [word:%d]
-
+word:%d
 [dword:%ld]
-
+dword:%ld
 [string:'%s']
-
+string:'%s'
 [wide string:'%S']
-
+wide string:'%S'
 [utf8:'%s']
-
+utf8:'%s'
 [blob:N/A]
-
+blob:N/A
 [unknown value]
-
+Неизвестна стойност
 [Setting '%s/%s' deleted.]
-
+Настройката "%s/%s" е изтрита.
 [string]
-
+STRING
 [byte]
-
+BYTE
 [word]
-
+WORD
 [dword]
-
+DWORD
 [wide string]
-
+wide string
 [Wrote '%s:%s' to database entry '%s/%s'.]
 
 [Could not retrieve setting '%s/%s': %s.]
@@ -199,22 +199,22 @@
 [%s The port or the proxy type parameter is invalid.]
 
 [[me]]
-
+[аз]
 [No unread messages found.]
-
+Не са намерени непрочетени съобщения.
 [%s:%s - %d unread events.]
 
 [Contact '%s' has %d events in history.]
-
+Контакта "%s" има "%d" събития в историята.
 [Error setting nickname to '%s' for protocol '%s']
-
+Възникна грешка при задаването на прякора "%s" за протокол "%s"
 [Command '%s' is not currently supported.]
-
+Към момента командата "%s" не се поддържа.
 ;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 
 [You can only run one instance of CmdLine plugin.]
-
+Може да стартирате приставката CmdLine само веднъж.
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 Уведомяване

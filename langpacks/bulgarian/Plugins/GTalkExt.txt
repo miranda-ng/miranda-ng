@@ -54,7 +54,7 @@
 
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
-Popups
+Рopups
 [Network]
 Мрежа
 [Why C sucks]

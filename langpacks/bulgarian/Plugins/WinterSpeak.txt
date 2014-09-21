@@ -13,15 +13,15 @@
 [Engine]
 
 [Voice]
-
+Глас
 [Volume]
-
+Звук
 [Rate]
-
+Оценка
 [Pitch]
 
 [Test]
-
+Тест
 [Lexicon]
 
 [Welcome Message]
@@ -61,7 +61,7 @@
 [Announce status changes on connect]
 
 [Message Events]
-
+Текстови събития
 [Read message if less characters than]
 
 [Ignore event if message dialog is open]
