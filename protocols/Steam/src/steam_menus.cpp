@@ -116,7 +116,7 @@ void CSteamProto::OnInitStatusMenu()
 	else
 	{
 		if (m_hMenuRoot)
-			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
+			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
 		m_hMenuRoot = NULL;
 	}
 
@@ -171,8 +171,8 @@ void CSteamProto::InitMenus()
 
 void CSteamProto::UninitMenus()
 {
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)contactMenuItems[CMI_AUTH_REQUEST], 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)contactMenuItems[CMI_BLOCK], 0);
-	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)contactMenuItems[CMI_JOIN_GAME], 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)contactMenuItems[CMI_AUTH_REQUEST], 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)contactMenuItems[CMI_BLOCK], 0);
+	CallService(MO_REMOVEMENUITEM, (WPARAM)contactMenuItems[CMI_JOIN_GAME], 0);
 }
 
