@@ -119,15 +119,15 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 {
 	ptrA reason(mir_utf8encodeW(szMessage));
 
-	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
-	std::vector<uint8_t> pubKey = HexStringToData(id);
+	std::string address = getStringA(hContact, TOX_SETTINGS_ID);
+	std::vector<uint8_t> pubKey = HexStringToData(address);
 	int32_t number = tox_add_friend(tox, pubKey.data(), (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
 	if (number > TOX_ERROR)
 	{
 		SaveToxData();
 
 		// change tox address in contact id by tox id
-		id.resize(TOX_CLIENT_ID_SIZE);
+		std::string id = ToxAddressToId(address);
 		setString(hContact, TOX_SETTINGS_ID, id.c_str());
 
 		db_unset(hContact, "CList", "NotOnList");
