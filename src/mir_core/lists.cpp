@@ -52,11 +52,11 @@ MIR_CORE_DLL(void) List_Destroy(SortedList* p_list)
 
 MIR_CORE_DLL(void*) List_Find(SortedList* p_list, void* p_value)
 {
-	int index;
-	if (!List_GetIndex(p_list, p_value, &index))
+	int idx;
+	if (!List_GetIndex(p_list, p_value, &idx))
 		return NULL;
 
-	return p_list->items[index];
+	return p_list->items[idx];
 }
 
 #ifdef _DEBUG
@@ -193,8 +193,11 @@ MIR_CORE_DLL(int) List_InsertPtr(SortedList* list, void* p)
 	if (p == NULL)
 		return -1;
 
-	int idx = list->realCount;
-	List_GetIndex(list, p, &idx);
+	int idx;
+	if (list->sortFunc == 0)
+		idx = list->realCount;
+	else
+		List_GetIndex(list, p, &idx);
 	return List_Insert(list, p, idx);
 }
 
