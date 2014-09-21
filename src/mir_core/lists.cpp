@@ -34,7 +34,7 @@ MIR_CORE_DLL(SortedList*) List_Create(int p_limit, int p_increment)
 
 	result->increment = p_increment;
 	result->limit = p_limit;
-	return(result);
+	return result;
 }
 
 MIR_CORE_DLL(void) List_Destroy(SortedList* p_list)
@@ -53,11 +53,10 @@ MIR_CORE_DLL(void) List_Destroy(SortedList* p_list)
 MIR_CORE_DLL(void*) List_Find(SortedList* p_list, void* p_value)
 {
 	int index;
+	if (!List_GetIndex(p_list, p_value, &index))
+		return NULL;
 
-	if ( !List_GetIndex(p_list, p_value, &index))
-		return(NULL);
-
-	return(p_list->items[ index ]);
+	return p_list->items[index];
 }
 
 #ifdef _DEBUG
@@ -66,28 +65,24 @@ MIR_CORE_DLL(void*) List_Find(SortedList* p_list, void* p_value)
 
 MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 {
-	if (p_value == NULL) {
+	if (p_value == NULL || p_list->sortFunc == NULL) {
 		*p_index = -1;
 		return 0;
 	}
 
-	switch ((INT_PTR)p_list->sortFunc) {
-	case 0:
-		break;
+	int low = 0;
+	int high = p_list->realCount - 1;
 
+	switch ((INT_PTR)) {
 	case HandleKeySort:
-#ifdef _WIN64
+	#ifdef _WIN64
 		{
 			const unsigned __int64 val = *(unsigned __int64 *)p_value;
-			int low  = 0;
-			int high = p_list->realCount - 1;
 
-			while (low <= high)
-			{
+			while (low <= high) {
 				int i = (low + high) / 2;
 				unsigned __int64 vali = *(unsigned __int64 *)p_list->items[i];
-				if (vali == val)
-				{
+				if (vali == val) {
 					*p_index = i;
 					return 1;
 				}
@@ -97,24 +92,18 @@ MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 				else
 					high = i - 1;
 			}
-
-			*p_index = low;
 		}
 		break;
-#endif
+	#endif
 
 	case NumericKeySort:
 		{
 			const unsigned val = *(unsigned *)p_value;
-			int low  = 0;
-			int high = p_list->realCount - 1;
 
-			while (low <= high)
-			{
+			while (low <= high) {
 				int i = (low + high) / 2;
 				unsigned vali = *(unsigned *)p_list->items[i];
-				if (vali == val)
-				{
+				if (vali == val) {
 					*p_index = i;
 					return 1;
 				}
@@ -124,62 +113,43 @@ MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 				else
 					high = i - 1;
 			}
-
-			*p_index = low;
 		}
 		break;
 
 	case PtrKeySort:
-		{
-			int low  = 0;
-			int high = p_list->realCount - 1;
-
-			while (low <= high)
-			{
-				int i = (low + high) / 2;
-				const void* vali = p_list->items[i];
-				if (vali == p_value)
-				{
-					*p_index = i;
-					return 1;
-				}
-
-				if (vali < p_value)
-					low = i + 1;
-				else
-					high = i - 1;
+		while (low <= high) {
+			int i = (low + high) / 2;
+			const void* vali = p_list->items[i];
+			if (vali == p_value) {
+				*p_index = i;
+				return 1;
 			}
 
-			*p_index = low;
+			if (vali < p_value)
+				low = i + 1;
+			else
+				high = i - 1;
 		}
 		break;
 
 	default:
-		{
-			int low  = 0;
-			int high = p_list->realCount - 1;
-
-			while (low <= high)
-			{
-				int i = (low + high) / 2;
-				int result = p_list->sortFunc(p_list->items[i], p_value);
-				if (result == 0)
-				{
-					*p_index = i;
-					return 1;
-				}
-
-				if (result < 0)
-					low = i + 1;
-				else
-					high = i - 1;
+		while (low <= high) {
+			int i = (low + high) / 2;
+			int result = p_list->sortFunc(p_list->items[i], p_value);
+			if (result == 0) {
+				*p_index = i;
+				return 1;
 			}
 
-			*p_index = low;
+			if (result < 0)
+				low = i + 1;
+			else
+				high = i - 1;
 		}
 		break;
 	}
 
+	*p_index = low;
 	return 0;
 }
 
@@ -188,8 +158,7 @@ MIR_CORE_DLL(int) List_IndexOf(SortedList* p_list, void* p_value)
 	if (p_value == NULL)
 		return -1;
 
-	int i;
-	for (i=0; i < p_list->realCount; i++)
+	for (int i = 0; i < p_list->realCount; i++)
 		if (p_list->items[i] == p_value)
 			return i;
 
@@ -205,19 +174,18 @@ MIR_CORE_DLL(int) List_Insert(SortedList* p_list, void* p_value, int p_index)
 	if (p_value == NULL || p_index > p_list->realCount)
 		return 0;
 
-   if (p_list->realCount == p_list->limit)
-	{
+	if (p_list->realCount == p_list->limit) {
 		p_list->items = (void**)mir_realloc(p_list->items, sizeof(void*)*(p_list->realCount + p_list->increment));
 		p_list->limit += p_list->increment;
 	}
 
 	if (p_index < p_list->realCount)
-		memmove(p_list->items+p_index+1, p_list->items+p_index, sizeof(void*)*(p_list->realCount-p_index));
+		memmove(p_list->items + p_index + 1, p_list->items + p_index, sizeof(void*)*(p_list->realCount - p_index));
 
-   p_list->realCount++;
+	p_list->realCount++;
 
-   p_list->items[ p_index ] = p_value;
-   return 1;
+	p_list->items[p_index] = p_value;
+	return 1;
 }
 
 MIR_CORE_DLL(int) List_InsertPtr(SortedList* list, void* p)
@@ -233,45 +201,44 @@ MIR_CORE_DLL(int) List_InsertPtr(SortedList* list, void* p)
 MIR_CORE_DLL(int) List_Remove(SortedList* p_list, int index)
 {
 	if (index < 0 || index > p_list->realCount)
-		return(0);
+		return 0;
 
-   p_list->realCount--;
-   if (p_list->realCount > index)
-	{
-		memmove(p_list->items+index, p_list->items+index+1, sizeof(void*)*(p_list->realCount-index));
-      p_list->items[ p_list->realCount ] = NULL;
+	p_list->realCount--;
+	if (p_list->realCount > index) {
+		memmove(p_list->items + index, p_list->items + index + 1, sizeof(void*)*(p_list->realCount - index));
+		p_list->items[p_list->realCount] = NULL;
 	}
 
-   return 1;
+	return 1;
 }
 
 MIR_CORE_DLL(int) List_RemovePtr(SortedList* list, void* p)
 {
-	int idx = -1;
-	if (List_GetIndex(list, p, &idx))
-		List_Remove(list, idx);
+	int idx;
+	if (!List_GetIndex(list, p, &idx))
+		return -1;
 
+	List_Remove(list, idx);
 	return idx;
 }
 
 MIR_CORE_DLL(void) List_Copy(SortedList* s, SortedList* d, size_t itemSize)
 {
 	d->increment = s->increment;
-	d->limit     = s->limit;
+	d->limit = s->limit;
 	d->realCount = s->realCount;
-	d->items = (void**)mir_alloc( sizeof(void*) * d->realCount);
+	d->items = (void**)mir_alloc(sizeof(void*) * d->realCount);
 	memcpy(d->items, s->items, sizeof(void*) * d->realCount);
 }
 
 MIR_CORE_DLL(void) List_ObjCopy(SortedList* s, SortedList* d, size_t itemSize)
 {
-	int i;
-
 	d->increment = s->increment;
-	d->sortFunc  = s->sortFunc;
+	d->sortFunc = s->sortFunc;
 
-	for (i = 0; i < s->realCount; i++) {
-		void* item = new char[ itemSize ];
+	for (int i = 0; i < s->realCount; i++) {
+		void* item = new char[itemSize];
 		memcpy(item, s->items[i], itemSize);
 		List_Insert(d, item, i);
-}	}
+	}
+}
