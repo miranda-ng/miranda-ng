@@ -45,15 +45,16 @@ CContactCache::CContactCache(const MCONTACT hContact)
 	m_wOldStatus = m_wStatus = ID_STATUS_OFFLINE;
 
 	if (hContact) {
-		cc = db_get_contact(hContact);
-		initPhaseTwo();
+		if ((cc = db_get_contact(hContact)) != NULL) {
+			initPhaseTwo();
+			return;
+		}
 	}
-	else {
-		cc = &ccInvalid;
-		m_szAccount = C_INVALID_ACCOUNT;
-		m_isMeta = false;
-		m_Valid = false;
-	}
+
+	cc = &ccInvalid;
+	m_szAccount = C_INVALID_ACCOUNT;
+	m_isMeta = false;
+	m_Valid = false;
 }
 
 /**
