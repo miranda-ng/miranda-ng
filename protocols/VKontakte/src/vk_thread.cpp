@@ -768,7 +768,8 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMsg");
-
+	if (!IsOnline())
+		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.set.json", true, &CVkProto::OnReceiveSmth)
 		<< TCHAR_PARAM("text", StatusMsg)
 		<< VER_API);
