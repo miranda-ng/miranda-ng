@@ -95,7 +95,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 			for (q=p; q+1<eob && (*q!='\r' || *(q+1)!='\n'); q++);
 			if (q+1 < eob) {
 				if ((str=(char*)mir_alloc(q-p+1)) != NULL) {
-					strncpy(str, p, q-p);
+					strncpy_s(str, q - p, p, _TRUNCATE);
 					str[q-p] = '\0';
 					debugLogA("FT Got: %s", str);
 					if (ft->state == FT_CONNECTING) {
@@ -362,7 +362,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 			ft->state = FT_ERROR;
 			break;
 		}
-		strncpy(str, p, q-p);
+		strncpy_s(str, q - p, p, _TRUNCATE);
 		str[q-p] = '\0';
 		debugLogA("FT Got: %s", str);
 		if (ft->state == FT_CONNECTING) {

@@ -1354,9 +1354,9 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 				return 1;
 
 			if (pData->flags & CSSF_UNICODE)
-				lstrcpynW(pData->pwszName, g_arrMoods[dwXStatus].szName, (STATUS_TITLE_MAX+1));
+				lstrcpynW(pData->pwszName, g_arrMoods[dwXStatus].szName, (STATUS_TITLE_MAX + 1));
 			else {
-				size_t dwStatusTitleSize = lstrlenW( g_arrMoods[dwXStatus].szName );
+				size_t dwStatusTitleSize = lstrlenW(g_arrMoods[dwXStatus].szName);
 				if (dwStatusTitleSize > STATUS_TITLE_MAX)
 					dwStatusTitleSize = STATUS_TITLE_MAX;
 
@@ -1367,14 +1367,14 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 		else {
 			*pData->ptszName = 0;
 			if (pData->flags & CSSF_UNICODE) {
-				ptrT title( ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
+				ptrT title(ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
 				if (title)
-					_tcsncpy(pData->ptszName, title, STATUS_TITLE_MAX);
+					_tcsncpy_s(pData->ptszName, STATUS_TITLE_MAX, title, _TRUNCATE);
 			}
 			else {
-				ptrA title( ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
+				ptrA title(ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
 				if (title)
-					strncpy(pData->pszName, title, STATUS_TITLE_MAX);
+					strncpy_s(pData->pszName, STATUS_TITLE_MAX, title, _TRUNCATE);
 			}
 		}
 	}
@@ -1383,14 +1383,14 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 	if (pData->flags & CSSF_MASK_MESSAGE) {
 		*pData->pszMessage = 0;
 		if (pData->flags & CSSF_UNICODE) {
-			ptrT title( ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
+			ptrT title(ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
 			if (title)
-				_tcsncpy(pData->ptszMessage, title, STATUS_TITLE_MAX);
+				_tcsncpy_s(pData->ptszMessage, STATUS_TITLE_MAX, title, _TRUNCATE);
 		}
 		else {
-			ptrA title( ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
+			ptrA title(ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
 			if (title)
-				strncpy(pData->pszMessage, title, STATUS_TITLE_MAX);
+				strncpy_s(pData->pszMessage, STATUS_TITLE_MAX, title, _TRUNCATE);
 		}
 	}
 
@@ -1481,11 +1481,8 @@ void CJabberProto::WriteAdvStatus(MCONTACT hContact, const char *pszSlot, const 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/text", m_szModuleName, pszSlot);
 	if (pszText)
 		db_set_ts(hContact, "AdvStatus", szSetting, pszText);
-	else {
-		// set empty text before db_unset to make resident setting manager happy
-		db_set_s(hContact, "AdvStatus", szSetting, "");
+	else
 		db_unset(hContact, "AdvStatus", szSetting);
-	}
 }
 
 char* CJabberProto::ReadAdvStatusA(MCONTACT hContact, const char *pszSlot, const char *pszValue)
@@ -1510,13 +1507,13 @@ void g_XstatusIconsInit()
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
 	if (TCHAR *p = _tcsrchr(szFile, '\\'))
-		_tcscpy(p+1, _T("..\\Icons\\xstatus_jabber.dll"));
+		_tcscpy(p + 1, _T("..\\Icons\\xstatus_jabber.dll"));
 
 	TCHAR szSection[100];
 	_tcscpy(szSection, _T("Protocols/Jabber/")LPGENT("Moods"));
 
 	for (int i = 1; i < SIZEOF(g_arrMoods); i++)
-		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200+i), szSection, TranslateTS(g_arrMoods[i].szName));
+		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200 + i), szSection, TranslateTS(g_arrMoods[i].szName));
 
 	_tcscpy(szSection, _T("Protocols/Jabber/")LPGENT("Activities"));
 	for (int k = 0; k < SIZEOF(g_arrActivities); k++) {

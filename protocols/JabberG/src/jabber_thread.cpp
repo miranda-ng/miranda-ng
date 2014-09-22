@@ -304,13 +304,13 @@ LBL_FatalError:
 
 		TCHAR jidStr[512];
 		mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@%S/%s"), info->username, info->server, info->resource);
-		_tcsncpy(info->fullJID, jidStr, SIZEOF(info->fullJID)-1);
+		_tcsncpy_s(info->fullJID, jidStr, SIZEOF(info->fullJID)-1);
 
-		if (m_options.SavePassword == FALSE) {
-			if (*m_savedPassword) {
-				_tcsncpy(info->password, m_savedPassword, SIZEOF(info->password));
-				info->password[ SIZEOF(info->password)-1] = '\0';
-			}
+		if (m_options.UseDomainLogin) // in the case of NTLM auth we have no need in password
+			info->password[0] = 0;
+		else if (!m_options.SavePassword) { // we have to enter a password manually. have we done it before?
+			if (m_savedPassword != NULL)
+				_tcsncpy_s(info->password, SIZEOF(info->password), m_savedPassword, _TRUNCATE);
 			else {
 				mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@%S"), info->username, info->server);
 
@@ -328,23 +328,18 @@ LBL_FatalError:
 					goto LBL_FatalError;
 				}
 
-				if (param.saveOnlinePassword) lstrcpy(m_savedPassword, param.onlinePassword);
-				else *m_savedPassword = 0;
-
-				_tcsncpy(info->password, param.onlinePassword, SIZEOF(info->password));
-				info->password[ SIZEOF(info->password)-1] = '\0';
+				m_savedPassword = (param.saveOnlinePassword) ? mir_tstrdup(param.onlinePassword) : NULL;
+				_tcsncpy_s(info->password, SIZEOF(info->password), param.onlinePassword, _TRUNCATE);
 			}
 		}
 		else {
-			TCHAR *passw = getTStringA(NULL, "Password");
-			if (passw == NULL) {
+			ptrT tszPassw(getTStringA(NULL, "Password"));
+			if (tszPassw == NULL) {
 				JLoginFailed(LOGINERR_BADUSERID);
 				debugLogA("Thread ended, password is not configured");
 				goto LBL_FatalError;
 			}
-			_tcsncpy(info->password, passw, SIZEOF(info->password));
-			info->password[SIZEOF(info->password)-1] = '\0';
-			mir_free(passw);
+			_tcsncpy_s(info->password, SIZEOF(info->password), tszPassw, _TRUNCATE);
 		}
 	}
 
@@ -378,7 +373,7 @@ LBL_FatalError:
 	if (info->manualHost[0] == 0) {
 		info->xmpp_client_query();
 		if (info->s == NULL) {
-			strncpy(info->manualHost, info->server, SIZEOF(info->manualHost));
+			strncpy_s(info->manualHost, info->server, _TRUNCATE);
 			info->s = WsConnect(info->manualHost, info->port);
 		}
 	}

@@ -661,9 +661,8 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		switch (LOWORD(wParam)) {
 		case IDC_SAVE:
 			static TCHAR szFilter[512];
-			DWORD n;
 
-			ptrT jid( photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
+			ptrT jid(photoInfo->ppro->getTStringA(photoInfo->hContact, "jid"));
 			if (jid == NULL)
 				break;
 
@@ -672,27 +671,22 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				if ((item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid)) == NULL)
 					break;
 
-			switch ( ProtoGetAvatarFileFormat(item->photoFileName)) {
+			switch (ProtoGetAvatarFileFormat(item->photoFileName)) {
 			case PA_FORMAT_BMP:
-				n = mir_sntprintf(szFilter, SIZEOF(szFilter), _T("BMP %s (*.bmp)"), TranslateT("format"));
-				_tcsncpy(szFilter+n+1, _T("*.BMP"), SIZEOF(szFilter)-n-2);
+				mir_sntprintf(szFilter, SIZEOF(szFilter), _T("BMP %s (*.bmp)%c*.BMP"), TranslateT("format"), 0);
 				break;
 
 			case PA_FORMAT_GIF:
-				n = mir_sntprintf(szFilter, SIZEOF(szFilter), _T("GIF %s (*.gif)"), TranslateT("format"));
-				_tcsncpy(szFilter+n+1, _T("*.GIF"), SIZEOF(szFilter)-n-2);
+				mir_sntprintf(szFilter, SIZEOF(szFilter), _T("GIF %s (*.gif)%c*.GIF"), TranslateT("format"), 0);
 				break;
 
 			case PA_FORMAT_JPEG:
-				n = mir_sntprintf(szFilter, SIZEOF(szFilter), _T("JPEG %s (*.jpg;*.jpeg)"), TranslateT("format"));
-				_tcsncpy(szFilter+n+1, _T("*.JPG;*.JPEG"), SIZEOF(szFilter)-n-2);
+				mir_sntprintf(szFilter, SIZEOF(szFilter), _T("JPEG %s (*.jpg;*.jpeg)%c*.JPG;*.JPEG"), TranslateT("format"), 0);
 				break;
 
 			default:
-				n = mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s (*.*)"), TranslateT("Unknown format"));
-				_tcsncpy(szFilter+n+1, _T("*.*"), SIZEOF(szFilter)-n-2);
+				mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s (*.*)%c*.*"), TranslateT("Unknown format"), 0);
 			}
-			szFilter[SIZEOF(szFilter)-1] = 0;
 
 			TCHAR szFileName[MAX_PATH]; szFileName[0] = '\0';
 			OPENFILENAME ofn = { 0 };

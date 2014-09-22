@@ -259,7 +259,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		   TCHAR* value = pmUserData->operator [](var);
 		   Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
 		   if (!_tcsicmp(var,_T("jid")) && value)
-			   _tcsncpy(Results.jsr.jid, value, SIZEOF(Results.jsr.jid));
+			   _tcsncpy_s(Results.jsr.jid, value, SIZEOF(Results.jsr.jid));
 	   }
 	   {
 		   TCHAR * nickfields[]={ _T("nick"),		_T("nickname"),
@@ -272,7 +272,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		   if (_tcsicmp(nick, Results.jsr.jid))
 			   mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.jid);
 		   else
-				_tcsncpy(buff, nick, SIZEOF(buff));
+				_tcsncpy_s(buff, nick, SIZEOF(buff));
 		   Results.jsr.hdr.nick = nick ? buff : NULL;
 		   Results.jsr.hdr.flags = PSR_TCHAR;
 	   }

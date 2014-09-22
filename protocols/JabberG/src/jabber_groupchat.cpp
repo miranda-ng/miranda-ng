@@ -1218,7 +1218,7 @@ void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *fro
 void CJabberProto::AcceptGroupchatInvite(const TCHAR *roomJid, const TCHAR *reason, const TCHAR *password)
 {
 	TCHAR room[256], *server, *p;
-	_tcsncpy(room, roomJid, SIZEOF(room));
+	_tcsncpy_s(room, roomJid, SIZEOF(room));
 	p = _tcstok(room, _T("@"));
 	server = _tcstok(NULL, _T("@"));
 	GroupchatJoinRoom(server, p, reason, password);

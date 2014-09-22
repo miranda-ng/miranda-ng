@@ -123,12 +123,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// init fontservice for info frame
-	FontIDT fontid = {0};
+	FontIDT fontid = { 0 };
 	fontid.cbSize = sizeof(fontid);
-	_tcsncpy(fontid.group, LPGENT("Jabber"), SIZEOF(fontid.group));
-	strncpy(fontid.dbSettingsGroup, GLOBAL_SETTING_MODULE, SIZEOF(fontid.dbSettingsGroup));
-	_tcsncpy(fontid.backgroundGroup, _T("Jabber"), SIZEOF(fontid.backgroundGroup));
-	_tcsncpy(fontid.backgroundName,_T("Background"), SIZEOF(fontid.backgroundName));
+	_tcsncpy_s(fontid.group, LPGENT("Jabber"), _TRUNCATE);
+	strncpy_s(fontid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
+	_tcsncpy_s(fontid.backgroundGroup, _T("Jabber"), _TRUNCATE);
+	_tcsncpy_s(fontid.backgroundName, _T("Background"), _TRUNCATE);
 	fontid.flags = FIDF_DEFAULTVALID;
 
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
@@ -137,23 +137,23 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	lstrcpyn(fontid.deffontsettings.szFace, _T("MS Shell Dlg"), SIZEOF(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 
-	_tcsncpy(fontid.name, LPGENT("Frame title"), SIZEOF(fontid.name));
-	strncpy(fontid.prefix, "fntFrameTitle", SIZEOF(fontid.prefix));
+	_tcsncpy_s(fontid.name, LPGENT("Frame title"), _TRUNCATE);
+	strncpy_s(fontid.prefix, "fntFrameTitle", _TRUNCATE);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	FontRegisterT(&fontid);
 
-	_tcsncpy(fontid.name, LPGENT("Frame text"), SIZEOF(fontid.name));
-	strncpy(fontid.prefix, "fntFrameClock", SIZEOF(fontid.prefix));
+	_tcsncpy_s(fontid.name, LPGENT("Frame text"), _TRUNCATE);
+	strncpy_s(fontid.prefix, "fntFrameClock", _TRUNCATE);
 	fontid.deffontsettings.style = 0;
 	FontRegisterT(&fontid);
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	_tcsncpy(colourid.group, _T("Jabber"), SIZEOF(colourid.group));
-	strncpy(colourid.dbSettingsGroup, GLOBAL_SETTING_MODULE, SIZEOF(colourid.dbSettingsGroup));
+	_tcsncpy_s(colourid.group, _T("Jabber"), _TRUNCATE);
+	strncpy_s(colourid.dbSettingsGroup, GLOBAL_SETTING_MODULE, _TRUNCATE);
 
-	_tcsncpy(colourid.name, _T("Background"), SIZEOF(colourid.name));
-	strncpy(colourid.setting, "clFrameBack", SIZEOF(colourid.setting));
+	_tcsncpy_s(colourid.name, _T("Background"), _TRUNCATE);
+	strncpy_s(colourid.setting, "clFrameBack", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
 	ColourRegisterT(&colourid);
 

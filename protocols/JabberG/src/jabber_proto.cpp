@@ -139,8 +139,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	m_pepServices.insert(new CPepMood(this));
 	m_pepServices.insert(new CPepActivity(this));
 
-	*m_savedPassword = 0;
-
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, DBSETTING_DISPLAY_UID);
 
@@ -722,7 +720,7 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 	jsr.hdr.lastName = _T("");
 	jsr.hdr.id = jsb->jid;
 
-	_tcsncpy(jsr.jid, jsb->jid, SIZEOF(jsr.jid));
+	_tcsncpy_s(jsr.jid, jsb->jid, SIZEOF(jsr.jid));
 
 	jsr.jid[SIZEOF(jsr.jid)-1] = '\0';
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&jsr);
@@ -756,10 +754,10 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 			}
 			mir_sntprintf(jsb->jid, SIZEOF(jsb->jid), _T("%s@%s"), szJid, szServer);
 		}
-		else _tcsncpy(jsb->jid, szJid, SIZEOF(jsb->jid));
+		else _tcsncpy_s(jsb->jid, szJid, SIZEOF(jsb->jid));
 		mir_free(szServer);
 	}
-	else _tcsncpy(jsb->jid, szJid, SIZEOF(jsb->jid));
+	else _tcsncpy_s(jsb->jid, szJid, SIZEOF(jsb->jid));
 
 	debugLog(_T("Adding '%s' without validation"), jsb->jid);
 	jsb->hSearch = SerialNext();
@@ -1026,7 +1024,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int flags, const char* pszS
 		const char* szEnd = strstr(pszSrc, PGP_EPILOG);
 		char* tempstring = (char*)alloca(strlen(pszSrc) + 1);
 		size_t nStrippedLength = strlen(pszSrc) - strlen(PGP_PROLOG) - (szEnd ? strlen(szEnd) : 0);
-		strncpy(tempstring, pszSrc + strlen(PGP_PROLOG), nStrippedLength);
+		strncpy_s(tempstring, nStrippedLength, pszSrc + strlen(PGP_PROLOG), _TRUNCATE);
 		tempstring[nStrippedLength] = 0;
 		pszSrc = tempstring;
 		isEncrypted = 1;
