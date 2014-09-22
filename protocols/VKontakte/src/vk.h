@@ -17,6 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define VK_APP_ID  3917910
 
+// LongPool servers events
 #define VKPOLL_MSG_REMOVED   0
 #define VKPOLL_MSG_NEWFLAGS  1
 #define VKPOLL_MSG_ADDFLAGS  2
@@ -29,16 +30,25 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKPOLL_CHAT_UTN     62
 #define VKPOLL_RING         70
 
-#define VKFLAG_MSGUNREAD     1 // сообщение не прочитано
-#define VKFLAG_MSGOUTBOX     2 // исходящее сообщение
-#define VKFLAG_MSGREPLIED	  4 // на сообщение был создан ответ
-#define VKFLAG_MSGIMPORTANT  8 // помеченное сообщение
-#define VKFLAG_MSGCHAT      16 // сообщение отправлено через чат
-#define VKFLAG_MSGFRIENDS   32 // сообщение отправлено другом
-#define VKFLAG_MSGSPAM      64 // сообщение помечено как "Спам"
-#define VKFLAG_MSGDELЕTЕD  128 // сообщение удалено (в корзине)
-#define VKFLAG_MSGFIXED    256 // сообщение проверено пользователем на спам
-#define VKFLAG_MSGMEDIA    512 // сообщение содержит медиаконтент
+// Flags for VKPOLL_MSG_ADDED
+#define VKFLAG_MSGUNREAD	1	// сообщение не прочитано
+#define VKFLAG_MSGOUTBOX	2	// исходящее сообщение
+#define VKFLAG_MSGREPLIED	4	// на сообщение был создан ответ
+#define VKFLAG_MSGIMPORTANT	8	// помеченное сообщение
+#define VKFLAG_MSGCHAT		16	// сообщение отправлено через чат
+#define VKFLAG_MSGFRIENDS	32	// сообщение отправлено другом
+#define VKFLAG_MSGSPAM		64	// сообщение помечено как "Спам"
+#define VKFLAG_MSGDELЕTЕD	128	// сообщение удалено (в корзине)
+#define VKFLAG_MSGFIXED		256	// сообщение проверено пользователем на спам
+#define VKFLAG_MSGMEDIA		512	// сообщение содержит медиаконтент
+
+// Errors
+#define VKERR_UNKNOWN				1	// Unknown error occurred
+#define VKERR_TOO_MANY_REQ_PER_SEC	6	// Too many requests per second
+#define VKERR_AUTHORIZATION_FAILED	5	// User authorization failed
+#define VKERR_FLOOD_CONTROL			9	// Flood control
+#define VKERR_INTERNAL_SERVER_ERR	10	// Internal server error
+#define VKERR_CAPTCHA_NEEDED		14	// Captcha needed
 
 #define VK_API_VER "5.24"
 #define VER_API CHAR_PARAM("v", VK_API_VER)

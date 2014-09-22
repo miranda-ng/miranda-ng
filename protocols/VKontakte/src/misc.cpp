@@ -96,14 +96,23 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 		return true;
 
 	int iErrorCode = json_as_int(pErrorCode);
-	if (iErrorCode == ERROR_ACCESS_DENIED)
+	
+	switch (iErrorCode){
+	case VKERR_AUTHORIZATION_FAILED:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
-	else if (iErrorCode == 14) // captcha
+		break;
+	case VKERR_CAPTCHA_NEEDED:
 		ApplyCaptcha(pReq, pError);
-	else if (iErrorCode == 6) {// Too many requests per second 
+		break;
+	case VKERR_UNKNOWN:
+	case VKERR_TOO_MANY_REQ_PER_SEC:
+	case VKERR_FLOOD_CONTROL:
+	case VKERR_INTERNAL_SERVER_ERR:
 		pReq->bNeedsRestart = true;
-		Sleep(330); //Pause for fix err 6
+		Sleep(500); //Pause for fix err 
+		break;
 	}
+
 	return iErrorCode == 0;
 }
 
