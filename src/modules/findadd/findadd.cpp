@@ -276,7 +276,7 @@ static void HideAdvancedSearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 
 void EnableResultButtons(HWND hwndDlg, int enable)
 {
-	EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), enable || IsDlgButtonChecked(hwndDlg, IDC_BYPROTOID));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), enable);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_MOREOPTIONS), enable);
 }
 
@@ -316,6 +316,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		dat->iLastColumnSortIndex = 1;
 		dat->bSortAscending = 1;
 		SendDlgItemMessage(hwndDlg, IDC_MOREOPTIONS, BUTTONSETARROW, 1, 0);
+		SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Ctrl+Search add contact"), BATF_TCHAR);
 
 		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP);
 		{
@@ -626,10 +627,6 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_BYPROTOID:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), TRUE);
-			HideAdvancedSearchDlg(hwndDlg, dat);
-			break;
-
 		case IDC_BYEMAIL:
 		case IDC_BYNAME:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), ListView_GetSelectedCount(hwndList) > 0);
@@ -640,7 +637,6 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (HIWORD(wParam) == EN_CHANGE) {
 				HideAdvancedSearchDlg(hwndDlg, dat);
 				CheckSearchTypeRadioButton(hwndDlg, IDC_BYPROTOID);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), TRUE);
 			}
 			break;
 

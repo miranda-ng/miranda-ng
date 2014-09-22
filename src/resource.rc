@@ -124,7 +124,7 @@ BEGIN
     CONTROL         "Advanced",IDC_BYADVANCED,"Button",BS_AUTORADIOBUTTON,11,184,66,10
     CONTROL         "Advanced >>",IDC_ADVANCED,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,11,196,105,14
     GROUPBOX        "",IDC_TINYEXTENDEDGROUP,5,190,117,25
-    DEFPUSHBUTTON   "&Search",IDOK,5,222,117,17
+    CONTROL         "&Search", IDOK, "MButtonClass", WS_TABSTOP, 5, 222, 117, 17
     CONTROL         "List1",IDC_RESULTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | WS_TABSTOP,129,30,293,191
     CONTROL         "More options",IDC_MOREOPTIONS,"MButtonClass",WS_DISABLED | WS_TABSTOP,272,225,77,14,WS_EX_NOACTIVATE | 0x10000000L
     PUSHBUTTON      "Add to list",IDC_ADD,354,225,68,14,WS_DISABLED
@@ -774,18 +774,18 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-GROUPBOX        "Context menu", IDC_STATIC, 4, 7, 297, 109
-CONTROL         "Use contact's unique ID", IDC_RAD_UID, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 16, 30, 264, 10
-CONTROL         "Use contact's display name", IDC_RAD_DID, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 16, 43, 264, 10
-GROUPBOX        "Contact labels", IDC_STATIC, 9, 16, 285, 45, WS_GROUP
-GROUPBOX        "When I click on a sub in the popup menu...", IDC_STATIC, 9, 66, 285, 45, WS_GROUP
-CONTROL         "Set default and open message window", IDC_RAD_MSG, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 16, 76, 264, 10
-CONTROL         "Show subcontact context menu", IDC_RAD_MENU, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 16, 87, 264, 10
-CONTROL         "Show user information", IDC_RAD_INFO, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 16, 97, 264, 10
-GROUPBOX        "Contact list", IDC_STATIC, 4, 117, 297, 47, WS_GROUP
-CONTROL         "Display subcontact nickname", IDC_RAD_NICK, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 9, 129, 277, 10
-CONTROL         "Display subcontact display name", IDC_RAD_NAME, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 9, 140, 277, 10
-CONTROL         "Lock name to first contact", IDC_CHK_LOCKHANDLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 151, 278, 10
+    GROUPBOX        "Context menu",IDC_STATIC,4,7,297,109
+    CONTROL         "Use contact's unique ID",IDC_RAD_UID,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,16,30,264,10
+    CONTROL         "Use contact's display name",IDC_RAD_DID,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,16,43,264,10
+    GROUPBOX        "Contact labels",IDC_STATIC,9,16,285,45,WS_GROUP
+    GROUPBOX        "When I click on a sub in the popup menu...",IDC_STATIC,9,66,285,45,WS_GROUP
+    CONTROL         "Set default and open message window",IDC_RAD_MSG,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,16,76,264,10
+    CONTROL         "Show subcontact context menu",IDC_RAD_MENU,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,16,87,264,10
+    CONTROL         "Show user information",IDC_RAD_INFO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,16,97,264,10
+    GROUPBOX        "Contact list",IDC_STATIC,4,117,297,47,WS_GROUP
+    CONTROL         "Display subcontact nickname",IDC_RAD_NICK,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,9,129,277,10
+    CONTROL         "Display subcontact display name",IDC_RAD_NAME,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,9,140,277,10
+    CONTROL         "Lock name to first contact",IDC_CHK_LOCKHANDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,151,278,10
 END
 
 IDD_OPT_LANGUAGES DIALOGEX 0, 0, 301, 191
