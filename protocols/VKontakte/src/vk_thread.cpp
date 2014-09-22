@@ -96,9 +96,11 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		return;
 
 	int iOldStatus = m_iStatus;
+	CMString oldStatusMsg = db_get_tsa(0, m_szModuleName, "OldStatusMsg");
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		m_iStatus = ID_STATUS_OFFLINE; 
+		m_iStatus = ID_STATUS_OFFLINE;
+		RetrieveStatusMsg(oldStatusMsg);
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
 	}
@@ -107,7 +109,10 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
 	}
-	else m_iStatus = ID_STATUS_INVISIBLE; 
+	else {
+		m_iStatus = ID_STATUS_INVISIBLE;
+		RetrieveStatusMsg(oldStatusMsg);
+	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 }
@@ -304,7 +309,9 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (!tszNick.IsEmpty())
 			setTString(hContact, "Nick", tszNick);
 	
-		setByte(hContact, "Gender", json_as_int( json_get(pRecord, "sex")) == 2 ? 'M' : 'F');
+		int sex = json_as_int(json_get(pRecord, "sex"));
+		if (sex)
+			setByte(hContact, "Gender", sex == 2 ? 'M' : 'F');
 	
 		if (szValue = json_as_string( json_get(pRecord, "bdate"))) {
 			int d, m, y;
@@ -334,14 +341,16 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		szValue = json_as_string(json_get(pRecord, "status"));
 		if (szValue && *szValue) {
-			ptrT tszOldStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
+			ptrT tszOldStatus(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg"));
 			if (!tszOldStatus)
-				db_set_ts(hContact, "CList", "StatusMsg", szValue);
+				db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", szValue);
 			else if (_tcscmp(tszOldStatus, szValue))
-				db_set_ts(hContact, "CList", "StatusMsg", szValue);
+				db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", szValue);
 		}
 		else
-			db_set_ts(hContact, "CList", "StatusMsg", _T(""));
+			db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", _T(""));
+		if (!hContact)
+			setTString("OldStatusMsg", db_get_tsa(0, m_szModuleName, "StatusMsg"));
 
 		szValue = json_as_string(json_get(pRecord, "about"));
 		if (szValue && *szValue)
@@ -765,6 +774,8 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, NULL, NULL);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMsg");
@@ -772,6 +783,35 @@ void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.set.json", true, &CVkProto::OnReceiveSmth)
 		<< TCHAR_PARAM("text", StatusMsg)
+		<< VER_API);
+}
+
+void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
+{
+	debugLogA("CVkProto::RetrieveStatusMusic");
+	if (!IsOnline() || (m_iStatus == ID_STATUS_INVISIBLE))
+		return;
+
+	CMString code;
+	CMString oldStatusMsg = db_get_tsa(0, m_szModuleName, "OldStatusMsg");
+	if (StatusMsg.IsEmpty()){
+		if (oldStatusMsg.IsEmpty())
+			code = "API.audio.setBroadcast();return null;";
+		else{
+			CMString codeformat("API.status.set({text:\"%s\"});return null;");
+			code.AppendFormat(codeformat, oldStatusMsg);
+		}
+	}
+	else {
+		CMString codeformat("var userID=%d;var StatusMsg=\"%s\";var oldStatus=API.status.get({\"user_id\":userID});"
+			"var Track=API.audio.search({\"q\":StatusMsg,\"count\":1});if(Track.count=0){API.status.set({\"text\":StatusMsg});"
+			"return oldStatus;}else{var owner=Track.items[0].owner_id;var trackID=Track.items[0].id;var audioTxt=owner+\"_\"+trackID;"
+			"var ids=API.audio.setBroadcast({\"audio\":audioTxt});if(userID=ids[0]){return null;}else{"
+			"API.status.set({\"text\":StatusMsg });return oldStatus;};};");
+		code.AppendFormat(codeformat, m_myUserId, StatusMsg);
+	}
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
+		<< TCHAR_PARAM("code", code)
 		<< VER_API);
 }
 
@@ -783,18 +823,18 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM wParam, LPARAM lParam)
 		db_unset(NULL, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo));
+			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%artist% - %title%", (LPARAM)pliInfo));
 		else
-			wszListeningTo.Format(L"%s. %s - %s - %s", 
-				pliInfo->ptszTrack ? pliInfo->ptszTrack : _T(""), 
-				pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""), 
-				pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""), 
-				pliInfo->ptszPlayer ? pliInfo->ptszPlayer : _T(""));
+			wszListeningTo.Format(L"%s - %s",
+			pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""),
+			pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""));
 		setTString("ListeningTo", wszListeningTo);
 	}
-	RetrieveStatusMsg(wszListeningTo);
+	RetrieveStatusMusic(wszListeningTo);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 {

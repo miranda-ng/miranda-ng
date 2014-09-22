@@ -211,15 +211,15 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
+		
+	void RetrieveStatusMsg(const CMString &StatusMsg);
+	void RetrieveStatusMusic(const CMString &StatusMsg);
 
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-
-	void RetrieveStatusMsg(const CMString &StatusMsg);
 	void RetrieveUserInfo(LONG userId);
 	void RetrieveUsersInfo(bool flag = false);
 	void OnReceiveUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-
 	void RetrieveFriends();
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
