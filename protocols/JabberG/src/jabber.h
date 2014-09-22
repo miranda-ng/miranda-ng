@@ -370,7 +370,7 @@ struct ThreadData
 	BOOL  reg_done, bIsSessionAvailable;
 	class TJabberAuth* auth;
 	JabberCapsBits jabberServerCaps;
-	BOOL bBookmarksLoaded;
+	BOOL  bBookmarksLoaded;
 	DWORD	dwLoginRqs;
 
 	// connection & login data
@@ -381,7 +381,7 @@ struct ThreadData
 	TCHAR resource[128];
 	TCHAR fullJID[JABBER_MAX_JID_LEN];
 	WORD  port;
-	TCHAR newPassword[512];
+	ptrT  tszNewPassword;
 
 	void  close(void);
 	void  shutdown(void);

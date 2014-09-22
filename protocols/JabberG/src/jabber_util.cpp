@@ -1135,7 +1135,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					if (cmpsha == NULL || strnicmp(cmpsha, buffer, sizeof(buffer))) {
 						TCHAR tszFileName[MAX_PATH];
 						GetAvatarFileName(AI.hContact, tszFileName, SIZEOF(tszFileName));
-						_tcsncpy_s(AI.filename, tszFileName, SIZEOF(AI.filename));
+						_tcsncpy_s(AI.filename, tszFileName, _TRUNCATE);
 						FILE* out = _tfopen(tszFileName, _T("wb"));
 						if (out != NULL) {
 							fwrite(res->pData, res->dataLength, 1, out);

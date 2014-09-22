@@ -251,7 +251,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 	Results.jsr.hdr.cbSize = sizeof(Results.jsr); // sending user data
 
 	for (i=0; i < nUsersFound; i++) {
-	   TCHAR buff[200]=_T("");
+		TCHAR buff[200]; buff[0] = 0;
 	   Results.jsr.jid[0]=0;
 	   U_TCHAR_MAP * pmUserData = (U_TCHAR_MAP *) plUsersInfo->operator [](i);
 	   for (int j=0; j < nFieldCount; j++) {
@@ -259,7 +259,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		   TCHAR* value = pmUserData->operator [](var);
 		   Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
 		   if (!_tcsicmp(var,_T("jid")) && value)
-			   _tcsncpy_s(Results.jsr.jid, value, SIZEOF(Results.jsr.jid));
+				_tcsncpy_s(Results.jsr.jid, value, _TRUNCATE);
 	   }
 	   {
 		   TCHAR * nickfields[]={ _T("nick"),		_T("nickname"),
@@ -272,7 +272,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		   if (_tcsicmp(nick, Results.jsr.jid))
 			   mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.jid);
 		   else
-				_tcsncpy_s(buff, nick, SIZEOF(buff));
+				_tcsncpy_s(buff, nick, _TRUNCATE);
 		   Results.jsr.hdr.nick = nick ? buff : NULL;
 		   Results.jsr.hdr.flags = PSR_TCHAR;
 	   }

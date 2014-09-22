@@ -131,7 +131,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	TCHAR tszFileName[MAX_PATH];
 	GetAvatarFileName(AI->hContact, tszFileName, SIZEOF(tszFileName));
-	_tcsncpy_s(AI->filename, tszFileName, SIZEOF(AI->filename));
+	_tcsncpy_s(AI->filename, tszFileName, _TRUNCATE);
 
 	AI->format = (AI->hContact == NULL) ? PA_FORMAT_PNG : getByte(AI->hContact, "AvatarType", 0);
 
@@ -469,7 +469,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			jsr.hdr.flags = PSR_TCHAR;
 			jsr.hdr.nick = szJid;
 			jsr.hdr.id = szJid;
-			_tcsncpy_s(jsr.jid, szJid, SIZEOF(jsr.jid) - 1);
+			_tcsncpy_s(jsr.jid, szJid, _TRUNCATE);
 
 			ADDCONTACTSTRUCT acs;
 			acs.handleType = HANDLE_SEARCHRESULT;

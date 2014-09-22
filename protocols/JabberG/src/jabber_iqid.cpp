@@ -143,8 +143,8 @@ void CJabberProto::OnProcessLoginRq(ThreadData* info, DWORD rq)
 
 				TCHAR room[256], *server, *p;
 				TCHAR text[128];
-				_tcsncpy_s(text, item->jid, SIZEOF(text));
-				_tcsncpy_s(room, text, SIZEOF(room));
+				_tcsncpy_s(text, item->jid, _TRUNCATE);
+				_tcsncpy_s(room, text, _TRUNCATE);
 				p = _tcstok(room, _T("@"));
 				server = _tcstok(NULL, _T("@"));
 				if (item->nick && item->nick[0] != 0)
@@ -290,7 +290,7 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo)
 				debugLog(_T("Result Bind: %s confirmed "), m_ThreadInfo->fullJID);
 			else {
 				debugLog(_T("Result Bind: %s changed to %s"), m_ThreadInfo->fullJID, szJid);
-				_tcsncpy_s(m_ThreadInfo->fullJID, szJid, SIZEOF(m_ThreadInfo->fullJID));
+				_tcsncpy_s(m_ThreadInfo->fullJID, szJid, _TRUNCATE);
 			}
 		}
 		if (m_ThreadInfo->bIsSessionAvailable)
@@ -682,7 +682,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 				jsr.hdr.firstName = sttGetText(vCardNode, "FN");
 				jsr.hdr.lastName = _T("");
 				jsr.hdr.email = sttGetText(vCardNode, "EMAIL");
-				_tcsncpy_s(jsr.jid, jid, SIZEOF(jsr.jid));
+				_tcsncpy_s(jsr.jid, jid, _TRUNCATE);
 				jsr.jid[ SIZEOF(jsr.jid)-1 ] = '\0';
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&jsr);
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
@@ -834,7 +834,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 							else if ((o=xmlGetChild(n, "EXTADD")) != NULL && xmlGetText(o) != NULL)
 								mir_sntprintf(text, SIZEOF(text), _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
 							else
-								_tcsncpy_s(text, xmlGetText(m), SIZEOF(text));
+								_tcsncpy_s(text, xmlGetText(m), _TRUNCATE);
 							text[SIZEOF(text)-1] = '\0';
 							setTString(hContact, "Street", text);
 						}
@@ -877,7 +877,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 							else if ((o=xmlGetChild(n, "EXTADD")) != NULL && xmlGetText(o) != NULL)
 								mir_sntprintf(text, SIZEOF(text), _T("%s\r\n%s"), xmlGetText(m), xmlGetText(o));
 							else
-								_tcsncpy_s(text, xmlGetText(m), SIZEOF(text));
+								_tcsncpy_s(text, xmlGetText(m), _TRUNCATE);
 							text[SIZEOF(text)-1] = '\0';
 							setTString(hContact, "CompanyStreet", text);
 						}
@@ -1162,7 +1162,7 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode, CJabberIqInfo*)
 
 			if (!lstrcmp(xmlGetName(itemNode), _T("item"))) {
 				if ((jid = xmlGetAttrValue(itemNode, _T("jid"))) != NULL) {
-					_tcsncpy_s(jsr.jid, jid, SIZEOF(jsr.jid));
+					_tcsncpy_s(jsr.jid, jid, _TRUNCATE);
 					jsr.jid[SIZEOF(jsr.jid) - 1] = '\0';
 					jsr.hdr.id = (TCHAR*)jid;
 					debugLog(_T("Result jid = %s"), jid);
@@ -1238,7 +1238,7 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 					continue;
 
 				if (!lstrcmp(fieldName, _T("jid"))) {
-					_tcsncpy_s(jsr.jid, xmlGetText(n), SIZEOF(jsr.jid));
+					_tcsncpy_s(jsr.jid, xmlGetText(n), _TRUNCATE);
 					jsr.jid[SIZEOF(jsr.jid)-1] = '\0';
 					debugLog(_T("Result jid = %s"), jsr.jid);
 				}
@@ -1272,7 +1272,7 @@ void CJabberProto::OnIqResultSetPassword(HXML iqNode, CJabberIqInfo *pInfo)
 		return;
 
 	if (!lstrcmp(type, _T("result"))) {
-		_tcsncpy_s(m_ThreadInfo->password, m_ThreadInfo->newPassword, SIZEOF(m_ThreadInfo->password));
+		_tcsncpy_s(m_ThreadInfo->password, m_ThreadInfo->tszNewPassword, _TRUNCATE);
 		MessageBox(NULL, TranslateT("Password is successfully changed. Don't forget to update your password in the Jabber protocol option."), TranslateT("Change Password"), MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND);
 	}
 	else if (!lstrcmp(type, _T("error")))

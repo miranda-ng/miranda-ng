@@ -868,7 +868,7 @@ void CJabberProto::FormCreateDialog(HXML xNode, TCHAR* defTitle, JABBER_FORM_SUB
 	jfi->ppro = this;
 	jfi->xNode = xi.copyNode(xNode);
 	if (defTitle)
-		_tcsncpy_s(jfi->defTitle, defTitle, SIZEOF(jfi->defTitle));
+		_tcsncpy_s(jfi->defTitle, defTitle, _TRUNCATE);
 	jfi->pfnSubmit = pfnSubmit;
 	jfi->userdata = userdata;
 
