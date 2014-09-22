@@ -35,6 +35,9 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 
 MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 {
+	if (!dwUserid)
+		return NULL;
+
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		LONG dbUserid = getDword(hContact, "ID", -1);
 		if (dbUserid == -1)
