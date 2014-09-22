@@ -304,13 +304,13 @@ LBL_FatalError:
 
 		TCHAR jidStr[512];
 		mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@%S/%s"), info->username, info->server, info->resource);
-		_tcsncpy_s(info->fullJID, jidStr, SIZEOF(info->fullJID)-1);
+		_tcsncpy_s(info->fullJID, jidStr, _TRUNCATE);
 
 		if (m_options.UseDomainLogin) // in the case of NTLM auth we have no need in password
 			info->password[0] = 0;
 		else if (!m_options.SavePassword) { // we have to enter a password manually. have we done it before?
 			if (m_savedPassword != NULL)
-				_tcsncpy_s(info->password, SIZEOF(info->password), m_savedPassword, _TRUNCATE);
+				_tcsncpy_s(info->password, m_savedPassword, _TRUNCATE);
 			else {
 				mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@%S"), info->username, info->server);
 
@@ -329,7 +329,7 @@ LBL_FatalError:
 				}
 
 				m_savedPassword = (param.saveOnlinePassword) ? mir_tstrdup(param.onlinePassword) : NULL;
-				_tcsncpy_s(info->password, SIZEOF(info->password), param.onlinePassword, _TRUNCATE);
+				_tcsncpy_s(info->password, param.onlinePassword, _TRUNCATE);
 			}
 		}
 		else {
@@ -339,10 +339,9 @@ LBL_FatalError:
 				debugLogA("Thread ended, password is not configured");
 				goto LBL_FatalError;
 			}
-			_tcsncpy_s(info->password, SIZEOF(info->password), tszPassw, _TRUNCATE);
+			_tcsncpy_s(info->password, tszPassw, _TRUNCATE);
 		}
 	}
-
 	else if (info->type == JABBER_SESSION_REGISTER) {
 		// Register new user connection, all connection parameters are already filled-in.
 		// Multiple thread allowed, although not possible :)

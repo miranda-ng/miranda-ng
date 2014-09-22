@@ -518,7 +518,7 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 			JABBER_LIST_ITEM *item = NULL;
 			int selected = 0;
 			TCHAR jid[JABBER_MAX_JID_LEN];
-			_tcsncpy_s(jid, szJid, SIZEOF(jid));
+			_tcsncpy_s(jid, szJid, _TRUNCATE);
 			{
 				mir_cslock lck(m_csLists);
 				item = ListGetItemPtr(LIST_ROSTER, jid);

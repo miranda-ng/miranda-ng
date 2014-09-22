@@ -70,7 +70,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 					MessageBox(hwndDlg, TranslateT("Current password is incorrect."), TranslateT("Change Password"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 					break;
 				}
-				_tcsncpy_s(ppro->m_ThreadInfo->newPassword, newPasswd, SIZEOF(ppro->m_ThreadInfo->newPassword));
+				ppro->m_ThreadInfo->tszNewPassword = mir_tstrdup(newPasswd);
 
 				XmlNodeIq iq( ppro->AddIQ(&CJabberProto::OnIqResultSetPassword, JABBER_IQ_TYPE_SET, _A2T(ppro->m_ThreadInfo->server)));
 				HXML q = iq << XQUERY(JABBER_FEAT_REGISTER);

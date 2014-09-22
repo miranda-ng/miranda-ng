@@ -720,7 +720,7 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 	jsr.hdr.lastName = _T("");
 	jsr.hdr.id = jsb->jid;
 
-	_tcsncpy_s(jsr.jid, jsb->jid, SIZEOF(jsr.jid));
+	_tcsncpy_s(jsr.jid, jsb->jid, _TRUNCATE);
 
 	jsr.jid[SIZEOF(jsr.jid)-1] = '\0';
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&jsr);
@@ -754,10 +754,10 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 			}
 			mir_sntprintf(jsb->jid, SIZEOF(jsb->jid), _T("%s@%s"), szJid, szServer);
 		}
-		else _tcsncpy_s(jsb->jid, szJid, SIZEOF(jsb->jid));
+		else _tcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 		mir_free(szServer);
 	}
-	else _tcsncpy_s(jsb->jid, szJid, SIZEOF(jsb->jid));
+	else _tcsncpy_s(jsb->jid, szJid, _TRUNCATE);
 
 	debugLog(_T("Adding '%s' without validation"), jsb->jid);
 	jsb->hSearch = SerialNext();
