@@ -359,8 +359,6 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		szValue = json_as_string(json_get(pRecord, "domain"));
 		if (szValue && *szValue)
 			setTString(hContact, "domain", szValue);
-
-
 	}
 }
 
@@ -779,8 +777,7 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMsg");
-	if (!IsOnline())
-		return;
+	
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.set.json", true, &CVkProto::OnReceiveSmth)
 		<< TCHAR_PARAM("text", StatusMsg)
 		<< VER_API);
