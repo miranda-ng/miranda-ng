@@ -340,6 +340,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			else if (_tcscmp(tszOldStatus, szValue))
 				db_set_ts(hContact, "CList", "StatusMsg", szValue);
 		}
+		else
+			db_set_ts(hContact, "CList", "StatusMsg", _T(""));
 
 		szValue = json_as_string(json_get(pRecord, "about"));
 		if (szValue && *szValue)
@@ -438,6 +440,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			else if (_tcscmp(tszOldStatus, szValue))
 				db_set_ts(hContact, "CList", "StatusMsg", szValue);
 		}
+		else
+			db_set_ts(hContact, "CList", "StatusMsg", _T(""));
 
 		szValue = json_as_string(json_get(pInfo, "about"));
 		if (szValue && *szValue)
