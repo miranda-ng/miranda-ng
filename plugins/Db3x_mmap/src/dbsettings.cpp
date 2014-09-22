@@ -458,6 +458,12 @@ LBL_WriteString:
 
 	mir_cslockfull lck(m_csDbAccess);
 
+	DWORD ofsBlobPtr, ofsContact = GetContactOffset(contactID);
+	if (ofsContact == 0) {
+		_ASSERT(false); // contact doesn't exist?
+		return 2;
+	}
+
 	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
 	log3("set [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
@@ -491,7 +497,6 @@ LBL_WriteString:
 	log1(" write database as %s", printVariant(&dbcwWork.value));
 
 	DWORD ofsModuleName = GetModuleNameOfs(dbcwWork.szModule);
-	DWORD ofsBlobPtr, ofsContact = GetContactOffset(contactID);
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
