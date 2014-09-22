@@ -323,7 +323,7 @@ void CJabberInfoFrame::PaintSkinGlyph(HDC hdc, RECT *rc, char **glyphs, COLORREF
 		rq.rcClipRect = *rc;
 
 		for (; *glyphs; ++glyphs) {
-			strncpy(rq.szObjectID, *glyphs, sizeof(rq.szObjectID));
+			strncpy_s(rq.szObjectID, *glyphs, _TRUNCATE);
 			if (!CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0))
 				return;
 		}

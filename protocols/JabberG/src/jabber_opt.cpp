@@ -284,10 +284,10 @@ private:
 		ShowWindow(GetDlgItem(m_hwnd, IDC_PROGRESS_REG), SW_SHOW);
 
 		ThreadData *thread = new ThreadData(m_regInfo->proto, JABBER_SESSION_REGISTER);
-		_tcsncpy(thread->username, m_regInfo->username, SIZEOF(thread->username));
-		_tcsncpy(thread->password, m_regInfo->password, SIZEOF(thread->password));
-		strncpy(thread->server, m_regInfo->server, SIZEOF(thread->server));
-		strncpy(thread->manualHost, m_regInfo->manualHost, SIZEOF(thread->manualHost));
+		_tcsncpy_s(thread->username, m_regInfo->username, _TRUNCATE);
+		_tcsncpy_s(thread->password, m_regInfo->password, _TRUNCATE);
+		strncpy_s(thread->server, m_regInfo->server, _TRUNCATE);
+		strncpy_s(thread->manualHost, m_regInfo->manualHost, _TRUNCATE);
 		thread->port = m_regInfo->port;
 		thread->useSSL = m_regInfo->useSSL;
 		thread->reg_hwndDlg = m_hwnd;
@@ -503,7 +503,7 @@ protected:
 	void OnApply()
 	{
 		// clear saved password
-		*m_proto->m_savedPassword = 0;
+		m_proto->m_savedPassword = NULL;
 
 		if (m_chkSavePassword.GetState() == BST_CHECKED)
 			m_proto->setTString("Password", ptrT(m_txtPassword.GetText()));
@@ -1734,7 +1734,7 @@ protected:
 	void OnApply()
 	{
 		// clear saved password
-		*m_proto->m_savedPassword = 0;
+		m_proto->m_savedPassword = NULL;
 
 		BOOL bUseHostnameAsResource = FALSE;
 		TCHAR szCompName[MAX_COMPUTERNAME_LENGTH + 1], szResource[MAX_COMPUTERNAME_LENGTH + 1];

@@ -216,7 +216,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 	if (appendBestResource)
 		GetClientJID(jid, fullJid, SIZEOF(fullJid));
 	else
-		_tcsncpy(fullJid, jid, SIZEOF(fullJid));
+		_tcsncpy_s(fullJid, jid, SIZEOF(fullJid));
 
 	pResourceStatus r(ResourceInfoFromJID(fullJid));
 	if (r == NULL)

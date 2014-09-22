@@ -195,7 +195,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 		char str[ 256 ];
 		DBVARIANT dbv;
 		if (!db_get_utf(hContact, m_szModuleName, "jid", &dbv)) {
-			strncpy(str, dbv.pszVal, sizeof str);
+			strncpy_s(str, dbv.pszVal, _TRUNCATE);
 			str[ sizeof(str)-1 ] = 0;
 			db_free(&dbv);
 		}

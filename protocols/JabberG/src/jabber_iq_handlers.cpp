@@ -647,7 +647,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		if ((q = _tcschr(p, '/')) != NULL) {
 			TCHAR text[1024];
 			if (q-p < SIZEOF(text)) {
-				_tcsncpy(text, p, q-p);
+				_tcsncpy_s(text, p, q-p);
 				text[q-p] = '\0';
 				if ((p = _tcschr(text, ':')) != NULL) {
 					ft->httpPort = (WORD)_ttoi(p+1);
