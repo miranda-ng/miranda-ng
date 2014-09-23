@@ -62,6 +62,10 @@ INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 {
+	if (!hContact){
+		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
+		return;
+	}
 	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 	AI.hContact = hContact;
 	SvcGetAvatarInfo(0, (LPARAM)&AI);
@@ -100,6 +104,23 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	debugLogA("No avatar");
 	return GAIR_NOAVATAR;
+}
+
+INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
+{
+	debugLogA("CVkProto::SvcGetMyAvatar");
+	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	AI.hContact = NULL;
+	if (SvcGetAvatarInfo(0, (LPARAM)&AI) != GAIR_SUCCESS)
+		return 1;
+	
+	TCHAR* buf = (TCHAR*)wParam;
+	int  size = (int)lParam;
+	
+	_tcsncpy(buf, AI.filename, size);
+	buf[size - 1] = 0;
+
+	return 0;
 }
 
 void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen)

@@ -192,6 +192,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetListeningTo(WPARAM, LPARAM);
 
 	//==== Menus ==========================================================================
