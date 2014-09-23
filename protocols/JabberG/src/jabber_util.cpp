@@ -98,19 +98,10 @@ TCHAR* __stdcall JabberNickFromJID(const TCHAR *jid)
 		return mir_tstrdup(_T(""));
 
 	const TCHAR *p;
-	TCHAR *nick;
-
 	if ((p = _tcschr(jid, '@')) == NULL)
 		p = _tcschr(jid, '/');
 
-	if (p != NULL) {
-		if ((nick = (TCHAR*)mir_alloc(sizeof(TCHAR)*(int(p - jid) + 1))) != NULL) {
-			_tcsncpy_s(nick, p - jid, jid, _TRUNCATE);
-			nick[p - jid] = '\0';
-		}
-	}
-	else nick = mir_tstrdup(jid);
-	return nick;
+	return (p != NULL) ? mir_tstrndup(jid, p - jid) : mir_tstrdup(jid);
 }
 
 pResourceStatus CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
