@@ -197,6 +197,17 @@ private:
 	static void OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg);
 	static void OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
 
+	// avatars
+	TCHAR* GetContactAvatarFilePath(MCONTACT hContact);
+
+	INT_PTR __cdecl GetAvatarCaps(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM lParam);
+	INT_PTR __cdecl GetMyAvatar(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl SetMyAvatar(WPARAM wParam, LPARAM lParam);
+
+	static void OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, void *arg);
+	static void OnGotFriendAvatarData(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, uint8_t *data, uint32_t length, void *arg);
+
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
 	int ToxToMirandaStatus(TOX_USERSTATUS userstatus);

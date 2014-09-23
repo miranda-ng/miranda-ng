@@ -39,6 +39,12 @@ PROTO<CToxProto>(protoName, userName)
 	dbEventType.eventType = TOX_DB_EVENT_TYPE_ACTION;
 	dbEventType.descr = "Tox action";
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
+
+	// avatars
+	/*CreateProtoService(PS_GETAVATARCAPS, &CToxProto::GetAvatarCaps);
+	CreateProtoService(PS_GETAVATARINFOT, &CToxProto::GetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATART, &CToxProto::GetMyAvatar);
+	CreateProtoService(PS_SETMYAVATART, &CToxProto::SetMyAvatar);*/
 }
 
 CToxProto::~CToxProto()
@@ -57,7 +63,8 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
-		return PF4_IMSENDUTF | PF4_SINGLEFILEONLY | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING;
+		return PF4_IMSENDUTF | PF4_SINGLEFILEONLY | PF4_NOAUTHDENYREASON |PF4_FORCEAUTH
+			| PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:

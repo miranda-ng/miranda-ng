@@ -51,9 +51,13 @@ void CToxProto::InitToxCore()
 	tox_callback_user_status(tox, OnUserStatusChanged, this);
 	tox_callback_read_receipt(tox, OnReadReceipt, this);
 	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
+	// file transfers
 	tox_callback_file_control(tox, OnFileRequest, this);
 	tox_callback_file_send_request(tox, OnFriendFile, this);
 	tox_callback_file_data(tox, OnFileData, this);
+	// avatars
+	tox_callback_avatar_info(tox, OnGotFriendAvatarInfo, this);
+	tox_callback_avatar_data(tox, OnGotFriendAvatarData, this);
 
 	LoadToxData();
 
