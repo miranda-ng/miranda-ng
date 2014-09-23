@@ -34,6 +34,7 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 
 	fwrite(reply->pData, 1, reply->dataLength, out);
 	fclose(out);
+	setByte((MCONTACT)pReq->pUserInfo, "NeedNewAvatar", 0);
 	ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 }
 
@@ -59,6 +60,13 @@ INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
+{
+	PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
+	AI.hContact = hContact;
+	SvcGetAvatarInfo(0, (LPARAM)&AI);
+}
+
 INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
@@ -73,7 +81,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	AI->format = ProtoGetAvatarFormat(AI->filename);
 
-	if (::_taccess(AI->filename, 0) == 0)
+	if ((::_taccess(AI->filename, 0) == 0) && !getBool(AI->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
 
 	if ( IsOnline()) {
@@ -128,7 +136,7 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, LPCTSTR ptszUrl)
 	}
 	else {
 		setTString(hContact, "AvatarUrl", ptszUrl);
-
+		setByte(hContact,"NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 		AI.hContact = hContact;
 		GetAvatarFileName(AI.hContact, AI.filename, SIZEOF(AI.filename));

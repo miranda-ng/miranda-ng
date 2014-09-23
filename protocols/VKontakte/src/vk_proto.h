@@ -312,6 +312,7 @@ private:
 
 	void   SetAvatarUrl(MCONTACT hContact, LPCTSTR ptszUrl);
 	void   GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen);
+	void   ReloadAvatarInfo(MCONTACT hContact);
 
 	MCONTACT FindUser(LONG userid, bool bCreate = false);
 
