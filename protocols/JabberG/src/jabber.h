@@ -366,22 +366,23 @@ struct ThreadData
 	MCONTACT resolveContact;
 
 	// features & registration
-	HWND  reg_hwndDlg;
-	BOOL  reg_done, bIsSessionAvailable;
-	class TJabberAuth* auth;
-	JabberCapsBits jabberServerCaps;
-	BOOL  bBookmarksLoaded;
-	DWORD	dwLoginRqs;
+	HWND     reg_hwndDlg;
+	BOOL     reg_done, bIsSessionAvailable;
+	BOOL     bBookmarksLoaded;
+	DWORD	   dwLoginRqs;
 
 	// connection & login data
-	TCHAR username[512];
-	TCHAR password[512];
-	char  server[128];
-	char  manualHost[128];
-	TCHAR resource[128];
-	TCHAR fullJID[JABBER_MAX_JID_LEN];
-	WORD  port;
-	ptrT  tszNewPassword;
+	TCHAR    username[512];
+	TCHAR    password[512];
+	char     server[128];
+	char     manualHost[128];
+	TCHAR    resource[128];
+	TCHAR    fullJID[JABBER_MAX_JID_LEN];
+	WORD     port;
+	ptrT     tszNewPassword;
+
+	class TJabberAuth* auth;
+	JabberCapsBits jabberServerCaps;
 
 	void  close(void);
 	void  shutdown(void);
