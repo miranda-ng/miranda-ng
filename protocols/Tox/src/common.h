@@ -29,6 +29,7 @@
 #include <m_userinfo.h>
 #include <m_addcontact.h>
 #include <m_message.h>
+#include <m_avatars.h>
 
 #include <tox.h>
 #include <toxdns.h>
@@ -45,6 +46,7 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_SETTINGS_ID "ToxID"
 #define TOX_SETTINGS_GROUP "DefaultGroup"
+#define TOX_SETTINGS_AVATAR_HASH "AvatarHash"
 
 #define TOX_DB_EVENT_TYPE_ACTION 10001
 

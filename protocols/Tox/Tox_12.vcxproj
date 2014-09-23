@@ -211,6 +211,7 @@
     </ClCompile>
     <ClCompile Include="src\tox_account.cpp" />
     <ClCompile Include="src\tox_accounts.cpp" />
+    <ClCompile Include="src\tox_avatars.cpp" />
     <ClCompile Include="src\tox_events.cpp" />
     <ClCompile Include="src\tox_messages.cpp" />
     <ClCompile Include="src\tox_netlib.cpp" />
