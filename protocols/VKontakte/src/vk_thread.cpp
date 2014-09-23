@@ -947,6 +947,7 @@ int CVkProto::PollServer()
 
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (reply == NULL) {
+		debugLogA("CVkProto::PollServer is dead");
 		m_pollingConn = NULL;
 		int oldStatus = m_iStatus;
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
