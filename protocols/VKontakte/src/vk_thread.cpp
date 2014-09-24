@@ -672,6 +672,8 @@ void CVkProto::GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCou
 	if (lastcount == 0 || iMaxCount < 1) {
 		setDword(hContact, "lastmsgid", getDword(hContact, "new_lastmsgid", -1));
 		db_unset(hContact, m_szModuleName, "new_lastmsgid");
+		if (getBool(hContact, "ImportHistory", false))
+			MsgPopup(hContact, TranslateT("History import is complete"), TranslateT("History import"));
 		db_unset(hContact, m_szModuleName, "ImportHistory");
 		return;
 	}
