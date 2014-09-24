@@ -1,0 +1,2 @@
+﻿[User add as friend]
+[Cannot add user himself as friend]
