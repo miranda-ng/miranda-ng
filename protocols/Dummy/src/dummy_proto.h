@@ -80,4 +80,8 @@ struct CDummyProto : public PROTO<CDummyProto>
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	
 	void __cdecl SendMsgAck(void *param);
+	
+	char uniqueIdText[100];
+	char uniqueIdSetting[100];
+
 };

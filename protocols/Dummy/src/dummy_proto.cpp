@@ -17,9 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-char uniqueIdText[100] = { 0 };
-char uniqueIdSetting[100] = { 0 };
-
 void CDummyProto::SendMsgAck(void *param)
 {
 	MCONTACT hContact = (MCONTACT)param;
@@ -38,6 +35,9 @@ CDummyProto::CDummyProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	PROTO<CDummyProto>(szModuleName, ptszUserName)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CDummyProto::SvcCreateAccMgrUI);
+
+	uniqueIdText[0] = '\0';
+	uniqueIdSetting[0] = '\0';
 
 	dummy_Instances.insert(this);
 }
