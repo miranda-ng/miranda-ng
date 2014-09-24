@@ -389,10 +389,12 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 	bool bCleanContacts = getBool("AutoClean", false);
 	LIST<void> arContacts(10, PtrKeySortT);
-	if (bCleanContacts)
-		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-			if (!isChatRoom(hContact))
-				arContacts.insert((HANDLE)hContact);
+		
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
+		db_unset(hContact, m_szModuleName, "friend");
+		if (bCleanContacts&&!isChatRoom(hContact))
+			arContacts.insert((HANDLE)hContact);
+	}
 
 	int iCount = json_as_int(json_get(pResponse, "count"));
 	JSONNODE *pItems = json_get(pResponse, "items");
@@ -403,12 +405,14 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			continue;
 
 		CMString tszNick;
+		
 		MCONTACT hContact = FindUser(_ttoi(szValue), true);
 		arContacts.remove((HANDLE)hContact);
+		setByte(hContact, "friend", 1);
+		
 		szValue = json_as_string(json_get(pInfo, "first_name"));
 		if (szValue) {
 			setTString(hContact, "FirstName", szValue);
-
 			tszNick.Append(szValue);
 			tszNick.AppendChar(' ');
 		}
@@ -838,6 +842,12 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
+{
+	CallContactService(hContact, PSS_AUTHREQUESTW, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
+	return 0;
+}
+
 
 INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 {

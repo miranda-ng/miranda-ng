@@ -18,6 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_CREATECHAT "/CreateNewChat"
 #define PS_GETALLSERVERHISTORY "/GetAllServerHystory"
 #define PS_VISITPROFILE "/VisitProfile"
+#define PS_ADDASFRIEND "/AddAsFriend"
 #define MAXHISTORYMIDSPERONE 200
 
 struct CVkProto;
@@ -78,7 +79,7 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest*, const TCHAR_PARAM&);
 
 struct CVkSendMsgParam
 {
-	CVkSendMsgParam(MCONTACT _p1, int _p2, int _p3 = 0) :
+	CVkSendMsgParam(MCONTACT _p1, int _p2 = 0, int _p3 = 0) :
 		hContact(_p1),
 		iMsgID(_p2),
 		iCount(_p3)
@@ -198,6 +199,7 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Menus ==========================================================================
 
 	INT_PTR __cdecl SvcVisitProfile(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcAddAsFriend(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
 	void InitMenus();
 	void UnInitMenus();
@@ -236,6 +238,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCount, int lastcount);
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveAuthRequest(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void __cdecl PollingThread(void*);
 	int  PollServer();
@@ -267,6 +270,7 @@ private:
 	enum CLMenuIndexes {
 		CMI_GETALLSERVERHISTORY,
 		CMI_VISITPROFILE,
+		CMI_ADDASFRIEND,
 		CMI_COUNT
 	};
 	enum ProtoMenuIndexes {
@@ -361,4 +365,8 @@ private:
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 
 	CMString GetAttachmentDescr(JSONNODE*);
+
+	HANDLE m_hPopupClass;
+	void   InitPopups(void);
+	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle);
 };

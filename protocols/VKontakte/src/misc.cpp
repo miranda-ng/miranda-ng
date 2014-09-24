@@ -114,6 +114,13 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 		pReq->bNeedsRestart = true;
 		Sleep(500); //Pause for fix err 
 		break;
+	case VKERR_HIMSELF_AS_FRIEND:
+	case VKERR_YOU_ON_BLACKLIST:
+	case VKERR_USER_ON_BLACKLIST:
+		CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
+		if (param)
+			param->iCount = iErrorCode;
+		break;
 	}
 
 	return iErrorCode == 0;
@@ -231,6 +238,7 @@ AsyncHttpRequest::AsyncHttpRequest()
 	m_bApiReq = true;
 	AddHeader("Connection", "keep-alive");
 	AddHeader("Accept-Encoding", "booo");
+	pUserInfo = NULL;
 }
 
 AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc)
@@ -256,6 +264,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 
 	requestType = iRequestType;
 	m_pFunc = pFunc;
+	pUserInfo = NULL;
 }
 
 AsyncHttpRequest::~AsyncHttpRequest()
