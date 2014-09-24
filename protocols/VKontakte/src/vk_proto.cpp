@@ -463,7 +463,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			int iRet = json_as_int(pResponse);
 			if (iRet == 2){
 				setByte(param->hContact, "friend", 1);
-				MsgPopup(param->hContact, TranslateT("User was added asfriend"), _T(""));
+				MsgPopup(param->hContact, TranslateT("User was added as friend"), _T(""));
 			}
 		} 
 		else{
