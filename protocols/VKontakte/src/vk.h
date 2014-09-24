@@ -43,12 +43,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKFLAG_MSGMEDIA		512	// сообщение содержит медиаконтент
 
 // Errors
+#define VKERR_NOERRORS				0	// No error
 #define VKERR_UNKNOWN				1	// Unknown error occurred
 #define VKERR_TOO_MANY_REQ_PER_SEC	6	// Too many requests per second
 #define VKERR_AUTHORIZATION_FAILED	5	// User authorization failed
 #define VKERR_FLOOD_CONTROL			9	// Flood control
 #define VKERR_INTERNAL_SERVER_ERR	10	// Internal server error
 #define VKERR_CAPTCHA_NEEDED		14	// Captcha needed
+#define VKERR_HIMSELF_AS_FRIEND		174	// Cannot add user himself as friend
+#define VKERR_YOU_ON_BLACKLIST		175	// Cannot add this user to friends as they have put you on their blacklist
+#define VKERR_USER_ON_BLACKLIST		176	// Cannot add this user to friends as you put him on blacklist
 
 #define VK_API_VER "5.24"
 #define VER_API CHAR_PARAM("v", VK_API_VER)

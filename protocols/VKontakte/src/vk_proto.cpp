@@ -79,6 +79,8 @@ CVkProto::~CVkProto()
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	UninitQueue();
 	UnInitMenus();
+	if (m_hPopupClass)
+		Popup_UnregisterClass(m_hPopupClass);
 	vk_Instances.remove(this);
 }
 
@@ -95,9 +97,13 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
 
+	InitPopups();
 	InitMenus();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Menu support 
 
 void CVkProto::InitMenus()
 {
@@ -107,7 +113,8 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
 	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
 	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
-
+	CreateProtoService(PS_ADDASFRIEND, &CVkProto::SvcAddAsFriend);
+	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	char szService[100];
 
@@ -144,12 +151,23 @@ void CVkProto::InitMenus()
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_ADDASFRIEND);
+	mi.position = -200001000 + CMI_ADDASFRIEND;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_ADDCONTACT);
+	mi.ptszName = LPGENT("Add as friend");
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_ADDASFRIEND] = Menu_AddContactMenuItem(&mi);
+
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	for (int i = 0; i < CMI_COUNT; i++)
-		Menu_ShowItem(g_hContactMenuItems[i], !isChatRoom(hContact));
+	bool isFriend = getBool(hContact, "friend", false);
+	
+	Menu_ShowItem(g_hContactMenuItems[CMI_GETALLSERVERHISTORY], !isChatRoom(hContact));
+	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
+	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !isFriend);
+
 	return 0;
 }
 
@@ -161,6 +179,52 @@ void CVkProto::UnInitMenus()
 	for (int i = 0; i < CMI_COUNT; i++)
 		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[i], 0);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// PopUp support 
+
+void CVkProto::InitPopups(void)
+{
+	TCHAR desc[256];
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
+
+	char name[256];
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
+
+	POPUPCLASS ppc = { sizeof(ppc) };
+	ppc.flags = PCF_TCHAR;
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = LoadSkinnedIcon(SKINICON_ERROR);
+	ppc.colorBack = RGB(191, 0, 0); //Red
+	ppc.colorText = RGB(255, 245, 225); //Yellow
+	ppc.iSeconds = 60;
+	m_hPopupClass = Popup_RegisterClass(&ppc);
+
+	Skin_ReleaseIcon(ppc.hIcon);
+}
+
+void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle)
+{
+	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
+		char name[256];
+
+		POPUPDATACLASS ppd = { sizeof(ppd) };
+		ppd.ptszTitle = szTitle;
+		ppd.ptszText = szMsg;
+		ppd.pszClassName = name;
+		ppd.hContact = hContact;
+		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
+
+		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+	}
+	else {
+		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
+		MessageBox(NULL, szMsg, szTitle, mtype);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////
 
 int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
@@ -367,9 +431,56 @@ MCONTACT CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hConnact;
 }
 
-int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR *message)
+int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR* message)
 {
+	debugLogA("CVkProto::AuthRequest");
+	if (!IsOnline())
+		return 1;
+	bool bIsFriend = getBool(hContact, "friend", false);
+	LONG userID = getDword(hContact, "ID", -1);
+	if (bIsFriend || (userID == -1) || !hContact)
+		return 1;
+	
+	TCHAR msg[501];
+	_tcsncpy_s(msg, 500, message, _TRUNCATE);
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.add.json", true, &CVkProto::OnReceiveAuthRequest)
+		<< INT_PARAM("user_id", userID)
+		<< TCHAR_PARAM("text", msg)
+		<< VER_API)->pUserInfo = new CVkSendMsgParam(hContact);
+
 	return 0;
+}
+
+void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
+	debugLogA("CVkProto::OnReceiveAuthRequest %d", reply->resultCode);
+	if (reply->resultCode == 200){
+		JSONROOT pRoot;
+		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+		if (pResponse != NULL) {
+			int iRet = json_as_int(pResponse);
+			if (iRet == 2){
+				setByte(param->hContact, "friend", 1);
+				MsgPopup(param->hContact, TranslateT("User add as friend"), _T(""));
+			}
+		} 
+		else{
+			switch (param->iCount){
+			case VKERR_HIMSELF_AS_FRIEND:
+				MsgPopup(param->hContact, TranslateT("Cannot add user himself as friend"), TranslateT("Error"));
+				break;
+			case VKERR_YOU_ON_BLACKLIST:
+				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as they have put you on their blacklist"), TranslateT("Error"));
+				break;
+			case VKERR_USER_ON_BLACKLIST:
+				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as you put him on blacklist"), TranslateT("Error"));
+				break;
+			}
+		}
+	}
+	delete param;
 }
 
 int CVkProto::Authorize(HANDLE hDbEvent)
