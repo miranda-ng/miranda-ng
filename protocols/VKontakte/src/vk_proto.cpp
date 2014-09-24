@@ -463,13 +463,13 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			int iRet = json_as_int(pResponse);
 			if (iRet == 2){
 				setByte(param->hContact, "friend", 1);
-				MsgPopup(param->hContact, TranslateT("User add as friend"), _T(""));
+				MsgPopup(param->hContact, TranslateT("User was added asfriend"), _T(""));
 			}
 		} 
 		else{
 			switch (param->iCount){
 			case VKERR_HIMSELF_AS_FRIEND:
-				MsgPopup(param->hContact, TranslateT("Cannot add user himself as friend"), TranslateT("Error"));
+				MsgPopup(param->hContact, TranslateT("You cannot add yourself as friend"), TranslateT("Error"));
 				break;
 			case VKERR_YOU_ON_BLACKLIST:
 				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as they have put you on their blacklist"), TranslateT("Error"));
