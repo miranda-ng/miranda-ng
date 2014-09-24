@@ -101,6 +101,10 @@ Cоздать комнату чата
 Добавить в друзья
 [Errors]
 Ошибки
+[User added as friend]
+Пользователь добавлен в друзья
+[You cannot add yourself as friend]
+Вы не можете добавить себя в друзья
 [Error]
 Ошибка
 [Cannot add this user to friends as they have put you on their blacklist]
