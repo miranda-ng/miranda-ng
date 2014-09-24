@@ -1177,6 +1177,7 @@
 ;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 [Search]
+[Ctrl+Search add contact]
 [Results]
 [There are no results to display.]
 [Searching]
