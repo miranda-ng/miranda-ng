@@ -1,6 +1,5 @@
 ﻿[AaBbYyZz]
 [&E-mail]
-[Ctrl+Search add contact]
 [ID]
 [Ctrl + ]
 [Alt + ]
