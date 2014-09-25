@@ -20,14 +20,14 @@ Kod SMS
 Poproś o kod
 [Register code]
 Zarejestruj kod
-[Use SSL connection (443 port)]
+[Use SSL connection (port 443)]
 Używaj połączenia SSL (port 443)
 [Cancel]
 Anuluj
 ;file \protocols\WhatsApp\src\connection.cpp
-[Please enter a country-code.]
+[Please enter a country code.]
 Proszę podać numer kierunkowy kraju.
-[Please enter a phone-number without country code.]
+[Please enter a phone number without country code.]
 Proszę podać numer telefonu bez kierunkowego kraju.
 [Please enter a nickname.]
 Proszę podać nick.
@@ -47,7 +47,7 @@ Zostałeś usunięty z grupy
 [User '%s' has been removed from the group]
 Użytkownik "%s" został usunięty z grupy
 ;file \protocols\WhatsApp\src\dialogs.cpp
-[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+[An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie możesz używać prawdziwego WhatsApp i tej wtyczki równocześnie.\nKontynuować?
 [Your password has been set automatically. You can proceed with login now]
 Twoje hasło zostało ustawione automatycznie. Możesz teraz przejść do logowania
@@ -58,8 +58,8 @@ Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
 Połączenie %s
 [Unable to get Netlib connection for WhatsApp]
 Nie udało się uzyskać połączenia Netlib dla WhatsApp
-[Network-connection error.]
-Błąd połączenia sieciowego
+[Network connection error.]
+Błąd połączenia sieciowego.
 [Registration]
 Rejestracja
 [Registration failed. Invalid server response.]
@@ -77,19 +77,19 @@ Protokoły
 [Account]
 Konto
 ;file \protocols\WhatsApp\src\theme.cpp
-[WhatsApp Icon]
+[WhatsApp icon]
 Ikona WhatsApp
-[Add To Group]
+[Add to group]
 Dodaj do grupy
-[Create Chat Group]
+[Create chat group]
 Utwórz czat grupowy
-[Remove From Chat Group]
+[Remove from chat group]
 Usuń z czatu grupowego
-[Leave And Delete Group]
+[Leave and delete group]
 Opuść i usuń grupę
-[Leave Group]
+[Leave group]
 Opuść grupę
-[Change Group Subject]
+[Change group subject]
 Zmień temat grupy
-[Create Group]
+[Create group]
 Utwórz grupę

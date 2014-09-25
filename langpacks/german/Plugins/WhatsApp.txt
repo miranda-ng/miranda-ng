@@ -20,14 +20,14 @@ SMS-Code:
 Code anfordern
 [Register code]
 Code registrieren
-[Use SSL connection (443 port)]
+[Use SSL connection (port 443)]
 SSL-Verbindung verwenden (Port 443)
 [Cancel]
 Abbrechen
 ;file \protocols\WhatsApp\src\connection.cpp
-[Please enter a country-code.]
+[Please enter a country code.]
 Bitte geben Sie einen Landescode ein.
-[Please enter a phone-number without country code.]
+[Please enter a phone number without country code.]
 Bitte geben Sie eine Telefonnummer ohne Landescode ein.
 [Please enter a nickname.]
 Bitte geben Sie einen Nicknamen ein.
@@ -47,7 +47,7 @@ Zuletzt gesehen am %x um %X
 [User '%s' has been removed from the group]
 
 ;file \protocols\WhatsApp\src\dialogs.cpp
-[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+[An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Eine SMS mit dem Registrierungscode wird an Ihr Mobiltelefon geschickt.\nBeachten Sie, dass Sie das richtige WhatsApp und dieses Plugin nicht gleichzeitig nutzen können.\nFortfahren?
 [Your password has been set automatically. You can proceed with login now]
 
@@ -58,7 +58,7 @@ Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 %s Serververbindung
 [Unable to get Netlib connection for WhatsApp]
 Konnte keine Netzwerkverbindung für WhatsApp herstellen.
-[Network-connection error.]
+[Network connection error.]
 Netzwerk Verbindungsfehler.
 [Registration]
 
@@ -77,19 +77,19 @@ Netzwerk
 [Account]
 Konto
 ;file \protocols\WhatsApp\src\theme.cpp
-[WhatsApp Icon]
+[WhatsApp icon]
 WhatsApp Icon
-[Add To Group]
+[Add to group]
 Zu Gruppe hinzufügen
-[Create Chat Group]
+[Create chat group]
 Gruppenchat erstellen
-[Remove From Chat Group]
+[Remove from chat group]
 Aus Gruppenchat entfernen
-[Leave And Delete Group]
+[Leave and delete group]
 Gruppe verlassen und löschen
-[Leave Group]
+[Leave group]
 Gruppe verlassen
-[Change Group Subject]
+[Change group subject]
 Gruppenthema ändern
-[Create Group]
+[Create group]
 Gruppe erstellen

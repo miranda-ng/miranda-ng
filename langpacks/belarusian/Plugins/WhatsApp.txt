@@ -20,14 +20,14 @@
 Код запыту
 [Register code]
 Код рэгістраці
-[Use SSL connection (443 port)]
+[Use SSL connection (port 443)]
 Далучэнне па SSL (порт 443)
 [Cancel]
 Скасаваць
 ;file \protocols\WhatsApp\src\connection.cpp
-[Please enter a country-code.]
+[Please enter a country code.]
 Абярыце код краіны.
-[Please enter a phone-number without country code.]
+[Please enter a phone number without country code.]
 Увядзіце нумар тэлефона без кода краіны
 [Please enter a nickname.]
 Увядзіце мянушку
@@ -35,7 +35,7 @@
 Калі ласка, увядзіце пароль.
 ;file \protocols\WhatsApp\src\contacts.cpp
 ;file \protocols\WhatsApp\src\dialogs.cpp
-[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+[An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код рэгістрацыі прыйдзе на ваш тэлефон СМС-паведамленнем.\nМайце на ўвазе, што адначасовае выкарыстанне гэтага плагіна і сапраўднага WhatsApp немагчыма!\nПрацягнуць?
 [Please correctly specify your registration code received by SMS]
 Калі ласка, дакладна увядзіце свой код рэгістрацыі, атрыманы смс.
@@ -44,26 +44,26 @@
 Далучэнне да сервера %s
 [Unable to get Netlib connection for WhatsApp]
 Немагчыма стварыць далучэнне Netlib для WhatsApp
-[Network-connection error.]
+[Network connection error.]
 Памылка далучэння
 [Network]
 Сеціва
 [Account]
 Конт
 ;file \protocols\WhatsApp\src\theme.cpp
-[WhatsApp Icon]
+[WhatsApp icon]
 Абразок WhatsApp
-[Add To Group]
+[Add to group]
 Дадаць у гурт
-[Create Chat Group]
+[Create chat group]
 Стварыць чат-гурт
-[Remove From Chat Group]
+[Remove from chat group]
 Выдаліць з чат-гурта
-[Leave And Delete Group]
+[Leave and delete group]
 Пакінуць гурт і выдаліць яго
-[Leave Group]
+[Leave group]
 Пакінуць гурт
-[Change Group Subject]
+[Change group subject]
 Змяніць тэму гурта
-[Create Group]
+[Create group]
 Стварыць гурт

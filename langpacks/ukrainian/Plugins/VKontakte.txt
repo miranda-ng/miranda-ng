@@ -25,7 +25,7 @@
 Підтвердження доставки зі сторони серверу
 [Hide chats on startup]
 Не відкривати вікна чатів при старті
-[Automatically wipe local contacts missing in your Friends list]
+[Automatically wipe local contacts missing in your friend list]
 Автоматично видаляти локальні контакти, яких немає в списку друзів
 [Always notify as unread for all incoming message]
 Позначати всі вхідні повідомлення непрочитаними

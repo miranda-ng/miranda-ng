@@ -20,14 +20,14 @@ Prezívka
 
 [Register code]
 
-[Use SSL connection (443 port)]
+[Use SSL connection (port 443)]
 
 [Cancel]
 Storno
 ;file \protocols\WhatsApp\src\connection.cpp
-[Please enter a country-code.]
+[Please enter a country code.]
 
-[Please enter a phone-number without country code.]
+[Please enter a phone number without country code.]
 
 [Please enter a nickname.]
 
@@ -47,7 +47,7 @@ Storno
 [User '%s' has been removed from the group]
 
 ;file \protocols\WhatsApp\src\dialogs.cpp
-[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+[An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 
 [Your password has been set automatically. You can proceed with login now]
 
@@ -58,7 +58,7 @@ Storno
 
 [Unable to get Netlib connection for WhatsApp]
 
-[Network-connection error.]
+[Network connection error.]
 
 [Registration]
 
@@ -77,19 +77,19 @@ Sieť
 [Account]
 
 ;file \protocols\WhatsApp\src\theme.cpp
-[WhatsApp Icon]
+[WhatsApp icon]
 
-[Add To Group]
+[Add to group]
 
-[Create Chat Group]
+[Create chat group]
 
-[Remove From Chat Group]
+[Remove from chat group]
 
-[Leave And Delete Group]
+[Leave and delete group]
 
-[Leave Group]
+[Leave group]
 
-[Change Group Subject]
+[Change group subject]
 
-[Create Group]
+[Create group]
 
