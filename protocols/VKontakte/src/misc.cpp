@@ -349,3 +349,43 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 	if (!szCookie.IsEmpty())
 		pReq->AddHeader("Cookie", szCookie);
 }
+
+void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
+{
+	//char* szJid = mir_utf8encodeT(jid);
+	CMString tszNick = db_get_sa(hContact, m_szModuleName, "Nick");
+	char* szNick = mir_utf8encodeT(tszNick.GetBuffer());
+
+	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
+	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = (DWORD)time(NULL);
+	dbei.flags = DBEF_UTF;
+	dbei.eventType = EVENTTYPE_AUTHREQUEST;
+	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + strlen(szNick) + 5);
+	
+	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
+
+	*((PDWORD)pCurBlob) = 0; 
+	pCurBlob += sizeof(DWORD); // uin(DWORD) = 0 (DWORD)
+	
+	*((PDWORD)pCurBlob) = (DWORD)hContact;  
+	pCurBlob += sizeof(DWORD); // hContact(DWORD)
+
+	strcpy((char*)pCurBlob, szNick); 
+	pCurBlob += strlen(szNick) + 1;
+
+	*pCurBlob = '\0';	//firstName
+	pCurBlob++;
+	*pCurBlob = '\0';	//lastName 
+	pCurBlob++;
+	*pCurBlob = '\0';	//email
+	pCurBlob++;
+	*pCurBlob = '\0';	//reason
+
+	db_event_add(NULL, &dbei);
+	debugLogA("CVkProto::DBAddAuthRequest '%s'", szNick);
+
+	mir_free(szNick);
+}
