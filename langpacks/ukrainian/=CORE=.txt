@@ -2197,6 +2197,8 @@ Miranda не може відкрити цей профіль
 Ви не заповнили поле для пошуку. Сформуйте пошуковий запит і спробуйте знову.
 [Search]
 Знайти
+[Ctrl+Search add contact]
+Ctrl+Знайти додає контакт
 [Results]
 Результати
 [There are no results to display.]
