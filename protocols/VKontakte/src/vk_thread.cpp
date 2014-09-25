@@ -370,8 +370,10 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 		else
 			db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", _T(""));
-		if (!hContact)
+		if (!hContact&&m_bOne){
 			setTString("OldStatusMsg", db_get_tsa(0, m_szModuleName, "StatusMsg"));
+			m_bOne = false;
+		};
 
 		szValue = json_as_string(json_get(pRecord, "about"));
 		if (szValue && *szValue)
@@ -842,7 +844,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 	CMString oldStatusMsg = db_get_tsa(0, m_szModuleName, "OldStatusMsg");
 	if (StatusMsg.IsEmpty()){
 		if (oldStatusMsg.IsEmpty())
-			code = "API.audio.setBroadcast();return null;";
+			code = "API.status.set();return null;";
 		else{
 			CMString codeformat("API.status.set({text:\"%s\"});return null;");
 			code.AppendFormat(codeformat, oldStatusMsg);
@@ -850,9 +852,9 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 	}
 	else {
 		CMString codeformat("var userID=%d;var StatusMsg=\"%s\";var oldStatus=API.status.get({\"user_id\":userID});"
-			"var Track=API.audio.search({\"q\":StatusMsg,\"count\":1});if(Track.count=0){API.status.set({\"text\":StatusMsg});"
+			"var Track=API.audio.search({\"q\":StatusMsg,\"count\":1});if(Track.count==0){API.status.set({\"text\":StatusMsg});"
 			"return oldStatus;}else{var owner=Track.items[0].owner_id;var trackID=Track.items[0].id;var audioTxt=owner+\"_\"+trackID;"
-			"var ids=API.audio.setBroadcast({\"audio\":audioTxt});if(userID=ids[0]){return null;}else{"
+			"var ids=API.audio.setBroadcast({\"audio\":audioTxt});if(userID==ids[0]){return null;}else{"
 			"API.status.set({\"text\":StatusMsg });return oldStatus;};};");
 		code.AppendFormat(codeformat, m_myUserId, StatusMsg);
 	}

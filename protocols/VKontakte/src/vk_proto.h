@@ -267,7 +267,7 @@ private:
 	mir_cs m_csRequestsQueue;
 	HANDLE m_evRequestsQueue;
 	HANDLE m_hWorkerThread;
-	bool   m_bTerminated, m_bServerDelivery;
+	bool   m_bTerminated, m_bServerDelivery, m_bOne;
 	CMStringA m_prevUrl;
 
 	enum CLMenuIndexes {
