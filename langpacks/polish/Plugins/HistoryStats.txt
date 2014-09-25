@@ -489,7 +489,7 @@ Filtruj wiadomości zaczynające się na
 [Filter messages ending with]
 Filtruj wiadomości zakończone na
 [The selected set is in use by at least one other column. If you remove it, it won't be available to all other columns that use it. Are you sure you want to remove the set?]
-Wybrany zestaw jest w użyciu przez przynajmniej jedną inną kolumnę. Jeżęli go usuniesz, nie będzie on dostępny dla innych kolumn. Czy jesteś pewien,że chcesz usunąć ten zestaw?
+Wybrany zestaw jest w użyciu przez przynajmniej jedną inną kolumnę. Jeśli go usuniesz, nie będzie on dostępny dla innych kolumn. Czy jesteś pewien,że chcesz usunąć ten zestaw?
 ;file \plugins\HistoryStats\src\dlgoption.cpp
 [Global]
 Globalne

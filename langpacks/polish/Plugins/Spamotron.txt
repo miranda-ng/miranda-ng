@@ -119,7 +119,7 @@ Podgląd
 Ścieżka do bazy danych Bayes
 ;file \plugins\Spamotron\src\common.h
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-Spam-o-tron musi zweryfikować czy nie jesteś botem. Odpowiedz pisząc "%response%" bez cudzysłowia.
+Spam-o-tron musi zweryfikować czy nie jesteś botem. Odpowiedz pisząc "%response%" bez cudzysłowów.
 [Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
 Spam-o-tron musi zweryfikować czy nie jesteś botem. Odpowiedz podając wynik działania %mathexpr%.
 [Verified.]

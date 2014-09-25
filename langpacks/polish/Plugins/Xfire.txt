@@ -67,7 +67,7 @@ Lista zablokowanych
 [This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
 Ta lista pokazuje twoich wszystkich zablokowanych użytkowników. Możesz usunąć osobę z listy aby móc z nim porozmawiać.
 [You can simply block someone if you right click on his friend request in contact list and choose Block User...]
-Możesz poprostu kogoś zablokować klikając prawym przyciskiem myszy na prośbie o dodanie do znajomych na liście kontaktów i wybierając Zablokuj Użytkownika...
+Możesz po prostu kogoś zablokować klikając prawym przyciskiem myszy na prośbie o dodanie do znajomych na liście kontaktów i wybierając Zablokuj Użytkownika...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Ten plik zostaje użyty do poszukiwania gier.
 [This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
@@ -79,7 +79,7 @@ Opis
 [Enable]
 Włącz
 [With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
-Dzięki tej funkcji następujący opis zostanie ustawiony dla wszystkich protokołów, gdy grasz tak, by twoi znajomi mogli także wiedzieć w co grasz. Zmieni ona także status na "Zajęty" jeżęli ta funkcja jest włączona.
+Dzięki tej funkcji następujący opis zostanie ustawiony dla wszystkich protokołów, gdy grasz tak, by twoi znajomi mogli także wiedzieć w co grasz. Zmieni ona także status na "Zajęty" jeśli ta funkcja jest włączona.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Dostępne zmienne: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
 [Status message:]

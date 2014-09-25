@@ -210,7 +210,7 @@ SecureIM: Błąd podczas deszyfrowania wiadomości, zła długość wiadomości.
 [SecureIM: Error while decrypting the message, bad message CRC.]
 SecureIM: błąd podczas deszyfrowania wiadomości, błąd CRC wiadomości.
 [User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
-Użytkownik nie odpowiedział na wymianę klucza!\nTwoje wiadomości są nadal w kolejce SecureIM, chcesz wysłaś je nieszyfrowane teraz?
+Użytkownik nie odpowiedział na wymianę klucza!\nTwoje wiadomości są nadal w kolejce SecureIM, chcesz wysłać je nieszyfrowane teraz?
 [SecureIM not enabled! You must enable SecureIM with this user...]
 SecureIM nie jest włączony! Musisz włączyć SecureIM z tym użytkownikiem...
 [Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
@@ -218,11 +218,11 @@ Nie można wysłać szyfrowanej wiadomości!\nUżytkownik jest rozłączony i je
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 SecureIM nie zostanie załadowany ponieważ cryptopp.dll nie został znaleziony lub zła wersja.
 [SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-SecureIM nie może załadować klucza PGP/GPG! Sprawdz ustawienia PGP/GPG!
+SecureIM nie może załadować klucza PGP/GPG! Sprawdź ustawienia PGP/GPG!
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM" nie można zaszyfrować wiadomości! Sprawdź klucz OGO/GPG!
 [Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
-Nie można wysłać szyfrowanej wiadomośći!\nCzy chcesz wysłać wiadomość?\nNie zostanie zaszyfrowana!
+Nie można wysłać szyfrowanej wiadomości!\nCzy chcesz wysłać wiadomość?\nNie zostanie zaszyfrowana!
 [Can't change mode! Secure connection established!]
 Nie można zmienić trybu! Bezpieczne połączenie ustawione!
 [Can't export RSA private key!]

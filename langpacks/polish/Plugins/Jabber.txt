@@ -1087,6 +1087,8 @@ ustawił temat na:
 [%s\nIncoming group chat invitation.]
 %s\nNadchodzi zaproszenie do czatu.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+Ikony statusu
 [transport]
 transport
 [Notes]
