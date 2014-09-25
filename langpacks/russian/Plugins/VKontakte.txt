@@ -25,7 +25,7 @@ E-mail или номер телефона:
 Подтверждение доставки со стороны сервера
 [Hide chats on startup]
 Не открывать окна комнат чата при входе
-[Automatically wipe local contacts missing in your Friends list]
+[Automatically wipe local contacts missing in your friend list]
 Автоматически очищать локальные контакты, которых нет в списке друзей
 [Always notify as unread for all incoming message]
 Помечать все входящие сообщения как "Непрочитанное"
