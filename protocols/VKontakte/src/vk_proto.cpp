@@ -170,7 +170,7 @@ void CVkProto::InitMenus()
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	bool isFriend = getBool(hContact, "friend", false);
+	bool isFriend = getByte(hContact, "Auth", -1)==0;
 	
 	Menu_ShowItem(g_hContactMenuItems[CMI_GETALLSERVERHISTORY], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
@@ -445,7 +445,7 @@ int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR* message)
 	debugLogA("CVkProto::AuthRequest");
 	if (!IsOnline())
 		return 1;
-	bool bIsFriend = getBool(hContact, "friend", false);
+	bool bIsFriend = getBool(hContact, "Auth", -1)==0;
 	LONG userID = getDword(hContact, "ID", -1);
 	if (bIsFriend || (userID == -1) || !hContact)
 		return 1;
@@ -471,7 +471,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		if (pResponse != NULL) {
 			int iRet = json_as_int(pResponse);
 			if (iRet == 2){
-				setByte(param->hContact, "friend", 1);
+				setByte(param->hContact, "Auth", 0);
 				MsgPopup(param->hContact, TranslateT("User added as friend"), _T(""));
 			}
 		} 

@@ -428,7 +428,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	LIST<void> arContacts(10, PtrKeySortT);
 		
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
-		db_unset(hContact, m_szModuleName, "friend");
+		db_unset(hContact, m_szModuleName, "Auth");
 		if (bCleanContacts&&!isChatRoom(hContact))
 			arContacts.insert((HANDLE)hContact);
 	}
@@ -445,7 +445,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		
 		MCONTACT hContact = FindUser(_ttoi(szValue), true);
 		arContacts.remove((HANDLE)hContact);
-		setByte(hContact, "friend", 1);
+		setByte(hContact, "Auth", 0);
 		
 		szValue = json_as_string(json_get(pInfo, "first_name"));
 		if (szValue) {
@@ -929,7 +929,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 				MsgPopup(param->hContact, TranslateT("Friend request suggestion for the user deleted"), _T(""));
 				break;
 			}
-			db_unset(param->hContact, m_szModuleName, "friend");
+			db_unset(param->hContact, m_szModuleName, "Auth");
 		}
 	}
 	delete param;
