@@ -99,6 +99,8 @@ Cоздать комнату чата
 Загрузить историю с сайта
 [Add as friend]
 Добавить в друзья
+[Delete from friend list]
+Удалить из списка друзей
 [Errors]
 Ошибки
 [User added as friend]
@@ -117,10 +119,20 @@ Cоздать комнату чата
 Импорт истории
 [Please authorize me to add you to my friend list.]
 Пожалуйста, разрешите мне добавить вас в список друзей.
-[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
-Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
+[Are you sure to delete %s from your friend list?]
+Вы уверены, что хотите удалить %s из списка друзей?
+[(Unknown contact)]
+(Неизвестный контакт)
 [Attention!]
 Внимание!
+[User was deleted from your friend list]
+Контакт был удалён из вашего списка друзей
+[Friend request from the user declined]
+Запрос дружбы от пользователя отклонён
+[Friend request suggestion for the user deleted]
+Рекомендация добавить в друзья данного пользователя удалена
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
 [Attachments:]
 Вложения:
 [Photo]
