@@ -19,13 +19,13 @@
 Код запроса
 [Register code]
 Код регистрации
-[Use SSL connection (443 port)]
+[Use SSL connection (port 443)]
 Подключение по SSL (порт 443)
 [Cancel]
 Отмена
-[Please enter a country-code.]
+[Please enter a country code.]
 Введите код страны.
-[Please enter a phone-number without country code.]
+[Please enter a phone number without country code.]
 Введите номер телефона без кода страны.
 [Please enter a nickname.]
 Введите ник.
@@ -43,7 +43,7 @@
 Вы удалены из группы
 [User '%s' has been removed from the group]
 Пользователь '%s' удалён из группы
-[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+[An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код регистрации придет на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
 [Your password has been set automatically. You can proceed with login now]
 Ваш пароль был установлен автоматически. Вы можете подключиться к протоколу.
@@ -53,8 +53,8 @@
 %s подключение к серверу
 [Unable to get Netlib connection for WhatsApp]
 Невозможно создать подключение Netlib для WhatsApp
-[Network-connection error.]
-Ошибка соединения
+[Network connection error.]
+Ошибка соединения.
 [Registration]
 Регистрация
 [Registration failed. Invalid server response.]
@@ -71,19 +71,19 @@
 Сеть
 [Account]
 Учётная запись
-[WhatsApp Icon]
+[WhatsApp icon]
 Значок WhatsApp
-[Add To Group]
+[Add to group]
 Добавить в группу
-[Create Chat Group]
+[Create chat group]
 Создать чат-группу
-[Remove From Chat Group]
+[Remove from chat group]
 Убрать из чат-группы
-[Leave And Delete Group]
+[Leave and delete group]
 Покинуть и удалить группу
-[Leave Group]
+[Leave group]
 Покинуть группу
-[Change Group Subject]
+[Change group subject]
 Изменить тему группы
-[Create Group]
+[Create group]
 Создать группу
