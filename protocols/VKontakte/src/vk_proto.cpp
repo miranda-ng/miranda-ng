@@ -60,6 +60,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	Clist_CreateGroup(NULL, m_defaultGroup);
 
 	db_set_resident(m_szModuleName, "Status");
+	m_bOne = true;
 
 	m_bServerDelivery = getBool("ServerDelivery", true);
 	m_bHideChats = getBool("HideChats", true);
@@ -170,12 +171,12 @@ void CVkProto::InitMenus()
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	bool isFriend = getByte(hContact, "Auth", -1)==0;
+	bool bisFriend = getByte(hContact, "Auth", -1)==0;
 	
 	Menu_ShowItem(g_hContactMenuItems[CMI_GETALLSERVERHISTORY], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
-	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !isFriend);
-	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], isFriend);
+	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend);
+	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend);
 
 	return 0;
 }
@@ -445,7 +446,7 @@ int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR* message)
 	debugLogA("CVkProto::AuthRequest");
 	if (!IsOnline())
 		return 1;
-	bool bIsFriend = getBool(hContact, "Auth", -1)==0;
+	bool bIsFriend = getByte(hContact, "Auth", -1)==0;
 	LONG userID = getDword(hContact, "ID", -1);
 	if (bIsFriend || (userID == -1) || !hContact)
 		return 1;
