@@ -373,4 +373,6 @@ private:
 	HANDLE m_hPopupClass;
 	void   InitPopups(void);
 	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle);
+
+	void DBAddAuthRequest(const MCONTACT hContact);
 };

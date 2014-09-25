@@ -239,58 +239,76 @@ static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, ti
 
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
+	debugLogA("CVkProto::RetrieveUserInfo %d", userID);
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveUserInfo)
 		<< INT_PARAM("user_ids", userID) 
 		<< CHAR_PARAM("fields", fieldsName)
 		<< CHAR_PARAM("name_case", "nom")
-		<< VER_API);
+		<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL);
 }
 
 void CVkProto::RetrieveUsersInfo(bool flag)
 {
-	CMStringA userIDs;
+	debugLogA("CVkProto::RetrieveUsersInfo");
+
+	CMString userIDs;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
 		LONG userID = getDword(hContact, "ID", -1);
 		if (userID == -1)
 			continue;
 		if (!userIDs.IsEmpty())
 			userIDs.AppendChar(',');
-		userIDs.AppendFormat("%i", userID);
-
+		userIDs.AppendFormat(L"%i", userID);
 	}
-		
-	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/users.get.json", true, &CVkProto::OnReceiveUserInfo)
-		<< CHAR_PARAM("user_ids", userIDs)
-		<< CHAR_PARAM("fields", flag?"online,status":fieldsName)
-		<< CHAR_PARAM("name_case", "nom")
-		<< VER_API);
+	if (flag){
+		CMString codeformat("var userIDs=\"%s\";"
+			"return{\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"online,status\",\"name_case\":\"nom\"}),"
+			"\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":1})};"), code;
+		code.AppendFormat(codeformat, userIDs.GetBuffer());
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
+			<< TCHAR_PARAM("code", code)
+			<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL, flag);
+	}
+	else
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/users.get.json", true, &CVkProto::OnReceiveUserInfo)
+			<< TCHAR_PARAM("user_ids", userIDs)
+			<< CHAR_PARAM("fields", fieldsName)
+			<< CHAR_PARAM("name_case", "nom")
+			<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL, flag);
 }
 
 void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUserInfo %d", reply->resultCode);
+
 	if ((reply->resultCode != 200) || !IsOnline())
 		return;
+	 bool bIsReqInfo = ((CVkSendMsgParam*)pReq->pUserInfo)->iMsgID!=0;
+	 delete pReq->pUserInfo;
 
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
 
+	JSONNODE *pUsers = bIsReqInfo ? json_get(pResponse, "users") : pResponse;
+	if (pUsers == NULL)
+		return;
+	
 	for (size_t i=0; ; i++) {
-		JSONNODE *pRecord = json_at(pResponse, i);
+		JSONNODE *pRecord = json_at(pUsers, i);
 		if (pRecord == NULL) 
 			break;
 
 		LONG userid = json_as_int( json_get(pRecord, "id"));
 		if (userid == 0)
-			return;
-
+			break;
+		
 		MCONTACT hContact;
 		if (userid == m_myUserId)
 			hContact = NULL;
 		else if ((hContact = FindUser(userid, false)) == NULL)
-			return;
+			break;
 
 		CMString tszNick;
 		int iValue;
@@ -362,6 +380,25 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		szValue = json_as_string(json_get(pRecord, "domain"));
 		if (szValue && *szValue)
 			setTString(hContact, "domain", szValue);
+	}
+
+	return; // tempory 
+
+	if (!bIsReqInfo)
+		return;
+	
+	JSONNODE *pRequests = json_get(pResponse, "requests");
+	int iCount = json_as_int(json_get(pRequests, "count"));
+	JSONNODE *pItems = json_get(pRequests, "items"), *pInfo;
+
+	for (int i = 0; (pInfo = json_at(pItems, i)) != NULL; i++) {
+		LONG userid = json_as_int(pInfo);
+		if (userid == 0)
+			break;
+		MCONTACT hContact = FindUser(userid, true);
+		RetrieveUserInfo(userid);
+		Sleep(1000);
+		DBAddAuthRequest(hContact);
 	}
 }
 
@@ -858,10 +895,10 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM)
 		return 1;
 	
 	CMString formatstr = TranslateT("Are you sure to delete %s from your friend list?"),
-		ptszNick = db_get_tsa(hContact, m_szModuleName, "Nick"), 
+		tszNick = db_get_tsa(hContact, m_szModuleName, "Nick"), 
 		ptszMsg;
 
-	ptszMsg.AppendFormat(formatstr, ptszNick.IsEmpty() ? TranslateT("(Unknown contact)") : ptszNick);
+	ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
 	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
 
