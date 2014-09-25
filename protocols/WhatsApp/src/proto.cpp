@@ -161,7 +161,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	DBVARIANT dbv;
 
 	if (WASocketConnection::hNetlibUser == NULL) {
-		NotifyEvent(m_tszUserName, TranslateT("Network-connection error."), NULL, WHATSAPP_EVENT_CLIENT);
+		NotifyEvent(m_tszUserName, TranslateT("Network connection error."), NULL, WHATSAPP_EVENT_CLIENT);
 		return false;
 	}
 

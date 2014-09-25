@@ -41,7 +41,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		db_free(&dbv);
 	}
 	if (cc.empty()) {
-		NotifyEvent(m_tszUserName, TranslateT("Please enter a country-code."), NULL, WHATSAPP_EVENT_CLIENT);
+		NotifyEvent(m_tszUserName, TranslateT("Please enter a country code."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
 
@@ -50,7 +50,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		db_free(&dbv);
 	}
 	if (in.empty()) {
-		NotifyEvent(m_tszUserName, TranslateT("Please enter a phone-number without country code."), NULL, WHATSAPP_EVENT_CLIENT);
+		NotifyEvent(m_tszUserName, TranslateT("Please enter a phone number without country code."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
 	this->phoneNumber = cc + in;

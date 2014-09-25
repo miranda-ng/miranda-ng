@@ -4,13 +4,13 @@ extern OBJLIST<WhatsAppProto> g_Instances;
 
 static IconItem icons[] =
 {
-	{ LPGEN("WhatsApp Icon"),             "whatsApp",                 IDI_WHATSAPP },
-	{ LPGEN("Add To Group"),              "addContactToGroup",        IDI_ADD_USER_TO_GROUP},
-	{ LPGEN("Create Chat Group"),         "createGroup",              IDI_ADD_GROUP },
-	{ LPGEN("Remove From Chat Group"),    "removeContactFromGroup",   IDI_REMOVE_USER_FROM_GROUP },
-	{ LPGEN("Leave And Delete Group"),    "leaveAndDeleteGroup",      IDI_LEAVE_GROUP },
-	{ LPGEN("Leave Group"),               "leaveGroup",               IDI_LEAVE_GROUP },
-	{ LPGEN("Change Group Subject"),      "changeGroupSubject",       IDI_CHANGE_GROUP_SUBJECT }
+	{ LPGEN("WhatsApp icon"),             "whatsApp",                 IDI_WHATSAPP },
+	{ LPGEN("Add to group"),              "addContactToGroup",        IDI_ADD_USER_TO_GROUP},
+	{ LPGEN("Create chat group"),         "createGroup",              IDI_ADD_GROUP },
+	{ LPGEN("Remove from chat group"),    "removeContactFromGroup",   IDI_REMOVE_USER_FROM_GROUP },
+	{ LPGEN("Leave and delete group"),    "leaveAndDeleteGroup",      IDI_LEAVE_GROUP },
+	{ LPGEN("Leave group"),               "leaveGroup",               IDI_LEAVE_GROUP },
+	{ LPGEN("Change group subject"),      "changeGroupSubject",       IDI_CHANGE_GROUP_SUBJECT }
 };
 
 void InitIcons(void)
@@ -241,7 +241,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	CreateProtoService("/CreateGroup", &WhatsAppProto::OnCreateGroup);
 	strcpy(tDest, "/CreateGroup");
 	mi.hParentMenu = hRoot;
-	mi.pszName = LPGEN("Create Group");
+	mi.pszName = LPGEN("Create group");
 	mi.icolibItem = GetIconHandle("createGroup");
 	m_hMenuCreateGroup = Menu_AddProtoMenuItem(&mi);
 
