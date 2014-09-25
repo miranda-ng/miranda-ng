@@ -1,6 +1,6 @@
 #include "common.h"
 
-#define szAskSendSms  LPGEN("An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
+#define szAskSendSms  LPGEN("An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?")
 #define szPasswordSet LPGEN("Your password has been set automatically. You can proceed with login now")
 
 INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT message, WPARAM wparam, LPARAM lparam)
