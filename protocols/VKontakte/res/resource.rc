@@ -52,7 +52,7 @@ BEGIN
     GROUPBOX        "Advanced",IDC_STATIC,4,108,293,124
     CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,120,278,10
     CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,133,278,10
-    CONTROL         "Automatically wipe local contacts missing in your Friends list",IDC_AUTOCLEAN,
+    CONTROL         "Automatically wipe local contacts missing in your friend list",IDC_AUTOCLEAN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,146,278,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,159,278,10
