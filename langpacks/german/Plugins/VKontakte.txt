@@ -26,7 +26,7 @@ Erweitert
 Serverseitige Empfangsbestätigungen
 [Hide chats on startup]
 Chats beim Start verbergen
-[Automatically wipe local contacts missing in your Friends list]
+[Automatically wipe local contacts missing in your friend list]
 Lokale Kontakte, die nicht in Ihrer Freundesliste sind, automatisch löschen
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen

@@ -19,14 +19,14 @@ SMS-код
 Запросити код
 [Register code]
 Реєструвати код
-[Use SSL connection (443 port)]
+[Use SSL connection (port 443)]
 Підключення по SSL (порт 443)
 [Cancel]
 Скасувати
-[Please enter a country-code.]
-Введіть код країни
-[Please enter a phone-number without country code.]
-Введіть номер телефону без коду країни
+[Please enter a country code.]
+Введіть код країни.
+[Please enter a phone number without country code.]
+Введіть номер телефону без коду країни.
 [Please enter a nickname.]
 Введіть нік
 [Please enter a password.]
@@ -43,7 +43,7 @@ SMS-код
 Вас видалили з групи
 [User '%s' has been removed from the group]
 Користувача %s видалили з групи
-[An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
+[An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS-повідомлення з реєстраційним кодом буде відправлено на ваш мобільний телефон.\nНагадуємо, що ви не зможете використовувати справжній WhatsApp і цей плагін одночасно!\nПродовжити?
 [Your password has been set automatically. You can proceed with login now]
 Ваш пароль встановлений автоматично, можете підключитися до протоколу.
@@ -53,7 +53,7 @@ SMS-повідомлення з реєстраційним кодом буде �
 З'єднання з сервером %s
 [Unable to get Netlib connection for WhatsApp]
 Не вдається встановити з'єднання для WhatsApp
-[Network-connection error.]
+[Network connection error.]
 Помилка з'єднання.
 [Registration]
 Реєстрація
@@ -71,19 +71,19 @@ SMS-повідомлення з реєстраційним кодом буде �
 Мережа
 [Account]
 Обліковий запис
-[WhatsApp Icon]
+[WhatsApp icon]
 Значок протоколу
-[Add To Group]
+[Add to group]
 Додати у групу
-[Create Chat Group]
+[Create chat group]
 Створити чат-групу
-[Remove From Chat Group]
+[Remove from chat group]
 Видалити з чат-групи
-[Leave And Delete Group]
+[Leave and delete group]
 Покинути та видалити групу
-[Leave Group]
+[Leave group]
 Покинути групу
-[Change Group Subject]
+[Change group subject]
 Змінити тему групи
-[Create Group]
+[Create group]
 Створити групу

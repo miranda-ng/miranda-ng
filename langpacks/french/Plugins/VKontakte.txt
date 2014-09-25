@@ -26,7 +26,7 @@ Avancé
 
 [Hide chats on startup]
 
-[Automatically wipe local contacts missing in your Friends list]
+[Automatically wipe local contacts missing in your friend list]
 
 [Always notify as unread for all incoming message]
 

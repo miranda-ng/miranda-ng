@@ -42,7 +42,7 @@ Miranda була закрита або сталася помилка при оч
 [Hides or shows the contact list window.\nUsage: clist (show | hide | toggle).\nThe command will either show or hide the contact list window.]
 Ховає або показує вiкно списку контактiв.\nВикористання: clist (show | hide | toggle)*\nКоманда або показує, або ховає вiкно списку контактiв.\n*show - показати\n*hide - сховати\n*toggle - перемкнути стан.
 [Closes Miranda.\nUsage: quit [wait].\nIf wait is used then the command will return only when CmdLine plugin has been unloaded by Miranda.]
-Закриває Miranda.\nВикористання: quit [wait].\nЯкщо [wait] вказано, повернення в консоль вiдбудеться тiльки пiсля того, як плагiн CmdLine буде вивантажений з Miranda.
+Закриває Miranda.\nВикористання: quit [wait].\nЯкщо wait вказано, повернення в консоль вiдбудеться тiльки пiсля того, як плагiн CmdLine буде вивантажений з Miranda.
 [Provides help on other commands.\nUsage: help [<command>].\nThe command will print help information for other commands. If run without any parameters it will print available commands.]
 Вiдображає допомогу по iншим командам.\nВикористання: help [<команда>].\nКоманда вiдобразить на екранi довiдкову iнформацiю по iншiй командi. При запуску без параметрiв вiдображає список доступних команд.
 [Notifies Exchange plugin to check for email.\nUsage: exchange check.]
