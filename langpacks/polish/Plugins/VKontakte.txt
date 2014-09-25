@@ -105,6 +105,8 @@ Odwiedź profil
 Załaduj ponownie wszystkie wiadomości z vk.com
 [Add as friend]
 
+[Delete from friend list]
+
 [Errors]
 Błędy
 [User added as friend]
@@ -124,10 +126,20 @@ Błąd
 
 [Please authorize me to add you to my friend list.]
 
-[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
-Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
+[Are you sure to delete %s from your friend list?]
+
+[(Unknown contact)]
+(Nieznany kontakt)
 [Attention!]
 Uwaga!
+[User was deleted from your friend list]
+
+[Friend request from the user declined]
+
+[Friend request suggestion for the user deleted]
+
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
 [Attachments:]
 Załączniki:
 [Photo]

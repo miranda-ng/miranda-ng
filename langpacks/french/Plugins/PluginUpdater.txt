@@ -86,8 +86,6 @@ Délai du popup
 Sec
 [For "Restart" popup setting is always infinity]
 
-[Boxes]
-
 [Popups]
 Popups
 [Component list]

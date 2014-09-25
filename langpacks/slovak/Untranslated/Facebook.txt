@@ -105,6 +105,7 @@
 [Contact is no longer on server-list.]
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
+[Video call]
 [Facebook ID must be numeric value.]
 [Account]
 [Share status...]

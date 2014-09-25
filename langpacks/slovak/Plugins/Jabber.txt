@@ -1087,6 +1087,8 @@ Priezvisko
 [%s\nIncoming group chat invitation.]
 
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+
 [transport]
 
 [Notes]

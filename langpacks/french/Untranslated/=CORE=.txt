@@ -71,6 +71,7 @@
 [Convert database]
 [Modified]
 [Chat activity]
+[Ctrl+Search add contact]
 [All networks]
 [Outline smooth]
 [Smooth bump]

@@ -2276,6 +2276,8 @@ Icônes d'accès rapide
 Vous n’avez rempli aucun champ de recherche. Veuillez entrer un terme recherché et réessayer.
 [Search]
 Recherche
+[Ctrl+Search add contact]
+
 [Results]
 Résultats
 [There are no results to display.]

@@ -2276,6 +2276,8 @@ Iconos adicionales
 No ha rellenado el campo de búsqueda. Por favor, introduzca un término de búsqueda y vuelva a intentarlo.
 [Search]
 Buscar
+[Ctrl+Search add contact]
+
 [Results]
 Resultados
 [There are no results to display.]

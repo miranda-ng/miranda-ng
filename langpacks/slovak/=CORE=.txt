@@ -2276,6 +2276,8 @@ Veľkosť
 Vyhľadávacie pole nesmie byť prázdne. Prosím zadajte hľadaný výraz a skúste to znovu.
 [Search]
 Hľadať
+[Ctrl+Search add contact]
+
 [Results]
 Výsledok
 [There are no results to display.]

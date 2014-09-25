@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.2
+;  Version: 0.2.9.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -249,6 +249,8 @@ Kontakt ist nicht mehr in Ihrer Server-Liste.
 %s Serververbindung
 [Unable to get Netlib connection for Facebook]
 Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
+[Video call]
+
 [Facebook ID must be numeric value.]
 Facebook-ID muss ein numerischer Wert sein.
 [Network]

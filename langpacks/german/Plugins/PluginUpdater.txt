@@ -86,8 +86,6 @@ Timeout
 Sek.
 [For "Restart" popup setting is always infinity]
 Für "Neustart" ist Timeout immer unendlich
-[Boxes]
-Fenster
 [Popups]
 Popups
 [Component list]

@@ -799,6 +799,8 @@ Jabber памылка
 [%s\nIncoming group chat invitation.]
 %s\nЗапрашэнне ў канферэнцыю.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+Статус
 [transport]
 транспарт
 [Notes]

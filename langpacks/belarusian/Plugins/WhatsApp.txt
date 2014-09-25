@@ -2,32 +2,24 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.0.2.1
+;  Version: 0.1.0.3
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 Падтрымка пратакола WhatsApp для Miranda NG.
 ;file \protocols\WhatsApp\res\whatsapp.rc
-[Phone-Number]
+[Phone number]
 Тэлефон
 [Including country code, without '+' or '00']
 Уключаючы код краіны, без '+' ці '00'
 [Nickname]
 Мянушка
-[Password]
-Пароль
-[Request Code]
-Код запыту
-[Register Code]
-Код рэгістраці
-[SMS-Code:]
+[SMS code]
 Смс-код:
-[Will only be used for registration]
-Патрэбны толькі для рэгістрацыі
-[Paste password from WART utility]
-Устаўце пароль з праграмы WART
-[Use WART utility from Plugins folder for registering your number and generating password]
-Для рэгістрацыі нумара і атрымання паролю скарыстайцеся праграмай WART з тэчкі Plugins
+[Request code]
+Код запыту
+[Register code]
+Код рэгістраці
 [Use SSL connection (443 port)]
 Далучэнне па SSL (порт 443)
 [Cancel]
@@ -47,11 +39,6 @@
 Код рэгістрацыі прыйдзе на ваш тэлефон СМС-паведамленнем.\nМайце на ўвазе, што адначасовае выкарыстанне гэтага плагіна і сапраўднага WhatsApp немагчыма!\nПрацягнуць?
 [Please correctly specify your registration code received by SMS]
 Калі ласка, дакладна увядзіце свой код рэгістрацыі, атрыманы смс.
-[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
-Ваш пароль усталяваны аўтаматычна.\nКалі вы зменіце яго ўручную, можаце згубіць яго і прыйдзецца запытаць новы.
-;file \protocols\WhatsApp\src\main.cpp
-[Did not unpack WART (registration utility).]
-Не распакавана праграма для рэгістрацыі WART.
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s

@@ -2276,6 +2276,8 @@ Extraicons
 Sie haben keinen Suchbegriff eingegeben, bitte einen Text eingeben und erneut versuchen.
 [Search]
 Suchen
+[Ctrl+Search add contact]
+
 [Results]
 Ergebnisse
 [There are no results to display.]

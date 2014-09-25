@@ -1087,6 +1087,8 @@ Favoris...
 [%s\nIncoming group chat invitation.]
 
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+Icônes d'état
 [transport]
 transport
 [Notes]

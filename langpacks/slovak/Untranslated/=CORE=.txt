@@ -664,6 +664,7 @@
 [New profile]
 [Chat activity]
 [Extra icons]
+[Ctrl+Search add contact]
 [Could not start a search on '%s', there was a problem - is %s connected?]
 [Could not search on any of the protocols, are you online?]
 [Problem with search]

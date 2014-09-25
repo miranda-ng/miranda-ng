@@ -1,5 +1,6 @@
 ﻿[OutputDebugString()]
 [Wikipedia]
+[Ctrl+Search add contact]
 [ID]
 [Ctrl + ]
 [Alt + ]

@@ -468,6 +468,7 @@
 [Change nickname in <%s>]
 [has set the subject to:]
 [%s\nIncoming group chat invitation.]
+[Status icons]
 [transport]
 [Multi-User Conference]
 [Agents list]
