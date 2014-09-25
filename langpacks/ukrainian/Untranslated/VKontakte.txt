@@ -1,5 +1,6 @@
 ﻿[Add as friend]
 [Delete from friend list]
+[Errors]
 [User added as friend]
 [You cannot add yourself as friend]
 [Cannot add this user to friends as they have put you on their blacklist]

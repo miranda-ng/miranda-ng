@@ -3,7 +3,6 @@
 [Restart]
 [Info messages]
 [For "Restart" popup setting is always infinity]
-[Boxes]
 [Failed!]
 [Skipped.]
 [Plugin Updater]

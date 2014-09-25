@@ -1087,6 +1087,8 @@ Tipo
 [%s\nIncoming group chat invitation.]
 
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+Iconos de estado
 [transport]
 
 [Notes]

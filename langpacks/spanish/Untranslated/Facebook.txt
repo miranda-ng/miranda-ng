@@ -26,6 +26,7 @@
 [Request for friendship was ignored.]
 [Error occurred when ignoring friendship request.]
 [User sent an unsupported attachment. Open your browser to see it.]
+[Video call]
 [Visit notifications]
 [Conversation]
 [Message read]

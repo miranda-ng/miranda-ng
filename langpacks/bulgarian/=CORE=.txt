@@ -2276,6 +2276,8 @@ URL
 Не сте попълнили полето за търсене. Моля, въведете израз и опитайте отново.
 [Search]
 Търсене
+[Ctrl+Search add contact]
+
 [Results]
 Резултати
 [There are no results to display.]

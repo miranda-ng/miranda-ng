@@ -62,6 +62,7 @@
 [Message read: %s by %s]
 [Contact is back on server-list.]
 [Unable to get Netlib connection for Facebook]
+[Video call]
 [Facebook ID must be numeric value.]
 [Own wall]
 [Loading newsfeeds...]

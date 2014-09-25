@@ -78,8 +78,6 @@
 -1=Бясконца
 [Sec]
 сек.
-[Boxes]
-Вокны
 [Popups]
 Усплывальныя вокны
 [Component list]

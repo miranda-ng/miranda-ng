@@ -86,8 +86,6 @@ Pravým klikom
 sek
 [For "Restart" popup setting is always infinity]
 
-[Boxes]
-
 [Popups]
 
 [Component list]

@@ -86,8 +86,6 @@ Tiempo de espera
 Seg
 [For "Restart" popup setting is always infinity]
 
-[Boxes]
-Marcos
 [Popups]
 Ventanas emergentes
 [Component list]

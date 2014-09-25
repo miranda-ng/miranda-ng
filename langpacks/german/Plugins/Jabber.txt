@@ -1087,6 +1087,8 @@ hat den Betreff geändert auf:
 [%s\nIncoming group chat invitation.]
 %s\nEinladung zu einem Gruppenchat.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+Statusicons
 [transport]
 Transport
 [Notes]

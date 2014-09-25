@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.15
+;  Version: 0.1.0.16
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -103,10 +103,42 @@
 
 [Reload all messages from vk.com]
 
-;file \protocols\VKontakte\src\vk_thread.cpp
-[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+[Add as friend]
 
+[Delete from friend list]
+
+[Errors]
+
+[User added as friend]
+
+[You cannot add yourself as friend]
+
+[Error]
+Грешка
+[Cannot add this user to friends as they have put you on their blacklist]
+
+[Cannot add this user to friends as you put him on blacklist]
+
+;file \protocols\VKontakte\src\vk_thread.cpp
+[History import is complete]
+
+[History import]
+
+[Please authorize me to add you to my friend list.]
+
+[Are you sure to delete %s from your friend list?]
+
+[(Unknown contact)]
+(Непознат контакт)
 [Attention!]
+
+[User was deleted from your friend list]
+
+[Friend request from the user declined]
+
+[Friend request suggestion for the user deleted]
+
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 
 [Attachments:]
 

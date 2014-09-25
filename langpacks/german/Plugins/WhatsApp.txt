@@ -2,32 +2,24 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.0.2.1
+;  Version: 0.1.0.3
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 WhatsApp-Protokollunterstützung für Miranda NG.
 ;file \protocols\WhatsApp\res\whatsapp.rc
-[Phone-Number]
+[Phone number]
 Telefonnummer
 [Including country code, without '+' or '00']
 Inklusive Landescode, ohne '+' oder '00'
 [Nickname]
 Nickname
-[Password]
-Passwort
-[Request Code]
-Code anfordern
-[Register Code]
-Code registrieren
-[SMS-Code:]
+[SMS code]
 SMS-Code:
-[Will only be used for registration]
-Wird nur zur Registrierung verwendet
-[Paste password from WART utility]
-Passwort aus WART-Utility einfügen
-[Use WART utility from Plugins folder for registering your number and generating password]
-Verwenden Sie das WART-Utility aus dem Plugins-Verzeichnis um Ihre Nummer zu registrieren und ein Passwort zu erzeugen
+[Request code]
+Code anfordern
+[Register code]
+Code registrieren
 [Use SSL connection (443 port)]
 SSL-Verbindung verwenden (Port 443)
 [Cancel]
@@ -42,18 +34,25 @@ Bitte geben Sie einen Nicknamen ein.
 [Please enter a password.]
 Bitte geben Sie ein Passwort ein.
 ;file \protocols\WhatsApp\src\contacts.cpp
+[is now known as '%s']
+
 [Last seen on %x at %X]
 Zuletzt gesehen am %x um %X
+[You have been added to the group]
+
+[User '%s' has been added to the group]
+
+[You have been removed from the group]
+
+[User '%s' has been removed from the group]
+
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Eine SMS mit dem Registrierungscode wird an Ihr Mobiltelefon geschickt.\nBeachten Sie, dass Sie das richtige WhatsApp und dieses Plugin nicht gleichzeitig nutzen können.\nFortfahren?
+[Your password has been set automatically. You can proceed with login now]
+
 [Please correctly specify your registration code received by SMS]
 Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
-[Your password has been set automatically.\nIf you change your password manually, you may lose it and need to request a new code!]
-Ihr Passwort wurde automatisch gesetzt.\nWenn Sie Ihr Passwort manuell ändern, können Sie es verlieren und müssen einen neuen Code anfordern.
-;file \protocols\WhatsApp\src\main.cpp
-[Did not unpack WART (registration utility).]
-Kann das Registrierungs-Utility WART nicht entpacken.
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -61,6 +60,18 @@ Kann das Registrierungs-Utility WART nicht entpacken.
 Konnte keine Netzwerkverbindung für WhatsApp herstellen.
 [Network-connection error.]
 Netzwerk Verbindungsfehler.
+[Registration]
+
+[Registration failed. Invalid server response.]
+
+[Registration failed due to stale code. Please request a new code]
+
+[Registration failed.]
+
+[Please try again in %i seconds]
+
+[Registration code has been sent to your phone.]
+
 [Network]
 Netzwerk
 [Account]

@@ -1,0 +1,1 @@
+﻿[Changes account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is an optional parameter specifying the account to set the status for. If it's not specified then the command will issue a global status change.]
