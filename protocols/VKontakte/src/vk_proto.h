@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_GETALLSERVERHISTORY "/GetAllServerHystory"
 #define PS_VISITPROFILE "/VisitProfile"
 #define PS_ADDASFRIEND "/AddAsFriend"
+#define PS_DELETEFRIEND "/DeleteFriend"
 #define MAXHISTORYMIDSPERONE 200
 
 struct CVkProto;
@@ -200,6 +201,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	INT_PTR __cdecl SvcVisitProfile(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcAddAsFriend(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcDeleteFriend(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
 	void InitMenus();
 	void UnInitMenus();
@@ -239,6 +241,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAuthRequest(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveDeleteFriend(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	void __cdecl PollingThread(void*);
 	int  PollServer();
@@ -271,6 +274,7 @@ private:
 		CMI_GETALLSERVERHISTORY,
 		CMI_VISITPROFILE,
 		CMI_ADDASFRIEND,
+		CMI_DELETEFRIEND,
 		CMI_COUNT
 	};
 	enum ProtoMenuIndexes {

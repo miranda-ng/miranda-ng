@@ -850,6 +850,53 @@ INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcDeleteFriend");
+	LONG userID = getDword(hContact, "ID", -1);
+	if (!IsOnline() ||(userID == -1))
+		return 1;
+	
+	CMString formatstr = TranslateT("Are you sure to delete %s from your friend list?"),
+		ptszNick = db_get_tsa(hContact, m_szModuleName, "Nick"), 
+		ptszMsg;
+
+	ptszMsg.AppendFormat(formatstr, ptszNick.IsEmpty() ? TranslateT("(Unknown contact)") : ptszNick);
+	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+		return 1;
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.delete.json", true, &CVkProto::OnReceiveDeleteFriend)
+		<< INT_PARAM("user_id", userID)
+		<< VER_API)->pUserInfo = new CVkSendMsgParam(hContact);
+
+	return 0;
+}
+
+void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest* pReq)
+{
+	CVkSendMsgParam *param = (CVkSendMsgParam*) pReq->pUserInfo;
+	debugLogA("CVkProto::OnReceiveDeleteFriend %d", reply->resultCode);
+	if (reply->resultCode == 200){
+		JSONROOT pRoot;
+		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+		if (pResponse != NULL) {
+			int iRet = json_as_int(pResponse);
+			switch (iRet){
+			case 1:
+				MsgPopup(param->hContact, TranslateT("User was deleted from your friend list"), _T(""));
+				break;
+			case 2:
+				MsgPopup(param->hContact, TranslateT("Friend request from the user declined"), _T(""));
+				break;
+			case 3:
+				MsgPopup(param->hContact, TranslateT("Friend request suggestion for the user deleted"), _T(""));
+				break;
+			}
+			db_unset(param->hContact, m_szModuleName, "friend");
+		}
+	}
+	delete param;
+}
 
 INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 {

@@ -114,6 +114,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
 	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
 	CreateProtoService(PS_ADDASFRIEND, &CVkProto::SvcAddAsFriend);
+	CreateProtoService(PS_DELETEFRIEND, &CVkProto::SvcDeleteFriend);
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	char szService[100];
@@ -158,6 +159,13 @@ void CVkProto::InitMenus()
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_ADDASFRIEND] = Menu_AddContactMenuItem(&mi);
 
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_DELETEFRIEND);
+	mi.position = -200001000 + CMI_DELETEFRIEND;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
+	mi.ptszName = LPGENT("Delete from friend list");
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_DELETEFRIEND] = Menu_AddContactMenuItem(&mi);
+
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
@@ -167,6 +175,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(g_hContactMenuItems[CMI_GETALLSERVERHISTORY], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !isFriend);
+	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], isFriend);
 
 	return 0;
 }
