@@ -514,7 +514,7 @@ Nie zapomnij wpisać loginu i hasła by użyć usługi MyShows
 [Attempts]
 Ilość prób
 [Disable scrobbling]
-Wyłącz scrobbling
+Wyłącz scrobblowanie
 [Enable scrobbling]
 Włącz scrobblowanie
 [no language]

@@ -235,7 +235,7 @@ Kolory
 [Common]
 Wspólne
 [Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-Zmień moje dane w ICQ za pomocą UserInfoEx (wyłączone, jeżęli niewspierane przez ICQ)
+Zmień moje dane w ICQ za pomocą UserInfoEx (wyłączone, jeśli niewspierane przez ICQ)
 [Treeview]
 Widok drzewa
 [Adapt propertysheet pages to Aero mode]
@@ -670,7 +670,7 @@ Firma
 [Question]
 Pytanie
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
-To usunie wszystkie twoje ustawienia!\nWszystkie ustawienia widoku drzewa, pozycje okien oraz inne!\n\nCzy napewno chcesz kontynuować?
+To usunie wszystkie twoje ustawienia!\nWszystkie ustawienia widoku drzewa, pozycje okien oraz inne!\n\nCzy na pewno chcesz kontynuować?
 [Ready]
 Gotowy
 [Everything is done!]

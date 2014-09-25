@@ -86,8 +86,6 @@ Wyświetlaj
 s
 [For "Restart" popup setting is always infinity]
 Nie ustawiony na "Restart"
-[Boxes]
-Okna
 [Popups]
 Popupy
 [Component list]

@@ -93,7 +93,7 @@ Zastosuj
 [Switch to simple options]
 Przełącz do trybu prostego
 [Please select a subentry from the list]
-Proszę wybrać podopcję z listy
+Proszę wybrać opcję z listy
 [Install database settings]
 Instalacja ustawień profilu
 [Yes]
@@ -2276,6 +2276,8 @@ Dodatkowe ikony
 Nie wypełniono pola wyszukiwania. Wprowadź wyszukiwane hasło i spróbuj ponownie.
 [Search]
 Szukaj
+[Ctrl+Search add contact]
+
 [Results]
 Wyniki
 [There are no results to display.]
