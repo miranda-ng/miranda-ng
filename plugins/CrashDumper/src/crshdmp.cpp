@@ -223,58 +223,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		FoldersPathChanged(0, 0);
 	}
 
-	SetExceptionHandler();
-
-	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
-
-	if (servicemode)
-		ViewVersionInfo(0, 0);
-	else if (db_get_b(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
-		UploadVersionInfo(0, 0xa1);
-
-	return 0;
-}
-
-static int PreShutdown(WPARAM, LPARAM)
-{
-	DestroyAllWindows();
-	UploadClose();
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Load(void)
-{
-	if (LoadLibraryA("riched20.dll") == NULL)
-		return 1;
-
-	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
-
-	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
-	mir_getLP(&pluginInfoEx);
-
-	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
-	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-	mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
-	mir_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
-
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-
-	packlcid = (LCID)Langpack_GetDefaultLocale();
-
-	InitIcons();
-
-	InitExceptionHandler();
-
-	CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
-	CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
-	CreateServiceFunction(MS_CRASHDUMPER_VIEWINFO, ViewVersionInfo);
-	CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
-	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
-	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
-
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.popupPosition = 2000089999;
 	mi.position = 2000089999;
@@ -348,6 +296,58 @@ extern "C" int __declspec(dllexport) Load(void)
 	Hotkey_Register(&hk);
 	
 	UploadInit();
+
+	SetExceptionHandler();
+
+	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
+
+	if (servicemode)
+		ViewVersionInfo(0, 0);
+	else if (db_get_b(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
+		UploadVersionInfo(0, 0xa1);
+
+	return 0;
+}
+
+static int PreShutdown(WPARAM, LPARAM)
+{
+	DestroyAllWindows();
+	UploadClose();
+	return 0;
+}
+
+extern "C" int __declspec(dllexport) Load(void)
+{
+	if (LoadLibraryA("riched20.dll") == NULL)
+		return 1;
+
+	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
+
+	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
+	mir_getLP(&pluginInfoEx);
+
+	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
+	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+	mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
+	mir_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
+
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+
+	packlcid = (LCID)Langpack_GetDefaultLocale();
+
+	InitIcons();
+
+	InitExceptionHandler();
+
+	CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
+	CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
+	CreateServiceFunction(MS_CRASHDUMPER_VIEWINFO, ViewVersionInfo);
+	CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
+	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
+	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
 	return 0;
 }
 
