@@ -440,10 +440,9 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		CheckMenuItem(submenu, ID_SENDMENU_FORCEANSISEND, MF_BYCOMMAND | (dat->sendMode & SMODE_FORCEANSI ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(submenu, ID_SENDMENU_SENDLATER, MF_BYCOMMAND | (dat->sendMode & SMODE_SENDLATER ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, MF_BYCOMMAND | (dat->sendMode & SMODE_NOACK ? MF_CHECKED : MF_UNCHECKED));
-		{
-			const char *szFinalProto = dat->cache->getActiveProto();
-			EnableMenuItem(submenu, ID_SENDMENU_SENDNUDGE, MF_BYCOMMAND | ((ProtoServiceExists(szFinalProto, PS_SEND_NUDGE) && ServiceExists(MS_NUDGE_SEND)) ? MF_ENABLED : MF_GRAYED));
-		}
+
+		EnableMenuItem(submenu, ID_SENDMENU_SENDNUDGE, MF_BYCOMMAND | ((ProtoServiceExists(dat->cache->getActiveProto(), PS_SEND_NUDGE) && ServiceExists(MS_NUDGE_SEND)) ? MF_ENABLED : MF_GRAYED));
+
 		if (lParam)
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
 		else
@@ -454,10 +453,8 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			dat->sendMode ^= SMODE_MULTIPLE;
 			if (dat->sendMode & SMODE_MULTIPLE)
 				HWND hwndClist = DM_CreateClist(dat);
-			else {
-				if (IsWindow(GetDlgItem(hwndDlg, IDC_CLIST)))
-					DestroyWindow(GetDlgItem(hwndDlg, IDC_CLIST));
-			}
+			else if (IsWindow(GetDlgItem(hwndDlg, IDC_CLIST)))
+				DestroyWindow(GetDlgItem(hwndDlg, IDC_CLIST));
 			break;
 		case ID_SENDMENU_SENDNUDGE:
 			SendNudge(dat);

@@ -32,7 +32,6 @@
 
 #include "commonheaders.h"
 
-
 #define UPREF_ACTION_APPLYOPTIONS 1
 #define UPREF_ACTION_REMAKELOG 2
 #define UPREF_ACTION_SWITCHLOGVIEWER 4
@@ -42,10 +41,8 @@ static HWND hCpCombo;
 static BOOL CALLBACK FillCpCombo(LPCTSTR str)
 {
 	int i;
-	UINT cp;
-
-	cp = _ttoi(str);
-	for (i=0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
+	UINT cp = _ttoi(str);
+	for (i = 0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
 	if (cpTable[i].cpName != NULL) {
 		LRESULT iIndex = SendMessage(hCpCombo, CB_ADDSTRING, -1, (LPARAM)TranslateTS(cpTable[i].cpName));
 		SendMessage(hCpCombo, CB_SETITEMDATA, (WPARAM)iIndex, cpTable[i].cpId);
@@ -60,9 +57,9 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
-		case WM_INITDIALOG: {
-			DWORD sCodePage;
-			int i;
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
 			hContact = lParam;
 			DWORD maxhist = M.GetDword(hContact, "maxhist", 0);
 			BYTE bIEView = M.GetByte(hContact, "ieview", 0);
@@ -79,7 +76,6 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
 			have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
 
-			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 			SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use Global Setting"));
@@ -133,10 +129,8 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			CheckDlgButton(hwndDlg, IDC_PRIVATESPLITTER, bSplit);
 			CheckDlgButton(hwndDlg, IDC_TEMPLOVERRIDE, db_get_b(hContact, TEMPLATES_MODULE, "enabled", 0));
 			CheckDlgButton(hwndDlg, IDC_RTLTEMPLOVERRIDE, db_get_b(hContact, RTLTEMPLATES_MODULE, "enabled", 0));
-
-			//MAD
 			CheckDlgButton(hwndDlg, IDC_LOADONLYACTUAL, M.GetByte(hContact, "ActualHistory", 0));
-			//
+
 			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
 			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
 			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, maxhist != 0);
@@ -144,163 +138,166 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			CheckDlgButton(hwndDlg, IDC_ALWAYSTRIM2, maxhist != 0);
 
 			hCpCombo = GetDlgItem(hwndDlg, IDC_CODEPAGES);
-			sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
+			DWORD sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
 			EnumSystemCodePages((CODEPAGE_ENUMPROC)FillCpCombo, CP_INSTALLED);
 			SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_INSERTSTRING, 0, (LPARAM)TranslateT("Use default codepage"));
 			if (sCodePage == 0)
 				SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, 0, 0);
 			else {
-				for (i=0; i < SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCOUNT, 0, 0); i++) {
+				for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCOUNT, 0, 0); i++)
 					if (SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, (WPARAM)i, 0) == (LRESULT)sCodePage)
 						SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, (WPARAM)i, 0);
-				}
 			}
 			CheckDlgButton(hwndDlg, IDC_FORCEANSI, M.GetByte(hContact, "forceansi", 0) ? 1 : 0);
 			CheckDlgButton(hwndDlg, IDC_IGNORETIMEOUTS, M.GetByte(hContact, "no_ack", 0));
 
 			ShowWindow(hwndDlg, SW_SHOW);
-			return TRUE;
 		}
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDC_ALWAYSTRIM2:
-					Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2));
-					Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2));
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_ALWAYSTRIM2:
+			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2));
+			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2));
+			break;
+
+		case WM_USER + 100:
+			TWindowData *dat = 0;
+			DWORD	*pdwActionToTake = (DWORD *)lParam;
+			int		iIndex = CB_ERR, iMode = -1;
+			DWORD	newCodePage;
+			unsigned int iOldIEView;
+			HWND	hWnd = M.FindWindow(hContact);
+			DWORD	sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
+			BYTE	bInfoPanel, bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
+			BYTE	bAvatarVisible = 0;
+
+			if (hWnd) {
+				dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+				if (dat)
+					iOldIEView = GetIEViewMode(hWnd, dat->hContact);
+			}
+			iIndex = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETCURSEL, 0, 0);
+			iMode = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETITEMDATA, iIndex, 0);
+
+			if (iIndex != CB_ERR && (iMode >= 0 && iMode <= 3)) {
+				unsigned int iNewIEView;
+
+				switch (iMode) {
+				case 0:
+					db_set_b(hContact, SRMSGMOD_T, "ieview", 0);
+					db_set_b(hContact, SRMSGMOD_T, "hpplog", 0);
 					break;
-				case WM_USER + 100: {
-					TWindowData *dat = 0;
-					DWORD	*pdwActionToTake = (DWORD *)lParam;
-					int		iIndex = CB_ERR, iMode = -1;
-					DWORD	newCodePage;
-					unsigned int iOldIEView;
-					HWND	hWnd = M.FindWindow(hContact);
-					DWORD	sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
-					BYTE	bInfoPanel, bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
-					BYTE	bAvatarVisible = 0;
-
-					if (hWnd) {
-						dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-						if (dat)
-							iOldIEView = GetIEViewMode(hWnd, dat->hContact);
-					}
-					iIndex = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETCURSEL, 0, 0);
-					iMode = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETITEMDATA, iIndex, 0);
-
-					if (iIndex != CB_ERR && (iMode >= 0 && iMode <= 3)) {
-						unsigned int iNewIEView;
-
-						switch (iMode) {
-						case 0:
-							db_set_b(hContact, SRMSGMOD_T, "ieview", 0);
-							db_set_b(hContact, SRMSGMOD_T, "hpplog", 0);
-							break;
-						case 1:
-							db_set_b(hContact, SRMSGMOD_T, "ieview", -1);
-							db_set_b(hContact, SRMSGMOD_T, "hpplog", -1);
-							break;
-						case 2:
-							db_set_b(hContact, SRMSGMOD_T, "ieview", -1);
-							db_set_b(hContact, SRMSGMOD_T, "hpplog", 1);
-							break;
-						case 3:
-							db_set_b(hContact, SRMSGMOD_T, "ieview", 1);
-							db_set_b(hContact, SRMSGMOD_T, "hpplog", -1);
-							break;
-						}
-						if (hWnd && dat) {
-							iNewIEView = GetIEViewMode(hWnd, dat->hContact);
-							if (iNewIEView != iOldIEView) {
-								if (pdwActionToTake)
-									*pdwActionToTake |= UPREF_ACTION_SWITCHLOGVIEWER;
-							}
-						}
-					}
-					if ((iIndex = SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_GETCURSEL, 0, 0)) != CB_ERR) {
-						if (iIndex == 0)
-							db_unset(hContact, SRMSGMOD_T, "sendformat");
-						else
-							db_set_dw(hContact, SRMSGMOD_T, "sendformat", iIndex == 2 ? -1 : 1);
-					}
-					iIndex = SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCURSEL, 0, 0);
-					if ((newCodePage = (DWORD)SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, (WPARAM)iIndex, 0)) != sCodePage) {
-						db_set_dw(hContact, SRMSGMOD_T, "ANSIcodepage", (DWORD)newCodePage);
-						if (hWnd && dat) {
-							dat->codePage = newCodePage;
-							SendMessage(hWnd, DM_UPDATETITLE, 0, 1);
-						}
-					}
-					if ((IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? 1 : 0) != M.GetByte(hContact, "forceansi", 0)) {
-						db_set_b(hContact, SRMSGMOD_T, "forceansi", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? 1 : 0));
-						if (hWnd && dat)
-							dat->sendMode = IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? dat->sendMode | SMODE_FORCEANSI : dat->sendMode & ~SMODE_FORCEANSI;
-					}
-					if (IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE)) {
-						if (!M.GetByte(hContact, "isFavorite", 0))
-							AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
-					} else
-						DeleteMenu(PluginConfig.g_hMenuFavorites, (UINT_PTR)hContact, MF_BYCOMMAND);
-
-					db_set_b(hContact, SRMSGMOD_T, "isFavorite", (WORD)(IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE) ? 1 : 0));
-					db_set_b(hContact, SRMSGMOD_T, "splitoverride", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PRIVATESPLITTER) ? 1 : 0));
-
-					db_set_b(hContact, TEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_TEMPLOVERRIDE)));
-					db_set_b(hContact, RTLTEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_RTLTEMPLOVERRIDE)));
-
-					bAvatarVisible = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
-					if (bAvatarVisible == 0)
-						db_unset(hContact, SRMSGMOD_T, "hideavatar");
-					else
-						db_set_b(hContact, SRMSGMOD_T, "hideavatar", (BYTE)(bAvatarVisible == 1 ? 1 : 0));
-
-					bInfoPanel = (BYTE)SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_GETCURSEL, 0, 0);
-					if (bInfoPanel != bOldInfoPanel) {
-						db_set_b(hContact, SRMSGMOD_T, "infopanel", (BYTE)(bInfoPanel == 0 ? 0 : (bInfoPanel == 1 ? 1 : -1)));
-						if (hWnd && dat)
-							SendMessage(hWnd, DM_SETINFOPANEL, 0, 0);
-					}
-					if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2))
-						db_set_dw(hContact, SRMSGMOD_T, "maxhist", (DWORD)SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
-					else
-						db_set_dw(hContact, SRMSGMOD_T, "maxhist", 0);
-
-					//MAD
-					if (IsDlgButtonChecked(hwndDlg, IDC_LOADONLYACTUAL)) {
-						db_set_b(hContact, SRMSGMOD_T, "ActualHistory", 1);
-						if (hWnd && dat) dat->bActualHistory=TRUE;
-						}else{
-							db_set_b(hContact, SRMSGMOD_T, "ActualHistory", 0);
-						if (hWnd && dat) dat->bActualHistory=FALSE;
-						}
-					//
-
-					if (IsDlgButtonChecked(hwndDlg, IDC_IGNORETIMEOUTS)) {
-						db_set_b(hContact, SRMSGMOD_T, "no_ack", 1);
-						if (hWnd && dat)
-							dat->sendMode |= SMODE_NOACK;
-					} else {
-						db_unset(hContact, SRMSGMOD_T, "no_ack");
-						if (hWnd && dat)
-							dat->sendMode &= ~SMODE_NOACK;
-					}
-					if (hWnd && dat) {
-						SendMessage(hWnd, DM_CONFIGURETOOLBAR, 0, 1);
-						ShowPicture(dat, FALSE);
-						SendMessage(hWnd, WM_SIZE, 0, 0);
-						DM_ScrollToBottom(dat, 0, 1);
-					}
-					DestroyWindow(hwndDlg);
+				case 1:
+					db_set_b(hContact, SRMSGMOD_T, "ieview", -1);
+					db_set_b(hContact, SRMSGMOD_T, "hpplog", -1);
+					break;
+				case 2:
+					db_set_b(hContact, SRMSGMOD_T, "ieview", -1);
+					db_set_b(hContact, SRMSGMOD_T, "hpplog", 1);
+					break;
+				case 3:
+					db_set_b(hContact, SRMSGMOD_T, "ieview", 1);
+					db_set_b(hContact, SRMSGMOD_T, "hpplog", -1);
 					break;
 				}
+				if (hWnd && dat) {
+					iNewIEView = GetIEViewMode(hWnd, dat->hContact);
+					if (iNewIEView != iOldIEView) {
+						if (pdwActionToTake)
+							*pdwActionToTake |= UPREF_ACTION_SWITCHLOGVIEWER;
+					}
+				}
 			}
+			if ((iIndex = SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_GETCURSEL, 0, 0)) != CB_ERR) {
+				if (iIndex == 0)
+					db_unset(hContact, SRMSGMOD_T, "sendformat");
+				else
+					db_set_dw(hContact, SRMSGMOD_T, "sendformat", iIndex == 2 ? -1 : 1);
+			}
+			iIndex = SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCURSEL, 0, 0);
+			if ((newCodePage = (DWORD)SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, (WPARAM)iIndex, 0)) != sCodePage) {
+				db_set_dw(hContact, SRMSGMOD_T, "ANSIcodepage", (DWORD)newCodePage);
+				if (hWnd && dat) {
+					dat->codePage = newCodePage;
+					SendMessage(hWnd, DM_UPDATETITLE, 0, 1);
+				}
+			}
+			if ((IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? 1 : 0) != M.GetByte(hContact, "forceansi", 0)) {
+				db_set_b(hContact, SRMSGMOD_T, "forceansi", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? 1 : 0));
+				if (hWnd && dat)
+					dat->sendMode = IsDlgButtonChecked(hwndDlg, IDC_FORCEANSI) ? dat->sendMode | SMODE_FORCEANSI : dat->sendMode & ~SMODE_FORCEANSI;
+			}
+			if (IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE)) {
+				if (!M.GetByte(hContact, "isFavorite", 0))
+					AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
+			}
+			else
+				DeleteMenu(PluginConfig.g_hMenuFavorites, (UINT_PTR)hContact, MF_BYCOMMAND);
+
+			db_set_b(hContact, SRMSGMOD_T, "isFavorite", (WORD)(IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE) ? 1 : 0));
+			db_set_b(hContact, SRMSGMOD_T, "splitoverride", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PRIVATESPLITTER) ? 1 : 0));
+
+			db_set_b(hContact, TEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_TEMPLOVERRIDE)));
+			db_set_b(hContact, RTLTEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_RTLTEMPLOVERRIDE)));
+
+			bAvatarVisible = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
+			if (bAvatarVisible == 0)
+				db_unset(hContact, SRMSGMOD_T, "hideavatar");
+			else
+				db_set_b(hContact, SRMSGMOD_T, "hideavatar", (BYTE)(bAvatarVisible == 1 ? 1 : 0));
+
+			bInfoPanel = (BYTE)SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_GETCURSEL, 0, 0);
+			if (bInfoPanel != bOldInfoPanel) {
+				db_set_b(hContact, SRMSGMOD_T, "infopanel", (BYTE)(bInfoPanel == 0 ? 0 : (bInfoPanel == 1 ? 1 : -1)));
+				if (hWnd && dat)
+					SendMessage(hWnd, DM_SETINFOPANEL, 0, 0);
+			}
+			if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2))
+				db_set_dw(hContact, SRMSGMOD_T, "maxhist", (DWORD)SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
+			else
+				db_set_dw(hContact, SRMSGMOD_T, "maxhist", 0);
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_LOADONLYACTUAL)) {
+				db_set_b(hContact, SRMSGMOD_T, "ActualHistory", 1);
+				if (hWnd && dat) dat->bActualHistory = TRUE;
+			}
+			else {
+				db_set_b(hContact, SRMSGMOD_T, "ActualHistory", 0);
+				if (hWnd && dat) dat->bActualHistory = FALSE;
+			}
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_IGNORETIMEOUTS)) {
+				db_set_b(hContact, SRMSGMOD_T, "no_ack", 1);
+				if (hWnd && dat)
+					dat->sendMode |= SMODE_NOACK;
+			}
+			else {
+				db_unset(hContact, SRMSGMOD_T, "no_ack");
+				if (hWnd && dat)
+					dat->sendMode &= ~SMODE_NOACK;
+			}
+			if (hWnd && dat) {
+				SendMessage(hWnd, DM_CONFIGURETOOLBAR, 0, 1);
+				ShowPicture(dat, FALSE);
+				SendMessage(hWnd, WM_SIZE, 0, 0);
+				DM_ScrollToBottom(dat, 0, 1);
+			}
+			DestroyWindow(hwndDlg);
 			break;
+		}
+		break;
 	}
 	return FALSE;
 }
 
-static struct _checkboxes {
+static struct _checkboxes
+{
 	UINT	uId;
 	UINT	uFlag;
-} checkboxes[] = {
+}
+checkboxes[] = {
 	IDC_UPREFS_GRID, MWF_LOG_GRID,
 	IDC_UPREFS_SHOWICONS, MWF_LOG_SHOWICONS,
 	IDC_UPREFS_SHOWSYMBOLS, MWF_LOG_SYMBOLS,
@@ -317,48 +314,45 @@ static struct _checkboxes {
 	0, 0
 };
 
-/*
- * loads message log and other "per contact" flags
- * it uses the global flag value (0, mwflags) and then merges per contact settings
- * based on the mask value.
-
- * ALWAYS mask dat->dwFlags with MWF_LOG_ALL to only affect real flag bits and
- * ignore temporary bits.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// loads message log and other "per contact" flags
+// it uses the global flag value (0, mwflags) and then merges per contact settings
+// based on the mask value.
+//
+// ALWAYS mask dat->dwFlags with MWF_LOG_ALL to only affect real flag bits and
+// ignore temporary bits.
 
 int TSAPI LoadLocalFlags(HWND hwnd, TWindowData *dat)
 {
-	int		i = 0;
+	if (dat == NULL)
+		return NULL;
+
+	int i = 0;
 	DWORD	dwMask = M.GetDword(dat->hContact, "mwmask", 0);
 	DWORD	dwLocal = M.GetDword(dat->hContact, "mwflags", 0);
 	DWORD	dwGlobal = M.GetDword("mwflags", 0);
-	DWORD	maskval;
 
-	if (dat) {
-		dat->dwFlags &= ~MWF_LOG_ALL;
-		if (dat->pContainer->theme.isPrivate)
-			dat->dwFlags |= (dat->pContainer->theme.dwFlags & MWF_LOG_ALL);
-		else
-			dat->dwFlags |= (dwGlobal & MWF_LOG_ALL);
-		while(checkboxes[i].uId) {
-			maskval = checkboxes[i].uFlag;
-			if (dwMask & maskval)
-				dat->dwFlags = (dwLocal & maskval) ? dat->dwFlags | maskval : dat->dwFlags & ~maskval;
-			i++;
-		}
-		return(dat->dwFlags & MWF_LOG_ALL);
+	dat->dwFlags &= ~MWF_LOG_ALL;
+	if (dat->pContainer->theme.isPrivate)
+		dat->dwFlags |= (dat->pContainer->theme.dwFlags & MWF_LOG_ALL);
+	else
+		dat->dwFlags |= (dwGlobal & MWF_LOG_ALL);
+	while (checkboxes[i].uId) {
+		DWORD	maskval = checkboxes[i].uFlag;
+		if (dwMask & maskval)
+			dat->dwFlags = (dwLocal & maskval) ? dat->dwFlags | maskval : dat->dwFlags & ~maskval;
+		i++;
 	}
-	return 0;
+	return(dat->dwFlags & MWF_LOG_ALL);
 }
 
-/**
- * dialog procedure for the user preferences dialog (2nd page,
- * "per contact" message log options)
- *
- * @params: Win32 window procedure conform
- *
- * @return LRESULT
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// dialog procedure for the user preferences dialog (2nd page,
+// "per contact" message log options)
+//
+// @params: Win32 window procedure conform
+// @return LRESULT
+ 
 static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -398,9 +392,9 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 			int i = 0;
 			LRESULT state;
 			HWND	hwnd = M.FindWindow(hContact);
-			TWindowData *dat = NULL;
 			DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
 
+			TWindowData *dat = NULL;
 			if (hwnd)
 				dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -415,9 +409,9 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 				i++;
 			}
 			state = IsDlgButtonChecked(hwndDlg, IDC_UPREFS_LOGSTATUS);
-			if (state != BST_INDETERMINATE) {
+			if (state != BST_INDETERMINATE)
 				db_set_b(hContact, SRMSGMOD_T, "logstatuschanges", (BYTE)state);
-			}
+	
 			if (dwMask) {
 				db_set_dw(hContact, SRMSGMOD_T, "mwmask", dwMask);
 				db_set_dw(hContact, SRMSGMOD_T, "mwflags", dwFlags);
@@ -426,6 +420,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 				db_unset(hContact, SRMSGMOD_T, "mwmask");
 				db_unset(hContact, SRMSGMOD_T, "mwflags");
 			}
+			
 			if (hwnd && dat) {
 				if (dwMask)
 					*dwActionToTake |= (DWORD)UPREF_ACTION_REMAKELOG;
@@ -445,15 +440,14 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 	return FALSE;
 }
 
-/**
- * dialog procedure for the user preferences dialog. Handles the top
- * level window (a tab control with 2 subpages)
- *
- * @params: like any Win32 window procedure
- *
- * @return LRESULT (ignored for dialog procs, use
- *  	   DWLP_MSGRESULT)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// dialog procedure for the user preferences dialog. Handles the top
+// level window (a tab control with 2 subpages)
+//
+// @params: like any Win32 window procedure
+//
+// @return LRESULT (ignored for dialog procs, use DWLP_MSGRESULT)
+
 INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -505,6 +499,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
 				ShowWindow((HWND)tci.lParam, SW_HIDE);
 				break;
+
 			case TCN_SELCHANGE:
 				tci.mask = TCIF_PARAM;
 				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
