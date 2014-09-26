@@ -109,8 +109,12 @@ Visiter le profil
 
 [Errors]
 Erreurs
-[User added as friend]
+[Notification]
 
+[User %s added as friend]
+
+[(Unknown contact)]
+(Contact inconnu)
 [You cannot add yourself as friend]
 
 [Error]
@@ -128,15 +132,13 @@ Erreur
 
 [Are you sure to delete %s from your friend list?]
 
-[(Unknown contact)]
-(Contact inconnu)
 [Attention!]
 
-[User was deleted from your friend list]
+[User %s was deleted from your friend list]
 
-[Friend request from the user declined]
+[Friend request from the user %s declined]
 
-[Friend request suggestion for the user deleted]
+[Friend request suggestion for the user %s deleted]
 
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 

@@ -1,0 +1,5 @@
+﻿[Notification]
+[User %s added as friend]
+[User %s was deleted from your friend list]
+[Friend request from the user %s declined]
+[Friend request suggestion for the user %s deleted]
