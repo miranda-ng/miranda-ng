@@ -89,11 +89,11 @@
 Далучэнне да сервера %s
 [Create new chat]
 Стварыць чат
+[(Unknown contact)]
+(Невядомы кантакт)
 [Error]
 Памылка
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[(Unknown contact)]
-(Невядомы кантакт)
 [Attachments:]
 Укладанні:
 [Photo]

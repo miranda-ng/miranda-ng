@@ -103,8 +103,8 @@
 Видалити із друзів
 [Errors]
 Помилки
-[User added as friend]
-Користувач доданий до вашого списку друзів
+[(Unknown contact)]
+(Невідомий контакт)
 [You cannot add yourself as friend]
 Ви не можете додати себе до списку друзів
 [Error]
@@ -121,16 +121,8 @@
 Будь ласка, дозвольте додати вас до списку друзів.
 [Are you sure to delete %s from your friend list?]
 Ви впевнені, що хочете видалити "%s" з друзів?
-[(Unknown contact)]
-(Невідомий контакт)
 [Attention!]
 Увага!
-[User was deleted from your friend list]
-Користувач видалений з вашого списку друзів
-[Friend request from the user declined]
-Запит дружби від користувача відхилено
-[Friend request suggestion for the user deleted]
-Рекомендацію додати цього користувача до списку видалено
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
 [Attachments:]

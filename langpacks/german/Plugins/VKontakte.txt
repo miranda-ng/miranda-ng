@@ -109,8 +109,12 @@ Alle Nachrichten von vk.com neu laden
 
 [Errors]
 Fehler
-[User added as friend]
+[Notification]
+Benachrichtigung
+[User %s added as friend]
 
+[(Unknown contact)]
+(Unbekannter Kontakt)
 [You cannot add yourself as friend]
 
 [Error]
@@ -128,15 +132,13 @@ Fehler
 
 [Are you sure to delete %s from your friend list?]
 
-[(Unknown contact)]
-(Unbekannter Kontakt)
 [Attention!]
 Achtung!
-[User was deleted from your friend list]
+[User %s was deleted from your friend list]
 
-[Friend request from the user declined]
+[Friend request from the user %s declined]
 
-[Friend request suggestion for the user deleted]
+[Friend request suggestion for the user %s deleted]
 
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?
