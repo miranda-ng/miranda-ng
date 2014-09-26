@@ -500,6 +500,9 @@ static renameTable[] =
 {
 	{ _T("svc_dbepp.dll"),                  _T("Plugins\\dbeditorpp.dll") },
 	{ _T("svc_crshdmp.dll"),                _T("Plugins\\crashdumper.dll") },
+	{ _T("crashdmp.dll"),                   _T("Plugins\\crashdumper.dll") },
+	{ _T("crashrpt.dll"),                   _T("Plugins\\crashdumper.dll") },
+	{ _T("attache.dll"),                    _T("Plugins\\crashdumper.dll") },
 	{ _T("svc_vi.dll"),                     _T("Plugins\\versioninfo.dll") },
 	{ _T("crashrpt.dll"),                   _T("Plugins\\crashdumper.dll") },
 	{ _T("advsplashscreen.dll"),            _T("Plugins\\splashscreen.dll") },

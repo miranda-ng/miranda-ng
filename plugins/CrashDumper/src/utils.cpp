@@ -23,20 +23,6 @@ static HINSTANCE hKernel = GetModuleHandleA("kernel32.dll");
 typedef BOOL (WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 tGetProductInfo pGetProductInfo = (tGetProductInfo)GetProcAddress(hKernel, "GetProductInfo");
 
-void CheckForOtherCrashReportingPlugins(void)
-{
-	HMODULE hModule = GetModuleHandle(TEXT("attache.dll"));
-	if (hModule == NULL)
-		hModule = GetModuleHandle(TEXT("crashrpt.dll"));
-	if (hModule == NULL)
-		hModule = GetModuleHandle(TEXT("crashdmp.dll"));
-
-	if (hModule == NULL) return;
-
-	MessageBox(NULL, TranslateT("More then one crash reporting plugin installed. This will result in inability of creating crash reports"),
-		TEXT("Miranda Crash Dumper"), MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
-}
-
 void GetOSDisplayString(CMString &buffer)
 {
 	OSVERSIONINFOEX osvi = { 0 };

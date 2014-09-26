@@ -139,7 +139,6 @@ void InitExceptionHandler(void);
 void DestroyExceptionHandler(void);
 void SetExceptionHandler(void);
 void RemoveExceptionHandler(void);
-void CheckForOtherCrashReportingPlugins(void);
 
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
