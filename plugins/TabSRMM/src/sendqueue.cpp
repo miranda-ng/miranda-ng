@@ -462,9 +462,8 @@ void SendQueue::checkQueue(const TWindowData *dat) const
 	if (dat) {
 		HWND	hwndDlg = dat->hwnd;
 
-		if (dat->iOpenJobs == 0) {
-			::HandleIconFeedback(const_cast<TWindowData *>(dat), (HICON) - 1);
-		}
+		if (dat->iOpenJobs == 0)
+			::HandleIconFeedback(const_cast<TWindowData *>(dat), (HICON)INVALID_HANDLE_VALUE);
 		else if (!(dat->sendMode & SMODE_NOACK))
 			::HandleIconFeedback(const_cast<TWindowData *>(dat), PluginConfig.g_IconSend);
 

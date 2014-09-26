@@ -776,7 +776,7 @@ BEGIN
         MENUITEM "Send &Later",                 ID_SENDMENU_SENDLATER
         MENUITEM SEPARATOR
         MENUITEM "Force &ANSI",                 ID_SENDMENU_FORCEANSISEND
-        MENUITEM "Send unsafe (ignore Timeouts)", ID_FONT_CYAN
+        MENUITEM "Send unsafe (ignore Timeouts)", ID_SENDMENU_SENDWITHOUTTIMEOUTS
         MENUITEM SEPARATOR
         MENUITEM "Send Nudge",                  ID_SENDMENU_SENDNUDGE
     END
