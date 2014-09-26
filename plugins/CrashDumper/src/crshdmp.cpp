@@ -212,23 +212,21 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(temp), (LPARAM)temp);
 	crs_a2t(vertxt, temp);
 
-	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-		profpath = mir_tstrdup(_T("%miranda_userdata%"));
-	else
-		profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
+		replaceStrT(profpath, _T("%miranda_userdata%"));
+
+		hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
+		hVerInfoFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Version Information"), VersionInfoFolder);
+
+		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
+		FoldersPathChanged(0, 0);
+	}
 
 	mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
 	mir_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
 
 	SetExceptionHandler();
 
-	hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
-	hVerInfoFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Version Information"), VersionInfoFolder);
-
-	FoldersPathChanged(0, 0);
-
-	HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
 	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 
 	UploadInit();
@@ -330,6 +328,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
 	mir_getLP(&pluginInfoEx);
+
+	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
+	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
