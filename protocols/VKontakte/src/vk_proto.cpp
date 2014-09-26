@@ -82,8 +82,8 @@ CVkProto::~CVkProto()
 	UnInitMenus();
 	if (m_hPopupClassError)
 		Popup_UnregisterClass(m_hPopupClassError);
-	if (m_hPopupClassNotify)
-		Popup_UnregisterClass(m_hPopupClassNotify);
+	if (m_hPopupClassNotification)
+		Popup_UnregisterClass(m_hPopupClassNotification);
 	vk_Instances.remove(this);
 }
 
@@ -213,15 +213,15 @@ void CVkProto::InitPopups(void)
 	m_hPopupClassError = Popup_RegisterClass(&ppc);
 	Skin_ReleaseIcon(ppc.hIcon);
 
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Notify"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notify");
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Notification"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = LoadSkinnedIcon(SKINICON_INFORMATION);
 	ppc.colorBack = RGB(190, 225, 255); //Blue
 	ppc.colorText = RGB(255, 255, 255); //White
 	ppc.iSeconds = 4;
-	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
+	m_hPopupClassNotification = Popup_RegisterClass(&ppc);
 	Skin_ReleaseIcon(ppc.hIcon);
 }
 
@@ -235,7 +235,7 @@ void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTi
 		ppd.ptszText = szMsg;
 		ppd.pszClassName = name;
 		ppd.hContact = hContact;
-		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, err ? "Error" : "Notify");
+		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, err ? "Error" : "Notification");
 
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 	}
