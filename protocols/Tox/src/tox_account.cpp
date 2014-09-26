@@ -71,6 +71,12 @@ void CToxProto::InitToxCore()
 	tox_get_address(tox, &pubKey[0]);
 	std::string address = DataToHexString(pubKey);
 	setString(NULL, TOX_SETTINGS_ID, address.c_str());
+
+	std::tstring avatarPath = GetContactAvatarFilePath(NULL);
+	if (IsFileExists(avatarPath))
+	{
+		SetToxAvatar(avatarPath);
+	}
 }
 
 void CToxProto::UninitToxCore()
