@@ -389,3 +389,23 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 
 	mir_free(szNick);
 }
+
+MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
+{
+	if (!hDbEvent || !IsOnline())
+		return (MCONTACT)-1;
+
+	DWORD body[2];
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = sizeof(DWORD) * 2;
+	dbei.pBlob = (PBYTE)&body;
+
+	if (db_event_get(hDbEvent, &dbei))
+		return (MCONTACT)-1;
+	if ((dbei.eventType != EVENTTYPE_AUTHREQUEST) || (strcmp(dbei.szModule, m_szModuleName)))
+		return (MCONTACT)-1;
+
+	MCONTACT hContact = DbGetAuthEventContact(&dbei);
+	db_unset(hContact, m_szModuleName, "ReqAuth");
+	return hContact;
+}

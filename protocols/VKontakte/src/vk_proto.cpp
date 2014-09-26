@@ -436,9 +436,9 @@ MCONTACT CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	if (!uid)
 		return NULL;
 
-	MCONTACT hConnact = FindUser(uid, true);
+	MCONTACT hContact = FindUser(uid, true);
 	RetrieveUserInfo(uid);
-	return hConnact;
+	return hContact;
 }
 
 int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR* message)
@@ -448,11 +448,12 @@ int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR* message)
 		return 1;
 	bool bIsFriend = getByte(hContact, "Auth", -1)==0;
 	LONG userID = getDword(hContact, "ID", -1);
-	if (bIsFriend || (userID == -1) || !hContact)
+	if ((userID == -1) || !hContact)
 		return 1;
 	
-	TCHAR msg[501];
-	_tcsncpy_s(msg, 500, message, _TRUNCATE);
+	TCHAR msg[501] = {0};
+	if (message)
+		_tcsncpy_s(msg, 500, message, _TRUNCATE);
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.add.json", true, &CVkProto::OnReceiveAuthRequest)
 		<< INT_PARAM("user_id", userID)
@@ -471,10 +472,9 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 		if (pResponse != NULL) {
 			int iRet = json_as_int(pResponse);
-			if (iRet == 2){
-				setByte(param->hContact, "Auth", 0);
-				MsgPopup(param->hContact, TranslateT("User added as friend"), _T(""));
-			}
+			setByte(param->hContact, "Auth", 0);
+			if (iRet == 2)
+				MsgPopup(param->hContact, TranslateT("User added as friend"), _T(""));	
 		} 
 		else{
 			switch (param->iCount){
@@ -495,12 +495,20 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 int CVkProto::Authorize(HANDLE hDbEvent)
 {
-	return 1;
+	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
+	if (hContact == -1)
+		return 1;
+	
+	return AuthRequest(hContact, NULL);
 }
 
 int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 {
-	return 1;
+	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
+	if (hContact == -1)
+		return 1;
+
+	return SvcDeleteFriend(hContact,(LPARAM)true);
 }
 
 int CVkProto::UserIsTyping(MCONTACT hContact, int type)
