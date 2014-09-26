@@ -370,9 +370,9 @@ private:
 
 	CMString GetAttachmentDescr(JSONNODE*);
 
-	HANDLE m_hPopupClass;
+	HANDLE m_hPopupClassError, m_hPopupClassNotify;
 	void   InitPopups(void);
-	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle);
+	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err=false);
 
 	void DBAddAuthRequest(const MCONTACT hContact);
 	MCONTACT MContactFromDbEvent(HANDLE hDbEvent);
