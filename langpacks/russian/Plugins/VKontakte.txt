@@ -103,8 +103,12 @@ Cоздать комнату чата
 Удалить из списка друзей
 [Errors]
 Ошибки
-[User added as friend]
-Пользователь добавлен в друзья
+[Notification]
+Уведомдение
+[User %s added as friend]
+Пользователь %s добавлен в друзья
+[(Unknown contact)]
+(Неизвестный контакт)
 [You cannot add yourself as friend]
 Вы не можете добавить себя в друзья
 [Error]
@@ -121,16 +125,14 @@ Cоздать комнату чата
 Пожалуйста, разрешите мне добавить вас в список друзей.
 [Are you sure to delete %s from your friend list?]
 Вы уверены, что хотите удалить %s из списка друзей?
-[(Unknown contact)]
-(Неизвестный контакт)
 [Attention!]
 Внимание!
-[User was deleted from your friend list]
-Контакт был удалён из вашего списка друзей
-[Friend request from the user declined]
-Запрос дружбы от пользователя отклонён
-[Friend request suggestion for the user deleted]
-Рекомендация добавить в друзья данного пользователя удалена
+[User %s was deleted from your friend list]
+Контакт %s был удалён из вашего списка друзей
+[Friend request from the user %s declined]
+Запрос дружбы от пользователя %s отклонён
+[Friend request suggestion for the user %s deleted]
+Рекомендация добавить в друзья пользователя %s удалена
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
 [Attachments:]
