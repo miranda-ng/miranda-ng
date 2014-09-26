@@ -370,7 +370,7 @@ private:
 
 	CMString GetAttachmentDescr(JSONNODE*);
 
-	HANDLE m_hPopupClassError, m_hPopupClassNotify;
+	HANDLE m_hPopupClassError, m_hPopupClassNotification;
 	void   InitPopups(void);
 	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err=false);
 
