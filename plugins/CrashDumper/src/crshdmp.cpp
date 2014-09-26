@@ -23,14 +23,14 @@ int hLangpack;
 HINSTANCE hInst;
 DWORD mirandaVersion;
 LCID packlcid;
-HANDLE hCrashLogFolder, hVerInfoFolder;
+//HANDLE hCrashLogFolder, hVerInfoFolder;
+HANDLE hVerInfoFolder;
 
 TCHAR* vertxt;
 TCHAR* profname;
 TCHAR* profpath;
 
-TCHAR CrashLogFolder[MAX_PATH];
-TCHAR VersionInfoFolder[MAX_PATH];
+TCHAR CrashLogFolder[MAX_PATH], VersionInfoFolder[MAX_PATH];
 
 bool servicemode;
 bool clsdates;
@@ -156,9 +156,9 @@ static int FoldersPathChanged(WPARAM, LPARAM)
 	FOLDERSGETDATA fgd = { 0 };
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
 	fgd.nMaxPathSize = MAX_PATH;
-	fgd.szPathT = CrashLogFolder;
 	fgd.flags = FF_TCHAR;
-	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hCrashLogFolder, (LPARAM)&fgd);
+//	fgd.szPathT = CrashLogFolder;
+//	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hCrashLogFolder, (LPARAM)&fgd);
 
 	fgd.szPathT = VersionInfoFolder;
 	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hVerInfoFolder, (LPARAM)&fgd);
@@ -215,21 +215,66 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		replaceStrT(profpath, _T("%miranda_userdata%"));
 
-		hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
+		// Removed because it isn't available on Load()
+//		hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
 		hVerInfoFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Version Information"), VersionInfoFolder);
 
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
 		FoldersPathChanged(0, 0);
 	}
 
-	mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
-	mir_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
-
 	SetExceptionHandler();
 
 	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 
-	UploadInit();
+	if (servicemode)
+		ViewVersionInfo(0, 0);
+	else if (db_get_b(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
+		UploadVersionInfo(0, 0xa1);
+
+	return 0;
+}
+
+static int PreShutdown(WPARAM, LPARAM)
+{
+	DestroyAllWindows();
+	UploadClose();
+	return 0;
+}
+
+extern "C" int __declspec(dllexport) Load(void)
+{
+	if (LoadLibraryA("riched20.dll") == NULL)
+		return 1;
+
+	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
+
+	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
+	mir_getLP(&pluginInfoEx);
+
+	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
+	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+	mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
+	mir_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
+
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+
+	packlcid = (LCID)Langpack_GetDefaultLocale();
+
+	InitIcons();
+
+	InitExceptionHandler();
+
+	CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
+	CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
+	CreateServiceFunction(MS_CRASHDUMPER_VIEWINFO, ViewVersionInfo);
+	CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
+	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
+	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.popupPosition = 2000089999;
@@ -302,53 +347,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hk.pszName = "ShowVerInfo";
 	hk.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Hotkey_Register(&hk);
-
-	if (servicemode)
-		ViewVersionInfo(0, 0);
-	else if (db_get_b(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
-		UploadVersionInfo(0, 0xa1);
-
-	CheckForOtherCrashReportingPlugins();
-	return 0;
-}
-
-static int PreShutdown(WPARAM, LPARAM)
-{
-	DestroyAllWindows();
-	UploadClose();
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Load(void)
-{
-	if (LoadLibraryA("riched20.dll") == NULL)
-		return 1;
-
-	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
-
-	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
-	mir_getLP(&pluginInfoEx);
-
-	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
-	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-
-	packlcid = (LCID)Langpack_GetDefaultLocale();
-
-	InitIcons();
-
-	InitExceptionHandler();
-
-	CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
-	CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
-	CreateServiceFunction(MS_CRASHDUMPER_VIEWINFO, ViewVersionInfo);
-	CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
-	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
-	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
+	
+	UploadInit();
 	return 0;
 }
 
