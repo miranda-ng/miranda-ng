@@ -109,8 +109,12 @@ Dodaj jako znajomego
 Usuń z listy znajomych
 [Errors]
 Błędy
-[User added as friend]
-Dodano użytkownika jako znajomego
+[Notification]
+Powiadomienie
+[User %s added as friend]
+Użytkownik %s dodany jako znajomy
+[(Unknown contact)]
+(Nieznany kontakt)
 [You cannot add yourself as friend]
 Nie możesz dodać siebie samego jako znajomego
 [Error]
@@ -128,16 +132,14 @@ Importowanie historii
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to delete %s from your friend list?]
 Czy napewno chcesz usunąć %s ze znajomych?
-[(Unknown contact)]
-(Nieznany kontakt)
 [Attention!]
 Uwaga!
-[User was deleted from your friend list]
-Użytkownik został usunięty ze znajomych
-[Friend request from the user declined]
-Odrzucono prośbę o dodanie do znajomych od tego użytkownika
-[Friend request suggestion for the user deleted]
-Usunięto sugestię dodania tego użytkownika do znajomych
+[User %s was deleted from your friend list]
+Użytkownik %s został usunięty ze znajomych
+[Friend request from the user %s declined]
+Prośba o dołączenie do znajomych użytkownika %s odrzucona
+[Friend request suggestion for the user %s deleted]
+Sugestia użytkownika %s jako znajomego usunięta
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
 [Attachments:]
