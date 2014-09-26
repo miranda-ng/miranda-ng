@@ -199,6 +199,7 @@ private:
 
 	// avatars
 	TCHAR* GetContactAvatarFilePath(MCONTACT hContact);
+	bool SetToxAvatar(std::tstring path, bool checkHash = false);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM lParam);
