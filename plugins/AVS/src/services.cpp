@@ -78,17 +78,16 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		OPENFILENAME *ofn = (OPENFILENAME *)lParam;
-
-		data = (OpenFileSubclassData *)malloc(sizeof(OpenFileSubclassData));
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
-		data->locking_request = (BYTE *)ofn->lCustData;
-		data->setView = TRUE;
-
 		TranslateDialogDefault(hwnd);
-		CheckDlgButton(hwnd, IDC_PROTECTAVATAR, *(data->locking_request));
-	}
+		{
+			OPENFILENAME *ofn = (OPENFILENAME *)lParam;
+
+			data = (OpenFileSubclassData *)malloc(sizeof(OpenFileSubclassData));
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
+			data->locking_request = (BYTE *)ofn->lCustData;
+			data->setView = TRUE;
+			CheckDlgButton(hwnd, IDC_PROTECTAVATAR, *(data->locking_request));
+		}
 		break;
 
 	case WM_COMMAND:
@@ -118,16 +117,14 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 {
-	BYTE is_locked = 0;
-	TCHAR FileName[MAX_PATH], szBackupName[MAX_PATH];
-	TCHAR *szFinalName = NULL;
-	HANDLE hFile = 0;
+	TCHAR FileName[MAX_PATH];
+	TCHAR *szFinalName;
 	BYTE locking_request;
 
 	if (hContact == NULL || fei == NULL)
 		return 0;
 
-	is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
+	int is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 	if (tszPath == NULL) {
 		OPENFILENAME ofn = { 0 };
@@ -151,27 +148,23 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 		ofn.lpfnHook = OpenFileSubclass;
 		locking_request = is_locked;
 		ofn.lCustData = (LPARAM)&locking_request;
-		if (GetOpenFileName(&ofn)) {
-			szFinalName = FileName;
-			is_locked = locking_request ? 1 : is_locked;
-		}
-		else
+		if (!GetOpenFileName(&ofn))
 			return 0;
+		
+		szFinalName = FileName;
+		is_locked = locking_request ? 1 : is_locked;
 	}
-	else
-		szFinalName = tszPath;
+	else szFinalName = tszPath;
 
-	/*
-	* filename is now set, check it and perform all needed action
-	*/
-
-	if ((hFile = CreateFile(szFinalName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
+	// filename is now set, check it and perform all needed action
+	HANDLE hFile = CreateFile(szFinalName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile == INVALID_HANDLE_VALUE)
 		return 0;
 
 	// file exists...
-
 	CloseHandle(hFile);
 
+	TCHAR szBackupName[MAX_PATH];
 	PathToRelativeT(szFinalName, szBackupName, g_szDataPath);
 	db_set_ts(hContact, "ContactPhoto", "Backup", szBackupName);
 
@@ -194,10 +187,9 @@ INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
 	return avSetAvatar(wParam, (TCHAR*)lParam);
 }
 
-/*
- * see if is possible to set the avatar for the expecified protocol
- */
-
+/////////////////////////////////////////////////////////////////////////////////////////
+// see if is possible to set the avatar for the expecified protocol
+ 
 static INT_PTR CanSetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	char *protocol = (char *)wParam;
@@ -207,11 +199,10 @@ static INT_PTR CanSetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return ProtoServiceExists(protocol, PS_SETMYAVATAR);
 }
 
-/*
- * set an avatar for a protocol (service function)
- * if lParam == NULL, a open file dialog will be opened, otherwise, lParam is taken as a FULL
- * image filename (will be checked for existance, though)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// set an avatar for a protocol(service function)
+// if lParam == NULL, a open file dialog will be opened, otherwise, lParam is taken as a FULL
+// image filename (will be checked for existance, though)
 
 static int InternalRemoveMyAvatar(char *protocol)
 {
@@ -267,78 +258,46 @@ static int InternalRemoveMyAvatar(char *protocol)
 	return ret;
 }
 
-static void FilterGetStrings(TCHAR *filter, int bytesLeft, BOOL xml, BOOL swf)
+static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
 {
-	TCHAR *pfilter;
-	int wParam = bytesLeft;
+	filter.AppendFormat(_T("%s (*.bmp;*.jpg;*.gif;*.png"), TranslateT("All Files"));
+	if (swf) filter.Append(_T(";*.swf"));
+	if (xml) filter.Append(_T(";*.xml"));
+	
+	filter.AppendFormat(_T(")%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG"), 0);
+	if (swf) filter.Append(_T(";*.SWF"));
+	if (xml) filter.Append(_T(";*.XML"));
 
-	lstrcpyn(filter, TranslateT("All Files"), bytesLeft); bytesLeft -= lstrlen(filter);
-	_tcsncat(filter, _T(" (*.bmp;*.jpg;*.gif;*.png"), bytesLeft);
-	if (swf) _tcscat(filter, _T(";*.swf"));
-	if (xml) _tcscat(filter, _T(";*.xml"));
-	_tcscat(filter, _T(")"));
-	pfilter = filter + lstrlen(filter) + 1; bytesLeft = wParam - (pfilter - filter);
-	lstrcpyn(pfilter, _T("*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG"), bytesLeft);
-	if (swf) _tcscat(pfilter, _T(";*.SWF"));
-	if (xml) _tcscat(pfilter, _T(";*.XML"));
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
+	filter.AppendFormat(_T("%s (*.bmp;*.rle)%c*.BMP;*.RLE%c"), TranslateT("Windows Bitmaps"), 0, 0);
+	filter.AppendFormat(_T("%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"), TranslateT("JPEG Bitmaps"), 0, 0);
+	filter.AppendFormat(_T("%s (*.gif)%c*.GIF%c"), TranslateT("GIF Bitmaps"), 0, 0);
+	filter.AppendFormat(_T("%s (*.png)%c*.PNG%c"), TranslateT("PNG Bitmaps"), 0, 0);
 
-	lstrcpyn(pfilter, TranslateT("Windows Bitmaps"), bytesLeft); bytesLeft -= lstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*.bmp;*.rle)"), bytesLeft);
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-	lstrcpyn(pfilter, _T("*.BMP;*.RLE"), bytesLeft);
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
+	if (swf)
+		filter.AppendFormat(_T("%s (*.swf)%c*.SWF%c"), TranslateT("Flash Animations"), 0, 0);
 
-	lstrcpyn(pfilter, TranslateT("JPEG Bitmaps"), bytesLeft); bytesLeft -= lstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*.jpg;*.jpeg)"), bytesLeft);
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-	lstrcpyn(pfilter, _T("*.JPG;*.JPEG"), bytesLeft);
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-
-	lstrcpyn(pfilter, TranslateT("GIF Bitmaps"), bytesLeft); bytesLeft -= lstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*.gif)"), bytesLeft);
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-	lstrcpyn(pfilter, _T("*.GIF"), bytesLeft);
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-
-	lstrcpyn(pfilter, TranslateT("PNG Bitmaps"), bytesLeft); bytesLeft -= lstrlen(pfilter);
-	_tcsncat(pfilter, _T(" (*.png)"), bytesLeft);
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-	lstrcpyn(pfilter, _T("*.PNG"), bytesLeft);
-	pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-
-	if (swf) {
-		lstrcpyn(pfilter, TranslateT("Flash Animations"), bytesLeft); bytesLeft -= lstrlen(pfilter);
-		_tcsncat(pfilter, _T(" (*.swf)"), bytesLeft);
-		pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-		lstrcpyn(pfilter, _T("*.SWF"), bytesLeft);
-		pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-	}
-
-	if (xml) {
-		lstrcpyn(pfilter, TranslateT("XML Files"), bytesLeft); bytesLeft -= lstrlen(pfilter);
-		_tcsncat(pfilter, _T(" (*.xml)"), bytesLeft);
-		pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-		lstrcpyn(pfilter, _T("*.XML"), bytesLeft);
-		pfilter += lstrlen(pfilter) + 1; bytesLeft = wParam - (pfilter - filter);
-	}
-
-	if (bytesLeft) *pfilter = '\0';
+	if (xml)
+		filter.AppendFormat(_T("%s (*.xml)%c*.XML%c"), TranslateT("XML Files"), 0, 0);
+	
+	filter.AppendChar(0);
 }
 
-/*
- * Callback to set thumbnaill view to open dialog
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Callback to set thumbnaill view to open dialog
+
 static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	OPENFILENAME *ofn = (OPENFILENAME *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	SetMyAvatarHookData *data = (SetMyAvatarHookData *)ofn->lCustData;
+
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		hwndSetMyAvatar = hwnd;
 
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)lParam);
-		OPENFILENAME *ofn = (OPENFILENAME *)lParam;
-		SetMyAvatarHookData *data = (SetMyAvatarHookData *)ofn->lCustData;
+		ofn = (OPENFILENAME *)lParam;
+
+		data = (SetMyAvatarHookData *)ofn->lCustData;
 		data->thumbnail = TRUE;
 
 		SetWindowText(GetDlgItem(hwnd, IDC_MAKE_SQUARE), TranslateT("Make the avatar square"));
@@ -349,13 +308,9 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 		if (data->protocol != NULL && (Proto_AvatarImageProportion(data->protocol) & PIP_SQUARE))
 			EnableWindow(GetDlgItem(hwnd, IDC_MAKE_SQUARE), FALSE);
-	}
 		break;
 
 	case WM_NOTIFY:
-	{
-		OPENFILENAME *ofn = (OPENFILENAME *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		SetMyAvatarHookData *data = (SetMyAvatarHookData *)ofn->lCustData;
 		if (data->thumbnail) {
 			HWND hwndParent = GetParent(hwnd);
 			HWND hwndLv = FindWindowEx(hwndParent, NULL, _T("SHELLDLL_DefView"), NULL);
@@ -365,17 +320,13 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM wParam,
 			}
 		}
 		break;
-	}
+
 	case WM_DESTROY:
-	{
-		OPENFILENAME *ofn = (OPENFILENAME *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		SetMyAvatarHookData *data = (SetMyAvatarHookData *)ofn->lCustData;
 		data->square = IsDlgButtonChecked(hwnd, IDC_MAKE_SQUARE);
 		data->grow = IsDlgButtonChecked(hwnd, IDC_GROW);
 
 		hwndSetMyAvatar = NULL;
 		break;
-	}
 	}
 
 	return 0;
@@ -522,9 +473,8 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 			d.width = orig_width * (4 - num_tries) / 4;
 			d.height = orig_height * (4 - num_tries) / 4;
 		}
-
 	}
-	while (!d.saved && d.need_smaller_size && num_tries < 4);
+		while (!d.saved && d.need_smaller_size && num_tries < 4);
 
 	int ret;
 
@@ -533,9 +483,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 		ret = SaveAvatar(protocol, d.image_file_name);
 		DeleteFile(d.image_file_name);
 	}
-	else {
-		ret = -1;
-	}
+	else ret = -1;
 
 	if (d.temp_file[0] != '\0')
 		DeleteFile(d.temp_file);
@@ -580,18 +528,16 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 	int ret = 0;
 	if (protocol != NULL) {
 		ret = SetProtoMyAvatar(protocol, hBmp, szFinalName, format, data.square, data.grow);
-
 		if (ret == 0) {
 			DeleteGlobalUserAvatar();
 			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
 		}
 	}
 	else {
+		int count;
 		PROTOACCOUNT **accs;
-		int i, count;
-
 		ProtoEnumAccounts(&count, &accs);
-		for (i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			if (!ProtoServiceExists(accs[i]->szModuleName, PS_SETMYAVATAR))
 				continue;
 
@@ -605,9 +551,8 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 
 		DeleteGlobalUserAvatar();
 
-		if (ret) {
+		if (ret)
 			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
-		}
 		else {
 			// Copy avatar file to store as global one
 			TCHAR globalFile[1024];
@@ -696,11 +641,10 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 		allAcceptXML = TRUE;
 		allAcceptSWF = TRUE;
 
+		int count;
 		PROTOACCOUNT **accs;
-		int i, count;
-
 		ProtoEnumAccounts(&count, &accs);
-		for (i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			if (!ProtoServiceExists(accs[i]->szModuleName, PS_SETMYAVATAR))
 				continue;
 
@@ -723,19 +667,16 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 	}
 
 	if (tszPath == NULL) {
-		OPENFILENAME ofn = { 0 };
-		TCHAR filter[512];
-		TCHAR inipath[1024];
-
 		data.protocol = protocol;
 
-		filter[0] = '\0';
-		FilterGetStrings(filter, SIZEOF(filter), allAcceptXML, allAcceptSWF);
+		CMString filter;
+		FilterGetStrings(filter, allAcceptXML, allAcceptSWF);
 
+		TCHAR inipath[1024];
 		FoldersGetCustomPathT(hMyAvatarsFolder, inipath, SIZEOF(inipath), _T("."));
 
+		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
-		ofn.hwndOwner = 0;
 		ofn.lpstrFile = FileName;
 		ofn.lpstrFilter = filter;
 		ofn.nMaxFile = MAX_PATH;
@@ -760,10 +701,10 @@ INT_PTR avSetMyAvatar(char* protocol, TCHAR* tszPath)
 		}
 		ofn.lpstrTitle = title;
 
-		if (GetOpenFileName(&ofn))
-			szFinalName = FileName;
-		else
+		if (!GetOpenFileName(&ofn))
 			return 1;
+
+		szFinalName = FileName;
 	}
 	else szFinalName = (TCHAR*)tszPath;
 
