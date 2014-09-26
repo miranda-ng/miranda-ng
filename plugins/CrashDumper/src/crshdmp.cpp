@@ -260,7 +260,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 
 	packlcid = (LCID)Langpack_GetDefaultLocale();
