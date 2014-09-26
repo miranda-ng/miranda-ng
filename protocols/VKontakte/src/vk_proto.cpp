@@ -80,8 +80,10 @@ CVkProto::~CVkProto()
 	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
 	UninitQueue();
 	UnInitMenus();
-	if (m_hPopupClass)
-		Popup_UnregisterClass(m_hPopupClass);
+	if (m_hPopupClassError)
+		Popup_UnregisterClass(m_hPopupClassError);
+	if (m_hPopupClassNotify)
+		Popup_UnregisterClass(m_hPopupClassNotify);
 	vk_Instances.remove(this);
 }
 
@@ -196,25 +198,34 @@ void CVkProto::UnInitMenus()
 void CVkProto::InitPopups(void)
 {
 	TCHAR desc[256];
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
-
 	char name[256];
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
-
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
+
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = LoadSkinnedIcon(SKINICON_ERROR);
 	ppc.colorBack = RGB(191, 0, 0); //Red
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
-	m_hPopupClass = Popup_RegisterClass(&ppc);
+	m_hPopupClassError = Popup_RegisterClass(&ppc);
+	Skin_ReleaseIcon(ppc.hIcon);
 
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Notify"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notify");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = LoadSkinnedIcon(SKINICON_INFORMATION);
+	ppc.colorBack = RGB(190, 225, 255); //Blue
+	ppc.colorText = RGB(255, 255, 255); //White
+	ppc.iSeconds = 4;
+	m_hPopupClassNotify = Popup_RegisterClass(&ppc);
 	Skin_ReleaseIcon(ppc.hIcon);
 }
 
-void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle)
+void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		char name[256];
@@ -224,7 +235,7 @@ void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTi
 		ppd.ptszText = szMsg;
 		ppd.pszClassName = name;
 		ppd.hContact = hContact;
-		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
+		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, err ? "Error" : "Notify");
 
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 	}
@@ -473,19 +484,26 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		if (pResponse != NULL) {
 			int iRet = json_as_int(pResponse);
 			setByte(param->hContact, "Auth", 0);
-			if (iRet == 2)
-				MsgPopup(param->hContact, TranslateT("User added as friend"), _T(""));	
+			if (iRet == 2){
+				CMString msg,
+					msgformat = TranslateT("User %s added as friend"),
+					tszNick = db_get_tsa(param->hContact, m_szModuleName, "Nick");
+				if (tszNick.IsEmpty())
+					tszNick = TranslateT("(Unknown contact)");
+				msg.AppendFormat(msgformat, tszNick.GetBuffer());
+				MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
+			}
 		} 
 		else{
 			switch (param->iCount){
 			case VKERR_HIMSELF_AS_FRIEND:
-				MsgPopup(param->hContact, TranslateT("You cannot add yourself as friend"), TranslateT("Error"));
+				MsgPopup(param->hContact, TranslateT("You cannot add yourself as friend"), TranslateT("Error"), true);
 				break;
 			case VKERR_YOU_ON_BLACKLIST:
-				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as they have put you on their blacklist"), TranslateT("Error"));
+				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as they have put you on their blacklist"), TranslateT("Error"), true);
 				break;
 			case VKERR_USER_ON_BLACKLIST:
-				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as you put him on blacklist"), TranslateT("Error"));
+				MsgPopup(param->hContact, TranslateT("Cannot add this user to friends as you put him on blacklist"), TranslateT("Error"), true);
 				break;
 			}
 		}

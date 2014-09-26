@@ -923,18 +923,25 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 		JSONROOT pRoot;
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 		if (pResponse != NULL) {
+			CMString tszNick = db_get_tsa(param->hContact, m_szModuleName, "Nick");
+			if (tszNick.IsEmpty())
+				tszNick = TranslateT("(Unknown contact)");
+			CMString msgformat, msg;
 			int iRet = json_as_int(pResponse);
 			switch (iRet){
 			case 1:
-				MsgPopup(param->hContact, TranslateT("User was deleted from your friend list"), _T(""));
+				msgformat = TranslateT("User %s was deleted from your friend list");
 				break;
 			case 2:
-				MsgPopup(param->hContact, TranslateT("Friend request from the user declined"), _T(""));
+				msgformat = TranslateT("Friend request from the user %s declined");
 				break;
 			case 3:
-				MsgPopup(param->hContact, TranslateT("Friend request suggestion for the user deleted"), _T(""));
+				msgformat = TranslateT("Friend request suggestion for the user %s deleted");
 				break;
 			}
+
+			msg.AppendFormat(msgformat, tszNick);
+			MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
 			db_unset(param->hContact, m_szModuleName, "Auth");
 		}
 	}
