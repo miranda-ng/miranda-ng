@@ -240,18 +240,22 @@ static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, ti
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
 	debugLogA("CVkProto::RetrieveUserInfo %d", userID);
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveUserInfo)
-		<< INT_PARAM("user_ids", userID) 
-		<< CHAR_PARAM("fields", fieldsName)
-		<< CHAR_PARAM("name_case", "nom")
-		<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL);
+	CMString userIDs, code;
+	userIDs.AppendFormat(L"%i", userID);
+	CMString codeformat("var userIDs=\"%s\";"
+		"return{\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};");
+		
+	code.AppendFormat(codeformat, userIDs.GetBuffer(), CMString(fieldsName).GetBuffer());
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
+		<< TCHAR_PARAM("code", code)
+		<< VER_API);
 }
 
 void CVkProto::RetrieveUsersInfo(bool flag)
 {
 	debugLogA("CVkProto::RetrieveUsersInfo");
 
-	CMString userIDs;
+	CMString userIDs, code;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
 		LONG userID = getDword(hContact, "ID", -1);
 		if (userID == -1)
@@ -260,21 +264,18 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 			userIDs.AppendChar(',');
 		userIDs.AppendFormat(L"%i", userID);
 	}
-	if (flag){
-		CMString codeformat("var userIDs=\"%s\";"
-			"return{\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"online,status\",\"name_case\":\"nom\"}),"
-			"\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":1})};"), code;
-		code.AppendFormat(codeformat, userIDs.GetBuffer());
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
-			<< TCHAR_PARAM("code", code)
-			<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL, flag);
-	}
+
+	CMString codeformat("var userIDs=\"%s\";"
+		"return{\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})"); 
+	if (flag)
+		codeformat += CMString(",\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	else
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/users.get.json", true, &CVkProto::OnReceiveUserInfo)
-			<< TCHAR_PARAM("user_ids", userIDs)
-			<< CHAR_PARAM("fields", fieldsName)
-			<< CHAR_PARAM("name_case", "nom")
-			<< VER_API)->pUserInfo = new CVkSendMsgParam(NULL, flag);
+		codeformat += CMString("};");
+	code.AppendFormat(codeformat, userIDs.GetBuffer(), CMString(flag ? "online,status" : fieldsName).GetBuffer());
+
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
+		<< TCHAR_PARAM("code", code)
+		<< VER_API);
 }
 
 void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -283,15 +284,13 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	if ((reply->resultCode != 200) || !IsOnline())
 		return;
-	 bool bIsReqInfo = ((CVkSendMsgParam*)pReq->pUserInfo)->iMsgID!=0;
-	 delete pReq->pUserInfo;
-
+	
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
 
-	JSONNODE *pUsers = bIsReqInfo ? json_get(pResponse, "users") : pResponse;
+	JSONNODE *pUsers = json_get(pResponse, "users");
 	if (pUsers == NULL)
 		return;
 	
@@ -384,23 +383,27 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			setTString(hContact, "domain", szValue);
 	}
 
-	return; // tempory 
-
-	if (!bIsReqInfo)
+	JSONNODE *pRequests = json_get(pResponse, "requests");
+	if (pRequests == NULL)
 		return;
 	
-	JSONNODE *pRequests = json_get(pResponse, "requests");
 	int iCount = json_as_int(json_get(pRequests, "count"));
 	JSONNODE *pItems = json_get(pRequests, "items"), *pInfo;
+	if (!iCount||(pItems == NULL))
+		return;
 
+	debugLogA("CVkProto::OnReceiveUserInfo AuthRequests");
 	for (int i = 0; (pInfo = json_at(pItems, i)) != NULL; i++) {
 		LONG userid = json_as_int(pInfo);
 		if (userid == 0)
 			break;
 		MCONTACT hContact = FindUser(userid, true);
-		RetrieveUserInfo(userid);
-		Sleep(1000);
-		DBAddAuthRequest(hContact);
+		if (!getBool(hContact, "ReqAuth", false)){
+			RetrieveUserInfo(userid);
+			setByte(hContact, "ReqAuth", 1);
+			Sleep(1000);
+			DBAddAuthRequest(hContact);
+		}
 	}
 }
 
@@ -431,6 +434,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
 		db_unset(hContact, m_szModuleName, "Auth");
+		db_unset(hContact, m_szModuleName, "ReqAuth");
 		if (bCleanContacts&&!isChatRoom(hContact))
 			arContacts.insert((HANDLE)hContact);
 	}
@@ -889,7 +893,7 @@ INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM)
+INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 {
 	debugLogA("CVkProto::SvcDeleteFriend");
 	LONG userID = getDword(hContact, "ID", -1);
@@ -899,11 +903,11 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM)
 	CMString formatstr = TranslateT("Are you sure to delete %s from your friend list?"),
 		tszNick = db_get_tsa(hContact, m_szModuleName, "Nick"), 
 		ptszMsg;
-
-	ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
-	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
-		return 1;
-
+	if (flag==0){
+		ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
+		if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+			return 1;
+	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.delete.json", true, &CVkProto::OnReceiveDeleteFriend)
 		<< INT_PARAM("user_id", userID)
 		<< VER_API)->pUserInfo = new CVkSendMsgParam(hContact);

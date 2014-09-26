@@ -375,4 +375,5 @@ private:
 	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle);
 
 	void DBAddAuthRequest(const MCONTACT hContact);
+	MCONTACT MContactFromDbEvent(HANDLE hDbEvent);
 };
