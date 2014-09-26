@@ -6,18 +6,18 @@
 ;  Authors: Robert Pösel
 ;============================================================
 [Dummy protocol for Miranda NG.]
-
+Sztuczny protokół dla Mirandy NG.
 ;file \protocols\Dummy\res\resource.rc
 [Unique ID setting:]
-
+Ustawienie unikalnego ID:
 [Name of setting that holds unique identifier of contacts]
-
+Nazwa ustawienia przechowującego unikalny identyfikator kontaktów
 [Unique ID text:]
-
+Tekst unikalnego ID:
 [Visible name of unique identifier of contacts]
-
+Widoczna nazwa unikalnego identyfikatora kontaktów
 [Restart is required to apply these changes.]
-
+Do zastosowania tych zmian wymagany jest restart.
 ;file \protocols\Dummy\src\dummy_proto.cpp
 [Dummy protocol is too dumb to send messages.]
-
+Sztuczny protokół jest zbyt głupi, by wysyłać wiadomości.
