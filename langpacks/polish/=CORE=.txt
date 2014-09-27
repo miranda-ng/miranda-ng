@@ -2277,7 +2277,7 @@ Nie wypełniono pola wyszukiwania. Wprowadź wyszukiwane hasło i spróbuj ponow
 [Search]
 Szukaj
 [Ctrl+Search add contact]
-ctrl+szukaj dodaj kontakt
+Ctrl+szukaj dodaje kontakt
 [Results]
 Wyniki
 [There are no results to display.]
