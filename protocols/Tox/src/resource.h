@@ -11,6 +11,7 @@
 #define IDC_CREATE_NEW                  1006
 #define IDC_PROFILE_PATH                1007
 #define IDC_SEARCH                      1008
+#define IDC_PASSWORD                    1008
 #define IDC_USE_EXISTING                1009
 #define IDC_BROWSE_PROFILE              1010
 #define IDC_NAME                        1011
@@ -25,7 +26,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
