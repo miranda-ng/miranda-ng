@@ -33,6 +33,7 @@
 
 #include <tox.h>
 #include <toxdns.h>
+#include <toxencryptsave.h>
 
 #include "version.h"
 #include "resource.h"

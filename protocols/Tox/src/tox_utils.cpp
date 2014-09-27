@@ -155,7 +155,12 @@ void CToxProto::LoadToxData()
 		return;
 	}
 
-	tox_load(tox, data, size);
+	if (tox_is_data_encrypted(data)) {
+		ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
+		tox_encrypted_load(tox, data, size, (uint8_t*)(char*)password, strlen(password));
+	}
+	else
+		tox_load(tox, data, size);
 
 	mir_free(data);
 	fclose(hFile);
@@ -171,9 +176,10 @@ void CToxProto::SaveToxData()
 		return;
 	}
 
-	uint32_t size = tox_size(tox);
+	uint32_t size = tox_encrypted_size(tox);
 	uint8_t *data = (uint8_t*)mir_alloc(size);
-	tox_save(tox, data);
+	ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
+	tox_encrypted_save(tox, data, (uint8_t*)(char*)password, strlen(password));
 
 	if (fwrite(data, sizeof(uint8_t), size, hFile) != size)
 	{

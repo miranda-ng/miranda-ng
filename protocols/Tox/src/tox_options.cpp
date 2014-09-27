@@ -15,6 +15,9 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			ptrW nick(proto->getTStringA("Nick"));
 			SetDlgItemText(hwnd, IDC_NAME, nick);
 
+			ptrW pass(proto->getTStringA("Password"));
+			SetDlgItemText(hwnd, IDC_PASSWORD, pass);
+
 			std::string address = proto->getStringA(NULL, TOX_SETTINGS_ID);
 			SetDlgItemTextA(hwnd, IDC_TOXID, address.c_str());
 
@@ -32,6 +35,14 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		switch (LOWORD(wParam))
 		{
 		case IDC_NAME:
+			if ((HWND)lParam == GetFocus())
+			{
+				if (HIWORD(wParam) != EN_CHANGE) return 0;
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			}
+			break;
+
+		case IDC_PASSWORD:
 			if ((HWND)lParam == GetFocus())
 			{
 				if (HIWORD(wParam) != EN_CHANGE) return 0;
@@ -75,9 +86,12 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
 		{
-			TCHAR nick[TOX_MAX_NAME_LENGTH];
+			TCHAR nick[TOX_MAX_NAME_LENGTH], pass[MAX_PATH];
 			GetDlgItemText(hwnd, IDC_NAME, nick, TOX_MAX_NAME_LENGTH);
 			proto->setTString("Nick", nick);
+
+			GetDlgItemText(hwnd, IDC_PASSWORD, pass, SIZEOF(pass));
+			proto->setTString("Password", pass);
 
 			proto->setByte("DisableUDP", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_UDP));
 			proto->setByte("DisableIPv6", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_IPV6));
