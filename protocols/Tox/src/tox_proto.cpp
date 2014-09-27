@@ -5,7 +5,8 @@ PROTO<CToxProto>(protoName, userName)
 {
 	accountName = mir_tstrdup(userName);
 
-	InitToxCore();
+	if (this->getStringA("ToxID"))
+		InitToxCore();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
