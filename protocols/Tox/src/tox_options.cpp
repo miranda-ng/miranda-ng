@@ -12,16 +12,16 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			proto = (CToxProto*)lParam;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 
-			ptrW nick(proto->getTStringA("Nick"));
+			ptrT nick(proto->getTStringA("Nick"));
 			SetDlgItemText(hwnd, IDC_NAME, nick);
 
-			ptrW pass(proto->getTStringA("Password"));
+			ptrT pass(proto->getTStringA("Password"));
 			SetDlgItemText(hwnd, IDC_PASSWORD, pass);
 
 			std::string address = proto->getStringA(NULL, TOX_SETTINGS_ID);
 			SetDlgItemTextA(hwnd, IDC_TOXID, address.c_str());
 
-			ptrW group(proto->getTStringA(TOX_SETTINGS_GROUP));
+			ptrT group(proto->getTStringA(TOX_SETTINGS_GROUP));
 			SetDlgItemText(hwnd, IDC_GROUP, group);
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
 
@@ -35,13 +35,7 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		switch (LOWORD(wParam))
 		{
 		case IDC_NAME:
-			if ((HWND)lParam == GetFocus())
-			{
-				if (HIWORD(wParam) != EN_CHANGE) return 0;
-				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			}
-			break;
-
+		case IDC_GROUP:
 		case IDC_PASSWORD:
 			if ((HWND)lParam == GetFocus())
 			{
@@ -49,6 +43,12 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
 			break;
+
+		case IDC_DISABLE_UDP:
+		case IDC_DISABLE_IPV6:
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			break;
+		}
 
 		case IDC_CLIPBOARD:
 		{
@@ -65,21 +65,6 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 		}
 			break;
-
-		case IDC_GROUP:
-			if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-				return 0;
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_DISABLE_UDP:
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_DISABLE_IPV6:
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-		}
 	}
 		break;
 
@@ -107,6 +92,8 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			{
 				proto->delSetting(NULL, TOX_SETTINGS_GROUP);
 			}
+
+			proto->SaveToxData();
 
 			return TRUE;
 		}

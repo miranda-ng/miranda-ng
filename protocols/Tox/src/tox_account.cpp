@@ -20,6 +20,11 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 
 void CToxProto::InitToxCore()
 {
+	if (ptrA(this->getStringA("ToxID")) == NULL)
+	{
+		return;
+	}
+
 	Tox_Options options = { 0 };
 	options.udp_disabled = getByte("DisableUDP", 0);
 	options.ipv6enabled = !getByte("DisableIPv6", 0);
@@ -72,7 +77,7 @@ void CToxProto::InitToxCore()
 	std::string address = DataToHexString(pubKey);
 	setString(NULL, TOX_SETTINGS_ID, address.c_str());
 
-	std::tstring avatarPath = GetContactAvatarFilePath(NULL);
+	std::tstring avatarPath = GetAvatarFilePath();
 	if (IsFileExists(avatarPath))
 	{
 		SetToxAvatar(avatarPath);
@@ -81,6 +86,11 @@ void CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
+	if (ptrA(this->getStringA("ToxID")) == NULL)
+	{
+		return;
+	}
+
 	SaveToxData();
 	tox_kill(tox);
 }
