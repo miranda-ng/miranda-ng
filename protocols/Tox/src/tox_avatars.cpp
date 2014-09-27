@@ -15,7 +15,7 @@ std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 	else if (id != NULL)
 		mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.png"), path, id);
 	else
-		return NULL;
+		return _T("");
 
 	return path;
 }
