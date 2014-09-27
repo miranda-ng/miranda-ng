@@ -32,7 +32,8 @@ int CToxProto::OnAccountListChanged(WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case PRAC_ADDED:
-			UninitToxCore();
+			if (this->getStringA("ToxID"))
+				UninitToxCore();
 			DialogBoxParam(
 				g_hInstance,
 				MAKEINTRESOURCE(IDD_PROFILE_MANAGER),

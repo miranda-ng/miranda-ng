@@ -176,9 +176,13 @@ void CToxProto::SaveToxData()
 		return;
 	}
 
-	uint32_t size = tox_encrypted_size(tox);
-	uint8_t *data = (uint8_t*)mir_alloc(size);
 	ptrT password(getTStringA("Password"));
+	uint32_t size;
+	if (password && _tcslen(password))
+		size = tox_encrypted_size(tox);
+	else
+		size = tox_size(tox);
+	uint8_t *data = (uint8_t*)mir_alloc(size);
 	if (password && _tcslen(password))
 	{
 		char *password_utf8 = mir_utf8encodeW(password);
