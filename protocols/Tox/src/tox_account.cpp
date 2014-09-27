@@ -135,14 +135,14 @@ void CToxProto::PollingThread(void*)
 				DoBootstrap();
 			}
 		}
-		else
+		/*else
 		{
 			if (!tox_isconnected(tox))
 			{
 				debugLogA("CToxProto::PollingThread: disconnected from DHT");
 				SetStatus(ID_STATUS_OFFLINE);
 			}
-		}
+		}*/
 	}
 
 	isConnected = false;
