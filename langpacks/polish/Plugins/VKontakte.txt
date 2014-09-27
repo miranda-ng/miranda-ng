@@ -131,7 +131,7 @@ Importowanie historii
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to delete %s from your friend list?]
-Czy napewno chcesz usunąć %s ze znajomych?
+Czy na pewno chcesz usunąć %s ze znajomych?
 [Attention!]
 Uwaga!
 [User %s was deleted from your friend list]
