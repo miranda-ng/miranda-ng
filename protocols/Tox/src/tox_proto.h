@@ -124,6 +124,8 @@ private:
 	void __cdecl PollingThread(void*);
 
 	// tox profile
+	std::tstring GetToxProfilePath();
+
 	static INT_PTR CALLBACK ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	// accounts
@@ -139,7 +141,6 @@ private:
 	// account
 	bool IsOnline();
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
-
 
 	// events
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
@@ -198,7 +199,7 @@ private:
 	static void OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
 
 	// avatars
-	std::tstring GetContactAvatarFilePath(MCONTACT hContact);
+	std::tstring GetAvatarFilePath(MCONTACT hContact = NULL);
 	bool SetToxAvatar(std::tstring path, bool checkHash = false);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM wParam, LPARAM lParam);
@@ -225,7 +226,7 @@ private:
 
 	static bool IsFileExists(std::tstring path);
 
-	std::tstring GetToxProfilePath();
+	
 
 	void LoadToxData();
 	void SaveToxData();

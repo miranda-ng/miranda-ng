@@ -121,16 +121,6 @@ bool CToxProto::IsFileExists(std::tstring path)
 	return false;
 }
 
-std::tstring CToxProto::GetToxProfilePath()
-{
-	std::tstring profilePath;
-	TCHAR defaultPath[MAX_PATH];
-	mir_sntprintf(defaultPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), m_tszUserName);
-	profilePath = defaultPath;
-
-	return profilePath;
-}
-
 void CToxProto::LoadToxData()
 {
 	std::tstring toxProfilePath = GetToxProfilePath();
@@ -146,7 +136,6 @@ void CToxProto::LoadToxData()
 	rewind(hFile);
 
 	uint8_t *data = (uint8_t*)mir_alloc(size);
-
 	if (fread(data, sizeof(uint8_t), size, hFile) != size)
 	{
 		debugLogA("CToxProto::LoadToxData: could not read tox profile");
@@ -155,12 +144,23 @@ void CToxProto::LoadToxData()
 		return;
 	}
 
-	if (tox_is_data_encrypted(data)) {
-		ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
-		tox_encrypted_load(tox, data, size, (uint8_t*)(char*)password, strlen(password));
+	if (tox_is_data_encrypted(data))
+	{
+		ptrT password(getTStringA("Password"));
+		char *password_utf8 = mir_utf8encodeW(password);
+		if (tox_encrypted_load(tox, data, size, (uint8_t*)password_utf8, strlen(password_utf8)) == TOX_ERROR)
+		{
+			debugLogA("CToxProto::LoadToxData: could not decrypt tox profile");
+		}
+		mir_free(password_utf8);
 	}
 	else
-		tox_load(tox, data, size);
+	{
+		if (tox_load(tox, data, size) == TOX_ERROR)
+		{
+			debugLogA("CToxProto::LoadToxData: could not load tox profile");
+		}
+	}
 
 	mir_free(data);
 	fclose(hFile);
@@ -178,8 +178,24 @@ void CToxProto::SaveToxData()
 
 	uint32_t size = tox_encrypted_size(tox);
 	uint8_t *data = (uint8_t*)mir_alloc(size);
-	ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
-	tox_encrypted_save(tox, data, (uint8_t*)(char*)password, strlen(password));
+	ptrT password(getTStringA("Password"));
+	if (password && _tcslen(password))
+	{
+		char *password_utf8 = mir_utf8encodeW(password);
+		if (tox_encrypted_save(tox, data, (uint8_t*)password_utf8, strlen(password_utf8)) == TOX_ERROR)
+		{
+			debugLogA("CToxProto::LoadToxData: could not encrypt tox profile");
+			mir_free(password_utf8);
+			mir_free(data);
+			fclose(hFile);
+			return;
+		}
+		mir_free(password_utf8);
+	}
+	else
+	{
+		tox_save(tox, data);
+	}
 
 	if (fwrite(data, sizeof(uint8_t), size, hFile) != size)
 	{

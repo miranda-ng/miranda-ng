@@ -1,5 +1,15 @@
 #include "common.h"
 
+std::tstring CToxProto::GetToxProfilePath()
+{
+	std::tstring profilePath;
+	TCHAR defaultPath[MAX_PATH];
+	mir_sntprintf(defaultPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), m_tszUserName);
+	profilePath = defaultPath;
+
+	return profilePath;
+}
+
 INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);

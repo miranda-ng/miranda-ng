@@ -1,6 +1,6 @@
 #include "common.h"
 
-std::tstring CToxProto::GetContactAvatarFilePath(MCONTACT hContact)
+std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	TCHAR path[MAX_PATH];
 	mir_sntprintf(path, SIZEOF(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
@@ -117,7 +117,7 @@ INT_PTR CToxProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 	ptrA id(getStringA(pai->hContact, TOX_SETTINGS_ID));
 	if (id != NULL)
 	{
-		std::tstring path = GetContactAvatarFilePath(pai->hContact);
+		std::tstring path = GetAvatarFilePath(pai->hContact);
 		if (IsFileExists(path))
 		{
 			_tcsncpy(pai->filename, path.c_str(), SIZEOF(pai->filename));
@@ -137,7 +137,7 @@ INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return -2;
 	}
 
-	std::tstring path(GetContactAvatarFilePath(NULL));
+	std::tstring path(GetAvatarFilePath());
 	if (IsFileExists(path))
 	{
 		_tcsncpy((TCHAR*)wParam, path.c_str(), (int)lParam);
@@ -151,7 +151,7 @@ INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 INT_PTR CToxProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *path = (TCHAR*)lParam;
-	std::tstring avatarPath = GetContactAvatarFilePath(NULL);
+	std::tstring avatarPath = GetAvatarFilePath();
 	if (path != NULL)
 	{
 		if (!CopyFile(path, avatarPath.c_str(), FALSE))
@@ -188,7 +188,7 @@ void CToxProto::OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, 
 	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
-		std::tstring path = proto->GetContactAvatarFilePath(hContact);
+		std::tstring path = proto->GetAvatarFilePath(hContact);
 		if (format == TOX_AVATAR_FORMAT_NONE)
 		{
 			proto->delSetting(hContact, TOX_SETTINGS_AVATAR_HASH);
@@ -226,7 +226,7 @@ void CToxProto::OnGotFriendAvatarData(Tox *tox, int32_t number, uint8_t format, 
 	{
 		db_set_blob(hContact, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, hash, TOX_HASH_LENGTH);
 
-		std::tstring path = proto->GetContactAvatarFilePath(hContact);
+		std::tstring path = proto->GetAvatarFilePath(hContact);
 		FILE *hFile = _tfopen(path.c_str(), L"wb");
 		if (hFile)
 		{
