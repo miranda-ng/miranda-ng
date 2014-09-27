@@ -1,6 +1,6 @@
 #include "common.h"
 
-TCHAR* CToxProto::GetContactAvatarFilePath(MCONTACT hContact)
+std::tstring CToxProto::GetContactAvatarFilePath(MCONTACT hContact)
 {
 	TCHAR path[MAX_PATH];
 	mir_sntprintf(path, SIZEOF(path), _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
@@ -11,13 +11,13 @@ TCHAR* CToxProto::GetContactAvatarFilePath(MCONTACT hContact)
 
 	ptrT id(getTStringA(hContact, TOX_SETTINGS_ID));
 	if (hContact != NULL)
-		mir_sntprintf(path, MAX_PATH, _T("%s\\%s.jpg"), path, id);
+		mir_sntprintf(path, MAX_PATH, _T("%s\\%s.png"), path, id);
 	else if (id != NULL)
-		mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.jpg"), path, id);
+		mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.png"), path, id);
 	else
 		return NULL;
 
-	return mir_tstrdup(path);
+	return path;
 }
 
 bool CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
@@ -73,7 +73,7 @@ bool CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 		return false;
 	}
 	mir_free(data);
-	
+
 	if (checkHash)
 	{
 		db_set_blob(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, (void*)hash, TOX_HASH_LENGTH);
@@ -188,13 +188,14 @@ void CToxProto::OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, 
 	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
-		TCHAR *path = proto->GetContactAvatarFilePath(hContact);
+		std::tstring path = proto->GetContactAvatarFilePath(hContact);
 		if (format == TOX_AVATAR_FORMAT_NONE)
 		{
 			proto->delSetting(hContact, TOX_SETTINGS_AVATAR_HASH);
+			proto->ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0, 0);
 			if (IsFileExists(path))
 			{
-				DeleteFile(path);
+				DeleteFile(path.c_str());
 			}
 		}
 		else
@@ -207,6 +208,10 @@ void CToxProto::OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, 
 					tox_request_avatar_data(proto->tox, number);
 				}
 				db_free(&dbv);
+			}
+			else
+			{
+				tox_request_avatar_data(proto->tox, number);
 			}
 		}
 	}
@@ -221,13 +226,20 @@ void CToxProto::OnGotFriendAvatarData(Tox *tox, int32_t number, uint8_t format, 
 	{
 		db_set_blob(hContact, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, hash, TOX_HASH_LENGTH);
 
-		TCHAR *path = proto->GetContactAvatarFilePath(hContact);
-		FILE *hFile = _tfopen(path, L"wb");
+		std::tstring path = proto->GetContactAvatarFilePath(hContact);
+		FILE *hFile = _tfopen(path.c_str(), L"wb");
 		if (hFile)
 		{
-			fwrite(data, sizeof(uint8_t), length, hFile);
+			if (fwrite(data, sizeof(uint8_t), length, hFile) == length)
+			{
+				PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
+				pai.format = PA_FORMAT_PNG;
+				pai.hContact = hContact;
+				_tcscpy(pai.filename, path.c_str());
+
+				proto->ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+			}
 			fclose(hFile);
 		}
-		mir_free(path);
 	}
 }

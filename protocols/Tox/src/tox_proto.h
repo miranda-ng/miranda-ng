@@ -198,7 +198,7 @@ private:
 	static void OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
 
 	// avatars
-	TCHAR* GetContactAvatarFilePath(MCONTACT hContact);
+	std::tstring GetContactAvatarFilePath(MCONTACT hContact);
 	bool SetToxAvatar(std::tstring path, bool checkHash = false);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM wParam, LPARAM lParam);
