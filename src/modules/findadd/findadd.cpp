@@ -629,8 +629,13 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_BYPROTOID:
 		case IDC_BYEMAIL:
 		case IDC_BYNAME:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), ListView_GetSelectedCount(hwndList) > 0);
-			HideAdvancedSearchDlg(hwndDlg, dat);
+			{
+				int count = ListView_GetSelectedCount(hwndList);
+				if (dat->notSearchedYet)
+					count = 0;
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), count);
+				HideAdvancedSearchDlg(hwndDlg, dat);
+			}
 			break;
 
 		case IDC_PROTOID:

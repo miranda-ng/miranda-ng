@@ -642,6 +642,92 @@
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\always_visible.ico" />
+    <Image Include="res\auth_add.ico" />
+    <Image Include="res\auth_grant.ico" />
+    <Image Include="res\auth_request.ico" />
+    <Image Include="res\auth_revoke.ico" />
+    <Image Include="res\chat_channel.ico" />
+    <Image Include="res\chat_join.ico" />
+    <Image Include="res\chat_leave.ico" />
+    <Image Include="res\check_off.ico" />
+    <Image Include="res\check_on.ico" />
+    <Image Include="res\contact_add.ico" />
+    <Image Include="res\contact_delete.ico" />
+    <Image Include="res\contact_groups.ico" />
+    <Image Include="res\contact_rename.ico" />
+    <Image Include="res\contact_view_details.ico" />
+    <Image Include="res\female.ico" />
+    <Image Include="res\group_closed.ico" />
+    <Image Include="res\group_opened.ico" />
+    <Image Include="res\icon_accmgr.ico" />
+    <Image Include="res\icon_all.ico" />
+    <Image Include="res\icon_ansi.ico" />
+    <Image Include="res\icon_auth_request.ico" />
+    <Image Include="res\icon_connecting.ico" />
+    <Image Include="res\icon_down_arrow.ico" />
+    <Image Include="res\icon_error.ico" />
+    <Image Include="res\Icon_exit.ico" />
+    <Image Include="res\icon_fatal.ico" />
+    <Image Include="res\icon_file.ico" />
+    <Image Include="res\icon_find_user.ico" />
+    <Image Include="res\icon_frame.ico" />
+    <Image Include="res\icon_help.ico" />
+    <Image Include="res\icon_history.ico" />
+    <Image Include="res\icon_loaded.ico" />
+    <Image Include="res\icon_loaded_gray.ico" />
+    <Image Include="res\icon_mail.ico" />
+    <Image Include="res\icon_mainmenu.ico" />
+    <Image Include="res\icon_message.ico" />
+    <Image Include="res\icon_notify.ico" />
+    <Image Include="res\icon_notloaded.ico" />
+    <Image Include="res\icon_notloaded_gray.ico" />
+    <Image Include="res\icon_options.ico" />
+    <Image Include="res\icon_search_all.ico" />
+    <Image Include="res\Icon_show_hide.ico" />
+    <Image Include="res\icon_small_dot.ico" />
+    <Image Include="res\icon_sms.ico" />
+    <Image Include="res\icon_typing.ico" />
+    <Image Include="res\icon_undo.ico" />
+    <Image Include="res\icon_unicode.ico" />
+    <Image Include="res\icon_url.ico" />
+    <Image Include="res\icon_warning.ico" />
+    <Image Include="res\icon_window.ico" />
+    <Image Include="res\icon_windows.ico" />
+    <Image Include="res\male.ico" />
+    <Image Include="res\meta_add.ico" />
+    <Image Include="res\meta_convert.ico" />
+    <Image Include="res\meta_edit.ico" />
+    <Image Include="res\meta_menu.ico" />
+    <Image Include="res\meta_menuof.ico" />
+    <Image Include="res\meta_remove2.ico" />
+    <Image Include="res\meta_set_as_default.ico" />
+    <Image Include="res\miranda_home.ico" />
+    <Image Include="res\miranda_logo.ico" />
+    <Image Include="res\miranda_manager.ico" />
+    <Image Include="res\never_visible.ico" />
+    <Image Include="res\Off.ico" />
+    <Image Include="res\On.ico" />
+    <Image Include="res\status_away.ico" />
+    <Image Include="res\status_DND.ico" />
+    <Image Include="res\status_free4chat.ico" />
+    <Image Include="res\status_invisible.ico" />
+    <Image Include="res\status_locked.ico" />
+    <Image Include="res\status_NA.ico" />
+    <Image Include="res\status_occupied.ico" />
+    <Image Include="res\status_offline.ico" />
+    <Image Include="res\status_online.ico" />
+    <Image Include="res\status_on_the_phone.ico" />
+    <Image Include="res\status_out2lunch.ico" />
+    <Image Include="res\status_user_online.ico" />
+    <Image Include="res\_blank.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\cursor_drag_copy.cur" />
+    <None Include="res\cursor_drop_user.cur" />
+    <None Include="res\cursor_hyperlink.cur" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

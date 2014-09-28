@@ -645,4 +645,254 @@
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\_blank.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\always_visible.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\auth_add.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\auth_grant.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\auth_request.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\auth_revoke.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\chat_channel.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\chat_join.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\chat_leave.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\check_off.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\check_on.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\contact_add.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\contact_delete.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\contact_groups.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\contact_rename.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\contact_view_details.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\female.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\group_closed.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\group_opened.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_accmgr.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_all.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_ansi.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_auth_request.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_connecting.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_down_arrow.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_error.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\Icon_exit.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_fatal.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_file.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_find_user.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_frame.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_help.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_history.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_loaded.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_loaded_gray.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_mail.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_mainmenu.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_message.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_notify.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_notloaded.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_notloaded_gray.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_options.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_search_all.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\Icon_show_hide.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_small_dot.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_sms.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_typing.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_undo.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_unicode.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_url.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_warning.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_window.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\icon_windows.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\male.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\meta_add.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\meta_convert.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\meta_edit.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\meta_menu.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\meta_menuof.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\meta_remove2.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\meta_set_as_default.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\miranda_home.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\miranda_logo.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\miranda_manager.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\never_visible.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\Off.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\On.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_away.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_DND.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_free4chat.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_invisible.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_locked.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_NA.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_occupied.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_offline.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_on_the_phone.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_online.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_out2lunch.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="res\status_user_online.ico">
+      <Filter>Resources\Icons</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\cursor_hyperlink.cur">
+      <Filter>Resources\Icons</Filter>
+    </None>
+    <None Include="res\cursor_drop_user.cur">
+      <Filter>Resources\Icons</Filter>
+    </None>
+    <None Include="res\cursor_drag_copy.cur">
+      <Filter>Resources\Icons</Filter>
+    </None>
+  </ItemGroup>
 </Project>
