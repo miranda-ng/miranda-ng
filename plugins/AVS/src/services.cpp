@@ -288,7 +288,7 @@ static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
 static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	OPENFILENAME *ofn = (OPENFILENAME *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	SetMyAvatarHookData *data = (SetMyAvatarHookData *)ofn->lCustData;
+	SetMyAvatarHookData *data;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -311,6 +311,7 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_NOTIFY:
+		data = (SetMyAvatarHookData *)ofn->lCustData;
 		if (data->thumbnail) {
 			HWND hwndParent = GetParent(hwnd);
 			HWND hwndLv = FindWindowEx(hwndParent, NULL, _T("SHELLDLL_DefView"), NULL);
@@ -322,6 +323,7 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_DESTROY:
+		data = (SetMyAvatarHookData *)ofn->lCustData;
 		data->square = IsDlgButtonChecked(hwnd, IDC_MAKE_SQUARE);
 		data->grow = IsDlgButtonChecked(hwnd, IDC_GROW);
 
