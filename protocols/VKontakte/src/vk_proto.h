@@ -20,6 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_VISITPROFILE "/VisitProfile"
 #define PS_ADDASFRIEND "/AddAsFriend"
 #define PS_DELETEFRIEND "/DeleteFriend"
+#define PS_BANUSER "/BanUser"
+#define PS_REPORTABUSE "/ReportAbuse"
 #define MAXHISTORYMIDSPERONE 200
 
 struct CVkProto;
@@ -202,6 +204,8 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcVisitProfile(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcAddAsFriend(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcDeleteFriend(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcBanUser(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
 	void InitMenus();
 	void UnInitMenus();
@@ -275,6 +279,8 @@ private:
 		CMI_VISITPROFILE,
 		CMI_ADDASFRIEND,
 		CMI_DELETEFRIEND,
+		CMI_BANUSER,
+		CMI_REPORTABUSE,
 		CMI_COUNT
 	};
 	enum ProtoMenuIndexes {
@@ -335,7 +341,11 @@ private:
 			m_bMarkReadOnReply, 
 			m_bMarkReadOnTyping,
 			m_bAutoSyncHistory,
-			m_bUseLocalTime;
+			m_bUseLocalTime,
+			m_bReportAbuse,
+			m_bClearServerHistory,
+			m_bRemoveFromFrendlist,
+			m_bRemoveFromClist;
 
 	LONG   m_myUserId;
 	ptrA   m_szAccessToken;

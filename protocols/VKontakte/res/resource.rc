@@ -40,28 +40,34 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Login settings",IDC_STATIC,4,7,293,65
-    LTEXT           "E-mail or phone number:",IDC_STATIC,51,23,95,12
-    EDITTEXT        IDC_LOGIN,147,23,89,12,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,51,39,94,12
-    EDITTEXT        IDC_PASSWORD,147,39,90,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,55,174,12
-    GROUPBOX        "Local settings",IDC_STATIC,4,73,293,33
-    LTEXT           "Contact list group:",IDC_STATIC,12,88,146,8
-    EDITTEXT        IDC_GROUPNAME,167,86,121,12,ES_AUTOHSCROLL
-    GROUPBOX        "Advanced",IDC_STATIC,4,108,293,124
-    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,120,278,10
-    CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,133,278,10
+    GROUPBOX        "Login settings",IDC_STATIC,4,7,293,55
+    LTEXT           "E-mail or phone number:",IDC_STATIC,51,17,95,12
+    EDITTEXT        IDC_LOGIN,147,17,89,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,51,31,94,12
+    EDITTEXT        IDC_PASSWORD,147,31,90,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,45,174,12
+    GROUPBOX        "Local settings",IDC_STATIC,4,62,293,27
+    LTEXT           "Contact list group:",IDC_STATIC,12,74,146,8
+    EDITTEXT        IDC_GROUPNAME,167,72,121,12,ES_AUTOHSCROLL
+    GROUPBOX        "Advanced",IDC_STATIC,4,90,293,103
+    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,101,278,10
+    CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,112,278,10
     CONTROL         "Automatically wipe local contacts missing in your friend list",IDC_AUTOCLEAN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,146,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,123,278,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,159,278,10
-    CONTROL         "Mark read on reply",IDC_MARKREADONREPLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,171,278,10
-    CONTROL         "Mark read on typing",IDC_MARKREADONTYPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,184,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,134,278,10
+    CONTROL         "Mark read on reply",IDC_MARKREADONREPLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,145,278,10
+    CONTROL         "Mark read on typing",IDC_MARKREADONTYPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,156,267,10
     CONTROL         "Automatically sync last messages",IDC_SYNCHISTOTYONONLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,197,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,167,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,209,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,178,278,10
+    GROUPBOX        "When I ban user...",IDC_STATIC,4,195,293,37
+    CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,206,129,10
+    CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,217,129,10
+    CONTROL         "Remove from friend list",IDC_REMOVE_FROM_FRENDLIST,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,206,129,10
+    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,217,129,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
@@ -133,7 +139,6 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 297
         TOPMARGIN, 7
-        BOTTOMMARGIN, 239
     END
 
     IDD_INVITE, DIALOG
