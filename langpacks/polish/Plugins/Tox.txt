@@ -26,8 +26,6 @@ Wyłącz UDP (zmuś Tox do używania TCP)
 Wyłącz IPV6
 [Tox]
 Tox
-[Passowrd:]
-Hasło:
 [Tox profile import]
 Import profilu tox
 [Import]
@@ -36,7 +34,7 @@ Importuj
 Profil tox zawiera twój identyfikator oraz listę znajomych.\r\nMożesz importować istniejący profil z innego klienta tox.\r\nNaciśnij "Importuj", aby dokonać importu z istniejącego profilu.\r\nNaciśnij "Anuluj" lub zamknij to okno, aby utworzyć nowy profil.
 [Cancel]
 Anuluj
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
+[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]

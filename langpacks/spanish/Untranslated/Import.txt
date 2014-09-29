@@ -31,6 +31,8 @@
 [Failed to add %S contact %s]
 [Added %S contact %s, '%s']
 [Added %S contact %s]
+[Added metacontact '%s']
+[Added metacontact]
 [Skipping contact with no protocol]
 [Skipping contact, account %S cannot be mapped.]
 [Skipping contact, %S not installed.]

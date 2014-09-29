@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -16,6 +16,8 @@ Tox-ID:
 Standardgruppe:
 [C]
 K
+[Password:]
+Passwort:
 [Connection settings]
 Verbindungseinstellungen
 [Disable UDP (force Tox to use TCP)]
@@ -24,15 +26,15 @@ UDP deaktivieren (zwingt Tox, TCP zu verwenden)
 IPv6 deaktivieren
 [Tox]
 Tox
-[Tox profile]
-Tox-Profil
-[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
-Ihr Tox-Profil enthält Ihre ID und Freundesliste.\r\nSie können ein neues Profil erstellen, falls Sie Tox noch nicht verwendet haben, oder Sie können ein existierendes Profil aus einem anderen Tox Client verwenden.
-[Create new profile]
-Neues Profil erstellen
-[Use existing profile]
-Existierendes Profil verwenden
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
+[Tox profile import]
+
+[Import]
+Importieren
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
+
+[Cancel]
+Abbrechen
+[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
@@ -47,8 +49,6 @@ Konto
 Alle Dateien (*.*)
 [Select tox profile]
 Tox-Profil auswählen
-[Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
-Ein Tox-Profil mit dem selben Namen existiert bereits.\r\nFalls Sie fortfahren wird dieses Profil überschrieben.
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokolle
@@ -57,5 +57,7 @@ Protokollicon
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Query
+[You cannot add yourself to friend list]
+
 [Contact already in your contact list]
 Der Kontakt ist bereits in Ihrer Kontaktliste
