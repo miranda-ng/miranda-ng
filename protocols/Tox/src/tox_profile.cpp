@@ -12,6 +12,11 @@ std::tstring CToxProto::GetToxProfilePath()
 
 void CToxProto::LoadToxProfile()
 {
+	if (tox == NULL)
+	{
+		return;
+	}
+
 	std::tstring toxProfilePath = GetToxProfilePath();
 	FILE *hFile = _wfopen(toxProfilePath.c_str(), _T("rb"));
 	if (!hFile)
@@ -63,6 +68,11 @@ void CToxProto::LoadToxProfile()
 
 void CToxProto::SaveToxProfile()
 {
+	if (tox == NULL)
+	{
+		return;
+	}
+
 	std::tstring toxProfilePath = GetToxProfilePath();
 	FILE *hFile = _wfopen(toxProfilePath.c_str(), _T("wb"));
 	if (!hFile)
