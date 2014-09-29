@@ -291,6 +291,12 @@ void ImportAccounts()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static MCONTACT MapContact(MCONTACT hSrc)
+{
+	ContactMap *pDestContact = arContactMap.find((ContactMap*)&hSrc);
+	return (pDestContact == NULL) ? INVALID_CONTACT_ID : pDestContact->dstID;
+}
+
 static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSetting, DBVARIANT* id, const TCHAR* pszUserID, TCHAR *nick, TCHAR *group)
 {
 	MCONTACT hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
@@ -312,6 +318,58 @@ static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSett
 
 	srcDb->FreeVariant(id);
 	return hContact;
+}
+
+void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
+{
+	// Hidden?
+	DBVARIANT dbv;
+	if (!myGet(hSrc, "CList", "Hidden", &dbv)) {
+		db_set(hDst, "CList", "Hidden", &dbv);
+		srcDb->FreeVariant(&dbv);
+	}
+
+	// Ignore settings
+	if (!myGet(hSrc, "Ignore", "Mask1", &dbv)) {
+		db_set(hDst, "Ignore", "Mask1", &dbv);
+		srcDb->FreeVariant(&dbv);
+	}
+
+	// Apparent mode
+	if (!myGet(hSrc, pda->szSrcAcc, "ApparentMode", &dbv)) {
+		db_set(hDst, pda->szDstAcc, "ApparentMode", &dbv);
+		srcDb->FreeVariant(&dbv);
+	}
+
+	// Nick
+	if (!myGet(hSrc, pda->szSrcAcc, "Nick", &dbv)) {
+		db_set(hDst, pda->szDstAcc, "Nick", &dbv);
+		srcDb->FreeVariant(&dbv);
+	}
+
+	// Myhandle
+	if (!myGet(hSrc, pda->szSrcAcc, "MyHandle", &dbv)) {
+		db_set(hDst, pda->szDstAcc, "MyHandle", &dbv);
+		srcDb->FreeVariant(&dbv);
+	}
+
+	// First name
+	if (!myGet(hSrc, pda->szSrcAcc, "FirstName", &dbv)) {
+		db_set(hDst, pda->szDstAcc, "FirstName", &dbv);
+		srcDb->FreeVariant(&dbv);
+	}
+
+	// Last name
+	if (!myGet(hSrc, pda->szSrcAcc, "LastName", &dbv)) {
+		db_set(hDst, pda->szDstAcc, "LastName", &dbv);
+		srcDb->FreeVariant(&dbv);
+	}
+
+	// About
+	if (!myGet(hSrc, pda->szSrcAcc, "About", &dbv)) {
+		db_set(hDst, pda->szDstAcc, "About", &dbv);
+		srcDb->FreeVariant(&dbv);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -343,9 +401,59 @@ static int ImportGroups()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+DBCachedContact* FindDestMeta(DBCachedContact *ccSrc)
+{
+	for (MCONTACT hMeta = dstDb->FindFirstContact(META_PROTO); hMeta != 0; hMeta = dstDb->FindNextContact(hMeta, META_PROTO)) {
+		DBCachedContact *cc = dstDb->m_cache->GetCachedContact(hMeta);
+		if (cc->nSubs != ccSrc->nSubs)
+			continue;
+
+		int i;
+		for (i = 0; i < ccSrc->nSubs; i++) {
+			MCONTACT hDest = MapContact(ccSrc->pSubs[i]);
+			if (hDest == INVALID_CONTACT_ID || ccSrc->pSubs[i] != hDest)
+				break;
+		}
+
+		if (i == ccSrc->nSubs)
+			return cc;
+	}
+
+	return NULL;
+}
+
 void ImportMeta(DBCachedContact *cc)
 {
+	MCONTACT hDest;
 
+	DBCachedContact *ccDst = FindDestMeta(cc);
+	if (ccDst == NULL) {
+		hDest = CallService(MS_DB_CONTACT_ADD, 0, 0);
+		CallService(MS_PROTO_ADDTOCONTACT, hDest, (LPARAM)META_PROTO);
+
+		ptrT tszGroup(myGetWs(cc->contactID, "CList", "Group")), tszNick(myGetWs(cc->contactID, "CList", "MyHandle"));
+		if (tszNick == NULL)
+			tszNick = myGetWs(cc->contactID, cc->szProto, "Nick");
+
+		CreateGroup(tszGroup, hDest);
+
+		if (tszNick && *tszNick) {
+			db_set_ws(hDest, "CList", "MyHandle", tszNick);
+			AddMessage(LPGENT("Added metacontact '%s'"), tszNick);
+		}
+		else AddMessage(LPGENT("Added metacontact"));
+
+		CopySettings(cc->contactID, META_PROTO, hDest, META_PROTO);
+		for (int i = 0; i < cc->nSubs; i++) {
+			char szSettingName[100];
+			mir_snprintf(szSettingName, SIZEOF(szSettingName), "Handle%d", i);
+			db_set_dw(hDest, META_PROTO, szSettingName, MapContact(cc->pSubs[i]));
+		}
+	}
+	else hDest = ccDst->contactID;
+
+	AccountMap pda(META_PROTO, META_PROTO);
+	ImportContactSettings(&pda, cc->contactID, hDest);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -385,11 +493,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	DBVARIANT dbv;
-	if (!strcmp(cc->szProto, META_PROTO)) {
-		dbv.type = DBVT_DWORD;
-		dbv.dVal = hSrc;
-	}
-	else if (myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
+	if (myGet(hSrc, cc->szProto, pszUniqueSetting, &dbv)) {
 		AddMessage(LPGENT("Skipping %S contact, ID not found"), cc->szProto);
 		return NULL;
 	}
@@ -415,66 +519,18 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		return NULL;
 	}
 
-	TCHAR *tszGroup = myGetWs(hSrc, "CList", "Group"), *tszNick = myGetWs(hSrc, "CList", "MyHandle");
+	ptrT tszGroup(myGetWs(hSrc, "CList", "Group")), tszNick(myGetWs(hSrc, "CList", "MyHandle"));
 	if (tszNick == NULL)
 		tszNick = myGetWs(hSrc, cc->szProto, "Nick");
 
 	hDst = AddContact(hdlgProgress, pda->szDstAcc, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
-	mir_free(tszGroup), mir_free(tszNick);
+	if (hDst == INVALID_CONTACT_ID) {
+		AddMessage(LPGENT("Unknown error while adding %S contact %s"), pda->szDstAcc, pszUniqueID);
+		return INVALID_CONTACT_ID;
+	}
 
 	arContactMap.insert(new ContactMap(hSrc, hDst));
-
-	if (hDst != INVALID_CONTACT_ID) {
-		// Hidden?
-		if (!myGet(hSrc, "CList", "Hidden", &dbv)) {
-			db_set(hDst, "CList", "Hidden", &dbv);
-			srcDb->FreeVariant(&dbv);
-		}
-
-		// Ignore settings
-		if (!myGet(hSrc, "Ignore", "Mask1", &dbv)) {
-			db_set(hDst, "Ignore", "Mask1", &dbv);
-			srcDb->FreeVariant(&dbv);
-		}
-
-		// Apparent mode
-		if (!myGet(hSrc, cc->szProto, "ApparentMode", &dbv)) {
-			db_set(hDst, pda->szDstAcc, "ApparentMode", &dbv);
-			srcDb->FreeVariant(&dbv);
-		}
-
-		// Nick
-		if (!myGet(hSrc, cc->szProto, "Nick", &dbv)) {
-			db_set(hDst, pda->szDstAcc, "Nick", &dbv);
-			srcDb->FreeVariant(&dbv);
-		}
-
-		// Myhandle
-		if (!myGet(hSrc, cc->szProto, "MyHandle", &dbv)) {
-			db_set(hDst, pda->szDstAcc, "MyHandle", &dbv);
-			srcDb->FreeVariant(&dbv);
-		}
-
-		// First name
-		if (!myGet(hSrc, cc->szProto, "FirstName", &dbv)) {
-			db_set(hDst, pda->szDstAcc, "FirstName", &dbv);
-			srcDb->FreeVariant(&dbv);
-		}
-
-		// Last name
-		if (!myGet(hSrc, cc->szProto, "LastName", &dbv)) {
-			db_set(hDst, pda->szDstAcc, "LastName", &dbv);
-			srcDb->FreeVariant(&dbv);
-		}
-
-		// About
-		if (!myGet(hSrc, cc->szProto, "About", &dbv)) {
-			db_set(hDst, pda->szDstAcc, "About", &dbv);
-			srcDb->FreeVariant(&dbv);
-		}
-	}
-	else AddMessage(LPGENT("Unknown error while adding %S contact %s"), pda->szDstAcc, pszUniqueID);
-
+	ImportContactSettings(pda, hSrc, hDst);
 	return hDst;
 }
 
