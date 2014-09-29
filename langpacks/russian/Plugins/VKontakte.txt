@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.16
+;  Version: 0.1.0.17
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -37,6 +37,16 @@ E-mail или номер телефона:
 Автоматически синхронизировать последние сообщения
 [Use local time for received messages]
 Локальное время для принятых сообщений
+[When I ban user...]
+При бане пользователя...
+[Report abuse]
+Пожаловаться на пользователя
+[Clear server history]
+Очистить историю на сайте
+[Remove from friend list]
+Удалить из списка друзей
+[Remove from contact list]
+Удалить из списка контактов
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
@@ -101,6 +111,8 @@ Cоздать комнату чата
 Добавить в друзья
 [Delete from friend list]
 Удалить из списка друзей
+[Ban user]
+Забанить пользователя
 [Errors]
 Ошибки
 [Notification]
@@ -133,6 +145,20 @@ Cоздать комнату чата
 Запрос дружбы от пользователя %s отклонён
 [Friend request suggestion for the user %s deleted]
 Рекомендация добавить в друзья пользователя %s удалена
+[ report abuse on him/her]
+ отправит жалобу на пользователя
+[ clear server history with him/her]
+ удалит историю с пользователем на сайте
+[ remove his/her from you frendlist]
+ удалит пользователя из друзей
+[ remove his/her from you contact list]
+ удалит пользователя из списка контактов
+[Are you sure to ban %s? %s%sContinue?]
+Вы уверены, что хотите забанить s? %s%sПродолжить?
+[\nIt will also]
+\n Это также
+[Are you sure to report abuse on %s?]
+Вы уверены, что хотите отправить жалобу на %s?
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
 [Attachments:]

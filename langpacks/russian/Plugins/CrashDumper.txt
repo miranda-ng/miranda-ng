@@ -51,8 +51,6 @@
 Показать версии
 [Upload Version Information]
 Загрузить версии
-[Crash Reports]
-Отчёты об ошибках
 [Version Information]
 Версии
 [Copy to clipboard]
@@ -95,5 +93,3 @@ Miranda NG была завершена аварийно. Отчёт сохран
 Нельзя загрузить информацию о версиях. Хост недоступен
 [Crash Dumper HTTP connections]
 HTTP подключение Crash Dumper
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Установлено более одного плагина отчётов об ошибках. Это ведет к невозможности создания отчётов
