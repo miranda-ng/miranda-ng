@@ -123,7 +123,7 @@ CAPTION "Tox profile import"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     PUSHBUTTON      "Import",IDOK,124,66,50,14,WS_DISABLED
-    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nOtherwise, it will create a new profile.",IDC_STATIC,7,7,221,31
+    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.",IDC_STATIC,7,7,221,31
     EDITTEXT        IDC_PROFILE_PATH,7,38,202,14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BROWSE_PROFILE,212,38,16,14
     DEFPUSHBUTTON   "Cancel",IDCANCEL,178,66,50,14
@@ -135,7 +135,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_SEARCH,0,4,109,14,ES_AUTOHSCROLL
-    LTEXT           "If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.",IDC_STATIC,0,20,109,93
+    LTEXT           "If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.",IDC_STATIC,0,20,109,93
 END
 
 
