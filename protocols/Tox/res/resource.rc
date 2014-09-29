@@ -122,11 +122,11 @@ EXSTYLE WS_EX_TOOLWINDOW
 CAPTION "Tox profile import"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    PUSHBUTTON      "Import",IDOK,124,66,50,14,WS_DISABLED
-    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress ""Import"" to perform import from existing profile.\r\nPress ""Cancel"" or close this window to create new profile.",IDC_STATIC,7,7,221,31
-    EDITTEXT        IDC_PROFILE_PATH,7,38,202,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BROWSE_PROFILE,212,38,16,14
-    DEFPUSHBUTTON   "Cancel",IDCANCEL,178,66,50,14
+    PUSHBUTTON      "Import",IDOK,124,68,50,14,WS_DISABLED
+    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress ""Import"" to perform import from existing profile.\r\nPress ""Cancel"" or close this window to create new profile.",IDC_STATIC,7,5,221,37
+    EDITTEXT        IDC_PROFILE_PATH,7,42,202,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BROWSE_PROFILE,212,42,16,14
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,178,68,50,14
 END
 
 IDD_SEARCH DIALOGEX 0, 0, 109, 113
@@ -178,9 +178,9 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 228
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 80
-        HORZGUIDE, 38
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 82
+        HORZGUIDE, 42
     END
 
     IDD_SEARCH, DIALOG
