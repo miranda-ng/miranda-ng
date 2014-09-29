@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -16,6 +16,8 @@ Tox ID:
 Domyślna grupa:
 [C]
 C
+[Password:]
+Hasło:
 [Connection settings]
 Ustawienia połączenia
 [Disable UDP (force Tox to use TCP)]
@@ -24,16 +26,18 @@ Wyłącz UDP (zmuś Tox do używania TCP)
 Wyłącz IPV6
 [Tox]
 Tox
-[Tox profile]
-Profil Tox
-[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
-Profil Tox zawiera twoje ID oraz listę znajomych.\r\nMożesz założyć nowy profil jeśli nigdy przedtem nie używałeś tox lub zaimportować istniejący profil z innego klienta tox.
-[Create new profile]
-Utwórz nowy profil
-[Use existing profile]
-Użyj istniejącego profilu
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
-Jeśli pole to zawiera adres Tox (76 znaków heksadecymalnych), zostaniesz poproszony o dodanie go do listy znajomych. W przeciwnym razie Miranda wyszuka zapytanie w przeglądarce DNS tox.
+[Passowrd:]
+Hasło:
+[Tox profile import]
+Import profilu tox
+[Import]
+Importuj
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
+Profil tox zawiera twój identyfikator oraz listę znajomych.\r\nMożesz importować istniejący profil z innego klienta tox.\r\nNaciśnij "Importuj", aby dokonać importu z istniejącego profilu.\r\nNaciśnij "Anuluj" lub zamknij to okno, aby utworzyć nowy profil.
+[Cancel]
+Anuluj
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
+Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Protokoły
@@ -47,8 +51,6 @@ Połączenie %s
 Wszystkie pliki (*.*)
 [Select tox profile]
 Wybierz profil tox
-[Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
-Profil tox o tej samej nazwie już istnieje.\r\nKontynuując utracisz go!
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokoły
@@ -57,5 +59,7 @@ Ikona protokołu
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Zapytanie
+[You cannot add yourself to friend list]
+Nie możesz dodać samego siebie do listy kontaktów
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów

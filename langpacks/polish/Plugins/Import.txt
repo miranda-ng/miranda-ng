@@ -87,6 +87,10 @@ Nie udało się dodać %S kontaktu %s
 Dodano %S kontakt %s, "%s"
 [Added %S contact %s]
 Dodano %S kontakt %s
+[Added metacontact '%s']
+Dodano metakontakt "%s"
+[Added metacontact]
+Dodano metakontakt
 [Skipping contact with no protocol]
 Pomijanie kontaktu bez przypisanego protokołu
 [Skipping contact, account %S cannot be mapped.]
