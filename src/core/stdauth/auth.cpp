@@ -59,7 +59,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
 
-	CLISTEVENT cli = {0};
+	CLISTEVENT cli = { 0 };
 	cli.cbSize = sizeof(cli);
 	cli.hContact = hContact;
 	cli.ptszTooltip = szTooltip;
@@ -67,12 +67,12 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	cli.lParam = lParam;
 	cli.hDbEvent = hDbEvent;
 
-	CONTACTINFO ci = {0};
+	CONTACTINFO ci = { 0 };
 	ci.cbSize = sizeof(ci);
 	ci.hContact = hContact;
 	ci.szProto = GetContactProto(hContact);
 	ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-	if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			mir_sntprintf(szUid, SIZEOF(szUid), _T("%s"), ci.pszVal);
@@ -117,7 +117,6 @@ int LoadSendRecvAuthModule(void)
 	HookEvent(ME_DB_EVENT_ADDED, AuthEventAdded);
 
 	SkinAddNewSoundEx("AuthRequest", LPGEN("Alerts"), LPGEN("Authorization request"));
-	SkinAddNewSoundEx("AddedEvent",  LPGEN("Alerts"), LPGEN("Added event"));
-
+	SkinAddNewSoundEx("AddedEvent", LPGEN("Alerts"), LPGEN("Added event"));
 	return 0;
 }
