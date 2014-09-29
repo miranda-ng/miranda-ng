@@ -22,19 +22,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "import.h"
 
-// =====================
-// == LOCAL VARIABLES ==
-// =====================
-
 time_t dwSinceDate = 0;
 
 TCHAR importFile[MAX_PATH];
 
-// ====================
-// ====================
-// == IMPLEMENTATION ==
-// ====================
-// ====================
+//=======================================================================================
+// Profile selection dialog
 
 static void SearchForLists(HWND hwndDlg, const TCHAR *mirandaPath, const TCHAR *mirandaProf)
 {
@@ -149,6 +142,9 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 	return FALSE;
 }
 
+//=======================================================================================
+// Import options dialog
+
 INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
@@ -198,6 +194,9 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wPara
 	}
 	return FALSE;
 }
+
+//=======================================================================================
+// Advanced options dialog
 
 static const UINT InControls[] = { IDC_IN_MSG, IDC_IN_URL, IDC_IN_FT, IDC_IN_OTHER };
 static const UINT OutControls[] = { IDC_OUT_MSG, IDC_OUT_URL, IDC_OUT_FT, IDC_OUT_OTHER };
