@@ -47,7 +47,7 @@ int CToxProto::OnSettingsChanged(WPARAM hContact, LPARAM lParam)
 		{
 			if (tox_set_name(tox, (uint8_t*)dbcws->value.pszVal, (uint16_t)strlen(dbcws->value.pszVal)))
 			{
-				SaveToxData();
+				SaveToxProfile();
 			}
 		}
 

@@ -5,8 +5,7 @@ PROTO<CToxProto>(protoName, userName)
 {
 	accountName = mir_tstrdup(userName);
 
-	if (this->getStringA("ToxID"))
-		InitToxCore();
+	InitToxCore();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
@@ -111,7 +110,7 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 
 	db_unset(hContact, "CList", "NotOnList");
 	delSetting(hContact, "Auth");
-	SaveToxData();
+	SaveToxProfile();
 
 	return 0;
 }
@@ -132,7 +131,7 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 	int32_t number = tox_add_friend(tox, pubKey.data(), (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
 	if (number > TOX_ERROR)
 	{
-		SaveToxData();
+		SaveToxProfile();
 
 		// change tox address in contact id by tox id
 		std::string id = ToxAddressToId(address);
@@ -217,7 +216,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 			m_iStatus = iNewStatus;
 			if (tox_set_user_status(tox, MirandaToToxStatus(iNewStatus)) == 0)
 			{
-				SaveToxData();
+				SaveToxProfile();
 			}
 		}
 	}

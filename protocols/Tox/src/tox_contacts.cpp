@@ -166,7 +166,7 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 		return 1;
 	}
 
-	SaveToxData();
+	SaveToxProfile();
 
 	return 0;
 }

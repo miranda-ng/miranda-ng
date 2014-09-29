@@ -164,7 +164,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 	}
 	else
 	{
-		if (tox_set_avatar(tox, TOX_AVATAR_FORMAT_NONE, NULL, 0) == TOX_ERROR)
+		if (tox_unset_avatar(tox) == TOX_ERROR)
 		{
 			debugLogA("CToxProto::SetMyAvatar: failed to unset avatar");
 			return -1;

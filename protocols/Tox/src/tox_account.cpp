@@ -20,6 +20,21 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 
 void CToxProto::InitToxCore()
 {
+	std::tstring profilePath = GetToxProfilePath();
+	if (!IsFileExists(profilePath))
+	{
+		return;
+	}
+
+	hProfile = CreateFile(
+		profilePath.c_str(),
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
 	Tox_Options options = { 0 };
 	options.udp_disabled = getByte("DisableUDP", 0);
 	options.ipv6enabled = !getByte("DisableIPv6", 0);
@@ -59,7 +74,7 @@ void CToxProto::InitToxCore()
 	tox_callback_avatar_info(tox, OnGotFriendAvatarInfo, this);
 	tox_callback_avatar_data(tox, OnGotFriendAvatarData, this);
 
-	LoadToxData();
+	LoadToxProfile();
 
 	int size = tox_get_self_name_size(tox);
 	std::vector<uint8_t> username(size);
@@ -81,8 +96,15 @@ void CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
-	SaveToxData();
+	std::tstring profilePath = GetToxProfilePath();
+	if (!IsFileExists(profilePath))
+	{
+		return;
+	}
+
+	SaveToxProfile();
 	tox_kill(tox);
+	CloseHandle(hProfile);
 }
 
 void CToxProto::DoBootstrap()
