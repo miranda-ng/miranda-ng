@@ -26,7 +26,7 @@
 [Import]
 Импорт
 [Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-Профиль Tox содержит ваш ID и список друзей.\r\nВы можете импортировать существующий профиль из другого клиента Tox.r\nНажмите "Импорт", для импортирования существующего профиля.\r\nНажмите "Отмена" или закройте это окно для создания нового профиля.
+Профиль Tox содержит ваш ID и список друзей.\r\nВы можете импортировать существующий профиль из другого клиента Tox.\r\nНажмите "Импорт", для импортирования существующего профиля.\r\nНажмите "Отмена" или закройте это окно для создания нового профиля.
 [Cancel]
 Отмена
 [If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
