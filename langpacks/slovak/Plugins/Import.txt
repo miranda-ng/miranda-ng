@@ -87,6 +87,10 @@ Prenos súboru
 
 [Added %S contact %s]
 
+[Added metacontact '%s']
+
+[Added metacontact]
+
 [Skipping contact with no protocol]
 
 [Skipping contact, account %S cannot be mapped.]

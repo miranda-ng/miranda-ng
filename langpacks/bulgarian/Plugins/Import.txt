@@ -87,6 +87,10 @@ URL адреси
 
 [Added %S contact %s]
 
+[Added metacontact '%s']
+
+[Added metacontact]
+
 [Skipping contact with no protocol]
 Пропуснат контакт без протокол
 [Skipping contact, account %S cannot be mapped.]

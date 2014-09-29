@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -16,6 +16,8 @@ Tox ID:
 Станд. група:
 [C]
 Ко
+[Password:]
+Парола:
 [Connection settings]
 Настройки за свързване
 [Disable UDP (force Tox to use TCP)]
@@ -24,15 +26,15 @@ Tox ID:
 Изключване на IPv6
 [Tox]
 Tox
-[Tox profile]
-Tox профил
-[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
-Tox профилът съдържа вашето ID и списъка с приятели.\r\nМожете да създадете нов профил ако ползвате Tox за първи път или да заредите съществуващ профил от друг клиент.
-[Create new profile]
-Създаване на нов профил
-[Use existing profile]
-Ползване на съществуващ профил
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
+[Tox profile import]
+
+[Import]
+
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
+
+[Cancel]
+Отказ
+[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
@@ -47,8 +49,6 @@ Tox профилът съдържа вашето ID и списъка с при�
 Всички файлове (*.*)
 [Select tox profile]
 Изберете Tox профил
-[Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
-Вече съществува Tox профил със същото име.\r\nАко продължите профилът ще бъде унищожен!
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Протоколи
@@ -57,5 +57,7 @@ Tox профилът съдържа вашето ID и списъка с при�
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Търсене
+[You cannot add yourself to friend list]
+
 [Contact already in your contact list]
 Контактът вече присъства в списъка ви с контакти
