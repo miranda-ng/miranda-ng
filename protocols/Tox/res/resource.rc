@@ -112,7 +112,7 @@ BEGIN
     LTEXT           "Default group:",IDC_STATIC,12,53,60,12
     EDITTEXT        IDC_GROUP,81,51,219,12,ES_AUTOHSCROLL
     PUSHBUTTON      "C",IDC_CLIPBOARD,284,35,16,13
-    LTEXT           "Passowrd:",IDC_STATIC,12,68,35,8,NOT WS_VISIBLE
+    LTEXT           "Password:",IDC_STATIC,12,68,35,8,NOT WS_VISIBLE
     EDITTEXT        IDC_PASSWORD,81,66,219,14,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_VISIBLE
 END
 
@@ -135,7 +135,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_SEARCH,0,4,109,14,ES_AUTOHSCROLL
-    LTEXT           "If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.",IDC_STATIC,0,20,109,93
+    LTEXT           "If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.",IDC_STATIC,0,20,109,93
 END
 
 
