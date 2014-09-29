@@ -53,8 +53,6 @@
 Паказаць версіі
 [Upload Version Information]
 Загрузіць версіі
-[Crash Reports]
-Справаздачы пра памылкі
 [Version Information]
 Версіі
 [Copy to clipboard]
@@ -101,6 +99,3 @@ Miranda  NG была завершана аварыйна. Справаздача
 Нельга загрузіць інфармацыю пра версіі. Хост недасяжны
 [Crash Dumper HTTP connections]
 HTTP далучэнне Crash Dumper
-;file \plugins\CrashDumper\src\utils.cpp
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Усталявана больш аднаго плагіна справаздач пра памылкі. Гэта вядзе да немагчымасці стварэння справаздач

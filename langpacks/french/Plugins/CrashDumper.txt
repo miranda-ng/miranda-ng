@@ -53,8 +53,6 @@ Services
 
 [Upload Version Information]
 
-[Crash Reports]
-
 [Version Information]
 
 [Copy to clipboard]
@@ -100,7 +98,4 @@ Afficher
 [Cannot upload VersionInfo. Host unreachable.]
 
 [Crash Dumper HTTP connections]
-
-;file \plugins\CrashDumper\src\utils.cpp
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
 

@@ -53,8 +53,6 @@ Crash Dumper за Miranda NG.
 Показване на информация за версията
 [Upload Version Information]
 Качване на информация за версията
-[Crash Reports]
-Доклади за сривове
 [Version Information]
 Информация за версията
 [Copy to clipboard]
@@ -101,6 +99,3 @@ Miranda се срина. Можете да намерите доклад за с
 Качването на информация за версията е невъзможно. Не е възможно достигането на хоста.
 [Crash Dumper HTTP connections]
 HTTP връзки на Crash Dumper
-;file \plugins\CrashDumper\src\utils.cpp
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Има повече от една приставка за отчитане на сривове. Вероятно последствие е невъзможността за съставяне на доклад при срив.

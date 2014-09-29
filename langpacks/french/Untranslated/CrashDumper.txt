@@ -12,7 +12,6 @@
 [Version Information To File]
 [Show Version Information]
 [Upload Version Information]
-[Crash Reports]
 [Version Information]
 [Store to file]
 [Show with DLLs]
@@ -32,4 +31,3 @@
 [Cannot upload VersionInfo. Unknown error]
 [Cannot upload VersionInfo. Host unreachable.]
 [Crash Dumper HTTP connections]
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
