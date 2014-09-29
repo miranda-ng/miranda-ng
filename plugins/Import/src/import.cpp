@@ -255,16 +255,16 @@ void ImportAccounts()
 			continue;
 		}
 
-		itoa(800+i, szSetting, 10);
+		itoa(800 + i, szSetting, 10);
 		ptrT tszAccountName(myGetWs(NULL, "Protocols", szSetting));
 		if (tszAccountName == NULL)
 			tszAccountName = mir_a2t(szProto);
-		
+
 		ACC_CREATE newacc;
 		newacc.pszBaseProto = szBaseProto;
 		newacc.pszInternal = NULL;
 		newacc.ptszAccountName = tszAccountName;
-		
+
 		pa = ProtoCreateAccount(&newacc);
 		if (pa == NULL) {
 			arAccountMap.insert(new AccountMap(szProto, NULL));
@@ -555,12 +555,12 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			// check protocols during system history import
 			if (hDst == NULL) {
 				skipAll = 1;
-				for (int i = 0; i < protoCount; i++)
+				for (int i = 0; i < protoCount; i++) {
 					if (!strcmp(dbei.szModule, protocol[i]->szModuleName)) {
 						skipAll = 0;
 						break;
 					}
-
+				}
 				skip = skipAll;
 			}
 
@@ -604,6 +604,10 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			if (!skip) {
 				// Check for duplicate entries
 				if (!IsDuplicateEvent(hDst, dbei)) {
+					// no need to display all these dialogs again
+					if (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_ADDED)
+						dbei.flags |= DBEF_READ;
+
 					// Add dbevent
 					if (dstDb->AddEvent(hDst, &dbei) != NULL)
 						nMessagesCount++;
