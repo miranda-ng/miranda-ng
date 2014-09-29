@@ -4,15 +4,14 @@
 //
 #define IDI_TOX                         1000
 #define IDD_PROFILE_MANAGER             1001
+#define IDD_PROFILE_IMPORT              1001
 #define IDC_TOXID                       1002
 #define IDD_ACCOUNT_MANAGER             1003
 #define IDC_CLIPBOARD                   1004
 #define IDD_OPTIONS_MAIN                1005
-#define IDC_CREATE_NEW                  1006
 #define IDC_PROFILE_PATH                1007
 #define IDC_SEARCH                      1008
 #define IDC_PASSWORD                    1008
-#define IDC_USE_EXISTING                1009
 #define IDC_BROWSE_PROFILE              1010
 #define IDC_NAME                        1011
 #define IDC_GROUP                       1012

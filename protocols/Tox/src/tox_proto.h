@@ -124,7 +124,11 @@ private:
 	void __cdecl PollingThread(void*);
 
 	// tox profile
+	HANDLE hProfile;
 	std::tstring GetToxProfilePath();
+
+	void LoadToxProfile();
+	void SaveToxProfile();
 
 	static INT_PTR CALLBACK ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -225,11 +229,6 @@ private:
 	std::string ToxAddressToId(std::string);
 
 	static bool IsFileExists(std::tstring path);
-
-	
-
-	void LoadToxData();
-	void SaveToxData();
 };
 
 #endif //_TOX_PROTO_H_

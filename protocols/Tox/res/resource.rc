@@ -116,17 +116,17 @@ BEGIN
     EDITTEXT        IDC_PASSWORD,81,66,219,14,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_VISIBLE
 END
 
-IDD_PROFILE_MANAGER DIALOGEX 0, 0, 235, 111
+IDD_PROFILE_IMPORT DIALOGEX 0, 0, 235, 87
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Tox profile"
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Tox profile import"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,178,90,50,14
-    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.",IDC_STATIC,7,7,221,33
-    CONTROL         "Create new profile",IDC_CREATE_NEW,"Button",BS_AUTORADIOBUTTON,7,43,221,10
-    CONTROL         "Use existing profile",IDC_USE_EXISTING,"Button",BS_AUTORADIOBUTTON,7,55,221,10
-    EDITTEXT        IDC_PROFILE_PATH,18,67,191,14,ES_AUTOHSCROLL | WS_DISABLED
-    PUSHBUTTON      "...",IDC_BROWSE_PROFILE,212,67,16,14,WS_DISABLED
+    PUSHBUTTON      "Import",IDOK,124,66,50,14,WS_DISABLED
+    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nOtherwise, it will create a new profile.",IDC_STATIC,7,7,221,31
+    EDITTEXT        IDC_PROFILE_PATH,7,38,202,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BROWSE_PROFILE,212,38,16,14
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,178,66,50,14
 END
 
 IDD_SEARCH DIALOGEX 0, 0, 109, 113
@@ -174,17 +174,13 @@ BEGIN
         BOTTOMMARGIN, 227
     END
 
-    IDD_PROFILE_MANAGER, DIALOG
+    IDD_PROFILE_IMPORT, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 228
-        VERTGUIDE, 18
         TOPMARGIN, 7
-        BOTTOMMARGIN, 104
-        HORZGUIDE, 40
-        HORZGUIDE, 43
-        HORZGUIDE, 55
-        HORZGUIDE, 67
+        BOTTOMMARGIN, 80
+        HORZGUIDE, 38
     END
 
     IDD_SEARCH, DIALOG

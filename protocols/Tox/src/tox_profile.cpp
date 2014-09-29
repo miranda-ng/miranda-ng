@@ -10,6 +10,101 @@ std::tstring CToxProto::GetToxProfilePath()
 	return profilePath;
 }
 
+void CToxProto::LoadToxProfile()
+{
+	std::tstring toxProfilePath = GetToxProfilePath();
+	FILE *hFile = _wfopen(toxProfilePath.c_str(), _T("rb"));
+	if (!hFile)
+	{
+		debugLogA("CToxProto::LoadToxData: could not open tox profile");
+		return;
+	}
+
+	fseek(hFile, 0, SEEK_END);
+	uint32_t size = ftell(hFile);
+	rewind(hFile);
+	if (size == 0)
+	{
+		debugLogA("CToxProto::LoadToxData: tox profile is empty");
+		fclose(hFile);
+		return;
+	}
+
+	uint8_t *data = (uint8_t*)mir_alloc(size);
+	if (fread(data, sizeof(uint8_t), size, hFile) != size)
+	{
+		debugLogA("CToxProto::LoadToxData: could not read tox profile");
+		fclose(hFile);
+		mir_free(data);
+		return;
+	}
+
+	if (tox_is_data_encrypted(data))
+	{
+		ptrT password(getTStringA("Password"));
+		char *password_utf8 = mir_utf8encodeW(password);
+		if (tox_encrypted_load(tox, data, size, (uint8_t*)password_utf8, strlen(password_utf8)) == TOX_ERROR)
+		{
+			debugLogA("CToxProto::LoadToxData: could not decrypt tox profile");
+		}
+		mir_free(password_utf8);
+	}
+	else
+	{
+		if (tox_load(tox, data, size) == TOX_ERROR)
+		{
+			debugLogA("CToxProto::LoadToxData: could not load tox profile");
+		}
+	}
+
+	mir_free(data);
+	fclose(hFile);
+}
+
+void CToxProto::SaveToxProfile()
+{
+	std::tstring toxProfilePath = GetToxProfilePath();
+	FILE *hFile = _wfopen(toxProfilePath.c_str(), _T("wb"));
+	if (!hFile)
+	{
+		debugLogA("CToxProto::LoadToxData: could not open tox profile");
+		return;
+	}
+
+	uint32_t size;
+	ptrT password(getTStringA("Password"));
+	if (password && _tcslen(password))
+		size = tox_encrypted_size(tox);
+	else
+		size = tox_size(tox);
+	uint8_t *data = (uint8_t*)mir_alloc(size);
+	if (password && _tcslen(password))
+	{
+		char *password_utf8 = mir_utf8encodeW(password);
+		if (tox_encrypted_save(tox, data, (uint8_t*)password_utf8, strlen(password_utf8)) == TOX_ERROR)
+		{
+			debugLogA("CToxProto::LoadToxData: could not encrypt tox profile");
+			mir_free(password_utf8);
+			mir_free(data);
+			fclose(hFile);
+			return;
+		}
+		mir_free(password_utf8);
+	}
+	else
+	{
+		tox_save(tox, data);
+	}
+
+	if (fwrite(data, sizeof(uint8_t), size, hFile) != size)
+	{
+		debugLogA("CToxProto::LoadToxData: could not write tox profile");
+	}
+
+	mir_free(data);
+	fclose(hFile);
+}
+
 INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -25,21 +120,6 @@ INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 			profilePath = (TCHAR*)mir_calloc(sizeof(TCHAR)*MAX_PATH);
 			SetWindowLongPtr(hwnd, DWLP_USER, (LONG_PTR)profilePath);
-
-			std::tstring toxProfilePath = proto->GetToxProfilePath();
-			if (proto->IsFileExists(toxProfilePath))
-			{
-				_tcscpy(profilePath, proto->GetToxProfilePath().c_str());
-				SetDlgItemText(hwnd, IDC_PROFILE_PATH, profilePath);
-
-				CheckDlgButton(hwnd, IDC_USE_EXISTING, TRUE);
-				EnableWindow(GetDlgItem(hwnd, IDC_PROFILE_PATH), IsDlgButtonChecked(hwnd, IDC_USE_EXISTING));
-				EnableWindow(GetDlgItem(hwnd, IDC_BROWSE_PROFILE), IsDlgButtonChecked(hwnd, IDC_USE_EXISTING));
-			}
-			else
-			{
-				CheckDlgButton(hwnd, IDC_CREATE_NEW, TRUE);
-			}
 		}
 		return TRUE;
 
@@ -54,12 +134,6 @@ INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
-		case IDC_CREATE_NEW:
-		case IDC_USE_EXISTING:
-			EnableWindow(GetDlgItem(hwnd, IDC_PROFILE_PATH), IsDlgButtonChecked(hwnd, IDC_USE_EXISTING));
-			EnableWindow(GetDlgItem(hwnd, IDC_BROWSE_PROFILE), IsDlgButtonChecked(hwnd, IDC_USE_EXISTING));
-			break;
-
 		case IDC_BROWSE_PROFILE:
 			{
 				TCHAR filter[MAX_PATH] = { 0 };
@@ -76,6 +150,7 @@ INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 				if (GetOpenFileName(&ofn) && profilePath)
 				{
+					EnableWindow(GetDlgItem(hwnd, IDOK), TRUE);
 					SetDlgItemText(hwnd, IDC_PROFILE_PATH, profilePath);
 				}
 			}
@@ -83,32 +158,29 @@ INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 		case IDOK:
 			{
-				std::tstring toxProfilePath = proto->GetToxProfilePath();
-				if (IsDlgButtonChecked(hwnd, IDC_USE_EXISTING))
+				std::tstring defaultProfilePath = proto->GetToxProfilePath();
+				if (profilePath && _tcslen(profilePath))
 				{
-					if (profilePath[0] != 0 && toxProfilePath != profilePath)
+					if (_tcsicmp(profilePath, defaultProfilePath.c_str()) != 0)
 					{
-						CopyFile(profilePath, toxProfilePath.c_str(), FALSE);
+						CopyFile(profilePath, defaultProfilePath.c_str(), FALSE);
 					}
 				}
 				else
 				{
-					if (proto->IsFileExists(toxProfilePath))
-					{
-						if (MessageBox(NULL,
-							TranslateT("Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!"),
-							TranslateT("Tox profile"),
-							MB_OKCANCEL | MB_ICONWARNING) == IDCANCEL)
-						{
-							break;
-						}
-						DeleteFile(profilePath);
-					}
+					fclose(_wfopen(defaultProfilePath.c_str(), _T("w")));
 				}
 				EndDialog(hwnd, 1);
 			}
 			break;
 
+		case IDCANCEL:
+			{
+				std::tstring defaultProfilePath = proto->GetToxProfilePath();
+				fclose(_wfopen(defaultProfilePath.c_str(), _T("w")));
+				EndDialog(hwnd, 0);
+			}
+			break;
 		}
 		break;
 	}

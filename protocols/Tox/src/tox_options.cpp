@@ -18,8 +18,11 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			ptrT pass(proto->getTStringA("Password"));
 			SetDlgItemText(hwnd, IDC_PASSWORD, pass);
 
-			std::string address = proto->getStringA(NULL, TOX_SETTINGS_ID);
-			SetDlgItemTextA(hwnd, IDC_TOXID, address.c_str());
+			ptrA address(proto->getStringA(TOX_SETTINGS_ID));
+			if (address != NULL)
+			{
+				SetDlgItemTextA(hwnd, IDC_TOXID, address);
+			}
 
 			ptrT group(proto->getTStringA(TOX_SETTINGS_GROUP));
 			SetDlgItemText(hwnd, IDC_GROUP, group);
@@ -93,7 +96,7 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 				proto->delSetting(NULL, TOX_SETTINGS_GROUP);
 			}
 
-			proto->SaveToxData();
+			proto->SaveToxProfile();
 
 			return TRUE;
 		}
