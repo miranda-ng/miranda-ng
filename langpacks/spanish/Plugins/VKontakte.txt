@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.16
+;  Version: 0.1.0.17
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -37,6 +37,16 @@ Avanzado
 [Automatically sync last messages]
 
 [Use local time for received messages]
+
+[When I ban user...]
+
+[Report abuse]
+
+[Clear server history]
+
+[Remove from friend list]
+
+[Remove from contact list]
 
 [Bots challenge test]
 Prueba de reto Bots
@@ -107,6 +117,8 @@ Cuenta
 
 [Delete from friend list]
 
+[Ban user]
+
 [Errors]
 
 [Notification]
@@ -139,6 +151,20 @@ Error
 [Friend request from the user %s declined]
 
 [Friend request suggestion for the user %s deleted]
+
+[ report abuse on him/her]
+
+[ clear server history with him/her]
+
+[ remove his/her from you frendlist]
+
+[ remove his/her from you contact list]
+
+[Are you sure to ban %s? %s%sContinue?]
+
+[\nIt will also]
+
+[Are you sure to report abuse on %s?]
 
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 

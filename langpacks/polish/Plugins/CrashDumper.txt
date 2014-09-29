@@ -53,8 +53,6 @@ Zapisz do pliku
 Pokaż wersję programu
 [Upload Version Information]
 Wyślij informacje o wersji
-[Crash Reports]
-Raporty błędów
 [Version Information]
 Informacje o wersji
 [Copy to clipboard]
@@ -101,6 +99,3 @@ Nie można wysłać informacji o wersji. Nieznany błąd.
 Nie można wysłać informacji o wersji. Host nieosiągalny.
 [Crash Dumper HTTP connections]
 Połączenie HTTP Crash Dumper
-;file \plugins\CrashDumper\src\utils.cpp
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Masz więcej niż jedną wtyczkę raportowania błędów. Uniemożliwia to generowanie raportów o błędach

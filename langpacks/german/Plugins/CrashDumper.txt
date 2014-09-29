@@ -53,8 +53,6 @@ Versionsinformation in Datei
 Versionsinformation anzeigen
 [Upload Version Information]
 Versionsinformation hochladen
-[Crash Reports]
-Absturzberichte
 [Version Information]
 Versionsinformation
 [Copy to clipboard]
@@ -101,6 +99,3 @@ Kann Versionsinfo nicht hochladen: Unbekannter Fehler!
 Kann Versionsinfo nicht hochladen: Der Host ist nicht erreichbar!
 [Crash Dumper HTTP connections]
 Crash-Dumper-HTTP-Verbindungen
-;file \plugins\CrashDumper\src\utils.cpp
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Es ist mehr als ein Plugin zur Erstellung eines Absturzberichts installiert.\nDadurch kann gar keiner erstellt werden!

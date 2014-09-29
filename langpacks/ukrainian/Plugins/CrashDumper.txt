@@ -51,8 +51,6 @@
 Показати версії
 [Upload Version Information]
 Завантажити
-[Crash Reports]
-Звіти про помилки
 [Version Information]
 Версії
 [Copy to clipboard]
@@ -95,5 +93,3 @@ Miranda NG була завершена аварійно. Звіт збереже
 Неможливо завантажити інформацію про версії. Хост недоступний.
 [Crash Dumper HTTP connections]
 HTTP-з'єднання CrashDumper
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Встановлено більше одного плагіна звітів про помилки. Це веде до неможливості створення звітів.
