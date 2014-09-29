@@ -236,7 +236,7 @@
 [Unable to get Netlib connection for Facebook]
 Не удается установить соединение с Facebook
 [Video call]
-Видео вызов
+Видеовызов
 [Facebook ID must be numeric value.]
 Значение Facebook ID должно быть числовым.
 [Network]

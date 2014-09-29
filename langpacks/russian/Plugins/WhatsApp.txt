@@ -32,7 +32,7 @@
 [Please enter a password.]
 Введите пароль.
 [is now known as '%s']
-теперь известен, как '%s'
+теперь известен как '%s'
 [Last seen on %x at %X]
 Последнее появление %x в %X
 [You have been added to the group]
@@ -46,7 +46,7 @@
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код регистрации придет на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
 [Your password has been set automatically. You can proceed with login now]
-Ваш пароль был установлен автоматически. Вы можете подключиться к протоколу.
+Ваш пароль был установлен автоматически. Теперь вы можете подключиться.
 [Please correctly specify your registration code received by SMS]
 Пожалуйста, верно укажите свой код регистрации, полученный в SMS
 [%s server connection]
@@ -60,7 +60,7 @@
 [Registration failed. Invalid server response.]
 Неудачная регистрация. Неверный ответ сервера.
 [Registration failed due to stale code. Please request a new code]
-Неудачная регистрация, вследствие устаревшего кода. Пожалуйста, запросите новый код
+Неудачная регистрация вследствие устаревшего кода. Пожалуйста, запросите новый код
 [Registration failed.]
 Неудачная регистрация.
 [Please try again in %i seconds]
