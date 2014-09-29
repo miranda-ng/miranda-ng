@@ -1760,7 +1760,7 @@ int ClcDoProtoAck(MCONTACT wParam, ACKDATA * ack)
 					return 0;
 
 			if (ack->hContact) {
-				char * val = db_get_sa(ack->hContact, "CList", "StatusMsg");
+				char *val = db_get_sa(ack->hContact, "CList", "StatusMsg");
 				if (val) {
 					if (!mir_bool_strcmpi(val, ""))
 						db_set_s(ack->hContact, "CList", "StatusMsg", "");
