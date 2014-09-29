@@ -29,6 +29,10 @@
 #define IDC_SYNCHISTOTYONONLINE         1027
 #define IDC_MARKREADONTYPING            1028
 #define IDC_USE_LOCAL_TIME              1029
+#define IDC_REPORT_ABUSE                1030
+#define IDC_CLEAR_SERVER_HISTORY        1031
+#define IDC_REMOVE_FROM_FRENDLIST       1032
+#define IDC_REMOVE_FROM_CLIST           1033
 
 // Next default values for new objects
 // 

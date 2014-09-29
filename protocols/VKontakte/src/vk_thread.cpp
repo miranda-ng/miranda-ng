@@ -948,6 +948,92 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 	delete param;
 }
 
+INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcBanUser");
+	LONG userID = getDword(hContact, "ID", -1);
+	if (!IsOnline() || (userID == -1))
+		return 1;
+
+	CMStringA code;
+	code.AppendFormat("var userID=\"%d\";API.account.banUser({\"user_id\":userID});", userID);
+	CMString tszVarWarning;
+
+	if (m_bReportAbuse){
+		debugLogA("CVkProto::SvcBanUser m_bReportAbuse = true");
+		code += "API.users.report({\"user_id\":userID,type:\"spam\"});";
+		tszVarWarning = TranslateT(" report abuse on him/her");
+	}
+	if (m_bClearServerHistory){
+		debugLogA("CVkProto::SvcBanUser m_bClearServerHistory = true");
+		code += "API.messages.deleteDialog({\"user_id\":userID,count:10000});";
+		if (!tszVarWarning.IsEmpty())
+			tszVarWarning.AppendChar(L',');
+		tszVarWarning += TranslateT(" clear server history with him/her");
+	}
+	if (m_bRemoveFromFrendlist){
+		debugLogA("CVkProto::SvcBanUser m_bRemoveFromFrendlist = true");
+		code += "API.friends.delete({\"user_id\":userID});";
+		if (!tszVarWarning.IsEmpty())
+			tszVarWarning.AppendChar(L',');
+		tszVarWarning += TranslateT(" remove his/her from you frendlist");
+	}
+	if (m_bRemoveFromClist){
+		debugLogA("CVkProto::SvcBanUser m_bRemoveFromClist = true");
+		if (!tszVarWarning.IsEmpty())
+			tszVarWarning.AppendChar(L',');
+		tszVarWarning += TranslateT(" remove his/her from you contact list");
+	}
+
+	if (!tszVarWarning.IsEmpty())
+		tszVarWarning += ".\n";
+	code += "return 1;";
+
+	CMString formatstr = TranslateT("Are you sure to ban %s? %s%sContinue?"),
+		tszNick = db_get_tsa(hContact, m_szModuleName, "Nick"),
+		ptszMsg;
+
+	ptszMsg.AppendFormat(formatstr, 
+		tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick.GetBuffer(), 
+		tszVarWarning.IsEmpty() ? L" " : TranslateT("\nIt will also"),
+		tszVarWarning.IsEmpty() ? L"\n" : tszVarWarning.GetBuffer());
+
+	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+		return 1;
+	
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
+		<< CHAR_PARAM("code", code)
+		<< VER_API);
+
+	if (m_bRemoveFromClist)
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+
+	return 0;
+}
+
+INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcReportAbuse");
+	LONG userID = getDword(hContact, "ID", -1);
+	if (!IsOnline() || (userID == -1))
+		return 1;
+
+	CMString formatstr = TranslateT("Are you sure to report abuse on %s?"),
+		tszNick = db_get_tsa(hContact, m_szModuleName, "Nick"),
+		ptszMsg;
+	ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
+	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
+		return 1;
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.report.json", true, &CVkProto::OnReceiveSmth)
+		<< INT_PARAM("user_id", userID)
+		<< CHAR_PARAM("type", "spam")
+		<< VER_API);
+
+	return 0;
+}
+
+
 INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 {
 	LONG userID = getDword(hContact, "ID", -1);

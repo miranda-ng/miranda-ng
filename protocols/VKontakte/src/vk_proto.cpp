@@ -69,6 +69,10 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bMarkReadOnTyping = getBool("MarkReadOnTyping", false) && m_bMarkReadOnReply;
 	m_bAutoSyncHistory = getBool("AutoSyncHistory", true);
 	m_bUseLocalTime = getBool("LocalTime", false);
+	m_bReportAbuse = getBool("ReportAbuseOnBanUser", false);
+	m_bClearServerHistory = getBool("ClearServerHistoryOnBanUser", false);
+	m_bRemoveFromFrendlist = getBool("RemoveFromFrendlistOnBanUser", false);
+	m_bRemoveFromClist = getBool("RemoveFromClistOnBanUser", false);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -118,6 +122,8 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
 	CreateProtoService(PS_ADDASFRIEND, &CVkProto::SvcAddAsFriend);
 	CreateProtoService(PS_DELETEFRIEND, &CVkProto::SvcDeleteFriend);
+	CreateProtoService(PS_BANUSER, &CVkProto::SvcBanUser);
+	CreateProtoService(PS_REPORTABUSE, &CVkProto::SvcReportAbuse);
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	char szService[100];
@@ -157,18 +163,31 @@ void CVkProto::InitMenus()
 
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_ADDASFRIEND);
 	mi.position = -200001000 + CMI_ADDASFRIEND;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_ADDCONTACT);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_ADD);
 	mi.ptszName = LPGENT("Add as friend");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_ADDASFRIEND] = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_DELETEFRIEND);
 	mi.position = -200001000 + CMI_DELETEFRIEND;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
 	mi.ptszName = LPGENT("Delete from friend list");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_DELETEFRIEND] = Menu_AddContactMenuItem(&mi);
 
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_BANUSER);
+	mi.position = -200001000 + CMI_BANUSER;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
+	mi.ptszName = LPGENT("Ban user");
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_BANUSER] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_REPORTABUSE);
+	mi.position = -200001000 + CMI_REPORTABUSE;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.ptszName = LPGENT("Report abuse");
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_REPORTABUSE] = Menu_AddContactMenuItem(&mi);
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
@@ -177,8 +196,10 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	
 	Menu_ShowItem(g_hContactMenuItems[CMI_GETALLSERVERHISTORY], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
-	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend);
+	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend&&!isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend);
+	Menu_ShowItem(g_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact));
+	Menu_ShowItem(g_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact));
 
 	return 0;
 }
