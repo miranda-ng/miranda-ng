@@ -154,9 +154,9 @@ Cоздать комнату чата
 [ remove his/her from you contact list]
  удалит пользователя из списка контактов
 [Are you sure to ban %s? %s%sContinue?]
-Вы уверены, что хотите забанить s? %s%sПродолжить?
+Вы уверены, что хотите забанить %s? %s%sПродолжить?
 [\nIt will also]
-\n Это также
+\nЭто также
 [Are you sure to report abuse on %s?]
 Вы уверены, что хотите отправить жалобу на %s?
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
