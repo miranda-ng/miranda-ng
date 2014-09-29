@@ -124,7 +124,11 @@ INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_CLOSE:
-		EndDialog(hwnd, 0);
+		{
+			std::tstring defaultProfilePath = proto->GetToxProfilePath();
+			fclose(_wfopen(defaultProfilePath.c_str(), _T("w")));
+			EndDialog(hwnd, 0);
+		}
 		break;
 
 	case WM_DESTROY:
@@ -134,6 +138,14 @@ INT_PTR CToxProto::ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
+		case IDC_PROFILE_PATH:
+			if ((HWND)lParam == GetFocus())
+			{
+				if (HIWORD(wParam) != EN_CHANGE) return 0;
+				EnableWindow(GetDlgItem(hwnd, IDOK), TRUE);
+			}
+			break;
+
 		case IDC_BROWSE_PROFILE:
 			{
 				TCHAR filter[MAX_PATH] = { 0 };
