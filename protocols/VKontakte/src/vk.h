@@ -54,7 +54,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_YOU_ON_BLACKLIST		175	// Cannot add this user to friends as they have put you on their blacklist
 #define VKERR_USER_ON_BLACKLIST		176	// Cannot add this user to friends as you put him on blacklist
 
-#define VK_API_VER "5.24"
+#define VK_API_VER "5.25"
 #define VER_API CHAR_PARAM("v", VK_API_VER)
 
 
