@@ -86,6 +86,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			if (lstrcmpi(pfd, pfd2))
 				SearchForLists(hdlg, pfd, NULL);
 		}
+		SendDlgItemMessage(hdlg, IDC_LIST, LB_SETCURSEL, 0, 0);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -95,16 +96,14 @@ INT_PTR CALLBACK MirandaPageProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			break;
 
 		case IDOK:
-			{
-				TCHAR filename[MAX_PATH];
-				GetDlgItemText(hdlg, IDC_FILENAME, filename, SIZEOF(filename));
-				if (_taccess(filename, 4)) {
-					MessageBox(hdlg, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
-					break;
-				}
-				lstrcpy(importFile, filename);
-				PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_OPTIONS, (LPARAM)MirandaOptionsPageProc);
+			TCHAR filename[MAX_PATH];
+			GetDlgItemText(hdlg, IDC_FILENAME, filename, SIZEOF(filename));
+			if (_taccess(filename, 4)) {
+				MessageBox(hdlg, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
+				break;
 			}
+			lstrcpy(importFile, filename);
+			PostMessage(GetParent(hdlg), WIZM_GOTOPAGE, IDD_OPTIONS, (LPARAM)MirandaOptionsPageProc);
 			break;
 
 		case IDCANCEL:
