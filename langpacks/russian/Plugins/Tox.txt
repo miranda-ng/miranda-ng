@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -11,21 +11,25 @@
 Имя:
 [Default group:]
 Группа:
+[Password:]
+Пароль:
 [Connection settings]
 Настройки подключения
 [Disable UDP (force Tox to use TCP)]
 Отключить UDP (принудительно использовать TCP)
 [Disable IPv6]
 Отключить IPv6
-[Tox profile]
-Профиль Tox
-[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
-Профиль Tox содержит ваш ID и список друзей.\r\nВы можете создать новый профиль, если вы никогда раньше не использовали Tox, либо использовать профиль Tox от другого клиента.
-[Create new profile]
-Создать новый профиль
-[Use existing profile]
-Использовать существующий профиль
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
+[Passowrd:]
+Пароль:
+[Tox profile import]
+Импорт профиля Tox
+[Import]
+Импорт
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
+Профиль Tox содержит ваш ID и список друзей.\r\nВы можете импортировать существующий профиль из другого клиента Tox.r\nНажмите "Импорт", для импортирования существующего профиля.\r\nНажмите "Отмена" или закройте это окно для создания нового профиля.
+[Cancel]
+Отмена
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи dns сервиса обнаружения Tox.
 [Network]
 Сеть
@@ -37,13 +41,13 @@
 Все файлы (*.*)
 [Select tox profile]
 Выберите профиль Tox
-[Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
-Профиль Tox с тем же именем уже сужествует.\r\nЕсли вы хотите продолжить, профиль будет утерян!
 [Protocols]
 Протоколы
 [Protocol icon]
 Значок протокола
 [Query]
 Запрос
+[You cannot add yourself to friend list]
+Невозможно добавить себя в список друзей
 [Contact already in your contact list]
 Контакт уже в вашем списке контактов

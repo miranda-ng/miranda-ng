@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.3
+;  Version: 0.11.0.4
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -11,15 +11,17 @@
 [Tox ID:]
 [Default group:]
 [C]
+[Password:]
 [Connection settings]
 [Disable UDP (force Tox to use TCP)]
 [Disable IPv6]
 [Tox]
-[Tox profile]
-[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
-[Create new profile]
-[Use existing profile]
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via tox dns discovery.]
+[Passowrd:]
+[Tox profile import]
+[Import]
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
+[Cancel]
+[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 [Account]
@@ -28,10 +30,10 @@
 ;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 [Select tox profile]
-[Tox profile with same name already exists.\r\nIf you continue, the profile will be lost!]
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 [Protocol icon]
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
+[You cannot add yourself to friend list]
 [Contact already in your contact list]
