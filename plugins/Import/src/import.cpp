@@ -431,6 +431,30 @@ void ImportMeta(DBCachedContact *cc)
 		hDest = CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hDest, (LPARAM)META_PROTO);
 
+		CopySettings(cc->contactID, META_PROTO, hDest, META_PROTO);
+
+		ccDst = dstDb->m_cache->GetCachedContact(hDest);
+		if (ccDst) {
+			ccDst->nDefault = cc->nDefault;
+			if (ccDst->nSubs = cc->nSubs) {
+				ccDst->pSubs = (MCONTACT*)mir_alloc(sizeof(MCONTACT)*cc->nSubs);
+				for (int i = 0; i < cc->nSubs; i++) {
+					ccDst->pSubs[i] = MapContact(cc->pSubs[i]);
+
+					char szSettingName[100];
+					mir_snprintf(szSettingName, SIZEOF(szSettingName), "Handle%d", i);
+					db_set_dw(hDest, META_PROTO, szSettingName, ccDst->pSubs[i]);
+
+					db_set_b(ccDst->pSubs[i], META_PROTO, "IsSubcontact", 1);
+					db_set_dw(ccDst->pSubs[i], META_PROTO, "ParentMeta", hDest);
+
+					DBCachedContact *ccSub = dstDb->m_cache->GetCachedContact(ccDst->pSubs[i]);
+					if (ccSub)
+						ccSub->parentID = hDest;
+				}
+			}
+		}
+
 		ptrT tszGroup(myGetWs(cc->contactID, "CList", "Group")), tszNick(myGetWs(cc->contactID, "CList", "MyHandle"));
 		if (tszNick == NULL)
 			tszNick = myGetWs(cc->contactID, cc->szProto, "Nick");
@@ -442,13 +466,6 @@ void ImportMeta(DBCachedContact *cc)
 			AddMessage(LPGENT("Added metacontact '%s'"), tszNick);
 		}
 		else AddMessage(LPGENT("Added metacontact"));
-
-		CopySettings(cc->contactID, META_PROTO, hDest, META_PROTO);
-		for (int i = 0; i < cc->nSubs; i++) {
-			char szSettingName[100];
-			mir_snprintf(szSettingName, SIZEOF(szSettingName), "Handle%d", i);
-			db_set_dw(hDest, META_PROTO, szSettingName, MapContact(cc->pSubs[i]));
-		}
 	}
 	else hDest = ccDst->contactID;
 
