@@ -1,3 +1,0 @@
-﻿[Added metacontact '%s']
-[Added metacontact]
-[Skipping contact, account %S cannot be mapped.]
