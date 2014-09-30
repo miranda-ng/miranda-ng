@@ -202,6 +202,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
 	PROTOACCOUNT **destAccs;
 	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&destProtoCount, (LPARAM)&destAccs);
 
+	PROTOACCOUNT *pProto = NULL;
 	for (int i = 0; i < destProtoCount; i++) {
 		PROTOACCOUNT *pa = destAccs[i];
 		if (lstrcmpA(pa->szProtoName, szBaseProto))
@@ -212,12 +213,16 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
 			return pa;
 
 		char *pszUniqueSetting = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if (!pszUniqueSetting || INT_PTR(pszUniqueSetting) == CALLSERVICE_NOTFOUND)
+		if (!pszUniqueSetting || INT_PTR(pszUniqueSetting) == CALLSERVICE_NOTFOUND) {
+			pProto = pa;
 			continue;
+		}
 
 		DBVARIANT dbSrc, dbDst;
-		if (dstDb->GetContactSetting(NULL, pa->szModuleName, pszUniqueSetting, &dbDst))
+		if (dstDb->GetContactSetting(NULL, pa->szModuleName, pszUniqueSetting, &dbDst)) {
+			pProto = pa;
 			continue;
+		}
 
 		bool bEqual = false;
 		if (!myGet(NULL, szProto, pszUniqueSetting, &dbSrc)) {
@@ -229,7 +234,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
 		if (bEqual)
 			return pa;
 	}
-	return NULL;
+	return pProto;
 }
 
 void ImportAccounts()
