@@ -1,6 +1,3 @@
 ﻿[Tox ID:]
 [C]
 [Tox]
-[Tox profile import]
-[Import]
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]

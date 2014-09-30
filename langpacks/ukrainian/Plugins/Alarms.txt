@@ -94,7 +94,7 @@
 [Disable next occurrence]
 Вимкнути наступне нагадування
 [Don't trigger on startup]
-Не спрацьовувати при завантаженні
+Не спрацьовувати при старті
 [No reminder]
 Не показувати в списку
 [Dismiss]
@@ -139,6 +139,10 @@
 Фон
 [Window]
 Вікно
+[%dh %dm]
+%d год %d хв
+[%dm]
+%d хв
 [Hide reminders]
 Сховати нагадування
 [Show reminders]

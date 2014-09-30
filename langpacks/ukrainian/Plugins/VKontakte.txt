@@ -37,6 +37,16 @@
 Автоматично синхронізувати останні повідомлення
 [Use local time for received messages]
 Локальний час для прийнятих повідомлень
+[When I ban user...]
+При блокуванні користувача...
+[Report abuse]
+Поскаржитися на нього
+[Clear server history]
+Видалити історію на сайті
+[Remove from friend list]
+Видалити зі списку друзів
+[Remove from contact list]
+Видалити зі списку контактів
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
@@ -101,6 +111,8 @@
 Додати до списку друзів
 [Delete from friend list]
 Видалити із друзів
+[Ban user]
+Забанити
 [Errors]
 Помилки
 [Notification]
@@ -133,6 +145,20 @@
 Запит дружби від %s відхилено
 [Friend request suggestion for the user %s deleted]
 Рекомендацію додати %s до списку видалено
+[ report abuse on him/her]
+ відправить скаргу на користувача
+[ clear server history with him/her]
+ видалить історію бесід з ним/нею на сайті
+[ remove his/her from you frendlist]
+ видалить його/її зі списку друзів
+[ remove his/her from you contact list]
+ видалить його/її зі списку контактів
+[Are you sure to ban %s? %s%sContinue?]
+Ви впевнені, що хочете забанити %s? %s%s Продовжити?
+[\nIt will also]
+\nЦе також
+[Are you sure to report abuse on %s?]
+Ви впевнені, що хочете поскаржитися на %s?
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
 [Attachments:]
