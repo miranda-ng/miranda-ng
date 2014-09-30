@@ -426,33 +426,33 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 	else
 		switch (platform){
 		case 1:
-			MirVer = "VKontakte Mobile";
+			MirVer = "VKontakte (mobile)";
 			break;
 		case 2:
-			MirVer = "VKontakte iPhone";
+			MirVer = "VKontakte (iphone)";
 			break;
 		case 3:
-			MirVer = "VKontakte iPad";
+			MirVer = "VKontakte (ipad)";
 			break;
 		case 4:
-			MirVer = "VKontakte Android";
+			MirVer = "VKontakte (android)";
 			break;
 		case 5:
-			MirVer = "VKontakte WPhone";
+			MirVer = "VKontakte (wphone)";
 			break;
 		case 6:
-			MirVer = "VKontakte Windows";
+			MirVer = "VKontakte (windows)";
 			break; // Official app for Windows 8.X
 		case 7:
-			MirVer = "VKontakte WEB";
+			MirVer = "VKontakte (website)";
 			break;
 		default:
-			MirVer = "VKontakte UnknownApp";
+			MirVer = "VKontakte (other)";
 	}
 	
 	if (OldMirVer != MirVer)
 		if (OldMirVer.IsEmpty() 
-			|| (OldMirVer == "VKontakte UnknownApp") 
+			|| (OldMirVer == "VKontakte (other)") 
 			|| (platform == 7) 
 			|| (platform == 1) 
 			|| (platform == VK_APP_ID))
