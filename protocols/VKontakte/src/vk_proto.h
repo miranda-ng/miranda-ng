@@ -210,7 +210,12 @@ struct CVkProto : public PROTO<CVkProto>
 	void InitMenus();
 	void UnInitMenus();
 	int  __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
-	
+
+	//==== PopUps ========================================================================
+
+	void   InitPopups(void);
+	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err = false);
+
 	//==== Search ========================================================================
 	
 	void __cdecl SearchBasicThread(void* id);
@@ -224,6 +229,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveStatusMsg(const CMString &StatusMsg);
 	void RetrieveStatusMusic(const CMString &StatusMsg);
 
+	MCONTACT SetContactInfo(JSONNODE* Item, bool flag = false);
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUserInfo(LONG userId);
@@ -234,23 +240,30 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void MarkMessagesRead(const CMStringA &mids);
 	void MarkMessagesRead(const MCONTACT hContact);
+
 	void RetrieveMessagesByIds(const CMStringA &mids);
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	CMString GetAttachmentDescr(JSONNODE*);
+
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	
 	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
 	void GetHistoryDlg(MCONTACT hContact, int iLastMsg);
 	void GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCount, int lastcount);
+	
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveAuthRequest(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveDeleteFriend(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-
 	void __cdecl PollingThread(void*);
 	int  PollServer();
 	void PollUpdates(JSONNODE*);
 	void OnReceivePolling(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	void OnReceiveAuthRequest(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveDeleteFriend(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void DBAddAuthRequest(const MCONTACT hContact);
+	MCONTACT MContactFromDbEvent(HANDLE hDbEvent);
 
 	void SetServerStatus(int);
 
@@ -335,7 +348,8 @@ private:
 
 	void   __cdecl SendMsgAck(void *param);
 
-	bool	m_bOnline, 
+	bool	m_prevError,
+			m_bOnline, 
 			m_bHideChats, 
 			m_bMesAsUnread, 
 			m_bMarkReadOnReply, 
@@ -348,14 +362,22 @@ private:
 			m_bRemoveFromClist;
 
 	LONG   m_myUserId;
-	ptrA   m_szAccessToken;
 	ptrT   m_defaultGroup;
 
-	ptrA   m_pollingServer, m_pollingKey, m_pollingTs;
-	HANDLE m_pollingConn, m_hPollingThread;
-	ULONG  m_msgId;
-	bool   m_prevError;
+	ptrA   
+		m_pollingServer, 
+		m_pollingKey, 
+		m_pollingTs,
+		m_szAccessToken;
 
+	HANDLE 
+		m_pollingConn, 
+		m_hPollingThread, 
+		m_hPopupClassError, 
+		m_hPopupClassNotification;
+	
+	ULONG  m_msgId;
+	
 	LIST<void> m_sendIds;
 	bool   CheckMid(int guid);
 
@@ -377,13 +399,4 @@ private:
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 	CVkChatInfo* GetChatById(LPCTSTR ptszId);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
-
-	CMString GetAttachmentDescr(JSONNODE*);
-
-	HANDLE m_hPopupClassError, m_hPopupClassNotification;
-	void   InitPopups(void);
-	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err=false);
-
-	void DBAddAuthRequest(const MCONTACT hContact);
-	MCONTACT MContactFromDbEvent(HANDLE hDbEvent);
 };

@@ -237,6 +237,100 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, contacts, online, status, about, domain";
 
+MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
+{
+	debugLogA("CVkProto::SetContactInfo");
+	if (pItem == NULL)
+		return -1;
+
+	LONG userid = json_as_int(json_get(pItem, "id"));
+	if (userid == 0)
+		return -1;
+
+	MCONTACT hContact;
+	if (userid == m_myUserId)
+		hContact = NULL;
+	else if ((hContact = FindUser(userid, flag)) == NULL)
+		return -1;
+
+	debugLogA("CVkProto::SetContactInfo %d %d", userid, hContact);
+
+	CMString tszNick, tszValue;
+	int iValue;
+
+	tszValue = json_as_string(json_get(pItem, "first_name"));
+	if (!tszValue.IsEmpty()) {
+		setTString(hContact, "FirstName", tszValue.GetBuffer());
+		tszNick.Append(tszValue);
+		tszNick.AppendChar(' ');
+	}
+
+	tszValue = json_as_string(json_get(pItem, "last_name"));
+	if (!tszValue.IsEmpty()) {
+		setTString(hContact, "LastName", tszValue.GetBuffer());
+		tszNick.Append(tszValue);
+	}
+
+	if (!tszNick.IsEmpty())
+		setTString(hContact, "Nick", tszNick);
+
+	int sex = json_as_int(json_get(pItem, "sex"));
+	if (sex)
+		setByte(hContact, "Gender", sex == 2 ? 'M' : 'F');
+
+	tszValue = json_as_string(json_get(pItem, "bdate"));
+	if (!tszNick.IsEmpty()) {
+		int d, m, y, iReadCount;
+		iReadCount = _stscanf(tszValue.GetBuffer(), L"%d.%d.%d", &d, &m, &y);
+		if (iReadCount> 1) {
+			setByte(hContact, "BirthDay", d);
+			setByte(hContact, "BirthMonth", m);
+			if (iReadCount == 3)
+				setWord(hContact, "BirthYear", y);
+		}
+	}
+
+	tszValue = json_as_string(json_get(pItem, "photo_100"));
+	if (!tszNick.IsEmpty()){
+		SetAvatarUrl(hContact, tszValue.GetBuffer());
+		ReloadAvatarInfo(hContact);
+	}
+
+	int iNewStatus = (json_as_int(json_get(pItem, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
+	if (getWord(hContact, "Status", 0) != iNewStatus)
+		setWord(hContact, "Status", iNewStatus);
+
+	if ((iValue = json_as_int(json_get(pItem, "timezone"))) != 0)
+		setByte(hContact, "Timezone", iValue * -2);
+
+	tszValue = json_as_string(json_get(pItem, "mobile_phone"));
+	if (!tszNick.IsEmpty())
+		setTString(hContact, "Cellular", tszValue.GetBuffer());
+	tszValue = json_as_string(json_get(pItem, "home_phone"));
+	if (!tszNick.IsEmpty())
+		setTString(hContact, "Phone", tszValue.GetBuffer());
+
+	tszValue = json_as_string(json_get(pItem, "status"));
+	CMString tszOldStatus(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg"));
+	if (tszValue != tszOldStatus)
+		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue.GetBuffer());
+
+	if ((hContact == NULL) && m_bOne){
+		setTString("OldStatusMsg", db_get_tsa(0, m_szModuleName, "StatusMsg"));
+		m_bOne = false;
+	}
+
+	tszValue = json_as_string(json_get(pItem, "about"));
+	if (!tszNick.IsEmpty())
+		setTString(hContact, "About", tszValue.GetBuffer());
+
+	tszValue = json_as_string(json_get(pItem, "domain"));
+	if (!tszNick.IsEmpty())
+		setTString(hContact, "domain", tszValue.GetBuffer());
+
+	return hContact;
+}
+
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
 	debugLogA("CVkProto::RetrieveUserInfo %d", userID);
@@ -294,94 +388,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (pUsers == NULL)
 		return;
 	
-	for (size_t i=0; ; i++) {
-		JSONNODE *pRecord = json_at(pUsers, i);
-		if (pRecord == NULL) 
-			break;
-
-		LONG userid = json_as_int( json_get(pRecord, "id"));
-		if (userid == 0)
-			break;
-		
-		MCONTACT hContact;
-		if (userid == m_myUserId)
-			hContact = NULL;
-		else if ((hContact = FindUser(userid, false)) == NULL)
-			break;
-
-		CMString tszNick;
-		int iValue;
-		ptrT szValue( json_as_string( json_get(pRecord, "first_name")));
-		if (szValue) {
-			setTString(hContact, "FirstName", szValue);
-			tszNick.Append(szValue);
-			tszNick.AppendChar(' ');
-		}
-
-		if (szValue = json_as_string( json_get(pRecord, "last_name"))) {
-			setTString(hContact, "LastName", szValue);
-			tszNick.Append(szValue);
-		}
-
-		if (!tszNick.IsEmpty())
-			setTString(hContact, "Nick", tszNick);
-	
-		int sex = json_as_int(json_get(pRecord, "sex"));
-		if (sex)
-			setByte(hContact, "Gender", sex == 2 ? 'M' : 'F');
-	
-		if (szValue = json_as_string( json_get(pRecord, "bdate"))) {
-			int d, m, y;
-			if ( _stscanf(szValue, _T("%d.%d.%d"), &d, &m, &y) == 3) {
-				setByte(hContact, "BirthDay", d);
-				setByte(hContact, "BirthMonth", m);
-				setWord(hContact, "BirthYear", y);
-			}
-		}
-
-		szValue = json_as_string( json_get(pRecord, "photo_100"));
-		if (szValue && *szValue){
-			SetAvatarUrl(hContact, szValue);
-			ReloadAvatarInfo(hContact);
-		}
-		
-		int iNewStatus = (json_as_int(json_get(pRecord, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
-		if (getWord(hContact, "Status", 0) != iNewStatus)
-			setWord(hContact, "Status", iNewStatus);
-
-		if ((iValue = json_as_int(json_get(pRecord, "timezone"))) != 0)
-			setByte(hContact, "Timezone", iValue * -2);
-
-		szValue = json_as_string(json_get(pRecord, "mobile_phone"));
-		if (szValue && *szValue)
-			setTString(hContact, "Cellular", szValue);
-		szValue = json_as_string(json_get(pRecord, "home_phone"));
-		if (szValue && *szValue)
-			setTString(hContact, "Phone", szValue);
-
-		szValue = json_as_string(json_get(pRecord, "status"));
-		if (szValue && *szValue) {
-			ptrT tszOldStatus(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg"));
-			if (!tszOldStatus)
-				db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", szValue);
-			else if (_tcscmp(tszOldStatus, szValue))
-				db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", szValue);
-		}
-		else
-			db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", _T(""));
-		if (!hContact&&m_bOne){
-			setTString("OldStatusMsg", db_get_tsa(0, m_szModuleName, "StatusMsg"));
-			m_bOne = false;
-		};
-
-		szValue = json_as_string(json_get(pRecord, "about"));
-		if (szValue && *szValue)
-			setTString(hContact, "About", szValue);
-
-		szValue = json_as_string(json_get(pRecord, "domain"));
-		if (szValue && *szValue)
-			setTString(hContact, "domain", szValue);
-	}
+	for (size_t i = 0; SetContactInfo(json_at(pUsers, i)) != -1; i++);
 
 	JSONNODE *pRequests = json_get(pResponse, "requests");
 	if (pRequests == NULL)
@@ -425,7 +432,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		return;
 
 	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot), *pInfo;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	if (pResponse == NULL)
 		return;
 
@@ -442,75 +449,16 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	int iCount = json_as_int(json_get(pResponse, "count"));
 	JSONNODE *pItems = json_get(pResponse, "items");
 
-	for (int i = 0; (pInfo = json_at(pItems, i)) != NULL; i++) {
-		ptrT szValue(json_as_string(json_get(pInfo, "id")));
-		if (szValue == NULL)
-			continue;
+	if (pItems)
+		for (int i = 0; i<iCount; i++) {
+			MCONTACT hContact = SetContactInfo(json_at(pItems, i));
 
-		CMString tszNick;
-		
-		MCONTACT hContact = FindUser(_ttoi(szValue), true);
-		arContacts.remove((HANDLE)hContact);
-		setByte(hContact, "Auth", 0);
-		
-		szValue = json_as_string(json_get(pInfo, "first_name"));
-		if (szValue) {
-			setTString(hContact, "FirstName", szValue);
-			tszNick.Append(szValue);
-			tszNick.AppendChar(' ');
+			if ((hContact == NULL) || hContact == -1)
+				continue;
+
+			arContacts.remove((HANDLE)hContact);
+			setByte(hContact, "Auth", 0);
 		}
-
-		if (szValue = json_as_string(json_get(pInfo, "last_name"))) {
-			setTString(hContact, "LastName", szValue);
-			tszNick.Append(szValue);
-		}
-
-		if (!tszNick.IsEmpty())
-			setTString(hContact, "Nick", tszNick);
-
-		szValue = json_as_string(json_get(pInfo, "photo_100"));
-		if (szValue && *szValue){
-			SetAvatarUrl(hContact, szValue);
-			ReloadAvatarInfo(hContact);
-		}
-
-		int iNewStatus = (json_as_int(json_get(pInfo, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
-		if (getWord(hContact, "Status", 0) != iNewStatus)
-			setWord(hContact, "Status", iNewStatus);
-
-		int iValue = json_as_int(json_get(pInfo, "sex"));
-		if (iValue)
-			setByte(hContact, "Gender", (iValue == 2) ? 'M' : 'F');
-
-		if ((iValue = json_as_int(json_get(pInfo, "timezone"))) != 0)
-			setByte(hContact, "Timezone", iValue * -2);
-
-		szValue = json_as_string(json_get(pInfo, "mobile_phone"));
-		if (szValue && *szValue)
-			setTString(hContact, "Cellular", szValue);
-		szValue = json_as_string(json_get(pInfo, "home_phone"));
-		if (szValue && *szValue)
-			setTString(hContact, "Phone", szValue);
-		
-		szValue = json_as_string(json_get(pInfo, "status"));
-		if (szValue && *szValue) {
-			ptrT tszOldStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
-			if (!tszOldStatus)
-				db_set_ts(hContact, "CList", "StatusMsg", szValue);
-			else if (_tcscmp(tszOldStatus, szValue))
-				db_set_ts(hContact, "CList", "StatusMsg", szValue);
-		}
-		else
-			db_set_ts(hContact, "CList", "StatusMsg", _T(""));
-
-		szValue = json_as_string(json_get(pInfo, "about"));
-		if (szValue && *szValue)
-			setTString(hContact, "About", szValue);
-
-		szValue = json_as_string(json_get(pInfo, "domain"));
-		if (szValue && *szValue)
-			setTString(hContact, "domain", szValue);
-	}
 
 	if (bCleanContacts)
 		for (int i = 0; i < arContacts.getCount(); i++)
