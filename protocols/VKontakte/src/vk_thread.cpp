@@ -279,7 +279,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
 		setByte(hContact, "Gender", sex == 2 ? 'M' : 'F');
 
 	tszValue = json_as_string(json_get(pItem, "bdate"));
-	if (!tszNick.IsEmpty()) {
+	if (!tszValue.IsEmpty()) {
 		int d, m, y, iReadCount;
 		iReadCount = _stscanf(tszValue.GetBuffer(), L"%d.%d.%d", &d, &m, &y);
 		if (iReadCount> 1) {
@@ -291,7 +291,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
 	}
 
 	tszValue = json_as_string(json_get(pItem, "photo_100"));
-	if (!tszNick.IsEmpty()){
+	if (!tszValue.IsEmpty()){
 		SetAvatarUrl(hContact, tszValue.GetBuffer());
 		ReloadAvatarInfo(hContact);
 	}
@@ -300,14 +300,31 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
 	if (getWord(hContact, "Status", 0) != iNewStatus)
 		setWord(hContact, "Status", iNewStatus);
 
+	if (iNewStatus == ID_STATUS_ONLINE){
+		int online_app = _ttoi(json_as_string(json_get(pItem, "online_app")));
+		int online_mobile = json_as_int(json_get(pItem, "online_mobile"));
+		if (online_mobile == 1){
+			if (online_app == VK_APP_ID)
+				SetMirVer(hContact, VK_APP_ID); // Miranda NG
+			if (online_app == 0)
+				SetMirVer(hContact, 1); // m.vk.com
+			else
+				SetMirVer(hContact, 0); // other mobile app
+		}
+		else
+			SetMirVer(hContact, 7); // vk.com
+	}
+	else
+		SetMirVer(hContact, -1); // unset MinVer
+		
 	if ((iValue = json_as_int(json_get(pItem, "timezone"))) != 0)
 		setByte(hContact, "Timezone", iValue * -2);
 
 	tszValue = json_as_string(json_get(pItem, "mobile_phone"));
-	if (!tszNick.IsEmpty())
+	if (!tszValue.IsEmpty())
 		setTString(hContact, "Cellular", tszValue.GetBuffer());
 	tszValue = json_as_string(json_get(pItem, "home_phone"));
-	if (!tszNick.IsEmpty())
+	if (!tszValue.IsEmpty())
 		setTString(hContact, "Phone", tszValue.GetBuffer());
 
 	tszValue = json_as_string(json_get(pItem, "status"));
@@ -321,11 +338,12 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
 	}
 
 	tszValue = json_as_string(json_get(pItem, "about"));
-	if (!tszNick.IsEmpty())
+	
+	if (!tszValue.IsEmpty())
 		setTString(hContact, "About", tszValue.GetBuffer());
 
 	tszValue = json_as_string(json_get(pItem, "domain"));
-	if (!tszNick.IsEmpty())
+	if (!tszValue.IsEmpty())
 		setTString(hContact, "domain", tszValue.GetBuffer());
 
 	return hContact;
@@ -1026,7 +1044,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 	debugLogA("CVkProto::PollUpdates");
 
 	CMStringA mids;
-	int msgid, uid, flags;
+	int msgid, uid, flags, platform;
 	MCONTACT hContact;
 
 	JSONNODE *pChild;
@@ -1050,6 +1068,8 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			uid = -json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
+			platform = json_as_int(json_at(pChild, 2));
+			SetMirVer(hContact, platform);
 			break;
 
 		case VKPOLL_USR_OFFLINE:

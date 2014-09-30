@@ -409,3 +409,52 @@ MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
 	db_unset(hContact, m_szModuleName, "ReqAuth");
 	return hContact;
 }
+
+void CVkProto::SetMirVer(MCONTACT hContact, int platform)
+{
+	if (hContact == NULL || hContact == -1)
+		return;
+	if (platform == -1){
+		db_unset(hContact, m_szModuleName, "MirVer");
+		return;
+	}
+
+	CMString MirVer, OldMirVer;
+	OldMirVer = db_get_sa(hContact, m_szModuleName, "MirVer");
+	if (platform == VK_APP_ID)
+		MirVer = "Miranda NG VKontakte";
+	else
+		switch (platform){
+		case 1:
+			MirVer = "VKontakte Mobile";
+			break;
+		case 2:
+			MirVer = "VKontakte iPhone";
+			break;
+		case 3:
+			MirVer = "VKontakte iPad";
+			break;
+		case 4:
+			MirVer = "VKontakte Android";
+			break;
+		case 5:
+			MirVer = "VKontakte WPhone";
+			break;
+		case 6:
+			MirVer = "VKontakte Windows";
+			break; // Official app for Windows 8.X
+		case 7:
+			MirVer = "VKontakte WEB";
+			break;
+		default:
+			MirVer = "VKontakte UnknownApp";
+	}
+	
+	if (OldMirVer != MirVer)
+		if (OldMirVer.IsEmpty() 
+			|| (OldMirVer == "VKontakte UnknownApp") 
+			|| (platform == 7) 
+			|| (platform == 1) 
+			|| (platform == VK_APP_ID))
+			setTString(hContact, "MirVer", MirVer.GetBuffer());
+}

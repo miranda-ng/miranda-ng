@@ -275,6 +275,8 @@ struct CVkProto : public PROTO<CVkProto>
 	__forceinline LPCTSTR getGroup() const { return m_defaultGroup; }
 	__forceinline void setGroup(LPCTSTR grp) { m_defaultGroup = mir_tstrdup(grp); }
 
+	void SetMirVer(MCONTACT hContact, int platform);
+
 	static UINT_PTR m_timer;
 
 private:
