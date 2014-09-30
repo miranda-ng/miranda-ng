@@ -552,53 +552,12 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// This function should always be called after contact import. That is
-// why there are no messages for errors related to contacts. Those
-// would only be a repetition of the messages printed during contact
-// import.
-
-static MCONTACT convertContact(MCONTACT hContact)
-{
-	// Check what protocol this contact belongs to
-	char szProto[100];
-	if (myGetS(hContact, "Protocol", "p", szProto))
-		return INVALID_CONTACT_ID;
-
-	// Protocol installed?
-	if (!IsProtocolLoaded(szProto))
-		return INVALID_CONTACT_ID;
-
-	// Is contact in database?
-	char* pszUniqueSetting = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-
-	// Skip protocols with no unique id setting (some non IM protocols return NULL)
-	MCONTACT hDst = INVALID_CONTACT_ID;
-	if (pszUniqueSetting && (INT_PTR)pszUniqueSetting != CALLSERVICE_NOTFOUND) {
-		DBVARIANT dbv;
-		if (!myGet(hContact, szProto, pszUniqueSetting, &dbv)) {
-			switch (dbv.type) {
-			case DBVT_DWORD:
-				hDst = HContactFromNumericID(szProto, pszUniqueSetting, dbv.dVal);
-				break;
-
-			case DBVT_ASCIIZ:
-				hDst = HContactFromID(szProto, pszUniqueSetting, _A2T(dbv.pszVal));
-				break;
-
-			case DBVT_WCHAR:
-				hDst = HContactFromID(szProto, pszUniqueSetting, dbv.ptszVal);
-				break;
-			}
-			srcDb->FreeVariant(&dbv);
-		}
-	}
-	return hDst;
-}
+// contact's history import
 
 static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoCount)
 {
 	// Is it contats history import?
-	MCONTACT hDst = (protoCount == 0) ? convertContact(hContact) : NULL; //system history import
+	MCONTACT hDst = (protoCount == 0) ? MapContact(hContact) : NULL; //system history import
 
 	// OK to import this chain?
 	if (hDst == INVALID_CONTACT_ID) {
@@ -606,15 +565,13 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 		return;
 	}
 
-	int i = 0, skipAll = 0;
+	bool bSkipAll = false;
 	DWORD cbAlloc = 4096;
 	BYTE* eventBuf = (PBYTE)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain
 	HANDLE hEvent = srcDb->FindFirstEvent(hContact);
-	while (hEvent) {
-		int skip = 0;
-
+	for (int i = 0; hEvent; i++, hEvent = srcDb->FindNextEvent(hContact, hEvent)) {
 		// Copy the event and import it
 		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 		dbei.cbBlob = srcDb->GetBlobSize(hEvent);
@@ -624,57 +581,58 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 		}
 		dbei.pBlob = eventBuf;
 
+		bool bSkipThis = false;
 		if (!srcDb->GetEvent(hEvent, &dbei)) {
 			// check protocols during system history import
 			if (hDst == NULL) {
-				skipAll = 1;
+				bSkipAll = true;
 				for (int i = 0; i < protoCount; i++) {
 					if (!strcmp(dbei.szModule, protocol[i]->szModuleName)) {
-						skipAll = 0;
+						bSkipAll = false;
 						break;
 					}
 				}
-				skip = skipAll;
+				bSkipThis = bSkipAll;
 			}
 
 			// custom filtering
-			if (!skip && nImportOption == IMPORT_CUSTOM) {
+			if (!bSkipThis && nImportOption == IMPORT_CUSTOM) {
 				BOOL sent = (dbei.flags & DBEF_SENT);
 
 				if (dbei.timestamp < (DWORD)dwSinceDate)
-					skip = 1;
+					bSkipThis = 1;
 
-				if (!skip) {
+				if (!bSkipThis) {
 					if (hDst) {
-						skip = 1;
+						bSkipThis = 1;
 						switch (dbei.eventType) {
 						case EVENTTYPE_MESSAGE:
 							if ((sent ? IOPT_MSGSENT : IOPT_MSGRECV) & nCustomOptions)
-								skip = 0;
+								bSkipThis = 0;
 							break;
 						case EVENTTYPE_FILE:
 							if ((sent ? IOPT_FILESENT : IOPT_FILERECV) & nCustomOptions)
-								skip = 0;
+								bSkipThis = 0;
 							break;
 						case EVENTTYPE_URL:
 							if ((sent ? IOPT_URLSENT : IOPT_URLRECV) & nCustomOptions)
-								skip = 0;
+								bSkipThis = 0;
 							break;
 						default:
 							if ((sent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & nCustomOptions)
-								skip = 0;
+								bSkipThis = 0;
 							break;
 						}
 					}
 					else if (!(nCustomOptions & IOPT_SYSTEM))
-						skip = 1;
+						bSkipThis = 1;
 				}
 
-				if (skip)
+				if (bSkipThis)
 					nSkippedEvents++;
 			}
 
-			if (!skip) {
+			if (!bSkipThis) {
 				// Check for duplicate entries
 				if (!IsDuplicateEvent(hDst, dbei)) {
 					// no need to display all these dialogs again
@@ -699,13 +657,9 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			}
 		}
 
-		// skip this chain if needed
-		if (skipAll)
+		// bSkipThis this chain if needed
+		if (bSkipAll)
 			break;
-
-		// Get next event
-		hEvent = srcDb->FindNextEvent(hContact, hEvent);
-		i++;
 	}
 	mir_free(eventBuf);
 }
