@@ -48,10 +48,10 @@ void CToxProto::SearchByNameAsync(void *arg)
 							PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
 							psr.flags = PSR_TCHAR;
 							psr.id = mir_a2t(id.c_str());
-							psr.nick = mir_a2t(name);
+							psr.nick = mir_utf8decodeT(name);
 
 							TCHAR email[MAX_PATH];
-							mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), _A2T(name), _A2T(server->domain));
+							mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick, _A2T(server->domain));
 							psr.email = mir_tstrdup(email);
 
 							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
@@ -108,10 +108,10 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 	std::smatch match;
 	std::regex regex("^\\s*([A-Fa-f0-9]{76})\\s*$");
 
-	char text[TOX_FRIEND_ADDRESS_SIZE * 2 + 1];
-	GetDlgItemTextA(owner, IDC_SEARCH, text, SIZEOF(text));
+	TCHAR text[MAX_PATH];
+	GetDlgItemText(owner, IDC_SEARCH, text, SIZEOF(text));
 
-	const std::string query = text;
+	const std::string query = ptrA(mir_utf8encodeT(text));
 	if (std::regex_search(query, match, regex))
 	{
 		std::string address = match[1];
