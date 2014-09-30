@@ -2043,7 +2043,7 @@ bool CIrcProto::OnIrc_TRYAGAIN(const CIrcMessage* pmsg)
 
 bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 {
-	CMString command = _T("");
+	CMString command;
 	if (pmsg->m_bIncoming) {
 		command = GetNextUserhostReason(1);
 		if (!command.IsEmpty() && command != _T("U") && pmsg->parameters.getCount() > 1) {
@@ -2056,7 +2056,6 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 			CMString mask;
 			CMString mess;
 			CMString channel;
-			int i;
 
 			// Status-check pre-processing: Setup check-list
 			OBJLIST<CMString> checklist(10);
@@ -2117,9 +2116,9 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 							setTString(hContact, "Nick", nick.c_str());
 	
 							// If user found, remove from checklist
-							for (i = 0; i < checklist.getCount(); i++)
-							if (!lstrcmpi(checklist[i].c_str(), nick.c_str()))
-								checklist.remove(i);
+							for (int i = 0; i < checklist.getCount(); i++)
+								if (!lstrcmpi(checklist[i].c_str(), nick.c_str()))
+									checklist.remove(i);
 						}
 					}
 					break;
@@ -2165,7 +2164,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 
 			// Status-check post-processing: make buddies in ckeck-list offline
 			if (command[0] == 'S') {
-				for (i = 0; i < checklist.getCount(); i++) {
+				for (int i = 0; i < checklist.getCount(); i++) {
 					finduser.name = (TCHAR*)checklist[i].c_str();
 					finduser.ExactNick = true;
 					CList_SetOffline(&finduser);
