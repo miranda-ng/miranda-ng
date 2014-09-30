@@ -2048,8 +2048,6 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 		command = GetNextUserhostReason(1);
 		if (!command.IsEmpty() && command != _T("U") && pmsg->parameters.getCount() > 1) {
 			CONTACT finduser = { NULL, NULL, NULL, false, false, false };
-			TCHAR* p1 = NULL;
-			TCHAR* p2 = NULL;
 			int awaystatus = 0;
 			CMString sTemp;
 			CMString host;
@@ -2059,30 +2057,28 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 			CMString mess;
 			CMString channel;
 			int i;
-			int j;
 
 			// Status-check pre-processing: Setup check-list
 			OBJLIST<CMString> checklist(10);
 			if (command[0] == 'S') {
-				j = 0;
 				sTemp = GetWord(command.c_str(), 0);
 				sTemp.Delete(0, 1);
-				while (!sTemp.IsEmpty()) {
+				for (int j = 1; !sTemp.IsEmpty(); j++) {
 					checklist.insert(new CMString(sTemp));
-					j++;
 					sTemp = GetWord(command.c_str(), j);
 				}
 			}
 
 			// Cycle through results
-			j = 0;
-			sTemp = GetWord(pmsg->parameters[1].c_str(), j);
-			while (!sTemp.IsEmpty()) {
-				p1 = mir_tstrdup(sTemp.c_str());
-				p2 = p1;
+			for (int j = 0;; j++) {
+				sTemp = GetWord(pmsg->parameters[1].c_str(), j);
+				if (sTemp.IsEmpty())
+					break;
+
+				TCHAR *p1 = mir_tstrdup(sTemp.c_str());
 
 				// Pull out host, user and nick
-				p2 = _tcschr(p1, '@');
+				TCHAR *p2 = _tcschr(p1, '@');
 				if (p2) {
 					*p2 = '\0';
 					p2++;
@@ -2108,12 +2104,11 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 
 				// Do command
 				switch (command[0]) {
-				case 'S':	// Status check
+				case 'S': // Status check
+					finduser.name = (TCHAR*)nick.c_str();
+					finduser.host = (TCHAR*)host.c_str();
+					finduser.user = (TCHAR*)user.c_str();
 					{
-						finduser.name = (TCHAR*)nick.c_str();
-						finduser.host = (TCHAR*)host.c_str();
-						finduser.user = (TCHAR*)user.c_str();
-
 						MCONTACT hContact = CList_FindContact(&finduser);
 						if (hContact && getByte(hContact, "AdvancedMode", 0) == 0) {
 							setWord(hContact, "Status", awaystatus == '-' ? ID_STATUS_AWAY : ID_STATUS_ONLINE);
@@ -2129,7 +2124,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 					}
 					break;
 
-				case 'I':	// m_ignore
+				case 'I': // m_ignore
 					mess = _T("/IGNORE %question=\"");
 					mess += TranslateT("Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored");
 					mess += (CMString)_T("\",\"") + TranslateT("Ignore") + _T("\",\"*!*@") + host + _T("\"");
@@ -2139,21 +2134,21 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 						mess += _T(" +qnidc");
 					break;
 
-				case 'J':	// Unignore
+				case 'J': // Unignore
 					mess = _T("/UNIGNORE *!*@") + host;
 					break;
 
-				case 'B':	// Ban
+				case 'B': // Ban
 					channel = (command.c_str() + 1);
 					mess = _T("/MODE ") + channel + _T(" +b *!*@") + host;
 					break;
 
-				case 'K':	// Ban & Kick
+				case 'K': // Ban & Kick
 					channel = (command.c_str() + 1);
 					mess.Format(_T("/MODE %s +b *!*@%s%%newl/KICK %s %s"), channel.c_str(), host.c_str(), channel.c_str(), nick.c_str());
 					break;
 
-				case 'L':	// Ban & Kick with reason
+				case 'L': // Ban & Kick with reason
 					channel = (command.c_str() + 1);
 					mess.Format(_T("/MODE %s +b *!*@%s%%newl/KICK %s %s %%question=\"%s\",\"%s\",\"%s\""),
 						channel.c_str(), host.c_str(), channel.c_str(), nick.c_str(),
@@ -2166,8 +2161,6 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 				// Post message
 				if (!mess.IsEmpty())
 					PostIrcMessageWnd(NULL, NULL, mess.c_str());
-				j++;
-				sTemp = GetWord(pmsg->parameters[1].c_str(), j);
 			}
 
 			// Status-check post-processing: make buddies in ckeck-list offline
@@ -2190,7 +2183,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 
 bool CIrcProto::OnIrc_SUPPORT(const CIrcMessage* pmsg)
 {
-	static const TCHAR* lpszFmt = _T("Try server %99[^ ,], port %19s");
+	static const TCHAR *lpszFmt = _T("Try server %99[^ ,], port %19s");
 	TCHAR szAltServer[100];
 	TCHAR szAltPort[20];
 	if (pmsg->parameters.getCount() > 1 && _stscanf(pmsg->parameters[1].c_str(), lpszFmt, &szAltServer, &szAltPort) == 2) {
@@ -2423,8 +2416,7 @@ int CIrcProto::IsIgnored(CMString user, char type)
 	for (int i = 0; i < m_ignoreItems.getCount(); i++) {
 		const CIrcIgnoreItem& C = m_ignoreItems[i];
 
-		if (type == '\0')
-		if (!lstrcmpi(user.c_str(), C.mask.c_str()))
+		if (type == 0 && !lstrcmpi(user.c_str(), C.mask.c_str()))
 			return i + 1;
 
 		bool bUserContainsWild = (_tcschr(user.c_str(), '*') != NULL || _tcschr(user.c_str(), '?') != NULL);
