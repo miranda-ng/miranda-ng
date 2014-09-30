@@ -267,6 +267,7 @@ static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
 	filter.AppendFormat(_T(")%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG"), 0);
 	if (swf) filter.Append(_T(";*.SWF"));
 	if (xml) filter.Append(_T(";*.XML"));
+	filter.AppendChar(0);
 
 	filter.AppendFormat(_T("%s (*.bmp;*.rle)%c*.BMP;*.RLE%c"), TranslateT("Windows Bitmaps"), 0, 0);
 	filter.AppendFormat(_T("%s (*.jpg;*.jpeg)%c*.JPG;*.JPEG%c"), TranslateT("JPEG Bitmaps"), 0, 0);
