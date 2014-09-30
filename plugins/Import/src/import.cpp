@@ -558,12 +558,15 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 {
 	// Is it contats history import?
 	MCONTACT hDst = (protoCount == 0) ? MapContact(hContact) : NULL; //system history import
-
-	// OK to import this chain?
 	if (hDst == INVALID_CONTACT_ID) {
 		nSkippedContacts++;
 		return;
 	}
+
+	// history for subs will be imported via metahistory
+	DBCachedContact *cc = dstDb->m_cache->GetCachedContact(hContact);
+	if (cc == NULL || cc->IsSub())
+		return;
 
 	bool bSkipAll = false;
 	DWORD cbAlloc = 4096;
@@ -633,14 +636,17 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 			}
 
 			if (!bSkipThis) {
-				// Check for duplicate entries
+				// check for duplicate entries
 				if (!IsDuplicateEvent(hDst, dbei)) {
 					// no need to display all these dialogs again
 					if (dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_ADDED)
 						dbei.flags |= DBEF_READ;
 
-					// Add dbevent
-					if (dstDb->AddEvent(hDst, &dbei) != NULL)
+					// calculate sub's handle for metahistory
+					MCONTACT hOwner = (cc->IsMeta()) ? MapContact(srcDb->GetEventContact(hEvent)) : hDst;
+
+					// add dbevent
+					if (dstDb->AddEvent(hOwner, &dbei) != NULL)
 						nMessagesCount++;
 					else
 						AddMessage(LPGENT("Failed to add message"));
