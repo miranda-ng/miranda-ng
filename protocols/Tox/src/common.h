@@ -46,6 +46,7 @@ extern HINSTANCE g_hInstance;
 #define TOX_ERROR -1
 
 #define TOX_SETTINGS_ID "ToxID"
+#define TOX_SETTINGS_DNS "DnsID"
 #define TOX_SETTINGS_GROUP "DefaultGroup"
 #define TOX_SETTINGS_AVATAR_HASH "AvatarHash"
 
