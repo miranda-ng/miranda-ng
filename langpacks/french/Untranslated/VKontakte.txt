@@ -21,6 +21,7 @@
 [Create group chat]
 [Mark users you want to invite to a new chat]
 [New chat's title:]
+[Error %d. Data will not be send or received.]
 [Captcha form icon]
 [VKontakte]
 [Enter the text you see]

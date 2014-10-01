@@ -1,0 +1,1 @@
+﻿[Error %d. Data will not be send or received.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.17
+;  Version: 0.1.0.18
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -47,6 +47,8 @@
 [New chat's title:]
 Загаловак новага пакою:
 ;file \protocols\VKontakte\src\misc.cpp
+[Error]
+Памылка
 [Captcha form icon]
 Абразок формы
 [Protocols]
@@ -91,8 +93,6 @@
 Стварыць чат
 [(Unknown contact)]
 (Невядомы кантакт)
-[Error]
-Памылка
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Attachments:]
 Укладанні:
