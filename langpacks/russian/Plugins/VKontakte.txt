@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.17
+;  Version: 0.1.0.18
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -65,6 +65,10 @@ Cоздать комнату чата
 Отметить пользователей для приглашения в комнату чата
 [New chat's title:]
 Звголовок новой комнаты
+[Error %d. Data will not be send or received.]
+Ошибка %d. Данные не будут приняты или отправлены.
+[Error]
+Ошибка
 [Captcha form icon]
 Значок формы с капчей
 [Protocols]
@@ -123,8 +127,6 @@ Cоздать комнату чата
 (Неизвестный контакт)
 [You cannot add yourself as friend]
 Вы не можете добавить себя в друзья
-[Error]
-Ошибка
 [Cannot add this user to friends as they have put you on their blacklist]
 Невозможно добавить пользователя в друзья, так как вы находитесь в его чёрном списке
 [Cannot add this user to friends as you put him on blacklist]
