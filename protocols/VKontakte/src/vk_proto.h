@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_BANUSER "/BanUser"
 #define PS_REPORTABUSE "/ReportAbuse"
 #define MAXHISTORYMIDSPERONE 200
+#define MAX_RETRIES 10
 
 struct CVkProto;
 typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);
@@ -42,6 +43,7 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	VK_REQUEST_HANDLER m_pFunc;
 	void *pUserInfo;
 	bool m_bApiReq;
+	int m_iRetry;
 };
 
 struct PARAM
