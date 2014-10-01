@@ -421,40 +421,43 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 
 	CMString MirVer, OldMirVer;
 	OldMirVer = db_get_sa(hContact, m_szModuleName, "MirVer");
-	if (platform == VK_APP_ID)
+	bool bSetFlag = OldMirVer.IsEmpty() || (OldMirVer == "VKontakte (other)");
+
+	switch (platform){
+	case VK_APP_ID:
 		MirVer = "Miranda NG VKontakte";
-	else
-		switch (platform){
-		case 1:
-			MirVer = "VKontakte (mobile)";
-			break;
-		case 2:
-			MirVer = "VKontakte (iphone)";
-			break;
-		case 3:
-			MirVer = "VKontakte (ipad)";
-			break;
-		case 4:
-			MirVer = "VKontakte (android)";
-			break;
-		case 5:
-			MirVer = "VKontakte (wphone)";
-			break;
-		case 6:
-			MirVer = "VKontakte (windows)";
-			break; // Official app for Windows 8.X
-		case 7:
-			MirVer = "VKontakte (website)";
-			break;
-		default:
-			MirVer = "VKontakte (other)";
+		bSetFlag = true;
+		break;
+	case 1:
+		MirVer = "VKontakte (mobile)";
+		bSetFlag = true;
+		break;
+	case 2:
+		MirVer = "VKontakte (iphone)";
+		break;
+	case 3:
+		MirVer = "VKontakte (ipad)";
+		break;
+	case 4:
+		MirVer = "VKontakte (android)";
+		break;
+	case 5:
+		MirVer = "VKontakte (wphone)";
+		break;
+	case 6:
+		MirVer = "VKontakte (windows)";
+		break; // Official app for Windows 8.X
+	case 7:
+		MirVer = "VKontakte (website)";
+		bSetFlag = true;
+		break;
+	default:
+		MirVer = "VKontakte (other)";
 	}
-	
-	if (OldMirVer != MirVer)
-		if (OldMirVer.IsEmpty() 
-			|| (OldMirVer == "VKontakte (other)") 
-			|| (platform == 7) 
-			|| (platform == 1) 
-			|| (platform == VK_APP_ID))
-			setTString(hContact, "MirVer", MirVer.GetBuffer());
+
+	if (OldMirVer == MirVer)
+		return;
+
+	if (bSetFlag)
+		setTString(hContact, "MirVer", MirVer.GetBuffer());
 }

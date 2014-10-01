@@ -460,6 +460,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
 		db_unset(hContact, m_szModuleName, "Auth");
 		db_unset(hContact, m_szModuleName, "ReqAuth");
+		SetMirVer(hContact, -1);
 		if (bCleanContacts&&!isChatRoom(hContact))
 			arContacts.insert((HANDLE)hContact);
 	}
