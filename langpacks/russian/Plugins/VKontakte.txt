@@ -65,7 +65,7 @@ Cоздать комнату чата
 Отметить пользователей для приглашения в комнату чата
 [New chat's title:]
 Звголовок новой комнаты
-[Error %d. Data will not be send or received.]
+[Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
 [Error]
 Ошибка
