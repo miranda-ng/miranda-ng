@@ -67,7 +67,7 @@
 [New chat's title:]
 
 ;file \protocols\VKontakte\src\misc.cpp
-[Error %d. Data will not be send or received.]
+[Error %d. Data will not be sent or received.]
 
 [Error]
 Грешка

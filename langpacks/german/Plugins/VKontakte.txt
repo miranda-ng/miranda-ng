@@ -67,7 +67,7 @@ Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
 [New chat's title:]
 Titel des neuen Chats:
 ;file \protocols\VKontakte\src\misc.cpp
-[Error %d. Data will not be send or received.]
+[Error %d. Data will not be sent or received.]
 
 [Error]
 Fehler

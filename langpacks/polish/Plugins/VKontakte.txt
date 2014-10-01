@@ -67,7 +67,7 @@ Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
 [New chat's title:]
 Nazwa nowego czatu:
 ;file \protocols\VKontakte\src\misc.cpp
-[Error %d. Data will not be send or received.]
+[Error %d. Data will not be sent or received.]
 Błąd %d. Dane nie zostaną wysłane lub odebrane.
 [Error]
 Błąd
