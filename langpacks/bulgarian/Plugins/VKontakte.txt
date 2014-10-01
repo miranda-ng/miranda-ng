@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.17
+;  Version: 0.1.0.18
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -67,6 +67,10 @@
 [New chat's title:]
 
 ;file \protocols\VKontakte\src\misc.cpp
+[Error %d. Data will not be send or received.]
+
+[Error]
+Грешка
 [Captcha form icon]
 
 [Protocols]
@@ -129,8 +133,6 @@
 (Непознат контакт)
 [You cannot add yourself as friend]
 
-[Error]
-Грешка
 [Cannot add this user to friends as they have put you on their blacklist]
 
 [Cannot add this user to friends as you put him on blacklist]

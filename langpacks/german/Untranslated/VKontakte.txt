@@ -3,6 +3,7 @@
 [Clear server history]
 [Remove from friend list]
 [Remove from contact list]
+[Error %d. Data will not be send or received.]
 [Add as friend]
 [Delete from friend list]
 [Ban user]
