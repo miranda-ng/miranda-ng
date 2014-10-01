@@ -421,38 +421,47 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 
 	CMString MirVer, OldMirVer;
 	OldMirVer = db_get_sa(hContact, m_szModuleName, "MirVer");
-	bool bSetFlag = OldMirVer.IsEmpty() || (OldMirVer == "VKontakte (other)");
+	bool bSetFlag = true;
 
 	switch (platform){
 	case VK_APP_ID:
 		MirVer = "Miranda NG VKontakte";
-		bSetFlag = true;
+		break;
+	case 2386311:
+		MirVer = "QIP 2012";
 		break;
 	case 1:
 		MirVer = "VKontakte (mobile)";
-		bSetFlag = true;
 		break;
+	case 3087106: // iPhone
 	case 2:
 		MirVer = "VKontakte (iphone)";
 		break;
+	case 3682744: // iPad
 	case 3:
 		MirVer = "VKontakte (ipad)";
 		break;
+	case 2890984: // Android
+	case 2274003:
 	case 4:
 		MirVer = "VKontakte (android)";
 		break;
+	case 3059453: // Windows Phone
+	case 2424737:
+	case 3502561:
 	case 5:
 		MirVer = "VKontakte (wphone)";
 		break;
+	case 3584591: // Windows 8.x
 	case 6:
 		MirVer = "VKontakte (windows)";
-		break; // Official app for Windows 8.X
+		break; 
 	case 7:
 		MirVer = "VKontakte (website)";
-		bSetFlag = true;
 		break;
 	default:
 		MirVer = "VKontakte (other)";
+		bSetFlag = OldMirVer.IsEmpty();
 	}
 
 	if (OldMirVer == MirVer)

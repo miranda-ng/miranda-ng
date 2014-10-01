@@ -303,16 +303,13 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
 	if (iNewStatus == ID_STATUS_ONLINE){
 		int online_app = _ttoi(json_as_string(json_get(pItem, "online_app")));
 		int online_mobile = json_as_int(json_get(pItem, "online_mobile"));
-		if (online_mobile == 1){
-			if (online_app == VK_APP_ID)
-				SetMirVer(hContact, VK_APP_ID); // Miranda NG
-			if (online_app == 0)
-				SetMirVer(hContact, 1); // m.vk.com
-			else
-				SetMirVer(hContact, 0); // other mobile app
-		}
-		else
+		
+		if (online_app == 0 && online_mobile == 0)
 			SetMirVer(hContact, 7); // vk.com
+		else if (online_app != 0)
+			SetMirVer(hContact, online_app); // App
+		else 
+			SetMirVer(hContact, 1); // m.vk.com
 	}
 	else
 		SetMirVer(hContact, -1); // unset MinVer
