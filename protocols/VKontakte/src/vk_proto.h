@@ -219,8 +219,10 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Search ========================================================================
 	
 	void __cdecl SearchBasicThread(void* id);
+	void __cdecl SearchByMailThread(void* email);
 	void __cdecl SearchThread(void* p);
 	void OnSearch(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnSearchByMail(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
 
 	//==== Misc ==========================================================================
 

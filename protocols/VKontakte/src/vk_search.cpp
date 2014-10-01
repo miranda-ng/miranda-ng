@@ -39,6 +39,16 @@ void CVkProto::SearchBasicThread(void* id)
 	Push(pReq);
 }
 
+void CVkProto::SearchByMailThread(void* email)
+{
+	debugLogA("CVkProto::OnSearchBasicThread");
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/account.lookupContacts.json", true, &CVkProto::OnSearchByMail)
+		<< TCHAR_PARAM("contacts", (TCHAR *)email)
+		<< CHAR_PARAM("service", "email")
+		<< VER_API;
+	Push(pReq);
+}
+
 void __cdecl CVkProto::SearchThread(void* p)
 {
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)p;
@@ -127,4 +137,47 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		mir_free(pParam->pszNick);
 		delete pParam;
 	}
+}
+
+void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	debugLogA("CVkProto::OnSearch %d", reply->resultCode);
+	if (reply->resultCode != 200){
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+		return;
+	}
+
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+	if (pResponse == NULL){
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+		return;
+	}
+
+	JSONNODE *pItems = json_get(pResponse, "found");
+	if (!pItems){
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+		return;
+	}
+	
+	for (int i = 0;; i++) {
+		JSONNODE *pRecord = json_at(pItems, i);
+		if (pRecord == NULL)
+			break;
+
+		PROTOSEARCHRESULT psr = { sizeof(psr) };
+		psr.flags = PSR_TCHAR;
+
+		psr.id = mir_wstrdup(json_as_string(json_get(pRecord, "id")));
+		psr.firstName = mir_wstrdup(json_as_string(json_get(pRecord, "first_name")));
+		psr.lastName = mir_wstrdup(json_as_string(json_get(pRecord, "last_name")));
+		psr.nick = mir_wstrdup(json_as_string(json_get(pRecord, "nickname")));
+		psr.email = mir_wstrdup(json_as_string(json_get(pRecord, "contact")));
+		if (!psr.nick || !psr.nick[0])
+				psr.nick = psr.email;
+			
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+	}
+
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
