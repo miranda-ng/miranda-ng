@@ -111,8 +111,16 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 	case VKERR_TOO_MANY_REQ_PER_SEC:
 	case VKERR_FLOOD_CONTROL:
 	case VKERR_INTERNAL_SERVER_ERR:
-		pReq->bNeedsRestart = true;
-		Sleep(500); //Pause for fix err 
+		if (pReq->m_iRetry > 0){
+			pReq->bNeedsRestart = true;
+			Sleep(500); //Pause for fix err 
+			pReq->m_iRetry--;
+		}
+		else{
+			CMString msg, msgformat = TranslateT("Error %d. Data will not be send or received.");
+			msg.AppendFormat(msgformat, iErrorCode);
+			MsgPopup(NULL, msg.GetBuffer(), TranslateT("Error"), true);
+		}
 		break;
 	case VKERR_HIMSELF_AS_FRIEND:
 	case VKERR_YOU_ON_BLACKLIST:
@@ -239,6 +247,7 @@ AsyncHttpRequest::AsyncHttpRequest()
 	AddHeader("Connection", "keep-alive");
 	AddHeader("Accept-Encoding", "booo");
 	pUserInfo = NULL;
+	m_iRetry = MAX_RETRIES;
 }
 
 AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc)
@@ -265,6 +274,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	requestType = iRequestType;
 	m_pFunc = pFunc;
 	pUserInfo = NULL;
+	m_iRetry = MAX_RETRIES;
 }
 
 AsyncHttpRequest::~AsyncHttpRequest()
