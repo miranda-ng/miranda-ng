@@ -476,6 +476,8 @@ void ImportMeta(DBCachedContact *cc)
 
 	AccountMap pda(META_PROTO, META_PROTO);
 	ImportContactSettings(&pda, cc->contactID, hDest);
+
+	arContactMap.insert(new ContactMap(cc->contactID, hDest));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -525,13 +527,13 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	switch (dbv.type) {
 	case DBVT_DWORD:
 		pszUniqueID = _ltot(dbv.dVal, id, 10);
-		hDst = HContactFromNumericID(cc->szProto, pszUniqueSetting, dbv.dVal);
+		hDst = HContactFromNumericID(pda->szDstAcc, pszUniqueSetting, dbv.dVal);
 		break;
 
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
 		pszUniqueID = NEWTSTR_ALLOCA(_A2T(dbv.pszVal));
-		hDst = HContactFromID(cc->szProto, pszUniqueSetting, pszUniqueID);
+		hDst = HContactFromID(pda->szDstAcc, pszUniqueSetting, pszUniqueID);
 		break;
 	}
 
@@ -561,17 +563,24 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 
 static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoCount)
 {
-	// Is it contats history import?
-	MCONTACT hDst = (protoCount == 0) ? MapContact(hContact) : NULL; //system history import
-	if (hDst == INVALID_CONTACT_ID) {
-		nSkippedContacts++;
-		return;
-	}
+	MCONTACT hDst;
+	bool bIsMeta = false;
 
-	// history for subs will be imported via metahistory
-	DBCachedContact *cc = dstDb->m_cache->GetCachedContact(hContact);
-	if (cc == NULL || cc->IsSub())
-		return;
+	// Is it contact's history import?
+	if (hContact) {
+		if ((hDst = MapContact(hContact)) == INVALID_CONTACT_ID) {
+			nSkippedContacts++;
+			return;
+		}
+
+		// history for subs will be imported via metahistory
+		DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hContact);
+		if (cc == NULL || cc->IsSub())
+			return;
+
+		bIsMeta = cc->IsMeta();
+	}
+	else hDst = 0;
 
 	bool bSkipAll = false;
 	DWORD cbAlloc = 4096;
@@ -648,7 +657,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 						dbei.flags |= DBEF_READ;
 
 					// calculate sub's handle for metahistory
-					MCONTACT hOwner = (cc->IsMeta()) ? MapContact(srcDb->GetEventContact(hEvent)) : hDst;
+					MCONTACT hOwner = (bIsMeta) ? MapContact(srcDb->GetEventContact(hEvent)) : hDst;
 
 					// add dbevent
 					if (dstDb->AddEvent(hOwner, &dbei) != NULL)
