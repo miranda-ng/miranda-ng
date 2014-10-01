@@ -281,7 +281,7 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT hContact)
 {
 	switch(type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH |  PF1_SEARCHBYNAME | PF1_MODEMSG;
+		return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_SEARCHBYEMAIL | PF1_MODEMSG;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
@@ -447,7 +447,8 @@ HANDLE CVkProto::SearchBasic(const PROTOCHAR* id)
 
 HANDLE CVkProto::SearchByEmail(const PROTOCHAR* email)
 {
-	return 0;
+	ForkThread(&CVkProto::SearchByMailThread, (void *)email);
+	return (HANDLE)1;
 }
 
 HANDLE CVkProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
