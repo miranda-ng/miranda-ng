@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.17
+;  Version: 0.1.0.18
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -67,6 +67,10 @@ Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
 [New chat's title:]
 Nazwa nowego czatu:
 ;file \protocols\VKontakte\src\misc.cpp
+[Error %d. Data will not be send or received.]
+Błąd %d. Dane nie zostaną wysłane lub odebrane.
+[Error]
+Błąd
 [Captcha form icon]
 Ikona formularza Captcha
 [Protocols]
@@ -129,8 +133,6 @@ Użytkownik %s dodany jako znajomy
 (Nieznany kontakt)
 [You cannot add yourself as friend]
 Nie możesz dodać siebie samego jako znajomego
-[Error]
-Błąd
 [Cannot add this user to friends as they have put you on their blacklist]
 Nie można dodać tego użytkownika do znajomych, ponieważ umieścił cię on na czarnej liście
 [Cannot add this user to friends as you put him on blacklist]
