@@ -117,7 +117,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 			pReq->m_iRetry--;
 		}
 		else{
-			CMString msg, msgformat = TranslateT("Error %d. Data will not be send or received.");
+			CMString msg, msgformat = TranslateT("Error %d. Data will not be sent or received.");
 			msg.AppendFormat(msgformat, iErrorCode);
 			MsgPopup(NULL, msg.GetBuffer(), TranslateT("Error"), true);
 		}
