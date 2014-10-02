@@ -163,7 +163,7 @@ private:
 	bool IsMe(const std::string &id);
 	MCONTACT FindContact(const std::string &id);
 	MCONTACT FindContact(const int friendNumber);
-	MCONTACT AddContact(const std::string &id, bool isTemporary = false);
+	MCONTACT AddContact(const std::string &id, const std::tstring &dnsId, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
 

@@ -92,7 +92,7 @@ MCONTACT CToxProto::FindContact(const int friendNumber)
 	return FindContact(id);
 }
 
-MCONTACT CToxProto::AddContact(const std::string &id, bool isTemporary)
+MCONTACT CToxProto::AddContact(const std::string &id, const std::tstring &dnsId, bool isTemporary)
 {
 	MCONTACT hContact = FindContact(id);
 	if (!hContact)
@@ -101,7 +101,10 @@ MCONTACT CToxProto::AddContact(const std::string &id, bool isTemporary)
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
 
 		setString(hContact, TOX_SETTINGS_ID, id.c_str());
-		//setByte(hContact, "Auth", 1);
+		if (!dnsId.empty())
+		{
+			setTString(hContact, TOX_SETTINGS_DNS, dnsId.c_str());
+		}
 
 		DBVARIANT dbv;
 		if (!getTString(TOX_SETTINGS_GROUP, &dbv))
@@ -109,6 +112,9 @@ MCONTACT CToxProto::AddContact(const std::string &id, bool isTemporary)
 			db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
 			db_free(&dbv);
 		}
+
+		setByte(hContact, "Auth", 1);
+		setByte(hContact, "Grant", 1);
 
 		if (isTemporary)
 		{
@@ -130,9 +136,12 @@ void CToxProto::LoadFriendList()
 		for (uint32_t i = 0; i < count; ++i)
 		{
 			tox_get_client_id(tox, friends[i], id.data());
-			MCONTACT hContact = AddContact(DataToHexString(id));
+			MCONTACT hContact = AddContact(DataToHexString(id), _T(""));
 			if (hContact)
 			{
+				delSetting(hContact, "Auth");
+				delSetting(hContact, "Grant");
+
 				int size = tox_get_name_size(tox, friends[i]);
 				std::vector<uint8_t> username(size);
 				tox_get_name(tox, friends[i], &username[0]);
@@ -179,13 +188,13 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t 
 	std::vector<uint8_t> clientId(address, address + TOX_CLIENT_ID_SIZE);
 	std::string id = proto->DataToHexString(clientId);
 
-	MCONTACT hContact = proto->AddContact(id);
+	MCONTACT hContact = proto->AddContact(id, _T(""));
 	if (!hContact)
 	{
 		return;
 	}
 
-	proto->setByte(hContact, "Auth", 1);
+	proto->delSetting(hContact, "Auth");
 
 	PROTORECVEVENT pre = { 0 };
 	pre.flags = PREF_UTF;
@@ -254,5 +263,9 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int number, const uint
 	{
 		int newStatus = status ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 		proto->SetContactStatus(hContact, newStatus);
+		if (status)
+		{
+			proto->delSetting(hContact, "Auth");
+		}
 	}
 }
