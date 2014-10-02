@@ -85,7 +85,7 @@ MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		return NULL;
 	}
 	// set tox address as contact id
-	return AddContact(address, flags & PALF_TEMPORARY);
+	return AddContact(address, psr->email, flags & PALF_TEMPORARY);
 }
 
 MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
@@ -109,7 +109,7 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 	}
 
 	db_unset(hContact, "CList", "NotOnList");
-	delSetting(hContact, "Auth");
+	delSetting(hContact, "Grant");
 	SaveToxProfile();
 
 	return 0;
@@ -122,7 +122,7 @@ int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 	return Proto_AuthRecv(m_szModuleName, pre);
 }
 
-int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
+int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
 {
 	ptrA reason(mir_utf8encodeW(szMessage));
 
@@ -138,7 +138,7 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage
 		setString(hContact, TOX_SETTINGS_ID, id.c_str());
 
 		db_unset(hContact, "CList", "NotOnList");
-		delSetting(hContact, "Auth");
+		delSetting(hContact, "Grant");
 
 		std::string nick("", TOX_MAX_NAME_LENGTH);
 		tox_get_name(tox, number, (uint8_t*)&nick[0]);
