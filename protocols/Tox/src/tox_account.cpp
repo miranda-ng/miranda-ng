@@ -9,9 +9,10 @@ bool CToxProto::IsOnline()
 int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
 	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CToxProto::OnAccountListChanged);
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CToxProto::OnSettingsChanged);
-	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);	
 
 	InitNetlib();
 

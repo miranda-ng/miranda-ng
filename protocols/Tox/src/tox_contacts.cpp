@@ -269,3 +269,95 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int number, const uint
 		}
 	}
 }
+
+int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
+{
+	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
+	{
+		return 0;
+	}
+
+	MCONTACT hContact = lParam;
+	char *szProto = GetContactProto(hContact);
+	if (szProto != NULL && !strcmp(szProto, m_szModuleName))
+	{
+		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
+		odp.hInstance = g_hInstance;
+		odp.dwInitParam = (LPARAM)this;
+		odp.ptszTitle = m_tszUserName;
+
+		odp.pfnDlgProc = UserInfoProc;
+		odp.position = -2000000000;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_INFO);
+		UserInfo_AddPage(wParam, &odp);
+	}
+
+	return 0;
+}
+
+INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+
+	switch (uMsg)
+	{
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwnd);
+		{
+			proto = (CToxProto*)lParam;
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
+		}
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom)
+		{
+		case 0:
+			switch (((LPNMHDR)lParam)->code)
+			{
+			case PSN_INFOCHANGED:
+			{
+				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+				char *szProto = (hContact == NULL) ? szProto = proto->m_szModuleName : (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+				if (szProto == NULL)
+				{
+					break;
+				}
+
+				SetDlgItemText(hwnd, IDC_DNS_ID, ptrT(proto->getTStringA(hContact, TOX_SETTINGS_DNS)));
+			}
+				break;
+
+			case PSN_PARAMCHANGED:
+				SetWindowLongPtr(hwnd, GWLP_USERDATA, ((PSHNOTIFY*)lParam)->lParam);
+				break;
+
+			case PSN_APPLY:
+				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+				char *szProto = (hContact == NULL) ? szProto = proto->m_szModuleName : (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
+				if (szProto == NULL)
+				{
+					break;
+				}
+				TCHAR dnsId[MAX_PATH];
+				GetDlgItemText(hwnd, IDC_DNS_ID, dnsId, MAX_PATH);
+				proto->setTString(hContact, TOX_SETTINGS_DNS, dnsId);
+				break;
+			}
+			break;
+		}
+		break;
+
+	case WM_COMMAND:
+		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
+		{
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+		}
+		break;
+
+		break;
+	}
+
+	return FALSE;
+}

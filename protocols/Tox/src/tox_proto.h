@@ -156,6 +156,10 @@ private:
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
+	// userinfo
+	static INT_PTR CALLBACK UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	int __cdecl OnUserInfoInit(WPARAM wParam, LPARAM lParam);
+
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);

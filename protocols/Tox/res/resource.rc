@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -51,7 +51,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -138,6 +138,15 @@ BEGIN
     LTEXT           "If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.",IDC_STATIC,0,20,109,93
 END
 
+IDD_USER_INFO DIALOGEX 0, 0, 221, 152
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Dns name:",IDC_STATIC,2,3,217,8
+    EDITTEXT        IDC_DNS_ID,2,13,217,14,ES_AUTOHSCROLL
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -185,6 +194,12 @@ BEGIN
 
     IDD_SEARCH, DIALOG
     BEGIN
+    END
+
+    IDD_USER_INFO, DIALOG
+    BEGIN
+        VERTGUIDE, 2
+        VERTGUIDE, 219
     END
 END
 #endif    // APSTUDIO_INVOKED
