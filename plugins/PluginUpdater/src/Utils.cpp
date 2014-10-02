@@ -355,9 +355,9 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
+LONGLONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
 {
-	LONG result = period * 1000;
+	LONGLONG result = period * 1000;
 	switch(periodMeasure) {
 	case 1:
 		// day
@@ -381,11 +381,13 @@ void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
 
 void InitTimer(void *type)
 {
-	if (opts.bUpdateOnPeriod) {
-		LONG interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
+	if (!opts.bUpdateOnPeriod)
+		return;
 
-		switch ((int)type) {
-		case 0: // default, plan next check relative to last check
+	LONGLONG interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
+
+	switch ((int)type) {
+	case 0: // default, plan next check relative to last check
 		{
 			time_t now = time(NULL);
 			time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
@@ -393,27 +395,28 @@ void InitTimer(void *type)
 			interval -= (now - was) * 1000;
 			if (interval <= 0)
 				interval = 1000; // no last update or too far in the past -> do it now
-			break;
 		}
-		case 1: // options changed, use set interval from now
-			break;
-		case 2: // failed last check, check again in two hours
-			interval = 1000 * 60 * 60 * 2;
-			break;
-		}
+		break;
 
-		FILETIME ft;
-		GetSystemTimeAsFileTime(&ft);
+	case 1: // options changed, use set interval from now
+		break;
 
-		LARGE_INTEGER li;
-		li.LowPart = ft.dwLowDateTime;
-		li.HighPart = ft.dwHighDateTime;
-		li.QuadPart += (ULONGLONG)(interval * 10000LL);
-		SetWaitableTimer(Timer, &li, 0, TimerAPCProc, NULL, 0);
-
-		// Wait in an alertable state for the timer to go off.
-		SleepEx(INFINITE, TRUE);
+	case 2: // failed last check, check again in two hours
+		interval = 1000 * 60 * 60 * 2;
+		break;
 	}
+
+	FILETIME ft;
+	GetSystemTimeAsFileTime(&ft);
+
+	LARGE_INTEGER li;
+	li.LowPart = ft.dwLowDateTime;
+	li.HighPart = ft.dwHighDateTime;
+	li.QuadPart += interval * 10000LL;
+	SetWaitableTimer(Timer, &li, 0, TimerAPCProc, NULL, 0);
+
+	// Wait in an alertable state for the timer to go off.
+	SleepEx(INFINITE, TRUE);
 }
 
 void strdel(TCHAR *parBuffer, int len)

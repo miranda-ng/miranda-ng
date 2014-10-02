@@ -603,7 +603,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			// Scan recursively all subfolders
 			if (_tcscmp(ffd.cFileName, _T(".")) && _tcscmp(ffd.cFileName, _T(".."))) {
 				mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
-				count += ScanFolder(tszBuf, cbBaseLen, level+1, tszBaseUrl, hashes, UpdateFiles);
+				count += ScanFolder(tszBuf, cbBaseLen, level + 1, tszBaseUrl, hashes, UpdateFiles);
 			}
 		}
 		else if (isValidExtension(ffd.cFileName)) {
@@ -613,7 +613,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				if (level == 0)
 					_tcsncpy(tszNewName, ffd.cFileName, MAX_PATH);
 				else
-					mir_sntprintf(tszNewName, SIZEOF(tszNewName), _T("%s\\%s"), tszFolder+cbBaseLen, ffd.cFileName);
+					mir_sntprintf(tszNewName, SIZEOF(tszNewName), _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
 			}
 
 			bool bHasNewVersion = true;
@@ -632,12 +632,12 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 						continue;
 
 					// remove trailing w or W and try again
-					int iPos = int(p - tszNewName)-1;
-					strdel(p-1, 1);
+					int iPos = int(p - tszNewName) - 1;
+					strdel(p - 1, 1);
 					if ((item = hashes.find((ServListEntry*)&pName)) == NULL)
 						continue;
 
-					strdel(tszNewName+iPos, 1);
+					strdel(tszNewName + iPos, 1);
 				}
 
 				ptszUrl = item->m_name;
@@ -649,7 +649,8 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 						CalculateModuleHash(tszBuf, szMyHash);
 						bHasNewVersion = strcmp(szMyHash, item->m_szHash) != 0;
 					}
-					__except(EXCEPTION_EXECUTE_HANDLER) {
+					__except (EXCEPTION_EXECUTE_HANDLER)
+					{
 						ZeroMemory(szMyHash, 0);
 						// smth went wrong, reload a file from scratch
 					}
@@ -663,10 +664,10 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			// Compare versions
 			if (bHasNewVersion) {
 				// Yeah, we've got new version.
-				Netlib_LogfT(hNetlibUser,_T("Found update for %s"), tszBuf);
+				Netlib_LogfT(hNetlibUser, _T("Found update for %s"), tszBuf);
 				FILEINFO *FileInfo = new FILEINFO;
 				// copy the relative old name
-				_tcsncpy(FileInfo->tszOldName, tszBuf+cbBaseLen, SIZEOF(FileInfo->tszOldName));
+				_tcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, SIZEOF(FileInfo->tszOldName));
 				FileInfo->bDeleteOnly = bDeleteOnly;
 				if (FileInfo->bDeleteOnly) {
 					// save the full old name for deletion
@@ -680,7 +681,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 				TCHAR *p = _tcsrchr(tszBuf, '.');
 				if (p) *p = 0;
 				p = _tcsrchr(tszBuf, '\\');
-				p = (p) ? p+1 : tszBuf;
+				p = (p) ? p + 1 : tszBuf;
 				_tcslwr(p);
 
 				mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, p);
@@ -707,20 +708,20 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 
 static void CheckUpdates(void *)
 {
-	Netlib_LogfT(hNetlibUser,_T("Checking for updates"));
+	Netlib_LogfT(hNetlibUser, _T("Checking for updates"));
 	TCHAR tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
-	if (tszTempPath[dwLen-1] == '\\')
-		tszTempPath[dwLen-1] = 0;
+	if (tszTempPath[dwLen - 1] == '\\')
+		tszTempPath[dwLen - 1] = 0;
 
 	ptrT updateUrl(GetDefaultUrl()), baseUrl;
-	
+
 	SERVLIST hashes(50, CompareHashes);
 	bool success = ParseHashes(updateUrl, baseUrl, hashes);
 	if (success) {
 		FILELIST *UpdateFiles = new FILELIST(20);
-		VARST dirname( _T("%miranda_path%"));
-		int count = ScanFolder(dirname, lstrlen(dirname)+1, 0, baseUrl, hashes, UpdateFiles);
+		VARST dirname(_T("%miranda_path%"));
+		int count = ScanFolder(dirname, lstrlen(dirname) + 1, 0, baseUrl, hashes, UpdateFiles);
 
 		// Show dialog
 		if (count == 0) {
@@ -731,8 +732,8 @@ static void CheckUpdates(void *)
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
 	}
 
-	mir_forkthread(InitTimer, (success ? 0 :(void*) 2));
-	
+	mir_forkthread(InitTimer, (success ? 0 : (void*)2));
+
 	hashes.destroy();
 	hCheckThread = NULL;
 }
@@ -745,12 +746,13 @@ void DoCheck(bool bSilent)
 		ShowWindow(hwndDialog, SW_SHOW);
 		SetForegroundWindow(hwndDialog);
 		SetFocus(hwndDialog);
-	} else {
+	}
+	else {
 		opts.bSilent = bSilent;
 #if MIRANDA_VER >= 0x0A00
 		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 #endif
-		hCheckThread = mir_forkthread(CheckUpdates, 0);		
+		hCheckThread = mir_forkthread(CheckUpdates, 0);
 	}
 }
 
@@ -760,9 +762,9 @@ void UninitCheck()
 		DestroyWindow(hwndDialog);
 }
 
-INT_PTR MenuCommand(WPARAM,LPARAM)
+INT_PTR MenuCommand(WPARAM, LPARAM)
 {
-	Netlib_LogfT(hNetlibUser,_T("Update started manually!"));
+	Netlib_LogfT(hNetlibUser, _T("Update started manually!"));
 	DoCheck(false);
 	return 0;
 }
@@ -780,17 +782,15 @@ void UnloadCheck()
 
 void CheckUpdateOnStartup()
 {
-	if(opts.bUpdateOnStartup)
-	{
-		if (opts.bOnlyOnceADay)
-		{
+	if (opts.bUpdateOnStartup) {
+		if (opts.bOnlyOnceADay) {
 			time_t now = time(NULL),
 				was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
 
 			if ((now - was) < 86400)
 				return;
 		}
-		Netlib_LogfT(hNetlibUser,_T("Update on startup started!"));
+		Netlib_LogfT(hNetlibUser, _T("Update on startup started!"));
 		DoCheck(true);
 	}
 }
