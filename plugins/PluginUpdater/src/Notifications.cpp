@@ -68,12 +68,13 @@ static LRESULT CALLBACK PopupDlgProc(HWND hPopup, UINT uMsg, WPARAM wParam, LPAR
 	return DefWindowProc(hPopup, uMsg, wParam, lParam);
 }
 
-static void _stdcall RestartPrompt(void *) {
+static void _stdcall RestartPrompt(void *)
+{
 	TCHAR tszText[200];
 	mir_sntprintf(tszText, SIZEOF(tszText), _T("%s\n\n%s"), TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
 	if (MessageBox(0, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) == IDYES)
-		CallService(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
+		CallService(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
 }
 
 static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -84,7 +85,7 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 		break;
 	case WM_COMMAND:
 		PUDeletePopup(hPopup);
-		CallFunctionAsync(RestartPrompt,0);
+		CallFunctionAsync(RestartPrompt, 0);
 
 		break;
 	}
@@ -97,11 +98,11 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 		char setting[100];
 		mir_snprintf(setting, SIZEOF(setting), "Popups%d", Number);
-		if(db_get_b(NULL, MODNAME, setting, DEFAULT_POPUP_ENABLED)) {
+		if (db_get_b(NULL, MODNAME, setting, DEFAULT_POPUP_ENABLED)) {
 			POPUPDATAT pd = { 0 };
 			pd.lchContact = NULL;
 			pd.lchIcon = Skin_GetIcon("check_update");
-			if(Number == POPUP_TYPE_MSG) {
+			if (Number == POPUP_TYPE_MSG) {
 				pd.PluginWindowProc = PopupDlgProcRestart;
 				pd.iSeconds = -1;
 			}
@@ -130,10 +131,10 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 			return;
 		}
 	}
-	
-	if(Number == POPUP_TYPE_ERROR) {
+
+	if (Number == POPUP_TYPE_ERROR) {
 		int iMsgType;
-		switch( Number ) {
+		switch (Number) {
 			case POPUP_TYPE_MSG: iMsgType = MB_ICONSTOP; break;
 			case POPUP_TYPE_ERROR: iMsgType = MB_ICONINFORMATION; break;
 			case POPUP_TYPE_INFO: iMsgType = MB_ICONQUESTION; break;
