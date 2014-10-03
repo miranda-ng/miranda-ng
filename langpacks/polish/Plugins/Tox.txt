@@ -36,6 +36,8 @@ Profil tox zawiera twój identyfikator oraz listę znajomych.\r\nMożesz importo
 Anuluj
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
+[Dns name:]
+Nazwa dns:
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Protokoły
