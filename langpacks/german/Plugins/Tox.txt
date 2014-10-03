@@ -36,6 +36,8 @@ Importieren
 Abbrechen
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
+[Dns name:]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Netzwerk

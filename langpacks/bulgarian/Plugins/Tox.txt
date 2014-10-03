@@ -36,6 +36,8 @@ Tox
 Отказ
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
+[Dns name:]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Мрежа
