@@ -36,6 +36,8 @@ Passe :
 Annuler
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 
+[Dns name:]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Réseau
