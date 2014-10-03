@@ -416,7 +416,7 @@ DBCachedContact* FindDestMeta(DBCachedContact *ccSrc)
 		int i;
 		for (i = 0; i < ccSrc->nSubs; i++) {
 			MCONTACT hDest = MapContact(ccSrc->pSubs[i]);
-			if (hDest == INVALID_CONTACT_ID || ccSrc->pSubs[i] != hDest)
+			if (hDest == INVALID_CONTACT_ID || cc->pSubs[i] != hDest)
 				break;
 		}
 
@@ -540,6 +540,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	if (hDst != INVALID_CONTACT_ID) {
 		AddMessage(LPGENT("Skipping duplicate %S contact %s"), cc->szProto, pszUniqueID);
 		srcDb->FreeVariant(&dbv);
+		arContactMap.insert(new ContactMap(hSrc, hDst));
 		return NULL;
 	}
 
