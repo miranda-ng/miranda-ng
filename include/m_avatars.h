@@ -241,41 +241,6 @@ typedef struct _contactAvatarChangedNotification {
 
 #define MS_AV_REPORTMYAVATARCHANGED "SV_Avatars/ReportMyAvatarChanged"
 
-
-
-// Bitmap services //////////////////////////////////////////////////////////////////////
-
-// Load an image
-// wParam = NULL
-// lParam = filename
-#define MS_AV_LOADBITMAP32 "SV_Avatars/LoadBitmap32"
-
-// Save an HBITMAP to an image
-// wParam = HBITMAP
-// lParam = full path of filename
-#define MS_AV_SAVEBITMAP  "SV_Avatars/SaveBitmap"
-#define MS_AV_SAVEBITMAPW "SV_Avatars/SaveBitmapW"
-
-#ifdef _UNICODE
-
-#define MS_AV_SAVEBITMAPT MS_AV_SAVEBITMAPW
-
-#else
-
-#define MS_AV_SAVEBITMAPT MS_AV_SAVEBITMAP
-
-#endif
-
-// Returns != 0 if can save that type of image, = 0 if cant
-// wParam = 0
-// lParam = PA_FORMAT_*   // image format
-#define MS_AV_CANSAVEBITMAP "SV_Avatars/CanSaveBitmap"
-
-// Returns a copy of the bitmap with the size especified or the original bitmap if nothing has to be changed
-// wParam = ResizeBitmap *
-// lParam = NULL
-#define MS_AV_RESIZEBITMAP "SV_Avatars/ResizeBitmap"
-
 /*
 * flags for internal use ONLY
 */

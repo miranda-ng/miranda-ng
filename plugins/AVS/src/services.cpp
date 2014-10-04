@@ -353,7 +353,7 @@ void SaveImage(SaveProtocolData &d, char *protocol, int format)
 		return;
 
 	mir_sntprintf(d.image_file_name, SIZEOF(d.image_file_name), _T("%s%s"), d.temp_file, ProtoGetAvatarExtension(format));
-	if (BmpFilterSaveBitmapT(d.hBmpProto, d.image_file_name, format == PA_FORMAT_JPEG ? JPEG_QUALITYSUPERB : 0))
+	if (BmpFilterSaveBitmap(d.hBmpProto, d.image_file_name, format == PA_FORMAT_JPEG ? JPEG_QUALITYSUPERB : 0))
 		return;
 
 	if (d.max_size != 0 && GetFileSize(d.image_file_name) > d.max_size) {
@@ -361,7 +361,7 @@ void SaveImage(SaveProtocolData &d, char *protocol, int format)
 
 		if (format == PA_FORMAT_JPEG) {
 			// Try with lower quality
-			if (!BmpFilterSaveBitmapT(d.hBmpProto, d.image_file_name, JPEG_QUALITYGOOD)) {
+			if (!BmpFilterSaveBitmap(d.hBmpProto, d.image_file_name, JPEG_QUALITYGOOD)) {
 				if (GetFileSize(d.image_file_name) > d.max_size) {
 					DeleteFile(d.image_file_name);
 					d.need_smaller_size = TRUE;
@@ -419,7 +419,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 		rb.fit = (grow ? 0 : RESIZEBITMAP_FLAG_DONT_GROW)
 			| (square ? RESIZEBITMAP_MAKE_SQUARE : RESIZEBITMAP_KEEP_PROPORTIONS);
 
-		d.hBmpProto = (HBITMAP)BmpFilterResizeBitmap((WPARAM)&rb, 0);
+		d.hBmpProto = (HBITMAP)CallService(MS_IMG_RESIZE, WPARAM(&rb), 0);
 
 		if (d.hBmpProto == NULL) {
 			if (d.temp_file[0] != '\0')
@@ -580,7 +580,7 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 				rb.fit = (data.grow ? 0 : RESIZEBITMAP_FLAG_DONT_GROW)
 					| (data.square ? RESIZEBITMAP_MAKE_SQUARE : RESIZEBITMAP_KEEP_PROPORTIONS);
 
-				HBITMAP hBmpTmp = (HBITMAP)BmpFilterResizeBitmap((WPARAM)&rb, 0);
+				HBITMAP hBmpTmp = (HBITMAP)CallService(MS_IMG_RESIZE, WPARAM(&rb), 0);
 
 				// Check if need to resize
 				if (hBmpTmp == hBmp || hBmpTmp == NULL) {
@@ -591,7 +591,7 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 				else {
 					// Save as PNG
 					mir_sntprintf(globalFile, SIZEOF(globalFile), _T("%s\\my_global_avatar.png"), globalFile);
-					if (BmpFilterSaveBitmap((WPARAM)hBmpTmp, (LPARAM)globalFile))
+					if (BmpFilterSaveBitmap(hBmpTmp, globalFile, 0))
 						saved = FALSE;
 
 					DeleteObject(hBmpTmp);
@@ -877,9 +877,4 @@ void InitServices()
 	CreateServiceFunction(MS_AV_DRAWAVATAR, DrawAvatarPicture);
 	CreateServiceFunction(MS_AV_GETMYAVATAR, GetMyAvatar);
 	CreateServiceFunction(MS_AV_REPORTMYAVATARCHANGED, ReportMyAvatarChanged);
-
-	CreateServiceFunction(MS_AV_LOADBITMAP32, BmpFilterLoadBitmap32);
-	CreateServiceFunction(MS_AV_SAVEBITMAP, BmpFilterSaveBitmap);
-	CreateServiceFunction(MS_AV_CANSAVEBITMAP, BmpFilterCanSaveBitmap);
-	CreateServiceFunction(MS_AV_RESIZEBITMAP, BmpFilterResizeBitmap);
 }

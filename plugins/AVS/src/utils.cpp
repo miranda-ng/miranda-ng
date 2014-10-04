@@ -158,9 +158,9 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		return -2;
 
 	CloseHandle(hFile);
-	WPARAM isTransparentImage = 0;
 
-	ace->hbmPic = (HBITMAP)BmpFilterLoadBitmap32((WPARAM)&isTransparentImage, (LPARAM)tszFilename);
+	BOOL isTransparentImage = 0;
+	ace->hbmPic = BmpFilterLoadBitmap(&isTransparentImage, tszFilename);
 	ace->dwFlags = 0;
 	ace->bmHeight = 0;
 	ace->bmWidth = 0;

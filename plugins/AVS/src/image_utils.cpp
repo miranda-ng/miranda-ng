@@ -22,16 +22,7 @@ void MakeBmpTransparent(HBITMAP hBitmap)
 	free(p);
 }
 
-// Resize /////////////////////////////////////////////////////////////////////////////////////////
-// Returns a copy of the bitmap with the size especified
-// wParam = ResizeBitmap *
-// lParam = NULL
-
-INT_PTR BmpFilterResizeBitmap(WPARAM wParam, LPARAM lParam)
-{
-	// Call freeiamge service (is here only for backward compatibility)
-	return CallService(MS_IMG_RESIZE, wParam, lParam);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 {
@@ -168,12 +159,12 @@ void SetHIMETRICtoDP(HDC hdc, SIZE* sz)
 	sz->cy = pt.y;
 }
 
-INT_PTR BmpFilterLoadBitmap32(WPARAM wParam, LPARAM lParam)
+HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const TCHAR *ptszFilename)
 {
 	if (fei == NULL)
 		return 0;
 
-	FIBITMAP *dib = (FIBITMAP *)CallService(MS_IMG_LOAD, lParam, IMGL_RETURNDIB | IMGL_TCHAR);
+	FIBITMAP *dib = (FIBITMAP*)CallService(MS_IMG_LOAD, (WPARAM)ptszFilename, IMGL_RETURNDIB | IMGL_TCHAR);
 	if (dib == NULL)
 		return 0;
 
@@ -184,28 +175,25 @@ INT_PTR BmpFilterLoadBitmap32(WPARAM wParam, LPARAM lParam)
 	}
 	else dib32 = dib;
 
-	if (dib32) {
-		if (fei->FI_IsTransparent(dib32)) {
-			if (wParam) {
-				DWORD *dwTrans = (DWORD *)wParam;
-				*dwTrans = 1;
-			}
-		}
-		if (fei->FI_GetWidth(dib32) > 128 || fei->FI_GetHeight(dib32) > 128) {
-			FIBITMAP *dib_new = fei->FI_MakeThumbnail(dib32, 128, FALSE);
-			fei->FI_Unload(dib32);
-			if (dib_new == NULL)
-				return 0;
-			dib32 = dib_new;
-		}
+	if (dib32 == NULL)
+		return NULL;
 
-		HBITMAP bitmap = fei->FI_CreateHBITMAPFromDIB(dib32);
+	if (fei->FI_IsTransparent(dib32))
+		if (bIsTransparent)
+			*bIsTransparent = TRUE;
 
+	if (fei->FI_GetWidth(dib32) > 128 || fei->FI_GetHeight(dib32) > 128) {
+		FIBITMAP *dib_new = fei->FI_MakeThumbnail(dib32, 128, FALSE);
 		fei->FI_Unload(dib32);
-		fei->FI_CorrectBitmap32Alpha(bitmap, FALSE);
-		return (INT_PTR)bitmap;
+		if (dib_new == NULL)
+			return 0;
+		dib32 = dib_new;
 	}
-	return 0;
+
+	HBITMAP bitmap = fei->FI_CreateHBITMAPFromDIB(dib32);
+	fei->FI_Unload(dib32);
+	fei->FI_CorrectBitmap32Alpha(bitmap, FALSE);
+	return bitmap;
 }
 
 static HWND hwndClui = 0;
@@ -215,76 +203,26 @@ static HWND hwndClui = 0;
 // PNG and BMP will be saved as 32bit images, jpg as 24bit with default quality (75)
 // returns 1 on success, 0 on failure
 
-int BmpFilterSaveBitmap(HBITMAP hBmp, char *szFile, int flags)
-{
-	IMGSRVC_INFO i = { 0 };
-	i.cbSize = sizeof(IMGSRVC_INFO);
-	i.szName = szFile;
-	i.hbm = hBmp;
-	i.dwMask = IMGI_HBITMAP;
-	i.fif = FIF_UNKNOWN;
-
-	return !CallService(MS_IMG_SAVE, (WPARAM)&i, MAKELONG(0, flags));
-}
-
-
-int BmpFilterSaveBitmapW(HBITMAP hBmp, wchar_t *wszFile, int flags)
-{
-	IMGSRVC_INFO i = { 0 };
-	i.cbSize = sizeof(IMGSRVC_INFO);
-	i.wszName = wszFile;
-	i.hbm = hBmp;
-	i.dwMask = IMGI_HBITMAP;
-	i.fif = FIF_UNKNOWN;
-
-	return !CallService(MS_IMG_SAVE, (WPARAM)&i, MAKELONG(IMGL_WCHAR, flags));
-}
-
-// Save an HBITMAP to an image
-// wParam = HBITMAP
-// lParam = filename
-INT_PTR BmpFilterSaveBitmap(WPARAM wParam, LPARAM lParam)
+int BmpFilterSaveBitmap(HBITMAP hBmp, const TCHAR *ptszFile, int flags)
 {
 	if (fei == NULL)
 		return -1;
 
-	const char *szFile = (const char*)lParam;
-	char szFilename[MAX_PATH];
-	if (!PathToAbsolute(szFile, szFilename))
-		mir_snprintf(szFilename, SIZEOF(szFilename), "%s", szFile);
+	TCHAR tszFilename[MAX_PATH];
+	if (!PathToAbsoluteT(ptszFile, tszFilename))
+		_tcsncpy_s(tszFilename, ptszFile, _TRUNCATE);
 
-	int filenameLen = lstrlenA(szFilename);
-	if (filenameLen > 4)
-		return BmpFilterSaveBitmap((HBITMAP)wParam, szFilename, 0);
-
-	return -1;
-}
-
-INT_PTR BmpFilterSaveBitmapW(WPARAM wParam, LPARAM lParam)
-{
-	if (fei == NULL)
+	if (_tcslen(tszFilename) <= 4)
 		return -1;
+	
+	IMGSRVC_INFO i = { 0 };
+	i.cbSize = sizeof(IMGSRVC_INFO);
+	i.wszName = tszFilename;
+	i.hbm = hBmp;
+	i.dwMask = IMGI_HBITMAP;
+	i.fif = FIF_UNKNOWN;
 
-	const wchar_t *wszFile = (const wchar_t *)lParam;
-	wchar_t wszFilename[MAX_PATH];
-	if (!PathToAbsoluteW(wszFile, wszFilename))
-		mir_sntprintf(wszFilename, SIZEOF(wszFilename), _T("%s"), wszFile);
-
-	int filenameLen = lstrlenW(wszFilename);
-	if (filenameLen > 4)
-		return BmpFilterSaveBitmapW((HBITMAP)wParam, wszFilename, 0);
-
-	return -1;
-}
-
-// Returns != 0 if can save that type of image, = 0 if cant
-// wParam = 0
-// lParam = PA_FORMAT_*   // image format
-// kept for compatibilty - with freeimage we can save all common formats
-
-INT_PTR BmpFilterCanSaveBitmap(WPARAM wParam, LPARAM lParam)
-{
-	return 1;
+	return !CallService(MS_IMG_SAVE, (WPARAM)&i, MAKELONG(IMGL_TCHAR, flags));
 }
 
 // Other utilities ////////////////////////////////////////////////////////////////////////////////
