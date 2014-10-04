@@ -85,7 +85,7 @@ MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		return NULL;
 	}
 	// set tox address as contact id
-	return AddContact(address, psr->email, flags & PALF_TEMPORARY);
+	return AddContact(address, _T(""), flags & PALF_TEMPORARY);
 }
 
 MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
