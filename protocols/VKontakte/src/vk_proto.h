@@ -131,6 +131,23 @@ struct CVkChatInfo : public MZeroedObject
 	CVkChatUser* GetUserById(LPCTSTR);
 };
 
+struct FileUploadParam {
+	enum VKFileType {typeInvalid, typeImg, typeAudio, typeDoc, typeNotSupported};
+	TCHAR* FileName;
+	TCHAR* Desc;
+	char* atr;
+	char* fname;
+	MCONTACT hContact;
+	VKFileType filetype;
+	
+	FileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files);
+	~FileUploadParam();
+	VKFileType GetType();
+	__forceinline bool FileUploadParam::IsAccess() {return ::_taccess(FileName, 0)==0; }
+	__forceinline char* FileUploadParam::atrName() { return atr; }
+	__forceinline char* FileUploadParam::fileName() { return fname; }
+};
+
 struct CVkProto : public PROTO<CVkProto>
 {
 				CVkProto(const char*, const TCHAR*);
@@ -226,6 +243,13 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnSearch(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSearchByMail(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
 
+	//==== Files Upload ==================================================================
+	
+	void __cdecl SendFileThread(void *p);
+	void SendFileFiled(FileUploadParam *fup, TCHAR* reason=NULL);
+	void OnReciveUploadServer(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReciveUpload(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReciveUploadFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);

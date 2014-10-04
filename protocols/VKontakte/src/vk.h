@@ -69,9 +69,7 @@ extern LIST<CVkProto> vk_Instances;
 extern HINSTANCE hInst;
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
+bool tlstrstr(TCHAR* _s1, TCHAR* _s2);
 
 void InitIcons(void);
 HANDLE GetIconHandle(int iCommand);
-
-void MyHtmlDecode(CMStringW &str);
-

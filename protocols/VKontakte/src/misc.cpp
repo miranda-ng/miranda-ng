@@ -480,3 +480,13 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 	if (bSetFlag)
 		setTString(hContact, "MirVer", MirVer.GetBuffer());
 }
+
+bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
+{
+	TCHAR s1[1024], s2[1024];
+	mir_sntprintf(s1, SIZEOF(s1), _T("%s"), _s1);
+	mir_sntprintf(s2, SIZEOF(s2), _T("%s"), _s2);
+	CharLowerBuff(s1, SIZEOF(s1));
+	CharLowerBuff(s2, SIZEOF(s2));
+	return (_tcsstr(s1, s2) == NULL);
+}
