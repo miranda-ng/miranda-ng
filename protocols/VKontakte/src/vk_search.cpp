@@ -18,16 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 
-static bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
-{
-	TCHAR s1[200], s2[200];
-	mir_sntprintf(s1, SIZEOF(s1), _T("%s"), _s1);
-	mir_sntprintf(s2, SIZEOF(s2), _T("%s"), _s2);
-	CharLowerBuff(s1, SIZEOF(s1));
-	CharLowerBuff(s2, SIZEOF(s2));
-	return (_tcsstr(s1, s2)==NULL);
-}
-
 void CVkProto::SearchBasicThread(void* id)
 {
 	debugLogA("CVkProto::OnSearchBasicThread");

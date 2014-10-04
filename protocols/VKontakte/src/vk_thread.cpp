@@ -252,9 +252,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
 		hContact = NULL;
 	else if ((hContact = FindUser(userid, flag)) == NULL)
 		return -1;
-
-	debugLogA("CVkProto::SetContactInfo %d %d", userid, hContact);
-
+	
 	CMString tszNick, tszValue;
 	int iValue;
 

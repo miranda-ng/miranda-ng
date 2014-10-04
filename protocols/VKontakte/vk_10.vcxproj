@@ -183,6 +183,7 @@
     <ClCompile Include="src\vk_avatars.cpp" />
     <ClCompile Include="src\vk_captcha.cpp" />
     <ClCompile Include="src\vk_chats.cpp" />
+    <ClCompile Include="src\vk_files.cpp" />
     <ClCompile Include="src\vk_options.cpp" />
     <ClCompile Include="src\vk_proto.cpp" />
     <ClCompile Include="src\vk_queue.cpp" />

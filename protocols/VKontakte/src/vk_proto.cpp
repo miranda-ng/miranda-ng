@@ -281,7 +281,7 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT hContact)
 {
 	switch(type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_SEARCHBYEMAIL | PF1_MODEMSG;
+		return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_SEARCHBYEMAIL | PF1_MODEMSG | PF1_FILESEND | PF1_FILERESUME;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
@@ -290,7 +290,7 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT hContact)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return   PF4_IMSENDUTF | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE;
+		return   PF4_IMSENDUTF | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES;
 
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
@@ -383,7 +383,12 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		}
 	}
 
-	if (m_bServerDelivery)
+	if (param->iMsgID == -1){
+		FileUploadParam *fup = (FileUploadParam *)param->iCount;
+		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup, 0);
+		delete fup;
+	} 
+	else if (m_bServerDelivery)
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, HANDLE(param->iMsgID), 0);
 	delete param;
 }
@@ -580,26 +585,6 @@ int CVkProto::AuthRecv(MCONTACT hContact,PROTORECVEVENT *)
 	return 1;
 }
 
-HANDLE CVkProto::FileAllow(MCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *path)
-{
-	return NULL;
-}
-
-int CVkProto::FileCancel(MCONTACT hContact,HANDLE hTransfer)
-{
-	return 1;
-}
-
-int CVkProto::FileDeny(MCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *reason)
-{
-	return 1;
-}
-
-int CVkProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **filename)
-{
-	return 1;
-}
-
 int CVkProto::GetInfo(MCONTACT hContact, int infoType)
 {
 	LONG userID = getDword(hContact, "ID", -1);
@@ -624,11 +609,6 @@ int CVkProto::RecvContacts(MCONTACT hContact,PROTORECVEVENT *)
 	return 1;
 }
 
-int CVkProto::RecvFile(MCONTACT hContact,PROTORECVFILET *)
-{
-	return 1;
-}
-
 int CVkProto::RecvUrl(MCONTACT hContact,PROTORECVEVENT *)
 {
 	return 1;
@@ -637,11 +617,6 @@ int CVkProto::RecvUrl(MCONTACT hContact,PROTORECVEVENT *)
 int CVkProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
 {
 	return 1;
-}
-
-HANDLE CVkProto::SendFile(MCONTACT hContact,const PROTOCHAR *desc, PROTOCHAR **files)
-{
-	return NULL;
 }
 
 int CVkProto::SendUrl(MCONTACT hContact,int flags,const char *url)
