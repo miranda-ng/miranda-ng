@@ -9,6 +9,17 @@ int CToxProto::CompareAccounts(const CToxProto *p1, const CToxProto *p2)
 
 CToxProto* CToxProto::InitAccount(const char* protoName, const wchar_t* userName)
 {
+	ptrA address(db_get_sa(NULL, protoName, TOX_SETTINGS_ID));
+	if (address == NULL)
+	{
+		DialogBoxParam(
+			g_hInstance,
+			MAKEINTRESOURCE(IDD_PROFILE_IMPORT),
+			GetActiveWindow(),
+			CToxProto::ToxProfileImportProc,
+			(LPARAM)userName);
+	}
+
 	CToxProto *ppro = new CToxProto(protoName, userName);
 	accounts.insert(ppro);
 
@@ -31,17 +42,6 @@ int CToxProto::OnAccountListChanged(WPARAM wParam, LPARAM lParam)
 	{
 		switch (wParam)
 		{
-		case PRAC_ADDED:
-			DialogBoxParam(
-				g_hInstance,
-				MAKEINTRESOURCE(IDD_PROFILE_IMPORT),
-				account->hwndAccMgrUI,
-				CToxProto::ToxProfileManagerProc,
-				(LPARAM)this);
-			InitToxCore();
-			SaveToxProfile();
-			break;
-
 		case PRAC_CHANGED:
 			std::tstring newPath = GetToxProfilePath();
 			TCHAR oldPath[MAX_PATH];

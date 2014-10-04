@@ -22,17 +22,12 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 void CToxProto::InitToxCore()
 {
 	std::tstring profilePath = GetToxProfilePath();
-	if (!IsFileExists(profilePath))
-	{
-		return;
-	}
-
 	hProfile = CreateFile(
 		profilePath.c_str(),
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
 		NULL,
-		OPEN_EXISTING,
+		OPEN_ALWAYS,
 		FILE_ATTRIBUTE_NORMAL,
 		NULL);
 
@@ -49,7 +44,7 @@ void CToxProto::InitToxCore()
 		{
 			if (nlus.proxyType == PROXYTYPE_SOCKS4 || nlus.proxyType == PROXYTYPE_SOCKS5)
 			{
-				debugLogA("CToxProto::InitToxCore: Setting socks user proxy config");
+				debugLogA("CToxProto::InitToxCore: setting socks user proxy config");
 				options.proxy_enabled = 1;
 				strcpy(&options.proxy_address[0], nlus.szProxyServer);
 				options.proxy_port = nlus.wProxyPort;
@@ -97,12 +92,6 @@ void CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
-	std::tstring profilePath = GetToxProfilePath();
-	if (!IsFileExists(profilePath))
-	{
-		return;
-	}
-
 	SaveToxProfile();
 	tox_kill(tox);
 	CloseHandle(hProfile);
