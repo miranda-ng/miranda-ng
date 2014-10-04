@@ -149,10 +149,11 @@ Meine Details verstecken
 Vorheriges Konto
 [Next account]
 Nächstes Konto
+[Contact list]
+Kontaktliste
+;file \plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Meinen Nicknamen für %s setzen
 [Set my status message for %s]
 Meine Statusnachricht für %s setzen
-[Contact list]
-Kontaktliste
-;file \plugins\MyDetails\src\options.cpp

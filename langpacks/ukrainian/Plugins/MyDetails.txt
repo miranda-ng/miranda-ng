@@ -143,9 +143,9 @@
 Попередній обліковий запис
 [Next account]
 Наступний обліковий запис
+[Contact list]
+Список контактів
 [Set my nickname for %s]
 Змінити мій нік для %s
 [Set my status message for %s]
 Встановити статус для %s
-[Contact list]
-Список контактів

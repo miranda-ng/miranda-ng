@@ -149,10 +149,11 @@ Cacher mes détails
 
 [Next account]
 
+[Contact list]
+Liste de contacts
+;file \plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Changer mon pseudo pour %s
 [Set my status message for %s]
 Changer mon message d'état pour %s
-[Contact list]
-Liste de contacts
-;file \plugins\MyDetails\src\options.cpp

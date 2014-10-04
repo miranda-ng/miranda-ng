@@ -149,10 +149,11 @@
 Предишен акаунт
 [Next account]
 Следващ акаунт
+[Contact list]
+Списък с контакти
+;file \plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Задаване на прякор за %s
 [Set my status message for %s]
 Текст за състояние "%s"
-[Contact list]
-Списък с контакти
-;file \plugins\MyDetails\src\options.cpp

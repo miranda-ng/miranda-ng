@@ -149,10 +149,11 @@ RTL
 Папярэдні конт
 [Next account]
 Наступны конт
+[Contact list]
+Спіс кантактаў
+;file \plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Змяніць мянушку для %s
 [Set my status message for %s]
 Усталяваць статус для %s
-[Contact list]
-Спіс кантактаў
-;file \plugins\MyDetails\src\options.cpp
