@@ -249,13 +249,21 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 
 static int UninitializeStaticAccounts(WPARAM, LPARAM)
 {
-	for (int i=0; i < accounts.getCount(); i++) {
+	for (int i = 0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
-		if (!pa->ppro || !Proto_IsAccountEnabled(pa))
-			continue;
+		if (pa->ppro && Proto_IsAccountEnabled(pa))
+			if (pa->ppro->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != 0)
+				return 1;
+	}
+	return 0;
+}
 
-		pa->ppro->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0);
-		pa->ppro->OnEvent(EV_PROTO_ONEXIT, 0, 0);
+static int ShutdownStaticAccounts(WPARAM, LPARAM)
+{
+	for (int i = 0; i < accounts.getCount(); i++) {
+		PROTOACCOUNT *pa = accounts[i];
+		if (pa->ppro && Proto_IsAccountEnabled(pa))
+			pa->ppro->OnEvent(EV_PROTO_ONEXIT, 0, 0);
 	}
 	return 0;
 }
@@ -279,6 +287,7 @@ int LoadAccountsModule(void)
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);
 	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
+	hHooks[1] = HookEvent(ME_SYSTEM_SHUTDOWN, ShutdownStaticAccounts);
 	hHooks[2] = HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	hHooks[3] = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbSettingsChanged);
 	return 0;
@@ -491,7 +500,9 @@ static int DeactivationThread(DeactivationThreadParam* param)
 	char *szModuleName = NEWSTR_ALLOCA(p->m_szModuleName);
 
 	if (param->bIsDynamic) {
-		p->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0);
+		while (p->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != 0)
+			SleepEx(100, TRUE);
+
 		p->OnEvent(EV_PROTO_ONEXIT, 0, 0);
 	}
 
