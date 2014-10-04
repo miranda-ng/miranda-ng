@@ -143,9 +143,9 @@
 Предыдущая учётная запись
 [Next account]
 Следующая учётная запись
+[Contact list]
+Список контактов
 [Set my nickname for %s]
 Сменить мой ник для %s
 [Set my status message for %s]
 Установить статус для %s
-[Contact list]
-Список контактов
