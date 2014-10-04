@@ -170,11 +170,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	mir_cs m_csModeMsgMutex;
 	JABBER_MODEMSGS m_modeMsgs;
-	BOOL   m_bModeMsgStatusChangePending;
 
-	BOOL   m_bChangeStatusMessageOnly;
-	BOOL   m_bSendKeepAlive;
-	BOOL   m_bPepSupported;
+	bool   m_bShutdown;
+	bool   m_bSendKeepAlive;
+	bool   m_bPepSupported;
 
 	HWND   m_hwndAgentRegInput;
 	HWND   m_hwndRegProgress;

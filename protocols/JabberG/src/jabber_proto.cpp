@@ -268,6 +268,8 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 {
+	m_bShutdown = true;
+
 	UI_SAFE_CLOSE_HWND(m_hwndAgentRegInput);
 	UI_SAFE_CLOSE_HWND(m_hwndRegProgress);
 	UI_SAFE_CLOSE_HWND(m_hwndMucVoiceList);
