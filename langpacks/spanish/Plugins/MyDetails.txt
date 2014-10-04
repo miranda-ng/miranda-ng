@@ -149,10 +149,11 @@ Fondo
 
 [Next account]
 
+[Contact list]
+Lista de contactos
+;file \plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 
 [Set my status message for %s]
 
-[Contact list]
-Lista de contactos
-;file \plugins\MyDetails\src\options.cpp

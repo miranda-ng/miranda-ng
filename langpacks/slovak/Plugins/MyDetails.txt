@@ -149,10 +149,11 @@ Pozadie
 
 [Next account]
 
+[Contact list]
+Zoznam kontaktov
+;file \plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 
 [Set my status message for %s]
 
-[Contact list]
-Zoznam kontaktov
-;file \plugins\MyDetails\src\options.cpp
