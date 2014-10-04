@@ -79,7 +79,8 @@
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Previous account]
 [Next account]
-[Set my nickname for %s]
-[Set my status message for %s]
 [Contact list]
 ;file \plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\services.cpp
+[Set my nickname for %s]
+[Set my status message for %s]
