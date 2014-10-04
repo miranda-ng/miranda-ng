@@ -35,7 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HINSTANCE hInst;
 
 int hLangpack;
-bool g_bShutdown = false;
 
 int g_cbCountries;
 CountryListEntry *g_countries;
@@ -160,12 +159,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static int OnPreShutdown(WPARAM, LPARAM)
-{
-	g_bShutdown = true;
-	return 0;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
@@ -225,7 +218,6 @@ extern "C" int __declspec(dllexport) Load()
 	hExtraMood = ExtraIcon_Register("mood", LPGEN("Jabber Mood"), "jabber_contemplative");
 	g_MenuInit();
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	JabberUserInfoInit();
 	return 0;
 }

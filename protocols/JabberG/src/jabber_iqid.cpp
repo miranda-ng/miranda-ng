@@ -50,7 +50,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 			xmlGetAttrValue(identity, _T("name")) };
 
 		if (!lstrcmp(tmp.category, _T("pubsub")) && !lstrcmp(tmp.type, _T("pep"))) {
-			m_bPepSupported = TRUE;
+			m_bPepSupported = true;
 
 			EnableMenuItems(TRUE);
 			RebuildInfoFrame();
@@ -187,7 +187,7 @@ void CJabberProto::OnLoggedIn()
 		XmlNodeIq( AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
 			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(_T("storage"), _T("storage:bookmarks")));
 
-	m_bPepSupported = FALSE;
+	m_bPepSupported = false;
 	m_ThreadInfo->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;
 	
 	m_ThreadInfo->send( 
@@ -510,7 +510,6 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 	EnableMenuItems(TRUE);
 
 	debugLogA("Status changed via THREADSTART");
-	m_bModeMsgStatusChangePending = FALSE;
 	SetServerStatus(m_iDesiredStatus);
 
 	if (m_options.AutoJoinConferences)
