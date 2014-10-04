@@ -121,7 +121,7 @@ int LoadDefaultModules(void)
 	if (LoadIcoLibModule()) return 1;
 	if (LoadSkinIcons()) return 1;
 
-//	if ( LoadErrorsModule()) return 1;
+	//	if (LoadErrorsModule()) return 1;
 
 	switch (LoadServiceModePlugin()) {
 	case SERVICE_CONTINUE:  // continue loading Miranda normally

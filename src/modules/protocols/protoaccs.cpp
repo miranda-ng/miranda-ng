@@ -69,7 +69,7 @@ void LoadDbAccounts(void)
 	int ver = db_get_dw(NULL, "Protocols", "PrVer", -1);
 	int count = db_get_dw(NULL, "Protocols", "ProtoCount", 0);
 
-	for (int i=0; i < count; i++) {
+	for (int i = 0; i < count; i++) {
 		char buf[10];
 		_itoa(i, buf, 10);
 		if (db_get_s(NULL, "Protocols", buf, &dbv))
@@ -84,21 +84,21 @@ void LoadDbAccounts(void)
 		pa->szModuleName = mir_strdup(dbv.pszVal);
 		db_free(&dbv);
 
-		_itoa(OFFSET_VISIBLE+i, buf, 10);
+		_itoa(OFFSET_VISIBLE + i, buf, 10);
 		pa->bIsVisible = db_get_dw(NULL, "Protocols", buf, 1) != 0;
 
-		_itoa(OFFSET_PROTOPOS+i, buf, 10);
+		_itoa(OFFSET_PROTOPOS + i, buf, 10);
 		pa->iOrder = db_get_dw(NULL, "Protocols", buf, 1);
 
 		if (ver >= 4) {
 			db_free(&dbv);
-			_itoa(OFFSET_NAME+i, buf, 10);
+			_itoa(OFFSET_NAME + i, buf, 10);
 			if (!db_get_ts(NULL, "Protocols", buf, &dbv)) {
 				pa->tszAccountName = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
 
-			_itoa(OFFSET_ENABLED+i, buf, 10);
+			_itoa(OFFSET_ENABLED + i, buf, 10);
 			pa->bIsEnabled = db_get_dw(NULL, "Protocols", buf, 1) != 0;
 
 			if (!db_get_s(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
@@ -135,7 +135,7 @@ typedef struct
 	int  arrlen;
 	char **pszSettingName;
 }
-	enumDB_ProtoProcParam;
+enumDB_ProtoProcParam;
 
 static int enumDB_ProtoProc(const char* szSetting, LPARAM lParam)
 {
@@ -144,7 +144,7 @@ static int enumDB_ProtoProc(const char* szSetting, LPARAM lParam)
 
 		p->arrlen++;
 		p->pszSettingName = (char**)mir_realloc(p->pszSettingName, p->arrlen*sizeof(char*));
-		p->pszSettingName[ p->arrlen-1 ] = mir_strdup(szSetting);
+		p->pszSettingName[p->arrlen - 1] = mir_strdup(szSetting);
 	}
 	return 0;
 }
@@ -163,7 +163,7 @@ void WriteDbAccounts()
 
 	// delete all settings
 	if (param.arrlen) {
-		for (int i=0; i < param.arrlen; i++) {
+		for (int i = 0; i < param.arrlen; i++) {
 			db_unset(0, "Protocols", param.pszSettingName[i]);
 			mir_free(param.pszSettingName[i]);
 		}
@@ -171,23 +171,23 @@ void WriteDbAccounts()
 	}
 
 	// write new data
-	for (int i=0; i < accounts.getCount(); i++) {
+	for (int i = 0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
 
-		char buf[ 20 ];
+		char buf[20];
 		_itoa(i, buf, 10);
 		db_set_s(NULL, "Protocols", buf, pa->szModuleName);
 
-		_itoa(OFFSET_PROTOPOS+i, buf, 10);
+		_itoa(OFFSET_PROTOPOS + i, buf, 10);
 		db_set_dw(NULL, "Protocols", buf, pa->iOrder);
 
-		_itoa(OFFSET_VISIBLE+i, buf, 10);
+		_itoa(OFFSET_VISIBLE + i, buf, 10);
 		db_set_dw(NULL, "Protocols", buf, pa->bIsVisible);
 
-		_itoa(OFFSET_ENABLED+i, buf, 10);
+		_itoa(OFFSET_ENABLED + i, buf, 10);
 		db_set_dw(NULL, "Protocols", buf, pa->bIsEnabled);
 
-		_itoa(OFFSET_NAME+i, buf, 10);
+		_itoa(OFFSET_NAME + i, buf, 10);
 		db_set_ts(NULL, "Protocols", buf, pa->tszAccountName);
 	}
 
@@ -222,7 +222,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 {
 	int count = 0;
 
-	for (int i=0; i < accounts.getCount(); i++) {
+	for (int i = 0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
 		if (!pa->ppro || !Proto_IsAccountEnabled(pa))
 			continue;
@@ -240,7 +240,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 	}
 	// This is for pack creators with a profile with predefined accounts
-	else if(db_get_b(NULL, "FirstRun", "ForceShowAccManager", 0)) {
+	else if (db_get_b(NULL, "FirstRun", "ForceShowAccManager", 0)) {
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 		db_unset(NULL, "FirstRun", "ForceShowAccManager");
 	}
@@ -252,19 +252,16 @@ static int UninitializeStaticAccounts(WPARAM, LPARAM)
 	for (int i = 0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
 		if (pa->ppro && Proto_IsAccountEnabled(pa))
-			if (pa->ppro->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != 0)
+			if (pa->ppro->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != TRUE)
 				return 1;
 	}
-	return 0;
-}
 
-static int ShutdownStaticAccounts(WPARAM, LPARAM)
-{
 	for (int i = 0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
 		if (pa->ppro && Proto_IsAccountEnabled(pa))
 			pa->ppro->OnEvent(EV_PROTO_ONEXIT, 0, 0);
 	}
+
 	return 0;
 }
 
@@ -272,7 +269,7 @@ int LoadAccountsModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	for (int i=0; i < accounts.getCount(); i++) {
+	for (int i = 0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT *pa = accounts[i];
 		pa->bDynDisabled = !Proto_IsProtocolLoaded(pa->szProtoName);
 		if (pa->ppro)
@@ -287,7 +284,6 @@ int LoadAccountsModule(void)
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);
 	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
-	hHooks[1] = HookEvent(ME_SYSTEM_SHUTDOWN, ShutdownStaticAccounts);
 	hHooks[2] = HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	hHooks[3] = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbSettingsChanged);
 	return 0;
@@ -355,7 +351,7 @@ static INT_PTR stub18(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
 
 static INT_PTR stub19(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)ppi->CreateExtendedSearchUI ((HWND)lParam);
+	return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
 }
 
 static INT_PTR stub22(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
@@ -393,7 +389,7 @@ static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 	PROTO_AVATAR_INFORMATIONW tmp = { 0 };
 	tmp.cbSize = sizeof(tmp);
 	tmp.hContact = p->hContact;
-	int result = CallProtoServiceInt(NULL,ppi->m_szModuleName, PS_GETAVATARINFOW, wParam, (LPARAM)&tmp);
+	int result = CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_GETAVATARINFOW, wParam, (LPARAM)&tmp);
 
 	p->format = tmp.format;
 
@@ -408,9 +404,8 @@ static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
 	wchar_t* buf = (wchar_t*)_alloca(sizeof(wchar_t) * (lParam + 1));
-	int result = CallProtoServiceInt(NULL,ppi->m_szModuleName, PS_GETMYAVATARW, WPARAM(buf), lParam);
-	if (result == 0)
-	{
+	int result = CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_GETMYAVATARW, WPARAM(buf), lParam);
+	if (result == 0) {
 		wchar_t* filename = (wchar_t*)_alloca(sizeof(wchar_t) * (lParam + 1));
 		wcscpy(filename, buf);
 		GetShortPathNameW(buf, filename, lParam + 1);
@@ -423,7 +418,7 @@ static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub45(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return CallProtoServiceInt(NULL,ppi->m_szModuleName, PS_SETMYAVATARW, wParam, (LPARAM)(LPCTSTR)StrConvT((char*)lParam));
+	return CallProtoServiceInt(NULL, ppi->m_szModuleName, PS_SETMYAVATARW, wParam, (LPARAM)(LPCTSTR)StrConvT((char*)lParam));
 }
 
 static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, MIRANDASERVICEOBJ pFunc, void* param)
@@ -586,8 +581,8 @@ void UnloadAccountsModule()
 {
 	if (!bModuleInitialized) return;
 
-	for (int i = accounts.getCount()-1; i >= 0; i--) {
-		PROTOACCOUNT *pa = accounts[ i ];
+	for (int i = accounts.getCount() - 1; i >= 0; i--) {
+		PROTOACCOUNT *pa = accounts[i];
 		UnloadAccount(pa, false, false);
 		accounts.remove(i);
 	}
@@ -601,8 +596,8 @@ void UnloadAccountsModule()
 
 void BuildProtoMenus()
 {
-	for (int i=0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[ i ];
+	for (int i = 0; i < accounts.getCount(); i++) {
+		PROTOACCOUNT *pa = accounts[i];
 		if (cli.pfnGetProtocolVisibility(pa->szModuleName) == 0)
 			continue;
 

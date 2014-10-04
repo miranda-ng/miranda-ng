@@ -36,7 +36,7 @@ typedef struct
 	const char* name;
 	int id;
 }
-	TServiceListItem;
+TServiceListItem;
 
 static int CompareServiceItems(const TServiceListItem* p1, const TServiceListItem* p2)
 {
@@ -193,7 +193,7 @@ static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = (char*)wParam;
 	dbei.timestamp = pre->timestamp;
-	dbei.flags = pre->flags & (PREF_CREATEREAD?DBEF_READ:0);
+	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.flags |= (pre->flags & PREF_UTF) ? DBEF_UTF : 0;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = pre->lParam;
@@ -209,7 +209,7 @@ static int Proto_ValidTypingContact(MCONTACT hContact, char *szProto)
 	if (!hContact || !szProto)
 		return 0;
 
-	return (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
+	return (CallProtoServiceInt(NULL, szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING) ? 1 : 0;
 }
 
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
@@ -220,7 +220,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		if (Proto_ValidTypingContact(wParam, szProto))
-			CallProtoServiceInt(NULL,szProto, PSS_USERISTYPING, wParam, lParam);
+			CallProtoServiceInt(NULL, szProto, PSS_USERISTYPING, wParam, lParam);
 	}
 
 	return 0;
@@ -260,11 +260,11 @@ char** __fastcall Proto_FilesMatrixA(wchar_t **files)
 	if (files == NULL) return NULL;
 
 	int count = 0;
-	while (files[ count++ ]);
+	while (files[count++]);
 
 	char** filesA = (char**)mir_alloc(count * sizeof(char*));
-	for (int i=0; i < count; i++)
-		filesA[ i ] = mir_u2a(files[ i ]);
+	for (int i = 0; i < count; i++)
+		filesA[i] = mir_u2a(files[i]);
 
 	return filesA;
 }
@@ -274,11 +274,11 @@ static wchar_t** __fastcall Proto_FilesMatrixU(char **files)
 	if (files == NULL) return NULL;
 
 	int count = 0;
-	while (files[ count++ ]);
+	while (files[count++]);
 
 	wchar_t** filesU = (wchar_t**)mir_alloc(count * sizeof(wchar_t*));
-	for (int i=0; i < count; i++)
-		filesU[ i ] = mir_a2u(files[ i ]);
+	for (int i = 0; i < count; i++)
+		filesU[i] = mir_a2u(files[i]);
 
 	return filesU;
 }
@@ -388,7 +388,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 
 		TServiceListItem *item = serviceItems.find((TServiceListItem*)&szService);
 		if (item) {
-			switch(item->id) {
+			switch (item->id) {
 			case 1:
 				if (ppi->m_iVersion > 1 || !(((PROTOSEARCHRESULT*)lParam)->flags & PSR_UNICODE))
 					return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
@@ -416,21 +416,21 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 3: return (INT_PTR)ppi->Authorize((HANDLE)wParam);
 			case 4:
 				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->AuthDeny((HANDLE)wParam,  StrConvT((char*)lParam));
+					return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvT((char*)lParam));
 				return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, (PROTOCHAR*)lParam);
 			case 5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT*)lParam);
 			case 6:
 				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->AuthRequest(hContact,  StrConvT((char*)lParam));
+					return (INT_PTR)ppi->AuthRequest(hContact, StrConvT((char*)lParam));
 				return (INT_PTR)ppi->AuthRequest(hContact, (PROTOCHAR*)lParam);
 			case 8:
 				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam,  StrConvT((char*)lParam));
+					return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, StrConvT((char*)lParam));
 				return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (PROTOCHAR*)lParam);
 			case 9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
 			case 10:
 				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam,  StrConvT((char*)lParam));
+					return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, StrConvT((char*)lParam));
 				return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (PROTOCHAR*)lParam);
 			case 11: {
 				PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
@@ -457,13 +457,12 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 17: {
 				PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
 				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->SearchByName(StrConvT((char*)psbn->pszNick),
-						StrConvT((char*)psbn->pszFirstName), StrConvT((char*)psbn->pszLastName));
+					return (INT_PTR)ppi->SearchByName(StrConvT((char*)psbn->pszNick), StrConvT((char*)psbn->pszFirstName), StrConvT((char*)psbn->pszLastName));
 				else
 					return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
 			}
 			case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
-			case 19: return (INT_PTR)ppi->CreateExtendedSearchUI ((HWND)lParam);
+			case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
 			case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT*)lParam);
 			case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTOFILEEVENT*)lParam);
 			case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT*)lParam);
@@ -516,8 +515,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 			case 105: {
 				PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
 				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action,
-						(const PROTOCHAR**)&pfr->szFilename);
+					return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const PROTOCHAR**)&pfr->szFilename);
 				else {
 					char* szFname = mir_t2a(pfr->szFilename);
 					INT_PTR res = (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action,
@@ -579,39 +577,34 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 		TServiceListItem *item = serviceItems.find((TServiceListItem*)&szService);
 		if (!item) return res;
 
-		switch(item->id) {
-			case 100:
-				return (INT_PTR)pa->ppro->SetAwayMsg(wParam, (TCHAR*)lParam);
-			case 102: {
-				CCSDATA *ccs = (CCSDATA*)lParam;
-				return (INT_PTR)pa->ppro->SendFile(ccs->hContact, (TCHAR*)ccs->wParam, (TCHAR**)ccs->lParam);
-			}
-			case 103: {
-				CCSDATA *ccs = (CCSDATA*)lParam;
-				return (INT_PTR)pa->ppro->FileAllow(ccs->hContact, (HANDLE)ccs->wParam, (TCHAR*)ccs->lParam);
-			}
-			case 104: {
-				CCSDATA *ccs = (CCSDATA*)lParam;
-				return (INT_PTR)pa->ppro->FileDeny(ccs->hContact, (HANDLE)ccs->wParam, (TCHAR*)ccs->lParam);
-			}
-			case 105: {
+		CCSDATA *ccs = (CCSDATA*)lParam;
+		switch (item->id) {
+		case 100:
+			return (INT_PTR)pa->ppro->SetAwayMsg(wParam, (TCHAR*)lParam);
+		case 102:
+			return (INT_PTR)pa->ppro->SendFile(ccs->hContact, (TCHAR*)ccs->wParam, (TCHAR**)ccs->lParam);
+		case 103:
+			return (INT_PTR)pa->ppro->FileAllow(ccs->hContact, (HANDLE)ccs->wParam, (TCHAR*)ccs->lParam);
+		case 104:
+			return (INT_PTR)pa->ppro->FileDeny(ccs->hContact, (HANDLE)ccs->wParam, (TCHAR*)ccs->lParam);
+		case 105:
+			{
 				PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
 				return (INT_PTR)pa->ppro->FileResume((HANDLE)wParam, &pfr->action, &pfr->szFilename);
 			}
-			case 106: {
-				CCSDATA *ccs = (CCSDATA*)lParam;
-				return (INT_PTR)pa->ppro->AuthRequest(ccs->hContact, (const TCHAR*)ccs->lParam);
-			}
-			case 107:
-				return (INT_PTR)pa->ppro->AuthDeny((HANDLE)wParam, (const TCHAR*)lParam);
-			case 108:
-				return (INT_PTR)pa->ppro->SearchBasic((const TCHAR*)lParam);
-			case 109: {
+		case 106:
+			return (INT_PTR)pa->ppro->AuthRequest(ccs->hContact, (const TCHAR*)ccs->lParam);
+		case 107:
+			return (INT_PTR)pa->ppro->AuthDeny((HANDLE)wParam, (const TCHAR*)lParam);
+		case 108:
+			return (INT_PTR)pa->ppro->SearchBasic((const TCHAR*)lParam);
+		case 109:
+			{
 				PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
 				return (INT_PTR)pa->ppro->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
 			}
-			case 110:
-				return (INT_PTR)pa->ppro->SearchByEmail((const TCHAR*)lParam);
+		case 110:
+			return (INT_PTR)pa->ppro->SearchByEmail((const TCHAR*)lParam);
 		}
 	}
 
@@ -632,17 +625,17 @@ int LoadProtocolsModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	if ( LoadProtoChains())
+	if (LoadProtoChains())
 		return 1;
 
-	InsertServiceListItem( 1, PS_ADDTOLIST);
-	InsertServiceListItem( 2, PS_ADDTOLISTBYEVENT);
-	InsertServiceListItem( 3, PS_AUTHALLOW);
-	InsertServiceListItem( 4, PS_AUTHDENY);
-	InsertServiceListItem( 5, PSR_AUTH);
-	InsertServiceListItem( 6, PSS_AUTHREQUEST);
-	InsertServiceListItem( 8, PSS_FILEALLOW);
-	InsertServiceListItem( 9, PSS_FILECANCEL);
+	InsertServiceListItem(1, PS_ADDTOLIST);
+	InsertServiceListItem(2, PS_ADDTOLISTBYEVENT);
+	InsertServiceListItem(3, PS_AUTHALLOW);
+	InsertServiceListItem(4, PS_AUTHDENY);
+	InsertServiceListItem(5, PSR_AUTH);
+	InsertServiceListItem(6, PSS_AUTHREQUEST);
+	InsertServiceListItem(8, PSS_FILEALLOW);
+	InsertServiceListItem(9, PSS_FILECANCEL);
 	InsertServiceListItem(10, PSS_FILEDENY);
 	InsertServiceListItem(11, PS_FILERESUME);
 	InsertServiceListItem(12, PS_GETCAPS);
@@ -684,23 +677,23 @@ int LoadProtocolsModule(void)
 	hTypeEvent = CreateHookableEvent(ME_PROTO_CONTACTISTYPING);
 	hAccListChanged = CreateHookableEvent(ME_PROTO_ACCLISTCHANGED);
 
-	CreateServiceFunction(MS_PROTO_BROADCASTACK,     Proto_BroadcastAck);
+	CreateServiceFunction(MS_PROTO_BROADCASTACK, Proto_BroadcastAck);
 	CreateServiceFunction(MS_PROTO_ISPROTOCOLLOADED, srvProto_IsLoaded);
-	CreateServiceFunction(MS_PROTO_ENUMPROTOS,       Proto_EnumProtocols);
-	CreateServiceFunction(MS_PROTO_REGISTERMODULE,   Proto_RegisterModule);
-	CreateServiceFunction(MS_PROTO_SELFISTYPING,     Proto_SelfIsTyping);
-	CreateServiceFunction(MS_PROTO_CONTACTISTYPING,  Proto_ContactIsTyping);
+	CreateServiceFunction(MS_PROTO_ENUMPROTOS, Proto_EnumProtocols);
+	CreateServiceFunction(MS_PROTO_REGISTERMODULE, Proto_RegisterModule);
+	CreateServiceFunction(MS_PROTO_SELFISTYPING, Proto_SelfIsTyping);
+	CreateServiceFunction(MS_PROTO_CONTACTISTYPING, Proto_ContactIsTyping);
 
-	CreateServiceFunction(MS_PROTO_RECVMSG,          Proto_RecvMessage);
-	CreateServiceFunction(MS_PROTO_AUTHRECV,         Proto_AuthRecv);
+	CreateServiceFunction(MS_PROTO_RECVMSG, Proto_RecvMessage);
+	CreateServiceFunction(MS_PROTO_AUTHRECV, Proto_AuthRecv);
 
-	CreateServiceFunction("Proto/EnumProtocols",     Proto_EnumAccounts);
-	CreateServiceFunction(MS_PROTO_ENUMACCOUNTS,     Proto_EnumAccounts);
-	CreateServiceFunction(MS_PROTO_CREATEACCOUNT,    srvProto_CreateAccount);
-	CreateServiceFunction(MS_PROTO_GETACCOUNT,       srvProto_GetAccount);
+	CreateServiceFunction("Proto/EnumProtocols", Proto_EnumAccounts);
+	CreateServiceFunction(MS_PROTO_ENUMACCOUNTS, Proto_EnumAccounts);
+	CreateServiceFunction(MS_PROTO_CREATEACCOUNT, srvProto_CreateAccount);
+	CreateServiceFunction(MS_PROTO_GETACCOUNT, srvProto_GetAccount);
 
 	CreateServiceFunction(MS_PROTO_ISACCOUNTENABLED, srvProto_IsAccountEnabled);
-	CreateServiceFunction(MS_PROTO_ISACCOUNTLOCKED,  srvProto_IsAccountLocked);
+	CreateServiceFunction(MS_PROTO_ISACCOUNTLOCKED, srvProto_IsAccountLocked);
 
 	return LoadProtoOptions();
 }
@@ -715,14 +708,14 @@ void UnloadProtocolsModule()
 	}
 
 	if (protos.getCount()) {
-		for (int i=0; i < protos.getCount(); i++) {
+		for (int i = 0; i < protos.getCount(); i++) {
 			mir_free(protos[i]->szName);
 			mir_free(protos[i]);
 		}
 		protos.destroy();
 	}
 
-	for (int i=0; i < serviceItems.getCount(); i++)
+	for (int i = 0; i < serviceItems.getCount(); i++)
 		mir_free(serviceItems[i]);
 	serviceItems.destroy();
 }

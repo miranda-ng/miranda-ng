@@ -71,7 +71,7 @@ static INT_PTR srvSetExceptionFilter(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
+typedef LONG(WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 #define ThreadQuerySetWin32StartAddress 9
 
 INT_PTR MirandaIsTerminated(WPARAM, LPARAM)
@@ -86,7 +86,7 @@ static void __cdecl compactHeapsThread(void*)
 	while (!Miranda_Terminated()) {
 		HANDLE hHeaps[256];
 		DWORD hc;
-		SleepEx((1000*60)*5, TRUE); // every 5 minutes
+		SleepEx((1000 * 60) * 5, TRUE); // every 5 minutes
 		hc = GetProcessHeaps(255, (PHANDLE)&hHeaps);
 		if (hc != 0 && hc < 256) {
 			DWORD j;
@@ -96,12 +96,12 @@ static void __cdecl compactHeapsThread(void*)
 	} //while
 }
 
-void (*SetIdleCallback) (void) = NULL;
+void(*SetIdleCallback) (void) = NULL;
 
 static INT_PTR SystemSetIdleCallback(WPARAM, LPARAM lParam)
 {
 	if (lParam && SetIdleCallback == NULL) {
-		SetIdleCallback = (void (*)(void))lParam;
+		SetIdleCallback = (void(*)(void))lParam;
 		return 1;
 	}
 	return 0;
@@ -110,7 +110,7 @@ static INT_PTR SystemSetIdleCallback(WPARAM, LPARAM lParam)
 static DWORD dwEventTime = 0;
 void checkIdle(MSG * msg)
 {
-	switch(msg->message) {
+	switch (msg->message) {
 	case WM_MOUSEACTIVATE:
 	case WM_MOUSEMOVE:
 	case WM_CHAR:
@@ -145,16 +145,16 @@ static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam
 		break;
 
 	case WM_TIMER:
-		if ( SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_STEPIT, 0, 0) == MIRANDA_PROCESS_WAIT_STEPS)
+		if (SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_STEPIT, 0, 0) == MIRANDA_PROCESS_WAIT_STEPS)
 			EndDialog(hwnd, 0);
-		if ( WaitForSingleObject((HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1) != WAIT_TIMEOUT) {
+		if (WaitForSingleObject((HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1) != WAIT_TIMEOUT) {
 			SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETPOS, MIRANDA_PROCESS_WAIT_STEPS, 0);
 			EndDialog(hwnd, 0);
 		}
 		break;
 
 	case WM_COMMAND:
-		if ( LOWORD(wParam) == IDCANCEL) {
+		if (LOWORD(wParam) == IDCANCEL) {
 			SendDlgItemMessage(hwnd, IDC_PROGRESSBAR, PBM_SETPOS, MIRANDA_PROCESS_WAIT_STEPS, 0);
 			EndDialog(hwnd, 1);
 		}
@@ -166,7 +166,7 @@ static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam
 int CheckRestart()
 {
 	int result = 0;
-	LPCTSTR tszPID = CmdLine_GetOption( _T("restart"));
+	LPCTSTR tszPID = CmdLine_GetOption(_T("restart"));
 	if (tszPID) {
 		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _ttol(tszPID));
 		if (hProcess) {
@@ -178,8 +178,7 @@ int CheckRestart()
 }
 
 static void crtErrorHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned, uintptr_t)
-{
-}
+{}
 
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 {
@@ -187,17 +186,17 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	hMainThreadId = GetCurrentThreadId();
 
 	_set_invalid_parameter_handler(&crtErrorHandler);
-	#ifdef _DEBUG
-		 _CrtSetReportMode(_CRT_ASSERT, 0);
-	#endif
+#ifdef _DEBUG
+	_CrtSetReportMode(_CRT_ASSERT, 0);
+#endif
 
 	CmdLine_Parse(cmdLine);
 	setlocale(LC_ALL, "");
 
-	#ifdef _DEBUG
-	if ( CmdLine_GetOption( _T("memdebug")))
+#ifdef _DEBUG
+	if (CmdLine_GetOption(_T("memdebug")))
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	#endif
+#endif
 
 	if (IsWinVerVistaPlus()) {
 		HINSTANCE hDwmApi = LoadLibraryA("dwmapi.dll");
@@ -256,7 +255,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		rc = MsgWaitForMultipleObjectsEx(waitObjectCount, hWaitObjects, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
 		if (rc >= WAIT_OBJECT_0 && rc < WAIT_OBJECT_0 + waitObjectCount) {
 			rc -= WAIT_OBJECT_0;
-			CallService(pszWaitServices[rc], (WPARAM) hWaitObjects[rc], 0);
+			CallService(pszWaitServices[rc], (WPARAM)hWaitObjects[rc], 0);
 		}
 		//
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -321,10 +320,10 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 	UINT blockSize;
 	VS_FIXEDFILEINFO *vsffi;
 	VerQueryValue(pVerInfo, _T("\\"), (PVOID*)&vsffi, &blockSize);
-	DWORD ver = (((vsffi->dwProductVersionMS>>16)&0xFF)<<24)|
-		((vsffi->dwProductVersionMS&0xFF)<<16)|
-		(((vsffi->dwProductVersionLS>>16)&0xFF)<<8)|
-		(vsffi->dwProductVersionLS&0xFF);
+	DWORD ver = (((vsffi->dwProductVersionMS >> 16) & 0xFF) << 24) |
+		((vsffi->dwProductVersionMS & 0xFF) << 16) |
+		(((vsffi->dwProductVersionLS >> 16) & 0xFF) << 8) |
+		(vsffi->dwProductVersionLS & 0xFF);
 	return (INT_PTR)ver;
 }
 
@@ -361,15 +360,15 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 	UINT blockSize;
 	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\ProductVersion"), (LPVOID*)&productVersion, &blockSize);
 	strncpy((char*)lParam, _T2A(productVersion), wParam);
-	#if defined(_WIN64)
-		strcat_s((char*)lParam, wParam, " x64");
-	#endif
+#if defined(_WIN64)
+	strcat_s((char*)lParam, wParam, " x64");
+#endif
 	return 0;
 }
 
 INT_PTR WaitOnHandle(WPARAM wParam, LPARAM lParam)
 {
-	if (waitObjectCount >= MAXIMUM_WAIT_OBJECTS-1)
+	if (waitObjectCount >= MAXIMUM_WAIT_OBJECTS - 1)
 		return 1;
 
 	hWaitObjects[waitObjectCount] = (HANDLE)wParam;
@@ -382,7 +381,7 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 {
 	int i;
 
-	for (i=0;i<waitObjectCount;i++)
+	for (i = 0; i < waitObjectCount; i++)
 		if (hWaitObjects[i] == (HANDLE)wParam)
 			break;
 
@@ -390,8 +389,8 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 		return 1;
 
 	waitObjectCount--;
-	MoveMemory(&hWaitObjects[i], &hWaitObjects[i+1], sizeof(HANDLE)*(waitObjectCount-i));
-	MoveMemory(&pszWaitServices[i], &pszWaitServices[i+1], sizeof(char*)*(waitObjectCount-i));
+	MoveMemory(&hWaitObjects[i], &hWaitObjects[i + 1], sizeof(HANDLE)*(waitObjectCount - i));
+	MoveMemory(&pszWaitServices[i], &pszWaitServices[i + 1], sizeof(char*)*(waitObjectCount - i));
 	return 0;
 }
 

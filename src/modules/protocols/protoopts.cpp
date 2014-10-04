@@ -254,7 +254,7 @@ struct TAccListData
 
 static void sttClickButton(HWND hwndDlg, int idcButton)
 {
-	if (IsWindowEnabled( GetDlgItem(hwndDlg, idcButton)))
+	if (IsWindowEnabled(GetDlgItem(hwndDlg, idcButton)))
 		PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(idcButton, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, idcButton));
 }
 
@@ -280,12 +280,10 @@ static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_KILLFOCUS:
-		{
-			int length = GetWindowTextLength(hwnd) + 1;
-			TCHAR *str = (TCHAR*)mir_alloc(sizeof(TCHAR) * length);
-			GetWindowText(hwnd, str, length);
-			SendMessage(GetParent(GetParent(hwnd)), WM_COMMAND, MAKEWPARAM(GetWindowLongPtr(GetParent(hwnd), GWL_ID), LBN_MY_RENAME), (LPARAM)str);
-		}
+		int length = GetWindowTextLength(hwnd) + 1;
+		TCHAR *str = (TCHAR*)mir_alloc(sizeof(TCHAR) * length);
+		GetWindowText(hwnd, str, length);
+		SendMessage(GetParent(GetParent(hwnd)), WM_COMMAND, MAKEWPARAM(GetWindowLongPtr(GetParent(hwnd), GWL_ID), LBN_MY_RENAME), (LPARAM)str);
 		DestroyWindow(hwnd);
 		return 0;
 	}
@@ -342,8 +340,8 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_MY_RENAME:
+		RECT rc;
 		{
-			RECT rc;
 			struct TAccMgrData *parentDat = (struct TAccMgrData *)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 			PROTOACCOUNT *pa = (PROTOACCOUNT *)ListBox_GetItemData(hwnd, ListBox_GetCurSel(hwnd));
 			if (!pa || pa->bOldProto || pa->bDynDisabled)
@@ -559,10 +557,9 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 		return TRUE;
 
 	case WM_DRAWITEM:
+		HBRUSH hbrBack;
+		SIZE sz;
 		{
-			HBRUSH hbrBack;
-			SIZE sz;
-
 			int cxIcon = GetSystemMetrics(SM_CXSMICON);
 			int cyIcon = GetSystemMetrics(SM_CYSMICON);
 
@@ -834,11 +831,11 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			break;
 
 		case IDC_ADD:
-		{
-			AccFormDlgParam param = { PRAC_ADDED, NULL };
-			if (IDOK == DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param))
-				SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
-		}
+			{
+				AccFormDlgParam param = { PRAC_ADDED, NULL };
+				if (IDOK == DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param))
+					SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
+			}
 			break;
 
 		case IDC_EDIT:
