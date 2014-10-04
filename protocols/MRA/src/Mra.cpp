@@ -23,7 +23,6 @@ HINSTANCE g_hInstance;
 HMODULE   g_hDLLXStatusIcons;
 HICON     g_hMainIcon;
 
-DWORD     g_dwGlobalPluginRunning;
 bool      g_bChatExist;
 
 size_t    g_dwMirWorkDirPathLen;
@@ -71,18 +70,6 @@ static int mraProtoUninit(CMraProto *ppro)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	g_dwGlobalPluginRunning = TRUE;
-	return 0;
-}
-
-static int OnPreShutdown(WPARAM, LPARAM)
-{
-	g_dwGlobalPluginRunning = FALSE;
-	return 0;
-}
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
@@ -90,9 +77,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	IconsLoad();
 	InitXStatusIcons();
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "MRA";

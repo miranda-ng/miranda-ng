@@ -189,7 +189,8 @@ struct CMraProto : public PROTO<CMraProto>
 	HWND     hWndEMailPopupStatus;
 	DWORD    dwEmailMessagesTotal, m_dwEmailMessagesUnread;
 
-	bool     bHideXStatusUI;
+	bool     m_bShutdown;
+	bool     m_bHideXStatusUI;
 	HGENMENU hXStatusMenuItems[MRA_XSTATUS_COUNT+4], hContactMenuRoot;
 	HANDLE   hExtraXstatusIcon;
 	HANDLE   hExtraInfo;

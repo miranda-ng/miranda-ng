@@ -436,12 +436,12 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 		// hide menu items
 		if (pData->flags & CSSF_DISABLE_UI) {
-			bHideXStatusUI = (*pData->wParam) ? FALSE : TRUE;
+			m_bHideXStatusUI = (*pData->wParam) ? false : true;
 			DWORD dwCount = MRA_XSTATUS_OFF_CLI_COUNT;
 			if (getByte(NULL, "xStatusShowAll", MRA_DEFAULT_SHOW_ALL_XSTATUSES))
 				dwCount = MRA_XSTATUS_COUNT;
 			for (DWORD i = 0; i < dwCount; i++)
-				Menu_ShowItem(hXStatusMenuItems[i], !bHideXStatusUI);
+				Menu_ShowItem(hXStatusMenuItems[i], !m_bHideXStatusUI);
 		}
 	}
 	return iRet;
@@ -495,7 +495,7 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM hContact, LPARAM lParam)
 	}
 
 	if ((pData->flags & CSSF_DISABLE_UI) && pData->wParam)
-		*pData->wParam = bHideXStatusUI;
+		*pData->wParam = m_bHideXStatusUI;
 
 	if ((pData->flags & CSSF_STATUSES_COUNT) && pData->wParam)
 		*pData->wParam = MRA_XSTATUS_COUNT - 1;

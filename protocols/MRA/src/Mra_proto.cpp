@@ -5,7 +5,7 @@
 
 DWORD CMraProto::StartConnect()
 {
-	if (!g_dwGlobalPluginRunning)
+	if (m_bShutdown)
 		return ERROR_OPERATION_ABORTED;
 
 	// поток ещё/уже не работал, поставили статус что работает и запускаем
@@ -37,12 +37,12 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	BOOL bConnected = FALSE;
 	CMStringA szHost;
 	DWORD dwConnectReTryCount, dwCurConnectReTryCount;
-	NETLIBOPENCONNECTION nloc = { 0 };
 
 	SleepEx(100, FALSE);// to prevent high CPU load by some status plugins like allwaysonline
 
 	dwConnectReTryCount = getDword("ConnectReTryCountMRIM", MRA_DEFAULT_CONN_RETRY_COUNT_MRIM);
 
+	NETLIBOPENCONNECTION nloc = { 0 };
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = NLOCF_V2;
 	nloc.timeout = getDword("TimeOutConnectMRIM", MRA_DEFAULT_TIMEOUT_CONN_MRIM);
