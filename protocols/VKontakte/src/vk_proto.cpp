@@ -406,6 +406,7 @@ int CVkProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		if ( IsOnline()) {
 			SetServerStatus(ID_STATUS_OFFLINE);
+			debugLogA("CVkProto::SetStatus ShutdownSession");
 			ShutdownSession();
 		}
 

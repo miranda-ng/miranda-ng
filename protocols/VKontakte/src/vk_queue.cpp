@@ -60,8 +60,10 @@ LBL_Restart:
 	else if (pReq->bIsMainConn) {
 		if (m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 			ConnectionFailed(LOGINERR_NONETWORK);
-		else
+		else {
+			debugLogA("CVkProto::ExecuteRequest ShutdownSession");
 			ShutdownSession();
+		}
 	}
 	delete pReq;
 }

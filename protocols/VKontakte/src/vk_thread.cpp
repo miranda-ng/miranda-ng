@@ -36,7 +36,7 @@ void CVkProto::ConnectionFailed(int iReason)
 	delSetting("AccessToken");
 
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, iReason);
-
+	debugLogA("CVkProto::ConnectionFailed ShutdownSession");
 	ShutdownSession();
 }
 
@@ -92,6 +92,7 @@ void CVkProto::OnLoggedOut()
 
 void CVkProto::SetServerStatus(int iNewStatus)
 {
+	debugLogA("CVkProto::SetServerStatus %d %d", iNewStatus, m_iStatus);
 	if (!IsOnline() || iNewStatus < ID_STATUS_OFFLINE)
 		return;
 
@@ -1106,11 +1107,8 @@ int CVkProto::PollServer()
 
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (reply == NULL) {
-		debugLogA("CVkProto::PollServer is dead");
-		m_pollingConn = NULL;
-		int oldStatus = m_iStatus;
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		debugLogA("CVkProto::PollServer is dead");	
+		ShutdownSession();
 		return 0;
 	}
 

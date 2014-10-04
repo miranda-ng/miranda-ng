@@ -99,7 +99,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 		return true;
 
 	int iErrorCode = json_as_int(pErrorCode);
-	
+	debugLogA("CVkProto::CheckJsonResult %d", iErrorCode);
 	switch (iErrorCode){
 	case VKERR_AUTHORIZATION_FAILED:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
