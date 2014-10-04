@@ -145,7 +145,6 @@ private:
 	bool IsOnline();
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
-	int __cdecl OnAccountUnloaded(WPARAM, LPARAM);
 
 	// events
 	int __cdecl OnSettingsChanged(WPARAM wParam, LPARAM lParam);
