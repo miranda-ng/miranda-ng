@@ -126,11 +126,12 @@ private:
 	// tox profile
 	HANDLE hProfile;
 	std::tstring GetToxProfilePath();
+	static std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName);
 
 	void LoadToxProfile();
 	void SaveToxProfile();
 
-	static INT_PTR CALLBACK ToxProfileManagerProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK ToxProfileImportProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	// accounts
 	static LIST<CToxProto> accounts;
@@ -222,8 +223,8 @@ private:
 	TOX_USERSTATUS MirandaToToxStatus(int status);
 	int ToxToMirandaStatus(TOX_USERSTATUS userstatus);
 
-	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
-	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 
 	HANDLE AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	
