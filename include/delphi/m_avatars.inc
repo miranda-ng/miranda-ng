@@ -188,7 +188,7 @@ const
 
   {
    set a local picture for the given protocol
-   
+
    wParam = (AnsiChar *) protocol name or NULL for all protocols
    lParam = either a full picture filename or NULL. If lParam == NULL, the service
    will open a file selection dialog.
@@ -197,7 +197,7 @@ const
 
   {
    see if is possible to set the avatar for the expecified protocol
-   
+
    wParam = (AnsiChar *) protocol name
    lParam = 0
    return = 1 if can set, 0 if can't
@@ -263,7 +263,7 @@ const
     wParam = hContact
     lParam = struct CONTACTAVATARCHANGEDNOTIFICATION *cacn
     the event CAN pass a NULL pointer in lParam which means that the contact deleted its avatar
-  } 
+  }
   ME_AV_CONTACTAVATARCHANGED:PAnsiChar = 'SV_Avatars/ContactAvatarChanged';
 
   {
@@ -281,38 +281,6 @@ const
     lParam = 0
   }
   MS_AV_REPORTMYAVATARCHANGED:PAnsiChar = 'SV_Avatars/ReportMyAvatarChanged';
-
-// Bitmap services //////////////////////////////////////////////////////////////////////
-
-  {
-    Load an image
-    wParam = NULL
-    lParam = filename
-  }
-  MS_AV_LOADBITMAP32:PAnsiChar = 'SV_Avatars/LoadBitmap32';
-
-  {
-    Save an HBITMAP to an image
-    wParam = HBITMAP
-    lParam = full path of filename
-  }
-  MS_AV_SAVEBITMAP :PAnsiChar = 'SV_Avatars/SaveBitmap';
-  MS_AV_SAVEBITMAPW:PAnsiChar = 'SV_Avatars/SaveBitmapW';
-
-  {
-    Returns != 0 if can save that type of image, = 0 if cant
-    wParam = 0
-    lParam = PA_FORMAT_*   // image format
-  }
-  MS_AV_CANSAVEBITMAP:PAnsiChar = 'SV_Avatars/CanSaveBitmap';
-
-  {
-    Returns a copy of the bitmap with the size especified or the original bitmap
-    if nothing has to be changed
-    wParam = ResizeBitmap *
-    lParam = NULL
-  }
-  MS_AV_RESIZEBITMAP:PAnsiChar = 'SV_Avatars/ResizeBitmap';
 
 {
  * flags for internal use ONLY
@@ -388,7 +356,7 @@ const
 // lParam = 0
 // return = 1 (allowed) or 0 (depending on remote contact status mode)
   AF_FETCHIFCONTACTOFFLINE = 9;
- 
+
 {
   Query avatar caps for a protocol
   wParam = One of AF_*
