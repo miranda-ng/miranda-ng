@@ -17,7 +17,6 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
-
 #include "commons.h"
 
 static char *StatusModeToDbSetting(int status, const char *suffix);
@@ -253,13 +252,7 @@ bool Protocol::HasAvatar()
 
 bool Protocol::CanGetAvatar()
 {
-	if (!can_have_avatar)
-		return false;
-
-	if (!ServiceExists(MS_AV_GETMYAVATAR))
-		return false;
-
-	return true;
+	return (can_have_avatar && g_bAvsExist);
 }
 
 void Protocol::GetAvatar()
@@ -345,16 +338,13 @@ void Protocol::SetNick(const TCHAR *nick)
 
 bool Protocol::CanSetAvatar()
 {
-	return ServiceExists(MS_AV_SETMYAVATAR) != FALSE && ServiceExists(MS_AV_CANSETMYAVATAR) != FALSE &&
-		CallService(MS_AV_CANSETMYAVATAR, (WPARAM)name, 0);
+	return g_bAvsExist && CallService(MS_AV_CANSETMYAVATAR, (WPARAM)name, 0);
 }
 
 void Protocol::SetAvatar(const TCHAR *file_name)
 {
-	if (!CanSetAvatar())
-		return;
-
-	CallService(MS_AV_SETMYAVATART, (WPARAM)name, (LPARAM)file_name);
+	if (CanSetAvatar())
+		CallService(MS_AV_SETMYAVATART, (WPARAM)name, (LPARAM)file_name);
 }
 
 bool Protocol::CanGetListeningTo()
@@ -479,7 +469,7 @@ int ProtocolArray::GetGlobalStatus()
 
 bool ProtocolArray::CanSetAvatars()
 {
-	return ServiceExists(MS_AV_SETMYAVATART) != FALSE;
+	return g_bAvsExist;
 }
 
 void ProtocolArray::SetAvatars(const TCHAR *file_name)

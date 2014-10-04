@@ -69,9 +69,18 @@ Boston, MA 02111-1307, USA.
 extern HINSTANCE hInst;
 extern long nickname_dialog_open;
 extern long status_msg_dialog_open;
-extern bool g_bFramesExist;
+extern bool g_bFramesExist, g_bAvsExist;
 
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
+
+INT_PTR PluginCommand_SetMyNicknameUI(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_SetMyNickname(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_GetMyNickname(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_SetMyAvatarUI(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam);
+INT_PTR PluginCommand_CycleThroughtProtocols(WPARAM wParam, LPARAM lParam);
 
 // Helper
 static __inline int DRAW_TEXT(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol)
