@@ -8,7 +8,6 @@
 void CreateProtoService(const char* szService, MIRANDASERVICE svc);
 void HookEvents(void);
 void HookEventsLoaded(void);
-void UnhookEvents(void);
 void CreateServices(void);
 INT_PTR SkypeLoadIcon(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeGetName(WPARAM wParam, LPARAM lParam);
