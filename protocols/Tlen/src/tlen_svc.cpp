@@ -1248,7 +1248,6 @@ TlenProtocol::TlenProtocol( const char *aProtoName, const TCHAR *aUserName) :
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &TlenProtocol::TlenDbSettingChanged);
 	HookProtoEvent(ME_DB_CONTACT_DELETED,        &TlenProtocol::TlenContactDeleted);
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &TlenProtocol::PrebuildContactMenu);
-	HookProtoEvent(ME_SYSTEM_PRESHUTDOWN,        &TlenProtocol::PreShutdown);
 
 	DBVARIANT dbv;
 	if (!db_get(NULL, m_szModuleName, "LoginServer", &dbv))

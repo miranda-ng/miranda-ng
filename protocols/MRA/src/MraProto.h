@@ -151,7 +151,7 @@ struct CMraProto : public PROTO<CMraProto>
 
 	// ====| Events  |======================================================================
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
-	int __cdecl OnPreShutdown(WPARAM, LPARAM);
+	int __cdecl OnShutdown(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnPopupOptInit(WPARAM, LPARAM);
 	int __cdecl OnGroupChanged(WPARAM, LPARAM);
