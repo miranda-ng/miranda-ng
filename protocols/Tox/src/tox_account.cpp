@@ -10,11 +10,33 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
-	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CToxProto::OnAccountListChanged);
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CToxProto::OnSettingsChanged);
-	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);	
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
 
 	InitNetlib();
+	InitToxCore();
+
+	return 0;
+}
+
+int CToxProto::OnAccountRenamed(WPARAM, LPARAM lParam)
+{
+	PROTOACCOUNT *account = (PROTOACCOUNT*)lParam;
+
+	std::tstring newPath = GetToxProfilePath();
+	TCHAR oldPath[MAX_PATH];
+	mir_sntprintf(oldPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), accountName);
+	MoveFileEx(oldPath, newPath.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED);
+	mir_free(accountName);
+	accountName = mir_tstrdup(m_tszUserName);
+
+	return 0;
+}
+
+int CToxProto::OnAccountUnloaded(WPARAM, LPARAM)
+{
+	UninitToxCore();
+	UninitNetlib();
 
 	return 0;
 }
@@ -35,7 +57,7 @@ void CToxProto::InitToxCore()
 	options.udp_disabled = getByte("DisableUDP", 0);
 	options.ipv6enabled = !getByte("DisableIPv6", 0);
 
-	if (hNetlib)
+	if (hNetlib != NULL)
 	{
 		NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
 		CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)hNetlib, (LPARAM)&nlus);

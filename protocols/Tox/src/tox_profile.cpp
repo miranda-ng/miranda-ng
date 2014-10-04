@@ -17,12 +17,6 @@ std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName)
 
 void CToxProto::LoadToxProfile()
 {
-	if (tox == NULL)
-	{
-		debugLogA("CToxProto::SaveToxProfile: tox core was not initialized");
-		return;
-	}
-
 	DWORD size = GetFileSize(hProfile, NULL);
 	if (size == 0)
 	{
@@ -31,7 +25,7 @@ void CToxProto::LoadToxProfile()
 	}
 
 	DWORD read = 0;
-	uint8_t *data = (uint8_t*)mir_alloc(size);
+	uint8_t *data = (uint8_t*)mir_calloc(size);
 	if (!ReadFile(hProfile, data, size, &read, NULL) || size != read)
 	{
 		debugLogA("CToxProto::LoadToxData: could not read tox profile");
@@ -62,20 +56,13 @@ void CToxProto::LoadToxProfile()
 
 void CToxProto::SaveToxProfile()
 {
-	if (tox == NULL)
-	{
-		debugLogA("CToxProto::SaveToxProfile: tox core was not initialized");
-		return;
-	}
-
 	ptrT password(getTStringA("Password"));
 	bool needToEncrypt = password && _tcslen(password);
-
 	DWORD size = needToEncrypt
-		? size = tox_encrypted_size(tox)
-		: size = tox_size(tox);
+		? tox_encrypted_size(tox)
+		: tox_size(tox);
 
-	uint8_t *data = (uint8_t*)mir_alloc(size);
+	uint8_t *data = (uint8_t*)mir_calloc(size);
 	if (needToEncrypt)
 	{
 		char *passwordInUtf8 = mir_utf8encodeW(password);

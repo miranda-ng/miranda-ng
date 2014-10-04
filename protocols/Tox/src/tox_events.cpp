@@ -1,12 +1,5 @@
 #include "common.h"
 
-int CToxProto::OnPreShutdown(WPARAM, LPARAM)
-{
-	UninitNetlib();
-
-	return 0;
-}
-
 INT_PTR CToxProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(

@@ -33,25 +33,3 @@ int CToxProto::UninitAccount(CToxProto* ppro)
 
 	return 0;
 }
-
-int CToxProto::OnAccountListChanged(WPARAM wParam, LPARAM lParam)
-{
-	PROTOACCOUNT* account = (PROTOACCOUNT*)lParam;
-
-	if (!strcmp(account->szModuleName, m_szModuleName))
-	{
-		switch (wParam)
-		{
-		case PRAC_CHANGED:
-			std::tstring newPath = GetToxProfilePath();
-			TCHAR oldPath[MAX_PATH];
-			mir_sntprintf(oldPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), accountName);
-			MoveFileEx(oldPath, newPath.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED);
-			mir_free(accountName);
-			accountName = mir_tstrdup(m_tszUserName);
-			break;
-		}
-	}
-
-	return 0;
-}
