@@ -3,6 +3,8 @@
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CToxProto>(protoName, userName)
 {
+	InitNetlib();
+	InitToxCore();
 	accountName = mir_tstrdup(userName);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
@@ -48,6 +50,8 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 CToxProto::~CToxProto()
 {
 	mir_free(accountName);
+	UninitToxCore();
+	UninitNetlib();
 }
 
 DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
@@ -234,9 +238,6 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 
 	case EV_PROTO_ONRENAME:
 		return OnAccountRenamed(wParam, lParam);
-
-	case EV_PROTO_ONEXIT:
-		return OnAccountUnloaded(wParam, lParam);
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);

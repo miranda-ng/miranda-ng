@@ -13,9 +13,6 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CToxProto::OnSettingsChanged);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
 
-	InitNetlib();
-	InitToxCore();
-
 	return 0;
 }
 
@@ -29,14 +26,6 @@ int CToxProto::OnAccountRenamed(WPARAM, LPARAM lParam)
 	MoveFileEx(oldPath, newPath.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED);
 	mir_free(accountName);
 	accountName = mir_tstrdup(m_tszUserName);
-
-	return 0;
-}
-
-int CToxProto::OnAccountUnloaded(WPARAM, LPARAM)
-{
-	UninitToxCore();
-	UninitNetlib();
 
 	return 0;
 }
