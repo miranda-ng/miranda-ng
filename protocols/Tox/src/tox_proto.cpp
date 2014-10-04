@@ -1,11 +1,9 @@
 #include "common.h"
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-PROTO<CToxProto>(protoName, userName)
+	PROTO<CToxProto>(protoName, userName)
 {
 	accountName = mir_tstrdup(userName);
-
-	InitToxCore();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
@@ -49,8 +47,6 @@ PROTO<CToxProto>(protoName, userName)
 
 CToxProto::~CToxProto()
 {
-	UninitToxCore();
-
 	mir_free(accountName);
 }
 
@@ -236,11 +232,14 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 	case EV_PROTO_ONLOAD:
 		return OnAccountLoaded(wParam, lParam);
 
-	case EV_PROTO_ONCONTACTDELETED:
-		return OnContactDeleted(wParam, lParam);
+	case EV_PROTO_ONRENAME:
+		return OnAccountRenamed(wParam, lParam);
 
 	case EV_PROTO_ONEXIT:
-		return OnPreShutdown(wParam, lParam);
+		return OnAccountUnloaded(wParam, lParam);
+
+	case EV_PROTO_ONCONTACTDELETED:
+		return OnContactDeleted(wParam, lParam);
 	}
 
 	return 1;

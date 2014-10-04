@@ -137,8 +137,6 @@ private:
 	static LIST<CToxProto> accounts;
 	static int CompareAccounts(const CToxProto *p1, const CToxProto *p2);
 
-	int __cdecl OnAccountListChanged(WPARAM wParam, LPARAM lParam);
-
 	// netlib
 	void InitNetlib();
 	void UninitNetlib();
@@ -146,9 +144,10 @@ private:
 	// account
 	bool IsOnline();
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
+	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
+	int __cdecl OnAccountUnloaded(WPARAM, LPARAM);
 
 	// events
-	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnSettingsChanged(WPARAM wParam, LPARAM lParam);
 	
 	// options

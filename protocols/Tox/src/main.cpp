@@ -41,9 +41,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)CToxProto::InitAccount;
 	pd.fnUninit = (pfnUninitProto)CToxProto::UninitAccount;
-	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
-	return 0;
+	return CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
