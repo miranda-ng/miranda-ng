@@ -57,7 +57,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", LPGEN("Mail.ru xStatus"), "mra_xstatus25");
 	hExtraInfo = ExtraIcon_Register("MRAStatus", LPGEN("Mail.ru extra info"), MRA_XSTATUS_UNKNOWN_STR);
 
-	bHideXStatusUI = FALSE;
+	m_bHideXStatusUI = false;
 	m_iXStatus = getByte(DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
 	if ( !IsXStatusValid(m_iXStatus))
 		m_iXStatus = MRA_MIR_XSTATUS_NONE;
@@ -120,6 +120,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 
 int CMraProto::OnPreShutdown(WPARAM, LPARAM)
 {
+	m_bShutdown = true;
 	SetStatus(ID_STATUS_OFFLINE);
 	MraAvatarsQueueSuspend(hAvatarsQueueHandle);
 	return 0;

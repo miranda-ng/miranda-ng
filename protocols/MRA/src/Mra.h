@@ -6,8 +6,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#pragma warning(disable:4267 4312)
-
 //#define CRTDLL
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
@@ -146,13 +144,13 @@ __forceinline BinBuffer& operator >>(BinBuffer& buf, CMStringW &sVar)  { buf.get
 
 bool DB_GetStaticStringA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 bool DB_GetStaticStringW(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
-	  
+
 bool DB_GetStringA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA &Ret);
 bool DB_GetStringW(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW &Ret);
-	  
+
 bool DB_SetStringExA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &value);
 bool DB_SetStringExW(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &value);
-	  
+
 bool DB_GetContactSettingBlob(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 
 #include "MraConstans.h"
@@ -179,7 +177,6 @@ extern HINSTANCE g_hInstance;
 extern HMODULE   g_hDLLXStatusIcons;
 extern HICON     g_hMainIcon;
 
-extern DWORD     g_dwGlobalPluginRunning;
 extern bool      g_bChatExist;
 
 extern size_t    g_dwMirWorkDirPathLen;
