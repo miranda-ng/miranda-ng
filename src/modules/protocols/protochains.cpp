@@ -35,7 +35,7 @@ static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 	if (cc && cc->szProto != NULL) {
 		strncpy(szBuf, cc->szProto, cbLen);
-		szBuf[cbLen-1] = 0;
+		szBuf[cbLen - 1] = 0;
 		return 0;
 	}
 
@@ -61,15 +61,15 @@ INT_PTR CallContactService(MCONTACT hContact, const char *szProtoService, WPARAM
 	INT_PTR ret;
 	CCSDATA ccs = { hContact, szProtoService, wParam, lParam };
 
-	for (int i=0; i < filters.getCount(); i++) {
-		if ((ret = CallProtoServiceInt(hContact, filters[i]->szName, szProtoService, i+1, (LPARAM)&ccs)) != CALLSERVICE_NOTFOUND) {
+	for (int i = 0; i < filters.getCount(); i++) {
+		if ((ret = CallProtoServiceInt(hContact, filters[i]->szName, szProtoService, i + 1, (LPARAM)&ccs)) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
 			return ret;
 		}
 	}
 
 	char szProto[40];
-	if ( GetProtocolP((MCONTACT)hContact, szProto, sizeof(szProto)))
+	if (GetProtocolP((MCONTACT)hContact, szProto, sizeof(szProto)))
 		return 1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -97,7 +97,7 @@ INT_PTR Proto_CallContactService(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	for (int i = wParam; i < filters.getCount(); i++) {
-		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
+		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i + 1, lParam)) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
 			return ret;
 		}
@@ -137,8 +137,8 @@ static INT_PTR Proto_RecvChain(WPARAM wParam, LPARAM lParam)
 	}
 	else wParam--;
 
-	for (int i = wParam-1; i >= 0; i--)
-		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND)
+	for (int i = wParam - 1; i >= 0; i--)
+		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i + 1, lParam)) != CALLSERVICE_NOTFOUND)
 			//chain was started, exit
 			return ret;
 
@@ -196,9 +196,9 @@ static INT_PTR Proto_IsProtoOnContact(WPARAM wParam, LPARAM lParam)
 		if (!_stricmp(szProto, szContactProto))
 			return -1;
 
-	for (int i=0; i < filters.getCount(); i++)
+	for (int i = 0; i < filters.getCount(); i++)
 		if (!strcmp(szProto, filters[i]->szName))
-			return i+1;
+			return i + 1;
 
 	return 0;
 }
@@ -224,7 +224,7 @@ static INT_PTR Proto_AddToContact(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR Proto_RemoveFromContact(WPARAM wParam, LPARAM lParam)
 {
-	switch ( Proto_IsProtoOnContact(wParam, lParam)) {
+	switch (Proto_IsProtoOnContact(wParam, lParam)) {
 	case 0:
 		return 1;
 	case -1:

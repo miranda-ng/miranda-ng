@@ -33,8 +33,7 @@ void FreeFilesMatrix(TCHAR ***files)
 
 	// Free each filename in the pointer array
 	TCHAR **pFile = *files;
-	while (*pFile != NULL)
-	{
+	while (*pFile != NULL) {
 		mir_free(*pFile);
 		*pFile = NULL;
 		pFile++;
@@ -85,7 +84,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	HANDLE __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 	{
 		CCSDATA ccs = { hContact, PSS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
-
 		ccs.lParam = (LPARAM)mir_t2a(szPath);
 		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
@@ -101,7 +99,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	int __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
 	{
 		CCSDATA ccs = { hContact, PSS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
-
 		ccs.lParam = (LPARAM)mir_t2a(szReason);
 		int res = (int)ProtoCallService(m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs);
 		mir_free((char*)ccs.lParam);
@@ -111,7 +108,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	int __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
 	{
 		PROTOFILERESUME pfr = { *action, *szFilename };
-
 		pfr.szFilename = (PROTOCHAR*)mir_t2a(pfr.szFilename);
 		int res = (int)ProtoCallService(m_szModuleName, PS_FILERESUME, (WPARAM)hTransfer, (LPARAM)&pfr);
 		mir_free((PROTOCHAR*)*szFilename);
@@ -149,7 +145,6 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	HANDLE __cdecl SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
 	{
 		PROTOSEARCHBYNAME psn;
-
 		psn.pszNick = (PROTOCHAR*)mir_t2a(nick);
 		psn.pszFirstName = (PROTOCHAR*)mir_t2a(firstName);
 		psn.pszLastName = (PROTOCHAR*)mir_t2a(lastName);
@@ -261,7 +256,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int __cdecl OnEvent(PROTOEVENTTYPE, WPARAM, LPARAM)
 	{
-		return 0;
+		return 1;
 	}
 };
 
