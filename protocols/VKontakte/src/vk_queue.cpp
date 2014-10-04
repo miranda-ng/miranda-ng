@@ -48,6 +48,7 @@ LBL_Restart:
 		}
 	}
 
+	debugLogA("CVkProto::ExecuteRequest %s", pReq->szUrl);
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
 	if (reply != NULL) {
 		if (pReq->m_pFunc != NULL)
