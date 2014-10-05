@@ -243,7 +243,7 @@ Nie można wysłać wiadomości, gdy jesteś offline.
 [Contact is back on server-list.]
 Kontakt powrócił na listę na serwerze.
 [Contact is no longer on server-list.]
-Kontakt jest już na liście serwera.
+Kontakt nie jest już na liście serwera.
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Połączenie %s
