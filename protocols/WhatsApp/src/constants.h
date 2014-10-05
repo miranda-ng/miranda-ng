@@ -33,7 +33,7 @@
 
 // WhatsApp
 #define WHATSAPP_LOGIN_SERVER "c.whatsapp.net"
-#define ACCOUNT_USER_AGENT "WhatsApp/2.11.339 Android/4.0.4 Device/GalaxyS3"
+#define ACCOUNT_USER_AGENT "WhatsApp/2.11.407 Android/4.0.4 Device/GalaxyS3"
 #define ACCOUNT_URL_CODEREQUEST "https://r.whatsapp.net/v1/code.php"
 #define ACCOUNT_URL_CODEREQUESTV2 "https://v.whatsapp.net/v2/code"
 #define ACCOUNT_URL_REGISTERREQUEST "https://r.whatsapp.net/v1/register.php"
