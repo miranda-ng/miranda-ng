@@ -454,7 +454,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	LIST<void> arContacts(10, PtrKeySortT);
 		
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
-		db_unset(hContact, m_szModuleName, "Auth");
+		if (!isChatRoom(hContact))
+			setByte(hContact, "Auth", 1);
 		db_unset(hContact, m_szModuleName, "ReqAuth");
 		SetMirVer(hContact, -1);
 		if (bCleanContacts&&!isChatRoom(hContact))
@@ -466,7 +467,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 	if (pItems)
 		for (int i = 0; i<iCount; i++) {
-			MCONTACT hContact = SetContactInfo(json_at(pItems, i));
+			MCONTACT hContact = SetContactInfo(json_at(pItems, i), true);
 
 			if ((hContact == NULL) || hContact == -1)
 				continue;
@@ -905,7 +906,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 
 			msg.AppendFormat(msgformat, tszNick);
 			MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
-			db_unset(param->hContact, m_szModuleName, "Auth");
+			setByte(param->hContact, "Auth", 1);
 		}
 	}
 	delete param;
