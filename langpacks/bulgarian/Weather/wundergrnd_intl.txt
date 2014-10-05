@@ -3,9 +3,9 @@
 ;  Module: weather
 ;============================================================
 [Light Rain Showers]
-Слаби дъждовни превалявания
+Слаб краткотраен дъжд
 [Thunderstorms And Rain]
-Гръмотевици и дъжд
+Дъжд с гръмотевична буря и дъжд
 [Light Thunderstorm]
 
 [Light Drizzle Mist]
@@ -15,9 +15,9 @@
 [Mostly Sunny]
 Предимно слънчево
 [Light Thunderstorm Rain]
-
+Лек дъжд с гръмотевична буря
 [Thunderstorm Rain]
-Дъжд с гръмотевици
+Дъжд с гръмотевична буря
 [N/a]
 НД
 [Thunderstorm]
@@ -27,27 +27,27 @@
 [Fog]
 Мъгла
 [Patches Fog]
-
+Разпокъсана мъгла
 [Mist]
 Лека мъгла
 [Light Rain]
 Слаб дъжд
 [Light Showers Rain]
-Слаби дъждовни превалявания
+Слаб и краткотраен дъжд
 [Light Showers Snow]
-
+Слаби превалявания от сняг
 [Showers Rain]
-
+Краткотраен дъжд
 [Shallow Fog]
 Слаба мъгла
 [Snow]
 Снеговалеж
 [Partly Sunny]
-Отчасти слънчево
+Частично слънчево
 [Partly Cloudy]
-Отчасти облачно
+Незначителна облачност
 [Mostly Cloudy]
-Предимно облачно
+Значителна облачност
 [Mostly Clear]
 Предимно ясно
 [Rising]
@@ -425,7 +425,7 @@
 [Light Freezing Rain Light Showers Snow Mist]
 
 [Light Drizzle Fog]
-
+Слаб ръмеж и мъгла
 [Snow Rain Mist]
 
 [Snow Heavy Blowing Snow]
@@ -493,7 +493,7 @@
 [Chance Rain 80% Chance Of Precipitation]
 
 [Heavy Rain Showers]
-
+Силен краткотраен дъжд
 [Rain 40% Chance Of Precipitation]
 
 [Chance Rain 40% Chance Of Precipitation]

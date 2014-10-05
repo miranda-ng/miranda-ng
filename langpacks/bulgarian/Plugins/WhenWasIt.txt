@@ -118,7 +118,7 @@
 [%S protocol]
 %s протокол
 [N/A]
-
+НД
 [Unknown]
 Неизвестно
 [Birthday list (%d)]

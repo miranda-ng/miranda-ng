@@ -269,7 +269,7 @@ Popup заглавие
 
 ;file \plugins\Weather\src\weather.h
 [N/A]
-
+НД
 [Invalid ID format, missing "/" (10)]
 Невалиден формат на идентификатора - липсва "/" (10)
 [Invalid service (11)]

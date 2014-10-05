@@ -27,7 +27,7 @@
 [Display name:]
 
 [Title:]
-Заглавие:
+Титла:
 [First name:]
 Име:
 [Second name:]

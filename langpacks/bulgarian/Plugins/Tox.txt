@@ -27,17 +27,17 @@ Tox ID:
 [Tox]
 Tox
 [Tox profile import]
-
+Внос на Tox профил
 [Import]
-
+Внос
 [Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-
+Tox профилът съдържа вашият идентификатор (ID) и списъка с приятели.\r\nМоже да внесете и профил от друг Tox клиент.\r\nКликнете върху "Внос" за внасяне на данни от вече съществуващ профил.\r\nКликнете върху "Отказ" или затворете прозореца за бъде създаден нов профил.
 [Cancel]
 Отказ
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
 [Dns name:]
-
+DNS име:
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Мрежа
@@ -60,6 +60,6 @@ Tox
 [Query]
 Търсене
 [You cannot add yourself to friend list]
-
+Не може да добавите себе си като контакт в списъка с приятели
 [Contact already in your contact list]
 Контактът вече присъства в списъка ви с контакти
