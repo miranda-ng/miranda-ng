@@ -101,7 +101,7 @@ APOP
 [Away]
 Отсъстващ
 [N/A]
-
+НД
 [Occupied]
 Зает
 [DND]

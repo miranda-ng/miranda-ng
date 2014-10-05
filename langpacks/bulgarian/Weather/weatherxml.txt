@@ -9,7 +9,7 @@
 [Light Thunderstorm Rain]
 
 [Thunderstorm Rain]
-Дъжд с гръмотевици
+Дъжд с гръмотевична буря
 [N/a]
 НД
 [Thunderstorm]
@@ -23,19 +23,19 @@
 [Light Rain]
 Слаб дъжд
 [Light Showers Rain]
-Слаби дъждовни превалявания
+Слаб и краткотраен дъжд
 [Showers Rain]
-Превалявания от дъжд
+Краткотраен дъжд
 [Shallow Fog]
 Слаба мъгла
 [Snow]
 Снеговалеж
 [Partly Sunny]
-Отчасти слънчево
+Частично слънчево
 [Partly Cloudy]
-Отчасти облачно
+Незначителна облачност
 [Mostly Cloudy]
-Предимно облачно
+Значителна облачност
 [Mostly Clear]
 Предимно ясно
 [Showers]
@@ -43,7 +43,7 @@
 [Sunny]
 Слънчево
 [Light Rain Shower]
-Слаби дъждовни превалявания
+Слаб краткотраен дъжд
 [rising]
 покачване
 [steady]
@@ -169,45 +169,45 @@
 [Snow Shower]
 Снежни превалявания
 [Am Snow Showers]
-
+Снежни превалявания сутрин
 [Light Snow]
 Слаб снеговалеж
 [Drifting Snow]
 Снегонавяване
 [Pm Snow Showers]
-
+Снежни превалявания следобед
 [Am Clouds / Pm Sun]
 Облаци сутрин / Слънце следобед
 [Snow Shower / Wind]
-
+Снежни превалявания / Вятър
 [Cloudy / Wind]
-
+Облачно / Вятър
 [Heavy Snow And Windy]
-
+Обилен снеговалеж и вятър
 [Snow / Wind]
-
+Сняг / Вятър
 [Snow Showers Early]
 Снежни превалявания денем
 [Am Snow Showers / Wind]
-
+Снежни превалявания сутрин / Вятър
 [Light Snow And Windy]
-
+Лек снеговалеж и вятър
 [Snow Showers / Wind Early]
-
+Снежни превалявания / Вятър денем
 [Partly Cloudy And Windy]
-
+Незначителна облачност и вятър
 [Mostly Cloudy And Windy]
-
+Значителна облачност и вятър
 [Rain / Snow / Wind]
-
+Дъжд / Сняг / Вятър
 [Rain / Snow]
 Дъжд/Сняг
 [Clouds Early / Clearing Late]
-Денем - облачно/Нощем - ясно
+Денем облачно / Нощем ясно
 [Snow Showers Late]
 Снежни превалявания нощем
 [Rain / Snow Showers]
-Превалявания от дъжд/сняг
+Дъжд / Снежни превалявания
 [Showers Late]
 Превалявания нощем
 [Scattered Showers]
@@ -215,41 +215,41 @@
 [Am Showers]
 Превалявания от дъжд сутрин
 [Am Rain / Snow Showers]
-
+Дъжд сутрин / Снежни превалявания 
 [Few Showers]
 Няколко превалявания
 [Few Showers / Wind]
-
+Няколко превалявания / Вятър
 [Pm Light Rain]
 Слаб дъжд следобед
 [Mostly Cloudy / Wind]
-
+Значителна облачност / Вятър
 [Rain]
 Дъжд
 [Light Rain Shower And Windy]
-
+Слаб краткотраен дъжд и вятър
 [Am Showers / Wind]
-
+Превалявания от дъжд сутрин / Вятър
 [Isolated T-Storms]
-Отделни гръмотевични бури
+Отделни гръмотевична буря
 [Showers Early]
 Превалявания денем
 [T-Storm]
 Гръмотевична буря
 [Rain / Snow Showers Late]
-
+Дъжд / Снежни превалявания нощем
 [Pm Showers]
 Превалявания следобед
 [Snow To Rain]
-
+Сняг към дъжд
 [Light Snow Shower]
-
+Слабо снежно преваляване
 [Fair And Windy]
 
 [Pm T-Storms]
-Гръмотевични бури следобед
+Гръмотевична буря следобед
 [Scattered T-Storms]
-Разпръснати гръмотевични бури
+Разпръснати гръмотевична буря
 [Light Rain Late]
 Слаб дъжд нощем
 [Am Light Rain]
@@ -257,9 +257,9 @@
 [Jun]
 
 [T-Storms]
-Гръмотевични бури
+Гръмотевична буря
 [Rain / Thunder]
-
+Дъжд / Гръмотевици
 [Thunder In The Vicinity]
 
 [Light Rain With Thunder]
@@ -267,7 +267,7 @@
 [Light Rain Early]
 Слаб дъжд денем
 [Light Rain / Wind]
-
+Слаб дъжд / Вятър
 [Light Drizzle]
 Слаб ръмеж
 [Haze]
@@ -275,40 +275,44 @@
 [Smoke]
 
 [Rain To Snow]
-
+Дъжд към сняг
 [Rain And Snow]
-
+Дъжд и сняг
 [Rain / Snow Showers Early]
-
+Дъжд / Снежни превалявания сутрин
 [Heavy Snow Shower]
 Обилни снежни превалявания
 [Showers / Wind]
 
 [Snow Shower And Windy]
-
+Снежни превалявания и вятър
 [Light Snow Shower And Windy]
-
+Слабо снежно преваляване и вятър
 [Light Rain And Windy]
-
+Слаб дъжд и вятър
 [Sleet]
 
 [Sleet And Windy]
 
 [Cloudy And Windy]
-
+Облачно и ветровито
 [Light Drizzle And Windy]
-
+Слаб ръмеж и вятър
 [Light Drizzle And Fog]
-
+Слаб ръмеж и мъгла
 [Fog And Windy]
-
+Мъгливо и ветровито
 [Light Snow Early]
 Слаб снеговалеж денем
 [Heavy Snow]
 Обилен снеговалеж
 [Snow Early]
-
+Снеговалеж денем
 [Light Snow Late]
 Слаб снеговалеж нощем
 [Snow And Sleet]
 
+[Thunder]
+Гръмотевици
+[Am Rain]
+Дъжд сутрин
