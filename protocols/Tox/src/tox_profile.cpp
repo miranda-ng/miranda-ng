@@ -80,6 +80,8 @@ void CToxProto::SaveToxProfile()
 		tox_save(tox, data);
 	}
 
+	SetFilePointer(hProfile, 0, 0, FILE_BEGIN);
+	SetEndOfFile(hProfile);
 	DWORD written = 0;
 	if (!WriteFile(hProfile, data, size, &written, NULL) || size != written)
 	{
