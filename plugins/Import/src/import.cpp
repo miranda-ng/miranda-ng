@@ -427,24 +427,63 @@ DBCachedContact* FindDestMeta(DBCachedContact *ccSrc)
 	return NULL;
 }
 
-void ImportMeta(DBCachedContact *cc)
+MCONTACT FindExistingMeta(DBCachedContact *ccSrc)
 {
-	MCONTACT hDest;
+	MCONTACT hResult = INVALID_CONTACT_ID;
 
-	DBCachedContact *ccDst = FindDestMeta(cc);
+	// subs of source meta must belong to the only dest meta
+	for (int i = 0; i < ccSrc->nSubs; i++) {
+		MCONTACT hDestSub = MapContact(ccSrc->pSubs[i]);
+		if (hDestSub == INVALID_CONTACT_ID)
+			continue;
+
+		DBCachedContact *cc = dstDb->m_cache->GetCachedContact(hDestSub);
+		if (cc == NULL || !cc->IsSub()) // check if it's a sub
+			continue;
+
+		if (hResult == INVALID_CONTACT_ID)
+			hResult = cc->parentID;
+		else if (hResult != cc->parentID) {
+			return 0;
+		}
+	}
+	return hResult;
+}
+
+void ImportMeta(DBCachedContact *ccSrc)
+{
+	if (!ccSrc->IsMeta() || !ccSrc->nSubs || !ccSrc->pSubs)
+		return;
+
+	// check first that the precise copy of metacontact exists
+	DBCachedContact *ccDst = FindDestMeta(ccSrc);
 	if (ccDst == NULL) {
-		hDest = CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT, hDest, (LPARAM)META_PROTO);
+		MCONTACT hDest = FindExistingMeta(ccSrc);
+		if (hDest == 0) {
+			AddMessage(LPGENT("Metacontact cannot be imported due to its ambiguity."));
+			return;
+		}
 
-		CopySettings(cc->contactID, META_PROTO, hDest, META_PROTO);
+		ptrT tszGroup(myGetWs(ccSrc->contactID, "CList", "Group")), tszNick(myGetWs(ccSrc->contactID, "CList", "MyHandle"));
+		if (tszNick == NULL)
+			tszNick = myGetWs(ccSrc->contactID, ccSrc->szProto, "Nick");
 
-		ccDst = dstDb->m_cache->GetCachedContact(hDest);
-		if (ccDst) {
-			ccDst->nDefault = cc->nDefault;
-			if (ccDst->nSubs = cc->nSubs) {
-				ccDst->pSubs = (MCONTACT*)mir_alloc(sizeof(MCONTACT)*cc->nSubs);
-				for (int i = 0; i < cc->nSubs; i++) {
-					ccDst->pSubs[i] = MapContact(cc->pSubs[i]);
+		// do we need to add a new metacontact?
+		if (hDest == INVALID_CONTACT_ID) {
+			hDest = CallService(MS_DB_CONTACT_ADD, 0, 0);
+			CallService(MS_PROTO_ADDTOCONTACT, hDest, LPARAM(META_PROTO));
+			CopySettings(ccSrc->contactID, META_PROTO, hDest, META_PROTO);
+
+			ccDst = dstDb->m_cache->GetCachedContact(hDest);
+			if (ccDst == NULL) // normally it shouldn't happen
+				return;
+
+			// simply copy the whole metacontact structure
+			ccDst->nDefault = ccSrc->nDefault;
+			if (ccDst->nSubs = ccSrc->nSubs) {
+				ccDst->pSubs = (MCONTACT*)mir_alloc(sizeof(MCONTACT)*ccSrc->nSubs);
+				for (int i = 0; i < ccSrc->nSubs; i++) {
+					ccDst->pSubs[i] = MapContact(ccSrc->pSubs[i]);
 
 					char szSettingName[100];
 					mir_snprintf(szSettingName, SIZEOF(szSettingName), "Handle%d", i);
@@ -459,11 +498,19 @@ void ImportMeta(DBCachedContact *cc)
 				}
 			}
 		}
+		else { // add missing subs
+			ccDst = dstDb->m_cache->GetCachedContact(hDest);
+			if (ccDst == NULL) // normally it shouldn't happen
+				return;
 
-		ptrT tszGroup(myGetWs(cc->contactID, "CList", "Group")), tszNick(myGetWs(cc->contactID, "CList", "MyHandle"));
-		if (tszNick == NULL)
-			tszNick = myGetWs(cc->contactID, cc->szProto, "Nick");
+			for (int i = 0; i < ccSrc->nSubs; i++) {
+				MCONTACT hDstSub = MapContact(ccSrc->pSubs[i]);
+				if (db_mc_getMeta(hDstSub) == NULL) // add a sub if needed
+					CallService(MS_MC_ADDTOMETA, hDest, hDstSub);
+			}
+		}
 
+		// ok, now transfer the common data
 		CreateGroup(tszGroup, hDest);
 
 		if (tszNick && *tszNick) {
@@ -472,12 +519,11 @@ void ImportMeta(DBCachedContact *cc)
 		}
 		else AddMessage(LPGENT("Added metacontact"));
 	}
-	else hDest = ccDst->contactID;
 
 	AccountMap pda(META_PROTO, META_PROTO);
-	ImportContactSettings(&pda, cc->contactID, hDest);
+	ImportContactSettings(&pda, ccSrc->contactID, ccDst->contactID);
 
-	arContactMap.insert(new ContactMap(cc->contactID, hDest));
+	arContactMap.insert(new ContactMap(ccSrc->contactID, ccDst->contactID));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
