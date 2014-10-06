@@ -588,18 +588,25 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Tlen",             _T("*Tlen*"),                               LPGENT("Tlen.pl client"),                IDI_TLEN,                TLEN_CASE                   },
 
 //#########################################################################################################################################################################
+//#################################   Facebook   ##########################################################################################################################
+//#########################################################################################################################################################################
+	{"client_Facebook_mobile",  _T("*Facebook*mobile*"),                        _T("Facebook (mobile)"),             IDI_FACEBOOK_MOBILE,     FACEBOOK_CASE               },
+	{"client_Facebook_other",   _T("*Facebook*other*"),                         _T("Facebook (other)"),              IDI_FACEBOOK_OTHER,      FACEBOOK_CASE               },
+	{"client_Facebook_app",     _T("*Facebook*App*"),                           _T("Facebook App"),                  IDI_FACEBOOK_APP,        FACEBOOK_CASE               },
+	{"client_Facebook_mess",    _T("*Facebook*Messenger*"),                     _T("Facebook Messenger"),            IDI_FACEBOOK_MESSENGER,  FACEBOOK_CASE               },
+	{"client_Facebook",         _T("*Facebook*"),                               _T("Facebook"),                      IDI_FACEBOOK,            FACEBOOK_CASE               },
+
+//#########################################################################################################################################################################
+//#################################   VKontakte   #########################################################################################################################
+//#########################################################################################################################################################################
+	{ "client_VK",              _T("|*VKontakte*|*vk.com*"),                    _T("VKontakte"),                     IDI_VK,                  VK_CASE                     },
+
+//#########################################################################################################################################################################
 //#################################   OTHER CLIENTS   #####################################################################################################################
 //#########################################################################################################################################################################
-	{"client_Android",          _T("*Android*"),                                _T("Android"),                       IDI_ANDROID,             MULTI_CASE,         TRUE    },
+	{ "client_Android",         _T("*Android*"),                                _T("Android"),                       IDI_ANDROID,             MULTI_CASE,         TRUE    },
 
-	{"client_Facebook_web",     _T("*Facebook*website*"),                       _T("Facebook (website)"),            IDI_FACEBOOK_WEB,        OTHER_PROTOS_CASE,  TRUE    },
-	{"client_Facebook_mobile",  _T("*Facebook*mobile*"),                        _T("Facebook (mobile)"),             IDI_FACEBOOK_MOBILE,     OTHER_PROTOS_CASE,  TRUE    },
-	{"client_Facebook_other",   _T("*Facebook*other*"),                         _T("Facebook (other)"),              IDI_FACEBOOK_OTHER,      OTHER_PROTOS_CASE,  TRUE    },
-	{"client_Facebook_app",     _T("*Facebook*App*"),                           _T("Facebook App"),                  IDI_FACEBOOK_APP,        OTHER_PROTOS_CASE,  TRUE    },
-	{"client_Facebook_mess",    _T("*Facebook*Messenger*"),                     _T("Facebook Messenger"),            IDI_FACEBOOK_MESSENGER,  OTHER_PROTOS_CASE,  TRUE    },
-	{"client_Facebook",         _T("*Facebook*"),                               _T("Facebook"),                      IDI_FACEBOOK,            OTHER_PROTOS_CASE,  TRUE    },
-
-	{"client_Pidgin",           _T("|*Pidgin*|*libpurple*|Purple*"),            _T("Pidgin (libpurple)"),            IDI_PIDGIN,              MULTI_CASE                  },
+	{ "client_Pidgin",          _T("|*Pidgin*|*libpurple*|Purple*"),            _T("Pidgin (libpurple)"),            IDI_PIDGIN,              MULTI_CASE                  },
 
 	{"client_Python",           _T("|*Python*|Py*|*ταλιςμαη*"),             LPGENT("Python-based clients"),          IDI_PYTHON,              MULTI_CASE                  },
 
@@ -614,8 +621,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Twitter",          _T("*Twitter*"),                                _T("Twitter"),                       IDI_TWITTER,             OTHER_PROTOS_CASE,  TRUE    },
 
 	{"client_Skype",            _T("*Skype**"),                                 _T("Skype"),                         IDI_SKYPE,               OTHER_PROTOS_CASE,  TRUE    },
-
-	{"client_VK",               _T("|*VKontakte*|*vk.com*"),                    _T("VKontakte"),                     IDI_VK,                  OTHER_PROTOS_CASE,  TRUE    },
 
 	{"client_Xfire",            _T("*Xfire*"),                                  _T("Xfire"),                         IDI_XFIRE,               OTHER_PROTOS_CASE,  TRUE    },
 
@@ -698,6 +703,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{"client_MRA_overlay",      _T("|^MRA*|^Mail.ru*")
                                 _T("|*MRA*|*Mail.ru*IM*|Mrim*")
                                 _T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*"), LPGENT("Mail.Ru Agent overlay"),        IDI_MAILRU_OVERLAY,      OVERLAYS_PROTO_CASE         },
+	{ "client_VK_overlay",      _T("|Miranda*VKontakte*"),                  LPGENT("VK overlay"),                   IDI_VK_OVERLAY,          OVERLAYS_PROTO_CASE         },
 
 //#########################################################################################################################################################################
 //#################################   CLIENT VERSION OVERLAYS   ###########################################################################################################
@@ -748,8 +754,9 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{"client_on_Java",          _T("|*Java*|jagent*|ICQ2Go!*"),             LPGENT("Java overlay"),                  IDI_PLATFORM_JAVA,       OVERLAYS_PLATFORM_CASE      },
 	{"client_on_Symbian",       _T("|*Symbian*|sagent*"),                   LPGENT("Symbian overlay"),               IDI_PLATFORM_SYMBIAN,    OVERLAYS_PLATFORM_CASE      },
 	{"client_on_Amiga",         _T("*Amiga*"),                              LPGENT("Amiga overlay"),                 IDI_PLATFORM_AMIGA,      OVERLAYS_PLATFORM_CASE      },
-	{"client_on_Android",       _T("*Android*"),                            LPGENT("Android overlay"),               IDI_PLATFORM_ANDROID,    OVERLAYS_PLATFORM_CASE      },
-
+	{"client_on_Android",       _T("|*Android*|*(android)*"),               LPGENT("Android overlay"),               IDI_PLATFORM_ANDROID,    OVERLAYS_PLATFORM_CASE      },
+	{"client_on_Website",       _T("*(website)*"),                          LPGENT("Website overlay"),               IDI_PLATFORM_WEBSITE,    OVERLAYS_PLATFORM_CASE      },
+	{"client_on_WinPhone",      _T("*(wphone)*"),                           LPGENT("Windows Phone overlay"),         IDI_PLATFORM_WINPHONE,   OVERLAYS_PLATFORM_CASE      },
 };
 
 int DEFAULT_KN_FP_OVERLAYS_COUNT = SIZEOF(def_kn_fp_overlays_mask);

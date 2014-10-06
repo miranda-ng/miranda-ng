@@ -78,6 +78,16 @@ case YAHOO_CASE:
 		return LPGENT("Client icons")_T("/")LPGENT("Yahoo clients");
 	break;
 
+case FACEBOOK_CASE:
+	if (db_get_b(NULL, MODULENAME, "GroupFacebook", 1))
+		return LPGENT("Client icons")_T("/")LPGENT("Facebook clients");
+	break;
+
+case VK_CASE:
+	if (db_get_b(NULL, MODULENAME, "GroupVK", 1))
+		return LPGENT("Client icons")_T("/")LPGENT("VKontakte clients");
+	break;
+
 case OTHER_PROTOS_CASE:
 	if ( db_get_b(NULL, MODULENAME, "GroupOtherProtos", 1))
 		return LPGENT("Client icons")_T("/")LPGENT("Other protocols");
