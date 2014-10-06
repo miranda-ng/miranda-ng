@@ -438,7 +438,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		MirVer = "Miranda NG VKontakte";
 		break;
 	case 2386311:
-		MirVer = "QIP 2012";
+		MirVer = "QIP 2012 VKontakte";
 		break;
 	case 1:
 		MirVer = "VKontakte (mobile)";
