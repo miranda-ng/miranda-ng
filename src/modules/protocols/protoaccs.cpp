@@ -495,7 +495,7 @@ static int DeactivationThread(DeactivationThreadParam* param)
 	char *szModuleName = NEWSTR_ALLOCA(p->m_szModuleName);
 
 	if (param->bIsDynamic) {
-		while (p->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != 0)
+		while (p->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != TRUE)
 			SleepEx(100, TRUE);
 
 		p->OnEvent(EV_PROTO_ONEXIT, 0, 0);
