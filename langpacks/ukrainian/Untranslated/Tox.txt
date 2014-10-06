@@ -1,3 +1,6 @@
-﻿[Tox ID:]
-[C]
+﻿[C]
+[Tox ID:]
 [Tox]
+[Enter password]
+[Save password]
+[Tox profile is encrypted. To continue, enter the password below and click OK.]

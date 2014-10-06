@@ -10,14 +10,14 @@
 ;file \protocols\Tox\res\resource.rc
 [Name:]
 Име:
-[Tox ID:]
-Tox ID:
+[Password:]
+Парола:
 [Default group:]
 Станд. група:
 [C]
 Ко
-[Password:]
-Парола:
+[Tox ID:]
+Tox ID:
 [Connection settings]
 Настройки за свързване
 [Disable UDP (force Tox to use TCP)]
@@ -38,6 +38,12 @@ Tox профилът съдържа вашият идентификатор (ID)
 Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
 [Dns name:]
 DNS име:
+[Enter password]
+
+[Save password]
+
+[Tox profile is encrypted. To continue, enter the password below and click OK.]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Мрежа
