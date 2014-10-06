@@ -609,7 +609,8 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	
 	if (pDlgs == NULL)
 		return;
-		
+	if (m_bAutoSyncHistory)
+		MsgPopup(NULL, TranslateT("Start sync history"), TranslateT("Sync history"));
 	for (int i = 0; i < numDlgs; i++) {
 		JSONNODE *pDlg = json_at(pDlgs, i);
 		if (pDlg == NULL)
@@ -652,6 +653,8 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 	}
+	if (m_bAutoSyncHistory)
+		MsgPopup(NULL, TranslateT("Sync history complete"), TranslateT("Sync history"));
 	RetrieveUsersInfo();
 }
 
