@@ -451,6 +451,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 	case 3:
 		MirVer = "VKontakte (ipad)";
 		break;
+	case 2685278: // Android - Kate
 	case 2890984: // Android
 	case 2274003:
 	case 4:
