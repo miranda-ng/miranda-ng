@@ -8,10 +8,10 @@
 [Tox protocol support for Miranda NG.]
 ;file \protocols\Tox\res\resource.rc
 [Name:]
-[Tox ID:]
+[Password:]
 [Default group:]
 [C]
-[Password:]
+[Tox ID:]
 [Connection settings]
 [Disable UDP (force Tox to use TCP)]
 [Disable IPv6]
@@ -22,6 +22,9 @@
 [Cancel]
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 [Dns name:]
+[Enter password]
+[Save password]
+[Tox profile is encrypted. To continue, enter the password below and click OK.]
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 [Account]

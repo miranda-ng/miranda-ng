@@ -9,10 +9,10 @@
 Поддержка протокола Tox в Miranda NG.
 [Name:]
 Имя:
-[Default group:]
-Группа:
 [Password:]
 Пароль:
+[Default group:]
+Группа:
 [Connection settings]
 Настройки подключения
 [Disable UDP (force Tox to use TCP)]
@@ -31,6 +31,12 @@
 При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи dns сервиса обнаружения Tox.
 [Dns name:]
 DNS имя:
+[Enter password]
+Введите пароль
+[Save password]
+Сохранить пароль
+[Tox profile is encrypted. To continue, enter the password below and click OK.]
+Профиль Tox зашифрован. Чтобы продолжить, введите пароль и нажмите OK.
 [Network]
 Сеть
 [Account]
