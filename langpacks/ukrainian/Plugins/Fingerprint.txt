@@ -51,6 +51,10 @@
 Клієнти погоди
 [Yahoo clients]
 Клієнти Yahoo
+[Facebook clients]
+Клієнти Facebook
+[VKontakte clients]
+Клієнти ВКонтакті
 [Multi-protocol clients]
 Мультипротокольні клієнти
 [Other (rare) protocols]
@@ -137,6 +141,8 @@ TM 2008 і вище
 Оверлей Yahoo
 [Mail.Ru Agent overlay]
 Оверлей Mail.Ru Agent
+[VK overlay]
+Оверлей ВКонтакті
 [ICQ 2003 overlay]
 Оверлей ICQ 2003
 [ICQ Lite 4 overlay]
@@ -213,6 +219,10 @@ Gadu-Gadu v8 клієнт
 Оверлей Amiga
 [Android overlay]
 Оверлей Android
+[Website overlay]
+Оверлей веб-сайту
+[Windows Phone overlay]
+Оверлей Windows Phone
 [debug overlay]
 Оверлей debug
 [office overlay]
