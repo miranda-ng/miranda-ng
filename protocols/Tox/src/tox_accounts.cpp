@@ -20,16 +20,24 @@ CToxProto* CToxProto::InitAccount(const char* protoName, const wchar_t* userName
 			(LPARAM)userName);
 	}
 
-	CToxProto *ppro = new CToxProto(protoName, userName);
-	accounts.insert(ppro);
+	CToxProto *proto = new CToxProto(protoName, userName);
+	if (proto->InitToxCore())
+	{
+		accounts.insert(proto);
+	}
+	else
+	{
+		delete proto;
+		proto = NULL;
+	}
 
-	return ppro;
+	return proto;
 }
 
-int CToxProto::UninitAccount(CToxProto* ppro)
+int CToxProto::UninitAccount(CToxProto* proto)
 {
-	accounts.remove(ppro);
-	delete ppro;
+	accounts.remove(proto);
+	delete proto;
 
 	return 0;
 }

@@ -105,6 +105,9 @@ public:
 	static CToxProto* InitAccount(const char* protoName, const wchar_t* userName);
 	static int        UninitAccount(CToxProto* ppro);
 
+	// tox
+	bool InitToxCore();
+
 private:
 	Tox *tox;
 	mir_cs toxLock;
@@ -114,7 +117,6 @@ private:
 	std::map<uint8_t, FileTransferParam*> transfers;
 
 	// tox
-	void InitToxCore();
 	void UninitToxCore();
 
 	// ???
@@ -128,10 +130,11 @@ private:
 	std::tstring GetToxProfilePath();
 	static std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName);
 
-	void LoadToxProfile();
+	bool LoadToxProfile();
 	void SaveToxProfile();
-
+	
 	static INT_PTR CALLBACK ToxProfileImportProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK ToxProfilePasswordProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	// accounts
 	static LIST<CToxProto> accounts;

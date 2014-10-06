@@ -4,7 +4,6 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CToxProto>(protoName, userName)
 {
 	InitNetlib();
-	InitToxCore();
 	accountName = mir_tstrdup(userName);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
