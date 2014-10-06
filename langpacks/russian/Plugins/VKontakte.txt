@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.19
+;  Version: 0.1.0.20
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -131,6 +131,12 @@ Cоздать комнату чата
 Невозможно добавить пользователя в друзья, так как вы находитесь в его чёрном списке
 [Cannot add this user to friends as you put him on blacklist]
 Невозможно добавить пользователя в друзья, так как он находится в вашем чёрном списке
+[Start sync history]
+Синхронизация истории начата
+[Sync history]
+Синхронизация истории
+[Sync history complete]
+Синхронизация истории закончена
 [History import is complete]
 Импорт истории завершён
 [History import]
