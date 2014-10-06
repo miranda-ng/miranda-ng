@@ -51,6 +51,10 @@ Fingerprint NG отображает значки клиентов, исполь�
 Клиенты погоды
 [Yahoo clients]
 Клиенты Yahoo
+[Facebook clients]
+Клиенты Facebook
+[VKontakte clients]
+Клиенты VKontakte
 [Multi-protocol clients]
 Мульти-протокольные клиенты
 [Other (rare) protocols]
@@ -137,6 +141,8 @@ XMPP клиент
 Оверлей Yahoo
 [Mail.Ru Agent overlay]
 Оверлей Mail.Ru Agent
+[VK overlay]
+Оверлей VK
 [ICQ 2003 overlay]
 ICQ 2003 оверлей
 [ICQ Lite 4 overlay]
@@ -213,6 +219,10 @@ QQ 2000 оверлей
 Оверлей Amiga
 [Android overlay]
 Оверлей Android
+[Website overlay]
+Оверлей веб-сайта
+[Windows Phone overlay]
+Оверлей Windows Phone
 [debug overlay]
 Оверлей debug
 [office overlay]
