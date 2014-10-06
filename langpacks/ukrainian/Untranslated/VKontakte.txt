@@ -1,1 +1,4 @@
 ﻿[Error %d. Data will not be sent or received.]
+[Start sync history]
+[Sync history]
+[Sync history complete]

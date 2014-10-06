@@ -52,6 +52,10 @@
 
 [Yahoo clients]
 
+[Facebook clients]
+
+[VKontakte clients]
+
 [Multi-protocol clients]
 
 [Other (rare) protocols]
@@ -141,6 +145,8 @@ Protocolo
 
 [Mail.Ru Agent overlay]
 
+[VK overlay]
+
 [ICQ 2003 overlay]
 
 [ICQ Lite 4 overlay]
@@ -216,6 +222,10 @@ Protocolo
 [Amiga overlay]
 
 [Android overlay]
+
+[Website overlay]
+
+[Windows Phone overlay]
 
 [debug overlay]
 

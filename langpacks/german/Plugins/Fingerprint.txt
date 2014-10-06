@@ -52,6 +52,10 @@ Tlen-Clients
 Weather-Clients
 [Yahoo clients]
 Yahoo-Clients
+[Facebook clients]
+
+[VKontakte clients]
+
 [Multi-protocol clients]
 Multi-Protokoll-Clients
 [Other (rare) protocols]
@@ -141,6 +145,8 @@ Tlen.pl overlay
 Yahoo overlay
 [Mail.Ru Agent overlay]
 Mail.Ru Agent overlay
+[VK overlay]
+
 [ICQ 2003 overlay]
 ICQ 2003 overlay
 [ICQ Lite 4 overlay]
@@ -217,6 +223,10 @@ Symbian overlay
 Amiga overlay
 [Android overlay]
 Android overlay
+[Website overlay]
+
+[Windows Phone overlay]
+
 [debug overlay]
 Debug-overlay
 [office overlay]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.19
+;  Version: 0.1.0.20
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -138,6 +138,12 @@ Benachrichtigung
 [Cannot add this user to friends as you put him on blacklist]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Start sync history]
+
+[Sync history]
+
+[Sync history complete]
+
 [History import is complete]
 
 [History import]
