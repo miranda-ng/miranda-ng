@@ -65,6 +65,8 @@
 Позначте користувачів, яких ви хочете запросити до чату
 [New chat's title:]
 Назва нової кімнати:
+[Error %d. Data will not be sent or received.]
+Помилка %d. Дані не передаватимуться і не прийматимуться.
 [Error]
 Помилка
 [Captcha form icon]
@@ -129,6 +131,12 @@
 Неможливо додати користувача до списку друзів, тому що ви у нього в чорному списку
 [Cannot add this user to friends as you put him on blacklist]
 Неможливо додати користувача до списку друзів, тому що він у вас у чорному списку
+[Start sync history]
+Синхронізацію історії розпочато
+[Sync history]
+Синхронізація історії
+[Sync history complete]
+Синхронізацію історії завершено
 [History import is complete]
 Імпорт історії завершено
 [History import]

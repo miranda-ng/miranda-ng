@@ -29,6 +29,8 @@
 Скасувати
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
+[Dns name:]
+Ім'я DNS:
 [Network]
 Мережа
 [Account]
