@@ -374,7 +374,8 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 		if (pResponse != NULL) {
 			UINT mid = json_as_int(pResponse);
-			m_sendIds.insert((HANDLE)mid);
+			if (param->iMsgID != -1)
+				m_sendIds.insert((HANDLE)mid);
 			if (mid>getDword(param->hContact, "lastmsgid", 0))
 				setDword(param->hContact, "lastmsgid", mid);
 			if (m_bMarkReadOnReply)

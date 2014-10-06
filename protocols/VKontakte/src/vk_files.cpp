@@ -43,16 +43,14 @@ FileUploadParam::VKFileType FileUploadParam::GetType()
 	if (filetype != typeInvalid)
 		return filetype;
 	
-	TCHAR img[] = L"jpg jpeg png bmp";
-	TCHAR audio[] = L"mp3";
+	TCHAR img[] = L".jpg .jpeg .png .bmp";
+	TCHAR audio[] = L".mp3";
 	
 	TCHAR  DRIVE[3], DIR[256], FNAME[256], EXT[256];
 	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
 	
-	CMStringA fn(mir_utf8encodeT(FNAME));
-	fn.AppendChar('.');
-	fn.AppendFormat("%s", mir_utf8encodeT(EXT));
-
+	CMStringA fn;
+	fn.AppendFormat("%s%s", mir_utf8encodeT(FNAME), mir_utf8encodeT(EXT));
 	fname = mir_strdup(fn.GetBuffer());
 
 	if (tlstrstr(img, EXT)){
@@ -70,7 +68,6 @@ FileUploadParam::VKFileType FileUploadParam::GetType()
 	
 	return filetype;
 }
-
 
 HANDLE CVkProto::SendFile(MCONTACT hContact, const PROTOCHAR *desc, PROTOCHAR **files)
 {
@@ -90,30 +87,32 @@ void CVkProto::SendFileFiled(FileUploadParam *fup, TCHAR *reason)
 void CVkProto::SendFileThread(void *p)
 {
 	FileUploadParam *fup = (FileUploadParam *)p;
-	debugLogA("CVkProto::SendFileThread");
+	debugLog(L"CVkProto::SendFileThread %d %s", fup->GetType(), fup->fileName());
 	if (!fup->IsAccess()){
 		SendFileFiled(fup, L"FileIsNotAccess");
 		return;
 	}
+
 	AsyncHttpRequest *pReq;
 	switch (fup->GetType()){
 	case FileUploadParam::typeImg:
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer)
 			<< VER_API;
-		pReq->pUserInfo = p;
-		Push(pReq);
 		break;
 	case FileUploadParam::typeAudio:
-		// Audio
-		SendFileFiled(fup, L"FileTypeIsNotSupported");
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.getUploadServer.json", true, &CVkProto::OnReciveUploadServer)
+			<< VER_API;
 		break;
 	case FileUploadParam::typeDoc:
-		// Doc
-		SendFileFiled(fup, L"FileTypeIsNotSupported");
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer)
+			<< VER_API;
 		break;
 	default:
-		SendFileFiled(fup);
+		SendFileFiled(fup, L"FileTypeNotSupported");
+		return;
 	}
+	pReq->pUserInfo = p;
+	Push(pReq);
 }
 
 void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -155,13 +154,15 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	CMStringA boundary, header;
 	CMStringA NamePart = fup->atrName();
 	CMStringA FNamePart = fup->fileName();
-	srand(time(NULL));
 	
+	// Boundary
+	srand(time(NULL));
 	int iboundary = rand();
 	boundary.AppendFormat("Miranda%dNG%d", iboundary, time(NULL));
+	// Header
 	header.AppendFormat("multipart/form-data; boundary=%s", boundary.GetBuffer());
 	pUploadReq->AddHeader("Content-Type", header.GetBuffer());
-
+	// Content-Disposition {
 	CMStringA DataBegin = "--";
 	DataBegin += boundary;
 	DataBegin += "\r\n";
@@ -170,25 +171,28 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	DataBegin += "\"; filename=\"";
 	DataBegin += FNamePart;
 	DataBegin += "\";\r\n\r\n";
-
+	// } Content-Disposition
 	CMStringA DataEnd = "\r\n--";
 	DataEnd += boundary;
 	DataEnd += "--\r\n";
-	
+	// Body size
 	size_t dataLength = szFileLen + DataBegin.GetLength() + DataEnd.GetLength();
-
+	// Body {
 	char* pData = (char *)mir_alloc(dataLength);
 	memcpy(pData, (void *)DataBegin.GetBuffer(), DataBegin.GetLength());
 	pUploadReq->pData = pData;
+
 	pData += DataBegin.GetLength();
 	fread(pData, 1, szFileLen, pFile);
+	fclose(pFile);
+
 	pData += szFileLen;
 	memcpy(pData, (void *)DataEnd.GetBuffer(), DataEnd.GetLength());
+	// } Body
+
 	pUploadReq->	dataLength = dataLength;
 	pUploadReq->pUserInfo = pReq->pUserInfo;
-	debugLogA("CVkProto::OnReciveUploadServer \n<%d>", dataLength);
 	Push(pUploadReq);
-	fclose(pFile);
 }
 
 void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -203,16 +207,53 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	
-	CMString server = json_as_string(json_get(pRoot, "server"));
-	CMString photo = json_as_string(json_get(pRoot, "photo"));
-	CMString hash = json_as_string(json_get(pRoot, "hash"));
 
-	AsyncHttpRequest *pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile)
-		<< TCHAR_PARAM("server", server)
-		<< TCHAR_PARAM("photo", photo)
-		<< TCHAR_PARAM("hash", hash)
-		<< VER_API;
+	CMString server = json_as_string(json_get(pRoot, "server"));
+	CMString hash = json_as_string(json_get(pRoot, "hash"));
+	CMString upload;
+
+	AsyncHttpRequest *pUploadReq;
+
+	switch (fup->GetType()){
+	case FileUploadParam::typeImg:
+		upload = json_as_string(json_get(pRoot, "photo"));
+		if (upload == L"[]"){
+			SendFileFiled(fup, L"NotUpload Photo");
+		}
+		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile)
+			<< TCHAR_PARAM("server", server)
+			<< TCHAR_PARAM("photo", upload)
+			<< TCHAR_PARAM("hash", hash)
+			<< VER_API;
+		break;
+	case FileUploadParam::typeAudio:
+		upload = json_as_string(json_get(pRoot, "audio"));
+		if (upload == L"[]"){
+			SendFileFiled(fup, L"NotUpload Audio");
+			return;
+		}
+		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.save.json", true, &CVkProto::OnReciveUploadFile)
+			<< TCHAR_PARAM("server", server)
+			<< TCHAR_PARAM("audio", upload)
+			<< TCHAR_PARAM("hash", hash)
+			<< VER_API;
+		break;
+	case FileUploadParam::typeDoc:
+		upload = json_as_string(json_get(pRoot, "file"));
+		if (upload.IsEmpty()){
+			SendFileFiled(fup, L"NotUpload Doc");
+			return;
+		}
+		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile)
+			<< CHAR_PARAM("title", fup->fileName())
+			<< TCHAR_PARAM("file", upload)	
+			<< VER_API;
+		break;
+	default:
+		SendFileFiled(fup);
+		return;
+	}
+	
 	pUploadReq->pUserInfo = pReq->pUserInfo;
 	Push(pUploadReq);
 }
@@ -221,7 +262,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 {
 	FileUploadParam *fup = (FileUploadParam *)pReq->pUserInfo;
 
-	debugLogA("CVkProto::OnReciveUploadPhoto %d", reply->resultCode);
+	debugLogA("CVkProto::OnReciveUploadFile %d", reply->resultCode);
 	if (reply->resultCode != 200){
 		SendFileFiled(fup);
 		return;
@@ -234,13 +275,30 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 	}
 
-	int id = json_as_int(json_get(json_at(pResponse,0), "id"));
-	int owner_id = json_as_int(json_get(json_at(pResponse, 0), "owner_id"));
+	int id = json_as_int(json_get(fup->GetType() == FileUploadParam::typeAudio ? pResponse: json_at(pResponse, 0), "id"));
+	int owner_id = json_as_int(json_get(fup->GetType() == FileUploadParam::typeAudio ? pResponse : json_at(pResponse, 0), "owner_id"));
+	if ((id == 0) || (owner_id == 0)){
+		SendFileFiled(fup);
+		return;
+	}
+	
 	CMString Attachment;
-	Attachment.AppendFormat(L"photo%d_%d", owner_id, id);
 
-	debugLog(L"CVkProto::OnReciveUploadPhoto Att %s", Attachment.GetBuffer());
-
+	switch (fup->GetType()){
+	case FileUploadParam::typeImg:
+		Attachment.AppendFormat(L"photo%d_%d", owner_id, id);
+		break;
+	case FileUploadParam::typeAudio:
+		Attachment.AppendFormat(L"audio%d_%d", owner_id, id);
+		break;
+	case FileUploadParam::typeDoc:
+		Attachment.AppendFormat(L"doc%d_%d", owner_id, id);
+		break;
+	default:
+		SendFileFiled(fup);
+		return;
+	}
+	
 	LONG userID = getDword(fup->hContact, "ID", -1);
 	if (userID == -1){
 		SendFileFiled(fup);

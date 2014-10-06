@@ -488,5 +488,5 @@ bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
 	mir_sntprintf(s2, SIZEOF(s2), _T("%s"), _s2);
 	CharLowerBuff(s1, SIZEOF(s1));
 	CharLowerBuff(s2, SIZEOF(s2));
-	return (_tcsstr(s1, s2) == NULL);
+	return (_tcsstr(s1, s2) != NULL);
 }
