@@ -30,9 +30,11 @@ int CToxProto::OnAccountRenamed(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void CToxProto::InitToxCore()
+bool CToxProto::InitToxCore()
 {
 	std::tstring profilePath = GetToxProfilePath();
+	bool isProfileExists = IsFileExists(profilePath);
+
 	hProfile = CreateFile(
 		profilePath.c_str(),
 		GENERIC_READ | GENERIC_WRITE,
@@ -42,9 +44,15 @@ void CToxProto::InitToxCore()
 		FILE_ATTRIBUTE_NORMAL,
 		NULL);
 
+	if (hProfile == INVALID_HANDLE_VALUE)
+	{
+		debugLogA("CToxProto::InitToxCore: cannot open tox profile");
+		return false;
+	}
+
 	Tox_Options options = { 0 };
-	options.udp_disabled = getByte("DisableUDP", 0);
-	options.ipv6enabled = !getByte("DisableIPv6", 0);
+	options.udp_disabled = getBool("DisableUDP", 0);
+	options.ipv6enabled = !getBool("DisableIPv6", 0);
 
 	if (hNetlib != NULL)
 	{
@@ -81,24 +89,32 @@ void CToxProto::InitToxCore()
 	tox_callback_avatar_info(tox, OnGotFriendAvatarInfo, this);
 	tox_callback_avatar_data(tox, OnGotFriendAvatarData, this);
 
-	LoadToxProfile();
-
-	int size = tox_get_self_name_size(tox);
-	std::vector<uint8_t> username(size);
-	tox_get_self_name(tox, &username[0]);
-	std::string nick(username.begin(), username.end());
-	setWString("Nick", ptrW(Utf8DecodeW(nick.c_str())));
-
 	std::vector<uint8_t> pubKey(TOX_FRIEND_ADDRESS_SIZE);
 	tox_get_address(tox, &pubKey[0]);
 	std::string address = DataToHexString(pubKey);
 	setString(NULL, TOX_SETTINGS_ID, address.c_str());
 
-	std::tstring avatarPath = GetAvatarFilePath();
-	if (IsFileExists(avatarPath))
+	if (isProfileExists)
 	{
-		SetToxAvatar(avatarPath);
+		if (!LoadToxProfile())
+		{
+			return false;
+		}
+
+		int size = tox_get_self_name_size(tox);
+		std::vector<uint8_t> username(size);
+		tox_get_self_name(tox, &username[0]);
+		std::string nick(username.begin(), username.end());
+		setWString("Nick", ptrW(Utf8DecodeW(nick.c_str())));
+
+		std::tstring avatarPath = GetAvatarFilePath();
+		if (IsFileExists(avatarPath))
+		{
+			SetToxAvatar(avatarPath);
+		}
 	}
+
+	return true;
 }
 
 void CToxProto::UninitToxCore()
