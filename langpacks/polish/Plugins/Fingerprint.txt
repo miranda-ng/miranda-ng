@@ -53,9 +53,9 @@ Klienty Pogodowe
 [Yahoo clients]
 Klienty Yahoo
 [Facebook clients]
-
+Klienty Facebooka
 [VKontakte clients]
-
+Klienty VKontakte
 [Multi-protocol clients]
 Multikomunikatory
 [Other (rare) protocols]
@@ -146,7 +146,7 @@ Nakładka Yahoo
 [Mail.Ru Agent overlay]
 Nakładka MRA
 [VK overlay]
-
+Nakładka VK
 [ICQ 2003 overlay]
 Nakładka ICQ 2003
 [ICQ Lite 4 overlay]
@@ -224,9 +224,9 @@ Nakładka Amiga
 [Android overlay]
 Nakładka Android
 [Website overlay]
-
+Nakładka stron internetowych
 [Windows Phone overlay]
-
+Nakładka Windows Phone
 [debug overlay]
 Nakładka Kodowanie
 [office overlay]

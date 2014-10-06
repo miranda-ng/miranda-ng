@@ -139,11 +139,11 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieścił cię on n
 Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na czarnej liście
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Start sync history]
-
+Rozpoczęto synchronizację historii
 [Sync history]
-
+Synchronizacja historii
 [Sync history complete]
-
+Synchronizacja historii ukończona
 [History import is complete]
 Importowanie historii ukończone
 [History import]
