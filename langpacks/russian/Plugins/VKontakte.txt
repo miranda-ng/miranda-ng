@@ -132,11 +132,11 @@ Cоздать комнату чата
 [Cannot add this user to friends as you put him on blacklist]
 Невозможно добавить пользователя в друзья, так как он находится в вашем чёрном списке
 [Start sync history]
-Синхронизация истории начата
+Синхронизация истории VKontakte начата
 [Sync history]
-Синхронизация истории
+Синхронизация истории VKontakte
 [Sync history complete]
-Синхронизация истории закончена
+Синхронизация истории VKontakte закончена
 [History import is complete]
 Импорт истории завершён
 [History import]
