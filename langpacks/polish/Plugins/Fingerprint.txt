@@ -52,6 +52,10 @@ Klienty Tlen
 Klienty Pogodowe
 [Yahoo clients]
 Klienty Yahoo
+[Facebook clients]
+
+[VKontakte clients]
+
 [Multi-protocol clients]
 Multikomunikatory
 [Other (rare) protocols]
@@ -141,6 +145,8 @@ Nakładka Tlen.pl
 Nakładka Yahoo
 [Mail.Ru Agent overlay]
 Nakładka MRA
+[VK overlay]
+
 [ICQ 2003 overlay]
 Nakładka ICQ 2003
 [ICQ Lite 4 overlay]
@@ -217,6 +223,10 @@ Nakładka Symbian
 Nakładka Amiga
 [Android overlay]
 Nakładka Android
+[Website overlay]
+
+[Windows Phone overlay]
+
 [debug overlay]
 Nakładka Kodowanie
 [office overlay]
