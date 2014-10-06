@@ -9,10 +9,10 @@
 Підтримка протоколу Tox у Miranda NG.
 [Name:]
 Ім'я:
-[Default group:]
-Група:
 [Password:]
 Пароль:
+[Default group:]
+Група:
 [Connection settings]
 Налаштування підключення
 [Disable UDP (force Tox to use TCP)]

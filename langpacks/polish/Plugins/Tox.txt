@@ -10,14 +10,14 @@ Wsparcie protokołu Tox dla Mirandy NG.
 ;file \protocols\Tox\res\resource.rc
 [Name:]
 Nazwa:
-[Tox ID:]
-Tox ID:
+[Password:]
+Hasło:
 [Default group:]
 Domyślna grupa:
 [C]
 C
-[Password:]
-Hasło:
+[Tox ID:]
+Tox ID:
 [Connection settings]
 Ustawienia połączenia
 [Disable UDP (force Tox to use TCP)]
@@ -38,6 +38,12 @@ Anuluj
 Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
 [Dns name:]
 Nazwa dns:
+[Enter password]
+Wprowadź hasło
+[Save password]
+Zapisz hasło
+[Tox profile is encrypted. To continue, enter the password below and click OK.]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Protokoły
