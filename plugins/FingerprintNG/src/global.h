@@ -104,15 +104,17 @@ typedef struct _foundInfo
 #define TLEN_CASE					3015	//	Tlen clients (+ versions)
 #define WEATHER_CASE				3016	//	Weather clients
 #define YAHOO_CASE					3017	//	Yahoo clients (+ versions)
+#define FACEBOOK_CASE               3018    //  Facebook clients
+#define VK_CASE                     3019    //  VK clients
 
-#define OTHER_PROTOS_CASE			3018	//	other protocols
-#define OTHERS_CASE					3019	//	other icons
+#define OTHER_PROTOS_CASE			3020	//	other protocols
+#define OTHERS_CASE					3021	//	other icons
 
-#define OVERLAYS_RESOURCE_CASE		3020	//	resource overlays
-#define OVERLAYS_PLATFORM_CASE		3021	//	platforms overlays
-#define OVERLAYS_PROTO_CASE			3022	//	protocols overlays
-#define OVERLAYS_UNICODE_CASE		3023	//	unicode overlay
-#define OVERLAYS_SECURITY_CASE		3024	//	security overlays
+#define OVERLAYS_RESOURCE_CASE		3022	//	resource overlays
+#define OVERLAYS_PLATFORM_CASE		3023	//	platforms overlays
+#define OVERLAYS_PROTO_CASE			3024	//	protocols overlays
+#define OVERLAYS_UNICODE_CASE		3025	//	unicode overlay
+#define OVERLAYS_SECURITY_CASE		3026	//	security overlays
 
 /*
 #define OVERLAYS_RESOURCE_ALT_CASE	24		//	alternative (old style) overlays
