@@ -85,7 +85,7 @@ void LoadOptions()
 	opts.bUpdateOnPeriod = db_get_b(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
 	opts.Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
 	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	opts.bForceRedownload = db_get_b(NULL, MODNAME, "ForceRedownload", 0);
+	opts.bForceRedownload = db_get_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, 0);
 	opts.bSilentMode = db_get_b(NULL, MODNAME, "SilentMode", 0);
 }
 
@@ -144,14 +144,14 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 
 int GetUpdateMode()
 {
-	int UpdateMode = db_get_b(NULL, MODNAME, "UpdateMode", -1);
+	int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, -1);
 
 	// Check if there is url for custom mode
 	if (UpdateMode == UPDATE_MODE_CUSTOM) {
-		ptrT url( db_get_tsa(NULL, MODNAME, "UpdateUrl"));
+		ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
 		if (url == NULL || !_tcslen(url)) {
 			// No url for custom mode, reset that setting so it will be determined automatically			
-			db_unset(NULL, MODNAME, "UpdateMode");
+			db_unset(NULL, MODNAME, DB_SETTING_UPDATE_MODE);
 			UpdateMode = -1;
 		}
 	}
@@ -179,7 +179,7 @@ TCHAR* GetDefaultUrl()
 	case UPDATE_MODE_TRUNK_SYMBOLS:
 		return mir_tstrdup(_T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
 	default:
-		return db_get_tsa(NULL, MODNAME, "UpdateUrl");
+		return db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL);
 	}
 #endif
 }
@@ -390,7 +390,7 @@ void InitTimer(void *type)
 	case 0: // default, plan next check relative to last check
 		{
 			time_t now = time(NULL);
-			time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
+			time_t was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
 
 			interval -= (now - was) * 1000;
 			if (interval <= 0)

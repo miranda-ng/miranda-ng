@@ -121,6 +121,13 @@ struct PlugOptions
 #define UPDATE_MODE_TRUNK_SYMBOLS	3
 #define UPDATE_MODE_MAX_VALUE		3 // when adding new mode, increment this number
 
+#define DB_SETTING_UPDATE_MODE		"UpdateMode"
+#define DB_SETTING_UPDATE_URL		"UpdateURL"
+#define DB_SETTING_REDOWNLOAD		"ForceRedownload"
+#define DB_SETTING_NEED_RESTART		"NeedRestart"
+#define DB_SETTING_RESTART_COUNT	"RestartCount"
+#define DB_SETTING_LAST_UPDATE		"LastUpdate"
+#define DB_MODULE_FILES				MODNAME "Files"
 
 #define MAX_RETRIES			3
 

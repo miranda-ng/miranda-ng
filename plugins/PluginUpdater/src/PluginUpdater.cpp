@@ -72,7 +72,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitServices();
 #endif
 
-	db_set_b(NULL, MODNAME, "NeedRestart", 0);
+	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 0);
 
 	DWORD dwLen = GetTempPath( SIZEOF(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
@@ -121,22 +121,22 @@ extern "C" __declspec(dllexport) int Load(void)
 	SkinAddNewSoundEx("updatefailed", LPGEN("Plugin Updater"), LPGEN("Update failed"));
 	
 	// Upgrade old settings
-	if (-1 == db_get_b(0, MODNAME, "UpdateMode", -1)) {
-		ptrA dbvUpdateURL(db_get_sa(0, MODNAME, "UpdateURL"));
+	if (-1 == db_get_b(0, MODNAME, DB_SETTING_UPDATE_MODE, -1)) {
+		ptrT dbvUpdateURL(db_get_tsa(0, MODNAME, DB_SETTING_UPDATE_URL));
 		if (dbvUpdateURL) {
-			if (!strcmp(dbvUpdateURL, DEFAULT_UPDATE_URL)) {
-				db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_STABLE);
-				db_unset(0, MODNAME, "UpdateURL");
+			if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL))) {
+				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
+				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
 			}
-			else if (!strcmp(dbvUpdateURL, DEFAULT_UPDATE_URL_TRUNK)) {
-				db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK);
-				db_unset(0, MODNAME, "UpdateURL");
+			else if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL_TRUNK))) {
+				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
 			}
-			else if (!strcmp(dbvUpdateURL, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS"/")) {
-				db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK_SYMBOLS);
-				db_unset(0, MODNAME, "UpdateURL");
+			else if (!_tcscmp(dbvUpdateURL, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS)_T("/"))) {
+				db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK_SYMBOLS);
+				db_unset(0, MODNAME, DB_SETTING_UPDATE_URL);
 			}
-			else db_set_b(0, MODNAME, "UpdateMode", UPDATE_MODE_CUSTOM);
+			else db_set_b(0, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
 		}
 	}
 	return 0;
