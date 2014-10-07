@@ -39,15 +39,15 @@ Letzte Nachrichten automatisch synchronisieren
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
 [When I ban user...]
-
+Wenn ich einen Benutzer banne...
 [Report abuse]
-
+Missbrauch melden
 [Clear server history]
-
+Serververlauf löschen
 [Remove from friend list]
-
+Aus Freundesliste entfernen
 [Remove from contact list]
-
+Aus Kontaktliste entfernen
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -68,7 +68,7 @@ Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
 Titel des neuen Chats:
 ;file \protocols\VKontakte\src\misc.cpp
 [Error %d. Data will not be sent or received.]
-
+Fehler %d. Daten werden weder gesendet noch empfangen.
 [Error]
 Fehler
 [Captcha form icon]
@@ -107,25 +107,25 @@ Kontakt&profil
 &Kick
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
-
+Konnte Datei nicht speichern.
 [Invalid album id]
-
+Ungültige Album-ID
 [Invalid server]
-
+Ungültiger Server
 [Invalid hash]
-
+Ungültiger Hash
 [Invalid audio]
-
+Ungültige Audiodatei
 [The audio file was removed by the copyright holder and cannot be reuploaded]
-
+Die Audiodatei wurde vom Copyrightinhaber entfernt und kann nicht erneut hochgeladen werden.
 [Invalid filename]
-
+Ungültiger Dateiname
 [Invalid filesize]
-
+Ungültige Dateigröße
 [Unknown error occurred]
-
+Unbekannter Fehler aufgetreten
 [File upload error]
-
+Fehler beim Hochladen der Datei
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Netzwerk
@@ -141,62 +141,62 @@ Profil ansehen
 [Reload all messages from vk.com]
 Alle Nachrichten von vk.com neu laden
 [Add as friend]
-
+Als Freund hinzufügen
 [Delete from friend list]
-
+Von Freundesliste löschen
 [Ban user]
-
+Benutzer bannen
 [Errors]
 Fehler
 [Notification]
 Benachrichtigung
 [User %s added as friend]
-
+Benutzer %s wurde als Freund hinzugefügt.
 [(Unknown contact)]
 (Unbekannter Kontakt)
 [You cannot add yourself as friend]
-
+Sie können sich nicht selbst als Freund hinzufügen.
 [Cannot add this user to friends as they have put you on their blacklist]
-
+Sie können diesen Benutzer nicht als Freund hinzufügen da dieser Sie auf seiner Blockierliste hat.
 [Cannot add this user to friends as you put him on blacklist]
-
+Sie können diesen Benutzer nicht als Freund hinzufügen da Sie diesen auf seiner Blockierliste hat.
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Start sync history]
-
+Verlaufssynchronisierung gestartet
 [Sync history]
-
+Verlauf synchronisieren
 [Sync history complete]
-
+Verlauf vollständig synchronisiert
 [History import is complete]
-
+Verlauf  wurde vollständig importiert.
 [History import]
-
+Verlauf importieren
 [Please authorize me to add you to my friend list.]
-
+Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 [Are you sure to delete %s from your friend list?]
-
+Sind Sie sich sicher dass Sie %s von Ihrer Freundesliste löschen wollen?
 [Attention!]
 Achtung!
 [User %s was deleted from your friend list]
-
+Benutzer %s wurde aus Ihrer Freundesliste gelöscht.
 [Friend request from the user %s declined]
-
+Freundesanfrage von Benutzer %s abgelehnt.
 [Friend request suggestion for the user %s deleted]
-
+Freundesanfragenvorschlag von %s abgelehnt.
 [ report abuse on him/her]
-
+ Missbrauch durch ihn/sie melden
 [ clear server history with him/her]
-
+ Serververlauf mit ihm/ihr löschen
 [ remove his/her from you frendlist]
-
+ ihn/sie aus Ihrer Freundesliste löschen
 [ remove his/her from you contact list]
-
+ ihn/sie aus Ihrer Kontaktliste entfernen
 [Are you sure to ban %s? %s%sContinue?]
-
+Wollen Sie %s wirklich bannen? %s%sFortfahren?
 [\nIt will also]
-
+\Dies wird auch
 [Are you sure to report abuse on %s?]
-
+Wollen Sie wirklich Missbrauch durch %s melden?
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?
 [Attachments:]

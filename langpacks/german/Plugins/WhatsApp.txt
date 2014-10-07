@@ -15,7 +15,7 @@ Inklusive Landescode, ohne '+' oder '00'
 [Nickname]
 Nickname
 [SMS code]
-SMS-Code:
+SMS-Code
 [Request code]
 Code anfordern
 [Register code]
@@ -35,22 +35,22 @@ Bitte geben Sie einen Nicknamen ein.
 Bitte geben Sie ein Passwort ein.
 ;file \protocols\WhatsApp\src\contacts.cpp
 [is now known as '%s']
-
+ist nun bekannt als %s
 [Last seen on %x at %X]
 Zuletzt gesehen am %x um %X
 [You have been added to the group]
-
+Sie wurden zur Gruppe hinzugefügt
 [User '%s' has been added to the group]
-
+Benutzer '%s' wurde zur Gruppe hinzugefügt
 [You have been removed from the group]
-
+Sie wurden aus der Gruppe entfernt
 [User '%s' has been removed from the group]
-
+Benutzer %s wurde aus der Gruppe entfernt
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Eine SMS mit dem Registrierungscode wird an Ihr Mobiltelefon geschickt.\nBeachten Sie, dass Sie das richtige WhatsApp und dieses Plugin nicht gleichzeitig nutzen können.\nFortfahren?
 [Your password has been set automatically. You can proceed with login now]
-
+Ihr Passwort wurde automatisch gesetzt. Sie können sich nun anmelden.
 [Please correctly specify your registration code received by SMS]
 Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 ;file \protocols\WhatsApp\src\proto.cpp
@@ -59,19 +59,19 @@ Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 [Unable to get Netlib connection for WhatsApp]
 Konnte keine Netzwerkverbindung für WhatsApp herstellen.
 [Network connection error.]
-Netzwerk Verbindungsfehler.
+Netzwerkverbindungsfehler.
 [Registration]
-
+Registrierung
 [Registration failed. Invalid server response.]
-
+Registrierung fehlgeschlagen. Ungültige Serverantwort.
 [Registration failed due to stale code. Please request a new code]
-
+Registrierung wegen abgelaufenem Code fehlgeschlagen. Bitte fordern Sie einen neuen Code an.
 [Registration failed.]
-
+Registrierung fehlgeschlagen.
 [Please try again in %i seconds]
-
+Bitte versuchen Sie es in %i Sekunden erneut
 [Registration code has been sent to your phone.]
-
+Registrierungscode wurde an Ihr Telefon geschickt.
 [Network]
 Netzwerk
 [Account]

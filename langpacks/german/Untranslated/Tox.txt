@@ -1,5 +1,0 @@
-﻿[Tox profile import]
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-[Dns name:]
-[Tox profile is encrypted. To continue, enter the password below and click OK.]
-[You cannot add yourself to friend list]

@@ -27,23 +27,23 @@ IPv6 deaktivieren
 [Tox]
 Tox
 [Tox profile import]
-
+Tox-Profil importieren
 [Import]
 Importieren
 [Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-
+Ihr Tox-Profil enthält Ihre ID und Freundesliste.\r\nSie können ein existierendes Profil aus einem anderen Tox-Client importieren.\r\nKlicken Sie auf "Importieren" um ein existierendes Profil zu importieren.\r\nKlicken Sie auf "Abbrechen" oder schließen Sie dieses Fenster um ein neues Profil zu erstellen.
 [Cancel]
 Abbrechen
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [Dns name:]
-
+DNS-Name:
 [Enter password]
 Passwort eingeben
 [Save password]
 Passwort speichern
-[Tox profile is encrypted. To continue, enter the password below and click OK.]
-
+[Tox profile is encrypted. Enter the password to continue.]
+Tox-Profil ist verschlüsselt. Geben Sie das Passwort ein um fortzusetzen.
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Netzwerk
@@ -66,6 +66,6 @@ Protokollicon
 [Query]
 Query
 [You cannot add yourself to friend list]
-
+Sie können sich nicht selbst zu Ihrer Kontaktliste hinzufügen
 [Contact already in your contact list]
 Der Kontakt ist bereits in Ihrer Kontaktliste

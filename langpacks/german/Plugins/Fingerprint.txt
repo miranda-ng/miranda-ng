@@ -53,9 +53,9 @@ Weather-Clients
 [Yahoo clients]
 Yahoo-Clients
 [Facebook clients]
-
+Facebook-Clients
 [VKontakte clients]
-
+VKontakte-Clients
 [Multi-protocol clients]
 Multi-Protokoll-Clients
 [Other (rare) protocols]
@@ -146,7 +146,7 @@ Yahoo overlay
 [Mail.Ru Agent overlay]
 Mail.Ru Agent overlay
 [VK overlay]
-
+VK overlay
 [ICQ 2003 overlay]
 ICQ 2003 overlay
 [ICQ Lite 4 overlay]
@@ -224,9 +224,9 @@ Amiga overlay
 [Android overlay]
 Android overlay
 [Website overlay]
-
+Website overlay
 [Windows Phone overlay]
-
+Windows Phone overlay
 [debug overlay]
 Debug-overlay
 [office overlay]
