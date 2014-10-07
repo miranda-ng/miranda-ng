@@ -77,6 +77,8 @@ Erreur
 Protocoles
 [VKontakte]
 
+[Message read: %s]
+Message lu : %s
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 

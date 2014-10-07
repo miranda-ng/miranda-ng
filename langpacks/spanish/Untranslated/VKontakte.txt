@@ -20,6 +20,7 @@
 [Mark users you want to invite to a new chat]
 [New chat's title:]
 [Error %d. Data will not be sent or received.]
+[Message read: %s]
 [Participants]
 [Owners]
 [Enter new chat title]

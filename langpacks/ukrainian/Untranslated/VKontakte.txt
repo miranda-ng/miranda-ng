@@ -1,4 +1,5 @@
-﻿[Couldn't save file]
+﻿[Message read: %s]
+[Couldn't save file]
 [Invalid album id]
 [Invalid server]
 [Invalid hash]

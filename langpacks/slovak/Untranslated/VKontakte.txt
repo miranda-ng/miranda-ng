@@ -27,6 +27,7 @@
 [Captcha form icon]
 [Protocols]
 [VKontakte]
+[Message read: %s]
 [Enter the text you see]
 [Participants]
 [Owners]

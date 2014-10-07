@@ -77,6 +77,8 @@ Formulario Captcha icono
 Protocolos
 [VKontakte]
 VKontakte
+[Message read: %s]
+
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Introduzca el texto que aparece
