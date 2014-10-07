@@ -107,25 +107,25 @@ Dane &kontaktu
 &Wyrzuć
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
-
+Nie udało się zapisać pliku
 [Invalid album id]
-
+Niepoprawny identyfikator albumu
 [Invalid server]
-
+Niepoprawny serwer
 [Invalid hash]
-
+Niepoprawna suma kontrolna
 [Invalid audio]
-
+Niepoprawne audio
 [The audio file was removed by the copyright holder and cannot be reuploaded]
-
+Plik audio został usunięty przez właściciela praw autorskich i nie może zostać załadowany ponownie
 [Invalid filename]
-
+Niepoprawna nazwa pliku
 [Invalid filesize]
-
+Niepoprawny rozmiar pliku
 [Unknown error occurred]
-
+Wystąpił nieznany błąd
 [File upload error]
-
+Błąd  podczas wysyłania pliku
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły
