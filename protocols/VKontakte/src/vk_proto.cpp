@@ -317,16 +317,6 @@ int CVkProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 //////////////////////////////////////////////////////////////////////////////
 
-struct TFakeAckParams
-{
-	__inline TFakeAckParams(MCONTACT _hContact, int _msgid) :
-		hContact(_hContact), msgid(_msgid)
-		{}
-
-	MCONTACT hContact;
-	int msgid;
-};
-
 void CVkProto::SendMsgAck(void *param)
 {
 	TFakeAckParams *ack = (TFakeAckParams*)param;
@@ -446,29 +436,6 @@ int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-HANDLE CVkProto::SearchBasic(const PROTOCHAR* id)
-{
-	ForkThread(&CVkProto::SearchBasicThread, (void *) id);
-	return (HANDLE)1;
-}
-
-HANDLE CVkProto::SearchByEmail(const PROTOCHAR* email)
-{
-	ForkThread(&CVkProto::SearchByMailThread, (void *)email);
-	return (HANDLE)1;
-}
-
-HANDLE CVkProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
-{
-	PROTOSEARCHBYNAME * psr = new (PROTOSEARCHBYNAME);
-	
-	psr->pszFirstName = mir_wstrdup(firstName);
-	psr->pszLastName = mir_wstrdup(lastName);
-	psr->pszNick = mir_wstrdup(nick);
-
-	ForkThread(&CVkProto::SearchThread, (void *)psr);
-	return (HANDLE)1;
-}
 
 MCONTACT CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
@@ -594,16 +561,6 @@ int CVkProto::GetInfo(MCONTACT hContact, int infoType)
 		return 1;
 	RetrieveUserInfo(userID);
 	return 0;
-}
-
-HWND CVkProto::SearchAdvanced(HWND owner)
-{
-	return NULL;
-}
-
-HWND CVkProto::CreateExtendedSearchUI(HWND owner)
-{
-	return NULL;
 }
 
 int CVkProto::RecvContacts(MCONTACT hContact,PROTORECVEVENT *)
