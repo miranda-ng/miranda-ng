@@ -705,12 +705,13 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 					// calculate sub's handle for metahistory
 					MCONTACT hOwner = (bIsMeta) ? MapContact(srcDb->GetEventContact(hEvent)) : hDst;
-
-					// add dbevent
-					if (dstDb->AddEvent(hOwner, &dbei) != NULL)
-						nMessagesCount++;
-					else
-						AddMessage(LPGENT("Failed to add message"));
+					if (hOwner != INVALID_CONTACT_ID) {
+						// add dbevent
+						if (dstDb->AddEvent(hOwner, &dbei) != NULL)
+							nMessagesCount++;
+						else
+							AddMessage(LPGENT("Failed to add message"));
+					}
 				}
 				else nDupes++;
 			}
