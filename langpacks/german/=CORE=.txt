@@ -2277,7 +2277,7 @@ Sie haben keinen Suchbegriff eingegeben, bitte einen Text eingeben und erneut ve
 [Search]
 Suchen
 [Ctrl+Search add contact]
-
+Strg+Suchen fügt einen Kontakt hinzu
 [Results]
 Ergebnisse
 [There are no results to display.]

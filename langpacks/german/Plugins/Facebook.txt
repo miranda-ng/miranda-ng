@@ -250,7 +250,7 @@ Kontakt ist nicht mehr in Ihrer Server-Liste.
 [Unable to get Netlib connection for Facebook]
 Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
 [Video call]
-
+Videoanruf
 [Facebook ID must be numeric value.]
 Facebook-ID muss ein numerischer Wert sein.
 [Network]

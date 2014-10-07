@@ -88,11 +88,11 @@ Hinzufügen des %S-Kontakts %s fehlgeschlagen
 [Added %S contact %s]
 %S-Kontakt %s hinzugefügt
 [Metacontact cannot be imported due to its ambiguity.]
-
+Metakontakt konnte wegen seiner Mehrdeutigkeit nicht importiert werden.
 [Added metacontact '%s']
-
+Metakontakt '%s' hinzugefügt
 [Added metacontact]
-
+Metakontakt hinzugefügt
 [Skipping contact with no protocol]
 Überspringe Kontakt ohne Protokoll
 [Skipping contact, account %S cannot be mapped.]
