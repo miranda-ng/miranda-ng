@@ -103,6 +103,27 @@ Avertissement
 &Détails contact
 [&Kick]
 
+;file \protocols\VKontakte\src\vk_files.cpp
+[Couldn't save file]
+
+[Invalid album id]
+
+[Invalid server]
+
+[Invalid hash]
+
+[Invalid audio]
+
+[The audio file was removed by the copyright holder and cannot be reuploaded]
+
+[Invalid filename]
+
+[Invalid filesize]
+
+[Unknown error occurred]
+
+[File upload error]
+
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Réseau

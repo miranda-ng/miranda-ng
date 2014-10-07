@@ -81,6 +81,7 @@
 Пра кантакт
 [&Kick]
 Выкінуць
+;file \protocols\VKontakte\src\vk_files.cpp
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Сеціва

@@ -87,6 +87,8 @@ Prenos súboru
 
 [Added %S contact %s]
 
+[Metacontact cannot be imported due to its ambiguity.]
+
 [Added metacontact '%s']
 
 [Added metacontact]

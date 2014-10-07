@@ -31,6 +31,7 @@
 [Failed to add %S contact %s]
 [Added %S contact %s, '%s']
 [Added %S contact %s]
+[Metacontact cannot be imported due to its ambiguity.]
 [Added metacontact '%s']
 [Added metacontact]
 [Skipping contact with no protocol]

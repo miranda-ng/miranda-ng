@@ -110,7 +110,7 @@ Cоздать комнату чата
 [Invalid audio]
 Неподходящий тип аудио
 [The audio file was removed by the copyright holder and cannot be reuploaded]
-Аудио файл был удалён правообладателем и не может быть загружен заново
+Аудиозапись была удалена правообладателем и не может быть загружена заново
 [Invalid filename]
 Неверное имя файла
 [Invalid filesize]
