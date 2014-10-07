@@ -87,6 +87,8 @@ Nie udało się dodać %S kontaktu %s
 Dodano %S kontakt %s, "%s"
 [Added %S contact %s]
 Dodano %S kontakt %s
+[Metacontact cannot be imported due to its ambiguity.]
+
 [Added metacontact '%s']
 Dodano metakontakt "%s"
 [Added metacontact]
