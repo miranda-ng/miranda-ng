@@ -35,8 +35,8 @@ DNS имя:
 Введите пароль
 [Save password]
 Сохранить пароль
-[Tox profile is encrypted. To continue, enter the password below and click OK.]
-Профиль Tox зашифрован. Чтобы продолжить, введите пароль и нажмите OK.
+[Tox profile is encrypted. Enter the password to continue.]
+Профиль Tox зашифрован. Введите пароль, чтобы продолжить.
 [Network]
 Сеть
 [Account]
