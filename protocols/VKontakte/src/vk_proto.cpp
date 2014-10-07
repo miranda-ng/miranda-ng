@@ -103,6 +103,7 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
+	HookProtoEvent(ME_MSG_WINDOWEVENT, &CVkProto::OnProcessSrmmEvent);
 
 	InitPopups();
 	InitMenus();

@@ -23,6 +23,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKPOLL_MSG_ADDFLAGS  2
 #define VKPOLL_MSG_DELFLAGS  3
 #define VKPOLL_MSG_ADDED     4
+#define VKPOLL_READ_ALL_IN   6
+#define VKPOLL_READ_ALL_OUT  7
 #define VKPOLL_USR_ONLINE    8
 #define VKPOLL_USR_OFFLINE   9
 #define VKPOLL_CHAT_CHANGED 51
@@ -55,12 +57,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_INVALID_SERVER		118	// Invalid server
 #define VKERR_INVALID_HASH			121	// Invalid hash
 #define VKERR_INVALID_AUDIO			123	// Invalid audio
-#define VKERR_AUDIO_DEL_COPYRIGHT	270	// The audio file was removed by the copyright holder and cannot be reuploaded.
-#define VKERR_INVALID_FILENAME		301	// Invalid filename
-#define VKERR_INVALID_FILESIZE		302	// Invalid filesize
 #define VKERR_HIMSELF_AS_FRIEND		174	// Cannot add user himself as friend
 #define VKERR_YOU_ON_BLACKLIST		175	// Cannot add this user to friends as they have put you on their blacklist
 #define VKERR_USER_ON_BLACKLIST		176	// Cannot add this user to friends as you put him on blacklist
+#define VKERR_AUDIO_DEL_COPYRIGHT	270	// The audio file was removed by the copyright holder and cannot be reuploaded.
+#define VKERR_INVALID_FILENAME		301	// Invalid filename
+#define VKERR_INVALID_FILESIZE		302	// Invalid filesize
 
 #define VK_API_VER "5.25"
 #define VER_API CHAR_PARAM("v", VK_API_VER)
