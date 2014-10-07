@@ -75,6 +75,8 @@ Cоздать комнату чата
 Протоколы
 [VKontakte]
 ВКонтакте
+[Message read: %s]
+Сообщение прочтено в: %s
 [Enter the text you see]
 Введите текст, который видите
 [Participants]
