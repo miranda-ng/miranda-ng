@@ -131,7 +131,7 @@ struct CVkChatInfo : public MZeroedObject
 	CVkChatUser* GetUserById(LPCTSTR);
 };
 
-struct FileUploadParam {
+struct CVkFileUploadParam {
 	enum VKFileType {typeInvalid, typeImg, typeAudio, typeDoc, typeNotSupported};
 	TCHAR* FileName;
 	TCHAR* Desc;
@@ -139,13 +139,14 @@ struct FileUploadParam {
 	char* fname;
 	MCONTACT hContact;
 	VKFileType filetype;
+	int iErrorCode;
 	
-	FileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files);
-	~FileUploadParam();
+	CVkFileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files);
+	~CVkFileUploadParam();
 	VKFileType GetType();
-	__forceinline bool FileUploadParam::IsAccess() {return ::_taccess(FileName, 0)==0; }
-	__forceinline char* FileUploadParam::atrName() { return atr; }
-	__forceinline char* FileUploadParam::fileName() { return fname; }
+	__forceinline bool IsAccess() { return ::_taccess(FileName, 0) == 0; }
+	__forceinline char* atrName() { return atr; }
+	__forceinline char* fileName() { return fname; }
 };
 
 struct CVkProto : public PROTO<CVkProto>
@@ -246,7 +247,7 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Files Upload ==================================================================
 	
 	void __cdecl SendFileThread(void *p);
-	void SendFileFiled(FileUploadParam *fup, TCHAR* reason=NULL);
+	void SendFileFiled(CVkFileUploadParam *fup, TCHAR* reason = NULL);
 	void OnReciveUploadServer(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUpload(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUploadFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

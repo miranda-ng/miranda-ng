@@ -100,12 +100,25 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 
 	int iErrorCode = json_as_int(pErrorCode);
 	debugLogA("CVkProto::CheckJsonResult %d", iErrorCode);
+	CVkFileUploadParam * fup = (CVkFileUploadParam *)pReq->pUserInfo;
+	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 	switch (iErrorCode){
 	case VKERR_AUTHORIZATION_FAILED:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		break;
 	case VKERR_CAPTCHA_NEEDED:
 		ApplyCaptcha(pReq, pError);
+		break;
+	case VKERR_COULD_NOT_SAVE_FILE:
+	case VKERR_INVALID_ALBUM_ID:
+	case VKERR_INVALID_SERVER:
+	case VKERR_INVALID_HASH:
+	case VKERR_INVALID_AUDIO:
+	case VKERR_AUDIO_DEL_COPYRIGHT:
+	case VKERR_INVALID_FILENAME:
+	case VKERR_INVALID_FILESIZE:
+		if (fup)
+			fup->iErrorCode = iErrorCode;
 		break;
 	case VKERR_UNKNOWN:
 	case VKERR_TOO_MANY_REQ_PER_SEC:
@@ -125,7 +138,6 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 	case VKERR_HIMSELF_AS_FRIEND:
 	case VKERR_YOU_ON_BLACKLIST:
 	case VKERR_USER_ON_BLACKLIST:
-		CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 		if (param)
 			param->iCount = iErrorCode;
 		break;
@@ -140,7 +152,6 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	debugLogA("CVkProto::OnReceiveSmth %s", json_as_string(pResponse));
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

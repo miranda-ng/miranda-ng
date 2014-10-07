@@ -385,7 +385,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 
 	if (param->iMsgID == -1){
-		FileUploadParam *fup = (FileUploadParam *)param->iCount;
+		CVkFileUploadParam *fup = (CVkFileUploadParam *)param->iCount;
 		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup, 0);
 		delete fup;
 	} 

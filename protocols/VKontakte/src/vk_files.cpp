@@ -23,14 +23,14 @@ int CVkProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *rea
 int CVkProto::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR **filename) { return 1; }
 int CVkProto::RecvFile(MCONTACT hContact, PROTORECVFILET *) { return 1; }
 
-FileUploadParam::FileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files):
-hContact(_hContact), filetype(typeInvalid), atr(NULL), fname(NULL)
+CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files) :
+hContact(_hContact), filetype(typeInvalid), atr(NULL), fname(NULL), iErrorCode(0)
 {
 	Desc = mir_tstrdup(_desc);
 	FileName = mir_tstrdup(_files[0]);
 }
 
-FileUploadParam::~FileUploadParam()
+CVkFileUploadParam::~CVkFileUploadParam()
 {
 	mir_free(Desc);
 	mir_free(FileName);
@@ -38,7 +38,7 @@ FileUploadParam::~FileUploadParam()
 	mir_free(fname);
 }
 
-FileUploadParam::VKFileType FileUploadParam::GetType()
+CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 {
 	if (filetype != typeInvalid)
 		return filetype;
@@ -54,15 +54,15 @@ FileUploadParam::VKFileType FileUploadParam::GetType()
 	fname = mir_strdup(fn.GetBuffer());
 
 	if (tlstrstr(img, EXT)){
-		filetype = FileUploadParam::typeImg;
+		filetype = CVkFileUploadParam::typeImg;
 		atr = mir_strdup("photo");
 	}
 	else if (tlstrstr(audio, EXT)){
-		filetype = FileUploadParam::typeAudio;
+		filetype = CVkFileUploadParam::typeAudio;
 		atr = mir_strdup("file");
 	}
 	else{
-		filetype = FileUploadParam::typeDoc;
+		filetype = CVkFileUploadParam::typeDoc;
 		atr = mir_strdup("file");
 	}
 	
@@ -72,21 +72,51 @@ FileUploadParam::VKFileType FileUploadParam::GetType()
 HANDLE CVkProto::SendFile(MCONTACT hContact, const PROTOCHAR *desc, PROTOCHAR **files)
 {
 	debugLogA("CVkProto::SendFile");
-	FileUploadParam *fup = new FileUploadParam(hContact, desc, files);
+	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
 	ForkThread(&CVkProto::SendFileThread, (void *)fup);
 	return (HANDLE)fup;
 }
 
-void CVkProto::SendFileFiled(FileUploadParam *fup, TCHAR *reason)
+void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 {
-	debugLog(L"CVkProto::SendFileFiled <%s>", reason);
+	debugLog(L"CVkProto::SendFileFiled <%s> Error code <%d>", reason, fup->iErrorCode);
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup, 0);
+	CMString tszError;
+	switch (fup->iErrorCode){
+	case VKERR_COULD_NOT_SAVE_FILE:
+		tszError = TranslateT("Couldn't save file");
+		break;
+	case VKERR_INVALID_ALBUM_ID:
+		tszError = TranslateT("Invalid album id");
+		break;
+	case VKERR_INVALID_SERVER:
+		tszError = TranslateT("Invalid server");
+		break;
+	case VKERR_INVALID_HASH:
+		tszError = TranslateT("Invalid hash");
+		break;
+	case VKERR_INVALID_AUDIO:
+		tszError = TranslateT("Invalid audio");
+		break;
+	case VKERR_AUDIO_DEL_COPYRIGHT:
+		tszError = TranslateT("The audio file was removed by the copyright holder and cannot be reuploaded");
+		break;
+	case VKERR_INVALID_FILENAME:
+		tszError = TranslateT("Invalid filename");
+		break;
+	case VKERR_INVALID_FILESIZE:
+		tszError = TranslateT("Invalid filesize");
+		break;
+	default:
+		tszError = TranslateT("Unknown error occurred");
+	}
+	MsgPopup(NULL, tszError.GetBuffer(), TranslateT("File upload error"), true);
 	delete fup;
 }
 
 void CVkProto::SendFileThread(void *p)
 {
-	FileUploadParam *fup = (FileUploadParam *)p;
+	CVkFileUploadParam *fup = (CVkFileUploadParam *)p;
 	debugLog(L"CVkProto::SendFileThread %d %s", fup->GetType(), fup->fileName());
 	if (!fup->IsAccess()){
 		SendFileFiled(fup, L"FileIsNotAccess");
@@ -95,15 +125,15 @@ void CVkProto::SendFileThread(void *p)
 
 	AsyncHttpRequest *pReq;
 	switch (fup->GetType()){
-	case FileUploadParam::typeImg:
+	case CVkFileUploadParam::typeImg:
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer)
 			<< VER_API;
 		break;
-	case FileUploadParam::typeAudio:
+	case CVkFileUploadParam::typeAudio:
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.getUploadServer.json", true, &CVkProto::OnReciveUploadServer)
 			<< VER_API;
 		break;
-	case FileUploadParam::typeDoc:
+	case CVkFileUploadParam::typeDoc:
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer)
 			<< VER_API;
 		break;
@@ -117,7 +147,7 @@ void CVkProto::SendFileThread(void *p)
 
 void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
-	FileUploadParam *fup = (FileUploadParam *)pReq->pUserInfo;
+	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200){
@@ -197,7 +227,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
-	FileUploadParam *fup = (FileUploadParam *)pReq->pUserInfo;
+	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200){
@@ -215,7 +245,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	AsyncHttpRequest *pUploadReq;
 
 	switch (fup->GetType()){
-	case FileUploadParam::typeImg:
+	case CVkFileUploadParam::typeImg:
 		upload = json_as_string(json_get(pRoot, "photo"));
 		if (upload == L"[]"){
 			SendFileFiled(fup, L"NotUpload Photo");
@@ -226,7 +256,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			<< TCHAR_PARAM("hash", hash)
 			<< VER_API;
 		break;
-	case FileUploadParam::typeAudio:
+	case CVkFileUploadParam::typeAudio:
 		upload = json_as_string(json_get(pRoot, "audio"));
 		if (upload == L"[]"){
 			SendFileFiled(fup, L"NotUpload Audio");
@@ -238,7 +268,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			<< TCHAR_PARAM("hash", hash)
 			<< VER_API;
 		break;
-	case FileUploadParam::typeDoc:
+	case CVkFileUploadParam::typeDoc:
 		upload = json_as_string(json_get(pRoot, "file"));
 		if (upload.IsEmpty()){
 			SendFileFiled(fup, L"NotUpload Doc");
@@ -260,7 +290,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
-	FileUploadParam *fup = (FileUploadParam *)pReq->pUserInfo;
+	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 
 	debugLogA("CVkProto::OnReciveUploadFile %d", reply->resultCode);
 	if (reply->resultCode != 200){
@@ -275,8 +305,8 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 	}
 
-	int id = json_as_int(json_get(fup->GetType() == FileUploadParam::typeAudio ? pResponse: json_at(pResponse, 0), "id"));
-	int owner_id = json_as_int(json_get(fup->GetType() == FileUploadParam::typeAudio ? pResponse : json_at(pResponse, 0), "owner_id"));
+	int id = json_as_int(json_get(fup->GetType() == CVkFileUploadParam::typeAudio ? pResponse : json_at(pResponse, 0), "id"));
+	int owner_id = json_as_int(json_get(fup->GetType() == CVkFileUploadParam::typeAudio ? pResponse : json_at(pResponse, 0), "owner_id"));
 	if ((id == 0) || (owner_id == 0)){
 		SendFileFiled(fup);
 		return;
@@ -285,13 +315,13 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	CMString Attachment;
 
 	switch (fup->GetType()){
-	case FileUploadParam::typeImg:
+	case CVkFileUploadParam::typeImg:
 		Attachment.AppendFormat(L"photo%d_%d", owner_id, id);
 		break;
-	case FileUploadParam::typeAudio:
+	case CVkFileUploadParam::typeAudio:
 		Attachment.AppendFormat(L"audio%d_%d", owner_id, id);
 		break;
-	case FileUploadParam::typeDoc:
+	case CVkFileUploadParam::typeDoc:
 		Attachment.AppendFormat(L"doc%d_%d", owner_id, id);
 		break;
 	default:
