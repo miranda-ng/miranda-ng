@@ -502,3 +502,41 @@ bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
 	CharLowerBuff(s2, SIZEOF(s2));
 	return (_tcsstr(s1, s2) != NULL);
 }
+
+void CVkProto::ContactTypingThread(void *p)
+{
+	MCONTACT hContact = (MCONTACT)p;
+	CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
+	Sleep(5500);
+	CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
+	Sleep(1500);
+	SetSrmmReadStatus(hContact);
+}
+
+int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
+{
+	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
+
+	if (event->uType == MSG_WINDOW_EVT_OPENING)
+		SetSrmmReadStatus(event->hContact);
+
+	return 0;
+}
+
+
+void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
+{
+	time_t time = getDword(hContact, "LastMsgReadTime", 0);
+	if (!time)
+		return;
+
+	TCHAR ttime[64];
+	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&time));
+
+	StatusTextData st = { 0 };
+	st.cbSize = sizeof(st);
+	st.hIcon = LoadSkinnedIcon(SKINICON_OTHER_EMPTYBLOB);
+	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
+	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, NULL);
+	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
+}

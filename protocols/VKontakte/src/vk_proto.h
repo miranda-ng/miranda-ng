@@ -245,7 +245,11 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void   InitPopups(void);
 	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err = false);
-
+	
+	//==== Hooks ====+====================================================================
+	
+	int __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
+	
 	//==== Search ========================================================================
 	
 	void __cdecl SearchBasicThread(void* id);
@@ -315,6 +319,8 @@ struct CVkProto : public PROTO<CVkProto>
 	__forceinline void setGroup(LPCTSTR grp) { m_defaultGroup = mir_tstrdup(grp); }
 
 	void SetMirVer(MCONTACT hContact, int platform);
+	void SetSrmmReadStatus(MCONTACT hContact);
+	void __cdecl ContactTypingThread(void *p);
 
 	static UINT_PTR m_timer;
 

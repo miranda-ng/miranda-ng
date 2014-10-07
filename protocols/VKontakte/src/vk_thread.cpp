@@ -1051,6 +1051,14 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 	JSONNODE *pChild;
 	for (int i = 0; (pChild = json_at(pUpdates, i)) != NULL; i++) {
 		switch (json_as_int(json_at(pChild, 0))) {
+		case VKPOLL_MSG_DELFLAGS:
+			flags = json_as_int(json_at(pChild, 2));
+			uid = json_as_int(json_at(pChild, 3));
+			if (((hContact = FindUser(uid)) != NULL) && (flags&VKFLAG_MSGUNREAD)){
+				setDword(hContact, "LastMsgReadTime", time(NULL));
+				SetSrmmReadStatus(hContact);
+			}
+			break;
 		case VKPOLL_MSG_ADDED: // new message
 			msgid = json_as_int(json_at(pChild, 1));
 
@@ -1064,7 +1072,13 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 				mids.AppendChar(',');
 			mids.AppendFormat("%d", msgid);
 			break;
-
+		case VKPOLL_READ_ALL_OUT:
+			uid = json_as_int(json_at(pChild, 1));
+			if ((hContact = FindUser(uid)) != NULL){
+				setDword(hContact, "LastMsgReadTime", time(NULL));
+				SetSrmmReadStatus(hContact);
+			}
+			break;
 		case VKPOLL_USR_ONLINE:
 			uid = -json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
@@ -1082,7 +1096,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 		case VKPOLL_USR_UTN:
 			uid = json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
+				ForkThread(&CVkProto::ContactTypingThread, (void *)hContact);	
 			break;
 
 		case VKPOLL_CHAT_CHANGED:
