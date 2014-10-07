@@ -24,7 +24,7 @@
 [Dns name:]
 [Enter password]
 [Save password]
-[Tox profile is encrypted. To continue, enter the password below and click OK.]
+[Tox profile is encrypted. Enter the password to continue.]
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 [Account]
