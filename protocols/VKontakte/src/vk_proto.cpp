@@ -73,6 +73,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bClearServerHistory = getBool("ClearServerHistoryOnBanUser", false);
 	m_bRemoveFromFrendlist = getBool("RemoveFromFrendlistOnBanUser", false);
 	m_bRemoveFromClist = getBool("RemoveFromClistOnBanUser", false);
+	m_bPopUpSyncHistory = getBool("PopUpSyncHistory", false);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
