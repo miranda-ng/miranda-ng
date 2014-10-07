@@ -258,24 +258,6 @@ INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int Status2SkinIcon(int status)
-{
-	switch (status) {
-		case ID_STATUS_AWAY: return SKINICON_STATUS_AWAY;
-		case ID_STATUS_NA: return SKINICON_STATUS_NA;
-		case ID_STATUS_DND: return SKINICON_STATUS_DND;
-		case ID_STATUS_OCCUPIED: return SKINICON_STATUS_OCCUPIED;
-		case ID_STATUS_FREECHAT: return SKINICON_STATUS_FREE4CHAT;
-		case ID_STATUS_ONLINE: return SKINICON_STATUS_ONLINE;
-		case ID_STATUS_OFFLINE: return SKINICON_STATUS_OFFLINE;
-		case ID_STATUS_INVISIBLE: return SKINICON_STATUS_INVISIBLE;
-		case ID_STATUS_ONTHEPHONE: return SKINICON_STATUS_ONTHEPHONE;
-		case ID_STATUS_OUTTOLUNCH: return SKINICON_STATUS_OUTTOLUNCH;
-		case ID_STATUS_IDLE: return SKINICON_STATUS_AWAY;
-	}
-	return SKINICON_STATUS_OFFLINE;
-}
-
 INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *ret = (TCHAR *)lParam;
@@ -364,7 +346,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, proto->GetStatusMsg());
 			}
 			else if (data->status != 0) {
-				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(Status2SkinIcon(data->status)));
+				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(NULL,data->status));
 
 				TCHAR title[256];
 				mir_sntprintf(title, SIZEOF(title), TranslateT("Set my status message for %s"),
