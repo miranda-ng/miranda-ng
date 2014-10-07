@@ -176,7 +176,27 @@ int __cdecl CToxProto::SetApparentMode(MCONTACT hContact, int mode) { return 0; 
 int __cdecl CToxProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
+	{
 		return 0;
+	}
+
+	switch (iNewStatus)
+	{
+	case ID_STATUS_FREECHAT:
+	case ID_STATUS_ONTHEPHONE:
+		iNewStatus = ID_STATUS_ONLINE;
+		break;
+
+	case ID_STATUS_NA:
+	case ID_STATUS_OUTTOLUNCH:
+		iNewStatus = ID_STATUS_AWAY;
+		break;
+
+	case ID_STATUS_DND:
+	case ID_STATUS_INVISIBLE:
+		iNewStatus = ID_STATUS_OCCUPIED;
+		break;
+	}
 
 	debugLogA("CToxProto::SetStatus: changing status from %i to %i", m_iStatus, iNewStatus);
 
