@@ -13,7 +13,7 @@
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 [Dns name:]
 [Enter password]
-[Tox profile is encrypted. To continue, enter the password below and click OK.]
+[Tox profile is encrypted. Enter the password to continue.]
 [Account]
 [%s connection]
 [All files (*.*)]

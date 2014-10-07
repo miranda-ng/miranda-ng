@@ -42,8 +42,8 @@ Nazwa dns:
 Wprowadź hasło
 [Save password]
 Zapisz hasło
-[Tox profile is encrypted. To continue, enter the password below and click OK.]
-Profil tox jest zaszyfrowany. Aby kontynuować, wprowadź hasło poniżej i naciśnij OK.
+[Tox profile is encrypted. Enter the password to continue.]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Protokoły
