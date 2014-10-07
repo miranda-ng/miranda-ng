@@ -13,7 +13,7 @@
 [Dns name:]
 [Enter password]
 [Save password]
-[Tox profile is encrypted. To continue, enter the password below and click OK.]
+[Tox profile is encrypted. Enter the password to continue.]
 [Account]
 [%s connection]
 [All files (*.*)]

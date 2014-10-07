@@ -42,7 +42,7 @@ Storno
 
 [Save password]
 Uložiť heslo
-[Tox profile is encrypted. To continue, enter the password below and click OK.]
+[Tox profile is encrypted. Enter the password to continue.]
 
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
