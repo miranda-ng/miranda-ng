@@ -99,6 +99,26 @@ Cоздать комнату чата
 Информация о &контакте
 [&Kick]
 &Выкинуть
+[Couldn't save file]
+Невозможно сохранить файл
+[Invalid album id]
+Неверный ID альбома
+[Invalid server]
+Неверный сервер
+[Invalid hash]
+Неверный хэш
+[Invalid audio]
+Неподходящий тип аудио
+[The audio file was removed by the copyright holder and cannot be reuploaded]
+Аудио файл был удалён правообладателем и не может быть загружен заново
+[Invalid filename]
+Неверное имя файла
+[Invalid filesize]
+Неверный размер файла
+[Unknown error occurred]
+Неизвестная ошибка
+[File upload error]
+Ошибка загрузки файла
 [Network]
 Сеть
 [Account]
