@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -59,24 +58,22 @@ IDI_GROUP_OFF           ICON                    "group_off.ico"
 // Dialog
 //
 
-IDD_GENERAL_OPTIONS DIALOGEX 0, 0, 306, 165
+IDD_GENERAL_OPTIONS DIALOGEX 0, 0, 306, 140
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Options",IDC_STATIC,4,2,297,155
+    GROUPBOX        "Options",IDC_STATIC,4,2,297,131
     CONTROL         "Enable BBCodes",IDC_ENABLE_BBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,19,279,10
     LTEXT           "Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]",IDC_STATIC,26,31,265,12
     CONTROL         "Enable support for Flash files in smileys and BBCodes",IDC_ENABLE_FLASH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,46,279,10
-    CONTROL         "Enable workaround for PNG transparency",IDC_ENABLE_PNGHACK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,61,279,10
     CONTROL         "Replace smileys in user names",IDC_SMILEYS_IN_NAMES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,91,279,10
-    CONTROL         "Hide window border",IDC_NO_BORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,106,279,10
-    CONTROL         "Embed YouTube videos",IDC_ENABLE_EMBED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,121,279,10
-    LTEXT           "Size:",IDC_STATIC,26,138,30,8
-    COMBOBOX        IDC_EMBED_SIZE,57,136,56,130,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,63,279,10
+    CONTROL         "Hide window border",IDC_NO_BORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,78,279,10
+    CONTROL         "Embed YouTube videos",IDC_ENABLE_EMBED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,95,279,10
+    LTEXT           "Size:",IDC_STATIC,27,109,30,8
+    COMBOBOX        IDC_EMBED_SIZE,58,108,56,130,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_SRMM_OPTIONS DIALOGEX 0, 0, 306, 228
@@ -168,8 +165,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 
