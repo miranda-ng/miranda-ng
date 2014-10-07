@@ -53,7 +53,7 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 		
 	// This is because there may be more then one file in a single zip
 	// So we need to check each file
-	if (ch && !db_get_b(NULL, MODNAME "Files", StrToLower(ptrA(mir_strdup(filename))), 1))
+	if (ch && !db_get_b(NULL, DB_MODULE_FILES, StrToLower(ptrA(mir_strdup(filename))), 1))
 		return true;
 
 	TCHAR tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];

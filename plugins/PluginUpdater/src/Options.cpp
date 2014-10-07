@@ -33,7 +33,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODSPIN), opts.bUpdateOnPeriod);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bUpdateOnPeriod);
 		CheckDlgButton(hwndDlg, IDC_SILENTMODE, opts.bSilentMode);
-		if (db_get_b(NULL, MODNAME, "NeedRestart", 0))
+		if (db_get_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_NEEDRESTARTLABEL), SW_SHOW);
 
 		SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETRANGE, 0, MAKELONG(99, 1));
@@ -62,7 +62,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				CheckDlgButton(hwndDlg, IDC_CUSTOM, TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 
-				ptrT url(db_get_tsa(NULL, MODNAME, "UpdateURL"));
+				ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, (url == NULL) ? ptrT(GetDefaultUrl()) : url);
 		}
 	}
@@ -106,7 +106,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_CUSTOM:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 			{
-				ptrT url(db_get_tsa(NULL, MODNAME, "UpdateURL"));
+				ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, (url == NULL) ? ptrT(GetDefaultUrl()) : url);
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -154,30 +154,30 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				mir_forkthread(InitTimer, (void*)1);
 				
 				if ( IsDlgButtonChecked(hwndDlg, IDC_STABLE)) {
-					db_set_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_STABLE);
+					db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
 					opts.bForceRedownload = 0;
-					db_unset(NULL, MODNAME, "ForceRedownload");
+					db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 				}
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK)) {
-					db_set_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK);
+					db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
 					opts.bForceRedownload = 0;
-					db_unset(NULL, MODNAME, "ForceRedownload");
+					db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 				}
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
 					// Only set ForceRedownload if the previous UpdateMode was different
 					// to redownload all plugin with pdb files
-					if(db_get_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_STABLE) != UPDATE_MODE_TRUNK_SYMBOLS) {
-						db_set_b(NULL, MODNAME, "ForceRedownload", opts.bForceRedownload = 1);
-						db_set_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_TRUNK_SYMBOLS);
+					if (db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE) != UPDATE_MODE_TRUNK_SYMBOLS) {
+						db_set_b(NULL, MODNAME, DB_SETTING_REDOWNLOAD, opts.bForceRedownload = 1);
+						db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK_SYMBOLS);
 					}
 				}
 				else {
-					char szUrl[100];
-					GetDlgItemTextA(hwndDlg, IDC_CUSTOMURL, szUrl, SIZEOF(szUrl));
-					db_set_s(NULL, MODNAME, "UpdateURL", szUrl);
-					db_set_b(NULL, MODNAME, "UpdateMode", UPDATE_MODE_CUSTOM);
+					TCHAR tszUrl[100];
+					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, SIZEOF(tszUrl));
+					db_set_ts(NULL, MODNAME, DB_SETTING_UPDATE_URL, tszUrl);
+					db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
 					opts.bForceRedownload = 0;
-					db_unset(NULL, MODNAME, "ForceRedownload");
+					db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 				}
 			}
 			break;

@@ -32,7 +32,7 @@ static void SelectAll(HWND hDlg, bool bEnable)
 
 	for (int i=0; i < todo.getCount(); i++) {
 		ListView_SetCheckState(hwndList, i, bEnable);
-		db_set_b(NULL, MODNAME "Files", StrToLower(_T2A(todo[i].tszOldName)), todo[i].bEnabled = bEnable);
+		db_set_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(todo[i].tszOldName)), todo[i].bEnabled = bEnable);
 	}
 }
 
@@ -130,16 +130,16 @@ static void ApplyUpdates(void *param)
 #endif
 
 	opts.bForceRedownload = false;
-	db_unset(NULL, MODNAME, "ForceRedownload");
+	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 
-	db_set_b(NULL, MODNAME, "RestartCount", 5);
+	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
 
 	// 5) Prepare Restart
 	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
 	if (rc == IDYES)
 #if MIRANDA_VER >= 0x0A00
-		CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
+		CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
 #else
 		CallFunctionAsync(RestartMe, 0);
 #endif
@@ -276,7 +276,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 						ListView_GetItem(hwndList, &lvI);
 
 						FILEINFO *p = (FILEINFO*)lvI.lParam;
-						db_set_b(NULL, MODNAME "Files", StrToLower(_T2A(p->tszOldName)), p->bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem));
+						db_set_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(p->tszOldName)), p->bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem));
 
 						// Toggle the Download button
 						bool enableOk = false;
@@ -343,7 +343,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 #if MIRANDA_VER >= 0x0A00
-		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(NULL));
 #endif
 		mir_forkthread(InitTimer, 0);
 		break;
@@ -440,10 +440,10 @@ static void DlgUpdateSilent(void *lParam)
 #endif
 
 	opts.bForceRedownload = false;
-	db_unset(NULL, MODNAME, "ForceRedownload");
+	db_unset(NULL, MODNAME, DB_SETTING_REDOWNLOAD);
 
-	db_set_b(NULL, MODNAME, "RestartCount", 5);
-	db_set_b(NULL, MODNAME, "NeedRestart", 1);
+	db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 5);
+	db_set_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 1);
 
 	// 5) Prepare Restart
 	TCHAR tszTitle[100];
@@ -473,7 +473,7 @@ static void DlgUpdateSilent(void *lParam)
 
 			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
 #if MIRANDA_VER >= 0x0A00
-				CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
+				CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
 #else
 				CallFunctionAsync(RestartMe, 0);
 #endif
@@ -690,7 +690,7 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					*p++ = '/';
 
 				// remember whether the user has decided not to update this component with this particular new version
-				FileInfo->bEnabled = db_get_b(NULL, MODNAME "Files", StrToLower(_T2A(FileInfo->tszOldName)), 1);
+				FileInfo->bEnabled = db_get_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(FileInfo->tszOldName)), 1);
 
 				FileInfo->File.CRCsum = MyCRC;
 				UpdateFiles->insert(FileInfo);
@@ -750,7 +750,7 @@ void DoCheck(bool bSilent)
 	else {
 		opts.bSilent = bSilent;
 #if MIRANDA_VER >= 0x0A00
-		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(NULL));
 #endif
 		hCheckThread = mir_forkthread(CheckUpdates, 0);
 	}
@@ -785,7 +785,7 @@ void CheckUpdateOnStartup()
 	if (opts.bUpdateOnStartup) {
 		if (opts.bOnlyOnceADay) {
 			time_t now = time(NULL),
-				was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
+				was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
 
 			if ((now - was) < 86400)
 				return;

@@ -53,9 +53,9 @@ int ModulesLoaded(WPARAM, LPARAM)
 	else
 		lstrcpyn(tszRoot, VARST( _T("%miranda_path%\\"DEFAULT_UPDATES_FOLDER)), SIZEOF(tszRoot));
 
-	int iRestartCount = db_get_b(NULL, MODNAME, "RestartCount", 2);
+	int iRestartCount = db_get_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, 2);
 	if (iRestartCount > 0)
-		db_set_b(NULL, MODNAME, "RestartCount", iRestartCount-1);
+		db_set_b(NULL, MODNAME, DB_SETTING_RESTART_COUNT, iRestartCount - 1);
 	else
 		EmptyFolder(); // silently
 
