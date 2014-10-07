@@ -77,6 +77,8 @@ Ikona formularza Captcha
 Protokoły
 [VKontakte]
 VKontakte
+[Message read: %s]
+Wiadomość odczytana: %s
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
