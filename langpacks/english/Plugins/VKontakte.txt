@@ -42,6 +42,7 @@
 [Captcha form icon]
 [Protocols]
 [VKontakte]
+[Message read: %s]
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 ;file \protocols\VKontakte\src\vk_chats.cpp
