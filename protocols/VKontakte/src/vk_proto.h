@@ -406,7 +406,8 @@ private:
 			m_bReportAbuse,
 			m_bClearServerHistory,
 			m_bRemoveFromFrendlist,
-			m_bRemoveFromClist;
+			m_bRemoveFromClist,
+			m_bPopUpSyncHistory;
 
 	LONG   m_myUserId;
 	ptrT   m_defaultGroup;
