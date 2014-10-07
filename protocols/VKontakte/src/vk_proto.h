@@ -149,6 +149,16 @@ struct CVkFileUploadParam {
 	__forceinline char* fileName() { return fname; }
 };
 
+struct TFakeAckParams
+{
+	__inline TFakeAckParams(MCONTACT _hContact, int _msgid) :
+		hContact(_hContact), msgid(_msgid)
+	{}
+
+	MCONTACT hContact;
+	int msgid;
+};
+
 struct CVkProto : public PROTO<CVkProto>
 {
 				CVkProto(const char*, const TCHAR*);
