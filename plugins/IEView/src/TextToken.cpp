@@ -640,21 +640,13 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 								<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span><span style=\"position:absolute; visibility:hidden;\">%s</span>",
 								eText, wlink, eText);
 		}
-		else if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_PNGHACK) && (wcsstr(wlink, L".png") != NULL)) {
-			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" style=\"height:1px;width:1px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%s',sizingMethod='image');\" title=\"%s\" alt=\"%s\"/><span style=\"position:absolute; visibility:hidden;\">%s</span>", wlink, eText, eText, eText);
-		}
 		else {
 			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" /><span style=\"position:absolute; visibility:hidden;\">%s</span>", wlink, eText, eText, eText);
 		}
 		break;
 	case MATH:
 		eText = htmlEncode(wtext);
-		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_PNGHACK) && (wcsstr(wlink, L".png") != NULL)) {
-			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" style=\"height:1px;width:1px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%s',sizingMethod='image');\"  alt=\"%s\" /><span style=\"position:absolute; visibility:hidden;\">%s</span>", wlink, eText, eText);
-		}
-		else {
-			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" alt=\"%s\" /><span style=\"position:absolute; visibility:hidden;\">%s</span>", wlink, eText, eText);
-		}
+		Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" alt=\"%s\" /><span style=\"position:absolute; visibility:hidden;\">%s</span>", wlink, eText, eText);
 		break;
 	case BBCODE:
 		if (!end) {
@@ -688,11 +680,8 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 										<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
 										eText);
 				}
-				else if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_PNGHACK) && eText != NULL && (wcsstr(eText, L".png") != NULL)) {
-					Utils::appendText(str, sizeAlloced, L"<img class=\"img\" style=\"height:1px;width:1px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%s',sizingMethod='image');\" />", eText);
-				}
 				else {
-					if (eText != NULL && wcsncmp(eText, L"http://", 7)) {
+					if (eText != NULL && wcsncmp(eText, L"http://", 7) && wcsncmp(eText, L"https://", 8)) {
 						Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
 					}
 					else {
@@ -709,9 +698,6 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 						 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 										<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
 										eText);
-				}
-				else if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_PNGHACK) && (wcsstr(eText, L".png") != NULL)) {
-					Utils::appendText(str, sizeAlloced, L"<img class=\"img\" style=\"height:1px;width:1px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%s',sizingMethod='image');\" />", eText);
 				}
 				else {
 					Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);

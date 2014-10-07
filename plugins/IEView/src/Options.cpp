@@ -477,7 +477,6 @@ static void MarkChanges(int i, HWND hWnd)
 
 static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int i;
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
@@ -488,9 +487,6 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			}
 			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_FLASH) {
 				CheckDlgButton(hwndDlg, IDC_ENABLE_FLASH, TRUE);
-			}
-			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_PNGHACK) {
-				CheckDlgButton(hwndDlg, IDC_ENABLE_PNGHACK, TRUE);
 			}
 			if (Options::getGeneralFlags() & Options::GENERAL_SMILEYINNAMES) {
 				CheckDlgButton(hwndDlg, IDC_SMILEYS_IN_NAMES, TRUE);
@@ -504,7 +500,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEYS_IN_NAMES), Options::isSmileyAdd());
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EMBED_SIZE), IsDlgButtonChecked(hwndDlg, IDC_ENABLE_EMBED));
 			TCHAR* size[] = {  _T("320 x 205"), _T("480 x 385") , _T("560 x 349"), _T("640 x 390")};
-			for (i = 0; i < SIZEOF(size); ++i){
+			for (int i = 0; i < SIZEOF(size); ++i){
 				int item=SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_ADDSTRING,0,(LPARAM)TranslateTS(size[i]));
 				SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_SETITEMDATA,item,0);
 			}
@@ -516,7 +512,6 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			switch (LOWORD(wParam)) {
 			case IDC_ENABLE_BBCODES:
 			case IDC_ENABLE_FLASH:
-			case IDC_ENABLE_PNGHACK:
 			case IDC_SMILEYS_IN_NAMES:
 			case IDC_NO_BORDER:
 			case IDC_EMBED_SIZE:
@@ -533,15 +528,12 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		{
 			switch (((LPNMHDR) lParam)->code) {
 			case PSN_APPLY:
-				i = 0;
+				int i = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_BBCODES)) {
 					i |= Options::GENERAL_ENABLE_BBCODES;
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_FLASH)) {
 					i |= Options::GENERAL_ENABLE_FLASH;
-				}
-				if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_PNGHACK)) {
-					i |= Options::GENERAL_ENABLE_PNGHACK;
 				}
 				if (IsDlgButtonChecked(hwndDlg, IDC_SMILEYS_IN_NAMES)) {
 					i |= Options::GENERAL_SMILEYINNAMES;

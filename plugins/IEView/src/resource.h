@@ -1,22 +1,7 @@
-/*
-IEView Plugin for Miranda IM
-Copyright (C) 2005-2010  Piotr Piastucki
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-
+//{{NO_DEPENDENCIES}}
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\ieview.rc
+//
 #define ID_MENU_COPY                    15
 #define ID_MENU_PRINT                   27
 #define ID_MENU_SELECTALL               31
@@ -33,11 +18,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IDC_SCROLL_BACKGROUND_IMAGE     1003
 #define IDC_ENABLE_BBCODES              1004
 #define IDC_ENABLE_FLASH                1005
-#define IDC_ENABLE_PNGHACK              1007
 #define IDC_SMILEYS_IN_NAMES            1008
 #define IDC_NO_BORDER                   1009
-#define IDC_ENABLE_EMBED		1010
-#define IDC_EMBED_SIZE			1011
+#define IDC_ENABLE_EMBED                1010
+#define IDC_EMBED_SIZE                  1011
 #define IDC_EXTERNALCSS                 1020
 #define IDC_EXTERNALCSS_FILENAME        1021
 #define IDC_BROWSE_EXTERNALCSS          1022
