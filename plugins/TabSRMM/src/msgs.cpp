@@ -113,34 +113,34 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 }
 
 // service function. Sets a status bar text for a contact
-
-static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
+static void SetStatusTextWorker(TWindowData *dat, StatusTextData *st)
 {
-	TWindowData *dat;
-
-	HWND hwnd = M.FindWindow(wParam);
-	if (hwnd != NULL)
-		dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	else {
-		SESSION_INFO *si = SM_FindSessionByHCONTACT(wParam);
-		if (si == NULL)
-			return 1;
-		
-		dat = si->dat;
-	}
-
 	// delete old custom data
 	if (dat->sbCustom) {
 		delete dat->sbCustom;
 		dat->sbCustom = NULL;
 	}
 
-	StatusTextData *st = (StatusTextData*)lParam;
 	if (st != NULL && st->cbSize == sizeof(StatusTextData))
 		dat->sbCustom = new StatusTextData(*st);
 
 	UpdateStatusBar(dat);
+}
 
+static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
+{
+	SESSION_INFO *si = SM_FindSessionByHCONTACT(hContact);
+	if (si == NULL) {
+		HWND hwnd = M.FindWindow(hContact);
+		if (hwnd != NULL)
+			SetStatusTextWorker((TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
+
+		if (hContact = db_mc_getMeta(hContact))
+			if (hwnd = M.FindWindow(hContact))
+				SetStatusTextWorker((TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
+	}
+	else SetStatusTextWorker(si->dat, (StatusTextData*)lParam);
+	
 	return 0;
 }
 
