@@ -7,6 +7,14 @@
 #define IDD_OPT_MAIN                    103
 #define IDD_INVITE                      104
 #define IDD_GC_CREATE                   105
+#define IDI_NOTIFICATION                109
+#define IDI_FRIENDADD                   110
+#define IDI_BAN                         111
+#define IDI_FRIENDDEL                   112
+#define IDI_READMSG                     113
+#define IDI_ABUSE                       114
+#define IDI_VISITPROFILE                115
+#define IDI_HISTORY                     116
 #define IDI_KEYS                        203
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
@@ -39,7 +47,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        108
+#define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1030
 #define _APS_NEXT_SYMED_VALUE           101

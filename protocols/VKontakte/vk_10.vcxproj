@@ -202,7 +202,15 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\add.ico" />
+    <None Include="res\ban.ico" />
+    <None Include="res\delete.ico" />
+    <None Include="res\history.ico" />
+    <None Include="res\home.ico" />
     <None Include="res\key.ico" />
+    <None Include="res\notify.ico" />
+    <None Include="res\read.ico" />
+    <None Include="res\report.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

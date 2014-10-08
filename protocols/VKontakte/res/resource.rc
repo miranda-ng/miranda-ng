@@ -12,6 +12,32 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_NOTIFICATION        ICON                    "notify.ico"
+IDI_FRIENDADD           ICON                    "add.ico"
+IDI_BAN                 ICON                    "ban.ico"
+IDI_FRIENDDEL           ICON                    "delete.ico"
+IDI_READMSG             ICON                    "read.ico"
+IDI_ABUSE               ICON                    "report.ico"
+IDI_VISITPROFILE        ICON                    "home.ico"
+IDI_HISTORY             ICON                    "history.ico"
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
 // Английский (США) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)

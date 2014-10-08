@@ -157,7 +157,15 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Captcha form icon"), "key",  IDI_KEYS }
+	{ LPGEN("Captcha form icon"), "key",  IDI_KEYS },
+	{ LPGEN("Notification icon"), "notification", IDI_NOTIFICATION },
+	{ LPGEN("Read message icon"), "read", IDI_READMSG },
+	{ LPGEN("Visit profile icon"), "profile", IDI_VISITPROFILE },
+	{ LPGEN("Load server history icon"), "history", IDI_HISTORY },
+	{ LPGEN("Add to friendlist icon"), "addfriend", IDI_FRIENDADD },
+	{ LPGEN("Delete from friendlist icon"), "delfriend", IDI_FRIENDDEL },
+	{ LPGEN("Report abuse icon"), "abuse", IDI_ABUSE },
+	{ LPGEN("Ban user icon"), "ban", IDI_BAN}
 };
 
 void InitIcons()
@@ -523,7 +531,6 @@ int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-
 void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 {
 	time_t time = getDword(hContact, "LastMsgReadTime", 0);
@@ -535,8 +542,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
-	st.hIcon = LoadSkinnedIcon(SKINICON_OTHER_EMPTYBLOB);
+	st.hIcon = Skin_GetIconByHandle(GetIconHandle(IDI_READMSG));
 	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
-	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, NULL);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
