@@ -73,6 +73,22 @@ Błąd %d. Dane nie zostaną wysłane lub odebrane.
 Błąd
 [Captcha form icon]
 Ikona formularza Captcha
+[Notification icon]
+
+[Read message icon]
+
+[Visit profile icon]
+
+[Load server history icon]
+
+[Add to friendlist icon]
+
+[Delete from friendlist icon]
+
+[Report abuse icon]
+
+[Ban user icon]
+
 [Protocols]
 Protokoły
 [VKontakte]

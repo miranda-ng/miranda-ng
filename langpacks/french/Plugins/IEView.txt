@@ -30,8 +30,6 @@ Paramètres
 Les BBCodes suivant sont supportés : [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Activer le support de fichiers Flash pour les smileys et BBCodes
-[Enable workaround for PNG transparency]
-Activer les PNG transparents
 [Replace smileys in user names]
 Mettre des smiley dans les pseudos
 [Hide window border]

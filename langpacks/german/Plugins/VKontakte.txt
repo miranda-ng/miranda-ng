@@ -73,6 +73,22 @@ Fehler %d. Daten werden weder gesendet noch empfangen.
 Fehler
 [Captcha form icon]
 Captcha Form. Icon
+[Notification icon]
+
+[Read message icon]
+
+[Visit profile icon]
+
+[Load server history icon]
+
+[Add to friendlist icon]
+
+[Delete from friendlist icon]
+
+[Report abuse icon]
+
+[Ban user icon]
+
 [Protocols]
 Protokolle
 [VKontakte]

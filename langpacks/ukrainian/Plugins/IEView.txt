@@ -29,8 +29,6 @@
 Підтримуються BB-коди: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Підтримка flash-файлів (*.swf) у смайлах і BB-кодах
-[Enable workaround for PNG transparency]
-Увімкнути прозорість для PNG
 [Replace smileys in user names]
 Смайли в іменах
 [Hide window border]

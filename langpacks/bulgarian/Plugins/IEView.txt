@@ -30,8 +30,6 @@
 Поддържат се следните BBCodes: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Включване поддръжката на Flash файлове, за усмивките и BBCodes
-[Enable workaround for PNG transparency]
-
 [Replace smileys in user names]
 Замяна на усмивките в потребителските имена
 [Hide window border]

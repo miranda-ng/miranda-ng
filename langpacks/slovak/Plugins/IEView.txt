@@ -30,8 +30,6 @@ Okno správ založené na IE.
 
 [Enable support for Flash files in smileys and BBCodes]
 
-[Enable workaround for PNG transparency]
-
 [Replace smileys in user names]
 
 [Hide window border]
