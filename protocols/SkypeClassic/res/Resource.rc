@@ -376,6 +376,7 @@ IDI_DND                 ICON    DISCARDABLE     "dnd.ico"
 IDI_INVISIBLE           ICON    DISCARDABLE     "invisible.ico"
 IDI_OFFLINE             ICON    DISCARDABLE     "offline.ico"
 IDI_PHONE               ICON    DISCARDABLE     "phone.ico"
+IDI_BLOCKCONTACT        ICON    DISCARDABLE     "blockcon.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////

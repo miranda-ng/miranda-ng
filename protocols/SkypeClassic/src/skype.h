@@ -96,6 +96,7 @@ typedef struct {
 	char	SkypeOutCallUser[MAXMODULELABELLENGTH];
 	char	CallHangupUser[MAXMODULELABELLENGTH];
 	char	CallUser[MAXMODULELABELLENGTH];
+	char	BlockContact[MAXMODULELABELLENGTH];
 } SKYPE_SVCNAMES;
 #define SKYPE_CALL g_svcNames.CallUser
 #define SKYPE_CALLHANGUP g_svcNames.CallHangupUser
@@ -107,6 +108,7 @@ typedef struct {
 #define SKYPE_SENDFILE g_svcNames.SendFile
 #define SKYPE_SETAVATAR g_svcNames.SetAvatar
 #define SKYPE_CHATNEW g_svcNames.ChatNew
+#define SKYPE_BLOCKCONTACT g_svcNames.BlockContact
 #define EVENTTYPE_CALL 2000
 
 #define WM_COPYDATALOCAL	WM_USER+100		// WM_COPYDATA for local window communication, needed due to Win98 bug

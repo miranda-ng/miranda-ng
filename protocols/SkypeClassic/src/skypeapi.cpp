@@ -745,7 +745,7 @@ static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					if (!strncmp(number, "00", 2)) {					
 						memmove(number, number+1, sizeof(number)-1);
 						number[0]='+';
-						number[sizeof(number)]=0;
+						number[sizeof(number)-1] = 0;
 					}
 					if (!hContact) {
 						if (!(hContact=add_contact(number, PALF_TEMPORARY))) {
@@ -1181,6 +1181,24 @@ INT_PTR SkypeChatCreate(WPARAM wParam, LPARAM lParam) {
 	}
 	free(ptr);
 	return 0;
+}
+
+/* SkypeBlockContact
+*
+* Purpose: Blocks/unblocks contact
+*/
+INT_PTR SkypeBlockContact(WPARAM wParam, LPARAM lParam) {
+	DBVARIANT dbv;
+	MCONTACT hContact = (MCONTACT)wParam;
+	int iRet = 0;
+
+	if (!hContact || db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv))
+		return -1;
+
+	if (SkypeSend("SET USER %s ISBLOCKED %s", dbv.pszVal, db_get_b(hContact, SKYPE_PROTONAME, "IsBlocked", 0) ? "FALSE" : "TRUE"))
+		iRet = -1;
+	db_free(&dbv);
+	return iRet;
 }
 
 /* SkypeAdduserDlg

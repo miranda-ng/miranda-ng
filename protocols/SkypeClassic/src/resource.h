@@ -33,6 +33,7 @@
 #define IDD_SETDETAILS                  177
 #define IDD_OPT_ADVANCED                178
 #define IDD_OPT_POPUP                   179
+#define IDI_BLOCKCONTACT                182
 #define IDI_PHONE                       1002
 #define IDC_SHUTDOWN                    1004
 #define IDC_ENABLEMENU                  1005
@@ -116,7 +117,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        181
+#define _APS_NEXT_RESOURCE_VALUE        183
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1072
 #define _APS_NEXT_SYMED_VALUE           101
