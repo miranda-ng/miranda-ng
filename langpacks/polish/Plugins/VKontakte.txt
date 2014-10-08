@@ -141,7 +141,7 @@ Niepoprawny rozmiar pliku
 [Unknown error occurred]
 Wystąpił nieznany błąd
 [File upload error]
-Błąd  podczas wysyłania pliku
+Błąd podczas wysyłania pliku
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły
