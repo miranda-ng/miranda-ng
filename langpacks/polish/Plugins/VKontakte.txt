@@ -74,21 +74,21 @@ Błąd
 [Captcha form icon]
 Ikona formularza Captcha
 [Notification icon]
-
+Ikona powiadomienia
 [Read message icon]
-
+Ikona odczytanej wiadomości
 [Visit profile icon]
-
+Ikona odwiedź profil
 [Load server history icon]
-
+Ikona załaduj historię z serwera
 [Add to friendlist icon]
-
+Ikona dodaj do znajomych
 [Delete from friendlist icon]
-
+Ikona usuń ze znajomych
 [Report abuse icon]
-
+Ikona zgłoś naruszenie
 [Ban user icon]
-
+Ikona zbanuj użytkownika
 [Protocols]
 Protokoły
 [VKontakte]
