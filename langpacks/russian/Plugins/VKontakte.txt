@@ -71,6 +71,22 @@ Cоздать комнату чата
 Ошибка
 [Captcha form icon]
 Значок формы с капчей
+[Notification icon]
+Значок уведомления
+[Read message icon]
+Значок прочтённого сообщения
+[Visit profile icon]
+Значок профиля на сайте
+[Load server history icon]
+Значок загрузки истории с сайта
+[Add to friendlist icon]
+Значок добавления в список друзей
+[Delete from friendlist icon]
+Значок удаления из списка друзей
+[Report abuse icon]
+Значок жалобы на пользователя
+[Ban user icon]
+Значок бана пользователя
 [Protocols]
 Протоколы
 [VKontakte]

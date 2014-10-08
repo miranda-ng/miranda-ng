@@ -18,7 +18,6 @@
 [Enable BBCodes]
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 [Enable support for Flash files in smileys and BBCodes]
-[Enable workaround for PNG transparency]
 [Replace smileys in user names]
 [Hide window border]
 [Embed YouTube videos]
