@@ -234,6 +234,10 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 		if (protocol>=7 && (pszMemObjs = SkypeGet ("CHAT", szSkypeMsg+5, "MEMBEROBJECTS"))) {
 			// Add new contacts (protocol 7+ with memberobjects, supports roles)
 			for (token=strtok_r(pszMemObjs, ", ", &nextoken); token; token=strtok_r(NULL, ", ", &nextoken)) {
+				if (!contactmask && !(contactmask = (unsigned char*)calloc(gc->mJoinedCount, 1))) {
+					iRet = -1;
+					break;
+				}
 				if (!(who = SkypeGet ("CHATMEMBER", token, "IDENTITY"))) continue;
 				if (strcmp(who, dbv2.pszVal)) {
 					char *pszRole;
@@ -245,7 +249,6 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 					i=AddChatContact(gc, who, ptszRole);
 					free_nonutf_tchar_string (ptszRole);
 					if (pszRole) free (pszRole);
-					if (i>=0 && !contactmask && !(contactmask = (unsigned char*)calloc(gc->mJoinedCount, 1))) i=-2;
 					if (!(contactmask= (unsigned char *) realloc(contactmask, gc->mJoinedCount))) {
 						iRet = -1;
 						free (who);
@@ -261,9 +264,12 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 		{
 			// Add new contacts (normal)
 			for (who=strtok_r(ptr, " ", &nextoken); who; who=strtok_r(NULL, " ", &nextoken)) {
+				if (!contactmask && !(contactmask = (unsigned char*)calloc(gc->mJoinedCount, 1))) {
+					iRet = -1;
+					break;
+				}
 				if (strcmp(who, dbv2.pszVal)) {
 					i=AddChatContact(gc, who, NULL);
-					if (i>=0 && !contactmask && !(contactmask = (unsigned char*)calloc(gc->mJoinedCount, 1))) i=-2;
 					if (i<0 || !(contactmask= (unsigned char *) realloc(contactmask, gc->mJoinedCount))) {
 						iRet = -1;
 						break;
@@ -290,13 +296,13 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 				ci.dwFlag = CNF_TCHAR;
 				if (ci.hContact && !CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) gce.ptszNick=ci.pszVal; 
 				else gce.ptszNick=gc->mJoinedContacts[i].who;
-				RemChatContact(gc, gc->mJoinedContacts[i].who);
 				gce.ptszUID = gc->mJoinedContacts[i].who;
 				CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 				if (ci.pszVal) {
 					mir_free (ci.pszVal);
 					ci.pszVal=NULL;
 				}
+				RemChatContact(gc, gc->mJoinedContacts[i].who);
 			}
 	// We don't do this, because the dialog group-chat may have been started intentionally
 	/*

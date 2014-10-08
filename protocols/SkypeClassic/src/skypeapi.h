@@ -45,6 +45,7 @@ INT_PTR SkypeAdduserDlg(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeAnswerCall(WPARAM wParam, LPARAM lParam);
 int SkypeMsgCollectGarbage(time_t age);
 INT_PTR SkypeSendFile(WPARAM wParam, LPARAM lParam);
+INT_PTR SkypeBlockContact(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeSetAwayMessage(WPARAM wParam, LPARAM lParam);
 INT_PTR SkypeSetAwayMessageW(WPARAM wParam, LPARAM lParam);
