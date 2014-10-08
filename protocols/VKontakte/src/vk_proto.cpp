@@ -144,7 +144,7 @@ void CVkProto::InitMenus()
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_VISITPROFILE);
 	mi.pszService = szService;
 	mi.position = 10009 + PMI_VISITPROFILE;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_VISITPROFILE));
 	mi.pszName = LPGEN("Visit profile");
 	g_hProtoMenuItems[PMI_VISITPROFILE] = Menu_AddProtoMenuItem(&mi);
 
@@ -158,35 +158,35 @@ void CVkProto::InitMenus()
 
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
 	mi.position = -200001000 + CMI_GETALLSERVERHISTORY;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.ptszName = LPGENT("Reload all messages from vk.com");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_ADDASFRIEND);
 	mi.position = -200001000 + CMI_ADDASFRIEND;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_ADD);
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_FRIENDADD));
 	mi.ptszName = LPGENT("Add as friend");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_ADDASFRIEND] = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_DELETEFRIEND);
 	mi.position = -200001000 + CMI_DELETEFRIEND;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REVOKE);
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
 	mi.ptszName = LPGENT("Delete from friend list");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_DELETEFRIEND] = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_BANUSER);
 	mi.position = -200001000 + CMI_BANUSER;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_BAN));
 	mi.ptszName = LPGENT("Ban user");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_BANUSER] = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_REPORTABUSE);
 	mi.position = -200001000 + CMI_REPORTABUSE;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_ABUSE));
 	mi.ptszName = LPGENT("Report abuse");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_REPORTABUSE] = Menu_AddContactMenuItem(&mi);
@@ -234,18 +234,16 @@ void CVkProto::InitPopups(void)
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
 	m_hPopupClassError = Popup_RegisterClass(&ppc);
-	Skin_ReleaseIcon(ppc.hIcon);
 
 	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Notification"));
 	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
-	ppc.hIcon = LoadSkinnedIcon(SKINICON_INFORMATION);
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
 	ppc.colorBack = RGB(190, 225, 255); //Blue
 	ppc.colorText = RGB(255, 255, 255); //White
 	ppc.iSeconds = 4;
 	m_hPopupClassNotification = Popup_RegisterClass(&ppc);
-	Skin_ReleaseIcon(ppc.hIcon);
 }
 
 void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err)

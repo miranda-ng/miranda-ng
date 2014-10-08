@@ -81,5 +81,29 @@
     <None Include="res\key.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\add.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ban.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\history.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\home.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\notify.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\read.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\report.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
