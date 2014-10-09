@@ -224,7 +224,7 @@ FPS (кадрів в секунду), тільки для відео
 [Replace underlines with spaces]
 Замінювати підкреслення пробілами
 [Check file time]
-Перевіряти позначки часу для файла
+Перевіряти позначки часу для файлу
 [Other thread handle check]
 Перевірка в окремому потоці
 [Keep old file]

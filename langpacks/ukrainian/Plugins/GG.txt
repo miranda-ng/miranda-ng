@@ -354,7 +354,7 @@ HTTP невідома помилка
 [Import List From &Server]
 Імпорт списку з &сервера
 [Import List From &Text File...]
-Імпорт списку з &файла...
+Імпорт списку з &файлу...
 [&Remove List From Server]
 &Видалити список з сервера
 [Export List To &Server]

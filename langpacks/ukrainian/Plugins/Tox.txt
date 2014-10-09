@@ -31,6 +31,12 @@
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
 [Dns name:]
 Ім'я DNS:
+[Enter password]
+Введіть пароль
+[Save password]
+Зберегти пароль
+[Tox profile is encrypted. Enter the password to continue.]
+Профіль Tox зашифровано. Щоб продовжити, введіть пароль.
 [Network]
 Мережа
 [Account]
