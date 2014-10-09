@@ -357,18 +357,18 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text)
 TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *text, bool isSent)
 {
 	TextToken *firstToken = NULL, *lastToken = NULL;
-	SMADD_BATCHPARSE2 sp;
-	SMADD_BATCHPARSERES *spRes;
 	int l = (int)wcslen(text);
 	if (!Options::isSmileyAdd()) {
 		return new TextToken(TEXT, text, l);
 	}
+
+	SMADD_BATCHPARSE2 sp;
 	sp.cbSize = sizeof(sp);
 	sp.Protocolname = proto;
 	sp.flag = SAFL_PATH | SAFL_UNICODE | (isSent ? SAFL_OUTGOING : 0);
 	sp.wstr = (wchar_t *)text;
 	sp.hContact = hContact;
-	spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
+	SMADD_BATCHPARSERES *spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	int last_pos = 0;
 	if (spRes != NULL) {
 		for (int i = 0; i < (int)sp.numSmileys; i++) {
@@ -637,16 +637,16 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 			Utils::appendText(str, sizeAlloced,
 				L"<span title=\"%s\" class=\"img\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 				 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
-								<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span><span style=\"position:absolute; visibility:hidden;\">%s</span>",
-								eText, wlink, eText);
+								<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
+								eText, wlink);
 		}
 		else {
-			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" /><span style=\"position:absolute; visibility:hidden;\">%s</span>", wlink, eText, eText, eText);
+			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
 		}
 		break;
 	case MATH:
 		eText = htmlEncode(wtext);
-		Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" alt=\"%s\" /><span style=\"position:absolute; visibility:hidden;\">%s</span>", wlink, eText, eText);
+		Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
 		break;
 	case BBCODE:
 		if (!end) {
