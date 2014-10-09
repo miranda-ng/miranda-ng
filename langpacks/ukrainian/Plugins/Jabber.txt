@@ -1724,7 +1724,7 @@ JID видавців
 [Ban notifications]
 Сповіщення про бани
 [Room configuration changes]
-Зміна налаштувань чат-кімнати
+Зміни налаштувань чат-кімнати
 [Affiliation changes]
 Зміни належності
 [Role changes]

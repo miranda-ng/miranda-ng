@@ -76,7 +76,7 @@
 [Export To Txt]
 Експорт в текст
 [File encoding*]
-Кодування файла*
+Кодування файлу*
 [Export To Plain Html]
 Експорт у чистий HTML
 [Export To Rich Html]

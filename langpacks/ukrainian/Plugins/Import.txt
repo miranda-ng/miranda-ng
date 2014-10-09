@@ -85,6 +85,8 @@
 Додано %S контакт %s, '%s'
 [Added %S contact %s]
 Додано %S контакт %s
+[Metacontact cannot be imported due to its ambiguity.]
+Неможливо імпортувати метаконтакт через неоднозначну належність.
 [Added metacontact '%s']
 Додано метаконтакт %s
 [Added metacontact]

@@ -71,10 +71,28 @@
 Помилка
 [Captcha form icon]
 Значок форми з капчею
+[Notification icon]
+Сповіщення
+[Read message icon]
+Прочитане повідомлення
+[Visit profile icon]
+Профіль на сайті
+[Load server history icon]
+Завантажити історію з сайту
+[Add to friendlist icon]
+Додати до списку
+[Delete from friendlist icon]
+Видалити зі списку
+[Report abuse icon]
+Поскаржитися
+[Ban user icon]
+Забанити
 [Protocols]
 Протоколи
 [VKontakte]
 ВКонтакті
+[Message read: %s]
+Повідомлення прочитане о %s
 [Enter the text you see]
 Введіть текст, який бачите
 [Participants]
@@ -99,6 +117,26 @@
 &Інформація про користувача
 [&Kick]
 &Вигнати
+[Couldn't save file]
+Неможливо зберегти файл
+[Invalid album id]
+Неправильний ID альбому
+[Invalid server]
+Неправильний сервер
+[Invalid hash]
+Неправильний хеш
+[Invalid audio]
+Невідповідний тип аудіо
+[The audio file was removed by the copyright holder and cannot be reuploaded]
+Аудіозапис видалений правовласником, ви не можете завантажити його заново.
+[Invalid filename]
+Неправильне ім'я файлу
+[Invalid filesize]
+Неправильний розмір файлу
+[Unknown error occurred]
+Невідома помилка
+[File upload error]
+Помилка при завантаженні файлу
 [Network]
 Мережа
 [Account]
