@@ -41,6 +41,13 @@
 #define IDC_CLEAR_SERVER_HISTORY        1031
 #define IDC_REMOVE_FROM_FRENDLIST       1032
 #define IDC_REMOVE_FROM_CLIST           1033
+#define IDC_ONREAD                      1039
+#define IDC_ONRECEIVE                   1040
+#define IDC_REPLY                       1041
+#define IDC_ONREPLY                     1041
+#define IDC_TYPING                      1042
+#define IDC_ONTYPING                    1042
+#define IDC_STATIC_MARK_AS_READ         1043
 
 // Next default values for new objects
 // 
@@ -49,7 +56,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1030
+#define _APS_NEXT_CONTROL_VALUE         1044
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

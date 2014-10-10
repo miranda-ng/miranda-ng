@@ -482,6 +482,12 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+int  CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
+{
+	if (m_iMarkMessageReadOn == markOnRead)
+		MarkMessagesRead(hContact);
+	return 0;
+}
 
 void CVkProto::MarkMessagesRead(const CMStringA &mids)
 {
@@ -557,7 +563,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		MCONTACT hContact = FindUser(uid, true);
 		char szMid[40];
 		_itoa(mid, szMid, 10);
-		if (!m_bMarkReadOnReply){
+		if (m_iMarkMessageReadOn == markOnReceive){
 			if (!mids.IsEmpty())
 				mids.AppendChar(',');
 			mids.Append(szMid);
@@ -589,7 +595,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 	}
 
-	if (!m_bMarkReadOnReply)
+	if (m_iMarkMessageReadOn == markOnReceive)
 		MarkMessagesRead(mids);
 }
 
@@ -639,7 +645,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			else
 				GetHistoryDlg(hContact, mid);
 			
-			if (!m_bMarkReadOnReply&&numUnread)
+			if (m_iMarkMessageReadOn==markOnReceive&&numUnread)
 				MarkMessagesRead(hContact);
 		}
 		else if (numUnread) {
@@ -649,7 +655,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			setDword(hContact, "new_lastmsgid", mid);
 			GetHistoryDlgMessages(hContact, 0, numUnread, -1);
 			
-			if (!m_bMarkReadOnReply)
+			if (m_iMarkMessageReadOn == markOnReceive)
 				MarkMessagesRead(hContact);
 		}
 	}

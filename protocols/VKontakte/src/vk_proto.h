@@ -161,8 +161,8 @@ struct TFakeAckParams
 
 struct CVkProto : public PROTO<CVkProto>
 {
-				CVkProto(const char*, const TCHAR*);
-				~CVkProto();
+	CVkProto(const char*, const TCHAR*);
+	~CVkProto();
 
 	//====================================================================================
 	// PROTO_INTERFACE
@@ -245,13 +245,14 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void   InitPopups(void);
 	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err = false);
-	
+
 	//==== Hooks ====+====================================================================
-	
+
 	int __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
-	
+	int __cdecl OnDbEventRead(WPARAM, LPARAM);
+
 	//==== Search ========================================================================
-	
+
 	void __cdecl SearchBasicThread(void* id);
 	void __cdecl SearchByMailThread(void* email);
 	void __cdecl SearchThread(void* p);
@@ -259,7 +260,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnSearchByMail(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
 
 	//==== Files Upload ==================================================================
-	
+
 	void __cdecl SendFileThread(void *p);
 	void SendFileFiled(CVkFileUploadParam *fup, TCHAR* reason = NULL);
 	void OnReciveUploadServer(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -268,7 +269,7 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
-		
+
 	void RetrieveStatusMsg(const CMString &StatusMsg);
 	void RetrieveStatusMusic(const CMString &StatusMsg);
 
@@ -291,11 +292,11 @@ struct CVkProto : public PROTO<CVkProto>
 	CMString GetAttachmentDescr(JSONNODE*);
 
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	
+
 	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
 	void GetHistoryDlg(MCONTACT hContact, int iLastMsg);
 	void GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCount, int lastcount);
-	
+
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void __cdecl PollingThread(void*);
@@ -314,7 +315,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnCreateNewChat(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	__forceinline bool IsOnline() const { return m_bOnline; }
-	
+
 	__forceinline LPCTSTR getGroup() const { return m_defaultGroup; }
 	__forceinline void setGroup(LPCTSTR grp) { m_defaultGroup = mir_tstrdup(grp); }
 
@@ -355,9 +356,9 @@ private:
 	struct Cookie
 	{
 		Cookie(const CMStringA& name, const CMStringA& value, const CMStringA& domain) :
-			m_name(name),
-			m_value(value),
-			m_domain(domain)
+		m_name(name),
+		m_value(value),
+		m_domain(domain)
 		{}
 
 		CMStringA m_name, m_value, m_domain;
@@ -396,21 +397,22 @@ private:
 	void   __cdecl SendMsgAck(void *param);
 
 	bool	m_prevError,
-			m_bOnline, 
-			m_bHideChats, 
-			m_bMesAsUnread, 
-			m_bMarkReadOnReply, 
-			m_bMarkReadOnTyping,
-			m_bAutoSyncHistory,
-			m_bUseLocalTime,
-			m_bReportAbuse,
-			m_bClearServerHistory,
-			m_bRemoveFromFrendlist,
-			m_bRemoveFromClist,
-			m_bPopUpSyncHistory;
+		m_bOnline,
+		m_bHideChats,
+		m_bMesAsUnread,
+		m_bAutoSyncHistory,
+		m_bUseLocalTime,
+		m_bReportAbuse,
+		m_bClearServerHistory,
+		m_bRemoveFromFrendlist,
+		m_bRemoveFromClist,
+		m_bPopUpSyncHistory;
 
-	LONG   m_myUserId;
-	ptrT   m_defaultGroup;
+	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
+	int		m_iMarkMessageReadOn;
+	
+	LONG	m_myUserId;
+	ptrT	m_defaultGroup;
 
 	ptrA   
 		m_pollingServer, 
