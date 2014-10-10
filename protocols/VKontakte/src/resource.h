@@ -41,11 +41,11 @@
 #define IDC_CLEAR_SERVER_HISTORY        1031
 #define IDC_REMOVE_FROM_FRENDLIST       1032
 #define IDC_REMOVE_FROM_CLIST           1033
+#define IDC_ADD_IMG_BBC                 1034
+#define IDC_FORCE_ONLINE_ON_ACT         1035
 #define IDC_ONREAD                      1039
 #define IDC_ONRECEIVE                   1040
-#define IDC_REPLY                       1041
 #define IDC_ONREPLY                     1041
-#define IDC_TYPING                      1042
 #define IDC_ONTYPING                    1042
 #define IDC_STATIC_MARK_AS_READ         1043
 

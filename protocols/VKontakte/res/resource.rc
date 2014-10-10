@@ -33,6 +33,7 @@ IDI_READMSG             ICON                    "read.ico"
 IDI_ABUSE               ICON                    "report.ico"
 IDI_VISITPROFILE        ICON                    "home.ico"
 IDI_HISTORY             ICON                    "history.ico"
+IDI_KEYS                ICON                    "key.ico"
 #endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -43,15 +44,6 @@ IDI_HISTORY             ICON                    "history.ico"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_KEYS                ICON                    "key.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -70,42 +62,46 @@ BEGIN
     CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,0,49,174,12
 END
 
-IDD_OPT_MAIN DIALOGEX 0, 0, 304, 255
+IDD_OPT_MAIN DIALOGEX 0, 0, 304, 261
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Login settings",IDC_STATIC,4,7,293,55
-    LTEXT           "E-mail or phone number:",IDC_STATIC,51,17,95,12
-    EDITTEXT        IDC_LOGIN,147,17,89,12,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,51,31,94,12
-    EDITTEXT        IDC_PASSWORD,147,31,90,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,45,174,12
-    GROUPBOX        "Local settings",IDC_STATIC,4,62,293,27
-    LTEXT           "Contact list group:",IDC_STATIC,12,74,146,8
-    EDITTEXT        IDC_GROUPNAME,167,72,121,12,ES_AUTOHSCROLL
-    GROUPBOX        "Advanced",IDC_STATIC,4,90,293,80
-    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,101,278,10
-    CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,112,278,10
+    GROUPBOX        "Login settings",IDC_STATIC,4,7,293,50
+    LTEXT           "E-mail or phone number:",IDC_STATIC,51,15,95,12
+    EDITTEXT        IDC_LOGIN,147,15,89,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,51,28,94,12
+    EDITTEXT        IDC_PASSWORD,147,28,90,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,42,174,12
+    GROUPBOX        "Local settings",IDC_STATIC,4,57,293,27
+    LTEXT           "Contact list group:",IDC_STATIC,12,69,146,8
+    EDITTEXT        IDC_GROUPNAME,167,67,121,12,ES_AUTOHSCROLL
+    GROUPBOX        "Advanced",IDC_STATIC,4,84,293,97
+    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,93,278,10
+    CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,104,278,10
     CONTROL         "Automatically wipe local contacts missing in your friend list",IDC_AUTOCLEAN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,123,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,115,278,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,134,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,126,278,10
     CONTROL         "Automatically sync last messages",IDC_SYNCHISTOTYONONLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,145,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,137,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,156,278,10
-    GROUPBOX        "When I ban user...",IDC_STATIC,4,171,293,37
-    CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,182,129,10
-    CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,193,129,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,148,278,10
+    CONTROL         "Add [img] bbc for graphical attachments",IDC_ADD_IMG_BBC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,159,278,10
+    CONTROL         "Force online status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,170,278,10
+    GROUPBOX        "When I ban user...",IDC_STATIC,4,182,293,33
+    CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,192,129,10
+    CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,203,129,10
     CONTROL         "Remove from friend list",IDC_REMOVE_FROM_FRENDLIST,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,182,129,10
-    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,193,129,10
-    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,209,293,33,WS_GROUP
-    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,219,129,10
-    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,231,129,10
-    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,218,129,10
-    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,231,129,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,192,129,10
+    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,203,129,10
+    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,216,293,33,WS_GROUP
+    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,226,129,10
+    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,237,129,10
+    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,226,129,10
+    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,237,129,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
@@ -168,7 +164,7 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 297
         TOPMARGIN, 7
-        BOTTOMMARGIN, 247
+        BOTTOMMARGIN, 253
     END
 
     IDD_INVITE, DIALOG

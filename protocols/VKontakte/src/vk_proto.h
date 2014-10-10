@@ -406,7 +406,9 @@ private:
 		m_bClearServerHistory,
 		m_bRemoveFromFrendlist,
 		m_bRemoveFromClist,
-		m_bPopUpSyncHistory;
+		m_bPopUpSyncHistory,
+		m_bAddImgBbc,
+		m_bUserForceOnlineOnActivity;
 
 	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
 	int		m_iMarkMessageReadOn;
