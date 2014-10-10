@@ -1,1 +1,3 @@
-﻿[Skype ID]
+﻿[Block contact]
+[Unblock contact]
+[Skype ID]
