@@ -36,7 +36,7 @@ E-mail или номер телефона:
 [Add [img] bbc for graphical attachments]
 Добавлять [img] BB-код для графических прикреплений
 [Force online status upon user activity]
-Переводить статус в онлайн при активности контакта
+Переводить статус контакта в онлайн при его активности
 [When I ban user...]
 При бане пользователя...
 [Report abuse]
