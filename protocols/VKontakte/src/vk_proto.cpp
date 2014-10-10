@@ -65,8 +65,6 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bServerDelivery = getBool("ServerDelivery", true);
 	m_bHideChats = getBool("HideChats", true);
 	m_bMesAsUnread = getBool("MesAsUnread", false);
-	m_bMarkReadOnReply = getBool("MarkReadOnReply", false);
-	m_bMarkReadOnTyping = getBool("MarkReadOnTyping", false) && m_bMarkReadOnReply;
 	m_bAutoSyncHistory = getBool("AutoSyncHistory", true);
 	m_bUseLocalTime = getBool("LocalTime", false);
 	m_bReportAbuse = getBool("ReportAbuseOnBanUser", false);
@@ -74,6 +72,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bRemoveFromFrendlist = getBool("RemoveFromFrendlistOnBanUser", false);
 	m_bRemoveFromClist = getBool("RemoveFromClistOnBanUser", false);
 	m_bPopUpSyncHistory = getBool("PopUpSyncHistory", false);
+	m_iMarkMessageReadOn = getByte("MarkMessageReadOn", 0);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -105,6 +104,7 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CVkProto::OnProcessSrmmEvent);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CVkProto::OnDbEventRead);
 
 	InitPopups();
 	InitMenus();
@@ -368,7 +368,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				m_sendIds.insert((HANDLE)mid);
 			if (mid>getDword(param->hContact, "lastmsgid", 0))
 				setDword(param->hContact, "lastmsgid", mid);
-			if (m_bMarkReadOnReply)
+			if (m_iMarkMessageReadOn >= markOnReply)
 				MarkMessagesRead(param->hContact);
 			iResult = ACKRESULT_SUCCESS;
 		}
@@ -532,7 +532,7 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 		if ((userID == -1)||(!IsOnline()))
 			return 1;
 		
-		if (m_bMarkReadOnTyping)
+		if (m_iMarkMessageReadOn == markOnTyping)
 			MarkMessagesRead(hContact);
 		
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth)

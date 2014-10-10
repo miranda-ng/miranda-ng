@@ -122,15 +122,17 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats);
 		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getByte("AutoClean", 0));
 		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread);
-		CheckDlgButton(hwndDlg, IDC_MARKREADONREPLY, ppro->m_bMarkReadOnReply);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_MARKREADONTYPING), ppro->m_bMarkReadOnReply);
-		CheckDlgButton(hwndDlg, IDC_MARKREADONTYPING, ppro->m_bMarkReadOnTyping);
 		CheckDlgButton(hwndDlg, IDC_SYNCHISTOTYONONLINE, ppro->m_bAutoSyncHistory);
 		CheckDlgButton(hwndDlg, IDC_USE_LOCAL_TIME, ppro->m_bUseLocalTime);
 		CheckDlgButton(hwndDlg, IDC_REPORT_ABUSE, ppro->m_bReportAbuse);
 		CheckDlgButton(hwndDlg, IDC_CLEAR_SERVER_HISTORY, ppro->m_bClearServerHistory);
 		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_FRENDLIST, ppro->m_bRemoveFromFrendlist);
 		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_CLIST, ppro->m_bRemoveFromClist);
+
+		CheckDlgButton(hwndDlg, IDC_ONREAD, (ppro->m_iMarkMessageReadOn == markOnRead));
+		CheckDlgButton(hwndDlg, IDC_ONRECEIVE, (ppro->m_iMarkMessageReadOn == markOnReceive));
+		CheckDlgButton(hwndDlg, IDC_ONREPLY, (ppro->m_iMarkMessageReadOn == markOnReply));
+		CheckDlgButton(hwndDlg, IDC_ONTYPING, (ppro->m_iMarkMessageReadOn == markOnTyping));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -150,21 +152,18 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		case IDC_HIDECHATS:
 		case IDC_AUTOCLEAN:
 		case IDC_MESASUREAD: 
-		case IDC_MARKREADONTYPING:
 		case IDC_SYNCHISTOTYONONLINE:
 		case IDC_USE_LOCAL_TIME:
 		case IDC_REPORT_ABUSE:
 		case IDC_CLEAR_SERVER_HISTORY:
 		case IDC_REMOVE_FROM_FRENDLIST:
 		case IDC_REMOVE_FROM_CLIST:
+		case IDC_ONREAD:
+		case IDC_ONRECEIVE:
+		case IDC_ONREPLY:
+		case IDC_ONTYPING:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		case IDC_MARKREADONREPLY:
-			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus()){
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);	
-				EnableWindow(GetDlgItem(hwndDlg, IDC_MARKREADONTYPING), (IsDlgButtonChecked(hwndDlg, IDC_MARKREADONREPLY) == BST_CHECKED));
-			}
 			break;
 		}
 		break;
@@ -197,12 +196,6 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			ppro->m_bMesAsUnread = IsDlgButtonChecked(hwndDlg, IDC_MESASUREAD) == BST_CHECKED;
 			ppro->setByte("MesAsUnread", ppro->m_bMesAsUnread);
 
-			ppro->m_bMarkReadOnReply = IsDlgButtonChecked(hwndDlg, IDC_MARKREADONREPLY) == BST_CHECKED;
-			ppro->setByte("MarkReadOnReply", ppro->m_bMarkReadOnReply);
-
-			ppro->m_bMarkReadOnTyping = (IsDlgButtonChecked(hwndDlg, IDC_MARKREADONREPLY) == BST_CHECKED) && (IsDlgButtonChecked(hwndDlg, IDC_MARKREADONTYPING) == BST_CHECKED);
-			ppro->setByte("MarkReadOnTyping", ppro->m_bMarkReadOnTyping);
-
 			ppro->m_bAutoSyncHistory = IsDlgButtonChecked(hwndDlg, IDC_SYNCHISTOTYONONLINE) == BST_CHECKED;
 			ppro->setByte("AutoSyncHistory", ppro->m_bAutoSyncHistory);
 
@@ -220,7 +213,16 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 			ppro->m_bRemoveFromClist = IsDlgButtonChecked(hwndDlg, IDC_REMOVE_FROM_CLIST) == BST_CHECKED;
 			ppro->setByte("RemoveFromClistOnBanUser", ppro->m_bRemoveFromClist);	
-						
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_ONREAD) == BST_CHECKED)
+				ppro->m_iMarkMessageReadOn = markOnRead;
+			if (IsDlgButtonChecked(hwndDlg, IDC_ONRECEIVE) == BST_CHECKED)
+				ppro->m_iMarkMessageReadOn = markOnReceive;
+			if (IsDlgButtonChecked(hwndDlg, IDC_ONREPLY) == BST_CHECKED)
+				ppro->m_iMarkMessageReadOn = markOnReply;
+			if (IsDlgButtonChecked(hwndDlg, IDC_ONTYPING) == BST_CHECKED)
+				ppro->m_iMarkMessageReadOn = markOnTyping;
+			ppro->setByte("MarkMessageReadOn", ppro->m_iMarkMessageReadOn);
 		}
 		break;
 
