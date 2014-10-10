@@ -33,6 +33,10 @@ E-mail или номер телефона:
 Автоматически синхронизировать последние сообщения
 [Use local time for received messages]
 Локальное время для принятых сообщений
+[Add [img] bbc for graphical attachments]
+Добавлять [img] BB-код для графических прикреплений
+[Force online status upon user activity]
+Переводить статус в онлайн при активности контакта
 [When I ban user...]
 При бане пользователя...
 [Report abuse]
@@ -217,6 +221,8 @@ Cоздать комнату чата
 Вложения:
 [Photo]
 Фото
+[Sticker]
+Стикер
 [Audio]
 Аудио
 [Video]
