@@ -30,13 +30,13 @@ Podrobne
 
 [Always notify as unread for all incoming message]
 
-[Mark read on reply]
-
-[Mark read on typing]
-
 [Automatically sync last messages]
 
 [Use local time for received messages]
+
+[Add [img] bbc for graphical attachments]
+
+[Force online status upon user activity]
 
 [When I ban user...]
 
@@ -47,6 +47,16 @@ Podrobne
 [Remove from friend list]
 
 [Remove from contact list]
+
+[Mark message as read...]
+
+[on read]
+
+[on receive]
+
+[on reply]
+
+[on typing]
 
 [Bots challenge test]
 
@@ -219,6 +229,8 @@ Sieť
 
 [Photo]
 Fotografia
+[Sticker]
+
 [Audio]
 
 [Video]

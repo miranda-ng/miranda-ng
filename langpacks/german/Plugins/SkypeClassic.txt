@@ -153,10 +153,14 @@ Anruf wiederaufnehmen
 Datei
 [&Open group chat]
 K&onferenz &öffnen
+[Block contact]
+Kontakt blockieren
 [Import Skype history]
 Skype-Verlauf importieren
 [Add Skype contact]
 Skype-Kontakt hinzufügen
+[Unblock contact]
+
 ;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
 Unbekannt

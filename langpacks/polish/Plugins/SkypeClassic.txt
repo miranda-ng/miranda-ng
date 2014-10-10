@@ -153,10 +153,14 @@ Wznów
 &Plik
 [&Open group chat]
 &Otwórz czat grupowy
+[Block contact]
+Zablokuj kontakt
 [Import Skype history]
 Importuj historię Skype
 [Add Skype contact]
 Dodaj kontakt Skype
+[Unblock contact]
+
 ;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
 Nieznany

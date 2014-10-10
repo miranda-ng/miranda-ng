@@ -29,10 +29,6 @@
 Автоматично видаляти локальні контакти, яких немає в списку друзів
 [Always notify as unread for all incoming message]
 Позначати всі вхідні повідомлення непрочитаними
-[Mark read on reply]
-Позначати прочитаними при відповіді
-[Mark read on typing]
-Позначати прочитаними при наборі тексту
 [Automatically sync last messages]
 Автоматично синхронізувати останні повідомлення
 [Use local time for received messages]
