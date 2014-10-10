@@ -68,11 +68,11 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Login settings",IDC_STATIC,4,7,293,50
-    LTEXT           "E-mail or phone number:",IDC_STATIC,51,15,95,12
+    LTEXT           "E-mail or phone number:",IDC_STATIC,35,16,108,10
     EDITTEXT        IDC_LOGIN,147,15,89,12,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,51,28,94,12
+    LTEXT           "Password:",IDC_STATIC,35,28,108,10
     EDITTEXT        IDC_PASSWORD,147,28,90,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,42,174,12
+    CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,43,174,11
     GROUPBOX        "Local settings",IDC_STATIC,4,57,293,27
     LTEXT           "Contact list group:",IDC_STATIC,12,69,146,8
     EDITTEXT        IDC_GROUPNAME,167,67,121,12,ES_AUTOHSCROLL
