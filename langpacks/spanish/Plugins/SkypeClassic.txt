@@ -153,9 +153,13 @@ Previsualizar
 &Archivo
 [&Open group chat]
 
+[Block contact]
+
 [Import Skype history]
 
 [Add Skype contact]
+
+[Unblock contact]
 
 ;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]

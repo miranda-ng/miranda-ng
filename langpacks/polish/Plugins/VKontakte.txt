@@ -30,14 +30,14 @@ Ukryj czaty podczas startu
 Automatycznie czyść lokalne kontakty, których brak na twojej liście znajomych
 [Always notify as unread for all incoming message]
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
-[Mark read on reply]
-Oznaczaj jako przeczytane po udzieleniu odpowiedzi
-[Mark read on typing]
-Oznacz jako przeczytaną podczas pisania
 [Automatically sync last messages]
 Automatycznie synchronizuj ostatnie wiadomości
 [Use local time for received messages]
 Używaj czasu lokalnego dla odebranych wiadomości
+[Add [img] bbc for graphical attachments]
+
+[Force online status upon user activity]
+
 [When I ban user...]
 Gdy banuję użytkownika...
 [Report abuse]
@@ -48,6 +48,16 @@ Wyczyść historię serwera
 Usuń z listy znajomych
 [Remove from contact list]
 Usuń z listy kontaktów
+[Mark message as read...]
+
+[on read]
+
+[on receive]
+
+[on reply]
+
+[on typing]
+
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
@@ -219,6 +229,8 @@ Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokaln
 Załączniki:
 [Photo]
 Zdjęcie
+[Sticker]
+
 [Audio]
 Audio
 [Video]

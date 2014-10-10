@@ -30,14 +30,14 @@ Chats beim Start verbergen
 Lokale Kontakte, die nicht in Ihrer Freundesliste sind, automatisch löschen
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
-[Mark read on reply]
-Beim Antworten als gelesen markieren
-[Mark read on typing]
-Beim Tippen als gelesen markieren
 [Automatically sync last messages]
 Letzte Nachrichten automatisch synchronisieren
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
+[Add [img] bbc for graphical attachments]
+
+[Force online status upon user activity]
+
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -48,6 +48,16 @@ Serververlauf löschen
 Aus Freundesliste entfernen
 [Remove from contact list]
 Aus Kontaktliste entfernen
+[Mark message as read...]
+
+[on read]
+
+[on receive]
+
+[on reply]
+
+[on typing]
+
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -219,6 +229,8 @@ Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf
 Anhänge:
 [Photo]
 Foto
+[Sticker]
+
 [Audio]
 Audio
 [Video]
