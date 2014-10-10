@@ -151,10 +151,14 @@
 &Файл
 [&Open group chat]
 &Відкрити чат
+[Block contact]
+Заблокувати контакт
 [Import Skype history]
 Імпортувати історію з Skype
 [Add Skype contact]
 Додати контакт Skype
+[Unblock contact]
+Розблокувати контакт
 [Unknown]
 Невідомо
 [&Invite user...]

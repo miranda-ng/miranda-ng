@@ -8,7 +8,7 @@
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
 [E-mail or phone number:]
-Пошта або № телефону:
+Пошта або номер телефону:
 [Password:]
 Пароль:
 [Open VKontakte site]
@@ -33,6 +33,10 @@
 Автоматично синхронізувати останні повідомлення
 [Use local time for received messages]
 Локальний час для прийнятих повідомлень
+[Add [img] bbc for graphical attachments]
+Додавати BB-код [img] для графічних вкладень
+[Force online status upon user activity]
+Змінювати статус контакта на "В мережі" при його активності
 [When I ban user...]
 При блокуванні користувача...
 [Report abuse]
@@ -43,6 +47,16 @@
 Видалити зі списку друзів
 [Remove from contact list]
 Видалити зі списку контактів
+[Mark message as read...]
+Позначати повідомлення прочитаними...
+[on read]
+при читанні
+[on receive]
+при отриманні
+[on reply]
+при відповіді
+[on typing]
+при наборі тексту
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
@@ -207,6 +221,8 @@
 Вкладення:
 [Photo]
 Фото
+[Sticker]
+Стікер
 [Audio]
 Аудіо
 [Video]

@@ -1,4 +1,5 @@
 ﻿account - учётная запись
+attachment - вложение
 cache - кэш
 contact list - список контактов
 forward - пересылка

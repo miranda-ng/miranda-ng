@@ -1,8 +1,0 @@
-﻿[Add [img] bbc for graphical attachments]
-[Force online status upon user activity]
-[Mark message as read...]
-[on read]
-[on receive]
-[on reply]
-[on typing]
-[Sticker]

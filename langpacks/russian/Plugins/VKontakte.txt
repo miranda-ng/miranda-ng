@@ -34,7 +34,7 @@ E-mail или номер телефона:
 [Use local time for received messages]
 Локальное время для принятых сообщений
 [Add [img] bbc for graphical attachments]
-Добавлять BB-код [img] для графических прикреплений
+Добавлять BB-код [img] для графических вложений
 [Force online status upon user activity]
 Переводить статус контакта в онлайн при его активности
 [When I ban user...]
