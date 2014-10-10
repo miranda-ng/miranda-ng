@@ -151,10 +151,14 @@ SkypeOut контакты в статусе:
 &Файл
 [&Open group chat]
 &Открыть чат
+[Block contact]
+Заблокировать контакт
 [Import Skype history]
 Импортировать историю из Skype
 [Add Skype contact]
 Добавить контакт Skype
+[Unblock contact]
+Разблокировать контакт
 [Unknown]
 Неизвестно
 [&Invite user...]
