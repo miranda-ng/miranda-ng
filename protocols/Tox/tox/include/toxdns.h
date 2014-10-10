@@ -24,11 +24,11 @@
 #ifndef TOXDNS_H
 #define TOXDNS_H
 
-#include <stdint.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include <stdint.h>
 
 /* Clients are encouraged to set this as the maximum length names can have. */
 #define TOXDNS_MAX_RECOMMENDED_NAME_LENGTH 32
