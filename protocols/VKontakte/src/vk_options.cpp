@@ -124,11 +124,12 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread);
 		CheckDlgButton(hwndDlg, IDC_SYNCHISTOTYONONLINE, ppro->m_bAutoSyncHistory);
 		CheckDlgButton(hwndDlg, IDC_USE_LOCAL_TIME, ppro->m_bUseLocalTime);
+		CheckDlgButton(hwndDlg, IDC_ADD_IMG_BBC, ppro->m_bAddImgBbc);
+		CheckDlgButton(hwndDlg, IDC_FORCE_ONLINE_ON_ACT, ppro->m_bUserForceOnlineOnActivity);
 		CheckDlgButton(hwndDlg, IDC_REPORT_ABUSE, ppro->m_bReportAbuse);
 		CheckDlgButton(hwndDlg, IDC_CLEAR_SERVER_HISTORY, ppro->m_bClearServerHistory);
 		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_FRENDLIST, ppro->m_bRemoveFromFrendlist);
 		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_CLIST, ppro->m_bRemoveFromClist);
-
 		CheckDlgButton(hwndDlg, IDC_ONREAD, (ppro->m_iMarkMessageReadOn == markOnRead));
 		CheckDlgButton(hwndDlg, IDC_ONRECEIVE, (ppro->m_iMarkMessageReadOn == markOnReceive));
 		CheckDlgButton(hwndDlg, IDC_ONREPLY, (ppro->m_iMarkMessageReadOn == markOnReply));
@@ -154,6 +155,8 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		case IDC_MESASUREAD: 
 		case IDC_SYNCHISTOTYONONLINE:
 		case IDC_USE_LOCAL_TIME:
+		case IDC_ADD_IMG_BBC:
+		case IDC_FORCE_ONLINE_ON_ACT:
 		case IDC_REPORT_ABUSE:
 		case IDC_CLEAR_SERVER_HISTORY:
 		case IDC_REMOVE_FROM_FRENDLIST:
@@ -201,6 +204,12 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 			ppro->m_bUseLocalTime = IsDlgButtonChecked(hwndDlg, IDC_USE_LOCAL_TIME) == BST_CHECKED;
 			ppro->setByte("UseLocalTime", ppro->m_bUseLocalTime);
+
+			ppro->m_bAddImgBbc = IsDlgButtonChecked(hwndDlg, IDC_ADD_IMG_BBC) == BST_CHECKED;
+			ppro->setByte("AddImgBbc", ppro->m_bAddImgBbc);
+
+			ppro->m_bUserForceOnlineOnActivity = IsDlgButtonChecked(hwndDlg, IDC_FORCE_ONLINE_ON_ACT) == BST_CHECKED;
+			ppro->setByte("UserForceOnlineOnActivity", ppro->m_bUserForceOnlineOnActivity);
 
 			ppro->m_bReportAbuse = IsDlgButtonChecked(hwndDlg, IDC_REPORT_ABUSE) == BST_CHECKED;
 			ppro->setByte("ReportAbuseOnBanUser", ppro->m_bReportAbuse);

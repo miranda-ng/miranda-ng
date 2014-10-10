@@ -73,6 +73,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bRemoveFromClist = getBool("RemoveFromClistOnBanUser", false);
 	m_bPopUpSyncHistory = getBool("PopUpSyncHistory", false);
 	m_iMarkMessageReadOn = getByte("MarkMessageReadOn", 0);
+	m_bAddImgBbc = getBool("AddImgBbc", false);
+	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity", false);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);

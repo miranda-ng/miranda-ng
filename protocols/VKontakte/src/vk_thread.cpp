@@ -527,7 +527,7 @@ void CVkProto::RetrieveUnreadMessages()
 		<< VER_API);
 }
 
-static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_130", "photo_75" };
+static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" };
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
@@ -581,6 +581,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
+		else if (m_bUserForceOnlineOnActivity)
+			setWord(hContact, "Status", ID_STATUS_ONLINE);
 
 		recv.timestamp = m_bUseLocalTime?time(NULL):datetime;
 		recv.tszMessage = ptszBody;
@@ -1060,11 +1062,17 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 		case VKPOLL_MSG_DELFLAGS:
 			flags = json_as_int(json_at(pChild, 2));
 			uid = json_as_int(json_at(pChild, 3));
-			if (((hContact = FindUser(uid)) != NULL) && (flags&VKFLAG_MSGUNREAD)){
-				setDword(hContact, "LastMsgReadTime", time(NULL));
-				SetSrmmReadStatus(hContact);
+			hContact = FindUser(uid);
+			if (hContact != NULL) {
+				if (flags&VKFLAG_MSGUNREAD){
+					setDword(hContact, "LastMsgReadTime", time(NULL));
+					SetSrmmReadStatus(hContact);
+				}
+				if (m_bUserForceOnlineOnActivity)
+					setWord(hContact, "Status", ID_STATUS_ONLINE);
 			}
 			break;
+
 		case VKPOLL_MSG_ADDED: // new message
 			msgid = json_as_int(json_at(pChild, 1));
 
@@ -1078,13 +1086,18 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 				mids.AppendChar(',');
 			mids.AppendFormat("%d", msgid);
 			break;
+
 		case VKPOLL_READ_ALL_OUT:
 			uid = json_as_int(json_at(pChild, 1));
-			if ((hContact = FindUser(uid)) != NULL){
+			hContact = FindUser(uid);
+			if (hContact != NULL){
 				setDword(hContact, "LastMsgReadTime", time(NULL));
 				SetSrmmReadStatus(hContact);
+				if (m_bUserForceOnlineOnActivity)
+					setWord(hContact, "Status", ID_STATUS_ONLINE);
 			}
 			break;
+
 		case VKPOLL_USR_ONLINE:
 			uid = -json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
@@ -1101,8 +1114,12 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 
 		case VKPOLL_USR_UTN:
 			uid = json_as_int(json_at(pChild, 1));
-			if ((hContact = FindUser(uid)) != NULL)
-				ForkThread(&CVkProto::ContactTypingThread, (void *)hContact);	
+			hContact = FindUser(uid);
+			if (hContact != NULL){
+				ForkThread(&CVkProto::ContactTypingThread, (void *)hContact);
+				if (m_bUserForceOnlineOnActivity)
+					setWord(hContact, "Status", ID_STATUS_ONLINE);
+			}
 			break;
 
 		case VKPOLL_CHAT_CHANGED:
@@ -1183,8 +1200,8 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 	for (int k = 0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
 		res.AppendChar('\t');
 		ptrT ptszType(json_as_string(json_get(pAttach, "type")));
-		if (!lstrcmp(ptszType, _T("photo"))) {
-			JSONNODE *pPhoto = json_get(pAttach, "photo");
+		if (!lstrcmp(ptszType, _T("photo")) || !lstrcmp(ptszType, _T("sticker"))) {
+			JSONNODE *pPhoto = json_get(pAttach, mir_t2a(ptszType));
 			if (pPhoto == NULL) continue;
 
 			ptrT ptszLink;
@@ -1198,7 +1215,10 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 
 			int iWidth = json_as_int(json_get(pPhoto, "width"));
 			int iHeight = json_as_int(json_get(pPhoto, "height"));
-			res.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink, iWidth, iHeight);
+			ptrT ptszTypeTranslate((lstrcmp(ptszType, _T("photo")) == 0) ? TranslateT("Photo") : TranslateT("Sticker"));
+			res.AppendFormat(_T("%s: %s (%dx%d)"), ptszTypeTranslate, ptszLink, iWidth, iHeight);
+			if (m_bAddImgBbc)
+				res.AppendFormat(L"\n\t[img]%s[/img]", ptszLink);	
 		}
 		else if (!lstrcmp(ptszType, _T("audio"))) {
 			JSONNODE *pAudio = json_get(pAttach, "audio");
