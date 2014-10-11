@@ -160,7 +160,7 @@ Importuj historię Skype
 [Add Skype contact]
 Dodaj kontakt Skype
 [Unblock contact]
-
+Odblokuj kontakt
 ;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
 Nieznany
