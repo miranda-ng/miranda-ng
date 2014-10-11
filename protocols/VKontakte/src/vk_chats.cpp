@@ -454,7 +454,7 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			CMStringA code;
 			code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
 				"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
-				"while (countMsg > 1) { API.messages.delete({\"message_ids\":itemsMsg});"
+				"while (countMsg > 0) { API.messages.delete({\"message_ids\":itemsMsg});"
 				"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
 				"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, cc->m_chatid);
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnChatDestroy)
@@ -483,7 +483,7 @@ INT_PTR __cdecl CVkProto::OnLeaveChat(WPARAM hContact, LPARAM)
 		CMStringA code;
 		code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
 			"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
-			"while (countMsg > 1) { API.messages.delete({\"message_ids\":itemsMsg});"
+			"while (countMsg > 0) { API.messages.delete({\"message_ids\":itemsMsg});"
 			"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
 			"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, cc->m_chatid);
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnChatDestroy)
