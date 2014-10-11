@@ -127,10 +127,12 @@
 Удалено!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Обновление завершено. Нажмите "Да" для немедленной перезагрузки программы или "Нет", чтобы отложить обновление до выхода.
-[Core components]
-Компоненты ядра
-[Core]
-Ядро
+[Miranda NG Core]
+Ядро Miranda NG
+[Deprecated!]
+Устарело!
+[Update found!]
+Обновление!
 [<< Details]
 << Детали
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
