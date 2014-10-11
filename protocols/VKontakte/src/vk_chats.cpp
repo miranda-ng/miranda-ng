@@ -218,6 +218,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 {
+	debugLogA("CVkProto::AppendChatMessage");
 	CVkChatInfo *cc = AppendChat(id, NULL);
 	if (cc == NULL)
 		return;
@@ -252,6 +253,7 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 
 void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory)
 {
+	debugLogA("CVkProto::AppendChatMessage param");
 	CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
 	if (cu == NULL) {
 		cc->m_users.insert(cu = new CVkChatUser(uid));
@@ -264,12 +266,12 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime,
 
 	GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
-	gce.bIsMe = uid == m_myUserId;
+	gce.bIsMe = (uid == m_myUserId);
 	gce.ptszUID = tszId;
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
-	gce.ptszNick = cu->m_tszNick;
-	gce.ptszText = ptszBody;
+	gce.ptszNick = mir_tstrdup(cu->m_tszNick);
+	gce.ptszText = mir_tstrdup(ptszBody);
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
@@ -472,7 +474,8 @@ void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_QUIT };
 		GCEVENT gce = { sizeof(GCEVENT), &gcd };
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-
+		gcd.iType = GC_EVENT_CONTROL;
+		CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact, 0);
 	}
 }
