@@ -130,10 +130,12 @@ Wczytywanie listy już rozpoczęte!
 Zostanie usunięty!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizacja zakończona. Wciśnij "Tak", aby zrestartować Mirandę teraz lub "Nie", żeby zrobić to później.
-[Core components]
-Komponenty rdzenia
-[Core]
-Rdzeń
+[Miranda NG Core]
+
+[Deprecated!]
+
+[Update found!]
+
 [<< Details]
 << Szczegóły
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]

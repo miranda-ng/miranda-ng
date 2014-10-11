@@ -130,10 +130,12 @@ Laden der Liste hat bereits begonnen!
 Wird gelöscht!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualisierung abgeschlossen. Klicken Sie auf Ja, um Miranda neu zu starten, oder auf Nein, um einen Neustart nach dem Beenden zu machen.
-[Core components]
-Kernkomponenten
-[Core]
-Kern
+[Miranda NG Core]
+
+[Deprecated!]
+
+[Update found!]
+Update gefunden!
 [<< Details]
 << Details
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]

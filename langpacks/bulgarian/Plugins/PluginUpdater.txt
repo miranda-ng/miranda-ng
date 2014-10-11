@@ -130,9 +130,11 @@ Plugin Updater
 Ще бъде изтрито!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Актуализирането приключи. Кликнете върху "Да" за рестартиране на Miranda сега или "Не" за да откажете.
-[Core components]
+[Miranda NG Core]
 
-[Core]
+[Deprecated!]
+
+[Update found!]
 
 [<< Details]
 <<Подробности

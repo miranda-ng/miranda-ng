@@ -130,9 +130,11 @@ Liste vide.
 Sera effacé!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Mise à jour accomplie. Appuyer sur Oui pour redémarrer Miranda maintenant.
-[Core components]
+[Miranda NG Core]
 
-[Core]
+[Deprecated!]
+
+[Update found!]
 
 [<< Details]
 <<Détails

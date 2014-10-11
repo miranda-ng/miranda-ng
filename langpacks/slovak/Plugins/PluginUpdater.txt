@@ -130,9 +130,11 @@ Ikony
 
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 
-[Core components]
+[Miranda NG Core]
 
-[Core]
+[Deprecated!]
+
+[Update found!]
 
 [<< Details]
 
