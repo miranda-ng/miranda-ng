@@ -124,6 +124,7 @@ static char VK_TOKEN_BEG[] = "access_token=";
 
 void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
+	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
 	GrabCookies(reply);
 
 	if (reply->resultCode == 302) { // manual redirect
@@ -1149,6 +1150,8 @@ int CVkProto::PollServer()
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
 	if (reply == NULL) {
 		debugLogA("CVkProto::PollServer is dead");	
+		m_pollingConn = NULL;
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
 		ShutdownSession();
 		return 0;
 	}
@@ -1169,6 +1172,14 @@ int CVkProto::PollServer()
 				PollUpdates(pUpdates);
 			retVal = 1;
 		}
+	} 
+	else if (((reply->resultCode >= 400) && (reply->resultCode <= 417))
+		|| ((reply->resultCode >= 500) && (reply->resultCode <= 509))) {
+		debugLogA("CVkProto::PollServer is dead. Error code - %d", reply->resultCode);
+		m_pollingConn = NULL;
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+		ShutdownSession();
+		return 0;
 	}
 
 	m_pollingConn = reply->nlc;
@@ -1192,6 +1203,7 @@ void CVkProto::PollingThread(void*)
 
 CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 {
+	debugLogA("CVkProto::GetAttachmentDescr");
 	CMString res;
 	res.AppendChar('\n');
 	res += TranslateT("Attachments:");
@@ -1218,7 +1230,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszTypeTranslate((lstrcmp(ptszType, _T("photo")) == 0) ? TranslateT("Photo") : TranslateT("Sticker"));
 			res.AppendFormat(_T("%s: %s (%dx%d)"), ptszTypeTranslate, ptszLink, iWidth, iHeight);
 			if (m_bAddImgBbc)
-				res.AppendFormat(L"\n\t[img]%s[/img]", ptszLink);	
+				res.AppendFormat(L"\n\t[img]%s[/img]", ptszLink);
 		}
 		else if (!lstrcmp(ptszType, _T("audio"))) {
 			JSONNODE *pAudio = json_get(pAttach, "audio");
@@ -1257,7 +1269,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszText(json_as_string(json_get(pWall, "text")));
 			int  id = json_as_int(json_get(pWall, "id"));
 			int  fromID = json_as_int(json_get(pWall, "from_id"));
-			res.AppendFormat(_T("%s: %s - http://vk.com/wall%d_%d"), TranslateT("Wall post"), ptszText, fromID, id);
+			res.AppendFormat(_T("%s: %s - http://vk.com/wall%d_%d"), TranslateT("Wall post"), ptszText ? ptszText : L" ", fromID, id);
 		}
 		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
 
