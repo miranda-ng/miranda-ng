@@ -465,6 +465,35 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	}
 }
 
+INT_PTR __cdecl CVkProto::OnLeaveChat(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::OnLeaveChat");
+	ptrT tszChatID(getTStringA(hContact, "ChatRoomID"));
+	if (tszChatID == NULL)
+		return 1;
+
+	CVkChatInfo *cc = GetChatById(tszChatID);
+	if (cc == NULL)
+		return 1;
+	
+	if (IDYES == MessageBox(NULL,
+		TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
+		TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
+	{
+		CMStringA code;
+		code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
+			"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
+			"while (countMsg > 1) { API.messages.delete({\"message_ids\":itemsMsg});"
+			"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
+			"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, cc->m_chatid);
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnChatDestroy)
+			<< CHAR_PARAM("code", code)
+			<< VER_API)->pUserInfo = cc;
+		return 0;
+	}
+	return 1;
+}
+
 void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnChatDestroy %d", reply->resultCode);

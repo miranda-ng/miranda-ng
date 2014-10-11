@@ -102,9 +102,10 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	gcr.nColors = SIZEOF(sttColors);
 	gcr.pColors = sttColors;
 	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
-	
+	CreateProtoService(PS_LEAVECHAT, &CVkProto::OnLeaveChat);
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
+	// Other hooks
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CVkProto::OnProcessSrmmEvent);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CVkProto::OnDbEventRead);
 

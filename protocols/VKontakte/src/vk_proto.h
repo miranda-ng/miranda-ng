@@ -445,6 +445,7 @@ private:
 	void OnChatDestroy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	int __cdecl OnChatEvent(WPARAM, LPARAM);
 	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
+	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
 	void LogMenuHook(CVkChatInfo*, GCHOOK*);
 	void NickMenuHook(CVkChatInfo*, GCHOOK*);
 	LPTSTR ChangeChatTopic(CVkChatInfo*);

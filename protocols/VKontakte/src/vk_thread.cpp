@@ -562,15 +562,16 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments));
 
 		MCONTACT hContact = FindUser(uid, true);
+		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
+
 		char szMid[40];
 		_itoa(mid, szMid, 10);
-		if (m_iMarkMessageReadOn == markOnReceive){
+		if ((m_iMarkMessageReadOn == markOnReceive) || (chat_id != 0)){
 			if (!mids.IsEmpty())
 				mids.AppendChar(',');
 			mids.Append(szMid);
 		}
 
-		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
 		if (chat_id != 0) {
 			AppendChatMessage(chat_id, pMsg, false);
 			continue;
@@ -598,7 +599,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 	}
 
-	if (m_iMarkMessageReadOn == markOnReceive)
+	if (!mids.IsEmpty())
 		MarkMessagesRead(mids);
 }
 
