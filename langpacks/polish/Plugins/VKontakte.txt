@@ -35,9 +35,9 @@ Automatycznie synchronizuj ostatnie wiadomości
 [Use local time for received messages]
 Używaj czasu lokalnego dla odebranych wiadomości
 [Add [img] bbc for graphical attachments]
-
+Dodaj tag bbc [img] dla załączników graficznych
 [Force online status upon user activity]
-
+Wymuś dostępny status po wykazaniu aktywności przez użytkownika
 [When I ban user...]
 Gdy banuję użytkownika...
 [Report abuse]
@@ -49,15 +49,15 @@ Usuń z listy znajomych
 [Remove from contact list]
 Usuń z listy kontaktów
 [Mark message as read...]
-
+Oznacz wiadomość jako przeczytaną...
 [on read]
-
+po przeczytaniu
 [on receive]
-
+po otrzymaniu
 [on reply]
-
+po udzieleniu odpowiedzi
 [on typing]
-
+podczas pisania
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
@@ -230,7 +230,7 @@ Załączniki:
 [Photo]
 Zdjęcie
 [Sticker]
-
+Naklejka
 [Audio]
 Audio
 [Video]
