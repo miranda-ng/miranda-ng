@@ -130,9 +130,11 @@ La lista está vacía.
 ¡Será eliminado!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Actualización completa. Pulse Sí para reiniciar Miranda ahora o en No para posponer el reinicio hasta la salida.
-[Core components]
+[Miranda NG Core]
 
-[Core]
+[Deprecated!]
+
+[Update found!]
 
 [<< Details]
 << Detalles

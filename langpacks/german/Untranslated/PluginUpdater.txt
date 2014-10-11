@@ -1,0 +1,2 @@
+﻿[Miranda NG Core]
+[Deprecated!]

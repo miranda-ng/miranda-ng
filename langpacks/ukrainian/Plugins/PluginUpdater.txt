@@ -127,10 +127,6 @@
 Видалено!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Оновлення завершено. Натисніть "Так" для негайного перезапуску програми\nабо "Ні", щоб відкласти застосування оновлень до виходу.
-[Core components]
-Компоненти ядра
-[Core]
-Ядро
 [<< Details]
 << Деталі
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
