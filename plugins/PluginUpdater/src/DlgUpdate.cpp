@@ -201,7 +201,6 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			ListView_InsertColumn(hwndList, 1, &lvc);
 
 			//enumerate plugins, fill in list
-			//bool one_enabled = false;
 			ListView_DeleteAllItems(hwndList);
 			///
 			LVGROUP lvg;
@@ -211,21 +210,17 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			lvg.pszHeader = TranslateT("Plugins");
 			lvg.iGroupId = 1;
 			ListView_InsertGroup(hwndList, 0, &lvg);
-
-			lvg.pszHeader = TranslateT("Icons");
+			
+			lvg.pszHeader = TranslateT("Miranda NG Core");
 			lvg.iGroupId = 2;
 			ListView_InsertGroup(hwndList, 0, &lvg);
-			
+
 			lvg.pszHeader = TranslateT("Languages");
 			lvg.iGroupId = 3;
 			ListView_InsertGroup(hwndList, 0, &lvg);
-			
-			lvg.pszHeader = TranslateT("Core components");
-			lvg.iGroupId = 4;
-			ListView_InsertGroup(hwndList, 0, &lvg);
 
-			lvg.pszHeader = TranslateT("Core");
-			lvg.iGroupId = 5;
+			lvg.pszHeader = TranslateT("Icons");
+			lvg.iGroupId = 4;
 			ListView_InsertGroup(hwndList, 0, &lvg);
 			
 			ListView_EnableGroupView(hwndList, TRUE);
@@ -235,11 +230,9 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			for (int i = 0; i < todo.getCount(); ++i) {
 				LVITEM lvI = {0};
 				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
-				lvI.iGroupId = (_tcschr(todo[i].tszOldName, L'\\') == NULL) ? 5 :
-					(_tcsstr(todo[i].tszOldName, _T("Plugins")) != NULL) ? 1 :
-						((_tcsstr(todo[i].tszOldName, _T("Icons")) != NULL) ? 2 : 
-							((_tcsstr(todo[i].tszOldName, _T("Languages")) != NULL) ? 3 : 
-								((_tcsstr(todo[i].tszOldName, _T("Core")) != NULL) ? 4 : 5)));
+				lvI.iGroupId = (_tcsstr(todo[i].tszOldName, _T("Plugins")) != NULL) ? 1 : 
+					((_tcsstr(todo[i].tszOldName, _T("Languages")) != NULL) ? 3 : 
+						((_tcsstr(todo[i].tszOldName, _T("Icons")) != NULL) ? 4 : 2));
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
 				lvI.pszText = todo[i].tszOldName;
@@ -249,6 +242,8 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 				ListView_SetCheckState(hwndList, lvI.iItem, todo[i].bEnabled);
 				if (todo[i].bEnabled)
 					enableOk = true;
+
+				SetStringText(hwndList,i,todo[i].bDeleteOnly ? TranslateT("Deprecated!") : TranslateT("Update found!"));
 			}
 			if(enableOk)
 				EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
@@ -616,16 +611,16 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					mir_sntprintf(tszNewName, SIZEOF(tszNewName), _T("%s\\%s"), tszFolder + cbBaseLen, ffd.cFileName);
 			}
 
-			bool bHasNewVersion = true;
 			TCHAR *ptszUrl;
 			int MyCRC = 0;
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
 
-			BOOL bDeleteOnly = (tszNewName[0] == 0);
+			bool bDeleteOnly = (tszNewName[0] == 0);
 			// this file is not marked for deletion
 			if (!bDeleteOnly) {
 				TCHAR *pName = tszNewName;
 				ServListEntry *item = hashes.find((ServListEntry*)&pName);
+				// Not in list? Check for trailing 'W' or 'w'
 				if (item == NULL) {
 					TCHAR *p = _tcsrchr(tszNewName, '.');
 					if (p[-1] != 'w' && p[-1] != 'W')
@@ -647,7 +642,9 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					char szMyHash[33];
 					__try {
 						CalculateModuleHash(tszBuf, szMyHash);
-						bHasNewVersion = strcmp(szMyHash, item->m_szHash) != 0;
+						// hashes are the same, skipping
+						if (strcmp(szMyHash, item->m_szHash) == 0)
+							continue;
 					}
 					__except (EXCEPTION_EXECUTE_HANDLER)
 					{
@@ -661,43 +658,40 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 			else // file was marked for deletion, add it to the list anyway
 				ptszUrl = _T("");
 
-			// Compare versions
-			if (bHasNewVersion) {
-				// Yeah, we've got new version.
-				Netlib_LogfT(hNetlibUser, _T("Found update for %s"), tszBuf);
-				FILEINFO *FileInfo = new FILEINFO;
-				// copy the relative old name
-				_tcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, SIZEOF(FileInfo->tszOldName));
-				FileInfo->bDeleteOnly = bDeleteOnly;
-				if (FileInfo->bDeleteOnly) {
-					// save the full old name for deletion
-					_tcsncpy(FileInfo->tszNewName, tszBuf, SIZEOF(FileInfo->tszNewName));
-				}
-				else {
-					_tcsncpy(FileInfo->tszNewName, ptszUrl, SIZEOF(FileInfo->tszNewName));
-				}
+			// Yeah, we've got new version.
+			Netlib_LogfT(hNetlibUser, _T("Found update for %s"), tszBuf);
+			FILEINFO *FileInfo = new FILEINFO;
+			// copy the relative old name
+			_tcsncpy(FileInfo->tszOldName, tszBuf + cbBaseLen, SIZEOF(FileInfo->tszOldName));
+			FileInfo->bDeleteOnly = bDeleteOnly;
+			if (FileInfo->bDeleteOnly) {
+				// save the full old name for deletion
+				_tcsncpy(FileInfo->tszNewName, tszBuf, SIZEOF(FileInfo->tszNewName));
+			}
+			else {
+				_tcsncpy(FileInfo->tszNewName, ptszUrl, SIZEOF(FileInfo->tszNewName));
+			}
 
-				_tcsncpy(tszBuf, ptszUrl, SIZEOF(tszBuf));
-				TCHAR *p = _tcsrchr(tszBuf, '.');
-				if (p) *p = 0;
-				p = _tcsrchr(tszBuf, '\\');
-				p = (p) ? p + 1 : tszBuf;
-				_tcslwr(p);
+			_tcsncpy(tszBuf, ptszUrl, SIZEOF(tszBuf));
+			TCHAR *p = _tcsrchr(tszBuf, '.');
+			if (p) *p = 0;
+			p = _tcsrchr(tszBuf, '\\');
+			p = (p) ? p + 1 : tszBuf;
+			_tcslwr(p);
 
-				mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, p);
-				mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
-				for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
-					*p++ = '/';
+			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, p);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
+			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
+				*p++ = '/';
 
-				// remember whether the user has decided not to update this component with this particular new version
-				FileInfo->bEnabled = db_get_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(FileInfo->tszOldName)), 1);
+			// remember whether the user has decided not to update this component with this particular new version
+			FileInfo->bEnabled = db_get_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(FileInfo->tszOldName)), 1);
 
-				FileInfo->File.CRCsum = MyCRC;
-				UpdateFiles->insert(FileInfo);
+			FileInfo->File.CRCsum = MyCRC;
+			UpdateFiles->insert(FileInfo);
 
-				if (!opts.bSilent || FileInfo->bEnabled)
-					count++;
-			} // end compare versions
+			if (!opts.bSilent || FileInfo->bEnabled)
+				count++;
 		}
 	}
 		while (FindNextFile(hFind, &ffd) != 0);
@@ -762,6 +756,7 @@ void UninitCheck()
 		DestroyWindow(hwndDialog);
 }
 
+// menu item command
 INT_PTR MenuCommand(WPARAM, LPARAM)
 {
 	Netlib_LogfT(hNetlibUser, _T("Update started manually!"));
