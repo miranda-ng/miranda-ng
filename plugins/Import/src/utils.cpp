@@ -36,7 +36,7 @@ bool IsProtocolLoaded(const char *pszProtocolName)
 // ------------------------------------------------
 // Returns 1 if successful and 0 when it fails.
 
-int CreateGroup(const TCHAR* group, MCONTACT hContact)
+int CreateGroup(const TCHAR *group, MCONTACT hContact)
 {
 	if (group == NULL)
 		return 0;
@@ -49,22 +49,18 @@ int CreateGroup(const TCHAR* group, MCONTACT hContact)
 	// Check for duplicate & find unused id
 	char groupIdStr[11];
 	for (int groupId = 0;; groupId++) {
-		DBVARIANT dbv;
 		itoa(groupId, groupIdStr, 10);
-		if (db_get_ts(NULL, "CListGroups", groupIdStr, &dbv))
+		ptrT tszDbGroup(db_get_tsa(NULL, "CListGroups", groupIdStr));
+		if (tszDbGroup == NULL)
 			break;
 
-		if (!lstrcmp(dbv.ptszVal + 1, tszGrpName + 1)) {
+		if (!lstrcmp((TCHAR*)tszDbGroup+1, tszGrpName+1)) {
 			if (hContact)
 				db_set_ts(hContact, "CList", "Group", tszGrpName + 1);
 			else
 				AddMessage(LPGENT("Skipping duplicate group %s."), tszGrpName + 1);
-
-			db_free(&dbv);
 			return 0;
 		}
-
-		db_free(&dbv);
 	}
 
 	db_set_ts(NULL, "CListGroups", groupIdStr, tszGrpName);
@@ -90,16 +86,14 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 	static MCONTACT hPreviousContact = INVALID_CONTACT_ID;
 	static HANDLE hPreviousDbEvent = NULL;
 
-	HANDLE hExistingDbEvent;
-	DWORD dwEventTimeStamp;
-
 	// get last event
-	if (!(hExistingDbEvent = db_event_last(hContact)))
+	HANDLE hExistingDbEvent = db_event_last(hContact);
+	if (hExistingDbEvent == NULL)
 		return FALSE;
 
 	DBEVENTINFO dbeiExisting = { sizeof(dbeiExisting) };
 	db_event_get(hExistingDbEvent, &dbeiExisting);
-	dwEventTimeStamp = dbeiExisting.timestamp;
+	DWORD dwEventTimeStamp = dbeiExisting.timestamp;
 
 	// compare with last timestamp
 	if (dbei.timestamp > dwEventTimeStamp) {
@@ -129,7 +123,6 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 			// remember event
 			dwPreviousTimeStamp = dwEventTimeStamp;
 			hPreviousDbEvent = hExistingDbEvent;
-
 			if (dbei.timestamp != dwEventTimeStamp)
 				return FALSE;
 		}
@@ -225,8 +218,9 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 /////////////////////////////////////////////////////////////////////////////////////////
 // icons
 
-static IconItem iconList[] = {
-		{ LPGEN("Import..."), "import_main", IDI_IMPORT }
+static IconItem iconList[] =
+{
+	{ LPGEN("Import..."), "import_main", IDI_IMPORT }
 };
 
 HICON GetIcon(int iIconId)
