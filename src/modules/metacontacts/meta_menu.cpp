@@ -112,6 +112,9 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	// remove the last one
 	int id = ccMeta->nSubs - 1;
 	char buffer[512];
+	mir_snprintf(buffer, SIZEOF(buffer), "Handle%d", id);
+	db_unset(ccMeta->contactID, META_PROTO, buffer);
+
 	mir_snprintf(buffer, SIZEOF(buffer), "Protocol%d", id);
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
