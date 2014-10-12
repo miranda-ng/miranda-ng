@@ -455,6 +455,9 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Contact's deletion hook
+
 int Meta_ContactDeleted(WPARAM hContact, LPARAM lParam)
 {
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
@@ -467,6 +470,10 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM lParam)
 		if (ccMeta) {
 			Meta_RemoveContactNumber(ccMeta, Meta_GetContactNumber(ccMeta, hContact), true);
 			NotifyEventHooks(hSubcontactsChanged, ccMeta->contactID, 0);
+
+			// no more subs? remove the meta itself
+			if (ccMeta->nSubs == 0)
+				CallService(MS_DB_CONTACT_DELETE, ccMeta->contactID, 0);
 		}
 		return 0;
 	}
@@ -489,11 +496,12 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-/** Call when we want to send a user is typing message
-*
-* @param wParam HANDLE to the contact that we are typing to
-* @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Call when we want to send a user is typing message
+//
+// @param wParam HANDLE to the contact that we are typing to
+// @param lParam either PROTOTYPE_SELFTYPING_ON or PROTOTYPE_SELFTYPING_OFF
+
 static INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(hMeta);
@@ -514,11 +522,11 @@ static INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 	return 0;
 }
 
-/** Called when user info is about to be shown
-*
-* Returns 1 to stop event processing and opens page for metacontact default contact (returning 1 to stop it doesn't work!)
-*
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Called when user info is about to be shown
+//
+// Returns 1 to stop event processing and opens page for metacontact default 
+// contact (returning 1 to stop it doesn't work!)
 
 static int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 {
@@ -530,7 +538,9 @@ static int Meta_UserInfo(WPARAM wParam, LPARAM hMeta)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // record window open/close status for subs & metas
+
 static int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
@@ -558,7 +568,9 @@ static int Meta_MessageWindowEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // returns manually chosen sub in the meta window
+
 static INT_PTR Meta_SrmmCurrentSub(WPARAM hMeta, LPARAM lParam)
 {
 	MetaSrmmData tmp = { hMeta };
@@ -568,7 +580,9 @@ static INT_PTR Meta_SrmmCurrentSub(WPARAM hMeta, LPARAM lParam)
 	return db_mc_getMostOnline(hMeta);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // we assume that it could be called only for the metacontacts
+
 static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData*)lParam;
@@ -619,10 +633,10 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 	return 0;
 }
 
-/** Called when all the plugin are loaded into Miranda.
-*
-* Initializes the 4 menus present in the context-menu
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Called when all the plugin are loaded into Miranda.
+//
+// Initializes the 4 menus present in the context-menu
 
 int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -691,6 +705,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // file transfer support - mostly not required, since subcontacts do the receiving
 
 INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
@@ -821,10 +836,10 @@ INT_PTR MenuFunc(WPARAM wParam, LPARAM lParam, LPARAM param)
 	return Meta_ContactMenuFunc(wParam, param);
 }
 
-/** Initializes all services provided by the plugin
-*
-* Creates every function and hooks the event desired.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Initializes all services provided by the plugin
+//
+// Creates every function and hooks the event desired.
 
 void Meta_InitServices()
 {
@@ -889,7 +904,9 @@ void Meta_InitServices()
 	hEventNudge = CreateHookableEvent(META_PROTO "/Nudge");
 }
 
-// Unregister all hooks and services from Miranda
+/////////////////////////////////////////////////////////////////////////////////////////
+// Destroy created events
+
 void Meta_CloseHandles()
 {
 	DestroyHookableEvent(hSubcontactsChanged);
