@@ -253,7 +253,7 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 
 void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory)
 {
-	debugLogA("CVkProto::AppendChatMessage param");
+	debugLogA("CVkProto::AppendChatMessage2");
 	CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
 	if (cu == NULL) {
 		cc->m_users.insert(cu = new CVkChatUser(uid));
@@ -263,6 +263,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime,
 
 	TCHAR tszId[20];
 	_itot(uid, tszId, 10);
+	CMString tszBody(ptszBody);
 
 	GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -270,8 +271,8 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime,
 	gce.ptszUID = tszId;
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
-	gce.ptszNick = mir_tstrdup(cu->m_tszNick);
-	gce.ptszText = mir_tstrdup(ptszBody);
+	gce.ptszNick = cu->m_tszNick ? mir_tstrdup(cu->m_tszNick) : mir_tstrdup(TranslateT("Unknown"));
+	gce.ptszText = tszBody.IsEmpty() ? mir_tstrdup(L"...") : mir_tstrdup(tszBody.GetBuffer());
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
