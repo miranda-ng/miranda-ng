@@ -32,23 +32,26 @@ int GetRichTextLength(HWND hwnd)
 	return (int)SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 }
 
-TCHAR* RemoveFormatting(const TCHAR* pszWord)
-{
-	static TCHAR szTemp[10000];
-	int i = 0;
-	int j = 0;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	if (pszWord == 0 || pszWord[0] == 0)
+static TCHAR szTemp[10000];
+
+TCHAR* RemoveFormatting(const TCHAR *pszWord)
+{
+	if (pszWord == NULL)
 		return NULL;
 
-	while (j < 9999 && i <= lstrlen(pszWord)) {
+	TCHAR *d = szTemp;
+	int cbLen = lstrlen(pszWord);
+	if (cbLen > SIZEOF(szTemp))
+		cbLen = SIZEOF(szTemp)-1;
+
+	for (int i = 0; i < cbLen; ) {
 		if (pszWord[i] == '%') {
-			switch (pszWord[i + 1]) {
+			switch (pszWord[i+1]) {
 			case '%':
-				szTemp[j] = '%';
-				j++;
-				i++; i++;
-				break;
+				*d++ = '%';
+
 			case 'b':
 			case 'u':
 			case 'i':
@@ -58,29 +61,21 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord)
 			case 'r':
 			case 'C':
 			case 'F':
-				i++; i++;
-				break;
+				i += 2;
+				continue;
 
 			case 'c':
 			case 'f':
 				i += 4;
-				break;
-
-			default:
-				szTemp[j] = pszWord[i];
-				j++;
-				i++;
-				break;
+				continue;
 			}
 		}
-		else {
-			szTemp[j] = pszWord[i];
-			j++;
-			i++;
-		}
-	}
 
-	return (TCHAR*)&szTemp;
+		*d++ = pszWord[i++];
+	}
+	*d = 0;
+
+	return szTemp;
 }
 
 BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
