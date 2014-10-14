@@ -7,6 +7,7 @@
 #define IDD_OPT_MAIN                    103
 #define IDD_INVITE                      104
 #define IDD_GC_CREATE                   105
+#define IDD_OPT_ADV                     106
 #define IDI_NOTIFICATION                109
 #define IDI_FRIENDADD                   110
 #define IDI_BAN                         111
@@ -43,6 +44,7 @@
 #define IDC_REMOVE_FROM_CLIST           1033
 #define IDC_ADD_IMG_BBC                 1034
 #define IDC_FORCE_ONLINE_ON_ACT         1035
+#define IDC_STICKERS_AS_SMYLES          1036
 #define IDC_ONREAD                      1039
 #define IDC_ONRECEIVE                   1040
 #define IDC_ONREPLY                     1041

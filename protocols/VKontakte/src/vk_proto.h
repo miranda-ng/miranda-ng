@@ -408,6 +408,7 @@ private:
 		m_bRemoveFromClist,
 		m_bPopUpSyncHistory,
 		m_bAddImgBbc,
+		m_bStikersAsSmyles,
 		m_bUserForceOnlineOnActivity;
 
 	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
@@ -434,6 +435,7 @@ private:
 	bool   CheckMid(int guid);
 
 	static INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, JSONNODE *pNode);
