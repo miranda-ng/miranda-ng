@@ -14,18 +14,18 @@
 Пароль:
 [Open VKontakte site]
 Адкрыць старонку ВКонтакте
+[Advanced]
+Дадаткова
+[Hide chats on startup]
+Не адчыняць вокны пакояў пры далучэнні
 [Login settings]
 Налады уваходу
 [Local settings]
 Лакальныя налады
 [Contact list group:]
 Гурт у спісе кантактаў
-[Advanced]
-Дадаткова
 [Server-side delivery confirmation]
 Падцверджанне дастаўкі з боку сервера
-[Hide chats on startup]
-Не адчыняць вокны пакояў пры далучэнні
 [Automatically wipe local contacts missing in your friend list]
 Аўтаматычна выдаляць кантакты, якіх няма на серверы
 [Bots challenge test]

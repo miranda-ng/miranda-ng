@@ -14,25 +14,11 @@ Correo o número de teléfono:
 Contraseña:
 [Open VKontakte site]
 Abrir sitio VKontakte
-[Login settings]
-
-[Local settings]
-
-[Contact list group:]
-
 [Advanced]
 Avanzado
-[Server-side delivery confirmation]
-
 [Hide chats on startup]
 
-[Automatically wipe local contacts missing in your friend list]
-
 [Always notify as unread for all incoming message]
-
-[Automatically sync last messages]
-
-[Use local time for received messages]
 
 [Add [img] bbc for graphical attachments]
 
@@ -47,6 +33,22 @@ Avanzado
 [Remove from friend list]
 
 [Remove from contact list]
+
+[Process stickers as smiles]
+
+[Login settings]
+
+[Local settings]
+
+[Contact list group:]
+
+[Server-side delivery confirmation]
+
+[Use local time for received messages]
+
+[Automatically sync last messages]
+
+[Automatically wipe local contacts missing in your friend list]
 
 [Mark message as read...]
 
@@ -229,8 +231,6 @@ Cuenta
 Adjuntos:
 [Photo]
 Foto
-[Sticker]
-
 [Audio]
 
 [Video]

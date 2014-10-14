@@ -1,5 +1,6 @@
 ﻿[Add [img] bbc for graphical attachments]
 [Force online status upon user activity]
+[Process stickers as smiles]
 [Mark message as read...]
 [on read]
 [on receive]
@@ -13,4 +14,3 @@
 [Delete from friendlist icon]
 [Report abuse icon]
 [Ban user icon]
-[Sticker]

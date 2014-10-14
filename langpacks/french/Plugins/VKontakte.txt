@@ -14,26 +14,12 @@ Support du protocole VKontakte pour Miranda NG.
 Passe :
 [Open VKontakte site]
 
-[Login settings]
-
-[Local settings]
-
-[Contact list group:]
-
 [Advanced]
 Avancé
-[Server-side delivery confirmation]
-
 [Hide chats on startup]
-
-[Automatically wipe local contacts missing in your friend list]
 
 [Always notify as unread for all incoming message]
 
-[Automatically sync last messages]
-
-[Use local time for received messages]
-Utiliser l'heure locale pour les messages reçus
 [Add [img] bbc for graphical attachments]
 
 [Force online status upon user activity]
@@ -47,6 +33,22 @@ Utiliser l'heure locale pour les messages reçus
 [Remove from friend list]
 
 [Remove from contact list]
+
+[Process stickers as smiles]
+
+[Login settings]
+
+[Local settings]
+
+[Contact list group:]
+
+[Server-side delivery confirmation]
+
+[Use local time for received messages]
+Utiliser l'heure locale pour les messages reçus
+[Automatically sync last messages]
+
+[Automatically wipe local contacts missing in your friend list]
 
 [Mark message as read...]
 
@@ -229,8 +231,6 @@ Erreurs
 
 [Photo]
 Photo
-[Sticker]
-
 [Audio]
 Audio
 [Video]
