@@ -1213,8 +1213,8 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 	for (int k = 0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
 		res.AppendChar('\t');
 		ptrT ptszType(json_as_string(json_get(pAttach, "type")));
-		if (!lstrcmp(ptszType, _T("photo")) || !lstrcmp(ptszType, _T("sticker"))) {
-			JSONNODE *pPhoto = json_get(pAttach, mir_t2a(ptszType));
+		if (!lstrcmp(ptszType, _T("photo"))) {
+			JSONNODE *pPhoto = json_get(pAttach, "photo");
 			if (pPhoto == NULL) continue;
 
 			ptrT ptszLink;
@@ -1228,8 +1228,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 
 			int iWidth = json_as_int(json_get(pPhoto, "width"));
 			int iHeight = json_as_int(json_get(pPhoto, "height"));
-			ptrT ptszTypeTranslate((lstrcmp(ptszType, _T("photo")) == 0) ? TranslateT("Photo") : TranslateT("Sticker"));
-			res.AppendFormat(_T("%s: %s (%dx%d)"), ptszTypeTranslate, ptszLink, iWidth, iHeight);
+			res.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink, iWidth, iHeight);
 			if (m_bAddImgBbc)
 				res.AppendFormat(L"\n\t[img]%s[/img]", ptszLink);
 		}
@@ -1271,6 +1270,30 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			int  id = json_as_int(json_get(pWall, "id"));
 			int  fromID = json_as_int(json_get(pWall, "from_id"));
 			res.AppendFormat(_T("%s: %s - http://vk.com/wall%d_%d"), TranslateT("Wall post"), ptszText ? ptszText : L" ", fromID, id);
+		}
+		else if (!lstrcmp(ptszType, _T("sticker"))) {
+			JSONNODE *pSticker = json_get(pAttach, "sticker");
+			if (pSticker == NULL) continue;
+			res.Empty(); // sticker is not really an attachment, so we don't want all that heading info
+			
+			if (m_bStikersAsSmyles){
+				int  id = json_as_int(json_get(pSticker, "id"));
+				res.AppendFormat(L"[sticker:%d]", id);
+			}
+			else {
+				ptrT ptszLink;
+				for (int i = 0; i < SIZEOF(szImageTypes); i++) {
+					JSONNODE *n = json_get(pSticker, szImageTypes[i]);
+					if (n != NULL) {
+						ptszLink = json_as_string(n);
+						break;
+					}
+				}
+				res.AppendFormat(L"%s", ptszLink);
+
+				if (m_bAddImgBbc)
+					res.AppendFormat(L"[img]%s[/img]", ptszLink);
+			}
 		}
 		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
 
