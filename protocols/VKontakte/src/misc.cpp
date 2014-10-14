@@ -546,3 +546,20 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
+
+char* CVkProto::GetStickerId (const char* Msg, int &stickerid)
+{
+	int iRes = 0;
+	char HeadMsg[32] = { 0 };
+	char* retMsg = NULL;
+	iRes = sscanf(Msg, "[sticker:%d]", &stickerid);
+	if (iRes == 1){
+		mir_snprintf(HeadMsg, 32, "[sticker:%d]", stickerid);
+		int retLen = strlen(HeadMsg);
+		if (retLen<strlen(Msg))
+			retMsg = mir_strdup(&Msg[retLen]); 
+		return retMsg;
+	}
+	stickerid = 0;
+	return NULL;
+}
