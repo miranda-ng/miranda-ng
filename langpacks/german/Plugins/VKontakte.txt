@@ -21,9 +21,9 @@ Chats beim Start verbergen
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
 [Add [img] bbc for graphical attachments]
-
+BBCode [img] für grafische Anhänge verwenden
 [Force online status upon user activity]
-
+Onlinestatus bei Aktivität des Benutzers erzwingen
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -34,10 +34,10 @@ Serververlauf löschen
 Aus Freundesliste entfernen
 [Remove from contact list]
 Aus Kontaktliste entfernen
-[Process stickers as smiles]
-
+[Process stickers as smileys]
+Sticker als Snileys darstellen
 [Login settings]
-Login-Einstellungen
+Anmeldeeinstellungen
 [Local settings]
 Lokale Einstellungen
 [Contact list group:]
@@ -51,15 +51,15 @@ Letzte Nachrichten automatisch synchronisieren
 [Automatically wipe local contacts missing in your friend list]
 Lokale Kontakte, die nicht in Ihrer Freundesliste sind, automatisch löschen
 [Mark message as read...]
-
+Nachricht als gelesen markieren...
 [on read]
-
+Beim Lesen
 [on receive]
-
+Beim Empfangen
 [on reply]
-
+Beim Antworten
 [on typing]
-
+Beim Tippen
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -86,21 +86,21 @@ Fehler
 [Captcha form icon]
 Captcha Form. Icon
 [Notification icon]
-
+Benachrichtigungsicon
 [Read message icon]
-
+Nachricht-gelesen-Icon
 [Visit profile icon]
-
+Profil-besuchen-Icon
 [Load server history icon]
-
+Servervarlauf-laden-Icon
 [Add to friendlist icon]
-
+Zu-Freundesliste-hinzufügen-Icon
 [Delete from friendlist icon]
-
+Von-Freundesliste-löschen-Icon
 [Report abuse icon]
-
+Missbrauch-melden-Icon
 [Ban user icon]
-
+Benutzer-bannen-Icon
 [Protocols]
 Protokolle
 [VKontakte]
