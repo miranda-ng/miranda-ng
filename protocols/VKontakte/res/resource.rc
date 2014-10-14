@@ -12,7 +12,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -34,12 +34,12 @@ IDI_ABUSE               ICON                    "report.ico"
 IDI_VISITPROFILE        ICON                    "home.ico"
 IDI_HISTORY             ICON                    "history.ico"
 IDI_KEYS                ICON                    "key.ico"
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -71,8 +71,14 @@ BEGIN
     BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 297
+        VERTGUIDE, 12
+        VERTGUIDE, 150
+        VERTGUIDE, 155
+        VERTGUIDE, 162
+        VERTGUIDE, 167
+        VERTGUIDE, 288
         TOPMARGIN, 7
-        BOTTOMMARGIN, 188
+        BOTTOMMARGIN, 177
     END
 
     IDD_INVITE, DIALOG
@@ -130,23 +136,23 @@ BEGIN
     CONTROL         "Remove from friend list",IDC_REMOVE_FROM_FRENDLIST,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,101,129,10
     CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,112,129,10
-    CONTROL         "Process stickers as smiles",IDC_STICKERS_AS_SMYLES,
+    CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10
 END
 
-IDD_OPT_MAIN DIALOGEX 0, 0, 304, 199
+IDD_OPT_MAIN DIALOGEX 0, 0, 304, 188
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Login settings",IDC_STATIC,4,8,293,50
-    LTEXT           "E-mail or phone number:",IDC_STATIC,35,16,108,10
-    EDITTEXT        IDC_LOGIN,147,15,89,12,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,35,28,108,10
-    EDITTEXT        IDC_PASSWORD,147,28,90,12,ES_PASSWORD | ES_AUTOHSCROLL
+    RTEXT           "E-mail or phone number:",IDC_STATIC,12,16,150,10
+    EDITTEXT        IDC_LOGIN,167,15,121,12,ES_AUTOHSCROLL
+    RTEXT           "Password:",IDC_STATIC,4,28,158,10
+    EDITTEXT        IDC_PASSWORD,167,28,121,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,43,174,11
-    GROUPBOX        "Local settings",IDC_STATIC,4,59,293,83
-    LTEXT           "Contact list group:",IDC_STATIC,12,71,146,8
+    GROUPBOX        "Local settings",IDC_STATIC,4,59,293,77
+    RTEXT           "Contact list group:",IDC_STATIC,12,71,150,8
     EDITTEXT        IDC_GROUPNAME,167,69,121,12,ES_AUTOHSCROLL
     CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,88,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
@@ -155,11 +161,11 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,110,278,10
     CONTROL         "Automatically wipe local contacts missing in your friend list",IDC_AUTOCLEAN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,121,278,10
-    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,146,293,33,WS_GROUP
-    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,156,129,10
-    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,167,129,10
-    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,156,129,10
-    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,167,129,10
+    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,140,293,33,WS_GROUP
+    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,151,138,10
+    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,161,138,10
+    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,151,133,10
+    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,161,133,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
@@ -228,7 +234,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Английский (США) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
