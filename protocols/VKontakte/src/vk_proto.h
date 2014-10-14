@@ -322,6 +322,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void SetMirVer(MCONTACT hContact, int platform);
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void __cdecl ContactTypingThread(void *p);
+	char* GetStickerId(const char* Msg, int& stickerid);
 
 	static UINT_PTR m_timer;
 

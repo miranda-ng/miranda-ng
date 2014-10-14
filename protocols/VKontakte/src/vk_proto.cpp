@@ -343,17 +343,31 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	else
 		szMsg = mir_utf8encode(msg);
 
+	int StickerId = 0; 
+	ptrA retMsg(GetStickerId(szMsg, StickerId));
+
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
 		<< INT_PARAM("user_id", userID)
-		<< CHAR_PARAM("message", szMsg)
 		<< VER_API;
+
+	if (StickerId != 0)
+		pReq << INT_PARAM("sticker_id", StickerId);
+	else
+		pReq << CHAR_PARAM("message", szMsg);
+
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	pReq->pUserInfo = new CVkSendMsgParam(hContact, msgId); 
 	Push(pReq);
 
 	if (!m_bServerDelivery)
 		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));
+	
+	if (retMsg){
+		int _flags = flags | PREF_UTF;
+		Sleep(330);
+		SendMsg(hContact, _flags, retMsg);
+	}
 	return msgId;
 }
 
