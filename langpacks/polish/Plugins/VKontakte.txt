@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.21
+;  Version: 0.1.0.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -34,8 +34,8 @@ Wyczyść historię serwera
 Usuń z listy znajomych
 [Remove from contact list]
 Usuń z listy kontaktów
-[Process stickers as smiles]
-Przetwarzaj naklejki jako emotikony
+[Process stickers as smileys]
+Przetwarzaj naklejki jako uśmieszki
 [Login settings]
 Opcje logowania
 [Local settings]
