@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.21
+;  Version: 0.1.0.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -33,7 +33,7 @@ E-mail или номер телефона:
 Удалить из списка друзей
 [Remove from contact list]
 Удалить из списка контактов
-[Process stickers as smiles]
+[Process stickers as smileys]
 Обрабатывать стикеры как смайлы
 [Login settings]
 Настройки входа
