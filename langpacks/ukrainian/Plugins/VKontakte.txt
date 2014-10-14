@@ -33,6 +33,8 @@
 Видалити зі списку друзів
 [Remove from contact list]
 Видалити зі списку контактів
+[Process stickers as smiles]
+Обробляти стікери як смайли
 [Login settings]
 Налаштування входу
 [Local settings]

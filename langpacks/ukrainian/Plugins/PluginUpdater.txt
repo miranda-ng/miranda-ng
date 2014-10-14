@@ -127,6 +127,12 @@
 Видалено!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Оновлення завершено. Натисніть "Так" для негайного перезапуску програми\nабо "Ні", щоб відкласти застосування оновлень до виходу.
+[Miranda NG Core]
+Ядро Miranda NG
+[Deprecated!]
+Застарів!
+[Update found!]
+Є оновлення!
 [<< Details]
 << Деталі
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
