@@ -14,26 +14,12 @@ E-Mail oder Telefonnummer:
 Passwort:
 [Open VKontakte site]
 VKontakte-Seite öffnen
-[Login settings]
-Login-Einstellungen
-[Local settings]
-Lokale Einstellungen
-[Contact list group:]
-Kontaktlistengruppe:
 [Advanced]
 Erweitert
-[Server-side delivery confirmation]
-Serverseitige Empfangsbestätigungen
 [Hide chats on startup]
 Chats beim Start verbergen
-[Automatically wipe local contacts missing in your friend list]
-Lokale Kontakte, die nicht in Ihrer Freundesliste sind, automatisch löschen
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
-[Automatically sync last messages]
-Letzte Nachrichten automatisch synchronisieren
-[Use local time for received messages]
-Lokale Zeit für empfangene Nachrichten verwenden
 [Add [img] bbc for graphical attachments]
 
 [Force online status upon user activity]
@@ -48,6 +34,22 @@ Serververlauf löschen
 Aus Freundesliste entfernen
 [Remove from contact list]
 Aus Kontaktliste entfernen
+[Process stickers as smiles]
+
+[Login settings]
+Login-Einstellungen
+[Local settings]
+Lokale Einstellungen
+[Contact list group:]
+Kontaktlistengruppe:
+[Server-side delivery confirmation]
+Serverseitige Empfangsbestätigungen
+[Use local time for received messages]
+Lokale Zeit für empfangene Nachrichten verwenden
+[Automatically sync last messages]
+Letzte Nachrichten automatisch synchronisieren
+[Automatically wipe local contacts missing in your friend list]
+Lokale Kontakte, die nicht in Ihrer Freundesliste sind, automatisch löschen
 [Mark message as read...]
 
 [on read]
@@ -229,8 +231,6 @@ Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf
 Anhänge:
 [Photo]
 Foto
-[Sticker]
-
 [Audio]
 Audio
 [Video]

@@ -13,26 +13,12 @@
 Пароль:
 [Open VKontakte site]
 Відкрити сторінку ВКонтактi
-[Login settings]
-Налаштування входу
-[Local settings]
-Локальні налаштування
-[Contact list group:]
-Група в списку контактів:
 [Advanced]
 Додатково
-[Server-side delivery confirmation]
-Підтвердження доставки зі сторони серверу
 [Hide chats on startup]
 Не відкривати вікна чатів при старті
-[Automatically wipe local contacts missing in your friend list]
-Автоматично видаляти локальні контакти, яких немає в списку друзів
 [Always notify as unread for all incoming message]
 Позначати всі вхідні повідомлення непрочитаними
-[Automatically sync last messages]
-Автоматично синхронізувати останні повідомлення
-[Use local time for received messages]
-Локальний час для прийнятих повідомлень
 [Add [img] bbc for graphical attachments]
 Додавати BB-код [img] для графічних вкладень
 [Force online status upon user activity]
@@ -47,6 +33,20 @@
 Видалити зі списку друзів
 [Remove from contact list]
 Видалити зі списку контактів
+[Login settings]
+Налаштування входу
+[Local settings]
+Локальні налаштування
+[Contact list group:]
+Група в списку контактів:
+[Server-side delivery confirmation]
+Підтвердження доставки зі сторони серверу
+[Use local time for received messages]
+Локальний час для прийнятих повідомлень
+[Automatically sync last messages]
+Автоматично синхронізувати останні повідомлення
+[Automatically wipe local contacts missing in your friend list]
+Автоматично видаляти локальні контакти, яких немає в списку друзів
 [Mark message as read...]
 Позначати повідомлення прочитаними...
 [on read]
@@ -221,8 +221,6 @@
 Вкладення:
 [Photo]
 Фото
-[Sticker]
-Стікер
 [Audio]
 Аудіо
 [Video]

@@ -14,26 +14,12 @@ E-mail lub numer telefonu:
 Hasło:
 [Open VKontakte site]
 Otwórz stronę VKontakte
-[Login settings]
-Opcje logowania
-[Local settings]
-Ustawienia lokalne
-[Contact list group:]
-Grupa na liście kontaktów:
 [Advanced]
 Zaawansowane
-[Server-side delivery confirmation]
-Potwierdzenie dostarczenia ze strony serwera
 [Hide chats on startup]
 Ukryj czaty podczas startu
-[Automatically wipe local contacts missing in your friend list]
-Automatycznie czyść lokalne kontakty, których brak na twojej liście znajomych
 [Always notify as unread for all incoming message]
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
-[Automatically sync last messages]
-Automatycznie synchronizuj ostatnie wiadomości
-[Use local time for received messages]
-Używaj czasu lokalnego dla odebranych wiadomości
 [Add [img] bbc for graphical attachments]
 Dodaj tag bbc [img] dla załączników graficznych
 [Force online status upon user activity]
@@ -48,6 +34,22 @@ Wyczyść historię serwera
 Usuń z listy znajomych
 [Remove from contact list]
 Usuń z listy kontaktów
+[Process stickers as smiles]
+
+[Login settings]
+Opcje logowania
+[Local settings]
+Ustawienia lokalne
+[Contact list group:]
+Grupa na liście kontaktów:
+[Server-side delivery confirmation]
+Potwierdzenie dostarczenia ze strony serwera
+[Use local time for received messages]
+Używaj czasu lokalnego dla odebranych wiadomości
+[Automatically sync last messages]
+Automatycznie synchronizuj ostatnie wiadomości
+[Automatically wipe local contacts missing in your friend list]
+Automatycznie czyść lokalne kontakty, których brak na twojej liście znajomych
 [Mark message as read...]
 Oznacz wiadomość jako przeczytaną...
 [on read]
@@ -229,8 +231,6 @@ Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokaln
 Załączniki:
 [Photo]
 Zdjęcie
-[Sticker]
-Naklejka
 [Audio]
 Audio
 [Video]
