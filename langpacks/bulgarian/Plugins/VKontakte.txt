@@ -129,7 +129,7 @@
 
 [(Unknown contact)]
 (Непознат контакт)
-[Kick]
+[Chat]
 
 [&Invite a user]
 Поканване на потребител

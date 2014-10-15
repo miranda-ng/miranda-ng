@@ -129,8 +129,8 @@ Warnung
 
 [(Unknown contact)]
 (Unbekannter Kontakt)
-[Kick]
-Kicken
+[Chat]
+Chat
 [&Invite a user]
 Benutzer e&inladen
 [View/change &title]

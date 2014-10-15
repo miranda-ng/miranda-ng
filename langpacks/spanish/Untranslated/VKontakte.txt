@@ -42,7 +42,7 @@
 [Warning]
 [I'm back]
 [You've been kicked by ]
-[Kick]
+[Chat]
 [&Invite a user]
 [View/change &title]
 [&Destroy room]
