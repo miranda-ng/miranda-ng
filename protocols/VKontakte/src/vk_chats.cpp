@@ -28,6 +28,7 @@ static LPCTSTR sttStatuses[] = { LPGENT("Participants"), LPGENT("Owners") };
 
 CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 {
+	debugLog(L"CVkProto::AppendChat");
 	if (id == 0)
 		return NULL;
 
@@ -69,6 +70,12 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
 
+	setDword(gci.hContact, "vk_chat_id", id);
+
+	if (json_as_int(json_get(pDlg, "left")) == 1){
+		m_chats.remove(c);
+		return NULL;
+	}
 	gcd.iType = GC_EVENT_CONTROL;
 	gce.ptszStatus = 0;
 	CallServiceSync(MS_GC_EVENT, (m_bHideChats) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
@@ -129,8 +136,11 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			gce.ptszText = tszTitle;
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		}
-		
-		cc->m_admin_id = json_as_int(json_get(info, "admin_id"));
+		if (json_as_int(json_get(info, "left")) == 1){
+			LeaveChat(cc->m_chatid);
+			return;
+		}
+		cc->m_admin_id = json_as_int(json_get(info, "admin_id"));	
 	}
 
 	JSONNODE *users = json_get(pResponse, "users");
@@ -466,6 +476,25 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 	}
 }
 
+INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::OnJoinChat");
+	
+	int chat_id = getDword(hContact, "vk_chat_id", -1);
+	
+	if (chat_id == -1)
+		return 1;
+
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg)
+		<< INT_PARAM("chat_id", chat_id)
+		<< TCHAR_PARAM("message", TranslateT("I'm back"))
+		<< VER_API;
+	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+	Push(pReq);
+
+	return 0;
+}
+
 INT_PTR __cdecl CVkProto::OnLeaveChat(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::OnLeaveChat");
@@ -477,37 +506,72 @@ INT_PTR __cdecl CVkProto::OnLeaveChat(WPARAM hContact, LPARAM)
 	if (cc == NULL)
 		return 1;
 	
-	if (IDYES == MessageBox(NULL,
-		TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"),
-		TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
-	{
-		CMStringA code;
-		code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
-			"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
-			"while (countMsg > 0) { API.messages.delete({\"message_ids\":itemsMsg});"
-			"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
-			"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, cc->m_chatid);
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnChatDestroy)
-			<< CHAR_PARAM("code", code)
-			<< VER_API)->pUserInfo = cc;
-		return 0;
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.removeChatUser.json", true, &CVkProto::OnChatLeave)
+		<< INT_PARAM("chat_id", cc->m_chatid)
+		<< INT_PARAM("user_id", m_myUserId)
+		<< VER_API)->pUserInfo = cc;
+
+	return 0;
+}
+
+void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
+{
+	debugLogA("CVkProto::LeaveChat");
+	CVkChatInfo *cc = (CVkChatInfo*)m_chats.find((CVkChatInfo*)&chat_id);
+	if (cc == NULL)
+		return;
+
+	GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_QUIT };
+	GCEVENT gce = { sizeof(GCEVENT), &gcd };
+	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	gcd.iType = GC_EVENT_CONTROL;
+	CallServiceSync(MS_GC_EVENT, close_window? SESSION_TERMINATE:SESSION_OFFLINE, (LPARAM)&gce);
+	if (delete_chat)
+		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact, 0);
+	m_chats.remove(cc);
+}
+
+void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
+{
+	debugLogA("CVkProto::KickFromChat (%d)", user_id);
+	if (user_id == m_myUserId)
+		return;
+
+	MCONTACT hContact = FindUser(user_id, false);
+	CMString msg = json_as_string(json_get(pMsg, "body"));
+	if (msg.IsEmpty()) {
+		msg = TranslateT("You've been kicked by ");
+		if (hContact != NULL)
+			msg += db_get_tsa(hContact, m_szModuleName, "Nick");
+		else
+			msg += TranslateT("(Unknown contact)");
 	}
-	return 1;
+	else
+		AppendChatMessage(chat_id, pMsg, false);
+
+	MsgPopup(hContact, msg, TranslateT("Kick"));
+	LeaveChat(chat_id, false);
+}
+
+void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	debugLogA("CVkProto::OnChatLeave %d", reply->resultCode);
+	if (reply->resultCode != 200)
+		return;
+	
+	CVkChatInfo *cc = (CVkChatInfo*)pReq->pUserInfo;
+	LeaveChat(cc->m_chatid);
+	
 }
 
 void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnChatDestroy %d", reply->resultCode);
-	if (reply->resultCode == 200) {
-		CVkChatInfo *cc = (CVkChatInfo*)pReq->pUserInfo;
+	if (reply->resultCode != 200)
+		return;
 
-		GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_QUIT };
-		GCEVENT gce = { sizeof(GCEVENT), &gcd };
-		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-		gcd.iType = GC_EVENT_CONTROL;
-		CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
-		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact, 0);
-	}
+	CVkChatInfo *cc = (CVkChatInfo*)pReq->pUserInfo;
+	LeaveChat(cc->m_chatid, true, true);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

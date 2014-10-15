@@ -445,10 +445,14 @@ private:
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnChatLeave(NETLIBHTTPREQUEST*, AsyncHttpRequest *);
 	void OnChatDestroy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	int __cdecl OnChatEvent(WPARAM, LPARAM);
 	int __cdecl OnGcMenuHook(WPARAM, LPARAM);
+	void KickFromChat(int chat_id, int user_id, JSONNODE* pMsg);
+	void LeaveChat(int chat_id, bool close_window = true, bool delete_chat = false);
 	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
+	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);
 	void LogMenuHook(CVkChatInfo*, GCHOOK*);
 	void NickMenuHook(CVkChatInfo*, GCHOOK*);
 	LPTSTR ChangeChatTopic(CVkChatInfo*);
