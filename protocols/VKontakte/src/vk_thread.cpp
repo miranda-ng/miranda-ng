@@ -573,7 +573,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		if (chat_id != 0) {
-			AppendChatMessage(chat_id, pMsg, false);
+			CMString action_chat = json_as_string(json_get(pMsg, "action"));
+			CMString action_mid = json_as_string(json_get(pMsg, "action_mid")); 
+			if (action_chat == "chat_kick_user")
+				KickFromChat(chat_id, _ttoi(action_mid.GetBuffer()), pMsg);
+			else
+				AppendChatMessage(chat_id, pMsg, false);
 			continue;
 		}
 
@@ -621,7 +626,9 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	if (m_bAutoSyncHistory&&m_bPopUpSyncHistory)
 		MsgPopup(NULL, TranslateT("Start sync history"), TranslateT("Sync history"));
+	debugLogA("CVkProto::OnReceiveDlgs numDlgs = %d", numDlgs);
 	for (int i = 0; i < numDlgs; i++) {
+		debugLogA("CVkProto::OnReceiveDlgs i = %d", i);
 		JSONNODE *pDlg = json_at(pDlgs, i);
 		if (pDlg == NULL)
 			break; 
@@ -634,6 +641,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 		int chatid = json_as_int(json_get(pDlg, "chat_id"));
 		if (chatid != 0) {
+			debugLogA("CVkProto::OnReceiveDlgs chatid = %d", chatid);
 			if (m_chats.find((CVkChatInfo*)&chatid) == NULL)
 				AppendChat(chatid, pDlg);
 		}
