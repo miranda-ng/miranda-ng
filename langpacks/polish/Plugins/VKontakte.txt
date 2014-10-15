@@ -126,11 +126,11 @@ Ostrzeżenie
 [I'm back]
 Wróciłem
 [You've been kicked by ]
-Zostałeś wykopany przez 
+Zostałeś wykopany przez\s
 [(Unknown contact)]
 (Nieznany kontakt)
-[Kick]
-Wykop
+[Chat]
+Czat
 [&Invite a user]
 &Zaproś użytkownika
 [View/change &title]

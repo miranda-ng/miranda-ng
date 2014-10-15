@@ -129,7 +129,7 @@ Varovanie
 
 [(Unknown contact)]
 (neznámý kontakt)
-[Kick]
+[Chat]
 
 [&Invite a user]
 

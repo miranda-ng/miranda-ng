@@ -129,8 +129,8 @@ Avertissement
 
 [(Unknown contact)]
 (Contact inconnu)
-[Kick]
-Exclure
+[Chat]
+
 [&Invite a user]
 
 [View/change &title]

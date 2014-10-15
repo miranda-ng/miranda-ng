@@ -129,7 +129,7 @@ Desconocido
 
 [(Unknown contact)]
 (Contacto desconocido)
-[Kick]
+[Chat]
 
 [&Invite a user]
 

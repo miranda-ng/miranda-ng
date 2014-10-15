@@ -45,6 +45,7 @@
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 [I'm back]
 [You've been kicked by ]
+[Chat]
 [&Invite a user]
 [View/change &title]
 [&Destroy room]
