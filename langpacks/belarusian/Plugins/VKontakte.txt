@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.21
+;  Version: 0.1.0.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -71,6 +71,8 @@
 Гэты чат будзе знішчаны з усімі кантактамі. Гэта дзеянне нельга адкаціць. Вы ўпэўнены?
 [Warning]
 Папярэджанне
+[(Unknown contact)]
+(Невядомы кантакт)
 [&Invite a user]
 Запрасіць кантакт
 [View/change &title]
@@ -92,8 +94,6 @@
 Далучэнне да сервера %s
 [Create new chat]
 Стварыць чат
-[(Unknown contact)]
-(Невядомы кантакт)
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Attachments:]
 Укладанні:

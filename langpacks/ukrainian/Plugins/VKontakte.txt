@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.21
+;  Version: 0.1.0.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -33,7 +33,7 @@
 Видалити зі списку друзів
 [Remove from contact list]
 Видалити зі списку контактів
-[Process stickers as smiles]
+[Process stickers as smileys]
 Обробляти стікери як смайли
 [Login settings]
 Налаштування входу
@@ -119,6 +119,8 @@
 Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
 [Warning]
 Попередження
+[(Unknown contact)]
+(Невідомий контакт)
 [&Invite a user]
 &Запросити користувача
 [View/change &title]
@@ -173,8 +175,6 @@
 Сповіщення
 [User %s added as friend]
 %s доданий до вашого списку друзів
-[(Unknown contact)]
-(Невідомий контакт)
 [You cannot add yourself as friend]
 Ви не можете додати себе до списку друзів
 [Cannot add this user to friends as they have put you on their blacklist]

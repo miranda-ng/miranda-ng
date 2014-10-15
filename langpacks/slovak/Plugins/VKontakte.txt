@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.21
+;  Version: 0.1.0.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -34,7 +34,7 @@ Podrobne
 
 [Remove from contact list]
 
-[Process stickers as smiles]
+[Process stickers as smileys]
 
 [Login settings]
 
@@ -123,6 +123,14 @@ neznáme
 
 [Warning]
 Varovanie
+[I'm back]
+
+[You've been kicked by ]
+
+[(Unknown contact)]
+(neznámý kontakt)
+[Kick]
+
 [&Invite a user]
 
 [View/change &title]
@@ -180,8 +188,6 @@ Sieť
 
 [User %s added as friend]
 
-[(Unknown contact)]
-(neznámý kontakt)
 [You cannot add yourself as friend]
 
 [Cannot add this user to friends as they have put you on their blacklist]
