@@ -119,6 +119,14 @@ Cоздать комнату чата
 Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
 [Warning]
 Предупреждение
+[I'm back]
+Я вернулся
+[You've been kicked by ]
+Вы были выкинуты пользователем\s
+[(Unknown contact)]
+(Неизвестный контакт)
+[Kick]
+Выкинуть
 [&Invite a user]
 &Пригласить пользователя
 [View/change &title]
@@ -173,8 +181,6 @@ Cоздать комнату чата
 Уведомдение
 [User %s added as friend]
 Пользователь %s добавлен в друзья
-[(Unknown contact)]
-(Неизвестный контакт)
 [You cannot add yourself as friend]
 Вы не можете добавить себя в друзья
 [Cannot add this user to friends as they have put you on their blacklist]
