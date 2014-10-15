@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.21
+;  Version: 0.1.0.22
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -123,6 +123,14 @@ Neuen Chattitel eingeben
 Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
 [Warning]
 Warnung
+[I'm back]
+
+[You've been kicked by ]
+
+[(Unknown contact)]
+(Unbekannter Kontakt)
+[Kick]
+Kicken
 [&Invite a user]
 Benutzer e&inladen
 [View/change &title]
@@ -180,8 +188,6 @@ Fehler
 Benachrichtigung
 [User %s added as friend]
 Benutzer %s wurde als Freund hinzugefügt.
-[(Unknown contact)]
-(Unbekannter Kontakt)
 [You cannot add yourself as friend]
 Sie können sich nicht selbst als Freund hinzufügen.
 [Cannot add this user to friends as they have put you on their blacklist]
