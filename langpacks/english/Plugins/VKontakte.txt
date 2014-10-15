@@ -69,7 +69,7 @@
 [I'm back]
 [You've been kicked by ]
 [(Unknown contact)]
-[Kick]
+[Chat]
 [&Invite a user]
 [View/change &title]
 [&Destroy room]
