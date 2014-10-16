@@ -198,9 +198,14 @@ void CopySettings(MCONTACT srcID, const char *szSrcModule, MCONTACT dstID, const
 
 static bool FindDestAccount(const char *szProto)
 {
-	for (int i = 0; i < arAccountMap.getCount(); i++)
-		if (!strcmp(arAccountMap[i].szDstAcc, szProto))
+	for (int i = 0; i < arAccountMap.getCount(); i++) {
+		AccountMap &pam = arAccountMap[i];
+		if (pam.szDstAcc == NULL)
+			continue;
+
+		if (!strcmp(pam.szDstAcc, szProto))
 			return true;
+	}
 	
 	return false;
 }
