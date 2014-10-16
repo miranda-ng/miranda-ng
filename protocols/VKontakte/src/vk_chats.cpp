@@ -550,7 +550,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 		AppendChatMessage(chat_id, pMsg, false);
 
 	MsgPopup(hContact, msg, TranslateT("Chat"));
-	LeaveChat(chat_id, false);
+	LeaveChat(chat_id);
 }
 
 void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
