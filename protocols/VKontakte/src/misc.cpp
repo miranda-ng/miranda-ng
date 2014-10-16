@@ -137,9 +137,10 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 		if (fup)
 			fup->iErrorCode = iErrorCode;
 		break;
+	case VKERR_FLOOD_CONTROL:
+		pReq->m_iRetry = 0;
 	case VKERR_UNKNOWN:
 	case VKERR_TOO_MANY_REQ_PER_SEC:
-	case VKERR_FLOOD_CONTROL:
 	case VKERR_INTERNAL_SERVER_ERR:
 		if (pReq->m_iRetry > 0){
 			pReq->bNeedsRestart = true;

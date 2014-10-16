@@ -577,15 +577,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			int action_mid = _ttoi(json_as_string(json_get(pMsg, "action_mid")));
 			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
 				KickFromChat(chat_id, uid, pMsg);
-			else if ((action_chat == "chat_invite_user") && (action_mid == m_myUserId)){
-				MCONTACT chatContact = FindChat(chat_id);
-				if (chatContact){
-					db_unset(chatContact, m_szModuleName, "kicked");
-					db_unset(chatContact, m_szModuleName, "off");
-				}
-				AppendChatMessage(chat_id, pMsg, false);
-			} 
-			else 
+			else
 				AppendChatMessage(chat_id, pMsg, false);
 			continue;
 		}
