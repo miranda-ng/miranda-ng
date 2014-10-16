@@ -196,6 +196,15 @@ void CopySettings(MCONTACT srcID, const char *szSrcModule, MCONTACT dstID, const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static bool FindDestAccount(const char *szProto)
+{
+	for (int i = 0; i < arAccountMap.getCount(); i++)
+		if (!strcmp(arAccountMap[i].szDstAcc, szProto))
+			return true;
+	
+	return false;
+}
+ 
 static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
 {
 	int destProtoCount;
@@ -206,7 +215,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
 	for (int i = 0; i < destProtoCount; i++) {
 		PROTOACCOUNT *pa = destAccs[i];
 		// already used? skip
-		if (arAccountMap.find((AccountMap*)&pa->szProtoName))
+		if (FindDestAccount(pa->szModuleName))
 			continue;
 
 		// different base protocotol type -> skip
