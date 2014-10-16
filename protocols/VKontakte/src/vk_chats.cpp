@@ -32,6 +32,11 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	if (id == 0)
 		return NULL;
 
+	MCONTACT chatContact = FindChat(id);
+	if (chatContact)
+		if (getBool(chatContact, "kicked", false))
+			return NULL;
+
 	CVkChatInfo *c = m_chats.find((CVkChatInfo*)&id);
 	if (c != NULL)
 		return c;
@@ -71,8 +76,10 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	}
 
 	setDword(gci.hContact, "vk_chat_id", id);
+	db_unset(gci.hContact, m_szModuleName,  "off");
 
 	if (json_as_int(json_get(pDlg, "left")) == 1){
+		setByte(gci.hContact, "off", 1);
 		m_chats.remove(c);
 		return NULL;
 	}
@@ -136,7 +143,8 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			gce.ptszText = tszTitle;
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		}
-		if (json_as_int(json_get(info, "left")) == 1){
+		if ((json_as_int(json_get(info, "left")) == 1) || (json_as_int(json_get(info, "kicked")) == 1)){
+			setByte(cc->m_hContact, "kicked", true);
 			LeaveChat(cc->m_chatid);
 			return;
 		}
@@ -480,6 +488,9 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::OnJoinChat");
 	
+	if (getBool(hContact, "kicked", false))
+		return 1;
+	
 	int chat_id = getDword(hContact, "vk_chat_id", -1);
 	
 	if (chat_id == -1)
@@ -491,7 +502,7 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 		<< VER_API;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	Push(pReq);
-
+	db_unset(hContact, "off", false);
 	return 0;
 }
 
@@ -528,6 +539,8 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 	CallServiceSync(MS_GC_EVENT, close_window? SESSION_TERMINATE:SESSION_OFFLINE, (LPARAM)&gce);
 	if (delete_chat)
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact, 0);
+	else
+		setByte(cc->m_hContact, "off", true);
 	m_chats.remove(cc);
 }
 
@@ -535,6 +548,10 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 {
 	debugLogA("CVkProto::KickFromChat (%d)", user_id);
 	if (user_id == m_myUserId)
+		return;
+	
+	CVkChatInfo *cc = (CVkChatInfo*)m_chats.find((CVkChatInfo*)&chat_id);
+	if (cc == NULL)
 		return;
 
 	MCONTACT hContact = FindUser(user_id, false);
@@ -550,6 +567,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 		AppendChatMessage(chat_id, pMsg, false);
 
 	MsgPopup(hContact, msg, TranslateT("Chat"));
+	setByte(cc->m_hContact, "kicked", 1);
 	LeaveChat(chat_id);
 }
 
@@ -562,6 +580,32 @@ void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	CVkChatInfo *cc = (CVkChatInfo*)pReq->pUserInfo;
 	LeaveChat(cc->m_chatid);
 	
+}
+
+INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcDestroyKickChat");
+
+	if (!getBool(hContact, "off", false))
+		return 1;
+		
+	int chat_id = getDword(hContact, "vk_chat_id", -1);
+	if (chat_id == -1) 
+		return 1;
+	
+	CMStringA code;
+	code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
+		"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
+		"while (countMsg > 0) { API.messages.delete({\"message_ids\":itemsMsg});"
+		"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
+		"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", chat_id, chat_id);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
+		<< CHAR_PARAM("code", code)
+		<< VER_API);
+
+	CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+
+	return 0;
 }
 
 void CVkProto::OnChatDestroy(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

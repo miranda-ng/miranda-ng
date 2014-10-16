@@ -131,6 +131,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_DELETEFRIEND, &CVkProto::SvcDeleteFriend);
 	CreateProtoService(PS_BANUSER, &CVkProto::SvcBanUser);
 	CreateProtoService(PS_REPORTABUSE, &CVkProto::SvcReportAbuse);
+	CreateProtoService(PS_DESTROYKICKCHAT, &CVkProto::SvcDestroyKickChat);
 	
 	CLISTMENUITEM mi = { sizeof(mi) };
 	char szService[100];
@@ -195,6 +196,13 @@ void CVkProto::InitMenus()
 	mi.ptszName = LPGENT("Report abuse");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_REPORTABUSE] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_DESTROYKICKCHAT);
+	mi.position = -200001000 + CMI_DESTROYKICKCHAT;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
+	mi.ptszName = LPGENT("Destroy room");
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_DESTROYKICKCHAT] = Menu_AddContactMenuItem(&mi);
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
@@ -207,7 +215,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend);
 	Menu_ShowItem(g_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact));
-
+	Menu_ShowItem(g_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact)&&getBool(hContact, "off", false));
 	return 0;
 }
 
