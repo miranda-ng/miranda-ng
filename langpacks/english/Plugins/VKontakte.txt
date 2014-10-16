@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.22
+;  Version: 0.1.0.23
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -97,6 +97,7 @@
 [Add as friend]
 [Delete from friend list]
 [Ban user]
+[Destroy room]
 [Errors]
 [Notification]
 [User %s added as friend]
