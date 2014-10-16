@@ -73,6 +73,7 @@
 [Add as friend]
 [Delete from friend list]
 [Ban user]
+[Destroy room]
 [Errors]
 [Notification]
 [User %s added as friend]
