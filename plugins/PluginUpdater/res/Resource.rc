@@ -52,7 +52,7 @@ BEGIN
     PUSHBUTTON      "Select &none",IDC_SELNONE,175,218,60,14,NOT WS_TABSTOP
 END
 
-IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 273, 219
+IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 273, 238
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -76,6 +76,7 @@ BEGIN
     CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,150,247,10
     EDITTEXT        IDC_CUSTOMURL,11,164,234,16,ES_AUTOHSCROLL | WS_DISABLED
     CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,193,247,15,NOT WS_VISIBLE
+    LTEXT           "!!! Switch to Stable version is now impossible due to incompatibility with currrent Dev version",IDC_DONTSWITCHTOSTABLE,11,214,247,19,NOT WS_VISIBLE
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 174
@@ -176,7 +177,7 @@ BEGIN
         VERTGUIDE, 11
         VERTGUIDE, 258
         VERTGUIDE, 264
-        BOTTOMMARGIN, 214
+        BOTTOMMARGIN, 233
     END
 
     IDD_POPUP, DIALOG
