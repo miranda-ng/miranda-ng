@@ -205,6 +205,11 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
 	PROTOACCOUNT *pProto = NULL;
 	for (int i = 0; i < destProtoCount; i++) {
 		PROTOACCOUNT *pa = destAccs[i];
+		// already used? skip
+		if (arAccountMap.find((AccountMap*)&pa->szProtoName))
+			continue;
+
+		// different base protocotol type -> skip
 		if (lstrcmpA(pa->szProtoName, szBaseProto))
 			continue;
 
