@@ -248,11 +248,13 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 		rtrim(str);
 		if (str[0] == ';') {
 			db_unset(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE);
-			continue;
 		}
-		if (!strcmp(str, "DoNotSwitchToStable")) {
+		else if (!strcmp(str, "DoNotSwitchToStable")) {
 			db_set_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
-			db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+			// Reset setting if needed
+			int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
+			if (UpdateMode == UPDATE_MODE_STABLE)
+				db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
 		}
 		else {
 			Netlib_Logf(hNetlibUser, "Update: %s", str);

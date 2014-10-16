@@ -47,7 +47,10 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		if (db_get_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 0)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STABLE), FALSE);
-			db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+			// Reset setting if needed
+			int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
+			if (UpdateMode == UPDATE_MODE_STABLE)
+				db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_DONTSWITCHTOSTABLE), SW_SHOW);
 		}
 

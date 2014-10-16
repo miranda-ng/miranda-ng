@@ -76,7 +76,7 @@ BEGIN
     CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,11,150,247,10
     EDITTEXT        IDC_CUSTOMURL,11,164,234,16,ES_AUTOHSCROLL | WS_DISABLED
     CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,193,247,15,NOT WS_VISIBLE
-    LTEXT           "!!! Switch to Stable version is now impossible due to incompatibility with currrent Dev version",IDC_DONTSWITCHTOSTABLE,11,214,247,19,NOT WS_VISIBLE
+    LTEXT           "Switch to Stable version is now impossible due to incompatibility with currrent Dev version!",IDC_DONTSWITCHTOSTABLE,11,214,247,19,NOT WS_VISIBLE
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 174
