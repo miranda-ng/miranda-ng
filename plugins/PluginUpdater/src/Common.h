@@ -127,6 +127,7 @@ struct PlugOptions
 #define DB_SETTING_NEED_RESTART		"NeedRestart"
 #define DB_SETTING_RESTART_COUNT	"RestartCount"
 #define DB_SETTING_LAST_UPDATE		"LastUpdate"
+#define DB_SETTING_DONT_SWITCH_TO_STABLE		"DontSwitchToStable"
 #define DB_MODULE_FILES				MODNAME "Files"
 
 #define MAX_RETRIES			3

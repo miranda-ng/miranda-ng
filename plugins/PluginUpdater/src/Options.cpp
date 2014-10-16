@@ -45,7 +45,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
 
-		switch(GetUpdateMode()) {
+		if (db_get_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 0)) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_STABLE), FALSE);
+			db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_DONTSWITCHTOSTABLE), SW_SHOW);
+		}
+
+		switch (GetUpdateMode()) {
 			case UPDATE_MODE_STABLE:
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
 				CheckDlgButton(hwndDlg, IDC_STABLE, TRUE);

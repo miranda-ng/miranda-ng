@@ -246,21 +246,31 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	char str[200];
 	while(fgets(str, SIZEOF(str), fp) != NULL) {
 		rtrim(str);
-		Netlib_Logf(hNetlibUser,"Update: %s", str);
-		char *p = strchr(str, ' ');
-		if (p != NULL) {
-			*p++ = 0;
-			_strlwr(p);
+		if (str[0] == ';') {
+			db_unset(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE);
+			continue;
+		}
+		if (!strcmp(str, "DoNotSwitchToStable")) {
+			db_set_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
+			db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+		}
+		else {
+			Netlib_Logf(hNetlibUser, "Update: %s", str);
+			char *p = strchr(str, ' ');
+			if (p != NULL) {
+				*p++ = 0;
+				_strlwr(p);
 
-			int dwCrc32;
-			char *p1 = strchr(p, ' ');
-			if (p1 == NULL)
-				dwCrc32 = 0;
-			else {
-				*p1++ = 0;
-				sscanf(p1, "%08x", &dwCrc32);
+				int dwCrc32;
+				char *p1 = strchr(p, ' ');
+				if (p1 == NULL)
+					dwCrc32 = 0;
+				else {
+					*p1++ = 0;
+					sscanf(p1, "%08x", &dwCrc32);
+				}
+				arHashes.insert(new ServListEntry(str, p, dwCrc32));
 			}
-			arHashes.insert(new ServListEntry(str, p, dwCrc32));
 		}
 	}
 	fclose(fp);
