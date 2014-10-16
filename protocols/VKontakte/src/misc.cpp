@@ -57,6 +57,23 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	return hNewContact;
 }
 
+MCONTACT CVkProto::FindChat(LONG dwUserid)
+{
+	if (!dwUserid)
+		return NULL;
+
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		LONG dbUserid = getDword(hContact, "vk_chat_id", -1);
+		if (dbUserid == -1)
+			continue;
+
+		if (dbUserid == dwUserid)
+			return hContact;
+	}
+
+	return NULL;
+}
+
 bool CVkProto::CheckMid(int guid)
 {
 	for (int i=m_sendIds.getCount()-1; i >= 0; i--)
@@ -555,7 +572,7 @@ char* CVkProto::GetStickerId (const char* Msg, int &stickerid)
 	iRes = sscanf(Msg, "[sticker:%d]", &stickerid);
 	if (iRes == 1){
 		mir_snprintf(HeadMsg, 32, "[sticker:%d]", stickerid);
-		int retLen = strlen(HeadMsg);
+		size_t retLen = strlen(HeadMsg);
 		if (retLen<strlen(Msg))
 			retMsg = mir_strdup(&Msg[retLen]); 
 		return retMsg;

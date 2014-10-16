@@ -22,6 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_DELETEFRIEND "/DeleteFriend"
 #define PS_BANUSER "/BanUser"
 #define PS_REPORTABUSE "/ReportAbuse"
+#define PS_DESTROYKICKCHAT "/DestroyKickChat"
 #define MAXHISTORYMIDSPERONE 200
 #define MAX_RETRIES 10
 
@@ -237,6 +238,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcBanUser(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcDestroyKickChat(WPARAM hContact, LPARAM);
 	void InitMenus();
 	void UnInitMenus();
 	int  __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
@@ -343,6 +345,7 @@ private:
 		CMI_DELETEFRIEND,
 		CMI_BANUSER,
 		CMI_REPORTABUSE,
+		CMI_DESTROYKICKCHAT,
 		CMI_COUNT
 	};
 	enum ProtoMenuIndexes {
@@ -392,6 +395,7 @@ private:
 	void   ReloadAvatarInfo(MCONTACT hContact);
 
 	MCONTACT FindUser(LONG userid, bool bCreate = false);
+	MCONTACT FindChat(LONG dwUserid);
 
 	void   SetAllContactStatuses(int status);
 
