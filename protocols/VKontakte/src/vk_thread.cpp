@@ -575,8 +575,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (chat_id != 0) {
 			CMString action_chat = json_as_string(json_get(pMsg, "action"));
 			CMString action_mid = json_as_string(json_get(pMsg, "action_mid")); 
-			if (action_chat == "chat_kick_user")
-				KickFromChat(chat_id, _ttoi(action_mid.GetBuffer()), pMsg);
+			if ((action_chat == "chat_kick_user") && (_ttoi(action_mid.GetBuffer()) == m_myUserId))
+				KickFromChat(chat_id, uid, pMsg);
 			else
 				AppendChatMessage(chat_id, pMsg, false);
 			continue;
