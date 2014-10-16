@@ -183,7 +183,7 @@ Usuń z listy znajomych
 [Ban user]
 Zbanuj użytkownika
 [Destroy room]
-
+Zniszcz pokój
 [Errors]
 Błędy
 [Notification]
