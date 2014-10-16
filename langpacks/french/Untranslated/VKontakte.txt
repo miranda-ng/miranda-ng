@@ -65,6 +65,7 @@
 [Add as friend]
 [Delete from friend list]
 [Ban user]
+[Destroy room]
 [Notification]
 [User %s added as friend]
 [You cannot add yourself as friend]
