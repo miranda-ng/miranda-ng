@@ -27,7 +27,7 @@
 [Development version with debug symbols]
 [Custom version]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-[!!! Switch to Stable version is now impossible due to incompatibility with currrent Dev version]
+[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
 [Notifications]
 [Restart]
 [Errors]
