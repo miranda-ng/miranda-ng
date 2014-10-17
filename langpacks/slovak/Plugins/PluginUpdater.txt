@@ -48,6 +48,8 @@ Vybrať všetko
 
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
+[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
+
 [Notifications]
 
 [Restart]
@@ -182,7 +184,7 @@ Ikony
 
 [Plugin Updater HTTP connection]
 
-[Checking new updates...]
+[Checking for new updates...]
 
-[An error occurred while checking new updates.]
+[An error occurred while checking for new updates.]
 

@@ -48,6 +48,8 @@
 Персонализирана версия
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Някои компоненти са актуализирани.\nНеобхдимо е да рестартирате Miranda за да бъдат приложени актуализациите.
+[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
+
 [Notifications]
 Уведомявания
 [Restart]
@@ -182,7 +184,7 @@ Plugin Updater
 Списък на приставките
 [Plugin Updater HTTP connection]
 HTTP връзки на приставката Plugin Updater
-[Checking new updates...]
+[Checking for new updates...]
 Проверка за нови актуализации...
-[An error occurred while checking new updates.]
+[An error occurred while checking for new updates.]
 Възникна грешка при проверката за актуализации.

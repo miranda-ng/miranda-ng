@@ -1,5 +1,6 @@
 ﻿[Silent mode]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
 [Restart]
 [For "Restart" popup setting is always infinity]
 [Miranda NG Core]

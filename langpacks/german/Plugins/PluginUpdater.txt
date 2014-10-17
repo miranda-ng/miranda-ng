@@ -48,6 +48,8 @@ Entwicklungsversion mit Debugsymbolen
 Eigene Version
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Einige Komponenten wurden aktualisiert.\nSie müssen Miranda neu starten um die Aktualisierungen zu übernehmen.
+[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
+
 [Notifications]
 Benachrichtigungen
 [Restart]
@@ -182,7 +184,7 @@ Plugininfo
 Pluginliste
 [Plugin Updater HTTP connection]
 Plugin-Updater-HTTP-Verbindung
-[Checking new updates...]
+[Checking for new updates...]
 Prüfe auf neue Aktualisierungen...
-[An error occurred while checking new updates.]
+[An error occurred while checking for new updates.]
 Ein Fehler trat bei der Prüfung auf Aktualisierungen auf.

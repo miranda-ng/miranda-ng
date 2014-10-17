@@ -48,6 +48,8 @@ Wersja rozwojowa z symbolami debugowania
 Niestandardowa wersja
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirande, aby zainstalować pobrane aktualizacje.
+[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
+
 [Notifications]
 Powiadomienia
 [Restart]
@@ -182,7 +184,7 @@ Informacje o wtyczkach
 Lista wtyczek
 [Plugin Updater HTTP connection]
 Połączenie HTTP Plugin Updater
-[Checking new updates...]
+[Checking for new updates...]
 Sprawdzanie aktualizacji...
-[An error occurred while checking new updates.]
+[An error occurred while checking for new updates.]
 Wystąpił błąd podczas sprawdzania aktualizacji.
