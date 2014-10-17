@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.23
+;  Version: 0.1.0.24
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -22,8 +22,12 @@ Chats beim Start verbergen
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
 [Add [img] bbc for graphical attachments]
 BBCode [img] für grafische Anhänge verwenden
+[Process stickers as smileys]
+Sticker als Snileys darstellen
 [Force online status upon user activity]
 Onlinestatus bei Aktivität des Benutzers erzwingen
+[Broadcast music with VK audio status only]
+
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -34,8 +38,6 @@ Serververlauf löschen
 Aus Freundesliste entfernen
 [Remove from contact list]
 Aus Kontaktliste entfernen
-[Process stickers as smileys]
-Sticker als Snileys darstellen
 [Login settings]
 Anmeldeeinstellungen
 [Local settings]
