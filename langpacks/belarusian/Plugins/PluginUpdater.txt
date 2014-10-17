@@ -154,7 +154,7 @@
 Спіс плагінаў
 [Plugin Updater HTTP connection]
 HTTP падлучэнне Plugin Updater
-[Checking new updates...]
+[Checking for new updates...]
 Праверка абнаўленняў...
-[An error occurred while checking new updates.]
+[An error occurred while checking for new updates.]
 Пры праверцы абнаўленняў адбылася памылка.

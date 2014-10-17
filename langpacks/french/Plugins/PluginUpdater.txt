@@ -48,6 +48,8 @@ Version de développement avec les symboles de debug
 Version personnalisée
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
+[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
+
 [Notifications]
 Notifications
 [Restart]
@@ -182,7 +184,7 @@ Informations sur le plugin
 Liste des plugins
 [Plugin Updater HTTP connection]
 Connection HTTP du plugin de mise à jour
-[Checking new updates...]
+[Checking for new updates...]
 Vérification de mises à jour...
-[An error occurred while checking new updates.]
+[An error occurred while checking for new updates.]
 Une erreur est survenue lors de la vérification des mises à jour.
