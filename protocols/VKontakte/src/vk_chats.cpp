@@ -471,11 +471,12 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 			TranslateT("Warning"), MB_YESNOCANCEL | MB_ICONQUESTION))
 		{
 			CMStringA code;
-			code.Format("var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
+			code.Format("API.messages.removeChatUser({\"chat_id\":%d, \"user_id\":%d});"
+				"var Hist = API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
 				"var countMsg = Hist.count;var itemsMsg = Hist.items@.id; "
 				"while (countMsg > 0) { API.messages.delete({\"message_ids\":itemsMsg});"
 				"Hist=API.messages.getHistory({\"chat_id\":%d, \"count\":200});"
-				"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, cc->m_chatid);
+				"countMsg = Hist.count;itemsMsg = Hist.items@.id;}; return 1;", cc->m_chatid, m_myUserId, cc->m_chatid, cc->m_chatid);
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnChatDestroy)
 				<< CHAR_PARAM("code", code)
 				<< VER_API)->pUserInfo = cc;
@@ -547,8 +548,15 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 {
 	debugLogA("CVkProto::KickFromChat (%d)", user_id);
+
+	MCONTACT chatContact = FindChat(chat_id);
+	bool off = false;
+	if (chatContact)
+		if(getBool(chatContact, "off", false))
+			return;
+
 	if (user_id == m_myUserId)
-		return;
+		LeaveChat(chat_id);
 	
 	CVkChatInfo *cc = (CVkChatInfo*)m_chats.find((CVkChatInfo*)&chat_id);
 	if (cc == NULL)
