@@ -99,5 +99,5 @@
 [Plugin info]
 [Plugin list]
 [Plugin Updater HTTP connection]
-[Checking new updates...]
-[An error occurred while checking new updates.]
+[Checking for new updates...]
+[An error occurred while checking for new updates.]
