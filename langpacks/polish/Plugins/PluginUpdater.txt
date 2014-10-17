@@ -49,7 +49,7 @@ Niestandardowa wersja
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirande, aby zainstalować pobrane aktualizacje.
 [Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
-
+Przełączenie się do wersji Stabilnej jest aktualnie niemożliwe z powodu braku kompatybilności z obecną wersją Rozwojową!
 [Notifications]
 Powiadomienia
 [Restart]
