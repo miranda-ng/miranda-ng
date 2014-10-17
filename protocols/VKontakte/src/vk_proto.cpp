@@ -324,6 +324,7 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT hContact)
 
 int CVkProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 { 
+	debugLogA("CVkProto::RecvMsg");
 	Proto_RecvMessage(hContact, pre);
 	return 0;
 }
@@ -332,6 +333,7 @@ int CVkProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 void CVkProto::SendMsgAck(void *param)
 {
+	debugLogA("CVkProto::SendMsgAck");
 	TFakeAckParams *ack = (TFakeAckParams*)param;
 	Sleep(100);
 	ProtoBroadcastAck(ack->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ack->msgid, 0);
@@ -340,6 +342,7 @@ void CVkProto::SendMsgAck(void *param)
 
 int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 { 
+	debugLogA("CVkProto::SendMsg");
 	LONG userID = getDword(hContact, "ID", -1);
 	if (userID == -1)
 		return 0;
@@ -416,6 +419,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 int CVkProto::SetStatus(int iNewStatus)
 {
+	debugLogA("CVkProto::SetStatus iNewStatus = %d,  m_iStatus = %d, m_iDesiredStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus);
 	if (m_iDesiredStatus == iNewStatus || iNewStatus == ID_STATUS_IDLE)
 		return 0;
 
@@ -423,7 +427,7 @@ int CVkProto::SetStatus(int iNewStatus)
 	m_iDesiredStatus = iNewStatus;
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		if ( IsOnline()) {
+		if (IsOnline()) {
 			SetServerStatus(ID_STATUS_OFFLINE);
 			debugLogA("CVkProto::SetStatus ShutdownSession");
 			ShutdownSession();
@@ -437,7 +441,7 @@ int CVkProto::SetStatus(int iNewStatus)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
 	}
-	else if ( IsOnline())
+	else if (IsOnline())
 		SetServerStatus(iNewStatus);
 	else 
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
@@ -467,6 +471,8 @@ int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 
 MCONTACT CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
+	debugLogA("CVkProto::AddToList");
+
 	int uid = _ttoi(psr->id);
 	if (!uid)
 		return NULL;
@@ -500,8 +506,8 @@ int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR* message)
 
 void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
-	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 	debugLogA("CVkProto::OnReceiveAuthRequest %d", reply->resultCode);
+	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 	if (reply->resultCode == 200){
 		JSONROOT pRoot;
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
@@ -537,6 +543,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 int CVkProto::Authorize(HANDLE hDbEvent)
 {
+	debugLogA("CVkProto::Authorize");
 	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
 	if (hContact == -1)
 		return 1;
@@ -546,6 +553,7 @@ int CVkProto::Authorize(HANDLE hDbEvent)
 
 int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 {
+	debugLogA("CVkProto::AuthDeny");
 	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
 	if (hContact == -1)
 		return 1;
@@ -555,6 +563,7 @@ int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 
 int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 { 
+	debugLogA("CVkProto::UserIsTyping");
 	if (PROTOTYPE_SELFTYPING_ON == type) {
 		LONG userID = getDword(hContact, "ID", -1);
 		if ((userID == -1)||(!IsOnline()))
@@ -584,6 +593,7 @@ int CVkProto::AuthRecv(MCONTACT hContact,PROTORECVEVENT *)
 
 int CVkProto::GetInfo(MCONTACT hContact, int infoType)
 {
+	debugLogA("CVkProto::GetInfo");
 	LONG userID = getDword(hContact, "ID", -1);
 	if (userID == -1)
 		return 1;
