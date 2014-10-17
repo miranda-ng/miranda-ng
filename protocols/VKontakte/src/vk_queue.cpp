@@ -19,11 +19,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CVkProto::InitQueue()
 {
+	debugLogA("CVkProto::InitQueue");
 	m_evRequestsQueue = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
 
 void CVkProto::UninitQueue()
 {
+	debugLogA("CVkProto::UninitQueue");
 	m_arRequestsQueue.destroy();
 	CloseHandle(m_evRequestsQueue);
 }
@@ -48,7 +50,7 @@ LBL_Restart:
 		}
 	}
 
-	debugLogA("CVkProto::ExecuteRequest %s", pReq->szUrl);
+	debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
 	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
 	if (reply != NULL) {
 		if (pReq->m_pFunc != NULL)
@@ -73,6 +75,7 @@ LBL_Restart:
 
 AsyncHttpRequest* CVkProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 {
+	debugLogA("CVkProto::Push");
 	pReq->timeout = iTimeout;
 	{
 		mir_cslock lck(m_csRequestsQueue);
@@ -124,6 +127,7 @@ void CVkProto::WorkerThread(void*)
 			ExecuteRequest(pReq);
 			if (need_sleep)	// There can be maximum 3 requests to API methods per second from a client
 				Sleep(330);	// (c) https://vk.com/dev/api_requests
+			debugLogA("CVkProto::WorkerThread: while");
 		}
 	}
 

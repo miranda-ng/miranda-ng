@@ -143,6 +143,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 
 bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE *pErrorNode)
 {
+	debugLogA("CVkProto::ApplyCaptcha");
 	char *szUrl = NEWSTR_ALLOCA( _T2A( json_as_string( json_get(pErrorNode, "captcha_img"))));
 	char *szSid = NEWSTR_ALLOCA( _T2A( json_as_string( json_get(pErrorNode, "captcha_sid"))));
 	if (szUrl == NULL || szSid == NULL)

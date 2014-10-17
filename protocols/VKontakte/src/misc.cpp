@@ -19,12 +19,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 TCHAR* CVkProto::GetUserStoredPassword()
 {
+	debugLogA("CVkProto::GetUserStoredPassword");
 	ptrA szRawPass( getStringA("Password"));
 	return (szRawPass != NULL) ? mir_utf8decodeT(szRawPass) : NULL;
 }
 
 void CVkProto::SetAllContactStatuses(int iStatus)
 {
+	debugLogA("CVkProto::SetAllContactStatuses (%d)", iStatus);
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			SetChatStatus(hContact, iStatus);
@@ -96,6 +98,7 @@ LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 
 JSONNODE* CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT &pRoot)
 {
+	debugLogA("CVkProto::CheckJsonResponse");
 	pRoot.Parse(reply->pData);
 	if (pRoot == NULL)
 		return NULL;
@@ -108,6 +111,7 @@ JSONNODE* CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST 
 
 bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNODE *pNode)
 {
+	debugLogA("CVkProto::CheckJsonResult");
 	if (pNode == NULL)
 		return false;
 
@@ -145,12 +149,14 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 		if (pReq->m_iRetry > 0){
 			pReq->bNeedsRestart = true;
 			Sleep(500); //Pause for fix err 
+			debugLogA("CVkProto::CheckJsonResult Retry = %d", pReq->m_iRetry);
 			pReq->m_iRetry--;
 		}
 		else{
 			CMString msg, msgformat = TranslateT("Error %d. Data will not be sent or received.");
 			msg.AppendFormat(msgformat, iErrorCode);
 			MsgPopup(NULL, msg.GetBuffer(), TranslateT("Error"), true);
+			debugLogA("CVkProto::CheckJsonResult SendError");
 		}
 		break;
 	case VKERR_HIMSELF_AS_FRIEND:
@@ -231,6 +237,7 @@ LBL_NotFound:
 
 bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResult)
 {
+	debugLogA("CVkProto::AutoFillForm");
 	szResult.Empty();
 
 	char *pFormBeg = strstr(pBody, "<form ");
@@ -272,6 +279,7 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 	}
 
 	szResult = result;
+	debugLogA("CVkProto::AutoFillForm result = \"%s\"", szResult.GetBuffer());
 	return true;
 }
 
@@ -343,6 +351,7 @@ void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 
 void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 {
+	debugLogA("CVkProto::GrabCookies");
 	for (int i=0; i < nhr->headersCount; i++) {
 		if ( _stricmp(nhr->headers[i].szName, "Set-cookie"))
 			continue;
@@ -380,6 +389,7 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 
 void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 {
+	debugLogA("CVkProto::ApplyCookies");
 	CMStringA szCookie;
 
 	for (int i=0; i < m_cookies.getCount(); i++) {
@@ -399,6 +409,7 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 
 void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 {
+	debugLogA("CVkProto::DBAddAuthRequest");
 	//char* szJid = mir_utf8encodeT(jid);
 	CMString tszNick = db_get_sa(hContact, m_szModuleName, "Nick");
 	char* szNick = mir_utf8encodeT(tszNick.GetBuffer());
@@ -439,6 +450,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 
 MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
 {
+	debugLogA("CVkProto::MContactFromDbEvent");
 	if (!hDbEvent || !IsOnline())
 		return (MCONTACT)-1;
 
@@ -531,6 +543,7 @@ bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
 
 void CVkProto::ContactTypingThread(void *p)
 {
+	debugLogA("CVkProto::ContactTypingThread");
 	MCONTACT hContact = (MCONTACT)p;
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, 5);
 	Sleep(5500);
@@ -541,6 +554,7 @@ void CVkProto::ContactTypingThread(void *p)
 
 int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 {
+	debugLogA("CVkProto::OnProcessSrmmEvent");
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
 	if (event->uType == MSG_WINDOW_EVT_OPENING)
@@ -565,7 +579,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }
 
-char* CVkProto::GetStickerId (const char* Msg, int &stickerid)
+char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 {
 	int iRes = 0;
 	char HeadMsg[32] = { 0 };

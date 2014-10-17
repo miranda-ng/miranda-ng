@@ -23,6 +23,7 @@ char szBlankUrl[] = "http://api.vk.com/blank.html";
 
 void CVkProto::ShutdownSession()
 {
+	debugLogA("CVkProto::ShutdownSession");
 	if (m_hWorkerThread) {
 		m_bTerminated = true;
 		SetEvent(m_evRequestsQueue);
@@ -63,6 +64,7 @@ static void CALLBACK VKUnsetTimer(void *pObject)
 
 void CVkProto::OnLoggedIn()
 {
+	debugLogA("CVkProto::OnLoggedIn");
 	m_bOnline = true;
 	SetServerStatus(m_iDesiredStatus);
 
@@ -73,6 +75,7 @@ void CVkProto::OnLoggedIn()
 
 void CVkProto::OnLoggedOut()
 {
+	debugLogA("CVkProto::OnLoggedOut");
 	m_bOnline = false;
 
 	if (m_pollingConn)
@@ -208,6 +211,7 @@ LBL_NoForm:
 
 void CVkProto::RetrieveMyInfo()
 {
+	debugLogA("CVkProto::RetrieveMyInfo");
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo)
 		<< VER_API);
 }
@@ -241,7 +245,7 @@ static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, ti
 
 MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 {
-	debugLogA("CVkProto::SetContactInfo flag=%d self = %d", flag, self);
+	debugLogA("CVkProto::SetContactInfo");
 	if (pItem == NULL)
 		return -1;
 
@@ -354,7 +358,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
-	debugLogA("CVkProto::RetrieveUserInfo %d", userID);
+	debugLogA("CVkProto::RetrieveUserInfo (%d)", userID);
 	CMString userIDs, code;
 	userIDs.AppendFormat(L"%i", userID);
 	CMString codeformat("var userIDs=\"%s\";"
@@ -491,6 +495,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 /////////////////////////////////////////////////////////////////////////////////////////
 int  CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
 {
+	debugLogA("CVkProto::OnDbEventRead");
 	if (m_iMarkMessageReadOn == markOnRead)
 		MarkMessagesRead(hContact);
 	return 0;
@@ -498,6 +503,7 @@ int  CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
 
 void CVkProto::MarkMessagesRead(const CMStringA &mids)
 {
+	debugLogA("CVkProto::MarkMessagesRead (mids)");
 	if (mids.IsEmpty())
 		return;
 
@@ -508,6 +514,7 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 
 void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 {
+	debugLogA("CVkProto::MarkMessagesRead (hContact)");
 	LONG userID = getDword(hContact, "ID", -1);
 	if (userID == -1)
 		return;
@@ -519,6 +526,7 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 
 void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 {
+	debugLogA("CVkProto::RetrieveMessagesByIds");
 	if (mids.IsEmpty())
 		return;
 
@@ -632,9 +640,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	if (m_bAutoSyncHistory&&m_bPopUpSyncHistory)
 		MsgPopup(NULL, TranslateT("Start sync history"), TranslateT("Sync history"));
-	debugLogA("CVkProto::OnReceiveDlgs numDlgs = %d", numDlgs);
 	for (int i = 0; i < numDlgs; i++) {
-		debugLogA("CVkProto::OnReceiveDlgs i = %d", i);
 		JSONNODE *pDlg = json_at(pDlgs, i);
 		if (pDlg == NULL)
 			break; 
@@ -699,6 +705,7 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 
 void CVkProto::GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCount, int lastcount)
 {
+	debugLogA("CVkProto::GetHistoryDlgMessages");
 	LONG userID = getDword(hContact, "ID", -1);
 	if (-1 == userID)
 		return;
@@ -795,7 +802,6 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 void CVkProto::RetrievePollingInfo()
 {
 	debugLogA("CVkProto::RetrievePollingInfo");
-
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo)
 		<< VER_API);
 }
@@ -823,7 +829,6 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMsg");
-	
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.set.json", true, &CVkProto::OnReceiveSmth)
 		<< TCHAR_PARAM("text", StatusMsg)
 		<< VER_API);
@@ -860,6 +865,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 
 INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM wParam, LPARAM lParam)
 {
+	debugLogA("CVkProto::SvcSetListeningTo");
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
 	CMStringW wszListeningTo;
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO)) 
@@ -880,6 +886,7 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 {
+	debugLogA("CVkProto::SvcAddAsFriend");
 	CallContactService(hContact, PSS_AUTHREQUESTW, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
 	return 0;
 }
@@ -908,8 +915,8 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 
 void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest* pReq)
 {
-	CVkSendMsgParam *param = (CVkSendMsgParam*) pReq->pUserInfo;
 	debugLogA("CVkProto::OnReceiveDeleteFriend %d", reply->resultCode);
+	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 	if (reply->resultCode == 200){
 		JSONROOT pRoot;
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
@@ -1027,6 +1034,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 
 INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 {
+	debugLogA("CVkProto::SvcVisitProfile");
 	LONG userID = getDword(hContact, "ID", -1);
 	ptrT tszDomain(db_get_tsa(hContact, m_szModuleName, "domain"));
 	CMString tszUrl("https://vk.com/");
@@ -1043,6 +1051,7 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 
 INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 {
+	debugLogA("CVkProto::SvcGetAllServerHistory");
 	LPCTSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
 	if (IDNO == MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
@@ -1067,7 +1076,6 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 void CVkProto::PollUpdates(JSONNODE *pUpdates)
 {
 	debugLogA("CVkProto::PollUpdates");
-
 	CMStringA mids;
 	int msgid, uid, flags, platform;
 	MCONTACT hContact;
