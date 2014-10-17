@@ -76,6 +76,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bAddImgBbc = getBool("AddImgBbc", false);
 	m_bStikersAsSmyles = getBool("StikersAsSmyles", false);
 	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity", false);
+	m_bAudioStatusOnly = getBool("AudioStatusOnly", false);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
