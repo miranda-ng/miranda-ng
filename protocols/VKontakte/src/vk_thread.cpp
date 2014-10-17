@@ -843,20 +843,30 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 	CMString code;
 	CMString oldStatusMsg = db_get_tsa(0, m_szModuleName, "OldStatusMsg");
 	if (StatusMsg.IsEmpty()){
-		if (oldStatusMsg.IsEmpty())
-			code = "API.status.set();return null;";
+		if (oldStatusMsg.IsEmpty() || m_bAudioStatusOnly)
+		    code = "API.audio.setBroadcast();return null;";
 		else{
-			CMString codeformat("API.status.set({text:\"%s\"});return null;");
-			code.AppendFormat(codeformat, oldStatusMsg);
+		    CMString codeformat("API.status.set({text:\"%s\"});return null;");
+		    code.AppendFormat(codeformat, oldStatusMsg);
 		}
 	}
 	else {
-		CMString codeformat("var userID=%d;var StatusMsg=\"%s\";var oldStatus=API.status.get({\"user_id\":userID});"
-			"var Track=API.audio.search({\"q\":StatusMsg,\"count\":1});if(Track.count==0){API.status.set({\"text\":StatusMsg});"
-			"return oldStatus;}else{var owner=Track.items[0].owner_id;var trackID=Track.items[0].id;var audioTxt=owner+\"_\"+trackID;"
-			"var ids=API.audio.setBroadcast({\"audio\":audioTxt});if(userID==ids[0]){return null;}else{"
-			"API.status.set({\"text\":StatusMsg });return oldStatus;};};");
-		code.AppendFormat(codeformat, m_myUserId, StatusMsg);
+		if (m_bAudioStatusOnly){
+			CMString codeformat("var StatusMsg=\"%s\";"
+				"var Track=API.audio.search({\"q\":StatusMsg,\"count\":1});"
+				"if(Track.count==0){API.audio.setBroadcast();}"
+				"else{var owner=Track.items[0].owner_id;var trackID=Track.items[0].id;var audioTxt=owner+\"_\"+trackID;"
+				"var ids=API.audio.setBroadcast({\"audio\":audioTxt});};return null;");
+			code.AppendFormat(codeformat, StatusMsg);
+		}
+		else{
+			CMString codeformat("var StatusMsg=\"%s\";"
+				"var Track=API.audio.search({\"q\":StatusMsg,\"count\":1});"
+				"if(Track.count==0){API.status.set({\"text\":StatusMsg});return null;}"
+				"else{var owner=Track.items[0].owner_id;var trackID=Track.items[0].id;var audioTxt=owner+\"_\"+trackID;"
+				"var ids=API.audio.setBroadcast({\"audio\":audioTxt});return null;};");
+		    code.AppendFormat(codeformat, StatusMsg);
+		}
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
 		<< TCHAR_PARAM("code", code)

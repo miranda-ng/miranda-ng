@@ -414,7 +414,8 @@ private:
 		m_bPopUpSyncHistory,
 		m_bAddImgBbc,
 		m_bStikersAsSmyles,
-		m_bUserForceOnlineOnActivity;
+		m_bUserForceOnlineOnActivity,
+		m_bAudioStatusOnly;
 
 	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
 	int		m_iMarkMessageReadOn;

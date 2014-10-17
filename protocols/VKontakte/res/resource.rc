@@ -128,16 +128,18 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
     CONTROL         "Add [img] bbc for graphical attachments",IDC_ADD_IMG_BBC,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,41,278,10
+    CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10
     CONTROL         "Force online status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,63,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,63,278,10  
+    CONTROL         "Broadcast music with VK audio status only", IDC_AUDIO_STATUS_ONLY,
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 74, 278, 10                    
     GROUPBOX        "When I ban user...",IDC_STATIC,4,91,293,33
     CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,101,129,10
     CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,112,129,10
     CONTROL         "Remove from friend list",IDC_REMOVE_FROM_FRENDLIST,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,101,129,10
-    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,112,129,10
-    CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10
+    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,112,129,10   
 END
 
 IDD_OPT_MAIN DIALOGEX 0, 0, 304, 188

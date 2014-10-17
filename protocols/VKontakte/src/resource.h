@@ -50,6 +50,7 @@
 #define IDC_ONREPLY                     1041
 #define IDC_ONTYPING                    1042
 #define IDC_STATIC_MARK_AS_READ         1043
+#define IDC_AUDIO_STATUS_ONLY           1044
 
 // Next default values for new objects
 // 
