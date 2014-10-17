@@ -587,7 +587,6 @@ void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	
 	CVkChatInfo *cc = (CVkChatInfo*)pReq->pUserInfo;
 	LeaveChat(cc->m_chatid);
-	
 }
 
 INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)

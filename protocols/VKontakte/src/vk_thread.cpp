@@ -239,9 +239,9 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, contacts, online, status, about, domain";
 
-MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
+MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 {
-	debugLogA("CVkProto::SetContactInfo");
+	debugLogA("CVkProto::SetContactInfo flag=%d self = %d", flag, self);
 	if (pItem == NULL)
 		return -1;
 
@@ -249,10 +249,16 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag)
 	if (userid == 0)
 		return -1;
 
-	MCONTACT hContact;
-	if (userid == m_myUserId)
-		hContact = NULL;
-	else if ((hContact = FindUser(userid, flag)) == NULL)
+	MCONTACT hContact = FindUser(userid, flag);
+	
+	if (userid == m_myUserId){
+		if (hContact != NULL)
+			if (self)
+				hContact = NULL;
+			else
+				SetContactInfo(pItem, flag, true);
+	}
+	else if (hContact == NULL)
 		return -1;
 	
 	CMString tszNick, tszValue;

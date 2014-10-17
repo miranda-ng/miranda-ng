@@ -275,7 +275,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveStatusMsg(const CMString &StatusMsg);
 	void RetrieveStatusMusic(const CMString &StatusMsg);
 
-	MCONTACT SetContactInfo(JSONNODE* Item, bool flag = false);
+	MCONTACT SetContactInfo(JSONNODE* Item, bool flag = false, bool self = false);
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUserInfo(LONG userId);
