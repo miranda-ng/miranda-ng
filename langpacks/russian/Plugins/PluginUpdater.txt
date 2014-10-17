@@ -175,7 +175,7 @@
 Список плагинов
 [Plugin Updater HTTP connection]
 HTTP подключение Plugin Updater
-[Checking new updates...]
+[Checking for new updates...]
 Проверка обновлений...
-[An error occurred while checking new updates.]
+[An error occurred while checking for new updates.]
 Во время проверки обновления произошла ошибка.
