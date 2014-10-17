@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.23
+;  Version: 0.1.0.24
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -21,8 +21,12 @@ E-mail или номер телефона:
 Помечать все входящие сообщения как "Непрочитанное"
 [Add [img] bbc for graphical attachments]
 Добавлять BB-код [img] для графических вложений
+[Process stickers as smileys]
+Обрабатывать стикеры как смайлы
 [Force online status upon user activity]
 Переводить статус контакта в онлайн при его активности
+[Broadcast music with VK audio status only]
+Транслировать музыку только через аудио-статус
 [When I ban user...]
 При бане пользователя...
 [Report abuse]
@@ -33,8 +37,6 @@ E-mail или номер телефона:
 Удалить из списка друзей
 [Remove from contact list]
 Удалить из списка контактов
-[Process stickers as smileys]
-Обрабатывать стикеры как смайлы
 [Login settings]
 Настройки входа
 [Local settings]
