@@ -210,7 +210,7 @@ static bool FindDestAccount(const char *szProto)
 	return false;
 }
  
-static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
+static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto, const TCHAR *ptszName)
 {
 	int destProtoCount;
 	PROTOACCOUNT **destAccs;
@@ -229,6 +229,9 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto)
 
 		// these protocols have no accounts, and their name match -> success
 		if (pa->bOldProto || pa->bIsVirtual || pa->bDynDisabled)
+			return pa;
+
+		if (ptszName && !_tcscmp(pa->tszAccountName, ptszName))
 			return pa;
 
 		char *pszUniqueSetting = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -273,7 +276,10 @@ void ImportAccounts()
 			continue;
 		}
 
-		PROTOACCOUNT *pa = FindMyAccount(szProto, szBaseProto);
+		itoa(800+i, szSetting, 10);
+		ptrT tszName(myGetWs(NULL, "Protocols", szSetting));
+
+		PROTOACCOUNT *pa = FindMyAccount(szProto, szBaseProto, tszName);
 		if (pa) {
 			arAccountMap.insert(new AccountMap(szProto, pa->szModuleName));
 			continue;
