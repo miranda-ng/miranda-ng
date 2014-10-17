@@ -1,1 +1,0 @@
-﻿[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]

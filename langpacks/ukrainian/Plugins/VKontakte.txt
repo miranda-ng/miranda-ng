@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.23
+;  Version: 0.1.0.24
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -21,8 +21,12 @@
 Позначати всі вхідні повідомлення непрочитаними
 [Add [img] bbc for graphical attachments]
 Додавати BB-код [img] для графічних вкладень
+[Process stickers as smileys]
+Обробляти стікери як смайли
 [Force online status upon user activity]
 Змінювати статус контакта на "В мережі" при його активності
+[Broadcast music with VK audio status only]
+Транслювати музику тільки як аудіостатус
 [When I ban user...]
 При блокуванні користувача...
 [Report abuse]
@@ -33,8 +37,6 @@
 Видалити зі списку друзів
 [Remove from contact list]
 Видалити зі списку контактів
-[Process stickers as smileys]
-Обробляти стікери як смайли
 [Login settings]
 Налаштування входу
 [Local settings]
@@ -119,8 +121,14 @@
 Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
 [Warning]
 Попередження
+[I'm back]
+Я повернувся
+[You've been kicked by ]
+Вас вигнав користувач\s
 [(Unknown contact)]
 (Невідомий контакт)
+[Chat]
+Чат
 [&Invite a user]
 &Запросити користувача
 [View/change &title]
@@ -169,6 +177,8 @@
 Видалити із друзів
 [Ban user]
 Забанити
+[Destroy room]
+Видалити кімнату
 [Errors]
 Помилки
 [Notification]
