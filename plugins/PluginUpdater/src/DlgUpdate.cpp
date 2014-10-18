@@ -57,11 +57,9 @@ static void ApplyUpdates(void *param)
 
 	AutoHandle pipe(hPipe);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
-	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+	TCHAR tszFileBack[MAX_PATH];
 	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
 	SafeCreateDirectory(tszFileBack);
-	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
-	SafeCreateDirectory(tszFileTemp); 
 
 	// 2) Download all plugins
 	HANDLE nlc = NULL;
@@ -360,13 +358,10 @@ static void DlgUpdateSilent(void *lParam)
 	}
 
 	AutoHandle pipe(hPipe);
-	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+	TCHAR tszFileBack[MAX_PATH];
 
 	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
 	SafeCreateDirectory(tszFileBack);
-
-	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
-	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
 	HANDLE nlc = NULL;
@@ -589,6 +584,10 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 		return 0;
 
 	Netlib_LogfT(hNetlibUser,_T("Scanning folder %s"), tszFolder);
+
+	TCHAR tszFileTemp[MAX_PATH];
+	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	SafeCreateDirectory(tszFileTemp);
 
 	int count = 0;
 	do {

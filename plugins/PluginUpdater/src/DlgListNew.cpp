@@ -50,13 +50,10 @@ static void ApplyDownloads(void *param)
 	AutoHandle pipe(hPipe);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-	TCHAR tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+	TCHAR tszFileBack[MAX_PATH];
 
 	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
 	SafeCreateDirectory(tszFileBack);
-
-	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
-	SafeCreateDirectory(tszFileTemp);
 
 	VARST tszMirandaPath(_T("%miranda_path%"));
 
@@ -351,6 +348,9 @@ static void GetList(void *)
 	}
 
 	FILELIST *UpdateFiles = new FILELIST(20);
+	TCHAR tszFileTemp[MAX_PATH];
+	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
+	SafeCreateDirectory(tszFileTemp);
 	VARST dirname(_T("%miranda_path%"));
 
 	for (int i=0; i < hashes.getCount(); i++) {
