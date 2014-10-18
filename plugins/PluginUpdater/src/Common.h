@@ -208,7 +208,7 @@ void  UnloadNetlib();
 
 void  BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
 
-bool  ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes);
+bool  ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes, bool isUpdate);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 int   GetUpdateMode();

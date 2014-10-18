@@ -345,7 +345,7 @@ static void GetList(void *)
 
 	ptrT updateUrl( GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
-	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
+	if (!ParseHashes(updateUrl, baseUrl, hashes, 0)) {
 		hListThread = NULL;
 		return;
 	}
