@@ -23,11 +23,11 @@ Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
 [Add [img] bbc for graphical attachments]
 BBCode [img] für grafische Anhänge verwenden
 [Process stickers as smileys]
-Sticker als Snileys darstellen
+Sticker als Smileys darstellen
 [Force online status upon user activity]
 Onlinestatus bei Aktivität des Benutzers erzwingen
 [Broadcast music with VK audio status only]
-
+Musik nur mit VK-Audio-Status veröffentlichen
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -126,9 +126,9 @@ Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kan
 [Warning]
 Warnung
 [I'm back]
-
+Ich bin zurück
 [You've been kicked by ]
-
+Sie wurden gekickt von\s
 [(Unknown contact)]
 (Unbekannter Kontakt)
 [Chat]
@@ -185,7 +185,7 @@ Von Freundesliste löschen
 [Ban user]
 Benutzer bannen
 [Destroy room]
-
+Raum zerstören
 [Errors]
 Fehler
 [Notification]
