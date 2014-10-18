@@ -140,7 +140,7 @@ using namespace std;
 
 extern HINSTANCE hInst;
 
-extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048], tszTempPath[MAX_PATH];
+extern TCHAR tszRoot[MAX_PATH], tszTempPath[MAX_PATH];
 extern FILEINFO *pFileInfo;
 extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
@@ -208,7 +208,7 @@ void  UnloadNetlib();
 
 void  BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
 
-bool  ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes, bool isUpdate);
+bool  ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 int   GetUpdateMode();
