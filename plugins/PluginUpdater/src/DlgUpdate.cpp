@@ -709,7 +709,7 @@ static void CheckUpdates(void *)
 	ptrT updateUrl(GetDefaultUrl()), baseUrl;
 
 	SERVLIST hashes(50, CompareHashes);
-	bool success = ParseHashes(updateUrl, baseUrl, hashes);
+	bool success = ParseHashes(updateUrl, baseUrl, hashes, 1);
 	if (success) {
 		FILELIST *UpdateFiles = new FILELIST(20);
 		VARST dirname(_T("%miranda_path%"));
