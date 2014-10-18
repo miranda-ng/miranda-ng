@@ -708,10 +708,12 @@ static void CheckUpdates(void *)
 	if (tszTempPath[dwLen - 1] == '\\')
 		tszTempPath[dwLen - 1] = 0;
 
-	ptrT updateUrl(GetDefaultUrl()), baseUrl;
+	if (!opts.bSilent)
+		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Checking for new updates..."), POPUP_TYPE_INFO);
 
+	ptrT updateUrl(GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
-	bool success = ParseHashes(updateUrl, baseUrl, hashes, 1);
+	bool success = ParseHashes(updateUrl, baseUrl, hashes);
 	if (success) {
 		FILELIST *UpdateFiles = new FILELIST(20);
 		VARST dirname(_T("%miranda_path%"));

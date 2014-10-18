@@ -189,7 +189,7 @@ int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 	return _tcsicmp(p1->m_name, p2->m_name);
 }
 
-bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes, bool isUpdate)
+bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 {
 	REPLACEVARSARRAY vars[2];
 	vars[0].lptzKey = _T("platform");
@@ -206,9 +206,6 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes, bool i
 	baseUrl = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)ptszUrl, (LPARAM)&dat);
 
 	// Download version info
-	if (!opts.bSilent && isUpdate)
-		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Checking for new updates..."), POPUP_TYPE_INFO);
-
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), baseUrl);
 	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);

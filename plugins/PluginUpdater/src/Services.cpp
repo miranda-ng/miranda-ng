@@ -28,7 +28,7 @@ static INT_PTR srvParseHashes(WPARAM wParam, LPARAM lParam)
 
 	SERVLIST *pList = new SERVLIST(50, CompareHashes);
 	ptrT baseUrl;
-	if ( ParseHashes(ptszUrl, baseUrl, *pList, 0)) {
+	if ( ParseHashes(ptszUrl, baseUrl, *pList)) {
 		_tcsncpy(ptszBaseUrl, baseUrl, MAX_PATH);
 		return (INT_PTR)pList;
 	}

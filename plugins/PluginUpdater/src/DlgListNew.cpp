@@ -337,8 +337,6 @@ static void __stdcall LaunchListDialog(void *param)
 
 static void GetList(void *)
 {
-	char szKey[64] = {0};
-	
 	TCHAR tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
 	if (tszTempPath[dwLen-1] == '\\')
@@ -346,7 +344,7 @@ static void GetList(void *)
 
 	ptrT updateUrl( GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
-	if (!ParseHashes(updateUrl, baseUrl, hashes, 0)) {
+	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
 		hListThread = NULL;
 		return;
 	}
