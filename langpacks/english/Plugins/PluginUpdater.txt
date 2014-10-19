@@ -78,6 +78,7 @@
 [%d component(s) was updated]
 [You need to restart your Miranda to apply installed updates.]
 [Would you like to restart it now?]
+[Checking for new updates...]
 [No updates found.]
 [Update checking already started!]
 ;file \plugins\PluginUpdater\src\Events.cpp
@@ -99,5 +100,4 @@
 [Plugin info]
 [Plugin list]
 [Plugin Updater HTTP connection]
-[Checking for new updates...]
 [An error occurred while checking for new updates.]

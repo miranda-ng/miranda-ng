@@ -2055,12 +2055,12 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 ID текущего контакта (если определен). Например, UIN для ICQ, JID для Jabber и т.д.
 [path to Miranda root folder]
 путь к папке программы
-[path to current Miranda profile]
-путь к папке текущего профиля
+[path to folder containing Miranda profiles]
+путь к папке, срдержащей профили программы
 [name of current Miranda profile (filename, without extension)]
 имя текущего профиля (только имя, без расширения)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-возвратит строку вида %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_profile%\\%miranda_profilename%]
+возвратит строку вида %miranda_profile%\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]
 возвратит строку вида %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]
