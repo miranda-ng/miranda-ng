@@ -69,8 +69,8 @@
 путь к папке, содержащей профили программы
 [name of current Miranda profile (filename, without extension)]
 имя текущего профиля (только имя, без расширения)
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
-возвратит строку вида %miranda_profile%\\%miranda_profilename%
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+возвратит строку вида %miranda_profilesdir%\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 аналог переменной среды %APPDATA% для текущего пользователя системы
 [username for currently logged-on Windows user]

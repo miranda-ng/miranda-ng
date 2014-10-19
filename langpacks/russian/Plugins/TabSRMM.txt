@@ -2059,8 +2059,8 @@ ID текущего контакта (если определен). Наприм
 путь к папке, содержащей профили программы
 [name of current Miranda profile (filename, without extension)]
 имя текущего профиля (только имя, без расширения)
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
-возвратит строку вида %miranda_profile%\\%miranda_profilename%
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+возвратит строку вида %miranda_profilesdir%\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]
 возвратит строку вида %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]
