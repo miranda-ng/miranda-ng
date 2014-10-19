@@ -148,6 +148,8 @@ Ikony
 
 [Would you like to restart it now?]
 
+[Checking for new updates...]
+
 [No updates found.]
 
 [Update checking already started!]
@@ -183,8 +185,6 @@ Ikony
 [Plugin list]
 
 [Plugin Updater HTTP connection]
-
-[Checking for new updates...]
 
 [An error occurred while checking for new updates.]
 

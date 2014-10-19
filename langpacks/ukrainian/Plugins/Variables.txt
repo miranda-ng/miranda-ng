@@ -161,16 +161,14 @@ X - Y - ...
 Змінні ядра Miranda
 [path to Miranda root folder]
 шлях до папки програми
-[path to current Miranda profile]
-шлях до папки поточного профілю
 [name of current Miranda profile (filename, without extension)]
 ім'я поточного профілю (тільки ім'я, без розширення)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-повертає рядок виду %miranda_profile%\\Profiles\\%miranda_profilename%
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
-повертає шлях %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
-повертає шлях %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs
+[will return parsed string %miranda_profile%\\%miranda_profilename%]
+повертає рядок виду %miranda_profile%\\%miranda_profilename%
+[will return parsed string %miranda_profile%\\%miranda_profilename%\\AvatarCache]
+повертає шлях %miranda_profile%\\%miranda_profilename%\\AvatarCache
+[will return parsed string %miranda_profile%\\%miranda_profilename%\\Logs]
+повертає шлях %miranda_profile%\\%miranda_profilename%\\Logs
 [Miranda Core OS]
 Змінні оточення в Miranda
 [same as environment variable %APPDATA% for currently logged-on Windows user]

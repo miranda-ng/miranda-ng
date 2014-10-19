@@ -2094,11 +2094,11 @@ TabSRMM съобщение (%s)
 
 [path to Miranda root folder]
 път до главната папка на Miranda
-[path to current Miranda profile]
-път до текущия профил на Miranda
+[path to folder containing Miranda profiles]
+
 [name of current Miranda profile (filename, without extension)]
 име на текущия профил на Miranda (име без окончание)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+[will return parsed string %miranda_profile%\\%miranda_profilename%]
 
 [will return parsed string %miranda_userdata%\\Logs]
 

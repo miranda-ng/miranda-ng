@@ -126,6 +126,8 @@
 << Дэталі
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
 Не атрымалася выканаць абнаўленне! Адзін з кампанентаў быў запампаваны з памылкай. Паспрабуйце паўтарыць пазней.
+[Checking for new updates...]
+Праверка абнаўленняў...
 [No updates found.]
 Абнаўленняў няма.
 [Update checking already started!]
@@ -154,7 +156,5 @@
 Спіс плагінаў
 [Plugin Updater HTTP connection]
 HTTP падлучэнне Plugin Updater
-[Checking for new updates...]
-Праверка абнаўленняў...
 [An error occurred while checking for new updates.]
 Пры праверцы абнаўленняў адбылася памылка.

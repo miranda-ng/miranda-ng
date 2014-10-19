@@ -148,6 +148,8 @@ Zaktualizowano %d komponentów
 Musisz zrestartować Mirandę, aby zainstalować aktualizacje.
 [Would you like to restart it now?]
 Czy chcesz zrobić to teraz?
+[Checking for new updates...]
+Sprawdzanie aktualizacji...
 [No updates found.]
 Nie znaleziono aktualizacji.
 [Update checking already started!]
@@ -184,7 +186,5 @@ Informacje o wtyczkach
 Lista wtyczek
 [Plugin Updater HTTP connection]
 Połączenie HTTP Plugin Updater
-[Checking for new updates...]
-Sprawdzanie aktualizacji...
 [An error occurred while checking for new updates.]
 Wystąpił błąd podczas sprawdzania aktualizacji.

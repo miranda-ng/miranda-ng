@@ -171,15 +171,15 @@ Pomoc
 
 [path to Miranda root folder]
 
-[path to current Miranda profile]
+[path to folder containing Miranda profiles]
 
 [name of current Miranda profile (filename, without extension)]
 
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+[will return parsed string %miranda_profile%\\%miranda_profilename%]
 
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
+[will return parsed string %miranda_profile%\\%miranda_profilename%\\AvatarCache]
 
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
+[will return parsed string %miranda_profile%\\%miranda_profilename%\\Logs]
 
 [Miranda Core OS]
 

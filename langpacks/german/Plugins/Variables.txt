@@ -171,16 +171,16 @@ Standard-Unterkontakt von x
 Miranda Core Global
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
-[path to current Miranda profile]
-Pfad zum aktuellen Miranda-Profil
+[path to folder containing Miranda profiles]
+
 [name of current Miranda profile (filename, without extension)]
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
-Gibt einen String nach %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache zurück.
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
-Gibt einen String nach %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs zurück.
+[will return parsed string %miranda_profile%\\%miranda_profilename%]
+Gibt umgewandelten String %miranda_profile%\\%miranda_profilename% zurück
+[will return parsed string %miranda_profile%\\%miranda_profilename%\\AvatarCache]
+Gibt einen String nach %miranda_profile%\\%miranda_profilename%\\AvatarCache zurück.
+[will return parsed string %miranda_profile%\\%miranda_profilename%\\Logs]
+Gibt einen String nach %miranda_profile%\\%miranda_profilename%\\Logs zurück.
 [Miranda Core OS]
 Miranda Core Betriebssystem
 [same as environment variable %APPDATA% for currently logged-on Windows user]

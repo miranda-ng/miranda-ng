@@ -148,6 +148,8 @@ Mise à jour accomplie. Appuyer sur Oui pour redémarrer Miranda maintenant.
 
 [Would you like to restart it now?]
 
+[Checking for new updates...]
+Vérification de mises à jour...
 [No updates found.]
 Aucune mises à jour trouvée.
 [Update checking already started!]
@@ -184,7 +186,5 @@ Informations sur le plugin
 Liste des plugins
 [Plugin Updater HTTP connection]
 Connection HTTP du plugin de mise à jour
-[Checking for new updates...]
-Vérification de mises à jour...
 [An error occurred while checking for new updates.]
 Une erreur est survenue lors de la vérification des mises à jour.
