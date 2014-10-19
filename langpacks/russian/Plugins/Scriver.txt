@@ -754,7 +754,7 @@ ID текущего контакта (если определен). Наприм
 [path to Miranda root folder]
 путь к папке программы
 [path to folder containing Miranda profiles]
-путь к папке, срдержащей профили программы
+путь к папке, содержащей профили программы
 [name of current Miranda profile (filename, without extension)]
 имя текущего профиля (только имя, без расширения)
 [will return parsed string %miranda_profile%\\%miranda_profilename%]
