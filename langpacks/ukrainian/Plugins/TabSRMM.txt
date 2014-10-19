@@ -2053,6 +2053,8 @@ IRC-стиль (текстовий) індикаторів ролей у жур�
 ID поточного контакту (якщо визначено). Наприклад, UIN для ICQ, JID для Jabber тощо.
 [path to Miranda root folder]
 шлях до кореневої папки Miranda
+[path to folder containing Miranda profiles]
+шлях до папки з профілями програми
 [name of current Miranda profile (filename, without extension)]
 ім'я поточного профілю (тільки ім'я, без розширення)
 [will return parsed string %miranda_profile%\\%miranda_profilename%]

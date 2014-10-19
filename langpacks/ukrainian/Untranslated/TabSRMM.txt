@@ -1,2 +1,1 @@
 ﻿[Wikipedia]
-[path to folder containing Miranda profiles]
