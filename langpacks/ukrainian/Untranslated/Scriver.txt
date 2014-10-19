@@ -6,3 +6,4 @@
 [to tiny bits, in Thy mercy]
 [Lorem ipsum dolor sit amet,]
 [consectetur adipisicing elit]
+[path to folder containing Miranda profiles]

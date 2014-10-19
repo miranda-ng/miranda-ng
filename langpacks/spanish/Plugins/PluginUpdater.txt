@@ -148,6 +148,8 @@ Actualización completa. Pulse Sí para reiniciar Miranda ahora o en No para pos
 
 [Would you like to restart it now?]
 
+[Checking for new updates...]
+Comprobando nuevas versiones...
 [No updates found.]
 No se encontraron actualizaciones.
 [Update checking already started!]
@@ -184,7 +186,5 @@ Información del plugin
 Lista de plugins
 [Plugin Updater HTTP connection]
 Plugin actualizador conexión HTTP
-[Checking for new updates...]
-Comprobando nuevas versiones...
 [An error occurred while checking for new updates.]
 Se ha producido un error al comprobar nuevas actualizaciones.

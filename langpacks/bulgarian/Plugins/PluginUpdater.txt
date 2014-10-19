@@ -148,6 +148,8 @@ Plugin Updater
 Необходимо е да рестартирате Miranda NG за да бъдат приложени актуализациите.
 [Would you like to restart it now?]
 Желаете ли да бъде рестартирана сега?
+[Checking for new updates...]
+Проверка за нови актуализации...
 [No updates found.]
 Няма налични актуализации.
 [Update checking already started!]
@@ -184,7 +186,5 @@ Plugin Updater
 Списък на приставките
 [Plugin Updater HTTP connection]
 HTTP връзки на приставката Plugin Updater
-[Checking for new updates...]
-Проверка за нови актуализации...
 [An error occurred while checking for new updates.]
 Възникна грешка при проверката за актуализации.

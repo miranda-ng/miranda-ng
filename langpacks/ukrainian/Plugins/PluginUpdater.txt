@@ -145,6 +145,8 @@
 Оновлення будуть застосовані після перезапуску програми.
 [Would you like to restart it now?]
 Перезапустити зараз?
+[Checking for new updates...]
+Перевірка оновлень...
 [No updates found.]
 Оновлень немає.
 [Update checking already started!]
@@ -175,7 +177,5 @@
 Список плагінів
 [Plugin Updater HTTP connection]
 HTTP-з'єднання PluginUpdater
-[Checking for new updates...]
-Перевірка оновлень...
 [An error occurred while checking for new updates.]
 Під час перевірки оновлень сталася помилка.

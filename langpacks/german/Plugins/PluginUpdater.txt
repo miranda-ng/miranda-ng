@@ -148,6 +148,8 @@ Aktualisierung fehlgeschlagen! Eine der Komponenten wurde nicht richtig herunter
 Sie müssen Miranda NG neu starten um die installierten Aktualisierungen anzuwenden.
 [Would you like to restart it now?]
 Möchten Sie es jetzt neu starten?
+[Checking for new updates...]
+Prüfe auf neue Aktualisierungen...
 [No updates found.]
 Keine Aktualisierungen gefunden.
 [Update checking already started!]
@@ -184,7 +186,5 @@ Plugininfo
 Pluginliste
 [Plugin Updater HTTP connection]
 Plugin-Updater-HTTP-Verbindung
-[Checking for new updates...]
-Prüfe auf neue Aktualisierungen...
 [An error occurred while checking for new updates.]
 Ein Fehler trat bei der Prüfung auf Aktualisierungen auf.

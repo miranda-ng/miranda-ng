@@ -69,12 +69,12 @@ Profil
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 folder docelowy Mirandy
-[path to current Miranda profile]
-folder docelowy bieżącego profilu Mirandy
+[path to folder containing Miranda profiles]
+
 [name of current Miranda profile (filename, without extension)]
 nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_profile%\\%miranda_profilename%]
+powróci analizowany ciąg %miranda_profile%\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]
