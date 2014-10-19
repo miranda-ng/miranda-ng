@@ -792,7 +792,7 @@ Vždy navrchu
 
 [name of current Miranda profile (filename, without extension)]
 
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 
 [will return parsed string %miranda_userdata%\\Logs]
 

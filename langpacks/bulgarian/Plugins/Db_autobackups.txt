@@ -73,7 +73,7 @@
 
 [name of current Miranda profile (filename, without extension)]
 име на текущия профил на Miranda (име без окончание)
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 като променливата %APPDATA% за вписаният, в момента, потребител на Windows
