@@ -770,11 +770,11 @@ void registerMirandaTokens()
 {
 	// global vars
 	registerIntToken(_T("miranda_path"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to Miranda root folder"));
-	registerIntToken(_T("miranda_profile"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to current Miranda profile"));
+	registerIntToken(_T("miranda_profile"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("path to folder containing Miranda profiles"));
 	registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("name of current Miranda profile (filename, without extension)"));
-	registerIntToken(_T("miranda_userdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"));
-	registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache"));
-	registerIntToken(_T("miranda_logpath"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs"));
+	registerIntToken(_T("miranda_userdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\%miranda_profilename%"));
+	registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\\%miranda_profilename%\\AvatarCache"));
+	registerIntToken(_T("miranda_logpath"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core Global")"\t"LPGEN("will return parsed string %miranda_profile%\%miranda_profilename%\\Logs"));
 
 	// OS vars
 	registerIntToken(_T("appdata"), parseMirandaCoreVar, TRF_FIELD, LPGEN("Miranda Core OS")"\t"LPGEN("same as environment variable %APPDATA% for currently logged-on Windows user"));
