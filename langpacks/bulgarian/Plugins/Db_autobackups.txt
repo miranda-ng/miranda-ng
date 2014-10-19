@@ -29,7 +29,7 @@
 [Backup to folder:]
 Папка за резервните копия:
 [Browse...]
-
+Преглед...
 [Go to the "Customize -> Folders" to change settings]
 Можете да промените настройките от Персонализиране>Папки
 [Compress backup to zip-archive]
@@ -42,11 +42,11 @@
 [Miranda NG database]
 База от данни на Miranda NG
 [Created by:]
-
+Създадена от:
 [Miranda NG databases]
-
+База от данни на Miranda NG
 [Compressed Miranda NG databases]
-
+Компресирана база от данни на Miranda NG
 [All files]
 Всички файлове
 [Backup in progress]
@@ -70,7 +70,7 @@
 [path to Miranda root folder]
 път до главната папка на Miranda
 [path to folder containing Miranda profiles]
-
+път до папката с профили на Miranda
 [name of current Miranda profile (filename, without extension)]
 име на текущия профил на Miranda (име без окончание)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]

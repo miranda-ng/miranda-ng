@@ -2497,7 +2497,7 @@ URL
 [%s options]
 %s настройки
 [Miranda NG options]
-Miranda NG настройки
+Настройки на Miranda NG
 [&Options...]
 Настройки...
 ;file \src\modules\plugins\newplugins.cpp

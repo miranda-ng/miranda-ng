@@ -39,11 +39,11 @@ Tox профилът съдържа вашият идентификатор (ID)
 [Dns name:]
 DNS име:
 [Enter password]
-
+Въведете парола
 [Save password]
-
+Запис на паролата
 [Tox profile is encrypted. Enter the password to continue.]
-
+Tox профилът е шифрован. Въведете паролата за да продължите.
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Мрежа
