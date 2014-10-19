@@ -532,6 +532,8 @@ Burze z piorunami 30% szans opadów atmosferycznych
 Szanse na burze z piorunami 90% szans opadów atmosferycznych
 [Chance Of T-Storms 80% Chance Of Precipitation]
 Szanse na burze z piorunami 80% szans opadów atmosferycznych
+[Ice Pellets 90% Chance Of Precipitation]
+Sople lodu 90% szans na opady
 [Snow Showers 70% Chance Of Precipitation]
 Opady śniegu 70% szans opadów
 [Snow Showers 60% Chance Of Precipitation]
