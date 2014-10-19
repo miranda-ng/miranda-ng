@@ -27,7 +27,7 @@
 [path to Miranda root folder]
 [path to folder containing Miranda profiles]
 [name of current Miranda profile (filename, without extension)]
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 [username for currently logged-on Windows user]
 ["My Documents" folder for currently logged-on Windows user]

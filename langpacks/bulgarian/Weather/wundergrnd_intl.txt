@@ -532,6 +532,8 @@
 Вероятна гръмотевична буря, 90% вероятност за преваляване
 [Chance Of T-Storms 80% Chance Of Precipitation]
 Вероятна гръмотевична буря, 80% вероятност за преваляване
+[Ice Pellets 90% Chance Of Precipitation]
+
 [Snow Showers 70% Chance Of Precipitation]
 
 [Snow Showers 60% Chance Of Precipitation]

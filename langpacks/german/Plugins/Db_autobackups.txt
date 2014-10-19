@@ -73,8 +73,8 @@ Pfad zum Miranda-Hauptverzeichnis
 
 [name of current Miranda profile (filename, without extension)]
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
-Gibt umgewandelten String %miranda_profile%\\%miranda_profilename% zurück
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+Gibt umgewandelten String %miranda_profilesdir%\\%miranda_profilename% zurück
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
 [username for currently logged-on Windows user]
