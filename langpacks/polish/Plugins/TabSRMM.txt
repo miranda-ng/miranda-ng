@@ -2095,11 +2095,11 @@ ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, J
 [path to Miranda root folder]
 folder docelowy Mirandy
 [path to folder containing Miranda profiles]
-
+Ścieżka folderu zawierającego profile Mirandy
 [name of current Miranda profile (filename, without extension)]
 nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
-zwróci analizowany ciąg %miranda_profile%\\%miranda_profilename%
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+Zwróci analizowany ciąg %miranda_profilesdir%\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]
 zwróci analizowany ciąg %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]

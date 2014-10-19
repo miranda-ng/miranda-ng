@@ -172,15 +172,15 @@ Globalne
 [path to Miranda root folder]
 folder docelowy Mirandy
 [path to folder containing Miranda profiles]
-
+Ścieżka folderu zawierającego profile Mirandy
 [name of current Miranda profile (filename, without extension)]
 nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
-zwróci przetworzony ciąg %miranda_profile%\\%miranda_profilename%
-[will return parsed string %miranda_profile%\\%miranda_profilename%\\AvatarCache]
-zwróci przetworzony ciąg %miranda_profile%\\%miranda_profilename%\\AvatarCache
-[will return parsed string %miranda_profile%\\%miranda_profilename%\\Logs]
-zwróci przetworzony ciąg %miranda_profile%\\%miranda_profilename%\\Logs
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+Zwróci analizowany ciąg %miranda_profilesdir%\\%miranda_profilename%
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache]
+Zwróci analizowany ciąg %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\Logs]
+Zwróci analizowany ciąg %miranda_profilesdir%\\%miranda_profilename%\\Logs
 [Miranda Core OS]
 OS
 [same as environment variable %APPDATA% for currently logged-on Windows user]

@@ -70,11 +70,11 @@ Profil
 [path to Miranda root folder]
 folder docelowy Mirandy
 [path to folder containing Miranda profiles]
-
+Ścieżka folderu zawierającego profile Mirandy
 [name of current Miranda profile (filename, without extension)]
 nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
-[will return parsed string %miranda_profile%\\%miranda_profilename%]
-powróci analizowany ciąg %miranda_profile%\\%miranda_profilename%
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+Zwróci analizowany ciąg%miranda_profilesdir%\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]
