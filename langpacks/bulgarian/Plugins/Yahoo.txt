@@ -11,7 +11,7 @@
 [Yahoo]
 Yahoo
 [ID:]
-Идентификатор (ID):
+ID:
 [Password:]
 Парола:
 [Nick:]
