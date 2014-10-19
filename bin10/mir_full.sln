@@ -118,9 +118,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx", "..\plugins\UserInfoEx\UInfoEx_10.vcxproj", "{AD3B6CDC-7B26-4338-B6AE-0306DEDA0D6A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Variables", "..\plugins\Variables\Variables_10.vcxproj", "{3038EF69-85BE-4D92-9864-CD6A5EBB558A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6124E997-426E-4A0B-9617-D6D577D5E7D7} = {6124E997-426E-4A0B-9617-D6D577D5E7D7}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhenWasIt", "..\plugins\WhenWasIt\WhenWasIt_10.vcxproj", "{63E05ECA-0A63-479E-86BD-2CAF53869BDA}"
 EndProject
