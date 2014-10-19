@@ -71,7 +71,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 		{
 			VARST pfd(_T("%miranda_path%\\Profiles"));
 			VARST pfd1(_T("%miranda_path%"));
-			VARST pfd2(_T("%miranda_profile%"));
+			VARST pfd2(_T("%miranda_profilesdir%"));
 			VARST pfn(_T("%miranda_profilename%"));
 
 			SearchForLists(hwndDlg, pfd2, pfn);
@@ -113,7 +113,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 			break;
 
 		case IDC_OTHER:
-			ptrT pfd(Utils_ReplaceVarsT(_T("%miranda_profile%")));
+			ptrT pfd(Utils_ReplaceVarsT(_T("%miranda_profilesdir%")));
 
 			TCHAR str[MAX_PATH], text[256];
 			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));

@@ -376,9 +376,9 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				_T("%userid%"),					TranslateT("user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc."),
 				// global vars
 				_T("%miranda_path%"),			TranslateT("path to Miranda root folder"),
-				_T("%miranda_profile%"),		TranslateT("path to folder containing Miranda profiles"),
+				_T("%miranda_profilesdir%"),		TranslateT("path to folder containing Miranda profiles"),
 				_T("%miranda_profilename%"),	TranslateT("name of current Miranda profile (filename, without extension)"),
-				_T("%miranda_userdata%"),		TranslateT("will return parsed string %miranda_profile%\\%miranda_profilename%"),
+				_T("%miranda_userdata%"),		TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
 				_T("%miranda_logpath%"),		TranslateT("will return parsed string %miranda_userdata%\\Logs"),
 				_T("%appdata%"),				TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
 				_T("%username%"),				TranslateT("username for currently logged-on Windows user"),
