@@ -54,29 +54,6 @@ void UninitHistoryDialog(void);
 
 int MainInit(WPARAM,LPARAM)
 {
-	includeIdle = (BOOL )db_get_b(NULL,S_MOD,"IdleSupport",1);
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	
-	if ( db_get_b(NULL,S_MOD,"MenuItem",1))
-		InitMenuitem();
-	
-	if ( db_get_b(NULL,S_MOD,"UserinfoTab",1))
-		ehuserinfo = HookEvent(ME_USERINFO_INITIALISE,UserinfoInit);
-
-	if ( db_get_b(NULL,S_MOD,"FileOutput",0))
-		InitFileOutput();
-
-	if ( db_get_b(NULL,S_MOD,"MissedOnes",0))
-		ehmissed_proto = HookEvent(ME_PROTO_ACK,ModeChange_mo);
-
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UpdateValues);
-	HookEvent(ME_PROTO_ACK,ModeChange);
-
-	SkinAddNewSoundExT("LastSeenTrackedStatusChange", LPGENT("LastSeen"), LPGENT("User status change"));
-	SkinAddNewSoundExT("LastSeenTrackedStatusOnline", LPGENT("LastSeen"), LPGENT("Changed to Online"));
-	SkinAddNewSoundExT("LastSeenTrackedStatusOffline", LPGENT("LastSeen"), LPGENT("User Logged Off"));
-	SkinAddNewSoundExT("LastSeenTrackedStatusFromOffline", LPGENT("LastSeen"), LPGENT("User Logged In"));
-	
 	if ( ServiceExists(MS_TIPPER_ADDTRANSLATION))
 		for (int i=0; i < TRANSNUMBER; i++)
 			CallService(MS_TIPPER_ADDTRANSLATION, 0, (LPARAM)&idleTr[i]);
@@ -99,6 +76,28 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UpdateValues);
+	HookEvent(ME_PROTO_ACK,ModeChange);
+
+	includeIdle = (BOOL )db_get_b(NULL,S_MOD,"IdleSupport",1);
+		
+	if ( db_get_b(NULL,S_MOD,"MenuItem",1))
+		InitMenuitem();
+
+	if ( db_get_b(NULL,S_MOD,"UserinfoTab",1))
+		ehuserinfo = HookEvent(ME_USERINFO_INITIALISE,UserinfoInit);
+
+	if ( db_get_b(NULL,S_MOD,"FileOutput",0))
+		InitFileOutput();
+
+	if ( db_get_b(NULL,S_MOD,"MissedOnes",0))
+		ehmissed_proto = HookEvent(ME_PROTO_ACK,ModeChange_mo);
+
+	SkinAddNewSoundExT("LastSeenTrackedStatusChange", LPGENT("LastSeen"), LPGENT("User status change"));
+	SkinAddNewSoundExT("LastSeenTrackedStatusOnline", LPGENT("LastSeen"), LPGENT("Changed to Online"));
+	SkinAddNewSoundExT("LastSeenTrackedStatusOffline", LPGENT("LastSeen"), LPGENT("User Logged Off"));
+	SkinAddNewSoundExT("LastSeenTrackedStatusFromOffline", LPGENT("LastSeen"), LPGENT("User Logged In"));
 	return 0;
 }
 
