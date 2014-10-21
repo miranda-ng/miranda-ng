@@ -344,6 +344,8 @@ void CVkProto::SendMsgAck(void *param)
 int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 { 
 	debugLogA("CVkProto::SendMsg");
+	if (!IsOnline())
+		return 0;
 	LONG userID = getDword(hContact, "ID", -1);
 	if (userID == -1)
 		return 0;
@@ -444,8 +446,11 @@ int CVkProto::SetStatus(int iNewStatus)
 	}
 	else if (IsOnline())
 		SetServerStatus(iNewStatus);
-	else 
+	else {
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		if (!(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES))
+			m_iDesiredStatus = m_iStatus;
+	}
 
 	return 0;
 }
@@ -545,6 +550,8 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 int CVkProto::Authorize(HANDLE hDbEvent)
 {
 	debugLogA("CVkProto::Authorize");
+	if (!IsOnline())
+		return 1;
 	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
 	if (hContact == -1)
 		return 1;
@@ -555,6 +562,8 @@ int CVkProto::Authorize(HANDLE hDbEvent)
 int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 {
 	debugLogA("CVkProto::AuthDeny");
+	if (!IsOnline())
+		return 1;
 	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
 	if (hContact == -1)
 		return 1;

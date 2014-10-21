@@ -44,7 +44,7 @@ void CVkProto::ConnectionFailed(int iReason)
 static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	for (int i = 0; i < vk_Instances.getCount(); i++){
-		vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iStatus);
+		vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iDesiredStatus);
 		vk_Instances[i]->RetrieveUsersInfo(true);
 	}
 }
@@ -359,6 +359,8 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
 	debugLogA("CVkProto::RetrieveUserInfo (%d)", userID);
+	if (!IsOnline())
+		return;
 	CMString userIDs, code;
 	userIDs.AppendFormat(L"%i", userID);
 	CMString codeformat("var userIDs=\"%s\";"
@@ -373,7 +375,8 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 void CVkProto::RetrieveUsersInfo(bool flag)
 {
 	debugLogA("CVkProto::RetrieveUsersInfo");
-
+	if (!IsOnline())
+		return;
 	CMString userIDs, code;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)){
 		LONG userID = getDword(hContact, "ID", -1);
@@ -444,6 +447,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 void CVkProto::RetrieveFriends()
 {
 	debugLogA("CVkProto::RetrieveFriends");
+	if (!IsOnline())
+		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
 		<< INT_PARAM("count", 1000) 
 		<< CHAR_PARAM("fields", fieldsName)
@@ -504,6 +509,8 @@ int  CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
 void CVkProto::MarkMessagesRead(const CMStringA &mids)
 {
 	debugLogA("CVkProto::MarkMessagesRead (mids)");
+	if (!IsOnline())
+		return;
 	if (mids.IsEmpty())
 		return;
 
@@ -515,6 +522,8 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 {
 	debugLogA("CVkProto::MarkMessagesRead (hContact)");
+	if (!IsOnline())
+		return;
 	LONG userID = getDword(hContact, "ID", -1);
 	if (userID == -1)
 		return;
@@ -527,6 +536,8 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 {
 	debugLogA("CVkProto::RetrieveMessagesByIds");
+	if (!IsOnline())
+		return;
 	if (mids.IsEmpty())
 		return;
 
@@ -538,6 +549,8 @@ void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 void CVkProto::RetrieveUnreadMessages()
 {
 	debugLogA("CVkProto::RetrieveUnreadMessages");
+	if (!IsOnline())
+		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getDialogs.json", true, &CVkProto::OnReceiveDlgs)
 		<< VER_API);
 }
@@ -694,7 +707,7 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 {
 	debugLogA("CVkProto::GetHistoryDlg %d", iLastMsg);
 	int lastmsgid = getDword(hContact, "lastmsgid", -1);
-	if (lastmsgid == -1) {
+	if ((lastmsgid == -1)||(!IsOnline())) {
 		setDword(hContact, "lastmsgid", iLastMsg);
 		return;
 	}
@@ -710,7 +723,7 @@ void CVkProto::GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCou
 	if (-1 == userID)
 		return;
 
-	if (lastcount == 0 || iMaxCount < 1) {
+	if (lastcount == 0 || iMaxCount < 1 || !IsOnline()) {
 		setDword(hContact, "lastmsgid", getDword(hContact, "new_lastmsgid", -1));
 		db_unset(hContact, m_szModuleName, "new_lastmsgid");
 		if (getBool(hContact, "ImportHistory", false))
@@ -802,6 +815,8 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 void CVkProto::RetrievePollingInfo()
 {
 	debugLogA("CVkProto::RetrievePollingInfo");
+	if (!IsOnline())
+		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo)
 		<< VER_API);
 }
@@ -829,6 +844,8 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 {
 	debugLogA("CVkProto::RetrieveStatusMsg");
+	if (!IsOnline())
+		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.set.json", true, &CVkProto::OnReceiveSmth)
 		<< TCHAR_PARAM("text", StatusMsg)
 		<< VER_API);
@@ -897,6 +914,8 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM wParam, LPARAM lParam)
 INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcAddAsFriend");
+	if (!IsOnline())
+		return 1;
 	CallContactService(hContact, PSS_AUTHREQUESTW, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
 	return 0;
 }
@@ -1062,6 +1081,8 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcGetAllServerHistory");
+	if (!IsOnline())
+		return 0;
 	LPCTSTR str = TranslateT("Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?");
 	if (IDNO == MessageBox(NULL, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
@@ -1171,6 +1192,8 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 int CVkProto::PollServer()
 {
 	debugLogA("CVkProto::PollServer");
+	if (!IsOnline())
+		return 0;
 
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
