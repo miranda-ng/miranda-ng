@@ -103,6 +103,8 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	debugLogA("CVkProto::RunCaptchaForm: reading picture from %s", szUrl);
 	result.Empty();
 
+	if (!IsOnline())
+		return false;
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = (LPSTR)szUrl;
@@ -144,6 +146,9 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE *pErrorNode)
 {
 	debugLogA("CVkProto::ApplyCaptcha");
+	if (!IsOnline())
+		return false;
+	
 	char *szUrl = NEWSTR_ALLOCA( _T2A( json_as_string( json_get(pErrorNode, "captcha_img"))));
 	char *szSid = NEWSTR_ALLOCA( _T2A( json_as_string( json_get(pErrorNode, "captcha_sid"))));
 	if (szUrl == NULL || szSid == NULL)

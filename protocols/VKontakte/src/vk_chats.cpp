@@ -110,7 +110,8 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 	szQuery.Append("};");
 
 	debugLogA("CVkProto::RetrieveChantInfo(%d)", cc->m_chatid);
-
+	if (!IsOnline())
+		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveChatInfo) 
 		<< CHAR_PARAM("code", szQuery)
 		<< VER_API )->pUserInfo = cc;
@@ -357,7 +358,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
-		if (m_bOnline && lstrlen(gch->ptszText) > 0) {
+		if (IsOnline() && lstrlen(gch->ptszText) > 0) {
 			TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
 			rtrimt(buf);
 			UnEscapeChatTags(buf);
@@ -441,6 +442,8 @@ LPTSTR CVkProto::ChangeChatTopic(CVkChatInfo *cc)
 void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 {
 	MCONTACT hContact;
+	if (!IsOnline())
+		return;
 
 	switch (gch->dwData) {
 	case IDM_TOPIC:
@@ -488,7 +491,9 @@ void CVkProto::LogMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::OnJoinChat");
-	
+	if (!IsOnline())
+		return 1;
+
 	if (getBool(hContact, "kicked", false))
 		return 1;
 	
@@ -510,6 +515,9 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CVkProto::OnLeaveChat(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::OnLeaveChat");
+	if (!IsOnline())
+		return 1;
+
 	ptrT tszChatID(getTStringA(hContact, "ChatRoomID"));
 	if (tszChatID == NULL)
 		return 1;
@@ -592,6 +600,8 @@ void CVkProto::OnChatLeave(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcDestroyKickChat");
+	if (!IsOnline())
+		return 1;
 
 	if (!getBool(hContact, "off", false))
 		return 1;
@@ -644,6 +654,9 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		break;
 		
 	case IDM_KICK:
+		if (!IsOnline())
+			return;
+
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.removeChatUser.json", true, &CVkProto::OnReceiveSmth)
 			<< INT_PARAM("chat_id", cc->m_chatid) 
 			<< INT_PARAM("user_id", cu->m_uid)
@@ -773,12 +786,16 @@ static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 INT_PTR CVkProto::SvcCreateChat(WPARAM, LPARAM)
 {
+	if (!IsOnline())
+		return 1;
 	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GC_CREATE), NULL, GcCreateDlgProc, (LPARAM)this);
 	return 0;
 }
 
 void CVkProto::CreateNewChat(LPCSTR uids, LPCTSTR ptszTitle)
 {
+	if (!IsOnline())
+		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.createChat.json", true, &CVkProto::OnCreateNewChat)
 		<< TCHAR_PARAM("title", ptszTitle) 
 		<< CHAR_PARAM("user_ids", uids)

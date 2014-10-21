@@ -72,6 +72,8 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 HANDLE CVkProto::SendFile(MCONTACT hContact, const PROTOCHAR *desc, PROTOCHAR **files)
 {
 	debugLogA("CVkProto::SendFile");
+	if (!IsOnline())
+		return (HANDLE)0;
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
 	ForkThread(&CVkProto::SendFileThread, (void *)fup);
 	return (HANDLE)fup;
@@ -118,6 +120,10 @@ void CVkProto::SendFileThread(void *p)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)p;
 	debugLog(L"CVkProto::SendFileThread %d %s", fup->GetType(), fup->fileName());
+	if (!IsOnline()){
+		SendFileFiled(fup, L"NotOnline");
+		return;
+	}
 	if (!fup->IsAccess()){
 		SendFileFiled(fup, L"FileIsNotAccess");
 		return;
@@ -148,6 +154,10 @@ void CVkProto::SendFileThread(void *p)
 void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
+	if (!IsOnline()){
+		SendFileFiled(fup, L"NotOnline");
+		return;
+	}
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200){
@@ -228,6 +238,10 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
+	if (!IsOnline()){
+		SendFileFiled(fup, L"NotOnline");
+		return;
+	}
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200){
@@ -291,6 +305,10 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
+	if (!IsOnline()){
+		SendFileFiled(fup, L"NotOnline");
+		return;
+	}
 
 	debugLogA("CVkProto::OnReciveUploadFile %d", reply->resultCode);
 	if (reply->resultCode != 200){
