@@ -336,8 +336,13 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 
 	tszValue = json_as_string(json_get(pItem, "status"));
 	CMString tszOldStatus(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg"));
-	if (tszValue != tszOldStatus)
+	if (tszValue != tszOldStatus){
 		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue.GetBuffer());
+		if (json_get(pItem, "status_audio"))
+			db_set_ts(hContact, m_szModuleName, "ListeningTo", tszValue.GetBuffer());
+		else
+			db_unset(hContact, m_szModuleName, "ListeningTo");
+	}
 
 	if ((hContact == NULL) && m_bOne){
 		setTString("OldStatusMsg", db_get_tsa(0, m_szModuleName, "StatusMsg"));
