@@ -111,13 +111,13 @@ HistoryStats - Филтриране на думи/съобщения
 [(unknown)]
 (неизвестен)
 [[Min] #{amount}]
-[Минимално] #{amount}
+\[Минимално] #{amount}
 [[Avg] #{amount}]
-[Средно] #{amount}
+\[Средно] #{amount}
 [[Max] #{amount}]
-[Максимално] #{amount}
+\[Максимално] #{amount}
 [[Sum] #{amount}]
-[Сумарно] #{amount}
+\[Сумарно] #{amount}
 ;file \plugins\HistoryStats\src\column_chatduration.h
 [Column holding the amount of time you have chatted with the given contact.]
 Колона за броя проведени разговори с даден контакт.
@@ -233,7 +233,7 @@ URL адреси
 [Incoming]
 Входящи
 [[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
-[Изходящи] #{out_amount} (#{out_ratio}) / [Входящи] #{in_amount} (#{in_ratio})
+\[Изходящи] #{out_amount} (#{out_ratio}) / [Входящи] #{in_amount} (#{in_ratio})
 [[Out] #{out_amount} / [In] #{in_amount}]
 #{out_amount} [Изходящи] / #{in_amount} [Входящи]
 ;file \plugins\HistoryStats\src\column_inoutgraph.h
@@ -249,7 +249,7 @@ URL адреси
 [Nick]
 Прякор
 [[First] #{first_time} / [Last] #{last_time}]
-[Първо] #{first_time} / [Последно] #{last_time}
+\[Първо] #{first_time} / [Последно] #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
 #{count} контакта / [Име] #{first_time} / [Фамилия] #{last_time}
 [#{count} contacts]
@@ -401,9 +401,9 @@ wday3:нед
 [[#{date}] #{amount}]
 
 [[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
-[#{start_date}-#{end_date}] #{out_amount} (изходящи) / #{in_amount} (входящи)
+\[#{start_date}-#{end_date}] #{out_amount} (изходящи) / #{in_amount} (входящи)
 [[#{date}] #{out_amount} (out) / #{in_amount} (in)]
-[#{date}] #{out_amount} (изходящи) / #{in_amount} (входящи)
+\[#{date}] #{out_amount} (изходящи) / #{in_amount} (входящи)
 ;file \plugins\HistoryStats\src\column_timeline.h
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 
@@ -549,11 +549,11 @@ HistoryStats
 [For this config the selected column...]
 Така настроена колоната...
 [...can be output as: ]
-...може да бъде изведена като:  
+...може да бъде изведена като:\s
 [PNG (partial)]
 PNG (частично)
 [...will be output as: ]
-...ще бъде изведена като: 
+...ще бъде изведена като:\s
 [Nothing (column will be skipped)]
 Нищо (колоната ще бъде изпусната)
 [HTML as fallback]

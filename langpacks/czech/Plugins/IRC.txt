@@ -497,11 +497,11 @@ Smazat server
 [Edit server]
 Upravit server
 [<Resolved IP: ]
-<zjištěná IP: 
+<zjištěná IP:\s
 [<Automatic>]
 <automaticky>
 [<Local IP: ]
-<lokální IP: 
+<lokální IP:\s
 [Event: Available]
 
 [Event: Away]
@@ -550,19 +550,19 @@ DCC a CTCP
 Extra
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
-WallOps od %s: 
+WallOps od %s:\s
 [%s invites you to %s]
 %s tě zve na kanál %s
 [%s is away]
 %s je pryč
 [These are online: ]
-Počet online: 
+Počet online:\s
 [CTCP %s reply sent to %s]
 Odpověď na žádost CTCP odeslána -> %s
 [CTCP %s reply sent to %s: %s]
 Odpověď na žádost CTCP odeslána -> %s: %s
 [Notice to %s: ]
-Poznámka -> %s: 
+Poznámka -> %s:\s
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Připojit rychle

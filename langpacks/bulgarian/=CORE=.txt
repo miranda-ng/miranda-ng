@@ -2222,7 +2222,7 @@ URL
 [You were added by %s%s]
 Бяхте добавени от %s%s
 [Contacts: ]
-Контакти: 
+Контакти:\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профилът "%s" вече съществува. Желаете ли да бъде преместен в Кошчето?\n\nВНИМАНИЕ:Профилът ще бъде изтрит ако Кошчето е изключено.\nВНИМАНИЕ: Профилът може да съдържа поверителна и лична информация, затова е препоръчително да го изтриете по подходящ начин.

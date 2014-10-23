@@ -286,7 +286,7 @@ Vyberte prosím požadované okno.
 [Screenshot ]
 
 [for Client area ]
-pro oblast 
+pro oblast\s
 [of "]
 okna "
 [" Window]

@@ -549,7 +549,7 @@ Zpřesňující nastavení sloupce
 [For this config the selected column...]
 Tímto nastavením ovlivníte...
 [...can be output as: ]
-... výstupem může být: 
+... výstupem může být:\s
 [PNG (partial)]
 PNG (částečně)
 [...will be output as: ]

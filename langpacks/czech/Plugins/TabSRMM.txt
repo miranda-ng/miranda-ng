@@ -1040,7 +1040,7 @@ Příchozí soubor (neplatný formát)
 [Unknown event]
 Neznámá událost
 [New messages: ]
-Nové zprávy: 
+Nové zprávy:\s
 [Unknown module or contact]
 Neznámý modul nebo uživatel
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
