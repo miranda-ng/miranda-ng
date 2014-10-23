@@ -20,8 +20,8 @@ Zaawansowane
 Ukryj czaty podczas startu
 [Always notify as unread for all incoming message]
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
-[Add [img] bbc for graphical attachments]
-Dodaj tag bbc [img] dla załączników graficznych
+[Add [img] BBCode for graphical attachments]
+Dodaj tag BBCode [img] dla załączników graficznych
 [Process stickers as smileys]
 Przetwarzaj naklejki jako uśmieszki
 [Force online status upon user activity]
@@ -233,9 +233,9 @@ Sugestia użytkownika %s jako znajomego usunięta
 Zgłoś go/ją za nadużycie
 [ clear server history with him/her]
 Wyczyść jego/jej historię z serwera
-[ remove him/her from you friend list]
+[ remove him/her from your friend list]
 Usuń go/ją z listy znajomych
-[ remove him/her from you contact list]
+[ remove him/her from your contact list]
 Usuń go/ją z listy kontaktów
 [Are you sure to ban %s? %s%sContinue?]
 Czy jesteś pewien, że chcesz zbanować %s? %s%skontynuować?

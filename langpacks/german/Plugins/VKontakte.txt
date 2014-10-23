@@ -20,7 +20,7 @@ Erweitert
 Chats beim Start verbergen
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
-[Add [img] bbc for graphical attachments]
+[Add [img] BBCode for graphical attachments]
 BBCode [img] für grafische Anhänge verwenden
 [Process stickers as smileys]
 Sticker als Smileys darstellen
@@ -233,9 +233,9 @@ Freundesanfragenvorschlag von %s abgelehnt.
  Missbrauch durch ihn/sie melden
 [ clear server history with him/her]
  Serververlauf mit ihm/ihr löschen
-[ remove him/her from you friend list]
+[ remove him/her from your friend list]
  ihn/sie aus Ihrer Freundesliste löschen
-[ remove him/her from you contact list]
+[ remove him/her from your contact list]
  ihn/sie aus Ihrer Kontaktliste entfernen
 [Are you sure to ban %s? %s%sContinue?]
 Wollen Sie %s wirklich bannen? %s%sFortfahren?
