@@ -362,9 +362,9 @@ wday3:Ндл
 [Timeline]
 Шкала часу
 [[#{start_date}-#{end_date}] #{out_amount} (out) / #{in_amount} (in)]
-[#{start_date}-#{end_date}] #{out_amount} вихідних / #{in_amount} вхідних
+\[#{start_date}-#{end_date}] #{out_amount} вихідних / #{in_amount} вхідних
 [[#{date}] #{out_amount} (out) / #{in_amount} (in)]
-[#{date}] #{out_amount} вихідних / #{in_amount} вхідних
+\[#{date}] #{out_amount} вихідних / #{in_amount} вхідних
 [Column holding a graphical overview of your chatting behavior (out, in, total, in/out ratio) from the first to the last day of your history on a daily basis. Multiple days can be grouped. Different chatting behavior measures are available.]
 Колонка містить графічне зображення статистики бесід (вихідні, вхідні, разом, співвідношення вихідних/вхідних) з першого дня історії по останній на основі днів. Дні можна згрупувати. Доступні різні виміри статистики бесід.
 [Word count type]

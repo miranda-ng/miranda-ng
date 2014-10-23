@@ -636,7 +636,7 @@ VBR ці няма
 Падобныя выканаўцы
 ;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
-Інфармацыя пра музыку ад
+Інфармацыя пра музыку ад\s
 [You Get Error]
 У Вас памылка
 ;other strings
