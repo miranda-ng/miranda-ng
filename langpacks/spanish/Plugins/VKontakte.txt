@@ -40,7 +40,7 @@ Avanzado
 
 [off]
 Apagado
-[as regular status for unknow music and audio status otherwise]
+[as regular status for unknown music and audio status otherwise]
 
 [as audio status only]
 
@@ -103,9 +103,9 @@ Formulario Captcha icono
 
 [Load server history icon]
 
-[Add to friendlist icon]
+[Add to friend list icon]
 
-[Delete from friendlist icon]
+[Delete from friend list icon]
 
 [Report abuse icon]
 
@@ -233,9 +233,9 @@ Cuenta
 
 [ clear server history with him/her]
 
-[ remove his/her from you frendlist]
+[ remove him/her from you friend list]
 
-[ remove his/her from you contact list]
+[ remove him/her from you contact list]
 
 [Are you sure to ban %s? %s%sContinue?]
 

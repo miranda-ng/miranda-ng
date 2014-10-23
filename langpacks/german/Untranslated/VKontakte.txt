@@ -1,4 +1,4 @@
 ﻿[Broadcast music...]
-[as regular status for unknow music and audio status otherwise]
+[as regular status for unknown music and audio status otherwise]
 [as audio status only]
 [as regular status only]

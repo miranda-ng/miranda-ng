@@ -40,7 +40,7 @@ Usuń z listy kontaktów
 Nadawaj muzykę...
 [off]
 wyłączone
-[as regular status for unknow music and audio status otherwise]
+[as regular status for unknown music and audio status otherwise]
 Jako zwykły status dla muzyki nieznanej, w przeciwnym razie status audio
 [as audio status only]
 Tylko jako status audio
@@ -103,9 +103,9 @@ Ikona odczytanej wiadomości
 Ikona odwiedź profil
 [Load server history icon]
 Ikona załaduj historię z serwera
-[Add to friendlist icon]
+[Add to friend list icon]
 Ikona dodaj do znajomych
-[Delete from friendlist icon]
+[Delete from friend list icon]
 Ikona usuń ze znajomych
 [Report abuse icon]
 Ikona zgłoś naruszenie
@@ -233,9 +233,9 @@ Sugestia użytkownika %s jako znajomego usunięta
 Zgłoś go/ją za nadużycie
 [ clear server history with him/her]
 Wyczyść jego/jej historię z serwera
-[ remove his/her from you frendlist]
+[ remove him/her from you friend list]
 Usuń go/ją z listy znajomych
-[ remove his/her from you contact list]
+[ remove him/her from you contact list]
 Usuń go/ją z listy kontaktów
 [Are you sure to ban %s? %s%sContinue?]
 Czy jesteś pewien, że chcesz zbanować %s? %s%skontynuować?

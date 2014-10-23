@@ -93,9 +93,9 @@
 Профіль на сайті
 [Load server history icon]
 Завантажити історію з сайту
-[Add to friendlist icon]
+[Add to friend list icon]
 Додати до списку
-[Delete from friendlist icon]
+[Delete from friend list icon]
 Видалити зі списку
 [Report abuse icon]
 Поскаржитися
@@ -217,9 +217,9 @@
  відправить скаргу на користувача
 [ clear server history with him/her]
  видалить історію бесід з ним/нею на сайті
-[ remove his/her from you frendlist]
+[ remove him/her from you friend list]
  видалить його/її зі списку друзів
-[ remove his/her from you contact list]
+[ remove him/her from you contact list]
  видалить його/її зі списку контактів
 [Are you sure to ban %s? %s%sContinue?]
 Ви впевнені, що хочете забанити %s? %s%s Продовжити?
