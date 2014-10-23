@@ -40,7 +40,7 @@ Aus Kontaktliste entfernen
 
 [off]
 aus
-[as regular status for unknow music and audio status otherwise]
+[as regular status for unknown music and audio status otherwise]
 
 [as audio status only]
 
@@ -103,9 +103,9 @@ Nachricht-gelesen-Icon
 Profil-besuchen-Icon
 [Load server history icon]
 Servervarlauf-laden-Icon
-[Add to friendlist icon]
+[Add to friend list icon]
 Zu-Freundesliste-hinzufügen-Icon
-[Delete from friendlist icon]
+[Delete from friend list icon]
 Von-Freundesliste-löschen-Icon
 [Report abuse icon]
 Missbrauch-melden-Icon
@@ -233,9 +233,9 @@ Freundesanfragenvorschlag von %s abgelehnt.
  Missbrauch durch ihn/sie melden
 [ clear server history with him/her]
  Serververlauf mit ihm/ihr löschen
-[ remove his/her from you frendlist]
+[ remove him/her from you friend list]
  ihn/sie aus Ihrer Freundesliste löschen
-[ remove his/her from you contact list]
+[ remove him/her from you contact list]
  ihn/sie aus Ihrer Kontaktliste entfernen
 [Are you sure to ban %s? %s%sContinue?]
 Wollen Sie %s wirklich bannen? %s%sFortfahren?
