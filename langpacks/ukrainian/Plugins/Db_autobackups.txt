@@ -70,7 +70,7 @@
 [name of current Miranda profile (filename, without extension)]
 ім'я поточного профілю (тільки ім'я, без розширення)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
-поверне рядок виду %miranda_profilesdir%\\%miranda_profilename%
+повертає шлях %miranda_profilesdir%\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 те саме, що й змінна середовища %APPDATA% для поточного користувача системи
 [username for currently logged-on Windows user]
