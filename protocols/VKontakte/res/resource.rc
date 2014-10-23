@@ -140,7 +140,7 @@ BEGIN
     CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,101,141,10
     GROUPBOX        "Broadcast music...",IDC_STATIC_SEND_MUSIC_METOD,4,116,293,58,WS_GROUP
     CONTROL         "off",IDC_SEND_MUSIC_NONE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,127,278,10
-    CONTROL         "as regular status for unknow music and audio status otherwise",IDC_SEND_MUSIC_BROADCAST_AND_STATUS,
+    CONTROL         "as regular status for unknown music and audio status otherwise",IDC_SEND_MUSIC_BROADCAST_AND_STATUS,
                     "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,138,278,11
     CONTROL         "as audio status only",IDC_SEND_MUSIC_BROADCAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,149,278,10
     CONTROL         "as regular status only",IDC_SEND_MUSIC_STATUS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,160,278,10

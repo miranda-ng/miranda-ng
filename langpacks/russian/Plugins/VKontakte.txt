@@ -39,7 +39,7 @@ E-mail или номер телефона:
 Трансляция музыки...
 [off]
 Откл.
-[as regular status for unknow music and audio status otherwise]
+[as regular status for unknown music and audio status otherwise]
 как обычный статус для неизвестных композиций, иначе как аудио статус
 [as audio status only]
 только как аудио статус
