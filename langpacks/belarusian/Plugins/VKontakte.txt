@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.24
+;  Version: 0.1.0.25
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -18,6 +18,8 @@
 Дадаткова
 [Hide chats on startup]
 Не адчыняць вокны пакояў пры далучэнні
+[off]
+адкл.
 [Login settings]
 Налады уваходу
 [Local settings]
