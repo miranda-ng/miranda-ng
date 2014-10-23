@@ -414,12 +414,14 @@ private:
 		m_bPopUpSyncHistory,
 		m_bAddImgBbc,
 		m_bStikersAsSmyles,
-		m_bUserForceOnlineOnActivity,
-		m_bAudioStatusOnly;
+		m_bUserForceOnlineOnActivity;
 
 	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
 	int		m_iMarkMessageReadOn;
 	
+	enum MusicSendMetod{ sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
+	int		m_iMusicSendMetod;
+
 	LONG	m_myUserId;
 	ptrT	m_defaultGroup;
 

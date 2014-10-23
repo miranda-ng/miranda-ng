@@ -229,13 +229,17 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		CheckDlgButton(hwndDlg, IDC_ADD_IMG_BBC, ppro->m_bAddImgBbc);
 		CheckDlgButton(hwndDlg, IDC_STICKERS_AS_SMYLES, ppro->m_bStikersAsSmyles);
 		CheckDlgButton(hwndDlg, IDC_FORCE_ONLINE_ON_ACT, ppro->m_bUserForceOnlineOnActivity);
-		CheckDlgButton(hwndDlg, IDC_AUDIO_STATUS_ONLY, ppro->m_bAudioStatusOnly);
 
 		CheckDlgButton(hwndDlg, IDC_REPORT_ABUSE, ppro->m_bReportAbuse);
 		CheckDlgButton(hwndDlg, IDC_CLEAR_SERVER_HISTORY, ppro->m_bClearServerHistory);
 		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_FRENDLIST, ppro->m_bRemoveFromFrendlist);
 		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_CLIST, ppro->m_bRemoveFromClist);
 		
+		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_NONE, (ppro->m_iMusicSendMetod == sendNone));
+		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_BROADCAST, (ppro->m_iMusicSendMetod == sendBroadcastOnly));
+		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_STATUS, (ppro->m_iMusicSendMetod == sendStatusOnly));
+		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_BROADCAST_AND_STATUS, (ppro->m_iMusicSendMetod == sendBroadcastAndStatus));
+
 		return TRUE;
 
 	case WM_COMMAND:
@@ -245,11 +249,14 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		case IDC_ADD_IMG_BBC:
 		case IDC_FORCE_ONLINE_ON_ACT:
 		case IDC_STICKERS_AS_SMYLES:
-		case IDC_AUDIO_STATUS_ONLY:
 		case IDC_REPORT_ABUSE:
 		case IDC_CLEAR_SERVER_HISTORY:
 		case IDC_REMOVE_FROM_FRENDLIST:
 		case IDC_REMOVE_FROM_CLIST:
+		case IDC_SEND_MUSIC_NONE:
+		case IDC_SEND_MUSIC_BROADCAST:
+		case IDC_SEND_MUSIC_STATUS:
+		case IDC_SEND_MUSIC_BROADCAST_AND_STATUS:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -273,9 +280,6 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			ppro->m_bUserForceOnlineOnActivity = IsDlgButtonChecked(hwndDlg, IDC_FORCE_ONLINE_ON_ACT) == BST_CHECKED;
 			ppro->setByte("UserForceOnlineOnActivity", ppro->m_bUserForceOnlineOnActivity);
 
-			ppro->m_bAudioStatusOnly = IsDlgButtonChecked(hwndDlg, IDC_AUDIO_STATUS_ONLY) == BST_CHECKED;
-			ppro->setByte("AudioStatusOnly", ppro->m_bAudioStatusOnly);
-
 			ppro->m_bReportAbuse = IsDlgButtonChecked(hwndDlg, IDC_REPORT_ABUSE) == BST_CHECKED;
 			ppro->setByte("ReportAbuseOnBanUser", ppro->m_bReportAbuse);
 
@@ -288,6 +292,18 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			ppro->m_bRemoveFromClist = IsDlgButtonChecked(hwndDlg, IDC_REMOVE_FROM_CLIST) == BST_CHECKED;
 			ppro->setByte("RemoveFromClistOnBanUser", ppro->m_bRemoveFromClist);
 
+			if (IsDlgButtonChecked(hwndDlg, IDC_SEND_MUSIC_NONE) == BST_CHECKED)
+				ppro->m_iMusicSendMetod = sendNone;
+			if (IsDlgButtonChecked(hwndDlg, IDC_SEND_MUSIC_BROADCAST) == BST_CHECKED)
+				ppro->m_iMusicSendMetod = sendBroadcastOnly;
+			if (IsDlgButtonChecked(hwndDlg, IDC_SEND_MUSIC_STATUS) == BST_CHECKED)
+				ppro->m_iMusicSendMetod = sendStatusOnly;
+			if (IsDlgButtonChecked(hwndDlg, IDC_SEND_MUSIC_BROADCAST_AND_STATUS) == BST_CHECKED)
+				ppro->m_iMusicSendMetod = sendBroadcastAndStatus;
+			ppro->setByte("MusicSendMetod", ppro->m_iMusicSendMetod);
+			CMStringA szListeningTo(ppro->m_szModuleName);
+			szListeningTo += "Enabled";
+			db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), ppro->m_iMusicSendMetod == 0 ? 0 : 1);
 		}
 		break;
 
