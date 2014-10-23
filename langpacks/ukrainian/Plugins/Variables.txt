@@ -166,7 +166,7 @@ X - Y - ...
 [name of current Miranda profile (filename, without extension)]
 ім'я поточного профілю (тільки ім'я, без розширення)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
-повертає рядок виду %miranda_profilesdir%\\%miranda_profilename%
+повертає шлях %miranda_profilesdir%\\%miranda_profilename%
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache]
 повертає шлях %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\Logs]
