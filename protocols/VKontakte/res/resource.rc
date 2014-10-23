@@ -126,7 +126,7 @@ BEGIN
     CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,19,278,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
-    CONTROL         "Add [img] bbc for graphical attachments",IDC_ADD_IMG_BBC,
+    CONTROL         "Add [img] BBCode for graphical attachments",IDC_ADD_IMG_BBC,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,41,278,10
     CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10

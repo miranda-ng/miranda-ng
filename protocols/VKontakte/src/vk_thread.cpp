@@ -1023,13 +1023,13 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		code += "API.friends.delete({\"user_id\":userID});";
 		if (!tszVarWarning.IsEmpty())
 			tszVarWarning.AppendChar(L',');
-		tszVarWarning += TranslateT(" remove him/her from you friend list");
+		tszVarWarning += TranslateT(" remove him/her from your friend list");
 	}
 	if (m_bRemoveFromClist){
 		debugLogA("CVkProto::SvcBanUser m_bRemoveFromClist = true");
 		if (!tszVarWarning.IsEmpty())
 			tszVarWarning.AppendChar(L',');
-		tszVarWarning += TranslateT(" remove him/her from you contact list");
+		tszVarWarning += TranslateT(" remove him/her from your contact list");
 	}
 
 	if (!tszVarWarning.IsEmpty())
