@@ -186,8 +186,8 @@ static IconItem iconList[] =
 	{ LPGEN("Read message icon"), "read", IDI_READMSG },
 	{ LPGEN("Visit profile icon"), "profile", IDI_VISITPROFILE },
 	{ LPGEN("Load server history icon"), "history", IDI_HISTORY },
-	{ LPGEN("Add to friendlist icon"), "addfriend", IDI_FRIENDADD },
-	{ LPGEN("Delete from friendlist icon"), "delfriend", IDI_FRIENDDEL },
+	{ LPGEN("Add to friend list icon"), "addfriend", IDI_FRIENDADD },
+	{ LPGEN("Delete from friend list icon"), "delfriend", IDI_FRIENDDEL },
 	{ LPGEN("Report abuse icon"), "abuse", IDI_ABUSE },
 	{ LPGEN("Ban user icon"), "ban", IDI_BAN}
 };

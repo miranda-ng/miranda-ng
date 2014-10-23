@@ -101,9 +101,9 @@ Cоздать комнату чата
 Значок профиля на сайте
 [Load server history icon]
 Значок загрузки истории с сайта
-[Add to friendlist icon]
+[Add to friend list icon]
 Значок добавления в список друзей
-[Delete from friendlist icon]
+[Delete from friend list icon]
 Значок удаления из списка друзей
 [Report abuse icon]
 Значок жалобы на пользователя
@@ -225,9 +225,9 @@ Cоздать комнату чата
  отправит жалобу на пользователя
 [ clear server history with him/her]
  удалит историю с пользователем на сайте
-[ remove his/her from you frendlist]
+[ remove him/her from you friend list]
  удалит пользователя из друзей
-[ remove his/her from you contact list]
+[ remove him/her from you contact list]
  удалит пользователя из списка контактов
 [Are you sure to ban %s? %s%sContinue?]
 Вы уверены, что хотите забанить %s? %s%sПродолжить?
