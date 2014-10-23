@@ -76,7 +76,11 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bAddImgBbc = getBool("AddImgBbc", false);
 	m_bStikersAsSmyles = getBool("StikersAsSmyles", false);
 	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity", false);
-	m_bAudioStatusOnly = getBool("AudioStatusOnly", false);
+	
+	m_iMusicSendMetod = getByte("MusicSendMetod", 0);
+	CMStringA szListeningTo(m_szModuleName);
+	szListeningTo += "Enabled";
+	db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), m_iMusicSendMetod == 0 ? 0 : 1);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);

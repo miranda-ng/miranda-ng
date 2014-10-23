@@ -50,7 +50,12 @@
 #define IDC_ONREPLY                     1041
 #define IDC_ONTYPING                    1042
 #define IDC_STATIC_MARK_AS_READ         1043
-#define IDC_AUDIO_STATUS_ONLY           1044
+#define IDC_STATIC_SEND_MUSIC_METOD     1044
+#define IDC_SEND_MUSIC_NONE             1045
+#define IDC_SEND_MUSIC_STATUS           1046
+#define IDC_SEND_MUSIC_BROADCAST        1047
+#define IDC_SEND_MUSIC_BROADCAST_AND_STATUS 1048
+
 
 // Next default values for new objects
 // 
@@ -59,7 +64,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1044
+#define _APS_NEXT_CONTROL_VALUE         1049
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
