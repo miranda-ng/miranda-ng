@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.24
+;  Version: 0.1.0.25
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -26,8 +26,6 @@ Dodaj tag bbc [img] dla załączników graficznych
 Przetwarzaj naklejki jako uśmieszki
 [Force online status upon user activity]
 Wymuś dostępny status po wykazaniu aktywności przez użytkownika
-[Broadcast music with VK audio status only]
-Udostępniaj muzykę jedynie za pomocą statusu audio VK
 [When I ban user...]
 Gdy banuję użytkownika...
 [Report abuse]
@@ -38,6 +36,16 @@ Wyczyść historię serwera
 Usuń z listy znajomych
 [Remove from contact list]
 Usuń z listy kontaktów
+[Broadcast music...]
+Nadawaj muzykę...
+[off]
+wyłączone
+[as regular status for unknow music and audio status otherwise]
+Jako zwykły status dla muzyki nieznanej, w przeciwnym razie status audio
+[as audio status only]
+Tylko jako status audio
+[as regular status only]
+Tylko jako zwykły status
 [Login settings]
 Opcje logowania
 [Local settings]
