@@ -875,7 +875,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 	else {
 		if (m_iMusicSendMetod == sendBroadcastOnly){
 			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;"
-				"var Tracks = API.audio.search({\"q\":StatusMsg,\"count\":CntLmt});"
+				"var Tracks = API.audio.search({\"q\":StatusMsg,\"count\":CntLmt, \"search_own\":1});"
 				"var Cnt=Tracks.count;if (Cnt>CntLmt){Cnt=CntLmt;}"
 				"if (Cnt == 0){API.audio.setBroadcast();}"
 				"else{var i = 0;var j = 0;var Track=\" \";"
@@ -892,7 +892,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		}
 		else if (m_iMusicSendMetod == sendBroadcastAndStatus){
 			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";"
-				"var Tracks = API.audio.search({\"q\":StatusMsg,\"count\":CntLmt});"
+				"var Tracks = API.audio.search({\"q\":StatusMsg,\"count\":CntLmt, \"search_own\":1});"
 				"var Cnt=Tracks.count;if (Cnt>CntLmt){Cnt=CntLmt;}"
 				"if (Cnt == 0){Track = \"&#9835; \"+StatusMsg; API.status.set({\"text\":Track});}"
 				"else{var i = 0;var j = -1;"
