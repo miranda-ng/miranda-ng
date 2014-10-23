@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.24
+;  Version: 0.1.0.25
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -26,8 +26,6 @@
 
 [Force online status upon user activity]
 
-[Broadcast music with VK audio status only]
-
 [When I ban user...]
 
 [Report abuse]
@@ -37,6 +35,16 @@
 [Remove from friend list]
 
 [Remove from contact list]
+
+[Broadcast music...]
+
+[off]
+изкл.
+[as regular status for unknow music and audio status otherwise]
+
+[as audio status only]
+
+[as regular status only]
 
 [Login settings]
 
