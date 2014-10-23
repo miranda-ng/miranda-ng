@@ -19,8 +19,8 @@ E-mail или номер телефона:
 Не открывать окна комнат чата при входе
 [Always notify as unread for all incoming message]
 Помечать все входящие сообщения как "Непрочитанное"
-[Add [img] bbc for graphical attachments]
-Добавлять BB-код [img] для графических вложений
+[Add [img] BBCode for graphical attachments]
+Добавлять BBCode [img] для графических вложений
 [Process stickers as smileys]
 Обрабатывать стикеры как смайлы
 [Force online status upon user activity]
@@ -225,9 +225,9 @@ Cоздать комнату чата
  отправит жалобу на пользователя
 [ clear server history with him/her]
  удалит историю с пользователем на сайте
-[ remove him/her from you friend list]
+[ remove him/her from your friend list]
  удалит пользователя из друзей
-[ remove him/her from you contact list]
+[ remove him/her from your contact list]
  удалит пользователя из списка контактов
 [Are you sure to ban %s? %s%sContinue?]
 Вы уверены, что хотите забанить %s? %s%sПродолжить?
