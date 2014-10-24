@@ -378,9 +378,9 @@ Filtrování událostí deaktivováno
 [Event filter enabled]
 Filtrování událostí aktivováno
 [Hide nick list]
-Skrýt seznam účastníků 
+Skrýt seznam účastníků
 [Show nick list]
-Zobrazit seznam účastníků 
+Zobrazit seznam účastníků
 [Status 1 (10x10)]
 Stav č.1 (10x10)
 [Status 2 (10x10)]
@@ -510,7 +510,7 @@ Zobrazit historii
 [Quote Text]
 Citovat text
 [Insert Emoticon]
-Vložit smajlík 
+Vložit smajlík
 [Send Message]
 Odeslat zprávu
 [User Menu - %s]

@@ -66,7 +66,7 @@ Přerušeno protistranou
 [New incoming file request. Do you want to proceed?]
 Nová žádost o přenos souboru. Chcete pokračovat?
 [File transfer is paused because of dropped connection]
-Spojení přerušeno, přenos byl pozastaven. 
+Spojení přerušeno, přenos byl pozastaven.
 [Failed on file initialization]
 Chyba při inicializaci přenosu
 [Paused...]

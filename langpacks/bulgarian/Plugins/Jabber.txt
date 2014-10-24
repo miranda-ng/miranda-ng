@@ -486,7 +486,7 @@ Jabber настроение
 [Supports multi-user chat]
 Поддържа чат между много потребители
 [Can report chat state in a chat session]
-Може да докладва за състоянието си в чат сесиите 
+Може да докладва за състоянието си в чат сесиите
 [Can report information about the last activity of the user]
 Може да докладва за последната дейност на потребителя
 [Can report own version information]

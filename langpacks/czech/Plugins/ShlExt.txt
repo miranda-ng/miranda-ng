@@ -29,7 +29,7 @@ Odebrat
 [Do not show status icons in menus]
 Nezobrazovat v nabídce ikonu stavu
 [Do not show contacts that are offline, even if my contact list does]
-Nezobrazovat offline kontakty 
+Nezobrazovat offline kontakty
 ;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
 Nalezen problém, registrace byla ztracena/smazána.

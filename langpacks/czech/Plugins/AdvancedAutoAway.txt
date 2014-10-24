@@ -161,7 +161,7 @@ Vlastní
 [Permanent]
 Trvale
 [Show additional information in popups]
-Zobrazit i další, podrobnější informace 
+Zobrazit i další, podrobnější informace
 [Use Miranda's message setting]
 Použít výchozí nastavení Mirandy
 [Use this message:]

@@ -464,7 +464,7 @@ Vykonání úlohy '%s' selhalo
 [Task '%s' finished successfully]
 Úloha '%s' byla úspěšně dokončena
 [Task '%s' execution failed:]
-Vykonání úlohy '%s' selhalo: 
+Vykonání úlohy '%s' selhalo:
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" nenalezeno

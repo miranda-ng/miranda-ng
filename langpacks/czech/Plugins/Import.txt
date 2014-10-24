@@ -118,7 +118,7 @@ Import skupiny se nezdařil.
 [Importing contacts.]
 Importování kontaktů.
 [Skipping new contacts import.]
-Přeskakování 
+Přeskakování
 [Importing system history.]
 Importování historie systému.
 [Skipping system history import.]

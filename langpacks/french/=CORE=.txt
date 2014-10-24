@@ -1276,7 +1276,7 @@ Site Web :
 [%u requests authorization]
 %u demande une autorisation
 [%s added you to their contact list]
-%s vous a ajouté à sa liste de contacts 
+%s vous a ajouté à sa liste de contacts
 [%u added you to their contact list]
 %u vous a ajouté à sa liste de contacts
 [Alerts]
@@ -2194,11 +2194,11 @@ Miranda est incapable d'ouvrir '% s' parce que vous n'avez pas de plugins de pro
 [No profile support installed!]
 Pas de support de profil installé !
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-Miranda n'a pas pu ouvrir '%s', ce fichier est dans un format inconnu.\nCe profil peut également être endommagé, s'il vous plaît exécuter DbChecker qui doit être installé. 
+Miranda n'a pas pu ouvrir '%s', ce fichier est dans un format inconnu.\nCe profil peut également être endommagé, s'il vous plaît exécuter DbChecker qui doit être installé.
 [Miranda can't understand that profile]
 Miranda ne comprend pas ce profil !
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
-Miranda n'a pas pu ouvrir '%s'\nC'est inaccessible ou utilisé par une autre application ou instance de Miranda 
+Miranda n'a pas pu ouvrir '%s'\nC'est inaccessible ou utilisé par une autre application ou instance de Miranda
 [Miranda can't open that profile]
 Miranda ne peut pas ouvrir ce profil
 ;file \src\modules\database\dbini.cpp
@@ -2225,11 +2225,11 @@ Vous avez été ajouté par %s%s
 Contacts :\s
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Le profil '%s' existe déjà. Voulez-vous le déplacer vers la Corbeille?\n\nAVERTISSEMENT : Le profil sera supprimé si la corbeille est désactivé.\nAVERTISSEMENT : Un profil peut contenir des informations confidentielles et doit être correctement supprimé. 
+Le profil '%s' existe déjà. Voulez-vous le déplacer vers la Corbeille?\n\nAVERTISSEMENT : Le profil sera supprimé si la corbeille est désactivé.\nAVERTISSEMENT : Un profil peut contenir des informations confidentielles et doit être correctement supprimé.
 [The profile already exists]
 Le profil existe déjà
 [Couldn't move '%s' to the Recycle Bin. Please select another profile name.]
-Impossible de déplacer '%s' vers la Corbeille. S'il vous plaît sélectionner un autre nom de profil. 
+Impossible de déplacer '%s' vers la Corbeille. S'il vous plaît sélectionner un autre nom de profil.
 [Problem moving profile]
 Problème de déplacement du profil
 [Unable to create the profile '%s', the error was %x]

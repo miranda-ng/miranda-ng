@@ -43,7 +43,7 @@ Zadejte přezdívku.
 Zadejte heslo.
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration-code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
-SMS s registračním kódem bude odeslána na váš mobilní telefon.\nPoznámka: Není možné používat WhatsApp aplikaci a tento doplněk zároveň!\nPokračovat? 
+SMS s registračním kódem bude odeslána na váš mobilní telefon.\nPoznámka: Není možné používat WhatsApp aplikaci a tento doplněk zároveň!\nPokračovat?
 [Please correctly specify your registration code received by SMS]
 Zadejte váš registrační kód, který vám přišel v SMS
 [Your password has been set automatically.\nIf you change your password manually you may lose it and need to request a new code!]

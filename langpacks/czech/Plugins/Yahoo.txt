@@ -75,7 +75,7 @@ Zpráva pro pozvání
 [Host]
 Hostitel
 [Invite Buddy To Chat Room]
-Pozvat přítele 
+Pozvat přítele
 [Screen Name]
 Identifikátor
 [&Invite]

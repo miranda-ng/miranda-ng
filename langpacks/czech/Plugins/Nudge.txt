@@ -31,9 +31,9 @@ Povolit oznámení
 [Respect ignore settings (status changes)]
 Zohlednit filtrování kontaktů (změny stavu)
 [Sending text]
-Text při odeslání 
+Text při odeslání
 [Receiving text]
-Text při přijetí 
+Text při přijetí
 [Privacy]
 Soukromí
 [Allow sending* one nudge to the same contact every:]
