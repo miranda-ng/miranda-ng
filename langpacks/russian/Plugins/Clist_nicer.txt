@@ -211,6 +211,8 @@
 Растягивать вверх
 [If window is partially covered, bring to front instead of hiding]
 Поместить окно на передний план, если оно прикрыто другими окнами
+[Always hide on taskbar]
+Скрыть кнопку в панели задач
 [Client margins]
 Поля списка
 [Clip border by]
@@ -553,6 +555,8 @@
 Меню
 [Hide offline contacts]
 Скрыть отключённых
+[Enable group mode]
+Вкл/Выкл группы
 [Find and add contacts]
 Найти и добавить контакты
 [Accounts]
@@ -687,6 +691,12 @@
 Мои контакты
 [Default]
 По умолчанию
+[Overlay icons]
+Оверлей аватара
+[%s connecting]
+Подключается %s
+[Connecting icons]
+Подключения
 [Menu]
 Меню
 [Open main menu]
