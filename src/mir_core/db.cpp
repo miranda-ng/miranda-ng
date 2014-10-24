@@ -99,24 +99,20 @@ MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, const char *szModule, const ch
 
 MIR_CORE_DLL(char*) db_get_sa(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
-	char *str = NULL;
-	DBVARIANT dbv = {0};
-	db_get_s(hContact, szModule, szSetting, &dbv, DBVT_ASCIIZ);
-	if (dbv.type == DBVT_ASCIIZ)
-		str = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	return str;
+	if (currDb == NULL)
+		return NULL;
+
+	DBVARIANT dbv = { DBVT_ASCIIZ };
+	return currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? NULL : dbv.pszVal;
 }
 
 MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
-	wchar_t *str = NULL;
-	DBVARIANT dbv={0};
-	db_get_s(hContact, szModule, szSetting, &dbv, DBVT_WCHAR);
-	if (dbv.type == DBVT_WCHAR)
-		str = mir_wstrdup(dbv.pwszVal);
-	db_free(&dbv);
-	return str;
+	if (currDb == NULL)
+		return NULL;
+
+	DBVARIANT dbv = { DBVT_WCHAR };
+	return currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? NULL : dbv.pwszVal;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
