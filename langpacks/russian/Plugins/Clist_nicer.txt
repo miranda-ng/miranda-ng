@@ -553,9 +553,9 @@
 Вытравленный
 [Show menu]
 Меню
-[Hide offline contacts]
-Скрыть отключённых
-[Enable group mode]
+[Show/Hide offline contacts]
+Показать/скрыть отключённых
+[Use/Disable groups]
 Вкл/Выкл группы
 [Find and add contacts]
 Найти и добавить контакты
@@ -563,8 +563,8 @@
 Учётные записи
 [Open preferences]
 Открыть настройки
-[Disable sounds]
-Выключить звуки
+[Enable/Disable sounds]
+Вкл/Выкл звуки
 [Minimize contact list]
 Скрыть список контактов
 [Status menu]
