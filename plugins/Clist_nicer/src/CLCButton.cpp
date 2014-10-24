@@ -26,19 +26,19 @@ HANDLE hToolbarFrame = (HANDLE)-1;
 
 struct CluiTopButton BTNS[] = 
 {
-	{ IDC_TBTOPMENU,           "CLN_topmenu",      NULL, LPGEN("Show menu"),             1, 1, 1 },
-	{ IDC_TBHIDEOFFLINE,       "CLN_online",       NULL, LPGEN("Hide offline contacts"), 0, 1, 0 },
-	{ IDC_TBHIDEGROUPS,        "CLN_groups",       NULL, LPGEN("Enable group mode"),     0, 1, 0 },
-	{ IDC_TBFINDANDADD,        "CLN_findadd",      NULL, LPGEN("Find and add contacts"), 1, 1, 0 },
-	{ IDC_TBACCOUNTS,          "CLN_accounts",     NULL, LPGEN("Accounts"),              1, 1, 0 },
-	{ IDC_TBOPTIONS,           "CLN_options",      NULL, LPGEN("Open preferences"),      1, 1, 0 },
-	{ IDC_TBSOUND,         "CLN_sound", "CLN_soundsoff", LPGEN("Disable sounds"),        0, 1, 0 },
-	{ IDC_TBMINIMIZE,          "CLN_minimize",     NULL, LPGEN("Minimize contact list"), 1, 0, 0 },
-	{ IDC_TBTOPSTATUS,         "CLN_topstatus",    NULL, LPGEN("Status menu"),           1, 0, 1 },
+	{ IDC_TBTOPMENU,           "CLN_topmenu",      NULL, LPGEN("Show menu"),                  1, 1, 1 },
+	{ IDC_TBHIDEOFFLINE,       "CLN_online",       NULL, LPGEN("Show/Hide offline contacts"), 0, 1, 0 },
+	{ IDC_TBHIDEGROUPS,        "CLN_groups",       NULL, LPGEN("Use/Disable groups"),         0, 1, 0 },
+	{ IDC_TBFINDANDADD,        "CLN_findadd",      NULL, LPGEN("Find and add contacts"),      1, 1, 0 },
+	{ IDC_TBACCOUNTS,          "CLN_accounts",     NULL, LPGEN("Accounts"),                   1, 1, 0 },
+	{ IDC_TBOPTIONS,           "CLN_options",      NULL, LPGEN("Open preferences"),           1, 1, 0 },
+	{ IDC_TBSOUND,         "CLN_sound", "CLN_soundsoff", LPGEN("Enable/Disable sounds"),      0, 1, 0 },
+	{ IDC_TBMINIMIZE,          "CLN_minimize",     NULL, LPGEN("Minimize contact list"),      1, 0, 0 },
+	{ IDC_TBTOPSTATUS,         "CLN_topstatus",    NULL, LPGEN("Status menu"),                1, 0, 1 },
 
-	{ IDC_TBSELECTVIEWMODE,    "CLN_CLVM_select",  NULL, LPGEN("Select view mode"),      1, 0, 1 },
-	{ IDC_TBCONFIGUREVIEWMODE, "CLN_CLVM_options", NULL, LPGEN("Setup view modes"),      1, 0, 0 },
-	{ IDC_TBCLEARVIEWMODE,     "CLN_CLVM_reset",   NULL, LPGEN("Clear view mode"),       1, 0, 0 }
+	{ IDC_TBSELECTVIEWMODE,    "CLN_CLVM_select",  NULL, LPGEN("Select view mode"),           1, 0, 1 },
+	{ IDC_TBCONFIGUREVIEWMODE, "CLN_CLVM_options", NULL, LPGEN("Setup view modes"),           1, 0, 0 },
+	{ IDC_TBCLEARVIEWMODE,     "CLN_CLVM_reset",   NULL, LPGEN("Clear view mode"),            1, 0, 0 }
 };
 
 static int g_index = -1;
