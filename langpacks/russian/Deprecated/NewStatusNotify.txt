@@ -42,7 +42,7 @@
 [%s is Away]
 %s отсутствует
 [%s is Free for chat]
-%s готов чатиться 
+%s готов чатиться
 [%s is in DND]
 %s "не беспокоить"
 [%s is Invisible]

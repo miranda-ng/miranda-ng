@@ -1,10 +1,10 @@
 ﻿Miranda Language Pack Version 1
 Locale: 0419
 Last-Modified-Using: 0.94.5
-Authors: Homeric (founder), BasiL (maintainer), 
+Authors: Homeric (founder), BasiL (maintainer),
 Authors: `arag0rn`, +eRRikon, Abyss, al.dexter, Alexander, Alexander Logvinov, Alexander S. Kiselev, apollo2k4,
-Authors: ALeXey, Alexey Yakovlev, Andrey A. Chernov, Bergelmir, Bravo123, Buser!, CriS, 
-Authors: Daniil, Dar_veter, Denis Stanishevskiy, Denn, dracosha, Dth, Erast Petrovich, Evgeny Ardarov aka spleenJack, 
+Authors: ALeXey, Alexey Yakovlev, Andrey A. Chernov, Bergelmir, Bravo123, Buser!, CriS,
+Authors: Daniil, Dar_veter, Denis Stanishevskiy, Denn, dracosha, Dth, Erast Petrovich, Evgeny Ardarov aka spleenJack,
 Authors: Evgeny Morozov, Gh0St, Grave aka Nikitin Evgeny, holod, Igor A. Melekhine,
 Authors: Vasilich, Kirhe, Kirill Mahnev, Kreol, LEM, Leonid Belousov, LonelyWolf, Mantis,
 Authors: Mataes, Mikel-Ard-Ri, mitrich, Navy, NightFox, Oleg Makovski, PoWeR, Radion, Raproid, Roman Korepanov, SAOPP,
@@ -2516,7 +2516,7 @@ Miranda не смогла загрузить встроенную систему
 [%s Custom Status]
 xСтатус %s
 [%s connection]
-%s подключение 
+%s подключение
 [%s plugin connections]
 %s подключение к серверу
 [&Accept]
@@ -3854,7 +3854,7 @@ Web-страница
 [&About]
 О программе
 [%s server connection]
-%s подключение к серверу 
+%s подключение к серверу
 [%s client-to-client connections]
 %s подключения между клиентами
 [Use default colours]
@@ -4714,7 +4714,7 @@ ID пользователя:
 [&Open in current browser window]
 &Открыть в текущем окне
 [Undo]
-Откат 
+Откат
 [Redo]
 Вернуть
 [&Open at this position]
@@ -6528,7 +6528,7 @@ INI файлы
 [Truncate message length to:]
 Обрезать сообщение до:
 [Show date in timestamps]
-Показывать дату 
+Показывать дату
 [Show seconds in timestamps]
 Показывать секунды
 [Group list]
@@ -6597,7 +6597,7 @@ INI файлы
 ;  File: actman.dll
 ;  Plugin: Action Manager
 ;  Versions: 0.2.0.1
-;  URL: 
+;  URL:
 ;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
 ;  Authors: Awkward
 ;============================================================
@@ -7379,7 +7379,7 @@ AIM Журналы
 [Mismatched Screen Name or password.]
 Неправильное имя AIM или пароль.
 [%s Client-to-client connection]
-%s подключения между клиентами 
+%s подключения между клиентами
 [Join Chat Room]
 Зайти в чат
 [AOL Mail]
@@ -7435,7 +7435,7 @@ AIM Журналы
 [Alarm: System Tray]
 Трей
 [Alarm]
-Напоминание 
+Напоминание
 [Alarms]
 Напоминания
 [Alert 1]
@@ -7537,7 +7537,7 @@ AIM Журналы
 ;  Plugin: File Association Manager
 ;  Versions: 0.1.1.3
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3458
-;  Source: 
+;  Source:
 ;  Authors: HeikoH Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
@@ -7808,11 +7808,11 @@ Miranda NG не может открыть ссылку
 [Start/Stop automatic shutdown]
 Старт/Стоп автовыключение
 [Stop automatic shutdown]
-Остановить автовыключение 
+Остановить автовыключение
 [Start automatic shutdown]
 Запустить автовыключение
 [Stop automatic &shutdown]
-Остановить автовыключение 
+Остановить автовыключение
 [Automatic &shutdown...]
 Автовыключение...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
@@ -7823,7 +7823,7 @@ Miranda NG не может открыть ссылку
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG автоматически закроется через %u секунд(ы).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
-Все протоколы 
+Все протоколы
 [You will be logged off automatically in %u second(s).]
 Выход из системы через %u секунд(ы).
 [The computer will automatically be restarted in %u second(s).]
@@ -7940,7 +7940,7 @@ Miranda NG автоматически закроется через %u секу�
 [Store history in miranda history and all history avatars in same folder]
 Сохранять историю в истории Miranda и все аватары в одной папке
 [History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
-История сохраняется в БД Miranda. Она может быть отображена встроенным просмотрщиком или плагином History++ 
+История сохраняется в БД Miranda. Она может быть отображена встроенным просмотрщиком или плагином History++
 [All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Хэш Аватара>
 [Store history in miranda history and history avatars in per protocol folders]
@@ -8125,7 +8125,7 @@ XML файлы
 ;  File: BasicHistory.dll
 ;  Plugin: Basic History
 ;  Versions: 1.0.1.4
-;  URL: 
+;  URL:
 ;  Source: http://xp-dev.com/svn/BasicHistory/trunk/src/
 ;  Authors: Krzysztof Kral
 ;============================================================
@@ -8805,7 +8805,7 @@ Pounce отослан %s за %d секунд
 ;  Module: Change Keyboard Layout
 ;  Versions: 0.0.1.5
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3632
-;  Source: 
+;  Source:
 ;  Authors: yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
@@ -8881,7 +8881,7 @@ Pounce отослан %s за %d секунд
 ;  Module: ClientChangeNotify
 ;  Versions: 0.1.1.0 - 0.1.1.2
 ;  URL: http://deathdemon.int.ru/projects.php#ClientChangeNotify
-;  Source: 
+;  Source:
 ;  Authors: Deathdemon
 ;============================================================
 [Shows a notification when someone in your contact list changes his client.]
@@ -8909,11 +8909,11 @@ Pounce отослан %s за %d секунд
 [Ignore these clients (separated by semicolons):]
 Игнорировать эти клиенты (через точку с запятой):
 [Notify also when just client version changes]
-Уведомлять, когда сменится версия клиента 
+Уведомлять, когда сменится версия клиента
 [Show client version]
-Показать версию клиента 
+Показать версию клиента
 [Show previous client name]
-Показывать предыдущее имя клиента 
+Показывать предыдущее имя клиента
 [\r\n(was ]
 \r\n(был\s
 [changed client to ]
@@ -9834,7 +9834,7 @@ _БезПротокола_
 [Minimum row height:]
 Мин. высота строки
 [Move events to the top of list\nor group]
-Перемещать события наверх списка или группы 
+Перемещать события наверх списка или группы
 [Move marked Contacts to this Group]
 Переместить отмеченные контакты в эту группу
 [NOTE: This is work in progress. Most options here do NOT yet work as they should, because the code is not yet implemented. Please don't report these issues as bugs, because they aren't bugs, just unfinished stuff.]
@@ -9972,7 +9972,7 @@ xСтатус
 [Image items]
 Элементы изображений
 [Item borders]
-Границы 
+Границы
 [Item colors]
 Цвета
 [Item ignored]
@@ -11504,7 +11504,7 @@ db3x драйвер
 [E-mage LAN Protocol]
 Протокол E-mage LAN
 [E-mage LAN protocol]
-Протокол E-mage LAN 
+Протокол E-mage LAN
 [LAN Settings]
 Настройки сети
 [Select your IP address]
@@ -11718,7 +11718,7 @@ db3x драйвер
 [Share]
 Отправить
 [Show 'Share status' window]
-Сообщение статуса Facebook 
+Сообщение статуса Facebook
 [Own wall]
 Своя стена
 [Status update was successful.]
@@ -11742,7 +11742,7 @@ db3x драйвер
 [px.]
 пикс.
 [Hotkey shows menu centered on screen]
-Меню по горячей кл. в центре экрана 
+Меню по горячей кл. в центре экрана
 [Hide for transparent avatars]
 Скрыть у прозрачных аватар
 [Favourite Contacts]
@@ -14884,7 +14884,7 @@ RTL шаблон
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/import/
 ;  Authors: Miranda team
 
-;  URL: 
+;  URL:
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/import_sa/
 ;  Authors: Unsane, Miranda team
 ;============================================================
@@ -15210,7 +15210,7 @@ ICQ Контакты и история не будут импортирован�
 ;  File: importtxt.dll
 ;  Module: Imports history saved in TXT files from other clients
 ;  Versions: 0.0.1.10
-;  URL: 
+;  URL:
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
 ;  Authors: Abyss
 ;============================================================
@@ -17725,7 +17725,7 @@ Dial-Up (прочтите keepstatus.txt)
 [Keyboard Notify Theme]
 Тема уведомления
 
-#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2} 
+#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
 ;============================================================
 ;  File: langman.dll
 ;  Module: Language Pack Manager
@@ -18389,7 +18389,7 @@ OTR идентификация: %s (%s)
 [Challenge Question]
 Контрольный вопрос
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-Шифрованная сессия с '%s' (непроверен).\nИспользуйте вопрос на который может ответить только Ваш собеседник. 
+Шифрованная сессия с '%s' (непроверен).\nИспользуйте вопрос на который может ответить только Ваш собеседник.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
 Шифрованная сессия с '%s' (проверен).\nПроверьте сессию снова, используя вопрос на который может ответить только Ваш собеседник.
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]
@@ -19700,7 +19700,7 @@ BBCode
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: mydetails.dll
-;  Module: My Details 
+;  Module: My Details
 ;  Versions: 0.0.0.40-0.0.1.10
 ;============================================================;
 [<no status name>]
@@ -19833,14 +19833,14 @@ BBCode
 Показывать имя учётной записи
 
 #muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
-;============================================================ 
-;  File: New_GPG.dll 
-;  Plugin: New GPG encryption support plugin, based on code from old GPG plugin and SecureIM 
-;  Versions: 0.9.0.0 
-;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:New_GPG/en 
-;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/New_GPG/ 
-;  Authors: sss 
-;============================================================ 
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: New GPG encryption support plugin, based on code from old GPG plugin and SecureIM
+;  Versions: 0.9.0.0
+;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:New_GPG/en
+;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/New_GPG/
+;  Authors: sss
+;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого GPG плагина и SecureIM.
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
@@ -20848,7 +20848,7 @@ xСтатус удален
 
 #muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
 ;============================================================
-;  File: NotifyAnything.dll 
+;  File: NotifyAnything.dll
 ;  Module: NotifyAnything
 ;  Versions: 0.0.2.7
 ;============================================================
@@ -22692,7 +22692,7 @@ HTTP подключение Quotes
 
 ;  Беседы — общее
 [Automatically pop up the window when]
-Автоматически показывать окно когда 
+Автоматически показывать окно когда
 [and stay minimized]
 и оставаться свёрнутым
 [Save size and location for each contact]
@@ -23070,7 +23070,7 @@ UIN/E-mail/JID/Компьютер
 [Enable Secure File Transfer]
 Включить шифровку файлов
 [0 = Default Popup Timeout Value]
-0 = По умолчанию 
+0 = По умолчанию
 [SecureIM 1.0.4.4]
 Шифрование сообщений
 [Sending Key...]
@@ -23348,7 +23348,7 @@ SecureIM не может отправить шифрованное сообще�
 [Save Private Key File]
 Сохранение приватного ключа
 [SecureIM plugin Passphrase of private key]
-Плагин SecureIM. Фраза-пароль для приватного ключа 
+Плагин SecureIM. Фраза-пароль для приватного ключа
 [Enter passphrase for the secret key:]
 Введите фразу-пароль для секретного ключа:
 [Load Private Key File]
@@ -24207,15 +24207,15 @@ Skype протокол для Miranda NG.
 [Failed to verify password. No connection to server]
 Невозможно проверить пароль. Нет подключения к серверу
 [Password was set but server didn't like it much]
-Пароль был отвергнут сервером 
+Пароль был отвергнут сервером
 [New password was exactly the same as old one]
-Введенный пароль точно такой же как старый 
+Введенный пароль точно такой же как старый
 [The new password was unacceptable]
-Новый пароль неприемлем 
+Новый пароль неприемлем
 [Account was currently not logged in]
 Учетная запись не в сети
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
-Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->%s и попробуйте снова. 
+Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->%s и попробуйте снова.
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
 Вы действительно хотите блокировать "%s" (%s)? Блокированные пользователи не смогут связаться с вами и не будут показываться в вашем списке контактов.
 [Name]
@@ -24576,7 +24576,7 @@ GDI+ можно скачать здесь: http://www.microsoft.com/downloads
 [GDI+ not installed.\n]
 GDI+ не установлен.\n
 [SmileyAdd HTTP connections]
-HTTP подключение SmileyAdd 
+HTTP подключение SmileyAdd
 [Select correct Smiley Pack in the Miranda Options | Customize | Smileys.]
 Выберите набор смайлов: Настройки -> Тонкая настройка -> Смайлы.
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
@@ -25530,7 +25530,7 @@ RTL по умолчанию
 [Timestamp settings (note: timstamps also depend on your templates)]
 Отображение времени (также зависит от ваших шаблонов)
 [Show dates in timestamps]
-Показывать дату 
+Показывать дату
 [Use contacts local time (if timezone info available)]
 Локальное время контакта (если доступен часовой пояс)
 [Message log icons]
@@ -26407,7 +26407,7 @@ UID: %s (SHIFT+клик -> копировать в буфер)\nКлик - Ин�
 [Large]
 Большой
 [Tip: To use a custom size you can always drag the bottom edge of the panel]
-Совет: Вы можете задавать свой размер, потянув за нижний край панели 
+Совет: Вы можете задавать свой размер, потянув за нижний край панели
 [Do not synchronize the panel height with group chat windows]
 Не синхронизировать высоту панели с окном чата
 [Do not synchronize the panel height with IM windows]
@@ -27220,7 +27220,7 @@ xСтатус
 [<No Label>]
 <Без метки>
 [Copy all items with labels]
-Копировать все с метками 
+Копировать все с метками
 [Copy all items]
 Копировать все
 [Copy avatar]
@@ -27398,7 +27398,7 @@ xСтатус
 [Moon:]
 Луна:
 [Max/Min:]
-Макс./мин. температура: 
+Макс./мин. температура:
 [Condition:]
 Состояние:
 [Temperature:]
@@ -27948,7 +27948,7 @@ Tlen чаты
 [Options just as Traffic counter]
 Опции как у счётчика трафика
 [Show/Hide time window:]
-Показать/Скрыть окно времени: 
+Показать/Скрыть окно времени:
 [Time window background color:]
 Цвет фона окна времени:
 [Time window font color:]
@@ -28904,7 +28904,7 @@ y, если w > x, иначе z
 [Regular Expressions]
 Регулярные выражения
 [String Functions]
-Строковые функции 
+Строковые функции
 [System Functions]
 Системные функции
 [Please enter your input below]
@@ -29640,7 +29640,7 @@ VBR или нет
 [Statistic]
 Статистика
 [Export text template]
-Шаблон текста экспорта 
+Шаблон текста экспорта
 [Use listening info]
 Использовать "Listening To"
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]
@@ -29986,7 +29986,7 @@ URL доп. информации
 [Make the contact italic when weather alert is issued]
 Делать контакт наклонным при получении обновления
 [Display warning if INI file is not found at startup]
-Показывать предупреждение, если файл INI не найден 
+Показывать предупреждение, если файл INI не найден
 [Invalid ID format, missing "/" (10)]
 Неправильный формат ID, нет "/" (10)
 [Invalid service (11)]
@@ -30064,7 +30064,7 @@ INI файл погоды для этой станции не найден (20)
 [Webpage]
 Сайт
 [View all weather details for this contact]
-Смотреть всю информацию о погоде для этого контакта 
+Смотреть всю информацию о погоде для этого контакта
 [More Variables]
 Еще переменные
 [Here is a list of custom variables that are currently available]
@@ -30191,7 +30191,7 @@ HTTP подключение Weather
 Обновить погоду
 [Reload All Update Data]
 Перезагрузить обновление
-[No update data file is found. Please check your Plugins\\Weather directory.] 
+[No update data file is found. Please check your Plugins\\Weather directory.]
 Не найден файл обновления. Пожалуйста, проверьте папку Plugins\\Weather.
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tпрогноз на сегодня\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление ветра\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID города\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость ветра\n%y\tзакат
@@ -30204,7 +30204,7 @@ HTTP подключение Weather
 [Popup Text]
 Всплывающий текст
 [Weather Protocol Text Options]
-Шаблоны диалогов погоды 
+Шаблоны диалогов погоды
 [Okay]
 ОК
 [Weather Notification]
@@ -32571,7 +32571,7 @@ OpenSSL не загружен
 ;  Authors: Anar Ibragimoff
 ;============================================================
 [Forwards messages to some contact when you are not available.]
-В ваше отсутствие пересылает получаемые сообщения указанному контакту. 
+В ваше отсутствие пересылает получаемые сообщения указанному контакту.
 [Forward messages from...]
 Пересылать сообщения от...
 [Everyone]

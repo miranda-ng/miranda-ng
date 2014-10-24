@@ -4,7 +4,7 @@
 ;  Plugin: AsSingleWindow
 ;  Versions: 0.1.2.1
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4324
-;  Source: 
+;  Source:
 ;  Authors: soar
 ;============================================================
 [AsSingleWindow]

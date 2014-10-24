@@ -102,7 +102,7 @@ NetBIOS имя не может быть длиннее 15 символов
 [This name already exists. Please try a different one]
 Такое имя уже есть. Укажите другое имя
 [Can't register NetBIOS name ]
-Не могу зарегистрировать NetBIOS имя 
+Не могу зарегистрировать NetBIOS имя\s
 [Default name]
 Имени по умолчанию
 [Target name]

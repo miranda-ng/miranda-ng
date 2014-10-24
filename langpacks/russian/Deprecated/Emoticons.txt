@@ -28,6 +28,6 @@
 [Emoticons Text]
 Текст смайликов
 [ Emoticons ]
- Смайлики 
+ Смайлики\s
 [Protocols Configuration]
 Конфигурация протоколов

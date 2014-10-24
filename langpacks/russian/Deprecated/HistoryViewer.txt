@@ -7,7 +7,7 @@
 [Message history [%s]]
 История (%s)
 [&Search... ]
-&Искать... 
+&Искать...\s
 [Show:]
 Показ:
 [last 100]

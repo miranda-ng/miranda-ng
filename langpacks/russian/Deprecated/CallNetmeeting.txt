@@ -8,7 +8,7 @@
 [Call NetMeeting Plugin]
 Плагин "Набрать номер в NetMeeting"
 [Error canґt get protocol!]
-Ошибка! Невозможно определить протокол 
+Ошибка! Невозможно определить протокол
 [Error canґt get user email!]
 Ошибка! Невозможно определить E-mail пользователя
 [Error canґt get user address!]

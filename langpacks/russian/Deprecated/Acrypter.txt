@@ -12,7 +12,7 @@
 [ - Dock zone not found]
 - Зона стыковки не найдена
 [   Create the key      ]
-   Создать ключ    
+   Создать ключ\s\s\s
 [%d is an invalid PageIndex value.  PageIndex must be between 0 and %d]
 %d неверное значение PageIndex. Оно должно быть между 0 и %d
 [%s (%s, line %d)]

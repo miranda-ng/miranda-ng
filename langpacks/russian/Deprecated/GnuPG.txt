@@ -11,11 +11,11 @@
 [The GnuPG Plugin requires the GnuPG executable "gpg.exe".]
 Плагин GnuPG требует файл "gpg.exe".
 [The export of your public key failed.]
-Экспорт открытых ключей не удался. 
+Экспорт открытых ключей не удался.
 [The import of the key failed.]
 Импорт ключа не удался.
 [Could not generate a list of the secret GnuPG keys.]
-Не могу сгенерировать список секретных GnuPG ключей. 
+Не могу сгенерировать список секретных GnuPG ключей.
 [Could not generate a list of the public GnuPG keys.]
 Не могу сгенерировать список открытых GnuPG ключей.
 [Could not obtain the GnuPG user id.]

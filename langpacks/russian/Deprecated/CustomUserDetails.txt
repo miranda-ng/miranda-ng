@@ -9,7 +9,7 @@
 [Import vCard file]
 Импорт из vCard-файла
 [Open Vcard file for: ]
-Открыть Vcard-файл для: 
+Открыть Vcard-файл для:\s
 [Export CSV file]
 Экспорт в CSV-файл
 [Import CSV file]

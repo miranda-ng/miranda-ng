@@ -12,13 +12,13 @@
 [Fortune Folder]
 Папка фортунок
 [(Used for the %fortunemsg%-type variables)]
-(Использовать для - %fortunemsg%) 
+(Использовать для - %fortunemsg%)
 [Maximum fortune length:]
 Максимальная длина фортунки
 [(Used for the %protofortunemsg%-type variables)]
-(Использовать для - %protofortunemsg%) 
+(Использовать для - %protofortunemsg%)
 [(Used for the %statusfortunemsg%-type variables)]
-(Использовать для - %statusfortunemsg%) 
+(Использовать для - %statusfortunemsg%)
 [Remove CR characters ('\\r')]
 Удалять символы CR("\\r")
 [One line fortunes (remove LFs '\\n', CRs '\\r', tabs '\\t' and cosecutive spaces)]

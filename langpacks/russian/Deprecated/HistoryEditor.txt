@@ -1,9 +1,9 @@
 ﻿;============================================================
-;  File: HistoryEditor.dll 
+;  File: HistoryEditor.dll
 ;  Module: History Editor
 ;  Versions: 0.1
 ;  URL: http://miranda-im.org/download/feed.php?dlfile=1614
-;============================================================ 
+;============================================================
 [History Editor]
 Редактор истории
 [Mark as Read]

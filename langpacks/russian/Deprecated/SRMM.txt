@@ -31,7 +31,7 @@ Miranda не смогла загрузить встроенную систему
 [Enable avatar support in the message window]
 Поддержка аватаров в окне сообщения
 [Limit avatar height to ]
-Ограничить высоту аватара 
+Ограничить высоту аватара\s
 [Show timestamp]
 Показывать время
 [Show dates]

@@ -1,6 +1,6 @@
 ﻿;============================================================
 ;  File: mIpper.dll
-;  Module: Ipper Maniac 
+;  Module: Ipper Maniac
 ;  Versions: 0.0.1.19
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=993
 ;============================================================
