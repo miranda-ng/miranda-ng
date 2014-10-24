@@ -77,7 +77,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bStikersAsSmyles = getBool("StikersAsSmyles", false);
 	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity", false);
 	
-	m_iMusicSendMetod = getByte("MusicSendMetod", 0);
+	m_iMusicSendMetod = getByte("MusicSendMetod", sendBroadcastOnly);
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
 	db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), m_iMusicSendMetod == 0 ? 0 : 1);
