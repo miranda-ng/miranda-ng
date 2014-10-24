@@ -565,18 +565,18 @@ Wypukłe na zewnątrz, wklęsłe wewnątrz
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Pokaż menu
-[Hide offline contacts]
-Ukryj rozłączone kontakty
-[Enable group mode]
-Włącz tryb grup
+[Show/Hide offline contacts]
+Pokaż/ukryj rozłączone kontakty
+[Use/Disable groups]
+Używaj/wyłącz grupy
 [Find and add contacts]
 Szukaj i dodaj kontakt
 [Accounts]
 Konta
 [Open preferences]
 Otwórz opcje
-[Disable sounds]
-Wyłącz dźwięki
+[Enable/Disable sounds]
+Włącz/wyłącz dźwięki
 [Minimize contact list]
 Minimalizuj listę kontaktów
 [Status menu]
