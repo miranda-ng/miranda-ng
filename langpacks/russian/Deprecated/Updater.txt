@@ -88,7 +88,7 @@
 [Downloading]
 Загрузка
 [Update on major version change.]
-Обновлять при значительной смене версии 
+Обновлять при значительной смене версии
 [Update on minor version change.]
 Обновлять при не значительной смене версии
 [Update on release number change.]
@@ -100,7 +100,7 @@
 [Failed to download XML data: ]
 Невозможно загрузить XML данные:
 [Failed to download "%s": ]
-Не могу загрузить "%s": 
+Не могу загрузить "%s":\s
 [TRUE]
 Да
 [Russian Language Pack (Homeric)]

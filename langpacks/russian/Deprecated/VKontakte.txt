@@ -40,7 +40,7 @@ E-mail или логин:
 [&Photos VKontakte...]
 &Фотографии ВКонтакте...
 [&Friends VKontakte...]
-&Друзья ВКонтакте...    
+&Друзья ВКонтакте...
 [The &wall VKontakte...]
 &Стена ВКонтакте...
 [&Groups VKontakte...]
@@ -202,7 +202,7 @@ E-mail или логин:
 [Details update completed for all contacts.]
 Обновление данных всех пользователей завершено.
 [Use local time for incoming messages]
-Использовать локальное время для входящих сообшений 
+Использовать локальное время для входящих сообшений
 [Test informational popup]
 Проверочное информационное сообщение
 [Test error popup]
@@ -220,7 +220,7 @@ E-mail или логин:
 [Getting contact's hash...]
 Получение хеша контакта...
 [Message posting failed. Unable to get the hash]
-Сообщение не было опубликовано. Невозможно получить хеш контакта 
+Сообщение не было опубликовано. Невозможно получить хеш контакта
 [Posting of the message...]
 Отправка...
 [Invisible mode: looks like the message has been posted successfully]

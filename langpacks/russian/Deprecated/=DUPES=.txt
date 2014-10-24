@@ -1,6 +1,6 @@
 ﻿;============================================================
 ;  Module: lot's of duplicated strings from different modules.
-;  Если необходимо изменить перевод строки в каком-либо 
+;  Если необходимо изменить перевод строки в каком-либо
 ;  плагине, используйте файл перевода этого плагина
 ;  вместо правки =DUPES=.txt, поскольку этот файл будет со
 ;  временем удален.	
@@ -20,7 +20,7 @@
 [%s Custom Status]
 xСтатус %s
 [%s connection]
-%s подключение 
+%s подключение
 [%s plugin connections]
 %s подключение к серверу
 [&Accept]
@@ -1356,7 +1356,7 @@ Web-страница
 [&About]
 О программе
 [%s server connection]
-%s подключение к серверу 
+%s подключение к серверу
 [%s client-to-client connections]
 %s подключения между клиентами
 [Use default colors]
@@ -2234,7 +2234,7 @@ ID пользователя:
 [&Open in current browser window]
 &Открыть в текущем окне
 [Undo]
-Откат 
+Откат
 [Redo]
 Вернуть
 [&Open at this position]
@@ -4042,7 +4042,7 @@ INI файлы
 [Truncate message length to:]
 Обрезать сообщение до:
 [Show date in timestamps]
-Показывать дату 
+Показывать дату
 [Show seconds in timestamps]
 Показывать секунды
 [Group list]

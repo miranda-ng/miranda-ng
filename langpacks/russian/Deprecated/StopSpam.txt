@@ -5,7 +5,7 @@
 ;  Versions: 0.0.1.5
 ;  URL: http://www.miranda-im.org/download/details.php?action=viewfile&id=1561
 ;  URL: http://svn.miranda.im/mainrepo/stopspam
-;============================================================ 
+;============================================================
 [Automatically delete contacts from "Not In List" group]
 Автоматически удалять контакты из группы "Not In List"
 [StopSpam mod]

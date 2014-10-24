@@ -3,7 +3,7 @@
 ;  Module: GoMoku Game
 ;  Versions: 0.0.2.2
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=958
-;  Source: 
+;  Source:
 ;  Authors: Denis Stanishevskiy // StDenis
 ;============================================================
 [GoMoku]

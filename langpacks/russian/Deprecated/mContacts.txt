@@ -3,7 +3,7 @@
 ;  Module: independent contact list/history import/export
 ;  Versions: 0.0.1.1
 ;  URL: http://miranda-planet.com/forum/index.php/topic/261-mcontacts/
-;  Source: 
+;  Source:
 ;  Authors: bankrut (Krzysztof Przybyіa)
 ;============================================================
 [&Export contact list]

@@ -3,7 +3,7 @@
 ;  Plugin: Battleship Game
 ;  Versions: 0.0.1.2-0.0.1.3
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1100
-;  Source: 
+;  Source:
 ;  Authors: Std
 ;============================================================
 ["Battleship" game]

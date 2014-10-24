@@ -4,7 +4,7 @@
 ;  Module: MathModulePP
 ;  Versions: 0.1.1.1
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3413
-;  Source: 
+;  Source:
 ;  Authors: Protogenes
 ;============================================================
 [Displays mathematical formulae, enhanced]

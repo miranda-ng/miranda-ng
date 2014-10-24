@@ -72,7 +72,7 @@
 [Don't notify on protocol connection]
 Не уведомлять при подключении протокола
 [ Log to file ]
- Сохранять в файл 
+ Сохранять в файл\s
 [Log when contacts change their client]
 Сохранять, когда контакты меняют клиент
 [Log when contacts change their listening]

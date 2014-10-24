@@ -4,7 +4,7 @@
 ;  Plugin: AutoReplacer
 ;  Versions: 0.0.1.7
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=593
-;  Source: 
+;  Source:
 ;  Authors: Corsario
 ;============================================================
 [AutoCorrection]

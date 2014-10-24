@@ -360,7 +360,7 @@ Wassup Обновления
 [56 KB/s]
 56 Кб/с
 [Latest AIM plugin]
-Последний AIM плагин 
+Последний AIM плагин
 [Latest ICQ plugin]
 Последний ICQ плагин
 [Latest Jabber plugin]

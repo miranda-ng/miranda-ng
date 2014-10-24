@@ -20,13 +20,13 @@
 [Auto actions]
 Автоматические действия
 [ Automatic Actions ]
- Автоматические действия 
+ Автоматические действия\s
 [Auto accept this contact calls]
 Всегда принимать вызовы от этого контакта
 [Auto drop this contacts calls]
 Всегда сбрасывать вызовы от этого контакта
 [ Frame ]
- Фрейм 
+ Фрейм\s
 [Auto-size frame]
 Авто-размер фрейма
 [Calling]

@@ -22,7 +22,7 @@ mTV протокол выключен
 [Re-download guide for all days]
 Перезагружать за все дни
 [Re-download guide for current day]
-Перезагружать за текущий день 
+Перезагружать за текущий день
 [Program not available!]
 Программа недоступна!
 [Nothing scheduled!]

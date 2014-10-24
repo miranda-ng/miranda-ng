@@ -1,6 +1,6 @@
 ﻿;============================================================
 ;  File: smr.dll
-;  Module: Status Message Retriever 
+;  Module: Status Message Retriever
 ;  Versions: 1.0.0.0
 ;============================================================
 [Enable Status Message Check]
@@ -10,7 +10,7 @@
 [Status Msg Retrieve]
 Запрос статусных сообщений
 [ Retrieve ]
- Получить 
+ Получить\s
 [Retrieve status messages every]
 Получать каждые
 [Retrieve on status change]
@@ -20,7 +20,7 @@
 [seconds after status change]
 секунд после смены статуса
 [ Clear ]
- Удалить 
+ Удалить\s
 [Clear message on status change]
 Удалять сообщения при смене статуса
 [Always clear message if status does not support messages]
