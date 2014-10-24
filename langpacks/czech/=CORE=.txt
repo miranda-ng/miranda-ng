@@ -1526,9 +1526,9 @@ Filtrování událostí deaktivováno
 [Event filter enabled]
 Filtrování událostí aktivováno
 [Hide nick list]
-Skrýt seznam účastníků 
+Skrýt seznam účastníků
 [Show nick list]
-Zobrazit seznam účastníků 
+Zobrazit seznam účastníků
 [Icon overlay]
 Překryvná ikona
 [Status 1 (10x10)]

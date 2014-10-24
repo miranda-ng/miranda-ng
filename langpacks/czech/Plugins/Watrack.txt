@@ -400,7 +400,7 @@ Centrovat text
 [Get user's Music Info]
 Zjistit zde informace o hudbě
 [WATrack Macro Info]
-Informace o makru WATrack 
+Informace o makru WATrack
 [Lyric from ID3v2 tag]
 slova z ID3v2 tagu
 [Cover file path]

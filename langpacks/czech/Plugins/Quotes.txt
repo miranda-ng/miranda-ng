@@ -95,7 +95,7 @@ Náhled
 [&Refresh Quotes Every:]
 
 [&Display in Contact List as:]
-&Zobrazit v seznamu kontaktů jako: 
+&Zobrazit v seznamu kontaktů jako:
 [&Status Message:]
 Zpráva &stavu
 [&Tendency:]

@@ -147,9 +147,9 @@ Levým tlačítkem:
 [Right click action:]
 Pravým tlačítkem:
 [Disable when global status is...]
-Zakázat, je-li globální stav 
+Zakázat, je-li globální stav
 [Disable when relevant protocol's status is...]
-Zakázat, je-li příslušný protokol ve stavu 
+Zakázat, je-li příslušný protokol ve stavu
 [Colors can be configured in\r\nCustomize > Fonts and colors]
 Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy
 [More...]

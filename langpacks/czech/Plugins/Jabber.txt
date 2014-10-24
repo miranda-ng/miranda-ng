@@ -1880,15 +1880,15 @@ Dotaz
 [List has no rules, empty lists will be deleted then changes applied]
 Zatím bez pravidel; prázdné seznamy budou vymazány a stav následně uložen.
 [allow ]
-povolit 
+povolit\s
 [deny ]
-zakázat 
+zakázat\s
 [all.]
 vše
 [messages]
 zpráv
 [ and ]
- a 
+ a\s
 [incoming presences]
 příchozí stavy
 [outgoing presences]
@@ -1896,7 +1896,7 @@ odchozí stavy
 [queries]
 Soukr. zprávy
 [Else ]
-Jinak 
+Jinak\s
 [If Jabber ID is ']
 Pokud je jabber ID '
 [ (nickname: ]
@@ -1906,7 +1906,7 @@ Pokud je skupina '
 [If subscription is ']
 Pokud je autorizace '
 [then ]
-potom 
+potom\s
 [ (act., def.)]
  (akt., vých.)
 [ (active)]

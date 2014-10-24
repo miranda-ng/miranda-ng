@@ -42,7 +42,7 @@ Hrát od první písničky
 [Shuffle playlist]
 Písničky v playlistu náhodně
 [Loop single media]
-Přehrávat samostatné média ve smyčce 
+Přehrávat samostatné média ve smyčce
 [Station Name]
 Název stanice
 [Timeout, ms (5000)]

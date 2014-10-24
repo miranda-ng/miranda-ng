@@ -94,7 +94,7 @@
 [Skipping contact with no protocol]
 Пропуск контактів без протоколу
 [Skipping contact, account %S cannot be mapped.]
-Пропуск контакта, неможливо імпортувати обліковий запис %S 
+Пропуск контакта, неможливо імпортувати обліковий запис %S
 [Skipping contact, %S not installed.]
 Пропуск контакта, %S не встановлено.
 [Skipping non-IM contact (%S)]

@@ -1792,7 +1792,7 @@ Avancé
 [Public XMPP Network]
 Réseau XMPP publique
 [Secure XMPP Network]
-Réseau  XMPP sécurisé 
+Réseau  XMPP sécurisé
 [Secure XMPP Network (old style)]
 
 [Google Talk!]

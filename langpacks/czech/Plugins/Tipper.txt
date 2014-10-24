@@ -81,7 +81,7 @@ Hodnota:
 [Variables]
 Proměnné
 [Draw a line above]
-Nad položkou vykreslit čáru 
+Nad položkou vykreslit čáru
 [Value on a new line]
 Odsadit na nový řádek
 [Parse Tipper variables first]

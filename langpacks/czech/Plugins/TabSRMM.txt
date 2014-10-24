@@ -249,7 +249,7 @@ Zde je možno zvolit jiné formátování textu, než je v globálních nastaven
 [ANSI codepage]
 Kódová stránka ANSI
 [Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
-Kódová stránka pro ANSI kódování/dekódování při komunikaci bez unicode. 
+Kódová stránka pro ANSI kódování/dekódování při komunikaci bez unicode.
 [Info panel mode]
 Režim info panel
 [Show avatar in message window]
@@ -745,7 +745,7 @@ Možnosti obrázku...
 [Always keep the button bar at full width]
 Udržovat lištu s tlačítky v plné šíři
 [Save this Picture As...]
-Uložit tento obrázek jako.. 
+Uložit tento obrázek jako...
 [&Message Log Settings]
 &Možnosti záznamu komunikace
 [&Global...]
@@ -920,7 +920,7 @@ Tlačítko protokolu
 [Info button]
 Informace o kontaktu
 [Insert Emoticon]
-Vložit smajlík 
+Vložit smajlík
 [Bold text]
 Tučný text
 [Italic text]
@@ -1587,7 +1587,7 @@ Editor sady šablon
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Tato volba obnoví všechny šablony do původního stavu. Opravdu chcete pokračovat?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a otevřete všechna komunikační okna. Editor šablon bude nyní ukončen. 
+Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a otevřete všechna komunikační okna. Editor šablon bude nyní ukončen.
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 TabSRMM témata

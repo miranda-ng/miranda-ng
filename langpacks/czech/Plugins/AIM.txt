@@ -123,7 +123,7 @@ Potvrdit účet
 [Save Changes]
 Uložit změny
 [Invite Buddy To Chat Room]
-Pozvat přítele 
+Pozvat přítele
 [&Invite]
 &Pozvat
 [Invitation reason]
@@ -292,7 +292,7 @@ Otevřít poštovní účet?
 %s - přímé spojení mezi klienty
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-Autom. odpověď: 
+Autom. odpověď:
 [Contact tried to open an audio/video conference (not currently supported)]
 Kontakt se pokusil otevřít audio/video konferenci (aktuálně není podporována)
 [No information has been provided by the server.]

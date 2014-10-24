@@ -175,7 +175,7 @@ URL адреси
 [Characters (incoming)]
 Входящи знаци
 [Characters (outgoing)]
-Изходящи знаци 
+Изходящи знаци
 [Characters (all)]
 Всички знаци
 [Messages (incoming)]
