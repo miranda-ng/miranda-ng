@@ -38,7 +38,7 @@ E-mail или номер телефона:
 [Broadcast music...]
 Трансляция музыки...
 [off]
-Откл.
+отключена
 [as regular status for unknown music and audio status otherwise]
 как обычный статус для неизвестных композиций, иначе как аудио статус
 [as audio status only]
