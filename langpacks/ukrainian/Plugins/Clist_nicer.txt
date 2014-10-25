@@ -549,18 +549,18 @@
 Гравірований
 [Show menu]
 Меню
-[Hide offline contacts]
-Сховати відключених
-[Enable group mode]
-Увімкнути групи
+[Show/Hide offline contacts]
+Показати/сховати відключених
+[Use/Disable groups]
+Увімк./вимк. групи
 [Find and add contacts]
 Знайти/додати контакти
 [Accounts]
 Облікові записи
 [Open preferences]
 Відкрити налаштування
-[Disable sounds]
-Вимкнути звуки
+[Enable/Disable sounds]
+Увімк./вимк. звуки
 [Minimize contact list]
 Сховати список контактів
 [Status menu]

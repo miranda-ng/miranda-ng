@@ -565,18 +565,18 @@ Pas encore supporté
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Afficher le menu
-[Hide offline contacts]
-Cacher les contacts Hors ligne
-[Enable group mode]
-Activer le mode de groupage
+[Show/Hide offline contacts]
+Afficher/Cacher contacts hors-ligne
+[Use/Disable groups]
+Activer/désactiver les groupes
 [Find and add contacts]
 Chercher et ajouter des contacts
 [Accounts]
 Comptes
 [Open preferences]
 Ouvrir les préférences
-[Disable sounds]
-Désactiver le son
+[Enable/Disable sounds]
+Activer/désactiver les sons
 [Minimize contact list]
 Minimiser la liste de contact
 [Status menu]

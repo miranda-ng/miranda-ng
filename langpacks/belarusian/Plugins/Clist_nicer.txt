@@ -557,18 +557,18 @@
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Меню
-[Hide offline contacts]
-Схаваць афлайн кантакты
-[Enable group mode]
-Паказаць/схаваць гурты
+[Show/Hide offline contacts]
+Паказаць/схаваць адключаных
+[Use/Disable groups]
+Уключыць/Выключыць гурты
 [Find and add contacts]
 Знайсці і дадаць кантакты
 [Accounts]
 Конты
 [Open preferences]
 Адкрыць налады
-[Disable sounds]
-Выкл гукі
+[Enable/Disable sounds]
+Уключыць/Выключыць гукі
 [Minimize contact list]
 Схаваць спіс кантактаў
 [Status menu]
