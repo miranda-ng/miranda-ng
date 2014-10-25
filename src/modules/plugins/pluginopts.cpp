@@ -415,7 +415,6 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 
 				if (hdr->iItem != -1) {
-					TCHAR buf[1024];
 					int sel = hdr->uNewState & LVIS_SELECTED;
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 					LVITEM lvi = { 0 };
@@ -423,7 +422,8 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					lvi.iItem = hdr->iItem;
 					if (ListView_GetItem(hwndList, &lvi)) {
 						PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
-
+						
+						TCHAR buf[1024];
 						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, SIZEOF(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : _T(""));
 
@@ -434,7 +434,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						SetDlgItemText(hwndDlg, IDC_PLUGINEMAIL, tszEmail);
 
 						ptrT p(Langpack_PcharToTchar(dat->description));
-						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? (TCHAR*)p : _T(""));
+						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? p : _T(""));
 
 						ptrT tszCopyright(latin2t(sel ? dat->copyright : NULL));
 						SetDlgItemText(hwndDlg, IDC_PLUGINCPYR, tszCopyright);
@@ -459,9 +459,9 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				int bufLen = mir_sntprintf(bufRestart, SIZEOF(bufRestart), _T("%s\n"), TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 
 				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
-				TCHAR buf[1024];
 				for (int iRow = 0; iRow != -1;) {
-					ListView_GetItemText(hwndList, iRow, 2, buf, SIZEOF(buf));
+					TCHAR buf[1024];
+					ListView_GetItemText(hwndList, iRow, 1, buf, SIZEOF(buf));
 					int iState = ListView_GetItemState(hwndList, iRow, LVIS_STATEIMAGEMASK);
 					SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
 
@@ -470,7 +470,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						lvi.mask = LVIF_IMAGE | LVIF_PARAM;
 						lvi.stateMask = -1;
 						lvi.iItem = iRow;
-						lvi.iSubItem = 1;
+						lvi.iSubItem = 0;
 						if (ListView_GetItem(hwndList, &lvi)) {
 							lvi.mask = LVIF_IMAGE;
 
