@@ -107,41 +107,9 @@
     <ClInclude Include="src\debug.h" />
     <ClInclude Include="src\lotusnotes.h" />
     <ClInclude Include="src\LotusNotify.h" />
-    <ClInclude Include="src\notesapi\include\bsafe.h" />
-    <ClInclude Include="src\notesapi\include\bsafeerr.h" />
-    <ClInclude Include="src\notesapi\include\darray.h" />
-    <ClInclude Include="src\notesapi\include\dname.h" />
-    <ClInclude Include="src\notesapi\include\extmgr.h" />
-    <ClInclude Include="src\notesapi\include\global.h" />
-    <ClInclude Include="src\notesapi\include\globerr.h" />
-    <ClInclude Include="src\notesapi\include\idtable.h" />
-    <ClInclude Include="src\notesapi\include\kfm.h" />
-    <ClInclude Include="src\notesapi\include\mailserv.h" />
-    <ClInclude Include="src\notesapi\include\misc.h" />
-    <ClInclude Include="src\notesapi\include\nadtypes.h" />
-    <ClInclude Include="src\notesapi\include\names.h" />
-    <ClInclude Include="src\notesapi\include\nif.h" />
-    <ClInclude Include="src\notesapi\include\nls.h" />
-    <ClInclude Include="src\notesapi\include\ns.h" />
-    <ClInclude Include="src\notesapi\include\nsfdata.h" />
-    <ClInclude Include="src\notesapi\include\nsfdb.h" />
-    <ClInclude Include="src\notesapi\include\nsferr.h" />
-    <ClInclude Include="src\notesapi\include\nsfnote.h" />
-    <ClInclude Include="src\notesapi\include\nsfsearc.h" />
-    <ClInclude Include="src\notesapi\include\osenv.h" />
-    <ClInclude Include="src\notesapi\include\osfile.h" />
-    <ClInclude Include="src\notesapi\include\osmem.h" />
-    <ClInclude Include="src\notesapi\include\osmisc.h" />
-    <ClInclude Include="src\notesapi\include\ossignal.h" />
-    <ClInclude Include="src\notesapi\include\pool.h" />
-    <ClInclude Include="src\notesapi\include\stdnames.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\version.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\icon1.ico" />
-    <None Include="res\icon2.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\LotusNotify.rc" />

@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
-    <Filter Include="notesapi">
-      <UniqueIdentifier>{df00f0a3-e7f1-4ece-8f78-92cd020c62d1}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\debug.cpp">
@@ -44,104 +41,12 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\notesapi\include\stdnames.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\bsafe.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\bsafeerr.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\darray.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\dname.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\extmgr.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\global.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\globerr.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\idtable.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\kfm.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\mailserv.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\misc.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\nadtypes.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\names.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\nif.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\nls.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\ns.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\nsfdata.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\nsfdb.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\nsferr.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\nsfnote.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\nsfsearc.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\osenv.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\osfile.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\osmem.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\osmisc.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\ossignal.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\notesapi\include\pool.h">
-      <Filter>notesapi</Filter>
-    </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\icon1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\icon2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\LotusNotify.rc">

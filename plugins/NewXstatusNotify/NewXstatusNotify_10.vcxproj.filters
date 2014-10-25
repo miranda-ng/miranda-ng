@@ -13,9 +13,6 @@
       <UniqueIdentifier>{4ce36c6f-321c-49f3-aeb5-00c9b133ff56}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Resource Files\Icons">
-      <UniqueIdentifier>{e48a5e83-2b80-4f20-8ff3-ac3e450573d6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -73,45 +70,5 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\disable_all.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\enable_all.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\main_off.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\main_on.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\popup.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\reset.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\sound.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\status_message.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\variables.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-    <Image Include="res\xstatus.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\logging_status_message.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\logging_xstatus.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
   </ItemGroup>
 </Project>
