@@ -200,7 +200,7 @@ URL (все)
 [month]
 месяц
 [#{data} per #{unit}]
-#{data} за #{unit}
+\#{data} за #{unit}
 [In/out]
 Входящие/Исходящие
 [Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
@@ -236,9 +236,9 @@ URL (все)
 [[First] #{first_time} / [Last] #{last_time}]
 (Первое) #{first_time} / (Последнее) #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
-#{count} контактов / (Первое) #{first_time} / (Последнее) #{last_time}
+\#{count} контактов / (Первое) #{first_time} / (Последнее) #{last_time}
 [#{count} contacts]
-#{count} контактов
+\#{count} контактов
 [Omitted]
 Пропущено
 [Totals]
@@ -306,7 +306,7 @@ URL (все)
 [all chats]
 все беседы
 [#{type} for #{data}]
-#{type} для #{data}
+\#{type} для #{data}
 [wday3:Mon]
 wday3:Пнд
 [wday3:Tue]
@@ -384,11 +384,11 @@ wday3:Вск
 [Distinct word count]
 Отличные слова
 [#{distict_words} distinct]
-#{distict_words} отличных
+\#{distict_words} отличных
 [#{words} total]
-#{words} всего
+\#{words} всего
 [#{words} total / #{distict_words} distinct]
-#{words} всего / #{distict_words} отличных
+\#{words} всего / #{distict_words} отличных
 [Word count]
 Количество слов
 [Column holding the number of (distinct) words used by you, by your contact, or by both of you.]

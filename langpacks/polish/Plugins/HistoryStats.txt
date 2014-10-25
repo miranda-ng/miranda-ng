@@ -211,7 +211,7 @@ tydzień
 [month]
 miesiąc
 [#{data} per #{unit}]
-#{data} na #{unit}
+\#{data} na #{unit}
 ;file \plugins\HistoryStats\src\column_inout.h
 [In/out]
 Wejście/Wyjście
@@ -251,9 +251,9 @@ Nick
 [[First] #{first_time} / [Last] #{last_time}]
 Pierwsza: #{first_time} / Ostatnia: #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
-#{count} kontakty / Pierwsza: #{first_time} / Ostatnia: #{last_time}
+\#{count} kontakty / Pierwsza: #{first_time} / Ostatnia: #{last_time}
 [#{count} contacts]
-#{count} kontakty
+\#{count} kontakty
 [Omitted]
 Pominięte
 [Totals]
@@ -271,7 +271,7 @@ Podgląd protokołu kontaktów.
 [Rank]
 Numer
 [#{rank}.]
-#{rank}.
+\#{rank}.
 ;file \plugins\HistoryStats\src\column_rank.h
 [Column holding the contact's placing according to your sorting criteria.]
 Graficzny podgląd kontaktu w zależności od kryteriów sortowania.
@@ -329,7 +329,7 @@ wychodzące rozmowy
 [all chats]
 wszystkich rozmów
 [#{type} for #{data}]
-#{type} na #{data}
+\#{type} na #{data}
 [wday3:Mon]
 wday3:Pon
 [wday3:Tue]
@@ -349,7 +349,7 @@ wday3:Nie
 [[#{day}] #{amount}]
 \[#{day}] #{amount}
 [#{amount}]
-#{amount}
+\#{amount}
 ;file \plugins\HistoryStats\src\column_split.h
 [Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
 Graficzny podgląd rozmowy w podziale na dni tygodnia lub godziny. Różnica ilości rozmów jest dostępna.
@@ -423,11 +423,11 @@ Całkowita liczba słów
 [Distinct word count]
 Wyraźna liczba słów
 [#{distict_words} distinct]
-#{distict_words} słów
+\#{distict_words} słów
 [#{words} total]
-#{words} wszystkich
+\#{words} wszystkich
 [#{words} total / #{distict_words} distinct]
-#{words} łącznie / #{distict_words} słów
+\#{words} łącznie / #{distict_words} słów
 ;file \plugins\HistoryStats\src\column_wordcount.h
 [Word count]
 Licznik słów

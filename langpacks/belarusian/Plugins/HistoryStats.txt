@@ -219,7 +219,7 @@ URL (усё)
 [[First] #{first_time} / [Last] #{last_time}]
 (Першае) #{first_time} / (Апошняе) #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
-#{count} кантактаў / (Першы) #{first_time} / (Апошні) #{last_time}
+\#{count} кантактаў / (Першы) #{first_time} / (Апошні) #{last_time}
 [Omitted]
 Апушчана
 [Totals]
@@ -281,7 +281,7 @@ URL (усё)
 [all chats]
 усе чаты
 [#{type} for #{data}]
-#{type} для #{data}
+\#{type} для #{data}
 ;file \plugins\HistoryStats\src\column_split.h
 [Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
 Калонка ўтрымоўвае графічнае ўяўленне чата, пабітага па днях тыдня, ці па часе сутак. Рознае вымярэнне статыстыкі чатаў даступна.
@@ -347,11 +347,11 @@ URL (усё)
 [Distinct word count]
 Лік выдатныя слоў
 [#{distict_words} distinct]
-#{distict_words} асобна
+\#{distict_words} асобна
 [#{words} total]
-#{words} усяго
+\#{words} усяго
 [#{words} total / #{distict_words} distinct]
-#{words} усяго / #{distict_words} выдатна
+\#{words} усяго / #{distict_words} выдатна
 ;file \plugins\HistoryStats\src\column_wordcount.h
 [Word count]
 Колькасць слоў

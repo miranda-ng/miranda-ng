@@ -200,7 +200,7 @@ URL (усі)
 [month]
 місяць
 [#{data} per #{unit}]
-#{data} за #{unit}
+\#{data} за #{unit}
 [In/out]
 Вхідні/Вихідні
 [Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
@@ -236,9 +236,9 @@ URL (усі)
 [[First] #{first_time} / [Last] #{last_time}]
 Перше #{first_time} / Останнє #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
-#{count} контактів / Перше #{first_time} / Останнє #{last_time}
+\#{count} контактів / Перше #{first_time} / Останнє #{last_time}
 [#{count} contacts]
-#{count} контактів
+\#{count} контактів
 [Omitted]
 Пропущено
 [Totals]
@@ -306,7 +306,7 @@ URL (усі)
 [all chats]
 усі бесіди
 [#{type} for #{data}]
-#{type} for #{data}
+\#{type} for #{data}
 [wday3:Mon]
 wday3:Пнд
 [wday3:Tue]
@@ -382,11 +382,11 @@ wday3:Ндл
 [Distinct word count]
 Унікальні слова
 [#{distict_words} distinct]
-#{distict_words} унікальних
+\#{distict_words} унікальних
 [#{words} total]
-#{words} разом
+\#{words} разом
 [#{words} total / #{distict_words} distinct]
-#{words} разом / #{distict_words} унікальних
+\#{words} разом / #{distict_words} унікальних
 [Word count]
 Кількість слів
 [Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
