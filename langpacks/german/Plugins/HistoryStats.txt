@@ -211,7 +211,7 @@ Woche
 [month]
 Monat
 [#{data} per #{unit}]
-#{data} pro #{unit}
+\#{data} pro #{unit}
 ;file \plugins\HistoryStats\src\column_inout.h
 [In/out]
 Ein-/Aus
@@ -271,7 +271,7 @@ Spalte mit dem vom jeweiligen Kontakt verwendeten Protokoll.
 [Rank]
 Platz
 [#{rank}.]
-#{rank}.
+\#{rank}.
 ;file \plugins\HistoryStats\src\column_rank.h
 [Column holding the contact's placing according to your sorting criteria.]
 Spalte mit der Platzierung der jeweiligen Kontakts, abhängig vom gewählten Sortierkriterium.
@@ -329,7 +329,7 @@ Ausgehende Chats
 [all chats]
 alle Chats
 [#{type} for #{data}]
-#{type} für #{data}
+\#{type} für #{data}
 [wday3:Mon]
 wday3:Mo
 [wday3:Tue]
@@ -423,11 +423,11 @@ Alle gezählten Wörter
 [Distinct word count]
 Anzahl eindeutiger Wörter
 [#{distict_words} distinct]
-#{distict_words} eindeutige Wörter
+\#{distict_words} eindeutige Wörter
 [#{words} total]
-#{words} insgesamt
+\#{words} insgesamt
 [#{words} total / #{distict_words} distinct]
-#{words} insgesamt / #{distict_words} eindeutig
+\#{words} insgesamt / #{distict_words} eindeutig
 ;file \plugins\HistoryStats\src\column_wordcount.h
 [Word count]
 Anzahl Wörter

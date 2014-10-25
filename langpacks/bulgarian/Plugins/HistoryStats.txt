@@ -211,7 +211,7 @@ URL адреси
 [month]
 месец
 [#{data} per #{unit}]
-#{data} за #{unit}
+\#{data} за #{unit}
 ;file \plugins\HistoryStats\src\column_inout.h
 [In/out]
 Входящи/Изходящи
@@ -251,9 +251,9 @@ URL адреси
 [[First] #{first_time} / [Last] #{last_time}]
 \[Първо] #{first_time} / [Последно] #{last_time}
 [#{count} contacts / [First] #{first_time} / [Last] #{last_time}]
-#{count} контакта / [Име] #{first_time} / [Фамилия] #{last_time}
+\#{count} контакта / [Име] #{first_time} / [Фамилия] #{last_time}
 [#{count} contacts]
-#{count} контакта
+\#{count} контакта
 [Omitted]
 Изключени
 [Totals]
@@ -271,7 +271,7 @@ URL адреси
 [Rank]
 Номер
 [#{rank}.]
-#{rank}.
+\#{rank}.
 ;file \plugins\HistoryStats\src\column_rank.h
 [Column holding the contact's placing according to your sorting criteria.]
 
@@ -329,7 +329,7 @@ URL адреси
 [all chats]
 всички разговори
 [#{type} for #{data}]
-#{type} за #{data}
+\#{type} за #{data}
 [wday3:Mon]
 wday3:пон
 [wday3:Tue]
@@ -423,11 +423,11 @@ wday3:нед
 [Distinct word count]
 Брой обособени думи
 [#{distict_words} distinct]
-#{distict_words} обособени
+\#{distict_words} обособени
 [#{words} total]
-#{words} общо
+\#{words} общо
 [#{words} total / #{distict_words} distinct]
-#{words} общо / #{distict_words} обособени
+\#{words} общо / #{distict_words} обособени
 ;file \plugins\HistoryStats\src\column_wordcount.h
 [Word count]
 Честота на думите
