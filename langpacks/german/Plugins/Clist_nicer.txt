@@ -565,18 +565,18 @@ Eingestochen
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Hauptmenü
-[Hide offline contacts]
-Offlinekontakte ausblenden
-[Enable group mode]
-Gruppenmodus aktivieren
+[Show/Hide offline contacts]
+Zeige/Verstecke Offline-Kontakte
+[Use/Disable groups]
+Aktiviere/Deaktiviere Gruppen
 [Find and add contacts]
 Kontakte suchen und hinzufügen
 [Accounts]
 Konten
 [Open preferences]
 Einstellungen
-[Disable sounds]
-Klänge deaktivieren
+[Enable/Disable sounds]
+Aktiviere/Deaktiviere Klänge
 [Minimize contact list]
 Kontaktliste minimieren
 [Status menu]

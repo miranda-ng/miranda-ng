@@ -565,9 +565,9 @@ Color de texto
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 
-[Hide offline contacts]
+[Show/Hide offline contacts]
 
-[Enable group mode]
+[Use/Disable groups]
 
 [Find and add contacts]
 
@@ -575,7 +575,7 @@ Color de texto
 Cuentas
 [Open preferences]
 
-[Disable sounds]
+[Enable/Disable sounds]
 
 [Minimize contact list]
 

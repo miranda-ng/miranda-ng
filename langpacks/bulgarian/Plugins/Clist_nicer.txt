@@ -565,18 +565,18 @@ URL събития
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Главно меню
-[Hide offline contacts]
-Скриване на контактите "Извън линия"
-[Enable group mode]
-Включване на групите
+[Show/Hide offline contacts]
+Показване/Скриване на контактите "Извън линия"
+[Use/Disable groups]
+Ползване на групи / Без групи
 [Find and add contacts]
 Търсене и добавяне на контакти
 [Accounts]
 Акаунти
 [Open preferences]
 Настройване
-[Disable sounds]
-Изключване на звука
+[Enable/Disable sounds]
+Включване/Изключване на звука
 [Minimize contact list]
 Минимизиране на списъка с контакти
 [Status menu]
