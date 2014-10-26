@@ -28,7 +28,7 @@ implementation
 
 uses
   windows,
-  common,dbsettings,mirutils,
+  common,dbsettings,mircontacts,m_api,
   rglobal;
 
 const
@@ -186,10 +186,18 @@ begin
   sTimeout  :=DBReadWord(0,PluginName,optTimeout,5000);
 
   isEQ_OFF  :=DBReadByte(0,PluginName,optEQ_OFF);
-  gVolume   :=DBReadByte(0,PluginName,optVolume,50);
+  gVolume   :=integer(shortint(DBReadByte(0,PluginName,optVolume,50)));
   ForcedMono:=DBReadByte(0,PluginName,optForcedMono);
   NumTries  :=DBReadByte(0,PluginName,optNumTries,1);
   if NumTries<1 then NumTries:=1;
+
+  // volume changes
+  if AuMute<>0 then
+  begin
+    gVolume:=ABS(gVolume);
+    if DBReadByte(0,'Skin','UseSound')=0 then
+      CallService(MS_RADIO_MUTE,0,0);
+  end;
 
   //-- Equalizer
   szTemp[0]:='E';
