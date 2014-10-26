@@ -91,3 +91,4 @@
 [Device list]
 [Equalizer]
 [New]
+[Quick Open]

@@ -90,3 +90,4 @@
 [Volume]
 [Device list]
 [Equalizer]
+[Quick Open]

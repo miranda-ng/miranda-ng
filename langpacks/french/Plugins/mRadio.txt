@@ -197,3 +197,5 @@ Avancé
 
 [New]
 Nouveau
+[Quick Open]
+
