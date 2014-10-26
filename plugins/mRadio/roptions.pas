@@ -28,7 +28,7 @@ implementation
 
 uses
   windows,
-  common,dbsettings,mircontacts,m_api,
+  common,dbsettings,mirutils,m_api,
   rglobal;
 
 const
