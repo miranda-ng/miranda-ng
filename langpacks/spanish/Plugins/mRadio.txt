@@ -197,3 +197,5 @@ APAGADO
 
 [New]
 Nuevo
+[Quick Open]
+

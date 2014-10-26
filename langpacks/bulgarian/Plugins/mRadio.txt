@@ -197,3 +197,5 @@ mRadio вкл.
 Еквалайзер
 [New]
 Нов
+[Quick Open]
+

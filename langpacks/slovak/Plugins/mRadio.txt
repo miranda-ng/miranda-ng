@@ -197,3 +197,5 @@ Podrobne
 
 [New]
 
+[Quick Open]
+

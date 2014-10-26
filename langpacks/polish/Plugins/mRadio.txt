@@ -197,3 +197,5 @@ Lista urządzeń
 Equalizer
 [New]
 Nowy
+[Quick Open]
+
