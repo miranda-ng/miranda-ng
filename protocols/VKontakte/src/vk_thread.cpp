@@ -1145,8 +1145,12 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 	setByte(hContact, "ImportHistory", 1);
 	setDword(hContact, "lastmsgid", 0);
 
-	while (HANDLE hd = db_event_first(hContact))
-		db_event_delete(hContact, hd);
+	HANDLE hDBEvent = db_event_first(hContact);
+	while (hDBEvent) {
+		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
+		db_event_delete(hContact, hDBEvent);
+		hDBEvent = hDBEventNext;
+	}
 
 	debugLogA("CVkProto::SvcGetAllServerHistory");
 	GetHistoryDlgMessages(hContact, 0, INT_MAX, -1);
