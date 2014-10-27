@@ -101,10 +101,11 @@ void CVkProto::SetServerStatus(int iNewStatus)
 
 	int iOldStatus = m_iStatus;
 	CMString oldStatusMsg = db_get_tsa(0, m_szModuleName, "OldStatusMsg");
+	CMString ListeningToMsg = db_get_tsa(0, m_szModuleName, "ListeningTo");
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = ID_STATUS_OFFLINE;
-		RetrieveStatusMsg(oldStatusMsg);
+		if (!ListeningToMsg.IsEmpty()) RetrieveStatusMsg(oldStatusMsg);
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
 	}
@@ -115,7 +116,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 	}
 	else {
 		m_iStatus = ID_STATUS_INVISIBLE;
-		RetrieveStatusMsg(oldStatusMsg);
+		if (!ListeningToMsg.IsEmpty()) RetrieveStatusMsg(oldStatusMsg);
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
@@ -845,6 +846,22 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	debugLogA("CVkProto::OnReceiveStatus %d", reply->resultCode);
+	if (reply->resultCode == 200){
+		JSONROOT pRoot;
+		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+		if (pResponse != NULL){
+			JSONNODE *pAudio = json_get(pResponse, "audio");
+			if (pAudio == NULL){
+				CMString StatusText = json_as_string(json_get(pResponse, "text"));
+				if (StatusText.GetBuffer()[0] != TCHAR(9835))
+					setTString("OldStatusMsg", StatusText.GetBuffer());
+			}
+		}
+	}
+}
 
 void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 {
@@ -874,24 +891,24 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 	}
 	else {
 		if (m_iMusicSendMetod == sendBroadcastOnly){
-			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;"
+			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var OldMsg=API.status.get();"
 				"var Tracks = API.audio.search({\"q\":StatusMsg,\"count\":CntLmt, \"search_own\":1});"
 				"var Cnt=Tracks.count;if (Cnt>CntLmt){Cnt=CntLmt;}"
 				"if (Cnt == 0){API.audio.setBroadcast();}"
 				"else{var i = 0;var j = 0;var Track=\" \";"
 				"while (i<Cnt){Track=Tracks.items[i].artist+\" - \"+Tracks.items[i].title;if(Track == StatusMsg){j = i;}i=i+1;}"
 				"Track=Tracks.items[j].owner_id + \"_\" + Tracks.items[j].id;API.audio.setBroadcast({\"audio\":Track});"
-				"};return null;");
+				"};return OldMsg;");
 			code.AppendFormat(codeformat, StatusMsg);
 		}
 		else if (m_iMusicSendMetod == sendStatusOnly){
-			CMString codeformat("var StatusMsg=\"&#9835; %s\";"
+			CMString codeformat("var StatusMsg=\"&#9835; %s\";var OldMsg=API.status.get();"
 				"API.status.set({\"text\":StatusMsg});"
-				"return null;");
+				"return OldMsg;");
 		    code.AppendFormat(codeformat, StatusMsg);
 		}
 		else if (m_iMusicSendMetod == sendBroadcastAndStatus){
-			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";"
+			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";var OldMsg=API.status.get();"
 				"var Tracks = API.audio.search({\"q\":StatusMsg,\"count\":CntLmt, \"search_own\":1});"
 				"var Cnt=Tracks.count;if (Cnt>CntLmt){Cnt=CntLmt;}"
 				"if (Cnt == 0){Track = \"&#9835; \"+StatusMsg; API.status.set({\"text\":Track});}"
@@ -899,11 +916,11 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 				"while (i<Cnt){Track=Tracks.items[i].artist+\" - \"+Tracks.items[i].title;if(Track == StatusMsg){j = i;}i=i+1;}"
 				"if(j==-1) {Track = \"&#9835; \"+StatusMsg; API.status.set({\"text\":Track});} else {"
 				"Track=Tracks.items[j].owner_id + \"_\" + Tracks.items[j].id;};API.audio.setBroadcast({\"audio\":Track});"
-				"}; return null;");
+				"}; return OldMsg;");
 			code.AppendFormat(codeformat, StatusMsg);
 		}
 	}
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveStatus)
 		<< TCHAR_PARAM("code", code)
 		<< VER_API);
 }
