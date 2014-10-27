@@ -1341,13 +1341,12 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 		else if (!lstrcmp(ptszType, _T("audio"))) {
 			JSONNODE *pAudio = json_get(pAttach, "audio");
 			if (pAudio == NULL) continue;
-
-			int  aid = json_as_int(json_get(pAudio, "id"));
-			int  ownerID = json_as_int(json_get(pAudio, "owner_id"));
+	
 			ptrT ptszArtist(json_as_string(json_get(pAudio, "artist")));
 			ptrT ptszTitle(json_as_string(json_get(pAudio, "title")));
-			res.AppendFormat(_T("%s: (%s - %s) - http://vk.com/audio%d_%d"),
-				TranslateT("Audio"), ptszArtist, ptszTitle, ownerID, aid);
+			ptrT ptszUrl(json_as_string(json_get(pAudio, "url")));
+			res.AppendFormat(_T("%s: (%s - %s) - %s"),
+				TranslateT("Audio"), ptszArtist, ptszTitle, ptszUrl);
 		}
 		else if (!lstrcmp(ptszType, _T("video"))) {
 			JSONNODE *pVideo = json_get(pAttach, "video");
