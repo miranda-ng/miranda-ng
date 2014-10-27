@@ -34,6 +34,7 @@ IDI_ABUSE               ICON                    "report.ico"
 IDI_VISITPROFILE        ICON                    "home.ico"
 IDI_HISTORY             ICON                    "history.ico"
 IDI_KEYS                ICON                    "key.ico"
+IDI_BROADCAST           ICON                    "broadcast.ico"
 #endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 

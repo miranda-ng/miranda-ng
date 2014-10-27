@@ -23,6 +23,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_BANUSER "/BanUser"
 #define PS_REPORTABUSE "/ReportAbuse"
 #define PS_DESTROYKICKCHAT "/DestroyKickChat"
+#define PS_OPENBROADCAST "/OpenBroadcast"
 #define MAXHISTORYMIDSPERONE 200
 #define MAX_RETRIES 10
 
@@ -239,6 +240,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcDestroyKickChat(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcOpenBroadcast(WPARAM hContact, LPARAM);
 	void InitMenus();
 	void UnInitMenus();
 	int  __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
@@ -252,7 +254,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	int __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
 	int __cdecl OnDbEventRead(WPARAM, LPARAM);
-
+	int __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	//==== Search ========================================================================
 
 	void __cdecl SearchBasicThread(void* id);
@@ -336,7 +338,7 @@ private:
 	mir_cs m_csRequestsQueue;
 	HANDLE m_evRequestsQueue;
 	HANDLE m_hWorkerThread;
-	bool   m_bTerminated, m_bServerDelivery, m_bOne;
+	bool   m_bTerminated, m_bServerDelivery;
 	CMStringA m_prevUrl;
 
 	enum CLMenuIndexes {
@@ -347,6 +349,7 @@ private:
 		CMI_BANUSER,
 		CMI_REPORTABUSE,
 		CMI_DESTROYKICKCHAT,
+		CMI_OPENBROADCAST,
 		CMI_COUNT
 	};
 	enum ProtoMenuIndexes {
