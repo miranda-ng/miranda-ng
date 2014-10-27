@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.25
+;  Version: 0.1.0.26
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -111,6 +111,8 @@ Formulario Captcha icono
 
 [Ban user icon]
 
+[Broadcast icon]
+
 [Protocols]
 Protocolos
 [VKontakte]
@@ -193,6 +195,8 @@ Cuenta
 [Ban user]
 
 [Destroy room]
+
+[Open broadcast]
 
 [Errors]
 
