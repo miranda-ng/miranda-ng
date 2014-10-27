@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.25
+;  Version: 0.1.0.26
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -111,6 +111,8 @@ Ikona usuń ze znajomych
 Ikona zgłoś naruszenie
 [Ban user icon]
 Ikona zbanuj użytkownika
+[Broadcast icon]
+Ikona transmisji
 [Protocols]
 Protokoły
 [VKontakte]
@@ -194,6 +196,8 @@ Usuń z listy znajomych
 Zbanuj użytkownika
 [Destroy room]
 Zniszcz pokój
+[Open broadcast]
+Otwórz transmisję
 [Errors]
 Błędy
 [Notification]
