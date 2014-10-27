@@ -16,6 +16,8 @@
 #define IDI_ABUSE                       114
 #define IDI_VISITPROFILE                115
 #define IDI_HISTORY                     116
+#define IDI_ICON1                       117
+#define IDI_BROADCAST                   117
 #define IDI_KEYS                        203
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
@@ -56,13 +58,12 @@
 #define IDC_SEND_MUSIC_BROADCAST        1047
 #define IDC_SEND_MUSIC_BROADCAST_AND_STATUS 1048
 
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        117
+#define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1049
 #define _APS_NEXT_SYMED_VALUE           101

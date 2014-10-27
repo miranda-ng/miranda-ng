@@ -60,7 +60,6 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	Clist_CreateGroup(NULL, m_defaultGroup);
 
 	db_set_resident(m_szModuleName, "Status");
-	m_bOne = true;
 
 	m_bServerDelivery = getBool("ServerDelivery", true);
 	m_bHideChats = getBool("HideChats", true);
@@ -115,6 +114,7 @@ int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// Other hooks
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CVkProto::OnProcessSrmmEvent);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CVkProto::OnDbEventRead);
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CVkProto::OnDbSettingChanged);
 
 	InitPopups();
 	InitMenus();
@@ -137,7 +137,8 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_BANUSER, &CVkProto::SvcBanUser);
 	CreateProtoService(PS_REPORTABUSE, &CVkProto::SvcReportAbuse);
 	CreateProtoService(PS_DESTROYKICKCHAT, &CVkProto::SvcDestroyKickChat);
-	
+	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
+		
 	CLISTMENUITEM mi = { sizeof(mi) };
 	char szService[100];
 
@@ -208,19 +209,28 @@ void CVkProto::InitMenus()
 	mi.ptszName = LPGENT("Destroy room");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_DESTROYKICKCHAT] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_OPENBROADCAST);
+	mi.position = -200001000 + CMI_OPENBROADCAST;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_BROADCAST));
+	mi.ptszName = LPGENT("Open broadcast");
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_OPENBROADCAST] = Menu_AddContactMenuItem(&mi);
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	bool bisFriend = getByte(hContact, "Auth", -1)==0;
+	bool bisBroadcast = !(CMString(db_get_tsa(hContact, m_szModuleName, "AudioUrl")).IsEmpty());
 	
 	Menu_ShowItem(g_hContactMenuItems[CMI_GETALLSERVERHISTORY], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
-	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend&&!isChatRoom(hContact));
+	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend);
 	Menu_ShowItem(g_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact));
-	Menu_ShowItem(g_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact)&&getBool(hContact, "off", false));
+	Menu_ShowItem(g_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact) && getBool(hContact, "off", false));
+	Menu_ShowItem(g_hContactMenuItems[CMI_OPENBROADCAST], !isChatRoom(hContact) && bisBroadcast);
 	return 0;
 }
 

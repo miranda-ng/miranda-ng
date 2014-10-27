@@ -105,7 +105,8 @@ void CVkProto::SetServerStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = ID_STATUS_OFFLINE;
-		if (!ListeningToMsg.IsEmpty()) RetrieveStatusMsg(oldStatusMsg);
+		if (!ListeningToMsg.IsEmpty()) 
+			RetrieveStatusMsg(oldStatusMsg);
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
 	}
@@ -116,7 +117,8 @@ void CVkProto::SetServerStatus(int iNewStatus)
 	}
 	else {
 		m_iStatus = ID_STATUS_INVISIBLE;
-		if (!ListeningToMsg.IsEmpty()) RetrieveStatusMsg(oldStatusMsg);
+		if (!ListeningToMsg.IsEmpty()) 
+			RetrieveStatusMsg(oldStatusMsg);
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
@@ -339,15 +341,17 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 	CMString tszOldStatus(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg"));
 	if (tszValue != tszOldStatus){
 		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue.GetBuffer());
-		if ((json_get(pItem, "status_audio") != NULL) || (tszValue.GetBuffer()[0] == TCHAR(9835)))
+		db_unset(hContact, m_szModuleName, "AudioUrl");
+		JSONNODE* pAudio = json_get(pItem, "status_audio");
+		if (pAudio != NULL) {
 			db_set_ts(hContact, m_szModuleName, "ListeningTo", tszValue.GetBuffer());
+			tszValue = json_as_string(json_get(pAudio, "url"));
+			db_set_ts(hContact, m_szModuleName, "AudioUrl", tszValue.GetBuffer());
+		}
+		else if ((tszValue.GetBuffer()[0] == TCHAR(9835)) && (tszValue.GetLength() > 2))
+			db_set_ts(hContact, m_szModuleName, "ListeningTo", &(tszValue.GetBuffer())[2]);
 		else
 			db_unset(hContact, m_szModuleName, "ListeningTo");
-	}
-
-	if ((hContact == NULL) && m_bOne){
-		setTString("OldStatusMsg", db_get_tsa(0, m_szModuleName, "StatusMsg"));
-		m_bOne = false;
 	}
 
 	tszValue = json_as_string(json_get(pItem, "about"));
@@ -1097,6 +1101,16 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcOpenBroadcast");
+	CMString tszAudio(db_get_tsa(hContact, m_szModuleName, "AudioUrl"));
+	
+	if (!tszAudio.IsEmpty())
+		CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)tszAudio.GetBuffer());
+	
+	return 0;
+}
 
 INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 {

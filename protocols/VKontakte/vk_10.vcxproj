@@ -204,6 +204,7 @@
   <ItemGroup>
     <None Include="res\add.ico" />
     <None Include="res\ban.ico" />
+    <None Include="res\broadcast.ico" />
     <None Include="res\delete.ico" />
     <None Include="res\history.ico" />
     <None Include="res\home.ico" />

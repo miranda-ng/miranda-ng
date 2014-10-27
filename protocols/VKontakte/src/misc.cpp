@@ -189,7 +189,8 @@ static IconItem iconList[] =
 	{ LPGEN("Add to friend list icon"), "addfriend", IDI_FRIENDADD },
 	{ LPGEN("Delete from friend list icon"), "delfriend", IDI_FRIENDDEL },
 	{ LPGEN("Report abuse icon"), "abuse", IDI_ABUSE },
-	{ LPGEN("Ban user icon"), "ban", IDI_BAN}
+	{ LPGEN("Ban user icon"), "ban", IDI_BAN},
+	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST}
 };
 
 void InitIcons()
@@ -594,4 +595,30 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 	}
 	stickerid = 0;
 	return NULL;
+}
+
+int  CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
+{
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+	if (hContact != NULL)
+		return 0;
+
+	if (strcmp(cws->szModule, "ListeningTo"))
+		return 0;
+	
+	CMStringA szListeningTo(m_szModuleName);
+	szListeningTo += "Enabled";
+	if (!strcmp(cws->szSetting, szListeningTo.GetBuffer())){
+		int iOldMusicSendMetod = getByte("OldMusicSendMetod", 3);
+		
+		if (cws->value.bVal == 0)
+			setByte("OldMusicSendMetod", m_iMusicSendMetod);
+		else
+			db_unset(0, m_szModuleName, "OldMusicSendMetod");
+		
+		m_iMusicSendMetod = cws->value.bVal == 0 ? 0 : iOldMusicSendMetod;
+		setByte("MusicSendMetod", m_iMusicSendMetod);
+	}	
+
+	return 0;
 }
