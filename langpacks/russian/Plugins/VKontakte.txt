@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.25
+;  Version: 0.1.0.26
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -109,6 +109,8 @@ Cоздать комнату чата
 Значок жалобы на пользователя
 [Ban user icon]
 Значок бана пользователя
+[Broadcast icon]
+Значок трансляции
 [Protocols]
 Протоколы
 [VKontakte]
@@ -187,6 +189,8 @@ Cоздать комнату чата
 Забанить пользователя
 [Destroy room]
 Удалить комнату чата
+[Open broadcast]
+Открыть трансляцию
 [Errors]
 Ошибки
 [Notification]
