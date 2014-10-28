@@ -46,7 +46,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
 				if(hXml != NULL) {
 					HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					BYTE isTitleUTF = 0, isURLUTF = 0, isSiteURLUTF = 0, isGroupUTF = 0;
+					BYTE isTextUTF = 0, isURLUTF = 0, isSiteURLUTF = 0, isGroupUTF = 0;
 					HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
 					if ( !node)
 						node = xi.getChildByPath(hXml, _T("body/outline"), 0);
@@ -56,8 +56,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						while (node) {
 							int outlineAttr = xi.getAttrCount(node);
 							int outlineChildsCount = xi.getChildCount(node);
-							TCHAR *type = (TCHAR *)xi.getAttrValue(node, _T("type"));
-							if ( !type && !outlineChildsCount) {
+							TCHAR *xmlUrl = (TCHAR *)xi.getAttrValue(node, _T("xmlUrl"));
+							if (!xmlUrl && !outlineChildsCount) {
 								HXML tmpnode = node;
 								node = xi.getNextNode(node);
 								if ( !node) {
@@ -71,24 +71,24 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 									} while (lstrcmpi(xi.getName(node), _T("body")));
 								}
 							}
-							else if (!type && outlineChildsCount)
+							else if (!xmlUrl && outlineChildsCount)
 								node = xi.getFirstChild(node);
-							else if (type) {
-								TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL, *utfgroup = NULL;
+							else if (xmlUrl) {
+								TCHAR *text = NULL, *url = NULL, *siteurl = NULL, *group = NULL, *utfgroup = NULL;
 								BYTE NeedToImport = FALSE;
 								for (int i = 0; i < outlineAttr; i++) {
-									if (!lstrcmpi(xi.getAttrName(node, i), _T("title"))) {
-										title = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
-										if ( !title) {
-											isTitleUTF = 0;
-											title = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+									if (!lstrcmpi(xi.getAttrName(node, i), _T("text"))) {
+										text = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+										if (!text) {
+											isTextUTF = 0;
+											text = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
 										} else
-											isTitleUTF = 1;
+											isTextUTF = 1;
 
 										for (int i = 0; i < count; i++) {
 											TCHAR item[MAX_PATH];
 											SendMessage(FeedsImportList, LB_GETTEXT, i, (LPARAM)item);
-											if (!lstrcmpi(item, title)) {
+											if (!lstrcmpi(item, text)) {
 												NeedToImport = TRUE;
 												break;
 											}
@@ -117,7 +117,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											isSiteURLUTF = 1;
 										continue;
 									}
-									if (title && url && siteurl)
+									if (text && url && siteurl)
 										break;
 								}
 
@@ -125,7 +125,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 									HXML parent = xi.getParent(node);
 									while (lstrcmpi(xi.getName(parent), _T("body"))) {
 										for (int i = 0; i < xi.getAttrCount(parent); i++) {
-											if (!lstrcmpi(xi.getAttrName(parent, i), _T("title"))) {
+											if (!lstrcmpi(xi.getAttrName(parent, i), _T("text"))) {
 												if ( !group)
 													group = (TCHAR *)xi.getAttrValue(parent, xi.getAttrName(parent, i));
 												else {
@@ -150,7 +150,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 									MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 									CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODULE);
-									db_set_ts(hContact, MODULE, "Nick", title);
+									db_set_ts(hContact, MODULE, "Nick", text);
 									db_set_ts(hContact, MODULE, "URL", url);
 									db_set_ts(hContact, MODULE, "Homepage", siteurl);
 									db_set_b(hContact, MODULE, "CheckState", 1);
@@ -175,8 +175,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										if(!GroupExist)
 											CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)utfgroup);
 									}
-									if (isTitleUTF)
-										mir_free(title);
+									if (isTextUTF)
+										mir_free(text);
 									if (isURLUTF)
 										mir_free(url);
 									if (isGroupUTF)
@@ -242,7 +242,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					int bytesParsed = 0;
 					HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
 					if(hXml != NULL) {
-						BYTE isTitleUTF = 0;
+						BYTE isTextUTF = 0;
 						HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
 						if ( !node)
 							node = xi.getChildByPath(hXml, _T("body/outline"), 0);
@@ -250,8 +250,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							while (node) {
 								int outlineAttr = xi.getAttrCount(node);
 								int outlineChildsCount = xi.getChildCount(node);
-								TCHAR *type = (TCHAR *)xi.getAttrValue(node, _T("type"));
-								if ( !type && !outlineChildsCount) {
+								TCHAR *xmlUrl = (TCHAR *)xi.getAttrValue(node, _T("xmlUrl"));
+								if (!xmlUrl && !outlineChildsCount) {
 									HXML tmpnode = node;
 									node = xi.getNextNode(node);
 									if ( !node) {
@@ -265,27 +265,27 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										} while (lstrcmpi(xi.getName(node), _T("body")));
 									}
 								}
-								else if (!type && outlineChildsCount)
+								else if (!xmlUrl && outlineChildsCount)
 									node = xi.getFirstChild(node);
-								else if (type) {
-									TCHAR *title = NULL;
+								else if (xmlUrl) {
+									TCHAR *text = NULL;
 									for (int i = 0; i < outlineAttr; i++) {
-										if (!lstrcmpi(xi.getAttrName(node, i), _T("title"))) {
-											title = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
-											if ( !title) {
-												isTitleUTF = 0;
-												title = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+										if (!lstrcmpi(xi.getAttrName(node, i), _T("text"))) {
+											text = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+											if (!text) {
+												isTextUTF = 0;
+												text = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
 											} else
-												isTitleUTF = 1;
-											SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)title);
+												isTextUTF = 1;
+											SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)text);
 											EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), TRUE);
 											EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), TRUE);
 											continue;
 										}
 									}
 
-									if (isTitleUTF)
-										mir_free(title);
+									if (isTextUTF)
+										mir_free(text);
 
 									HXML tmpnode = node;
 									node = xi.getNextNode(node);
