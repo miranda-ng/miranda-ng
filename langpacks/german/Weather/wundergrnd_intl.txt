@@ -550,3 +550,5 @@ Schnee, 70% Niederschlagswahrscheinlichkeit
 
 [Ice Pellets 30% Chance Of Precipitation]
 
+[Ice Pellets 40% Chance Of Precipitation]
+
