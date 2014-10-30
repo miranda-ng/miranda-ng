@@ -550,3 +550,5 @@ Delikatne opady śniegu 30% szans opadów
 Sople lodu 70% szans opadów
 [Ice Pellets 30% Chance Of Precipitation]
 Sople lodu 30% szans opadów
+[Ice Pellets 40% Chance Of Precipitation]
+
