@@ -213,6 +213,8 @@
 Розтягувати вгору
 [If window is partially covered, bring to front instead of hiding]
 Помістити вікно на передній план, якщо його перекрито іншими вікнами
+[Always hide on taskbar]
+Сховати кнопку на панелі завдань
 [Client margins]
 Поля списку
 [Clip border by]
@@ -684,7 +686,9 @@
 [Default]
 Стандартні
 [Overlay icons]
-Оверлеї
+Оверлеї аватарів
+[%s connecting]
+З'єднання %s
 [Connecting icons]
 З'єднання
 [Menu]

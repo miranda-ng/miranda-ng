@@ -618,9 +618,9 @@ xСтатус: xПовідомлення
 [Modern contact list]
 Список контактів Modern
 [Avatar overlay]
-Оверлей аватару
+Оверлеї аватарів
 [Status overlay]
-Оверлей статусу
+Оверлеї статусів
 [List background]
 Фон списку
 [Menu background]
