@@ -38,7 +38,7 @@
 [Broadcast music...]
 Транслювати музику...
 [off]
-вимк.
+Вимкнути
 [as regular status for unknown music and audio status otherwise]
 як звичайний статус для невідомих композицій, інакше - як аудіостатус
 [as audio status only]
@@ -109,6 +109,8 @@
 Поскаржитися
 [Ban user icon]
 Забанити
+[Broadcast icon]
+Трансляція
 [Protocols]
 Протоколи
 [VKontakte]
@@ -187,6 +189,8 @@
 Забанити
 [Destroy room]
 Видалити кімнату
+[Open broadcast]
+Відкрити трансляцію
 [Errors]
 Помилки
 [Notification]

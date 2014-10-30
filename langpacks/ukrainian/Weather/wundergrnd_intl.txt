@@ -548,3 +548,5 @@
 Слабкий сніг, 30% імовірність опадів
 [Ice Pellets 70% Chance Of Precipitation]
 Сніг з утворенням льоду, 70% імовірність опадів
+[Ice Pellets 30% Chance Of Precipitation]
+Сніг з утворенням льоду, 30% імовірність опадів
