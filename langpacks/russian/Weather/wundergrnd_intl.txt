@@ -548,3 +548,5 @@
 Слабый снег, 30% вероятность осадков
 [Ice Pellets 70% Chance Of Precipitation]
 Ледяная крупа, 70% вероятность осадков
+[Ice Pellets 30% Chance Of Precipitation]
+Ледяная крупа, 30% вероятность осадков
