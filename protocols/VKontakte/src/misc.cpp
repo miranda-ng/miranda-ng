@@ -78,7 +78,7 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 
 bool CVkProto::CheckMid(int guid)
 {
-	for (int i=m_sendIds.getCount()-1; i >= 0; i--)
+	for (int i = m_sendIds.getCount() - 1; i >= 0; i--)
 		if ((int)m_sendIds[i] == guid) {
 			m_sendIds.remove(i);
 			return true;
@@ -217,22 +217,25 @@ static CMStringA getAttr(char *szSrc, LPCSTR szAttrName)
 		return "";
 
 	*pEnd = 0;
+
 	char *p1 = strstr(szSrc, szAttrName);
 	if (p1 == NULL) {
-LBL_NotFound:
 		*pEnd = '>';
 		return "";
 	}
+
 	p1 += strlen(szAttrName);
-	if (p1[0] != '=' || p1[1] != '\"')
-		goto LBL_NotFound;
+	if (p1[0] != '=' || p1[1] != '\"'){
+		*pEnd = '>';
+		return "";
+	}
 
 	p1 += 2;
 	char *p2 = strchr(p1, '\"');
-	if (p2 == NULL) 
-		goto LBL_NotFound;
-
 	*pEnd = '>';
+	if (p2 == NULL) 
+		return "";
+	
 	return CMStringA(p1, (int)(p2-p1));
 }
 
@@ -262,20 +265,20 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 			CMStringA name = getAttr(pFieldBeg, "name");
 			CMStringA value = getAttr(pFieldBeg, "value");
 			if (name == "email")
-				value = ptrA( mir_utf8encodeT( ptrT( getTStringA("Login"))));
+				value = ptrA(mir_utf8encodeT(ptrT(getTStringA("Login"))));
 			else if (name == "pass")
-				value = ptrA( mir_utf8encodeT( ptrT( GetUserStoredPassword())));
+				value = ptrA(mir_utf8encodeT(ptrT(GetUserStoredPassword())));
 			else if (name == "captcha_key") {
 				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
 				if (pCaptchaBeg != NULL)
-					if (!RunCaptchaForm( getAttr(pCaptchaBeg, "src"), value))
+					if (!RunCaptchaForm(getAttr(pCaptchaBeg, "src"), value))
 						return false;
 			}
 
 			if (!result.IsEmpty())
 				result.AppendChar('&');
 			result += name + "=";
-			result += ptrA( mir_urlEncode(value));
+			result += ptrA(mir_urlEncode(value));
 		}
 	}
 
@@ -354,7 +357,7 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 {
 	debugLogA("CVkProto::GrabCookies");
 	for (int i=0; i < nhr->headersCount; i++) {
-		if ( _stricmp(nhr->headers[i].szName, "Set-cookie"))
+		if (_stricmp(nhr->headers[i].szName, "Set-cookie"))
 			continue;
 
 		CMStringA szValue = nhr->headers[i].szValue, szCookieName, szCookieVal, szDomain;
@@ -462,7 +465,7 @@ MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
 
 	if (db_event_get(hDbEvent, &dbei))
 		return (MCONTACT)-1;
-	if ((dbei.eventType != EVENTTYPE_AUTHREQUEST) || (strcmp(dbei.szModule, m_szModuleName)))
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST || strcmp(dbei.szModule, m_szModuleName))
 		return (MCONTACT)-1;
 
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
@@ -539,7 +542,7 @@ bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
 	mir_sntprintf(s2, SIZEOF(s2), _T("%s"), _s2);
 	CharLowerBuff(s1, SIZEOF(s1));
 	CharLowerBuff(s2, SIZEOF(s2));
-	return (_tcsstr(s1, s2) != NULL);
+	return _tcsstr(s1, s2) != NULL;
 }
 
 void CVkProto::ContactTypingThread(void *p)
@@ -571,7 +574,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 		return;
 
 	TCHAR ttime[64];
-	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&time));
+	_tcsftime(ttime, SIZEOF(ttime), L"%X", localtime(&time));
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
@@ -589,7 +592,7 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 	if (iRes == 1){
 		mir_snprintf(HeadMsg, 32, "[sticker:%d]", stickerid);
 		size_t retLen = strlen(HeadMsg);
-		if (retLen<strlen(Msg))
+		if (retLen < strlen(Msg))
 			retMsg = mir_strdup(&Msg[retLen]); 
 		return retMsg;
 	}
