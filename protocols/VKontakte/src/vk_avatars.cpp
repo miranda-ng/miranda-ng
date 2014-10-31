@@ -26,7 +26,7 @@ void CVkProto::OnReceiveAvatar(NETLIBHTTPREQUEST *reply, AsyncHttpRequest* pReq)
 	GetAvatarFileName((MCONTACT)pReq->pUserInfo, AI.filename, SIZEOF(AI.filename));
 	AI.format = ProtoGetBufferFormat(reply->pData);
 
-	FILE *out = _tfopen(AI.filename, _T("wb"));
+	FILE *out = _tfopen(AI.filename, L"wb");
 	if (out == NULL) {
 		ProtoBroadcastAck((MCONTACT)pReq->pUserInfo, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 		return;
@@ -75,7 +75,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
 
-	ptrA szUrl( getStringA(AI->hContact, "AvatarUrl"));
+	ptrA szUrl(getStringA(AI->hContact, "AvatarUrl"));
 	if (szUrl == NULL)
 		return GAIR_NOAVATAR;
 
@@ -85,7 +85,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	AI->format = ProtoGetAvatarFormat(AI->filename);
 
-	if ((::_taccess(AI->filename, 0) == 0) && !getBool(AI->hContact, "NeedNewAvatar", 0))
+	if (::_taccess(AI->filename, 0) == 0 && !getBool(AI->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
 
 	if ( IsOnline()) {
@@ -125,7 +125,7 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	int tPathLen = mir_sntprintf(pszDest, cbLen, L"%s\\%S", VARST(L"%miranda_avatarcache%"), m_szModuleName);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -133,8 +133,8 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen
 
 	pszDest[ tPathLen++ ] = '\\';
 
-	const TCHAR* szFileType = _T(".jpg");
-	ptrT szUrl( getTStringA(hContact, "AvatarUrl"));
+	const TCHAR* szFileType = L".jpg";
+	ptrT szUrl(getTStringA(hContact, "AvatarUrl"));
 	if (szUrl) {
 		TCHAR *p = _tcsrchr(szUrl, '.');
 		if (p != NULL)
@@ -142,12 +142,12 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen
 	}
 
 	LONG id = getDword(hContact, "ID", -1);
-	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%d%s"), id, szFileType);
+	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%d%s", id, szFileType);
 }
 
 void CVkProto::SetAvatarUrl(MCONTACT hContact, LPCTSTR ptszUrl)
 {
-	ptrT oldUrl( getTStringA(hContact, "AvatarUrl"));
+	ptrT oldUrl(getTStringA(hContact, "AvatarUrl"));
 	if (!lstrcmp(ptszUrl, oldUrl))
 		return;
 
