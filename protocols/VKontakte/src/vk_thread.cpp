@@ -940,9 +940,14 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 int CVkProto::PollServer()
 {
 	debugLogA("CVkProto::PollServer");
-	if (!IsOnline())
-		return 0;
+	if (!IsOnline()){
+		debugLogA("CVkProto::PollServer is dead (not online)");
+		m_pollingConn = NULL;
+		ShutdownSession();
+		return 0;	
+	}
 
+	debugLogA("CVkProto::PollServer (online)");
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106));
@@ -989,6 +994,7 @@ int CVkProto::PollServer()
 	m_pollingConn = reply->nlc;
 
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
+	debugLogA("CVkProto::PollServer return %d", retVal);
 	return retVal;
 }
 
