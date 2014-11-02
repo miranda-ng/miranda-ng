@@ -27,7 +27,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		SetWindowText(hwndDlg, TranslateT("Add Feed"));
 		SetDlgItemText(hwndDlg, IDC_FEEDURL, _T("http://"));
-		SetDlgItemText(hwndDlg, IDC_TAGSEDIT, _T(TAGSDEFAULT));
+		SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
 		SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
 		SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DEFAULT_UPDATE_TIME, TRUE);
 		SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);	
@@ -113,7 +113,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_RESET:
 			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Tags Mask Reset"), MB_YESNO | MB_ICONWARNING) == IDYES)
-				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, _T(TAGSDEFAULT));
+				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
 			break;
 
 		case IDC_DISCOVERY:
@@ -135,6 +135,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_DESTROY:
+		hAddFeedDlg = 0;
 		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "AddDlg");
 		break;
 	}
@@ -176,19 +177,20 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
 				SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
 				
-				DBVARIANT dbMsg = {0};
-				if (!db_get_ts(hContact, MODULE, "MsgFormat", &dbMsg)) {
-					SetDlgItemText(hwndDlg, IDC_TAGSEDIT, dbMsg.ptszVal);
-					db_free(&dbMsg);
+				TCHAR *szMsgFormat = db_get_tsa(hContact, MODULE, "MsgFormat");
+				if (szMsgFormat) {
+					SetDlgItemText(hwndDlg, IDC_TAGSEDIT, szMsgFormat);
+					mir_free(szMsgFormat);
 				}
 				if (db_get_b(hContact, MODULE, "UseAuth", 0)) {
 					CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-					DBVARIANT dbLogin = {0};
-					if (!db_get_ts(hContact, MODULE, "Login", &dbLogin)) {
-						SetDlgItemText(hwndDlg, IDC_LOGIN, dbLogin.ptszVal);
-						db_free(&dbLogin);
+
+					TCHAR *szLogin = db_get_tsa(hContact, MODULE, "Login");
+					if (szLogin) {
+						SetDlgItemText(hwndDlg, IDC_LOGIN, szLogin);
+						mir_free(szLogin);
 					}
 					ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
 					SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
@@ -283,7 +285,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_RESET:
 			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Tags Mask Reset"), MB_YESNO | MB_ICONWARNING) == IDYES)
-				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, _T(TAGSDEFAULT));
+				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
 			break;
 
 		case IDC_DISCOVERY:
@@ -305,10 +307,9 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
-		MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		Utils_SaveWindowPosition(hwndDlg, hContact, MODULE, "ChangeDlg");
-		WindowList_Remove(hChangeFeedDlgList, hwndDlg);
 		ItemInfo *SelItem = (ItemInfo *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		Utils_SaveWindowPosition(hwndDlg, SelItem->hContact, MODULE, "ChangeDlg");
+		WindowList_Remove(hChangeFeedDlgList, hwndDlg);
 		delete SelItem;
 		break;
 	}
@@ -328,28 +329,36 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			MCONTACT hContact = lParam;
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
-			DBVARIANT dbv;
-			if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, dbv.ptszVal);
-				db_free(&dbv);
+
+			TCHAR *ptszNick = db_get_tsa(hContact, MODULE, "Nick");
+			if(ptszNick) {
+				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, ptszNick);
+				mir_free(ptszNick);
 			}
-			if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
+			
+			TCHAR *ptszURL = db_get_tsa(hContact, MODULE, "URL");
+			if(ptszNick) {
+				SetDlgItemText(hwndDlg, IDC_FEEDURL, ptszURL);
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-				SetDlgItemText(hwndDlg, IDC_FEEDURL, dbv.ptszVal);
-				db_free(&dbv);
+				mir_free(ptszURL);
 			}
+
 			SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
-			if (!db_get_ts(hContact, MODULE, "MsgFormat", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, dbv.ptszVal);
-				db_free(&dbv);
+
+			TCHAR *ptszMsgFormat = db_get_tsa(hContact, MODULE, "URL");
+			if (ptszMsgFormat) {
+				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, ptszMsgFormat);
+				mir_free(ptszMsgFormat);
 			}
+
 			if (db_get_b(hContact, MODULE, "UseAuth", 0)) {
 				CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-				if (!db_get_ts(hContact, MODULE, "Login", &dbv)) {
-					SetDlgItemText(hwndDlg, IDC_LOGIN, dbv.ptszVal);
-					db_free(&dbv);
+				TCHAR *ptszLogin = db_get_tsa(hContact, MODULE, "Login");
+				if (ptszLogin) {
+					SetDlgItemText(hwndDlg, IDC_LOGIN, ptszLogin);
+					mir_free(ptszLogin);
 				}
 				ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
@@ -438,7 +447,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_RESET:
 			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Tags Mask Reset"), MB_YESNO | MB_ICONWARNING) == IDYES)
-				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, _T(TAGSDEFAULT));
+				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
 			break;
 
 		case IDC_DISCOVERY:
@@ -483,7 +492,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_ADD:
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcAddFeedOpts, (LPARAM)hwndList);
+			if(hAddFeedDlg == 0)
+				hAddFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcAddFeedOpts, (LPARAM)hwndList);
 			return FALSE;
 
 		case IDC_CHANGE:
@@ -553,7 +563,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							db_set_b(hContact, "CList", "Hidden", 1);
 						else
 							db_unset(hContact,"CList","Hidden");
-						i += 1;
+						i++;
 					}
 				}
 				break;
@@ -585,7 +595,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-INT OptInit(WPARAM wParam, LPARAM lParam)
+INT OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;

@@ -25,7 +25,7 @@ UPDATELIST *UpdateListHead = NULL;
 UPDATELIST *UpdateListTail = NULL;
 
 // main auto-update timer
-VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	// only run if it is not current updating and the auto update option is enabled
 	if (!ThreadRunning && !Miranda_Terminated()) {
@@ -40,13 +40,13 @@ VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 			}
 		}
 		if (!ThreadRunning && HaveUpdates)
-			mir_forkthread(UpdateThreadProc, (LPVOID)FALSE);
+			mir_forkthread(UpdateThreadProc, 0);
 	}
 }
 
 // temporary timer for first run
 // when this is run, it kill the old startup timer and create the permenant one above
-VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;
@@ -112,7 +112,7 @@ void DestroyUpdateList(void)
 	ReleaseMutex(hUpdateMutex);
 }
 
-void UpdateThreadProc(LPVOID AvatarCheck)
+void UpdateThreadProc(void *AvatarCheck)
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 	if (ThreadRunning) {

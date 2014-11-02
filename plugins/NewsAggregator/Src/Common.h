@@ -48,13 +48,13 @@ Boston, MA 02111-1307, USA.
 #include "resource.h"
 
 #define MODULE	"NewsAggregator"
-#define TAGSDEFAULT "#<title>#\r\n#<link>#\r\n#<description>#"
+#define TAGSDEFAULT _T("#<title>#\r\n#<link>#\r\n#<description>#")
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
 #define DEFAULT_UPDATE_TIME 60
 
 extern HINSTANCE hInst;
 extern HWND hAddFeedDlg;
-extern HANDLE hChangeFeedDlgList;
+extern HANDLE hChangeFeedDlgList, hNetlibUser;
 extern UINT_PTR timerId;
 // check if Feeds is currently updating
 extern BOOL ThreadRunning;

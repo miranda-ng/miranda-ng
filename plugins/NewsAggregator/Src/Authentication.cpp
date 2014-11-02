@@ -21,24 +21,19 @@ Boston, MA 02111-1307, USA.
 
 void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg)
 {
-	DBVARIANT dbv;
-	char *user = NULL, *pass = NULL;
-	TCHAR *tlogin = NULL, *tpass = NULL, buf[MAX_PATH] = {0};
+	TCHAR *tlogin = NULL, *tpass = NULL;
 	if (hContact && db_get_b(hContact, MODULE, "UseAuth", 0)) {
-		if (!db_get_ts(hContact, MODULE, "Login", &dbv)) {
-			tlogin = mir_tstrdup(dbv.ptszVal);
-			db_free(&dbv);
-		}
+		tlogin = db_get_tsa(hContact, MODULE, "Login");
 		tpass = db_get_tsa(hContact, MODULE, "Password");
 	}
 	else if (hwndDlg && IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
+		TCHAR buf[MAX_PATH] = {0};
 		GetDlgItemText(hwndDlg, IDC_LOGIN, buf, SIZEOF(buf));
 		tlogin = mir_tstrdup(buf);
 		GetDlgItemText(hwndDlg, IDC_PASSWORD, buf, SIZEOF(buf));
 		tpass = mir_tstrdup(buf);
 	}
-	user = mir_t2a(tlogin);
-	pass = mir_t2a(tpass);
+	char *user = mir_t2a(tlogin), *pass = mir_t2a(tpass);
 
 	char str[MAX_PATH];
 	int len = mir_snprintf(str, SIZEOF(str), "%s:%s", user, pass);
@@ -69,14 +64,17 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 			else if (SelItem.hContact) {
-				DBVARIANT dbv;
-				if (!db_get_ts(SelItem.hContact, MODULE, "Nick", &dbv)) {
-					SetDlgItemText(hwndDlg, IDC_FEEDNAME, dbv.ptszVal);
-					db_free(&dbv);
+				TCHAR *ptszNick = db_get_tsa(SelItem.hContact, MODULE, "Nick");
+				if (ptszNick) {
+					SetDlgItemText(hwndDlg, IDC_FEEDNAME, ptszNick);
+					mir_free(ptszNick);
 				}
-				else if (!db_get_ts(SelItem.hContact, MODULE, "URL", &dbv)) {
-					SetDlgItemText(hwndDlg, IDC_FEEDNAME, dbv.ptszVal);
-					db_free(&dbv);
+				else {
+					TCHAR *ptszURL = db_get_tsa(SelItem.hContact, MODULE, "URL");
+					if (ptszURL) {
+						SetDlgItemText(hwndDlg, IDC_FEEDNAME, ptszURL);
+						mir_free(ptszURL);
+					}
 				}
 			}
 		}

@@ -43,10 +43,9 @@ int OnFoldersChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-int NewsAggrInit(WPARAM wParam, LPARAM lParam)
+int NewsAggrInit(WPARAM, LPARAM)
 {
-	hNewsAggregatorFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("News Aggregator"), MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));
-	if (hNewsAggregatorFolder)
+	if (hNewsAggregatorFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("News Aggregator"), MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER)))
 		FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, _T(""));
 	else
 		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\Avatars\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
@@ -69,7 +68,7 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int NewsAggrPreShutdown(WPARAM wParam, LPARAM lParam)
+int NewsAggrPreShutdown(WPARAM, LPARAM)
 {
 	if (hAddFeedDlg)
 		SendMessage(hAddFeedDlg, WM_CLOSE, 0, 0);
@@ -143,7 +142,7 @@ static void __cdecl AckThreadProc(void *param)
 	ProtoBroadcastAck(MODULE, (MCONTACT)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
-INT_PTR NewsAggrGetInfo(WPARAM wParam, LPARAM lParam)
+INT_PTR NewsAggrGetInfo(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	mir_forkthread(AckThreadProc, (void*)ccs->hContact);
@@ -159,19 +158,20 @@ INT_PTR CheckAllFeeds(WPARAM wParam, LPARAM lParam)
 			UpdateListAdd(hContact);
 	}
 	if (!ThreadRunning)
-		mir_forkthread(UpdateThreadProc, (LPVOID)FALSE);
+		mir_forkthread(UpdateThreadProc, 0);
 
 	return 0;
 }
 
-INT_PTR AddFeed(WPARAM wParam, LPARAM lParam)
+INT_PTR AddFeed(WPARAM, LPARAM)
 {
-	hAddFeedDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcAddFeedOpts);
+	if (hAddFeedDlg == 0)
+		hAddFeedDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcAddFeedOpts);
 	ShowWindow(hAddFeedDlg, SW_SHOW);
 	return 0;
 }
 
-INT_PTR ChangeFeed(WPARAM hContact, LPARAM lParam)
+INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
 {
 	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
 	if (!hChangeFeedDlg) {
@@ -184,13 +184,13 @@ INT_PTR ChangeFeed(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ImportFeeds(WPARAM wParam, LPARAM lParam)
+INT_PTR ImportFeeds(WPARAM, LPARAM)
 {
 	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), NULL, DlgProcImportOpts);
 	return 0;
 }
 
-INT_PTR ExportFeeds(WPARAM wParam, LPARAM lParam)
+INT_PTR ExportFeeds(WPARAM, LPARAM)
 {
 	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), NULL, DlgProcExportOpts);
 	return 0;
@@ -201,32 +201,32 @@ INT_PTR CheckFeed(WPARAM hContact, LPARAM lParam)
 	if(IsMyContact(hContact))
 		UpdateListAdd(hContact);
 	if ( !ThreadRunning)
-		mir_forkthread(UpdateThreadProc, (LPVOID)FALSE);
+		mir_forkthread(UpdateThreadProc, FALSE);
 	return 0;
 }
 
 INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT *)lParam;
-	if ( !IsMyContact(pai->hContact))
+	if (!IsMyContact(pai->hContact))
 		return GAIR_NOAVATAR;
 
 	// if GAIF_FORCE is set, we are updating the feed
 	// otherwise, cached avatar is used
-	if (wParam & GAIF_FORCE && db_get_dw(pai->hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
+	if ((wParam & GAIF_FORCE) && db_get_dw(pai->hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 		UpdateListAdd(pai->hContact);
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && !ThreadRunning)
-		mir_forkthread(UpdateThreadProc, (LPVOID)TRUE);
+		mir_forkthread(UpdateThreadProc, (void *)TRUE);
 
-	DBVARIANT dbv;
-	if(db_get_ts(pai->hContact, MODULE, "ImageURL", &dbv))
+	TCHAR *ptszImageURL = db_get_tsa(pai->hContact, MODULE, "ImageURL");
+	if(ptszImageURL == NULL)
 		return GAIR_NOAVATAR;
 
-	db_free(&dbv);
+	mir_free(ptszImageURL);
 	return GAIR_WAITFOR;
 }
 
-INT_PTR NewsAggrRecvMessage(WPARAM wParam, LPARAM lParam)
+INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 {
 	CallService(MS_PROTO_RECVMSG, 0, lParam);
 	return 0;
@@ -252,14 +252,14 @@ void UpdateMenu(BOOL State)
 }
 
 // update the newsaggregator auto-update menu item when click on it
-INT_PTR EnableDisable(WPARAM wParam, LPARAM lParam)
+INT_PTR EnableDisable(WPARAM, LPARAM)
 {
 	UpdateMenu(db_get_b(NULL, MODULE, "AutoUpdate", 1));
 	NewsAggrSetStatus(db_get_b(NULL, MODULE, "AutoUpdate", 1) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
 	return 0;
 }
 
-int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
+int OnToolbarLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.name = LPGEN("Enable/disable auto update");
