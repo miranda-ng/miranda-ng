@@ -14,7 +14,6 @@ fast.
 - IRC (Internet Relay Chat)
 - Jabber
 - MRA
-- MSN
 - Omegle
 - Skype
 - Tlen
