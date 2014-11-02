@@ -131,6 +131,8 @@
 Автоматическое обновление отключено
 [Quotes]
 Котировки
+[Enable/Disable Auto Update]
+Вкл/Выкл автообновление
 [Refresh All Quotes\\Rates]
 Обновить все котировки\\курсы валют
 [Currency Converter...]
