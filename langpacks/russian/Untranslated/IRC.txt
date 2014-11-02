@@ -5,7 +5,6 @@
 [%uh, %um, %us]
 [%um, %us]
 [%us]
-[online since %s, idle %s]
 [Jerk]
 [NickServ]
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
