@@ -343,11 +343,8 @@ void CJabberDlgBookmarks::OpenBookmark()
 
 			if (item->nick && *item->nick)
 				m_proto->GroupchatJoinRoom(server, room, item->nick, item->password);
-			else {
-				TCHAR *nick = JabberNickFromJID(m_proto->m_szJabberJID);
-				m_proto->GroupchatJoinRoom(server, room, nick, item->password);
-				mir_free(nick);
-			}
+			else
+				m_proto->GroupchatJoinRoom(server, room, ptrT(JabberNickFromJID(m_proto->m_szJabberJID)), item->password);
 		}
 	}
 	else CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)item->jid);

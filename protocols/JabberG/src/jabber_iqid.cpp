@@ -141,19 +141,15 @@ void CJabberProto::OnProcessLoginRq(ThreadData* info, DWORD rq)
 			for (int j=0; j < ll.getCount(); j++) {
 				JABBER_LIST_ITEM *item = ll[j];
 
-				TCHAR room[256], *server, *p;
-				TCHAR text[128];
+				TCHAR room[256], text[128];
 				_tcsncpy_s(text, item->jid, _TRUNCATE);
 				_tcsncpy_s(room, text, _TRUNCATE);
-				p = _tcstok(room, _T("@"));
-				server = _tcstok(NULL, _T("@"));
-				if (item->nick && item->nick[0] != 0)
+				TCHAR *p = _tcstok(room, _T("@"));
+				TCHAR *server = _tcstok(NULL, _T("@"));
+				if (item->nick && item->nick[0])
 					GroupchatJoinRoom(server, p, item->nick, item->password, true);
-				else {
-					TCHAR *nick = JabberNickFromJID(m_szJabberJID);
-					GroupchatJoinRoom(server, p, nick, item->password, true);
-					mir_free(nick);
-				}
+				else
+					GroupchatJoinRoom(server, p, ptrT(JabberNickFromJID(m_szJabberJID)), item->password, true);
 			}
 		}
 
@@ -364,12 +360,10 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		szGroupDelimeter = NULL;
 	}
 
-	TCHAR *nick;
-	int i;
 	LIST<void> chatRooms(10);
 	OBJLIST<JABBER_HTTP_AVATARS> *httpavatars = new OBJLIST<JABBER_HTTP_AVATARS>(20, JABBER_HTTP_AVATARS::compare);
 
-	for (i=0; ; i++) {
+	for (int i=0; ; i++) {
 		BOOL bIsTransport=FALSE;
 
 		HXML itemNode = xmlGetChild(queryNode ,i);
@@ -379,7 +373,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		if (_tcscmp(xmlGetName(itemNode), _T("item")))
 			continue;
 
-		const TCHAR *str = xmlGetAttrValue(itemNode, _T("subscription")), *name;
+		const TCHAR *str = xmlGetAttrValue(itemNode, _T("subscription"));
 
 		JABBER_SUBSCRIPTION sub;
 		if (str == NULL) sub = SUB_NONE;
@@ -394,11 +388,8 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		if (_tcschr(jid, '@') == NULL)
 			bIsTransport = TRUE;
 
-		if ((name = xmlGetAttrValue(itemNode, _T("name"))) != NULL)
-			nick = mir_tstrdup(name);
-		else
-			nick = JabberNickFromJID(jid);
-
+		const TCHAR *name = xmlGetAttrValue(itemNode, _T("name"));
+		TCHAR *nick = (name != NULL) ? mir_tstrdup(name) : JabberNickFromJID(jid);
 		if (nick == NULL)
 			continue;
 
@@ -513,7 +504,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 	SetServerStatus(m_iDesiredStatus);
 
 	if (m_options.AutoJoinConferences)
-		for (i=0; i < chatRooms.getCount(); i++)
+		for (int i=0; i < chatRooms.getCount(); i++)
 			GroupchatJoinByHContact((MCONTACT)chatRooms[i], true);
 
 	//UI_SAFE_NOTIFY(m_pDlgJabberJoinGroupchat, WM_JABBER_CHECK_ONLINE);
