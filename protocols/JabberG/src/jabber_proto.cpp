@@ -303,23 +303,15 @@ int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 
 MCONTACT CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 {
-	MCONTACT hContact;
-	TCHAR *jid, *nick;
-
 	debugLog(_T("AddToListByJID jid = %s"), newJid);
 
-	if ((hContact=HContactFromJID(newJid)) == NULL) {
+	MCONTACT hContact = HContactFromJID(newJid);
+	if (hContact == NULL) {
 		// not already there: add
-		jid = mir_tstrdup(newJid);
-		debugLog(_T("Add new jid to contact jid = %s"), jid);
+		debugLog(_T("Add new jid to contact jid = %s"), newJid);
 		hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)m_szModuleName);
-		setTString(hContact, "jid", jid);
-		if ((nick=JabberNickFromJID(newJid)) == NULL)
-			nick = mir_tstrdup(newJid);
-
-		mir_free(nick);
-		mir_free(jid);
+		setTString(hContact, "jid", newJid);
 
 		// Note that by removing or disable the "NotOnList" will trigger
 		// the plugin to add a particular contact to the roster list.

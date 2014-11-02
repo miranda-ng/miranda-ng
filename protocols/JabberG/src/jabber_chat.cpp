@@ -123,7 +123,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	for (i=0; i < SIZEOF(sttAffiliationItems); i++) sttAffiliationItems[i].translate();
 	for (i=0; i < SIZEOF(sttRoleItems); i++) sttRoleItems[i].translate();
 
-	TCHAR *szNick = JabberNickFromJID(item->jid);
+	ptrT szNick(JabberNickFromJID(item->jid));
 
 	GCSESSION gcw = { sizeof(GCSESSION) };
 	gcw.iType = GCW_CHATROOM;
@@ -158,7 +158,6 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 				setTString(hContact, "Password", item->password);
 		}
 	}
-	mir_free(szNick);
 
 	item->bChatActive = TRUE;
 
@@ -268,7 +267,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 			szReason = TranslateT("user banned");
 	}
 
-	TCHAR *myNick = (item->nick == NULL) ? NULL : mir_tstrdup(item->nick);
+	ptrT myNick(mir_tstrdup(item->nick));
 	if (myNick == NULL)
 		myNick = JabberNickFromJID(m_szJabberJID);
 
@@ -325,8 +324,6 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 		gcd.iType = GC_EVENT_SETCONTACTSTATUS;
 		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 	}
-
-	mir_free(myNick);
 }
 
 void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)

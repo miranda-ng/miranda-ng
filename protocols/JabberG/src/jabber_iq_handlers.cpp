@@ -526,8 +526,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 	JABBER_LIST_ITEM *item;
 	MCONTACT hContact = NULL;
-	const TCHAR *jid, *str, *name;
-	TCHAR *nick;
+	const TCHAR *jid, *str;
 
 	debugLogA("<iq/> Got roster push, query has %d children", xmlGetChildCount(queryNode));
 	for (int i=0; ; i++) {
@@ -544,19 +543,16 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 		// we will not add new account when subscription=remove
 		if (!_tcscmp(str, _T("to")) || !_tcscmp(str, _T("both")) || !_tcscmp(str, _T("from")) || !_tcscmp(str, _T("none"))) {
-			if ((name = xmlGetAttrValue(itemNode, _T("name"))) != NULL)
-				nick = mir_tstrdup(name);
-			else
-				nick = JabberNickFromJID(jid);
-
+			const TCHAR *name = xmlGetAttrValue(itemNode, _T("name"));
+			ptrT nick((name != NULL) ? mir_tstrdup(name) : JabberNickFromJID(jid));
 			if (nick != NULL) {
-				if ((item=ListAdd(LIST_ROSTER, jid)) != NULL) {
+				if ((item = ListAdd(LIST_ROSTER, jid)) != NULL) {
 					replaceStrT(item->nick, nick);
 
-					HXML groupNode = xmlGetChild(itemNode , "group");
+					HXML groupNode = xmlGetChild(itemNode, "group");
 					replaceStrT(item->group, xmlGetText(groupNode));
 
-					if ((hContact=HContactFromJID(jid, 0)) == NULL) {
+					if ((hContact = HContactFromJID(jid, 0)) == NULL) {
 						// Received roster has a new JID.
 						// Add the jid (with empty resource) to Miranda contact list.
 						hContact = DBCreateContact(jid, nick, FALSE, FALSE);
@@ -564,7 +560,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					else setTString(hContact, "jid", jid);
 
 					if (name != NULL) {
-						ptrT tszNick( getTStringA(hContact, "Nick"));
+						ptrT tszNick(getTStringA(hContact, "Nick"));
 						if (tszNick != NULL) {
 							if (_tcscmp(nick, tszNick) != 0)
 								db_set_ts(hContact, "CList", "MyHandle", nick);
@@ -583,11 +579,10 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 						else db_unset(hContact, "CList", "Group");
 					}
 				}
-				mir_free(nick);
 			}
 		}
 
-		if ((item=ListGetItemPtr(LIST_ROSTER, jid)) != NULL) {
+		if ((item = ListGetItemPtr(LIST_ROSTER, jid)) != NULL) {
 			if (!_tcscmp(str, _T("both"))) item->subscription = SUB_BOTH;
 			else if (!_tcscmp(str, _T("to"))) item->subscription = SUB_TO;
 			else if (!_tcscmp(str, _T("from"))) item->subscription = SUB_FROM;
@@ -597,12 +592,12 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.
 			if (!_tcscmp(str, _T("remove"))) {
-				if ((hContact=HContactFromJID(jid)) != NULL) {
+				if ((hContact = HContactFromJID(jid)) != NULL) {
 					SetContactOfflineStatus(hContact);
 					ListRemove(LIST_ROSTER, jid);
 				}
 			}
-			else if ( isChatRoom(hContact))
+			else if (isChatRoom(hContact))
 				db_unset(hContact, "CList", "Hidden");
 			else
 				UpdateSubscriptionInfo(hContact, item);

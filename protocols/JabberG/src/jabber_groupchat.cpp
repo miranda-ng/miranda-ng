@@ -842,8 +842,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 	// entering room or a usual room presence
 	if (type == NULL || !_tcscmp(type, _T("available"))) {
-		TCHAR *room = JabberNickFromJID(from);
-		if (room == NULL)
+		if (ptrT(JabberNickFromJID(from)) == NULL)
 			return;
 
 		GcLogCreate(item);
@@ -943,8 +942,6 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid))
 					<< XQUERY(JABBER_FEAT_MUC_OWNER));
 		}
-
-		mir_free(room);
 	}
 
 	// leaving room
@@ -1163,9 +1160,7 @@ public:
 		if (m_info->reason != NULL)
 			SetDlgItemText(m_hwnd, IDC_REASON, m_info->reason);
 
-		TCHAR *myNick = JabberNickFromJID(m_proto->m_szJabberJID);
-		SetDlgItemText(m_hwnd, IDC_NICK, myNick);
-		mir_free(myNick);
+		SetDlgItemText(m_hwnd, IDC_NICK, ptrT(JabberNickFromJID(m_proto->m_szJabberJID)));
 
 		WindowSetIcon(m_hwnd, m_proto, "group");
 
@@ -1208,11 +1203,7 @@ void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *fro
 		inviteInfo->password = mir_tstrdup(password);
 		ForkThread((MyThreadFunc)&CJabberProto::GroupchatInviteAcceptThread, inviteInfo);
 	}
-	else {
-		TCHAR *myNick = JabberNickFromJID(m_szJabberJID);
-		AcceptGroupchatInvite(roomJid, myNick, password);
-		mir_free(myNick);
-	}
+	else AcceptGroupchatInvite(roomJid, ptrT(JabberNickFromJID(m_szJabberJID)), password);
 }
 
 void CJabberProto::AcceptGroupchatInvite(const TCHAR *roomJid, const TCHAR *reason, const TCHAR *password)
