@@ -137,7 +137,7 @@ Source: "Files\Plugins\Dbx_mmap.dll"; DestDir: "{app}\Plugins"; Components: dbx_
 Source: "Files\Settings\mirandaboot_default.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsDefault(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
 Source: "Files\Settings\mirandaboot_portable.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsPortable(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
 Source: "Files\Settings\autoexec_sounds.ini"; DestDir: "{app}"; Components: sounds; Flags: ignoreversion; AfterInstall: ShowPercent() 
- 
+
 ; Installer add-ons
 Source: "Installer\ISWin7.dll"; Flags: dontcopy 
 Source: "Installer\descctrl.dll"; Flags: dontcopy
