@@ -32,7 +32,7 @@ class TJabberAuth
 protected:  bool        bIsValid;
             const char* szName;
 			unsigned	complete;
-				ThreadData* info;
+				ThreadData *info;
 
 public:
             TJabberAuth(ThreadData*);

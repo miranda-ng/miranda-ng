@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 {
-	ThreadData info(this, JABBER_SESSION_NORMAL);
+	ThreadData info(this, NULL);
 
 	debugLogA("Thread started: type=file_receive server='%s' port='%d'", ft->httpHostName, ft->httpPort);
 
@@ -73,7 +73,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 
 		ft->s = NULL;
 
-		if (ft->state==FT_DONE || (ft->state==FT_RECEIVING && ft->std.currentFileSize < 0))
+		if (ft->state == FT_DONE || (ft->state == FT_RECEIVING && ft->std.currentFileSize < 0))
 			ft->complete();
 
 		debugLogA("Thread ended: type=file_receive server='%s'", ft->httpHostName);
@@ -91,16 +91,16 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 	p = buffer;
 	num = 0;
 	while (true) {
-		if (ft->state==FT_CONNECTING || ft->state==FT_INITIALIZING) {
-			for (q=p; q+1<eob && (*q!='\r' || *(q+1)!='\n'); q++);
-			if (q+1 < eob) {
-				if ((str=(char*)mir_alloc(q-p+1)) != NULL) {
+		if (ft->state == FT_CONNECTING || ft->state == FT_INITIALIZING) {
+			for (q = p; q + 1 < eob && (*q != '\r' || *(q + 1) != '\n'); q++);
+			if (q + 1 < eob) {
+				if ((str = (char*)mir_alloc(q - p + 1)) != NULL) {
 					strncpy_s(str, q - p, p, _TRUNCATE);
-					str[q-p] = '\0';
+					str[q - p] = '\0';
 					debugLogA("FT Got: %s", str);
 					if (ft->state == FT_CONNECTING) {
 						// looking for "HTTP/1.1 200 OK"
-						if (sscanf(str, "HTTP/%*d.%*d %d %*s", &code)==1 && code==200) {
+						if (sscanf(str, "HTTP/%*d.%*d %d %*s", &code) == 1 && code == 200) {
 							ft->state = FT_INITIALIZING;
 							ft->std.currentFileSize = -1;
 							debugLogA("Change to FT_INITIALIZING");
@@ -124,15 +124,16 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 							ft->std.currentFileProgress = 0;
 							debugLogA("Change to FT_RECEIVING");
 						}
-						else if ((s=strchr(str, ':')) != NULL) {
+						else if ((s = strchr(str, ':')) != NULL) {
 							*s = '\0';
 							if (!strcmp(str, "Content-Length"))
-								ft->std.totalBytes = ft->std.currentFileSize = _atoi64(s+1);
-					}	}
+								ft->std.totalBytes = ft->std.currentFileSize = _atoi64(s + 1);
+						}
+					}
 
 					mir_free(str);
 					q += 2;
-					num += (q-p);
+					num += (q - p);
 					p = q;
 				}
 				else {
@@ -146,7 +147,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 		}
 		else if (ft->state == FT_RECEIVING) {
 			int bufferSize, writeSize;
-            __int64 remainingBytes;
+			__int64 remainingBytes;
 
 			if (ft->std.currentFileSize < 0 || ft->std.currentFileProgress < ft->std.currentFileSize) {
 				bufferSize = eob - p;
@@ -199,7 +200,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 	ft->s = hConnection;
 	ppro->debugLogA("Set ft->s to %d (saving %d)", hConnection, slisten);
 
-	char* buffer = (char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE+1);
+	char* buffer = (char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE + 1);
 	if (buffer == NULL) {
 		ppro->debugLogA("Cannot allocate network buffer, file server connection closed.");
 		Netlib_CloseHandle(hConnection);
@@ -211,10 +212,10 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 
 	ppro->debugLogA("Entering recv loop for this file connection... (ft->s is hConnection)");
 	int datalen = 0;
-	while (ft->state!=FT_DONE && ft->state!=FT_ERROR) {
+	while (ft->state != FT_DONE && ft->state != FT_ERROR) {
 		int recvResult, bytesParsed;
 
-		recvResult = Netlib_Recv(hConnection, buffer+datalen, JABBER_NETWORK_BUFFER_SIZE-datalen, 0);
+		recvResult = Netlib_Recv(hConnection, buffer + datalen, JABBER_NETWORK_BUFFER_SIZE - datalen, 0);
 		if (recvResult <= 0)
 			break;
 		datalen += recvResult;
@@ -224,7 +225,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 
 		bytesParsed = ppro->FileSendParse(hConnection, ft, buffer, datalen);
 		if (bytesParsed < datalen)
-			memmove(buffer, buffer+bytesParsed, datalen-bytesParsed);
+			memmove(buffer, buffer + bytesParsed, datalen - bytesParsed);
 		datalen -= bytesParsed;
 	}
 
@@ -241,10 +242,10 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 {
 	debugLogA("Thread started: type=file_send");
 
-	ThreadData info(this, JABBER_SESSION_NORMAL);
+	ThreadData info(this, NULL);
 	ft->type = FT_OOB;
 
-	NETLIBBIND nlb = {0};
+	NETLIBBIND nlb = { 0 };
 	nlb.cbSize = sizeof(NETLIBBIND);
 	nlb.pfnNewConnectionV2 = JabberFileServerConnection;
 	nlb.pExtra = this;
@@ -271,7 +272,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	TCHAR *ptszResource = ListGetBestClientResourceNamePtr(ft->jid);
 	if (ptszResource != NULL) {
 		ft->state = FT_CONNECTING;
-		for (int i=0; i < ft->std.totalFiles && ft->state != FT_ERROR && ft->state != FT_DENIED; i++) {
+		for (int i = 0; i < ft->std.totalFiles && ft->state != FT_ERROR && ft->state != FT_DENIED; i++) {
 			ft->std.currentFileNumber = i;
 			ft->state = FT_CONNECTING;
 			if (ft->httpPath) mir_free(ft->httpPath);
@@ -283,7 +284,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			else
 				p = ft->std.ptszFiles[i];
 
-			char *pFileName = mir_urlEncode( ptrA( mir_utf8encodeT(p)));
+			char *pFileName = mir_urlEncode(ptrA(mir_utf8encodeT(p)));
 			if (pFileName != NULL) {
 				ft->szId = JabberId2string(SerialNext());
 
@@ -354,23 +355,23 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 	eob = buffer + datalen;
 	p = buffer;
 	num = 0;
-	while (ft->state==FT_CONNECTING || ft->state==FT_INITIALIZING) {
-		for (q=p; q+1<eob && (*q!='\r' || *(q+1)!='\n'); q++);
-		if (q+1 >= eob)
+	while (ft->state == FT_CONNECTING || ft->state == FT_INITIALIZING) {
+		for (q = p; q + 1 < eob && (*q != '\r' || *(q + 1) != '\n'); q++);
+		if (q + 1 >= eob)
 			break;
-		if ((str=(char*)mir_alloc(q-p+1)) == NULL) {
+		if ((str = (char*)mir_alloc(q - p + 1)) == NULL) {
 			ft->state = FT_ERROR;
 			break;
 		}
 		strncpy_s(str, q - p, p, _TRUNCATE);
-		str[q-p] = '\0';
+		str[q - p] = '\0';
 		debugLogA("FT Got: %s", str);
 		if (ft->state == FT_CONNECTING) {
 			// looking for "GET filename.ext HTTP/1.1"
 			if (!strncmp(str, "GET ", 4)) {
-				for (t=str+4; *t!='\0' && *t!=' '; t++);
+				for (t = str + 4; *t != '\0' && *t != ' '; t++);
 				*t = '\0';
-				for (t=str+4; *t!='\0' && *t=='/'; t++);
+				for (t = str + 4; *t != '\0' && *t == '/'; t++);
 				ft->httpPath = mir_a2t(t);
 				JabberHttpUrlDecode(ft->httpPath);
 				ft->state = FT_INITIALIZING;
@@ -385,7 +386,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				num += 2;
 
 				currentFile = ft->std.currentFileNumber;
-				TCHAR *t = _tcsrchr(ft->std.ptszFiles[ currentFile ], '\\');
+				TCHAR *t = _tcsrchr(ft->std.ptszFiles[currentFile], '\\');
 				if (t != NULL)
 					t++;
 				else
@@ -399,9 +400,9 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 					ft->state = FT_ERROR;
 					break;
 				}
-				debugLog(_T("Sending [%s]"), ft->std.ptszFiles[ currentFile ]);
-				_tstati64(ft->std.ptszFiles[ currentFile ], &statbuf);	// file size in statbuf.st_size
-				if ((fileId = _topen(ft->std.ptszFiles[currentFile], _O_BINARY|_O_RDONLY)) < 0) {
+				debugLog(_T("Sending [%s]"), ft->std.ptszFiles[currentFile]);
+				_tstati64(ft->std.ptszFiles[currentFile], &statbuf);	// file size in statbuf.st_size
+				if ((fileId = _topen(ft->std.ptszFiles[currentFile], _O_BINARY | _O_RDONLY)) < 0) {
 					debugLogA("File cannot be opened");
 					ft->state = FT_ERROR;
 					mir_free(ft->httpPath);
@@ -409,7 +410,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 					break;
 				}
 
-				char fileBuffer[ 2048 ];
+				char fileBuffer[2048];
 				int bytes = mir_snprintf(fileBuffer, sizeof(fileBuffer), "HTTP/1.1 200 OK\r\nContent-Length: %I64u\r\n\r\n", statbuf.st_size);
 				WsSend(s, fileBuffer, bytes, MSG_DUMPASTEXT);
 
@@ -480,7 +481,7 @@ filetransfer::~filetransfer()
 	mir_free(std.tszCurrentFile);
 
 	if (std.ptszFiles) {
-		for (int i=0; i < std.totalFiles; i++)
+		for (int i = 0; i < std.totalFiles; i++)
 			mir_free(std.ptszFiles[i]);
 		mir_free(std.ptszFiles);
 }	}
@@ -505,7 +506,7 @@ int filetransfer::create()
 	if (fileId != -1)
 		return fileId;
 
-	TCHAR filefull[ MAX_PATH ];
+	TCHAR filefull[MAX_PATH];
 	mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), std.tszWorkingDir, std.tszCurrentFile);
 	replaceStrT(std.tszCurrentFile, filefull);
 
