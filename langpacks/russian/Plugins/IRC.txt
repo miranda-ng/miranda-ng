@@ -311,6 +311,8 @@ DCC: Запрос на продолжение закачки файла от %s 
 Готово: %u комнат чата
 [(probably truncated by server)]
 (возможно, ограничено сервером)
+[online since %s, idle %s]
+в сети с %s, простаивает %s
 [Change nickname]
 Сменить ник
 [IRC error]

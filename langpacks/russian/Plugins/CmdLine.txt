@@ -93,6 +93,8 @@ Miranda была закрыта или произошла ошибка при о
 Звуки включены.
 [Sounds were disabled successfully.]
 Звуки выключены.
+[Issued a quit command.]
+Выполнена команда "Выход".
 [Issued check email command to Exchange plugin.]
 Отправлена команда проверки почты для плагина Exchange.
 [Exchange plugin is not running.]

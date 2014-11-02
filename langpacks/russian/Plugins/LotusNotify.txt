@@ -9,12 +9,16 @@
 Уведомляет о появлении новых писем в базе Lotus Notes.
 [Show error messages]
 Показывать ошибки
+[Set popup colors]
+Цвет всплывающих окон
 [Popup options]
 Всплывающие окна
 [Background]
 Фон
 [Text]
 Текст
+[Close after:]
+Закрывать после:
 [version:]
 Версия:
 [Sender]

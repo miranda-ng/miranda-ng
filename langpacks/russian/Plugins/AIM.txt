@@ -125,6 +125,8 @@ AIM Установить Instant Idle
 &Пригласить
 [Invitation reason]
 Причина приглашения
+[Chat Room Invitation Request]
+Запрос приглашения в чат
 [&Deny]
 &Запретить
 [Message]
@@ -159,6 +161,8 @@ AIM Установить Instant Idle
 Неизвестная ошибка.
 [AIM Link Protocol]
 Протокол AIM
+[%s Protocol]
+Протокол %s
 [%s server connection]
 %s подключение к серверу
 [%s Client-to-client connection]

@@ -275,10 +275,26 @@
 Открывает страницу поддержки (вики)
 [System]
 Система
+[Ignore all]
+Игнорировать все
+[Ignore messages]
+Сообщения
+[Ignore URLs]
+Адреса (URL)
+[Ignore files]
+Передачи файлов
+[Ignore requests]
+Игнорир. запросы
+[Ignore Contact]
+Игнорировать контакт
+[Station name]
+Имя станции
 [All protocols]
 Все протоколы
 [Protocol]
 Протокол
+[Check for updates]
+Проверить обновления
 [YAPP or Popup]
 YAPP или Popup
 [Warning]
@@ -287,10 +303,16 @@ YAPP или Popup
 Уведомление
 [Error]
 Ошибка
+[Popup window]
+Всплывающее окно
 [YAPP only]
 Только YAPP
+[Reserved]
+Запасное
 [Avatar service (AVS.dll)]
 Служба аватаров (AVS.dll)
+[Filename]
+Имя файла
 [int 0, if unsuccessful]
 целочисленный 0 в случае неудачи
 [Structure editor]
