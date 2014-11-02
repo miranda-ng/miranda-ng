@@ -62,3 +62,4 @@
 [Ice Pellets 70% Chance Of Precipitation]
 [Ice Pellets 30% Chance Of Precipitation]
 [Ice Pellets 40% Chance Of Precipitation]
+[Ice Pellets 80% Chance Of Precipitation]
