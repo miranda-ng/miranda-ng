@@ -243,7 +243,7 @@ void CSkypeProto::OnInitStatusMenu()
 	else 
 	{
 		if (m_hMenuRoot)
-			::CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
+			::CallService(MO_REMOVEMENUITEM, (WPARAM)m_hMenuRoot, 0);
 		m_hMenuRoot = NULL;
 	}
 
