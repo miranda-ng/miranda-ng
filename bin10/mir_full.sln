@@ -33,6 +33,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\IcqOsca
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jabber", "..\protocols\JabberG\jabber_10.vcxproj", "{33276462-8313-4192-8306-13717ECCA60A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSN", "..\protocols\MSN\msn_10.vcxproj", "{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_nicer", "..\plugins\Clist_nicer\clist_nicer_10.vcxproj", "{3C42510C-A29E-4A53-899C-203BFA874E0B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cln_skinedit", "..\plugins\Clist_nicer\skineditor\skinedit_10.vcxproj", "{987F026D-EB1F-4013-ADA8-2406ACCDA526}"
@@ -542,6 +544,14 @@ Global
 		{33276462-8313-4192-8306-13717ECCA60A}.Release|Win32.Build.0 = Release|Win32
 		{33276462-8313-4192-8306-13717ECCA60A}.Release|x64.ActiveCfg = Release|x64
 		{33276462-8313-4192-8306-13717ECCA60A}.Release|x64.Build.0 = Release|x64
+		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Debug|Win32.Build.0 = Debug|Win32
+		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Debug|x64.ActiveCfg = Debug|x64
+		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Debug|x64.Build.0 = Debug|x64
+		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Release|Win32.ActiveCfg = Release|Win32
+		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Release|Win32.Build.0 = Release|Win32
+		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Release|x64.ActiveCfg = Release|x64
+		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Release|x64.Build.0 = Release|x64
 		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|Win32.Build.0 = Debug|Win32
 		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|x64.ActiveCfg = Debug|x64
