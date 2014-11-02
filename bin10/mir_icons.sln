@@ -28,8 +28,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Jabber", "..\protocol
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MRA", "..\protocols\MRA\proto_mra\Proto_MRA_10.vcxproj", "{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MSN", "..\protocols\MSN\proto_msn\Proto_MSN_10.vcxproj", "{7BC6C3E7-2B17-4718-A82E-084798710E14}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Gadu-Gadu\proto_gg\Proto_GG_10.vcxproj", "{33912E32-3B68-4E2C-82AE-64C06EE987A7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Twitter", "..\protocols\Twitter\proto_twitter\Proto_Twitter_10.vcxproj", "{A82C682E-8596-4DCA-98A6-50436194714B}"
@@ -194,14 +192,6 @@ Global
 		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|Win32.Build.0 = Release|Win32
 		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|x64.ActiveCfg = Release|x64
 		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|x64.Build.0 = Release|x64
-		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Debug|Win32.ActiveCfg = Debug|Win32
-		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Debug|Win32.Build.0 = Debug|Win32
-		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Debug|x64.ActiveCfg = Debug|x64
-		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Debug|x64.Build.0 = Debug|x64
-		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Release|Win32.ActiveCfg = Release|Win32
-		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Release|Win32.Build.0 = Release|Win32
-		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Release|x64.ActiveCfg = Release|x64
-		{7BC6C3E7-2B17-4718-A82E-084798710E14}.Release|x64.Build.0 = Release|x64
 		{33912E32-3B68-4E2C-82AE-64C06EE987A7}.Debug|Win32.ActiveCfg = Debug|Win32
 		{33912E32-3B68-4E2C-82AE-64C06EE987A7}.Debug|Win32.Build.0 = Debug|Win32
 		{33912E32-3B68-4E2C-82AE-64C06EE987A7}.Debug|x64.ActiveCfg = Debug|x64
