@@ -1,5 +1,4 @@
 ﻿[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
-[Chat Room Invitation Request]
 [Invalid Screen Name or password.]
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 [Invalid SNAC header.]
@@ -56,7 +55,6 @@
 [Email Host Fail.]
 [DNS Fail.]
 [Failed to open file: %s : %s]
-[%s Protocol]
 [Open mail account?]
 [Contact tried to open an audio/video conference (not currently supported)]
 [Item you want to delete not found in list.]

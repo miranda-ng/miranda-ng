@@ -12,7 +12,6 @@
 [Contact list is currently hidden.]
 [Contact list was shown successfully.]
 [Contact list was hidden successfully.]
-[Issued a quit command.]
 [Issued a quit and wait command.]
 [CallService call successful: service '%s' returned %p.]
 [Message to '%s' was marked as sent but the account seems to be offline]
