@@ -900,15 +900,15 @@ begin
   if CurPageID = wpSelectComponents then
   begin
     if ActiveLanguage = 'en' then
-      WizardForm.ComponentsList.Checked[26]:= True
+      WizardForm.ComponentsList.Checked[25]:= True
     else if ActiveLanguage = 'ru' then
-      WizardForm.ComponentsList.Checked[22]:= True
+      WizardForm.ComponentsList.Checked[21]:= True
     else if ActiveLanguage = 'cz' then
-      WizardForm.ComponentsList.Checked[23]:= True
+      WizardForm.ComponentsList.Checked[22]:= True
     else if ActiveLanguage = 'pl' then
-      WizardForm.ComponentsList.Checked[24]:= True
+      WizardForm.ComponentsList.Checked[23]:= True
     else if ActiveLanguage = 'de' then
-      WizardForm.ComponentsList.Checked[25]:= True;
+      WizardForm.ComponentsList.Checked[24]:= True;
   end;
 end;
 
