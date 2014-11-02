@@ -181,8 +181,6 @@ CJabberProto::~CJabberProto()
 
 	mir_free(m_transportProtoTableStartIndex);
 
-	mir_free(m_szStreamId);
-
 	for (int i=0; i < m_lstTransports.getCount(); i++)
 		mir_free(m_lstTransports[i]);
 
@@ -731,7 +729,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 		return 0;
 
 	if (_tcschr(szJid, '@') == NULL) {
-		TCHAR *szServer = mir_a2t(m_ThreadInfo->server);
+		TCHAR *szServer = mir_a2t(m_ThreadInfo->conn.server);
 		const TCHAR *p = _tcsstr(szJid, szServer);
 		if (p == NULL) {
 			bool numericjid = true;
@@ -902,7 +900,6 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const TCHAR *szDescript
 	if (jid == NULL)
 		return 0;
 
-	int i, j;
 	struct _stati64 statbuf;
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item == NULL)
@@ -946,6 +943,8 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const TCHAR *szDescript
 
 	ft->std.ptszFiles = (TCHAR**)mir_calloc(sizeof(TCHAR*)* ft->std.totalFiles);
 	ft->fileSize = (unsigned __int64*)mir_calloc(sizeof(unsigned __int64)* ft->std.totalFiles);
+
+	int i, j;
 	for (i = j = 0; i < ft->std.totalFiles; i++) {
 		if (_tstati64(ppszFiles[i], &statbuf))
 			debugLog(_T("'%s' is an invalid filename"), ppszFiles[i]);
@@ -1015,8 +1014,8 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int flags, const char* pszS
 	int  isEncrypted, id = SerialNext();
 
 	if (!strncmp(pszSrc, PGP_PROLOG, strlen(PGP_PROLOG))) {
-		const char* szEnd = strstr(pszSrc, PGP_EPILOG);
-		char* tempstring = (char*)alloca(strlen(pszSrc) + 1);
+		const char *szEnd = strstr(pszSrc, PGP_EPILOG);
+		char *tempstring = (char*)alloca(strlen(pszSrc) + 1);
 		size_t nStrippedLength = strlen(pszSrc) - strlen(PGP_PROLOG) - (szEnd ? strlen(szEnd) : 0);
 		strncpy_s(tempstring, nStrippedLength, pszSrc + strlen(PGP_PROLOG), _TRUNCATE);
 		tempstring[nStrippedLength] = 0;
@@ -1071,7 +1070,8 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int flags, const char* pszS
 		// if message sent to groupchat
 		!lstrcmp(msgType, _T("groupchat")) ||
 		// if message delivery check disabled in settings
-		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE)) {
+		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE))
+	{
 		if (!lstrcmp(msgType, _T("groupchat")))
 			xmlAddAttr(m, _T("to"), szClientJid);
 		else {
@@ -1172,9 +1172,8 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 	}
 	else if (!m_ThreadInfo && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 		m_iStatus = ID_STATUS_CONNECTING;
-		ThreadData* thread = new ThreadData(this, JABBER_SESSION_NORMAL);
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		thread->hThread = ForkThreadEx((MyThreadFunc)&CJabberProto::ServerThread, thread, 0);
+		ForkThread((MyThreadFunc)&CJabberProto::ServerThread, NULL);
 
 		RebuildInfoFrame();
 	}

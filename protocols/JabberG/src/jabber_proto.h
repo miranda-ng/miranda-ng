@@ -160,7 +160,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HANDLE m_hThreadHandle;
 
 	TCHAR *m_szJabberJID;
-	char  *m_szStreamId;
 	BOOL   m_bJabberOnline; // XMPP connection initialized and we can send XMPP packets
 	int    m_nJabberSearchID;
 	time_t m_tmJabberLoggedInTime;
@@ -333,8 +332,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_captcha.cpp ------------------------------------------------------------
 
-	void   sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid, LPCTSTR sid);
-	void   sendCaptchaError(ThreadData* info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge);
+	void   sendCaptchaResult(TCHAR* buf, ThreadData *info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid, LPCTSTR sid);
+	void   sendCaptchaError(ThreadData *info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge);
 
 	//---- jabber_chat.cpp ---------------------------------------------------------------
 
@@ -491,7 +490,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIqResultSetSearch(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultSetVcard(HXML iqNode, CJabberIqInfo *pInfo);
 	void   OnIqResultVersion(HXML node, CJabberIqInfo *pInfo);
-	void   OnProcessLoginRq(ThreadData* info, DWORD rq);
+	void   OnProcessLoginRq(ThreadData *info, DWORD rq);
 	void   OnLoggedIn(void);
 
 	//---- jabber_iq_handlers.cpp -------------------------------------------------------
@@ -719,7 +718,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	AUTHMECHS m_AuthMechs;
 
-	void   __cdecl ServerThread(ThreadData* info);
+	void   __cdecl ServerThread(JABBER_CONN_DATA *info);
 
 	void   OnProcessFailure(HXML node, ThreadData *info);
 	void   OnProcessError(HXML node, ThreadData *info);
@@ -738,17 +737,17 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   UpdateJidDbSettings(const TCHAR *jid);
 	MCONTACT CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM* chatItem);
 
-	void   PerformRegistration(ThreadData* info);
-	void   PerformIqAuth(ThreadData* info);
-	void   PerformAuthentication(ThreadData* info);
-	void   OnProcessFeatures(HXML node, ThreadData* info);
+	void   PerformRegistration(ThreadData *info);
+	void   PerformIqAuth(ThreadData *info);
+	void   PerformAuthentication(ThreadData *info);
+	void   OnProcessFeatures(HXML node, ThreadData *info);
 
 	void   xmlStreamInitialize(char *which);
-	void   xmlStreamInitializeNow(ThreadData* info);
+	void   xmlStreamInitializeNow(ThreadData *info);
 
 	BOOL   OnProcessJingle(HXML node);
 	void   OnProcessIq(HXML node);
-	void   OnProcessRegIq(HXML node, ThreadData* info);
+	void   OnProcessRegIq(HXML node, ThreadData *info);
 	void   OnPingReply(HXML node, CJabberIqInfo *pInfo);
 
 	bool   ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info);

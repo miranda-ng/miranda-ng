@@ -228,7 +228,7 @@ class CJabberDlgRegister: public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 public:
-	CJabberDlgRegister(CJabberProto *proto, HWND hwndParent, ThreadData *regInfo):
+	CJabberDlgRegister(CJabberProto *proto, HWND hwndParent, JABBER_CONN_DATA *regInfo):
 		CJabberDlgBase(proto, IDD_OPT_REGISTER, hwndParent, false),
 		m_bProcessStarted(false),
 		m_regInfo(regInfo),
@@ -270,7 +270,7 @@ protected:
 
 private:
 	bool m_bProcessStarted;
-	ThreadData *m_regInfo;
+	JABBER_CONN_DATA *m_regInfo;
 
 	CCtrlButton m_btnOk;
 
@@ -283,15 +283,8 @@ private:
 
 		ShowWindow(GetDlgItem(m_hwnd, IDC_PROGRESS_REG), SW_SHOW);
 
-		ThreadData *thread = new ThreadData(m_regInfo->proto, JABBER_SESSION_REGISTER);
-		_tcsncpy_s(thread->username, m_regInfo->username, _TRUNCATE);
-		_tcsncpy_s(thread->password, m_regInfo->password, _TRUNCATE);
-		strncpy_s(thread->server, m_regInfo->server, _TRUNCATE);
-		strncpy_s(thread->manualHost, m_regInfo->manualHost, _TRUNCATE);
-		thread->port = m_regInfo->port;
-		thread->useSSL = m_regInfo->useSSL;
-		thread->reg_hwndDlg = m_hwnd;
-		m_proto->ForkThread((CJabberProto::MyThreadFunc)&CJabberProto::ServerThread, thread);
+		m_regInfo->reg_hwndDlg = m_hwnd;
+		m_proto->ForkThread((CJabberProto::MyThreadFunc)&CJabberProto::ServerThread, m_regInfo);
 
 		m_btnOk.SetText(TranslateT("Cancel"));
 		m_bProcessStarted = true;
@@ -578,7 +571,7 @@ private:
 		pshn.hdr.hwndFrom = m_hwnd;
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
-		ThreadData regInfo(m_proto, JABBER_SESSION_NORMAL);
+		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetText(regInfo.username, SIZEOF(regInfo.username));
 		m_txtPassword.GetText(regInfo.password, SIZEOF(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, SIZEOF(regInfo.server));
@@ -591,7 +584,7 @@ private:
 			regInfo.manualHost[0] = '\0';
 		}
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port>0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0])) {
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0])) {
 			CJabberDlgRegister dlg(m_proto, m_hwnd, &regInfo);
 			dlg.DoModal();
 		}
@@ -697,7 +690,7 @@ private:
 
 	void CheckRegistration()
 	{
-		ThreadData regInfo(m_proto, JABBER_SESSION_NORMAL);
+		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetText(regInfo.username, SIZEOF(regInfo.username));
 		m_txtPassword.GetText(regInfo.password, SIZEOF(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, SIZEOF(regInfo.server));
@@ -710,7 +703,7 @@ private:
 			regInfo.manualHost[0] = '\0';
 		}
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port>0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
 			EnableWindow(GetDlgItem(m_hwnd, IDC_BUTTON_REGISTER), TRUE);
 		else
 			EnableWindow(GetDlgItem(m_hwnd, IDC_BUTTON_REGISTER), FALSE);
@@ -1866,7 +1859,7 @@ private:
 		pshn.hdr.hwndFrom = m_hwnd;
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
-		ThreadData regInfo(m_proto, JABBER_SESSION_NORMAL);
+		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetText(regInfo.username, SIZEOF(regInfo.username));
 		m_txtPassword.GetText(regInfo.password, SIZEOF(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, SIZEOF(regInfo.server));
@@ -1949,11 +1942,11 @@ void CJabberDlgAccMgrUI::CheckRegistration()
 		return;
 	}
 
-	ThreadData regInfo(m_proto, JABBER_SESSION_NORMAL);
+	JABBER_CONN_DATA regInfo;
 	m_txtUsername.GetText(regInfo.username, SIZEOF(regInfo.username));
 	m_txtPassword.GetText(regInfo.password, SIZEOF(regInfo.password));
 	m_cbServer.GetTextA(regInfo.server, SIZEOF(regInfo.server));
-	regInfo.port = (WORD)m_txtPort.GetInt();
+	regInfo.port = m_txtPort.GetInt();
 	if (m_chkManualHost.GetState() == BST_CHECKED)
 		m_txtManualHost.GetTextA(regInfo.manualHost, SIZEOF(regInfo.manualHost));
 	else

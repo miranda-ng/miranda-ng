@@ -110,7 +110,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
+bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 {
 	HXML x = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 	if (x == NULL)
@@ -166,7 +166,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
 	return true;
 }
 
-void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
+void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData *info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
 {
 	XmlNodeIq iq(_T("set"), SerialNext());
 	HXML query= iq <<XATTR(_T("to"), from) << XCHILD(_T("captcha")) << XATTR(_T("xmlns"), _T("urn:xmpp:captcha")) << XCHILD (_T("x")) << XATTR(_T("xmlns"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("submit"));
@@ -178,7 +178,7 @@ void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from,
 	info -> send (iq);
 }
 
-void CJabberProto::sendCaptchaError(ThreadData* info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge)
+void CJabberProto::sendCaptchaError(ThreadData *info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge)
 {
 	XmlNode message(_T("message"));
 	HXML query= message << XATTR(_T("type"), _T("error")) << XATTR(_T("to"), from) << XATTR(_T("id"), challenge) << XATTR(_T("from"), to)

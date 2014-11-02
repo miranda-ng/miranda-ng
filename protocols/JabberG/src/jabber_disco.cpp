@@ -416,7 +416,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 	}	}
 	else if (!lstrcmp(szJid, _T(SD_FAKEJID_CONFERENCES))) {
 		sttBrowseMode = SD_BROWSE_CONFERENCES;
-		TCHAR *szServerJid = mir_a2t(m_ThreadInfo->server);
+		TCHAR *szServerJid = mir_a2t(m_ThreadInfo->conn.server);
 		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
 		pInfo->m_pUserData = (void*)JABBER_FEAT_MUC;
 		pInfo->SetTimeout(30000);
@@ -427,7 +427,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 	}
 	else if (!lstrcmp(szJid, _T(SD_FAKEJID_AGENTS))) {
 		sttBrowseMode = SD_BROWSE_AGENTS;
-		TCHAR *szServerJid = mir_a2t(m_ThreadInfo->server);
+		TCHAR *szServerJid = mir_a2t(m_ThreadInfo->conn.server);
 		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
 		pInfo->m_pUserData = (void*)_T("jabber:iq:gateway");
 		pInfo->SetTimeout(30000);
@@ -639,7 +639,7 @@ void CJabberDlgDiscovery::OnInitDialog()
 		m_focusEditAfterBrowse = false;
 	}
 	else {
-		SetDlgItemTextA(m_hwnd, IDC_COMBO_JID, m_proto->m_ThreadInfo->server);
+		SetDlgItemTextA(m_hwnd, IDC_COMBO_JID, m_proto->m_ThreadInfo->conn.server);
 		SetDlgItemText(m_hwnd, IDC_COMBO_NODE, _T(""));
 		m_focusEditAfterBrowse = true;
 	}
@@ -790,7 +790,7 @@ void CJabberDlgDiscovery::btnViewAsList_OnClick(CCtrlButton *)
 
 void CJabberDlgDiscovery::btnGoHome_OnClick(CCtrlButton *)
 {
-	SetDlgItemTextA(m_hwnd, IDC_COMBO_JID, m_proto->m_ThreadInfo->server);
+	SetDlgItemTextA(m_hwnd, IDC_COMBO_JID, m_proto->m_ThreadInfo->conn.server);
 	SetDlgItemText(m_hwnd, IDC_COMBO_NODE, _T(""));
 	PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
 }

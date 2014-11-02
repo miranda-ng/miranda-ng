@@ -117,7 +117,7 @@ void CJabberProto::OnIqResultNotes(HXML iqNode, CJabberIqInfo *pInfo)
 	}
 }
 
-void CJabberProto::OnProcessLoginRq(ThreadData* info, DWORD rq)
+void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 {
 	if (info == NULL)
 		return;
@@ -180,23 +180,23 @@ void CJabberProto::OnLoggedIn()
 			<< XCHILDNS(_T("storage"), JABBER_FEAT_MIRANDA_NOTES));
 	
 	m_ThreadInfo->send(
-		XmlNodeIq( AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
+		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
 			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS(_T("storage"), _T("storage:bookmarks")));
 
 	m_bPepSupported = false;
 	m_ThreadInfo->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;
 	
 	m_ThreadInfo->send( 
-		XmlNodeIq( AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, _A2T(m_ThreadInfo->server)))
+		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, _A2T(m_ThreadInfo->conn.server)))
 			<< XQUERY(JABBER_FEAT_DISCO_INFO));
 
 	QueryPrivacyLists(m_ThreadInfo);
 
-	ptrA szServerName( getStringA("LastLoggedServer"));
-	if (szServerName == NULL || strcmp(m_ThreadInfo->server, szServerName))
+	ptrA szServerName(getStringA("LastLoggedServer"));
+	if (szServerName == NULL || strcmp(m_ThreadInfo->conn.server, szServerName))
 		SendGetVcard(m_szJabberJID);
 
-	setString("LastLoggedServer", m_ThreadInfo->server);
+	setString("LastLoggedServer", m_ThreadInfo->conn.server);
 	m_pepServices.ResetPublishAll();
 }
 
@@ -208,25 +208,25 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo *pInfo)
 
 	HXML queryNode;
 	const TCHAR *type;
-	if ((type=xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
-	if ((queryNode=xmlGetChild(iqNode , "query")) == NULL) return;
+	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((queryNode = xmlGetChild(iqNode, "query")) == NULL) return;
 
 	if (!lstrcmp(type, _T("result"))) {
-		XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResultSetAuth, JABBER_IQ_TYPE_SET));
+		XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultSetAuth, JABBER_IQ_TYPE_SET));
 		HXML query = iq << XQUERY(_T("jabber:iq:auth"));
-		query << XCHILD(_T("username"), m_ThreadInfo->username);
-		if (xmlGetChild(queryNode, "digest") != NULL && m_szStreamId) {
-			char* str = mir_utf8encodeT(m_ThreadInfo->password);
+		query << XCHILD(_T("username"), m_ThreadInfo->conn.username);
+		if (xmlGetChild(queryNode, "digest") != NULL && m_ThreadInfo->szStreamId) {
+			char* str = mir_utf8encodeT(m_ThreadInfo->conn.password);
 			char text[200];
-			mir_snprintf(text, SIZEOF(text), "%s%s", m_szStreamId, str);
+			mir_snprintf(text, SIZEOF(text), "%s%s", m_ThreadInfo->szStreamId, str);
 			mir_free(str);
-         if ((str=JabberSha1(text)) != NULL) {
+			if ((str = JabberSha1(text)) != NULL) {
 				query << XCHILD(_T("digest"), _A2T(str));
 				mir_free(str);
 			}
 		}
 		else if (xmlGetChild(queryNode, "password") != NULL)
-			query << XCHILD(_T("password"), m_ThreadInfo->password);
+			query << XCHILD(_T("password"), m_ThreadInfo->conn.password);
 		else {
 			debugLogA("No known authentication mechanism accepted by the server.");
 			m_ThreadInfo->send("</stream:stream>");
@@ -239,10 +239,10 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo *pInfo)
 		m_ThreadInfo->send(iq);
 	}
 	else if (!lstrcmp(type, _T("error"))) {
- 		m_ThreadInfo->send("</stream:stream>");
+		m_ThreadInfo->send("</stream:stream>");
 
 		TCHAR text[128];
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s."), m_ThreadInfo->username);
+		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s."), m_ThreadInfo->conn.username);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
@@ -255,12 +255,12 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode, CJabberIqInfo *pInfo)
 	// RECVED: authentication result
 	// ACTION: if successfully logged in, continue by requesting roster list and set my initial status
 	debugLogA("<iq/> iqIdSetAuth");
-	if ((type=xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
+	if ((type = xmlGetAttrValue(iqNode, _T("type"))) == NULL) return;
 
 	if (!lstrcmp(type, _T("result"))) {
-		ptrT tszNick( getTStringA("Nick"));
+		ptrT tszNick(getTStringA("Nick"));
 		if (tszNick == NULL)
-			setTString("Nick", m_ThreadInfo->username);
+			setTString("Nick", m_ThreadInfo->conn.username);
 
 		OnLoggedIn();
 	}
@@ -269,7 +269,7 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode, CJabberIqInfo *pInfo)
 		TCHAR text[128];
 
 		m_ThreadInfo->send("</stream:stream>");
-		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s."), m_ThreadInfo->username);
+		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s."), m_ThreadInfo->conn.username);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
@@ -1262,7 +1262,7 @@ void CJabberProto::OnIqResultSetPassword(HXML iqNode, CJabberIqInfo *pInfo)
 		return;
 
 	if (!lstrcmp(type, _T("result"))) {
-		_tcsncpy_s(m_ThreadInfo->password, m_ThreadInfo->tszNewPassword, _TRUNCATE);
+		_tcsncpy_s(m_ThreadInfo->conn.password, m_ThreadInfo->tszNewPassword, _TRUNCATE);
 		MessageBox(NULL, TranslateT("Password is successfully changed. Don't forget to update your password in the Jabber protocol option."), TranslateT("Change Password"), MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND);
 	}
 	else if (!lstrcmp(type, _T("error")))

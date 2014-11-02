@@ -315,12 +315,6 @@ struct CJabberHttpAuthParams
  *******************************************************************/
 typedef HANDLE JABBER_SOCKET;
 
-enum JABBER_SESSION_TYPE
-{
-	JABBER_SESSION_NORMAL,
-	JABBER_SESSION_REGISTER
-};
-
 #define CAPS_BOOKMARK         0x0001
 #define CAPS_BOOKMARKS_LOADED 0x8000
 
@@ -333,19 +327,30 @@ enum JABBER_SESSION_TYPE
 #define JABBER_LOGIN_SERVERINFO			0x0004
 #define JABBER_LOGIN_BOOKMARKS_AJ		0x0008
 
+struct JABBER_CONN_DATA : public MZeroedObject
+{
+	TCHAR username[512];
+	TCHAR password[512];
+	char  server[128];
+	char  manualHost[128];
+	int   port;
+	BOOL  useSSL;
+
+	HWND  reg_hwndDlg;
+};
+
 struct ThreadData
 {
-	ThreadData(CJabberProto* _ppro, JABBER_SESSION_TYPE parType);
+	ThreadData(CJabberProto *_pro, JABBER_CONN_DATA *_connData);
 	~ThreadData();
 
-	HANDLE hThread;
-	JABBER_SESSION_TYPE type;
+	ptrA     szStreamId;
+	char*    buffer;
 
 	// network support
 	JABBER_SOCKET s;
-	BOOL  useSSL;
 	HANDLE iomutex; // protects i/o operations
-	CJabberProto* proto;
+	CJabberProto *proto;
 
 	// XEP-0138 (Compression support)
 	BOOL     useZlib;
@@ -366,22 +371,18 @@ struct ThreadData
 	MCONTACT resolveContact;
 
 	// features & registration
-	HWND     reg_hwndDlg;
-	BOOL     reg_done, bIsSessionAvailable;
-	BOOL     bBookmarksLoaded;
+	bool     bIsReg;
+	bool     reg_done, bIsSessionAvailable;
+	bool     bBookmarksLoaded;
 	DWORD	   dwLoginRqs;
 
 	// connection & login data
-	TCHAR    username[512];
-	TCHAR    password[512];
-	char     server[128];
-	char     manualHost[128];
+	JABBER_CONN_DATA conn;
 	TCHAR    resource[128];
 	TCHAR    fullJID[JABBER_MAX_JID_LEN];
-	WORD     port;
 	ptrT     tszNewPassword;
 
-	class TJabberAuth* auth;
+	class TJabberAuth *auth;
 	JabberCapsBits jabberServerCaps;
 
 	void  close(void);
@@ -401,16 +402,6 @@ struct JABBER_MODEMSGS
 	TCHAR *szNa;
 	TCHAR *szDnd;
 	TCHAR *szFreechat;
-};
-
-struct JABBER_REG_ACCOUNT
-{
-	TCHAR username[512];
-	TCHAR password[512];
-	char  server[128];
-	char  manualHost[128];
-	WORD  port;
-	BOOL  useSSL;
 };
 
 typedef enum { FT_SI, FT_OOB, FT_BYTESTREAM, FT_IBB } JABBER_FT_TYPE;

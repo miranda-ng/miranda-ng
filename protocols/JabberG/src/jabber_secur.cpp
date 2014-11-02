@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // ntlm auth - LanServer based authorization
 
-TNtlmAuth::TNtlmAuth(ThreadData* info, const char* mechanism, const TCHAR *hostname) :
+TNtlmAuth::TNtlmAuth(ThreadData *info, const char* mechanism, const TCHAR *hostname) :
 	TJabberAuth(info)
 {
 	szName = mechanism;
@@ -84,7 +84,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 		mir_free(szFullUserNameU);
 	}
 	else {
-		const char* connectHost = info->manualHost[0] ? info->manualHost : info->server;
+		const char* connectHost = info->conn.manualHost[0] ? info->conn.manualHost : info->conn.server;
 
 		unsigned long ip = inet_addr(connectHost);
 		PHOSTENT host = (ip == INADDR_NONE) ? NULL : gethostbyaddr((char*)&ip, 4, AF_INET);
@@ -107,8 +107,8 @@ char* TNtlmAuth::getInitialRequest()
 
 	// This generates login method advertisement packet
 	char* result;
-	if (info->password[0] != 0)
-		result = Netlib_NtlmCreateResponse2(hProvider, "", info->username, info->password, &complete);
+	if (info->conn.password[0] != 0)
+		result = Netlib_NtlmCreateResponse2(hProvider, "", info->conn.username, info->conn.password, &complete);
 	else
 		result = Netlib_NtlmCreateResponse2(hProvider, "", NULL, NULL, &complete);
 
@@ -121,8 +121,8 @@ char* TNtlmAuth::getChallenge(const TCHAR *challenge)
 		return NULL;
 
 	char *text = (!lstrcmp(challenge, _T("="))) ? mir_strdup("") : mir_t2a(challenge), *result;
-	if (info->password[0] != 0)
-		result = Netlib_NtlmCreateResponse2(hProvider, text, info->username, info->password, &complete);
+	if (info->conn.password[0] != 0)
+		result = Netlib_NtlmCreateResponse2(hProvider, text, info->conn.username, info->conn.password, &complete);
 	else
 		result = Netlib_NtlmCreateResponse2(hProvider, text, NULL, NULL, &complete);
 
@@ -133,7 +133,7 @@ char* TNtlmAuth::getChallenge(const TCHAR *challenge)
 /////////////////////////////////////////////////////////////////////////////////////////
 // md5 auth - digest-based authorization
 
-TMD5Auth::TMD5Auth(ThreadData* info) :
+TMD5Auth::TMD5Auth(ThreadData *info) :
 	TJabberAuth(info),
 	iCallCount(0)
 {
@@ -164,9 +164,9 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	CallService(MS_UTILS_GETRANDOM, sizeof(digest), (LPARAM)digest);
 	mir_snprintf(cnonce, SIZEOF(cnonce), "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-	ptrA uname( mir_utf8encodeT(info->username)),
-	     passw( mir_utf8encodeT(info->password)),
-	     serv( mir_utf8encode(info->server));
+	ptrA uname(mir_utf8encodeT(info->conn.username)),
+		passw(mir_utf8encodeT(info->conn.password)),
+		serv(mir_utf8encode(info->conn.server));
 
 	mir_md5_init(&ctx);
 	mir_md5_append(&ctx, (BYTE*)(char*)uname, (int)strlen(uname));
@@ -215,7 +215,7 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 /////////////////////////////////////////////////////////////////////////////////////////
 // SCRAM-SHA-1 authorization
 
-TScramAuth::TScramAuth(ThreadData* info) :
+TScramAuth::TScramAuth(ThreadData *info) :
 	TJabberAuth(info)
 {
 	szName = "SCRAM-SHA-1";
@@ -269,7 +269,7 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 	if (snonce == NULL || salt == NULL || ind == -1)
 		return NULL;
 
-	ptrA passw(mir_utf8encodeT(info->password));
+	ptrA passw(mir_utf8encodeT(info->conn.password));
 	size_t passwLen = strlen(passw);
 
 	BYTE saltedPassw[MIR_SHA1_HASH_SIZE];
@@ -311,7 +311,7 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 
 char* TScramAuth::getInitialRequest()
 {
-	ptrA uname(mir_utf8encodeT(info->username));
+	ptrA uname(mir_utf8encodeT(info->conn.username));
 
 	unsigned char nonce[24];
 	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
@@ -333,7 +333,7 @@ bool TScramAuth::validateLogin(const TCHAR *challenge)
 /////////////////////////////////////////////////////////////////////////////////////////
 // plain auth - the most simple one
 
-TPlainAuth::TPlainAuth(ThreadData* info, bool old) :
+TPlainAuth::TPlainAuth(ThreadData *info, bool old) :
 	TJabberAuth(info)
 {
 	szName = "PLAIN";
@@ -346,12 +346,12 @@ TPlainAuth::~TPlainAuth()
 
 char* TPlainAuth::getInitialRequest()
 {
-	ptrA uname(mir_utf8encodeT(info->username)), passw(mir_utf8encodeT(info->password));
+	ptrA uname(mir_utf8encodeT(info->conn.username)), passw(mir_utf8encodeT(info->conn.password));
 
-	size_t size = 2 * strlen(uname) + strlen(passw) + strlen(info->server) + 4;
+	size_t size = 2 * strlen(uname) + strlen(passw) + strlen(info->conn.server) + 4;
 	char *toEncode = (char*)alloca(size);
 	if (bOld)
-		size = mir_snprintf(toEncode, size, "%s@%s%c%s%c%s", uname, info->server, 0, uname, 0, passw);
+		size = mir_snprintf(toEncode, size, "%s@%s%c%s%c%s", uname, info->conn.server, 0, uname, 0, passw);
 	else
 		size = mir_snprintf(toEncode, size, "%c%s%c%s", 0, uname, 0, passw);
 

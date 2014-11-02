@@ -204,7 +204,7 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t c
 	}
 	else if (m_ThreadInfo != NULL) {
 		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s@%S avatar%s"),
-			m_ThreadInfo->username, m_ThreadInfo->server, szFileType);
+			m_ThreadInfo->conn.username, m_ThreadInfo->conn.server, szFileType);
 	}
 	else {
 		ptrA res1( getStringA("LoginName")), res2( getStringA("LoginServer"));
