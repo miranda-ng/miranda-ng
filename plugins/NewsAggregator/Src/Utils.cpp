@@ -28,7 +28,7 @@ BOOL IsMyContact(MCONTACT hContact)
 	return szProto != NULL && strcmp(MODULE, szProto) == 0;
 }
 
-VOID NetlibInit()
+void NetlibInit()
 {
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
@@ -37,7 +37,7 @@ VOID NetlibInit()
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }
 
-VOID NetlibUnInit()
+void NetlibUnInit()
 {
 	Netlib_CloseHandle(hNetlibUser);
 	hNetlibUser = NULL;
@@ -58,8 +58,9 @@ static void arrayToHex(BYTE *data, size_t datasz, char *res)
 	*resptr = '\0';
 } 
 
-VOID GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
+void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 {
+	Netlib_LogfT(hNetlibUser,_T("Getting feed data %s."), tszUrl);
 	NETLIBHTTPREQUEST nlhr = {0};
 
 	// initialize the netlib request
@@ -98,34 +99,37 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 	if (nlhrReply) {
 		// if the recieved code is 200 OK
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
+			Netlib_LogfT(hNetlibUser,_T("Code 200: Succeeded getting feed data %s."), tszUrl);
 			// allocate memory and save the retrieved data
 			*szData = (char *)mir_alloc(nlhrReply->dataLength + 2);
 			memcpy(*szData, nlhrReply->pData, nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
 		else if (nlhrReply->resultCode == 401) {
+			Netlib_LogfT(hNetlibUser,_T("Code 401: feed %s needs auth data."), tszUrl);
 			ItemInfo SelItem = {0};
 			SelItem.hwndList = hwndDlg;
 			SelItem.hContact = hContact;
 			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
 				GetNewsData(tszUrl, szData, hContact, hwndDlg);
 		}
+		else
+			Netlib_LogfT(hNetlibUser,_T("Code %d: Failed getting feed data %s."), nlhrReply->resultCode, tszUrl);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
 	else {
-		if (nlhr.resultCode == 401) {
-			ItemInfo SelItem = {0};
-			SelItem.hwndList = hwndDlg;
-			SelItem.hContact = hContact;
-			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
-				GetNewsData(tszUrl, szData, hContact, hwndDlg);
-		}
+		Netlib_LogfT(hNetlibUser,_T("Failed getting feed data %s, no response."), tszUrl);
+		ItemInfo SelItem = {0};
+		SelItem.hwndList = hwndDlg;
+		SelItem.hContact = hContact;
+		if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
+			GetNewsData(tszUrl, szData, hContact, hwndDlg);
 	}
 
 	mir_free(szUrl);
 }
 
-VOID CreateList(HWND hwndList)
+void CreateList(HWND hwndList)
 {
 	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);	
 
@@ -147,7 +151,7 @@ VOID CreateList(HWND hwndList)
 	ListView_InsertColumn(hwndList, 1, &lvc);
 }
 
-VOID UpdateList(HWND hwndList)
+void UpdateList(HWND hwndList)
 {
 	LVITEM lvI = {0};
 
@@ -159,27 +163,28 @@ VOID UpdateList(HWND hwndList)
 		UpdateListFlag = TRUE;
 		lvI.mask = LVIF_TEXT;
 		lvI.iSubItem = 0;
-		DBVARIANT dbNick = {0};
-		if (!db_get_ts(hContact, MODULE, "Nick", &dbNick)) {
-			lvI.pszText = dbNick.ptszVal;
+		TCHAR *ptszNick = db_get_tsa(hContact, MODULE, "Nick");
+		if (ptszNick) {
+			lvI.pszText = ptszNick;
 			lvI.iItem = i;
 			ListView_InsertItem(hwndList, &lvI);
 			lvI.iSubItem = 1;
-			DBVARIANT dbURL = {0};
-			if (!db_get_ts(hContact, MODULE, "URL", &dbURL)) {
-				lvI.pszText = dbURL.ptszVal;
+
+			TCHAR *ptszURL = db_get_tsa(hContact, MODULE, "URL");
+			if (ptszURL) {
+				lvI.pszText = ptszURL;
 				ListView_SetItem(hwndList, &lvI);
-				i += 1;
+				i++;
 				ListView_SetCheckState(hwndList, lvI.iItem, db_get_b(hContact, MODULE, "CheckState", 1));
-				db_free(&dbURL);
+				mir_free(ptszURL);
 			}
-			db_free(&dbNick);
+			mir_free(ptszNick);
 		}
 	}
 	UpdateListFlag = FALSE;
 }
 
-VOID DeleteAllItems(HWND hwndList)
+void DeleteAllItems(HWND hwndList)
 {
 	ListView_DeleteAllItems(hwndList);
 }
@@ -391,9 +396,6 @@ int StrReplace(TCHAR *lpszOld, TCHAR *lpszNew, TCHAR *&lpszStr)
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
-	HANDLE hFile = NULL;
-	DWORD dwBytes;
-
 	NETLIBHTTPREQUEST nlhr = {0};
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
@@ -422,7 +424,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 					date = pReply->headers[i].szValue;
 					continue;
 				}
-				if (!lstrcmpiA(pReply->headers[i].szName, "Content-Length")) {
+				else if (!lstrcmpiA(pReply->headers[i].szName, "Content-Length")) {
 					size = pReply->headers[i].szValue;
 					continue;
 				}
@@ -438,33 +440,39 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 					time_t modtime = DateToUnixTime(tdate, 0);
 					time_t filemodtime = mktime(localtime(&buf.st_atime));
 					if (modtime > filemodtime && buf.st_size != _ttoi(tsize)) {
-						hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+						DWORD dwBytes;
+						HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 						ret = true;
+						if (hFile)
+							CloseHandle(hFile);
 					}
 					_close(fh);
 				}
 				else {
-					hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+					DWORD dwBytes;
+					HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 					ret = true;
+					if (hFile)
+						CloseHandle(hFile);
 				}
 				mir_free(tdate);
 				mir_free(tsize);
 			}
 			else {
-				hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				DWORD dwBytes;
+				HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 				WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 				ret = true;
+				if (hFile)
+					CloseHandle(hFile);
 			}
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 	}
 
 	mir_free(szUrl);
-
-	if (hFile)
-		CloseHandle(hFile);
 
 	return ret;
 }

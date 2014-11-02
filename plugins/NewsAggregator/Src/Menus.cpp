@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 HGENMENU hService2[7];
 
-VOID InitMenu()
+void InitMenu()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszContactOwner = MODULE;

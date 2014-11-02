@@ -155,7 +155,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 									db_set_ts(hContact, MODULE, "Homepage", siteurl);
 									db_set_b(hContact, MODULE, "CheckState", 1);
 									db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
-									db_set_ts(hContact, MODULE, "MsgFormat", _T(TAGSDEFAULT));
+									db_set_ts(hContact, MODULE, "MsgFormat", TAGSDEFAULT);
 									db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
 									if (utfgroup) {
 										db_set_ts(hContact, "CList", "Group", utfgroup);
@@ -222,7 +222,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDC_BROWSEIMPORTFILE:
 			{
 				TCHAR FileName[MAX_PATH];
-				TCHAR *tszMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+				VARST tszMirDir(_T("%miranda_path%"));
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
@@ -310,10 +310,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					else
 						MessageBox(hwndDlg, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 
-					mir_free(tszMirDir);
 					break;
 				}
-				mir_free(tszMirDir);
 				break;
 			}
 			break;
@@ -469,10 +467,10 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		TranslateDialogDefault(hwndDlg);
 		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ExportDlg");
 		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-			DBVARIANT dbVar = {0};
-			if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
-				SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)dbVar.ptszVal);
-				db_free(&dbVar);
+			TCHAR *message = db_get_tsa(hContact, MODULE, "Nick");
+			if (!message != NULL) {
+				SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)message);
+				mir_free(message);
 			}
 		}
 		EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
@@ -489,7 +487,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDOK:
 			{
 				TCHAR FileName[MAX_PATH];
-				TCHAR *tszMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+				ptrT tszMirDir(_T("%miranda_path%"));
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
@@ -517,24 +515,12 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						TCHAR item[MAX_PATH];
 						SendMessage(FeedsExportList, LB_GETTEXT, i, (LPARAM)item);
 						MCONTACT hContact = GetContactByNick(item);
-						TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
-						DBVARIANT dbv = {0};
-						if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {
-							title = mir_tstrdup(dbv.ptszVal);
-							db_free(&dbv);
-						}
-						if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
-							url = mir_tstrdup(dbv.ptszVal);
-							db_free(&dbv);
-						}
-						if (!db_get_ts(hContact, MODULE, "Homepage", &dbv)) {
-							siteurl = mir_tstrdup(dbv.ptszVal);
-							db_free(&dbv);
-						}
-						if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
-							group = mir_tstrdup(dbv.ptszVal);
-							db_free(&dbv);
-						}
+						TCHAR
+							*title = db_get_tsa(hContact, MODULE, "Nick"),
+							*url = db_get_tsa(hContact, MODULE, "URL"),
+							*siteurl = db_get_tsa(hContact, MODULE, "Homepage"),
+							*group = db_get_tsa(hContact, "CList", "Group");
+
 						HXML elem = header;
 						if (group)
 						{
@@ -553,7 +539,8 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								section = _tcstok(NULL, _T("\\"));
 							}
 							elem = xi.addChild(elem, _T("outline"), NULL);
-						} else
+						}
+						else
 							elem = xi.addChild(elem, _T("outline"), NULL);
 						xi.addAttr(elem, _T("text"), title);
 						xi.addAttr(elem, _T("title"), title);
