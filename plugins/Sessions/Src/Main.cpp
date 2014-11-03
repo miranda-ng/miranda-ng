@@ -19,36 +19,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "sessions.h"
 
-HINSTANCE hinstance = NULL;
-
-WNDPROC mainProc;
+HINSTANCE g_hInst = NULL;
 
 HGENMENU hmSaveCurrentSession, hmLoadLastSession, hmLoadSession, hmSessionsManager;
 
-HANDLE hmTBButton[2],hiTBbutton[2],iTBbutton[2];
+HANDLE hmTBButton[2], hiTBbutton[2], iTBbutton[2];
 
-BOOL g_hghostw;
+bool g_hghostw;
 
 HWND hClistControl;
 
 int g_ses_limit;
 int g_ses_count;
-BOOL g_bExclHidden;
-BOOL g_bWarnOnHidden;
-BOOL g_bOtherWarnings;
-BOOL g_bCrashRecovery;
-BOOL g_bIncompletedSave;
+bool g_bExclHidden;
+bool g_bWarnOnHidden;
+bool g_bOtherWarnings;
+bool g_bCrashRecovery;
+bool g_bIncompletedSave;
 
 HWND g_hDlg;
 HWND g_hSDlg;
-BOOL DONT = FALSE;
-BOOL StartUp, isLastTRUE = FALSE, g_mode,bSC = FALSE;
+bool DONT = false;
+bool StartUp, isLastTRUE = false, g_mode, bSC = false;
 
 MCONTACT session_list[255] = { 0 };
 MCONTACT user_session_list[255] = { 0 };
 MCONTACT session_list_recovered[255];
-
-int count = 0;
 
 int hLangpack;
 
@@ -168,7 +164,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 					dd = 5;
 					hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE, _T(CLISTCONTROL_CLASS), _T(""),
 						WS_TABSTOP | WS_VISIBLE | WS_CHILD,
-						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, hinstance, 0);
+						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, g_hInst, 0);
 
 					SetWindowLongPtr(hClistControl, GWL_STYLE,
 						GetWindowLongPtr(hClistControl, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
@@ -456,7 +452,7 @@ INT_PTR SaveUserSessionHandles(WPARAM wparam, LPARAM lparam)
 		return 1;
 	}
 
-	g_hSDlg = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_SAVEDIALOG), 0, SaveSessionDlgProc);
+	g_hSDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_SAVEDIALOG), 0, SaveSessionDlgProc);
 	return 0;
 }
 
@@ -471,7 +467,7 @@ INT_PTR OpenSessionsManagerWindow(WPARAM wparam, LPARAM lparam)
 		tszSession(db_get_tsa(NULL, MODNAME, "SessionDate_0")),
 		tszUserSession(db_get_tsa(NULL, MODNAME, "UserSessionDsc_0"));
 	if (g_bIncompletedSave || tszSession || tszUserSession) {
-		g_hDlg = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
 		return 0;
 	}
 	if (g_bOtherWarnings)
@@ -495,16 +491,15 @@ int SaveSessionDate()
 		TCHAR *szSessionTime = (TCHAR*)mir_alloc(lenn*sizeof(TCHAR));
 		mir_sntprintf(szSessionTime, lenn, _T("%s - %s"), szTimeBuf, szDateBuf);
 
-		char szSessionDate[256];
-		DBVARIANT  dbv = { 0 };
-		mir_snprintf(szSessionDate, SIZEOF(szSessionDate), "%s_%d", "SessionDate", 0);
-		db_get_ts(NULL, MODNAME, szSessionDate, &dbv);
-		TCHAR *szSessionDateBuf_1 = mir_tstrdup(dbv.ptszVal);
-		db_free(&dbv);
+		char szSetting[256];
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%s_%d", "SessionDate", 0);
+		TCHAR *ptszSaveSessionDate = db_get_tsa(NULL, MODNAME, szSetting);
 
-		db_set_ts(NULL, MODNAME, szSessionDate, szSessionTime);
+		db_set_ts(NULL, MODNAME, szSetting, szSessionTime);
 		mir_free(szSessionTime);
-		ResaveSettings("SessionDate", 1, g_ses_limit, szSessionDateBuf_1);
+
+		if (ptszSaveSessionDate)
+			ResaveSettings("SessionDate", 1, g_ses_limit, ptszSaveSessionDate);
 
 		if (szTimeBuf)
 			mir_free(szTimeBuf);
@@ -521,13 +516,13 @@ int SaveUserSessionName(TCHAR *szUSessionName)
 	if (session_list[0] == 0)
 		return 1;
 
-	char szUserSessionNameBuf[256];
-	mir_snprintf(szUserSessionNameBuf, SIZEOF(szUserSessionNameBuf), "%s_%u", "UserSessionDsc", 0);
-	ptrT szUserSessionName(db_get_tsa(NULL, MODNAME, szUserSessionNameBuf));
-	if (szUserSessionName)
-		ResaveSettings("UserSessionDsc", 1, 255, szUserSessionName);
+	char szSetting[256];
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%s_%u", "UserSessionDsc", 0);
+	TCHAR *ptszUserSessionName = db_get_tsa(NULL, MODNAME, szSetting);
+	if (ptszUserSessionName)
+		ResaveSettings("UserSessionDsc", 1, 255, ptszUserSessionName);
 
-	db_set_ts(NULL, MODNAME, szUserSessionNameBuf, szUSessionName);
+	db_set_ts(NULL, MODNAME, szSetting, szUSessionName);
 	return 0;
 }
 
@@ -587,7 +582,7 @@ int LoadSession(WPARAM wparam, LPARAM lparam)
 				MessageBox(NULL, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			return 1;
 		}
-		if (!g_bWarnOnHidden&&g_bOtherWarnings) {
+		if (!g_bWarnOnHidden && g_bOtherWarnings) {
 			MessageBox(NULL, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			return 1;
 		}
@@ -689,7 +684,7 @@ int OkToExit(WPARAM wparam, LPARAM lparam)
 		db_set_b(NULL, MODNAME, "lastempty", 0);
 	}
 	else if (exitmode == 1 && session_list[0] != 0) {
-		DialogBox(hinstance, MAKEINTRESOURCE(IDD_EXDIALOG), 0, ExitDlgProc);
+		DialogBox(g_hInst, MAKEINTRESOURCE(IDD_EXDIALOG), 0, ExitDlgProc);
 	}
 	else db_set_b(NULL, MODNAME, "lastempty", 1);
 	return 0;
@@ -760,11 +755,11 @@ static INT_PTR LaunchSessions(WPARAM wParam, LPARAM lParam)
 	int startup = db_get_b(NULL, MODNAME, "StartupMode", 3);
 	if (startup == 1 || (startup == 3 && isLastTRUE == TRUE)) {
 		StartUp = TRUE;
-		g_hDlg = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
 	}
 	else if (startup == 2 && isLastTRUE == TRUE) {
 		g_hghostw = TRUE;
-		g_hDlg = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
 	}
 	return 0;
 }
@@ -846,7 +841,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hinstance = hinst;
+	g_hInst = hinst;
 	return 1;
 }
 
@@ -870,13 +865,13 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (!g_ses_count)
 		g_ses_count = db_get_b(0, "Sessions (Unicode)", "UserSessionsCount", 0);
 	g_ses_limit = db_get_b(0, MODNAME, "TrackCount", 10);
-	g_bExclHidden = db_get_b(NULL, MODNAME, "ExclHidden", 0);
-	g_bWarnOnHidden = db_get_b(NULL, MODNAME, "WarnOnHidden", 0);
-	g_bOtherWarnings = db_get_b(NULL, MODNAME, "OtherWarnings", 1);
-	g_bCrashRecovery = db_get_b(NULL, MODNAME, "CrashRecovery", 0);
+	g_bExclHidden = db_get_b(NULL, MODNAME, "ExclHidden", 0) != 0;
+	g_bWarnOnHidden = db_get_b(NULL, MODNAME, "WarnOnHidden", 0) != 0;
+	g_bOtherWarnings = db_get_b(NULL, MODNAME, "OtherWarnings", 1) != 0;
+	g_bCrashRecovery = db_get_b(NULL, MODNAME, "CrashRecovery", 0) != 0;
 
 	if (g_bCrashRecovery)
-		g_bIncompletedSave = !db_get_b(NULL, MODNAME, "lastSaveCompleted", 0);
+		g_bIncompletedSave = !db_get_b(NULL, MODNAME, "lastSaveCompleted", 0) != 0;
 
 	if (g_bIncompletedSave) {
 		int i = 0;
@@ -900,6 +895,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
 
 	// Icons
-	Icon_Register(hinstance, MODNAME, iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, MODNAME, iconList, SIZEOF(iconList));
 	return 0;
 }

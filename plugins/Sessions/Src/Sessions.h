@@ -52,25 +52,25 @@ extern IconItem iconList[];
 
 #define MIIM_STRING	0x00000040
 
-int DelUserDefSession(int  ses_count);
+int DelUserDefSession(int ses_count);
 int DeleteAutoSession(int ses_count);
-int LoadSession(WPARAM ,LPARAM );
-int SaveSessionHandles(WPARAM ,LPARAM );
-INT_PTR SaveUserSessionHandles(WPARAM ,LPARAM );
+int LoadSession(WPARAM, LPARAM);
+int SaveSessionHandles(WPARAM, LPARAM);
+INT_PTR SaveUserSessionHandles(WPARAM, LPARAM);
 int SaveUserSessionName(TCHAR*);
-INT_PTR CloseCurrentSession(WPARAM ,LPARAM );
+INT_PTR CloseCurrentSession(WPARAM, LPARAM);
 int SaveSessionDate();
 
-extern HINSTANCE hinstance;
+extern HINSTANCE g_hInst;
 extern MCONTACT session_list_recovered[255];
 extern MCONTACT session_list[255];
 extern int g_ses_limit;
 extern int g_ses_count;
-extern BOOL g_bExclHidden;	
-extern BOOL g_bWarnOnHidden;
-extern BOOL g_bOtherWarnings;
-extern BOOL g_bCrashRecovery;
-extern BOOL g_bIncompletedSave;
+extern bool g_bExclHidden;	
+extern bool g_bWarnOnHidden;
+extern bool g_bOtherWarnings;
+extern bool g_bCrashRecovery;
+extern bool g_bIncompletedSave;
 
 #define TIMERID_LOAD		  12
 #define TIMERID_SHOW          11
