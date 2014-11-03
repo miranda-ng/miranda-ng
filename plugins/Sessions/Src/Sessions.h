@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <windows.h>
 #include <commctrl.h>
 
+#include <malloc.h>
+
 #include <newpluginapi.h>
 #include <m_options.h>
 #include <m_clc.h>
@@ -44,6 +46,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MODNAME "Sessions"
 
+#define MS_SESSIONS_LAUNCHME "Sessions/Service/LaunchMe"
+
 extern IconItem iconList[];
 
 #define MIIM_STRING	0x00000040
@@ -60,8 +64,8 @@ int SaveSessionDate();
 extern HINSTANCE hinstance;
 extern MCONTACT session_list_recovered[255];
 extern MCONTACT session_list[255];
-extern unsigned int ses_limit;
-extern unsigned int g_ses_count;
+extern int g_ses_limit;
+extern int g_ses_count;
 extern BOOL g_bExclHidden;	
 extern BOOL g_bWarnOnHidden;
 extern BOOL g_bOtherWarnings;
