@@ -293,7 +293,7 @@ begin
       case n of
       0..8  : IcoFileName := IcoName + ' 00' + IntToStr(n+1) + '.ico';
       9..98 : IcoFileName := IcoName + ' 0' + IntToStr(n+1) + '.ico';
-      99    : IcoFileName := IcoName + ' ' + IntToStr(n+1) + '.ico';
+      99..998 : IcoFileName := IcoName + ' ' + IntToStr(n+1) + '.ico';
       end;
       if not FileExists(IcoFileName) then
       begin
