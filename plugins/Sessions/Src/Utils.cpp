@@ -169,8 +169,7 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 			int len = (int)strlen(pszBuffer);
 			len = (len == 0) ? 20 : len + 2;
 			char *temp = (char*)_alloca(len+1);
-			ZeroMemory(temp, len+1);
-			mir_snprintf(temp, len + 1, "%02u%s", ordernum, szValue);
+			mir_snprintf(temp, len+1, "%02u%s", ordernum, szValue);
 
 			db_set_s(hContact, MODNAME, "UserSessionsOrder", temp);
 			mir_free(pszBuffer);
