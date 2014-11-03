@@ -26,7 +26,7 @@ int GetInSessionOrder(MCONTACT hContact,int mode,int count);
 void AddSessionMark(MCONTACT hContact,int mode,char bit);
 void RemoveSessionMark(MCONTACT hContact,int mode,int marknum);
 void SetSessionMark(MCONTACT hContact,int mode,char bit,unsigned int marknum);
-BOOL LoadContactsFromMask(MCONTACT hContact,int mode,int count);
+bool LoadContactsFromMask(MCONTACT hContact, int mode, int count);
 int AddToCurSession(MCONTACT hContact, LPARAM lparam);
 int DelFromCurSession(MCONTACT hContact,LPARAM lparam);
 int CheckForDuplicate(MCONTACT contact_list[], MCONTACT lparam);

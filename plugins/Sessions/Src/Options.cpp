@@ -163,7 +163,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			hIcon=(bChecked=IsMarkedUserDefSession(opses_count))?hMarked:hNotMarked;
 
-			SetDlgItemInt(hdlg, IDC_TRACK,ses_limit=db_get_b(0, MODNAME, "TrackCount", 10), FALSE);
+			SetDlgItemInt(hdlg, IDC_TRACK,g_ses_limit=db_get_b(0, MODNAME, "TrackCount", 10), FALSE);
 			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
 			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hdlg, IDC_TRACK, NULL, FALSE));
 
@@ -247,7 +247,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			{
 				int iDelay=GetDlgItemInt(hdlg, IDC_STARTDELAY,NULL, FALSE);
 				db_set_w(0, MODNAME, "StartupModeDelay", (WORD)iDelay);
-				db_set_b(0, MODNAME, "TrackCount", (BYTE)(ses_limit=GetDlgItemInt(hdlg, IDC_TRACK,NULL, FALSE)));
+				db_set_b(0, MODNAME, "TrackCount", (BYTE)(g_ses_limit=GetDlgItemInt(hdlg, IDC_TRACK,NULL, FALSE)));
 				if (IsDlgButtonChecked(hdlg, IDC_REXSAVE))
 					db_set_b(NULL, MODNAME, "ShutdownMode", 2);
 				else if (IsDlgButtonChecked(hdlg, IDC_REXDSAVE))
