@@ -282,7 +282,7 @@
 [Protocol]
 Протокол
 [Check for updates]
-Проверить обновления
+Проверяет наличие обновлений
 [YAPP or Popup]
 YAPP или Popup
 [Warning]
