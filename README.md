@@ -16,6 +16,7 @@ fast.
 - MRA
 - MSN
 - Omegle
+- Sametime
 - Skype
 - Tlen
 - Twitter
