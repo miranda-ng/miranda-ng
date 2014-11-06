@@ -468,7 +468,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ExportDlg");
 		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 			TCHAR *message = db_get_tsa(hContact, MODULE, "Nick");
-			if (!message != NULL) {
+			if (message != NULL) {
 				SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)message);
 				mir_free(message);
 			}
@@ -487,7 +487,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDOK:
 			{
 				TCHAR FileName[MAX_PATH];
-				ptrT tszMirDir(_T("%miranda_path%"));
+				VARST tszMirDir(_T("%miranda_path%"));
 
 				OPENFILENAME ofn = {0};
 				ofn.lStructSize = sizeof(ofn);
