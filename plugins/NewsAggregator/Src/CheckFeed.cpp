@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2012 Mataes
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
@@ -84,37 +84,37 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 	if (!message)
 		message = mir_tstrdup(TAGSDEFAULT);
 
-	if (!title.IsEmpty())
+	if (title.IsEmpty())
 		StrReplace(_T("#<title>#"), TranslateT("empty"), message);
 	else
 		StrReplace(_T("#<title>#"), title, message);
 
-	if (!link.IsEmpty())
+	if (link.IsEmpty())
 		StrReplace(_T("#<link>#"), TranslateT("empty"), message);
 	else
 		StrReplace(_T("#<link>#"), link, message);
 
-	if (!descr.IsEmpty())
+	if (descr.IsEmpty())
 		StrReplace(_T("#<description>#"), TranslateT("empty"), message);
 	else
 		StrReplace(_T("#<description>#"), descr, message);
 
-	if (!author.IsEmpty())
+	if (author.IsEmpty())
 		StrReplace(_T("#<author>#"), TranslateT("empty"), message);
 	else
 		StrReplace(_T("#<author>#"), author, message);
 
-	if (!comments.IsEmpty())
+	if (comments.IsEmpty())
 		StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
 	else
 		StrReplace(_T("#<comments>#"), comments, message);
 
-	if (!guid.IsEmpty())
+	if (guid.IsEmpty())
 		StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
 	else
 		StrReplace(_T("#<guid>#"), guid, message);
 
-	if (!category.IsEmpty())
+	if (category.IsEmpty())
 		StrReplace(_T("#<category>#"), TranslateT("empty"), message);
 	else
 		StrReplace(_T("#<category>#"), category, message);
@@ -502,7 +502,7 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 
 	if (szData == NULL)
 		return;
-		
+
 	TCHAR *tszData = mir_utf8decodeT(szData);
 	if (!tszData)
 		tszData = mir_a2t(szData);
