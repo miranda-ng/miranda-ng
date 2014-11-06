@@ -136,6 +136,10 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		olddbei.pBlob = pbBuffer;
 		db_event_get(hDbEvent, &olddbei);
 
+		// there's no need to look for the elder events
+		if (olddbei.timestamp < stamp)
+			break;
+
 		if (olddbei.cbBlob == cbOrigLen + 1 && !lstrcmpA((char*)olddbei.pBlob, pszTemp)) {
 			MesExist = true;
 			break;
