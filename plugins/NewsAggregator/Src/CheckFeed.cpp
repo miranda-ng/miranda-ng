@@ -355,22 +355,26 @@ void CheckCurrentFeed(MCONTACT hContact)
 									mir_free(category);
 								}
 
-								bool MesExist = false;
-								ptrA pszTemp(mir_utf8encodeT(message));
-								for (HANDLE hDbEvent = db_event_first(hContact);hDbEvent;hDbEvent = db_event_next(hContact, hDbEvent)) {
-									DBEVENTINFO olddbei = { sizeof(olddbei) };
+								DBEVENTINFO olddbei = { 0 };
+								olddbei.cbSize = sizeof(olddbei);
+
+								bool  MesExist = false;
+								ptrA  pszTemp(mir_utf8encodeT(message));
+								DWORD cbMemoLen = 10000, cbOrigLen = lstrlenA(pszTemp);
+								BYTE *pbBuffer = (BYTE*)mir_alloc(cbMemoLen);
+								for (HANDLE hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 									olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
-									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
+									if (olddbei.cbBlob > cbMemoLen)
+										pbBuffer = (PBYTE)mir_realloc(pbBuffer, cbMemoLen = olddbei.cbBlob);
+									olddbei.pBlob = pbBuffer;
 									db_event_get(hDbEvent, &olddbei);
-									char *pszTemp = mir_utf8encodeT(message);
-									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char *)olddbei.pBlob, pszTemp)) {
+
+									if (olddbei.cbBlob == cbOrigLen+1 && !lstrcmpA((char*)olddbei.pBlob, pszTemp)) {
 										MesExist = true;
-									}
-								
-									mir_free(olddbei.pBlob);
-									if (MesExist)
 										break;
+									}
 								}
+								mir_free(pbBuffer);
 
 								if (!MesExist) {
 									if (stamp == 0)
