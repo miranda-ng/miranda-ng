@@ -122,6 +122,8 @@ void UpdateThreadProc(void *AvatarCheck)
 	ThreadRunning = TRUE;	// prevent 2 instance of this thread running
 	ReleaseMutex(hUpdateMutex);
 
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+
 	// update news by getting the first station from the queue until the queue is empty
 	while (UpdateListHead != NULL && !Miranda_Terminated()) {
 		if ((BOOL)AvatarCheck)
@@ -132,4 +134,6 @@ void UpdateThreadProc(void *AvatarCheck)
 
 	// exit the update thread
 	ThreadRunning = FALSE;
+
+	CoUninitialize();
 }
