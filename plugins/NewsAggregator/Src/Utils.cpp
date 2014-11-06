@@ -189,7 +189,7 @@ void DeleteAllItems(HWND hwndList)
 	ListView_DeleteAllItems(hwndList);
 }
 
-time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType)
+time_t __stdcall DateToUnixTime(const TCHAR *stamp, BOOL FeedType)
 {
 	struct tm timestamp;
 	TCHAR date[9];
@@ -199,7 +199,7 @@ time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType)
 	if (stamp == NULL)
 		return 0;
 
-	TCHAR *p = stamp;
+	TCHAR *p = NEWTSTR_ALLOCA(stamp);
 
 	if (FeedType) {
 		// skip '-' chars
@@ -322,7 +322,7 @@ TCHAR * _tcsistr(const TCHAR *str, const TCHAR *substr)
 	return (TCHAR *)str;
 }
 
-int StrReplace(TCHAR *lpszOld, TCHAR *lpszNew, TCHAR *&lpszStr)
+int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 {
 	if (!lpszStr || !lpszOld || !lpszNew)
 		return 0;
@@ -561,17 +561,18 @@ HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 	return hr;
 }
 
-VOID ClearText(TCHAR *&message)
+LPCTSTR ClearText(CMString &result, const TCHAR *message)
 {
-	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(L"");
 	HRESULT hr = TestMarkupServices(bstrHtml, &TestDocumentText, bstrRes);
-	if ( SUCCEEDED(hr)) {
-		replaceStrT(message, bstrRes);
+	if (SUCCEEDED(hr)) {
+		result = bstrRes;
 		SysFreeString(bstrRes);
 	}
+	else result = message;
 	SysFreeString(bstrHtml);
-	CoUninitialize();
+
+	return result;
 }
 
 MCONTACT GetContactByNick(const TCHAR *nick)

@@ -21,6 +21,7 @@ Boston, MA 02111-1307, USA.
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>
+#include <malloc.h>
 #include <fcntl.h>
 #include <io.h>
 #include <sys\stat.h>
@@ -43,6 +44,7 @@ Boston, MA 02111-1307, USA.
 
 #include <m_folders.h>
 #include <m_toptoolbar.h>
+#include <m_string.h>
 
 #include "version.h"
 #include "resource.h"
@@ -125,15 +127,15 @@ VOID GetNewsData(TCHAR *szUrl, char** szData, MCONTACT hContact, HWND hwndDlg);
 VOID CreateList(HWND hwndList);
 VOID UpdateList(HWND hwndList);
 VOID DeleteAllItems(HWND hwndList);
-time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType);
+time_t __stdcall DateToUnixTime(const TCHAR *stamp, BOOL FeedType);
 VOID CheckCurrentFeed(MCONTACT hContact);
 VOID CheckCurrentFeedAvatar(MCONTACT hContact);
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
 void UpdateMenu(BOOL State);
 int ImportFeedsDialog();
-VOID ClearText(TCHAR *&message);
+LPCTSTR ClearText(CMString &value, const TCHAR *message);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
-int StrReplace(TCHAR *lpszOld, TCHAR *lpszNew, TCHAR *&lpszStr);
+int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr);
 void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg);
 INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
