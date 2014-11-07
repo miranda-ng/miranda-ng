@@ -301,7 +301,7 @@ int Backup(TCHAR* backup_filename)
 VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	time_t t = time(NULL);
-	time_t diff = t - (time_t)db_get_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)t);
+	time_t diff = t - (time_t)db_get_dw(0, "AutoBackups", "LastBackupTimestamp", 0);
 	if (diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? 60 * 60 : 60 * 60 * 24 ))))
 		mir_forkthread(BackupThread, NULL);
 }
