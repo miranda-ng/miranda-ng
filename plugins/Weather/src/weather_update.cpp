@@ -429,7 +429,7 @@ int GetWeatherData(MCONTACT hContact)
 
 		// download the html file from the internet
 		TCHAR* szData = NULL;
-		int retval = InternetDownloadFile(loc, Data->Cookie, &szData);
+		int retval = InternetDownloadFile(loc, Data->Cookie, Data->UserAgent, &szData);
 		if (retval != 0) {
 			mir_free(szData);
 			return retval;

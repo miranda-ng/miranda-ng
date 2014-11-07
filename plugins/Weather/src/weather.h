@@ -323,7 +323,8 @@ typedef struct {
 	char  *UpdateURL2;
 	char  *UpdateURL3;
 	char  *UpdateURL4;
-	char *Cookie;
+	char  *Cookie;
+	char  *UserAgent;
 // items
 	int UpdateDataCount;
 	WIDATAITEMLIST *UpdateData;
@@ -441,7 +442,7 @@ void wfree(WCHAR **Data);
 void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_http.c
-int InternetDownloadFile (char *szUrl, char *cookie, TCHAR** szData);
+int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR** szData);
 void NetlibInit();
 void NetlibHttpDisconnect(void);
 
