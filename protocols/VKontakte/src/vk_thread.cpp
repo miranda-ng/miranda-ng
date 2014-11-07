@@ -848,8 +848,25 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	m_pollingTs = mir_t2a(ptrT(json_as_string(json_get(pResponse, "ts"))));
 	m_pollingKey = mir_t2a(ptrT(json_as_string(json_get(pResponse, "key"))));
 	m_pollingServer = mir_t2a(ptrT(json_as_string(json_get(pResponse, "server"))));
-	if (!m_hPollingThread && m_pollingTs != NULL && m_pollingKey != NULL && m_pollingServer != NULL)
-		m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, NULL, NULL);
+	if (!m_hPollingThread) {
+		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is NULL");
+		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = \'%s' m_pollingKey = \'%s\' m_pollingServer = \'%s\'", 
+			m_pollingTs ? m_pollingTs : "<NULL>", 
+			m_pollingKey ? m_pollingKey : "<NULL>", 
+			m_pollingServer ? m_pollingServer : "<NULL>");
+		if (m_pollingTs != NULL && m_pollingKey != NULL && m_pollingServer != NULL){
+			debugLogA("CVkProto::OnReceivePollingInfo PollingThread starting...");
+			m_hPollingThread = ForkThreadEx(&CVkProto::PollingThread, NULL, NULL);
+		}
+		else{
+			debugLogA("CVkProto::OnReceivePollingInfo PollingThread not start");
+			m_pollingConn = NULL;
+			ShutdownSession();
+			return;
+		}
+	}
+	else 
+		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is not NULL");
 }
 
 void CVkProto::PollUpdates(JSONNODE *pUpdates)
