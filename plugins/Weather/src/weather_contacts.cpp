@@ -262,7 +262,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					// load the page
 					mir_snprintf(loc, SIZEOF(loc), sData->IDSearch.SearchURL, str);
 					str[0] = 0;
-					if (InternetDownloadFile(loc, NULL, &szData) == 0) {
+					if (InternetDownloadFile(loc, NULL, sData->UserAgent, &szData) == 0) {
 						TCHAR *szInfo = szData;
 						TCHAR* search = _tcsstr(szInfo, sData->IDSearch.NotFoundStr);
 

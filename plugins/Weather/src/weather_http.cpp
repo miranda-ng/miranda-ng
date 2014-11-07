@@ -48,11 +48,14 @@ int findHeader(NETLIBHTTPREQUEST *nlhrReply, char *hdr)
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
 
-int InternetDownloadFile (char *szUrl, char *cookie, TCHAR **szData) 
+int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR **szData) 
 {
+	if (userAgent == NULL || userAgent[0] == 0)
+		userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
+	
 	NETLIBHTTPHEADER headers[5];
 	headers[0].szName = "User-Agent";
-	headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
+	headers[0].szValue = userAgent;
 	headers[1].szName = "Cache-Control";
 	headers[1].szValue = "no-cache";
 	headers[2].szName = "Pragma";

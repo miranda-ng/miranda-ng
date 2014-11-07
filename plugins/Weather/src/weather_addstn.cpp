@@ -235,7 +235,7 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 
 		// load the page
 		mir_snprintf(loc, SIZEOF(loc), sData->SearchURL, sID);
-		if (InternetDownloadFile(loc, NULL, &szData) == 0) {
+		if (InternetDownloadFile(loc, NULL, NULL, &szData) == 0) {
 			TCHAR* szInfo = szData;
 
 			// not found
@@ -310,7 +310,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 	char loc[256];
 	ptrA szSearchName( mir_utf8encodeT(name));
 	mir_snprintf(loc, SIZEOF(loc), sData->SearchURL, ptrA( mir_urlEncode(szSearchName)));
-	if (InternetDownloadFile(loc, NULL, &szData) == 0) {
+	if (InternetDownloadFile(loc, NULL, NULL, &szData) == 0) {
 		TCHAR* szInfo = szData;
 		search = _tcsstr(szInfo, sData->NotFoundStr);	// determine if data is available
 		if (search == NULL) { // if data is found

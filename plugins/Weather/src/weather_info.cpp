@@ -64,6 +64,7 @@ void INIInfo(HWND hwndDlg)
 			case 4:  lvi.pszText = _T("1.2");  break;
 			case 5:  lvi.pszText = _T("1.3");  break;
 			case 6:  lvi.pszText = _T("1.4");  break;
+			case 7:  lvi.pszText = _T("1.5");  break;
 			default: lvi.pszText = _T("");     break;
 		}
 		ListView_SetItem(hIniList, &lvi); 
@@ -185,6 +186,7 @@ void GetINIInfo(TCHAR *pszSvc)
 			case 4: _tcscat(str2,_T("1.2")); break;
 			case 5: _tcscat(str2,_T("1.3")); break;
 			case 6: _tcscat(str2,_T("1.4")); break;
+			case 7: _tcscat(str2,_T("1.5")); break;
 		}
 		_tcscat(str2,_T("\n"));
 		_tcscat(str2, TranslateT("File Name:"));

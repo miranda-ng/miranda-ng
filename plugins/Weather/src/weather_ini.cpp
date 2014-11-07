@@ -270,6 +270,8 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 			Data->InternalVer = 5;
 		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.4]"))
 			Data->InternalVer = 6;
+		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.5]"))
+			Data->InternalVer = 7;
 		else
 		{
 			TCHAR str[4096];
@@ -294,6 +296,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 		Data->UpdateURL3 = "";
 		Data->UpdateURL4 = "";
 		Data->Cookie = "";
+		Data->UserAgent = "";
 		Data->IDSearch.SearchURL = "";
 		Data->IDSearch.NotFoundStr = _T("");
 		Data->NameSearch.SearchURL = "";
@@ -399,6 +402,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 				else if ( !_stricmp(ValName, "UPDATE URL3"))		wSetData(&Data->UpdateURL3, Value);
 				else if ( !_stricmp(ValName, "UPDATE URL4"))		wSetData(&Data->UpdateURL4, Value);
 				else if ( !_stricmp(ValName, "COOKIE"))				wSetData(&Data->Cookie, Value);
+				else if ( !_stricmp(ValName, "USERAGENT"))			wSetData(&Data->UserAgent, Value);
 			}
 			else if ( !_stricmp(Group, "ID SEARCH")) {
 				if ( !_stricmp(ValName, "AVAILABLE")) {
@@ -507,6 +511,7 @@ void FreeWIData(WIDATA *Data)
 	wfree(&Data->UpdateURL3);
 	wfree(&Data->UpdateURL4);
 	wfree(&Data->Cookie);
+	wfree(&Data->UserAgent);
 	wfree(&Data->IDSearch.SearchURL);
 	wfree(&Data->IDSearch.NotFoundStr);
 	FreeDataItem(&Data->IDSearch.Name);
