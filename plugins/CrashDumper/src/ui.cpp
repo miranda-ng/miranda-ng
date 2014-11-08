@@ -203,6 +203,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates);
 			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr);
 			CheckDlgButton(hwndDlg, IDC_CATCHCRASHES, catchcrashes);
+			if (!catchcrashes) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CLASSICDATES), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DATESUBFOLDER), FALSE);
+			}
 			if (needrestart)
 				ShowWindow(GetDlgItem(hwndDlg, IDC_RESTARTNOTE), SW_SHOW);
 		}
