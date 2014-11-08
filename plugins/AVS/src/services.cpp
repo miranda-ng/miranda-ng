@@ -832,7 +832,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 		if (g_MyAvatars[i].hbmPic)
 			DeleteObject(g_MyAvatars[i].hbmPic);
 
-		if (CreateAvatarInCache((MCONTACT)-1, &g_MyAvatars[i], myAvatarProto) != -1)
+		if (CreateAvatarInCache(INVALID_CONTACT_ID, &g_MyAvatars[i], myAvatarProto) != -1)
 			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, (LPARAM)&g_MyAvatars[i]);
 		else
 			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, 0);

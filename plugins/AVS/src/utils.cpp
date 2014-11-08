@@ -26,6 +26,14 @@ void mir_sleep(int time)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// substitutes variables and passes our own data path as base
+
+void MyPathToAbsolute(const TCHAR *ptszPath, TCHAR *ptszDest)
+{
+	PathToAbsoluteT(VARST(ptszPath), ptszDest, g_szDataPath);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // convert the avatar image path to a relative one...
 // given: contact handle, path to image
 
@@ -59,13 +67,12 @@ void MakePathRelative(MCONTACT hContact)
 
 int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 {
-	DBVARIANT dbv = { 0 };
 	char *szExt = NULL;
-	TCHAR tszFilename[MAX_PATH];
 	HANDLE hFile = INVALID_HANDLE_VALUE;
 	DWORD dwFileSizeHigh = 0, dwFileSize = 0, sizeLimit = 0;
 
-	tszFilename[0] = 0;
+	ptrT  tszValue;
+	TCHAR tszFilename[MAX_PATH]; tszFilename[0] = 0;
 
 	ace->hbmPic = 0;
 	ace->dwFlags = 0;
@@ -79,57 +86,42 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		if (proto == NULL || !db_get_b(NULL, AVS_MODULE, proto, 1))
 			return -1;
 
-		if (db_get_b(hContact, "ContactPhoto", "Locked", 0) && !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
-			PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
-			db_free(&dbv);
-		}
-		else if (!db_get_ts(hContact, "ContactPhoto", "RFile", &dbv)) {
-			PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
-			db_free(&dbv);
-		}
-		else if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
-			PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
-			db_free(&dbv);
-		}
+		if (db_get_b(hContact, "ContactPhoto", "Locked", 0) && (tszValue = db_get_tsa(hContact, "ContactPhoto", "Backup")))
+			MyPathToAbsolute(tszValue, tszFilename);
+		else if (tszValue = db_get_tsa(hContact, "ContactPhoto", "RFile"))
+			MyPathToAbsolute(tszValue, tszFilename);
+		else if (tszValue = db_get_tsa(hContact, "ContactPhoto", "File"))
+			MyPathToAbsolute(tszValue, tszFilename);
 		else return -2;
 	}
 	else {
 		if (hContact == 0) {				// create a protocol picture in the proto picture cache
-			if (!db_get_ts(NULL, PPICT_MODULE, szProto, &dbv)) {
-				PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
-				db_free(&dbv);
-			}
-			else {
-				if (lstrcmpA(szProto, AVS_DEFAULT)) {
-					if (!db_get_ts(NULL, PPICT_MODULE, AVS_DEFAULT, &dbv)) {
-						PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
-						db_free(&dbv);
-					}
+			if (tszValue = db_get_tsa(NULL, PPICT_MODULE, szProto))
+				MyPathToAbsolute(tszValue, tszFilename);
+			else if (lstrcmpA(szProto, AVS_DEFAULT)) {
+				if (tszValue = db_get_tsa(NULL, PPICT_MODULE, AVS_DEFAULT))
+					MyPathToAbsolute(tszValue, tszFilename);
 
-					if (!strstr(szProto, "Global avatar for")) {
-						PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
-						if (pdescr == NULL)
-							return -1;
-						char key[MAX_PATH];
-						mir_snprintf(key, SIZEOF(key), "Global avatar for %s accounts", pdescr->szProtoName);
-						if (!db_get_ts(NULL, PPICT_MODULE, key, &dbv)) {
-							PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
-							db_free(&dbv);
-						}
-					}
+				if (!strstr(szProto, "Global avatar for")) {
+					PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
+					if (pdescr == NULL)
+						return -1;
+					char key[MAX_PATH];
+					mir_snprintf(key, SIZEOF(key), "Global avatar for %s accounts", pdescr->szProtoName);
+					if (tszValue = db_get_tsa(NULL, PPICT_MODULE, key))
+						MyPathToAbsolute(tszValue, tszFilename);
 				}
 			}
 		}
-		else if (hContact == (MCONTACT)-1) {
+		else if (hContact == INVALID_CONTACT_ID) {
 			// create own picture - note, own avatars are not on demand, they are loaded once at
 			// startup and everytime they are changed.
 			if (szProto[0] == '\0') {
 				// Global avatar
-				if (db_get_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv))
+				if (tszValue = db_get_tsa(NULL, AVS_MODULE, "GlobalUserAvatarFile"))
+					MyPathToAbsolute(tszValue, tszFilename);
+				else
 					return -10;
-
-				PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
-				db_free(&dbv);
 			}
 			else if (ProtoServiceExists(szProto, PS_GETMYAVATART)) {
 				if (CallProtoService(szProto, PS_GETMYAVATART, (WPARAM)tszFilename, (LPARAM)MAX_PATH))
@@ -142,10 +134,8 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 				else
 					MultiByteToWideChar(CP_ACP, 0, szFileName, -1, tszFilename, SIZEOF(tszFilename));
 			}
-			else if (!db_get_ts(NULL, szProto, "AvatarFile", &dbv)) {
-				PathToAbsoluteT(dbv.ptszVal, tszFilename, g_szDataPath);
-				db_free(&dbv);
-			}
+			else if (tszValue = db_get_tsa(NULL, szProto, "AvatarFile"))
+				MyPathToAbsolute(tszValue, tszFilename);
 			else return -1;
 		}
 	}
@@ -184,7 +174,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	BOOL noTransparency = db_get_b(0, AVS_MODULE, "RemoveAllTransparency", 0);
 
 	// Calc image hash
-	if (hContact != 0 && hContact != (MCONTACT)-1) {
+	if (hContact != 0 && hContact != INVALID_CONTACT_ID) {
 		// Have to reset settings? -> do it if image changed
 		DWORD imgHash = GetImgHash(ace->hbmPic);
 		if (imgHash != db_get_dw(hContact, "ContactPhoto", "ImageHash", 0)) {
@@ -206,7 +196,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 			}
 		}
 	}
-	else if (hContact == (MCONTACT)-1) { // My avatars
+	else if (hContact == INVALID_CONTACT_ID) { // My avatars
 		if (!noTransparency && !isTransparentImage
 				&& db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)
 				&& db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0)) {
@@ -237,7 +227,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		protoPicCacheEntry *pAce = (protoPicCacheEntry *)ace;
 		if (hContact == 0)
 			pAce->dwFlags |= AVS_PROTOPIC;
-		else if (hContact == (MCONTACT)-1)
+		else if (hContact == INVALID_CONTACT_ID)
 			pAce->dwFlags |= AVS_OWNAVATAR;
 	}
 
@@ -454,7 +444,7 @@ void DeleteGlobalUserAvatar()
 		return;
 
 	TCHAR szFilename[MAX_PATH];
-	PathToAbsoluteT(dbv.ptszVal, szFilename, g_szDataPath);
+	MyPathToAbsolute(dbv.ptszVal, szFilename);
 	db_free(&dbv);
 
 	DeleteFile(szFilename);

@@ -220,6 +220,7 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\m_avatars.h" />
     <ClInclude Include="src\acc.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\image_utils.h" />

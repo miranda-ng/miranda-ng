@@ -185,7 +185,7 @@ static void LoadAccountInfo(PROTOACCOUNT *acc)
 	g_ProtoPictures.insert(pce);
 
 	pce = new protoPicCacheEntry;
-	CreateAvatarInCache((MCONTACT)-1, pce, acc->szModuleName);
+	CreateAvatarInCache(INVALID_CONTACT_ID, pce, acc->szModuleName);
 	pce->szProtoname = mir_strdup(acc->szModuleName);
 	pce->tszAccName = mir_tstrdup(acc->tszAccountName);
 	g_MyAvatars.insert(pce);
@@ -384,7 +384,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// Load global avatar
 	protoPicCacheEntry *pce = new protoPicCacheEntry;
-	CreateAvatarInCache((MCONTACT)-1, pce, "");
+	CreateAvatarInCache(INVALID_CONTACT_ID, pce, "");
 	pce->szProtoname = mir_strdup("");
 	g_MyAvatars.insert(pce);
 
