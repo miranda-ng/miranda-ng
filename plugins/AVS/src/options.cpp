@@ -677,15 +677,15 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			szFinalName[0] = 0;
 
 			if (is_locked && !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
-				PathToAbsoluteT(dbv.ptszVal, szFinalName, g_szDataPath);
+				MyPathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
 			else if (!db_get_ts(hContact, "ContactPhoto", "RFile", &dbv)) {
-				PathToAbsoluteT(dbv.ptszVal, szFinalName, g_szDataPath);
+				MyPathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
 			else if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
-				PathToAbsoluteT(dbv.ptszVal, szFinalName, g_szDataPath);
+				MyPathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
 			szFinalName[MAX_PATH - 1] = 0;

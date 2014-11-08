@@ -127,6 +127,7 @@ int   GetFileHash(TCHAR* filename);
 DWORD GetFileSize(TCHAR *szFilename);
 void  MakePathRelative(MCONTACT hContact);
 void  MakePathRelative(MCONTACT hContact, TCHAR *dest);
+void  MyPathToAbsolute(const TCHAR *ptszPath, TCHAR *ptszDest);
 
 HBITMAP LoadPNG(struct avatarCacheEntry *ace, char *szFilename);
 
