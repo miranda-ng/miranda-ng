@@ -202,10 +202,26 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, db_get_b(NULL, PluginName, "UploadChanged", 0));
 			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates);
 			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr);
+			CheckDlgButton(hwndDlg, IDC_CATCHCRASHES, catchcrashes);
+			if (needrestart)
+				ShowWindow(GetDlgItem(hwndDlg, IDC_RESTARTNOTE), SW_SHOW);
 		}
 		break;
 
 	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_CATCHCRASHES:
+			if (IsDlgButtonChecked(hwndDlg, IDC_CATCHCRASHES)) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CLASSICDATES), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DATESUBFOLDER), TRUE);
+			}
+			else {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CLASSICDATES), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DATESUBFOLDER), FALSE);
+			}
+			ShowWindow(GetDlgItem(hwndDlg, IDC_RESTARTNOTE), SW_SHOW);
+			needrestart = 1;
+		}
 		if ((HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == BN_CLICKED) && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
@@ -225,12 +241,17 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (clsdates)
 				db_set_b(NULL, PluginName, "ClassicDates", 1);
 			else
-				db_unset(NULL, PluginName, "ClassicDates");
+				db_set_b(NULL, PluginName, "ClassicDates", 0);
 			dtsubfldr = IsDlgButtonChecked(hwndDlg, IDC_DATESUBFOLDER) == BST_CHECKED;
 			if (dtsubfldr)
 				db_set_b(NULL, PluginName, "SubFolders", 1);
 			else
-				db_unset(NULL, PluginName, "SubFolders");
+				db_set_b(NULL, PluginName, "SubFolders", 0);
+			catchcrashes = IsDlgButtonChecked(hwndDlg, IDC_CATCHCRASHES) == BST_CHECKED;
+			if (catchcrashes)
+				db_set_b(NULL, PluginName, "CatchCrashes", 1);
+			else
+				db_set_b(NULL, PluginName, "CatchCrashes", 0);
 		}
 		break;
 	}
