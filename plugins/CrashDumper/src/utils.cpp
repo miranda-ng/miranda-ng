@@ -77,11 +77,14 @@ void GetOSDisplayString(CMString &buffer)
 			}
 
 			if (pGetProductInfo)
-				pGetProductInfo(6, 0, 0, 0, &dwType);
+				pGetProductInfo(osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType);
 
 			switch (dwType) {
 			case PRODUCT_ULTIMATE:
 				buffer.Append(TEXT("Ultimate Edition"));
+				break;
+			case PRODUCT_PROFESSIONAL:
+				buffer.Append(TEXT("Professional Edition"));
 				break;
 			case PRODUCT_HOME_PREMIUM:
 				buffer.Append(TEXT("Home Premium Edition"));
