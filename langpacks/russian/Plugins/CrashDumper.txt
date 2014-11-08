@@ -23,12 +23,16 @@
 Пароль
 [Upload automatically when changed]
 Загружать автоматически при изменениях
-[General]
-Общее
+[Crash reports]
+Отчёты о проблемах
 [Use classic dates]
 Классический формат времени и даты
 [Create reports in subfolders naming as current date]
 Сохранять отчеты в папки, названные по дате
+[Generate crash reports]
+Создавать отчёты о проблемах
+[* You need to restart Miranda NG to apply changes]
+* Применение изменений произойдёт после перезапуска программы
 [View]
 Вид
 [&Copy]
@@ -72,7 +76,7 @@
 [Show Version Info]
 Показать версии
 [Crash Dumper]
-Отчёт об ошибках
+Отчёты о проблемах и версии
 [Crash Report write location is not available]
 Путь для записи отчёта об ошибке недоступен
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]

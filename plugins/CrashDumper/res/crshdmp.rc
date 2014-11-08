@@ -77,7 +77,7 @@ BEGIN
     CONTROL         "Use classic dates",IDC_CLASSICDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,127,157,10
     CONTROL         "Create reports in subfolders naming as current date",IDC_DATESUBFOLDER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,141,180,10
-    CONTROL         "Catch crashes",IDC_CATCHCRASHES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,113,169,10
+    CONTROL         "Generate crash reports",IDC_CATCHCRASHES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,113,169,10
     LTEXT           "* You need to restart Miranda NG to apply changes",IDC_RESTARTNOTE,9,160,186,8,NOT WS_VISIBLE
 END
 
