@@ -429,80 +429,6 @@ bool CVersionInfo::GetLangpackInfo()
 	return true;
 }
 
-/*bool CVersionInfo::GetWeatherInfo()
-{
-	TCHAR path[MAX_PATH];
-	GetModuleFileName(NULL, path, MAX_PATH);
-
-	LPTSTR fname = _tcsrchr(path, TEXT('\\'));
-	if (fname == NULL)
-		fname = path;
-	_tcscat(fname, _T("\\plugins\\weather\\*.ini"));
-
-	WIN32_FIND_DATA FindFileData;
-	HANDLE hFind = FindFirstFile(path, &FindFileData);
-	if (hFind == INVALID_HANDLE_VALUE) return;
-
-	do 
-	{
-		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
-
-		crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\weather\\%s"), FindFileData.cFileName);
-		HANDLE hDumpFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
-			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-		if (hDumpFile != INVALID_HANDLE_VALUE) 
-		{
-			char buf[8192];
-
-			DWORD bytes = 0;
-			ReadFile(hDumpFile, buf, 8190, &bytes, NULL);
-			buf[bytes] = 0;
-
-			char* ver = strstr(buf, "Version=");
-			if (ver != NULL)
-			{
-				char *endid = strchr(ver, '\r');
-				if (endid != NULL) *endid = 0;
-				else
-				{
-					endid = strchr(ver, '\n');
-					if (endid != NULL) *endid = 0;
-				}
-				ver += 8;
-			}
-
-			char *id = strstr(buf, "Name=");
-			if (id != NULL)
-			{
-				char *endid = strchr(id, '\r');
-				if (endid != NULL) *endid = 0;
-				else
-				{
-					endid = strchr(id, '\n');
-					if (endid != NULL) *endid = 0;
-				}
-				id += 5; 
-			}
-
-			TCHAR timebuf[30] = TEXT("");
-			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
-
-
-			static const TCHAR format[] = TEXT(" %s v.%s%S%s [%s] - %S\r\n");
-
-			buffer.appendfmt(format, FindFileData.cFileName, 
-				(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
-				ver,
-				(flags & VI_FLAG_FORMAT) ? TEXT("[/b]") : TEXT(""),
-				timebuf, id);
-			CloseHandle(hDumpFile);
-		}
-	}
-	while (FindNextFile(hFind, &FindFileData));
-	FindClose(hFind);
-}*/
-
 std::tstring GetPluginTimestamp(FILETIME *fileTime)
 {
 	SYSTEMTIME sysTime;
@@ -529,7 +455,6 @@ bool CVersionInfo::GetPluginLists()
 	DWORD loadError;
 	//	SYSTEMTIME sysTime; //for timestamp
 
-	bWeatherPlugin = false;
 	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
 	{
 		GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
@@ -553,9 +478,6 @@ bool CVersionInfo::GetPluginLists()
 			if (verbose) PUShowMessageT(fd.cFileName, SM_NOTIFY);
 			if (!ValidExtension(fd.cFileName, _T("dll")))
 				continue; //do not report plugins that do not have extension .dll
-
-			if (_tcsicmp(fd.cFileName, _T("weather.dll")) == 0)
-				bWeatherPlugin = true;
 
 			hInstPlugin = GetModuleHandle(fd.cFileName); //try to get the handle of the module
 
@@ -949,9 +871,6 @@ std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 		BeautifyReport(beautify, normalPluginsStart, _T(""), out);
 		out.append(GetListAsString(listUnloadablePlugins, flags, beautify));
 		BeautifyReport(beautify, normalPluginsEnd, _T(""), out);
-	}
-	if (bWeatherPlugin) {
-		out.append(_T("\r\nWeather ini files:\r\n-------------------------------------------------------------------------------\r\n"));
 	}
 
 	AddInfoFooter(suppressHeader, forumStyle, beautify, out);
