@@ -157,13 +157,10 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 	else szFinalName = tszPath;
 
 	// filename is now set, check it and perform all needed action
-	HANDLE hFile = CreateFile(szFinalName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hFile == INVALID_HANDLE_VALUE)
+	if (_taccess(szFinalName, 4) == -1)
 		return 0;
 
 	// file exists...
-	CloseHandle(hFile);
-
 	TCHAR szBackupName[MAX_PATH];
 	PathToRelativeT(szFinalName, szBackupName, g_szDataPath);
 	db_set_ts(hContact, "ContactPhoto", "Backup", szBackupName);
@@ -499,16 +496,11 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 
 static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHookData &data, BOOL allAcceptXML, BOOL allAcceptSWF)
 {
-	HANDLE hFile = 0;
-
 	int format = ProtoGetAvatarFormat(szFinalName);
-	if (format == PA_FORMAT_UNKNOWN || (hFile = CreateFile(szFinalName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
+	if (format == PA_FORMAT_UNKNOWN || _taccess(szFinalName, 4) == -1)
 		return -3;
 
-	CloseHandle(hFile);
-
 	// file exists...
-
 	HBITMAP hBmp = NULL;
 
 	if (format == PA_FORMAT_SWF) {
