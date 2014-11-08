@@ -117,62 +117,61 @@ static void SetProtoPic(char *szProto)
 	ofn.lpstrInitialDir = _T(".");
 	*FileName = '\0';
 	ofn.lpstrDefExt = _T("");
-	if (GetOpenFileName(&ofn)) {
-		HANDLE hFile = CreateFile(FileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (hFile == INVALID_HANDLE_VALUE)
-			return;
+	if (!GetOpenFileName(&ofn))
+		return;
 
-		CloseHandle(hFile);
+	if (_taccess(FileName, 4) == -1)
+		return;
 
-		TCHAR szNewPath[MAX_PATH];
-		PathToRelativeT(FileName, szNewPath, g_szDataPath);
-		db_set_ts(NULL, PPICT_MODULE, szProto, szNewPath);
+	TCHAR szNewPath[MAX_PATH];
+	PathToRelativeT(FileName, szNewPath, g_szDataPath);
+	db_set_ts(NULL, PPICT_MODULE, szProto, szNewPath);
 
-		if (!lstrcmpA(AVS_DEFAULT, szProto)) {
-			for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
+	if (!lstrcmpA(AVS_DEFAULT, szProto)) {
+		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
+			protoPicCacheEntry& p = g_ProtoPictures[i];
+			if (lstrlenA(p.szProtoname) == 0)
+				continue;
+
+			if (p.hbmPic == 0 || !lstrcmpA(p.szProtoname, AVS_DEFAULT)) {
+				CreateAvatarInCache(0, &p, szProto);
+				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
+			}
+		}
+	}
+	else if (strstr(szProto, "Global avatar for")) {
+		char szProtoname[MAX_PATH] = { 0 };
+		lstrcpynA(szProtoname, szProto, lstrlenA(szProto) - lstrlenA("accounts"));
+		lstrcpyA(szProtoname, strrchr(szProtoname, ' ') + 1);
+		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
+			PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)g_ProtoPictures[i].szProtoname);
+			if (pdescr == NULL && lstrcmpA(g_ProtoPictures[i].szProtoname, szProto))
+				continue;
+
+			if (!lstrcmpA(g_ProtoPictures[i].szProtoname, szProto) || !lstrcmpA(pdescr->szProtoName, szProtoname)) {
 				protoPicCacheEntry& p = g_ProtoPictures[i];
 				if (lstrlenA(p.szProtoname) != 0) {
 					if (p.hbmPic == 0) {
-						CreateAvatarInCache(0, &p, (char*)szProto);
+						CreateAvatarInCache(0, &p, szProto);
 						NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
 					}
 				}
 			}
 		}
-		else if (strstr(szProto, "Global avatar for")) {
-			char szProtoname[MAX_PATH] = { 0 };
-			lstrcpynA(szProtoname, szProto, lstrlenA(szProto) - lstrlenA("accounts"));
-			lstrcpyA(szProtoname, strrchr(szProtoname, ' ') + 1);
-			for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-				PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)g_ProtoPictures[i].szProtoname);
-				if (pdescr == NULL && lstrcmpA(g_ProtoPictures[i].szProtoname, szProto))
-					continue;
+	}
+	else {
+		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
+			protoPicCacheEntry& p = g_ProtoPictures[i];
+			if (lstrlenA(p.szProtoname) == 0)
+				break;
 
-				if (!lstrcmpA(g_ProtoPictures[i].szProtoname, szProto) || !lstrcmpA(pdescr->szProtoName, szProtoname)) {
-					protoPicCacheEntry& p = g_ProtoPictures[i];
-					if (lstrlenA(p.szProtoname) != 0) {
-						if (p.hbmPic == 0) {
-							CreateAvatarInCache(0, &p, (char*)szProto);
-							NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
-						}
-					}
-				}
-			}
-		}
-		else {
-			for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-				protoPicCacheEntry& p = g_ProtoPictures[i];
-				if (lstrlenA(p.szProtoname) == 0)
-					break;
-
-				if (!strcmp(p.szProtoname, szProto) && lstrlenA(p.szProtoname) == lstrlenA(szProto)) {
-					if (p.hbmPic != 0)
-						DeleteObject(p.hbmPic);
-					ZeroMemory(&p, sizeof(avatarCacheEntry));
-					CreateAvatarInCache(0, &p, (char*)szProto);
-					NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
-					break;
-				}
+			if (!strcmp(p.szProtoname, szProto) && lstrlenA(p.szProtoname) == lstrlenA(szProto)) {
+				if (p.hbmPic != 0)
+					DeleteObject(p.hbmPic);
+				ZeroMemory(&p, sizeof(avatarCacheEntry));
+				CreateAvatarInCache(0, &p, szProto);
+				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
+				break;
 			}
 		}
 	}

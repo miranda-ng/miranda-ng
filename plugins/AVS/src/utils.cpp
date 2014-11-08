@@ -144,10 +144,8 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		return -1;
 
 	_tcsncpy_s(tszFilename, VARST(tszFilename), _TRUNCATE);
-	if ((hFile = CreateFile(tszFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
+	if (_taccess(tszFilename, 4) == -1)
 		return -2;
-
-	CloseHandle(hFile);
 
 	BOOL isTransparentImage = 0;
 	ace->hbmPic = BmpFilterLoadBitmap(&isTransparentImage, tszFilename);
@@ -186,9 +184,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		}
 
 		// Make transparent?
-		if (!noTransparency && !isTransparentImage
-				&& db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg",
-				db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0))) {
+		if (!noTransparency && !isTransparentImage && db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0))) {
 			if (MakeTransparentBkg(hContact, &ace->hbmPic)) {
 				ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
 				GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
@@ -197,9 +193,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		}
 	}
 	else if (hContact == INVALID_CONTACT_ID) { // My avatars
-		if (!noTransparency && !isTransparentImage
-				&& db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)
-				&& db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0)) {
+		if (!noTransparency && !isTransparentImage && db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) && db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0)) {
 			if (MakeTransparentBkg(0, &ace->hbmPic)) {
 				ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
 				GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
@@ -268,7 +262,7 @@ int GetFileHash(TCHAR* filename)
 			}
 		}
 	}
-	while (dwRead == 1024);
+		while (dwRead == 1024);
 
 	CloseHandle(hFile);
 
