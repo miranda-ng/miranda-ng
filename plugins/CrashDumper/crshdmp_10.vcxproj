@@ -216,6 +216,13 @@
     <ResourceCompile Include="res\crshdmp.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Vi show.ico" />
+    <Image Include="res\Vi to clipboard.ico" />
+    <Image Include="res\Vi to file.ico" />
+    <Image Include="res\Vi upload.ico" />
+    <Image Include="res\Vi.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
