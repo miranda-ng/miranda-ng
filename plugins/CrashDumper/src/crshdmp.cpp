@@ -32,9 +32,7 @@ TCHAR* profpath;
 
 TCHAR CrashLogFolder[MAX_PATH], VersionInfoFolder[MAX_PATH];
 
-bool servicemode;
-bool clsdates;
-bool dtsubfldr;
+bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart = 0;
 
 extern HWND hViewWnd;
 
@@ -268,11 +266,13 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.position = 2000099990;
-	mi.ptszName = LPGENT("Open crash report directory");
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_FILE);
-	mi.pszService = MS_CRASHDUMPER_URL;
-	Menu_AddMainMenuItem(&mi);
+	if (catchcrashes && !needrestart) {
+		mi.position = 2000099990;
+		mi.ptszName = LPGENT("Open crash report directory");
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_FILE);
+		mi.pszService = MS_CRASHDUMPER_URL;
+		Menu_AddMainMenuItem(&mi);
+	}
 
 	mi.popupPosition = 1;
 	mi.position = 2000099991;
@@ -297,7 +297,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	
 	UploadInit();
 
-	SetExceptionHandler();
+	if (catchcrashes && !needrestart)
+		SetExceptionHandler();
 
 	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 
@@ -322,13 +323,15 @@ extern "C" int __declspec(dllexport) Load(void)
 		return 1;
 
 	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
-
 	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
+	catchcrashes = db_get_b(NULL, PluginName, "CatchCrashes", 1) != 0;
+
 	mir_getLP(&pluginInfoEx);
 
 	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
 	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-	mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
+	if (catchcrashes && !needrestart)
+		mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
 	mir_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
 
 
@@ -340,7 +343,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitIcons();
 
-	InitExceptionHandler();
+	if (catchcrashes && !needrestart)
+		InitExceptionHandler();
 
 	CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
 	CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
@@ -355,7 +359,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	DestroyAllWindows();
 
-	DestroyExceptionHandler();
+	if ((catchcrashes && !needrestart) || (!catchcrashes && needrestart))
+		DestroyExceptionHandler();
 
 	mir_free(profpath);
 	mir_free(profname);
@@ -365,15 +370,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID /*lpvReserved*/)
 {
-	switch (fdwReason) {
-	case DLL_PROCESS_ATTACH:
-		DisableThreadLibraryCalls(hinstDLL);
-		hInst = hinstDLL;
-		break;
-
-	case DLL_PROCESS_DETACH:
-		break;
-	}
-
+	hInst = hinstDLL;
 	return TRUE;
 }

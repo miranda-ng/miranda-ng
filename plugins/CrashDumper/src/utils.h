@@ -66,8 +66,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-#define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
-
 #define MS_CRASHDUMPER_STORETOFILE "CrashDmp/StoreVerInfoToFile"
 #define MS_CRASHDUMPER_STORETOCLIP "CrashDmp/StoreVerInfoToClip"
 #define MS_CRASHDUMPER_GETINFO     "Versioninfo/GetInfo"
@@ -91,9 +89,7 @@ struct VerTrnsfr
 extern HMODULE hInst;
 extern DWORD mirandaVersion;
 extern LCID packlcid;
-extern bool servicemode; 
-extern bool clsdates;
-extern bool dtsubfldr;
+extern bool servicemode, clsdates, dtsubfldr, catchcrashes, needrestart;
 
 extern TCHAR CrashLogFolder[MAX_PATH];
 extern TCHAR VersionInfoFolder[MAX_PATH];

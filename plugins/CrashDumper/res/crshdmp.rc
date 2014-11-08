@@ -8,8 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "afxres.h"
-#include "richedit.h"
-
+#include "richedit.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -36,7 +35,7 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
-    "#include ""richedit.h""\r\n"
+    "#include ""richedit.h""\r\0"
 END
 
 3 TEXTINCLUDE 
@@ -63,7 +62,7 @@ BEGIN
     CONTROL         "",IDC_VIEWVERSIONINFO,RICHEDIT_CLASS,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,7,7,361,203,WS_EX_CLIENTEDGE
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 209, 163
+IDD_OPTIONS DIALOGEX 0, 0, 209, 179
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -74,9 +73,12 @@ BEGIN
     LTEXT           "Password",IDC_STATIC,14,52,107,8
     EDITTEXT        IDC_PASSWORD,14,65,107,14,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Upload automatically when changed",IDC_UPLOADCHN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,84,161,10
-    GROUPBOX        "General",IDC_STATIC,7,104,195,42
-    CONTROL         "Use classic dates",IDC_CLASSICDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,118,157,10
-    CONTROL         "Create reports in subfolders naming as current date",IDC_DATESUBFOLDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,132,180,10
+    GROUPBOX        "Crash reports",IDC_STATIC,7,104,195,54
+    CONTROL         "Use classic dates",IDC_CLASSICDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,127,157,10
+    CONTROL         "Create reports in subfolders naming as current date",IDC_DATESUBFOLDER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,141,180,10
+    CONTROL         "Catch crashes",IDC_CATCHCRASHES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,113,169,10
+    LTEXT           "* You need to restart Miranda NG to apply changes",IDC_RESTARTNOTE,9,160,186,8,NOT WS_VISIBLE
 END
 
 
@@ -86,7 +88,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_VIEWVERSION, DIALOG
     BEGIN
@@ -101,7 +103,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 202
         TOPMARGIN, 7
-        BOTTOMMARGIN, 147
+        BOTTOMMARGIN, 173
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -112,7 +114,7 @@ END
 // Menu
 //
 
-IDR_CONTEXT MENU 
+IDR_CONTEXT MENU
 BEGIN
     POPUP "View"
     BEGIN
@@ -146,6 +148,7 @@ IDI_VIUPLOAD            ICON                    "Vi upload.ico"
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

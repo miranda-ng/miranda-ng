@@ -58,5 +58,25 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{62e505d1-3764-4225-b4dd-cf2341c4f783}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{4ac2fffa-c726-460d-a233-b057b4367069}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Vi show.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\Vi to clipboard.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\Vi to file.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\Vi upload.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\Vi.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>
