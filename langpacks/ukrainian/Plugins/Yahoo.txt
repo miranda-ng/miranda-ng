@@ -58,7 +58,7 @@ Yahoo Японія
 [Client:]
 Клієнт:
 [Chat Room Invitation Request]
-Запрошення в чат-кімнату
+Запрошення до чату
 [&Join]
 %Зайти
 [&Deny]

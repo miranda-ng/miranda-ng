@@ -1,4 +1,3 @@
-﻿[Issued a quit command.]
-[Issued a quit and wait command.]
+﻿[Issued a quit and wait command.]
 [utf8:'%s']
 [blob:N/A]

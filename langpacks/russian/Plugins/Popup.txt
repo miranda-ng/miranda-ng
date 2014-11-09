@@ -82,7 +82,7 @@ History++ для истории окон
 [Download more skins]
 Скачать скины
 [Popup History]
-История вспл.окон
+История вспл. окон
 [Desktop]
 Рабочий стол
 [Popup area]
