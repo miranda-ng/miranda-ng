@@ -961,7 +961,17 @@ int CVkProto::PollServer()
 	if (!IsOnline()){
 		debugLogA("CVkProto::PollServer is dead (not online)");
 		m_pollingConn = NULL;
-		ShutdownSession();
+		if (m_iPollConnRetry){
+			m_iPollConnRetry--;
+			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - m_iPollConnRetry);
+			Sleep(1000);
+			PollServer();
+		}
+		else {
+			debugLogA("CVkProto::PollServer => ShutdownSession");
+			m_iPollConnRetry = MAX_RETRIES;
+			ShutdownSession();
+		}
 		return 0;	
 	}
 
