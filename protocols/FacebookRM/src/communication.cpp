@@ -539,6 +539,9 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		if (!this->chat_sticky_num_.empty())
 			action += "&sticky_token=" + this->chat_sticky_num_;
 
+		if (!this->chat_sticky_pool_.empty())
+			action += "&sticky_pool=" + this->chat_sticky_pool_;
+
 		if (!this->chat_traceid_.empty())
 			action += "&traceid=" + this->chat_traceid_;
 
@@ -1139,8 +1142,8 @@ bool facebook_client::channel()
 	}
 	else if (type == "lb") {
 		// Some new stuff (idk how does it work yet)
-		this->chat_channel_host_ = utils::text::source_get_value(&resp.data, 2, "\"vip\":\"", "\"");
-		parent->debugLogA("      Got self channel host: %s", this->chat_channel_host_.c_str());
+		this->chat_sticky_pool_ = utils::text::source_get_value(&resp.data, 2, "\"pool\":\"", "\"");
+		parent->debugLogA("      Got self sticky pool: %s", this->chat_sticky_pool_.c_str());
 
 		this->chat_sticky_num_ = utils::text::source_get_value2(&resp.data, "\"sticky\":\"", "\"");
 		parent->debugLogA("      Got self sticky number: %s", this->chat_sticky_num_.c_str());
