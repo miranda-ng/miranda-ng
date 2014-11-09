@@ -75,7 +75,6 @@ void CVkProto::OnLoggedIn()
 {
 	debugLogA("CVkProto::OnLoggedIn");
 	m_bOnline = true;
-	m_iPollConnRetry = MAX_RETRIES;
 	SetServerStatus(m_iDesiredStatus);
 
 	// initialize online timer
@@ -961,49 +960,39 @@ int CVkProto::PollServer()
 	if (!IsOnline()){
 		debugLogA("CVkProto::PollServer is dead (not online)");
 		m_pollingConn = NULL;
-		if (m_iPollConnRetry){
-			m_iPollConnRetry--;
-			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - m_iPollConnRetry);
-			Sleep(1000);
-			PollServer();
-		}
-		else {
-			debugLogA("CVkProto::PollServer => ShutdownSession");
-			m_iPollConnRetry = MAX_RETRIES;
-			ShutdownSession();
-		}
+		ShutdownSession();
 		return 0;	
 	}
 
 	debugLogA("CVkProto::PollServer (online)");
-	NETLIBHTTPREQUEST req = { sizeof(req) };
-	req.requestType = REQUEST_GET;
-	req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106));
-	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
-	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT;
-	req.timeout = 30000;
-	req.nlc = m_pollingConn;
+	int iPollConnRetry = MAX_RETRIES;
+	NETLIBHTTPREQUEST *reply;
+	do {
+		NETLIBHTTPREQUEST req = { sizeof(req) };
+		req.requestType = REQUEST_GET;
+		req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106));
+		// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
+		req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT;
+		req.timeout = 30000;
+		req.nlc = m_pollingConn;
 
-	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-	if (reply == NULL) {
-		debugLogA("CVkProto::PollServer is dead");	
+		reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
+		if (reply != NULL)
+			break;
+		debugLogA("CVkProto::PollServer is dead");
 		m_pollingConn = NULL;
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
-		if (m_iPollConnRetry){
-			m_iPollConnRetry--;
-			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - m_iPollConnRetry);
-			Sleep(1000);
-			PollServer();
+		if (iPollConnRetry){
+			iPollConnRetry--;
+			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - iPollConnRetry);
+			Sleep(1000);	
 		}
 		else {
 			debugLogA("CVkProto::PollServer => ShutdownSession");
-			m_iPollConnRetry = MAX_RETRIES;
 			ShutdownSession();
-		}
-		return 0;
-	}
-
-	m_iPollConnRetry = MAX_RETRIES;
+			return 0;
+		}	
+	} while (true);
+	
 
 	int retVal = 0;
 	if (reply->resultCode == 200) {
