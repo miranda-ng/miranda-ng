@@ -83,6 +83,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
+	m_iPollConnRetry = MAX_RETRIES;
 	vk_Instances.insert(this);
 }
 

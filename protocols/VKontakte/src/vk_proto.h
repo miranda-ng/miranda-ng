@@ -420,6 +420,8 @@ private:
 		m_bStikersAsSmyles,
 		m_bUserForceOnlineOnActivity;
 
+	int m_iPollConnRetry;
+
 	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
 	int		m_iMarkMessageReadOn;
 	
