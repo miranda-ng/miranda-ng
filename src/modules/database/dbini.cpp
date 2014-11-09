@@ -407,15 +407,14 @@ static void DoAutoExec(void)
 {
 	TCHAR szUse[7], szIniPath[MAX_PATH], szFindPath[MAX_PATH];
 	TCHAR buf[2048], szSecurity[11], szOverrideSecurityFilename[MAX_PATH], szOnCreateFilename[MAX_PATH];
-	char *szSafeSections, *szUnsafeSections;
 	int secur;
 
 	GetPrivateProfileString(_T("AutoExec"), _T("Use"), _T("prompt"), szUse, SIZEOF(szUse), mirandabootini);
 	if (!lstrcmpi(szUse, _T("no"))) return;
 	GetPrivateProfileString(_T("AutoExec"), _T("Safe"), _T("CLC Icons CLUI CList SkinSounds"), buf, SIZEOF(buf), mirandabootini);
-	szSafeSections = mir_t2a(buf);
+	ptrA szSafeSections(mir_t2a(buf));
 	GetPrivateProfileString(_T("AutoExec"), _T("Unsafe"), _T("AIM Facebook GG ICQ IRC JABBER MRA MSN SKYPE Tlen TWITTER VKontakte XFire"), buf, SIZEOF(buf), mirandabootini);
-	szUnsafeSections = mir_t2a(buf);
+	ptrA szUnsafeSections(mir_t2a(buf));
 	GetPrivateProfileString(_T("AutoExec"), _T("Warn"), _T("notsafe"), szSecurity, SIZEOF(szSecurity), mirandabootini);
 	if (!lstrcmpi(szSecurity, _T("none"))) secur = 0;
 	else if (!lstrcmpi(szSecurity, _T("notsafe"))) secur = 1;
@@ -434,15 +433,14 @@ static void DoAutoExec(void)
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szFindPath, &fd);
-	if (hFind == INVALID_HANDLE_VALUE) {
-		mir_free(szSafeSections);
-		mir_free(szUnsafeSections);
+	if (hFind == INVALID_HANDLE_VALUE)
 		return;
-	}
 
 	TCHAR *str2 = _tcsrchr(szFindPath, '\\');
-	if (str2 == NULL) szFindPath[0] = 0;
-	else str2[1] = 0;
+	if (str2 == NULL)
+		szFindPath[0] = 0;
+	else
+		str2[1] = 0;
 
 	do {
 		bool secFN = lstrcmpi(fd.cFileName, szOverrideSecurityFilename) == 0;
@@ -472,8 +470,7 @@ static void DoAutoExec(void)
 				SHFileOperation(&shfo);
 			}
 			else if (!lstrcmpi(szOnCompletion, _T("rename"))) {
-				TCHAR szRenamePrefix[MAX_PATH];
-				TCHAR szNewPath[MAX_PATH];
+				TCHAR szRenamePrefix[MAX_PATH], szNewPath[MAX_PATH];
 				GetPrivateProfileString(_T("AutoExec"), _T("RenamePrefix"), _T("done_"), szRenamePrefix, SIZEOF(szRenamePrefix), mirandabootini);
 				lstrcpy(szNewPath, szFindPath);
 				lstrcat(szNewPath, szRenamePrefix);
@@ -487,8 +484,6 @@ static void DoAutoExec(void)
 		while (FindNextFile(hFind, &fd));
 
 	FindClose(hFind);
-	mir_free(szSafeSections);
-	mir_free(szUnsafeSections);
 }
 
 static INT_PTR CheckIniImportNow(WPARAM, LPARAM)
