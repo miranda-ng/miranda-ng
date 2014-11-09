@@ -121,6 +121,8 @@ Miranda була закрита або сталася помилка при оч
 Список контактiв вiдкрито.
 [Contact list was hidden successfully.]
 Список контактiв згорнуто.
+[Issued a quit command.]
+Виконано команду "Вихід".
 [Issued check email command to Exchange plugin.]
 Вiдправлена команда перевiрки пошти для плагiна Exchange.
 [Exchange plugin is not running.]

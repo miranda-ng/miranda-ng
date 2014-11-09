@@ -64,9 +64,9 @@
 [Popups are disabled]
 Всплывающие окна выключены
 [Popup History]
-История вспл.окон
+История вспл. окон
 [YAPP Popups]
-Вспливающие окна
+Всплывающие окна
 [Example]
 Пример
 [The quick brown fox jumped over the lazy dog.]

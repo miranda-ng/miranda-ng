@@ -23,12 +23,16 @@
 Пароль
 [Upload automatically when changed]
 Завантажувати автоматично при змінах
-[General]
-Загальне
+[Crash reports]
+Звіти про помилки
 [Use classic dates]
 Класичний формат часу і дати
 [Create reports in subfolders naming as current date]
 Зберігати звіти в папки, названі по даті
+[Generate crash reports]
+Створювати звіти про помилки
+[* You need to restart Miranda NG to apply changes]
+* Зміни вступлять у силу після перезапуску програми
 [View]
 Вигляд
 [&Copy]
@@ -72,7 +76,7 @@
 [Show Version Info]
 Показати версії
 [Crash Dumper]
-Звіт про помилки
+Звіти про помилки і версії
 [Crash Report write location is not available]
 Шлях для запису звіту про помилку недоступний
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]

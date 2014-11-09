@@ -58,7 +58,7 @@ WebView
 [Display data in popup]
 Показувати дані в сплив. вікні
 [You may need to restart Miranda NG for this change to take effect.]
-Потрібно перезапустити Miranda NG щоб цей ефект вступив у силу.
+Потрібно перезапустити Miranda NG, щоб цей ефект вступив у силу.
 [Contact name:]
 Ім'я контакту:
 [URL:]
