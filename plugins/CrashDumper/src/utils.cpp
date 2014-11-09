@@ -189,57 +189,12 @@ void GetOSDisplayString(CMString &buffer)
 				buffer.Append(TEXT("Professional"));
 		}
 
-		if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0) {
-			buffer.Append(TEXT("Windows 2000 "));
-
-			if (osvi.wProductType == VER_NT_WORKSTATION)
-				buffer.Append(TEXT("Professional"));
-			else if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
-				buffer.Append(TEXT("Datacenter Server"));
-			else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
-				buffer.Append(TEXT("Advanced Server"));
-			else
-				buffer.Append(TEXT("Server"));
-		}
-
 		if (osvi.szCSDVersion[0] != 0) {
 			buffer.Append(TEXT(" "));
 			buffer.Append(osvi.szCSDVersion);
 		}
 
 		buffer.AppendFormat(TEXT(" (build %d)"), osvi.dwBuildNumber);
-	}
-	else {
-		if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId) {
-			buffer.Append(TEXT("Microsoft Windows NT "));
-			if (osvi.wProductType == VER_NT_WORKSTATION)
-				buffer.Append(TEXT("Workstation 4.0 "));
-			else if (osvi.wSuiteMask & VER_SUITE_ENTERPRISE)
-				buffer.Append(TEXT("Server 4.0, Enterprise Edition "));
-			else
-				buffer.Append(TEXT("Server 4.0 "));
-		}
-
-		if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && osvi.dwMajorVersion == 4) {
-			if (osvi.dwMinorVersion == 0) {
-				buffer.Append(TEXT("Microsoft Windows 95 "));
-				if (osvi.szCSDVersion[1] == TEXT('C') || osvi.szCSDVersion[1] == TEXT('B'))
-					buffer.Append(TEXT("OSR2 "));
-			}
-
-			if (osvi.dwMinorVersion == 10) {
-				buffer.Append(TEXT("Microsoft Windows 98 "));
-				if (osvi.szCSDVersion[1] == TEXT('A') || osvi.szCSDVersion[1] == TEXT('B'))
-					buffer.Append(TEXT("SE "));
-			}
-
-			if (osvi.dwMinorVersion == 90)
-				buffer.Append(TEXT("Microsoft Windows Millennium Edition"));
-
-			buffer.AppendFormat(TEXT("(build %d)"), LOWORD(osvi.dwBuildNumber));
-		}
-		else if (osvi.dwPlatformId == VER_PLATFORM_WIN32s)
-			buffer.Append(TEXT("Microsoft Win32s"));
 	}
 }
 
