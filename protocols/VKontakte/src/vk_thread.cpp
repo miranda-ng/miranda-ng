@@ -75,6 +75,7 @@ void CVkProto::OnLoggedIn()
 {
 	debugLogA("CVkProto::OnLoggedIn");
 	m_bOnline = true;
+	m_iPollConnRetry = MAX_RETRIES;
 	SetServerStatus(m_iDesiredStatus);
 
 	// initialize online timer
@@ -978,9 +979,21 @@ int CVkProto::PollServer()
 		debugLogA("CVkProto::PollServer is dead");	
 		m_pollingConn = NULL;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
-		ShutdownSession();
+		if (m_iPollConnRetry){
+			m_iPollConnRetry--;
+			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - m_iPollConnRetry);
+			Sleep(1000);
+			PollServer();
+		}
+		else {
+			debugLogA("CVkProto::PollServer => ShutdownSession");
+			m_iPollConnRetry = MAX_RETRIES;
+			ShutdownSession();
+		}
 		return 0;
 	}
+
+	m_iPollConnRetry = MAX_RETRIES;
 
 	int retVal = 0;
 	if (reply->resultCode == 200) {
