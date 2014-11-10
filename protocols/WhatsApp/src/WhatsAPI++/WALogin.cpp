@@ -222,18 +222,17 @@ std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess() {
 }
 
 void WALogin::parseSuccessNode(ProtocolTreeNode* node) {
-	std::string* expiration = node->getAttributeValue("expiration");
-	if (expiration != NULL) {
-		this->expire_date = atol(expiration->c_str());
+	const string &expiration = node->getAttributeValue("expiration");
+	if (!expiration.empty()) {
+		this->expire_date = atol(expiration.c_str());
 		if (this->expire_date == 0)
-			throw WAException("invalid expire date: " + *expiration);
+			throw WAException("invalid expire date: " + expiration);
 	}
 
-
-	std::string* kind = node->getAttributeValue("kind");
-	if (kind != NULL && kind->compare("paid") == 0)
+	const string &kind = node->getAttributeValue("kind");
+	if (kind == "paid")
 		this->account_kind = 1;
-	else if (kind != NULL && kind->compare("free") == 0)
+	else if (kind == "free")
 		this->account_kind = 0;
 	else
 		this->account_kind = -1;
@@ -254,18 +253,18 @@ std::vector<unsigned char> WALogin::readSuccess() {
 	ProtocolTreeNode::require(node, "success");
 	this->parseSuccessNode(node);
 
-	std::string* status = node->getAttributeValue("status");
-	if (status != NULL && status->compare("expired") == 0) {
+	const string &status = node->getAttributeValue("status");
+	if (status == "expired") {
 		delete node;
 		throw WAException("Account expired on" + std::string(ctime(&this->expire_date)), WAException::LOGIN_FAILURE_EX, WAException::LOGIN_FAILURE_EX_TYPE_EXPIRED, this->expire_date);
 	}
-	if (status != NULL && status->compare("active") == 0) {
-		if (node->getAttributeValue("expiration") == NULL) {
+	if (status == "active") {
+		if (node->getAttributeValue("expiration").empty()) {
 			delete node;
 			throw WAException("active account with no expiration");
 		}
-	} else
-		this->account_kind = -1;
+	}
+	else this->account_kind = -1;
 
 	std::vector<unsigned char> data = *node->data;
 	delete node;

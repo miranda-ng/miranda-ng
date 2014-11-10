@@ -40,7 +40,6 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
-	
 	int msgId = ++(this->msgId);
 
 	ForkThread(&WhatsAppProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE)msgId, flags & IS_CHAT));
@@ -49,7 +48,6 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 
 void WhatsAppProto::SendMsgWorker(void* p)
 {
-	
 	if (p == NULL)
 		return;
 
@@ -151,8 +149,6 @@ void WhatsAppProto::SendTypingWorker(void* p)
 
 void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 {
-	
-
 	MCONTACT hContact = this->ContactIDToHContact(fmsg->key->remote_jid);
 	if (hContact == 0)
 		return;

@@ -156,7 +156,7 @@ INT_PTR CALLBACK WhatsAppInputBoxProc(HWND hwndDlg, UINT message, WPARAM wparam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_OK), len > 0);
 			return TRUE;
 		}
-		
+
 		if (LOWORD(wparam) == IDC_OK) {
 			ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			TCHAR* value = new TCHAR[ib->limit + 1];
@@ -173,7 +173,7 @@ INT_PTR CALLBACK WhatsAppInputBoxProc(HWND hwndDlg, UINT message, WPARAM wparam,
 			delete ib;
 			return TRUE;
 		}
-		
+
 		if (LOWORD(wparam) == IDC_CANCEL) {
 			EndDialog(hwndDlg, wparam);
 			ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));

@@ -77,7 +77,7 @@ public:
 
 	static std::string getMessage_WA_Type_StrValue(unsigned char type);
 	static std::string nextKeyIdNumber();
-	static unsigned char getMessage_WA_Type(std::string* typeString);
+	static unsigned char getMessage_WA_Type(const std::string& typeString);
 
 	FMessage();
 	FMessage(const std::string& remote_jid, bool from_me = true, const std::string& data = "");

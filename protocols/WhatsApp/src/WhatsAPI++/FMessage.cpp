@@ -105,10 +105,11 @@ std::string Key::toString() {
 }
 
 
-unsigned char FMessage::getMessage_WA_Type(std::string* type) {
-	if ((type == NULL) || (type->length() == 0))
+unsigned char FMessage::getMessage_WA_Type(const std::string& type) {
+	if (type.empty())
 		return WA_TYPE_UNDEFINED;
-	std::string typeLower = *type;
+	
+	std::string typeLower = type;
 	std::transform(typeLower.begin(), typeLower.end(), typeLower.begin(), ::tolower);
 	if (typeLower.compare("system") == 0)
 		return WA_TYPE_SYSTEM;

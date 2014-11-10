@@ -171,7 +171,7 @@ public:
 	virtual void onPingResponseReceived() {  }
 	virtual void onAvailable(const std::string& paramString, bool paramBoolean);
 	virtual void onClientConfigReceived(const std::string& paramString) {  }
-	virtual void onLastSeen(const std::string& paramString1, int paramInt, std::string* paramString2);
+	virtual void onLastSeen(const std::string& paramString1, int paramInt, const std::string& paramString2);
 	virtual void onIsTyping(const std::string& paramString, bool paramBoolean);
 	virtual void onAccountChange(int paramInt, time_t expire_date) {  }
 	virtual void onPrivacyBlockListAdd(const std::string& paramString) {  }
