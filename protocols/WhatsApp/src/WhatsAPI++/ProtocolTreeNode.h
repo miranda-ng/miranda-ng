@@ -26,11 +26,11 @@ public:
    string toString();
    ProtocolTreeNode* getChild(const string& id);
    ProtocolTreeNode* getChild(size_t id);
-   string* getAttributeValue(const string& attribute);
+   const string& getAttributeValue(const string& attribute);
 
-   vector<ProtocolTreeNode*>* getAllChildren();
-   vector<ProtocolTreeNode*>* getAllChildren(const string& tag);
-   std::string* getDataAsString();
+   vector<ProtocolTreeNode*> getAllChildren();
+   vector<ProtocolTreeNode*> getAllChildren(const string& tag);
+   std::string getDataAsString();
 
    static bool tagEquals(ProtocolTreeNode *node, const string& tag);
    static void require(ProtocolTreeNode *node, const string& tag);

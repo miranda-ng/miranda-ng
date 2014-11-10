@@ -13,8 +13,7 @@ bool WhatsAppProto::IsMyContact(MCONTACT hContact, bool include_chat)
 	return false;
 }
 
-MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE type, bool dont_check, const char *new_name,
-	bool isChatRoom, bool isHidden)
+MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE type, bool dont_check, const char *new_name, bool isChatRoom, bool isHidden)
 {
 	if (!dont_check) {
 		// First, check if this contact exists
@@ -184,7 +183,7 @@ void WhatsAppProto::onAvailable(const std::string& paramString, bool paramBoolea
 	this->UpdateStatusMsg(hContact);
 }
 
-void WhatsAppProto::onLastSeen(const std::string& paramString1, int paramInt, std::string* paramString2)
+void WhatsAppProto::onLastSeen(const std::string& paramString1, int paramInt, const string &paramString2)
 {
 	MCONTACT hContact = this->AddToContactList(paramString1, 0, false);
 	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, paramInt);

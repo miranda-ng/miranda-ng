@@ -433,123 +433,111 @@ bool WAConnection::read() throw(WAException)
 	}
 
 	if (ProtocolTreeNode::tagEquals(node, "iq")) {
-		std::string* type = node->getAttributeValue("type");
-		std::string* id = node->getAttributeValue("id");
-		std::string* from = node->getAttributeValue("from");
-		std::string f;
-		if (from == NULL)
-			f = "";
-		else
-			f = *from;
-
-		if (type == NULL)
+		const string &type = node->getAttributeValue("type");
+		if (type.empty())
 			throw WAException("missing 'type' attribute in iq stanza", WAException::CORRUPT_STREAM_EX, 0);
 
-		if (type->compare("result") == 0) {
-			if (id == NULL)
+		const string &id = node->getAttributeValue("id");
+		const string &from = node->getAttributeValue("from");
+
+		if (type == "result") {
+			if (id.empty())
 				throw WAException("missing 'id' attribute in iq stanza", WAException::CORRUPT_STREAM_EX, 0);
 
-			std::map<string, IqResultHandler*>::iterator it = this->pending_server_requests.find(*id);
+			std::map<string, IqResultHandler*>::iterator it = this->pending_server_requests.find(id);
 			if (it != this->pending_server_requests.end()) {
-				it->second->parse(node, f);
+				it->second->parse(node, from);
 				delete it->second;
-				this->pending_server_requests.erase(*id);
+				this->pending_server_requests.erase(id);
 			}
-			else if (id->compare(0, this->login->user.size(), this->login->user) == 0) {
+			else if (id.compare(0, this->login->user.size(), this->login->user) == 0) {
 				ProtocolTreeNode* accountNode = node->getChild(0);
 				ProtocolTreeNode::require(accountNode, "account");
-				std::string* kind = accountNode->getAttributeValue("kind");
-				if ((kind != NULL) && (kind->compare("paid") == 0)) {
+				const string &kind = accountNode->getAttributeValue("kind");
+				if (kind == "paid")
 					this->account_kind = 1;
-				}
-				else if ((kind != NULL) && (kind->compare("free") == 0)) {
+				else if (kind == "free")
 					this->account_kind = 0;
-				}
 				else
 					this->account_kind = -1;
-				std::string* expiration = accountNode->getAttributeValue("expiration");
-				if (expiration == NULL) {
+				
+				const string &expiration = accountNode->getAttributeValue("expiration");
+				if (expiration.empty())
 					throw WAException("no expiration");
-				}
-				this->expire_date = atol(expiration->c_str());
+
+				this->expire_date = atol(expiration.c_str());
 				if (this->expire_date == 0)
-					throw WAException("invalid expire date: " + *expiration);
+					throw WAException("invalid expire date: " + expiration);
 				if (this->event_handler != NULL)
 					this->event_handler->onAccountChange(this->account_kind, this->expire_date);
 			}
 		}
-		else if (type->compare("error") == 0) {
-			std::map<string, IqResultHandler*>::iterator it = this->pending_server_requests.find(*id);
+		else if (type == "error") {
+			std::map<string, IqResultHandler*>::iterator it = this->pending_server_requests.find(id);
 			if (it != this->pending_server_requests.end()) {
 				it->second->error(node);
 				delete it->second;
-				this->pending_server_requests.erase(*id);
+				this->pending_server_requests.erase(id);
 			}
 		}
-		else if (type->compare("get") == 0) {
+		else if (type == "get") {
 			ProtocolTreeNode* childNode = node->getChild(0);
 			if (ProtocolTreeNode::tagEquals(childNode, "ping")) {
 				if (this->event_handler != NULL)
-					this->event_handler->onPing(*id);
+					this->event_handler->onPing(id);
 			}
-			else if (ProtocolTreeNode::tagEquals(childNode, "query") && (from != NULL) ? false : // (childNode->getAttributeValue("xmlns") != NULL) && ((*childNode->getAttributeValue("xmlns")).compare("http://jabber.org/protocol/disco#info") == 0) :
-				(ProtocolTreeNode::tagEquals(childNode, "relay")) && (from != NULL)) {
-				std::string* pin = childNode->getAttributeValue("pin");
-				std::string* timeoutString = childNode->getAttributeValue("timeout");
-				int timeoutSeconds;
-				timeoutSeconds = timeoutString == NULL ? 0 : atoi(timeoutString->c_str());
-				if (pin != NULL)
-					if (this->event_handler != NULL)
-						this->event_handler->onRelayRequest(*pin, timeoutSeconds, *id);
-			}
-		}
-		else if (type->compare("set") == 0) {
-			ProtocolTreeNode* childNode = node->getChild(0);
-			if (ProtocolTreeNode::tagEquals(childNode, "query")) {
-				std::string* xmlns = childNode->getAttributeValue("xmlns");
-				if ((xmlns != NULL) && (xmlns->compare("jabber:iq:roster") == 0)) {
-					std::vector<ProtocolTreeNode*>* itemNodes = childNode->getAllChildren("item");
-					std::string ask = "";
-					for (size_t i = 0; i < itemNodes->size(); i++) {
-						ProtocolTreeNode* itemNode = (*itemNodes)[i];
-						std::string* jid = itemNode->getAttributeValue("jid");
-						std::string* subscription = itemNode->getAttributeValue("subscription");
-						ask = *itemNode->getAttributeValue("ask");
-					}
-					delete itemNodes;
+			else if ((ProtocolTreeNode::tagEquals(childNode, "query") && !from.empty()) ? false : (ProtocolTreeNode::tagEquals(childNode, "relay")) && !from.empty()) {
+				const string &pin = childNode->getAttributeValue("pin");
+				if (!pin.empty() && this->event_handler != NULL) {
+					int timeoutSeconds = atoi(childNode->getAttributeValue("timeout").c_str());
+					this->event_handler->onRelayRequest(pin, timeoutSeconds, id);
 				}
 			}
 		}
-		else
-			throw WAException("unknown iq type attribute: " + *type, WAException::CORRUPT_STREAM_EX, 0);
-	}
-	else if (ProtocolTreeNode::tagEquals(node, "presence")) {
-		std::string* xmlns = node->getAttributeValue("xmlns");
-		std::string* from = node->getAttributeValue("from");
-		if (((xmlns == NULL) || (xmlns->compare("urn:xmpp") == 0)) && (from != NULL)) {
-			std::string* type = node->getAttributeValue("type");
-			if ((type != NULL) && (type->compare("unavailable") == 0)) {
-				if (this->event_handler != NULL)
-					this->event_handler->onAvailable(*from, false);
-			}
-			else if ((type == NULL) || (type->compare("available") == 0)) {
-				if (this->event_handler != NULL)
-					this->event_handler->onAvailable(*from, true);
+		else if (type == "set") {
+			ProtocolTreeNode* childNode = node->getChild(0);
+			if (ProtocolTreeNode::tagEquals(childNode, "query")) {
+				const string &xmlns = childNode->getAttributeValue("xmlns");
+				if (xmlns == "jabber:iq:roster") {
+					std::vector<ProtocolTreeNode*> itemNodes(childNode->getAllChildren("item"));
+					for (size_t i = 0; i < itemNodes.size(); i++) {
+						ProtocolTreeNode* itemNode = itemNodes[i];
+						const string &jid = itemNode->getAttributeValue("jid");
+						const string &subscription = itemNode->getAttributeValue("subscription");
+						// ask = itemNode->getAttributeValue("ask");
+					}
+				}
 			}
 		}
-		else if ((xmlns->compare("w") == 0) && (from != NULL)) {
-			std::string* add = node->getAttributeValue("add");
-			std::string* remove = node->getAttributeValue("remove");
-			std::string* status = node->getAttributeValue("status");
-			if (add != NULL) {
-				if (this->group_event_handler != NULL)
-					this->group_event_handler->onGroupAddUser(*from, *add);
+		else throw WAException("unknown iq type attribute: " + type, WAException::CORRUPT_STREAM_EX, 0);
+	}
+	else if (ProtocolTreeNode::tagEquals(node, "presence")) {
+		const string &xmlns = node->getAttributeValue("xmlns");
+		const string &from = node->getAttributeValue("from");
+		if (xmlns == "urn:xmpp" && !from.empty()) {
+			const string &type = node->getAttributeValue("type");
+			if (type == "unavailable") {
+				if (this->event_handler != NULL)
+					this->event_handler->onAvailable(from, false);
 			}
-			else if (remove != NULL) {
-				if (this->group_event_handler != NULL)
-					this->group_event_handler->onGroupRemoveUser(*from, *remove);
+			else if (type == "available") {
+				if (this->event_handler != NULL)
+					this->event_handler->onAvailable(from, true);
 			}
-			else if ((status != NULL) && (status->compare("dirty") == 0)) {
+		}
+		else if (xmlns == "w" && !from.empty()) {
+			const string &add = node->getAttributeValue("add");
+			const string &remove = node->getAttributeValue("remove");
+			const string &status = node->getAttributeValue("status");
+			if (!add.empty()) {
+				if (this->group_event_handler != NULL)
+					this->group_event_handler->onGroupAddUser(from, add);
+			}
+			else if (!remove.empty()) {
+				if (this->group_event_handler != NULL)
+					this->group_event_handler->onGroupRemoveUser(from, remove);
+			}
+			else if (status == "dirty") {
 				std::map<string, string>* categories = parseCategories(node);
 				if (this->event_handler != NULL)
 					this->event_handler->onDirty(*categories);
@@ -825,9 +813,9 @@ std::map<string, string>* WAConnection::parseCategories(ProtocolTreeNode* dirtyN
 		for (size_t i = 0; i < dirtyNode->children->size(); i++) {
 			ProtocolTreeNode* childNode = (*dirtyNode->children)[i];
 			if (ProtocolTreeNode::tagEquals(childNode, "category")) {
-				std::string* categoryName = childNode->getAttributeValue("name");
-				std::string* timestamp = childNode->getAttributeValue("timestamp");
-				(*categories)[*categoryName] = *timestamp;
+				const string &categoryName = childNode->getAttributeValue("name");
+				const string &timestamp = childNode->getAttributeValue("timestamp");
+				(*categories)[categoryName] = timestamp;
 			}
 		}
 	}
@@ -837,221 +825,191 @@ std::map<string, string>* WAConnection::parseCategories(ProtocolTreeNode* dirtyN
 
 void WAConnection::parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* messageNode) throw (WAException)
 {
-	std::string* id = messageNode->getAttributeValue("id");
-	std::string* attribute_t = messageNode->getAttributeValue("t");
-	std::string* from = messageNode->getAttributeValue("from");
-	std::string* authoraux = messageNode->getAttributeValue("author");
-	std::string author = "";
+	const string &id = messageNode->getAttributeValue("id");
+	const string &attribute_t = messageNode->getAttributeValue("t");
+	const string &from = messageNode->getAttributeValue("from");
+	const string &author = messageNode->getAttributeValue("author");
 
-	if (authoraux != NULL)
-		author = *authoraux;
+	const string &typeAttribute = messageNode->getAttributeValue("type");
+	if (typeAttribute.empty())
+		return;
 
-	std::string* typeAttribute = messageNode->getAttributeValue("type");
-	if (typeAttribute != NULL) {
-		if (typeAttribute->compare("error") == 0) {
-			int errorCode = 0;
-			std::vector<ProtocolTreeNode*>* errorNodes = messageNode->getAllChildren("error");
-			for (size_t i = 0; i < errorNodes->size(); i++) {
-				ProtocolTreeNode *errorNode = (*errorNodes)[i];
-				std::string* codeString = errorNode->getAttributeValue("code");
-				errorCode = atoi(codeString->c_str());
-			}
-
-			Key* key = new Key(*from, true, *id);
-			FMessage* message = new FMessage(key);
-			message->status = FMessage::STATUS_SERVER_BOUNCE;
-
-			if (this->event_handler != NULL)
-				this->event_handler->onMessageError(message, errorCode);
-			delete errorNodes;
-			delete message;
+	if (typeAttribute == "error") {
+		int errorCode = 0;
+		std::vector<ProtocolTreeNode*> errorNodes(messageNode->getAllChildren("error"));
+		for (size_t i = 0; i < errorNodes.size(); i++) {
+			ProtocolTreeNode *errorNode = errorNodes[i];
+			errorCode = atoi(errorNode->getAttributeValue("code").c_str());
 		}
-		else if (typeAttribute->compare("subject") == 0) {
-			bool receiptRequested = false;
-			std::vector<ProtocolTreeNode*>* requestNodes = messageNode->getAllChildren("request");
-			for (size_t i = 0; i < requestNodes->size(); i++) {
-				ProtocolTreeNode *requestNode = (*requestNodes)[i];
-				if ((requestNode->getAttributeValue("xmlns") != NULL) && (*requestNode->getAttributeValue("xmlns")).compare("urn:xmpp:receipts") == 0)
-					receiptRequested = true;
-			}
-			delete requestNodes;
 
-			ProtocolTreeNode* bodyNode = messageNode->getChild("body");
-			std::string* newSubject = bodyNode == NULL ? NULL : bodyNode->getDataAsString();
-			if ((newSubject != NULL) && (this->group_event_handler != NULL))
-				this->group_event_handler->onGroupNewSubject(*from, author, *newSubject, atoi(attribute_t->c_str()));
-			if (newSubject != NULL)
-				delete newSubject;
-			if (receiptRequested)
-				sendSubjectReceived(*from, *id);
+		Key* key = new Key(from, true, id);
+		FMessage* message = new FMessage(key);
+		message->status = FMessage::STATUS_SERVER_BOUNCE;
+
+		if (this->event_handler != NULL)
+			this->event_handler->onMessageError(message, errorCode);
+		delete message;
+	}
+	else if (typeAttribute == "subject") {
+		bool receiptRequested = false;
+		std::vector<ProtocolTreeNode*> requestNodes(messageNode->getAllChildren("request"));
+		for (size_t i = 0; i < requestNodes.size(); i++) {
+			ProtocolTreeNode *requestNode = requestNodes[i];
+			if (requestNode->getAttributeValue("xmlns") == "urn:xmpp:receipts")
+				receiptRequested = true;
 		}
-		else if (typeAttribute->compare("chat") == 0) {
-			FMessage* fmessage = new FMessage();
-			fmessage->wants_receipt = false;
-			bool duplicate = false;
-			std::vector<ProtocolTreeNode*> myVector(0);
-			std::vector<ProtocolTreeNode*>* messageChildren = messageNode->children == NULL ? &myVector : messageNode->getAllChildren();
-			for (size_t i = 0; i < messageChildren->size(); i++) {
-				ProtocolTreeNode* childNode = (*messageChildren)[i];
-				if (ProtocolTreeNode::tagEquals(childNode, "composing")) {
-					if (this->event_handler != NULL)
-						this->event_handler->onIsTyping(*from, true);
+
+		ProtocolTreeNode* bodyNode = messageNode->getChild("body");
+		if (bodyNode != NULL&& this->group_event_handler != NULL)
+			this->group_event_handler->onGroupNewSubject(from, author, bodyNode->getDataAsString(), atoi(attribute_t.c_str()));
+
+		if (receiptRequested)
+			sendSubjectReceived(from, id);
+	}
+	else if (typeAttribute == "chat") {
+		FMessage* fmessage = new FMessage();
+		fmessage->wants_receipt = false;
+		bool duplicate = false;
+
+		std::vector<ProtocolTreeNode*> messageChildren(messageNode->getAllChildren());
+		for (size_t i = 0; i < messageChildren.size(); i++) {
+			ProtocolTreeNode* childNode = messageChildren[i];
+			if (ProtocolTreeNode::tagEquals(childNode, "composing")) {
+				if (this->event_handler != NULL)
+					this->event_handler->onIsTyping(from, true);
+			}
+			else if (ProtocolTreeNode::tagEquals(childNode, "paused")) {
+				if (this->event_handler != NULL)
+					this->event_handler->onIsTyping(from, false);
+			}
+			else if (ProtocolTreeNode::tagEquals(childNode, "body")) {
+				Key* key = new Key(from, false, id);
+				fmessage->key = key;
+				fmessage->remote_resource = author;
+				fmessage->data = childNode->getDataAsString();
+				fmessage->status = FMessage::STATUS_UNSENT;
+			}
+			else if (ProtocolTreeNode::tagEquals(childNode, "media") && !id.empty()) {
+				fmessage->media_wa_type = FMessage::getMessage_WA_Type(childNode->getAttributeValue("type"));
+				fmessage->media_url = childNode->getAttributeValue("url");
+				fmessage->media_name = childNode->getAttributeValue("file");
+				fmessage->media_size = Utilities::parseLongLong(childNode->getAttributeValue("size"));
+				fmessage->media_duration_seconds = atoi(childNode->getAttributeValue("seconds").c_str());
+
+				if (fmessage->media_wa_type == FMessage::WA_TYPE_LOCATION) {
+					const string &latitudeString = childNode->getAttributeValue("latitude");
+					const string &longitudeString = childNode->getAttributeValue("longitude");
+					if (latitudeString.empty() || longitudeString.empty())
+						throw WAException("location message missing lat or long attribute", WAException::CORRUPT_STREAM_EX, 0);
+
+					double latitude = atof(latitudeString.c_str());
+					double longitude = atof(longitudeString.c_str());
+					fmessage->latitude = latitude;
+					fmessage->longitude = longitude;
 				}
-				else if (ProtocolTreeNode::tagEquals(childNode, "paused")) {
-					if (this->event_handler != NULL)
-						this->event_handler->onIsTyping(*from, false);
-				}
-				else if (ProtocolTreeNode::tagEquals(childNode, "body")) {
-					std::string* message = childNode->getDataAsString();
-					Key* key = new Key(*from, false, *id);
-					fmessage->key = key;
-					fmessage->remote_resource = author;
-					fmessage->data = *message;
-					fmessage->status = FMessage::STATUS_UNSENT;
-					if (message != NULL)
-						delete message;
-				}
-				else if (ProtocolTreeNode::tagEquals(childNode, "media") && (id != NULL)) {
-					fmessage->media_wa_type = FMessage::getMessage_WA_Type(childNode->getAttributeValue("type"));
-					fmessage->media_url = (childNode->getAttributeValue("url") == NULL ? "" : *childNode->getAttributeValue("url"));
-					fmessage->media_name = (childNode->getAttributeValue("file") == NULL ? "" : *childNode->getAttributeValue("file"));
 
-					if (childNode->getAttributeValue("size") != NULL)
-						fmessage->media_size = Utilities::parseLongLong(*childNode->getAttributeValue("size"));
-					else
-						fmessage->media_size = 0;
-
-					if (childNode->getAttributeValue("seconds") != NULL)
-						fmessage->media_duration_seconds = atoi(childNode->getAttributeValue("seconds")->c_str());
-					else
-						fmessage->media_duration_seconds = 0;
-
-					if (fmessage->media_wa_type == FMessage::WA_TYPE_LOCATION) {
-						std::string* latitudeString = childNode->getAttributeValue("latitude");
-						std::string* longitudeString = childNode->getAttributeValue("longitude");
-						if (latitudeString == NULL || longitudeString == NULL)
-							throw WAException("location message missing lat or long attribute", WAException::CORRUPT_STREAM_EX, 0);
-
-						double latitude = atof(latitudeString->c_str());
-						double longitude = atof(longitudeString->c_str());
-						fmessage->latitude = latitude;
-						fmessage->longitude = longitude;
+				if (fmessage->media_wa_type == FMessage::WA_TYPE_CONTACT) {
+					ProtocolTreeNode* contactChildNode = childNode->getChild(0);
+					if (contactChildNode != NULL) {
+						fmessage->media_name = contactChildNode->getAttributeValue("name");
+						fmessage->data = contactChildNode->getDataAsString();
 					}
-
-					if (fmessage->media_wa_type == FMessage::WA_TYPE_CONTACT) {
-						ProtocolTreeNode* contactChildNode = childNode->getChild(0);
-						if (contactChildNode != NULL) {
-							fmessage->media_name = (contactChildNode->getAttributeValue("name") == NULL ? "" : *contactChildNode->getAttributeValue("name"));
-							std::string* data = contactChildNode->getDataAsString();
-							fmessage->data = (data == NULL ? "" : *data);
-							if (data != NULL)
-								delete data;
-						}
-					}
+				}
+				else {
+					const string &encoding = childNode->getAttributeValue("encoding");
+					if (encoding.empty() || encoding == "text")
+						fmessage->data = childNode->getDataAsString();
 					else {
-						std::string* encoding = childNode->getAttributeValue("encoding");
-						std::string* data;
-						if ((encoding == NULL) || ((encoding != NULL) && (encoding->compare("text") == 0))) {
-							data = childNode->getDataAsString();
-						}
-						else {
-							_LOGDATA("Media data encoding type '%s'", (encoding == NULL ? "text" : encoding->c_str()));
-							data = (childNode->data == NULL ? NULL : new std::string(base64_encode(childNode->data->data(), childNode->data->size())));
-						}
-						fmessage->data = (data == NULL ? "" : *data);
-						if (data != NULL)
-							delete data;
+						_LOGDATA("Media data encoding type '%s'", encoding.empty() ? "text" : encoding.c_str());
+						fmessage->data = (childNode->data == NULL ? "" : std::string(base64_encode(childNode->data->data(), childNode->data->size())));
 					}
-
-					Key* key = new Key(*from, false, *id);
-					fmessage->key = key;
-					fmessage->remote_resource = author;
 				}
-				else if (!ProtocolTreeNode::tagEquals(childNode, "active")) {
-					if (ProtocolTreeNode::tagEquals(childNode, "request")) {
-						fmessage->wants_receipt = true;
-					}
-					else if (ProtocolTreeNode::tagEquals(childNode, "notify")) {
-						fmessage->notifyname = (childNode->getAttributeValue("name") == NULL) ? "" : *childNode->getAttributeValue("name");
-					}
-					else if (ProtocolTreeNode::tagEquals(childNode, "x")) {
-						std::string* xmlns = childNode->getAttributeValue("xmlns");
-						if ((xmlns != NULL) && (xmlns->compare("jabber:x:event") == 0) && (id != NULL)) {
-							Key* key = new Key(*from, true, *id);
-							FMessage* message = new FMessage(key);
-							message->status = FMessage::STATUS_RECEIVED_BY_SERVER;
-							if (this->event_handler != NULL)
-								this->event_handler->onMessageStatusUpdate(message);
-							delete message;
-						}
-					}
-					else if (ProtocolTreeNode::tagEquals(childNode, "received")) {
-						Key* key = new Key(*from, true, *id);
+
+				Key* key = new Key(from, false, id);
+				fmessage->key = key;
+				fmessage->remote_resource = author;
+			}
+			else if (!ProtocolTreeNode::tagEquals(childNode, "active")) {
+				if (ProtocolTreeNode::tagEquals(childNode, "request")) {
+					fmessage->wants_receipt = true;
+				}
+				else if (ProtocolTreeNode::tagEquals(childNode, "notify")) {
+					fmessage->notifyname = childNode->getAttributeValue("name");
+				}
+				else if (ProtocolTreeNode::tagEquals(childNode, "x")) {
+					const string &xmlns = childNode->getAttributeValue("xmlns");
+					if (xmlns == "jabber:x:event" && !id.empty()) {
+						Key* key = new Key(from, true, id);
 						FMessage* message = new FMessage(key);
-						message->status = FMessage::STATUS_RECEIVED_BY_TARGET;
+						message->status = FMessage::STATUS_RECEIVED_BY_SERVER;
 						if (this->event_handler != NULL)
 							this->event_handler->onMessageStatusUpdate(message);
 						delete message;
-						if (this->supportsReceiptAcks()) {
-							std::string* receipt_type = childNode->getAttributeValue("type");
-							if ((receipt_type == NULL) || (receipt_type->compare("delivered") == 0))
-								sendDeliveredReceiptAck(*from, *id);
-							else if (receipt_type->compare("visible") == 0)
-								sendVisibleReceiptAck(*from, *id);
-						}
 					}
-					else if (ProtocolTreeNode::tagEquals(childNode, "offline")) {
-						if (attribute_t != NULL) {
-							fmessage->timestamp = atoi(attribute_t->c_str());
+				}
+				else if (ProtocolTreeNode::tagEquals(childNode, "received")) {
+					Key* key = new Key(from, true, id);
+					FMessage* message = new FMessage(key);
+					message->status = FMessage::STATUS_RECEIVED_BY_TARGET;
+					if (this->event_handler != NULL)
+						this->event_handler->onMessageStatusUpdate(message);
+					delete message;
+					if (this->supportsReceiptAcks()) {
+						const string &receipt_type = childNode->getAttributeValue("type");
+						if (receipt_type == "delivered")
+							sendDeliveredReceiptAck(from, id);
+						else if (receipt_type == "visible")
+							sendVisibleReceiptAck(from, id);
+					}
+				}
+				else if (ProtocolTreeNode::tagEquals(childNode, "offline")) {
+					if (!attribute_t.empty())
+						fmessage->timestamp = atoi(attribute_t.c_str());
+					fmessage->offline = true;
+				}
+			}
+		}
+
+		if (fmessage->timestamp == 0) {
+			fmessage->timestamp = time(NULL);
+			fmessage->offline = false;
+		}
+
+		if (fmessage->key != NULL && this->event_handler != NULL)
+			this->event_handler->onMessageForMe(fmessage, duplicate);
+
+		delete fmessage;
+	}
+	else if (typeAttribute == "notification") {
+		_LOGDATA("Notification node %s", messageNode->toString().c_str());
+		bool flag = false;
+		std::vector<ProtocolTreeNode*> children(messageNode->getAllChildren());
+		for (size_t i = 0; i < children.size(); i++) {
+			ProtocolTreeNode* child = children[i];
+			if (ProtocolTreeNode::tagEquals(child, "notification")) {
+				const string &type = child->getAttributeValue("type");
+				if (type == "picture" && this->event_handler != NULL) {
+					std::vector<ProtocolTreeNode*> children2(child->getAllChildren());
+					for (unsigned j = 0; j < children2.size(); j++) {
+						ProtocolTreeNode* child2 = children2[j];
+						if (ProtocolTreeNode::tagEquals(child2, "set")) {
+							const string &id = child2->getAttributeValue("id");
+							const string &author = child2->getAttributeValue("author");
+							if (!id.empty())
+								this->event_handler->onPictureChanged(from, author, true);
 						}
-						fmessage->offline = true;
+						else if (ProtocolTreeNode::tagEquals(child2, "delete")) {
+							const string &author = child2->getAttributeValue("author");
+							this->event_handler->onPictureChanged(from, author, false);
+						}
 					}
 				}
 			}
-
-			if (fmessage->timestamp == 0) {
-				fmessage->timestamp = time(NULL);
-				fmessage->offline = false;
-			}
-
-			if (fmessage->key != NULL && this->event_handler != NULL)
-				this->event_handler->onMessageForMe(fmessage, duplicate);
-
-			delete fmessage;
+			else if (ProtocolTreeNode::tagEquals(child, "request"))
+				flag = true;
 		}
-		else if (typeAttribute->compare("notification") == 0) {
-			_LOGDATA("Notification node %s", messageNode->toString().c_str());
-			bool flag = false;
-			std::vector<ProtocolTreeNode*> myVector(0);
-			std::vector<ProtocolTreeNode*>* children = messageNode->children == NULL ? &myVector : messageNode->getAllChildren();
-			for (size_t i = 0; i < children->size(); i++) {
-				ProtocolTreeNode* child = (*children)[i];
-				if (ProtocolTreeNode::tagEquals(child, "notification")) {
-					std::string* type = child->getAttributeValue("type");
-					if ((type != NULL) && (type->compare("picture") == 0) && (this->event_handler != NULL)) {
-						std::vector<ProtocolTreeNode*> myVector2(0);
-						std::vector<ProtocolTreeNode*>* children2 = child->children == NULL ? &myVector2 : child->getAllChildren();
-						for (unsigned j = 0; j < children2->size(); j++) {
-							ProtocolTreeNode* child2 = (*children2)[j];
-							if (ProtocolTreeNode::tagEquals(child2, "set")) {
-								std::string* id = child2->getAttributeValue("id");
-								std::string* author = child2->getAttributeValue("author");
-								if (id != NULL)
-									this->event_handler->onPictureChanged(*from, ((author == NULL) ? "" : *author), true);
-							}
-							else if (ProtocolTreeNode::tagEquals(child2, "delete")) {
-								std::string* author = child2->getAttributeValue("author");
-								this->event_handler->onPictureChanged(*from, ((author == NULL) ? "" : *author), false);
-							}
-						}
-					}
-				}
-				else if (ProtocolTreeNode::tagEquals(child, "request"))
-					flag = true;
-			}
-			if (flag)
-				this->sendNotificationReceived(*from, *id);
-		}
+		if (flag)
+			this->sendNotificationReceived(from, id);
 	}
 }
 
@@ -1167,28 +1125,26 @@ void WAConnection::sendGetGroups(const std::string& id, const std::string& type)
 
 void WAConnection::readGroupList(ProtocolTreeNode* node, std::vector<std::string>& groups) throw (WAException)
 {
-	std::vector<ProtocolTreeNode*>* nodes = node->getAllChildren("group");
-	for (size_t i = 0; i < nodes->size(); i++) {
-		ProtocolTreeNode* groupNode = (*nodes)[i];
-		std::string* gid = groupNode->getAttributeValue("id");
-		std::string gjid = gidToGjid(*gid);
-		std::string* owner = groupNode->getAttributeValue("owner");
-		std::string* subject = groupNode->getAttributeValue("subject");
-		std::string* subject_t = groupNode->getAttributeValue("s_t");
-		std::string* subject_owner = groupNode->getAttributeValue("s_o");
-		std::string* creation = groupNode->getAttributeValue("creation");
+	std::vector<ProtocolTreeNode*> nodes(node->getAllChildren("group"));
+	for (size_t i = 0; i < nodes.size(); i++) {
+		ProtocolTreeNode* groupNode = nodes[i];
+		const string &gid = groupNode->getAttributeValue("id");
+		string gjid = gidToGjid(gid);
+		const string &owner = groupNode->getAttributeValue("owner");
+		const string &subject = groupNode->getAttributeValue("subject");
+		const string &subject_t = groupNode->getAttributeValue("s_t");
+		const string &subject_owner = groupNode->getAttributeValue("s_o");
+		const string &creation = groupNode->getAttributeValue("creation");
 		if (this->group_event_handler != NULL)
-			this->group_event_handler->onGroupInfoFromList(gjid, *owner, *subject, *subject_owner, atoi(subject_t->c_str()), atoi(creation->c_str()));
+			this->group_event_handler->onGroupInfoFromList(gjid, owner, subject, subject_owner, atoi(subject_t.c_str()), atoi(creation.c_str()));
 		groups.push_back(gjid);
 	}
-	delete nodes;
 }
 
 std::string WAConnection::gidToGjid(const std::string& gid)
 {
 	return gid + "@g.us";
 }
-
 
 void WAConnection::sendQueryLastOnline(const std::string& jid) throw (WAException)
 {
@@ -1249,13 +1205,11 @@ void WAConnection::sendGetParticipants(const std::string& gjid) throw (WAExcepti
 
 void WAConnection::readAttributeList(ProtocolTreeNode* node, std::vector<std::string>& vector, const std::string& tag, const std::string& attribute) throw (WAException)
 {
-	std::vector<ProtocolTreeNode*>* nodes = node->getAllChildren(tag);
-	for (size_t i = 0; i < nodes->size(); i++) {
-		ProtocolTreeNode* tagNode = (*nodes)[i];
-		std::string* value = tagNode->getAttributeValue(attribute);
-		vector.push_back(*value);
+	std::vector<ProtocolTreeNode*> nodes(node->getAllChildren(tag));
+	for (size_t i = 0; i < nodes.size(); i++) {
+		ProtocolTreeNode* tagNode = nodes[i];
+		vector.push_back(tagNode->getAttributeValue(attribute));
 	}
-	delete nodes;
 }
 
 void WAConnection::sendCreateGroupChat(const std::string& subject) throw (WAException)

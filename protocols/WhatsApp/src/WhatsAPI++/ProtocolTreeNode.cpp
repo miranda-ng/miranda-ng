@@ -8,6 +8,8 @@
 #include "WAException.h"
 #include "ProtocolTreeNode.h"
 
+static std::string nilstr;
+
 ProtocolTreeNode::ProtocolTreeNode(const string& tag, map<string, string> *attributes, vector<unsigned char>* data, vector<ProtocolTreeNode*> *children) {
 	this->tag = tag;
 	this->data = data;
@@ -46,13 +48,10 @@ string ProtocolTreeNode::toString() {
 			out += "" + ii->first + "=\"" + ii->second + "\"";
 	}
 	out += ">\n";
-	std::string* data = getDataAsString();
-	out += (this->data != NULL? *data:"");
-	delete data;
+	out += getDataAsString();
 
 	if (this->children != NULL) {
 		vector<ProtocolTreeNode*>::iterator ii;
-
 		for (ii = children->begin(); ii != children->end(); ii++)
 			out += (*ii)->toString();
 	}
@@ -83,51 +82,52 @@ ProtocolTreeNode* ProtocolTreeNode::getChild(size_t id) {
 	return NULL;
 }
 
-string* ProtocolTreeNode::getAttributeValue(const string& attribute) {
+const string& ProtocolTreeNode::getAttributeValue(const string& attribute)
+{
 	if (this->attributes == NULL)
-		return NULL;
+		return nilstr;
 
 	map<string,string>::iterator it = attributes->find(attribute);
 	if (it == attributes->end())
-		return NULL;
+		return nilstr;
 
-	return &it->second;
+	return it->second;
 }
 
-vector<ProtocolTreeNode*>* ProtocolTreeNode::getAllChildren() {
-	vector<ProtocolTreeNode*>* ret = new vector<ProtocolTreeNode*>();
-
+vector<ProtocolTreeNode*> ProtocolTreeNode::getAllChildren()
+{
 	if (this->children == NULL)
-		return ret;
+		return vector<ProtocolTreeNode*>();
 
-	return this->children;
+	return *this->children;
 }
 
-std::string* ProtocolTreeNode::getDataAsString() {
+std::string ProtocolTreeNode::getDataAsString()
+{
 	if (this->data == NULL)
-		return NULL;
-	return new std::string(this->data->begin(), this->data->end());
+		return nilstr;
+	return std::string(this->data->begin(), this->data->end());
 }
 
-vector<ProtocolTreeNode*>* ProtocolTreeNode::getAllChildren(const string& tag) {
-	vector<ProtocolTreeNode*>* ret = new vector<ProtocolTreeNode*>();
+vector<ProtocolTreeNode*> ProtocolTreeNode::getAllChildren(const string &tag)
+{
+	vector<ProtocolTreeNode*> ret;
 
-	if (this->children == NULL)
-		return ret;
-
-	for (size_t i = 0; i < this->children->size(); i++)
-		if (tag.compare((*children)[i]->tag) == 0)
-			ret->push_back((*children)[i]);
+	if (this->children != NULL)
+		for (size_t i = 0; i < this->children->size(); i++)
+			if (tag.compare((*children)[i]->tag) == 0)
+				ret.push_back((*children)[i]);
 
 	return ret;
 }
 
-
-bool ProtocolTreeNode::tagEquals(ProtocolTreeNode *node, const string& tag) {
+bool ProtocolTreeNode::tagEquals(ProtocolTreeNode *node, const string& tag)
+{
 	return (node != NULL && node->tag.compare(tag) == 0);
 }
 
-void ProtocolTreeNode::require(ProtocolTreeNode *node, const string& tag) {
+void ProtocolTreeNode::require(ProtocolTreeNode *node, const string& tag)
+{
    if (!tagEquals(node, tag))
 	   throw WAException("failed require. node:" + node->toString() + "tag: " + tag, WAException::CORRUPT_STREAM_EX, 0);
 }
