@@ -493,7 +493,7 @@ bool WAConnection::read() throw(WAException)
 					this->event_handler->onPing(*id);
 			}
 			else if (ProtocolTreeNode::tagEquals(childNode, "query") && (from != NULL) ? false : // (childNode->getAttributeValue("xmlns") != NULL) && ((*childNode->getAttributeValue("xmlns")).compare("http://jabber.org/protocol/disco#info") == 0) :
-						(ProtocolTreeNode::tagEquals(childNode, "relay")) && (from != NULL)) {
+				(ProtocolTreeNode::tagEquals(childNode, "relay")) && (from != NULL)) {
 				std::string* pin = childNode->getAttributeValue("pin");
 				std::string* timeoutString = childNode->getAttributeValue("timeout");
 				int timeoutSeconds;
@@ -696,7 +696,7 @@ void WAConnection::sendMessageReceived(FMessage* message) throw(WAException)
 }
 
 void WAConnection::sendDeliveredReceiptAck(const std::string& to,
-														 const std::string& id) throw(WAException)
+	const std::string& id) throw(WAException)
 {
 	ProtocolTreeNode *root = getReceiptAck(to, id, "delivered");
 	this->out->write(root);
@@ -1036,9 +1036,8 @@ void WAConnection::parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* messag
 							if (ProtocolTreeNode::tagEquals(child2, "set")) {
 								std::string* id = child2->getAttributeValue("id");
 								std::string* author = child2->getAttributeValue("author");
-								if (id != NULL) {
+								if (id != NULL)
 									this->event_handler->onPictureChanged(*from, ((author == NULL) ? "" : *author), true);
-								}
 							}
 							else if (ProtocolTreeNode::tagEquals(child2, "delete")) {
 								std::string* author = child2->getAttributeValue("author");
@@ -1047,13 +1046,11 @@ void WAConnection::parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* messag
 						}
 					}
 				}
-				else if (ProtocolTreeNode::tagEquals(child, "request")) {
+				else if (ProtocolTreeNode::tagEquals(child, "request"))
 					flag = true;
-				}
 			}
-			if (flag) {
+			if (flag)
 				this->sendNotificationReceived(*from, *id);
-			}
 		}
 	}
 }

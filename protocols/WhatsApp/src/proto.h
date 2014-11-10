@@ -201,7 +201,7 @@ public:
 
 	// Information providing
 	void NotifyEvent(const TCHAR *title, const TCHAR *info, MCONTACT contact, DWORD flags, TCHAR *url = NULL);
-	void NotifyEvent(const string &title, const string &info, MCONTACT contact, DWORD flags, TCHAR *url = NULL);
+	void NotifyEvent(const std::string &title, const std::string &info, MCONTACT contact, DWORD flags, TCHAR *url = NULL);
 };
 
 #endif

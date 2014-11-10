@@ -16,12 +16,9 @@ bool WhatsAppProto::IsMyContact(MCONTACT hContact, bool include_chat)
 MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE type, bool dont_check, const char *new_name,
 	bool isChatRoom, bool isHidden)
 {
-	MCONTACT hContact;
-
 	if (!dont_check) {
 		// First, check if this contact exists
-		hContact = ContactIDToHContact(jid);
-
+		MCONTACT hContact = ContactIDToHContact(jid);
 		if (hContact) {
 			if (new_name != NULL) {
 				DBVARIANT dbv;
@@ -35,72 +32,41 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE type, bool
 				db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_PUSH_NAME, new_name);
 
 				if (oldName.compare(string(new_name)) != 0) {
-					CMString tmp(FORMAT, TranslateT("is now known as '%s'"), new_name);
+					CMString tmp(FORMAT, TranslateT("is now known as '%s'"), ptrT(mir_utf8decodeT(new_name)));
 					this->NotifyEvent(_A2T(oldName.c_str()), tmp, hContact, WHATSAPP_EVENT_OTHER);
 				}
 			}
-			if (db_get_b(hContact, "CList", "Hidden", 0) > 0) {
+
+			if (db_get_b(hContact, "CList", "Hidden", 0) > 0)
 				db_unset(hContact, "CList", "Hidden");
-			}
+
 			return hContact;
 		}
 	}
 
 	// If not, make a new contact!
-	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	if (hContact) {
-		if (CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName) == 0) {
-			setString(hContact, "ID", jid.c_str());
-			debugLogA("Added contact %s", jid.c_str());
-			setString(hContact, "MirVer", "WhatsApp");
-			db_unset(hContact, "CList", "MyHandle");
-			db_set_b(hContact, "CList", "NotOnList", 1);
+	MCONTACT hContact = CallService(MS_DB_CONTACT_ADD, 0, 0);
+	if (hContact == 0)
+		return INVALID_CONTACT_ID;
 
-			/*
-			std::string newNameStr;
-			if (hasNickName)
-			{
-			newNameStr = new_name;
-			}
+	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
+	setString(hContact, "ID", jid.c_str());
+	debugLogA("Added contact %s", jid.c_str());
+	setString(hContact, "MirVer", "WhatsApp");
+	db_unset(hContact, "CList", "MyHandle");
+	db_set_b(hContact, "CList", "NotOnList", 1);
 
-			DBEVENTINFO dbei = {0};
-			dbei.cbSize = sizeof(dbei);
-			dbei.szModule = m_szModuleName;
-			dbei.timestamp = time(NULL);
-			dbei.flags = DBEF_UTF;
-			dbei.eventType = EVENTTYPE_ADDED;
-			dbei.cbBlob = sizeof(DWORD) * 2 + newNameStr.length() + 5;
+	ptrT tszGroup(getTStringA(WHATSAPP_KEY_DEF_GROUP));
+	if (tszGroup)
+		db_set_ts(hContact, "CList", "Group", tszGroup);
 
-			PBYTE pCurBlob = dbei.pBlob = ( PBYTE ) mir_alloc( dbei.cbBlob );
-			*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);						  // UID
-			*(PDWORD)pCurBlob = (DWORD)hContact; pCurBlob += sizeof(DWORD);		// Contact Handle
-			strcpy((char*)pCurBlob, newNameStr.data()); pCurBlob += newNameStr.length()+1;	// Nickname
-			*pCurBlob = '\0'; pCurBlob++;													 // First Name
-			*pCurBlob = '\0'; pCurBlob++;													 // Last Name
-			*pCurBlob = '\0'; pCurBlob++;													 // E-mail
-			*pCurBlob = '\0';																	 // Reason
+	if (new_name != NULL)
+		db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_PUSH_NAME, new_name);
 
-			CallService(MS_DB_EVENT_ADD, 0, (LPARAM) &dbei);
-			*/
+	if (isChatRoom)
+		setByte(hContact, "SimpleChatRoom", 1);
 
-			DBVARIANT dbv;
-			if (!getTString(WHATSAPP_KEY_DEF_GROUP, &dbv)) {
-				db_set_ws(hContact, "CList", "Group", dbv.ptszVal);
-				db_free(&dbv);
-			}
-
-			if (new_name != NULL)
-				db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_PUSH_NAME, new_name);
-
-			if (isChatRoom)
-				setByte(hContact, "SimpleChatRoom", 1);
-
-			return hContact;
-		}
-		else CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-	}
-
-	return (MCONTACT)INVALID_HANDLE_VALUE;
+	return hContact;
 }
 
 MCONTACT WhatsAppProto::ContactIDToHContact(const std::string& phoneNumber)
@@ -206,15 +172,8 @@ void WhatsAppProto::onAvailable(const std::string& paramString, bool paramBoolea
 {
 	MCONTACT hContact = this->AddToContactList(paramString, 0, false);
 	if (hContact != NULL) {
-		if (paramBoolean) {
-			/*
-			this->connection->sendGetPicture(paramString, "image", "old", "new");
-			std::vector<std::string> ids;
-			ids.push_back(paramString);
-			this->connection->sendGetPictureIds(ids);
-			*/
+		if (paramBoolean)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
-		}
 		else {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			this->UpdateStatusMsg(hContact);
@@ -227,23 +186,6 @@ void WhatsAppProto::onAvailable(const std::string& paramString, bool paramBoolea
 
 void WhatsAppProto::onLastSeen(const std::string& paramString1, int paramInt, std::string* paramString2)
 {
-	/*
-	MCONTACT hContact = this->ContactIDToHContact(paramString1);
-	if (hContact == NULL)
-	{
-	// This contact was searched
-	PROTOSEARCHRESULT isr = {0};
-	isr.cbSize = sizeof(isr);
-	isr.flags = PSR_TCHAR;
-	isr.id  = mir_a2t_cp(id.c_str(), CP_UTF8);
-	isr.nick  = "";
-	isr.firstName = "";
-	isr.lastName = "";
-	isr.email = "";
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
-	// #TODO
-	}
-	*/
 	MCONTACT hContact = this->AddToContactList(paramString1, 0, false);
 	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, paramInt);
 
@@ -347,9 +289,8 @@ TCHAR* WhatsAppProto::GetContactDisplayName(const string& jid)
 
 void WhatsAppProto::SendGetGroupInfoWorker(void* data)
 {
-	if (this->isOnline()) {
+	if (this->isOnline())
 		this->connection->sendGetGroupInfo(*((std::string*) data));
-	}
 }
 
 void WhatsAppProto::onGroupInfo(const std::string& gjid, const std::string& ownerJid, const std::string& subject, const std::string& createrJid, int paramInt1, int paramInt2)
@@ -368,7 +309,6 @@ void WhatsAppProto::onGroupInfo(const std::string& gjid, const std::string& owne
 void WhatsAppProto::onGroupInfoFromList(const std::string& paramString1, const std::string& paramString2, const std::string& paramString3, const std::string& paramString4, int paramInt1, int paramInt2)
 {
 	// Called before onOwningGroups() or onParticipatingGroups() is called!
-	
 }
 
 void WhatsAppProto::onGroupNewSubject(const std::string& from, const std::string& author, const std::string& newSubject, int paramInt)
@@ -392,9 +332,8 @@ void WhatsAppProto::onGroupAddUser(const std::string& paramString1, const std::s
 		this->NotifyEvent(ptszGroupName, tmp, hContact, WHATSAPP_EVENT_OTHER);
 	}
 
-	if (this->isOnline()) {
+	if (this->isOnline())
 		this->connection->sendGetGroupInfo(paramString1);
-	}
 }
 
 void WhatsAppProto::onGroupRemoveUser(const std::string &paramString1, const std::string &paramString2)
@@ -410,8 +349,7 @@ void WhatsAppProto::onGroupRemoveUser(const std::string &paramString1, const std
 		//db_set_b(hContact, "CList", "Hidden", 1);
 		setByte(hContact, "IsGroupMember", 0);
 
-		this->NotifyEvent(ptszGroupName, TranslateT("You have been removed from the group"),
-			hContact, WHATSAPP_EVENT_OTHER);
+		this->NotifyEvent(ptszGroupName, TranslateT("You have been removed from the group"), hContact, WHATSAPP_EVENT_OTHER);
 	}
 	else if (this->isOnline()) {
 		CMString tmp(FORMAT, TranslateT("User '%s' has been removed from the group"), this->GetContactDisplayName(paramString2));
