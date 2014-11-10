@@ -66,8 +66,8 @@ LBL_Restart:
 		else if (pReq->m_iRetry){
 			pReq->bNeedsRestart = true;
 			Sleep(1000); //Pause for fix err 
-			debugLogA("CVkProto::ExecuteRequest restarting retry = %d", MAX_RETRIES - pReq->m_iRetry);
 			pReq->m_iRetry--;
+			debugLogA("CVkProto::ExecuteRequest restarting retry = %d", MAX_RETRIES - pReq->m_iRetry);
 			goto LBL_Restart;
 		}
 		else{
