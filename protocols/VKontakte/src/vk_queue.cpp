@@ -63,7 +63,14 @@ LBL_Restart:
 	else if (pReq->bIsMainConn) {
 		if (m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 			ConnectionFailed(LOGINERR_NONETWORK);
-		else {
+		else if (pReq->m_iRetry){
+			pReq->bNeedsRestart = true;
+			Sleep(1000); //Pause for fix err 
+			debugLogA("CVkProto::ExecuteRequest restarting retry = %d", MAX_RETRIES - pReq->m_iRetry);
+			pReq->m_iRetry--;
+			goto LBL_Restart;
+		}
+		else{
 			debugLogA("CVkProto::ExecuteRequest ShutdownSession");
 			ShutdownSession();
 		}
