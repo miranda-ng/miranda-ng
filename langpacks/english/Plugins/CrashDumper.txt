@@ -2,16 +2,16 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.0.5.1
+;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-[Crash Dumper for Miranda NG.]
+[Crash Dumper and Version Information for Miranda NG.]
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 [Close]
 [Copy To Clipboard]
 [To File]
-[Support for miranda-vi.org]
+[Support for miranda-ng.org/versioninfo]
 [Username]
 [Password]
 [Upload automatically when changed]
@@ -39,7 +39,7 @@
 [Show with DLLs]
 [Upload]
 [Open crash report directory]
-[Open miranda-vi.org]
+[Open online report]
 [Copy Version Info to clipboard]
 [Show Version Info]
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp

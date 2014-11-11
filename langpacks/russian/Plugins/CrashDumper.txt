@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.0.5.1
+;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-[Crash Dumper for Miranda NG.]
-Плагин создания отчётов об ошибках в случае аварийного завершения работы программы. Поддержка www.miranda-vi.org.
+[Crash Dumper and Version Information for Miranda NG.]
+Плагин создания отчётов об ошибках в случае аварийного завершения работы программы и отчётов об и информации о версиях. 
 [View Version Information]
 Информация о версиях
 [Close]
@@ -15,8 +15,6 @@
 Копировать в буфер
 [To File]
 В файл
-[Support for miranda-vi.org]
-Поддержка miranda-vi.org
 [Username]
 Имя пользователя
 [Password]
@@ -69,8 +67,6 @@
 Загрузить
 [Open crash report directory]
 Папка сохранения отчётов
-[Open miranda-vi.org]
-Открыть miranda-vi.org
 [Copy Version Info to clipboard]
 Копировать версии в буфер обмена
 [Show Version Info]

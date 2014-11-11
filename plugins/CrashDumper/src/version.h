@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME              "Crash dumper"
 #define __FILENAME                 "CrashDumper.dll"
-#define __DESCRIPTION              "Crash Dumper for Miranda NG."
+#define __DESCRIPTION              "Crash Dumper and Version Information for Miranda NG."
 #define __AUTHOR                   "borkra"
 #define __AUTHOREMAIL              "borkra@miranda-im.org"
 #define __AUTHORWEB                "http://miranda-ng.org/p/CrashDumper/"
