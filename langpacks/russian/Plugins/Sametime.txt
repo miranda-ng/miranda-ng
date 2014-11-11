@@ -15,10 +15,6 @@
 Имя сервера:
 [Port:]
 Порт:
-[Client ID]
-ID клиента
-[Use old client version]
-Использовать старую версию клиента
 [Error display]
 Показ ошибок
 [Use message boxes]
