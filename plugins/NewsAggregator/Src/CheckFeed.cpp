@@ -308,14 +308,14 @@ void CheckCurrentFeed(MCONTACT hContact)
 								else if (!lstrcmpi(itemName, _T("link")))
 									ClearText(link, xi.getText(itemval));
 
-								else if (!lstrcmpi(itemName, _T("pubDate")) || !lstrcmpi(itemName, _T("dc:date"))) {
+								else if (!lstrcmpi(itemName, _T("pubDate")) || !lstrcmpi(itemName, _T("date"))) {
 									if (stamp == 0)
 										stamp = DateToUnixTime(xi.getText(itemval), 0);
 								}
 								else if (!lstrcmpi(itemName, _T("description")) || !lstrcmpi(itemName, _T("encoded")))
 									ClearText(descr, xi.getText(itemval));
 
-								else if (!lstrcmpi(itemName, _T("author")))
+								else if (!lstrcmpi(itemName, _T("author")) || !lstrcmpi(itemName, _T("creator")))
 									ClearText(author, xi.getText(itemval));
 
 								else if (!lstrcmpi(itemName, _T("comments")))
