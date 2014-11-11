@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_message.h"
 #include "m_ignore.h"
 
-#include "m_versioninfo.h"
+#include "m_crashdumper.h"
 #include "m_statusplugins.h"
 
 #include "version.h"
