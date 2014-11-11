@@ -177,7 +177,7 @@ int Parser()
 		SongInfo.artist = (TCHAR*)mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.artist = _T("Unknown artist");
+		SongInfo.artist = mir_tstrdup(_T("Unknown artist"));
 	if(ptr = strstr(buf, "Genre:"))
 	{
 		ptr = &ptr[7];
