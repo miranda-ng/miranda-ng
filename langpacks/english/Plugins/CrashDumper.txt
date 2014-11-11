@@ -50,7 +50,7 @@
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 ;file \plugins\CrashDumper\src\upload.cpp
-[VersionInfo upload successful,\n %d old plugins]
+[VersionInfo upload successful.]
 [Cannot upload VersionInfo. Incorrect username or password]
 [Cannot upload VersionInfo. User is banned]
 [Cannot upload VersionInfo. Daily upload limit exceeded]
