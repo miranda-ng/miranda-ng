@@ -16,7 +16,6 @@
 #define IDI_ABUSE                       114
 #define IDI_VISITPROFILE                115
 #define IDI_HISTORY                     116
-#define IDI_ICON1                       117
 #define IDI_BROADCAST                   117
 #define IDI_KEYS                        203
 #define IDC_LOGIN                       1001

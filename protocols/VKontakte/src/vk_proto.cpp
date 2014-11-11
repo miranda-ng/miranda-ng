@@ -65,7 +65,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bHideChats = getBool("HideChats", true);
 	m_bMesAsUnread = getBool("MesAsUnread", false);
 	m_bAutoSyncHistory = getBool("AutoSyncHistory", true);
-	m_bUseLocalTime = getBool("LocalTime", false);
+	m_bUseLocalTime = getBool("UseLocalTime", false);
 	m_bReportAbuse = getBool("ReportAbuseOnBanUser", false);
 	m_bClearServerHistory = getBool("ClearServerHistoryOnBanUser", false);
 	m_bRemoveFromFrendlist = getBool("RemoveFromFrendlistOnBanUser", false);

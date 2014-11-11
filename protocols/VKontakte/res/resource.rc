@@ -155,7 +155,7 @@ BEGIN
     GROUPBOX        "Login settings",IDC_STATIC,4,8,293,50
     RTEXT           "E-mail or phone number:",IDC_STATIC,12,16,150,10
     EDITTEXT        IDC_LOGIN,167,15,121,12,ES_AUTOHSCROLL
-    RTEXT           "Password:",IDC_STATIC,4,28,158,10
+    RTEXT           "Password:",IDC_STATIC,12,28,150,10
     EDITTEXT        IDC_PASSWORD,167,28,121,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,43,174,11
     GROUPBOX        "Local settings",IDC_STATIC,4,59,293,77
