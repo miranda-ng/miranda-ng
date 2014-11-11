@@ -1,9 +1,0 @@
-﻿#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
-;============================================================
-;  File: VersionInfo.dll
-;  Plugin: Version information
-;  Version: 1.5.0.3
-;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
-;============================================================
-[Customize using folders plugin]
-Customise using folders plugin
