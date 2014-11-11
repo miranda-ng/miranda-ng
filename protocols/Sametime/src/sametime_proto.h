@@ -149,6 +149,7 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 
 	// utils.cpp
 	void showPopup(const TCHAR* msg, SametimePopupEnum flag);
+	void showPopup(guint32 code);
 	void RegisterPopups();
 	void UnregisterPopups();
 	void RegisterGLibLogger();

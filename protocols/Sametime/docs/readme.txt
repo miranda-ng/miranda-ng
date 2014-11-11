@@ -14,6 +14,14 @@ http://meanwhile.sourceforge.net/
 
 
 
+DOCUMENTATION
+
+Sametime (TM) Community - Client Protocol. Basic RFC.
+http://meanwhile.sourceforge.net/docs/draft-houri-sametime-community-client-00.txt
+
+
+
+
 KNOWN ISSUES
 
 1) 
@@ -42,7 +50,7 @@ TESTING SERVER ENVIRONMENT
 
 https://apps.ce.collabserv.com/manage/account/public/trial/showCreateTrialAccount?country=PL&ibm-continue=Continue
 see: http://www.wissel.net/blog/d6plinks/SHWL-84KE8U
-
+Use at least Sametime 8 client version
 
 
 

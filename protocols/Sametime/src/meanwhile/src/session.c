@@ -450,6 +450,8 @@ static void HANDSHAKE_ACK_recv(struct mwSession *s,
   property_set(s, mwSession_SERVER_VER_MAJOR, GPOINTER(msg->major), NULL);
   property_set(s, mwSession_SERVER_VER_MINOR, GPOINTER(msg->minor), NULL);
 
+  g_message("Sametime server version (major/minor): 0x%x / 0x%x", msg->major, msg->minor);
+
   /* compose the login message */
   log = (struct mwMsgLogin *) mwMessage_new(mwMessage_LOGIN);
   log->login_type = GUINT(property_get(s, mwSession_CLIENT_TYPE_ID));

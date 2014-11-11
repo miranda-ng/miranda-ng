@@ -62,11 +62,12 @@ typedef struct Options_tag {
 	int port;
 	bool get_server_contacts;
 	int client_id;
+	int client_versionMajor;
+	int client_versionMinor;
 	ErrorDisplay err_method;
 	bool add_contacts;
 	bool encrypt_session;
 	bool idle_as_away;
-	bool use_old_default_client_ver;
 } SametimeOptions;
 
 typedef struct {

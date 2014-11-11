@@ -19,7 +19,7 @@
 */
 
 
-#include <glib/gstring.h>
+#include <glib.h>
 
 #include "mw_debug.h"
 

@@ -49,9 +49,7 @@ void mwIm_conversation_closed(mwConversation* conv, guint32 err)
 	proto->debugLog(_T("mwIm_conversation_closed() start err=[%d]"), err);
 
 	if (err & ERR_FAILURE && err != CONNECTION_RESET) {
-		char* msg = mwError(err);
-		proto->showPopup(TranslateTS(_A2T(msg)), SAMETIME_POPUP_ERROR);
-		g_free(msg);
+		proto->showPopup(err);
 		if (err == ERR_NO_COMMON_ENCRYPT && !(proto->options.encrypt_session))
 			proto->showPopup(TranslateT("No common encryption method. Try to enable encryption in protocol options."), SAMETIME_POPUP_INFO);
 	}

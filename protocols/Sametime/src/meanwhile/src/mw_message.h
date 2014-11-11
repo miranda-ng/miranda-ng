@@ -22,7 +22,7 @@
 #define _MW_MESSAGE_H
 
 
-#include <glib/glist.h>
+#include <glib.h>
 #include "mw_common.h"
 
 

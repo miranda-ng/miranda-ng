@@ -19,8 +19,6 @@
 */
 
 #include <glib.h>
-#include <glib/ghash.h>
-#include <glib/glist.h>
 
 #include <stdio.h>
 #include <stdlib.h>

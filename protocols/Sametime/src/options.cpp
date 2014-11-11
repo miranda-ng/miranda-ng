@@ -4,18 +4,22 @@
 
 #define DEFAULT_ID		(0x1800)
 
-#define NUM_IDS		20
+#define NUM_IDS		24
 
 TCHAR* client_names[NUM_IDS] = {
 	_T("Official Binary Library"),
 	_T("Official Java Applet"),
 	_T("Official Binary Application"), 
 	_T("Official Java Application"),
-	_T("Notes v6.5"),
-	_T("Notes v7.0"),
+	_T("Notes 6.5"),
+	_T("Notes 7.0"),
+	_T("Notes 8.0 Basic"),
+	_T("Notes 8.5.2"),
+	_T("Sametime Connect 8.0"),
+	_T("Sametime Connect 8.5.2"),
 	_T("ICT"),
 	_T("NotesBuddy"),
-	_T("NotesBuddy v4.15"),
+	_T("NotesBuddy 4.15"),
 	_T("Sanity"),
 	_T("Perl"),
 	_T("PMR Alert"),
@@ -35,6 +39,10 @@ int client_ids[NUM_IDS] = {
 	0x1003,
 	0x1200,
 	0x1210,
+	0x1215,
+	0x1240,
+	0x1306,
+	0x130D,
 	0x1300,
 	0x1400,
 	0x1405,
@@ -50,6 +58,36 @@ int client_ids[NUM_IDS] = {
 	0x1704,
 	0xFFFF
 };
+
+
+#define DEFAULT_CV_MAJOR		(0x001e)
+#define DEFAULT_CV_MINOR		(0x1f4b)
+
+#define NUM_CVS		5
+
+TCHAR* CV_names[NUM_CVS] = {
+	_T("Sametime (Use old client version)"),
+	_T("Sametime (Miranda default)"),
+	_T("Sametime 8"),
+	_T("Sametime 8.5.1"),
+	_T("Sametime 8.5.2")
+};
+int CV_major[NUM_CVS] = {
+	MW_PROTOCOL_VERSION_MAJOR,
+	0x001e,
+	0x001e,
+	0x001e,
+	0x001e
+};
+int CV_minor[NUM_CVS] = {
+	MW_PROTOCOL_VERSION_MINOR,
+	0x196f,
+	0x1f4b,
+	0x213f,
+	0x2149
+};
+
+
 
 static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -84,7 +122,6 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		CheckDlgButton(hwndDlg, IDC_CHK_GETSERVERCONTACTS, proto->options.get_server_contacts ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_ADDCONTACTS, proto->options.add_contacts ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_IDLEAWAY, proto->options.idle_as_away ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_OLDDEFAULTVER, proto->options.use_old_default_client_ver ? TRUE : FALSE);
 
 		SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_RESETCONTENT, 0, 0);
 		int pos = 0;
@@ -108,6 +145,20 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_SETCURSEL, pos, 0); // pos is last item, i.e. custom
 			SetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, proto->options.client_id, FALSE);
 		}
+
+
+		SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_RESETCONTENT, 0, 0);
+		pos = 0;
+
+		for (int i = 0; i < NUM_CVS; i++) {
+			pos = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_ADDSTRING, -1, (LPARAM)CV_names[i]);
+			SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_SETITEMDATA, pos, i);
+			if (CV_major[i] == proto->options.client_versionMajor && CV_minor[i] == proto->options.client_versionMinor) {
+				found = true;
+				SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_SETCURSEL, pos, 0);
+			}
+		}
+
 
 		if (!ServiceExists(MS_POPUP_ADDPOPUPT)) {
 			HWND hw = GetDlgItem(hwndDlg, IDC_RAD_ERRPOP);
@@ -138,19 +189,30 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 		if (HIWORD(wParam) == CBN_SELCHANGE) {
-			int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_GETCURSEL, 0, 0);
-			int id = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_GETITEMDATA, sel, 0);
-			bool custom = (id == client_ids[sizeof(client_ids) / sizeof(int)-1]);
+			switch (LOWORD(wParam)) {
+			case IDC_CMB_CLIENT:
+			{
+				int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_GETCURSEL, 0, 0);
+				int id = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_GETITEMDATA, sel, 0);
+				bool custom = (id == client_ids[sizeof(client_ids) / sizeof(int)-1]);
 
-			if (!custom)
-				SetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, id, FALSE);
-			else
-				SetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, DEFAULT_ID, FALSE);
+				if (!custom)
+				   SetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, id, FALSE);
+				else
+				   SetDlgItemInt(hwndDlg, IDC_ED_CLIENTID, DEFAULT_ID, FALSE);
 
-			HWND hw = GetDlgItem(hwndDlg, IDC_ED_CLIENTID);
-			EnableWindow(hw, custom);
+				HWND hw = GetDlgItem(hwndDlg, IDC_ED_CLIENTID);
+				EnableWindow(hw, custom);
 
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				return TRUE;
+			}
+			case IDC_CMB_CLIENTVN:
+			{
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				return TRUE;
+			}
+			}
 		}
 
 		if (HIWORD(wParam) == BN_CLICKED) {
@@ -204,7 +266,6 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			case IDC_CHK_USERCP:
 			case IDC_CHK_ADDCONTACTS:
 			case IDC_CHK_IDLEAWAY:
-			case IDC_CHK_OLDDEFAULTVER:
 			case IDC_RAD_ENC:
 			case IDC_RAD_NOENC:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -258,6 +319,11 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			}
 			else proto->options.client_id = id;
 
+			sel = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_GETCURSEL, 0, 0);
+			int CVpos = SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENTVN, CB_GETITEMDATA, sel, 0);
+			proto->options.client_versionMajor = CV_major[CVpos];
+			proto->options.client_versionMinor = CV_minor[CVpos];
+
 			if (IsDlgButtonChecked(hwndDlg, IDC_RAD_ERRMB)) proto->options.err_method = ED_MB;
 			else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_ERRBAL)) proto->options.err_method = ED_BAL;
 			else if (IsDlgButtonChecked(hwndDlg, IDC_RAD_ERRPOP)) proto->options.err_method = ED_POP;
@@ -265,8 +331,6 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			proto->options.add_contacts = (IsDlgButtonChecked(hwndDlg, IDC_CHK_ADDCONTACTS) != FALSE);
 			proto->options.encrypt_session = (IsDlgButtonChecked(hwndDlg, IDC_RAD_ENC) != FALSE);
 			proto->options.idle_as_away = (IsDlgButtonChecked(hwndDlg, IDC_CHK_IDLEAWAY) != FALSE);
-
-			proto->options.use_old_default_client_ver = (IsDlgButtonChecked(hwndDlg, IDC_CHK_OLDDEFAULTVER) != FALSE);
 
 			proto->SaveOptions();
 
@@ -316,7 +380,22 @@ void CSametimeProto::LoadOptions()
 	options.encrypt_session = (db_get_b(0, m_szModuleName, "EncryptSession", 0) == 1);
 
 	options.client_id = db_get_dw(0, m_szModuleName, "ClientID", DEFAULT_ID);
-	options.use_old_default_client_ver = (db_get_b(0, m_szModuleName, "UseOldClientVer", 0) == 1);
+	options.client_versionMajor = db_get_dw(0, m_szModuleName, "ClientVersionMajor", DEFAULT_CV_MAJOR);
+	DWORD defaultCVMinor;
+	if (db_get_b(0, m_szModuleName, "UseOldClientVer", 0) == 1){
+		// if sb have checked old deprecated option 'Use old client version' respect it
+		defaultCVMinor = 0x001d;
+	} else {
+		defaultCVMinor = DEFAULT_CV_MINOR;
+	}
+	options.client_versionMinor = db_get_dw(0, m_szModuleName, "ClientVersionMinor", defaultCVMinor);
+
+	// one time options conversion
+	if (db_get_b(0, m_szModuleName, "UseOldClientVer", -1) != -1){
+		db_unset(0, m_szModuleName, "UseOldClientVer");
+		db_set_dw(0, m_szModuleName, "ClientVersionMajor", options.client_versionMajor);
+		db_set_dw(0, m_szModuleName, "ClientVersionMinor", options.client_versionMinor);
+	}
 
 	options.get_server_contacts = (db_get_b(0, m_szModuleName, "GetServerContacts", 1) == 1);
 	options.add_contacts = (db_get_b(0, m_szModuleName, "AutoAddContacts", 0) == 1);
@@ -333,7 +412,7 @@ void CSametimeProto::LoadOptions()
 	if (options.err_method == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) options.err_method = ED_MB;
 
 	debugLog(_T("LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]"), options.server_name == NULL ? -1 : strlen(options.server_name), options.id == NULL ? -1 : strlen(options.id), options.pword == NULL ? -1 : strlen(options.pword));
-	debugLog(_T("LoadOptions() loaded: port=[%d], encrypt_session=[%d], client_id=[%d], use_old_default_client_ver=[%d]"), options.port, options.encrypt_session, options.client_id, options.use_old_default_client_ver);
+	debugLog(_T("LoadOptions() loaded: port=[%d], encrypt_session=[%d], ClientID=[%d], ClientVersionMajor=[%d], ClientVersionMinor=[%d]"), options.port, options.encrypt_session, options.client_id, options.client_versionMajor, options.client_versionMinor);
 	debugLog(_T("LoadOptions() loaded: get_server_contacts=[%d], add_contacts=[%d], idle_as_away=[%d], err_method=[%d]"), options.get_server_contacts, options.add_contacts, options.idle_as_away, options.err_method);
 
 }
@@ -349,11 +428,11 @@ void CSametimeProto::SaveOptions()
 	db_set_dw(0, m_szModuleName, "ServerPort", options.port);
 	db_set_b(0, m_szModuleName, "GetServerContacts", options.get_server_contacts ? 1 : 0);
 	db_set_dw(0, m_szModuleName, "ClientID", options.client_id);
+	db_set_dw(0, m_szModuleName, "ClientVersionMajor", options.client_versionMajor);
+	db_set_dw(0, m_szModuleName, "ClientVersionMinor", options.client_versionMinor);
 	db_set_b(0, m_szModuleName, "ErrorDisplay", options.err_method);
 
 	db_set_b(0, m_szModuleName, "AutoAddContacts", options.add_contacts ? 1 : 0);
 	db_set_b(0, m_szModuleName, "EncryptSession", options.encrypt_session ? 1 : 0);
 	db_set_b(0, m_szModuleName, "IdleAsAway", options.idle_as_away ? 1 : 0);
-
-	db_set_b(0, m_szModuleName, "UseOldClientVer", options.use_old_default_client_ver ? 1 : 0);
 }
