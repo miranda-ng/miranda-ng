@@ -6,7 +6,7 @@
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
-
+Tworzenie raportów o błędach oraz informacji o wersji Mirandy NG.
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Pokaż Informacje o wersji
@@ -25,15 +25,15 @@ Hasło:
 [Upload automatically when changed]
 Wyślij automatycznie kiedy nastąpi zmiana
 [Crash reports]
-
+Raporty o błędach
 [Use classic dates]
 Użyj klasycznych dat
 [Create reports in subfolders naming as current date]
 Twórz raporty w podfolderach używając bieżącej daty
 [Generate crash reports]
-
+Generuj raporty o błędach
 [* You need to restart Miranda NG to apply changes]
-
+Musisz uruchomić Mirandę ponownie, aby zastosować zmiany
 [View]
 Pokaż
 [&Copy]
@@ -72,7 +72,7 @@ Wyślij
 [Open crash report directory]
 Otwórz folder z raportami
 [Open online report]
-
+Otwórz raport online
 [Copy Version Info to clipboard]
 Kopiuj informacje o wersji do schowka
 [Show Version Info]
@@ -89,8 +89,8 @@ Wystąpił błąd Mirandy. Raport błędów zachowany w folderze:\n %s\n\n Czy z
 [View Version Information (with DLLs)]
 Pokaż Informacje o wersji (z bibliotekami)
 ;file \plugins\CrashDumper\src\upload.cpp
-[VersionInfo upload successful,\n %d old plugins]
-Wysłano informacje o wersji. Starych wtyczek: %d
+[VersionInfo upload successful.]
+Wysyłanie informacji o wersji ukończone pomyślnie.
 [Cannot upload VersionInfo. Incorrect username or password]
 Nie można wysłać informacji o wersji. Niepoprawna nazwa użytkownika lub hasło.
 [Cannot upload VersionInfo. User is banned]
