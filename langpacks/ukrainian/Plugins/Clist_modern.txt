@@ -621,6 +621,8 @@ xСтатус: xПовідомлення
 Оверлеї аватарів
 [Status overlay]
 Оверлеї статусів
+[Contact list smileys]
+Список контактів
 [List background]
 Фон списку
 [Menu background]

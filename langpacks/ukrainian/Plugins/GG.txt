@@ -226,7 +226,7 @@
 [Message with [img] BBCode]
 Повідомлення з BB-кодом [img]
 [You need to specify your registration e-mail first.]
-Необхідно вказати ваш E-mail.
+Необхідно вказати свій E-mail.
 [Your password will be sent to your registration e-mail.\nDo you want to continue?]
 Ваш пароль буде надіслано на реєстраційний E-mail.\nПродовжити?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]

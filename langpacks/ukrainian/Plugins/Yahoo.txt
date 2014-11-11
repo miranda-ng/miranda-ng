@@ -154,9 +154,9 @@ HTTP-з'єднання Yahoo
 [%s plugin connections]
 З'єднання з сервером %s
 [Please enter your Yahoo ID in Options/Network/Yahoo]
-Введіть ваш Yahoo ID: Налаштування -> Мережа -> Yahoo
+Введіть свій Yahoo ID: Налаштування -> Мережа -> Yahoo
 [Please enter your Yahoo password in Options/Network/Yahoo]
-Введіть ваш пароль Yahoo: Налаштування -> Мережа -> Yahoo
+Введіть свій пароль Yahoo: Налаштування -> Мережа -> Yahoo
 [Yahoo Login Error]
 Помилка підключення Yahoo
 [You need to be connected to set the custom message]

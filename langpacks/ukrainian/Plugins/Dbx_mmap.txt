@@ -48,7 +48,7 @@
 [Database Panic]
 Проблема з базою
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
-Ваш профіль застарілого формату. Для оновлення за допомогою PluginUpdater, необхідно спочатку конвертувати профіль у сучасний формат.\n\nНатисніть "Так", щоб дізнатися, як це зробити.
+Формат вашого профілю застарів. Для оновлення за допомогою PluginUpdater, необхідно спочатку конвертувати профіль у сучасний формат.\n\nНатисніть "Так", щоб дізнатися, як це зробити.
 [Obsolete database format]
 Застарілий формат профілю
 [Change/remove password]
@@ -62,7 +62,7 @@
 [Password is not correct!]
 Неправильний пароль!
 [Please type in your password]
-Будь ласка, введіть ваш пароль
+Будь ласка, введіть пароль
 [Wrong old password entered!]
 Введено помилковий старий пароль!
 [Password is too short!]

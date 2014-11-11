@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.0.5.1
+;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-[Crash Dumper for Miranda NG.]
-Плагін створення звітів про помилки в разі аварійного завершення роботи програми. Підтримка www.miranda-vi.org.
+[Crash Dumper and Version Information for Miranda NG.]
+Плагін створення звітів про помилки в разі аварійного завершення роботи програми, а також звітів про версії.
 [View Version Information]
 Інформація про версії
 [Close]
@@ -15,8 +15,8 @@
 Копіювати в буфер
 [To File]
 У файл
-[Support for miranda-vi.org]
-Підтримка miranda-vi.org
+[Support for miranda-ng.org/versioninfo]
+Підтримка miranda-ng.org/versioninfo
 [Username]
 Ім'я користувача
 [Password]
@@ -69,8 +69,8 @@
 Завантажити
 [Open crash report directory]
 Папка збереження звітів
-[Open miranda-vi.org]
-Відкрити miranda-vi.org
+[Open online report]
+Відкрити онлайн-звіт
 [Copy Version Info to clipboard]
 Копіювати версії в буфер обміну
 [Show Version Info]
@@ -83,8 +83,8 @@
 Miranda NG була завершена аварійно. Звіт збережено в\n %s\n\nЗберегти його в буфер обміну?
 [View Version Information (with DLLs)]
 Інформація про версії (з бібліотеками)
-[VersionInfo upload successful,\n %d old plugins]
-Версії успішно завантажені,\n%d старих плагінів
+[VersionInfo upload successful.]
+Інформацію про версії успішно завантажено.
 [Cannot upload VersionInfo. Incorrect username or password]
 Неможливо завантажити інформацію про версії. Неправильне ім'я користувача чи пароль.
 [Cannot upload VersionInfo. User is banned]

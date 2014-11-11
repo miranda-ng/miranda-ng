@@ -1,6 +1,5 @@
 ﻿[Editing view mode]
 [Layered]
-[Contact list smileys]
 [Row design]
 [Empty %s cell]
 [column]

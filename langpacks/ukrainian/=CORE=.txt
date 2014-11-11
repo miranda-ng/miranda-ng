@@ -2116,7 +2116,7 @@ Miranda намагається оновити вашу структуру збе
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
 Miranda намагається оновити вашу структуру зберігання профілів.\nНе вдається автоматично перемістити профіль %s на нове місце %s. Імовірно, у програми недостатньо прав. Перемістіть профіль вручну.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
-Файл профілю не повинен знаходится в корневій папці Miranda. Перемістіть ваш профіль на інше місце.
+Файл профілю не повинен знаходится в корневій папці Miranda. Перемістіть свій профіль на інше місце.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda не може відкрити "%s", оскільки не встановлено жодного драйвера бази.\nНеобхідно встановити dbx_mmap.dll або його аналог.
 [No profile support installed!]

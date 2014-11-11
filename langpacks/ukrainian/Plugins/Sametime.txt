@@ -15,10 +15,6 @@
 Сервер:
 [Port:]
 Порт:
-[Client ID]
-ID клієнта
-[Use old client version]
-Стара версія клієнта
 [Error display]
 Показ помилок
 [Use message boxes]
@@ -79,10 +75,6 @@ ID клієнта
 Шифрування недоступне. Спробуйте ввімкнути шифрування в налаштуваннях протоколу.
 [SERVICE NOT IMPLEMENTED. %s]
 Служба не реалізована. %s
-[Client proto version: %03d.%03d]
-Версія клієнта: %03d.%03d
-[Server proto version: %03d.%03d]
-Версія сервера: %03d.%03d
 [Network]
 Мережа
 [Protocol icon]

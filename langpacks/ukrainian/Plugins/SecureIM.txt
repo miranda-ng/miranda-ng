@@ -118,7 +118,7 @@
 [Show a popup on each secure receive]
 Прийом зашифрованого повідомлення
 [Please type in your password]
-Введіть ваш пароль
+Будь ласка, введіть пароль
 [Username:]
 Користувач:
 [Password:]
