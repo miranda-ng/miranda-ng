@@ -40,6 +40,22 @@ extern "C" {
 #endif
 
 
+/// Miranda NG development start
+enum mwReturnCodeType {
+	mwReturnCodeInfo     = 0x1000,
+	mwReturnCodeError    = 0x2000
+};
+ 
+struct mwReturnCodeDesc {
+	guint16 type;		/**< @see mwReturnCodeType */
+	char *codeString;	/**< return code hex as string */
+	char *name;			/**< return code name */
+	char *description;	/**< return code description */
+};
+
+struct mwReturnCodeDesc *mwGetReturnCodeDesc(guint32 code);
+/// Miranda NG development end
+
 /** reference to a new string appropriate for the given error code.*/
 char* mwError(guint32 code);
 
@@ -87,7 +103,11 @@ enum ERR_GENERAL {
   ERR_ENCRYPT_INVALID        = 0x80000020,
   ERR_NO_COMMON_ENCRYPT      = 0x80000021,
   ERR_CHANNEL_DESTROYED      = 0x80000022,
-  ERR_CHANNEL_REDIRECTED     = 0x80000023
+  /// Miranda NG development start
+  //ERR_CHANNEL_REDIRECTED     = 0x80000023
+  ERR_CHANNEL_REDIRECTED     = 0x00000023,
+  ERR_INCORRECT_ENTRY        = 0x80000239
+  /// Miranda NG development end
 };
 
 
@@ -165,6 +185,18 @@ enum ERR_IM {
   ERR_IM_NOT_REGISTERED      = 0x80002005,
 };
 
+
+/// Miranda NG development start
+/* 8.3.1.5 Resolve error codes */
+
+/** @enum ERR_RESOLVE
+Resolve error codes */
+enum ERR_RESOLVE {
+	ERR_RESOLVE_NOTCOMPLETED      = 0x00010000,
+	ERR_RESOLVE_NAMENOTUNIQUE     = 0x80020000,
+	ERR_RESOLVE_NAMENOTRESOLVABLE = 0x80030000
+};
+/// Miranda NG development end
 
 #ifdef __cplusplus
 }

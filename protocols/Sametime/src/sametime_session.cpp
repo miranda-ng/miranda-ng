@@ -69,14 +69,9 @@ void CSametimeProto::InitMeanwhileServices()
 	mwSession_setProperty(session, mwSession_AUTH_PASSWORD, options.pword, NULL);
 	mwSession_setProperty(session, mwSession_CLIENT_TYPE_ID, (void*)options.client_id, NULL);
 
-	if (options.use_old_default_client_ver) {
-		mwSession_setProperty(session, mwSession_CLIENT_VER_MAJOR, GUINT_TO_POINTER(db_get_w(0, m_szModuleName, "ClientVersionMajor", MW_PROTOCOL_VERSION_MAJOR)), 0);
-		mwSession_setProperty(session, mwSession_CLIENT_VER_MINOR, GUINT_TO_POINTER(db_get_w(0, m_szModuleName, "ClientVersionMinor", MW_PROTOCOL_VERSION_MINOR)), 0);
-	}
-	else {
-		mwSession_setProperty(session, mwSession_CLIENT_VER_MAJOR, GUINT_TO_POINTER(db_get_w(0, m_szModuleName, "ClientVersionMajor", 0x001e)), 0);
-		mwSession_setProperty(session, mwSession_CLIENT_VER_MINOR, GUINT_TO_POINTER(db_get_w(0, m_szModuleName, "ClientVersionMinor", 0x196f)), 0);
-	}
+	mwSession_setProperty(session, mwSession_CLIENT_VER_MAJOR, (void*)options.client_versionMajor, NULL);
+	mwSession_setProperty(session, mwSession_CLIENT_VER_MINOR, (void*)options.client_versionMinor, NULL);
+
 }
 
 void CSametimeProto::DeinitMeanwhileServices()
@@ -111,11 +106,7 @@ void __cdecl SessionStateChange(mwSession* session, mwSessionState state, gpoint
 
 	case mwSession_STOPPING:
 		if ((int)info) {// & ERR_FAILURE) {
-			char *msg = mwError((int)info);
-			TCHAR *msgT = mir_utf8decodeT(msg);
-			proto->showPopup(TranslateTS(msgT), SAMETIME_POPUP_ERROR);
-			mir_free(msgT);
-			g_free(msg);
+			proto->showPopup((int)info);
 		}
 		proto->SessionStopping();
 		break;

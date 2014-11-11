@@ -138,6 +138,22 @@ void CSametimeProto::showPopup(const TCHAR* msg, SametimePopupEnum flag)
 	CallFunctionAsync(sttMainThreadCallback, puData);
 }
 
+void CSametimeProto::showPopup(guint32 code)
+{
+	struct mwReturnCodeDesc *rcDesc = mwGetReturnCodeDesc(code);
+
+	SametimePopupEnum flag = (rcDesc->type == mwReturnCodeError ? SAMETIME_POPUP_ERROR : SAMETIME_POPUP_INFO);
+	TCHAR buff[512];
+	mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s\n\nSametime error %S\n%s"), TranslateTS(_A2T(rcDesc->name)), rcDesc->codeString, TranslateTS(_A2T(rcDesc->description)));
+
+	showPopup(buff, flag);
+	debugLog(buff);
+
+	g_free(rcDesc->codeString);
+	g_free(rcDesc->name);
+	g_free(rcDesc->description);
+	g_free(rcDesc);
+}
 
 void LogFromGLib(const gchar* log_domain, GLogLevelFlags log_level, const gchar* message, gpointer user_data)
 {

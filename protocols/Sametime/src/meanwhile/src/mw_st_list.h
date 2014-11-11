@@ -30,7 +30,6 @@
 
 
 #include <glib.h>
-#include <glib/glist.h>
 #include "mw_common.h"
 
 

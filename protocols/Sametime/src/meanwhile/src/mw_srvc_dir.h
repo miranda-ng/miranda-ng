@@ -22,7 +22,6 @@
 
 
 #include <glib.h>
-#include <glib/glist.h>
 
 
 #ifdef __cplusplus

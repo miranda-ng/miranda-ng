@@ -23,8 +23,6 @@
 
 
 #include <glib.h>
-#include <glib/ghash.h>
-#include <glib/glist.h>
 
 
 #define map_guint_new() \

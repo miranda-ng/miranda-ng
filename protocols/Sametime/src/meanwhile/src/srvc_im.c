@@ -19,7 +19,6 @@
 */
 
 #include <glib.h>
-#include <glib/glist.h>
 #include <string.h>
 
 #include "mw_channel.h"

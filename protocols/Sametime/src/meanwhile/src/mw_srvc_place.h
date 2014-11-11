@@ -22,7 +22,7 @@
 #define _MW_SRVC_PLACE_H
 
 
-#include <glib/glist.h>
+#include <glib.h>
 #include "mw_common.h"
 
 
