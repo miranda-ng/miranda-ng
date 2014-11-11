@@ -130,13 +130,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 				if (db_get_b(NULL, PluginName, "UploadChanged", 0))
 					ProcessVIHash(true);
 
-				for (i = nlhrReply->headersCount; i--;)
-					if (_stricmp(nlhrReply->headers[i].szName, "OldPlugins") == 0) {
-						i = atoi(nlhrReply->headers[i].szValue);
-						break;
-					}
-
-				ShowMessage(1, TranslateT("VersionInfo upload successful,\n %d old plugins"), i);
+				ShowMessage(1, TranslateT("VersionInfo upload successful."));
 				result = 0;
 				break;
 
