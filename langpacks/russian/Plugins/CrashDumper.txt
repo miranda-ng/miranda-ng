@@ -83,8 +83,8 @@
 Miranda NG была завершена аварийно. Отчёт сохранен в \n %s\n\n Хотите ли вы сохранить его в буфер обмена?
 [View Version Information (with DLLs)]
 Информация о версиях (с библиотеками)
-[VersionInfo upload successful,\n %d old plugins]
-Версии успешно загружены,\n%d старых плагинов
+[VersionInfo upload successful.]
+Версии успешно загружены.
 [Cannot upload VersionInfo. Incorrect username or password]
 Нельзя загрузить информацию о версиях. Неправильное имя пользователя или пароль
 [Cannot upload VersionInfo. User is banned]
