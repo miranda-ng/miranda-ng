@@ -21,3 +21,4 @@ Windows colours
 Custom colours
 [Color]
 Colour
+;other strings

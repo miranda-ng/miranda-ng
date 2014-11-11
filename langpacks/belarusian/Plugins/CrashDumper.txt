@@ -2,11 +2,9 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.0.5.1
+;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-[Crash Dumper for Miranda NG.]
-Плагін стварэння справаздач пра памылкі ў выпадку аварыйнага завяршэння працы праграмы. Падтрымка www.miranda-vi.org
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Інфармацыя пра версіі
@@ -16,16 +14,14 @@
 Капіяваць у буфер
 [To File]
 У файл
-[Support for miranda-vi.org]
-Падтрымка miranda-vi.org
+[Support for miranda-ng.org/versioninfo]
+Падтрымка miranda-ng.org/versioninfo
 [Username]
 Імя карыстача
 [Password]
 Пароль
 [Upload automatically when changed]
 Загружаць аўтаматычна пры зменах
-[General]
-Агульнае
 [Use classic dates]
 Класічны фармат часу і даты
 [Create reports in subfolders naming as current date]
@@ -67,8 +63,6 @@
 Загрузіць
 [Open crash report directory]
 Тэчка захавання справаздач
-[Open miranda-vi.org]
-Адкрыць miranda-vi.org
 [Copy Version Info to clipboard]
 Капіяваць версіі ў буфер абмену
 [Show Version Info]

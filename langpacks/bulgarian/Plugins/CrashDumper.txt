@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.0.5.1
+;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper for Miranda NG.]
@@ -16,16 +16,14 @@ Crash Dumper за Miranda NG.
 Копиране в клипборда
 [To File]
 Във файл
-[Support for miranda-vi.org]
-Поддръжка на miranda-vi.org
+[Support for miranda-ng.org/versioninfo]
+Поддръжка на miranda-ng.org/versioninfo
 [Username]
 Потребител
 [Password]
 Парола
 [Upload automatically when changed]
 Автоматично качване при промяна
-[General]
-Основни
 [Use classic dates]
 Класическа дата
 [Create reports in subfolders naming as current date]
@@ -67,8 +65,6 @@ Crash Dumper за Miranda NG.
 Качване
 [Open crash report directory]
 Отваряне на директорията за доклади
-[Open miranda-vi.org]
-Отваряне на www.miranda-vi.org
 [Copy Version Info to clipboard]
 Копиране на информация за версията в клипборда
 [Show Version Info]
