@@ -12,7 +12,7 @@
 [Notify in fullscreen mode too]
 Також сповіщати в повноекранному режимі
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
-Використовуйте це якщо ваш плагін спливаючих вікон неправильно визначає повноекранний режим. Він забере у вас фокус вводу.
+Увімкніть, якщо ваш плагін спливаючих вікон неправильно визначає повноекранний режим. Він забере у вас фокус вводу.
 [Notify in contact list]
 Сповіщати в списку контактів
 [Clear pseudocontact history before adding new events]
@@ -24,9 +24,9 @@
 [Try to login before open mailbox]
 Намагатися ввійти перед переходом у поштову скриньку
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
-Це працює тільки якщо пароль збережений в БД. Не впливає на посилання в журналі повідомлень псевдоконтакта.
+Опція працює тільки якщо пароль збережений в БД. Не впливає на посилання в журналі повідомлень псевдоконтакта.
 [Choose GMail view you use in web interface]
-Виберіть вигляд Gmail, використовуваний у веб-інтерфейсі
+Виберіть вигляд Gmail, який використовується у веб-інтерфейсі
 [I don't know]
 Я не знаю
 [Standard view]
@@ -40,7 +40,7 @@
 [Timeout]
 Таймаут
 [If both colors set to the same value, default colors will be used]
-Якщо обидва кольори однакові, будуть використані кольору за замовчанням
+Якщо обидва кольори однакові, будуть використані кольори за замовчанням
 [0 means default timeout,\n-1 means no timeout]
 0 = замовчання,\n-1 = нескінченно
 [Test]
@@ -56,8 +56,8 @@
 [GMail notifications]
 Сповіщення про пошту Gmail
 [subject\n    %s\nfrom\n%s\n%s\n]
-тема\n    %s\nвід\n%s\n%s\n
+Тема\n    %s\nВід\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]
-тема\n    %s\nвід\n%s
+Тема\n    %s\nВід\n%s
 [Unread threads:]
 Непрочитаних ланцюжків:

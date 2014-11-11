@@ -266,7 +266,7 @@ HTTPS-з'єднання %s
 [Offline messaging is not allowed for LCS contacts]
 Повідомлення відключеним LCS-контактам неможливі
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Для мережі MSN таймаут відправлення повідомлення повинен бути не менш ніж 60 секунд. Будь ласка, налаштуйте ваш плагін повідомлень.
+Для мережі MSN таймаут відправлення повідомлення повинен бути не менш ніж 60 секунд. Будь ласка, налаштуйте свій плагін повідомлень.
 [Convert to Chat]
 Конвертувати в чат
 [Chat session dropped due to inactivity]

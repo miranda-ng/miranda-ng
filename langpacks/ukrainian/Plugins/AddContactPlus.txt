@@ -38,9 +38,9 @@ ID користувача:
 [None]
 Немає
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
-Контакт не може бути додано до вашого списку контактів. Переконайтеся, що ви вказали правильний ID користувача.
+Неможливо додати контакт до вашого списку контактів. Переконайтеся, що ви вказали правильний ID користувача.
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
-Контакт не може бути додано до вашого списку контактів. Якщо ви не підключені до цієї мережі, спробуйте підключитися. Також переконайтеся, що ви вказали правильний ID користувача.
+Неможливо додати контакт до вашого списку контактів. Якщо ви не підключені до цієї мережі, спробуйте підключитися. Також переконайтеся, що ви вказали правильний ID користувача.
 [&Add contact...]
 &Додати контакт...
 [Open add contact dialog]

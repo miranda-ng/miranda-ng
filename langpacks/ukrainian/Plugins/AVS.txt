@@ -110,7 +110,7 @@
 [No avatar]
 Без аватару
 [Are you sure you want to remove your avatar?]
-Ви хочете видалити ваш аватар?
+Ви хочете видалити свій аватар?
 [Global Avatar]
 Глобальний аватар
 [Avatar]

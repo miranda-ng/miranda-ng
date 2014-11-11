@@ -10,7 +10,7 @@
 [Authorization]
 Авторизація
 [To allow Miranda NG access in your Dropbox account:]
-Щоб надати Miranda NG доступ до вашого облікового запису Dropbox:
+Щоб надати Miranda NG доступ до свого облікового запису Dropbox:
 [Go to this link]
 Перейдіть на сайт
 [Allow access to app folder]
