@@ -251,8 +251,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbEditorPP", "..\plugins\Db
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrashDumper", "..\plugins\CrashDumper\crshdmp_12.vcxproj", "{576EEEFD-E423-482B-879A-F0515D40B8E1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VersionInfo", "..\plugins\VersionInfo\VersionInfo_12.vcxproj", "{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenFolder", "..\plugins\OpenFolder\openFolder_12.vcxproj", "{8D233B9A-2744-4B62-94FC-7872FDDA4683}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyDetails", "..\plugins\MyDetails\mydetails_12.vcxproj", "{A4855451-6447-437C-B024-B36C3C7901EA}"
@@ -1264,14 +1262,6 @@ Global
 		{576EEEFD-E423-482B-879A-F0515D40B8E1}.Release|Win32.Build.0 = Release|Win32
 		{576EEEFD-E423-482B-879A-F0515D40B8E1}.Release|x64.ActiveCfg = Release|x64
 		{576EEEFD-E423-482B-879A-F0515D40B8E1}.Release|x64.Build.0 = Release|x64
-		{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}.Debug|Win32.Build.0 = Debug|Win32
-		{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}.Debug|x64.ActiveCfg = Debug|x64
-		{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}.Debug|x64.Build.0 = Debug|x64
-		{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}.Release|Win32.ActiveCfg = Release|Win32
-		{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}.Release|Win32.Build.0 = Release|Win32
-		{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}.Release|x64.ActiveCfg = Release|x64
-		{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}.Release|x64.Build.0 = Release|x64
 		{8D233B9A-2744-4B62-94FC-7872FDDA4683}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8D233B9A-2744-4B62-94FC-7872FDDA4683}.Debug|Win32.Build.0 = Debug|Win32
 		{8D233B9A-2744-4B62-94FC-7872FDDA4683}.Debug|x64.ActiveCfg = Debug|X64
