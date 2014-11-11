@@ -130,22 +130,22 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 				if (db_get_b(NULL, PluginName, "UploadChanged", 0))
 					ProcessVIHash(true);
 
-				ShowMessage(1, TranslateT("VersionInfo upload successful."));
+				ShowMessage(1, TranslateT("Version Info upload successful."));
 				result = 0;
 				break;
 
 			case 401:
-				ShowMessage(0, TranslateT("Cannot upload VersionInfo. Incorrect username or password"));
+				ShowMessage(0, TranslateT("Cannot upload Version Info. Incorrect username or password"));
 				result = 1;
 				break;
 
 			case 510:
-				ShowMessage(0, TranslateT("Cannot upload VersionInfo. User is banned"));
+				ShowMessage(0, TranslateT("Cannot upload Version Info. User is banned"));
 				result = 1;
 				break;
 
 			case 511:
-				ShowMessage(0, TranslateT("Cannot upload VersionInfo. Daily upload limit exceeded"));
+				ShowMessage(0, TranslateT("Cannot upload Version Info. Daily upload limit exceeded"));
 				result = 1;
 				break;
 
@@ -179,12 +179,12 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 
 			default:
 				result = 1;
-				ShowMessage(0, TranslateT("Cannot upload VersionInfo. Unknown error"));
+				ShowMessage(0, TranslateT("Cannot upload Version Info. Unknown error"));
 			}
 		}
 		else {
 			result = 1;
-			ShowMessage(0, TranslateT("Cannot upload VersionInfo. Host unreachable."));
+			ShowMessage(0, TranslateT("Cannot upload Version Info. Host unreachable."));
 		}
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);

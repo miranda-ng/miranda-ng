@@ -80,9 +80,9 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 
 		CloseHandle(hDumpFile);
 
-		ShowMessage(3, TranslateT("VersionInfo stored into file %s"), path);
+		ShowMessage(3, TranslateT("Version Info stored into file %s"), path);
 	}
-	else ShowMessage(2, TranslateT("VersionInfo file %s is inaccessible"), path);
+	else ShowMessage(2, TranslateT("Version Info file %s is inaccessible"), path);
 
 	return 0;
 }
