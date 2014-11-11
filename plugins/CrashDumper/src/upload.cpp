@@ -68,10 +68,10 @@ void OpenAuthUrl(const char* url)
 	if (user[0] && pass[0]) {
 		char str[256];
 		mir_snprintf(str, sizeof(str), url, user);
-		mir_snprintf(str, sizeof(str), "http://www.miranda-vi.org/cdlogin?name=%s&pass=%s&redir=%s", user, pass, ptrA(mir_urlEncode(str)));
+		mir_snprintf(str, sizeof(str), "http://www.miranda-ng.org/versioninfo/detail/%s", user);
 		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)str);
 	}
-	else CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.miranda-vi.org/");
+	else CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.miranda-ng.org/versioninfo/");
 }
 
 void CreateAuthString(char* auth)
@@ -205,7 +205,13 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 void __cdecl VersionInfoUploadThread(void* arg)
 {
 	VerTrnsfr* trn = (VerTrnsfr*)arg;
-	InternetDownloadFile("http://www.miranda-vi.org/uploadpost", trn);
+
+	char user[64], pass[40];
+	GetLoginStr(user, sizeof(user), pass);
+	char str[256];
+	mir_snprintf(str, sizeof(str), "http://www.miranda-ng.org/en/versioninfo/upload?login=%s&pass=%s", user, pass);
+
+	InternetDownloadFile(str, trn);
 	mir_free(trn->buf);
 	mir_free(trn);
 }
