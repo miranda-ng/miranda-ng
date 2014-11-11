@@ -103,14 +103,14 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		WORD client_ver = proto->GetClientVersion();
 		if (client_ver) {
 			TCHAR verbuf[100];
-			mir_sntprintf(verbuf, SIZEOF(verbuf), TranslateT("Client proto version: %03d.%03d"), (client_ver & 0xFF00) >> 8, client_ver & 0xFF);
+			mir_sntprintf(verbuf, SIZEOF(verbuf), TranslateT("Client protocol version: %03d.%03d"), (client_ver & 0xFF00) >> 8, client_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_CLIENTVER, verbuf);
 		}
 
 		WORD server_ver = proto->GetServerVersion();
 		if (server_ver) {
 			TCHAR verbuf[100];
-			mir_sntprintf(verbuf, SIZEOF(verbuf), TranslateT("Server proto version: %03d.%03d"), (server_ver & 0xFF00) >> 8, server_ver & 0xFF);
+			mir_sntprintf(verbuf, SIZEOF(verbuf), TranslateT("Server protocol version: %03d.%03d"), (server_ver & 0xFF00) >> 8, server_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_SERVERVER, verbuf);
 		}
 

@@ -114,7 +114,7 @@ char* mwError(guint32 code) {
 	CASE(USER_RE_LOGIN, LPGEN("User relogin"));
 	CASE(BAD_NAME, LPGEN("Bad name"));
 	CASE(REG_MODE_NS, LPGEN("Registration error"));
-	CASE(WRONG_USER_PRIV, LPGEN("Privilage error"));
+	CASE(WRONG_USER_PRIV, LPGEN("Privilege error"));
 	CASE(NEED_EMAIL, LPGEN("Need email"));
 	CASE(DNS_ERROR, LPGEN("DNS error"));
 	CASE(DNS_FATAL_ERROR, LPGEN("DNS fatal error"));
@@ -243,7 +243,7 @@ char* mwErrorDesc(guint32 code) {
 		CASE(MULTI_SERVER_LOGIN2, LPGEN("Disconnected due to login in two Sametime servers concurrently (2)"));
 		CASE(MULTI_LOGIN_COMP, LPGEN("Disconnected due to login from another computer."));
 		CASE(MUTLI_LOGIN_ALREADY, LPGEN("Unable to log in because you are already logged on from another computer"));
-		CASE(SERVER_BROKEN, LPGEN("Unable to log in because the server is eother unreachable, or not configured properly."));
+		CASE(SERVER_BROKEN, LPGEN("Unable to log in because the server is either unreachable, or not configured properly."));
 		CASE(SERVER_PATH_OLD, LPGEN("Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded."));
 		CASE(APPLET_LOGOUT, LPGEN("The applet was logged out with this reason. Perform relogin and you will return to the former state."));
 
