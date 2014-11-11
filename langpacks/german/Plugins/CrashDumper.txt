@@ -2,11 +2,9 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.0.5.1
+;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-[Crash Dumper for Miranda NG.]
-Crash Dumper für Miranda NG.
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Miranda-Versionsinfo anzeigen
@@ -16,16 +14,14 @@ Schließen
 In Zwischenablage kopieren
 [To File]
 In Datei
-[Support for miranda-vi.org]
-Upload bei miranda-vi.org
+[Support for miranda-ng.org/versioninfo]
+Upload bei miranda-ng.org/versioninfo
 [Username]
 Benutzername
 [Password]
 Passwort
 [Upload automatically when changed]
 Bei Änderungen automatisch hochladen
-[General]
-Allgemein
 [Use classic dates]
 Klassische Datumsanzeige verwenden
 [Create reports in subfolders naming as current date]
@@ -67,8 +63,6 @@ Zeige mit DLLs
 Hochladen
 [Open crash report directory]
 Absturzberichte-Verzeichnis öffnen
-[Open miranda-vi.org]
-Miranda-vi.org aufrufen
 [Copy Version Info to clipboard]
 Version-Info in Zwischenablage kopieren
 [Show Version Info]

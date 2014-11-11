@@ -1,481 +1,170 @@
-﻿#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
-;============================================================
-;  File: Sametime.dll
-;  Plugin: Sametime protocol
-;  Version: 0.7.0.0
-;  Authors: Scott Ellis, Szymon Tokarz
-;============================================================
-[Implementation of instant messaging for the Lotus Sametime protocol.]
-Implementacja wiadomości błyskawicznych dla protokołu Lotus Sametime
-;file \protocols\Sametime\res\resource.rc
-[Connection]
-Połączenie
-[ID:]
-ID:
-[Password:]
-Hasło:
-[Server name:]
-Nazwa serwera:
-[Port:]
-Port:
-[Client ID and version]
-
-[Error display]
-Wyświetlanie błędów
-[Use message boxes]
-Użyj okienek
-[Use popups]
-Użyj popup
-[Use system tray balloons]
-Używaj baloników w zasobniku systemowym
-[Contacts]
-Kontakty
-[Get contacts from server]
-Pobierz kontakty z serwera
-[Upload contacts]
-Wyślij kontakty
-[Import from file...]
-Importuj z pliku...
-[Auto-add new contacts]
-Autododawanie nowych kontaktów
-[Treat 'idle' as 'away']
-Traktuj "bezczynny" jako "zaraz wracam"
-[Encryption]
-Szyfrowanie
-[40 or 128 bit]
-40 lub 128 bit
-[None]
-Brak
-[Meanwhile lib ver: 1.0.2]
-Wersja biblioteki Meanwhile: 1.0.2
-[Disconnected]
-Rozłączony
-[Send announcement]
-Wyślij ogłoszenie
-[Cancel]
-Anuluj
-[Message text:]
-Tekst wiadomości:
-[Select all]
-Zaznacz wszystko
-[Invert\nselection]
-Odwróć\nzaznaczone
-;file \protocols\Sametime\src\conference.cpp
-[I'm outa here.]
-Nie ma mnie tu.
-[Invitation rejected - already present.]
-Zaproszenie odrzucone - już istnieje.
-[Your invitation has been rejected.]
-Twoje zaproszenie zostało odrzucone.
-[Please join this meeting.]
-Proszę dołączyć do tego spotkania.
-[Normal]
-Normalne
-[%s's conference]
-Konferencja %s
-[Leave conference]
-Opuść konferencję
-[Start conference]
-Rozpocznij konferencję
-;file \protocols\Sametime\src\files.cpp
-;file \protocols\Sametime\src\messaging.cpp
-[No common encryption method. Try to enable encryption in protocol options.]
-Nie wybrano metody szyfrowania. Spróbuj włączyć szyfrowanie w opcjach protokołu.
-[SERVICE NOT IMPLEMENTED. %s]
-USŁUGA NIEDOSTĘPNA. %s
-;file \protocols\Sametime\src\options.cpp
-[Client proto version: %03d.%03d]
-Wersja protokołu klienta: %03d.%03d
-[Server proto version: %03d.%03d]
-Wersja protokołu serwera: %03d.%03d
-[Network]
-Protokoły
-;file \protocols\Sametime\src\sametime.cpp
-[Protocol icon]
-Ikona protokołu
-[Announce]
-Oznajmiaj
-[Notification]
-Powiadomienie
-[Error]
-Błąd
-;file \protocols\Sametime\src\sametime_proto.cpp
-[%s connection]
-Połączenie %s
-[ID]
-ID
-;file \protocols\Sametime\src\sametime_session.cpp
-[Sametime administrator message]
-Wiadomość od administratora Sametime
-[Session announcement - from '%s']
-Ogłoszenie o sesji - od "%s"
-[Unknown user status: %d]
-Nieznany status użytkownika: %d
-[No server connection!]
-Brak połączenia!
-[Send announcement...]
-Wyślij ogłoszenie...
-;file \protocols\Sametime\src\session_announce_win.cpp
-[Recipients]
-Odbiorcy
-;file \protocols\Sametime\src\userlist.cpp
-[Failed to upload contacts - storage service unavailable.]
-Błąd wysyłania kontaktów - usługa przechowywania jest niedostępna.
-[Name]
-Nazwa
-[Description]
-Opis
-[Group?]
-Grupa?
-[True]
-Prawda
-[False]
-Fałsz
-;file \protocols\Sametime\src\utils.cpp
+﻿[Client ID and version]
 [%s\n\nSametime error %S\n%s]
-
-;file \protocols\Sametime\src\meanwhile\src\error.c
 [Success]
-
 [General failure]
-
 [Request delayed]
-
 [Request is invalid]
-
 [Not logged in]
-
-[Not authorized]
-Nie autoryzowany
 [Operation aborted]
-
 [No element]
-
 [User is not online]
-
-[Invalid data]
-Nieprawidłowe dane
-[Not implemented]
-Nie zaimplementowany
-[Unknown error]
-Nieznany błąd
 [Not enough resources]
-
 [Requested channel is not supported]
-
 [Requested channel already exists]
-
 [Requested service is not supported]
-
 [Requested protocol is not supported]
-
 [Version is not supported]
-
 [User is invalid or not trusted]
-
 [Already initialized]
-
 [Not an owner]
-
 [Invalid token]
-
 [Token expired]
-
 [Token mismatch]
-
 [Port in use]
-
 [Network error]
-
 [Master channel error]
-
 [Already subscribed]
-
 [Not subscribed]
-
 [Encryption method not supported]
-
 [Encryption not initialized]
-
 [Encryption too low]
-
 [Invalid encrypted data]
-
 [No common encryption method]
-
 [Channel destroyed]
-
 [Channel redirected]
-
 [Incorrect entry]
-
 [Version mismatch]
-
 [Not enough buffers memory]
-
 [Not in use]
-
 [Not enough sockets]
-
 [Hardware error]
-
 [Host error]
-
 [Host unreachable]
-
 [Internet protocol error]
-
 [Message is too large]
-
 [Proxy error]
-
 [Server full]
-
 [Server not responding]
-
 [Connection error]
-
 [User removed]
-
 [Sametime protocol error]
-
 [User restricted]
-
 [Incorrect Username/Password]
-
 [Encryption mismatch]
-
 [User unregistered]
-
 [Login verification down or unavailable]
-
 [User too idle]
-
 [The guest name is currently being used]
-
 [User exists]
-
 [User relogin]
-
 [Bad name]
-
 [Registration error]
-
 [Privilage error]
-
 [Need email]
-
 [DNS error]
-
 [DNS fatal error]
-
 [DNS not found]
-
 [Connection broken]
-
 [Connection aborted]
-
 [Connection refused]
-
 [Connection reset]
-
 [Connection timed out]
-
 [Connection closed]
-
 [Login to two different servers concurrently (1)]
-
 [Login to two different servers concurrently (2)]
-
 [Already logged on, disconnected]
-
 [Already logged on]
-
 [Server misconfiguration]
-
 [Server needs upgrade]
-
 [Applet Logout]
-
 [User is in Do Not Disturb mode]
-
 [Already logged in elsewhere]
-
 [Cannot register a reserved type]
-
 [Requested type is already registered]
-
 [Requested type is not registered]
-
 [Resolve not completed]
-
 [Resolve name not unique]
-
 [Resolve name not resolvable]
-
 [Operation succeeded]
-
 [Operation failed]
-
 [Request accepted but will be served later]
-
 [Request is invalid due to invalid state or parameters ]
-
 [Not logged in to community]
-
 [Unauthorized to perform an action or access a resource]
-
 [Operation has been aborted]
-
 [The element is non-existent]
-
 [The user is non-existent]
-
 [The data are invalid or corrupted]
-
 [The requested feature is not implemented]
-
 [Not enough resources to perform the operation]
-
 [The requested channel is not supported]
-
 [The requested channel already exists]
-
 [The requested service is not supported]
-
 [The requested protocol is not supported (1)]
-
 [The requested protocol is not supported (2)]
-
 [The version is not supported]
-
 [Not an owner of the requested resource]
-
 [Token has expired]
-
 [Token IP mismatch]
-
 [WK port is in use]
-
 [Low-level network error occurred]
-
 [No master channel exists]
-
 [Already subscribed to object(s) or event(s)]
-
 [Not subscribed to object(s) or event(s)]
-
 [Encryption is not supported or failed unexpectedly]
-
 [Encryption mechanism has not been initialized yet]
-
 [The requested encryption level is unacceptably low]
-
 [The encryption data passed are invalid or or corrupted]
-
 [There is no common encryption method]
-
 [The channel is destroyed after a recommendation is made connect elsewhere]
-
 [The channel has been redirected to another destination]
-
 [Incorrect entry for server in cluster document]
-
 [Versions don't match]
-
 [Not enough resources for connection (buffers)]
-
 [Not enough resources for connection (socket id)]
-
 [Hardware error occurred]
-
 [Network down]
-
 [Host down]
-
 [TCP/IP protocol error]
-
 [The message is too large]
-
 [Server is full]
-
 [Server is not responding]
-
 [Cannot connect]
-
 [User has been removed from the server]
-
 [Virtual Places protocol error]
-
 [Cannot connect because user has been restricted]
-
 [Incorrect login]
-
 [User is unregistered]
-
 [Verification service down]
-
 [User has been idle for too long]
-
 [The user is already signed on]
-
 [The user has signed on again]
-
 [The name cannot be used]
-
 [The registration mode is not supported]
-
 [User does not have appropriate privilege level]
-
 [Email address must be used]
-
 [Error in DNS]
-
 [Fatal error in DNS]
-
 [Server name not found]
-
 [The connection has been broken]
-
 [An established connection was aborted by the software in the host machine]
-
 [The connection has been refused]
-
 [The connection has been reset]
-
 [The connection has timed out]
-
 [The connection has been closed]
-
 [Disconnected due to login in two Sametime servers concurrently (1)]
-
 [Disconnected due to login in two Sametime servers concurrently (2)]
-
 [Disconnected due to login from another computer.]
-
 [Unable to log in because you are already logged on from another computer]
-
 [Unable to log in because the server is eother unreachable, or not configured properly.]
-
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
-
 [The applet was logged out with this reason. Perform relogin and you will return to the former state.]
-
 [The user is not online]
-
 [The user is in do not disturb mode]
-
 [Can not login because already logged in with a different user name (Java only)]
-
 [The requested type is already registered]
-
 [The requested type is not registered]
-
 [The resolve process was not completed, but a partial response is available]
-
 [The name was found, but is not unique (request was for unique only)]
-
 [The name is not resolvable due to its format, for example an Internet email address]
-
 [Unknown error code]
-

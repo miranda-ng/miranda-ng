@@ -1,0 +1,17 @@
+﻿#muuid {f1b0ba1b-0c91-4313-85eb-225069d44d01}
+;============================================================
+;  File: Sametime.dll
+;  Plugin: Sametime protocol
+;  Version: 0.7.0.0
+;  Authors: Scott Ellis, Szymon Tokarz
+;============================================================
+[Not authorized]
+Not authorised
+[Already initialized]
+Already initialised
+[Encryption not initialized]
+Encryption not initialised
+[Unauthorized to perform an action or access a resource]
+Unauthorised to perform an action or access a resource
+[Encryption mechanism has not been initialized yet]
+Encryption mechanism has not been initialised yet
