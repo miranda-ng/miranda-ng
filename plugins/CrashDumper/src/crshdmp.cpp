@@ -128,6 +128,20 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+INT_PTR GetVersionInfo(WPARAM wParam, LPARAM lParam)
+{
+	int result = 1; //failure
+	if (lParam != NULL) {
+		CMString buffer;
+		PrintVersionInfo(buffer, (unsigned int)wParam);
+		char **retData = (char **)lParam;
+		*retData = mir_utf8encodeT(buffer.c_str());
+		if (*retData)
+			result = 0; //success
+	}
+	return result;
+}
+
 INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
@@ -349,6 +363,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
 	CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
 	CreateServiceFunction(MS_CRASHDUMPER_VIEWINFO, ViewVersionInfo);
+	CreateServiceFunction(MS_CRASHDUMPER_GETINFO, GetVersionInfo);
 	CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
 	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);

@@ -1,12 +1,11 @@
 /*
-Version information plugin for Miranda IM
-
-Copyright © 2002-2006 Luca Santarelli, Cristian Libotean
+Miranda Crash Dumper Plugin
+Copyright (C) 2008 - 2012 Boris Krasnovskiy All Rights Reserved
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+as published by the Free Software Foundation version 2
+of the License.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,18 +13,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef M_VERSIONINFO_H
-#define M_VERSIONINFO_H
-
-/*Brings up the versioninfo post as configured in the options
-wParam - not used
-lParam - not used
-*/
-#define MS_VERSIONINFO_MENU_COMMAND "VersionInfo/MenuCommand"
+#ifndef M_CRASHDUMPER_H
+#define M_CRASHDUMPER_H
 
 /*Returns a string containing the versioninfo post
 wParam - (BOOL) suppress forum style formatting. If true the post won't have forum style formatting even if the option is checked in miranda's options.
@@ -43,6 +35,6 @@ how to use:
 }
 
 */
-#define MS_VERSIONINFO_GETINFO "Versioninfo/GetInfo"
+#define MS_CRASHDUMPER_GETINFO "CrashDmp/GetInfo"
 
-#endif //M_VERSIONINFO_H
+#endif //M_CRASHDUMPER_H

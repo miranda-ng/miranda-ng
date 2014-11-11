@@ -68,7 +68,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MS_CRASHDUMPER_STORETOFILE "CrashDmp/StoreVerInfoToFile"
 #define MS_CRASHDUMPER_STORETOCLIP "CrashDmp/StoreVerInfoToClip"
-#define MS_CRASHDUMPER_GETINFO     "Versioninfo/GetInfo"
+#define MS_CRASHDUMPER_GETINFO     "CrashDmp/GetInfo"
 #define MS_CRASHDUMPER_VIEWINFO    "CrashDmp/ViewInfo"
 #define MS_CRASHDUMPER_UPLOAD      "CrashDmp/UploadInfo"
 #define MS_CRASHDUMPER_URL         "CrashDmp/StartUrl"

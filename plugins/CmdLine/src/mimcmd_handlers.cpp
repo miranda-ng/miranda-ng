@@ -1734,10 +1734,10 @@ void HandleVersionCommand(PCommand command, TArgument *argv, int argc, PReply re
 	if (argc == 2)
 	{
 		reply->code = MIMRES_SUCCESS;
-		if (ServiceExists(MS_VERSIONINFO_GETINFO))
+		if (ServiceExists(MS_CRASHDUMPER_GETINFO))
 		{
 			char *data;
-			CallService(MS_VERSIONINFO_GETINFO, (WPARAM) FALSE, (LPARAM) &data);
+			CallService(MS_CRASHDUMPER_GETINFO, (WPARAM)FALSE, (LPARAM)&data);
 			mir_snprintf(reply->message, reply->cMessage, data);
 			mir_free(data);
 		}
