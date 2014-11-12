@@ -11,7 +11,7 @@
 [Close]
 [Copy To Clipboard]
 [To File]
-[Support for miranda-ng.org/versioninfo]
+[Support for vi.miranda-ng.org]
 [Username]
 [Password]
 [Upload automatically when changed]
@@ -39,7 +39,7 @@
 [Show with DLLs]
 [Upload]
 [Open crash report directory]
-[Open online report]
+[Open online Version Info]
 [Copy Version Info to clipboard]
 [Show Version Info]
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
