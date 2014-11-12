@@ -35,9 +35,9 @@
 [Select &All]
 Вылучыць &усё
 ;file \plugins\CrashDumper\src\crshdmp.cpp
-[VersionInfo stored into file %s]
+[Version Info stored into file %s]
 Версіі захаваны ў файле %s
-[VersionInfo file %s is inaccessible]
+[Version Info file %s is inaccessible]
 Файл %s недасяжны
 [Services]
 Службы
@@ -79,17 +79,17 @@ Miranda  NG была завершана аварыйна. Справаздача
 [View Version Information (with DLLs)]
 Інфармацыя пра версіі(з бібліятэкамі)
 ;file \plugins\CrashDumper\src\upload.cpp
-[VersionInfo upload successful,\n %d old plugins]
-Версіі паспяхова загружаны,\n%d старых плагінаў
-[Cannot upload VersionInfo. Incorrect username or password]
+[Version Info upload successful.]
+Версіі паспяхова загружаны.
+[Cannot upload Version Info. Incorrect username or password]
 Нельга загрузіць інфармацыю пра версіі. Няслушнае імя карыстача ці пароль
-[Cannot upload VersionInfo. User is banned]
+[Cannot upload Version Info. User is banned]
 Нельга загрузіць інфармацыю пра версіі. Кантакт забанены
-[Cannot upload VersionInfo. Daily upload limit exceeded]
+[Cannot upload Version Info. Daily upload limit exceeded]
 Нельга загрузіць інфармацыю пра версіі. Дзённы ліміт загрузак вычарпаны
-[Cannot upload VersionInfo. Unknown error]
+[Cannot upload Version Info. Unknown error]
 Нельга загрузіць інфармацыю пра версіі. Невядомая памылка
-[Cannot upload VersionInfo. Host unreachable.]
+[Cannot upload Version Info. Host unreachable.]
 Нельга загрузіць інфармацыю пра версіі. Хост недасяжны
 [Crash Dumper HTTP connections]
 HTTP далучэнне Crash Dumper

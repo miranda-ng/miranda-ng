@@ -5,8 +5,8 @@
 ;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-[Crash Dumper for Miranda NG.]
-Crash Dumper за Miranda NG.
+[Crash Dumper and Version Information for Miranda NG.]
+
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Преглед на информация за версията
@@ -24,10 +24,16 @@ Crash Dumper за Miranda NG.
 Парола
 [Upload automatically when changed]
 Автоматично качване при промяна
+[Crash reports]
+
 [Use classic dates]
 Класическа дата
 [Create reports in subfolders naming as current date]
 Създаване на докладите в подпапки, с текущата дата като име
+[Generate crash reports]
+
+[* You need to restart Miranda NG to apply changes]
+
 [View]
 Преглед
 [&Copy]
@@ -37,9 +43,9 @@ Crash Dumper за Miranda NG.
 [Select &All]
 Маркиране на всичко
 ;file \plugins\CrashDumper\src\crshdmp.cpp
-[VersionInfo stored into file %s]
+[Version Info stored into file %s]
 Информация за версията е записана във файла %s
-[VersionInfo file %s is inaccessible]
+[Version Info file %s is inaccessible]
 Файлът %s с информация за версиите не е достъпен
 [Services]
 Услуги
@@ -65,6 +71,8 @@ Crash Dumper за Miranda NG.
 Качване
 [Open crash report directory]
 Отваряне на директорията за доклади
+[Open online report]
+
 [Copy Version Info to clipboard]
 Копиране на информация за версията в клипборда
 [Show Version Info]
@@ -81,17 +89,17 @@ Miranda се срина. Можете да намерите доклад за с
 [View Version Information (with DLLs)]
 Показване на информация за версията (с DLL файлове)
 ;file \plugins\CrashDumper\src\upload.cpp
-[VersionInfo upload successful,\n %d old plugins]
-Информация за версията бе успешно качена,\n %d стари приставки
-[Cannot upload VersionInfo. Incorrect username or password]
+[Version Info upload successful.]
+Информация за версията бе успешно качена.
+[Cannot upload Version Info. Incorrect username or password]
 Качването на информация за версията е невъзможно. Грешно потребителско име или парола.
-[Cannot upload VersionInfo. User is banned]
+[Cannot upload Version Info. User is banned]
 Качването на информация за версията е невъзможно. Потребителят е забранен.
-[Cannot upload VersionInfo. Daily upload limit exceeded]
+[Cannot upload Version Info. Daily upload limit exceeded]
 Качването на информация за версията е невъзможно. Достигнат е лимита за качвания за 1 ден.
-[Cannot upload VersionInfo. Unknown error]
+[Cannot upload Version Info. Unknown error]
 Качването на информация за версията е невъзможно поради неизвестна грешка.
-[Cannot upload VersionInfo. Host unreachable.]
+[Cannot upload Version Info. Host unreachable.]
 Качването на информация за версията е невъзможно. Не е възможно достигането на хоста.
 [Crash Dumper HTTP connections]
 HTTP връзки на Crash Dumper

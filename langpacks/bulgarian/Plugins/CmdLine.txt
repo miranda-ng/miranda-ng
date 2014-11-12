@@ -65,7 +65,7 @@
 
 [Shows history or unread messages for a contact.\nUsage: history <command> <contact>.\n<Command> is one of the following commands:\n  unread - show unread messages for that contact.\n  show <contact> <start> <finish> - show history from event number <start> to <finish>. If any number is negative, it is interpreted as a relative index from the last event number +1 (so the last event for a contact is -1).]
 
-[Shows version information for Miranda and CmdLine plugin. If VersionInfo plugin is installed, it will use its report instead.\nUsage: version.\nThe command will print Miranda's and CmdLine's version numbers or, if VersionInfo plugin is installed, it will show VersionInfo's report.]
+[Shows version information for Miranda and CmdLine plugin. If CrashDumper plugin is installed, it will use its report instead.\nUsage: version.\nThe command will print Miranda's and CmdLine's version numbers or, if CrashDumper plugin is installed, it will show Version Info report.]
 
 [Changes the user's nickname on the given protocol to the new name.\nUsage: setnickname <protocol> new_nickname.]
 

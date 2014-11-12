@@ -43,10 +43,10 @@ Ko&piuj wszystko
 [Select &All]
 Zaznacz &wszystko
 ;file \plugins\CrashDumper\src\crshdmp.cpp
-[VersionInfo stored into file %s]
+[Version Info stored into file %s]
 Informacje o wersji zachowano w pliku: %s
-[VersionInfo file %s is inaccessible]
-Plik VersionInfo %s jest niedostępny
+[Version Info file %s is inaccessible]
+
 [Services]
 Usługi
 [Version Information To Clipboard]
@@ -89,17 +89,17 @@ Wystąpił błąd Mirandy. Raport błędów zachowany w folderze:\n %s\n\n Czy z
 [View Version Information (with DLLs)]
 Pokaż Informacje o wersji (z bibliotekami)
 ;file \plugins\CrashDumper\src\upload.cpp
-[VersionInfo upload successful.]
+[Version Info upload successful.]
 Wysyłanie informacji o wersji ukończone pomyślnie.
-[Cannot upload VersionInfo. Incorrect username or password]
+[Cannot upload Version Info. Incorrect username or password]
 Nie można wysłać informacji o wersji. Niepoprawna nazwa użytkownika lub hasło.
-[Cannot upload VersionInfo. User is banned]
+[Cannot upload Version Info. User is banned]
 Nie można wysłać informacji o wersji. Użytkownik jest zbanowany.
-[Cannot upload VersionInfo. Daily upload limit exceeded]
+[Cannot upload Version Info. Daily upload limit exceeded]
 Nie można wysłać informacji o wersji. Przekroczono dzienny limit wysyłania.
-[Cannot upload VersionInfo. Unknown error]
+[Cannot upload Version Info. Unknown error]
 Nie można wysłać informacji o wersji. Nieznany błąd.
-[Cannot upload VersionInfo. Host unreachable.]
+[Cannot upload Version Info. Host unreachable.]
 Nie można wysłać informacji o wersji. Host nieosiągalny.
 [Crash Dumper HTTP connections]
 Połączenie HTTP Crash Dumper

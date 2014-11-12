@@ -84,9 +84,9 @@ Nie wybrano metody szyfrowania. Spróbuj włączyć szyfrowanie w opcjach protok
 [SERVICE NOT IMPLEMENTED. %s]
 USŁUGA NIEDOSTĘPNA. %s
 ;file \protocols\Sametime\src\options.cpp
-[Client proto version: %03d.%03d]
+[Client protocol version: %03d.%03d]
 Wersja protokołu klienta: %03d.%03d
-[Server proto version: %03d.%03d]
+[Server protocol version: %03d.%03d]
 Wersja protokołu serwera: %03d.%03d
 [Network]
 Protokoły
@@ -261,7 +261,7 @@ Nieznany błąd
 
 [Registration error]
 
-[Privilage error]
+[Privilege error]
 
 [Need email]
 
@@ -455,7 +455,7 @@ Nieznany błąd
 
 [Unable to log in because you are already logged on from another computer]
 
-[Unable to log in because the server is eother unreachable, or not configured properly.]
+[Unable to log in because the server is either unreachable, or not configured properly.]
 
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
 
