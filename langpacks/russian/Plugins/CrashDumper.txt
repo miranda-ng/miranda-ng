@@ -15,8 +15,8 @@
 Копировать в буфер
 [To File]
 В файл
-[Support for miranda-ng.org/versioninfo]
-Поддержка miranda-ng.org/versioninfo
+[Support for vi.miranda-ng.org]
+Поддержка vi.miranda-ng.org
 [Username]
 Имя пользователя
 [Password]
@@ -69,8 +69,8 @@
 Загрузить
 [Open crash report directory]
 Папка сохранения отчётов
-[Open online report]
-Открыть онлайн отчёт
+[Open online Version Info]
+Открыть онлайн информацию о версиях
 [Copy Version Info to clipboard]
 Копировать версии в буфер обмена
 [Show Version Info]
