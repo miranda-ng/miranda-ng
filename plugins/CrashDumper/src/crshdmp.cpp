@@ -150,7 +150,7 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 		break;
 
 	case 1:
-		OpenAuthUrl("http://www.miranda-ng.org/versioninfo/detail/%s");
+		OpenAuthUrl("http://vi.miranda-ng.org/detail/%s");
 		break;
 	}
 	return 0;
@@ -290,7 +290,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	mi.popupPosition = 1;
 	mi.position = 2000099991;
-	mi.ptszName = LPGENT("Open online report");
+	mi.ptszName = LPGENT("Open online Version Info");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 	mi.pszService = MS_CRASHDUMPER_URL;
 	Menu_AddMainMenuItem(&mi);
