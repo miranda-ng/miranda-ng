@@ -67,7 +67,7 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Support for miranda-ng.org/versioninfo",IDC_STATIC,7,7,195,94
+    GROUPBOX        "Support for vi.miranda-ng.org",IDC_STATIC,7,7,195,94
     LTEXT           "Username",IDC_STATIC,14,20,107,8
     EDITTEXT        IDC_USERNAME,14,33,108,14,ES_AUTOHSCROLL
     LTEXT           "Password",IDC_STATIC,14,52,107,8
