@@ -25,8 +25,8 @@
 [Co&py All]
 [Select &All]
 ;file \plugins\CrashDumper\src\crshdmp.cpp
-[VersionInfo stored into file %s]
-[VersionInfo file %s is inaccessible]
+[Version Info stored into file %s]
+[Version Info file %s is inaccessible]
 [Services]
 [Version Information To Clipboard]
 [Version Information To File]
@@ -50,10 +50,10 @@
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 ;file \plugins\CrashDumper\src\upload.cpp
-[VersionInfo upload successful.]
-[Cannot upload VersionInfo. Incorrect username or password]
-[Cannot upload VersionInfo. User is banned]
-[Cannot upload VersionInfo. Daily upload limit exceeded]
-[Cannot upload VersionInfo. Unknown error]
-[Cannot upload VersionInfo. Host unreachable.]
+[Version Info upload successful.]
+[Cannot upload Version Info. Incorrect username or password]
+[Cannot upload Version Info. User is banned]
+[Cannot upload Version Info. Daily upload limit exceeded]
+[Cannot upload Version Info. Unknown error]
+[Cannot upload Version Info. Host unreachable.]
 [Crash Dumper HTTP connections]
