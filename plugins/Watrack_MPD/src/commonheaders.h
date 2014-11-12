@@ -41,7 +41,7 @@ extern TCHAR *gbHost, *gbPassword;
 extern WORD gbPort;
 extern char *date();
 
-extern int WaMpdOptInit(WPARAM wParam, LPARAM lParam);
+extern int WaMpdOptInit(WPARAM, LPARAM);
 extern void RegisterPlayer();
 
 #endif

@@ -298,7 +298,7 @@ typedef struct tMusicFormat {
 typedef int   (__cdecl *LPINITPROC)   ();
 typedef int   (__cdecl *LPDEINITPROC) ();
 typedef int   (__cdecl *LPSTATUSPROC) (HWND wnd);
-typedef WCHAR (__cdecl *LPNAMEPROC)   (HWND wnd, int flags);
+typedef WCHAR*(__cdecl *LPNAMEPROC)   (HWND wnd, int flags);
 typedef HWND  (__cdecl *LPCHECKPROC)  (HWND wnd,int flags);
 typedef int   (__cdecl *LPINFOPROC)   (LPSONGINFO Info, int flags);
 typedef int   (__cdecl *LPCOMMANDPROC)(HWND wnd, int command, int value);
