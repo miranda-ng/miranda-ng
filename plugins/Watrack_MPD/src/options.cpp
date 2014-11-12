@@ -66,7 +66,7 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
   return FALSE;
 }
 
-int WaMpdOptInit(WPARAM wParam,LPARAM lParam)
+int WaMpdOptInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;

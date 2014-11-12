@@ -57,7 +57,7 @@ void InitVars()
 	gbPassword = UniGetContactSettingUtf(NULL, szModuleName, "Password", _T(""));
 }
 
-static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
@@ -66,7 +66,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	ghNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	InitVars();
-	if (ServiceExists("WATrack/Player"))
+	if (ServiceExists(MS_WAT_PLAYER))
 		bWatrackService = TRUE;
 	RegisterPlayer();
 

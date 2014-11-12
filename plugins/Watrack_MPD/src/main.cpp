@@ -137,7 +137,7 @@ int Parser()
 		SongInfo.mfile = (TCHAR*)mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.mfile = _T("");
+		SongInfo.mfile = mir_tstrdup(_T(""));
 	if(ptr = strstr(buf, "Time:"))
 	{
 		ptr = &ptr[6];
@@ -167,7 +167,7 @@ int Parser()
 		SongInfo.title = (TCHAR*)mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.title = _T("Unknown track");
+		SongInfo.title = mir_tstrdup(_T("Unknown track"));
 	if(ptr = strstr(buf, "Artist:"))
 	{
 		ptr = &ptr[8];
@@ -187,7 +187,7 @@ int Parser()
 		SongInfo.genre = (TCHAR*)mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.genre = _T("Unknown genre");
+		SongInfo.genre =  mir_tstrdup(_T("Unknown genre"));
 	if(ptr = strstr(buf, "Album:"))
 	{
 		ptr = &ptr[7];
@@ -197,7 +197,7 @@ int Parser()
 		SongInfo.album = (TCHAR*)mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.album = _T("Unknown album");
+		SongInfo.album =  mir_tstrdup(_T("Unknown album"));
 	if(ptr = strstr(buf, "Date:"))
 	{
 		ptr = &ptr[6];
@@ -207,7 +207,7 @@ int Parser()
 		SongInfo.year = (TCHAR*)mir_utf8decodeW(tmp);
 	}
 	else
-		SongInfo.year = _T("Unknown year");
+		SongInfo.year =  mir_tstrdup(_T("Unknown year"));
 	if(ptr = strstr(buf, "volume:"))
 	{
 		ptr = &ptr[8];
@@ -277,19 +277,19 @@ void Stop()
 		CallService(MS_NETLIB_SHUTDOWN,(WPARAM)ghNetlibUser,0);
 }
 
-LPINITPROC Init()
+int Init()
 {
 	mir_forkthread(&Start, 0);
 	return 0;
 }
 
-LPDEINITPROC DeInit()
+int DeInit()
 {
 	Stop();
 	return 0;
 }
 
-LPCHECKPROC CheckPlayer(HWND wnd, int flags)
+HWND CheckPlayer(HWND, int)
 {
 	if(!ghConnection)
 	{
@@ -297,13 +297,33 @@ LPCHECKPROC CheckPlayer(HWND wnd, int flags)
 		return 0;
 	}
 	if(Parser())
-		return (LPCHECKPROC)WAT_PLS_STOPPED;
+		return (HWND)WAT_PLS_STOPPED;
 	if(Connected)		
-		return (LPCHECKPROC)WAT_PLS_PLAYING;
+		return (HWND)WAT_PLS_PLAYING;
 	return 0;
 }
 
-LPSTATUSPROC GetStatus()
+int GetStatus(HWND)
+{
+	if(!ghConnection)
+	{
+		mir_forkthread(&Start, 0);
+		return 0;
+	}
+	return Parser() ? -1 : gbState;
+}
+
+WCHAR *GetFileName(HWND, int)
+{
+	if(!ghConnection)
+	{
+		mir_forkthread(&Start, 0);
+		return 0;
+	}
+	return 0;
+}
+
+int GetPlayerInfo(LPSONGINFO info, int)
 {
 	if(!ghConnection)
 	{
@@ -311,29 +331,7 @@ LPSTATUSPROC GetStatus()
 		return 0;
 	}
 	if(Parser())
-		return (LPSTATUSPROC)-1;
-	return (LPSTATUSPROC)(gbState);
-}
-
-LPNAMEPROC GetFileName(HWND wnd, int flags)
-{
-	if(!ghConnection)
-	{
-		mir_forkthread(&Start, 0);
-		return 0;
-	}
-	return 0;
-}
-
-LPINFOPROC GetPlayerInfo(LPSONGINFO info, int flags)
-{
-	if(!ghConnection)
-	{
-		mir_forkthread(&Start, 0);
-		return 0;
-	}
-	if(Parser())
-		return (LPINFOPROC)-1;
+		return -1;
 /*	
 	
 	info->channels = SongInfo.channels;
@@ -376,58 +374,56 @@ LPINFOPROC GetPlayerInfo(LPSONGINFO info, int flags)
 	return 0;
 }
 
-LPCOMMANDPROC SendCommand(HWND wnd, int command, int value)
+int SendCommand(HWND, int command, int)
 {
 	switch (command)
 	{
 	case WAT_CTRL_PREV:
 		Netlib_Send(ghConnection, "previous\n", (int)strlen("previous\n"), 0);
-		break;
+		return 0;
 	case WAT_CTRL_PLAY: //add resuming support
 		if(gbState != WAT_PLS_PAUSED)
 			Netlib_Send(ghConnection, "play\n", (int)strlen("play\n"), 0);
 		else
 			Netlib_Send(ghConnection, "pause 0\n", (int)strlen("pause 0\n"), 0);
-		break;
+		return 0;
 	case WAT_CTRL_PAUSE:
 		Netlib_Send(ghConnection, "pause 1\n", (int)strlen("pause 1\n"), 0);
-		break;
+		return 0;
 	case WAT_CTRL_STOP:
 		Netlib_Send(ghConnection, "stop\n", (int)strlen("stop\n"), 0);
-		break;
+		return 0;
 	case WAT_CTRL_NEXT:
 		Netlib_Send(ghConnection, "next\n", (int)strlen("next\n"), 0);
-		break;
+		return 0;
 	case WAT_CTRL_VOLDN:
-		break;
+		return 0;
 	case WAT_CTRL_VOLUP:
-		break;
+		return 0;
 	case WAT_CTRL_SEEK:
-		break;
+		return 0;
 	default:
-		break;
+		return 0;
 	}
-	return 0;
 }
 
 void RegisterPlayer()
 {
-	if(!bWatrackService)
-		return;
+	if(bWatrackService)
 	{
 		PLAYERCELL player = {0};
 		player.Desc = "Music Player Daemon";
-		player.Check = (LPCHECKPROC)CheckPlayer;
-		player.Init = (LPINITPROC)Init;
-		player.DeInit = (LPDEINITPROC)DeInit;
-		player.GetStatus = (LPSTATUSPROC)GetStatus;
-		player.Command = (LPCOMMANDPROC)SendCommand;
+		player.Check = CheckPlayer;
+		player.Init = Init;
+		player.DeInit = DeInit;
+		player.GetStatus = GetStatus;
+		player.Command = SendCommand;
 		player.flags = (WAT_OPT_HASURL|WAT_OPT_SINGLEINST|WAT_OPT_PLAYERINFO);
-		player.GetName = (LPNAMEPROC)GetFileName;
-		player.GetInfo = (LPINFOPROC)GetPlayerInfo;
+		player.GetName = GetFileName;
+		player.GetInfo = GetPlayerInfo;
 //		player.Icon = //TODO:implement icon support
 		player.Notes = _T("mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.");
 		player.URL = "http://www.musicpd.org";
-		CallService(MS_WAT_PLAYER, (WPARAM)WAT_ACT_REGISTER, (LPARAM)&player);
+		CallService(MS_WAT_PLAYER, WAT_ACT_REGISTER, (LPARAM)&player);
 	}
 }
