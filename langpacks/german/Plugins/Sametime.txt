@@ -85,9 +85,9 @@ Keine gemeinsame Verschlüsselungsmethode. Aktivieren Sie Verschlüsselung in de
 DIENST NICHT IMPLEMENTIERT. %s
 ;file \protocols\Sametime\src\options.cpp
 [Client protocol version: %03d.%03d]
-
+Client-Protokollversion: %03d.%03d
 [Server protocol version: %03d.%03d]
-
+Server-Protokollversion: %03d.%03d
 [Network]
 Netzwerk
 ;file \protocols\Sametime\src\sametime.cpp
@@ -136,7 +136,7 @@ Nein
 
 ;file \protocols\Sametime\src\meanwhile\src\error.c
 [Success]
-erfolgreich
+Erfolgreich
 [General failure]
 
 [Request delayed]

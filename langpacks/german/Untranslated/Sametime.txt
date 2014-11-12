@@ -1,6 +1,4 @@
 ﻿[Client ID and version]
-[Client protocol version: %03d.%03d]
-[Server protocol version: %03d.%03d]
 [%s\n\nSametime error %S\n%s]
 [General failure]
 [Request delayed]
