@@ -41,9 +41,9 @@
 Ко&піювати все
 [Select &All]
 Вибрати &все
-[VersionInfo stored into file %s]
+[Version Info stored into file %s]
 Версії збережені у файлі %s
-[VersionInfo file %s is inaccessible]
+[Version Info file %s is inaccessible]
 Файл %s недоступний
 [Services]
 Служби
@@ -83,17 +83,17 @@
 Miranda NG була завершена аварійно. Звіт збережено в\n %s\n\nЗберегти його в буфер обміну?
 [View Version Information (with DLLs)]
 Інформація про версії (з бібліотеками)
-[VersionInfo upload successful.]
+[Version Info upload successful.]
 Інформацію про версії успішно завантажено.
-[Cannot upload VersionInfo. Incorrect username or password]
+[Cannot upload Version Info. Incorrect username or password]
 Неможливо завантажити інформацію про версії. Неправильне ім'я користувача чи пароль.
-[Cannot upload VersionInfo. User is banned]
+[Cannot upload Version Info. User is banned]
 Неможливо завантажити інформацію про версії. Користувач забанений.
-[Cannot upload VersionInfo. Daily upload limit exceeded]
+[Cannot upload Version Info. Daily upload limit exceeded]
 Неможливо завантажити інформацію про версії. Денний ліміт завантажень вичерпано.
-[Cannot upload VersionInfo. Unknown error]
+[Cannot upload Version Info. Unknown error]
 Неможливо завантажити інформацію про версії. Невідома помилка.
-[Cannot upload VersionInfo. Host unreachable.]
+[Cannot upload Version Info. Host unreachable.]
 Неможливо завантажити інформацію про версії. Хост недоступний.
 [Crash Dumper HTTP connections]
 HTTP-з'єднання CrashDumper

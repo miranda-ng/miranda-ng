@@ -5,6 +5,8 @@
 ;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
+[Crash Dumper and Version Information for Miranda NG.]
+
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Miranda-Versionsinfo anzeigen
@@ -22,10 +24,16 @@ Benutzername
 Passwort
 [Upload automatically when changed]
 Bei Änderungen automatisch hochladen
+[Crash reports]
+
 [Use classic dates]
 Klassische Datumsanzeige verwenden
 [Create reports in subfolders naming as current date]
 Absturzberichte in Unterordner mit Zeitanzeige erstellen
+[Generate crash reports]
+
+[* You need to restart Miranda NG to apply changes]
+
 [View]
 Anzeigen
 [&Copy]
@@ -35,10 +43,10 @@ Alles ko&pieren
 [Select &All]
 &Alles auswählen
 ;file \plugins\CrashDumper\src\crshdmp.cpp
-[VersionInfo stored into file %s]
-Versionsinfo gespeichert in Datei:\n%s
-[VersionInfo file %s is inaccessible]
-Versionsinfodatei %s ist nicht verfügbar.
+[Version Info stored into file %s]
+
+[Version Info file %s is inaccessible]
+
 [Services]
 Dienste
 [Version Information To Clipboard]
@@ -63,6 +71,8 @@ Zeige mit DLLs
 Hochladen
 [Open crash report directory]
 Absturzberichte-Verzeichnis öffnen
+[Open online report]
+
 [Copy Version Info to clipboard]
 Version-Info in Zwischenablage kopieren
 [Show Version Info]
@@ -79,17 +89,17 @@ Miranda ist abgestürzt.\nSie finden alle wichtigen Informationen dazu im Verzei
 [View Version Information (with DLLs)]
 Miranda-Versionsinfo anzeigen (mit DLLs)
 ;file \plugins\CrashDumper\src\upload.cpp
-[VersionInfo upload successful,\n %d old plugins]
-Versionsinfo erfolgreich hochgeladen,\n %d veraltete Plugins.
-[Cannot upload VersionInfo. Incorrect username or password]
-Kann Versionsinfo nicht hochladen: Falscher Nutzername oder Passwort!
-[Cannot upload VersionInfo. User is banned]
-Kann Versionsinfo nicht hochladen: Nutzer ist gebannt!
-[Cannot upload VersionInfo. Daily upload limit exceeded]
-Kann Versionsinfo nicht hochladen: Tägliches Upload-Limit wurde überschritten!
-[Cannot upload VersionInfo. Unknown error]
-Kann Versionsinfo nicht hochladen: Unbekannter Fehler!
-[Cannot upload VersionInfo. Host unreachable.]
-Kann Versionsinfo nicht hochladen: Der Host ist nicht erreichbar!
+[Version Info upload successful.]
+
+[Cannot upload Version Info. Incorrect username or password]
+
+[Cannot upload Version Info. User is banned]
+
+[Cannot upload Version Info. Daily upload limit exceeded]
+
+[Cannot upload Version Info. Unknown error]
+
+[Cannot upload Version Info. Host unreachable.]
+
 [Crash Dumper HTTP connections]
 Crash-Dumper-HTTP-Verbindungen
