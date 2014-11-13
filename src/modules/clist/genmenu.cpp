@@ -718,8 +718,7 @@ PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 
 		if (oldroot == NULL) {
 			//not found, creating root
-			TMO_MenuItem tmi = { 0 };
-			tmi = *pmi;
+			TMO_MenuItem tmi = *pmi;
 			tmi.flags |= CMIF_ROOTHANDLE;
 			tmi.ownerdata = 0;
 			tmi.root = NULL;
