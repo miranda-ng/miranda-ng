@@ -253,7 +253,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		DWORD rc;
 		BOOL dying = FALSE;
 		rc = MsgWaitForMultipleObjectsEx(waitObjectCount, hWaitObjects, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
-		if (rc >= WAIT_OBJECT_0 && rc < WAIT_OBJECT_0 + waitObjectCount) {
+		if (rc < WAIT_OBJECT_0 + waitObjectCount) {
 			rc -= WAIT_OBJECT_0;
 			CallService(pszWaitServices[rc], (WPARAM)hWaitObjects[rc], 0);
 		}

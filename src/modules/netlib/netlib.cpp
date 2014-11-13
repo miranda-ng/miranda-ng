@@ -290,7 +290,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			waitHandles[2] = nlc->ncsRecv.hMutex;
 			waitHandles[3] = nlc->ncsSend.hMutex;
 			waitResult = WaitForMultipleObjects(SIZEOF(waitHandles), waitHandles, TRUE, INFINITE);
-			if (waitResult<WAIT_OBJECT_0 || waitResult >= WAIT_OBJECT_0 + SIZEOF(waitHandles)) {
+			if (waitResult >= WAIT_OBJECT_0 + SIZEOF(waitHandles)) {
 				ReleaseMutex(hConnectionHeaderMutex);
 				SetLastError(ERROR_INVALID_PARAMETER);  //already been closed
 				return 0;
