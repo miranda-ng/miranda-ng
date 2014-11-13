@@ -48,10 +48,6 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false) < 0) {
-					MessageBox(hwndDlg, TranslateT("Enter checking interval"), TranslateT("Error"), MB_OK);
-					break;
-				}
 				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
 					break;
@@ -66,7 +62,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "URL", str);
 				db_set_b(hContact, MODULE, "CheckState", 1);
-				db_set_dw(hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
+				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "MsgFormat", str);
 				db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
@@ -216,10 +212,6 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false) < 0) {
-					MessageBox(hwndDlg, TranslateT("Enter checking interval"), TranslateT("Error"), MB_OK);
-					break;
-				}
 				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
 					break;
@@ -229,7 +221,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_ts(SelItem->hContact, MODULE, "URL", str);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
 				db_set_ts(SelItem->hContact, MODULE, "Nick", str);
-				db_set_dw(SelItem->hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
+				db_set_dw(SelItem->hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
 				db_set_ts(SelItem->hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
@@ -377,10 +369,6 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false) < 0) {
-					MessageBox(hwndDlg, TranslateT("Enter checking interval"), TranslateT("Error"), MB_OK);
-					break;
-				}
 				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
 					break;
@@ -390,7 +378,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_ts(hContact, MODULE, "URL", str);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "Nick", str);
-				db_set_dw(hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
+				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {

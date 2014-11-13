@@ -85,11 +85,11 @@ void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 	nlhr.headers[2].szValue = "no-cache";
 	nlhr.headers[3].szName  = "Connection";
 	nlhr.headers[3].szValue = "close";
+	char auth[256];
 	if (db_get_b(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 		nlhr.headersCount++;
 		nlhr.headers[4].szName  = "Authorization";
 	
-		char auth[256];
 		CreateAuthString(auth, hContact, hwndDlg);
 		nlhr.headers[4].szValue = auth;
 	}
