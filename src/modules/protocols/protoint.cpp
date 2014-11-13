@@ -265,10 +265,8 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 PROTO_INTERFACE* AddDefaultAccount(const char* szProtoName)
 {
 	PROTO_INTERFACE* ppi = new DEFAULT_PROTO_INTERFACE;
-	if (ppi != NULL) {
-		ppi->m_szModuleName = mir_strdup(szProtoName);
-		ppi->m_tszUserName = mir_a2t(szProtoName);
-	}
+	ppi->m_szModuleName = mir_strdup(szProtoName);
+	ppi->m_tszUserName = mir_a2t(szProtoName);
 	return ppi;
 }
 

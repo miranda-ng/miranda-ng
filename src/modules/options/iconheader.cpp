@@ -323,7 +323,6 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 	switch(msg) {
 	case WM_NCCREATE:
 		itc = new MIcoTabCtrl; //(MIcoTabCtrl*)mir_alloc(sizeof(MIcoTabCtrl));
-		if (itc == NULL) return FALSE;
 		itc->nSelectedIdx = -1;
 		itc->nHotIdx = -1;
 		itc->bMouseInside = FALSE;
