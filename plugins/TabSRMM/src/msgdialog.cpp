@@ -828,6 +828,48 @@ static LRESULT CALLBACK AvatarSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return mir_callNextSubclass(hwnd, AvatarSubclassProc, msg, wParam, lParam);
 }
 
+/*
+ * Procedure for breaking words (ie skipping "on words" with ctrl+left/right)
+ */
+
+int CALLBACK WordBreakProc(LPTSTR text, int current, int max, int action)
+{
+	static TCHAR delimiters[] = TEXT("!@#$%^&*()-+=[]{}|\\;:'\"/,.<>? \t\r\n");
+
+	switch (action) 
+	{
+	default:
+		break;
+
+	case WB_ISDELIMITER:
+		return _tcschr(delimiters, text[current]) ? TRUE : FALSE;
+
+	case WB_MOVEWORDLEFT:
+	case WB_LEFT:
+		current--;
+
+		while(current > 0 && text[current-1] == ' ') current--; // skip spaces
+
+		if(_tcschr(delimiters, text[current-1])) while(current > 0 && _tcschr(delimiters, text[current-1])) current--;
+		else while(current > 0 && !_tcschr(delimiters, text[current-1])) current--;
+
+		return current;
+
+	case WB_MOVEWORDRIGHT:
+	case WB_RIGHT:
+		current++;
+
+		if(_tcschr(delimiters, text[current])) while(current < max && _tcschr(delimiters, text[current])) current++;
+		else while(current < max && !_tcschr(delimiters, text[current])) current++;
+
+		while(current > 0 && text[current] == ' ') current++; // skip spaces
+
+		return current;
+	}
+
+	return 0;
+}
+
 LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc;
@@ -1353,6 +1395,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETUNDOLIMIT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETWORDBREAKPROC, 0, (LPARAM)(EDITWORDBREAKPROC) WordBreakProc);
 
 			dat->bActualHistory = M.GetByte(dat->hContact, "ActualHistory", 0);
 

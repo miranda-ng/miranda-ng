@@ -35,6 +35,7 @@
 
 // externs...
 extern LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+extern int CALLBACK WordBreakProc(LPTSTR text, int current, int max, int action);
 extern HRESULT(WINAPI *MyCloseThemeData)(HANDLE);
 extern REOLECallback *mREOLECallback;
 
@@ -1911,6 +1912,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_GETEVENTMASK, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS | ENM_KEYEVENTS);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETWORDBREAKPROC, 0, (LPARAM)(EDITWORDBREAKPROC) WordBreakProc);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, 0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
