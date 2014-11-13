@@ -375,10 +375,10 @@ void NetlibLoadIeProxy(void)
 	bEnabled = bEnabled && tResult == ERROR_SUCCESS;
 
 	tValueLen = SIZEOF(szAutoUrlStr);
-	tResult = RegQueryValueExA(hSettings, "AutoConfigUrl", NULL, NULL, (BYTE*)szAutoUrlStr, &tValueLen);
+	RegQueryValueExA(hSettings, "AutoConfigUrl", NULL, NULL, (BYTE*)szAutoUrlStr, &tValueLen);
 
 	tValueLen = SIZEOF(szProxyBypassStr);
-	tResult = RegQueryValueExA(hSettings, "ProxyOverride", NULL, NULL, (BYTE*)szProxyBypassStr, &tValueLen);
+	RegQueryValueExA(hSettings, "ProxyOverride", NULL, NULL, (BYTE*)szProxyBypassStr, &tValueLen);
 
 	RegCloseKey(hSettings);
 
