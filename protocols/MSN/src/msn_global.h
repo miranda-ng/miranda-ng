@@ -771,9 +771,9 @@ struct TWinErrorCode
 
 const char msnProtChallenge[] = "C1BX{V4W}Q3*10SM";
 const char msnProductID[] = "PROD0120PW!CCV9@";
-const char msnAppID[] = "AAD9B99B-58E6-4F23-B975-D9EC1F9EC24A";
-const char msnStoreAppId[] = "Messenger Client 9.0";
-const char msnProductVer[] = "14.0.8117.0416";
+const char msnAppID[] = "F6D2794D-501F-443A-ADBE-8F1490FF30FD";
+const char msnStoreAppId[] = "Skype";
+const char msnProductVer[] = "6.21.0.104";
 const char msnProtID[] = "MSNP18";
 
 extern HINSTANCE hInst;
