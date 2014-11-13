@@ -121,6 +121,10 @@
 минут(ы)
 [Hours]
 Часов
+[Enter integer value between 1 and 60.]
+Введите целое число между 1 и 60.
+[Enter integer value between 1 and 24.]
+Введите целое число между 1 и 24.
 [Info provided by]
 Информация предоставлена
 [Enter positive number.]

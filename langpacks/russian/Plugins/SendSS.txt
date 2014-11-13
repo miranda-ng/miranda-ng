@@ -111,6 +111,10 @@
 Отмена
 [Ignore]
 Игнорировать
+[SendScreenshot - Error]
+SendScreenshot - Ошибка
+[Fatal error, image services not found. Send Screenshot will be disabled.]
+Критическая ошибка, не найдена служба изображений. Плагин SendScreenshot будет отключен.
 [Open SendSS+]
 Открыть SendSS+
 [SendSS]
@@ -127,6 +131,8 @@ HTTP подключение SendSS
 Отправить скриншот экрана
 [Take a screenshot]
 Сделать скриншот
+[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+Не удалось создать папку для скриншотов (код ошибки: %d):\n%s\nУ вас точно есть права на запись?
 [Screenshot Icon1]
 Значок снимка 1
 [Screenshot Icon2]

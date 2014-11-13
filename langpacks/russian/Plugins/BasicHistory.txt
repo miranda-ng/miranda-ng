@@ -175,10 +175,14 @@
 Я
 [Invalid Message]
 Сообщение повреждено
+[%s Files (*.%s)]
+Файлы %s (*.%s)
 [Import]
 Импорт
 [Export]
 Экспорт
+[File is corrupted]
+Файл повреждён
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Эта операция полностью удалит историю этого контакта.\nВы уверены?
 [Are You sure?]
@@ -379,6 +383,10 @@ Dat (плагин mContacts)
 Беседа начата в %s
 [Menu]
 Меню
+[Open all]
+Открыть всё
+[Close all]
+Закрыть всё
 [History task]
 История
 [Contacts]

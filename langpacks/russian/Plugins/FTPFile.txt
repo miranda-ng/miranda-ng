@@ -195,12 +195,24 @@ FTP файл менеджер
 Ожидание...
 [UNKNOWN]
 Неизвестно
+[Do you really want to cancel this upload?]
+Вы действительно хотите отменить эту загрузку?
+[Status: %s\r\nFile: %s\r\nServer: %s]
+Состояние: %s\r\nФайл: %s\r\nСервер: %s
 [File exists - %s]
 Файл существует - %s
+[Error occurred when opening local file.\nAborting file upload...]
+Ошибка при открытии локального файла.\nПрерываем загрузку...
+[Error occurred when initializing libcurl.\nAborting file upload...]
+Ошибка при инициализации libcurl.\nПрерываем загрузку...
+[FTP error occurred.\n%s]
+Ошибка FTP.\n%s
 [Download link:]
 Ссылка:
 [Do you really want to cancel running upload?]
 Вы действительно хотите отменить загрузку?
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+%s\r\nСкорость: %s\r\nЗавершено: %s\r\nОсталось: %s
 [You have to fill and enable at least one FTP server in setting.]
 Вы должны добавить хотя бы один FTP сервер в настройках.
 [Clear All]

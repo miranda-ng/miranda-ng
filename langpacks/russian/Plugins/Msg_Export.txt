@@ -71,8 +71,14 @@ UTF8 в новых файлах
 Имя файла по умолчанию
 [Copy]
 Копировать
+[Internal error! (lExtraRead >= 0)]
+Внутренняя ошибка! (lExtraRead >= 0)
+[Failed to load Rich Edit ( RICHED32.DLL )]
+Не удалось загрузить Rich Edit ( RICHED32.DLL )
 [Search string was not found!]
 Строка не найдена!
+[Save as RTF]
+Сохранить в формате RTF
 [Color...]
 Цвет...
 [Font...]

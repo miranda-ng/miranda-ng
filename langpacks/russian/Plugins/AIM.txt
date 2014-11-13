@@ -171,6 +171,16 @@ AIM Установить Instant Idle
 (Автоответ):
 [No information has been provided by the server.]
 Сервер не предоставил никакой информации.
+[Error uploading avatar. (Too small)]
+Не удалось загрузить аватар. (Слишком маленький)
+[Error uploading avatar. (Too big)]
+Не удалось загрузить аватар. (Слишком большой)
+[Error uploading avatar. (Wrong type)]
+Не удалось загрузить аватар. (Недопустимый тип)
+[Error uploading avatar. (Is banned)]
+Не удалось загрузить аватар. (Забанен)
+[Error uploading avatar. (Unknown error)]
+Не удалось загрузить аватар. (Неизвестная ошибка)
 [Block]
 Заблокировать
 [Profile]
@@ -243,3 +253,5 @@ AIM Установить Instant Idle
 Приватность
 [Please, enter a username in the options dialog.]
 Пожалуйста, введи имя пользователя в настройках
+[Failed to open file: %s %s]
+Не удалось открыть файл: %s %s

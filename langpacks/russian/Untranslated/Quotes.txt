@@ -4,8 +4,6 @@
 [Get data from:]
 [Do not add to popup's history]
 [There is no to show]
-[Enter integer value between 1 and 60.]
-[Enter integer value between 1 and 24.]
 [Enter text to display in contact list.]
 [Miranda could not load Quotes plugin. XML parser is missing.]
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]

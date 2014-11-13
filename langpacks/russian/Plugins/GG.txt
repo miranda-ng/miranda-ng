@@ -283,6 +283,8 @@ HTTP неизвестная ошибка
 Параллельные сессии
 [&Image]
 &Изображение
+[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
+Изображения (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Изображение не может быть записано на диск.
 [Image from %s]
@@ -315,12 +317,20 @@ HTTP неизвестная ошибка
 Выбор учётной записи Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Протокол Gadu-Gadu
+[Password could not be reminded because of error:\n\t%s (Error: %d)]
+Не удалось напомнить пароль из-за ошибки:\n\t%s (Ошибка: %d)
 [Password was sent to your e-mail.]
 Пароль выслан на ваш e-mail.
 [Notify]
 Уведомление
 [Error]
 Ошибка
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
+Не удалось удалить старый файл аватара перед обновлением. ОШИБКА: %d: %s\n%s
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
+Не удалось удалить старый файл аватара. ОШИБКА: %d: %s\n%s
+[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
+Аватар Gadu-Gadu можно удалить на сайте gg.pl
 [Client Name]
 Имя клиента
 [IP Address]

@@ -63,6 +63,8 @@ Miranda была закрыта или произошла ошибка при о
 Неверное количество параметров для команды '%s'
 [Unknown parameter '%s' for command '%s'.]
 Неизвестный аргумент '%s' для команды '%s'.
+[Current global status: %s.%s]
+Текущий глобальный статус: %s.%s
 [Changed global status to '%s' (previous status was '%s').]
 Изменен глобальный статус на '%s' (предыдущий был '%s').
 [Changed '%s' status to '%s' (previous status was '%s').]
