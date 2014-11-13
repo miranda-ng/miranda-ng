@@ -484,6 +484,9 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 		case mwStatus_BUSY:
 			new_status = ID_STATUS_DND;
 			break;
+		case mwStatus_IN_MEETING:				// link 'in meeting' Sametime status
+			new_status = ID_STATUS_OCCUPIED;	// with 'Occupied' MIR_NG status
+			break;
 		}
 		if (new_status != ID_STATUS_IDLE) //SetSessionStatus(new_status);
 			proto->UpdateSelfStatus();
@@ -538,6 +541,12 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 				break;
 			case mwStatus_BUSY:
 				new_status = ID_STATUS_DND;
+				db_set_w(hContact, proto->m_szModuleName, "Status", new_status);
+				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", 0);
+				break;
+			case mwStatus_IN_MEETING:
+				// link 'in meeting' Sametime status to 'Occipied' MIR_NG status
+				new_status = ID_STATUS_OCCUPIED;
 				db_set_w(hContact, proto->m_szModuleName, "Status", new_status);
 				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", 0);
 				break;

@@ -11,6 +11,7 @@ struct {
 	char* szOnline;
 	char* szAway;
 	char* szDND;
+	char* szOccupied;	// away msg for 'in meeting' status
 } AwayMessages;
 
 void __cdecl SessionClear(mwSession* session)
@@ -206,7 +207,7 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 		}
 		break;
 
-	case 8: // new 'in a meeting' status, not handled by meanwhile lib
+	case mwStatus_IN_MEETING: // new 'in meeting' status
 		new_status = ID_STATUS_OCCUPIED;
 		break;
 
@@ -264,7 +265,9 @@ int CSametimeProto::SetSessionStatus(int status)
 	case ID_STATUS_AWAY:
 		us.desc = AwayMessages.szAway; us.status = mwStatus_AWAY;
 		break;
-	case ID_STATUS_OCCUPIED:
+	case ID_STATUS_OCCUPIED:	// link 'Occupied' MIR_NG status with 'in meeting' Sametime status
+		us.desc = AwayMessages.szOccupied; us.status = mwStatus_IN_MEETING;
+		break;
 	case ID_STATUS_DND:
 		us.desc = AwayMessages.szDND; us.status = mwStatus_BUSY;
 		break;
@@ -324,6 +327,8 @@ void CSametimeProto::SetSessionAwayMessage(int status, const PROTOCHAR* msgT)
 		replaceStr(AwayMessages.szAway, msg);
 	else if (status == ID_STATUS_DND)
 		replaceStr(AwayMessages.szDND, msg);
+	else if (status == ID_STATUS_OCCUPIED)
+		replaceStr(AwayMessages.szOccupied, msg);	// manage Occupied as away message
 	else
 		return; // unsupported status
 
@@ -528,6 +533,7 @@ void CSametimeProto::InitAwayMsg()
 	AwayMessages.szOnline = 0;
 	AwayMessages.szAway = 0;
 	AwayMessages.szDND = 0;
+	AwayMessages.szOccupied = 0;
 }
 
 void CSametimeProto::DeinitAwayMsg()
@@ -535,6 +541,7 @@ void CSametimeProto::DeinitAwayMsg()
 	mir_free(AwayMessages.szOnline);
 	mir_free(AwayMessages.szAway);
 	mir_free(AwayMessages.szDND);
+	mir_free(AwayMessages.szOccupied);
 }
 
 void SendAnnouncement(SendAnnouncementFunc_arg* arg)

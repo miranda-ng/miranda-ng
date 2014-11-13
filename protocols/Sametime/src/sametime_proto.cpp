@@ -160,13 +160,10 @@ DWORD_PTR CSametimeProto::GetCaps(int type, MCONTACT hContact)
 		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
 		break;
 	case PFLAGNUM_3:
-		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND;
+		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_LIGHTDND;
 		break;
 	case PFLAGNUM_4:
 		ret = PF4_SUPPORTTYPING | PF4_IMSENDUTF;
-		break;
-	case PFLAGNUM_5:
-		ret = PF2_LIGHTDND;
 		break;
 	case PFLAG_UNIQUEIDTEXT:
 		ret = (DWORD_PTR)Translate("ID");

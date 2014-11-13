@@ -13,10 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
+// Neutral resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -51,11 +52,12 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "Offline.ico"
-IDI_ICON2               ICON                    "Online.ico"
-IDI_ICON3               ICON                    "Away.ico"
-IDI_ICON4               ICON                    "DND.ico"
-#endif    // Russian (Russia) resources
+IDI_ONLINE              ICON                    "Online.ico"
+IDI_AWAY                ICON                    "Away.ico"
+IDI_DND                 ICON                    "DND.ico"
+IDI_OFFLINE             ICON                    "Offline.ico"
+IDI_OCCUPIED            ICON                    "Occupied.ico"
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 
