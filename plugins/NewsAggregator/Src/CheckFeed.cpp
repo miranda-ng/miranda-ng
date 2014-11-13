@@ -127,7 +127,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 
 	bool  MesExist = false;
 	ptrA  pszTemp(mir_utf8encodeT(message));
-	DWORD cbMemoLen = 10000, cbOrigLen = lstrlenA(pszTemp);
+	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)strlen(pszTemp);
 	BYTE *pbBuffer = (BYTE*)mir_alloc(cbMemoLen);
 	for (HANDLE hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -137,7 +137,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		db_event_get(hDbEvent, &olddbei);
 
 		// there's no need to look for the elder events
-		if (olddbei.timestamp < stamp)
+		if (olddbei.timestamp < (DWORD)stamp)
 			break;
 
 		if (strlen((char*)olddbei.pBlob) == cbOrigLen && !lstrcmpA((char*)olddbei.pBlob, pszTemp)) {
@@ -287,9 +287,9 @@ void CheckCurrentFeed(MCONTACT hContact)
 								TCHAR *lastupdtime = (TCHAR *)xi.getText(child);
 								time_t stamp = DateToUnixTime(lastupdtime, 0);
 								double deltaupd = difftime(time(NULL), stamp);
-								double deltacheck = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
+								double deltacheck = difftime(time(NULL), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
+									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(NULL));
 									xi.destroyNode(hXml);
 									return;
 								}
@@ -413,9 +413,9 @@ void CheckCurrentFeed(MCONTACT hContact)
 								TCHAR *lastupdtime = (TCHAR *)szChildText;
 								time_t stamp = DateToUnixTime(lastupdtime, 1);
 								double deltaupd = difftime(time(NULL), stamp);
-								double deltacheck = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
+								double deltacheck = difftime(time(NULL), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
+									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(NULL));
 									xi.destroyNode(hXml);
 									return;
 								}
@@ -488,7 +488,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 			xi.destroyNode(hXml);
 		}
 	}
-	db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
+	db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(NULL));
 }
 
 void CheckCurrentFeedAvatar(MCONTACT hContact)

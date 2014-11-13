@@ -46,7 +46,7 @@ void NetlibUnInit()
 static void arrayToHex(BYTE *data, size_t datasz, char *res)
 {
 	char *resptr = res;
-	for (unsigned i = 0; i < datasz ; i++) {
+	for (unsigned i = 0; i < datasz; i++) {
 		const BYTE ch = data[i];
 
 		const char ch0 = (char)(ch >> 4);
