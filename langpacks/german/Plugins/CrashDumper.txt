@@ -16,8 +16,8 @@ Schließen
 In Zwischenablage kopieren
 [To File]
 In Datei
-[Support for miranda-ng.org/versioninfo]
-Upload bei miranda-ng.org/versioninfo
+[Support for vi.miranda-ng.org]
+Upload bei vi.miranda-ng.org
 [Username]
 Benutzername
 [Password]
@@ -71,7 +71,7 @@ Zeige mit DLLs
 Hochladen
 [Open crash report directory]
 Absturzberichte-Verzeichnis öffnen
-[Open online report]
+[Open online Version Info]
 
 [Copy Version Info to clipboard]
 Version-Info in Zwischenablage kopieren

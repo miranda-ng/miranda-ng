@@ -14,8 +14,8 @@
 Капіяваць у буфер
 [To File]
 У файл
-[Support for miranda-ng.org/versioninfo]
-Падтрымка miranda-ng.org/versioninfo
+[Support for vi.miranda-ng.org]
+Падтрымка vi.miranda-ng.org
 [Username]
 Імя карыстача
 [Password]
