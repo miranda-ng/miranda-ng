@@ -32,7 +32,7 @@ void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 		BOOL HaveUpdates = FALSE;
 		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
-				double diff = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
+				double diff = difftime(time(NULL), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 				if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
 					UpdateListAdd(hContact);
 					HaveUpdates = TRUE;
@@ -126,7 +126,7 @@ void UpdateThreadProc(void *AvatarCheck)
 
 	// update news by getting the first station from the queue until the queue is empty
 	while (UpdateListHead != NULL && !Miranda_Terminated()) {
-		if ((BOOL)AvatarCheck)
+		if (AvatarCheck != NULL)
 			CheckCurrentFeedAvatar(UpdateGetFirst());
 		else
 			CheckCurrentFeed(UpdateGetFirst());
