@@ -174,7 +174,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		return (LRESULT)dat->himlExtraColumns;
 
 	case CLM_GETFONT:
-		if (wParam < 0 || wParam > FONTID_MAX)
+		if (wParam > FONTID_MAX)
 			return 0;
 		return (LRESULT)dat->fontInfo[wParam].hFont;
 
@@ -301,7 +301,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 	}
 
 	case CLM_GETTEXTCOLOR:
-		if (wParam < 0 || wParam > FONTID_MAX)
+		if (wParam > FONTID_MAX)
 			return 0;
 		return (LRESULT)dat->fontInfo[wParam].colour;
 
@@ -390,7 +390,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		break;
 
 	case CLM_SETFONT:
-		if (HIWORD(lParam) < 0 || HIWORD(lParam) > FONTID_MAX)
+		if (HIWORD(lParam) > FONTID_MAX)
 			return 0;
 
 		dat->fontInfo[HIWORD(lParam)].hFont = (HFONT) wParam;
@@ -457,7 +457,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		break;
 
 	case CLM_SETTEXTCOLOR:
-		if (wParam < 0 || wParam > FONTID_MAX)
+		if (wParam > FONTID_MAX)
 			break;
 		dat->fontInfo[wParam].colour = lParam;
 		break;
