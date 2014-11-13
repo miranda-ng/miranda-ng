@@ -16,8 +16,8 @@
 Копиране в клипборда
 [To File]
 Във файл
-[Support for miranda-ng.org/versioninfo]
-Поддръжка на miranda-ng.org/versioninfo
+[Support for vi.miranda-ng.org]
+Поддръжка на vi.miranda-ng.org
 [Username]
 Потребител
 [Password]
@@ -71,7 +71,7 @@
 Качване
 [Open crash report directory]
 Отваряне на директорията за доклади
-[Open online report]
+[Open online Version Info]
 
 [Copy Version Info to clipboard]
 Копиране на информация за версията в клипборда
