@@ -4,7 +4,6 @@
 [PCS]
 [Create or Join group chat]
 [JID:]
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
 [Bytestream Proxy not available]
 [Supports New_GPG plugin for Miranda NG]
 [Supports chat history retrieving]

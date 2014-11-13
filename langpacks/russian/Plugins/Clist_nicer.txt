@@ -19,6 +19,8 @@
 Несмотря на то, что программа продолжает работать, её нужно перезапустить как можно скорее. Исключение может повредить внутренние структуры данных и вызвать серьезные проблемы.
 [About CList Nicer+]
 О плагине Nicer+
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Авторские права © 2004-2010 проект Miranda IM, 2012-2013 проект Miranda NG. Более подробная информация об авторских правах содержится в файле README.
 [Version]
 Версия
 [Support and latest version information]
@@ -707,6 +709,12 @@
 Для запрошенного действия необходим правильный выбор контакта. Выберите контакт из списка и повторите.
 [Parameter mismatch]
 Несоответствие параметра
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+Не найдена служба %s, вызываемая кнопкой %s. Возможно, требуется установка дополнительных плагинов.
+[Service failure]
+Ошибка службы
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
+Необходим плагин FloatingContacts, поскольку поддержка встроенных плавающих контактов прекращена.
 [Warning]
 Предупреждение
 [Standard contacts]

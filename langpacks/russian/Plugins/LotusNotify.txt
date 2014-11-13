@@ -31,6 +31,8 @@
 мин.
 [Password:]
 Пароль:
+[Attachments: %d bytes]
+Вложения: %d байт
 [Status]
 Статус
 [Plugins]

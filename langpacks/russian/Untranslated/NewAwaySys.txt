@@ -12,8 +12,6 @@
 [Time passed until request]
 [Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
 [Current protocol name]
-[Do you really want to delete this category with its messages?]
-[Do you really want to delete this message?]
 [Set message for]
 [message for]
 [available autoreply only]

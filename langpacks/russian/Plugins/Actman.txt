@@ -299,6 +299,14 @@ YAPP или Popup
 Служба аватаров (AVS.dll)
 [Filename]
 Имя файла
+[Open URL in current window]
+Открывает ссылку в текущем окне
+[Open URL in default browser]
+Открывает ссылку в браузере по умолчанию
+[With formating]
+С форматированием
+[Don't use formating]
+Без форматирования
 [int 0, if unsuccessful]
 целочисленный 0 в случае неудачи
 [Structure editor]

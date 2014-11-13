@@ -1,5 +1,4 @@
-﻿[Contact add time]
-[IP]
+﻿[IP]
 [Column content is simple database setting.]
 [Column content is script result.\r\nMore help from "Help" button in script dialog.]
 [Content is last online time.]

@@ -15,6 +15,8 @@
 Имя сервера:
 [Port:]
 Порт:
+[Client ID and version]
+ID и версия клиента
 [Error display]
 Показ ошибок
 [Use message boxes]
@@ -75,6 +77,10 @@
 Шифрование недоступно. Попробуйте включить шифрование в настройках протокола.
 [SERVICE NOT IMPLEMENTED. %s]
 СЛУЖБА НЕ РЕАЛИЗОВАНА. %s
+[Client protocol version: %03d.%03d]
+Версия протокола клиента: %03d.%03d
+[Server protocol version: %03d.%03d]
+Версия протокола сервера: : %03d.%03d
 [Network]
 Сеть
 [Protocol icon]

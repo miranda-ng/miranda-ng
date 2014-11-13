@@ -25,7 +25,6 @@
 [notes.ini modified correctly. Miranda restart required.]
 [notes.ini seem to be set correctly.]
 [Now checking Lotus, try again later]
-[Attachments: %d bytes]
 [&Check Lotus]
 [Lotus Notify]
 [New Lotus document detected]

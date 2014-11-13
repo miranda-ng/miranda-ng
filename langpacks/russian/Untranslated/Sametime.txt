@@ -1,7 +1,4 @@
 ﻿[ID:]
-[Client ID and version]
-[Client protocol version: %03d.%03d]
-[Server protocol version: %03d.%03d]
 [ID]
 [%s\n\nSametime error %S\n%s]
 [Success]

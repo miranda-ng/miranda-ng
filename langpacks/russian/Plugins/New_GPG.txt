@@ -177,6 +177,22 @@ ID ключа:
 Принять
 [Invalid Email]
 Неверный e-mail
+[GPG binary is set and valid (this is good).\n]
+Исполняемый файл GPG указан и работоспособен (это хорошо).\n
+[GPG binary unset or invalid (plugin will not work).\n]
+Исполняемый файл GPG не указан или повреждён (плагин не будет работать)\n
+[Home dir write access granted (this is good).\n]
+Получен доступ на запись в домашнюю папку (это хорошо).\n
+[Home dir has no write access (plugin most probably will not work).\n]
+Отсутствуют доступ на запись в домашнюю папку (скорее всего, плагин не будет работать).\n
+[Temp dir write access granted (this is good).\n]
+Получен доступ на запись во временную папку (это хорошо).\n
+[Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]
+Отсутствует доступ на запись во временную папку (плагин должен работать, но могут возникнуть проблемы, не будет работать передача файлов).
+[\nGPG will be disabled until you solve these problems]
+\nGPG не будет работать, пока вы не решите указанные проблемы
+[GPG plugin problems]
+Проблемы с плагином GPG
 [You didn't set a private key.\nWould you like to set it now?]
 Вы не выбрали приватный ключ.\nВы хотите сделать это сейчас?
 [Own private key warning]

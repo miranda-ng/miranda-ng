@@ -99,6 +99,12 @@ IP адрес 2
 Скорость
 [No share selected]
 Папка не выбрана
+[Current IP Address: ]
+Текущиий IP-адрес:\s
+[Current Address: ]
+Текущий адрес:\s
+[IP Address: ]
+IP-адрес:\s
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш внешний IP определен как %d.%d.%d.%d\r\nс: %s
 [You need to restart Miranda to change the main menu]

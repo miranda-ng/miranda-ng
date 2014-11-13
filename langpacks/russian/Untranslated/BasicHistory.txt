@@ -1,7 +1,5 @@
 ﻿[Execute history task]
-[%s Files (*.%s)]
 [File does not contain selected contact]
-[File is corrupted]
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 [Txt]
 [Do you want to save imported messages to local profile?]
@@ -13,5 +11,3 @@
 [Browse CSS file]
 [Some value is invalid]
 [_files]
-[Open all]
-[Close all]
