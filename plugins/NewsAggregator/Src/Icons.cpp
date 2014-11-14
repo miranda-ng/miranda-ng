@@ -31,12 +31,12 @@ static IconItem iconList[] =
 	{ LPGEN("Auto Update Disabled"), "disabled",    IDI_DISABLED}
 };
 
-VOID InitIcons()
+void InitIcons()
 {
 	Icon_Register(hInst, LPGEN("News Aggregator"), iconList, SIZEOF(iconList), MODULE);
 }
 
-HICON LoadIconEx(const char *name, BOOL big)
+HICON LoadIconEx(const char *name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, name);

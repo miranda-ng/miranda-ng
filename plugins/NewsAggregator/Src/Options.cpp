@@ -572,7 +572,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-INT OptInit(WPARAM wParam, LPARAM)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;

@@ -20,9 +20,9 @@ Boston, MA 02111-1307, USA.
 #include "common.h"
 
 HANDLE hNetlibUser = NULL, hNetlibHttp;
-BOOL UpdateListFlag = FALSE;
+bool UpdateListFlag = FALSE;
 
-BOOL IsMyContact(MCONTACT hContact)
+bool IsMyContact(MCONTACT hContact)
 {
 	const char *szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(MODULE, szProto) == 0;
@@ -189,7 +189,7 @@ void DeleteAllItems(HWND hwndList)
 	ListView_DeleteAllItems(hwndList);
 }
 
-time_t __stdcall DateToUnixTime(const TCHAR *stamp, BOOL FeedType)
+time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 {
 	struct tm timestamp;
 	TCHAR date[9];
@@ -213,7 +213,7 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, BOOL FeedType)
 	}
 	else {
 		TCHAR weekday[4], monthstr[4], timezonesign[2];
-		INT day, month, year, hour, min, sec, timezoneh, timezonem;
+		int day, month, year, hour, min, sec, timezoneh, timezonem;
 		if (_tcsstr(p, _T(","))) {
 			_stscanf(p, _T("%3s, %d %3s %d %d:%d:%d %1s%02d%02d"), &weekday, &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!lstrcmpi(monthstr, _T("Jan")))
@@ -394,7 +394,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 	return nSize;
 }
 
-BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
+bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
 	NETLIBHTTPREQUEST nlhr = {0};
 	nlhr.cbSize = sizeof(nlhr);
