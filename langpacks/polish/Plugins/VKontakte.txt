@@ -37,7 +37,7 @@ Usuń z listy znajomych
 [Remove from contact list]
 Usuń z listy kontaktów
 [Broadcast music...]
-Nadawaj muzykę...
+Udostępniaj muzykę...
 [off]
 wyłączone
 [as regular status for unknown music and audio status otherwise]
