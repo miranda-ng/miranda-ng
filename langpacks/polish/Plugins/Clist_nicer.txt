@@ -566,9 +566,9 @@ Wypukłe na zewnątrz, wklęsłe wewnątrz
 [Show menu]
 Pokaż menu
 [Show/Hide offline contacts]
-Pokaż/ukryj rozłączone kontakty
+Pokaż/Ukryj rozłączone kontakty
 [Use/Disable groups]
-Używaj/wyłącz grupy
+Używaj/Wyłącz grupy
 [Find and add contacts]
 Szukaj i dodaj kontakt
 [Accounts]
@@ -576,7 +576,7 @@ Konta
 [Open preferences]
 Otwórz opcje
 [Enable/Disable sounds]
-Włącz/wyłącz dźwięki
+Włącz/Wyłącz dźwięki
 [Minimize contact list]
 Minimalizuj listę kontaktów
 [Status menu]
