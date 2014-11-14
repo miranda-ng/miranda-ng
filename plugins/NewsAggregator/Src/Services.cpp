@@ -232,7 +232,7 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void UpdateMenu(BOOL State)
+void UpdateMenu(bool State)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 
@@ -254,7 +254,7 @@ void UpdateMenu(BOOL State)
 // update the newsaggregator auto-update menu item when click on it
 INT_PTR EnableDisable(WPARAM, LPARAM)
 {
-	UpdateMenu(db_get_b(NULL, MODULE, "AutoUpdate", 1));
+	UpdateMenu(db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0);
 	NewsAggrSetStatus(db_get_b(NULL, MODULE, "AutoUpdate", 1) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE, 0);
 	return 0;
 }
