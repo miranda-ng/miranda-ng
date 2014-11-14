@@ -1,4 +1,4 @@
-// Copyright © 2008 sss, chaos.persei
+// Copyright ï¿½ 2008 sss, chaos.persei
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -124,17 +124,17 @@ int Parser()
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
 		strcpy(ver, tmp);
-		SongInfo.txtver = (TCHAR*)mir_utf8decodeW(tmp);
+		SongInfo.txtver = mir_utf8decodeT(tmp);
 	}
 	else
-		SongInfo.txtver = (TCHAR*)mir_utf8decodeW(ver);
+		SongInfo.txtver = mir_utf8decodeT(ver);
 	if(ptr = strstr(buf, "file:"))
 	{
 		ptr = &ptr[6];
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.mfile = (TCHAR*)mir_utf8decodeW(tmp);
+		SongInfo.mfile = mir_utf8decodeT(tmp);
 	}
 	else
 		SongInfo.mfile = mir_tstrdup(_T(""));
@@ -164,7 +164,7 @@ int Parser()
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.title = (TCHAR*)mir_utf8decodeW(tmp);
+		SongInfo.title = mir_utf8decodeT(tmp);
 	}
 	else
 		SongInfo.title = mir_tstrdup(_T("Unknown track"));
@@ -174,7 +174,7 @@ int Parser()
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.artist = (TCHAR*)mir_utf8decodeW(tmp);
+		SongInfo.artist = mir_utf8decodeT(tmp);
 	}
 	else
 		SongInfo.artist = mir_tstrdup(_T("Unknown artist"));
@@ -184,7 +184,7 @@ int Parser()
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.genre = (TCHAR*)mir_utf8decodeW(tmp);
+		SongInfo.genre = mir_utf8decodeT(tmp);
 	}
 	else
 		SongInfo.genre =  mir_tstrdup(_T("Unknown genre"));
@@ -194,7 +194,7 @@ int Parser()
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.album = (TCHAR*)mir_utf8decodeW(tmp);
+		SongInfo.album = mir_utf8decodeT(tmp);
 	}
 	else
 		SongInfo.album =  mir_tstrdup(_T("Unknown album"));
@@ -204,7 +204,7 @@ int Parser()
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		SongInfo.year = (TCHAR*)mir_utf8decodeW(tmp);
+		SongInfo.year = mir_utf8decodeT(tmp);
 	}
 	else
 		SongInfo.year =  mir_tstrdup(_T("Unknown year"));
