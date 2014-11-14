@@ -118,7 +118,7 @@ MIR_CORE_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact)
 // returns parent hContact for a subcontact or NULL if it's not a sub
 MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
 {
-	if (currDb == NULL) return false;
+	if (currDb == NULL) return NULL;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hSubContact);
 	return (cc == NULL) ? NULL : cc->parentID;
