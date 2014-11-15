@@ -130,6 +130,7 @@ procedure LowerCase(src:pWideChar);
 
 function StrDup (var dst:PAnsiChar;src:PAnsiChar;len:cardinal=0):PAnsiChar;
 function StrDupW(var dst:PWideChar;src:PWideChar;len:cardinal=0):PWideChar;
+function StrEmpty:pointer;
 function StrDelete (aStr:PAnsiChar;pos,len:cardinal):PAnsiChar;
 function StrDeleteW(aStr:PWideChar;pos,len:cardinal):PWideChar;
 function StrInsert (substr,src:PAnsiChar;pos:cardinal):PAnsiChar;
@@ -1590,6 +1591,12 @@ begin
     dst[l]:=#0;
   end;
   result:=dst;
+end;
+
+function StrEmpty:pointer;
+begin
+  mGetMem(result,SizeOf(WideChar));
+  pWord(result)^:=0;
 end;
 
 function StrCopyE(dst:PAnsiChar;src:PAnsiChar;len:cardinal=0):PAnsiChar;

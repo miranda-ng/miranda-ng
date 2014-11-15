@@ -277,7 +277,9 @@ begin
                   StrDupW(artist,
                     pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
                        nAlbumLen,nArtistLen);
-                end;
+                end
+                else
+                  artist:=StrEmpty();
                 if (album=nil) and (nAlbumLen>0) then
                 begin
                   StrDupW(album,
@@ -290,7 +292,9 @@ begin
                     pWideChar(PAnsiChar(pStr)+SizeOf(TAIMP2FileInfo))+
                        nAlbumLen+nArtistLen+nDateLen+nFileNameLen+nGenreLen,
                     nTitleLen);
-                end;
+                end
+                else
+                  title:=StrEmpty();
                 if (year=nil) and (nDateLen>0) then
                 begin
                   StrDupW(year,
