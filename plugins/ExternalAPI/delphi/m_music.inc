@@ -263,16 +263,17 @@ const
   WAT_OPT_TEMPLATE    = $00000100; // (internal)
   WAT_OPT_IMPLANTANT  = $00000200; // [options] use process implantation
   WAT_OPT_HASURL      = $00000400; // [players] URL field present
-  WAT_OPT_CHANGES     = $00000800; // (internal) obtain only chaged values
+  WAT_OPT_CHANGES     = $00000800; // [subplugin] obtain only chaged values
                                    // (volume, status, window text, elapsed time)
   WAT_OPT_APPCOMMAND  = $00001000; // [options] Special (multimedia) key support
   WAT_OPT_CHECKALL    = $00002000; // [options] Check all players
   WAT_OPT_KEEPOLD     = $00004000; // [options] Keep Old opened file
 //  WAT_OPT_MULTITHREAD = $00008000; // [options] Use multithread scan
   WAT_OPT_SINGLEINST  = $00010000; // [players] Single player instance
-  WAT_OPT_PLAYERDATA  = $00020000; // (internal) to obtain player data
+  WAT_OPT_PLAYERDATA  = $00020000; // [subplugin] to obtain player data
   WAT_OPT_CONTAINER   = $00040000; // [formats] format is container (need to check full)
   WAT_OPT_UNKNOWNFMT  = $00080000; // [formats] check unknown (not disabled) formats (info from player)
+  WAT_OPT_INTERNAL    = $80000000; // (internal) for memory manager choosing
 
 type
   tReadFormatProc = function(var Info:tSongInfo):boolean; cdecl;
@@ -349,11 +350,11 @@ const
   Returns: previous state
 }
 const
-  MS_WAT_MYSHOWS:pAnsiChar = 'WATrack/MyShows';
+  MS_WAT_MYSHOWS:PAnsiChar = 'WATrack/MyShows';
 
 
 const
-  MS_WAT_MYSHOWSINFO:pAnsiChar = 'WATrack/MyShowsInfo';
+  MS_WAT_MYSHOWSINFO:PAnsiChar = 'WATrack/MyShowsInfo';
 
 // --------- Last FM  ---------
 
@@ -363,7 +364,7 @@ const
   Returns: previous state
 }
 const
-  MS_WAT_LASTFM:pAnsiChar = 'WATrack/LastFM';
+  MS_WAT_LASTFM:PAnsiChar = 'WATrack/LastFM';
 
 {
   Get Info based on currently played song
@@ -374,18 +375,18 @@ type
   pLastFMInfo = ^tLastFMInfo;
   tLastFMInfo = record
     request:cardinal;   // 0 - artist, 1 - album, 2 - track
-    artist :pWideChar; // artist
-    album  :pWideChar; // album or similar artists for Artist info request
-    title  :pWideChar; // track title 
-    tags   :pWideChar; // tags
-    info   :pWideChar; // artist bio or wiki article
-    image  :pAnsiChar; // photo/cover link
-    similar:pWideChar;
-    release:pWideChar;
+    artist :PWideChar; // artist
+    album  :PWideChar; // album or similar artists for Artist info request
+    title  :PWideChar; // track title 
+    tags   :PWideChar; // tags
+    info   :PWideChar; // artist bio or wiki article
+    image  :PAnsiChar; // photo/cover link
+    similar:PWideChar;
+    release:PWideChar;
     trknum :cardinal;
   end;
 const
-  MS_WAT_LASTFMINFO:pAnsiChar = 'WATrack/LastFMInfo';
+  MS_WAT_LASTFMINFO:PAnsiChar = 'WATrack/LastFMInfo';
 
 // --------- Templates ----------
 
@@ -414,6 +415,6 @@ const
   lParam: 0
   note:   Shows Macro help window with edit aliases ability
 }
-  MS_WAT_MACROHELP:pAnsiChar = 'WATrack/MacroHelp';
+  MS_WAT_MACROHELP:PAnsiChar = 'WATrack/MacroHelp';
 
 {$ENDIF M_MUSIC}

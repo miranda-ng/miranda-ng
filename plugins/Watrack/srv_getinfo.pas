@@ -43,6 +43,30 @@ uses
   common, msninfo, syswin, wrapper, io, winampapi,
   srv_player, srv_format;
 
+//----- Miranda cheat -----
+const
+  CoreDLL = 'mir_core.dll';
+type
+  tmir_free=procedure(para1:pointer); cdecl;
+var
+  mir_free:tmir_free;
+  MMCore:THANDLE;
+
+procedure InitMirandaMM;
+begin
+  MMCore:=LoadLibraryW(CoreDLL);
+  if MMCore<>0 then
+    @mir_free:=GetProcAddress(MMCore,PAnsiChar('mir_free'));
+end;
+
+procedure FreeMirandaMM;
+begin
+  if MMCore<>0 then
+  begin
+    FreeLibrary(MMCore);
+    MMCore:=0;
+  end;
+end;
 
 //----- get player info -----
 
@@ -55,6 +79,44 @@ begin
   end
   else
     result:=nil;
+end;
+
+procedure MirMMToInt(var txt:PWideChar);
+var
+  tmp:PWideChar;
+begin
+  if txt<>nil then
+  begin
+    StrDupW(tmp,txt); mir_free(txt); txt:=tmp;
+  end;
+end;
+
+procedure GetInfoInt(pl:pPlayerCell;var dst:tSongInfo;flags:cardinal);
+begin
+  tInfoProc(pl^.GetInfo)(dst,flags);
+  if (pl^.flags and (WAT_OPT_INTERNAL or WAT_OPT_TEMPLATE))=0 then
+  begin
+    if (flags and WAT_OPT_PLAYERDATA)<>0 then
+    begin
+    // player name and homepage url we got from registration
+      MirMMToInt(dst.txtver);
+    end
+    else if (flags and WAT_OPT_CHANGES)<>0 then
+    begin
+      MirMMToInt(dst.wndtext);
+    end
+    else
+    begin
+      MirMMToInt(dst.artist);
+      MirMMToInt(dst.title);
+      MirMMToInt(dst.album);
+      MirMMToInt(dst.genre);
+      MirMMToInt(dst.comment);
+      MirMMToInt(dst.year);
+      MirMMToInt(dst.lyric);
+      MirMMToInt(dst.cover);
+    end;
+  end;
 end;
 
 function GetPlayerInfo(var dst:tSongInfo;flags:cardinal):integer;
@@ -79,7 +141,7 @@ begin
         dst.icon:=CopyIcon(pl^.icon);
 
       if pl^.GetInfo<>nil then
-        tInfoProc(pl^.GetInfo)(dst,flags or WAT_OPT_PLAYERDATA)
+        GetInfoInt(pl,dst,flags or WAT_OPT_PLAYERDATA)
       else if (pl^.flags and WAT_OPT_WINAMPAPI)<>0 then
         WinampGetInfo(wparam(@dst),flags or WAT_OPT_PLAYERDATA);
       
@@ -112,7 +174,14 @@ begin
   pl:=GetActivePlayer;
 
   if pl^.GetName<>nil then
-    fname:=tNameProc(pl^.GetName)(dst.plwnd,flags)
+  begin
+    fname:=tNameProc(pl^.GetName)(dst.plwnd,flags);
+
+    if (pl^.flags and (WAT_OPT_INTERNAL or WAT_OPT_TEMPLATE))=0 then
+    begin
+      MirMMToInt(fname);
+    end;
+  end
   else
     fname:=nil;
 
@@ -237,7 +306,7 @@ begin
   pl:=GetActivePlayer;
 
   if pl^.GetInfo<>nil then
-    tInfoProc(pl^.GetInfo)(dst,flags or WAT_OPT_CHANGES)
+    GetInfoInt(pl,dst,flags or WAT_OPT_CHANGES)
   else if (pl^.flags and WAT_OPT_WINAMPAPI)<>0 then
     WinampGetInfo(wparam(@dst),flags or WAT_OPT_CHANGES);
 
@@ -340,7 +409,7 @@ begin
   // info from player
   pl:=GetActivePlayer;
   if pl^.GetInfo<>nil then
-    tInfoProc(pl^.GetInfo)(dst,flags and not WAT_OPT_CHANGES)
+    GetInfoInt(pl,dst,flags and not WAT_OPT_CHANGES)
   else if (pl^.flags and WAT_OPT_WINAMPAPI)<>0 then
     WinampGetInfo(wparam(@dst),flags and not WAT_OPT_CHANGES);
 
@@ -380,4 +449,9 @@ begin
   end;
 end;
 
+initialization
+  InitMirandaMM;
+
+finalization
+  FreeMirandaMM;
 end.

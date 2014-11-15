@@ -548,7 +548,7 @@ begin
   dbetd.module     :=PluginShort;
   dbetd.textService:=nil;
   dbetd.iconService:=nil;
-  dbetd.eventIcon  :=0;
+  p:='WATrack_Info';
 
   for i:=0 to HIGH(cdbetd) do
   begin
