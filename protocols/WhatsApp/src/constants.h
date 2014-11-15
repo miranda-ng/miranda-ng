@@ -42,7 +42,7 @@
 #define ACCOUNT_URL_EXISTSV2 "https://v.whatsapp.net/v2/exist"
 
 // WhatsApp Nokia 302 S40
-#define ACCOUNT_RESOURCE  "S40-2.3.53"
+#define ACCOUNT_RESOURCE  "Android-2.31.151-443"
 
 #define WHATSAPP_RECV_MESSAGE 1
 #define WHATSAPP_SEND_MESSAGE 2
