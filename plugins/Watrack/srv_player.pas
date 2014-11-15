@@ -370,6 +370,7 @@ begin
   result:=0;
   while ptr<>nil do
   begin
+    ptr.This.flags:=ptr.This.flags or WAT_OPT_INTERNAL;
     ServicePlayer(WAT_ACT_REGISTER,lparam(ptr.This));
     ptr:=ptr^.Next;
     inc(result);
