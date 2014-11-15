@@ -19,7 +19,6 @@
 [Image upload]
 [HTTPServer transfer]
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
-[Fatal error, image services not found. SendScreenshot will be disabled.]
 [Could not register Miranda service.]
 [Edit on]
 [BBC]

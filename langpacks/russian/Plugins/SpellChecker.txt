@@ -103,6 +103,8 @@
 Личные словари
 [Flags DLL]
 Библиотека с флагами (DLL)
+[Flags]
+Флаги
 [Enable/disable spell checker]
 Включить/выключить проверку орфографии
 [Enabled]
