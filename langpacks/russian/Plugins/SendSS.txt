@@ -113,8 +113,6 @@
 Игнорировать
 [SendScreenshot - Error]
 SendScreenshot - Ошибка
-[Fatal error, image services not found. Send Screenshot will be disabled.]
-Критическая ошибка, не найдена служба изображений. Плагин SendScreenshot будет отключен.
 [Open SendSS+]
 Открыть SendSS+
 [SendSS]

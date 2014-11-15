@@ -115,8 +115,6 @@
 Введите имя канала
 [Enter Feed URL]
 Введите URL канала
-[Enter checking interval]
-Введите интервал проверки
 [Enter message format]
 Введите формат сообщения
 [The title of the item.]

@@ -59,6 +59,7 @@
 [Dictionaries]
 [Custom Dictionaries]
 [Flags DLL]
+[Flags]
 [Enable/disable spell checker]
 [Enabled]
 [Disabled]
