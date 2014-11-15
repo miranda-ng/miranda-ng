@@ -169,8 +169,8 @@ Ignorowanie
 [SendScreenshot - Error]
 SendScreenshot - Błąd
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Fatal error, image services not found. Send Screenshot will be disabled.]
-Błąd, usługa obrazków nie została znaleziona. Send Screenshot zostanie wyłączony.
+[Fatal error, image services not found. SendScreenshot will be disabled.]
+Błąd, usługa obrazków nie została znaleziona. SendScreenshot zostanie wyłączony.
 [Open SendSS+]
 Otwórz SendSS+
 [SendSS]

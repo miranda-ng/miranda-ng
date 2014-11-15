@@ -553,8 +553,8 @@ ID користувача в панелі статусу
 Налаштування вигляду вкладок
 [About TabSRMM]
 Про TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-© 2004-2011 Проект Miranda IM, 2012-2013 Проект Miranda NG. Детальна інформація про авторські права знаходиться у файлі Readme.
+[Copyright 2004-2011 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+© 2004-2011 Проект Miranda IM, 2012-2014 Проект Miranda NG. Детальна інформація про авторські права знаходиться у файлі Readme.
 [Support and latest version information]
 Підтримка та інформація про найновішу версію
 [Selected skin]

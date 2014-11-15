@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.0.0.1
+;  Version: 0.1.0.2
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -123,8 +123,6 @@
 Увядзіце імя канала
 [Enter Feed URL]
 Увядзіце URL канала
-[Enter checking interval]
-Увядзіце затрыку праверкі
 [Enter message format]
 увядзіце фармат паведамлення
 [The title of the item.]

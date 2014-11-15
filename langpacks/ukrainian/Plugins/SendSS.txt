@@ -133,7 +133,7 @@
 Ігнорувати
 [SendScreenshot - Error]
 Помилка SendSS
-[Fatal error, image services not found. Send Screenshot will be disabled.]
+[Fatal error, image services not found. SendScreenshot will be disabled.]
 Невиправна помилка, сервісу зображень не знайдено. Плагін SendSS буде відключено.
 [Open SendSS+]
 Відкрити SendSS

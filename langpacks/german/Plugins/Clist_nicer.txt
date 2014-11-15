@@ -22,8 +22,8 @@ Obwohl die Ausnahme abgefangen wurde und Sie mit Miranda weiterarbeiten können,
 Über CList Nicer+
 [Clist Nicer+]
 CList Nicer+
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Copyright 2004-2011 beim Miranda-IM-Projekt, 2012-2013 beim Miranda-NG-Projekt. Detaillierte Informationen sind in der enthaltenen README-Datei zu finden.
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Copyright 2004-2011 beim Miranda-IM-Projekt, 2012-2014 beim Miranda-NG-Projekt. Detaillierte Informationen sind in der enthaltenen README-Datei zu finden.
 [Version]
 Version
 [Support and latest version information]
