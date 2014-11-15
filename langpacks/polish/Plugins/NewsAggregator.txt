@@ -123,8 +123,6 @@ Zmień ustawienia kanału
 Wpisz nazwę kanału
 [Enter Feed URL]
 Wprowadź adres kanału
-[Enter checking interval]
-Wprowadź okres sprawdzania
 [Enter message format]
 Format wpisywanej wiadomości
 [The title of the item.]

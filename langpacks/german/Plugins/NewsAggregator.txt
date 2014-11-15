@@ -123,8 +123,6 @@ Feed ändern
 Feednamen eingeben:
 [Enter Feed URL]
 Feed-URL eingeben:
-[Enter checking interval]
-Prüfintervall eingeben
 [Enter message format]
 Nachrichtenformat eingeben
 [The title of the item.]

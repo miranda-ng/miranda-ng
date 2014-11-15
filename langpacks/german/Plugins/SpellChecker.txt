@@ -108,6 +108,8 @@ Wörterbücher
 Benutzerdefinierte Wörterbücher
 [Flags DLL]
 Speicherort der Flags.dll
+[Flags]
+Flaggen
 [Enable/disable spell checker]
 Spell Checker (de)aktivieren
 [Enabled]

@@ -22,8 +22,8 @@ L'exception a été capturée et vous pouvez continuer à travailler avec Mirand
 À propos de CList Nicer+
 [Clist Nicer+]
 Clist Nicer+
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. Plus d'informations sur le copyright peuvent être trouvées dans le fichier README inclus.
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Copyright © 2004-2010 by the Miranda IM project, 2012-2014 by the Miranda NG project. Plus d'informations sur le copyright peuvent être trouvées dans le fichier README inclus.
 [Version]
 Version
 [Support and latest version information]

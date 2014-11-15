@@ -108,6 +108,8 @@ Słowniki
 Niestandardowy słownik
 [Flags DLL]
 Flags.dll
+[Flags]
+Flagi
 [Enable/disable spell checker]
 Włącz/Wyłącz sprawdzanie pisowni
 [Enabled]
