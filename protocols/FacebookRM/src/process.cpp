@@ -1248,12 +1248,12 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 		if (resp.code == HTTP_CODE_OK)
 		{
-			std::string about = utils::text::source_get_value(&resp.data, 2, "<div id=\"root\"", "id=\"footer\"");
+			std::string about = utils::text::source_get_value(&resp.data, 2, "<div id=\"root\"", "</body>");
 		
 			std::string id = utils::text::source_get_value2(&about, ";id=", "&\"");
 			if (id.empty())
 				id = utils::text::source_get_value2(&about, "?bid=", "&\"");
-			std::string name = utils::text::source_get_value(&about, 3, "class=\"profileName", ">", "</");
+			std::string name = utils::text::source_get_value(&about, 3, "<strong", ">", "</strong");
 			std::string surname;
 
 			std::string::size_type pos;
