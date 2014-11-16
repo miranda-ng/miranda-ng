@@ -39,11 +39,12 @@ bool CMsnProto::Lists_IsInList(int list, const char* email)
 {
 	mir_cslock lck(csLists);
 
-	MsnContact* p = contList.find((MsnContact*)&email);
-	bool res = p != NULL;
-	if (res && list != -1)
-		res &= ((p->list & list) == list);
-	return res;
+	MsnContact *p = contList.find((MsnContact*)&email);
+	if (p == NULL)
+		return false;
+	if (list == -1)
+		return true;
+	return (p->list & list) == list;
 }
 
 MsnContact* CMsnProto::Lists_Get(const char* email)
@@ -73,43 +74,40 @@ MsnPlace* CMsnProto::Lists_GetPlace(const char* wlid)
 	if (szInst == NULL)
 		szInst = (char*)sttVoidUid;
 
-	MsnPlace* pl = NULL;
 	MsnContact* p = contList.find((MsnContact*)&szEmail);
-	if (p)
-		pl = p->places.find((MsnPlace*)&szInst);
+	if (p == NULL)
+		return NULL;
 
-	return pl;
+	return p->places.find((MsnPlace*)&szInst);
 }
 
 MsnPlace* CMsnProto::Lists_AddPlace(const char* email, const char* id, unsigned cap1, unsigned cap2)
 {
 	mir_cslock lck(csLists);
 
-	MsnPlace* pl = NULL;
-	MsnContact* p = contList.find((MsnContact*)&email);
-	if (p) {
-		pl = p->places.find((MsnPlace*)&id);
-		if (!pl) {
-			pl = new MsnPlace;
+	MsnContact *p = contList.find((MsnContact*)&email);
+	if (p == NULL)
+		return NULL;
 
-			pl->id = mir_strdup(id);
-			pl->cap1 = cap1;
-			pl->cap2 = cap2;
-			pl->p2pMsgId = 0;
-			pl->p2pPktNum = 0;
-			p->places.insert(pl);
-		}
+	MsnPlace *pl = p->places.find((MsnPlace*)&id);
+	if (pl == NULL) {
+		pl = new MsnPlace;
+		pl->id = mir_strdup(id);
+		pl->cap1 = cap1;
+		pl->cap2 = cap2;
+		pl->p2pMsgId = 0;
+		pl->p2pPktNum = 0;
+		p->places.insert(pl);
 	}
 
 	return pl;
 }
 
-MsnContact* CMsnProto::Lists_GetNext(int& i)
+MsnContact* CMsnProto::Lists_GetNext(int &i)
 {
-	MsnContact* p = NULL;
-
 	mir_cslock lck(csLists);
 
+	MsnContact *p = NULL;
 	while (p == NULL && ++i < contList.getCount())
 		if (contList[i].hContact)
 			p = &contList[i];
@@ -121,7 +119,7 @@ int CMsnProto::Lists_GetMask(const char* email)
 {
 	mir_cslock lck(csLists);
 
-	MsnContact* p = contList.find((MsnContact*)&email);
+	MsnContact *p = contList.find((MsnContact*)&email);
 	return p ? p->list : 0;
 }
 
@@ -131,14 +129,14 @@ int CMsnProto::Lists_GetNetId(const char* email)
 
 	mir_cslock lck(csLists);
 
-	MsnContact* p = contList.find((MsnContact*)&email);
+	MsnContact *p = contList.find((MsnContact*)&email);
 	return p ? p->netId : NETID_UNKNOWN;
 }
 
 unsigned CMsnProto::p2p_getMsgId(const char* wlid, int inc)
 {
 	mir_cslock lck(csLists);
-	MsnPlace* p = Lists_GetPlace(wlid);
+	MsnPlace *p = Lists_GetPlace(wlid);
 
 	unsigned res = p && p->p2pMsgId ? p->p2pMsgId : MSN_GenRandom();
 	if (p)
@@ -151,7 +149,7 @@ unsigned CMsnProto::p2p_getPktNum(const char* wlid)
 {
 	mir_cslock lck(csLists);
 
-	MsnPlace* p = Lists_GetPlace(wlid);
+	MsnPlace *p = Lists_GetPlace(wlid);
 	return p ? p->p2pPktNum++ : 0;
 }
 
@@ -489,6 +487,7 @@ static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CMsnProto *proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	NMCLISTCONTROL *nmc;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -531,37 +530,25 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		return TRUE;
 
-//	case WM_SETFOCUS:
-//		SetFocus(GetDlgItem(hwndDlg ,IDC_LIST));
-//		break;
-
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_LISTREFRESH)
-		{
+		if (LOWORD(wParam) == IDC_LISTREFRESH) {
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 			SendMessage(hwndList, CLM_AUTOREBUILD, 0, 0);
 
-			CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			EnableWindow(hwndList, proto->msnLoggedIn);
 		}
 		break;
 
 	case WM_NOTIFY:
-	{
-		CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-		NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
-		if (nmc->hdr.idFrom == 0 && nmc->hdr.code == (unsigned)PSN_APPLY)
-		{
+		nmc = (NMCLISTCONTROL*)lParam;
+		if (nmc->hdr.idFrom == 0 && nmc->hdr.code == (unsigned)PSN_APPLY) {
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 			SaveSettings(NULL, hwndList, proto);
 			SendMessage(hwndList, CLM_AUTOREBUILD, 0, 0);
 			EnableWindow(hwndList, proto->msnLoggedIn);
 		}
-		else if (nmc->hdr.idFrom == IDC_LIST)
-		{
-			switch (nmc->hdr.code)
-			{
+		else if (nmc->hdr.idFrom == IDC_LIST) {
+			switch (nmc->hdr.code) {
 			case CLN_NEWCONTACT:
 				if ((nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
 					SetContactIcons((MCONTACT)nmc->hItem, nmc->hdr.hwndFrom, proto);
@@ -573,18 +560,13 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				break;
 
 			case NM_CLICK:
-				HANDLE hItem;
-				DWORD hitFlags;
-				int iImage;
-
 				// Make sure we have an extra column, also we can't change RL list
 				if (nmc->iColumn == -1 || nmc->iColumn == 4)
 					break;
 
 				// Find clicked item
-				hItem = (HANDLE)SendMessage(nmc->hdr.hwndFrom, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x,nmc->pt.y));
-
-				// Nothing was clicked
+				DWORD hitFlags;
+				HANDLE hItem = (HANDLE)SendMessage(nmc->hdr.hwndFrom, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y));
 				if (hItem == NULL || !(IsHContactContact(hItem) || IsHContactInfo(hItem)))
 					break;
 
@@ -593,7 +575,7 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 
 				// Get image in clicked column (0=none, 1=LL, 2=FL, 3=AL, 4=BL, 5=RL)
-				iImage = SendMessage(nmc->hdr.hwndFrom, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn, 0));
+				int iImage = SendMessage(nmc->hdr.hwndFrom, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn, 0));
 				iImage = iImage ? 0 : nmc->iColumn + 1;
 
 				SendMessage(nmc->hdr.hwndFrom, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn, iImage));
@@ -606,11 +588,10 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				break;
 			}
 		}
-	}
-	break;
+		break;
 
 	case WM_DESTROY:
-		HIMAGELIST hIml=(HIMAGELIST)SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_GETEXTRAIMAGELIST,0,0);
+		HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
 		ImageList_Destroy(hIml);
 		ReleaseIconEx("list_fl");
 		ReleaseIconEx("list_al");

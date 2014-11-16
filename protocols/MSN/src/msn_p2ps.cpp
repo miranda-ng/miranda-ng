@@ -51,7 +51,7 @@ filetransfer* CMsnProto::p2p_getSessionByID(unsigned id)
 
 	mir_cslock lck(sessionLock);
 
-	for (int i=0; i < sessionList.getCount(); i++) {
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
 		if (FT->p2p_sessionid == id)
 			return FT;
@@ -67,8 +67,7 @@ filetransfer* CMsnProto::p2p_getSessionByUniqueID(unsigned id)
 
 	mir_cslock lck(sessionLock);
 
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
 		if (FT->p2p_acksessid == id)
 			return FT;
@@ -91,8 +90,7 @@ filetransfer* CMsnProto::p2p_getThreadSession(MCONTACT hContact, TInfoType mType
 {
 	mir_cslock lck(sessionLock);
 
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
 		if (FT->std.hContact == hContact && FT->tType == mType)
 			return FT;
@@ -105,11 +103,9 @@ void CMsnProto::p2p_clearThreadSessions(MCONTACT hContact, TInfoType mType)
 {
 	mir_cslock lck(sessionLock);
 
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* ft = &sessionList[i];
-		if (ft->std.hContact == hContact && ft->tType == mType)
-		{
+		if (ft->std.hContact == hContact && ft->tType == mType) {
 			ft->bCanceled = true;
 			ft->tType = SERVER_NOTIFICATION;
 			p2p_sendCancel(ft);
@@ -121,8 +117,7 @@ filetransfer* CMsnProto::p2p_getAvatarSession(MCONTACT hContact)
 {
 	mir_cslock lck(sessionLock);
 
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
 		if (FT->std.hContact == hContact && !(FT->std.flags & PFTS_SENDING) && FT->p2p_type == MSN_APPID_AVATAR)
 			return FT;
@@ -136,8 +131,7 @@ bool CMsnProto::p2p_isAvatarOnly(MCONTACT hContact)
 	mir_cslock lck(sessionLock);
 
 	bool result = true;
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
 		result &= FT->std.hContact != hContact || FT->p2p_type != MSN_APPID_FILE;
 	}
@@ -150,13 +144,11 @@ void CMsnProto::p2p_clearDormantSessions(void)
 	mir_cslockfull lck(sessionLock);
 
 	time_t ts = time(NULL);
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
 		if (!FT->p2p_sessionid && !MSN_GetUnconnectedThread(FT->p2p_dest, SERVER_P2P_DIRECT))
 			p2p_invite(FT->p2p_type, FT, NULL);
-		else if (FT->p2p_waitack && (ts - FT->ts) > 120)
-		{
+		else if (FT->p2p_waitack && (ts - FT->ts) > 120) {
 			FT->bCanceled = true;
 			p2p_sendCancel(FT);
 			lck.unlock();
@@ -172,20 +164,16 @@ void CMsnProto::p2p_redirectSessions(const char *wlid)
 	mir_cslock lck(sessionLock);
 
 	ThreadData* T = MSN_GetP2PThreadByContact(wlid);
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
 		if (_stricmp(FT->p2p_dest, wlid) == 0 &&
 			FT->std.currentFileProgress < FT->std.currentFileSize &&
-			(T == NULL || (FT->tType != T->mType && FT->tType != 0)))
-		{
-			if (FT->p2p_isV2)
-			{
+			(T == NULL || (FT->tType != T->mType && FT->tType != 0))) {
+			if (FT->p2p_isV2) {
 				if ((FT->std.flags & PFTS_SENDING) && T)
 					FT->tType = T->mType;
 			}
-			else
-			{
+			else {
 				if (!(FT->std.flags & PFTS_SENDING))
 					p2p_sendRedirect(FT);
 			}
@@ -200,11 +188,9 @@ void CMsnProto::p2p_startSessions(const char* wlid)
 	char* szEmail;
 	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
 
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
-		if (!FT->bAccepted  && !_stricmp(FT->p2p_dest, szEmail))
-		{
+		if (!FT->bAccepted  && !_stricmp(FT->p2p_dest, szEmail)) {
 			if (FT->p2p_appID == MSN_APPID_FILE && (FT->std.flags & PFTS_SENDING))
 				p2p_invite(FT->p2p_type, FT, wlid);
 			else if (FT->p2p_appID != MSN_APPID_FILE && !(FT->std.flags & PFTS_SENDING))
@@ -217,8 +203,7 @@ void CMsnProto::p2p_cancelAllSessions(void)
 {
 	mir_cslock lck(sessionLock);
 
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		sessionList[i].bCanceled = true;
 		p2p_sendCancel(&sessionList[i]);
 	}
@@ -232,13 +217,10 @@ filetransfer* CMsnProto::p2p_getSessionByCallID(const char* CallID, const char* 
 	mir_cslock lck(sessionLock);
 
 	char* szEmail = NULL;
-	for (int i=0; i < sessionList.getCount(); i++)
-	{
+	for (int i = 0; i < sessionList.getCount(); i++) {
 		filetransfer* FT = &sessionList[i];
-		if (FT->p2p_callID && !_stricmp(FT->p2p_callID, CallID))
-		{
- 			if (_stricmp(FT->p2p_dest, wlid))
-			{
+		if (FT->p2p_callID && !_stricmp(FT->p2p_callID, CallID)) {
+			if (_stricmp(FT->p2p_dest, wlid)) {
 				if (!szEmail)
 					parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
 				if (_stricmp(FT->p2p_dest, szEmail))
@@ -271,8 +253,7 @@ directconnection* CMsnProto::p2p_getDCByCallID(const char* CallID, const char* w
 
 	mir_cslock lck(sessionLock);
 
-	for (int i=0; i < dcList.getCount(); i++)
-	{
+	for (int i = 0; i < dcList.getCount(); i++) {
 		directconnection* DC = &dcList[i];
 		if (DC->callId != NULL && !strcmp(DC->callId, CallID) && !strcmp(DC->wlid, wlid))
 			return DC;

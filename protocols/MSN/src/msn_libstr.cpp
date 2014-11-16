@@ -40,7 +40,7 @@ void overrideStr(TCHAR*& dest, const TCHAR* src, bool unicode, const TCHAR* def)
 	else if (def != NULL)
 		dest = mir_tstrdup(def);
 }
-				
+
 char* arrayToHex(BYTE* data, size_t datasz)
 {
 	char *res = (char*)mir_alloc(2 * datasz + 1);
@@ -48,7 +48,7 @@ char* arrayToHex(BYTE* data, size_t datasz)
 	return res;
 }
 
-bool txtParseParam (const char* szData, const char* presearch, const char* start, const char* finish, char* param, const int size)
+bool txtParseParam(const char* szData, const char* presearch, const char* start, const char* finish, char* param, const int size)
 {
 	const char *cp, *cp1;
 	int len;
@@ -69,7 +69,7 @@ bool txtParseParam (const char* szData, const char* presearch, const char* start
 	if (finish) {
 		cp1 = strstr(cp, finish);
 		if (cp1 == NULL) return FALSE;
-		while (*(cp1-1) == ' ' && cp1 > cp) --cp1;
+		while (*(cp1 - 1) == ' ' && cp1 > cp) --cp1;
 	}
 	else cp1 = strchr(cp, '\0');
 
@@ -108,9 +108,9 @@ void parseWLID(char* wlid, char** net, char** email, char** inst)
 
 static int SingleHexToDecimal(char c)
 {
-	if (c >= '0' && c <= '9') return c-'0';
-	if (c >= 'a' && c <= 'f') return c-'a'+10;
-	if (c >= 'A' && c <= 'F') return c-'A'+10;
+	if (c >= '0' && c <= '9') return c - '0';
+	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+	if (c >= 'A' && c <= 'F') return c - 'A' + 10;
 	return -1;
 }
 
@@ -121,7 +121,7 @@ template <class chartype> void UrlDecode(chartype* str)
 {
 	chartype* s = str, *d = str;
 
-	while(*s) {
+	while (*s) {
 		if (*s == '%') {
 			int digit1 = SingleHexToDecimal(s[1]);
 			if (digit1 != -1) {
@@ -147,12 +147,12 @@ void HtmlDecode(char *str)
 	char* p, *q;
 	for (p = q = str; *p != '\0'; p++, q++) {
 		if (*p == '&') {
-			if (!strncmp(p, "&amp;", 5)) {	*q = '&'; p += 4; }
+			if (!strncmp(p, "&amp;", 5)) { *q = '&'; p += 4; }
 			else if (!strncmp(p, "&apos;", 6)) { *q = '\''; p += 5; }
 			else if (!strncmp(p, "&gt;", 4)) { *q = '>'; p += 3; }
 			else if (!strncmp(p, "&lt;", 4)) { *q = '<'; p += 3; }
 			else if (!strncmp(p, "&quot;", 6)) { *q = '"'; p += 5; }
-			else { *q = *p;	}
+			else { *q = *p; }
 		}
 		else *q = *p;
 	}
@@ -167,7 +167,7 @@ char* HtmlEncode(const char *str)
 	if (str == NULL)
 		return NULL;
 
-	for (c=0,p=(char*)str; *p!='\0'; p++) {
+	for (c = 0, p = (char*)str; *p != '\0'; p++) {
 		switch (*p) {
 			case '&': c += 5; break;
 			case '\'': c += 6; break;
@@ -178,8 +178,8 @@ char* HtmlEncode(const char *str)
 		}
 	}
 
-	if ((s=(char*)mir_alloc(c+1)) != NULL) {
-		for (p=(char*)str,q=s; *p!='\0'; p++) {
+	if ((s = (char*)mir_alloc(c + 1)) != NULL) {
+		for (p = (char*)str, q = s; *p != '\0'; p++) {
 			switch (*p) {
 				case '&': strcpy(q, "&amp;"); q += 5; break;
 				case '\'': strcpy(q, "&apos;"); q += 6; break;
@@ -206,8 +206,8 @@ void stripBBCode(char* src)
 	while (*ps != 0) {
 		if (!tag && *ps == '[') {
 			char ch = ps[1];
-			if (ch  == '/') ch = ps[2];
-			tag = ch == 'b' || ch == 'u' || ch == 'i' || ch == 'c' || ch == 'a' ||  ch == 's';
+			if (ch == '/') ch = ps[2];
+			tag = ch == 'b' || ch == 'u' || ch == 'i' || ch == 'c' || ch == 'a' || ch == 's';
 		}
 		if (!tag) *(pd++) = *ps;
 		else tag = *ps != ']';
@@ -252,9 +252,10 @@ void stripColorCode(char* src)
 				}
 				else if (ps[3] == '#') {
 					ps += 4;
-					for (int i=0; i<6; ++i)
+					for (int i = 0; i < 6; ++i) {
 						if (isxdigit(*ps)) ++ps;
 						else break;
+					}
 					continue;
 				}
 				break;

@@ -39,7 +39,7 @@ void CMsnProto::pushAvatarRequest(MCONTACT hContact, LPCSTR pszUrl)
 	if (pszUrl != NULL && *pszUrl != 0) {
 		mir_cslock lck(csAvatarQueue);
 
-		for (int i=0; i < lsAvatarQueue.getCount(); i++)
+		for (int i = 0; i < lsAvatarQueue.getCount(); i++)
 			if (lsAvatarQueue[i]->hContact == hContact)
 				return;
 
@@ -96,11 +96,11 @@ LBL_Error:
 
 void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 {
-	while(true) {
+	while (true) {
 		if (WaitForSingleObject(hevAvatarQueue, INFINITE) != WAIT_OBJECT_0)
 			break;
 
-		if ( Miranda_Terminated())
+		if (Miranda_Terminated())
 			break;
 
 		AvatarQueueEntry *p = NULL;
@@ -115,7 +115,7 @@ void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 		if (p == NULL)
 			continue;
 
-		if ( !loadHttpAvatar(p))
+		if (!loadHttpAvatar(p))
 			ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, 0, 0);
 		delete p;
 	}

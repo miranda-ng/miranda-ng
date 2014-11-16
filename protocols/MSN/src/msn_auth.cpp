@@ -52,8 +52,8 @@ static const char authPacket[] =
 				"<wsse:Password>%s</wsse:Password>"
 			"</wsse:UsernameToken>"
 			"<wsu:Timestamp Id=\"Timestamp\">"
-				"<wsu:Created>%s</wsu:Created>"
-				"<wsu:Expires>%s</wsu:Expires>"
+				"<wsu:Created>%S</wsu:Created>"
+				"<wsu:Expires>%S</wsu:Expires>"
 			"</wsu:Timestamp>"
 		"</wsse:Security>"
 	"</s:Header>"
@@ -136,24 +136,14 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	char szPassword[100];
 	db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
 	szPassword[16] = 0;
-	char* szEncPassword = HtmlEncode(szPassword);
 
 	time_t ts = time(NULL);
 
 	TCHAR szTs1[64], szTs2[64];
-
 	tmi.printTimeStamp(UTC_TIME_HANDLE, ts, _T("I"), szTs1, SIZEOF(szTs1), 0);
 	tmi.printTimeStamp(UTC_TIME_HANDLE, ts + 20 * 60, _T("I"), szTs2, SIZEOF(szTs2), 0);
 
-	char *szTs1A = mir_t2a(szTs1), *szTs2A = mir_t2a(szTs2);
-
-	const size_t len = sizeof(authPacket) + 2048;
-	char* szAuthInfo = (char*)alloca(len);
-	mir_snprintf(szAuthInfo, len, authPacket, int(ts), MyOptions.szEmail, szEncPassword, szTs1A, szTs2A);
-
-	mir_free(szTs2A);
-	mir_free(szTs1A);
-	mir_free(szEncPassword);
+	CMStringA szAuthInfo(FORMAT, authPacket, int(ts), MyOptions.szEmail, ptrA(HtmlEncode(szPassword)), szTs1, szTs2);
 
 	char* szPassportHost = (char*)mir_alloc(256);
 	if (db_get_static(NULL, m_szModuleName, "MsnPassportHost", szPassportHost, 256))
@@ -162,47 +152,41 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	bool defaultUrlAllow = strcmp(szPassportHost, defaultPassportUrl) != 0;
 	char *tResult = NULL;
 
-	while (retVal == -1)
-	{
+	while (retVal == -1) {
 		unsigned status;
 
 		tResult = getSslResult(&szPassportHost, szAuthInfo, NULL, status);
-		if (tResult == NULL)
-		{
-			if (defaultUrlAllow)
-			{
+		if (tResult == NULL) {
+			if (defaultUrlAllow) {
 				strcpy(szPassportHost, defaultPassportUrl);
 				defaultUrlAllow = false;
 				continue;
 			}
-			else
-			{
+			else {
 				retVal = 4;
 				break;
 			}
 		}
 
-		switch (status)
-		{
-			case 200:
+		switch (status) {
+		case 200:
+			const char *errurl;
 			{
-				const char *errurl = NULL;
+				errurl = NULL;
 				ezxml_t xml = ezxml_parse_str(tResult, strlen(tResult));
 
 				ezxml_t tokr = ezxml_get(xml, "S:Body", 0,
 					"wst:RequestSecurityTokenResponseCollection", 0,
 					"wst:RequestSecurityTokenResponse", -1);
 
-				while (tokr != NULL)
-				{
+				while (tokr != NULL) {
 					ezxml_t toks = ezxml_get(tokr, "wst:RequestedSecurityToken", 0,
 						"wsse:BinarySecurityToken", -1);
 
 					const char* addr = ezxml_txt(ezxml_get(tokr, "wsp:AppliesTo", 0,
 						"wsa:EndpointReference", 0, "wsa:Address", -1));
 
-					if (strcmp(addr, "http://Passport.NET/tb") == 0)
-					{
+					if (strcmp(addr, "http://Passport.NET/tb") == 0) {
 						ezxml_t node = ezxml_get(tokr, "wst:RequestedSecurityToken", 0, "EncryptedData", -1);
 						free(hotAuthToken);
 						hotAuthToken = ezxml_toxml(node, 0);
@@ -210,73 +194,60 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						node = ezxml_get(tokr, "wst:RequestedProofToken", 0, "wst:BinarySecret", -1);
 						replaceStr(hotSecretToken, ezxml_txt(node));
 					}
-					else if (strcmp(addr, "messengerclear.live.com") == 0)
-					{
+					else if (strcmp(addr, "messengerclear.live.com") == 0) {
 						ezxml_t node = ezxml_get(tokr, "wst:RequestedProofToken", 0,
 							"wst:BinarySecret", -1);
-						if (toks)
-						{
+						if (toks) {
 							replaceStr(authStrToken, ezxml_txt(toks));
 							replaceStr(authSecretToken, ezxml_txt(node));
 							retVal = 0;
 						}
-						else
-						{
+						else {
 							errurl = ezxml_txt(ezxml_get(tokr, "S:Fault", 0, "psf:pp", 0, "psf:flowurl", -1));
 						}
 					}
-					else if (strcmp(addr, "messenger.msn.com") == 0 && toks)
-					{
+					else if (strcmp(addr, "messenger.msn.com") == 0 && toks) {
 						const char* tok = ezxml_txt(toks);
 						char* ch = (char*)strchr(tok, '&');
 						*ch = 0;
-						replaceStr(tAuthToken, tok+2);
-						replaceStr(pAuthToken, ch+3);
+						replaceStr(tAuthToken, tok + 2);
+						replaceStr(pAuthToken, ch + 3);
 						*ch = '&';
 					}
-					else if (strcmp(addr, "contacts.msn.com") == 0 && toks)
-					{
+					else if (strcmp(addr, "contacts.msn.com") == 0 && toks) {
 						replaceStr(authContactToken, ezxml_txt(toks));
 					}
-					else if (strcmp(addr, "messengersecure.live.com") == 0 && toks)
-					{
+					else if (strcmp(addr, "messengersecure.live.com") == 0 && toks) {
 						replaceStr(oimSendToken, ezxml_txt(toks));
 					}
-					else if (strcmp(addr, "storage.msn.com") == 0 && toks)
-					{
+					else if (strcmp(addr, "storage.msn.com") == 0 && toks) {
 						replaceStr(authStorageToken, ezxml_txt(toks));
 					}
 
 					tokr = ezxml_next(tokr);
 				}
 
-				if (retVal != 0)
-				{
-					if (errurl)
-					{
+				if (retVal != 0) {
+					if (errurl) {
 						debugLogA("Starting URL: '%s'", errurl);
 						CallService(MS_UTILS_OPENURL, 1, (LPARAM)errurl);
 					}
 
 					ezxml_t tokf = ezxml_get(xml, "S:Body", 0, "S:Fault", 0, "S:Detail", -1);
 					ezxml_t tokrdr = ezxml_child(tokf, "psf:redirectUrl");
-					if (tokrdr != NULL)
-					{
+					if (tokrdr != NULL) {
 						strcpy(szPassportHost, ezxml_txt(tokrdr));
 						debugLogA("Redirected to '%s'", szPassportHost);
 					}
-					else
-					{
+					else {
 						const char* szFault = ezxml_txt(ezxml_get(tokf, "psf:error", 0, "psf:value", -1));
 						retVal = strcmp(szFault, "0x80048821") == 0 ? 3 : (tokf ? 5 : 7);
-						if (retVal != 3 && defaultUrlAllow)
-						{
+						if (retVal != 3 && defaultUrlAllow) {
 							strcpy(szPassportHost, defaultPassportUrl);
 							defaultUrlAllow = false;
 							retVal = -1;
 						}
-						else if (retVal != 3 && retVal != 7)
-						{
+						else if (retVal != 3 && retVal != 7) {
 							char err[512];
 							mir_snprintf(err, sizeof(err), "Unknown Authentication error: %s", szFault);
 							MSN_ShowError(err);
@@ -285,26 +256,23 @@ int CMsnProto::MSN_GetPassportAuth(void)
 				}
 
 				ezxml_free(xml);
-				break;
 			}
-			default:
-				if (defaultUrlAllow)
-				{
-					strcpy(szPassportHost, defaultPassportUrl);
-					defaultUrlAllow = false;
-				}
-				else
-					retVal = 6;
+			break;
+
+		default:
+			if (defaultUrlAllow) {
+				strcpy(szPassportHost, defaultPassportUrl);
+				defaultUrlAllow = false;
+			}
+			else
+				retVal = 6;
 		}
 		mir_free(tResult);
 	}
 
-	if (retVal != 0)
-	{
-		if (!Miranda_Terminated())
-		{
-			switch (retVal)
-			{
+	if (retVal != 0) {
+		if (!Miranda_Terminated()) {
+			switch (retVal) {
 			case 3:
 				MSN_ShowError("Your username or password is incorrect");
 				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
@@ -382,7 +350,7 @@ static unsigned char* PKCS5_Padding(char* in, size_t &len)
 	unsigned char* res = (unsigned char*)mir_alloc(nlen);
 	memcpy(res, in, len);
 
-	const unsigned char pad =  8 - (len & 7);
+	const unsigned char pad = 8 - (len & 7);
 	memset(res + len, pad, pad);
 
 	len = nlen;
@@ -395,8 +363,8 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	unsigned key1len;
 	BYTE *key1 = (BYTE*)mir_base64_decode(authSecretToken, &key1len);
 
-	BYTE key2[MIR_SHA1_HASH_SIZE+4];
-	BYTE key3[MIR_SHA1_HASH_SIZE+4];
+	BYTE key2[MIR_SHA1_HASH_SIZE + 4];
+	BYTE key3[MIR_SHA1_HASH_SIZE + 4];
 
 	static const unsigned char encdata1[] = "WS-SecureConversationSESSION KEY HASH";
 	static const unsigned char encdata2[] = "WS-SecureConversationSESSION KEY ENCRYPTION";
@@ -407,7 +375,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	size_t chllen = strlen(challenge);
 
 	BYTE hash[MIR_SHA1_HASH_SIZE];
-	mir_hmac_sha1(hash, key2, MIR_SHA1_HASH_SIZE+4, (BYTE*)challenge, chllen);
+	mir_hmac_sha1(hash, key2, MIR_SHA1_HASH_SIZE + 4, (BYTE*)challenge, chllen);
 
 	unsigned char* newchl = PKCS5_Padding(challenge, chllen);
 
@@ -455,7 +423,7 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 	memcpy(data1, encdata, sizeof(encdata) - 1);
 	memcpy(data1 + sizeof(encdata) - 1, nonce, sizeof(nonce));
 
-	unsigned char key2[MIR_SHA1_HASH_SIZE+4];
+	unsigned char key2[MIR_SHA1_HASH_SIZE + 4];
 	derive_key(key2, key1, key1len, data1, data1len);
 
 	CMStringA result;

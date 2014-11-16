@@ -23,14 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-
 void CMsnProto::msnftp_sendAcceptReject(filetransfer *ft, bool acc)
 {
 	ThreadData* thread = MSN_GetThreadByContact(ft->p2p_dest);
 	if (thread == NULL) return;
 
-	if (acc)
-	{
+	if (acc) {
 		thread->sendPacket("MSG",
 			"U %d\r\nMIME-Version: 1.0\r\n"
 			"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
@@ -38,17 +36,16 @@ void CMsnProto::msnftp_sendAcceptReject(filetransfer *ft, bool acc)
 			"Invitation-Cookie: %s\r\n"
 			"Launch-Application: FALSE\r\n"
 			"Request-Data: IP-Address:\r\n\r\n",
-			172+4+strlen(ft->szInvcookie), ft->szInvcookie);
+			172 + 4 + strlen(ft->szInvcookie), ft->szInvcookie);
 	}
-	else
-	{
+	else {
 		thread->sendPacket("MSG",
 			"U %d\r\nMIME-Version: 1.0\r\n"
 			"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 			"Invitation-Command: CANCEL\r\n"
 			"Invitation-Cookie: %s\r\n"
 			"Cancel-Code: REJECT\r\n\r\n",
-			172-33+4+strlen(ft->szInvcookie), ft->szInvcookie);
+			172 - 33 + 4 + strlen(ft->szInvcookie), ft->szInvcookie);
 	}
 }
 
@@ -65,8 +62,8 @@ void CMsnProto::msnftp_invite(filetransfer *ft)
 	else
 		pszFiles = *ft->std.ptszFiles;
 
-    char msg[1024];
-    mir_snprintf(msg, SIZEOF(msg),
+	char msg[1024];
+	mir_snprintf(msg, SIZEOF(msg),
 		"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 		"Application-Name: File Transfer\r\n"
 		"Application-GUID: {5D3E02AB-6190-11d3-BBBB-00C04F795683}\r\n"
@@ -92,36 +89,31 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 	filetransfer* ft = info->mMsnFtp;
 
 	if (cmdString[3])
-		params = cmdString+4;
+		params = cmdString + 4;
 
-	switch((*(PDWORD)cmdString&0x00FFFFFF)|0x20000000)
-	{
-		case ' EYB':    //********* BYE
-		{
-			ft->complete();
-			return 1;
-		}
-		case ' LIF':    //********* FIL
-		{
-			char filesize[30];
-			if (sscanf(params, "%s", filesize) < 1)
-				goto LBL_InvalidCommand;
+	switch ((*(PDWORD)cmdString & 0x00FFFFFF) | 0x20000000) {
+	case ' EYB':    //********* BYE
+		ft->complete();
+		return 1;
 
-			info->mCaller = 1;
-			info->send("TFR\r\n", 5);
-			break;
-		}
-		case ' RFT':    //********* TFR
+	case ' LIF':    //********* FIL
+		char filesize[30];
+		if (sscanf(params, "%s", filesize) < 1)
+			goto LBL_InvalidCommand;
+
+		info->mCaller = 1;
+		info->send("TFR\r\n", 5);
+		break;
+
+	case ' RFT':    //********* TFR
 		{
-			char* sendpacket = (char*)alloca(2048);
+			char *sendpacket = (char*)alloca(2048);
 			filetransfer* ft = info->mMsnFtp;
 
 			info->mCaller = 3;
 
-			while (ft->std.currentFileProgress < ft->std.currentFileSize)
-			{
-				if (ft->bCanceled)
-                {
+			while (ft->std.currentFileProgress < ft->std.currentFileSize) {
+				if (ft->bCanceled) {
 					sendpacket[0] = 0x01;
 					sendpacket[1] = 0x00;
 					sendpacket[2] = 0x00;
@@ -138,7 +130,7 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 				sendpacket[wPlace++] = (char)((packetLen & 0xff00) >> 8);
 				_read(ft->fileId, &sendpacket[wPlace], packetLen);
 
-				info->send(&sendpacket[0], packetLen+3);
+				info->send(&sendpacket[0], packetLen + 3);
 
 				ft->std.totalProgress += packetLen;
 				ft->std.currentFileProgress += packetLen;
@@ -147,107 +139,94 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 			}
 
 			ft->complete();
-			break;
 		}
-		case ' RSU':    //********* USR
-		{
-			char email[130],authcookie[14];
-			if (sscanf(params,"%129s %13s",email,authcookie) < 2)
-			{
-				debugLogA("Invalid USR OK command, ignoring");
-				break;
-			}
+		break;
 
-			char tCommand[30];
-			mir_snprintf(tCommand, sizeof(tCommand), "FIL %i\r\n", info->mMsnFtp->std.totalBytes);
-			info->send(tCommand, strlen(tCommand));
+	case ' RSU':    //********* USR
+		char email[130], authcookie[14];
+		if (sscanf(params, "%129s %13s", email, authcookie) < 2) {
+			debugLogA("Invalid USR OK command, ignoring");
 			break;
 		}
-		case ' REV':    //********* VER
-		{
-			char protocol1[7];
-			if (sscanf(params, "%6s", protocol1) < 1)
-			{
+
+		char tCommand[30];
+		mir_snprintf(tCommand, sizeof(tCommand), "FIL %i\r\n", info->mMsnFtp->std.totalBytes);
+		info->send(tCommand, strlen(tCommand));
+		break;
+
+	case ' REV':    //********* VER
+		char protocol1[7];
+		if (sscanf(params, "%6s", protocol1) < 1) {
 LBL_InvalidCommand:
-				debugLogA("Invalid %.3s command, ignoring", cmdString);
-				break;
-			}
-
-			if (strcmp(protocol1, "MSNFTP") != 0)
-			{
-				int tempInt;
-				int tFieldCount = sscanf(params, "%d %6s", &tempInt, protocol1);
-				if (tFieldCount != 2 || strcmp(protocol1, "MSNFTP") != 0)
-				{
-					debugLogA("Another side requested the unknown protocol (%s), closing thread", params);
-					return 1;
-			    }
-            }
-
-			if (info->mCaller == 0)  //receive
-			{
-				char tCommand[MSN_MAX_EMAIL_LEN + 50];
-				mir_snprintf(tCommand, sizeof(tCommand), "USR %s %s\r\n", MyOptions.szEmail, info->mCookie);
-				info->send(tCommand, strlen(tCommand));
-			}
-			else if (info->mCaller == 2)  //send
-			{
-				static const char sttCommand[] = "VER MSNFTP\r\n";
-				info->send(sttCommand, strlen(sttCommand));
-			}
+			debugLogA("Invalid %.3s command, ignoring", cmdString);
 			break;
 		}
-		default:		// receiving file
-		{
-			HReadBuffer tBuf(info, int(cmdString - info->mData));
 
-			for (;;)
-			{
-				if (ft->bCanceled)
-				{	info->send("CCL\r\n", 5);
-					ft->close();
-					return 1;
-				}
+		if (strcmp(protocol1, "MSNFTP") != 0) {
+			int tempInt;
+			int tFieldCount = sscanf(params, "%d %6s", &tempInt, protocol1);
+			if (tFieldCount != 2 || strcmp(protocol1, "MSNFTP") != 0) {
+				debugLogA("Another side requested the unknown protocol (%s), closing thread", params);
+				return 1;
+			}
+		}
 
-				BYTE* p = tBuf.surelyRead(3);
-				if (p == NULL)
-                {
+		if (info->mCaller == 0) { //receive
+			char tCommand[MSN_MAX_EMAIL_LEN + 50];
+			mir_snprintf(tCommand, sizeof(tCommand), "USR %s %s\r\n", MyOptions.szEmail, info->mCookie);
+			info->send(tCommand, strlen(tCommand));
+		}
+		else if (info->mCaller == 2) { //send
+			static const char sttCommand[] = "VER MSNFTP\r\n";
+			info->send(sttCommand, strlen(sttCommand));
+		}
+		break;
+
+	default:		// receiving file
+		HReadBuffer tBuf(info, int(cmdString - info->mData));
+
+		for (;;) {
+			if (ft->bCanceled) {
+				info->send("CCL\r\n", 5);
+				ft->close();
+				return 1;
+			}
+
+			BYTE* p = tBuf.surelyRead(3);
+			if (p == NULL) {
 LBL_Error:
-                    ft->close();
-					MSN_ShowError("file transfer is canceled by remote host");
-					return 1;
-				}
+				ft->close();
+				MSN_ShowError("file transfer is canceled by remote host");
+				return 1;
+			}
 
-				BYTE tIsTransitionFinished = *p++;
-				WORD dataLen = *p++;
-				dataLen |= (*p++ << 8);
+			BYTE tIsTransitionFinished = *p++;
+			WORD dataLen = *p++;
+			dataLen |= (*p++ << 8);
 
-				if (tIsTransitionFinished)
-                {
+			if (tIsTransitionFinished) {
 LBL_Success:
-					static const char sttCommand[] = "BYE 16777989\r\n";
-					info->send(sttCommand, strlen(sttCommand));
-					return 1;
-				}
+				static const char sttCommand[] = "BYE 16777989\r\n";
+				info->send(sttCommand, strlen(sttCommand));
+				return 1;
+			}
 
-				p = tBuf.surelyRead(dataLen);
-				if (p == NULL)
-					goto LBL_Error;
+			p = tBuf.surelyRead(dataLen);
+			if (p == NULL)
+				goto LBL_Error;
 
-				_write(ft->fileId, p, dataLen);
-				ft->std.totalProgress += dataLen;
-				ft->std.currentFileProgress += dataLen;
+			_write(ft->fileId, p, dataLen);
+			ft->std.totalProgress += dataLen;
+			ft->std.currentFileProgress += dataLen;
 
-				ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 
-				if (ft->std.currentFileProgress == ft->std.totalBytes)
-                {
-					ft->complete();
-					goto LBL_Success;
-	            }
-            }
-        }
-    }
+			if (ft->std.currentFileProgress == ft->std.totalBytes) {
+				ft->complete();
+				goto LBL_Success;
+			}
+		}
+	}
 
 	return 0;
 }
@@ -261,8 +240,7 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 
 	debugLogA("Waiting for an incoming connection to '%s'...", info->mServer);
 
-	switch(WaitForSingleObject(info->hWaitEvent, 60000))
-	{
+	switch (WaitForSingleObject(info->hWaitEvent, 60000)) {
 	case WAIT_TIMEOUT:
 	case WAIT_FAILED:
 		debugLogA("Incoming connection timed out, closing file transfer");
@@ -271,25 +249,22 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 
 	info->mBytesInData = 0;
 
-	for (;;)
-    {
-		int recvResult = info->recv(info->mData+info->mBytesInData, 1000 - info->mBytesInData);
+	for (;;) {
+		int recvResult = info->recv(info->mData + info->mBytesInData, 1000 - info->mBytesInData);
 		if (recvResult == SOCKET_ERROR || !recvResult)
 			break;
 
 		info->mBytesInData += recvResult;
 
 		//pull off each line for parsing
-		if (info->mCaller == 3 && info->mType == SERVER_FILETRANS)
-        {
+		if (info->mCaller == 3 && info->mType == SERVER_FILETRANS) {
 			if (MSN_HandleMSNFTP(info, info->mData))
 				break;
 		}
 		else   // info->mType!=SERVER_FILETRANS
-        {
-			for (;;)
-            {
-				char* peol = strchr(info->mData,'\r');
+		{
+			for (;;) {
+				char* peol = strchr(info->mData, '\r');
 				if (peol == NULL)
 					break;
 
@@ -308,23 +283,21 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 
 				debugLogA("RECV:%s", msg);
 
-				if (!isalnum(msg[0]) || !isalnum(msg[1]) || !isalnum(msg[2]) || (msg[3] && msg[3]!=' '))
-				{
+				if (!isalnum(msg[0]) || !isalnum(msg[1]) || !isalnum(msg[2]) || (msg[3] && msg[3] != ' ')) {
 					debugLogA("Invalid command name");
 					continue;
 				}
 
 				if (MSN_HandleMSNFTP(info, msg))
 					break;
-		    }
-        }
+			}
+		}
 
-		if (info->mBytesInData == sizeof(info->mData))
-        {
+		if (info->mBytesInData == sizeof(info->mData)) {
 			debugLogA("sizeof(data) is too small: the longest line won't fit");
 			break;
-	    }
-    }
+		}
+	}
 
 	debugLogA("Closing file transfer thread");
 }
@@ -334,12 +307,11 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 	if (_stricmp(Invcommand, "ACCEPT"))
 		return;
 
-	NETLIBBIND nlb = {0};
+	NETLIBBIND nlb = { 0 };
 	HANDLE sb = NULL;
 
 	filetransfer* ft = info->mMsnFtp; info->mMsnFtp = NULL;
-	if (ft != NULL && MyConnection.extIP)
-    {
+	if (ft != NULL && MyConnection.extIP) {
 		nlb.cbSize = sizeof(nlb);
 		nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
 		nlb.pExtra = this;
@@ -380,8 +352,7 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 
 	info->sendPacket("MSG", "N %d\r\n%s", nBytes, command);
 
-	if (sb)
-    {
+	if (sb) {
 		ThreadData* newThread = new ThreadData;
 		newThread->mType = SERVER_FILETRANS;
 		newThread->mCaller = 2;
@@ -390,6 +361,5 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 		newThread->mIncomingPort = nlb.wPort;
 		newThread->startThread(&CMsnProto::msnftp_sendFileThread, this);
 	}
-	else
-		delete ft;
+	else delete ft;
 }

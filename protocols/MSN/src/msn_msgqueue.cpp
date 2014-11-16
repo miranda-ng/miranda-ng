@@ -68,7 +68,7 @@ const char* CMsnProto::MsgQueue_CheckContact(const char* wlid, time_t tsc)
 
 	mir_cslock lck(csMsgQueue);
 
-	for (int i=0; i < lsMessageQueue.getCount(); i++)
+	for (int i = 0; i < lsMessageQueue.getCount(); i++)
 		if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0 && (tsc == 0 || (ts - lsMessageQueue[i].ts) < tsc))
 			return wlid;
 
@@ -80,15 +80,13 @@ const char* CMsnProto::MsgQueue_GetNextRecipient(void)
 {
 	mir_cslock lck(csMsgQueue);
 
-	for (int i=0; i < lsMessageQueue.getCount(); i++)
-	{
+	for (int i = 0; i < lsMessageQueue.getCount(); i++) {
 		MsgQueueEntry& E = lsMessageQueue[i];
-		if (!E.allocatedToThread)
-		{
+		if (!E.allocatedToThread) {
 			E.allocatedToThread = 1;
 
 			const char *ret = E.wlid;
-			while(++i < lsMessageQueue.getCount())
+			while (++i < lsMessageQueue.getCount())
 				if (_stricmp(lsMessageQueue[i].wlid, ret) == 0)
 					lsMessageQueue[i].allocatedToThread = 1;
 
@@ -110,8 +108,7 @@ bool CMsnProto::MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal)
 			break;
 
 	bool res = i != lsMessageQueue.getCount();
-	if (res)
-	{
+	if (res) {
 		retVal = lsMessageQueue[i];
 		lsMessageQueue.remove(i);
 	}
@@ -124,7 +121,7 @@ int CMsnProto::MsgQueue_NumMsg(const char* wlid)
 	int res = 0;
 	mir_cslock lck(csMsgQueue);
 
-	for(int i=0; i < lsMessageQueue.getCount(); i++)
+	for (int i = 0; i < lsMessageQueue.getCount(); i++)
 		res += (_stricmp(lsMessageQueue[i].wlid, wlid) == 0);
 
 	return res;
@@ -135,13 +132,10 @@ void CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 	int i;
 
 	mir_cslockfull lck(csMsgQueue);
-	if (wlid == NULL)
-	{
-		for(i=0; i < lsMessageQueue.getCount(); i++)
-		{
+	if (wlid == NULL) {
+		for (i = 0; i < lsMessageQueue.getCount(); i++) {
 			const MsgQueueEntry& E = lsMessageQueue[i];
-			if (E.msgSize == 0)
-			{
+			if (E.msgSize == 0) {
 				MCONTACT hContact = MSN_HContactFromEmail(E.wlid);
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 					(HANDLE)E.seq, (LPARAM)Translate("Message delivery failed"));
@@ -154,14 +148,11 @@ void CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 
 		msgQueueSeq = 1;
 	}
-	else
-	{
-		for(i=0; i < lsMessageQueue.getCount(); i++)
-		{
+	else {
+		for (i = 0; i < lsMessageQueue.getCount(); i++) {
 			time_t ts = time(NULL);
 			const MsgQueueEntry& E = lsMessageQueue[i];
-			if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0 && (!msg || E.msgSize == 0))
-			{
+			if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0 && (!msg || E.msgSize == 0)) {
 				bool msgfnd = E.msgSize == 0 && E.ts < ts;
 				int seq = E.seq;
 

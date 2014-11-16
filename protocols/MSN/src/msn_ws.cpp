@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-
 //=======================================================================================
 
 int ThreadData::send(const char data[], size_t datalen)
@@ -32,15 +31,13 @@ int ThreadData::send(const char data[], size_t datalen)
 
 	resetTimeout();
 
-	if (proto->usingGateway && !(mType == SERVER_FILETRANS || mType == SERVER_P2P_DIRECT))
-	{
+	if (proto->usingGateway && !(mType == SERVER_FILETRANS || mType == SERVER_P2P_DIRECT)) {
 		mGatewayTimeout = 2;
 		CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
 	}
 
 	int rlen = CallService(MS_NETLIB_SEND, (WPARAM)s, (LPARAM)&nlb);
-	if (rlen == SOCKET_ERROR)
-	{
+	if (rlen == SOCKET_ERROR) {
 		// should really also check if sendlen is the same as datalen
 		proto->debugLogA("Send failed: %d", WSAGetLastError());
 		return FALSE;
@@ -61,23 +58,19 @@ bool ThreadData::isTimeout(void)
 
 	if (mWaitPeriod >= clock()) return false;
 
-	if (mIsMainThread)
-	{
+	if (mIsMainThread) {
 		res = !proto->usingGateway;
 	}
-	else if (mJoinedContactsWLID.getCount() <= 1 || mChatID[0] == 0)
-	{
+	else if (mJoinedContactsWLID.getCount() <= 1 || mChatID[0] == 0) {
 		MCONTACT hContact = getContactHandle();
 
 		if (mJoinedContactsWLID.getCount() == 0 || termPending)
 			res = true;
 		else if (proto->p2p_getThreadSession(hContact, mType) != NULL)
 			res = false;
-		else if (mType == SERVER_SWITCHBOARD)
-		{
+		else if (mType == SERVER_SWITCHBOARD) {
 			res = MSN_MsgWndExist(hContact);
-			if (res)
-			{
+			if (res) {
 				WORD status = proto->getWord(hContact, "Status", ID_STATUS_OFFLINE);
 				if ((status == ID_STATUS_OFFLINE || status == ID_STATUS_INVISIBLE || proto->m_iStatus == ID_STATUS_INVISIBLE))
 					res = false;
@@ -87,15 +80,13 @@ bool ThreadData::isTimeout(void)
 			res = true;
 	}
 
-	if (res)
-	{
+	if (res) {
 		bool sbsess = mType == SERVER_SWITCHBOARD;
 
 		proto->debugLogA("Dropping the idle %s due to inactivity", sbsess ? "switchboard" : "p2p");
 		if (!sbsess || termPending) return true;
 
-		if (proto->getByte("EnableSessionPopup", 0))
-		{
+		if (proto->getByte("EnableSessionPopup", 0)) {
 			MCONTACT hContact = NULL;
 			if (mJoinedContactsWLID.getCount())
 				hContact = proto->MSN_HContactFromEmail(mJoinedContactsWLID[0]);
@@ -119,24 +110,20 @@ int ThreadData::recv(char* data, size_t datalen)
 {
 	NETLIBBUFFER nlb = { data, (int)datalen, 0 };
 
-	if (!proto->usingGateway)
-	{
+	if (!proto->usingGateway) {
 		resetTimeout();
 		NETLIBSELECT nls = { 0 };
 		nls.cbSize = sizeof(nls);
 		nls.dwTimeout = 1000;
 		nls.hReadConns[0] = s;
 
-		for (;;)
-		{
+		for (;;) {
 			int ret = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
-			if (ret < 0)
-			{
+			if (ret < 0) {
 				proto->debugLogA("Connection abortively closed, error %d", WSAGetLastError());
 				return ret;
 			}
-			else if (ret == 0)
-			{
+			else if (ret == 0) {
 				if (isTimeout()) return 0;
 			}
 			else
@@ -146,30 +133,25 @@ int ThreadData::recv(char* data, size_t datalen)
 
 LBL_RecvAgain:
 	int ret = CallService(MS_NETLIB_RECV, (WPARAM)s, (LPARAM)&nlb);
-	if (ret == 0)
-	{
+	if (ret == 0) {
 		proto->debugLogA("Connection closed gracefully");
 		return 0;
 	}
 
-	if (ret < 0)
-	{
+	if (ret < 0) {
 		proto->debugLogA("Connection abortively closed, error %d", WSAGetLastError());
 		return ret;
 	}
 
-	if (proto->usingGateway)
-	{
-		if (ret == 1 && *data == 0)
-		{
+	if (proto->usingGateway) {
+		if (ret == 1 && *data == 0) {
 			if (sessionClosed || isTimeout()) return 0;
 			if ((mGatewayTimeout += 2) > 20) mGatewayTimeout = 20;
 
 			CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
 			goto LBL_RecvAgain;
 		}
-		else
-		{
+		else {
 			resetTimeout();
 			mGatewayTimeout = 1;
 			CallService(MS_NETLIB_SETPOLLINGTIMEOUT, WPARAM(s), mGatewayTimeout);
