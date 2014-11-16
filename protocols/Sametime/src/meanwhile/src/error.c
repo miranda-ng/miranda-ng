@@ -164,7 +164,7 @@ char* mwErrorDesc(guint32 code) {
 		CASE(ERR_SUCCESS, LPGEN("Operation succeeded"));
 		CASE(ERR_FAILURE, LPGEN("Operation failed"));
 		CASE(ERR_REQUEST_DELAY, LPGEN("Request accepted but will be served later"));
-		CASE(ERR_REQUEST_INVALID, LPGEN("Request is invalid due to invalid state or parameters "));
+		CASE(ERR_REQUEST_INVALID, LPGEN("Request is invalid due to invalid state or parameters"));
 		CASE(ERR_NOT_LOGGED_IN, LPGEN("Not logged in to community"));
 		CASE(ERR_NOT_AUTHORIZED, LPGEN("Unauthorized to perform an action or access a resource"));
 		CASE(ERR_ABORT, LPGEN("Operation has been aborted"));
@@ -194,7 +194,7 @@ char* mwErrorDesc(guint32 code) {
 		CASE(ERR_ENCRYPT_NO_SUPPORT, LPGEN("Encryption is not supported or failed unexpectedly"));
 		CASE(ERR_ENCRYPT_UNINITIALIZED, LPGEN("Encryption mechanism has not been initialized yet"));
 		CASE(ERR_ENCRYPT_UNACCEPTABLE, LPGEN("The requested encryption level is unacceptably low"));
-		CASE(ERR_ENCRYPT_INVALID, LPGEN("The encryption data passed are invalid or or corrupted"));
+		CASE(ERR_ENCRYPT_INVALID, LPGEN("The encryption data passed are invalid or corrupted"));
 		CASE(ERR_NO_COMMON_ENCRYPT, LPGEN("There is no common encryption method"));
 		CASE(ERR_CHANNEL_DESTROYED, LPGEN("The channel is destroyed after a recommendation is made connect elsewhere"));
 		CASE(ERR_CHANNEL_REDIRECTED, LPGEN("The channel has been redirected to another destination"));
@@ -250,7 +250,7 @@ char* mwErrorDesc(guint32 code) {
 		/* 8.3.1.3 Client error codes */
 		CASE(ERR_CLIENT_USER_GONE, LPGEN("The user is not online"));
 		CASE(ERR_CLIENT_USER_DND, LPGEN("The user is in do not disturb mode"));
-		CASE(ERR_CLIENT_USER_ELSEWHERE, LPGEN("Can not login because already logged in with a different user name (Java only)"));
+		CASE(ERR_CLIENT_USER_ELSEWHERE, LPGEN("Cannot login because already logged in with a different user name (Java only)"));
 
 		/* 8.3.1.4 IM error codes */
 		CASE(ERR_IM_COULDNT_REGISTER, LPGEN("Cannot register a reserved type"));
