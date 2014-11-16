@@ -50,7 +50,7 @@ INT_PTR CMsnProto::MsnBlockCommand(WPARAM hContact, LPARAM)
 INT_PTR CMsnProto::MsnGotoInbox(WPARAM, LPARAM)
 {
 	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
-	if (hContact) CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM) 1);
+	if (hContact) CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
 
 	MsnInvokeMyURL(true, "http://mail.live.com?rru=inbox");
 	return 0;
@@ -121,7 +121,7 @@ INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 
 int CMsnProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	if ( !MSN_IsMyContact(hContact))
+	if (!MSN_IsMyContact(hContact))
 		return 0;
 
 	char szEmail[MSN_MAX_EMAIL_LEN];
@@ -196,61 +196,58 @@ INT_PTR CMsnProto::MsnSendNetMeeting(WPARAM wParam, LPARAM)
 
 static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
+	switch (msg) {
+	case WM_INITDIALOG:
 	{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
+		TranslateDialogDefault(hwndDlg);
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			CMsnProto* proto = (CMsnProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		CMsnProto* proto = (CMsnProto*)lParam;
 
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx("main", true));
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx("main"));
-			SendMessage(GetDlgItem(hwndDlg, IDC_NICKNAME), EM_LIMITTEXT, 129, 0);
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx("main", true));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx("main"));
+		SendMessage(GetDlgItem(hwndDlg, IDC_NICKNAME), EM_LIMITTEXT, 129, 0);
 
-			DBVARIANT dbv;
-			if (!proto->getTString("Nick", &dbv)) {
-				SetDlgItemText(hwndDlg, IDC_NICKNAME, dbv.ptszVal);
-				db_free(&dbv);
-			}
-			return TRUE;
+		DBVARIANT dbv;
+		if (!proto->getTString("Nick", &dbv)) {
+			SetDlgItemText(hwndDlg, IDC_NICKNAME, dbv.ptszVal);
+			db_free(&dbv);
 		}
-		case WM_COMMAND:
-			switch(wParam)
-			{
-			case IDOK:
-				{
-					CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					if (proto->msnLoggedIn)
-					{
-						TCHAR str[130];
-						GetDlgItemText(hwndDlg, IDC_NICKNAME, str, SIZEOF(str));
-						proto->MSN_SendNickname(str);
-					}
-				}
-
-				case IDCANCEL:
-					DestroyWindow(hwndDlg);
-					break;
+		return TRUE;
+	}
+	case WM_COMMAND:
+		switch (wParam) {
+		case IDOK:
+		{
+			CMsnProto *proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			if (proto->msnLoggedIn) {
+				TCHAR str[130];
+				GetDlgItemText(hwndDlg, IDC_NICKNAME, str, SIZEOF(str));
+				proto->MSN_SendNickname(str);
 			}
-			break;
+		}
 
-		case WM_CLOSE:
+		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			break;
+		}
+		break;
 
-		case WM_DESTROY:
-			ReleaseIconEx("main");
-			ReleaseIconEx("main", true);
-			break;
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		ReleaseIconEx("main");
+		ReleaseIconEx("main", true);
+		break;
 	}
 	return FALSE;
 }
 
 INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 {
-	HWND hwndSetNickname = CreateDialogParam (hInst, MAKEINTRESOURCE(IDD_SETNICKNAME),
+	HWND hwndSetNickname = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETNICKNAME),
 		NULL, DlgProcSetNickname, (LPARAM)this);
 
 	SetForegroundWindow(hwndSetNickname);
@@ -339,7 +336,7 @@ void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 	if (!bEnable)
 		mi.flags |= CMIF_GRAYED;
 
-	for (int i=0; i < SIZEOF(menuItemsMain); i++)
+	for (int i = 0; i < SIZEOF(menuItemsMain); i++)
 		if (menuItemsMain[i] != NULL)
 			Menu_ModifyItem(menuItemsMain[i], &mi);
 

@@ -59,7 +59,7 @@ HICON LoadIconEx(const char* name, bool big)
 
 HANDLE GetIconHandle(int iconId)
 {
-	for (unsigned i=0; i < SIZEOF(iconList); i++)
+	for (unsigned i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
@@ -106,9 +106,9 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MOBILESEND), proto->msnLoggedIn &&
 				proto->getByte("MobileEnabled", 0) && proto->getByte("MobileAllowed", 0));
 
-			CheckDlgButton(hwndDlg, IDC_MOBILESEND,        proto->getByte("MobileAllowed", 0));
-			CheckDlgButton(hwndDlg, IDC_SENDFONTINFO,      proto->getByte("SendFontInfo", 1));
-			CheckDlgButton(hwndDlg, IDC_MANAGEGROUPS,      proto->getByte("ManageServer", 1));
+			CheckDlgButton(hwndDlg, IDC_MOBILESEND, proto->getByte("MobileAllowed", 0));
+			CheckDlgButton(hwndDlg, IDC_SENDFONTINFO, proto->getByte("SendFontInfo", 1));
+			CheckDlgButton(hwndDlg, IDC_MANAGEGROUPS, proto->getByte("ManageServer", 1));
 
 			int tValue = proto->getByte("RunMailerOnHotmail", 0);
 			CheckDlgButton(hwndDlg, IDC_RUN_APP_ON_HOTMAIL, tValue);
@@ -133,15 +133,15 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 
 		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
-			switch(LOWORD(wParam)) {
-			case IDC_HANDLE:			case IDC_PASSWORD:			case IDC_HANDLE2:
-			case IDC_GATEWAYSERVER: 	case IDC_YOURHOST:			case IDC_DIRECTSERVER:
+			switch (LOWORD(wParam)) {
+			case IDC_HANDLE:        case IDC_PASSWORD: case IDC_HANDLE2:
+			case IDC_GATEWAYSERVER: case IDC_YOURHOST: case IDC_DIRECTSERVER:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
 
 		if (HIWORD(wParam) == BN_CLICKED) {
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_SENDFONTINFO:
 			case IDC_DISABLE_ANOTHER_CONTACTS:
 			case IDC_MOBILESEND:
@@ -152,8 +152,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (IsDlgButtonChecked(hwndDlg, IDC_MANAGEGROUPS)) {
 					if (IDYES == MessageBox(hwndDlg,
 						TranslateT("Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?"),
-						TranslateT("MSN Protocol"), MB_YESNOCANCEL))
-					{
+						TranslateT("MSN Protocol"), MB_YESNOCANCEL)) {
 						CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 						proto->MSN_UploadServerGroups(NULL);
 					}
@@ -171,32 +170,30 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				break;
 
 			case IDC_ENTER_MAILER_APP:
+				char szFile[MAX_PATH + 2];
 				{
 					HWND tEditField = GetDlgItem(hwndDlg, IDC_MAILER_APP);
 
-					char szFile[MAX_PATH + 2];
 					GetWindowTextA(tEditField, szFile, sizeof(szFile));
 
 					size_t tSelectLen = 0;
 
 					if (szFile[0] == '\"') {
-						char* p = strchr(szFile+1, '\"');
+						char* p = strchr(szFile + 1, '\"');
 						if (p != NULL) {
 							*p = '\0';
-							memmove(szFile, szFile+1, strlen(szFile));
+							memmove(szFile, szFile + 1, strlen(szFile));
 							tSelectLen += 2;
 							goto LBL_Continue;
 						}
 					}
 
-					{
-						char* p = strchr(szFile, ' ');
-						if (p != NULL) *p = '\0';
-					}
+					char* p = strchr(szFile, ' ');
+					if (p != NULL) *p = '\0';
 LBL_Continue:
 					tSelectLen += strlen(szFile);
 
-					OPENFILENAMEA ofn = {0};
+					OPENFILENAMEA ofn = { 0 };
 					ofn.lStructSize = sizeof(ofn);
 					ofn.hwndOwner = hwndDlg;
 					ofn.nMaxFile = sizeof(szFile);
@@ -249,7 +246,7 @@ LBL_Continue:
 			}
 
 			GetDlgItemText(hwndDlg, IDC_HANDLE2, screenStr, SIZEOF(screenStr));
-			if	(!proto->getTString("Nick", &dbv)) {
+			if (!proto->getTString("Nick", &dbv)) {
 				if (_tcscmp(dbv.ptszVal, screenStr))
 					proto->MSN_SendNickname(screenStr);
 				db_free(&dbv);
@@ -270,17 +267,17 @@ LBL_Continue:
 				break;
 			}
 
-			proto->setByte("SendFontInfo",       (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SENDFONTINFO));
+			proto->setByte("SendFontInfo", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SENDFONTINFO));
 			proto->setByte("RunMailerOnHotmail", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RUN_APP_ON_HOTMAIL));
-			proto->setByte("ManageServer",       (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MANAGEGROUPS));
+			proto->setByte("ManageServer", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MANAGEGROUPS));
 
 			GetDlgItemText(hwndDlg, IDC_MAILER_APP, screenStr, SIZEOF(screenStr));
 			proto->setTString("MailerPath", screenStr);
 
 			if (reconnectRequired && proto->msnLoggedIn)
 				MessageBox(hwndDlg,
-					TranslateT("The changes you have made require you to reconnect to the MSN Messenger network before they take effect"),
-					TranslateT("MSN Options"), MB_OK);
+				TranslateT("The changes you have made require you to reconnect to the MSN Messenger network before they take effect"),
+				TranslateT("MSN Options"), MB_OK);
 
 			proto->LoadOptions();
 			return TRUE;
@@ -309,15 +306,15 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				SetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER, dbv.pszVal);
 				db_free(&dbv);
 			}
-			else SetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER,  MSN_DEFAULT_LOGIN_SERVER);
+			else SetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER, MSN_DEFAULT_LOGIN_SERVER);
 
 			if (!proto->getString("GatewayServer", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, dbv.pszVal);
 				db_free(&dbv);
 			}
-			else SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER,  MSN_DEFAULT_GATEWAY);
+			else SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, MSN_DEFAULT_GATEWAY);
 
-			CheckDlgButton(hwndDlg, IDC_SLOWSEND, proto->getByte("SlowSend",    0));
+			CheckDlgButton(hwndDlg, IDC_SLOWSEND, proto->getByte("SlowSend", 0));
 
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Automatically obtain host/port"));
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Manually specify host/port"));
@@ -353,7 +350,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 
 		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_DIRECTSERVER:
 			case IDC_GATEWAYSERVER:
 			case IDC_YOURHOST:
@@ -367,7 +364,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 
 		if (HIWORD(wParam) == BN_CLICKED) {
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_SLOWSEND:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
@@ -394,13 +391,12 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			else
 				proto->delSetting("GatewayServer");
 
-			proto->setByte("SlowSend",   (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SLOWSEND ));
+			proto->setByte("SlowSend", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SLOWSEND));
 			if (proto->getByte("SlowSend", FALSE)) {
 				if (db_get_dw(NULL, "SRMsg", "MessageTimeout", 60000) < 60000 ||
-					db_get_dw(NULL, "SRMM",  "MessageTimeout", 60000) < 60000)
-				{
+					db_get_dw(NULL, "SRMM", "MessageTimeout", 60000) < 60000) {
 					MessageBox(NULL, TranslateT("MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value."),
-						TranslateT("MSN Protocol"), MB_OK|MB_ICONINFORMATION);
+						TranslateT("MSN Protocol"), MB_OK | MB_ICONINFORMATION);
 				}
 			}
 
@@ -438,7 +434,7 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 	static bool bEnabled;
 	CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		bEnabled = false;
@@ -446,11 +442,11 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		proto = (CMsnProto*)lParam;
 		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILPOPUP, proto->getByte("DisableHotmail", 0));
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILTRAY,  proto->getByte("DisableHotmailTray", 1));
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILCL,    proto->getByte("DisableHotmailCL", 0));
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTJUNK,      proto->getByte("DisableHotmailJunk", 0));
-		CheckDlgButton(hwndDlg, IDC_NOTIFY_ENDSESSION,   proto->getByte("EnableSessionPopup", 0));
-		CheckDlgButton(hwndDlg, IDC_NOTIFY_FIRSTMSG,     proto->getByte("EnableDeliveryPopup", 0));
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILTRAY, proto->getByte("DisableHotmailTray", 1));
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILCL, proto->getByte("DisableHotmailCL", 0));
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTJUNK, proto->getByte("DisableHotmailJunk", 0));
+		CheckDlgButton(hwndDlg, IDC_NOTIFY_ENDSESSION, proto->getByte("EnableSessionPopup", 0));
+		CheckDlgButton(hwndDlg, IDC_NOTIFY_FIRSTMSG, proto->getByte("EnableDeliveryPopup", 0));
 		CheckDlgButton(hwndDlg, IDC_ERRORS_USING_POPUPS, proto->getByte("ShowErrorsAsPopups", 0));
 
 		bEnabled = true;
@@ -472,13 +468,13 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 		break;
 
 	case WM_NOTIFY: //Here we have pressed either the OK or the APPLY button.
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_RESET:
 				proto->LoadOptions();
 				return TRUE;
-	
+
 			case PSN_APPLY:
 				proto->MyOptions.ShowErrorsAsPopups = IsDlgButtonChecked(hwndDlg, IDC_ERRORS_USING_POPUPS) != 0;
 				proto->setByte("ShowErrorsAsPopups", proto->MyOptions.ShowErrorsAsPopups);
@@ -486,7 +482,7 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 				proto->setByte("DisableHotmail", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILPOPUP));
 				proto->setByte("DisableHotmailCL", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILCL));
 				proto->setByte("DisableHotmailTray", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILTRAY));
-				proto->setByte("DisableHotmailJunk",(BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTJUNK));
+				proto->setByte("DisableHotmailJunk", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTJUNK));
 				proto->setByte("EnableDeliveryPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_FIRSTMSG));
 				proto->setByte("EnableSessionPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_ENDSESSION));
 
@@ -505,14 +501,13 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			CMsnProto* proto = (CMsnProto*)lParam;
 
+			CMsnProto* proto = (CMsnProto*)lParam;
 			SetDlgItemTextA(hwndDlg, IDC_HANDLE, proto->MyOptions.szEmail);
 
 			char tBuffer[MAX_PATH];
@@ -537,7 +532,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
-			switch(LOWORD(wParam)) {
+			switch (LOWORD(wParam)) {
 			case IDC_HANDLE:
 			case IDC_PASSWORD:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -583,7 +578,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -619,33 +614,33 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initialize options pages
 
-int CMsnProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.position    = -790000000;
-	odp.hInstance   = hInst;
+	odp.position = -790000000;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN);
-	odp.ptszTitle   = m_tszUserName;
-	odp.ptszGroup   = LPGENT("Network");
-	odp.ptszTab     = LPGENT("Account");
-	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.pfnDlgProc  = DlgProcMsnOpts;
+	odp.ptszTitle = m_tszUserName;
+	odp.ptszGroup = LPGENT("Network");
+	odp.ptszTab = LPGENT("Account");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.pfnDlgProc = DlgProcMsnOpts;
 	odp.dwInitParam = (LPARAM)this;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = LPGENT("Connection");
+	odp.ptszTab = LPGENT("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN_CONN);
-	odp.pfnDlgProc  = DlgProcMsnConnOpts;
+	odp.pfnDlgProc = DlgProcMsnConnOpts;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = LPGENT("Server list");
+	odp.ptszTab = LPGENT("Server list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_LISTSMGR);
-	odp.pfnDlgProc  = DlgProcMsnServLists;
+	odp.pfnDlgProc = DlgProcMsnServLists;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = LPGENT("Notifications");
+	odp.ptszTab = LPGENT("Notifications");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
-	odp.pfnDlgProc  = DlgProcHotmailPopupOpts;
+	odp.pfnDlgProc = DlgProcHotmailPopupOpts;
 	Options_AddPage(wParam, &odp);
 
 	return 0;
@@ -653,10 +648,9 @@ int CMsnProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CMsnProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam (hInst, MAKEINTRESOURCE(IDD_ACCMGRUI),
+	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ACCMGRUI),
 		(HWND)lParam, DlgProcAccMgrUI, (LPARAM)this);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load resident option values into memory

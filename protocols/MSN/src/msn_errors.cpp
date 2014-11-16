@@ -30,7 +30,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 
 	debugLogA("Server error:%s", cmdString);
 
-	switch(errorCode) {
+	switch (errorCode) {
 	case ERR_INTERNAL_SERVER:
 		MSN_ShowError("MSN Services are temporarily unavailable, please try to connect later");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
@@ -56,15 +56,15 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 
 	case ERR_CONTACT_LIST_FAILED:
 	case ERR_LIST_UNAVAILABLE:
-			char* tWords[3];
-			if (sttDivideWords(cmdString, 3, tWords) == 3)
-				HReadBuffer(info, 0).surelyRead(atol(tWords[2]));
-			return 0;
+		char* tWords[3];
+		if (sttDivideWords(cmdString, 3, tWords) == 3)
+			HReadBuffer(info, 0).surelyRead(atol(tWords[2]));
+		return 0;
 
 	case ERR_NOT_ONLINE:
 		if (info->mInitialContactWLID)
 			ProtoBroadcastAck(MSN_HContactFromEmail(info->mInitialContactWLID), ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-				(HANDLE)999999, (LPARAM)Translate("User not online"));
+			(HANDLE)999999, (LPARAM)Translate("User not online"));
 		else
 			MSN_ShowError("User not online");
 
@@ -75,8 +75,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 		return 0;
 
 	case ERR_AUTHENTICATION_FAILED:
-		if (info->mType != SERVER_SWITCHBOARD)
-		{
+		if (info->mType != SERVER_SWITCHBOARD) {
 			MSN_ShowError("Your username or password is incorrect");
 			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		}

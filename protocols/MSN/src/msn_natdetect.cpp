@@ -71,11 +71,10 @@ static void DiscardExtraPackets(SOCKET s)
 {
 	Sleep(3000);
 
-	static const TIMEVAL tv = {0, 0};
+	static const TIMEVAL tv = { 0, 0 };
 	unsigned buf;
 
-	for (;;)
-	{
+	for (;;) {
 		if (Miranda_Terminated()) break;
 
 		fd_set fd;
@@ -95,8 +94,7 @@ void CMsnProto::MSNatDetect(void)
 	unsigned i;
 
 	PHOSTENT host = gethostbyname("echo.edge.messenger.live.com");
-	if (host == NULL)
-	{
+	if (host == NULL) {
 		debugLogA("P2PNAT could not find echo server \"echo.edge.messenger.live.com\"");
 		return;
 	}
@@ -104,7 +102,7 @@ void CMsnProto::MSNatDetect(void)
 	SOCKADDR_IN addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = _htons(7001);
-	addr.sin_addr = *( PIN_ADDR )host->h_addr_list[0];
+	addr.sin_addr = *(PIN_ADDR)host->h_addr_list[0];
 
 	debugLogA("P2PNAT Detected echo server IP %d.%d.%d.%d",
 		addr.sin_addr.S_un.S_un_b.s_b1, addr.sin_addr.S_un.S_un_b.s_b2,
@@ -138,11 +136,10 @@ void CMsnProto::MSNatDetect(void)
 	pkt.clientPort = 0x3141;
 	pkt.clientIP = 0x31413141;
 
-	UDPProbePkt rpkt = {0};
+	UDPProbePkt rpkt = { 0 };
 
 	// NAT detection
-	for (i=0; i<4; ++i)
-	{
+	for (i = 0; i < 4; ++i) {
 		if (Miranda_Terminated()) break;
 
 		// Send echo request to server 1
@@ -152,25 +149,22 @@ void CMsnProto::MSNatDetect(void)
 		fd_set fd;
 		FD_ZERO(&fd);
 		FD_SET(s1, &fd);
-		TIMEVAL tv = {0, 200000 * (1 << i) };
+		TIMEVAL tv = { 0, 200000 * (1 << i) };
 
-		if (select(1, &fd, NULL, NULL, &tv) == 1)
-		{
+		if (select(1, &fd, NULL, NULL, &tv) == 1) {
 			debugLogA("P2PNAT Request 1 attempt %d response", i);
 			recv(s1, (char*)&rpkt, sizeof(rpkt), 0);
 			pkt2 = rpkt;
 			DecryptEchoPacket(rpkt);
 			break;
 		}
-		else
-			debugLogA("P2PNAT Request 1 attempt %d timeout", i);
+		else debugLogA("P2PNAT Request 1 attempt %d timeout", i);
 	}
 
 	closesocket(s);
 
 	// Server did not respond
-	if (i >= 4)
-	{
+	if (i >= 4) {
 		MyConnection.udpConType = conFirewall;
 		closesocket(s1);
 		return;
@@ -179,8 +173,7 @@ void CMsnProto::MSNatDetect(void)
 	MyConnection.extIP = rpkt.clientIP;
 
 	// Check if NAT not found
-	if (MyConnection.extIP == MyConnection.intIP)
-	{
+	if (MyConnection.extIP == MyConnection.intIP) {
 		if (msnExternalIP != NULL && inet_addr(msnExternalIP) != MyConnection.extIP)
 			MyConnection.udpConType = conISALike;
 		else
@@ -191,14 +184,13 @@ void CMsnProto::MSNatDetect(void)
 	}
 
 	// Detect UPnP NAT
-	NETLIBBIND nlb = {0};
+	NETLIBBIND nlb = { 0 };
 	nlb.cbSize = sizeof(nlb);
 	nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
 	nlb.pExtra = this;
 
-	HANDLE sb = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlb);
-	if ( sb != NULL )
-	{
+	HANDLE sb = (HANDLE)CallService(MS_NETLIB_BINDPORT, (WPARAM)m_hNetlibUser, (LPARAM)&nlb);
+	if (sb != NULL) {
 		MyConnection.upnpNAT = htonl(nlb.dwExternalIP) == MyConnection.extIP;
 		Sleep(100);
 		Netlib_CloseHandle(sb);
@@ -207,13 +199,12 @@ void CMsnProto::MSNatDetect(void)
 	DiscardExtraPackets(s1);
 
 	// Start IP Restricted NAT detection
-	UDPProbePkt rpkt2 = {0};
+	UDPProbePkt rpkt2 = { 0 };
 	pkt2.serviceCode = 3;
 	SOCKADDR_IN addr2 = addr;
 	addr2.sin_addr.S_un.S_addr = rpkt.testIP;
 	addr2.sin_port = rpkt.discardPort;
-	for (i=0; i<4; ++i)
-	{
+	for (i = 0; i < 4; ++i) {
 		if (Miranda_Terminated()) break;
 
 		debugLogA("P2PNAT Request 2 attempt %d sent", i);
@@ -225,10 +216,9 @@ void CMsnProto::MSNatDetect(void)
 		fd_set fd;
 		FD_ZERO(&fd);
 		FD_SET(s1, &fd);
-		TIMEVAL tv = {0, 200000 * (1 << i) };
+		TIMEVAL tv = { 0, 200000 * (1 << i) };
 
-		if (select(1, &fd, NULL, NULL, &tv) == 1)
-		{
+		if (select(1, &fd, NULL, NULL, &tv) == 1) {
 			debugLogA("P2PNAT Request 2 attempt %d response", i);
 			recv(s1, (char*)&rpkt2, sizeof(rpkt2), 0);
 			DecryptEchoPacket(rpkt2);
@@ -240,8 +230,7 @@ void CMsnProto::MSNatDetect(void)
 
 	// Response recieved so it's an IP Restricted NAT (Restricted Cone NAT)
 	// (MSN does not detect Full Cone NAT and consider it as IP Restricted NAT)
-	if (i < 4)
-	{
+	if (i < 4) {
 		MyConnection.udpConType = conIPRestrictNAT;
 		closesocket(s1);
 		return;
@@ -251,8 +240,7 @@ void CMsnProto::MSNatDetect(void)
 
 	// Symmetric NAT detection
 	addr2.sin_port = rpkt.testPort;
-	for (i=0; i<4; ++i)
-	{
+	for (i = 0; i < 4; ++i) {
 		if (Miranda_Terminated()) break;
 
 		debugLogA("P2PNAT Request 3 attempt %d sent", i);
@@ -262,10 +250,9 @@ void CMsnProto::MSNatDetect(void)
 		fd_set fd;
 		FD_ZERO(&fd);
 		FD_SET(s1, &fd);
-		TIMEVAL tv = {1 << i, 0 };
+		TIMEVAL tv = { 1 << i, 0 };
 
-		if ( select(1, &fd, NULL, NULL, &tv) == 1 )
-		{
+		if (select(1, &fd, NULL, NULL, &tv) == 1) {
 			debugLogA("P2PNAT Request 3 attempt %d response", i);
 			recv(s1, (char*)&rpkt2, sizeof(rpkt2), 0);
 			DecryptEchoPacket(rpkt2);
@@ -274,11 +261,10 @@ void CMsnProto::MSNatDetect(void)
 		else
 			debugLogA("P2PNAT Request 3 attempt %d timeout", i);
 	}
-	if (i < 4)
-	{
+	if (i < 4) {
 		// If ports different it's symmetric NAT
 		MyConnection.udpConType = rpkt.clientPort == rpkt2.clientPort ?
-			conPortRestrictNAT : conSymmetricNAT;
+conPortRestrictNAT : conSymmetricNAT;
 	}
 	closesocket(s1);
 }
@@ -302,7 +288,7 @@ static bool IsIcfEnabled(void)
 
 	// Create an instance of the firewall settings manager.
 	hr = CoCreateInstance(CLSID_NetFwMgr, NULL, CLSCTX_INPROC_SERVER,
-			IID_INetFwMgr, (void**)&fwMgr );
+		IID_INetFwMgr, (void**)&fwMgr);
 	if (FAILED(hr)) goto error;
 
 	// Retrieve the local firewall policy.
@@ -334,8 +320,7 @@ static bool IsIcfEnabled(void)
 
 	// Attempt to retrieve the authorized application.
 	hr = fwApps->Item(fwBstrProcessImageFileName, &fwApp);
-	if (SUCCEEDED(hr))
-	{
+	if (SUCCEEDED(hr)) {
 		// Find out if the authorized application is enabled.
 		fwApp->get_Enabled(&fwEnabled);
 		fwEnabled = ~fwEnabled;
@@ -366,8 +351,7 @@ error:
 	return fwEnabled != VARIANT_FALSE;
 }
 
-
-void CMsnProto::MSNConnDetectThread( void* )
+void CMsnProto::MSNConnDetectThread(void*)
 {
 	char parBuf[512] = "";
 
@@ -377,59 +361,53 @@ void CMsnProto::MSNConnDetectThread( void* )
 	bool portsMapped = getByte("NLSpecifyIncomingPorts", 0) != 0;
 
 	unsigned gethst = getByte("AutoGetHost", 1);
-	switch (gethst)
-	{
-		case 0:
-			debugLogA("P2PNAT User overwrote IP connection is guessed by user settings only");
+	switch (gethst) {
+	case 0:
+		debugLogA("P2PNAT User overwrote IP connection is guessed by user settings only");
 
-			// User specified host by himself so check if it matches MSN information
-			// if it does, move to connection type autodetection,
-			// if it does not, guess connection type from available info
-			db_get_static(NULL, m_szModuleName, "YourHost", parBuf, sizeof(parBuf));
-			if (msnExternalIP == NULL || strcmp(msnExternalIP, parBuf) != 0)
-			{
-				MyConnection.extIP = inet_addr(parBuf);
-				if (MyConnection.extIP == INADDR_NONE)
-				{
-					PHOSTENT myhost = gethostbyname(parBuf);
-					if (myhost != NULL)
-						MyConnection.extIP = ((PIN_ADDR)myhost->h_addr)->S_un.S_addr;
-					else
-						setByte("AutoGetHost", 1);
-				}
-				if (MyConnection.extIP != INADDR_NONE)
-				{
-					MyConnection.intIP = MyConnection.extIP;
-					MyConnection.udpConType = MyConnection.extIP ? (ConEnum)portsMapped : conUnknown;
-					MyConnection.CalculateWeight();
-					return;
-				}
-				else
-					MyConnection.extIP = 0;
-			}
-			break;
-
-		case 1:
-			if (msnExternalIP != NULL)
-				MyConnection.extIP = inet_addr(msnExternalIP);
-			else
-			{
-				gethostname(parBuf, sizeof(parBuf));
+		// User specified host by himself so check if it matches MSN information
+		// if it does, move to connection type autodetection,
+		// if it does not, guess connection type from available info
+		db_get_static(NULL, m_szModuleName, "YourHost", parBuf, sizeof(parBuf));
+		if (msnExternalIP == NULL || strcmp(msnExternalIP, parBuf) != 0) {
+			MyConnection.extIP = inet_addr(parBuf);
+			if (MyConnection.extIP == INADDR_NONE) {
 				PHOSTENT myhost = gethostbyname(parBuf);
 				if (myhost != NULL)
 					MyConnection.extIP = ((PIN_ADDR)myhost->h_addr)->S_un.S_addr;
+				else
+					setByte("AutoGetHost", 1);
 			}
-			MyConnection.intIP = MyConnection.extIP;
-			break;
+			if (MyConnection.extIP != INADDR_NONE) {
+				MyConnection.intIP = MyConnection.extIP;
+				MyConnection.udpConType = MyConnection.extIP ? (ConEnum)portsMapped : conUnknown;
+				MyConnection.CalculateWeight();
+				return;
+			}
+			else
+				MyConnection.extIP = 0;
+		}
+		break;
 
-		case 2:
-			MyConnection.udpConType = conUnknown;
-			MyConnection.CalculateWeight();
-			return;
+	case 1:
+		if (msnExternalIP != NULL)
+			MyConnection.extIP = inet_addr(msnExternalIP);
+		else {
+			gethostname(parBuf, sizeof(parBuf));
+			PHOSTENT myhost = gethostbyname(parBuf);
+			if (myhost != NULL)
+				MyConnection.extIP = ((PIN_ADDR)myhost->h_addr)->S_un.S_addr;
+		}
+		MyConnection.intIP = MyConnection.extIP;
+		break;
+
+	case 2:
+		MyConnection.udpConType = conUnknown;
+		MyConnection.CalculateWeight();
+		return;
 	}
 
-	if (getByte( "NLSpecifyOutgoingPorts", 0))
-	{
+	if (getByte("NLSpecifyOutgoingPorts", 0)) {
 		// User specified outgoing ports so the connection must be firewalled
 		// do not autodetect and guess connection type from available info
 		MyConnection.intIP = MyConnection.extIP;
@@ -442,11 +420,9 @@ void CMsnProto::MSNConnDetectThread( void* )
 	MSNatDetect();
 
 	// If user mapped incoming ports consider direct connection
-	if (portsMapped)
-	{
+	if (portsMapped) {
 		debugLogA("P2PNAT User manually mapped ports for incoming connection");
-		switch(MyConnection.udpConType)
-		{
+		switch (MyConnection.udpConType) {
 		case conUnknown:
 		case conFirewall:
 		case conISALike:
@@ -468,19 +444,15 @@ void CMsnProto::MSNConnDetectThread( void* )
 	MyConnection.CalculateWeight();
 }
 
-
 void MyConnectionType::SetUdpCon(const char* str)
 {
-	for (unsigned i=0; i<sizeof(conStr)/sizeof(char*); ++i)
-	{
-		if (strcmp(conStr[i], str) == 0)
-		{
+	for (unsigned i = 0; i < sizeof(conStr) / sizeof(char*); ++i) {
+		if (strcmp(conStr[i], str) == 0) {
 			udpConType = (ConEnum)i;
 			break;
 		}
 	}
 }
-
 
 void MyConnectionType::CalculateWeight(void)
 {

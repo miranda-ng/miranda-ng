@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int ThreadData::contactJoined(const char* email)
 {
-	for (int i=0; i < mJoinedContactsWLID.getCount(); i++)
+	for (int i = 0; i < mJoinedContactsWLID.getCount(); i++)
 		if (_stricmp(mJoinedContactsWLID[i], email) == 0)
 			return mJoinedContactsWLID.getCount();
 

@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static ThreadData* FindThreadConn(HANDLE hConn)
 {
-	ThreadData* res = NULL;
+	ThreadData *res = NULL;
 	for (int i = 0; i < g_Instances.getCount() && res == NULL; ++i)
 		res = g_Instances[i].MSN_GetThreadByConnection(hConn);
 
@@ -38,7 +38,7 @@ static ThreadData* FindThreadConn(HANDLE hConn)
 
 int msn_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION* nloc, NETLIBHTTPREQUEST* nlhr)
 {
-	NETLIBHTTPPROXYINFO nlhpi = {0};
+	NETLIBHTTPPROXYINFO nlhpi = { 0 };
 	nlhpi.cbSize = sizeof(nlhpi);
 	nlhpi.szHttpGetUrl = NULL;
 	nlhpi.szHttpPostUrl = "messenger.hotmail.com";
@@ -54,9 +54,8 @@ int msn_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION* nloc, NETLIBHTTPREQU
 
 int msn_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend)
 {
-	ThreadData* T = FindThreadConn(hConn);
-	if (T != NULL)
-	{
+	ThreadData *T = FindThreadConn(hConn);
+	if (T != NULL) {
 		if (T->sessionClosed)
 			return SOCKET_ERROR;
 
@@ -76,18 +75,17 @@ PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 {
 	*outBufLen = len;
 
-	ThreadData* T = FindThreadConn(nlhr->nlc);
-	if (T == NULL) return buf;
+	ThreadData *T = FindThreadConn(nlhr->nlc);
+	if (T == NULL)
+		return buf;
 
 	bool isSessionClosed = true;
 	bool isMsnPacket = false;
 
-	if (nlhr->resultCode == 200)
-	{
+	if (nlhr->resultCode == 200) {
 		char *xMsgr = NULL, *xHost = NULL;
 
-		for (int i=0; i < nlhr->headersCount; i++)
-		{
+		for (int i = 0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER& tHeader = nlhr->headers[i];
 			if (_stricmp(tHeader.szName, "X-MSN-Messenger") == 0)
 				xMsgr = tHeader.szValue;
@@ -96,8 +94,7 @@ PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 
 		}
 
-		if (xMsgr)
-		{
+		if (xMsgr) {
 			isMsnPacket = true;
 
 			if (strstr(xMsgr, "Session=close") == 0)
@@ -109,20 +106,17 @@ PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 	}
 
 	T->sessionClosed |= isSessionClosed;
-	if (isSessionClosed && buf == NULL)
-	{
+	if (isSessionClosed && buf == NULL) {
 		*outBufLen = 0;
 		buf = (PBYTE)mir_alloc(1);
 		*buf = 0;
 	}
-	else if (buf == NULL && len == 0)
-	{
+	else if (buf == NULL && len == 0) {
 		*outBufLen = 1;
 		buf = (PBYTE)mir_alloc(1);
 		*buf = 0;
 	}
-	else if (!isMsnPacket)
-	{
+	else if (!isMsnPacket) {
 		*outBufLen = 0;
 		*buf = 0;
 	}

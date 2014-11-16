@@ -28,7 +28,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 	mHttpsTS = clock();
 
 	char* result = NULL;
-	NETLIBHTTPREQUEST nlhr = {0};
+	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
@@ -44,28 +44,26 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 #endif
 
 	nlhr.headersCount = 4;
-	nlhr.headers=(NETLIBHTTPHEADER*)alloca(sizeof(NETLIBHTTPHEADER) * (nlhr.headersCount + 5));
-	nlhr.headers[0].szName   = "User-Agent";
+	nlhr.headers = (NETLIBHTTPHEADER*)alloca(sizeof(NETLIBHTTPHEADER) * (nlhr.headersCount + 5));
+	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
-	nlhr.headers[1].szName  = "Accept";
+	nlhr.headers[1].szName = "Accept";
 	nlhr.headers[1].szValue = "text/*";
-	nlhr.headers[2].szName  = "Content-Type";
+	nlhr.headers[2].szName = "Content-Type";
 	nlhr.headers[2].szValue = "text/xml; charset=utf-8";
-	nlhr.headers[3].szName  = "Cache-Control";
+	nlhr.headers[3].szName = "Cache-Control";
 	nlhr.headers[3].szValue = "no-cache";
 
-	if (hdrs)
-	{
+	if (hdrs) {
 		unsigned count = 0;
 		char* hdrprs = NEWSTR_ALLOCA(hdrs);
-		for (;;)
-		{
+		for (;;) {
 			char* fnd = strchr(hdrprs, ':');
 			if (fnd == NULL) break;
 			*fnd = 0;
 			fnd += 2;
 
-			nlhr.headers[nlhr.headersCount].szName  = hdrprs;
+			nlhr.headers[nlhr.headersCount].szName = hdrprs;
 			nlhr.headers[nlhr.headersCount].szValue = fnd;
 
 			fnd = strchr(fnd, '\r');
@@ -78,15 +76,13 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 
 	// download the page
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
-		(WPARAM)hNetlibUserHttps,(LPARAM)&nlhr);
+		(WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 
-	if (nlhrReply)
-	{
+	if (nlhrReply) {
 		hHttpsConnection = nlhrReply->nlc;
 		status = nlhrReply->resultCode;
 
-		if (nlhrReply->szUrl)
-		{
+		if (nlhrReply->szUrl) {
 			mir_free(*parUrl);
 			*parUrl = nlhrReply->szUrl;
 			nlhrReply->szUrl = NULL;
@@ -109,7 +105,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 
 bool CMsnProto::getMyAvatarFile(char *url, TCHAR *fname)
 {
-	NETLIBHTTPREQUEST nlhr = {0};
+	NETLIBHTTPREQUEST nlhr = { 0 };
 	bool result = true;
 
 	// initialize the netlib request
@@ -119,16 +115,15 @@ bool CMsnProto::getMyAvatarFile(char *url, TCHAR *fname)
 	nlhr.szUrl = url;
 
 	nlhr.headersCount = 1;
-	nlhr.headers=(NETLIBHTTPHEADER*)alloca(sizeof(NETLIBHTTPHEADER) * nlhr.headersCount);
-	nlhr.headers[0].szName   = "User-Agent";
+	nlhr.headers = (NETLIBHTTPHEADER*)alloca(sizeof(NETLIBHTTPHEADER) * nlhr.headersCount);
+	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
 
 	// download the page
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
-		(WPARAM)hNetlibUserHttps,(LPARAM)&nlhr);
+		(WPARAM)hNetlibUserHttps, (LPARAM)&nlhr);
 
-	if (nlhrReply)
-	{
+	if (nlhrReply) {
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength)
 			MSN_SetMyAvatar(fname, nlhrReply->pData, nlhrReply->dataLength);
 		else

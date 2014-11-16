@@ -30,23 +30,19 @@ static HANDLE hServiceParseLink;
 static MCONTACT GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
 {
 	TCHAR* email = NULL;
-	do
-	{
+	do {
 		TCHAR *tok = _tcschr(arg, '&'); /* next token */
 		if (tok != NULL) *tok++ = '\0';
 
-		if (_tcsnicmp(arg, _T("contact="), 8) == 0)
-		{
+		if (_tcsnicmp(arg, _T("contact="), 8) == 0) {
 			arg += 8;
 			UrlDecode(arg);
 			email = arg;
 		}
 		arg = tok;
-	}
-	while(arg != NULL);
+	} while (arg != NULL);
 
-	if (email == NULL || email[0] == '\0')
-	{
+	if (email == NULL || email[0] == '\0') {
 		if (pemail) *pemail = NULL;
 		return NULL;
 	}
@@ -60,7 +56,7 @@ static MCONTACT GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
 	send message:  msnim:chat?contact=netpassport@emailaddress.com
 	voice chat:    msnim:voice?contact=netpassport@emailaddress.com
 	video chat:    msnim:video?contact=netpassport@emailaddress.com
-*/
+	*/
 
 static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 {
@@ -79,10 +75,8 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 	if (g_Instances.getCount() == 0) return 0;
 
 	CMsnProto *proto = &g_Instances[0];
-	for (int i = 0; i < g_Instances.getCount(); ++i)
-	{
-		if (g_Instances[i].m_iStatus > ID_STATUS_OFFLINE)
-		{
+	for (int i = 0; i < g_Instances.getCount(); ++i) {
+		if (g_Instances[i].m_iStatus > ID_STATUS_OFFLINE) {
 			proto = &g_Instances[i];
 			break;
 		}
@@ -91,8 +85,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 
 
 	/* add a contact to the list */
-	if(_tcsnicmp(arg, _T("add?"), 4) == 0)
-	{
+	if (_tcsnicmp(arg, _T("add?"), 4) == 0) {
 		arg += 4;
 
 		TCHAR *email;
@@ -100,14 +93,13 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		if (email == NULL) return 1;
 
 		/* does not yet check if email is current user */
-		if (hContact == NULL)
-		{
+		if (hContact == NULL) {
 			PROTOSEARCHRESULT psr = { sizeof(psr) };
 			psr.flags = PSR_TCHAR;
 			psr.nick = email;
 			psr.email = email;
 
-			ADDCONTACTSTRUCT acs = {0};
+			ADDCONTACTSTRUCT acs = { 0 };
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = proto->m_szModuleName;
 			acs.psr = &psr;
@@ -117,38 +109,32 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 	}
 	/* send a message to a contact */
 	/* "voice" and "video" not yet implemented, perform same action as "chat" */
-	else if(_tcsnicmp(arg, _T("chat?"), 5) == 0)
-	{
+	else if (_tcsnicmp(arg, _T("chat?"), 5) == 0) {
 		arg += 5;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);
 
-		if (hContact != NULL)
-		{
+		if (hContact != NULL) {
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;
 		}
 	}
-	else if(_tcsnicmp(arg, _T("voice?"), 6) == 0)
-	{
+	else if (_tcsnicmp(arg, _T("voice?"), 6) == 0) {
 		arg += 6;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);
 
-		if (hContact != NULL)
-		{
+		if (hContact != NULL) {
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;
 		}
 	}
-	else if(_tcsnicmp(arg, _T("video?"), 6) == 0)
-	{
+	else if (_tcsnicmp(arg, _T("video?"), 6) == 0) {
 		arg += 6;
 
 		MCONTACT hContact = GetContact(arg, NULL, proto);
 
-		if (hContact != NULL)
-		{
+		if (hContact != NULL) {
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 			return 0;
 		}

@@ -402,18 +402,18 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 	case 0:
 	case 2:
 	case 3:
-		{
-			PROTOSEARCHRESULT isr = { 0 };
-			isr.cbSize = sizeof(isr);
-			isr.flags = PSR_TCHAR;
-			isr.id = (TCHAR*)emailT;
-			isr.nick = (TCHAR*)emailT;
-			isr.email = (TCHAR*)emailT;
+	{
+		PROTOSEARCHRESULT isr = { 0 };
+		isr.cbSize = sizeof(isr);
+		isr.flags = PSR_TCHAR;
+		isr.id = (TCHAR*)emailT;
+		isr.nick = (TCHAR*)emailT;
+		isr.email = (TCHAR*)emailT;
 
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&isr);
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
-		}
-		break;
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&isr);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
+	}
+	break;
 
 	case 1:
 		if (strstr(email, "@yahoo.com") == NULL)
@@ -1017,16 +1017,15 @@ int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 	case NETID_UNKNOWN:
 	case NETID_MSN:
 	case NETID_LCS:
+		bool isOffline;
 		{
-			bool isOffline;
 			ThreadData* thread = MSN_StartSB(tEmail, isOffline);
-
 			if (thread == NULL) {
-				if (isOffline) return 0;
+				if (isOffline)
+					return 0;
 				MsgQueue_Add(tEmail, 2571, NULL, 0, NULL, typing);
 			}
-			else
-				MSN_StartStopTyping(thread, typing);
+			else MSN_StartStopTyping(thread, typing);
 		}
 		break;
 
@@ -1081,11 +1080,9 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 		break;
 
 	case EV_PROTO_ONERASE:
-		{
-			char szDbsettings[64];
-			mir_snprintf(szDbsettings, sizeof(szDbsettings), "%s_HTTPS", m_szModuleName);
-			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
-		}
+		char szDbsettings[64];
+		mir_snprintf(szDbsettings, sizeof(szDbsettings), "%s_HTTPS", m_szModuleName);
+		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
 		break;
 
 	case EV_PROTO_ONRENAME:

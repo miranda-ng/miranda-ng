@@ -28,8 +28,8 @@ static const char mailReqHdr[] =
 ezxml_t CMsnProto::oimRecvHdr(const char* service, ezxml_t& tbdy, char*& httphdr)
 {
 	ezxml_t xmlp = ezxml_new("soap:Envelope");
-	ezxml_set_attr(xmlp, "xmlns:xsi",  "http://www.w3.org/2001/XMLSchema-instance");
-	ezxml_set_attr(xmlp, "xmlns:xsd",  "http://www.w3.org/2001/XMLSchema");
+	ezxml_set_attr(xmlp, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+	ezxml_set_attr(xmlp, "xmlns:xsd", "http://www.w3.org/2001/XMLSchema");
 	ezxml_set_attr(xmlp, "xmlns:soap", "http://schemas.xmlsoap.org/soap/envelope/");
 
 	ezxml_t hdr = ezxml_add_child(xmlp, "soap:Header", 0);
@@ -72,9 +72,8 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 	ezxml_t xmldel = oimRecvHdr("DeleteMessages", delmsg, delReqHdr);
 	ezxml_t delmids = ezxml_add_child(delmsg, "messageIds", 0);
 
-	while (toki != NULL)
-	{
-		const char* szId    = ezxml_txt(ezxml_child(toki, "I"));
+	while (toki != NULL) {
+		const char* szId = ezxml_txt(ezxml_child(toki, "I"));
 		const char* szEmail = ezxml_txt(ezxml_child(toki, "E"));
 
 		ezxml_set_txt(reqmid, szId);
@@ -88,8 +87,7 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 		free(szData);
 		mir_free(url);
 
-		if (tResult != NULL && status == 200)
-		{
+		if (tResult != NULL && status == 200) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
 			ezxml_t body = getSoapResponse(xmlm, "GetMessage");
 
@@ -98,15 +96,13 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 
 			time_t evtm = time(NULL);
 			const char* arrTime = mailInfo["X-OriginalArrivalTime"];
-			if (arrTime != NULL)
-			{
+			if (arrTime != NULL) {
 				char szTime[32], *p;
 				txtParseParam(arrTime, "FILETIME", "[", "]", szTime, sizeof(szTime));
 
 				unsigned filetimeLo = strtoul(szTime, &p, 16);
-				if (*p == ':')
-				{
-					unsigned __int64 filetime = strtoul(p+1, &p, 16);
+				if (*p == ':') {
+					unsigned __int64 filetime = strtoul(p + 1, &p, 16);
 					filetime <<= 32;
 					filetime |= filetimeLo;
 					filetime /= 10000000;
@@ -119,11 +115,11 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 				}
 			}
 
-			PROTORECVEVENT pre = {0};
+			PROTORECVEVENT pre = { 0 };
 			pre.szMessage = mailInfo.decodeMailBody((char*)mailbody);
 			pre.flags = PREF_UTF /*+ ((isRtl) ? PREF_RTL : 0)*/;
 			pre.timestamp = evtm;
-			ProtoChainRecvMsg( MSN_HContactFromEmail(szEmail), &pre);
+			ProtoChainRecvMsg(MSN_HContactFromEmail(szEmail), &pre);
 			mir_free(pre.szMessage);
 
 			ezxml_t delmid = ezxml_add_child(delmids, "messageId", 0);
@@ -137,8 +133,7 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 	ezxml_free(xmlreq);
 	mir_free(getReqHdr);
 
-	if (ezxml_child(delmids, "messageId") != NULL)
-	{
+	if (ezxml_child(delmids, "messageId") != NULL) {
 		char* szData = ezxml_toxml(xmldel, true);
 
 		unsigned status;
@@ -173,8 +168,7 @@ void CMsnProto::getMetaData(void)
 	free(szData);
 	mir_free(getReqHdr);
 
-	if (tResult != NULL && status == 200)
-	{
+	if (tResult != NULL && status == 200) {
 		ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
 		ezxml_t xmli = ezxml_get(xmlm, "s:Body", 0, "GetMetadataResponse", 0, "MD", -1);
 		if (!xmli)
@@ -189,12 +183,10 @@ void CMsnProto::getMetaData(void)
 
 void CMsnProto::processMailData(char* mailData)
 {
-	if (strcmp(mailData, "too-large") == 0)
-	{
+	if (strcmp(mailData, "too-large") == 0) {
 		getMetaData();
 	}
-	else
-	{
+	else {
 		ezxml_t xmli = ezxml_parse_str(mailData, strlen(mailData));
 
 		ezxml_t toke = ezxml_child(xmli, "E");
@@ -239,8 +231,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	if (FoldersUnread != NULL)
 		mUnreadJunkEmails = atol(FoldersUnread);
 
-	if (MsgDelta != NULL)
-	{
+	if (MsgDelta != NULL) {
 		int iDelta = atol(MsgDelta);
 		if (SrcFolder && strcmp(SrcFolder, "ACTIVE") == 0)
 			mUnreadMessages -= iDelta;
@@ -255,10 +246,8 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		if (mUnreadMessages < 0) mUnreadMessages = 0;
 	}
 
-	if (From != NULL && Subject != NULL && Fromaddr != NULL)
-	{
-		if (DestFolder != NULL && SrcFolder == NULL)
-		{
+	if (From != NULL && Subject != NULL && Fromaddr != NULL) {
+		if (DestFolder != NULL && SrcFolder == NULL) {
 			mUnreadMessages += strcmp(DestFolder, "ACTIVE") == 0;
 			mUnreadJunkEmails += strcmp(DestFolder, "HM_BuLkMail_") == 0;
 		}
@@ -279,8 +268,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		mir_free(mimeSubjectW);
 		ShowPopup = true;
 	}
-	else
-	{
+	else {
 		const char* MailData = tFileInfo["Mail-Data"];
 		if (MailData != NULL) processMailData((char*)MailData);
 
@@ -294,18 +282,16 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	ShowPopup &= mUnreadMessages != 0 || (mUnreadJunkEmails != 0 && !getByte("DisableHotmailJunk", 0));
 
 	MCONTACT hContact = MSN_HContactFromEmail(MyOptions.szEmail);
-	if (hContact)
-	{
-		CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM) 1);
+	if (hContact) {
+		CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
 		displayEmailCount(hContact);
 
-		if (ShowPopup && !getByte("DisableHotmailTray", 1))
-		{
-			CLISTEVENT cle = {0};
+		if (ShowPopup && !getByte("DisableHotmailTray", 1)) {
+			CLISTEVENT cle = { 0 };
 
 			cle.cbSize = sizeof(cle);
 			cle.hContact = hContact;
-			cle.hDbEvent = (HANDLE) 1;
+			cle.hDbEvent = (HANDLE)1;
 			cle.flags = CLEF_URGENT | CLEF_TCHAR;
 			cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SENDEMAIL);
 			cle.ptszTooltip = tBuffer2;
@@ -320,13 +306,11 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	ProtoBroadcastAck(NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
 
 	// Disable to notify receiving hotmail
-	if (ShowPopup && !getByte("DisableHotmail", 0))
-	{
+	if (ShowPopup && !getByte("DisableHotmail", 0)) {
 		SkinPlaySound(mailsoundname);
 
 		const char *msgurl = tFileInfo["Message-URL"];
-		if (msgurl)
-		{
+		if (msgurl) {
 			const char *p = strchr(msgurl, '&'); if (p) *(char*)p = 0;
 			p = strstr(msgurl, "getmsg"); if (p) msgurl = p;
 		}
@@ -345,26 +329,21 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		return;
 
 	char mailerpath[MAX_PATH];
-	if (!db_get_static(NULL, m_szModuleName, "MailerPath", mailerpath, sizeof(mailerpath)))
-	{
-		if (mailerpath[0])
-		{
+	if (!db_get_static(NULL, m_szModuleName, "MailerPath", mailerpath, sizeof(mailerpath))) {
+		if (mailerpath[0]) {
 			char* tParams = NULL;
 			char* tCmd = mailerpath;
 
-			if (*tCmd == '\"')
-			{
+			if (*tCmd == '\"') {
 				++tCmd;
 				char* tEndPtr = strchr(tCmd, '\"');
-				if (tEndPtr != NULL)
-				{
+				if (tEndPtr != NULL) {
 					*tEndPtr = 0;
-					tParams = tEndPtr+1;
+					tParams = tEndPtr + 1;
 				}
 			}
 
-			if (tParams == NULL)
-			{
+			if (tParams == NULL) {
 				tParams = strchr(tCmd, ' ');
 				tParams = tParams ? tParams + 1 : strchr(tCmd, '\0');
 			}
@@ -383,8 +362,7 @@ static void TruncUtf8(char *str, size_t sz)
 	if (sz > len) sz = len;
 
 	size_t cntl = 0, cnt = 0;
-	for (;;)
-	{
+	for (;;) {
 		unsigned char p = (unsigned char)str[cnt];
 
 		if (p >= 0xE0) cnt += 3;
@@ -405,12 +383,10 @@ void CMsnProto::displayEmailCount(MCONTACT hContact)
 	TCHAR* name = GetContactNameT(hContact);
 	if (name == NULL) return;
 
-	TCHAR* ch = name-1;
-	do
-	{
-		ch = _tcschr(ch+1, '[');
-	}
-	while (ch && !_istdigit(ch[1]));
+	TCHAR* ch = name - 1;
+	do {
+		ch = _tcschr(ch + 1, '[');
+	} while (ch && !_istdigit(ch[1]));
 	if (ch) *ch = 0;
 	rtrimt(name);
 
