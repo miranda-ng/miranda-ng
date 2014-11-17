@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.4
+;  Version: 0.2.9.5
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -50,6 +50,7 @@
 [Load last messages on opening message window (EXPERIMENTAL)]
 [Number of messages to load:]
 [Do not open chat windows on creation]
+[Synchronize last 24 hours on login]
 [Bots challenge test]
 [Instruction:]
 [Submit]

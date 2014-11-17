@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.4
+;  Version: 0.2.9.5
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -91,6 +91,8 @@
 Количество подгружаемых сообщений:
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
+[Synchronize last 24 hours on login]
+Синхронизировать историю за последние 24 часа при логине
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
