@@ -554,3 +554,5 @@ Schnee, 70% Niederschlagswahrscheinlichkeit
 
 [Ice Pellets 80% Chance Of Precipitation]
 
+[Cloudy]
+Wolkig
