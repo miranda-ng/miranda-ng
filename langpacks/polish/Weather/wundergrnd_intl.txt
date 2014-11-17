@@ -554,3 +554,5 @@ Sople lodu 30% szans opadów
 Sople lodu 40% szans opadów
 [Ice Pellets 80% Chance Of Precipitation]
 Sople lodu 80% szans opadów
+[Cloudy]
+Pochmurno
