@@ -441,12 +441,12 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (reader == NULL || time == NULL)
 					continue;
 
-				// check if we should use use local_timestamp for unread messages and use it for read time too
-				bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
-				time_t timestamp = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
+				// check if we should use use local_timestamp for incoming messages and use it for read time too
+				/*bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
+				time_t timestamp = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));*/
 
-				TCHAR ttime[64];
-				_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
+				// we can always use NOW for read time, because that's the time of receiving this event (+-)
+				time_t timestamp = ::time(NULL);
 
 				JSONNODE *threadid = json_get(it, "tid");
 				if (threadid != NULL) { // multi user chat
@@ -479,6 +479,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 							StatusTextData st = { 0 };
 							st.cbSize = sizeof(st);
 							st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
+
+							TCHAR ttime[64];
+							_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
 
 							mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, readers);
 
