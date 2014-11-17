@@ -180,11 +180,12 @@ void FacebookProto::ReadMessageWorker(void *p)
 		return;
 
 	// mark message read (also send seen info)
-	ptrA tid( getStringA(hContact, FACEBOOK_KEY_TID));
-	if (tid == NULL)
+	const char *value = (isChatRoom(hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
+	ptrA id( getStringA(hContact, value));
+	if (id == NULL)
 		return;
 
-	std::string data = "ids[" + utils::url::encode(std::string(tid)) + "]=true";
+	std::string data = "ids[" + utils::url::encode(std::string(id)) + "]=true";
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";

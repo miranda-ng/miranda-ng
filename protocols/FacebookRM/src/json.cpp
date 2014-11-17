@@ -294,7 +294,7 @@ bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text)
 	return false;
 }
 
-void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE *it, std::string thread_id)
+void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE *it, std::string thread_id, std::string other_user_fbid)
 {
 	// Process attachements and stickers
 	JSONNODE *has_attachment = json_get(it, "has_attachment");
@@ -343,9 +343,15 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 								std::string sticker = "[[sticker:" + json_as_pstring(stickerId_) + "]]";
 								attachments_text += sticker;
 
+								if (other_user_fbid.empty() && !thread_id.empty()) {
+									other_user_fbid = proto->ThreadIDToContactID(thread_id);
+								}
+
 								// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
-								MCONTACT hContact = proto->ContactIDToHContact(proto->ThreadIDToContactID(thread_id));
-								proto->StickerAsSmiley(sticker, link, hContact);
+								if (!other_user_fbid.empty()) {
+									MCONTACT hContact = proto->ContactIDToHContact(other_user_fbid);
+									proto->StickerAsSmiley(sticker, link, hContact);
+								}
 							}
 						}
 					}
@@ -497,7 +503,11 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				JSONNODE *sender_fbid = json_get(msg, "sender_fbid");
 				JSONNODE *sender_name = json_get(msg, "sender_name");
 				JSONNODE *body = json_get(msg, "body");
+				
+				// looks like there is either "tid" or "other_user_fbid" - or "tid" is removed forever?
 				JSONNODE *tid = json_get(msg, "tid");
+				JSONNODE *other_user_id_ = json_get(msg, "other_user_fbid");
+
 				JSONNODE *mid = json_get(msg, "mid");
 				JSONNODE *timestamp = json_get(msg, "timestamp");
 				JSONNODE *filtered = json_get(it, "is_filtered_content");
@@ -506,12 +516,14 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					continue;
 
 				std::string id = json_as_pstring(sender_fbid);
-				std::string thread_id = json_as_pstring(tid);
 				std::string message_id = json_as_pstring(mid);
 				std::string message_text = json_as_pstring(body);
 
+				std::string thread_id = (tid != NULL ? json_as_pstring(tid) : "");
+				std::string other_user_id = (other_user_id_ != NULL ? json_as_pstring(other_user_id_) : "");
+
 				// Process attachements and stickers
-				parseAttachments(proto, &message_text, msg, thread_id);
+				parseAttachments(proto, &message_text, msg, thread_id, other_user_id);
 
 				// Ignore duplicits or messages sent from miranda
 				if (body == NULL || ignore_duplicits(proto, message_id, message_text))
@@ -535,7 +547,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				message->thread_id = json_as_pstring(tid); // TODO: or if not incomming use my own id from facy.self_ ?
 
 				JSONNODE *gthreadinfo = json_get(msg, "group_thread_info");
-				message->isChat = (gthreadinfo != NULL);
+				message->isChat = (gthreadinfo != NULL && json_as_pstring(gthreadinfo) != "null");
 
 				if (!message->isChat && !message->isIncoming) {
 					message->sender_name = "";
@@ -916,7 +928,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			author_id = author_id.substr(pos+1);
 
 		// Process attachements and stickers
-		parseAttachments(proto, &message_text, it, thread_id);
+		parseAttachments(proto, &message_text, it, thread_id, ""); // FIXME: is here supported other_user_fbid ?
 
 		if (json_as_bool(filtered) && message_text.empty())
 			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
