@@ -102,6 +102,11 @@ public:
 	std::map<std::tstring, facebook_chatroom*> chat_rooms;
 	std::map<std::string, facebook_notification*> notifications;
 
+	// Contact/thread id caches
+	std::map<std::string, std::string> thread_id_to_user_id;
+	std::map<std::tstring, MCONTACT> chat_id_to_hcontact;
+	std::map<std::string, MCONTACT> user_id_to_hcontact;
+
 	std::string get_newsfeed_type();
 	std::string get_server_type();
 	std::string get_privacy_type();
