@@ -543,6 +543,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				message->isUnread = true;
 				message->isIncoming = (id != proto->facy.self_.user_id);
 				message->message_text = message_text;
+				message->timestamp = json_as_pstring(timestamp);
 				message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 				message->user_id = id;
 				message->message_id = message_id;

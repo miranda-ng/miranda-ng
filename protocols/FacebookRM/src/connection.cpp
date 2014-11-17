@@ -52,7 +52,8 @@ void FacebookProto::ChangeStatus(void*)
 		OnLeaveChat(NULL, NULL);
 		SetAllContactStatuses(ID_STATUS_OFFLINE);
 		ToggleStatusMenuItems(false);
-		delSetting("LogonTS");
+		// setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, utils::time::mili_timestamp().c_str()); // TODO RM: this should't be here because of different local/server time
+		delSetting(FACEBOOK_KEY_LOGON_TS);
 
 		facy.clear_cookies();
 		facy.clear_notifications();
@@ -104,8 +105,11 @@ void FacebookProto::ChangeStatus(void*)
 			// Process friendship requests
 			ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
 
-			// Get unread messages
-			ForkThread(&FacebookProto::ProcessUnreadMessages, NULL);
+			// Sync threads, get messages - or get unread messages
+			if (getBool(FACEBOOK_KEY_LOGIN_SYNC, DEFAULT_LOGIN_SYNC))
+				ForkThread(&FacebookProto::SyncThreads, NULL);
+			else
+				ForkThread(&FacebookProto::ProcessUnreadMessages, NULL);
 
 			// Get notifications
 			ForkThread(&FacebookProto::ProcessNotifications, NULL);
@@ -113,7 +117,7 @@ void FacebookProto::ChangeStatus(void*)
 			// Load pages for post status dialog
 			ForkThread(&FacebookProto::ProcessPages, NULL);
 
-			setDword("LogonTS", (DWORD)time(NULL));
+			setDword(FACEBOOK_KEY_LOGON_TS, (DWORD)time(NULL));
 			ForkThread(&FacebookProto::UpdateLoop,  NULL);
 			ForkThread(&FacebookProto::MessageLoop, NULL);
 

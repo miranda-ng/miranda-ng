@@ -106,6 +106,7 @@ struct facebook_message
 	std::string message_text;	
 	std::string message_id;
 	std::string thread_id;
+	std::string timestamp;
 	DWORD time;
 	bool isIncoming;
 	bool isUnread;
@@ -116,7 +117,7 @@ struct facebook_message
 
 	facebook_message()
 	{
-		this->user_id = this->message_text = this->sender_name = this->message_id = this->thread_id = "";
+		this->user_id = this->message_text = this->sender_name = this->message_id = this->thread_id = this->timestamp = "";
 		this->time = 0;
 		this->isUnread = this->isIncoming = true;
 		this->isChat = false;
@@ -131,6 +132,7 @@ struct facebook_message
 		this->message_text = msg.message_text;		
 		this->message_id = msg.message_id;
 		this->message_id = msg.thread_id;
+		this->timestamp = msg.timestamp;
 		this->time = msg.time;
 		this->isIncoming = msg.isIncoming;
 		this->isUnread = msg.isUnread;

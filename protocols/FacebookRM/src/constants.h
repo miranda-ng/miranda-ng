@@ -80,6 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_KEEP_UNREAD						0
 #define DEFAULT_INBOX_ONLY						0
 #define DEFAULT_FILTER_ADS						0
+#define DEFAULT_LOGIN_SYNC   					0
 #define DEFAULT_MESSAGES_ON_OPEN				0
 #define DEFAULT_MESSAGES_ON_OPEN_COUNT			10
 #define DEFAULT_HIDE_CHATS						0
@@ -141,6 +142,7 @@ enum RequestType {
 	REQUEST_TYPING_SEND,		// sending typing notification
 
 	REQUEST_THREAD_INFO,		// getting thread info
+	REQUEST_THREAD_SYNC,		// getting thread sync (changes since something)
 	REQUEST_UNREAD_THREADS,		// getting unread threads
 	REQUEST_ASYNC,				// marking messages read and getting other things
 	REQUEST_MARK_READ,			// marking messages read (new)

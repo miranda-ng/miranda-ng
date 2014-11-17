@@ -238,6 +238,7 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_MESSAGE_SEND_CHAT:
 //	case REQUEST_MESSAGE_SEND_INBOX:
 //	case REQUEST_THREAD_INFO:
+//	case REQUEST_THREAD_SYNC:
 //	case REQUEST_MESSAGES_RECEIVE:
 //	case REQUEST_VISIBILITY:
 //	case REQUEST_POKE:
@@ -264,6 +265,7 @@ int facebook_client::choose_method(RequestType request_type)
 	case REQUEST_MESSAGE_SEND_CHAT:
 	case REQUEST_MESSAGE_SEND_INBOX:
 	case REQUEST_THREAD_INFO:
+	case REQUEST_THREAD_SYNC:
 	case REQUEST_VISIBILITY:
 	case REQUEST_POKE:
 	case REQUEST_ASYNC:
@@ -341,6 +343,7 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //	case REQUEST_MESSAGE_SEND_CHAT:
 //	case REQUEST_MESSAGE_SEND_INBOX:
 //	case REQUEST_THREAD_INFO:
+//	case REQUEST_THREAD_SYNC:
 //	case REQUEST_VISIBILITY:
 //	case REQUEST_POKE:
 //	case REQUEST_ASYNC:
@@ -519,6 +522,9 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_THREAD_INFO:
 		return "/ajax/mercury/thread_info.php?__a=1";
+
+	case REQUEST_THREAD_SYNC:
+		return "/ajax/mercury/thread_sync.php";
 
 	case REQUEST_MESSAGES_RECEIVE:
 	{
@@ -1315,6 +1321,11 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 		if (mid.empty())
 			mid = utils::text::source_get_value(&resp.data, 2, "\"mid\":\"", "\"");
 		parent->setString(hContact, FACEBOOK_KEY_MESSAGE_ID, mid.c_str());
+
+		// Remember last action timestamp
+		std::string timestamp = utils::text::source_get_value(&resp.data, 2, "\"timestamp\":", ",");
+		parent->setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, timestamp.c_str());
+
 		messages_ignore.insert(std::make_pair(mid, 0));
 	} break;
 

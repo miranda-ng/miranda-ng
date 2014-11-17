@@ -51,7 +51,7 @@ std::string utils::time::mili_timestamp()
 	std::string timestamp = utils::time::unix_timestamp();
 	GetSystemTime(&st);
 	timestamp.append(utils::conversion::to_string((void*)&st.wMilliseconds, UTILS_CONV_UNSIGNED_NUMBER));
-	return timestamp;
+	return timestamp.substr(0,13);
 }
 
 DWORD utils::time::fix_timestamp(unsigned __int64 mili_timestamp)
