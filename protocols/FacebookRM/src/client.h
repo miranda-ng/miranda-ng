@@ -39,7 +39,7 @@ public:
 	{
 		username_ = password_ = \
 		chat_sequence_num_ = chat_channel_host_ = chat_channel_partition_ = \
-		dtsg_ = logout_hash_ = chat_sticky_num_ = chat_sticky_pool_ = chat_conn_num_ = chat_clientid_ = chat_traceid_ = "";
+		dtsg_ = csrf_ = logout_hash_ = chat_sticky_num_ = chat_sticky_pool_ = chat_conn_num_ = chat_clientid_ = chat_traceid_ = "";
 
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
 
@@ -67,6 +67,7 @@ public:
 	std::string password_;
 
 	std::string dtsg_;
+	std::string csrf_;
 	std::string logout_hash_;
 	std::string chat_channel_;
 	std::string chat_channel_host_;
@@ -140,6 +141,22 @@ public:
 
 	////////////////////////////////////////////////////////////
 
+	// Helpers for data
+
+	std::string __inline phstamp(std::string data) { 
+		std::stringstream out;
+		out << '2' << this->csrf_ << (int)data.length();
+		return out.str();
+	}
+
+	std::string __inline ttstamp() {
+		std::stringstream out;
+		out << '1' << this->csrf_;
+		return out.str();
+	}
+
+	////////////////////////////////////////////////////////////
+
 	// Login handling
 
 	bool    login(const char *username, const char *password);
@@ -171,6 +188,7 @@ public:
 
 	bool    channel();
 	int		send_message(MCONTACT, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method, std::string captchaPersistData = "", std::string captcha = "");
+
 	////////////////////////////////////////////////////////////
 
 	// Status handling
