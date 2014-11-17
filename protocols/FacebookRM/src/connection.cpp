@@ -63,6 +63,13 @@ void FacebookProto::ChangeStatus(void*)
 		facy.pages.clear();
 		facy.typers.clear();
 
+		// Clear thread/user id caches?
+		/* Right now it's commented out because it's not really needed to erase - maybe only when user changes login/pass in same account, but even then it shouldn't cause problems
+		facy.thread_id_to_user_id.clear();
+		facy.chat_id_to_hcontact.clear();
+		facy.user_id_to_hcontact.clear();
+		*/
+
 		// Close connection handle
 		if (facy.hFcbCon)
 			Netlib_CloseHandle(facy.hFcbCon);

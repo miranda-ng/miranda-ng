@@ -77,15 +77,26 @@ bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
 
 MCONTACT FacebookProto::ChatIDToHContact(std::tstring chat_id)
 {
-	// TODO: use some cache to optimize this
+	// First check cache
+	std::map<std::tstring, MCONTACT>::iterator it = facy.chat_id_to_hcontact.find(chat_id);
+	if (it != facy.chat_id_to_hcontact.end()) {
+		// Check if contact is still valid
+		if (CallService(MS_DB_CONTACT_IS, (WPARAM)it->second, 0) == 1)
+			return it->second;
+		else
+			facy.chat_id_to_hcontact.erase(it);
+	}
 
+	// Go through all local contacts
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!IsMyContact(hContact, true))
 			continue;
 
 		ptrT id(getTStringA(hContact, "ChatRoomID"));
-		if (id && !_tcscmp(id, chat_id.c_str()))
+		if (id && !_tcscmp(id, chat_id.c_str())) {
+			facy.chat_id_to_hcontact.insert(std::make_pair(chat_id, hContact));
 			return hContact;
+		}
 	}
 
 	return 0;
@@ -93,15 +104,26 @@ MCONTACT FacebookProto::ChatIDToHContact(std::tstring chat_id)
 
 MCONTACT FacebookProto::ContactIDToHContact(std::string user_id)
 {
-	// TODO: use some cache to optimize this
+	// First check cache
+	std::map<std::string, MCONTACT>::iterator it = facy.user_id_to_hcontact.find(user_id);
+	if (it != facy.user_id_to_hcontact.end()) {
+		// Check if contact is still valid
+		if (CallService(MS_DB_CONTACT_IS, (WPARAM)it->second, 0) == 1)
+			return it->second;
+		else
+			facy.user_id_to_hcontact.erase(it);
+	}
 
+	// Go through all local contacts
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact))
 			continue;
 
 		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-		if (id && !strcmp(id, user_id.c_str()))
+		if (id && !strcmp(id, user_id.c_str())) {
+			facy.user_id_to_hcontact.insert(std::make_pair(user_id, hContact));
 			return hContact;
+		}
 	}
 
 	return 0;
@@ -109,6 +131,13 @@ MCONTACT FacebookProto::ContactIDToHContact(std::string user_id)
 
 std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 {
+	// First check cache
+	std::map<std::string, std::string>::iterator it = facy.thread_id_to_user_id.find(thread_id);
+	if (it != facy.thread_id_to_user_id.end()) {
+		return it->second;
+	}
+
+	// Go through all local contacts
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!IsMyContact(hContact))
 			continue;
@@ -116,7 +145,12 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 		ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
 		if (tid && !strcmp(tid, thread_id.c_str())) {
 			ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-			return (id ? id : "");
+			std::string user_id = (id ? id : "");
+			if (!user_id.empty()) {
+				facy.thread_id_to_user_id.insert(std::make_pair(thread_id, user_id));
+				return user_id;
+			}
+			break; // this shouldn't happen unless user manually deletes ID from FB contact in DB
 		}
 	}
 	
@@ -130,7 +164,7 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 	data += "&threads[thread_ids][0]=" + utils::url::encode(thread_id);
 
-	std::string user_id;
+	std::string user_id = "";
 	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data);
 	
 	if (resp.code == HTTP_CODE_OK) {
@@ -139,6 +173,9 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 		facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_thread_info(&resp.data, &user_id);
 		delete p;
+
+		if (!user_id.empty())
+			facy.thread_id_to_user_id.insert(std::make_pair(thread_id, user_id));
 
 		debugLogA("***** Thread info processed");
 
@@ -607,7 +644,25 @@ HANDLE FacebookProto::GetAwayMsg(MCONTACT hContact)
 
 int FacebookProto::OnContactDeleted(WPARAM wParam,LPARAM)
 {
-	CancelFriendship(wParam, 1);
+	MCONTACT hContact = (MCONTACT)wParam;
+
+	// Remove this contact from caches
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
+	if (id)
+		facy.user_id_to_hcontact.erase(std::string(id));
+
+	ptrA tid(getStringA(hContact, FACEBOOK_KEY_TID));
+	if (tid)
+		facy.thread_id_to_user_id.erase(std::string(tid));
+
+	if (isChatRoom(hContact)) {
+		ptrT chat_id(getTStringA(hContact, "ChatRoomID"));
+		if (chat_id)
+			facy.chat_id_to_hcontact.erase(std::tstring(chat_id));
+	}
+
+	// Cancel friendship (with confirmation)
+	CancelFriendship(hContact, 1);
 
 	return 0;
 }
