@@ -995,7 +995,15 @@ bool facebook_client::home()
 	}
 
 	this->dtsg_ = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
-	parent->debugLogA("      Got self dtsg: %s", this->dtsg_.c_str());
+	{
+		// Compute csrf_ from dtsg_
+		std::stringstream csrf;
+		for (unsigned int i = 0; i < this->dtsg_.length(); i++) {
+			csrf << (int)this->dtsg_.at(i);
+		}
+		this->csrf_ = csrf.str();
+	}
+	parent->debugLogA("      Got self dtsg: %s (csrf: %s)", this->dtsg_.c_str(), this->csrf_.c_str());
 
 	if (this->dtsg_.empty()) {
 		parent->debugLogA("!!!!! Empty dtsg. Source code:\n%s", resp.data.c_str());
@@ -1219,7 +1227,7 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 			data += "&__user=" + this->self_.user_id;
 			data += "&__a=1";
 			data += "&fb_dtsg=" + this->dtsg_;
-			data += "&phstamp=0";
+			data += "&phstamp=" + phstamp(data);
 
 			resp = flap(REQUEST_MESSAGE_SEND_INBOX, &data);
 			break;
@@ -1253,7 +1261,7 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 			data += "&fb_dtsg=" + this->dtsg_;
 			data += "&__user=" + this->self_.user_id;
 			data += "&__a=1";
-			data += "&phstamp=0";
+			data += "&phstamp=" + phstamp(data);
 
 			resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data);
 			break;
@@ -1277,7 +1285,7 @@ int facebook_client::send_message(MCONTACT hContact, std::string message_recipie
 			data += "&message_batch[0][message_id]=";
 			data += "&fb_dtsg=" + this->dtsg_;
 			data += "&__user=" + this->self_.user_id;
-			data += "&phstamp=0";
+			data += "&phstamp=" + phstamp(data);
 
 			resp = flap(REQUEST_MESSAGE_SEND_CHAT, &data);
 			break;
@@ -1397,13 +1405,13 @@ bool facebook_client::post_status(status_data *status)
 		data = "fb_dtsg=" + this->dtsg_;
 		data += "&targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 		data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
-		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=0";
+		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=" + ttstamp();
 		data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
 		data += "&loaded_components[0]=maininput&loaded_components[1]=backdateicon&loaded_components[2]=withtaggericon&loaded_components[3]=cameraicon&loaded_components[4]=placetaggericon&loaded_components[5]=mainprivacywidget&loaded_components[6]=withtaggericon&loaded_components[7]=backdateicon&loaded_components[8]=placetaggericon&loaded_components[9]=cameraicon&loaded_components[10]=mainprivacywidget&loaded_components[11]=maininput&loaded_components[12]=explicitplaceinput&loaded_components[13]=hiddenplaceinput&loaded_components[14]=placenameinput&loaded_components[15]=hiddensessionid&loaded_components[16]=withtagger&loaded_components[17]=backdatepicker&loaded_components[18]=placetagger&loaded_components[19]=citysharericon";
 		http::response resp = flap(REQUEST_LINK_SCRAPER, &data, &status->url);
 		std::string temp = utils::text::html_entities_decode(utils::text::slashu_to_utf8(resp.data));
 
-		data = "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&ttstamp=0";
+		data = "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&ttstamp=" + ttstamp();
 		std::string form = utils::text::source_get_value(&temp, 2, "<form", "</form>");
 		utils::text::replace_all(&form, "\\\"", "\"");
 		data += "&" + utils::text::source_get_form_data(&form) + "&";

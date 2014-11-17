@@ -88,7 +88,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			std::string post_data = "threads[group_ids][0]=" + utils::url::encode(data->chat_id);
 			post_data += "&fb_dtsg=" + facy.dtsg_;
 			post_data += "&__user=" + facy.self_.user_id;
-			post_data += "&phstamp=0";
+			post_data += "&phstamp=" + facy.phstamp(post_data);
 
 			http::response resp = facy.flap(REQUEST_THREAD_INFO, &post_data);
 
@@ -161,7 +161,8 @@ void FacebookProto::SendTypingWorker(void *p)
 		data += utils::url::encode(std::string(id));
 
 		data += "&fb_dtsg=" + facy.dtsg_;
-		data += "&lsd=&phstamp=0&__user=" + facy.self_.user_id;
+		data += "&lsd=&__user=" + facy.self_.user_id;
+		data += "&phstamp=" + facy.phstamp(data);
 		
 		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data);
 	}
@@ -188,7 +189,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	std::string data = "ids[" + utils::url::encode(std::string(id)) + "]=true";
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
-	data += "&__a=1&__dyn=&__req=&ttstamp=0";
+	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
 
 	facy.flap(REQUEST_MARK_READ, &data);
 }

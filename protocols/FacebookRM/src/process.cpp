@@ -34,13 +34,15 @@ void FacebookProto::ProcessBuddyList(void*)
 	facy.handle_entry("ProcessBuddyList");
 
 	// Prepare update data
-	std::string post_data = "user=" + facy.self_.user_id + "&fetch_mobile=true&phstamp=0&fb_dtsg=" + facy.dtsg_ + "&__user=" + facy.self_.user_id + "&cached_user_info_ids=";
+	std::string post_data = "user=" + facy.self_.user_id + "&fetch_mobile=true&fb_dtsg=" + facy.dtsg_ + "&__user=" + facy.self_.user_id + "&cached_user_info_ids=";
 	
 	int counter = 0;
 	for (List::Item< facebook_user >* i = facy.buddies.begin(); i != NULL; i = i->next, counter++)
 	{
 		post_data += i->data->user_id + "%2C";
 	}
+
+	post_data += "&phstamp=" + facy.phstamp(post_data);
 
 	// Get buddy list
 	http::response resp = facy.flap(REQUEST_BUDDY_LIST, &post_data);
@@ -297,7 +299,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 	data += "&client=mercury";
 	data += "__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&__a=1&__dyn=&__req=&ttstamp=0";
+	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
 
 	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
 
@@ -356,7 +358,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 		std::string data = "client=mercury";
 		data += "&__user=" + facy.self_.user_id;
 		data += "&fb_dtsg=" + facy.dtsg_;
-		data += "&__a=1&__dyn=&__req=&ttstamp=0";
+		data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
 	
 		for (std::vector<std::string>::size_type i = 0; i < threads.size(); i++) {
 			std::string thread_id = utils::url::encode(threads[i]);
@@ -457,7 +459,7 @@ void FacebookProto::LoadLastMessages(void *p)
 	std::string data = "client=mercury";
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&__a=1&__dyn=&__req=&ttstamp=0";
+	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
 
 	bool isChat = isChatRoom(hContact);
 
