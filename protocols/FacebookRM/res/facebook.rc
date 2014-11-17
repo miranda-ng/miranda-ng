@@ -140,7 +140,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,121,272,8
 END
 
-IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 308, 230
+IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 308, 242
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -162,7 +162,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,129,281,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,142,281,10
-    GROUPBOX        "Message sessions",IDC_STATIC,7,114,294,111
+    GROUPBOX        "Message sessions",IDC_STATIC,7,114,294,126
     CONTROL         "Keep messages as unread on server (don't send ""seen"" info)",IDC_KEEP_UNREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,155,281,10
     CONTROL         "Receive messages from ""inbox"" folder only",IDC_INBOX_ONLY,
@@ -173,7 +173,9 @@ BEGIN
     EDITTEXT        IDC_MESSAGES_COUNT,249,192,34,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,192,11,14
     CONTROL         "Do not open chat windows on creation",IDC_HIDE_CHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,210,281,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,225,281,10
+    CONTROL         "Synchronize last 24 hours on login",IDC_LOGIN_SYNC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,212,281,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
@@ -191,7 +193,6 @@ BEGIN
     DEFPUSHBUTTON   "Submit",IDOK,146,203,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,200,203,50,14
 END
-
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -264,15 +265,7 @@ BEGIN
         VERTGUIDE, 156
         VERTGUIDE, 294
         TOPMARGIN, 7
-        BOTTOMMARGIN, 228
-    END
-
-    IDD_CAPTCHA, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 226
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 103
+        BOTTOMMARGIN, 240
     END
 END
 #endif    // APSTUDIO_INVOKED

@@ -556,6 +556,83 @@ CODE_BLOCK_END
 	OnDbEventRead(hContact, NULL);
 }
 
+void FacebookProto::SyncThreads(void*)
+{
+	facy.handle_entry("SyncThreads");
+
+	if (isOffline()) 
+		return;
+
+	// get timestamp of last action (last message or possibly logout time)
+	ptrA ptrtimestamp(getStringA(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP));
+
+	std::string timestamp = "0";
+	if (ptrtimestamp != NULL)
+		timestamp = std::string(ptrtimestamp); // FIXME: is std::string(..) needed?
+
+	unsigned __int64 time = _atoi64(timestamp.c_str());
+
+	if (time > 100000000000) {
+		time /= 1000;
+	}
+
+	if (time < (unsigned) ::time(NULL) - 24*60*60) {
+		time_t last = ::time(NULL) - 24*60*60;
+		timestamp = utils::conversion::to_string((void*)&last, UTILS_CONV_TIME_T) + "000"; 
+
+		ForkThread(&FacebookProto::ProcessUnreadMessages, NULL); // for older unread messages (necessary?)
+	}
+
+	setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, utils::time::mili_timestamp().c_str());	
+
+
+	// receive messages from all folders by default, use hidden setting to receive only inbox messages
+	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
+
+	std::string data = "client=mercury";
+	data += "&last_action_timestamp=" + timestamp;
+	data += "&__user=" + facy.self_.user_id;
+	data += "&fb_dtsg=" + facy.dtsg_;
+	data += "&folders[0]=inbox";
+	if (!inboxOnly)
+		data += "&folders[1]=other";
+	data += "&__req=7&__a=1&__dyn=&__req=&__rev=&ttstamp=" + facy.ttstamp();
+
+	debugLogA("Sync timestamp: %s", timestamp.c_str());
+
+	http::response resp = facy.flap(REQUEST_THREAD_SYNC, &data);
+
+	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
+		facy.handle_error("LoadLastMessages");
+		return;
+	}
+
+
+CODE_BLOCK_TRY
+
+	std::vector<facebook_message*> messages;
+	std::map<std::string, facebook_chatroom*> chatrooms;
+
+	facebook_json_parser* p = new facebook_json_parser(this);
+	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false, false, 20);
+	delete p;
+
+
+	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
+	ReceiveMessages(messages, local_timestamp, true);
+
+	debugLogA("***** Thread messages processed");
+
+CODE_BLOCK_CATCH
+
+	debugLogA("***** Error processing thread messages: %s", e.what());
+
+CODE_BLOCK_END
+
+	facy.handle_success("SyncThreads");
+
+}
+
 
 void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates)
 {
@@ -659,7 +736,8 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			// Save last (this) message ID
 			setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
-
+			setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, messages[i]->timestamp.c_str());
+			
 			// Save TID if not exists already
 			ptrA tid(getStringA(hChatContact, FACEBOOK_KEY_TID));
 			if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
