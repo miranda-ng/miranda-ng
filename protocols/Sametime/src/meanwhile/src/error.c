@@ -239,9 +239,9 @@ char* mwErrorDesc(guint32 code) {
 		CASE(CONNECTION_RESET, LPGEN("The connection has been reset"));
 		CASE(CONNECTION_TIMED, LPGEN("The connection has timed out"));
 		CASE(CONNECTION_CLOSED, LPGEN("The connection has been closed"));
-		CASE(MULTI_SERVER_LOGIN, LPGEN("Disconnected due to logging in two Sametime servers concurrently (1)"));
-		CASE(MULTI_SERVER_LOGIN2, LPGEN("Disconnected due to logging in two Sametime servers concurrently (2)"));
-		CASE(MULTI_LOGIN_COMP, LPGEN("Disconnected due to logging in from another computer."));
+		CASE(MULTI_SERVER_LOGIN, LPGEN("Disconnected due to login in two Sametime servers concurrently (1)"));
+		CASE(MULTI_SERVER_LOGIN2, LPGEN("Disconnected due to login in two Sametime servers concurrently (2)"));
+		CASE(MULTI_LOGIN_COMP, LPGEN("Disconnected due to login from another computer."));
 		CASE(MUTLI_LOGIN_ALREADY, LPGEN("Unable to log in because you are already logged on from another computer"));
 		CASE(SERVER_BROKEN, LPGEN("Unable to log in because the server is either unreachable, or not configured properly."));
 		CASE(SERVER_PATH_OLD, LPGEN("Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded."));
