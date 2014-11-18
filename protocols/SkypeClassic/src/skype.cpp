@@ -1563,6 +1563,7 @@ void RingThread(char *szSkypeMsg) {
 		dbei.flags = DBEF_READ;
 		cle.hContact = hContact;
 		cle.hDbEvent = db_event_add(hContact, &dbei);
+		cle.flags = CLEF_TCHAR;
 		TCHAR toolTip[256];
 		mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Incoming call from %s"), lpzContactName);
 		cle.ptszTooltip = toolTip;
@@ -1585,7 +1586,6 @@ void EndCallThread(char *szSkypeMsg) {
 	HANDLE hDbEvent;
 	DBEVENTINFO dbei = { 0 };
 	DBVARIANT dbv;
-	int tCompareResult;
 
 	// We use a single critical section for the RingThread- and the EndCallThread-functions
 	// so that only one function is running at the same time. This is needed, because when
@@ -1605,9 +1605,10 @@ void EndCallThread(char *szSkypeMsg) {
 	if (szSkypeMsg) {
 		for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 			if (db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv)) continue;
-			tCompareResult = strcmp(dbv.pszVal, szSkypeMsg);
+			int tCompareResult = strcmp(dbv.pszVal, szSkypeMsg);
 			db_free(&dbv);
-			if (tCompareResult) continue; else break;
+			if (!tCompareResult)
+				break;
 		}
 	}
 	if (hContact)
@@ -2386,8 +2387,6 @@ void RetrieveUserAvatar(void *param)
 	if (hContact == NULL)
 		return;
 
-	HANDLE file;
-	DBVARIANT dbv;
 	char AvatarFile[MAX_PATH + 1], AvatarTmpFile[MAX_PATH + 10], *pszTempFile;
 
 	// Mount default ack
@@ -2403,6 +2402,7 @@ void RetrieveUserAvatar(void *param)
 	AI.hContact = hContact;
 
 	// Get skype name
+	DBVARIANT dbv;
 	if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv) == 0)
 	{
 		if (dbv.pszVal)
@@ -2416,7 +2416,7 @@ void RetrieveUserAvatar(void *param)
 
 			// Just to be sure
 			DeleteFileA(pszTempFile);
-			file = CreateFileA(pszTempFile, 0, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+			HANDLE file = CreateFileA(pszTempFile, 0, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (file != INVALID_HANDLE_VALUE)
 			{
 				CloseHandle(file);
@@ -2581,9 +2581,8 @@ INT_PTR SkypeGetInfo(WPARAM, LPARAM lParam) {
 }
 
 INT_PTR SkypeAddToList(WPARAM wParam, LPARAM lParam) {
-	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
-
 	LOG(("SkypeAddToList Adding API function called"));
+	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) || !psr->nick) return 0;
 	LOG(("SkypeAddToList OK"));
 	return (INT_PTR)add_contact(_T2A(psr->nick), (DWORD)wParam);

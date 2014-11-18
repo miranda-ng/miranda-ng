@@ -170,11 +170,12 @@ MCONTACT find_chat(LPCTSTR chatname) {
 		if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==1)
 		{
 			DBVARIANT dbv;
-			if (db_get_ts(hContact, SKYPE_PROTONAME, "ChatRoomID", &dbv)) continue;
-            int tCompareResult = _tcscmp(dbv.ptszVal, chatname);
-			db_free(&dbv);
-			if (!tCompareResult)
-				return hContact; // already there, return handle
+			if (!db_get_ts(hContact, SKYPE_PROTONAME, "ChatRoomID", &dbv)) {
+				int tCompareResult = _tcscmp(dbv.ptszVal, chatname);
+				db_free(&dbv);
+				if (!tCompareResult)
+					return hContact; // already there, return handle
+			}
 		}
 	}
 	return NULL;
@@ -205,15 +206,16 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 	DBVARIANT dbv2;
 	CONTACTINFO ci={0};
 	char *ptr, *who, *nextoken;
-	TCHAR *szChatId;
 	int i, iRet = 0;
 	gchat_contacts *gc;
 
-	LOG(("AddMembers STARTED")); 
-	if (!(ptr=strstr(szSkypeMsg, " MEMBERS"))) return -1;
+	LOG(("AddMembers STARTED"));
+	char *ptr=strstr(szSkypeMsg, " MEMBERS");
+	if (!ptr)
+		return -1;
 	EnterCriticalSection(&m_GCMutex);
 	ptr[0]=0;
-	szChatId = make_nonutf_tchar_string((const unsigned char*)szSkypeMsg+5);
+	TCHAR *szChatId = make_nonutf_tchar_string((const unsigned char*)szSkypeMsg+5);
 	ptr+=9;
 	if (find_chat(szChatId) && (gc=GetChat(szChatId)) && 
 		!db_get_s(NULL, SKYPE_PROTONAME, SKYPE_NAME, &dbv2))
@@ -312,8 +314,8 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 
 void AddMembersThread(char *szSkypeMsg)
 {
-	AddMembers (szSkypeMsg);
-	free (szSkypeMsg);
+	AddMembers(szSkypeMsg);
+	free(szSkypeMsg);
 }
 
 /****************************************************************************/
@@ -359,17 +361,17 @@ INT_PTR CALLBACK InputBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 int __cdecl  ChatInit(WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv, dbv2;
-	char *szChatName;
-	int iRet = -1;
-
 	if (!wParam) return -1;
+
+	DBVARIANT dbv, dbv2;
+	int iRet = -1;
 
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = SKYPE_PROTONAME;
 
-	if (!(szChatName = SkypeGet ("CHAT", (char *)wParam, "FRIENDLYNAME")) || !*szChatName)
+	char *szChatName = SkypeGet ("CHAT", (char *)wParam, "FRIENDLYNAME");
+	if (!szChatName || !*szChatName)
 		gcw.ptszName=TranslateT("Unknown"); else {
 #ifdef _UNICODE
 		gcw.ptszName=make_unicode_string((const unsigned char*)szChatName);
