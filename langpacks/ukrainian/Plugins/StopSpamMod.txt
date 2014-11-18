@@ -90,7 +90,7 @@ StopSpam: надішліть повідомлення і дайте відпов
 [Message Sessions]
 Бесіди
 [General]
-Загальна
+Загальне
 [Messages]
 Повідомлення
 [Accounts]

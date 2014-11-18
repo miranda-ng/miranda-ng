@@ -44,7 +44,7 @@ SMS-повідомлення не надіслано
 [&Cancel]
 С&касувати
 [The SMS message send timed out]
-Ліміт часу відправлення SMS
+Час надсилання SMS вичерпано
 [SMS Plugin]
 Плагін SMS
 [Beginning]
@@ -98,9 +98,9 @@ SMS підтвердження від %s
 [Invalid Phone Number]
 Неправильний номер телефону
 [Message is too long, press OK to continue.]
-Повідомлення дуже довге, натисніть OK для продовження
+Повідомлення занадто довге, натисніть OK для продовження
 [Error - Message too long]
-Помилка - повідомлення дуже довге
+Помилка: повідомлення занадто довге
 [There must be numbers in the list first.]
 У списку повинні бути номери.
 [No Numbers]

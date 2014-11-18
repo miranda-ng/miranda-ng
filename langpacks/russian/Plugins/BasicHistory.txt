@@ -84,7 +84,7 @@
 [External CSS file]
 Внешний файл CSS
 [* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
-* Выберите кодировку из выпадающего списка или введите имя кодировки через точку с запятой, имя используется в заголовка типа содержимого.
+* Выберите кодировку из выпадающего списка или введите имя кодировки через точку с запятой, имя используется в заголовке типа содержимого.
 [Add task]
 Добавить задачу
 [Edit task]

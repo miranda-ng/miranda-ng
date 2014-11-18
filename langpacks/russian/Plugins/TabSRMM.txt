@@ -1040,7 +1040,7 @@ Esc закрывает сессию (иначе - сворачивает)
 [No status message]
 Нет сообщения статуса
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-Проблема конфигурации|Автоматическая отправка отключена. \\b1Отправка с задержкой\\b0 и \\b1мультиотправка\\b0 зависят от неё.\n\nВы должны включить её \\b1Настройки->Беседы->Дополнительные настройки\\b0. После изменения этой опции требуется перезапуск.
+Проблема конфигурации|Автоматическая отправка отключена. \\b1Отправка с задержкой \\b0 и \\b1 мультиотправка \\b0 зависят от неё.\n\nВы должны включить её \\b1Настройки->Беседы->Дополнительные настройки\\b0. После изменения этой опции требуется перезапуск.
 [You cannot edit user notes when there are unsent messages]
 Вы не можете править заметки, если есть неотправленные сообщения
 [Version]

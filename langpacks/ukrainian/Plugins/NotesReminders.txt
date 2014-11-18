@@ -32,7 +32,7 @@
 [Add Contact list menu items]
 Пункт у меню контакту
 [(Requires Miranda restart)]
-(Вимагає перезапуск Miranda NG)
+(потрібен перезапуск Miranda NG)
 [Reminder options]
 Налаштування нагадувань
 [Add Reminder closes dialog]
@@ -213,8 +213,8 @@
 &Видалити всі нотатки
 [&Bring All to Front]
 Перемістити на передній план
-[Miranda could not load the Notes & Reminders plugin, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Неможливо завантажити плагін Notes & Reminders, оскільки riched20.dll відсутній. Якщо ви використовуєте WINE, будь ласка, переконайтеся, що riched20.dll встановлено. Натисніть "Так", щоб продовжити запуск Miranda NG.
+[Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Неможливо завантажити плагін Notes & Reminders, оскільки Msftedit.dll відсутній. Якщо ви використовуєте WINE, будь ласка, переконайтеся, що Msftedit.dll встановлено. Натисніть "Так", щоб продовжити запуск Miranda NG.
 [Black]
 Чорний
 [Maroon]

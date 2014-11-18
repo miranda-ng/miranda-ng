@@ -6,12 +6,12 @@
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
 ;============================================================
 [This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
-Цей плагін дозволяє вмикати/вимикати завантаження Miranda NG при старті системи.
+Цей плагін дозволяє вмикати/вимикати запуск Miranda NG при старті системи.
 [Autorun]
-Автозавантаження
+Автозапуск
 [Launch Miranda NG at system startup]
-Завантажувати Miranda NG при старті системи
+Запускати Miranda NG при старті системи
 [Note: At startup Miranda NG will use current profile]
-Примітка: При запуску буде використаний поточний профіль
+Примітка: при запуску буде використаний поточний профіль
 [Services]
 Служби

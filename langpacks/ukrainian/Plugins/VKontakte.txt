@@ -240,7 +240,7 @@
 [Are you sure to report abuse on %s?]
 Ви впевнені, що хочете поскаржитися на %s?
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
-Вы впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
+Ви впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
 [Attachments:]
 Вкладення:
 [Photo]

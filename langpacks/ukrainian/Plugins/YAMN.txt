@@ -116,7 +116,7 @@
 [Enable YAMN Main Menu]
 Пункт YAMN у головному меню
 [Show YAMN as a Protocol (Require Restart)]
-Показувати YAMN як протокол (Потрібен перезапуск)
+Показувати YAMN як протокол (потрібен перезапуск)
 [MailBrowser Options]
 Налаштування перегляду листів
 [Enable Close on Delete Button]

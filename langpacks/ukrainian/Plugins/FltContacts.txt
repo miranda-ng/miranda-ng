@@ -32,7 +32,7 @@
 [0 = Default]
 0=Замовчання
 [*requires Tipper plugin]
-*потрібен плагін Tipper
+* потрібен плагін Tipper
 [Bring to front]
 На передній план
 [Bring to front every]
