@@ -239,9 +239,9 @@ char* mwErrorDesc(guint32 code) {
 		CASE(CONNECTION_RESET, LPGEN("The connection has been reset"));
 		CASE(CONNECTION_TIMED, LPGEN("The connection has timed out"));
 		CASE(CONNECTION_CLOSED, LPGEN("The connection has been closed"));
-		CASE(MULTI_SERVER_LOGIN, LPGEN("Disconnected due to login in two Sametime servers concurrently (1)"));
-		CASE(MULTI_SERVER_LOGIN2, LPGEN("Disconnected due to login in two Sametime servers concurrently (2)"));
-		CASE(MULTI_LOGIN_COMP, LPGEN("Disconnected due to login from another computer."));
+		CASE(MULTI_SERVER_LOGIN, LPGEN("Disconnected due to logging in two Sametime servers concurrently (1)"));
+		CASE(MULTI_SERVER_LOGIN2, LPGEN("Disconnected due to logging in two Sametime servers concurrently (2)"));
+		CASE(MULTI_LOGIN_COMP, LPGEN("Disconnected due to logging in from another computer."));
 		CASE(MUTLI_LOGIN_ALREADY, LPGEN("Unable to log in because you are already logged on from another computer"));
 		CASE(SERVER_BROKEN, LPGEN("Unable to log in because the server is either unreachable, or not configured properly."));
 		CASE(SERVER_PATH_OLD, LPGEN("Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded."));
@@ -250,7 +250,7 @@ char* mwErrorDesc(guint32 code) {
 		/* 8.3.1.3 Client error codes */
 		CASE(ERR_CLIENT_USER_GONE, LPGEN("The user is not online"));
 		CASE(ERR_CLIENT_USER_DND, LPGEN("The user is in do not disturb mode"));
-		CASE(ERR_CLIENT_USER_ELSEWHERE, LPGEN("Cannot login because already logged in with a different user name (Java only)"));
+		CASE(ERR_CLIENT_USER_ELSEWHERE, LPGEN("Cannot log in because already logged in with a different user name (Java only)"));
 
 		/* 8.3.1.4 IM error codes */
 		CASE(ERR_IM_COULDNT_REGISTER, LPGEN("Cannot register a reserved type"));
