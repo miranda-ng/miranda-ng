@@ -26,7 +26,7 @@
 [minutes]
 хвилин
 [Notify using:]
-Інформувати:
+Сповіщати:
 [Duration:]
 Тривалість:
 [seconds]
@@ -48,7 +48,7 @@
 [Use online contacts when no new mail]
 Показувати контакти, коли немає нової пошти
 [Enable icon selection and icon in status bar (restart)]
-Значки протоколу в панелі статусів (перезавантажити)
+Значки протоколу в панелі статусів (потрібен перезапуск)
 [This is a shared computer so disable auto login]
 Вимкнути автоперевірку пошти
 [Log unread threads into database (enable history)]

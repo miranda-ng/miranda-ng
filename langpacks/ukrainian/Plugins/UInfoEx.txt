@@ -204,7 +204,7 @@
 [Scan subcontacts for missing information]
 Пошук відсутньої інформації в субконтактах
 [Enable extended 'send/receive e-mail' service (*)]
-Увімкнути розширений сервіс електронної пошти *
+Увімкнути розширений сервіс електронної пошти*
 [Use Windows timezone]
 Часовий пояс Windows
 [(*) Requires Miranda to be restarted.]

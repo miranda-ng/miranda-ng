@@ -84,7 +84,7 @@
 [External CSS file]
 Зовнішній файл CSS
 [* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
-* Виберіть кодування символів з випадаючого списку або введіть ім'я кодування через крапку з комою, ім'я використовується в Content-Type header.
+* Виберіть кодування символів з випадаючого списку або введіть ім'я кодування через крапку з комою, ім'я використовується в заголовку Content-Type.
 [Add task]
 Додати завдання
 [Edit task]
@@ -106,7 +106,7 @@
 [Filter]
 Фільтр
 [Events older than*]
-Новини - старше ніж*
+Події старіші ніж*
 [Triger type]
 Поведінка
 [Time]
@@ -178,7 +178,7 @@
 [Invalid Message]
 Пошкоджене повідомлення
 [%s Files (*.%s)]
-%s Файли (*.%s)
+Файли %s (*.%s)
 [Import]
 Імпорт
 [Export]
@@ -384,7 +384,7 @@ dat (плагін mContacts)
 [Invalid '%s' value.]
 Неправильне значення '%s'.
 [Events older than]
-Події старше ніж
+Події старіші ніж
 [Some value is invalid]
 Неправильне значення
 [Invalid '%s' value.\n%s]

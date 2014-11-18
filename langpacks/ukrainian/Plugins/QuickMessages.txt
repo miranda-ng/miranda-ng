@@ -46,7 +46,7 @@
 [*Rename menu item into "---" to insert separator]
 Щоб вставити роздільник, перейменуйте пункт меню на "---"
 [*Use drag'n'drop for arranging menu items]
-*Перетягуйте мишкою пункти меню для сортування
+* Перетягуйте мишкою пункти меню для сортування
 [- Contact first name]
 - Ім'я контакту
 [- Contact last name]

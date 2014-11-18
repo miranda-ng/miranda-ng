@@ -44,7 +44,7 @@
 [Masquerade as a Sidekick/Hiptop User]
 Представлятися як Sidekick/Hiptop
 [*Aim must be reconnected for some option to take effect]
-*AIM повинен бути перепідключений, щоб зміни вступили в силу
+* AIM повинен бути перепідключений, щоб зміни вступили в силу
 [Connection]
 З'єднання
 [Port:]
@@ -108,7 +108,7 @@ AIM Встановити Instant Idle
 [Repeat]
 Повторити
 [*Passwords don't match.]
-*Паролі не збігаються.
+* Паролі не збігаються.
 [Screen Name]
 Ім'я AIM
 [E-mail]
@@ -116,7 +116,7 @@ AIM Встановити Instant Idle
 [Confirm Account]
 Підтвердити
 [*Applied upon reconnect]
-*Потрібен перезапуск
+* Потрібен перезапуск
 [Save Changes]
 Зберегти зміни
 [Invite Buddy To Chat Room]

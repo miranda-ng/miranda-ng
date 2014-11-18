@@ -1823,8 +1823,8 @@ UIN, E-mail тощо
 %s друкує вам повідомлення
 [Typing notification]
 Увага!
-[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda не змогла завантажити вбудований модуль повідомлень, оскільки riched20.dll відсутній. Натисніть "Так" щоб продовжити запуск програми.
+[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda не змогла завантажити вбудований модуль повідомлень, оскільки Msftedit.dll відсутній. Натисніть "Так" щоб продовжити запуск програми.
 [Instant messages]
 Повідомлення
 [Incoming (focused window)]

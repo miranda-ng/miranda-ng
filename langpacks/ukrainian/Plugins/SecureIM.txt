@@ -254,7 +254,7 @@ PGP SDK не знайдено!
 [Private key not loaded!]
 Секретний ключ не завантажений!
 [The new settings will become valid when you restart Miranda NG!]
-Зміни набудуть чинності після перезавантаження Miranda NG!
+Зміни набудуть чинності після перезапуску Miranda NG!
 [Keyrings disabled!]
 Keyrings відключені!
 [Native]

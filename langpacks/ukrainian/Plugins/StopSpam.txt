@@ -40,7 +40,7 @@
 [Message Sessions]
 Бесіди
 [General]
-Загальна
+Загальне
 [Messages]
 Повідомлення
 [Accounts]

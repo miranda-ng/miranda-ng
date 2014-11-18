@@ -69,6 +69,8 @@
 Завантажити
 [Open crash report directory]
 Папка збереження звітів
+[Open online Version Info]
+Відкрити звіт про версії онлайн
 [Copy Version Info to clipboard]
 Копіювати версії в буфер обміну
 [Show Version Info]

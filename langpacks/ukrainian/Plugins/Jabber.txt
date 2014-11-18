@@ -54,7 +54,7 @@ Active Directory логін
 [Priority:]
 Пріоритет:
 [Use hostname as resource]
-Ім'я хосту в якості ресурсу
+Ім'я хоста в якості ресурсу
 [List of public servers]
 Публічні сервери
 [Port:]
@@ -132,11 +132,11 @@ TLS
 [First name:]
 Ім'я
 [Middle:]
-По батькові:
+По батьк.
 [Last name:]
 Прізвище:
 [Date of birth:]
-Дата народження:
+Дата народж.:
 [YYYY-MM-DD]
 РРРР-ММ-ДД
 [Gender:]
@@ -780,7 +780,7 @@ JID, пов'язані з активною сесією
 [The number of online entities that are active]
 Кількість осіб онлайн, які є активними
 [A list of entities with administrative privileges]
-Список осіб з привілеями адміністраторів
+Список осіб з правами адміністратора
 [The text of an announcement to be sent to active users or all users]
 Текст повідомлення, яке буде відправлено активним користувачам або всім користувачам
 [A list of entities with whom communication is blocked]

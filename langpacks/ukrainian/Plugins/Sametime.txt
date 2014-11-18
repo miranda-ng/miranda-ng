@@ -15,6 +15,8 @@
 Сервер:
 [Port:]
 Порт:
+[Client ID and version]
+ID та версія клієнта
 [Error display]
 Показ помилок
 [Use message boxes]
@@ -75,6 +77,10 @@
 Шифрування недоступне. Спробуйте ввімкнути шифрування в налаштуваннях протоколу.
 [SERVICE NOT IMPLEMENTED. %s]
 Служба не реалізована. %s
+[Client protocol version: %03d.%03d]
+Версія протоколу клієнта: %03d.%03d
+[Server protocol version: %03d.%03d]
+Версія протоколу сервера: %03d.%03d
 [Network]
 Мережа
 [Protocol icon]
@@ -111,3 +117,251 @@
 Правда
 [False]
 Брехня
+[%s\n\nSametime error %S\n%s]
+%s\n\nПомилка Sametime %S\n%s
+[Success]
+Успішно
+[Request delayed]
+Запит відкладений
+[Request is invalid]
+Неправильний запит
+[Not authorized]
+Не авторизований
+[Operation aborted]
+Операцію скасовано
+[No element]
+Немає елемента
+[User is not online]
+Користувач не в мережі
+[Invalid data]
+Неправильні дані
+[Not implemented]
+Не реалізовано
+[Unknown error]
+Невідома помилка
+[Not enough resources]
+Недостатньо ресурсів
+[Requested channel is not supported]
+Канал не підтримується
+[Requested channel already exists]
+Канал уже існує
+[Requested service is not supported]
+Служба не підтримується
+[Requested protocol is not supported]
+Протокол не підтримується
+[Version is not supported]
+Ця версія не підтримується
+[Not an owner]
+Не власник
+[Invalid token]
+Неправильний токен
+[Token mismatch]
+Токен не збігається
+[Port in use]
+Порт використовується
+[Network error]
+Помилка мережі
+[Master channel error]
+Помилка головного каналу
+[Encryption method not supported]
+Метод шифрування не підтримується
+[Encryption not initialized]
+Шифрування не ініціалізоване
+[Invalid encrypted data]
+Неправильні дані шифрування
+[No common encryption method]
+Немає сумісного методу шифрування
+[Version mismatch]
+Версія несумісна
+[Not in use]
+Не використовується
+[Hardware error]
+Помилка обладнання
+[Host error]
+Помилка хоста
+[Host unreachable]
+Хост недоступний
+[Message is too large]
+Повідомлення занадто довге
+[Proxy error]
+Помилка проксі
+[Server full]
+Сервер переповнений
+[Server not responding]
+Сервер не відповідає
+[Connection error]
+Помилка з'єднання
+[User removed]
+Користувач видалений
+[Sametime protocol error]
+Помилка протоколу Sametime
+[Incorrect Username/Password]
+Неправильне ім'я користувача або пароль
+[Encryption mismatch]
+Шифрування не збігається
+[User too idle]
+Користувач неактивний
+[User exists]
+Користувач існує
+[Bad name]
+Неправильне ім'я
+[Registration error]
+Помилка реєстрації
+[Privilege error]
+Помилка прав доступу
+[Need email]
+Потрібен E-mail
+[DNS error]
+Помилка DNS
+[DNS fatal error]
+Невиправна помилка DNS
+[DNS not found]
+DNS не знайдено
+[Connection broken]
+З'єднання розірвано
+[Connection aborted]
+З'єднання скасовано
+[Connection refused]
+З'єднання відхилено
+[Connection reset]
+З'єднання скинуто
+[Connection closed]
+З'єднання закрито
+[Login to two different servers concurrently (1)]
+Підключення до двох серверів одночасно (1)
+[Login to two different servers concurrently (2)]
+Підключення до двох серверів одночасно (2)
+[Server misconfiguration]
+Проблема налаштувань сервера
+[Server needs upgrade]
+Сервер потребує оновлення
+[User is in Do Not Disturb mode]
+Статус користувача "Не турбувати"
+[Already logged in elsewhere]
+Уже підключений з іншого місця
+[Requested type is already registered]
+Тип уже зареєстрований
+[Requested type is not registered]
+Тип не зареєстрований
+[Resolve not completed]
+Визначення не завершено
+[Resolve name not unique]
+Ім'я не унікальне
+[Operation succeeded]
+Операція успішна
+[Operation failed]
+Операція невдала
+[Request accepted but will be served later]
+Запит прийнятий але буде оброблений пізніше
+[Operation has been aborted]
+Операцію скасовано
+[The element is non-existent]
+Немає такого елемента
+[The user is non-existent]
+Немає такого користувача
+[The data are invalid or corrupted]
+Неправильні або пошкоджені дані
+[The requested feature is not implemented]
+Функція не реалізована
+[Not enough resources to perform the operation]
+Недостатньо ресурсів для виконання операції
+[The requested channel is not supported]
+Канал не підтримується
+[The requested channel already exists]
+Канал уже існує
+[The requested service is not supported]
+Служба не підтримується
+[The requested protocol is not supported (1)]
+Протокол не підтримується (1)
+[The requested protocol is not supported (2)]
+Протокол не підтримується (2)
+[The version is not supported]
+Ця версія не підтримується
+[Not an owner of the requested resource]
+Не власник запитуваного ресурсу
+[Token IP mismatch]
+IP токену не збігається
+[Low-level network error occurred]
+Мережева помилка низького рівня
+[No master channel exists]
+Головний канал не існує
+[Encryption is not supported or failed unexpectedly]
+Шифрування не підтримується або сталася його помилка
+[Encryption mechanism has not been initialized yet]
+Механізм шифрування не ініціалізований
+[The requested encryption level is unacceptably low]
+Запитуваний рівень шифрування недопустимо низький
+[The encryption data passed are invalid or corrupted]
+Дані шифрування неправильні або пошкоджені
+[There is no common encryption method]
+Немає сумісного методу шифрування
+[Versions don't match]
+Версії не збігаються
+[Hardware error occurred]
+Помилка обладнання
+[TCP/IP protocol error]
+Помилка протоколу TCP/IP
+[The message is too large]
+Повідомлення занадто довге
+[Server is full]
+Сервер переповнений
+[Server is not responding]
+Сервер не відповідає
+[Cannot connect]
+Неможливо підключитися
+[User has been removed from the server]
+Користувач видалений з сервера
+[Virtual Places protocol error]
+Помилка протоколу Virtual Places
+[User has been idle for too long]
+Користувач був неактивним занадто довго
+[The name cannot be used]
+Це ім'я не можна використати
+[The registration mode is not supported]
+Реєстрація не підтримується
+[User does not have appropriate privilege level]
+У користувача немає необхідного рівня прав доступу
+[Email address must be used]
+Потрібна адеса E-mail
+[Error in DNS]
+Помилка DNS
+[Fatal error in DNS]
+Невиправна помилка DNS
+[Server name not found]
+Ім'я сервера не знайдене
+[The connection has been broken]
+З'єднання розірвано
+[The connection has been refused]
+З'єднання відхилено
+[The connection has been reset]
+З'єднання скинуто
+[The connection has been closed]
+З'єднання закрито
+[Disconnected due to login in two Sametime servers concurrently (1)]
+З'єднання закрито, бо ви підключені до двох серверів Sametime одночасно (1)
+[Disconnected due to login in two Sametime servers concurrently (2)]
+З'єднання закрито, бо ви підключені до двох серверів Sametime одночасно (2)
+[Disconnected due to login from another computer.]
+З'єднання закрито, бо ви підключені з іншого комп'ютера.
+[Unable to log in because you are already logged on from another computer]
+Неможливо підключитися, тому що ви вже підключені з іншого комп'ютера.
+[Unable to log in because the server is either unreachable, or not configured properly.]
+Неможливо підключитися: сервер недоступний або налаштований неправильно.
+[Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
+Неможливо підключитися до домашнього сервера Sametime через вказаний сервер: ваш домашній сервер необхідно оновити.
+[The user is not online]
+Користувач не в мережі
+[The user is in do not disturb mode]
+Статус користувача "Не турбувати"
+[Cannot log in because already logged in with a different user name (Java only)]
+Неможливо підключитися, тому що ви вже підключені з іншим іменем користувача (тільки Java)
+[The requested type is already registered]
+Тип уже зареєстрований
+[The requested type is not registered]
+Тип не зареєстрований
+[The resolve process was not completed, but a partial response is available]
+Процес визначення не завершено, доступний частковий результат
+[The name was found, but is not unique (request was for unique only)]
+Знайдено ім'я, але не унікальне (запит був лише на унікальне)
+[Unknown error code]
+Невідомий код помилки

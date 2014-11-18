@@ -62,11 +62,11 @@
 [Manage server's list...]
 Керування списком...
 [Enable server-side contact lists *]
-Використовувати список контактів на сервері *
+Використовувати список контактів на сервері*
 [Add contacts to the server's list when I add them to mine]
 Додавати контакти на сервер, коли я додаю їх до свого списку
 [Update my contacts' details from the server *]
-Оновлювати дані про контакти з сервера *
+Оновлювати дані про контакти з сервера*
 [Update contacts' details on the server's list when I change them in mine]
 Оновлювати дані про контакти на сервері, коли я змінюю їх у своєму списку
 [ICQ avatars]
@@ -74,7 +74,7 @@
 [Enable avatar support]
 Увімкнути підтримку аватарів
 [Check avatar validity before saving *]
-Перевіряти цілісність аватара перед збереженням *
+Перевіряти цілісність аватара перед збереженням*
 [Load avatars automatically (like ICQ Lite)]
 Завантажувати аватари автоматично (як ICQ Lite)
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]

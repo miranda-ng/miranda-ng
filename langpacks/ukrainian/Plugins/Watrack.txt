@@ -304,7 +304,7 @@ VBR або порожній
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
 Якщо опція ввімкнена, xСтатус для ICQ зміниться на "Музика" а його текст зміниться на інформацію про музику.
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
-Якщо опція ввімкнена, то буде застосовано один шаблон для всіх протоколів, а також плеєрів і статусів. Сторінка налаштування шаблонів зміниться після перезавантаження.
+Якщо опція ввімкнена, то буде застосовано один шаблон для всіх протоколів, а також плеєрів і статусів. Сторінка налаштування шаблонів зміниться після перезапуску.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Вбудовуватися в процес плеєра для полегшення отримання інформації. Може спровокувати тривогу фаєрволу або антивірусу.
 [Keep opened file as active, not newly founded.]

@@ -14,7 +14,7 @@
 [Cancel]
 Скасувати
 [General]
-Загальні
+Загальне
 [Align text to right]
 Вирівняти праворуч
 [Auto-resize frame]
@@ -72,9 +72,9 @@
 [Right:]
 Право:
 [Set my status message for all status]
-Статусне повідомлення для yсix статусів
+Статусне повідомлення для всix статусів
 [Status message:]
-Повідомлення статусу:
+Статусне повідомл.:
 [&Offline]
 Не в &мережі
 [On&line]

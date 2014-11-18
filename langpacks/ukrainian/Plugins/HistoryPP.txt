@@ -492,7 +492,7 @@ Enter для подробиць події
 [No "%s" items]
 Немає "%s"
 [Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
-Не можу завантажити набір значків (%s)\\r\\n%s\\r\\nЗначки не будуть відображатися.
+Неможливо завантажити набір значків (%s)\\r\\n%s\\r\\nЗначки не будуть відображатися.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 У вас старий набір значків:\\r\\n%s\\r\\nМожливі проблеми зі значками, поновіть набір.
 [Next message]
