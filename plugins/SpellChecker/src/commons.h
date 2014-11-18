@@ -24,7 +24,8 @@ Boston, MA 02111-1307, USA.
 #define OEMRESOURCE
 
 #include <windows.h>
-#include <richedit.h>
+/*#include <richedit.h>*/
+#include "richedit_0x800.h" /* version from SDK 8.0 supporting underline styling for RichEdit50W */
 #include <tom.h>
 #include <richole.h>
 #include <commctrl.h>

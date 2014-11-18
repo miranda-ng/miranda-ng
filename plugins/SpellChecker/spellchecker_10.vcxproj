@@ -203,6 +203,7 @@
     <ClInclude Include="src\hunspell\replist.hxx" />
     <ClInclude Include="src\hunspell\suggestmgr.hxx" />
     <ClInclude Include="src\hunspell\w_char.hxx" />
+    <ClInclude Include="src\richedit_0x800.h" />
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
