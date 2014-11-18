@@ -205,7 +205,7 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 	BYTE *contactmask=NULL;
 	DBVARIANT dbv2;
 	CONTACTINFO ci={0};
-	char *ptr, *who, *nextoken;
+	char *who, *nextoken;
 	int i, iRet = 0;
 	gchat_contacts *gc;
 
@@ -231,10 +231,10 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 				}
 				if (!(who = SkypeGet ("CHATMEMBER", token, "IDENTITY"))) continue;
 				if (strcmp(who, dbv2.pszVal)) {
-					char *pszRole;
 					TCHAR *ptszRole = NULL;
 
-					if (pszRole = SkypeGet ("CHATMEMBER", token, "ROLE"))
+					char *pszRole = SkypeGet("CHATMEMBER", token, "ROLE");
+					if (pszRole)
 						ptszRole = make_nonutf_tchar_string((const unsigned char*)pszRole);
 
 					i=AddChatContact(gc, who, ptszRole);
