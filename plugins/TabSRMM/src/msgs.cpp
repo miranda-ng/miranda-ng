@@ -338,6 +338,7 @@ int SplitmsgShutdown(void)
 	DestroyCursor(PluginConfig.hCurHyperlinkHand);
 	DestroyCursor(PluginConfig.hCurSplitWE);
 	FreeLibrary(GetModuleHandleA("riched20"));
+	FreeLibrary(GetModuleHandleA("Msftedit"));
 	if (g_hIconDLL) {
 		FreeLibrary(g_hIconDLL);
 		g_hIconDLL = NULL;
@@ -434,6 +435,7 @@ int LoadSendRecvMessageModule(void)
 	InitCommonControlsEx(&icex);
 
 	Utils::loadSystemLibrary(L"\\riched20.dll");
+	Utils::loadSystemLibrary(L"\\Msftedit.dll");
 
 	OleInitialize(NULL);
 	mREOLECallback = new REOLECallback;
