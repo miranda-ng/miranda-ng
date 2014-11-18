@@ -36,15 +36,12 @@ static HWND findWindow(HWND parent, const TCHAR* childClassName)
     return wnd;
 }
 
-static  BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
+static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 {
 	DWORD dwPID;
-	const TCHAR *lpszClassName;
-
-
 	GetWindowThreadProcessId(hWnd,&dwPID);
 	if (lParam != 0 && dwPID != (DWORD)lParam) return TRUE;
-	lpszClassName = getClassName(hWnd);
+	const TCHAR *lpszClassName = getClassName(hWnd);
 	if(_tcscmp(lpszClassName, _T("tSkMainForm.UnicodeClass")) == 0 ||
 		_tcscmp(lpszClassName, _T("TLoginForm.UnicodeClass")) == 0)
 	{
@@ -106,7 +103,7 @@ DWORD WINAPI setUserNamePasswordThread(LPVOID lpDummy)
 		return 0;
 
 	WaitForSingleObject(SkypeReady, 5000);
-	EnumWindows (EnumWindowsProc, dwPid);
+	EnumWindows(EnumWindowsProc, dwPid);
 
 	ReleaseMutex(mutex);
 	CloseHandle(mutex);

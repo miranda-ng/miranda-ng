@@ -88,8 +88,8 @@ void HookEvents(void)
 	//HookEvent(ME_CLIST_DOUBLECLICKED, ClistDblClick);
 	HookEvent(ME_OPT_INITIALISE, RegisterOptions);
 	HookEvent(ME_DB_CONTACT_ADDED,HookContactAdded);
-	HookEvent( ME_DB_CONTACT_DELETED, HookContactDeleted );
-	HookEvent( ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_DB_CONTACT_DELETED, HookContactDeleted );
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_OKTOEXIT, MirandaExit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OkToExit);
 }
@@ -98,14 +98,12 @@ void HookEventsLoaded(void)
 {
 	// We cannot check for the TTB-service before this event gets fired... :-/
 	HookEvent(ME_TTB_MODULELOADED, CreateTopToolbarButton);
-	HookEvent( ME_USERINFO_INITIALISE, OnDetailsInit );
+	HookEvent(ME_USERINFO_INITIALISE, OnDetailsInit );
 }
 
-INT_PTR SkypeGetCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR SkypeGetCaps(WPARAM wParam, LPARAM)
 {
 	int ret = 0;
-
-	UNREFERENCED_PARAMETER(lParam);
 
 	switch (wParam) {        
 	case PFLAGNUM_1:
@@ -155,17 +153,15 @@ INT_PTR SkypeGetName(WPARAM wParam, LPARAM lParam)
 }
 
 
-INT_PTR SkypeLoadIcon(WPARAM wParam,LPARAM lParam)
+INT_PTR SkypeLoadIcon(WPARAM wParam,LPARAM)
 {
 	UINT id;
 
-	UNREFERENCED_PARAMETER(lParam);
-
 	switch(wParam&0xFFFF) {
 		case PLI_PROTOCOL: id=IDI_SKYPE; break; // IDI_MAIN is the main icon for the protocol
-		default: return (int)(HICON)NULL;	
+		default: return 0;	
 	}
-	return (int)LoadImage(hInst,MAKEINTRESOURCE(id),IMAGE_ICON,GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON),GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON),0);
+	return (INT_PTR)LoadImage(hInst,MAKEINTRESOURCE(id),IMAGE_ICON,GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON),GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON),0);
 }
 
 INT_PTR SkypeGetAvatar(WPARAM wParam,LPARAM lParam)

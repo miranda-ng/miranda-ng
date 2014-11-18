@@ -7,12 +7,9 @@
 #include "resource.h"
 #include "skype.h"
 
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
 // Miranda database access
 #include <newpluginapi.h>
 #include <m_database.h>
-#pragma warning (pop)
 
 typedef struct
 {

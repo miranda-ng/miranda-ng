@@ -48,10 +48,8 @@ static HBITMAP hAvatar = NULL;
 extern BOOL PopupServiceExists;
 extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
 
-int RegisterOptions(WPARAM wParam, LPARAM lParam) {
+int RegisterOptions(WPARAM wParam, LPARAM) {
    OPTIONSDIALOGPAGE odp;
-
-   UNREFERENCED_PARAMETER(lParam);
 
    ZeroMemory(&odp, sizeof(odp));
    odp.cbSize = sizeof(odp);
@@ -265,11 +263,9 @@ INT_PTR CALLBACK OptPopupDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return 0;
 }
 
-INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
 	static int iInit = TRUE;
-
-	UNREFERENCED_PARAMETER(wParam);
    
    switch(msg)
    {
@@ -513,10 +509,8 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 	return 0;
 }
 
-static int CALLBACK BrowseCallbackProc(HWND hWnd, UINT uMsg, LPARAM lParam,	LPARAM lpData)
+static int CALLBACK BrowseCallbackProc(HWND hWnd, UINT uMsg, LPARAM, LPARAM lpData)
 {
-	UNREFERENCED_PARAMETER(lParam);
-
 	switch (uMsg)
 	{
 		case BFFM_INITIALIZED:
@@ -681,7 +675,6 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				case IDC_BROWSECMDL:
 				{
 					OPENFILENAMEA ofn={0};
-					BOOL gofnResult;
 					char szFileName[MAX_PATH];
 					char szAbsolutePath[MAX_PATH];
 						
@@ -697,7 +690,8 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					TranslateMirandaRelativePathToAbsolute(szFileName, szAbsolutePath, FALSE);
 					strcpy (szFileName, szAbsolutePath);
 
-					if (!(gofnResult = GetOpenFileNameA(&ofn)) && CommDlgExtendedError() == FNERR_INVALIDFILENAME){
+					BOOL gofnResult = GetOpenFileNameA(&ofn);
+					if (!gofnResult && CommDlgExtendedError() == FNERR_INVALIDFILENAME){
 						strcpy(szFileName, ".\\Skype.exe");
 						TranslateMirandaRelativePathToAbsolute(szFileName, szAbsolutePath, FALSE);
 						strcpy (szFileName, szAbsolutePath);
@@ -711,22 +705,21 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				}
 				case IDC_BROWSEDP:
 				{
-					BROWSEINFOA bi={0};
-					LPITEMIDLIST pidl;
-					char szFileName[MAX_PATH];
-					char szAbsolutePath[MAX_PATH];
+					char szFileName[MAX_PATH], szAbsolutePath[MAX_PATH];
 
 					GetDlgItemTextA (hwndDlg, IDC_DATAPATH, szFileName, MAX_PATH);
 
 					TranslateMirandaRelativePathToAbsolute(szFileName, szAbsolutePath, FALSE);
+					BROWSEINFOA bi={0};
 					bi.hwndOwner = hwndDlg;
-					bi.ulFlags   = BIF_RETURNONLYFSDIRS | BIF_SHAREABLE | BIF_NEWDIALOGSTYLE | BIF_NONEWFOLDERBUTTON;
-					bi.lpfn      = BrowseCallbackProc;
-					bi.lParam    = (LPARAM)szAbsolutePath;
+					bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_SHAREABLE | BIF_NEWDIALOGSTYLE | BIF_NONEWFOLDERBUTTON;
+					bi.lpfn = BrowseCallbackProc;
+					bi.lParam = (LPARAM)szAbsolutePath;
 
-					if ( (pidl = SHBrowseForFolderA (&bi)) ) {
-						if (SHGetPathFromIDListA (pidl, szFileName))
-							SetDlgItemTextA (hwndDlg, IDC_DATAPATH, szFileName);
+					LPITEMIDLIST pidl = SHBrowseForFolderA(&bi);
+					if (pidl) {
+						if (SHGetPathFromIDListA(pidl, szFileName))
+							SetDlgItemTextA(hwndDlg, IDC_DATAPATH, szFileName);
 						CoTaskMemFree (pidl);
 					}
 					break;
@@ -788,11 +781,9 @@ int OnDetailsInit( WPARAM wParam, LPARAM lParam )
 * For setting the skype avatar
 *
 */
-INT_PTR CALLBACK AvatarDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AvatarDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	static RECT r;
-
-	UNREFERENCED_PARAMETER(lParam);
 
 	switch ( msg ) {
 	case WM_INITDIALOG:
@@ -854,11 +845,9 @@ INT_PTR CALLBACK AvatarDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 * For setting the skype infos
 *
 */
-INT_PTR CALLBACK DetailsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DetailsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	static int sexM = 0,sexF = 0, sex;
-
-	UNREFERENCED_PARAMETER(lParam);
 
 	switch ( msg ) {
 	case WM_INITDIALOG:
