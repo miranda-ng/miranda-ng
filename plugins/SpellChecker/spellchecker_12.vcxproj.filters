@@ -42,6 +42,9 @@
     <ClInclude Include="src\RichEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\richedit_0x800.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\hunspell\affentry.hxx">
       <Filter>Header Files\hunspell Header Files</Filter>
     </ClInclude>
