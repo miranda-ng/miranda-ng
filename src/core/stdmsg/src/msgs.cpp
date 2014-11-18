@@ -378,11 +378,11 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static TCHAR tszError[] = LPGENT("Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.");
+static TCHAR tszError[] = LPGENT("Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.");
 
 int LoadSendRecvMessageModule(void)
 {
-	if (LoadLibraryA("riched20.dll") == NULL) {
+	if (LoadLibraryA("Msftedit.dll") == NULL) {
 		if (IDYES != MessageBox(0, TranslateTS(tszError), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;
@@ -444,7 +444,7 @@ int SplitmsgShutdown(void)
 	DestroyHookableEvent(hHookWinWrite);
 
 	FreeMsgLogIcons();
-	FreeLibrary(GetModuleHandleA("riched20"));
+	FreeLibrary(GetModuleHandleA("Msftedit"));
 	OleUninitialize();
 	RichUtil_Unload();
 	msgQueue_destroy();

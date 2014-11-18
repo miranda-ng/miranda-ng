@@ -125,10 +125,7 @@ LRESULT CALLBACK RichEditProxyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 void LoadRichEdit()
 {
 	OleInitialize(NULL);
-//	LoadLibrary("riched20.dll");
 	reOleCallback = new CREOleCallback;
-//	CoInitializeEx(NULL,COINIT_MULTITHREADED);
-
 
 	WNDCLASSEX wcl;
 	wcl.cbSize = sizeof(wcl);

@@ -57,8 +57,6 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	//6.0A SDK is missing RichEd20.lib for x64
-	//http://connect.microsoft.com/VisualStudio/feedback/details/551071/the-6-0a-sdk-is-missing-riched20-lib-for-x64
 	MyCreateTextServices = 0;
 	hMsfteditDll = LoadLibrary(_T("msftedit.dll"));
 	if (hMsfteditDll) {

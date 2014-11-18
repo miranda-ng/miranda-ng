@@ -502,7 +502,7 @@ int OnUnloadModule(void)
 
 	ReleaseIcons();
 	FreeMsgLogIcons();
-	FreeLibrary(GetModuleHandleA("riched20.dll"));
+	FreeLibrary(GetModuleHandleA("Msftedit.dll"));
 	OleUninitialize();
 	RichUtil_Unload();
 	FreeGlobals();
@@ -511,10 +511,10 @@ int OnUnloadModule(void)
 
 int OnLoadModule(void)
 {
-	if (LoadLibraryA("riched20.dll") == NULL) {
+	if (LoadLibraryA("Msftedit.dll") == NULL) {
 		if (IDYES != MessageBox(0,
 			TranslateT
-			("Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."),
+			("Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."),
 			TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;
