@@ -189,6 +189,7 @@
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\RichEdit.h" />
+    <ClInclude Include="src\richedit_0x800.h" />
     <ClInclude Include="src\hunspell\affentry.hxx" />
     <ClInclude Include="src\hunspell\affixmgr.hxx" />
     <ClInclude Include="src\hunspell\atypes.hxx" />
