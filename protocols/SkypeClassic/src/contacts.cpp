@@ -214,8 +214,7 @@ int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM) {
 		return 0;
 
 	// Clear hold-Item in case it exists
-	CLISTMENUITEM mi;
-	mi = HoldCallItem();
+	CLISTMENUITEM mi = HoldCallItem();
 	mi.flags |= CMIM_ALL;
 	Menu_ModifyItem(hMenuHoldCallItem, &mi);
 
