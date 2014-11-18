@@ -10,6 +10,7 @@
 
 #include <newpluginapi.h>
 #include <m_clist.h>
+#include <m_clistint.h>
 #include <m_langpack.h>
 #include <m_database.h>
 #include <m_message.h>
@@ -41,6 +42,7 @@ static char dbLastUC_DateTimeFormatDefault[] =  "(%Y-%m-%d %H:%M)  ";
 static char dbLastUC_MaxShownContacts[] =       "MaxShownContacts";
 static char dbLastUC_IgnoreContact[] =          "Ignore";
 static char dbLastUC_HideOfflineContacts[] =    "HideOfflineContacts";
+static char dbLastUC_WindowAutosize[] =		    "WindowAutoSize";
 
 static char msLastUC_ShowList[] =               "RecentContacts/ShowList";
 static char msLastUC_IgnoreOff[] =              "RecentContacts/SetIgnoreOff";
@@ -52,6 +54,7 @@ typedef struct _LastUCOptions
 {
 	int    MaxShownContacts;
 	int    HideOffline;
+	int    WindowAutoSize;
 	string DateTimeFormat;
 }
 	LastUCOptions;
