@@ -42,7 +42,6 @@ HINSTANCE hInst = 0;
 
 HANDLE hStackMutex, hThreadQueueEmpty;
 DWORD mir_tls = 0;
-bool g_bDebugMode = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // module init

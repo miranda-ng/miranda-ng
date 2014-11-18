@@ -88,15 +88,16 @@ struct THREAD_WAIT_ENTRY
 	DWORD dwThreadId;	// valid if hThread isn't signalled
 	HANDLE hThread;
 	HINSTANCE hOwner;
-	void* pObject;
-	//PVOID addr;
+	void *pObject;
 };
 
 static LIST<THREAD_WAIT_ENTRY> threads(10, NumericKeySortT);
 
-struct FORK_ARG {
+struct FORK_ARG
+{
 	HANDLE hEvent;
-	union {
+	union
+	{
 		pThreadFunc threadcode;
 		pThreadFuncEx threadcodeex;
 	};
@@ -113,23 +114,14 @@ void __cdecl forkthread_r(void *arg)
 	void *cookie = fa->arg;
 	Thread_Push((HINSTANCE)callercode);
 	SetEvent(fa->hEvent);
-	if (g_bDebugMode)
-		callercode(cookie);
-	else {
-		__try
-		{
-			callercode(cookie);
-		}
-		__except(pMirandaExceptFilter(GetExceptionCode(), GetExceptionInformation()))
-		{
-		}
-	}
+
+	callercode(cookie);
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 	Thread_Pop();
 }
 
-MIR_CORE_DLL(UINT_PTR) forkthread( void (__cdecl *threadcode)(void*), unsigned long stacksize, void *arg)
+MIR_CORE_DLL(UINT_PTR) forkthread(void(__cdecl *threadcode)(void*), unsigned long stacksize, void *arg)
 {
 	FORK_ARG fa;
 	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -157,24 +149,10 @@ unsigned __stdcall forkthreadex_r(void * arg)
 
 	Thread_Push((HINSTANCE)threadcode, fa->owner);
 	SetEvent(fa->hEvent);
-	if (g_bDebugMode) {
-		if (owner)
-			rc = threadcodeex(owner, cookie);
-		else
-			rc = threadcode(cookie);
-	}
-	else {
-		__try
-		{
-			if (owner)
-				rc = threadcodeex(owner, cookie);
-			else
-				rc = threadcode(cookie);
-		}
-		__except(pMirandaExceptFilter(GetExceptionCode(), GetExceptionInformation()))
-		{
-		}
-	}
+	if (owner)
+		rc = threadcodeex(owner, cookie);
+	else
+		rc = threadcode(cookie);
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 	Thread_Pop();
@@ -184,8 +162,8 @@ unsigned __stdcall forkthreadex_r(void * arg)
 MIR_CORE_DLL(UINT_PTR) forkthreadex(
 	void *sec,
 	unsigned stacksize,
-	unsigned (__stdcall *threadcode)(void*),
-	void* owner,
+	unsigned(__stdcall *threadcode)(void*),
+	void *owner,
 	void *arg,
 	unsigned *thraddr)
 {
@@ -211,22 +189,22 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 
 	WaitForSingleObject(hStackMutex, INFINITE);
 
-	HANDLE* threadPool = (HANDLE*)alloca(threads.getCount()*sizeof(HANDLE));
+	HANDLE *threadPool = (HANDLE*)alloca(threads.getCount()*sizeof(HANDLE));
 	int threadCount = 0;
 
 	for (int j = threads.getCount(); j--;) {
-		THREAD_WAIT_ENTRY* p = threads[j];
+		THREAD_WAIT_ENTRY *p = threads[j];
 		if (p->pObject == owner)
-			threadPool[ threadCount++ ] = p->hThread;
+			threadPool[threadCount++] = p->hThread;
 	}
 	ReleaseMutex(hStackMutex);
 
 	// is there anything to kill?
 	if (threadCount > 0) {
-		if ( WaitForMultipleObjects(threadCount, threadPool, TRUE, 5000) == WAIT_TIMEOUT) {
+		if (WaitForMultipleObjects(threadCount, threadPool, TRUE, 5000) == WAIT_TIMEOUT) {
 			// forcibly kill all remaining threads after 5 secs
 			WaitForSingleObject(hStackMutex, INFINITE);
-			for (int j = threads.getCount()-1; j >= 0; j--) {
+			for (int j = threads.getCount() - 1; j >= 0; j--) {
 				THREAD_WAIT_ENTRY* p = threads[j];
 				if (p->pObject == owner) {
 					char szModuleName[MAX_PATH];
@@ -247,10 +225,10 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 
 static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 {
-	if ( MirandaWaitForMutex(hStackMutex)) {
-		for (int j=0; j < threads.getCount(); j++) {
+	if (MirandaWaitForMutex(hStackMutex)) {
+		for (int j = 0; j < threads.getCount(); j++) {
 			THREAD_WAIT_ENTRY *p = threads[j];
-			char szModuleName[ MAX_PATH ];
+			char szModuleName[MAX_PATH];
 			GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
 			Netlib_Logf(0, "Killing thread %s:%p", szModuleName, p->dwThreadId);
 			TerminateThread(p->hThread, 9999);
@@ -268,8 +246,8 @@ static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 MIR_CORE_DLL(void) Thread_Wait(void)
 {
 	// acquire the list and wake up any alertable threads
-	if ( MirandaWaitForMutex(hStackMutex)) {
-		for (int j=0; j < threads.getCount(); j++)
+	if (MirandaWaitForMutex(hStackMutex)) {
+		for (int j = 0; j < threads.getCount(); j++)
 			QueueUserAPC(DummyAPCFunc, threads[j]->hThread, 0);
 		ReleaseMutex(hStackMutex);
 	}
@@ -288,29 +266,26 @@ typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 
 static void* GetCurrentThreadEntryPoint()
 {
-	LONG  ntStatus;
-	HANDLE hDupHandle, hCurrentProcess;
-	DWORD_PTR dwStartAddress;
+	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "NtQueryInformationThread");
+	if (NtQueryInformationThread == NULL) return 0;
 
-	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "NtQueryInformationThread" );
-	if(NtQueryInformationThread == NULL) return 0;
-
-	hCurrentProcess = GetCurrentProcess();
-	if(!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)){
+	HANDLE hDupHandle, hCurrentProcess = GetCurrentProcess();
+	if (!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)) {
 		SetLastError(ERROR_ACCESS_DENIED);
 		return NULL;
 	}
-	ntStatus = NtQueryInformationThread(hDupHandle, ThreadQuerySetWin32StartAddress, &dwStartAddress, sizeof(DWORD_PTR), NULL);
+	
+	DWORD_PTR dwStartAddress;
+	LONG ntStatus = NtQueryInformationThread(hDupHandle, ThreadQuerySetWin32StartAddress, &dwStartAddress, sizeof(DWORD_PTR), NULL);
 	CloseHandle(hDupHandle);
 
-	if(ntStatus != ERROR_SUCCESS) return 0;
-	return ( void* )dwStartAddress;
+	return (ntStatus != ERROR_SUCCESS) ? NULL : (void*)dwStartAddress;
 }
 
 MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 {
 	ResetEvent(hThreadQueueEmpty); // thread list is not empty
-	if ( WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
+	if (WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
 		THREAD_WAIT_ENTRY* p = (THREAD_WAIT_ENTRY*)mir_calloc(sizeof(THREAD_WAIT_ENTRY));
 
 		DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &p->hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
@@ -319,7 +294,7 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 		if (pluginListAddr.getIndex(hInst) != -1)
 			p->hOwner = hInst;
 		else
-			p->hOwner = GetInstByAddress(( hInst != NULL ) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
+			p->hOwner = GetInstByAddress((hInst != NULL) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
 
 		threads.insert(p);
 
@@ -332,17 +307,17 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 
 MIR_CORE_DLL(INT_PTR) Thread_Pop()
 {
-	if ( WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
+	if (WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
 		DWORD dwThreadId = GetCurrentThreadId();
-		for (int j=0; j < threads.getCount(); j++) {
-			THREAD_WAIT_ENTRY* p = threads[j];
+		for (int j = 0; j < threads.getCount(); j++) {
+			THREAD_WAIT_ENTRY *p = threads[j];
 			if (p->dwThreadId == dwThreadId) {
 				SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
 				CloseHandle(p->hThread);
 				threads.remove(j);
 				mir_free(p);
 
-				if ( !threads.getCount()) {
+				if (!threads.getCount()) {
 					threads.destroy();
 					ReleaseMutex(hStackMutex);
 					SetEvent(hThreadQueueEmpty); // thread list is empty now
@@ -380,11 +355,9 @@ MIR_CORE_DLL(void) Thread_SetName(const char *szThreadName)
 	info.dwThreadID = GetCurrentThreadId();
 	info.dwFlags = 0;
 
-	__try
-	{
-		RaiseException( MS_VC_EXCEPTION, 0, sizeof(info)/sizeof(ULONG_PTR), (ULONG_PTR*)&info );
+	__try {
+		RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
-	{
-	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{}
 }
