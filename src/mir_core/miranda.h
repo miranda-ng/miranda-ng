@@ -41,7 +41,6 @@ void UninitProtocols();
 extern HINSTANCE hInst;
 extern HWND hAPCWindow;
 extern HANDLE hStackMutex, hThreadQueueEmpty;
-extern bool g_bDebugMode;
 extern MIDatabase *currDb;
 
 /**** modules.cpp **********************************************************************/

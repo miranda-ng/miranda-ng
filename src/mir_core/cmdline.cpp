@@ -79,9 +79,6 @@ MIR_CORE_DLL(void) CmdLine_Parse(LPTSTR ptszCmdLine)
 
 		p--; // the cycle will wipe this space automatically
 	}
-
-	if ( CmdLine_GetOption( _T("debug")))
-		g_bDebugMode = true;
 }
 
 MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(const TCHAR* ptszParameter)
