@@ -23,8 +23,6 @@
 #include "version.h"
 #include "util.h"
 
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
 
 // Miranda Includes
 #include <newpluginapi.h>
@@ -45,8 +43,6 @@
 #include <m_metacontacts.h>
 #include <m_popup.h>
 #include <m_string.h>
-
-#pragma warning (pop)
 
 // MyDetails defines
 

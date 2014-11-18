@@ -13,14 +13,11 @@
 #include "alogon.h"
 #include "msgq.h"
 #include <malloc.h>
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
+
 #include <m_utils.h>
 #include <m_langpack.h>
-#pragma warning (push)
 #include <m_toptoolbar.h>
 
-#pragma warning (disable: 4706) // assignment within conditional expression
 
 // Imported Globals
 extern HWND hSkypeWnd, g_hWnd;

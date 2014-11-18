@@ -22,12 +22,12 @@ void SkypeProfile_Save(SkypeProfile *pstProf)
 
 void SkypeProfile_Load(SkypeProfile *pstProf)
 {
-	DBVARIANT dbv;
-
 	pstProf->Sex = (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "Gender", 0);
 	pstProf->Birthday.wYear = (WORD)db_get_w(NULL, SKYPE_PROTONAME, "BirthYear", 1900);
 	pstProf->Birthday.wMonth = (WORD)db_get_b(NULL, SKYPE_PROTONAME, "BirthMonth", 01);
 	pstProf->Birthday.wDay = (WORD)db_get_b(NULL, SKYPE_PROTONAME, "BirthDay", 01);
+
+	DBVARIANT dbv;
 	if(!db_get_ts(NULL,SKYPE_PROTONAME,"Nick",&dbv)) 
 	{	
 		_tcsncpy (pstProf->FullName, dbv.ptszVal, sizeof(pstProf->FullName)/sizeof(TCHAR));

@@ -8,12 +8,7 @@
 #include "pthread.h"
 #include "gchat.h"
 
-#pragma warning (push)
-#pragma warning (disable: 4100) // unreferenced formal parameter
 #include <m_langpack.h>
-#pragma warning (pop)
-
-#pragma warning (disable: 4706) // assignment within conditional expression
 
 // Imported Globals
 extern HINSTANCE hInst;
@@ -21,7 +16,7 @@ extern BOOL bSkypeOut, bIsImoproxy;
 extern char protocol, g_szProtoName[];
 
 // Handles
-static HANDLE hMenuCallItem, hMenuCallHangup, hMenuSkypeOutCallItem, hMenuHoldCallItem, hMenuFileTransferItem, hMenuChatInitItem, hMenuBlockContactItem;
+static HGENMENU hMenuCallItem, hMenuCallHangup, hMenuSkypeOutCallItem, hMenuHoldCallItem, hMenuFileTransferItem, hMenuChatInitItem, hMenuBlockContactItem;
 
 // Check if alpha blending icons are supported
 // Seems to be not neccessary
@@ -163,13 +158,10 @@ CLISTMENUITEM BlockContactItem(void) {
 	return mi;
 }
 
-HANDLE add_contextmenu(MCONTACT hContact) {
-	CLISTMENUITEM mi;
-
-	UNREFERENCED_PARAMETER(hContact);
-
-	mi = CallItem();
+HANDLE add_contextmenu(MCONTACT) {
+	CLISTMENUITEM mi = CallItem();
 	hMenuCallItem = Menu_AddContactMenuItem(&mi);
+
 	mi = HupItem();
 	hMenuCallHangup = Menu_AddContactMenuItem(&mi);
 
@@ -215,28 +207,27 @@ HANDLE add_mainmenu(void) {
 
 }
 
-int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
-	DBVARIANT dbv;
-	CLISTMENUITEM mi;
-	char *szProto;
-	BOOL callAvailable = FALSE;
-	BOOL hangupAvailable = FALSE;
-
-	UNREFERENCED_PARAMETER(lParam);
-
-	if (!(szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0))) return 0;
+int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM) {
+	MCONTACT hContact = (MCONTACT) wParam;
+	char *szProto = GetContactProto(hContact);
+	if (!szProto)
+		return 0;
 
 	// Clear hold-Item in case it exists
+	CLISTMENUITEM mi;
 	mi = HoldCallItem();
 	mi.flags |= CMIM_ALL;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuHoldCallItem, (LPARAM)&mi);
+	Menu_ModifyItem(hMenuHoldCallItem, &mi);
 
+	DBVARIANT dbv;
+	BOOL callAvailable = FALSE;
+	BOOL hangupAvailable = FALSE;
 	if (!strcmp(szProto, SKYPE_PROTONAME)) {
-		if (!db_get((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
-			if (db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "OnHold", 0))
+		if (!db_get(hContact, SKYPE_PROTONAME, "CallId", &dbv)) {
+			if (db_get_b(hContact, SKYPE_PROTONAME, "OnHold", 0))
 				mi = ResumeCallItem(); else mi = HoldCallItem();
 			mi.flags = CMIM_ALL;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuHoldCallItem, (LPARAM)&mi);
+			Menu_ModifyItem(hMenuHoldCallItem, &mi);
 
 			callAvailable = FALSE;
 			hangupAvailable = TRUE;
@@ -245,63 +236,63 @@ int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
 		}
 		else { callAvailable = TRUE; hangupAvailable = FALSE; }
 
-		if (db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "ChatRoom", 0) != 0) {
+		if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) != 0) {
 			callAvailable = FALSE;
 			hangupAvailable = FALSE;
 		}
 
 		mi = CallItem();
 		mi.flags |= CMIM_ALL | (!callAvailable ? CMIF_HIDDEN : 0);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuCallItem, (LPARAM)&mi);
+		Menu_ModifyItem(hMenuCallItem, &mi);
 
 		mi = HupItem();
 		mi.flags |= CMIM_ALL | (!hangupAvailable ? CMIF_HIDDEN : 0);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuCallHangup, (LPARAM)&mi);
+		Menu_ModifyItem(hMenuCallHangup, &mi);
 
 		// Clear SkypeOut menu in case it exists
 		mi = SkypeOutCallItem();
 		mi.flags |= CMIM_ALL;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuSkypeOutCallItem, (LPARAM)&mi);
+		Menu_ModifyItem(hMenuSkypeOutCallItem, &mi);
 
 		// File sending and groupchat-creation works starting with protocol version 5
 		if (protocol >= 5) {
 			mi = FileTransferItem();
-			if (db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
+			if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 				mi.flags ^= CMIF_HIDDEN;
 			mi.flags |= CMIM_FLAGS;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuFileTransferItem, (LPARAM)&mi);
+			Menu_ModifyItem(hMenuFileTransferItem, &mi);
 		}
 
 		if (protocol >= 5 || bIsImoproxy) {
 			mi = ChatInitItem();
 			if (db_get_b(NULL, SKYPE_PROTONAME, "UseGroupchat", 0) &&
-				db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
+				db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 				mi.flags ^= CMIF_HIDDEN;
 			mi.flags |= CMIM_FLAGS;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuChatInitItem, (LPARAM)&mi);
+			Menu_ModifyItem(hMenuChatInitItem, &mi);
 			mi = BlockContactItem();
 			mi.flags ^= CMIF_HIDDEN;
 			mi.flags |= CMIM_FLAGS | CMIM_NAME;
-			if (db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "IsBlocked", 0) == 1)
+			if (db_get_b(hContact, SKYPE_PROTONAME, "IsBlocked", 0) == 1)
 				mi.ptszName = LPGENT("Unblock contact");
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuBlockContactItem, (LPARAM)&mi);
+			Menu_ModifyItem(hMenuBlockContactItem, &mi);
 		}
 
 	}
 	else if (bSkypeOut) {
-		if (!db_get((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+		if (!db_get(hContact, SKYPE_PROTONAME, "CallId", &dbv)) {
 			mi = SkypeOutHupItem();
 			db_free(&dbv);
 		}
 		else {
 			mi = SkypeOutCallItem();
-			if (!db_get((MCONTACT)wParam, "UserInfo", "MyPhone0", &dbv)) {
+			if (!db_get(hContact, "UserInfo", "MyPhone0", &dbv)) {
 				db_free(&dbv);
 				mi.flags = 0;
 			}
 		}
 		mi.flags |= CMIM_ALL;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HANDLE)hMenuSkypeOutCallItem, (LPARAM)&mi);
+		Menu_ModifyItem(hMenuSkypeOutCallItem, &mi);
 	}
 
 	return 0;
@@ -327,10 +318,9 @@ MCONTACT find_contact(char *name)
 	DBVARIANT dbv;
 
 	// already on list?
-	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(SKYPE_PROTONAME); hContact != NULL; hContact = db_find_next(hContact,SKYPE_PROTONAME))
 	{
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
-		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
+		if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 		{
 			if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
 			tCompareResult = strcmp(dbv.pszVal, name);
@@ -348,10 +338,9 @@ MCONTACT find_contactT(TCHAR *name)
 	DBVARIANT dbv;
 
 	// already on list?
-	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+	for (MCONTACT hContact = db_find_first(SKYPE_PROTONAME); hContact != NULL; hContact = db_find_next(hContact,SKYPE_PROTONAME))
 	{
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0);
-		if (szProto != NULL && !strcmp(szProto, SKYPE_PROTONAME) && db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
+		if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
 		{
 			if (db_get_ts(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) continue;
 			tCompareResult = _tcscmp(dbv.ptszVal, name);
@@ -366,10 +355,9 @@ MCONTACT find_contactT(TCHAR *name)
 
 MCONTACT add_contact(char *name, DWORD flags)
 {
-	MCONTACT hContact;
-
 	// already on list?
-	if (hContact = find_contact(name)) {
+	MCONTACT hContact = find_contact(name);
+	if (hContact) {
 		if (!(flags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 1)) {
 			db_unset(hContact, "CList", "NotOnList");
 			db_unset(hContact, "CList", "Hidden");
