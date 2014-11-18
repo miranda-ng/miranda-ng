@@ -40,39 +40,36 @@ TemplateHTMLBuilder::~TemplateHTMLBuilder()
 			mir_free(flashAvatars[i]);
 }
 
-char *TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char* szProto)
+char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 {
 	DBVARIANT dbv;
 	TCHAR tmpPath[MAX_PATH];
 	TCHAR *result = NULL;
 
 	if (Options::getAvatarServiceFlags() == Options::AVATARSERVICE_PRESENT) {
-		struct avatarCacheEntry *ace = NULL;
-		if (hContact == NULL) {
-			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)szProto);
-		} else {
-			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
-		}
-		if (ace!=NULL) {
-			if ( ace->cbSize == sizeof(avatarCacheEntry))
+		avatarCacheEntry *ace;
+		if (hContact == NULL)
+			ace = (avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)szProto);
+		else
+			ace = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
+
+		if (ace != NULL) {
+			if (ace->cbSize == sizeof(avatarCacheEntry))
 				result = ace->szFilename;
-			else {
-				// compatibility: in M0.9 it will always be char*
-				MultiByteToWideChar( CP_ACP, 0, (char*)ace->szFilename, -1, tmpPath, SIZEOF(tmpPath));
-				
-			}
+			else // compatibility: in M0.9 it will always be char*
+				MultiByteToWideChar(CP_ACP, 0, (char*)ace->szFilename, -1, tmpPath, SIZEOF(tmpPath));
 		}
 	}
 	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 		if (_tcslen(dbv.ptszVal) > 0) {
-			TCHAR* ext = _tcsrchr(dbv.ptszVal, '.');
-			if (ext && lstrcmpi(ext, _T(".xml")) == 0) {
-				result = ( TCHAR* )getFlashAvatar(dbv.ptszVal, (hContact == NULL) ? 1 : 0);
-			} else {
+			TCHAR *ext = _tcsrchr(dbv.ptszVal, '.');
+			if (ext && lstrcmpi(ext, _T(".xml")) == 0)
+				result = (TCHAR*)getFlashAvatar(dbv.ptszVal, (hContact == NULL) ? 1 : 0);
+			else {
 				if (result == NULL) {
 					/* relative -> absolute */
-					_tcscpy (tmpPath, dbv.ptszVal);
-					if ( _tcsncmp(tmpPath, _T("http://"), 7))
+					_tcscpy(tmpPath, dbv.ptszVal);
+					if (_tcsncmp(tmpPath, _T("http://"), 7))
 						PathToAbsoluteT(dbv.ptszVal, tmpPath);
 
 					result = tmpPath;
@@ -101,7 +98,7 @@ const char *TemplateHTMLBuilder::getFlashAvatar(const TCHAR *file, int index)
 			_read(src, pBuf, 2048);
 			_close(src);
 			urlBuf = strstr(pBuf, "<URL>");
-			if(urlBuf) {
+			if (urlBuf) {
 				flashAvatars[index] = mir_strdup(strtok(urlBuf + 5, "<\t\n\r"));
 			}
 		}
@@ -141,11 +138,11 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 		today = mktime(&tm_today);
 		if (dwFlags & Options::LOG_RELATIVE_DATE && check >= today)
 			_tcsncpy(str, TranslateT("Today"), SIZEOF(str));
-		else if(dwFlags & Options::LOG_RELATIVE_DATE && check > (today - 86400))
+		else if (dwFlags & Options::LOG_RELATIVE_DATE && check > (today - 86400))
 			_tcsncpy(str, TranslateT("Yesterday"), SIZEOF(str));
 		else {
 			dbtts.szFormat = (dwFlags & Options::LOG_LONG_DATE) ? _T("D") : _T("d");
-			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);
+			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM)& dbtts);
 		}
 	}
 
@@ -155,51 +152,44 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 
 void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, ProtocolSettings *protoSettings)
 {
+	if (protoSettings == NULL)
+		return;
+
 	DBVARIANT dbv;
-	CONTACTINFO ci;
 	char tempBase[1024];
 	char tempStr[1024];
-	char *szRealProto = NULL;
-	char *szBase=NULL;
-	char *szNoAvatar=NULL;
-	char *szProto = NULL;
 	char *szNameIn = NULL;
 	char *szNameOut = NULL;
-	char *szAvatarIn = NULL;
-	char *szAvatarOut = NULL;
 	char *szUINIn = NULL;
 	char *szUINOut = NULL;
 	char *szNickIn = NULL;
 	char *szNickOut = NULL;
 	char *szStatusMsg = NULL;
-	int outputSize;
-	char *output;
 
-	output = NULL;
 	MCONTACT hRealContact = getRealContact(event->hContact);
-	szRealProto = getProto(hRealContact);
-	szProto = getProto(event->pszProto, event->hContact);
-	tempBase[0]='\0';
-	if (protoSettings == NULL)
-		return;
+	char *szRealProto = getProto(hRealContact);
+	char *szProto = getProto(event->pszProto, event->hContact);
+	tempBase[0] = '\0';
 
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
-	if (tmpm==NULL)
+	if (tmpm == NULL)
 		return;
 
 	strcpy(tempBase, "file://");
 	strcat(tempBase, tmpm->getFilename());
-	char* pathrun = tempBase + strlen(tempBase);
-	while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase)) pathrun--;
+	char *pathrun = tempBase + strlen(tempBase);
+	while ((*pathrun != '\\' && *pathrun != '/') && (pathrun > tempBase))
+		pathrun--;
 	pathrun++;
 	*pathrun = '\0';
 
-	szBase = mir_utf8encode(tempBase);
+	char *szBase = mir_utf8encode(tempBase);
 	getUINs(event->hContact, szUINIn, szUINOut);
 	if (getFlags(protoSettings) & Options::LOG_SHOW_NICKNAMES) {
 		szNameOut = getEncodedContactName(NULL, szProto, szRealProto);
 		szNameIn = getEncodedContactName(event->hContact, szProto, szRealProto);
-	} else {
+	}
+	else {
 		szNameOut = mir_strdup("&nbsp;");
 		szNameIn = mir_strdup("&nbsp;");
 	}
@@ -214,83 +204,90 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.jpg", tempBase);
 	else
 		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.png", tempBase);
-	szNoAvatar = mir_utf8encode(tempStr);
-	szAvatarIn = getAvatar(event->hContact, szRealProto);
-	if (szAvatarIn == NULL) {
+	char *szNoAvatar = mir_utf8encode(tempStr);
+
+	char *szAvatarIn = getAvatar(event->hContact, szRealProto);
+	if (szAvatarIn == NULL)
 		szAvatarIn = mir_strdup(szNoAvatar);
-	}
-	szAvatarOut = getAvatar(NULL, szRealProto);
-	if (szAvatarOut == NULL) {
+
+	char *szAvatarOut = getAvatar(NULL, szRealProto);
+	if (szAvatarOut == NULL)
 		szAvatarOut = mir_strdup(szNoAvatar);
-	}
-	if (!db_get(event->hContact, "CList", "StatusMsg",&dbv)) {
-		if (strlen(dbv.pszVal) > 0) {
+
+	if (!db_get(event->hContact, "CList", "StatusMsg", &dbv)) {
+		if (strlen(dbv.pszVal) > 0)
 			szStatusMsg = mir_utf8encode(dbv.pszVal);
-		}
 		db_free(&dbv);
 	}
+
+	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = event->hContact;
 	ci.szProto = szProto;
 	ci.dwFlag = CNF_NICK | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
 		szNickIn = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
-	}
+
 	ZeroMemory(&ci, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = NULL;
 	ci.szProto = szProto;
 	ci.dwFlag = CNF_NICK | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
 		szNickOut = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
+
+	Template *tmplt = NULL;
+	if (tmpm) {
+		tmplt = tmpm->getTemplate(((event->dwFlags & IEEF_RTL) && tmpm->isRTL()) ? "HTMLStartRTL" : "HTMLStart");
+		if (tmplt == NULL)
+			tmplt = tmpm->getTemplate("HTMLStart");
 	}
 
-	Template *tmplt = tmpm->getTemplate(((event->dwFlags & IEEF_RTL) && tmpm->isRTL()) ? "HTMLStartRTL" : "HTMLStart");
-	if (tmplt == NULL) {
-		tmplt = tmpm->getTemplate("HTMLStart");
-	}
-	if (tmplt!=NULL) {
-		for (Token *token = tmplt->getTokens();token!=NULL;token=token->getNext()) {
+	char *output = NULL;
+	int outputSize;
+
+	if (tmplt != NULL) {
+		for (Token *token = tmplt->getTokens(); token != NULL; token = token->getNext()) {
 			const char *tokenVal;
 			tokenVal = NULL;
 			switch (token->getType()) {
-				case Token::PLAIN:
-					tokenVal = token->getText();
-					break;
-				case Token::BASE:
-					tokenVal = szBase;
-					break;
-				case Token::NAMEIN:
-					tokenVal = szNameIn;
-					break;
-				case Token::NAMEOUT:
-					tokenVal = szNameOut;
-					break;
-				case Token::AVATARIN:
-					tokenVal = szAvatarIn;
-					break;
-				case Token::AVATAROUT:
-					tokenVal = szAvatarOut;
-					break;
-				case Token::PROTO:
-					tokenVal = szRealProto;
-					break;
-				case Token::UININ:
-					tokenVal = szUINIn;
-					break;
-				case Token::UINOUT:
-					tokenVal = szUINOut;
-					break;
-				case Token::STATUSMSG:
-					tokenVal = szStatusMsg;
-					break;
-				case Token::NICKIN:
-					tokenVal = szNickIn;
-					break;
- 				case Token::NICKOUT:
-					tokenVal = szNickOut;
-					break;
+			case Token::PLAIN:
+				tokenVal = token->getText();
+				break;
+			case Token::BASE:
+				tokenVal = szBase;
+				break;
+			case Token::NAMEIN:
+				tokenVal = szNameIn;
+				break;
+			case Token::NAMEOUT:
+				tokenVal = szNameOut;
+				break;
+			case Token::AVATARIN:
+				tokenVal = szAvatarIn;
+				break;
+			case Token::AVATAROUT:
+				tokenVal = szAvatarOut;
+				break;
+			case Token::PROTO:
+				tokenVal = szRealProto;
+				break;
+			case Token::UININ:
+				tokenVal = szUINIn;
+				break;
+			case Token::UINOUT:
+				tokenVal = szUINOut;
+				break;
+			case Token::STATUSMSG:
+				tokenVal = szStatusMsg;
+				break;
+			case Token::NICKIN:
+				tokenVal = szNickIn;
+				break;
+			case Token::NICKOUT:
+				tokenVal = szNickOut;
+				break;
 			}
 			if (tokenVal != NULL) {
 				if (token->getEscape())
@@ -324,15 +321,13 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 
 void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, ProtocolSettings* protoSettings)
 {
+	if (protoSettings == NULL)
+		return;
+
 	DBVARIANT dbv;
-	CONTACTINFO ci;
-	char *szRealProto = NULL;
 	char tempBase[1024];
-	char *szBase=NULL;
 	char tempStr[1024];
-	char *szNoAvatar=NULL;
 	char szCID[32];
-	char *szName = NULL;
 	char *szNameIn = NULL;
 	char *szNameOut = NULL;
 	char *szUIN = NULL;
@@ -342,22 +337,16 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	char *szNickOut = NULL;
 	char *szStatusMsg = NULL;
 	char *szAvatar = NULL;
-	char *szAvatarIn = NULL;
-	char *szAvatarOut = NULL;
-	char *szText = NULL;
-	char *szProto = NULL;
-	char *szFileDesc = NULL;
 	const char *tmpltName[2];
 	bool isGrouping = false;
-	if (protoSettings == NULL)
-		return;
-	
+
 	MCONTACT hRealContact = getRealContact(event->hContact);
-	szRealProto = getProto(hRealContact);
-	szProto = getProto(event->pszProto, event->hContact);
-	tempBase[0]='\0';
+	char *szRealProto = getProto(hRealContact);
+	char *szProto = getProto(event->pszProto, event->hContact);
+	tempBase[0] = '\0';
+	
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
-	if (tmpm!=NULL) {
+	if (tmpm != NULL) {
 		strcpy(tempBase, "file://");
 		strcat(tempBase, tmpm->getFilename());
 		char* pathrun = tempBase + strlen(tempBase);
@@ -366,7 +355,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		*pathrun = '\0';
 		isGrouping = tmpm->isGrouping();
 	}
-	szBase = mir_utf8encode(tempBase);
+	char *szBase = mir_utf8encode(tempBase);
 
 	if (event->hContact != NULL)
 		getUINs(event->hContact, szUINIn, szUINOut);
@@ -379,6 +368,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szNameOut = mir_strdup("&nbsp;");
 		szNameIn = mir_strdup("&nbsp;");
 	}
+
 	TCHAR szNoAvatarPath[MAX_PATH];
 	mir_sntprintf(szNoAvatarPath, SIZEOF(szNoAvatarPath), _T("%s"), _A2T(protoSettings->getSRMMTemplateFilename()));
 	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
@@ -389,30 +379,34 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.jpg", tempBase);
 	else
 		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.png", tempBase);
-	szNoAvatar = mir_utf8encode(tempStr);
-	if(event->hContact != NULL)
+	char *szNoAvatar = mir_utf8encode(tempStr);
+
+	char *szAvatarIn = NULL;
+	if (event->hContact != NULL)
 		szAvatarIn = getAvatar(event->hContact, szRealProto);
 
 	if (szAvatarIn == NULL)
 		szAvatarIn = mir_strdup(szNoAvatar);
 
-	szAvatarOut = getAvatar(NULL, szRealProto);
+	char *szAvatarOut = getAvatar(NULL, szRealProto);
 	if (szAvatarOut == NULL)
 		szAvatarOut = mir_strdup(szNoAvatar);
 
-	if(event->hContact != NULL) {
-		if (!db_get(event->hContact, "CList", "StatusMsg",&dbv)) {
+	if (event->hContact != NULL) {
+		if (!db_get(event->hContact, "CList", "StatusMsg", &dbv)) {
 			if (strlen(dbv.pszVal) > 0)
 				szStatusMsg = mir_utf8encode(dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
+
+	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = event->hContact;
 	ci.szProto = szProto;
 	ci.dwFlag = CNF_NICK | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci))
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 		szNickIn = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
 
 	ZeroMemory(&ci, sizeof(ci));
@@ -420,25 +414,24 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	ci.hContact = NULL;
 	ci.szProto = szProto;
 	ci.dwFlag = CNF_NICK | CNF_TCHAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci))
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
 		szNickOut = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
 
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		int outputSize;
 		char *output = NULL;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_SYSTEM) {
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) && tmpm->isRTL();
 			bool isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
-			bool isGroupBreak = TRUE;
- 			if ((getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES) && eventData->dwFlags == LOWORD(getLastEventType()) &&
-					eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&
-					(isSameDate(eventData->time, getLastEventTime())) &&
-					(((eventData->time < (DWORD)startedTime) == (getLastEventTime() < (DWORD)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
-			{
-				isGroupBreak = FALSE;
-			}
+			bool isGroupBreak = true;
+			if ((getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES) && eventData->dwFlags == LOWORD(getLastEventType())
+				 && eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE
+				 && (isSameDate(eventData->time, getLastEventTime()))
+				 && (((eventData->time < (DWORD)startedTime) == (getLastEventTime() < (DWORD)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
+				isGroupBreak = false;
+
 			if (isSent) {
 				szAvatar = szAvatarOut;
 				szUIN = szUINOut;
@@ -452,9 +445,8 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			tmpltName[0] = groupTemplate;
 			tmpltName[1] = NULL;
 			groupTemplate = NULL;
-			szName = NULL;
-			szText = NULL;
-			szFileDesc = NULL;
+			
+			char *szName = NULL, *szText = NULL, *szFileDesc = NULL;
 			if (event->eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
 			else
@@ -510,11 +502,13 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 				tmpltName[1] = isHistory ? "hStatus" : "Status";
 
 			/* template-specific formatting */
-			for (int i=0;i<2;i++) {
+			for (int i = 0; i < 2; i++) {
 				if (tmpltName[i] == NULL || tmpm == NULL) continue;
 				Template *tmplt = tmpm->getTemplate(tmpltName[i]);
-				if (tmplt == NULL) continue;
-				for (Token *token = tmplt->getTokens();token!=NULL;token=token->getNext()) {
+				if (tmplt == NULL)
+					continue;
+				
+				for (Token *token = tmplt->getTokens(); token != NULL; token = token->getNext()) {
 					const char *tokenVal;
 					tokenVal = NULL;
 					switch (token->getType()) {
@@ -610,7 +604,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			}
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);
-			
+
 			mir_free(szName);
 			mir_free(szText);
 			mir_free(szFileDesc);
