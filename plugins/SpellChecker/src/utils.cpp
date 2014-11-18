@@ -25,15 +25,21 @@ typedef map<HWND, Dialog *> DialogMapType;
 DialogMapType dialogs;
 DialogMapType menus;
 
+struct CHARFORMAT5 : public CHARFORMAT2
+{
+	BYTE bUnderlineColor;
+};
+
 void SetUnderline(Dialog *dlg, int pos_start, int pos_end)
 {
 	dlg->re->SetSel(pos_start, pos_end);
 
-	CHARFORMAT2 cf;
+	CHARFORMAT5 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
 	cf.dwMask = CFM_UNDERLINE | CFM_UNDERLINETYPE;
 	cf.dwEffects = CFE_UNDERLINE;
-	cf.bUnderlineType = ((opts.underline_type + CFU_UNDERLINEDOUBLE) | 0x50);
+	cf.bUnderlineType = opts.underline_type + CFU_UNDERLINEDOUBLE;
+	cf.bUnderlineColor = 0x05;
 	dlg->re->SendMessage(EM_SETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 
 	dlg->markedSomeWord = TRUE;
