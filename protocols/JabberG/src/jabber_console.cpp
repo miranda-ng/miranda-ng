@@ -619,7 +619,7 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 
 void CJabberProto::ConsoleInit()
 {
-	LoadLibraryA("riched20.dll");
+	LoadLibraryA("Msftedit.dll");
 	m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId);
 }
 

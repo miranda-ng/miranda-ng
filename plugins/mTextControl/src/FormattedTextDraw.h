@@ -6,7 +6,6 @@
 #ifndef __FORMATTEDTEXTDRAW_H_
 #define __FORMATTEDTEXTDRAW_H_
 
-// be sure to link this project with riched20.lib
 #ifndef LY_PER_INCH
 #define LY_PER_INCH   1440
 #define HOST_BORDER 0

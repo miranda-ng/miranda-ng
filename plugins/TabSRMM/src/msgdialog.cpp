@@ -1420,7 +1420,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 
 			WNDCLASS wndClass = { 0 };
-			GetClassInfo(g_hInst, _T("RichEdit20W"), &wndClass);
+			GetClassInfo(g_hInst, _T("RICHEDIT50W"), &wndClass);
 			mir_subclassWindowFull(GetDlgItem(hwndDlg, IDC_LOG), MessageLogSubclassProc, wndClass.lpfnWndProc);
 
 			SetWindowPos(hwndDlg, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), newData->iActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);

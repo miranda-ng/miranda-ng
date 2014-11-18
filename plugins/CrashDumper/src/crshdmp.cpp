@@ -333,7 +333,7 @@ static int PreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	if (LoadLibraryA("riched20.dll") == NULL)
+	if (LoadLibraryA("Msftedit.dll") == NULL)
 		return 1;
 
 	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
