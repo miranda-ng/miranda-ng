@@ -33,18 +33,19 @@ BEGIN
     CONTROL         "",IDC_CONTACTS_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,0,0,150,200
 END
 
-IDD_LASTUC_OPT DIALOGEX 0, 0, 314, 106
+IDD_LASTUC_OPT DIALOGEX 0, 0, 314, 122
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Plugin settings",IDC_STATIC,7,7,300,88
+    GROUPBOX        "Plugin settings",IDC_STATIC,7,7,300,108
     EDITTEXT        IDC_SHOWNCONTACTS,161,27,28,12,ES_AUTOHSCROLL
     CONTROL         "Number of shown contacts:\n (0 to show all)",IDC_STATIC,
                     "Static",SS_LEFTNOWORDWRAP | WS_GROUP,15,27,141,17
-    LTEXT           "Format of date and time\n(Look to readme for placeholders help)",IDC_STATIC,15,50,141,22
+    LTEXT           "Format of date and time\n(Look to readme for placeholders help)",IDC_STATIC,15,50,141,28
     EDITTEXT        IDC_DATETIME,161,50,137,12,ES_AUTOHSCROLL
     CONTROL         "Hide offline contacts",IDC_HIDEOFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,161,75,137,8
+    CONTROL         "Resize window according to contact list",IDC_WINDOWAUTOSIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,161,91,137,8
 END
 
 
@@ -100,7 +101,7 @@ BEGIN
         VERTGUIDE, 161
         VERTGUIDE, 298
         TOPMARGIN, 7
-        BOTTOMMARGIN, 99
+        BOTTOMMARGIN, 115
     END
 END
 #endif    // APSTUDIO_INVOKED

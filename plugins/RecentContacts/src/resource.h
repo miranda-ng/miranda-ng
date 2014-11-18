@@ -12,6 +12,7 @@
 #define IDC_SHOWNCONTACTS               1002
 #define IDC_HIDEOFFLINE                 1004
 #define IDC_DATETIME                    1005
+#define IDC_WINDOWAUTOSIZE              1006
 
 // Next default values for new objects
 // 

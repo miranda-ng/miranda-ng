@@ -10,7 +10,7 @@ char *szProto;
 HINSTANCE hInst = NULL;
 int hLangpack = 0;
 
-
+CLIST_INTERFACE *pcli;
 HANDLE hTopToolbarButtonShowList;
 HANDLE hMsgWndEvent;
 HANDLE hWindowList;
@@ -61,6 +61,7 @@ void LoadDBSettings()
 	ZeroMemory(&LastUCOpt, sizeof(LastUCOpt));
 	LastUCOpt.MaxShownContacts = (INT)db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_MaxShownContacts, 0 );
 	LastUCOpt.HideOffline = db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_HideOfflineContacts, 0 );
+	LastUCOpt.WindowAutoSize = db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_WindowAutosize, 0 );
 
 	DBVARIANT dbv;
 	dbv.type = DBVT_ASCIIZ;
@@ -264,12 +265,47 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 				break;
 			}
 
-			SAVEWINDOWPOS pos;
-			pos.hContact = NULL;
-			pos.hwnd = hDlg;
-			pos.szModule = dbLastUC_ModuleName;
-			pos.szNamePrefix = dbLastUC_WindowPosPrefix;
-			CallService(MS_UTILS_RESTOREWINDOWPOSITION, 0, (LPARAM)(SAVEWINDOWPOS*)&pos);
+
+			// window autosize/autopos - ike blaster
+			bool restorePos = !LastUCOpt.WindowAutoSize;
+
+			if (!restorePos) {
+				RECT rect;
+				if (GetWindowRect(pcli->hwndContactList, &rect)) {
+					WINDOWPLACEMENT wp;
+
+					wp.length = sizeof(wp);
+					GetWindowPlacement(hDlg, &wp);
+
+					char szSettingName[64];
+					mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", dbLastUC_WindowPosPrefix);
+					int width = db_get_dw(NULL, dbLastUC_ModuleName, szSettingName, -1);
+
+					int right = rect.left - 6;
+					if(!IsWindowVisible(pcli->hwndContactList)) right = rect.right;
+
+					wp.rcNormalPosition.left = right - width;
+					wp.rcNormalPosition.top = rect.top;
+					wp.rcNormalPosition.right = right;
+					wp.rcNormalPosition.bottom = rect.bottom;
+					wp.flags = 0;
+
+					SetWindowPlacement(hDlg, &wp);
+				} else {
+					restorePos = true;
+				}
+			}
+
+			if (restorePos) {
+				SAVEWINDOWPOS pos;
+				pos.hContact = NULL;
+				pos.hwnd = hDlg;
+				pos.szModule = dbLastUC_ModuleName;
+				pos.szNamePrefix = dbLastUC_WindowPosPrefix;
+
+				CallService(MS_UTILS_RESTOREWINDOWPOSITION, 0, (LPARAM)(SAVEWINDOWPOS*)&pos);
+			}
+
 			SendMessage(hDlg, WM_SIZE, 0, 0);
 			WindowList_Add(hWindowList, hDlg, NULL);
 			return TRUE;
@@ -526,6 +562,7 @@ INT_PTR ToggleIgnore (WPARAM hContact, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
+	mir_getCLI();
 
 	CoInitialize(NULL);
 	hWindowList = WindowList_Create();
