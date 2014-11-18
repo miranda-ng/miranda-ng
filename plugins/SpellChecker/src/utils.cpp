@@ -25,16 +25,11 @@ typedef map<HWND, Dialog *> DialogMapType;
 DialogMapType dialogs;
 DialogMapType menus;
 
-struct CHARFORMAT5 : public CHARFORMAT2
-{
-	BYTE bUnderlineColor;
-};
-
 void SetUnderline(Dialog *dlg, int pos_start, int pos_end)
 {
 	dlg->re->SetSel(pos_start, pos_end);
 
-	CHARFORMAT5 cf;
+	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
 	cf.dwMask = CFM_UNDERLINE | CFM_UNDERLINETYPE;
 	cf.dwEffects = CFE_UNDERLINE;
@@ -50,7 +45,7 @@ BOOL IsMyUnderline(const CHARFORMAT2 &cf)
 	return (cf.dwEffects & CFE_UNDERLINE)
 		&& (cf.bUnderlineType & 0x0F) >= CFU_UNDERLINEDOUBLE
 		&& (cf.bUnderlineType & 0x0F) <= CFU_UNDERLINETHICK
-		&& (cf.bUnderlineType & ~0x0F) == 0x50;
+		&& (cf.bUnderlineColor) == 5;
 }
 
 void SetNoUnderline(RichEdit *re, int pos_start, int pos_end)

@@ -24,10 +24,11 @@ Boston, MA 02111-1307, USA.
 #define OEMRESOURCE
 
 #include <windows.h>
-#include <richedit.h>
+#include <msapi/richedit5.h>
 #include <tom.h>
 #include <richole.h>
 #include <commctrl.h>
+
 #include <map>
 #include <vector>
 #include <string>
