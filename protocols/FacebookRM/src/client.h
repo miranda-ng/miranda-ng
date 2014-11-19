@@ -45,7 +45,7 @@ public:
 
 		https_ = is_idle_ = is_typing_ = false;
 
-		buddies_lock_ = send_message_lock_ = NULL;
+		buddies_lock_ = send_message_lock_ = notifications_lock_ = NULL;
 		hMsgCon = NULL;
 		hFcbCon = NULL;
 		fcb_conn_lock_ = NULL;
@@ -179,6 +179,7 @@ public:
 	List::List<facebook_user> buddies;
 	HANDLE  buddies_lock_;
 	HANDLE  send_message_lock_;
+	HANDLE  notifications_lock_;
 
 	////////////////////////////////////////////////////////////
 

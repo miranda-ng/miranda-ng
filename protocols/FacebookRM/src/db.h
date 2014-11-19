@@ -67,6 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_MESSAGES_ON_OPEN		"MessagesOnOpen"
 #define FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT	"MessagesOnOpenCount"
 #define FACEBOOK_KEY_HIDE_CHATS				"HideChats"
+#define FACEBOOK_KEY_NOTIFICATIONS_CHATROOM	"NotificationsChatroom"
 
 // Account DB keys - notifications
 #define FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE	"EventNotificationsEnable"

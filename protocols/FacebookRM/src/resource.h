@@ -35,7 +35,6 @@
 #define IDC_LOAD_PAGES                  1036
 #define IDC_KEEP_UNREAD                 1037
 #define IDC_INBOX_ONLY                  1038
-#define IDC_INBOX_ONLY2                 1039
 #define IDC_MESSAGES_ON_OPEN            1039
 #define IDC_HIDE_CHATS                  1040
 #define IDC_NOTIFICATIONS_ENABLE        1041
@@ -46,6 +45,7 @@
 #define IDC_LOGIN_SYNC                  1046
 #define IDC_SYSTRAY_NOTIFY              1098
 #define IDC_PREVIEW                     1099
+#define IDC_NOTIFICATIONS_CHATROOM      1100
 #define IDC_SET_STATUS                  1126
 #define IDC_FEED_TYPE                   1201
 #define IDC_URL_SERVER                  1202
@@ -64,7 +64,6 @@
 #define IDC_FRAME1                      1215
 #define IDC_FRAME2                      1216
 #define IDC_SUBMIT                      1217
-
 
 // Next default values for new objects
 // 

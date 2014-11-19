@@ -34,10 +34,10 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	facy.buddies_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
+	facy.notifications_lock_ = CreateMutex(NULL, FALSE, NULL);
 
 	m_invisible = false;
 	m_signingOut = false;
-	m_enableChat = getBool(FACEBOOK_KEY_ENABLE_CHAT, true);
 	
 	// Load custom locale, if set
 	ptrA locale( getStringA(FACEBOOK_KEY_LOCALE));
@@ -51,10 +51,8 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	CreateProtoService(PS_GETAVATARCAPS,		&FacebookProto::GetAvatarCaps);
 	CreateProtoService(PS_GETUNREADEMAILCOUNT,	&FacebookProto::GetNotificationsCount);
 
-	if (m_enableChat) {
-		CreateProtoService(PS_JOINCHAT, &FacebookProto::OnJoinChat);
-		CreateProtoService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
-	}
+	CreateProtoService(PS_JOINCHAT,				&FacebookProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT,			&FacebookProto::OnLeaveChat);
 
 	CreateProtoService("/Mind",					&FacebookProto::OnMind);
 	CreateProtoService("/VisitProfile",			&FacebookProto::VisitProfile);
@@ -119,6 +117,7 @@ FacebookProto::~FacebookProto()
 	WaitForSingleObject(log_lock_, IGNORE);
 	WaitForSingleObject(facy.buddies_lock_, IGNORE);
 	WaitForSingleObject(facy.send_message_lock_, IGNORE);
+	WaitForSingleObject(facy.notifications_lock_, IGNORE);
 
 	CloseHandle(signon_lock_);
 	CloseHandle(avatar_lock_);
@@ -127,6 +126,7 @@ FacebookProto::~FacebookProto()
 	CloseHandle(facy.buddies_lock_);
 	CloseHandle(facy.send_message_lock_);
 	CloseHandle(facy.fcb_conn_lock_);
+	CloseHandle(facy.notifications_lock_);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -137,7 +137,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT hContact)
 	{
 	case PFLAGNUM_1:
 	{
-		DWORD_PTR flags = PF1_IM | (m_enableChat ? PF1_CHAT : 0) | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
+		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
 
 		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, 0))
 			return flags |= PF1_MODEMSG;
@@ -437,16 +437,14 @@ INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 int FacebookProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	// Register group chat
-	if (m_enableChat) {
-		GCREGISTER gcr = { sizeof(gcr) };
-		gcr.dwFlags = 0; //GC_ACKMSG;
-		gcr.pszModule = m_szModuleName;
-		gcr.ptszDispName = m_tszUserName;
-		gcr.iMaxText = FACEBOOK_MESSAGE_LIMIT;
-		gcr.nColors = 0;
-		gcr.pColors = NULL;
-		CallService(MS_GC_REGISTER, 0, reinterpret_cast<LPARAM>(&gcr));
-	}
+	GCREGISTER gcr = { sizeof(gcr) };
+	gcr.dwFlags = 0; //GC_ACKMSG;
+	gcr.pszModule = m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.iMaxText = FACEBOOK_MESSAGE_LIMIT;
+	gcr.nColors = 0;
+	gcr.pColors = NULL;
+	CallService(MS_GC_REGISTER, 0, reinterpret_cast<LPARAM>(&gcr));
 
 	return 0;
 }
@@ -663,7 +661,17 @@ INT_PTR FacebookProto::VisitConversation(WPARAM wParam, LPARAM lParam)
 
 INT_PTR FacebookProto::VisitNotifications(WPARAM wParam, LPARAM lParam)
 {
-	OpenUrl(FACEBOOK_URL_NOTIFICATIONS);
+	/*bool useChatRoom = getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM);
+
+	if (useChatRoom) {
+		GCDEST gcd = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_CONTROL };
+		GCEVENT gce = { sizeof(gce), &gcd };
+		CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, reinterpret_cast<LPARAM>(&gce));
+	}
+	else {*/
+		OpenUrl(FACEBOOK_URL_NOTIFICATIONS);
+	/*}*/
+
 	return 0;
 }
 
