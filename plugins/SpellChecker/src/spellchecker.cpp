@@ -58,7 +58,7 @@ LIST<Dictionary> languages(1);
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -69,7 +69,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static int IconsChanged(WPARAM, LPARAM) 
+static int IconsChanged(WPARAM, LPARAM)
 {
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE_NAME;
@@ -103,31 +103,31 @@ static int PreShutdown(WPARAM, LPARAM)
 }
 
 // Called when all the modules are loaded
-static int ModulesLoaded(WPARAM, LPARAM) 
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	variables_enabled = ServiceExists(MS_VARS_FORMATSTRING);
 
 	// Folders plugin support
 	if (hDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER)) {
-		dictionariesFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
+		dictionariesFolder = (TCHAR *)mir_alloc(sizeof(TCHAR) * MAX_PATH);
 		FoldersGetCustomPathT(hDictionariesFolder, dictionariesFolder, MAX_PATH, _T("."));
 	}
 	else dictionariesFolder = Utils_ReplaceVarsT(DICTIONARIES_FOLDER);
 
 	if (hCustomDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Custom Dictionaries"), CUSTOM_DICTIONARIES_FOLDER)) {
-		customDictionariesFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
+		customDictionariesFolder = (TCHAR *)mir_alloc(sizeof(TCHAR) * MAX_PATH);
 		FoldersGetCustomPathT(hCustomDictionariesFolder, customDictionariesFolder, MAX_PATH, _T("."));
 	}
 	else customDictionariesFolder = Utils_ReplaceVarsT(CUSTOM_DICTIONARIES_FOLDER);
-		
+
 	if (hFlagsDllFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Flags DLL"), FLAGS_DLL_FOLDER)) {
-		flagsDllFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
+		flagsDllFolder = (TCHAR *)mir_alloc(sizeof(TCHAR) * MAX_PATH);
 		FoldersGetCustomPathT(hFlagsDllFolder, flagsDllFolder, MAX_PATH, _T("."));
 	}
 	else flagsDllFolder = Utils_ReplaceVarsT(FLAGS_DLL_FOLDER);
 
 	InitOptions();
-	
+
 	GetAvaibleDictionaries(languages, dictionariesFolder, customDictionariesFolder);
 
 	LoadOptions();
@@ -146,7 +146,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		sid.ptszSection = LPGENT("Spell Checker")_T("/")LPGENT("Flags");
 
 		// Get language flags
-		for(int i = 0; i < languages.getCount(); i++) {
+		for (int i = 0; i < languages.getCount(); i++) {
 			Dictionary *p = languages[i];
 			sid.ptszDescription = p->full_name;
 
@@ -172,7 +172,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 			// Oki, lets add to IcoLib, then
 			p->hIcolib = Skin_AddIcon(&sid);
-			
+
 			if (hFlag != NULL)
 				DestroyIcon(hFlag);
 			else
@@ -206,7 +206,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		sid.dwId = i;
 
 		TCHAR tmp[128];
-		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %s"), 
+		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s - %s"),
 			TranslateT("Spell Checker"), languages[i]->full_name);
 		sid.tszTooltip = tmp;
 		sid.hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
@@ -217,9 +217,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hkd.pszName = "Spell Checker/Toggle";
 	hkd.pszSection = LPGEN("Spell Checker");
 	hkd.pszDescription = LPGEN("Enable/disable spell checker");
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_ALT, 'S');
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_ALT, 'S');
 	hkd.lParam = HOTKEY_ACTION_TOGGLE;
-	Hotkey_Register( &hkd);
+	Hotkey_Register(&hkd);
 
 	loaded = TRUE;
 
@@ -230,12 +230,12 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Enabled"),  "spellchecker_enabled",  IDI_CHECK    },
+	{ LPGEN("Enabled"), "spellchecker_enabled", IDI_CHECK },
 	{ LPGEN("Disabled"), "spellchecker_disabled", IDI_NO_CHECK },
 	{ LPGEN("Unknown"), "spellchecker_unknown", IDI_UNKNOWN_FLAG }
 };
 
-extern "C" int __declspec(dllexport) Load(void) 
+extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
@@ -249,7 +249,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_SPELLCHECKER_ADD_RICHEDIT, AddContactTextBoxService);
 	CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);
 	CreateServiceFunction(MS_SPELLCHECKER_SHOW_POPUP_MENU, ShowPopupMenuService);
-	
+
 	hCheckedBmp = LoadBitmap(NULL, MAKEINTRESOURCE(OBM_CHECK));
 	if (GetObject(hCheckedBmp, sizeof(bmpChecked), &bmpChecked) == 0)
 		bmpChecked.bmHeight = bmpChecked.bmWidth = 10;
@@ -259,7 +259,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec(dllexport) Unload(void) 
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	DeleteObject(hCheckedBmp);
 	FreeDictionaries(languages);

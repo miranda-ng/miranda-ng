@@ -29,13 +29,11 @@ HWND RichEdit::GetHWND() const
 
 void RichEdit::SetHWND(HWND hwnd)
 {
-	if (textDocument != NULL)
-	{
+	if (textDocument != NULL) {
 		textDocument->Release();
 		textDocument = NULL;
 	}
-	if (ole != NULL)
-	{
+	if (ole != NULL) {
 		ole->Release();
 		ole = NULL;
 	}
@@ -49,7 +47,7 @@ void RichEdit::SetHWND(HWND hwnd)
 	if (ole == NULL)
 		return;
 
-	if (ole->QueryInterface(IID_ITextDocument, (void**) &textDocument) != S_OK)
+	if (ole->QueryInterface(IID_ITextDocument, (void**)&textDocument) != S_OK)
 		textDocument = NULL;
 }
 
@@ -65,8 +63,7 @@ bool RichEdit::IsReadOnly() const
 
 void RichEdit::SuspendUndo()
 {
-	if (textDocument != NULL)
-	{
+	if (textDocument != NULL) {
 		textDocument->Undo(tomSuspend, NULL);
 		undoEnabled = FALSE;
 	}
@@ -74,8 +71,7 @@ void RichEdit::SuspendUndo()
 
 void RichEdit::ResumeUndo()
 {
-	if (textDocument != NULL)
-	{
+	if (textDocument != NULL) {
 		textDocument->Undo(tomResume, NULL);
 		undoEnabled = TRUE;
 	}
@@ -105,16 +101,14 @@ void RichEdit::Start()
 {
 	stopped--;
 
-	if (stopped < 0)
-	{
+	if (stopped < 0) {
 		stopped = 0;
 		return;
 	}
 	else if (stopped > 0)
 		return;
 
-	if (inverse)
-	{
+	if (inverse) {
 		LONG tmp = old_sel.cpMin;
 		old_sel.cpMin = old_sel.cpMax;
 		old_sel.cpMax = tmp;
@@ -126,7 +120,6 @@ void RichEdit::Start()
 
 	SendMessage(WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(hwnd, NULL, FALSE);
-//	ShowCaret(hwnd);
 
 	ResumeUndo();
 }
@@ -149,11 +142,12 @@ int RichEdit::GetLineCount() const
 void RichEdit::GetLine(int line, TCHAR *text, size_t text_len) const
 {
 	*((WORD*)text) = WORD(text_len - 1);
-	unsigned size = (unsigned) SendMessage(EM_GETLINE, (WPARAM) line, (LPARAM)text);
+	unsigned size = (unsigned)SendMessage(EM_GETLINE, (WPARAM)line, (LPARAM)text);
+
 	// Sometimes it likes to return size = lineLen+1, adding an \n at the end, so we remove it here
 	// to make both implementations return same size
 	int lineLen = GetLineLength(line);
-	size = (unsigned) max(0, min((int)text_len - 1, min((int) size, lineLen)));
+	size = (unsigned)max(0, min((int)text_len - 1, min((int)size, lineLen)));
 	text[size] = _T('\0');
 }
 
@@ -164,7 +158,7 @@ int RichEdit::GetLineLength(int line) const
 
 int RichEdit::GetFirstCharOfLine(int line) const
 {
-	return SendMessage(EM_LINEINDEX, (WPARAM) line, 0);
+	return SendMessage(EM_LINEINDEX, (WPARAM)line, 0);
 }
 
 int RichEdit::GetLineFromChar(int charPos) const
@@ -200,15 +194,13 @@ TCHAR *RichEdit::GetText(int start, int end) const
 	if (end <= start)
 		end = GetTextLength();
 
-	if (textDocument != NULL)
-	{
+	if (textDocument != NULL) {
 		ITextRange *range;
-		if (textDocument->Range(start, end, &range) != S_OK) 
+		if (textDocument->Range(start, end, &range) != S_OK)
 			return mir_tstrdup(_T(""));
 
 		BSTR text = NULL;
-		if (range->GetText(&text) != S_OK || text == NULL)
-		{
+		if (range->GetText(&text) != S_OK || text == NULL) {
 			range->Release();
 			return mir_tstrdup(_T(""));
 		}
@@ -221,26 +213,23 @@ TCHAR *RichEdit::GetText(int start, int end) const
 
 		return ret;
 	}
-	else
-	{
-		int len = GetTextLength();
-		TCHAR *tmp = (TCHAR *) mir_alloc(len * sizeof(TCHAR));
-		GetWindowText(hwnd, tmp, len);
-		tmp[len] = 0;
 
-		TCHAR *ret = (TCHAR *) mir_alloc((end - start + 1) * sizeof(TCHAR));
-		memmove(ret, &tmp[start], (end - start) * sizeof(TCHAR));
-		ret[end - start] = 0;
+	int len = GetTextLength();
+	TCHAR *tmp = (TCHAR *)mir_alloc(len * sizeof(TCHAR));
+	GetWindowText(hwnd, tmp, len);
+	tmp[len] = 0;
 
-		mir_free(tmp);
-		return ret;
-	}
+	TCHAR *ret = (TCHAR *)mir_alloc((end - start + 1) * sizeof(TCHAR));
+	memmove(ret, &tmp[start], (end - start) * sizeof(TCHAR));
+	ret[end - start] = 0;
+
+	mir_free(tmp);
+	return ret;
 }
 
 void RichEdit::ReplaceSel(const TCHAR *new_text)
 {
-	if (stopped)
-	{
+	if (stopped) {
 		CHARRANGE sel = GetSel();
 
 		ResumeUndo();
@@ -254,10 +243,7 @@ void RichEdit::ReplaceSel(const TCHAR *new_text)
 		SendMessage(WM_SETREDRAW, FALSE, 0);
 		SendMessage(EM_SETEVENTMASK, 0, old_mask & ~ENM_CHANGE);
 	}
-	else
-	{
-		SendMessage(EM_REPLACESEL, undoEnabled, (LPARAM)new_text);
-	}
+	else SendMessage(EM_REPLACESEL, undoEnabled, (LPARAM)new_text);
 }
 
 int RichEdit::Replace(int start, int end, const TCHAR *new_text)
@@ -265,7 +251,7 @@ int RichEdit::Replace(int start, int end, const TCHAR *new_text)
 	CHARRANGE sel = GetSel();
 	CHARRANGE replace_sel = { start, end };
 	SetSel(replace_sel);
-	
+
 	ReplaceSel(new_text);
 
 	int dif = FixSel(&sel, replace_sel, lstrlen(new_text));
@@ -278,7 +264,7 @@ int RichEdit::Insert(int pos, const TCHAR *text)
 	CHARRANGE sel = GetSel();
 	CHARRANGE replace_sel = { pos, pos };
 	SetSel(replace_sel);
-	
+
 	ReplaceSel(text);
 
 	int dif = FixSel(&sel, replace_sel, lstrlen(text));
@@ -291,7 +277,7 @@ int RichEdit::Delete(int start, int end)
 	CHARRANGE sel = GetSel();
 	CHARRANGE replace_sel = { start, end };
 	SetSel(replace_sel);
-	
+
 	ReplaceSel(_T(""));
 
 	int dif = FixSel(&sel, replace_sel, 0);
@@ -302,7 +288,7 @@ int RichEdit::Delete(int start, int end)
 int RichEdit::FixSel(CHARRANGE *to_fix, CHARRANGE sel_changed, int new_len)
 {
 	int dif = new_len - (sel_changed.cpMax - sel_changed.cpMin);
-	
+
 	if (to_fix->cpMax <= sel_changed.cpMin)
 		return dif;
 
