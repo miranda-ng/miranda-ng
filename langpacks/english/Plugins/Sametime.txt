@@ -241,7 +241,7 @@
 [The applet was logged out with this reason. Perform relogin and you will return to the former state.]
 [The user is not online]
 [The user is in do not disturb mode]
-[Cannot login because already logged in with a different user name (Java only)]
+[Cannot log in because already logged in with a different user name (Java only)]
 [The requested type is already registered]
 [The requested type is not registered]
 [The resolve process was not completed, but a partial response is available]

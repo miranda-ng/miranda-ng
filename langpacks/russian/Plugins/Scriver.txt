@@ -601,8 +601,8 @@
 %s набирает текст
 [Typing Notification]
 Уведомление о наборе текста
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия riched20.dll. Если вы используете WINE, то убедитесь, что установлена  библиотека riched20.dll. Нажмите "Да" для продолжения загрузки программы.
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия Msftedit.dll. Если вы используете WINE, то убедитесь, что установлена  библиотека Msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
 [Instant messages]
 Сообщения IM
 [Incoming (Focused Window)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: RecentContacts.dll
 ;  Plugin: Recent contacts
-;  Version: 0.0.2.0
+;  Version: 0.0.2.1
 ;  Authors: ValeraVi, Kildor
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
@@ -12,6 +12,7 @@
 [Number of shown contacts:\n (0 to show all)]
 [Format of date and time\n(Look to readme for placeholders help)]
 [Hide offline contacts]
+[Resize window according to contact list]
 ;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
