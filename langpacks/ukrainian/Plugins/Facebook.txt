@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.5
+;  Version: 0.2.9.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -57,10 +57,10 @@
 Інші події
 [Client notifications]
 Сповіщення клієнта
-[Preview]
-Тест
 [Use balloon notifications in system tray instead of popups]
 Сповіщати підказкою в треї замість спливаючих вікон
+[Preview]
+Тест
 [Advanced Settings]
 Розширені параметри
 [Force secure (HTTPS) connection]
@@ -235,6 +235,8 @@
 Контакт доданий у список на сервері.
 [Contact is no longer on server-list.]
 Контакт видалений зі списку на сервері.
+[Notification]
+Сповіщення
 [%s server connection]
 З'єднання з сервером %s
 [Unable to get Netlib connection for Facebook]
@@ -271,8 +273,6 @@
 Сповіщення
 [Show 'Share status' window]
 Повідомлення статусу Facebook
-[Notification]
-Сповіщення
 [News Feed]
 Новини
 [Other Event]

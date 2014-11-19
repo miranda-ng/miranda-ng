@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.3
+;  Version: 0.2.9.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -54,10 +54,10 @@ URL:
 Іншыя падзеі
 [Client notifications]
 Абвесткі кліента
-[Preview]
-Прагляд
 [Use balloon notifications in system tray instead of popups]
 Абвяшчаць падказкай у трэі замест усплывальных вокнаў
+[Preview]
+Прагляд
 [Advanced Settings]
 Пашыраныя параметры
 [Force secure (HTTPS) connection]
@@ -196,6 +196,8 @@ URL:
 Кантакт даданы ў спіс на серверы.
 [Contact is no longer on server-list.]
 Кантакт выдалены з спісу сервера.
+[Notification]
+Абвестка
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
@@ -229,8 +231,6 @@ Facebook ID павінна быць лічбавым значэннем.
 Профіль
 [Show 'Share status' window]
 Паведамленне статуса Facebook
-[Notification]
-Абвестка
 [News Feed]
 Навіны
 [Other Event]

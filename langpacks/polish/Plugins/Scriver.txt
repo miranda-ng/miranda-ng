@@ -628,8 +628,8 @@ Wiadomość od %s
 %s pisze wiadomość
 [Typing Notification]
 Kontakt
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik riched20.dll. Jeśli używasz WINE, upewnij się, że posiadasz zainstalowany riched20.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Msftedit.dll. Jeśli używasz WINE, upewnij się, że posiadasz zainstalowany Msftedit.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
 [Instant messages]
 Wiadomości
 [Incoming (Focused Window)]

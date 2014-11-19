@@ -1869,8 +1869,8 @@ Wiadomość od %s
 %s pisze wiadomość
 [Typing notification]
 Pisanie
-[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda nie może załadować wbudowanego modułu wiadomości, brakuje riched20.dll. Wciśnij "Tak" aby kontynuować.
+[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda nie może załadować wbudowanego modułu wiadomości, brakuje Msftedit.dll. Wciśnij "Tak" aby kontynuować.
 [Instant messages]
 Wiadomości
 [Incoming (focused window)]

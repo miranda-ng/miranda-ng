@@ -431,6 +431,8 @@ Użytkownik nie posiada odpowiedniego poziomu uprawnień
 Adres e-mail musi zostać użyty
 [Error in DNS]
 Błąd w DNS
+[Fatal error in DNS]
+
 [Server name not found]
 Nie znaleziono nazwy serwera
 [The connection has been broken]
@@ -463,7 +465,7 @@ Applet został wylogowany z tym powodem. Dokonaj ponownego logowania, a powróci
 Użytkownik nie jest dostępny
 [The user is in do not disturb mode]
 Użytkownik jest w trybie nie przeszkadzać
-[Cannot login because already logged in with a different user name (Java only)]
+[Cannot log in because already logged in with a different user name (Java only)]
 Nie udało się zalogować, ponieważ jesteś już zalogowany z inną nazwą użytkownika(tylko java)
 [The requested type is already registered]
 Żądany typ jest już zarejestrowany

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.5
+;  Version: 0.2.9.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -58,10 +58,12 @@ Nie pokazuj proponowanych postów
 Inne zdarzenia
 [Client notifications]
 Powiadomienia klienta
-[Preview]
-Podgląd
 [Use balloon notifications in system tray instead of popups]
 Użyj baloników systemowych w zasobniku zamiast popupów
+[Use logging notifications into special chatroom]
+
+[Preview]
+Podgląd
 [Advanced Settings]
 Ustawienia zaawansowane
 [Force secure (HTTPS) connection]
@@ -246,6 +248,8 @@ Nie można wysłać wiadomości, gdy jesteś offline.
 Kontakt powrócił na listę na serwerze.
 [Contact is no longer on server-list.]
 Kontakt nie jest już na liście serwera.
+[Notification]
+Powiadomienie
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Połączenie %s
@@ -283,8 +287,6 @@ Odwiedź profil
 Przejdź do powiadomień
 [Show 'Share status' window]
 Pokaż okno "Udostępnij status"
-[Notification]
-Powiadomienie
 [News Feed]
 Aktualności
 [Other Event]

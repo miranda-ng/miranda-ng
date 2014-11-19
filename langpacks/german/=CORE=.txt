@@ -1869,8 +1869,8 @@ Nachricht von %s
 %s tippt eine Nachricht
 [Typing notification]
 Tippbenachrichtigungen
-[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda konnte nicht das eingebaute Nachrichtenmodul laden, riched20.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
+[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda konnte nicht das eingebaute Nachrichtenmodul laden, Msftedit.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
 [Instant messages]
 Sofortnachrichten
 [Incoming (focused window)]

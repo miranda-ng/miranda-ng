@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.4
+;  Version: 0.2.9.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -58,10 +58,12 @@ Werbebeiträge nicht anzeigen
 Sonstige Ereignisse
 [Client notifications]
 Client-Benachrichtigungen
-[Preview]
-Vorschau
 [Use balloon notifications in system tray instead of popups]
 Ballonereignisse im Systemtray anstatt Popups verwenden
+[Use logging notifications into special chatroom]
+
+[Preview]
+Vorschau
 [Advanced Settings]
 Erweiterte Einstellungen
 [Force secure (HTTPS) connection]
@@ -94,6 +96,8 @@ Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
 Lade Anzahl Nachrichten:
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
+[Synchronize last 24 hours on login]
+
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -244,6 +248,8 @@ Nachrichten senden ist nicht möglich, wenn Sie offline sind.
 Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
+[Notification]
+Benachrichtigung
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -281,8 +287,6 @@ Profil besuchen
 Benachrichtigungen besuchen
 [Show 'Share status' window]
 'Status teilen'-Fenster anzeigen
-[Notification]
-Benachrichtigung
 [News Feed]
 Newsfeed
 [Other Event]

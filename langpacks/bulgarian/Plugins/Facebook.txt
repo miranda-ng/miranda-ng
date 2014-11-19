@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.3
+;  Version: 0.2.9.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -58,10 +58,12 @@ URL:
 Други събития
 [Client notifications]
 Уведомявания
-[Preview]
-Образец
 [Use balloon notifications in system tray instead of popups]
 Ползване на балонни известия в трея вместо popup
+[Use logging notifications into special chatroom]
+
+[Preview]
+Образец
 [Advanced Settings]
 Допълнителни настройки
 [Force secure (HTTPS) connection]
@@ -93,6 +95,8 @@ URL:
 [Number of messages to load:]
 
 [Do not open chat windows on creation]
+
+[Synchronize last 24 hours on login]
 
 [Bots challenge test]
 Тест за ботове
@@ -244,6 +248,8 @@ URL:
 Контактът е отново в списъка на сървъра.
 [Contact is no longer on server-list.]
 Контактът вече не е в списъка на сървъра.
+[Notification]
+Уведомяване
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s връзка със сървъра
@@ -281,8 +287,6 @@ URL:
 
 [Show 'Share status' window]
 
-[Notification]
-Уведомяване
 [News Feed]
 Новина
 [Other Event]
