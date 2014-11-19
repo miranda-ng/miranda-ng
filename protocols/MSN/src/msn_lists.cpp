@@ -31,15 +31,15 @@ void CMsnProto::Lists_Uninit(void)
 
 void CMsnProto::Lists_Wipe(void)
 {
-	mir_cslock lck(csLists);
-	contList.destroy();
+	mir_cslock lck(m_csLists);
+	m_arContacts.destroy();
 }
 
 bool CMsnProto::Lists_IsInList(int list, const char* email)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
-	MsnContact *p = contList.find((MsnContact*)&email);
+	MsnContact *p = m_arContacts.find((MsnContact*)&email);
 	if (p == NULL)
 		return false;
 	if (list == -1)
@@ -49,24 +49,24 @@ bool CMsnProto::Lists_IsInList(int list, const char* email)
 
 MsnContact* CMsnProto::Lists_Get(const char* email)
 {
-	mir_cslock lck(csLists);
-	return contList.find((MsnContact*)&email);
+	mir_cslock lck(m_csLists);
+	return m_arContacts.find((MsnContact*)&email);
 }
 
 MsnContact* CMsnProto::Lists_Get(MCONTACT hContact)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
-	for (int i = 0; i < contList.getCount(); ++i)
-		if (contList[i].hContact == hContact)
-			return &contList[i];
+	for (int i = 0; i < m_arContacts.getCount(); ++i)
+		if (m_arContacts[i].hContact == hContact)
+			return &m_arContacts[i];
 
 	return NULL;
 }
 
 MsnPlace* CMsnProto::Lists_GetPlace(const char* wlid)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
 	char *szEmail, *szInst;
 	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, &szInst);
@@ -74,7 +74,7 @@ MsnPlace* CMsnProto::Lists_GetPlace(const char* wlid)
 	if (szInst == NULL)
 		szInst = (char*)sttVoidUid;
 
-	MsnContact* p = contList.find((MsnContact*)&szEmail);
+	MsnContact* p = m_arContacts.find((MsnContact*)&szEmail);
 	if (p == NULL)
 		return NULL;
 
@@ -83,9 +83,9 @@ MsnPlace* CMsnProto::Lists_GetPlace(const char* wlid)
 
 MsnPlace* CMsnProto::Lists_AddPlace(const char* email, const char* id, unsigned cap1, unsigned cap2)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
-	MsnContact *p = contList.find((MsnContact*)&email);
+	MsnContact *p = m_arContacts.find((MsnContact*)&email);
 	if (p == NULL)
 		return NULL;
 
@@ -105,21 +105,21 @@ MsnPlace* CMsnProto::Lists_AddPlace(const char* email, const char* id, unsigned 
 
 MsnContact* CMsnProto::Lists_GetNext(int &i)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
 	MsnContact *p = NULL;
-	while (p == NULL && ++i < contList.getCount())
-		if (contList[i].hContact)
-			p = &contList[i];
+	while (p == NULL && ++i < m_arContacts.getCount())
+		if (m_arContacts[i].hContact)
+			p = &m_arContacts[i];
 
 	return p;
 }
 
 int CMsnProto::Lists_GetMask(const char* email)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
-	MsnContact *p = contList.find((MsnContact*)&email);
+	MsnContact *p = m_arContacts.find((MsnContact*)&email);
 	return p ? p->list : 0;
 }
 
@@ -127,15 +127,15 @@ int CMsnProto::Lists_GetNetId(const char* email)
 {
 	if (email[0] == 0) return NETID_UNKNOWN;
 
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
-	MsnContact *p = contList.find((MsnContact*)&email);
+	MsnContact *p = m_arContacts.find((MsnContact*)&email);
 	return p ? p->netId : NETID_UNKNOWN;
 }
 
 unsigned CMsnProto::p2p_getMsgId(const char* wlid, int inc)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 	MsnPlace *p = Lists_GetPlace(wlid);
 
 	unsigned res = p && p->p2pMsgId ? p->p2pMsgId : MSN_GenRandom();
@@ -147,7 +147,7 @@ unsigned CMsnProto::p2p_getMsgId(const char* wlid, int inc)
 
 unsigned CMsnProto::p2p_getPktNum(const char* wlid)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
 	MsnPlace *p = Lists_GetPlace(wlid);
 	return p ? p->p2pPktNum++ : 0;
@@ -155,9 +155,9 @@ unsigned CMsnProto::p2p_getPktNum(const char* wlid)
 
 int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hContact, const char* nick, const char* invite)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
-	MsnContact* p = contList.find((MsnContact*)&email);
+	MsnContact* p = m_arContacts.find((MsnContact*)&email);
 	if (p == NULL) {
 		p = new MsnContact;
 		p->list = list;
@@ -167,7 +167,7 @@ int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hConta
 		p->nick = mir_strdup(nick);
 		p->hContact = hContact;
 		p->p2pMsgId = 0;
-		contList.insert(p);
+		m_arContacts.insert(p);
 	}
 	else {
 		p->list |= list;
@@ -182,15 +182,15 @@ int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hConta
 
 void CMsnProto::Lists_Remove(int list, const char* email)
 {
-	mir_cslock lck(csLists);
+	mir_cslock lck(m_csLists);
 
-	int i = contList.getIndex((MsnContact*)&email);
+	int i = m_arContacts.getIndex((MsnContact*)&email);
 	if (i != -1) {
-		MsnContact &p = contList[i];
+		MsnContact &p = m_arContacts[i];
 		p.list &= ~list;
 		if (list & LIST_PL) { mir_free(p.invite); p.invite = NULL; }
 		if (p.list == 0 && p.hContact == NULL)
-			contList.remove(i);
+			m_arContacts.remove(i);
 	}
 }
 
@@ -217,8 +217,8 @@ void CMsnProto::Lists_Populate(void)
 
 void CMsnProto::MSN_CleanupLists(void)
 {
-	for (int i = contList.getCount(); i--;) {
-		MsnContact& p = contList[i];
+	for (int i = m_arContacts.getCount(); i--;) {
+		MsnContact& p = m_arContacts[i];
 		if (p.list & LIST_FL)
 			MSN_SetContactDb(p.hContact, p.email);
 
@@ -271,24 +271,24 @@ void CMsnProto::MSN_CleanupLists(void)
 
 void CMsnProto::MSN_CreateContList(void)
 {
-	bool *used = (bool*)mir_calloc(contList.getCount()*sizeof(bool));
+	bool *used = (bool*)mir_calloc(m_arContacts.getCount()*sizeof(bool));
 
 	char cxml[8192];
 
 	size_t sz = mir_snprintf(cxml, sizeof(cxml), "<ml l=\"1\">");
 	{
-		mir_cslock lck(csLists);
+		mir_cslock lck(m_csLists);
 
-		for (int i = 0; i < contList.getCount(); i++) {
+		for (int i = 0; i < m_arContacts.getCount(); i++) {
 			if (used[i]) continue;
 
-			const char* lastds = strchr(contList[i].email, '@');
+			const char* lastds = strchr(m_arContacts[i].email, '@');
 			bool newdom = true;
 
-			for (int j = 0; j < contList.getCount(); j++) {
+			for (int j = 0; j < m_arContacts.getCount(); j++) {
 				if (used[j]) continue;
 
-				const MsnContact& C = contList[j];
+				const MsnContact& C = m_arContacts[j];
 				if (C.list == LIST_RL || C.list == LIST_PL || C.list == LIST_LL) {
 					used[j] = true;
 					continue;
@@ -359,8 +359,8 @@ static void AddPrivacyListEntries(HWND hwndList, CMsnProto *proto)
 	}
 
 	// Add new info
-	for (int i = 0; i < proto->contList.getCount(); ++i) {
-		MsnContact &cont = proto->contList[i];
+	for (int i = 0; i < proto->m_arContacts.getCount(); ++i) {
+		MsnContact &cont = proto->m_arContacts[i];
 		if (!(cont.list & (LIST_FL | LIST_LL))) {
 			cii.pszText = (TCHAR*)cont.email;
 			HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEMA, 0, (LPARAM)&cii);

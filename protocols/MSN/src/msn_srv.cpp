@@ -28,14 +28,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CMsnProto::MSN_AddGroup(const char* grpName, const char *grpId, bool init)
 {
-	ServerGroupItem* p = grpList.find((ServerGroupItem*)&grpId);
+	ServerGroupItem* p = m_arGroups.find((ServerGroupItem*)&grpId);
 	if (p != NULL) return;
 
 	p = (ServerGroupItem*)mir_alloc(sizeof(ServerGroupItem));
 	p->id = mir_strdup(grpId);
 	p->name = mir_strdup(grpName);
 
-	grpList.insert(p);
+	m_arGroups.insert(p);
 
 	if (init)
 		Clist_CreateGroup(0, ptrT(mir_utf8decodeT(grpName)));
@@ -46,13 +46,13 @@ void CMsnProto::MSN_AddGroup(const char* grpName, const char *grpId, bool init)
 
 void CMsnProto::MSN_DeleteGroup(const char* pId)
 {
-	int i = grpList.getIndex((ServerGroupItem*)&pId);
+	int i = m_arGroups.getIndex((ServerGroupItem*)&pId);
 	if (i > -1) {
-		ServerGroupItem* p = grpList[i];
+		ServerGroupItem* p = m_arGroups[i];
 		mir_free(p->id);
 		mir_free(p->name);
 		mir_free(p);
-		grpList.remove(i);
+		m_arGroups.remove(i);
 	}
 }
 
@@ -84,13 +84,13 @@ void CMsnProto::MSN_DeleteServerGroup(LPCSTR szId)
 
 void CMsnProto::MSN_FreeGroups(void)
 {
-	for (int i = 0; i < grpList.getCount(); i++) {
-		ServerGroupItem* p = grpList[i];
+	for (int i = 0; i < m_arGroups.getCount(); i++) {
+		ServerGroupItem* p = m_arGroups[i];
 		mir_free(p->id);
 		mir_free(p->name);
 		mir_free(p);
 	}
-	grpList.destroy();
+	m_arGroups.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ void CMsnProto::MSN_FreeGroups(void)
 
 LPCSTR CMsnProto::MSN_GetGroupById(const char* pId)
 {
-	ServerGroupItem* p = grpList.find((ServerGroupItem*)&pId);
+	ServerGroupItem* p = m_arGroups.find((ServerGroupItem*)&pId);
 	return p ? p->name : NULL;
 }
 
@@ -107,8 +107,8 @@ LPCSTR CMsnProto::MSN_GetGroupById(const char* pId)
 
 LPCSTR CMsnProto::MSN_GetGroupByName(const char* pName)
 {
-	for (int i = 0; i < grpList.getCount(); i++) {
-		const ServerGroupItem* p = grpList[i];
+	for (int i = 0; i < m_arGroups.getCount(); i++) {
+		const ServerGroupItem* p = m_arGroups[i];
 		if (strcmp(p->name, pName) == 0)
 			return p->id;
 	}
@@ -121,7 +121,7 @@ LPCSTR CMsnProto::MSN_GetGroupByName(const char* pName)
 
 void CMsnProto::MSN_SetGroupName(const char* pId, const char* pNewName)
 {
-	ServerGroupItem* p = grpList.find((ServerGroupItem*)&pId);
+	ServerGroupItem* p = m_arGroups.find((ServerGroupItem*)&pId);
 	if (p != NULL)
 		replaceStr(p->name, pNewName);
 }
@@ -175,7 +175,7 @@ void CMsnProto::MSN_RemoveEmptyGroups(void)
 {
 	if (!MyOptions.ManageServer) return;
 
-	unsigned *cCount = (unsigned*)mir_calloc(grpList.getCount() * sizeof(unsigned));
+	unsigned *cCount = (unsigned*)mir_calloc(m_arGroups.getCount() * sizeof(unsigned));
 
 	int count = -1;
 	for (;;) {
@@ -185,13 +185,13 @@ void CMsnProto::MSN_RemoveEmptyGroups(void)
 		char szGroupID[100];
 		if (!db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID))) {
 			const char *pId = szGroupID;
-			int i = grpList.getIndex((ServerGroupItem*)&pId);
+			int i = m_arGroups.getIndex((ServerGroupItem*)&pId);
 			if (i > -1) ++cCount[i];
 		}
 	}
 
-	for (int i = grpList.getCount(); i--;) {
-		if (cCount[i] == 0) MSN_DeleteServerGroup(grpList[i]->id);
+	for (int i = m_arGroups.getCount(); i--;) {
+		if (cCount[i] == 0) MSN_DeleteServerGroup(m_arGroups[i]->id);
 	}
 	mir_free(cCount);
 }
