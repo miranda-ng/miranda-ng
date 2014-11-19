@@ -19,7 +19,7 @@ Nazwa serwera:
 [Port:]
 Port:
 [Client ID and version]
-
+ID oraz wersja klienta
 [Error display]
 Wyświetlanie błędów
 [Use message boxes]
@@ -133,26 +133,26 @@ Prawda
 Fałsz
 ;file \protocols\Sametime\src\utils.cpp
 [%s\n\nSametime error %S\n%s]
-
+%s\n\nBłąd Sametime %S\n%s
 ;file \protocols\Sametime\src\meanwhile\src\error.c
 [Success]
-
+Sukces
 [General failure]
-
+Ogólny błąd
 [Request delayed]
-
+Zapytanie opóźnione
 [Request is invalid]
-
+Zapytanie jest niepoprawne
 [Not logged in]
-
+Niezalogowany
 [Not authorized]
 Nie autoryzowany
 [Operation aborted]
-
+Operacja anulowana
 [No element]
-
+Brak elementu
 [User is not online]
-
+Użytkownik nie jest dostępny
 [Invalid data]
 Nieprawidłowe dane
 [Not implemented]
@@ -160,322 +160,320 @@ Nie zaimplementowany
 [Unknown error]
 Nieznany błąd
 [Not enough resources]
-
+Brak wystarczających zasobów
 [Requested channel is not supported]
-
+Żądany kanał nie jest wspierany
 [Requested channel already exists]
-
+Żądany kanał już istnieje
 [Requested service is not supported]
-
+Żądana usługa nie jest wspierana
 [Requested protocol is not supported]
-
+Żądany protokół nie jest wspierany
 [Version is not supported]
-
+Wersja nie jest wspierana
 [User is invalid or not trusted]
-
+Użytkownik jest niepoprawny lub niezaufany
 [Already initialized]
-
+już zainicjowano
 [Not an owner]
-
+nie jesteś właścicielem
 [Invalid token]
-
+Niepoprawny token
 [Token expired]
-
+Token nieważny
 [Token mismatch]
-
+Token niezgodny
 [Port in use]
-
+Port w użyciu
 [Network error]
-
+Błąd sieciowy
 [Master channel error]
-
+Błąd kanału master
 [Already subscribed]
-
+Już subskrybujesz
 [Not subscribed]
-
+niesubskrybowany
 [Encryption method not supported]
-
+Metoda szyfrowania niewspierana
 [Encryption not initialized]
-
+Szyfrowanie niezainicjowane
 [Encryption too low]
-
+Szyfrowanie zbyt słabe
 [Invalid encrypted data]
-
+Nieprawidłowe zaszyfrowane dane
 [No common encryption method]
-
+Brak wspólej metody szyfrowania
 [Channel destroyed]
-
+Kanał zniszczony
 [Channel redirected]
-
+Kanał przekierowany
 [Incorrect entry]
-
+Nieprawidłowy wpis
 [Version mismatch]
-
+Niezgodność wersji
 [Not enough buffers memory]
-
+Brak wystarczającej ilości buforów pamięci
 [Not in use]
-
+Nieużywane
 [Not enough sockets]
-
+Brak wystarczającej ilości gniazd
 [Hardware error]
-
+Błąd sprzętowy
 [Host error]
-
+Błąd hosta
 [Host unreachable]
-
+Host nieosiągalny
 [Internet protocol error]
-
+Błąd protokołu internetowego
 [Message is too large]
-
+Wiadomość jest zbyt wielka
 [Proxy error]
-
+Błąd proxy
 [Server full]
-
+Serwer pełny
 [Server not responding]
-
+Serwer nie odpowiada
 [Connection error]
-
+Błąd połączenia
 [User removed]
-
+Użytkownik usunięty
 [Sametime protocol error]
-
+Błąd protokołu Sametime
 [User restricted]
-
+Użytkownik ograniczony
 [Incorrect Username/Password]
-
+Nieprawidłowa Nazwa użytkownika/Hasło
 [Encryption mismatch]
-
+Niezgodność szyfrowania
 [User unregistered]
-
+Użytkownik niezarejestrowany
 [Login verification down or unavailable]
-
+Weryfikacja logowania uległa awarii lub jest niedostępna
 [User too idle]
-
+Użytkownik zbyt długo oddalony
 [The guest name is currently being used]
-
+Nazwa gościnna jest obecnie używana
 [User exists]
-
+Użytkownik istnieje
 [User relogin]
-
+Przelogowanie użytkownika
 [Bad name]
-
+Zła nazwa
 [Registration error]
-
+Błąd rejestracji
 [Privilege error]
-
+Błąd uprawnień
 [Need email]
-
+potrzebny e-mail
 [DNS error]
-
+Błąd DNS
 [DNS fatal error]
-
+Krytyczny błąd DNS
 [DNS not found]
-
+Nie znaleziono DNS
 [Connection broken]
-
+Połączenie zerwane
 [Connection aborted]
-
+Połączenie anulowane
 [Connection refused]
-
+Połączenie odrzucone
 [Connection reset]
-
+Połączenie zresetowane
 [Connection timed out]
-
+Czas oczekiwania na połączenie minął
 [Connection closed]
-
+Połączenie zamknięte
 [Login to two different servers concurrently (1)]
-
+Logowanie do dwóch różnych serwerów jednocześnie (1)
 [Login to two different servers concurrently (2)]
-
+Logowanie do dwóch różnych serwerów jednocześnie (2)
 [Already logged on, disconnected]
-
+Już zalogowano, rozłączono
 [Already logged on]
-
+Już zalogowano
 [Server misconfiguration]
-
+Błąd konfiguracji serwera
 [Server needs upgrade]
-
+Serwer wymaga aktualizacji
 [Applet Logout]
-
+Applet Wylogowania
 [User is in Do Not Disturb mode]
-
+Użytkownik jest w trybie nie przeszkadzać
 [Already logged in elsewhere]
-
+Zalogowano już gdzie indziej
 [Cannot register a reserved type]
-
+Nie można  zarejestrować zarezerwowanego typu
 [Requested type is already registered]
-
+Żądany typ jest już zarejestrowany
 [Requested type is not registered]
-
+Żądany typ nie jest zarejestrowany
 [Resolve not completed]
-
+Wykrywanie nie zostało ukończone
 [Resolve name not unique]
-
+Wykryta nazwa nie jest unikalna
 [Resolve name not resolvable]
-
+Wykryta nazwa niewykrywalna
 [Operation succeeded]
-
+Operacja powiodła się
 [Operation failed]
-
+Operacja nie powiodła się
 [Request accepted but will be served later]
-
-[Request is invalid due to invalid state or parameters ]
-
+Żądanie zostało zaakceptowane, ale zostanie obsłużone później
+[Request is invalid due to invalid state or parameters]
+Żądanie jest niepoprawne z powodu błędnego stanu lub parametrów
 [Not logged in to community]
-
+Niezalogowano w społeczności
 [Unauthorized to perform an action or access a resource]
-
+Nieautoryzowano w celu wykonania akcji lub uzyskania dostępu do zasobu
 [Operation has been aborted]
-
+Operacja została anulowana
 [The element is non-existent]
-
+Element nie istnieje
 [The user is non-existent]
-
+Użytkownik nie istnieje
 [The data are invalid or corrupted]
-
+Dane są nieprawidłowe lub uszkodzone
 [The requested feature is not implemented]
-
+Żądana funkcja nie jest zaimplementowana
 [Not enough resources to perform the operation]
-
+Brak wystarczających zasobów, by wykonać operację
 [The requested channel is not supported]
-
+Żądany kanał nie jest wspierany
 [The requested channel already exists]
-
+Żądany kanał już istnieje
 [The requested service is not supported]
-
+Żądana usługa jest niedostępna
 [The requested protocol is not supported (1)]
-
+Żądany protokół jest niedostępny (1)
 [The requested protocol is not supported (2)]
-
+Żądany protokół nie jest wspierany (2)
 [The version is not supported]
-
+Wersja nie jest wspierana
 [Not an owner of the requested resource]
-
+Nie jesteś właścicielem żądanego zasobu
 [Token has expired]
-
+Token wygasł
 [Token IP mismatch]
-
+Niezgodność IP tokenu
 [WK port is in use]
-
+Port WK jest w użyciu
 [Low-level network error occurred]
-
+Wystąpił błąd na niższym szczeblu sieci
 [No master channel exists]
-
+Nie istnieje żaden kanał master
 [Already subscribed to object(s) or event(s)]
-
+Subskrybujesz już obiekt(y) lub zdarzenie(a)
 [Not subscribed to object(s) or event(s)]
-
+nie subskrybujesz obiekt(ów) lub zdarzenia(ń)
 [Encryption is not supported or failed unexpectedly]
-
+Szyfrowanie jest niewspierane lub nieoczekiwanie nie powiodło się
 [Encryption mechanism has not been initialized yet]
-
+Mechanizm szyfrowania nie został jeszcze zainicjowany
 [The requested encryption level is unacceptably low]
-
-[The encryption data passed are invalid or or corrupted]
-
+Żądany stopień szyfrowania jest nieakceptowalnie niski
+[The encryption data passed are invalid or corrupted]
+Przekazane dane szyfrowania są nieprawidłowe bądź uszkodzone
 [There is no common encryption method]
-
+Nie ma wspólnej metody szyfrowania
 [The channel is destroyed after a recommendation is made connect elsewhere]
-
+Kanał jest niszczony po udzieleniu polecenia połącz się gdzie indziej
 [The channel has been redirected to another destination]
-
+Kanał został przekierowany do innego miejsca docelowego
 [Incorrect entry for server in cluster document]
-
+Nieprawidłowy wpis dla serwera w dokumencie klastra
 [Versions don't match]
-
+wersje nie zgadzają się
 [Not enough resources for connection (buffers)]
-
+niewystarczające zasoby dla buforów połączenia
 [Not enough resources for connection (socket id)]
-
+niewystarczające zasoby dla połączenia (ID gniazda)
 [Hardware error occurred]
-
+Wystąpił błąd sprzętowy
 [Network down]
-
+Sieć uległa awarii
 [Host down]
-
+Host uległ awarii
 [TCP/IP protocol error]
-
+Błąd protokołu TCP/IP
 [The message is too large]
-
+Wiadomość jest  zbyt wielka
 [Server is full]
-
+Serwer jest pełny
 [Server is not responding]
-
+Serwer nie odpowiada
 [Cannot connect]
-
+Nie można się połączyć
 [User has been removed from the server]
-
+Użytkownik został usunięty z serwera
 [Virtual Places protocol error]
-
+Błąd protokołu Virtual Places
 [Cannot connect because user has been restricted]
-
+Nie można się połączyć, ponieważ użytkownik został ograniczony
 [Incorrect login]
-
+Nieprawidłowy login
 [User is unregistered]
-
+Użytkownik nie jest zarejestrowany
 [Verification service down]
-
+Usługa weryfikacji uległa awarii
 [User has been idle for too long]
-
+Użytkownik był oddalony zbyt długo
 [The user is already signed on]
-
+Użytkownik jest już zalogowany
 [The user has signed on again]
-
+Użytkownik ponownie się zalogował
 [The name cannot be used]
-
+Nazwa nie może zostać użyta
 [The registration mode is not supported]
-
+Tryb rejestracji nie jest wspierany
 [User does not have appropriate privilege level]
-
+Użytkownik nie posiada odpowiedniego poziomu uprawnień
 [Email address must be used]
-
+Adres e-mail musi zostać użyty
 [Error in DNS]
-
-[Fatal error in DNS]
-
+Błąd w DNS
 [Server name not found]
-
+Nie znaleziono nazwy serwera
 [The connection has been broken]
-
+Połączenie zostało zerwane
 [An established connection was aborted by the software in the host machine]
-
+Ustanowione połączenie zostało anulowane przez oprogramowanie maszyny-hosta
 [The connection has been refused]
-
+Połączenie zostało odrzucone
 [The connection has been reset]
-
+Połączenie zostało zresetowane
 [The connection has timed out]
-
+Minął czas oczekiwania na połączenie
 [The connection has been closed]
-
+Połączenie zostało zamknięte
 [Disconnected due to login in two Sametime servers concurrently (1)]
-
+Rozłączono z powodu logowania na dwóch serwerach Sametime jednocześnie (1)
 [Disconnected due to login in two Sametime servers concurrently (2)]
-
+Rozłączono z powodu logowania na dwóch serwerach Sametime jednocześnie (2)
 [Disconnected due to login from another computer.]
-
+Rozłączono z powodu logowania się z innego komputera
 [Unable to log in because you are already logged on from another computer]
-
+Nie udało się zalogować ponieważ jesteś już zalogowany z innego komputera
 [Unable to log in because the server is either unreachable, or not configured properly.]
-
+Nie udało się zalogować, ponieważ serwer jest nieosiągalny lub niepoprawnie skonfigurowany
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
-
+Nie udało się zalogować do serwera domowego Sametime przez żądany serwer, ponieważ  twój serwer domowy Sametime musi zostać zaktualizowany
 [The applet was logged out with this reason. Perform relogin and you will return to the former state.]
-
+Applet został wylogowany z tym powodem. Dokonaj ponownego logowania, a powrócisz do wcześniejszego stanu
 [The user is not online]
-
+Użytkownik nie jest dostępny
 [The user is in do not disturb mode]
-
-[Can not login because already logged in with a different user name (Java only)]
-
+Użytkownik jest w trybie nie przeszkadzać
+[Cannot login because already logged in with a different user name (Java only)]
+Nie udało się zalogować, ponieważ jesteś już zalogowany z inną nazwą użytkownika(tylko java)
 [The requested type is already registered]
-
+Żądany typ jest już zarejestrowany
 [The requested type is not registered]
-
+Żądany typ nie jest zarejestrowany
 [The resolve process was not completed, but a partial response is available]
-
+Proces wykrywania nie został ukończony, ale częściowa odpowiedź jest dostępna
 [The name was found, but is not unique (request was for unique only)]
-
+Nazwa została znaleziona, ale nie jest unikalna (żądanie dotyczyło tylko nazw unikalnych)
 [The name is not resolvable due to its format, for example an Internet email address]
-
+Nazwa jest niewykrywalna z powodu swojego formatu, na przykład internetowy adres e-mail
 [Unknown error code]
-
+Nieznany kod błędu

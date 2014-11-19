@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.4
+;  Version: 0.2.9.5
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -94,6 +94,8 @@ Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
 Liczba wiadomości do załadowania:
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
+[Synchronize last 24 hours on login]
+Synchronizuj ostatnie 24 godziny podczas logowania
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
