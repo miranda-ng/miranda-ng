@@ -40,8 +40,8 @@ MCONTACT CMsnProto::MSN_GetChatInernalHandle(MCONTACT hContact)
 
 int CMsnProto::MSN_ChatInit(ThreadData *info)
 {
-	InterlockedIncrement(&sttChatID);
-	_ltot(sttChatID, info->mChatID, 10);
+	InterlockedIncrement(&m_chatID);
+	_ltot(m_chatID, info->mChatID, 10);
 
 	TCHAR szName[512];
 	mir_sntprintf(szName, SIZEOF(szName), _T("%s %s%s"),

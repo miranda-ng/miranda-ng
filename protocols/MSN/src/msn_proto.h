@@ -123,17 +123,17 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	char *abCacheKey, *sharingCacheKey, *storageCacheKey;
 
-	mir_cs csLists;
-	OBJLIST<MsnContact> contList;
+	mir_cs m_csLists;
+	OBJLIST<MsnContact> m_arContacts;
 
-	LIST<ServerGroupItem> grpList;
+	LIST<ServerGroupItem> m_arGroups;
 
-	mir_cs csThreads;
-	OBJLIST<ThreadData> sttThreads;
+	mir_cs m_csThreads;
+	OBJLIST<ThreadData> m_arThreads;
 
-	mir_cs sessionLock;
-	OBJLIST<filetransfer> sessionList;
-	OBJLIST<directconnection> dcList;
+	mir_cs m_csSessions;
+	OBJLIST<filetransfer> m_arSessions;
+	OBJLIST<directconnection> m_arDirect;
 
 	mir_cs csMsgQueue;
 	int msgQueueSeq;
@@ -143,7 +143,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	LIST<AvatarQueueEntry> lsAvatarQueue;
 	HANDLE hevAvatarQueue;
 
-	LONG sttChatID;
+	LONG m_chatID;
 
 	int msnPingTimeout;
 	HANDLE hKeepAliveThreadEvt;

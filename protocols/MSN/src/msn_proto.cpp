@@ -28,18 +28,18 @@ int msn_httpGatewayBegin(HANDLE hConn,NETLIBOPENCONNECTION *nloc);
 int msn_httpGatewayWrapSend(HANDLE hConn,PBYTE buf,int len,int flags,MIRANDASERVICE pfnNetlibSend);
 PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr,PBYTE buf,int len,int *outBufLen,void *(*NetlibRealloc)(void*,size_t));
 
-static int CompareLists(const MsnContact* p1, const MsnContact* p2)
+static int CompareLists(const MsnContact *p1, const MsnContact *p2)
 {
 	return _stricmp(p1->email, p2->email);
 }
 
 CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	PROTO<CMsnProto>(aProtoName, aUserName),
-	contList(10, CompareLists),
-	grpList(10, CompareId),
-	sttThreads(10, PtrKeySortT),
-	sessionList(10, PtrKeySortT),
-	dcList(10, PtrKeySortT),
+	m_arContacts(10, CompareLists),
+	m_arGroups(10, CompareId),
+	m_arThreads(10, PtrKeySortT),
+	m_arSessions(10, PtrKeySortT),
+	m_arDirect(10, PtrKeySortT),
 	lsMessageQueue(1),
 	lsAvatarQueue(1),
 	msgCache(5, CompareId)
@@ -978,8 +978,8 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 			return 0;
 		}
 
-		sessionList.destroy();
-		dcList.destroy();
+		m_arSessions.destroy();
+		m_arDirect.destroy();
 
 		usingGateway = false;
 

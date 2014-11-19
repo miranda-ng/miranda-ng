@@ -273,27 +273,27 @@ LBL_Exit:
 
 void CMsnProto::MSN_CloseConnections(void)
 {
-	mir_cslockfull lck(csThreads);
+	mir_cslockfull lck(m_csThreads);
 
 	NETLIBSELECTEX nls = { 0 };
 	nls.cbSize = sizeof(nls);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
 
-		switch (T->mType) {
+		switch (T.mType) {
 		case SERVER_NOTIFICATION:
 		case SERVER_SWITCHBOARD:
-			if (T->s != NULL && !T->sessionClosed && !T->termPending) {
-				nls.hReadConns[0] = T->s;
+			if (T.s != NULL && !T.sessionClosed && !T.termPending) {
+				nls.hReadConns[0] = T.s;
 				int res = CallService(MS_NETLIB_SELECTEX, 0, (LPARAM)&nls);
 				if (res >= 0 || nls.hReadStatus[0] == 0)
-					T->sendTerminate();
+					T.sendTerminate();
 			}
 			break;
 
 		case SERVER_P2P_DIRECT:
-			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)T->s, 0);
+			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)T.s, 0);
 			break;
 		}
 	}
@@ -306,35 +306,35 @@ void CMsnProto::MSN_CloseConnections(void)
 
 void CMsnProto::Threads_Uninit(void)
 {
-	mir_cslock lck(csThreads);
-	sttThreads.destroy();
+	mir_cslock lck(m_csThreads);
+	m_arThreads.destroy();
 }
 
 ThreadData* CMsnProto::MSN_GetThreadByContact(const char* wlid, TInfoType type)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
 	if (type == SERVER_P2P_DIRECT) {
-		for (int i = 0; i < sttThreads.getCount(); i++) {
-			ThreadData* T = &sttThreads[i];
-			if (T->mType != SERVER_P2P_DIRECT || !T->mJoinedIdentContactsWLID.getCount() || T->s == NULL)
+		for (int i = 0; i < m_arThreads.getCount(); i++) {
+			ThreadData &T = m_arThreads[i];
+			if (T.mType != SERVER_P2P_DIRECT || !T.mJoinedIdentContactsWLID.getCount() || T.s == NULL)
 				continue;
 
-			if (_stricmp(T->mJoinedIdentContactsWLID[0], wlid) == 0)
-				return T;
+			if (_stricmp(T.mJoinedIdentContactsWLID[0], wlid) == 0)
+				return &T;
 		}
 	}
 
 	char *szEmail = NULL;
 	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mType != type || !T->mJoinedContactsWLID.getCount() || T->mInitialContactWLID || T->s == NULL)
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mType != type || !T.mJoinedContactsWLID.getCount() || T.mInitialContactWLID || T.s == NULL)
 			continue;
 
-		if (_stricmp(T->mJoinedContactsWLID[0], szEmail) == 0 && T->mChatID[0] == 0)
-			return T;
+		if (_stricmp(T.mJoinedContactsWLID[0], szEmail) == 0 && T.mChatID[0] == 0)
+			return &T;
 	}
 
 	return NULL;
@@ -342,13 +342,12 @@ ThreadData* CMsnProto::MSN_GetThreadByContact(const char* wlid, TInfoType type)
 
 ThreadData* CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-
-		if (_tcsicmp(T->mChatID, chatId) == 0)
-			return T;
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (_tcsicmp(T.mChatID, chatId) == 0)
+			return &T;
 	}
 
 	return NULL;
@@ -356,12 +355,12 @@ ThreadData* CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
 
 ThreadData* CMsnProto::MSN_GetThreadByTimer(UINT timerId)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mType == SERVER_SWITCHBOARD && T->mTimerId == timerId)
-			return T;
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mType == SERVER_SWITCHBOARD && T.mTimerId == timerId)
+			return &T;
 	}
 
 	return NULL;
@@ -369,30 +368,30 @@ ThreadData* CMsnProto::MSN_GetThreadByTimer(UINT timerId)
 
 ThreadData* CMsnProto::MSN_GetP2PThreadByContact(const char *wlid)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mType != SERVER_P2P_DIRECT || !T->mJoinedIdentContactsWLID.getCount())
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mType != SERVER_P2P_DIRECT || !T.mJoinedIdentContactsWLID.getCount())
 			continue;
 
-		if (_stricmp(T->mJoinedIdentContactsWLID[0], wlid) == 0)
-			return T;
+		if (_stricmp(T.mJoinedIdentContactsWLID[0], wlid) == 0)
+			return &T;
 	}
 
 	char *szEmail = NULL;
 	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
 
 	ThreadData *result = NULL;
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mJoinedContactsWLID.getCount() && !T->mInitialContactWLID &&
-			_stricmp(T->mJoinedContactsWLID[0], szEmail) == 0) {
-			if (T->mType == SERVER_P2P_DIRECT)
-				return T;
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mJoinedContactsWLID.getCount() && !T.mInitialContactWLID &&
+			_stricmp(T.mJoinedContactsWLID[0], szEmail) == 0) {
+			if (T.mType == SERVER_P2P_DIRECT)
+				return &T;
 
-			if (T->mType == SERVER_SWITCHBOARD)
-				result = T;
+			if (T.mType == SERVER_SWITCHBOARD)
+				result = &T;
 		}
 	}
 
@@ -402,15 +401,15 @@ ThreadData* CMsnProto::MSN_GetP2PThreadByContact(const char *wlid)
 
 void CMsnProto::MSN_StartP2PTransferByContact(const char* wlid)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mType == SERVER_FILETRANS && T->hWaitEvent != INVALID_HANDLE_VALUE) {
-			if ((T->mInitialContactWLID && !_stricmp(T->mInitialContactWLID, wlid)) ||
-				(T->mJoinedContactsWLID.getCount() && !_stricmp(T->mJoinedContactsWLID[0], wlid)) ||
-				(T->mJoinedIdentContactsWLID.getCount() && !_stricmp(T->mJoinedIdentContactsWLID[0], wlid)))
-				ReleaseSemaphore(T->hWaitEvent, 1, NULL);
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mType == SERVER_FILETRANS && T.hWaitEvent != INVALID_HANDLE_VALUE) {
+			if ((T.mInitialContactWLID && !_stricmp(T.mInitialContactWLID, wlid)) ||
+				(T.mJoinedContactsWLID.getCount() && !_stricmp(T.mJoinedContactsWLID[0], wlid)) ||
+				(T.mJoinedIdentContactsWLID.getCount() && !_stricmp(T.mJoinedIdentContactsWLID[0], wlid)))
+				ReleaseSemaphore(T.hWaitEvent, 1, NULL);
 		}
 	}
 }
@@ -418,15 +417,15 @@ void CMsnProto::MSN_StartP2PTransferByContact(const char* wlid)
 
 ThreadData* CMsnProto::MSN_GetOtherContactThread(ThreadData* thread)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mJoinedContactsWLID.getCount() == 0 || T->s == NULL)
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mJoinedContactsWLID.getCount() == 0 || T.s == NULL)
 			continue;
 
-		if (T != thread && _stricmp(T->mJoinedContactsWLID[0], thread->mJoinedContactsWLID[0]) == 0)
-			return T;
+		if (&T != thread && _stricmp(T.mJoinedContactsWLID[0], thread->mJoinedContactsWLID[0]) == 0)
+			return &T;
 	}
 
 	return NULL;
@@ -434,17 +433,17 @@ ThreadData* CMsnProto::MSN_GetOtherContactThread(ThreadData* thread)
 
 ThreadData* CMsnProto::MSN_GetUnconnectedThread(const char* wlid, TInfoType type)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
 	char* szEmail = (char*)wlid;
 
 	if (type == SERVER_SWITCHBOARD && strchr(wlid, ';'))
 		parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mType == type && T->mInitialContactWLID && _stricmp(T->mInitialContactWLID, szEmail) == 0)
-			return T;
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mType == type && T.mInitialContactWLID && _stricmp(T.mInitialContactWLID, szEmail) == 0)
+			return &T;
 	}
 
 	return NULL;
@@ -454,7 +453,7 @@ ThreadData* CMsnProto::MSN_GetUnconnectedThread(const char* wlid, TInfoType type
 ThreadData* CMsnProto::MSN_StartSB(const char* wlid, bool& isOffline)
 {
 	isOffline = false;
-	ThreadData* thread = MSN_GetThreadByContact(wlid);
+	ThreadData *thread = MSN_GetThreadByContact(wlid);
 	if (thread == NULL) {
 		MCONTACT hContact = MSN_HContactFromEmail(wlid);
 		WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -472,12 +471,12 @@ ThreadData* CMsnProto::MSN_StartSB(const char* wlid, bool& isOffline)
 int CMsnProto::MSN_GetActiveThreads(ThreadData** parResult)
 {
 	int tCount = 0;
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mType == SERVER_SWITCHBOARD && T->mJoinedContactsWLID.getCount() != 0 && T->mJoinedContactsWLID.getCount())
-			parResult[tCount++] = T;
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mType == SERVER_SWITCHBOARD && T.mJoinedContactsWLID.getCount() != 0 && T.mJoinedContactsWLID.getCount())
+			parResult[tCount++] = &T;
 	}
 
 	return tCount;
@@ -485,12 +484,12 @@ int CMsnProto::MSN_GetActiveThreads(ThreadData** parResult)
 
 ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->s == s)
-			return T;
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.s == s)
+			return &T;
 	}
 
 	return NULL;
@@ -498,12 +497,12 @@ ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 
 ThreadData* CMsnProto::MSN_GetThreadByPort(WORD wPort)
 {
-	mir_cslock lck(csThreads);
+	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < sttThreads.getCount(); i++) {
-		ThreadData* T = &sttThreads[i];
-		if (T->mIncomingPort == wPort)
-			return T;
+	for (int i = 0; i < m_arThreads.getCount(); i++) {
+		ThreadData &T = m_arThreads[i];
+		if (T.mIncomingPort == wPort)
+			return &T;
 	}
 
 	return NULL;
@@ -639,8 +638,8 @@ void __cdecl CMsnProto::ThreadStub(void* arg)
 
 	debugLogA("Leaving thread %08X (%08X)", GetCurrentThreadId(), info->mFunc);
 	{
-		mir_cslock lck(csThreads);
-		sttThreads.LIST<ThreadData>::remove(info);
+		mir_cslock lck(m_csThreads);
+		m_arThreads.LIST<ThreadData>::remove(info);
 	}
 	delete info;
 }
@@ -650,8 +649,8 @@ void ThreadData::startThread(MsnThreadFunc parFunc, CMsnProto *prt)
 	mFunc = parFunc;
 	proto = prt;
 	{
-		mir_cslock lck(prt->csThreads);
-		proto->sttThreads.insert(this);
+		mir_cslock lck(prt->m_csThreads);
+		proto->m_arThreads.insert(this);
 	}
 	proto->ForkThread(&CMsnProto::ThreadStub, this);
 }
@@ -659,7 +658,7 @@ void ThreadData::startThread(MsnThreadFunc parFunc, CMsnProto *prt)
 /////////////////////////////////////////////////////////////////////////////////////////
 // HReadBuffer members
 
-HReadBuffer::HReadBuffer(ThreadData* T, int iStart)
+HReadBuffer::HReadBuffer(ThreadData *T, int iStart)
 {
 	owner = T;
 	buffer = (BYTE*)T->mData;
@@ -703,6 +702,6 @@ BYTE* HReadBuffer::surelyRead(size_t parBytes)
 		totalDataSize += recvResult;
 	}
 
-	BYTE* result = buffer + startOffset; startOffset += parBytes;
+	BYTE *result = buffer + startOffset; startOffset += parBytes;
 	return result;
 }
