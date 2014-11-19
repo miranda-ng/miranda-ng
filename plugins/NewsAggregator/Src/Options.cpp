@@ -333,7 +333,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
 
-			TCHAR *ptszMsgFormat = db_get_tsa(hContact, MODULE, "URL");
+			TCHAR *ptszMsgFormat = db_get_tsa(hContact, MODULE, "MsgFormat");
 			if (ptszMsgFormat) {
 				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, ptszMsgFormat);
 				mir_free(ptszMsgFormat);
