@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.5
+;  Version: 0.2.9.6
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -32,8 +32,9 @@
 [Don't show advertising posts]
 [Other events]
 [Client notifications]
-[Preview]
 [Use balloon notifications in system tray instead of popups]
+[Use logging notifications into special chatroom]
+[Preview]
 [Advanced Settings]
 [Force secure (HTTPS) connection]
 [Post Miranda statuses to Wall]
@@ -131,6 +132,7 @@
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
+[Notification]
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
@@ -150,7 +152,6 @@
 [Visit profile]
 [Visit notifications]
 [Show 'Share status' window]
-[Notification]
 [News Feed]
 [Other Event]
 [Message read: %s]
