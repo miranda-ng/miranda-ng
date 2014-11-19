@@ -46,7 +46,7 @@ Zaznacz &wszystko
 [Version Info stored into file %s]
 Informacje o wersji zachowano w pliku: %s
 [Version Info file %s is inaccessible]
-
+Plik z informacją o wersji%s jest niedostępny
 [Services]
 Usługi
 [Version Information To Clipboard]
@@ -72,7 +72,7 @@ Wyślij
 [Open crash report directory]
 Otwórz folder z raportami
 [Open online Version Info]
-
+Otwórz informację o wersji online
 [Copy Version Info to clipboard]
 Kopiuj informacje o wersji do schowka
 [Show Version Info]
