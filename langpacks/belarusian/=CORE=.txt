@@ -1861,8 +1861,8 @@ UIN, E-mail і г.д.
 %s набірае тэкст
 [Typing notification]
 Абвестка пра набор тэксту
-[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае riched20.dll. націсніце "Так" для працягу загрузкі праграмы.
+[Miranda could not load the built-in message module, Msftedit is missing. Press 'Yes' to continue loading Miranda.]
+Miranda не здолела загрузіць убудаваную сістэму паведамленняў, так як адсутнічае Msftedit.dll. націсніце "Так" для працягу загрузкі праграмы.
 [Instant messages]
 Паведамленні IM
 [Incoming (focused window)]

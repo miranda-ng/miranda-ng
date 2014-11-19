@@ -319,7 +319,7 @@ Verbindung beendet
 
 [Request accepted but will be served later]
 
-[Request is invalid due to invalid state or parameters ]
+[Request is invalid due to invalid state or parameters]
 
 [Not logged in to community]
 
@@ -371,7 +371,7 @@ Verbindung beendet
 
 [The requested encryption level is unacceptably low]
 
-[The encryption data passed are invalid or or corrupted]
+[The encryption data passed are invalid or corrupted]
 
 [There is no common encryption method]
 
@@ -465,7 +465,7 @@ Verbindung beendet
 
 [The user is in do not disturb mode]
 
-[Can not login because already logged in with a different user name (Java only)]
+[Cannot log in because already logged in with a different user name (Java only)]
 
 [The requested type is already registered]
 

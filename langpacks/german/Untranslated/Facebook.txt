@@ -1,0 +1,2 @@
+﻿[Use logging notifications into special chatroom]
+[Synchronize last 24 hours on login]

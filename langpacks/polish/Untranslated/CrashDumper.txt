@@ -1,2 +1,0 @@
-﻿[Version Info file %s is inaccessible]
-[Open online Version Info]

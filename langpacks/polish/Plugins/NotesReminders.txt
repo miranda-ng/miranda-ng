@@ -221,8 +221,8 @@ Po&każ notatki
 &Usuń wszystkie notatki
 [&Bring All to Front]
 &Pokaż wszystkie na wierzchu
-[Miranda could not load the Notes & Reminders plugin, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda nie mogła załadować wtyczki Notes & Reminders, brak pliku riched20.dll. Jeśli używasz WINE, upewnij się, że posiadasz zainstalowaną bibliotekę riched20.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
+[Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda nie mogła załadować wtyczki Notes & Reminders, brak pliku Msftedit.dll. Jeśli używasz WINE, upewnij się, że posiadasz zainstalowaną bibliotekę Msftedit.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Czarny
