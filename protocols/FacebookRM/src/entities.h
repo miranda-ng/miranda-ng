@@ -148,13 +148,17 @@ struct facebook_notification
 	std::string text;
 	std::string link;
 	std::string id;
+	time_t time;
 	bool seen;
+	bool written;
 	HWND hWndPopup;
 
 	facebook_notification()
 	{
 		this->user_id = this->text = this->link = this->id = "";
+		this->time = 0;
 		this->seen = false;
+		this->written = false;
 		this->hWndPopup = NULL;
 	}
 };

@@ -49,6 +49,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_CLIENT_APP						"Facebook App"
 #define FACEBOOK_CLIENT_MESSENGER				"Facebook Messenger"
 
+// Various constants
+#define FACEBOOK_NOTIFICATIONS_CHATROOM			"_notifications"
+
 // Limits
 #define FACEBOOK_MESSAGE_LIMIT					200000 // this is guessed limit, in reality it is bigger
 #define FACEBOOK_MESSAGE_LIMIT_TEXT				"200000"
@@ -84,6 +87,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_MESSAGES_ON_OPEN				0
 #define DEFAULT_MESSAGES_ON_OPEN_COUNT			10
 #define DEFAULT_HIDE_CHATS						0
+#define DEFAULT_NOTIFICATIONS_CHATROOM			0
 
 #define DEFAULT_EVENT_NOTIFICATIONS_ENABLE		1
 #define DEFAULT_EVENT_FEEDS_ENABLE				0

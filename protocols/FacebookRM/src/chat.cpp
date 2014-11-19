@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_history.h>
 #include <m_userinfo.h>
 
-void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char *name, const char *message, DWORD timestamp)
+void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char *name, const char *message, DWORD timestamp, bool is_old)
 {
 	// replace % to %% to not interfere with chat color codes
 	std::string smessage = message;
@@ -41,6 +41,10 @@ void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char
 	if (id != NULL)
 		gce.bIsMe = !strcmp(id,facy.self_.user_id.c_str());
 	gce.dwFlags |= GCEF_ADDTOLOG;
+	if (is_old) {
+		gce.dwFlags |= GCEF_NOTNOTIFY;
+		gce.dwFlags &= ~GCEF_ADDTOLOG;
+	}
 	gce.ptszNick = tnick;
 	gce.ptszUID  = tid;
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
@@ -67,7 +71,11 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
-	if (strcmp(hook->pDest->pszModule,m_szModuleName))
+	if (strcmp(hook->pDest->pszModule, m_szModuleName))
+		return 0;
+
+	// Ignore for special chatrooms
+	if (!_tcscmp(hook->pDest->ptszID, _T(FACEBOOK_NOTIFICATIONS_CHATROOM)))
 		return 0;
 
 	switch(hook->pDest->iType)
@@ -291,9 +299,13 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM suppress)
 	return 0;
 }
 
-INT_PTR FacebookProto::OnLeaveChat(WPARAM,LPARAM)
+INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam,LPARAM)
 {
 	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
+	if (wParam != NULL) {
+		gcd.ptszID = ptrT( getTStringA(wParam, "ChatRoomID"));
+	}
+
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
 
@@ -371,4 +383,12 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+bool FacebookProto::isSpecialChatRoom(MCONTACT hContact) {
+	if (!isChatRoom(hContact))
+		return false;
+
+	ptrT idT(getTStringA(hContact, "ChatRoomID"));
+	return idT && !_tcscmp(idT, _T(FACEBOOK_NOTIFICATIONS_CHATROOM));
 }

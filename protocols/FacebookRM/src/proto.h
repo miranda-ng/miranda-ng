@@ -212,7 +212,7 @@ public:
 
 	// Chats handling
  	void AddChat(const TCHAR *id, const TCHAR *name);
-	void UpdateChat(const TCHAR *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0);
+	void UpdateChat(const TCHAR *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0, bool is_old = false);
 	void RenameChat(const char *chat_id, const char *name);
 	bool IsChatContact(const TCHAR *chat_id, const char *id);
 	void AddChatContact(const TCHAR *chat_id, const char *id, const char *name);
@@ -222,6 +222,7 @@ public:
 	void ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates = false);
 	void LoadChatInfo(facebook_chatroom* fbc);
 	void LoadParticipantsNames(facebook_chatroom *fbc);
+	bool isSpecialChatRoom(MCONTACT hContact);
 
 	// Connection client
 	facebook_client facy; // TODO: Refactor to "client" and make dynamic

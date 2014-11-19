@@ -247,16 +247,19 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 		return EXIT_FAILURE;
 	}
 
+	// check if we should use use local_timestamp for unread messages and use it for notifications time too
+	bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
+
 	for (unsigned int i = 0; i < json_size(list); i++) {
 		JSONNODE *it = json_at(list, i);
 		const char *id = json_name(it);
 
 		JSONNODE *markup = json_get(it, "markup");
 		JSONNODE *unread = json_get(it, "unread");
-		//JSONNODE *time = json_get(it, "time");
+		JSONNODE *time = json_get(it, "time");
 
 		// Ignore empty and old notifications
-		if (markup == NULL || unread == NULL || json_as_int(unread) == 0)
+		if (markup == NULL || unread == NULL || time == NULL)
 			continue;
 
 		std::string text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(json_as_pstring(markup)));
@@ -266,6 +269,8 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 		notification->id = id;
 		notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
 		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
+		notification->seen = (json_as_int(unread) == 0);
+		notification->time = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
 
 		if (notifications->find(notification->id) == notifications->end())
 			notifications->insert(std::make_pair(notification->id, notification));
@@ -564,6 +569,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			// event notification
 			JSONNODE *nodes = json_get(it, "nodes");
 
+			// check if we should use use local_timestamp for unread messages and use it for notifications time too
+			bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
+
 			for (unsigned int j = 0; j < json_size(nodes); j++) {
 				JSONNODE *itNodes = json_at(nodes, j);
 
@@ -582,15 +590,16 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (time == NULL || text == NULL || url == NULL || alert_id == NULL)
 					continue;
 
-				unsigned __int64 timestamp = json_as_float(time);
+				double timestamp = json_as_float(time);
 				if (timestamp > proto->facy.last_notification_time_) {
 					// Only new notifications
 					proto->facy.last_notification_time_ = timestamp;
 
 					facebook_notification* notification = new facebook_notification();
 					notification->text = utils::text::slashu_to_utf8(json_as_pstring(text));
-  					notification->link = json_as_pstring(url);					
+  					notification->link = json_as_pstring(url);
 					notification->id = json_as_pstring(alert_id);
+					notification->time = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(timestamp);
 
 					std::string::size_type pos = notification->id.find(":");
 					if (pos != std::string::npos)

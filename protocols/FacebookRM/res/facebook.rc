@@ -121,7 +121,7 @@ BEGIN
     CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,114,271,10
 END
 
-IDD_OPTIONS_EVENTS DIALOGEX 0, 0, 305, 166
+IDD_OPTIONS_EVENTS DIALOGEX 0, 0, 305, 185
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -134,10 +134,12 @@ BEGIN
     COMBOBOX        IDC_FEED_TYPE,150,49,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,67,138,8
     CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,272,8
-    CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,95,272,8
-    PUSHBUTTON      "Preview",IDC_PREVIEW,117,137,68,14
+    CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,95,272,8    
     CONTROL         "Use balloon notifications in system tray instead of popups",IDC_SYSTRAY_NOTIFY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,121,272,8
+    CONTROL         "Use logging notifications into special chatroom",IDC_NOTIFICATIONS_CHATROOM,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,138,272,8
+	PUSHBUTTON      "Preview",IDC_PREVIEW,116,156,68,14
 END
 
 IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 308, 242
@@ -252,7 +254,7 @@ BEGIN
         VERTGUIDE, 150
         VERTGUIDE, 288
         TOPMARGIN, 7
-        BOTTOMMARGIN, 158
+        BOTTOMMARGIN, 177
     END
 
     IDD_OPTIONS_ADVANCED, DIALOG
@@ -280,7 +282,8 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
+
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 
