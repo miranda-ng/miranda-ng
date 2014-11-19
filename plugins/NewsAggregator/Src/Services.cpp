@@ -29,14 +29,6 @@ void SetContactStatus(MCONTACT hContact, int nNewStatus)
 		db_set_w(hContact, MODULE, "Status", nNewStatus);
 }
 
-static void __cdecl WorkingThread(void* param)
-{
-	int nStatus = (int)param;
-
-	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE))
-		SetContactStatus(hContact, nStatus);
-}
-
 int OnFoldersChanged(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, _T(""));
@@ -118,7 +110,10 @@ INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 		int nOldStatus = g_nStatus;
 		if(nStatus != g_nStatus) {
 			g_nStatus = nStatus;
-			mir_forkthread(WorkingThread, (void *)g_nStatus);
+
+			for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE))
+				SetContactStatus(hContact, nStatus);
+
 			ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
 		}
 	}
