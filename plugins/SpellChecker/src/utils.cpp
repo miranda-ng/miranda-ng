@@ -30,7 +30,7 @@ void SetUnderline(Dialog *dlg, int pos_start, int pos_end)
 	dlg->re->SetSel(pos_start, pos_end);
 
 	CHARFORMAT2 cf;
-	cf.cbSize = sizeof(CHARFORMAT2);
+	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_UNDERLINE | CFM_UNDERLINETYPE;
 	cf.dwEffects = CFE_UNDERLINE;
 	cf.bUnderlineType = opts.underline_type + CFU_UNDERLINEDOUBLE;
@@ -55,15 +55,16 @@ void SetNoUnderline(RichEdit *re, int pos_start, int pos_end)
 			re->SetSel(i, min(i + 1, pos_end));
 
 			CHARFORMAT2 cf;
-			cf.cbSize = sizeof(CHARFORMAT2);
+			cf.cbSize = sizeof(cf);
 			re->SendMessage(EM_GETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 
 			BOOL mine = IsMyUnderline(cf);
 			if (mine) {
-				cf.cbSize = sizeof(CHARFORMAT2);
+				cf.cbSize = sizeof(cf);
 				cf.dwMask = CFM_UNDERLINE | CFM_UNDERLINETYPE;
 				cf.dwEffects = 0;
 				cf.bUnderlineType = CFU_UNDERLINE;
+				cf.bUnderlineColor = 0;
 				re->SendMessage(EM_SETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 			}
 		}
@@ -72,10 +73,11 @@ void SetNoUnderline(RichEdit *re, int pos_start, int pos_end)
 		re->SetSel(pos_start, pos_end);
 
 		CHARFORMAT2 cf;
-		cf.cbSize = sizeof(CHARFORMAT2);
+		cf.cbSize = sizeof(cf);
 		cf.dwMask = CFM_UNDERLINE | CFM_UNDERLINETYPE;
 		cf.dwEffects = 0;
 		cf.bUnderlineType = CFU_UNDERLINE;
+		cf.bUnderlineColor = 0;
 		re->SendMessage(EM_SETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 	}
 }
@@ -610,7 +612,7 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			else {
 				// Remove underline of current word
 				CHARFORMAT2 cf;
-				cf.cbSize = sizeof(CHARFORMAT2);
+				cf.cbSize = sizeof(cf);
 				dlg->re->SendMessage(EM_GETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 
 				if (IsMyUnderline(cf)) {
