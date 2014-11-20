@@ -385,10 +385,51 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-bool FacebookProto::isSpecialChatRoom(MCONTACT hContact) {
+bool FacebookProto::IsSpecialChatRoom(MCONTACT hContact) {
 	if (!isChatRoom(hContact))
 		return false;
 
 	ptrT idT(getTStringA(hContact, "ChatRoomID"));
 	return idT && !_tcscmp(idT, _T(FACEBOOK_NOTIFICATIONS_CHATROOM));
+}
+
+void FacebookProto::PrepareNotificationsChatRoom() {
+	if (!getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM))
+		return;
+
+	// Prepare notifications chatroom if not exists
+	TCHAR *gidT = _T(FACEBOOK_NOTIFICATIONS_CHATROOM);
+
+	MCONTACT hNotificationsChatRoom = ChatIDToHContact(gidT);
+	if (hNotificationsChatRoom == NULL || getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE) {
+		TCHAR nameT[200];
+		mir_sntprintf(nameT, SIZEOF(nameT), _T("%s: %s"), m_tszUserName, TranslateT("Notifications"));
+
+		// Create the group chat session
+		GCSESSION gcw = { sizeof(gcw) };
+		gcw.iType = GCW_PRIVMESS;
+		gcw.ptszID = gidT;
+		gcw.pszModule = m_szModuleName;
+		gcw.ptszName = nameT;
+		CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
+
+		// Send setting events
+		GCDEST gcd = { m_szModuleName, gidT, GC_EVENT_CONTROL };
+		GCEVENT gce = { sizeof(gce), &gcd };
+		gce.time = ::time(NULL);
+
+		CallServiceSync(MS_GC_EVENT, WINDOW_HIDDEN, reinterpret_cast<LPARAM>(&gce));
+		CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
+	}
+}
+
+void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notification) {
+	if (!getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM))
+		return;
+
+	char *name = _T2A(TranslateT("Notification"), CP_UTF8);
+
+	std::stringstream text;
+	text << notification->text << "\n\n" << notification->link;
+	UpdateChat(_T(FACEBOOK_NOTIFICATIONS_CHATROOM), name /*notification->second->user_id.c_str()*/, name, text.str().c_str(), notification->time, notification->seen);
 }

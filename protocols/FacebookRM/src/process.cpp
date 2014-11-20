@@ -463,7 +463,7 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	bool isChat = isChatRoom(hContact);
 
-	if (isSpecialChatRoom(hContact)) // e.g. nofitications
+	if (IsSpecialChatRoom(hContact)) // e.g. nofitications
 		return;
 
 	if (isChat && !m_enableChat)
@@ -873,67 +873,16 @@ exit:
 void FacebookProto::ShowNotifications() {
 	ScopedLock s(facy.notifications_lock_);
 
-	bool showPopups = getBool(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE);
-	bool useChatRoom = getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM);
-
-	char *notificationName = _T2A(TranslateT("Notification"), CP_UTF8);
-
-	if (useChatRoom) {
-		// Prepare chatroom if not exists
-		TCHAR *gidT = _T(FACEBOOK_NOTIFICATIONS_CHATROOM);
-
-		MCONTACT hNotificationsChatRoom = ChatIDToHContact(gidT);
-		if (hNotificationsChatRoom == NULL || getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE) {
-			TCHAR nameT[200];
-			mir_sntprintf(nameT, SIZEOF(nameT), _T("%s: %s"), m_tszUserName, TranslateT("Notifications"));
-			
-			// Create the group chat session
-			GCSESSION gcw = { sizeof(gcw) };
-			gcw.iType = GCW_PRIVMESS;
-			gcw.ptszID = gidT;
-			gcw.pszModule = m_szModuleName;
-			gcw.ptszName = nameT;
-			CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
-
-			// Send setting events
-			GCDEST gcd = { m_szModuleName, gidT, GC_EVENT_CONTROL };
-			GCEVENT gce = { sizeof(gce), &gcd };
-			gce.time = ::time(NULL);
-
-			CallServiceSync(MS_GC_EVENT, WINDOW_HIDDEN, reinterpret_cast<LPARAM>(&gce));
-			CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, reinterpret_cast<LPARAM>(&gce));
-		}
-
-		hNotificationsChatRoom = ChatIDToHContact(gidT);
-		useChatRoom = (hNotificationsChatRoom != NULL && getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONLINE);
-	}
+	if (!getBool(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+		return;
 
 	// Show popups for unseen notifications and/or write them to chatroom
 	for (std::map<std::string, facebook_notification*>::iterator it = facy.notifications.begin(); it != facy.notifications.end(); ++it) {
-		if (it->second != NULL) {
-			if (useChatRoom && !it->second->written) {
-				it->second->written = true;
-
-				std::stringstream text;
-				text << it->second->text << "\n\n" << it->second->link;
-				UpdateChat(_T(FACEBOOK_NOTIFICATIONS_CHATROOM), ""/*it->second->user_id.c_str()*/, notificationName, text.str().c_str(), it->second->time, it->second->seen);
-			}
-				
-			if (showPopups && !it->second->seen) {
-				it->second->seen = true;
-
-				debugLogA("      Showing popup for notification: %s", it->second->text.c_str());
-				ptrT szText(mir_utf8decodeT(it->second->text.c_str()));
-				it->second->hWndPopup = NotifyEvent(m_tszUserName, szText, ContactIDToHContact(it->second->user_id), FACEBOOK_EVENT_NOTIFICATION, &it->second->link, &it->second->id);
-			}
-		}
-	}
-
-	// Remove old seen and processed (without hWndPopup handle) notifications from map
-	for (std::map<std::string, facebook_notification*>::iterator it = facy.notifications.begin(); it != facy.notifications.end();) {
-		if (it->second != NULL && it->second->seen && it->second->hWndPopup == NULL) {
-			delete it->second;
-			it = facy.notifications.erase(it);
+		if (it->second != NULL && !it->second->seen) {
+			debugLogA("      Showing popup for notification: %s", it->second->text.c_str());
+			ptrT szText(mir_utf8decodeT(it->second->text.c_str()));
+			it->second->hWndPopup = NotifyEvent(m_tszUserName, szText, ContactIDToHContact(it->second->user_id), FACEBOOK_EVENT_NOTIFICATION, &it->second->link, &it->second->id);
+			it->second->seen = true;
 		}
 	}
 }
