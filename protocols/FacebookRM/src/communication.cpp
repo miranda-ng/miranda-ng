@@ -718,7 +718,9 @@ void facebook_client::clear_cookies()
 }
 
 void facebook_client::clear_notifications()
-{	
+{
+	ScopedLock s(notifications_lock_);
+
 	for (std::map<std::string, facebook_notification*>::iterator it = notifications.begin(); it != notifications.end(); ) {
 		if (it->second->hWndPopup != NULL)
 			PUDeletePopup(it->second->hWndPopup); // close popup

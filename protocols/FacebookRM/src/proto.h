@@ -222,7 +222,10 @@ public:
 	void ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates = false);
 	void LoadChatInfo(facebook_chatroom* fbc);
 	void LoadParticipantsNames(facebook_chatroom *fbc);
-	bool isSpecialChatRoom(MCONTACT hContact);
+	
+	bool IsSpecialChatRoom(MCONTACT hContact);
+	void PrepareNotificationsChatRoom();
+	void UpdateNotificationsChatRoom(facebook_notification *notification);
 
 	// Connection client
 	facebook_client facy; // TODO: Refactor to "client" and make dynamic

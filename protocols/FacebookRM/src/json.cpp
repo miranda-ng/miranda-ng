@@ -250,6 +250,9 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 	// check if we should use use local_timestamp for unread messages and use it for notifications time too
 	bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
 
+	// Create notifications chatroom (if it doesn't exists), because we will be writing to it new notifications here
+	proto->PrepareNotificationsChatRoom();
+
 	for (unsigned int i = 0; i < json_size(list); i++) {
 		JSONNODE *it = json_at(list, i);
 		const char *id = json_name(it);
@@ -272,7 +275,11 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 		notification->seen = (json_as_int(unread) == 0);
 		notification->time = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
 
-		if (notifications->find(notification->id) == notifications->end())
+		// Write notification to chatroom
+		proto->UpdateNotificationsChatRoom(notification);
+
+		// If it's unseen, remember it, otherwise forget it
+		if (notifications->find(notification->id) == notifications->end() && !notification->seen)
 			notifications->insert(std::make_pair(notification->id, notification));
 		else
 			delete notification;
@@ -572,6 +579,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			// check if we should use use local_timestamp for unread messages and use it for notifications time too
 			bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
 
+			// Create notifications chatroom (if it doesn't exists), because we will be writing to it new notifications here
+			proto->PrepareNotificationsChatRoom();
+
 			for (unsigned int j = 0; j < json_size(nodes); j++) {
 				JSONNODE *itNodes = json_at(nodes, j);
 
@@ -605,7 +615,11 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					if (pos != std::string::npos)
 						notification->id = notification->id.substr(pos+1);
 
-					if (notifications->find(notification->id) == notifications->end())
+					// Write notification to chatroom
+					proto->UpdateNotificationsChatRoom(notification);
+
+					// If it's unseen, remember it, otherwise forget it (here it will always be unseen)
+					if (notifications->find(notification->id) == notifications->end() && !notification->seen)
 						notifications->insert(std::make_pair(notification->id, notification));
 					else
 						delete notification;
@@ -769,6 +783,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				}
 			}
 		} else if (t == "notifications_read" || t == "notifications_seen") {
+			ScopedLock s(proto->facy.notifications_lock_);
+
 			JSONNODE *alerts = json_get(it, "alert_ids");
 
 			for (unsigned int j = 0; j < json_size(alerts); j++) {
