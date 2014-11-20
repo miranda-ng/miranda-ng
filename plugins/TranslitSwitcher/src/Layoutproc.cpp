@@ -412,7 +412,7 @@ VOID SwitchLayout(BOOL lastword)
 {
 	HWND hwnd = GetForegroundWindow();
 
-	if(hwnd != NULL)
+	if (hwnd != NULL)
 	{
 		DWORD dwProcessID;
 		DWORD dwThreadID = GetWindowThreadProcessId(hwnd, &dwProcessID);
@@ -490,7 +490,7 @@ VOID SwitchLayout(BOOL lastword)
 					PUAddPopupT(&pd);
 				}
 			}
-			else if(lstrcmp(szClassName, _T("RichEdit20W")) == 0)
+			else if (lstrcmpi(szClassName, _T("RichEdit50W")) == 0)
 			{
 				DWORD dwStart, dwEnd;
 				int i, slen, start = 0, end = 0;
@@ -579,19 +579,19 @@ void TranslitLayout(BOOL lastword)
 {
 	HWND hwnd = GetForegroundWindow();
 
-	if(hwnd != NULL)
+	if (hwnd != NULL)
 	{
 		DWORD dwProcessID;
 		DWORD dwThreadID = GetWindowThreadProcessId(hwnd, &dwProcessID);
 		HWND hwnd2 = GetFocus();
 
-		if(hwnd2 != NULL)
+		if (hwnd2 != NULL)
 		{
 			TCHAR szClassName[16];
 
 			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
 
-			if(lstrcmp(szClassName, _T("RichEdit20W")) == 0)
+			if (lstrcmpi(szClassName, _T("RichEdit50W")) == 0)
 			{
 				DWORD dwStart, dwEnd;
 				int slen, start = 0, end = 0;
@@ -667,19 +667,19 @@ void InvertCase(BOOL lastword)
 {
 	HWND hwnd = GetForegroundWindow();
 
-	if(hwnd != NULL)
+	if (hwnd != NULL)
 	{
 		DWORD dwProcessID;
 		DWORD dwThreadID = GetWindowThreadProcessId(hwnd, &dwProcessID);
 		HWND hwnd2 = GetFocus();
 
-		if(hwnd2 != NULL)
+		if (hwnd2 != NULL)
 		{
 			TCHAR szClassName[16];
 
 			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
 
-			if(lstrcmp(szClassName, _T("RichEdit20W")) == 0)
+			if (lstrcmpi(szClassName, _T("RichEdit50W")) == 0)
 			{
 				DWORD dwStart, dwEnd;
 				int slen, start = 0, end = 0;
