@@ -117,3 +117,251 @@ ID и версия клиента
 Истина
 [False]
 Ложь
+[%s\n\nSametime error %S\n%s]
+%s\n\nОшибка Sametime %S\n%s
+[Success]
+Успешно
+[Request delayed]
+Запрос отложен
+[Request is invalid]
+Неправильный запрос
+[Not authorized]
+Не авторизован
+[Operation aborted]
+Операция отменена
+[No element]
+Нет элемента
+[User is not online]
+Пользователь не в сети
+[Invalid data]
+Неверные данные
+[Not implemented]
+Не реализовано
+[Unknown error]
+Неизвестная ошибка
+[Not enough resources]
+Недостаточно ресурсов
+[Requested channel is not supported]
+Канал не поддерживается
+[Requested channel already exists]
+Канал уже существует
+[Requested service is not supported]
+Служба не поддерживается
+[Requested protocol is not supported]
+Протокол не поддерживается
+[Version is not supported]
+Эта версия не поддерживается
+[Not an owner]
+Не владелец
+[Invalid token]
+Неправильний токен
+[Token mismatch]
+Токен не совпадает
+[Port in use]
+Порт используется
+[Network error]
+Ошибка сети
+[Master channel error]
+Ошибка главного канала
+[Encryption method not supported]
+Метод шифрования не поддерживается
+[Encryption not initialized]
+Шифрование не инициализировано
+[Invalid encrypted data]
+Неверные данные шифрования
+[No common encryption method]
+Нет совместимого метода шифрования
+[Version mismatch]
+Версия не совместима
+[Not in use]
+Не используется
+[Hardware error]
+Ошибка оборудования
+[Host error]
+Ошибка хоста
+[Host unreachable]
+Хост недоступен
+[Message is too large]
+Сообщение слишком длинное
+[Proxy error]
+Ошибка прокси
+[Server full]
+Сервер переполнен
+[Server not responding]
+Сервер не отвечает
+[Connection error]
+Ошибка соединения
+[User removed]
+Пользователь удалён
+[Sametime protocol error]
+Ошибка протокола Sametime
+[Incorrect Username/Password]
+Неверное имя пользователя или пароль
+[Encryption mismatch]
+Шифрование не совпадает
+[User too idle]
+Пользователь неактивен
+[User exists]
+Пользователь существует
+[Bad name]
+Неверное имя
+[Registration error]
+Ошибка регистрации
+[Privilege error]
+Ошибка доступа
+[Need email]
+Требуется E-mail
+[DNS error]
+Ошибка DNS
+[DNS fatal error]
+Фатальная ошибка DNS
+[DNS not found]
+DNS не найден
+[Connection broken]
+Соединение разорвано
+[Connection aborted]
+Соединение отменено
+[Connection refused]
+Соединение отклонено
+[Connection reset]
+Соединение сброшено
+[Connection closed]
+Соединение закрыто
+[Login to two different servers concurrently (1)]
+Подключение к двум серверам одновременно (1)
+[Login to two different servers concurrently (2)]
+Подключение к двум серверам одновременно (2)
+[Server misconfiguration]
+Проблема настроек сервера
+[Server needs upgrade]
+Сервер требует обновления
+[User is in Do Not Disturb mode]
+Статус пользователя "Не беспокоить"
+[Already logged in elsewhere]
+Уже подключён из другого места
+[Requested type is already registered]
+Тип уже зарегистрирован
+[Requested type is not registered]
+Тип не зарегистрирован
+[Resolve not completed]
+Определение не завершено
+[Resolve name not unique]
+Имя не уникально
+[Operation succeeded]
+Операция успешна
+[Operation failed]
+Операция не удалась
+[Request accepted but will be served later]
+Запрос принят, но будет обработан позже
+[Operation has been aborted]
+Операция отменена
+[The element is non-existent]
+Нет такого элемента
+[The user is non-existent]
+Нет такого пользователя
+[The data are invalid or corrupted]
+Неверные или поврежденные данные
+[The requested feature is not implemented]
+Функция не реализована
+[Not enough resources to perform the operation]
+Недостаточно ресурсов для выполнения операции
+[The requested channel is not supported]
+Канал не поддерживается
+[The requested channel already exists]
+Канал уже существует
+[The requested service is not supported]
+Служба не поддерживается
+[The requested protocol is not supported (1)]
+Протокол не поддерживается (1)
+[The requested protocol is not supported (2)]
+Протокол не поддерживается (2)
+[The version is not supported]
+Эта версия не поддерживается
+[Not an owner of the requested resource]
+Не владелец запрошенного ресурса
+[Token IP mismatch]
+IP токена не совпадает
+[Low-level network error occurred]
+Сетевая ошибка низкого уровня
+[No master channel exists]
+Главный канал не существует
+[Encryption is not supported or failed unexpectedly]
+Шифрование не поддерживается или произошла его ошибка
+[Encryption mechanism has not been initialized yet]
+Механизм шифрования не инициализирован
+[The requested encryption level is unacceptably low]
+Запрошенный уровень шифрования недопустимо низкий
+[The encryption data passed are invalid or corrupted]
+Данные шифрования неверны или повреждены
+[There is no common encryption method]
+Нет совместимого метода шифрования
+[Versions don't match]
+Версии не совпадают
+[Hardware error occurred]
+Ошибка оборудования
+[TCP/IP protocol error]
+Ошибка протокола TCP/IP
+[The message is too large]
+Сообщение слишком длинное
+[Server is full]
+Сервер переполнен
+[Server is not responding]
+Сервер не отвечает
+[Cannot connect]
+Невозможно подключиться
+[User has been removed from the server]
+Пользователь удалён с сервера
+[Virtual Places protocol error]
+Ошибка протокола Virtual Places
+[User has been idle for too long]
+Пользователь был неактивен слишком долго
+[The name cannot be used]
+Это имя нельзя использовать
+[The registration mode is not supported]
+Регистрация не поддерживается
+[User does not have appropriate privilege level]
+У пользователя нет необходимых прав доступа
+[Email address must be used]
+Необходим адес E-mail
+[Error in DNS]
+Ошибка DNS
+[Fatal error in DNS]
+Фатальная ошибка DNS
+[Server name not found]
+Имя сервера не найдено
+[The connection has been broken]
+Соединение разорвано
+[The connection has been refused]
+Соединение отклонено
+[The connection has been reset]
+Соединение сброшено
+[The connection has been closed]
+Соединение закрыто
+[Disconnected due to login in two Sametime servers concurrently (1)]
+Соединение закрыто, так как вы подключены к двум серверам Sametime одновременно (1)
+[Disconnected due to login in two Sametime servers concurrently (2)]
+Соединение закрыто, так как вы подключены к двум серверам Sametime одновременно (2)
+[Disconnected due to login from another computer.]
+Соединение закрыто, так как вы подключены с другого компьютера.
+[Unable to log in because you are already logged on from another computer]
+Невозможно подключиться, так как вы уже подключены с другого компьютера.
+[Unable to log in because the server is either unreachable, or not configured properly.]
+Невозможно подключиться, так как сервер недоступен или настроен неправильно.
+[Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
+Невозможно подключиться к домашнему серверу Sametime через указанный сервер: ваш домашний сервер необходимо обновить.
+[The user is not online]
+Пользователь не в сети
+[The user is in do not disturb mode]
+Статус пользователя "Не беспокоить"
+[Cannot log in because already logged in with a different user name (Java only)]
+Невозможно подключиться, так как вы уже подключены с другим именем пользователя (только Java)
+[The requested type is already registered]
+Тип уже зарегистрирован
+[The requested type is not registered]
+Тип не зарегистрирован
+[The resolve process was not completed, but a partial response is available]
+Процесс определения не завершён, доступен частичный ответ
+[The name was found, but is not unique (request was for unique only)]
+Найденное имя не уникально (запрос был только на уникальное)
+[Unknown error code]
+Неизвестный код ошибки
