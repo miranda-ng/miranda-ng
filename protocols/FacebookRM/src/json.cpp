@@ -262,7 +262,7 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 		JSONNODE *time = json_get(it, "time");
 
 		// Ignore empty and old notifications
-		if (markup == NULL || unread == NULL || time == NULL)
+		if (markup == NULL || unread == NULL || time == NULL || json_as_int(unread) == 0)
 			continue;
 
 		std::string text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(json_as_pstring(markup)));
@@ -272,14 +272,13 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 		notification->id = id;
 		notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
 		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
-		notification->seen = (json_as_int(unread) == 0);
 		notification->time = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
 
 		// Write notification to chatroom
 		proto->UpdateNotificationsChatRoom(notification);
 
 		// If it's unseen, remember it, otherwise forget it
-		if (notifications->find(notification->id) == notifications->end() && !notification->seen)
+		if (notifications->find(notification->id) == notifications->end())
 			notifications->insert(std::make_pair(notification->id, notification));
 		else
 			delete notification;
