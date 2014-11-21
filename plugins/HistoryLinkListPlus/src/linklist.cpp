@@ -50,7 +50,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 
 	//  Load Rich Edit control
-	hRichEdit = LoadLibrary(_T("RICHED32.DLL"));
+	hRichEdit = LoadLibrary(_T("Msftedit.DLL"));
 	if (!hRichEdit)
 	{   
 		//  If Rich Edit DLL load fails, exit

@@ -567,10 +567,10 @@ bool bUseInternalViewer( bool bNew )
 	bUseIntViewer = bNew;
    if (bUseIntViewer && !hRichEditDll )
    {
-      hRichEditDll = LoadLibraryA("RICHED32.DLL");
+      hRichEditDll = LoadLibraryA("Msftedit.DLL");
 		if (!hRichEditDll )
 		{
-			DisplayLastError( LPGENT("Failed to load Rich Edit ( RICHED32.DLL )" ));
+			DisplayLastError( LPGENT("Failed to load Rich Edit ( Msftedit.DLL )" ));
 			return false;
 		}
    }
