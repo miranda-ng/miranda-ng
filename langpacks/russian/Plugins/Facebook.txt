@@ -117,6 +117,8 @@
 &Данные контакта
 [User &history]
 &История пользователя
+[Notification]
+Уведомление
 [Login error: %s]
 Ошибка входа: %s
 [Unknown error]
@@ -235,8 +237,6 @@
 Контакт снова в списке на сервере.
 [Contact is no longer on server-list.]
 Контакта больше нет в списке на сервере.
-[Notification]
-Уведомление
 [%s server connection]
 %s подключение к серверу
 [Unable to get Netlib connection for Facebook]
