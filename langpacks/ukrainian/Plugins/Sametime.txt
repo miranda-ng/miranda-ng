@@ -208,7 +208,7 @@ ID та версія клієнта
 [Registration error]
 Помилка реєстрації
 [Privilege error]
-Помилка прав доступу
+Помилка доступу
 [Need email]
 Потрібен E-mail
 [DNS error]
@@ -252,7 +252,7 @@ DNS не знайдено
 [Operation failed]
 Операція невдала
 [Request accepted but will be served later]
-Запит прийнятий але буде оброблений пізніше
+Запит прийнятий, але буде оброблений пізніше
 [Operation has been aborted]
 Операцію скасовано
 [The element is non-existent]
@@ -320,7 +320,7 @@ IP токену не збігається
 [The registration mode is not supported]
 Реєстрація не підтримується
 [User does not have appropriate privilege level]
-У користувача немає необхідного рівня прав доступу
+У користувача немає необхідних прав доступу
 [Email address must be used]
 Потрібна адеса E-mail
 [Error in DNS]
@@ -360,8 +360,8 @@ IP токену не збігається
 [The requested type is not registered]
 Тип не зареєстрований
 [The resolve process was not completed, but a partial response is available]
-Процес визначення не завершено, доступний частковий результат
+Процес визначення не завершено, доступна часткова відповідь
 [The name was found, but is not unique (request was for unique only)]
-Знайдено ім'я, але не унікальне (запит був лише на унікальне)
+Знайдене ім'я не унікальне (запит був лише на унікальне)
 [Unknown error code]
 Невідомий код помилки
