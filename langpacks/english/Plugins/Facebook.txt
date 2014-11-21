@@ -65,6 +65,7 @@
 [&Leave chat session]
 [User &details]
 [User &history]
+[Notification]
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 [Unknown error]
@@ -132,7 +133,6 @@
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
-[Notification]
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
