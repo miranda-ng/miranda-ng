@@ -182,6 +182,9 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 
 void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 {
+	if (response == NULL)
+		return;
+
 	JSONNODE *root = json_parse(response->pData), *node, *child;
 
 	if (root == NULL)
@@ -246,6 +249,9 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
 {
+	if (response == NULL)
+		return;
+
 	JSONNODE *root = json_parse(response->pData), *node, *child;
 
 	if (root == NULL)
@@ -287,6 +293,9 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *arg)
 {
+	if (response == NULL)
+		return;
+
 	JSONNODE *root = json_parse(response->pData), *node, *item;
 
 	node = json_get(root, "players");

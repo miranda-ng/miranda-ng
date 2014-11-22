@@ -16,6 +16,9 @@ bool CSteamProto::IsMe(const char *steamId)
 
 void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 {
+	if (response == NULL)
+		return;
+
 	// load rsa key parts
 	JSONNODE *root = json_parse(response->pData), *node;
 	if (!root) return;
@@ -69,6 +72,11 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 {
+	if (response == NULL) {
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
 	JSONNODE *root = json_parse(response->pData), *node;
 
 	node = json_get(root, "success");
@@ -195,6 +203,9 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *arg)
 {
+	if (response == NULL)
+		return;
+
 	for (int i = 0; i < response->headersCount; i++)
 	{
 		if (lstrcmpiA(response->headers[i].szName, "Set-Cookie"))
@@ -211,6 +222,13 @@ void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 {
+	if (response == NULL) {
+		// set status to offline
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
+		return;
+	}
+
 	JSONNODE *root = json_parse(response->pData), *node;
 
 	node = json_get(root, "error");
