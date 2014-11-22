@@ -198,15 +198,16 @@ void CSteamProto::PollingThread(void*)
 			messageId = json_as_int(node);
 
 			node = json_get(root, "messages");
-			root = json_as_array(node);
+			JSONNODE *nroot = json_as_array(node);
 
-			if (root != NULL)
-				ParsePollData(root);
+			if (nroot != NULL)
+				ParsePollData(nroot);
 
 			m_pollingConnection = response->nlc;
 		}
 		else if (!lstrcmpi(error, L"Timeout"))
 		{
+			json_delete(root);
 			continue;
 		}
 		else if (!lstrcmpi(error, L"Not Logged On"))
@@ -233,6 +234,7 @@ void CSteamProto::PollingThread(void*)
 			breaked = true;
 		}
 
+		json_delete(root);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 	}
 

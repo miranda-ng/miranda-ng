@@ -31,6 +31,8 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 			result = true;
 		else
 			debugLogA("CSteamProto::OnMessageSent: failed to send message for %s (%s)", steamId, error);
+
+		json_delete(root);
 	}
 	else
 		debugLogA("CSteamProto::OnMessageSent: failed to send message for %s", steamId);
