@@ -432,7 +432,7 @@ Adres e-mail musi zostać użyty
 [Error in DNS]
 Błąd w DNS
 [Fatal error in DNS]
-
+Krytyczny błąd DNS
 [Server name not found]
 Nie znaleziono nazwy serwera
 [The connection has been broken]

@@ -61,7 +61,7 @@ Powiadomienia klienta
 [Use balloon notifications in system tray instead of popups]
 Użyj baloników systemowych w zasobniku zamiast popupów
 [Use logging notifications into special chatroom]
-
+Używaj rejestrowania powiadomień w specjalnym czacie
 [Preview]
 Podgląd
 [Advanced Settings]
@@ -122,6 +122,8 @@ Znajomy
 &Dane użytkownika
 [User &history]
 &Historia użytkownika
+[Notification]
+Powiadomienie
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Błąd logowania: %s
@@ -248,8 +250,6 @@ Nie można wysłać wiadomości, gdy jesteś offline.
 Kontakt powrócił na listę na serwerze.
 [Contact is no longer on server-list.]
 Kontakt nie jest już na liście serwera.
-[Notification]
-Powiadomienie
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Połączenie %s

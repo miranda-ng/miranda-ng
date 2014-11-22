@@ -81,8 +81,8 @@ Błąd: optymalny rozmiar bufora został zmniejszony do zbyt małej wartości!
 Błąd wewnętrzny! (lExtraRead >= 0)
 [Failed to execute external file view]
 Nie udało się wykonać zewnętrznego widoku pliku
-[Failed to load Rich Edit ( RICHED32.DLL )]
-Nie udało się załadować pola edycji z formatowaniem ( RICHED32.dll )
+[Failed to load Rich Edit ( Msftedit.DLL )]
+Nie udało się załadować pola edycji z formatowaniem ( Msftedit.dll )
 [Failed to get handle to RichEdit!]
 Nie udało się otrzymać identyfikatora do pola edycji z formatowaniem!
 [Failed to open file\r\n%s\r\n\r\nContact handle is invalid]

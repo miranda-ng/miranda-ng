@@ -19,7 +19,7 @@ Format daty i czasu\n(Zajrzyj do Readme, by uzyskać pomoc na temat znaczników 
 [Hide offline contacts]
 Ukryj rozłączone kontakty
 [Resize window according to contact list]
-
+Zmień rozmiar okna zgodnie z listą kontaktów
 ;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Kontakty
