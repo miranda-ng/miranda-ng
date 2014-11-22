@@ -8,7 +8,7 @@ const
 *)
 {$include i_cookies.inc}
 
-const API_URL = 'http://api.myshows.ru/';
+const API_URL = 'http://api.myshows.me/';
 
 const
   defreq = API_URL+'profile/login?login=<login>&password=<password>';

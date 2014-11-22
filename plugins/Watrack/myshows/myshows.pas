@@ -325,7 +325,7 @@ begin
   mmyshows.DeInit    :=@DeInitProc;
   mmyshows.AddOption :=@AddOptionsPage;
   mmyshows.Check     :=nil;
-  mmyshows.ModuleName:='MyShows.ru';
+  mmyshows.ModuleName:='MyShows.me';
   ModuleLink         :=@mmyshows;
 end;
 
