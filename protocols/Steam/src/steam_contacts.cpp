@@ -236,6 +236,8 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 		}
 	}
 
+	json_delete(root);
+
 	if (!steamIds.empty())
 	{
 		steamIds.pop_back();
@@ -260,12 +262,12 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
 	//std::string steamIds;
 
 	node = json_get(root, "friends");
-	root = json_as_array(node);
-	if (root != NULL)
+	JSONNODE *nroot = json_as_array(node);
+	if (nroot != NULL)
 	{
-		for (size_t i = 0; i < json_size(root); i++)
+		for (size_t i = 0; i < json_size(nroot); i++)
 		{
-			child = json_at(root, i);
+			child = json_at(nroot, i);
 			if (child == NULL)
 				break;
 
@@ -289,6 +291,8 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
 			else continue;
 		}
 	}
+
+	json_delete(root);
 }
 
 void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *arg)
@@ -299,12 +303,12 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *ar
 	JSONNODE *root = json_parse(response->pData), *node, *item;
 
 	node = json_get(root, "players");
-	root = json_as_array(node);
-	if (root != NULL)
+	JSONNODE *nroot = json_as_array(node);
+	if (nroot != NULL)
 	{
-		for (size_t i = 0; i < json_size(root); i++)
+		for (size_t i = 0; i < json_size(nroot); i++)
 		{
-			item = json_at(root, i);
+			item = json_at(nroot, i);
 			if (item == NULL)
 				break;
 
@@ -318,6 +322,8 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *ar
 			UpdateContact(hContact, item);
 		}
 	}
+
+	json_delete(root);
 }
 
 void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
@@ -394,17 +400,17 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 	JSONNODE *root = json_parse(response->pData), *node;
 
 	node = json_get(root, "players");
-	root = json_at(json_as_array(node), 0);
-	if (root != NULL)
+	JSONNODE *nroot = json_at(json_as_array(node), 0);
+	if (nroot != NULL)
 	{
-		node = json_get(root, "steamid");
+		node = json_get(nroot, "steamid");
 		ptrA steamId(mir_u2a(json_as_string(node)));
 
 		MCONTACT hContact = FindContact(steamId);
 		if (!hContact)
 			hContact = AddContact(steamId);
 
-		UpdateContact(hContact, root);
+		UpdateContact(hContact, nroot);
 
 		char *nickName = getStringA(hContact, "Nick");
 		char *firstName = getStringA(hContact, "FirstName");
@@ -439,6 +445,8 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 
 		AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
 	}
+
+	json_delete(root);
 }
 
 void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg)
@@ -456,6 +464,8 @@ void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg
 		node = json_get(root, "error_text");
 		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(json_as_string(node))));
 	}
+
+	json_delete(root);
 }
 
 void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *arg)
@@ -473,6 +483,8 @@ void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *ar
 		node = json_get(root, "error_text");
 		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(json_as_string(node))));
 	}
+
+	json_delete(root);
 }
 
 void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg)

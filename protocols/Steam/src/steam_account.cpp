@@ -41,6 +41,8 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 	ptrA base64RsaEncryptedPassword;
 	ptrA password(getStringA("Password"));
 
+	json_delete(root);
+
 	DWORD error = 0;
 	DWORD encryptedSize = 0;
 	DWORD passwordSize = (DWORD)strlen(password);
@@ -88,6 +90,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		{
 			ShowNotification(TranslateTS(message));
 			SetStatus(ID_STATUS_OFFLINE);
+			json_delete(root);
 			return;
 		}
 
@@ -108,8 +111,10 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				MAKEINTRESOURCE(IDD_GUARD),
 				NULL,
 				CSteamProto::GuardProc,
-				(LPARAM)&guard) != 1)
+				(LPARAM)&guard) != 1) {
+				json_delete(root);
 				return;
+			}
 
 			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
 			ptrA base64RsaEncryptedPassword(getStringA("EncryptedPassword"));
@@ -153,6 +158,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			if (res != 1)
 			{
 				SetStatus(ID_STATUS_OFFLINE);
+				json_delete(root);
 				return;
 			}
 
@@ -165,6 +171,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				&CSteamProto::OnAuthorization);
 		}
 
+		json_delete(root);
 		return;
 	}
 
@@ -172,8 +179,11 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 	if (!json_as_bool(node))
 	{
 		SetStatus(ID_STATUS_OFFLINE);
+		json_delete(root);
 		return;
 	}
+
+	json_delete(root);
 
 	node = json_get(root, "oauth");
 	root = json_parse(ptrA(mir_u2a(json_as_string(node))));
@@ -191,6 +201,8 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 
 	delSetting("Timestamp");
 	delSetting("EncryptedPassword");
+
+	json_delete(root);
 
 	PushRequest(
 		new SteamWebApi::GetSessionRequest(token, steamId, cookie),
@@ -241,6 +253,7 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 		// set status to offline
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
+		json_delete(root);
 		return;
 	}
 
@@ -249,6 +262,8 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 	
 	node = json_get(root, "message");
 	setDword("MessageID", json_as_int(node));
+
+	json_delete(root);
 
 	// load contact list
 	ptrA token(getStringA("TokenSecret"));
