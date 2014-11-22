@@ -210,7 +210,7 @@ void CSteamProto::PollingThread(void*)
 			json_delete(root);
 			continue;
 		}
-		else if (!lstrcmpi(error, L"Not Logged On"))
+		/*else if (!lstrcmpi(error, L"Not Logged On")) // 'else' below will handle this error, we don't need this particular check right now
 		{
 			if (!IsOnline())
 			{
@@ -221,11 +221,11 @@ void CSteamProto::PollingThread(void*)
 			}
 
 			breaked = true;
-		}
-		else if (lstrcmpi(error, L"Timeout"))
+		}*/
+		else
 		{
 			// something wrong
-			debugLogA("CSteamProto::PollingThread: error (%d)", response->resultCode);
+			debugLogA("CSteamProto::PollingThread: %s (%d)", _T2A(error), response->resultCode);
 
 			// token has expired
 			if (response->resultCode == HTTP_STATUS_UNAUTHORIZED)
@@ -242,4 +242,8 @@ void CSteamProto::PollingThread(void*)
 
 	m_hPollingThread = NULL;
 	debugLogA("CSteamProto::PollingThread: leaving");
+
+	// if something wrong, switch proto to offline
+	if (breaked)
+		SetStatus(ID_STATUS_OFFLINE);
 }
