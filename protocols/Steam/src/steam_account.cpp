@@ -21,10 +21,14 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 
 	// load rsa key parts
 	JSONNODE *root = json_parse(response->pData), *node;
-	if (!root) return;
+	if (!root)
+		return;
 
 	node = json_get(root, "success");
-	if (!json_as_bool(node)) return;
+	if (!json_as_bool(node)) {
+		json_delete(root);
+		return;
+	}
 
 	node = json_get(root, "publickey_mod");
 	ptrA modulus(mir_u2a(json_as_string(node)));
@@ -183,25 +187,24 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 	}
 
-	json_delete(root);
-
 	node = json_get(root, "oauth");
-	root = json_parse(ptrA(mir_u2a(json_as_string(node))));
+	JSONNODE *nroot = json_parse(ptrA(mir_u2a(json_as_string(node))));
 
-	node = json_get(root, "steamid");
+	node = json_get(nroot, "steamid");
 	ptrA steamId(mir_u2a(json_as_string(node)));
 	setString("SteamID", steamId);
 
-	node = json_get(root, "oauth_token");
+	node = json_get(nroot, "oauth_token");
 	ptrA token(mir_u2a(json_as_string(node)));
 	setString("TokenSecret", token);
 
-	node = json_get(root, "webcookie");
+	node = json_get(nroot, "webcookie");
 	ptrA cookie(mir_u2a(json_as_string(node)));
 
 	delSetting("Timestamp");
 	delSetting("EncryptedPassword");
 
+	json_delete(nroot);
 	json_delete(root);
 
 	PushRequest(
