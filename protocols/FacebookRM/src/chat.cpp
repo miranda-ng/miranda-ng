@@ -424,6 +424,8 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 }
 
 void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notification) {
+	ScopedLock s(facy.notifications_lock_);
+	
 	if (!getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM))
 		return;
 
