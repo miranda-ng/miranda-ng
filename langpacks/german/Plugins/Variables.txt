@@ -172,7 +172,7 @@ Miranda Core Global
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to folder containing Miranda profiles]
-
+Pfad zum Verzeichnis mit den Miranda-Profilen
 [name of current Miranda profile (filename, without extension)]
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
@@ -202,21 +202,21 @@ Anzahl der Kontakte mit Eigenschaft y, beschrieben von x; Beispiel: (unregistere
 [info property y of contact x]
 Eigenschaft Information y von Kontakt x
 [database profile name]
-DB-Profilname
+Datenbank-Profilname
 [database profile path]
-DB-Profilpfad
+Datenbank-Profilpfad
 [database setting z of module y of contact x and return w if z doesn't exist (w is optional)]
-DB-Einstellung z von Modul y von Kontakt x und gibt w zurück, wenn z nicht existiert (w ist optional)
+Datenbank-Einstellung z von Modul y von Kontakt x und gibt w zurück, wenn z nicht existiert (w ist optional)
 [get event for contact x (optional), according to y,z,w, see documentation]
 Abruf von Ereignis für Kontakt x (optional), gemäß y,z,w; siehe Dokumentation
 [get last seen time of contact x in format y (y is optional)]
-Abruf der "Zuletzt-gesehen"-Zeit eines Kontakts im Format y (y ist optional)
+Abruf der Zuletzt-gesehen-Zeit eines Kontakts im Format y (y ist optional)
 [get last seen date of contact x in format y (y is optional)]
-Abruf des "Zuletzt-gesehen"-Datums eines Kontakts x im Format y (y ist optional)
+Abruf des Zuletzt-gesehen-Datums eines Kontakts x im Format y (y ist optional)
 [get last seen status of contact x]
-Abruf des "Zuletzt-gesehen"-Status von Kontakt x
+Abruf des Zuletzt-gesehen-Status von Kontakt x
 [path to the Miranda NG executable]
-Pfad zu der Miranda NG Anwendung
+Pfad zu der Miranda-NG-Anwendung
 [current status description of protocol x (without x, the global status is retrieved)]
 Aktuelle Statusbeschreibung von Protokoll x (ohne x wird der globale Status abgerufen)
 [info property y of protocol ID x]

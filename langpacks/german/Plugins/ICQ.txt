@@ -1660,7 +1660,7 @@ Dateiübertragung fehlgeschlagen: ungültige Anfrage
 [The file transfer failed: Proxy unavailable]
 Dateiübertragung fehlgeschlagen: Proxy nicht erreichbar
 [Failed to Initialize File Transfer. No valid files were specified.]
-Fehler mein initialisieren des Dateitransfers. Keine gültigen Dateien wurden ausgewählt.
+Fehler beim Initialisieren der Dateiübertragung. Keine gültigen Dateien wurden ausgewählt.
 [The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Die Dateien sind zu groß zum Verschicken. Dateien größer als 4 GB können nur getrennt gesendet werden.
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]

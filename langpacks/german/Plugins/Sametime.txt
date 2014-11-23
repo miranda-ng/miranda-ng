@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, Szymon Tokarz
 ;============================================================
 [Implementation of instant messaging for the Lotus Sametime protocol.]
-Implementation von Instant Messaging für das Lotus Sametime-Protokoll.
+Implementierung von Sofortnachrichten für das Lotus-Sametime-Protokoll.
 ;file \protocols\Sametime\res\resource.rc
 [Connection]
 Verbindung
@@ -19,7 +19,7 @@ Server-Name:
 [Port:]
 Port:
 [Client ID and version]
-
+Client-ID und -version
 [Error display]
 Fehlerbenachrichtigung
 [Use message boxes]
@@ -112,7 +112,7 @@ Sitzungsankündigung - von '%s'
 [Unknown user status: %d]
 Unbekannter Benutzerstatus: %d
 [No server connection!]
-Keine Verbindung zum Server
+Keine Verbindung zum Server!
 [Send announcement...]
 Ansage senden...
 ;file \protocols\Sametime\src\session_announce_win.cpp
@@ -133,58 +133,58 @@ Ja
 Nein
 ;file \protocols\Sametime\src\utils.cpp
 [%s\n\nSametime error %S\n%s]
-
+%s\n\nSametime-Fehler %S\n%s
 ;file \protocols\Sametime\src\meanwhile\src\error.c
 [Success]
 Erfolgreich
 [General failure]
-
+Allgemeiner Fehler
 [Request delayed]
-
+Anfrage verzögert
 [Request is invalid]
-
+Anfrage ist ungültig
 [Not logged in]
-
+Nicht angemeldet
 [Not authorized]
 Nicht autorisiert
 [Operation aborted]
-
+Operation abgebrochen
 [No element]
-
+Kein Element
 [User is not online]
-
+Benutzer ist nicht online
 [Invalid data]
 Ungültige Daten
 [Not implemented]
-Nicht unterstützt
+Nicht implementiert
 [Unknown error]
 Unbekannter Fehler
 [Not enough resources]
-
+Nicht genügend Resourcen
 [Requested channel is not supported]
-
+Angefragter Channel wird nicht unterstützt
 [Requested channel already exists]
-
+Angefragter Channel wird nicht unterstützt
 [Requested service is not supported]
-
+Angefragter Dienst wird nicht unterstützt
 [Requested protocol is not supported]
-
+Angefragtes Protokoll wird nicht unterstützt
 [Version is not supported]
-
+Version wird nicht unterstützt
 [User is invalid or not trusted]
-
+Benutzer ist ungültig oder nicht vertrauenswürdig
 [Already initialized]
-
+Bereits initialisiert
 [Not an owner]
-
+Kein Inhaber
 [Invalid token]
-
+Ungültiges Token
 [Token expired]
-
+Token abgelaufen
 [Token mismatch]
-
+Token stimmt nicht überein
 [Port in use]
-
+Port wird verwendet
 [Network error]
 Netzwerkfehler
 [Master channel error]
@@ -194,83 +194,83 @@ Netzwerkfehler
 [Not subscribed]
 
 [Encryption method not supported]
-
+Verschlüsselungsmethode nicht unterstützt
 [Encryption not initialized]
-
+Verschlüsselung nicht initialisiert
 [Encryption too low]
-
+Verschlüsselung zu schwach
 [Invalid encrypted data]
-
+Ungültige Verschlüsselungsdaten
 [No common encryption method]
-
+Keine gemeinsame Verschlüsselungsmethode
 [Channel destroyed]
-
+Channel zerstört
 [Channel redirected]
-
+Channel umgeleitet
 [Incorrect entry]
-
+Ungültiger Eintrag
 [Version mismatch]
-
+Version stimmt nicht überein
 [Not enough buffers memory]
 
 [Not in use]
-
+Nicht verwendet
 [Not enough sockets]
-
+Nicht genügend Sockets
 [Hardware error]
-
+Hardwarefehler
 [Host error]
-
+Hostfehler
 [Host unreachable]
-
+Host unerreichbar
 [Internet protocol error]
-
+Internetprotokollfehler
 [Message is too large]
 Nachricht ist zu lang
 [Proxy error]
-
+Proxyfehler
 [Server full]
-
+Server voll
 [Server not responding]
-
+Server antwortet nicht
 [Connection error]
-
+Verbiundungsfehler
 [User removed]
-
+Benutzer entfernt
 [Sametime protocol error]
-
+Sametimeprotokollfehler
 [User restricted]
-
+Benutzer eingeschränkt
 [Incorrect Username/Password]
-
+Falscher Benutzername/Passwort
 [Encryption mismatch]
 
 [User unregistered]
-
+Benutzer nicht registriert
 [Login verification down or unavailable]
 
 [User too idle]
-
+Benutzer zu untätig
 [The guest name is currently being used]
-
+Der Gastname wird bereits verwendet.
 [User exists]
-
+Benutzer existiert
 [User relogin]
 
 [Bad name]
-
+Falscher Name
 [Registration error]
-
+Registrierungsfehler
 [Privilege error]
 
 [Need email]
-
+E-Mail benötigt
 [DNS error]
-
+DNS-Fehler
 [DNS fatal error]
-
+Schwerer DNS-Fehler
 [DNS not found]
-
+DNS nicht gefunden
 [Connection broken]
 
 [Connection aborted]
@@ -284,41 +284,41 @@ Nachricht ist zu lang
 [Connection closed]
 Verbindung beendet
 [Login to two different servers concurrently (1)]
-
+Bei zwei verschiedenen Sametimeservern gleichzeitig angemeldet (1)
 [Login to two different servers concurrently (2)]
-
+Bei zwei verschiedenen Sametimeservern gleichzeitig angemeldet (2)
 [Already logged on, disconnected]
-
+Bereits angemeldet, getrennt
 [Already logged on]
-
+Bereits angemeldet
 [Server misconfiguration]
-
+Server fehlkonfiguriert
 [Server needs upgrade]
-
+Server muss aktualisiert werden
 [Applet Logout]
 
 [User is in Do Not Disturb mode]
-
+Benutzer ist in Bitte-Nicht-Stören-Modus
 [Already logged in elsewhere]
-
+Bereits woanders angemeldet
 [Cannot register a reserved type]
 
 [Requested type is already registered]
-
+Angeforderter Typ ist bereits registriert
 [Requested type is not registered]
-
+Angeforderter Typ ist nicht registriert
 [Resolve not completed]
-
+Nicht komplett aufgelöst
 [Resolve name not unique]
-
+Aufgelöster Name nicht eindeutig
 [Resolve name not resolvable]
 
 [Operation succeeded]
-
+Operation erfolgreich
 [Operation failed]
-
+Operation fehlgeschlagen
 [Request accepted but will be served later]
-
+Anfrage akzeptiert, wird aber später beantwortet
 [Request is invalid due to invalid state or parameters]
 
 [Not logged in to community]
@@ -326,29 +326,29 @@ Verbindung beendet
 [Unauthorized to perform an action or access a resource]
 
 [Operation has been aborted]
-
+Operation wurde abgebrochen
 [The element is non-existent]
-
+Element existiert nicht
 [The user is non-existent]
-
+Benutzer existiert nicht
 [The data are invalid or corrupted]
-
+Die Daten sind ungültig oder beschädigt
 [The requested feature is not implemented]
-
+Die angeforderte Funktion ist nicht implementiert
 [Not enough resources to perform the operation]
-
+Nicht ausreichend Resourcen um diese Operation auszuführen
 [The requested channel is not supported]
-
+Der angefragte Channel wird nicht unterstützt
 [The requested channel already exists]
-
+Der angefragte Channel existiert bereits
 [The requested service is not supported]
-
+Der angefragte Dienst wird nicht unterstützt
 [The requested protocol is not supported (1)]
-
+Das angefragte Protokoll wird nicht unterstützt (1)
 [The requested protocol is not supported (2)]
-
+Das angefragte Protokoll wird nicht unterstützt (2)
 [The version is not supported]
-
+Die Version wird nicht unterstützt
 [Not an owner of the requested resource]
 
 [Token has expired]
@@ -356,7 +356,7 @@ Verbindung beendet
 [Token IP mismatch]
 
 [WK port is in use]
-
+WK-Port wird verwendet
 [Low-level network error occurred]
 
 [No master channel exists]
@@ -366,15 +366,15 @@ Verbindung beendet
 [Not subscribed to object(s) or event(s)]
 
 [Encryption is not supported or failed unexpectedly]
-
+Verschlüsselung wird nicht unterstützt oder ist unerwartet fehlgeschlagen
 [Encryption mechanism has not been initialized yet]
-
+Verschlüsselungsmechanismus wurde noch nicht initialisiert
 [The requested encryption level is unacceptably low]
-
+Das angeforderte Verschlüsselungslevel ist inakzeptabel schwach
 [The encryption data passed are invalid or corrupted]
-
+Die übergebenen Verschlüsselungsdaten sind ungültig oder beschädigt
 [There is no common encryption method]
-
+Es gibt keine gemeinsame Verschüsselungsmethode
 [The channel is destroyed after a recommendation is made connect elsewhere]
 
 [The channel has been redirected to another destination]
@@ -382,59 +382,59 @@ Verbindung beendet
 [Incorrect entry for server in cluster document]
 
 [Versions don't match]
-
+Versionen stimmen nicht überein
 [Not enough resources for connection (buffers)]
-
+Nicht ausreichend Resourcen für Verbinding (Buffer)
 [Not enough resources for connection (socket id)]
-
+Nicht ausreichend Resourcen für Verbinding (Socket-ID)
 [Hardware error occurred]
-
+Hardwarefehler aufgetreten
 [Network down]
 
 [Host down]
 
 [TCP/IP protocol error]
-
+TCP/IP-Protokollfehler
 [The message is too large]
-
+Die Nachricht ist zu lang
 [Server is full]
-
+Server ist voll
 [Server is not responding]
-
+Server antwortet nicht
 [Cannot connect]
-
+Kann nicht verbinden
 [User has been removed from the server]
-
+Benutzer wurde vom Server entfernt
 [Virtual Places protocol error]
 
 [Cannot connect because user has been restricted]
 
 [Incorrect login]
-
+Ungültige Anmeldedaten
 [User is unregistered]
-
+Benutzer ist nicht registriert
 [Verification service down]
 
 [User has been idle for too long]
-
+Der Benutzer war zu lange untätig
 [The user is already signed on]
-
+Der Benutzer ist bereits angemeldet
 [The user has signed on again]
-
+Der Benutzer hat sich wieder angelemdet
 [The name cannot be used]
-
+Der Name kann nicht verwendet werden
 [The registration mode is not supported]
-
+Der Registrierungsmodus wird nicht unterstützt
 [User does not have appropriate privilege level]
 
 [Email address must be used]
-
+E-Mail-Adresse muss verwendet werden
 [Error in DNS]
-
+Fehler in DNS
 [Fatal error in DNS]
-
+Schwerer Fehler in DNS
 [Server name not found]
-
+Servername nicht gefunden
 [The connection has been broken]
 
 [An established connection was aborted by the software in the host machine]
@@ -448,23 +448,23 @@ Verbindung beendet
 [The connection has been closed]
 
 [Disconnected due to login in two Sametime servers concurrently (1)]
-
+Getrennt, da Sie bei zwei verschiedenen Sametimeservern gleichzeitig angemeldet sind (1)
 [Disconnected due to login in two Sametime servers concurrently (2)]
-
+Getrennt, da Sie bei zwei verschiedenen Sametimeservern gleichzeitig angemeldet sind (2)
 [Disconnected due to login from another computer.]
-
+Getrennt, da Sie gleichzeitig von einem anderen Computer angemeldet sind.
 [Unable to log in because you are already logged on from another computer]
-
+Sie können sich nicht anmelden da Sie von einem anderen Computer aus gleichzeitig angemeldet sind
 [Unable to log in because the server is either unreachable, or not configured properly.]
-
+Sie können sich nicht anmelden da der Server entweder unerreichbar oder nicht richtig eingerichtet ist.
 [Unable to log in to home Sametime server through the requested server, since your home server needs to be upgraded.]
 
 [The applet was logged out with this reason. Perform relogin and you will return to the former state.]
 
 [The user is not online]
-
+Der Benutzer ist nicht online.
 [The user is in do not disturb mode]
-
+Der Bennutzer ist im Bitte-Nicht-Stören-Modus
 [Cannot log in because already logged in with a different user name (Java only)]
 
 [The requested type is already registered]
@@ -476,6 +476,6 @@ Verbindung beendet
 [The name was found, but is not unique (request was for unique only)]
 
 [The name is not resolvable due to its format, for example an Internet email address]
-
+Der Name ist wegen seines Formates nicht auflösbar, beispielsweise eine Internet-/E-Mail-Adresse
 [Unknown error code]
-
+Unbekannter Fehlercode

@@ -6,7 +6,7 @@
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
-
+Plugin erstellt Absturzberichte und eine Versionsinfo von Miranda NG.
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Miranda-Versionsinfo anzeigen
@@ -25,15 +25,15 @@ Passwort
 [Upload automatically when changed]
 Bei Änderungen automatisch hochladen
 [Crash reports]
-
+Absturzberichte
 [Use classic dates]
 Klassische Datumsanzeige verwenden
 [Create reports in subfolders naming as current date]
 Absturzberichte in Unterordner mit Zeitanzeige erstellen
 [Generate crash reports]
-
+Absturzberichte erstellen
 [* You need to restart Miranda NG to apply changes]
-
+* Sie müssen Miranda NG neu starten damit diese Änderungen wirksam werden.
 [View]
 Anzeigen
 [&Copy]
@@ -44,9 +44,9 @@ Alles ko&pieren
 &Alles auswählen
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [Version Info stored into file %s]
-
+Versionsinfo in Datei %s gespeichert.
 [Version Info file %s is inaccessible]
-
+Versionsinfodatei %s ist nicht verfügbar.
 [Services]
 Dienste
 [Version Information To Clipboard]
@@ -72,7 +72,7 @@ Hochladen
 [Open crash report directory]
 Absturzberichte-Verzeichnis öffnen
 [Open online Version Info]
-
+Online-Versionsinfo öffnen
 [Copy Version Info to clipboard]
 Version-Info in Zwischenablage kopieren
 [Show Version Info]
@@ -90,16 +90,16 @@ Miranda ist abgestürzt.\nSie finden alle wichtigen Informationen dazu im Verzei
 Miranda-Versionsinfo anzeigen (mit DLLs)
 ;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
-
+Versionsinfo erfolgreich hochgeladen.
 [Cannot upload Version Info. Incorrect username or password]
-
+Kann Versionsinfo nicht hochladen: Falscher Nutzername oder Passwort!
 [Cannot upload Version Info. User is banned]
-
+Kann Versionsinfo nicht hochladen: Nutzer ist gebannt!
 [Cannot upload Version Info. Daily upload limit exceeded]
-
+Kann Versionsinfo nicht hochladen: Tägliches Upload-Limit wurde überschritten!
 [Cannot upload Version Info. Unknown error]
-
+Kann Versionsinfo nicht hochladen: Unbekannter Fehler!
 [Cannot upload Version Info. Host unreachable.]
-
+Kann Versionsinfo nicht hochladen: Der Host ist nicht erreichbar!
 [Crash Dumper HTTP connections]
 Crash-Dumper-HTTP-Verbindungen

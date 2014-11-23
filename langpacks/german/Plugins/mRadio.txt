@@ -198,4 +198,4 @@ Equalizer
 [New]
 Neu
 [Quick Open]
-
+Schnell öffnen
