@@ -498,7 +498,7 @@ Enter для подробиць події
 [Next message]
 Наступне
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-Неможливо завантажити History++, відсутня riched20.dll.\\nНатисніть "ОК" для продовження.
+Неможливо завантажити History++, відсутній riched20.dll.\\nНатисніть "ОК" для продовження.
 [&Empty System History]
 &Очистити системну історію
 [&Empty History]

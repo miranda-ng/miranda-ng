@@ -5,5 +5,3 @@
 [Display options]
 [When space allows it]
 [When space is available]
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
-[Service failure]

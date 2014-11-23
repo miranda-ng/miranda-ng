@@ -71,6 +71,8 @@ UTF8 у нових файлах
 Ім'я файлу за замовчанням
 [Copy]
 Копіювати
+[Failed to load Rich Edit ( Msftedit.DLL )]
+Не вдалося завантажити Rich Edit (Msftedit.dll)
 [Search string was not found!]
 Рядок не знайдено!
 [Save as RTF]

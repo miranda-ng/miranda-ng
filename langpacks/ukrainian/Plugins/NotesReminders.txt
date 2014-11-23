@@ -48,7 +48,7 @@
 [Reset to defaults]
 Скинути
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
-Дозволяє різним звукам програватися одночасно (можливі небажані наслідки, якщо встановлений плагін користувацьких звуків.)
+Дозволяє різним звукам програватися одночасно (можливі небажані наслідки, якщо встановлений плагін користувацьких звуків)
 [Add Reminder]
 Додати нагадування
 [Trigger On Time && Date:]

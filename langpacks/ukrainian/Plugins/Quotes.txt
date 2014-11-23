@@ -129,6 +129,10 @@
 хвилин
 [Hours]
 годин
+[Enter integer value between 1 and 60.]
+Введіть ціле число від 1 до 60.
+[Enter integer value between 1 and 24.]
+Введіть ціле число від 1 до 24.
 [Info provided by]
 Інформація надана
 [Enter positive number.]

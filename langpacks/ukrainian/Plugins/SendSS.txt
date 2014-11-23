@@ -134,7 +134,7 @@
 [SendScreenshot - Error]
 Помилка SendSS
 [Fatal error, image services not found. SendScreenshot will be disabled.]
-Невиправна помилка, сервісу зображень не знайдено. Плагін SendSS буде відключено.
+Невиправна помилка, відсутня служба зображень. Плагін SendSS буде відключено.
 [Open SendSS+]
 Відкрити SendSS
 [SendSS]
@@ -152,7 +152,7 @@ HTTP-з'єднання SendSS
 [Take a screenshot]
 Зробити скріншот
 [Could not register Miranda service.]
-Неможливо зареєструвати сервіс.
+Неможливо зареєструвати службу.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 Не вдалося створити папку знімків екрану (код помилки: %d):\n%s\nУ вас є права на запис?
 [Screenshot Icon1]

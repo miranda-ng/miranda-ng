@@ -6,7 +6,7 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
-Надає сервіс спливаючих вікон для інших плагінів.
+Надає службу спливаючих вікон для інших плагінів.
 [Content && Style]
 Стиль вікон
 [Go to Customize > Fonts && Colors for fonts and colors options]

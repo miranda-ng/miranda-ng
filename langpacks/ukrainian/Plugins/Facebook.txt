@@ -59,6 +59,8 @@
 Сповіщення клієнта
 [Use balloon notifications in system tray instead of popups]
 Сповіщати підказкою в треї замість спливаючих вікон
+[Use logging notifications into special chatroom]
+Записувати сповіщення в окрему чат-кімнату
 [Preview]
 Тест
 [Advanced Settings]
@@ -117,6 +119,8 @@
 &Дані контакту
 [User &history]
 &Історія користувача
+[Notification]
+Сповіщення
 [Login error: %s]
 Помилка входу: %s
 [Unknown error]
@@ -235,8 +239,6 @@
 Контакт доданий у список на сервері.
 [Contact is no longer on server-list.]
 Контакт видалений зі списку на сервері.
-[Notification]
-Сповіщення
 [%s server connection]
 З'єднання з сервером %s
 [Unable to get Netlib connection for Facebook]

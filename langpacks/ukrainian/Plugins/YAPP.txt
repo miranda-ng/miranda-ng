@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-Надає сервіс спливаючих вікон для інших плагінів.
+Надає службу спливаючих вікон для інших плагінів.
 [Popup history]
 Історія спливаючих вікон
 [Close]

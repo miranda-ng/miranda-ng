@@ -78,7 +78,7 @@
 [TopToolBar background]
 Фон панелі кнопок
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
-Ваш плагін списку контактів не підтримує сервіс фреймів, необхідний для їх роботи, тому плагін панелі кнопок був вимкнений.\nДля роботи панелі кнопок потрібно встановити та/або ввімкнути один з таких плагінів списку контактів:\n- Modern contact list\n- Nicer+\nВи можете завантажити їх на http://wiki.miranda-ng.org/Download
+Ваш плагін списку контактів не підтримує службу фреймів, необхідний для їх роботи, тому плагін панелі кнопок був вимкнений.\nДля роботи панелі кнопок потрібно встановити та/або ввімкнути один з таких плагінів списку контактів:\n- Modern contact list\n- Nicer+\nВи можете завантажити їх на http://wiki.miranda-ng.org/Download
 [TopToolBar]
 Панель кнопок
 [Contact list]

@@ -17,6 +17,8 @@
 Формат дати та часу\n(Формат дивіться в readme)
 [Hide offline contacts]
 Сховати відключених
+[Resize window according to contact list]
+Висота вікна як у списку контактів
 [Contacts]
 Контакти
 [Main icon]

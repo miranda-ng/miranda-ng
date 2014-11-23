@@ -38,7 +38,7 @@
 [Preview...]
 Перегляд...
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-Ваша AdvaImg.dll застаріла або пошкоджена. Встановіть останню версію з сайту Miranda NG.
+Ваш AdvaImg.dll застарів або пошкоджений. Встановіть останню версію з сайту Miranda NG.
 [Error]
 Помилка
 [Graphic files]
