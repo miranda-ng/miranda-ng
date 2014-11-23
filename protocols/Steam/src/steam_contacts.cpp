@@ -334,6 +334,7 @@ void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	{
 		ptrA steamId(getStringA(hContact, "SteamID"));
 		debugLogA("CSteamProto::OnGotAvatar: failed to get avatar %s", steamId);
+		return;
 	}
 
 	ptrW avatarPath(GetAvatarFilePath(hContact));
@@ -378,6 +379,7 @@ void CSteamProto::OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg)
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
 	{
 		debugLogA("CSteamProto::OnFriendIgnored: failed to ignore friend %s", ptrA((char*)arg));
+		return;
 	}
 }
 
@@ -386,6 +388,7 @@ void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
 	{
 		debugLogA("CSteamProto::OnFriendRemoved: failed to remove friend %s", ptrA((char*)arg));
+		return;
 	}
 }
 
@@ -454,6 +457,7 @@ void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
 		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s", ptrA((char*)arg));
+		return;
 	}
 
 	JSONNODE *root = json_parse(response->pData), *node;
@@ -473,6 +477,7 @@ void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *ar
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
 		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s", ptrA((char*)arg));
+		return;
 	}
 
 	JSONNODE *root = json_parse(response->pData), *node;
