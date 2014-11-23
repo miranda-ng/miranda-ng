@@ -37,15 +37,15 @@ Aus Freundesliste entfernen
 [Remove from contact list]
 Aus Kontaktliste entfernen
 [Broadcast music...]
-
+Musik übertragen...
 [off]
-aus
+Aus
 [as regular status for unknown music and audio status otherwise]
-
+Als regulärer Status für unbekannte Musik, sonst Audiostatus
 [as audio status only]
-
+Nur als Audiostatus
 [as regular status only]
-
+Nur als regulärer Status
 [Login settings]
 Anmeldeeinstellungen
 [Local settings]
@@ -112,7 +112,7 @@ Missbrauch-melden-Icon
 [Ban user icon]
 Benutzer-bannen-Icon
 [Broadcast icon]
-
+Übertragung-Icon
 [Protocols]
 Protokolle
 [VKontakte]
@@ -197,7 +197,7 @@ Benutzer bannen
 [Destroy room]
 Raum zerstören
 [Open broadcast]
-
+Übertragung öffnen
 [Errors]
 Fehler
 [Notification]

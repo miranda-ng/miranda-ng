@@ -301,7 +301,7 @@ leichte Schneeregenschauer
 [Light Snow Showers]
 leichte Schneeschauer
 [Light Freezing Drizzle Mist]
-
+Leichter gefrierender Graupel/Nebel
 [Freezing Drizzle]
 gefrierender Niesel
 [Freezing Rain]
@@ -323,23 +323,23 @@ schwere Schneeschauer
 [Light Snow Grains Mist]
 
 [Light Showers Snow Mist]
-
+Leichte Schauer, Schneenebel
 [Heavy Showers Snow Heavy Blowing Snow]
-
+Schwere Schneeschauer,Schwerer Schneesturm
 [Light Showers Snow Low Drifting Snow]
 
 [Snow Blowing Snow]
-
+Schnee,Schneesturm
 [Snow Freezing Rain]
-
+Schnee, gefrierender Regen
 [Showers Snow Rain]
-
+Schauer, Schneeregen
 [Heavy Snow]
 starker Schneefall
 [Light Snow Shallow Fog]
-
+Leichter Schnee,dünner Nebel
 [Showers Snow Blowing Snow]
-
+Schauer,Schnee,Schneesturm
 [Blowing Snow]
 Schneesturm
 [Ice Crystals Mist]
@@ -351,33 +351,33 @@ Leicht gefrierender Nieselschnee
 [Low Drifting Snow]
 
 [Light Freezing Rain Mist]
-
+Leichter Frostregen,Dunst
 [Light Freezing Rain]
-leichter Frostregen
+Leichter Frostregen
 [Light Showers Snow Light Blowing Snow]
-
+Leichte Schneeschauer, leichtes Schneesturm
 [Showers Snow Heavy Blowing Snow]
-
+Schneeschauer, schweres Schneesturm
 [Light Snow Blowing Snow]
-
+Leichter Schnee, Schneesturm
 [Light Snow Light Blowing Snow]
-
+Leichter Schnee, Leichter Schneesturm
 [Light Snow Low Drifting Snow Mist]
 
 [Freezing Fog]
 Gefrierender Nebel
 [Light Showers Snow Blowing Snow]
-
+Leichte Schauer, Schnee, Schneesturm
 [Freezing Drizzle Mist]
 
 [Light Freezing Drizzle]
 Leichter, überfrierender Niesel
 [Freezing Rain Mist]
-
+Gefrierender Regendunst
 [Showers Snow Mist]
 
 [Heavy Showers Snow Blowing Snow]
-
+Schwere Schauer, Schnee, Schneesturm
 [Light Freezing Rain Light Showers Snow]
 
 [Light Freezing Drizzle Light Snow]
@@ -387,11 +387,11 @@ Dichter Nebel
 [Rain Mist]
 
 [Light Showers Showers Rain]
-
+Leichte Schauer, Regenschauer
 [Showers Showers Rain]
-
+Schwere Regenschauer
 [Heavy Thunderstorm Rain]
-
+Schweres Gewitterregen
 [Smoke]
 Smog
 [Haze]
@@ -407,7 +407,7 @@ Leichter Regenschneedunst
 [Light Showers Snow Rain Mist]
 Leichte Schauer, Regenschneedunst
 [Heavy Blowing Snow]
-
+Schweres Schneesturm
 [Snow 50% Chance Of Precipitation]
 Schnee, 50% Niederschlagswahrscheinlichkeit
 [Drizzle Fog]
@@ -421,15 +421,15 @@ Monduntergang
 [Pressure Change]
 Druckänderung
 [Heavy Showers Snow Mist]
-
+Schwere Schauer, Schneedunst
 [Light Freezing Rain Light Showers Snow Mist]
 
 [Light Drizzle Fog]
 
 [Snow Rain Mist]
-
+Schneeregendunst
 [Snow Heavy Blowing Snow]
-
+Schnee, Schweres Schneesturm
 [Low Drifting Snow Mist]
 
 [Light Freezing Drizzle Light Snow Grains Mist]
@@ -509,7 +509,7 @@ Schnee, 80% Niederschlagswahrscheinlichkeit
 [Snow 70% Chance Of Precipitation]
 Schnee, 70% Niederschlagswahrscheinlichkeit
 [Light Blowing Snow]
-
+Leichtes Schneesturm
 [Snow Freezing Rain Mist]
 
 [Patches Fog Mist]
@@ -519,9 +519,9 @@ Schnee, 70% Niederschlagswahrscheinlichkeit
 [Light Low Drifting Snow]
 
 [Snow 30% Chance Of Precipitation]
-
+Schnee, 30% Niederschlagswahrscheinlichkeit
 [Light Snow Rain]
-
+Leichter Schneeregen
 [Chance Rain 90% Chance Of Precipitation]
 
 [Chance Of T-Storms 70% Chance Of Precipitation]
@@ -533,26 +533,26 @@ Schnee, 70% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 80% Chance Of Precipitation]
 
 [Ice Pellets 90% Chance Of Precipitation]
-
+Eisgraupel, 90% Niederschlagswahrscheinlichkeit
 [Snow Showers 70% Chance Of Precipitation]
-
+Schneeschauer, 70% Niederschlagswahrscheinlichkeit
 [Snow Showers 60% Chance Of Precipitation]
-
+Schneeschauer, 60% Niederschlagswahrscheinlichkeit
 [Snow Showers 50% Chance Of Precipitation]
-
+Schneeschauer, 50% Niederschlagswahrscheinlichkeit
 [Snow Showers 40% Chance Of Precipitation]
-
+Schneeschauer, 40% Niederschlagswahrscheinlichkeit
 [Snow Showers 30% Chance Of Precipitation]
-
+Schneeschauer, 30% Niederschlagswahrscheinlichkeit
 [Light Snow 30% Chance Of Precipitation]
-
+Leichter Schnee, 30% Niederschlagswahrscheinlichkeit
 [Ice Pellets 70% Chance Of Precipitation]
-
+Eisgraupel, 70% Niederschlagswahrscheinlichkeit
 [Ice Pellets 30% Chance Of Precipitation]
-
+Eisgraupel, 30% Niederschlagswahrscheinlichkeit
 [Ice Pellets 40% Chance Of Precipitation]
-
+Eisgraupel, 40% Niederschlagswahrscheinlichkeit
 [Ice Pellets 80% Chance Of Precipitation]
-
+Eisgraupel, 80% Niederschlagswahrscheinlichkeit
 [Cloudy]
 Wolkig

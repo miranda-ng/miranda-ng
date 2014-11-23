@@ -2095,7 +2095,7 @@ Benutzer-ID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer fü
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to folder containing Miranda profiles]
-
+Pfad zum Verzeichnis mit den Miranda-Profilen
 [name of current Miranda profile (filename, without extension)]
 Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]

@@ -61,7 +61,7 @@ Client-Benachrichtigungen
 [Use balloon notifications in system tray instead of popups]
 Ballonereignisse im Systemtray anstatt Popups verwenden
 [Use logging notifications into special chatroom]
-
+Benachrichtigungen in einem speziellen Chatraum aufzeichnen
 [Preview]
 Vorschau
 [Advanced Settings]
@@ -97,7 +97,7 @@ Lade Anzahl Nachrichten:
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
 [Synchronize last 24 hours on login]
-
+Letzte 24 Stunden bei Anmeldung synchronisieren
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
