@@ -1,4 +1,3 @@
-﻿[John Doe (1/10)]
-[mBirthday]
+﻿[mBirthday]
 [TmplPast Work Place]
 [TmplPast Organization]

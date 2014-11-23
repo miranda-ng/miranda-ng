@@ -24,7 +24,7 @@
 [xStatus]
 xСтатус
 [For protocols that don't support listening to but support xStatus:]
-Для протоколів без підтримки ListeningTo але з xСтатусами:
+Для протоколів без підтримки ListeningTo, але з xСтатусами:
 [Set xStatus to Music and show listening info]
 Встановити xСтатус "Музика" і показувати інформацію про музику
 [If other xStatus is not set, set xStatus to Music and show listening info]

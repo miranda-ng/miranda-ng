@@ -18,7 +18,7 @@
 [Hide offline contacts]
 Скрыть отключённых
 [Resize window according to contact list]
-Изменение размера окна в соответствии со списком контактов
+Высота окна как у списка контактов
 [Contacts]
 Контакты
 [Main icon]

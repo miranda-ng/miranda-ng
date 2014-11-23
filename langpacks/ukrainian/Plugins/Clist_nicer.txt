@@ -701,6 +701,10 @@
 Для цієї дії необхідний правильний вибір контакту. Виберіть контакт зі списку і повторіть.
 [Parameter mismatch]
 Невідповідність параметра
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
+Не знайдено службу %s, яка викликається кнопкою %s. Можливо, треба встановити додаткові плагіни.
+[Service failure]
+Помилка служби
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 Вбудована підтримка плаваючих контактів була видалена. Вам потрібен плагін FltContacts.
 [Warning]

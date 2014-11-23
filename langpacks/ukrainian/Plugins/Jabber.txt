@@ -398,7 +398,7 @@ XML-консоль
 [Frame text]
 Текст фрейму
 [Fatal error, image services not found. Jabber Protocol will be disabled.]
-Фатальна помилка: сервіс зображень відсутній. Протокол Jabber буде відключено.
+Невиправна помилка, відсутня служба зображень. Протокол Jabber буде відключено.
 [Jabber Activity]
 Заняття Jabber
 [Jabber Mood]

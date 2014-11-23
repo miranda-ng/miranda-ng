@@ -184,7 +184,7 @@ ID ключа:
 [Home dir write access granted (this is good).\n]
 Получен доступ на запись в домашнюю папку (это хорошо).\n
 [Home dir has no write access (plugin most probably will not work).\n]
-Отсутствуют доступ на запись в домашнюю папку (скорее всего, плагин не будет работать).\n
+Отсутствует доступ на запись в домашнюю папку (скорее всего, плагин не будет работать).\n
 [Temp dir write access granted (this is good).\n]
 Получен доступ на запись во временную папку (это хорошо).\n
 [Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]

@@ -191,6 +191,22 @@ ID ключа:
 Довжина ключа має бути від 1024 до 4096 біт
 [Invalid Email]
 Неправильний E-mail
+[GPG binary is set and valid (this is good).\n]
+Виконуваний файл GPG вказаний і є придатним (Це добре).\n
+[GPG binary unset or invalid (plugin will not work).\n]
+Виконуваний файл GPG не вказаний або пошкоджений (Плагін не працюватиме).\n
+[Home dir write access granted (this is good).\n]
+Отримано доступ на запис у домашню папку (Це добре).\n
+[Home dir has no write access (plugin most probably will not work).\n]
+Доступ на запис у домашню папку відсутній (Імовірно, плагін не працюватиме).\n
+[Temp dir write access granted (this is good).\n]
+Отримано доступ на запис у тимчасову папку (Це добре).\n
+[Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work).]
+Доступ на запис у тимчасову папку відсутній (Плагін повинен працювати, але можуть виникнути проблеми; не працюватиме передача файлів).
+[\nGPG will be disabled until you solve these problems]
+\nДля роботи GPG необхідно вирішити вказані проблеми
+[GPG plugin problems]
+Проблеми з плагіном GPG
 [You didn't set a private key.\nWould you like to set it now?]
 Ви не вибрали приватний ключ.\nВи хочете зробити це зараз?
 [Own private key warning]
