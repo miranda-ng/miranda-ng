@@ -92,6 +92,8 @@ URL:
 Дадзеныя кантакта
 [User &history]
 Гісторыя кантакта
+[Notification]
+Абвестка
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Памылка далучэння: %s
@@ -196,8 +198,6 @@ URL:
 Кантакт даданы ў спіс на серверы.
 [Contact is no longer on server-list.]
 Кантакт выдалены з спісу сервера.
-[Notification]
-Абвестка
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
