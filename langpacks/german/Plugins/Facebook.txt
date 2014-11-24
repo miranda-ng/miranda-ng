@@ -122,6 +122,8 @@ Chatsitzung ver&lassen
 Benutzer&details
 [User &history]
 Kontakt&verlauf
+[Notification]
+Benachrichtigung
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Loginfehler: %s
@@ -248,8 +250,6 @@ Nachrichten senden ist nicht möglich, wenn Sie offline sind.
 Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
-[Notification]
-Benachrichtigung
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s Serververbindung

@@ -48,7 +48,6 @@
 [Change feed]
 [Enter Feed name]
 [Enter Feed URL]
-[Enter checking interval]
 [Enter message format]
 [The title of the item.]
 [The item synopsis.]

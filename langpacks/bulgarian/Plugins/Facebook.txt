@@ -122,6 +122,8 @@ URL:
 Подробности за потребителя
 [User &history]
 История на потребителя
+[Notification]
+Уведомяване
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 
@@ -248,8 +250,6 @@ URL:
 Контактът е отново в списъка на сървъра.
 [Contact is no longer on server-list.]
 Контактът вече не е в списъка на сървъра.
-[Notification]
-Уведомяване
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s връзка със сървъра
