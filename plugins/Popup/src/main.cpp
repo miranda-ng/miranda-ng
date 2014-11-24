@@ -319,12 +319,18 @@ MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfoEx;
 }
 
-//ME_SYSTEM_PRESHUTDOWN event
 //called before the app goes into shutdown routine to make sure everyone is happy to exit
 static int OkToExit(WPARAM, LPARAM)
 {
 	closing = TRUE;
 	StopPopupThread();
+	return 0;
+}
+
+static int OnShutdown(WPARAM, LPARAM)
+{
+	UnloadPopupThread();
+	UnloadPopupWnd2();
 	return 0;
 }
 
@@ -367,6 +373,7 @@ MIRAPI int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OkToExit);
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 
 	hbmNoAvatar = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_NOAVATAR));
 
@@ -437,8 +444,6 @@ MIRAPI int Unload(void)
 	mir_free(PopupOptions.Effect);
 
 	OptAdv_UnregisterVfx();
-	UnloadPopupThread();
-	UnloadPopupWnd2();
 	PopupHistoryUnload();
 	SrmmMenu_Unload();
 

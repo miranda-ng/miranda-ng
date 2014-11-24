@@ -44,83 +44,60 @@ void MTextControl_RegisterClass()
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszMenuName = NULL;
 	wcl.lpszClassName = _T(MODULNAME);
-	wcl.hIconSm = 0; 
+	wcl.hIconSm = 0;
 	RegisterClassEx(&wcl);
 }
 
 LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TextControlData *data = (TextControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	switch(msg)
-	{
-		case WM_CREATE:
-		{
-			data = new TextControlData;
-			data->text = 0;
-			data->mtext = 0;
-			data->htu = htuDefault;
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
-			PostMessage(hwnd, MTM_UPDATE, 0, 0);
-			return 0;
-		}
+	switch (msg) {
+	case WM_CREATE:
+		data = new TextControlData;
+		data->text = 0;
+		data->mtext = 0;
+		data->htu = htuDefault;
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
+		PostMessage(hwnd, MTM_UPDATE, 0, 0);
+		return 0;
 
-		case MTM_SETUSER:
-		{
-			data->htu = wParam ? (HANDLE)wParam : htuDefault;
-			// falldown, DefWindowProc won't process WM_USER ;)
-		}
+	case MTM_SETUSER:
+		data->htu = wParam ? (HANDLE)wParam : htuDefault;
+		// falldown, DefWindowProc won't process WM_USER ;)
 
-		case WM_SETTEXT:
-		{
-			DefWindowProc(hwnd, msg, wParam, lParam);
-			// falldown
-		}
+	case WM_SETTEXT:
+		DefWindowProc(hwnd, msg, wParam, lParam);
+		// falldown
 
-		case MTM_UPDATE:
+	case MTM_UPDATE:
+		if (data->text) delete[] data->text;
+		if (data->mtext) MTI_MTextDestroy(data->mtext);
 		{
-			if (data->text) delete [] data->text;
-			if (data->mtext) MTI_MTextDestroy(data->mtext);
-
 			int textLength = GetWindowTextLength(hwnd);
-			data->text = new TCHAR[textLength+1];
-			GetWindowText(hwnd, data->text, textLength+1);
+			data->text = new TCHAR[textLength + 1];
+			GetWindowText(hwnd, data->text, textLength + 1);
 			data->mtext = MTI_MTextCreateW(data->htu, data->text);
-			
+
 			RECT rc; GetClientRect(hwnd, &rc);
 			MTI_MTextSetParent(data->mtext, hwnd, rc);
 
 			InvalidateRect(hwnd, 0, TRUE);
-
-			return TRUE;
 		}
+		return TRUE;
 
-		case WM_PAINT:
-		{
-			return MTextControl_OnPaint(hwnd, wParam, lParam);
-		}
+	case WM_PAINT:
+		return MTextControl_OnPaint(hwnd, wParam, lParam);
 
-		case WM_ERASEBKGND:
-		{
-			HDC hdc = (HDC)wParam;
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			FillRect(hdc, &rc,  GetSysColorBrush(COLOR_BTNFACE));
-			return TRUE;
-		}
+	case WM_ERASEBKGND:
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+		FillRect((HDC)wParam, &rc, GetSysColorBrush(COLOR_BTNFACE));
+		return TRUE;
 
-//		case WM_NCHITTEST:
-//		case WM_NCMOUSEMOVE:
-		case WM_MOUSEMOVE:
-//		case WM_LBUTTONDOWN:
-//		case WM_LBUTTONUP:
-//		case WM_RBUTTONDOWN:
-//		case WM_RBUTTONUP:
-		{
-			if (data && data->mtext)
-				return MTI_MTextSendMessage(hwnd, data->mtext, msg, wParam, lParam);
-			break;
-		}
-
+	case WM_MOUSEMOVE:
+		if (data && data->mtext)
+			return MTI_MTextSendMessage(hwnd, data->mtext, msg, wParam, lParam);
+		break;
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -137,35 +114,17 @@ LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM wParam, LPARAM lParam)
 	GetClientRect(hwnd, &rc);
 	FrameRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
-	SetTextColor(hdc, RGB(0,0,0));
+	SetTextColor(hdc, RGB(0, 0, 0));
 	SetBkMode(hdc, TRANSPARENT);
 
 	// Find the text to draw
 	TextControlData *data = (TextControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (data->mtext)
-	{
-/*
-		// Font-related stuff
-		LOGFONT lfText;
-		lfText.lfHeight = -11; //"8" in the font dialog
-		lfText.lfWidth = lfText.lfEscapement = lfText.lfOrientation = 0;
-		lfText.lfItalic = lfText.lfUnderline = lfText.lfStrikeOut = FALSE;
-		lfText.lfCharSet = DEFAULT_CHARSET;
-		lfText.lfOutPrecision = OUT_DEFAULT_PRECIS;
-		lfText.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-		lfText.lfQuality = DEFAULT_QUALITY;
-		lfText.lfPitchAndFamily = DEFAULT_PITCH | FF_SWISS; 
-		lstrcpy(lfText.lfFaceName,_T("Tahoma"));
-		lfText.lfWeight = FW_REGULAR;
-		HFONT hfntSave = (HFONT)SelectObject(hdc, CreateFontIndirect(&lfText));
-*/
-
+	if (data->mtext) {
 		HFONT hfntSave = 0;
 		HFONT hfnt = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
 		if (!hfnt)
 			hfnt = (HFONT)SendMessage(GetParent(hwnd), WM_GETFONT, 0, 0);
-		if (hfnt)
-		{
+		if (hfnt) {
 			LOGFONT lf;
 			GetObject(hfnt, sizeof(lf), &lf);
 			hfntSave = (HFONT)SelectObject(hdc, hfnt);
@@ -184,11 +143,8 @@ LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM wParam, LPARAM lParam)
 
 		if (hfntSave)
 			SelectObject(hdc, hfntSave);
-	
-//		DeleteObject(SelectObject(hdc, hfntSave));
-
 	}
-	
+
 	// Release the device context
 	EndPaint(hwnd, &ps);
 

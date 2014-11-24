@@ -28,10 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // globals
 static int    gIdleRequests = 0;
 static bool   gTerminating = false;
-static HANDLE hThreadMutex = NULL;
 static HWND   gHwndManager = 0;
 static int    gLockCount = 0;
 static volatile int nPopups = 0;
+static HANDLE hThread = 0;
 
 static LIST<PopupWnd2> popupList(3);
 
@@ -203,15 +203,8 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 }
 
 // thread func
-static void __cdecl PopupThread(void *arg)
+static unsigned __stdcall PopupThread(void *arg)
 {
-	// grab the mutex
-	if ( WaitForSingleObject(hThreadMutex, INFINITE) != WAIT_OBJECT_0) {
-		// other thread is already running
-		_endthread();
-		return;
-	}
-
 	// Create manager window
 	DWORD err;
 	WNDCLASSEX wcl;
@@ -245,7 +238,7 @@ static void __cdecl PopupThread(void *arg)
 	}
 
 	DestroyWindow(gHwndManager); gHwndManager = NULL;
-	ReleaseMutex(hThreadMutex);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -253,8 +246,8 @@ static void __cdecl PopupThread(void *arg)
 
 void LoadPopupThread()
 {
-	hThreadMutex = CreateMutex(NULL, FALSE, NULL);
-	mir_forkthread(PopupThread, NULL);
+	unsigned threadId;
+	hThread = mir_forkthreadex(PopupThread, NULL, &threadId);
 }
 
 void StopPopupThread()
@@ -265,8 +258,8 @@ void StopPopupThread()
 void UnloadPopupThread()
 {
 	// We won't waint for thread to exit, Miranda's thread unsind mechanism will do that for us.
-	WaitForSingleObject(hThreadMutex, INFINITE);
-	CloseHandle(hThreadMutex);
+	WaitForSingleObject(hThread, INFINITE);
+	CloseHandle(hThread);
 
 	for (int i=0; i < popupList.getCount(); ++i)
 		delete popupList[i];

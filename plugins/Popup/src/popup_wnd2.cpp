@@ -51,7 +51,6 @@ LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 bool	LoadPopupWnd2()
 {
 	bool res = true;
-	DWORD err;
 
 	WNDCLASSEX wcl;
 	wcl.cbSize = sizeof(wcl);
@@ -67,7 +66,7 @@ bool	LoadPopupWnd2()
 	wcl.lpszClassName = _T(POPUP_WNDCLASS);
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR); 
 	g_wndClass.cPopupWnd2 = RegisterClassEx(&wcl);
-	err = GetLastError();
+	DWORD err = GetLastError();
 	if (!g_wndClass.cPopupWnd2) {
 		res = false;
 		TCHAR msg[1024];
