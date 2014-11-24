@@ -102,7 +102,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_GETMINMAXINFO:
 		{
 			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
-			mmi->ptMinTrackSize.x = 350; // The minimum width in points
+			mmi->ptMinTrackSize.x = 400; // The minimum width in points
 			mmi->ptMinTrackSize.y = 300; // The minimum height in points
 		}
 		break;
