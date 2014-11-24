@@ -95,7 +95,7 @@ BEGIN
     CONTROL         "Multi-protocol clients",IDC_GROUP_MULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,110,120,10
     CONTROL         "Other (rare) protocols",IDC_GROUP_OTHER_PROTOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,120,120,10
     CONTROL         "Other icons",IDC_GROUP_OTHERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,130,120,10
-    CONTROL         "Show client icon in message window status bar",IDC_STATUSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,220,226,10
+    CONTROL         "Show client icon in message window status bar",IDC_STATUSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,220,236,10
 END
 
 
