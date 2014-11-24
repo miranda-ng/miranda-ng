@@ -25,7 +25,9 @@ HINSTANCE hInst = 0;
 int hLangpack;
 
 HMODULE hMsfteditDll = 0;
-HRESULT	(WINAPI *MyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
+
+typedef HRESULT (WINAPI *pfnMyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
+pfnMyCreateTextServices MyCreateTextServices = NULL;
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -59,13 +61,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	MyCreateTextServices = 0;
 	hMsfteditDll = LoadLibrary(_T("msftedit.dll"));
-	if (hMsfteditDll) {
-		MyCreateTextServices = (HRESULT (WINAPI *)(
-			IUnknown *punkOuter,
-			ITextHost *pITextHost,
-			IUnknown **ppUnk))
-			GetProcAddress(hMsfteditDll, "CreateTextServices");
-	}
+	if (hMsfteditDll)
+		MyCreateTextServices = (pfnMyCreateTextServices)GetProcAddress(hMsfteditDll, "CreateTextServices");
 
 	LoadEmfCache();
 	LoadRichEdit();
