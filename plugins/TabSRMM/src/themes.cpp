@@ -1459,7 +1459,7 @@ void CSkin::Load(void)
 
 	GetPrivateProfileString(_T("Avatars"), _T("BorderColor"), _T("000000"), buffer, 20, m_tszFileName);
 	m_avatarBorderClr = (COLORREF)HexStringToLong(buffer);
-			
+
 	GetPrivateProfileString(_T("Global"), _T("SideBarBG"), _T("None"), buffer, 20, m_tszFileName);
 	if (_tcscmp(buffer, _T("None")))
 		m_sideBarContainerBG = (COLORREF)HexStringToLong(buffer);
