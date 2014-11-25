@@ -387,12 +387,13 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// New dialog title
 			TCHAR newTitle[255];
-			mir_sntprintf(newTitle, SIZEOF(newTitle), TranslateT("%s - Filtered - %d items"), m_title, itemCount);
+			mir_sntprintf(newTitle, SIZEOF(newTitle), TranslateT("%s - Filtered - %d items"), strFilterText, itemCount);
 			SetWindowText(m_hwnd, newTitle);
 		}
 		else {
 			ShowWindow(m_list.GetHwnd(), SW_SHOW);
 			ShowWindow(m_list2.GetHwnd(), SW_HIDE);
+			mir_sntprintf(m_title, SIZEOF(m_title), TranslateT("Channels on server"));
 			SetWindowText(m_hwnd, m_title);
 		}
 	}
