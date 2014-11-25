@@ -182,8 +182,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 		}
 
 		bIsCustomLink = (cpMin < cpMax);
-	}
-		while (FALSE);
+	} while (FALSE);
 
 	if (TextFont) TextFont->Release();
 	if (TextRange) TextRange->Release();
@@ -3007,7 +3006,7 @@ LABEL_SHOWWINDOW:
 				mi->idleTimeStamp = time(0);
 				mi->lastIdleCheck = 0;
 				pci->SM_BroadcastMessage(si->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
-				if (dat && dat->pContainer)
+				if (dat->pContainer)
 					if (fSound && !nen_options.iNoSounds && !(dat->pContainer->dwFlags & CNT_NOSOUND))
 						SkinPlaySound("ChatSent");
 

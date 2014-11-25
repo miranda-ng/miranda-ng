@@ -293,39 +293,39 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM lParam)
 	}
 
 	szFromStream = ::Message_GetFromStream(GetDlgItem(m_hwnd, IDC_MESSAGE), m_dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | SF_NCRFORNONASCII));
+	if (szFromStream != NULL) {
+		iLength = iStreamLength = (strlen(szFromStream) + 1);
 
-	iLength = iStreamLength = (strlen(szFromStream) + 1);
-
-	if (iLength > 0 && m_history != NULL) {
-		if ((m_iHistoryTop == m_iHistorySize) && oldTop == 0) {         // shift the stack down...
-			TInputHistory ihTemp = m_history[0];
-			m_iHistoryTop--;
-			::MoveMemory((void*)&m_history[0], (void*)&m_history[1], (m_iHistorySize - 1) * sizeof(TInputHistory));
-			m_history[m_iHistoryTop] = ihTemp;
-		}
-		if (iLength > m_history[m_iHistoryTop].lLen) {
-			if (m_history[m_iHistoryTop].szText == NULL) {
-				if (iLength < HISTORY_INITIAL_ALLOCSIZE)
-					iLength = HISTORY_INITIAL_ALLOCSIZE;
-				m_history[m_iHistoryTop].szText = (TCHAR*)mir_alloc(iLength);
-				m_history[m_iHistoryTop].lLen = iLength;
-			} else {
-				if (iLength > m_history[m_iHistoryTop].lLen) {
-					m_history[m_iHistoryTop].szText = (TCHAR*)mir_realloc(m_history[m_iHistoryTop].szText, iLength);
+		if (iLength > 0 && m_history != NULL) { // XXX: iLength > 1 ?
+			if ((m_iHistoryTop == m_iHistorySize) && oldTop == 0) {         // shift the stack down...
+				TInputHistory ihTemp = m_history[0];
+				m_iHistoryTop--;
+				::MoveMemory((void*)&m_history[0], (void*)&m_history[1], (m_iHistorySize - 1) * sizeof(TInputHistory));
+				m_history[m_iHistoryTop] = ihTemp;
+			}
+			if (iLength > m_history[m_iHistoryTop].lLen) {
+				if (m_history[m_iHistoryTop].szText == NULL) {
+					if (iLength < HISTORY_INITIAL_ALLOCSIZE)
+						iLength = HISTORY_INITIAL_ALLOCSIZE;
+					m_history[m_iHistoryTop].szText = (TCHAR*)mir_alloc(iLength);
 					m_history[m_iHistoryTop].lLen = iLength;
+				} else {
+					if (iLength > m_history[m_iHistoryTop].lLen) {
+						m_history[m_iHistoryTop].szText = (TCHAR*)mir_realloc(m_history[m_iHistoryTop].szText, iLength);
+						m_history[m_iHistoryTop].lLen = iLength;
+					}
+				}
+			}
+			::CopyMemory(m_history[m_iHistoryTop].szText, szFromStream, iStreamLength);
+			if (!oldTop) {
+				if (m_iHistoryTop < m_iHistorySize) {
+					m_iHistoryTop++;
+					m_iHistoryCurrent = m_iHistoryTop;
 				}
 			}
 		}
-		::CopyMemory(m_history[m_iHistoryTop].szText, szFromStream, iStreamLength);
-		if (!oldTop) {
-			if (m_iHistoryTop < m_iHistorySize) {
-				m_iHistoryTop++;
-				m_iHistoryCurrent = m_iHistoryTop;
-			}
-		}
-	}
-	if (szFromStream)
 		mir_free(szFromStream);
+	}
 	if (oldTop)
 		m_iHistoryTop = oldTop;
 }

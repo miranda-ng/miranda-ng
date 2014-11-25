@@ -559,22 +559,22 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 
 void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 {
-	int		iLen = GetWindowTextLengthA(GetDlgItem(dat->hwnd, IDC_MESSAGE));
-
-	if (dat) {
-		NotifyDeliveryFailure(dat);
-		if (iLen == 0) {                    // message area is empty, so we can recall the failed message...
-			SETTEXTEX stx = {ST_DEFAULT, 1200};
-			if (m_jobs[iEntry].dwFlags & PREF_UNICODE)
-				SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)&m_jobs[iEntry].szSendBuffer[lstrlenA(m_jobs[iEntry].szSendBuffer) + 1]);
-			else {
-				stx.codepage = (m_jobs[iEntry].dwFlags & PREF_UTF) ? CP_UTF8 : CP_ACP;
-				SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
-			}
-			UpdateSaveAndSendButton(const_cast<TWindowData *>(dat));
-			SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
-		}
+	if (dat == NULL)
+		return;
+	int iLen = GetWindowTextLengthA(GetDlgItem(dat->hwnd, IDC_MESSAGE));
+	NotifyDeliveryFailure(dat);
+	if (iLen != 0)
+		return;
+	/* message area is empty, so we can recall the failed message... */
+	SETTEXTEX stx = {ST_DEFAULT, 1200};
+	if (m_jobs[iEntry].dwFlags & PREF_UNICODE)
+		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)&m_jobs[iEntry].szSendBuffer[lstrlenA(m_jobs[iEntry].szSendBuffer) + 1]);
+	else {
+		stx.codepage = (m_jobs[iEntry].dwFlags & PREF_UTF) ? CP_UTF8 : CP_ACP;
+		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
 	}
+	UpdateSaveAndSendButton(const_cast<TWindowData *>(dat));
+	SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
 }
 
 void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)

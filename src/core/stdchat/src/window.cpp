@@ -2317,6 +2317,8 @@ LABEL_SHOWWINDOW:
 		case IDOK:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDOK))) {
 				char *pszRtf = Message_GetFromStream(hwndDlg, si);
+				if (pszRtf == NULL)
+					break;
 				pci->SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 				TCHAR *ptszText = DoRtfToTags(pszRtf, si);
 				TCHAR *p1 = _tcschr(ptszText, '\0');

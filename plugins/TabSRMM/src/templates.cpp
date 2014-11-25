@@ -118,11 +118,11 @@ void LoadDefaultTemplates()
 
 INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TWindowData *dat = 0;
+	TWindowData *dat;
 	TemplateEditorInfo *teInfo = 0;
 	TTemplateSet *tSet;
 	int i;
-	dat = (TWindowData*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	/*
 	* since this dialog needs a MessageWindowData * but has no container, we can store
 	* the extended info struct in pContainer *)
@@ -377,11 +377,10 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_DESTROY:
 		Utils::enableDlgControl(teInfo->hwndParent, IDC_MODIFY, TRUE);
 		Utils::enableDlgControl(teInfo->hwndParent, IDC_RTLMODIFY, TRUE);
-		if (dat->pContainer)
+		if (dat) {
 			mir_free(dat->pContainer);
-		if (dat)
 			mir_free(dat);
-
+		}
 		db_set_dw(0, SRMSGMOD_T, "cc1", SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));
 		db_set_dw(0, SRMSGMOD_T, "cc2", SendDlgItemMessage(hwndDlg, IDC_COLOR2, CPM_GETCOLOUR, 0, 0));
 		db_set_dw(0, SRMSGMOD_T, "cc3", SendDlgItemMessage(hwndDlg, IDC_COLOR3, CPM_GETCOLOUR, 0, 0));

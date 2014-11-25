@@ -131,11 +131,14 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 		if (f) {
 			char *szDebug = mir_utf8encodeT(debug);
 			fputs(tszTime, f);
-			fputs(szDebug, f);
+			if (szDebug != NULL) {
+				fputs(szDebug, f);
+				mir_free(szDebug);
+			} else {
+				fputs("mir_utf8encodeT() fail in _DebugTraceW()", f);
+			}
 			fputs("\n", f);
 			fclose(f);
-			if (szDebug)
-				mir_free(szDebug);
 		}
 	}
 //#endif
