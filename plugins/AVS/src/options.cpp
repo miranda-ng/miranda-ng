@@ -73,14 +73,13 @@ static void RemoveProtoPic(const char *szProto)
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
 
+			if (p.szProtoname == NULL)
+				continue;
 			PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)p.szProtoname);
 			if (pdescr == NULL && lstrcmpA(p.szProtoname, szProto))
 				continue;
 
 			if (!lstrcmpA(p.szProtoname, szProto) || !lstrcmpA(pdescr->szProtoName, szProtoname)) {
-				if (p.szProtoname == NULL)
-					continue;
-
 				p.clear();
 				CreateAvatarInCache(0, &p, (char*)p.szProtoname);
 				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
