@@ -959,6 +959,9 @@ jpeg_write_exif_profile_raw(j_compress_ptr cinfo, FIBITMAP *dib) {
 
 	if(tag_exif) {
 		const BYTE *tag_value = (BYTE*)FreeImage_GetTagValue(tag_exif);
+
+		if (NULL == tag_value)
+			return FALSE;
 		
 		// verify the identifying string
 		if(memcmp(exif_signature, tag_value, sizeof(exif_signature)) != 0) {
@@ -966,23 +969,21 @@ jpeg_write_exif_profile_raw(j_compress_ptr cinfo, FIBITMAP *dib) {
 			return FALSE;
 		}
 
-		if(NULL != tag_value) {
-			DWORD tag_length = FreeImage_GetTagLength(tag_exif);
+		DWORD tag_length = FreeImage_GetTagLength(tag_exif);
 
-			BYTE *profile = (BYTE*)malloc(tag_length * sizeof(BYTE));
-			if(profile == NULL) return FALSE;
+		BYTE *profile = (BYTE*)malloc(tag_length * sizeof(BYTE));
+		if(profile == NULL) return FALSE;
 
-			for(DWORD i = 0; i < tag_length; i += 65504L) {
-				unsigned length = MIN((long)(tag_length - i), 65504L);
-				
-				memcpy(profile, tag_value + i, length);
-				jpeg_write_marker(cinfo, EXIF_MARKER, profile, length);
-			}
-
-			free(profile);
-
-			return TRUE;	
+		for(DWORD i = 0; i < tag_length; i += 65504L) {
+			unsigned length = MIN((long)(tag_length - i), 65504L);
+			
+			memcpy(profile, tag_value + i, length);
+			jpeg_write_marker(cinfo, EXIF_MARKER, profile, length);
 		}
+
+		free(profile);
+
+		return TRUE;	
 	}
 
 	return FALSE;
