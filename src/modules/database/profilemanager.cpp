@@ -886,16 +886,15 @@ int getProfileManager(PROFILEMANAGERDATA *pd)
 	prof.pd = pd;
 	prof.psh = &psh;
 	int rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PROFILEMANAGER), NULL, DlgProfileManager, (LPARAM)&prof);
-	if (rc != -1)
+	if (rc != -1) {
 		for (int i = 0; i < opi.pageCount; i++) {
-			mir_free((char*)opi.odp[i].pszTitle);
+			mir_free(opi.odp[i].pszTitle);
 			mir_free(opi.odp[i].pszGroup);
 			if ((DWORD_PTR)opi.odp[i].pszTemplate & 0xFFFF0000)
 				mir_free((char*)opi.odp[i].pszTemplate);
 		}
-
-	if (opi.odp != NULL)
-		mir_free(opi.odp);
+	}
+	mir_free(opi.odp);
 
 	return rc;
 }

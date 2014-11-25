@@ -131,15 +131,17 @@ void fnFreeContact(ClcContact* p)
 
 void fnFreeGroup(ClcGroup *group)
 {
-	int i;
-	for (i=0; i < group->cl.count; i++) {
-		cli.pfnFreeContact(group->cl.items[i]);
-		mir_free(group->cl.items[i]);
-	}
-	if (group->cl.items)
+	if (!group)
+		return;
+	if (group->cl.items) {
+		for (int i=0; i < group->cl.count; i++) {
+			cli.pfnFreeContact(group->cl.items[i]);
+			mir_free(group->cl.items[i]);
+		}
 		mir_free(group->cl.items);
+		group->cl.items = NULL;
+	}
 	group->cl.limit = group->cl.count = 0;
-	group->cl.items = NULL;
 }
 
 static int iInfoItemUniqueHandle = 0;
