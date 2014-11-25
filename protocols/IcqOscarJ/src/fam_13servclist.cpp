@@ -1625,9 +1625,12 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 	WORD wAvatarID;
 	WORD wCommand;
 	char szItemName[2] = { 0, 0 };
-
 	int bResetHash = 0;
 	DBVARIANT dbvHash;
+
+	if (!pHash)
+		return;
+
 	if (!getSetting(NULL, "AvatarHash", &dbvHash)) {
 		szItemName[0] = 0x30 + dbvHash.pbVal[1];
 
@@ -1643,7 +1646,7 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 		pDoubleObject = &doubleObject;
 	}
 
-	if (bResetHash || !pHash) {
+	if (bResetHash) {
 		// Do we have a known server avatar ID?
 		if (wAvatarID = getWord(DBSETTING_SERVLIST_AVATAR, 0)) {
 			cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
@@ -1657,9 +1660,6 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 			icq_sendServerItem(dwCookie, ICQ_LISTS_REMOVEFROMLIST, 0, wAvatarID, szItemName, NULL, 0, SSI_ITEM_BUDDYICON, SSOP_ITEM_ACTION | dwOperationFlags, 400, pDoubleObject);
 		}
 	}
-
-	if (!pHash)
-		return;
 
 	WORD hashsize = size - 2;
 

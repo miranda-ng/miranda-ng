@@ -283,7 +283,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 				else if (memcmp(hash, pData + 4, 0x10)) { // we have different avatar, sync that
 					if (m_bSsiEnabled && getByte("ForceOurAvatar", 1)) { // we want our avatar, update hash
 						DWORD dwPaFormat = ::ProtoGetAvatarFileFormat(file);
-						BYTE *pHash = (BYTE*)_alloca(0x14);
+						BYTE pHash[0x14];
 
 						debugLogA("Our avatar is different, setting our new hash.");
 
@@ -291,7 +291,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 						pHash[1] = dwPaFormat == PA_FORMAT_XML ? AVATAR_HASH_FLASH : AVATAR_HASH_STATIC;
 						pHash[2] = 1; // state of the hash
 						pHash[3] = 0x10; // len of the hash
-						memcpy(pHash + 4, hash, 0x10);
+						memcpy((pHash + 4), hash, 0x10);
 						updateServAvatarHash(pHash, 0x14);
 					}
 					else { // get avatar from server
@@ -346,7 +346,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 				SAFE_FREE((void**)&hash);
 			}
 			else {
-				BYTE *pHash = (BYTE*)_alloca(0x14);
+				BYTE pHash[0x14];
 
 				debugLogA("Our file is different, set our new hash.");
 
@@ -354,7 +354,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 				pHash[1] = dwPaFormat == PA_FORMAT_XML ? AVATAR_HASH_FLASH : AVATAR_HASH_STATIC;
 				pHash[2] = 1; // state of the hash
 				pHash[3] = 0x10; // len of the hash
-				memcpy(pHash + 4, hash, 0x10);
+				memcpy((pHash + 4), hash, 0x10);
 				updateServAvatarHash(pHash, 0x14);
 
 				SAFE_FREE((void**)&hash);

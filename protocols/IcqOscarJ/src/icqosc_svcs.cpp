@@ -509,13 +509,13 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 		BYTE *hash = calcMD5HashOfFile(tszMyFile);
 		if (hash) {
-			BYTE *ihash = (BYTE*)_alloca(0x14);
+			BYTE ihash[0x14];
 			// upload hash to server
 			ihash[0] = 0;    //unknown
 			ihash[1] = dwPaFormat == PA_FORMAT_XML ? AVATAR_HASH_FLASH : AVATAR_HASH_STATIC; //hash type
 			ihash[2] = 1;    //hash status
 			ihash[3] = 0x10; //hash len
-			memcpy(ihash + 4, hash, 0x10);
+			memcpy((ihash + 4), hash, 0x10);
 			updateServAvatarHash(ihash, 0x14);
 
 			if (setSettingBlob(NULL, "AvatarHash", ihash, 0x14))
