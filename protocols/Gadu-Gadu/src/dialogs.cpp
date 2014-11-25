@@ -788,8 +788,33 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		break;
 	case WM_COMMAND:
-		if (dat && !dat->hContact && LOWORD(wParam) == IDC_SAVE && HIWORD(wParam) == BN_CLICKED) {
-			// Save user data
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+			SendMessage(GetParent(hwndDlg),msg,wParam,lParam);
+			break;
+		case IDC_NICKNAME:
+		case IDC_FIRSTNAME:
+		case IDC_LASTNAME:
+		case IDC_FAMILYNAME:
+		case IDC_CITY:
+		case IDC_CITYORIGIN:
+		case IDC_BIRTHYEAR:
+			if (!dat || !dat->hContact || !dat->disableUpdate ||
+			    HIWORD(wParam) != EN_CHANGE)
+				break;
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), TRUE);
+			break;
+		case IDC_GENDER:
+			if (!dat || !dat->hContact || !dat->disableUpdate ||
+			    HIWORD(wParam) != CBN_SELCHANGE)
+				break;
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), TRUE);
+			break;
+		case IDC_SAVE: // Save user data
+			if (!dat || !dat->hContact || !dat->disableUpdate ||
+			    HIWORD(wParam) != BN_CLICKED)
+				break;
+			{
 			TCHAR text[256];
 			gg_pubdir50_t req;
 			GGPROTO *gg = dat->gg;
@@ -875,17 +900,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			dat->updating = TRUE;
 
 			gg_pubdir50_free(req);
-		}
-
-		if (dat && !dat->hContact && !dat->disableUpdate && (HIWORD(wParam) == EN_CHANGE && (
-			LOWORD(wParam) == IDC_NICKNAME || LOWORD(wParam) == IDC_FIRSTNAME || LOWORD(wParam) == IDC_LASTNAME || LOWORD(wParam) == IDC_FAMILYNAME ||
-			LOWORD(wParam) == IDC_CITY || LOWORD(wParam) == IDC_CITYORIGIN || LOWORD(wParam) == IDC_BIRTHYEAR) ||
-			HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_GENDER))
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), TRUE);
-
-		switch(LOWORD(wParam)) {
-		case IDCANCEL:
-			SendMessage(GetParent(hwndDlg),msg,wParam,lParam);
+			}
 			break;
 		}
 		break;

@@ -300,6 +300,8 @@ static int gg_dcc7_listen_and_send_info(struct gg_dcc7 *dcc)
 	uint32_t count;
 
 	gg_debug_session((dcc) ? (dcc)->sess : NULL, GG_DEBUG_FUNCTION, "** gg_dcc7_listen_and_send_info(%p)\n", dcc);
+	if (dcc == NULL)
+		return -1;
 
 	if (!dcc->sess->client_port)
 		local_port = dcc->sess->external_port;
@@ -319,7 +321,7 @@ static int gg_dcc7_listen_and_send_info(struct gg_dcc7 *dcc)
 	else
 		dcc->local_addr = dcc->sess->external_addr;
 
-	gg_debug_session((dcc) ? (dcc)->sess : NULL, GG_DEBUG_MISC, "// dcc7_listen_and_send_info() sending IP address %s and port %d\n", inet_ntoa(*((struct in_addr*) &dcc->local_addr)), external_port);
+	gg_debug_session((dcc)->sess, GG_DEBUG_MISC, "// dcc7_listen_and_send_info() sending IP address %s and port %d\n", inet_ntoa(*((struct in_addr*) &dcc->local_addr)), external_port);
 
 	memset(&pkt, 0, sizeof(pkt));
 	pkt.uin = gg_fix32(dcc->peer_uin);
