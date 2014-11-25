@@ -164,7 +164,7 @@ static DWORD PlainText2message(const CMStringA &szContentType, const CMStringA &
 
 DWORD MraOfflineMessageGet(CMStringA *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, CMStringA *plpsEMail, CMStringA *plpsText, CMStringA *plpsRTFText, CMStringA *plpsMultiChatData)
 {
-	if (plpsMsg == NULL || plpsMsg->IsEmpty())
+	if (plpsMsg == NULL || plpsMsg->IsEmpty() || plpsText == NULL)
 		return ERROR_INVALID_HANDLE;
 
 	LPSTR lpszHeader, lpszBody, lpszContentTypeLow;
@@ -175,8 +175,9 @@ DWORD MraOfflineMessageGet(CMStringA *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, 
 		return ERROR_INVALID_HANDLE;
 
 	ptrA lpszHeaderLow((LPSTR)mir_calloc(dwHeaderSize));
-	if (lpszHeaderLow)
-		BuffToLowerCase(lpszHeaderLow, lpszHeader, dwHeaderSize);
+	if (lpszHeaderLow == NULL)
+		return ERROR_OUTOFMEMORY;
+	BuffToLowerCase(lpszHeaderLow, lpszHeader, dwHeaderSize);
 
 	if (pdwTime)
 	if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "date", 4, szTemp) == NO_ERROR) {
