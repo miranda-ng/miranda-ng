@@ -107,7 +107,8 @@ static int SaveTree(HWND hwndDlg)
 			db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
-			if (lstrcmp(iod->name, iod->defname) != 0)
+			if (iod->name != NULL && iod->defname != NULL &&
+			    lstrcmp(iod->name, iod->defname) != 0)
 				db_set_ts(NULL, MenuNameItems, DBString, iod->name);
 			else
 				db_unset(NULL, MenuNameItems, DBString);
