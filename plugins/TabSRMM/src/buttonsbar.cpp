@@ -546,10 +546,11 @@ void TSAPI BB_RedrawButtons(TWindowData *dat)
 
 BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 {
-	HWND hwnd = dat->hwnd;
-	if (!dat || !IsWindowVisible(hwnd))
+
+	if (!dat || !IsWindowVisible(dat->hwnd))
 		return 0;
 
+	HWND hwnd = dat->hwnd;
 	RECT rect;
 	int  i;
 	HWND hwndBtn = 0;
@@ -560,7 +561,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 
 	HDWP hdwp = BeginDeferWindowPos(LButtonsList.getCount() + RButtonsList.getCount() + 1);
 
-	HWND hwndToggleSideBar = GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_TOGGLESIDEBAR : IDC_CHAT_TOGGLESIDEBAR);
+	HWND hwndToggleSideBar = GetDlgItem(hwnd, dat->bType == SESSIONTYPE_IM ? IDC_TOGGLESIDEBAR : IDC_CHAT_TOGGLESIDEBAR);
 	ShowWindow(hwndToggleSideBar, (showToolbar && dat->pContainer->SideBar->isActive()) ? SW_SHOW : SW_HIDE);
 
 	mir_cslock lck(ToolBarCS);

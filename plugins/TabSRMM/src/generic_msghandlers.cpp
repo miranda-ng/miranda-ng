@@ -1104,25 +1104,27 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM w
 {
 	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
 
-	if (OpenClipboard(hwnd)) {
-		HANDLE hClip = GetClipboardData(CF_UNICODETEXT);
-		if (hClip) {
-			TCHAR *tszText = (TCHAR*)mir_alloc((lstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
+	if (!OpenClipboard(hwnd))
+		return result;
+	HANDLE hClip = GetClipboardData(CF_UNICODETEXT);
+	if (!hClip)
+		goto err_out;
+	TCHAR *tszText = (TCHAR*)mir_alloc((lstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
+	if (!tszText)
+		goto err_out;
+	lstrcpy(tszText, (TCHAR*)hClip);
+	Utils::FilterEventMarkers(tszText);
+	EmptyClipboard();
 
-			lstrcpy(tszText, (TCHAR*)hClip);
-			Utils::FilterEventMarkers(tszText);
-			EmptyClipboard();
+	HGLOBAL hgbl = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(tszText) + 1) * sizeof(TCHAR));
+	TCHAR *tszLocked = (TCHAR*)GlobalLock(hgbl);
+	lstrcpy(tszLocked, tszText);
+	GlobalUnlock(hgbl);
+	SetClipboardData(CF_UNICODETEXT, hgbl);
+	mir_free(tszText);
 
-			HGLOBAL hgbl = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(tszText) + 1) * sizeof(TCHAR));
-			TCHAR *tszLocked = (TCHAR*)GlobalLock(hgbl);
-			lstrcpy(tszLocked, tszText);
-			GlobalUnlock(hgbl);
-			SetClipboardData(CF_UNICODETEXT, hgbl);
-			if (tszText)
-				mir_free(tszText);
-		}
-		CloseClipboard();
-	}
+err_out:
+	CloseClipboard();
 	return result;
 }
 

@@ -3234,9 +3234,9 @@ quote_from_last:
 		{
 			TContainerData *pContainer = dat->pContainer;
 			if (dat->iOpenJobs > 0 && lParam != 2) {
-				if (dat->dwFlags & MWF_ERRORSTATE)
+				if (dat->dwFlags & MWF_ERRORSTATE) {
 					SendMessage(hwndDlg, DM_ERRORDECIDED, MSGERROR_CANCEL, 1);
-				else if (dat) {
+				} else {
 					if (dat->dwFlagsEx & MWF_EX_WARNCLOSE)
 						return TRUE;
 

@@ -324,7 +324,7 @@ static DWORD __inline argb_from_cola(COLORREF col, UINT32 alpha)
 
 
 void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_dest, BYTE clr_dest_trans, BYTE bGradient,
-					  BYTE bCorner, DWORD dwRadius, CImageItem *imageItem)
+	BYTE bCorner, DWORD dwRadius, CImageItem *imageItem)
 {
 	HBRUSH BrMask;
 	HBRUSH holdbrush;
@@ -346,16 +346,15 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 	UCHAR ubRed2;
 	UCHAR ubGreen2;
 	UCHAR ubBlue2;
+	FLOAT fAlphaFactor;
 
 	int realx;
 
-	FLOAT fAlphaFactor;
+	if (rc == NULL)
+		return;
 	LONG realHeight = (rc->bottom - rc->top);
 	LONG realWidth = (rc->right - rc->left);
 	LONG realHeightHalf = realHeight >> 1;
-
-	if (rc == NULL)
-		return;
 
 	if (imageItem) {
 		imageItem->Render(hDC, rc, false);
@@ -1225,6 +1224,8 @@ void CSkin::Unload()
 void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON *hIcon)
 {
 	TCHAR buffer[512];
+	if (hIcon)
+		return;
 	if (*hIcon != 0)
 		DestroyIcon(*hIcon);
 	GetPrivateProfileString(szSection, name, _T("none"), buffer, 250, m_tszFileName);
@@ -1235,8 +1236,7 @@ void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON *hIcon)
 
 		_tsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
 		mir_sntprintf(szImagePath, MAX_PATH, _T("%s\\%s\\%s"), szDrive, szDir, buffer);
-		if (hIcon)
-			*hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
+		*hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
 	}
 }
 
