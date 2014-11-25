@@ -510,6 +510,8 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 	DWORD lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
 
+	if (!nloc)
+		return false;
 	unsigned int dwTimeout = (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
 	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
 	if (dwTimeout == 0) dwTimeout = 30;
@@ -544,10 +546,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 		if (!nlc->szProxyServer)
 			return false;
 
-		if (nloc)
-			NetlibLogf(nlc->nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
-		else
-			NetlibLogf(nlc->nlu, "(%p) Connecting to proxy %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort);
+		NetlibLogf(nlc->nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
 
 		_itoa(nlc->wProxyPort, szPort, 10);
 		if (GetAddrInfoA(nlc->szProxyServer, szPort, &hints, &air)) {
@@ -556,7 +555,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 		}
 	}
 	else {
-		if (!nloc || !nloc->szHost)
+		if (!nloc->szHost)
 			return false;
 
 		NetlibLogf(nlc->nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
