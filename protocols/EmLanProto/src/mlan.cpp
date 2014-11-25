@@ -334,12 +334,12 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 				LeaveCriticalSection(&m_csAccessClass);
 			}
 			if (pak.flReqStatus)
-				RequestStatus(false, cont->m_addr.S_un.S_addr);
+				RequestStatus(false, from.S_un.S_addr);
 
 			if (pak.strMessage)
 			{
 				if (!cont)
-					RequestStatus(true, cont->m_addr.S_un.S_addr);
+					RequestStatus(true, from.S_un.S_addr);
 				else
 				{
 					PROTORECVEVENT pre = { 0 };
@@ -356,7 +356,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 				}
 			}
 
-			if (pak.idAckMessage)
+			if (pak.idAckMessage && cont)
 			{
 				MCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
 				if (hContact)
