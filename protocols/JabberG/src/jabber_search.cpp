@@ -251,34 +251,40 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 	Results.jsr.hdr.cbSize = sizeof(Results.jsr); // sending user data
 
 	for (i=0; i < nUsersFound; i++) {
-		TCHAR buff[200]; buff[0] = 0;
-	   Results.jsr.jid[0]=0;
-	   U_TCHAR_MAP * pmUserData = (U_TCHAR_MAP *) plUsersInfo->operator [](i);
-	   for (int j=0; j < nFieldCount; j++) {
-		   TCHAR* var = ListOfFields[j];
-		   TCHAR* value = pmUserData->operator [](var);
-		   Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
-		   if (!_tcsicmp(var,_T("jid")) && value)
+		TCHAR buff[200];
+		buff[0] = 0;
+		Results.jsr.jid[0] = 0;
+		U_TCHAR_MAP * pmUserData = (U_TCHAR_MAP *) plUsersInfo->operator [](i);
+		for (int j=0; j < nFieldCount; j++) {
+			TCHAR* var = ListOfFields[j];
+			TCHAR* value = pmUserData->operator [](var);
+			Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
+			if (!_tcsicmp(var,_T("jid")) && value)
 				_tcsncpy_s(Results.jsr.jid, value, _TRUNCATE);
-	   }
-	   {
-		   TCHAR * nickfields[]={ _T("nick"),		_T("nickname"),
-								  _T("fullname"),	_T("name"),
-								  _T("given"),		_T("first"),
-								  _T("jid"), NULL };
-		   TCHAR * nick=NULL;
-		   int k=0;
-		   while (nickfields[k] && !nick)   nick=pmUserData->operator [](nickfields[k++]);
-		   if (_tcsicmp(nick, Results.jsr.jid))
-			   mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.jid);
-		   else
-				_tcsncpy_s(buff, nick, _TRUNCATE);
-		   Results.jsr.hdr.nick = nick ? buff : NULL;
-		   Results.jsr.hdr.flags = PSR_TCHAR;
-	   }
-	   ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
-	   Results.jsr.hdr.nick=NULL;
-
+		}
+		{
+			TCHAR * nickfields[]={	_T("nick"), 	_T("nickname"),
+						_T("fullname"),	_T("name"),
+						_T("given"),	_T("first"),
+						_T("jid"), 	NULL };
+			TCHAR * nick = NULL;
+			int k = 0;
+			while (nickfields[k] && !nick) {
+				nick = pmUserData->operator [](nickfields[k++]);
+			}
+			if (nick) {
+				if (_tcsicmp(nick, Results.jsr.jid)) {
+					mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.jid);
+				} else {
+					_tcsncpy_s(buff, nick, _TRUNCATE);
+				}
+				nick = buff;
+			}
+			Results.jsr.hdr.nick = nick;
+			Results.jsr.hdr.flags = PSR_TCHAR;
+		}
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SEARCHRESULT, id, (LPARAM) &Results);
+		Results.jsr.hdr.nick=NULL;
 	}
 	mir_free(Results.pszFields);
 }
@@ -299,7 +305,7 @@ TCHAR* CopyKey(TCHAR* key)
 void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
 {
 	const TCHAR *type;
-	int    id;
+	int id;
 
 	U_TCHAR_MAP mColumnsNames(10);
 	LIST<void>  SearchResults(2);
@@ -745,7 +751,7 @@ HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 		HXML n = JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), dat->xNode);
 		xmlAddChild(query, n);
 		xi.destroyNode(n);
-    }
+	}
 	else { //and Simple fields: XEP-0055 Example 3
 		for (int i=0; i<dat->nJSInfCount; i++) {
 			TCHAR szFieldValue[100];

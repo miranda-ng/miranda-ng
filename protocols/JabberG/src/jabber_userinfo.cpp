@@ -776,11 +776,14 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 	case WM_DESTROY:
 		DestroyIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, 0));
+		if (!photoInfo)
+			break;
 		if (photoInfo->hBitmap) {
 			photoInfo->ppro->debugLogA("Delete bitmap");
 			DeleteObject(photoInfo->hBitmap);
 		}
-		if (photoInfo) mir_free(photoInfo);
+		mir_free(photoInfo);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
 	return FALSE;
