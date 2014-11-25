@@ -961,9 +961,11 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_DESTROY:
 		int len = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETLBTEXTLEN, SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), 0);
 		TCHAR *szProto = (TCHAR*)alloca(sizeof(TCHAR)*(len + 1));
-		*szProto = '\0';
-		SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETLBTEXT, SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), (LPARAM)szProto);
-		db_set_ts(NULL, "FindAdd", "LastSearched", szProto ? szProto : _T(""));
+		if (szProto != NULL) {
+			*szProto = '\0';
+			SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETLBTEXT, SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), (LPARAM)szProto);
+			db_set_ts(NULL, "FindAdd", "LastSearched", szProto);
+		}
 
 		SaveColumnSizes(hwndList);
 		if (dat->hResultHook != NULL)
