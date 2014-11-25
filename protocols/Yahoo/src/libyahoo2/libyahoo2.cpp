@@ -4059,10 +4059,11 @@ static char * yahoo_getwebcam_master(struct yahoo_input_data *yid)
 	int len=0;
 	unsigned int status=0;
 	char *server=NULL;
-	struct yahoo_data *yd = yid->yd;
+	struct yahoo_data *yd;
 
-	if (!yid || !yd)
+	if (!yid || !yid->yd)
 		return NULL;
+	yd = yid->yd;
 
 	DEBUG_MSG(("rxlen is %d", yid->rxlen));
 
