@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.27
+;  Version: 0.1.0.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -92,6 +92,9 @@
 [Invalid filesize]
 [Unknown error occurred]
 [File upload error]
+;file \protocols\VKontakte\src\vk_history.cpp
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+[Attention!]
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 [Account]
@@ -99,12 +102,18 @@
 [%s server connection]
 [Create new chat]
 [Visit profile]
-[Reload all messages from vk.com]
 [Add as friend]
 [Delete from friend list]
 [Ban user]
 [Destroy room]
 [Open broadcast]
+[Reload messages from vk.com...]
+[for last 1 day]
+[for last 3 days]
+[for last week]
+[for last 30 days]
+[for last 90 days]
+[for all time]
 [Errors]
 [Notification]
 [User %s added as friend]
@@ -115,11 +124,8 @@
 [Start sync history]
 [Sync history]
 [Sync history complete]
-[History import is complete]
-[History import]
 [Please authorize me to add you to my friend list.]
 [Are you sure to delete %s from your friend list?]
-[Attention!]
 [User %s was deleted from your friend list]
 [Friend request from the user %s declined]
 [Friend request suggestion for the user %s deleted]
@@ -130,7 +136,6 @@
 [Are you sure to ban %s? %s%sContinue?]
 [\nIt will also]
 [Are you sure to report abuse on %s?]
-[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 [Attachments:]
 [Photo]
 [Audio]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.27
+;  Version: 0.1.0.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -169,6 +169,10 @@ Cоздать комнату чата
 Неизвестная ошибка
 [File upload error]
 Ошибка загрузки файла
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
+[Attention!]
+Внимание!
 [Network]
 Сеть
 [Account]
@@ -179,8 +183,6 @@ Cоздать комнату чата
 Создать новый чат
 [Visit profile]
 Профиль на сайте
-[Reload all messages from vk.com]
-Загрузить историю с сайта
 [Add as friend]
 Добавить в друзья
 [Delete from friend list]
@@ -191,6 +193,20 @@ Cоздать комнату чата
 Удалить комнату чата
 [Open broadcast]
 Открыть трансляцию
+[Reload messages from vk.com...]
+Загрузить историю с сайта...
+[for last 1 day]
+за последний день
+[for last 3 days]
+за последние 3 дня
+[for last week]
+за последнюю неделю
+[for last 30 days]
+за последние 30 дней
+[for last 90 days]
+за последние 90 дней
+[for all time]
+с самого начала
 [Errors]
 Ошибки
 [Notification]
@@ -209,16 +225,10 @@ Cоздать комнату чата
 Синхронизация истории VKontakte
 [Sync history complete]
 Синхронизация истории VKontakte закончена
-[History import is complete]
-Импорт истории завершён
-[History import]
-Импорт истории
 [Please authorize me to add you to my friend list.]
 Пожалуйста, разрешите мне добавить вас в список друзей.
 [Are you sure to delete %s from your friend list?]
 Вы уверены, что хотите удалить %s из списка друзей?
-[Attention!]
-Внимание!
 [User %s was deleted from your friend list]
 Контакт %s был удалён из вашего списка друзей
 [Friend request from the user %s declined]
@@ -239,8 +249,6 @@ Cоздать комнату чата
 \nЭто также
 [Are you sure to report abuse on %s?]
 Вы уверены, что хотите отправить жалобу на %s?
-[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
-Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
 [Attachments:]
 Вложения:
 [Photo]
