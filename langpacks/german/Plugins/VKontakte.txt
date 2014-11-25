@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.27
+;  Version: 0.1.0.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -174,6 +174,11 @@ Ungültige Dateigröße
 Unbekannter Fehler aufgetreten
 [File upload error]
 Fehler beim Hochladen der Datei
+;file \protocols\VKontakte\src\vk_history.cpp
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?
+[Attention!]
+Achtung!
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Netzwerk
@@ -186,8 +191,6 @@ Konto
 Neuen Chat erstellen
 [Visit profile]
 Profil ansehen
-[Reload all messages from vk.com]
-Alle Nachrichten von vk.com neu laden
 [Add as friend]
 Als Freund hinzufügen
 [Delete from friend list]
@@ -198,6 +201,20 @@ Benutzer bannen
 Raum zerstören
 [Open broadcast]
 Übertragung öffnen
+[Reload messages from vk.com...]
+
+[for last 1 day]
+
+[for last 3 days]
+
+[for last week]
+
+[for last 30 days]
+
+[for last 90 days]
+
+[for all time]
+
 [Errors]
 Fehler
 [Notification]
@@ -217,16 +234,10 @@ Verlaufssynchronisierung gestartet
 Verlauf synchronisieren
 [Sync history complete]
 Verlauf vollständig synchronisiert
-[History import is complete]
-Verlauf  wurde vollständig importiert.
-[History import]
-Verlauf importieren
 [Please authorize me to add you to my friend list.]
 Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 [Are you sure to delete %s from your friend list?]
 Sind Sie sich sicher dass Sie %s von Ihrer Freundesliste löschen wollen?
-[Attention!]
-Achtung!
 [User %s was deleted from your friend list]
 Benutzer %s wurde aus Ihrer Freundesliste gelöscht.
 [Friend request from the user %s declined]
@@ -247,8 +258,6 @@ Wollen Sie %s wirklich bannen? %s%sFortfahren?
 \Dies wird auch
 [Are you sure to report abuse on %s?]
 Wollen Sie wirklich Missbrauch durch %s melden?
-[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
-Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?
 [Attachments:]
 Anhänge:
 [Photo]

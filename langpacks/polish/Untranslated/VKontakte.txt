@@ -1,0 +1,7 @@
+﻿[Reload messages from vk.com...]
+[for last 1 day]
+[for last 3 days]
+[for last week]
+[for last 30 days]
+[for last 90 days]
+[for all time]

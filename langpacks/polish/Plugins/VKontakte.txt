@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.27
+;  Version: 0.1.0.28
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -174,6 +174,11 @@ Niepoprawny rozmiar pliku
 Wystąpił nieznany błąd
 [File upload error]
 Błąd podczas wysyłania pliku
+;file \protocols\VKontakte\src\vk_history.cpp
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
+[Attention!]
+Uwaga!
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły
@@ -186,8 +191,6 @@ Połączenie %s
 Utwórz nowy czat
 [Visit profile]
 Odwiedź profil
-[Reload all messages from vk.com]
-Załaduj ponownie wszystkie wiadomości z vk.com
 [Add as friend]
 Dodaj jako znajomego
 [Delete from friend list]
@@ -198,6 +201,20 @@ Zbanuj użytkownika
 Zniszcz pokój
 [Open broadcast]
 Otwórz transmisję
+[Reload messages from vk.com...]
+
+[for last 1 day]
+
+[for last 3 days]
+
+[for last week]
+
+[for last 30 days]
+
+[for last 90 days]
+
+[for all time]
+
 [Errors]
 Błędy
 [Notification]
@@ -217,16 +234,10 @@ Rozpoczęto synchronizację historii
 Synchronizacja historii
 [Sync history complete]
 Synchronizacja historii ukończona
-[History import is complete]
-Importowanie historii ukończone
-[History import]
-Importowanie historii
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to delete %s from your friend list?]
 Czy na pewno chcesz usunąć %s ze znajomych?
-[Attention!]
-Uwaga!
 [User %s was deleted from your friend list]
 Użytkownik %s został usunięty ze znajomych
 [Friend request from the user %s declined]
@@ -247,8 +258,6 @@ Czy jesteś pewien, że chcesz zbanować %s? %s%skontynuować?
 \nTo także
 [Are you sure to report abuse on %s?]
 Czy napewno chcesz zgłosić nadużycie przez %s?
-[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
-Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
 [Attachments:]
 Załączniki:
 [Photo]
