@@ -202,19 +202,19 @@ Zniszcz pokój
 [Open broadcast]
 Otwórz transmisję
 [Reload messages from vk.com...]
-
+Załaduj wiadomości ponownie z vk.com.,,
 [for last 1 day]
-
+z ostatniego dnia
 [for last 3 days]
-
+z ostatnich 3 dni
 [for last week]
-
+z ostatniego tygodnia
 [for last 30 days]
-
+z ostatnich 30 dni
 [for last 90 days]
-
+z ostatnich 90 dni
 [for all time]
-
+wszystko
 [Errors]
 Błędy
 [Notification]
