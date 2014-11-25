@@ -248,17 +248,18 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 	if (!item1 && !item2)
 		return lstrcmp(title1, title2);
 
-	if (!item1) {
+	if (!item1 && item2) {
 		if (res = lstrcmp(title1, item2->getSection()))
 			return res;
 		return -1;
 	}
 
-	if (!item2) {
+	if (!item2 && item1) {
 		if (res = lstrcmp(item1->getSection(), title2))
 			return res;
 		return 1;
 	}
+	/* item1 != NULL && item2 != NULL */
 
 	if (res = lstrcmp(item1->getSection(), item2->getSection())) return res;
 	if (res = lstrcmp(item1->getDescr(), item2->getDescr())) return res;
