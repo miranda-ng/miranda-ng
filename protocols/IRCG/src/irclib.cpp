@@ -276,26 +276,11 @@ void CIrcProto::Notify(const CIrcMessage* pmsg)
 
 int CIrcProto::NLSend(const unsigned char* buf, int cbBuf)
 {
-	if (m_scriptingEnabled) {
-		int iVal = NULL;
-		char * pszTemp = 0;
-		pszTemp = (char*)mir_alloc(lstrlenA((const char *)buf) + 1);
-		lstrcpynA(pszTemp, (const char *)buf, lstrlenA((const char *)buf) + 1);
-
-		if (pszTemp) {
-			if (con)
-				iVal = Netlib_Send(con, (const char*)pszTemp, lstrlenA(pszTemp), MSG_DUMPASTEXT);
-		}
-		if (pszTemp)
-			mir_free(pszTemp);
-
-		return iVal;
-	}
-
-	if (con)
-		return Netlib_Send(con, (const char*)buf, cbBuf, MSG_DUMPASTEXT);
-
-	return 0;
+	if (!con || !buf)
+		return 0;
+	if (m_scriptingEnabled && cbBuf == 0)
+		cbBuf = lstrlenA((const char *)buf);
+	return Netlib_Send(con, (const char*)buf, cbBuf, MSG_DUMPASTEXT);
 }
 
 int CIrcProto::NLSend(const TCHAR* fmt, ...)
