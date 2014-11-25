@@ -681,6 +681,7 @@ RECT   rcLastStatusBarClick;		// remembers click (down event) point for status b
 LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hWnd), GWLP_USERDATA);
+	TWindowData *dat = NULL;
 	POINT pt;
 
 	if (OldStatusBarproc == 0) {
@@ -738,7 +739,6 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			BOOL bAero = M.isAero();
 			HANDLE hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : 0;
 
-			TWindowData *dat = 0;
 			if (pContainer)
 				dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
@@ -892,7 +892,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	case WM_USER + 101:
 		{
 			int list_icons = 0;
-			TWindowData *dat = (TWindowData*)lParam;
+			dat = (TWindowData*)lParam;
 			if (dat)
 				while ( Srmm_GetNthIcon(dat->hContact, list_icons))
 					list_icons++;
@@ -955,77 +955,77 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		GetCursorPos(&pt);
 		if (pt.x != ptMouse.x || pt.y != ptMouse.y)
 			break;
-		TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-		if (dat == NULL)
-			break;
-		RECT rc;
-		SIZE size;
-		TCHAR wBuf[512]; wBuf[0] = 0;
-		CLCINFOTIP ti = {0};
-		ti.cbSize = sizeof(ti);
-		ti.ptCursor = pt;
-		ScreenToClient(hWnd, &pt);
-		SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rc);
-		if ( PtInRect(&rc, pt)) {
-			unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + 2);
-			StatusIconData *sid = Srmm_GetNthIcon(dat->hContact, iconNum);
-			if (sid == NULL)
-				break;
+		dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+		if (dat != NULL) {
+			RECT rc;
+			SIZE size;
+			TCHAR wBuf[512]; wBuf[0] = 0;
+			CLCINFOTIP ti = {0};
+			ti.cbSize = sizeof(ti);
+			ti.ptCursor = pt;
+			ScreenToClient(hWnd, &pt);
+			SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rc);
+			if ( PtInRect(&rc, pt)) {
+				unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + 2);
+				StatusIconData *sid = Srmm_GetNthIcon(dat->hContact, iconNum);
+				if (sid == NULL)
+					break;
 
-			if ( !strcmp(sid->szModule, MSG_ICON_MODULE)) {
-				if (sid->dwId == MSG_ICON_SOUND && pContainer)
-					mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
-						pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
+				if ( !strcmp(sid->szModule, MSG_ICON_MODULE)) {
+					if (sid->dwId == MSG_ICON_SOUND && pContainer)
+						mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
+							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
-				else if (sid->dwId == MSG_ICON_UTN && dat && (dat->bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS)) {
-					int mtnStatus = db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
-					mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sending typing notifications is %s."),
-						mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
+					else if (sid->dwId == MSG_ICON_UTN && dat && (dat->bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS)) {
+						int mtnStatus = db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+						mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sending typing notifications is %s."),
+							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
+					}
+					else if (sid->dwId == MSG_ICON_SESSION)
+						mir_sntprintf(wBuf, SIZEOF(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
 				}
-				else if (sid->dwId == MSG_ICON_SESSION)
-					mir_sntprintf(wBuf, SIZEOF(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
-			}
-			else if (sid->tszTooltip)
-				_tcsncpy(wBuf, sid->tszTooltip, SIZEOF(wBuf));
+				else if (sid->tszTooltip)
+					_tcsncpy(wBuf, sid->tszTooltip, SIZEOF(wBuf));
 
-			if (wBuf[0]) {
+				if (wBuf[0]) {
+					CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
+					tooltip_active = TRUE;
+				}
+			}
+			SendMessage(hWnd, SB_GETRECT, 1, (LPARAM)&rc);
+			if (PtInRect(&rc, pt)) {
+				int iLength = 0;
+				GETTEXTLENGTHEX gtxl = {0};
+				int iQueued = db_get_dw(dat->hContact, "SendLater", "count", 0);
+				gtxl.codepage = CP_UTF8;
+				gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
+				iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+				tooltip_active = TRUE;
+
+				const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
+
+				mir_sntprintf(wBuf, SIZEOF(wBuf), szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
 				CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
-				tooltip_active = TRUE;
 			}
-		}
-		SendMessage(hWnd, SB_GETRECT, 1, (LPARAM)&rc);
-		if (PtInRect(&rc, pt)) {
-			int iLength = 0;
-			GETTEXTLENGTHEX gtxl = {0};
-			int iQueued = db_get_dw(dat->hContact, "SendLater", "count", 0);
-			gtxl.codepage = CP_UTF8;
-			gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
-			iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
-			tooltip_active = TRUE;
 
-			const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
+			if (SendMessage(dat->pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
+				HDC hdc;
+				int iLen=SendMessage(dat->pContainer->hwndStatus,SB_GETTEXTLENGTH,0,0);
+				SendMessage(hWnd, SB_GETRECT, 0, (LPARAM)&rc);
+				GetTextExtentPoint32( hdc=GetDC( dat->pContainer->hwndStatus), wBuf, iLen, &size );
+				ReleaseDC (dat->pContainer->hwndStatus,hdc);
 
-			mir_sntprintf(wBuf, SIZEOF(wBuf), szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
-			CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
-		}
+				if (PtInRect(&rc,pt)&&((rc.right-rc.left)<size.cx)) {
+					DBVARIANT dbv={0};
 
-		if (SendMessage(dat->pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
-			HDC hdc;
-			int iLen=SendMessage(dat->pContainer->hwndStatus,SB_GETTEXTLENGTH,0,0);
-			SendMessage(hWnd, SB_GETRECT, 0, (LPARAM)&rc);
-			GetTextExtentPoint32( hdc=GetDC( dat->pContainer->hwndStatus), wBuf, iLen, &size );
-			ReleaseDC (dat->pContainer->hwndStatus,hdc);
+					if (dat->bType == SESSIONTYPE_CHAT)
+						db_get_ts(dat->hContact,dat->szProto,"Topic",&dbv);
 
-			if (PtInRect(&rc,pt)&&((rc.right-rc.left)<size.cx)) {
-				DBVARIANT dbv={0};
-
-				if (dat->bType == SESSIONTYPE_CHAT)
-					db_get_ts(dat->hContact,dat->szProto,"Topic",&dbv);
-
-				tooltip_active = TRUE;
-				CallService("mToolTip/ShowTipW", (WPARAM)dbv.ptszVal, (LPARAM)&ti);
-				if (dbv.pszVal)
-					db_free(&dbv);
+					tooltip_active = TRUE;
+					CallService("mToolTip/ShowTipW", (WPARAM)dbv.ptszVal, (LPARAM)&ti);
+					if (dbv.pszVal)
+						db_free(&dbv);
+				}
 			}
 		}
 		break;
