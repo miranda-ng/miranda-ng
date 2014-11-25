@@ -686,22 +686,19 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			int uid = json_as_int(json_get(pDlg, "user_id"));
 			MCONTACT hContact = FindUser(uid, true);
 			
-			if (getDword(hContact, "lastmsgid", -1) == -1 && numUnread){
-				setDword(hContact, "new_lastmsgid", mid);
-				GetHistoryDlgMessages(hContact, 0, numUnread, -1);
-			}
+			if (getDword(hContact, "lastmsgid", -1) == -1 && numUnread)
+				GetServerHistory(hContact, 0, numUnread, 0, 0, true);
 			else
 				GetHistoryDlg(hContact, mid);
 			
-			if (m_iMarkMessageReadOn == markOnReceive&&numUnread)
+			if (m_iMarkMessageReadOn == markOnReceive && numUnread)
 				MarkMessagesRead(hContact);
 		}
 		else if (numUnread) {
 			int mid = json_as_int(json_get(pDlg, "id"));
 			int uid = json_as_int(json_get(pDlg, "user_id"));
 			MCONTACT hContact = FindUser(uid, true);
-			setDword(hContact, "new_lastmsgid", mid);
-			GetHistoryDlgMessages(hContact, 0, numUnread, -1);
+			GetServerHistory(hContact, 0, numUnread, 0, 0, true);
 			
 			if (m_iMarkMessageReadOn == markOnReceive)
 				MarkMessagesRead(hContact);

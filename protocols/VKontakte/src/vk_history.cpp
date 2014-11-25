@@ -32,9 +32,6 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 	if (userID == -1)
 		return 0;
 
-	setByte(hContact, "ImportHistory", 1);
-	setDword(hContact, "lastmsgid", 0);
-
 	HANDLE hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {
 		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
@@ -42,53 +39,119 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 		hDBEvent = hDBEventNext;
 	}
 
-	debugLogA("CVkProto::SvcGetAllServerHistory");
-	GetHistoryDlgMessages(hContact, 0, INT_MAX, -1);
+	db_unset(hContact, m_szModuleName, "lastmsgid");
+	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, 0);
+	return 1;
+}
+
+INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast1Day(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcGetServerHistoryLast1Day");
+	if (!IsOnline())
+		return 0;
+
+	GetServerHistoryLastNDay(hContact, 1);
+	return 1;
+}
+
+INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast3Day(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcGetServerHistoryLast3Day");
+	if (!IsOnline())
+		return 0;
+
+	GetServerHistoryLastNDay(hContact, 3);
+	return 1;
+}
+
+INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast7Day(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcGetServerHistoryLast7Day");
+	if (!IsOnline())
+		return 0;
+
+	GetServerHistoryLastNDay(hContact, 7);
+	return 1;
+}
+
+INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast30Day(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcGetServerHistoryLast30Day");
+	if (!IsOnline())
+		return 0;
+
+	GetServerHistoryLastNDay(hContact, 30);
+	return 1;
+}
+
+INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast90Day(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcGetServerHistoryLast90Day");
+	if (!IsOnline())
+		return 0;
+
+	GetServerHistoryLastNDay(hContact, 90);
 	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
+{
+	debugLogA("CVkProto::SvcGetServerHistoryLastNDay %d", NDay);
+	if (!IsOnline())
+		return;
+
+	UINT iTime = time(0) - 60 * 60 * 24 * NDay;
+	
+	HANDLE hDBEvent = db_event_first(hContact);
+	while (hDBEvent) {
+		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get(hDBEvent, &dbei);
+		if (dbei.timestamp > iTime)
+			db_event_delete(hContact, hDBEvent);
+		hDBEvent = hDBEventNext;
+	}
+	
+	db_unset(hContact, m_szModuleName, "lastmsgid");
+	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, iTime, 0);
+}
+
+void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once)
+{
+	debugLogA("CVkProto::GetServerHistory %d %d %d %d %d", iOffset, iCount, iTime, iLastMsgId, (int)once);
+	if (!IsOnline())
+		return;
+	
+	LONG userID = getDword(hContact, "ID", -1);
+	if (-1 == userID)
+		return;
+
+	CMStringA code, formatcode = "var iOffset=%d;var iReqCount=%d;var userID=%d;var iTime=%d;var lastMid=%d;"
+		"var Hist=API.messages.getHistory({\"user_id\":userID,\"count\":iReqCount,\"offset\":iOffset});"
+		"var allCount=Hist.count;var ext=Hist.items.length;var index=0;"
+		"while(ext!=0){if(Hist.items[index].date>iTime){if(Hist.items[index].id>lastMid)"
+		"{index=index+1;ext=ext-1;}else ext=0;}else ext=0;};"
+		"var ret=Hist.items.slice(0,index); return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"once\":%d,\"rcount\":iReqCount};";
+
+	code.AppendFormat(formatcode, iOffset, iCount, userID, iTime, iLastMsgId, (int)once);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveHistoryMessages)
+		<< CHAR_PARAM("code", code)
+		<< VER_API)->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);
+}
+
 void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 {
 	debugLogA("CVkProto::GetHistoryDlg %d", iLastMsg);
+
 	int lastmsgid = getDword(hContact, "lastmsgid", -1);
 	if (lastmsgid == -1 || !IsOnline()) {
 		setDword(hContact, "lastmsgid", iLastMsg);
 		return;
 	}
-	int maxOffset = iLastMsg - lastmsgid;
-	setDword(hContact, "new_lastmsgid", iLastMsg);
-	GetHistoryDlgMessages(hContact, 0, maxOffset, -1);
-}
 
-void CVkProto::GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCount, int lastcount)
-{
-	debugLogA("CVkProto::GetHistoryDlgMessages");
-	LONG userID = getDword(hContact, "ID", -1);
-	if (-1 == userID)
-		return;
-
-	if (lastcount == 0 || iMaxCount < 1 || !IsOnline()) {
-		setDword(hContact, "lastmsgid", getDword(hContact, "new_lastmsgid", -1));
-		db_unset(hContact, m_szModuleName, "new_lastmsgid");
-		if (getBool(hContact, "ImportHistory", false))
-			MsgPopup(hContact, TranslateT("History import is complete"), TranslateT("History import"));
-		db_unset(hContact, m_szModuleName, "ImportHistory");
-		return;
-	}
-
-	int iReqCount = iMaxCount > MAXHISTORYMIDSPERONE ? MAXHISTORYMIDSPERONE : iMaxCount;
-
-	debugLogA("CVkProto::GetHistoryDlgMessages %d %d %d", userID, iOffset, iReqCount);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getHistory.json", true, &CVkProto::OnReceiveHistoryMessages)
-		<< INT_PARAM("offset", iOffset)
-		<< INT_PARAM("count", iReqCount)
-		<< INT_PARAM("user_id", userID)
-		<< VER_API;
-
-	pReq->pUserInfo = new CVkSendMsgParam(hContact, iOffset, iMaxCount);
-	Push(pReq);
+	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, lastmsgid);
 }
 
 void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -102,30 +165,22 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 	if (pResponse == NULL)
 		return;
 
-	CMStringA mids;
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	int numMessages = json_as_int(json_get(pResponse, "count")),
-		i = 0,
-		lastmsgid = getDword(param->hContact, "lastmsgid", -1),
-		mid = -1;
-
+	int iCount = json_as_int(json_get(pResponse, "count"));
+	int iTime = json_as_int(json_get(pResponse, "datetime"));
 	JSONNODE *pMsgs = json_get(pResponse, "items");
+	int iLastMsgId = getDword(param->hContact, "lastmsgid", -1);
+	int iIndex = iCount;
+	int count = 0;
 
-	int new_lastmsgid = getDword(param->hContact, "new_lastmsgid", -1);
-	int his = getByte(param->hContact, "ImportHistory", 0);
-
-	for (i = 0; i < numMessages; i++) {
-		JSONNODE *pMsg = json_at(pMsgs, i);
+	for (iIndex = (iCount - 1); iIndex >= 0; iIndex--) {
+		JSONNODE *pMsg = json_at(pMsgs, iIndex);
 		if (pMsg == NULL)
-			break;
+			continue;
 
-		mid = json_as_int(json_get(pMsg, "id"));
-		if (his && new_lastmsgid == -1) {
-			new_lastmsgid = mid;
-			setDword(param->hContact, "new_lastmsgid", mid);
-		}
-		if (mid <= lastmsgid)
-			break;
+		int mid = json_as_int(json_get(pMsg, "id"));
+		if (iLastMsgId < mid) 
+			iLastMsgId = mid;	
 
 		char szMid[40];
 		_itoa(mid, szMid, 10);
@@ -153,9 +208,14 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)strlen(szMid);
 		ProtoChainRecvMsg(hContact, &recv);
+		count++;
 	}
-	GetHistoryDlgMessages(param->hContact, param->iMsgID + i, param->iCount - i, i);
+	setDword(param->hContact, "lastmsgid", iLastMsgId);
+
+	int once = json_as_int(json_get(pResponse, "once"));
+	int iRCount = json_as_int(json_get(pResponse, "rcount"));
+	if (count == iRCount && once == 0)
+		GetServerHistory(param->hContact, param->iCount + count, iRCount, iTime, param->iMsgID);
+
 	delete param;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
