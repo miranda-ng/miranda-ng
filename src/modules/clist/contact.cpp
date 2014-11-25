@@ -104,9 +104,11 @@ int fnCompareContacts(const ClcContact* c1, const ClcContact* c2)
 			return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 		}
 		/* both are online, now check protocols */
-		rc = lstrcmpA(c1->proto, c2->proto);
-		if (rc != 0 && (c1->proto != NULL && c2->proto != NULL))
-			return rc;
+		if (c1->proto != NULL && c2->proto != NULL) {
+			rc = lstrcmpA(c1->proto, c2->proto);
+			if (rc != 0)
+				return rc;
+		}
 		/* protocols are the same, order by display name */
 	}
 
