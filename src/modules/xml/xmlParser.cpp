@@ -1917,11 +1917,13 @@ int XMLNode::CreateXMLStringR(XMLNodeData *pEntry, XMLSTR lpszMarker, int nForma
 	int cb = nFormat<0?0:nFormat;
 	int cbElement;
 	int nChildFormat = -1;
-	int nElementI = pEntry->nChild+pEntry->nText+pEntry->nClear;
+	int nElementI;
 	int i, j;
-	if ((nFormat>=0)&&(nElementI == 1)&&(pEntry->nText == 1)&&(!pEntry->isDeclaration)) nFormat = -2;
 
 	assert(pEntry);
+
+	nElementI = pEntry->nChild+pEntry->nText+pEntry->nClear;
+	if ((nFormat>=0)&&(nElementI == 1)&&(pEntry->nText == 1)&&(!pEntry->isDeclaration)) nFormat = -2;
 
 #define LENSTR(lpsz) (lpsz ? xstrlen(lpsz) : 0)
 
@@ -3027,13 +3029,22 @@ void XMLParserBase64Tool::alloc(int newsize)
 
 unsigned char *XMLParserBase64Tool::decode(XMLCSTR data, int *outlen, XMLError *xe)
 {
-	if (xe) *xe = eXMLErrorNone;
-	if (!data) { *outlen = 0; return (unsigned char*)""; }
+	if (xe)
+		*xe = eXMLErrorNone;
+	if (!data) {
+		if (outlen)
+			*outlen = 0;
+		return (unsigned char*)""; // XXX: check me!
+	}
+	
 	unsigned int len = decodeSize(data, xe);
-	if (outlen) *outlen = len;
-	if (!len) return NULL;
-	alloc(len+1);
-	if(!decode(data, (unsigned char*)buf, len, xe)) { return NULL; }
+	if (outlen)
+		*outlen = len;
+	if (!len)
+		return NULL;
+	alloc(len+1); // XXX: check me!
+	if(!decode(data, (unsigned char*)buf, len, xe))
+		return NULL;
 	return (unsigned char*)buf;
 }
 
