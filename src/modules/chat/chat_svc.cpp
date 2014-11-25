@@ -420,7 +420,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	switch (gcd->iType) {
 	case GC_EVENT_ADDGROUP:
 	{
-		STATUSINFO *si = ci.SM_AddStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszStatus);
+		STATUSINFO *si = ci.SM_AddStatus(gcd->ptszID, gcd->pszModule, gce->ptszStatus);
 		if (si && gce->dwItemData)
 			si->hIcon = CopyIcon((HICON)gce->dwItemData);
 	}
@@ -438,10 +438,10 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		return DoControl(gce, wParam);
 
 	case GC_EVENT_SETCONTACTSTATUS:
-		return ci.SM_SetContactStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
+		return ci.SM_SetContactStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
 
 	case GC_EVENT_TOPIC:
-		if (si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule)) {
+		if (si = ci.SM_FindSession(gcd->ptszID, gcd->pszModule)) {
 			if (gce->ptszText) {
 				replaceStrT(si->ptszTopic, RemoveFormatting(gce->ptszText));
 				db_set_ts(si->hContact, si->pszModule, "Topic", si->ptszTopic);
@@ -454,25 +454,25 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case GC_EVENT_ADDSTATUS:
-		ci.SM_GiveStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
+		ci.SM_GiveStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, gce->ptszStatus);
 		bIsHighlighted = ci.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
-		ci.SM_TakeStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
+		ci.SM_TakeStatus(gcd->ptszID, gcd->pszModule, gce->ptszUID, gce->ptszStatus);
 		bIsHighlighted = ci.IsHighlighted(NULL, gce);
 		break;
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
-		if (!gce->bIsMe && gce->pDest->ptszID && gce->ptszText) {
-			si = ci.SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
+		if (!gce->bIsMe && gcd->ptszID && gce->ptszText) {
+			si = ci.SM_FindSession(gcd->ptszID, gcd->pszModule);
 			bIsHighlighted = ci.IsHighlighted(si, gce);
 		}
 		break;
 
 	case GC_EVENT_NICK:
-		ci.SM_ChangeNick(gce->pDest->ptszID, gce->pDest->pszModule, gce);
+		ci.SM_ChangeNick(gcd->ptszID, gcd->pszModule, gce);
 		bIsHighlighted = ci.IsHighlighted(NULL, gce);
 		break;
 
@@ -516,13 +516,13 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		si = ci.SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old stuyle mode notifications. Should not affect any other protocol
-		if ((gce->pDest->iType == GC_EVENT_ADDSTATUS || gce->pDest->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG))
+		if ((gcd->iType == GC_EVENT_ADDSTATUS || gcd->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG))
 			return 0;
 
-		if (gce && gce->pDest->iType == GC_EVENT_JOIN && gce->time == 0)
+		if (gcd->iType == GC_EVENT_JOIN && gce->time == 0)
 			return 0;
 
-		if (si && (si->bInitDone || gce->pDest->iType == GC_EVENT_TOPIC || (gce->pDest->iType == GC_EVENT_JOIN && gce->bIsMe))) {
+		if (si && (si->bInitDone || gcd->iType == GC_EVENT_TOPIC || (gcd->iType == GC_EVENT_JOIN && gce->bIsMe))) {
 			int isOk = ci.SM_AddEvent(pWnd, pMod, gce, bIsHighlighted);
 			if (ci.OnAddLog)
 				ci.OnAddLog(si, isOk);
@@ -537,7 +537,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (bRemoveFlag)
-		return ci.SM_RemoveUser(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID) == 0;
+		return ci.SM_RemoveUser(gcd->ptszID, gcd->pszModule, gce->ptszUID) == 0;
 
 	return GC_EVENT_ERROR;
 }
