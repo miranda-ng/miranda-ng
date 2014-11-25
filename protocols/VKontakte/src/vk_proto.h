@@ -16,6 +16,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #define PS_CREATECHAT "/CreateNewChat"
+#define PS_GETSERVERHISTORY "/SyncHistory"
+#define PS_GETSERVERHISTORYLAST1DAY "/GetServerHystoryLast1Day"
+#define PS_GETSERVERHISTORYLAST3DAY "/GetServerHystoryLast3Day"
+#define PS_GETSERVERHISTORYLAST7DAY "/GetServerHystoryLast7Day"
+#define PS_GETSERVERHISTORYLAST30DAY "/GetServerHystoryLast30Day"
+#define PS_GETSERVERHISTORYLAST90DAY "/GetServerHystoryLast90Day"
 #define PS_GETALLSERVERHISTORY "/GetAllServerHystory"
 #define PS_VISITPROFILE "/VisitProfile"
 #define PS_ADDASFRIEND "/AddAsFriend"
@@ -238,9 +244,17 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcDeleteFriend(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcBanUser(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcDestroyKickChat(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcOpenBroadcast(WPARAM hContact, LPARAM);
+
+	//==== History Menus ==================================================================
+
+	INT_PTR __cdecl SvcGetServerHistoryLast1Day(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGetServerHistoryLast3Day(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGetServerHistoryLast7Day(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGetServerHistoryLast30Day(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGetServerHistoryLast90Day(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
 	void InitMenus();
 	void UnInitMenus();
 	int  __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
@@ -255,6 +269,7 @@ struct CVkProto : public PROTO<CVkProto>
 	int __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
 	int __cdecl OnDbEventRead(WPARAM, LPARAM);
 	int __cdecl OnDbSettingChanged(WPARAM, LPARAM);
+
 	//==== Search ========================================================================
 
 	void __cdecl SearchBasicThread(void* id);
@@ -270,6 +285,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReciveUploadServer(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUpload(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUploadFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
@@ -298,9 +314,10 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
+	void GetServerHistoryLastNDay(MCONTACT hContact, int NDay);
+	void GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once = false);
 	void OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq);
 	void GetHistoryDlg(MCONTACT hContact, int iLastMsg);
-	void GetHistoryDlgMessages(MCONTACT hContact, int iOffset, int iMaxCount, int lastcount);
 
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -342,7 +359,6 @@ private:
 	CMStringA m_prevUrl;
 
 	enum CLMenuIndexes {
-		CMI_GETALLSERVERHISTORY,
 		CMI_VISITPROFILE,
 		CMI_ADDASFRIEND,
 		CMI_DELETEFRIEND,
@@ -350,7 +366,18 @@ private:
 		CMI_REPORTABUSE,
 		CMI_DESTROYKICKCHAT,
 		CMI_OPENBROADCAST,
+		CMI_GETSERVERHISTORY,
 		CMI_COUNT
+	};
+	enum CLMenuHistoruIndexes {
+		CHMI_GETSERVERHISTORY,
+		CHMI_GETSERVERHISTORYLAST1DAY,
+		CHMI_GETSERVERHISTORYLAST3DAY,
+		CHMI_GETSERVERHISTORYLAST7DAY,
+		CHMI_GETSERVERHISTORYLAST30DAY,
+		CHMI_GETSERVERHISTORYLAST90DAY,
+		CHMI_GETALLSERVERHISTORY,
+		CHMI_COUNT
 	};
 	enum ProtoMenuIndexes {
 		PMI_CREATECHAT,
@@ -359,6 +386,7 @@ private:
 	};
 
 	HGENMENU g_hContactMenuItems[CMI_COUNT];
+	HGENMENU g_hContactHistoryMenuItems[CHMI_COUNT];
 	HGENMENU g_hProtoMenuItems[PMI_COUNT];
 
 	struct Cookie

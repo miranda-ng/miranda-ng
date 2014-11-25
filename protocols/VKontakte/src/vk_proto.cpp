@@ -129,6 +129,11 @@ void CVkProto::InitMenus()
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CVkProto::OnPreBuildContactMenu);
 
 	//Contact Menu Services
+	CreateProtoService(PS_GETSERVERHISTORYLAST1DAY, &CVkProto::SvcGetServerHistoryLast1Day);
+	CreateProtoService(PS_GETSERVERHISTORYLAST3DAY, &CVkProto::SvcGetServerHistoryLast3Day);
+	CreateProtoService(PS_GETSERVERHISTORYLAST7DAY, &CVkProto::SvcGetServerHistoryLast7Day);
+	CreateProtoService(PS_GETSERVERHISTORYLAST30DAY, &CVkProto::SvcGetServerHistoryLast30Day);
+	CreateProtoService(PS_GETSERVERHISTORYLAST90DAY, &CVkProto::SvcGetServerHistoryLast90Day);
 	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
 	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
 	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
@@ -167,13 +172,6 @@ void CVkProto::InitMenus()
 	mi.position = -200001000 + CMI_VISITPROFILE;
 	mi.ptszName = LPGENT("Visit profile");
 	g_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi);
-
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
-	mi.position = -200001000 + CMI_GETALLSERVERHISTORY;
-	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
-	mi.ptszName = LPGENT("Reload all messages from vk.com");
-	mi.pszService = szService;
-	g_hContactMenuItems[CMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_ADDASFRIEND);
 	mi.position = -200001000 + CMI_ADDASFRIEND;
@@ -216,14 +214,66 @@ void CVkProto::InitMenus()
 	mi.ptszName = LPGENT("Open broadcast");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_OPENBROADCAST] = Menu_AddContactMenuItem(&mi);
+
+	// Sync history menu
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORY);
+	mi.position = -200001000 + CMI_GETSERVERHISTORY;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+	mi.ptszName = LPGENT("Reload messages from vk.com...");
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_GETSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
+		
+	mi.flags |= CMIF_CHILDPOPUP;
+	mi.hParentMenu = g_hContactMenuItems[CMI_GETSERVERHISTORY];
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST1DAY);
+	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST1DAY;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+	mi.ptszName = LPGENT("for last 1 day");
+	mi.pszService = szService;
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST1DAY] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST3DAY);
+	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST3DAY;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+	mi.ptszName = LPGENT("for last 3 days");
+	mi.pszService = szService;
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST3DAY] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST7DAY);
+	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST7DAY;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+	mi.ptszName = LPGENT("for last week");
+	mi.pszService = szService;
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST7DAY] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST30DAY);
+	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST30DAY;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+	mi.ptszName = LPGENT("for last 30 days");
+	mi.pszService = szService;
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST30DAY] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST90DAY);
+	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST90DAY;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+	mi.ptszName = LPGENT("for last 90 days");
+	mi.pszService = szService;
+	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST90DAY] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
+	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETALLSERVERHISTORY;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
+	mi.ptszName = LPGENT("for all time");
+	mi.pszService = szService;
+	g_hContactHistoryMenuItems[CHMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
+
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	bool bisFriend = getByte(hContact, "Auth", -1)==0;
 	bool bisBroadcast = !(CMString(db_get_tsa(hContact, m_szModuleName, "AudioUrl")).IsEmpty());
-	
-	Menu_ShowItem(g_hContactMenuItems[CMI_GETALLSERVERHISTORY], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend);
@@ -231,6 +281,9 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(g_hContactMenuItems[CMI_REPORTABUSE], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact) && getBool(hContact, "off", false));
 	Menu_ShowItem(g_hContactMenuItems[CMI_OPENBROADCAST], !isChatRoom(hContact) && bisBroadcast);
+	Menu_ShowItem(g_hContactMenuItems[CMI_GETSERVERHISTORY], !isChatRoom(hContact));
+	for (int i = 0; i < CHMI_COUNT; i++)
+		Menu_ShowItem(g_hContactHistoryMenuItems[i], !isChatRoom(hContact));
 	return 0;
 }
 
@@ -238,6 +291,9 @@ void CVkProto::UnInitMenus()
 {
 	for (int i = 0; i < PMI_COUNT; i++)
 		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hProtoMenuItems[i], 0);
+	
+	for (int i = 0; i < CHMI_COUNT; i++)
+		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactHistoryMenuItems[i], 0);
 
 	for (int i = 0; i < CMI_COUNT; i++)
 		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hContactMenuItems[i], 0);
