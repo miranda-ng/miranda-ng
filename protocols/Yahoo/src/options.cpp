@@ -212,9 +212,9 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 			GetDlgItemTextA(hwndDlg, IDC_LOGINSERVER, str, sizeof( str ));
 			
 			DBVARIANT dbv;
+			dbv.pszVal = NULL;
 			if ( ppro->getString( YAHOO_LOGINSERVER, &dbv) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
-				
 			if ( dbv.pszVal != NULL)
 				db_free(&dbv);
 
