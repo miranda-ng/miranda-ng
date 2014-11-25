@@ -929,7 +929,7 @@ panel_found:
 					break;
 				case ID_TABMENU_CLOSEOTHERTABS:
 					CloseOtherTabs(hwndTab, *dat);
-					break;                
+					break;
 				case ID_TABMENU_SAVETABPOSITION:
 					db_set_dw(dat->hContact, SRMSGMOD_T, "tabindex", dat->iTabID * 100);
 					break;
