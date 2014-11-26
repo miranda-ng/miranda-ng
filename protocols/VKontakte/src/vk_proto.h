@@ -437,7 +437,6 @@ private:
 		m_bOnline,
 		m_bHideChats,
 		m_bMesAsUnread,
-		m_bAutoSyncHistory,
 		m_bUseLocalTime,
 		m_bReportAbuse,
 		m_bClearServerHistory,
@@ -449,10 +448,13 @@ private:
 		m_bUserForceOnlineOnActivity;
 
 	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
-	int		m_iMarkMessageReadOn;
+	int m_iMarkMessageReadOn; 
+	
+	enum SyncHistoryMetod{ syncOff, syncAuto, sync1Days, sync3Days };
+	int m_iSyncHistoryMetod;
 	
 	enum MusicSendMetod{ sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
-	int		m_iMusicSendMetod;
+	int	m_iMusicSendMetod;
 
 	LONG	m_myUserId;
 	ptrT	m_defaultGroup;

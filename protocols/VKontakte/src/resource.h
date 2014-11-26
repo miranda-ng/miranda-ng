@@ -35,9 +35,6 @@
 #define IDC_CONTACT                     1015
 #define IDC_AUTOCLEAN                   1020
 #define IDC_MESASUREAD                  1025
-#define IDC_MARKREADONREPLY             1026
-#define IDC_SYNCHISTOTYONONLINE         1027
-#define IDC_MARKREADONTYPING            1028
 #define IDC_USE_LOCAL_TIME              1029
 #define IDC_REPORT_ABUSE                1030
 #define IDC_CLEAR_SERVER_HISTORY        1031
@@ -56,6 +53,11 @@
 #define IDC_SEND_MUSIC_STATUS           1046
 #define IDC_SEND_MUSIC_BROADCAST        1047
 #define IDC_SEND_MUSIC_BROADCAST_AND_STATUS 1048
+#define IDC_STATIC_SYNC_HISTORY         1049
+#define IDC_SYNC_OFF                    1050
+#define IDC_SYNC_AUTO                   1051
+#define IDC_SYNC_LAST1DAY               1052
+#define IDC_SYNC_LAST3DAY               1053
 
 // Next default values for new objects
 // 
@@ -64,7 +66,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1049
+#define _APS_NEXT_CONTROL_VALUE         1054
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

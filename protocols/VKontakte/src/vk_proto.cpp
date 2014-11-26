@@ -64,7 +64,6 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bServerDelivery = getBool("ServerDelivery", true);
 	m_bHideChats = getBool("HideChats", true);
 	m_bMesAsUnread = getBool("MesAsUnread", false);
-	m_bAutoSyncHistory = getBool("AutoSyncHistory", true);
 	m_bUseLocalTime = getBool("UseLocalTime", false);
 	m_bReportAbuse = getBool("ReportAbuseOnBanUser", false);
 	m_bClearServerHistory = getBool("ClearServerHistoryOnBanUser", false);
@@ -75,8 +74,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bAddImgBbc = getBool("AddImgBbc", false);
 	m_bStikersAsSmyles = getBool("StikersAsSmyles", false);
 	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity", false);
-	
 	m_iMusicSendMetod = getByte("MusicSendMetod", sendBroadcastOnly);
+	m_iSyncHistoryMetod = getByte("SyncHistoryMetod", syncOff);
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
 	db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), m_iMusicSendMetod == 0 ? 0 : 1);

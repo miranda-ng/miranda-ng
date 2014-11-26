@@ -144,14 +144,24 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 {
 	debugLogA("CVkProto::GetHistoryDlg %d", iLastMsg);
-
-	int lastmsgid = getDword(hContact, "lastmsgid", -1);
-	if (lastmsgid == -1 || !IsOnline()) {
-		setDword(hContact, "lastmsgid", iLastMsg);
-		return;
+	int lastmsgid = -1;
+	switch (m_iSyncHistoryMetod){
+	case syncAuto:
+		lastmsgid = getDword(hContact, "lastmsgid", -1);
+		if (lastmsgid == -1 || !IsOnline()) {
+			setDword(hContact, "lastmsgid", iLastMsg);
+			return;
+		}
+		GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, lastmsgid);
+		break;
+	case sync1Days:
+		GetServerHistoryLastNDay(hContact, 1);
+		break;
+	case sync3Days:
+		GetServerHistoryLastNDay(hContact, 3);
+		break;
 	}
-
-	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, lastmsgid);
+	
 }
 
 void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

@@ -121,13 +121,18 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery);
 		CheckDlgButton(hwndDlg, IDC_USE_LOCAL_TIME, ppro->m_bUseLocalTime);
-		CheckDlgButton(hwndDlg, IDC_SYNCHISTOTYONONLINE, ppro->m_bAutoSyncHistory);
 		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getByte("AutoClean", 0));
 		
 		CheckDlgButton(hwndDlg, IDC_ONREAD, (ppro->m_iMarkMessageReadOn == markOnRead));
 		CheckDlgButton(hwndDlg, IDC_ONRECEIVE, (ppro->m_iMarkMessageReadOn == markOnReceive));
 		CheckDlgButton(hwndDlg, IDC_ONREPLY, (ppro->m_iMarkMessageReadOn == markOnReply));
 		CheckDlgButton(hwndDlg, IDC_ONTYPING, (ppro->m_iMarkMessageReadOn == markOnTyping));
+		
+		CheckDlgButton(hwndDlg, IDC_SYNC_OFF, (ppro->m_iSyncHistoryMetod == syncOff));
+		CheckDlgButton(hwndDlg, IDC_SYNC_AUTO, (ppro->m_iSyncHistoryMetod == syncAuto));
+		CheckDlgButton(hwndDlg, IDC_SYNC_LAST1DAY, (ppro->m_iSyncHistoryMetod == sync1Days));
+		CheckDlgButton(hwndDlg, IDC_SYNC_LAST3DAY, (ppro->m_iSyncHistoryMetod == sync3Days));
+		
 		return TRUE;
 
 	case WM_COMMAND:
@@ -145,12 +150,17 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 		case IDC_DELIVERY: 
 		case IDC_USE_LOCAL_TIME:
-		case IDC_SYNCHISTOTYONONLINE: 
 		case IDC_AUTOCLEAN:
+		
 		case IDC_ONREAD:
 		case IDC_ONRECEIVE:
 		case IDC_ONREPLY:
 		case IDC_ONTYPING:
+		
+		case IDC_SYNC_OFF:
+		case IDC_SYNC_AUTO:
+		case IDC_SYNC_LAST1DAY:
+		case IDC_SYNC_LAST3DAY:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -179,9 +189,6 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						
 			ppro->setByte("AutoClean", IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAN) == BST_CHECKED);
 
-			ppro->m_bAutoSyncHistory = IsDlgButtonChecked(hwndDlg, IDC_SYNCHISTOTYONONLINE) == BST_CHECKED;
-			ppro->setByte("AutoSyncHistory", ppro->m_bAutoSyncHistory);
-
 			ppro->m_bUseLocalTime = IsDlgButtonChecked(hwndDlg, IDC_USE_LOCAL_TIME) == BST_CHECKED;
 			ppro->setByte("UseLocalTime", ppro->m_bUseLocalTime);
 
@@ -194,6 +201,17 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONTYPING) == BST_CHECKED)
 				ppro->m_iMarkMessageReadOn = markOnTyping;
 			ppro->setByte("MarkMessageReadOn", ppro->m_iMarkMessageReadOn);
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_SYNC_OFF) == BST_CHECKED)
+				ppro->m_iSyncHistoryMetod = syncOff;
+			if (IsDlgButtonChecked(hwndDlg, IDC_SYNC_AUTO) == BST_CHECKED)
+				ppro->m_iSyncHistoryMetod = syncAuto;
+			if (IsDlgButtonChecked(hwndDlg, IDC_SYNC_LAST1DAY) == BST_CHECKED)
+				ppro->m_iSyncHistoryMetod = sync1Days;
+			if (IsDlgButtonChecked(hwndDlg, IDC_SYNC_LAST3DAY) == BST_CHECKED)
+				ppro->m_iSyncHistoryMetod = sync3Days;
+
+			ppro->setByte("SyncHistoryMetod", ppro->m_iSyncHistoryMetod);
 		}
 		break;
 

@@ -662,8 +662,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	
 	if (pDlgs == NULL)
 		return;
-	if (m_bAutoSyncHistory&&m_bPopUpSyncHistory)
-		MsgPopup(NULL, TranslateT("Start sync history"), TranslateT("Sync history"));
+
 	for (int i = 0; i < numDlgs; i++) {
 		JSONNODE *pDlg = json_at(pDlgs, i);
 		if (pDlg == NULL)
@@ -681,7 +680,7 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			if (m_chats.find((CVkChatInfo*)&chatid) == NULL)
 				AppendChat(chatid, pDlg);
 		}
-		else if (m_bAutoSyncHistory) {
+		else if (m_iSyncHistoryMetod) {
 			int mid = json_as_int(json_get(pDlg, "id"));
 			int uid = json_as_int(json_get(pDlg, "user_id"));
 			MCONTACT hContact = FindUser(uid, true);
@@ -704,8 +703,6 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 	}
-	if (m_bAutoSyncHistory && m_bPopUpSyncHistory)
-		MsgPopup(NULL, TranslateT("Sync history complete"), TranslateT("Sync history"));
 	RetrieveUsersInfo();
 }
 
