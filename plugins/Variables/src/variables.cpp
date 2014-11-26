@@ -159,20 +159,15 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 	pargv = argv = NULL;
 	//fi->pCount = 0;
 	memcpy(&afi, fi, sizeof(afi));
-	for (pos = 0;pos < _tcslen(string);pos++) {
+	for (pos = 0; pos < _tcslen(string); pos++) {
 		// string may move in memory, iterate by remembering the position in the string
 		cur = string+pos;
 		// mir_free memory from last iteration, this way we can bail out at any time in the loop
-		if (parsedToken != NULL)
-			mir_free(parsedToken);
+		mir_free(parsedToken);
 
-		for (i=0;i<argc;i++)
-			if (argv[i] != NULL)
-				mir_free(argv[i]);
-
-		if (argv != NULL)
-			mir_free(argv);
-
+		for (i = 0; i < argc; i ++)
+			mir_free(argv[i]);
+		mir_free(argv);
 		argc = 0;
 		tcur = scur = token = parsedToken = NULL;
 		pargv = argv = NULL;
@@ -374,12 +369,9 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 	if (parsedToken != NULL)
 		mir_free(parsedToken);
 
-	for ( i=0; i < argc; i++ )
-		if (argv[i] != NULL)
-			mir_free(argv[i]);
-
-	if (argv != NULL)
-		mir_free(argv);
+	for (i = 0; i < argc; i ++)
+		mir_free(argv[i]);
+	mir_free(argv);
 
 	return (TCHAR*)mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
 }
@@ -466,16 +458,17 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam)
 
 TCHAR *formatString(FORMATINFO *fi)
 {
+	if (fi == NULL)
+		return NULL;
 	/* the service to format a given string */
-	if (fi->eCount + fi->pCount > 5000) {
+	if ((fi->eCount + fi->pCount) > 5000) {
 		fi->eCount += 1;
 		fi->pCount += 1;
-		log_debugA("Variables: Overflow protection; %d parses", fi->eCount + fi->pCount);
+		log_debugA("Variables: Overflow protection; %d parses", (fi->eCount + fi->pCount));
 		return NULL;
 	}
-	if ((fi == NULL) || (fi->tszFormat == NULL))
+	if (fi->tszFormat == NULL)
 		return NULL;
-
 	ptrT string( mir_tstrdup(fi->tszFormat));
 	if (string == NULL)
 		return NULL;

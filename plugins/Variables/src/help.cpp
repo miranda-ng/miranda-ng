@@ -756,11 +756,11 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case WM_DESTROY:
 		KillTimer(hwndDlg, IDT_PARSE);
+		if (dat == NULL)
+			break;
 		db_set_dw(NULL, MODULENAME, SETTING_SPLITTERPOS, dat->splitterPos);
-		if (dat != NULL) {
-			mir_free(dat);
-			dat = NULL;
-		}
+		mir_free(dat);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
 
