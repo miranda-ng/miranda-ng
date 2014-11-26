@@ -1224,7 +1224,7 @@ void CSkin::Unload()
 void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON *hIcon)
 {
 	TCHAR buffer[512];
-	if (hIcon)
+	if (hIcon == NULL)
 		return;
 	if (*hIcon != 0)
 		DestroyIcon(*hIcon);
