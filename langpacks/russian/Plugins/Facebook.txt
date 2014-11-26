@@ -117,8 +117,6 @@
 &Данные контакта
 [User &history]
 &История пользователя
-[Notification]
-Уведомление
 [Login error: %s]
 Ошибка входа: %s
 [Unknown error]
@@ -273,6 +271,8 @@
 Уведомления на сайте
 [Show 'Share status' window]
 Сообщение статуса Facebook
+[Notification]
+Уведомление
 [News Feed]
 Новости
 [Other Event]

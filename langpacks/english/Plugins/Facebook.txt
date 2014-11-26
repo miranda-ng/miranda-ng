@@ -65,7 +65,6 @@
 [&Leave chat session]
 [User &details]
 [User &history]
-[Notification]
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 [Unknown error]
@@ -152,6 +151,7 @@
 [Visit profile]
 [Visit notifications]
 [Show 'Share status' window]
+[Notification]
 [News Feed]
 [Other Event]
 [Message read: %s]

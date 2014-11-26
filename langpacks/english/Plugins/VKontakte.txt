@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.28
+;  Version: 0.1.0.29
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31,13 +31,16 @@
 [Contact list group:]
 [Server-side delivery confirmation]
 [Use local time for received messages]
-[Automatically sync last messages]
 [Automatically wipe local contacts missing in your friend list]
 [Mark message as read...]
 [on read]
 [on receive]
 [on reply]
 [on typing]
+[Sync history on protocol online...]
+[automatically]
+[for last 1 day]
+[for last 3 days]
 [Bots challenge test]
 [Instruction:]
 [Submit]
@@ -108,8 +111,6 @@
 [Destroy room]
 [Open broadcast]
 [Reload messages from vk.com...]
-[for last 1 day]
-[for last 3 days]
 [for last week]
 [for last 30 days]
 [for last 90 days]
@@ -121,9 +122,6 @@
 [Cannot add this user to friends as they have put you on their blacklist]
 [Cannot add this user to friends as you put him on blacklist]
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Start sync history]
-[Sync history]
-[Sync history complete]
 [Please authorize me to add you to my friend list.]
 [Are you sure to delete %s from your friend list?]
 [User %s was deleted from your friend list]
