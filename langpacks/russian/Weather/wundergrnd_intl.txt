@@ -365,7 +365,7 @@
 [Light Snow Low Drifting Snow Mist]
 Слабый снег, позёмка, дымка
 [Freezing Fog]
-Туман
+Изморось, туман
 [Light Showers Snow Blowing Snow]
 Снег, метель
 [Freezing Drizzle Mist]
@@ -556,3 +556,5 @@
 Ледяная крупа, 80% вероятность осадков
 [Cloudy]
 Облачно
+[Light Snow Freezing Fog]
+Слабый снег, изморось, туман
