@@ -267,18 +267,19 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 				need_free = 1;
 			}
 
-			GetWindowText(_hwnd, szText, cch + 1);
-			_Flags.B.hasChanged = mir_tcscmp(_pszValue, szText);
-
-			if (need_free) {
-				MIR_FREE(szText);
+			if (szText != NULL) {
+				GetWindowText(_hwnd, szText, cch + 1);
+				_Flags.B.hasChanged = mir_tcscmp(_pszValue, szText);
+				if (need_free)
+					MIR_FREE(szText);
+			} else {
+				_Flags.B.hasChanged = 0;
 			}
 		}
 		InvalidateRect(_hwnd, NULL, TRUE);
 
-		if (_Flags.B.hasChanged) {
+		if (_Flags.B.hasChanged)
 			SendMessage(GetParent(GetParent(_hwnd)), PSM_CHANGED, 0, 0);
-		}
 	}
 }
 

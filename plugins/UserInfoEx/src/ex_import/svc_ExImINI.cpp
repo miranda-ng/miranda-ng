@@ -212,8 +212,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 			ExportContact(ExImContact->hContact, &Modules, file);
 		}
 
-		if (file)
-			fclose(file);
+		fclose(file);
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
 	}
 	return 0;

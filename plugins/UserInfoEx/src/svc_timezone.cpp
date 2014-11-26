@@ -37,12 +37,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 * @retval	1 - failure
 **/
 
-INT_PTR GetContactTimeZoneInformation(WPARAM wParam,LPARAM lParam)
+INT_PTR GetContactTimeZoneInformation(WPARAM wParam, LPARAM lParam)
 {
+	if (lParam == NULL)
+		return (1);
 	//use new core tz interface
-	LPTIME_ZONE_INFORMATION pTimeZoneInformation = (LPTIME_ZONE_INFORMATION)lParam;
-	(*pTimeZoneInformation) = *tmi.getTzi(tmi.createByContact(wParam, 0, 0));
-	return (pTimeZoneInformation == NULL);
+	LPTIME_ZONE_INFORMATION pTimeZoneInformation = tmi.getTzi(tmi.createByContact(wParam, 0, 0));
+	if (pTimeZoneInformation == NULL)
+		return (1);
+	memcpy((void *)lParam, pTimeZoneInformation, sizeof(TIME_ZONE_INFORMATION));
+	return (0);
 }
 
 /**
