@@ -933,30 +933,30 @@ static int ProcessPopup(int reason, LPARAM lParam)
 	case KS_CONN_STATE_RETRY:  // lParam = PROTOCOLSETTINGEX**
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUCONNRETRY, TRUE))
 			return -1;
-		else {
+		if (lParam) {
+			int i;
+			PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX **)lParam;
 			TCHAR protoInfoLine[512], protoInfo[MAX_SECONDLINE];
 			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
 			memset(protoInfo, '\0', sizeof(protoInfo));
 			_tcscpy(protoInfo, _T("\r\n"));
-			PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX **)lParam;
-			for (int i = 0; i < connectionSettings.getCount(); i++)
-				if (_tcslen(ps[i]->tszAccName) > 0 && strlen(ps[i]->szName) > 0)
+			for (i = 0; i < connectionSettings.getCount(); i++) {
+				if (_tcslen(ps[i]->tszAccName) > 0 && strlen(ps[i]->szName) > 0) {
 					if ( db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
 						mir_sntprintf(protoInfoLine, SIZEOF(protoInfoLine), TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->status, GSMDF_TCHAR));
 						_tcsncat(protoInfo, protoInfoLine, SIZEOF(protoInfo) - _tcslen(protoInfo)-1);
 					}
-
-			if (_tcslen(protoInfo) > 0) {
-				// cut the last end of line (this may also be the first one ;))
-				*(protoInfo + _tcslen(protoInfo) - 2) = '\0';
+				}
 			}
-			if (ps)
-				hIcon = LoadSkinnedProtoIcon(ps[0]->szName, SKINICON_STATUS_OFFLINE);
+			i = _tcslen(protoInfo);
+			if (i > 0) /* cut the last end of line (this may also be the first one ;)) */
+				protoInfo[i - 2] = '\0';
+			hIcon = LoadSkinnedProtoIcon(ps[0]->szName, SKINICON_STATUS_OFFLINE);
 
-			if (retryCount == maxRetries-1)
-				mir_sntprintf(text, SIZEOF(text), TranslateT("Resetting status... (last try (%d))%s"), retryCount+1, protoInfo);
+			if (retryCount == (maxRetries - 1))
+				mir_sntprintf(text, SIZEOF(text), TranslateT("Resetting status... (last try (%d))%s"), retryCount + 1, protoInfo);
 			else
-				mir_sntprintf(text, SIZEOF(text), TranslateT("Resetting status... (next retry (%d) in %d s)%s"), retryCount+2, currentDelay/1000, protoInfo);
+				mir_sntprintf(text, SIZEOF(text), TranslateT("Resetting status... (next retry (%d) in %d s)%s"), retryCount + 2, currentDelay / 1000, protoInfo);
 		}
 		break;
 
@@ -965,9 +965,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			return -1;
 
 		if (retryCount == maxRetries-1)
-			mir_sntprintf(text, SIZEOF(text), TranslateT("No internet connection seems available... (last try (%d))"), retryCount+1);
+			mir_sntprintf(text, SIZEOF(text), TranslateT("No internet connection seems available... (last try (%d))"), retryCount + 1);
 		else
-			mir_sntprintf(text, SIZEOF(text), TranslateT("No internet connection seems available... (next retry (%d) in %d s)"), retryCount+2, currentDelay/1000);
+			mir_sntprintf(text, SIZEOF(text), TranslateT("No internet connection seems available... (next retry (%d) in %d s)"), retryCount + 2, currentDelay / 1000);
 		break;
 
 	case KS_CONN_STATE_STOPPEDCHECKING: // lParam == BOOL succes
