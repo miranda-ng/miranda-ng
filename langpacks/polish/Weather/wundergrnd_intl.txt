@@ -556,3 +556,5 @@ Sople lodu 40% szans opadów
 Sople lodu 80% szans opadów
 [Cloudy]
 Pochmurno
+[Light Snow Freezing Fog]
+

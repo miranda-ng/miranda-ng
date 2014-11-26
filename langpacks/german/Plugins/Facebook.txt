@@ -122,8 +122,6 @@ Chatsitzung ver&lassen
 Benutzer&details
 [User &history]
 Kontakt&verlauf
-[Notification]
-Benachrichtigung
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Loginfehler: %s
@@ -287,6 +285,8 @@ Profil besuchen
 Benachrichtigungen besuchen
 [Show 'Share status' window]
 'Status teilen'-Fenster anzeigen
+[Notification]
+Benachrichtigung
 [News Feed]
 Newsfeed
 [Other Event]

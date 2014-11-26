@@ -122,8 +122,6 @@ Znajomy
 &Dane użytkownika
 [User &history]
 &Historia użytkownika
-[Notification]
-Powiadomienie
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Błąd logowania: %s
@@ -287,6 +285,8 @@ Odwiedź profil
 Przejdź do powiadomień
 [Show 'Share status' window]
 Pokaż okno "Udostępnij status"
+[Notification]
+Powiadomienie
 [News Feed]
 Aktualności
 [Other Event]
