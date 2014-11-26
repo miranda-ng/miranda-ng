@@ -145,18 +145,19 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen
 	mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%d%s", id, szFileType);
 }
 
-void CVkProto::SetAvatarUrl(MCONTACT hContact, LPCTSTR ptszUrl)
+void CVkProto::SetAvatarUrl(MCONTACT hContact, CMString &tszUrl)
 {
-	ptrT oldUrl(getTStringA(hContact, "AvatarUrl"));
-	if (!lstrcmp(ptszUrl, oldUrl))
+	CMString oldUrl(getTStringA(hContact, "AvatarUrl"));
+
+	if (tszUrl == oldUrl)
 		return;
 
-	if (ptszUrl == NULL) {
+	if (tszUrl.IsEmpty()) {
 		delSetting(hContact, "AvatarUrl");
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
 	}
 	else {
-		setTString(hContact, "AvatarUrl", ptszUrl);
+		setTString(hContact, "AvatarUrl", tszUrl.GetBuffer());
 		setByte(hContact,"NeedNewAvatar", 1);
 		PROTO_AVATAR_INFORMATIONT AI = { sizeof(AI) };
 		AI.hContact = hContact;
