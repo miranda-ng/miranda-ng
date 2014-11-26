@@ -166,15 +166,13 @@
 [Check for updates]
 Перевірити оновлення
 [Available components list]
-Список компонентів
+Встановити компоненти
 [Update completed]
 Оновлення завершено
 [Update failed]
 Помилка оновлення
 [Plugin info]
 Інформація
-[Plugin list]
-Список плагінів
 [Plugin Updater HTTP connection]
 HTTP-з'єднання PluginUpdater
 [An error occurred while checking for new updates.]
