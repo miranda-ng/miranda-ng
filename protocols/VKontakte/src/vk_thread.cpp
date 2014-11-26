@@ -599,8 +599,10 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (pAttachments != NULL)
 			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments));
 
-		MCONTACT hContact = FindUser(uid, true);
+		MCONTACT hContact = NULL;
 		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
+		if (chat_id == 0)
+			hContact = FindUser(uid, true);
 
 		char szMid[40];
 		_itoa(mid, szMid, 10);
