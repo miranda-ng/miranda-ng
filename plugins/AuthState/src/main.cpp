@@ -15,7 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+   */
 
 #include "commonheaders.h"
 
@@ -30,14 +30,14 @@ int hLangpack;
 BYTE bUseAuthIcon = 0, bUseGrantIcon = 0, bContactMenuItem = 0, bIconsForRecentContacts = 0, bUseAuthGroup = 0;
 
 enum {
-icon_none,
-icon_auth,
-icon_grant,
-icon_both
+	icon_none,
+	icon_auth,
+	icon_grant,
+	icon_both
 };
 
 PLUGININFOEX pluginInfo = {
-    sizeof(PLUGININFOEX),
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -47,7 +47,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {DACE7D41-DFA9-4772-89AE-A59A6153E6B2}
-	{0xdace7d41, 0xdfa9, 0x4772, {0x89, 0xae, 0xa5, 0x9a, 0x61, 0x53, 0xe6, 0xb2}}
+	{ 0xdace7d41, 0xdfa9, 0x4772, { 0x89, 0xae, 0xa5, 0x9a, 0x61, 0x53, 0xe6, 0xb2 } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -64,26 +64,26 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 INT_PTR getIconToUse(MCONTACT hContact, LPARAM lParam)
 {
 	char *proto = GetContactProto(hContact);
-//	if (lParam == 1) return icon_none;
-	if (!db_get_b(hContact,"AuthState","ShowIcons",!bIconsForRecentContacts)) return icon_none;
+	//	if (lParam == 1) return icon_none;
+	if (!db_get_b(hContact, "AuthState", "ShowIcons", !bIconsForRecentContacts)) return icon_none;
 
-	if (db_get_b(0,"ICQ","UseServerCList",0))
-		if (db_get_dw(hContact,proto,"ServerId",1) == 0)
+	if (db_get_b(0, "ICQ", "UseServerCList", 0))
+		if (db_get_dw(hContact, proto, "ServerId", 1) == 0)
 			return icon_both;
 
 	// Facebook contact type
 	int type = db_get_b(hContact, proto, "ContactType", 0);
 
 	if (bUseAuthIcon & bUseGrantIcon)
-		if ((db_get_b(hContact,proto,"Auth",0) && db_get_b(hContact,proto,"Grant",0)) || type == 2)
+		if ((db_get_b(hContact, proto, "Auth", 0) && db_get_b(hContact, proto, "Grant", 0)) || type == 2)
 			return icon_both;
 
 	if (bUseAuthIcon)
-		if (db_get_b(hContact,proto,"Auth",0) || type == 3)
+		if (db_get_b(hContact, proto, "Auth", 0) || type == 3)
 			return icon_auth;
 
 	if (bUseGrantIcon)
-		if (db_get_b(hContact,proto,"Grant",0) || type == 4)
+		if (db_get_b(hContact, proto, "Grant", 0) || type == 4)
 			return icon_grant;
 
 	return icon_none;
@@ -94,27 +94,27 @@ int onExtraImageApplying(WPARAM hContact, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	int usedIcon = getIconToUse(hContact, lParam);
+	int usedIcon = getIconToUse((MCONTACT)hContact, lParam);
 
 	const char *icon;
 	switch (usedIcon) {
-		case icon_both:   icon = "authgrant_icon";  break;
-		case icon_grant:  icon = "grant_icon";  break;
-		case icon_auth:   icon = "auth_icon";  break;
-		default:          icon = NULL;  break;
+	case icon_both:   icon = "authgrant_icon";  break;
+	case icon_grant:  icon = "grant_icon";  break;
+	case icon_auth:   icon = "auth_icon";  break;
+	default:          icon = NULL;  break;
 	}
-	ExtraIcon_SetIcon(hExtraIcon, hContact, icon);
+	ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)hContact, icon);
 	return 0;
 }
 
 int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char *proto = GetContactProto(hContact);
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+	char *proto = GetContactProto((MCONTACT)hContact);
 	if (!proto) return 0;
 
-	if (!lstrcmpA(cws->szModule,proto))
-		if (!lstrcmpA(cws->szSetting,"Auth") || !lstrcmpA(cws->szSetting,"Grant") || !lstrcmpA(cws->szSetting,"ServerId") || !lstrcmpA(cws->szSetting,"ContactType"))
+	if (!lstrcmpA(cws->szModule, proto))
+		if (!lstrcmpA(cws->szSetting, "Auth") || !lstrcmpA(cws->szSetting, "Grant") || !lstrcmpA(cws->szSetting, "ServerId") || !lstrcmpA(cws->szSetting, "ContactType"))
 			onExtraImageApplying(hContact, 1);
 
 	return 0;
@@ -123,7 +123,7 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 int onDBContactAdded(WPARAM hContact, LPARAM lParam)
 {
 	// A new contact added, mark it as recent
-	db_set_b(hContact, MODULENAME, "ShowIcons", 1);
+	db_set_b((MCONTACT)hContact, MODULENAME, "ShowIcons", 1);
 	onExtraImageApplying(hContact, 0);
 
 	return 0;
@@ -131,8 +131,8 @@ int onDBContactAdded(WPARAM hContact, LPARAM lParam)
 
 INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM lParam)
 {
-	byte enabled = db_get_b(hContact,"AuthState","ShowIcons",1);
-	db_set_b(hContact, MODULENAME, "ShowIcons", !enabled);
+	byte enabled = db_get_b((MCONTACT)hContact, "AuthState", "ShowIcons", 1);
+	db_set_b((MCONTACT)hContact, MODULENAME, "ShowIcons", !enabled);
 
 	onExtraImageApplying(hContact, 0);
 	return 0;
@@ -140,25 +140,25 @@ INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM lParam)
 
 int onPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = GetContactProto((MCONTACT)hContact);
 	if (!proto)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR | CMIM_NAME;
-	if (db_get_b(hContact,"AuthState","ShowIcons",1))
+	if (db_get_b((MCONTACT)hContact, "AuthState", "ShowIcons", 1))
 		mi.ptszName = LPGENT("Disable AuthState icons");
 	else
 		mi.ptszName = LPGENT("Enable AuthState icons");
 	Menu_ModifyItem(hUserMenu, &mi);
 
-	Menu_ShowItem(hUserMenu, db_get_b(hContact,proto,"Auth",0) || db_get_b(hContact,proto,"Grant",0) || !db_get_dw(hContact,proto,"ServerId",0));
+	Menu_ShowItem(hUserMenu, db_get_b((MCONTACT)hContact, proto, "Auth", 0) || db_get_b((MCONTACT)hContact, proto, "Grant", 0) || !db_get_dw((MCONTACT)hContact, proto, "ServerId", 0));
 	return 0;
 }
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
-	{ LPGEN("Auth"),  "auth_icon", IDI_AUTH },
+	{ LPGEN("Auth"), "auth_icon", IDI_AUTH },
 	{ LPGEN("Grant"), "grant_icon", IDI_GRANT },
 	{ LPGEN("Auth & Grant"), "authgrant_icon", IDI_AUTHGRANT }
 };
@@ -167,7 +167,7 @@ int onModulesLoaded(WPARAM, LPARAM)
 {
 	// Set initial value for all contacts
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		onExtraImageApplying(hContact, 1);
+		onExtraImageApplying((WPARAM)hContact, 1);
 
 	hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 	if (bContactMenuItem)
