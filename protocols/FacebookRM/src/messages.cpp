@@ -47,7 +47,7 @@ void FacebookProto::SendMsgWorker(void *p)
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, 0);
 	} else {
 		int retries = 5;
-		std::string error_text = "";
+		std::string error_text;
 		int result = SEND_MESSAGE_ERROR;
 		while (result == SEND_MESSAGE_ERROR && retries > 0) {
 			result = facy.send_message(data->hContact, std::string(id), data->msg, &error_text, retries % 2 == 0 ? MESSAGE_INBOX : MESSAGE_MERCURY);
@@ -73,7 +73,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 		return;
 
 	send_chat *data = static_cast<send_chat*>(p);
-	std::string err_message = "";
+	std::string err_message;
 
 	// replace %% back to %, because chat automatically does this to sent messages
 	utils::text::replace_all(&data->msg, "%%", "%");
@@ -194,7 +194,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	facy.flap(REQUEST_MARK_READ, &data);
 }
 
-void FacebookProto::StickerAsSmiley(std::string sticker, std::string url, MCONTACT hContact)
+void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url, MCONTACT hContact)
 {
 	std::string b64 = ptrA( mir_base64_encode((PBYTE)sticker.c_str(), (unsigned)sticker.length()));
 	b64 = utils::url::encode(b64);

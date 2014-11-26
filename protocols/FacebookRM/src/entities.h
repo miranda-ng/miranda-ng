@@ -45,27 +45,10 @@ struct facebook_user
 	facebook_user()
 	{
 		this->handle = NULL;
-		this->user_id = this->real_name = this->nick = this->username = this->image_url = "";
 		this->status_id = ID_STATUS_OFFLINE;
 		this->gender = this->last_active = 0;
 		this->deleted = this->idle = false;
 		this->client = CLIENT_WEB;
-	}
-
-	facebook_user(facebook_user* fu)
-	{
-		this->handle = fu->handle;
-		this->user_id = fu->user_id;
-		this->real_name = fu->real_name;
-		this->nick = fu->nick;
-		this->username = fu->username;
-		this->status_id = fu->status_id;
-		this->gender = fu->gender;
-		this->last_active = fu->last_active;
-		this->image_url = fu->image_url;
-		this->deleted = fu->deleted;		
-		this->idle = fu->idle;
-		this->client = fu->client;
 	}
 
 	TCHAR *getMirVer()
@@ -117,28 +100,11 @@ struct facebook_message
 
 	facebook_message()
 	{
-		this->user_id = this->message_text = this->sender_name = this->message_id = this->thread_id = this->timestamp = "";
 		this->time = 0;
 		this->isUnread = this->isIncoming = true;
 		this->isChat = false;
 		this->type = MESSAGE;
 		this->flag_ = 0;
-	}
-
-	facebook_message(const facebook_message& msg)
-	{
-		this->user_id = msg.user_id;
-		this->sender_name = msg.sender_name;
-		this->message_text = msg.message_text;		
-		this->message_id = msg.message_id;
-		this->message_id = msg.thread_id;
-		this->timestamp = msg.timestamp;
-		this->time = msg.time;
-		this->isIncoming = msg.isIncoming;
-		this->isUnread = msg.isUnread;
-		this->isChat = msg.isChat;
-		this->type = msg.type;
-		this->flag_ = msg.flag_;
 	}
 };
 
@@ -154,7 +120,6 @@ struct facebook_notification
 
 	facebook_notification()
 	{
-		this->user_id = this->text = this->link = this->id = "";
 		this->time = 0;
 		this->seen = false;
 		this->hWndPopup = NULL;
@@ -168,10 +133,7 @@ struct facebook_newsfeed
 	std::string text;
 	std::string link;
 
-	facebook_newsfeed()
-	{
-		this->user_id = this->title = this->text = this->link = "";
-	}
+	facebook_newsfeed() {}
 };
 
 struct send_chat
@@ -208,7 +170,6 @@ struct popup_data
 struct status_data
 {
 	status_data() {
-		this->user_id = this->text = this->url = this->place = this->privacy = "";
 		this->isPage = false;
 	}
 	std::string user_id;
@@ -223,7 +184,6 @@ struct status_data
 struct wall_data
 {
 	wall_data() {
-		this->user_id = "";
 		this->title = NULL;
 		this->isPage = false;
 	}

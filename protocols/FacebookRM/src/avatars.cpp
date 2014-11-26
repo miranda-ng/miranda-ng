@@ -41,7 +41,7 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *
 	return true;
 }
 
-void FacebookProto::CheckAvatarChange(MCONTACT hContact, std::string image_url)
+void FacebookProto::CheckAvatarChange(MCONTACT hContact, const std::string &image_url)
 {
 	std::tstring::size_type pos = image_url.rfind("/");
 	

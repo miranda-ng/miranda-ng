@@ -106,7 +106,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 {
 	debugLogA("RunCaptchaForm: reading picture from %s", captchaUrl.c_str());
-	result = "";
+	result.clear();
 
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;

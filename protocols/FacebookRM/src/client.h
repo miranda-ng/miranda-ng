@@ -37,10 +37,6 @@ public:
 
 	facebook_client()
 	{
-		username_ = password_ = \
-		chat_sequence_num_ = chat_channel_host_ = chat_channel_partition_ = \
-		dtsg_ = csrf_ = logout_hash_ = chat_sticky_num_ = chat_sticky_pool_ = chat_conn_num_ = chat_clientid_ = chat_traceid_ = "";
-
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
 
 		https_ = is_idle_ = is_typing_ = false;
@@ -131,9 +127,9 @@ public:
 
 	unsigned int error_count_;
 
-	bool    handle_entry(std::string method);
-	bool    handle_success(std::string method);
-	bool    handle_error(std::string method, int force_disconnect = 0);
+	bool    handle_entry(const std::string &method);
+	bool    handle_success(const std::string &method);
+	bool    handle_error(const std::string &method, int force_disconnect = 0);
 
 	void __inline increment_error() { this->error_count_++; }
 	void __inline decrement_error() { if (error_count_ > 0) error_count_--; }
@@ -143,7 +139,7 @@ public:
 
 	// Helpers for data
 
-	std::string __inline phstamp(std::string data) { 
+	std::string __inline phstamp(const std::string &data) { 
 		std::stringstream out;
 		out << '2' << this->csrf_ << (int)data.length();
 		return out.str();
@@ -188,7 +184,7 @@ public:
 	std::map<std::string, int> messages_ignore;
 
 	bool    channel();
-	int		send_message(MCONTACT, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method, std::string captchaPersistData = "", std::string captcha = "");
+	int		send_message(MCONTACT, const std::string &message_recipient, const std::string &message_text, std::string *error_text, MessageMethod method, const std::string &captchaPersistData = "", const std::string &captcha = "");
 
 	////////////////////////////////////////////////////////////
 

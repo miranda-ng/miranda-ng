@@ -63,7 +63,7 @@ DWORD utils::time::fix_timestamp(unsigned __int64 mili_timestamp)
 	return (DWORD) mili_timestamp;
 }
 
-DWORD utils::conversion::to_timestamp(std::string data)
+DWORD utils::conversion::to_timestamp(const std::string &data)
 {
 	DWORD timestamp = NULL;
 	if (!utils::conversion::from_string<DWORD>(timestamp, data, std::dec)) {
@@ -97,7 +97,7 @@ std::string utils::conversion::to_string(void* data, WORD type)
 	return out.str();
 }
 
-void utils::text::replace_first(std::string* data, std::string from, std::string to)
+void utils::text::replace_first(std::string* data, const std::string &from, const std::string &to)
 {
 	std::string::size_type position = data->find(from);
 	if (position != std::string::npos)
@@ -106,7 +106,7 @@ void utils::text::replace_first(std::string* data, std::string from, std::string
 	}
 }
 
-void utils::text::replace_all(std::string* data, std::string from, std::string to)
+void utils::text::replace_all(std::string* data, const std::string &from, const std::string &to)
 {
 	std::string::size_type position = 0;
 
@@ -117,7 +117,7 @@ void utils::text::replace_all(std::string* data, std::string from, std::string t
 	}
 }
 
-unsigned int utils::text::count_all(std::string* data, std::string term)
+unsigned int utils::text::count_all(std::string* data, const std::string &term)
 {
 	unsigned int count = 0;
 	std::string::size_type position = 0;
@@ -172,7 +172,7 @@ std::string utils::text::html_entities_decode(std::string data)
 	// http://www.natural-innovations.com/wa/doc-charset.html
 	// http://webdesign.about.com/library/bl_htmlcodes.htm
 
-	std::string new_string = "";
+	std::string new_string;
 	for (std::string::size_type i = 0; i < data.length(); i++)
 	{
 		if (data.at(i) == '&' && (i+1) < data.length() && data.at(i+1) == '#')
@@ -208,7 +208,7 @@ std::string utils::text::edit_html(std::string data)
 {
 	std::string::size_type end = 0;
 	std::string::size_type start = 0;
-	std::string new_string = "";
+	std::string new_string;
   
 	while (end != std::string::npos)
 	{
@@ -224,7 +224,7 @@ std::string utils::text::edit_html(std::string data)
 
 	start = end = 0;
 	data = new_string;
-	new_string = "";
+	new_string.clear();
 
 	while (end != std::string::npos)
 	{
@@ -241,7 +241,7 @@ std::string utils::text::edit_html(std::string data)
 	// Remove "Translate" link
 	start = end = 0;
 	data = new_string;
-	new_string = "";
+	new_string.clear();
 	while (end != std::string::npos)
 	{
 		end = data.find("role=\\\"button\\\">", start);
@@ -291,9 +291,9 @@ std::string utils::text::edit_html(std::string data)
 }
 
 
-std::string utils::text::remove_html(std::string data)
+std::string utils::text::remove_html(const std::string &data)
 {
-	std::string new_string = "";
+	std::string new_string;
 
 	for (std::string::size_type i = 0; i < data.length(); i++)
 	{
@@ -312,9 +312,9 @@ std::string utils::text::remove_html(std::string data)
 	return new_string;
 }
 
-std::string utils::text::slashu_to_utf8(std::string data)
+std::string utils::text::slashu_to_utf8(const std::string &data)
 {
-	std::string new_string = "";
+	std::string new_string;
 
 	for (std::string::size_type i = 0; i < data.length(); i++)
 	{
@@ -332,7 +332,7 @@ std::string utils::text::slashu_to_utf8(std::string data)
 	return new_string;
 }
 
-std::string utils::text::trim(std::string data, bool rtrim)
+std::string utils::text::trim(const std::string &data, bool rtrim)
 {
 	std::string spaces = " \t\r\n";
 	std::string::size_type begin = rtrim ? 0 : data.find_first_not_of(spaces);
@@ -341,7 +341,7 @@ std::string utils::text::trim(std::string data, bool rtrim)
 	return (end != std::string::npos) ? data.substr(begin, end + 1 - begin) : "";
 }
 
-void utils::text::explode(std::string str, std::string separator, std::vector<std::string>* results)
+void utils::text::explode(std::string str, const std::string &separator, std::vector<std::string>* results)
 {
 	std::string::size_type pos;
 	pos = str.find_first_of(separator);
@@ -360,7 +360,7 @@ void utils::text::explode(std::string str, std::string separator, std::vector<st
 std::string utils::text::source_get_value(std::string* data, unsigned int argument_count, ...)
 {
 	va_list arg;
-	std::string ret = "";
+	std::string ret;
 	std::string::size_type start = 0, end = 0;
 	
 	va_start(arg, argument_count);
@@ -389,7 +389,7 @@ std::string utils::text::source_get_value(std::string* data, unsigned int argume
 std::string utils::text::source_get_value2(std::string* data, const char *term, const char *endings, bool wholeString)
 {
 	std::string::size_type start = 0, end = 0;
-	std::string ret = "";
+	std::string ret;
 
 	start = data->find(term);
 	if (start != std::string::npos) {
@@ -408,13 +408,13 @@ std::string utils::text::source_get_value2(std::string* data, const char *term, 
 
 std::string utils::text::source_get_form_data(std::string* data)
 {
-	std::string values = "";
+	std::string values;
 
 	std::string::size_type start = 0;
 	start = data->find("<input", start);
 	while (start != std::string::npos) {		
 		start++;
-		std::string attr = "", value = "";
+		std::string attr, value;
 
 		std::string::size_type pos = data->find("name=\"", start);
 		if (pos != std::string::npos) {
@@ -449,8 +449,9 @@ std::string utils::text::rand_string(int len, const char *chars)
 {
 	std::stringstream out;
 
+	int strLen = (int)strlen(chars);
 	for (int i = 0; i < len; ++i) {
-		out << chars[utils::number::random(0, (int)strlen(chars))];
+		out << chars[utils::number::random(0, strLen)];
 	}
 
 	return out.str();
