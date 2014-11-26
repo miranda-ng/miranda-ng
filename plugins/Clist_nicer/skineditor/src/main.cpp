@@ -648,15 +648,15 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		psd = (SKINDESCRIPTION *)malloc(sizeof(SKINDESCRIPTION));
+		if (psd == NULL)
+			return FALSE;
 		ZeroMemory(psd, sizeof(SKINDESCRIPTION));
 		CopyMemory(psd, (void *)lParam, sizeof(SKINDESCRIPTION));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)psd);
 
-		if (psd) {
-			ID_EXTBK_FIRST = psd->firstItem;
-			ID_EXTBK_LAST = psd->lastItem;
-			StatusItems = psd->StatusItems;
-		}
+		ID_EXTBK_FIRST = psd->firstItem;
+		ID_EXTBK_LAST = psd->lastItem;
+		StatusItems = psd->StatusItems;
 
 		TranslateDialogDefault(hwndDlg);
 		FillItemList(hwndDlg);
