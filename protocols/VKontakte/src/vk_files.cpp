@@ -230,7 +230,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	memcpy(pData, (void *)DataEnd.GetBuffer(), DataEnd.GetLength());
 	// } Body
 
-	pUploadReq->	dataLength = dataLength;
+	pUploadReq->dataLength = (int)dataLength;
 	pUploadReq->pUserInfo = pReq->pUserInfo;
 	Push(pUploadReq);
 }
