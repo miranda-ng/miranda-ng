@@ -212,7 +212,7 @@ bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto)
 
 TCHAR* GetStatusMessageText(MCONTACT hContact)
 {
-	TCHAR *swzMsg = 0;
+	TCHAR *swzMsg = NULL;
 	DBVARIANT dbv;
 
 	char *szProto = GetContactProto(hContact);
@@ -237,7 +237,7 @@ TCHAR* GetStatusMessageText(MCONTACT hContact)
 					return NULL;
 
 			if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
-				if (dbv.ptszVal && _tcslen(dbv.ptszVal) != 0)
+				if (_tcslen(dbv.ptszVal) != 0)
 					swzMsg = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
