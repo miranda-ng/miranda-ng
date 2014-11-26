@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.28
+;  Version: 0.1.0.29
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -55,8 +55,6 @@ E-mail или номер телефона:
 Подтверждение доставки со стороны сервера
 [Use local time for received messages]
 Локальное время для принятых сообщений
-[Automatically sync last messages]
-Автоматически синхронизировать последние сообщения
 [Automatically wipe local contacts missing in your friend list]
 Автоматически удалять локальные контакты, которых нет в списке друзей
 [Mark message as read...]
@@ -69,6 +67,14 @@ E-mail или номер телефона:
 при ответе
 [on typing]
 при наборе текста
+[Sync history on protocol online...]
+Сихронизировать историю при выходе онлайн...
+[automatically]
+автоматически
+[for last 1 day]
+за последний день
+[for last 3 days]
+за последние 3 дня
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
@@ -195,10 +201,6 @@ Cоздать комнату чата
 Открыть трансляцию
 [Reload messages from vk.com...]
 Загрузить историю с сайта...
-[for last 1 day]
-за последний день
-[for last 3 days]
-за последние 3 дня
 [for last week]
 за последнюю неделю
 [for last 30 days]
@@ -219,12 +221,6 @@ Cоздать комнату чата
 Невозможно добавить пользователя в друзья, так как вы находитесь в его чёрном списке
 [Cannot add this user to friends as you put him on blacklist]
 Невозможно добавить пользователя в друзья, так как он находится в вашем чёрном списке
-[Start sync history]
-Синхронизация истории VKontakte начата
-[Sync history]
-Синхронизация истории VKontakte
-[Sync history complete]
-Синхронизация истории VKontakte закончена
 [Please authorize me to add you to my friend list.]
 Пожалуйста, разрешите мне добавить вас в список друзей.
 [Are you sure to delete %s from your friend list?]
