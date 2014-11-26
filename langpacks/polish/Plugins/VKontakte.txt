@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.28
+;  Version: 0.1.0.29
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -56,8 +56,6 @@ Grupa na liście kontaktów:
 Potwierdzenie dostarczenia ze strony serwera
 [Use local time for received messages]
 Używaj czasu lokalnego dla odebranych wiadomości
-[Automatically sync last messages]
-Automatycznie synchronizuj ostatnie wiadomości
 [Automatically wipe local contacts missing in your friend list]
 Automatycznie czyść lokalne kontakty, których brak na twojej liście znajomych
 [Mark message as read...]
@@ -70,6 +68,14 @@ po otrzymaniu
 po udzieleniu odpowiedzi
 [on typing]
 podczas pisania
+[Sync history on protocol online...]
+Synchronizuj historię przy połączeniu z protokołem...
+[automatically]
+automatycznie
+[for last 1 day]
+z ostatniego dnia
+[for last 3 days]
+z ostatnich 3 dni
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
@@ -203,10 +209,6 @@ Zniszcz pokój
 Otwórz transmisję
 [Reload messages from vk.com...]
 Załaduj wiadomości ponownie z vk.com.,,
-[for last 1 day]
-z ostatniego dnia
-[for last 3 days]
-z ostatnich 3 dni
 [for last week]
 z ostatniego tygodnia
 [for last 30 days]
@@ -228,12 +230,6 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieścił cię on n
 [Cannot add this user to friends as you put him on blacklist]
 Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na czarnej liście
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Start sync history]
-Rozpoczęto synchronizację historii
-[Sync history]
-Synchronizacja historii
-[Sync history complete]
-Synchronizacja historii ukończona
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to delete %s from your friend list?]
