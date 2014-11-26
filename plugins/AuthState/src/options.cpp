@@ -15,7 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+   */
 
 #include "commonheaders.h"
 
@@ -37,12 +37,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			case IDC_AUTHICON:
-			case IDC_GRANTICON:
-			case IDC_ENABLEMENUITEM:
-			case IDC_ICONSFORRECENT:
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
+		case IDC_AUTHICON:
+		case IDC_GRANTICON:
+		case IDC_ENABLEMENUITEM:
+		case IDC_ICONSFORRECENT:
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
 		}
 		break;
 
@@ -56,7 +56,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				bIconsForRecentContacts = IsDlgButtonChecked(hwndDlg, IDC_ICONSFORRECENT);
 
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-					onExtraImageApplying(hContact,0);
+					onExtraImageApplying((WPARAM)hContact, 0);
 
 				//Store options values to DB
 				db_set_b(NULL, MODULENAME, "EnableAuthIcon", bUseAuthIcon);
@@ -64,7 +64,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				db_set_b(NULL, MODULENAME, "MenuItem", bContactMenuItem);
 				db_set_b(NULL, MODULENAME, "EnableOnlyForRecent", bIconsForRecentContacts);
 				return TRUE;
-			}
+		}
 	}
 	return FALSE;
 }
