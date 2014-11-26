@@ -389,11 +389,10 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 	ButtonItem *buttonItem = g_ButtonItems;
 	MCONTACT hContact = 0, hFinalContact = 0;
 	char *szModule, *szSetting;
-	int sel = cfg::clcdat ? cfg::clcdat->selection : -1;
 	ClcContact *contact = 0;
 
-	if (sel != -1 && hPassedContact == 0) {
-		sel = pcli->pfnGetRowByIndex(cfg::clcdat, cfg::clcdat->selection, &contact, NULL);
+	if (cfg::clcdat && hPassedContact == 0) {
+		pcli->pfnGetRowByIndex(cfg::clcdat, cfg::clcdat->selection, &contact, NULL);
 		if (contact && contact->type == CLCIT_CONTACT) {
 			hContact = contact->hContact;
 		}
@@ -1371,11 +1370,10 @@ skipbg:
 					LPARAM llParam = 0;
 					MCONTACT hContact = 0;
 					ClcContact *contact = 0;
-					int sel = cfg::clcdat ? cfg::clcdat->selection : -1;
 					int serviceFailure = FALSE;
 
-					if (sel != -1) {
-						sel = pcli->pfnGetRowByIndex(cfg::clcdat, cfg::clcdat->selection, &contact, NULL);
+					if (cfg::clcdat) {
+						pcli->pfnGetRowByIndex(cfg::clcdat, cfg::clcdat->selection, &contact, NULL);
 						if (contact && contact->type == CLCIT_CONTACT) {
 							hContact = contact->hContact;
 						}
