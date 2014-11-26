@@ -54,8 +54,10 @@ int  sstOpSortButtons(const void * vmtbi1, const void * vmtbi2)
 void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
 {																			
 	int i=0;
-	if (!pList) return;
-	for (i=0; i<pList->realCount; i++)	pItemDestructor(pList->items[i]);	
+	if (!pList)
+		return;
+	for (i=0; i<pList->realCount; i++)
+		pItemDestructor(pList->items[i]);	
 	List_Destroy(pList);																											
 	mir_free(pList);
 }
@@ -110,27 +112,15 @@ void li_ZeroQuickList(SortedList *pList)
 
 static void listdestructor(void * input)
 {
-	ButtonData * cbdi=(ButtonData *)input;
+	ButtonData * cbdi = (ButtonData *)input;
 
-	if(cbdi->pszName!=cbdi->pszOpName)
-	{
-		if(cbdi->pszOpName)
-			mir_free(cbdi->pszOpName);
-		if(cbdi->pszName)
-			mir_free(cbdi->pszName);
-	}
-	else if(cbdi->pszName)
-		mir_free(cbdi->pszName);
+	if(cbdi->pszName != cbdi->pszOpName)
+		mir_free(cbdi->pszOpName);
+	mir_free(cbdi->pszName);
 
-	if(cbdi->pszValue!=cbdi->pszOpValue)
-	{
-		if(cbdi->pszOpValue)
-			mir_free(cbdi->pszOpValue);
-		if(cbdi->pszValue)
-			mir_free(cbdi->pszValue);
-	}
-	else if(cbdi->pszValue)
-		mir_free(cbdi->pszValue);
+	if(cbdi->pszValue != cbdi->pszOpValue)
+		mir_free(cbdi->pszOpValue);
+	mir_free(cbdi->pszValue);
 
 	mir_free(cbdi);
 }
@@ -145,15 +135,12 @@ void DestroyButton(int listnum)
 	int i=listnum;
 	ListData* ld=ButtonsList[listnum];
 
-	if(ld->ptszButtonName) mir_free(ld->ptszButtonName);
-
-	if(ld->ptszOPQValue!=ld->ptszQValue)
-		if(ld->ptszOPQValue) mir_free(ld->ptszOPQValue);
-
-	if (ld->ptszQValue) mir_free(ld->ptszQValue);
+	mir_free(ld->ptszButtonName);
+	if(ld->ptszOPQValue != ld->ptszQValue)
+		mir_free(ld->ptszOPQValue);
+	mir_free(ld->ptszQValue);
 
 	li_ListDestruct((SortedList*)ld->sl,listdestructor);
-
 
 	mir_free(ld);
 	ButtonsList[i]=NULL;
@@ -170,22 +157,22 @@ void SaveModuleSettings(int buttonnum,ButtonData* bd)
 {
 	char szMEntry[256]={'\0'};
 
-	mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryName_%u_%u",buttonnum,bd->dwPos);
 	db_set_ts(NULL, PLGNAME,szMEntry,bd->pszName );
 
-	mir_snprintf(szMEntry,255,"EntryValue_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryValue_%u_%u",buttonnum,bd->dwPos);
 	if(bd->pszValue)
 		db_set_ts(NULL, PLGNAME,szMEntry,bd->pszValue );
 	else
 		db_unset(NULL, PLGNAME,szMEntry);
 
-	mir_snprintf(szMEntry,255,"EntryRel_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryRel_%u_%u",buttonnum,bd->dwPos);
 	db_set_b(NULL, PLGNAME,szMEntry,bd->fEntryType );
 
-	mir_snprintf(szMEntry,255,"EntryToQMenu_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryToQMenu_%u_%u",buttonnum,bd->dwPos);
 	db_set_b(NULL, PLGNAME,szMEntry,bd->bInQMenu);
 
-	mir_snprintf(szMEntry,255,"EntryIsServiceName_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryIsServiceName_%u_%u",buttonnum,bd->dwPos);
 	db_set_b(NULL, PLGNAME,szMEntry,bd->bIsServName);
 }
 
@@ -194,43 +181,50 @@ void CleanSettings(int buttonnum,int from)
 	char szMEntry[256]={'\0'};
 	DBVARIANT dbv = {0};
 	if(from==-1){
-		mir_snprintf(szMEntry,255,"ButtonName_%u",buttonnum);
+		mir_snprintf(szMEntry,sizeof(szMEntry),"ButtonName_%u",buttonnum);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,255,"ButtonValue_%u",buttonnum);
+		mir_snprintf(szMEntry,sizeof(szMEntry),"ButtonValue_%u",buttonnum);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,255,"RCEntryIsServiceName_%u",buttonnum);
+		mir_snprintf(szMEntry,sizeof(szMEntry),"RCEntryIsServiceName_%u",buttonnum);
 		db_unset(NULL, PLGNAME,szMEntry);
 	}
 
-	mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,from);
+	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryName_%u_%u",buttonnum,from);
 	while(!db_get_ts(NULL, PLGNAME,szMEntry,&dbv)) {
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,255,"EntryValue_%u_%u",buttonnum,from);
+		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryValue_%u_%u",buttonnum,from);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,255,"EntryRel_%u_%u",buttonnum,from);
+		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryRel_%u_%u",buttonnum,from);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,255,"EntryToQMenu_%u_%u",buttonnum,from);
+		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryToQMenu_%u_%u",buttonnum,from);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,255,"EntryIsServiceName_%u_%u",buttonnum,from);
+		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryIsServiceName_%u_%u",buttonnum,from);
 		db_unset(NULL, PLGNAME,szMEntry);
 
-		mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,++from);
+		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryName_%u_%u",buttonnum,++from);
 	}
 	db_free(&dbv);
 }
 
 BYTE getEntryByte(int buttonnum,int entrynum,BOOL mode) 
 {	  
-	char szMEntry[256]={'\0'};
-	if		(mode==0)
-		mir_snprintf(szMEntry,255,"EntryToQMenu_%u_%u",buttonnum,entrynum);
-	else if (mode==1)
-		mir_snprintf(szMEntry,255,"EntryRel_%u_%u",buttonnum,entrynum);
-	else if (mode==2)
-		mir_snprintf(szMEntry,255,"EntryIsServiceName_%u_%u",buttonnum,entrynum);
-	else if (mode==3)
-		mir_snprintf(szMEntry,255,"RCEntryIsServiceName_%u",buttonnum);
-	return db_get_b(NULL, PLGNAME,szMEntry, 0); 
+	char szMEntry[256] = {'\0'};
+
+	switch (mode) {
+	case 0:
+		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryToQMenu_%u_%u", buttonnum, entrynum);
+		break;
+	case 1:
+		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryRel_%u_%u", buttonnum, entrynum);
+		break;
+	case 2:
+		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryIsServiceName_%u_%u", buttonnum, entrynum);
+		break;
+	case 3:
+		mir_snprintf(szMEntry, sizeof(szMEntry), "RCEntryIsServiceName_%u", buttonnum);
+		break;
+	}
+	return db_get_b(NULL, PLGNAME, szMEntry, 0); 
 }
 
 static HANDLE AddIcon(char* szIcoName)
@@ -346,27 +340,30 @@ void DestructButtonsList()
 	}
 }
 
-TCHAR* getMenuEntry(int buttonnum,int entrynum,BYTE mode) 
+TCHAR* getMenuEntry(int buttonnum, int entrynum, BYTE mode) 
 {	  
-	TCHAR* buffer=NULL;
-	char szMEntry[256]={'\0'};
+	TCHAR* buffer = NULL;
+	char szMEntry[256] = {'\0'};
 	DBVARIANT dbv = {0};
 
-	if(mode==0)
-		mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,entrynum);
-	else if (mode==1)
-		mir_snprintf(szMEntry,255,"EntryValue_%u_%u",buttonnum,entrynum);
-	else if	(mode==2)
-		mir_snprintf(szMEntry,255,"ButtonValue_%u",buttonnum);
-	else if	(mode==3)
-		mir_snprintf(szMEntry,255,"ButtonName_%u",buttonnum);
+	switch (mode) {
+	case 0:
+		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryName_%u_%u", buttonnum, entrynum);
+		break;
+	case 1:
+		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryValue_%u_%u", buttonnum, entrynum);
+		break;
+	case 2:
+		mir_snprintf(szMEntry, sizeof(szMEntry), "ButtonValue_%u", buttonnum);
+		break;
+	case 3:
+		mir_snprintf(szMEntry, sizeof(szMEntry), "ButtonName_%u", buttonnum);
+		break;
+	}
 
-
-	db_get_ts(NULL, PLGNAME,szMEntry, &dbv);
-
-	if(dbv.ptszVal&&_tcslen(dbv.ptszVal))
-	{
-		buffer=mir_tstrdup(dbv.ptszVal);
+	if (!db_get_ts(NULL, PLGNAME, szMEntry, &dbv)) {
+		if (_tcslen(dbv.ptszVal))
+			buffer = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
 
@@ -398,208 +395,183 @@ int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
 
 TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptszClip,int QVSize,int TextSize ,int ClipSize)
 {
-	int i=0,iOffset=0,iCount=0;
-	TCHAR* tempPointer=NULL;
-	TCHAR* ptszQValue=_tcsdup(ptszQValIn);
-	TCHAR* tempQValue=ptszQValue;
-	TCHAR varstr=_T('%');
-
-	if(TextSize&&ptszText[TextSize-1]=='\0') TextSize--;
-	if(ClipSize&&ptszClip[ClipSize-1]=='\0') ClipSize--;
+	int i = 0, iOffset = 0, iCount = 0;
+	TCHAR* tempPointer = NULL;
+	TCHAR* ptszQValue = _tcsdup(ptszQValIn);
+	TCHAR* tempQValue = ptszQValue;
+	TCHAR varstr = _T('%');
+	TCHAR* p = NULL;
+	int NameLenght = 0;
+	TCHAR* ptszName = NULL;
+	CONTACTINFO ci;
 
 	if (!_tcschr(ptszQValue,varstr))
 		return ptszQValue;
 
-	while(ptszQValue[i]) {
-		if(ptszQValue[i]=='%') {
-			switch(ptszQValue[i+1]) {
-			case 't':
-				{
-					TCHAR* p=NULL;
-					p = (TCHAR *)realloc(tempQValue, (QVSize + TextSize+1)*sizeof(TCHAR));
-					if(p){
-						int test=0;
-						i=iOffset;
-						tempQValue=ptszQValue=p;
+	if(TextSize && ptszText[TextSize - 1] == '\0')
+		TextSize --;
+	if(ClipSize && ptszClip[ClipSize - 1] == '\0')
+		ClipSize --;
 
-						tempPointer = (TCHAR *)memmove(ptszQValue + i + TextSize, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
+	while (ptszQValue[i]) {
+		if (ptszQValue[i] != '%')
+			goto move_next;
+		NameLenght = 0;
+		ptszName = NULL;
 
-						if(TextSize) memcpy(ptszQValue+i, ptszText, TextSize*sizeof(TCHAR));
+		switch (ptszQValue[i + 1]) {
+		case 't':
+			p = (TCHAR *)realloc(tempQValue, (QVSize + TextSize + 1) * sizeof(TCHAR));
+			if (!p)
+				break;
+			i = iOffset;
+			tempQValue = ptszQValue = p;
 
-						QVSize+=(TextSize-2);
+			tempPointer = (TCHAR *)memmove(ptszQValue + i + TextSize, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
+			memcpy(ptszQValue + i, ptszText, TextSize * sizeof(TCHAR));
+			QVSize += (TextSize - 2);
+			ptszQValue[QVSize] = '\0';
 
-						ptszQValue[QVSize]='\0';
+			if (!_tcschr(ptszQValue, varstr))
+				return ptszQValue;
 
-						if (!_tcschr(ptszQValue,varstr))
-							return ptszQValue;
+			ptszQValue = tempPointer;
+			iOffset += TextSize - 1;
+			i = -1;
+			break;
+		case 'c':
+			p = (TCHAR *)realloc(tempQValue, (QVSize + ClipSize + 1) * sizeof(TCHAR));
+			if (!p)
+				break;
+			i = iOffset;
+			tempQValue = ptszQValue = p;
 
-						ptszQValue=tempPointer;
-						iOffset+=TextSize-1;
-						i=-1;
-					}
-				}break;
+			tempPointer = (TCHAR *)memmove(ptszQValue + i + ClipSize, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
+			memcpy(ptszQValue + i, ptszClip, ClipSize * sizeof(TCHAR));
+			QVSize += (ClipSize - 2);
+			ptszQValue[QVSize] = '\0';
 
-			case 'c':
-				{
-					TCHAR* p=NULL;
-					p = (TCHAR *)realloc(tempQValue, (QVSize + ClipSize + 1)*sizeof(TCHAR));
-					if(p){
-						i=iOffset;
-						tempQValue=ptszQValue=p;
+			if (!_tcschr(ptszQValue, varstr))
+				return ptszQValue;
 
-						tempPointer = (TCHAR *)memmove(ptszQValue + i + ClipSize, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
-						if(ClipSize) memcpy(ptszQValue+i, ptszClip, ClipSize*sizeof(TCHAR));
-						QVSize+=(ClipSize-2);
-
-						ptszQValue[QVSize]='\0';
-
-						if (!_tcschr(ptszQValue,varstr))
-							return ptszQValue;
-
-						ptszQValue=tempPointer;
-						iOffset+=ClipSize-1;
-						i=-1;
-					}
-				}break;
-
-			case 'P':
-				{
-					TCHAR* p=NULL;
-					int NameLenght=0;
-					TCHAR* ptszName=NULL;
-
-					ptszName=mir_a2u(GetContactProto(hContact));
-
-					NameLenght=(int)_tcslen(ptszName);
-
-					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
-					if(p){
-						i=iOffset;
-						tempQValue=ptszQValue=p;
-
-						tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
-						if(NameLenght)	memcpy(ptszQValue+i, ptszName, NameLenght*sizeof(TCHAR));
-						QVSize+=(NameLenght-2);
-
-						ptszQValue[QVSize]='\0';
-						if(ptszName) mir_free(ptszName);
-
-						if (!_tcschr(ptszQValue,varstr))
-							return ptszQValue;
-
-						ptszQValue=tempPointer;
-						iOffset+=NameLenght-1;
-						i=-1;
-					}
-				}break;
-
-			case 'n':
-				{
-					TCHAR* p=NULL;
-					int NameLenght=0;
-					TCHAR* ptszName=NULL;
-
-					ptszName=(TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
-					NameLenght=(int)_tcslen(ptszName);
-					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
-					if(p){
-						i=iOffset;
-						tempQValue=ptszQValue=p;
-
-						tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
-						if(NameLenght)memcpy(ptszQValue+i, ptszName, NameLenght*sizeof(TCHAR));
-						QVSize+=(NameLenght-2);
-
-						//if(ptszName) mir_free(ptszName);
-
-						ptszQValue[QVSize]='\0';
-
-						if (!_tcschr(ptszQValue,varstr))
-							return ptszQValue;
-
-						ptszQValue=tempPointer;
-						iOffset+=NameLenght-1;
-						i=-1;
-					}
-				}break;
-			case 'F':
-				{
-					TCHAR* p=NULL;
-					int NameLenght=0;
-					TCHAR* ptszName=NULL;
-					CONTACTINFO ci;
-					ZeroMemory(&ci,sizeof(CONTACTINFO));
-					ci.cbSize = sizeof(CONTACTINFO);
-					ci.hContact = hContact;
-
-					ci.dwFlag =CNF_FIRSTNAME|CNF_UNICODE;
-
-					ci.szProto=GetContactProto(hContact);
-					if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)&&ci.pszVal){
-						NameLenght=(int)_tcslen(ci.pszVal);
-						ptszName=ci.pszVal;
-					}
-					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
-					if(p){
-						i=iOffset;
-						tempQValue=ptszQValue=p;
-
-						tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
-						if(NameLenght)memcpy(ptszQValue+i, ptszName, NameLenght*sizeof(TCHAR));
-						QVSize+=(NameLenght-2);
-
-						if(ptszName) mir_free(ptszName);
-
-						ptszQValue[QVSize]='\0';
-
-						if (!_tcschr(ptszQValue,varstr))
-							return ptszQValue;
-
-						ptszQValue=tempPointer;
-						iOffset+=NameLenght-1;
-						i=-1;
-					}
-				}break;
-			case 'L':
-				{
-					TCHAR* p=NULL;
-					int NameLenght=0;
-					TCHAR* ptszName=NULL;
-					CONTACTINFO ci;
-					ZeroMemory(&ci,sizeof(CONTACTINFO));
-					ci.cbSize = sizeof(CONTACTINFO);
-					ci.hContact = hContact;
-					ci.szProto=GetContactProto(hContact);
-
-					ci.dwFlag =CNF_LASTNAME|CNF_UNICODE;
-
-					if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)&&ci.pszVal){
-						NameLenght=(int)_tcslen(ci.pszVal);
-						ptszName=ci.pszVal;
-					}
-					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
-					if(p){
-						i=iOffset;
-						tempQValue=ptszQValue=p;
-
-						tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
-						if(NameLenght)memcpy(ptszQValue+i, ptszName, NameLenght*sizeof(TCHAR));
-						QVSize+=(NameLenght-2);
-
-						ptszQValue[QVSize]='\0';
-
-						if (!_tcschr(ptszQValue,varstr))
-							return ptszQValue;
-
-						ptszQValue=tempPointer;
-						iOffset+=NameLenght-1;
-						i=-1;
-					}
-				}break;
+			ptszQValue = tempPointer;
+			iOffset += ClipSize - 1;
+			i = -1;
+			break;
+		case 'P':
+			ptszName = mir_a2u(GetContactProto(hContact));
+			NameLenght = (int)_tcslen(ptszName);
+			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
+			if (!p) {
+				mir_free(ptszName);
+				break;
 			}
+			i = iOffset;
+			tempQValue = ptszQValue = p;
+
+			tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
+			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(TCHAR));
+			QVSize += (NameLenght - 2);
+			mir_free(ptszName);
+			ptszQValue[QVSize] = '\0';
+
+			if (!_tcschr(ptszQValue, varstr))
+				return ptszQValue;
+
+			ptszQValue = tempPointer;
+			iOffset += NameLenght - 1;
+			i = -1;
+			break;
+
+		case 'n':
+			ptszName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
+			NameLenght = (int)_tcslen(ptszName);
+			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
+			if (!p)
+				break;
+			i = iOffset;
+			tempQValue = ptszQValue = p;
+
+			tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
+			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(TCHAR));
+			QVSize += (NameLenght - 2);
+			ptszQValue[QVSize] = '\0';
+
+			if (!_tcschr(ptszQValue, varstr))
+				return ptszQValue;
+
+			ptszQValue = tempPointer;
+			iOffset += NameLenght - 1;
+			i = -1;
+			break;
+		case 'F':
+			ZeroMemory(&ci, sizeof(CONTACTINFO));
+			ci.cbSize = sizeof(CONTACTINFO);
+			ci.hContact = hContact;
+			ci.dwFlag = CNF_FIRSTNAME | CNF_UNICODE;
+			ci.szProto = GetContactProto(hContact);
+
+			if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
+				break;
+			NameLenght = (int)_tcslen(ci.pszVal);
+			ptszName = ci.pszVal;
+			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
+			if (!p) {
+				mir_free(ptszName);
+				break;
+			}
+			i = iOffset;
+			tempQValue = ptszQValue = p;
+
+			tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
+			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(TCHAR));
+			QVSize += (NameLenght - 2);
+			mir_free(ptszName);
+			ptszQValue[QVSize] = '\0';
+
+			if (!_tcschr(ptszQValue, varstr))
+				return ptszQValue;
+
+			ptszQValue = tempPointer;
+			iOffset += NameLenght - 1;
+			i = -1;
+			break;
+		case 'L':
+			ZeroMemory(&ci, sizeof(CONTACTINFO));
+			ci.cbSize = sizeof(CONTACTINFO);
+			ci.hContact = hContact;
+			ci.dwFlag = CNF_LASTNAME | CNF_UNICODE;
+			ci.szProto = GetContactProto(hContact);
+
+			if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
+				break;
+			NameLenght = (int)_tcslen(ci.pszVal);
+			ptszName = ci.pszVal;
+			p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(TCHAR));
+			if (!p) {
+				mir_free(ptszName);
+				break;
+			}
+			i = iOffset;
+			tempQValue = ptszQValue = p;
+
+			tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1) * sizeof(TCHAR));
+			memcpy(ptszQValue + i, ptszName, NameLenght * sizeof(TCHAR));
+			QVSize += (NameLenght - 2);
+			mir_free(ptszName);
+			ptszQValue[QVSize] = '\0';
+
+			if (!_tcschr(ptszQValue,varstr))
+				return ptszQValue;
+
+			ptszQValue = tempPointer;
+			iOffset += NameLenght - 1;
+			i = -1;
+			break;
 		}
-		iOffset++;
-		i++;
+move_next:
+		iOffset ++;
+		i ++;
 	}
 	return ptszQValue;
 }
