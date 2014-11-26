@@ -304,6 +304,24 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	return TRUE;
 }
 
+static int UnregisterHotKeys()
+{
+	if (hkInfo != NULL) {
+		for (int i = 0; i < hkiCount; i ++) {
+			UnregisterHotKey(hMessageWindow, (int)hkInfo[i].id);
+			GlobalDeleteAtom(hkInfo[i].id);
+		}
+		free(hkInfo);
+	}
+	DestroyWindow(hMessageWindow);
+
+	hkiCount = 0;
+	hkInfo = NULL;
+	hMessageWindow = NULL;
+
+	return 0;
+}
+
 // assumes UnregisterHotKeys was called before
 static int RegisterHotKeys()
 {
@@ -327,31 +345,12 @@ static int RegisterHotKeys()
 			continue;
 
 		hkInfo[hkiCount].profile = i;
-		hkiCount += 1;
+		hkiCount ++;
 		RegisterHotKey(hMessageWindow, (int)hkInfo[hkiCount-1].id, GetFsModifiers(wHotKey), LOBYTE(wHotKey));
 	}
 
 	if (hkiCount == 0)
-		DestroyWindow(hMessageWindow);
-
-	return 0;
-}
-
-static int UnregisterHotKeys()
-{
-	if (IsWindow(hMessageWindow)) {
-		for ( int i=0; i < hkiCount; i++ ) {
-			UnregisterHotKey(hMessageWindow, (int)hkInfo[i].id);
-			GlobalDeleteAtom(hkInfo[i].id);
-		}
-		DestroyWindow(hMessageWindow);
-	}
-	if (hkInfo != NULL)
-		free(hkInfo);
-
-	hkiCount = 0;
-	hkInfo = NULL;
-	hMessageWindow = NULL;
+		UnregisterHotKeys();
 
 	return 0;
 }
