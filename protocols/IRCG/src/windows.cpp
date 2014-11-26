@@ -307,6 +307,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		// Retrieve the input text
 		TCHAR strFilterText[255];
+		TCHAR newTitle[255];
 		m_filter.GetText(strFilterText, SIZEOF(strFilterText));
 
 		if (strFilterText[0]) {
@@ -386,15 +387,14 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			ShowWindow(m_list.GetHwnd(), SW_HIDE);
 
 			// New dialog title
-			TCHAR newTitle[255];
 			mir_sntprintf(newTitle, SIZEOF(newTitle), TranslateT("%s - Filtered - %d items"), strFilterText, itemCount);
 			SetWindowText(m_hwnd, newTitle);
 		}
 		else {
 			ShowWindow(m_list.GetHwnd(), SW_SHOW);
 			ShowWindow(m_list2.GetHwnd(), SW_HIDE);
-			mir_sntprintf(m_title, SIZEOF(m_title), TranslateT("Channels on server"));
-			SetWindowText(m_hwnd, m_title);
+			mir_sntprintf(newTitle, SIZEOF(newTitle), TranslateT("Channels on server"));
+			SetWindowText(m_hwnd, newTitle);
 		}
 	}
 
@@ -486,8 +486,6 @@ void CListDlg::OnJoin(CCtrlButton*)
 
 void CListDlg::UpdateList()
 {
-	GetWindowText(m_hwnd, m_title, 128);
-
 	int j = m_list.GetItemCount();
 	if (j > 0) {
 		LVITEM lvm;
