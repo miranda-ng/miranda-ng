@@ -1566,64 +1566,65 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 	HDC hdc;
 	RECT rcWindow, rc;
 	HWND hwndParent = GetParent(hwnd);
-	LRESULT result;
+	LRESULT result = 0;
 
+	if (pcli == NULL)
+		return 0;
 	if (hwndParent != pcli->hwndContactList || !cfg::dat.bSkinnedScrollbar)
 		result = CallWindowProc(oldWndProc, hwnd, WM_NCPAINT, wParam, lParam);
-	else
-		result = 0;
+	if (!pcli->hwndContactList || hwndParent != pcli->hwndContactList)
+		return result;
 
-	if (pcli && pcli->hwndContactList && GetParent(hwnd) == pcli->hwndContactList) {
-		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SKINNEDFRAME) {
-			StatusItems_t *item = (arStatusItems.getCount() != 0) ? (hasTitleBar ? arStatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : arStatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : 0;
-			if (item == 0)
-				return 0;
-
-			GetWindowRect(hwnd, &rcWindow);
-			rc.left = rc.top = 0;
-			rc.right = rcWindow.right - rcWindow.left;
-			rc.bottom = rcWindow.bottom - rcWindow.top;
-
-			HBITMAP hbmDraw, hbmOld;
-			HDC realDC = hdc = GetWindowDC(hwnd);
-			if (hwnd == pcli->hwndContactTree) {
-				realDC = CreateCompatibleDC(hdc);
-				hbmDraw = CreateCompatibleBitmap(hdc, rc.right, rc.bottom);
-				hbmOld = reinterpret_cast<HBITMAP>(SelectObject(realDC, hbmDraw));
-			}
-
-			ExcludeClipRect(realDC, item->MARGIN_LEFT, item->MARGIN_TOP, rc.right - item->MARGIN_RIGHT, rc.bottom - item->MARGIN_BOTTOM);
-
-			BitBlt(realDC, 0, 0, rc.right - rc.left, rc.bottom - rc.top, cfg::dat.hdcBg, rcWindow.left - cfg::dat.ptW.x, rcWindow.top - cfg::dat.ptW.y, SRCCOPY);
-
-			DrawAlpha(realDC, &rc, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
-
-			if (hwnd == pcli->hwndContactTree) {
-				ExcludeClipRect(hdc, item->MARGIN_LEFT, item->MARGIN_TOP, rc.right - item->MARGIN_RIGHT, rc.bottom - item->MARGIN_BOTTOM);
-				BitBlt(hdc, 0, 0, rc.right, rc.bottom, realDC, 0, 0, SRCCOPY);
-				SelectObject(realDC, hbmOld);
-				DeleteObject(hbmDraw);
-				DeleteDC(realDC);
-			}
-			ReleaseDC(hwnd, hdc);
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SKINNEDFRAME) {
+		StatusItems_t *item = (arStatusItems.getCount() != 0) ? (hasTitleBar ? arStatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : arStatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : 0;
+		if (item == 0)
 			return 0;
+
+		GetWindowRect(hwnd, &rcWindow);
+		rc.left = rc.top = 0;
+		rc.right = rcWindow.right - rcWindow.left;
+		rc.bottom = rcWindow.bottom - rcWindow.top;
+
+		HBITMAP hbmDraw, hbmOld;
+		HDC realDC = hdc = GetWindowDC(hwnd);
+		if (hwnd == pcli->hwndContactTree) {
+			realDC = CreateCompatibleDC(hdc);
+			hbmDraw = CreateCompatibleBitmap(hdc, rc.right, rc.bottom);
+			hbmOld = reinterpret_cast<HBITMAP>(SelectObject(realDC, hbmDraw));
 		}
 
-		if (GetWindowLongPtr(hwnd, GWL_STYLE) & WS_BORDER) {
-			hdc = GetWindowDC(hwnd);
-			HPEN hPenOld = reinterpret_cast<HPEN>(SelectObject(hdc, g_hPenCLUIFrames));
-			GetWindowRect(hwnd, &rcWindow);
-			rc.left = rc.top = 0;
-			rc.right = rcWindow.right - rcWindow.left;
-			rc.bottom = rcWindow.bottom - rcWindow.top;
-			HBRUSH brold = reinterpret_cast<HBRUSH>(SelectObject(hdc, GetStockObject(HOLLOW_BRUSH)));
-			Rectangle(hdc, 0, 0, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
-			SelectObject(hdc, hPenOld);
-			SelectObject(hdc, brold);
-			ReleaseDC(hwnd, hdc);
-			return 0;
+		ExcludeClipRect(realDC, item->MARGIN_LEFT, item->MARGIN_TOP, rc.right - item->MARGIN_RIGHT, rc.bottom - item->MARGIN_BOTTOM);
+
+		BitBlt(realDC, 0, 0, rc.right - rc.left, rc.bottom - rc.top, cfg::dat.hdcBg, rcWindow.left - cfg::dat.ptW.x, rcWindow.top - cfg::dat.ptW.y, SRCCOPY);
+
+		DrawAlpha(realDC, &rc, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
+
+		if (hwnd == pcli->hwndContactTree) {
+			ExcludeClipRect(hdc, item->MARGIN_LEFT, item->MARGIN_TOP, rc.right - item->MARGIN_RIGHT, rc.bottom - item->MARGIN_BOTTOM);
+			BitBlt(hdc, 0, 0, rc.right, rc.bottom, realDC, 0, 0, SRCCOPY);
+			SelectObject(realDC, hbmOld);
+			DeleteObject(hbmDraw);
+			DeleteDC(realDC);
 		}
+		ReleaseDC(hwnd, hdc);
+		return 0;
 	}
+
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & WS_BORDER) {
+		hdc = GetWindowDC(hwnd);
+		HPEN hPenOld = reinterpret_cast<HPEN>(SelectObject(hdc, g_hPenCLUIFrames));
+		GetWindowRect(hwnd, &rcWindow);
+		rc.left = rc.top = 0;
+		rc.right = rcWindow.right - rcWindow.left;
+		rc.bottom = rcWindow.bottom - rcWindow.top;
+		HBRUSH brold = reinterpret_cast<HBRUSH>(SelectObject(hdc, GetStockObject(HOLLOW_BRUSH)));
+		Rectangle(hdc, 0, 0, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
+		SelectObject(hdc, hPenOld);
+		SelectObject(hdc, brold);
+		ReleaseDC(hwnd, hdc);
+		return 0;
+	}
+
 	return result;
 }
 
@@ -1634,7 +1635,7 @@ int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam,
 	NCCALCSIZE_PARAMS *nccp = (NCCALCSIZE_PARAMS *)lParam;
 	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
-	if (item == 0 || pcli == 0)
+	if (item == 0 || pcli == NULL)
 		return orig;
 
 	if (item->IGNORED || !(dwStyle & CLS_SKINNEDFRAME) || GetParent(hwnd) != pcli->hwndContactList)
