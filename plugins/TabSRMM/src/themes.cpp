@@ -811,7 +811,7 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 			m_glyphMetrics[3] = (m_glyphMetrics[3] - m_glyphMetrics[1]) + 1;
 		}
 	}
-	
+
 	GetPrivateProfileString(m_szName, _T("Image"), _T("None"), buffer, 500, szFilename);
 	if (_tcscmp(buffer, _T("None")) || m_dwFlags & IMAGE_GLYPH) {
 		szFinalName = new TCHAR[MAX_PATH];
@@ -1891,7 +1891,6 @@ void CSkin::SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, R
 // @param pContainer ContainerWindowData *: needed to access the cached DC of the container window
 // @param rcClient   RECT *: client rectangle (target area)
 // @param hdcTarget  HDC: device context of the target window
-
 
 void CSkin::SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdcTarget)
 {
