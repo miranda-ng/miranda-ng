@@ -343,6 +343,9 @@ char * line_uniq(char * text, char breakchar) {
     char ** lines;
     int linenum = line_tok(text, &lines, breakchar);
     int i;
+    
+    if (linenum == 0)
+	return NULL;
     strcpy(text, lines[0]);
     for ( i = 1; i < linenum; i++ ) {
         int dup = 0;

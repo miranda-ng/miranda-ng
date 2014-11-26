@@ -601,7 +601,7 @@ public:
 		char ** words = NULL;
 		ret.count = hunspell->suggest(&words, hunspell_word);
 
-		if (ret.count > 0) {
+		if (ret.count > 0 && words != NULL) {
 			// Oki, lets make our array
 			ret.words = (TCHAR **)malloc(ret.count * sizeof(TCHAR *));
 			for (unsigned i = 0; i < ret.count; i++) {
@@ -609,7 +609,6 @@ public:
 				free(words[i]);
 			}
 		}
-
 		if (words != NULL)
 			free(words);
 

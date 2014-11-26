@@ -1578,7 +1578,8 @@ char * SuggestMgr::suggest_morph_for_spelling_error(const char * word)
 {
     char * p = NULL;
     char ** wlst = (char **) calloc(maxSug, sizeof(char *));
-    if (!**wlst) return NULL;
+    if (!wlst)
+	return NULL;
     // we will use only the first suggestion
     for (int i = 0; i < maxSug - 1; i++) wlst[i] = "";
     int ns = suggest(&wlst, word, maxSug - 1, NULL);
@@ -1586,7 +1587,7 @@ char * SuggestMgr::suggest_morph_for_spelling_error(const char * word)
         p = suggest_morph(wlst[maxSug - 1]);
         free(wlst[maxSug - 1]);
     }
-    if (wlst) free(wlst);
+    free(wlst);
     return p;
 }
 #endif // END OF HUNSPELL_EXPERIMENTAL CODE
