@@ -250,19 +250,19 @@ public:
 		Unload();
 	}
 
-	void			Init(bool fStartup = false);
-	void			Load(void);
-	void			Unload();
-	void			UnloadAeroTabs();
-	void			setFileName();
-	void			ReadItem(const int id, const TCHAR *section);
-	void			LoadItems();
-	void 			LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON *hIcon);
-	void			ReadImageItem(const TCHAR *szItemName);
-	void 			ReadButtonItem(const TCHAR *itemName) const;
-	bool			haveGlyphItem() const { return(m_fHaveGlyph); }
-	int				getNrIcons() const { return(m_nrSkinIcons); }
-	const	DWORD	getDwmColor() const { return(m_dwmColor); }
+	void  Init(bool fStartup = false);
+	void  Load(void);
+	void  Unload();
+	void  UnloadAeroTabs();
+	void  setFileName();
+	void  ReadItem(const int id, const TCHAR *section);
+	void  LoadItems();
+	void  LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON &hIcon);
+	void  ReadImageItem(const TCHAR *szItemName);
+	void  ReadButtonItem(const TCHAR *itemName) const;
+	bool  haveGlyphItem() const { return(m_fHaveGlyph); }
+	int   getNrIcons() const { return(m_nrSkinIcons); }
+	DWORD getDwmColor() const { return(m_dwmColor); }
 
 	const TIconDescW* getIconDesc(const int id) const { return(&m_skinIcons[id]); }
 	/**

@@ -1,32 +1,32 @@
 /*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * Implements the skinning engine and most parts of the aero support in
- * tabSRMM 3.x+
- *
- */
+* Miranda NG: the free IM client for Microsoft* Windows*
+*
+* Copyright (c) 2000-09 Miranda ICQ/IM project,
+* all portions of this codebase are copyrighted to the people
+* listed in contributors.txt.
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* you should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*
+* part of tabSRMM messaging plugin for Miranda.
+*
+* (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+*
+* Implements the skinning engine and most parts of the aero support in
+* tabSRMM 3.x+
+*
+*/
 
 #include "commonheaders.h"
 
@@ -55,61 +55,57 @@ ButtonSet 	g_ButtonSet = {0};
 #define   	NR_MAXSKINICONS 100
 
 /*
- * initialize static class data
+// initialize static class data
 */
 
-int 		  CSkin::m_bAvatarBorderType = 0;
-COLORREF	  CSkin::m_avatarBorderClr = 0;
-COLORREF	  CSkin::m_tmp_tb_low = 0, CSkin::m_tmp_tb_high = 0;
-COLORREF	  CSkin::m_sideBarContainerBG;
-BLENDFUNCTION CSkin::m_default_bf = {0};				// a global blend function, used in various places
-														// when you use it, reset SourceConstantAlpha to 255 and
-														// the blending mode to AC_SRC_ALPHA.
+int           CSkin::m_bAvatarBorderType = 0;
+COLORREF      CSkin::m_avatarBorderClr = 0;
+COLORREF      CSkin::m_tmp_tb_low = 0, CSkin::m_tmp_tb_high = 0;
+COLORREF      CSkin::m_sideBarContainerBG;
 
-bool 			CSkin::m_bClipBorder = false, CSkin::m_DisableScrollbars = false,
-				CSkin::m_skinEnabled = false, CSkin::m_frameSkins = false;
+// a global blend function, used in various places
+// when you use it, reset SourceConstantAlpha to 255 and
+// the blending mode to AC_SRC_ALPHA.
+BLENDFUNCTION CSkin::m_default_bf = { 0 };
 
-char 			CSkin::m_SkinnedFrame_left = 0, CSkin::m_SkinnedFrame_right = 0,
-				CSkin::m_SkinnedFrame_bottom = 0, CSkin::m_SkinnedFrame_caption = 0;
+bool CSkin::m_bClipBorder = false, CSkin::m_DisableScrollbars = false,
+     CSkin::m_skinEnabled = false, CSkin::m_frameSkins = false;
 
-char 			CSkin::m_realSkinnedFrame_left = 0;
-char 			CSkin::m_realSkinnedFrame_right = 0;
-char 			CSkin::m_realSkinnedFrame_bottom = 0;
-char 			CSkin::m_realSkinnedFrame_caption = 0;
+char CSkin::m_SkinnedFrame_left = 0, CSkin::m_SkinnedFrame_right = 0,
+     CSkin::m_SkinnedFrame_bottom = 0, CSkin::m_SkinnedFrame_caption = 0;
 
-int 			CSkin::m_titleBarLeftOff = 0, CSkin::m_titleButtonTopOff = 0, CSkin::m_captionOffset = 0, CSkin::m_captionPadding = 0,
-				CSkin::m_titleBarRightOff = 0, CSkin::m_sidebarTopOffset = 0, CSkin::m_sidebarBottomOffset = 0, CSkin::m_bRoundedCorner = 0;
+char CSkin::m_realSkinnedFrame_left = 0;
+char CSkin::m_realSkinnedFrame_right = 0;
+char CSkin::m_realSkinnedFrame_bottom = 0;
+char CSkin::m_realSkinnedFrame_caption = 0;
 
-CImageItem* 	CSkin::m_switchBarItem = 0,
-			   *CSkin::m_tabTop = 0,
-			   *CSkin::m_tabBottom = 0,
-			   *CSkin::m_tabGlowTop = 0,
-			   *CSkin::m_tabGlowBottom = 0;
+int  CSkin::m_titleBarLeftOff = 0, CSkin::m_titleButtonTopOff = 0, CSkin::m_captionOffset = 0, CSkin::m_captionPadding = 0,
+     CSkin::m_titleBarRightOff = 0, CSkin::m_sidebarTopOffset = 0, CSkin::m_sidebarBottomOffset = 0, CSkin::m_bRoundedCorner = 0;
 
-bool 			CSkin::m_fAeroSkinsValid = false;
+CImageItem *CSkin::m_switchBarItem = 0, *CSkin::m_tabTop = 0, *CSkin::m_tabBottom = 0, *CSkin::m_tabGlowTop = 0, *CSkin::m_tabGlowBottom = 0;
 
-SIZE 			CSkin::m_titleBarButtonSize = {0};
+bool CSkin::m_fAeroSkinsValid = false;
 
-COLORREF 		CSkin::m_ContainerColorKey = 0, CSkin::m_dwmColorRGB = 0, CSkin::m_DefaultFontColor = 0;
-HBRUSH 	 		CSkin::m_ContainerColorKeyBrush = 0, CSkin::m_MenuBGBrush = 0;
+SIZE CSkin::m_titleBarButtonSize = {0};
 
-HPEN 			CSkin::m_SkinLightShadowPen = 0, CSkin::m_SkinDarkShadowPen = 0;
+COLORREF CSkin::m_ContainerColorKey = 0, CSkin::m_dwmColorRGB = 0, CSkin::m_DefaultFontColor = 0;
+HBRUSH   CSkin::m_ContainerColorKeyBrush = 0, CSkin::m_MenuBGBrush = 0;
 
-HICON			CSkin::m_closeIcon = 0, CSkin::m_maxIcon = 0, CSkin::m_minIcon = 0;
+HPEN     CSkin::m_SkinLightShadowPen = 0, CSkin::m_SkinDarkShadowPen = 0;
 
-UINT 			CSkin::m_aeroEffect = 0;
-DWORD 			CSkin::m_glowSize = 0;
-HBRUSH  		CSkin::m_BrushBack = 0, CSkin::m_BrushFill = 0;
+HICON    CSkin::m_closeIcon = 0, CSkin::m_maxIcon = 0, CSkin::m_minIcon = 0;
 
-HBITMAP 		CSkin::m_tabCloseBitmap = 0, CSkin::m_tabCloseOldBitmap = 0;
-HDC				CSkin::m_tabCloseHDC = 0;
+UINT     CSkin::m_aeroEffect = 0;
+DWORD    CSkin::m_glowSize = 0;
+HBRUSH   CSkin::m_BrushBack = 0, CSkin::m_BrushFill = 0;
 
-/*
- * aero effects
- */
+HBITMAP  CSkin::m_tabCloseBitmap = 0, CSkin::m_tabCloseOldBitmap = 0;
+HDC      CSkin::m_tabCloseHDC = 0;
 
-AeroEffect  	CSkin::m_currentAeroEffect;
-AeroEffect* 	CSkin::m_pCurrentAeroEffect = 0;
+// aero effects
+
+AeroEffect CSkin::m_currentAeroEffect;
+AeroEffect *CSkin::m_pCurrentAeroEffect = 0;
 
 AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 	{
@@ -192,9 +188,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 	}
 };
 
-/*
- * definition of the availbale skin items
- */
+// definition of the availbale skin items
 
 CSkinItem SkinItems[] = {
 	{_T("Container"), "TSKIN_Container", ID_EXTBKCONTAINER,
@@ -326,32 +320,9 @@ static DWORD __inline argb_from_cola(COLORREF col, UINT32 alpha)
 void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_dest, BYTE clr_dest_trans, BYTE bGradient,
 	BYTE bCorner, DWORD dwRadius, CImageItem *imageItem)
 {
-	HBRUSH BrMask;
-	HBRUSH holdbrush;
-	HDC hdc;
-	BLENDFUNCTION bf;
-	HBITMAP hbitmap;
-	HBITMAP holdbitmap;
-	BITMAPINFO bmi;
-	VOID *pvBits;
-	UINT32 x, y;
-	ULONG ulBitmapWidth, ulBitmapHeight;
-	UCHAR ubAlpha = 0xFF;
-	UCHAR ubRedFinal = 0xFF;
-	UCHAR ubGreenFinal = 0xFF;
-	UCHAR ubBlueFinal = 0xFF;
-	UCHAR ubRed;
-	UCHAR ubGreen;
-	UCHAR ubBlue;
-	UCHAR ubRed2;
-	UCHAR ubGreen2;
-	UCHAR ubBlue2;
-	FLOAT fAlphaFactor;
-
-	int realx;
-
 	if (rc == NULL)
 		return;
+
 	LONG realHeight = (rc->bottom - rc->top);
 	LONG realWidth = (rc->right - rc->left);
 	LONG realHeightHalf = realHeight >> 1;
@@ -364,10 +335,7 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 	if (rc->right < rc->left || rc->bottom < rc->top || (realHeight <= 0) || (realWidth <= 0))
 		return;
 
-	/*
-	 * use GDI fast gradient drawing when no corner radi exist
-	 */
-
+	// use GDI fast gradient drawing when no corner radi exist
 	if (bCorner == 0 && dwRadius == 0) {
 		GRADIENT_RECT grect;
 		TRIVERTEX tvtx[2];
@@ -400,21 +368,24 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 		return;
 	}
 
-	hdc = CreateCompatibleDC(hDC);
+	HDC hdc = CreateCompatibleDC(hDC);
 	if (!hdc)
 		return;
 
+	BITMAPINFO bmi;
 	ZeroMemory(&bmi, sizeof(BITMAPINFO));
-
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 
+	int ulBitmapWidth, ulBitmapHeight;
 	if (bGradient & GRADIENT_ACTIVE && (bGradient & GRADIENT_LR || bGradient & GRADIENT_RL)) {
 		bmi.bmiHeader.biWidth = ulBitmapWidth = realWidth;
 		bmi.bmiHeader.biHeight = ulBitmapHeight = 1;
-	} else if (bGradient & GRADIENT_ACTIVE && (bGradient & GRADIENT_TB || bGradient & GRADIENT_BT)) {
+	}
+	else if (bGradient & GRADIENT_ACTIVE && (bGradient & GRADIENT_TB || bGradient & GRADIENT_BT)) {
 		bmi.bmiHeader.biWidth = ulBitmapWidth = 1;
 		bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
-	} else {
+	}
+	else {
 		bmi.bmiHeader.biWidth = ulBitmapWidth = 1;
 		bmi.bmiHeader.biHeight = ulBitmapHeight = 1;
 	}
@@ -427,50 +398,58 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 	if (ulBitmapWidth <= 0 || ulBitmapHeight <= 0)
 		return;
 
-	hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+	void *pvBits;
+	HBITMAP hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
 	if (hbitmap == NULL || pvBits == NULL) {
 		DeleteDC(hdc);
 		return;
 	}
 
-	holdbitmap = (HBITMAP)SelectObject(hdc, hbitmap);
+	HBITMAP holdbitmap = (HBITMAP)SelectObject(hdc, hbitmap);
 
 	// convert basecolor to RGB and then merge alpha so its ARGB
 	clr_base = argb_from_cola(revcolref(clr_base), alpha);
 	clr_dest = argb_from_cola(revcolref(clr_dest), alpha);
 
-	ubRed = (UCHAR)(clr_base >> 16);
-	ubGreen = (UCHAR)(clr_base >> 8);
-	ubBlue = (UCHAR) clr_base;
+	UCHAR ubRed = (UCHAR)(clr_base >> 16);
+	UCHAR ubGreen = (UCHAR)(clr_base >> 8);
+	UCHAR ubBlue = (UCHAR)clr_base;
 
-	ubRed2 = (UCHAR)(clr_dest >> 16);
-	ubGreen2 = (UCHAR)(clr_dest >> 8);
-	ubBlue2 = (UCHAR) clr_dest;
+	UCHAR ubRed2 = (UCHAR)(clr_dest >> 16);
+	UCHAR ubGreen2 = (UCHAR)(clr_dest >> 8);
+	UCHAR ubBlue2 = (UCHAR)clr_dest;
 
-	//DRAW BASE - make corner space 100% transparent
-	for (y = 0; y < ulBitmapHeight; y++) {
-		for (x = 0 ; x < ulBitmapWidth ; x++) {
+	// DRAW BASE - make corner space 100% transparent
+	UCHAR ubAlpha = 0xFF;
+	UCHAR ubRedFinal = 0xFF;
+	UCHAR ubGreenFinal = 0xFF;
+	UCHAR ubBlueFinal = 0xFF;
+
+	for (int y = 0; y < ulBitmapHeight; y++) {
+		for (int x = 0; x < ulBitmapWidth; x++) {
 			if (bGradient & GRADIENT_ACTIVE) {
 				if (bGradient & GRADIENT_LR || bGradient & GRADIENT_RL) {
-					realx = x + realHeightHalf;
-					realx = (ULONG) realx > ulBitmapWidth ? ulBitmapWidth : realx;
+					int realx = x + realHeightHalf;
+					realx = realx > ulBitmapWidth ? ulBitmapWidth : realx;
 					gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, realx, &ubAlpha);
 				} else if (bGradient & GRADIENT_TB || bGradient & GRADIENT_BT)
 					gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, y, &ubAlpha);
 
-				fAlphaFactor = (float) ubAlpha / (float) 0xff;
+				float fAlphaFactor = (float) ubAlpha / (float) 0xff;
 				((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
 			} else {
 				ubAlpha = percent_to_byte(alpha);
 				ubRedFinal = ubRed;
 				ubGreenFinal = ubGreen;
 				ubBlueFinal = ubBlue;
-				fAlphaFactor = (float) ubAlpha / (float) 0xff;
+				float fAlphaFactor = (float) ubAlpha / (float) 0xff;
 
 				((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
 			}
 		}
 	}
+
+	BLENDFUNCTION bf;
 	bf.BlendOp = AC_SRC_OVER;
 	bf.BlendFlags = 0;
 	bf.SourceConstantAlpha = (UCHAR)(clr_base >> 24);
@@ -482,92 +461,88 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 	DeleteObject(hbitmap);
 
 	// corners
-	BrMask = CreateSolidBrush(RGB(0xFF, 0x00, 0xFF));
-	{
-		bmi.bmiHeader.biWidth = ulBitmapWidth = realHeightHalf;
-		bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
-		bmi.bmiHeader.biSizeImage = ulBitmapWidth * ulBitmapHeight * 4;
+	HBRUSH BrMask = CreateSolidBrush(RGB(0xFF, 0x00, 0xFF));
+	bmi.bmiHeader.biWidth = ulBitmapWidth = realHeightHalf;
+	bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
+	bmi.bmiHeader.biSizeImage = ulBitmapWidth * ulBitmapHeight * 4;
 
-		if (ulBitmapWidth <= 0 || ulBitmapHeight <= 0) {
-			DeleteDC(hdc);
-			DeleteObject(BrMask);
-			return;
-		}
-
-		// TL+BL CORNER
-		hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
-
-		if (hbitmap == 0 || pvBits == NULL)  {
-			DeleteObject(BrMask);
-			DeleteDC(hdc);
-			return;
-		}
-
-		holdbrush = (HBRUSH)SelectObject(hdc, BrMask);
-		holdbitmap = (HBITMAP)SelectObject(hdc, hbitmap);
-		RoundRect(hdc, -1, -1, ulBitmapWidth * 2 + 1, (realHeight + 1), dwRadius, dwRadius);
-
-		for (y = 0; y < ulBitmapHeight; y++) {
-			for (x = 0; x < ulBitmapWidth; x++) {
-				if (((((UINT32 *) pvBits)[x + y * ulBitmapWidth]) << 8) == 0xFF00FF00 || (y < ulBitmapHeight >> 1 && !(bCorner & CORNER_BL && bCorner & CORNER_ACTIVE)) || (y > ulBitmapHeight >> 2 && !(bCorner & CORNER_TL && bCorner & CORNER_ACTIVE))) {
-					if (bGradient & GRADIENT_ACTIVE) {
-						if (bGradient & GRADIENT_LR || bGradient & GRADIENT_RL)
-							gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, realWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, x, &ubAlpha);
-						else if (bGradient & GRADIENT_TB || bGradient & GRADIENT_BT)
-							gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, y, &ubAlpha);
-
-						fAlphaFactor = (float) ubAlpha / (float) 0xff;
-						((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
-					} else {
-						ubAlpha = percent_to_byte(alpha);
-						ubRedFinal = ubRed;
-						ubGreenFinal = ubGreen;
-						ubBlueFinal = ubBlue;
-						fAlphaFactor = (float) ubAlpha / (float) 0xff;
-
-						((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
-					}
-				}
-			}
-		}
-		GdiAlphaBlend(hDC, rc->left, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
-		SelectObject(hdc, holdbitmap);
-		DeleteObject(hbitmap);
-
-		// TR+BR CORNER
-		hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
-
-		//SelectObject(hdc, BrMask); // already BrMask?
-		holdbitmap = (HBITMAP)SelectObject(hdc, hbitmap);
-		RoundRect(hdc, -1 - ulBitmapWidth, -1, ulBitmapWidth + 1, (realHeight + 1), dwRadius, dwRadius);
-
-		for (y = 0; y < ulBitmapHeight; y++) {
-			for (x = 0; x < ulBitmapWidth; x++) {
-				if (((((UINT32 *) pvBits)[x + y * ulBitmapWidth]) << 8) == 0xFF00FF00 || (y < ulBitmapHeight >> 1 && !(bCorner & CORNER_BR && bCorner & CORNER_ACTIVE)) || (y > ulBitmapHeight >> 1 && !(bCorner & CORNER_TR && bCorner & CORNER_ACTIVE))) {
-					if (bGradient & GRADIENT_ACTIVE) {
-						if (bGradient & GRADIENT_LR || bGradient & GRADIENT_RL) {
-							realx = x + realWidth;
-							realx = realx > realWidth ? realWidth : realx;
-							gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, realWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, realx, &ubAlpha);
-						} else if (bGradient & GRADIENT_TB || bGradient & GRADIENT_BT)
-							gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, y, &ubAlpha);
-
-						fAlphaFactor = (float) ubAlpha / (float) 0xff;
-						((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
-					} else {
-						ubAlpha = percent_to_byte(alpha);
-						ubRedFinal = ubRed;
-						ubGreenFinal = ubGreen;
-						ubBlueFinal = ubBlue;
-						fAlphaFactor = (float) ubAlpha / (float) 0xff;
-
-						((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
-					}
-				}
-			}
-		}
-		GdiAlphaBlend(hDC, rc->right - realHeightHalf, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
+	if (ulBitmapWidth <= 0 || ulBitmapHeight <= 0) {
+		DeleteDC(hdc);
+		DeleteObject(BrMask);
+		return;
 	}
+
+	// TL+BL CORNER
+	hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+	if (hbitmap == 0 || pvBits == NULL)  {
+		DeleteObject(BrMask);
+		DeleteDC(hdc);
+		return;
+	}
+
+	HBRUSH holdbrush = (HBRUSH)SelectObject(hdc, BrMask);
+	holdbitmap = (HBITMAP)SelectObject(hdc, hbitmap);
+	RoundRect(hdc, -1, -1, ulBitmapWidth * 2 + 1, (realHeight + 1), dwRadius, dwRadius);
+
+	for (int y = 0; y < ulBitmapHeight; y++) {
+		for (int x = 0; x < ulBitmapWidth; x++) {
+			if (((((UINT32 *) pvBits)[x + y * ulBitmapWidth]) << 8) == 0xFF00FF00 || (y < ulBitmapHeight >> 1 && !(bCorner & CORNER_BL && bCorner & CORNER_ACTIVE)) || (y > ulBitmapHeight >> 2 && !(bCorner & CORNER_TL && bCorner & CORNER_ACTIVE))) {
+				if (bGradient & GRADIENT_ACTIVE) {
+					if (bGradient & GRADIENT_LR || bGradient & GRADIENT_RL)
+						gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, realWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, x, &ubAlpha);
+					else if (bGradient & GRADIENT_TB || bGradient & GRADIENT_BT)
+						gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, y, &ubAlpha);
+
+					float fAlphaFactor = (float)ubAlpha / (float)0xff;
+					((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+				} else {
+					ubAlpha = percent_to_byte(alpha);
+					ubRedFinal = ubRed;
+					ubGreenFinal = ubGreen;
+					ubBlueFinal = ubBlue;
+					float fAlphaFactor = (float)ubAlpha / (float)0xff;
+
+					((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+				}
+			}
+		}
+	}
+	GdiAlphaBlend(hDC, rc->left, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
+	SelectObject(hdc, holdbitmap);
+	DeleteObject(hbitmap);
+
+	// TR+BR CORNER
+	hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+	holdbitmap = (HBITMAP)SelectObject(hdc, hbitmap);
+	RoundRect(hdc, -1 - ulBitmapWidth, -1, ulBitmapWidth + 1, (realHeight + 1), dwRadius, dwRadius);
+
+	for (int y = 0; y < ulBitmapHeight; y++) {
+		for (int x = 0; x < ulBitmapWidth; x++) {
+			if (((((UINT32 *) pvBits)[x + y * ulBitmapWidth]) << 8) == 0xFF00FF00 || (y < ulBitmapHeight >> 1 && !(bCorner & CORNER_BR && bCorner & CORNER_ACTIVE)) || (y > ulBitmapHeight >> 1 && !(bCorner & CORNER_TR && bCorner & CORNER_ACTIVE))) {
+				if (bGradient & GRADIENT_ACTIVE) {
+					if (bGradient & GRADIENT_LR || bGradient & GRADIENT_RL) {
+						int realx = x + realWidth;
+						realx = realx > realWidth ? realWidth : realx;
+						gradientHorizontal(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, realWidth, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, realx, &ubAlpha);
+					} else if (bGradient & GRADIENT_TB || bGradient & GRADIENT_BT)
+						gradientVertical(&ubRedFinal, &ubGreenFinal, &ubBlueFinal, ulBitmapHeight, ubRed, ubGreen, ubBlue, ubRed2, ubGreen2, ubBlue2, bGradient, clr_dest_trans, y, &ubAlpha);
+
+					float fAlphaFactor = (float)ubAlpha / (float)0xff;
+					((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+				} else {
+					ubAlpha = percent_to_byte(alpha);
+					ubRedFinal = ubRed;
+					ubGreenFinal = ubGreen;
+					ubBlueFinal = ubBlue;
+					float fAlphaFactor = (float)ubAlpha / (float)0xff;
+
+					((UINT32 *) pvBits)[x + y * ulBitmapWidth] = (ubAlpha << 24) | ((UCHAR)(ubRedFinal * fAlphaFactor) << 16) | ((UCHAR)(ubGreenFinal * fAlphaFactor) << 8) | ((UCHAR)(ubBlueFinal * fAlphaFactor));
+				}
+			}
+		}
+	}
+	GdiAlphaBlend(hDC, rc->right - realHeightHalf, rc->top, ulBitmapWidth, ulBitmapHeight, hdc, 0, 0, ulBitmapWidth, ulBitmapHeight, bf);
+
 	SelectObject(hdc, holdbitmap);
 	DeleteObject(hbitmap);
 	SelectObject(hdc, holdbrush);
@@ -581,23 +556,25 @@ void __inline gradientHorizontal(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *
 
 	// solid to transparent
 	if (transparent) {
-		*ubAlpha = (UCHAR)((float) x / (float) ulBitmapWidth * 255);
+		*ubAlpha = (UCHAR)((float)x / (float)ulBitmapWidth * 255);
 		*ubAlpha = FLG_GRADIENT & GRADIENT_LR ? 0xFF - (*ubAlpha) : (*ubAlpha);
 		*ubRedFinal = ubRed;
 		*ubGreenFinal = ubGreen;
 		*ubBlueFinal = ubBlue;
-	} else { // solid to solid2
+	}
+	else { // solid to solid2
 		if (FLG_GRADIENT & GRADIENT_LR) {
-			fSolidMulti = ((float) x / (float) ulBitmapWidth);
+			fSolidMulti = ((float)x / (float)ulBitmapWidth);
 			fInvSolidMulti = 1 - fSolidMulti;
-		} else {
-			fInvSolidMulti = ((float) x / (float) ulBitmapWidth);
+		}
+		else {
+			fInvSolidMulti = ((float)x / (float)ulBitmapWidth);
 			fSolidMulti = 1 - fInvSolidMulti;
 		}
 
-		*ubRedFinal = (UCHAR)((((float) ubRed * (float) fInvSolidMulti)) + (((float) ubRed2 * (float) fSolidMulti)));
-		*ubGreenFinal = (UCHAR)((UCHAR)(((float) ubGreen * (float) fInvSolidMulti)) + (((float) ubGreen2 * (float) fSolidMulti)));
-		*ubBlueFinal = (UCHAR)((((float) ubBlue * (float) fInvSolidMulti)) + (UCHAR)(((float) ubBlue2 * (float) fSolidMulti)));
+		*ubRedFinal = (UCHAR)((((float)ubRed * (float)fInvSolidMulti)) + (((float)ubRed2 * (float)fSolidMulti)));
+		*ubGreenFinal = (UCHAR)((UCHAR)(((float)ubGreen * (float)fInvSolidMulti)) + (((float)ubGreen2 * (float)fSolidMulti)));
+		*ubBlueFinal = (UCHAR)((((float)ubBlue * (float)fInvSolidMulti)) + (UCHAR)(((float)ubBlue2 * (float)fSolidMulti)));
 
 		*ubAlpha = 0xFF;
 	}
@@ -609,36 +586,38 @@ void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ub
 
 	// solid to transparent
 	if (transparent) {
-		*ubAlpha = (UCHAR)((float) y / (float) ulBitmapHeight * 255);
+		*ubAlpha = (UCHAR)((float)y / (float)ulBitmapHeight * 255);
 		*ubAlpha = FLG_GRADIENT & GRADIENT_BT ? 0xFF - *ubAlpha : *ubAlpha;
 		*ubRedFinal = ubRed;
 		*ubGreenFinal = ubGreen;
 		*ubBlueFinal = ubBlue;
-	} else { // solid to solid2
+	}
+	else { // solid to solid2
 		if (FLG_GRADIENT & GRADIENT_BT) {
-			fSolidMulti = ((float) y / (float) ulBitmapHeight);
+			fSolidMulti = ((float)y / (float)ulBitmapHeight);
 			fInvSolidMulti = 1 - fSolidMulti;
-		} else {
-			fInvSolidMulti = ((float) y / (float) ulBitmapHeight);
+		}
+		else {
+			fInvSolidMulti = ((float)y / (float)ulBitmapHeight);
 			fSolidMulti = 1 - fInvSolidMulti;
 		}
 
-		*ubRedFinal = (UCHAR)((((float) ubRed * (float) fInvSolidMulti)) + (((float) ubRed2 * (float) fSolidMulti)));
-		*ubGreenFinal = (UCHAR)((((float) ubGreen * (float) fInvSolidMulti)) + (((float) ubGreen2 * (float) fSolidMulti)));
-		*ubBlueFinal = (UCHAR)(((float) ubBlue * (float) fInvSolidMulti)) + (UCHAR)(((float) ubBlue2 * (float) fSolidMulti));
+		*ubRedFinal = (UCHAR)((((float)ubRed * (float)fInvSolidMulti)) + (((float)ubRed2 * (float)fSolidMulti)));
+		*ubGreenFinal = (UCHAR)((((float)ubGreen * (float)fInvSolidMulti)) + (((float)ubGreen2 * (float)fSolidMulti)));
+		*ubBlueFinal = (UCHAR)(((float)ubBlue * (float)fInvSolidMulti)) + (UCHAR)(((float)ubBlue2 * (float)fSolidMulti));
 
 		*ubAlpha = 0xFF;
 	}
 }
 
-/**
- * Renders the image item to the given target device context and rectangle
- *
- * @param hdc    HDC: target device context
- * @param rc     RECT *: client rectangle inside the target DC.
- * @param fIgnoreGlyph: bool: will ignore any glyph item. Set it to true when
- * 						using this function from _outside_ a skin
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Renders the image item to the given target device context and rectangle
+//
+// @param hdc    HDC: target device context
+// @param rc     RECT *: client rectangle inside the target DC.
+// @param fIgnoreGlyph: bool: will ignore any glyph item. Set it to true when
+//                      using this function from _outside_ a skin
+
 void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGlyph) const
 {
 	BYTE l = m_bLeft, r = m_bRight, t = m_bTop, b = m_bBottom;
@@ -654,7 +633,8 @@ void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGl
 	if (m_hdc == 0) {
 		hdcSrc = CreateCompatibleDC(hdc);
 		hbmOld = (HBITMAP)SelectObject(hdcSrc, isGlyph ? Skin->getGlyphItem()->getHbm() : m_hbm);
-	} else {
+	}
+	else {
 		if (fIgnoreGlyph)
 			hdcSrc = m_hdc;
 		else
@@ -680,7 +660,8 @@ void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGl
 			rcFill.right = rc->right - r;
 			rcFill.bottom = rc->bottom - b;
 			FillRect(hdc, &rcFill, m_fillBrush);
-		} else
+		}
+		else
 			GdiAlphaBlend(hdc, rc->left + l, rc->top + t, width - l - r, height - t - b, hdcSrc, srcOrigX + l, srcOrigY + t, m_inner_width, m_inner_height, m_bf);
 
 		GdiAlphaBlend(hdc, rc->right - r, rc->top + t, r, height - t - b, hdcSrc, srcOrigX + (m_width - r), srcOrigY + t, r, m_inner_height, m_bf);
@@ -701,13 +682,16 @@ void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGl
 				if (top + m_height <= rc->bottom) {
 					GdiAlphaBlend(hdc, rc->left, top, width, m_height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
 					top += m_height;
-				} else {
+				}
+				else {
 					GdiAlphaBlend(hdc, rc->left, top, width, rc->bottom - top, hdcSrc, srcOrigX, srcOrigY, m_width, rc->bottom - top, m_bf);
 					break;
 				}
-			} while (true);
-			break;
+			}
+				while (true);
 		}
+		break;
+
 	case IMAGE_STRETCH_V:
 		// tile horizontally, stretch to height
 		{
@@ -717,13 +701,16 @@ void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGl
 				if (left + m_width <= rc->right) {
 					GdiAlphaBlend(hdc, left, rc->top, m_width, height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
 					left += m_width;
-				} else {
+				}
+				else {
 					GdiAlphaBlend(hdc, left, rc->top, rc->right - left, height, hdcSrc, srcOrigX, srcOrigY, rc->right - left, m_height, m_bf);
 					break;
 				}
-			} while (true);
-			break;
+			}
+			while (true);
 		}
+		break;
+
 	case IMAGE_STRETCH_B:
 		// stretch the image in both directions...
 		GdiAlphaBlend(hdc, rc->left, rc->top, width, height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
@@ -743,7 +730,8 @@ static CSkinItem StatusItem_Default = {
 	CLCDEFAULT_MRGN_TOP, CLCDEFAULT_MRGN_RIGHT, CLCDEFAULT_MRGN_BOTTOM, CLCDEFAULT_IGNORE
 };
 
-static struct {
+static struct
+{
 	TCHAR *szIniKey, *szIniName;
 	char *szSetting;
 	unsigned int size;
@@ -797,32 +785,33 @@ void CImageItem::Create(const TCHAR *szImageFile)
 	}
 }
 
-/**
- * Reads the definitions for an image item from the given .tsk file
- * It does _not_ create the image itself, a call to CImageItem::Create() must be done
- * to read the image in memory and prepare
- *
- * @param szFilename char*: full path and filename to the .TSK file
- *
- * @return char*: full path and filename to the .png image which represents this image item.
-         * caller MUST delete it.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Reads the definitions for an image item from the given .tsk file
+//  It does _not_ create the image itself, a call to CImageItem::Create() must be done
+//  to read the image in memory and prepare
+// 
+//  @param szFilename char*: full path and filename to the .TSK file
+// 
+// @return char*: full path and filename to the .png image which represents this image item.
+// caller MUST delete it.
+
 TCHAR* CImageItem::Read(const TCHAR *szFilename)
 {
-	TCHAR 	buffer[501];
-	TCHAR 	szDrive[MAX_PATH], szPath[MAX_PATH];
+	TCHAR buffer[501];
+	TCHAR szDrive[MAX_PATH], szPath[MAX_PATH];
 	TCHAR	*szFinalName = 0;
 
 	GetPrivateProfileString(m_szName, _T("Glyph"), _T("None"), buffer, 500, szFilename);
 	if (_tcscmp(buffer, _T("None"))) {
 		_stscanf(buffer, _T("%d,%d,%d,%d"), &m_glyphMetrics[0], &m_glyphMetrics[1],
-			   &m_glyphMetrics[2], &m_glyphMetrics[3]);
+			&m_glyphMetrics[2], &m_glyphMetrics[3]);
 		if (m_glyphMetrics[2] > m_glyphMetrics[0] && m_glyphMetrics[3] > m_glyphMetrics[1]) {
 			m_dwFlags |= IMAGE_GLYPH;
 			m_glyphMetrics[2] = (m_glyphMetrics[2] - m_glyphMetrics[0]) + 1;
 			m_glyphMetrics[3] = (m_glyphMetrics[3] - m_glyphMetrics[1]) + 1;
 		}
 	}
+	
 	GetPrivateProfileString(m_szName, _T("Image"), _T("None"), buffer, 500, szFilename);
 	if (_tcscmp(buffer, _T("None")) || m_dwFlags & IMAGE_GLYPH) {
 		szFinalName = new TCHAR[MAX_PATH];
@@ -836,7 +825,7 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 		}
 		m_alpha = GetPrivateProfileInt(m_szName, _T("Alpha"), 100, szFilename);
 		m_alpha = min(m_alpha, 100);
-		m_alpha = (BYTE)((FLOAT)(((FLOAT) m_alpha) / 100) * 255);
+		m_alpha = (BYTE)((FLOAT)(((FLOAT)m_alpha) / 100) * 255);
 		m_bf.SourceConstantAlpha = m_alpha;
 		m_bLeft = GetPrivateProfileInt(m_szName, _T("Left"), 0, szFilename);
 		m_bRight = GetPrivateProfileInt(m_szName, _T("Right"), 0, szFilename);
@@ -868,7 +857,8 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 			COLORREF fillColor = CSkin::HexStringToLong(buffer);
 			m_fillBrush = CreateSolidBrush(fillColor);
 			m_dwFlags |= IMAGE_FILLSOLID;
-		} else
+		}
+		else
 			m_fillBrush = 0;
 		GetPrivateProfileString(m_szName, _T("Colorkey"), _T("None"), buffer, 500, szFilename);
 		if (_tcscmp(buffer, _T("None"))) {
@@ -893,12 +883,12 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 	return 0;
 }
 
-/**
- * Free all resources allocated by an image item
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Free all resources allocated by an image item
+
 void CImageItem::Free()
 {
-	if (m_hdc ) {
+	if (m_hdc) {
 		::SelectObject(m_hdc, m_hbmOld);
 		::DeleteDC(m_hdc);
 	}
@@ -911,21 +901,17 @@ void CImageItem::Free()
 	ZeroMemory(this, sizeof(CImageItem));
 }
 
-/**
- * Set the alpha value for a 32bit RGBA bitmap to the given value
- *
- * @param hBitmap	bitmap handle
- * @param bAlpha	new alpha value (0 -> fully transparent, 255 -> opaque)
- * 					default value is 255
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Set the alpha value for a 32bit RGBA bitmap to the given value
+//
+// @param hBitmap	bitmap handle
+// @param bAlpha	new alpha value (0 -> fully transparent, 255 -> opaque)
+// 					default value is 255
+
 void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 {
 	BITMAP bmp;
-	int x, y;
-	BOOL fixIt = TRUE;
-
 	GetObject(hBitmap, sizeof(bmp), &bmp);
-
 	if (bmp.bmBitsPixel != 32)
 		return;
 
@@ -937,10 +923,10 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 
 	GetBitmapBits(hBitmap, dwLen, p);
 
-	for (y = 0; y < bmp.bmHeight; ++y) {
+	for (int y = 0; y < bmp.bmHeight; ++y) {
 		BYTE *px = p + bmp.bmWidth * 4 * y;
 
-		for (x = 0; x < bmp.bmWidth; ++x) {
+		for (int x = 0; x < bmp.bmWidth; ++x) {
 			px[3] = bAlpha;
 			px += 4;
 		}
@@ -969,8 +955,9 @@ void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
 					px[0] = px[0] * alpha / 255;
 					px[1] = px[1] * alpha / 255;
 					px[2] = px[2] * alpha / 255;
-				} else
-					px[3] = 255;
+				}
+				else px[3] = 255;
+
 				px += 4;
 			}
 		}
@@ -981,26 +968,23 @@ void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
 
 void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha)
 {
-	BYTE 	*p = NULL;
-	DWORD 	dwLen;
-	int 	width, height, x, y;
-	BITMAP 	bmp;
-
 	float r = (float)dr / 2.55;
 	float g = (float)dg / 2.55;
 	float b = (float)db / 2.55;
 
+	BITMAP 	bmp;
 	::GetObject(hBitmap, sizeof(bmp), &bmp);
-	width = bmp.bmWidth;
-	height = bmp.bmHeight;
-	dwLen = width * height * 4;
-	p = (BYTE *)mir_alloc(dwLen);
+
+	int width = bmp.bmWidth;
+	int height = bmp.bmHeight;
+	int dwLen = width * height * 4;
+	BYTE *p = (BYTE *)mir_alloc(dwLen);
 	if (p) {
 		::GetBitmapBits(hBitmap, dwLen, p);
-		for (y = 0; y < height; ++y) {
+		for (int y = 0; y < height; ++y) {
 			BYTE *px = p + width * 4 * y;
 
-			for (x = 0; x < width; ++x) {
+			for (int x = 0; x < width; ++x) {
 				px[0] = (int)(px[0] + b) > 255 ? 255 : px[0] + b;
 				px[1] = (int)(px[1] + g) > 255 ? 255 : px[1] + g;
 				px[2] = (int)(px[2] + r) > 255 ? 255 : px[2] + r;
@@ -1013,9 +997,8 @@ void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha
 	}
 }
 
-/**
- * load PNG image using core service (advaimg)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// load PNG image using core service(advaimg)
 
 HBITMAP TSAPI CImageItem::LoadPNG(const TCHAR *szFilename)
 {
@@ -1025,12 +1008,12 @@ HBITMAP TSAPI CImageItem::LoadPNG(const TCHAR *szFilename)
 }
 
 
-/**
- * set filename and load parameters from the database
- * called on:
- * ) init
- * ) manual loading on user's request
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// set filename and load parameters from the database
+// called on:
+// ) init
+// ) manual loading on user's request
+
 void CSkin::setFileName()
 {
 	DBVARIANT dbv;
@@ -1043,9 +1026,9 @@ void CSkin::setFileName()
 
 	m_fLoadOnStartup = M.GetByte("useskin", 0) ? true : false;
 }
-/**
- * initialize the skin object
- */
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// initialize the skin object
 
 void CSkin::Init(bool fStartup)
 {
@@ -1058,10 +1041,8 @@ void CSkin::Init(bool fStartup)
 	m_sideBarContainerBG = ::GetSysColor(COLOR_3DFACE);
 
 	m_SkinItems[ID_EXTBKINFOPANELBG] = _defInfoPanel;
-	/*
-	 * read current skin name from db
-	 */
 
+	// read current skin name from db
 	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 
 	setFileName();
@@ -1070,31 +1051,31 @@ void CSkin::Init(bool fStartup)
 		Load();
 }
 
-/**
- * throws a warning to close all message windows before a skin can
- * be loaded. user can cancel it
- * @return: bool: true if windows were closed (or none was open) -> skin can be loaded
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// throws a warning to close all message windows before a skin can
+// be loaded. user can cancel it
+// @return: bool: true if windows were closed (or none was open) -> skin can be loaded
+//
+
 bool CSkin::warnToClose() const
 {
 	if (::pFirstContainer == NULL)
 		return true;
 
 	if (MessageBox(0,
-			TranslateT("All message containers need to close before the skin can be changed\nProceed?"),
-			TranslateT("Change skin"), MB_YESNO | MB_ICONQUESTION) != IDYES)
+		TranslateT("All message containers need to close before the skin can be changed\nProceed?"),
+		TranslateT("Change skin"), MB_YESNO | MB_ICONQUESTION) != IDYES)
 		return false;
 
 	CloseAllContainers();
 	return true;
 }
 
-/**
- * mir_free the aero tab bitmaps
- * only called on exit, NOT when a skin is unloaded as these elements
- * are always needed (even without a skin)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// mir_free the aero tab bitmaps
+// only called on exit, NOT when a skin is unloaded as these elements
+// are always needed (even without a skin)
+
 void CSkin::UnloadAeroTabs()
 {
 	if (m_tabTop) {
@@ -1123,27 +1104,23 @@ void CSkin::UnloadAeroTabs()
 	}
 }
 
-/**
- * Unload the skin. Free everything allocated.
- * Called when:
- * * user unloads the skin from the dialog box
- * * a new skin is loaded by user's request.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Unload the skin.Free everything allocated.
+// Called when:
+// * user unloads the skin from the dialog box
+// * a new skin is loaded by user's request.
 
 void CSkin::Unload()
 {
 	// do nothing when user decides to not close any window
 	if (warnToClose() == false)
-		return;				  						
+		return;
 
-	/*
-	 * delete all image items
-	 */
-
+	// delete all image items
 	m_skinEnabled = m_frameSkins = false;
 
 	CImageItem *tmp = m_ImageItems, *nextItem;
-	while(tmp) {
+	while (tmp) {
 		nextItem = tmp->getNextItem();
 		delete tmp;
 		tmp = nextItem;
@@ -1170,7 +1147,7 @@ void CSkin::Unload()
 	m_SkinDarkShadowPen = 0;
 
 	if (m_SkinItems) {
-		for (int i=0; i < ID_EXTBK_LAST; i++) {
+		for (int i = 0; i < ID_EXTBK_LAST; i++) {
 			m_SkinItems[i].IGNORED = 1;
 			m_SkinItems[i].imageItem = 0;
 		}
@@ -1203,8 +1180,8 @@ void CSkin::Unload()
 
 	m_closeIcon = m_maxIcon = m_minIcon = 0;
 
-	for (int i=0; i < m_nrSkinIcons; i++)
-		if (m_skinIcons[i].phIcon )
+	for (int i = 0; i < m_nrSkinIcons; i++)
+		if (m_skinIcons[i].phIcon)
 			::DestroyIcon(*(m_skinIcons[i].phIcon));
 	mir_free(m_skinIcons);
 
@@ -1221,13 +1198,12 @@ void CSkin::Unload()
 	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 }
 
-void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON *hIcon)
+void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON &hIcon)
 {
+	if (hIcon != 0)
+		DestroyIcon(hIcon);
+
 	TCHAR buffer[512];
-	if (hIcon == NULL)
-		return;
-	if (*hIcon != 0)
-		DestroyIcon(*hIcon);
 	GetPrivateProfileString(szSection, name, _T("none"), buffer, 250, m_tszFileName);
 	buffer[500] = 0;
 
@@ -1236,20 +1212,21 @@ void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON *hIcon)
 
 		_tsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
 		mir_sntprintf(szImagePath, MAX_PATH, _T("%s\\%s\\%s"), szDrive, szDir, buffer);
-		*hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
+		hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
 	}
+	else hIcon = NULL;
 }
 
 
-/**
- * Read a skin item (not a image item - these are handled elsewhere)
- * Reads all values from the .ini style .tsk file and fills the
- * structure.
- *
- * @param id     int: zero-based index into the table of predefined skin items
- * @param szItem char *: the section name in the ini file which holds the definition for this
-            *    item.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Read a skin item (not a image item - these are handled elsewhere)
+// Reads all values from the .ini style .tsk file and fills the
+// structure.
+//
+// @param id     int: zero-based index into the table of predefined skin items
+// @param szItem char *: the section name in the ini file which holds the definition for this
+//    item.
+
 void CSkin::ReadItem(const int id, const TCHAR *szItem)
 {
 	TCHAR buffer[512];
@@ -1287,7 +1264,7 @@ void CSkin::ReadItem(const int id, const TCHAR *szItem)
 	if (this_item->CORNER)
 		this_item->CORNER |= CORNER_ACTIVE;
 
-	this_item->GRADIENT = defaults->GRADIENT & GRADIENT_ACTIVE ?  defaults->GRADIENT : 0;
+	this_item->GRADIENT = defaults->GRADIENT & GRADIENT_ACTIVE ? defaults->GRADIENT : 0;
 	GetPrivateProfileString(szItem, _T("Gradient"), _T("None"), buffer, 400, m_tszFileName);
 	if (_tcsstr(buffer, _T("left")))
 		this_item->GRADIENT = GRADIENT_RL;
@@ -1311,12 +1288,12 @@ void CSkin::ReadItem(const int id, const TCHAR *szItem)
 	this_item->IGNORED = 0;
 }
 
-/**
- * stub to read a single item. Called from CSkin::LoadItems()
- * The real work is done by the CImageItem::Read().
- *
- * @param itemname char *: image item name, also section name in the .tsk file
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// stub to read a single item. Called from CSkin::LoadItems()
+// The real work is done by the CImageItem::Read().
+//
+// @param itemname char *: image item name, also section name in the .tsk file
+
 void CSkin::ReadImageItem(const TCHAR *itemname)
 {
 	TCHAR buffer[512], szItemNr[30];
@@ -1336,23 +1313,20 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 		return;
 	}
 
-	/*
-	 * handle the assignments of image items to skin items
-	 */
-
-	for (int n = 0;;n++) {
+	// handle the assignments of image items to skin items
+	for (int n = 0;; n++) {
 		mir_sntprintf(szItemNr, 30, _T("Item%d"), n);
 		GetPrivateProfileString(itemname, szItemNr, _T("None"), buffer, 500, m_tszFileName);
 		if (!_tcscmp(buffer, _T("None")))
 			break;
-		for (int i=0; i <= ID_EXTBK_LAST; i++) {
+		for (int i = 0; i <= ID_EXTBK_LAST; i++) {
 			if (!_tcsicmp(SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName, buffer)) {
 				if (!(tmpItem.getFlags() & IMAGE_GLYPH)) {
 					if (szImageFileName)
 						tmpItem.Create(szImageFileName);
 					else {
 						tmpItem.Clear();
-						return;							// no reference to the glpyh image and no valid image file name -> invalid item
+						return; // no reference to the glpyh image and no valid image file name -> invalid item
 					}
 				}
 				if (tmpItem.getHbm() || (tmpItem.getFlags() & IMAGE_GLYPH)) {
@@ -1376,12 +1350,12 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 		delete[] szImageFileName;
 }
 
-/**
- * Load the skin from the .tsk file
- * It reads and initializes all static values for the skin. Afterwards
- * it calls ReadItems() to read additional skin information like image items,
- * buttons and icons.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Load the skin from the .tsk file
+// It reads and initializes all static values for the skin. Afterwards
+// it calls ReadItems() to read additional skin information like image items,
+// buttons and icons.
+
 void CSkin::Load(void)
 {
 	if (warnToClose() == false)
@@ -1394,7 +1368,7 @@ void CSkin::Load(void)
 
 	m_fHaveGlyph = false;
 
-	if ( !m_tszFileName[0] || !::PathFileExists(m_tszFileName))
+	if (!m_tszFileName[0] || !::PathFileExists(m_tszFileName))
 		return;
 
 	TCHAR *p;
@@ -1410,7 +1384,7 @@ void CSkin::Load(void)
 	while (_tagSettings[i].szIniKey != NULL) {
 		data = 0;
 		data = GetPrivateProfileInt(_tagSettings[i].szIniKey, _tagSettings[i].szIniName,
-									_tagSettings[i].defaultval, m_tszFileName);
+			_tagSettings[i].defaultval, m_tszFileName);
 		switch (_tagSettings[i].size) {
 		case 1:
 			db_set_b(0, SRMSGMOD_T, _tagSettings[i].szSetting, (BYTE)data);
@@ -1442,7 +1416,7 @@ void CSkin::Load(void)
 			p += (lstrlen(p) + 1);
 			continue;
 		}
-		for (i=0; i <= ID_EXTBK_LAST; i++) {
+		for (i = 0; i <= ID_EXTBK_LAST; i++) {
 			if (!_tcsicmp(&p[1], SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName)) {
 				ReadItem(i, p);
 				break;
@@ -1468,9 +1442,9 @@ void CSkin::Load(void)
 
 	m_bAvatarBorderType = GetPrivateProfileInt(_T("Avatars"), _T("BorderType"), 1, m_tszFileName);
 
-	LoadIcon(_T("Global"), _T("CloseGlyph"), &CSkin::m_closeIcon);
-	LoadIcon(_T("Global"), _T("MaximizeGlyph"), &CSkin::m_maxIcon);
-	LoadIcon(_T("Global"), _T("MinimizeGlyph"), &CSkin::m_minIcon);
+	LoadIcon(_T("Global"), _T("CloseGlyph"), CSkin::m_closeIcon);
+	LoadIcon(_T("Global"), _T("MaximizeGlyph"), CSkin::m_maxIcon);
+	LoadIcon(_T("Global"), _T("MinimizeGlyph"), CSkin::m_minIcon);
 
 	m_frameSkins = GetPrivateProfileInt(_T("Global"), _T("framelessmode"), 0, m_tszFileName) ? true : false;
 	m_DisableScrollbars = GetPrivateProfileInt(_T("Global"), _T("NoScrollbars"), 0, m_tszFileName) ? true : false;
@@ -1548,15 +1522,15 @@ void CSkin::Load(void)
 
 #define SECT_BUFFER_SIZE 2500
 
-/**
- * Load additional skin items (like image items, buttons, icons etc.)
- * This is called AFTER ReadItems() has read the basic skin items
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Load additional skin items (like image items, buttons, icons etc.)
+// This is called AFTER ReadItems() has read the basic skin items
+
 void CSkin::LoadItems()
 {
 	TCHAR *szSections = NULL;
 	TCHAR *p, *p1;
-	TIconDesc tmpIconDesc = {0};
+	TIconDesc tmpIconDesc = { 0 };
 
 	CImageItem *pItem = m_ImageItems;
 
@@ -1577,7 +1551,7 @@ void CSkin::LoadItems()
 		if (p1)
 			*p1 = 0;
 		if (m_nrSkinIcons < NR_MAXSKINICONS && p1) {
-			LoadIcon(_T("Icons"), p, (HICON *)&tmpIconDesc.uId);
+			LoadIcon(_T("Icons"), p, *(HICON*)&tmpIconDesc.uId);
 			if (tmpIconDesc.uId) {
 				ZeroMemory(&m_skinIcons[m_nrSkinIcons], sizeof(TIconDesc));
 				m_skinIcons[m_nrSkinIcons].uId = tmpIconDesc.uId;
@@ -1605,13 +1579,7 @@ void CSkin::LoadItems()
 	nextButtonID = IDC_TBFIRSTUID;
 
 	p = szSections;
-	/*
-	while (lstrlen(p) > 1) {
-		if (p[0] == '!')
-		 	ReadButtonItem(p);
-		p += (lstrlen(p) + 1);
-	}
-	*/
+
 	mir_free(szSections);
 	g_ButtonSet.top = GetPrivateProfileInt(_T("ButtonArea"), _T("top"), 0, m_tszFileName);
 	g_ButtonSet.bottom = GetPrivateProfileInt(_T("ButtonArea"), _T("bottom"), 0, m_tszFileName);
@@ -1619,15 +1587,15 @@ void CSkin::LoadItems()
 	g_ButtonSet.right = GetPrivateProfileInt(_T("ButtonArea"), _T("right"), 0, m_tszFileName);
 }
 
-/**
- * setup and cache the bitmap for the close button on tabs and switch bar
- * buttons.
- * re-created when:
- * ) theme changes
- * ) icons change (via ico lib service)
- *
- * @param fDeleteOnly:	only delete GDI resources (this is ONLY used at plugin shutdown)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// setup and cache the bitmap for the close button on tabs and switch bar
+// buttons.
+// re-created when:
+// ) theme changes
+// ) icons change (via ico lib service)
+//
+// @param fDeleteOnly:	only delete GDI resources (this is ONLY used at plugin shutdown)
+
 void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
 {
 	if (m_tabCloseHDC || fDeleteOnly) {
@@ -1641,7 +1609,7 @@ void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
 	}
 
 	bool fFree = false;
-	RECT rc = {0, 0, 20, 20};
+	RECT rc = { 0, 0, 20, 20 };
 	HDC  dc = ::GetDC(PluginConfig.g_hwndHotkeyHandler);
 	m_tabCloseHDC = ::CreateCompatibleDC(dc);
 
@@ -1679,23 +1647,24 @@ void CSkin::setupTabCloseBitmap(bool fDeleteOnly)
 
 	::ReleaseDC(PluginConfig.g_hwndHotkeyHandler, dc);
 }
-/**
- * load and setup some images which are used to draw tabs in aero mode
- * there is one image for tabs (it is flipped vertically for bottom tabs)
- * and one image for the glowing effect on tabs (also flipped for bottom
- * tabs).
- *
- * support for custom images added 3.0.0.34
- * user can place images with a custom_ prefix into the images folder and
- * they will be loaded instead the default ones.
- *
- * the 3rd image acts as background for switch bar buttons
- *
- * this is executed when:
- * ) dwm mode changes
- * ) aero effect is changed by the user
- * ) glow colorization is changed by user's request
- */
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// load and setup some images which are used to draw tabs in aero mode
+// there is one image for tabs (it is flipped vertically for bottom tabs)
+// and one image for the glowing effect on tabs (also flipped for bottom
+// tabs).
+//
+// support for custom images added 3.0.0.34
+// user can place images with a custom_ prefix into the images folder and
+// they will be loaded instead the default ones.
+//
+// the 3rd image acts as background for switch bar buttons
+//
+// this is executed when:
+// ) dwm mode changes
+// ) aero effect is changed by the user
+// ) glow colorization is changed by user's request
+
 void CSkin::setupAeroSkins()
 {
 	M.getAeroState();
@@ -1747,19 +1716,21 @@ void CSkin::setupAeroSkins()
 	 */
 
 	if (!isOpaque && alphafactor > 150 && !(fr == fg && fg == fb)) {
-		float fmax =  max(max(fr,fg), fb);
+		float fmax = max(max(fr, fg), fb);
 
 		if (fmax == fr) {
 			fr *= (alphafactor / 100 * 2.2);
 			fr = min(fr, 255);
 			fb = min(fb * alphafactor / 100, 255);
 			fg = min(fg * alphafactor / 100, 255);
-		} else if (fmax == fg) {
+		}
+		else if (fmax == fg) {
 			fg *= (alphafactor / 100 * 2.2);
 			fg = min(fg, 255);
 			fr = min(fr * alphafactor / 100, 255);
 			fb = min(fb * alphafactor / 100, 255);
-		} else {
+		}
+		else {
 			fb *= (alphafactor / 100 * 2.2);
 			fb = min(fb, 255);
 			fr = min(fr * alphafactor / 100, 255);
@@ -1774,38 +1745,34 @@ void CSkin::setupAeroSkins()
 	HBITMAP hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
 
 	CImageItem::Colorize(hbm, GetRValue(m_dwmColorRGB),
-						 GetGValue(m_dwmColorRGB),
-						 GetBValue(m_dwmColorRGB));
+		GetGValue(m_dwmColorRGB),
+		GetBValue(m_dwmColorRGB));
 
 	CImageItem::PreMultiply(hbm, 1);
 
 	BITMAP bm;
 	GetObject(hbm, sizeof(bm), &bm);
 	m_tabTop = new CImageItem(4, 4, 4, 4, 0, hbm, IMAGE_FLAG_DIVIDED | IMAGE_PERPIXEL_ALPHA,
-							  0, 255, 30, 80, 50, 100);
+		0, 255, 30, 80, 50, 100);
 
 	m_tabTop->setAlphaFormat(AC_SRC_ALPHA, 255);
 	m_tabTop->setMetrics(bm.bmWidth, bm.bmHeight);
 
-
-	/*
-	 * created inverted bitmap for bottom tabs
-	 */
-
+	// created inverted bitmap for bottom tabs
 	FIF->FI_FlipVertical(fib);
 
 	hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
 
 	CImageItem::Colorize(hbm, GetRValue(m_dwmColorRGB),
-						 GetGValue(m_dwmColorRGB),
-						 GetBValue(m_dwmColorRGB));
+		GetGValue(m_dwmColorRGB),
+		GetBValue(m_dwmColorRGB));
 
 	CImageItem::PreMultiply(hbm, 1);
 	FIF->FI_Unload(fib);
 
 	GetObject(hbm, sizeof(bm), &bm);
 	m_tabBottom = new CImageItem(4, 4, 4, 4, 0, hbm, IMAGE_FLAG_DIVIDED | IMAGE_PERPIXEL_ALPHA,
-								 0, 255, 30, 80, 50, 100);
+		0, 255, 30, 80, 50, 100);
 
 	m_tabBottom->setAlphaFormat(AC_SRC_ALPHA, 255);
 	m_tabBottom->setMetrics(bm.bmWidth, bm.bmHeight);
@@ -1824,7 +1791,7 @@ void CSkin::setupAeroSkins()
 
 	GetObject(hbm, sizeof(bm), &bm);
 	m_tabGlowTop = new CImageItem(4, 4, 4, 4, 0, hbm, IMAGE_FLAG_DIVIDED | IMAGE_PERPIXEL_ALPHA,
-								  0, 255, 30, 80, 50, 100);
+		0, 255, 30, 80, 50, 100);
 
 	m_tabGlowTop->setAlphaFormat(AC_SRC_ALPHA, 255);
 	m_tabGlowTop->setMetrics(bm.bmWidth, bm.bmHeight);
@@ -1838,39 +1805,37 @@ void CSkin::setupAeroSkins()
 
 	GetObject(hbm, sizeof(bm), &bm);
 	m_tabGlowBottom = new CImageItem(4, 4, 4, 4, 0, hbm, IMAGE_FLAG_DIVIDED | IMAGE_PERPIXEL_ALPHA,
-									 0, 255, 30, 80, 50, 100);
+		0, 255, 30, 80, 50, 100);
 
 	m_tabGlowBottom->setAlphaFormat(AC_SRC_ALPHA, 255);
 	m_tabGlowBottom->setMetrics(bm.bmWidth, bm.bmHeight);
 
-	/*
-	 * background item for the button switch bar
-	 */
+	// background item for the button switch bar
 	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero_button.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))
 		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero_button.png"), tszBasePath);
 
-	hbm  = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
+	hbm = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
 
 	CImageItem::Colorize(hbm, GetRValue(m_dwmColorRGB),
-					 	 GetGValue(m_dwmColorRGB),
-					 	 GetBValue(m_dwmColorRGB));
+		GetGValue(m_dwmColorRGB),
+		GetBValue(m_dwmColorRGB));
 
 	CImageItem::PreMultiply(hbm, 1);
 
 	GetObject(hbm, sizeof(bm), &bm);
 
 	m_switchBarItem = new CImageItem(4, 4, 4, 4, 0, hbm, IMAGE_FLAG_DIVIDED | IMAGE_PERPIXEL_ALPHA,
-									 0, 255, 2, 12, 10, 20);
+		0, 255, 2, 12, 10, 20);
 
 	m_switchBarItem->setAlphaFormat(AC_SRC_ALPHA, 255);
 	m_switchBarItem->setMetrics(bm.bmWidth, bm.bmHeight);
 }
 
-/**
- * Calculate window frame borders for a skin with the ability to paint the window frame.
- * Uses system metrics to determine predefined window borders and caption bar size.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Calculate window frame borders for a skin with the ability to paint the window frame.
+// Uses system metrics to determine predefined window borders and caption bar size.
+
 void CSkin::SkinCalcFrameWidth()
 {
 	int xBorder, yBorder, yCaption;
@@ -1885,16 +1850,15 @@ void CSkin::SkinCalcFrameWidth()
 	m_realSkinnedFrame_caption = m_SkinnedFrame_caption - yCaption;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Draws part of the background to the foreground control
+//
+// @param hwndClient HWND: target window
+// @param hwnd       HWND: source window (usually the parent, needed for transforming client coordinates
+// @param pContainer ContainerWindowData *: needed to access the cached DC of the container window
+// @param rcClient   RECT *: client rectangle (target area)
+// @param hdcTarget  HDC: device context of the target window
 
-/**
- * Draws part of the background to the foreground control
- *
- * @param hwndClient HWND: target window
- * @param hwnd       HWND: source window (usually the parent, needed for transforming client coordinates
- * @param pContainer ContainerWindowData *: needed to access the cached DC of the container window
- * @param rcClient   RECT *: client rectangle (target area)
- * @param hdcTarget  HDC: device context of the target window
- */
 void CSkin::SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, RECT *rcClient, HDC hdcTarget)
 {
 	RECT rcWindow;
@@ -1917,17 +1881,17 @@ void CSkin::SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, R
 		::ReleaseDC(hwnd, dc);
 }
 
-/**
- * Draws part of the background to the foreground control
- * same as above, but can use any source DC, not just the
- * container
- *
- * @param hwndClient HWND: target window
- * @param hwnd       HWND: source window (usually the parent, needed for transforming client coordinates
- * @param pContainer ContainerWindowData *: needed to access the cached DC of the container window
- * @param rcClient   RECT *: client rectangle (target area)
- * @param hdcTarget  HDC: device context of the target window
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Draws part of the background to the foreground control
+// same as above, but can use any source DC, not just the
+// container
+//
+// @param hwndClient HWND: target window
+// @param hwnd       HWND: source window (usually the parent, needed for transforming client coordinates
+// @param pContainer ContainerWindowData *: needed to access the cached DC of the container window
+// @param rcClient   RECT *: client rectangle (target area)
+// @param hdcTarget  HDC: device context of the target window
+
 
 void CSkin::SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdcTarget)
 {
@@ -1945,9 +1909,8 @@ void CSkin::SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdc
 	::ReleaseDC(hwnd, hdcSrc);
 }
 
-/**
- * draw an icon "Dimmed" (small amount of transparency applied)
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// draw an icon "Dimmed" (small amount of transparency applied)
 
 void CSkin::DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, BYTE alpha)
 {
@@ -2004,17 +1967,16 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID
 			return orig;
 	}
 	if ((mwdat->sendMode & SMODE_MULTIPLE || mwdat->sendMode & SMODE_CONTAINER ||
-				  mwdat->fEditNotesActive || mwdat->sendMode & SMODE_SENDLATER) && skinID == ID_EXTBKINPUTAREA) {
+		mwdat->fEditNotesActive || mwdat->sendMode & SMODE_SENDLATER) && skinID == ID_EXTBKINPUTAREA) {
 		InflateRect(&nccp->rgrc[0], -1, -1);
 		return WVR_REDRAW;
 	}
 	return orig;
 }
 
-/*
- * process WM_NCPAINT for the rich edit control. Draw a visual style border and avoid classic static edge / client edge
- * may also draw a colorized border around the control
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// process WM_NCPAINT for the rich edit control. Draws a visual style border and avoid 
+// classic static edge / client edge may also draw a colorized border around the control
 
 UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc)
 {
@@ -2065,7 +2027,8 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, 
 		HBRUSH br = CreateSolidBrush(isMultipleReason ? RGB(255, 130, 130) : (isEditNotesReason ? RGB(80, 255, 80) : RGB(80, 80, 255)));
 		FillRect(hdc, &rcWindow, br);
 		DeleteObject(br);
-	} else {
+	}
+	else {
 		if (PluginConfig.m_cRichBorders) {
 			HBRUSH br = CreateSolidBrush(PluginConfig.m_cRichBorders);
 			FillRect(hdc, &rcWindow, br);
@@ -2078,15 +2041,15 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, 
 	return result;
 }
 
-/**
- * convert a html-style color string (without the #) to a 32bit COLORREF value
- *
- * @param szSource TCHAR*: the color value as string. format:
- *  			   html-style without the leading #. e.g.
- *  			   "f3e355"
- *
- * @return COLORREF representation of the string value.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// convert a html-style color string (without the #) to a 32bit COLORREF value
+//
+// @param szSource TCHAR*: the color value as string. format:
+//  			   html-style without the leading #. e.g.
+//  			   "f3e355"
+//
+// @return COLORREF representation of the string value.
+
 DWORD __fastcall CSkin::HexStringToLong(const TCHAR *szSource)
 {
 	TCHAR *stopped;
@@ -2096,48 +2059,44 @@ DWORD __fastcall CSkin::HexStringToLong(const TCHAR *szSource)
 	return(RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));
 }
 
-/**
- * Render text to the given HDC. This function is aero aware and will use uxtheme DrawThemeTextEx() when needed.
- * Paramaters are pretty much comparable to GDI DrawText() API
- *
- * @return
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Render text to the given HDC. This function is aero aware and will use uxtheme DrawThemeTextEx() when needed.
+// Paramaters are pretty much comparable to GDI DrawText() API
 
 int CSkin::RenderText(HDC hdc, HANDLE hTheme, const TCHAR *szText, RECT *rc, DWORD dtFlags, const int iGlowSize, COLORREF clr, bool fForceAero)
 {
 	if ((PluginConfig.m_bIsVista && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
-		DTTOPTS dto = {0};
+		DTTOPTS dto = { 0 };
 		dto.dwSize = sizeof(dto);
 		if (iGlowSize && (M.isAero() || fForceAero)) {
 			dto.iGlowSize = iGlowSize;
-			dto.dwFlags = DTT_COMPOSITED|DTT_GLOWSIZE;
+			dto.dwFlags = DTT_COMPOSITED | DTT_GLOWSIZE;
 		}
 		else {
-			dto.dwFlags = DTT_TEXTCOLOR|DTT_COMPOSITED;//|DTT_SHADOWTYPE|DTT_SHADOWOFFSET|DTT_SHADOWCOLOR|DTT_BORDERSIZE|DTT_BORDERCOLOR;
+			dto.dwFlags = DTT_TEXTCOLOR | DTT_COMPOSITED;//|DTT_SHADOWTYPE|DTT_SHADOWOFFSET|DTT_SHADOWCOLOR|DTT_BORDERSIZE|DTT_BORDERCOLOR;
 			dto.crText = clr;
 		}
 		dto.iBorderSize = 10;
 		return(CMimAPI::m_pfnDrawThemeTextEx(hTheme, hdc, BP_PUSHBUTTON, PBS_NORMAL, szText, -1, dtFlags, rc, &dto));
 	}
-	else {
-		::SetTextColor(hdc, clr);
-		return(::DrawText(hdc, szText, -1, rc, dtFlags));
-	}
+
+	::SetTextColor(hdc, clr);
+	return(::DrawText(hdc, szText, -1, rc, dtFlags));
 }
 
-/**
- * Resize a bitmap using image service. The function does not care about the image aspect ratio.
- * The caller is responsible to submit proper values for the desired height and width.
- *
- * @param hBmpSrc  HBITMAP: the source bitmap
- * @param width    LONG: width of the destination bitmap
- * @param height   LONG: height of the new bitmap
- * @param mustFree bool: indicates that the new bitmap had been
-                   *resized and either the source or destination
-                   *bitmap should be freed.
- *
- * @return HBTIAMP: handle to a bitmap with the desired size.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Resize a bitmap using image service. The function does not care about the image aspect ratio.
+// The caller is responsible to submit proper values for the desired height and width.
+//
+// @param hBmpSrc  HBITMAP: the source bitmap
+// @param width    LONG: width of the destination bitmap
+// @param height   LONG: height of the new bitmap
+// @param mustFree bool: indicates that the new bitmap had been
+//resized and either the source or destination
+//bitmap should be freed.
+//
+// @return HBTIAMP: handle to a bitmap with the desired size.
+
 HBITMAP CSkin::ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &mustFree)
 {
 	BITMAP	bm;
@@ -2162,62 +2121,62 @@ HBITMAP CSkin::ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &must
 	}
 }
 
-/**
- * Draw the given skin item to the target rectangle and dc
- *
- * @param hdc    HDC: device context
- * @param rc     RECT: target rectangle
- * @param item   CSkinItem*: fully initialiized skin item
- *
- * @return bool: true if the item has been painted, false if not
- *  	   (only reason: the ignore flag in the item is set).
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Draw the given skin item to the target rectangle and dc
+//
+// @param hdc    HDC: device context
+// @param rc     RECT: target rectangle
+// @param item   CSkinItem*: fully initialiized skin item
+//
+// @return bool: true if the item has been painted, false if not
+//  	   (only reason: the ignore flag in the item is set).
+
 bool __fastcall CSkin::DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item)
 {
 	if (!item->IGNORED) {
 		::DrawAlpha(hdc, const_cast<RECT *>(rc), item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT,
-				  item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
+			item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
 		return true;
 	}
 	return false;
 }
 
-/**
- * Create a 32bit RGBA bitmap, compatible for rendering with alpha channel.
- * Required by anything which would render on a transparent aero surface.
- * the image is a "bottom up" bitmap, as it has a negative
- * height. This is a requirement for some UxTheme APIs (e.g.
- * DrawThemeTextEx).
- *
- * @param rc     RECT &: the rectangle describing the target area.
- * @param dc     The device context for which the bitmap should be created.
- *
- * @return HBITMAP: handle to the bitmap created.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Create a 32bit RGBA bitmap, compatible for rendering with alpha channel.
+// Required by anything which would render on a transparent aero surface.
+// the image is a "bottom up" bitmap, as it has a negative
+// height. This is a requirement for some UxTheme APIs (e.g.
+// DrawThemeTextEx).
+//
+// @param rc     RECT &: the rectangle describing the target area.
+// @param dc     The device context for which the bitmap should be created.
+//
+// @return HBITMAP: handle to the bitmap created.
+
 HBITMAP CSkin::CreateAeroCompatibleBitmap(const RECT &rc, HDC dc)
 {
-	BITMAPINFO dib = {0};
+	BITMAPINFO dib = { 0 };
 
 	dib.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    dib.bmiHeader.biWidth = rc.right - rc.left;
-    dib.bmiHeader.biHeight = -(rc.bottom - rc.top);
-    dib.bmiHeader.biPlanes = 1;
-    dib.bmiHeader.biBitCount = 32;
-    dib.bmiHeader.biCompression = BI_RGB;
+	dib.bmiHeader.biWidth = rc.right - rc.left;
+	dib.bmiHeader.biHeight = -(rc.bottom - rc.top);
+	dib.bmiHeader.biPlanes = 1;
+	dib.bmiHeader.biBitCount = 32;
+	dib.bmiHeader.biCompression = BI_RGB;
 
-    return(CreateDIBSection(dc, &dib, DIB_RGB_COLORS, NULL, NULL, 0 ));
+	return(CreateDIBSection(dc, &dib, DIB_RGB_COLORS, NULL, NULL, 0));
 }
 
-/**
- * Map a given rectangle within the window, specified by hwndClient
- * to the client area of another window.
- *
- * @param hwndClient HWND: Client window
- * @param hwndParent HWND: The window to which the coordinates should be mapped
- * @param rc         RECT &: Rectangular area within the client area of hwndClient.
- *
-                    *It will receive the transformed coordinates, relative to the client area of hwndParent
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Map a given rectangle within the window, specified by hwndClient
+// to the client area of another window.
+//
+// @param hwndClient HWND: Client window
+// @param hwndParent HWND: The window to which the coordinates should be mapped
+// @param rc         RECT &: Rectangular area within the client area of hwndClient.
+//
+//It will receive the transformed coordinates, relative to the client area of hwndParent
+
 void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 {
 	POINT pt;
@@ -2235,14 +2194,14 @@ void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 	rc.bottom = rc.top + cy;
 }
 
-/**
- * Draw the background for the message window tool bar
- *
- * @param dat      _MessageWindowData *: structure describing the message session
- *
- * @param hdc      HDC: handle to the device context in which painting should occur.
- * @param rcWindow RECT &: The window rectangle of the message dialog window
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Draw the background for the message window tool bar
+//
+// @param dat      _MessageWindowData *: structure describing the message session
+//
+// @param hdc      HDC: handle to the device context in which painting should occur.
+// @param rcWindow RECT &: The window rectangle of the message dialog window
+
 void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindow)
 {
 	if (dat) {
@@ -2294,7 +2253,7 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		LONG cx = rcToolbar.right - rcToolbar.left;
 		LONG cy = rcToolbar.bottom - rcToolbar.top;
 
-		RECT rcCachedToolbar = {0};
+		RECT rcCachedToolbar = { 0 };
 		rcCachedToolbar.right = cx;
 		rcCachedToolbar.bottom = cy;
 
@@ -2319,60 +2278,57 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		else {
 			dat->pContainer->bTBRenderingMode = (M.isVSThemed() ? 1 : 0);
 			m_tmp_tb_high = PluginConfig.m_tbBackgroundHigh ? PluginConfig.m_tbBackgroundHigh :
-					((bAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar : ::GetSysColor(COLOR_3DFACE));
+				((bAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar : ::GetSysColor(COLOR_3DFACE));
 			m_tmp_tb_low = PluginConfig.m_tbBackgroundLow ? PluginConfig.m_tbBackgroundLow :
-					((bAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar2 : ::GetSysColor(COLOR_3DFACE));
+				((bAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar2 : ::GetSysColor(COLOR_3DFACE));
 
 			bAlphaOffset = PluginConfig.m_tbBackgroundHigh ? 40 : 0;
 			::DrawAlpha(dat->pContainer->cachedToolbarDC, &rcCachedToolbar, m_tmp_tb_high, 55 + bAlphaOffset, m_tmp_tb_low, 0, 9, 0, 0, 0);
 		}
 
 		::BitBlt(hdc, rcToolbar.left, rcToolbar.top, cx, cy,
-				 dat->pContainer->cachedToolbarDC, 0, 0, SRCCOPY);
+			dat->pContainer->cachedToolbarDC, 0, 0, SRCCOPY);
 	}
 }
 
-/**
- * Initiate a buffered paint operation
- *
- * @param hdcSrc The source device context (usually obtained by BeginPaint())
- * @param rc     RECT&: the target rectangle that receives the painting
- * @param hdcOut HDC& (out) receives the buffered device context handle
- *
- * @return
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Initiate a buffered paint operation
+//
+// @param hdcSrc The source device context (usually obtained by BeginPaint())
+// @param rc     RECT&: the target rectangle that receives the painting
+// @param hdcOut HDC& (out) receives the buffered device context handle
+
 HANDLE CSkin::InitiateBufferedPaint(const HDC hdcSrc, RECT& rc, HDC& hdcOut)
 {
-	HANDLE hbp = CMimAPI::m_pfnBeginBufferedPaint(hdcSrc, &rc, BPBF_TOPDOWNDIB, NULL, &hdcOut);
-	return(hbp);
+	return CMimAPI::m_pfnBeginBufferedPaint(hdcSrc, &rc, BPBF_TOPDOWNDIB, NULL, &hdcOut);
 }
 
-/**
- * finalize buffered paint cycle and apply (if applicable) the global alpha value
- *
- * @param hbp    HANDLE: handle of the buffered paint context
- * @param rc     RECT*: target rectangly where alpha value should be applied
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// finalize buffered paint cycle and apply (if applicable) the global alpha value
+//
+// @param hbp    HANDLE: handle of the buffered paint context
+// @param rc     RECT*: target rectangly where alpha value should be applied
+
 void CSkin::FinalizeBufferedPaint(HANDLE hbp, RECT *rc)
 {
 	if (m_pCurrentAeroEffect && m_pCurrentAeroEffect->m_finalAlpha > 0)
 		CMimAPI::m_pfnBufferedPaintSetAlpha(hbp, rc, m_pCurrentAeroEffect->m_finalAlpha);
 	CMimAPI::m_pfnEndBufferedPaint(hbp, TRUE);
 }
-/**
- * Apply an effect to a aero glass area
- *
- * @param hdc    HDC: device context
- * @param rc     RECT*: target rectangle
- * @param iEffectArea
- *  			 int: area identifier (specifies which area we are drawing, so that allows to
- *  			 have different effects on different areas).
- *  			 Area can be the status bar, info panel, menu
- *  			 bar etc.
- * @param hbp    HANDLE: handle to a buffered paint identifier.
- *  			 default is none, needed forsome special
- *  			 effects. default paramenter is 0
- */
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Apply an effect to a aero glass area
+//
+// @param hdc    HDC: device context
+// @param rc     RECT*: target rectangle
+// @param iEffectArea
+//  			 int: area identifier (specifies which area we are drawing, so that allows to
+//  			 have different effects on different areas).
+//  			 Area can be the status bar, info panel, menu
+//  			 bar etc.
+// @param hbp    HANDLE: handle to a buffered paint identifier.
+//  			 default is none, needed forsome special
+//  			 effects. default paramenter is 0
 
 void CSkin::ApplyAeroEffect(const HDC hdc, const RECT *rc, int iEffectArea, HANDLE hbp)
 {
@@ -2383,9 +2339,8 @@ void CSkin::ApplyAeroEffect(const HDC hdc, const RECT *rc, int iEffectArea, HAND
 		m_pCurrentAeroEffect->pfnEffectRenderer(hdc, rc, iEffectArea);
 }
 
-/** aero effect callbacks
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// aero effect callbacks
 
 void CSkin::AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectArea)
 {
@@ -2397,7 +2352,7 @@ void CSkin::AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectAr
 		DWORD   corner = (iEffectArea == AERO_EFFECT_AREA_INFOPANEL) ? m_pCurrentAeroEffect->m_cornerRadius : 6;
 
 		DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, alpha, m_pCurrentAeroEffect->m_gradientColor,
-				  color2_trans, m_pCurrentAeroEffect->m_gradientType, m_pCurrentAeroEffect->m_cornerType, corner, 0);
+			color2_trans, m_pCurrentAeroEffect->m_gradientType, m_pCurrentAeroEffect->m_cornerType, corner, 0);
 	}
 }
 
@@ -2405,8 +2360,8 @@ void CSkin::AeroEffectCallback_Carbon(const HDC hdc, const RECT *rc, int iEffect
 {
 	if (iEffectArea < 0x1000)
 		DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, m_pCurrentAeroEffect->m_baseAlpha,
-				  m_pCurrentAeroEffect->m_gradientColor, 0, m_pCurrentAeroEffect->m_gradientType,
-				  m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, 0);
+		m_pCurrentAeroEffect->m_gradientColor, 0, m_pCurrentAeroEffect->m_gradientType,
+		m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, 0);
 }
 
 void CSkin::AeroEffectCallback_Solid(const HDC hdc, const RECT *rc, int iEffectArea)
@@ -2414,18 +2369,18 @@ void CSkin::AeroEffectCallback_Solid(const HDC hdc, const RECT *rc, int iEffectA
 	if (iEffectArea < 0x1000) {
 		if (iEffectArea == AERO_EFFECT_AREA_SIDEBAR_LEFT)
 			::DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, m_pCurrentAeroEffect->m_baseAlpha,
-						m_pCurrentAeroEffect->m_gradientColor, 0, GRADIENT_TB + 1,
-						0, 2, 0);
+			m_pCurrentAeroEffect->m_gradientColor, 0, GRADIENT_TB + 1,
+			0, 2, 0);
 		else
 			::DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, m_pCurrentAeroEffect->m_baseAlpha,
-						m_pCurrentAeroEffect->m_gradientColor, 0, m_pCurrentAeroEffect->m_gradientType,
-						m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, 0);
+			m_pCurrentAeroEffect->m_gradientColor, 0, m_pCurrentAeroEffect->m_gradientType,
+			m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, 0);
 	}
 	else {
 		BYTE	bGradient = (iEffectArea & AERO_EFFECT_AREA_TAB_BOTTOM ? GRADIENT_BT : GRADIENT_TB) + 1;
 		::DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, 70,
-				  m_pCurrentAeroEffect->m_gradientColor, 1, bGradient,
-				  m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, 0);
+			m_pCurrentAeroEffect->m_gradientColor, 1, bGradient,
+			m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, 0);
 	}
 }
 
@@ -2456,7 +2411,8 @@ void CSkin::initAeroEffect()
 		}
 
 		m_BrushBack = ::CreateSolidBrush(m_pCurrentAeroEffect->m_clrBack);
-	} else {
+	}
+	else {
 		m_pCurrentAeroEffect = 0;
 		m_glowSize = 10;
 		m_BrushBack = ::CreateSolidBrush(0);
@@ -2484,11 +2440,11 @@ void CSkin::setAeroEffect(LRESULT effect)
 	db_set_dw(0, SRMSGMOD_T, "aerostyle", m_aeroEffect);
 }
 
-/**
- * extract the aero skin images from the DLL and store them in
- * the private data folder.
- * runs at every startup
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// extract the aero skin images from the DLL and store them in
+// the private data folder.
+// runs at every startup
+
 void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 {
 	TCHAR tszBasePath[MAX_PATH];
@@ -2500,15 +2456,14 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 
 	m_fAeroSkinsValid = true;
 
-	for (int i=0; i < SIZEOF(my_default_skin); i++)
-		if ( !Utils::extractResource(g_hInst, my_default_skin[i].ulID, _T("SKIN_GLYPH"), tszBasePath, my_default_skin[i].tszName, fForceOverwrite))
+	for (int i = 0; i < SIZEOF(my_default_skin); i++)
+		if (!Utils::extractResource(g_hInst, my_default_skin[i].ulID, _T("SKIN_GLYPH"), tszBasePath, my_default_skin[i].tszName, fForceOverwrite))
 			m_fAeroSkinsValid = false;
 }
 
-/**
- * redraw the splitter area between the message input and message log
- * area only
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// redraw the splitter area between the message input and message log area only
+
 void CSkin::UpdateToolbarBG(TWindowData *dat, DWORD dwRdwOptFlags)
 {
 	RECT	rcUpdate, rcTmp;
@@ -2530,19 +2485,19 @@ void CSkin::UpdateToolbarBG(TWindowData *dat, DWORD dwRdwOptFlags)
 
 		if (M.isAero() || M.isDwmActive())
 			dat->fLimitedUpdate = true; 	// skip unrelevant window updates when we have buffered paint avail
-		::RedrawWindow(dat->hwnd, &rcUpdate, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW);
+		::RedrawWindow(dat->hwnd, &rcUpdate, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW);
 		::BB_RedrawButtons(dat);
 		dat->fLimitedUpdate = false;
 	}
 }
 
-/**
- * fill a background area with the default color. This can be either the configured
- * fill color or default system color.
- *
- * @param hdc: device context
- * @param rc:  area to fill.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// fill a background area with the default color. This can be either the configured
+// fill color or default system color.
+//
+// @param hdc: device context
+// @param rc:  area to fill.
+
 void CSkin::FillBack(const HDC hdc, RECT* rc)
 {
 	if (0 == CSkin::m_BrushFill) {
