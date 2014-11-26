@@ -437,7 +437,7 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.ptszText = _A2T(smessage.c_str(), CP_UTF8);
 	gce.time = notification->time ? notification->time : ::time(NULL);
-	gce.bIsMe = true;
+	gce.bIsMe = false;
 	gce.dwFlags |= GCEF_ADDTOLOG;
 	gce.ptszNick = TranslateT("Notifications");
 	gce.ptszUID = _T(FACEBOOK_NOTIFICATIONS_CHATROOM);
