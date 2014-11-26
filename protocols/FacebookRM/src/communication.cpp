@@ -132,7 +132,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 			pos += 8;
 			int error_num = atoi(resp.data.substr(pos, resp.data.find(",", pos) - pos).c_str());
 			if (error_num != 0) {
-				std::string error = "";
+				std::string error;
 
 				pos = resp.data.find("\"errorDescription\":\"", pos);
 				if (pos != std::string::npos) {
@@ -142,7 +142,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 					error = ptrA( mir_utf8decodeA(error.c_str()));	
 				}
 
-				std::string title = "";
+				std::string title;
 				pos = resp.data.find("\"errorSummary\":\"", pos);
 				if (pos != std::string::npos) {
 					pos += 16;
@@ -168,20 +168,20 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	return resp;
 }
 
-bool facebook_client::handle_entry(std::string method)
+bool facebook_client::handle_entry(const std::string &method)
 {
 	parent->debugLogA("   >> Entering %s()", method.c_str());
 	return true;
 }
 
-bool facebook_client::handle_success(std::string method)
+bool facebook_client::handle_success(const std::string &method)
 {
 	parent->debugLogA("   << Quitting %s()", method.c_str());
 	reset_error();
 	return true;
 }
 
-bool facebook_client::handle_error(std::string method, int action)
+bool facebook_client::handle_error(const std::string &method, int action)
 {
 	increment_error();
 	parent->debugLogA("!!!!! %s(): Something with Facebook went wrong", method.c_str());
@@ -818,15 +818,17 @@ bool facebook_client::login(const char *username, const char *password)
 
 	if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end())
 	{
+		std::string location = resp.headers["Location"];
+
 		// Check for invalid requests
-		if (resp.headers["Location"].find("invalid_request.php") != std::string::npos) {
+		if (location.find("invalid_request.php") != std::string::npos) {
 			client_notify(TranslateT("Login error: Invalid request."));
 			parent->debugLogA(" ! !  Login error: Invalid request.");
 			return handle_error("login", FORCE_QUIT);
 		}
 
 		// Check whether some Facebook things are required
-		if (resp.headers["Location"].find("help.php") != std::string::npos)
+		if (location.find("help.php") != std::string::npos)
 		{
 			client_notify(TranslateT("Login error: Some Facebook things are required."));
 			parent->debugLogA(" ! !  Login error: Some Facebook things are required.");
@@ -834,7 +836,7 @@ bool facebook_client::login(const char *username, const char *password)
 		}
 		
 		// Check whether setting Machine name is required
-		if (resp.headers["Location"].find("/checkpoint/") != std::string::npos)
+		if (location.find("/checkpoint/") != std::string::npos)
 		{
 			resp = flap(REQUEST_SETUP_MACHINE, NULL, NULL, REQUEST_GET);
 
@@ -974,7 +976,9 @@ bool facebook_client::logout()
 
 	http::response resp = flap(REQUEST_LOGOUT, &data);
 
-	this->username_ = this->password_ = this->self_.user_id = "";
+	this->username_.clear();
+	this->password_.clear();
+	this->self_.user_id.clear();
 
 	switch (resp.code)
 	{
@@ -1210,14 +1214,14 @@ bool facebook_client::channel()
 	}
 }
 
-int facebook_client::send_message(MCONTACT hContact, std::string message_recipient, std::string message_text, std::string *error_text, MessageMethod method, std::string captcha_persist_data, std::string captcha)
+int facebook_client::send_message(MCONTACT hContact, const std::string &message_recipient, const std::string &message_text, std::string *error_text, MessageMethod method, const std::string &captcha_persist_data, const std::string &captcha)
 {
 	ScopedLock s(send_message_lock_);
 
 	handle_entry("send_message");
 
 	http::response resp;
-	std::string data = "";
+	std::string data;
 
 	if (!captcha.empty()) {
 		data += "&captcha_persist_data=" + captcha_persist_data;

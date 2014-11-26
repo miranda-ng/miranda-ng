@@ -53,25 +53,25 @@ namespace utils
 
 	namespace text
 	{
-		void replace_first(std::string* data, std::string from, std::string to);
-		void replace_all(std::string* data, std::string from, std::string to);
-		unsigned int count_all(std::string* data, std::string term);
+		void replace_first(std::string* data, const std::string &from, const std::string &to);
+		void replace_all(std::string* data, const std::string &from, const std::string &to);
+		unsigned int count_all(std::string* data, const std::string &term);
 		std::string html_entities_decode(std::string data);
 		std::string edit_html(std::string data);
-		std::string remove_html(std::string data);
-		std::string slashu_to_utf8(std::string data);
-		std::string trim(std::string data, bool rtrim = false);
+		std::string remove_html(const std::string &data);
+		std::string slashu_to_utf8(const std::string &data);
+		std::string trim(const std::string &data, bool rtrim = false);
 		std::string source_get_value(std::string* data, unsigned int argument_count, ...);
 		std::string source_get_value2(std::string* data, const char *term, const char *endings, bool wholeString = false);
 		std::string source_get_form_data(std::string* data);
 		std::string rand_string(int len, const char *chars = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz");
-		void explode(std::string str, std::string separator, std::vector<std::string>* results);
+		void explode(std::string str, const std::string &separator, std::vector<std::string>* results);
 		void append_ordinal(unsigned long value, std::string* data);
 	};
 
 	namespace conversion
 	{
-		DWORD to_timestamp(std::string data);
+		DWORD to_timestamp(const std::string &data);
 		std::string to_string(void*, WORD type);
 
 		template <class T>

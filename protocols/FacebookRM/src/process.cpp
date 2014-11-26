@@ -710,7 +710,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				facy.chat_rooms.insert(std::make_pair(tthread_id, fbc));
 			}
 
-			MCONTACT hChatContact;
+			MCONTACT hChatContact = NULL;
 			// RM TODO: better use check if chatroom exists/is in db/is online... no?
 			// like: if (ChatIDToHContact(tthread_id) == NULL) {
 			ptrA users(GetChatUsers(tthread_id.c_str()));
@@ -878,11 +878,12 @@ void FacebookProto::ShowNotifications() {
 
 	// Show popups for unseen notifications and/or write them to chatroom
 	for (std::map<std::string, facebook_notification*>::iterator it = facy.notifications.begin(); it != facy.notifications.end(); ++it) {
-		if (it->second != NULL && !it->second->seen) {
-			debugLogA("      Showing popup for notification: %s", it->second->text.c_str());
-			ptrT szText(mir_utf8decodeT(it->second->text.c_str()));
-			it->second->hWndPopup = NotifyEvent(m_tszUserName, szText, ContactIDToHContact(it->second->user_id), FACEBOOK_EVENT_NOTIFICATION, &it->second->link, &it->second->id);
-			it->second->seen = true;
+		facebook_notification *notification = it->second;
+		if (notification != NULL && !notification->seen) {
+			debugLogA("      Showing popup for notification: %s", notification->text.c_str());
+			ptrT szText(mir_utf8decodeT(notification->text.c_str()));
+			notification->hWndPopup = NotifyEvent(m_tszUserName, szText, ContactIDToHContact(notification->user_id), FACEBOOK_EVENT_NOTIFICATION, &notification->link, &notification->id);
+			notification->seen = true;
 		}
 	}
 }

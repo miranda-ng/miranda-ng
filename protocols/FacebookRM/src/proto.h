@@ -200,9 +200,9 @@ public:
 
 	// Contacts handling
 	bool		IsMyContact(MCONTACT, bool include_chat = false);
-	MCONTACT	ContactIDToHContact(std::string);
-	MCONTACT	ChatIDToHContact(std::tstring);
-	std::string	ThreadIDToContactID(std::string thread_id);
+	MCONTACT	ContactIDToHContact(const std::string&);
+	MCONTACT	ChatIDToHContact(const std::tstring&);
+	std::string	ThreadIDToContactID(const std::string&);
 	void		LoadContactInfo(facebook_user* fbu);
 	MCONTACT	AddToContactList(facebook_user*, ContactType type, bool force_add = false);
 	void		SetAllContactStatuses(int status);
@@ -233,9 +233,9 @@ public:
 	// Helpers
 	std::tstring GetAvatarFolder();
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url);
-	void CheckAvatarChange(MCONTACT hContact, std::string image_url);
+	void CheckAvatarChange(MCONTACT hContact, const std::string &image_url);
 	void ToggleStatusMenuItems(BOOL bEnable);
-	void StickerAsSmiley(std::string stickerId, std::string url, MCONTACT hContact);
+	void StickerAsSmiley(std::string stickerId, const std::string &url, MCONTACT hContact);
 	void SaveName(MCONTACT hContact, const facebook_user *fbu);	
 	void OpenUrl(std::string url);
 	void __cdecl OpenUrlThread(void*);

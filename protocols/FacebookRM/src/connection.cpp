@@ -201,7 +201,7 @@ void FacebookProto::UpdateLoop(void *)
 	time_t tim = ::time(NULL);
 	debugLogA(">>>>> Entering Facebook::UpdateLoop[%d]", tim);
 
-	for (int i = -1; !isOffline(); i = ++i % 50)
+	for (int i = -1; !isOffline(); i = (i + 1) % 50)
 	{
 		if (i != -1) {
 			ProcessBuddyList(NULL);

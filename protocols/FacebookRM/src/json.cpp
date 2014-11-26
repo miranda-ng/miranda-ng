@@ -116,13 +116,13 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 				bool b;
 
 				// "webStatus" and "otherStatus" are marked as "WEB" on FB website
-				if ((b = json_as_pstring(webStatus) == "active") || json_as_pstring(otherStatus) == "active") {
+				if ((b = (json_as_pstring(webStatus) == "active")) || json_as_pstring(otherStatus) == "active") {
 					current->status_id = ID_STATUS_ONLINE;					
 					current->client = b ? CLIENT_WEB : CLIENT_OTHER;
 				}
 
 				// "fbAppStatus" and "messengerStatus" are marked as "MOBILE" on FB website
-				if ((b = json_as_pstring(fbAppStatus) == "active") || json_as_pstring(messengerStatus) == "active") {
+				if ((b = (json_as_pstring(fbAppStatus) == "active")) || json_as_pstring(messengerStatus) == "active") {
 					current->status_id = ID_STATUS_ONTHEPHONE;
 					current->client = b ? CLIENT_APP : CLIENT_MESSENGER;
 				}
@@ -288,7 +288,7 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 	return EXIT_SUCCESS;
 }
 
-bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text)
+bool ignore_duplicits(FacebookProto *proto, const std::string &mid, const std::string &text)
 {
 	ScopedLock s(proto->facy.send_message_lock_);
 
@@ -305,14 +305,14 @@ bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text)
 	return false;
 }
 
-void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE *it, std::string thread_id, std::string other_user_fbid)
+void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE *it, const std::string &thread_id, std::string other_user_fbid)
 {
 	// Process attachements and stickers
 	JSONNODE *has_attachment = json_get(it, "has_attachment");
 	if (has_attachment != NULL && json_as_bool(has_attachment)) {
 		// Append attachements
-		std::string type = "";
-		std::string attachments_text = "";
+		std::string type;
+		std::string attachments_text;
 		JSONNODE *attachments = json_get(it, "attachments");
 		for (unsigned int j = 0; j < json_size(attachments); j++) {
 			JSONNODE *itAttachment = json_at(attachments, j);
@@ -467,25 +467,28 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					std::tstring tid = json_as_string(threadid);
 					std::string reader_id = json_as_pstring(reader);
 
-					std::map<std::tstring, facebook_chatroom*>::iterator chatroom = proto->facy.chat_rooms.find(tid);
-					if (chatroom != proto->facy.chat_rooms.end()) {
-						std::map<std::string, std::string>::const_iterator participant = chatroom->second->participants.find(reader_id);
-						if (participant == chatroom->second->participants.end()) {
+					std::map<std::tstring, facebook_chatroom*>::iterator it = proto->facy.chat_rooms.find(tid);
+					if (it != proto->facy.chat_rooms.end()) {
+						facebook_chatroom *chatroom = it->second;
+						std::map<std::string, std::string> participants = chatroom->participants;
+
+						std::map<std::string, std::string>::const_iterator participant = participants.find(reader_id);
+						if (participant == participants.end()) {
 							// TODO: load name of this participant
 							std::string name = reader_id;
-							chatroom->second->participants.insert(std::make_pair(reader_id, name));
+							participants.insert(std::make_pair(reader_id, name));
 							proto->AddChatContact(tid.c_str(), reader_id.c_str(), name.c_str());
 						}
 
-						participant = chatroom->second->participants.find(reader_id);
-						if (participant != chatroom->second->participants.end()) {
+						participant = participants.find(reader_id);
+						if (participant != participants.end()) {
 							MCONTACT hChatContact = proto->ChatIDToHContact(tid);
 
-							if (!chatroom->second->message_readers.empty())
-								chatroom->second->message_readers += ", ";
-							chatroom->second->message_readers += participant->second;
+							if (!chatroom->message_readers.empty())
+								chatroom->message_readers += ", ";
+							chatroom->message_readers += participant->second;
 
-							ptrT readers(mir_utf8decodeT(chatroom->second->message_readers.c_str()));
+							ptrT readers(mir_utf8decodeT(chatroom->message_readers.c_str()));
 
 							StatusTextData st = { 0 };
 							st.cbSize = sizeof(st);
@@ -565,7 +568,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				message->isChat = (gthreadinfo != NULL && json_as_pstring(gthreadinfo) != "null");
 
 				if (!message->isChat && !message->isIncoming) {
-					message->sender_name = "";
+					message->sender_name.clear();
 					message->user_id = proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
 				}
 
@@ -656,17 +659,20 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			std::tstring tid = json_as_string(thread_);
 			std::string from_id = json_as_pstring(from_);
 
-			std::map<std::tstring, facebook_chatroom*>::iterator chatroom = proto->facy.chat_rooms.find(tid);
-			if (chatroom != proto->facy.chat_rooms.end()) {
-				std::map<std::string, std::string>::const_iterator participant = chatroom->second->participants.find(from_id);
-				if (participant == chatroom->second->participants.end()) {
+			std::map<std::tstring, facebook_chatroom*>::iterator it = proto->facy.chat_rooms.find(tid);
+			if (it != proto->facy.chat_rooms.end()) {
+				facebook_chatroom *chatroom = it->second;
+				std::map<std::string, std::string> participants = chatroom->participants;
+
+				std::map<std::string, std::string>::const_iterator participant = participants.find(from_id);
+				if (participant == participants.end()) {
 					// TODO: load name of this participant
 					std::string name = from_id;
 					proto->AddChatContact(tid.c_str(), from_id.c_str(), name.c_str());
 				}
 
-				participant = chatroom->second->participants.find(from_id);
-				if (participant != chatroom->second->participants.end()) {
+				participant = participants.find(from_id);
+				if (participant != participants.end()) {
 					MCONTACT hChatContact = proto->ChatIDToHContact(tid);
 					ptrT name(mir_utf8decodeT(participant->second.c_str()));
 
@@ -761,7 +767,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 					message->user_id = id;
 					message->message_id = message_id;
-					message->sender_name = "";
+					message->sender_name.clear();
 					message->thread_id = json_as_pstring(thread_id_);
 					message->type = CALL;
 
@@ -1022,7 +1028,7 @@ int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
 		return EXIT_FAILURE;
 	}
 
-	std::map<std::string, std::string> thread_ids;
+	//std::map<std::string, std::string> thread_ids;
 	for (unsigned int i = 0; i < json_size(threads); i++) {
 		JSONNODE *it = json_at(threads, i);
 		JSONNODE *canonical = json_get(it, "canonical_fbid");
@@ -1064,7 +1070,7 @@ int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 		return EXIT_FAILURE;
 	}
 
-	std::map<std::string, std::string> user_ids;
+	//std::map<std::string, std::string> user_ids;
 	for (unsigned int i = 0; i < json_size(profiles); i++) {
 		JSONNODE *it = json_at(profiles, i);
 		
@@ -1118,7 +1124,7 @@ int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
 		}
 	}*/
 
-	std::map<std::string, std::string> thread_ids;
+	//std::map<std::string, std::string> thread_ids;
 	for (unsigned int i = 0; i < json_size(threads); i++) {
 		JSONNODE *it = json_at(threads, i);
 

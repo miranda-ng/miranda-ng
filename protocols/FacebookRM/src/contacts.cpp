@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-void updateStringUtf(FacebookProto *proto, MCONTACT hContact, const char *key, std::string value) {
+void updateStringUtf(FacebookProto *proto, MCONTACT hContact, const char *key, const std::string &value) {
 	bool update_required = true;
 	
 	DBVARIANT dbv;
@@ -52,7 +52,7 @@ void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 	updateStringUtf(this, hContact, FACEBOOK_KEY_FIRST_NAME, names.size() > 0 ? names.front().c_str() : "");
 	updateStringUtf(this, hContact, FACEBOOK_KEY_LAST_NAME, names.size() > 1 ? names.back().c_str() : "");
 
-	std::string middle = "";
+	std::string middle;
 	if (names.size() > 2) {
 		for (std::string::size_type i = 1; i < names.size() - 1; i++) {
 			if (!middle.empty())
@@ -75,7 +75,7 @@ bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
 	return false;
 }
 
-MCONTACT FacebookProto::ChatIDToHContact(std::tstring chat_id)
+MCONTACT FacebookProto::ChatIDToHContact(const std::tstring &chat_id)
 {
 	// First check cache
 	std::map<std::tstring, MCONTACT>::iterator it = facy.chat_id_to_hcontact.find(chat_id);
@@ -102,7 +102,7 @@ MCONTACT FacebookProto::ChatIDToHContact(std::tstring chat_id)
 	return 0;
 }
 
-MCONTACT FacebookProto::ContactIDToHContact(std::string user_id)
+MCONTACT FacebookProto::ContactIDToHContact(const std::string &user_id)
 {
 	// First check cache
 	std::map<std::string, MCONTACT>::iterator it = facy.user_id_to_hcontact.find(user_id);
@@ -129,7 +129,7 @@ MCONTACT FacebookProto::ContactIDToHContact(std::string user_id)
 	return 0;
 }
 
-std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
+std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 {
 	// First check cache
 	std::map<std::string, std::string>::iterator it = facy.thread_id_to_user_id.find(thread_id);
@@ -164,7 +164,7 @@ std::string FacebookProto::ThreadIDToContactID(std::string thread_id)
 	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
 	data += "&threads[thread_ids][0]=" + utils::url::encode(thread_id);
 
-	std::string user_id = "";
+	std::string user_id;
 	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data);
 	
 	if (resp.code == HTTP_CODE_OK) {
@@ -277,7 +277,9 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 			unsigned int namesCount = 3; // how many names should be in room name; max. 5
 
 			for (std::map<std::string, std::string>::iterator it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
-				if (it->second.empty())
+				std::string participant = it->second;
+
+				if (participant.empty())
 					continue;
 
 				if (!fbc->chat_name.empty())
@@ -285,11 +287,11 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 				std::string name;
 				std::string::size_type pos;
-				if ((pos = it->second.find(" ")) != std::string::npos) {
-					name = it->second.substr(0, pos);
+				if ((pos = participant.find(" ")) != std::string::npos) {
+					name = participant.substr(0, pos);
 				}
 				else {
-					name = it->second;
+					name = participant;
 				}
 
 				fbc->chat_name += _A2T(name.c_str());

@@ -367,7 +367,7 @@ int FacebookProto::GetInfo(MCONTACT hContact, int infoType)
 INT_PTR FacebookProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
 	ptrT statusMsg(getTStringA("StatusMsg"));
-	if (statusMsg == NULL || _tcslen(statusMsg) == 0)
+	if (statusMsg == NULL || statusMsg[0] == '\0')
 		return 0;
 
 	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(statusMsg) : (INT_PTR)mir_t2a(statusMsg);

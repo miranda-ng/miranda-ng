@@ -135,11 +135,8 @@ namespace List
 						help->prev->next = help->next;
 						help->next->prev = help->prev;
 					}
-					if (help != NULL)
-					{
-						this->count--;            
-						delete help;
-					}
+					this->count--;            
+					delete help;
 					break;
 				}
 			}
