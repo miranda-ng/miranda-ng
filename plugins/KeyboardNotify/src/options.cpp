@@ -1211,13 +1211,14 @@ void createProcessListAux(void)
 
 void destroyProcessListAux(void)
 {
-	for (int i = 0; i < ProcessListAux.count; i++)
-		if (ProcessListAux.szFileName[i])
+	if (ProcessListAux.szFileName == NULL)
+		return;
+	for (int i = 0; i < ProcessListAux.count; i ++) {
+		if (ProcessListAux.szFileName[i]) {
 			free(ProcessListAux.szFileName[i]);
-
-	if (ProcessListAux.szFileName)
-		free(ProcessListAux.szFileName);
-
+		}
+	}
+	free(ProcessListAux.szFileName);
 	ProcessListAux.count = 0;
 	ProcessListAux.szFileName = NULL;
 }

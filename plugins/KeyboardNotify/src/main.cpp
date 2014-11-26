@@ -553,15 +553,15 @@ void createProcessList(void)
 
 void destroyProcessList(void)
 {
-	unsigned int count = ProcessList.count;
-
-	ProcessList.count = 0;
-	for (unsigned int i=0; i < count; i++)
-		if (ProcessList.szFileName[i])
+	if (ProcessList.szFileName == NULL)
+		return;
+	for (int i = 0; i < ProcessList.count; i ++) {
+		if (ProcessList.szFileName[i]) {
 			free(ProcessList.szFileName[i]);
-
-	if (ProcessList.szFileName)
-		free(ProcessList.szFileName);
+		}
+	}
+	free(ProcessList.szFileName);
+	ProcessList.count = 0;
 	ProcessList.szFileName = NULL;
 }
 
@@ -786,16 +786,18 @@ extern "C" __declspec(dllexport) int Load(void)
 
 void destroyProtocolList(void)
 {
-	for (int i=0; i < ProtoList.protoCount; i++) {
+	if (ProtoList.protoInfo == NULL)
+		return;
+	for (int i = 0; i < ProtoList.protoCount; i ++) {
 		if (ProtoList.protoInfo[i].szProto)
 			free(ProtoList.protoInfo[i].szProto);
 		if (ProtoList.protoInfo[i].xstatus.enabled)
 			free(ProtoList.protoInfo[i].xstatus.enabled);
 	}
 
+	free(ProtoList.protoInfo);
 	ProtoList.protoCount = 0;
-	if (ProtoList.protoInfo)
-		free(ProtoList.protoInfo);
+	ProtoList.protoInfo = NULL;
 }
 
 
