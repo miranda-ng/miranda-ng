@@ -36,7 +36,7 @@ static iconList[] =
 {
 	{ "check_update", LPGEN("Check for updates"),           IDI_MENU },
 	{ "info",         LPGEN("Plugin info"),                 IDI_INFO },
-	{ "plg_list",     LPGEN("Plugin list"),                 IDI_PLGLIST },
+	{ "plg_list",     LPGEN("Component list"),              IDI_PLGLIST },
 };
 
 void InitIcoLib()
