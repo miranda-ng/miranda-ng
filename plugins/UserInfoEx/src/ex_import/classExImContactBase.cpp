@@ -60,6 +60,7 @@ CExImContactBase::~CExImContactBase()
 	MIR_FREE(_pszAMPro);
 	MIR_FREE(_pszUIDKey);
 	db_free(&_dbvUID);
+	ZeroMemory(&_dbvUID, sizeof(DBVARIANT));
 }
 
 /**
@@ -71,14 +72,14 @@ CExImContactBase::~CExImContactBase()
  **/
 BYTE CExImContactBase::fromDB(MCONTACT hContact)
 {
-	BYTE		ret			= FALSE;
-	BYTE		isChatRoom	= FALSE;
+	BYTE		ret = FALSE;
+	BYTE		isChatRoom = FALSE;
 	LPSTR		pszProto;
 	LPCSTR		uidSetting;
 	DBVARIANT	dbv;
 	
-	_hContact				= hContact;
-	_dbvUIDHash				= 0;
+	_hContact = hContact;
+	_dbvUIDHash = 0;
 	MIR_FREE(_pszProtoOld);
 	MIR_FREE(_pszProto);
 	MIR_FREE(_pszAMPro);
@@ -367,9 +368,10 @@ BYTE CExImContactBase::compareUID(DBVARIANT *dbv)
 				hash = hashSettingW_M2((const char *)tmp);
 				mir_free(tmp);
 			}
-			if (hash == _dbvUIDHash) return TRUE;
+			if (hash == _dbvUIDHash)
+				return TRUE;
 			break;
-		case DBVT_BLOB:		//'n' cpbVal and pbVal are valid
+		case DBVT_BLOB: //'n' cpbVal and pbVal are valid
 			if (_dbvUID.type == dbv->type && 
 				_dbvUID.cpbVal == dbv->cpbVal &&
 				memcmp(_dbvUID.pbVal, dbv->pbVal, dbv->cpbVal) == 0) {
@@ -384,84 +386,87 @@ BYTE CExImContactBase::compareUID(DBVARIANT *dbv)
 
 LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 {
-	CHAR szUID[MAX_PATH];
+	CHAR szUID[4096];
 	LPSTR ptr = szUID;
+	LPSTR r;
+	SIZE_T baselen;
 
 	switch (_dbvUID.type) {
-		case DBVT_BYTE:		//'b' bVal and cVal are valid
-			if (bPrependType) *ptr++ = 'b';
+		case DBVT_BYTE: //'b' bVal and cVal are valid
+			if (bPrependType)
+				*ptr++ = 'b';
 			_itoa(_dbvUID.bVal, ptr, 10);
 			break;
-		case DBVT_WORD:		//'w' wVal and sVal are valid
-			if (bPrependType) *ptr++ = 'w';
+		case DBVT_WORD: //'w' wVal and sVal are valid
+			if (bPrependType)
+				*ptr++ = 'w';
 			_itoa(_dbvUID.wVal, ptr, 10);
 			break;
-		case DBVT_DWORD:	//'d' dVal and lVal are valid
-			if (bPrependType) *ptr++ = 'd';
+		case DBVT_DWORD: //'d' dVal and lVal are valid
+			if (bPrependType)
+				*ptr++ = 'd';
 			_itoa(_dbvUID.dVal, ptr, 10);
 			break;
-		case DBVT_WCHAR:	//'u' pwszVal is valid
-		{
-			LPSTR r = mir_utf8encodeW(_dbvUID.pwszVal);
-			if (bPrependType) {
-				LPSTR t = (LPSTR)mir_alloc(strlen(r)+2);
-				t[0] = 'u';
-				strcpy(t+1, r);
-				mir_free(r);
-				r = t;
-			}
-			return r;
-		}
-		case DBVT_UTF8:		//'u' pszVal is valid
-			{
-				if (bPrependType) *ptr++ = 'u';
-				mir_strncpy(ptr, _dbvUID.pszVal, SIZEOF(szUID)-1);
-			}
-			break;
-		case DBVT_ASCIIZ: {
-			LPSTR r = mir_utf8encode(_dbvUID.pszVal);
-			if (bPrependType) {
-				LPSTR t = (LPSTR)mir_alloc(strlen(r)+2);
-				t[0] = 's';
-				strcpy(t+1, r);
-				mir_free(r);
-				r = t;
-			}
-			return r;
-		}
-		case DBVT_BLOB:		//'n' cpbVal and pbVal are valid
-		{
-			if (bPrependType) {		//True = XML
-				INT_PTR baselen = mir_base64_encode_bufsize(_dbvUID.cpbVal);
-				LPSTR t = (LPSTR)mir_alloc(baselen + 5 + bPrependType);
-				assert(t != NULL);
-				if ( mir_base64_encodebuf(_dbvUID.pbVal, _dbvUID.cpbVal, t + bPrependType, baselen)) {
-					t[baselen + bPrependType] = 0;
-					if (bPrependType) t[0] = 'n';
-					return t;
-				}
-				mir_free(t);
+		case DBVT_WCHAR: //'u' pwszVal is valid
+			r = mir_utf8encodeW(_dbvUID.pwszVal);
+			if (r == NULL)
 				return NULL;
-			}
-			else {		//FALSE = INI
-				WORD j;
-				INT_PTR baselen = (_dbvUID.cpbVal * 3);
-				LPSTR t = (LPSTR)mir_alloc(3 + baselen);
-				ZeroMemory(t, (3 + baselen));
-				for (j = 0; j < _dbvUID.cpbVal; j++) {
-					mir_snprintf((t + bPrependType + (j * 3)), 4,"%02X ", (BYTE)_dbvUID.pbVal[j]);
+			if (bPrependType == FALSE)
+				return r;
+			*ptr++ = 'u';
+			mir_strncpy(ptr, r, sizeof(szUID) - 1);
+			mir_free(r);
+			break;
+		case DBVT_UTF8: //'u' pszVal is valid
+			if (bPrependType)
+				*ptr++ = 'u';
+			mir_strncpy(ptr, _dbvUID.pszVal, sizeof(szUID) - 1);
+			break;
+		case DBVT_ASCIIZ:
+			r = mir_utf8encode(_dbvUID.pszVal);
+			if (r == NULL)
+				return NULL;
+			if (bPrependType == FALSE)
+				return r;
+			*ptr++ = 's';
+			mir_strncpy(ptr, r, sizeof(szUID) - 1);
+			mir_free(r);
+			break;
+		case DBVT_BLOB: //'n' cpbVal and pbVal are valid
+			if (bPrependType) { //True = XML
+				baselen = mir_base64_encode_bufsize(_dbvUID.cpbVal);
+				r = (LPSTR)mir_alloc((baselen + 8));
+				if (r == NULL)
+					return NULL;
+				ZeroMemory((r + baselen), 8);
+				ptr = r;
+				if (bPrependType) { // Allways true.
+					ptr[0] = 'n';
+					ptr ++;
 				}
-				if (t){
-					if (bPrependType) t[0] = 'n';
-					return t;
-				}
-				else {
-					mir_free(t);
+				if (!mir_base64_encodebuf(_dbvUID.pbVal, _dbvUID.cpbVal, ptr, baselen)) {
+					mir_free(r);
 					return NULL;
 				}
+				return r;
+			}
+			else { //FALSE = INI
+				baselen = ((_dbvUID.cpbVal * 3) + 8);
+				r = (LPSTR)mir_alloc(baselen);
+				if (r == NULL)
+					return NULL;
+				ZeroMemory(r, baselen);
+				ptr = r;
+				if (bPrependType) { // XXX dead code.
+					ptr[0] = 'n';
+					ptr ++;
+				}
+				for (SIZE_T j = 0; j < _dbvUID.cpbVal; j ++, ptr += 3) {
+					mir_snprintf(ptr, ((r + baselen) - ptr), "%02X ", (BYTE)_dbvUID.pbVal[j]);
+				}
+				return r;
 			}
 			break;
-		}
 		default:
 			return NULL;
 	}

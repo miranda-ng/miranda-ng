@@ -59,25 +59,31 @@ wchar_t	*mir_wcsncat(wchar_t *pszDest, const wchar_t *pszSrc, const size_t cchDe
 
 char	*mir_strncat_c(char *pszDest, const char cSrc) 
 {
-	size_t size = sizeof(char) * (strlen(pszDest) + 2);		//cSrc = 1 + 1 forNULL temination 
-	if (!pszDest)
-		pszDest = (char *) mir_alloc(size);
-	else
-		pszDest = (char *) mir_realloc(pszDest, size);
-	pszDest[size-2] = cSrc;
-	pszDest[size-1] = 0;
-	return pszDest;
+	char *pszRet;
+	size_t size = 2;
+
+	if (pszDest != NULL)
+		size += strlen(pszDest); //cSrc = 1 + 1 forNULL temination 
+	pszRet = (char *)mir_realloc(pszDest, (sizeof(char) * size));
+	if (pszRet == NULL)
+		return NULL;
+	pszRet[size - 2] = cSrc;
+	pszRet[size - 1] = 0;
+	return pszRet;
 }
 
 wchar_t	*mir_wcsncat_c(wchar_t *pwszDest, const wchar_t wcSrc) {
-	size_t size = sizeof(wchar_t) * (wcslen(pwszDest) + 2);
-	if (!pwszDest)
-		pwszDest = (wchar_t *) mir_alloc(size);
-	else
-		pwszDest = (wchar_t *) mir_realloc(pwszDest, size);
-	pwszDest[size-2] = wcSrc;
-	pwszDest[size-1] = 0;
-	return pwszDest;
+	wchar_t *pwszRet;
+	size_t size = 2;
+
+	if (pwszDest != NULL)
+		size += wcslen(pwszDest); //cSrc = 1 + 1 forNULL temination 
+	pwszRet = (wchar_t *)mir_realloc(pwszDest, (sizeof(wchar_t) * size));
+	if (pwszRet == NULL)
+		return NULL;
+	pwszRet[size - 2] = wcSrc;
+	pwszRet[size - 1] = 0;
+	return pwszRet;
 }
 
 char	*mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo) {
