@@ -182,8 +182,6 @@ Aktualisierung fehlgeschlagen
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Plugininfo
-[Plugin list]
-Pluginliste
 [Plugin Updater HTTP connection]
 Plugin-Updater-HTTP-Verbindung
 [An error occurred while checking for new updates.]

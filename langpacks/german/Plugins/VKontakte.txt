@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.28
+;  Version: 0.1.0.29
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -56,8 +56,6 @@ Kontaktlistengruppe:
 Serverseitige Empfangsbestätigungen
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
-[Automatically sync last messages]
-Letzte Nachrichten automatisch synchronisieren
 [Automatically wipe local contacts missing in your friend list]
 Lokale Kontakte, die nicht in Ihrer Freundesliste sind, automatisch löschen
 [Mark message as read...]
@@ -70,6 +68,14 @@ Beim Empfangen
 Beim Antworten
 [on typing]
 Beim Tippen
+[Sync history on protocol online...]
+
+[automatically]
+
+[for last 1 day]
+
+[for last 3 days]
+
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -203,10 +209,6 @@ Raum zerstören
 Übertragung öffnen
 [Reload messages from vk.com...]
 
-[for last 1 day]
-
-[for last 3 days]
-
 [for last week]
 
 [for last 30 days]
@@ -228,12 +230,6 @@ Sie können diesen Benutzer nicht als Freund hinzufügen da dieser Sie auf seine
 [Cannot add this user to friends as you put him on blacklist]
 Sie können diesen Benutzer nicht als Freund hinzufügen da Sie diesen auf seiner Blockierliste hat.
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Start sync history]
-Verlaufssynchronisierung gestartet
-[Sync history]
-Verlauf synchronisieren
-[Sync history complete]
-Verlauf vollständig synchronisiert
 [Please authorize me to add you to my friend list.]
 Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 [Are you sure to delete %s from your friend list?]

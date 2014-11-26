@@ -182,8 +182,6 @@ Aktualizacja nie powiodła się
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Informacje o wtyczkach
-[Plugin list]
-Lista wtyczek
 [Plugin Updater HTTP connection]
 Połączenie HTTP Plugin Updater
 [An error occurred while checking for new updates.]
