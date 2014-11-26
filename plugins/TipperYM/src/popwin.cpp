@@ -899,6 +899,17 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_DESTROY: 
 		ShowWindow(hwnd, SW_HIDE);		
 
+		mir_free(skin.colSavedBits);
+		if (skin.hBitmap)
+			DeleteObject(skin.hBitmap);
+		if (skin.hdc)
+			DeleteDC(skin.hdc);
+		skin.colSavedBits = NULL;
+		skin.hBitmap = NULL;
+		skin.hdc = NULL;
+
+		if (pwd == NULL)
+			break;
 		// unregister hotkey
 		UnregisterHotKey(hwnd, pwd->iHotkeyId);
 
@@ -910,15 +921,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 		Smileys_FreeParse(pwd->spiTitle);
 
-		for (int i = 0; i < pwd->iRowCount; i++) {
+		for (int i = 0; i < pwd->iRowCount && pwd->rows != NULL; i++) {
 			mir_free(pwd->rows[i].swzLabel);
 			mir_free(pwd->rows[i].swzValue);
 			Smileys_FreeParse(pwd->rows[i].spi);
 		}
-
-		if (pwd->rows) 
-			mir_free(pwd->rows);
-		pwd->rows = NULL;
+		mir_free(pwd->rows);
 
 		// destroy icons
 		for (int i = 0; i < EXICONS_COUNT; i++) {
@@ -931,46 +939,38 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Skin_ReleaseIcon(pwd->extraIcons[i].hIcon);
 		}
 
-		if (pwd->clcit.swzText) {
-			mir_free(pwd->clcit.swzText);
-			pwd->clcit.swzText = NULL;
-		}
-
+		mir_free(pwd->clcit.swzText);
 		mir_free(pwd); 
 		pwd = NULL;
-
-		if (skin.colSavedBits) mir_free(skin.colSavedBits);
-		if (skin.hBitmap)DeleteObject(skin.hBitmap);
-		if (skin.hdc) DeleteDC(skin.hdc);
-		skin.colSavedBits = NULL;
-		skin.hBitmap = NULL;
-		skin.hdc = NULL;
 
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		break;
 
 	case WM_TIMER:
-		if (wParam == ID_TIMER_ANIMATE) {
-			pwd->iAnimStep++;
+		switch (wParam) {
+		case ID_TIMER_ANIMATE:
+			pwd->iAnimStep ++;
 			if (pwd->iAnimStep == ANIM_STEPS)
 				KillTimer(hwnd, ID_TIMER_ANIMATE);
 
 			SendMessage(hwnd, PUM_UPDATERGN, 1, 0);
-		}
-		else if (wParam == ID_TIMER_CHECKMOUSE) {
-			// workaround for tips that just won't go away
-			POINT pt;
-			GetCursorPos(&pt);
+			break;
+		case ID_TIMER_CHECKMOUSE:
+			{
+				// workaround for tips that just won't go away
+				POINT pt;
 
-			// mouse has moved beyond tollerance
-			if (abs(pt.x - pwd->ptCursorStartPos.x) > opt.iMouseTollerance || abs(pt.y - pwd->ptCursorStartPos.y) > opt.iMouseTollerance)
-				PostMPMessage(MUM_DELETEPOPUP, 0, 0);
-		}
-		else if (wParam == ID_TIMER_TRAYTIP) {
+				GetCursorPos(&pt);
+				// mouse has moved beyond tollerance
+				if (abs(pt.x - pwd->ptCursorStartPos.x) > opt.iMouseTollerance || abs(pt.y - pwd->ptCursorStartPos.y) > opt.iMouseTollerance)
+					PostMPMessage(MUM_DELETEPOPUP, 0, 0);
+			}
+			break;
+		case ID_TIMER_TRAYTIP:
 			KillTimer(hwnd, ID_TIMER_TRAYTIP);
 			SendMessage(hwnd, PUM_EXPANDTRAYTIP, 0, 0);
+			break;
 		}
-
 		break;
 
 	case PUM_SETSTATUSTEXT:
@@ -981,8 +981,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SendMessage(hwnd, PUM_REFRESH_VALUES, TRUE, 0);
 			InvalidateRect(hwnd, 0, TRUE);
 		}
-
-		if (lParam) mir_free((void *)lParam);
+		mir_free((void *)lParam);
 		return TRUE;
 
 	case PUM_SHOWXSTATUS:
@@ -1041,10 +1040,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				Smileys_FreeParse(pwd->rows[i].spi);
 			}
 
-			if (pwd->rows) {
-				mir_free(pwd->rows);
-				pwd->rows = 0;
-			}
+			mir_free(pwd->rows);
+			pwd->rows = NULL;
 			pwd->iRowCount = 0;
 
 			DIListNode *node = opt.diList;
@@ -1092,7 +1089,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (pwd->iRowCount == 0) {
 					mir_free(pwd->rows);
-					pwd->rows = 0;
+					pwd->rows = NULL;
 				}
 			}
 
@@ -1461,11 +1458,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			Smileys_FreeParse(pwd->rows[i].spi);
 		}
 
-		if (pwd->rows) {
-			mir_free(pwd->rows);
-			pwd->rows = NULL;
-		}
 
+		mir_free(pwd->rows);
+		pwd->rows = NULL;
 		pwd->iRowCount = 0;
 
 		DWORD dwItems = (wParam == 0) ? opt.iFirstItems : opt.iSecondItems;
