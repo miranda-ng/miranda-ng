@@ -519,7 +519,7 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 			if (h<dat->fontInfo[i].fontHeight+2) h=dat->fontInfo[i].fontHeight+2;
 	}
 
-	dat->hwndRenameEdit = CreateWindowEx(0, _T("RichEdit20W"),contact->szText,WS_CHILD|WS_BORDER|ES_MULTILINE|ES_AUTOHSCROLL,x,y,clRect.right-x,h,hwnd,NULL,g_hInst,NULL);
+	dat->hwndRenameEdit = CreateWindowEx(0, _T("RICHEDIT50W"), contact->szText, WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOHSCROLL, x, y, clRect.right - x, h, hwnd, NULL, g_hInst, NULL);
 	{
 		if ((contact->type == CLCIT_CONTACT && contact->pExtra->dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
 			PARAFORMAT2 pf2;
