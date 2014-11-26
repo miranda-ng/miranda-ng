@@ -43,9 +43,9 @@ Boston, MA 02111-1307, USA.
 #define IDC_MESSAGE				1002
 #define IDC_CHATMESSAGE			1009
 
-VOID SwitchLayout(BOOL);
-VOID TranslitLayout(BOOL);
-VOID InvertCase(BOOL);
+VOID SwitchLayout(bool);
+VOID TranslitLayout(bool);
+VOID InvertCase(bool);
 int OnButtonPressed(WPARAM wParam, LPARAM lParam);
 
 
