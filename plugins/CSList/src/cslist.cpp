@@ -931,8 +931,7 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			if ( LOWORD( wparam ) == IDC_CANCEL )
 				SetStatus(IDC_CANCEL, NULL, csw->m_protoName);
 			if ( csw->m_bSomethingChanged )
-				if (csw->m_itemslist!=NULL)
-					csw->m_itemslist->saveItems(csw->m_protoName);
+				csw->m_itemslist->saveItems(csw->m_protoName);
 			csw->saveWindowPosition(csw->m_handle);
 			EndDialog(hwnd, FALSE);
 			break;
