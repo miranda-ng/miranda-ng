@@ -51,8 +51,8 @@ void AddSessionMark(MCONTACT hContact, int mode, char bit)
 
 			char temp_1 = pszBuffer[0];
 			for (int i = 0; i < g_ses_count; i++) {
-				char temp_2 = pszBuffer[i+1];
-				pszBuffer[i+1] = temp_1;
+				char temp_2 = pszBuffer[i + 1];
+				pszBuffer[i + 1] = temp_1;
 				temp_1 = temp_2;
 			}
 			pszBuffer[0] = bit;
@@ -73,7 +73,7 @@ void RemoveSessionMark(MCONTACT hContact, int mode, int marknum)
 		ptrA szValue(db_get_sa(hContact, MODNAME, "LastSessionsMarks"));
 		if (szValue) {
 			for (int i = marknum; i < g_ses_limit; i++)
-				szValue[i] = szValue[i+1];
+				szValue[i] = szValue[i + 1];
 
 			for (int i = g_ses_limit; i < 10; i++)
 				szValue[i] = '0';
@@ -85,7 +85,7 @@ void RemoveSessionMark(MCONTACT hContact, int mode, int marknum)
 		ptrA szValue(db_get_sa(hContact, MODNAME, "UserSessionsMarks"));
 		if (szValue) {
 			for (int i = marknum; i < g_ses_limit; i++)
-				szValue[i] = szValue[i+1];
+				szValue[i] = szValue[i + 1];
 
 			db_set_s(hContact, MODNAME, "UserSessionsMarks", szValue);
 		}
@@ -138,12 +138,12 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 			if (!len)
 				len = 20;
 
-			char *temp2 = (char*)_alloca(len-1);
-			strncpy(temp2, szValue, len-2);
-			temp2[len-2]='\0';
+			char *temp2 = (char*)_alloca(len - 1);
+			strncpy(temp2, szValue, len - 2);
+			temp2[len - 2] = '\0';
 
-			char *temp = (char*)_alloca(len+1);
-			mir_snprintf(temp, len+1, "%02u%s", ordernum, temp2);
+			char *temp = (char*)_alloca(len + 1);
+			mir_snprintf(temp, len + 1, "%02u%s", ordernum, temp2);
 
 			for (int i = (g_ses_limit * 2); i < 20; i++)
 				temp[i] = '0';
@@ -168,8 +168,8 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 
 			int len = (int)strlen(pszBuffer);
 			len = (len == 0) ? 20 : len + 2;
-			char *temp = (char*)_alloca(len+1);
-			mir_snprintf(temp, len+1, "%02u%s", ordernum, szValue);
+			char *temp = (char*)_alloca(len + 1);
+			mir_snprintf(temp, len + 1, "%02u%s", ordernum, szValue);
 
 			db_set_s(hContact, MODNAME, "UserSessionsOrder", temp);
 			mir_free(pszBuffer);
@@ -187,14 +187,14 @@ int GetInSessionOrder(MCONTACT hContact, int mode, int count)
 	if (mode == 0) {
 		ptrA szValue(db_get_sa(hContact, MODNAME, "LastSessionsOrder"));
 		if (szValue) {
-			strncpy_s(szTemp, &szValue[count*2], 2);
+			strncpy_s(szTemp, &szValue[count * 2], 2);
 			return atoi(szTemp);
 		}
 	}
 	else if (mode == 1) {
 		ptrA szValue(db_get_sa(hContact, MODNAME, "UserSessionsOrder"));
 		if (szValue) {
-			strncpy_s(szTemp, &szValue[count*2], 2);
+			strncpy_s(szTemp, &szValue[count * 2], 2);
 			return atoi(szTemp);
 		}
 	}
@@ -204,23 +204,23 @@ int GetInSessionOrder(MCONTACT hContact, int mode, int count)
 void SetInSessionOrder(MCONTACT hContact, int mode, int count, unsigned int ordernum)
 {
 	int iOrder = 0;
-	
+
 	char szTemp[3];
 	mir_snprintf(szTemp, SIZEOF(szTemp), "%02u", ordernum);
 
 	if (mode == 0) {
 		ptrA szValue(db_get_sa(hContact, MODNAME, "LastSessionsOrder"));
 		if (szValue) {
-			szValue[count*2] = szTemp[0];
-			szValue[count*2 + 1] = szTemp[1];
+			szValue[count * 2] = szTemp[0];
+			szValue[count * 2 + 1] = szTemp[1];
 			db_set_s(hContact, MODNAME, "LastSessionsOrder", szValue);
 		}
 	}
 	else if (mode == 1) {
 		ptrA szValue(db_get_sa(hContact, MODNAME, "UserSessionsOrder"));
 		if (szValue) {
-			szValue[count*2] = szTemp[0];
-			szValue[count*2 + 1] = szTemp[1];
+			szValue[count * 2] = szTemp[0];
+			szValue[count * 2 + 1] = szTemp[1];
 			db_set_s(hContact, MODNAME, "UserSessionsOrder", szValue);
 		}
 	}
@@ -285,7 +285,7 @@ int DelFromCurSession(MCONTACT wparam, LPARAM lparam)
 int CheckForDuplicate(MCONTACT contact_list[], MCONTACT lparam)
 {
 	MCONTACT s_list[255] = { 0 };
-	memcpy(s_list, contact_list, SIZEOF(s_list));
+	memcpy(s_list, contact_list, sizeof(s_list));
 	for (int i = 0;; i++) {
 		if (s_list[i] == lparam)
 			return i;
@@ -301,7 +301,7 @@ int LoadSessionToCombobox(HWND hdlg, BOOL mode, int iLimit, char* pszSetting, in
 	char szBuffer[256] = { 0 };
 	if (session_list_recovered[0] && !iFirstNum && !mode) {
 		index = SendDlgItemMessage(hdlg, IDC_LIST, CB_ADDSTRING, 0, (LPARAM)TranslateT("Session Before Last Crash"));
-		SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, index, 256);
+		SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, (WPARAM)index, 256);
 	}
 
 	for (int i = 0; i < iLimit; i++) {
@@ -310,11 +310,11 @@ int LoadSessionToCombobox(HWND hdlg, BOOL mode, int iLimit, char* pszSetting, in
 		if (pszBuffer) {
 			if (!IsMarkedUserDefSession(i + iFirstNum) || mode == 1) {
 				index = SendDlgItemMessage(hdlg, IDC_LIST, CB_ADDSTRING, 0, (LPARAM)pszBuffer);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, (WPARAM)index, i + iFirstNum);
+				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, (WPARAM)index, (LPARAM)(i + iFirstNum));
 			}
 			else {
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_INSERTSTRING, 0, (LPARAM)pszBuffer);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, 0, i + iFirstNum);
+				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, 0, (LPARAM)(i + iFirstNum));
 			}
 			mir_free(pszBuffer);
 		}
