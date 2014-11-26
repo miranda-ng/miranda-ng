@@ -308,7 +308,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 
 	tszValue = json_as_string(json_get(pItem, "photo_100"));
 	if (!tszValue.IsEmpty()){
-		SetAvatarUrl(hContact, tszValue.GetBuffer());
+		SetAvatarUrl(hContact, tszValue);
 		ReloadAvatarInfo(hContact);
 	}
 
