@@ -424,14 +424,23 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 }
 
 void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notification) {
-	ScopedLock s(facy.notifications_lock_);
-	
 	if (!getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM))
 		return;
 
-	char *name = _T2A(TranslateT("Notification"), CP_UTF8);
-
 	std::stringstream text;
 	text << notification->text << "\n\n" << notification->link;
-	UpdateChat(_T(FACEBOOK_NOTIFICATIONS_CHATROOM), name /*notification->second->user_id.c_str()*/, name, text.str().c_str(), notification->time, notification->seen);
+
+	std::string smessage = text.str();
+	utils::text::replace_all(&smessage, "%", "%%");
+
+	GCDEST gcd = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.ptszText = _A2T(smessage.c_str(), CP_UTF8);
+	gce.time = notification->time ? notification->time : ::time(NULL);
+	gce.bIsMe = true;
+	gce.dwFlags |= GCEF_ADDTOLOG;
+	gce.ptszNick = TranslateT("Notifications");
+	gce.ptszUID = _T(FACEBOOK_NOTIFICATIONS_CHATROOM);
+
+	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
