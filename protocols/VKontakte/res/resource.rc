@@ -79,7 +79,7 @@ BEGIN
         VERTGUIDE, 167
         VERTGUIDE, 288
         TOPMARGIN, 7
-        BOTTOMMARGIN, 177
+        BOTTOMMARGIN, 202
     END
 
     IDD_INVITE, DIALOG
@@ -147,7 +147,7 @@ BEGIN
     CONTROL         "as regular status only",IDC_SEND_MUSIC_STATUS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,160,278,10
 END
 
-IDD_OPT_MAIN DIALOGEX 0, 0, 304, 188
+IDD_OPT_MAIN DIALOGEX 0, 0, 304, 213
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -158,21 +158,24 @@ BEGIN
     RTEXT           "Password:",IDC_STATIC,12,28,150,10
     EDITTEXT        IDC_PASSWORD,167,28,121,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,43,174,11
-    GROUPBOX        "Local settings",IDC_STATIC,4,59,293,77
+    GROUPBOX        "Local settings",IDC_STATIC,4,59,293,65
     RTEXT           "Contact list group:",IDC_STATIC,12,71,150,8
     EDITTEXT        IDC_GROUPNAME,167,69,121,12,ES_AUTOHSCROLL
     CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,88,278,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,99,278,10
-    CONTROL         "Automatically sync last messages",IDC_SYNCHISTOTYONONLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,110,278,10
     CONTROL         "Automatically wipe local contacts missing in your friend list",IDC_AUTOCLEAN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,121,278,10
-    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,140,293,33,WS_GROUP
-    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,151,138,10
-    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,161,138,10
-    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,151,133,10
-    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,161,133,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,110,278,10
+    GROUPBOX        "Mark message as read...",IDC_STATIC_MARK_AS_READ,4,127,293,33,WS_GROUP
+    CONTROL         "on read",IDC_ONREAD,"Button",BS_AUTORADIOBUTTON,12,138,138,10
+    CONTROL         "on receive",IDC_ONRECEIVE,"Button",BS_AUTORADIOBUTTON,12,148,138,10
+    CONTROL         "on reply",IDC_ONREPLY,"Button",BS_AUTORADIOBUTTON,155,138,133,10
+    CONTROL         "on typing",IDC_ONTYPING,"Button",BS_AUTORADIOBUTTON,155,148,133,10
+    GROUPBOX        "Sync history on protocol online...",IDC_STATIC_SYNC_HISTORY,4,163,293,36,WS_GROUP
+    CONTROL         "off",IDC_SYNC_OFF,"Button",BS_AUTORADIOBUTTON,12,174,138,10
+    CONTROL         "automatically",IDC_SYNC_AUTO,"Button",BS_AUTORADIOBUTTON,12,185,138,10
+    CONTROL         "for last 1 day",IDC_SYNC_LAST1DAY,"Button",BS_AUTORADIOBUTTON,155,174,133,10
+    CONTROL         "for last 3 days",IDC_SYNC_LAST3DAY,"Button",BS_AUTORADIOBUTTON,155,185,133,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
