@@ -413,20 +413,20 @@ HTREEITEM AddSkinToListFullName( HWND hwndDlg, TCHAR * fullName )
 
 HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 {
+	TCHAR fullName[MAX_PATH], defskinname[MAX_PATH];
 	SkinListData *sd = ( SkinListData * )mir_alloc( sizeof( SkinListData ));
 	if (!sd )
 		return 0;
 
-	TCHAR fullName[MAX_PATH], defskinname[MAX_PATH];
-	mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s"), path, file);
-	memmove(defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR));
-	defskinname[_tcslen( file )+1] = _T('\0');
 	if (!file || _tcschr( file, _T('%'))) {
 		mir_sntprintf(sd->File, MAX_PATH, _T("%%Default Skin%%"));
 		mir_sntprintf(sd->Name, 100, TranslateT("%Default Skin%"));
 		_tcsncpy(fullName, TranslateT("Default Skin"), SIZEOF(fullName));
 	}
 	else {
+		mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s"), path, file);
+		memcpy(defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR));
+		defskinname[_tcslen( file )+1] = _T('\0');
 		GetPrivateProfileString( _T("Skin_Description_Section"), _T("Name"), defskinname, sd->Name, SIZEOF( sd->Name ), fullName );
 		_tcscpy(sd->File, fullName);
 	}

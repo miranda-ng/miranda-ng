@@ -1966,27 +1966,22 @@ HBITMAP ske_LoadGlyphImage(const TCHAR *tszFileName)
 int ske_UnloadGlyphImage(HBITMAP hbmp)
 {
 	DWORD i;
-	for (i=0; i < dwLoadedImagesCount; i++)
-	{
-		if (hbmp == pLoadedImages[i].hGlyph)
-		{
-			pLoadedImages[i].dwLoadedTimes--;
-			if (pLoadedImages[i].dwLoadedTimes == 0)
-			{
-				LPGLYPHIMAGE gl = &(pLoadedImages[i]);
-				mir_free_and_nil(gl->szFileName);
-				memmove(&(pLoadedImages[i]),&(pLoadedImages[i+1]),sizeof(GLYPHIMAGE)*(dwLoadedImagesCount-i-1));
-				dwLoadedImagesCount--;
-				DeleteObject(hbmp);
-				if (pLoadedImages && dwLoadedImagesCount == 0)
-				{
-					dwLoadedImagesAlocated = 0;
-					mir_free_and_nil(pLoadedImages);
-				}
+	for (i = 0; i < dwLoadedImagesCount && pLoadedImages; i ++) {
+		if (hbmp != pLoadedImages[i].hGlyph)
+			continue;
+		pLoadedImages[i].dwLoadedTimes --;
+		if (pLoadedImages[i].dwLoadedTimes == 0) {
+			LPGLYPHIMAGE gl = &(pLoadedImages[i]);
+			mir_free_and_nil(gl->szFileName);
+			memmove(&(pLoadedImages[i]), &(pLoadedImages[i+1]), sizeof(GLYPHIMAGE)*(dwLoadedImagesCount-i-1));
+			dwLoadedImagesCount --;
+			DeleteObject(hbmp);
+			if (dwLoadedImagesCount == 0) {
+				dwLoadedImagesAlocated = 0;
+				mir_free_and_nil(pLoadedImages);
 			}
-			return 0;
 		}
-
+		return 0;
 	}
 	DeleteObject(hbmp);
 	return 0;

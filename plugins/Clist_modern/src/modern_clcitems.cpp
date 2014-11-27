@@ -684,20 +684,19 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 	TCHAR szGroupMask[256];
 	DWORD dwLocalMask;
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
-	BOOL fEmbedded = dat->force_in_dialog;
 	// always hide subcontacts (but show them on embedded contact lists)
 
 	if (dat != NULL && dat->IsMetaContactsEnabled && db_mc_isSub(hContact))
 		return -1; //subcontact
-	if (pdnce && pdnce->isUnknown && !fEmbedded)
+	if (pdnce && pdnce->isUnknown && dat != NULL && !dat->force_in_dialog)
 		return 1; //'Unknown Contact'
-	if (dat->filterSearch && dat->szQuickSearch && pdnce->tszName) {
+	if (dat != NULL && dat->filterSearch && dat->szQuickSearch && pdnce && pdnce->tszName) {
 		// search filtering
 		TCHAR *lowered_name = CharLowerW(NEWTSTR_ALLOCA(pdnce->tszName));
 		TCHAR *lowered_search = CharLowerW(NEWTSTR_ALLOCA(dat->szQuickSearch));
 		searchResult = _tcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
-	if (pdnce && g_CluiData.bFilterEffective && !fEmbedded) {
+	if (pdnce && g_CluiData.bFilterEffective && dat != NULL && !dat->force_in_dialog) {
 		if (szProto == NULL)
 			szProto = GetContactProto(hContact);
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
@@ -731,7 +730,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, Clc
 			filterResult = (g_CluiData.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0));
 		}
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) {
-			if (pdnce && pdnce->dwLastMsgTime != -1) {
+			if (pdnce->dwLastMsgTime != -1) {
 				DWORD now = g_CluiData.t_now;
 				now -= g_CluiData.lastMsgFilter;
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)
