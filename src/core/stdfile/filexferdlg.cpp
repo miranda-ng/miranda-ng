@@ -736,6 +736,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		Button_FreeIcon_IcoLib(hwndDlg, IDCANCEL);
 
 		FreeFileDlgData(dat);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
 	return FALSE;
@@ -743,19 +744,23 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 void FreeFileDlgData(FileDlgData* dat)
 {
+	if (dat == NULL)
+		return;
+
 	if (dat->fs)
 		CallContactService(dat->hContact, PSS_FILECANCEL, (WPARAM)dat->fs, 0);
-	dat->fs = NULL;
-
-	if (dat->hPreshutdownEvent) UnhookEvent(dat->hPreshutdownEvent);
-	if (dat->hNotifyEvent) UnhookEvent(dat->hNotifyEvent);
-	dat->hNotifyEvent = NULL;
+	if (dat->hPreshutdownEvent)
+		UnhookEvent(dat->hPreshutdownEvent);
+	if (dat->hNotifyEvent)
+		UnhookEvent(dat->hNotifyEvent);
 
 	FreeProtoFileTransferStatus(&dat->transferStatus);
 	FreeFilesMatrix(&dat->files);
 
 	mir_free(dat->fileVirusScanned);
-	if (dat->hIcon) DestroyIcon(dat->hIcon);
-	if (dat->hIconFolder) DestroyIcon(dat->hIconFolder);
+	if (dat->hIcon)
+		DestroyIcon(dat->hIcon);
+	if (dat->hIconFolder)
+		DestroyIcon(dat->hIconFolder);
 	mir_free(dat);
 }
