@@ -854,11 +854,16 @@ int CVkProto::PollServer()
 	debugLogA("CVkProto::PollServer (online)");
 	int iPollConnRetry = MAX_RETRIES;
 	NETLIBHTTPREQUEST *reply;
+	char *szUrl = NULL;
 	do {
 		NETLIBHTTPREQUEST req = { sizeof(req) };
 		req.requestType = REQUEST_GET;
-		req.szUrl = NEWSTR_ALLOCA(CMStringA().Format("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106));
+		mir_free(szUrl);
+		CMStringA szReqUrl;
+		szReqUrl.AppendFormat("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106);
 		// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
+		szUrl = mir_strdup(szReqUrl.GetBuffer());
+		req.szUrl = szUrl;
 		req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT;
 		req.timeout = 30000;
 		req.nlc = m_pollingConn;
@@ -880,6 +885,7 @@ int CVkProto::PollServer()
 		}	
 	} while (true);
 	
+	mir_free(szUrl);
 
 	int retVal = 0;
 	if (reply->resultCode == 200) {
