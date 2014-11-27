@@ -363,9 +363,8 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_HISTORY);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_USERMENU);
 
-		if (dat)
-			FreeFileDlgData(dat);
-
+		FreeFileDlgData(dat);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		return TRUE;
 	}
 	return FALSE;
