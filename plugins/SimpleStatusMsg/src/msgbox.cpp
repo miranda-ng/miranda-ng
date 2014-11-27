@@ -1580,6 +1580,8 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			break;
 
 		case WM_DESTROY:
+			if (msgbox_data == NULL)
+				break;
 		{
 			WINDOWPLACEMENT wp;
 			wp.length = sizeof(wp);
@@ -1624,9 +1626,9 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 
-			if (msgbox_data)
-				mir_free(msgbox_data);
 			hwndSAMsgDialog = NULL;
+			mir_free(msgbox_data);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			break;
 		}
 	}
