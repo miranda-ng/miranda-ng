@@ -530,7 +530,7 @@ bool CMraProto::CmdOfflineMessageAck(BinBuffer &buf)
 	buf >> dwMsgUIDL >> szString;
 
 	DWORD dwTime, dwFlags;
-	if (MraOfflineMessageGet(&szString, &dwTime, &dwFlags, &szEmail, &szText, &lpsRTFText, &lpsMultiChatData) == NO_ERROR) {
+	if (MraOfflineMessageGet(szString, dwTime, dwFlags, szEmail, szText, lpsRTFText, lpsMultiChatData) == NO_ERROR) {
 		DWORD dwTemp = MraRecvCommand_Message(dwTime, dwFlags, szEmail, szText, lpsRTFText, lpsMultiChatData);
 		if (dwTemp == NO_ERROR || dwTemp == ERROR_ACCESS_DENIED)
 			MraOfflineMessageDel(dwMsgUIDL);
