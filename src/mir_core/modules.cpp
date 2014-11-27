@@ -377,7 +377,7 @@ MIR_CORE_DLL(int) UnhookEvent(HANDLE hHook)
 	while (p->subscriberCount && p->subscriber[p->subscriberCount-1].type == 0)
 		p->subscriberCount--;
 	if (p->subscriberCount == 0) {
-		if (p->subscriber) mir_free(p->subscriber);
+		mir_free(p->subscriber);
 		p->subscriber = NULL;
 	}
 	return 0;
