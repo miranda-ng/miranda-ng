@@ -132,14 +132,15 @@ void DeInitAccount(HACCOUNT Which)
 //delete YAMN allocated fields
 	if (Which->Name != NULL)
 		delete[] Which->Name;
-	if (Which->Server->Name != NULL)
-		delete[] Which->Server->Name;
-	if (Which->Server->Login != NULL)
-		delete[] Which->Server->Login;
-	if (Which->Server->Passwd != NULL)
-		delete[] Which->Server->Passwd;
-	if (Which->Server != NULL)
+	if (Which->Server != NULL) {
+		if (Which->Server->Name != NULL)
+			delete[] Which->Server->Name;
+		if (Which->Server->Login != NULL)
+			delete[] Which->Server->Login;
+		if (Which->Server->Passwd != NULL)
+			delete[] Which->Server->Passwd;
 		delete[] Which->Server;
+	}
 
 	SWMRGDelete(Which->AccountAccessSO);
 	delete Which->AccountAccessSO;

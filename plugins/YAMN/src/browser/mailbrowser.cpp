@@ -1362,17 +1362,18 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			{
 				WCHAR *str1 = 0;
 				WCHAR *str2 = 0;
+				WCHAR str_nul[2] = {0};
 				if (!body) if (!_stricmp(Header->name,"Body")) {body = Header->value; continue;}
 				if (!contentType) if (!_stricmp(Header->name,"Content-Type")) contentType = Header->value;
 				if (!transEncoding) if (!_stricmp(Header->name,"Content-Transfer-Encoding")) transEncoding = Header->value;
 				//ConvertCodedStringToUnicode(Header->name,&str1,MailParam->mail->MailData->CP,1); 
 				{
 					int streamsize = MultiByteToWideChar(20127,0,Header->name,-1,NULL,0);
-					str1 = new WCHAR[streamsize+1];
+					str1 = (WCHAR *)malloc(sizeof(WCHAR) * (streamsize + 1));
 					MultiByteToWideChar(20127,0,Header->name,-1,str1,streamsize);//US-ASCII
 				}
 				ConvertCodedStringToUnicode(Header->value,&str2,MailParam->mail->MailData->CP,1);
-				if (!str2) { str2 = (WCHAR *)malloc(2); str2[0] = 0; }// the header value may be NULL
+				if (!str2) { str2 = (WCHAR *)str_nul; }// the header value may be NULL
 				if (!From) if (!_stricmp(Header->name,"From")) {
 					From =new WCHAR[wcslen(str2)+1];
 					wcscpy(From,str2);
@@ -1383,28 +1384,27 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				}
 				//if (!hasBody) if (!strcmp(Header->name,"Body")) hasBody = true;
 				int count = 0; WCHAR **split=0;
-				if (str2) {
-					int ofs = 0;
-					while (str2[ofs]) {
-						if ((str2[ofs]==0x266A)||(str2[ofs]==0x25D9)||(str2[ofs]==0x25CB)||
-							(str2[ofs]==0x09)||(str2[ofs]==0x0A)||(str2[ofs]==0x0D))count++;
-						ofs++;
-					}
-					split=new WCHAR*[count+1];
-					count=0; ofs=0;
-					split[0]=str2;
-					while (str2[ofs]) {
-						if ((str2[ofs]==0x266A)||(str2[ofs]==0x25D9)||(str2[ofs]==0x25CB)||
-							(str2[ofs]==0x09)||(str2[ofs]==0x0A)||(str2[ofs]==0x0D)) {
-								if (str2[ofs-1]) {
-									count++;
-								}
-								split[count]=(WCHAR *)(str2+ofs+1);
-								str2[ofs]=0;
-						}
-						ofs++;
-					};
+				int ofs = 0;
+				while (str2[ofs]) {
+					if ((str2[ofs]==0x266A)||(str2[ofs]==0x25D9)||(str2[ofs]==0x25CB)||
+						(str2[ofs]==0x09)||(str2[ofs]==0x0A)||(str2[ofs]==0x0D))count++;
+					ofs++;
 				}
+				split=new WCHAR*[count+1];
+				count=0; ofs=0;
+				split[0]=str2;
+				while (str2[ofs]) {
+					if ((str2[ofs]==0x266A)||(str2[ofs]==0x25D9)||(str2[ofs]==0x25CB)||
+						(str2[ofs]==0x09)||(str2[ofs]==0x0A)||(str2[ofs]==0x0D)) {
+							if (str2[ofs-1]) {
+								count++;
+							}
+							split[count]=(WCHAR *)(str2+ofs+1);
+							str2[ofs]=0;
+					}
+					ofs++;
+				};
+
 				if (!_stricmp(Header->name,"From")||!_stricmp(Header->name,"To")||!_stricmp(Header->name,"Date")||!_stricmp(Header->name,"Subject")) 
 					item.iItem = 0;
 				else 
@@ -1422,10 +1422,12 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 					item.pszText=str2?split[i]:0;
 					SendMessageW(hListView,LVM_SETITEMTEXTW,(WPARAM)item.iItem,(LPARAM)&item);
 				} 
-				if (split)delete[] split;
+				delete[] split;
 
-				if (str1) free(str1);
-				if (str2) free(str2);
+				if (str1)
+					free(str1);
+				if (str2 != (WCHAR *)str_nul)
+					free(str2);
 			}
 			if (body) {
 				WCHAR *bodyDecoded = 0;
