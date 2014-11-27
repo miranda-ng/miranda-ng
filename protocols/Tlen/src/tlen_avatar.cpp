@@ -243,7 +243,8 @@ static void TlenGetAvatarThread(void *ptr) {
 		item = TlenListGetItemPtr(data->proto, LIST_ROSTER, jid);
 		mir_free(jid);
 	} else {
-		login = mir_strdup(data->proto->threadData->username);
+		if (data->proto->threadData != NULL)
+			login = mir_strdup(data->proto->threadData->username);
 	}
 	if ((data->proto->threadData != NULL && hContact == NULL) || item != NULL) {
 		DWORD format = PA_FORMAT_UNKNOWN;
