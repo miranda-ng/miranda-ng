@@ -1505,7 +1505,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	}
 	else {
 		//item in list already
-		if (contact->iImage == lParam)
+		if (contact && contact->iImage == lParam)
 			return 0;
 
 		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline) && clcItemNotHiddenOffline(dat, group, contact))
@@ -1594,8 +1594,8 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	if (!FindItem(hwnd, dat, wParam, &contact, NULL, NULL, FALSE))
 		return ret;
 
-	lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
 	if (contact) {
+		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
 		Cache_GetText(dat, contact, 1);
 		cliRecalcScrollBar(hwnd, dat);
 	}

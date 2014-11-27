@@ -290,14 +290,22 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 	char * param2 = NULL;
 	int paramCount = 0;
 	int result = 0;
+
 	pszService = mir_strdup(toParce);
+	if (!pszService)
+		return 0;
+	if (strlen(pszService) == 0) {
+		mir_free(pszService);
+		return 0;
+	}
 	param2 = strrchr(pszService, '%');
 	if (param2)
 	{
 		paramCount++;
 		*param2 = '\0';	param2++;
 		_skipblank(param2);
-		if (strlen(param2) == 0) param2 = NULL;
+		if (strlen(param2) == 0)
+			param2 = NULL;
 	}
 	param1 = strrchr(pszService, '%');
 	if (param1)
@@ -305,12 +313,8 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 		paramCount++;
 		*param1 = '\0';	param1++;
 		_skipblank(param1);
-		if (strlen(param1) == 0) param1 = NULL;
-	}
-	if (!pszService) return 0;
-	if (strlen(pszService) == 0) {
-		mir_free(pszService);
-		return 0;
+		if (strlen(param1) == 0)
+			param1 = NULL;
 	}
 	if (param1 && *param1 == '\"')
 	{
@@ -375,33 +379,33 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 		return TRUE;
 
 	case WM_DESTROY:
-		if (bct) {
-			EnterCriticalSection(&csTips);
-			if (hwndToolTips) {
-				TOOLINFO ti;
-				ZeroMemory(&ti, sizeof(ti));
-				ti.cbSize = sizeof(ti);
-				ti.uFlags = TTF_IDISHWND;
-				ti.hwnd = bct->hwnd;
-				ti.uId = (UINT_PTR)bct->hwnd;
-				if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
-					SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
-				}
-				if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
-					DestroyWindow(hwndToolTips);
-					hwndToolTips = NULL;
-				}
+		if (bct == NULL)
+			break;
+		EnterCriticalSection(&csTips);
+		if (hwndToolTips) {
+			TOOLINFO ti;
+			ZeroMemory(&ti, sizeof(ti));
+			ti.cbSize = sizeof(ti);
+			ti.uFlags = TTF_IDISHWND;
+			ti.hwnd = bct->hwnd;
+			ti.uId = (UINT_PTR)bct->hwnd;
+			if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
+				SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 			}
-			LeaveCriticalSection(&csTips);
-			mir_free(bct->ID);
-			mir_free(bct->CommandService);
-			mir_free(bct->StateService);
-			mir_free(bct->HandleService);
-			mir_free(bct->Hint);
-			mir_free(bct->ValueDBSection);
-			mir_free(bct->ValueTypeDef);
-			mir_free(bct);
+			if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
+				DestroyWindow(hwndToolTips);
+				hwndToolTips = NULL;
+			}
 		}
+		LeaveCriticalSection(&csTips);
+		mir_free(bct->ID);
+		mir_free(bct->CommandService);
+		mir_free(bct->StateService);
+		mir_free(bct->HandleService);
+		mir_free(bct->Hint);
+		mir_free(bct->ValueDBSection);
+		mir_free(bct->ValueTypeDef);
+		mir_free(bct);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;	// DONT! fall thru
 
@@ -451,7 +455,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 		bct->down = 1;
 		SetForegroundWindow(GetParent(bct->hwnd));
 		ModernSkinButtonPaintWorker(bct->hwnd,0);
-		if (bct && bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
+		if (bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
 			bct->CommandService = NULL;
 		if (bct->fCallOnPress) {
 			if (bct->CommandService) {
@@ -470,7 +474,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 			bct->hover = 0;
 			bct->down = 0;
 			ModernSkinButtonPaintWorker(bct->hwnd,0);
-			if (bct && bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
+			if (bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
 				bct->CommandService = NULL;
 			if (bct->CommandService)
 				if (_CallServiceStrParams(bct->CommandService, NULL))

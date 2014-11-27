@@ -412,7 +412,11 @@ int Cache_GetLineText(
 	BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus,
 	BOOL pdnce_time_show_only_if_different)
 {
+
+	if (text == NULL)
+		return TEXT_EMPTY;
 	text[0] = '\0';
+
 	switch(type) {
 	case TEXT_STATUS:
 		if (GetStatusName(text, text_size, pdnce, xstatus_has_priority) == -1 && use_name_and_message_for_xstatus) {

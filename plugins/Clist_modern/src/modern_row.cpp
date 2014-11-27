@@ -102,13 +102,14 @@ void cppDeleteTree(ROWCELL	* RowRoot)
 
 int cppCalculateRowHeight(ROWCELL	*RowRoot)
 {
+	if (RowRoot == NULL)
+		return 0;
 	RowRoot->h = 0;
 	RowRoot->w = 0;
 	rowResetEmptyRects(RowRoot);
 	rowCalculateMinSize(RowRoot);
 	rowEqualize(RowRoot);
-	if (RowRoot) return RowRoot->r.bottom;
-	return 0;
+	return RowRoot->r.bottom;
 }
 void cppCalculateRowItemsPos(ROWCELL	*RowRoot, int width)
 {
