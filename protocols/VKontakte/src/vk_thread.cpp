@@ -401,12 +401,14 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 		userIDs.AppendFormat(L"%i", userID);
 	}
 
-	CMString codeformat("var userIDs=\"%s\";"
-		"return{\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})"); 
+	CMString codeformat("var userIDs=\"%s\";");
 	if (flag)
-		codeformat += CMString(",\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
+		codeformat += CMString("var US=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
+			"var res=[];var index=US.length;while(index >0){index=index-1;if(US[index].online==1){res.unshift(US[index]);};};"
+			"return{\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	else
-		codeformat += CMString("};");
+		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
+			"return{\"users\":res};");
 	code.AppendFormat(codeformat, userIDs.GetBuffer(), CMString(flag ? "online,status" : fieldsName).GetBuffer());
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
@@ -429,7 +431,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	JSONNODE *pUsers = json_get(pResponse, "users");
 	if (pUsers == NULL)
 		return;
-	
+
 	for (size_t i = 0; SetContactInfo(json_at(pUsers, i)) != -1; i++);
 
 	JSONNODE *pRequests = json_get(pResponse, "requests");
