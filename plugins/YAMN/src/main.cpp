@@ -354,16 +354,16 @@ extern "C" int __declspec(dllexport) Load(void)
 
 static void UnloadPlugins()
 {
-	for (int i = iDllPlugins-1;i>=0;i--) {
+	if (hDllPlugins == NULL)
+		return;
+	for (int i = iDllPlugins - 1; i >= 0; i --) {
 		if (FreeLibrary(hDllPlugins[i])) {
 			hDllPlugins[i] = NULL;				//for safety
 			iDllPlugins --;
 		}
 	}
-	if (hDllPlugins) {
-		free((void *)hDllPlugins);
-		hDllPlugins = NULL;
-	}
+	free((void *)hDllPlugins);
+	hDllPlugins = NULL;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
