@@ -508,7 +508,7 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 		<< VER_API;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	Push(pReq);
-	db_unset(hContact, "off", false);
+	db_unset(hContact, m_szModuleName, "off");
 	return 0;
 }
 

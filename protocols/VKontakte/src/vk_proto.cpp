@@ -50,7 +50,6 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	NETLIBUSER nlu = {sizeof(nlu)};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
