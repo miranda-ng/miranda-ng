@@ -557,4 +557,4 @@ Sople lodu 80% szans opadów
 [Cloudy]
 Pochmurno
 [Light Snow Freezing Fog]
-
+Delikatny Śnieg Zamrożona Mgła
