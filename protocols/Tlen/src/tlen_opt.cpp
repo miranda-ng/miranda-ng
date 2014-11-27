@@ -159,16 +159,20 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				DBVARIANT dbv;
 
 				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, sizeof(text));
-				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv) || strcmp(text, dbv.pszVal))
+				dbv.pszVal = NULL;
+				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv) || lstrcmpA(text, dbv.pszVal))
 					reconnectRequired = TRUE;
-				if (dbv.pszVal != NULL)	db_free(&dbv);
+				if (dbv.pszVal != NULL)
+					db_free(&dbv);
 				db_set_s(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
-					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || strcmp(text, dbv.pszVal))
+					dbv.pszVal = NULL;
+					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || lstrcmpA(text, dbv.pszVal))
 						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)	db_free(&dbv);
+					if (dbv.pszVal != NULL)
+						db_free(&dbv);
 					db_set_s(NULL, proto->m_szModuleName, "Password", text);
 				}
 				else
@@ -293,16 +297,20 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				DBVARIANT dbv;
 
 				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, sizeof(text));
-				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv) || strcmp(text, dbv.pszVal))
+				dbv.pszVal = NULL;
+				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv) || lstrcmpA(text, dbv.pszVal))
 					reconnectRequired = TRUE;
-				if (dbv.pszVal != NULL)	db_free(&dbv);
+				if (dbv.pszVal != NULL)
+					db_free(&dbv);
 				db_set_s(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
-					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || strcmp(text, dbv.pszVal))
+					dbv.pszVal = NULL;
+					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || lstrcmpA(text, dbv.pszVal))
 						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)	db_free(&dbv);
+					if (dbv.pszVal != NULL)
+						db_free(&dbv);
 					db_set_s(NULL, proto->m_szModuleName, "Password", text);
 				}
 				else
@@ -506,16 +514,21 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			BOOL useEncryption;
 			BOOL reconnectRequired = FALSE;
 			DBVARIANT dbv;
+
 			GetDlgItemTextA(hwndDlg, IDC_EDIT_LOGIN_SERVER, text, sizeof(text));
-			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv) || strcmp(text, dbv.pszVal))
+			dbv.pszVal = NULL;
+			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv) || lstrcmpA(text, dbv.pszVal))
 				reconnectRequired = TRUE;
-			if (dbv.pszVal != NULL)	db_free(&dbv);
+			if (dbv.pszVal != NULL)
+				db_free(&dbv);
 			db_set_s(NULL, proto->m_szModuleName, "LoginServer", strlwr(text));
 
 			GetDlgItemTextA(hwndDlg, IDC_HOST, text, sizeof(text));
-			if (db_get(NULL, proto->m_szModuleName, "ManualHost", &dbv) || strcmp(text, dbv.pszVal))
+			dbv.pszVal = NULL;
+			if (db_get(NULL, proto->m_szModuleName, "ManualHost", &dbv) || lstrcmpA(text, dbv.pszVal))
 				reconnectRequired = TRUE;
-			if (dbv.pszVal != NULL)	db_free(&dbv);
+			if (dbv.pszVal != NULL)
+				db_free(&dbv);
 			db_set_s(NULL, proto->m_szModuleName, "ManualHost", text);
 
 			port = (WORD) GetDlgItemInt(hwndDlg, IDC_HOSTPORT, NULL, FALSE);

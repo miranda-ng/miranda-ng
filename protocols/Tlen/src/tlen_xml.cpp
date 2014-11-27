@@ -55,24 +55,26 @@ void TlenXmlDestroyState(XmlState *xmlState)
 	int i;
 	XmlNode *node;
 
-	if (xmlState == NULL) return;
+	if (xmlState == NULL)
+		return;
 	// Note: cannot use TlenXmlFreeNode() to free xmlState->root
 	// because it will do mir_free(xmlState->root) which is not freeable.
 	node = &(xmlState->root);
 	// Free all children first
 	for (i=0; i<node->numChild; i++)
 		TlenXmlFreeNode(node->child[i]);
-	if (node->child) mir_free(node->child);
+	mir_free(node->child);
 	// Free all attributes
 	for (i=0; i<node->numAttr; i++) {
-		if (node->attr[i]->name) mir_free(node->attr[i]->name);
-		if (node->attr[i]->value) mir_free(node->attr[i]->value);
+		mir_free(node->attr[i]->name);
+		mir_free(node->attr[i]->value);
 		mir_free(node->attr[i]);
 	}
-	if (node->attr) mir_free(node->attr);
+	mir_free(node->attr);
 	// Free string field
-	if (node->text) mir_free(node->text);
-	if (node->name) mir_free(node->name);
+	mir_free(node->text);
+	mir_free(node->name);
+	/* mir_free(xmlState) - no need, work with static. */
 }
 
 BOOL TlenXmlSetCallback(XmlState *xmlState, int depth, XmlElemType type, void (*callback)(XmlNode*, void*), void *userdata)
@@ -455,21 +457,22 @@ void TlenXmlFreeNode(XmlNode *node)
 {
 	int i;
 
-	if (node == NULL) return;
+	if (node == NULL)
+		return;
 	// Free all children first
 	for (i=0; i<node->numChild; i++)
 		TlenXmlFreeNode(node->child[i]);
-	if (node->child) mir_free(node->child);
+	mir_free(node->child);
 	// Free all attributes
 	for (i=0; i<node->numAttr; i++) {
-		if (node->attr[i]->name) mir_free(node->attr[i]->name);
-		if (node->attr[i]->value) mir_free(node->attr[i]->value);
+		mir_free(node->attr[i]->name);
+		mir_free(node->attr[i]->value);
 		mir_free(node->attr[i]);
 	}
-	if (node->attr) mir_free(node->attr);
+	mir_free(node->attr);
 	// Free string field
-	if (node->text) mir_free(node->text);
-	if (node->name) mir_free(node->name);
+	mir_free(node->text);
+	mir_free(node->name);
 	// Free the node itself
 	mir_free(node);
 }
