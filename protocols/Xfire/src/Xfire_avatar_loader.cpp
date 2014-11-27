@@ -18,16 +18,14 @@ Xfire_avatar_loader::~Xfire_avatar_loader() {
 }
 
 void Xfire_avatar_loader::loadThread(LPVOID lparam) {
-	Xfire_avatar_loader* loader=(Xfire_avatar_loader*)lparam;
+	Xfire_avatar_loader *loader=(Xfire_avatar_loader*)lparam;
 	
 	//kein loader, dann abbruch
-	if (!lparam)
+	if (!loader)
 		return;
 
-	if (loader) {
-		EnterCriticalSection(&loader->avatarMutex);
-		loader->threadrunning=TRUE;
-	}
+	EnterCriticalSection(&loader->avatarMutex);
+	loader->threadrunning=TRUE;
 
 	while(1){
 		//keinen avatarload auftrag mehr
@@ -57,11 +55,8 @@ void Xfire_avatar_loader::loadThread(LPVOID lparam) {
 		Sleep(1000);
 	}
 
-	if (loader)
-	{
-		loader->threadrunning=FALSE;
-		LeaveCriticalSection(&loader->avatarMutex);
-	}
+	loader->threadrunning=FALSE;
+	LeaveCriticalSection(&loader->avatarMutex);
 
 	return;
 }
