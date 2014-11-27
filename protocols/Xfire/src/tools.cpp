@@ -350,10 +350,12 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 	}
 
 	DWORD size=0;
-	MIB_UDPTABLE_OWNER_PID * ptab=NULL;
+	MIB_UDPTABLE_OWNER_PID *ptab;
 
 	GetExtendedUdpTable(NULL, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
-	ptab=(MIB_UDPTABLE_OWNER_PID*)malloc(size);
+	ptab = (MIB_UDPTABLE_OWNER_PID*)malloc(size);
+	if (ptab == NULL)
+		return FALSE;
 	int ret = GetExtendedUdpTable(ptab, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
 	//alle grad geöffnet updverb nach der pid vom spiel suchen, um an den port ranzukommen
 	if (ret==NO_ERROR)
@@ -383,7 +385,7 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 		return FALSE;
 	}
 
-	if (ptab) delete ptab; //speicher frei machn
+	free(ptab); //speicher frei machn
 
 
 	//socker erstellen
@@ -559,10 +561,12 @@ BOOL GetServerIPPort2(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1
 	}
 
 	DWORD size=0;
-	MIB_UDPTABLE_OWNER_PID * ptab=NULL;
+	MIB_UDPTABLE_OWNER_PID *ptab;
 
 	GetExtendedUdpTable(NULL, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
-	ptab=(MIB_UDPTABLE_OWNER_PID*)malloc(size);
+	ptab = (MIB_UDPTABLE_OWNER_PID*)malloc(size);
+	if (ptab == NULL)
+		return FALSE;
 	int ret = GetExtendedUdpTable(ptab, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
 	//alle grad geöffnet updverb nach der pid vom spiel suchen, um an den port ranzukommen
 	if (ret==NO_ERROR)
@@ -592,7 +596,7 @@ BOOL GetServerIPPort2(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1
 	else
 		return FALSE;
 
-	if (ptab) delete ptab; //speicher frei machn
+	free(ptab); //speicher frei machn
 
 
 	//socker erstellen

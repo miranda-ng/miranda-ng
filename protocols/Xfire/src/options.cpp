@@ -258,20 +258,21 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 				case PSN_APPLY:
 				{
-					int reconnectRequired=0;
+					int reconnectRequired = 0;
 					char str[128];
 					DBVARIANT dbv;
 
 					GetDlgItemTextA(hwndDlg,IDC_LOGIN,login,sizeof(login));
-					dbv.pszVal=NULL;
-					if (db_get(NULL,protocolname,"login",&dbv) || strcmp(login,dbv.pszVal))
-						reconnectRequired=1;
-					if (dbv.pszVal!=NULL) db_free(&dbv);
+					dbv.pszVal = NULL;
+					if (db_get(NULL,protocolname,"login",&dbv) || lstrcmpA(login, dbv.pszVal))
+						reconnectRequired = 1;
+					if (dbv.pszVal != NULL)
+						db_free(&dbv);
 					
 					//den login lowercasen
-					int size=strlen(login);
-					BOOL mustlowercase=FALSE;
-					for(int i=0;i<size;i++)
+					int size = lstrlenA(login);
+					BOOL mustlowercase = FALSE;
+					for(int i = 0; i < size; i ++)
 					{
 						if (login[i]>='A'&&login[i]<='Z')
 							mustlowercase=TRUE;
@@ -287,19 +288,21 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					//nur wenn der nick erfolgreich übertragen wurde
 					GetDlgItemTextA(hwndDlg,IDC_NICK,login,sizeof(login));
-					dbv.pszVal=NULL;
-					if (db_get(NULL,protocolname,"Nick",&dbv) || strcmp(login,dbv.pszVal))
+					dbv.pszVal = NULL;
+					if (db_get(NULL,protocolname,"Nick",&dbv) || lstrcmpA(login, dbv.pszVal))
 					{
 						if (CallService(XFIRE_SET_NICK,0,(WPARAM)login))
 							db_set_s(NULL,protocolname,"Nick",login);
 					}
-					if (dbv.pszVal!=NULL) db_free(&dbv);
+					if (dbv.pszVal != NULL)
+						db_free(&dbv);
 
 					GetDlgItemTextA(hwndDlg,IDC_PASSWORD,str,sizeof(str));
 					dbv.pszVal = NULL;
-					if (db_get(NULL,protocolname,"password",&dbv) || strcmp(str,dbv.pszVal))
+					if (db_get(NULL,protocolname,"password",&dbv) || lstrcmpA(str, dbv.pszVal))
 						reconnectRequired=1;
-					if (dbv.pszVal!=NULL) db_free(&dbv);
+					if (dbv.pszVal != NULL)
+						db_free(&dbv);
 					db_set_s(NULL,protocolname,"password",str);
 					GetDlgItemTextA(hwndDlg,IDC_SERVER,str,sizeof(str));
 
@@ -331,7 +334,8 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
 					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
-					if (reconnectRequired) MessageBox(hwndDlg,TranslateT("The changes you have made require you to reconnect to the XFire network before they take effect"),TranslateT("XFire Options"),MB_OK|MB_ICONINFORMATION);
+					if (reconnectRequired)
+						MessageBox(hwndDlg,TranslateT("The changes you have made require you to reconnect to the XFire network before they take effect"),TranslateT("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
 				}
 
