@@ -1869,8 +1869,8 @@ Zpráva od: %s
 %s píše zprávu
 [Typing notification]
 Upozornění na psaní zprávy
-[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
-Miranda nemůže načíst vestavěný komunikační modul, riched20.dll nebyl nalezen. Stiskněte 'Ano' pro pokračování ve spouštění Mirandy.
+[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda nemůže načíst vestavěný komunikační modul, Msftedit.dll nebyl nalezen. Stiskněte 'Ano' pro pokračování ve spouštění Mirandy.
 [Instant messages]
 Zprávy
 [Incoming (focused window)]
@@ -2276,6 +2276,8 @@ Doplňkové ikony
 Zadejte hledaný výraz a zkuste hledat znovu.
 [Search]
 Hledat
+[Ctrl+Search add contact]
+Ctrl+Hledat přidá kontakt
 [Results]
 Seznam vyhledaných osob
 [There are no results to display.]

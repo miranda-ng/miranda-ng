@@ -171,15 +171,15 @@ Metakontakty
 
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
-[path to current Miranda profile]
-cesta k aktuálnímu profilu Mirandy
+[path to folder containing Miranda profiles]
+cesta ke složce obsahující profily Mirandy
 [name of current Miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+vrátí zpracovaný řetězec %miranda_profilesdir%\\%miranda_profilename%
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\AvatarCache]
 
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%\\Logs]
 
 [Miranda Core OS]
 

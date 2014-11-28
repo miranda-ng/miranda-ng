@@ -52,6 +52,10 @@ Klienti Tlen
 Klienti počasí
 [Yahoo clients]
 Klienti Yahoo
+[Facebook clients]
+Klienti Facebook
+[VKontakte clients]
+Klienti VKontakte
 [Multi-protocol clients]
 Více-protokoloví klienti
 [Other (rare) protocols]
@@ -92,31 +96,31 @@ Miranda (neznámá)
 [spam client]
 spamovací klient
 [PHP Jabber Client]
-
+PHP Jabber Client
 [MP3 Script for mIRC]
-
+MP3 skript pro mIRC
 [Mail.Ru Agent (official)]
-
+Mail.Ru Agent (oficiální)
 [Mail.Ru (unknown client)]
-
+Mail.Ru (neznámý klient)
 [TM 2008 and >]
-
+TM 2008 a novější
 [Gadu-Gadu client]
-
+Klient Gadu-Gadu
 [Tlen.pl client]
-
+Klient Tlen.pl
 [Python-based clients]
-
+Klienti v Pythonu
 [Jabber client]
-
+Klient Jabber
 [XMPP client]
-
+Klient XMPP
 [Client not found]
-
+Klient nenalezen
 [Unknown client]
-neznámý klient
+Neznámý klient
 [Undetected client]
-
+Nezjištěný klient
 [AIM overlay]
 
 [ICQJ Plus Mod overlay]
@@ -140,6 +144,8 @@ neznámý klient
 [Yahoo overlay]
 
 [Mail.Ru Agent overlay]
+
+[VK overlay]
 
 [ICQ 2003 overlay]
 
@@ -216,6 +222,10 @@ neznámý klient
 [Amiga overlay]
 
 [Android overlay]
+
+[Website overlay]
+
+[Windows Phone overlay]
 
 [debug overlay]
 

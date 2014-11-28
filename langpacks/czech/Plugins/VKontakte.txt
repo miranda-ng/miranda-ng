@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.12
+;  Version: 0.1.0.29
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -14,27 +14,67 @@ E-mail nebo telefonní číslo:
 Heslo:
 [Open VKontakte site]
 
+[Advanced]
+Extra
+[Hide chats on startup]
+
+[Always notify as unread for all incoming message]
+
+[Add [img] BBCode for graphical attachments]
+
+[Process stickers as smileys]
+
+[Force online status upon user activity]
+
+[When I ban user...]
+
+[Report abuse]
+
+[Clear server history]
+
+[Remove from friend list]
+
+[Remove from contact list]
+
+[Broadcast music...]
+
+[off]
+vyp
+[as regular status for unknown music and audio status otherwise]
+
+[as audio status only]
+
+[as regular status only]
+
 [Login settings]
 
 [Local settings]
 
 [Contact list group:]
 
-[Advanced]
-Extra
 [Server-side delivery confirmation]
 
-[Hide chats on startup]
+[Use local time for received messages]
+Použít lokální čas počítače pro příchozí zprávy
+[Automatically wipe local contacts missing in your friend list]
 
-[Automatically wipe local contacts missing in your Friends list]
+[Mark message as read...]
 
-[Always notify as unread for all incoming message]
+[on read]
 
-[Mark read on reply]
+[on receive]
 
-[Mark read on typing]
+[on reply]
 
-[Automatically sync last messages]
+[on typing]
+
+[Sync history on protocol online...]
+
+[automatically]
+
+[for last 1 day]
+
+[for last 3 days]
 
 [Bots challenge test]
 Kontrola robotů
@@ -55,12 +95,36 @@ Zrušit
 [New chat's title:]
 
 ;file \protocols\VKontakte\src\misc.cpp
+[Error %d. Data will not be sent or received.]
+
+[Error]
+Chyba
 [Captcha form icon]
 Ikona okna s captcha kódem
+[Notification icon]
+
+[Read message icon]
+
+[Visit profile icon]
+
+[Load server history icon]
+
+[Add to friend list icon]
+
+[Delete from friend list icon]
+
+[Report abuse icon]
+
+[Ban user icon]
+
+[Broadcast icon]
+
 [Protocols]
 Protokoly
 [VKontakte]
 
+[Message read: %s]
+Zpráva byla přečtena: %s
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
@@ -77,6 +141,14 @@ neznámý
 
 [Warning]
 Upozornění
+[I'm back]
+
+[You've been kicked by ]
+
+[(Unknown contact)]
+(neznámý kontakt)
+[Chat]
+Diskuse
 [&Invite a user]
 Pozvat už&ivatele
 [View/change &title]
@@ -87,6 +159,32 @@ Zruši&t místnost
 Informace o &uživateli
 [&Kick]
 Vy&kopnout
+;file \protocols\VKontakte\src\vk_files.cpp
+[Couldn't save file]
+
+[Invalid album id]
+
+[Invalid server]
+
+[Invalid hash]
+
+[Invalid audio]
+
+[The audio file was removed by the copyright holder and cannot be reuploaded]
+
+[Invalid filename]
+
+[Invalid filesize]
+
+[Unknown error occurred]
+
+[File upload error]
+
+;file \protocols\VKontakte\src\vk_history.cpp
+[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+
+[Attention!]
+
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Sítě
@@ -97,12 +195,64 @@ Sítě
 %s - spojení se serverem
 [Create new chat]
 
-[Reload all messages from vk.com]
+[Visit profile]
+Zobrazit profil
+[Add as friend]
+
+[Delete from friend list]
+
+[Ban user]
+
+[Destroy room]
+
+[Open broadcast]
+
+[Reload messages from vk.com...]
+
+[for last week]
+
+[for last 30 days]
+
+[for last 90 days]
+
+[for all time]
+
+[Errors]
+Chyby
+[Notification]
+Oznámení
+[User %s added as friend]
+
+[You cannot add yourself as friend]
+
+[Cannot add this user to friends as they have put you on their blacklist]
+
+[Cannot add this user to friends as you put him on blacklist]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+[Please authorize me to add you to my friend list.]
 
-[Attention!]
+[Are you sure to delete %s from your friend list?]
+
+[User %s was deleted from your friend list]
+
+[Friend request from the user %s declined]
+
+[Friend request suggestion for the user %s deleted]
+
+[ report abuse on him/her]
+
+[ clear server history with him/her]
+
+[ remove him/her from your friend list]
+
+[ remove him/her from your contact list]
+
+[Are you sure to ban %s? %s%sContinue?]
+
+[\nIt will also]
+
+[Are you sure to report abuse on %s?]
 
 [Attachments:]
 Přílohy:

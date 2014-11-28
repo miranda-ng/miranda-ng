@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.3
+;  Version: 3.4.0.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -558,7 +558,7 @@ Pozn.: Některá nastavení hned neovlivní otevřené kontejnery.
 Rozvržení záložek
 [About TabSRMM]
 O TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright 2004-2011 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Support and latest version information]
 Podpora, hlášení chyb a informace o nových verzích
@@ -650,7 +650,7 @@ Ne
 Posílání zpráv
 [Window:]
 Okno
-[Esc closes sessions (minimizes window, if disabled)]
+[Esc closes sessions (minimizes window if disabled)]
 Zavřít klávesou ESC (jinak minimalizuje okno)
 [Always pop up and activate new windows]
 Vždy vyvolat a aktivovat nové komunikační okno
@@ -2094,12 +2094,12 @@ uživatelem definovaný název účtu (pokud je definován)
 Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
-[path to current Miranda profile]
-cesta k aktuálnímu profilu Mirandy
+[path to folder containing Miranda profiles]
+cesta ke složce obsahující profily Mirandy
 [name of current Miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+vrátí zpracovaný řetězec %miranda_profilesdir%\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]
 navrátí řetězec %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]

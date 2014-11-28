@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.0.4.22
+;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-[Crash Dumper for Miranda NG.]
-Crash Dumper pro Mirandu NG.
+[Crash Dumper and Version Information for Miranda NG.]
+Výpisy chyb a informace o verzi pro Mirandu NG.
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Informace o verzi
@@ -16,20 +16,24 @@ Zavřít
 Kopírovat do schránky
 [To File]
 Do souboru
-[Support for miranda-vi.org]
-Nastavení pro miranda-vi.org
+[Support for vi.miranda-ng.org]
+Podpora pro vi.miranda-ng.org
 [Username]
 Uživatel
 [Password]
 Heslo
 [Upload automatically when changed]
 Nahrát na server automaticky při změně
-[General]
-Obecné
+[Crash reports]
+Výpisy chyb
 [Use classic dates]
 Použít klasický formát data
 [Create reports in subfolders naming as current date]
 Vytvářet výpisy chyb v podsložkách s názvem aktuálního data
+[Generate crash reports]
+Vytvářet výpisy chyb
+[* You need to restart Miranda NG to apply changes]
+* Je vyžadován restart Mirandy NG pro uvedení změn v platnost
 [View]
 Zobrazit
 [&Copy]
@@ -39,10 +43,10 @@ Zko&pírovat vše
 [Select &All]
 Vybr&at vše
 ;file \plugins\CrashDumper\src\crshdmp.cpp
-[VersionInfo stored into file %s]
+[Version Info stored into file %s]
 Informace o verzi ukládat do %s
-[VersionInfo file %s is inaccessible]
-Soubor Informací o verzi %s je nedostupný
+[Version Info file %s is inaccessible]
+Soubor s informacemi o verzi %s je nedostupný
 [Services]
 Služby
 [Version Information To Clipboard]
@@ -53,8 +57,6 @@ Informace o verzi do souboru
 Zobrazit Informace o verzi
 [Upload Version Information]
 Informace o verzi nahrát na server
-[Crash Reports]
-Výpisy chyb
 [Version Information]
 Informace o verzi
 [Copy to clipboard]
@@ -69,8 +71,8 @@ Zobrazit s DLL knihovnami
 Nahrát na server
 [Open crash report directory]
 Otevřít složku s výpisem chyb
-[Open miranda-vi.org]
-Jít na miranda-vi.org
+[Open online Version Info]
+Otevřít informace o verzi online
 [Copy Version Info to clipboard]
 Zkopírovat informace o verzi do schránky
 [Show Version Info]
@@ -87,20 +89,17 @@ Miranda spadla. Crash report uložen ve složce:\n %s\n\n Chcete záznam uložit
 [View Version Information (with DLLs)]
 Zobrazit informace o verzi (s DLL knihovnami)
 ;file \plugins\CrashDumper\src\upload.cpp
-[VersionInfo upload successful,\n %d old plugins]
-Informace o verzi: úspěšně nahráno\n%d starých pluginů
-[Cannot upload VersionInfo. Incorrect username or password]
+[Version Info upload successful.]
+Informace o verzi: úspěšně nahráno.
+[Cannot upload Version Info. Incorrect username or password]
 Informace o verzi: Nelze nahrát na server\nŠpatné uživatelské jméno, nebo heslo
-[Cannot upload VersionInfo. User is banned]
+[Cannot upload Version Info. User is banned]
 Informace o verzi: nelze nahrát na server\nUživatel zablokován
-[Cannot upload VersionInfo. Daily upload limit exceeded]
+[Cannot upload Version Info. Daily upload limit exceeded]
 Informace o verzi: nelze nahrát na server\nDenní limit pro nahrávání překročen
-[Cannot upload VersionInfo. Unknown error]
+[Cannot upload Version Info. Unknown error]
 Informace o verzi: nelze nahrát na server\nNeznámá chyba
-[Cannot upload VersionInfo. Host unreachable.]
+[Cannot upload Version Info. Host unreachable.]
 Informace o verzi: nelze nahrát na server\nServer nedostupný
 [Crash Dumper HTTP connections]
 Crash Dumper - spojení pomocí protokolu HTTP
-;file \plugins\CrashDumper\src\utils.cpp
-[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Máte více než jeden crash report plugin. To povede k nefunkčnosti vytváření záznamů o pádu (crash reportů).

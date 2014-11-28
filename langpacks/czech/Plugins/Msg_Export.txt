@@ -81,7 +81,7 @@ Zkopírovat
 
 [Failed to execute external file view]
 
-[Failed to load Rich Edit ( RICHED32.DLL )]
+[Failed to load Rich Edit ( Msftedit.DLL )]
 
 [Failed to get handle to RichEdit!]
 

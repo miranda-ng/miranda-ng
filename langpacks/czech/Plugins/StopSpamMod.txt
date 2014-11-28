@@ -80,7 +80,7 @@ Automaticky přidat kontakt po správné odpovědi
 [Remove Temporary Contacts]
 
 ;file \plugins\StopSpamMod\src\options.cpp
-[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Už žádný další spam! Roboti nemají šanci, zde si povídají lidé!\r\n\r\nTento doplněk pracuje na jednoduchém principu:\r\nZatímco zprávy od lidí ze seznamu kontaktů projdou vždy, jako by tu žádný filtr nebyl, zprávy od neznámých kontaktů doručeny nebudou. Tyto zprávy ale nejsou ignorovány, jen je jejich autorům nejdříve automaticky zaslána jednoduchá otázka. Teprve až po jejím správném zodpovězení vás může dotyčný kontaktovat.
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 
@@ -88,7 +88,7 @@ Už žádný další spam! Roboti nemají šanci, zde si povídají lidé!\r\n\r
 
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Gratuluji! Právě jste prošli testem člověk/robot. Teď už mi můžete poslat zprávu.
-[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
+[If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces.]
 
 [Info]
 Info

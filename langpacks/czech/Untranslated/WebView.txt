@@ -7,7 +7,6 @@
 [Only update window on alert]
 [Window appearance]
 [Save individual window positions]
-[Error messages]
 [Display using Popup or OSD plugin]
 [Disable download protection]
 [(not recommended)]

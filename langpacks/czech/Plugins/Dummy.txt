@@ -1,0 +1,23 @@
+﻿#muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
+;============================================================
+;  File: Dummy.dll
+;  Plugin: Dummy protocol
+;  Version: 0.1.0.0
+;  Authors: Robert Pösel
+;============================================================
+[Dummy protocol for Miranda NG.]
+Dummy protokol pro Mirandu NG.
+;file \protocols\Dummy\res\resource.rc
+[Unique ID setting:]
+Unikátní ID nastavení:
+[Name of setting that holds unique identifier of contacts]
+Název nastavení, které obsahuje unikátní identifikátor kontaktů
+[Unique ID text:]
+Unikátní ID text:
+[Visible name of unique identifier of contacts]
+Viditelný název unikátního identifikátoru kontaktů
+[Restart is required to apply these changes.]
+Je vyžadován restart pro uvedení změn v platnost.
+;file \protocols\Dummy\src\dummy_proto.cpp
+[Dummy protocol is too dumb to send messages.]
+Dummy protokol je příliš hloupý pro odesílání zpráv.

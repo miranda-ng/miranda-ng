@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox Protocol
-;  Version: 0.11.0.2
+;  Version: 0.11.0.4
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -10,12 +10,14 @@ Tox protokol pro Mirandu NG.
 ;file \protocols\Tox\res\resource.rc
 [Name:]
 Název:
-[Tox ID:]
-Tox ID:
+[Password:]
+Heslo:
 [Default group:]
 Výchozí skupina:
 [C]
 C
+[Tox ID:]
+Tox ID:
 [Connection settings]
 Možnosti připojení
 [Disable UDP (force Tox to use TCP)]
@@ -24,16 +26,24 @@ Zakázat UDP (vynutí použití TCP)
 Zakázat IPv6
 [Tox]
 Tox
-[Tox profile]
-Tox profil
-[Tox profile contains your ID and friend list.\r\nYou may create new profile if you never used tox or use existing profile from other tox client.]
-Tox profil obsahuje vaše ID a seznam kontaktů.\r\nMůžete si vytvořit nový profil pokud jste Tox ještě nepoužívali nebo načíst existující z jiného Tox klienta.
-[Create new profile]
-Vytvořit nový profil
-[Use existing profile]
-Použít existující profil
-[If this field contains tox address (76 hex character), you will be prompted to add it in your friend list. Otherwise, miranda will search this query via toxme.se.]
-Pokud toto pole obsahuje adresu Tox (76 hex znaků), budete zobrazen dialog pro přidání do vašeho seznamu kontaktů. V opačném případě bude Miranda hledat pomocí toxme.se.
+[Tox profile import]
+Import Tox profilu
+[Import]
+Importovat
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
+Tox profil obsahuje vaše ID a seznam kontaktů.\r\nMůžete naimportovat existující profil z jiného tox klienta.\r\nStisknutím "Importovat" provedete import z existujícího profilu.\r\nStisknutím "Zrušit" nebo zavřením tohoto okna bude vytvořen nový profil.
+[Cancel]
+Zrušit
+[If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
+Pokud toto pole obsahuje adresu Tox (76 hex znaků), bude zobrazen dialog pro přidání kontaktu do vašeho seznamu. V opačném případě bude Miranda hledat kontakt pomocí toxme.se.
+[Dns name:]
+Dns název:
+[Enter password]
+Zadejte heslo
+[Save password]
+Uložit heslo
+[Tox profile is encrypted. Enter the password to continue.]
+Tox profil je zašifrován. Zadejte heslo pro pokračování.
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Sítě
@@ -42,9 +52,7 @@ Sítě
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s - spojení se serverem
-;file \protocols\Tox\src\tox_options.cpp
-[Query]
-Dotaz
+;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 Všechny soubory (*.*)
 [Select tox profile]
@@ -54,5 +62,10 @@ Vyberte Tox profil
 Protokoly
 [Protocol icon]
 Ikona protokolu
+;file \protocols\Tox\src\tox_search.cpp
+[Query]
+Dotaz
+[You cannot add yourself to friend list]
+Nemůžete přidat sami sebe do seznamu kontaktů
 [Contact already in your contact list]
 Kontakt je již ve vašem seznamu

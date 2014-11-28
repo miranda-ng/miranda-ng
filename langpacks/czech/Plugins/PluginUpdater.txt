@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -48,6 +48,8 @@ Vývojová verze s debug symboly
 Vlastní verze
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Některé komponenty byly aktualizovány.\nJe nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
+[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
+Aktualizace na stabilní verzi v tuto chvíli není možná z důvodu nekompatibility s aktuální vývojovou verzí!
 [Notifications]
 Upozornění
 [Restart]
@@ -86,8 +88,6 @@ Doba zobrazení
 sek.
 [For "Restart" popup setting is always infinity]
 Oznámení s žádostí o restart je zobrazeno trvale
-[Boxes]
-Dialogy
 [Popups]
 Oznámení
 [Component list]
@@ -132,10 +132,12 @@ Načítání seznamu již probíhá!
 Bude smazán!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizace dokončena. Přejete si nyní restartovat Mirandu?
-[Core components]
-Komponenty jádra
-[Core]
-Jádro
+[Miranda NG Core]
+Miranda NG jádro
+[Deprecated!]
+Již nepodporován!
+[Update found!]
+Nová verze!
 [<< Details]
 << Detaily
 [Update failed! One of the components wasn't downloaded correctly. Try it again later.]
@@ -146,6 +148,8 @@ Aktualizace se nezdařila! Některá z komponent nebyla správně stažena. Zkus
 Je nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
 [Would you like to restart it now?]
 Přejete si ji nyní restartovat?
+[Checking for new updates...]
+Zjišťování aktualizací...
 [No updates found.]
 Žádné aktualizace nenalezeny.
 [Update checking already started!]
@@ -178,11 +182,7 @@ Aktualizace selhala
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Informace
-[Plugin list]
-Seznam komponent
 [Plugin Updater HTTP connection]
 Aktualizátor - Spojení pomocí protokolu HTTP
-[Checking new updates...]
-Zjišťování aktualizací...
-[An error occurred while checking new updates.]
+[An error occurred while checking for new updates.]
 Nastala chyba při zjišťování aktualizací.

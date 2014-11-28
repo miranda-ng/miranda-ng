@@ -23,7 +23,7 @@
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 [SendScreenshot - Error]
-[Fatal error, image services not found. Send Screenshot will be disabled.]
+[Fatal error, image services not found. SendScreenshot will be disabled.]
 [SendSS]
 [Screenshots]
 [SendSS HTTP connections]

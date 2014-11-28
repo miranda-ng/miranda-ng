@@ -43,7 +43,7 @@ Podtržené
 [Save individual window positions]
 
 [Error messages]
-
+Chybové zprávy
 [Suppress error messages]
 Potlačit chybová hlášení
 [Display using Popup or OSD plugin]
