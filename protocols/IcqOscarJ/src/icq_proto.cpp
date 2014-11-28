@@ -1309,7 +1309,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const TCHAR* szDescription
 					// Send file transfer request
 					debugLogA("Init file send");
 
-					char *pszFiles;
+					char *pszFiles, szFiles[64];
 					if (ft->dwFileCount == 1) {
 						pszFiles = strchr(ft->pszFiles[0], '\\');
 						if (pszFiles)
@@ -1318,7 +1318,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const TCHAR* szDescription
 							pszFiles = ft->pszFiles[0];
 					}
 					else {
-						char szFiles[64], tmp[64];
+						char tmp[64];
 						mir_snprintf(szFiles, SIZEOF(szFiles), ICQTranslateUtfStatic("%d Files", tmp, SIZEOF(tmp)), ft->dwFileCount);
 						pszFiles = szFiles;
 					}

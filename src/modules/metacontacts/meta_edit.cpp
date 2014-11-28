@@ -293,7 +293,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 				HWND hwndOffline = GetDlgItem(hwndDlg, IDC_BTN_SETOFFLINE);
 				EnableWindow(hwndOffline, sel != -1);
-				SetWindowText(hwndOffline, TranslateTS((sel != -1 && g_data.hContact[sel] != g_data.hOfflineContact) ? LPGENT("Send &offline") : LPGENT("Send &online")));
+				SetWindowText(hwndOffline, (sel != -1 && g_data.hContact[sel] != g_data.hOfflineContact) ? TranslateT("Send &offline") : TranslateT("Send &online"));
 			}
 		}
 		break;

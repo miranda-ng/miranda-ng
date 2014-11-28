@@ -414,6 +414,11 @@ void BB_UpdateIcons(HWND hdlg, TWindowData *dat)
 
 void TSAPI BB_InitDlgButtons(TWindowData *dat)
 {
+	if (dat == 0)
+		return;
+	HWND hdlg = dat->hwnd;
+	if (hdlg == 0)
+		return;
 	RECT rect;
 	int i;
 	int lwidth = 0, rwidth = 0;
@@ -425,9 +430,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 	int cx = 0, cy = 0;
 	int lcount = LButtonsList.getCount();
 	int rcount = RButtonsList.getCount();
-	HWND hdlg = dat->hwnd;
 
-	if (dat == 0 || hdlg == 0) { return; }
 	if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKBUTTONSNPRESSED].IGNORED &&
 		 !SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED) {
 		isThemed = FALSE;

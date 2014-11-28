@@ -126,13 +126,12 @@ static void TrimMessage(TCHAR *msg)
 
 void TSAPI CacheLogFonts()
 {
-	int i;
 	HDC hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ReleaseDC(NULL, hdc);
 
-	ZeroMemory(logfonts, sizeof(LOGFONTA) * MSGDLGFONTCOUNT + 2);
-	for (i = 0; i < MSGDLGFONTCOUNT; i++) {
+	ZeroMemory(logfonts, sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));
+	for (int i = 0; i < MSGDLGFONTCOUNT; i++) {
 		LoadLogfont(i, &logfonts[i], &fontcolors[i], FONTMODULE);
 		mir_snprintf(rtfFontsGlobal[i], SIZEOF(rtfFontsGlobal[i]), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic, logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
 	}
@@ -149,7 +148,7 @@ void TSAPI CacheLogFonts()
 	COLORREF clr;
 	LOGFONTA lf;
 
-	for (i = 0; i < IPFONTCOUNT; i++) {
+	for (int i = 0; i < IPFONTCOUNT; i++) {
 		if (CInfoPanel::m_ipConfig.hFonts[i])
 			DeleteObject(CInfoPanel::m_ipConfig.hFonts[i]);
 		LoadLogfont(i + 100, &lf, &clr, FONTMODULE);

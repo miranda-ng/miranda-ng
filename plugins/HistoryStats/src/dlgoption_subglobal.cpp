@@ -249,7 +249,7 @@ void DlgOption::SubGlobal::onWMInitDialog()
 				m_hProtocols,
 				Protocol::getDisplayName(protoList[i]->szModuleName).c_str(),
 				0,
-				reinterpret_cast<DWORD>(protoList[i]->szModuleName)));
+				reinterpret_cast<INT_PTR>(protoList[i]->szModuleName)));
 		}
 	}
 

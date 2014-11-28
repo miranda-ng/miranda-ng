@@ -132,15 +132,15 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 
 	if ( db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)) {
 		ppd.colorBack = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
-		ppd.colorBack = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, Def_color_txt);
+		ppd.colorText = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, Def_color_txt);
 	}
-	if ( db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0)) {
+	else if ( db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0)) {
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-		ppd.colorBack = GetSysColor(COLOR_WINDOWTEXT);
+		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	}
-	if ( db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1)) {
+	else if ( db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1)) {
 		ppd.colorBack = BackgoundClr;
-		ppd.colorBack = TextClr;
+		ppd.colorText = TextClr;
 	}
 
 	ppd.PluginWindowProc = NULL;

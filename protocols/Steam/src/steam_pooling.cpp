@@ -65,7 +65,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 
 				if (status != m_iStatus)
 				{
-					debugLogA("CSteamProto::ParsePollData: Change own status to %i", status);
+					debugLog(_T("CSteamProto::ParsePollData: Change own status to %i"), status);
 					int oldStatus = m_iStatus;
 					m_iStatus = m_iDesiredStatus = status;
 					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
@@ -170,7 +170,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 
 void CSteamProto::PollingThread(void*)
 {
-	debugLogA("CSteamProto::PollingThread: entering");
+	debugLog(_T("CSteamProto::PollingThread: entering"));
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqId(getStringA("UMQID"));
@@ -235,7 +235,7 @@ void CSteamProto::PollingThread(void*)
 		else
 		{
 			// something wrong
-			debugLogA("CSteamProto::PollingThread: %s (%d)", _T2A(error), response->resultCode);
+			debugLog(_T("CSteamProto::PollingThread: %s (%d)"), error, response->resultCode);
 
 			// token has expired
 			if (response->resultCode == HTTP_STATUS_UNAUTHORIZED)
@@ -250,7 +250,7 @@ void CSteamProto::PollingThread(void*)
 	setDword("MessageID", messageId);
 
 	m_hPollingThread = NULL;
-	debugLogA("CSteamProto::PollingThread: leaving");
+	debugLog(_T("CSteamProto::PollingThread: leaving"));
 
 	if (!isTerminated)
 	{

@@ -31,7 +31,7 @@ boolean volatile Plugin_Terminated = false;
 CRITICAL_SECTION checkthreadCS;
 
 HANDLE hMenuService = NULL;
-HANDLE hMenuHandle = NULL;
+HGENMENU hMenuHandle = NULL;
 HANDLE hCheckEvent = NULL;
 HANDLE hCheckHook = NULL;
 HANDLE hHookModulesLoaded = NULL;
@@ -127,8 +127,7 @@ STATUS LNPUBLIC __stdcall EMCallBack (EMRECORD * pData)
 //It don't work (don't know why), and Mirandas Load function is called with value 1 or 0 as parameter...
 __declspec(dllexport)STATUS LNPUBLIC MainEntryPoint (void)
 {
-	STATUS rc;
-	rc = EMRegister1 (EM_GETPASSWORD, EM_REG_BEFORE | EM_REG_AFTER, EMCallBack, 0, &hLotusRegister); //Extension Manager must know that we are here
+	STATUS rc = EMRegister1 (EM_GETPASSWORD, EM_REG_BEFORE | EM_REG_AFTER, EMCallBack, 0, &hLotusRegister); //Extension Manager must know that we are here
 	if(rc) {
 		//Extension magager don't know who we are :(
 		startuperror+=8;
@@ -227,12 +226,12 @@ void init_pluginname()
 {
 	char text[MAX_PATH], *p, *q;
     WIN32_FIND_DATAA ffd;
-    HANDLE hFind;
 
     // Try to find name of the file having original letter sizes
 	GetModuleFileNameA(hInst, text, sizeof(text));
 
-    if((hFind = FindFirstFileA(text, &ffd)) != INVALID_HANDLE_VALUE) {
+    HANDLE hFind = FindFirstFileA(text, &ffd);
+    if(hFind != INVALID_HANDLE_VALUE) {
         strncpy_s(text, SIZEOF(text), ffd.cFileName, strlen(ffd.cFileName));
         FindClose(hFind);
     }
@@ -319,8 +318,7 @@ BOOL checkFilters(TCHAR* str, int field)
 //subfunction called from popup plugin callback function
 void Click(HWND hWnd,BOOL execute)
 {
-	POPUPATT *pid=NULL;
-	pid = (POPUPATT*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)pid);
+	POPUPATT *pid = (POPUPATT*)PUGetPluginData(hWnd);
 	if(settingOnceOnly&&settingNonClickedOnly)
 		(getEl(pid->id))->clicked=TRUE;//add to msgs list
 
@@ -370,8 +368,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 		case UM_INITPOPUP:
 		{
-			POPUPATT *pid=NULL;
-			pid = (POPUPATT*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)pid);
+			POPUPATT *pid = (POPUPATT*)PUGetPluginData(hWnd);
 			addPopup(pid->id,hWnd);
 			//PUDeletePopUp(hWnd);
 			break;
@@ -379,8 +376,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 		case UM_FREEPLUGINDATA:
 		{
-			POPUPATT * mpd = NULL;
-			mpd = (POPUPATT*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
+			POPUPATT *mpd = (POPUPATT*)PUGetPluginData(hWnd);
 			if (mpd > 0) free(mpd);
 			return TRUE; //TRUE or FALSE is the same, it gets ignored.
 		}
@@ -537,7 +533,7 @@ void ErMsgByLotusCode(STATUS erno)
 
 
 //set menu avainability
-static void LNEnableMenuItem(HANDLE hMenuItem, BOOL bEnable)
+static void LNEnableMenuItem(HGENMENU hMenuItem, BOOL bEnable)
 {
 	log_p(L"LNEnableMenuItem: bEnable=%d", bEnable);
 	CLISTMENUITEM clmi = {0};
@@ -546,7 +542,7 @@ static void LNEnableMenuItem(HANDLE hMenuItem, BOOL bEnable)
 	if ( !bEnable )
 		clmi.flags |= CMIF_GRAYED;
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&clmi);
+	Menu_ModifyItem(hMenuItem, &clmi);
 }
 
 
@@ -755,10 +751,9 @@ void checkthread(void*)
 		field_copy_UNICODE[field_len] = '\0';
 
 
-		WCHAR msgFrom[512];
-		WCHAR msgSubject[512];
-		ZeroMemory(msgFrom,512);
-		ZeroMemory(msgSubject,512);
+		WCHAR msgFrom[512], msgSubject[512];
+		ZeroMemory(msgFrom,sizeof(msgFrom));
+		ZeroMemory(msgSubject,sizeof(msgSubject));
 
 		if(wcslen(field_from_UNICODE) < 512 && wcslen(field_from_UNICODE) > 3 && wcsstr(field_from_UNICODE, L"CN=") == field_from_UNICODE)
 			_tcsncpy_s(msgFrom, &(field_from_UNICODE[3]), wcscspn(field_from_UNICODE, L"/")-3 );
@@ -857,7 +852,7 @@ errorblock:
 
 
 //hooked notification from service that listning to check lotus
-static int eventCheck(WPARAM wParam,LPARAM lParam)
+static int eventCheck(WPARAM,LPARAM)
 {
 	log(L"check event...");
 	check();
@@ -874,7 +869,7 @@ INT_PTR PluginMenuCommand(WPARAM wParam, LPARAM lParam)
 
 
 //window timer callback function, called on timer event
-VOID CALLBACK atTime(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime)
+void CALLBACK atTime(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	log(L"atTime: start");
 	BOOL b = KillTimer(hTimerWnd, idEvent);
@@ -883,7 +878,7 @@ VOID CALLBACK atTime(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 		check();
 		if(settingInterval != 0){
 			log_p(L"atTime: SetTimer settingInterval=%d", settingInterval * 60000);
-			SetTimer(hTimerWnd, TID, settingInterval * 60000, (TIMERPROC)atTime);
+			SetTimer(hTimerWnd, TID, settingInterval * 60000, atTime);
 		}
 	}
 }
@@ -965,44 +960,49 @@ void lookupLotusDefaultSettings(HWND hwndDlg)
 //get variables values stored in db.
 void LoadSettings()
 {
-	DBVARIANT dbv;
-	char buff[128];
-	int i=0;
-
 	settingInterval = (INT)db_get_dw(NULL, PLUGINNAME, "LNInterval", 15);
 	settingInterval1 = (INT)db_get_dw(NULL, PLUGINNAME, "LNInterval1", 0);
 	//if(!db_get(NULL, PLUGINNAME, "LNInterval1",&dbv))
 	//	settingInterval1 = int(dbv.lVal);
 	//db_free(&dbv);
 	//settingInterval=dbv.lVal;
-	if(!db_get_s(NULL, PLUGINNAME, "LNDatabase", &dbv))
+	if(!db_get_s(NULL, PLUGINNAME, "LNDatabase", &dbv)){
 		strncpy_s(settingDatabase, _countof(settingDatabase), dbv.pszVal, SIZEOF(settingDatabase));
-	db_free(&dbv);
-	if(!db_get_s(NULL, PLUGINNAME, "LNServer", &dbv))
+		db_free(&dbv);
+	}
+	if(!db_get_s(NULL, PLUGINNAME, "LNServer", &dbv)) {
 		strncpy_s(settingServer, _countof(settingServer), dbv.pszVal, SIZEOF(settingServer));
-	db_free(&dbv);
-	if(!db_get_s(NULL, PLUGINNAME, "LNServerSec", &dbv))
+		db_free(&dbv);
+	}
+	if(!db_get_s(NULL, PLUGINNAME, "LNServerSec", &dbv)) {
 		strncpy_s(settingServerSec, _countof(settingServerSec), dbv.pszVal, SIZEOF(settingServerSec));
-	db_free(&dbv);
-	if(!db_get(NULL, PLUGINNAME, "LNPassword", &dbv))
+		db_free(&dbv);
+	}
+	if(!db_get(NULL, PLUGINNAME, "LNPassword", &dbv)) {
 		strncpy_s(settingPassword, _countof(settingPassword), dbv.pszVal, SIZEOF(settingPassword));
-	db_free(&dbv);
-	if(!db_get_s(NULL, PLUGINNAME, "LNCommand", &dbv, DBVT_ASCIIZ))
+		db_free(&dbv);
+	}
+	if(!db_get_s(NULL, PLUGINNAME, "LNCommand", &dbv, DBVT_ASCIIZ)) {
 		strncpy_s(settingCommand, _countof(settingCommand), dbv.pszVal, SIZEOF(settingCommand));
-	db_free(&dbv);
-	if(!db_get_s(NULL, PLUGINNAME, "LNParameters", &dbv, DBVT_ASCIIZ))
+		db_free(&dbv);
+	}
+	if(!db_get_s(NULL, PLUGINNAME, "LNParameters", &dbv, DBVT_ASCIIZ)) {
 		strncpy_s(settingParameters, _countof(settingParameters), dbv.pszVal, SIZEOF(settingParameters));
-	db_free(&dbv);
+		db_free(&dbv);
+	}
 
-	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterSender",&dbv))
+	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterSender",&dbv)) {
 		_tcsncpy_s(settingFilterSender, dbv.ptszVal, _TRUNCATE);
-	db_free(&dbv);
-	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterSubject",&dbv))
+		db_free(&dbv);
+	}
+	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterSubject",&dbv)) {
 		_tcsncpy_s(settingFilterSubject, dbv.ptszVal, _TRUNCATE);
-	db_free(&dbv);
-	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterTo",&dbv))
+		db_free(&dbv);
+	}
+	if(!db_get_ts(NULL, PLUGINNAME, "LNFilterTo",&dbv)) {
 		_tcsncpy_s(settingFilterTo, dbv.ptszVal, _TRUNCATE);
-	db_free(&dbv);
+		db_free(&dbv);
+	}
 
 	settingOnceOnly = db_get_b  (NULL, PLUGINNAME, "LNOnceOnly",0);
 
@@ -1015,8 +1015,10 @@ void LoadSettings()
 	settingNewestID = (DWORD)db_get_dw(NULL, PLUGINNAME, "LNNewestID", 0);
 	settingIniAnswer = db_get_b(NULL, PLUGINNAME, "LNIniAnswer", 0);
 	settingIniCheck = db_get_b(NULL, PLUGINNAME, "LNIniCheck", 0);
-
-	for(i = 0; i < STATUS_COUNT; i++) {
+	
+	DBVARIANT dbv;
+	for(int i = 0; i < STATUS_COUNT; i++) {
+		char buff[128];
 		mir_snprintf(buff, SIZEOF(buff), "LNStatus%d", i);
 		settingStatus[i] = (db_get_b(0, PLUGINNAME, buff, 0) == 1);
 	}
@@ -1142,7 +1144,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 											int i;
 											char text[MAXENVVALUE];
 											i=SendDlgItemMessage(hwndDlg,IDC_SERVER,CB_GETCURSEL,0,0);
-											SendDlgItemMessageA(hwndDlg,IDC_SERVER,CB_GETLBTEXT,(WPARAM)i,(LONG)/* (LPSTR) */text);
+											SendDlgItemMessageA(hwndDlg,IDC_SERVER,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
 											SetDlgItemTextA(hwndDlg,IDC_SERVER,text);
 											break;
 										}
@@ -1154,7 +1156,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 											SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_RESETCONTENT ,0, 0);
 											fillServersList(hwndDlg);
 											SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)settingServer);
-											SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_SELECTSTRING , -1, (LPARAM)(LPCSTR)settingServer);
+											SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_SELECTSTRING , -1, (LPARAM)settingServer);
 											break;
 										}
 								}
@@ -1263,7 +1265,6 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 							{
 								char buff[128];
-								int i=0;
 								GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, sizeof(settingServer));
 								db_set_s(NULL, PLUGINNAME, "LNServer", settingServer );
 								db_set_s(NULL, PLUGINNAME, "LNServerSec", settingServerSec);
@@ -1283,34 +1284,34 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								db_set_b(NULL, PLUGINNAME, "LNIniCheck", settingIniCheck);
 								db_set_b(NULL, PLUGINNAME, "LNIniAnswer", settingIniAnswer);
 
-								for(i = 0; i < STATUS_COUNT ; i++){
+								for(int i = 0; i < STATUS_COUNT ; i++){
 									mir_snprintf(buff, SIZEOF(buff), "LNStatus%d", i);
 									settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
 									db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
 								}
 
 								settingFilterSender[0] = 0;
-								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCOUNT, 0, (LONG)0); i++){
+								for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SENDER, CB_GETCOUNT, 0, 0); i++){
 									TCHAR text[512] = TEXT("");
-									SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
+									SendDlgItemMessage(hwndDlg,IDC_FILTER_SENDER ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
 									_tcscat_s(settingFilterSender, SIZEOF(settingFilterSender), text);
 									_tcscat_s(settingFilterSender, SIZEOF(settingFilterSender), TEXT(";"));
 								}
 								db_set_ts(NULL, PLUGINNAME, "LNFilterSender", settingFilterSender);
 
 								settingFilterSubject[0] = 0;
-								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, (LONG)0); i++){
+								for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_SUBJECT, CB_GETCOUNT, 0, 0); i++){
 									TCHAR text[512] = TEXT("");
-									SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
+									SendDlgItemMessage(hwndDlg,IDC_FILTER_SUBJECT ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
 									_tcscat_s(settingFilterSubject, SIZEOF(settingFilterSubject), text);
 									_tcscat_s(settingFilterSubject, SIZEOF(settingFilterSubject), TEXT(";"));
 								}
 								db_set_ts(NULL, PLUGINNAME, "LNFilterSubject", settingFilterSubject);
 
 								settingFilterTo[0] = 0;
-								for(i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, (LONG)0); i++){
+								for(int i=0; i<SendDlgItemMessage(hwndDlg, IDC_FILTER_TO, CB_GETCOUNT, 0, 0); i++){
 									TCHAR text[512] = TEXT("");
-									SendDlgItemMessage(hwndDlg,IDC_FILTER_TO ,CB_GETLBTEXT,(WPARAM)i,(LONG) (LPSTR)text);
+									SendDlgItemMessage(hwndDlg,IDC_FILTER_TO ,CB_GETLBTEXT,(WPARAM)i,(LPARAM)text);
 									_tcscat_s(settingFilterTo, SIZEOF(settingFilterTo), text);
 									_tcscat_s(settingFilterTo, SIZEOF(settingFilterTo), TEXT(";"));
 								}
@@ -1354,7 +1355,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 
 //options page on miranda called
-int LotusNotifyOptInit(WPARAM wParam,LPARAM lParam)
+int LotusNotifyOptInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
@@ -1400,21 +1401,18 @@ INT_PTR TMLoadIcon(WPARAM wParam, LPARAM lParam)
 		case PLI_OFFLINE: id=IDI_ICON2; break;
 		default: return 0;
 	}
-	return (int)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON), 0);
+	return (INT_PTR)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON), 0);
 }
 
 
 INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 {
-
 	if (wParam == ID_STATUS_OFFLINE){
-
 		// the status has been changed to online (maybe run some more code)
 		LNEnableMenuItem(hMenuHandle, FALSE);
 		diffstat = 0;
 
 	} else if (wParam == ID_STATUS_ONLINE){
-
 		diffstat = 0;
 		//LNEnableMenuItem(hMenuHandle ,TRUE);
 		//NotifyEventHooks(hCheckEvent,wParam,lParam);
@@ -1430,7 +1428,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 
 			if(check() == 0){
 				if(settingInterval != 0)
-					SetTimer(hTimerWnd, TID, settingInterval * 60000, (TIMERPROC)atTime);
+					SetTimer(hTimerWnd, TID, settingInterval * 60000, atTime);
 				LNEnableMenuItem(hMenuHandle, TRUE);
 			} else {
 				ProtoBroadcastAck(PLUGINNAME, NULL, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)currentStatus, wParam);
@@ -1450,7 +1448,6 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 		// the status has been changed to unknown  (maybe run some more code)
 
 	}
-
 	//broadcast the message
 	if(currentStatus != wParam)
 		ProtoBroadcastAck(PLUGINNAME,NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)currentStatus, wParam);
@@ -1493,7 +1490,7 @@ void checkEnvPath(TCHAR *path)
 
 
 //GetStatus
-INT_PTR GetStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR GetStatus(WPARAM, LPARAM)
 {
 	return currentStatus;
 	if (diffstat)
@@ -1505,7 +1502,7 @@ INT_PTR GetStatus(WPARAM wParam, LPARAM lParam)
 
 //called after all plugins loaded.
 //all lotus staff will be called, that will not hang miranda on startup
-static int modulesloaded(WPARAM wParam, LPARAM lParam)
+static int modulesloaded(WPARAM, LPARAM)
 {
 	int cnt;
 	TCHAR path[255] = {0};
@@ -1564,7 +1561,7 @@ static int modulesloaded(WPARAM wParam, LPARAM lParam)
 
 
 //function hooks before unload
-static int preshutdown(WPARAM wParam,LPARAM lParam)
+static int preshutdown(WPARAM,LPARAM)
 {
 	Plugin_Terminated = true;
 	deleteElements();
@@ -1689,14 +1686,9 @@ extern "C" int __declspec(dllexport) Unload()
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 #ifdef _WIN64
-	MessageBox(NULL
-		, TranslateT("LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)")
-		, TranslateT("LotusNotify")
-		, MB_OK | MB_ICONWARNING );
-	return NULL;
-#else
-	return &pluginInfo;
+	#error LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)
 #endif
+	return &pluginInfo;
 }
 
 

@@ -520,7 +520,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ack.type = ACKTYPE_MESSAGE;
 			ack.result = ACKRESULT_SUCCESS;
 
-			if (job->hContact && job->iAcksNeeded && job->hContact && job->iStatus == SendQueue::SQ_INPROGRESS) {
+			if (job->hContact && job->iAcksNeeded && job->iStatus == SendQueue::SQ_INPROGRESS) {
 				if (IsWindow(job->hOwnerWnd))
 					::SendMessage(job->hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
 				else

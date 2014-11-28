@@ -697,7 +697,7 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 		SendMessage(hRichEdit, EM_EXLIMITTEXT, 0, 0x7FFFFFFF);
 
 		CLStreamRTFInfo clInfo( hFile);
-		eds.dwCookie = (DWORD)&clInfo;
+		eds.dwCookie = (DWORD_PTR)&clInfo;
 		eds.pfnCallback = RichEditRTFStreamLoadFile;
 
 		SendMessage(hRichEdit, EM_STREAMIN, (WPARAM)SF_RTF, (LPARAM)&eds);

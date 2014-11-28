@@ -244,7 +244,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		mir_snprintf(buff, SIZEOF(buff), "SMsg%d", j);
 		j--;
 		if (!db_get_ts(NULL, "SimpleStatusMsg", buff, &dbv)) {
-			if (dbv.ptszVal != NULL && dbv.ptszVal != '\0') {
+			if (dbv.ptszVal != NULL && *dbv.ptszVal != '\0') {
 				found = TRUE;
 				cbei.iItem = -1;
 				cbei.pszText = (LPTSTR)dbv.ptszVal;

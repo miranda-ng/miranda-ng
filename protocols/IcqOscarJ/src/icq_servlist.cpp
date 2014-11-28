@@ -223,7 +223,6 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 						SAFE_FREE((void**)&((servlistgroupitemdouble*)(pItem->pItems[i]))->packet2.pData);
 				}
 				SAFE_FREE((void**)&pItem->pItems[i]);
-				break;
 			}
 			SAFE_FREE((void**)&pItem);
 			// resize the queue

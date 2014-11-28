@@ -580,7 +580,7 @@ void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 {
 	if (dat) {
-		HWND	hwndDlg = dat->hwnd;
+		HWND hwndDlg = dat->hwnd;
 
 		GETTEXTLENGTHEX gtxl = {0};
 		gtxl.codepage = CP_UTF8;
@@ -829,7 +829,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 	}
 
 	if (iJobIndex >= 0 && iJobIndex < NR_SENDJOBS) {
-		SendJob*	job = &m_jobs[iJobIndex];
+		SendJob *job = &m_jobs[iJobIndex];
 		char szKeyName[20];
 		TCHAR tszHeader[150];
 

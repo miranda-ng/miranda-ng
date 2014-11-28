@@ -413,17 +413,17 @@ void RegisterPlayer()
 	{
 		PLAYERCELL player = {0};
 		player.Desc = "Music Player Daemon";
+		player.Notes = _T("mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.");
+		player.URL = "http://www.musicpd.org";
 		player.Check = CheckPlayer;
 		player.Init = Init;
 		player.DeInit = DeInit;
-		player.GetStatus = GetStatus;
 		player.Command = SendCommand;
-		player.flags = (WAT_OPT_HASURL|WAT_OPT_SINGLEINST|WAT_OPT_PLAYERINFO);
+		player.GetStatus = GetStatus;
 		player.GetName = GetFileName;
 		player.GetInfo = GetPlayerInfo;
+		player.flags = (WAT_OPT_HASURL|WAT_OPT_SINGLEINST|WAT_OPT_PLAYERINFO);
 //		player.Icon = //TODO:implement icon support
-		player.Notes = _T("mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.");
-		player.URL = "http://www.musicpd.org";
 		CallService(MS_WAT_PLAYER, WAT_ACT_REGISTER, (LPARAM)&player);
 	}
 }

@@ -358,7 +358,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, PROTOCHAR** files, con
 HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* save_path)
 {
 
-	mwFileTransfer* ft = (mwFileTransfer*)(hFt);
+	mwFileTransfer* ft = (mwFileTransfer*)hFt;
 	CSametimeProto* proto = getProtoFromMwFileTransfer(ft);
 	debugLog(_T("CSametimeProto::AcceptFileTransfer() start"));
 
@@ -366,7 +366,7 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 	memset((void*)ftcd, 0, sizeof(FileTransferClientData));
 	ftcd->ft = ft;
 	ftcd->sending = false;
-	ftcd->hFt = (HANDLE)ft;
+	ftcd->hFt = hFt;
 
 	if (save_path) // save path
 		ftcd->save_path = _strdup(save_path);
@@ -420,7 +420,7 @@ void CSametimeProto::CancelFileTransfer(HANDLE hFt)
 	FileTransferClientData* ftcd = (FileTransferClientData*)mwFileTransfer_getClientData(ft);
 
 	if (ftcd) {
-		while (mwFileTransfer_isDone(ftcd->ft) && ftcd)
+		while (ftcd && mwFileTransfer_isDone(ftcd->ft))
 			ftcd = ftcd->next;
 
 		if (ftcd) mwFileTransfer_cancel(ftcd->ft);

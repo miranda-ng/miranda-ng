@@ -595,9 +595,8 @@ void SetChatTopic(const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
 
 int GCEventHook(WPARAM,LPARAM lParam) {
 	GCHOOK *gch = (GCHOOK*) lParam;
-	gchat_contacts *gc = GetChat(gch->pDest->ptszID);
-
 	if(gch) {
+		gchat_contacts *gc = GetChat(gch->pDest->ptszID);
 		if (!_stricmp(gch->pDest->pszModule, SKYPE_PROTONAME)) {
 
 			switch (gch->pDest->iType) {
@@ -847,8 +846,10 @@ void GCExit(void)
 {
 	DeleteCriticalSection (&m_GCMutex);
 	for (int i=0;i<chatcount;i++) {
-		if (chats[i].szChatName) free(chats[i].szChatName);
-		if (chats[i].mJoinedContacts) free(chats[i].mJoinedContacts);
+		if(chats[i]) {
+			free(chats[i].szChatName);
+			free(chats[i].mJoinedContacts);
+		}
 	}
 	if (chats) free (chats);
 	chats = NULL;

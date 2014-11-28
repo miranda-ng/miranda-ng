@@ -649,7 +649,6 @@ static int ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, const
 					}
 					__except (EXCEPTION_EXECUTE_HANDLER)
 					{
-						ZeroMemory(szMyHash, 0);
 						// smth went wrong, reload a file from scratch
 					}
 				}

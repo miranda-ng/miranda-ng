@@ -124,7 +124,7 @@ LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 
 	case BCM_SETBUTTONDATA:
 		assert(wParam >= 1 && wParam <= pCtrl->m_Items.size());
-		pCtrl->m_Items[wParam - 1].dwData = static_cast<DWORD>(lParam);
+		pCtrl->m_Items[wParam - 1].dwData = static_cast<INT_PTR>(lParam);
 		return 0;
 
 	case BCM_ISBUTTONVISIBLE:

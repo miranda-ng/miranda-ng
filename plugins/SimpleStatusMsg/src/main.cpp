@@ -1447,12 +1447,12 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	log2file("ChangeStatusMsgPrebuild()");
 #endif
 	PROTOACCOUNT **pa;
-	int iStatusMenuItemCount = 0, count, i;
+	int iStatusMenuItemCount = 0, count;
 	DWORD iStatusMsgFlags = 0;
 
 	ProtoEnumAccounts(&count, &pa);
 	hProtoStatusMenuItem = (HANDLE *)mir_realloc(hProtoStatusMenuItem, sizeof(HANDLE) * count);
-	for (i = 0; i < count; ++i)
+	for (int i = 0; i < count; ++i)
 	{
 		if (!IsAccountEnabled(pa[i]))
 			continue;
@@ -1482,11 +1482,8 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	mi.popupPosition = 500084000;
 	mi.position = 2000040000;
 
-	for (i = 0; i < count; ++i)
+	for (int i = 0; i < count; ++i)
 	{
-		char szSetting[80];
-		int iProtoFlags;
-
 		if (!IsAccountEnabled(pa[i]))
 			continue;
 
@@ -1499,18 +1496,20 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 		if (!pa[i]->bIsVisible)
 			continue;
 
+		char szSetting[80];
 		mir_snprintf(szSetting, SIZEOF(szSetting), "Proto%sFlags", pa[i]->szModuleName);
-		iProtoFlags = db_get_b(NULL, "SimpleStatusMsg", szSetting, PROTO_DEFAULT);
+		int iProtoFlags = db_get_b(NULL, "SimpleStatusMsg", szSetting, PROTO_DEFAULT);
 		if (iProtoFlags & PROTO_NO_MSG || iProtoFlags & PROTO_THIS_MSG)
 			continue;
 
+		TCHAR szBuffer[256];
 		if (CallService(MS_PROTO_ISACCOUNTLOCKED,0,(LPARAM)pa[i]->szModuleName))
 		{
-			TCHAR szBuffer[256];
 			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s (locked)"), pa[i]->tszAccountName);
 			mi.ptszPopupName = szBuffer;
 		}
-		else mi.ptszPopupName = pa[i]->tszAccountName;
+		else
+			mi.ptszPopupName = pa[i]->tszAccountName;
 		hProtoStatusMenuItem[i] = Menu_AddStatusMenuItem(&mi);
 	}
 
@@ -1578,7 +1577,7 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 
 static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 {
-	PROTOCOLSETTINGEX** ps = *(PROTOCOLSETTINGEX***)wParam;
+	PROTOCOLSETTINGEX **ps = *(PROTOCOLSETTINGEX***)wParam;
 	int status_mode, CSProtoCount;
 	char szSetting[80];
 	TCHAR *msg = NULL;
@@ -1657,13 +1656,11 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 
 static TCHAR *ParseWinampSong(ARGUMENTSINFO *ai)
 {
-	TCHAR *ptszWinampTitle;
-
 	if (ai->argc != 1)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
-	ptszWinampTitle = GetWinampSong();
+	TCHAR *ptszWinampTitle = GetWinampSong();
 
 	if (ptszWinampTitle != NULL) {
 		mir_free(g_ptszWinampSong);
@@ -1677,11 +1674,10 @@ static TCHAR *ParseWinampSong(ARGUMENTSINFO *ai)
 
 static TCHAR *ParseDate(ARGUMENTSINFO *ai)
 {
-	TCHAR szStr[128] = {0};
-
 	if (ai->argc != 1)
 		return NULL;
 
+	TCHAR szStr[128] = {0};
 	ai->flags |= AIF_DONTPARSE;
 	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, szStr, SIZEOF(szStr));
 
@@ -1769,7 +1765,7 @@ static int OnAccListChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 #ifdef _DEBUG
 	log2file("### Session started ###");
@@ -1822,7 +1818,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		g_ptszWinampSong = mir_tstrdup(_T("SimpleStatusMsg"));*/
 
 	if (db_get_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", 1))
-		g_uUpdateMsgTimer = SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", "UpdateMsgInt", 10) * 1000, (TIMERPROC)UpdateMsgTimerProc);
+		g_uUpdateMsgTimer = SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", "UpdateMsgInt", 10) * 1000, UpdateMsgTimerProc);
 
 	if (ServiceExists(MS_CS_SETSTATUSEX))
 		HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange);
@@ -1832,7 +1828,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
 		if (db_get_b(NULL, "SimpleStatusMsg", "GlobalStatusDelay", 1))
-			SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", "SetStatusDelay", 300), (TIMERPROC)SetStartupStatusGlobal);
+			SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", "SetStatusDelay", 300), SetStartupStatusGlobal);
 		else {
 			g_uSetStatusTimer = (UINT_PTR *)mir_alloc(sizeof(UINT_PTR) * accounts->count);
 			for (int i = 0; i < accounts->count; ++i) {
@@ -1844,7 +1840,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 				char szSetting[80];
 				mir_snprintf(szSetting, SIZEOF(szSetting), "Set%sStatusDelay", accounts->pa[i]->szModuleName);
-				g_uSetStatusTimer[i] = SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", szSetting, 300), (TIMERPROC)SetStartupStatusProc);
+				g_uSetStatusTimer[i] = SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", szSetting, 300), SetStartupStatusProc);
 			}
 		}
 	}
@@ -1852,7 +1848,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnOkToExit(WPARAM wParam, LPARAM lParam)
+static int OnOkToExit(WPARAM, LPARAM)
 {
 	if (accounts->statusCount) {
 		char szSetting[80];
@@ -1875,7 +1871,7 @@ static int OnOkToExit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
+static int OnPreShutdown(WPARAM, LPARAM)
 {
 	if (!accounts->statusMsgFlags)
 		return 0;

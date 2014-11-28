@@ -241,7 +241,8 @@ void exportDB(MCONTACT hContact, char *module)
 			}
 			else
 			{
-				if (module == "") module = NULL; // reset module for all contacts export
+				if (*module = '\0')
+					module = NULL; // reset module for all contacts export
 			}
 
 			hContact = db_find_first();
@@ -422,7 +423,7 @@ void importSettings(MCONTACT hContact, char *importstring )
 		else if (importstring[i] == '[' && !strchr(&importstring[i+1],'='))// get the module
 		{
 			if (end = strpbrk(&importstring[i+1], "]")) {
-				if ((end+1) != '\0') *end = '\0';
+				if (*(end+1) != '\0') *end = '\0';
 				strcpy(module, &importstring[i+1]);
 			}
 		}
@@ -430,7 +431,7 @@ void importSettings(MCONTACT hContact, char *importstring )
 			!strchr(&importstring[i+2],'='))// get the module
 		{
 			if (end = strpbrk(&importstring[i+2], "]")) {
-				if ((end+1) != '\0') *end = '\0';
+				if (*(end+1) != '\0') *end = '\0';
 				strcpy(module, &importstring[i+2]);
 				deleteModule(module, hContact, 1);
 			}
@@ -438,7 +439,7 @@ void importSettings(MCONTACT hContact, char *importstring )
 		else if (strstr(&importstring[i], "=") && module[0]) // get the setting
 		{
 			if (end = strpbrk(&importstring[i+1], "=")) {
-				if ((end+1) != '\0') *end = '\0';
+				if (*(end+1) != '\0') *end = '\0';
 				strcpy(setting, &importstring[i]);
 
 				// get the type

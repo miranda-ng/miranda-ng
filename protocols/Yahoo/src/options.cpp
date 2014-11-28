@@ -98,22 +98,25 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			char str[128];
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, sizeof( str ));
-			dbv.pszVal = NULL;
-
-			if ( ppro->getString( YAHOO_LOGINID, &dbv) || lstrcmpA( str, dbv.pszVal ))
+			if (ppro->getString(YAHOO_LOGINID, &dbv)) {
 				reconnectRequired = true;
-
-			if ( dbv.pszVal != NULL)
+			}
+			else {
+				if(lstrcmpA(str, dbv.pszVal))
+					reconnectRequired = true;
 				db_free(&dbv);
-
+			}
 			ppro->setString( YAHOO_LOGINID, str );
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof( str ));
-			dbv.pszVal = NULL;
-			if ( ppro->getString( YAHOO_PASSWORD, &dbv) || lstrcmpA( str, dbv.pszVal ))
+			if (ppro->getString(YAHOO_PASSWORD, &dbv)) {
 				reconnectRequired = true;
-			if ( dbv.pszVal != NULL)
+			}
+			else {
+				if(lstrcmpA(str, dbv.pszVal))
+					reconnectRequired = true;
 				db_free(&dbv);
+			}
 
 			ppro->setString( YAHOO_PASSWORD, str );
 			GetDlgItemTextA(hwndDlg, IDC_NICK, str, sizeof( str ));
@@ -133,11 +136,12 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ppro->setByte("DisableYahoomail", (BYTE)!IsDlgButtonChecked(hwndDlg, IDC_DISABLEYAHOOMAIL));
 			ppro->setByte("ShowErrors", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_ERRORS)); 
 
-			if (reconnectRequired)
+			if (reconnectRequired) {
 				ppro->delSetting(YAHOO_PWTOKEN);
+				if (ppro->m_bLoggedIn )
+					MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the Yahoo network before they take effect"), TranslateT("YAHOO Options"), MB_OK );
 
-			if ( reconnectRequired && ppro->m_bLoggedIn )
-				MessageBoxA(hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
+			}
 
 			return TRUE;
 		}
@@ -207,29 +211,32 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY )
 		{
-			BOOL reconnectRequired = FALSE;
+			bool reconnectRequired = false;
 			char str[128];
 			GetDlgItemTextA(hwndDlg, IDC_LOGINSERVER, str, sizeof( str ));
 			
 			DBVARIANT dbv;
-			dbv.pszVal = NULL;
-			if ( ppro->getString( YAHOO_LOGINSERVER, &dbv) || lstrcmpA( str, dbv.pszVal ))
-				reconnectRequired = TRUE;
-			if ( dbv.pszVal != NULL)
+			if (ppro->getString(YAHOO_LOGINSERVER, &dbv)) {
+				reconnectRequired = true;
+			}
+			else {
+				if(lstrcmpA(str, dbv.pszVal))
+					reconnectRequired = true;
 				db_free(&dbv);
+			}
 
 			ppro->setString(YAHOO_LOGINSERVER, str);
 
 			int port = GetDlgItemInt(hwndDlg, IDC_YAHOOPORT, NULL, FALSE );
 			if ( ppro->getWord(YAHOO_LOGINPORT, -1) != port)
-				reconnectRequired = TRUE;
+				reconnectRequired = true;
 			
 			ppro->setWord(YAHOO_LOGINPORT, port);
 
 			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN ));
 
 			if ( reconnectRequired && ppro->m_bLoggedIn )
-				MessageBoxA(hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the Yahoo network before they take effect"), TranslateT("YAHOO Options"), MB_OK );
 
 			return TRUE;
 		}
@@ -353,7 +360,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
  * YahooOptInit - initialize/register our Options w/ Miranda.
  */
 
-int __cdecl CYahooProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int __cdecl CYahooProto::OnOptionsInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };	
 	odp.position    = -790000000;

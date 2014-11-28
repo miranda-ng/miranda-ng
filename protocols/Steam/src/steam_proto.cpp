@@ -317,7 +317,7 @@ int CSteamProto::SetStatus(int new_status)
 	if (new_status == m_iDesiredStatus)
 		return 0;
 
-	debugLogA("CSteamProto::SetStatus: changing status from %i to %i", m_iStatus, new_status);
+	debugLog(_T("CSteamProto::SetStatus: changing status from %i to %i"), m_iStatus, new_status);
 
 	int old_status = m_iStatus;
 	m_iDesiredStatus = new_status;

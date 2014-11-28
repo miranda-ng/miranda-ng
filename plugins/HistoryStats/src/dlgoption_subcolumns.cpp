@@ -238,7 +238,7 @@ void DlgOption::SubColumns::loadSettings()
 	{
 		Column* pCol = localS.getCol(j);
 		ext::string colTitle = pCol->getTitleForOptions();
-		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, colTitle.c_str(), 0, reinterpret_cast<DWORD>(pCol));
+		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, colTitle.c_str(), 0, reinterpret_cast<INT_PTR>(pCol));
 
 		m_Columns.checkItem(hColCheck, pCol->isEnabled());
 
@@ -332,7 +332,7 @@ void DlgOption::SubColumns::addCol(int nCol)
 
 		getParent()->getLocalSettings().addCol(pCol);
 
-		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, pCol->getTitle(), 0, reinterpret_cast<DWORD>(pCol));
+		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, pCol->getTitle(), 0, reinterpret_cast<INT_PTR>(pCol));
 
 		m_Columns.checkItem(hColCheck, pCol->isEnabled());
 

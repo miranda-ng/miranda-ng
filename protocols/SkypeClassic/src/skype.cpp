@@ -471,8 +471,8 @@ int SearchFriends(void) {
 
 static void QueryUserWaitingAuthorization(char *pszNick, char *pszAuthRq)
 {
-	MCONTACT hContact;
-	char *firstname = NULL, *lastname = NULL, *pCurBlob, *authmsg = NULL;
+	MCONTACT hContact = add_contact(pszNick, PALF_TEMPORARY);
+	char *lastname = NULL, *pCurBlob, *authmsg = NULL;
 
 	LOG(("Awaiting auth: %s", pszNick));
 	PROTORECVEVENT pre = { 0 };
@@ -481,14 +481,15 @@ static void QueryUserWaitingAuthorization(char *pszNick, char *pszAuthRq)
 
 	CCSDATA ccs = { 0 };
 	ccs.szProtoService = PSR_AUTH;
-	ccs.hContact = hContact = add_contact(pszNick, PALF_TEMPORARY);
+	ccs.hContact = hContact;
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM)&pre;
 
 	/* blob is: */
 	//DWORD protocolSpecific MCONTACT hContact
 	//ASCIIZ nick, firstName, lastName, e-mail, requestReason
-	if (firstname = SkypeGet("USER", pszNick, "FULLNAME")) {
+	char *firstname = SkypeGet("USER", pszNick, "FULLNAME");
+	if (firstname) {
 		if (lastname = strchr(firstname, ' ')) {
 			*lastname = 0;
 			lastname++;

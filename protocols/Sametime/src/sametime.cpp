@@ -174,12 +174,12 @@ void __cdecl sttRecvAwayThread(void *param)
 
 int CSametimeProto::OnWindowEvent(WPARAM, LPARAM lParam)
 {
-	MessageWindowEventData* mwed = (MessageWindowEventData*)lParam;
+	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 
-	if (db_get_b(mwed->hContact, m_szModuleName, "ChatRoom", 0))
+	if ((mwed == NULL) || db_get_b(mwed->hContact, m_szModuleName, "ChatRoom", 0))
 		return 0;
 
-	if (mwed && (mwed->uType == MSG_WINDOW_EVT_CLOSING || mwed->uType == MSG_WINDOW_EVT_CLOSE))
+	if ((mwed->uType == MSG_WINDOW_EVT_CLOSING) || (mwed->uType == MSG_WINDOW_EVT_CLOSE))
 		CloseIm(mwed->hContact);
 
 	return 0;
