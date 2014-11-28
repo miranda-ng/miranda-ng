@@ -633,7 +633,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		else if (m_bUserForceOnlineOnActivity)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 
-		recv.timestamp = m_bUseLocalTime?time(NULL):datetime;
+		recv.timestamp = m_bUseLocalTime ? time(NULL) : datetime;
 		recv.tszMessage = ptszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
@@ -737,7 +737,7 @@ void CVkProto::OnReceivePollingInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	m_pollingServer = mir_t2a(ptrT(json_as_string(json_get(pResponse, "server"))));
 	if (!m_hPollingThread) {
 		debugLogA("CVkProto::OnReceivePollingInfo m_hPollingThread is NULL");
-		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = \'%s' m_pollingKey = \'%s\' m_pollingServer = \'%s\'", 
+		debugLogA("CVkProto::OnReceivePollingInfo m_pollingTs = \'%s' m_pollingKey = \'%s\' m_pollingServer = \'%s\'",
 			m_pollingTs ? m_pollingTs : "<NULL>", 
 			m_pollingKey ? m_pollingKey : "<NULL>", 
 			m_pollingServer ? m_pollingServer : "<NULL>");
@@ -1267,8 +1267,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszTitle(json_as_string(json_get(pVideo, "title")));
 			int  vid = json_as_int(json_get(pVideo, "id"));
 			int  ownerID = json_as_int(json_get(pVideo, "owner_id"));
-			res.AppendFormat(L"%s: %s - http://vk.com/video%d_%d",
-				TranslateT("Video"), ptszTitle, ownerID, vid);
+			res.AppendFormat(L"%s: %s - http://vk.com/video%d_%d", TranslateT("Video"), ptszTitle, ownerID, vid);
 		}
 		else if (!lstrcmp(ptszType, L"doc")) {
 			JSONNODE *pDoc = json_get(pAttach, "doc");
@@ -1277,8 +1276,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 
 			ptrT ptszTitle(json_as_string(json_get(pDoc, "title")));
 			ptrT ptszUrl(json_as_string(json_get(pDoc, "url")));
-			res.AppendFormat(L"%s: (%s) - %s",
-				TranslateT("Document"), ptszTitle, ptszUrl);
+			res.AppendFormat(L"%s: (%s) - %s", TranslateT("Document"), ptszTitle, ptszUrl);
 		}
 		else if (!lstrcmp(ptszType, L"wall")) {
 			JSONNODE *pWall = json_get(pAttach, "wall");

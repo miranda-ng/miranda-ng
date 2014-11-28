@@ -86,7 +86,9 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 
 CVkProto::~CVkProto()
 {
-	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
+	debugLogA("CVkProto::~CVkProto");
+	Netlib_CloseHandle(m_hNetlibUser); 
+	m_hNetlibUser = NULL;
 	UninitQueue();
 	UnInitMenus();
 	if (m_hPopupClassError)
@@ -287,6 +289,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 void CVkProto::UnInitMenus()
 {
+	debugLogA("CVkProto::UnInitMenus");
 	for (int i = 0; i < PMI_COUNT; i++)
 		CallService(MO_REMOVEMENUITEM, (WPARAM)g_hProtoMenuItems[i], 0);
 	

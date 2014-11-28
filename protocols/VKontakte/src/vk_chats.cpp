@@ -145,7 +145,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		}
 		if ((json_as_int(json_get(info, "left")) == 1) || (json_as_int(json_get(info, "kicked")) == 1)){
-			setByte(cc->m_hContact, "kicked", true);
+			setByte(cc->m_hContact, "kicked", (int)true);
 			LeaveChat(cc->m_chatid);
 			return;
 		}
@@ -549,7 +549,7 @@ void CVkProto::LeaveChat(int chat_id, bool close_window, bool delete_chat)
 	if (delete_chat)
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)cc->m_hContact, 0);
 	else
-		setByte(cc->m_hContact, "off", true);
+		setByte(cc->m_hContact, "off", (int)true);
 	m_chats.remove(cc);
 }
 
