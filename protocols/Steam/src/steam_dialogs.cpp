@@ -219,7 +219,7 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 
 			wchar_t groupName[128];
 			GetDlgItemText(hwnd, IDC_GROUP, groupName, SIZEOF(groupName));
-			if (lstrlen(groupName) > 0)
+			if (groupName[0] != '\0')
 			{
 				proto->setWString(NULL, "DefaultGroup", groupName);
 				Clist_CreateGroup(0, groupName);
