@@ -1,5 +1,7 @@
 #include "common.h"
 
+#define POLLING_ERRORS_LIMIT 3
+
 void CSteamProto::ParsePollData(JSONNODE *data)
 {
 	JSONNODE *node, *item = NULL;
@@ -175,8 +177,9 @@ void CSteamProto::PollingThread(void*)
 	UINT32 messageId = getDword("MessageID", 0);
 
 	//SteamWebApi::PollApi::PollResult pollResult;
+	int errors = 0;
 	bool breaked = false;
-	while (!isTerminated && !breaked)
+	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
 		SteamWebApi::PollRequest *request = new SteamWebApi::PollRequest(token, umqId, messageId);
 		debugLogA("CSteamProto::PollingThread: %s", request->szUrl);
@@ -186,7 +189,15 @@ void CSteamProto::PollingThread(void*)
 		delete request;
 
 		if (response == NULL || response->resultCode != HTTP_STATUS_OK)
-			return;
+		{
+			if (response != NULL)
+				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
+
+			errors++;
+			continue;
+		}
+		else
+			errors = 0;
 
 		JSONROOT root(response->pData);
 		JSONNODE *node = json_get(root, "error");
@@ -241,7 +252,9 @@ void CSteamProto::PollingThread(void*)
 	m_hPollingThread = NULL;
 	debugLogA("CSteamProto::PollingThread: leaving");
 
-	// if something wrong, switch proto to offline
-	if (breaked)
+	if (!isTerminated)
+	{
+		debugLogA("CSteamProto::PollingThread: unexpected termination; switching protocol to offline");
 		SetStatus(ID_STATUS_OFFLINE);
+	}
 }
