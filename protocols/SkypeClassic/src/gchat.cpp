@@ -845,13 +845,11 @@ void GCInit(void)
 void GCExit(void)
 {
 	DeleteCriticalSection (&m_GCMutex);
-	for (int i=0;i<chatcount;i++) {
-		if(chats[i]) {
-			free(chats[i].szChatName);
-			free(chats[i].mJoinedContacts);
-		}
+
+	for (int i=0; i < chatcount; i++) {
+		free(chats[i].szChatName);
+		free(chats[i].mJoinedContacts);
 	}
-	if (chats) free (chats);
-	chats = NULL;
+	free(chats); chats = NULL;
 	chatcount = 0;
 }

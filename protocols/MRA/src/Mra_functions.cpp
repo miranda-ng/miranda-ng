@@ -184,10 +184,10 @@ void MraAddrListFree(MRA_ADDR_LIST *pmalAddrList)
 bool DB_GetStaticStringA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {
 	bool bRet = false;
-	size_t dwReadedStringLen, dwRetBuffSizeLocal;
+	
 	DBVARIANT dbv = { 0 };
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0) {
-		dwReadedStringLen = lstrlenW(dbv.pwszVal);
+		int dwRetBuffSizeLocal, dwReadedStringLen = lstrlenW(dbv.pwszVal);
 		if (lpszRetBuff && (dwRetBuffSize > dwReadedStringLen)) {
 			dwRetBuffSizeLocal = WideCharToMultiByte(MRA_CODE_PAGE, 0, dbv.pwszVal, dwReadedStringLen, lpszRetBuff, dwRetBuffSize, NULL, NULL);
 			(*((CHAR*)(lpszRetBuff + dwRetBuffSizeLocal))) = 0;
