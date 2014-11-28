@@ -241,7 +241,7 @@ void exportDB(MCONTACT hContact, char *module)
 			}
 			else
 			{
-				if (*module = '\0')
+				if (*module == 0)
 					module = NULL; // reset module for all contacts export
 			}
 
