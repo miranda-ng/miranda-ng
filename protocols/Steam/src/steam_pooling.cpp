@@ -64,7 +64,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 				if (status != m_iStatus)
 				{
 					debugLogA("CSteamProto::ParsePollData: Change own status to %i", status);
-					WORD oldStatus = m_iStatus;
+					int oldStatus = m_iStatus;
 					m_iStatus = m_iDesiredStatus = status;
 					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 				}

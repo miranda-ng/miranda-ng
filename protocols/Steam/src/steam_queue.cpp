@@ -20,7 +20,7 @@ void CSteamProto::StartQueue()
 	if (m_hQueueThread == NULL)
 	{
 		ptrA token(getStringA("TokenSecret"));
-		if (token && lstrlenA(token) > 0)
+		if (token && token[0] != '\0')
 		{
 			PushRequest(
 				new SteamWebApi::LogonRequest(token),
@@ -29,7 +29,7 @@ void CSteamProto::StartQueue()
 		else
 		{
 			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
-			if (username == NULL || strlen(username) == 0)
+			if (username == NULL || username[0] == '\0')
 				return;
 			PushRequest(new SteamWebApi::RsaKeyRequest(username), (RESPONSE)&CSteamProto::OnGotRsaKey);
 		}
