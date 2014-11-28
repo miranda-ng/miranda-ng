@@ -24,7 +24,7 @@ Odkaz
 
 [Intervals]
 
-[If the protocol timer is disabled web pages won't be updated]
+[If the protocol timer is disabled, web pages won't be updated]
 
 [contact display info]
 

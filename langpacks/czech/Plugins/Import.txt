@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.3.2
+;  Version: 0.95.3.3
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -87,6 +87,12 @@ Nepodařilo se přidat %S kontakt %s
 Přidán %S kontakt %s, '%s'
 [Added %S contact %s]
 Přidán %S kontakt %s
+[Metacontact cannot be imported due to its ambiguity.]
+Metakontakt nemůže být naimportován z důvodu nejednoznačnosti.
+[Added metacontact '%s']
+Přidán metakontakt '%s'
+[Added metacontact]
+Přidán metakontakt
 [Skipping contact with no protocol]
 Přeskakování kontaktu bez protokolu
 [Skipping contact, account %S cannot be mapped.]

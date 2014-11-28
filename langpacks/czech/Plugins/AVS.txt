@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.95.3.1
+;  Version: 0.95.3.4
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]

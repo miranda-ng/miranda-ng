@@ -628,8 +628,8 @@ Zpráva od: %s
 %s píše zprávu
 [Typing Notification]
 Upozornění na psaní zprávy
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Chybí knihovna riched20.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte emulaci WINE, doinstalujte si tuto knihovnu. Stiskněte 'Ano' pro pokračování v načítání Mirandy.
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Chybí knihovna Msftedit.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte emulaci WINE, doinstalujte si tuto knihovnu. Stiskněte 'Ano' pro pokračování v načítání Mirandy.
 [Instant messages]
 Zprávy
 [Incoming (Focused Window)]
@@ -788,12 +788,12 @@ uživatelem definovaný název účtu (pokud je definován)
 Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
-[path to current Miranda profile]
-cesta k aktuálnímu profilu Mirandy
+[path to folder containing Miranda profiles]
+cesta ke složce obsahující profily Mirandy
 [name of current Miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
-[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%
+[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
+vrátí zpracovaný řetězec %miranda_profilesdir%\\%miranda_profilename%
 [will return parsed string %miranda_userdata%\\Logs]
 navrátí řetězec %miranda_userdata%\\Logs
 [same as environment variable %APPDATA% for currently logged-on Windows user]

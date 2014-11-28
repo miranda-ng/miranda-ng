@@ -31,3 +31,4 @@
 [Oops! BASS error]
 [Mute with Miranda]
 [Device list]
+[Quick Open]

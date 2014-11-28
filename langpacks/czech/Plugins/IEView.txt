@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.4.0.0
+;  Version: 1.4.0.2
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -30,8 +30,6 @@ Povolit BBCode
 K dispozici jsou tyto BBCode značky: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Povolit smajlíky ve Flashi a formátování pomocí BBCode
-[Enable workaround for PNG transparency]
-Aktivovat opravu pro průhledné PNG
 [Replace smileys in user names]
 Nahrazovat i smajlíky ve jménech
 [Hide window border]

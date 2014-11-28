@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.0.0.1
+;  Version: 0.1.0.2
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -123,8 +123,6 @@ Změnit zdroj
 
 [Enter Feed URL]
 Zadejte URL zdroje
-[Enter checking interval]
-
 [Enter message format]
 
 [The title of the item.]

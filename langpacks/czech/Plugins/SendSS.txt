@@ -169,7 +169,7 @@ Filtrování
 [SendScreenshot - Error]
 
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Fatal error, image services not found. Send Screenshot will be disabled.]
+[Fatal error, image services not found. SendScreenshot will be disabled.]
 
 [Open SendSS+]
 Otevřít SendSS+

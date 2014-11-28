@@ -18,7 +18,7 @@ XFire
 Přezdívka:
 [Current protocol version:]
 Aktuální verze protokolu:
-[Note: You can only change these settings, if you are connected to Xfire.]
+[Note: You can only change these settings if you are connected to Xfire.]
 Pozn.: Toto nastavení můžete měnit pouze pokud jste připojeni k Xfire.
 [Create a new Xfire account on website]
 Zřídit nový účet Xfire
@@ -64,13 +64,13 @@ xfire_games.ini
 icons.dll
 [Blocked User List]
 Seznam blokovaných uživatelů
-[This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
+[This list contains all your blocked Xfire users. You can remove one if you wanna allow him to send you a friend request.]
 Tento seznam obsahuje všechny blokované uživatele Xfire. Chcete jim povolit žádost o autorizaci, odeberte je z tohoto seznamu.
-[You can simply block someone, if you right click on his friend request in contact list and choose Block User...]
+[You can simply block someone if you right click on his friend request in contact list and choose Block User...]
 Kontakty lze jednoduše filtrovat funkcí Blokovat uživatele, kterou naleznete v kontextové nabídce kontaktu...
 [This file is used for the game search, game detection and game ID resolving. It contains all Xfire supported games.]
 Tento soubor je použit pro vyhledávání her, jejich detekování a zjišťování herních id. Obsahuje všechny Xfirem podporované hry.
-[This file contains all original game icons. You can also activate the option for icon downloading, if you don't have it.]
+[This file contains all original game icons. You can also activate the option for icon downloading if you don't have it.]
 Tento soubor obsahuje všechny oficiální ikony her. Lze nastavit i stahování chybějích ikon.
 [Be sure you put these files in following folder:]
 Zkopírujte výše uvedené soubory do této složky:
@@ -78,7 +78,7 @@ Zkopírujte výše uvedené soubory do této složky:
 Zpráva stavu
 [Enable]
 Aktivovat
-[With this feature, following status message will be set on your other protocol plugins, if you are in game. So your other buddies can also see what you play. It will also change the status to occupied, if this option is enabled.]
+[With this feature, following status message will be set on your other protocol plugins if you are in game. So your other buddies can also see what you play. It will also change the status to occupied if this option is enabled.]
 Během hry použije uvedenou stavovou zprávu pro všechny ostatní protokoly. Tímto způsobem informujete ostatní o tom, co zrovna hrajete. Je-li to povoleno, zároveň dojde ke změně stavu 'Nerušit'.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Jsou dostupné následující proměné: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
@@ -86,7 +86,7 @@ Jsou dostupné následující proměné: %myxfiregame%, %myxfirevoice%, %myxfire
 Zpráva stavu:
 [Change the status to occupied or dnd]
 Změnit stav na 'Nemám čas' nebo 'Nerušit'
-[The status message and status will be reset, if you close the game.]
+[The status message and status will be reset if you close the game.]
 Stav a zpráva stavu budou obnoveny při ukončení hry.
 [Prefer dnd when it is available]
 Pokud možno preferovat stav Nerušit
@@ -162,7 +162,7 @@ Soubor pro spouštění (volitelné):
 Herní ID:
 [Send game ID:]
 Odesílané herní ID:
-[Status message for Xfire, if this game will be started:]
+[Status message for Xfire if this game will be started:]
 Zpráva stavu pro Xfire, když bude tato hra spuštěna:
 [Parameter:]
 Parametr:

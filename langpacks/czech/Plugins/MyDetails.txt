@@ -149,10 +149,11 @@ Skrýt informace o sobě
 Předchozí účet
 [Next account]
 Další účet
+[Contact list]
+Seznam kontaktů
+;file \plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Nastavit přezdívku pro %s
 [Set my status message for %s]
 Zadat stavovou zprávu pro %s
-[Contact list]
-Seznam kontaktů
-;file \plugins\MyDetails\src\options.cpp

@@ -532,6 +532,8 @@ silné dešťové přeháňky
 
 [Chance Of T-Storms 80% Chance Of Precipitation]
 
+[Ice Pellets 90% Chance Of Precipitation]
+
 [Snow Showers 70% Chance Of Precipitation]
 
 [Snow Showers 60% Chance Of Precipitation]
@@ -545,4 +547,14 @@ silné dešťové přeháňky
 [Light Snow 30% Chance Of Precipitation]
 
 [Ice Pellets 70% Chance Of Precipitation]
+
+[Ice Pellets 30% Chance Of Precipitation]
+
+[Ice Pellets 40% Chance Of Precipitation]
+
+[Ice Pellets 80% Chance Of Precipitation]
+
+[Cloudy]
+oblačno
+[Light Snow Freezing Fog]
 

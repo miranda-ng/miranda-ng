@@ -9,7 +9,6 @@
 [Not valid import file.]
 [Check All Feeds]
 [Enter Feed name]
-[Enter checking interval]
 [Enter message format]
 [The title of the item.]
 [The item synopsis.]

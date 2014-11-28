@@ -197,3 +197,5 @@ Hlasitost
 Ekvalizér
 [New]
 Nový
+[Quick Open]
+

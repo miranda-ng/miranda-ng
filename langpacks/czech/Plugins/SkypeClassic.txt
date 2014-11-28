@@ -133,9 +133,9 @@ Text
 [Preview]
 Náhled
 [Error Messages]
-
+Chybové zprávy
 [Display error messages]
-
+Zobrazovat chybové zprávy
 ;file \protocols\SkypeClassic\src\contacts.cpp
 [Call (Skype)]
 Zavolat (Skype)
@@ -152,11 +152,15 @@ Pokračovat v hovoru
 [&File]
 &Soubor
 [&Open group chat]
-
+&Otevřít skupinový rozhovor
+[Block contact]
+Zablokovat kontakt
 [Import Skype history]
 Importovat historii (Skype)
 [Add Skype contact]
 Přidat kontakt Skype
+[Unblock contact]
+Odblokovat kontakt
 ;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
 neznámý
@@ -173,7 +177,7 @@ Stanovit &téma...
 [User &history]
 Zobrazit &historii
 [&Kick user]
-
+&Vykopnout uživatele
 ;file \protocols\SkypeClassic\src\skype.cpp
 [Do a SkypeOut-call]
 Zavolat přes SkypeOut

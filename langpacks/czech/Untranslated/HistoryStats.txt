@@ -1,6 +1,6 @@
 ﻿[Creates detailed, colorful and highly customizable statistics using your message history.]
 [Band]
-[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
+[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files, there is an option for this.]
 [The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
 [HistoryStats supports several plugins. Click to learn more...]
 [Sets:]

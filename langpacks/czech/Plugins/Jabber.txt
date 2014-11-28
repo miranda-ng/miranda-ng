@@ -1087,6 +1087,8 @@ nastavil téma na:
 [%s\nIncoming group chat invitation.]
 %s\nPříchozí pozvánka k diskusi.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Status icons]
+Stavové ikony
 [transport]
 transport
 [Notes]
