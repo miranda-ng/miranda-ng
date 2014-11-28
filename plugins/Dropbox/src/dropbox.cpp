@@ -77,7 +77,7 @@ void CDropbox::RequestAccountInfo()
 
 	if (response && response->resultCode == HTTP_STATUS_OK)
 	{
-		JSONNODE *root = json_parse(response->pData);
+		JSONROOT root(response->pData);
 		if (root)
 		{
 			JSONNODE *node = json_get(root, "referral_link");
@@ -121,16 +121,16 @@ void CDropbox::RequestAccountInfo()
 			}
 
 			node = json_get(root, "quota_info");
-			root = json_as_node(node);
-			if (root)
+			JSONNODE *nroot = json_as_node(node);
+			if (nroot)
 			{
-				node = json_get(root, "shared");
+				node = json_get(nroot, "shared");
 				if (node)
 					db_set_dw(hContact, MODULE, "SharedQuota", json_as_int(node));
-				node = json_get(root, "normal");
+				node = json_get(nroot, "normal");
 				if (node)
 					db_set_dw(hContact, MODULE, "NormalQuota", json_as_int(node));
-				node = json_get(root, "quota");
+				node = json_get(nroot, "quota");
 				if (node)
 					db_set_dw(hContact, MODULE, "TotalQuota", json_as_int(node));
 			}
@@ -192,7 +192,7 @@ UINT CDropbox::RequestAcceessTokenAsync(void *owner, void* param)
 
 	if (response)
 	{
-		JSONNODE *root = json_parse(response->pData);
+		JSONROOT root(response->pData);
 		if (root)
 		{
 			if (response->resultCode == HTTP_STATUS_OK)

@@ -40,7 +40,7 @@ int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId,
 
 	if (response && response->resultCode == HTTP_STATUS_OK)
 	{
-		JSONNODE *root = json_parse(response->pData);
+		JSONROOT root(response->pData);
 		if (root)
 		{
 			JSONNODE *node = json_get(root, "upload_id");
@@ -72,7 +72,7 @@ int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uplo
 
 	if (response && response->resultCode == HTTP_STATUS_OK)
 	{
-		JSONNODE *root = json_parse(response->pData);
+		JSONROOT root(response->pData);
 		if (root)
 		{
 			JSONNODE *node = json_get(root, "offset");
@@ -154,8 +154,8 @@ int CDropbox::CreateDownloadUrl(const char *path, wchar_t *url)
 
 	if (response && response->resultCode == HTTP_STATUS_OK)
 	{
-		JSONNODE *root = json_parse(response->pData);
-		if (root != NULL)
+		JSONROOT root(response->pData);
+		if (root)
 		{
 			JSONNODE *node = json_get(root, "url");
 			wcscpy(url, json_as_string(node));

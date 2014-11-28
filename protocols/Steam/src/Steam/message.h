@@ -65,9 +65,9 @@ namespace SteamWebApi
 	//		if ((sendResult->status = (HTTP_STATUS)response->resultCode) != HTTP_STATUS_OK)
 	//			return;
 
-	//		JSONNODE *root = json_parse(response->pData), *node;
+	//		JSONROOT root(response->pData);
 
-	//		node = json_get(root, "error");
+	//		JSONNODE *node = json_get(root, "error");
 	//		ptrW error(json_as_string(node));
 
 	//		if (lstrcmp(error, L"OK"))

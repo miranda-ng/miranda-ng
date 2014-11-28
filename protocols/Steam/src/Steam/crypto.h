@@ -99,10 +99,10 @@ namespace SteamWebApi
 			if (!response || response->resultCode != HTTP_STATUS_OK)
 				return;
 
-			JSONNODE *root = json_parse(response->pData), *node;
+			JSONROOT root(response->pData);
 			if (!root) return;
 
-			node = json_get(root, "success");
+			JSONNODE *node = json_get(root, "success");
 			if (!json_as_bool(node)) return;
 
 			node = json_get(root, "publickey_mod");
