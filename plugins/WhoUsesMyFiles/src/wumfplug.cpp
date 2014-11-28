@@ -214,7 +214,7 @@ void ThreadProc(LPVOID)
 static INT_PTR WumfShowConnections(WPARAM,LPARAM)
 {
 	mir_forkthread(ThreadProc, NULL);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hWumfBut, TTBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hWumfBut, 0);
 	return 0;
 }
 

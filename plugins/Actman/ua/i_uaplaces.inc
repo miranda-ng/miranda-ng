@@ -36,7 +36,7 @@ begin
   if lflag=TTBST_PUSHED then
   begin
     if (ActionItem.flags and (UAF_2STATE+UAF_PRESSED))<>(UAF_2STATE+UAF_PRESSED) then exit;
-    lflag:=TTBST_RELEASED;
+    lflag:=0;
   end
   else
   begin
@@ -667,7 +667,7 @@ begin
         begin
           if CallService(MS_TTB_GETBUTTONSTATE,hTTBButton,0)=TTBST_PUSHED then
           begin
-            lflag:=TTBST_RELEASED;
+            lflag:=0;
           end
           else
           begin

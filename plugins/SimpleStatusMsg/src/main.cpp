@@ -883,7 +883,7 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM wParam, LPARAM lParam)
 	if (Miranda_Terminated()) return 0;
 
 	if (hTTBButton) {
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButton, (LPARAM)TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButton, (LPARAM)0);
 		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM((WORD)TTBO_TIPNAME, (WORD)hTTBButton), (LPARAM)Translate("Change status message"));
 	}
 

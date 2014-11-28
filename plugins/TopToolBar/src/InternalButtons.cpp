@@ -45,17 +45,17 @@ int OnSettingChanging(WPARAM hContact, LPARAM lParam)
 
 	if (!strcmp(dbcws->szModule, "CList")) {
 		if (!strcmp(dbcws->szSetting, "HideOffline"))
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_OFFLINE].hButton, dbcws->value.bVal ? TTBST_RELEASED : TTBST_PUSHED);
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_OFFLINE].hButton, dbcws->value.bVal ? 0 : TTBST_PUSHED);
 		else if (!strcmp(dbcws->szSetting, "UseGroups"))
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_GROUPS].hButton, dbcws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_GROUPS].hButton, dbcws->value.bVal ? TTBST_PUSHED : 0);
 	}
 	else if (!strcmp(dbcws->szModule, "Skin")) {
 		if (!strcmp(dbcws->szSetting, "UseSound"))
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_SOUNDS].hButton, dbcws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_SOUNDS].hButton, dbcws->value.bVal ? TTBST_PUSHED : 0);
 	}
 	else if (!strcmp(dbcws->szModule, "MetaContacts")) {
 		if (!strcmp(dbcws->szSetting, "Enabled"))
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_META].hButton, dbcws->value.bVal ? TTBST_PUSHED : TTBST_RELEASED);
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_META].hButton, dbcws->value.bVal ? TTBST_PUSHED : 0);
 	}
 
 	return 0;
@@ -151,16 +151,16 @@ void InitInternalButtons()
 	}
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_OFFLINE].hButton,
-		db_get_b(NULL, "CList", "HideOffline", 0) ? TTBST_RELEASED : TTBST_PUSHED);
+		db_get_b(NULL, "CList", "HideOffline", 0) ? 0 : TTBST_PUSHED);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_GROUPS].hButton,
-		db_get_b(NULL, "CList", "UseGroups", 1) ? TTBST_PUSHED : TTBST_RELEASED);
+		db_get_b(NULL, "CList", "UseGroups", 1) ? TTBST_PUSHED : 0);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_SOUNDS].hButton,
-		db_get_b(NULL, "Skin", "UseSound", 1) ? TTBST_PUSHED : TTBST_RELEASED);
+		db_get_b(NULL, "Skin", "UseSound", 1) ? TTBST_PUSHED : 0);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)stdButtons[INDEX_META].hButton,
-		db_get_b(NULL, "MetaContacts", "Enabled", 1) ? TTBST_PUSHED : TTBST_RELEASED);
+		db_get_b(NULL, "MetaContacts", "Enabled", 1) ? TTBST_PUSHED : 0);
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanging);
 }

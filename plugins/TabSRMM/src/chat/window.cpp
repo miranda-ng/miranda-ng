@@ -3519,10 +3519,9 @@ LABEL_SHOWWINDOW:
 		UpdateStatusBar(dat);
 		break;
 
-		//mad: bb-api
 	case DM_BBNEEDUPDATE:
 		if (lParam)
-			CB_ChangeButton(hwndDlg,dat,(CustomButtonData*)lParam);
+			CB_ChangeButton(hwndDlg, dat, (CustomButtonData*)lParam);
 		else
 			BB_InitDlgButtons(dat);
 
@@ -3531,9 +3530,9 @@ LABEL_SHOWWINDOW:
 
 	case DM_CBDESTROY:
 		if (lParam)
-			CB_DestroyButton(hwndDlg,dat,(DWORD)wParam,(DWORD)lParam);
+			CB_DestroyButton(hwndDlg, dat, (DWORD)wParam, (DWORD)lParam);
 		else
-			CB_DestroyAllButtons(hwndDlg,dat);
+			CB_DestroyAllButtons(hwndDlg, dat);
 		break;
 
 	case DM_CONFIGURETOOLBAR:
@@ -3604,10 +3603,9 @@ LABEL_SHOWWINDOW:
 			db_set_w(NULL, CHAT_MODULE, "splitY", (WORD)g_Settings.iSplitterY);
 
 		// Typing support for GCW_PRIVMESS sessions
-		if (si->iType == GCW_PRIVMESS) {
+		if (si->iType == GCW_PRIVMESS)
 			if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
 				DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
-		}
 
 		DM_FreeTheme(dat);
 

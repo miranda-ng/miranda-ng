@@ -426,7 +426,7 @@ int ToolbarLoaded(WPARAM,LPARAM)
 void SetShutdownToolbarButton(bool fActive)
 {
 	if (hToolbarButton)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton,fActive?TTBST_PUSHED:TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton,fActive?TTBST_PUSHED:0);
 }
 
 /************************* Menu Item **********************************/

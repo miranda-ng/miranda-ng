@@ -205,7 +205,7 @@ void UpdateMenu()
 	Menu_ModifyItem(hMenuRoot, &mi);
 
 	if (hTTButton)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, isEnabled ? TTBST_PUSHED : TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, isEnabled ? TTBST_PUSHED : 0);
 }
 
 INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam)

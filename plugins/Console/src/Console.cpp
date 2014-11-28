@@ -170,7 +170,7 @@ static void ShowConsole(int show)
 	}
 
 	if (hTTBButt)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (show)?TTBST_PUSHED:TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (show)?TTBST_PUSHED:0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

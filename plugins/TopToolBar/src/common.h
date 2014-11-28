@@ -61,12 +61,12 @@ struct TopButtonInt : public MZeroedObject
 	{	return (dwFlags & TTBBF_VISIBLE) != 0;
 	}
 
-	HWND hwnd;
-	int id;
-	BOOL bPushed;
-	int dwFlags;
-	int x, y, arrangedpos;
-	HICON hIconUp, hIconDn;
+	HWND   hwnd;
+	int    id;
+	BOOL   bPushed;
+	int    dwFlags;
+	int    x, y, arrangedpos;
+	HICON  hIconUp, hIconDn;
 	HANDLE hIconHandleUp, hIconHandleDn;
 
 	char  *pszService;

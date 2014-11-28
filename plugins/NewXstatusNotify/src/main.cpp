@@ -1094,7 +1094,7 @@ INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 	}
 
 	Menu_ModifyItem(hEnableDisableMenu, &mi);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? TTBST_RELEASED : TTBST_PUSHED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? 0 : TTBST_PUSHED);
 	return 0;
 }
 

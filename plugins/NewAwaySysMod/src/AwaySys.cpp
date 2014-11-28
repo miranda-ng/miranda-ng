@@ -388,7 +388,7 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hToggleSOEMenuItem, (LPARAM)&mi);
 
 		if (g_hTopToolbarbutton)
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : TTBST_RELEASED);
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : 0);
 	}
 
 	return 0;
@@ -426,7 +426,7 @@ static int Create_TopToolbar(WPARAM, LPARAM)
 		ttbb.pszTooltipUp = LPGEN("Toggle autoreply on");
 		g_hTopToolbarbutton = TopToolbar_AddButton(&ttbb);
 		
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)g_hTopToolbarbutton, SendOnEvent ? TTBST_PUSHED : 0);
 	}
 	return 0;
 }

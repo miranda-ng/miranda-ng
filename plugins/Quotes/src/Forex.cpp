@@ -62,7 +62,7 @@ namespace
 
 		mi.flags = CMIM_ICON | CMIM_NAME;
 		Menu_ModifyItem(g_hEnableDisableMenu, &mi);
-		CallService(MS_TTB_SETBUTTONSTATE, reinterpret_cast<WPARAM>(g_hTBButton), !bAutoUpdate ? TTBST_PUSHED : TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, reinterpret_cast<WPARAM>(g_hTBButton), !bAutoUpdate ? TTBST_PUSHED : 0);
 	}
 
 

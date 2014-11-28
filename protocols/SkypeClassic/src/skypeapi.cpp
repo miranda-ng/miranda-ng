@@ -790,7 +790,7 @@ static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			break;
 		case WM_DESTROY:
 			Utils_SaveWindowPosition(hwndDlg, NULL, SKYPE_PROTONAME, "DIALdlg");
-			if (httbButton) CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)httbButton, TTBST_RELEASED);
+			if (httbButton) CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)httbButton, 0);
 			break;
 	}
 	return FALSE;
