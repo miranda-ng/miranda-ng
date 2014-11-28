@@ -546,7 +546,7 @@ void destroyProcessList(void)
 
 	for (int i = 0; i < ProcessList.count; i++)
 		if (ProcessList.szFileName[i])
-			free(ProcessList.szFileName[i]);
+			mir_free(ProcessList.szFileName[i]);
 
 	free(ProcessList.szFileName);
 	ProcessList.count = 0;
