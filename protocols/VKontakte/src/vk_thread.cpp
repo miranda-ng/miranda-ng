@@ -50,10 +50,11 @@ void CVkProto::ConnectionFailed(int iReason)
 
 static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	for (int i = 0; i < vk_Instances.getCount(); i++){
-		vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iDesiredStatus);
-		vk_Instances[i]->RetrieveUsersInfo(true);
-	}
+	for (int i = 0; i < vk_Instances.getCount(); i++)
+		if (vk_Instances[i]->IsOnline()){
+			vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iDesiredStatus);
+			vk_Instances[i]->RetrieveUsersInfo(true);
+		}
 }
 
 static void CALLBACK VKSetTimer(void *pObject)
@@ -95,7 +96,7 @@ void CVkProto::OnLoggedOut()
 
 	bool bOnline = false;
 	for (int i=0; i < vk_Instances.getCount(); i++)
-		bOnline = bOnline && vk_Instances[i]->IsOnline();
+		bOnline = bOnline || vk_Instances[i]->IsOnline();
 	if(!bOnline)
 		CallFunctionAsync(VKUnsetTimer, this);
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -182,8 +183,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		return;
 	}
 
-	if (reply->resultCode != 200) { // something went wrong
-LBL_NoForm:
+	if (reply->resultCode != 200 || !strstr(reply->pData, "form method=\"post\"")){ // something went wrong
 		ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
@@ -192,16 +192,14 @@ LBL_NoForm:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
 	}
-
-	// Application requests access to user's account
-	if (!strstr(reply->pData, "form method=\"post\""))
-		goto LBL_NoForm;
-
+		
 	CMStringA szAction, szBody;
 	bool bSuccess = AutoFillForm(reply->pData, szAction, szBody);
 	if (!bSuccess || szAction.IsEmpty() || szBody.IsEmpty()) {
-		if (m_prevError)
-			goto LBL_NoForm;
+		if (m_prevError){
+			ConnectionFailed(LOGINERR_NOSERVER);
+			return;
+		}
 		m_prevError = true;
 	}
 

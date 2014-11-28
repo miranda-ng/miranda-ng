@@ -35,46 +35,42 @@ void CVkProto::UninitQueue()
 void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
 	CMStringA str;
-
-LBL_Restart:
-	pReq->bNeedsRestart = false;
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
-	if (!pReq->m_szParam.IsEmpty()) {
-		if (pReq->requestType == REQUEST_GET) {
-			str.Format("%s?%s", pReq->m_szUrl, pReq->m_szParam);
-			pReq->szUrl = str.GetBuffer();
+	do {
+		pReq->bNeedsRestart = false;
+		pReq->szUrl = pReq->m_szUrl.GetBuffer();
+		if (!pReq->m_szParam.IsEmpty()) {
+			if (pReq->requestType == REQUEST_GET) {
+				str.Format("%s?%s", pReq->m_szUrl, pReq->m_szParam);
+				pReq->szUrl = str.GetBuffer();
+			}
+			else {
+				pReq->pData = mir_strdup(pReq->m_szParam.GetBuffer());
+				pReq->dataLength = pReq->m_szParam.GetLength();
+			}
 		}
-		else {
-			pReq->pData = mir_strdup(pReq->m_szParam.GetBuffer());
-			pReq->dataLength = pReq->m_szParam.GetLength();
+		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
+		NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
+		if (reply != NULL) {
+			if (pReq->m_pFunc != NULL)
+				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart 	
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);		
 		}
-	}
-
-	debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->szUrl);
-	NETLIBHTTPREQUEST *reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)pReq);
-	if (reply != NULL) {
-		if (pReq->m_pFunc != NULL)
-			(this->*(pReq->m_pFunc))(reply, pReq);
-
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)reply);
-		if (pReq->bNeedsRestart)
-			goto LBL_Restart;
-	}
-	else if (pReq->bIsMainConn) {
-		if (m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
-			ConnectionFailed(LOGINERR_NONETWORK);
-		else if (pReq->m_iRetry){
-			pReq->bNeedsRestart = true;
-			Sleep(1000); //Pause for fix err 
-			pReq->m_iRetry--;
-			debugLogA("CVkProto::ExecuteRequest restarting retry = %d", MAX_RETRIES - pReq->m_iRetry);
-			goto LBL_Restart;
+		else if (pReq->bIsMainConn) {
+			if (m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
+				ConnectionFailed(LOGINERR_NONETWORK);
+			else if (pReq->m_iRetry){
+				pReq->bNeedsRestart = true;
+				Sleep(1000); //Pause for fix err 
+				pReq->m_iRetry--;
+				debugLogA("CVkProto::ExecuteRequest restarting retry = %d", MAX_RETRIES - pReq->m_iRetry);
+			}
+			else{
+				debugLogA("CVkProto::ExecuteRequest ShutdownSession");
+				ShutdownSession();
+			}
 		}
-		else{
-			debugLogA("CVkProto::ExecuteRequest ShutdownSession");
-			ShutdownSession();
-		}
-	}
+		debugLogA("CVkProto::ExecuteRequest pReq->bNeedsRestart = %d", (int)pReq->bNeedsRestart);
+	} while (pReq->bNeedsRestart);
 	delete pReq;
 }
 
