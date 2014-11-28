@@ -327,11 +327,8 @@ static void FlashThreadFunction()
 		if (wStartDelay > 0)
 			Sleep(wStartDelay * 1000);
 		dwFlashStarted = GetTickCount();
-
 	}
-
 }
-
 
 BOOL checkMsgTimestamp(MCONTACT hContact, HANDLE hEventCurrent, DWORD timestampCurrent)
 {
@@ -529,26 +526,16 @@ void StartBlinkAction(char *flashSequence, WORD eventMaxSeconds)
 
 void createProcessList(void)
 {
-	DBVARIANT dbv;
-	unsigned int i, count;
-
-	count = (unsigned int)db_get_w(NULL, KEYBDMODULE, "processcount", 0);
+	int count = db_get_w(NULL, KEYBDMODULE, "processcount", 0);
 
 	ProcessList.count = 0;
 	ProcessList.szFileName = (TCHAR **)malloc(count * sizeof(TCHAR *));
 	if (ProcessList.szFileName) {
-		for (i=0; i < count; i++)
-			if (db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i), &dbv))
-				ProcessList.szFileName[i] = NULL;
-			else {
-				ProcessList.szFileName[i] = (TCHAR *)malloc((wcslen(dbv.ptszVal) + 1)*sizeof(TCHAR));
-				if (ProcessList.szFileName[i])
-					wcscpy(ProcessList.szFileName[i], dbv.ptszVal);
-				db_free(&dbv);
-			}
+		for (int i=0; i < count; i++)
+			ProcessList.szFileName[i] = db_get_tsa(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i));
+
 		ProcessList.count = count;
 	}
-
 }
 
 
@@ -556,11 +543,11 @@ void destroyProcessList(void)
 {
 	if (ProcessList.szFileName == NULL)
 		return;
-	for (int i = 0; i < ProcessList.count; i ++) {
-		if (ProcessList.szFileName[i]) {
+
+	for (int i = 0; i < ProcessList.count; i++)
+		if (ProcessList.szFileName[i])
 			free(ProcessList.szFileName[i]);
-		}
-	}
+
 	free(ProcessList.szFileName);
 	ProcessList.count = 0;
 	ProcessList.szFileName = NULL;
