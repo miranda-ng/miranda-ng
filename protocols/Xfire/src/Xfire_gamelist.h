@@ -1,5 +1,5 @@
 /*
- *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network. 
+ *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network.
  *
  *  Copyright (C) 2010 by
  *          dufte <dufte@justmail.de>
@@ -19,7 +19,7 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  *
- *  Miranda ICQ: the free icq client for MS Windows 
+ *  Miranda ICQ: the free icq client for MS Windows
  *  Copyright (C) 2000-2008  Richard Hughes, Roland Rabien & Tristan Van de Vreede
  *
  */
@@ -27,7 +27,7 @@
 /*
 	Klasse soll die Gameliste verwalten. Dazu gehört das dynamische Einfügen/Löschen/Verändern von Games.
 	Erstellen/Sortieren der Menüpunkte...
-*/
+	*/
 
 #ifndef _XFIRE_GAMELIST
 #define _XFIRE_GAMELIST
@@ -55,16 +55,16 @@ public:
 	void clearGamelist();
 	void createStartmenu();
 	void clearStartmenu();
-	void clearDatabase(BOOL dontaddcustom=FALSE);
+	void clearDatabase(BOOL dontaddcustom = FALSE);
 	void writeDatabase();
-	BOOL Gameinlist(int id,int*dbid=NULL);
+	BOOL Gameinlist(int id, int*dbid = NULL);
 	void Addgame(Xfire_game* newgame);
 	BOOL Xfire_gamelist::Removegame(int id);
 	int countGames();
 	~Xfire_gamelist();
 	Xfire_gamelist();
 	BOOL getnextGame(Xfire_game**currentgame);
-	BOOL Ingame(){return ingame;}
+	BOOL Ingame(){ return ingame; }
 	void SetGameStatus(BOOL ingame);
 	int CurrentGame();
 	Xfire_game* getGame(unsigned int dbid);

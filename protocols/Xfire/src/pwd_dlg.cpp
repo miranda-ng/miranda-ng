@@ -3,49 +3,49 @@
 #include "stdafx.h"
 #include "pwd_dlg.h"
 
-char password[256]="";
+char password[256] = "";
 
 INT_PTR CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
-		case WM_INITDIALOG:
+	case WM_INITDIALOG:
+	{
+		SetWindowText(hwndDlg, LPGENT("Please enter server password..."));
+		TranslateDialogDefault(hwndDlg);
+		SendMessage(hwndDlg, WM_SETICON, (WPARAM)false, (LPARAM)LoadIcon(hinstance, MAKEINTRESOURCE(IDI_TM)));
+		return TRUE;
+	}
+	case WM_COMMAND:
+	{
+		if (LOWORD(wParam) == IDOK)
 		{
-			SetWindowText(hwndDlg, LPGENT("Please enter server password..."));
-			TranslateDialogDefault(hwndDlg);
-			SendMessage(hwndDlg,WM_SETICON, (WPARAM)false, (LPARAM)LoadIcon(hinstance, MAKEINTRESOURCE(IDI_TM)));
+			GetDlgItemTextA(hwndDlg, IDC_NICKNAME, password, sizeof(password));
+			EndDialog(hwndDlg, TRUE);
 			return TRUE;
 		}
-		case WM_COMMAND:
+		else if (LOWORD(wParam) == IDCANCEL)
 		{
-			if (LOWORD(wParam) == IDOK)
-			{
-				GetDlgItemTextA(hwndDlg,IDC_NICKNAME,password,sizeof(password));
-				EndDialog(hwndDlg,TRUE);
-				return TRUE;
-			}
-			else if (LOWORD(wParam) == IDCANCEL)
-			{
-				EndDialog(hwndDlg,FALSE);
-				return FALSE;
-			}
+			EndDialog(hwndDlg, FALSE);
+			return FALSE;
 		}
+	}
 	}
 	return FALSE;
 }
 
 BOOL ShowPwdDlg(char* pw) {
 	//kein gültiges ziel für das eingegebene passwort
-	if (&pw==NULL)
+	if (&pw == NULL)
 		return FALSE;
-	
-	if (DialogBox(hinstance,MAKEINTRESOURCE(IDD_SETNICKNAME),NULL,DlgPwProc))
+
+	if (DialogBox(hinstance, MAKEINTRESOURCE(IDD_SETNICKNAME), NULL, DlgPwProc))
 	{
 		//passwort kopieren
 		if (*password == 0)
 			return FALSE;
 
-		strcpy_s(pw,255,password);
+		strcpy_s(pw, 255, password);
 		return TRUE;
 	}
 

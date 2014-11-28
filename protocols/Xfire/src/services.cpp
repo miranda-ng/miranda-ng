@@ -1,5 +1,5 @@
 /*
- *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network. 
+ *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network.
  *
  *  Copyright (C) 2010 by
  *          dufte <dufte@justmail.de>
@@ -21,7 +21,7 @@
  *  Based on J. Lawler              - BaseProtocol
  *			 Herbert Poul/Beat Wolf - xfirelib
  *
- *  Miranda ICQ: the free icq client for MS Windows 
+ *  Miranda ICQ: the free icq client for MS Windows
  *  Copyright (C) 2000-2008  Richard Hughes, Roland Rabien & Tristan Van de Vreede
  *
  */
@@ -34,12 +34,12 @@ BOOL IsContactMySelf(std::string buddyusername) {
 	DBVARIANT dbv;
 
 	//nur wenn option aktiv, sonst immer FALSE
-	if (!db_get_b(NULL,protocolname,"skipmyself",0))
+	if (!db_get_b(NULL, protocolname, "skipmyself", 0))
 		return FALSE;
 
-	if (!db_get(NULL,protocolname,"login",&dbv))
+	if (!db_get(NULL, protocolname, "login", &dbv))
 	{
-		if (!lstrcmpiA( dbv.pszVal, buddyusername.c_str() ))
+		if (!lstrcmpiA(dbv.pszVal, buddyusername.c_str()))
 		{
 			db_free(&dbv);
 			return TRUE;
@@ -48,15 +48,15 @@ BOOL IsContactMySelf(std::string buddyusername) {
 	}
 	else
 		return FALSE;
-	
+
 	return FALSE;
 }
 
 //liefert vollendateipfad vom eigenen avatar zurück, wenn definiert
-INT_PTR GetMyAvatar(WPARAM wparam,LPARAM lparam) {
+INT_PTR GetMyAvatar(WPARAM wparam, LPARAM lparam) {
 	DBVARIANT dbv;
 
-	if (!db_get(NULL,protocolname,"MyAvatarFile",&dbv))
+	if (!db_get(NULL, protocolname, "MyAvatarFile", &dbv))
 	{
 		strncpy((char*)wparam, dbv.pszVal, (int)lparam);
 		db_free(&dbv);
@@ -67,14 +67,14 @@ INT_PTR GetMyAvatar(WPARAM wparam,LPARAM lparam) {
 }
 
 //liefert vollendateipfad vom eigenen avatar zurück, wenn definiert
-int mBotNotify(WPARAM wparam,LPARAM lparam) {
-	
+int mBotNotify(WPARAM wparam, LPARAM lparam) {
+
 	if (wparam) {
-		CallService(MBOT_TRIGGER,(WPARAM)"xfireingame",1);
+		CallService(MBOT_TRIGGER, (WPARAM)"xfireingame", 1);
 	}
 	else
 	{
-		CallService(MBOT_TRIGGER,(WPARAM)"xfireingame",0);
+		CallService(MBOT_TRIGGER, (WPARAM)"xfireingame", 0);
 	}
 
 	return 0;

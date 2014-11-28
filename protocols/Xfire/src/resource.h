@@ -168,4 +168,4 @@
 
 /*
 	end of resource.h
-*/
+	*/

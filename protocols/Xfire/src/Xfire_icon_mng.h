@@ -1,5 +1,5 @@
 /*
- *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network. 
+ *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network.
  *
  *  Copyright (C) 2009 by
  *          dufte <dufte@justmail.de>
@@ -19,7 +19,7 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  *
- *  Miranda ICQ: the free icq client for MS Windows 
+ *  Miranda ICQ: the free icq client for MS Windows
  *  Copyright (C) 2000-2008  Richard Hughes, Roland Rabien & Tristan Van de Vreede
  *
  */
@@ -32,7 +32,7 @@
 #include "Xfire_base.h"
 #include <vector>
 
-const char IconsdllName[]="Icons.dll";
+const char IconsdllName[] = "Icons.dll";
 
 #pragma comment(lib,"ole32.lib")
 
@@ -49,7 +49,7 @@ struct Xfire_icon_cache {
 class Xfire_icon_mng : public Xfire_base {
 private:
 	vector<Xfire_icon_cache> iconcache;
-	BOOL getIconfromCache(unsigned int gameid,Xfire_icon_cache* out);
+	BOOL getIconfromCache(unsigned int gameid, Xfire_icon_cache* out);
 	Xfire_icon_cache LoadGameIcon(unsigned int gameid);
 	HANDLE createIconHandle(HICON hicon);
 	HICON downloadIcon(char* shortname);

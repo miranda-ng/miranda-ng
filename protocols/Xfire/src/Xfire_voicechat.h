@@ -1,5 +1,5 @@
 /*
- *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network. 
+ *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network.
  *
  *  Copyright (C) 2009 by
  *          dufte <dufte@justmail.de>
@@ -19,7 +19,7 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  *
- *  Miranda ICQ: the free icq client for MS Windows 
+ *  Miranda ICQ: the free icq client for MS Windows
  *  Copyright (C) 2000-2008  Richard Hughes, Roland Rabien & Tristan Van de Vreede
  *
  */
@@ -56,7 +56,7 @@ struct TtsrServerInfo
 	int PlayerCount;
 };
 
-typedef int (__stdcall  *LPtsrGetServerInfo)(TtsrServerInfo *tsrServerInfo);
+typedef int(__stdcall  *LPtsrGetServerInfo)(TtsrServerInfo *tsrServerInfo);
 
 /* klassen definitionen */
 struct ts3IPPORT {
@@ -66,11 +66,11 @@ struct ts3IPPORT {
 
 enum XFIREVOICECHATTYPE {
 	XFIREVOICECHAT_NOVOICE,
-	XFIREVOICECHAT_TS3=35,
-	XFIREVOICECHAT_TS2=32,
-	XFIREVOICECHAT_MUMBLE=34,
-	XFIREVOICECHAT_VENTRILO=33,
-	XFIREVOICECHAT_IPDETECT=999
+	XFIREVOICECHAT_TS3 = 35,
+	XFIREVOICECHAT_TS2 = 32,
+	XFIREVOICECHAT_MUMBLE = 34,
+	XFIREVOICECHAT_VENTRILO = 33,
+	XFIREVOICECHAT_IPDETECT = 999
 };
 
 using namespace xfirelib;
@@ -97,7 +97,7 @@ public:
 	void resetSendGameStatus2Packet(SendGameStatus2Packet* packet);
 	void resetCurrentvoicestatus();
 	void writeToDatabase(SendGameStatus2Packet* packet);
-	HMODULE loadTSR(char* path=NULL,BOOL nolocaltest=FALSE);
+	HMODULE loadTSR(char* path = NULL, BOOL nolocaltest = FALSE);
 	BOOL checkVoicechat(SendGameStatus2Packet* packet);
 	BOOL alreadySend(SendGameStatus2Packet* packet);
 
