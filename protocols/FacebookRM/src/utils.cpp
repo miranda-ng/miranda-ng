@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-13 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ DWORD utils::time::fix_timestamp(unsigned __int64 mili_timestamp)
 {
 	// If it is really mili_timestamp
 	if (mili_timestamp > 100000000000) {
-		return (DWORD) (mili_timestamp / 1000);
+		mili_timestamp /= 1000;
 	}
 	return (DWORD) mili_timestamp;
 }
@@ -113,7 +113,7 @@ void utils::text::replace_all(std::string* data, const std::string &from, const 
 	while ((position = data->find(from, position)) != std::string::npos)
 	{
 		data->replace(position, from.size(), to);
-		position++;
+		position += to.size();
 	}
 }
 
