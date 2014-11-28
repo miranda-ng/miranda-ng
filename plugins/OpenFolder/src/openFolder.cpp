@@ -30,10 +30,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 {
 	TCHAR szMirandaPath[MAX_PATH];
-	GetModuleFileName( GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
-	TCHAR* p = _tcsrchr( szMirandaPath, '\\' );
-	if ( p && *(++p))
-		*p = 0;
+	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
+	TCHAR *p = _tcsrchr(szMirandaPath, '\\');
+	if (p)
+		p[1] = 0;
 
 	if ( GetAsyncKeyState( VK_CONTROL ) & 0x8000 )
 		ShellExecute(0, _T("explore"), szMirandaPath, 0, 0, SW_SHOWNORMAL);
@@ -61,21 +61,21 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-HICON LoadIconExEx( const char* IcoLibName, int NonIcoLibIcon )
+HICON LoadIconExEx(const char* IcoLibName, int NonIcoLibIcon)
 {
 	char szSettingName[64];
-	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", OPENFOLDER_MODULE_NAME, IcoLibName );
+	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", OPENFOLDER_MODULE_NAME, IcoLibName);
 	return Skin_GetIcon(szSettingName);
 }
 
-extern "C" __declspec( dllexport ) PLUGININFOEX* MirandaPluginInfoEx( DWORD mirandaVersion )
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec( dllexport ) Load()
+extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
 
@@ -110,7 +110,7 @@ extern "C" int __declspec( dllexport ) Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" int __declspec( dllexport ) Unload()
+extern "C" int __declspec(dllexport) Unload()
 {
 	DestroyServiceFunction(hServiceOpenFolder);
 	return 0;
