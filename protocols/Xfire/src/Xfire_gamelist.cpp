@@ -5,7 +5,7 @@
 //liefert bestimmtes game zurück
 Xfire_game* Xfire_gamelist::getGame(unsigned int dbid)
 {
-	if (dbid<gamelist.size())
+	if (dbid < gamelist.size())
 	{
 		return gamelist.at(dbid);
 	}
@@ -15,9 +15,9 @@ Xfire_game* Xfire_gamelist::getGame(unsigned int dbid)
 //liefert bestimmtes game zurück
 Xfire_game* Xfire_gamelist::getGamebyGameid(unsigned int gameid)
 {
-	for(unsigned int i = 0 ; i < gamelist.size() ; i ++) {
-		Xfire_game* game=(Xfire_game*)gamelist.at(i);
-		if (game->id==gameid)
+	for (unsigned int i = 0; i < gamelist.size(); i++) {
+		Xfire_game* game = (Xfire_game*)gamelist.at(i);
+		if (game->id == gameid)
 			return game;
 	}
 	return NULL;
@@ -25,17 +25,17 @@ Xfire_game* Xfire_gamelist::getGamebyGameid(unsigned int gameid)
 
 void Xfire_gamelist::readGamelist(int anz) {
 	//spiele einzeln einlesen
-	for(int i=0;i<anz;i++)
+	for (int i = 0; i < anz; i++)
 	{
 		//erzeuge gameobject
-		Xfire_game* game=new Xfire_game();
+		Xfire_game* game = new Xfire_game();
 
 		if (game) {
 			//lese das spiel ein
 			game->readFromDB(i);
 			//icons laden
-			Xfire_icon_cache icon=this->iconmngr.getGameIconEntry(game->id);
-			game->setIcon(icon.hicon,icon.handle);
+			Xfire_icon_cache icon = this->iconmngr.getGameIconEntry(game->id);
+			game->setIcon(icon.hicon, icon.handle);
 			//in die liste einfügen
 			gamelist.push_back(game);
 		}
@@ -45,20 +45,20 @@ void Xfire_gamelist::readGamelist(int anz) {
 //setzt den ingamestatus
 void Xfire_gamelist::SetGameStatus(BOOL status)
 {
-	ingame=status;
+	ingame = status;
 }
 
 Xfire_gamelist::Xfire_gamelist()
 {
-	nextgameid=0;
-	ingame=FALSE;
+	nextgameid = 0;
+	ingame = FALSE;
 	InitializeCriticalSection(&gamlistMutex);
 }
 
 //dekonstruktor
 Xfire_gamelist::~Xfire_gamelist() {
-	for(unsigned int i = 0 ; i < gamelist.size() ; i ++) {
-		Xfire_game* game=(Xfire_game*)gamelist.at(i);
+	for (unsigned int i = 0; i < gamelist.size(); i++) {
+		Xfire_game* game = (Xfire_game*)gamelist.at(i);
 		if (game) delete game;
 	}
 	gamelist.clear();
@@ -69,17 +69,17 @@ Xfire_gamelist::~Xfire_gamelist() {
 BOOL Xfire_gamelist::getnextGame(Xfire_game**currentgame)
 {
 	//kein pointer dann false zurückliefern
-	if (currentgame==NULL)
+	if (currentgame == NULL)
 		return FALSE;
 
 	//is die derzeitige id kleiner wie die anzahl an games, dann passendes game zurückliefern
-	if (nextgameid<gamelist.size())
+	if (nextgameid < gamelist.size())
 	{
-		*currentgame=gamelist.at(nextgameid);
+		*currentgame = gamelist.at(nextgameid);
 		nextgameid++;
 
 		//muss das spiel geskippt werden, dann nochmal funktion aufrufen um das nächste game zubekommen
-		if ((*currentgame)->skip||(*currentgame)->id==32||(*currentgame)->id==33||(*currentgame)->id==34||(*currentgame)->id==35)
+		if ((*currentgame)->skip || (*currentgame)->id == 32 || (*currentgame)->id == 33 || (*currentgame)->id == 34 || (*currentgame)->id == 35)
 		{
 			return getnextGame(currentgame);
 		}
@@ -89,7 +89,7 @@ BOOL Xfire_gamelist::getnextGame(Xfire_game**currentgame)
 	else
 	{
 		//liste durchgearbeitet, nextid wieder auf 0 setzen
-		nextgameid=0;
+		nextgameid = 0;
 		return FALSE;
 	}
 }
@@ -106,8 +106,8 @@ void Xfire_gamelist::Block(BOOL block)
 void Xfire_gamelist::Addgame(Xfire_game* newgame)
 {
 	//spielicon auslesen
-	Xfire_icon_cache icon=this->iconmngr.getGameIconEntry(newgame->id);
-	newgame->setIcon(icon.hicon,icon.handle);
+	Xfire_icon_cache icon = this->iconmngr.getGameIconEntry(newgame->id);
+	newgame->setIcon(icon.hicon, icon.handle);
 
 	gamelist.push_back(newgame);
 }
@@ -116,7 +116,7 @@ void Xfire_gamelist::Addgame(Xfire_game* newgame)
 BOOL Xfire_gamelist::Removegame(int id)
 {
 	std::vector<Xfire_game *>::iterator i = gamelist.begin();
-    while( i != gamelist.end() ) {
+	while (i != gamelist.end()) {
 		if ((*i)->id == id) {
 			(*i)->remoteMenuitem();
 			gamelist.erase(i);
@@ -131,48 +131,47 @@ BOOL Xfire_gamelist::Removegame(int id)
 int Xfire_gamelist::CurrentGame()
 {
 	this->SetGameStatus(TRUE);
-	return nextgameid-1;
+	return nextgameid - 1;
 }
 
 //erzeugt das menu der gameliste
 void Xfire_gamelist::createStartmenu()
 {
 	//keine games in der internen liste? abbruch
-	if (gamelist.size()==0)
+	if (gamelist.size() == 0)
 		return;
 
 	//sortierarray
-	int* sorttemp=new int[gamelist.size()];
+	int* sorttemp = new int[gamelist.size()];
 
 	//zuordnungen setzen
-	for(unsigned int i = 0 ; i < gamelist.size() ; i ++)
-		sorttemp[i]=i;
+	for (unsigned int i = 0; i < gamelist.size(); i++)
+		sorttemp[i] = i;
 
 	//sortiert mit bubblesortalgo
-	BOOL changed=FALSE;
+	BOOL changed = FALSE;
 	do
 	{
-		changed=FALSE;
-		for(unsigned int i = 1 ; i < gamelist.size() ; i ++)
+		changed = FALSE;
+		for (unsigned int i = 1; i < gamelist.size(); i++)
 		{
-			Xfire_game* game=(Xfire_game*)gamelist.at(sorttemp[i-1]);
-			Xfire_game* game2=(Xfire_game*)gamelist.at(sorttemp[i]);
+			Xfire_game* game = (Xfire_game*)gamelist.at(sorttemp[i - 1]);
+			Xfire_game* game2 = (Xfire_game*)gamelist.at(sorttemp[i]);
 			//sortieren
-			if (strcmp(game->name,game2->name)>0)
+			if (strcmp(game->name, game2->name) > 0)
 			{
-				int tempi=sorttemp[i-1];
-				sorttemp[i-1]=sorttemp[i];
-				sorttemp[i]=tempi;
-				changed=TRUE;
+				int tempi = sorttemp[i - 1];
+				sorttemp[i - 1] = sorttemp[i];
+				sorttemp[i] = tempi;
+				changed = TRUE;
 			}
 		}
-	}
-	while(changed);
+	} while (changed);
 
 	//menüpunkte anlegen
-	for(unsigned int i = 0 ; i < gamelist.size() ; i ++) {
-		Xfire_game* game=(Xfire_game*)gamelist.at(sorttemp[i]);
-		game->createMenuitem(i,sorttemp[i]);
+	for (unsigned int i = 0; i < gamelist.size(); i++) {
+		Xfire_game* game = (Xfire_game*)gamelist.at(sorttemp[i]);
+		game->createMenuitem(i, sorttemp[i]);
 	}
 
 	//entferne sortarray
@@ -185,8 +184,8 @@ void Xfire_gamelist::createStartmenu()
 //schreibt derzeitige gameliste in die db
 void Xfire_gamelist::writeDatabase()
 {
-	for(unsigned int i = 0 ; i < gamelist.size() ; i ++) {
-		Xfire_game* game=(Xfire_game*)gamelist.at(i);
+	for (unsigned int i = 0; i < gamelist.size(); i++) {
+		Xfire_game* game = (Xfire_game*)gamelist.at(i);
 		if (game) game->writeToDB(i);
 	}
 
@@ -195,17 +194,17 @@ void Xfire_gamelist::writeDatabase()
 }
 
 //prüft ob ein game schon in der liste is
-BOOL Xfire_gamelist::Gameinlist(int id,int*dbid)
+BOOL Xfire_gamelist::Gameinlist(int id, int*dbid)
 {
-	for(unsigned int i = 0 ; i < gamelist.size() ; i ++) {
-		Xfire_game* game=(Xfire_game*)gamelist.at(i);
+	for (unsigned int i = 0; i < gamelist.size(); i++) {
+		Xfire_game* game = (Xfire_game*)gamelist.at(i);
 		if (game)
 		{
-			if (game->id==id)
+			if (game->id == id)
 			{
 				//soll eine dbid zurückgeliefert werden? dann setzen
 				if (dbid)
-					*dbid=i;
+					*dbid = i;
 
 				return TRUE;
 			}
@@ -227,8 +226,8 @@ void Xfire_gamelist::clearStartmenu()
 	createDummyMenuItem();
 
 	//einzelene menüpunkte entfernen
-	for(unsigned int i = 0 ; i < gamelist.size() ; i ++) {
-		Xfire_game* game=(Xfire_game*)gamelist.at(i);
+	for (unsigned int i = 0; i < gamelist.size(); i++) {
+		Xfire_game* game = (Xfire_game*)gamelist.at(i);
 		if (game) game->remoteMenuitem();
 	}
 }
@@ -236,8 +235,8 @@ void Xfire_gamelist::clearStartmenu()
 //dekonstruktor
 void Xfire_gamelist::clearGamelist() {
 	createDummyMenuItem();
-	for(unsigned int i = 0 ; i < gamelist.size() ; i ++) {
-		Xfire_game* game=(Xfire_game*)gamelist.at(i);
+	for (unsigned int i = 0; i < gamelist.size(); i++) {
+		Xfire_game* game = (Xfire_game*)gamelist.at(i);
 		if (game) delete game;
 	}
 	gamelist.clear();
@@ -249,36 +248,36 @@ void Xfire_gamelist::createDummyMenuItem()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500090001;
 	mi.pszName = Translate("Please wait...");
-	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
+	mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(ID_OP));
 	mi.popupPosition = 500084000;
 	mi.pszPopupName = Translate("Start game");
-	mi.pszContactOwner=protocolname;
+	mi.pszContactOwner = protocolname;
 	dummymenuitem = Menu_AddMainMenuItem(&mi);
 }
 
 //entfernt dummymenueintrag
 void Xfire_gamelist::removeDummyMenuItem()
 {
-	CallService(MO_REMOVEMENUITEM, (WPARAM)dummymenuitem, 0 );	
+	CallService(MO_REMOVEMENUITEM, (WPARAM)dummymenuitem, 0);
 }
 
 //säubert die datenbank spiel einträge udn trägt custom spiele vorher nach
 void Xfire_gamelist::clearDatabase(BOOL dontaddcustom)
 {
-	BOOL somethingfound=TRUE;
-	int i3=0;
+	BOOL somethingfound = TRUE;
+	int i3 = 0;
 
 	//db durchsuchen
-	while(somethingfound) {
-		somethingfound=FALSE;
+	while (somethingfound) {
+		somethingfound = FALSE;
 		//customeintrag? dann ab in die gameliste damit
-		if (this->readBytefromDB("gamecustom",i3)==1)
+		if (this->readBytefromDB("gamecustom", i3) == 1)
 		{
 			//customgame nur in die liste adden wenn es gewollt is
 			if (!dontaddcustom)
 			{
 				//erzeuge gameobject
-				Xfire_game* game=new Xfire_game();
+				Xfire_game* game = new Xfire_game();
 				//lese das spiel ein
 				game->readFromDB(i3);
 				//spielicon auslesen
@@ -290,21 +289,21 @@ void Xfire_gamelist::clearDatabase(BOOL dontaddcustom)
 			}
 		}
 
-		if (this->removeDBEntry("gamecustom",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gameid",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamepath",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamepwargs",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gameuserargs",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamecmdline",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamencmdline",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamelaunch",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamenetargs",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamemulti",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamesendid",i3)) somethingfound=TRUE;
-		if (this->removeDBEntry("gamesetsmsg",i3)) somethingfound=TRUE;
+		if (this->removeDBEntry("gamecustom", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gameid", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamepath", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamepwargs", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gameuserargs", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamecmdline", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamencmdline", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamelaunch", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamenetargs", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamemulti", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamesendid", i3)) somethingfound = TRUE;
+		if (this->removeDBEntry("gamesetsmsg", i3)) somethingfound = TRUE;
 
-		for(int i2=0;i2<10;i2++)
-			if (this->removeDBEntry("gamepath",i3,i2)) somethingfound=TRUE;
+		for (int i2 = 0; i2 < 10; i2++)
+			if (this->removeDBEntry("gamepath", i3, i2)) somethingfound = TRUE;
 		i3++;
 	}
 }

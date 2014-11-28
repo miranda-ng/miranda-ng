@@ -12,7 +12,7 @@
 #define MBOT_TRIGGER "MBot/Trigger"
 
 //liefert den eigenen avatar zurück
-INT_PTR GetMyAvatar(WPARAM wparam,LPARAM lparam);
-int mBotNotify(WPARAM wparam,LPARAM lparam);
+INT_PTR GetMyAvatar(WPARAM wparam, LPARAM lparam);
+int mBotNotify(WPARAM wparam, LPARAM lparam);
 
 #endif

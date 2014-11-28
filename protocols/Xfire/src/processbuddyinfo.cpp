@@ -16,75 +16,75 @@ extern HANDLE	 XFireAvatarFolder;
 //vom Yahoo plugin
 /*int avt_hash(const char *key, DWORD ksize)
 {
-  const char *p = key;
-  int h = *p;
-  long l = 1;
-  
-  if (h)
-	for (p += 1; l < ksize; p++, l++)
-	  h = (h << 5) - h + *p;
+const char *p = key;
+int h = *p;
+long l = 1;
 
-  return h;
+if (h)
+for (p += 1; l < ksize; p++, l++)
+h = (h << 5) - h + *p;
+
+return h;
 }*/
 
-void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,MCONTACT hcontact,char* username) {
+void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, char* username) {
 	char temp[255] = "";
 	char filename[1024] = "";
-	BOOL dl=FALSE;
+	BOOL dl = FALSE;
 	int type;
 
 	//versuche doppeltes laden zuvermeiden
 	if (hcontact) //avatar von freunden
 	{
-		if (db_get_dw(hcontact, "ContactPhoto", "XFireAvatarId", 0)==buddyinfo->avatarid &&
-			db_get_b(hcontact, "ContactPhoto", "XFireAvatarMode", 0)==buddyinfo->avatarmode)
+		if (db_get_dw(hcontact, "ContactPhoto", "XFireAvatarId", 0) == buddyinfo->avatarid &&
+			db_get_b(hcontact, "ContactPhoto", "XFireAvatarMode", 0) == buddyinfo->avatarmode)
 			return;
 	}
 	else //eigeneder avatar
 	{
-		if (db_get_dw(hcontact, protocolname, "XFireAvatarId", 0)==buddyinfo->avatarid &&
-			db_get_b(hcontact, protocolname, "XFireAvatarMode", 0)==buddyinfo->avatarmode)
+		if (db_get_dw(hcontact, protocolname, "XFireAvatarId", 0) == buddyinfo->avatarid &&
+			db_get_b(hcontact, protocolname, "XFireAvatarMode", 0) == buddyinfo->avatarmode)
 			return;
 
 		//alten dateipfad des avatars löschen, wenn sichw as geändert hat
-		db_unset(NULL,protocolname, "MyAvatarFile");
+		db_unset(NULL, protocolname, "MyAvatarFile");
 	}
 
-	strcpy(filename, XFireGetFoldersPath ("Avatar"));
-	
-	switch(buddyinfo->avatarmode) {
-		case 1:
-			strcat(filename,username);
-			strcat(filename,".gif");
-			type=PA_FORMAT_GIF;
+	strcpy(filename, XFireGetFoldersPath("Avatar"));
 
-			mir_snprintf(temp, SIZEOF(temp), "/xfire/xf/images/avatars/gallery/default/%03d.gif", buddyinfo->avatarid);
+	switch (buddyinfo->avatarmode) {
+	case 1:
+		strcat(filename, username);
+		strcat(filename, ".gif");
+		type = PA_FORMAT_GIF;
 
-			dl=GetWWWContent("media.xfire.com",temp,filename,FALSE);
-			break;
-		case 2:
-			strcat(filename,username);
-			strcat(filename,".jpg");
-			type=PA_FORMAT_JPEG;
+		mir_snprintf(temp, SIZEOF(temp), "/xfire/xf/images/avatars/gallery/default/%03d.gif", buddyinfo->avatarid);
 
-			mir_snprintf(temp, SIZEOF(temp), "/avatar/100/%s.jpg?%d", username, buddyinfo->avatarid);
+		dl = GetWWWContent("media.xfire.com", temp, filename, FALSE);
+		break;
+	case 2:
+		strcat(filename, username);
+		strcat(filename, ".jpg");
+		type = PA_FORMAT_JPEG;
 
-			dl=GetWWWContent("screenshot.xfire.com",temp,filename,FALSE);
-			break;
-		case 3:
-			type=PA_FORMAT_GIF;
-			strcat(filename,"xfire.gif");
-	
-			mir_snprintf(temp, SIZEOF(temp), "/xfire/xf/images/avatars/gallery/default/xfire.gif", buddyinfo->avatarid);
+		mir_snprintf(temp, SIZEOF(temp), "/avatar/100/%s.jpg?%d", username, buddyinfo->avatarid);
 
-			dl=GetWWWContent("media.xfire.com",temp,filename,TRUE);
-			break;
-		default:
-			return;
+		dl = GetWWWContent("screenshot.xfire.com", temp, filename, FALSE);
+		break;
+	case 3:
+		type = PA_FORMAT_GIF;
+		strcat(filename, "xfire.gif");
+
+		mir_snprintf(temp, SIZEOF(temp), "/xfire/xf/images/avatars/gallery/default/xfire.gif", buddyinfo->avatarid);
+
+		dl = GetWWWContent("media.xfire.com", temp, filename, TRUE);
+		break;
+	default:
+		return;
 	}
 
 
-	if (dl!=FALSE)
+	if (dl != FALSE)
 	{
 		if (hcontact) //buddyavatar setzen
 		{
@@ -94,17 +94,17 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,MCONTACT hcontact,cha
 			AI.cbSize = sizeof(AI);
 			AI.format = type;
 			AI.hContact = hcontact;
-			lstrcpy(AI.filename,_A2T(filename));
-			ProtoBroadcastAck(protocolname, hcontact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS,(HANDLE) &AI, 0);
+			lstrcpy(AI.filename, _A2T(filename));
+			ProtoBroadcastAck(protocolname, hcontact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&AI, 0);
 		}
 		else //eigenen avatar setzen
 		{
 			db_set_dw(NULL, protocolname, "XFireAvatarId", buddyinfo->avatarid);
 			db_set_b(NULL, protocolname, "XFireAvatarMode", buddyinfo->avatarmode);
 			//neuen avatarfilepath eintragen
-			db_set_s(NULL,protocolname, "MyAvatarFile",filename);
+			db_set_s(NULL, protocolname, "MyAvatarFile", filename);
 			//beshceid geben, avatar hat sich geändert
-			CallService(MS_AV_REPORTMYAVATARCHANGED,(WPARAM)protocolname,0);
+			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)protocolname, 0);
 		}
 	}
 }

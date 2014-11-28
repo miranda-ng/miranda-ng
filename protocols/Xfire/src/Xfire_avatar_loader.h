@@ -1,5 +1,5 @@
 /*
- *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network. 
+ *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network.
  *
  *  Copyright (C) 2009 by
  *          dufte <dufte@justmail.de>
@@ -19,7 +19,7 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  *
- *  Miranda ICQ: the free icq client for MS Windows 
+ *  Miranda ICQ: the free icq client for MS Windows
  *  Copyright (C) 2000-2008  Richard Hughes, Roland Rabien & Tristan Van de Vreede
  *
  */
@@ -50,7 +50,7 @@ private:
 public:
 	vector<Xfire_avatar_process> list;
 	BOOL threadrunning;
-	BOOL loadAvatar(MCONTACT hcontact,char*username,unsigned int userid);
+	BOOL loadAvatar(MCONTACT hcontact, char*username, unsigned int userid);
 	Xfire_avatar_loader(xfirelib::Client* client);
 	~Xfire_avatar_loader();
 };
