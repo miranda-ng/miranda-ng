@@ -133,7 +133,11 @@ unsigned int utils::text::count_all(std::string* data, const std::string &term)
 
 void utils::text::append_ordinal(unsigned long value, std::string* data)
 {
-	if (value >= 128 && value <= 2047)
+	if (value <= 127)
+	{ // U+0000 .. U+007F
+		*data += (char)value;
+	}
+	else if (value >= 128 && value <= 2047)
 	{ // U+0080 .. U+07FF
 		*data += (char)(192 + (value / 64));
 		*data += (char)(128 + (value % 64));
@@ -144,9 +148,12 @@ void utils::text::append_ordinal(unsigned long value, std::string* data)
 		*data += (char)(128 + ((value / 64) % 64));
 		*data += (char)(128 + (value % 64));
 	}
-	else if (value <= 127)
-	{ // U+0000 .. U+007F
-		*data += (char)value;
+	else
+	{
+		*data += (char)((value >> 24) & 0xFF);
+		*data += (char)((value >> 16) & 0xFF);
+		*data += (char)((value >> 8) & 0xFF);
+		*data += (char)((value) & 0xFF);
 	}
 }
 
@@ -189,7 +196,7 @@ std::string utils::text::html_entities_decode(std::string data)
 
 				std::string num = data.substr(i, comma - i);
 				if (!num.empty()) {
-					unsigned int udn = strtol(num.c_str(), NULL, hexa ? 16 : 10);
+					unsigned long udn = strtoul(num.c_str(), NULL, hexa ? 16 : 10);
 					utils::text::append_ordinal(udn, &new_string);
 				}
 				
@@ -320,7 +327,7 @@ std::string utils::text::slashu_to_utf8(const std::string &data)
 	{
 		if (data.at(i) == '\\' && (i+1) < data.length() && data.at(i+1) == 'u')
 		{
-			unsigned int udn = strtol(data.substr(i + 2, 4).c_str(), NULL, 16);
+			unsigned long udn = strtoul(data.substr(i + 2, 4).c_str(), NULL, 16);
 			append_ordinal(udn, &new_string);
 			i += 5;
 			continue;
