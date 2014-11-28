@@ -34,7 +34,7 @@ void CDropbox::CommandContent(void *arg)
 	{
 		CMStringA message;
 
-		JSONNODE *root = json_parse(response->pData);
+		JSONROOT root(response->pData);
 		if (root)
 		{
 			JSONNODE *node = json_get(root, "is_dir");
@@ -91,7 +91,7 @@ void CDropbox::CommandShare(void *arg)
 		{
 			CMStringA link;
 
-			JSONNODE *root = json_parse(response->pData);
+			JSONROOT root(response->pData);
 			if (root)
 			{
 				JSONNODE *node = json_get(root, "url");
@@ -136,7 +136,7 @@ void CDropbox::CommandDelete(void *arg)
 
 		if (response && response->resultCode == HTTP_STATUS_OK)
 		{
-			JSONNODE *root = json_parse(response->pData);
+			JSONROOT root(response->pData);
 			if (root)
 			{
 				JSONNODE *node = json_get(root, "is_deleted");

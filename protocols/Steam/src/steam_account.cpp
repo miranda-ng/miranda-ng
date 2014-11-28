@@ -20,13 +20,12 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 
 	// load rsa key parts
-	JSONNODE *root = json_parse(response->pData), *node;
+	JSONROOT root(response->pData);
 	if (!root)
 		return;
 
-	node = json_get(root, "success");
+	JSONNODE *node = json_get(root, "success");
 	if (!json_as_bool(node)) {
-		json_delete(root);
 		return;
 	}
 
@@ -44,8 +43,6 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 	// encrcrypt password
 	ptrA base64RsaEncryptedPassword;
 	ptrA password(getStringA("Password"));
-
-	json_delete(root);
 
 	DWORD error = 0;
 	DWORD encryptedSize = 0;
@@ -83,9 +80,9 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 	}
 
-	JSONNODE *root = json_parse(response->pData), *node;
+	JSONROOT root(response->pData);
 
-	node = json_get(root, "success");
+	JSONNODE *node = json_get(root, "success");
 	if (json_as_bool(node) == 0)
 	{
 		node = json_get(root, "message");
@@ -94,7 +91,6 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		{
 			ShowNotification(TranslateTS(message));
 			SetStatus(ID_STATUS_OFFLINE);
-			json_delete(root);
 			return;
 		}
 
@@ -110,13 +106,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			GuardParam guard;
 			lstrcpyA(guard.domain, emailDomain);
 
-			if (DialogBoxParam(
-				g_hInstance,
-				MAKEINTRESOURCE(IDD_GUARD),
-				NULL,
-				CSteamProto::GuardProc,
-				(LPARAM)&guard) != 1) {
-				json_delete(root);
+			if (DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GUARD), NULL, CSteamProto::GuardProc, (LPARAM)&guard) != 1) {
 				return;
 			}
 
@@ -162,7 +152,6 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			if (res != 1)
 			{
 				SetStatus(ID_STATUS_OFFLINE);
-				json_delete(root);
 				return;
 			}
 
@@ -175,7 +164,6 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				&CSteamProto::OnAuthorization);
 		}
 
-		json_delete(root);
 		return;
 	}
 
@@ -183,12 +171,11 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 	if (!json_as_bool(node))
 	{
 		SetStatus(ID_STATUS_OFFLINE);
-		json_delete(root);
 		return;
 	}
 
 	node = json_get(root, "oauth");
-	JSONNODE *nroot = json_parse(ptrA(mir_u2a(json_as_string(node))));
+	JSONROOT nroot(ptrA(mir_u2a(json_as_string(node))));
 
 	node = json_get(nroot, "steamid");
 	ptrA steamId(mir_u2a(json_as_string(node)));
@@ -203,9 +190,6 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 
 	delSetting("Timestamp");
 	delSetting("EncryptedPassword");
-
-	json_delete(nroot);
-	json_delete(root);
 
 	PushRequest(
 		new SteamWebApi::GetSessionRequest(token, steamId, cookie),
@@ -244,9 +228,9 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 	}
 
-	JSONNODE *root = json_parse(response->pData), *node;
+	JSONROOT root(response->pData);
 
-	node = json_get(root, "error");
+	JSONNODE *node = json_get(root, "error");
 	ptrW error(json_as_string(node));
 	if (lstrcmpi(error, L"OK")/* || response->resultCode == HTTP_STATUS_UNAUTHORIZED*/)
 	{
@@ -256,7 +240,6 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 		// set status to offline
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
-		json_delete(root);
 		return;
 	}
 
@@ -265,8 +248,6 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 	
 	node = json_get(root, "message");
 	setDword("MessageID", json_as_int(node));
-
-	json_delete(root);
 
 	// load contact list
 	ptrA token(getStringA("TokenSecret"));

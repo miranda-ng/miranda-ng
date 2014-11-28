@@ -27,19 +27,17 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 	facebook_user* current = NULL;
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
 	if (payload == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
 	JSONNODE *list = json_get(payload, "buddy_list");
 	if (list == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -157,7 +155,6 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 		}
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -203,13 +200,12 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 	
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
 	if (payload == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -222,7 +218,6 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 		friends->insert(std::make_pair(fbu->user_id, fbu));
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -231,19 +226,17 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 	
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
 	if (payload == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
 	JSONNODE *list = json_get(payload, "notifications");
 	if (list == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -284,7 +277,6 @@ int facebook_json_parser::parse_notifications(void *data, std::map< std::string,
 			delete notification;
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -417,13 +409,12 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *ms = json_get(root, "ms");
 	if (ms == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -809,7 +800,6 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			continue;
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -817,19 +807,17 @@ int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::str
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 	
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
 	if (payload == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
 	JSONNODE *unread_threads = json_get(payload, "unread_thread_ids");
 	if (unread_threads == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -848,7 +836,6 @@ int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::str
 		}
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -856,20 +843,18 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
 	if (payload == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
 	JSONNODE *actions = json_get(payload, "actions");
 	JSONNODE *threads = json_get(payload, "threads");
 	if (actions == NULL || threads == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -1004,7 +989,6 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		messages->push_back(message);
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -1012,19 +996,17 @@ int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
 	if (payload == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
 	JSONNODE *threads = json_get(payload, "threads");
 	if (threads == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -1045,7 +1027,6 @@ int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
 		*user_id = id;
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -1054,19 +1035,17 @@ int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
 	if (payload == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
 	JSONNODE *profiles = json_get(payload, "profiles");
 	if (profiles == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -1083,7 +1062,6 @@ int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 		}
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -1091,20 +1069,18 @@ int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
-	JSONNODE *root = json_parse(jsonData.c_str());
+	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
 	if (payload == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
 	//JSONNODE *actions = json_get(payload, "actions");
 	JSONNODE *threads = json_get(payload, "threads");
 	if (/*actions == NULL || */threads == NULL) {
-		json_delete(root);
 		return EXIT_FAILURE;
 	}
 
@@ -1155,6 +1131,5 @@ int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
 		fbc->chat_name = json_as_string(name_);
 	}
 
-	json_delete(root);
 	return EXIT_SUCCESS;
 }

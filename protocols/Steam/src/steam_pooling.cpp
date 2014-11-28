@@ -188,8 +188,8 @@ void CSteamProto::PollingThread(void*)
 		if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 			return;
 
-		JSONNODE *root = json_parse(response->pData), *node;
-		node = json_get(root, "error");
+		JSONROOT root(response->pData);
+		JSONNODE *node = json_get(root, "error");
 		ptrW error(json_as_string(node));
 
 		if (!lstrcmpi(error, L"OK"))
@@ -207,7 +207,6 @@ void CSteamProto::PollingThread(void*)
 		}
 		else if (!lstrcmpi(error, L"Timeout"))
 		{
-			json_delete(root);
 			continue;
 		}
 		/*else if (!lstrcmpi(error, L"Not Logged On")) // 'else' below will handle this error, we don't need this particular check right now
@@ -234,7 +233,6 @@ void CSteamProto::PollingThread(void*)
 			breaked = true;
 		}
 
-		json_delete(root);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 	}
 

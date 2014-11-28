@@ -104,7 +104,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	} else if (strncmp(resp->pData, "{\"result\":", 10) == 0){
 
 		//if this url returns json data (11.2013 gg convention)
-		JSONNODE *respJSON = json_parse(resp->pData);
+		JSONROOT respJSON(resp->pData);
 		if (respJSON != NULL) {
 			JSONNODE* respJSONavatars = json_get(json_get(json_get(json_get(respJSON, "result"), "users"), "user"), "avatars");
 			if (respJSONavatars != NULL) {
@@ -117,7 +117,6 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 					*avatarts = mir_t2a(respJSONtimestamp);
 				}
 			}
-			json_delete(respJSON);
 		}
 
 	} else {
