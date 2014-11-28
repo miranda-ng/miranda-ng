@@ -242,7 +242,7 @@ void UpdateMenu(bool State)
 
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
 	Menu_ModifyItem(hService2[0], &mi);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : TTBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : 0);
 	db_set_b(NULL, MODULE, "AutoUpdate", !State);
 }
 

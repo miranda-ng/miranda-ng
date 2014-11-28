@@ -74,7 +74,7 @@ void ClcSetButtonState(int ctrlid, int status)
 {
 	for (int i = 0; i < SIZEOF(BTNS); i++)
 		if (BTNS[i].ctrlid == ctrlid) {
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, status ? TTBST_PUSHED : TTBST_RELEASED);
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, status ? TTBST_PUSHED : 0);
 			break;
 		}
 }

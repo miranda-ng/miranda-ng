@@ -447,7 +447,7 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	ShowWindow(hWndMain, SW_SHOW);
 
 	if (hTopToolbarButtonShowList != NULL)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTopToolbarButtonShowList, TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTopToolbarButtonShowList, 0);
 	return 0;
 }
 

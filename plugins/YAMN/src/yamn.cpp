@@ -322,6 +322,6 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 	LeaveCriticalSection(&PluginRegCS);
 	CloseHandle(ThreadRunningEV);
 
-	if (hTTButton) CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, TTBST_RELEASED);
+	if (hTTButton) CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, 0);
 	return 1;
 }

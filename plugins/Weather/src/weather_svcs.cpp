@@ -242,7 +242,7 @@ void UpdateMenu(BOOL State)
 
 	mi.flags = CMIM_ICON | CMIM_NAME;
 	Menu_ModifyItem(hEnableDisableMenu, &mi);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : TTBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : 0);
 
 }
 

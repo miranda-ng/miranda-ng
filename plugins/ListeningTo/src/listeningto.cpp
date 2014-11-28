@@ -166,7 +166,7 @@ void UpdateGlobalStatusMenus()
 	Menu_ModifyItem(proto_items[0].hMenu, &clmi);
 
 	if (hTTB != NULL)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM) hTTB, (LPARAM) (enabled ? TTBST_PUSHED : TTBST_RELEASED));
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM) hTTB, (LPARAM) (enabled ? TTBST_PUSHED : 0));
 }
 
 

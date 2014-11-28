@@ -680,7 +680,7 @@ BOOL New(HWND hwnd, ALARM &alarm, bool modal)
 		SetForegroundWindow(hwndDlg);
 		if (ServiceExists(MS_TTB_SETBUTTONSTATE)) {
 			Sleep(100);
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTopToolbarButton, (LPARAM)TTBST_RELEASED);
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTopToolbarButton, (LPARAM)0);
 		}
 
 		return TRUE;

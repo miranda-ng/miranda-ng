@@ -156,7 +156,7 @@ static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsU
 		sid.pszSection = "Toolbar";
 		sid.pszName = buf;
 		sid.pszDefaultFile = NULL;
-		mir_snprintf(buf, SIZEOF(buf), "%s %s", but->name, bIsUp ? (but->hIconDn ? "" : "") : "(pressed)");
+		mir_snprintf(buf, SIZEOF(buf), "%s%s", but->name, bIsUp ? "" : " (pressed)");
 		sid.pszDescription = buf;
 		sid.hDefaultIcon = bIsUp ? but->hIconUp : but->hIconDn;
 		hIcoLib = Skin_AddIcon(&sid);
@@ -304,7 +304,7 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	if (but->cbSize != sizeof(TTBButton) && but->cbSize != OLD_TBBUTTON_SIZE)
 		return -1;
 
-	if (!(but->dwFlags && TTBBF_ISLBUTTON) && nameexists(but->name))
+	if (!(but->dwFlags & TTBBF_ISLBUTTON) && nameexists(but->name))
 		return -1;
 
 	TopButtonInt *b = CreateButton(but);
@@ -355,8 +355,7 @@ INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 	if (b == NULL)
 		return -1;
 
-	b->bPushed = (lParam & TTBST_PUSHED) ? TRUE : FALSE;
-	b->bPushed = (lParam & TTBST_RELEASED) ? FALSE : TRUE;
+	b->bPushed = (lParam & TTBST_PUSHED) != 0;
 	b->SetBitmap();
 	return 0;
 }
@@ -371,7 +370,7 @@ INT_PTR TTBGetState(WPARAM wParam, LPARAM lParam)
 	if (b == NULL)
 		return -1;
 
-	int retval = (b->bPushed == TRUE) ? TTBST_PUSHED : TTBST_RELEASED;
+	int retval = (b->bPushed == TRUE) ? TTBST_PUSHED : 0;
 	return retval;
 }
 

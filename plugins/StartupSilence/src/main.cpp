@@ -316,7 +316,7 @@ void UpdateMenu()
 void UpdateTTB()
 {
 	if (hTTBarloaded != NULL && TTBButtons == 1)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)Buttons, (Enabled == 1 ?  TTBST_RELEASED : TTBST_PUSHED));
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)Buttons, (Enabled == 1 ?  0 : TTBST_PUSHED));
 }
 
 static int CreateTTButtons(WPARAM wParam, LPARAM lParam)

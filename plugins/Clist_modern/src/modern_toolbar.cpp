@@ -53,7 +53,7 @@ static BTNS[] =
 
 static void SetButtonPressed(int i, int state)
 {
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, state ? TTBST_PUSHED : TTBST_RELEASED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, state ? TTBST_PUSHED : 0);
 }
 
 void Modern_InitButtons()

@@ -250,7 +250,7 @@ static VOID CALLBACK releaseTtbTimerFunction(HWND hwnd,UINT message, UINT_PTR id
 {
 	KillTimer(NULL, releaseTtbTimerId);
 	for(int i=0; i < ttbButtonCount; i++)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)ttbButtons[i], TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)ttbButtons[i], 0);
 }
 
 INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam)

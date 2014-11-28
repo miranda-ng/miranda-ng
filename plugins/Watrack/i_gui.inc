@@ -69,7 +69,7 @@ begin
     if f1<>0 then
     begin
       p:='Enable WATrack';
-      CallService(MS_TTB_SETBUTTONSTATE,ttbState,TTBST_RELEASED)
+      CallService(MS_TTB_SETBUTTONSTATE,ttbState,0)
     end
     else
     begin

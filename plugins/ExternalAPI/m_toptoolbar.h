@@ -80,7 +80,6 @@ lparam = (LPARAM) state
 returns: 0 on success, -1 on failure.
 */
 #define TTBST_PUSHED			1
-#define TTBST_RELEASED		2
 
 #define MS_TTB_SETBUTTONSTATE					"TopToolBar/SetState"
 

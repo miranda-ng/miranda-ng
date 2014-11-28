@@ -118,7 +118,7 @@ INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (hTTBButt)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (LPARAM)TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (LPARAM)0);
 
 	return 0;
 }
