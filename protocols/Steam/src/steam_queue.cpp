@@ -117,7 +117,7 @@ void CSteamProto::ExecuteRequest(QueueItem *item)
 
 void CSteamProto::QueueThread(void*)
 {
-	debugLogA("CSteamProto::QueueThread: entering");
+	debugLog(_T("CSteamProto::QueueThread: entering"));
 
 	while (!isTerminated)
 	{
@@ -142,5 +142,5 @@ void CSteamProto::QueueThread(void*)
 		}
 	}
 
-	debugLogA("CSteamProto::QueueThread: leaving");
+	debugLog(_T("CSteamProto::QueueThread: leaving"));
 }

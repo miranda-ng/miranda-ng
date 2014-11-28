@@ -176,14 +176,14 @@ BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<FontInternal>& flist,
 			SelectObject(hdc, hOldFont);
 			DeleteObject(hFont);
 
-			strncat(buff, _itoa((BYTE)size.cy, abuff, 10), SIZEOF(buff));
+			strncat(buff, _itoa((BYTE)size.cy, abuff, 10), sizeof(buff));
 		}
 		else if (F.flags & FIDF_SAVEPOINTSIZE) {
 			HDC hdc = GetDC(hwndDlg);
-			strncat(buff, _itoa((BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)), abuff, 10), SIZEOF(buff));
+			strncat(buff, _itoa((BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)), abuff, 10), sizeof(buff));
 			ReleaseDC(hwndDlg, hdc);
 		}
-		else strncat(buff, _itoa((BYTE)F.value.size, abuff, 10), SIZEOF(buff));
+		else strncat(buff, _itoa((BYTE)F.value.size, abuff, 10), sizeof(buff));
 
 		WriteLine(fhand, buff);
 

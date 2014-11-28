@@ -87,7 +87,7 @@ BYTE trillianLedsMsg, trillianLedsURL, trillianLedsFile, trillianLedsOther;
 // **
 // ** Initialize the Miranda options page
 // **
-int InitializeOptions(WPARAM wParam,LPARAM lParam)
+int InitializeOptions(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
@@ -654,17 +654,14 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		
 						if(IsDlgButtonChecked(hwndDlg, IDC_INTURN) == BST_CHECKED)
 							db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INTURN);
+						else if (IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED)
+							db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INSEQUENCE);
+						else if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED)
+							db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_CUSTOM);
+						else if (IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED)
+							db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_TRILLIAN);
 						else
-							if (IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED)
-								db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INSEQUENCE);
-							else
-								if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED)
-									db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_CUSTOM);
-								else
-									if (IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED)
-										db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_TRILLIAN);
-									else
-										db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_SAMETIME);
+							db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_SAMETIME);
 						db_set_b(NULL, KEYBDMODULE, "order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
 						db_set_w(NULL, KEYBDMODULE, "custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
 
@@ -715,7 +712,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				int index = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.ptszVal);
 				db_free(&dbv);
 				if (index != CB_ERR && index != CB_ERRSPACE) {
-					str = (TCHAR *)malloc(MAX_PATH+1);
+					str = (TCHAR *)malloc((MAX_PATH+1)*sizeof(TCHAR));
 					if (str)
 						if (db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
 							str[0] = _T('\0');
@@ -782,11 +779,11 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return TRUE;
 			case IDC_CUSTOMSTRING:
 				if(HIWORD(wParam) == EN_CHANGE) {
-					int item;
 					TCHAR theme[MAX_PATH+1], customAux[MAX_PATH+1];
 
 					GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
-					if ((item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme)) == CB_ERR)
+					int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+					if (item == CB_ERR)
 						return TRUE;
 					str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 					if (str) {
@@ -809,14 +806,13 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return TRUE;
 			case IDC_ADD:
 				{
-				int item;
 				TCHAR theme[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
 				if (!theme[0])
 					return TRUE;
-				item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-				str = (TCHAR *)malloc(MAX_PATH+1);
+				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
+				str = (TCHAR *)malloc((MAX_PATH+1)*sizeof(TCHAR));
 				if (str) {
 					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
 					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
@@ -830,11 +826,10 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return TRUE;
 			case IDC_UPDATE:
 				{
-				int item;
 				TCHAR theme[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
-				item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 				str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str) {
 					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
@@ -846,11 +841,10 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return TRUE;
 			case IDC_DELETE:
 				{
-				int item;
 				TCHAR theme[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, SIZEOF(theme));
-				item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 				str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str)
 					free(str);
@@ -1033,13 +1027,13 @@ void exportThemes(const TCHAR *filename)
 
 void importThemes(const TCHAR *filename, BOOL overrideExisting)
 {
-	int status=0;
-	size_t i;
 	FILE *fImport = _tfopen(filename, _T("rt"));
-	TCHAR buffer[MAX_PATH+1], theme[MAX_PATH+1], *str;
-
 	if (!fImport)
 		return;
+
+	int status=0;
+	size_t i;
+	TCHAR buffer[MAX_PATH+1], theme[MAX_PATH+1], *str;
 
 	while (_fgetts(buffer, MAX_PATH, fImport) != NULL) {
 		for (str=buffer; *str && isspace(*str); str++); //ltrim
@@ -1067,13 +1061,12 @@ void importThemes(const TCHAR *filename, BOOL overrideExisting)
 
 void writeThemeToCombo(const TCHAR *theme, const TCHAR *custom, BOOL overrideExisting)
 {
-	int item;
 	TCHAR *str;
 
-	item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+	int item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 	if (item == CB_ERR) {
 		item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-		str = (TCHAR *)malloc(MAX_PATH+1);
+		str = (TCHAR *)malloc((MAX_PATH+1)*sizeof(TCHAR));
 		if (str)
 			_tcscpy(str, custom);
 		SendDlgItemMessage(hwndTheme, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
@@ -1174,7 +1167,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						TCHAR szFileNameAux[MAX_PATH+1];
 
 						SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETLBTEXT, (WPARAM)i, (LPARAM)szFileNameAux);
-						ProcessListAux.szFileName[i] = (TCHAR *)malloc(_tcslen(szFileNameAux) + 1);
+						ProcessListAux.szFileName[i] = (TCHAR *)malloc((_tcslen(szFileNameAux) + 1)*sizeof(TCHAR));
 						if (ProcessListAux.szFileName[i])
 							_tcscpy(ProcessListAux.szFileName[i], szFileNameAux);
 					}
@@ -1193,7 +1186,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 void createProcessListAux(void)
 {
 	ProcessListAux.count = ProcessList.count;
-	ProcessListAux.szFileName = (TCHAR **)malloc(ProcessListAux.count * sizeof(char *));
+	ProcessListAux.szFileName = (TCHAR **)malloc(ProcessListAux.count * sizeof(TCHAR *));
 	if (!ProcessListAux.szFileName)
 		ProcessListAux.count = 0;
 	else
@@ -1201,7 +1194,7 @@ void createProcessListAux(void)
 			if (!ProcessList.szFileName[i])
 				ProcessListAux.szFileName[i] = NULL;
 			else {
-				ProcessListAux.szFileName[i] = (TCHAR *)malloc(_tcslen(ProcessList.szFileName[i]) + 1);
+				ProcessListAux.szFileName[i] = (TCHAR *)malloc((_tcslen(ProcessList.szFileName[i]) + 1)*sizeof(TCHAR));
 				if (ProcessListAux.szFileName[i])
 					_tcscpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
 			}
@@ -1337,9 +1330,6 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		{
 			WPARAM j;
-			int imageCount;
-			HICON hIconAux;
-			HIMAGELIST hImageList;
 			TVINSERTSTRUCT tvis={0};
 			TVITEM tvi={0};
 			HTREEITEM hSectionItem, hItem;
@@ -1351,16 +1341,19 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (!XstatusListAux) return TRUE;
 
 			// Calculate hImageList size
-			imageCount=1;
+			int imageCount=1;
 			for (int i = 0; i < ProtoList.protoCount; i++)
 				if (ProtoList.protoInfo[i].enabled && XstatusListAux[i].count)
 					imageCount += XstatusListAux[i].count;
 	
-			hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, imageCount, imageCount);
+			HIMAGELIST hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, imageCount, imageCount);
 			TreeView_SetImageList(hwndTree, hImageList, TVSIL_NORMAL);
 
-			ImageList_AddIcon(hImageList, hIconAux=(HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
-			if (hIconAux) DestroyIcon(hIconAux);
+			HICON hIconAux=(HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0);
+			if (hIconAux) {
+				ImageList_AddIcon(hImageList, hIconAux);
+				DestroyIcon(hIconAux);
+			}
 
 			TreeView_SelectItem(hwndTree, NULL);
 			ShowWindow(hwndTree, SW_HIDE);
@@ -1368,9 +1361,8 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			for (int i = 0; i < ProtoList.protoCount; i++)
 				if (ProtoList.protoInfo[i].enabled && XstatusListAux[i].count) {
-					HTREEITEM hParent;
-
-					int count; PROTOACCOUNT** protos;
+					int count;
+					PROTOACCOUNT **protos;
 					ProtoEnumAccounts( &count, &protos );
 
 					tvis.hParent = NULL;
@@ -1382,7 +1374,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					tvis.item.state = TVIS_BOLD|TVIS_EXPANDED;
 					tvis.item.iImage = tvis.item.iSelectedImage = ImageList_AddIcon(hImageList, hIconAux=(HICON)CallProtoService(ProtoList.protoInfo[i].szProto, PS_LOADICON, PLI_PROTOCOL, 0));
 					if (hIconAux) DestroyIcon(hIconAux);
-					hParent = TreeView_InsertItem(hwndTree, &tvis);
+					HTREEITEM hParent = TreeView_InsertItem(hwndTree, &tvis);
 					for (j = 0; j < XstatusListAux[i].count; j++) {
 						tvis.hParent = hParent;
 						tvis.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
@@ -1426,10 +1418,8 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case WM_DESTROY:
 		{
-			HIMAGELIST hImageList;
-
 			// Destroy tree view imagelist since it does not get destroyed automatically (see msdn docs)
-			hImageList = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), TVSIL_STATE);
+			HIMAGELIST hImageList = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), TVSIL_STATE);
 			if (hImageList) {
 				TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), NULL, TVSIL_STATE);
 				ImageList_Destroy(hImageList);

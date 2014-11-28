@@ -619,7 +619,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			LONG y_pad = M.GetByte("y-pad", 3) + ((pContainer->dwFlags & CNT_TABSBOTTOM) ? 1 : 0);
 
 			if (pContainer->dwFlagsEx & TCF_FLAT)
-				y_pad += 1; //(pContainer->dwFlags & CNT_TABSBOTTOM ? 1 : 2);
+				y_pad++; //(pContainer->dwFlags & CNT_TABSBOTTOM ? 1 : 2);
 
 			TabCtrl_SetPadding(GetDlgItem(hwndDlg, IDC_MSGTABS), x_pad, y_pad);
 
@@ -838,14 +838,12 @@ panel_found:
 				}
 				else if (((LPNMHDR)lParam)->code == NM_RCLICK) {
 					POINT pt;
-					MCONTACT hContact = 0;
-					HMENU hMenu;
-
 					GetCursorPos(&pt);
+					MCONTACT hContact = 0;
 					SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 					if (hContact) {
 						int iSel = 0;
-						hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
+						HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
 						iSel = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 						if (iSel)
 							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), hContact);
@@ -1000,9 +998,7 @@ panel_found:
 				{
 					RECT rc;
 					LONG dwNewLeft;
-					BOOL skinnedMode = bSkinned;
-
-					skinnedMode |= (IsThemeActive() ? 1 : 0);
+					BOOL skinnedMode = bSkinned | (IsThemeActive() ? 1 : 0);
 
 					GetWindowRect(hwndDlg, &rc);
 

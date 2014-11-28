@@ -247,7 +247,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 	};
 
 	// clean up old stuff
-	ZeroMemory(Data, sizeof(Data));
+	ZeroMemory(Data, sizeof(*Data));
 	Data->Enabled = FALSE;
 
 	// open the ini file

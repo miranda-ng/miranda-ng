@@ -841,7 +841,6 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 				m_dwFlags |= IMAGE_FLAG_DIVIDED;
 			m_bf.BlendFlags = 0;
 			m_bf.BlendOp = AC_SRC_OVER;
-			m_bf.AlphaFormat = 0;
 			m_dwFlags |= IMAGE_PERPIXEL_ALPHA;
 			m_bf.AlphaFormat = AC_SRC_ALPHA;
 			if (m_inner_height <= 0 || m_inner_width <= 0) {
@@ -1371,7 +1370,6 @@ void CSkin::Load(void)
 	if (!m_tszFileName[0] || !::PathFileExists(m_tszFileName))
 		return;
 
-	TCHAR *p;
 	TCHAR *szSections = (TCHAR*)mir_alloc(6004);
 	int i = 1, j = 0;
 	UINT  data;
@@ -1407,10 +1405,9 @@ void CSkin::Load(void)
 	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 
 	ZeroMemory(szSections, 6000);
-	p = szSections;
 	GetPrivateProfileSectionNames(szSections, 3000, m_tszFileName);
 	szSections[3001] = szSections[3000] = 0;
-	p = szSections;
+	TCHAR *p = szSections;
 	while (lstrlen(p) > 1) {
 		if (p[0] != '%') {
 			p += (lstrlen(p) + 1);
@@ -1719,19 +1716,19 @@ void CSkin::setupAeroSkins()
 		float fmax = max(max(fr, fg), fb);
 
 		if (fmax == fr) {
-			fr *= (alphafactor / 100 * 2.2);
+			fr *= (alphafactor / 100.0 * 2.2);
 			fr = min(fr, 255);
 			fb = min(fb * alphafactor / 100, 255);
 			fg = min(fg * alphafactor / 100, 255);
 		}
 		else if (fmax == fg) {
-			fg *= (alphafactor / 100 * 2.2);
+			fg *= (alphafactor / 100.0 * 2.2);
 			fg = min(fg, 255);
 			fr = min(fr * alphafactor / 100, 255);
 			fb = min(fb * alphafactor / 100, 255);
 		}
 		else {
-			fb *= (alphafactor / 100 * 2.2);
+			fb *= (alphafactor / 100.0 * 2.2);
 			fb = min(fb, 255);
 			fr = min(fr * alphafactor / 100, 255);
 			fg = min(fg * alphafactor / 100, 255);
@@ -1838,11 +1835,9 @@ void CSkin::setupAeroSkins()
 
 void CSkin::SkinCalcFrameWidth()
 {
-	int xBorder, yBorder, yCaption;
-
-	xBorder = GetSystemMetrics(SM_CXSIZEFRAME);
-	yBorder = GetSystemMetrics(SM_CYSIZEFRAME);
-	yCaption = GetSystemMetrics(SM_CYCAPTION);
+	int xBorder = GetSystemMetrics(SM_CXSIZEFRAME);
+	int yBorder = GetSystemMetrics(SM_CYSIZEFRAME);
+	int yCaption = GetSystemMetrics(SM_CYCAPTION);
 
 	m_realSkinnedFrame_left = m_SkinnedFrame_left - xBorder;
 	m_realSkinnedFrame_right = m_SkinnedFrame_right - xBorder;

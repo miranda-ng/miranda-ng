@@ -557,9 +557,9 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	ofn.lpstrFile = file;
 
 	TCHAR *displayName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
+	TCHAR title[MAX_PATH];
 	if (displayName)
 	{
-		TCHAR title[MAX_PATH];
 		mir_sntprintf(title,sizeof(title),TranslateT("Save Avatar for %s"),displayName);
 		ofn.lpstrTitle = title;
 	}

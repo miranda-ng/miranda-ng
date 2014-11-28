@@ -128,7 +128,7 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void __stdcall ShowRoomFromPopup(void * pi)
+static void __stdcall ShowRoomFromPopup(void *pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;
 	ci.ShowRoom(si, WINDOW_VISIBLE, TRUE);

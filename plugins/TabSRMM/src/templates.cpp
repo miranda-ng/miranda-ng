@@ -118,11 +118,10 @@ void LoadDefaultTemplates()
 
 INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TWindowData *dat;
 	TemplateEditorInfo *teInfo = 0;
 	TTemplateSet *tSet;
 	int i;
-	dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	/*
 	* since this dialog needs a MessageWindowData * but has no container, we can store
 	* the extended info struct in pContainer *)

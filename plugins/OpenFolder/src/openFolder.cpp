@@ -27,13 +27,13 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-static INT_PTR MenuCommand_OpenFolder(WPARAM wParam, LPARAM lParam)
+static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 {
 	TCHAR szMirandaPath[MAX_PATH];
 	GetModuleFileName( GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
 	TCHAR* p = _tcsrchr( szMirandaPath, '\\' );
-	if ( p && p + 1 )
-		*( p + 1 ) = 0;
+	if ( p && *(++p))
+		*p = 0;
 
 	if ( GetAsyncKeyState( VK_CONTROL ) & 0x8000 )
 		ShellExecute(0, _T("explore"), szMirandaPath, 0, 0, SW_SHOWNORMAL);
@@ -44,7 +44,7 @@ static INT_PTR MenuCommand_OpenFolder(WPARAM wParam, LPARAM lParam)
 }
 
 // toptoolbar (if plugin is installed)
-static int ToptoolBarHook(WPARAM wParam, LPARAM lParam)
+static int ToptoolBarHook(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.hIconHandleUp = icon.hIcolib;
@@ -55,28 +55,9 @@ static int ToptoolBarHook(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_TTB_MODULELOADED, ToptoolBarHook);
-	
-	// hotkeys service (0.8+)
-	HOTKEYDESC hotkey = { 0 };
-	hotkey.cbSize = sizeof(hotkey);
-	hotkey.dwFlags = HKD_TCHAR;
-	hotkey.pszName = "Open Folder";
-	hotkey.ptszDescription = LPGENT("Open Folder");
-	hotkey.ptszSection = LPGENT("Main");
-	hotkey.pszService = MS_OPENFOLDER_OPEN;
-	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
-	Hotkey_Register(&hotkey);
-
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.position = 0x7FFFFFFF;
-	mi.flags = CMIF_TCHAR;
-	mi.icolibItem = icon.hIcolib;
-	mi.ptszName = LPGENT("Open Folder");
-	mi.pszService = MS_OPENFOLDER_OPEN;
-	Menu_AddMainMenuItem(&mi);
 	return 0;
 }
 
@@ -104,6 +85,25 @@ extern "C" int __declspec( dllexport ) Load()
 
 	// icolib (0.7+)
 	Icon_Register(hInst, LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
+	
+	// hotkeys service (0.8+)
+	HOTKEYDESC hotkey = { 0 };
+	hotkey.cbSize = sizeof(hotkey);
+	hotkey.dwFlags = HKD_TCHAR;
+	hotkey.pszName = "Open Folder";
+	hotkey.ptszDescription = LPGENT("Open Folder");
+	hotkey.ptszSection = LPGENT("Main");
+	hotkey.pszService = MS_OPENFOLDER_OPEN;
+	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
+	Hotkey_Register(&hotkey);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 0x7FFFFFFF;
+	mi.flags = CMIF_TCHAR;
+	mi.icolibItem = icon.hIcolib;
+	mi.ptszName = LPGENT("Open Folder");
+	mi.pszService = MS_OPENFOLDER_OPEN;
+	Menu_AddMainMenuItem(&mi);
 
 	return 0;
 }

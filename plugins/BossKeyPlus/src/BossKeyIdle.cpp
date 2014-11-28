@@ -34,7 +34,7 @@ static bool IsUserIdle()
 {
 	DWORD dwTick;
 	if ( g_wMaskAdv & OPT_HIDEIFMIRIDLE ) {
-		CallService(MS_SYSTEM_GETIDLE, 0, (DWORD)&dwTick);
+		CallService(MS_SYSTEM_GETIDLE, 0, (LPARAM)&dwTick);
 		return GetTickCount() - dwTick > (minutes * 60 * 1000);
 	}
 

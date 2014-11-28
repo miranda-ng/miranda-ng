@@ -102,7 +102,7 @@ void DlgFilterWords::onWMInitDialog()
 	{
 		const Filter* pFilter = *i;
 
-		HANDLE hCheck = m_Sets.insertCheck(NULL, pFilter->getName().c_str(), 0, reinterpret_cast<DWORD>(pFilter));
+		HANDLE hCheck = m_Sets.insertCheck(NULL, pFilter->getName().c_str(), 0, reinterpret_cast<INT_PTR>(pFilter));
 
 		if (m_bColProvided && m_ColFilters.find(pFilter->getID()) != m_ColFilters.end())
 			m_Sets.checkItem(hCheck, true);

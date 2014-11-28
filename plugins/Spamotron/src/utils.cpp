@@ -206,25 +206,24 @@ int get_response_num(const TCHAR *str)
 	return i;
 }
 
-TCHAR* get_response(TCHAR* dst, unsigned int dstlen, int num)
+TCHAR* get_response(TCHAR *dst, unsigned int dstlen, int num)
 {
-	int i = 0;
-	TCHAR *tmp, *src = NULL;
 	if (num < 0)
 		return dst;
-	src = (TCHAR*)malloc(MAX_BUFFER_LENGTH * sizeof(TCHAR));
+	TCHAR *src = (TCHAR*)malloc(MAX_BUFFER_LENGTH * sizeof(TCHAR));
+	int i = 0;
 	if (src != NULL) {
 		_getOptS(src, MAX_BUFFER_LENGTH, "Response", defaultResponse);
-		_tcscpy(src, src);
-		tmp = _tcstok(src, L"\r\n");
+		_tcsncpy(dst, src, dstlen);
+		TCHAR *tmp = _tcstok(src, L"\r\n");
 		while (tmp) {
 			if (i == num) {
-				_tcscpy(dst, tmp);
+				_tcsncpy(dst, tmp, dstlen);
 				free(src);
 				return dst;
 			}
 			i++;
-			tmp = _tcstok(NULL, L"\r\n");
+			tmp = _tcstok(src, L"\r\n");
 		}
 		free(src);
 	}

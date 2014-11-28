@@ -261,7 +261,6 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 				hrgn=CreatePolygonRgn(aptTriangle,SIZEOF(aptTriangle),WINDING);
 				if (hrgn!=NULL) {
 					SelectClipRgn(hdc,hrgn);
-					DeleteObject(hrgn);
 					hbmPrev=(HBITMAP)SelectObject(hdc,icoi.hbmColor);
 					if (hbmPrev!=NULL) {  /* error on select? */
 						if (DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_IMAGE)) {

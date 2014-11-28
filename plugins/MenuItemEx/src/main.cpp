@@ -510,6 +510,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 	DestroyIcon(hIconCID);
 	hIconCID = mi.hIcon;
 
+	TCHAR buffer[256];
 	char szID[256];
 	GetID(hContact, szProto, (LPSTR)&szID);
 	if (szID[0])  {
@@ -519,7 +520,6 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 				szID[MAX_IDLEN + 1] = 0;
 			}
 
-			TCHAR buffer[256];
 			mir_sntprintf(buffer, SIZEOF(buffer), _T("%s [%S]"), TranslateT("Copy ID"), szID);
 			mi.ptszName = buffer;
 		}

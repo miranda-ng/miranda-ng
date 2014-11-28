@@ -109,7 +109,7 @@ void DialogConfigEngine::load(HWND window)
 	std::vector<std::wstring> engines = si.getAvailableEngines();
 	for (unsigned int i = 0; i < engines.size(); ++i)
 	{
-		SendDlgItemMessage(window, IDC_SELECT_ENGINE, CB_ADDSTRING, 0, (long)(engines[i].c_str()));
+		SendDlgItemMessage(window, IDC_SELECT_ENGINE, CB_ADDSTRING, 0, (LPARAM)(engines[i].c_str()));
 	}
 
 	VoiceDesc desc = m_db.getVoiceDesc();
@@ -120,7 +120,7 @@ void DialogConfigEngine::load(HWND window)
 	SendDlgItemMessage(window, IDC_SLIDER_RATE, TBM_SETPOS, TRUE, desc.rate);
 
 	// select the speech engine
-	SendDlgItemMessage(window, IDC_SELECT_ENGINE, CB_SELECTSTRING, 0, reinterpret_cast<long>(desc.engine.c_str()));
+	SendDlgItemMessage(window, IDC_SELECT_ENGINE, CB_SELECTSTRING, 0, reinterpret_cast<LPARAM>(desc.engine.c_str()));
 
 	// initialise the welcome message box
 	SetDlgItemText(window, IDC_WELCOME_MSG, m_db.getWelcomeMessage().c_str());
@@ -158,13 +158,13 @@ void DialogConfigEngine::updateVoices(HWND window)
 	for (unsigned int i = 0; i < voices.size(); ++i)
 	{
 		SendDlgItemMessage(window, IDC_SELECT_VOICE, CB_ADDSTRING, 0, 
-			(long)voices[i].c_str());
+			(LPARAM)voices[i].c_str());
 	}
 
 	// get the voice saved in the database
 	std::wstring voice = m_db.getVoiceDesc().voice;
 	
-	if (FAILED(SendDlgItemMessage(window, IDC_SELECT_VOICE, CB_FINDSTRINGEXACT, 0, (long)voice.c_str())))
+	if (FAILED(SendDlgItemMessage(window, IDC_SELECT_VOICE, CB_FINDSTRINGEXACT, 0, (LPARAM)voice.c_str())))
 	{
 		// select the first one
 		SendDlgItemMessage(window, IDC_SELECT_VOICE, CB_SETCURSEL , 0, 0);

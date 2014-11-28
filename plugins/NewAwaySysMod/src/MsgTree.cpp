@@ -674,7 +674,7 @@ CBaseTreeItem* CMsgTree::GetNextItem(int Flags, CBaseTreeItem* Item) // Item is 
 		default: _ASSERT(0);
 	}
 	int Order = TreeCtrl->hItemToOrder(TreeView_GetNextItem(hTreeView, TreeItem ? TreeItem->hItem : NULL, TVFlag));
-	if (Order =- -1)
+	if (Order == -1)
 		return NULL;
 
 	return (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->Value[Order];

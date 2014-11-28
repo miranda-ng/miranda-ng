@@ -613,7 +613,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			for (int i = 0; i < SIZEOF(Tooltips); i++) {
-				ti.uId = (UINT)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
+				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, Tooltips[i].DlgItemID);
 				ti.lpszText = TranslateTS(Tooltips[i].Text);
 				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			}

@@ -804,7 +804,6 @@ bool PopupSkin::load(LPCTSTR dir)
 		HANDLE hFind = FindFirstFile(_T("*.popupskin"), &ffd);
 		while (hFind != INVALID_HANDLE_VALUE) {
 			loadSkin(ffd.cFileName);
-			break;
 			if (!FindNextFile(hFind, &ffd))
 				break;
 		}

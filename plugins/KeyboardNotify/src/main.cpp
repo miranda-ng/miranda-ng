@@ -452,13 +452,13 @@ static VOID CALLBACK ReminderTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DW
 
 
 // Support for third-party plugins and mBot's scripts
-static INT_PTR EnableService(WPARAM wParam, LPARAM lParam)
+static INT_PTR EnableService(WPARAM, LPARAM)
 {
 	bFlashingEnabled = TRUE;
 	return 0;
 }
 
-static INT_PTR DisableService(WPARAM wParam, LPARAM lParam)
+static INT_PTR DisableService(WPARAM, LPARAM)
 {
 	bFlashingEnabled = FALSE;
 	return 0;
@@ -487,12 +487,12 @@ static INT_PTR EventsWereOpenedService(WPARAM wParam, LPARAM lParam)
 }
 
 
-static INT_PTR IsFlashingActiveService(WPARAM wParam, LPARAM lParam)
+static INT_PTR IsFlashingActiveService(WPARAM, LPARAM)
 {
 	if (!bReminderDisabled)
 		return 0;
 
-	return (int)getCurrentSequenceString();
+	return (INT_PTR)getCurrentSequenceString();
 }
 
 
@@ -508,10 +508,11 @@ INT_PTR NormalizeSequenceService(WPARAM wParam, LPARAM lParam)
 
 
 // Support for Trigger plugin
-static void ForceEventsWereOpenedThread(void *eventMaxSeconds)
+static DWORD WINAPI ForceEventsWereOpenedThread(void *eventMaxSeconds)
 {
 	Sleep(((WORD)eventMaxSeconds) * 1000);
 	CallService(MS_KBDNOTIFY_EVENTSOPENED, 1, 0);
+	return 0;
 }
 
 
@@ -520,7 +521,7 @@ void StartBlinkAction(char *flashSequence, WORD eventMaxSeconds)
 	DWORD threadID = 0;
 
 	if (eventMaxSeconds)
-		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ForceEventsWereOpenedThread, (void *)eventMaxSeconds, 0, &threadID);
+		CreateThread(NULL, 0, ForceEventsWereOpenedThread, (void *)eventMaxSeconds, 0, &threadID);
 
 	CallService(MS_KBDNOTIFY_STARTBLINK, 1, (LPARAM)flashSequence);
 }
@@ -540,7 +541,7 @@ void createProcessList(void)
 			if (db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i), &dbv))
 				ProcessList.szFileName[i] = NULL;
 			else {
-				ProcessList.szFileName[i] = (TCHAR *)malloc(wcslen(dbv.ptszVal) + 1);
+				ProcessList.szFileName[i] = (TCHAR *)malloc((wcslen(dbv.ptszVal) + 1)*sizeof(TCHAR));
 				if (ProcessList.szFileName[i])
 					wcscpy(ProcessList.szFileName[i], dbv.ptszVal);
 				db_free(&dbv);
@@ -586,9 +587,9 @@ void LoadSettings(void)
 	bMirandaOrWindows = db_get_b(NULL, KEYBDMODULE, "mirorwin", DEF_SETTING_MIRORWIN);
 	wStatusMap = db_get_w(NULL, KEYBDMODULE, "status", DEF_SETTING_STATUS);
 	wReminderCheck = db_get_w(NULL, KEYBDMODULE, "remcheck", DEF_SETTING_CHECKTIME);
-	bFlashLed[0] = !!db_get_b(NULL, KEYBDMODULE, "fnum", DEF_SETTING_FLASHNUM);
-	bFlashLed[1] = !!db_get_b(NULL, KEYBDMODULE, "fcaps", DEF_SETTING_FLASHCAPS);
-	bFlashLed[2] = !!db_get_b(NULL, KEYBDMODULE, "fscroll", DEF_SETTING_FLASHSCROLL);
+	bFlashLed[0] = db_get_b(NULL, KEYBDMODULE, "fnum", DEF_SETTING_FLASHNUM);
+	bFlashLed[1] = db_get_b(NULL, KEYBDMODULE, "fcaps", DEF_SETTING_FLASHCAPS);
+	bFlashLed[2] = db_get_b(NULL, KEYBDMODULE, "fscroll", DEF_SETTING_FLASHSCROLL);
 	bFlashEffect = db_get_b(NULL, KEYBDMODULE, "feffect", DEF_SETTING_FLASHEFFECT);
 	bSequenceOrder = db_get_b(NULL, KEYBDMODULE, "order", DEF_SETTING_SEQORDER);
 	wCustomTheme = db_get_w(NULL, KEYBDMODULE, "custom", DEF_SETTING_CUSTOMTHEME);
@@ -729,7 +730,7 @@ static int OnMetaChanged(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	TCHAR eventPrefix[MAX_PATH+1], eventName[MAX_PATH+1];
 

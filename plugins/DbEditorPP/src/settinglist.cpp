@@ -659,8 +659,8 @@ INT_PTR CALLBACK SettingsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	const int maxSize = 1024;
 	TCHAR text1[maxSize];
 	TCHAR text2[maxSize];
-	ListView_GetItemText(params.hList, (int)lParam1, params.column, text1, maxSize);
-	ListView_GetItemText(params.hList, (int)lParam2, params.column, text2, maxSize);
+	ListView_GetItemText(params.hList, lParam1, params.column, text1, maxSize);
+	ListView_GetItemText(params.hList, lParam2, params.column, text2, maxSize);
 
 	int res = _tcsicmp(text1, text2);
 	res = (params.column == lastColumn) ? -res : res;

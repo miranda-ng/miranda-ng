@@ -156,7 +156,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 				// get sender's uin
 				CONTACTINFO ci = { sizeof(ci) };
 				ci.dwFlag = CNF_UNIQUEID;
-				if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (long)&ci) == 0){
+				if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci) == 0){
 					if (ci.type == CNFT_ASCIIZ)
 						_tcsncpy_s(buf, ci.pszVal, _TRUNCATE);
 					else if (ci.type == CNFT_BYTE)

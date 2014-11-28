@@ -851,8 +851,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				TCHAR buf[200];
 				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Account %s is being deleted"), pa->tszAccountName);
 				if (pa->bOldProto) {
-					MessageBox(hwndDlg, TranslateT("You need to disable plugin to delete this account"), buf,
-						MB_ICONERROR | MB_OK);
+					MessageBox(hwndDlg, TranslateT("You need to disable plugin to delete this account"), buf, MB_ICONERROR | MB_OK);
 					break;
 				}
 				if (IDYES == MessageBox(hwndDlg, errMsg, buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO)) {

@@ -3231,7 +3231,7 @@ quote_from_last:
 			}
 			_dlgReturn(hwndDlg, TRUE);
 		}
-		{
+		if(dat) {
 			TContainerData *pContainer = dat->pContainer;
 			if (dat->iOpenJobs > 0 && lParam != 2) {
 				if (dat->dwFlags & MWF_ERRORSTATE) {

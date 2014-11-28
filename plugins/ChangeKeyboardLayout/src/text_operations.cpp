@@ -286,7 +286,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			if (WindowType == WTYPE_RichEdit) {
 				EditStreamData esdData;
 				EDITSTREAM esStream = { 0 };
-				esStream.dwCookie = (DWORD)&esdData;
+				esStream.dwCookie = (DWORD_PTR)&esdData;
 				esStream.pfnCallback = EditStreamOutRtf;
 				if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT | SF_UNICODE | SFF_SELECTION, (LPARAM)&esStream) > 0)
 					ptszInText = GeTStringFromStreamData(&esdData);
@@ -324,7 +324,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 				EditStreamData esdData;
 				EDITSTREAM esStream = { 0 };
-				esStream.dwCookie = (DWORD)&esdData;
+				esStream.dwCookie = (DWORD_PTR)&esdData;
 				esStream.pfnCallback = EditStreamOutRtf;
 				if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT | SF_UNICODE | SFF_SELECTION, (LPARAM)&esStream) != 0)
 					ptszInText = GeTStringFromStreamData(&esdData);
@@ -363,7 +363,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 					EditStreamData esdData;
 					EDITSTREAM esStream = { 0 };
-					esStream.dwCookie = (DWORD)&esdData;
+					esStream.dwCookie = (DWORD_PTR)&esdData;
 					esStream.pfnCallback = EditStreamOutRtf;
 					if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT | SF_UNICODE | SFF_SELECTION, (LPARAM)&esStream) != 0)
 						ptszInText = GeTStringFromStreamData(&esdData);

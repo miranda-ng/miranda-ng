@@ -1103,7 +1103,7 @@ BSTR IEView::getHrefFromAnchor(IHTMLElement *element)
 		if (SUCCEEDED(element->QueryInterface(IID_IHTMLAnchorElement, (void**)&pAnchor)) && (pAnchor!=NULL)) {
 			VARIANT	variant;
 			BSTR url;
-			if (SUCCEEDED(element->getAttribute(L"href", 2, &variant) && variant.vt == VT_BSTR)) {
+			if (SUCCEEDED(element->getAttribute(L"href", 2, &variant)) && (variant.vt == VT_BSTR)) {
 				url = mir_tstrdup(variant.bstrVal);
 				SysFreeString(variant.bstrVal);
 			}

@@ -222,6 +222,7 @@ FillBackgroundBitmap(FIBITMAP *dib, const RGBQUAD *color, int options) {
 		return FALSE;
 	}
 	
+	RGBQUAD blend;
 	const RGBQUAD *color_intl = color;
 	unsigned bpp = FreeImage_GetBPP(dib);
 	unsigned width = FreeImage_GetWidth(dib);
@@ -264,7 +265,6 @@ FillBackgroundBitmap(FIBITMAP *dib, const RGBQUAD *color, int options) {
 				bgcolor.rgbRed = src_bits[FI_RGBA_RED];
 				bgcolor.rgbReserved = 0xFF;
 			}
-			RGBQUAD blend;
 			GetAlphaBlendedColor(&bgcolor, color_intl, &blend);
 			color_intl = &blend;
 		}

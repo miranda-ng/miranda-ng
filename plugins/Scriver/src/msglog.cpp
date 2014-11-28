@@ -894,7 +894,6 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 		gtxl.codepage = 1200;
-		gtxl.codepage = 1200;
 		fi.chrg.cpMin = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);

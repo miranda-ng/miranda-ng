@@ -448,7 +448,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 	if (dat) {
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWAVATAR, MF_BYCOMMAND | dat->bShowAvatar ? MF_CHECKED : MF_UNCHECKED);
+		::CheckMenuItem(hMenu, ID_VIEW_SHOWAVATAR, MF_BYCOMMAND | (dat->bShowAvatar ? MF_CHECKED : MF_UNCHECKED));
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOTITLE ? MF_UNCHECKED : MF_CHECKED);
 
 		::EnableMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, CSkin::m_skinEnabled && CSkin::m_frameSkins ? MF_GRAYED : MF_ENABLED);

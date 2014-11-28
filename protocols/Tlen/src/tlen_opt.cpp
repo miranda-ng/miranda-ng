@@ -155,24 +155,30 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		switch (((LPNMHDR) lParam)->code) {
 		case PSN_APPLY:
 			{
-				BOOL reconnectRequired = FALSE;
+				bool reconnectRequired = false;
 				DBVARIANT dbv;
 
 				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, sizeof(text));
-				dbv.pszVal = NULL;
-				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv) || lstrcmpA(text, dbv.pszVal))
-					reconnectRequired = TRUE;
-				if (dbv.pszVal != NULL)
+				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
+					reconnectRequired = true;
+				}
+				else {
+					if(lstrcmpA(text, dbv.pszVal))
+						reconnectRequired = true;
 					db_free(&dbv);
+				}
 				db_set_s(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
-					dbv.pszVal = NULL;
-					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || lstrcmpA(text, dbv.pszVal))
-						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)
+					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
+						reconnectRequired = true;
+					}
+					else {
+						if(lstrcmpA(text, dbv.pszVal))
+							reconnectRequired = true;
 						db_free(&dbv);
+					}
 					db_set_s(NULL, proto->m_szModuleName, "Password", text);
 				}
 				else
@@ -276,7 +282,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			MarkChanges(1, hwndDlg);
 			break;
 		case IDC_REGISTERACCOUNT:
-			CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) TLEN_REGISTER);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM) TLEN_REGISTER);
 			break;
 		case IDC_OFFLINE_MESSAGE_OPTION:
 		case IDC_ALERT_POLICY:
@@ -293,24 +299,30 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		switch (((LPNMHDR) lParam)->code) {
 		case PSN_APPLY:
 			{
-				BOOL reconnectRequired = FALSE;
+				bool reconnectRequired = false;
 				DBVARIANT dbv;
 
 				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, sizeof(text));
-				dbv.pszVal = NULL;
-				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv) || lstrcmpA(text, dbv.pszVal))
-					reconnectRequired = TRUE;
-				if (dbv.pszVal != NULL)
+				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
+					reconnectRequired = true;
+				}
+				else {
+					if(lstrcmpA(text, dbv.pszVal))
+						reconnectRequired = true;
 					db_free(&dbv);
+				}
 				db_set_s(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
-					dbv.pszVal = NULL;
-					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || lstrcmpA(text, dbv.pszVal))
-						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)
+					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
+						reconnectRequired = true;
+					}
+					else {
+						if(lstrcmpA(text, dbv.pszVal))
+							reconnectRequired = true;
 						db_free(&dbv);
+					}
 					db_set_s(NULL, proto->m_szModuleName, "Password", text);
 				}
 				else
@@ -512,28 +524,34 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case PSN_APPLY:
 			WORD port;
 			BOOL useEncryption;
-			BOOL reconnectRequired = FALSE;
+			bool reconnectRequired = false;
 			DBVARIANT dbv;
 
 			GetDlgItemTextA(hwndDlg, IDC_EDIT_LOGIN_SERVER, text, sizeof(text));
-			dbv.pszVal = NULL;
-			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv) || lstrcmpA(text, dbv.pszVal))
-				reconnectRequired = TRUE;
-			if (dbv.pszVal != NULL)
+			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+				reconnectRequired = true;
+			}
+			else {
+				if(lstrcmpA(text, dbv.pszVal))
+					reconnectRequired = true;
 				db_free(&dbv);
+			}
 			db_set_s(NULL, proto->m_szModuleName, "LoginServer", strlwr(text));
 
 			GetDlgItemTextA(hwndDlg, IDC_HOST, text, sizeof(text));
-			dbv.pszVal = NULL;
-			if (db_get(NULL, proto->m_szModuleName, "ManualHost", &dbv) || lstrcmpA(text, dbv.pszVal))
-				reconnectRequired = TRUE;
-			if (dbv.pszVal != NULL)
+			if (db_get(NULL, proto->m_szModuleName, "ManualHost", &dbv)) {
+				reconnectRequired = true;
+			}
+			else {
+				if(lstrcmpA(text, dbv.pszVal))
+					reconnectRequired = true;
 				db_free(&dbv);
+			}
 			db_set_s(NULL, proto->m_szModuleName, "ManualHost", text);
 
 			port = (WORD) GetDlgItemInt(hwndDlg, IDC_HOSTPORT, NULL, FALSE);
 			if (db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT) != port)
-				reconnectRequired = TRUE;
+				reconnectRequired = true;
 			db_set_w(NULL, proto->m_szModuleName, "ManualPort", port);
 
 			proto->tlenOptions.sendKeepAlive = IsDlgButtonChecked(hwndDlg, IDC_KEEPALIVE);
@@ -541,7 +559,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			useEncryption = IsDlgButtonChecked(hwndDlg, IDC_USE_SSL);
 			if (db_get_b(NULL, proto->m_szModuleName, "UseEncryption", TRUE) != useEncryption)
-				reconnectRequired = TRUE;
+				reconnectRequired = true;
 			db_set_b(NULL, proto->m_szModuleName, "UseEncryption", (BYTE) useEncryption);
 
 			db_set_b(NULL, proto->m_szModuleName, "VisibilitySupport", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_VISIBILITY_SUPPORT));
