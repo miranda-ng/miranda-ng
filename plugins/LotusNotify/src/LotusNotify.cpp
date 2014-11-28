@@ -957,15 +957,13 @@ void lookupLotusDefaultSettings(HWND hwndDlg)
 
 }
 
-//get variables values stored in db.
+// get variables values stored in db.
 void LoadSettings()
 {
 	settingInterval = (INT)db_get_dw(NULL, PLUGINNAME, "LNInterval", 15);
 	settingInterval1 = (INT)db_get_dw(NULL, PLUGINNAME, "LNInterval1", 0);
-	//if(!db_get(NULL, PLUGINNAME, "LNInterval1",&dbv))
-	//	settingInterval1 = int(dbv.lVal);
-	//db_free(&dbv);
-	//settingInterval=dbv.lVal;
+
+	DBVARIANT dbv;
 	if(!db_get_s(NULL, PLUGINNAME, "LNDatabase", &dbv)){
 		strncpy_s(settingDatabase, _countof(settingDatabase), dbv.pszVal, SIZEOF(settingDatabase));
 		db_free(&dbv);
@@ -1016,7 +1014,6 @@ void LoadSettings()
 	settingIniAnswer = db_get_b(NULL, PLUGINNAME, "LNIniAnswer", 0);
 	settingIniCheck = db_get_b(NULL, PLUGINNAME, "LNIniCheck", 0);
 	
-	DBVARIANT dbv;
 	for(int i = 0; i < STATUS_COUNT; i++) {
 		char buff[128];
 		mir_snprintf(buff, SIZEOF(buff), "LNStatus%d", i);
