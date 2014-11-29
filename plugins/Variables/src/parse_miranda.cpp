@@ -416,7 +416,7 @@ static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
 
 	char *szRes = NULL;
 	TCHAR *tszRes = NULL;
-	char *szProto = mir_t2a(ai->targv[1]);
+	ptrA szProto(mir_t2a(ai->targv[1]));
 
 	if (!_tcscmp(ai->targv[2], _T(STR_PINAME)))
 		tszRes = Hlp_GetProtocolName(szProto);
@@ -424,42 +424,29 @@ static TCHAR* parseProtoInfo(ARGUMENTSINFO *ai)
 		if (!ProtoServiceExists(szProto, PS_GETCAPS))
 			return NULL;
 
-		char *szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
-		if (szText != NULL)
-			szRes = _strdup(szText);
+		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
 	}
 	else if (!_tcscmp(ai->targv[2], _T(STR_PIUIDSETTING))) {
 		if (!ProtoServiceExists(szProto, PS_GETCAPS))
 			return NULL;
 
-		char *szText = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
-		if (szText != NULL)
-			szRes = _strdup(szText);
+		szRes = (char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 	}
-	else if (!_tcscmp(ai->targv[2], _T(STR_PINICK)))
-	{
+	else if (!_tcscmp(ai->targv[2], _T(STR_PINICK))) {
 		CONTACTINFO ci;
-
 		ci.cbSize = sizeof(CONTACTINFO);
 		ci.dwFlag = CNF_DISPLAY | CNF_UNICODE;
 		ci.hContact = NULL;
 		ci.szProto = szProto;
 		CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci);
-
-		tszRes = mir_tstrdup(ci.pszVal);
-
-		mir_free(ci.pszVal);
+		tszRes = ci.pszVal;
 	}
-	mir_free(szProto);
+
 	if (szRes == NULL && tszRes == NULL)
 		return NULL;
 
-	if (szRes != NULL && tszRes == NULL) {
+	if (szRes != NULL && tszRes == NULL)
 		tszRes = mir_a2t(szRes);
-		mir_free(szRes);
-	}
-	else if (szRes != NULL && tszRes != NULL)
-		mir_free(szRes);
 
 	return tszRes;
 }
