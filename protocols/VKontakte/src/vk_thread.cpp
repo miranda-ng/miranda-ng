@@ -895,7 +895,7 @@ int CVkProto::PollServer()
 			break;
 		debugLogA("CVkProto::PollServer is dead");
 		m_pollingConn = NULL;
-		if (iPollConnRetry){
+		if (iPollConnRetry && !m_bTerminated){
 			iPollConnRetry--;
 			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - iPollConnRetry);
 			Sleep(1000);	

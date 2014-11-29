@@ -355,6 +355,8 @@ void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTi
 
 int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
+	debugLogA("CVkProto::OnPreShutdown");
+		
 	m_bTerminated = true;
 	SetEvent(m_evRequestsQueue);
 	return 0;
