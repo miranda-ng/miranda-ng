@@ -69,6 +69,8 @@ Zeige
 Zeige mit DLLs
 [Upload]
 Hochladen
+[Copy link to clipboard]
+Kopiere Link in die Zwischenablage
 [Open crash report directory]
 Absturzberichte-Verzeichnis öffnen
 [Open online Version Info]
