@@ -40135,11 +40135,11 @@ SQLITE_PRIVATE int sqlite3BtreeMovetoUnpacked(
    && pCur->apPage[0]->intKey 
   ){
     if( pCur->info.nKey==intKey ){
-      *pRes = 0;
+      if( pRes ) *pRes = 0;
       return SQLITE_OK;
     }
     if( pCur->atLast && pCur->info.nKey<intKey ){
-      *pRes = -1;
+      if( pRes ) *pRes = -1;
       return SQLITE_OK;
     }
   }
@@ -40151,7 +40151,7 @@ SQLITE_PRIVATE int sqlite3BtreeMovetoUnpacked(
   assert( pCur->apPage[pCur->iPage] );
   assert( pCur->apPage[pCur->iPage]->isInit );
   if( pCur->eState==CURSOR_INVALID ){
-    *pRes = -1;
+    if( pRes ) *pRes = -1;
     assert( pCur->apPage[pCur->iPage]->nCell==0 );
     return SQLITE_OK;
   }
@@ -40219,7 +40219,7 @@ SQLITE_PRIVATE int sqlite3BtreeMovetoUnpacked(
           upr = lwr - 1;
           break;
         }else{
-          *pRes = 0;
+          if( pRes ) *pRes = 0;
           rc = SQLITE_OK;
           goto moveto_finish;
         }
@@ -72895,6 +72895,7 @@ SQLITE_PRIVATE int sqlite3InitCallback(void *pInit, int argc, char **argv, char 
   int iDb = pData->iDb;
 
   assert( argc==3 );
+  if( argv==0 ) return 0;   /* Might happen if EMPTY_RESULT_CALLBACKS are on */
   UNUSED_PARAMETER2(NotUsed, argc);
   assert( sqlite3_mutex_held(db->mutex) );
   DbClearProperty(db, iDb, DB_Empty);
@@ -72904,7 +72905,6 @@ SQLITE_PRIVATE int sqlite3InitCallback(void *pInit, int argc, char **argv, char 
   }
 
   assert( iDb>=0 && iDb<db->nDb );
-  if( argv==0 ) return 0;   /* Might happen if EMPTY_RESULT_CALLBACKS are on */
   if( argv[1]==0 ){
     corruptSchema(pData, argv[0], 0);
   }else if( argv[2] && argv[2][0] ){
