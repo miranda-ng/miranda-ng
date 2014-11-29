@@ -148,7 +148,8 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			if ( g_ctrl->bAutoSize) {
 				RECT rcClient;
 				GetClientRect(g_ctrl->hWnd, &rcClient);
-				if (rcClient.bottom - rcClient.top != iHeight && iHeight) {
+				rcClient.bottom -= rcClient.top;
+				if (rcClient.bottom != iHeight && iHeight && rcClient.bottom) {
 					supressRepos = true;
 					PostMessage(hwnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
 				}
