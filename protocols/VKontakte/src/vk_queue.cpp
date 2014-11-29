@@ -58,7 +58,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		else if (pReq->bIsMainConn) {
 			if (m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 				ConnectionFailed(LOGINERR_NONETWORK);
-			else if (pReq->m_iRetry){
+			else if (pReq->m_iRetry && !m_bTerminated){
 				pReq->bNeedsRestart = true;
 				Sleep(1000); //Pause for fix err 
 				pReq->m_iRetry--;
@@ -70,7 +70,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			}
 		}
 		debugLogA("CVkProto::ExecuteRequest pReq->bNeedsRestart = %d", (int)pReq->bNeedsRestart);
-	} while (pReq->bNeedsRestart);
+	} while (pReq->bNeedsRestart && !m_bTerminated);
 	delete pReq;
 }
 
@@ -127,6 +127,8 @@ void CVkProto::WorkerThread(void*)
 				m_arRequestsQueue.remove(0);
 				need_sleep = (m_arRequestsQueue.getCount() > 1) && (pReq->m_bApiReq); // more than two to not gather
 			}
+			if (m_bTerminated)
+				break;
 			ExecuteRequest(pReq);
 			if (need_sleep)	// There can be maximum 3 requests to API methods per second from a client
 				Sleep(330);	// (c) https://vk.com/dev/api_requests
