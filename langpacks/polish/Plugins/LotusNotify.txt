@@ -99,7 +99,3 @@ Wtyczki
 Lotus Notify
 [New Lotus document detected]
 Nowy dokument na serwerze Lotus
-[LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)]
-LotusNotify.dll nie działa z 64-bitową Mirandą. (Klient Lotusa jest wyłącznie 32-bitowy)
-[LotusNotify]
-LotusNotify

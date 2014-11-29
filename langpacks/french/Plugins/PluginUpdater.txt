@@ -182,8 +182,6 @@ Montrer la liste complète des plugins
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Informations sur le plugin
-[Plugin list]
-Liste des plugins
 [Plugin Updater HTTP connection]
 Connection HTTP du plugin de mise à jour
 [An error occurred while checking for new updates.]
