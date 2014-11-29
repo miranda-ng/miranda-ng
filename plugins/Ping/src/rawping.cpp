@@ -149,38 +149,48 @@ extern int raw_ping(char *host, int timeout)
 
 		if (bread == SOCKET_ERROR) {
 			if(WSAGetLastError() != WSAETIMEDOUT) {
-				if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("rawping error: socket error...cycling"), 0);
+				if(options.logging)
+					CallService(PLUG "/Log", (WPARAM)_T("rawping error: socket error...cycling"), 0);
 			}
 			continue;
 		}
 
-		if(reply_header->proto != ICMP_PROTO)
-			if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("rawping error: packet not ICMP...cycling"), 0);
-			continue;
-
-		if(reply_header->tos != 0)
-			if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("rawping error: TOS not 0...cycling"), 0);
-			continue;
-
-		reply = (ICMPHeader *)(recv_buff + reply_header->h_len * 4);		
-		if((unsigned)bread < reply_header->h_len * 4 + sizeof(ICMPHeader)) {
-			if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("rawping error: short header"), 0);
+		if(reply_header->proto != ICMP_PROTO) {
+			if(options.logging)
+				CallService(PLUG "/Log", (WPARAM)_T("rawping error: packet not ICMP...cycling"), 0);
 			continue;
 		}
 
-		if(reply->id != (USHORT)GetCurrentProcessId())
-			if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("rawping error: wrong ID...cycling"), 0);
+		if(reply_header->tos != 0) {
+			if(options.logging)
+				CallService(PLUG "/Log", (WPARAM)_T("rawping error: TOS not 0...cycling"), 0);
 			continue;
+		}
+
+		reply = (ICMPHeader *)(recv_buff + reply_header->h_len * 4);		
+		if((unsigned)bread < reply_header->h_len * 4 + sizeof(ICMPHeader)) {
+			if(options.logging)
+				CallService(PLUG "/Log", (WPARAM)_T("rawping error: short header"), 0);
+			continue;
+		}
+
+		if(reply->id != (USHORT)GetCurrentProcessId()) {
+			if(options.logging)
+				CallService(PLUG "/Log", (WPARAM)_T("rawping error: wrong ID...cycling"), 0);
+			continue;
+		}
 
 		if(reply->type != PT_ICMP_ECHO_REPLY && reply->type != PT_ICMP_SOURCE_QUENCH) {
-			if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("rawping error: wrong type...cycling"), 0);
+			if(options.logging)
+				CallService(PLUG "/Log", (WPARAM)_T("rawping error: wrong type...cycling"), 0);
 			continue;
 		}
 
 		//if(reply->seq < seq_no) continue;
 		//if(reply->seq > seq_no) return -1;
 		if(reply->seq != seq_no) {
-			if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("rawping error: wrong sequence number...cycling"), 0);
+			if(options.logging)
+				CallService(PLUG "/Log", (WPARAM)_T("rawping error: wrong sequence number...cycling"), 0);
 			continue;
 		}
 
@@ -197,7 +207,8 @@ extern int raw_ping(char *host, int timeout)
 		} else
 			return current_time - send_time;
 	}
-	if(options.logging) CallService(PLUG "/Log", (WPARAM)_T("rawping error: timeout"), 0);
+	if(options.logging)
+		CallService(PLUG "/Log", (WPARAM)_T("rawping error: timeout"), 0);
 
 	return -1;
 }

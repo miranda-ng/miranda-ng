@@ -37,7 +37,6 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 
 	NETLIBOPENCONNECTION nloc = { 0 };
 	nloc.cbSize = sizeof(nloc);
-	nloc.cbSize = sizeof(NETLIBOPENCONNECTION);
 	nloc.szHost = ft->httpHostName;
 	nloc.wPort = ft->httpPort;
 	info.s = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
@@ -73,7 +72,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 
 		ft->s = NULL;
 
-		if (ft->state == FT_DONE || (ft->state == FT_RECEIVING && ft->std.currentFileSize < 0))
+		if (ft->state == FT_DONE || (ft->state == FT_RECEIVING && ft->std.currentFileSize == 0))
 			ft->complete();
 
 		debugLogA("Thread ended: type=file_receive server='%s'", ft->httpHostName);
