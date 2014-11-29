@@ -1208,10 +1208,11 @@ CIRCHistory *CAppletManager::CreateIRCHistoryByName(tstring strProtocol,tstring 
 int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
-	GCDEST *gcd = (GCDEST*)gce->pDest;
+	GCDEST *gcd;
 	
-	if(gce == NULL || gcd == NULL)
+	if (gce == NULL || gcd == NULL)
 		TRACE(_T("<< [%s] skipping invalid event\n"));
+	gcd = (GCDEST*)gce->pDest;
 
 	TRACE(_T("<< [%s:%s] event %04X\n"),toTstring(gcd->pszModule).c_str(), gcd->ptszID, gcd->iType);
 	
@@ -1226,7 +1227,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	// fetch the network name
 	if(gcd->iType == GC_EVENT_CHANGESESSIONAME)
 	{
-		if(!_tcsicmp(gcd->ptszID,_T("Network log")))
+		if (gcd->ptszID && !_tcsicmp(gcd->ptszID,_T("Network log")))
 		{
 			pIRCCon->strNetwork = toTstring(gce->ptszText);
 			TRACE(_T("\t Found network identifier: %s\n"),pIRCCon->strNetwork.c_str());

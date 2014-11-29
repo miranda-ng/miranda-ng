@@ -212,18 +212,20 @@ bool CLCDOutputManager::Update()
 		}
 	}
 
+	if(!m_pLcdConnection)
+		return true;
 	// Update
 	m_pLcdConnection->Update();
 	
 	// skip button checking and drawing if there is no connection to a device
-	if(!m_pLcdConnection || m_pLcdConnection->GetConnectionState() != CONNECTED)
+	if(m_pLcdConnection->GetConnectionState() != CONNECTED)
 		return true;
 	
 
 	// Handle buttons
 	bool bState = false;
 	int iId = 0;
-	for(int i = 0; i< m_pLcdConnection->GetButtonCount();i++)
+	for(int i = 0; i < m_pLcdConnection->GetButtonCount(); i ++)
 	{
 		// get current state
 		bState = m_pLcdConnection->GetButtonState(i);
