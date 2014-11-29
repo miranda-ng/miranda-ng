@@ -1176,20 +1176,15 @@ static void BTN_ReadItem(char *itemName, char *file)
 
 void IMG_LoadItems()
 {
-	char *szSections = NULL;
-	char *p;
 	DBVARIANT dbv;
-	char szFileName[MAX_PATH];
-	TCHAR tszFileName[MAX_PATH];
-	int i = 0;
-
 	if (cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv))
 		return;
 
+	TCHAR tszFileName[MAX_PATH];
 	MY_pathToAbsolute(dbv.ptszVal, tszFileName);
 
 	// TODO: rewrite the skin loading in TCHAR manner
-
+	char szFileName[MAX_PATH];
 	WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, szFileName, MAX_PATH, 0, 0);
 
 	db_free(&dbv);
@@ -1197,15 +1192,16 @@ void IMG_LoadItems()
 	if (!PathFileExists(tszFileName))
 		return;
 
+	int i = 0;
+
 	IMG_DeleteItems();
 
-	szSections = reinterpret_cast<char *>(malloc(3002));
+	char *szSections = reinterpret_cast<char *>(malloc(3002));
 	ZeroMemory(szSections, 3002);
-	p = szSections;
 	GetPrivateProfileSectionNamesA(szSections, 3000, szFileName);
 
 	szSections[3001] = szSections[3000] = 0;
-	p = szSections;
+	char *p = szSections;
 	while (lstrlenA(p) > 1) {
 		if (p[0] == '$' || p[0] == '@')
 			IMG_ReadItem(p, szFileName);

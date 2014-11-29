@@ -558,16 +558,15 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			rc.left += 5;
 
 			HIMAGELIST hIml = ListView_GetImageList(hwndHotkey, LVSIL_SMALL);
-
 			if (lpdis->CtlID == IDC_CANVAS2) {
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Scope:"), &rc);
 
-				rc.left = prefix + width * 0;
+				rc.left = prefix;
 				ImageList_Draw(hIml, 0, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("System"), &rc);
 
-				rc.left = prefix + width * 1;
+				rc.left = prefix + width;
 				ImageList_Draw(hIml, 1, lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, ILD_TRANSPARENT);
 				rc.left += 20;
 				sttOptionsDrawTextChunk(lpdis->hDC, TranslateT("Miranda"), &rc);

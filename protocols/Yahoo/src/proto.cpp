@@ -767,36 +767,39 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) {
 			char str[128];
-			BOOL reconnectRequired = FALSE;
+			bool reconnectRequired = false;
 
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, sizeof(str));
-
-			dbv.pszVal = NULL;
-
-			if (ppro->getString(YAHOO_LOGINID, &dbv) || lstrcmpA(str, dbv.pszVal))
-				reconnectRequired = TRUE;
-
-			if (dbv.pszVal != NULL)
+			
+			if (ppro->getString(YAHOO_LOGINID, &dbv)) {
+				reconnectRequired = true;
+			}
+			else {
+				if(lstrcmpA(str, dbv.pszVal))
+					reconnectRequired = true;
 				db_free(&dbv);
+			}
 
 			ppro->setString(YAHOO_LOGINID, str);
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
 
-			dbv.pszVal = NULL;
-			if (ppro->getString(YAHOO_PASSWORD, &dbv) || lstrcmpA(str, dbv.pszVal))
-				reconnectRequired = TRUE;
-			if (dbv.pszVal != NULL)
+			if (ppro->getString(YAHOO_PASSWORD, &dbv)) {
+				reconnectRequired = true;
+			}
+			else {
+				if(lstrcmpA(str, dbv.pszVal))
+					reconnectRequired = true;
 				db_free(&dbv);
-
-			if (reconnectRequired)
-				ppro->delSetting(YAHOO_PWTOKEN);
+			}
 
 			ppro->setString(YAHOO_PASSWORD, str);
 			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN));
 
-			if (reconnectRequired && ppro->m_bLoggedIn)
-				MessageBoxA(hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK);
-
+			if (reconnectRequired) {
+				ppro->delSetting(YAHOO_PWTOKEN);
+				if (ppro->m_bLoggedIn)
+					MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the Yahoo network before they take effect"), TranslateT("YAHOO Options"), MB_OK);
+			}
 			return TRUE;
 		}
 		break;
