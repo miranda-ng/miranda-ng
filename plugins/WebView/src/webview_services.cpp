@@ -337,37 +337,38 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *) lParam;
 	DBVARIANT dbv;
+	MCONTACT hContact;
 	int sameurl = 0;
 	int samename = 0;
 
-	// search for existing contact
-	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-		// check ID to see if the contact already exist in the database
-		if (!db_get_ts(hContact, MODULENAME, "URL", &dbv)) {
-			if (!lstrcmpi(psr->nick, dbv.ptszVal)) {
-				// remove the flag for not on list and hidden, thus make the
-				// contact visible
-				// and add them on the list
-				sameurl++;
-				if (db_get_b(hContact, "CList", "NotOnList", 1)) {
-					db_unset(hContact, "CList", "NotOnList");
-					db_unset(hContact, "CList", "Hidden");
-				}
-			}
-			db_free(&dbv);
-		}
-	}
-
+	if (psr == NULL)
+		return 0;
 	if (psr->nick == NULL) {
 		WErrorPopup((MCONTACT)"ERROR", TranslateT("Please select site in Find/Add contacts..."));
 		return 0;
 	}   
-
 	// if contact with the same ID was not found, add it
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return NULL;
+	// search for existing contact
+	for (hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+		// check ID to see if the contact already exist in the database
+		if (db_get_ts(hContact, MODULENAME, "URL", &dbv))
+			continue;
+		if (!lstrcmpi(psr->nick, dbv.ptszVal)) {
+			// remove the flag for not on list and hidden, thus make the
+			// contact visible
+			// and add them on the list
+			sameurl ++;
+			if (db_get_b(hContact, "CList", "NotOnList", 1)) {
+				db_unset(hContact, "CList", "NotOnList");
+				db_unset(hContact, "CList", "Hidden");
+			}
+		}
+		db_free(&dbv);
+	}
 
-	MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
+	hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODULENAME);
 
 	/////////write to db
@@ -448,7 +449,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	db_free(&dbv);
 
 
-	return (int) hContact;
+	return (INT_PTR)hContact;
 }
 
 /*****************************************************************************/
