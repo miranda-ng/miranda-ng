@@ -158,21 +158,23 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 
 INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 {
-	TCHAR *tmp;
-	TCHAR buffer[MAX_PATH];
+	ptrT tmp(db_get_wsa(NULL, PluginName, "Username"));
+	if (tmp != NULL) {
+		TCHAR buffer[MAX_PATH];
+		mir_sntprintf(buffer, SIZEOF(buffer), _T("http://vi.miranda-ng.org/detail/%s"), tmp);
 
-	tmp = db_get_wsa(NULL, PluginName, "Username");
-	mir_sntprintf(buffer, SIZEOF(buffer), _T("http://vi.miranda-ng.org/detail/%s"), tmp);
-	int bufLen = (sizeof(buffer) + 1) * sizeof(TCHAR);
-	HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
-	LPSTR buf = (LPSTR)GlobalLock(hData);
-	memcpy(buf, buffer, bufLen);
-	
-	OpenClipboard(NULL);
-	EmptyClipboard();
+		int bufLen = (sizeof(buffer) + 1) * sizeof(TCHAR);
+		HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
+		LPSTR buf = (LPSTR)GlobalLock(hData);
+		memcpy(buf, buffer, bufLen);
 
-	SetClipboardData(CF_UNICODETEXT, hData);
-	CloseClipboard();
+		OpenClipboard(NULL);
+		EmptyClipboard();
+
+		if (SetClipboardData(CF_UNICODETEXT, hData) == NULL)
+			GlobalFree(hData);
+		CloseClipboard();
+	}
 	return 0;
 }
 
