@@ -95,14 +95,14 @@ enum ENotify
 /**
  * Global functions:
  **/
-void	SvcReminderCheckAll(const ENotify notify);
-LPCSTR	SvcReminderGetMyBirthdayModule(void);
+void   SvcReminderCheckAll(const ENotify notify);
+LPCSTR SvcReminderGetMyBirthdayModule(void);
 
-void	SvcReminderOnTopToolBarLoaded(void);
-void	SvcReminderOnModulesLoaded(void);
+void   SvcReminderOnTopToolBarLoaded(void);
+void   SvcReminderOnModulesLoaded(void);
 
-void	SvcReminderEnable(BYTE bEnable);
-void	SvcReminderLoadModule(void);
-void	SvcReminderUnloadModule(void);
+void   SvcReminderEnable(BYTE bEnable);
+void   SvcReminderLoadModule(void);
+void   SvcReminderUnloadModule(void);
 
 #endif /* _SVCREMINDER_H_ */

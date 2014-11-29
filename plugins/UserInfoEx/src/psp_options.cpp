@@ -594,32 +594,30 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		{
-			ShowWindow(GetDlgItem(hDlg, CHECK_REMIND_SECURED), myGlobals.UseDbxTree ? SW_HIDE : SW_SHOW);
+		ShowWindow(GetDlgItem(hDlg, CHECK_REMIND_SECURED), myGlobals.UseDbxTree ? SW_HIDE : SW_SHOW);
 
-			SendDlgItemMessage(hDlg, ICO_BIRTHDAY, STM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(ICO_DLG_ANNIVERSARY, TRUE));
+		SendDlgItemMessage(hDlg, ICO_BIRTHDAY, STM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(ICO_DLG_ANNIVERSARY, TRUE));
 
-			// set colours			
-			SendDlgItemMessage(hDlg, EDIT_REMIND, EM_LIMITTEXT, 2, 0);
-			SendDlgItemMessage(hDlg, SPIN_REMIND, UDM_SETRANGE32, 0, 50);
-			SendDlgItemMessage(hDlg, EDIT_REMIND2, EM_LIMITTEXT, 4, 0);
-			SendDlgItemMessage(hDlg, SPIN_REMIND2, UDM_SETRANGE32, 1, 8760);
-			SendDlgItemMessage(hDlg, EDIT_REMIND_SOUNDOFFSET, EM_LIMITTEXT, 2, 0);
-			SendDlgItemMessage(hDlg, SPIN_REMIND_SOUNDOFFSET, UDM_SETRANGE32, 0, 50);
+		// set colours			
+		SendDlgItemMessage(hDlg, EDIT_REMIND, EM_LIMITTEXT, 2, 0);
+		SendDlgItemMessage(hDlg, SPIN_REMIND, UDM_SETRANGE32, 0, 50);
+		SendDlgItemMessage(hDlg, EDIT_REMIND2, EM_LIMITTEXT, 4, 0);
+		SendDlgItemMessage(hDlg, SPIN_REMIND2, UDM_SETRANGE32, 1, 8760);
+		SendDlgItemMessage(hDlg, EDIT_REMIND_SOUNDOFFSET, EM_LIMITTEXT, 2, 0);
+		SendDlgItemMessage(hDlg, SPIN_REMIND_SOUNDOFFSET, UDM_SETRANGE32, 0, 50);
 
-			HWND hCtrl;
-			if (hCtrl = GetDlgItem(hDlg, EDIT_REMIND_ENABLED)) {
-				ComboBox_AddString(hCtrl, TranslateT("Reminder disabled"));
-				ComboBox_AddString(hCtrl, TranslateT("Anniversaries only"));
-				ComboBox_AddString(hCtrl, TranslateT("Birthdays only"));
-				ComboBox_AddString(hCtrl, TranslateT("Everything"));
-			}
-			if (hCtrl = GetDlgItem(hDlg, EDIT_BIRTHMODULE)) {
-				ComboBox_AddString(hCtrl, TranslateT("mBirthday"));
-				ComboBox_AddString(hCtrl, TranslateT("UserInfo (default)"));
-			}
-			SendNotify_InfoChanged(hDlg);
+		HWND hCtrl;
+		if (hCtrl = GetDlgItem(hDlg, EDIT_REMIND_ENABLED)) {
+			ComboBox_AddString(hCtrl, TranslateT("Reminder disabled"));
+			ComboBox_AddString(hCtrl, TranslateT("Anniversaries only"));
+			ComboBox_AddString(hCtrl, TranslateT("Birthdays only"));
+			ComboBox_AddString(hCtrl, TranslateT("Everything"));
 		}
+		if (hCtrl = GetDlgItem(hDlg, EDIT_BIRTHMODULE)) {
+			ComboBox_AddString(hCtrl, TranslateT("mBirthday"));
+			ComboBox_AddString(hCtrl, TranslateT("UserInfo (default)"));
+		}
+		SendNotify_InfoChanged(hDlg);
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -678,12 +676,12 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				BYTE bOld = db_get_b(NULL, MODNAME, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);  //    = 1
 				BYTE bNew = (BYTE)ComboBox_GetCurSel(GetDlgItem(hDlg, EDIT_BIRTHMODULE));
 				if (bOld != bNew) {
-					//keep the database clean
-					MAnnivDate mdb;
-					MCONTACT hContact = NULL;
+					// keep the database clean
 					DBWriteComboByte(hDlg, EDIT_BIRTHMODULE, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);
-					//walk through all the contacts stored in the DB
-					for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+					
+					// walk through all the contacts stored in the DB
+					MAnnivDate mdb;
+					for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 						mdb.DBMoveBirthDate(hContact, bOld, bNew);
 				}
 
@@ -695,14 +693,13 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 						SvcReminderEnable(FALSE);
 						bReminderCheck = FALSE;
 					}
-					else
-						bReminderCheck = TRUE;
+					else bReminderCheck = TRUE;
 				}
 
 				// update all contact list extra icons
 				if (bReminderCheck) {
-					SvcReminderEnable(TRUE);							// reinit reminder options from db
-					SvcReminderCheckAll(NOTIFY_CLIST);		// notify
+					SvcReminderEnable(TRUE); // reinit reminder options from db
+					SvcReminderCheckAll(NOTIFY_CLIST); // notify
 				}
 				RebuildMain();
 			}
