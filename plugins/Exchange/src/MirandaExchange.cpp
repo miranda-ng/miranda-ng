@@ -43,84 +43,66 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
     IN LPMAPISESSION lplhSession,   // session pointer
     OUT ULONG *lpcbeid,             // count of bytes in entry ID
     OUT LPENTRYID *lppeid)          // entry ID of default store
-{   
-    HRESULT     hr      = NOERROR;
-    HRESULT     hrT     = NOERROR;
-    SCODE       sc      = 0;
-    LPMAPITABLE lpTable = NULL;
-    LPSRowSet   lpRows  = NULL;
-    LPENTRYID   lpeid   = NULL;
-    ULONG       cbeid   = 0;
-    ULONG       cRows   = 0;
-    ULONG       i       = 0;
+{
+	HRESULT hr = NOERROR;
+	HRESULT hrT = NOERROR;
+	SCODE sc = 0;
+	LPMAPITABLE lpTable = NULL;
+	LPSRowSet lpRows = NULL;
+	LPENTRYID lpeid = NULL;
+	ULONG cbeid = 0;
+	ULONG cRows = 0;
+	ULONG i = 0;
 
-    SizedSPropTagArray(2, rgPropTagArray)={2,{PR_DEFAULT_STORE,PR_ENTRYID}};
+	SizedSPropTagArray(2, rgPropTagArray)={2,{PR_DEFAULT_STORE,PR_ENTRYID}};
 
-    // Get the list of available message stores from MAPI
-    hrT = MAPICALL(lplhSession)->GetMsgStoresTable( 0, &lpTable);
-
-	if (!FAILED(hrT))
-	{
-		// Get the row count for the message recipient table
-		hrT = MAPICALL(lpTable)->GetRowCount(0, &cRows);
-		if (!FAILED(hrT))
-		{
-			// Set the columns to return
-			hrT = MAPICALL(lpTable)->SetColumns((LPSPropTagArray)&rgPropTagArray, 0);
-			if (!FAILED(hrT))
-			{
-				// Go to the beginning of the recipient table for the envelope
-				hrT = MAPICALL(lpTable)->SeekRow( BOOKMARK_BEGINNING, 0, NULL);
-				if (!FAILED(hrT))
-				{
-					// Read all the rows of the table
-					hrT = MAPICALL(lpTable)->QueryRows( cRows, 0, &lpRows);
-					if (SUCCEEDED(hrT) && (lpRows != NULL) && (lpRows->cRows == 0))
-					{
-						FreeProws(lpRows);
-						lpRows = NULL;
-						hrT = MAPI_E_NOT_FOUND;
-					}
-				}
-			}
-		}
+	// Get the list of available message stores from MAPI
+	hrT = MAPICALL(lplhSession)->GetMsgStoresTable( 0, &lpTable);
+	if (FAILED(hrT))
+		goto err_out;
+	// Get the row count for the message recipient table
+	hrT = MAPICALL(lpTable)->GetRowCount(0, &cRows);
+	if (FAILED(hrT))
+		goto err_out;
+	// Set the columns to return
+	hrT = MAPICALL(lpTable)->SetColumns((LPSPropTagArray)&rgPropTagArray, 0);
+	if (FAILED(hrT))
+		goto err_out;
+	// Go to the beginning of the recipient table for the envelope
+	hrT = MAPICALL(lpTable)->SeekRow( BOOKMARK_BEGINNING, 0, NULL);
+	if (FAILED(hrT))
+		goto err_out;
+	// Read all the rows of the table
+	hrT = MAPICALL(lpTable)->QueryRows( cRows, 0, &lpRows);
+	if (SUCCEEDED(hrT) && lpRows != NULL && lpRows->cRows == 0) {
+		hrT = MAPI_E_NOT_FOUND;
+		goto err_out;
 	}
 
-    if ( !FAILED(hrT) )
-    {
-		bool bGetOut = false;
-		for(i = 0; (i < cRows) && (!bGetOut); i++)
-		{
-			if (lpRows->aRow[i].lpProps[0].Value.b == TRUE)
-			{
-				cbeid = lpRows->aRow[i].lpProps[1].Value.bin.cb;
-
-				sc = MAPIAllocateBuffer(cbeid, (void **)&lpeid);
-
-				if (FAILED(sc))
-				{
-					cbeid = 0;
-					lpeid = NULL;
-					bGetOut = true;
-				}
-				else
-				{
-					// Copy entry ID of message store
-					CopyMemory(lpeid,lpRows->aRow[i].lpProps[1].Value.bin.lpb,cbeid);
-					bGetOut = true;
-				}
-			}
+	if (FAILED(hrT))
+		goto err_out;
+	for (i = 0; i < cRows; i ++) {
+		if (lpRows->aRow[i].lpProps[0].Value.b == FALSE)
+			continue;
+		cbeid = lpRows->aRow[i].lpProps[1].Value.bin.cb;
+		sc = MAPIAllocateBuffer(cbeid, (void **)&lpeid);
+		if (FAILED(sc)) {
+			cbeid = 0;
+			lpeid = NULL;
+		} else {
+			// Copy entry ID of message store
+			CopyMemory(lpeid, lpRows->aRow[i].lpProps[1].Value.bin.lpb, cbeid);
 		}
-    }
+		break;
+	}
 
-    if (lpRows != NULL)
-    {
-        FreeProws(lpRows);
-    }
-	
+err_out:
+	if (lpRows != NULL)
+		FreeProws(lpRows);
 	UlRelease(lpTable);
 	*lpcbeid = cbeid;
-    *lppeid = lpeid;
+	*lppeid = lpeid;
+
 	return hr;
 }
 
@@ -529,12 +511,15 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 
 HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 {
-	HRESULT			hr				=	S_OK;
-	CMAPIInterface<LPPROFADMIN>		pProfAdmin		=	NULL;
-	CMAPIInterface<LPSERVICEADMIN>	pMsgSvcAdmin	=	NULL;
-	CMAPIInterface<LPMAPITABLE>		pMsgSvcTable	=	NULL;
-	LPSRowSet		pRows			=	NULL;
-	ULONG ulFlags=0;
+	HRESULT	hr = S_OK;
+	CMAPIInterface<LPPROFADMIN> pProfAdmin = NULL;
+	CMAPIInterface<LPSERVICEADMIN> pMsgSvcAdmin = NULL;
+	CMAPIInterface<LPMAPITABLE> pMsgSvcTable = NULL;
+	LPSRowSet pRows = NULL;
+	ULONG ulFlags = 0;
+	SRestriction sres;
+	SIZE_T nSize;
+	TCHAR* szUniqName;
 	enum {iSvcName, iSvcUID, cptaSvc};
 	
 	SizedSPropTagArray(cptaSvc, sptCols) = 
@@ -545,79 +530,64 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	};
 	ulFlags &= ~MAPI_UNICODE;
 	hr = MAPIAdminProfiles(ulFlags, &pProfAdmin);
+	if (FAILED(hr) || pProfAdmin == NULL)
+		return hr;
+	hr = pProfAdmin->CreateProfile((LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags);
 	
-	if (!(FAILED(hr)) || (pProfAdmin)) 
-	{	
-		hr = pProfAdmin->CreateProfile((LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags);
-		
-		if (!FAILED(hr)) 
-		{
-			hr = pProfAdmin->AdminServices( (LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags, &pMsgSvcAdmin);
-			
-			if ( !(FAILED(hr)) || (pMsgSvcAdmin) ) 
-			{
-				hr = pMsgSvcAdmin->CreateMsgService((LPTSTR)("MSEMS"), (LPTSTR)("")/*"Microsoft Exchange Server"*/, NULL, 0);
-				
-				if (!FAILED(hr)) 
-				{
-					hr = pMsgSvcAdmin->GetMsgServiceTable(0, &pMsgSvcTable);
-					if ( !(FAILED(hr)) || ( pMsgSvcTable) )
-					{
-						SRestriction sres;
-						sres.rt = RES_CONTENT;
-						sres.res.resContent.ulFuzzyLevel = FL_FULLSTRING;
-						sres.res.resContent.ulPropTag = PR_SERVICE_NAME_A;
-						SPropValue spv;
-						sres.res.resContent.lpProp = &spv;
-						spv.ulPropTag = PR_SERVICE_NAME_A;
-						spv.Value.lpszA = (LPSTR)"MSEMS";
-						
-						hr = HrQueryAllRows(pMsgSvcTable, 
-							(LPSPropTagArray) &sptCols,
-							&sres,
-							NULL,
-							0,
-							&pRows);
-						
-						if (!FAILED(hr)) {
-							UINT nSize = (UINT)_tcslen(m_szUsername)+2;
-							
-							TCHAR* szUniqName = new TCHAR[nSize];
-							
-							memset( szUniqName, 0, nSize*sizeof(TCHAR) );
-							_tcscpy( szUniqName,_T("="));
-							_tcscat( szUniqName, m_szUsername);
-							
-							// Set values for PR_PROFILE_UNRESOLVED_NAME and PR_PROFILE_UNRESOLVED_SERVER
-							SPropValue spval[2];
-							spval[0].ulPropTag = PR_PROFILE_UNRESOLVED_NAME;
-							spval[0].Value.lpszA = mir_t2a(szUniqName);
-							spval[1].ulPropTag = PR_PROFILE_UNRESOLVED_SERVER;
-							spval[1].Value.lpszA = mir_t2a(m_szExchangeServer);
-							
-							
-							// Configure msg service
-							/*hr =*/ pMsgSvcAdmin->ConfigureMsgService(
-								(LPMAPIUID) pRows->aRow->lpProps[iSvcUID].Value.bin.lpb,
-								0, NULL, 2, spval);
-							
-							delete[] szUniqName;
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			pProfAdmin->DeleteProfile((LPTSTR)mir_t2a(szProfileName), ulFlags);
-		}
-	}	
-	
-	if (pRows)
-	{
-		FreeProws(pRows);
+	if (!FAILED(hr)) {
+		pProfAdmin->DeleteProfile((LPTSTR)mir_t2a(szProfileName), ulFlags);
+		return hr;
 	}
+	hr = pProfAdmin->AdminServices( (LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags, &pMsgSvcAdmin);
 	
+	if (FAILED(hr) || pMsgSvcAdmin == NULL)
+		return hr;
+	hr = pMsgSvcAdmin->CreateMsgService((LPTSTR)("MSEMS"), (LPTSTR)("")/*"Microsoft Exchange Server"*/, NULL, 0);
+	
+	if (FAILED(hr))
+		return hr;
+	hr = pMsgSvcAdmin->GetMsgServiceTable(0, &pMsgSvcTable);
+	if (FAILED(hr) || pMsgSvcTable == NULL)
+		return hr;
+
+	sres.rt = RES_CONTENT;
+	sres.res.resContent.ulFuzzyLevel = FL_FULLSTRING;
+	sres.res.resContent.ulPropTag = PR_SERVICE_NAME_A;
+	SPropValue spv;
+	sres.res.resContent.lpProp = &spv;
+	spv.ulPropTag = PR_SERVICE_NAME_A;
+	spv.Value.lpszA = (LPSTR)"MSEMS";
+	
+	hr = HrQueryAllRows(pMsgSvcTable, 
+		(LPSPropTagArray) &sptCols,
+		&sres,
+		NULL,
+		0,
+		&pRows);
+	
+	if (FAILED(hr))
+		return hr;
+	nSize = _tcslen(m_szUsername);
+	szUniqName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (nSize + 4));
+	if (szUniqName != NULL) {
+		memcpy(szUniqName, _T("="), sizeof(TCHAR));
+		memcpy((szUniqName + 1), m_szUsername, (sizeof(TCHAR) * (nSize + 1)));
+		// Set values for PR_PROFILE_UNRESOLVED_NAME and PR_PROFILE_UNRESOLVED_SERVER
+		SPropValue spval[2];
+		spval[0].ulPropTag = PR_PROFILE_UNRESOLVED_NAME;
+		spval[0].Value.lpszA = mir_t2a(szUniqName);
+		spval[1].ulPropTag = PR_PROFILE_UNRESOLVED_SERVER;
+		spval[1].Value.lpszA = mir_t2a(m_szExchangeServer);
+
+		// Configure msg service
+		/*hr =*/ pMsgSvcAdmin->ConfigureMsgService(
+				(LPMAPIUID) pRows->aRow->lpProps[iSvcUID].Value.bin.lpb,
+				0, NULL, 2, spval);
+
+		mir_free(szUniqName);
+	}
+	FreeProws(pRows);
+
 	return hr;
 }
 
@@ -757,143 +727,125 @@ HRESULT CMirandaExchange::MarkAsRead( LPTSTR szEntryID )
 HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 {
 	HRESULT hr = NOERROR;
+	CMAPIInterface<LPMAPITABLE> lpTable = NULL;
+	LPSRowSet lpRow = NULL;
+	LPSPropValue lpRowProp = NULL;
+	ULONG i = 0L;
+	ULONG *lpcbeid = NULL; 
+	TCHAR* szSenderName = NULL;
+	TCHAR* szSubject = NULL;
+	LPSTR szEntryID = NULL;
 	
-	if ( lpFolder != NULL && m_bFolderInboxOK )
-	{
-		
-		CMAPIInterface<LPMAPITABLE>  lpTable   = NULL   ;
-		LPSRowSet    lpRow     = NULL   ;
-		LPSPropValue lpRowProp = NULL   ;
-		ULONG        i         = 0L     ;
-		ULONG        *lpcbeid  = 0      ; 
+	if ( lpFolder == NULL || !m_bFolderInboxOK )
+		return hr;
 
-		SizedSPropTagArray(5,sptaDETAILS) =
+	SizedSPropTagArray(5,sptaDETAILS) =
+	{
+		5,
 		{
-			5,
+			PR_ENTRYID,
+				PR_MESSAGE_FLAGS,
+				PR_SENDER_NAME,
+				PR_ORIGINAL_SENDER_EMAIL_ADDRESS,
+				PR_SUBJECT
+		}
+	};
+	
+	CMAPIInterface<LPMAPITABLE> lpMessageTable;
+	
+	hr = lpFolder->GetContentsTable( 0, &lpMessageTable );
+	if ( HR_FAILED( hr ) )
+	{
+		return -1;
+	}
+
+	LPSRowSet lpRowsR = NULL;
+	
+	//////////////////////////////////////////////////////////////////////////
+	SRestriction srRoot;
+	srRoot.rt                       = RES_BITMASK;
+	srRoot.res.resBitMask.relBMR    = BMR_EQZ; 
+	srRoot.res.resBitMask.ulPropTag = PR_MESSAGE_FLAGS; 
+	srRoot.res.resBitMask.ulMask    = MSGFLAG_READ;
+	
+	SizedSSortOrderSet( 1, sso ) = { 1, 0, 0, { PR_MESSAGE_DELIVERY_TIME, TABLE_SORT_DESCEND } };
+	
+	hr = HrQueryAllRows( lpMessageTable, (LPSPropTagArray) &sptaDETAILS,&srRoot,(LPSSortOrderSet) & sso, 0L, &lpRowsR );
+	
+	//////////////////////////////////////////////////////////////////////////
+	
+	if (HR_FAILED(hr))
+		return -1;
+
+	for( i = 0; ( i < lpRowsR->cRows) && ( m_nNumberOfHeaders < MAX_NUMBER_OF_HEADERS ); ++i )
+	{
+		if ( !(lpRowsR->aRow[ i ].lpProps[ 1 ].Value.l & MSGFLAG_READ) )
+		{
+			
+			if ( !FAILED(lpRowsR->aRow[i].lpProps[2].Value.err) ) 
 			{
-				PR_ENTRYID,
-					PR_MESSAGE_FLAGS,
-					PR_SENDER_NAME,
-					PR_ORIGINAL_SENDER_EMAIL_ADDRESS,
-					PR_SUBJECT
+				szSenderName = lpRowsR->aRow[i].lpProps[2].Value.lpszW;
+			}
+			
+			if ( NULL == szSenderName)
+			{
+				if ( !FAILED(lpRowsR->aRow[i].lpProps[3].Value.err))
+				{
+					szSenderName = lpRowsR->aRow[i].lpProps[3].Value.lpszW;
+				}
+			}
+			
+			
+			if ( !FAILED(lpRowsR->aRow[i].lpProps[4].Value.err) )
+			{
+				szSubject = lpRowsR->aRow[i].lpProps[4].Value.lpszW;
+			}
+			
+			szEntryID = BinToHex( lpRowsR->aRow[i].lpProps[0].Value.bin.cb, lpRowsR->aRow[i].lpProps[0].Value.bin.lpb );
+			m_HeadersKeeper[m_nNumberOfHeaders] = new CKeeper(szSenderName, szSubject, szEntryID );
+			m_nNumberOfHeaders++;
+
+			delete[] szEntryID;
+
+			szEntryID    = NULL;
+			szSubject    = NULL;
+			szSenderName = NULL;
+		}
+	}
+	FreeProws(lpRowsR);
+
+	
+	if (m_nNumberOfHeaders < MAX_NUMBER_OF_HEADERS) {
+		const enum {IDISPNAME, IENTRYID, ICHILDCOUNT};
+
+		static SizedSPropTagArray ( 3, rgColProps) = 
+		{
+			3,
+			{ 
+				PR_DISPLAY_NAME_A, 
+				PR_ENTRYID, 
+				PR_FOLDER_CHILD_COUNT
 			}
 		};
-		
-		CMAPIInterface<LPMAPITABLE> lpMessageTable;
-		
-		hr = lpFolder->GetContentsTable( 0, &lpMessageTable );
-		if ( HR_FAILED( hr ) )
-		{
-			return -1;
-		}
 
-		LPSRowSet lpRowsR = NULL;
-		
-		//////////////////////////////////////////////////////////////////////////
-		SRestriction srRoot;
-		srRoot.rt                       = RES_BITMASK;
-		srRoot.res.resBitMask.relBMR    = BMR_EQZ; 
-		srRoot.res.resBitMask.ulPropTag = PR_MESSAGE_FLAGS; 
-		srRoot.res.resBitMask.ulMask    = MSGFLAG_READ;
-		
-		SizedSSortOrderSet( 1, sso ) = { 1, 0, 0, { PR_MESSAGE_DELIVERY_TIME, TABLE_SORT_DESCEND } };
-		
-		hr = HrQueryAllRows( lpMessageTable, (LPSPropTagArray) &sptaDETAILS,&srRoot,(LPSSortOrderSet) & sso,0L, &lpRowsR );
-		
-		//////////////////////////////////////////////////////////////////////////
-		
-		if ( HR_FAILED( hr ) )
-		{
-			return -1;
-		}
-		else
-		{
-			TCHAR* szSenderName = NULL;
-			TCHAR* szSubject    = NULL;
-			LPSTR szEntryID    = NULL;
+		ULONG ulObjType = 0L;
 
-			for( i = 0; ( i < lpRowsR->cRows) && ( m_nNumberOfHeaders < MAX_NUMBER_OF_HEADERS ); ++i )
-			{
-				if ( !(lpRowsR->aRow[ i ].lpProps[ 1 ].Value.l & MSGFLAG_READ) )
-				{
-					
-					if ( !FAILED(lpRowsR->aRow[i].lpProps[2].Value.err) ) 
+		hr = MAPICALL( lpFolder)->GetHierarchyTable( MAPI_DEFERRED_ERRORS, &lpTable);
+		if (!FAILED(hr)) {
+			hr = HrQueryAllRows( lpTable, (LPSPropTagArray)&rgColProps, NULL, NULL, 0L, &lpRow);
+			if (!FAILED(hr)) {
+				for(i = 0; i < lpRow->cRows; i ++) {
+					lpRowProp = lpRow->aRow[i].lpProps;
+					CMAPIInterface<LPMAPIFOLDER> lpSubFolder = NULL;
+					hr = CallOpenEntry( m_lpMDB, NULL, NULL, NULL, lpRowProp[IENTRYID].Value.bin.cb, (LPENTRYID)lpRowProp[IENTRYID].Value.bin.lpb, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&lpSubFolder );
+					if ( !FAILED(hr) )
 					{
-						szSenderName = lpRowsR->aRow[i].lpProps[2].Value.lpszW;
-					}
-					
-					if ( NULL == szSenderName)
-					{
-						if ( !FAILED(lpRowsR->aRow[i].lpProps[3].Value.err))
-						{
-							szSenderName = lpRowsR->aRow[i].lpProps[3].Value.lpszW;
-						}
-					}
-					
-					
-					if ( !FAILED(lpRowsR->aRow[i].lpProps[4].Value.err) )
-					{
-						szSubject = lpRowsR->aRow[i].lpProps[4].Value.lpszW;
-					}
-					
-					szEntryID = BinToHex( lpRowsR->aRow[i].lpProps[0].Value.bin.cb, lpRowsR->aRow[i].lpProps[0].Value.bin.lpb );
-					m_HeadersKeeper[m_nNumberOfHeaders] = new CKeeper( szSenderName, szSubject, szEntryID );
-					m_nNumberOfHeaders++;
-
-					delete[] szEntryID;
-
-					szEntryID    = NULL;
-					szSubject    = NULL;
-					szSenderName = NULL;
-				}
-			}
-
-			if (lpRowsR)
-			{
-				FreeProws(lpRowsR);
-			}
-		}
-		
-		if (m_nNumberOfHeaders<MAX_NUMBER_OF_HEADERS)
-		{
-			const enum {IDISPNAME, IENTRYID, ICHILDCOUNT};
-
-			static SizedSPropTagArray ( 3, rgColProps) = 
-			{
-				3,
-				{ 
-					PR_DISPLAY_NAME_A, 
-					PR_ENTRYID, 
-					PR_FOLDER_CHILD_COUNT
-				}
-			};
-
-			ULONG ulObjType = 0L;
-
-			hr = MAPICALL( lpFolder)->GetHierarchyTable( MAPI_DEFERRED_ERRORS, &lpTable);
-			if (!FAILED(hr))
-			{
-				hr = HrQueryAllRows( lpTable, (LPSPropTagArray)&rgColProps, NULL, NULL, 0L, &lpRow);
-				if (!FAILED(hr))
-				{
-					for(i = 0; i < lpRow->cRows; i++)
-					{
-						lpRowProp = lpRow->aRow[i].lpProps;
-						CMAPIInterface<LPMAPIFOLDER> lpSubFolder = NULL;
-						hr = CallOpenEntry( m_lpMDB, NULL, NULL, NULL, lpRowProp[IENTRYID].Value.bin.cb, (LPENTRYID)lpRowProp[IENTRYID].Value.bin.lpb, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&lpSubFolder );
-						if ( !FAILED(hr) )
-						{
-							hr = CheckInFolder( lpSubFolder );
-							//if (FAILED(hr) ){//Log("failed checkinfolder for %s\n",lpRowProp[IDISPNAME].Value.lpszA );}
-						}
+						hr = CheckInFolder( lpSubFolder );
+						//if (FAILED(hr) ){//Log("failed checkinfolder for %s\n",lpRowProp[IDISPNAME].Value.lpszA );}
 					}
 				}
-
-				if (NULL != lpRow)
-				{		
-					FreeProws(lpRow);
-					lpRow = NULL;
-				}
+				FreeProws(lpRow);
+				lpRow = NULL;
 			}
 		}
 	}
