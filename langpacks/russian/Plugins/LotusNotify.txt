@@ -37,5 +37,3 @@
 Статус
 [Plugins]
 Плагины
-[LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)]
-LotusNotify.dll не будет работать с 64-разрядной версией Miranda NG (поскольку клиент Lotus 32-разрядный)

@@ -28,4 +28,3 @@
 [&Check Lotus]
 [Lotus Notify]
 [New Lotus document detected]
-[LotusNotify]

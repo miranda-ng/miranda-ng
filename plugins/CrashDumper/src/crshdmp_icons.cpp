@@ -20,11 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Version Information"), "versionInfo", IDI_VI       },
-	{ LPGEN("Copy To Clipboard"),   "storeToClip", IDI_VITOCLIP },
-	{ LPGEN("Store to file"),       "storeToFile", IDI_VITOFILE },
-	{ LPGEN("Show"),                "showInfo",    IDI_VISHOW   },
-	{ LPGEN("Upload"),              "uploadInfo",  IDI_VIUPLOAD },
+	{ LPGEN("Version Information"),    "versionInfo", IDI_VI        },
+	{ LPGEN("Copy To Clipboard"),      "storeToClip", IDI_VITOCLIP  },
+	{ LPGEN("Store to file"),          "storeToFile", IDI_VITOFILE  },
+	{ LPGEN("Show"),                   "showInfo",    IDI_VISHOW    },
+	{ LPGEN("Upload"),                 "uploadInfo",  IDI_VIUPLOAD  },
+	{ LPGEN("Copy link to clipboard"), "linkToClip",  IDI_LINKTOCLIP},
 };
 
 void InitIcons(void)

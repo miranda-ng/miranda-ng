@@ -38,6 +38,7 @@
 [Show]
 [Show with DLLs]
 [Upload]
+[Copy link to clipboard]
 [Open crash report directory]
 [Open online Version Info]
 [Copy Version Info to clipboard]

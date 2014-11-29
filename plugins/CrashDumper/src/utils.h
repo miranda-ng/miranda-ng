@@ -72,6 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MS_CRASHDUMPER_VIEWINFO    "CrashDmp/ViewInfo"
 #define MS_CRASHDUMPER_UPLOAD      "CrashDmp/UploadInfo"
 #define MS_CRASHDUMPER_URL         "CrashDmp/StartUrl"
+#define MS_CRASHDUMPER_URLTOCLIP   "CrashDmp/CopyToClip"
 
 #define PluginName "Crash Dumper"
 

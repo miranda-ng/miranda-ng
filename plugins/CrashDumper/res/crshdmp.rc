@@ -138,6 +138,7 @@ IDI_VISHOW              ICON                    "Vi show.ico"
 IDI_VITOCLIP            ICON                    "Vi to clipboard.ico"
 IDI_VITOFILE            ICON                    "Vi to file.ico"
 IDI_VIUPLOAD            ICON                    "Vi upload.ico"
+IDI_LINKTOCLIP          ICON                    "Vi link to clipboard.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
