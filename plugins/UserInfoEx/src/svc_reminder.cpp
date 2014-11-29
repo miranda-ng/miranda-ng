@@ -388,7 +388,7 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 	BYTE bOverflow = FALSE;
 	WORD wDaysEarlier;
 
-	if ((gRemindOpts.RemindState == REMIND_ANNIV) || (gRemindOpts.RemindState == REMIND_ALL)) {
+	if (gRemindOpts.RemindState == REMIND_ANNIV || gRemindOpts.RemindState == REMIND_ALL) {
 		for (int i = 0; i < ANID_LAST && !mta.DBGetAnniversaryDate(hContact, i); i++) {
 			mta.DBGetReminderOpts(hContact);
 
@@ -537,8 +537,7 @@ static BYTE CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 static void CheckContact(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer = 0)
 {
 	// ignore meta subcontacts here as their birthday information are collected explicitly
-	if (hContact && (!gRemindOpts.bCheckVisibleOnly || !db_get_b(hContact, MOD_CLIST, "Hidden", FALSE)) && !db_mc_isSub(hContact))
-	{
+	if (hContact && (!gRemindOpts.bCheckVisibleOnly || !db_get_b(hContact, MOD_CLIST, "Hidden", FALSE)) && !db_mc_isSub(hContact)) {
 		CEvent ca;
 
 		if (CheckBirthday(hContact, Now, ca, bNotify, LastAnwer) || CheckAnniversaries(hContact, Now, ca, bNotify)) {
@@ -560,30 +559,30 @@ static void CheckContact(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotif
 
 void SvcReminderCheckAll(const ENotify notify)
 {
-	if (gRemindOpts.RemindState != REMIND_OFF) {
-		CEvent evt;
-		MTime now;
-		WORD a1 = 0;
+	if (gRemindOpts.RemindState == REMIND_OFF)
+		return;
 
-		now.GetLocalTime();
+	MTime now;
+	now.GetLocalTime();
 
-		//walk through all the contacts stored in the DB
-		for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-			CheckContact(hContact, now, evt, notify != NOTIFY_CLIST, &a1);
+	// walk through all the contacts stored in the DB
+	CEvent evt;
+	WORD a1 = 0;
+	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+		CheckContact(hContact, now, evt, notify != NOTIFY_CLIST, &a1);
 
-		if (notify != NOTIFY_CLIST) {
-			// play sound for the next anniversary
-			NotifyWithSound(evt);
+	if (notify != NOTIFY_CLIST) {
+		// play sound for the next anniversary
+		NotifyWithSound(evt);
 
-			// popup anniversary list
-			if (db_get_b(NULL, MODNAME, SET_ANNIVLIST_POPUP, FALSE))
-				DlgAnniversaryListShow(0, 0);
+		// popup anniversary list
+		if (db_get_b(NULL, MODNAME, SET_ANNIVLIST_POPUP, FALSE))
+			DlgAnniversaryListShow(0, 0);
 
-			if (evt._wDaysLeft > gRemindOpts.wDaysEarlier && notify == NOTIFY_NOANNIV)
-				NotifyWithPopup(NULL, CEvent::NONE, 0, NULL, TranslateT("No anniversaries to remind of"));
-		}
-		UpdateTimer(FALSE);
+		if (evt._wDaysLeft > gRemindOpts.wDaysEarlier && notify == NOTIFY_NOANNIV)
+			NotifyWithPopup(NULL, CEvent::NONE, 0, NULL, TranslateT("No anniversaries to remind of"));
 	}
+	UpdateTimer(FALSE);
 }
 
 /***********************************************************************************************************
