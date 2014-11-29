@@ -456,7 +456,7 @@ MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
 {
 	debugLogA("CVkProto::MContactFromDbEvent");
 	if (!hDbEvent || !IsOnline())
-		return (MCONTACT)-1;
+		return INVALID_CONTACT_ID;
 
 	DWORD body[2];
 	DBEVENTINFO dbei = { sizeof(dbei) };
@@ -464,9 +464,9 @@ MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
 	dbei.pBlob = (PBYTE)&body;
 
 	if (db_event_get(hDbEvent, &dbei))
-		return (MCONTACT)-1;
+		return INVALID_CONTACT_ID;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST || strcmp(dbei.szModule, m_szModuleName))
-		return (MCONTACT)-1;
+		return INVALID_CONTACT_ID;
 
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
 	db_unset(hContact, m_szModuleName, "ReqAuth");
@@ -475,7 +475,7 @@ MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
 
 void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 {
-	if (hContact == NULL || hContact == -1)
+	if (hContact == NULL || hContact == INVALID_CONTACT_ID)
 		return;
 	if (platform == -1){
 		db_unset(hContact, m_szModuleName, "MirVer");
