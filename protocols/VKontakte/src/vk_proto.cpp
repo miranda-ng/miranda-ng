@@ -624,7 +624,7 @@ int CVkProto::Authorize(HANDLE hDbEvent)
 	if (!IsOnline())
 		return 1;
 	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
-	if (hContact == -1)
+	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 	
 	return AuthRequest(hContact, NULL);
@@ -636,7 +636,7 @@ int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 	if (!IsOnline())
 		return 1;
 	MCONTACT hContact = MContactFromDbEvent(hDbEvent);
-	if (hContact == -1)
+	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
 	return SvcDeleteFriend(hContact,(LPARAM)true);

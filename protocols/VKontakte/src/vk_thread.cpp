@@ -249,13 +249,15 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 {
-	debugLogA("CVkProto::SetContactInfo");
-	if (pItem == NULL)
-		return -1;
+	if (pItem == NULL){
+		debugLogA("CVkProto::SetContactInfo pItem == NULL");
+		return INVALID_CONTACT_ID;
+	}
 
 	LONG userid = json_as_int(json_get(pItem, "id"));
+	debugLogA("CVkProto::SetContactInfo %d", userid);
 	if (userid == 0)
-		return -1;
+		return NULL;
 
 	MCONTACT hContact = FindUser(userid, flag);
 	
@@ -267,7 +269,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 				SetContactInfo(pItem, flag, true);
 	}
 	else if (hContact == NULL)
-		return -1;
+		return NULL;
 	
 	CMString tszNick, tszValue;
 	int iValue;
@@ -430,7 +432,27 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (pUsers == NULL)
 		return;
 
-	for (size_t i = 0; SetContactInfo(json_at(pUsers, i)) != -1; i++);
+	LIST<void> arContacts(10, PtrKeySortT);
+	MCONTACT hContact;
+
+	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+		if (!isChatRoom(hContact))
+			arContacts.insert((HANDLE)hContact);
+
+	for (size_t i = 0; (hContact = SetContactInfo(json_at(pUsers, i))) != INVALID_CONTACT_ID; i++)
+		if (hContact)
+			arContacts.remove((HANDLE)hContact);
+
+	for (int i = 0; i < arContacts.getCount(); i++){
+		hContact = (MCONTACT)arContacts[i];
+		if (getDword(hContact, "ID", -1) == m_myUserId)
+			continue;
+		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE){
+			setWord(hContact, "Status", ID_STATUS_OFFLINE);
+			SetMirVer(hContact, -1);
+		}
+	}
+	arContacts.destroy();
 
 	JSONNODE *pRequests = json_get(pResponse, "requests");
 	if (pRequests == NULL)
@@ -446,7 +468,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		LONG userid = json_as_int(pInfo);
 		if (userid == 0)
 			break;
-		MCONTACT hContact = FindUser(userid, true);
+		hContact = FindUser(userid, true);
 		if (!getBool(hContact, "ReqAuth", false)){
 			RetrieveUserInfo(userid);
 			setByte(hContact, "ReqAuth", 1);
@@ -497,7 +519,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		for (int i = 0; i<iCount; i++) {
 			MCONTACT hContact = SetContactInfo(json_at(pItems, i), true);
 
-			if (hContact == NULL || hContact == -1)
+			if (hContact == NULL || hContact == INVALID_CONTACT_ID)
 				continue;
 
 			arContacts.remove((HANDLE)hContact);
@@ -507,6 +529,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	if (bCleanContacts)
 		for (int i = 0; i < arContacts.getCount(); i++)
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)arContacts[i], 0);
+	
+	arContacts.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
