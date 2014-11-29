@@ -441,9 +441,10 @@ public:
 	{
 		m_bOpen = !m_bOpen;
 		
-		m_pRoot->UpdateEntryCount();
-		if(m_pRoot)
+		if (m_pRoot) {
+			m_pRoot->UpdateEntryCount();
 			m_pRoot->SetPosition(this);
+		}
 	}
 	
 	void SetOpen(bool bOpen = true)
@@ -453,9 +454,10 @@ public:
 
 		m_bOpen = bOpen;
 
-		m_pRoot->UpdateEntryCount();
-		if(m_pRoot)
+		if (m_pRoot) {
+			m_pRoot->UpdateEntryCount();
 			m_pRoot->SetPosition(this);
+		}
 	}
 	
 	void CollapseAll()
