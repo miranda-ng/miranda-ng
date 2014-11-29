@@ -9,7 +9,8 @@
 #define IDI_VITOCLIP                    106
 #define IDI_VITOFILE                    107
 #define IDI_VIUPLOAD                    108
-#define IDD_OPTIONS                     109
+#define IDI_LINKTOCLIP                  109
+#define IDD_OPTIONS                     110
 #define IDC_VIEWVERSIONINFO             1001
 #define IDC_FILEVER                     1003
 #define IDC_CLIPVER                     1004

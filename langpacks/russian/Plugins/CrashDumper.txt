@@ -67,6 +67,8 @@
 С библиотеками
 [Upload]
 Загрузить
+[Copy link to clipboard]
+Копировать ссылку в буфер обмена
 [Open crash report directory]
 Папка сохранения отчётов
 [Open online Version Info]

@@ -156,6 +156,26 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
+{
+	TCHAR *tmp;
+	TCHAR buffer[MAX_PATH];
+
+	tmp = db_get_wsa(NULL, PluginName, "Username");
+	mir_sntprintf(buffer, SIZEOF(buffer), _T("http://vi.miranda-ng.org/detail/%s"), tmp);
+	int bufLen = (sizeof(buffer) + 1) * sizeof(TCHAR);
+	HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
+	LPSTR buf = (LPSTR)GlobalLock(hData);
+	memcpy(buf, buffer, bufLen);
+	
+	OpenClipboard(NULL);
+	EmptyClipboard();
+
+	SetClipboardData(CF_UNICODETEXT, hData);
+	CloseClipboard();
+	return 0;
+}
+
 INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 {
 	servicemode = true;
@@ -280,6 +300,13 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
+	mi.popupPosition = 0;
+	mi.position = 2000089999;
+	mi.ptszName = LPGENT("Copy link to clipboard");
+	mi.icolibItem = GetIconHandle(IDI_LINKTOCLIP);//need icon
+	mi.pszService = MS_CRASHDUMPER_URLTOCLIP;
+	Menu_AddMainMenuItem(&mi);
+
 	if (catchcrashes && !needrestart) {
 		mi.position = 2000099990;
 		mi.ptszName = LPGENT("Open crash report directory");
@@ -367,6 +394,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
 	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
+	CreateServiceFunction(MS_CRASHDUMPER_URLTOCLIP, CopyLinkToClipboard);
 	return 0;
 }
 
