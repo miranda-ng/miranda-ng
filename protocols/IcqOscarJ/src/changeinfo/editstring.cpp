@@ -55,7 +55,7 @@ static void EscapesToMultiline(WCHAR *str,PDWORD selStart,PDWORD selEnd)
 		else if (str[1] == 't') 
 		{
 			*str = '\t';
-			memmove(str+1, str+2, sizeof(WCHAR)*(strlennull(str)-1));
+			memmove(str+1, str+2, sizeof(WCHAR)*(mir_wstrlen(str)-1));
 
 			if (*selStart>i) --*selStart;
 			if (*selEnd>i) --*selEnd;
@@ -76,14 +76,14 @@ static void EscapesToBinary(char *str)
 			char *codeend;
 			*str=(char)strtol(str+1,&codeend,8);
 			if (*str==0) {*str='\\'; continue;}
-			memmove(str+1,codeend,strlennull(codeend)+1);
+			memmove(str+1,codeend,mir_strlen(codeend)+1);
 			continue;
 		}
 		for(int i=0;i<SIZEOF(escapes);i+=2)
 			if(str[1]==escapes[i]) 
 			{
 				*str=escapes[i+1];
-				memmove(str+1,str+2,strlennull(str)-1);
+				memmove(str+1,str+2,mir_strlen(str)-1);
 				break;
 			}
 	}
@@ -93,8 +93,8 @@ static void EscapesToBinary(char *str)
 
 char *BinaryToEscapes(char *str)
 {
-	int extra=10,len=strlennull(str)+11,i;
-	char *out,*pout;
+	int extra = 10, len = (int)mir_strlen(str) + 11, i;
+	char *out, *pout;
 
 	out=pout=(char*)SAFE_MALLOC(len);
 	for (;*str;str++) 
@@ -310,9 +310,9 @@ void ChangeInfoData::EndStringEdit(int save)
 				EscapesToBinary(text);
 			}
 			if ((si.displayType & LIF_PASSWORD && strcmpnull(text, "                ")) ||
-				 (!(si.displayType & LIF_PASSWORD) && strcmpnull(text, (char*)sid.value) && (strlennull(text) + strlennull((char*)sid.value)))) {
+				 (!(si.displayType & LIF_PASSWORD) && strcmpnull(text, (char*)sid.value) && (mir_strlen(text) + mir_strlen((char*)sid.value)))) {
 				SAFE_FREE((void**)&sid.value);
-				if (strlennull(text))
+				if (mir_strlen(text))
 					sid.value = (LPARAM)text;
 				else {
 					sid.value = 0;

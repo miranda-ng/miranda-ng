@@ -29,7 +29,7 @@ void EncryptDirectPacket(directconnect* dc, icq_packet* p);
 
 void packEmptyMsg(icq_packet *packet);
 
-static void packDirectMsgHeader(icq_packet* packet, WORD wDataLen, WORD wCommand, DWORD dwCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wX1, WORD wX2)
+static void packDirectMsgHeader(icq_packet* packet, size_t wDataLen, WORD wCommand, DWORD dwCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wX1, WORD wX2)
 {
 	directPacketInit(packet, 29 + wDataLen);
 	packByte(packet, 2);        /* channel */
@@ -50,16 +50,13 @@ static void packDirectMsgHeader(icq_packet* packet, WORD wDataLen, WORD wCommand
 void CIcqProto::icq_sendDirectMsgAck(directconnect* dc, WORD wCookie, BYTE bMsgType, BYTE bMsgFlags, char* szCap)
 {
 	icq_packet packet;
-
-	packDirectMsgHeader(&packet, (WORD)(bMsgType==MTYPE_PLAIN ? (szCap ? 53 : 11) : 3), DIRECT_ACK, wCookie, bMsgType, bMsgFlags, 0, 0);
+	packDirectMsgHeader(&packet, bMsgType == MTYPE_PLAIN ? (szCap ? 53 : 11) : 3, DIRECT_ACK, wCookie, bMsgType, bMsgFlags, 0, 0);
 	packEmptyMsg(&packet);   /* empty message */
 
-	if (bMsgType == MTYPE_PLAIN)
-	{
+	if (bMsgType == MTYPE_PLAIN) {
 		packMsgColorInfo(&packet);
 
-		if (szCap)
-		{
+		if (szCap) {
 			packLEDWord(&packet, 0x26);     /* CLSID length */
 			packBuffer(&packet, (LPBYTE)szCap, 0x26); /* GUID */
 		}
@@ -73,16 +70,13 @@ void CIcqProto::icq_sendDirectMsgAck(directconnect* dc, WORD wCookie, BYTE bMsgT
 
 DWORD CIcqProto::icq_sendGetAwayMsgDirect(MCONTACT hContact, int type)
 {
-	icq_packet packet;
-	DWORD dwCookie;
-	cookie_message_data *pCookieData;
-
 	if (getWord(hContact, "Version", 0) >= 9)
 		return 0; // v9 DC protocol does not support this message
 
-	pCookieData = CreateMessageCookie(MTYPE_AUTOAWAY, (BYTE)type);
-	dwCookie = AllocateCookie(CKT_MESSAGE, 0, hContact, (void*)pCookieData);
+	cookie_message_data *pCookieData = CreateMessageCookie(MTYPE_AUTOAWAY, (BYTE)type);
+	DWORD dwCookie = AllocateCookie(CKT_MESSAGE, 0, hContact, (void*)pCookieData);
 
+	icq_packet packet;
 	packDirectMsgHeader(&packet, 3, DIRECT_MESSAGE, dwCookie, (BYTE)type, 3, 1, 0);
 	packEmptyMsg(&packet);  // message
 
@@ -92,25 +86,23 @@ DWORD CIcqProto::icq_sendGetAwayMsgDirect(MCONTACT hContact, int type)
 
 void CIcqProto::icq_sendAwayMsgReplyDirect(directconnect* dc, WORD wCookie, BYTE msgType, const char** szMsg)
 {
-	icq_packet packet;
-
-	if (validateStatusMessageRequest(dc->hContact, msgType))
-	{
+	if (validateStatusMessageRequest(dc->hContact, msgType)) {
 		NotifyEventHooks(m_modeMsgsEvent, (WPARAM)msgType, (LPARAM)dc->dwRemoteUin);
 
 		icq_lock l(m_modeMsgsMutex);
 
-		if (szMsg && *szMsg)
-		{
+		if (szMsg && *szMsg) {
 			// prepare Ansi message - only Ansi supported
-			WORD wMsgLen = strlennull(*szMsg) + 1;
+			size_t wMsgLen = mir_strlen(*szMsg) + 1;
 			char *szAnsiMsg = (char*)_alloca(wMsgLen);
 
 			utf8_decode_static(*szMsg, szAnsiMsg, wMsgLen);
-			wMsgLen = strlennull(szAnsiMsg);
-			packDirectMsgHeader(&packet, (WORD)(3 + wMsgLen), DIRECT_ACK, wCookie, msgType, 3, 0, 0);
-			packLEWord(&packet, (WORD)(wMsgLen + 1));
-			packBuffer(&packet, (LPBYTE)szAnsiMsg, (WORD)(wMsgLen + 1));
+			wMsgLen = mir_strlen(szAnsiMsg);
+
+			icq_packet packet;
+			packDirectMsgHeader(&packet, 3 + wMsgLen, DIRECT_ACK, wCookie, msgType, 3, 0, 0);
+			packLEWord(&packet, WORD(wMsgLen + 1));
+			packBuffer(&packet, (LPBYTE)szAnsiMsg, wMsgLen + 1);
 			EncryptDirectPacket(dc, &packet);
 
 			sendDirectPacket(dc, &packet);
@@ -123,7 +115,6 @@ void CIcqProto::icq_sendFileAcceptDirect(MCONTACT hContact, filetransfer* ft)
 {
 	// v7 packet
 	icq_packet packet;
-
 	packDirectMsgHeader(&packet, 18, DIRECT_ACK, ft->dwCookie, MTYPE_FILEREQ, 0, 0, 0);
 	packLEWord(&packet, 1);    // description
 	packByte(&packet, 0);
@@ -144,25 +135,24 @@ void CIcqProto::icq_sendFileDenyDirect(MCONTACT hContact, filetransfer *ft, cons
 {
 	// v7 packet
 	icq_packet packet;
-  char *szReasonAnsi = NULL;
-  int cbReasonAnsi = 0;
-
+	char *szReasonAnsi = NULL;
 	if (!utf8_decode(szReason, &szReasonAnsi))
 		szReasonAnsi = _strdup(szReason);		// Legacy fix
-    cbReasonAnsi = strlennull(szReasonAnsi);
+	size_t cbReasonAnsi = mir_strlen(szReasonAnsi);
 
-	packDirectMsgHeader(&packet, (WORD)(18 + cbReasonAnsi), DIRECT_ACK, ft->dwCookie, MTYPE_FILEREQ, 0, 1, 0);
-	packLEWord(&packet, (WORD)(1 + cbReasonAnsi));  // description
-	if (szReasonAnsi) packBuffer(&packet, (LPBYTE)szReasonAnsi, (WORD)cbReasonAnsi);
+	packDirectMsgHeader(&packet, 18 + cbReasonAnsi, DIRECT_ACK, ft->dwCookie, MTYPE_FILEREQ, 0, 1, 0);
+	packLEWord(&packet, WORD(1 + cbReasonAnsi));  // description
+	if (szReasonAnsi)
+		packBuffer(&packet, (LPBYTE)szReasonAnsi, cbReasonAnsi);
 	packByte(&packet, 0);
 	packWord(&packet, 0);
 	packLEWord(&packet, 0);
 	packLEWord(&packet, 1);   // filename
 	packByte(&packet, 0);     // TODO: really send filename
 	packLEDWord(&packet, 0);  // file size 
-	packLEDWord(&packet, 0);  
+	packLEDWord(&packet, 0);
 
-  SAFE_FREE(&szReasonAnsi);
+	SAFE_FREE(&szReasonAnsi);
 
 	SendDirectMessage(hContact, &packet);
 
@@ -172,20 +162,20 @@ void CIcqProto::icq_sendFileDenyDirect(MCONTACT hContact, filetransfer *ft, cons
 
 int CIcqProto::icq_sendFileSendDirectv7(filetransfer *ft, const char *pszFiles)
 {
-	icq_packet packet;
 	char *szFilesAnsi = NULL;
-	WORD wDescrLen = strlennull(ft->szDescription), wFilesLen = 0;
+	size_t wDescrLen = mir_strlen(ft->szDescription);
 
 	if (!utf8_decode(pszFiles, &szFilesAnsi))
 		szFilesAnsi = _strdup(pszFiles);		// Legacy fix
-    wFilesLen = strlennull(szFilesAnsi);
+	size_t wFilesLen = mir_strlen(szFilesAnsi);
 
-	packDirectMsgHeader(&packet, (WORD)(18 + wDescrLen + wFilesLen), DIRECT_MESSAGE, (WORD)ft->dwCookie, MTYPE_FILEREQ, 0, 0, 0);
-	packLEWord(&packet, (WORD)(wDescrLen + 1));
-	packBuffer(&packet, (LPBYTE)ft->szDescription, (WORD)(wDescrLen + 1));
+	icq_packet packet;
+	packDirectMsgHeader(&packet, 18 + wDescrLen + wFilesLen, DIRECT_MESSAGE, (WORD)ft->dwCookie, MTYPE_FILEREQ, 0, 0, 0);
+	packLEWord(&packet, WORD(wDescrLen + 1));
+	packBuffer(&packet, (LPBYTE)ft->szDescription, wDescrLen + 1);
 	packLEDWord(&packet, 0);   // listen port
-	packLEWord(&packet, (WORD)(wFilesLen + 1));
-	packBuffer(&packet, (LPBYTE)szFilesAnsi, (WORD)(wFilesLen + 1));
+	packLEWord(&packet, WORD(wFilesLen + 1));
+	packBuffer(&packet, (LPBYTE)szFilesAnsi, wFilesLen + 1);
 	packLEDWord(&packet, ft->dwTotalSize);
 	packLEDWord(&packet, 0);    // listen port (again)
 
@@ -199,25 +189,25 @@ int CIcqProto::icq_sendFileSendDirectv7(filetransfer *ft, const char *pszFiles)
 
 int CIcqProto::icq_sendFileSendDirectv8(filetransfer *ft, const char *pszFiles)
 {
-	icq_packet packet;
 	char *szFilesAnsi = NULL;
-	WORD wDescrLen = strlennull(ft->szDescription), wFilesLen = 0;
+	size_t wDescrLen = mir_strlen(ft->szDescription);
 
 	if (!utf8_decode(pszFiles, &szFilesAnsi))
 		szFilesAnsi = _strdup(pszFiles);		// Legacy fix
-    wFilesLen = strlennull(szFilesAnsi);
+	size_t wFilesLen = mir_strlen(szFilesAnsi)+1;
 
-	packDirectMsgHeader(&packet, (WORD)(0x2E + 22 + wDescrLen + wFilesLen + 1), DIRECT_MESSAGE, (WORD)ft->dwCookie, MTYPE_PLUGIN, 0, 0, 0);
+	icq_packet packet;
+	packDirectMsgHeader(&packet, 0x2E + 22 + wDescrLen + wFilesLen, DIRECT_MESSAGE, (WORD)ft->dwCookie, MTYPE_PLUGIN, 0, 0, 0);
 	packEmptyMsg(&packet);  // message
 	packPluginTypeId(&packet, MTYPE_FILEREQ);
 
-	packLEDWord(&packet, (WORD)(18 + wDescrLen + wFilesLen + 1)); // Remaining length
-	packLEDWord(&packet, wDescrLen);          // Description
+	packLEDWord(&packet, WORD(18 + wDescrLen + wFilesLen)); // Remaining length
+	packLEDWord(&packet, DWORD(wDescrLen));          // Description
 	packBuffer(&packet, (LPBYTE)ft->szDescription, wDescrLen);
 	packWord(&packet, 0x8c82); // Unknown (port?), seen 0x80F6
 	packWord(&packet, 0x0222); // Unknown, seen 0x2e01
-	packLEWord(&packet, (WORD)(wFilesLen + 1));
-	packBuffer(&packet, (LPBYTE)szFilesAnsi, (WORD)(wFilesLen + 1));
+	packLEWord(&packet, WORD(wFilesLen));
+	packBuffer(&packet, (LPBYTE)szFilesAnsi, wFilesLen);
 	packLEDWord(&packet, ft->dwTotalSize);
 	packLEDWord(&packet, 0x0008c82); // Unknown, (seen 0xf680 ~33000)
 
@@ -229,16 +219,16 @@ int CIcqProto::icq_sendFileSendDirectv8(filetransfer *ft, const char *pszFiles)
 }
 
 
-DWORD CIcqProto::icq_SendDirectMessage(MCONTACT hContact, const char *szMessage, int nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap)
+DWORD CIcqProto::icq_SendDirectMessage(MCONTACT hContact, const char *szMessage, size_t nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap)
 {
-	icq_packet packet;
 	DWORD dwCookie = AllocateCookie(CKT_MESSAGE, 0, hContact, (void*)pCookieData);
 
 	// Pack the standard header
-	packDirectMsgHeader(&packet, (WORD)(nBodyLength + (szCap ? 53:11)), DIRECT_MESSAGE, dwCookie, (BYTE)pCookieData->bMessageType, 0, 0, 0);
+	icq_packet packet;
+	packDirectMsgHeader(&packet, nBodyLength + (szCap ? 53 : 11), DIRECT_MESSAGE, dwCookie, (BYTE)pCookieData->bMessageType, 0, 0, 0);
 
-	packLEWord(&packet, (WORD)(nBodyLength+1));            // Length of message
-	packBuffer(&packet, (LPBYTE)szMessage, (WORD)(nBodyLength+1)); // Message
+	packLEWord(&packet, WORD(nBodyLength+1));            // Length of message
+	packBuffer(&packet, (LPBYTE)szMessage, nBodyLength+1); // Message
 	packMsgColorInfo(&packet);
 	if (szCap)
 	{
@@ -253,34 +243,32 @@ DWORD CIcqProto::icq_SendDirectMessage(MCONTACT hContact, const char *szMessage,
 	return 0; // Failure
 }
 
-void CIcqProto::icq_sendXtrazRequestDirect(MCONTACT hContact, DWORD dwCookie, char* szBody, int nBodyLen, WORD wType)
+void CIcqProto::icq_sendXtrazRequestDirect(MCONTACT hContact, DWORD dwCookie, char* szBody, size_t nBodyLen, WORD wType)
 {
 	icq_packet packet;
-
-	packDirectMsgHeader(&packet, (WORD)(11 + getPluginTypeIdLen(wType) + nBodyLen), DIRECT_MESSAGE, dwCookie, MTYPE_PLUGIN, 0, 0, 1);
+	packDirectMsgHeader(&packet, 11 + getPluginTypeIdLen(wType) + nBodyLen, DIRECT_MESSAGE, dwCookie, MTYPE_PLUGIN, 0, 0, 1);
 	packEmptyMsg(&packet);  // message (unused)
 	packPluginTypeId(&packet, wType);
 
-	packLEDWord(&packet, nBodyLen + 4);
-	packLEDWord(&packet, nBodyLen);
-	packBuffer(&packet, (LPBYTE)szBody, (WORD)nBodyLen);
+	packLEDWord(&packet, DWORD(nBodyLen + 4));
+	packLEDWord(&packet, DWORD(nBodyLen));
+	packBuffer(&packet, (LPBYTE)szBody, nBodyLen);
 
 	SendDirectMessage(hContact, &packet);
 }
 
-void CIcqProto::icq_sendXtrazResponseDirect(MCONTACT hContact, WORD wCookie, char* szBody, int nBodyLen, WORD wType)
+void CIcqProto::icq_sendXtrazResponseDirect(MCONTACT hContact, WORD wCookie, char* szBody, size_t nBodyLen, WORD wType)
 {
 	icq_packet packet;
+	packDirectMsgHeader(&packet, getPluginTypeIdLen(wType) + 11 + nBodyLen, DIRECT_ACK, wCookie, MTYPE_PLUGIN, 0, 0, 0);
 
-	packDirectMsgHeader(&packet, (WORD)(getPluginTypeIdLen(wType) + 11 + nBodyLen), DIRECT_ACK, wCookie, MTYPE_PLUGIN, 0, 0, 0);
-	//
 	packEmptyMsg(&packet);  // Message (unused)
 
 	packPluginTypeId(&packet, wType);
 
-	packLEDWord(&packet, nBodyLen + 4);
-	packLEDWord(&packet, nBodyLen);
-	packBuffer(&packet, (LPBYTE)szBody, (WORD)nBodyLen);
+	packLEDWord(&packet, DWORD(nBodyLen + 4));
+	packLEDWord(&packet, DWORD(nBodyLen));
+	packBuffer(&packet, (LPBYTE)szBody, nBodyLen);
 
 	SendDirectMessage(hContact, &packet);
 }

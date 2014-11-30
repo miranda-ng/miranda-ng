@@ -1,23 +1,23 @@
 // ---------------------------------------------------------------------------80
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
-// 
+//
 // Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
 // Copyright © 2012-2014 Miranda NG Team
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -53,17 +53,17 @@ protected:
 	BOOL   stopThread; // horrible, but simple - signal for thread to stop
 
 	char  *pCookie;     // auth to server
-	WORD   wCookieLen;
+	size_t wCookieLen;
 
 	int    sendServerPacket(icq_packet *pPacket);
 
-	int    handleServerPackets(BYTE *buf, int buflen);
+	int    handleServerPackets(BYTE *buf, size_t buflen);
 
-	void   handleLoginChannel(BYTE *buf, WORD datalen);
-	void   handleDataChannel(BYTE *buf, WORD datalen);
+	void   handleLoginChannel(BYTE *buf, size_t datalen);
+	void   handleDataChannel(BYTE *buf, size_t datalen);
 
-	void   handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader);
-	void   handleAvatarFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader);
+	void   handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader);
+	void   handleAvatarFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader);
 
 	rates *m_rates;
 	icq_critical_section *m_ratesMutex;
@@ -74,7 +74,7 @@ protected:
 	void     checkRequestQueue();
 
 public:
-	avatars_server_connection(CIcqProto *ppro, HANDLE hConnection, char *pCookie, WORD wCookieLen);
+	avatars_server_connection(CIcqProto *ppro, HANDLE hConnection, char *pCookie, size_t wCookieLen);
 	virtual ~avatars_server_connection();
 
 	void connectionThread();
@@ -84,25 +84,25 @@ public:
 	__inline BOOL isPending() { return !isLoggedIn; };
 	__inline BOOL isReady() { return isLoggedIn && isActive && !stopThread; };
 
-	DWORD  sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file);
-	DWORD  sendUploadAvatarRequest(MCONTACT hContact, WORD wRef, const BYTE *data, unsigned int datalen);
+	DWORD  sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file);
+	DWORD  sendUploadAvatarRequest(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen);
 };
 
 __inline static void SAFE_DELETE(avatars_server_connection **p) { SAFE_DELETE((lockable_struct**)p); };
 
 struct avatars_request : public MZeroedObject
 {
-	int    type;
+	int      type;
 	MCONTACT hContact;
-	DWORD  dwUin;
-	uid_str szUid;
-	BYTE  *hash;
-	unsigned int hashlen;
-	TCHAR  *szFile;
-	BYTE   *pData;
-	unsigned int cbData;
-	WORD   wRef;
-	DWORD  timeOut;
+	DWORD    dwUin;
+	uid_str  szUid;
+	BYTE    *hash;
+	size_t   hashlen;
+	TCHAR   *szFile;
+	BYTE    *pData;
+	size_t   cbData;
+	WORD     wRef;
+	DWORD    timeOut;
 	avatars_request *pNext;
 
 public:

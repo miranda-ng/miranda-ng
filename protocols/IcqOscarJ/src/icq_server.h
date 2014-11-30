@@ -33,14 +33,14 @@
 struct serverthread_start_info
 {
 	NETLIBOPENCONNECTION nloc;
-	WORD wPassLen;
+	size_t wPassLen;
 	char szPass[128];
 };
 
 struct serverthread_info
 {
 	BYTE   szAuthKey[20];
-	WORD   wAuthKeyLen;
+	size_t wAuthKeyLen;
 	WORD   wServerPort;
 	char   *newServer;
 	BYTE   *cookieData;

@@ -85,6 +85,6 @@ struct directconnect
   DWORD dwReqId;  // Reverse Connect request cookie
 };
 
-int  DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen);
+int  DecryptDirectPacket(directconnect* dc, PBYTE buf, size_t wLen);
 
 #endif /* __ICQ_DIRECT_H */

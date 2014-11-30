@@ -30,15 +30,15 @@
 #include "icqoscar.h"
 
 /* set maxTlvs<=0 to get all TLVs in length, or a positive integer to get at most the first n */
-oscar_tlv_chain* readIntoTLVChain(BYTE **buf, WORD wLen, int maxTlvs)
+oscar_tlv_chain* readIntoTLVChain(BYTE **buf, size_t wLen, int maxTlvs)
 {
 	oscar_tlv_chain *now, *last, *chain = NULL;
 	WORD now_tlv_len;
-	int len = wLen;
 
 	if (!buf || !wLen)
 		return NULL;
 
+	intptr_t len = wLen;
 	while (len > 0) { /* don't use unsigned variable for this check */
 		now = (oscar_tlv_chain *)SAFE_MALLOC(sizeof(oscar_tlv_chain));
 
@@ -113,7 +113,7 @@ WORD oscar_tlv_chain::getChainLength()
 	return len;
 }
 
-oscar_tlv* oscar_tlv_chain::putTLV(WORD wType, WORD wLen, BYTE *pData, BOOL bReplace)
+oscar_tlv* oscar_tlv_chain::putTLV(WORD wType, size_t wLen, BYTE *pData, BOOL bReplace)
 {
 	oscar_tlv *tlv = getTLV(wType, 1);
 
@@ -132,7 +132,7 @@ oscar_tlv* oscar_tlv_chain::putTLV(WORD wType, WORD wLen, BYTE *pData, BOOL bRep
 		}
 	}
 	if (tlv) {
-		tlv->wLen = wLen;
+		tlv->wLen = WORD(wLen);
 		tlv->pData = (PBYTE)SAFE_MALLOC(wLen);
 		memcpy(tlv->pData, pData, wLen);
 	}
@@ -278,7 +278,7 @@ void disposeChain(oscar_tlv_chain **chain)
 	*chain = NULL;
 }
 
-oscar_tlv_record_list* readIntoTLVRecordList(BYTE **buf, WORD wLen, int nCount)
+oscar_tlv_record_list* readIntoTLVRecordList(BYTE **buf, size_t wLen, int nCount)
 {
 	oscar_tlv_record_list *list = NULL, *last;
 

@@ -29,7 +29,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleDataChannel(BYTE *pBuffer, WORD wBufferLength, serverthread_info *info)
+void CIcqProto::handleDataChannel(BYTE *pBuffer, size_t wBufferLength, serverthread_info *info)
 {
 	snac_header snacHeader = {0};
 
@@ -91,7 +91,7 @@ void CIcqProto::handleDataChannel(BYTE *pBuffer, WORD wBufferLength, serverthrea
 }
 
 
-int unpackSnacHeader(snac_header *pSnacHeader, BYTE **pBuffer, WORD *pwBufferLength)
+int unpackSnacHeader(snac_header *pSnacHeader, BYTE **pBuffer, size_t *pwBufferLength)
 {
 	WORD wRef1, wRef2;
 

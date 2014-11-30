@@ -65,23 +65,21 @@ char *NickFromHandle(MCONTACT hContact);
 char *NickFromHandleUtf(MCONTACT hContact);
 char *strUID(DWORD dwUIN, char *pszUID);
 
-int __fastcall strlennull(const char *string);
 int __fastcall strcmpnull(const char *str1, const char *str2);
 int __fastcall stricmpnull(const char *str1, const char *str2);
 char* __fastcall strstrnull(const char *str, const char *substr);
 char* __fastcall null_strdup(const char *string);
 char* __fastcall null_strcpy(char *dest, const char *src, size_t maxlen);
-int __fastcall null_strcut(char *string, int maxlen);
+size_t __fastcall null_strcut(char *string, size_t maxlen);
 
-int __fastcall strlennull(const WCHAR *string);
 WCHAR* __fastcall null_strdup(const WCHAR *string);
 WCHAR* __fastcall null_strcpy(WCHAR *dest, const WCHAR *src, size_t maxlen);
 
 void parseServerAddress(char *szServer, WORD* wPort);
 
-char *DemangleXml(const char *string, int len);
-char *MangleXml(const char *string, int len);
-char *EliminateHtml(const char *string, int len);
+char *DemangleXml(const char *string, size_t len);
+char *MangleXml(const char *string, size_t len);
+char *EliminateHtml(const char *string, size_t len);
 char *ApplyEncoding(const char *string, const char *pszEncoding);
 
 int RandRange(int nLow, int nHigh);

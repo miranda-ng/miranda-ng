@@ -50,7 +50,6 @@ static void file_buildProtoFileTransferStatus(filetransfer* ft, PROTOFILETRANSFE
 static void file_sendTransferSpeed(CIcqProto* ppro, directconnect* dc)
 {
 	icq_packet packet;
-
 	directPacketInit(&packet, 5);
 	packByte(&packet, PEER_FILE_SPEED);    /* Ident */
 	packLEDWord(&packet, dc->ft->dwTransferSpeed);
@@ -60,31 +59,22 @@ static void file_sendTransferSpeed(CIcqProto* ppro, directconnect* dc)
 
 static void file_sendNick(CIcqProto* ppro, directconnect* dc)
 {
+	ptrA tmp(ppro->getStringA("Nick"));
+	char *szNick = NEWSTR_ALLOCA((tmp == NULL) ? "" : tmp);
+	size_t nNickLen = mir_strlen(szNick);
+
 	icq_packet packet;
-	char* szNick;
-	WORD wNickLen;
-	DBVARIANT dbv = { DBVT_DELETED };
-
-	if (ppro->getString("Nick", &dbv))
-		szNick = "";
-	else
-		szNick = dbv.pszVal;
-
-	wNickLen = strlennull(szNick);
-
-	directPacketInit(&packet, (WORD)(8 + wNickLen));
+	directPacketInit(&packet, 8 + nNickLen);
 	packByte(&packet, PEER_FILE_INIT_ACK); /* Ident */
 	packLEDWord(&packet, dc->ft->dwTransferSpeed);
-	packLEWord(&packet, (WORD)(wNickLen + 1));
-	packBuffer(&packet, (LPBYTE)szNick, (WORD)(wNickLen + 1));
+	packLEWord(&packet, WORD(nNickLen + 1));
+	packBuffer(&packet, (LPBYTE)szNick, nNickLen + 1);
 	ppro->sendDirectPacket(dc, &packet);
-	db_free(&dbv);
 }
 
 
 static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 {
-	icq_packet packet;
 	struct _stati64 statbuf;
 	char szThisSubDir[MAX_PATH];
 
@@ -105,9 +95,8 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 
 	char *pszThisFileName = FindFilePathContainer((LPCSTR*)dc->ft->pszFiles, dc->ft->iCurrentFile, szThisSubDir);
 
-	if (statbuf.st_mode&_S_IFDIR) {
+	if (statbuf.st_mode & _S_IFDIR)
 		dc->ft->currentIsDir = 1;
-	}
 	else {
 		dc->ft->currentIsDir = 0;
 		dc->ft->fileId = OpenFileUtf(dc->ft->szThisFile, _O_BINARY | _O_RDONLY, _S_IREAD);
@@ -117,8 +106,8 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 			dc->ft->hConnection = NULL;
 			return;
 		}
-
 	}
+
 	dc->ft->dwThisFileSize = statbuf.st_size;
 	dc->ft->dwThisFileDate = statbuf.st_mtime;
 	dc->ft->dwFileBytesDone = 0;
@@ -128,16 +117,18 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 		szThisFileNameAnsi = _strdup(pszThisFileName);	// Legacy fix
 	if (!utf8_decode(szThisSubDir, &szThisSubDirAnsi))
 		szThisSubDirAnsi = _strdup(szThisSubDir);		// Legacy fix
-	WORD wThisFileNameLen = strlennull(szThisFileNameAnsi);
-	WORD wThisSubDirLen = strlennull(szThisSubDirAnsi);
+	
+	size_t wThisFileNameLen = mir_strlen(szThisFileNameAnsi);
+	size_t wThisSubDirLen = mir_strlen(szThisSubDirAnsi);
 
-	directPacketInit(&packet, (WORD)(20 + wThisFileNameLen + wThisSubDirLen));
+	icq_packet packet;
+	directPacketInit(&packet, 20 + wThisFileNameLen + wThisSubDirLen);
 	packByte(&packet, PEER_FILE_NEXTFILE); /* Ident */
 	packByte(&packet, (BYTE)((statbuf.st_mode & _S_IFDIR) != 0)); // Is subdir
-	packLEWord(&packet, (WORD)(wThisFileNameLen + 1));
-	packBuffer(&packet, (LPBYTE)szThisFileNameAnsi, (WORD)(wThisFileNameLen + 1));
-	packLEWord(&packet, (WORD)(wThisSubDirLen + 1));
-	packBuffer(&packet, (LPBYTE)szThisSubDirAnsi, (WORD)(wThisSubDirLen + 1));
+	packLEWord(&packet, WORD(wThisFileNameLen + 1));
+	packBuffer(&packet, (LPBYTE)szThisFileNameAnsi, wThisFileNameLen + 1);
+	packLEWord(&packet, WORD(wThisSubDirLen + 1));
+	packBuffer(&packet, (LPBYTE)szThisSubDirAnsi, wThisSubDirLen + 1);
 	packLEDWord(&packet, dc->ft->dwThisFileSize);
 	packLEDWord(&packet, statbuf.st_mtime);
 	packLEDWord(&packet, dc->ft->dwTransferSpeed);
@@ -152,7 +143,6 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 static void file_sendResume(CIcqProto* ppro, directconnect* dc)
 {
 	icq_packet packet;
-
 	directPacketInit(&packet, 17);
 	packByte(&packet, PEER_FILE_RESUME);            /* Ident */
 	packLEDWord(&packet, dc->ft->dwFileBytesDone);  /* file resume */
@@ -177,9 +167,9 @@ static void file_sendData(CIcqProto* ppro, directconnect* dc)
 		if (bytesRead == -1)
 			return;
 
-		directPacketInit(&packet, (WORD)(1 + bytesRead));
+		directPacketInit(&packet, 1 + bytesRead);
 		packByte(&packet, PEER_FILE_DATA);   /* Ident */
-		packBuffer(&packet, buf, (WORD)bytesRead);
+		packBuffer(&packet, buf, bytesRead);
 		ppro->sendDirectPacket(dc, &packet);
 	}
 
@@ -217,7 +207,8 @@ void CIcqProto::icq_sendFileResume(filetransfer *ft, int action, const char *szF
 		return;
 
 	directconnect *dc = FindFileTransferDC(ft);
-	if (!dc) return; // something is broken...
+	if (!dc)
+		return; // something is broken...
 
 	int openFlags;
 
@@ -267,9 +258,9 @@ void CIcqProto::icq_sendFileResume(filetransfer *ft, int action, const char *szF
 // small utility function
 void NormalizeBackslash(char* path)
 {
-	int len = strlennull(path);
-
-	if (len && path[len - 1] != '\\') strcat(path, "\\");
+	size_t len = mir_strlen(path);
+	if (len && path[len-1] != '\\')
+		strcat(path, "\\");
 }
 
 /* a file transfer looks like this:
@@ -282,7 +273,7 @@ S: 6 * many
 (for more files, send 2, 3, 6*many)
 */
 
-void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, WORD wLen)
+void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wLen)
 {
 	if (wLen < 1)
 		return;
@@ -381,7 +372,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, WORD wLen
 				break;
 			}
 
-			char *szFullPath = (char*)SAFE_MALLOC(strlennull(dc->ft->szSavePath) + strlennull(dc->ft->szThisSubdir) + strlennull(dc->ft->szThisFile) + 3);
+			char *szFullPath = (char*)SAFE_MALLOC(mir_strlen(dc->ft->szSavePath) + mir_strlen(dc->ft->szThisSubdir) + mir_strlen(dc->ft->szThisFile) + 3);
 			strcpy(szFullPath, dc->ft->szSavePath);
 			NormalizeBackslash(szFullPath);
 			strcat(szFullPath, dc->ft->szThisSubdir);
@@ -458,12 +449,12 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, WORD wLen
 			if (dc->ft->fileId == -1)
 				break;
 			buf++; wLen--;
-			_write(dc->ft->fileId, buf, wLen);
+			_write(dc->ft->fileId, buf, (unsigned)wLen);
 		}
 		else
 			wLen = 0;
-		dc->ft->dwBytesDone += wLen;
-		dc->ft->dwFileBytesDone += wLen;
+		dc->ft->dwBytesDone += (DWORD)wLen;
+		dc->ft->dwFileBytesDone += (DWORD)wLen;
 		if (GetTickCount() > dc->ft->dwLastNotify + 500 || wLen < 2048) {
 			PROTOFILETRANSFERSTATUS pfts;
 

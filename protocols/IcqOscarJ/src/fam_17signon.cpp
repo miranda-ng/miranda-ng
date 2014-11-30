@@ -25,7 +25,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleAuthorizationFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader, serverthread_info *info)
+void CIcqProto::handleAuthorizationFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader, serverthread_info *info)
 {
 	switch (pSnacHeader->wSubtype) {
 
@@ -70,35 +70,30 @@ static void icq_encryptPassword(const char *szPassword, BYTE *encrypted)
 		encrypted[i] = (szPassword[i] ^ table[i % 16]);
 }
 
-void CIcqProto::sendClientAuth(const char *szKey, WORD wKeyLen, BOOL bSecure)
+void CIcqProto::sendClientAuth(const char *szKey, size_t wKeyLen, BOOL bSecure)
 {
 	char szUin[UINMAXLEN];
-	WORD wUinLen;
 	icq_packet packet;
 
-	wUinLen = strlennull(strUID(m_dwLocalUIN, szUin));
+	size_t wUinLen = mir_strlen(strUID(m_dwLocalUIN, szUin));
 
-	packet.wLen = (m_bLegacyFix ? 65 : 70) + sizeof(CLIENT_ID_STRING) + wUinLen + wKeyLen + (m_bSecureConnection ? 4 : 0);
+	packet.wLen = WORD((m_bLegacyFix ? 65 : 70) + sizeof(CLIENT_ID_STRING) + wUinLen + wKeyLen + (m_bSecureConnection ? 4 : 0));
 
-	if (bSecure)
-	{
-		serverPacketInit(&packet, (WORD)(packet.wLen + 10));
+	if (bSecure) {
+		serverPacketInit(&packet, packet.wLen + 10);
 		packFNACHeader(&packet, ICQ_AUTHORIZATION_FAMILY, ICQ_SIGNON_LOGIN_REQUEST, 0, 0);
 	}
-	else
-	{
+	else {
 		write_flap(&packet, ICQ_LOGIN_CHAN);
 		packDWord(&packet, 0x00000001);
 	}
 	packTLV(&packet, 0x0001, wUinLen, (LPBYTE)szUin);
 
-	if (bSecure)
-	{ // Pack MD5 auth digest
+	if (bSecure) { // Pack MD5 auth digest
 		packTLV(&packet, 0x0025, wKeyLen, (BYTE*)szKey);
 		packDWord(&packet, 0x004C0000); // empty TLV(0x4C): unknown
 	}
-	else
-	{ // Pack old style password hash
+	else { // Pack old style password hash
 		BYTE hash[20];
 
 		icq_encryptPassword(szKey, hash);
@@ -123,7 +118,7 @@ void CIcqProto::sendClientAuth(const char *szKey, WORD wKeyLen, BOOL bSecure)
 	sendServPacket(&packet);
 }
 
-void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_info *info)
+void CIcqProto::handleAuthKeyResponse(BYTE *buf, size_t wPacketLen, serverthread_info *info)
 {
 	WORD wKeyLen;
 	char szKey[64] = {0};
@@ -152,7 +147,7 @@ void CIcqProto::handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_i
 	unpackString(&buf, szKey, wKeyLen);
 
 	mir_md5_init(&state);
-	mir_md5_append(&state, info->szAuthKey, info->wAuthKeyLen);
+	mir_md5_append(&state, info->szAuthKey, (int)info->wAuthKeyLen);
 	mir_md5_finish(&state, digest);
 
 	mir_md5_init(&state);

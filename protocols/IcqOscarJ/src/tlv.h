@@ -44,7 +44,7 @@ struct oscar_tlv_chain
   WORD getChainLength();
 
   oscar_tlv* getTLV(WORD wType, WORD wIndex);
-  oscar_tlv* putTLV(WORD wType, WORD wLen, BYTE *pData, BOOL bReplace);
+  oscar_tlv* putTLV(WORD wType, size_t wLen, BYTE *pData, BOOL bReplace);
   oscar_tlv_chain* removeTLV(oscar_tlv *tlv);
   WORD getLength(WORD wType, WORD wIndex);
 
@@ -67,10 +67,10 @@ struct oscar_tlv_record_list
 
 /*---------* Functions *---------------*/
 
-oscar_tlv_chain* readIntoTLVChain(BYTE **buf, WORD wLen, int maxTlvs);
+oscar_tlv_chain* readIntoTLVChain(BYTE **buf, size_t wLen, int maxTlvs);
 void disposeChain(oscar_tlv_chain** chain);
 
-oscar_tlv_record_list* readIntoTLVRecordList(BYTE **buf, WORD wLen, int nCount);
+oscar_tlv_record_list* readIntoTLVRecordList(BYTE **buf, size_t wLen, int nCount);
 void disposeRecordList(oscar_tlv_record_list** list);
 
 

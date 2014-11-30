@@ -31,7 +31,7 @@
 
 extern const char* cliSpamBot;
 
-void CIcqProto::handleBuddyFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader, serverthread_info *info)
+void CIcqProto::handleBuddyFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader, serverthread_info *info)
 {
 	switch (pSnacHeader->wSubtype) {
 	case ICQ_USER_ONLINE:
@@ -69,7 +69,7 @@ void CIcqProto::handleBuddyFam(BYTE *pBuffer, WORD wBufferLength, snac_header *p
 	}
 }
 
-void CIcqProto::handleReplyBuddy(BYTE *buf, WORD wPackLen)
+void CIcqProto::handleReplyBuddy(BYTE *buf, size_t wPackLen)
 {
 	oscar_tlv_chain *pChain = readIntoTLVChain(&buf, wPackLen, 0);
 	if (pChain) {
@@ -150,7 +150,7 @@ int unpackSessionDataItem(oscar_tlv_chain *pChain, WORD wItemType, BYTE **ppItem
 // TLV(2F) unknown key
 // TLV(30) unknown timestamp
 
-void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
+void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info *info)
 {
 	DWORD dwPort = 0;
 	DWORD dwRealIP = 0;
@@ -519,7 +519,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	}
 }
 
-void CIcqProto::handleUserOffline(BYTE *buf, WORD wLen)
+void CIcqProto::handleUserOffline(BYTE *buf, size_t wLen)
 {
 	DWORD dwUIN;
 	uid_str szUID;
@@ -671,7 +671,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, MCONTACT hContact, osc
 		if (dwStatusNoteTS > getDword(hContact, DBSETTING_STATUS_NOTE_TIME, 0)) {
 			DBVARIANT dbv = {DBVT_DELETED};
 
-			if (strlennull(szStatusNote) || (!getString(hContact, DBSETTING_STATUS_NOTE, &dbv) && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && strlennull(dbv.pszVal)))
+			if (mir_strlen(szStatusNote) || (!getString(hContact, DBSETTING_STATUS_NOTE, &dbv) && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && mir_strlen(dbv.pszVal)))
 				debugLogA("%s changed status note to \"%s\"", strUID(dwUin, szUid), szStatusNote ? szStatusNote : "");
 
 			db_free(&dbv);
@@ -699,7 +699,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, MCONTACT hContact, osc
 	}
 }
 
-void CIcqProto::handleNotifyRejected(BYTE *buf, WORD wPackLen)
+void CIcqProto::handleNotifyRejected(BYTE *buf, size_t wPackLen)
 {
 	DWORD dwUIN;
 	uid_str szUID;

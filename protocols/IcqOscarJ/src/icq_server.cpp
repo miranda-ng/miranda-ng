@@ -388,8 +388,9 @@ void CIcqProto::icq_login(const char* szPassword)
 		stsi->nloc.wPort = RandRange(1024, 65535);
 
 	// User password
-	stsi->wPassLen = strlennull(szPassword);
-	if (stsi->wPassLen > 8) stsi->wPassLen = 8;
+	stsi->wPassLen = mir_strlen(szPassword);
+	if (stsi->wPassLen > 8)
+		stsi->wPassLen = 8;
 	null_strcpy(stsi->szPass, szPassword, stsi->wPassLen);
 
 	// Randomize sequence

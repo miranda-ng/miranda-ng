@@ -597,26 +597,6 @@ char* strUID(DWORD dwUIN, char *pszUID)
 }
 
 
-/* a strlen() that likes NULL */
-int __fastcall strlennull(const char *string)
-{
-	if (string)
-		return (int)strlen(string);
-
-	return 0;
-}
-
-
-/* a wcslen() that likes NULL */
-int __fastcall strlennull(const WCHAR *string)
-{
-	if (string)
-		return (int)wcslen(string);
-
-	return 0;
-}
-
-
 /* a strcmp() that likes NULL */
 int __fastcall strcmpnull(const char *str1, const char *str2)
 {
@@ -699,10 +679,9 @@ WCHAR* __fastcall null_strcpy(WCHAR *dest, const WCHAR *src, size_t maxlen)
 }
 
 
-int __fastcall null_strcut(char *string, int maxlen)
+size_t __fastcall null_strcut(char *string, size_t maxlen)
 { // limit the string to max length (null & utf-8 strings ready)
-	int len = (int)strlennull(string);
-
+	size_t len = mir_strlen(string);
 	if (len < maxlen)
 		return len;
 
@@ -712,9 +691,9 @@ int __fastcall null_strcut(char *string, int maxlen)
 	{ // find the first byte of possible multi-byte character
 		while ((string[len] & 0xc0) == 0x80) len--;
 	}
+
 	// simply cut the string
 	string[len] = '\0';
-
 	return len;
 }
 
@@ -731,12 +710,11 @@ void parseServerAddress(char* szServer, WORD* wPort)
 	szServer[i] = '\0';
 }
 
-char* DemangleXml(const char *string, int len)
+char* DemangleXml(const char *string, size_t len)
 {
 	char *szWork = (char*)SAFE_MALLOC(len + 1), *szChar = szWork;
-	int i;
 
-	for (i = 0; i < len; i++) {
+	for (size_t i = 0; i < len; i++) {
 		if (!_strnicmp(string + i, "&gt;", 4)) {
 			*szChar = '>';
 			szChar++;
@@ -767,16 +745,22 @@ char* DemangleXml(const char *string, int len)
 	return szWork;
 }
 
-char* MangleXml(const char *string, int len)
+char* MangleXml(const char *string, size_t len)
 {
-	int i, l = 1;
+	size_t l = 1;
 	char *szWork, *szChar;
 
-	for (i = 0; i < len; i++) {
-		if (string[i] == '<' || string[i] == '>') l += 4; else if (string[i] == '&') l += 5; else if (string[i] == '"') l += 6; else l++;
+	for (size_t i = 0; i < len; i++) {
+		if (string[i] == '<' || string[i] == '>')
+			l += 4;
+		else if (string[i] == '&')
+			l += 5;
+		else if (string[i] == '"')
+			l += 6;
+		else l++;
 	}
 	szChar = szWork = (char*)SAFE_MALLOC(l + 1);
-	for (i = 0; i < len; i++) {
+	for (size_t i = 0; i < len; i++) {
 		if (string[i] == '<') {
 			*(DWORD*)szChar = ';tl&';
 			szChar += 4;
@@ -807,14 +791,13 @@ char* MangleXml(const char *string, int len)
 	return szWork;
 }
 
-char* EliminateHtml(const char *string, int len)
+char* EliminateHtml(const char *string, size_t len)
 {
 	char *tmp = (char*)SAFE_MALLOC(len + 1);
-	int i, j;
 	BOOL tag = FALSE;
 	char *res;
 
-	for (i = 0, j = 0; i < len; i++) {
+	for (size_t i = 0, j = 0; i < len; i++) {
 		if (!tag && string[i] == '<') {
 			if ((i + 4 <= len) && (!_strnicmp(string + i, "<br>", 4) || !_strnicmp(string + i, "<br/>", 5))) { // insert newline
 				tmp[j] = '\r';
@@ -834,7 +817,7 @@ char* EliminateHtml(const char *string, int len)
 		tmp[j] = '\0';
 	}
 	SAFE_FREE((void**)&string);
-	res = DemangleXml(tmp, strlennull(tmp));
+	res = DemangleXml(tmp, mir_strlen(tmp));
 	SAFE_FREE((void**)&tmp);
 
 	return res;
@@ -848,11 +831,11 @@ char* ApplyEncoding(const char *string, const char *pszEncoding)
 			return null_strdup(string);
 
 		if (!_strnicmp(pszEncoding, "unicode-2-0", 11)) { // it is UCS-2 encoded
-			int wLen = strlennull((WCHAR*)string) + 1;
-			WCHAR *szStr = (WCHAR*)_alloca(wLen * 2);
+			size_t wLen = mir_wstrlen((WCHAR*)string) + 1;
+			WCHAR *szStr = (WCHAR*)_alloca(wLen*2);
 			BYTE *tmp = (BYTE*)string;
 
-			unpackWideString(&tmp, szStr, (WORD)(wLen * 2));
+			unpackWideString(&tmp, szStr, wLen*2);
 
 			return make_utf8_string(szStr);
 		}
@@ -947,10 +930,10 @@ int RandRange(int nLow, int nHigh)
 
 bool IsStringUIN(const char *pszString)
 {
-	int nLen = strlennull(pszString);
+	size_t nLen = mir_strlen(pszString);
 
 	if (nLen > 0 && pszString[0] != '0') {
-		for (int i = 0; i < nLen; i++)
+		for (size_t i = 0; i < nLen; i++)
 			if ((pszString[i] < '0') || (pszString[i] > '9'))
 				return FALSE;
 
@@ -1075,9 +1058,9 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 			m_ratesMutex->Leave();
 
 			BYTE *pBuffer = NULL;
-			int cbBuffer = 0;
+			size_t cbBuffer = 0;
 
-			ppackTLV(&pBuffer, &cbBuffer, 0x226, strlennull(setStatusNoteText), (BYTE*)setStatusNoteText);
+			ppackTLV(&pBuffer, &cbBuffer, 0x226, mir_strlen(setStatusNoteText), (BYTE*)setStatusNoteText);
 			icq_changeUserDirectoryInfoServ(pBuffer, cbBuffer, DIRECTORYREQUEST_UPDATENOTE);
 
 			SAFE_FREE((void**)&pBuffer);
@@ -1123,27 +1106,27 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 				if (m_bMoodsEnabled)
 					setString(DBSETTING_STATUS_MOOD, setStatusMoodData);
 
-				WORD wStatusNoteLen = strlennull(setStatusNoteText);
-				WORD wStatusMoodLen = m_bMoodsEnabled ? strlennull(setStatusMoodData) : 0;
-				icq_packet packet;
-				WORD wDataLen = (wStatusNoteLen ? wStatusNoteLen + 4 : 0) + 4 + wStatusMoodLen + 4;
+				size_t wStatusNoteLen = mir_strlen(setStatusNoteText);
+				size_t wStatusMoodLen = m_bMoodsEnabled ? mir_strlen(setStatusMoodData) : 0;
+				size_t wDataLen = (wStatusNoteLen ? wStatusNoteLen + 4 : 0) + 4 + wStatusMoodLen + 4;
 
+				icq_packet packet;
 				serverPacketInit(&packet, wDataLen + 14);
 				packFNACHeader(&packet, ICQ_SERVICE_FAMILY, ICQ_CLIENT_SET_STATUS);
 				// Change only session data
 				packWord(&packet, 0x1D);              // TLV 1D
-				packWord(&packet, wDataLen);          // TLV length
+				packWord(&packet, WORD(wDataLen));    // TLV length
 				packWord(&packet, 0x02);              // Item Type
 				if (wStatusNoteLen) {
-					packWord(&packet, 0x400 | (WORD)(wStatusNoteLen + 4)); // Flags + Item Length
-					packWord(&packet, wStatusNoteLen);  // Text Length
+					packWord(&packet, 0x400 | WORD(wStatusNoteLen + 4)); // Flags + Item Length
+					packWord(&packet, WORD(wStatusNoteLen));  // Text Length
 					packBuffer(&packet, (LPBYTE)setStatusNoteText, wStatusNoteLen);
 					packWord(&packet, 0);               // Encoding not specified (utf-8 is default)
 				}
-				else
-					packWord(&packet, 0);               // Flags + Item Length
+				else packWord(&packet, 0);            // Flags + Item Length
+
 				packWord(&packet, 0x0E);              // Item Type
-				packWord(&packet, wStatusMoodLen);    // Flags + Item Length
+				packWord(&packet, WORD(wStatusMoodLen));    // Flags + Item Length
 				if (wStatusMoodLen)
 					packBuffer(&packet, (LPBYTE)setStatusMoodData, wStatusMoodLen); // Mood
 
@@ -1315,112 +1298,6 @@ void CIcqProto::writeDbInfoSettingTLVBlob(MCONTACT hContact, const char *szSetti
 		setSettingBlob(hContact, szSetting, pTLV->pData, pTLV->wLen);
 	else
 		delSetting(hContact, szSetting);
-}
-
-
-BOOL CIcqProto::writeDbInfoSettingString(MCONTACT hContact, const char* szSetting, char** buf, WORD* pwLength)
-{
-	if (*pwLength < 2)
-		return FALSE;
-
-	WORD wLen;
-	unpackLEWord((LPBYTE*)buf, &wLen);
-	*pwLength -= 2;
-
-	if (*pwLength < wLen)
-		return FALSE;
-
-	if ((wLen > 0) && (**buf) && ((*buf)[wLen - 1] == 0)) { // Make sure we have a proper string
-		WORD wCp = getWord(hContact, "InfoCodePage", getWord(hContact, "InfoCP", CP_ACP));
-		if (wCp != CP_ACP) {
-			char *szUtf = ansi_to_utf8_codepage(*buf, wCp);
-
-			if (szUtf) {
-				db_set_utf(hContact, m_szModuleName, szSetting, szUtf);
-				SAFE_FREE((void**)&szUtf);
-			}
-			else setString(hContact, szSetting, *buf);
-		}
-		else setString(hContact, szSetting, *buf);
-	}
-	else delSetting(hContact, szSetting);
-
-	*buf += wLen;
-	*pwLength -= wLen;
-
-	return TRUE;
-}
-
-BOOL CIcqProto::writeDbInfoSettingWord(MCONTACT hContact, const char *szSetting, char **buf, WORD* pwLength)
-{
-	if (*pwLength < 2)
-		return FALSE;
-
-	WORD wVal;
-	unpackLEWord((LPBYTE*)buf, &wVal);
-	*pwLength -= 2;
-
-	if (wVal != 0)
-		setWord(hContact, szSetting, wVal);
-	else
-		delSetting(hContact, szSetting);
-
-	return TRUE;
-}
-
-BOOL CIcqProto::writeDbInfoSettingWordWithTable(MCONTACT hContact, const char *szSetting, const FieldNamesItem *table, char **buf, WORD* pwLength)
-{
-	if (*pwLength < 2)
-		return FALSE;
-
-	WORD wVal;
-	unpackLEWord((LPBYTE*)buf, &wVal);
-	*pwLength -= 2;
-
-	char sbuf[MAX_PATH];
-	char *text = LookupFieldNameUtf(table, wVal, sbuf, MAX_PATH);
-	if (text)
-		db_set_utf(hContact, m_szModuleName, szSetting, text);
-	else
-		delSetting(hContact, szSetting);
-
-	return TRUE;
-}
-
-BOOL CIcqProto::writeDbInfoSettingByte(MCONTACT hContact, const char *pszSetting, char **buf, WORD* pwLength)
-{
-	if (*pwLength < 1)
-		return FALSE;
-
-	BYTE byVal;
-	unpackByte((LPBYTE*)buf, &byVal);
-	*pwLength -= 1;
-
-	if (byVal != 0)
-		setByte(hContact, pszSetting, byVal);
-	else
-		delSetting(hContact, pszSetting);
-
-	return TRUE;
-}
-
-BOOL CIcqProto::writeDbInfoSettingByteWithTable(MCONTACT hContact, const char *szSetting, const FieldNamesItem *table, char **buf, WORD* pwLength)
-{
-	if (*pwLength < 1)
-		return FALSE;
-
-	BYTE byVal;
-	unpackByte((LPBYTE*)buf, &byVal);
-	*pwLength -= 1;
-
-	char sbuf[MAX_PATH];
-	char *text = LookupFieldNameUtf(table, byVal, sbuf, MAX_PATH);
-	if (text)
-		db_set_utf(hContact, m_szModuleName, szSetting, text);
-	else
-		delSetting(hContact, szSetting);
-
-	return TRUE;
 }
 
 char* time2text(time_t time)
@@ -1623,7 +1500,7 @@ char* __fastcall ICQTranslateUtf(const char *src)
 { // this takes UTF-8 strings only!!!
 	char *szRes = NULL;
 
-	if (!strlennull(src)) { // for the case of empty strings
+	if (!mir_strlen(src)) { // for the case of empty strings
 		return null_strdup(src);
 	}
 
@@ -1639,7 +1516,7 @@ char* __fastcall ICQTranslateUtf(const char *src)
 
 char* __fastcall ICQTranslateUtfStatic(const char *src, char *buf, size_t bufsize)
 { // this takes UTF-8 strings only!!!
-	if (strlennull(src)) { // we can use unicode translate (0.5+)
+	if (mir_strlen(src)) { // we can use unicode translate (0.5+)
 		WCHAR *usrc = make_unicode_string(src);
 
 		make_utf8_string_static(TranslateW(usrc), buf, bufsize);
@@ -1655,7 +1532,7 @@ char* __fastcall ICQTranslateUtfStatic(const char *src, char *buf, size_t bufsiz
 char* CIcqProto::GetUserStoredPassword(char *szBuffer, int cbSize)
 {
 	if (!getSettingStringStatic(NULL, "Password", szBuffer, cbSize))
-		if (strlennull(szBuffer))
+		if (mir_strlen(szBuffer))
 			return szBuffer;
 
 	return NULL;
@@ -1741,7 +1618,7 @@ char* FileNameToUtf(const TCHAR *filename)
 
 int FileAccessUtf(const char *path, int mode)
 {
-	int size = strlennull(path) + 2;
+	size_t size = mir_strlen(path) + 2;
 	TCHAR *szPath = (TCHAR*)_alloca(size * sizeof(TCHAR));
 
 	if (utf8_to_tchar_static(path, szPath, size))
@@ -1753,7 +1630,7 @@ int FileAccessUtf(const char *path, int mode)
 
 int FileStatUtf(const char *path, struct _stati64 *buffer)
 {
-	int size = strlennull(path) + 2;
+	size_t size = mir_strlen(path) + 2;
 	TCHAR *szPath = (TCHAR*)_alloca(size * sizeof(TCHAR));
 
 	if (utf8_to_tchar_static(path, szPath, size))
@@ -1766,7 +1643,7 @@ int FileStatUtf(const char *path, struct _stati64 *buffer)
 int MakeDirUtf(const char *dir)
 {
 	int wRes = -1;
-	int size = strlennull(dir) + 2;
+	size_t size = mir_strlen(dir) + 2;
 	TCHAR *szDir = (TCHAR*)_alloca(size * sizeof(TCHAR));
 
 	if (utf8_to_tchar_static(dir, szDir, size)) { // _tmkdir can created only one dir at once
@@ -1795,7 +1672,7 @@ int MakeDirUtf(const char *dir)
 
 int OpenFileUtf(const char *filename, int oflag, int pmode)
 {
-	int size = strlennull(filename) + 2;
+	size_t size = mir_strlen(filename) + 2;
 	TCHAR *szFile = (TCHAR*)_alloca(size * sizeof(TCHAR));
 
 	if (utf8_to_tchar_static(filename, szFile, size))
@@ -1839,7 +1716,7 @@ char* GetDlgItemTextUtf(HWND hwndDlg, int iItem)
 
 void SetWindowTextUtf(HWND hWnd, const char *szText)
 {
-	int size = strlennull(szText) + 2;
+	size_t size = mir_strlen(szText) + 2;
 	TCHAR *tszText = (TCHAR*)_alloca(size * sizeof(TCHAR));
 
 	if (utf8_to_tchar_static(szText, tszText, size))

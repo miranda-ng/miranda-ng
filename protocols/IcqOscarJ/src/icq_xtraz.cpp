@@ -29,7 +29,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC)
+void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC)
 {
 	char *szNotify = strstrnull(szMsg, "<NOTIFY>");
 	char *szQuery = strstrnull(szMsg, "<QUERY>");
@@ -77,14 +77,14 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 							NotifyEventHooks(m_modeMsgsEvent, (WPARAM)MTYPE_SCRIPT_NOTIFY, (LPARAM)dwUin);
 
 							char *tmp = getSettingStringUtf(NULL, DBSETTING_XSTATUS_NAME, "");
-							char *szXName = MangleXml(tmp, strlennull(tmp));
+							char *szXName = MangleXml(tmp, mir_strlen(tmp));
 							SAFE_FREE(&tmp);
 
 							tmp = getSettingStringUtf(NULL, DBSETTING_XSTATUS_MSG, "");
-							char *szXMsg = MangleXml(tmp, strlennull(tmp));
+							char *szXMsg = MangleXml(tmp, mir_strlen(tmp));
 							SAFE_FREE(&tmp);
 
-							int nResponseLen = 212 + strlennull(szXName) + strlennull(szXMsg) + UINMAXLEN + 2;
+							size_t nResponseLen = 212 + mir_strlen(szXName) + mir_strlen(szXMsg) + UINMAXLEN + 2;
 							char *szResponse = (char*)_alloca(nResponseLen + 1);
 							// send response
 							mir_snprintf(szResponse, nResponseLen,
@@ -123,7 +123,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 
 								virtual void execute()
 								{
-									ppro->SendXtrazNotifyResponse(dwUin, dwMsgID1, dwMsgID2, wCookie, szResponse, strlennull(szResponse), bThruDC);
+									ppro->SendXtrazNotifyResponse(dwUin, dwMsgID1, dwMsgID2, wCookie, szResponse, mir_strlen(szResponse), bThruDC);
 								};
 
 								BOOL bThruDC;
@@ -167,10 +167,10 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 	else debugLogA("Error: Invalid Xtraz Notify message");
 }
 
-void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD wCookie, char* szMsg, int nMsgLen)
+void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD wCookie, char* szMsg, size_t nMsgLen)
 {
 	char *szMem, *szRes, *szEnd;
-	int nResLen;
+	size_t nResLen;
 
 	debugLogA("Received Xtraz Notify Response");
 
@@ -218,7 +218,7 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD w
 					char *szXName, *szOldXName;
 					szNode += 7;
 					*szEnd = '\0';
-					szXName = DemangleXml(szNode, strlennull(szNode));
+					szXName = DemangleXml(szNode, mir_strlen(szNode));
 					// check if the name changed
 					szOldXName = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
 					if (strcmpnull(szOldXName, szXName))
@@ -234,7 +234,7 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD w
 					char *szXMsg, *szOldXMsg;
 					szNode += 6;
 					*szEnd = '\0';
-					szXMsg = DemangleXml(szNode, strlennull(szNode));
+					szXMsg = DemangleXml(szNode, mir_strlen(szNode));
 					// check if the decription changed
 					szOldXMsg = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
 					if (strcmpnull(szOldXMsg, szXMsg))
@@ -263,12 +263,10 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD w
 	else debugLogA("Error: Invalid Xtraz Notify response");
 }
 
-static char* getXmlPidItem(const char* szData, int nLen)
+static char* getXmlPidItem(const char* szData, size_t nLen)
 {
-	const char *szPid, *szEnd;
-
-	szPid = strstrnull(szData, "<PID>");
-	szEnd = strstrnull(szData, "</PID>");
+	const char *szPid = strstrnull(szData, "<PID>");
+	const char *szEnd = strstrnull(szData, "</PID>");
 
 	if (szPid && szEnd) {
 		szPid += 5;
@@ -278,7 +276,7 @@ static char* getXmlPidItem(const char* szData, int nLen)
 }
 
 
-void CIcqProto::handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC)
+void CIcqProto::handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC)
 {
 	MCONTACT hContact = HContactFromUIN(dwUin, NULL);
 	if (hContact) // user sent us xtraz, he supports it
@@ -294,7 +292,7 @@ void CIcqProto::handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WO
 }
 
 
-void CIcqProto::handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC)
+void CIcqProto::handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC)
 {
 	MCONTACT hContact;
 	char* szPluginID;
@@ -355,30 +353,24 @@ void CIcqProto::handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCo
 // Functions really sending Xtraz stuff
 DWORD CIcqProto::SendXtrazNotifyRequest(MCONTACT hContact, char* szQuery, char* szNotify, int bForced)
 {
-	char *szQueryBody;
-	char *szNotifyBody;
 	DWORD dwUin;
-	int nBodyLen;
-	char *szBody;
-	DWORD dwCookie;
-
 	if (getContactUid(hContact, &dwUin, NULL))
 		return 0; // Invalid contact
 
 	if (!CheckContactCapabilities(hContact, CAPF_XTRAZ) && !bForced)
 		return 0; // Contact does not support xtraz, do not send anything
 
-	szQueryBody = MangleXml(szQuery, strlennull(szQuery));
-	szNotifyBody = MangleXml(szNotify, strlennull(szNotify));
-	nBodyLen = strlennull(szQueryBody) + strlennull(szNotifyBody) + 41;
-	szBody = (char*)_alloca(nBodyLen);
+	char  *szQueryBody = MangleXml(szQuery, mir_strlen(szQuery));
+	char  *szNotifyBody = MangleXml(szNotify, mir_strlen(szNotify));
+	size_t nBodyLen = mir_strlen(szQueryBody) + mir_strlen(szNotifyBody) + 41;
+	char  *szBody = (char*)_alloca(nBodyLen);
 	nBodyLen = mir_snprintf(szBody, nBodyLen, "<N><QUERY>%s</QUERY><NOTIFY>%s</NOTIFY></N>", szQueryBody, szNotifyBody);
 	SAFE_FREE((void**)&szQueryBody);
 	SAFE_FREE((void**)&szNotifyBody);
 
 	// Set up the ack type
 	cookie_message_data *pCookieData = CreateMessageCookie(MTYPE_SCRIPT_NOTIFY, ACKTYPE_CLIENT);
-	dwCookie = AllocateCookie(CKT_MESSAGE, 0, hContact, (void*)pCookieData);
+	DWORD dwCookie = AllocateCookie(CKT_MESSAGE, 0, hContact, (void*)pCookieData);
 
 	// have we a open DC, send through that
 	if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0))
@@ -390,10 +382,10 @@ DWORD CIcqProto::SendXtrazNotifyRequest(MCONTACT hContact, char* szQuery, char* 
 }
 
 
-void CIcqProto::SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szResponse, int nResponseLen, BOOL bThruDC)
+void CIcqProto::SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szResponse, size_t nResponseLen, BOOL bThruDC)
 {
 	char *szResBody = MangleXml(szResponse, nResponseLen);
-	int nBodyLen = strlennull(szResBody) + 21;
+	size_t nBodyLen = mir_strlen(szResBody) + 21;
 	char *szBody = (char*)_alloca(nBodyLen);
 	MCONTACT hContact = HContactFromUIN(dwUin, NULL);
 

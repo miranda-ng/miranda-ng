@@ -56,8 +56,7 @@ char* FindFilePathContainer(const char **files, int iFile, char *szContainer)
 
 	if (szThisFile != szFileName) { // find an earlier subdirectory to be used as a container
 		for (int i = iFile - 1; i >= 0; i--) {
-			int len = strlennull(files[i]);
-
+			size_t len = mir_strlen(files[i]);
 			if (!_strnicmp(files[i], szThisFile, len) && (szThisFile[len] == '\\' || szThisFile[len] == '/')) {
 				const char *pszLastBackslash;
 
@@ -323,7 +322,7 @@ void CIcqProto::ReleaseOscarListener(oscar_listener **pListener)
 // Miranda FT interface handlers & services
 /////////////////////////////
 
-void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand)
+void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand)
 {
 	MCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
@@ -392,7 +391,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 							else
 								str = null_strdup(str);
 							// eliminate HTML tags
-							pszDescription = EliminateHtml(str, strlennull(str));
+							pszDescription = EliminateHtml(str, mir_strlen(str));
 
 							bTag = strstrnull(pszDescription, "<DESC>");
 							if (bTag) { // take special Description - ICQJ's extension
@@ -418,7 +417,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 							}
 						}
 					}
-					if (!strlennull(pszDescription)) {
+					if (!mir_strlen(pszDescription)) {
 						SAFE_FREE(&pszDescription);
 						pszDescription = ICQTranslateUtf(LPGEN("No description given"));
 					}
@@ -465,7 +464,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 					else pszFileName = ansi_to_utf8(pszFileName);
 
 					if (ft->wFilesCount == 1) {  // Filename - use for DB event
-						char *szFileName = (char*)_alloca(strlennull(pszFileName) + 1);
+						char *szFileName = (char*)_alloca(mir_strlen(pszFileName) + 1);
 
 						strcpy(szFileName, pszFileName);
 						SAFE_FREE(&pszFileName);
@@ -497,10 +496,10 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 				ft->fileId = -1;
 
 				// Send chain event
-				char *szBlob = (char*)_alloca(sizeof(DWORD) + strlennull(pszFileName) + strlennull(pszDescription) + 2);
+				char *szBlob = (char*)_alloca(sizeof(DWORD) + mir_strlen(pszFileName) + mir_strlen(pszDescription) + 2);
 				*(PDWORD)szBlob = 0;
 				strcpy(szBlob + sizeof(DWORD), pszFileName);
-				strcpy(szBlob + sizeof(DWORD) + strlennull(pszFileName) + 1, pszDescription);
+				strcpy(szBlob + sizeof(DWORD) + mir_strlen(pszFileName) + 1, pszDescription);
 
 				TCHAR* ptszFileName = mir_utf8decodeT(pszFileName);
 
@@ -621,7 +620,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 	else debugLogA("Error: Unknown wCommand=0x%x in OFT request", wCommand);
 }
 
-void CIcqProto::handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, void* ft)
+void CIcqProto::handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, void* ft)
 {
 	WORD wDataLen;
 
@@ -814,7 +813,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 		}
 		else { // check if transfering one directory
 			char *szFirstDiv, *szFirstDir = ft->file_containers[0];
-			int nFirstDirLen;
+			size_t nFirstDirLen;
 
 			// default is no root dir
 			pszFiles = "";
@@ -822,7 +821,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 			if ((szFirstDiv = strstrnull(szFirstDir, "\\")) || (szFirstDiv = strstrnull(szFirstDir, "/")))
 				nFirstDirLen = szFirstDiv - szFirstDir;
 			else
-				nFirstDirLen = strlennull(szFirstDir);
+				nFirstDirLen = mir_strlen(szFirstDir);
 
 			if (nFirstDirLen) { // got root dir from first container, check if others are only sub-dirs
 				for (i = 0; i < ft->containerCount; i++) {
@@ -874,7 +873,7 @@ HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR 
 	ft->szSavePath = tchar_to_utf8(szPath);
 
 	if (ft->szThisPath) { // Append Directory name to the save path, when transfering a directory
-		ft->szSavePath = (char*)SAFE_REALLOC(ft->szSavePath, strlennull(ft->szSavePath) + strlennull(ft->szThisPath) + 4);
+		ft->szSavePath = (char*)SAFE_REALLOC(ft->szSavePath, mir_strlen(ft->szSavePath) + mir_strlen(ft->szThisPath) + 4);
 		NormalizeBackslash(ft->szSavePath);
 		strcat(ft->szSavePath, ft->szThisPath);
 		NormalizeBackslash(ft->szSavePath);
@@ -1420,7 +1419,7 @@ int CIcqProto::oft_handlePackets(oscar_connection *oc, BYTE *buf, int len)
 #ifdef _DEBUG
 		NetLog_Direct("OFT2: Type %u, Length %u bytes", datatype, datalen);
 #endif
-		handleOFT2FramePacket(oc, datatype, pBuf, (WORD)(datalen - 8));
+		handleOFT2FramePacket(oc, datatype, pBuf, datalen-8);
 
 		/* Increase pointers so we can check for more data */
 		buf += datalen;
@@ -1623,7 +1622,7 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, int len)
 	return bytesUsed;
 }
 
-void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE *pBuffer, WORD wLen)
+void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE *pBuffer, size_t wLen)
 {
 	oscar_filetransfer *ft = oc->ft;
 	DWORD dwID1;
@@ -1729,7 +1728,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			ft->szThisFile = ansi_to_utf8(ft->rawFileName);
 
 		// convert dir markings to normal backslashes
-		for (int i = 0; i < strlennull(ft->szThisFile); i++)
+		for (int i = 0; i < mir_strlen(ft->szThisFile); i++)
 			if (ft->szThisFile[i] == 0x01)
 				ft->szThisFile[i] = '\\';
 
@@ -1760,7 +1759,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			break;
 		}
 		
-		char *szFullPath = (char*)SAFE_MALLOC(strlennull(ft->szSavePath) + strlennull(ft->szThisPath) + strlennull(ft->szThisFile) + 3);
+		char *szFullPath = (char*)SAFE_MALLOC(mir_strlen(ft->szSavePath) + mir_strlen(ft->szThisPath) + mir_strlen(ft->szThisFile) + 3);
 		strcpy(szFullPath, ft->szSavePath);
 		NormalizeBackslash(szFullPath);
 		strcat(szFullPath, ft->szThisPath);
@@ -1929,12 +1928,12 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 void CIcqProto::proxy_sendInitTunnel(oscar_connection *oc)
 {
 	icq_packet packet;
-	WORD wLen = 39 + getUINLen(m_dwLocalUIN);
+	size_t wLen = 39 + getUINLen(m_dwLocalUIN);
 
-	packet.wLen = wLen;
+	packet.wLen = WORD(wLen);
 	init_generic_packet(&packet, 2);
 
-	packWord(&packet, wLen);
+	packWord(&packet, WORD(wLen));
 	packWord(&packet, OSCAR_PROXY_VERSION);
 	packWord(&packet, 0x02);                      // wCommand
 	packDWord(&packet, 0);                        // Unknown
@@ -1951,12 +1950,12 @@ void CIcqProto::proxy_sendInitTunnel(oscar_connection *oc)
 void CIcqProto::proxy_sendJoinTunnel(oscar_connection *oc, WORD wPort)
 {
 	icq_packet packet;
-	WORD wLen = 41 + getUINLen(m_dwLocalUIN);
+	size_t wLen = 41 + getUINLen(m_dwLocalUIN);
 
-	packet.wLen = wLen;
+	packet.wLen = WORD(wLen);
 	init_generic_packet(&packet, 2);
 
-	packWord(&packet, wLen);
+	packWord(&packet, WORD(wLen));
 	packWord(&packet, OSCAR_PROXY_VERSION);
 	packWord(&packet, 0x04);                      // wCommand
 	packDWord(&packet, 0);                        // Unknown
@@ -2001,7 +2000,7 @@ void CIcqProto::oft_sendFileData(oscar_connection *oc)
 		icq_packet packet;
 		packet.wLen = bytesRead;
 		init_generic_packet(&packet, 0);
-		packBuffer(&packet, buf, (WORD)bytesRead); // we are sending raw data
+		packBuffer(&packet, buf, bytesRead); // we are sending raw data
 		sendOscarPacket(oc, &packet);
 
 		ft->qwBytesDone += bytesRead;
@@ -2045,13 +2044,13 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	// create full relative filename
 	char* szThisContainer = ft->files[ft->iCurrentFile].szContainer;
 
-	char *pszThisFileName = (char*)SAFE_MALLOC(strlennull(ft->szThisFile) + strlennull(szThisContainer) + 4);
+	char *pszThisFileName = (char*)SAFE_MALLOC(mir_strlen(ft->szThisFile) + mir_strlen(szThisContainer) + 4);
 	strcpy(pszThisFileName, szThisContainer);
 	NormalizeBackslash(pszThisFileName);
 	strcat(pszThisFileName, ExtractFileName(ft->szThisFile));
 	
 	// convert backslashes to dir markings
-	for (int i = 0; i < strlennull(pszThisFileName); i++)
+	for (int i = 0; i < mir_strlen(pszThisFileName); i++)
 		if (pszThisFileName[i] == '\\' || pszThisFileName[i] == '/')
 			pszThisFileName[i] = 0x01;
 
@@ -2077,9 +2076,9 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	ft->dwRecvFileCheck = 0xFFFF0000;
 	SAFE_FREE((void**)&ft->rawFileName);
 
-	if (IsUSASCII(pszThisFileName, strlennull(pszThisFileName))) {
+	if (IsUSASCII(pszThisFileName, mir_strlen(pszThisFileName))) {
 		ft->wEncoding = 0; // ascii
-		ft->cbRawFileName = strlennull(pszThisFileName) + 1;
+		ft->cbRawFileName = WORD(mir_strlen(pszThisFileName) + 1);
 		if (ft->cbRawFileName < 64)
 			ft->cbRawFileName = 64;
 		ft->rawFileName = (char*)SAFE_MALLOC(ft->cbRawFileName);
@@ -2090,16 +2089,16 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 		ft->wEncoding = 2; // ucs-2
 		WCHAR *pwsThisFile = make_unicode_string(pszThisFileName);
 		SAFE_FREE((void**)&pszThisFileName);
-		ft->cbRawFileName = WORD(strlennull(pwsThisFile) * sizeof(WCHAR)) + 2;
+		ft->cbRawFileName = WORD(mir_wstrlen(pwsThisFile) * sizeof(WCHAR)) + 2;
 		if (ft->cbRawFileName < 64)
 			ft->cbRawFileName = 64;
 		ft->rawFileName = (char*)SAFE_MALLOC(ft->cbRawFileName);
 		// convert to LE ordered string
 		BYTE *pwsThisFileBuf = (BYTE*)pwsThisFile; // need this - unpackWideString moves the address!
-		unpackWideString(&pwsThisFileBuf, (WCHAR*)ft->rawFileName, (WORD)(strlennull(pwsThisFile) * sizeof(WCHAR)));
+		unpackWideString(&pwsThisFileBuf, (WCHAR*)ft->rawFileName, mir_wstrlen(pwsThisFile) * sizeof(WCHAR));
 		SAFE_FREE((void**)&pwsThisFile);
 	}
-	ft->wFilesLeft = (WORD)(ft->wFilesCount - ft->iCurrentFile);
+	ft->wFilesLeft = WORD(ft->wFilesCount - ft->iCurrentFile);
 
 	sendOFT2FramePacket(oc, OFT_TYPE_REQUEST);
 }
@@ -2109,7 +2108,7 @@ void CIcqProto::sendOFT2FramePacket(oscar_connection *oc, WORD datatype)
 	oscar_filetransfer *ft = oc->ft;
 
 	icq_packet packet;
-	packet.wLen = 192 + ft->cbRawFileName;
+	packet.wLen = WORD(192 + ft->cbRawFileName);
 	init_generic_packet(&packet, 0);
 
 	// Basic Oscar Frame

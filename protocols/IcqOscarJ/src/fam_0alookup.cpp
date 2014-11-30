@@ -25,7 +25,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleLookupFam(BYTE *pBuffer, WORD wBufferLength, snac_header* pSnacHeader)
+void CIcqProto::handleLookupFam(BYTE *pBuffer, size_t wBufferLength, snac_header* pSnacHeader)
 {
 	switch (pSnacHeader->wSubtype) {
 
@@ -78,7 +78,7 @@ void CIcqProto::ReleaseLookupCookie(DWORD dwCookie, cookie_search *pCookie)
 	}
 }
 
-void CIcqProto::handleLookupEmailReply(BYTE* buf, WORD wLen, DWORD dwCookie)
+void CIcqProto::handleLookupEmailReply(BYTE* buf, size_t wLen, DWORD dwCookie)
 {
 	ICQSEARCHRESULT sr = { 0 };
 	oscar_tlv_chain *pChain;

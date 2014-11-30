@@ -104,7 +104,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 
 	// fill the destination
 	lstrcpyn(pszDest, szPath, cbLen - 1);
-	int tPathLen = strlennull(pszDest);
+	size_t tPathLen = mir_tstrlen(pszDest);
 
 	// make sure the avatar cache directory exists
 	CreateDirectoryTreeT(szPath);
@@ -188,7 +188,7 @@ int CIcqProto::IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, int nHashLe
 	return ret;
 }
 
-void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, WORD cookieLen) // called from event
+void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, size_t cookieLen) // called from event
 {
 	if (!hConn) {
 		icq_lock l(m_avatarsMutex); // place avatars lock
@@ -734,7 +734,7 @@ void __cdecl CIcqProto::AvatarThread(avatars_server_connection *pInfo)
 	debugLogA("%s thread ended.", "Avatar");
 }
 
-avatars_server_connection::avatars_server_connection(CIcqProto *_ppro, HANDLE _hConnection, char *_pCookie, WORD _wCookieLen) :
+avatars_server_connection::avatars_server_connection(CIcqProto *_ppro, HANDLE _hConnection, char *_pCookie, size_t _wCookieLen) :
 	isLoggedIn(false), stopThread(false), isActive(false),
 	ppro(_ppro),
 	pCookie(_pCookie),
@@ -777,7 +777,7 @@ void avatars_server_connection::shutdownConnection()
 		Netlib_Shutdown(hConnection);
 }
 
-DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file)
+DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file)
 {
 	int i;
 	DWORD dwNow = GetTickCount();
@@ -837,11 +837,11 @@ DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD d
 			DWORD dwCookie = ppro->AllocateCookie(CKT_AVATAR, ICQ_AVATAR_GET_REQUEST, hContact, ack);
 			icq_packet packet;
 
-			serverPacketInit(&packet, (WORD)(12 + nUinLen + hashlen));
+			serverPacketInit(&packet, 12 + nUinLen + hashlen);
 			packFNACHeader(&packet, ICQ_AVATAR_FAMILY, ICQ_AVATAR_GET_REQUEST, 0, dwCookie);
 			packUID(&packet, dwUin, szUid);
 			packByte(&packet, 1); // unknown, probably type of request: 1 = get icon :)
-			packBuffer(&packet, hash, (WORD)hashlen);
+			packBuffer(&packet, hash, hashlen);
 
 			if (sendServerPacket(&packet)) {
 				ppro->debugLogA("Request to get %s image sent.", strUID(dwUin, szUid));
@@ -859,7 +859,7 @@ DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD d
 	return 0; // Failure
 }
 
-DWORD avatars_server_connection::sendUploadAvatarRequest(MCONTACT hContact, WORD wRef, const BYTE *data, unsigned int datalen)
+DWORD avatars_server_connection::sendUploadAvatarRequest(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen)
 {
 	cookie_avatar *ack = (cookie_avatar*)SAFE_MALLOC(sizeof(cookie_avatar));
 	if (!ack)
@@ -870,11 +870,11 @@ DWORD avatars_server_connection::sendUploadAvatarRequest(MCONTACT hContact, WORD
 	DWORD dwCookie = ppro->AllocateCookie(CKT_AVATAR, ICQ_AVATAR_UPLOAD_REQUEST, 0, ack);
 
 	icq_packet packet;
-	serverPacketInit(&packet, (WORD)(14 + datalen));
+	serverPacketInit(&packet, 14 + datalen);
 	packFNACHeader(&packet, ICQ_AVATAR_FAMILY, ICQ_AVATAR_UPLOAD_REQUEST, 0, dwCookie);
 	packWord(&packet, wRef); // unknown, probably reference
 	packWord(&packet, (WORD)datalen);
-	packBuffer(&packet, data, (WORD)datalen);
+	packBuffer(&packet, data, datalen);
 
 	if (sendServerPacket(&packet)) {
 		ppro->debugLogA("Upload image packet sent.");
@@ -1020,7 +1020,7 @@ int avatars_server_connection::sendServerPacket(icq_packet *pPacket)
 
 		int nSendResult;
 		for (int nRetries = 3; nRetries >= 0; nRetries--) {
-			nSendResult = Netlib_Send(hConnection, (const char *)pPacket->pData, pPacket->wLen, 0);
+			nSendResult = Netlib_Send(hConnection, (const char*)pPacket->pData, (int)pPacket->wLen, 0);
 			if (nSendResult != SOCKET_ERROR)
 				break;
 
@@ -1047,7 +1047,7 @@ int avatars_server_connection::sendServerPacket(icq_packet *pPacket)
 	return lResult;
 }
 
-int avatars_server_connection::handleServerPackets(BYTE *buf, int buflen)
+int avatars_server_connection::handleServerPackets(BYTE *buf, size_t buflen)
 {
 	BYTE channel;
 	WORD sequence;
@@ -1094,7 +1094,7 @@ int avatars_server_connection::handleServerPackets(BYTE *buf, int buflen)
 	return bytesUsed;
 }
 
-void avatars_server_connection::handleLoginChannel(BYTE *buf, WORD datalen)
+void avatars_server_connection::handleLoginChannel(BYTE *buf, size_t datalen)
 {
 	if (*(DWORD*)buf == 0x1000000) {  // here check if we received SRV_HELLO
 		wLocalSequence = generate_flap_sequence();
@@ -1111,7 +1111,7 @@ void avatars_server_connection::handleLoginChannel(BYTE *buf, WORD datalen)
 	else ppro->debugLogA("Invalid Server response, Channel 1.");
 }
 
-void avatars_server_connection::handleDataChannel(BYTE *buf, WORD datalen)
+void avatars_server_connection::handleDataChannel(BYTE *buf, size_t datalen)
 {
 	snac_header snacHeader = {0};
 	if (!unpackSnacHeader(&snacHeader, &buf, &datalen) || !snacHeader.bValid)
@@ -1138,7 +1138,7 @@ void avatars_server_connection::handleDataChannel(BYTE *buf, WORD datalen)
 	}
 }
 
-void avatars_server_connection::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader)
+void avatars_server_connection::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader)
 {
 	icq_packet packet;
 
@@ -1199,7 +1199,7 @@ void avatars_server_connection::handleServiceFam(BYTE *pBuffer, WORD wBufferLeng
 	}
 }
 
-void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader)
+void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader)
 {
 	cookie_avatar *pCookieData;
 
@@ -1230,7 +1230,6 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 			ppro->FreeCookie(pSnacHeader->dwRef);
 
 			BYTE len;
-			WORD datalen;
 
 			unpackByte(&pBuffer, &len);
 			if (wBufferLength < ((pCookieData->hashlen) << 1) + 4 + len) {
@@ -1248,6 +1247,8 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 			pBuffer += pCookieData->hashlen;
 			unpackByte(&pBuffer, &bResult);
 			pBuffer += pCookieData->hashlen;
+
+			size_t datalen;
 			unpackWord(&pBuffer, &datalen);
 
 			wBufferLength -= 4 + len + (pCookieData->hashlen << 1);
@@ -1264,7 +1265,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 					BYTE digest[16];
 
 					mir_md5_init(&state);
-					mir_md5_append(&state, (const BYTE *)pBuffer, datalen);
+					mir_md5_append(&state, (const BYTE *)pBuffer, (int)datalen);
 					mir_md5_finish(&state, digest);
 					// check if received data corresponds to specified hash
 					if (memcmp(pCookieData->hash + 4, digest, 0x10)) aValid = 0;
@@ -1284,7 +1285,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 
 					int out = _topen(tszImageFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 					if (out != -1) {
-						_write(out, pBuffer, datalen);
+						_write(out, pBuffer, (int)datalen);
 						_close(out);
 
 						if (!pCookieData->hContact) { // our avatar, set filename
@@ -1303,8 +1304,8 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 							else {
 								ppro->debugLogA("Warning: DB error (no hash in DB).");
 								// the hash was lost, try to fix that
-								if (ppro->setSettingBlob(pCookieData->hContact, "AvatarSaved", pCookieData->hash, pCookieData->hashlen) ||
-									 ppro->setSettingBlob(pCookieData->hContact, "AvatarHash", pCookieData->hash, pCookieData->hashlen))
+								if (ppro->setSettingBlob(pCookieData->hContact, "AvatarSaved", pCookieData->hash, (int)pCookieData->hashlen) ||
+									 ppro->setSettingBlob(pCookieData->hContact, "AvatarHash", pCookieData->hash, (int)pCookieData->hashlen))
 								{
 									ppro->debugLogA("Failed to save avatar hash to DB");
 								}

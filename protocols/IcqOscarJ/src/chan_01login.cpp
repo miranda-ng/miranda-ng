@@ -25,7 +25,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *info)
+void CIcqProto::handleLoginChannel(BYTE *buf, size_t datalen, serverthread_info *info)
 {
 	icq_packet packet;
 
@@ -43,11 +43,11 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 			sendServPacket(&packet);  // greet login server
 
 			char szUin[UINMAXLEN];
-			WORD wUinLen = strlennull(strUID(m_dwLocalUIN, szUin));
+			size_t wUinLen = mir_strlen(strUID(m_dwLocalUIN, szUin));
 
 			debugLogA("Sending %s to %s", "ICQ_SIGNON_AUTH_REQUEST", "login server");
 
-			serverPacketInit(&packet, (WORD)(14 + wUinLen));
+			serverPacketInit(&packet, 14 + wUinLen);
 			packFNACHeader(&packet, ICQ_AUTHORIZATION_FAMILY, ICQ_SIGNON_AUTH_REQUEST, 0, 0);
 			packTLV(&packet, 0x0001, wUinLen, (LPBYTE)szUin);
 			sendServPacket(&packet);  // request login digest
@@ -67,7 +67,7 @@ void CIcqProto::handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *i
 		if (info->cookieDataLen) {
 			wLocalSequence = generate_flap_sequence();
 
-			serverCookieInit(&packet, info->cookieData, (WORD)info->cookieDataLen);
+			serverCookieInit(&packet, info->cookieData, info->cookieDataLen);
 			sendServPacket(&packet);
 
 			debugLogA("Sent CLI_IDENT to %s", "communication server");

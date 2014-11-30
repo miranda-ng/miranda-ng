@@ -197,26 +197,26 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void SetCapabilitiesFromBuffer(MCONTACT hContact, BYTE *pBuffer, int nLength, BOOL bReset);
 
 	//----| chan_01login.cpp |------------------------------------------------------------
-	void   handleLoginChannel(BYTE *buf, WORD datalen, serverthread_info *info);
+	void   handleLoginChannel(BYTE *buf, size_t datalen, serverthread_info *info);
 
 	//----| chan_02data.cpp |-------------------------------------------------------------
-	void   handleDataChannel(BYTE *buf, WORD wLen, serverthread_info *info);
+	void   handleDataChannel(BYTE *buf, size_t wLen, serverthread_info *info);
 
 	void   LogFamilyError(WORD wFamily, WORD wError);
 
 	//----| chan_03error.cpp |------------------------------------------------------------
-	void   handleErrorChannel(unsigned char *buf, WORD datalen);
+	void   handleErrorChannel(unsigned char *buf, size_t datalen);
 
 	//----| chan_04close.cpp |------------------------------------------------------------
-	void   handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *info);
-	void   handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *info);
+	void   handleCloseChannel(BYTE *buf, size_t datalen, serverthread_info *info);
+	void   handleLoginReply(BYTE *buf, size_t datalen, serverthread_info *info);
 	void   handleMigration(serverthread_info *info);
 	void   handleSignonError(WORD wError);
 
 	int    connectNewServer(serverthread_info *info);
 
 	//----| chan_05ping.cpp |-------------------------------------------------------------
-	void   handlePingChannel(BYTE *buf, WORD wLen);
+	void   handlePingChannel(BYTE *buf, size_t wLen);
 
 	void   StartKeepAlive(serverthread_info *info);
 	void   StopKeepAlive(serverthread_info *info);
@@ -254,76 +254,76 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   icq_sendFileDenyDirect(MCONTACT hContact, filetransfer *ft, const char *szReason);
 	int    icq_sendFileSendDirectv7(filetransfer *ft, const char *pszFiles);
 	int    icq_sendFileSendDirectv8(filetransfer *ft, const char *pszFiles);
-	DWORD  icq_SendDirectMessage(MCONTACT hContact, const char *szMessage, int nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap);
-	void   icq_sendXtrazRequestDirect(MCONTACT hContact, DWORD dwCookie, char* szBody, int nBodyLen, WORD wType);
-	void   icq_sendXtrazResponseDirect(MCONTACT hContact, WORD wCookie, char* szBody, int nBodyLen, WORD wType);
+	DWORD  icq_SendDirectMessage(MCONTACT hContact, const char *szMessage, size_t nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap);
+	void   icq_sendXtrazRequestDirect(MCONTACT hContact, DWORD dwCookie, char* szBody, size_t nBodyLen, WORD wType);
+	void   icq_sendXtrazResponseDirect(MCONTACT hContact, WORD wCookie, char* szBody, size_t nBodyLen, WORD wType);
 
 	//----| fam_01service.cpp |-----------------------------------------------------------
-	void   handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader, serverthread_info *info);
-	char*  buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResume);
+	void   handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader, serverthread_info *info);
+	char*  buildUinList(int subtype, size_t wMaxLen, MCONTACT *hContactResume);
 	void   sendEntireListServ(WORD wFamily, WORD wSubtype, int listType);
 	void   setUserInfo(void);
 	void   handleServUINSettings(int nPort, serverthread_info *info);
 
 	//----| fam_02location.cpp |----------------------------------------------------------
-	void   handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader);
-	void   handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie);
+	void   handleLocationFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader);
+	void   handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCookie);
 
 	//----| fam_03buddy.cpp |-------------------------------------------------------------
-	void   handleBuddyFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader, serverthread_info *info);
-	void   handleReplyBuddy(BYTE *buf, WORD wPackLen);
-	void   handleUserOffline(BYTE *buf, WORD wPackLen);
-	void   handleUserOnline(BYTE *buf, WORD wPackLen, serverthread_info *info);
+	void   handleBuddyFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader, serverthread_info *info);
+	void   handleReplyBuddy(BYTE *buf, size_t wPackLen);
+	void   handleUserOffline(BYTE *buf, size_t wPackLen);
+	void   handleUserOnline(BYTE *buf, size_t wPackLen, serverthread_info *info);
 	void   parseStatusNote(DWORD dwUin, char *szUid, MCONTACT hContact, oscar_tlv_chain *pChain);
-	void   handleNotifyRejected(BYTE *buf, WORD wPackLen);
+	void   handleNotifyRejected(BYTE *buf, size_t wPackLen);
 
 	//----| fam_04message.cpp |-----------------------------------------------------------
 	icq_mode_messages m_modeMsgs;
 	icq_critical_section *m_modeMsgsMutex;
 	HANDLE m_modeMsgsEvent;
 
-	void   handleMsgFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader);
+	void   handleMsgFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader);
 
-	void   handleReplyICBM(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef);
-	void   handleRecvServMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef);
-	void   handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef);
-	void   handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef);
-	void   handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef);
-	void   handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef);
-	void   handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef);
-	void   handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef);
+	void   handleReplyICBM(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef);
+	void   handleRecvServMsg(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef);
+	void   handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef);
+	void   handleRecvServMsgType2(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef);
+	void   handleRecvServMsgType4(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef);
+	void   handleRecvServMsgError(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef);
+	void   handleRecvMsgResponse(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef);
+	void   handleServerAck(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef);
 	void   handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg, int nMsgFlags);
-	void   handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef);
-	void   handleMissedMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef);
-	void   handleOffineMessagesReply(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef);
-	void   handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand);
+	void   handleTypingNotification(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef);
+	void   handleMissedMsg(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef);
+	void   handleOffineMessagesReply(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef);
+	void   handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand);
 	void   handleRuntimeError(WORD wError);
 
-	void   parseServRelayData(BYTE *pDataBuf, WORD wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType);
-	void   parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion);
+	void   parseServRelayData(BYTE *pDataBuf, size_t wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType);
+	void   parseServRelayPluginData(BYTE *pDataBuf, size_t wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion);
 
-	HANDLE handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD wVersion, int type, WORD wMsgLen, PBYTE buf, BYTE bFlags, int nMsgFlags);
-	void   handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, DWORD dwMsgID, DWORD dwMsgID2, WORD wCookie, WORD wVersion, int type, int flags, WORD wAckType, DWORD dwDataLen, WORD wMsgLen, char *pMsg, int nMsgFlags, message_ack_params *pAckParams);
+	HANDLE handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD wVersion, int type, size_t wMsgLen, PBYTE buf, BYTE bFlags, int nMsgFlags);
+	void   handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, DWORD dwMsgID, DWORD dwMsgID2, WORD wCookie, WORD wVersion, int type, int flags, WORD wAckType, size_t dwDataLen, size_t wMsgLen, char *pMsg, int nMsgFlags, message_ack_params *pAckParams);
 	void   sendMessageTypesAck(MCONTACT hContact, int bUnicode, message_ack_params *pArgs);
 	void   sendTypingNotification(MCONTACT hContact, WORD wMTNCode);
 
-	int    unpackPluginTypeId(BYTE **pBuffer, WORD *pwLen, int *pTypeId, WORD *pFunctionId, BOOL bThruDC);
+	int    unpackPluginTypeId(BYTE **pBuffer, size_t *pwLen, int *pTypeId, WORD *pFunctionId, BOOL bThruDC);
 
 	char*  convertMsgToUserSpecificUtf(MCONTACT hContact, const char *szMsg);
 
 	//----| fam_09bos.cpp |---------------------------------------------------------------
-	void   handleBosFam(unsigned char *pBuffer, WORD wBufferLength, snac_header* pSnacHeader);
-	void   handlePrivacyRightsReply(unsigned char *pBuffer, WORD wBufferLength);
+	void   handleBosFam(unsigned char *pBuffer, size_t wBufferLength, snac_header* pSnacHeader);
+	void   handlePrivacyRightsReply(unsigned char *pBuffer, size_t wBufferLength);
 	void   makeContactTemporaryVisible(MCONTACT hContact);
 
 	//----| fam_0alookup.cpp |------------------------------------------------------------
-	void   handleLookupFam(unsigned char *pBuffer, WORD wBufferLength, snac_header* pSnacHeader);
+	void   handleLookupFam(unsigned char *pBuffer, size_t wBufferLength, snac_header* pSnacHeader);
 
-	void   handleLookupEmailReply(BYTE* buf, WORD wLen, DWORD dwCookie);
+	void   handleLookupEmailReply(BYTE* buf, size_t wLen, DWORD dwCookie);
 	void   ReleaseLookupCookie(DWORD dwCookie, cookie_search *pCookie);
 
 	//----| fam_0bstatus.cpp |------------------------------------------------------------
-	void   handleStatusFam(unsigned char *pBuffer, WORD wBufferLength, snac_header* pSnacHeader);
+	void   handleStatusFam(unsigned char *pBuffer, size_t wBufferLength, snac_header* pSnacHeader);
 
 	//----| fam_13servclist.cpp |---------------------------------------------------------
 	BOOL   bIsSyncingCL;
@@ -332,16 +332,16 @@ struct CIcqProto : public PROTO<CIcqProto>
 	WORD   m_wServerListGroupMaxContacts;
 	WORD   m_wServerListRecordNameMaxLength;
 
-	void   handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_header* pSnacHeader, serverthread_info *info);
-	void   handleServerCListRightsReply(BYTE *buf, WORD wLen);
+	void   handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_header* pSnacHeader, serverthread_info *info);
+	void   handleServerCListRightsReply(BYTE *buf, size_t wLen);
 	void   handleServerCListAck(cookie_servlist_action* sc, WORD wError);
-	void   handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, serverthread_info *info);
+	void   handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serverthread_info *info);
 	void   handleServerCListItemAdd(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData);
 	void   handleServerCListItemUpdate(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData);
 	void   handleServerCListItemDelete(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData);
-	void   handleRecvAuthRequest(BYTE *buf, WORD wLen);
-	void   handleRecvAuthResponse(BYTE *buf, WORD wLen);
-	void   handleRecvAdded(BYTE *buf, WORD wLen);
+	void   handleRecvAuthRequest(BYTE *buf, size_t wLen);
+	void   handleRecvAuthResponse(BYTE *buf, size_t wLen);
+	void   handleRecvAdded(BYTE *buf, size_t wLen);
 
 	MCONTACT HContactFromRecordName(const char *szRecordName, int *bAdded);
 
@@ -357,30 +357,30 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   updateServVisibilityCode(BYTE bCode);
 
 	//----| fam_15icqserver.cpp |---------------------------------------------------------
-	void   handleIcqExtensionsFam(BYTE *pBuffer, WORD wBufferLength, snac_header* pSnacHeader);
+	void   handleIcqExtensionsFam(BYTE *pBuffer, size_t wBufferLength, snac_header* pSnacHeader);
 
-	void   handleExtensionError(BYTE *buf, WORD wPackLen);
-	void   handleExtensionServerInfo(BYTE *buf, WORD wPackLen, WORD wFlags);
-	void   handleExtensionMetaResponse(BYTE *databuf, WORD wPacketLen, WORD wCookie, WORD wFlags);
+	void   handleExtensionError(BYTE *buf, size_t wPackLen);
+	void   handleExtensionServerInfo(BYTE *buf, size_t wPackLen, WORD wFlags);
+	void   handleExtensionMetaResponse(BYTE *databuf, size_t wPacketLen, WORD wCookie, WORD wFlags);
 
 	int    parseUserInfoRecord(MCONTACT hContact, oscar_tlv *pData, UserInfoRecordItem pRecordDef[], int nRecordDef, int nMaxRecords);
 
-	void   handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WORD wCookie, WORD wReplySubtype, WORD wFlags);
-	void   handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WORD wCookie, WORD wReplySubtype);
+	void   handleDirectoryQueryResponse(BYTE *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype, WORD wFlags);
+	void   handleDirectoryUpdateResponse(BYTE *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype);
 
 	void   parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain *cDetails, DWORD dwCookie, cookie_directory_data *pCookieData, WORD wReplySubType);
 	void   parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCookie, cookie_directory_data *pCookieData, WORD wReplySubType);
 
-	void   parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode);
-	void   parseUserInfoUpdateAck(unsigned char *databuf, WORD wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode);
+	void   parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode);
+	void   parseUserInfoUpdateAck(unsigned char *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode);
 
 	void   ReleaseSearchCookie(DWORD dwCookie, cookie_search *pCookie);
 
 	//----| fam_17signon.cpp |------------------------------------------------------------
-	void   handleAuthorizationFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader, serverthread_info *info);
-	void   handleAuthKeyResponse(BYTE *buf, WORD wPacketLen, serverthread_info *info);
+	void   handleAuthorizationFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader, serverthread_info *info);
+	void   handleAuthKeyResponse(BYTE *buf, size_t wPacketLen, serverthread_info *info);
 
-	void   sendClientAuth(const char *szKey, WORD wKeyLen, BOOL bSecure);
+	void   sendClientAuth(const char *szKey, size_t wKeyLen, BOOL bSecure);
 
 	//----| icq_avatars.cpp |-------------------------------------------------------------
 	icq_critical_section *m_avatarsMutex;
@@ -405,14 +405,14 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int    GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file);
 	int    SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, unsigned int datalen);
 
-	void   StartAvatarThread(HANDLE hConn, char* cookie, WORD cookieLen);
+	void   StartAvatarThread(HANDLE hConn, char* cookie, size_t cookieLen);
 	void   StopAvatarThread();
 
 	//----| icq_clients.cpp |-------------------------------------------------------------
-	const char* detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUserClass, DWORD dwOnlineSince, const char *szCurrentClient, WORD wVersion, DWORD dwFT1, DWORD dwFT2, DWORD dwFT3, BYTE bDirectFlag, DWORD dwDirectCookie, DWORD dwWebPort, BYTE *caps, WORD wLen, BYTE *bClientId, char *szClientBuf);
+	const char* detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUserClass, DWORD dwOnlineSince, const char *szCurrentClient, WORD wVersion, DWORD dwFT1, DWORD dwFT2, DWORD dwFT3, BYTE bDirectFlag, DWORD dwDirectCookie, DWORD dwWebPort, BYTE *caps, size_t wLen, BYTE *bClientId, char *szClientBuf);
 
 	//----| icq_db.cpp |------------------------------------------------------------------
-	HANDLE AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+	HANDLE AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, size_t cbBlob, PBYTE pBlob);
 	int    IsICQContact(MCONTACT hContact);
 
 	int    getSetting(MCONTACT hContact, const char *szSetting, DBVARIANT *dbv);
@@ -439,7 +439,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	void   __cdecl icq_directThread(struct directthreadstartinfo* dtsi);
 
-	void   handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen);
+	void   handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen);
 	void   sendPeerInit_v78(directconnect* dc);
 	void   sendPeerInitAck(directconnect* dc);
 	void   sendPeerMsgInit(directconnect* dc, DWORD dwSeq);
@@ -455,15 +455,15 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int    SendDirectMessage(MCONTACT hContact, icq_packet *pkt);
 
 	//----| icq_directmsg.cpp |-----------------------------------------------------------
-	void   handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen);
-	void   handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD wLen, WORD wCommand, WORD wCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wStatus, WORD wFlags, char* pszText);
+	void   handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen);
+	void   handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t wLen, WORD wCommand, WORD wCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wStatus, WORD wFlags, char* pszText);
 
 	//----| icq_filerequests.cpp |--------------------------------------------------------
 	filetransfer* CreateFileTransfer(MCONTACT hContact, DWORD dwUin, int nVersion);
 
-	void   handleFileAck(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie, WORD wStatus, char* pszText);
-	void   handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC);
-	void   handleDirectCancel(directconnect *dc, PBYTE buf, WORD wLen, WORD wCommand, DWORD dwCookie, WORD wMessageType, WORD wStatus, WORD wFlags, char* pszText);
+	void   handleFileAck(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCookie, WORD wStatus, char* pszText);
+	void   handleFileRequest(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC);
+	void   handleDirectCancel(directconnect *dc, PBYTE buf, size_t wLen, WORD wCommand, DWORD dwCookie, WORD wMessageType, WORD wStatus, WORD wFlags, char* pszText);
 
 	void   icq_CancelFileTransfer(MCONTACT hContact, filetransfer* ft);
 
@@ -472,7 +472,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   icq_sendFileResume(filetransfer *ft, int action, const char *szFilename);
 	void   icq_InitFileSend(filetransfer *ft);
 
-	void   handleFileTransferPacket(directconnect *dc, PBYTE buf, WORD wLen);
+	void   handleFileTransferPacket(directconnect *dc, PBYTE buf, size_t wLen);
 	void   handleFileTransferIdle(directconnect *dc);
 
 	//----| icq_infoupdate.cpp |----------------------------------------------------------
@@ -505,18 +505,18 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   icq_LogFatalParam(const char *szMsg, WORD wError);
 
 	//----| icq_packet.cpp |--------------------------------------------------------------
-	void   ppackLETLVLNTSfromDB(PBYTE *buf, int *buflen, const char *szSetting, WORD wType);
-	void   ppackLETLVWordLNTSfromDB(PBYTE *buf, int *buflen, WORD w, const char *szSetting, WORD wType);
-	void   ppackLETLVLNTSBytefromDB(PBYTE *buf, int *buflen, const char *szSetting, BYTE b, WORD wType);
+	void   ppackLETLVLNTSfromDB(PBYTE *buf, size_t *buflen, const char *szSetting, WORD wType);
+	void   ppackLETLVWordLNTSfromDB(PBYTE *buf, size_t *buflen, WORD w, const char *szSetting, WORD wType);
+	void   ppackLETLVLNTSBytefromDB(PBYTE *buf, size_t *buflen, const char *szSetting, BYTE b, WORD wType);
 
-	void   ppackTLVStringFromDB(PBYTE *buf, int *buflen, const char *szSetting, WORD wType);
-	void   ppackTLVStringUtfFromDB(PBYTE *buf, int *buflen, const char *szSetting, WORD wType);
-	void   ppackTLVDateFromDB(PBYTE *buf, int *buflen, const char *szSettingYear, const char *szSettingMonth, const char *szSettingDay, WORD wType);
+	void   ppackTLVStringFromDB(PBYTE *buf, size_t *buflen, const char *szSetting, WORD wType);
+	void   ppackTLVStringUtfFromDB(PBYTE *buf, size_t *buflen, const char *szSetting, WORD wType);
+	void   ppackTLVDateFromDB(PBYTE *buf, size_t *buflen, const char *szSettingYear, const char *szSettingMonth, const char *szSettingDay, WORD wType);
 
-	int    ppackTLVWordStringItemFromDB(PBYTE *buf, int *buflen, const char *szSetting, WORD wTypeID, WORD wTypeData, WORD wID);
-	int    ppackTLVWordStringUtfItemFromDB(PBYTE *buf, int *buflen, const char *szSetting, WORD wTypeID, WORD wTypeData, WORD wID);
+	int    ppackTLVWordStringItemFromDB(PBYTE *buf, size_t *buflen, const char *szSetting, WORD wTypeID, WORD wTypeData, WORD wID);
+	int    ppackTLVWordStringUtfItemFromDB(PBYTE *buf, size_t *buflen, const char *szSetting, WORD wTypeID, WORD wTypeData, WORD wID);
 
-	BOOL   unpackUID(BYTE **ppBuf, WORD *pwLen, DWORD *pdwUIN, uid_str *ppszUID);
+	BOOL   unpackUID(BYTE **ppBuf, size_t *pwLen, DWORD *pdwUIN, uid_str *ppszUID);
 
 	//----| icq_popups.cpp |--------------------------------------------------------------
 	int    ShowPopupMsg(MCONTACT hContact, const char *szTitle, const char *szMsg, BYTE bType);
@@ -670,7 +670,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int    getCListGroupExists(const char *szGroup);
 	int    moveContactToCListGroup(MCONTACT hContact, const char *szGroup); /// TODO: this should be DB function
 
-	DWORD  icq_sendServerItem(DWORD dwCookie, WORD wAction, WORD wGroupId, WORD wItemId, const char *szName, BYTE *pTLVs, int nTlvLength, WORD wItemType, DWORD dwOperation, DWORD dwTimeout, void **doubleObject);
+	DWORD  icq_sendServerItem(DWORD dwCookie, WORD wAction, WORD wGroupId, WORD wItemId, const char *szName, BYTE *pTLVs, size_t nTlvLength, WORD wItemType, DWORD dwOperation, DWORD dwTimeout, void **doubleObject);
 	DWORD  icq_sendServerContact(MCONTACT hContact, DWORD dwCookie, WORD wAction, WORD wGroupId, WORD wContactId, DWORD dwOperation, DWORD dwTimeout, void **doubleObject);
 	DWORD  icq_sendSimpleItem(DWORD dwCookie, WORD wAction, DWORD dwUin, char* szUID, WORD wGroupId, WORD wItemId, WORD wItemType, DWORD dwOperation, DWORD dwTimeout);
 	DWORD  icq_sendServerGroup(DWORD dwCookie, WORD wAction, WORD wGroupId, const char *szName, void *pContent, int cbContent, DWORD dwOperationFlags);
@@ -686,7 +686,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	//----| stdpackets.cpp |----------------------------------------------------------
 	void   icq_sendCloseConnection();
 
-	void   icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandler)(HANDLE hConn, char* cookie, WORD cookieLen));
+	void   icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandler)(HANDLE hConn, char* cookie, size_t cookieLen));
 
 	void   icq_setidle(int bAllow);
 	void   icq_setstatus(WORD wStatus, const char *szStatusNote = NULL);
@@ -706,9 +706,9 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	void   icq_sendFileDenyServ(DWORD dwUin, filetransfer *ft, const char *szReason, int nAckType);
 
-	DWORD  icq_sendAdvancedSearchServ(BYTE *fieldsBuffer,int bufferLen);
+	DWORD  icq_sendAdvancedSearchServ(BYTE *fieldsBuffer, size_t bufferLen);
 	DWORD  icq_changeUserPasswordServ(const char *szPassword);
-	DWORD  icq_changeUserDirectoryInfoServ(const BYTE *pData, WORD wDataLen, BYTE bRequestType);
+	DWORD  icq_changeUserDirectoryInfoServ(const BYTE *pData, size_t wDataLen, BYTE bRequestType);
 	void   icq_sendGenericContact(DWORD dwUin, const char *szUid, WORD wFamily, WORD wSubType);
 	void   icq_sendNewContact(DWORD dwUin, const char *szUid);
 	void   icq_sendRemoveContact(DWORD dwUin, const char *szUid);
@@ -725,16 +725,16 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   icq_sendAuthResponseServ(DWORD dwUin, char* szUid,int auth,const TCHAR *szReason);
 	void   icq_sendYouWereAddedServ(DWORD,DWORD);
 
-	DWORD  sendDirectorySearchPacket(const BYTE *pSearchData, WORD wDataLen, WORD wPage, BOOL bOnlineUsersOnly);
-	DWORD  sendTLVSearchPacket(BYTE bType, char* pSearchDataBuf, WORD wSearchType, WORD wInfoLen, BOOL bOnlineUsersOnly);
+	DWORD  sendDirectorySearchPacket(const BYTE *pSearchData, size_t wDataLen, WORD wPage, BOOL bOnlineUsersOnly);
+	DWORD  sendTLVSearchPacket(BYTE bType, char* pSearchDataBuf, WORD wSearchType, size_t wInfoLen, BOOL bOnlineUsersOnly);
 	void   sendOwnerInfoRequest(void);
-	DWORD  sendUserInfoMultiRequest(BYTE *pRequestData, WORD wDataLen, int nItems);
+	DWORD  sendUserInfoMultiRequest(BYTE *pRequestData, size_t dataLen, int nItems);
 
 	DWORD  icq_SendChannel1Message(DWORD dwUin, char *szUID, MCONTACT hContact, char *pszText, cookie_message_data *pCookieData);
 	DWORD  icq_SendChannel1MessageW(DWORD dwUin, char *szUID, MCONTACT hContact, WCHAR *pszText, cookie_message_data *pCookieData); // UTF-16
-	DWORD  icq_SendChannel2Message(DWORD dwUin, MCONTACT hContact, const char *szMessage, int nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap);
-	DWORD  icq_SendChannel2Contacts(DWORD dwUin, char *szUid, MCONTACT hContact, const char *pData, WORD wDataLen, const char *pNames, WORD wNamesLen, cookie_message_data *pCookieData);
-	DWORD  icq_SendChannel4Message(DWORD dwUin, MCONTACT hContact, BYTE bMsgType, WORD wMsgLen, const char *szMsg, cookie_message_data *pCookieData);
+	DWORD  icq_SendChannel2Message(DWORD dwUin, MCONTACT hContact, const char *szMessage, size_t nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap);
+	DWORD  icq_SendChannel2Contacts(DWORD dwUin, char *szUid, MCONTACT hContact, const char *pData, size_t wDataLen, const char *pNames, size_t wNamesLen, cookie_message_data *pCookieData);
+	DWORD  icq_SendChannel4Message(DWORD dwUin, MCONTACT hContact, BYTE bMsgType, size_t wMsgLen, const char *szMsg, cookie_message_data *pCookieData);
 
 	void   icq_sendAdvancedMsgAck(DWORD, DWORD, DWORD, WORD, BYTE, BYTE);
 	void   icq_sendContactsAck(DWORD dwUin, char *szUid, DWORD dwMsgID1, DWORD dwMsgID2);
@@ -742,8 +742,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   icq_sendReverseReq(directconnect *dc, DWORD dwCookie, cookie_message_data *pCookie);
 	void   icq_sendReverseFailed(directconnect* dc, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwCookie);
 
-	void   icq_sendXtrazRequestServ(DWORD dwUin, DWORD dwCookie, char* szBody, int nBodyLen, cookie_message_data *pCookieData);
-	void   icq_sendXtrazResponseServ(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szBody, int nBodyLen, int nType);
+	void   icq_sendXtrazRequestServ(DWORD dwUin, DWORD dwCookie, char* szBody, size_t nBodyLen, cookie_message_data *pCookieData);
+	void   icq_sendXtrazResponseServ(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szBody, size_t nBodyLen, int nType);
 
 	DWORD  SearchByUin(DWORD dwUin);
 	DWORD  SearchByNames(const char *pszNick, const char *pszFirstName, const char *pszLastName, WORD wPage);
@@ -762,7 +762,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	MCONTACT AddToListByUIN(DWORD dwUin, DWORD dwFlags);
 	MCONTACT AddToListByUID(const char *szUID, DWORD dwFlags);
 
-	void   ICQAddRecvEvent(MCONTACT hContact, WORD wType, PROTORECVEVENT* pre, DWORD cbBlob, PBYTE pBlob, DWORD flags);
+	void   ICQAddRecvEvent(MCONTACT hContact, WORD wType, PROTORECVEVENT* pre, size_t cbBlob, PBYTE pBlob, DWORD flags);
 	INT_PTR __cdecl IcqAddCapability(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl IcqCheckCapability(WPARAM wParam, LPARAM lParam);
 
@@ -790,14 +790,14 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   updateServerCustomStatus(int fullUpdate);
 
 	//----| icq_xtraz.cpp |---------------------------------------------------------------
-	void   handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC);
-	void   handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD wCookie, char* szMsg, int nMsgLen);
+	void   handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC);
+	void   handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD wCookie, char* szMsg, size_t nMsgLen);
 
-	void   handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC);
-	void   handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC);
+	void   handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC);
+	void   handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC);
 
 	DWORD  SendXtrazNotifyRequest(MCONTACT hContact, char* szQuery, char* szNotify, int bForced);
-	void   SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szResponse, int nResponseLen, BOOL bThruDC);
+	void   SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szResponse, size_t nResponseLen, BOOL bThruDC);
 
 	//----| init.cpp |--------------------------------------------------------------------
 	void   UpdateGlobalSettings();
@@ -827,8 +827,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int    IsValidFileTransfer(void *ft);
 	int    IsValidOscarTransfer(void *ft);
 
-	void   handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand);
-	void   handleRecvServResponseOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, void* ft);
+	void   handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand);
+	void   handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, void* ft);
 
 	HANDLE oftInitTransfer(MCONTACT hContact, DWORD dwUin, char *szUid, const TCHAR **pszFiles, const TCHAR *szDescription);
 	HANDLE oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
@@ -837,7 +837,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   oftFileResume(oscar_filetransfer *ft, int action, const TCHAR *szFilename);
 
 	void   sendOscarPacket(oscar_connection *oc, icq_packet *packet);
-	void   handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE *pBuffer, WORD wLen);
+	void   handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE *pBuffer, size_t wLen);
 	void   sendOFT2FramePacket(oscar_connection *oc, WORD datatype);
 
 	void   proxy_sendInitTunnel(oscar_connection *oc);
@@ -883,7 +883,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   AddToSpammerList(DWORD dwUIN);
 	BOOL   IsOnSpammerList(DWORD dwUIN);
 
-	HANDLE NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* lParam, WORD* pwPort, DWORD* pdwIntIP);
+	HANDLE NetLib_BindPort(NETLIBNEWCONNECTIONPROC_V2 pFunc, void* lParam, WORD *pwPort, DWORD *pdwIntIP);
 
 	MCONTACT HandleFromCacheByUid(DWORD dwUin, const char *szUid);
 	MCONTACT HContactFromUIN(DWORD dwUin, int *Added);
@@ -900,12 +900,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   __cdecl SetStatusNoteThread(void *pArguments);
 	int    SetStatusNote(const char *szStatusNote, DWORD dwDelay, int bForced);
 	int    SetStatusMood(const char *szMoodData, DWORD dwDelay);
-
-	BOOL   writeDbInfoSettingString(MCONTACT hContact, const char* szSetting, char** buf, WORD* pwLength);
-	BOOL   writeDbInfoSettingWord(MCONTACT hContact, const char *szSetting, char **buf, WORD* pwLength);
-	BOOL   writeDbInfoSettingWordWithTable(MCONTACT hContact, const char *szSetting, const FieldNamesItem *table, char **buf, WORD* pwLength);
-	BOOL   writeDbInfoSettingByte(MCONTACT hContact, const char *pszSetting, char **buf, WORD* pwLength);
-	BOOL   writeDbInfoSettingByteWithTable(MCONTACT hContact, const char *szSetting, const FieldNamesItem *table, char **buf, WORD* pwLength);
 
 	void   writeDbInfoSettingTLVStringUtf(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv);
 	void   writeDbInfoSettingTLVWord(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv);

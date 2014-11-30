@@ -31,7 +31,7 @@
 
 extern const char* cliSpamBot;
 
-void CIcqProto::handleLocationFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader)
+void CIcqProto::handleLocationFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader)
 {
 	switch (pSnacHeader->wSubtype) {
 	case ICQ_LOCATION_RIGHTS_REPLY: // Reply to CLI_REQLOCATION
@@ -90,7 +90,7 @@ static char* AimApplyEncoding(char* pszStr, const char* pszEncoding)
 	return pszStr;
 }
 
-void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie)
+void CIcqProto::handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCookie)
 {
 	DWORD dwUIN;
 	uid_str szUID;

@@ -189,14 +189,14 @@ int CIcqProto::IsICQContact(MCONTACT hContact)
 	return !strcmpnull(szProto, m_szModuleName);
 }
 
-HANDLE CIcqProto::AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+HANDLE CIcqProto::AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, size_t cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = dwTime;
 	dbei.flags = flags;
 	dbei.eventType = wType;
-	dbei.cbBlob = cbBlob;
+	dbei.cbBlob = (DWORD)cbBlob;
 	dbei.pBlob = pBlob;
 	return db_event_add(hContact, &dbei);
 }

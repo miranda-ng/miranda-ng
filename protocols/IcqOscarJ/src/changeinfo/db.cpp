@@ -179,8 +179,7 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 		switch (si.dbType) {
 		case DBVT_ASCIIZ:
 			if (si.displayType & LIF_PASSWORD) {
-				int nSettingLen = strlennull((char*)sid.value);
-
+				size_t nSettingLen = mir_strlen((char*)sid.value);
 				if (nSettingLen > 8 || nSettingLen < 1) {
 					MessageBox(hwndDlg, TranslateT("The ICQ server does not support passwords longer than 8 characters. Please use a shorter password."), TranslateT("Change ICQ Details"), MB_OK);
 					ret = 0;

@@ -107,7 +107,7 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM hContact, LPARAM lParam)
 				}
 			}
 			else {
-				char *savePtr = dbv.pszVal ? strcpy((char*)_alloca(strlennull(dbv.pszVal) + 1), dbv.pszVal) : NULL;
+				char *savePtr = dbv.pszVal ? strcpy((char*)_alloca(mir_strlen(dbv.pszVal) + 1), dbv.pszVal) : NULL;
 				if (!mir_utf8decode(savePtr, &cgs->pValue->pwszVal))
 					rc = 1;
 			}
@@ -157,15 +157,14 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	PBYTE buf = NULL;
-	int buflen = 0;
-	BYTE b;
+	size_t buflen = 0;
 
 	// userinfo
 	ppackTLVWord(&buf, &buflen, 0x1C2, (WORD)GetACP());
 
 	if (wParam & CIXT_CONTACT) { // contact information
 		BYTE *pBlock = NULL;
-		int cbBlock = 0;
+		size_t cbBlock = 0;
 		int nItems = 0;
 
 		// Emails
@@ -193,7 +192,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (wParam & CIXT_MORE) {
-		b = getByte("Gender", 0);
+		BYTE b = getByte("Gender", 0);
 		ppackTLVByte(&buf, &buflen, 0x82, (BYTE)(b ? (b == 'M' ? 2 : 1) : 0));
 
 		ppackTLVDateFromDB(&buf, &buflen, "BirthYear", "BirthMonth", "BirthDay", 0x1A4);
@@ -207,7 +206,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 
 	if (wParam & CIXT_WORK) {
 		BYTE *pBlock = NULL;
-		int cbBlock = 0;
+		size_t cbBlock = 0;
 		int nItems = 1;
 
 		// Jobs
@@ -229,7 +228,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 
 	if (wParam & CIXT_EDUCATION) {
 		BYTE *pBlock = NULL;
-		int cbBlock = 0;
+		size_t cbBlock = 0;
 		int nItems = 1;
 
 		// Studies
@@ -242,7 +241,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 
 	if (wParam & CIXT_LOCATION) {
 		BYTE *pBlock = NULL;
-		int cbBlock = 0;
+		size_t cbBlock = 0;
 		int nItems = 1;
 
 		// Home Address
@@ -271,7 +270,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 
 	if (wParam & CIXT_BACKGROUND) {
 		BYTE *pBlock = NULL;
-		int cbBlock = 0;
+		size_t cbBlock = 0;
 		int nItems = 0;
 
 		// Interests
@@ -282,7 +281,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 		ppackTLVBlockItems(&buf, &buflen, 0x122, &nItems, &pBlock, (WORD*)&cbBlock, FALSE);
 	}
 
-	DWORD dwCookie = icq_changeUserDirectoryInfoServ(buf, (WORD)buflen, DIRECTORYREQUEST_UPDATEOWNER);
+	DWORD dwCookie = icq_changeUserDirectoryInfoServ(buf, buflen, DIRECTORYREQUEST_UPDATEOWNER);
 
 	SAFE_FREE((void**)&buf);
 
@@ -587,7 +586,7 @@ MCONTACT CIcqProto::AddToListByUID(const char *szUID, DWORD dwFlags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::ICQAddRecvEvent(MCONTACT hContact, WORD wType, PROTORECVEVENT* pre, DWORD cbBlob, PBYTE pBlob, DWORD flags)
+void CIcqProto::ICQAddRecvEvent(MCONTACT hContact, WORD wType, PROTORECVEVENT* pre, size_t cbBlob, PBYTE pBlob, DWORD flags)
 {
 	if (pre->flags & PREF_CREATEREAD)
 		flags |= DBEF_READ;
@@ -670,12 +669,12 @@ INT_PTR icq_getEventTextMissedMessage(WPARAM wParam, LPARAM lParam)
 		}
 		if (pEvent->datatype == DBVT_WCHAR) {
 			WCHAR *pwszText;
-			int wchars = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, strlennull(pszText), NULL, 0);
+			int wchars = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, (int)mir_strlen(pszText), NULL, 0);
 
 			pwszText = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
 			pwszText[wchars] = 0;
 
-			MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, strlennull(pszText), pwszText, wchars);
+			MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, (int)mir_strlen(pszText), pwszText, wchars);
 
 			nRetVal = (INT_PTR)mir_wstrdup(TranslateW(pwszText));
 		}

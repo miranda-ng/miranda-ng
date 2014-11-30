@@ -32,7 +32,7 @@
 int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr)
 {
 	// initial response from ICQ http gateway
-	WORD wLen, wVersion, wType;
+	size_t wLen, wVersion, wType;
 	WORD wIpLen;
 	DWORD dwSid1, dwSid2, dwSid3, dwSid4;
 	BYTE *buf;
@@ -86,12 +86,12 @@ int icq_httpGatewayBegin(HANDLE hConn, NETLIBOPENCONNECTION* nloc)
 	icq_packet packet;
 	size_t serverNameLen;
 
-	serverNameLen = strlennull(nloc->szHost);
+	serverNameLen = mir_strlen(nloc->szHost);
 
 	packet.wLen = (WORD)(serverNameLen + 4);
 	write_httphdr(&packet, HTTP_PACKETTYPE_LOGIN, GetGatewayIndex(hConn));
 	packWord(&packet, (WORD)serverNameLen);
-	packBuffer(&packet, (LPBYTE)nloc->szHost, (WORD)serverNameLen);
+	packBuffer(&packet, (LPBYTE)nloc->szHost, serverNameLen);
 	packWord(&packet, nloc->wPort);
 	INT_PTR res = Netlib_Send(hConn, (char*)packet.pData, packet.wLen, MSG_DUMPPROXY|MSG_NOHTTPGATEWAYWRAP);
 	SAFE_FREE((void**)&packet.pData);
@@ -117,7 +117,7 @@ int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDA
 		// send wrapped data
 		packet.wLen = curLen;
 		write_httphdr(&packet, HTTP_PACKETTYPE_FLAP, GetGatewayIndex(hConn));
-		packBuffer(&packet, sendBuf, (WORD)curLen);
+		packBuffer(&packet, sendBuf, curLen);
 
 		NETLIBBUFFER nlb={ (char*)packet.pData, packet.wLen, flags };
 		curResult = pfnNetlibSend((WPARAM)hConn, (LPARAM)&nlb);
@@ -141,14 +141,13 @@ int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDA
 
 PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int* outBufLen, void *(*NetlibRealloc)(void *, size_t))
 {
-	WORD wLen, wType;
+	size_t wLen, wType;
 	DWORD dwPackSeq;
 	PBYTE tbuf;
-	int i, copyBytes;
-
+	size_t i = 0;
 
 	tbuf = buf;
-	for(i = 0;;)
+	for(;;)
 	{
 		if (tbuf - buf + 2 > len)
 			break;
@@ -163,7 +162,7 @@ PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 		unpackDWord(&tbuf, &dwPackSeq);
 		if (wType == HTTP_PACKETTYPE_FLAP)
 		{ // it is normal data packet
-			copyBytes = wLen - 12;
+			size_t copyBytes = wLen - 12;
 			if (copyBytes > len - i)
 			{
 				/* invalid data - do our best to get something out of it */
@@ -189,7 +188,7 @@ PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 		}
 		tbuf += wLen - 12;
 	}
-	*outBufLen = i;
+	*outBufLen = (int)i;
 
 	return buf;
 }

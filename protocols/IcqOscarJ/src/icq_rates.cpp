@@ -33,7 +33,7 @@
 // Rate Level 1 Management
 /////////////////////////////
 
-rates::rates(CIcqProto *ppro, BYTE *pBuffer, WORD wLen)
+rates::rates(CIcqProto *ppro, BYTE *pBuffer, size_t wLen)
 {
 	nGroups = 0;
 	memset(&groups, 0, MAX_RATES_GROUP_COUNT * sizeof(rates_group));
@@ -223,7 +223,7 @@ int rates::getLimitLevel(WORD wGroup, int nLevel)
 
 void rates::initAckPacket(icq_packet *pPacket)
 {
-	serverPacketInit(pPacket, 10 + WORD(nGroups * sizeof(WORD)));
+	serverPacketInit(pPacket, 10 + nGroups * sizeof(WORD));
 	packFNACHeader(pPacket, ICQ_SERVICE_FAMILY, ICQ_CLIENT_RATE_ACK);
 	for (WORD wGroup = 1; wGroup <= nGroups; wGroup++)
 		packWord(pPacket, wGroup);
