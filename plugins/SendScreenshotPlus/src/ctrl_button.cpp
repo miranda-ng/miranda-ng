@@ -550,7 +550,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 	case BUTTONTRANSLATE:
 		{
 			TCHAR szButton[MAX_PATH];
-			GetWindowText(bct->hwnd, szButton, MAX_PATH);
+			GetWindowText(bct->hwnd, szButton, SIZEOF(szButton));
 			SetWindowText(bct->hwnd, TranslateTS(szButton));
 		}
 		break;

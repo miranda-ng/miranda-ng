@@ -1811,7 +1811,6 @@ static void InitListView(HWND AHLV)
 		lvTIt.iItem = I;
 		lvTIt.iSubItem = 0;
 		lvTIt.pszText = (pNote->CustomTitle && pNote->title) ? pNote->title : S1;
-		lvTIt.cchTextMax = (int)strlen(S1);
 		ListView_InsertItem(AHLV,&lvTIt);
 
 		if (pNote->Visible)
@@ -1819,7 +1818,6 @@ static void InitListView(HWND AHLV)
 			lvTIt.iItem = I;
 			lvTIt.iSubItem = 1;
 			lvTIt.pszText = V;
-			lvTIt.cchTextMax = (int)strlen(lvTIt.pszText);
 			ListView_SetItem(AHLV,&lvTIt);
 		}
 
@@ -1828,7 +1826,6 @@ static void InitListView(HWND AHLV)
 			lvTIt.iItem = I;
 			lvTIt.iSubItem = 2;
 			lvTIt.pszText = T;
-			lvTIt.cchTextMax = (int)strlen(lvTIt.pszText);
 			ListView_SetItem(AHLV,&lvTIt);
 		}
 
@@ -1836,7 +1833,6 @@ static void InitListView(HWND AHLV)
 		lvTIt.iItem = I;
 		lvTIt.iSubItem = 3;
 		lvTIt.pszText = S;
-		lvTIt.cchTextMax = (int)strlen(S);
 		ListView_SetItem(AHLV,&lvTIt);
 
 		I++;
@@ -1956,28 +1952,24 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 
 			S = TranslateT("Note text");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = (int)_tcslen(S);
 			lvCol.cx = g_notesListColGeom[3];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			S = TranslateT("Top");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = (int)_tcslen(S);
 			lvCol.cx = g_notesListColGeom[2];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			S = TranslateT("Visible");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = (int)strlen(S);
 			lvCol.cx = g_notesListColGeom[1];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			S = TranslateT("Date/Title");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = (int)_tcslen(S);
 			lvCol.cx = g_notesListColGeom[0];
 			ListView_InsertColumn(H,0,&lvCol);
 

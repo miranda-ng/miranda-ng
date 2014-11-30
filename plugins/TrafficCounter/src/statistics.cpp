@@ -60,7 +60,6 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			{
 				TCITEM tci;
 				tci.mask = TCIF_TEXT;
-				tci.cchTextMax = 32;
 				tci.pszText = TranslateT("Hourly");
 				SendDlgItemMessage(hwndDlg, IDC_TAB_STATS, TCM_INSERTITEM, 0, (LPARAM)&tci);
 				tci.pszText = TranslateT("Daily");
@@ -84,7 +83,6 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 				lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 				lvc.fmt = LVCFMT_LEFT;
-				lvc.cchTextMax = 32;
 				lvc.pszText = TranslateT("Period");
 				lvc.cx = 135;
 				lvc.iSubItem = 0;

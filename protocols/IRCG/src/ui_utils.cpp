@@ -1290,7 +1290,6 @@ void CCtrlTreeView::TranslateItem(HTREEITEM hItem)
 
 	GetItem(hItem, &tvi, buf, SIZEOF(buf));
 	tvi.pszText = TranslateTS(tvi.pszText);
-	tvi.cchTextMax = lstrlen(tvi.pszText);
 	SetItem(&tvi);
 }
 

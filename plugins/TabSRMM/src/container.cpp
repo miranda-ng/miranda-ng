@@ -240,7 +240,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			CSkin::DrawItem(dcMem, &rcWindow, item);
 
-			GetWindowText(hwndDlg, szWindowText, 512);
+			GetWindowText(hwndDlg, szWindowText, SIZEOF(szWindowText));
 			szWindowText[511] = 0;
 			hOldFont = (HFONT)SelectObject(dcMem, PluginConfig.hFontCaption);
 			GetTextMetrics(dcMem, &tm);

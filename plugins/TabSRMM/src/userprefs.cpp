@@ -470,7 +470,6 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowText(hwndDlg, szBuffer);
 
 			memset(&tci, 0, sizeof(tci));
-			tci.cchTextMax = 100;
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
 			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS), hwndDlg, DlgProcUserPrefs, hContact);
 			tci.pszText = TranslateT("General");

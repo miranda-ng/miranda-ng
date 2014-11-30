@@ -54,7 +54,7 @@ void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList* p
 		tvi.mask = TVIF_STATE|TVIF_TEXT;
 		tvi.stateMask = TVIS_STATEIMAGEMASK;
 		tvi.pszText = szModule;
-		tvi.cchTextMax = MAXSETTING;
+		tvi.cchTextMax = SIZEOF(szModule);
 
 		do {
 			if (
@@ -225,7 +225,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 						break;
 				}
 				TranslateDialogDefault(hDlg);			//to translate oldTitle
-				GetWindowText(hDlg, oldTitle, MAXSETTING);
+				GetWindowText(hDlg, oldTitle, SIZEOF(oldTitle));
 				mir_sntprintf(newTitle, MAXDATASIZE - 1, _T("%s - %s"), name, oldTitle);
 				SetWindowText(hDlg, newTitle);
 			}
@@ -394,7 +394,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 					tvi.mask = TVIF_TEXT;
 					tvi.pszText = szText;
-					tvi.cchTextMax = sizeof(szText);
+					tvi.cchTextMax = SIZEOF(szText);
 
 					// search the tree item of optional items
 					for (tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_ROOT, NULL);

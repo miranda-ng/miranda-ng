@@ -342,7 +342,7 @@ void SaveState()
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
-				item.cchTextMax = 255;
+				item.cchTextMax = SIZEOF(szTemp);
 				item.iItem = i;
 				SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
 				strncat(newProtoFilter, szTemp, SIZEOF(newProtoFilter));
@@ -364,7 +364,7 @@ void SaveState()
 			if (ListView_GetCheckState(hwndList, i)) {
 				item.mask = LVIF_TEXT;
 				item.pszText = szTemp;
-				item.cchTextMax = 255;
+				item.cchTextMax = SIZEOF(szTemp);
 				item.iItem = i;
 				SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
 				_tcsncat(newGroupFilter, szTemp, SIZEOF(newGroupFilter));
@@ -475,7 +475,7 @@ void UpdateFilters()
 
 		item.mask = LVIF_TEXT;
 		item.pszText = szTemp;
-		item.cchTextMax = 255;
+		item.cchTextMax = SIZEOF(szTemp);
 
 		for (i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
@@ -497,7 +497,7 @@ void UpdateFilters()
 
 		item.mask = LVIF_TEXT;
 		item.pszText = szTemp;
-		item.cchTextMax = 255;
+		item.cchTextMax = SIZEOF(szTemp);
 
 		ListView_SetCheckState(hwndList, 0, dwFlags & CLVM_INCLUDED_UNGROUPED ? TRUE : FALSE);
 

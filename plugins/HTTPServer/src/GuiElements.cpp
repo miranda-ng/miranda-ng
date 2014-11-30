@@ -284,7 +284,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 
 					HWND hFileName = GetDlgItem(hWndFileDlg, edt1);
 					char pszFileName[MAX_PATH];
-					SendMessage(hFileName, WM_GETTEXT, MAX_PATH, (LPARAM)pszFileName);
+					SendMessage(hFileName, WM_GETTEXT, SIZEOF(pszFileName), (LPARAM)pszFileName);
 
 					if (strcmp(pstShare->pszSrvPath, szSelection) &&
 					    strcmp(pszFileName, pszShareDirStr)) {
@@ -856,8 +856,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 			LVITEM sItem = { 0 };
 			sItem.mask = LVIF_TEXT;
 			sItem.pszText = szTmp;
-			sItem.cchTextMax = sizeof(szTmp);
-
+			sItem.cchTextMax = SIZEOF(szTmp);
 
 			switch (LOWORD(wParam)) {
 				case IDC_SHOWHIDDENSHARES: {

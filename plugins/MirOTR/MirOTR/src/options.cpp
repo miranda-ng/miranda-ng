@@ -411,7 +411,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 							int sel = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS));
 							if (sel != -1) {
 								TCHAR buff_proto[128];
-								ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, buff_proto, 128);
+								ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, buff_proto, SIZEOF(buff_proto));
 								TCHAR buff[512];
 								mir_sntprintf(buff, 512, TranslateT(LANG_OTR_ASK_REMOVEKEY), buff_proto);
 								if (IDYES == MessageBox(hwndDlg, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION|MB_YESNO))

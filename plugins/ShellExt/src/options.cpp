@@ -8,7 +8,7 @@ static void AutoSize(HWND hwnd)
   HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
 
   TCHAR szBuf[MAX_PATH];
-  int i = GetWindowText(hwnd, szBuf, MAX_PATH);
+  int i = GetWindowText(hwnd, szBuf, SIZEOF(szBuf));
 
   SIZE tS;
   GetTextExtentPoint32(hDC, szBuf, i, &tS);

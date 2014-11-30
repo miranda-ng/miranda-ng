@@ -394,7 +394,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 		sItem.iItem = nCur;
 		sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 		sItem.pszText = szTemp;
-		sItem.cchTextMax = sizeof( szTemp);
+		sItem.cchTextMax = SIZEOF(szTemp);
 
 		if (ListView_GetItem( hMapUser, &sItem))
 		{
@@ -483,7 +483,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 		sItem.iItem = nCur;
 		sItem.iSubItem = 1;
 		sItem.pszText = szSearch;
-		sItem.cchTextMax = sizeof( szSearch);
+		sItem.cchTextMax = SIZEOF(szSearch);
 		
 		if ( !ListView_GetItem( hMapUser, &sItem))
 		{
@@ -502,7 +502,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 			sItem.iItem = nSubCur;
 			sItem.iSubItem = 1;
 			sItem.pszText = szSubCur;
-			sItem.cchTextMax = sizeof( szSubCur);
+			sItem.cchTextMax = SIZEOF(szSubCur);
 			if (ListView_GetItem( hMapUser, &sItem))
 			{
 				size_t nLen = _tcslen( szSubCur);
@@ -521,13 +521,13 @@ void AutoFindeFileNames(HWND hwndDlg)
 		{
 			tstring sFileName;
 			szSearch[0] = 0;
-			ListView_GetItemText( hMapUser, nCur, 0, szSearch, sizeof( szSearch ));
+			ListView_GetItemText( hMapUser, nCur, 0, szSearch, SIZEOF( szSearch ));
 			bool bPriHasFileName = szSearch[0] != 0;
 			if (bPriHasFileName )
 				sFileName = szSearch;
 
 			szSearch[0] = 0;
-			ListView_GetItemText( hMapUser, nStortestIndex, 0, szSearch, sizeof( szSearch ));
+			ListView_GetItemText( hMapUser, nStortestIndex, 0, szSearch, SIZEOF( szSearch ));
 			bool bSubHasFileName = szSearch[0] != 0;
 			if (bSubHasFileName )
 				sFileName = szSearch;
@@ -1188,7 +1188,7 @@ BOOL bApplyChanges2( HWND hwndDlg )
 		sItem.iItem = nCur;
 		sItem.mask = LVIF_TEXT | LVIF_IMAGE;
 		sItem.pszText = &szTemp[12];
-		sItem.cchTextMax = sizeof( szTemp )-15;
+		sItem.cchTextMax = (SIZEOF(szTemp) - 15);
 		if (::SendMessage(hMapUser, LVM_GETITEMA, 0, (LPARAM)&sItem))
 		{
 			if (sItem.iImage )

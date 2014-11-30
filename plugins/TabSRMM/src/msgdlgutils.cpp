@@ -84,7 +84,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fS
 	TCITEM item = { 0 };
 	item.mask = TCIF_IMAGE | TCIF_TEXT | TCIF_PARAM;
 	item.pszText = oldText;
-	item.cchTextMax = 500;
+	item.cchTextMax = SIZEOF(oldText);
 	TabCtrl_GetItem(hwndTab, dat->iTabID, &item);
 
 	int newIndex = LOWORD(iMode);
@@ -1648,7 +1648,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			SetTextColor(dis->hDC, GetSysColor(COLOR_BTNTEXT));
 			CSkin::FillBack(dis->hDC, &dis->rcItem);
 		}
-		GetWindowText(dis->hwndItem, szWindowText, 255);
+		GetWindowText(dis->hwndItem, szWindowText, SIZEOF(szWindowText));
 		szWindowText[255] = 0;
 		SetBkMode(dis->hDC, TRANSPARENT);
 		DrawText(dis->hDC, szWindowText, -1, &dis->rcItem, DT_SINGLELINE | DT_VCENTER | DT_NOCLIP | DT_END_ELLIPSIS);

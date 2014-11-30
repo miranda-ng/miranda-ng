@@ -532,7 +532,6 @@ void CSendLater::qMgrFillList(bool fClear)
 	::SendMessage(m_hwndFilter, CB_SETITEMDATA, 0, 0);
 
 	LVITEM lvItem = { 0 };
-	lvItem.cchTextMax = 255;
 
 	BYTE bCode = '-';
 	unsigned uIndex = 0;
@@ -550,6 +549,7 @@ void CSendLater::qMgrFillList(bool fClear)
 			TCHAR tszBuf[255];
 			mir_sntprintf(tszBuf, 255, _T("%s [%s]"), tszNick, c->getRealAccount());
 			lvItem.pszText = tszBuf;
+			lvItem.cchTextMax = SIZEOF(tszBuf);
 			lvItem.iItem = uIndex++;
 			lvItem.iSubItem = 0;
 			lvItem.lParam = LPARAM(p);

@@ -310,7 +310,6 @@ static void LoadReplacements(HWND hwndDlg)
 		item.iItem = i;
 		item.iSubItem = 0;
 		item.pszText = (TCHAR *) it->first.c_str();
-		item.cchTextMax = (int)it->first.length();
 		item.lParam = i;
 		
 		ListView_InsertItem(hList, &item);
@@ -394,11 +393,9 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			col.fmt = LVCFMT_LEFT;
 			col.cx = 175;
 			col.pszText = TranslateT("Wrong word");
-			col.cchTextMax = lstrlen(col.pszText);
 			ListView_InsertColumn(hList, 0, &col);
 
 			col.pszText = TranslateT("Correction");
-			col.cchTextMax = lstrlen(col.pszText);
 			ListView_InsertColumn(hList, 1, &col);
 
 			LoadReplacements(hwndDlg);

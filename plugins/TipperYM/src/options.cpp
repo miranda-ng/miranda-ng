@@ -1075,7 +1075,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								item.stateMask = TVIS_STATEIMAGEMASK;
 								item.hItem = hItem;
 								item.pszText = buff;
-								item.cchTextMax = 512;
+								item.cchTextMax = SIZEOF(buff);
 								if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item))
 								{
 									tmpParam = item.lParam;
@@ -1794,7 +1794,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 				tvis.item.pszText = swzName;
-				tvis.item.cchTextMax = 256;
+				tvis.item.cchTextMax = SIZEOF(swzName);
 				tvis.item.hItem = dat->hDragItem;
 				tvis.item.state = INDEXTOSTATEIMAGEMASK(((ICONSTATE *)item.lParam)->vis ? 2 : 1);
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvis.item);
@@ -2215,7 +2215,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						TVITEM item;
 						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS));
 						item.pszText = buff;
-						item.cchTextMax = 256;
+						item.cchTextMax = SIZEOF(buff);
 						item.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
 						item.stateMask = TVIS_STATEIMAGEMASK;
 						while (item.hItem != NULL)

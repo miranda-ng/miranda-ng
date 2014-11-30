@@ -214,7 +214,7 @@ TCHAR *RichEdit::GetText(int start, int end) const
 		return ret;
 	}
 
-	int len = GetTextLength();
+	int len = (GetTextLength() + 1);
 	TCHAR *tmp = (TCHAR *)mir_alloc(len * sizeof(TCHAR));
 	GetWindowText(hwnd, tmp, len);
 	tmp[len] = 0;

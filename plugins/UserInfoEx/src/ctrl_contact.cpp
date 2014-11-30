@@ -171,11 +171,11 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 			TCHAR szButton[MAX_PATH];
 			HWND hBtn = GetDlgItem(hDlg, IDOK);
-			GetWindowText(hBtn, szButton, MAX_PATH);
+			GetWindowText(hBtn, szButton, SIZEOF(szButton));
 			SetWindowText(hBtn, TranslateTS(szButton));
 
 			hBtn = GetDlgItem(hDlg, IDCANCEL);
-			GetWindowText(hBtn, szButton, MAX_PATH);
+			GetWindowText(hBtn, szButton, SIZEOF(szButton));
 			SetWindowText(hBtn, TranslateTS(szButton));
 		}
 		return TRUE;
@@ -253,10 +253,10 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				HWND hBtn;
 
 				hBtn = GetDlgItem(hDlg, IDOK);
-				GetWindowText(hBtn, szButton, MAX_PATH);
+				GetWindowText(hBtn, szButton, SIZEOF(szButton));
 				SetWindowText(hBtn, TranslateTS(szButton));
 				hBtn = GetDlgItem(hDlg, IDCANCEL);
-				GetWindowText(hBtn, szButton, MAX_PATH);
+				GetWindowText(hBtn, szButton, SIZEOF(szButton));
 				SetWindowText(hBtn, TranslateTS(szButton));
 			}
 			if (*cbi->pszVal) SetWindowText(hDlg, LPGENT("Edit phone number"));
@@ -844,7 +844,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 							int errorPos;
 							TCHAR szEdit[MAXDATASIZE];
 
-							if (ccVal = GetWindowText(cbex->hEdit, szEdit, MAXDATASIZE)) {
+							if (ccVal = GetWindowText(cbex->hEdit, szEdit, SIZEOF(szEdit))) {
 								if (!(ccVal = CheckPhoneSyntax(szEdit, szVal, MAXDATASIZE, errorPos)) || errorPos > -1) {
 									SetWindowText(cbex->hEdit, szVal);
 									SendMessage(cbex->hEdit, EM_SETSEL, errorPos, errorPos);
@@ -853,10 +853,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 							break;
 						}
 						case EDIT_EMAIL:
-							ccVal = GetWindowText(cbex->hEdit, szVal, MAXDATASIZE);
+							ccVal = GetWindowText(cbex->hEdit, szVal, SIZEOF(szVal));
 							break;
 						default:
-							ccVal = GetWindowText(cbex->hEdit, szVal, MAXDATASIZE);
+							ccVal = GetWindowText(cbex->hEdit, szVal, SIZEOF(szVal));
 							break;
 					}
 							

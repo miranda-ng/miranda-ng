@@ -123,7 +123,7 @@ SIZE GetControlTextSize(HWND hCtrl)
 	const size_t maxSize = 2048;
 	TCHAR buffer[maxSize];
 	SIZE size;
-	GetWindowText(hCtrl, buffer, maxSize);
+	GetWindowText(hCtrl, buffer, SIZEOF(buffer));
 	GetTextExtentPoint32(hDC, buffer, (int) _tcslen(buffer), &size);
 	SelectObject(hDC, oldFont);
 	ReleaseDC(hCtrl, hDC);
@@ -306,22 +306,22 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					const int maxSize = 1024;
 					TCHAR buffer[maxSize];
 
-					GetWindowText(GetDlgItem(hWnd, IDC_DAYS_IN_ADVANCE), buffer, maxSize);
+					GetWindowText(GetDlgItem(hWnd, IDC_DAYS_IN_ADVANCE), buffer, SIZEOF(buffer));
 					TCHAR *stop = NULL;
 					commonData.daysInAdvance = _tcstol(buffer, &stop, 10);
 
 					if (*stop) { commonData.daysInAdvance = DAYS_TO_NOTIFY; }
 
-					GetWindowText(GetDlgItem(hWnd, IDC_DAYS_AFTER), buffer, maxSize);
+					GetWindowText(GetDlgItem(hWnd, IDC_DAYS_AFTER), buffer, SIZEOF(buffer));
 					commonData.daysAfter = _tcstol(buffer, &stop, 10);
 
 					if (*stop) { commonData.daysAfter = DAYS_TO_NOTIFY_AFTER; }
 
-					GetWindowText(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), buffer, maxSize);
+					GetWindowText(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), buffer, SIZEOF(buffer));
 					commonData.checkInterval = _ttol(buffer);
 					if ( !commonData.checkInterval) { commonData.checkInterval = CHECK_INTERVAL; }
 
-					GetWindowText(GetDlgItem(hWnd, IDC_POPUP_TIMEOUT), buffer, maxSize);
+					GetWindowText(GetDlgItem(hWnd, IDC_POPUP_TIMEOUT), buffer, SIZEOF(buffer));
 					TCHAR *pos;
 					pos = _tcschr(buffer, _T('|'));
 					if (pos) {
@@ -338,12 +338,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 					else commonData.popupTimeout = commonData.popupTimeoutToday = _ttol(buffer);
 
-					GetWindowText(GetDlgItem(hWnd, IDC_SOUND_NEAR_DAYS_EDIT), buffer, maxSize);
+					GetWindowText(GetDlgItem(hWnd, IDC_SOUND_NEAR_DAYS_EDIT), buffer, SIZEOF(buffer));
 					//cSoundNearDays = _ttol(buffer);
 					commonData.cSoundNearDays = _tcstol(buffer, &stop, 10);
 					if (*stop) { commonData.cSoundNearDays = BIRTHDAY_NEAR_DEFAULT_DAYS; }
 
-					GetWindowText(GetDlgItem(hWnd, IDC_DLG_TIMEOUT), buffer, maxSize);
+					GetWindowText(GetDlgItem(hWnd, IDC_DLG_TIMEOUT), buffer, SIZEOF(buffer));
 					commonData.cDlgTimeout = _tcstol(buffer, &stop, 10);
 					if (*stop) { commonData.cDlgTimeout = POPUP_TIMEOUT; }
 

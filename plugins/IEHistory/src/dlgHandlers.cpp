@@ -550,7 +550,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					count = 0;
 				else {
 					TCHAR buffer[1024];
-					GetWindowText(GetDlgItem(hWnd, IDC_EVENTS_COUNT), buffer, sizeof(buffer));
+					GetWindowText(GetDlgItem(hWnd, IDC_EVENTS_COUNT), buffer, SIZEOF(buffer));
 					count = _tstol(buffer);
 					count = (count < 0) ? 0 : count;
 				}

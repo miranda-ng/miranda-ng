@@ -1414,7 +1414,7 @@ void setListViewStatus(HWND hLV, UINT iItem, UINT iStatus)
 UINT getListViewPSK(HWND hLV, UINT iItem)
 {
 	char str[128];
-	LV_GetItemTextA(hLV, iItem, 4, str, sizeof(str));
+	LV_GetItemTextA(hLV, iItem, 4, str, SIZEOF(str));
 	return strncmp(str, Translate(sim206), sizeof(str)) == 0;
 }
 
@@ -1428,7 +1428,7 @@ void setListViewPSK(HWND hLV, UINT iItem, UINT iStatus)
 UINT getListViewPUB(HWND hLV, UINT iItem)
 {
 	char str[128];
-	LV_GetItemTextA(hLV, iItem, 4, str, sizeof(str));
+	LV_GetItemTextA(hLV, iItem, 4, str, SIZEOF(str));
 	return strncmp(str, Translate(sim233), sizeof(str)) == 0;
 }
 

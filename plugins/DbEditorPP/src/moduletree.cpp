@@ -193,7 +193,7 @@ int findItemInTree(HWND hwnd2Tree, MCONTACT hContact, char *module)
 	item.mask = TVIF_STATE | TVIF_PARAM | TVIF_TEXT;
 	item.hItem = TVI_ROOT;
 	item.pszText = text;
-	item.cchTextMax = 264;
+	item.cchTextMax = SIZEOF(text);
 	do {
 		do {
 			lastItem = item.hItem;
@@ -268,7 +268,7 @@ BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char *module)
 	item.mask = TVIF_STATE | TVIF_PARAM | TVIF_TEXT;
 	item.hItem = TVI_ROOT;
 	item.pszText = text;
-	item.cchTextMax = 264;
+	item.cchTextMax = SIZEOF(text);
 	prelastItem = item.hItem;
 
 	do {
@@ -383,7 +383,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 			TVITEM tvi = {0};
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.pszText = SelectedModule;
-			tvi.cchTextMax = 255;
+			tvi.cchTextMax = SIZEOF(SelectedModule);
 			tvi.hItem = item;
 
 			TreeView_GetItem(hwnd2Tree, &tvi);
@@ -595,7 +595,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = pnmtv->itemNew.hItem;
 			tvi.pszText = text;
-			tvi.cchTextMax = 264;
+			tvi.cchTextMax = SIZEOF(text);
 			TreeView_GetItem(pnmtv->hdr.hwndFrom, &tvi);
 
 			if (tvi.lParam) {
@@ -706,7 +706,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 		tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
 		tvi.hItem = ptvdi->item.hItem;
 		tvi.pszText = text;
-		tvi.cchTextMax = 264;
+		tvi.cchTextMax = SIZEOF(text);
 		TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 		mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
 
@@ -756,7 +756,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = hti.hItem;
 			tvi.pszText = module;
-			tvi.cchTextMax = 255;
+			tvi.cchTextMax = SIZEOF(module);
 			TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 			if (tvi.lParam) {
 				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;

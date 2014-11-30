@@ -446,8 +446,8 @@ HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data 
 		TCHAR buf[255];
 		tvi.hItem = tmp;
 		tvi.mask = TVIF_TEXT|TVIF_HANDLE;
-		tvi.pszText = (LPTSTR)&buf;
-		tvi.cchTextMax = 254;
+		tvi.pszText = buf;
+		tvi.cchTextMax = SIZEOF(buf);
 		TreeView_GetItem( hTree, &tvi );
 		if ( _tcsicmp(Caption, tvi.pszText) == 0) {
 			if (!data)

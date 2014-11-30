@@ -438,7 +438,7 @@ void RefreshPopupHistory(HWND hWnd, int renderer)
 	TCHAR filter[MAX_FILTER_SIZE];
 	DeleteOldEvents(hWnd, renderer); //delete events
 		
-	GetWindowText(GetDlgItem(hWnd, IDC_HISTORY_FILTER), filter, MAX_FILTER_SIZE); //get filter text
+	GetWindowText(GetDlgItem(hWnd, IDC_HISTORY_FILTER), filter, SIZEOF(filter)); //get filter text
 	
 	AddEvents(hWnd, renderer, filter, MatchesFilter);
 	
@@ -479,7 +479,7 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 			{
 				if (ListView_GetItemState(hList, i, LVIS_SELECTED))
 				{
-					ListView_GetItemText(hList, i, selection - 100, buffer, 2048);
+					ListView_GetItemText(hList, i, selection - 100, buffer, SIZEOF(buffer));
 					found = 1;
 					break;
 				}

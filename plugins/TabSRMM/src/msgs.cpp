@@ -584,7 +584,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	newData.item.pszText = tabtitle;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
 	newData.item.iImage = 0;
-	newData.item.cchTextMax = 255;
+	newData.item.cchTextMax = SIZEOF(tabtitle);
 
 	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
 	// hide the active tab
