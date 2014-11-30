@@ -351,7 +351,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	EXTRAICON_INFO *ei = (EXTRAICON_INFO *)wParam;
-	if (ei->cbSize < (int)sizeof(EXTRAICON_INFO))
+	if (ei->cbSize < sizeof(EXTRAICON_INFO))
 		return 0;
 	if (ei->type != EXTRAICON_TYPE_CALLBACK && ei->type != EXTRAICON_TYPE_ICOLIB)
 		return 0;
@@ -462,7 +462,7 @@ INT_PTR ExtraIcon_SetIcon(WPARAM wParam, LPARAM)
 		return -1;
 
 	EXTRAICON *ei = (EXTRAICON*)wParam;
-	if (ei->cbSize < (int)sizeof(EXTRAICON) || ei->hExtraIcon == NULL || ei->hContact == NULL)
+	if (ei->cbSize < sizeof(EXTRAICON) || ei->hExtraIcon == NULL || ei->hContact == NULL)
 		return -1;
 
 	ExtraIcon *extra = GetExtraIcon(ei->hExtraIcon);
@@ -478,7 +478,7 @@ INT_PTR ExtraIcon_SetIconByName(WPARAM wParam, LPARAM)
 		return -1;
 
 	EXTRAICON *ei = (EXTRAICON*)wParam;
-	if (ei->cbSize < (int)sizeof(EXTRAICON) || ei->hExtraIcon == NULL || ei->hContact == NULL)
+	if (ei->cbSize < sizeof(EXTRAICON) || ei->hExtraIcon == NULL || ei->hContact == NULL)
 		return -1;
 
 	ExtraIcon *extra = GetExtraIcon(ei->hExtraIcon);

@@ -1689,12 +1689,12 @@ void LaunchSkypeAndSetStatusThread(void *) {
 	if (bLaunching) return;
 	bLaunching = TRUE;
 	LOG(("LaunchSkypeAndSetStatusThread started."));
-	InterlockedExchange((long *)&SkypeStatus, (int)ID_STATUS_CONNECTING);
+	InterlockedExchange((long *)&SkypeStatus, ID_STATUS_CONNECTING);
 	ProtoBroadcastAck(SKYPE_PROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, SkypeStatus);
 
 	if (ConnectToSkypeAPI(skype_path, 1) != -1) {
 		pthread_create((pThreadFunc)SkypeSystemInit, NULL);
-		//InterlockedExchange((long *)&SkypeStatus, (int)newStatus);
+		//InterlockedExchange((long *)&SkypeStatus, newStatus);
 		//ProtoBroadcastAck(SKYPE_PROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, SkypeStatus);
 		SetUserStatus();
 	}
@@ -2251,17 +2251,17 @@ INT_PTR SkypeSetStatus(WPARAM wParam, LPARAM lParam)
 	//if (!SkypeInitialized && !db_get_b(NULL, SKYPE_PROTONAME, "UnloadOnOffline", 0)) return 0;
 
 	// Workaround for Skype status-bug
-	if ((int)wParam == ID_STATUS_OFFLINE) logoff_contacts(TRUE);
-	if (SkypeStatus == (int)wParam) return 0;
+	if (wParam == ID_STATUS_OFFLINE) logoff_contacts(TRUE);
+	if (SkypeStatus == wParam) return 0;
 	oldStatus = SkypeStatus;
 
-	if ((int)wParam == ID_STATUS_CONNECTING) return 0;
+	if (wParam == ID_STATUS_CONNECTING) return 0;
 #ifdef MAPDND
-	if ((int)wParam == ID_STATUS_OCCUPIED || (int)wParam == ID_STATUS_ONTHEPHONE) wParam = ID_STATUS_DND;
-	if ((int)wParam == ID_STATUS_OUTTOLUNCH) wParam = ID_STATUS_NA;
+	if (wParam == ID_STATUS_OCCUPIED || wParam == ID_STATUS_ONTHEPHONE) wParam = ID_STATUS_DND;
+	if (wParam == ID_STATUS_OUTTOLUNCH) wParam = ID_STATUS_NA;
 #endif
 #ifdef MAPNA
-	if ((int)wParam==ID_STATUS_NA) wParam = ID_STATUS_AWAY;
+	if (wParam==ID_STATUS_NA) wParam = ID_STATUS_AWAY;
 #endif
 
 	RequestedStatus = MirandaStatusToSkype((int)wParam);
@@ -2269,12 +2269,12 @@ INT_PTR SkypeSetStatus(WPARAM wParam, LPARAM lParam)
 	/*
 	if (SkypeStatus != ID_STATUS_OFFLINE)
 	{
-	InterlockedExchange((long*)&SkypeStatus, (int)wParam);
+	InterlockedExchange((long*)&SkypeStatus, wParam);
 	ProtoBroadcastAck(SKYPE_PROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, SkypeStatus);
 	}
 	*/
 
-	if ((int)wParam == ID_STATUS_OFFLINE && UnloadOnOffline)
+	if (wParam == ID_STATUS_OFFLINE && UnloadOnOffline)
 	{
 		if (UseCustomCommand)
 		{
@@ -2809,7 +2809,7 @@ INT_PTR SkypeAddToListByEvent(WPARAM wParam, LPARAM) {
 	{
 		MCONTACT hContact = add_contact(pBlob + sizeof(DWORD) + sizeof(HANDLE), LOWORD(wParam));
 		free(pBlob);
-		if (hContact) return (int)hContact;
+		if (hContact) return (INT_PTR)hContact;
 	}
 	return 0;
 }

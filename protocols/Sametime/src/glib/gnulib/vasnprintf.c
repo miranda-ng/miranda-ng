@@ -137,7 +137,7 @@ print_long_long (char *buf,
   /* Build number */
   pointer = bufferend = &buffer[sizeof(buffer) - 1];
   *pointer-- = '\0';
-  for (i = 1; i < (int)sizeof(buffer); i++)
+  for (i = 1; i < sizeof(buffer); i++)
     {
       *pointer-- = digits[number % base];
       number /= base;

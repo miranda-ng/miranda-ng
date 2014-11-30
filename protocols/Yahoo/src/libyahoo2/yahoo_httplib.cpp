@@ -67,7 +67,7 @@ extern struct yahoo_callbacks *yc;
 
 extern enum yahoo_log_level log_level;
 
-int yahoo_tcp_readline(char *ptr, int maxlen, int fd)
+int yahoo_tcp_readline(char *ptr, int maxlen, INT_PTR fd)
 {
 	int n, rc;
 	char c;
@@ -277,7 +277,7 @@ char *yahoo_xmldecode(const char *instr)
 	return (str);
 }
 
-typedef void (*http_connected)(int id, int fd, int error);
+typedef void (*http_connected)(int id, INT_PTR fd, int error);
 
 struct callback_data {
 	int id;
@@ -286,7 +286,7 @@ struct callback_data {
 	void *user_data;
 };
 
-static void connect_complete(int fd, int error, void *data)
+static void connect_complete(INT_PTR fd, int error, void *data)
 {
 	struct callback_data *ccd = (struct callback_data *) data;
 	
@@ -376,7 +376,7 @@ struct url_data {
 	void *user_data;
 };
 
-static void yahoo_got_url_fd(int id, int fd, int error, void *data)
+static void yahoo_got_url_fd(int id, INT_PTR fd, int error, void *data)
 {
 	char *tmp=NULL;
 	char buff[1024];

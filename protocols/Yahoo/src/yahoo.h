@@ -88,7 +88,7 @@ extern int do_yahoo_debug;
 struct _conn {
 	unsigned int tag;
 	int id;
-	int fd;
+	INT_PTR fd;
 	yahoo_input_condition cond;
 	void *data;
 	int remove;

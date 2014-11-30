@@ -32,7 +32,7 @@ char *yahoo_urlencode(const char *instr);
 char *yahoo_urldecode(const char *instr);
 char *yahoo_xmldecode(const char *instr);
 
-int yahoo_tcp_readline(char *ptr, int maxlen, int fd);
+int yahoo_tcp_readline(char *ptr, int maxlen, INT_PTR fd);
 void yahoo_http_post(int id, const char *url, const char *cookies, long size,
 		yahoo_get_fd_callback callback, void *data);
 void yahoo_http_get(int id, const char *url, const char *cookies,

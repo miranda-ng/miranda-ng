@@ -1234,7 +1234,7 @@ skipbg:
 	}
 
 	case WM_TIMER:
-		if ((int)wParam == TM_AUTOALPHA) {
+		if (wParam == TM_AUTOALPHA) {
 			int inwnd;
 
 			if (GetForegroundWindow() == hwnd) {

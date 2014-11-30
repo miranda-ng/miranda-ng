@@ -183,8 +183,8 @@ void yahoo_get_url_handle(int id, const char *url,
 /* these should be called when input is available on a fd */
 /* registered by ext_yahoo_add_handler */
 /* if these return negative values, errno may be set */
-int  yahoo_read_ready(int id, int fd, void *data);
-int  yahoo_write_ready(int id, int fd, void *data);
+int  yahoo_read_ready(int id, INT_PTR fd, void *data);
+int  yahoo_write_ready(int id, INT_PTR fd, void *data);
 
 /* utility functions. these do not hit the server */
 enum yahoo_status yahoo_current_status(int id);

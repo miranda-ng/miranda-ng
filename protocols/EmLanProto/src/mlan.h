@@ -58,7 +58,7 @@ public:
 	int RecvAwayMsg(CCSDATA* ccs);
 	int SetAwayMsg(u_int status, char* msg);
 
-	int AddToContactList(u_int flags, EMPSEARCHRESULT* psr);
+	INT_PTR AddToContactList(u_int flags, EMPSEARCHRESULT* psr);
 	int Search(const char* name);
 	void LoadSettings();
 	void SaveSettings();

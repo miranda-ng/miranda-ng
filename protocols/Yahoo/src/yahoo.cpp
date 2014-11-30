@@ -1209,7 +1209,7 @@ void CYahooProto::ext_error(const char *err, int fatal, int num)
 
 extern HANDLE g_hNetlibUser;
 
-int CYahooProto::ext_connect(const char *h, int p, int type)
+INT_PTR CYahooProto::ext_connect(const char *h, int p, int type)
 {
 	LOG(("[ext_connect] %s:%d type: %d", h, p, type));
 
@@ -1234,7 +1234,7 @@ int CYahooProto::ext_connect(const char *h, int p, int type)
 
 	LOG(("[ext_connect] Got: %d", (int)con));
 	
-	return (int)con;
+	return (INT_PTR)con;
 }
 
 void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const char *method, const char *url, 
@@ -1249,7 +1249,8 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
 */
     NETLIBHTTPREQUEST 	nlhr={0};
 	NETLIBHTTPHEADER 	httpHeaders[5];
-	int 				fd, error = 0;
+	int 				error = 0;
+	INT_PTR				fd;
 	char 				host[255];
 	int 				port = 80, i=0;
 	char 				path[255];
@@ -1408,7 +1409,8 @@ void yahoo_callback(struct _conn *c, yahoo_input_condition cond)
 
 int CYahooProto::ext_connect_async(const char *host, int port, int type, yahoo_connect_callback callback, void *data)
 {
-	int err = 0, res;
+	int err = 0;
+	INT_PTR res;
 	
     LOG(("[ext_connect_async] %s:%d type: %d", host, port, type));
     
@@ -1604,7 +1606,7 @@ CYahooProto* __fastcall getProtoById( int id )
 	return NULL;
 }
 
-unsigned int ext_yahoo_add_handler(int id, int fd, yahoo_input_condition cond, void *data)
+unsigned int ext_yahoo_add_handler(int id, INT_PTR fd, yahoo_input_condition cond, void *data)
 {	
 	CYahooProto* ppro = getProtoById( id ); 
 	if ( ppro ) 

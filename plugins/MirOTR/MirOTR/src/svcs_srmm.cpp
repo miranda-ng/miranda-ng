@@ -6,7 +6,7 @@ BBButton OTRButton;
 int SVC_IconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if(sicd->cbSize < (int)sizeof(StatusIconClickData))
+	if(sicd->cbSize < sizeof(StatusIconClickData))
 		return 0;
 
 	if(strcmp(sicd->szModule, MODULENAME) == 0) {
@@ -93,7 +93,7 @@ int SVC_ButtonsBarLoaded(WPARAM, LPARAM)
 int SVC_ButtonsBarPressed(WPARAM w, LPARAM l)
 {
 	CustomButtonClickData* cbcd = (CustomButtonClickData *)l;
-	if (cbcd->cbSize == (int)sizeof(CustomButtonClickData) && cbcd->dwButtonId == 0 && strcmp(cbcd->pszModule, MODULENAME)==0) {
+	if (cbcd->cbSize == sizeof(CustomButtonClickData) && cbcd->dwButtonId == 0 && strcmp(cbcd->pszModule, MODULENAME)==0) {
 		MCONTACT hContact = (MCONTACT)w;
 	
 		char *proto = GetContactProto(hContact);

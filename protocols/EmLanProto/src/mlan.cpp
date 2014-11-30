@@ -449,10 +449,10 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 	db_event_add(ccs->hContact, &dbei);
 }
 
-int CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT* psr)
+INT_PTR CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT* psr)
 {
 	if (psr->hdr.cbSize!=sizeof(EMPSEARCHRESULT))
-		return (int)(HANDLE)NULL;
+		return 0;
 
 	in_addr addr;
 	addr.S_un.S_addr = psr->ipaddr;
@@ -465,7 +465,7 @@ int CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT* psr)
 		db_set_w(contact,PROTONAME,"RemoteVersion", psr->ver );
 	}
 
-	return (int)contact;
+	return (INT_PTR)contact;
 }
 
 int CMLan::SendMessageUrl(CCSDATA* ccs, bool isUrl)

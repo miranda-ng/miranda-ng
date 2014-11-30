@@ -1285,12 +1285,12 @@ INT_PTR GetXStatusIcon(WPARAM wParam, LPARAM lParam) {
 	if (lParam == LR_SHARED)
 	{
 		if (wParam > 1)
-			return (int)xgamelist.iconmngr.getGameIconFromId(wParam - 2); //icocache[(int)wParam-2].hicon;
+			return (INT_PTR)xgamelist.iconmngr.getGameIconFromId(wParam - 2); //icocache[(int)wParam-2].hicon;
 	}
 	else
 	{
 		if (wParam > 1)
-			return (int)CopyIcon((HICON)xgamelist.iconmngr.getGameIconFromId(wParam - 2)/*icocache[(int)wParam-2].hicon*/);
+			return (INT_PTR)CopyIcon((HICON)xgamelist.iconmngr.getGameIconFromId(wParam - 2)/*icocache[(int)wParam-2].hicon*/);
 	}
 
 	return 0;
@@ -1421,8 +1421,8 @@ INT_PTR TMLoadIcon(WPARAM wParam, LPARAM lParam)
 {
 	if (LOWORD(wParam) == PLI_PROTOCOL) {
 		if (wParam & PLIF_ICOLIB)
-			return (int)Skin_GetIcon("XFIRE_main");
-		return (int)CopyIcon(Skin_GetIcon("XFIRE_main"));
+			return (INT_PTR)Skin_GetIcon("XFIRE_main");
+		return (INT_PTR)CopyIcon(Skin_GetIcon("XFIRE_main"));
 	}
 	return NULL;
 }

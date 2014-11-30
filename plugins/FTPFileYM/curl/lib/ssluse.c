@@ -933,7 +933,7 @@ int Curl_ossl_shutdown(struct connectdata *conn, int sockindex)
       (void)SSL_shutdown(connssl->handle);
 
   if(connssl->handle) {
-    buffsize = (int)sizeof(buf);
+    buffsize = sizeof(buf);
     while(!done) {
       int what = Curl_socket_ready(conn->sock[sockindex],
                                    CURL_SOCKET_BAD, SSL_SHUTDOWN_TIMEOUT);
