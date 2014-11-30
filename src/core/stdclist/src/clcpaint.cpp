@@ -484,7 +484,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					rc.right = (clRect.right - clRect.left);
 					rc.bottom = rc.top;
 					if (qlen)
-						DrawText(hdcMem, szText, qlen, &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
+						DrawText(hdcMem, szText, (int)qlen, &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
 				}
 			}
 		}
