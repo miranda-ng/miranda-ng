@@ -21,42 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-char	*mir_strncpy(char *pszDest, const char *pszSrc, const size_t cchDest)
-{
-	if (!pszDest || !pszSrc || !cchDest)
-		return NULL;
-	pszDest = strncpy(pszDest, pszSrc, cchDest-1);
-	pszDest[cchDest-1] = 0;
-	return pszDest;
-}
-
-wchar_t	*mir_wcsncpy(wchar_t *pszDest, const wchar_t *pszSrc, const size_t cchDest)
-{
-	if (!pszDest || !pszSrc || !cchDest)
-		return NULL;
-	pszDest = wcsncpy(pszDest, pszSrc, cchDest-1);
-	pszDest[cchDest-1] = 0;
-	return pszDest;
-}
-
-char	*mir_strncat(char *pszDest, const char *pszSrc, const size_t cchDest)
-{
-	if (!pszDest || !pszSrc || !cchDest)
-		return NULL;
-	strncat(pszDest, pszSrc, cchDest-1);
-	pszDest[cchDest-1] = 0;
-	return pszDest;
-}
-
-wchar_t	*mir_wcsncat(wchar_t *pszDest, const wchar_t *pszSrc, const size_t cchDest)
-{
-	if (!pszDest || !pszSrc || !cchDest)
-		return NULL;
-	pszDest = wcsncat(pszDest, pszSrc, cchDest-1);
-	pszDest[cchDest-1] = 0;
-	return pszDest;
-}
-
 char	*mir_strncat_c(char *pszDest, const char cSrc) 
 {
 	char *pszRet;

@@ -116,7 +116,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 			case 41063:
 				ZeroMemory(szBtnText, sizeof(szBtnText));
 
-				mir_tcsncpy(szBtnText, TranslateT("Miranda NG"), SIZEOF(szBtnText));
+				mir_tstrncpy(szBtnText, TranslateT("Miranda NG"), SIZEOF(szBtnText));
 				iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM)szBtnText);
 				if (iString != -1) tbb->iString = iString;
 				// set tooltip

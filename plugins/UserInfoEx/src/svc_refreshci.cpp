@@ -143,7 +143,7 @@ public:
 	{
 		if (szText)
 		{
-			INT_PTR cch = mir_tcslen(szText);
+			INT_PTR cch = mir_tstrlen(szText);
 			LPTSTR	fmt = (LPTSTR) mir_alloc((cch + 1) * sizeof(TCHAR));
 			
 			if (fmt)
@@ -352,12 +352,12 @@ class CPopupUpdProgress : public CUpdProgress
 	{
 		if (_szText)
 		{
-			INT_PTR cb = mir_tcslen(_szText) + 8;
+			INT_PTR cb = mir_tstrlen(_szText) + 8;
 			LPTSTR	pb = (LPTSTR) mir_alloc(cb * sizeof(TCHAR));
 
 			if (pb)
 			{
-				mir_tcscpy(pb, _szText);
+				mir_tstrcpy(pb, _szText);
 
 				SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TITLET, (LPARAM) pb);
 			}
@@ -431,8 +431,8 @@ public:
 		pd.lpActions = _popupButtons;
 
 		// dummy text
-		_szText = mir_tcsdup(szTitle);
-		mir_tcscpy(pd.lptzContactName, _szText);
+		_szText = mir_tstrdup(szTitle);
+		mir_tstrcpy(pd.lptzContactName, _szText);
 		
 		_tcscpy(pd.lptzText, _T(" "));
 		
@@ -462,7 +462,7 @@ public:
 	virtual void SetTitle(LPCTSTR szText)
 	{
 		MIR_FREE(_szText);
-		_szText = mir_tcsdup(szText);
+		_szText = mir_tstrdup(szText);
 		UpdateText();
 	}
 
@@ -472,7 +472,7 @@ public:
 	 **/
 	virtual void SetText(LPCTSTR szText)
 	{
-		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTT, (LPARAM) mir_tcsdup(szText));
+		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTT, (LPARAM) mir_tstrdup(szText));
 	}
 };
 

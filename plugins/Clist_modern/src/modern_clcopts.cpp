@@ -1574,7 +1574,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 static INT_PTR BkgrCfg_Register(WPARAM wParam, LPARAM lParam)
 {
 	char *szSetting = (char*)wParam;
-	int len = strlen(szSetting) + 1;
+	size_t len = strlen(szSetting) + 1;
 
 	char *value = (char *)mir_alloc(len + 4); // add room for flags (DWORD)
 	memcpy(value, szSetting, len);

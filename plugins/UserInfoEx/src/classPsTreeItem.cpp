@@ -215,7 +215,7 @@ BYTE	CPsTreeItem::HasName(const LPCSTR pszName) const
 void CPsTreeItem::Rename(const LPTSTR pszLabel)
 {
 	if (pszLabel && *pszLabel) {
-		LPTSTR pszDup = mir_tcsdup(pszLabel);
+		LPTSTR pszDup = mir_tstrdup(pszLabel);
 		if (pszDup) {
 			replaceStrT(_ptszLabel, pszDup);
 			// convert disallowed characters
@@ -257,7 +257,7 @@ int CPsTreeItem::ItemLabel(const BYTE bReadDBValue)
 
 		LPTSTR ptszLabel = mir_utf8decodeT(pszName);
 		if (ptszLabel) {
-			_ptszLabel = mir_tcsdup(TranslateTS(ptszLabel));
+			_ptszLabel = mir_tstrdup(TranslateTS(ptszLabel));
 			mir_free(ptszLabel);
 		}
 	}
@@ -279,7 +279,7 @@ HICON CPsTreeItem::ProtoIcon()
 	if (!CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&pa)) {
 		if (_pszName) {
 			for (int i = 0; i < ProtoCount; i++) {
-				if (!mir_tcsnicmp(pa[i]->tszAccountName, _A2T(_pszName), mir_tcslen(pa[i]->tszAccountName))) {
+				if (!mir_tcsnicmp(pa[i]->tszAccountName, _A2T(_pszName), mir_tstrlen(pa[i]->tszAccountName))) {
 					CHAR szIconID[MAX_PATH];
 					mir_snprintf(szIconID, SIZEOF(szIconID), "core_status_%s1", pa[i]->szModuleName);
 					HICON hIco = Skin_GetIcon(szIconID);
@@ -416,7 +416,7 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 			if (_dwFlags & ODPF_USERINFOTAB)
 				mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%s\\%s"), odp->ptszTitle, odp->ptszTab);
 			else
-				mir_tcscpy(szTitle, odp->ptszTitle);
+				mir_tstrcpy(szTitle, odp->ptszTitle);
 		}
 		// set the unique utf8 encoded name for the item
 		if (err = Name(szTitle, (_dwFlags & ODPF_UNICODE) == ODPF_UNICODE)) 

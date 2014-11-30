@@ -144,7 +144,6 @@ extern TCHAR SkinsFolder[MAX_PATH];
 char* __cdecl strstri( char *a, const char *b);
 BOOL __cdecl mir_bool_strcmpi(const char *a, const char *b);
 int __cdecl mir_strcmp (const char *a, const char *b);
-int __cdecl mir_strlen (const char *a);
 int __cdecl mir_strcmpi(const char *a, const char *b);
 int __cdecl mir_tstrcmpi(const TCHAR *a, const TCHAR *b);
 BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b);

@@ -525,19 +525,19 @@ BYTE	dbv2String(DBVARIANT* dbv, const BYTE destType)
 		// source value is of type "byte"
 		case DBVT_BYTE:
 			_ultow(dbv->bVal, buf, 10);
-			dbv->pwszVal = mir_wcsdup(buf);
+			dbv->pwszVal = mir_wstrdup(buf);
 			dbv->type = (dbv->pwszVal) ? destType : DBVT_DELETED;
 			break;
 		// source value is of type "word"
 		case DBVT_WORD:
 			_ultow(dbv->wVal, buf, 10);
-			dbv->pwszVal = mir_wcsdup(buf);
+			dbv->pwszVal = mir_wstrdup(buf);
 			dbv->type = (dbv->pwszVal) ? destType : DBVT_DELETED;
 			break;
 		// source value is of type "dword"
 		case DBVT_DWORD:
 			_ultow(dbv->dVal, buf, 10);
-			dbv->pwszVal = mir_wcsdup(buf);
+			dbv->pwszVal = mir_wstrdup(buf);
 			dbv->type = (dbv->pwszVal) ? destType : DBVT_DELETED;
 			break;
 		// source value is of any string type

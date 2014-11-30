@@ -942,7 +942,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		cbex->pItems[cbex->numItems].dwID = (pItem->wMask & CBEXIM_ID) ? pItem->dwID : 0;
 
 		// set category string
-		if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tcsncpy(cbex->pItems[cbex->numItems].szCat, pItem->pszCat, MAX_CAT)) {
+		if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[cbex->numItems].szCat, pItem->pszCat, MAX_CAT)) {
 			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, MAX_CAT, _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
 		}
 
@@ -982,7 +982,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		// set new category string
 		if (pItem->wMask & CBEXIM_CAT) {
 			// set category string
-			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tcsncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, SIZEOF(cbex->pItems[pItem->iItem].szCat))) 
+			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, SIZEOF(cbex->pItems[pItem->iItem].szCat))) 
 				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, MAX_CAT, _T("%s %d\0"), TranslateT("Other"), ++cbex->numOther);
 			if (pItem->iItem == cbex->iSelectedItem)
 				SetWindowText(cbex->hBtnEdit, cbex->pItems[pItem->iItem].szCat);
@@ -1046,14 +1046,14 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		// return category string
 		if ((pItem->wMask & CBEXIM_CAT) && pItem->pszCat) {
 			if (*cbex->pItems[pItem->iItem].szCat != 0)
-				mir_tcsncpy(pItem->pszCat, cbex->pItems[pItem->iItem].szCat, pItem->ccCat - 1);
+				mir_tstrncpy(pItem->pszCat, cbex->pItems[pItem->iItem].szCat, pItem->ccCat - 1);
 			else
 				*pItem->pszCat = 0;
 		}
 		// return value string
 		if ((pItem->wMask & CBEXIM_VAL) && pItem->pszVal) {
 			if (cbex->pItems[pItem->iItem].pszVal)
-				mir_tcsncpy(pItem->pszVal, cbex->pItems[pItem->iItem].pszVal, pItem->ccVal - 1);
+				mir_tstrncpy(pItem->pszVal, cbex->pItems[pItem->iItem].pszVal, pItem->ccVal - 1);
 			else
 				*pItem->pszVal = 0;
 		}
@@ -1428,7 +1428,7 @@ int CtrlContactWriteItemToDB(
 		db_unset(hContact, pszModule, pszSetting);
 	else {
 		if (cbi.wFlags & CBEXIF_SMS)
-			mir_tcsncat(szVal, _T(" SMS"), SIZEOF(szVal));
+			mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal));
 
 		if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 	}
@@ -1478,7 +1478,7 @@ int CtrlContactWriteMyItemsToDB(
 	while (CtrlContactWndProc(hCtrl, CBEXM_GETITEM, NULL, (LPARAM)&cbi) && cbi.iItem < 50) {
 		if (!(cbi.wFlags & CBEXIF_DELETED) && *szVal) {
 			if (cbi.wFlags & CBEXIF_SMS) {
-				mir_tcsncat(szVal, _T(" SMS"), SIZEOF(szVal));
+				mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal));
 			}
 			mir_snprintf(pszSetting, MAXSETTING, szFormatCat, i);
 			if (*szCat && _tcsncmp(szCat, pszOther, ccOther)) {

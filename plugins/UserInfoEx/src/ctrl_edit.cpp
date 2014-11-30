@@ -124,19 +124,19 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		case DBVT_BYTE:
 			_itot_s(dbv.bVal, szText, SIZEOF(szText), 10);
 			SetWindowText(_hwnd, szText);
-			_pszValue = mir_tcsdup(szText);
+			_pszValue = mir_tstrdup(szText);
 			break;
 
 		case DBVT_WORD:
 			_itot_s(dbv.wVal, szText, SIZEOF(szText), 10);
 			SetWindowText(_hwnd, szText);
-			_pszValue = mir_tcsdup(szText);
+			_pszValue = mir_tstrdup(szText);
 			break;
 
 		case DBVT_DWORD:
 			_itot_s(dbv.dVal, szText, SIZEOF(szText), 10);
 			SetWindowText(_hwnd, szText);
-			_pszValue = mir_tcsdup(szText);
+			_pszValue = mir_tstrdup(szText);
 			break;
 
 		case DBVT_TCHAR:
@@ -250,7 +250,7 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 	{
 		const int	cch = GetWindowTextLength(_hwnd);
 
-		_Flags.B.hasChanged = mir_tcslen(_pszValue) != cch;
+		_Flags.B.hasChanged = mir_tstrlen(_pszValue) != cch;
 		_Flags.B.hasCustom = (cch > 0);
 
 		if (!_Flags.B.hasChanged && _Flags.B.hasCustom) {

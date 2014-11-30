@@ -266,3 +266,13 @@ PathIsAbsolute                @263
 PathIsAbsoluteW               @264
 db_mc_notifyDefChange         @265
 db_mc_tryMeta                 @266
+mir_strlen                    @267
+mir_wstrlen                   @268
+mir_strcpy                    @269
+mir_wstrcpy                   @270
+mir_strncpy                   @271
+mir_wstrncpy                  @272
+mir_strcat                    @273
+mir_wstrcat                   @274
+mir_strncat                   @275
+mir_wstrncat                  @276

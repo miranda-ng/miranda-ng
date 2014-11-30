@@ -934,13 +934,12 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUCONNRETRY, TRUE))
 			return -1;
 		if (lParam) {
-			int i;
 			PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX **)lParam;
 			TCHAR protoInfoLine[512], protoInfo[MAX_SECONDLINE];
 			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
 			memset(protoInfo, '\0', sizeof(protoInfo));
 			_tcscpy(protoInfo, _T("\r\n"));
-			for (i = 0; i < connectionSettings.getCount(); i++) {
+			for (int i = 0; i < connectionSettings.getCount(); i++) {
 				if (_tcslen(ps[i]->tszAccName) > 0 && strlen(ps[i]->szName) > 0) {
 					if ( db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
 						mir_sntprintf(protoInfoLine, SIZEOF(protoInfoLine), TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->status, GSMDF_TCHAR));
@@ -948,11 +947,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 					}
 				}
 			}
-			i = _tcslen(protoInfo);
-			if (i > 0) /* cut the last end of line (this may also be the first one ;)) */
-				protoInfo[i - 2] = '\0';
 			hIcon = LoadSkinnedProtoIcon(ps[0]->szName, SKINICON_STATUS_OFFLINE);
 
+			rtrimt(protoInfo);
 			if (retryCount == (maxRetries - 1))
 				mir_sntprintf(text, SIZEOF(text), TranslateT("Resetting status... (last try (%d))%s"), retryCount + 1, protoInfo);
 			else

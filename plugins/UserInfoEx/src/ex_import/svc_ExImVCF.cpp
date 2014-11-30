@@ -159,7 +159,7 @@ size_t CLineBuffer::operator + (const CHAR *szVal)
 size_t CLineBuffer::operator + (const WCHAR *wszVal)
 {
 	if (wszVal) {
-		size_t cbLength = mir_wcslen(wszVal);
+		size_t cbLength = mir_wstrlen(wszVal);
 		CHAR* szVal = mir_u2a(wszVal);
 
 		if (szVal) {

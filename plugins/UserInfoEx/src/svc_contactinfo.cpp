@@ -233,8 +233,8 @@ static FORCEINLINE INT_PTR GCIFirstLast(CONTACTINFO *ci)
 	if (type == DBVT_WCHAR) {
 		// both firstname and lastname are valid
 		if (dbvf.type == DBVT_WCHAR && dbvl.type == DBVT_WCHAR) {
-			cbf = mir_wcslen(dbvf.pwszVal);
-			cbl = mir_wcslen(dbvl.pwszVal);
+			cbf = mir_wstrlen(dbvf.pwszVal);
+			cbl = mir_wstrlen(dbvl.pwszVal);
 
 			ci->pszVal = (LPTSTR) mir_alloc((cbf + cbl + 2) * sizeof(WCHAR));
 			if (ci->pszVal)
@@ -549,7 +549,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 					if (ci->dwFlag & CNF_UNICODE) {
 						WCHAR wszDate[80];
 						if (GetDateFormatW(LOCALE_USER_DEFAULT, wParam == 1 ? DATE_LONGDATE : DATE_SHORTDATE, &st, NULL, wszDate, SIZEOF(wszDate)))
-							ci->pszVal = (LPTSTR)mir_wcsdup(wszDate);
+							ci->pszVal = (LPTSTR)mir_wstrdup(wszDate);
 					}
 					else {
 						CHAR szDate[80];
@@ -674,7 +674,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 
 				default: // unknown contact
 					if (ci->dwFlag & CNF_UNICODE)
-						ci->pszVal = (LPTSTR)mir_wcsdup(TranslateW(L"'(Unknown Contact)'"));
+						ci->pszVal = (LPTSTR)mir_wstrdup(TranslateW(L"'(Unknown Contact)'"));
 					else
 						ci->pszVal = (LPTSTR)mir_strdup(Translate("'(Unknown Contact)'"));
 

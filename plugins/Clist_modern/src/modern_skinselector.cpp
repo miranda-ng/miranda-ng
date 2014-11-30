@@ -131,22 +131,6 @@ lph_top:	 //only 4 of 9 instructions in here don't use AL, so optimal pipe use i
 #endif
 }
 
-/*
-DWORD mod_CalcHash(const char * a)
-{
-    DWORD Val = 0;
-    BYTE N;
-    DWORD k = mir_strlen(a);
-    if (k < 23) N = (BYTE)k; else N = 23;
-    while (N>0)
-    {
-        Val = Val << 1;
-        Val ^= ((DWORD)*a++)-31;
-        N--;
-    }
-    return Val;
-}
-*/
 int AddModernMaskToList(MODERNMASK *mm,  LISTMODERNMASK * mmTemplateList)
 {
 	if (!mmTemplateList || !mm) return -1;

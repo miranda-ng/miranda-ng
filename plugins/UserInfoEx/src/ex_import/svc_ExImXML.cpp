@@ -168,7 +168,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 						// dont export meta subcontacts by default and
 						// export only contact with selectet group name
 						if (!db_mc_isSub(hContact) && 
-							mir_tcsncmp(ExImContact->ptszName, DB::Setting::GetTString(hContact, "CList", "Group"), mir_tcslen(ExImContact->ptszName))== 0)
+							mir_tcsncmp(ExImContact->ptszName, DB::Setting::GetTString(hContact, "CList", "Group"), mir_tstrlen(ExImContact->ptszName))== 0)
 							{
 							if (vContact.fromDB(hContact)) {
 								vContact.Export(xmlfile, &Modules);
