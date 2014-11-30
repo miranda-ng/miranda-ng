@@ -62,7 +62,7 @@ typedef enum {
  *     callback_data - the callback_data passed to the ext_yahoo_connect_async
  *	       function
  */
-typedef void (*yahoo_connect_callback)(int fd, int error, void *callback_data);
+typedef void (*yahoo_connect_callback)(INT_PTR fd, int error, void *callback_data);
 
 
 /*
@@ -391,7 +391,7 @@ void YAHOO_CALLBACK_TYPE(ext_yahoo_chat_cat_xml)(int id, const char *xml);
  *	          of yahoo_chat_member's) Must be freed by the client
  *	fd	- the socket where the connection is coming from (for tracking)
  */
-void YAHOO_CALLBACK_TYPE(ext_yahoo_chat_join)(int id, const char *me, const char *room, const char *topic, YList *members, int fd);
+void YAHOO_CALLBACK_TYPE(ext_yahoo_chat_join)(int id, const char *me, const char *room, const char *topic, YList *members, INT_PTR fd);
 
 
 /*
@@ -790,7 +790,7 @@ int YAHOO_CALLBACK_TYPE(ext_yahoo_log)(const char *fmt, ...);
  * 	
  * Returns: a tag to be used when removing the handler
  */
-unsigned int YAHOO_CALLBACK_TYPE(ext_yahoo_add_handler)(int id, int fd, yahoo_input_condition cond, void *data);
+unsigned int YAHOO_CALLBACK_TYPE(ext_yahoo_add_handler)(int id, INT_PTR fd, yahoo_input_condition cond, void *data);
 
 
 /*

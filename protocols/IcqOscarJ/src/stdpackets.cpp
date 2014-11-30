@@ -330,7 +330,7 @@ DWORD CIcqProto::icq_SendChannel1Message(DWORD dwUin, char *szUID, MCONTACT hCon
 
 DWORD CIcqProto::icq_SendChannel1MessageW(DWORD dwUin, char *szUID, MCONTACT hContact, WCHAR *pszText, cookie_message_data *pCookieData)
 {
-	WORD wMessageLen = strlennull(pszText) * (int)sizeof(WCHAR);
+	WORD wMessageLen = strlennull(pszText) * sizeof(WCHAR);
 	DWORD dwCookie = AllocateCookie(CKT_MESSAGE, 0, hContact, (void*)pCookieData);
 
 	WORD wPacketLength = (pCookieData->nAckType == ACKTYPE_SERVER) ? 26 : 22;

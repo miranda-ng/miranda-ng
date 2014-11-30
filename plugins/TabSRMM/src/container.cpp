@@ -1990,7 +1990,7 @@ int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, unsigned int size
 {
 	int cutMax = PluginConfig.m_CutContactNameTo;
 
-	if ((int)lstrlen(oldname) <= cutMax) {
+	if (lstrlen(oldname) <= cutMax) {
 		lstrcpyn(newname, oldname, size);
 		newname[size - 1] = 0;
 	}

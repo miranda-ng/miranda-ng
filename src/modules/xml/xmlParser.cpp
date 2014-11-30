@@ -159,7 +159,7 @@ char myIsTextWideChar(const void *b, int len) // inspired by the Wine API: RtlIs
 	const wchar_t *s = (const wchar_t*)b;
 
 	// buffer too small:
-	if (len<(int)sizeof(wchar_t)) return FALSE;
+	if (len<sizeof(wchar_t)) return FALSE;
 
 	// odd length test
 	if (len&1) return FALSE;
@@ -3042,7 +3042,7 @@ unsigned char *XMLParserBase64Tool::decode(XMLCSTR data, int *outlen, XMLError *
 		*outlen = len;
 	if (!len)
 		return NULL;
-	alloc(len+1); // XXX: check me!
+	alloc(len+1);
 	if(!decode(data, (unsigned char*)buf, len, xe))
 		return NULL;
 	return (unsigned char*)buf;

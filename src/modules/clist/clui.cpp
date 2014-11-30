@@ -585,7 +585,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	}
 
 	case WM_TIMER:
-		if ((int)wParam == TM_AUTOALPHA) {
+		if (wParam == TM_AUTOALPHA) {
 			int inwnd;
 
 			if (GetForegroundWindow() == hwnd) {

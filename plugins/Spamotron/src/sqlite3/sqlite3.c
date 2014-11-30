@@ -13651,7 +13651,7 @@ static int memsys5Init(void *NotUsed){
 
   nMinLog = memsys5Log(sqlite3GlobalConfig.mnReq);
   mem5.nAtom = (1<<nMinLog);
-  while( (int)sizeof(Mem5Link)>mem5.nAtom ){
+  while( sizeof(Mem5Link)>mem5.nAtom ){
     mem5.nAtom = mem5.nAtom << 1;
   }
 
@@ -15853,7 +15853,7 @@ static char et_getdigit(LONGDOUBLE_TYPE *val, int *cnt){
 */
 static void appendSpace(StrAccum *pAccum, int N){
   static const char zSpaces[] = "                             ";
-  while( N>=(int)sizeof(zSpaces)-1 ){
+  while( N>=sizeof(zSpaces)-1 ){
     sqlite3StrAccumAppend(pAccum, zSpaces, sizeof(zSpaces)-1);
     N -= sizeof(zSpaces)-1;
   }
@@ -20370,7 +20370,7 @@ static int os2Randomness(sqlite3_vfs *pVfs, int nBuf, char *zBuf ){
   memset(zBuf, 0, nBuf);
 #else
   int sizeofULong = sizeof(ULONG);
-  if( (int)sizeof(DATETIME) <= nBuf - n ){
+  if( sizeof(DATETIME) <= nBuf - n ){
     DATETIME x;
     DosGetDateTime(&x);
     memcpy(&zBuf[n], &x, sizeof(x));
@@ -46172,7 +46172,7 @@ static char *displayP4(Op *pOp, char *zTemp, int nTemp){
 SQLITE_PRIVATE void sqlite3VdbeUsesBtree(Vdbe *p, int i){
   int mask;
   assert( i>=0 && i<p->db->nDb );
-  assert( i<(int)sizeof(p->btreeMask)*8 );
+  assert( i<sizeof(p->btreeMask)*8 );
   mask = 1<<i;
   if( (p->btreeMask & mask)==0 ){
     p->btreeMask |= mask;
@@ -49626,7 +49626,7 @@ static const unsigned char opcodeProperty[] = OPFLG_INITIALIZER;
 ** specified by mask.
 */
 SQLITE_PRIVATE int sqlite3VdbeOpcodeHasProperty(int opcode, int mask){
-  assert( opcode>0 && opcode<(int)sizeof(opcodeProperty) );
+  assert( opcode>0 && opcode<sizeof(opcodeProperty) );
   return (opcodeProperty[opcode]&mask)!=0;
 }
 
@@ -89207,7 +89207,7 @@ static int setupLookaside(sqlite3 *db, void *pBuf, int sz, int cnt){
   /* The size of a lookaside slot needs to be larger than a pointer
   ** to be useful.
   */
-  if( sz<=(int)sizeof(LookasideSlot*) ) sz = 0;
+  if( sz<=sizeof(LookasideSlot*) ) sz = 0;
   if( cnt<0 ) cnt = 0;
   if( sz==0 || cnt==0 ){
     sz = 0;
@@ -89227,7 +89227,7 @@ static int setupLookaside(sqlite3 *db, void *pBuf, int sz, int cnt){
   if( pStart ){
     int i;
     LookasideSlot *p;
-    assert( sz > (int)sizeof(LookasideSlot*) );
+    assert( sz > sizeof(LookasideSlot*) );
     p = (LookasideSlot*)pStart;
     for(i=cnt-1; i>=0; i--){
       p->pNext = db->lookaside.pFree;

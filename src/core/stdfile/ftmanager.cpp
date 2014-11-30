@@ -162,7 +162,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		if (i == dat->wnds->realCount)
 			PostMessage(GetParent(hwnd), WM_TIMER, 1, NULL);
 
-		if(dat->runningCount == 0 && (int)wParam == ACKRESULT_SUCCESS && db_get_b(NULL, "SRFile", "AutoClose", 0))
+		if(dat->runningCount == 0 && wParam == ACKRESULT_SUCCESS && db_get_b(NULL, "SRFile", "AutoClose", 0))
 			ShowWindow(hwndFtMgr, SW_HIDE);
 		break;
 

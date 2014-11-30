@@ -344,7 +344,7 @@ read_mbm_data (void (*add)(const void*, size_t, enum random_origins),
         {
           if (debug_me)
             log_debug ("rndw32#read_mbm_data: got %d bytes\n",
-                       (int)sizeof (SharedData));
+                       sizeof (SharedData));
           (*add) (mbmDataPtr, sizeof (SharedData), requester);
           UnmapViewOfFile (mbmDataPtr);
         }

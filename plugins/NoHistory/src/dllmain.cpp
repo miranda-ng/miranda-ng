@@ -212,7 +212,7 @@ int WindowEvent(WPARAM wParam, LPARAM lParam)
 int IconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (sicd->cbSize < (int)sizeof(StatusIconClickData))
+	if (sicd->cbSize < sizeof(StatusIconClickData))
 		return 0;
 
 	if (sicd->flags & MBCF_RIGHTBUTTON) return 0; // ignore right-clicks

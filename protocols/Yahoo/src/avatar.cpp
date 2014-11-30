@@ -48,7 +48,7 @@ int YAHOO_avt_hash(const char *key, DWORD len)
 
 /**************** Send Avatar ********************/
 
-void upload_avt(int id, int fd, int error, void *data)
+void upload_avt(int id, INT_PTR fd, int error, void *data)
 {
 	struct yahoo_file_info *sf = (struct yahoo_file_info*) data;
 	unsigned long size = 0;

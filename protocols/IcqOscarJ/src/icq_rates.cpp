@@ -223,7 +223,7 @@ int rates::getLimitLevel(WORD wGroup, int nLevel)
 
 void rates::initAckPacket(icq_packet *pPacket)
 {
-	serverPacketInit(pPacket, 10 + nGroups * (int)sizeof(WORD));
+	serverPacketInit(pPacket, 10 + nGroups * sizeof(WORD));
 	packFNACHeader(pPacket, ICQ_SERVICE_FAMILY, ICQ_CLIENT_RATE_ACK);
 	for (WORD wGroup = 1; wGroup <= nGroups; wGroup++)
 		packWord(pPacket, wGroup);

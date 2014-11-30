@@ -169,7 +169,7 @@ void sendThread(char *dummy) {
 				// Go offline
 				logoff_contacts(FALSE);
 				oldstatus=SkypeStatus;
-				InterlockedExchange((long *)&SkypeStatus, (int)ID_STATUS_OFFLINE);
+				InterlockedExchange((long *)&SkypeStatus, ID_STATUS_OFFLINE);
 				ProtoBroadcastAck(SKYPE_PROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldstatus, SkypeStatus);
 			}
 			// Reconnect to Skype

@@ -122,7 +122,7 @@ void SpeakAnnounce::protocolAck(ACKDATA *ack)
 		return;
 	}
 
-	if (ID_STATUS_CONNECTING != (int)ack->hProcess)
+	if (ID_STATUS_CONNECTING != (INT_PTR)ack->hProcess)
 	{
 		return;
 	}

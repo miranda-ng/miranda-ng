@@ -79,7 +79,7 @@ public:
 			Send("SetContact(");
 			Send(i);
 			Send(", ");
-			Send((int)hContact);
+			Send((int)hContact);// XXX: x64 broken!?
 			Send(", '");
 			SendQuoted(name);
 			Send("', ");
