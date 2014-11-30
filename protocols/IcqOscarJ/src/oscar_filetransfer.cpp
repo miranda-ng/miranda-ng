@@ -2090,7 +2090,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 		ft->wEncoding = 2; // ucs-2
 		WCHAR *pwsThisFile = make_unicode_string(pszThisFileName);
 		SAFE_FREE((void**)&pszThisFileName);
-		ft->cbRawFileName = strlennull(pwsThisFile) * sizeof(WCHAR) + 2;
+		ft->cbRawFileName = WORD(strlennull(pwsThisFile) * sizeof(WCHAR)) + 2;
 		if (ft->cbRawFileName < 64)
 			ft->cbRawFileName = 64;
 		ft->rawFileName = (char*)SAFE_MALLOC(ft->cbRawFileName);
