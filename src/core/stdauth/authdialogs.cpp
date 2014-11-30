@@ -193,7 +193,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				off = mir_sntprintf(name, SIZEOF(name), _T("%s"), (TCHAR*)firstT);
 			else if (lastT[0])
 				off = mir_sntprintf(name, SIZEOF(name), _T("%s"), (TCHAR*)lastT);
-			if (lstrlen(nickT)) {
+			if (mir_tstrlen(nickT)) {
 				if (off)
 					mir_sntprintf(name + off, SIZEOF(name) - off, _T(" (%s)"), (TCHAR*)nickT);
 				else

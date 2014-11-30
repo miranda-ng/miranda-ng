@@ -45,7 +45,7 @@ static void SetAutorun(BOOL autorun)
 		if ( RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, NULL, 0, KEY_CREATE_SUB_KEY|KEY_SET_VALUE,NULL,&hKey,&dw) == ERROR_SUCCESS) {
 			TCHAR result[MAX_PATH];
 			GetProfilePath(result, SIZEOF(result));
-			RegSetValueEx(hKey, _T("MirandaNG"), 0, REG_SZ, (BYTE*)result, sizeof(TCHAR)*lstrlen(result));
+			RegSetValueEx(hKey, _T("MirandaNG"), 0, REG_SZ, (BYTE*)result, sizeof(TCHAR)*mir_tstrlen(result));
 			RegCloseKey(hKey);
 		}
 		break;

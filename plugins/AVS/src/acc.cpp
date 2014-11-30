@@ -425,7 +425,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (lParam == NULL)
 				data->proto[0] = '\0';
 			else
-				lstrcpynA(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
+				mir_strncpy(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
 
 			StartAnimation(hwnd, data);
 
@@ -473,7 +473,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case AVATAR_SETNOAVATARTEXT:
-		lstrcpyn(data->noAvatarText, TranslateTS((TCHAR*)lParam), SIZEOF(data->noAvatarText));
+		mir_tstrncpy(data->noAvatarText, TranslateTS((TCHAR*)lParam), SIZEOF(data->noAvatarText));
 		Invalidate(hwnd);
 		return TRUE;
 

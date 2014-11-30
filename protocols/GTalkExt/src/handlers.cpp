@@ -45,18 +45,18 @@ GoogleTalkAcc* isGoogle(LPARAM lParam)
 void FormatMessageUrl(LPCTSTR format, LPTSTR buf, LPCTSTR mailbox, LPCTSTR tid)
 {
 	ULARGE_INTEGER iTid; iTid.QuadPart = _tstoi64(tid);
-	int l = lstrlen(buf);
+	int l = mir_tstrlen(buf);
 	mir_sntprintf(buf, l, format, mailbox, iTid.HighPart, iTid.LowPart);
-	assert(l >= lstrlen(buf));
+	assert(l >= mir_tstrlen(buf));
 }
 
 void MakeUrlHex(LPTSTR url, LPCTSTR tid)
 {
 	ULARGE_INTEGER iTid; iTid.QuadPart = _tstoi64(tid);
 	LPTSTR tidInUrl = _tcsstr(url, tid);
-	LPTSTR trail = tidInUrl + lstrlen(tid);
+	LPTSTR trail = tidInUrl + mir_tstrlen(tid);
 	wsprintf(tidInUrl, _T("%x%08x"), iTid.HighPart, iTid.LowPart); //!!!!!!!!!!!!
-	wmemmove(tidInUrl + lstrlen(tidInUrl), trail, lstrlen(trail) + 1);
+	wmemmove(tidInUrl + mir_tstrlen(tidInUrl), trail, mir_tstrlen(trail) + 1);
 }
 
 LPTSTR ExtractJid(LPCTSTR jidWithRes)

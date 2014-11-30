@@ -148,7 +148,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 								size.cx += count_rc.right-count_rc.left;
 								count_rc.right = 0;
 								count_rc.left = 0;
-								ske_DrawTextA(hdc,szCounts,lstrlenA(szCounts),&count_rc,DT_CALCRECT);
+								ske_DrawTextA(hdc,szCounts,mir_strlen(szCounts),&count_rc,DT_CALCRECT);
 								size.cx += count_rc.right-count_rc.left;
 								tmp = max(tmp,count_rc.bottom-count_rc.top);
 							}
@@ -306,7 +306,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 							g_clcPainter.ChangeToFont(hdc,dat,FONTID_CONTACT_TIME,NULL);
 
 							// Get text size
-							text_size.cy = ske_DrawText(hdc, szResult, lstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
+							text_size.cy = ske_DrawText(hdc, szResult, mir_tstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
 							SelectObject(hdc,GetStockObject(DEFAULT_GUI_FONT));
 							ske_ResetTextEffect(hdc);
 							DeleteDC(hdc);

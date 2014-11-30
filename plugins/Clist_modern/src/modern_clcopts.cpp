@@ -1383,7 +1383,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (!db_get_s(NULL, module, "BkBitmap", &dbv)) {
 					int retval = PathToAbsolute(dbv.pszVal, dat->item[indx].filename);
 					if (!retval || retval == CALLSERVICE_NOTFOUND)
-						lstrcpynA(dat->item[indx].filename, dbv.pszVal, MAX_PATH);
+						mir_strncpy(dat->item[indx].filename, dbv.pszVal, MAX_PATH);
 					mir_free(dbv.pszVal);
 				}
 				else *dat->item[indx].filename = 0;

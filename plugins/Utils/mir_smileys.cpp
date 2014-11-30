@@ -223,7 +223,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 		RECT text_rc = {0, 0, 0x7FFFFFFF, 0x7FFFFFFF};
 
 		// Always need cy...
-		DrawText(hdcMem,szText,lstrlen(szText), &text_rc, DT_CALCRECT | uTextFormat);
+		DrawText(hdcMem,szText,mir_tstrlen(szText), &text_rc, DT_CALCRECT | uTextFormat);
 		text_size.cy = text_rc.bottom - text_rc.top;
 
 		if (plText == NULL)

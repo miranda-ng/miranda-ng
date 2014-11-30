@@ -488,7 +488,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 					return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvT((char*)lParam));
 				return (INT_PTR)ppi->SetAwayMsg(wParam, (TCHAR*)lParam);
 			case 34: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
-			case 35: lstrcpynA((char*)lParam, ppi->m_szModuleName, wParam); return 0;
+			case 35: mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam); return 0;
 			case 36: return ppi->m_iStatus;
 
 			case 100:

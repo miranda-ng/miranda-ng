@@ -128,7 +128,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			break;
 		default:
 			ptstr = str;
-			lstrcpy(str, _T("???"));
+			mir_tstrcpy(str, _T("???"));
 			break;
 		}
 	}

@@ -96,7 +96,7 @@ bool IsActionEnabled(char *name)
 {
 	POPUPACTION action = {0};
 	action.flags = PAF_ENABLED;
-	lstrcpyA(action.lpzTitle, name);
+	mir_strcpy(action.lpzTitle, name);
 	return IsActionEnabled(&action);
 }
 
@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				char *szName = strchr(gActions[i]->lpzTitle, '/');
 				if (!szName) szName = gActions[i]->lpzTitle;
 				else ++szName;
-				lstrcpynA(szGroup, gActions[i]->lpzTitle, szName - gActions[i]->lpzTitle);
+				mir_strncpy(szGroup, gActions[i]->lpzTitle, szName - gActions[i]->lpzTitle);
 
 				int grpId = 0;
 
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					group.mask = LVGF_HEADER | LVGF_GROUPID;
 					LPTSTR wszGroup = mir_a2t(szGroup);
 					group.pszHeader = TranslateTS(wszGroup);
-					group.cchHeader = lstrlen(wszGroup);
+					group.cchHeader = mir_tstrlen(wszGroup);
 					grpId = group.iGroupId = groups.getCount();
 					int grpId = ListView_InsertGroup(hwndList, -1, &group);
 					mir_free(wszGroup);

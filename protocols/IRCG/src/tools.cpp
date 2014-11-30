@@ -84,7 +84,7 @@ CMString __stdcall GetWord(const TCHAR* text, int index)
 
 const TCHAR* __stdcall GetWordAddress(const TCHAR* text, int index)
 {
-	if (!text || !lstrlen(text))
+	if (!text || !mir_tstrlen(text))
 		return text;
 
 	const TCHAR* temp = text;
@@ -108,44 +108,16 @@ const TCHAR* __stdcall GetWordAddress(const TCHAR* text, int index)
 	return temp;
 }
 
-void __stdcall RemoveLinebreaks(CMString& Message)
+void __stdcall RemoveLinebreaks(CMString &Message)
 {
 	while (Message.Find(_T("\r\n\r\n"), 0) != -1)
-		ReplaceString(Message, _T("\r\n\r\n"), _T("\r\n"));
+		Message.Replace(_T("\r\n\r\n"), _T("\r\n"));
 
 	if (Message.Find(_T("\r\n"), 0) == 0)
 		Message.Delete(0, 2);
 
 	if ((Message.GetLength() > 1) && (Message.Find(_T("\r\n"), Message.GetLength() - 2) == 0))
 		Message.Delete(Message.GetLength() - 2, 2);
-}
-
-String& __stdcall ReplaceString(String& text, const char* replaceme, const char* newword)
-{
-	if (!text.IsEmpty() && replaceme != NULL) {
-		int i = 0;
-		while ((i = text.Find(replaceme, i)) != -1) {
-			text.Delete(i, lstrlenA(replaceme));
-			text.Insert(i, newword);
-			i = i + lstrlenA(newword);
-		}
-	}
-
-	return text;
-}
-
-CMString& __stdcall ReplaceString(CMString& text, const TCHAR* replaceme, const TCHAR* newword)
-{
-	if (!text.IsEmpty() && replaceme != NULL) {
-		int i = 0;
-		while ((i = text.Find(replaceme, i)) != -1) {
-			text.Delete(i, lstrlen(replaceme));
-			text.Insert(i, newword);
-			i = i + lstrlen(newword);
-		}
-	}
-
-	return text;
 }
 
 char* __stdcall IrcLoadFile(TCHAR* szPath)
@@ -169,7 +141,7 @@ char* __stdcall IrcLoadFile(TCHAR* szPath)
 
 int __stdcall WCCmp(const TCHAR* wild, const TCHAR* string)
 {
-	if (wild == NULL || !lstrlen(wild) || string == NULL || !lstrlen(string))
+	if (wild == NULL || !mir_tstrlen(wild) || string == NULL || !mir_tstrlen(string))
 		return 1;
 
 	const TCHAR *cp = NULL, *mp = NULL;
@@ -210,7 +182,7 @@ bool CIrcProto::IsChannel(const TCHAR* sName)
 	return (sChannelPrefixes.Find(sName[0]) != -1);
 }
 
-String __stdcall GetWord(const char* text, int index)
+CMStringA __stdcall GetWord(const char* text, int index)
 {
 	if (text && text[0]) {
 		char* p1 = (char*)text;
@@ -236,11 +208,11 @@ String __stdcall GetWord(const char* text, int index)
 				p2 = strchr(p1, '\0');
 
 			if (p1 != p2)
-				return String(p1, p2 - p1 + 1);
+				return CMStringA(p1, p2 - p1 + 1);
 		}
 	}
 
-	return String();
+	return CMStringA();
 }
 
 bool CIrcProto::IsChannel(const char* sName)
@@ -337,10 +309,10 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 
 				// fix foreground index
 				if (text[1] > 47 && text[1] < 58 && text[1] != '\0')
-					lstrcpyn(buf, text, 3);
+					mir_tstrncpy(buf, text, 3);
 				else
-					lstrcpyn(buf, text, 2);
-				text += lstrlen(buf);
+					mir_tstrncpy(buf, text, 2);
+				text += mir_tstrlen(buf);
 				iFG = _ttoi(buf);
 
 				// fix background color
@@ -348,10 +320,10 @@ TCHAR* __stdcall DoColorCodes(const TCHAR* text, bool bStrip, bool bReplacePerce
 					text++;
 
 					if (text[1] > 47 && text[1] < 58 && text[1] != '\0')
-						lstrcpyn(buf, text, 3);
+						mir_tstrncpy(buf, text, 3);
 					else
-						lstrcpyn(buf, text, 2);
-					text += lstrlen(buf);
+						mir_tstrncpy(buf, text, 2);
+					text += mir_tstrlen(buf);
 					iBG = _ttoi(buf);
 				}
 			}
@@ -603,20 +575,20 @@ bool CIrcProto::AddWindowItemData(CMString window, const TCHAR* pszLimit, const 
 	CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, window.c_str(), NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if (wi) {
 		if (pszLimit) {
-			wi->pszLimit = (TCHAR*)realloc(wi->pszLimit, sizeof(TCHAR)*(lstrlen(pszLimit) + 1));
-			lstrcpy(wi->pszLimit, pszLimit);
+			wi->pszLimit = (TCHAR*)realloc(wi->pszLimit, sizeof(TCHAR)*(mir_tstrlen(pszLimit) + 1));
+			mir_tstrcpy(wi->pszLimit, pszLimit);
 		}
 		if (pszMode) {
-			wi->pszMode = (TCHAR*)realloc(wi->pszMode, sizeof(TCHAR)*(lstrlen(pszMode) + 1));
-			lstrcpy(wi->pszMode, pszMode);
+			wi->pszMode = (TCHAR*)realloc(wi->pszMode, sizeof(TCHAR)*(mir_tstrlen(pszMode) + 1));
+			mir_tstrcpy(wi->pszMode, pszMode);
 		}
 		if (pszPassword) {
-			wi->pszPassword = (TCHAR*)realloc(wi->pszPassword, sizeof(TCHAR)*(lstrlen(pszPassword) + 1));
-			lstrcpy(wi->pszPassword, pszPassword);
+			wi->pszPassword = (TCHAR*)realloc(wi->pszPassword, sizeof(TCHAR)*(mir_tstrlen(pszPassword) + 1));
+			mir_tstrcpy(wi->pszPassword, pszPassword);
 		}
 		if (pszTopic) {
-			wi->pszTopic = (TCHAR*)realloc(wi->pszTopic, sizeof(TCHAR)*(lstrlen(pszTopic) + 1));
-			lstrcpy(wi->pszTopic, pszTopic);
+			wi->pszTopic = (TCHAR*)realloc(wi->pszTopic, sizeof(TCHAR)*(mir_tstrlen(pszTopic) + 1));
+			mir_tstrcpy(wi->pszTopic, pszTopic);
 		}
 
 		SetChannelSBText(window, wi);
@@ -633,7 +605,7 @@ void CIrcProto::FindLocalIP(HANDLE con) // inspiration from jabber
 		struct sockaddr_in saddr;
 		int len = sizeof(saddr);
 		getsockname(socket, (struct sockaddr *) &saddr, &len);
-		lstrcpynA(m_myLocalHost, inet_ntoa(saddr.sin_addr), 49);
+		mir_strncpy(m_myLocalHost, inet_ntoa(saddr.sin_addr), 49);
 		m_myLocalPort = ntohs(saddr.sin_port);
 	}
 }

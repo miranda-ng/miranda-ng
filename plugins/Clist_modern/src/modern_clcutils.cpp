@@ -724,7 +724,7 @@ int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand
 int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 {
 	ClcGroup *group = &dat->list;
-	int testlen = lstrlen(text);
+	int testlen = mir_tstrlen(text);
 	ClcContact *contact = NULL;
 	int SubCount = 0;
 

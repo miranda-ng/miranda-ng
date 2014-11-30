@@ -170,12 +170,12 @@ namespace
 	{
 		LPTSTR p = pszBuffer;
 		LPCTSTR pszXml = TranslateT("XML File (*.xml)");
-		lstrcpyn(p,pszXml, (int)cBuffer);
-		size_t nLen = lstrlen(pszXml)+1;
+		mir_tstrncpy(p,pszXml, (int)cBuffer);
+		size_t nLen = mir_tstrlen(pszXml)+1;
 		p+= nLen;
 		if(nLen < cBuffer)
 		{
-			lstrcpyn(p,_T("*.xml"),(int)(cBuffer-nLen));
+			mir_tstrncpy(p,_T("*.xml"),(int)(cBuffer-nLen));
 			p+= 6;
 			nLen += 6;
 		}
@@ -183,15 +183,15 @@ namespace
 		if(nLen < cBuffer)
 		{
 			LPCTSTR pszAll = TranslateT("All files (*.*)");
-			lstrcpyn(p,pszAll,(int)(cBuffer-nLen));
-			size_t n = lstrlen(pszAll)+1;
+			mir_tstrncpy(p,pszAll,(int)(cBuffer-nLen));
+			size_t n = mir_tstrlen(pszAll)+1;
 			nLen += n;
 			p+= n;
 		}
 
 		if(nLen < cBuffer)
 		{
-			lstrcpyn(p,_T("*.*"),(int)(cBuffer-nLen));
+			mir_tstrncpy(p,_T("*.*"),(int)(cBuffer-nLen));
 			p+= 4;
 			nLen += 4;
 		}

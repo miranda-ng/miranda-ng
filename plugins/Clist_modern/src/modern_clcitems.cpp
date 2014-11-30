@@ -362,7 +362,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 
 		int nHiddenStatus = CLVM_GetContactHiddenStatus(hContact, NULL, dat);
 		if ((style & CLS_SHOWHIDDEN && nHiddenStatus != -1) || !nHiddenStatus) {
-			if (lstrlen(cacheEntry->tszGroup) == 0)
+			if (mir_tstrlen(cacheEntry->tszGroup) == 0)
 				group = &dat->list;
 			else
 				group = cli_AddGroup(hwnd, dat, cacheEntry->tszGroup, (DWORD)-1, 0, 0);

@@ -43,7 +43,7 @@ int Openfile(char *outputFile, const char *module)
 
 	if (!GetSaveFileName(&ofn))
 		return 0;
-	lstrcpy(outputFile,filename);
+	mir_tstrcpy(outputFile,filename);
 	return 1;
 }
 
@@ -493,7 +493,7 @@ void importSettings(MCONTACT hContact, char *importstring )
 									case 'r': *pstr='\r'; break;
 									default:  *pstr=pstr[1]; break;
 									}
-									MoveMemory(pstr+1,pstr+2,lstrlenA(pstr+2)+1);
+									MoveMemory(pstr+1,pstr+2,mir_strlen(pstr+2)+1);
 								}
 							}
 						}
@@ -654,14 +654,14 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 	else
 	{
 		if(Exists(FilePath))
-			lstrcpy(szFileNames, FilePath);
+			mir_tstrcpy(szFileNames, FilePath);
 		else
-			lstrcpy(szFileNames, "");
+			mir_tstrcpy(szFileNames, "");
 	}
 
 	if (!lstrcmp(szFileNames, "") == 0)
 	{
-		if ((DWORD)lstrlenA(szFileNames) < offset)
+		if ((DWORD)mir_strlen(szFileNames) < offset)
 		{
 			index += offset;
 			strncpy(szPath, szFileNames, offset);

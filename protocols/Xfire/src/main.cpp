@@ -1410,7 +1410,7 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM lParam)
 //=======================================================
 INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 {
-	lstrcpynA((char*)lParam, "XFire", wParam);
+	mir_strncpy((char*)lParam, "XFire", wParam);
 	return 0;
 }
 
@@ -1802,7 +1802,7 @@ void SetAvatar(LPVOID lparam)
 		AI.cbSize = sizeof(AI);
 		AI.format = av.type;
 		AI.hContact = xsa->hContact;
-		lstrcpy(AI.filename, _A2T(av.file));
+		mir_tstrcpy(AI.filename, _A2T(av.file));
 		ProtoBroadcastAck(protocolname, xsa->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&AI, 0);
 	}
 
@@ -3048,7 +3048,7 @@ INT_PTR BasicSearch(WPARAM wParam, LPARAM lParam) {
 		if (myClient != NULL)
 			if (myClient->client->connected)
 			{
-			lstrcpynA(buf, (const char *)lParam, 50);
+			mir_strncpy(buf, (const char *)lParam, 50);
 			mir_forkthread(AckBasicSearch, &buf);
 			return 1;
 			}

@@ -110,7 +110,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		DWORD dwRTFDataSize = buf.Len();
 		if ( compress2((LPBYTE)lpbRTFData, &dwRTFDataSize, buf.Data(), buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
 			lpszMessageRTF = mir_base64_encode((LPBYTE)lpbRTFData, dwRTFDataSize);
-			dwMessageRTFSize = lstrlenA(lpszMessageRTF);
+			dwMessageRTFSize = mir_strlen(lpszMessageRTF);
 		}
 	}
 	// standart message
@@ -130,7 +130,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 				DWORD dwRTFDataSize = lpbRTFData.GetLength();
 				if ( compress2((LPBYTE)(LPCSTR)lpbRTFData, &dwRTFDataSize, buf.Data(), buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
 					lpszMessageRTF = mir_base64_encode((LPBYTE)(LPCSTR)lpbRTFData, dwRTFDataSize);
-					dwMessageRTFSize = lstrlenA(lpszMessageRTF);
+					dwMessageRTFSize = mir_strlen(lpszMessageRTF);
 				}
 			}
 		}

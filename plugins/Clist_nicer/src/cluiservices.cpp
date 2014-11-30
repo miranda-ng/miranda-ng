@@ -140,16 +140,16 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 			if (showOpts & 1)
 				x += 16;
 			if (showOpts & 2) {
-				lstrcpyn( szName, pa->tszAccountName, SIZEOF(szName));
+				mir_tstrncpy( szName, pa->tszAccountName, SIZEOF(szName));
 				szName[ SIZEOF(szName)-1 ] = 0;
-				if (( showOpts & 4 ) && lstrlen(szName) < sizeof(szName)-1 )
-					lstrcat( szName, _T(" "));
-				GetTextExtentPoint32( hdc, szName, lstrlen(szName), &textSize );
+				if (( showOpts & 4 ) && mir_tstrlen(szName) < sizeof(szName)-1 )
+					mir_tstrcat( szName, _T(" "));
+				GetTextExtentPoint32( hdc, szName, mir_tstrlen(szName), &textSize );
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
 				TCHAR* modeDescr = pcli->pfnGetStatusModeDescription( CallProtoService(accs[i]->szModuleName,PS_GETSTATUS,0,0 ), 0 );
-				GetTextExtentPoint32(hdc, modeDescr, lstrlen(modeDescr), &textSize );
+				GetTextExtentPoint32(hdc, modeDescr, mir_tstrlen(modeDescr), &textSize );
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			partWidths[partCount]=(partCount?partWidths[partCount-1]:cfg::dat.bCLeft)+ x + 2;
@@ -204,7 +204,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	// update the clui button
 
 	if ( !db_get(NULL, "CList", "PrimaryStatus", &dbv)) {
-		if (dbv.type == DBVT_ASCIIZ && lstrlenA(dbv.pszVal) > 1) {
+		if (dbv.type == DBVT_ASCIIZ && mir_strlen(dbv.pszVal) > 1) {
 			wStatus = (WORD) CallProtoService(dbv.pszVal, PS_GETSTATUS, 0, 0);
 			iIcon = IconFromStatusMode(dbv.pszVal, (int) wStatus, 0, &hIcon);
 		}

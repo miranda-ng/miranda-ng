@@ -40,7 +40,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 	if (hNewsAggregatorFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("News Aggregator"), MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER)))
 		FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, _T(""));
 	else
-		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\Avatars\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
+		mir_tstrncpy(tszRoot, VARST( _T("%miranda_userdata%\\Avatars\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
 
 	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
@@ -77,7 +77,7 @@ int NewsAggrPreShutdown(WPARAM, LPARAM)
 INT_PTR NewsAggrGetName(WPARAM wParam, LPARAM lParam)
 {
 	if(lParam) {
-		lstrcpynA((char *)lParam, MODULE, wParam);
+		mir_strncpy((char *)lParam, MODULE, wParam);
 		return 0;
 	}
 

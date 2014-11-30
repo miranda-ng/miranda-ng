@@ -185,15 +185,15 @@ TCHAR* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setti
 		else if (dbv.type == DBVT_UTF8)
 			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, out, (int)len);
 		else if (dbv.type == DBVT_WCHAR)
-			lstrcpyn(out, dbv.pwszVal, (int)len);
+			mir_tstrncpy(out, dbv.pwszVal, (int)len);
 		else if (def != NULL)
-			lstrcpyn(out, def, (int)len);
+			mir_tstrncpy(out, def, (int)len);
 
 		db_free(&dbv);
 	}
 	else {
 		if (def != NULL)
-			lstrcpyn(out, def, (int)len);
+			mir_tstrncpy(out, def, (int)len);
 	}
 
 	return out;
@@ -262,7 +262,7 @@ TCHAR * ParseText(const TCHAR *text,
 	const TCHAR **variables, size_t variablesSize,
 	const TCHAR **data, size_t dataSize)
 {
-	size_t length = lstrlen(text);
+	size_t length = mir_tstrlen(text);
 	size_t nextPos = 0;
 	StringHelper ret = {0};
 	size_t i;
@@ -294,11 +294,11 @@ TCHAR * ParseText(const TCHAR *text,
 				// See if can find it
 				for(j = 0 ; j < size ; j++)
 				{
-					size_t vlen = lstrlen(variables[j]);
+					size_t vlen = mir_tstrlen(variables[j]);
 
 					if (_tcsnicmp(&text[i], variables[j], vlen) == 0)
 					{
-						if (CopyData(&ret, data[j], lstrlen(data[j])))
+						if (CopyData(&ret, data[j], mir_tstrlen(data[j])))
 							return NULL;
 
 						i += vlen - 1;
@@ -448,7 +448,7 @@ TCHAR *GetStatusName(struct ClcContact *item)
 
 	// Get status name
 	status = db_get_w(item->hContact, item->proto, "Status", ID_STATUS_OFFLINE);
-	lstrcpyn(status_name, pcli->pfnGetStatusModeDescription(status, GSMDF_TCHAR), MAX_REGS(status_name));
+	mir_tstrncpy(status_name, pcli->pfnGetStatusModeDescription(status, GSMDF_TCHAR), MAX_REGS(status_name));
 
 	return status_name;
 }
@@ -484,7 +484,7 @@ TCHAR *GetProtoName(struct ClcContact *item)
 	proto_name[0] = '\0';
 	if (item->hContact == NULL || item->proto == NULL)
 	{
-		lstrcpyn(proto_name, TranslateT("Unknown Protocol"), MAX_REGS(proto_name));
+		mir_tstrncpy(proto_name, TranslateT("Unknown Protocol"), MAX_REGS(proto_name));
 		return proto_name;
 	}
 
@@ -501,7 +501,7 @@ TCHAR *GetProtoName(struct ClcContact *item)
 		return proto_name;
 	}
 
-	lstrcpyn(proto_name, acc->tszAccountName, MAX_REGS(proto_name));
+	mir_tstrncpy(proto_name, acc->tszAccountName, MAX_REGS(proto_name));
 
 	return proto_name;
 }
@@ -590,7 +590,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 
 				txt = ParseText(template_group, t, MAX_REGS(t), v, MAX_REGS(v));
 				if (txt != NULL)
-					lstrcpyn(text, txt, (int)size);
+					mir_tstrncpy(text, txt, (int)size);
 				mir_free(txt);
 				break;
 			}
@@ -612,7 +612,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 
 				TCHAR *txt = ParseText(template_contact, t, MAX_REGS(t), v, MAX_REGS(v));
 				if (txt != NULL)
-					lstrcpyn(text, txt, (int)size);
+					mir_tstrncpy(text, txt, (int)size);
 				mir_free(txt);
 				break;
 			}

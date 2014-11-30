@@ -324,7 +324,7 @@ MCONTACT CYahooProto::add_buddy(const char *yahoo_id, const char *yahoo_name, in
 	setString( hContact, YAHOO_LOGINID, yid );
 	Set_Protocol( hContact, protocol );
 
-	if (lstrlenA(yahoo_name) > 0)
+	if (mir_strlen(yahoo_name) > 0)
 		SetStringUtf( hContact, "Nick", yahoo_name );
 	else
 		SetStringUtf( hContact, "Nick", yahoo_id );
@@ -820,16 +820,16 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	pre.flags			= PREF_UTF;
 	pre.timestamp		= time(NULL);
 
-	pre.lParam = sizeof(DWORD)+sizeof(HANDLE)+lstrlenA(who)+lstrlenA(nick)+5;
+	pre.lParam = sizeof(DWORD)+sizeof(HANDLE)+mir_strlen(who)+mir_strlen(nick)+5;
 
 	if (fname != NULL)
-		pre.lParam += lstrlenA(fname);
+		pre.lParam += mir_strlen(fname);
 
 	if (lname != NULL)
-		pre.lParam += lstrlenA(lname);
+		pre.lParam += mir_strlen(lname);
 
 	if (msg != NULL)
-		pre.lParam += lstrlenA(msg);
+		pre.lParam += mir_strlen(msg);
 
 	pCurBlob = (PBYTE)malloc(pre.lParam);
 	pre.szMessage = (char *)pCurBlob;
@@ -843,24 +843,24 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	pCurBlob += sizeof(DWORD);
 
 	// NICK
-	lstrcpyA((char*)pCurBlob, nick); 
+	mir_strcpy((char*)pCurBlob, nick); 
 
-	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
+	pCurBlob+=mir_strlen((char *)pCurBlob)+1;
 
 	// FIRST
-	lstrcpyA((char*)pCurBlob, (fname != NULL) ? fname : ""); 
-	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
+	mir_strcpy((char*)pCurBlob, (fname != NULL) ? fname : ""); 
+	pCurBlob+=mir_strlen((char *)pCurBlob)+1;
 
 	// LAST
-	lstrcpyA((char*)pCurBlob, (lname != NULL) ? lname : ""); 
-	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
+	mir_strcpy((char*)pCurBlob, (lname != NULL) ? lname : ""); 
+	pCurBlob+=mir_strlen((char *)pCurBlob)+1;
 
 	// E-mail    
-	lstrcpyA((char*)pCurBlob,who); 
-	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
+	mir_strcpy((char*)pCurBlob,who); 
+	pCurBlob+=mir_strlen((char *)pCurBlob)+1;
 
 	// Reason
-	lstrcpyA((char*)pCurBlob, (msg != NULL) ? msg : "");
+	mir_strcpy((char*)pCurBlob, (msg != NULL) ? msg : "");
 
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
@@ -929,7 +929,7 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 		* [17:18:38 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrr, 
 		*	stat: 2, msg: 1	ygamesa	2
 		*/
-		z = (char *) _alloca(lstrlenA(l) + 50);
+		z = (char *) _alloca(mir_strlen(l) + 50);
 
 		z[0]='\0';
 		do{
@@ -950,16 +950,16 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 
 				if (c != NULL) {
 					(*c) = '\0';
-					lstrcatA(z, l);
-					lstrcatA(z, "\r\n");
+					mir_strcat(z, l);
+					mir_strcat(z, "\r\n");
 					l = c + 1;
 				} else {
-					lstrcatA(z, l);
+					mir_strcat(z, l);
 				}
 			} while (c != NULL);
 
-			lstrcatA(z, "\r\n\r\nhttp://games.yahoo.com/games/");
-			lstrcatA(z, u);
+			mir_strcat(z, "\r\n\r\nhttp://games.yahoo.com/games/");
+			mir_strcat(z, u);
 			c = strchr(z, 0x09);
 			(*c) = '\0';
 		}
@@ -1557,8 +1557,8 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 		}
 	}
 	
-	lstrcpynA(fthost,getByte("YahooJapan",0)?"filetransfer.msg.yahoo.co.jp":"filetransfer.msg.yahoo.com" , sizeof(fthost));
-	lstrcpynA(login_host,getByte("YahooJapan",0)?"login.yahoo.co.jp":"login.yahoo.com" , sizeof(login_host));	
+	mir_strncpy(fthost,getByte("YahooJapan",0)?"filetransfer.msg.yahoo.co.jp":"filetransfer.msg.yahoo.com" , sizeof(fthost));
+	mir_strncpy(login_host,getByte("YahooJapan",0)?"login.yahoo.co.jp":"login.yahoo.com" , sizeof(login_host));	
 	port = getWord(NULL, YAHOO_LOGINPORT, YAHOO_DEFAULT_PORT);
 	
 #ifdef HTTP_GATEWAY			

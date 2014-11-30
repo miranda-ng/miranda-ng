@@ -1117,7 +1117,7 @@ next:
 
 	if (chunked) {
 		nlhrReply->headers[chunkhdr].szName = (char*)mir_realloc(nlhrReply->headers[chunkhdr].szName, 16);
-		lstrcpyA(nlhrReply->headers[chunkhdr].szName, "Content-Length");
+		mir_strcpy(nlhrReply->headers[chunkhdr].szName, "Content-Length");
 
 		nlhrReply->headers[chunkhdr].szValue = (char*)mir_realloc(nlhrReply->headers[chunkhdr].szValue, 16);
 		mir_snprintf(nlhrReply->headers[chunkhdr].szValue, 16, "%u", nlhrReply->dataLength);

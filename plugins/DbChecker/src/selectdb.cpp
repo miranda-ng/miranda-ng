@@ -77,15 +77,15 @@ void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
 {
 	TCHAR szProfileDir[MAX_PATH], szExpandedProfileDir[MAX_PATH], szMirandaBootIni[MAX_PATH];
 
-	lstrcpy(szMirandaBootIni, szMirandaDir);
-	lstrcat(szMirandaBootIni, _T("\\mirandaboot.ini"));
+	mir_tstrcpy(szMirandaBootIni, szMirandaDir);
+	mir_tstrcat(szMirandaBootIni, _T("\\mirandaboot.ini"));
 	GetPrivateProfileString(_T("Database"), _T("ProfileDir"), _T("./Profiles"), szProfileDir, SIZEOF(szProfileDir), szMirandaBootIni);
 	ExpandEnvironmentStrings(szProfileDir, szExpandedProfileDir, SIZEOF(szExpandedProfileDir));
 	_tchdir(szMirandaDir);
 	if (!_tfullpath(szPath, szExpandedProfileDir, cbPath))
-		lstrcpyn(szPath, szMirandaDir, cbPath);
-	if (szPath[lstrlen(szPath) - 1] == '\\')
-		szPath[lstrlen(szPath) - 1] = 0;
+		mir_tstrncpy(szPath, szMirandaDir, cbPath);
+	if (szPath[mir_tstrlen(szPath) - 1] == '\\')
+		szPath[mir_tstrlen(szPath) - 1] = 0;
 }
 
 static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
@@ -140,8 +140,8 @@ void FindAdd(HWND hdlg, TCHAR *szProfileDir, TCHAR *szPrefix)
 	WIN32_FIND_DATA fd;
 	TCHAR szSearchPath[MAX_PATH], szFilename[MAX_PATH];
 
-	lstrcpy(szSearchPath, szProfileDir);
-	lstrcat(szSearchPath, _T("\\*.*"));
+	mir_tstrcpy(szSearchPath, szProfileDir);
+	mir_tstrcat(szSearchPath, _T("\\*.*"));
 
 	hFind = FindFirstFile(szSearchPath, &fd);
 	if (hFind != INVALID_HANDLE_VALUE) {

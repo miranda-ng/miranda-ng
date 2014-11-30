@@ -527,7 +527,7 @@ static INT_PTR ServiceAddNewUrlType(WPARAM, LPARAM lParam)
 		return 1;
 	if(utd->pszService == NULL)
 		return 2;
- 	if(utd->pszProtoPrefix == NULL || utd->pszProtoPrefix[lstrlenA(utd->pszProtoPrefix)-1]!= ':') 
+ 	if(utd->pszProtoPrefix == NULL || utd->pszProtoPrefix[mir_strlen(utd->pszProtoPrefix)-1]!= ':') 
 		return 2;
 
 	char *pszClassName = MakeUrlClassName(utd->pszProtoPrefix);

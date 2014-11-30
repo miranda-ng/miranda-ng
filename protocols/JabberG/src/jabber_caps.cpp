@@ -668,7 +668,7 @@ BOOL CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 
 		if (ppro->m_options.ShowOSVersion) {
 			if (!GetOSDisplayString(szOsBuffer, SIZEOF(szOsBuffer)))
-				lstrcpyn(szOsBuffer, _T(""), SIZEOF(szOsBuffer));
+				mir_tstrncpy(szOsBuffer, _T(""), SIZEOF(szOsBuffer));
 			else {
 				TCHAR *szOsWindows = _T("Microsoft Windows");
 				size_t nOsWindowsLength = _tcslen(szOsWindows);

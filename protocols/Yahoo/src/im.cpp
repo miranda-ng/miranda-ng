@@ -1,9 +1,9 @@
 /*
  * $Id: im.cpp 12307 2010-08-11 21:49:46Z Michael.Kunz@s2005.TU-Chemnitz.de $
  *
- * myYahoo Miranda Plugin 
+ * myYahoo Miranda Plugin
  *
- * Authors: Gennady Feldman (aka Gena01) 
+ * Authors: Gennady Feldman (aka Gena01)
  *          Laurent Marechal (aka Peorth)
  *
  * This code is under GPL and is based on AIM, MSN and Miranda source code.
@@ -22,20 +22,20 @@
 void CYahooProto::send_msg(const char *id, int protocol, const char *msg, int utf8)
 {
 	LOG(("[send_msg] Who: %s: protocol: %d Msg: '%s', utf: %d", id, protocol, msg, utf8));
-	
+
 	int buddy_icon = (getDword("AvatarHash", 0) != 0) ? 2: 0;
 	yahoo_send_im(m_id, NULL, id, protocol, msg, utf8, buddy_icon);
 }
 
-void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, const char *msg, 
-								long tm, int stat, int utf8, int buddy_icon, 
+void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, const char *msg,
+								long tm, int stat, int utf8, int buddy_icon,
 								const char *seqn, int sendn)
 {
 	char 		*umsg;
 	const char	*c = msg;
 	int 		oidx = 0;
 
-	LOG(("YAHOO_GOT_IM id:%s %s: %s (len: %d) tm:%lu stat:%i utf8:%i buddy_icon: %i", me, who, msg, lstrlenA(msg), tm, stat, utf8, buddy_icon));
+	LOG(("YAHOO_GOT_IM id:%s %s: %s (len: %d) tm:%lu stat:%i utf8:%i buddy_icon: %i", me, who, msg, mir_strlen(msg), tm, stat, utf8, buddy_icon));
 
 	if (stat == 2) {
 		char z[1024];
@@ -68,7 +68,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	}
 
 	// make a bigger buffer for \n -> \r\n conversion (x2)
-	umsg = (char *) alloca(lstrlenA(msg) * 2 + 1); 
+	umsg = (char *) alloca(mir_strlen(msg) * 2 + 1);
 
 	while ( *c != '\0') {
 		// Strip the font tag
@@ -76,19 +76,19 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 			// strip the fade tag
 			!_strnicmp(c, "<FADE ",6) || !_strnicmp(c,"</FADE>",7) ||
 			// strip the alternate colors tag
-			!_strnicmp(c, "<ALT ",5) || !_strnicmp(c, "</ALT>",6)) { 
-				while ((*c++ != '>') && (*c != '\0')); 
+			!_strnicmp(c, "<ALT ",5) || !_strnicmp(c, "</ALT>",6)) {
+				while ((*c++ != '>') && (*c != '\0'));
 		} else
 			// strip ANSI color combination
-			if ((*c == 0x1b) && (*(c+1) == '[')) { 
-				while ((*c++ != 'm') && (*c != '\0')); 
+			if ((*c == 0x1b) && (*(c+1) == '[')) {
+				while ((*c++ != 'm') && (*c != '\0'));
 			} else
 
 				if (*c != '\0') {
 					umsg[oidx++] = *c;
 
 					/* Adding \r to \r\n conversion */
-					if (*c == '\r' && *(c + 1) != '\n') 
+					if (*c == '\r' && *(c + 1) != '\n')
 						umsg[oidx++] = '\n';
 
 					c++;
@@ -115,16 +115,16 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 			DBEVENTINFO dbei = { sizeof (dbei) };
 			dbei.pBlob = (BYTE*)&dummy;
 			dbei.cbBlob = 2;
-			if (!db_event_get(hEvent, &dbei)) 
+			if (!db_event_get(hEvent, &dbei))
 				// got that event, if newer than ts then reset to current time
 				if ((DWORD)tm < dbei.timestamp) tm = (long)time(NULL);
 		}
 
 		pre.timestamp = (DWORD)time(NULL);
-		
+
 		if ((DWORD)tm < pre.timestamp)
 			pre.timestamp = tm;
-		
+
 	}
 	else pre.timestamp = (DWORD)time(NULL);
 
@@ -146,7 +146,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	if (buddy_icon != 2)
 		reset_avatar(hContact);
 	else if (getDword(hContact, "PictCK", 0) == 0) /* request the buddy image */
-		request_avatar(who); 
+		request_avatar(who);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -180,13 +180,13 @@ int __cdecl CYahooProto::SendMsg(MCONTACT hContact, int flags, const char* pszSr
 
 	ptrA msg;
 	if (flags & PREF_UNICODE) /* convert to utf8 */
-		msg = mir_utf8encodeW((wchar_t*)&pszSrc[strlen(pszSrc) + 1]);
+		msg = mir_utf8encodeW((wchar_t*)&pszSrc[mir_strlen(pszSrc) + 1]);
 	else if (flags & PREF_UTF)
 		msg = mir_strdup(pszSrc);
 	else
 		msg = mir_utf8encode(pszSrc);
 
-	if (lstrlenA(msg) > 800) {
+	if (mir_strlen(msg) > 800) {
 		ForkThread(&CYahooProto::im_sendackfail_longmsg, (void*)hContact);
 		return 1;
 	}

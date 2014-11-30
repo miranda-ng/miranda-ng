@@ -291,7 +291,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 			szText = TranslateT("Set Your Avatar...");
 		}
 		mii.dwTypeData = szText;
-		mii.cch = lstrlen(szText) + 1;
+		mii.cch = mir_tstrlen(szText) + 1;
 		SetMenuItemInfo(submenu, ID_PICMENU_SETTINGS, FALSE, &mii);
 	}
 	else if (menuID == MENU_PANELPICMENU) {
@@ -453,13 +453,13 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 
 		TCHAR szBuf[20]; szBuf[0] = 0;
 		if (dat->fInsertMode)
-			lstrcat(szBuf, _T("O"));
+			mir_tstrcat(szBuf, _T("O"));
 		if (fCaps)
-			lstrcat(szBuf, _T("C"));
+			mir_tstrcat(szBuf, _T("C"));
 		if (fNum)
-			lstrcat(szBuf, _T("N"));
+			mir_tstrcat(szBuf, _T("N"));
 		if (dat->fInsertMode || fCaps || fNum)
-			lstrcat(szBuf, _T(" | "));
+			mir_tstrcat(szBuf, _T(" | "));
 
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s%s %d/%d"), szBuf, dat->lcID, dat->iOpenJobs, len);
 		SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
@@ -663,7 +663,7 @@ TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQu
 	int justDoneLineBreak, bufSize;
 	TCHAR *strout;
 
-	bufSize = lstrlenW(text) + 23;
+	bufSize = mir_wstrlen(text) + 23;
 	strout = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
 	inChar = 0;
 	justDoneLineBreak = 1;
@@ -887,7 +887,7 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 	TCHAR InsertThis[50];
 	p1 += 5;
 
-	MoveMemory(pszText, p1, (lstrlen(p1) + 1) * sizeof(TCHAR));
+	MoveMemory(pszText, p1, (mir_tstrlen(p1) + 1) * sizeof(TCHAR));
 	p1 = pszText;
 	// iterate through all characters, if rtf control character found then take action
 	while (*p1 != '\0') {
@@ -903,7 +903,7 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 				bJustRemovedRTF = TRUE;
 
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
-				iRemoveChars = 3 + lstrlen(szTemp);
+				iRemoveChars = 3 + mir_tstrlen(szTemp);
 				if (bTextHasStarted || iCol)
 					mir_sntprintf(InsertThis, SIZEOF(InsertThis), (iInd > 0) ? (inColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (inColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
 				inColor = iInd > 0 ? 1 : 0;
@@ -914,7 +914,7 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 				bJustRemovedRTF = TRUE;
 
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
-				iRemoveChars = 10 + lstrlen(szTemp);
+				iRemoveChars = 10 + mir_tstrlen(szTemp);
 			}
 			else if (!_tcsncmp(p1, _T("\\par"), 4)) { // newline
 				bTextHasStarted = TRUE;
@@ -1079,7 +1079,7 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 		// move the memory and paste in new commands instead of the old RTF
 		if (InsertThis[0] || iRemoveChars) {
 			size_t cbLen = _tcslen(InsertThis);
-			MoveMemory(p1 + cbLen, p1 + iRemoveChars, (lstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
+			MoveMemory(p1 + cbLen, p1 + iRemoveChars, (mir_tstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
 			CopyMemory(p1, InsertThis, cbLen * sizeof(TCHAR));
 			p1 += cbLen;
 		}
@@ -1709,7 +1709,7 @@ void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 	BOOL bReadTemplates = TRUE;
 
 	ZeroMemory(&pContainer->theme, sizeof(TLogTheme));
-	if (lstrlen(pContainer->szAbsThemeFile) > 1) {
+	if (mir_tstrlen(pContainer->szAbsThemeFile) > 1) {
 		if (PathFileExists(pContainer->szAbsThemeFile)) {
 			if (CheckThemeVersion(pContainer->szAbsThemeFile) == 0) {
 				LoadThemeDefaults(pContainer);
@@ -1828,7 +1828,7 @@ void TSAPI GetMyNick(TWindowData *dat)
 
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
-			if (lstrlen(reinterpret_cast<TCHAR *>(ci.pszVal)) < 1 || !_tcscmp(reinterpret_cast<TCHAR *>(ci.pszVal),
+			if (mir_tstrlen(reinterpret_cast<TCHAR *>(ci.pszVal)) < 1 || !_tcscmp(reinterpret_cast<TCHAR *>(ci.pszVal),
 				TranslateT("'(Unknown Contact)'"))) {
 				mir_sntprintf(dat->szMyNickname, SIZEOF(dat->szMyNickname), _T("%s"), dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown Contact)'"));
 				if (ci.pszVal) {

@@ -306,7 +306,7 @@ TCHAR* __stdcall JabberStrFixLines(const TCHAR *str)
 		if (*p == _T('\r') || *p == _T('\n'))
 			++add;
 
-	TCHAR *buf = (TCHAR *)mir_alloc((lstrlen(str) + add + 1) * sizeof(TCHAR));
+	TCHAR *buf = (TCHAR *)mir_alloc((mir_tstrlen(str) + add + 1) * sizeof(TCHAR));
 	TCHAR *res = buf;
 
 	for (p = str; p && *p; ++p) {
@@ -986,8 +986,8 @@ const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr)
 	TCHAR *str_up = NEWTSTR_ALLOCA(str);
 	TCHAR *substr_up = NEWTSTR_ALLOCA(substr);
 
-	CharUpperBuff(str_up, lstrlen(str_up));
-	CharUpperBuff(substr_up, lstrlen(substr_up));
+	CharUpperBuff(str_up, mir_tstrlen(str_up));
+	CharUpperBuff(substr_up, mir_tstrlen(substr_up));
 
 	TCHAR *p = _tcsstr(str_up, substr_up);
 	return p ? (str + (p - str_up)) : NULL;
@@ -1002,9 +1002,9 @@ void JabberCopyText(HWND hwnd, const TCHAR *text)
 
 	OpenClipboard(hwnd);
 	EmptyClipboard();
-	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(text) + 1));
+	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(text) + 1));
 	TCHAR *s = (TCHAR *)GlobalLock(hMem);
-	lstrcpy(s, text);
+	mir_tstrcpy(s, text);
 	GlobalUnlock(hMem);
 	SetClipboardData(CF_UNICODETEXT, hMem);
 	CloseClipboard();

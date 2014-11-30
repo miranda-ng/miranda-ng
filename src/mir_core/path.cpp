@@ -95,7 +95,7 @@ MIR_CORE_DLL(void) CreatePathToFile(char *szFilePath)
 MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
 {
 	char szTestDir[MAX_PATH];
-	lstrcpynA(szTestDir, szDir, SIZEOF(szTestDir));
+	mir_strncpy(szTestDir, szDir, SIZEOF(szTestDir));
 
 	DWORD dwAttributes = GetFileAttributesA(szTestDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
@@ -179,7 +179,7 @@ MIR_CORE_DLL(void) CreatePathToFileW(WCHAR *wszFilePath)
 MIR_CORE_DLL(int) CreateDirectoryTreeW(const WCHAR *szDir)
 {
 	WCHAR szTestDir[MAX_PATH];
-	lstrcpynW(szTestDir, szDir, SIZEOF(szTestDir));
+	mir_wstrncpy(szTestDir, szDir, SIZEOF(szTestDir));
 
 	DWORD dwAttributes = GetFileAttributesW(szTestDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))

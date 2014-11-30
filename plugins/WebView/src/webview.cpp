@@ -252,10 +252,10 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	cfFM.dwEffects = bold | italic | underline;
 
 	if (!db_get_ts(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
-		lstrcpy(cfFM.szFaceName, dbv.ptszVal);
+		mir_tstrcpy(cfFM.szFaceName, dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else lstrcpy(cfFM.szFaceName, Def_font_face);
+	else mir_tstrcpy(cfFM.szFaceName, Def_font_face);
 
 	HDC hDC = GetDC(hWindow);
 	cfFM.yHeight = (BYTE)MulDiv(abs(lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (db_get_b(NULL, MODULENAME, FONT_SIZE_KEY, 14));
@@ -338,7 +338,7 @@ void FontSettings(void)
 	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	lf.lfQuality = DEFAULT_QUALITY;
 	lf.lfPitchAndFamily = FIXED_PITCH | FF_MODERN;
-	lstrcpy(lf.lfFaceName, Def_font_face);
+	mir_tstrcpy(lf.lfFaceName, Def_font_face);
 }
 
 /*****************************************************************************/

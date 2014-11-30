@@ -129,8 +129,8 @@ const int Stricmp(const TCHAR *str, const TCHAR *substr)
 	TCHAR *str_up = NEWTSTR_MALLOC(str);
 	TCHAR *substr_up = NEWTSTR_MALLOC(substr);
 
-	CharUpperBuff(str_up, lstrlen(str_up));
-	CharUpperBuff(substr_up, lstrlen(substr_up));
+	CharUpperBuff(str_up, mir_tstrlen(str_up));
+	CharUpperBuff(substr_up, mir_tstrlen(substr_up));
 
 	i = _tcscmp(str_up, substr_up);
 
@@ -189,7 +189,7 @@ BOOL IsUrlContains(TCHAR * Str)
 
 	if(Str && _tcslen(Str)>0) {
 		TCHAR *StrLower = NEWTSTR_MALLOC(Str);
-		CharLowerBuff(StrLower, lstrlen(StrLower));
+		CharLowerBuff(StrLower, mir_tstrlen(StrLower));
 		for (int i=0; i<CountUrl; i++)
 			if(_tcsstr (StrLower, URL[i]))
 			{
@@ -247,7 +247,7 @@ void LogSpamToFile(MCONTACT hContact, tstring message)
 	if (hStopSpamLogDirH)
 		FoldersGetCustomPathT(hStopSpamLogDirH, pszName, MAX_PATH, _T(""));
 	else
-		lstrcpyn(pszName, VARST( _T("%miranda_logpath%")), SIZEOF(pszName));
+		mir_tstrncpy(pszName, VARST( _T("%miranda_logpath%")), SIZEOF(pszName));
 
 	filename = pszName;
 	filename = filename + _T("\\stopspam_mod.log");

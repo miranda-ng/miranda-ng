@@ -85,11 +85,11 @@ void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 	char *szFileNames = Utf8EncodeT(dat->szFilenames), *szMsg = Utf8EncodeT(dat->szMsg);
 	dbei.flags |= DBEF_UTF;
 
-	dbei.cbBlob = sizeof(DWORD) + lstrlenA(szFileNames) + lstrlenA(szMsg) + 2;
+	dbei.cbBlob = sizeof(DWORD) + mir_strlen(szFileNames) + mir_strlen(szMsg) + 2;
 	dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 	*(PDWORD)dbei.pBlob = 0;
-	lstrcpyA((char*)dbei.pBlob + sizeof(DWORD), szFileNames);
-	lstrcpyA((char*)dbei.pBlob + sizeof(DWORD) + lstrlenA(szFileNames) + 1, szMsg);
+	mir_strcpy((char*)dbei.pBlob + sizeof(DWORD), szFileNames);
+	mir_strcpy((char*)dbei.pBlob + sizeof(DWORD) + mir_strlen(szFileNames) + 1, szMsg);
 
 	mir_free(szFileNames), mir_free(szMsg);
 }
@@ -109,7 +109,7 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 				*pszReplace = 0;
 				mir_sntprintf(szCmdLine, SIZEOF(szCmdLine), _T("%s\"%s\"%s"), dbv.ptszVal, info->szFile, pszReplace + 2);
 			}
-			else lstrcpyn(szCmdLine, dbv.ptszVal, SIZEOF(szCmdLine));
+			else mir_tstrncpy(szCmdLine, dbv.ptszVal, SIZEOF(szCmdLine));
 
 			PROCESS_INFORMATION pi;
 			if (CreateProcess(NULL, szCmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
@@ -155,7 +155,7 @@ static void SetFilenameControls(HWND hwndDlg, FileDlgData *dat, PROTOFILETRANSFE
 		dat->hIcon = shfi.hIcon;
 	}
 	else {
-		lstrcpyn(msg, pcli->pfnGetContactDisplayName(fts->hContact, 0), SIZEOF(msg));
+		mir_tstrncpy(msg, pcli->pfnGetContactDisplayName(fts->hContact, 0), SIZEOF(msg));
 		HICON hIcon = LoadSkinIcon(SKINICON_OTHER_DOWNARROW);
 		dat->hIcon = CopyIcon(hIcon);
 		IcoLib_ReleaseIcon(hIcon, NULL);
@@ -310,7 +310,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			GetSensiblyFormattedSize((dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]) / dat->bytesRecvedHistorySize, szSpeed, SIZEOF(szSpeed), 0, 1, NULL);
 			if (dat->bytesRecvedHistory[0] == dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1])
-				lstrcpy(szTime, _T("??:??:??"));
+				mir_tstrcpy(szTime, _T("??:??:??"));
 			else {
 				li.QuadPart = BIGI(10000000)*(dat->transferStatus.currentFileSize - dat->transferStatus.currentFileProgress)*dat->bytesRecvedHistorySize / (dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]);
 				ft.dwHighDateTime = li.HighPart; ft.dwLowDateTime = li.LowPart;
@@ -477,9 +477,9 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 					TCHAR *pszExtension, *pszFilename;
 					if ((pszFilename = _tcsrchr(szOriginalFilename, '\\')) == NULL) pszFilename = szOriginalFilename;
-					if ((pszExtension = _tcsrchr(pszFilename + 1, '.')) == NULL) pszExtension = pszFilename + lstrlen(pszFilename);
+					if ((pszExtension = _tcsrchr(pszFilename + 1, '.')) == NULL) pszExtension = pszFilename + mir_tstrlen(pszFilename);
 					if (pfr->szFilename) mir_free((TCHAR*)pfr->szFilename);
-					size_t size = (pszExtension - szOriginalFilename) + 21 + lstrlen(pszExtension);
+					size_t size = (pszExtension - szOriginalFilename) + 21 + mir_tstrlen(pszExtension);
 					pfr->szFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*size);
 					for (int i = 1;; i++) {
 						mir_sntprintf((TCHAR*)pfr->szFilename, size, _T("%.*s (%u)%s"), pszExtension - szOriginalFilename, szOriginalFilename, i, pszExtension);

@@ -79,7 +79,7 @@ void InitXStatusIcons()
 		LPWSTR lpwszFileName;
 		g_dwMirWorkDirPathLen = GetFullPathName(szBuff, MAX_FILEPATH, g_szMirWorkDirPath, &lpwszFileName);
 		if (g_dwMirWorkDirPathLen) {
-			g_dwMirWorkDirPathLen -= lstrlenW(lpwszFileName);
+			g_dwMirWorkDirPathLen -= mir_wstrlen(lpwszFileName);
 			g_szMirWorkDirPath[g_dwMirWorkDirPathLen] = 0;
 
 			// load xstatus icons lib

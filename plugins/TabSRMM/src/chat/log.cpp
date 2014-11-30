@@ -144,7 +144,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 			}
 
 			if ( szTemp[0] ) {
-				size_t iLen = lstrlen(szTemp);
+				size_t iLen = mir_tstrlen(szTemp);
 				memcpy( d, szTemp, iLen * sizeof(TCHAR));
 				d += iLen;
 			}
@@ -432,9 +432,9 @@ static TCHAR * _tcsrplc(TCHAR **src, const TCHAR *ptrn, const TCHAR *rplc)
 	size_t lSrc, lPtrn, lRplc;
 	TCHAR *tszFound, *tszTail;
 
-	lSrc = lstrlen(*src);
-	lPtrn = lstrlen(ptrn);
-	lRplc = lstrlen(rplc);
+	lSrc = mir_tstrlen(*src);
+	lPtrn = mir_tstrlen(ptrn);
+	lRplc = mir_tstrlen(rplc);
 	if (lPtrn && lSrc && lSrc >= lPtrn && (tszFound = _tcsstr(*src, ptrn)) != NULL) {
 		if (lRplc > lPtrn)
 			*src = (TCHAR*) mir_realloc((void*) * src,
@@ -463,9 +463,9 @@ static TCHAR * _tcsnrplc(TCHAR *src, size_t n, const TCHAR *ptrn, const TCHAR *r
 	size_t lSrc, lPtrn, lRplc;
 	TCHAR *tszFound, *tszTail;
 
-	lSrc = lstrlen(src);
-	lPtrn = lstrlen(ptrn);
-	lRplc = lstrlen(rplc);
+	lSrc = mir_tstrlen(src);
+	lPtrn = mir_tstrlen(ptrn);
+	lRplc = mir_tstrlen(rplc);
 	if (lPtrn && lSrc && lSrc >= lPtrn && /* lengths are ok */
 			(tszFound = _tcsstr(src, ptrn)) != NULL && /* pattern was found in string */
 			(n < 0 || lSrc - lPtrn + lRplc < n) && /* there is enough room in the string */
@@ -591,7 +591,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			}
 
 			if (szTemp[0]) {
-				int iLen = lstrlenA(szTemp);
+				int iLen = mir_strlen(szTemp);
 				memcpy(d, szTemp, iLen);
 				d += iLen;
 			}
@@ -623,11 +623,11 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 		return;
 
 	if (streamData->lin->ptszNick) {
-		if (g_Settings.bLogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
-			lstrcpyn(szTemp, streamData->lin->ptszNick, 20);
-			lstrcpyn(szTemp + 20, _T("..."), 4);
+		if (g_Settings.bLogLimitNames && mir_tstrlen(streamData->lin->ptszNick) > 20) {
+			mir_tstrncpy(szTemp, streamData->lin->ptszNick, 20);
+			mir_tstrncpy(szTemp + 20, _T("..."), 4);
 		}
-		else lstrcpyn(szTemp, streamData->lin->ptszNick, 511);
+		else mir_tstrncpy(szTemp, streamData->lin->ptszNick, 511);
 
 		if (g_Settings.bClickableNicks)
 			mir_sntprintf(szTemp2, SIZEOF(szTemp2), _T("~~++#%s#++~~"), szTemp);
@@ -883,8 +883,8 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			if (g_Settings.bShowTime) {
 				TCHAR szTimeStamp[30], szOldTimeStamp[30];
 
-				lstrcpyn(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), 30);
-				lstrcpyn(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), 30);
+				mir_tstrncpy(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), 30);
+				mir_tstrncpy(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), 30);
 				if (!g_Settings.bShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
@@ -906,7 +906,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				if (g_Settings.bLogClassicIndicators)
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s", pszIndicator);
 
-				lstrcpyn(pszTemp, lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick, 299);
+				mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick, 299);
 				p1 = _tcsstr(pszTemp, _T("%n"));
 				if (p1)
 					p1[1] = 's';
@@ -950,7 +950,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 		if (lstrdat->buffer == NULL) {
 			lstrdat->bufferOffset = 0;
 			lstrdat->buffer = Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = lstrlenA(lstrdat->buffer);
+			lstrdat->bufferLen = mir_strlen(lstrdat->buffer);
 		}
 
 		// give the RTF to the RE control

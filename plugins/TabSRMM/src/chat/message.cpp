@@ -107,7 +107,7 @@ TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO *si)
 	}
 	else p1 += 7;
 
-	MoveMemory(pszText, p1, lstrlenA(p1) + 1);
+	MoveMemory(pszText, p1, mir_strlen(p1) + 1);
 	p1 = pszText;
 
 	// iterate through all characters, if rtf control character found then take action
@@ -295,9 +295,9 @@ TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO *si)
 
 		// move the memory and paste in new commands instead of the old RTF
 		if (InsertThis[0] || iRemoveChars) {
-			MoveMemory(p1 + lstrlenA(InsertThis) , p1 + iRemoveChars, lstrlenA(p1) - iRemoveChars + 1);
-			CopyMemory(p1, InsertThis, lstrlenA(InsertThis));
-			p1 += lstrlenA(InsertThis);
+			MoveMemory(p1 + mir_strlen(InsertThis) , p1 + iRemoveChars, mir_strlen(p1) - iRemoveChars + 1);
+			CopyMemory(p1, InsertThis, mir_strlen(InsertThis));
+			p1 += mir_strlen(InsertThis);
 		}
 		else p1++;
 	}

@@ -34,7 +34,7 @@ int m_log(const TCHAR *function, const TCHAR *fmt, ...)
 
 	mir_sntprintf(text, MAX_REGS(text) - 10, _T("[%08u - %08u] [%s] "), 
 				 GetCurrentThreadId(), GetTickCount(), function);
-	len = lstrlen(text);
+	len = mir_tstrlen(text);
 
     va_start(va, fmt);
     mir_vsntprintf(&text[len], MAX_REGS(text) - len, fmt, va);

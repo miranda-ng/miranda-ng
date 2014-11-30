@@ -314,7 +314,7 @@ TCHAR* CCtrlCombo::GetItemText(int index, TCHAR *buf, int size)
 {
 	TCHAR *result = (TCHAR *)_alloca(sizeof(TCHAR) * (SendMessage(m_hwnd, CB_GETLBTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, CB_GETLBTEXT, index, (LPARAM)result);
-	lstrcpyn(buf, result, size);
+	mir_tstrncpy(buf, result, size);
 	return buf;
 }
 
@@ -402,7 +402,7 @@ TCHAR* CCtrlListBox::GetItemText(int index, TCHAR *buf, int size)
 {
 	TCHAR *result = (TCHAR *)_alloca(sizeof(TCHAR) * (SendMessage(m_hwnd, LB_GETTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, LB_GETTEXT, index, (LPARAM)result);
-	lstrcpyn(buf, result, size);
+	mir_tstrncpy(buf, result, size);
 	return buf;
 }
 

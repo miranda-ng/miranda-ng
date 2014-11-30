@@ -76,7 +76,7 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 				wchar_t *path = paths[j];
 				int length = wcsrchr(path, '\\') - path;
 				ftp->pfts.wszWorkingDir = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
-				lstrcpyn(ftp->pfts.wszWorkingDir, paths[j], length + 1);
+				mir_tstrncpy(ftp->pfts.wszWorkingDir, paths[j], length + 1);
 				ftp->pfts.wszWorkingDir[length] = '\0';
 				
 			}
@@ -212,7 +212,7 @@ INT_PTR CDropbox::SendFileToDropbox(void *obj, WPARAM hContact, LPARAM lParam)
 
 	int length = wcsrchr(filePath, '\\') - filePath;
 	ftp->pfts.wszWorkingDir = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
-	lstrcpyn(ftp->pfts.wszWorkingDir, filePath, length + 1);
+	mir_tstrncpy(ftp->pfts.wszWorkingDir, filePath, length + 1);
 	ftp->pfts.wszWorkingDir[length] = '\0';
 
 	ftp->pfts.pwszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*) * (ftp->pfts.totalFiles + 1));

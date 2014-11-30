@@ -47,7 +47,7 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 			/* get data */
 			PathToAbsoluteT(_T("\\Languages\\"), tszFullPath);
-			lstrcat(tszFullPath, wfd.cFileName);
+			mir_tstrcat(tszFullPath, wfd.cFileName);
 
 			LANGPACK_INFO pack;
 			if (!LoadLangPackDescr(tszFullPath, &pack)) {
@@ -69,14 +69,14 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 	if (callback != NULL) {
 		LANGPACK_INFO pack;
 		pack.Locale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
-		lstrcpy(pack.tszLanguage, _T("English"));
+		mir_tstrcpy(pack.tszLanguage, _T("English"));
 		pack.szAuthors = "Miranda NG Development Team";
 		pack.szAuthorEmail = "project-info@miranda-ng.org";
 		DWORD v = CallService(MS_SYSTEM_GETVERSION, 0, 0);
 		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 		/* file date */
 		if (GetModuleFileName(NULL, pack.tszFullPath, SIZEOF(pack.tszFullPath))) {
-			lstrcpy(pack.tszFileName, _T("default"));
+			mir_tstrcpy(pack.tszFileName, _T("default"));
 			HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 			if (hFile != INVALID_HANDLE_VALUE) {
 				GetFileTime(hFile, NULL, NULL, &pack.ftFileDate);

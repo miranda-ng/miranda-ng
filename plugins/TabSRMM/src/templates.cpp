@@ -336,7 +336,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 			}
 			char *pszName = Translate(TemplateNames[iItem]);
-			TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, pszName, lstrlenA(pszName));
+			TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, pszName, (int)mir_strlen(pszName));
 		}
 		return TRUE;
 
@@ -357,7 +357,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dbei.szModule = "Sample error message";
 		dbei.cbSize = sizeof(dbei);
 		dbei.pBlob = (iIndex == 6) ? (BYTE *)"is now offline (was online)" : (BYTE *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
-		dbei.cbBlob = lstrlenA((char *)dbei.pBlob) + 1;
+		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
 		dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 		dbei.flags |= (teInfo->rtl ? DBEF_RTL : 0);
 		dat->lastEventTime = (iIndex == 4 || iIndex == 5) ? time(NULL) - 1 : 0;

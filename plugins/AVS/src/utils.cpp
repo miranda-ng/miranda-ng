@@ -140,7 +140,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		}
 	}
 
-	if (lstrlen(tszFilename) < 4)
+	if (mir_tstrlen(tszFilename) < 4)
 		return -1;
 
 	_tcsncpy_s(tszFilename, VARST(tszFilename), _TRUNCATE);

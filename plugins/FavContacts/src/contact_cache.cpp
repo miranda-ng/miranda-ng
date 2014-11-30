@@ -131,8 +131,8 @@ static bool AppendInfo(TCHAR *buf, int size, MCONTACT hContact, int info)
 	bool ret = false;
 
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci) && (ci.type == CNFT_ASCIIZ) && ci.pszVal) {
-		if (*ci.pszVal && (lstrlen(ci.pszVal) < size - 2)) {
-			lstrcpy(buf, ci.pszVal);
+		if (*ci.pszVal && (mir_tstrlen(ci.pszVal) < size - 2)) {
+			mir_tstrcpy(buf, ci.pszVal);
 			ret = true;
 		}
 		mir_free(ci.pszVal);
@@ -156,7 +156,7 @@ void CContactCache::TContactInfo::LoadInfo()
 
 	for (int i = 0; i < SIZEOF(items); ++i)
 		if (AppendInfo(p, SIZEOF(info) - (p - info), hContact, items[i]))
-			p += lstrlen(p) + 1;
+			p += mir_tstrlen(p) + 1;
 
 	*p = 0;
 
@@ -171,8 +171,8 @@ TCHAR *nb_stristr(TCHAR *str, TCHAR *substr)
 	TCHAR *str_up = NEWTSTR_ALLOCA(str);
 	TCHAR *substr_up = NEWTSTR_ALLOCA(substr);
 
-	CharUpperBuff(str_up, lstrlen(str_up));
-	CharUpperBuff(substr_up, lstrlen(substr_up));
+	CharUpperBuff(str_up, mir_tstrlen(str_up));
+	CharUpperBuff(substr_up, mir_tstrlen(substr_up));
 
 	TCHAR *p = _tcsstr(str_up, substr_up);
 	return p ? (str + (p - str_up)) : NULL;
@@ -193,7 +193,7 @@ bool CContactCache::filter(int rate, TCHAR *str)
 
 	for (int iLayout = 0; iLayout < nKbdLayouts; ++iLayout) {
 		if (kbdLayoutActive == kbdLayouts[iLayout])
-			lstrcpy(buf, str);
+			mir_tstrcpy(buf, str);
 		else {
 			int i;
 			for (i = 0; str[i]; ++i) {
@@ -204,7 +204,7 @@ bool CContactCache::filter(int rate, TCHAR *str)
 			buf[i] = 0;
 		}
 
-		for (TCHAR *p = m_cache[rate]->info; p && *p; p = p + lstrlen(p) + 1)
+		for (TCHAR *p = m_cache[rate]->info; p && *p; p = p + mir_tstrlen(p) + 1)
 			if (nb_stristr(p, buf))
 				return true;
 	}

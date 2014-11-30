@@ -37,7 +37,6 @@ void GetData(void *param)
 	int MallocSize = 0;
 	int DownloadSuccess = 0;
 	char*raw;
-	char*szInfo;
 	char truncated[MAXSIZE1];
 	char truncated2[MAXSIZE2];
 	int trunccount = 0;
@@ -64,7 +63,6 @@ void GetData(void *param)
 	ZeroMemory(&contactname, sizeof(contactname));
 	ZeroMemory(&tempstring, sizeof(tempstring));
 	ZeroMemory(&tempstring2, sizeof(tempstring2));
-	ZeroMemory(&szInfo, sizeof(szInfo));
 	ZeroMemory(&dbv, sizeof(dbv));
 	ZeroMemory(&tstr, sizeof(tstr));
 	ZeroMemory(&timestring, sizeof(timestring));
@@ -148,13 +146,13 @@ void GetData(void *param)
 				db_set_ts(hContact, "CList", "StatusMsg", statusText);
 			}
 			if (nlhrReply->dataLength) {
-				int cbLen = lstrlenA(nlhrReply->pData);
-				szInfo = (char*)malloc(cbLen + 2);
-				lstrcpynA(szInfo, nlhrReply->pData, cbLen);
-				downloadsize = lstrlenA(nlhrReply->pData);
+				size_t cbLen = mir_strlen(nlhrReply->pData);
+				char *szInfo = (char*)malloc(cbLen + 2);
+				mir_strncpy(szInfo, nlhrReply->pData, cbLen);
+				downloadsize = mir_strlen(nlhrReply->pData);
 
 				trunccount = 0;
-				lstrcpynA(truncated2, szInfo, MAXSIZE2);
+				mir_strncpy(truncated2, szInfo, MAXSIZE2);
 				free(szInfo);
 
 				////////////////////////////////////////////
@@ -193,7 +191,7 @@ void GetData(void *param)
 		if (DownloadSuccess) {
 			// all the site
 			if (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 1)
-				lstrcpynA(truncated, truncated2, MAXSIZE1);
+				mir_strncpy(truncated, truncated2, MAXSIZE1);
 			else { // use start and end string
 				// putting data into string    
 				if (((strstr(truncated2, tempstring)) != 0) && ((strstr(truncated2, tempstring2)) != 0)) {
@@ -240,7 +238,7 @@ void GetData(void *param)
 
 						trunccount = 0;
 
-						lstrcpynA(truncated, raw, MAXSIZE1);
+						mir_strncpy(truncated, raw, MAXSIZE1);
 
 						free(raw);
 

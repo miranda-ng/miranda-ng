@@ -46,24 +46,24 @@ void LoadNotifications()
 	notification.actionCount = 0;
 	notification.lpActions = 0;
 
-	lstrcpynA(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
-	lstrcpynA(notification.lpzName, "Warning", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzName, "Warning", sizeof(notification.lpzName));
 	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_WARN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED);
 	notification.colorBack = RGB(210,210,150);
 	notification.colorText = RGB(0,0,0);
 	notification.iSeconds = 10;
 	g_hntfWarning = RegisterNotification(&notification);
 
-	lstrcpynA(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
-	lstrcpynA(notification.lpzName, "Notification", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzName, "Notification", sizeof(notification.lpzName));
 	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_INFO), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED);
 	notification.colorBack = RGB(230,230,230);
 	notification.colorText = RGB(0,0,0);
 	notification.iSeconds = 7;
 	g_hntfNotification = RegisterNotification(&notification);
 
-	lstrcpynA(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
-	lstrcpynA(notification.lpzName, "Error", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
+	mir_strncpy(notification.lpzName, "Error", sizeof(notification.lpzName));
 	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_STOP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED);
 	notification.colorBack = RGB(191,0,0);
 	notification.colorText = RGB(255,245,225);
@@ -160,12 +160,12 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}leftAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzLAction);
-		lstrcpynA(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
+		mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
 		mir_free(szTmp); szTmp = NULL;
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}rightAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzRAction);
-		lstrcpynA(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
+		mir_strncpy(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
 		mir_free(szTmp); szTmp = NULL;
 	}
 }
@@ -188,12 +188,12 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	FontID fontid = {0};
 	fontid.cbSize = sizeof(fontid);
 	mir_snprintf(fontid.group, sizeof(fontid.group), PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
-	lstrcpyA(fontid.dbSettingsGroup, "PopupNotifications");
+	mir_strcpy(fontid.dbSettingsGroup, "PopupNotifications");
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.colour = ptd->notification.colorText;
 	fontid.deffontsettings.size = -11;
-	lstrcpynA(fontid.deffontsettings.szFace, "MS Shell Dlg", SIZEOF(fontid.deffontsettings.szFace));
+	mir_strncpy(fontid.deffontsettings.szFace, "MS Shell Dlg", SIZEOF(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 	mir_snprintf(fontid.name, SIZEOF(fontid.name), "%s (colors only)", notification->lpzName);
 	mir_snprintf(fontid.prefix, SIZEOF(fontid.prefix), "{%s/%s}text", notification->lpzGroup, notification->lpzName);
@@ -203,7 +203,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	ColourID colourid = {0};
 	colourid.cbSize = sizeof(colourid);
 	mir_snprintf(colourid.group, sizeof(colourid.group), PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
-	lstrcpyA(colourid.dbSettingsGroup, "PopupNotifications");
+	mir_strcpy(colourid.dbSettingsGroup, "PopupNotifications");
 	mir_snprintf(colourid.name, SIZEOF(colourid.name), "%s (colors only)", notification->lpzName);
 	mir_snprintf(colourid.setting, SIZEOF(colourid.setting), "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;

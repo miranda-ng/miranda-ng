@@ -11,10 +11,10 @@ int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const
 	FontIDT fid;
 	ZeroMemory(&fid,sizeof(fid));
 	fid.cbSize=sizeof(fid);
-	lstrcpynA(fid.dbSettingsGroup,pszDbModule,sizeof(fid.dbSettingsGroup)); /* buffer safe */
-	lstrcpynA(fid.prefix,pszDbName,sizeof(fid.prefix)); /* buffer safe */
-	lstrcpyn(fid.group,pszSection,SIZEOF(fid.group)); /* buffer safe */
-	lstrcpyn(fid.name,pszDescription,SIZEOF(fid.name)); /* buffer safe */
+	mir_strncpy(fid.dbSettingsGroup,pszDbModule,sizeof(fid.dbSettingsGroup)); /* buffer safe */
+	mir_strncpy(fid.prefix,pszDbName,sizeof(fid.prefix)); /* buffer safe */
+	mir_tstrncpy(fid.group,pszSection,SIZEOF(fid.group)); /* buffer safe */
+	mir_tstrncpy(fid.name,pszDescription,SIZEOF(fid.name)); /* buffer safe */
 	fid.flags=FIDF_ALLOWREREGISTER;
 	if(bAllowEffects) fid.flags|=FIDF_ALLOWEFFECTS;
 	fid.order=position;
@@ -27,7 +27,7 @@ int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const
 		if(plfDefault->lfUnderline) fid.deffontsettings.style|=DBFONTF_UNDERLINE;
 		if(plfDefault->lfStrikeOut) fid.deffontsettings.style|=DBFONTF_STRIKEOUT;
 		fid.deffontsettings.charset=plfDefault->lfCharSet;
-		lstrcpyn(fid.deffontsettings.szFace,plfDefault->lfFaceName,SIZEOF(fid.deffontsettings.szFace)); /* buffer safe */
+		mir_tstrncpy(fid.deffontsettings.szFace,plfDefault->lfFaceName,SIZEOF(fid.deffontsettings.szFace)); /* buffer safe */
 	}
 	FontRegisterT(&fid);
 	return 0;
@@ -37,8 +37,8 @@ int FontService_GetFont(const TCHAR *pszSection,const TCHAR *pszDescription,COLO
 {
 	FontIDT fid;
 	fid.cbSize=sizeof(fid);
-	lstrcpyn(fid.group,pszSection,SIZEOF(fid.group)); /* buffer sfae */
-	lstrcpyn(fid.name,pszDescription,SIZEOF(fid.name)); /* buffer safe */
+	mir_tstrncpy(fid.group,pszSection,SIZEOF(fid.group)); /* buffer sfae */
+	mir_tstrncpy(fid.name,pszDescription,SIZEOF(fid.name)); /* buffer safe */
 	*pclr=(COLORREF)CallService(MS_FONT_GETT,(WPARAM)&fid,(LPARAM)plf); /* uses fallback font on error */
 	return (int)*pclr==-1;
 }
@@ -49,10 +49,10 @@ int FontService_RegisterColor(const char *pszDbModule,const char *pszDbName,cons
 	ZeroMemory(&cid,sizeof(cid));
 	cid.cbSize=sizeof(cid);
 	cid.defcolour=clrDefault;
-	lstrcpynA(cid.dbSettingsGroup,pszDbModule,sizeof(cid.dbSettingsGroup)); /* buffer safe */
-	lstrcpynA(cid.setting,pszDbName,sizeof(cid.setting)); /* buffer safe */
-	lstrcpyn(cid.group,pszSection,SIZEOF(cid.group)); /* buffer safe */
-	lstrcpyn(cid.name,pszDescription,SIZEOF(cid.name)); /* buffer safe */
+	mir_strncpy(cid.dbSettingsGroup,pszDbModule,sizeof(cid.dbSettingsGroup)); /* buffer safe */
+	mir_strncpy(cid.setting,pszDbName,sizeof(cid.setting)); /* buffer safe */
+	mir_tstrncpy(cid.group,pszSection,SIZEOF(cid.group)); /* buffer safe */
+	mir_tstrncpy(cid.name,pszDescription,SIZEOF(cid.name)); /* buffer safe */
 	ColourRegisterT(&cid);
 	return 0;
 }
@@ -62,8 +62,8 @@ int FontService_GetColor(const TCHAR *pszSection,const TCHAR *pszDescription,COL
 	ColourIDT cid;
 	ZeroMemory(&cid,sizeof(cid));
 	cid.cbSize=sizeof(cid);
-	lstrcpyn(cid.group,pszSection,sizeof(cid.group)); /* buffer safe */
-	lstrcpyn(cid.name,pszDescription,sizeof(cid.name)); /* buffer safe */
+	mir_tstrncpy(cid.group,pszSection,sizeof(cid.group)); /* buffer safe */
+	mir_tstrncpy(cid.name,pszDescription,sizeof(cid.name)); /* buffer safe */
 	*pclr=(COLORREF)CallService(MS_COLOUR_GETT,(WPARAM)&cid,0);
 	return (int)*pclr==-1;
 }

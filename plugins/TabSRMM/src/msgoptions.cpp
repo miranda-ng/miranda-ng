@@ -109,7 +109,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 	WIN32_FIND_DATA fd = { 0 };
 	HANDLE h = FindFirstFile(tszMask, &fd);
 	while (h != INVALID_HANDLE_VALUE) {
-		if (lstrlen(fd.cFileName) >= 5 && !_tcsnicmp(fd.cFileName + lstrlen(fd.cFileName) - 4, _T(".tsk"), 4)) {
+		if (mir_tstrlen(fd.cFileName) >= 5 && !_tcsnicmp(fd.cFileName + mir_tstrlen(fd.cFileName) - 4, _T(".tsk"), 4)) {
 			fValid = true;
 			break;
 		}
@@ -128,13 +128,13 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 
 		GetPrivateProfileString(_T("Global"), _T("Name"), _T("None"), szBuf, 500, tszFinalName);
 		if (!_tcscmp(szBuf, _T("None"))) {
-			fd.cFileName[lstrlen(fd.cFileName) - 4] = 0;
+			fd.cFileName[mir_tstrlen(fd.cFileName) - 4] = 0;
 			mir_sntprintf(szBuf, 255, _T("%s"), fd.cFileName);
 		}
 
 		PathToRelativeT(tszFinalName, tszRel, M.getSkinPath());
 		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
-			TCHAR *idata = (TCHAR*)mir_alloc((lstrlen(tszRel) + 1) * sizeof(TCHAR));
+			TCHAR *idata = (TCHAR*)mir_alloc((mir_tstrlen(tszRel) + 1) * sizeof(TCHAR));
 
 			_tcscpy(idata, tszRel);
 			SendMessage(hwndCombobox, CB_SETITEMDATA, lr, (LPARAM)idata);

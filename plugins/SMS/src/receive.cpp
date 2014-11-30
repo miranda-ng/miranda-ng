@@ -42,7 +42,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 	ACKDATA *ack = ((ACKDATA*)lParam);
 
 	if (lpszXML)
-		dwXMLSize = lstrlenA(lpszXML);
+		dwXMLSize = mir_strlen(lpszXML);
 
 	if (GetXMLFieldEx(lpszXML,dwXMLSize,&lpszData,&dwDataSize,"sms_message", "text", NULL))
 	{

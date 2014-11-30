@@ -281,13 +281,13 @@ void XPath::ProcessPath(LookupInfo &info, bool bCreate)
 	if (!info.nodeName) return;
 
 	TCHAR *nodeName = (TCHAR *)alloca(sizeof(TCHAR) * (info.nodeName.length+1));
-	lstrcpyn(nodeName, info.nodeName.p, info.nodeName.length+1);
+	mir_tstrncpy(nodeName, info.nodeName.p, info.nodeName.length+1);
 
 	if (info.attrName && info.attrValue) {
 		TCHAR *attrName = (TCHAR *)alloca(sizeof(TCHAR)* (info.attrName.length + 1));
-		lstrcpyn(attrName, info.attrName.p, info.attrName.length + 1);
+		mir_tstrncpy(attrName, info.attrName.p, info.attrName.length + 1);
 		TCHAR *attrValue = (TCHAR *)alloca(sizeof(TCHAR)* (info.attrValue.length + 1));
-		lstrcpyn(attrValue, info.attrValue.p, info.attrValue.length + 1);
+		mir_tstrncpy(attrValue, info.attrValue.p, info.attrValue.length + 1);
 		HXML hXml = xmlGetChildByTag(m_hXml, nodeName, attrName, attrValue);
 
 		m_hXml = (hXml || !bCreate) ? hXml : (m_hXml << XCHILD(nodeName) << XATTR(attrName, attrValue));

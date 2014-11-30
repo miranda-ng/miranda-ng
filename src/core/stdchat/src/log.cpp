@@ -31,7 +31,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 		if (lstrdat->buffer == NULL) {
 			lstrdat->bufferOffset = 0;
 			lstrdat->buffer = pci->Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = lstrlenA(lstrdat->buffer);
+			lstrdat->bufferLen = mir_strlen(lstrdat->buffer);
 		}
 
 		// give the RTF to the RE control

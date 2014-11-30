@@ -764,7 +764,7 @@ INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (getDword("AvatarHash", 0)) {
 		if (!getTString("AvatarFile", &dbv)) {
 			if (_taccess(dbv.ptszVal, 0) == 0) {
-				lstrcpyn(buffer, dbv.ptszVal, size-1);
+				mir_tstrncpy(buffer, dbv.ptszVal, size-1);
 				buffer[size-1] = '\0';
 
 				ret = 0;

@@ -326,7 +326,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				TCHAR str[1024];
 				GetObjectDescription(&dbei, str, SIZEOF(str));
 				if (str[0]) {
-					CharUpperBuff(str, lstrlen(str));
+					CharUpperBuff(str, mir_tstrlen(str));
 					if (_tcsstr(str, (const TCHAR*)lParam) != NULL) {
 						SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
 						SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam
 				TCHAR str[128];
 				HWND hwndParent = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				GetDlgItemText(hwndDlg, IDC_FINDWHAT, str, SIZEOF(str));
-				CharUpperBuff(str, lstrlen(str));
+				CharUpperBuff(str, mir_tstrlen(str));
 				SendMessage(hwndParent, DM_FINDNEXT, 0, (LPARAM)str);
 				return TRUE;
 			}

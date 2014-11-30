@@ -187,7 +187,7 @@ char* GetRichTextRTF(HWND hwnd)
 void rtrimText(TCHAR *text)
 {
 	static TCHAR szTrimString[] = _T(":;,.!?\'\"><()[]- \r\n");
-	int iLen = lstrlen(text)-1;
+	int iLen = mir_tstrlen(text)-1;
 	while(iLen >= 0 && _tcschr(szTrimString, text[iLen])) {
 		text[iLen] = _T('\0');
 		iLen--;
@@ -196,7 +196,7 @@ void rtrimText(TCHAR *text)
 
 TCHAR *limitText(TCHAR *text, int limit)
 {
-	int len = lstrlen(text);
+	int len = mir_tstrlen(text);
 	if (len > g_dat.limitNamesLength)
 	{
 		TCHAR *ptszTemp = (TCHAR *)mir_alloc(sizeof(TCHAR) * (limit + 4));

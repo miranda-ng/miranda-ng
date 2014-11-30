@@ -228,7 +228,7 @@ INT_PTR TwitterProto::SvcCreateAccMgrUI(WPARAM,LPARAM lParam)
 
 INT_PTR TwitterProto::GetName(WPARAM wParam,LPARAM lParam)
 {
-	lstrcpynA(reinterpret_cast<char*>(lParam), m_szModuleName, (int)wParam);
+	mir_strncpy(reinterpret_cast<char*>(lParam), m_szModuleName, (int)wParam);
 	return 0;
 }
 

@@ -224,14 +224,14 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 		mir_snprintf(str, SIZEOF(str), "Font%d", i);
 		if ((i == 17 && !strcmp(szMod, CHATFONT_MODULE)) || ((i == 20 || i == 21) && !strcmp(szMod, FONTMODULE))) {
 			lf->lfCharSet = SYMBOL_CHARSET;
-			lstrcpyn(lf->lfFaceName, _T("Webdings"), SIZEOF(lf->lfFaceName));
+			mir_tstrncpy(lf->lfFaceName, _T("Webdings"), SIZEOF(lf->lfFaceName));
 		}
 		else {
 			ptrT tszDefFace(db_get_tsa(NULL, szMod, str));
 			if (tszDefFace == NULL)
-				lstrcpy(lf->lfFaceName, fol[j].szDefFace);
+				mir_tstrcpy(lf->lfFaceName, fol[j].szDefFace);
 			else
-				lstrcpyn(lf->lfFaceName, tszDefFace, SIZEOF(lf->lfFaceName));
+				mir_tstrncpy(lf->lfFaceName, tszDefFace, SIZEOF(lf->lfFaceName));
 		}
 	}
 }
@@ -885,11 +885,11 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					if (idList) {
 						const TCHAR *szUserDir = M.getUserDir();
 						SHGetPathFromIDList(idList, tszDirectory);
-						lstrcat(tszDirectory, _T("\\"));
+						mir_tstrcat(tszDirectory, _T("\\"));
 
 						TCHAR tszTemp[MAX_PATH];
 						PathToRelativeT(tszDirectory, tszTemp, szUserDir);
-						SetWindowText(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), lstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+						SetWindowText(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), mir_tstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 					}
 					psMalloc->Free(idList);
 					psMalloc->Release();

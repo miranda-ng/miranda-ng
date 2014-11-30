@@ -134,7 +134,7 @@ BOOL CIrcProto::ShowMessage(const CIrcMessage* pmsg)
 	CMString mess = FormatOutput(pmsg);
 
 	if (!pmsg->m_bIncoming)
-		ReplaceString(mess, _T("%%"), _T("%"));
+		mess.Replace(_T("%%"), _T("%"));
 
 	int iTemp = StrToInt(pmsg->sCommand.c_str());
 

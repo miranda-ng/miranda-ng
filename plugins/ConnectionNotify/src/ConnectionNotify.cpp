@@ -624,7 +624,7 @@ INT_PTR GetCaps(WPARAM wParam,LPARAM lParam)
 //gives  name to protocol module
 INT_PTR GetName(WPARAM wParam,LPARAM lParam)
 {
-	lstrcpynA((char*)lParam,PLUGINNAME,wParam);
+	mir_strncpy((char*)lParam,PLUGINNAME,wParam);
 	return 0;
 }
 
@@ -794,7 +794,7 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 	//99% of the times you'll just copy this line.
 	//1% of the times you may wish to change the contact's name. I don't know why you should, but you can.
 	//char * lpzText;
-	//The text for the second line. You could even make something like: char lpzText[128]; lstrcpy(lpzText, "Hello world!"); It's your choice.
+	//The text for the second line. You could even make something like: char lpzText[128]; mir_tstrcpy(lpzText, "Hello world!"); It's your choice.
 
 	struct CONNECTION *mpd = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 	//MessageBox(NULL,"aaa","aaa",1);

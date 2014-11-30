@@ -143,9 +143,9 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, SIZEOF(str), "Font%d", i);
 		if (db_get(NULL, TABSRMM_FONTMODULE, str, &dbv))
-			lstrcpyA(lf->lfFaceName, "Verdana");
+			mir_strcpy(lf->lfFaceName, "Verdana");
 		else {
-			lstrcpynA(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
+			mir_strncpy(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
 			db_free(&dbv);
 		}
 	}
@@ -195,7 +195,7 @@ char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 	}
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
 	strncat(szResult, str, 500);
-	lstrcpynA(szResult, ptrA(mir_utf8encode(szResult)), 500);
+	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 

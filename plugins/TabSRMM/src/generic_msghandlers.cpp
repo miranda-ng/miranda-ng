@@ -1064,8 +1064,8 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 		else if (dat->lastMessage) {
 			TCHAR date[64], time[64];
 			tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
-			if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR && lstrlen(date) > 6)
-				date[lstrlen(date) - 5] = 0;
+			if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR && mir_tstrlen(date) > 6)
+				date[mir_tstrlen(date) - 5] = 0;
 			tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
 			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Last received: %s at %s"), date, time);
 		}
@@ -1109,16 +1109,16 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM w
 	HANDLE hClip = GetClipboardData(CF_UNICODETEXT);
 	if (!hClip)
 		goto err_out;
-	TCHAR *tszText = (TCHAR*)mir_alloc((lstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
+	TCHAR *tszText = (TCHAR*)mir_alloc((mir_tstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
 	if (!tszText)
 		goto err_out;
-	lstrcpy(tszText, (TCHAR*)hClip);
+	mir_tstrcpy(tszText, (TCHAR*)hClip);
 	Utils::FilterEventMarkers(tszText);
 	EmptyClipboard();
 
-	HGLOBAL hgbl = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(tszText) + 1) * sizeof(TCHAR));
+	HGLOBAL hgbl = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(tszText) + 1) * sizeof(TCHAR));
 	TCHAR *tszLocked = (TCHAR*)GlobalLock(hgbl);
-	lstrcpy(tszLocked, tszText);
+	mir_tstrcpy(tszLocked, tszText);
 	GlobalUnlock(hgbl);
 	SetClipboardData(CF_UNICODETEXT, hgbl);
 	mir_free(tszText);
@@ -1763,11 +1763,11 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				if (PluginConfig.m_CutContactNameOnTabs)
 					CutContactName(szNick, newcontactname, SIZEOF(newcontactname));
 				else
-					lstrcpyn(newcontactname, szNick, SIZEOF(newcontactname));
+					mir_tstrncpy(newcontactname, szNick, SIZEOF(newcontactname));
 
 				Utils::DoubleAmpersands(newcontactname);
 
-				if (lstrlen(newcontactname) != 0 && dat->szStatus != NULL) {
+				if (mir_tstrlen(newcontactname) != 0 && dat->szStatus != NULL) {
 					if (PluginConfig.m_StatusOnTabs)
 						mir_sntprintf(newtitle, 127, _T("%s (%s)"), newcontactname, dat->szStatus);
 					else
@@ -1792,7 +1792,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
 		}
 	}
-	else lstrcpyn(newtitle, _T("Message Session"), SIZEOF(newtitle));
+	else mir_tstrncpy(newtitle, _T("Message Session"), SIZEOF(newtitle));
 
 	if (dat->idle != dwOldIdle || lParam != 0) {
 		if (item.mask & TCIF_TEXT) {

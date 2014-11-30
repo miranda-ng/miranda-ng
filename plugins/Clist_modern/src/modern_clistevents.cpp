@@ -355,7 +355,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 	else {
 		HICON hIcon = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0);
 		TCHAR *ptszEvents = TranslateT("No Events");
-		ske_DrawText(hDC, ptszEvents, lstrlen(ptszEvents), &rc, DT_VCENTER | DT_SINGLELINE);
+		ske_DrawText(hDC, ptszEvents, mir_tstrlen(ptszEvents), &rc, DT_VCENTER | DT_SINGLELINE);
 		ske_DrawIconEx(hDC, 4, (rc.bottom + rc.top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
 		DestroyIcon(hIcon);
 	}

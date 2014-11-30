@@ -215,7 +215,7 @@ bool DB_GetStaticStringW(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueN
 	size_t dwReadedStringLen;
 	DBVARIANT dbv = { 0 };
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0) {
-		dwReadedStringLen = lstrlenW(dbv.pwszVal);
+		dwReadedStringLen = mir_wstrlen(dbv.pwszVal);
 		if (lpwszRetBuff && (dwRetBuffSize > dwReadedStringLen)) {
 			memmove(lpwszRetBuff, dbv.pszVal, (dwReadedStringLen*sizeof(WCHAR)));//include null terminated
 			(*((WCHAR*)(lpwszRetBuff + dwReadedStringLen))) = 0;
@@ -641,8 +641,8 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 	if (m_dwEmailMessagesUnread) {
 		CMStringA szEmail;
 		MCONTACT hContact = NULL;
-		TCHAR szMailBoxStatus[MAX_SECONDLINE];
 
+		TCHAR szMailBoxStatus[MAX_SECONDLINE];
 		mir_sntprintf(szMailBoxStatus, SIZEOF(szMailBoxStatus), TranslateT("Unread mail is available: %lu/%lu messages"), m_dwEmailMessagesUnread, dwEmailMessagesTotal);
 
 		if (!pszFrom.IsEmpty() || !pszSubject.IsEmpty()) {
@@ -652,7 +652,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 
 			mir_sntprintf(szStatusText, SIZEOF(szStatusText), TranslateT("From: %S\r\nSubject: %S\r\n%s"), pszFrom.c_str(), szSubject.c_str(), szMailBoxStatus);
 		}
-		else lstrcpyn(szStatusText, szMailBoxStatus, SIZEOF(szStatusText));
+		else _tcsncpy_s(szStatusText, szMailBoxStatus, _TRUNCATE);
 
 		if (bTrayIconNewMailNotify) {
 			char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
@@ -763,7 +763,7 @@ bool IsEMailMR(const CMStringA &szEmail)
 {
 	if (szEmail) {
 		for (int i = 0; lpcszMailRuDomains[i]; i++) {
-			int dwDomainLen = lstrlenA(lpcszMailRuDomains[i]);
+			int dwDomainLen = mir_strlen(lpcszMailRuDomains[i]);
 			if (dwDomainLen < szEmail.GetLength())
 			if (!_stricmp(lpcszMailRuDomains[i], szEmail.c_str() + szEmail.GetLength() - dwDomainLen))
 			if (szEmail[szEmail.GetLength() - dwDomainLen - 1] == '@')
@@ -1050,8 +1050,8 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 
 			dwBuffSize = GetDlgItemText(hWndDlg, IDC_XTITLE, szBuff, (STATUS_TITLE_MAX + 1));
 			if (dwBuffSize == 0) { // user delete all text
-				lstrcpyn(szBuff, TranslateTS(lpcszXStatusNameDef[dat->dwXStatus]), (STATUS_TITLE_MAX + 1));
-				dwBuffSize = lstrlenW(szBuff);
+				mir_tstrncpy(szBuff, TranslateTS(lpcszXStatusNameDef[dat->dwXStatus]), STATUS_TITLE_MAX + 1);
+				dwBuffSize = mir_wstrlen(szBuff);
 			}
 			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%dName", dat->dwXStatus);
 			dat->ppro->mraSetStringExW(NULL, szValueName, szBuff);
@@ -1231,8 +1231,8 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 		DWORD dwPathLen, dwRecDeepAllocated, dwRecDeepCurPos, dwFilePathLen;
 		RECURSION_DATA_STACK_ITEM *prdsiItems;
 
-		if (dwFolderLen == -1) dwFolderLen = lstrlenW(lpszFolder);
-		if (dwFileNameLen == -1) dwFileNameLen = lstrlenW(lpszFileName);
+		if (dwFolderLen == -1) dwFolderLen = mir_wstrlen(lpszFolder);
+		if (dwFileNameLen == -1) dwFileNameLen = mir_wstrlen(lpszFileName);
 
 		dwRecDeepCurPos = 0;
 		dwRecDeepAllocated = RECURSION_DATA_STACK_ITEMS_MIN;
@@ -1245,7 +1245,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 				dwPathLen++;
 			}
 			szPath[dwPathLen] = 0;
-			lstrcat(szPath, _T("*.*"));
+			mir_tstrcat(szPath, _T("*.*"));
 
 			prdsiItems[dwRecDeepCurPos].dwFileNameLen = 0;
 			prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, NULL, 0);
@@ -1258,9 +1258,9 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 						if (prdsiItems[dwRecDeepCurPos].w32fdFindFileData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {// folder
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T("."), 1) != CSTR_EQUAL)
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T(".."), 2) != CSTR_EQUAL) {
-								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (lstrlenW(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1);
+								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1);
 								memmove((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, (prdsiItems[dwRecDeepCurPos].dwFileNameLen*sizeof(WCHAR)));
-								lstrcat(szPath, _T("\\*.*"));
+								mir_tstrcat(szPath, _T("\\*.*"));
 								dwPathLen += prdsiItems[dwRecDeepCurPos].dwFileNameLen;
 
 								dwRecDeepCurPos++;
@@ -1278,7 +1278,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 						}
 						else {// file
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, lpszFileName, dwFileNameLen) == CSTR_EQUAL) {
-								prdsiItems[dwRecDeepCurPos].dwFileNameLen = lstrlenW(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName);
+								prdsiItems[dwRecDeepCurPos].dwFileNameLen = mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName);
 								memmove((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, ((prdsiItems[dwRecDeepCurPos].dwFileNameLen + 1)*sizeof(WCHAR)));
 								dwFilePathLen = (dwPathLen + prdsiItems[dwRecDeepCurPos].dwFileNameLen);
 

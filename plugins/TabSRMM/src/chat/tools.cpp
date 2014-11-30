@@ -103,7 +103,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 	va_list marker;
 	static TCHAR szBuf[4 * 1024];
 
-	if (!fmt || lstrlen(fmt) == 0 || lstrlen(fmt) > 2000)
+	if (!fmt || mir_tstrlen(fmt) == 0 || mir_tstrlen(fmt) > 2000)
 		return 0;
 
 	va_start(marker, fmt);
@@ -122,7 +122,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 					  (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
 					  pcli->pfnGetContactDisplayName(hContact, 0));
 
-	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
+	mir_tstrncpy(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
 	if (g_Settings.iPopupStyle == 2) {
@@ -554,10 +554,10 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		if (pszWordText)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("&Message %s"), pszWordText);
 		else
-			lstrcpyn(szTemp, TranslateT("&Message"), SIZEOF(szTemp) - 1);
+			mir_tstrncpy(szTemp, TranslateT("&Message"), SIZEOF(szTemp) - 1);
 
-		if (lstrlen(szTemp) > 40)
-			lstrcpyn(szTemp + 40, _T("..."), 4);
+		if (mir_tstrlen(szTemp) > 40)
+			mir_tstrncpy(szTemp + 40, _T("..."), 4);
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}

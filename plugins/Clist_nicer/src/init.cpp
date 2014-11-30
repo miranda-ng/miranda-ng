@@ -91,7 +91,7 @@ void _DebugTraceW(const wchar_t *fmt, ...)
 	va_list va;
 	va_start(va, fmt);
 
-	lstrcpyW(debug, L"CLN: ");
+	mir_wstrcpy(debug, L"CLN: ");
 
 	mir_vsnwprintf(&debug[5], ibsize - 10, fmt, va);
 	OutputDebugStringW(debug);
@@ -106,7 +106,7 @@ void _DebugTraceA(const char *fmt, ...)
 	va_list va;
 	va_start(va, fmt);
 
-	lstrcpyA(debug, "CLN: ");
+	mir_strcpy(debug, "CLN: ");
 	mir_vsnprintf(&debug[5], ibsize - 10, fmt, va);
 #ifdef _DEBUG
 	OutputDebugStringA(debug);

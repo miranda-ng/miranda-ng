@@ -279,7 +279,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 	int errors = 0;
 	TCHAR text[1024];
 	dlg->re->GetLine(line, text, SIZEOF(text));
-	int len = lstrlen(text);
+	int len = mir_tstrlen(text);
 	int first_char = dlg->re->GetFirstCharOfLine(line);
 
 	// Now lets get the words
@@ -368,7 +368,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 			if (dif != 0) {
 				// Read line again
 				dlg->re->GetLine(line, text, SIZEOF(text));
-				len = lstrlen(text);
+				len = mir_tstrlen(text);
 
 				int old_first_char = first_char;
 				first_char = dlg->re->GetFirstCharOfLine(line);
@@ -689,7 +689,7 @@ int GetClosestLanguage(TCHAR *lang_name)
 
 	// Try searching by the prefix only
 	TCHAR lang[128];
-	lstrcpyn(lang, lang_name, SIZEOF(lang));
+	mir_tstrncpy(lang, lang_name, SIZEOF(lang));
 
 	TCHAR *p = _tcschr(lang, _T('_'));
 	if (p != NULL)
@@ -701,7 +701,7 @@ int GetClosestLanguage(TCHAR *lang_name)
 			return i;
 
 	// Now try any suffix
-	size_t len = lstrlen(lang);
+	size_t len = mir_tstrlen(lang);
 	for (i = 0; i < languages.getCount(); i++) {
 		TCHAR *p = _tcschr(languages[i]->language, _T('_'));
 		if (p == NULL)
@@ -747,7 +747,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 			if (lstrcmpi(dict->localized_name, lang) == 0
 				 || lstrcmpi(dict->english_name, lang) == 0
 				 || lstrcmpi(dict->language, lang) == 0) {
-				lstrcpyn(dlg->lang_name, dict->language, SIZEOF(dlg->lang_name));
+				mir_tstrncpy(dlg->lang_name, dict->language, SIZEOF(dlg->lang_name));
 				break;
 			}
 		}
@@ -790,18 +790,18 @@ void GetContactLanguage(Dialog *dlg)
 
 	if (dlg->hContact == NULL) {
 		if (!db_get_ts(NULL, MODULE_NAME, dlg->name, &dbv)) {
-			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
+			mir_tstrncpy(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 			db_free(&dbv);
 		}
 	}
 	else {
 		if (!db_get_ts(dlg->hContact, MODULE_NAME, "TalkLanguage", &dbv)) {
-			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
+			mir_tstrncpy(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 			db_free(&dbv);
 		}
 
 		if (dlg->lang_name[0] == _T('\0') && !db_get_ts(dlg->hContact, "eSpeak", "TalkLanguage", &dbv)) {
-			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
+			mir_tstrncpy(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 			db_free(&dbv);
 		}
 
@@ -810,12 +810,12 @@ void GetContactLanguage(Dialog *dlg)
 			MCONTACT hMetaContact = db_mc_getMeta(dlg->hContact);
 			if (hMetaContact != NULL) {
 				if (!db_get_ts(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
-					lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
+					mir_tstrncpy(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 					db_free(&dbv);
 				}
 
 				if (dlg->lang_name[0] == _T('\0') && !db_get_ts(hMetaContact, "eSpeak", "TalkLanguage", &dbv)) {
-					lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
+					mir_tstrncpy(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
 					db_free(&dbv);
 				}
 			}
@@ -833,13 +833,13 @@ void GetContactLanguage(Dialog *dlg)
 
 		// Use default lang
 		if (dlg->lang_name[0] == _T('\0'))
-			lstrcpyn(dlg->lang_name, opts.default_language, SIZEOF(dlg->lang_name));
+			mir_tstrncpy(dlg->lang_name, opts.default_language, SIZEOF(dlg->lang_name));
 	}
 
 	int i = GetClosestLanguage(dlg->lang_name);
 	if (i < 0) {
 		// Lost a dict?
-		lstrcpyn(dlg->lang_name, opts.default_language, SIZEOF(dlg->lang_name));
+		mir_tstrncpy(dlg->lang_name, opts.default_language, SIZEOF(dlg->lang_name));
 		i = GetClosestLanguage(dlg->lang_name);
 	}
 
@@ -1040,7 +1040,7 @@ void AppendSubmenu(HMENU hMenu, HMENU hSubMenu, TCHAR *name)
 	mii.fType = MFT_STRING;
 	mii.hSubMenu = hSubMenu;
 	mii.dwTypeData = name;
-	mii.cch = lstrlen(name);
+	mii.cch = mir_tstrlen(name);
 	InsertMenuItem(hMenu, 0, TRUE, &mii);
 }
 
@@ -1057,7 +1057,7 @@ void AppendMenuItem(HMENU hMenu, int id, TCHAR *name, HICON hIcon, BOOL checked)
 	mii.hbmpChecked = iconInfo.hbmColor;
 	mii.hbmpUnchecked = iconInfo.hbmColor;
 	mii.dwTypeData = name;
-	mii.cch = lstrlen(name);
+	mii.cch = mir_tstrlen(name);
 	InsertMenuItem(hMenu, 0, TRUE, &mii);
 }
 
@@ -1513,12 +1513,12 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// Draw text
 			RECT rc_text = { 0, 0, 0xFFFF, 0xFFFF };
-			DrawText(lpdis->hDC, dict->full_name, lstrlen(dict->full_name), &rc_text, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_TOP | DT_CALCRECT);
+			DrawText(lpdis->hDC, dict->full_name, mir_tstrlen(dict->full_name), &rc_text, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_TOP | DT_CALCRECT);
 
 			rc.right = lpdis->rcItem.right - 2;
 			rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - (rc_text.bottom - rc_text.top)) / 2;
 			rc.bottom = rc.top + rc_text.bottom - rc_text.top;
-			DrawText(lpdis->hDC, dict->full_name, lstrlen(dict->full_name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_LEFT | DT_TOP | DT_SINGLELINE);
+			DrawText(lpdis->hDC, dict->full_name, mir_tstrlen(dict->full_name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_LEFT | DT_TOP | DT_SINGLELINE);
 
 			// Restore old colors
 			SetTextColor(lpdis->hDC, clrfore);
@@ -1546,7 +1546,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		RECT rc = { 0, 0, 0xFFFF, 0xFFFF };
 
-		DrawText(hdc, dict->full_name, lstrlen(dict->full_name), &rc, DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_TOP | DT_CALCRECT);
+		DrawText(hdc, dict->full_name, mir_tstrlen(dict->full_name), &rc, DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_TOP | DT_CALCRECT);
 
 		lpmis->itemHeight = max(ICON_SIZE, max(bmpChecked.bmHeight, rc.bottom));
 		lpmis->itemWidth = 2 + bmpChecked.bmWidth + 2 + ICON_SIZE + 4 + rc.right + 2;
@@ -1563,7 +1563,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 TCHAR* lstrtrim(TCHAR *str)
 {
-	int len = lstrlen(str);
+	int len = mir_tstrlen(str);
 
 	int i;
 	for (i = len - 1; i >= 0 && (str[i] == ' ' || str[i] == '\t'); --i);

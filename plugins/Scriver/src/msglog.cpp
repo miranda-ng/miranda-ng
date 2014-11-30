@@ -191,7 +191,7 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEven
 
 	if (evt->eventType == EVENTTYPE_FILE) {
 		char *filename = ((char*)dbei.pBlob) + sizeof(DWORD);
-		char *descr = filename + lstrlenA(filename) + 1;
+		char *descr = filename + mir_strlen(filename) + 1;
 		evt->pszTextT = DbGetEventStringT(&dbei, filename);
 		if (*descr != 0)
 			evt->pszText2T = DbGetEventStringT(&dbei, descr);
@@ -428,27 +428,27 @@ TCHAR* TimestampToString(DWORD dwFlags, time_t check, int mode)
 		today = mktime(&tm_today);
 
 		if (dwFlags & SMF_RELATIVEDATE && check >= today) {
-			lstrcpy(szResult, TranslateT("Today"));
+			mir_tstrcpy(szResult, TranslateT("Today"));
 			if (mode == 0)
-				lstrcat(szResult, _T(","));
+				mir_tstrcat(szResult, _T(","));
 		}
 		else if (dwFlags & SMF_RELATIVEDATE && check > (today - 86400)) {
-			lstrcpy(szResult, TranslateT("Yesterday"));
+			mir_tstrcpy(szResult, TranslateT("Yesterday"));
 			if (mode == 0)
-				lstrcat(szResult, _T(","));
+				mir_tstrcat(szResult, _T(","));
 		}
 		else {
 			if (dwFlags & SMF_LONGDATE)
-				lstrcpy(format, _T("D"));
+				mir_tstrcpy(format, _T("D"));
 			else
-				lstrcpy(format, _T("d"));
+				mir_tstrcpy(format, _T("d"));
 		}
 	}
 	if (mode == 0 || mode == 2) {
 		if (mode == 0 && (dwFlags & SMF_SHOWDATE))
-			lstrcat(format, _T(" "));
+			mir_tstrcat(format, _T(" "));
 
-		lstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? _T("s") : _T("t"));
+		mir_tstrcat(format, (dwFlags & SMF_SHOWSECONDS) ? _T("s") : _T("t"));
 	}
 	if (format[0] != '\0') {
 		tmi.printTimeStamp(NULL, check, format, str, SIZEOF(str), 0);
@@ -812,7 +812,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 			*pcb = 0;
 			return 0;
 		}
-		dat->bufferLen = lstrlenA(dat->buffer);
+		dat->bufferLen = mir_strlen(dat->buffer);
 	}
 	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
 	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);

@@ -184,15 +184,15 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR *szFil
 		WIN32_FIND_DATA fd;
 		HANDLE hFind;
 		TCHAR szPath[MAX_PATH];
-		lstrcpy(szPath, szFilename);
-		lstrcat(szPath, _T("\\*"));
+		mir_tstrcpy(szPath, szFilename);
+		mir_tstrcat(szPath, _T("\\*"));
 		if (hFind = FindFirstFile(szPath, &fd)) {
 			do {
 				if (!lstrcmp(fd.cFileName, _T(".")) || !lstrcmp(fd.cFileName, _T("..")))
 					continue;
-				lstrcpy(szPath, szFilename);
-				lstrcat(szPath, _T("\\"));
-				lstrcat(szPath, fd.cFileName);
+				mir_tstrcpy(szPath, szFilename);
+				mir_tstrcat(szPath, _T("\\"));
+				mir_tstrcat(szPath, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);

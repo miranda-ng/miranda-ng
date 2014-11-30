@@ -250,7 +250,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) dat);
 
 			// Populate displayed list from iqNode
-			lstrcpyn(title, TranslateT("JID List"), SIZEOF(title));
+			mir_tstrncpy(title, TranslateT("JID List"), SIZEOF(title));
 			if ((dat=(JABBER_MUC_JIDLIST_INFO *) lParam) != NULL) {
 				HXML iqNode = dat->iqNode;
 				if (iqNode != NULL) {

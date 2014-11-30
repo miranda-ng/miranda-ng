@@ -225,7 +225,7 @@ static HANDLE hServiceOpenFile;
 static void TrimString(char *str)
 {
 	int len,start;
-	len=lstrlenA(str);
+	len=mir_strlen(str);
 	while(str[0]!='\0' && (unsigned char)str[len-1]<=' ') str[--len]=0;
 	for(start=0;str[start] && (unsigned char)str[start]<=' ';++start);
 	MoveMemory(str,str+start,len-start+1);
@@ -348,11 +348,11 @@ static int IcqOpenFile(WPARAM wParam,LPARAM lParam)
 		sep=strchr(line,'=');
 		if(sep==NULL) { info.type=0; break; } /* format error */
 		*(sep++)='\0';
-		if (!lstrcmpA("UIN",line)) lstrcpynA(info.uin,sep,sizeof(info.uin)); /* buffer safe */
-		else if (!lstrcmpA("Email",line)) lstrcpynA(info.email,sep,sizeof(info.email)); /* buffer safe */
-		else if (!lstrcmpA("NickName",line)) lstrcpynA(info.nick,sep,sizeof(info.nick)); /* buffer safe */
-		else if (!lstrcmpA("FirstName",line)) lstrcpynA(info.firstName,sep,sizeof(info.firstName)); /* buffer safe */
-		else if (!lstrcmpA("LastName",line)) lstrcpynA(info.lastName,sep,sizeof(info.lastName)); /* buffer safe */
+		if (!lstrcmpA("UIN",line)) mir_strncpy(info.uin,sep,sizeof(info.uin)); /* buffer safe */
+		else if (!lstrcmpA("Email",line)) mir_strncpy(info.email,sep,sizeof(info.email)); /* buffer safe */
+		else if (!lstrcmpA("NickName",line)) mir_strncpy(info.nick,sep,sizeof(info.nick)); /* buffer safe */
+		else if (!lstrcmpA("FirstName",line)) mir_strncpy(info.firstName,sep,sizeof(info.firstName)); /* buffer safe */
+		else if (!lstrcmpA("LastName",line)) mir_strncpy(info.lastName,sep,sizeof(info.lastName)); /* buffer safe */
 	}
 	fclose(fp);
 	switch(info.type) {
@@ -707,7 +707,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 	*/
 	/* user id */
 	arg=strchr(jid=arg,'?');
-	if(arg==NULL) arg+=lstrlenA(arg); /* points to terminating nul */
+	if(arg==NULL) arg+=mir_strlen(arg); /* points to terminating nul */
 	else *(arg++)=0;
 	if (*jid==0) return 1; /* parse failed */
     /* send a message to a contact */

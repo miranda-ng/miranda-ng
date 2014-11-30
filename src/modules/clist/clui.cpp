@@ -279,9 +279,9 @@ int LoadCLUIModule(void)
 	RegisterClassEx(&wndclass);
 
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
-		lstrcpyn(titleText, _T(MIRANDANAME), SIZEOF(titleText));
+		mir_tstrncpy(titleText, _T(MIRANDANAME), SIZEOF(titleText));
 	else {
-		lstrcpyn(titleText, dbv.ptszVal, SIZEOF(titleText));
+		mir_tstrncpy(titleText, dbv.ptszVal, SIZEOF(titleText));
 		db_free(&dbv);
 	}
 
@@ -1009,16 +1009,16 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					else
 						tszName[0] = 0;
 
-					GetTextExtentPoint32(dis->hDC, tszName, lstrlen(tszName), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, tszName, lstrlen(tszName));
+					GetTextExtentPoint32(dis->hDC, tszName, mir_tstrlen(tszName), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, tszName, mir_tstrlen(tszName));
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
 					TCHAR* szStatus = cli.pfnGetStatusModeDescription(status, 0);
 					if (!szStatus)
 						szStatus = _T("");
-					GetTextExtentPoint32(dis->hDC, szStatus, lstrlen(szStatus), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, lstrlen(szStatus));
+					GetTextExtentPoint32(dis->hDC, szStatus, mir_tstrlen(szStatus), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, mir_tstrlen(szStatus));
 				}
 			}
 			else if (dis->CtlType == ODT_MENU) {

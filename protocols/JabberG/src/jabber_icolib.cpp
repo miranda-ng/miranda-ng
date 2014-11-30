@@ -257,7 +257,7 @@ static HICON ExtractIconFromPath(const char *path, BOOL * needFree)
 	char file[MAX_PATH],fileFull[MAX_PATH];
 	int n;
 	HICON hIcon;
-	lstrcpynA(file,path,sizeof(file));
+	mir_strncpy(file,path,sizeof(file));
 	comma=strrchr(file,',');
 	if (comma == NULL) n=0;
 	else {n=atoi(comma+1); *comma=0;}

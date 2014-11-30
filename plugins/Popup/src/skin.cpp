@@ -63,7 +63,7 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 		SIZE szText, szSpace;
 		LPTSTR wname = mir_a2t(name);
 		TCHAR *str = TranslateTS(wname);
-		GetTextExtentPoint32(hdc, str, lstrlen(str), &szText);
+		GetTextExtentPoint32(hdc, str, mir_tstrlen(str), &szText);
 		mir_free(wname);
 		GetTextExtentPoint32(hdc, _T(" "), 1, &szSpace);
 
@@ -126,7 +126,7 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 
 		LPTSTR wname = mir_a2t(name);
 		TCHAR *str = TranslateTS(wname);
-		GetTextExtentPoint32(bmp->getDC(), str, lstrlen(str), &szText);
+		GetTextExtentPoint32(bmp->getDC(), str, mir_tstrlen(str), &szText);
 		bmp->Draw_Text(str,
 			(PopupOptions.actions&ACT_LARGE) ? (x + szSpace.cx + 32) : (x + szSpace.cx + 16),
 			max(y + 2, y + 2 + (((PopupOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy) / 2));
@@ -196,7 +196,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 	}
 	else { //normal clock
 		HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), lstrlen(wnd->getTime()), &sz);
+		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), mir_tstrlen(wnd->getTime()), &sz);
 		SelectObject(hdc, hfnSave);
 		wnd->getArgs()->add("clock.width", sz.cx + 2 * STYLE_SZ_GAP);
 		wnd->getArgs()->add("clock.height", sz.cy);
@@ -239,7 +239,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 					case PopupWnd2::TT_UNICODE:
 						{
 							RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-							DrawTextEx(hdc, wnd->getText(), lstrlen(wnd->getText()), &rc,
+							DrawTextEx(hdc, wnd->getText(), mir_tstrlen(wnd->getText()), &rc,
 								DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 							szNew.cx = rc.right;
 							szNew.cy = rc.bottom;
@@ -282,7 +282,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 				case PopupWnd2::TT_UNICODE:
 					{
 						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-						DrawTextEx(hdc, wnd->getTitle(), lstrlen(wnd->getTitle()), &rc,
+						DrawTextEx(hdc, wnd->getTitle(), mir_tstrlen(wnd->getTitle()), &rc,
 							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 						szNew.cx = rc.right;
 						szNew.cy = rc.bottom;
@@ -344,7 +344,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 			}
 			else {
 				HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-				SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), lstrlen(wnd->getTime()), &sz);
+				SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), mir_tstrlen(wnd->getTime()), &sz);
 				SelectObject(hdc, hfnSave);
 				wnd->getArgs()->add("clock.width", sz.cx + 2 * STYLE_SZ_GAP);
 				wnd->getArgs()->add("clock.height", sz.cy);
@@ -438,7 +438,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 	}
 	else {
 		HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), lstrlen(wnd->getTime()), &sz);
+		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), mir_tstrlen(wnd->getTime()), &sz);
 		SelectObject(hdc, hfnSave);
 		STYLE_SZ_CLOCK = sz.cx + 2 * STYLE_SZ_GAP;
 	}
@@ -502,7 +502,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 					case PopupWnd2::TT_UNICODE:
 					{
 						RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-						DrawTextEx(hdc, wnd->getText(), lstrlen(wnd->getText()), &rc,
+						DrawTextEx(hdc, wnd->getText(), mir_tstrlen(wnd->getText()), &rc,
 							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 					}
 						break;
@@ -551,7 +551,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 				{
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
 					RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-					DrawTextEx(hdc, wnd->getTitle(), lstrlen(wnd->getTitle()), &rc,
+					DrawTextEx(hdc, wnd->getTitle(), mir_tstrlen(wnd->getTitle()), &rc,
 						DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 					SelectObject(hdc, hFntSave);
 				}
@@ -691,7 +691,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 						SetTextColor(hdc, wnd->getClockColor());
 
 					HFONT hfnSave = (HFONT)SelectObject(bmp->getDC(), fonts.clock);
-					SIZE sz; GetTextExtentPoint32(bmp->getDC(), wnd->getTime(), lstrlen(wnd->getTime()), &sz);
+					SIZE sz; GetTextExtentPoint32(bmp->getDC(), wnd->getTime(), mir_tstrlen(wnd->getTime()), &sz);
 					bmp->Draw_Text(wnd->getTime(), x, y);
 					SelectObject(bmp->getDC(), hfnSave);
 				}
@@ -760,7 +760,7 @@ void PopupSkin::loadOptions(std::wistream &f)
 			TCHAR *p = buf;
 			while (isspace(*p))
 				p++;
-			TCHAR *q = p + lstrlen(p) - 1;
+			TCHAR *q = p + mir_tstrlen(p) - 1;
 			while ((q >= p) && isspace(*q))
 				*q-- = 0;
 			m_flag_names[id] = mir_t2a(p);
@@ -959,7 +959,7 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 			f >> buf;
 			if (((element->type & ST_TYPEMASK) == ST_MYBITMAP) || ((element->type & ST_TYPEMASK) == ST_CLOCK)) {
 				TCHAR *alpha = mir_tstrdup(buf);
-				alpha[lstrlen(alpha) - 1] = 'a';
+				alpha[mir_tstrlen(alpha) - 1] = 'a';
 				element->myBmp = new MyBitmap(buf, alpha);
 				mir_free(alpha);
 			}
@@ -1094,7 +1094,7 @@ bool Skins::load(LPCTSTR dir1)
 	m_skins = skin;
 	m_skins->name = mir_tstrdup(_T("* Popup Classic"));
 	m_skins->dir = new TCHAR[1024];
-	lstrcpy(m_skins->dir, _T("res:classic.popupskin"));
+	mir_tstrcpy(m_skins->dir, _T("res:classic.popupskin"));
 	m_skins->skin = 0;
 
 	TCHAR dir[1024] = { '\0' };
@@ -1105,8 +1105,8 @@ bool Skins::load(LPCTSTR dir1)
 	}
 	else {
 		GetModuleFileName(hInst, dir, 1024);
-		dir[lstrlen(dir) - 18] = 0;
-		lstrcat(dir, _T("\\skins\\popup"));
+		dir[mir_tstrlen(dir) - 18] = 0;
+		mir_tstrcat(dir, _T("\\skins\\popup"));
 		DWORD fa = GetFileAttributes(dir);
 		if ((fa == INVALID_FILE_ATTRIBUTES) || !(fa&FILE_ATTRIBUTE_DIRECTORY))
 			return false;

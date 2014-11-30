@@ -165,7 +165,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		char *buf = LPSTR(dbei->pBlob) + sizeof(DWORD);
 		ptrT tszFileName(getEventString(dbei, buf));
 		ptrT tszDescription(getEventString(dbei, buf));
-		ptrT &ptszText = (lstrlen(tszDescription) == 0) ? tszFileName : tszDescription;
+		ptrT &ptszText = (mir_tstrlen(tszDescription) == 0) ? tszFileName : tszDescription;
 		switch (egt->datatype) {
 		case DBVT_WCHAR:
 			return (INT_PTR)ptszText.detouch();

@@ -411,7 +411,7 @@ void CJabberProto::UpdateMirVer(MCONTACT hContact, pResourceStatus &resource)
 	if (resource->m_tszResourceName && !_tcschr(jid, '/'))
 		mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), jid, resource->m_tszResourceName);
 	else
-		lstrcpyn(szFullJid, jid, SIZEOF(szFullJid));
+		mir_tstrncpy(szFullJid, jid, SIZEOF(szFullJid));
 	setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
 }
 

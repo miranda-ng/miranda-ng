@@ -47,9 +47,9 @@ static void sttPreviewSkin(MODERNOPTOBJECT *obj, TCHAR *fn, LPDRAWITEMSTRUCT lps
 	}
 
 	char *afn = mir_t2a(fn);
-	char *fnpreview = (char *)mir_alloc(lstrlenA(afn) + 10);
-	lstrcpyA(fnpreview, afn);
-	lstrcatA(fnpreview, ".png");
+	char *fnpreview = (char *)mir_alloc(mir_strlen(afn) + 10);
+	mir_strcpy(fnpreview, afn);
+	mir_strcat(fnpreview, ".png");
 	HBITMAP hbmPreview = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)fnpreview);
 	mir_free(afn);
 	mir_free(fnpreview);
@@ -96,7 +96,7 @@ struct TSkinListItem
 		path = (TCHAR *)mir_alloc(MAX_PATH * sizeof(TCHAR));
 		PathToRelativeT(curPath, path);
 
-		int length = lstrlen(curPath)+lstrlen(fn)+2;
+		int length = mir_tstrlen(curPath)+mir_tstrlen(fn)+2;
 		filename = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
 		mir_sntprintf(filename, length, _T("%s\\%s"), curPath, fn);
 	}
@@ -128,7 +128,7 @@ struct TSelectorData
 
 static bool CheckExt(TCHAR *fn, TCHAR *ext, int n)
 {
-	int l = lstrlen(fn);
+	int l = mir_tstrlen(fn);
 	return (l > n) && !lstrcmp(fn + l - n, ext);
 }
 
@@ -140,7 +140,7 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 		if (TCHAR *p = _tcsrchr(mirPath, _T('\\'))) *p = 0;
 		SetCurrentDirectory(mirPath);
 		SendMessage(hwndList, LB_RESETCONTENT, 0, 0);
-		nExtLength = lstrlen(szExt);
+		nExtLength = mir_tstrlen(szExt);
 		SendMessage(hwndList, WM_SETREDRAW, FALSE, 0);
 	}
 

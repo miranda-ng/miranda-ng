@@ -725,7 +725,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 						ListView_GetItemText(GetDlgItem(hDlg,IDC_PROTOS), i, 0, szProto, SIZEOF(szProto));
 
 						char szMultiByteProto[128];
-						long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, lstrlen(szProto), 
+						long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, mir_tstrlen(szProto), 
 							szMultiByteProto, sizeof(szMultiByteProto), NULL, NULL);
 						szMultiByteProto[lLen] = '\0';
 
@@ -869,26 +869,26 @@ TCHAR *CTooltipNotify::StatusToString(int iStatus, TCHAR *szStatus, int iBufSize
 {
 	if((iStatus>=ID_STATUS_OFFLINE) && (iStatus<=ID_STATUS_OUTTOLUNCH))
 	{
-		lstrcpyn(szStatus, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,iStatus,GSMDF_TCHAR), iBufSize);
+		mir_tstrncpy(szStatus, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,iStatus,GSMDF_TCHAR), iBufSize);
 	}
 	else
 	{
 		switch(iStatus)
 		{
 			case ID_TTNTF_STATUS_TYPING: 
-				lstrcpyn(szStatus, TranslateT("Typing"), iBufSize);
+				mir_tstrncpy(szStatus, TranslateT("Typing"), iBufSize);
 				break;
 
 			case ID_TTNTF_STATUS_IDLE: 
-				lstrcpyn(szStatus, TranslateT("Idle"), iBufSize);
+				mir_tstrncpy(szStatus, TranslateT("Idle"), iBufSize);
 				break;
 
 			case ID_TTNTF_STATUS_NOT_IDLE: 
-				lstrcpyn(szStatus, TranslateT("Not Idle"), iBufSize);
+				mir_tstrncpy(szStatus, TranslateT("Not Idle"), iBufSize);
 				break;
 
 			default:
-				lstrcpyn(szStatus, TranslateT("Unknown"), iBufSize);
+				mir_tstrncpy(szStatus, TranslateT("Unknown"), iBufSize);
 				break;
 		}
 	}

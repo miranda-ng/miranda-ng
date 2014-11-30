@@ -465,7 +465,7 @@ void showMsg(TCHAR* sender,TCHAR* text, DWORD id, char *strUID)
 	//99% of the times you'll just copy this line.
 	//1% of the times you may wish to change the contact's name. I don't know why you should, but you can.
 	//char * lpzText;
-	//The text for the second line. You could even make something like: char lpzText[128]; lstrcpy(lpzText, "Hello world!"); It's your choice.
+	//The text for the second line. You could even make something like: char lpzText[128]; mir_tstrcpy(lpzText, "Hello world!"); It's your choice.
 
 	POPUPATT * mpd = (POPUPATT*)malloc(sizeof(POPUPATT));
 	ZeroMemory(&ppd, sizeof(ppd)); //This is always a good thing to do.

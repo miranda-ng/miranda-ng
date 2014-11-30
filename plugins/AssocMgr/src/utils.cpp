@@ -118,7 +118,7 @@ BOOL EnumDbPrefixSettings(const char *pszModule,const char *pszSettingPrefix,cha
 	param.settings=NULL;
 	param.nSettingsCount=0;
 	param.pszPrefix=pszSettingPrefix;
-	param.nPrefixLen=lstrlenA(pszSettingPrefix);
+	param.nPrefixLen=mir_strlen(pszSettingPrefix);
 	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
 	*pnSettingsCount=param.nSettingsCount;
 	*pSettings=param.settings;

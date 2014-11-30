@@ -467,7 +467,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		m_szStatusMsg = 0;
 		ptrT szStatus(db_get_tsa(hContact, "CList", "StatusMsg"));
 		if (szStatus != 0)
-			m_szStatusMsg = (lstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : 0);
+			m_szStatusMsg = (mir_tstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : 0);
 	}
 	if (szKey == 0 || (szKey && !strcmp("ListeningTo", szKey))) {
 		if (m_ListeningInfo)
@@ -545,7 +545,7 @@ TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 	size_t	k = 0, i = 0;
 	TCHAR*  tszResult = 0;
 
-	if (src == 0 || lstrlen(src) < 2)
+	if (src == 0 || mir_tstrlen(src) < 2)
 		return 0;
 
 	tstring dest;

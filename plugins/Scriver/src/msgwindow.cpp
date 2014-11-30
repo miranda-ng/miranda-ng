@@ -49,12 +49,12 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	isTemplate = 0;
 	if (hContact && szProto) {
 		tokens[0] = GetNickname(hContact, szProto);
-		tokenLen[0] = lstrlen(tokens[0]);
+		tokenLen[0] = mir_tstrlen(tokens[0]);
 		tokens[1] = mir_tstrdup(pcli->pfnGetStatusModeDescription(szProto ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE, 0));
-		tokenLen[1] = lstrlen(tokens[1]);
+		tokenLen[1] = mir_tstrlen(tokens[1]);
 		tokens[2] = db_get_tsa(hContact, "CList", "StatusMsg");
 		if (tokens[2] != NULL) {
-			tokenLen[2] = lstrlen(tokens[2]);
+			tokenLen[2] = mir_tstrlen(tokens[2]);
 			for (i = j = 0; i < tokenLen[2]; i++) {
 				if (tokens[2][i] == '\r')
 					continue;
@@ -72,7 +72,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 			PROTOACCOUNT* proto = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accModule);
 			if (proto != NULL) {
 				tokens[3] = mir_tstrdup(proto->tszAccountName);
-				tokenLen[3] = lstrlen(tokens[3]);
+				tokenLen[3] = mir_tstrlen(tokens[3]);
 			}
 		}
 		tmplt = db_get_tsa(NULL, SRMMMOD, SRMSGSET_WINDOWTITLE);
@@ -100,13 +100,13 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		}
 	}
 	if (!isTemplate)
-		len += lstrlen(pszNewTitleEnd);
+		len += mir_tstrlen(pszNewTitleEnd);
 
 	title = (TCHAR *)mir_alloc(sizeof(TCHAR) * (len + 1));
 	for (len = 0, p = tmplt; *p; p++) {
 		if (*p == '%') {
 			for (i = 0; i < SIZEOF(titleTokenNames); i ++) {
-				int tnlen = lstrlen(titleTokenNames[i]);
+				int tnlen = mir_tstrlen(titleTokenNames[i]);
 				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
 					if (tokens[i] != NULL) {
 						memcpy(title+len, tokens[i], sizeof(TCHAR) * tokenLen[i]);
@@ -121,8 +121,8 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		title[len++] = *p;
 	}
 	if (!isTemplate) {
-		memcpy(title+len, pszNewTitleEnd, sizeof(TCHAR) * lstrlen(pszNewTitleEnd));
-		len += lstrlen(pszNewTitleEnd);
+		memcpy(title+len, pszNewTitleEnd, sizeof(TCHAR) * mir_tstrlen(pszNewTitleEnd));
+		len += mir_tstrlen(pszNewTitleEnd);
 	}
 	title[len] = '\0';
 	if (isTemplate)

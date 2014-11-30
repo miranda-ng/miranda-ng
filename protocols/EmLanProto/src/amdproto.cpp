@@ -81,7 +81,7 @@ static INT_PTR __cdecl EMPGetCaps(WPARAM wParam,LPARAM )
 
 static INT_PTR __cdecl EMPGetName(WPARAM wParam,LPARAM lParam)
 {
-	lstrcpyn((char*)lParam, "EmLan", wParam);
+	mir_tstrncpy((char*)lParam, "EmLan", wParam);
 	return 0;
 }
 

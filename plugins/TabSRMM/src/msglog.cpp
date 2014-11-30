@@ -114,7 +114,7 @@ __forceinline char *GetRTFFont(DWORD dwIndex)
 
 static void TrimMessage(TCHAR *msg)
 {
-	size_t iLen = lstrlen(msg) - 1;
+	size_t iLen = mir_tstrlen(msg) - 1;
 	size_t i = iLen;
 
 	while (i && (msg[i] == '\r' || msg[i] == '\n')) {
@@ -594,7 +594,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	}
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
-		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, lstrlenA((char *)dbei.pBlob));
+		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
 	TCHAR *formatted = NULL;
 	if (rtfMessage == NULL) {
@@ -693,7 +693,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			szTemplate = isSent ? this_templateset->szTemplates[TMPL_MSGOUT] : this_templateset->szTemplates[TMPL_MSGIN];
 	}
 
-	size_t iTemplateLen = lstrlen(szTemplate);
+	size_t iTemplateLen = mir_tstrlen(szTemplate);
 	BOOL showTime = dwEffectiveFlags & MWF_LOG_SHOWTIME;
 	BOOL showDate = dwEffectiveFlags & MWF_LOG_SHOWDATES;
 
@@ -997,7 +997,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMISC + iFontIDOffset : MSGFONTID_YOURMISC + iFontIDOffset));
 					{
 						char *szFileName = (char *)dbei.pBlob + sizeof(DWORD);
-						char *szDescr = szFileName + lstrlenA(szFileName) + 1;
+						char *szDescr = szFileName + mir_strlen(szFileName) + 1;
 						TCHAR *tszFileName = DbGetEventStringT(&dbei, szFileName);
 						if (*szDescr != 0) {
 							TCHAR *tszDescr = DbGetEventStringT(&dbei, szDescr);
@@ -1188,7 +1188,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 			*pcb = 0;
 			return 0;
 		}
-		dat->bufferLen = lstrlenA(dat->buffer);
+		dat->bufferLen = mir_strlen(dat->buffer);
 	}
 	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
 	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);

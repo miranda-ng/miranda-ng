@@ -270,7 +270,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				db_free(&dbv);
 
 			//den login lowercasen
-			int size = lstrlenA(login);
+			int size = mir_strlen(login);
 			BOOL mustlowercase = FALSE;
 			for (int i = 0; i < size; i++)
 			{

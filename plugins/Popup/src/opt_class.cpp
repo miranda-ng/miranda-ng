@@ -397,13 +397,13 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			case CBN_SELCHANGE:		//ComboBox controls
 				switch(idCtrl) {
 				case IDC_LACTION:
-					lstrcpynA(ptd->leftAction,
+					mir_strncpy(ptd->leftAction,
 						(char *)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam)),
 						sizeof(ptd->leftAction));
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					break;
 				case IDC_RACTION:
-					lstrcpynA(ptd->rightAction,
+					mir_strncpy(ptd->rightAction,
 						(char *)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam)),
 						sizeof(ptd->rightAction));
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -508,12 +508,12 @@ void LoadClassSettings(POPUPTREEDATA *ptd, char* szModul)
 
 	mir_snprintf(setting, sizeof(setting), "%s/leftAction", ptd->pupClass.pszName);
 	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_NOTHING);	//standart ??
-	lstrcpynA(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
+	mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
 	mir_free(szTmp); szTmp = NULL;
 
 	mir_snprintf(setting, sizeof(setting), "%s/rightAction", ptd->pupClass.pszName);
 	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_DISMISS);	//standart ??
-	lstrcpynA(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
+	mir_strncpy(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
 	mir_free(szTmp); szTmp = NULL;
 
 }

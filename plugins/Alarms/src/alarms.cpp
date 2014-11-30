@@ -72,8 +72,8 @@ void ShowPopup(MCONTACT hContact, const TCHAR *msg)
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
 		ppd.lchIcon = hIconList1;
-		lstrcpyn(ppd.lptzContactName, lpzContactName,MAX_CONTACTNAME);
-		lstrcpyn(ppd.lptzText, msg,  MAX_SECONDLINE);
+		mir_tstrncpy(ppd.lptzContactName, lpzContactName,MAX_CONTACTNAME);
+		mir_tstrncpy(ppd.lptzText, msg,  MAX_SECONDLINE);
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = RGB(0,0,0);
 		ppd.PluginWindowProc = PopupDlgProc;

@@ -24,7 +24,7 @@ void __cdecl CYahooProto::search_simplethread(void *snsearch)
 {
 	TCHAR *id = (TCHAR *) snsearch;
 
-	if (lstrlen(id) < 4) {
+	if (mir_tstrlen(id) < 4) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		MessageBoxA(NULL, "Please enter a valid ID to search for.", "Search", MB_OK);
 		return;
@@ -167,7 +167,7 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 	TCHAR searchid[128];
 	GetDlgItemText(hwndDlg, IDC_SEARCH_ID, searchid, SIZEOF(searchid));
 
-	if (lstrlen(searchid) == 0) {
+	if (mir_tstrlen(searchid) == 0) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		MessageBoxA(NULL, "Please enter a valid ID to search for.", "Search", MB_OK);
 		return;

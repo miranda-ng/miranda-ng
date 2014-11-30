@@ -133,7 +133,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.colour = GetSysColor(COLOR_WINDOWTEXT);
 	fontid.deffontsettings.size = -11;
-	lstrcpyn(fontid.deffontsettings.szFace, _T("MS Shell Dlg"), SIZEOF(fontid.deffontsettings.szFace));
+	mir_tstrncpy(fontid.deffontsettings.szFace, _T("MS Shell Dlg"), SIZEOF(fontid.deffontsettings.szFace));
 	fontid.deffontsettings.style = 0;
 
 	_tcsncpy_s(fontid.name, LPGENT("Frame title"), _TRUNCATE);

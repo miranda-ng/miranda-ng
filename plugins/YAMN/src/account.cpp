@@ -1250,7 +1250,7 @@ void WINAPI GetStatusFcn(HACCOUNT Which,TCHAR *Value)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tGetStatus:AccountStatusCS-cs enter\n");
 #endif
-	lstrcpy(Value,Which->Status);
+	mir_tstrcpy(Value,Which->Status);
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tGetStatus:AccountStatusCS-cs done\n");
 #endif
@@ -1270,7 +1270,7 @@ void WINAPI SetStatusFcn(HACCOUNT Which,TCHAR *Value)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tSetStatus:AccountStatusCS-cs enter\n");
 #endif
-	lstrcpy(Which->Status,Value);
+	mir_tstrcpy(Which->Status,Value);
 	WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_CHANGESTATUS,(WPARAM)Which,0);
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tSetStatus:AccountStatusCS-cs done\n");

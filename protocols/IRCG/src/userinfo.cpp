@@ -117,7 +117,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 					S += _T(" (");
 					S += dbv.ptszVal;
 					S += _T(")");
-					if ((lstrlen(temp) < 4 && lstrlen(temp)) || !WCCmp(CharLower(temp), CharLower(dbv.ptszVal))) {
+					if ((mir_tstrlen(temp) < 4 && mir_tstrlen(temp)) || !WCCmp(CharLower(temp), CharLower(dbv.ptszVal))) {
 						MessageBox(NULL, TranslateTS(S.c_str()), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
 						db_free(&dbv);
 						return FALSE;
@@ -126,7 +126,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 
 				GetDlgItemText(m_hwnd, IDC_WILDCARD, temp, SIZEOF(temp));
-				if (lstrlen(GetWord(temp, 0).c_str()))
+				if (mir_tstrlen(GetWord(temp, 0).c_str()))
 					p->ppro->setTString(p->hContact, "UWildcard", GetWord(temp, 0).c_str());
 				else
 					db_unset(p->hContact, p->ppro->m_szModuleName, "UWildcard");
@@ -135,13 +135,13 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 			p->ppro->setByte(p->hContact, "AdvancedMode", bAdvanced);
 
 			GetDlgItemText(m_hwnd, IDC_USER, temp, SIZEOF(temp));
-			if (lstrlen(GetWord(temp, 0).c_str()))
+			if (mir_tstrlen(GetWord(temp, 0).c_str()))
 				p->ppro->setTString(p->hContact, "UUser", GetWord(temp, 0).c_str());
 			else
 				db_unset(p->hContact, p->ppro->m_szModuleName, "UUser");
 
 			GetDlgItemText(m_hwnd, IDC_HOST, temp, SIZEOF(temp));
-			if (lstrlen(GetWord(temp, 0).c_str()))
+			if (mir_tstrlen(GetWord(temp, 0).c_str()))
 				p->ppro->setTString(p->hContact, "UHost", GetWord(temp, 0).c_str());
 			else
 				db_unset(p->hContact, p->ppro->m_szModuleName, "UHost");

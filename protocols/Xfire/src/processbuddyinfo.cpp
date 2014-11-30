@@ -94,7 +94,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo, MCONTACT hcontact, c
 			AI.cbSize = sizeof(AI);
 			AI.format = type;
 			AI.hContact = hcontact;
-			lstrcpy(AI.filename, _A2T(filename));
+			mir_tstrcpy(AI.filename, _A2T(filename));
 			ProtoBroadcastAck(protocolname, hcontact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&AI, 0);
 		}
 		else //eigenen avatar setzen

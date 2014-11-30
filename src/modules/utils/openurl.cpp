@@ -38,7 +38,7 @@ static void OpenURLThread(void *arg)
 		return;
 
 	//wack a protocol on it
-	size_t size = lstrlen(hUrlInfo->szUrl)+9;
+	size_t size = mir_tstrlen(hUrlInfo->szUrl)+9;
 	TCHAR *szResult = (TCHAR*)mir_alloc(sizeof(TCHAR)*size);
 	if ((isalpha(hUrlInfo->szUrl[0]) && hUrlInfo->szUrl[1] == ':') || hUrlInfo->szUrl[0] == '\\') {
 		mir_sntprintf(szResult, size, _T("file:///%s"), hUrlInfo->szUrl);

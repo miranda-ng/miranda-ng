@@ -122,7 +122,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 
 		ptrT tszFace(db_get_tsa(NULL, CHATFONT_MODULE, str));
 		if (tszFace == NULL)
-			lstrcpy(lf->lfFaceName, FO.szDefFace);
+			mir_tstrcpy(lf->lfFaceName, FO.szDefFace);
 		else
 			_tcsncpy_s(lf->lfFaceName, tszFace, _TRUNCATE);
 	}
@@ -315,7 +315,7 @@ int OptionsInit(void)
 
 	LOGFONT lf;
 	LoadMsgDlgFont(18, &lf, NULL);
-	lstrcpy(lf.lfFaceName, _T("MS Shell Dlg"));
+	mir_tstrcpy(lf.lfFaceName, _T("MS Shell Dlg"));
 	lf.lfUnderline = lf.lfItalic = lf.lfStrikeOut = 0;
 	lf.lfHeight = -17;
 	lf.lfWeight = FW_BOLD;

@@ -282,7 +282,7 @@ void PopupWnd2::update()
 	{
 		SetTextColor(hdc, m_clClock);
 		HFONT hfnSave = (HFONT)SelectObject(m_bmpBase->getDC(), fonts.clock);
-		SIZE sz; GetTextExtentPoint32(m_bmpBase->getDC(), m_time, lstrlen(m_time), &sz);
+		SIZE sz; GetTextExtentPoint32(m_bmpBase->getDC(), m_time, mir_tstrlen(m_time), &sz);
 		m_bmpBase->Draw_Text(m_time, this->m_sz.cx - sz.cx - STYLE_SZ_GAP - skin->getRightGap(), STYLE_SZ_GAP);
 		SelectObject(m_bmpBase->getDC(), hfnSave);
 	}
@@ -609,7 +609,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Quick reply")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_REPLY,iconSize);
-			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Quick reply");
+			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Quick reply");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_REPLY;
 			++iAction;
@@ -618,7 +618,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Send message")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_MESS,iconSize);
-			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Send message");
+			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Send message");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_MESSAGE;
 			++iAction;
@@ -627,7 +627,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultUsr && IsActionEnabled("General/User details")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_INFO,iconSize);
-			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/User details");
+			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/User details");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_DETAILS;
 			++iAction;
@@ -636,7 +636,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultUsr && IsActionEnabled("General/Contact menu")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_MENU,iconSize);
-			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Contact menu");
+			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Contact menu");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_MENU;
 			++iAction;
@@ -645,7 +645,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultUsr && db_get_b(m_hContact, "CList", "NotOnList", 0) && IsActionEnabled("General/Add permanently")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_ADD,iconSize);
-			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Add permanently");
+			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Add permanently");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_ADD;
 			++iAction;
@@ -654,7 +654,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultGen && (m_iTimeout != -1) && IsActionEnabled("General/Pin popup")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = m_bIsPinned ? IcoLib_GetIcon(ICO_ACT_PINNED,iconSize) : IcoLib_GetIcon(ICO_ACT_PIN,iconSize);
-			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Pin popup");
+			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Pin popup");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_PIN;
 			++iAction;
@@ -663,7 +663,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultGen && IsActionEnabled("General/Dismiss popup")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_CLOSE,iconSize);
-			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Dismiss popup");
+			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Dismiss popup");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_DISMISS;
 			++iAction;
@@ -672,7 +672,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultGen && IsActionEnabled("General/Copy to clipboard")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_COPY,iconSize);
-			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Copy to clipboard");
+			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Copy to clipboard");
 			m_actions[iAction].actionA.wParam = 0;
 			m_actions[iAction].actionA.lParam = ACT_DEF_COPY;
 			++iAction;
@@ -886,9 +886,9 @@ void AddMessageToDB(MCONTACT hContact, char *msg, int flag/*bool utf*/)
 	dbei.szModule = GetContactProto(hContact);
 	dbei.timestamp = time(NULL);
 	if ( !((flag & PREF_UTF) == PREF_UTF) && (flag & PREF_UNICODE) == PREF_UNICODE)
-		dbei.cbBlob = (lstrlen((LPTSTR)msg) + 1)*sizeof(TCHAR);
+		dbei.cbBlob = (mir_tstrlen((LPTSTR)msg) + 1)*sizeof(TCHAR);
 	else
-		dbei.cbBlob = lstrlenA(msg) + 1;
+		dbei.cbBlob = mir_strlen(msg) + 1;
 	dbei.pBlob = (PBYTE)msg;
 	db_event_add(hContact, &dbei);
 }
@@ -1080,9 +1080,9 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				}
 				OpenClipboard(m_hwnd);
 				EmptyClipboard();
-				clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (lstrlen(text)+1) * sizeof(TCHAR));
+				clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (mir_tstrlen(text)+1) * sizeof(TCHAR));
 				buffer = (TCHAR *)GlobalLock(clipbuffer);
-				lstrcpy(buffer, text);
+				mir_tstrcpy(buffer, text);
 				GlobalUnlock(clipbuffer);
 				SetClipboardData(CF_TCHAR, clipbuffer);
 				CloseClipboard();

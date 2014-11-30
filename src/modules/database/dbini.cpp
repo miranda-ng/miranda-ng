@@ -74,7 +74,7 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 {
 	const char *szItem, *szEnd;
-	int wordLen = lstrlenA(szWord);
+	int wordLen = mir_strlen(szWord);
 
 	for (szItem = szList;;) {
 		szEnd = strchr(szItem, ' ');
@@ -111,9 +111,9 @@ static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM 
 			warnInfo = (warnSettingChangeInfo_t*)lParam;
 			TranslateDialogDefault(hwndDlg);
 			SetDlgItemText(hwndDlg, IDC_ININAME, warnInfo->szIniPath);
-			lstrcpyA(szSettingName, warnInfo->szSection);
-			lstrcatA(szSettingName, " / ");
-			lstrcatA(szSettingName, warnInfo->szName);
+			mir_strcpy(szSettingName, warnInfo->szSection);
+			mir_strcat(szSettingName, " / ");
+			mir_strcat(szSettingName, warnInfo->szName);
 			SetDlgItemTextA(hwndDlg, IDC_SETTINGNAME, szSettingName);
 			SetDlgItemTextA(hwndDlg, IDC_NEWVALUE, warnInfo->szValue);
 			if (IsInSpaceSeparatedList(warnInfo->szSection, warnInfo->szSafeSections))
@@ -165,7 +165,7 @@ static INT_PTR CALLBACK IniImportDoneDlgProc(HWND hwndDlg, UINT message, WPARAM 
 				SHFILEOPSTRUCT shfo = { 0 };
 				shfo.wFunc = FO_DELETE;
 				shfo.pFrom = szIniPath;
-				szIniPath[lstrlen(szIniPath) + 1] = '\0';
+				szIniPath[mir_tstrlen(szIniPath) + 1] = '\0';
 				shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
 				SHFileOperation(&shfo);
 			}
@@ -229,7 +229,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		if (fgets(szLine, sizeof(szLine), fp) == NULL)
 			break;
 LBL_NewLine:
-		int lineLength = lstrlenA(szLine);
+		int lineLength = mir_strlen(szLine);
 		while (lineLength && (BYTE)(szLine[lineLength - 1]) <= ' ')
 			szLine[--lineLength] = '\0';
 
@@ -244,7 +244,7 @@ LBL_NewLine:
 			if (szLine[1] == '!')
 				szSection[0] = '\0';
 			else {
-				lstrcpynA(szSection, szLine + 1, min(sizeof(szSection), (int)(szEnd - szLine)));
+				mir_strncpy(szSection, szLine + 1, min(sizeof(szSection), (int)(szEnd - szLine)));
 				switch (secur) {
 				case 0:
 					warnThisSection = false;
@@ -267,7 +267,7 @@ LBL_NewLine:
 			if (szLine[1] == '?') {
 				DBCONTACTENUMSETTINGS dbces;
 				dbces.pfnEnumProc = SettingsEnumProc;
-				lstrcpynA(szSection, szLine+2, min(sizeof(szSection), (int)(szEnd-szLine-1)));
+				mir_strncpy(szSection, szLine+2, min(sizeof(szSection), (int)(szEnd-szLine-1)));
 				dbces.szModule = szSection;
 				dbces.ofsSettings = 0;
 				CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
@@ -292,7 +292,7 @@ LBL_NewLine:
 			continue;
 
 		char szName[128];
-		lstrcpynA(szName, szLine, min(sizeof(szName), (int)(szValue-szLine+1)));
+		mir_strncpy(szName, szLine, min(sizeof(szName), (int)(szValue-szLine+1)));
 		szValue++;
 		{
 			warnSettingChangeInfo_t warnInfo;
@@ -347,7 +347,7 @@ LBL_NewLine:
 					case 'r': *pstr = '\r'; break;
 					default:  *pstr = pstr[1]; break;
 					}
-					MoveMemory(pstr + 1, pstr + 2, lstrlenA(pstr + 2) + 1);
+					MoveMemory(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
 				}
 			}
 		case 'u':
@@ -382,7 +382,7 @@ LBL_NewLine:
 				int len;
 				char *pszValue, *pszEnd;
 
-				PBYTE buf = (PBYTE)mir_alloc(lstrlenA(szValue + 1));
+				PBYTE buf = (PBYTE)mir_alloc(mir_strlen(szValue + 1));
 				for (len = 0, pszValue = szValue + 1;; len++) {
 					buf[len] = (BYTE)strtol(pszValue, &pszEnd, 0x10);
 					if (pszValue == pszEnd)
@@ -465,16 +465,16 @@ static void DoAutoExec(void)
 				SHFILEOPSTRUCT shfo = { 0 };
 				shfo.wFunc = FO_DELETE;
 				shfo.pFrom = szIniPath;
-				szIniPath[lstrlen(szIniPath) + 1] = 0;
+				szIniPath[mir_tstrlen(szIniPath) + 1] = 0;
 				shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
 				SHFileOperation(&shfo);
 			}
 			else if (!lstrcmpi(szOnCompletion, _T("rename"))) {
 				TCHAR szRenamePrefix[MAX_PATH], szNewPath[MAX_PATH];
 				GetPrivateProfileString(_T("AutoExec"), _T("RenamePrefix"), _T("done_"), szRenamePrefix, SIZEOF(szRenamePrefix), mirandabootini);
-				lstrcpy(szNewPath, szFindPath);
-				lstrcat(szNewPath, szRenamePrefix);
-				lstrcat(szNewPath, fd.cFileName);
+				mir_tstrcpy(szNewPath, szFindPath);
+				mir_tstrcat(szNewPath, szRenamePrefix);
+				mir_tstrcat(szNewPath, fd.cFileName);
 				MoveFile(szIniPath, szNewPath);
 			}
 			else if (!lstrcmpi(szOnCompletion, _T("ask")))

@@ -263,14 +263,14 @@ void importCustomStatuses(CSWindow* csw, int result)
 
 		mir_snprintf(bufTitle, 32, "XStatus%dName", i);
 		if ( !db_get_ts( NULL, protoName, bufTitle, &dbv )) {
-			lstrcpy(si->m_tszTitle, dbv.ptszVal);
+			mir_tstrcpy(si->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszTitle[0] = 0;
 
 		mir_snprintf(bufMessage, 32, "XStatus%dMsg", i);
 		if ( !db_get_ts( NULL, protoName, bufMessage, &dbv )) {
-			lstrcpy(si->m_tszMessage, dbv.ptszVal);
+			mir_tstrcpy(si->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszMessage[0] = 0;
@@ -392,10 +392,10 @@ BOOL CSWindow::itemPassedFilter( ListItem< StatusItem >* li )
 	TCHAR filter[MAX_PATH];
 	GetDlgItemText( m_handle, IDC_FILTER_FIELD, filter, SIZEOF(filter) );
 
-	if ( lstrlen( filter ))
+	if ( mir_tstrlen( filter ))
 	{
 		TCHAR title[EXTRASTATUS_TITLE_LIMIT], message[EXTRASTATUS_MESSAGE_LIMIT];
-		lstrcpy( title, li->m_item->m_tszTitle ); lstrcpy( message, li->m_item->m_tszMessage );
+		mir_tstrcpy( title, li->m_item->m_tszTitle ); mir_tstrcpy( message, li->m_item->m_tszMessage );
 		if ( strpos( _tcslwr( title ), _tcslwr( filter )) == -1 )
 			if ( strpos( _tcslwr( message ), _tcslwr( filter )) == -1 )
 				return FALSE;
@@ -580,10 +580,10 @@ void CSAMWindow::checkItemValidity()
 	cs.ptszName = tszTitle;
 	cs.wParam = &i;
 	if ( CallProtoService(pdescr->szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
-		lstrcpyn(m_item->m_tszTitle, TranslateTS(tszTitle), SIZEOF(m_item->m_tszTitle));
+		mir_tstrncpy(m_item->m_tszTitle, TranslateTS(tszTitle), SIZEOF(m_item->m_tszTitle));
 
 	if ( lstrcmp(m_item->m_tszMessage, tszInputMessage))
-		lstrcpy( m_item->m_tszMessage, tszInputMessage), m_bChanged = true;
+		mir_tstrcpy( m_item->m_tszMessage, tszInputMessage), m_bChanged = true;
 }
 
 CSListView::CSListView(HWND hwnd, CSWindow* parent)
@@ -754,14 +754,14 @@ void CSItemsList::loadItems(char *protoName)
 
 		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dTitle", protoName, i);
 		if ( !getTString(dbSetting, &dbv)) {
-			lstrcpy(item->m_tszTitle, dbv.ptszVal);
+			mir_tstrcpy(item->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszTitle[0] = 0;
 
 		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_Item%dMessage", protoName, i);
 		if ( !getTString(dbSetting, &dbv)) {
-			lstrcpy(item->m_tszMessage, dbv.ptszVal);
+			mir_tstrcpy(item->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else item->m_tszMessage[0] = 0;

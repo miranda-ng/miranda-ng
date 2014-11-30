@@ -67,7 +67,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 				ShowError(TranslateT(LANG_ENCRYPTION_ERROR));
 			/* should not be needed
 			char t[3] = {0, 0, 0};
-		if(ccs->wParam & PREF_UNICODE) { //TODO!! lstrlen(pre->szMessage)+1 ??
+		if(ccs->wParam & PREF_UNICODE) { //TODO!! mir_tstrlen(pre->szMessage)+1 ??
 			if (strlen(oldmessage)) memcpy(oldmessage, t,3 );
 		} else {
 			if (strlen(oldmessage)) memcpy(oldmessage, t, 1);
@@ -300,7 +300,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 			/* should not be required ;)
 			char t[3] = {0, 0, 0};
 		char t[3] = {0, 0, 0};
-		if(pre->flags & PREF_UNICODE) { //TODO!! lstrlen(pre->szMessage)+1 ??
+		if(pre->flags & PREF_UNICODE) { //TODO!! mir_tstrlen(pre->szMessage)+1 ??
 			if (pre->szMessage && strlen(pre->szMessage)) memcpy(pre->szMessage, t,3 );
 		} else {
 			if (pre->szMessage && strlen(pre->szMessage)) memcpy(pre->szMessage, t, 1);
@@ -313,7 +313,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 					DWORD flags = pre->flags;
 		/* if(pre->flags & PREF_UTF) {
 			oldmessage_utf = newmessage;
-		} else if(pre->flags & PREF_UNICODE) { //TODO!! lstrlen(pre->szMessage)+1 ??
+		} else if(pre->flags & PREF_UNICODE) { //TODO!! mir_tstrlen(pre->szMessage)+1 ??
 			oldmessage_utf = (char*)mir_utf8decodeW(newmessage);
 			free = true;
 		} else {

@@ -47,8 +47,8 @@ static void DisplayPackInfo(HWND hwndDlg, const LANGPACK_INFO *pack)
 			if (!IsValidLocale(pack->Locale, LCID_INSTALLED)) {
 				TCHAR *pszIncompat;
 				pszIncompat = TranslateT("(incompatible)");
-				szLocaleName[SIZEOF(szLocaleName) - lstrlen(pszIncompat) - 1] = 0;
-				lstrcat(lstrcat(szLocaleName, _T(" ")), pszIncompat);
+				szLocaleName[SIZEOF(szLocaleName) - mir_tstrlen(pszIncompat) - 1] = 0;
+				mir_tstrcat(mir_tstrcat(szLocaleName, _T(" ")), pszIncompat);
 			}
 			SetDlgItemText(hwndDlg, IDC_LANGLOCALE, szLocaleName);
 		}
@@ -124,7 +124,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case IDC_LANGEMAIL:
 			{
 				char buf[512];
-				lstrcpyA(buf, "mailto:");
+				mir_strcpy(buf, "mailto:");
 				if (GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), &buf[7], SIZEOF(buf)-7))
 					CallService(MS_UTILS_OPENURL, FALSE, (LPARAM)buf);
 			}
@@ -167,7 +167,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				LANGPACK_INFO *pack = (LANGPACK_INFO*)ComboBox_GetItemData(hwndList, i);
 				if (i == idx) {
 					db_set_ts(NULL, "Langpack", "Current", pack->tszFileName);
-					lstrcpy(tszPath, pack->tszFullPath);
+					mir_tstrcpy(tszPath, pack->tszFullPath);
 					pack->flags |= LPF_ENABLED;
 				}
 				else pack->flags &= ~LPF_ENABLED;

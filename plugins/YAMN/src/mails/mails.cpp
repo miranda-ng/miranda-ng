@@ -417,9 +417,9 @@ void WINAPI TranslateHeaderFcn(char *stream,int len,struct CMimeItem **head)
 
 			Item->Next=NULL;
 			Item->name=new char [prev2-prev1+1];
-			lstrcpynA(Item->name,prev1,prev2-prev1+1);
+			mir_strncpy(Item->name,prev1,prev2-prev1+1);
 			Item->value=new char [finder-prev3+1];
-			lstrcpynA(Item->value,prev3,finder-prev3+1);
+			mir_strncpy(Item->value,prev3,finder-prev3+1);
 
 			if (EOS(finder))
 				break;
@@ -440,7 +440,7 @@ void WINAPI TranslateHeaderFcn(char *stream,int len,struct CMimeItem **head)
 						Item->Next=NULL;//just in case;
 						Item->name=new char[5]; strncpy(Item->name,"Body",5);
 						Item->value=new char [prev2-prev1];
-						lstrcpynA(Item->value,prev1,prev2-prev1-1);
+						mir_strncpy(Item->value,prev1,prev2-prev1-1);
 					}
 					break; // there is nothing else
 				}

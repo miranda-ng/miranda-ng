@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void CIrcProto::FormatMsg(CMString& text)
 {
 	TCHAR temp[30];
-	lstrcpyn(temp, GetWord(text.c_str(), 0).c_str(), 29);
+	mir_tstrncpy(temp, GetWord(text.c_str(), 0).c_str(), 29);
 	CharLower(temp);
 	CMString command = temp;
 	CMString S = _T("");
@@ -56,7 +56,7 @@ void CIrcProto::FormatMsg(CMString& text)
 				}
 			}
 
-			ReplaceString(sNewNick, NICKSUBSTITUTE, sNick4Perform.c_str());
+			sNewNick.Replace(NICKSUBSTITUTE, sNick4Perform.c_str());
 			S = GetWord(text.c_str(), 0) + _T(" ") + sNewNick;
 		}
 	}
@@ -68,8 +68,8 @@ void CIrcProto::FormatMsg(CMString& text)
 
 static void AddCR(CMString& text)
 {
-	ReplaceString(text, _T("\n"), _T("\r\n"));
-	ReplaceString(text, _T("\r\r"), _T("\r"));
+	text.Replace(_T("\n"), _T("\r\n"));
+	text.Replace(_T("\r\r"), _T("\r"));
 }
 
 CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
@@ -89,16 +89,16 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 			Messageout += _T("\r\n");
 
 		TCHAR* line = new TCHAR[p2 - p1 + 1];
-		lstrcpyn(line, p1, p2 - p1 + 1);
+		mir_tstrncpy(line, p1, p2 - p1 + 1);
 		TCHAR* test = line;
 		while (*test == ' ')
 			test++;
 		if (*test == '/') {
-			lstrcpyn(line, GetWordAddress(line, 0), p2 - p1 + 1);
+			mir_tstrncpy(line, GetWordAddress(line, 0), p2 - p1 + 1);
 			CMString S = line;
 			delete[] line;
 			line = new TCHAR[S.GetLength() + 2];
-			lstrcpyn(line, S.c_str(), S.GetLength() + 1);
+			mir_tstrncpy(line, S.c_str(), S.GetLength() + 1);
 			CMString alias(m_alias);
 			const TCHAR* p3 = _tcsstr(alias.c_str(), (GetWord(line, 0) + _T(" ")).c_str());
 			if (p3 != alias.c_str()) {
@@ -116,29 +116,29 @@ CMString CIrcProto::DoAlias(const TCHAR *text, TCHAR *window)
 
 				*(TCHAR*)p4 = 0;
 				CMString S = p3;
-				ReplaceString(S, _T("##"), window);
-				ReplaceString(S, _T("$?"), _T("%question"));
+				S.Replace(_T("##"), window);
+				S.Replace(_T("$?"), _T("%question"));
 
 				for (int index = 1; index < 8; index++) {
 					TCHAR str[5];
 					mir_sntprintf(str, SIZEOF(str), _T("#$%u"), index);
 					if (!GetWord(line, index).IsEmpty() && IsChannel(GetWord(line, index)))
-						ReplaceString(S, str, GetWord(line, index).c_str());
+						S.Replace(str, GetWord(line, index).c_str());
 					else {
 						CMString S1 = _T("#");
 						S1 += GetWord(line, index);
-						ReplaceString(S, str, S1.c_str());
+						S.Replace(str, S1.c_str());
 					}
 				}
 				for (int index2 = 1; index2 < 8; index2++) {
 					TCHAR str[5];
 					mir_sntprintf(str, SIZEOF(str), _T("$%u-"), index2);
-					ReplaceString(S, str, GetWordAddress(line, index2));
+					S.Replace(str, GetWordAddress(line, index2));
 				}
 				for (int index3 = 1; index3 < 8; index3++) {
 					TCHAR str[5];
 					mir_sntprintf(str, SIZEOF(str), _T("$%u"), index3);
-					ReplaceString(S, str, GetWord(line, index3).c_str());
+					S.Replace(str, GetWord(line, index3).c_str());
 				}
 				Messageout += GetWordAddress(S.c_str(), 1);
 			}
@@ -166,32 +166,32 @@ CMString CIrcProto::DoIdentifiers(CMString text, const TCHAR*)
 	TCHAR str[2];
 
 	GetLocalTime(&time);
-	ReplaceString(text, _T("%mnick"), m_nick);
-	ReplaceString(text, _T("%anick"), m_alternativeNick);
-	ReplaceString(text, _T("%awaymsg"), m_statusMessage.c_str());
-	ReplaceString(text, _T("%module"), _A2T(m_szModuleName));
-	ReplaceString(text, _T("%name"), m_name);
-	ReplaceString(text, _T("%newl"), _T("\r\n"));
-	ReplaceString(text, _T("%network"), m_info.sNetwork.c_str());
-	ReplaceString(text, _T("%me"), m_info.sNick.c_str());
+	text.Replace(_T("%mnick"), m_nick);
+	text.Replace(_T("%anick"), m_alternativeNick);
+	text.Replace(_T("%awaymsg"), m_statusMessage.c_str());
+	text.Replace(_T("%module"), _A2T(m_szModuleName));
+	text.Replace(_T("%name"), m_name);
+	text.Replace(_T("%newl"), _T("\r\n"));
+	text.Replace(_T("%network"), m_info.sNetwork.c_str());
+	text.Replace(_T("%me"), m_info.sNick.c_str());
 
 	char mirver[100];
 	CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(mirver), LPARAM(mirver));
-	ReplaceString(text, _T("%mirver"), _A2T(mirver));
+	text.Replace(_T("%mirver"), _A2T(mirver));
 
-	ReplaceString(text, _T("%version"), _T(__VERSION_STRING_DOTS));
+	text.Replace(_T("%version"), _T(__VERSION_STRING_DOTS));
 
 	str[0] = 3; str[1] = '\0';
-	ReplaceString(text, _T("%color"), str);
+	text.Replace(_T("%color"), str);
 
 	str[0] = 2;
-	ReplaceString(text, _T("%bold"), str);
+	text.Replace(_T("%bold"), str);
 
 	str[0] = 31;
-	ReplaceString(text, _T("%underline"), str);
+	text.Replace(_T("%underline"), str);
 
 	str[0] = 22;
-	ReplaceString(text, _T("%italics"), str);
+	text.Replace(_T("%italics"), str);
 	return text;
 }
 
@@ -215,7 +215,7 @@ static void __stdcall sttSetTimerOff(void* _pro)
 BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, MCONTACT hContact)
 {
 	TCHAR temp[30];
-	lstrcpyn(temp, GetWord(text.c_str(), 0).c_str(), 29);
+	mir_tstrncpy(temp, GetWord(text.c_str(), 0).c_str(), 29);
 	CharLower(temp);
 	CMString command = temp;
 	CMString one = GetWord(text.c_str(), 1);
@@ -524,7 +524,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, MCONTACT hConta
 			return true;
 
 		CMString S = _T("/ME ") + DoIdentifiers(GetWordAddress(text.c_str(), 1), window);
-		ReplaceString(S, _T("%"), _T("%%"));
+		S.Replace(_T("%"), _T("%%"));
 		DoEvent(GC_EVENT_SENDMESSAGE, NULL, NULL, S.c_str(), NULL, NULL, NULL, FALSE, FALSE);
 		return true;
 	}
@@ -534,7 +534,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMString text, TCHAR* window, MCONTACT hConta
 			return true;
 
 		CMString S = DoIdentifiers(GetWordAddress(text.c_str(), 1), window);
-		ReplaceString(S, _T("%"), _T("%%"));
+		S.Replace(_T("%"), _T("%%"));
 		DoEvent(GC_EVENT_SENDMESSAGE, NULL, NULL, S.c_str(), NULL, NULL, NULL, FALSE, FALSE);
 		return true;
 	}
@@ -793,7 +793,7 @@ static void __stdcall DoInputRequestAliasApcStub(void* _par)
 
 bool CIrcProto::PostIrcMessage(const TCHAR* fmt, ...)
 {
-	if (!fmt || lstrlen(fmt) < 1 || lstrlen(fmt) > 4000)
+	if (!fmt || mir_tstrlen(fmt) < 1 || mir_tstrlen(fmt) > 4000)
 		return 0;
 
 	va_list marker;
@@ -814,17 +814,17 @@ bool CIrcProto::PostIrcMessageWnd(TCHAR* window, MCONTACT hContact, const TCHAR*
 	if (hContact)
 		bDCC = getByte(hContact, "DCC", 0);
 
-	if (!IsConnected() && !bDCC || !szBuf || lstrlen(szBuf) < 1)
+	if (!IsConnected() && !bDCC || !szBuf || mir_tstrlen(szBuf) < 1)
 		return 0;
 
 	if (hContact && !getTString(hContact, "Nick", &dbv)) {
-		lstrcpyn(windowname, dbv.ptszVal, 255);
+		mir_tstrncpy(windowname, dbv.ptszVal, 255);
 		db_free(&dbv);
 	}
 	else if (window)
-		lstrcpyn(windowname, window, 255);
+		mir_tstrncpy(windowname, window, 255);
 	else
-		lstrcpyn(windowname, SERVERWINDOW, 255);
+		mir_tstrncpy(windowname, SERVERWINDOW, 255);
 
 	if (lstrcmpi(window, SERVERWINDOW) != 0) {
 		TCHAR* p1 = _tcschr(windowname, ' ');
@@ -844,7 +844,7 @@ bool CIrcProto::PostIrcMessageWnd(TCHAR* window, MCONTACT hContact, const TCHAR*
 			return 1;
 		}
 
-		ReplaceString(Message, _T("%newl"), _T("\r\n"));
+		Message.Replace(_T("%newl"), _T("\r\n"));
 		RemoveLinebreaks(Message);
 	}
 

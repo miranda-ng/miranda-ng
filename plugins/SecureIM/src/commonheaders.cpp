@@ -82,9 +82,9 @@ int msgbox(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
 
 void CopyToClipboard(HWND hwnd, LPSTR msg)
 {
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, lstrlenA(msg) + 1);
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, mir_strlen(msg) + 1);
 	LPSTR lpstrCopy = (LPSTR)GlobalLock(hglbCopy);
-	lstrcpyA(lpstrCopy, msg);
+	mir_strcpy(lpstrCopy, msg);
 	GlobalUnlock(hglbCopy);
 
 	OpenClipboard(NULL);

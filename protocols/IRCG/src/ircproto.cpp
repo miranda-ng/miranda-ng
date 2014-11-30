@@ -166,11 +166,11 @@ static COLORREF crCols[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 static int sttCheckPerform(const char *szSetting, LPARAM lParam)
 {
 	if (!_strnicmp(szSetting, "PERFORM:", 8)) {
-		String s = szSetting;
+		CMStringA s = szSetting;
 		s.MakeUpper();
 		if (s != szSetting) {
-			OBJLIST<String>* p = (OBJLIST<String>*)lParam;
-			p->insert(new String(szSetting));
+			OBJLIST<CMStringA>* p = (OBJLIST<CMStringA>*)lParam;
+			p->insert(new CMStringA(szSetting));
 		}
 	}
 	return 0;
@@ -232,12 +232,12 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		while ((p1 = strstr(p2, "NETWORK: ")) != NULL) {
 			p1 += 9;
 			p2 = strchr(p1, '\n');
-			String sNetwork(p1, int(p2 - p1 - 1));
+			CMStringA sNetwork(p1, int(p2 - p1 - 1));
 			sNetwork.MakeUpper();
 			p1 = p2;
 			p2 = strstr(++p1, "\nNETWORK: ");
 			if (!p2)
-				p2 = p1 + lstrlenA(p1) - 1;
+				p2 = p1 + mir_strlen(p1) - 1;
 			if (p1 == p2)
 				break;
 
@@ -250,7 +250,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	mir_free(szLoadFileName);
 
 	if (!getByte("PerformConversionDone", 0)) {
-		OBJLIST<String> performToConvert(10);
+		OBJLIST<CMStringA> performToConvert(10);
 		DBCONTACTENUMSETTINGS dbces = { 0 };
 		dbces.pfnEnumProc = sttCheckPerform;
 		dbces.lParam = (LPARAM)&performToConvert;
@@ -258,7 +258,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces);
 
 		for (int i = 0; i < performToConvert.getCount(); i++) {
-			String s = performToConvert[i];
+			CMStringA s = performToConvert[i];
 			DBVARIANT dbv;
 			if (!getTString(s, &dbv)) {
 				db_unset(NULL, m_szModuleName, s);
@@ -278,16 +278,16 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	if (m_nick[0]) {
 		TCHAR szBuf[40];
-		if (lstrlen(m_alternativeNick) == 0) {
+		if (mir_tstrlen(m_alternativeNick) == 0) {
 			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%s%u"), m_nick, rand() % 9999);
 			setTString("AlernativeNick", szBuf);
-			lstrcpyn(m_alternativeNick, szBuf, 30);
+			mir_tstrncpy(m_alternativeNick, szBuf, 30);
 		}
 
-		if (lstrlen(m_name) == 0) {
+		if (mir_tstrlen(m_name) == 0) {
 			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("Miranda%u"), rand() % 9999);
 			setTString("Name", szBuf);
-			lstrcpyn(m_name, szBuf, 200);
+			mir_tstrncpy(m_name, szBuf, 200);
 		}
 	}
 
@@ -532,7 +532,7 @@ HANDLE __cdecl CIrcProto::SearchBasic(const PROTOCHAR* szId)
 		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
 			szId && szId[0] && !IsChannel(szId)) {
 			AckBasicSearchParam* param = new AckBasicSearchParam;
-			lstrcpyn(param->buf, szId, 50);
+			mir_tstrncpy(param->buf, szId, 50);
 			ForkThread(&CIrcProto::AckBasicSearch, param);
 			return (HANDLE)1;
 		}
@@ -685,7 +685,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR** ppsz
 
 			// need to make sure that %'s are doubled to avoid having chat interpret as color codes
 			CMString sFileCorrect = dci->sFile;
-			ReplaceString(sFileCorrect, _T("%"), _T("%%"));
+			sFileCorrect.Replace(_T("%"), _T("%%"));
 
 			// is it an reverse filetransfer (receiver acts as server)
 			if (dci->bReverse) {
@@ -948,7 +948,7 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
 
 	default:
 		CMString newStatus = msg;
-		ReplaceString(newStatus, _T("\r\n"), _T(" "));
+		newStatus.Replace(_T("\r\n"), _T(" "));
 		if (m_statusMessage.IsEmpty() || msg == NULL || m_statusMessage != newStatus) {
 			if (msg == NULL || *msg == 0)
 				m_statusMessage = STR_AWAYMESSAGE;

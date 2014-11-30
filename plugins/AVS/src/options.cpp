@@ -68,8 +68,8 @@ static void RemoveProtoPic(const char *szProto)
 
 	if (strstr(szProto, "Global avatar for")) {
 		char szProtoname[MAX_PATH] = { 0 };
-		lstrcpynA(szProtoname, szProto, lstrlenA(szProto) - lstrlenA("accounts"));
-		lstrcpyA(szProtoname, strrchr(szProtoname, ' ') + 1);
+		mir_strncpy(szProtoname, szProto, mir_strlen(szProto) - mir_strlen("accounts"));
+		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
 
@@ -129,7 +129,7 @@ static void SetProtoPic(char *szProto)
 	if (!lstrcmpA(AVS_DEFAULT, szProto)) {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (lstrlenA(p.szProtoname) == 0)
+			if (mir_strlen(p.szProtoname) == 0)
 				continue;
 
 			if (p.hbmPic == 0 || !lstrcmpA(p.szProtoname, AVS_DEFAULT)) {
@@ -140,8 +140,8 @@ static void SetProtoPic(char *szProto)
 	}
 	else if (strstr(szProto, "Global avatar for")) {
 		char szProtoname[MAX_PATH] = { 0 };
-		lstrcpynA(szProtoname, szProto, lstrlenA(szProto) - lstrlenA("accounts"));
-		lstrcpyA(szProtoname, strrchr(szProtoname, ' ') + 1);
+		mir_strncpy(szProtoname, szProto, mir_strlen(szProto) - mir_strlen("accounts"));
+		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)g_ProtoPictures[i].szProtoname);
 			if (pdescr == NULL && lstrcmpA(g_ProtoPictures[i].szProtoname, szProto))
@@ -149,7 +149,7 @@ static void SetProtoPic(char *szProto)
 
 			if (!lstrcmpA(g_ProtoPictures[i].szProtoname, szProto) || !lstrcmpA(pdescr->szProtoName, szProtoname)) {
 				protoPicCacheEntry& p = g_ProtoPictures[i];
-				if (lstrlenA(p.szProtoname) != 0) {
+				if (mir_strlen(p.szProtoname) != 0) {
 					if (p.hbmPic == 0) {
 						CreateAvatarInCache(0, &p, szProto);
 						NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
@@ -161,10 +161,10 @@ static void SetProtoPic(char *szProto)
 	else {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (lstrlenA(p.szProtoname) == 0)
+			if (mir_strlen(p.szProtoname) == 0)
 				break;
 
-			if (!strcmp(p.szProtoname, szProto) && lstrlenA(p.szProtoname) == lstrlenA(szProto)) {
+			if (!strcmp(p.szProtoname, szProto) && mir_strlen(p.szProtoname) == mir_strlen(szProto)) {
 				if (p.hbmPic != 0)
 					DeleteObject(p.hbmPic);
 				ZeroMemory(&p, sizeof(avatarCacheEntry));

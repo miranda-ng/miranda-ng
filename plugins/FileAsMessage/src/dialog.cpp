@@ -118,13 +118,13 @@ void MakePopupMsg(HWND hDlg, MCONTACT hContact, char *msg)
 	if(hDlg == hFocused || hDlg == GetParent(hFocused)) return;
 
 	//
-	//The text for the second line. You could even make something like: char lpzText[128]; lstrcpy(lpzText, "Hello world!"); It's your choice.
+	//The text for the second line. You could even make something like: char lpzText[128]; mir_tstrcpy(lpzText, "Hello world!"); It's your choice.
 	//
 	POPUPDATA ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
-	lstrcpy(ppd.lpzContactName, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
-	lstrcpy(ppd.lpzText, msg);
+	mir_tstrcpy(ppd.lpzContactName, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
+	mir_tstrcpy(ppd.lpzText, msg);
 	ppd.colorBack = GetSysColor(COLOR_INFOBK);
 	ppd.colorText = GetSysColor(COLOR_INFOTEXT);
 	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
@@ -637,7 +637,7 @@ void FILEECHO::onSendTimer()
 	char prefix[128];
 	mir_snprintf(prefix, sizeof(prefix), "%X,%X,%X>", chunkIndx+1, chunkPos[chunkIndx], chksum);
 #ifdef DEBUG
-	overhead += lstrlen((char*)buffer);
+	overhead += mir_tstrlen((char*)buffer);
 #endif
 	sendCmd(0, CMD_DATA, (char*)buffer, (char*)prefix);
 	chunkAck[chunkIndx] = CHUNK_SENT;
@@ -886,7 +886,7 @@ void CreateDirectoryTree(char *szDir)
 	DWORD dwAttributes;
 	char *pszLastBackslash,szTestDir[MAX_PATH];
 
-	lstrcpyn(szTestDir,szDir,sizeof(szTestDir));
+	mir_tstrncpy(szTestDir,szDir,sizeof(szTestDir));
 	if((dwAttributes=GetFileAttributes(szTestDir))!=0xffffffff
 	   && dwAttributes&FILE_ATTRIBUTE_DIRECTORY) return;
 	pszLastBackslash=strrchr(szTestDir,'\\');

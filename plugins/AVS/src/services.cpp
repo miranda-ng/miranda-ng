@@ -750,7 +750,7 @@ INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam)
 
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (!lstrcmpA(p.szProtoname, r->szProto) && lstrlenA(r->szProto) == lstrlenA(p.szProtoname) && p.hbmPic != 0) {
+			if (!lstrcmpA(p.szProtoname, r->szProto) && mir_strlen(r->szProto) == mir_strlen(p.szProtoname) && p.hbmPic != 0) {
 				ace = (AVATARCACHEENTRY *)&g_ProtoPictures[i];
 				break;
 			}
@@ -844,7 +844,7 @@ INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM lParam)
 			continue;
 
 		if (!lstrcmpA(g_MyAvatars[i].szProtoname, proto)) {
-			LPVOID lpParam = (void *)malloc(lstrlenA(g_MyAvatars[i].szProtoname) + 2);
+			LPVOID lpParam = (void *)malloc(mir_strlen(g_MyAvatars[i].szProtoname) + 2);
 			strcpy((char *)lpParam, g_MyAvatars[i].szProtoname);
 			mir_forkthread(ReloadMyAvatar, lpParam);
 			return 0;

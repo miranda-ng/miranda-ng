@@ -127,7 +127,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 			if ( !ppro->getString(YAHOO_CUSTSTATDB, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, dbv. pszVal );
 
-				EnableWindow( GetDlgItem(hwndDlg, IDOK ), lstrlenA(dbv.pszVal) > 0);
+				EnableWindow( GetDlgItem(hwndDlg, IDOK ), mir_strlen(dbv.pszVal) > 0);
 				db_free(&dbv);
 			}
 			else {
@@ -366,8 +366,8 @@ INT_PTR __cdecl CYahooProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
 void CYahooProto::MenuMainInit( void )
 {
 	char servicefunction[ 100 ];
-	lstrcpyA( servicefunction, m_szModuleName);
-	char* tDest = servicefunction + lstrlenA( servicefunction );
+	mir_strcpy( servicefunction, m_szModuleName);
+	char* tDest = servicefunction + mir_strlen( servicefunction );
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = servicefunction;
@@ -391,7 +391,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.hParentMenu = hRoot;
 
 	// Show custom status menu
-	lstrcpyA( tDest, YAHOO_SET_CUST_STAT );
+	mir_strcpy( tDest, YAHOO_SET_CUST_STAT );
 	CreateProtoService(YAHOO_SET_CUST_STAT, &CYahooProto::SetCustomStatCommand);
 
 	mi.position = 290000;
@@ -401,7 +401,7 @@ void CYahooProto::MenuMainInit( void )
 	menuItemsAll[0] = Menu_AddProtoMenuItem(&mi);
 
 	// Edit My profile
-	lstrcpyA( tDest, YAHOO_EDIT_MY_PROFILE );
+	mir_strcpy( tDest, YAHOO_EDIT_MY_PROFILE );
 	CreateProtoService(YAHOO_EDIT_MY_PROFILE, &CYahooProto::OnEditMyProfile);
 
 	mi.position = 290005;
@@ -410,7 +410,7 @@ void CYahooProto::MenuMainInit( void )
 	menuItemsAll[1] = Menu_AddProtoMenuItem(&mi);
 
 	// Show My profile
-	lstrcpyA( tDest, YAHOO_SHOW_MY_PROFILE );
+	mir_strcpy( tDest, YAHOO_SHOW_MY_PROFILE );
 	CreateProtoService(YAHOO_SHOW_MY_PROFILE, &CYahooProto::OnShowMyProfileCommand);
 
 	mi.position = 290006;
@@ -419,7 +419,7 @@ void CYahooProto::MenuMainInit( void )
 	menuItemsAll[2] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Yahoo mail
-	strcpy( tDest, YAHOO_YAHOO_MAIL );
+	mir_strcpy( tDest, YAHOO_YAHOO_MAIL );
 	CreateProtoService(YAHOO_YAHOO_MAIL, &CYahooProto::OnGotoMailboxCommand);
 
 	mi.position = 290010;
@@ -428,7 +428,7 @@ void CYahooProto::MenuMainInit( void )
 	menuItemsAll[3] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Address Book
-	strcpy(tDest, YAHOO_AB);
+	mir_strcpy(tDest, YAHOO_AB);
 	CreateProtoService(YAHOO_AB, &CYahooProto::OnABCommand);
 
 	mi.position = 290015;
@@ -437,45 +437,34 @@ void CYahooProto::MenuMainInit( void )
 	menuItemsAll[4] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Calendar
-	strcpy( tDest, YAHOO_CALENDAR );
+	mir_strcpy( tDest, YAHOO_CALENDAR );
 	CreateProtoService(YAHOO_CALENDAR, &CYahooProto::OnCalendarCommand);
 
 	mi.position = 290017;
 	mi.icolibItem = GetIconHandle( IDI_CALENDAR );
 	mi.pszName = LPGEN("&Calendar");
 	menuItemsAll[5] = Menu_AddProtoMenuItem(&mi);
-	strcpy( tDest, "/JoinChatRoom");
+	mir_strcpy( tDest, "/JoinChatRoom");
 	CreateProtoService("/JoinChatRoom", &CYahooProto::CreateConference);
 
 	mi.position = 290018;
 	mi.icolibItem = GetIconHandle(IDI_YAHOO);
 	mi.pszName = LPGEN("Create Conference");
 	menuItemsAll[6] = Menu_AddProtoMenuItem(&mi);
-
-
-	// Show Refresh
-	/*strcpy( tDest, YAHOO_REFRESH );
-	CreateProtoService(YAHOO_REFRESH, &CYahooProto::OnRefreshCommand);
-
-	mi.position = 500090015;
-	mi.icolibItem = GetIconHandle( IDI_REFRESH );
-	mi.pszName = LPGEN("&Refresh");
-	menuItemsAll[7] = Menu_AddProtoMenuItem(&mi);
-	*/
 }
 
 void CYahooProto::MenuContactInit( void )
 {
 	char servicefunction[ 100 ];
-	lstrcpyA( servicefunction, m_szModuleName);
-	char* tDest = servicefunction + lstrlenA( servicefunction );
+	mir_strcpy( servicefunction, m_szModuleName);
+	char* tDest = servicefunction + mir_strlen( servicefunction );
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = servicefunction;
 	mi.pszContactOwner = m_szModuleName;
 
 	// Show Profile
-	strcpy( tDest, YAHOO_SHOW_PROFILE );
+	mir_strcpy( tDest, YAHOO_SHOW_PROFILE );
 	CreateProtoService(YAHOO_SHOW_PROFILE, &CYahooProto::OnShowProfileCommand );
 
 	mi.position = -2000006000;

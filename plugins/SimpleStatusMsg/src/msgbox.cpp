@@ -335,7 +335,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		mir_snprintf(buff, SIZEOF(buff), "DefMsg%d", i);
 		if (!db_get_ts(NULL, "SimpleStatusMsg", buff, &dbv)) {
 			if (dbv.ptszVal) {
-				if (!lstrlen(dbv.ptszVal)) {
+				if (!mir_tstrlen(dbv.ptszVal)) {
 					db_free(&dbv);
 					continue;
 				}
@@ -472,7 +472,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 				int len;
 
 				GetMenuString(hmenu, m_selection, (LPTSTR)&item_string, 128, MF_BYCOMMAND);
-				len = lstrlen(item_string);
+				len = mir_tstrlen(item_string);
 				if (len) {
 					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(TCHAR));
@@ -722,7 +722,7 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 		if (!db_get(NULL, "SimpleStatusMsg", setting, &dbv)) {
 			if (dbv.pszVal && strlen(dbv.pszVal)) {
 				if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2)) {
-					if (dbv2.ptszVal && lstrlen(dbv2.ptszVal)) {
+					if (dbv2.ptszVal && mir_tstrlen(dbv2.ptszVal)) {
 						SetDlgItemText(hwndDlg, IDC_EDIT1, dbv2.ptszVal);
 						fcursel = SendMessage(data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)dbv2.ptszVal);
 						if (fcursel != CB_ERR)

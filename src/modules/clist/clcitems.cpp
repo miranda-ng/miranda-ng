@@ -53,11 +53,11 @@ ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD 
 	do {
 		pBackslash = _tcschr(pNextField, '\\');
 		if (pBackslash == NULL) {
-			lstrcpyn(szThisField, pNextField, SIZEOF(szThisField));
+			mir_tstrncpy(szThisField, pNextField, SIZEOF(szThisField));
 			pNextField = NULL;
 		}
 		else {
-			lstrcpyn(szThisField, pNextField, min(SIZEOF(szThisField), pBackslash - pNextField + 1));
+			mir_tstrncpy(szThisField, pNextField, min(SIZEOF(szThisField), pBackslash - pNextField + 1));
 			pNextField = pBackslash + 1;
 		}
 		compareResult = 1;
@@ -89,7 +89,7 @@ ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD 
 				return NULL;
 			i = cli.pfnAddItemToGroup(group, i);
 			group->cl.items[i]->type = CLCIT_GROUP;
-			lstrcpyn(group->cl.items[i]->szText, szThisField, SIZEOF(group->cl.items[i]->szText));
+			mir_tstrncpy(group->cl.items[i]->szText, szThisField, SIZEOF(group->cl.items[i]->szText));
 			group->cl.items[i]->groupId = (WORD) (pNextField ? 0 : groupId);
 			group->cl.items[i]->group = (ClcGroup *) mir_alloc(sizeof(ClcGroup));
 			group->cl.items[i]->group->parent = group;
@@ -167,7 +167,7 @@ int fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 	group->cl.items[i]->type = CLCIT_INFO;
 	group->cl.items[i]->flags = (BYTE) flags;
 	group->cl.items[i]->hContact = (MCONTACT)++iInfoItemUniqueHandle;
-	lstrcpyn(group->cl.items[i]->szText, pszText, SIZEOF(group->cl.items[i]->szText));
+	mir_tstrncpy(group->cl.items[i]->szText, pszText, SIZEOF(group->cl.items[i]->szText));
 	return i;
 }
 
@@ -205,7 +205,7 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact)
 	DWORD idleMode = szProto != NULL ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)
 		group->cl.items[i]->flags |= CONTACTF_IDLE;
-	lstrcpyn(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact, 0), SIZEOF(group->cl.items[i]->szText));
+	mir_tstrncpy(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact, 0), SIZEOF(group->cl.items[i]->szText));
 
 	ClcCacheEntry *p = cli.pfnGetCacheEntry(hContact);
 	if (p != NULL)
@@ -264,7 +264,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 				}
 				if (!lstrcmp(szGroupName, dbv.ptszVal))
 					break;
-				len = lstrlen(szGroupName);
+				len = mir_tstrlen(szGroupName);
 				if (!_tcsncmp(szGroupName, dbv.ptszVal, len) && dbv.ptszVal[len] == '\\')
 					cli.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 1);
 			}
@@ -333,7 +333,7 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 			if (group->scanIndex == group->cl.count)
 				break;
 			if (group->cl.items[i]->type == CLCIT_GROUP) {
-				int len = lstrlen(group->cl.items[i]->szText);
+				int len = mir_tstrlen(group->cl.items[i]->szText);
 				if (!_tcsncmp(group->cl.items[i]->szText, dbv.ptszVal + nameOffset, len) &&
 					 (dbv.ptszVal[nameOffset + len] == '\\' || dbv.ptszVal[nameOffset + len] == '\0')) {
 					group->totalMembers--;
@@ -535,7 +535,7 @@ static void SortGroup(struct ClcData *dat, ClcGroup *group, int useInsertionSort
 				if (prevContactOnline) {
 					i = cli.pfnAddItemToGroup(group, i);
 					group->cl.items[i]->type = CLCIT_DIVIDER;
-					lstrcpy(group->cl.items[i]->szText, TranslateT("Offline"));
+					mir_tstrcpy(group->cl.items[i]->szText, TranslateT("Offline"));
 				}
 				break;
 			}

@@ -431,9 +431,9 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT& rcItem)
 
 		if (szStatusMsg) {
 			SIZE sStatusMsg, sMask;
-			::GetTextExtentPoint32(hdc, szTextToShow, lstrlen(szTextToShow), &m_szNick);
+			::GetTextExtentPoint32(hdc, szTextToShow, mir_tstrlen(szTextToShow), &m_szNick);
 			::GetTextExtentPoint32(hdc, _T("A"), 1, &sMask);
-			::GetTextExtentPoint32(hdc, szStatusMsg, lstrlen(szStatusMsg), &sStatusMsg);
+			::GetTextExtentPoint32(hdc, szStatusMsg, mir_tstrlen(szStatusMsg), &sStatusMsg);
 
 			DWORD dtFlagsNick = DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_NOPREFIX;
 			if ((m_szNick.cx + sStatusMsg.cx + 6) < (rcItem.right - rcItem.left) || (rcItem.bottom - rcItem.top) < (2 * sMask.cy)) {
@@ -466,7 +466,7 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT& rcItem)
 				CSkin::RenderText(hdc, m_dat->hThemeIP, szStatusMsg, &rcItem, dtFlags, CSkin::m_glowSize, clr);
 		}
 		else {
-			GetTextExtentPoint32(hdc, szTextToShow, lstrlen(szTextToShow), &m_szNick);
+			GetTextExtentPoint32(hdc, szTextToShow, mir_tstrlen(szTextToShow), &m_szNick);
 			mapRealRect(rcItem, m_rcNick, m_szNick);
 			if (m_hoverFlags & HOVER_NICK)
 				setUnderlinedFont(hdc, fShowUin ? m_ipConfig.hFonts[IPFONTID_UIN] : m_ipConfig.hFonts[IPFONTID_NICK]);
@@ -522,7 +522,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 		}
 
 		SIZE sUIN;
-		::GetTextExtentPoint32(hdc, szBuf, lstrlen(szBuf), &sUIN);
+		::GetTextExtentPoint32(hdc, szBuf, mir_tstrlen(szBuf), &sUIN);
 		mapRealRect(rcItem, m_rcUIN, sUIN);
 		CSkin::RenderText(hdc, m_dat->hThemeIP, szBuf, &rcItem, DT_SINGLELINE | DT_VCENTER, CSkin::m_glowSize, clr);
 	}
@@ -545,7 +545,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 	DWORD oldPanelStatusCX = m_dat->panelStatusCX;
 
 	if (m_dat->szStatus[0])
-		GetTextExtentPoint32(hdc, m_dat->szStatus, lstrlen(m_dat->szStatus), &sStatus);
+		GetTextExtentPoint32(hdc, m_dat->szStatus, mir_tstrlen(m_dat->szStatus), &sStatus);
 
 	/*
 	* figure out final account name
@@ -553,13 +553,13 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 	const TCHAR *szFinalProto = m_dat->cache->getRealAccount();
 	if (szFinalProto) {
 		SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_PROTO]);
-		GetTextExtentPoint32(hdc, szFinalProto, lstrlen(szFinalProto), &sProto);
+		GetTextExtentPoint32(hdc, szFinalProto, mir_tstrlen(szFinalProto), &sProto);
 	}
 
 	TCHAR szResult[80]; szResult[0] = 0;
 	if (m_dat->hTimeZone) {
 		tmi.printDateTime(m_dat->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0);
-		GetTextExtentPoint32(hdc, szResult, lstrlen(szResult), &sTime);
+		GetTextExtentPoint32(hdc, szResult, mir_tstrlen(szResult), &sTime);
 	}
 
 	m_dat->panelStatusCX = 3 + sStatus.cx + sProto.cx + 14 + (m_dat->hClientIcon ? 20 : 0) + sTime.cx + 13;
@@ -641,7 +641,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 		const TCHAR	*tszNick = m_dat->cache->getNick();
 
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_NICK]));
-		::GetTextExtentPoint32(hdc, tszNick, lstrlen(tszNick), &m_szNick);
+		::GetTextExtentPoint32(hdc, tszNick, mir_tstrlen(tszNick), &m_szNick);
 		mapRealRect(rcItem, m_rcNick, m_szNick);
 
 		if (m_hoverFlags & HOVER_NICK)
@@ -689,7 +689,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 	SIZE szTitle;
 	TCHAR	szPrefix[100];
 	mir_sntprintf(szPrefix, 100, TranslateT("Topic is: %s"), _T(""));
-	::GetTextExtentPoint32(hdc, szPrefix, lstrlen(szPrefix), &szTitle);
+	::GetTextExtentPoint32(hdc, szPrefix, mir_tstrlen(szPrefix), &szTitle);
 	mapRealRect(rcItem, m_rcUIN, szTitle);
 	if (m_hoverFlags & HOVER_UIN)
 		setUnderlinedFont(hdc, m_ipConfig.hFonts[IPFONTID_UIN]);
@@ -698,7 +698,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 	rcItem.left += (szTitle.cx + 4);
 	if (m_hoverFlags & HOVER_UIN)
 		::DeleteObject(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
-	if (si->ptszTopic && lstrlen(si->ptszTopic) > 1)
+	if (si->ptszTopic && mir_tstrlen(si->ptszTopic) > 1)
 		CSkin::RenderText(hdc, m_dat->hThemeIP, si->ptszTopic, &rcItem, DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX | DT_TOP, CSkin::m_glowSize, clr);
 	else
 		CSkin::RenderText(hdc, m_dat->hThemeIP, TranslateT("no topic set."), &rcItem, DT_TOP| DT_SINGLELINE | DT_NOPREFIX, CSkin::m_glowSize, clr);

@@ -454,7 +454,7 @@ static int handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
 			int retVal = CDRF_NEWFONT;
 			if (tvi.iImage == -1) {
 				SIZE sz;
-				GetTextExtentPoint32(pNMTVCD->nmcd.hdc, tvi.pszText, lstrlen(tvi.pszText), &sz);
+				GetTextExtentPoint32(pNMTVCD->nmcd.hdc, tvi.pszText, mir_tstrlen(tvi.pszText), &sz);
 
 				RECT rc;
 				if (sz.cx+3 > pNMTVCD->nmcd.rc.right - pNMTVCD->nmcd.rc.left)
@@ -467,7 +467,7 @@ static int handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
 				SetBkColor(pNMTVCD->nmcd.hdc, pNMTVCD->clrTextBk);
 				FillRect(pNMTVCD->nmcd.hdc, &rc, br);
 				DeleteObject(br);
-				DrawText(pNMTVCD->nmcd.hdc, tvi.pszText, lstrlen(tvi.pszText), &pNMTVCD->nmcd.rc, DT_LEFT|DT_VCENTER|DT_NOPREFIX);
+				DrawText(pNMTVCD->nmcd.hdc, tvi.pszText, mir_tstrlen(tvi.pszText), &pNMTVCD->nmcd.rc, DT_LEFT|DT_VCENTER|DT_NOPREFIX);
 
 				retVal |= CDRF_SKIPDEFAULT;
 			}

@@ -288,7 +288,7 @@ int CJabberProto::AddFeatures(LPCTSTR szFeatures)
 			m_uEnabledFeatCapsDynamic |= fcp->jcbCap;
 		else
 			ret = false;
-		szFeat += lstrlen(szFeat) + 1;
+		szFeat += mir_tstrlen(szFeat) + 1;
 	}
 	lck.unlock();
 
@@ -313,7 +313,7 @@ int CJabberProto::RemoveFeatures(LPCTSTR szFeatures)
 		else
 			ret = false; // indicate that there was an error removing at least one of the specified features
 
-		szFeat += lstrlen(szFeat) + 1;
+		szFeat += mir_tstrlen(szFeat) + 1;
 	}
 	lck.unlock();
 
@@ -335,25 +335,25 @@ LPTSTR CJabberProto::GetResourceFeatures(LPCTSTR jid)
 	// calculate total necessary string length
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
-			iLen += lstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
+			iLen += mir_tstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
 
 	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if (jcb & m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
-			iLen += lstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
+			iLen += mir_tstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
 
 	// allocate memory and fill it
 	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(TCHAR));
 	LPTSTR p = str;
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
-			lstrcpy(p, g_JabberFeatCapPairs[i].szFeature);
-			p += lstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
+			mir_tstrcpy(p, g_JabberFeatCapPairs[i].szFeature);
+			p += mir_tstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
 		}
 
 	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
 		if (jcb & m_lstJabberFeatCapPairsDynamic[i]->jcbCap) {
-			lstrcpy(p, m_lstJabberFeatCapPairsDynamic[i]->szFeature);
-			p += lstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
+			mir_tstrcpy(p, m_lstJabberFeatCapPairsDynamic[i]->szFeature);
+			p += mir_tstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
 		}
 
 	*p = 0; // extra zero terminator

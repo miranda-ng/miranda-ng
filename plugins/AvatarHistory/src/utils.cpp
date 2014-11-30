@@ -86,7 +86,7 @@ int GetUIDFromHContact(MCONTACT contact, TCHAR* uinout, int uinout_len)
 	cinfo.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
 	if (CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&cinfo) == 0) {
 		if (cinfo.type == CNFT_ASCIIZ) {
-			lstrcpyn(uinout, cinfo.pszVal, uinout_len);
+			mir_tstrncpy(uinout, cinfo.pszVal, uinout_len);
 			// It is up to us to free the string
 			// The catch? We need to use Miranda's free(), not our CRT's :)
 			mir_free(cinfo.pszVal);
@@ -101,7 +101,7 @@ int GetUIDFromHContact(MCONTACT contact, TCHAR* uinout, int uinout_len)
 	else found = false;
 
 	if (!found)
-		lstrcpyn(uinout, TranslateT("Unknown UIN"), uinout_len);
+		mir_tstrncpy(uinout, TranslateT("Unknown UIN"), uinout_len);
 
 	return 0;
 }
@@ -217,7 +217,7 @@ TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 
 	do
 	{
-		size_t len = lstrlen(finddata.cFileName);
+		size_t len = mir_tstrlen(finddata.cFileName);
 		if (len > 4 
 			&& (!lstrcmpi(&finddata.cFileName[len-4], _T(".png"))
 				|| !lstrcmpi(&finddata.cFileName[len-4], _T(".bmp"))

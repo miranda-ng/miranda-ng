@@ -81,7 +81,7 @@ TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 		break;
 	}
 
-	lstrcpy(wszText, text.c_str());
+	mir_tstrcpy(wszText, text.c_str());
 	return wszText;
 }
 
@@ -126,8 +126,8 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 search_again:
 				bool clr_found = false;
 				for (int ii = 0; ii < rtf_ctable_size; ii++) {
-					if (!_tcsnicmp((TCHAR*)colorname.c_str(), rtf_ctable[ii].szName, lstrlen(rtf_ctable[ii].szName))) {
-						closing = beginmark + 7 + lstrlen(rtf_ctable[ii].szName);
+					if (!_tcsnicmp((TCHAR*)colorname.c_str(), rtf_ctable[ii].szName, mir_tstrlen(rtf_ctable[ii].szName))) {
+						closing = beginmark + 7 + mir_tstrlen(rtf_ctable[ii].szName);
 						if (endmark != message.npos) {
 							message.erase(endmark, 4);
 							message.replace(endmark, 4, _T("c0 "));
@@ -286,7 +286,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			if (tszNick[0])
 				title.insert(tempmark + 2, tszNick);
 			title.erase(tempmark, 2);
-			curpos = tempmark + lstrlen(tszNick);
+			curpos = tempmark + mir_tstrlen(tszNick);
 			break;
 		}
 		case 'p':
@@ -295,14 +295,14 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			if (szAcc)
 				title.insert(tempmark + 2, szAcc);
 			title.erase(tempmark, 2);
-			curpos = tempmark + lstrlen(szAcc);
+			curpos = tempmark + mir_tstrlen(szAcc);
 			break;
 		}
 		case 's': {
 			if (dat->szStatus && dat->szStatus[0])
 				title.insert(tempmark + 2, dat->szStatus);
 			title.erase(tempmark, 2);
-			curpos = tempmark + lstrlen(dat->szStatus);
+			curpos = tempmark + mir_tstrlen(dat->szStatus);
 			break;
 		}
 		case 'u': {
@@ -310,14 +310,14 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			if (szUIN[0])
 				title.insert(tempmark + 2, szUIN);
 			title.erase(tempmark, 2);
-			curpos = tempmark + lstrlen(szUIN);
+			curpos = tempmark + mir_tstrlen(szUIN);
 			break;
 		}
 		case 'c': {
 			TCHAR	*c = (!_tcscmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
 			title.insert(tempmark + 2, c);
 			title.erase(tempmark, 2);
-			curpos = tempmark + lstrlen(c);
+			curpos = tempmark + mir_tstrlen(c);
 			break;
 		}
 		case 'o': {
@@ -325,7 +325,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			if (szProto)
 				title.insert(tempmark + 2, _A2T(szProto));
 			title.erase(tempmark, 2);
-			curpos = tempmark + (szProto ? lstrlenA(szProto) : 0);
+			curpos = tempmark + (szProto ? mir_strlen(szProto) : 0);
 			break;
 		}
 		case 'x': {
@@ -340,11 +340,11 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 					szTemp[500] = 0;
 					db_free(&dbv);
 					title.insert(tempmark + 2, szTemp);
-					curpos = tempmark + lstrlen(szTemp);
+					curpos = tempmark + mir_tstrlen(szTemp);
 				}
 				else {
 					title.insert(tempmark + 2, xStatusDescr[xStatus - 1]);
-					curpos = tempmark + lstrlen(xStatusDescr[xStatus - 1]);
+					curpos = tempmark + mir_tstrlen(xStatusDescr[xStatus - 1]);
 				}
 			}
 			title.erase(tempmark, 2);
@@ -368,7 +368,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 
 			if (szFinalStatus) {
 				title.insert(tempmark + 2, szFinalStatus);
-				curpos = tempmark + lstrlen(szFinalStatus);
+				curpos = tempmark + mir_tstrlen(szFinalStatus);
 			}
 
 			title.erase(tempmark, 2);
@@ -381,12 +381,12 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			TCHAR	*tszStatusMsg = dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true);
 			if (tszStatusMsg) {
 				title.insert(tempmark + 2, tszStatusMsg);
-				curpos = tempmark + lstrlen(tszStatusMsg);
+				curpos = tempmark + mir_tstrlen(tszStatusMsg);
 			}
 			else if (title[curpos] == 't') {
 				const TCHAR* tszStatusMsg = TranslateT("No status message");
 				title.insert(tempmark + 2, tszStatusMsg);
-				curpos = tempmark + lstrlen(tszStatusMsg);
+				curpos = tempmark + mir_tstrlen(tszStatusMsg);
 			}
 			title.erase(tempmark, 2);
 			if (tszStatusMsg)
@@ -437,7 +437,7 @@ char* Utils::FilterEventMarkers(char *szText)
 		break;
 	}
 	//
-	lstrcpyA(szText, text.c_str());
+	mir_strcpy(szText, text.c_str());
 	return szText;
 }
 
@@ -707,7 +707,7 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 		WriteContainerSettingsToDB(0, pContainer->settings, szCName);
 	}
 	mir_snprintf(szCName, 40, "%s%d_theme", szSetting, pContainer->iContainerIndex);
-	if (lstrlen(pContainer->szRelThemeFile) > 1) {
+	if (mir_tstrlen(pContainer->szRelThemeFile) > 1) {
 		if (pContainer->fPrivateThemeChanged == TRUE) {
 			PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
 			db_set_ts(NULL, SRMSGMOD_T, szCName, pContainer->szAbsThemeFile);
@@ -852,7 +852,7 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TC
 	mii.wID = uID;
 	mii.dwItemData = (ULONG_PTR)hIcon;
 	mii.dwTypeData = const_cast<TCHAR *>(szText);
-	mii.cch = lstrlen(mii.dwTypeData) + 1;
+	mii.cch = mir_tstrlen(mii.dwTypeData) + 1;
 
 	::InsertMenuItem(m, pos, TRUE, &mii);
 }
@@ -1018,7 +1018,7 @@ void Utils::sanitizeFilename(wchar_t* tszFilename)
 {
 	static wchar_t *forbiddenCharacters = L"%/\\':|\"<>?";
 
-	for (int i=0; i < lstrlenW(forbiddenCharacters); i++) {
+	for (int i=0; i < mir_wstrlen(forbiddenCharacters); i++) {
 		wchar_t*	szFound = 0;
 
 		while ((szFound = wcschr(tszFilename, (int)forbiddenCharacters[i])) != NULL)
@@ -1032,7 +1032,7 @@ void Utils::sanitizeFilename(wchar_t* tszFilename)
 
 void Utils::ensureTralingBackslash(wchar_t *szPathname)
 {
-	if (szPathname[lstrlenW(szPathname) - 1] != '\\')
+	if (szPathname[mir_wstrlen(szPathname) - 1] != '\\')
 		wcscat(szPathname, L"\\");
 }
 
@@ -1052,7 +1052,7 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 	if (wcslen(sysPathName) + wcslen(szFilename) >= MAX_PATH)
 		return 0;
 
-	lstrcatW(sysPathName, szFilename);
+	mir_wstrcat(sysPathName, szFilename);
 	HMODULE _h = LoadLibraryW(sysPathName);
 	if (0 == _h)
 		return 0;
@@ -1077,7 +1077,7 @@ size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 	if (!OpenClipboard(hwndOwner) || str == 0)
 		return 0;
 
-	size_t i = sizeof(TCHAR) * (lstrlen(str) + 1);
+	size_t i = sizeof(TCHAR) * (mir_tstrlen(str) + 1);
 
 	EmptyClipboard();
 	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
@@ -1102,15 +1102,15 @@ void Utils::AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename
 		WIN32_FIND_DATA fd;
 		HANDLE hFind;
 		TCHAR szPath[MAX_PATH];
-		lstrcpy(szPath, szFilename);
-		lstrcat(szPath, _T("\\*"));
+		mir_tstrcpy(szPath, szFilename);
+		mir_tstrcat(szPath, _T("\\*"));
 		if ((hFind = FindFirstFile(szPath, &fd)) != INVALID_HANDLE_VALUE) {
 			do {
 				if (!lstrcmp(fd.cFileName, _T(".")) || !lstrcmp(fd.cFileName, _T("..")))
 					continue;
-				lstrcpy(szPath, szFilename);
-				lstrcat(szPath, _T("\\"));
-				lstrcat(szPath, fd.cFileName);
+				mir_tstrcpy(szPath, szFilename);
+				mir_tstrcat(szPath, _T("\\"));
+				mir_tstrcat(szPath, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			}
 				while (FindNextFile(hFind, &fd));

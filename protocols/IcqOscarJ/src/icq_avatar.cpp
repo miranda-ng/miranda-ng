@@ -1223,7 +1223,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 			PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
 			ai.format = PA_FORMAT_JPEG; // this is for error only
 			ai.hContact = pCookieData->hContact;
-			lstrcpyn(ai.filename, pCookieData->szFile, SIZEOF(ai.filename));
+			mir_tstrncpy(ai.filename, pCookieData->szFile, SIZEOF(ai.filename));
 			AddAvatarExt(PA_FORMAT_JPEG, ai.filename);
 
 			ppro->FreeCookie(pSnacHeader->dwRef);
@@ -1280,7 +1280,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 
 					ppro->setByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
 					ai.format = dwPaFormat; // set the format
-					lstrcpyn(ai.filename, tszImageFile, SIZEOF(ai.filename));
+					mir_tstrncpy(ai.filename, tszImageFile, SIZEOF(ai.filename));
 
 					int out = _topen(tszImageFile, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 					if (out != -1) {

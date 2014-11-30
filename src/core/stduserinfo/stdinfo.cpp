@@ -160,7 +160,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 
 		default:
 			pstr = str;
-			lstrcpyA(str, "???");
+			mir_strcpy(str, "???");
 			break;
 		}
 	}
@@ -514,7 +514,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 			lf.lfQuality = DEFAULT_QUALITY;
 			lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-			lstrcpy(lf.lfFaceName, _T("Courier New"));
+			mir_tstrcpy(lf.lfFaceName, _T("Courier New"));
 			lf.lfCharSet = DEFAULT_CHARSET;
 			hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM) hFont, MAKELPARAM(TRUE, 0));

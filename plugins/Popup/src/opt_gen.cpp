@@ -47,24 +47,24 @@ int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	if (!flag) return pos;
 	options[pos].dwFlag = flag;
 	options[pos].groupId = OPTTREE_CHECK;
-	options[pos].pszOptionName = (LPTSTR)mir_alloc(sizeof(TCHAR) * lstrlen(prefix) + 32);
+	options[pos].pszOptionName = (LPTSTR)mir_alloc(sizeof(TCHAR) * mir_tstrlen(prefix) + 32);
 	options[pos].pszSettingName = mir_tstrdup(prefix);
 	options[pos].iconIndex = 0;
 
-	lstrcpy(options[pos].pszOptionName, prefix);
-	lstrcat(options[pos].pszOptionName, _T("/"));
+	mir_tstrcpy(options[pos].pszOptionName, prefix);
+	mir_tstrcat(options[pos].pszOptionName, _T("/"));
 	switch (flag)
 	{
-		case PF2_IDLE: lstrcat(options[pos].pszOptionName, LPGENT("Offline")); break;
-		case PF2_ONLINE: lstrcat(options[pos].pszOptionName, LPGENT("Online")); break;
-		case PF2_INVISIBLE: lstrcat(options[pos].pszOptionName, LPGENT("Invisible")); break;
-		case PF2_SHORTAWAY: lstrcat(options[pos].pszOptionName, LPGENT("Away")); break;
-		case PF2_LONGAWAY: lstrcat(options[pos].pszOptionName, LPGENT("NA")); break;
-		case PF2_LIGHTDND: lstrcat(options[pos].pszOptionName, LPGENT("Occupied")); break;
-		case PF2_HEAVYDND: lstrcat(options[pos].pszOptionName, LPGENT("DND")); break;
-		case PF2_FREECHAT: lstrcat(options[pos].pszOptionName, LPGENT("Free for chat")); break;
-		case PF2_OUTTOLUNCH: lstrcat(options[pos].pszOptionName, LPGENT("Out to lunch")); break;
-		case PF2_ONTHEPHONE: lstrcat(options[pos].pszOptionName, LPGENT("On the phone")); break;
+		case PF2_IDLE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Offline")); break;
+		case PF2_ONLINE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Online")); break;
+		case PF2_INVISIBLE: mir_tstrcat(options[pos].pszOptionName, LPGENT("Invisible")); break;
+		case PF2_SHORTAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("Away")); break;
+		case PF2_LONGAWAY: mir_tstrcat(options[pos].pszOptionName, LPGENT("NA")); break;
+		case PF2_LIGHTDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("Occupied")); break;
+		case PF2_HEAVYDND: mir_tstrcat(options[pos].pszOptionName, LPGENT("DND")); break;
+		case PF2_FREECHAT: mir_tstrcat(options[pos].pszOptionName, LPGENT("Free for chat")); break;
+		case PF2_OUTTOLUNCH: mir_tstrcat(options[pos].pszOptionName, LPGENT("Out to lunch")); break;
+		case PF2_ONTHEPHONE: mir_tstrcat(options[pos].pszOptionName, LPGENT("On the phone")); break;
 	}
 	return pos + 1;
 }

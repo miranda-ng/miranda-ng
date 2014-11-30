@@ -298,7 +298,7 @@ int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus
 	if (!noAwayMsg && !noXstatus &&  xstatus_has_priority && pdnce->hContact && pdnce->m_cache_cszProto) {
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
-			//lstrcpyn(text, dbv.pszVal, text_size);
+			//mir_tstrncpy(text, dbv.pszVal, text_size);
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
 			db_free(&dbv);
 
@@ -366,7 +366,7 @@ int GetStatusMessage(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xsta
 	if (!noAwayMsg  && xstatus_has_priority && pdnce->hContact && pdnce->m_cache_cszProto) {
 		// Try to get XStatusMsg
 		if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) {
-			//lstrcpyn(text, dbv.pszVal, text_size);
+			//mir_tstrncpy(text, dbv.pszVal, text_size);
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
 			db_free(&dbv);
 
@@ -378,7 +378,7 @@ int GetStatusMessage(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xsta
 	// Get StatusMsg
 	if (pdnce->hContact && text[0] == '\0') {
 		if (!db_get_ts(pdnce->hContact, "CList", "StatusMsg", &dbv)) {
-			//lstrcpyn(text, dbv.pszVal, text_size);
+			//mir_tstrncpy(text, dbv.pszVal, text_size);
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
 			db_free(&dbv);
 
@@ -391,7 +391,7 @@ int GetStatusMessage(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xsta
 	if (!noAwayMsg && !xstatus_has_priority && pdnce->hContact && pdnce->m_cache_cszProto && text[0] == '\0') {
 		// Try to get XStatusMsg
 		if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "XStatusMsg", &dbv)) {
-			//lstrcpyn(text, dbv.pszVal, text_size);
+			//mir_tstrncpy(text, dbv.pszVal, text_size);
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
 			db_free(&dbv);
 
@@ -439,7 +439,7 @@ int Cache_GetLineText(
 		if (pdnce->hContact && pdnce->m_cache_cszProto) {
 			DBVARIANT dbv = {0};
 			if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) {
-				lstrcpyn(text, dbv.ptszVal, text_size);
+				mir_tstrncpy(text, dbv.ptszVal, text_size);
 				db_free(&dbv);
 				CopySkipUnprintableChars(text, text, text_size-1);
 			}
@@ -493,7 +493,7 @@ int Cache_GetLineText(
 	case TEXT_TEXT:
 		{
 			TCHAR *tmp = variables_parsedup(variable_text, pdnce->tszName, pdnce->hContact);
-			lstrcpyn(text, tmp, text_size);
+			mir_tstrncpy(text, tmp, text_size);
 			mir_free(tmp);
 			CopySkipUnprintableChars(text, text, text_size-1);
 		}
@@ -526,19 +526,19 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 		DBVARIANT dbv = { 0 };
 		if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "Nick", &dbv)) {
 			TCHAR nick[SIZEOF(contact->szText)];
-			lstrcpyn(nick, dbv.ptszVal, SIZEOF(contact->szText));
+			mir_tstrncpy(nick, dbv.ptszVal, SIZEOF(contact->szText));
 			db_free(&dbv);
 
 			// They are the same -> use the name to keep the case
 			if (_tcsicmp(name, nick) == 0)
-				lstrcpyn(contact->szText, name, SIZEOF(contact->szText));
+				mir_tstrncpy(contact->szText, name, SIZEOF(contact->szText));
 			else
 				// Append then
 				mir_sntprintf(contact->szText, SIZEOF(contact->szText), _T("%s - %s"), name, nick);
 		}
-		else lstrcpyn(contact->szText, name, SIZEOF(contact->szText));
+		else mir_tstrncpy(contact->szText, name, SIZEOF(contact->szText));
 	}
-	else lstrcpyn(contact->szText, name, SIZEOF(contact->szText));
+	else mir_tstrncpy(contact->szText, name, SIZEOF(contact->szText));
 
 	if (!dat->force_in_dialog) {
 		struct SHORTDATA data = { 0 };

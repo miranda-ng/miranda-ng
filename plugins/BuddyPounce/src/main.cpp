@@ -76,7 +76,7 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
 				dbei.flags = DBEF_UTF | DBEF_SENT;
 				dbei.szModule = (char*)ack->szModule;
 				dbei.timestamp = time(NULL);
-				dbei.cbBlob = lstrlenA(pszUtf) + 1;
+				dbei.cbBlob = mir_strlen(pszUtf) + 1;
 				dbei.pBlob = (PBYTE)(char*)pszUtf;
 				db_event_add(ack->hContact, &dbei);
 			}
@@ -219,7 +219,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!db_get_ts(hContact, modname, "PounceMsg",&dbv))
 	{
-		TCHAR* newPounce = (TCHAR*)mir_alloc(lstrlen(dbv.ptszVal) + lstrlen(message) + 1);
+		TCHAR* newPounce = (TCHAR*)mir_alloc(mir_tstrlen(dbv.ptszVal) + mir_tstrlen(message) + 1);
 		if (!newPounce) return 1;
 		_tcscpy(newPounce, dbv.ptszVal);
 		_tcscat(newPounce, message);

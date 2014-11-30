@@ -279,7 +279,7 @@ int CIrcProto::NLSend(const unsigned char* buf, int cbBuf)
 	if (!con || !buf)
 		return 0;
 	if (m_scriptingEnabled && cbBuf == 0)
-		cbBuf = lstrlenA((const char *)buf);
+		cbBuf = mir_strlen((const char *)buf);
 	return Netlib_Send(con, (const char*)buf, cbBuf, MSG_DUMPASTEXT);
 }
 
@@ -702,7 +702,7 @@ unsigned long ConvertIPToInteger(char* IP)
 	IN_ADDR in;
 	IN_ADDR intemp;
 
-	if (IP == 0 || lstrlenA(IP) == 0)
+	if (IP == 0 || mir_strlen(IP) == 0)
 		return 0;
 
 	intemp.S_un.S_addr = inet_addr(IP);
@@ -815,7 +815,7 @@ int CDccSession::NLReceive(const unsigned char* buf, int cbBuf)
 
 int CDccSession::SendStuff(const TCHAR* fmt)
 {
-	String buf = _T2A(fmt, m_proto->getCodepage());
+	CMStringA buf = _T2A(fmt, m_proto->getCodepage());
 	return NLSend((const unsigned char*)buf.c_str(), buf.GetLength());
 }
 

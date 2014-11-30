@@ -662,7 +662,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 
 		MRA_FILES_QUEUE_FILE &p = dat->pmfqfFiles[dat->dwFilesCount];
 		p.lpwszName = mir_wstrdup(wszCurrFile);
-		p.dwNameLen = lstrlen(p.lpwszName);
+		p.dwNameLen = mir_tstrlen(p.lpwszName);
 		p.dwSize = _wtoi(wszCurrSize);
 		dat->dwFilesTotalSize += p.dwSize;
 		dwFileNameTotalSize += p.dwNameLen * sizeof(TCHAR);
@@ -946,7 +946,7 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, M
 		}
 		else p.dwSize = 0;
 
-		p.dwNameLen = lstrlenW(plpwszFiles[i]);
+		p.dwNameLen = mir_wstrlen(plpwszFiles[i]);
 		p.lpwszName = mir_wstrdup(plpwszFiles[i]);
 	}
 

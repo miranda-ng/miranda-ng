@@ -302,7 +302,7 @@ void CLCDGfx::DrawText(int nX, int nY, LPCTSTR sText)
     dtp.cbSize = sizeof(DRAWTEXTPARAMS);
 
 	RECT rBounds = {nX,nY,GetClipWidth(),GetClipHeight()};
-	DrawTextEx(m_hDC,(LPTSTR)sText,lstrlen(sText),&rBounds,(DT_LEFT | DT_NOPREFIX),&dtp);
+	DrawTextEx(m_hDC,(LPTSTR)sText,mir_tstrlen(sText),&rBounds,(DT_LEFT | DT_NOPREFIX),&dtp);
 
     // restores
     SetMapMode(m_hDC, nOldMapMode);

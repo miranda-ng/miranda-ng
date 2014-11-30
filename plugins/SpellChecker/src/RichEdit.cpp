@@ -238,7 +238,7 @@ void RichEdit::ReplaceSel(const TCHAR *new_text)
 
 		SuspendUndo();
 
-		FixSel(&old_sel, sel, lstrlen(new_text));
+		FixSel(&old_sel, sel, mir_tstrlen(new_text));
 
 		SendMessage(WM_SETREDRAW, FALSE, 0);
 		SendMessage(EM_SETEVENTMASK, 0, old_mask & ~ENM_CHANGE);
@@ -254,7 +254,7 @@ int RichEdit::Replace(int start, int end, const TCHAR *new_text)
 
 	ReplaceSel(new_text);
 
-	int dif = FixSel(&sel, replace_sel, lstrlen(new_text));
+	int dif = FixSel(&sel, replace_sel, mir_tstrlen(new_text));
 	SetSel(sel);
 	return dif;
 }
@@ -267,7 +267,7 @@ int RichEdit::Insert(int pos, const TCHAR *text)
 
 	ReplaceSel(text);
 
-	int dif = FixSel(&sel, replace_sel, lstrlen(text));
+	int dif = FixSel(&sel, replace_sel, mir_tstrlen(text));
 	SetSel(sel);
 	return dif;
 }

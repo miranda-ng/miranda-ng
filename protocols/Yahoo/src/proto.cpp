@@ -433,8 +433,8 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 		* Load Yahoo ID from the database.
 		*/
 		if (!getString(YAHOO_LOGINID, &dbv)) {
-			if (lstrlenA(dbv.pszVal) > 0)
-				lstrcpynA(m_yahoo_id, dbv.pszVal, 255);
+			if (mir_strlen(dbv.pszVal) > 0)
+				mir_strncpy(m_yahoo_id, dbv.pszVal, 255);
 			else
 				err++;
 			db_free(&dbv);
@@ -445,11 +445,11 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 		}
 
 		if (err)
-			lstrcpynA(errmsg, Translate("Please enter your Yahoo ID in Options/Network/Yahoo"), 80);
+			mir_strncpy(errmsg, Translate("Please enter your Yahoo ID in Options/Network/Yahoo"), 80);
 		else {
 			if (!getString(YAHOO_PASSWORD, &dbv)) {
-				if (lstrlenA(dbv.pszVal) > 0)
-					lstrcpynA(m_password, dbv.pszVal, 255);
+				if (mir_strlen(dbv.pszVal) > 0)
+					mir_strncpy(m_password, dbv.pszVal, 255);
 				else
 					err++;
 
@@ -461,7 +461,7 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 			}
 
 			if (err)
-				lstrcpynA(errmsg, Translate("Please enter your Yahoo password in Options/Network/Yahoo"), 80);
+				mir_strncpy(errmsg, Translate("Please enter your Yahoo password in Options/Network/Yahoo"), 80);
 		}
 
 		if (err != 0) {
@@ -477,7 +477,7 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 		FREE(m_pw_token); // No Token yet.
 
 		if (!getString(YAHOO_PWTOKEN, &dbv)) {
-			if (lstrlenA(dbv.pszVal) > 0)
+			if (mir_strlen(dbv.pszVal) > 0)
 				m_pw_token = strdup(dbv.pszVal);
 
 			db_free(&dbv);
@@ -527,7 +527,7 @@ void __cdecl CYahooProto::get_status_thread(void *param)
 	}
 
 	if (!db_get_s(hContact, "CList", "StatusMsg", &dbv)) {
-		if (lstrlenA(dbv.pszVal) >= 1)
+		if (mir_strlen(dbv.pszVal) >= 1)
 			sm = strdup(dbv.pszVal);
 
 		db_free(&dbv);
@@ -540,34 +540,34 @@ void __cdecl CYahooProto::get_status_thread(void *param)
 
 	l = 0;
 	if (gm)
-		l += lstrlenA(gm) + 3;
+		l += mir_strlen(gm) + 3;
 
-	l += lstrlenA(sm) + 1;
+	l += mir_strlen(sm) + 1;
 	fm = (char *)malloc(l);
 
 	fm[0] = '\0';
-	if (gm && lstrlenA(gm) > 0) {
+	if (gm && mir_strlen(gm) > 0) {
 		/* BAH YAHOO SUCKS! WHAT A PAIN!
 		find first carriage return add status message then add the rest */
 		char *c = strchr(gm, '\r');
 
 		if (c != NULL) {
-			lstrcpynA(fm, gm, c - gm + 1);
+			mir_strncpy(fm, gm, c - gm + 1);
 			fm[c - gm + 1] = '\0';
 		}
 		else
-			lstrcpyA(fm, gm);
+			mir_strcpy(fm, gm);
 
 		if (sm) {
-			lstrcatA(fm, ": ");
-			lstrcatA(fm, sm);
+			mir_strcat(fm, ": ");
+			mir_strcat(fm, sm);
 		}
 
 		if (c != NULL)
-			lstrcatA(fm, c);
+			mir_strcat(fm, c);
 	}
 	else if (sm) {
-		lstrcatA(fm, sm);
+		mir_strcat(fm, sm);
 	}
 
 	FREE(sm);

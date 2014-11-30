@@ -232,7 +232,7 @@ int Backup(TCHAR* backup_filename)
 	}
 	else
 	{
-		lstrcpyn(dest_file, backup_filename, MAX_PATH);
+		mir_tstrncpy(dest_file, backup_filename, MAX_PATH);
 		if (!_tcscmp(_tcsrchr(backup_filename, _T('.')), _T(".zip")))
 			bZip = true;
 	}
@@ -268,7 +268,7 @@ int Backup(TCHAR* backup_filename)
 		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
 		if (!options.disable_popups)
 		{
-			size_t dest_file_len = lstrlen(dest_file);
+			size_t dest_file_len = mir_tstrlen(dest_file);
 			TCHAR *puText;
 			if (dest_file_len > 50)
 			{
@@ -276,9 +276,9 @@ int Backup(TCHAR* backup_filename)
 				puText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (dest_file_len + 2));
 				for (i = (int)dest_file_len - 1; dest_file[i] != _T('\\'); i--);
 
-				lstrcpyn(puText, dest_file, i + 2);
-				lstrcat(puText, _T("\n"));
-				lstrcat(puText, dest_file + i + 1);
+				mir_tstrncpy(puText, dest_file, i + 2);
+				mir_tstrcat(puText, _T("\n"));
+				mir_tstrcat(puText, dest_file + i + 1);
 			}
 			else
 				puText = mir_tstrdup(dest_file);

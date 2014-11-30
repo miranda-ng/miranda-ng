@@ -101,7 +101,7 @@ TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 
 	TCHAR *str = (TCHAR *)mir_alloc(2048 * sizeof(TCHAR));
 	str[0] = _T('\0');
-	int len = lstrlen(tmplt);
+	int len = mir_tstrlen(tmplt);
 
 	for (int i = 0; i < len; i++) {
 		tmp[0] = _T('\0');
@@ -112,32 +112,32 @@ TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 			case 'n':
 				{
 					TCHAR stzType[32];
-					lstrcpyn(tmp, GetStatusTypeAsString(xsc->type, stzType), SIZEOF(tmp));
+					mir_tstrncpy(tmp, GetStatusTypeAsString(xsc->type, stzType), SIZEOF(tmp));
 				}
 				break;
 
 			case 't':
 				if (xsc->stzTitle == NULL || xsc->stzTitle[0] == _T('\0'))
-					lstrcpyn(tmp, TranslateT("<no title>"), SIZEOF(tmp));
+					mir_tstrncpy(tmp, TranslateT("<no title>"), SIZEOF(tmp));
 				else
-					lstrcpyn(tmp, xsc->stzTitle, SIZEOF(tmp));
+					mir_tstrncpy(tmp, xsc->stzTitle, SIZEOF(tmp));
 				break;
 
 			case 'm':
 				if (xsc->stzText == NULL || xsc->stzText[0] == _T('\0'))
-					lstrcpyn(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
+					mir_tstrncpy(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
 				else {
 					TCHAR *_tmp = AddCR(xsc->stzText);
-					lstrcpyn(tmp, _tmp, SIZEOF(tmp));
+					mir_tstrncpy(tmp, _tmp, SIZEOF(tmp));
 					mir_free(_tmp);
 				}
 				break;
 
 			case 'c':
 				if (xsc->hContact == NULL)
-					lstrcpyn(tmp, TranslateT("Contact"), SIZEOF(tmp));
+					mir_tstrncpy(tmp, TranslateT("Contact"), SIZEOF(tmp));
 				else
-					lstrcpyn(tmp, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR), SIZEOF(tmp));
+					mir_tstrncpy(tmp, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR), SIZEOF(tmp));
 				break;
 
 			default:
@@ -165,10 +165,10 @@ TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 			tmp[0] = tmplt[i], tmp[1] = _T('\0');
 
 		if (tmp[0] != _T('\0')) {
-			if (lstrlen(tmp) + lstrlen(str) < 2044)
-				lstrcat(str, tmp);
+			if (mir_tstrlen(tmp) + mir_tstrlen(str) < 2044)
+				mir_tstrcat(str, tmp);
 			else {
-				lstrcat(str, _T("..."));
+				mir_tstrcat(str, _T("..."));
 				break;
 			}
 		}

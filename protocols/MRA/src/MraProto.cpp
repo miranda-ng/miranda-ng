@@ -205,9 +205,9 @@ int CMraProto::Authorize(HANDLE hDBEvent)
 	if (strcmp(dbei.szModule, m_szModuleName))   return 1;
 
 	LPSTR lpszNick = (LPSTR)(dbei.pBlob + sizeof(DWORD) * 2);
-	LPSTR lpszFirstName = lpszNick + lstrlenA(lpszNick) + 1;
-	LPSTR lpszLastName = lpszFirstName + lstrlenA(lpszFirstName) + 1;
-	MraAuthorize(CMStringA(lpszLastName + lstrlenA(lpszLastName) + 1));
+	LPSTR lpszFirstName = lpszNick + mir_strlen(lpszNick) + 1;
+	LPSTR lpszLastName = lpszFirstName + mir_strlen(lpszFirstName) + 1;
+	MraAuthorize(CMStringA(lpszLastName + mir_strlen(lpszLastName) + 1));
 	return 0;
 }
 
@@ -225,9 +225,9 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 	if (strcmp(dbei.szModule, m_szModuleName))   return 1;
 
 	LPSTR lpszNick = (LPSTR)(dbei.pBlob + sizeof(DWORD) * 2);
-	LPSTR lpszFirstName = lpszNick + lstrlenA(lpszNick) + 1;
-	LPSTR lpszLastName = lpszFirstName + lstrlenA(lpszFirstName) + 1;
-	LPSTR szEmail = lpszLastName + lstrlenA(lpszLastName) + 1;
+	LPSTR lpszFirstName = lpszNick + mir_strlen(lpszNick) + 1;
+	LPSTR lpszLastName = lpszFirstName + mir_strlen(lpszFirstName) + 1;
+	LPSTR szEmail = lpszLastName + mir_strlen(lpszLastName) + 1;
 
 	MraMessage(FALSE, NULL, 0, 0, szEmail, szReason, NULL, 0);
 	return 0;
@@ -249,7 +249,7 @@ int CMraProto::AuthRequest(MCONTACT hContact, const TCHAR *lptszMessage)
 HANDLE CMraProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath)
 {
 	if (szPath != NULL)
-		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD)hTransfer, szPath, lstrlen(szPath)) == NO_ERROR)
+		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD)hTransfer, szPath, mir_tstrlen(szPath)) == NO_ERROR)
 			return hTransfer; // Success
 
 	return NULL;
@@ -421,7 +421,7 @@ int CMraProto::SendMsg(MCONTACT hContact, int flags, const char *lpszMessage)
 	int iRet = 0;
 
 	if (flags & PREF_UNICODE)
-		lpwszMessage = (LPWSTR)(lpszMessage + lstrlenA(lpszMessage) + 1);
+		lpwszMessage = (LPWSTR)(lpszMessage + mir_strlen(lpszMessage) + 1);
 	else if (flags & PREF_UTF)
 		lpwszMessage = mir_utf8decodeT(lpszMessage);
 	else
@@ -576,7 +576,7 @@ int CMraProto::SetAwayMsg(int m_iStatus, const TCHAR* msg)
 	if (!m_bLoggedIn)
 		return 1;
 
-	size_t dwStatusDescSize = lstrlen(msg);
+	size_t dwStatusDescSize = mir_tstrlen(msg);
 	DWORD dwStatus = m_iStatus;
 	DWORD dwXStatus = m_iXStatus;
 

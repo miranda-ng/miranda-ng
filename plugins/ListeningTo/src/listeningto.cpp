@@ -220,7 +220,7 @@ void RegisterProtocol(char *proto, TCHAR *account)
 	strncpy(proto_items[id].proto, proto, SIZEOF(proto_items[id].proto));
 	proto_items[id].proto[SIZEOF(proto_items[id].proto)-1] = 0;
 
-	lstrcpyn(proto_items[id].account, account, SIZEOF(proto_items[id].account));
+	mir_tstrncpy(proto_items[id].account, account, SIZEOF(proto_items[id].account));
 
 	proto_items[id].hMenu = NULL;
 	proto_items[id].old_xstatus = 0;
@@ -240,7 +240,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 	{
 		if (wParam == PRAC_UPGRADED || wParam == PRAC_CHANGED)
 		{
-			lstrcpyn(info->account, proto->tszAccountName, SIZEOF(info->account));
+			mir_tstrncpy(info->account, proto->tszAccountName, SIZEOF(info->account));
 
 			TCHAR text[512];
 			mir_sntprintf(text, SIZEOF(text), TranslateT("Send to %s"), info->account);

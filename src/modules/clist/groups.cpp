@@ -84,10 +84,10 @@ static INT_PTR CreateGroupInternal(INT_PTR iParent, const TCHAR *ptszName)
 		mir_sntprintf(newBaseName, SIZEOF(newBaseName), _T("%s\\%s"), dbv.ptszVal + 1, grpName);
 		mir_free(dbv.pszVal);
 	}
-	else lstrcpyn(newBaseName, grpName, SIZEOF(newBaseName));
+	else mir_tstrncpy(newBaseName, grpName, SIZEOF(newBaseName));
 
 	_itoa(newId, str, 10);
-	lstrcpyn(newName + 1, newBaseName, SIZEOF(newName) - 1);
+	mir_tstrncpy(newName + 1, newBaseName, SIZEOF(newName) - 1);
 	if (ptszName) {
 		i = GroupNameExists(newBaseName, -1);
 		if (i) newId = i - 1;
@@ -140,7 +140,7 @@ static INT_PTR GetGroupName2(WPARAM wParam, LPARAM lParam)
 	_itoa(wParam - 1, idstr, 10);
 	if (db_get_s(NULL, "CListGroups", idstr, &dbv))
 		return (INT_PTR) (char *) NULL;
-	lstrcpynA(name, dbv.pszVal + 1, SIZEOF(name));
+	mir_strncpy(name, dbv.pszVal + 1, SIZEOF(name));
 	if ((DWORD *) lParam != NULL)
 		*(DWORD *) lParam = dbv.pszVal[0];
 	db_free(&dbv);
@@ -157,7 +157,7 @@ TCHAR* fnGetGroupName(int idx, DWORD* pdwFlags)
 	if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
 		return NULL;
 
-	lstrcpyn(name, dbv.ptszVal + 1, SIZEOF(name));
+	mir_tstrncpy(name, dbv.ptszVal + 1, SIZEOF(name));
 	if (pdwFlags != NULL)
 		*pdwFlags = dbv.ptszVal[0];
 	db_free(&dbv);
@@ -185,7 +185,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	_itoa(wParam - 1, str, 10);
 	if (db_get_ts(NULL, "CListGroups", str, &dbv))
 		return 1;
-	lstrcpyn(name, dbv.ptszVal + 1, SIZEOF(name));
+	mir_tstrncpy(name, dbv.ptszVal + 1, SIZEOF(name));
 	db_free(&dbv);
 	if (db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT))
 	{
@@ -197,7 +197,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	SetCursor(LoadCursor(NULL, IDC_WAIT));
 	//must remove setting from all child contacts too
 	//children are demoted to the next group up, not deleted.
-	lstrcpy(szNewParent, name);
+	mir_tstrcpy(szNewParent, name);
 	pszLastBackslash = _tcsrchr(szNewParent, '\\');
 	if (pszLastBackslash)
 		pszLastBackslash[0] = '\0';
@@ -245,7 +245,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 		TCHAR szNewName[256];
 		int len;
 
-		len = lstrlen(name);
+		len = mir_tstrlen(name);
 		for (i=0;; i++) {
 			_itoa(i, str, 10);
 			if (db_get_ts(NULL, "CListGroups", str, &dbv))
@@ -254,7 +254,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 				if (szNewParent[0])
 					mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), szNewParent, dbv.ptszVal + len + 2);
 				else
-					lstrcpyn(szNewName, dbv.ptszVal + len + 2, SIZEOF(szNewName));
+					mir_tstrncpy(szNewName, dbv.ptszVal + len + 2, SIZEOF(szNewName));
 				cli.pfnRenameGroup(i + 1, szNewName);
 			}
 			db_free(&dbv);
@@ -286,9 +286,9 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
 		return 1;
 	str[0] = dbv.pszVal[0] & 0x7F;
-	lstrcpyn(oldName, dbv.ptszVal + 1, SIZEOF(oldName));
+	mir_tstrncpy(oldName, dbv.ptszVal + 1, SIZEOF(oldName));
 	db_free(&dbv);
-	lstrcpyn(str + 1, szName, SIZEOF(str) - 1);
+	mir_tstrncpy(str + 1, szName, SIZEOF(str) - 1);
 	db_set_ts(NULL, "CListGroups", idstr, str);
 
 	//must rename setting in all child contacts too
@@ -307,7 +307,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 		TCHAR szNewName[256];
 		int len, i;
 
-		len = lstrlen(oldName);
+		len = mir_tstrlen(oldName);
 		for (i=0;; i++) {
 			if (i == groupId)
 				continue;
@@ -327,7 +327,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 		TCHAR *pszLastBackslash;
 		int i;
 
-		lstrcpyn(str, szName, SIZEOF(str));
+		mir_tstrncpy(str, szName, SIZEOF(str));
 		pszLastBackslash = _tcsrchr(str, '\\');
 		if (pszLastBackslash != NULL) {
 			*pszLastBackslash = '\0';
@@ -488,11 +488,11 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 		do {
 			pBackslash = _tcschr(pNextField, '\\');
 			if (pBackslash == NULL) {
-				lstrcpyn(szThisField, pNextField, SIZEOF(szThisField));
+				mir_tstrncpy(szThisField, pNextField, SIZEOF(szThisField));
 				pNextField = NULL;
 			}
 			else {
-				lstrcpyn(szThisField, pNextField, min(SIZEOF(szThisField), pBackslash - pNextField + 1));
+				mir_tstrncpy(szThisField, pNextField, min(SIZEOF(szThisField), pBackslash - pNextField + 1));
 				pNextField = pBackslash + 1;
 			}
 			compareResult = 1;

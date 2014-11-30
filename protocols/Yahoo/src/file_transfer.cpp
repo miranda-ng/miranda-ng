@@ -486,7 +486,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 	ZeroMemory(fn, 1024);
 
 	if (fname != NULL)
-		lstrcpynA(fn, fname, 1024);
+		mir_strncpy(fn, fname, 1024);
 	else {
 		char *start, *end;
 
@@ -498,9 +498,9 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 		end = ( char* )strrchr(url, '?');
 
 		if (start && *start && end) {
-			lstrcpynA(fn, start, end-start+1);
+			mir_strncpy(fn, start, end-start+1);
 		} else 
-			lstrcpyA(fn, "filename.ext");
+			mir_strcpy(fn, "filename.ext");
 	}
 
 	yahoo_file_info *fi = y_new(struct yahoo_file_info,1);
@@ -557,7 +557,7 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 		struct yahoo_file_info *fi = (struct yahoo_file_info *) f->data;
 
 		mir_snprintf(z, 1024, "%s (%lu)\r\n", fi->filename, fi->filesize);
-		lstrcatA(fn, z);
+		mir_strcat(fn, z);
 		fc++;
 	}
 

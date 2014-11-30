@@ -11,12 +11,12 @@ void BuildList(void)
 			acc = (Account *)realloc(acc, acc_num * sizeof(Account));
 			memset(&acc[acc_num-1], 0, sizeof(Account));
 			acc[acc_num-1].hContact = hContact;
-			lstrcpyA(acc[acc_num-1].name, dbv.pszVal);
+			mir_strcpy(acc[acc_num-1].name, dbv.pszVal);
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
 			db_free(&dbv);
 			
 			if (!db_get_s(hContact, pluginName, "Password", &dbv)) {
-				lstrcpyA(acc[acc_num-1].pass, dbv.pszVal);
+				mir_strcpy(acc[acc_num-1].pass, dbv.pszVal);
 				db_free(&dbv);
 			}
 		}
@@ -25,7 +25,7 @@ void BuildList(void)
 	for (int i = 0; i < acc_num; i++) {
 		char *tail = strchr(acc[i].name, '@');
 		if (tail && lstrcmpA(tail + 1, "gmail.com") != 0)
-			lstrcpyA(acc[i].hosted, tail + 1);
+			mir_strcpy(acc[i].hosted, tail + 1);
 		acc[i].IsChecking = FALSE;
 	}
 }
@@ -43,7 +43,7 @@ BOOL GetBrowser(char *str)
 	else if (opt.OpenUsePrg == 0)
 		strKey = strDefault;
 	else if (!db_get_s(NULL, pluginName, "OpenUsePrgPath", &dbv)) {
-		lstrcpyA(str, dbv.pszVal);
+		mir_strcpy(str, dbv.pszVal);
 		db_free(&dbv);
 		return FALSE;
 	}

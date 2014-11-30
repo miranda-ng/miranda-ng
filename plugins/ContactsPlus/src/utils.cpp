@@ -115,7 +115,7 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, MCONTACT hContact)
 void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, TCHAR *pszTitleStart)
 {
 	TCHAR newtitle[512];
-	lstrcpyn(newtitle, TranslateTS(pszTitleStart), SIZEOF(newtitle));
+	mir_tstrncpy(newtitle, TranslateTS(pszTitleStart), SIZEOF(newtitle));
 	
 	if (hContact) {
 		char *szProto = GetContactProto(hContact);

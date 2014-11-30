@@ -53,7 +53,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 		if (db_get_ts(NULL, "SRMM", str, &dbv))
 			_tcscpy(lf->lfFaceName, _T("Arial"));
 		else {
-			lstrcpyn(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
+			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
 			db_free(&dbv);
 		}
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSet", i);
@@ -146,10 +146,10 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		if (pszWordText)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("&Message %s"), pszWordText);
 		else
-			lstrcpyn(szTemp, TranslateT("&Message"), SIZEOF(szTemp) - 1);
+			mir_tstrncpy(szTemp, TranslateT("&Message"), SIZEOF(szTemp) - 1);
 
-		if (lstrlen(szTemp) > 40)
-			lstrcpy(szTemp + 40, _T("..."));
+		if (mir_tstrlen(szTemp) > 40)
+			mir_tstrcpy(szTemp + 40, _T("..."));
 		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}

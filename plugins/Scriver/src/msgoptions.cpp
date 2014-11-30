@@ -196,7 +196,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 
 		ptrT tszFace(db_get_tsa(NULL, SRMMMOD, str));
 		if (tszFace == NULL)
-			lstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
+			mir_tstrcpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else
 			_tcsncpy(lf->lfFaceName, tszFace, SIZEOF(lf->lfFaceName));
 

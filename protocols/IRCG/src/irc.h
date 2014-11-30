@@ -98,7 +98,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FILERESUME_CANCEL	11
 
 struct CIrcProto;
-typedef CMStringA String;
 
 // special service for tweaking performance, implemented in chat.dll
 #define MS_GC_GETEVENTPTR  "GChat/GetNewEventPtr"
@@ -121,7 +120,7 @@ struct IPRESOLVE      // Contains info about the channels
 	~IPRESOLVE()
 	{}
 
-	String     sAddr;
+	CMStringA     sAddr;
 	int        iType;
 };
 
@@ -158,7 +157,7 @@ struct PERFORM_INFO  // Contains 'm_perform buffer' for different networks
 	~PERFORM_INFO()
 	{}
 
-	String mSetting;
+	CMStringA mSetting;
 	CMString mText;
 };
 
@@ -379,7 +378,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CIgnorePrefsDlg* m_ignoreDlg;
 
 	int      m_noOfChannels, m_manualWhoisCount;
-	String   sChannelModes, sUserModes;
+	CMStringA   sChannelModes, sUserModes;
 	CMString sChannelPrefixes, sUserModePrefixes, WhoisAwayReply;
 
 	CDlgBase::CreateParam OptCreateAccount, OptCreateConn, OptCreateIgnore, OptCreateOther;
@@ -652,14 +651,12 @@ void    ReleaseIconEx(HICON hIcon);
 int          __stdcall WCCmp(const TCHAR* wild, const TCHAR* string);
 char*        __stdcall IrcLoadFile(TCHAR * szPath);
 CMString     __stdcall GetWord(const TCHAR* text, int index);
-CMString&    __stdcall ReplaceString (CMString& text, const TCHAR* replaceme, const TCHAR* newword);
 const TCHAR* __stdcall GetWordAddress(const TCHAR* text, int index);
 void         __stdcall RemoveLinebreaks( CMString& Message );
 TCHAR*       __stdcall my_strstri(const TCHAR *s1, const TCHAR *s2) ;
 TCHAR*       __stdcall DoColorCodes (const TCHAR* text, bool bStrip, bool bReplacePercent);
 
-String&  __stdcall ReplaceString (String& text, const char* replaceme, const char* newword);
-String   __stdcall GetWord(const char* text, int index);
+CMStringA   __stdcall GetWord(const char* text, int index);
 
 #pragma comment(lib,"comctl32.lib")
 

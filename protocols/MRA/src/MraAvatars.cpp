@@ -332,7 +332,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			pai.hContact = pmraaqiAvatarsQueueItem->hContact;
 			pai.format = dwAvatarFormat;
 			if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
-				lstrcpyn(pai.filename, wszFileName, SIZEOF(pai.filename));
+				mir_tstrncpy(pai.filename, wszFileName, SIZEOF(pai.filename));
 			else
 				PathToRelativeT(wszFileName, pai.filename);
 
@@ -551,7 +551,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFl
 			// файл с аватаром существует и не устарел/не было комманды обновлять(просто запрос имени)
 			if (lpszPath) {
 				if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
-					lstrcpyn(lpszPath, wszFileName, MAX_PATH);
+					mir_tstrncpy(lpszPath, wszFileName, MAX_PATH);
 				else
 					PathToRelativeT(wszFileName, lpszPath);
 			}

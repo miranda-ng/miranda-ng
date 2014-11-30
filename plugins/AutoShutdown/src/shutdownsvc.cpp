@@ -483,7 +483,7 @@ INT_PTR ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
 		static char szConvBuf[128];
 		char *buf=u2a(pszDesc);
 		if (buf==NULL) return 0;
-		lstrcpynA(szConvBuf,buf,sizeof(szConvBuf));
+		mir_strncpy(szConvBuf,buf,sizeof(szConvBuf));
 		mir_free(buf);
 		return (INT_PTR)szConvBuf;
 	}

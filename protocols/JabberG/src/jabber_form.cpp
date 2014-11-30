@@ -116,7 +116,7 @@ void JabberFormSetInstruction(HWND hwndForm, const TCHAR *text)
 {
 	if (!text) text = _T("");
 
-	int len = lstrlen(text);
+	int len = mir_tstrlen(text);
 	int fixedLen = len;
 	for (int i = 1; i < len; i++)
 		if ((text[i - 1] == _T('\n')) && (text[i] != _T('\r')))
@@ -147,7 +147,7 @@ void JabberFormSetInstruction(HWND hwndForm, const TCHAR *text)
 	SetRect(&rcText, 0, 0, rcText.right-rcText.left, 0);
 	HDC hdcEdit = GetDC(GetDlgItem(hwndForm, IDC_INSTRUCTION));
 	HFONT hfntSave = (HFONT)SelectObject(hdcEdit, (HFONT)SendDlgItemMessage(hwndForm, IDC_INSTRUCTION, WM_GETFONT, 0, 0));
-	DrawTextEx(hdcEdit, (TCHAR *)text, lstrlen(text), &rcText,
+	DrawTextEx(hdcEdit, (TCHAR *)text, mir_tstrlen(text), &rcText,
 		DT_CALCRECT|DT_EDITCONTROL|DT_TOP|DT_WORDBREAK, NULL);
 	SelectObject(hdcEdit, hfntSave);
 	ReleaseDC(GetDlgItem(hwndForm, IDC_INSTRUCTION), hdcEdit);

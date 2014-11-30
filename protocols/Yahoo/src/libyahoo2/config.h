@@ -25,11 +25,6 @@
 #include <windows.h>
 #include <stdio.h>
 
-#define strlen lstrlenA
-#define strcat lstrcatA
-#define strcmp lstrcmpA
-#define strcpy lstrcpyA
-
 #ifdef _MSC_VER
 
 #define strncasecmp strnicmp

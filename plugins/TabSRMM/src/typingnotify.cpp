@@ -115,16 +115,16 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (iMode == PROTOTYPE_CONTACTTYPING_OFF) {
 		if (StopDisabled)
 			return;
-		lstrcpyn(ppd.lptzContactName, szContactName, MAX_CONTACTNAME);
-		lstrcpyn(ppd.lptzText, szStop, MAX_SECONDLINE);
+		mir_tstrncpy(ppd.lptzContactName, szContactName, MAX_CONTACTNAME);
+		mir_tstrncpy(ppd.lptzText, szStop, MAX_SECONDLINE);
 		ppd.hNotification = hntfStopped;
 		notyping = 1;
 	}
 	else {
 		if (StartDisabled)
 			return;
-		lstrcpyn(ppd.lptzContactName, szContactName, MAX_CONTACTNAME);
-		lstrcpyn(ppd.lptzText, szStart, MAX_SECONDLINE);
+		mir_tstrncpy(ppd.lptzContactName, szContactName, MAX_CONTACTNAME);
+		mir_tstrncpy(ppd.lptzText, szStart, MAX_SECONDLINE);
 		ppd.hNotification = hntfStarted;
 		notyping = 0;
 	}
@@ -307,13 +307,13 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					for (i=0; i < 2; i++) {
 						int notyping;
 						if (i == PROTOTYPE_CONTACTTYPING_OFF) {
-							lstrcpy(ppd.lptzContactName, TranslateT("Contact"));
-							lstrcpyn(ppd.lptzText, szStop, MAX_SECONDLINE);
+							mir_tstrcpy(ppd.lptzContactName, TranslateT("Contact"));
+							mir_tstrncpy(ppd.lptzText, szStop, MAX_SECONDLINE);
 							notyping = 1;
 						}
 						else {
-							lstrcpy(ppd.lptzContactName, TranslateT("Contact"));
-							lstrcpyn(ppd.lptzText, szStart, MAX_SECONDLINE);
+							mir_tstrcpy(ppd.lptzContactName, TranslateT("Contact"));
+							mir_tstrncpy(ppd.lptzText, szStart, MAX_SECONDLINE);
 							notyping = 0;
 						}
 

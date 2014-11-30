@@ -76,7 +76,7 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 					if (p->defStr == NULL)
 						*ptr = 0;
 					else
-						lstrcpyn((TCHAR*)ptr, p->defStr, (int)p->size);
+						mir_tstrncpy((TCHAR*)ptr, p->defStr, (int)p->size);
 				}
 				else *(TCHAR**)ptr = mir_tstrdup(p->defStr);
 			}
@@ -133,14 +133,14 @@ static int sttServerEnum( const char* szSetting, LPARAM )
 	}
 	char* p2 = strchr(p1, ':');
 	pData->m_address = (char*)mir_alloc(p2 - p1 + 1);
-	lstrcpynA(pData->m_address, p1, p2 - p1 + 1);
+	mir_strncpy(pData->m_address, p1, p2 - p1 + 1);
 
 	p1 = p2 + 1;
 	while (*p2 != 'G' && *p2 != '-')
 		p2++;
 
 	char* buf = (char*)alloca(p2 - p1 + 1);
-	lstrcpynA(buf, p1, p2 - p1 + 1);
+	mir_strncpy(buf, p1, p2 - p1 + 1);
 	pData->m_portStart = atoi(buf);
 
 	if (*p2 == 'G')
@@ -149,14 +149,14 @@ static int sttServerEnum( const char* szSetting, LPARAM )
 		p1 = p2 + 1;
 		p2 = strchr(p1, 'G');
 		buf = (char*)alloca(p2 - p1 + 1);
-		lstrcpynA(buf, p1, p2 - p1 + 1);
+		mir_strncpy(buf, p1, p2 - p1 + 1);
 		pData->m_portEnd = atoi(buf);
 	}
 
 	p1 = strchr(p2, ':') + 1;
 	p2 = strchr(p1, '\0');
 	pData->m_group = (char*)mir_alloc(p2 - p1 + 1);
-	lstrcpynA(pData->m_group, p1, p2 - p1 + 1);
+	mir_strncpy(pData->m_group, p1, p2 - p1 + 1);
 
 	g_servers.insert(pData);
 	db_free(&dbv);
@@ -179,7 +179,7 @@ static void removeSpaces(TCHAR* p)
 {
 	while (*p) {
 		if (*p == ' ')
-			memmove(p, p + 1, sizeof(TCHAR)*lstrlen(p));
+			memmove(p, p + 1, sizeof(TCHAR)*mir_tstrlen(p));
 		p++;
 	}
 }
@@ -762,9 +762,9 @@ void CConnectPrefsDlg::OnApply()
 	SERVER_INFO *pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
 	if (pData && (INT_PTR)pData != CB_ERR) {
 		if (m_enableServer.GetState())
-			lstrcpyA(m_proto->m_network, pData->m_group);
+			mir_strcpy(m_proto->m_network, pData->m_group);
 		else
-			lstrcpyA(m_proto->m_network, "");
+			mir_strcpy(m_proto->m_network, "");
 		m_proto->m_iSSL = pData->m_iSSL;
 	}
 
@@ -927,8 +927,8 @@ void CCtcpPrefsDlg::OnApply()
 	if (m_enableIP.GetState()) {
 		char szTemp[500];
 		m_ip.GetTextA(szTemp, sizeof(szTemp));
-		lstrcpynA(m_proto->m_mySpecifiedHost, GetWord(szTemp, 0).c_str(), 499);
-		if (lstrlenA(m_proto->m_mySpecifiedHost))
+		mir_strncpy(m_proto->m_mySpecifiedHost, GetWord(szTemp, 0).c_str(), 499);
+		if (mir_strlen(m_proto->m_mySpecifiedHost))
 			m_proto->ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(m_proto->m_mySpecifiedHost, IP_MANUAL));
 	}
 	else m_proto->m_mySpecifiedHost[0] = 0;
@@ -1193,7 +1193,7 @@ void COtherPrefsDlg::OnApply()
 
 void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 {
-	String sSetting = String("PERFORM:") + szValueName;
+	CMStringA sSetting = CMStringA("PERFORM:") + szValueName;
 	sSetting.MakeUpper();
 
 	PERFORM_INFO* pPref;
@@ -1357,9 +1357,9 @@ void CIrcProto::InitIgnore(void)
 				pTemp--;
 			*++pTemp = 0;
 
-			String mask = GetWord(p1, 0);
-			String flags = GetWord(p1, 1);
-			String network = GetWord(p1, 2);
+			CMStringA mask = GetWord(p1, 0);
+			CMStringA flags = GetWord(p1, 1);
+			CMStringA network = GetWord(p1, 2);
 			if (!mask.IsEmpty())
 				m_ignoreItems.insert(new CIrcIgnoreItem(getCodepage(), mask.c_str(), flags.c_str(), network.c_str()));
 
@@ -1892,7 +1892,7 @@ void InitServers()
 		if (serverFile) {
 			char* pszSvrs = (char*)LockResource(LoadResource(hInst, FindResource(hInst, MAKEINTRESOURCE(IDR_SERVERS), _T("TEXT"))));
 			if (pszSvrs)
-				fwrite(pszSvrs, 1, lstrlenA(pszSvrs) + 1, serverFile);
+				fwrite(pszSvrs, 1, mir_strlen(pszSvrs) + 1, serverFile);
 			fclose(serverFile);
 
 			sttImportIni(szIniFile);

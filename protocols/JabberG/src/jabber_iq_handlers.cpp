@@ -116,8 +116,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
-#define StringCchCopy(x,y,z)      lstrcpyn((x),(z),(y))
-#define StringCchCat(x,y,z)       lstrcat((x),(z))
+#define StringCchCopy(x,y,z)      mir_tstrncpy((x),(z),(y))
+#define StringCchCat(x,y,z)       mir_tstrcat((x),(z))
 
 // slightly modified sample from MSDN
 BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
@@ -336,7 +336,7 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo *pInfo)
 	if (m_options.ShowOSVersion) {
 		TCHAR os[256] = {0};
 		if (!GetOSDisplayString(os, SIZEOF(os)))
-			lstrcpyn(os, _T("Microsoft Windows"), SIZEOF(os));
+			mir_tstrncpy(os, _T("Microsoft Windows"), SIZEOF(os));
 		query << XCHILD(_T("os"), os);
 	}
 

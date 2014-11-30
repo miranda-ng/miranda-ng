@@ -331,7 +331,7 @@ void SaveAlarms() {
 			if (_tcslen(i->szCommand)) {
 				mir_snprintf(buff, SIZEOF(buff), "ActionCommand%d", index);
 				db_set_ts(0, MODULE, buff, i->szCommand);
-				if (lstrlen(i->szCommandParams)) {
+				if (mir_tstrlen(i->szCommandParams)) {
 					mir_snprintf(buff, SIZEOF(buff), "ActionParams%d", index);
 					db_set_ts(0, MODULE, buff, i->szCommandParams);
 				}
@@ -508,8 +508,8 @@ void ShowPopup(ALARM *alarm)
 
 		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = hIconMenuSet;
-		lstrcpyn(ppd.lptzContactName, data->szTitle, MAX_CONTACTNAME);
-		lstrcpyn(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
+		mir_tstrncpy(ppd.lptzContactName, data->szTitle, MAX_CONTACTNAME);
+		mir_tstrncpy(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
 		ppd.PluginWindowProc = PopupAlarmDlgProc;
 		ppd.PluginData = data;
 		ppd.iSeconds = -1;

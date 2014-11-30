@@ -98,7 +98,7 @@ static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 	TCHAR buf[MAX_PATH];
 	GetContactReceivedFilesDir(wParam, buf, MAX_PATH, TRUE);
 	char* dir = mir_t2a(buf);
-	lstrcpynA((char*)lParam, dir, MAX_PATH);
+	mir_strncpy((char*)lParam, dir, MAX_PATH);
 	mir_free(dir);
 	return 0;
 }
@@ -358,9 +358,9 @@ static void sttRecvCreateBlob(DBEVENTINFO &dbei, int fileCount, char **pszFiles,
 	dbei.cbBlob = sizeof(DWORD);
 
 	for (int i = 0; i < fileCount; i++)
-		dbei.cbBlob += lstrlenA(pszFiles[i]) + 1;
+		dbei.cbBlob += mir_strlen(pszFiles[i]) + 1;
 
-	dbei.cbBlob += lstrlenA(szDescr) + 1;
+	dbei.cbBlob += mir_strlen(szDescr) + 1;
 
 	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == 0)
 		return;
@@ -369,7 +369,7 @@ static void sttRecvCreateBlob(DBEVENTINFO &dbei, int fileCount, char **pszFiles,
 	BYTE* p = dbei.pBlob + sizeof(DWORD);
 	for (int i = 0; i < fileCount; i++) {
 		strcpy((char*)p, pszFiles[i]);
-		p += lstrlenA(pszFiles[i]) + 1;
+		p += mir_strlen(pszFiles[i]) + 1;
 	}
 	strcpy((char*)p, (szDescr == NULL) ? "" : szDescr);
 }

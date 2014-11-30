@@ -400,7 +400,7 @@ VOID SwitchLayout(bool lastword)
 					event.iType = IEE_GET_SELECTION;
 					event.hwnd = hwnd3;
 					selected = (TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
-					lstrcpy(buf, selected);
+					mir_tstrcpy(buf, selected);
 				}
 				else
 					SendMessage(hwnd2, WM_GETTEXT, SIZEOF(buf), (LPARAM)buf);		// gimme, gimme, gimme...
