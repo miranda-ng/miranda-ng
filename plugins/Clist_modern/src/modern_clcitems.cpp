@@ -387,7 +387,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 		}
 		if (cont) {
 			cont->SubAllocated = 0;
-			if (cont->proto && dat->IsMetaContactsEnabled  && strcmp(cont->proto, META_PROTO) == 0)
+			if (cont->proto && dat->IsMetaContactsEnabled  && mir_strcmp(cont->proto, META_PROTO) == 0)
 				AddSubcontacts(dat, cont, CLCItems_IsShowOfflineGroup(group));
 		}
 	}

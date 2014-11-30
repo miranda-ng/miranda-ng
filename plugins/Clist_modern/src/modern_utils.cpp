@@ -22,19 +22,7 @@ char * __cdecl strstri( char *a, const char *b)
     free(y);
     return NULL;
 }
-int __cdecl mir_strcmpi(const char *a, const char *b)
-{
-	if (a == NULL && b == NULL) return 0;
-	if (a == NULL || b == NULL) return _stricmp(a?a:"",b?b:"");
-    return _stricmp(a,b);
-}
 
-int __cdecl mir_tstrcmpi(const TCHAR *a, const TCHAR *b)
-{
-	if (a == NULL && b == NULL) return 0;
-	if (a == NULL || b == NULL) return _tcsicmp(a?a:_T(""),b?b:_T(""));
-	return _tcsicmp(a,b);
-}
 BOOL __cdecl mir_bool_strcmpi(const char *a, const char *b)
 {
 	if (a == NULL && b == NULL) return 1;
@@ -50,18 +38,9 @@ BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b)
 }
 
 #ifdef strlen
-#undef strcmp
+#undef mir_strcmp
 #undef strlen
 #endif
-
-int __cdecl mir_strcmp (const char *a, const char *b)
-{
-	if (!(a && b)) return a != b;
-	return (strcmp(a,b));
-};
-
-#define strlen(a) mir_strlen(a)
-#define strcmp(a,b) mir_strcmp(a,b)
 
 //copy len symbols from string - do not check is it null terminated or len is more then actual
 char * strdupn(const char * src, int len)

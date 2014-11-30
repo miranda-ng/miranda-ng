@@ -503,7 +503,7 @@ BYTE CExImContactBase::isHandle(MCONTACT hContact)
 	}
 	// compare nicknames if no UID
 	else if (!DB::Setting::GetUString(hContact, _pszProto, SET_CONTACT_NICK, &dbv)) {
-		if (dbv.type == DBVT_UTF8 && dbv.pszVal && !mir_stricmp(dbv.pszVal,_pszNick)) {
+		if (dbv.type == DBVT_UTF8 && dbv.pszVal && !mir_strcmpi(dbv.pszVal,_pszNick)) {
 			LPTSTR ptszNick = mir_utf8decodeT(_pszNick);
 			LPTSTR ptszProto = mir_a2t(_pszProto);
 			int ans = MsgBox(NULL, MB_ICONQUESTION|MB_YESNO, LPGENT("Question"), LPGENT("contact identification"),

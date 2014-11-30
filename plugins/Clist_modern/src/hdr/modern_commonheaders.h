@@ -143,17 +143,8 @@ extern TCHAR SkinsFolder[MAX_PATH];
 
 char* __cdecl strstri( char *a, const char *b);
 BOOL __cdecl mir_bool_strcmpi(const char *a, const char *b);
-int __cdecl mir_strcmp (const char *a, const char *b);
-int __cdecl mir_strcmpi(const char *a, const char *b);
-int __cdecl mir_tstrcmpi(const TCHAR *a, const TCHAR *b);
 BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b);
 DWORD exceptFunction(LPEXCEPTION_POINTERS EP);
-
-#ifndef MYCMP
-#define MYCMP 1
-#define strcmp(a,b) mir_strcmp(a,b)
-#define strlen(a) mir_strlen(a)
-#endif
 
 //  Register of plugin's user
 //
@@ -356,7 +347,7 @@ public:
 		if ( this->_dwKey != second._dwKey )
 			return ( this->_dwKey < second._dwKey );
 		else
-			return ( strcmp( this->_strKey, second._strKey ) < 0 ); // already maked upper so in any case - will be case insensitive
+			return ( mir_strcmp( this->_strKey, second._strKey ) < 0 ); // already maked upper so in any case - will be case insensitive
 	}
 
 	struct HashKeyLess

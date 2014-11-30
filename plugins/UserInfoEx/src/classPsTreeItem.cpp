@@ -31,7 +31,7 @@ BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hWnd, LPARAM lParam)
 {
 	 TCHAR szClass[64];
 	 GetClassName(hWnd, szClass, 64);
-	 if (!mir_tcscmp(szClass, _T("Button")) && (GetWindowLongPtr(hWnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
+	 if (!mir_tstrcmp(szClass, _T("Button")) && (GetWindowLongPtr(hWnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
 			SendMessage(hWnd, WM_SETFONT, lParam, NULL);
 	 return TRUE;
 }
@@ -202,7 +202,7 @@ int CPsTreeItem::Name(LPTSTR ptszTitle, const BYTE bIsUnicode)
  **/
 BYTE	CPsTreeItem::HasName(const LPCSTR pszName) const
 { 
-	return !mir_stricmp(_pszName, pszName); 
+	return !mir_strcmpi(_pszName, pszName); 
 };
 
 /**

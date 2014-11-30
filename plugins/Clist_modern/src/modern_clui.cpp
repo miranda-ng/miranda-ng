@@ -51,7 +51,7 @@ struct PROTOTICKS
 
 static int CompareTicks(const PROTOTICKS *p1, const PROTOTICKS *p2)
 {
-	return strcmp(p1->szProto, p2->szProto);
+	return mir_strcmp(p1->szProto, p2->szProto);
 }
 
 static OBJLIST<PROTOTICKS> arTicks(1, CompareTicks);
@@ -1004,7 +1004,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 static PROTOTICKS* CLUI_GetProtoTicksByProto(char *szProto)
 {
 	for (int i = 0; i < arTicks.getCount(); i++)
-		if (!strcmp(arTicks[i].szProto, szProto))
+		if (!mir_strcmp(arTicks[i].szProto, szProto))
 			return &arTicks[i];
 
 	PROTOTICKS *pt = new PROTOTICKS();

@@ -421,7 +421,7 @@ BYTE CExImContactXML::ExportEvents()
 				// find module
 				TiXmlNode *xmlModule;
 				for (xmlModule = _xmlNode->FirstChild(); xmlModule != NULL; xmlModule = xmlModule->NextSibling())
-					if (!mir_stricmp(((TiXmlElement*)xmlModule)->Attribute("key"), dbei.szModule))
+					if (!mir_strcmpi(((TiXmlElement*)xmlModule)->Attribute("key"), dbei.szModule))
 						break;
 
 				// create new module
@@ -463,7 +463,7 @@ void CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 		for (TiXmlNode *xkey = xmod->FirstChild();
 			xkey != NULL;
 			xkey = xkey->NextSibling()) {
-			if (!mir_stricmp(xkey->Value(), XKEY_SET))
+			if (!mir_strcmpi(xkey->Value(), XKEY_SET))
 				numSettings++;
 			else
 				numEvents++;
@@ -526,7 +526,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 		uidk (xContact->Attribute("uidk"));
 		if (!_pszProto) {
 			// check if this is the owner contact
-			if (mir_stricmp(xContact->Value(), XKEY_OWNER))
+			if (mir_strcmpi(xContact->Value(), XKEY_OWNER))
 				return ERROR_INVALID_PARAMS;
 			_hContact = NULL;
 			_xmlNode  = xContact;
@@ -773,7 +773,7 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 {
 	// check if parent is really a module
-	if (!xmlModule || mir_stricmp(xmlModule->Value(), XKEY_MOD))
+	if (!xmlModule || mir_strcmpi(xmlModule->Value(), XKEY_MOD))
 		return ERROR_INVALID_SIGNATURE;
 
 	// convert to element
@@ -787,14 +787,14 @@ int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 		return ERROR_INVALID_PARAMS;
 
 	// ignore Modul 'Protocol' as it would cause trouble
-	if (!mir_stricmp(pszModule, "Protocol"))
+	if (!mir_strcmpi(pszModule, "Protocol"))
 		return ERROR_OK;
 	
 	for (TiXmlElement *xKey = xmlModule->FirstChildElement(); xKey != NULL; xKey = xKey->NextSiblingElement()) {
 		// import setting
-		if (!mir_stricmp(xKey->Value(), XKEY_SET)) {
+		if (!mir_strcmpi(xKey->Value(), XKEY_SET)) {
 			// check if the module to import is the contact's protocol module
-			BYTE isProtoModule = !mir_stricmp(pszModule, _pszProto)/* || DB::Module::IsMeta(pszModule)*/;
+			BYTE isProtoModule = !mir_strcmpi(pszModule, _pszProto)/* || DB::Module::IsMeta(pszModule)*/;
 			BYTE isMetaModule = DB::Module::IsMeta(pszModule);
 
 			// just ignore MetaModule on normal contact to avoid errors (only keys)
@@ -803,9 +803,9 @@ int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 
 			// just ignore MetaModule on Meta to avoid errors (only import spetial keys)
 			if (isProtoModule && isMetaModule) {
-				if (!mir_stricmp(xKey->Attribute("key"),"Nick") ||
-					 !mir_stricmp(xKey->Attribute("key"),"TzName") ||
-					 !mir_stricmp(xKey->Attribute("key"),"Timezone"))
+				if (!mir_strcmpi(xKey->Attribute("key"),"Nick") ||
+					 !mir_strcmpi(xKey->Attribute("key"),"TzName") ||
+					 !mir_strcmpi(xKey->Attribute("key"),"Timezone"))
 				{
 					if (ImportSetting(pszModule, xKey->ToElement()) == ERROR_OK)
 						_pXmlFile->_numSettingsDone++;
@@ -826,7 +826,7 @@ int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 				return ERROR_ABORTED;
 		}
 		// import event
-		else if (!mir_stricmp(xKey->Value(), XKEY_EVT)) {
+		else if (!mir_strcmpi(xKey->Value(), XKEY_EVT)) {
 			int error = ImportEvent(pszModule, xKey->ToElement());
 			switch (error) {
 			case ERROR_OK:

@@ -242,7 +242,7 @@ class CAnnivList
 			case COLUMN_DESC:
 				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, MAX_PATH);
 				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, MAX_PATH);
-				result = pDlg->_sortOrder * mir_tcscmp(szText1, szText2);
+				result = pDlg->_sortOrder * mir_tstrcmp(szText1, szText2);
 				break;
 
 			case COLUMN_AGE:

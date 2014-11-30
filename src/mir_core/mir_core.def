@@ -276,3 +276,7 @@ mir_strcat                    @273
 mir_wstrcat                   @274
 mir_strncat                   @275
 mir_wstrncat                  @276
+mir_strcmp                    @277
+mir_strcmpi                   @278
+mir_wstrcmp                   @279
+mir_wstrcmpi                  @280

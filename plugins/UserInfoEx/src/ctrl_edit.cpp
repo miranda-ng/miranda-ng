@@ -269,7 +269,7 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 
 			if (szText != NULL) {
 				GetWindowText(_hwnd, szText, cch + 1);
-				_Flags.B.hasChanged = mir_tcscmp(_pszValue, szText);
+				_Flags.B.hasChanged = mir_tstrcmp(_pszValue, szText);
 				if (need_free)
 					MIR_FREE(szText);
 			} else {

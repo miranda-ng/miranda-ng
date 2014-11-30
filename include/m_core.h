@@ -588,6 +588,12 @@ MIR_CORE_DLL(wchar_t*) mir_wstrcat(wchar_t *dest, const wchar_t *src);
 MIR_CORE_DLL(char*)    mir_strncat(char *dest, const char *src, size_t len);
 MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t len);
 
+MIR_CORE_DLL(int)      mir_strcmp(const char *p1, const char *p2);
+MIR_CORE_DLL(int)      mir_wstrcmp(const wchar_t *p1, const wchar_t *p2);
+
+MIR_CORE_DLL(int)      mir_strcmpi(const char *p1, const char *p2);
+MIR_CORE_DLL(int)      mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2);
+
 MIR_CORE_DLL(char*)    mir_strdup(const char* str);
 MIR_CORE_DLL(wchar_t*) mir_wstrdup(const wchar_t* str);
 
@@ -771,6 +777,8 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define mir_tstrncpy mir_wstrncpy
 	#define mir_tstrcat  mir_wstrcat
 	#define mir_tstrncat mir_wstrncat
+	#define mir_tstrcmp  mir_wstrcmp
+	#define mir_tstrcmpi mir_wstrcmpi
 	#define mir_tstrdup  mir_wstrdup
 	#define mir_tstrndup mir_wstrndup
 
@@ -805,6 +813,8 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define mir_tstrncpy mir_strncpy
 	#define mir_tstrcat  mir_strcat
 	#define mir_tstrncat mir_strncat
+	#define mir_tstrcmp  mir_strcmp
+	#define mir_tstrcmpi mir_strcmpi
 	#define mir_tstrdup  mir_strdup
 	#define mir_tstrndup mir_strndup
 
