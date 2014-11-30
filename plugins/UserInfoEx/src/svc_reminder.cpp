@@ -258,9 +258,9 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 		mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName),
 			_T("%s - %s"), TranslateTS(pszDesc), DB::Contact::DisplayName(hContact));
 	}
-	else mir_tcsncpy(ppd.lptzContactName, TranslateT("Reminder"), SIZEOF(ppd.lptzContactName));
+	else mir_tstrncpy(ppd.lptzContactName, TranslateT("Reminder"), SIZEOF(ppd.lptzContactName));
 
-	mir_tcsncpy(ppd.lptzText, pszMsg, MAX_SECONDLINE);
+	mir_tstrncpy(ppd.lptzText, pszMsg, MAX_SECONDLINE);
 
 	ppd.lchIcon = GetAnnivIcon(CEvent(eventType, DaysToAnniv));
 
@@ -412,7 +412,7 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 							mir_sntprintf(szAnniv, MAX_PATH,
 								TranslateT("%s has the following anniversaries:\0"),
 								ContactGender(hContact));
-							mir_tcsncpy(strMsg, szAnniv, mir_tcslen(szAnniv));
+							mir_tstrncpy(strMsg, szAnniv, mir_tstrlen(szAnniv));
 						}
 
 						switch (Diff) {
@@ -426,19 +426,19 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 							mir_sntprintf(szAnniv, MAX_PATH, TranslateT("%d. %s in %d days\0"), mta.Age() + 1, mta.Description(), Diff);
 						}
 
-						if (mir_tcslen(szAnniv) >= MAX_SECONDLINE - mir_tcslen(strMsg)) {
+						if (mir_tstrlen(szAnniv) >= MAX_SECONDLINE - mir_tstrlen(strMsg)) {
 							if (strMsg)
-								mir_tcsncat(strMsg, _T("\n...\0"), SIZEOF(strMsg));
+								mir_tstrncat(strMsg, _T("\n...\0"), SIZEOF(strMsg));
 							else
-								mir_tcsncpy(strMsg, _T("\n...\0"), mir_tcslen(_T("\n...\0")));
+								mir_tstrncpy(strMsg, _T("\n...\0"), mir_tstrlen(_T("\n...\0")));
 							bOverflow = TRUE;
 						}
 						else {
 							if (strMsg)
-								mir_tcsncat(strMsg, _T("\n- \0"), SIZEOF(strMsg));
+								mir_tstrncat(strMsg, _T("\n- \0"), SIZEOF(strMsg));
 							else
-								mir_tcsncpy(strMsg, _T("\n- \0"), mir_tcslen(_T("\n- \0")));
-							mir_tcsncat(strMsg, szAnniv, SIZEOF(strMsg));
+								mir_tstrncpy(strMsg, _T("\n- \0"), mir_tstrlen(_T("\n- \0")));
+							mir_tstrncat(strMsg, szAnniv, SIZEOF(strMsg));
 						}
 					}
 				}

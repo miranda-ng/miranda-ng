@@ -60,12 +60,6 @@ int __cdecl mir_strcmp (const char *a, const char *b)
 	return (strcmp(a,b));
 };
 
-int mir_strlen (const char *a)
-{
-	if (a == NULL) return 0;
-	return (int)(strlen(a));
-};
-
 #define strlen(a) mir_strlen(a)
 #define strcmp(a,b) mir_strcmp(a,b)
 

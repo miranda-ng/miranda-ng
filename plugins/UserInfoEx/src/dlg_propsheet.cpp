@@ -443,56 +443,56 @@ static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
 	odp.position = 0x8000000;
 	odp.pfnDlgProc = PSPProcGeneral;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_GENERAL);
-	mir_tcsncpy(szTitle + ofs, LPGENT("General"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("General"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
 	odp.position = 0x8000001;
 	odp.pfnDlgProc = PSPProcContactHome;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tcsncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Contact (private)"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Contact (private)"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
 	odp.position = 0x8000002;
 	odp.pfnDlgProc = PSPProcOrigin;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADVANCED);
-	mir_tcsncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Origin"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("General") _T("\\") LPGENT("Origin"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
 	odp.position = 0x8000003;
 	odp.pfnDlgProc = PSPProcAnniversary;
 	odp.hIcon = (HICON)ICONINDEX(IDI_BIRTHDAY);
-	mir_tcsncpy(szTitle + ofs,  LPGENT("General") _T("\\") LPGENT("Anniversaries"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs,  LPGENT("General") _T("\\") LPGENT("Anniversaries"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
 	odp.position = 0x8000004;
 	odp.pfnDlgProc = PSPProcCompany;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_COMPANY);
-	mir_tcsncpy(szTitle + ofs, LPGENT("Work"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("Work"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
 	odp.position = 0x8000005;
 	odp.pfnDlgProc = PSPProcContactWork;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ADDRESS);
-	mir_tcsncpy(szTitle + ofs, LPGENT("Work") _T("\\") LPGENT("Contact (work)"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("Work") _T("\\") LPGENT("Contact (work)"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 		
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
 	odp.position = 0x8000006;
 	odp.pfnDlgProc = PSPProcAbout;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_ABOUT);
-	mir_tcsncpy(szTitle + ofs, LPGENT("About"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("About"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_PROFILE);
 	odp.position = 0x8000007;
 	odp.pfnDlgProc = PSPProcContactProfile;
 	odp.hIcon = (HICON)ICONINDEX(IDI_TREE_PROFILE);
-	mir_tcsncpy(szTitle + ofs, LPGENT("About") _T("\\") LPGENT("Profile"), SIZEOF(szTitle) - ofs);
+	mir_tstrncpy(szTitle + ofs, LPGENT("About") _T("\\") LPGENT("Profile"), SIZEOF(szTitle) - ofs);
 	AddPage(wParam, (LPARAM)&odp);
 	return 0;
 }
@@ -745,7 +745,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			GetObject(hNormalFont, sizeof(lf), &lf);
 			lf.lfHeight = 22;
-			mir_tcscpy(lf.lfFaceName, _T("Segoe UI"));
+			mir_tstrcpy(lf.lfFaceName, _T("Segoe UI"));
 			pPs->hCaptionFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)pPs->hCaptionFont, 0);
 

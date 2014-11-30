@@ -201,8 +201,8 @@ public:
 							pTimeZone->dwIndex = TZINDEX_UNSPECIFIED;
 
 						if (result == ERROR_SUCCESS) {
-							pTimeZone->ptszName = mir_tcsdup(szName);
-							pTimeZone->ptszDisplay = mir_tcsdup(szDisplay);
+							pTimeZone->ptszName = mir_tstrdup(szName);
+							pTimeZone->ptszDisplay = mir_tstrdup(szDisplay);
 							result = (insert(pTimeZone) == ERROR_SUCCESS);
 						}
 

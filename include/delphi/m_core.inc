@@ -630,7 +630,26 @@ function mir_strndup(const src:PAnsiChar; len:size_t):PAnsiChar; stdcall;
                  external CoreDLL name 'mir_strndup';
 function mir_wstrndup(const src:PWideChar; len:size_t):PWideChar; stdcall;
                  external CoreDLL name 'mir_wstrndup';
-
+function mir_strlen(const src:PAnsiChar):size_t; stdcall;
+                 external CoreDLL name 'mir_strlen';
+function mir_wstrlen(const src:PWideChar):size_t; stdcall;
+                 external CoreDLL name 'mir_wstrlen';
+function mir_strcpy(dst:PAnsiChar; const src:PAnsiChar):PAnsiChar; stdcall;
+                 external CoreDLL name 'mir_strcpy';
+function mir_wstrcpy(dst:PWideChar; const src:PWideChar):PWideChar; stdcall;
+                 external CoreDLL name 'mir_wstrcpy';
+function mir_strncpy(dst:PAnsiChar; const src:PAnsiChar; len:size_t):PAnsiChar; stdcall;
+                 external CoreDLL name 'mir_strncpy';
+function mir_wstrncpy(dst:PWideChar; const src:PWideChar; len:size_t):PWideChar; stdcall;
+                 external CoreDLL name 'mir_wstrncpy';
+function mir_strcat(dst:PAnsiChar; const src:PAnsiChar):PAnsiChar; stdcall;
+                 external CoreDLL name 'mir_strcat';
+function mir_wstrcat(dst:PWideChar; const src:PWideChar):PWideChar; stdcall;
+                 external CoreDLL name 'mir_wstrcat';
+function mir_strncat(dst:PAnsiChar; const src:PAnsiChar; len:size_t):PAnsiChar; stdcall;
+                 external CoreDLL name 'mir_strncat';
+function mir_wstrncat(dst:PWideChar; const src:PWideChar; len:size_t):PWideChar; stdcall;
+                 external CoreDLL name 'mir_wstrncat';
 
 ///////////////////////////////////////////////////////////////////////////////
 // modules

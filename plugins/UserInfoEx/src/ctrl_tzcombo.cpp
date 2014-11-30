@@ -290,6 +290,6 @@ void CTzCombo::GetTime(LPTSTR szTime, WORD cchTime)
 			now.UTCToTzSpecificLocal(&tzi);
 			now.TimeFormat(szTime, cchTime);
 		}
-		else mir_tcscpy(szTime, _T("--:--"));
+		else mir_tstrcpy(szTime, _T("--:--"));
 	}
 }

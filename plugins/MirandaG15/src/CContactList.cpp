@@ -875,8 +875,6 @@ void CContactList::OnContactGroupChanged(MCONTACT hContact,tstring strGroup)
 			iter = pGroup->begin();
 			if((*iter)->GetType() == ITEM)
 				OnContactGroupChanged(GetContactData(*iter)->hHandle,_T(""));
-			bool b = pGroup->empty();
-			int i = pGroup->size();
 			Sleep(1);
 		}
 	}

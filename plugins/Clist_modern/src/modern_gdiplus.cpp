@@ -12,7 +12,6 @@
 
 using namespace Gdiplus;
 
-int mir_strlen(const char *a);
 HBITMAP ske_CreateDIB32(int cx, int cy);
 
 BYTE      saved_alpha;

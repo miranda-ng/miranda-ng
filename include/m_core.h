@@ -82,7 +82,7 @@ typedef struct
 			union {
 				char *pszVal;
 				TCHAR *ptszVal;
-				WCHAR *pwszVal;
+				wchar_t *pwszVal;
 			};
 			WORD cchVal;   //only used for db/contact/getsettingstatic
 		};
@@ -296,16 +296,16 @@ MIR_CORE_DLL(HANDLE) db_event_prev(MCONTACT hContact, HANDLE hDbEvent);
  * DATABASE SETTINGS
  */
 
-MIR_CORE_DLL(INT_PTR) db_get(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(int)     db_get_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue);
-MIR_CORE_DLL(int)     db_get_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue);
-MIR_CORE_DLL(DWORD)   db_get_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD errorValue);
-MIR_CORE_DLL(char*)   db_get_sa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
-MIR_CORE_DLL(WCHAR*)  db_get_wsa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
+MIR_CORE_DLL(INT_PTR)  db_get(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+MIR_CORE_DLL(int)      db_get_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue);
+MIR_CORE_DLL(int)      db_get_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, int errorValue);
+MIR_CORE_DLL(DWORD)    db_get_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD errorValue);
+MIR_CORE_DLL(char*)    db_get_sa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
+MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
 
-MIR_CORE_DLL(int) db_get_static(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
-MIR_CORE_DLL(int) db_get_static_utf(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
-MIR_CORE_DLL(int) db_get_wstatic(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, WCHAR *pDest, int cbDest);
+MIR_CORE_DLL(int)      db_get_static(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
+MIR_CORE_DLL(int)      db_get_static_utf(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, char *pDest, int cbDest);
+MIR_CORE_DLL(int)      db_get_wstatic(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, wchar_t *pDest, int cbDest);
 
 #if defined(__cplusplus)
 	MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, const int nType=DBVT_ASCIIZ);
@@ -313,14 +313,14 @@ MIR_CORE_DLL(int) db_get_wstatic(MCONTACT hContact, LPCSTR szModule, LPCSTR szSe
 	MIR_CORE_DLL(INT_PTR) db_get_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, const int nType);
 #endif
 
-MIR_CORE_DLL(INT_PTR) db_set(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(INT_PTR) db_set_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, BYTE val);
-MIR_CORE_DLL(INT_PTR) db_set_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, WORD val);
-MIR_CORE_DLL(INT_PTR) db_set_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD val);
-MIR_CORE_DLL(INT_PTR) db_set_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
-MIR_CORE_DLL(INT_PTR) db_set_ws(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCWSTR val);
-MIR_CORE_DLL(INT_PTR) db_set_utf(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
-MIR_CORE_DLL(INT_PTR) db_set_blob(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, void *val, unsigned len);
+MIR_CORE_DLL(INT_PTR)  db_set(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+MIR_CORE_DLL(INT_PTR)  db_set_b(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, BYTE val);
+MIR_CORE_DLL(INT_PTR)  db_set_w(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, WORD val);
+MIR_CORE_DLL(INT_PTR)  db_set_dw(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DWORD val);
+MIR_CORE_DLL(INT_PTR)  db_set_s(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
+MIR_CORE_DLL(INT_PTR)  db_set_ws(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCWSTR val);
+MIR_CORE_DLL(INT_PTR)  db_set_utf(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, LPCSTR val);
+MIR_CORE_DLL(INT_PTR)  db_set_blob(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, void *val, unsigned len);
 
 MIR_CORE_DLL(INT_PTR) db_unset(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting);
 
@@ -452,19 +452,19 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR* szSection, IconI
 
 #define LANG_UNICODE 0x1000
 
-MIR_CORE_DLL(void)   Langpack_SortDuplicates(void);
-MIR_CORE_DLL(int)    Langpack_GetDefaultCodePage( void );
-MIR_CORE_DLL(int)    Langpack_GetDefaultLocale(void);
-MIR_CORE_DLL(TCHAR*) Langpack_PcharToTchar(const char* pszStr);
+MIR_CORE_DLL(void)     Langpack_SortDuplicates(void);
+MIR_CORE_DLL(int)      Langpack_GetDefaultCodePage( void );
+MIR_CORE_DLL(int)      Langpack_GetDefaultLocale(void);
+MIR_CORE_DLL(TCHAR*)   Langpack_PcharToTchar(const char* pszStr);
 
-MIR_CORE_DLL(int)    LoadLangPackModule(void);
-MIR_CORE_DLL(int)    LoadLangPack(const TCHAR *szLangPack);
-MIR_CORE_DLL(void)   ReloadLangpack(TCHAR *pszStr);
+MIR_CORE_DLL(int)      LoadLangPackModule(void);
+MIR_CORE_DLL(int)      LoadLangPack(const TCHAR *szLangPack);
+MIR_CORE_DLL(void)     ReloadLangpack(TCHAR *pszStr);
 
-MIR_CORE_DLL(char*)  TranslateA_LP(const char* str, int hLang);
-MIR_CORE_DLL(WCHAR*) TranslateW_LP(const WCHAR* str, int hLang);
-MIR_CORE_DLL(void)   TranslateMenu_LP(HMENU, int hLang);
-MIR_CORE_DLL(void)   TranslateDialog_LP(HWND hDlg, int hLang);
+MIR_CORE_DLL(char*)    TranslateA_LP(const char* str, int hLang);
+MIR_CORE_DLL(wchar_t*) TranslateW_LP(const wchar_t* str, int hLang);
+MIR_CORE_DLL(void)     TranslateMenu_LP(HMENU, int hLang);
+MIR_CORE_DLL(void)     TranslateDialog_LP(HWND hDlg, int hLang);
 
 #define Translate(s) TranslateA_LP(s, hLangpack)
 #define TranslateW(s) TranslateW_LP(s, hLangpack)
@@ -546,10 +546,10 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char *pszName, const TCHAR *ptszDescr, 
 MIR_CORE_DLL(void)   mir_closeLog(HANDLE hLogger);
 
 MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...);
-MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...);
+MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const wchar_t *format, ...);
 
-MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list args);
-MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const WCHAR *format, va_list args);
+MIR_CORE_DLL(int)   mir_writeLogVA(HANDLE hLogger, const char *format, va_list args);
+MIR_CORE_DLL(int)   mir_writeLogVW(HANDLE hLogger, const wchar_t *format, va_list args);
 
 ///////////////////////////////////////////////////////////////////////////////
 // md5 functions
@@ -573,11 +573,26 @@ MIR_C_CORE_DLL(void*)  mir_calloc(size_t);
 MIR_C_CORE_DLL(void*)  mir_realloc(void* ptr, size_t);
 MIR_C_CORE_DLL(void)   mir_free(void* ptr);
 
-MIR_CORE_DLL(char*)  mir_strdup(const char* str);
-MIR_CORE_DLL(WCHAR*) mir_wstrdup(const WCHAR* str);
+MIR_CORE_DLL(size_t)   mir_strlen(const char *p);
+MIR_CORE_DLL(size_t)   mir_wstrlen(const wchar_t *p);
 
-MIR_CORE_DLL(char*)  mir_strndup(const char* str, size_t len);
-MIR_CORE_DLL(WCHAR*) mir_wstrndup(const WCHAR *str, size_t len);
+MIR_CORE_DLL(char*)    mir_strcpy(char *dest, const char *src);
+MIR_CORE_DLL(wchar_t*) mir_wstrcpy(wchar_t *dest, const wchar_t *src);
+
+MIR_CORE_DLL(char*)    mir_strncpy(char *dest, const char *src, size_t len);
+MIR_CORE_DLL(wchar_t*) mir_wstrncpy(wchar_t *dest, const wchar_t *src, size_t len);
+
+MIR_CORE_DLL(char*)    mir_strcat(char *dest, const char *src);
+MIR_CORE_DLL(wchar_t*) mir_wstrcat(wchar_t *dest, const wchar_t *src);
+
+MIR_CORE_DLL(char*)    mir_strncat(char *dest, const char *src, size_t len);
+MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t len);
+
+MIR_CORE_DLL(char*)    mir_strdup(const char* str);
+MIR_CORE_DLL(wchar_t*) mir_wstrdup(const wchar_t* str);
+
+MIR_CORE_DLL(char*)    mir_strndup(const char* str, size_t len);
+MIR_CORE_DLL(wchar_t*) mir_wstrndup(const wchar_t *str, size_t len);
 
 ///////////////////////////////////////////////////////////////////////////////
 // modules
@@ -594,22 +609,22 @@ MIR_CORE_DLL(void)   CreatePathToFile(char* wszFilePath);
 MIR_CORE_DLL(int)    CreateDirectoryTree(const char* szDir);
 MIR_CORE_DLL(int)    PathIsAbsolute(const char *pSrc);
 
-MIR_CORE_DLL(void)   CreatePathToFileW(WCHAR* wszFilePath);
-MIR_CORE_DLL(int)    CreateDirectoryTreeW(const WCHAR* szDir);
-MIR_CORE_DLL(int)    PathIsAbsoluteW(const WCHAR *pSrc);
+MIR_CORE_DLL(void)   CreatePathToFileW(wchar_t* wszFilePath);
+MIR_CORE_DLL(int)    CreateDirectoryTreeW(const wchar_t* szDir);
+MIR_CORE_DLL(int)    PathIsAbsoluteW(const wchar_t *pSrc);
 
 #if defined( __cplusplus )
 	MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char* base=0);
-	MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR* base = 0);
+	MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t* base = 0);
 
 	MIR_CORE_DLL(int) PathToRelative(const char *pSrc, char *pOut, const char* base = 0);
-	MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR* base = 0);
+	MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t* base = 0);
 #else
 	MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char* base);
-	MIR_CORE_DLL(int) PathToAbsoluteW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR* base);
+	MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t* base);
 
 	MIR_CORE_DLL(int) PathToRelative(const char *pSrc, char *pOut, const char* base);
-	MIR_CORE_DLL(int) PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut, const WCHAR* base);
+	MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pSrc, wchar_t *pOut, const wchar_t* base);
 #endif
 
 #define CreatePathToFileT CreatePathToFileW
@@ -622,9 +637,9 @@ MIR_CORE_DLL(int)    PathIsAbsoluteW(const WCHAR *pSrc);
 // print functions
 
 MIR_CORE_DLL(int)    mir_snprintf(char *buffer, size_t count, const char* fmt, ...);
-MIR_CORE_DLL(int)    mir_snwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, ...);
+MIR_CORE_DLL(int)    mir_snwprintf(wchar_t *buffer, size_t count, const wchar_t* fmt, ...);
 MIR_CORE_DLL(int)    mir_vsnprintf(char *buffer, size_t count, const char* fmt, va_list va);
-MIR_CORE_DLL(int)    mir_vsnwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, va_list va);
+MIR_CORE_DLL(int)    mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t* fmt, va_list va);
 
 ///////////////////////////////////////////////////////////////////////////////
 // protocol functions
@@ -709,32 +724,32 @@ __forceinline unsigned mir_base64_encode_bufsize(unsigned inputLen)
 }
 
 MIR_CORE_DLL(char*)  rtrim(char *str);
-MIR_CORE_DLL(WCHAR*) rtrimw(WCHAR *str);
+MIR_CORE_DLL(wchar_t*) rtrimw(wchar_t *str);
 
 MIR_CORE_DLL(char*)  ltrim(char *str);   // returns pointer to the beginning of string
-MIR_CORE_DLL(WCHAR*) ltrimw(WCHAR *str);
+MIR_CORE_DLL(wchar_t*) ltrimw(wchar_t *str);
 
 MIR_CORE_DLL(char*)  ltrimp(char *str);  // returns pointer to the trimmed portion of string
-MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str);
+MIR_CORE_DLL(wchar_t*) ltrimpw(wchar_t *str);
 
 MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask);
-MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask);
+MIR_CORE_DLL(int) wildcmpw(const wchar_t *name, const wchar_t *mask);
 
 MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask);
-MIR_CORE_DLL(int) wildcmpiw(const WCHAR *name, const WCHAR *mask);
+MIR_CORE_DLL(int) wildcmpiw(const wchar_t *name, const wchar_t *mask);
 
 MIR_CORE_DLL(char*)  bin2hex(const void *pData, size_t len, char *dest);
-MIR_CORE_DLL(WCHAR*) bin2hexW(const void *pData, size_t len, WCHAR *dest);
+MIR_CORE_DLL(wchar_t*) bin2hexW(const void *pData, size_t len, wchar_t *dest);
 
 __forceinline char* lrtrim(char *str) { return ltrim(rtrim(str)); };
 __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 #if defined( __cplusplus )
 	MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src);
-	MIR_CORE_DLL(WCHAR*) replaceStrW(WCHAR* &dest, const WCHAR *src);
+	MIR_CORE_DLL(wchar_t*) replaceStrW(wchar_t* &dest, const wchar_t *src);
 #else
 	MIR_CORE_DLL(char*) replaceStr(char **dest, const char *src);
-	MIR_CORE_DLL(WCHAR*) replaceStrW(WCHAR **dest, const WCHAR *src);
+	MIR_CORE_DLL(wchar_t*) replaceStrW(wchar_t **dest, const wchar_t *src);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -751,6 +766,11 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define mir_t2u_cp(s,c) mir_wstrdup(s)
 	#define mir_u2t_cp(s,c) mir_wstrdup(s)
 
+	#define mir_tstrlen  mir_wstrlen
+	#define mir_tstrcpy  mir_wstrcpy
+	#define mir_tstrncpy mir_wstrncpy
+	#define mir_tstrcat  mir_wstrcat
+	#define mir_tstrncat mir_wstrncat
 	#define mir_tstrdup  mir_wstrdup
 	#define mir_tstrndup mir_wstrndup
 
@@ -780,6 +800,11 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define mir_t2u_cp(s,c) mir_a2u_cp(s,c)
 	#define mir_u2t_cp(s,c) mir_u2a_cp(s,c)
 
+	#define mir_tstrlen  mir_strlen
+	#define mir_tstrcpy  mir_strcpy
+	#define mir_tstrncpy mir_strncpy
+	#define mir_tstrcat  mir_strcat
+	#define mir_tstrncat mir_strncat
 	#define mir_tstrdup  mir_strdup
 	#define mir_tstrndup mir_strndup
 
@@ -800,8 +825,8 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define mir_writeLogVT mir_writeLogVA
 #endif
 
-MIR_CORE_DLL(WCHAR*) mir_a2u_cp(const char* src, int codepage);
-MIR_CORE_DLL(WCHAR*) mir_a2u(const char* src);
+MIR_CORE_DLL(wchar_t*) mir_a2u_cp(const char* src, int codepage);
+MIR_CORE_DLL(wchar_t*) mir_a2u(const char* src);
 MIR_CORE_DLL(char*)  mir_u2a_cp(const wchar_t* src, int codepage);
 MIR_CORE_DLL(char*)  mir_u2a(const wchar_t* src);
 
