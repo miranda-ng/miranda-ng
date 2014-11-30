@@ -751,7 +751,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				hoFont = (HFONT) SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, mis->CtlID, WM_GETFONT, 0, 0));
 
 			SIZE fontSize;
-			GetTextExtentPoint32(hdc, itemName, mir_tstrlen(itemName), &fontSize);
+			GetTextExtentPoint32(hdc, itemName, (int)mir_tstrlen(itemName), &fontSize);
 			if (hoFont) SelectObject(hdc, hoFont);
 			if (hFont) DeleteObject(hFont);
 			ReleaseDC( GetDlgItem(hwndDlg, mis->CtlID), hdc);

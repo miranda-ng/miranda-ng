@@ -750,7 +750,7 @@ static char* SM_GetUsers(SESSION_INFO *si)
 	SESSION_INFO *pTemp = ci.wndList;
 	USERINFO *utemp = NULL;
 	char* p = NULL;
-	int alloced = 0;
+	size_t alloced = 0;
 
 	if (si == NULL)
 		return NULL;
@@ -766,11 +766,11 @@ static char* SM_GetUsers(SESSION_INFO *si)
 	}
 
 	do {
-		int pLen = mir_strlen(p), nameLen = mir_tstrlen(utemp->pszUID);
+		size_t pLen = mir_strlen(p), nameLen = mir_tstrlen(utemp->pszUID);
 		if (pLen + nameLen + 2 > alloced)
 			p = (char*)mir_realloc(p, alloced += 4096);
 
-		WideCharToMultiByte(CP_ACP, 0, utemp->pszUID, -1, p + pLen, nameLen + 1, 0, 0);
+		WideCharToMultiByte(CP_ACP, 0, utemp->pszUID, -1, p + pLen, (int)nameLen + 1, 0, 0);
 		mir_strcpy(p + pLen + nameLen, " ");
 		utemp = utemp->next;
 	}
@@ -1184,7 +1184,7 @@ static BOOL UM_SetStatusEx(USERINFO* pUserList, const TCHAR* pszText, int flags)
 			if (s) {
 				pTemp->iStatusEx = 0;
 				if (s == pszText || s[-1] == cDelimiter) {
-					int len = mir_tstrlen(pTemp->pszUID);
+					size_t len = mir_tstrlen(pTemp->pszUID);
 					if (s[len] == cDelimiter || s[len] == '\0')
 						pTemp->iStatusEx = (!bOnlyMe || bSetStatus) ? 1 : 0;
 				}

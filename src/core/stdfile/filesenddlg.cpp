@@ -82,13 +82,12 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 		const TCHAR *pBuf;
 		int nNumberOfFiles = 0;
 		int nTemp;
-		int fileOffset;
 
 		// :NOTE: The first string in the buffer is the directory, followed by a
 		// NULL separated list of all files
 
 		// fileOffset is the offset to the first file.
-		fileOffset = mir_tstrlen(buf) + 1;
+		size_t fileOffset = mir_tstrlen(buf) + 1;
 
 		// Count number of files
 		pBuf = buf + fileOffset;
@@ -106,7 +105,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 		nTemp = 0;
 		while (*pBuf) {
 			// Allocate space for path+filename
-			int cbFileNameLen = mir_tstrlen(pBuf);
+			size_t cbFileNameLen = mir_tstrlen(pBuf);
 			dat->files[nTemp] = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileOffset + cbFileNameLen + 1));
 
 			// Add path to filename and copy into array

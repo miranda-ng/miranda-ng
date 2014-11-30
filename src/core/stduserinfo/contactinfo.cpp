@@ -196,7 +196,7 @@ static int IsOverEmail(HWND hwndDlg, TCHAR* szEmail, int cchEmail)
 	SelectObject(hdc, hEmailFont);
 
 	SIZE textSize;
-	GetTextExtentPoint32(hdc, szText, mir_tstrlen(szText), &textSize);
+	GetTextExtentPoint32(hdc, szText, (int)mir_tstrlen(szText), &textSize);
 	ReleaseDC(hwndEmails, hdc);
 	if (hti.pt.x < rc.left+textSize.cx) {
 		if (szEmail && cchEmail)

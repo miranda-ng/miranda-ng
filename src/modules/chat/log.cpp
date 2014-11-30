@@ -198,7 +198,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			}
 
 			if (szTemp[0]) {
-				int iLen = mir_strlen(szTemp);
+				size_t iLen = mir_strlen(szTemp);
 				memcpy(d, szTemp, iLen);
 				d += iLen;
 			}

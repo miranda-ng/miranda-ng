@@ -234,7 +234,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 	else {
 		group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD) - 1, 0, 0);
 		if (group == NULL) {
-			int i, len;
+			int i;
 			DWORD groupFlags;
 			TCHAR *szGroupName;
 			if (!(style & CLS_HIDEEMPTYGROUPS)) {
@@ -264,7 +264,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 				}
 				if (!mir_tstrcmp(szGroupName, dbv.ptszVal))
 					break;
-				len = mir_tstrlen(szGroupName);
+				size_t len = mir_tstrlen(szGroupName);
 				if (!_tcsncmp(szGroupName, dbv.ptszVal, len) && dbv.ptszVal[len] == '\\')
 					cli.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 1);
 			}
@@ -333,7 +333,7 @@ void fnDeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 			if (group->scanIndex == group->cl.count)
 				break;
 			if (group->cl.items[i]->type == CLCIT_GROUP) {
-				int len = mir_tstrlen(group->cl.items[i]->szText);
+				size_t len = mir_tstrlen(group->cl.items[i]->szText);
 				if (!_tcsncmp(group->cl.items[i]->szText, dbv.ptszVal + nameOffset, len) &&
 					 (dbv.ptszVal[nameOffset + len] == '\\' || dbv.ptszVal[nameOffset + len] == '\0')) {
 					group->totalMembers--;

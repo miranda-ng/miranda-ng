@@ -184,13 +184,13 @@ void fnCluiProtocolStatusChanged(int, const char*)
 
 				if (showOpts & 4 && mir_tstrlen(tszName) < SIZEOF(tszName)-1)
 					mir_tstrcat(tszName, _T(" "));
-				GetTextExtentPoint32(hdc, tszName, mir_tstrlen(tszName), &textSize);
+				GetTextExtentPoint32(hdc, tszName, (int)mir_tstrlen(tszName), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
 				TCHAR* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL,cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
-				GetTextExtentPoint32(hdc, modeDescr, mir_tstrlen(modeDescr), &textSize);
+				GetTextExtentPoint32(hdc, modeDescr, (int)mir_tstrlen(modeDescr), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}

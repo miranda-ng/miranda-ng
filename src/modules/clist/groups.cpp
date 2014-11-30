@@ -243,9 +243,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	//rename subgroups
 	{
 		TCHAR szNewName[256];
-		int len;
-
-		len = mir_tstrlen(name);
+		size_t len = mir_tstrlen(name);
 		for (i=0;; i++) {
 			_itoa(i, str, 10);
 			if (db_get_ts(NULL, "CListGroups", str, &dbv))
@@ -305,10 +303,8 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	//rename subgroups
 	{
 		TCHAR szNewName[256];
-		int len, i;
-
-		len = mir_tstrlen(oldName);
-		for (i=0;; i++) {
+		size_t len = mir_tstrlen(oldName);
+		for (int i=0;; i++) {
 			if (i == groupId)
 				continue;
 			_itoa(i, idstr, 10);

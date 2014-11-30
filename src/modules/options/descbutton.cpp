@@ -194,7 +194,7 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 		textRect.top = DBC_BORDER_SIZE;
 		textRect.bottom = dat->height - DBC_BORDER_SIZE;
 		DrawText(tempDC, dat->lpzTitle, -1, &textRect, DT_TOP|DT_LEFT|DT_END_ELLIPSIS);
-		GetTextExtentPoint32(tempDC, dat->lpzTitle, mir_tstrlen(dat->lpzTitle), &titleSize);
+		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_tstrlen(dat->lpzTitle), &titleSize);
 
 		DeleteObject(SelectObject(tempDC, hfntSave));
 	}
@@ -206,7 +206,7 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 		textRect.top = DBC_BORDER_SIZE + titleSize.cy ? titleSize.cy + DBC_HSPACING : 0;
 		textRect.bottom = dat->height - DBC_BORDER_SIZE;
 		DrawText(tempDC, dat->lpzDescription, -1, &textRect, DT_TOP|DT_LEFT|DT_WORDBREAK|DT_END_ELLIPSIS);
-		GetTextExtentPoint32(tempDC, dat->lpzTitle, mir_tstrlen(dat->lpzTitle), &titleSize);
+		GetTextExtentPoint32(tempDC, dat->lpzTitle, (int)mir_tstrlen(dat->lpzTitle), &titleSize);
 	}
 
 	SelectObject(tempDC, hfntSave);

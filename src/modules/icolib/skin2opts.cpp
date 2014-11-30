@@ -150,7 +150,7 @@ static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 {
 	TCHAR path[ MAX_PATH ];
 	mir_sntprintf(path, SIZEOF(path), _T("%s,"), filename);
-	int suffIndx = mir_tstrlen(path);
+	size_t suffIndx = mir_tstrlen(path);
 
 	mir_cslock lck(csIconList);
 

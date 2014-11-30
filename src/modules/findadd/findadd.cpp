@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_GETFONT, 0, 0));
 
 			SIZE textSize;
-			GetTextExtentPoint32(hdc, TranslateT("Searching"), mir_tstrlen(TranslateT("Searching")), &textSize);
+			GetTextExtentPoint32(hdc, TranslateT("Searching"), (int)mir_tstrlen(TranslateT("Searching")), &textSize);
 
 			int partWidth[3];
 			partWidth[0] = textSize.cx;
@@ -380,7 +380,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, WM_GETFONT, 0, 0));
 			if (netProtoCount > 1) {
 				cbei.pszText = TranslateT("All networks");
-				GetTextExtentPoint32(hdc, cbei.pszText, mir_tstrlen(cbei.pszText), &textSize);
+				GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_tstrlen(cbei.pszText), &textSize);
 				if (textSize.cx > cbwidth)
 					cbwidth = textSize.cx;
 				cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon_IconLibLoaded(dat->himlComboIcons, SKINICON_OTHER_SEARCHALL);
@@ -399,7 +399,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					continue;
 
 				cbei.pszText = pa->tszAccountName;
-				GetTextExtentPoint32(hdc, cbei.pszText, mir_tstrlen(cbei.pszText), &textSize);
+				GetTextExtentPoint32(hdc, cbei.pszText, (int)mir_tstrlen(cbei.pszText), &textSize);
 				if (textSize.cx > cbwidth)
 					cbwidth = textSize.cx;
 

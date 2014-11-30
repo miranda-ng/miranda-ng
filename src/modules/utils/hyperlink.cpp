@@ -165,7 +165,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			if (hdc == NULL) return 0; /* text change failed */
 			if (dat->hEnableFont != NULL) hPrevFont = (HFONT)SelectObject(hdc, dat->hEnableFont);
 			if (dat->hEnableFont == NULL || hPrevFont != NULL) /* select failed? */
-				if (GetTextExtentPoint32(hdc, (TCHAR*)lParam, mir_tstrlen((TCHAR*)lParam), &textSize))
+				if (GetTextExtentPoint32(hdc, (TCHAR*)lParam, (int)mir_tstrlen((TCHAR*)lParam), &textSize))
 					if (GetClientRect(hwnd, &rc)) {
 						dat->rcText.top = 0;
 						dat->rcText.bottom = dat->rcText.top+textSize.cy;
