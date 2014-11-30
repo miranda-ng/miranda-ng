@@ -27,7 +27,7 @@ void ext_yahoo_conf_message(int id, const char *me, const char *who, const char 
 /* chat handlers */
 void ext_yahoo_chat_cat_xml(int id, const char *xml);
 
-void ext_yahoo_chat_join(int id, const char *me, const char *room, const char * topic, YList *members, int fd);
+void ext_yahoo_chat_join(int id, const char *me, const char *room, const char * topic, YList *members, INT_PTR fd);
 
 void ext_yahoo_chat_userjoin(int id, const char *me, const char *room, struct yahoo_chat_member *who);
 
