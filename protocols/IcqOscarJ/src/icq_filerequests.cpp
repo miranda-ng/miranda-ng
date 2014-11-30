@@ -124,7 +124,7 @@ void CIcqProto::handleFileRequest(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwC
 	wLen -= 4;
 
 	// Filename
-	WORD wFilenameLength;
+	size_t wFilenameLength;
 	unpackLEWord(&buf, &wFilenameLength);
 	if (!wFilenameLength) {
 		NetLog_Direct("Ignoring malformed file send request");

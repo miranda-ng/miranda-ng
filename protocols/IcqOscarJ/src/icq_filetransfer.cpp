@@ -292,7 +292,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wL
 			DWORD dwFileCount;
 			DWORD dwTotalSize;
 			DWORD dwTransferSpeed;
-			WORD wNickLength;
+			size_t wNickLength;
 			int bAdded;
 
 			unpackLEDWord(&buf, &dwFileCount);
@@ -337,16 +337,15 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wL
 			return;
 		buf++;  /* id */
 		{
-			char *szAnsi;
-			WORD wThisFilenameLen, wSubdirLen;
+			size_t wThisFilenameLen, wSubdirLen;
 			BYTE isDirectory;
-
 			unpackByte(&buf, &isDirectory);
 			unpackLEWord(&buf, &wThisFilenameLen);
 			if (wLen < 19 + wThisFilenameLen)
 				return;
+			
 			SAFE_FREE(&dc->ft->szThisFile);
-			szAnsi = (char *)_alloca(wThisFilenameLen + 1);
+			char *szAnsi = (char *)_alloca(wThisFilenameLen + 1);
 			memcpy(szAnsi, buf, wThisFilenameLen);
 			szAnsi[wThisFilenameLen] = '\0';
 			dc->ft->szThisFile = ansi_to_utf8(szAnsi);

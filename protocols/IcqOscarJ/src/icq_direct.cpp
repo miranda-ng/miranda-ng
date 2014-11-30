@@ -514,7 +514,6 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 		unpackLEWord(&buf, &dc->wVersion);
 
 		if (dc->wVersion > 6) { // we support only versions 7 and up
-			WORD wSecondLen;
 			DWORD dwUin;
 			DWORD dwPort;
 			DWORD dwCookie;
@@ -525,6 +524,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 				return;
 			}
 
+			size_t wSecondLen;
 			unpackLEWord(&buf, &wSecondLen);
 			if (wSecondLen && wSecondLen != 0x2b) { // OMG? GnomeICU sets this to zero
 				NetLog_Direct("Error: Received malformed PEER_INIT");

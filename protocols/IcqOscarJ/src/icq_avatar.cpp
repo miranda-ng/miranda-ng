@@ -86,13 +86,13 @@ TCHAR* CIcqProto::GetOwnAvatarFileName()
 	return null_strdup(tmp);
 }
 
-void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, TCHAR *pszDest, int cbLen)
+void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, TCHAR *pszDest, size_t cbLen)
 {
 	GetAvatarFileName(dwUin, szUid, pszDest, cbLen);
 	AddAvatarExt(dwFormat, pszDest);
 }
 
-void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, int cbLen)
+void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, size_t cbLen)
 {
 	TCHAR szPath[MAX_PATH * 2];
 	mir_sntprintf(szPath, MAX_PATH * 2, _T("%s\\%S\\"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
@@ -103,7 +103,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	fgd.flags = FF_TCHAR;
 
 	// fill the destination
-	lstrcpyn(pszDest, szPath, cbLen - 1);
+	mir_tstrncpy(pszDest, szPath, cbLen - 1);
 	size_t tPathLen = mir_tstrlen(pszDest);
 
 	// make sure the avatar cache directory exists
@@ -122,7 +122,8 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 			_tcscpy(pszDest + tPathLen, _T("avatar"));
 		else {
 			TCHAR *szLastDot = _tcsrchr(szBuf, '.');
-			if (szLastDot) szLastDot[0] = '\0';
+			if (szLastDot)
+				szLastDot[0] = '\0';
 
 			_tcscpy(pszDest + tPathLen, szBuf);
 			_tcscat(pszDest + tPathLen, _T("_avt"));
@@ -176,7 +177,7 @@ BYTE* calcMD5HashOfFile(const TCHAR *tszFile)
 	return res;
 }
 
-int CIcqProto::IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, int nHashLen)
+int CIcqProto::IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, size_t nHashLen)
 {
 	DBVARIANT dbvSaved = { 0 };
 	if (getSetting(hContact, "AvatarSaved", &dbvSaved))
@@ -250,7 +251,7 @@ void CIcqProto::StopAvatarThread()
 }
 
 // handle Owner's avatar hash changes
-void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BYTE nDataLen)
+void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, size_t nDataLen)
 {
 	if (nDataLen < 0x14 || !m_bAvatarsEnabled)
 		return;
@@ -370,13 +371,13 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 }
 
 // handle Contact's avatar hash
-void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hContact, BYTE *pHash, int nHashLen, WORD wOldStatus)
+void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hContact, BYTE *pHash, size_t nHashLen, WORD wOldStatus)
 {
 	int bJob = FALSE;
 	BOOL avatarInfoPresent = FALSE;
 	int avatarType = -1;
 	BYTE *pAvatarHash = NULL;
-	int cbAvatarHash;
+	size_t cbAvatarHash;
 	BYTE emptyItem[0x10] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 	if (!m_bAvatarsEnabled || nHashLen < 4)
@@ -384,7 +385,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 
 	while (nHashLen >= 4) { // parse online message items one by one
 		WORD itemType = pHash[0] << 8 | pHash[1];
-		BYTE itemLen = pHash[3];
+		size_t itemLen = pHash[3];
 		BYTE itemFlags = pHash[2];
 
 		// just some validity check
@@ -539,7 +540,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 }
 
 // request avatar data from server
-int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file)
+int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file)
 {
 	uid_str szUidData;
 	char *pszUid = NULL;
@@ -634,12 +635,11 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 }
 
 // upload avatar data to server
-int CIcqProto::SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, unsigned int datalen)
+int CIcqProto::SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen)
 {
 	m_avatarsMutex->Enter();
 
-	if (m_avatarsConnection && m_avatarsConnection->isReady()) // check if we are ready
-	{
+	if (m_avatarsConnection && m_avatarsConnection->isReady()) { // check if we are ready
 		avatars_server_connection *pConnection = m_avatarsConnection;
 		pConnection->_Lock();
 		m_avatarsMutex->Leave();
@@ -1051,8 +1051,7 @@ int avatars_server_connection::handleServerPackets(BYTE *buf, size_t buflen)
 {
 	BYTE channel;
 	WORD sequence;
-	WORD datalen;
-	int bytesUsed = 0;
+	size_t datalen, bytesUsed = 0;
 
 	while (buflen > 0) {
 		// All FLAPS begin with 0x2a
@@ -1091,7 +1090,7 @@ int avatars_server_connection::handleServerPackets(BYTE *buf, size_t buflen)
 		bytesUsed += (datalen + 6);
 	}
 
-	return bytesUsed;
+	return (int)bytesUsed;
 }
 
 void avatars_server_connection::handleLoginChannel(BYTE *buf, size_t datalen)
@@ -1354,22 +1353,20 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 		break;
 
 	case ICQ_AVATAR_UPLOAD_ACK:
-		{
-			// upload completed, notify
-			BYTE res;
-			unpackByte(&pBuffer, &res);
-			if (!res && (wBufferLength == 0x15)) {
-				if (ppro->FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookieData)) // here we store the local hash
-					ppro->ReleaseCookie(pSnacHeader->dwRef);
-				else
-					ppro->debugLogA("Warning: Received unexpected Upload Avatar Reply SNAC(x10,x03).");
-			}
-			else if (res) {
-				ppro->debugLogA("Error uploading avatar to server, #%d", res);
-				ppro->icq_LogMessage(LOG_WARNING, LPGEN("Error uploading avatar to server, server refused to accept the image."));
-			}
-			else ppro->debugLogA("Received invalid upload avatar ack.");
+		// upload completed, notify
+		BYTE res;
+		unpackByte(&pBuffer, &res);
+		if (!res && (wBufferLength == 0x15)) {
+			if (ppro->FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookieData)) // here we store the local hash
+				ppro->ReleaseCookie(pSnacHeader->dwRef);
+			else
+				ppro->debugLogA("Warning: Received unexpected Upload Avatar Reply SNAC(x10,x03).");
 		}
+		else if (res) {
+			ppro->debugLogA("Error uploading avatar to server, #%d", res);
+			ppro->icq_LogMessage(LOG_WARNING, LPGEN("Error uploading avatar to server, server refused to accept the image."));
+		}
+		else ppro->debugLogA("Received invalid upload avatar ack.");
 		break;
 
 	case ICQ_ERROR:
@@ -1383,15 +1380,14 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 
 			ppro->ReleaseCookie(pSnacHeader->dwRef);
 		}
-		{
-			WORD wError;
-			if (wBufferLength >= 2)
-				unpackWord(&pBuffer, &wError);
-			else
-				wError = 0;
 
-			ppro->LogFamilyError(ICQ_AVATAR_FAMILY, wError);
-		}
+		WORD wError;
+		if (wBufferLength >= 2)
+			unpackWord(&pBuffer, &wError);
+		else
+			wError = 0;
+
+		ppro->LogFamilyError(ICQ_AVATAR_FAMILY, wError);
 		break;
 
 	default:

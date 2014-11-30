@@ -1529,7 +1529,7 @@ char* __fastcall ICQTranslateUtfStatic(const char *src, char *buf, size_t bufsiz
 	return buf;
 }
 
-char* CIcqProto::GetUserStoredPassword(char *szBuffer, int cbSize)
+char* CIcqProto::GetUserStoredPassword(char *szBuffer, size_t cbSize)
 {
 	if (!getSettingStringStatic(NULL, "Password", szBuffer, cbSize))
 		if (mir_strlen(szBuffer))
