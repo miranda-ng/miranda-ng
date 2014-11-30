@@ -98,7 +98,7 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	char *szProto = GetContactProto(wParam);
-	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
+	if (mir_strcmp(cws->szModule, "CList") && (szProto == NULL || mir_strcmp(cws->szModule, szProto)))
 		return 0;
 
 	WindowList_Broadcast(hUrlWindowList, DM_UPDATETITLE, 0, 0);

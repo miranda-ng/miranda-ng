@@ -159,7 +159,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	param.w = bmp.bmWidth;
 	param.h = bmp.bmHeight;
 	int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, JabberCaptchaFormDlgProc, (LPARAM)&param);
-	if (lstrcmp(param.Result, _T("")) == 0 || !res)
+	if (mir_tstrcmp(param.Result, _T("")) == 0 || !res)
 		sendCaptchaError(info, param.from, param.to, param.challenge);
 	else
 		sendCaptchaResult(param.Result, info, param.from, param.challenge, param.fromjid, param.sid);

@@ -237,7 +237,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  		tr = NULL;
  		if (*cur==FIELD_CHAR) {
  			for(i = 0; i < fi->cbTemporaryVarsSize; i += 2) {
- 				if (lstrcmp(fi->tszaTemporaryVars[i], token) == 0) {
+ 				if (mir_tstrcmp(fi->tszaTemporaryVars[i], token) == 0) {
  					tmpVarPos = i;
  					break;
  				}

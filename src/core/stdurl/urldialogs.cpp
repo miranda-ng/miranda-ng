@@ -73,7 +73,7 @@ static void sttUpdateTitle(HWND hwndDlg, MCONTACT hContact)
 
 	GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));
 
-	if (lstrcmp(newtitle, oldtitle))	   //swt() flickers even if the title hasn't actually changed
+	if (mir_tstrcmp(newtitle, oldtitle))	   //swt() flickers even if the title hasn't actually changed
 		SetWindowText(hwndDlg, newtitle);
 }
 
@@ -352,7 +352,7 @@ static void AddBrowserPageToCombo(char *url, HWND hwndCombo)
 			if (SendMessage(hwndCombo, CB_GETLBTEXTLEN, i, 0) >= SIZEOF(szExistingUrl))
 				continue;
 			SendMessageA(hwndCombo, CB_GETLBTEXT, i, (LPARAM)szExistingUrl);
-			if ( !lstrcmpA(szExistingUrl, url)) return;
+			if ( !mir_strcmp(szExistingUrl, url)) return;
 		}
 		i = SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LPARAM)url);
 		szItemData = mir_strdup(title);

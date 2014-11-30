@@ -332,7 +332,7 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TC
 	{
 		TreeView_GetItem(hwndTree, &tvi);
 
-		if (!lstrcmp(tvi.pszText, name))
+		if (!mir_tstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -1265,7 +1265,7 @@ static FontInternal *sttFindFont(OBJLIST<FontInternal> &fonts, char *module, cha
 	for (int i=0; i < fonts.getCount(); i++)
 	{
 		FontInternal& F = fonts[i];
-		if (!lstrcmpA(F.dbSettingsGroup, module) && !lstrcmpA(F.prefix, prefix))
+		if (!mir_strcmp(F.dbSettingsGroup, module) && !mir_strcmp(F.prefix, prefix))
 			return &F;
 	}
 

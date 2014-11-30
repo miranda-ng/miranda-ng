@@ -131,7 +131,7 @@ static int GetRealStatus(struct ClcContact *contact, int status)
 	if (!szProto)
 		return status;
 	for (int i = 0; i < pcli->hClcProtoCount; i++) {
-		if (!lstrcmpA(pcli->clcProto[i].szProto, szProto)) {
+		if (!mir_strcmp(pcli->clcProto[i].szProto, szProto)) {
 			return pcli->clcProto[i].dwStatus;
 		}
 	}

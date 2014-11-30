@@ -134,7 +134,7 @@ static bool nameexists(const char *name)
 		return false;
 
 	for (int i = 0; i < Buttons.getCount(); i++)
-		if (!lstrcmpA(Buttons[i]->pszName, name))
+		if (!mir_strcmp(Buttons[i]->pszName, name))
 			return true;
 
 	return false;

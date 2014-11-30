@@ -63,7 +63,7 @@ public:
 
 	static int cmp(const CJabberInfoFrameItem *p1, const CJabberInfoFrameItem *p2)
 	{
-		return lstrcmpA(p1->m_pszName, p2->m_pszName);
+		return mir_strcmp(p1->m_pszName, p2->m_pszName);
 	}
 };
 

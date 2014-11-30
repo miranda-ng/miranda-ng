@@ -85,13 +85,13 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 	TCHAR szClass[64];
 	GetClassName(hWndDlg, szClass, SIZEOF(szClass));
 
-	if (lstrcmpi(szClass, _T("SysTreeView32")) == 0) {
+	if (mir_tstrcmpi(szClass, _T("SysTreeView32")) == 0) {
 		HTREEITEM hItem = TreeView_GetRoot(hWndDlg);
 		AddTreeViewNodes(hWndDlg, key, hItem);
 		return;
 	}
 
-	if (lstrcmpi(szClass, _T("listbox")) == 0) {
+	if (mir_tstrcmpi(szClass, _T("listbox")) == 0) {
 		if (GetWindowStyle(hWndDlg) & LBS_HASSTRINGS) {
 			int count = ListBox_GetCount(hWndDlg);
 			for (int i=0; i < count; i++) {
@@ -107,7 +107,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 		return;
 	}
 
-	if (lstrcmpi(szClass, _T("SysListView32")) == 0) {
+	if (mir_tstrcmpi(szClass, _T("SysListView32")) == 0) {
 		int count = ListView_GetItemCount(hWndDlg);
 		for (int i=0; i < count; i++) {
 			title[0] = 0; //safety
@@ -119,7 +119,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 		return;
 	}
 
-	if (lstrcmpi(szClass, _T("combobox")) == 0) {
+	if (mir_tstrcmpi(szClass, _T("combobox")) == 0) {
 		if (GetWindowStyle(hWndDlg) & CBS_HASSTRINGS) {
 			int count = ComboBox_GetCount(hWndDlg);
 			for (int i=0; i < count; i++) {

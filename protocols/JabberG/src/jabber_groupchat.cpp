@@ -173,7 +173,7 @@ private:
 		if (!str1 && str2) return FALSE;
 		if (!str2 && str1) return FALSE;
 
-		return !lstrcmp(str1, str2);
+		return !mir_tstrcmp(str1, str2);
 	}
 };
 
@@ -632,7 +632,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					JABBER_LIST_ITEM *item = 0;
 					if (item = m_proto->ListGetItemPtrFromIndex(i))
-						if (!lstrcmp(item->type, _T("conference")))
+						if (!mir_tstrcmp(item->type, _T("conference")))
 							AppendMenu(hMenu, MF_STRING, (UINT_PTR)item, item->name);
 				}
 				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
@@ -786,7 +786,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *ol
 
 	r->m_tszResourceName = mir_tstrdup(newNick);
 
-	if (!lstrcmp(item->nick, oldNick)) {
+	if (!mir_tstrcmp(item->nick, oldNick)) {
 		replaceStrT(item->nick, newNick);
 
 		MCONTACT hContact = HContactFromJID(item->jid);
@@ -814,7 +814,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 {
 	const TCHAR *from;
 
-	if (!node || !xmlGetName(node) || lstrcmp(xmlGetName(node), _T("presence"))) return;
+	if (!node || !xmlGetName(node) || mir_tstrcmp(xmlGetName(node), _T("presence"))) return;
 	if ((from = xmlGetAttrValue(node, _T("from"))) == NULL) return;
 
 	const TCHAR *resource = _tcschr(from, '/');
@@ -955,7 +955,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 			if (iStatus == 301 && r != NULL)
 				GcLogShowInformation(item, r, INFO_BAN);
 
-			if (!lstrcmp(resource, item->nick)) {
+			if (!mir_tstrcmp(resource, item->nick)) {
 				switch (iStatus) {
 				case 301:
 				case 307:
@@ -1026,12 +1026,12 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	const TCHAR *from, *type, *p, *nick, *resource;
 	JABBER_LIST_ITEM *item;
 
-	if (!xmlGetName(node) || lstrcmp(xmlGetName(node), _T("message"))) return;
+	if (!xmlGetName(node) || mir_tstrcmp(xmlGetName(node), _T("message"))) return;
 	if ((from = xmlGetAttrValue(node, _T("from"))) == NULL) return;
 	if ((item = ListGetItemPtr(LIST_CHATROOM, from)) == NULL) return;
 
 	if ((type = xmlGetAttrValue(node, _T("type"))) == NULL) return;
-	if (!lstrcmp(type, _T("error")))
+	if (!mir_tstrcmp(type, _T("error")))
 		return;
 
 	GCDEST gcd = { m_szModuleName, item->jid, 0 };
@@ -1110,7 +1110,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	gce.ptszNick = nick;
 	gce.time = msgTime;
 	gce.ptszText = tszText;
-	gce.bIsMe = nick == NULL ? FALSE : (lstrcmp(resource, item->nick) == 0);
+	gce.bIsMe = nick == NULL ? FALSE : (mir_tstrcmp(resource, item->nick) == 0);
 
 	if (!isHistory)
 		gce.dwFlags |= GCEF_ADDTOLOG;

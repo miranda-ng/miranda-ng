@@ -400,7 +400,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszN
 	}
 
 	if (pszWindow) {
-		if (lstrcmpi(pszWindow, SERVERWINDOW))
+		if (mir_tstrcmpi(pszWindow, SERVERWINDOW))
 			sID = pszWindow + (CMString)_T(" - ") + m_info.sNetwork;
 		else
 			sID = pszWindow;

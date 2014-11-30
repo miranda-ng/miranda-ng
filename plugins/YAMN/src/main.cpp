@@ -224,7 +224,7 @@ static void LoadPlugins()
 			TCHAR* end = fd.cFileName+len; // get a pointer to the NULL
 			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
 
-			if ((safe != 3) || (lstrcmpi(dot+1, _T("dll")) != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
+			if ((safe != 3) || (mir_tstrcmpi(dot+1, _T("dll")) != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
 				continue;
 
 			TCHAR szPluginPath[MAX_PATH];

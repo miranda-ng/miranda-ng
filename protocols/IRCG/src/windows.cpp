@@ -434,7 +434,7 @@ static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 	param->pList->GetItem(&lvm);
 	if (param->iSubItem != 1) {
 		if (mir_tstrlen(temp1) != 0 && mir_tstrlen(temp2) != 0)
-			return lstrcmpi(temp1, temp2);
+			return mir_tstrcmpi(temp1, temp2);
 
 		return (*temp1 == 0) ? 1 : -1;
 	}
@@ -637,7 +637,7 @@ void CQuickDlg::OnOk(CCtrlButton*)
 
 	TCHAR windowname[20];
 	GetWindowText(m_hwnd, windowname, SIZEOF(windowname));
-	if (lstrcmpi(windowname, _T("Miranda IRC")) == 0) {
+	if (mir_tstrcmpi(windowname, _T("Miranda IRC")) == 0) {
 		m_proto->m_serverComboSelection = m_serverCombo.GetCurSel() - 1;
 		m_proto->setDword("ServerComboSelection", m_proto->m_serverComboSelection);
 		m_proto->setString("ServerName", m_proto->m_serverName);
@@ -1171,7 +1171,7 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 			else if (GetWindowTextLength(GetDlgItem(m_hwnd, IDC_LIMIT))) {
 				TCHAR temp[15];
 				GetDlgItemText(m_hwnd, IDC_LIMIT, temp, SIZEOF(temp));
-				if (wi->pszLimit && lstrcmpi(wi->pszLimit, temp)) {
+				if (wi->pszLimit && mir_tstrcmpi(wi->pszLimit, temp)) {
 					mir_tstrcat(toadd, _T("l"));
 					appendixadd += _T(" ") + CMString(temp);
 				}

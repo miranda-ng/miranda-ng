@@ -489,7 +489,7 @@ BYTE CExImContactBase::isHandle(MCONTACT hContact)
 
 	// compare protocols
 	pszProto = DB::Contact::Proto(hContact);
-	if (pszProto == NULL || (INT_PTR)pszProto == CALLSERVICE_NOTFOUND || lstrcmpA(pszProto, _pszProto))
+	if (pszProto == NULL || (INT_PTR)pszProto == CALLSERVICE_NOTFOUND || mir_strcmp(pszProto, _pszProto))
 		return FALSE;
 
 	// compare uids

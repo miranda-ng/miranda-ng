@@ -46,7 +46,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			else szout = ParseString(DEFAULT_USERSTAMP, (MCONTACT)lparam, 0);
 
 			SetDlgItemText(hdlg, IDC_INFOTEXT, szout);
-			if ( !lstrcmp(szout, TranslateT("<unknown>")))
+			if ( !mir_tstrcmp(szout, TranslateT("<unknown>")))
 				EnableWindow( GetDlgItem(hdlg, IDC_INFOTEXT), FALSE);
 		}
 		break;

@@ -127,7 +127,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 					SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 					break;
 				}
-				else if (lstrcmpA(password, g_password))
+				else if (mir_strcmp(password, g_password))
 				{
 					SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Password is not correct!\nPlease, enter correct password."));
 					SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
@@ -179,12 +179,12 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM)
 		TCHAR szTemp[32];
 		GetClassName(hWnd,szTemp,32);
 
-		if (lstrcmp(szTemp,_T("MirandaThumbsWnd")) == 0) // hide floating contacts
+		if (mir_tstrcmp(szTemp,_T("MirandaThumbsWnd")) == 0) // hide floating contacts
 		{
 			CallService("FloatingContacts/MainHideAllThumbs",0,0);
 			g_bOldSetting |= OLD_FLTCONT;
 		}
-		else if (lstrcmp(szTemp,_T("PopupWnd2")) == 0 || lstrcmp(szTemp,_T("YAPPWinClass")) == 0) // destroy opened popups
+		else if (mir_tstrcmp(szTemp,_T("PopupWnd2")) == 0 || mir_tstrcmp(szTemp,_T("YAPPWinClass")) == 0) // destroy opened popups
 			PUDeletePopup(hWnd);
 		else
 		{
@@ -410,7 +410,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				TCHAR szTemp[32];
 				GetClassName(pCurWnd->hWnd,szTemp,32);
 
-				if (IsWindow(pCurWnd->hWnd) && lstrcmp(szTemp,_T("SysShadow")) != 0) // precaution
+				if (IsWindow(pCurWnd->hWnd) && mir_tstrcmp(szTemp,_T("SysShadow")) != 0) // precaution
 					ShowWindow(pCurWnd->hWnd, SW_SHOW);
 
 				delete pCurWnd; // bye-bye

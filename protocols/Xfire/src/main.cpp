@@ -1001,7 +1001,7 @@ int ExtraImageApply1(WPARAM wparam, LPARAM lparam)
 {
 	MCONTACT hContact = (MCONTACT)wparam;
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !lstrcmpiA(szProto, protocolname) && db_get_w(hContact, protocolname, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+	if (szProto != NULL && !mir_strcmpi(szProto, protocolname) && db_get_w(hContact, protocolname, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 		int gameid = db_get_w(hContact, protocolname, "GameId", 0);
 		if (gameid != 0)
 			ExtraIcon_SetIcon(hExtraIcon1, hContact, xgamelist.iconmngr.getGameIconHandle(gameid));
@@ -1014,7 +1014,7 @@ int ExtraImageApply2(WPARAM wparam, LPARAM lparam)
 	MCONTACT hContact = (MCONTACT)wparam;
 	// TODO: maybe need to fix extra icons
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !lstrcmpiA(szProto, protocolname) && db_get_w(hContact, protocolname, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+	if (szProto != NULL && !mir_strcmpi(szProto, protocolname) && db_get_w(hContact, protocolname, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 		int gameid = db_get_w(hContact, protocolname, "VoiceId", 0);
 		if (gameid != 0)
 			ExtraIcon_SetIcon(hExtraIcon2, hContact, xgamelist.iconmngr.getGameIconHandle(gameid));
@@ -1302,7 +1302,7 @@ INT_PTR RecvMessage(WPARAM wParam, LPARAM lParam)
 	db_unset(ccs->hContact, "CList", "Hidden");
 
 	char *szProto = GetContactProto(ccs->hContact);
-	if (szProto != NULL && !lstrcmpiA(szProto, protocolname))
+	if (szProto != NULL && !mir_strcmpi(szProto, protocolname))
 		return CallService(MS_PROTO_RECVMSG, wParam, lParam);
 
 	return 1;
@@ -1668,7 +1668,7 @@ MCONTACT CList_AddContact(XFireContact xfc, bool InList, bool SetOnline, int cla
 BOOL IsXFireContact(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !lstrcmpiA(szProto, protocolname))
+	if (szProto != NULL && !mir_strcmpi(szProto, protocolname))
 		return TRUE;
 
 	return FALSE;
@@ -3119,7 +3119,7 @@ void CreateGroup(char*grpn, char*field) {
 			i--;
 			break;
 		}
-		if (dbv.pszVal[0] != '\0' && !lstrcmpA(dbv.pszVal + 1, (char*)grp))	{
+		if (dbv.pszVal[0] != '\0' && !mir_strcmp(dbv.pszVal + 1, (char*)grp))	{
 			db_free(&dbv);
 			return;
 		}

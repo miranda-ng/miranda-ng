@@ -55,12 +55,12 @@ void JabberChatDllError()
 
 int JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2)
 {
-	if (!lstrcmpi(jid1, jid2))
+	if (!mir_tstrcmpi(jid1, jid2))
 		return 0;
 
 	// match only node@domain part
 	TCHAR szTempJid1[JABBER_MAX_JID_LEN], szTempJid2[JABBER_MAX_JID_LEN];
-	return lstrcmpi(
+	return mir_tstrcmpi(
 		JabberStripJid(jid1, szTempJid1, SIZEOF(szTempJid1)),
 		JabberStripJid(jid2, szTempJid2, SIZEOF(szTempJid2)));
 }
@@ -235,7 +235,7 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 			continue;
 
 		*p = 0;
-		if (!lstrcmp(jid, p+1) && !lstrcmp(dbJid, dbNick)) {
+		if (!mir_tstrcmp(jid, p+1) && !mir_tstrcmp(dbJid, dbNick)) {
 			*p = '@';
 			m_ThreadInfo->resolveID = SendGetVcard(dbJid);
 			m_ThreadInfo->resolveContact = hContact;

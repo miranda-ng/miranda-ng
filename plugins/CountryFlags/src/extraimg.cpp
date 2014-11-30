@@ -165,7 +165,7 @@ static int ExtraImgSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact) {
 		/* user details update */
-		if (!lstrcmpA(dbcws->szSetting,"RealIP") || !lstrcmpA(dbcws->szSetting,"Country") || !lstrcmpA(dbcws->szSetting,"CompanyCountry")) {
+		if (!mir_strcmp(dbcws->szSetting,"RealIP") || !mir_strcmp(dbcws->szSetting,"Country") || !mir_strcmp(dbcws->szSetting,"CompanyCountry")) {
 			/* Extra Image */
 			SetExtraImage(hContact);
 			/* Status Icon */

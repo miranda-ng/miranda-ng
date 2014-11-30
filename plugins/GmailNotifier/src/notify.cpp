@@ -3,7 +3,7 @@
 int OpenBrowser(WPARAM hContact, LPARAM lParam)
 {
 	char *proto = GetContactProto(hContact);
-	if (proto && !lstrcmpA(proto, pluginName)) {
+	if (proto && !mir_strcmp(proto, pluginName)) {
 		Account *curAcc = GetAccountByContact(hContact);
 		PUDeletePopup(curAcc->popUpHwnd);
 		CallServiceSync(MS_CLIST_REMOVEEVENT, (WPARAM)curAcc->hContact, (LPARAM)1);

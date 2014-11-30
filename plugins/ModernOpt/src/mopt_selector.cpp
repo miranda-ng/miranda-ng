@@ -129,7 +129,7 @@ struct TSelectorData
 static bool CheckExt(TCHAR *fn, TCHAR *ext, int n)
 {
 	int l = mir_tstrlen(fn);
-	return (l > n) && !lstrcmp(fn + l - n, ext);
+	return (l > n) && !mir_tstrcmp(fn + l - n, ext);
 }
 
 static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool start = true)
@@ -148,7 +148,7 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 	HANDLE h = FindFirstFile(_T("*.*"), &ffd);
 	if (h != INVALID_HANDLE_VALUE) {
 		do {
-			if (!lstrcmp(ffd.cFileName, _T("")) || !lstrcmp(ffd.cFileName, _T(".")) || !lstrcmp(ffd.cFileName, _T("..")))
+			if (!mir_tstrcmp(ffd.cFileName, _T("")) || !mir_tstrcmp(ffd.cFileName, _T(".")) || !mir_tstrcmp(ffd.cFileName, _T("..")))
 				continue;
 
 			if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -315,7 +315,7 @@ INT_PTR CALLBACK ModernOptSelector_DlgProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 				int cxIcon = GetSystemMetrics(SM_CXSMICON);
 				int cyIcon = GetSystemMetrics(SM_CYSMICON);
 
-				if (sd->active && !lstrcmp(sd->active, dat->filename)) {
+				if (sd->active && !mir_tstrcmp(sd->active, dat->filename)) {
 					DrawIconEx(lps->hDC, lps->rcItem.left, (lps->rcItem.top+lps->rcItem.bottom-cyIcon)/2,
 						LoadSkinnedIcon(SKINICON_OTHER_EMPTYBLOB),
 						cxIcon, cyIcon, 0, NULL, DI_NORMAL);

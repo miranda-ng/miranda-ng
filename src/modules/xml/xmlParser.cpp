@@ -1199,7 +1199,7 @@ XMLAttribute *XMLNode::addAttribute_priv(int memoryIncrease, XMLSTR lpszName, XM
 
 	TCHAR* p = _tcschr(lpszName, ':');
 	if (p)
-		if (!lstrcmp(p+1, d->lpszNS) || (d->pParent && !lstrcmp(p+1, d->pParent->lpszNS)))
+		if (!mir_tstrcmp(p+1, d->lpszNS) || (d->pParent && !mir_tstrcmp(p+1, d->pParent->lpszNS)))
 			*p = 0;
 
 	return pAttr;

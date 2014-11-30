@@ -3685,7 +3685,7 @@ static TCHAR *ske_ReAppend(TCHAR *lfirst, TCHAR * lsecond, int len)
 TCHAR* ske_ReplaceVar(TCHAR *var)
 {
 	if (!var) return mir_tstrdup(_T(""));
-	if (!lstrcmpi(var,_T("Profile"))) {
+	if (!mir_tstrcmpi(var,_T("Profile"))) {
 		char buf[MAX_PATH] = {0};
 		CallService(MS_DB_GETPROFILENAME,(WPARAM)MAX_PATH,(LPARAM)buf);
 

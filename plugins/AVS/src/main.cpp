@@ -45,11 +45,11 @@ void   InitServices();
 
 static int ComparePicture( const protoPicCacheEntry* p1, const protoPicCacheEntry* p2 )
 {
-	if ((lstrcmpA(p1->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
+	if ((mir_strcmp(p1->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
 		return -1;
-	if ((lstrcmpA(p2->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
+	if ((mir_strcmp(p2->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
 		return 1;
-	return lstrcmpA( p1->szProtoname, p2->szProtoname );
+	return mir_strcmp( p1->szProtoname, p2->szProtoname );
 }
 
 OBJLIST<protoPicCacheEntry>

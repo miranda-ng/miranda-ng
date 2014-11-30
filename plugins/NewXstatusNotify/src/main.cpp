@@ -151,16 +151,16 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 				ret = COMPARE_DEL;
 		}
 		else if (dbv_old.type != cws_new->value.type)
-			ret = (lstrcmpW(smi->newstatusmsg, smi->oldstatusmsg) ? CheckStrW(smi->newstatusmsg, COMPARE_DIFF, COMPARE_DEL) : COMPARE_SAME);
+			ret = (mir_wstrcmp(smi->newstatusmsg, smi->oldstatusmsg) ? CheckStrW(smi->newstatusmsg, COMPARE_DIFF, COMPARE_DEL) : COMPARE_SAME);
 
 		else if (dbv_old.type == DBVT_ASCIIZ)
-			ret = (lstrcmpA(cws_new->value.pszVal, dbv_old.pszVal) ? CheckStr(cws_new->value.pszVal, COMPARE_DIFF, COMPARE_DEL) : COMPARE_SAME);
+			ret = (mir_strcmp(cws_new->value.pszVal, dbv_old.pszVal) ? CheckStr(cws_new->value.pszVal, COMPARE_DIFF, COMPARE_DEL) : COMPARE_SAME);
 
 		else if (dbv_old.type == DBVT_UTF8)
-			ret = (lstrcmpA(cws_new->value.pszVal, dbv_old.pszVal) ? CheckStr(cws_new->value.pszVal, COMPARE_DIFF, COMPARE_DEL) : COMPARE_SAME);
+			ret = (mir_strcmp(cws_new->value.pszVal, dbv_old.pszVal) ? CheckStr(cws_new->value.pszVal, COMPARE_DIFF, COMPARE_DEL) : COMPARE_SAME);
 
 		else if (dbv_old.type == DBVT_WCHAR)
-			ret = (lstrcmpW(cws_new->value.pwszVal, dbv_old.pwszVal) ? CheckStrW(cws_new->value.pwszVal, COMPARE_DIFF, COMPARE_DEL) : COMPARE_SAME);
+			ret = (mir_wstrcmp(cws_new->value.pwszVal, dbv_old.pwszVal) ? CheckStrW(cws_new->value.pwszVal, COMPARE_DIFF, COMPARE_DEL) : COMPARE_SAME);
 
 		db_free(&dbv_old);
 	}

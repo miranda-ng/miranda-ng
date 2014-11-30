@@ -108,7 +108,7 @@ static LPCTSTR timeapiGetTzDescription(LPCTSTR TZname)
 	for (int i = 0; i < g_timezonesBias.getCount(); i++) {
 		MIM_TIMEZONE *tz = g_timezonesBias[i];
 
-		if (!lstrcmp(tz->tszName, TZname))
+		if (!mir_tstrcmp(tz->tszName, TZname))
 			return tz->szDisplay;
 	}
 	return _T("");

@@ -96,7 +96,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING *cws, MCONTACT hC
 	}
 	else {
 		TCHAR *p = sttSettingToTchar(cws);
-		if (cws->value.pszVal != NULL && lstrcmp(p, item->group)) {
+		if (cws->value.pszVal != NULL && mir_tstrcmp(p, item->group)) {
 			debugLog(_T("Group set to %s"), p);
 			if (p)
 				AddContactToRoster(item->jid, tszNick, p);
@@ -119,7 +119,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT 
 	}
 
 	ptrT newNick( sttSettingToTchar(cws));
-	if (newNick && lstrcmp(item->nick, newNick)) {
+	if (newNick && mir_tstrcmp(item->nick, newNick)) {
 		debugLog(_T("Renaming contact %s: %s -> %s"), item->jid, item->nick, newNick);
 		AddContactToRoster(item->jid, newNick, item->group);
 	}

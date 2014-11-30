@@ -322,7 +322,7 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 				found = _tcsstr(lowered_szText, lowered_search) != NULL;
 			}
 			else {
-				found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
+				found = ((prefixOk && CSTR_EQUAL == CompareString(LOCALE_INVARIANT, NORM_IGNORECASE, text, -1, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
 			}
 			if (found) {
 				ClcGroup *contactGroup = group;
@@ -1732,7 +1732,7 @@ int ClcDoProtoAck(MCONTACT wParam, ACKDATA * ack)
 	if (ack->type == ACKTYPE_STATUS) {
 		if (ack->result == ACKRESULT_SUCCESS) {
 			for (int i = 0; i < pcli->hClcProtoCount; i++) {
-				if (!lstrcmpA(pcli->clcProto[i].szProto, ack->szModule)) {
+				if (!mir_strcmp(pcli->clcProto[i].szProto, ack->szModule)) {
 					pcli->clcProto[i].dwStatus = (WORD)ack->lParam;
 					if (pcli->clcProto[i].dwStatus >= ID_STATUS_OFFLINE)
 						pcli->pfnTrayIconUpdateBase(pcli->clcProto[i].szProto);

@@ -2167,7 +2167,7 @@ void TSAPI DeleteContainer(int iIndex)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
-		if (!lstrcmp(tszValue, tszContainerName))
+		if (!mir_tstrcmp(tszValue, tszContainerName))
 			db_unset(hContact, SRMSGMOD_T, CONTAINER_SUBKEY);
 	}
 
@@ -2201,7 +2201,7 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ptrT tszValue(db_get_tsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
-		if (!lstrcmp(tszValue, tszContainerName))
+		if (!mir_tstrcmp(tszValue, tszContainerName))
 			db_set_ts(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, szNew);
 	}
 }

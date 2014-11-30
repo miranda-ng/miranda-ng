@@ -67,7 +67,7 @@ BOOL BackupStatusMsg() {
 		mir_snprintf(ttemp, 128, "%s%s", temp[i]->szModuleName, PS_SETAWAYMSG);
 
 		//xfire wird geskipped, offline prots und invs prots auch, und locked status prots auch
-		if (!temp[i]->bIsEnabled || statusid == ID_STATUS_INVISIBLE || statusid == ID_STATUS_OFFLINE || !lstrcmpiA(temp[i]->szModuleName, protocolname) || !ServiceExists(ttemp) || db_get_b(NULL, temp[i]->szModuleName, "LockMainStatus", 0) == 1)
+		if (!temp[i]->bIsEnabled || statusid == ID_STATUS_INVISIBLE || statusid == ID_STATUS_OFFLINE || !mir_strcmpi(temp[i]->szModuleName, protocolname) || !ServiceExists(ttemp) || db_get_b(NULL, temp[i]->szModuleName, "LockMainStatus", 0) == 1)
 		{
 			XFireLog("-> Skip %s.", temp[i]->szModuleName);
 

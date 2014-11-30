@@ -42,7 +42,7 @@ INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam,
 				PSGetBoldFont(hDlg, hBoldFont);
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 
-				if (!lstrcmpA(pszSetting, SET_CONTACT_MYNOTES))
+				if (!mir_strcmp(pszSetting, SET_CONTACT_MYNOTES))
 					SetDlgItemText(hDlg, IDC_PAGETITLE, LPGENT("My notes:"));
 				else
 					SetDlgItemText(hDlg, IDC_PAGETITLE, LPGENT("About:"));

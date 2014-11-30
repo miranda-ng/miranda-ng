@@ -86,7 +86,7 @@ Protocol::~Protocol()
 
 void Protocol::lcopystr(TCHAR *dest, TCHAR *src, size_t maxlen)
 {
-	if (lstrcmp(dest, src) != 0) {
+	if (mir_tstrcmp(dest, src) != 0) {
 		data_changed = true;
 		mir_tstrncpy(dest, src, (DWORD)maxlen);
 	}

@@ -39,7 +39,7 @@ BOOL IsContactMySelf(std::string buddyusername) {
 
 	if (!db_get(NULL, protocolname, "login", &dbv))
 	{
-		if (!lstrcmpiA(dbv.pszVal, buddyusername.c_str()))
+		if (!mir_strcmpi(dbv.pszVal, buddyusername.c_str()))
 		{
 			db_free(&dbv);
 			return TRUE;

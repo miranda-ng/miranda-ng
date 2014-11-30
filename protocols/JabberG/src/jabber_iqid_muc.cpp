@@ -53,11 +53,11 @@ void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo *pInfo)
 		HXML queryNode = xmlGetChild(iqNode , _T("query"));
 		if (queryNode != NULL) {
 			LPCTSTR str = xmlGetAttrValue(queryNode, _T("xmlns"));
-			if (!lstrcmp(str, JABBER_FEAT_MUC_OWNER)) {
+			if (!mir_tstrcmp(str, JABBER_FEAT_MUC_OWNER)) {
 				HXML xNode = xmlGetChild(queryNode , _T("x"));
 				if (xNode != NULL) {
 					str = xmlGetAttrValue(xNode, _T("xmlns"));
-					if (!lstrcmp(str, JABBER_FEAT_DATA_FORMS))
+					if (!mir_tstrcmp(str, JABBER_FEAT_DATA_FORMS))
 						//LaunchForm(xNode);
 						FormCreateDialog(xNode, _T("Jabber Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_tstrdup(from));
 				}
@@ -498,7 +498,7 @@ void CJabberProto::OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE 
 	if (type == NULL)
 		return;
 
-	if (!lstrcmp(type, _T("result"))) {
+	if (!mir_tstrcmp(type, _T("result"))) {
 		JABBER_MUC_JIDLIST_INFO *jidListInfo = new JABBER_MUC_JIDLIST_INFO;
 		if (jidListInfo != NULL) {
 			jidListInfo->type = listType;

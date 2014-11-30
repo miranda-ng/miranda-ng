@@ -92,7 +92,7 @@ static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 
 static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
 {
-	if (hContact && pdbcws && (pdbcws->value.type <= DBVT_BYTE) && !lstrcmpA(pdbcws->szSetting, SET_CONTACT_GENDER))
+	if (hContact && pdbcws && (pdbcws->value.type <= DBVT_BYTE) && !mir_strcmp(pdbcws->szSetting, SET_CONTACT_GENDER))
 		OnCListApplyIcons(hContact, 0);
 
 	return 0;

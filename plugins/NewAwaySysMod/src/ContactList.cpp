@@ -390,7 +390,7 @@ int GroupEnum(const char *szSetting, LPARAM lParam)
 {
 	sGroupEnumData *GroupEnumData = (sGroupEnumData*)lParam;
 	TCString GroupName = db_get_s(NULL, "CListGroups", szSetting, _T(" "));
-	if (!lstrcmp(GroupEnumData->GroupName, &GroupName[1]))
+	if (!mir_tstrcmp(GroupEnumData->GroupName, &GroupName[1]))
 		GroupEnumData->hGroup = (HANDLE)(atol(szSetting) | HCONTACT_ISGROUP);
 	return 0;
 }

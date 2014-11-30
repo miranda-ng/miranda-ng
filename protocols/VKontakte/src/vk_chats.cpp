@@ -136,7 +136,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	JSONNODE *info = json_get(pResponse, "info");
 	if (info != NULL) {
 		ptrT tszTitle(json_as_string(json_get(info, "title")));
-		if (lstrcmp(tszTitle, cc->m_tszTopic)) {
+		if (mir_tstrcmp(tszTitle, cc->m_tszTopic)) {
 			cc->m_tszTopic = mir_tstrdup(tszTitle);
 			setTString(cc->m_hContact, "Nick", tszTitle);
 
@@ -301,7 +301,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime,
 CVkChatInfo* CVkProto::GetChatById(LPCTSTR ptszId)
 {
 	for (int i = 0; i < m_chats.getCount(); i++)
-		if (!lstrcmp(m_chats[i].m_tszId, ptszId))
+		if (!mir_tstrcmp(m_chats[i].m_tszId, ptszId))
 			return &m_chats[i];
 
 	return NULL;
@@ -350,7 +350,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	if (gch == NULL)
 		return 0;
 
-	if (lstrcmpiA(gch->pDest->pszModule, m_szModuleName))
+	if (mir_strcmpi(gch->pDest->pszModule, m_szModuleName))
 		return 0;
 
 	CVkChatInfo *cc = GetChatById(gch->pDest->ptszID);
@@ -689,7 +689,7 @@ int CVkProto::OnGcMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi == NULL)
 		return 0;
 
-	if (lstrcmpiA(gcmi->pszModule, m_szModuleName))
+	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
 	if (gcmi->Type == MENU_ON_LOG) {
@@ -710,7 +710,7 @@ static void FilterContacts(HWND hwndDlg, CVkProto *ppro)
 	HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
-		if (lstrcmpA(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
+		if (mir_strcmp(proto, ppro->m_szModuleName) || ppro->isChatRoom(hContact))
 			if (HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, hContact, 0))
 				SendMessage(hwndClist, CLM_DELETEITEM, (WPARAM)hItem, 0);
 	}

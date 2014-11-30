@@ -97,7 +97,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 				FILE *pcachefile = _tfopen(newcachepath, _T("r"));
 				if (pcachefile != NULL) {
 					fclose(pcachefile);
-					if (lstrcmp(newcachepath, renamedcachepath)) {
+					if (mir_tstrcmp(newcachepath, renamedcachepath)) {
 						MoveFile(newcachepath, renamedcachepath);
 						db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, renamedcachepath);
 					}
@@ -112,7 +112,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 int SiteDeleted(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
-	if (lstrcmpA(GetContactProto(hContact), MODULENAME))
+	if (mir_strcmp(GetContactProto(hContact), MODULENAME))
 		return 0;
 
 	ptrT contactName( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
@@ -355,7 +355,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 		// check ID to see if the contact already exist in the database
 		if (db_get_ts(hContact, MODULENAME, "URL", &dbv))
 			continue;
-		if (!lstrcmpi(psr->nick, dbv.ptszVal)) {
+		if (!mir_tstrcmpi(psr->nick, dbv.ptszVal)) {
 			// remove the flag for not on list and hidden, thus make the
 			// contact visible
 			// and add them on the list
@@ -406,7 +406,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 
 	for (MCONTACT hContact2 = db_find_first(MODULENAME); hContact2 != NULL; hContact2 = db_find_next(hContact2, MODULENAME)) {
 		if (!db_get_ts(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-			if (!lstrcmpi(Newnick, dbv.ptszVal)) {
+			if (!mir_tstrcmpi(Newnick, dbv.ptszVal)) {
 				// remove the flag for not on list and hidden, thus make the
 				// contact visible
 				// and add them on the list

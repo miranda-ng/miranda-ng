@@ -91,8 +91,8 @@ class CTzBias : public LIST<CTimeZone>
 	{
 		int result = tz2->Bias - tz1->Bias;
 		// DO NOT USE mir_tcsicmp here as it does only return TRUE or FALSE!!!
-		// lstrcmpi takes care of umlauts e.g. Ä,Ö,....
-		return (result || !tz1->ptszDisplay || !tz2->ptszDisplay) ? result : lstrcmpi(tz1->ptszDisplay, tz2->ptszDisplay);
+		// mir_tstrcmpi takes care of umlauts e.g. Ä,Ö,....
+		return (result || !tz1->ptszDisplay || !tz2->ptszDisplay) ? result : mir_tstrcmpi(tz1->ptszDisplay, tz2->ptszDisplay);
 	}
 public:
 	CTzBias() : LIST<CTimeZone>(50, (FTSortFunc) CTzBias::sortFunc)

@@ -182,7 +182,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (lstrcmpA(cws->szSetting, DB_MIRVER))
+	if (mir_strcmp(cws->szSetting, DB_MIRVER))
 		return 0;
 
 	SHOWPOPUP_DATA sd = {0};

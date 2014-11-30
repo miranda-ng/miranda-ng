@@ -294,7 +294,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	//must rename setting in all child contacts too
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
-		if (!lstrcmp(cache->tszGroup, oldName)) {
+		if (!mir_tstrcmp(cache->tszGroup, oldName)) {
 			db_set_ts(hContact, "CList", "Group", szName);
 			mir_free(cache->tszGroup);
 			cache->tszGroup = 0;
@@ -335,7 +335,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 				_itoa(i, idstr, 10);
 				if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
 					break;
-				if (!lstrcmp(dbv.ptszVal + 1, str)) {
+				if (!mir_tstrcmp(dbv.ptszVal + 1, str)) {
 					if (i < groupId)
 						break;      //is OK
 					MoveGroupBefore(groupId + 1, i + 2);
@@ -502,7 +502,7 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 				mii.cch = SIZEOF(szThisMenuItem);
 				mii.dwTypeData = szThisMenuItem;
 				GetMenuItemInfo(hThisMenu, menuId, TRUE, &mii);
-				compareResult = lstrcmp(szThisField, szThisMenuItem);
+				compareResult = mir_tstrcmp(szThisField, szThisMenuItem);
 				if (compareResult == 0) {
 					if (pNextField == NULL) {
 						mii.fMask = MIIM_DATA;

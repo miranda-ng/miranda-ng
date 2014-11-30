@@ -44,7 +44,7 @@ static INT_PTR GroupAdded(WPARAM wParam, LPARAM lParam)
 		HWND hwndFocus = GetFocus();
 
 		GetClassName(hwndFocus, szFocusClass, SIZEOF(szFocusClass));
-		if (!lstrcmp(szFocusClass, _T(CLISTCONTROL_CLASS))) {
+		if (!mir_tstrcmp(szFocusClass, _T(CLISTCONTROL_CLASS))) {
 			hItem = (HANDLE) SendMessage(hwndFocus, CLM_FINDGROUP, wParam, 0);
 			if (hItem)
 				SendMessage(hwndFocus, CLM_EDITLABEL, (WPARAM) hItem, 0);

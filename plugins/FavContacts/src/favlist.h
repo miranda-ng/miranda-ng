@@ -56,8 +56,8 @@ public:
 		}
 
 		int res = 0;
-		if (res = lstrcmp(p1->group, p2->group)) return res;
-		if (res = lstrcmp(p1->name, p2->name)) return res;
+		if (res = mir_tstrcmp(p1->group, p2->group)) return res;
+		if (res = mir_tstrcmp(p1->name, p2->name)) return res;
 		return 0;
 	}
 };
@@ -85,7 +85,7 @@ private:
 		TContactInfo *info = new TContactInfo(hContact, bManual);
 		insert(info);
 		TCHAR *group = info->getGroup();
-		if (prevGroup && lstrcmp(prevGroup, group))
+		if (prevGroup && mir_tstrcmp(prevGroup, group))
 			++nGroups;
 		prevGroup = group;
 		return 1;

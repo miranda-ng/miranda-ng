@@ -28,7 +28,7 @@ int hLangpack;
 
 static int CompareServers( const SERVER_INFO* p1, const SERVER_INFO* p2 )
 {
-	return lstrcmpA( p1->m_name, p2->m_name );
+	return mir_strcmp( p1->m_name, p2->m_name );
 }
 
 OBJLIST<SERVER_INFO> g_servers( 20, CompareServers );

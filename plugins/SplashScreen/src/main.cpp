@@ -202,7 +202,7 @@ void SplashMain()
 							logMessage(_T("Extention"), ext);
 						#endif
 
-						if (lstrcmpi(ext, _T(".png")) & lstrcmpi(ext, _T(".bmp")))
+						if (mir_tstrcmpi(ext, _T(".png")) & mir_tstrcmpi(ext, _T(".bmp")))
 							continue;
 
 						#ifdef _DEBUG
@@ -240,7 +240,7 @@ int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 	TCHAR * tszModule= mir_a2t(cws->szModule), *tszSetting = mir_a2t(cws->szSetting);
 	if(options.inheritGS)
 	{
-		if (!lstrcmp(tszModule, _T("Skin")) & !lstrcmp(tszSetting, _T("UseSound")))
+		if (!mir_tstrcmp(tszModule, _T("Skin")) & !mir_tstrcmp(tszSetting, _T("UseSound")))
 		{
 			db_set_b(NULL, MODNAME, "PlaySound", cws->value.bVal);
 			#ifdef _DEBUG
@@ -250,7 +250,7 @@ int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 				logMessage(_T("Value"), _itot(cws->value.bVal, buf, 10));
 			#endif
 		}
-		if (!lstrcmp(tszModule, _T("PluginDisable")) & (!lstrcmp(tszSetting, szDllName)))
+		if (!mir_tstrcmp(tszModule, _T("PluginDisable")) & (!mir_tstrcmp(tszSetting, szDllName)))
 		{
 			db_set_b(NULL, MODNAME, "Active", cws->value.bVal);
 			#ifdef _DEBUG

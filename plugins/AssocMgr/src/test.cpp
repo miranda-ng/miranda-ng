@@ -338,9 +338,9 @@ static int IcqOpenFile(WPARAM wParam,LPARAM lParam)
 		if(IsEmpty(line)) continue;
 		if(line[0]=='[') {
 			ZeroMemory(&info,sizeof(info));
-			if (!lstrcmpiA(line,"[ICQ Message User]"))
+			if (!mir_strcmpi(line,"[ICQ Message User]"))
 				info.type=ICQFILE_MESSAGEUSER;
-			else if (!lstrcmpiA(line,"[ICQ User]"))
+			else if (!mir_strcmpi(line,"[ICQ User]"))
 				info.type=ICQFILE_ADDUSER;
 			continue;
 		}
@@ -348,11 +348,11 @@ static int IcqOpenFile(WPARAM wParam,LPARAM lParam)
 		sep=strchr(line,'=');
 		if(sep==NULL) { info.type=0; break; } /* format error */
 		*(sep++)='\0';
-		if (!lstrcmpA("UIN",line)) mir_strncpy(info.uin,sep,sizeof(info.uin)); /* buffer safe */
-		else if (!lstrcmpA("Email",line)) mir_strncpy(info.email,sep,sizeof(info.email)); /* buffer safe */
-		else if (!lstrcmpA("NickName",line)) mir_strncpy(info.nick,sep,sizeof(info.nick)); /* buffer safe */
-		else if (!lstrcmpA("FirstName",line)) mir_strncpy(info.firstName,sep,sizeof(info.firstName)); /* buffer safe */
-		else if (!lstrcmpA("LastName",line)) mir_strncpy(info.lastName,sep,sizeof(info.lastName)); /* buffer safe */
+		if (!mir_strcmp("UIN",line)) mir_strncpy(info.uin,sep,sizeof(info.uin)); /* buffer safe */
+		else if (!mir_strcmp("Email",line)) mir_strncpy(info.email,sep,sizeof(info.email)); /* buffer safe */
+		else if (!mir_strcmp("NickName",line)) mir_strncpy(info.nick,sep,sizeof(info.nick)); /* buffer safe */
+		else if (!mir_strcmp("FirstName",line)) mir_strncpy(info.firstName,sep,sizeof(info.firstName)); /* buffer safe */
+		else if (!mir_strcmp("LastName",line)) mir_strncpy(info.lastName,sep,sizeof(info.lastName)); /* buffer safe */
 	}
 	fclose(fp);
 	switch(info.type) {

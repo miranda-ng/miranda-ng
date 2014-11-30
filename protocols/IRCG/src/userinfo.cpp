@@ -190,7 +190,7 @@ int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = lParam;
 	char *szProto = GetContactProto(hContact);
-	if (!hContact || !szProto || lstrcmpiA(szProto, m_szModuleName))
+	if (!hContact || !szProto || mir_strcmpi(szProto, m_szModuleName))
 		return 0;
 
 	if (isChatRoom(hContact))

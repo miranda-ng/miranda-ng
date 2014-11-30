@@ -213,7 +213,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 
 	const TCHAR *type;
 	if ((type = xmlGetAttrValue(workNode, _T("type"))) == NULL) return TRUE;
-	if (!lstrcmp(type, _T("result"))) {
+	if (!mir_tstrcmp(type, _T("result"))) {
 		// wParam = <iq/> node from responder as a result of command execution
 		HXML commandNode, xNode;
 		if ((commandNode = xmlGetChild(dat->AdHocNode, _T("command"))) == NULL)
@@ -269,7 +269,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			SetWindowText(GetDlgItem(hwndDlg, IDCANCEL), TranslateT("Done"));
 		}
 	}
-	else if (!lstrcmp(type, _T("error"))) {
+	else if (!mir_tstrcmp(type, _T("error"))) {
 		// error occurred here
 		int toHide[] = { IDC_FRAME, IDC_FRAME_TEXT, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_SUBMIT, 0};
 		sttShowControls(hwndDlg, FALSE, toHide);

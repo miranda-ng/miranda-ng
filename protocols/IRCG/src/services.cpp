@@ -504,7 +504,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam, LPARAM lParam)
 
 	// handle the hook
 	if (gch) {
-		if (!lstrcmpiA(gch->pDest->pszModule, m_szModuleName)) {
+		if (!mir_strcmpi(gch->pDest->pszModule, m_szModuleName)) {
 			TCHAR *p1 = mir_tstrdup(gch->pDest->ptszID);
 			TCHAR *p2 = _tcsstr(p1, _T(" - "));
 			if (p2)
@@ -850,9 +850,9 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 	if (gcmi) {
-		if (!lstrcmpiA(gcmi->pszModule, m_szModuleName)) {
+		if (!mir_strcmpi(gcmi->pszModule, m_szModuleName)) {
 			if (gcmi->Type == MENU_ON_LOG) {
-				if (lstrcmpi(gcmi->pszID, SERVERWINDOW)) {
+				if (mir_tstrcmpi(gcmi->pszID, SERVERWINDOW)) {
 					gcmi->nItems = SIZEOF(logItems);
 					gcmi->Item = logItems;
 				}
@@ -932,7 +932,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM hContact, LPARAM)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto && !lstrcmpiA(szProto, m_szModuleName)) {
+	if (szProto && !mir_strcmpi(szProto, m_szModuleName)) {
 		bool bIsOnline = getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE;
 
 		// context menu for chatrooms

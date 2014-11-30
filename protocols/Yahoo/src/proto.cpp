@@ -775,7 +775,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				reconnectRequired = true;
 			}
 			else {
-				if(lstrcmpA(str, dbv.pszVal))
+				if(mir_strcmp(str, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}
@@ -787,7 +787,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				reconnectRequired = true;
 			}
 			else {
-				if(lstrcmpA(str, dbv.pszVal))
+				if(mir_strcmp(str, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}

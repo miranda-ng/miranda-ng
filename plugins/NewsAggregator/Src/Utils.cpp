@@ -216,35 +216,35 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 		int day, month, year, hour, min, sec, timezoneh, timezonem;
 		if (_tcsstr(p, _T(","))) {
 			_stscanf(p, _T("%3s, %d %3s %d %d:%d:%d %1s%02d%02d"), &weekday, &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (!lstrcmpi(monthstr, _T("Jan")))
+			if (!mir_tstrcmpi(monthstr, _T("Jan")))
 				month = 1;
-			if (!lstrcmpi(monthstr, _T("Feb")))
+			if (!mir_tstrcmpi(monthstr, _T("Feb")))
 				month = 2;
-			if (!lstrcmpi(monthstr, _T("Mar")))
+			if (!mir_tstrcmpi(monthstr, _T("Mar")))
 				month = 3;
-			if (!lstrcmpi(monthstr, _T("Apr")))
+			if (!mir_tstrcmpi(monthstr, _T("Apr")))
 				month = 4;
-			if (!lstrcmpi(monthstr, _T("May")))
+			if (!mir_tstrcmpi(monthstr, _T("May")))
 				month = 5;
-			if (!lstrcmpi(monthstr, _T("Jun")))
+			if (!mir_tstrcmpi(monthstr, _T("Jun")))
 				month = 6;
-			if (!lstrcmpi(monthstr, _T("Jul")))
+			if (!mir_tstrcmpi(monthstr, _T("Jul")))
 				month = 7;
-			if (!lstrcmpi(monthstr, _T("Aug")))
+			if (!mir_tstrcmpi(monthstr, _T("Aug")))
 				month = 8;
-			if (!lstrcmpi(monthstr, _T("Sep")))
+			if (!mir_tstrcmpi(monthstr, _T("Sep")))
 				month = 9;
-			if (!lstrcmpi(monthstr, _T("Oct")))
+			if (!mir_tstrcmpi(monthstr, _T("Oct")))
 				month = 10;
-			if (!lstrcmpi(monthstr, _T("Nov")))
+			if (!mir_tstrcmpi(monthstr, _T("Nov")))
 				month = 11;
-			if (!lstrcmpi(monthstr, _T("Dec")))
+			if (!mir_tstrcmpi(monthstr, _T("Dec")))
 				month = 12;
 			if (year < 2000)
 				year += 2000;
-			if (!lstrcmp(timezonesign, _T("+")))
+			if (!mir_tstrcmp(timezonesign, _T("+")))
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
-			else if (!lstrcmp(timezonesign, _T("-")))
+			else if (!mir_tstrcmp(timezonesign, _T("-")))
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
 			else
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
@@ -256,9 +256,9 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 		else
 		{
 			_stscanf(p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day,  &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (!lstrcmp(timezonesign, _T("+")))
+			if (!mir_tstrcmp(timezonesign, _T("+")))
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
-			else if (!lstrcmp(timezonesign, _T("-")))
+			else if (!mir_tstrcmp(timezonesign, _T("-")))
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
 			else
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
@@ -420,11 +420,11 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
 			char *date = NULL, *size = NULL;
 			for (int i = 0; i < pReply->headersCount; i++) {
-				if (!lstrcmpiA(pReply->headers[i].szName, "Last-Modified")) {
+				if (!mir_strcmpi(pReply->headers[i].szName, "Last-Modified")) {
 					date = pReply->headers[i].szValue;
 					continue;
 				}
-				else if (!lstrcmpiA(pReply->headers[i].szName, "Content-Length")) {
+				else if (!mir_strcmpi(pReply->headers[i].szName, "Content-Length")) {
 					size = pReply->headers[i].szValue;
 					continue;
 				}
@@ -581,7 +581,7 @@ MCONTACT GetContactByNick(const TCHAR *nick)
 
 	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		ptrW contactNick(::db_get_wsa(hContact, MODULE, "Nick"));
-		if (!lstrcmpi(contactNick, nick))
+		if (!mir_tstrcmpi(contactNick, nick))
 			break;
 	}
 	return hContact;
@@ -593,7 +593,7 @@ MCONTACT GetContactByURL(const TCHAR *url)
 
 	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		ptrW contactURL(::db_get_wsa(hContact, MODULE, "URL"));
-		if (!lstrcmpi(contactURL, url))
+		if (!mir_tstrcmpi(contactURL, url))
 			break;
 	}
 	return hContact;

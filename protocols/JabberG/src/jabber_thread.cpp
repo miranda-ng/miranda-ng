@@ -571,7 +571,7 @@ void CJabberProto::PerformIqAuth(ThreadData *info)
 
 void CJabberProto::OnProcessStreamOpening(HXML node, ThreadData *info)
 {
-	if (lstrcmp(xmlGetName(node), _T("stream:stream")))
+	if (mir_tstrcmp(xmlGetName(node), _T("stream:stream")))
 		return;
 
 	if (!info->bIsReg) {
@@ -848,7 +848,7 @@ void CJabberProto::OnProcessChallenge(HXML node, ThreadData *info)
 		return;
 	}
 
-	if (lstrcmp(xmlGetAttrValue(node, _T("xmlns")), _T("urn:ietf:params:xml:ns:xmpp-sasl")))
+	if (mir_tstrcmp(xmlGetAttrValue(node, _T("xmlns")), _T("urn:ietf:params:xml:ns:xmpp-sasl")))
 		return;
 
 	char* challenge = info->auth->getChallenge(xmlGetText(node));
@@ -860,34 +860,34 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData *info)
 {
 	OnConsoleProcessXml(node, JCPF_IN);
 
-	if (!lstrcmp(xmlGetName(node), _T("proceed")))
+	if (!mir_tstrcmp(xmlGetName(node), _T("proceed")))
 		OnProcessProceed(node, info);
-	else if (!lstrcmp(xmlGetName(node), _T("compressed")))
+	else if (!mir_tstrcmp(xmlGetName(node), _T("compressed")))
 		OnProcessCompressed(node, info);
-	else if (!lstrcmp(xmlGetName(node), _T("stream:features")))
+	else if (!mir_tstrcmp(xmlGetName(node), _T("stream:features")))
 		OnProcessFeatures(node, info);
-	else if (!lstrcmp(xmlGetName(node), _T("stream:stream")))
+	else if (!mir_tstrcmp(xmlGetName(node), _T("stream:stream")))
 		OnProcessStreamOpening(node, info);
-	else if (!lstrcmp(xmlGetName(node), _T("success")))
+	else if (!mir_tstrcmp(xmlGetName(node), _T("success")))
 		OnProcessSuccess(node, info);
-	else if (!lstrcmp(xmlGetName(node), _T("failure")))
+	else if (!mir_tstrcmp(xmlGetName(node), _T("failure")))
 		OnProcessFailure(node, info);
-	else if (!lstrcmp(xmlGetName(node), _T("stream:error")))
+	else if (!mir_tstrcmp(xmlGetName(node), _T("stream:error")))
 		OnProcessError(node, info);
-	else if (!lstrcmp(xmlGetName(node), _T("challenge")))
+	else if (!mir_tstrcmp(xmlGetName(node), _T("challenge")))
 		OnProcessChallenge(node, info);
 	else if (!info->bIsReg) {
-		if (!lstrcmp(xmlGetName(node), _T("message")))
+		if (!mir_tstrcmp(xmlGetName(node), _T("message")))
 			OnProcessMessage(node, info);
-		else if (!lstrcmp(xmlGetName(node), _T("presence")))
+		else if (!mir_tstrcmp(xmlGetName(node), _T("presence")))
 			OnProcessPresence(node, info);
-		else if (!lstrcmp(xmlGetName(node), _T("iq")))
+		else if (!mir_tstrcmp(xmlGetName(node), _T("iq")))
 			OnProcessIq(node);
 		else
 			debugLogA("Invalid top-level tag (only <message/> <presence/> and <iq/> allowed)");
 	}
 	else {
-		if (!lstrcmp(xmlGetName(node), _T("iq")))
+		if (!mir_tstrcmp(xmlGetName(node), _T("iq")))
 			OnProcessRegIq(node, info);
 		else
 			debugLogA("Invalid top-level tag (only <iq/> allowed)");
@@ -897,10 +897,10 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData *info)
 void CJabberProto::OnProcessProceed(HXML node, ThreadData *info)
 {
 	const TCHAR *type;
-	if ((type = xmlGetAttrValue(node, _T("xmlns"))) != NULL && !lstrcmp(type, _T("error")))
+	if ((type = xmlGetAttrValue(node, _T("xmlns"))) != NULL && !mir_tstrcmp(type, _T("error")))
 		return;
 
-	if (!lstrcmp(type, _T("urn:ietf:params:xml:ns:xmpp-tls"))) {
+	if (!mir_tstrcmp(type, _T("urn:ietf:params:xml:ns:xmpp-tls"))) {
 		debugLogA("Starting TLS...");
 
 		char* gtlk = strstr(info->conn.manualHost, "google.com");
@@ -925,9 +925,9 @@ void CJabberProto::OnProcessCompressed(HXML node, ThreadData *info)
 	debugLogA("Compression confirmed");
 
 	const TCHAR *type = xmlGetAttrValue(node, _T("xmlns"));
-	if (type != NULL && !lstrcmp(type, _T("error")))
+	if (type != NULL && !mir_tstrcmp(type, _T("error")))
 		return;
-	if (lstrcmp(type, _T("http://jabber.org/protocol/compress")))
+	if (mir_tstrcmp(type, _T("http://jabber.org/protocol/compress")))
 		return;
 
 	debugLogA("Starting Zlib stream compression...");
@@ -1560,7 +1560,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 
 			debugLogA("Avatar enabled");
 			for (int i = 1; (xNode = xmlGetNthChild(node, _T("x"), i)) != NULL; i++) {
-				if (!lstrcmp(xmlGetAttrValue(xNode, _T("xmlns")), _T("jabber:x:avatar"))) {
+				if (!mir_tstrcmp(xmlGetAttrValue(xNode, _T("xmlns")), _T("jabber:x:avatar"))) {
 					LPCTSTR ptszHash = xmlGetText(xmlGetChild(xNode, "hash"));
 					if (ptszHash != NULL) {
 						delSetting(hContact, "AvatarXVcard");
@@ -1568,7 +1568,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 						setTString(hContact, "AvatarHash", ptszHash);
 						bHasAvatar = true;
 						ptrT saved(getTStringA(hContact, "AvatarSaved"));
-						if (saved != NULL || lstrcmp(saved, ptszHash)) {
+						if (saved != NULL || mir_tstrcmp(saved, ptszHash)) {
 							debugLogA("Avatar was changed");
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
 						}
@@ -1579,7 +1579,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 			if (!bHasAvatar) { //no jabber:x:avatar. try vcard-temp:x:update
 				debugLogA("Not hasXAvatar");
 				for (int i = 1; (xNode = xmlGetNthChild(node, _T("x"), i)) != NULL; i++) {
-					if (!lstrcmp(xmlGetAttrValue(xNode, _T("xmlns")), _T("vcard-temp:x:update"))) {
+					if (!mir_tstrcmp(xmlGetAttrValue(xNode, _T("xmlns")), _T("vcard-temp:x:update"))) {
 						if ((xNode = xmlGetChild(xNode, "photo")) != NULL) {
 							LPCTSTR txt = xmlGetText(xNode);
 							if (txt != NULL && txt[0] != 0) {
@@ -1588,7 +1588,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData *info)
 								setTString(hContact, "AvatarHash", txt);
 								bHasAvatar = true;
 								ptrT saved(getTStringA(hContact, "AvatarSaved"));
-								if (saved || lstrcmp(saved, txt)) {
+								if (saved || mir_tstrcmp(saved, txt)) {
 									debugLogA("Avatar was changed. Using vcard-temp:x:update");
 									ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
 								}
@@ -1817,7 +1817,7 @@ void CJabberProto::OnProcessIq(HXML node)
 		LISTFOREACH(i, this, LIST_FILE)
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-			if (item->ft != NULL && item->ft->state == FT_CONNECTING && !lstrcmp(tszBuf, item->ft->szId)) {
+			if (item->ft != NULL && item->ft->state == FT_CONNECTING && !mir_tstrcmp(tszBuf, item->ft->szId)) {
 				debugLogA("Denying file sending request");
 				item->ft->state = FT_DENIED;
 				if (item->ft->hFileEvent != NULL)

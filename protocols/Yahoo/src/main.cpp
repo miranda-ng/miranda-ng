@@ -72,7 +72,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinst,DWORD /*fdwReason*/,LPVOID /*lpvR
 
 static int CompareProtos( const CYahooProto* p1, const CYahooProto* p2 )
 {
-	return lstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 LIST<CYahooProto> g_instances( 1, CompareProtos );

@@ -45,7 +45,7 @@ MCONTACT CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 			if ((dbJid = getTStringA(hContact, "jid")) == NULL)
 				continue;
 
-		if (!lstrcmpi(jid, dbJid) && isChatRoom(hContact))
+		if (!mir_tstrcmpi(jid, dbJid) && isChatRoom(hContact))
 			return hContact;
 	}
 
@@ -69,11 +69,11 @@ MCONTACT CJabberProto::HContactFromJID(const TCHAR *jid, BOOL bStripResource)
 		if (dbJid != NULL) {
 			int result;
 			if (item != NULL)
-				result = lstrcmpi(jid, dbJid);
+				result = mir_tstrcmpi(jid, dbJid);
 			else {
 				if (bStripResource == 3) {
 					if (bIsChat)
-						result = lstrcmpi(jid, dbJid);  // for chat room we have to have full contact matched
+						result = mir_tstrcmpi(jid, dbJid);  // for chat room we have to have full contact matched
 					else if (TRUE)
 						result = _tcsnicmp(jid, dbJid, _tcslen(dbJid));
 					else
@@ -81,7 +81,7 @@ MCONTACT CJabberProto::HContactFromJID(const TCHAR *jid, BOOL bStripResource)
 				}
 				// most probably it should just look full matching contact
 				else
-					result = lstrcmpi(jid, dbJid);
+					result = mir_tstrcmpi(jid, dbJid);
 			}
 
 			if (result == 0)
@@ -745,7 +745,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != NULL) {
-		if (LI->arResources.getCount() == 1 && !lstrcmp(LI->arResources[0]->m_tszCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
+		if (LI->arResources.getCount() == 1 && !mir_tstrcmp(LI->arResources[0]->m_tszCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
 			if (p) *p = 0;
 			return dest;
 		}

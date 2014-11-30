@@ -261,7 +261,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootInfo(HXML iqNode, CJabberIqInfo
 		if (query) {
 			HXML feature;
 			for (int i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
-				if (!lstrcmp(xmlGetAttrValue(feature, _T("var")), (TCHAR *)pInfo->m_pUserData)) {
+				if (!mir_tstrcmp(xmlGetAttrValue(feature, _T("var")), (TCHAR *)pInfo->m_pUserData)) {
 					CJabberSDNode *pNode = m_SDManager.AddPrimaryNode(pInfo->GetReceiver(), xmlGetAttrValue(iqNode, _T("node")), NULL);
 					SendBothRequests(pNode, NULL);
 					break;
@@ -396,7 +396,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 
 	mir_cslockfull lck(m_SDManager.cs());
 	m_SDManager.RemoveAll();
-	if (!lstrcmp(szJid, _T(SD_FAKEJID_MYAGENTS))) {
+	if (!mir_tstrcmp(szJid, _T(SD_FAKEJID_MYAGENTS))) {
 		sttBrowseMode = SD_BROWSE_MYAGENTS;
 		JABBER_LIST_ITEM *item = NULL;
 		LISTFOREACH(i, this, LIST_ROSTER)
@@ -414,7 +414,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 					SendBothRequests(pNode, NULL);
 			}	}
 	}	}
-	else if (!lstrcmp(szJid, _T(SD_FAKEJID_CONFERENCES))) {
+	else if (!mir_tstrcmp(szJid, _T(SD_FAKEJID_CONFERENCES))) {
 		sttBrowseMode = SD_BROWSE_CONFERENCES;
 		TCHAR *szServerJid = mir_a2t(m_ThreadInfo->conn.server);
 		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
@@ -425,7 +425,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		m_ThreadInfo->send(iq);
 		mir_free(szServerJid);
 	}
-	else if (!lstrcmp(szJid, _T(SD_FAKEJID_AGENTS))) {
+	else if (!mir_tstrcmp(szJid, _T(SD_FAKEJID_AGENTS))) {
 		sttBrowseMode = SD_BROWSE_AGENTS;
 		TCHAR *szServerJid = mir_a2t(m_ThreadInfo->conn.server);
 		CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
@@ -436,7 +436,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		m_ThreadInfo->send(iq);
 		mir_free(szServerJid);
 	}
-	else if (!lstrcmp(szJid, _T(SD_FAKEJID_FAVORITES))) {
+	else if (!mir_tstrcmp(szJid, _T(SD_FAKEJID_FAVORITES))) {
 		sttBrowseMode = SD_BROWSE_FAVORITES;
 		int count = getDword("discoWnd_favCount", 0);
 		for (int i=0; i < count; i++) {
@@ -512,8 +512,8 @@ void CJabberProto::ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode)
 		{
 			CJabberSDIdentity *iIdentity;
 			for (iIdentity = pNode->GetFirstIdentity(); iIdentity; iIdentity = iIdentity->GetNext())
-				if (!lstrcmp(iIdentity->GetCategory(), sttNodeIcons[i].category) &&
-					(!sttNodeIcons[i].type || !lstrcmp(iIdentity->GetType(), sttNodeIcons[i].type)))
+				if (!mir_tstrcmp(iIdentity->GetCategory(), sttNodeIcons[i].category) &&
+					(!sttNodeIcons[i].type || !mir_tstrcmp(iIdentity->GetType(), sttNodeIcons[i].type)))
 				{
 					iIcon = sttNodeIcons[i].listIndex;
 					break;
@@ -525,7 +525,7 @@ void CJabberProto::ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode)
 		{
 			CJabberSDFeature *iFeature;
 			for (iFeature = pNode->GetFirstFeature(); iFeature; iFeature = iFeature->GetNext())
-				if (!lstrcmp(iFeature->GetVar(), sttNodeIcons[i].feature))
+				if (!mir_tstrcmp(iFeature->GetVar(), sttNodeIcons[i].feature))
 				{
 					iIcon = sttNodeIcons[i].listIndex;
 					break;
@@ -1252,7 +1252,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		bool bFeatureOk = !bFilterItems;
 		if (bFilterItems)
 			for (CJabberSDFeature *iFeature = pNode->GetFirstFeature(); iFeature; iFeature = iFeature->GetNext())
-				if (!lstrcmp(iFeature->GetVar(), items[i].feature)) {
+				if (!mir_tstrcmp(iFeature->GetVar(), items[i].feature)) {
 					bFeatureOk = true;
 					break;
 				}

@@ -53,7 +53,7 @@ BOOL EnumLangpacks(ENUM_PACKS_CALLBACK callback, WPARAM wParam, LPARAM lParam)
 			if (!LoadLangPackDescr(tszFullPath, &pack)) {
 				pack.ftFileDate = wfd.ftLastWriteTime;
 				/* enabled? */
-				if (langpack && !lstrcmpi(langpack, wfd.cFileName)) {
+				if (langpack && !mir_tstrcmpi(langpack, wfd.cFileName)) {
 					if (!fPackFound) pack.flags |= LPF_ENABLED;
 					fPackFound = TRUE;
 				}

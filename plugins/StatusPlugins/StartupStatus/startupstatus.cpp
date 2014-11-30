@@ -23,7 +23,7 @@ static UINT_PTR setStatusTimerId = 0;
 
 int CompareSettings(const TSSSetting *p1, const TSSSetting *p2)
 {
-	return lstrcmpA(p1->szName, p2->szName);
+	return mir_strcmp(p1->szName, p2->szName);
 }
 
 static TSettingsList startupSettings(10, CompareSettings);
@@ -191,7 +191,7 @@ int OnAccChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_REMOVED:
 		for (int i = 0; i < startupSettings.getCount(); i++) {
-			if (!lstrcmpA(startupSettings[i].szName, pa->szModuleName)) {
+			if (!mir_strcmp(startupSettings[i].szName, pa->szModuleName)) {
 				startupSettings.remove(i);
 				break;
 			}

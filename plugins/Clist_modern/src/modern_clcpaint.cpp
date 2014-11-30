@@ -369,7 +369,7 @@ int   CLCPaint::_GetRealStatus( ClcContact *pContact, int nStatus )
 
 	for ( int i=0; i < pcli->hClcProtoCount; i++ )
 	{
-		if (!lstrcmpA( pcli->clcProto[i].szProto, pContact->proto ))
+		if (!mir_strcmp( pcli->clcProto[i].szProto, pContact->proto ))
 			return pcli->clcProto[i].dwStatus;
 	}
 	return nStatus;

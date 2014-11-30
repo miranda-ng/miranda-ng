@@ -186,7 +186,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 				mir_free(g_ptszWinampSong);
 				g_ptszWinampSong = mir_tstrdup(ptszWinampTitle);
 			}
-			else if (g_ptszWinampSong && lstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg"))
+			else if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg"))
 				&& db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1))
 			{
 				ptszWinampTitle = mir_tstrdup(g_ptszWinampSong);
@@ -1392,7 +1392,7 @@ VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD d
 			mir_snprintf(szBuffer, SIZEOF(szBuffer), "Cur%sMsg", accounts->pa[i]->szModuleName);
 			if (!db_get_ts(NULL, "SimpleStatusMsg", szBuffer, &dbv))
 			{
-				if (tszMsg && dbv.ptszVal && !lstrcmp(tszMsg, dbv.ptszVal) || !tszMsg && !dbv.ptszVal)
+				if (tszMsg && dbv.ptszVal && !mir_tstrcmp(tszMsg, dbv.ptszVal) || !tszMsg && !dbv.ptszVal)
 				{
 					db_free(&dbv);
 					mir_free(tszMsg);
@@ -1620,7 +1620,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 				mir_snprintf(buff, SIZEOF(buff), "SMsg%d", j);
 				if (!db_get_ts(NULL, "SimpleStatusMsg", buff, &dbv))
 				{
-					if (!lstrcmp(dbv.ptszVal, szMsgW))
+					if (!mir_tstrcmp(dbv.ptszVal, szMsgW))
 					{
 						found = TRUE;
 						mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sMsg", ps[i]->szName);
@@ -1666,7 +1666,7 @@ static TCHAR *ParseWinampSong(ARGUMENTSINFO *ai)
 		mir_free(g_ptszWinampSong);
 		g_ptszWinampSong = mir_tstrdup(ptszWinampTitle);
 	}
-	else if (g_ptszWinampSong && lstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg")) && db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1))
+	else if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg")) && db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1))
 		ptszWinampTitle = mir_tstrdup(g_ptszWinampSong);
 
 	return ptszWinampTitle;
@@ -1864,7 +1864,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 			db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)CallProtoService(accounts->pa[i]->szModuleName, PS_GETSTATUS, 0, 0));
 		}
 
-		if (g_ptszWinampSong && lstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg")) /*&& db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1)*/)
+		if (g_ptszWinampSong && mir_tstrcmp(g_ptszWinampSong, _T("SimpleStatusMsg")) /*&& db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1)*/)
 			DBWriteMessage("AmpLastTitle", g_ptszWinampSong);
 	}
 

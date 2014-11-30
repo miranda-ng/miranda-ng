@@ -349,7 +349,7 @@ LBL_Unknown:
 	}
 
 	tszName = pcli->pfnGetContactDisplayName(hContact, GCDNF_NOCACHE);
-	if (!lstrcmp(tszName, UnknownConctactTranslatedName)) {
+	if (!mir_tstrcmp(tszName, UnknownConctactTranslatedName)) {
 		mir_free(tszName);
 		goto LBL_Unknown;
 	}

@@ -614,7 +614,7 @@ int AddToPredefined(HWND hwndDlg, struct MsgBoxData *data)
 		newitem.pszText = text;
 
 		SendMessage(data->recent_cbex, CBEM_GETITEM, 0, (LPARAM)&newitem);
-		if (LOWORD(newitem.lParam) == PREDEFINED_MSG && !lstrcmp(text, msg))
+		if (LOWORD(newitem.lParam) == PREDEFINED_MSG && !mir_tstrcmp(text, msg))
 			return num_items;
 	}
 
@@ -1177,7 +1177,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						for (int i = 1; i <= msgbox_data->max_hist_msgs; i++) {
 							mir_snprintf(buff, SIZEOF(buff), "SMsg%d", i);
 							if (!db_get_ts(NULL, "SimpleStatusMsg", buff, &dbv)) {
-								if (!lstrcmp(dbv.ptszVal, tszMsg)) {
+								if (!mir_tstrcmp(dbv.ptszVal, tszMsg)) {
 									found = TRUE;
 									if (msgbox_data->m_szProto) {
 										mir_snprintf(buff2, SIZEOF(buff2), "Last%sMsg", msgbox_data->m_szProto);

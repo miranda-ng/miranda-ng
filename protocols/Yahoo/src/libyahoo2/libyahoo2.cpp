@@ -3144,7 +3144,7 @@ static void yahoo_process_ignore(struct yahoo_input_data *yid, struct yahoo_pack
 			while (buddy) {
 				struct yahoo_buddy *b = (struct yahoo_buddy *) buddy->data;
 				
-				if (lstrcmpiA(b->id, who) == 0) 
+				if (mir_strcmpi(b->id, who) == 0) 
 					break;
 				
 				buddy = buddy->next;

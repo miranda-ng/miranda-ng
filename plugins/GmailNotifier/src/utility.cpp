@@ -24,7 +24,7 @@ void BuildList(void)
 
 	for (int i = 0; i < acc_num; i++) {
 		char *tail = strchr(acc[i].name, '@');
-		if (tail && lstrcmpA(tail + 1, "gmail.com") != 0)
+		if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
 			mir_strcpy(acc[i].hosted, tail + 1);
 		acc[i].IsChecking = FALSE;
 	}

@@ -1164,7 +1164,7 @@ bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
 	{
 		char ext[5];
 		memcpy(ext,fn+(strlen(fn)-4),5);
-		if (!lstrcmpiA(ext,".png"))
+		if (!mir_strcmpi(ext,".png"))
 		{
 			return loadFromFile_png(fn, fnAlpha);
 		} else

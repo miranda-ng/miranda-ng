@@ -35,7 +35,7 @@ static int sttCompareNicknames(const TCHAR *s1, const TCHAR *s2)
 	if (*s1 && !*s2) return -1;
 
 	// compare tails
-	return lstrcmpi(s1, s2);
+	return mir_tstrcmpi(s1, s2);
 }
 
 int UM_CompareItem(USERINFO *u1, const TCHAR* pszNick, WORD wStatus)
@@ -52,7 +52,7 @@ int UM_CompareItem(USERINFO *u1, const TCHAR* pszNick, WORD wStatus)
 			if (g_Settings.bAlternativeSorting)
 				return sttCompareNicknames(u1->pszNick, pszNick);
 			else
-				return lstrcmp(u1->pszNick, pszNick);
+				return mir_tstrcmp(u1->pszNick, pszNick);
 		}
 		dw1 = dw1 >> 1;
 		dw2 = dw2 >> 1;
@@ -60,7 +60,7 @@ int UM_CompareItem(USERINFO *u1, const TCHAR* pszNick, WORD wStatus)
 	
 	if (g_Settings.bAlternativeSorting)
 		return sttCompareNicknames(u1->pszNick, pszNick);
-	return lstrcmp(u1->pszNick, pszNick);
+	return mir_tstrcmp(u1->pszNick, pszNick);
 }
 
 //---------------------------------------------------
@@ -113,9 +113,9 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 
 	SESSION_INFO *pResult = NULL;
 	for (SESSION_INFO *si = pci->wndList; si; si = si->next)
-		if (si != currSession && !lstrcmpiA(pszModule, si->pszModule))
+		if (si != currSession && !mir_strcmpi(pszModule, si->pszModule))
 			if (my_strstri(si->ptszName, pszOriginal) == si->ptszName)
-				if (prevSession != si && lstrcmpi(si->ptszName, pszCurrent) > 0 && (!pszName || lstrcmpi(si->ptszName, pszName) < 0)) {
+				if (prevSession != si && mir_tstrcmpi(si->ptszName, pszCurrent) > 0 && (!pszName || mir_tstrcmpi(si->ptszName, pszName) < 0)) {
 					pResult = si;
 					pszName = si->ptszName;
 				}

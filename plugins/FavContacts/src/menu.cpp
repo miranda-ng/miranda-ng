@@ -463,7 +463,7 @@ int ShowMenu(bool centered)
 		mis.CtlID = 0;
 		mis.CtlType = ODT_MENU;
 
-		if (!prevGroup || lstrcmp(prevGroup, favList[i]->getGroup())) {
+		if (!prevGroup || mir_tstrcmp(prevGroup, favList[i]->getGroup())) {
 			if (prevGroup && g_Options.bUseColumns) {
 				szMenu.cx += szColumn.cx;
 				szMenu.cy = max(szMenu.cy, szColumn.cy);

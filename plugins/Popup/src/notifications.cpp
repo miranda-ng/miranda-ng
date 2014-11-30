@@ -30,9 +30,9 @@ HANDLE g_hntfError, g_hntfWarning, g_hntfNotification;
 
 int TreeDataSortFunc(const POPUPTREEDATA *p1, const POPUPTREEDATA *p2)
 {
-	if (int cmp = lstrcmp(p1->pszTreeRoot, p2->pszTreeRoot))
+	if (int cmp = mir_tstrcmp(p1->pszTreeRoot, p2->pszTreeRoot))
 		return cmp;
-	return lstrcmp(p1->pszDescription, p2->pszDescription);
+	return mir_tstrcmp(p1->pszDescription, p2->pszDescription);
 
 }
 
@@ -126,10 +126,10 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 
 		for (int i=0; i < ptd->notification.actionCount; ++i) {
 			POPUPNOTIFYACTION &p = ptd->notification.lpActions[i];
-			if (!lstrcmpA(ptd->leftAction, p.lpzTitle))
+			if (!mir_strcmp(ptd->leftAction, p.lpzTitle))
 				db_set(NULL, p.lpzLModule, p.lpzLSetting, &p.dbvLData);
 
-			if (!lstrcmpA(ptd->rightAction, p.lpzTitle))
+			if (!mir_strcmp(ptd->rightAction, p.lpzTitle))
 				db_set(NULL, p.lpzRModule, p.lpzRSetting, &p.dbvRData);
 		}
 	}
@@ -309,10 +309,10 @@ bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparam,
 			return false;
 	}
 
-	if (!lstrcmpA(lpzAction, POPUP_ACTION_NOTHING))
+	if (!mir_strcmp(lpzAction, POPUP_ACTION_NOTHING))
 		return true;
 
-	if (!lstrcmpA(lpzAction, POPUP_ACTION_DISMISS))
+	if (!mir_strcmp(lpzAction, POPUP_ACTION_DISMISS))
 	{
 		PUDeletePopup(hwnd);
 		return true;
@@ -322,7 +322,7 @@ bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparam,
 	{
 		if (!(ptd->notification.lpActions[i].dwFlags&PNAF_CALLBACK))
 			continue;
-		if (lstrcmpA(ptd->notification.lpActions[i].lpzTitle, lpzAction))
+		if (mir_strcmp(ptd->notification.lpActions[i].lpzTitle, lpzAction))
 			continue;
 
 		ptd->notification.lpActions[i].pfnCallback(hwnd, message, wparam, lparam,

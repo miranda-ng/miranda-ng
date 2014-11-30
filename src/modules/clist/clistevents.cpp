@@ -102,7 +102,7 @@ static void ShowEventsInTray()
 
 		int j;
 		for (j = 0; j < nTrayProtoCnt; j++)
-			if (iEventProto && pTrayProtos[j] && !lstrcmpA(pTrayProtos[j], iEventProto))
+			if (iEventProto && pTrayProtos[j] && !mir_strcmp(pTrayProtos[j], iEventProto))
 				break;
 		if (j >= nTrayProtoCnt)   // event was not found so assume first icon
 			j = 0;
@@ -218,7 +218,7 @@ int fnRemoveEvent(MCONTACT hContact, HANDLE dbEvent)
 			szEventProto = (char *)cli.events.items[i]->cle.lpszProtocol;
 		else
 			szEventProto = NULL;
-		if (szEventProto && szProto && !lstrcmpA(szEventProto, szProto))
+		if (szEventProto && szProto && !mir_strcmp(szEventProto, szProto))
 			nSameProto++;
 	}
 

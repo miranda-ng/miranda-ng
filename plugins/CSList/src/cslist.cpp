@@ -72,7 +72,7 @@ static int OnDbChanged(WPARAM hContact, LPARAM lparam)
 	// if user changes his UIN or JID on any account
 	if (hContact == NULL) {
 		INT_PTR szUniqueID = CallProtoService(cws->szModule, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-		if (szUniqueID != CALLSERVICE_NOTFOUND && !lstrcmpA(cws->szSetting, (char*)szUniqueID))
+		if (szUniqueID != CALLSERVICE_NOTFOUND && !mir_strcmp(cws->szSetting, (char*)szUniqueID))
 			pcli->pfnReloadProtoMenus();
 	}
 	return 0;
@@ -582,7 +582,7 @@ void CSAMWindow::checkItemValidity()
 	if ( CallProtoService(pdescr->szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
 		mir_tstrncpy(m_item->m_tszTitle, TranslateTS(tszTitle), SIZEOF(m_item->m_tszTitle));
 
-	if ( lstrcmp(m_item->m_tszMessage, tszInputMessage))
+	if ( mir_tstrcmp(m_item->m_tszMessage, tszInputMessage))
 		mir_tstrcpy( m_item->m_tszMessage, tszInputMessage), m_bChanged = true;
 }
 
@@ -719,10 +719,10 @@ int CSItemsList::compareItems( const StatusItem* p1, const StatusItem* p2 )
 	else if ( p1->m_iIcon < p2->m_iIcon )
 		icoRes = -1;
 
-	result = lstrcmp(p1->m_tszTitle, p2->m_tszTitle);
+	result = mir_tstrcmp(p1->m_tszTitle, p2->m_tszTitle);
 	ttlRes = result;
 
-	result = lstrcmp(p1->m_tszMessage, p2->m_tszMessage);
+	result = mir_tstrcmp(p1->m_tszMessage, p2->m_tszMessage);
 	msgRes = result;
 
 	if ( !icoRes && !ttlRes && !msgRes)

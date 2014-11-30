@@ -560,7 +560,7 @@ private:
 			return;
 
 		m_txtPassword.GetText(pass, SIZEOF(pass));
-		if (lstrcmp(buf, pass)) {
+		if (mir_tstrcmp(buf, pass)) {
 			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda NG"), MB_ICONSTOP|MB_OK);
 			return;
 		}
@@ -723,7 +723,7 @@ private:
 				if (!n)
 					break;
 
-				if (!lstrcmp(xmlGetName(n), _T("item")))
+				if (!mir_tstrcmp(xmlGetName(n), _T("item")))
 					if (const TCHAR *jid = xmlGetAttrValue(n, _T("jid")))
 						if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 							 m_cbServer.AddString(jid);
@@ -1090,16 +1090,16 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if (!bPushed) {
 					const TCHAR *rosterName = xmlGetAttrValue(itemRoster, _T("name"));
-					if ((rosterName != NULL || name[0]!=0) && lstrcmpi(rosterName,name))
+					if ((rosterName != NULL || name[0]!=0) && mir_tstrcmpi(rosterName,name))
 						bPushed=TRUE;
 					if (!bPushed) {
 						rosterName = xmlGetAttrValue(itemRoster, _T("subscription"));
-						if ((rosterName != NULL || subscr[0]!=0) && lstrcmpi(rosterName,subscr))
+						if ((rosterName != NULL || subscr[0]!=0) && mir_tstrcmpi(rosterName,subscr))
 							bPushed=TRUE;
 					}
 					if (!bPushed) {
 						const TCHAR *rosterGroup = xmlGetText( xmlGetChild(itemRoster, "group"));
-						if ((rosterGroup != NULL || group[0]!=0) && lstrcmpi(rosterGroup,group))
+						if ((rosterGroup != NULL || group[0]!=0) && mir_tstrcmpi(rosterGroup,group))
 							bPushed=TRUE;
 					}
 				}
@@ -1318,8 +1318,8 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 						HXML Data = (Cell) ? xmlGetChild(Cell , "Data") : XmlNode();
 						if (Data)
 						{
-							if (!lstrcmpi(xmlGetText(Data),_T("+"))) bAdd=TRUE;
-							else if (lstrcmpi(xmlGetText(Data),_T("-"))) continue;
+							if (!mir_tstrcmpi(xmlGetText(Data),_T("+"))) bAdd=TRUE;
+							else if (mir_tstrcmpi(xmlGetText(Data),_T("-"))) continue;
 
 							Cell = xmlGetNthChild(Row, _T("Cell"),2);
 							if (Cell) Data=xmlGetChild(Cell , "Data");
@@ -1657,23 +1657,23 @@ protected:
 			mir_strncpy(manualServer, dbManualServer, SIZEOF(manualServer));
 
 		m_canregister = true;
-		if (!lstrcmpA(manualServer, "talk.google.com")) {
+		if (!mir_strcmp(manualServer, "talk.google.com")) {
 			m_cbType.SetCurSel(ACC_GTALK);
 			m_canregister = false;
 		}
-		else if (!lstrcmpA(server, "livejournal.com")) {
+		else if (!mir_strcmp(server, "livejournal.com")) {
 			m_cbType.SetCurSel(ACC_LJTALK);
 			m_canregister = false;
 		}
-		else if (!lstrcmpA(server, "chat.facebook.com")) {
+		else if (!mir_strcmp(server, "chat.facebook.com")) {
 			m_cbType.SetCurSel(ACC_FBOOK);
 			m_canregister = false;
 		}
-		else if (!lstrcmpA(server, "xmpp.odnoklassniki.ru")) {
+		else if (!mir_strcmp(server, "xmpp.odnoklassniki.ru")) {
 			m_cbType.SetCurSel(ACC_OK);
 			m_canregister = false;
 		}
-		else if (!lstrcmpA(server, "S.ms")) {
+		else if (!mir_strcmp(server, "S.ms")) {
 			m_cbType.SetCurSel(ACC_SMS);
 			m_canregister = false;
 		}
@@ -1733,7 +1733,7 @@ protected:
 		DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
 		if (GetComputerName(szCompName, &dwCompNameLength)) {
 			m_cbResource.GetText(szResource, SIZEOF(szResource));
-			if (!lstrcmp(szCompName, szResource))
+			if (!mir_tstrcmp(szCompName, szResource))
 				bUseHostnameAsResource = TRUE;
 		}
 		m_proto->m_options.HostNameAsResource = bUseHostnameAsResource;
@@ -1792,7 +1792,7 @@ protected:
 		m_cbServer.GetTextA(server, SIZEOF(server));
 		m_txtManualHost.GetTextA(manualServer, SIZEOF(manualServer));
 
-		if ((m_chkManualHost.GetState() == BST_CHECKED) && lstrcmpA(server, manualServer)) {
+		if ((m_chkManualHost.GetState() == BST_CHECKED) && mir_strcmp(server, manualServer)) {
 			m_proto->m_options.ManualConnect = TRUE;
 			m_proto->setString("ManualHost", manualServer);
 			m_proto->setWord("ManualPort", m_txtPort.GetInt());
@@ -1848,7 +1848,7 @@ private:
 
 		TCHAR pass[512];
 		m_txtPassword.GetText(pass, SIZEOF(pass));
-		if (lstrcmp(buf, pass)) {
+		if (mir_tstrcmp(buf, pass)) {
 			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda NG"), MB_ICONSTOP|MB_OK);
 			return;
 		}
@@ -2122,7 +2122,7 @@ void CJabberDlgAccMgrUI::RefreshServers(HXML node)
 			if (!n)
 				break;
 
-			if (!lstrcmp(xmlGetName(n), _T("item")))
+			if (!mir_tstrcmp(xmlGetName(n), _T("item")))
 			if (const TCHAR *jid = xmlGetAttrValue(n, _T("jid")))
 			if (m_cbServer.FindString(jid, -1, true) == CB_ERR)
 				m_cbServer.AddString(jid);

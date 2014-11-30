@@ -86,8 +86,8 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 	if (!proto)
 		return 0;
 
-	if (!lstrcmpA(cws->szModule,proto))
-		if (!lstrcmpA(cws->szSetting, "MirVer"))
+	if (!mir_strcmp(cws->szModule,proto))
+		if (!mir_strcmp(cws->szSetting, "MirVer"))
 			ExtraIconsApply(wParam, 1);
 
 	return 0;

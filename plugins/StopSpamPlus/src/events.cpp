@@ -106,7 +106,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		// if answer not empty
 		if (answer.length() > 0) {
 			// if message equal right answer...
-			if (plSets->AnswNotCaseSens.Get() ? !lstrcmpi(message.c_str(), answer.c_str()) : !lstrcmp(message.c_str(), answer.c_str())) {
+			if (plSets->AnswNotCaseSens.Get() ? !mir_tstrcmpi(message.c_str(), answer.c_str()) : !mir_tstrcmp(message.c_str(), answer.c_str())) {
 				// unhide contact
 				db_unset(hContact, "CList", "Hidden");
 

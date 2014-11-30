@@ -147,7 +147,7 @@ void CleanupMimeTypeAddedSettings(void)
 		for(i = 0;i<nSettingsCount;++i) {
 			pszSuffix = &ppszSettings[i][5];
 			for(j = 0;j<nAssocListCount;++j)
-				if (!lstrcmpA(pszSuffix, pAssocList[j].pszMimeType))
+				if (!mir_strcmp(pszSuffix, pAssocList[j].pszMimeType))
 					break; /* mime type in current list */
 			if(j == nAssocListCount) { /* mime type not in current list */
 				if (!db_get(NULL, "AssocMgr", ppszSettings[i], &dbv)) {
@@ -199,7 +199,7 @@ static int FindAssocItem(const char *pszClassName)
 {
 	int i;
 	for(i = 0;i<nAssocListCount;++i)
-		if (!lstrcmpA(pszClassName, pAssocList[i].pszClassName))
+		if (!mir_strcmp(pszClassName, pAssocList[i].pszClassName))
 			return i;
 	return -1;
 }

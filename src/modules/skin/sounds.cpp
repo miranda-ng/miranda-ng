@@ -45,7 +45,7 @@ struct SoundItem
 
 static int CompareSounds(const SoundItem* p1, const SoundItem* p2)
 {
-	return lstrcmpA(p1->name, p2->name);
+	return mir_strcmp(p1->name, p2->name);
 }
 
 static OBJLIST<SoundItem> arSounds(10, CompareSounds);

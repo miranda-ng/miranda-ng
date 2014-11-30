@@ -119,7 +119,7 @@ static bool NetlibHttpGatewaySend(NetlibConnection *nlc, RequestType reqType, co
 		NETLIBOPENCONNECTION nloc;
 		NetlibConnFromUrl(nlhrSend.szUrl, false, nloc);
 
-		bool sameHost = lstrcmpA(nlc->nloc.szHost, nloc.szHost) == 0 && nlc->nloc.wPort == nloc.wPort;
+		bool sameHost = mir_strcmp(nlc->nloc.szHost, nloc.szHost) == 0 && nlc->nloc.wPort == nloc.wPort;
 
 		if (!sameHost)
 		{

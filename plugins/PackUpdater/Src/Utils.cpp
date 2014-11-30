@@ -196,7 +196,7 @@ static void CheckUpdates(void *)
 
 	// Load files info
 	db_get_ts(NULL, MODNAME, "File_VersionURL", &dbVar);
-	if (lstrcmp(dbVar.ptszVal, NULL) == 0) { // URL is not set
+	if (mir_tstrcmp(dbVar.ptszVal, NULL) == 0) { // URL is not set
 		Title=TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
 		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
@@ -230,7 +230,7 @@ static void CheckUpdates(void *)
 		dbVar.ptszVal = NULL;
 		mir_snprintf(szKey, SIZEOF(szKey), "File_%d_CurrentVersion", CurrentFile + 1);
 		db_get_ts(NULL, MODNAME, szKey, &dbVar);
-		if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
+		if (mir_tstrcmp(dbVar.ptszVal, NULL) == 0) {
 			db_free(&dbVar);
 			mir_tstrncpy(FileInfo.tszCurVer, _T(""), SIZEOF(FileInfo.tszCurVer));
 		}
@@ -239,7 +239,7 @@ static void CheckUpdates(void *)
 		dbVar.ptszVal = NULL;
 		mir_snprintf(szKey, SIZEOF(szKey), "File_%d_LastVersion", CurrentFile + 1);
 		db_get_ts(NULL, MODNAME, szKey, &dbVar);
-		if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
+		if (mir_tstrcmp(dbVar.ptszVal, NULL) == 0) {
 			db_free(&dbVar);
 			mir_tstrncpy(FileInfo.tszLastVer, _T(""), SIZEOF(FileInfo.tszLastVer));
 		}
@@ -275,7 +275,7 @@ static void CheckUpdates(void *)
 
 		if (Files[CurrentFile].FileType == 2) {
 			TCHAR pluginFolgerName[MAX_PATH];
-			if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
+			if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
 				mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("Plugins\\%s"), Files[CurrentFile].File.tszDiskPath);
 			else
 				mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("Plugins\\%s\\%s"), Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
@@ -307,7 +307,7 @@ static void CheckUpdates(void *)
 				break;
 			case 2:
 				tszUtilRootPlug = Utils_ReplaceVarsT(_T("%miranda_path%\\Plugins"));
-				if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
+				if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
 					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRootPlug, Files[CurrentFile].File.tszDiskPath);
 				else
 					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRootPlug, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
@@ -315,7 +315,7 @@ static void CheckUpdates(void *)
 				break;
 			case 3:
 				tszUtilRootIco = Utils_ReplaceVarsT(_T("%miranda_path%\\Icons"));
-				if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
+				if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
 					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRootIco, Files[CurrentFile].File.tszDiskPath);
 				else
 					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRootIco, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
@@ -324,7 +324,7 @@ static void CheckUpdates(void *)
 			case 4:
 			case 5:
 				tszUtilRoot = Utils_ReplaceVarsT(_T("%miranda_path%"));
-				if (lstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
+				if (mir_tstrcmp(Files[CurrentFile].tszAdvFolder, _T("")) == 0)
 					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s"), tszUtilRoot, Files[CurrentFile].File.tszDiskPath);
 				else
 					mir_sntprintf(tszFilePathDest, SIZEOF(tszFilePathDest), _T("%s\\%s\\%s"), tszUtilRoot, Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);

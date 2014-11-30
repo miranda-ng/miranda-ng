@@ -530,7 +530,7 @@ MCONTACT GetSelectedContact(HWND hwndDlg)
 			
 	for(int loop = 0; loop < contacts.getCount(); loop++)
 	{
-		if(!lstrcmpi(cname, GetListName(contacts[loop])))
+		if(!mir_tstrcmpi(cname, GetListName(contacts[loop])))
 			return contacts[loop]->hcontact;
 	}
 

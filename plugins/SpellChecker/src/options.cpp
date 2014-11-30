@@ -101,7 +101,7 @@ void LoadOptions()
 
 	int i;
 	for(i = 0; i < languages.getCount(); i++)
-		if (lstrcmp(languages[i]->language, opts.default_language) == 0)
+		if (mir_tstrcmp(languages[i]->language, opts.default_language) == 0)
 			break;
 
 	if (i >= languages.getCount())
@@ -180,7 +180,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_ADDSTRING, 0, (LPARAM)languages[i]->full_name);
 				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETITEMDATA, i, (LPARAM)languages[i]);
 
-				if ( !lstrcmp(opts.default_language, languages[i]->language))
+				if ( !mir_tstrcmp(opts.default_language, languages[i]->language))
 					sel = i;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETCURSEL, sel, 0);
@@ -379,7 +379,7 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_ADDSTRING, 0, (LPARAM)p->full_name);
 				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETITEMDATA, i, (LPARAM)new AutoreplaceData(p));
 
-				if ( !lstrcmp(opts.default_language, p->language))
+				if ( !mir_tstrcmp(opts.default_language, p->language))
 					sel = i;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETCURSEL, sel, 0);

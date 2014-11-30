@@ -31,7 +31,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			MCONTACT hContact = (MCONTACT) wParam;
 			DBCONTACTWRITESETTING *ws = (DBCONTACTWRITESETTING *) lParam;
 			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL
-				&& lstrcmpiA(ws->szModule, "CList") == 0 && lstrcmpiA(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg)) {
+				&& mir_strcmpi(ws->szModule, "CList") == 0 && mir_strcmpi(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg)) {
 					CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, ws->value.bVal == 0);
 				}
 				break;
@@ -125,7 +125,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				CallProtoService(accs[i]->szModuleName, PS_GETNAME, SIZEOF(szName), (LPARAM) szName);
 				item = SendDlgItemMessageA(hwndDlg, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM) szName);
 				SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM) accs[i]);
-				if (dbv.type == DBVT_ASCIIZ && !lstrcmpA(dbv.pszVal, accs[i]->szModuleName))
+				if (dbv.type == DBVT_ASCIIZ && !mir_strcmp(dbv.pszVal, accs[i]->szModuleName))
 					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETCURSEL, item, 0);
 			}
 			db_free(&dbv);

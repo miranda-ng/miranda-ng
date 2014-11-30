@@ -46,7 +46,7 @@ public:
 		void	add(char *name, int value)
 		{
 			for (Item *p = items; p; p = p->next)
-				if (!lstrcmpA(p->name,name))
+				if (!mir_strcmp(p->name,name))
 				{
 					p->value = value;
 					return;
@@ -56,7 +56,7 @@ public:
 		int		get(char *name)
 		{
 			for (Item *p = items; p; p = p->next)
-				if (!lstrcmpA(p->name,name))
+				if (!mir_strcmp(p->name,name))
 					return p->value;
 			return 0;
 		}

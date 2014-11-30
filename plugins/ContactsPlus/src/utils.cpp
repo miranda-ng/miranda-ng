@@ -126,7 +126,7 @@ void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, TCHAR *pszTitleStart)
 			TCHAR oldTitle[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_NAME, oldTitle, SIZEOF(oldTitle));
 
-			if (lstrcmp(uid ? uid : contactName, oldTitle))
+			if (mir_tstrcmp(uid ? uid : contactName, oldTitle))
 				SetDlgItemText(hwndDlg, IDC_NAME, uid ? uid : contactName);
 
 			TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);

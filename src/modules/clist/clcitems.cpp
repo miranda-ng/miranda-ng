@@ -66,7 +66,7 @@ ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD 
 				break;
 			if (group->cl.items[i]->type != CLCIT_GROUP)
 				continue;
-			compareResult = lstrcmp(szThisField, group->cl.items[i]->szText);
+			compareResult = mir_tstrcmp(szThisField, group->cl.items[i]->szText);
 			if (compareResult == 0) {
 				if (pNextField == NULL && flags != (DWORD) - 1) {
 					group->cl.items[i]->groupId = (WORD) groupId;
@@ -110,7 +110,7 @@ ClcGroup* fnAddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD 
 				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
-					if (!lstrcmp(cache->tszGroup, szName) && (style & CLS_SHOWHIDDEN || !cache->bIsHidden))
+					if (!mir_tstrcmp(cache->tszGroup, szName) && (style & CLS_SHOWHIDDEN || !cache->bIsHidden))
 						group->totalMembers++;
 				}
 			}
@@ -248,7 +248,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 						mir_free(dbv.ptszVal);
 						return;
 					}
-					if (!lstrcmp(szGroupName, dbv.ptszVal))
+					if (!mir_tstrcmp(szGroupName, dbv.ptszVal))
 						break;
 				}
 				if (groupFlags & GROUPF_HIDEOFFLINE) {
@@ -262,7 +262,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, MCONTACT hContact, int u
 					mir_free(dbv.ptszVal);
 					return;
 				}
-				if (!lstrcmp(szGroupName, dbv.ptszVal))
+				if (!mir_tstrcmp(szGroupName, dbv.ptszVal))
 					break;
 				len = mir_tstrlen(szGroupName);
 				if (!_tcsncmp(szGroupName, dbv.ptszVal, len) && dbv.ptszVal[len] == '\\')
@@ -455,7 +455,7 @@ static int __cdecl GroupSortProc(const void* p1, const void* p2)
 {
 	ClcContact **contact1 = (ClcContact**)p1, **contact2 = (ClcContact**)p2;
 
-	return lstrcmpi(contact1[0]->szText, contact2[0]->szText);
+	return mir_tstrcmpi(contact1[0]->szText, contact2[0]->szText);
 }
 
 static int __cdecl ContactSortProc(const void* p1, const void* p2)

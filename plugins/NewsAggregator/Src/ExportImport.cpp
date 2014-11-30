@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										node = xi.getNextNode(node);
 										if (node)
 											break;
-									} while (lstrcmpi(xi.getName(node), _T("body")));
+									} while (mir_tstrcmpi(xi.getName(node), _T("body")));
 								}
 							}
 							else if (!xmlUrl && outlineChildsCount)
@@ -77,7 +77,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								TCHAR *text = NULL, *url = NULL, *siteurl = NULL, *group = NULL, *utfgroup = NULL;
 								BYTE NeedToImport = FALSE;
 								for (int i = 0; i < outlineAttr; i++) {
-									if (!lstrcmpi(xi.getAttrName(node, i), _T("text"))) {
+									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("text"))) {
 										text = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 										if (!text) {
 											isTextUTF = 0;
@@ -88,14 +88,14 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										for (int i = 0; i < count; i++) {
 											TCHAR item[MAX_PATH];
 											SendMessage(FeedsImportList, LB_GETTEXT, i, (LPARAM)item);
-											if (!lstrcmpi(item, text)) {
+											if (!mir_tstrcmpi(item, text)) {
 												NeedToImport = TRUE;
 												break;
 											}
 										}
 										continue;
 									}
-									if (!lstrcmpi(xi.getAttrName(node, i), _T("xmlUrl"))) {
+									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("xmlUrl"))) {
 										url = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 										if ( !url) {
 											isURLUTF = 0;
@@ -108,7 +108,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										}
 										continue;
 									}
-									if (!lstrcmpi(xi.getAttrName(node, i), _T("htmlUrl"))) {
+									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("htmlUrl"))) {
 										siteurl = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 										if ( !siteurl) {
 											isSiteURLUTF = 0;
@@ -123,9 +123,9 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 								if (NeedToImport) {
 									HXML parent = xi.getParent(node);
-									while (lstrcmpi(xi.getName(parent), _T("body"))) {
+									while (mir_tstrcmpi(xi.getName(parent), _T("body"))) {
 										for (int i = 0; i < xi.getAttrCount(parent); i++) {
-											if (!lstrcmpi(xi.getAttrName(parent, i), _T("text"))) {
+											if (!mir_tstrcmpi(xi.getAttrName(parent, i), _T("text"))) {
 												if ( !group)
 													group = (TCHAR *)xi.getAttrValue(parent, xi.getAttrName(parent, i));
 												else {
@@ -196,7 +196,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										if (node)
 											break;
 									}
-										while (lstrcmpi(xi.getName(tmpnode), _T("body")));
+										while (mir_tstrcmpi(xi.getName(tmpnode), _T("body")));
 								}
 							}
 						}
@@ -262,7 +262,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											node = xi.getNextNode(node);
 											if (node)
 												break;
-										} while (lstrcmpi(xi.getName(node), _T("body")));
+										} while (mir_tstrcmpi(xi.getName(node), _T("body")));
 									}
 								}
 								else if (!xmlUrl && outlineChildsCount)
@@ -270,7 +270,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								else if (xmlUrl) {
 									TCHAR *text = NULL;
 									for (int i = 0; i < outlineAttr; i++) {
-										if (!lstrcmpi(xi.getAttrName(node, i), _T("text"))) {
+										if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("text"))) {
 											text = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 											if (!text) {
 												isTextUTF = 0;
@@ -297,7 +297,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											node = xi.getNextNode(node);
 											if (node)
 												break;
-										} while (lstrcmpi(xi.getName(tmpnode), _T("body")));
+										} while (mir_tstrcmpi(xi.getName(tmpnode), _T("body")));
 									}
 								}
 							}

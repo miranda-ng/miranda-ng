@@ -88,15 +88,15 @@ BOOL Equals(const LISTENINGTOINFO *lti1, const LISTENINGTOINFO *lti2)
 	if (lti1->cbSize != lti2->cbSize)
 		return FALSE;
 
-	return lstrcmpi(lti1->ptszArtist, lti2->ptszArtist) == 0 
-		&& lstrcmpi(lti1->ptszAlbum, lti2->ptszAlbum) == 0 
-		&& lstrcmpi(lti1->ptszTitle, lti2->ptszTitle) == 0 
-		&& lstrcmpi(lti1->ptszTrack, lti2->ptszTrack) == 0 
-		&& lstrcmpi(lti1->ptszYear, lti2->ptszYear) == 0 
-		&& lstrcmpi(lti1->ptszGenre, lti2->ptszGenre) == 0 
-		&& lstrcmpi(lti1->ptszLength, lti2->ptszLength) == 0 
-		&& lstrcmpi(lti1->ptszPlayer, lti2->ptszPlayer) == 0 
-		&& lstrcmpi(lti1->ptszType, lti2->ptszType) == 0;
+	return mir_tstrcmpi(lti1->ptszArtist, lti2->ptszArtist) == 0 
+		&& mir_tstrcmpi(lti1->ptszAlbum, lti2->ptszAlbum) == 0 
+		&& mir_tstrcmpi(lti1->ptszTitle, lti2->ptszTitle) == 0 
+		&& mir_tstrcmpi(lti1->ptszTrack, lti2->ptszTrack) == 0 
+		&& mir_tstrcmpi(lti1->ptszYear, lti2->ptszYear) == 0 
+		&& mir_tstrcmpi(lti1->ptszGenre, lti2->ptszGenre) == 0 
+		&& mir_tstrcmpi(lti1->ptszLength, lti2->ptszLength) == 0 
+		&& mir_tstrcmpi(lti1->ptszPlayer, lti2->ptszPlayer) == 0 
+		&& mir_tstrcmpi(lti1->ptszType, lti2->ptszType) == 0;
 }
 
 

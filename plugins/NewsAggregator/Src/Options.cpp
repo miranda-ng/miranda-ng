@@ -44,7 +44,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || lstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -115,7 +115,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 			TCHAR tszURL[MAX_PATH] = { 0 }, *tszTitle = NULL;
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || lstrcmp(tszURL, _T("http://")) != 0)
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0)
 				tszTitle = CheckFeed(tszURL, hwndDlg);
 			else
 				MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
@@ -156,14 +156,14 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (dbNick == NULL)
 					continue;
 
-				if (lstrcmp(dbNick, SelItem.nick) != 0)
+				if (mir_tstrcmp(dbNick, SelItem.nick) != 0)
 					continue;
 
 				ptrT dbURL(db_get_tsa(hContact, MODULE, "URL"));
 				if (dbURL == NULL)
 					continue;
 
-				if (lstrcmp(dbURL, SelItem.url) != 0)
+				if (mir_tstrcmp(dbURL, SelItem.url) != 0)
 					continue;
 
 				nSelItem->hContact = hContact;
@@ -208,7 +208,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || lstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -278,7 +278,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DISCOVERY:
 			TCHAR tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || lstrcmp(tszURL, _T("http://")) != 0) {
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 				TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
@@ -365,7 +365,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || lstrcmp(str, _T("http://")) == 0) {
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -433,7 +433,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DISCOVERY:
 			TCHAR tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || lstrcmp(tszURL, _T("http://")) != 0) {
+			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || mir_tstrcmp(tszURL, _T("http://")) != 0) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 				TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
@@ -502,13 +502,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					ptrT dbNick(db_get_tsa(hContact, MODULE, "Nick"));
 					if (dbNick == NULL)
 						break;
-					if (lstrcmp(dbNick, nick))
+					if (mir_tstrcmp(dbNick, nick))
 						continue;
 
 					ptrT dbURL(db_get_tsa(hContact, MODULE, "URL"));
 					if (dbURL == NULL)
 						break;
-					if (lstrcmp(dbURL, url))
+					if (mir_tstrcmp(dbURL, url))
 						continue;
 
 					CallService(MS_DB_CONTACT_DELETE, hContact, 0);

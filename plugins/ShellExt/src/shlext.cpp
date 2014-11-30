@@ -585,7 +585,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 		hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid, szBuf, sizeof(szBuf)));
 		if (hMirandaWorkEvent != 0) {
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
-			if ( lstrcmpA(szBuf, MIRANDACLASS) != 0) {
+			if ( mir_strcmp(szBuf, MIRANDACLASS) != 0) {
 				// opened but not valid.
 				logA("ProcessRequest(%d, %p): class %s differs from %s\n", pid, hwnd, szBuf, MIRANDACLASS);
 				CloseHandle(hMirandaWorkEvent);

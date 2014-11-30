@@ -238,7 +238,7 @@ INT addEvent(WPARAM hContact, LPARAM lParam)
 						TCHAR *ptszTemp, *ptszTemp2;
 
 						db_get_ts(hContact,pszProto,"Nick",&dbvNick);
-						if (lstrcmp(dbvNick.ptszVal, NULL) == 0)
+						if (mir_tstrcmp(dbvNick.ptszVal, NULL) == 0)
 						{
 							db_free(&dbvNick);
 							return FALSE;

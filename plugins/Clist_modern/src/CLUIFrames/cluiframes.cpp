@@ -734,7 +734,7 @@ static int LocateStorePosition(int Frameid,int maxstored)
 		if ( db_get_ts( NULL, CLUIFrameModule, settingname, &dbv ))
 			continue;
 
-		if ( lstrcmpi(dbv.ptszVal, g_pfwFrames[Frameid].name) == 0) {
+		if ( mir_tstrcmpi(dbv.ptszVal, g_pfwFrames[Frameid].name) == 0) {
 			db_free( &dbv );
 			return i;
 		}

@@ -143,7 +143,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 		ptrT tszNick( getTStringA(hContact, "MyNick"));
 		if (tszNick != NULL) {
-			if (!lstrcmp(tszNick, szNick))
+			if (!mir_tstrcmp(tszNick, szNick))
 				delSetting(hContact, "MyNick");
 			else
 				setTString(hContact, "MyNick", item->nick);
@@ -292,7 +292,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 		mir_cslock lck(m_csLists);
 		for (int i = 0; i < item->arResources.getCount(); i++) {
 			JABBER_RESOURCE_STATUS *JS = item->arResources[i];
-			if (!lstrcmp(resource, JS->m_tszResourceName)) {
+			if (!mir_tstrcmp(resource, JS->m_tszResourceName)) {
 				if (action != GC_EVENT_JOIN) {
 					switch (action) {
 					case 0:
@@ -303,7 +303,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 					gce.ptszText = TranslateT("Moderator");
 				}
 				gce.ptszStatus = TranslateTS(sttStatuses[JabberGcGetStatus(JS)]);
-				gce.bIsMe = (lstrcmp(nick, myNick) == 0);
+				gce.bIsMe = (mir_tstrcmp(nick, myNick) == 0);
 				statusToSet = JS->m_iStatus;
 				break;
 	}	}	}
@@ -503,7 +503,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi == NULL)
 		return 0;
 
-	if (lstrcmpiA(gcmi->pszModule, m_szModuleName))
+	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, gcmi->pszID);
@@ -513,8 +513,8 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 	pResourceStatus me(NULL), him(NULL);
 	for (int i=0; i < item->arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *p = item->arResources[i];
-		if (!lstrcmp(p->m_tszResourceName, item->nick))   me = p;
-		if (!lstrcmp(p->m_tszResourceName, gcmi->pszUID)) him = p;
+		if (!mir_tstrcmp(p->m_tszResourceName, item->nick))   me = p;
+		if (!mir_tstrcmp(p->m_tszResourceName, gcmi->pszUID)) him = p;
 	}
 
 	if (gcmi->Type == MENU_ON_LOG) {
@@ -661,7 +661,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 	{
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *proto = GetContactProto(hContact);
-			if (lstrcmpA(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
+			if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
 				if (HANDLE hItem = m_clc.FindContact(hContact))
 					m_clc.DeleteItem(hItem);
 		}
@@ -748,7 +748,7 @@ public:
 
 		int i;
 		for (i=0; i < m_newJids.getCount(); i++)
-			if (!lstrcmp(m_newJids[i]->jid, buf))
+			if (!mir_tstrcmp(m_newJids[i]->jid, buf))
 				break;
 		if (i != m_newJids.getCount())
 			return;
@@ -1388,7 +1388,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 	if (gch == NULL)
 		return 0;
 
-	if (lstrcmpiA(gch->pDest->pszModule, m_szModuleName))
+	if (mir_strcmpi(gch->pDest->pszModule, m_szModuleName))
 		return 0;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, gch->pDest->ptszID);

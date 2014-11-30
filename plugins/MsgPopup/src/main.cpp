@@ -121,7 +121,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD
 	{
 		char *pszModName = (char *)((PBYTE)hModule + pImportDesc->Name);
 		
-		if (lstrcmpiA(lpszImpModName, pszModName) == 0)
+		if (mir_strcmpi(lpszImpModName, pszModName) == 0)
 		{
 			PIMAGE_THUNK_DATA pThunk = (PIMAGE_THUNK_DATA)((PBYTE)hModule + pImportDesc->FirstThunk);
 

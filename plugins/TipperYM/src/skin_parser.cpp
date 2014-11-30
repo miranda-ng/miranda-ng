@@ -131,21 +131,21 @@ void ParseImagePart(FILE *fp, TCHAR *buff, int iPart)
 					}
 					else if (_tcsstr(buff, _T("tm")))
 					{
-						if (!lstrcmpi(pch, _T("TM_NONE")))
+						if (!mir_tstrcmpi(pch, _T("TM_NONE")))
 							opt.transfMode[iPart] = TM_NONE;
-						else if (!lstrcmpi(pch, _T("TM_CENTRE")))
+						else if (!mir_tstrcmpi(pch, _T("TM_CENTRE")))
 							opt.transfMode[iPart] = TM_CENTRE;
-						else if (!lstrcmpi(pch, _T("TM_STRECH_ALL")))
+						else if (!mir_tstrcmpi(pch, _T("TM_STRECH_ALL")))
 							opt.transfMode[iPart] = TM_STRECH_ALL;
-						else if (!lstrcmpi(pch, _T("TM_STRECH_HORIZONTAL")))
+						else if (!mir_tstrcmpi(pch, _T("TM_STRECH_HORIZONTAL")))
 							opt.transfMode[iPart] = TM_STRECH_HORIZONTAL;
-						else if (!lstrcmpi(pch, _T("TM_STRECH_VERTICAL")))
+						else if (!mir_tstrcmpi(pch, _T("TM_STRECH_VERTICAL")))
 							opt.transfMode[iPart] = TM_STRECH_VERTICAL;
-						else if (!lstrcmpi(pch, _T("TM_TILE_ALL")))
+						else if (!mir_tstrcmpi(pch, _T("TM_TILE_ALL")))
 							opt.transfMode[iPart] = TM_TILE_ALL;
-						else if (!lstrcmpi(pch, _T("TM_TILE_HORIZONTAL")))
+						else if (!mir_tstrcmpi(pch, _T("TM_TILE_HORIZONTAL")))
 							opt.transfMode[iPart] = TM_TILE_HORIZONTAL;
-						else if (!lstrcmpi(pch, _T("TM_TILE_VERTICAL")))
+						else if (!mir_tstrcmpi(pch, _T("TM_TILE_VERTICAL")))
 							opt.transfMode[iPart] = TM_TILE_VERTICAL;
 						else 
 							opt.transfMode[iPart] = TM_NONE;

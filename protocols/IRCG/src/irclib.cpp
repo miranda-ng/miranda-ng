@@ -29,7 +29,7 @@ int CDccSession::nDcc = 0;
 
 static int CompareHandlers( const CIrcHandler* p1, const CIrcHandler* p2 )
 {
-	return lstrcmp( p1->m_name, p2->m_name );
+	return mir_tstrcmp( p1->m_name, p2->m_name );
 }
 
 OBJLIST<CIrcHandler> CIrcProto::m_handlers( 30, CompareHandlers );
@@ -525,7 +525,7 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const TCHAR* szName)
 		CDccSession* p = m_dcc_xfers[i];
 		DBVARIANT dbv;
 		if (!getTString(p->di->hContact, "Nick", &dbv)) {
-			if (p->di->iType == DCC_SEND && !p->di->bSender && !lstrcmpi(szName, dbv.ptszVal) && iPort == p->di->iPort) {
+			if (p->di->iType == DCC_SEND && !p->di->bSender && !mir_tstrcmpi(szName, dbv.ptszVal) && iPort == p->di->iPort) {
 				db_free(&dbv);
 				return p;
 			}

@@ -73,7 +73,7 @@ int bSecureIM, bMirOTR, bNewGPG, bPlatform;
 // Protocol instances
 static int sttCompareProtocols(const CJabberProto *p1, const CJabberProto *p2)
 {
-	return lstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 LIST<CJabberProto> g_Instances(1, sttCompareProtocols);

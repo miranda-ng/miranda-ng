@@ -105,7 +105,7 @@ ClcGroup* cli_AddGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags
 {
 	ClearRowByIndexCache();
 	if (!dat->force_in_dialog && !(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN))
-		if (!lstrcmp(_T("-@-HIDDEN-GROUP-@-"), szName)) { //group is hidden
+		if (!mir_tstrcmp(_T("-@-HIDDEN-GROUP-@-"), szName)) { //group is hidden
 			ClearRowByIndexCache();
 			return NULL;
 		}

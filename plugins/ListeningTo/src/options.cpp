@@ -135,11 +135,11 @@ BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 
 
 	if (lti->dwFlags & LTI_UNICODE) {
-		if (lstrcmpi(lti->ptszType, LPGENT("Music")) == 0)
+		if (mir_tstrcmpi(lti->ptszType, LPGENT("Music")) == 0)
 			return opts.enable_music;
-		if (lstrcmpi(lti->ptszType, LPGENT("Radio")) == 0)
+		if (mir_tstrcmpi(lti->ptszType, LPGENT("Radio")) == 0)
 			return opts.enable_radio;
-		if (lstrcmpi(lti->ptszType, LPGENT("Video")) == 0)
+		if (mir_tstrcmpi(lti->ptszType, LPGENT("Video")) == 0)
 			return opts.enable_video;
 		return opts.enable_others;
 	}

@@ -697,7 +697,7 @@ SmileyPackType* SmileyPackListType::GetSmileyPack(CMString& filename)
 	for (int i=0; i < m_SmileyPacks.getCount(); i++) {
 		CMString modpath1;
 		pathToAbsolute(m_SmileyPacks[i].GetFilename(), modpath1);
-		if (lstrcmpi(modpath.c_str(), modpath1.c_str()) == 0) return &m_SmileyPacks[i];
+		if (mir_tstrcmpi(modpath.c_str(), modpath1.c_str()) == 0) return &m_SmileyPacks[i];
 	}
 	return NULL;
 }

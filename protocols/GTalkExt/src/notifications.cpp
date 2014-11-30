@@ -55,7 +55,7 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	for (int i=0; i < count; i++) {
 		if ( getJabberApi(protos[i]->szModuleName)) {
 			ptrT tszJid( db_get_tsa(0, protos[i]->szModuleName, "jid"));
-			if ( !lstrcmpi(jid, tszJid))
+			if ( !mir_tstrcmpi(jid, tszJid))
 				return protos[i]->szModuleName;
 		}
 	}
@@ -158,7 +158,7 @@ static bool DoAddPopup(POPUPDATAT *data)
 
 void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCount)
 {
-	if (lstrcmp(unreadCount,  _T("0")))
+	if (mir_tstrcmp(unreadCount,  _T("0")))
 		wsprintf(buff, _T("%s [%s]"), jid, unreadCount); //!!!!!!!!!!!
 	else
 		wsprintf(buff, _T("%s"), jid); //!!!!!!!!!!!
@@ -322,7 +322,7 @@ BOOL CALLBACK ClosePopupFunc(__in  HWND hwnd, __in LPARAM lParam)
 	if (!ppdh)
 		return TRUE;
 
-	if (!lstrcmpi(ppis->url, ppdh->url) && !lstrcmpi(ppis->jid, ppdh->jid))
+	if (!mir_tstrcmpi(ppis->url, ppdh->url) && !mir_tstrcmpi(ppis->jid, ppdh->jid))
 		SendMessage(hwnd, MESSAGE_CLOSEPOPUP, 0, 0);
 
 	return TRUE;

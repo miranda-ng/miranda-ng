@@ -37,7 +37,7 @@ void ResetSettingsOnStatusChange(const char *szProto = NULL, int bResetPersonalM
 	MCONTACT hContact = db_find_first();
 	while (hContact) {
 		const char *szCurProto;
-		if (!szProto || ((szCurProto = GetContactProto(hContact)) && !lstrcmpA(szProto, szCurProto))) {
+		if (!szProto || ((szCurProto = GetContactProto(hContact)) && !mir_strcmp(szProto, szCurProto))) {
 			ResetContactSettingsOnStatusChange(hContact);
 			if (bResetPersonalMsgs) {
 				CContactSettings(Status, hContact).SetMsgFormat(SMF_PERSONAL, NULL); // TODO: delete only when SAM dialog opens?

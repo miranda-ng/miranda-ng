@@ -170,9 +170,9 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	/* user details update */
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
-	if (!lstrcmpA(dbcws->szSetting, SET_CONTACT_COUNTRY) ||
-		 !lstrcmpA(dbcws->szSetting, SET_CONTACT_ORIGIN_COUNTRY) ||
-		 !lstrcmpA(dbcws->szSetting, SET_CONTACT_COMPANY_COUNTRY))
+	if (!mir_strcmp(dbcws->szSetting, SET_CONTACT_COUNTRY) ||
+		 !mir_strcmp(dbcws->szSetting, SET_CONTACT_ORIGIN_COUNTRY) ||
+		 !mir_strcmp(dbcws->szSetting, SET_CONTACT_COMPANY_COUNTRY))
 	{
 		/* Extra Image */
 		SetExtraImage(hContact);

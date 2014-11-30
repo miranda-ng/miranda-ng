@@ -165,7 +165,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_BTNSAV:
 			if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, SIZEOF(acc[curIndex].name))) {
 				tail = strstr(acc[curIndex].name, "@");
-				if (tail && lstrcmpA(tail + 1, "gmail.com") != 0)
+				if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
 					mir_strcpy(acc[curIndex].hosted, tail + 1);
 				SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
 				SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LONG_PTR)acc[curIndex].name);

@@ -408,7 +408,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				DestroyIcon(hIcon);
 				cbei.lParam = (LPARAM)pa->szModuleName;
 				SendDlgItemMessageA(hwndDlg, IDC_PROTOLIST, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
-				if (szProto && cbei.pszText && !lstrcmp(szProto, pa->tszAccountName))
+				if (szProto && cbei.pszText && !mir_tstrcmp(szProto, pa->tszAccountName))
 					index = cbei.iItem;
 				cbei.iItem++;
 			}
@@ -827,7 +827,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			int i;
 			for (i = 0; i < dat->searchCount; i++)
-				if (dat->search[i].hProcess == ack->hProcess && dat->search[i].hProcess != NULL && !lstrcmpA(dat->search[i].szProto, ack->szModule)) break;
+				if (dat->search[i].hProcess == ack->hProcess && dat->search[i].hProcess != NULL && !mir_strcmp(dat->search[i].szProto, ack->szModule)) break;
 			if (i == dat->searchCount)
 				break;
 
@@ -893,7 +893,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					for (int i = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCOUNT, 0, 0); i--;) {
 						char *szComboProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, i, 0);
 						if (szComboProto == NULL) continue;
-						if (!lstrcmpA(szComboProto, ack->szModule)) {
+						if (!mir_strcmp(szComboProto, ack->szModule)) {
 							COMBOBOXEXITEM cbei = { 0 };
 							cbei.mask = CBEIF_IMAGE;
 							cbei.iItem = i;
@@ -933,7 +933,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				for (int i = SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCOUNT, 0, 0); i--;) {
 					char *szComboProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, i, 0);
 					if (szComboProto == NULL) continue;
-					if (!lstrcmpA(szComboProto, ack->szModule)) {
+					if (!mir_strcmp(szComboProto, ack->szModule)) {
 						COMBOBOXEXITEM cbei = { 0 };
 						cbei.mask = CBEIF_IMAGE;
 						cbei.iItem = i;

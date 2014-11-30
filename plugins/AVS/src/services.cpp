@@ -750,7 +750,7 @@ INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam)
 
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (!lstrcmpA(p.szProtoname, r->szProto) && mir_strlen(r->szProto) == mir_strlen(p.szProtoname) && p.hbmPic != 0) {
+			if (!mir_strcmp(p.szProtoname, r->szProto) && mir_strlen(r->szProto) == mir_strlen(p.szProtoname) && p.hbmPic != 0) {
 				ace = (AVATARCACHEENTRY *)&g_ProtoPictures[i];
 				break;
 			}
@@ -792,7 +792,7 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	for (int i = 0; i < g_MyAvatars.getCount(); i++)
-		if (!lstrcmpA(szProto, g_MyAvatars[i].szProtoname) && g_MyAvatars[i].hbmPic != 0)
+		if (!mir_strcmp(szProto, g_MyAvatars[i].szProtoname) && g_MyAvatars[i].hbmPic != 0)
 			return (INT_PTR)&g_MyAvatars[i];
 
 	return 0;
@@ -810,7 +810,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 
 		if (szProto[0] == 0) {
 			// Notify to all possibles
-			if (lstrcmpA(myAvatarProto, szProto)) {
+			if (mir_strcmp(myAvatarProto, szProto)) {
 				if (!ProtoServiceExists(myAvatarProto, PS_SETMYAVATAR))
 					continue;
 				if (!Proto_IsAvatarsEnabled(myAvatarProto))
@@ -818,7 +818,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 			}
 
 		}
-		else if (lstrcmpA(myAvatarProto, szProto))
+		else if (mir_strcmp(myAvatarProto, szProto))
 			continue;
 
 		if (g_MyAvatars[i].hbmPic)
@@ -843,7 +843,7 @@ INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM lParam)
 		if (g_MyAvatars[i].dwFlags & AVS_IGNORENOTIFY)
 			continue;
 
-		if (!lstrcmpA(g_MyAvatars[i].szProtoname, proto)) {
+		if (!mir_strcmp(g_MyAvatars[i].szProtoname, proto)) {
 			LPVOID lpParam = (void *)malloc(mir_strlen(g_MyAvatars[i].szProtoname) + 2);
 			strcpy((char *)lpParam, g_MyAvatars[i].szProtoname);
 			mir_forkthread(ReloadMyAvatar, lpParam);

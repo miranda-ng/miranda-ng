@@ -70,7 +70,7 @@ static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
 static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (lstrcmpA(sicd->szModule, MODULNAME))
+	if (mir_strcmp(sicd->szModule, MODULNAME))
 		return 0;
 
 	if (!hContact)

@@ -741,7 +741,7 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 
 	for (int i = 0; i < tmp_dicts->getCount(); i++) {
 		Dictionary *dict = (*tmp_dicts)[i];
-		if (lstrcmpi(dict->language, name) == 0) {
+		if (mir_tstrcmpi(dict->language, name) == 0) {
 			GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SENGLANGUAGE, dict->english_name, SIZEOF(dict->english_name));
 
 			GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SLANGUAGE, dict->localized_name, SIZEOF(dict->localized_name));
@@ -793,7 +793,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 
 			if (dict->localized_name[0] == _T('\0')) {
 				for (size_t j = 0; j < SIZEOF(aditionalLanguages); j++) {
-					if (!lstrcmp(aditionalLanguages[j].language, dict->language)) {
+					if (!mir_tstrcmp(aditionalLanguages[j].language, dict->language)) {
 						mir_tstrncpy(dict->localized_name, TranslateTS(aditionalLanguages[j].localized_name), SIZEOF(dict->localized_name));
 						break;
 					}
@@ -848,7 +848,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 			// Check if dict is new
 			bool exists = false;
 			for (int i = 0; i < dicts.getCount() && !exists; i++)
-				if (lstrcmp(dicts[i]->language, lang) == 0)
+				if (mir_tstrcmp(dicts[i]->language, lang) == 0)
 					exists = true;
 
 			if (!exists) {
@@ -899,7 +899,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 						key[cchValue] = 0;
 						TCHAR *pos;
 						if (pos = _tcsrchr(key, _T('\\'))) {
-							if (!lstrcmpi(&pos[1], otherHunspellApps[i].key)) {
+							if (!mir_tstrcmpi(&pos[1], otherHunspellApps[i].key)) {
 								pos[0] = 0;
 								lResult = ERROR_SUCCESS;
 								break;
@@ -927,7 +927,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 	// Sort dicts
 	for (int i = 0; i < dicts.getCount(); i++) {
 		for (int j = i + 1; j < dicts.getCount(); j++) {
-			if (lstrcmp(dicts[i]->full_name, dicts[j]->full_name) > 0) {
+			if (mir_tstrcmp(dicts[i]->full_name, dicts[j]->full_name) > 0) {
 				Dictionary *dict = dicts[i];
 				sl->items[i] = dicts[j];
 				sl->items[j] = dict;

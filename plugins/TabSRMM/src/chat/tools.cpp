@@ -663,7 +663,7 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 		*iNickIndex = 0;
 
 	for (USERINFO *ui = si->pUsers; ui; ui = ui->next) {
-		if (!lstrcmp(ui->pszNick, ptszNick)) {
+		if (!mir_tstrcmp(ui->pszNick, ptszNick)) {
 			STATUSINFO *ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
 			if (ti && (int)ti->hIcon < si->iStatusCount) {
 				if (iNickIndex)

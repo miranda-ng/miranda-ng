@@ -210,7 +210,7 @@ bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
 	TCHAR *ext;
 	ext = &fn[mir_tstrlen(fn)-4];
 
-	if (!lstrcmpi(ext, _T(".png")))
+	if (!mir_tstrcmpi(ext, _T(".png")))
 	{
 		HANDLE hFile, hMap = NULL;
 		BYTE* ppMap = NULL;

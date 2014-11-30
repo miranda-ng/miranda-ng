@@ -208,7 +208,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			GetProfileDirectory(szMirandaPath, szProfileDir, SIZEOF(szProfileDir));
 
 			// search in profile dir (using ini file)
-			if (lstrcmpi(szProfileDir, szMirandaProfiles))
+			if (mir_tstrcmpi(szProfileDir, szMirandaProfiles))
 				FindAdd(hdlg, szProfileDir, _T("[ini]\\"));
 
 			FindAdd(hdlg, szMirandaProfiles, _T("[prf]\\"));
@@ -218,7 +218,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			// search in profile dir (using registry path + ini file)
 			if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 				if (RegQueryValueEx(hKey, _T("Path"), NULL, NULL, (PBYTE)szMirandaPath, &cbData) == ERROR_SUCCESS) {
-					if (lstrcmp(szProfileDir, szMirandaPath)) {
+					if (mir_tstrcmp(szProfileDir, szMirandaPath)) {
 						GetProfileDirectory(szMirandaPath, szProfileDir, SIZEOF(szProfileDir));
 						FindAdd(hdlg, szProfileDir, _T("[reg]\\"));
 					}

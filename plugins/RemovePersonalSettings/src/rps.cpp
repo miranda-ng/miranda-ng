@@ -615,7 +615,7 @@ void DeleteFileOrFolder(const char *name)
 
 BOOL isMetaContact(MCONTACT hContact)
 {
-	return lstrcmpA(GetContactProto(hContact), METACONTACTS_PROTOCOL_NAME) == 0;
+	return mir_strcmp(GetContactProto(hContact), METACONTACTS_PROTOCOL_NAME) == 0;
 }
 
 

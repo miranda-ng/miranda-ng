@@ -29,9 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 {
 	int res;
-	if (res = lstrcmp(p1->ptszSection, p2->ptszSection))
+	if (res = mir_tstrcmp(p1->ptszSection, p2->ptszSection))
 		return res;
-	if (res = lstrcmp(p1->ptszDescription, p2->ptszDescription))
+	if (res = mir_tstrcmp(p1->ptszDescription, p2->ptszDescription))
 		return res;
 	if (!p1->rootHotkey && p2->rootHotkey)
 		return -1;
@@ -228,7 +228,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 		if (!pszCurrentName) continue;
 
 		hotkeys[i]->UnregisterHotkey =
-			!lstrcmpA(pszCurrentName, pszName)  ||
+			!mir_strcmp(pszCurrentName, pszName)  ||
 			!strncmp(pszCurrentName, pszNamePrefix, cbNamePrefix);
 	}
 
@@ -263,7 +263,7 @@ static INT_PTR svcHotkeyCheck(WPARAM wParam, LPARAM lParam)
 			for (i=0; i < hotkeys.getCount(); i++) {
 				THotkeyItem *item = hotkeys[i];
 				BYTE hkMod, hkVk;
-				if ((item->type != HKT_MANUAL) || lstrcmp(pszSection, item->ptszSection)) continue;
+				if ((item->type != HKT_MANUAL) || mir_tstrcmp(pszSection, item->ptszSection)) continue;
 				sttWordToModAndVk(item->Hotkey, &hkMod, &hkVk);
 				if (!hkVk) continue;
 				if (!item->Enabled) continue;
