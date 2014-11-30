@@ -87,6 +87,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_MESSAGES_ON_OPEN				0
 #define DEFAULT_MESSAGES_ON_OPEN_COUNT			10
 #define DEFAULT_HIDE_CHATS						0
+#define DEFAULT_ENABLE_CHATS					1
 #define DEFAULT_NOTIFICATIONS_CHATROOM			0
 
 #define DEFAULT_EVENT_NOTIFICATIONS_ENABLE		1

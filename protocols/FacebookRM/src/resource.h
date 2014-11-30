@@ -9,8 +9,9 @@
 #define IDD_MIND                        112
 #define IDD_OPTIONS                     113
 #define IDD_OPTIONS_EVENTS              114
-#define IDD_OPTIONS_ADVANCED            115
+#define IDD_OPTIONS_STATUSES            115
 #define IDD_CAPTCHAFORM                 116
+#define IDD_OPTIONS_MESSAGING           117
 #define IDI_POKE                        127
 #define IDI_NOTIFICATION                128
 #define IDI_NEWSFEED                    129
@@ -43,6 +44,7 @@
 #define IDC_CLIENT_ENABLE               1044
 #define IDC_FILTER_ADS                  1045
 #define IDC_LOGIN_SYNC                  1046
+#define IDC_ENABLE_CHATS                1047
 #define IDC_SYSTRAY_NOTIFY              1098
 #define IDC_PREVIEW                     1099
 #define IDC_NOTIFICATIONS_CHATROOM      1100
