@@ -305,12 +305,11 @@ MIR_CORE_DLL(char*) mir_strncpy(char *dest, const char *src, size_t len)
 	if (dest == NULL)
 		return NULL;
 
-	if (src == NULL) {
+	if (src == NULL)
 		*dest = 0;
-		return dest;
-	}
-
-	return strncpy(dest, src, len);
+	else
+		strncpy_s(dest, len, src, _TRUNCATE);
+	return dest;
 }
 
 MIR_CORE_DLL(wchar_t*) mir_wstrncpy(wchar_t *dest, const wchar_t *src, size_t len)
@@ -318,12 +317,11 @@ MIR_CORE_DLL(wchar_t*) mir_wstrncpy(wchar_t *dest, const wchar_t *src, size_t le
 	if (dest == NULL)
 		return NULL;
 
-	if (src == NULL) {
+	if (src == NULL)
 		*dest = 0;
-		return dest;
-	}
-
-	return wcsncpy(dest, src, len);
+	else
+		wcsncpy_s(dest, len, src, _TRUNCATE);
+	return dest;
 }
 
 MIR_CORE_DLL(char*) mir_strcat(char *dest, const char *src)
@@ -357,12 +355,11 @@ MIR_CORE_DLL(char*) mir_strncat(char *dest, const char *src, size_t len)
 	if (dest == NULL)
 		return NULL;
 
-	if (src == NULL) {
+	if (src == NULL)
 		*dest = 0;
-		return dest;
-	}
-
-	return strncat(dest, src, len);
+	else
+		strncat_s(dest, len, src, _TRUNCATE);
+	return dest;
 }
 
 MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t len)
@@ -370,10 +367,9 @@ MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t le
 	if (dest == NULL)
 		return NULL;
 
-	if (src == NULL) {
+	if (src == NULL)
 		*dest = 0;
-		return dest;
-	}
-
-	return wcsncat(dest, src, len);
+	else
+		wcsncat_s(dest, len, src, _TRUNCATE);
+	return dest;
 }
