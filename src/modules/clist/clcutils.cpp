@@ -372,7 +372,7 @@ int fnFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefi
 				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 				show = _tcsstr(lowered_szText, lowered_text) != NULL;
 			}
-			else show = ((prefixOk && !_tcsnicmp(text, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !lstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
+			else show = ((prefixOk && !_tcsnicmp(text, group->cl.items[group->scanIndex]->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, group->cl.items[group->scanIndex]->szText)));
 
 			if (show) {
 				ClcGroup *contactGroup = group;
@@ -407,7 +407,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 
 		ClcContact *contact;
 		if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL) != -1) {
-			if (lstrcmp(contact->szText, text) && !_tcsstr(text, _T("\\"))) {
+			if (mir_tstrcmp(contact->szText, text) && !_tcsstr(text, _T("\\"))) {
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
 						TCHAR szFullName[256];
@@ -421,7 +421,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 				else if (contact->type == CLCIT_CONTACT) {
 					cli.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
 					TCHAR* otherName = cli.pfnGetContactDisplayName(contact->hContact, GCDNF_NOMYHANDLE);
-					if (!text[0] || !lstrcmp(otherName, text))
+					if (!text[0] || !mir_tstrcmp(otherName, text))
 						db_unset(contact->hContact, "CList", "MyHandle");
 					else
 						db_set_ts(contact->hContact, "CList", "MyHandle", text);

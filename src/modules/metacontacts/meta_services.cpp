@@ -586,7 +586,7 @@ static INT_PTR Meta_SrmmCurrentSub(WPARAM hMeta, LPARAM lParam)
 static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData*)lParam;
-	if (lstrcmpA(sicd->szModule, META_PROTO))
+	if (mir_strcmp(sicd->szModule, META_PROTO))
 		return 0;
 
 	DBCachedContact *cc = CheckMeta(hMeta);

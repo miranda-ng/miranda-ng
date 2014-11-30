@@ -67,7 +67,7 @@ int InternetDownloadFile (char *szUrl)
 			// get the url for the new location and save it to szInfo
 			// look for the reply header "Location"
 			for (i=0; i<nlhrReply->headersCount; i++) {
-				if (!lstrcmpA(nlhrReply->headers[i].szName, "Location")) {
+				if (!mir_strcmp(nlhrReply->headers[i].szName, "Location")) {
 					szData = (char *)malloc(512);
 					// add "Moved/Location:" in front of the new URL for identification
 					mir_snprintf(szData, 512, "Moved/Location: %s\n", nlhrReply->headers[i].szValue);
@@ -86,7 +86,7 @@ int InternetDownloadFile (char *szUrl)
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
 
 	// the recieved data is empty, data was not recieved, so return an error code of 1
-	if (!lstrcmpA(szInfo, ""))  return 1;
+	if (!mir_strcmp(szInfo, ""))  return 1;
 	return 0;
 }
 

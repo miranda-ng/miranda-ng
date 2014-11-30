@@ -2814,7 +2814,7 @@ LABEL_SHOWWINDOW:
 								HMENU hMenu = 0;
 								USERINFO uiNew;
 								for (USERINFO *ui = si->pUsers; ui; ui = ui->next) {
-									if ( lstrcmp(ui->pszNick, tr.lpstrText))
+									if ( mir_tstrcmp(ui->pszNick, tr.lpstrText))
 										continue;
 
 									pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);

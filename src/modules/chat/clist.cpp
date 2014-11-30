@@ -46,7 +46,7 @@ MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDi
 	if (hContact) { //contact exist, make sure it is in the right group
 		if (pszGroup[0]) {
 			ptrT grpName(db_get_tsa(hContact, "CList", "Group"));
-			if (!lstrcmp(pszGroup, grpName))
+			if (!mir_tstrcmp(pszGroup, grpName))
 				db_set_ts(hContact, "CList", "Group", pszGroup);
 		}
 
@@ -236,7 +236,7 @@ MCONTACT FindRoom(const char *pszModule, const TCHAR *pszRoom)
 			continue;
 
 		ptrT roomid(db_get_tsa(hContact, pszModule, "ChatRoomID"));
-		if (roomid != NULL && !lstrcmpi(roomid, pszRoom))
+		if (roomid != NULL && !mir_tstrcmpi(roomid, pszRoom))
 			return hContact;
 	}
 

@@ -428,7 +428,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 
 	ZeroMemory(&dbei,sizeof(dbei));
 
-	if (!lstrcmpA(ccs->szProtoService, PSR_MESSAGE))
+	if (!mir_strcmp(ccs->szProtoService, PSR_MESSAGE))
 		dbei.eventType = EVENTTYPE_MESSAGE;
 	else
 		dbei.eventType = EVENTTYPE_URL;
@@ -438,7 +438,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags&PREF_CREATEREAD?DBEF_READ:0;
 	dbei.cbBlob = mir_tstrlen(pre->szMessage)+1;
-	if (!lstrcmpA(ccs->szProtoService, PSR_URL))
+	if (!mir_strcmp(ccs->szProtoService, PSR_URL))
 	{
 		dbei.cbBlob += 2+mir_tstrlen(pre->szMessage+dbei.cbBlob+1);
 	}

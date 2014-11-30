@@ -115,7 +115,7 @@ public:
 	CPepService *Find(TCHAR *node)
 	{
 		for (int i=0; i < getCount(); i++)
-			if (!lstrcmp((*this)[i].GetNode(), node))
+			if (!mir_tstrcmp((*this)[i].GetNode(), node))
 				return &((*this)[i]);
 		return NULL;
 	}

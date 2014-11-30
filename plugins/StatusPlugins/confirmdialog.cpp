@@ -43,7 +43,7 @@ struct TConfirmSetting : public PROTOCOLSETTINGEX
 };
 
 static int CompareSettings( const TConfirmSetting* p1, const TConfirmSetting* p2 )
-{	return lstrcmpA( p1->szName, p2->szName );
+{	return mir_strcmp( p1->szName, p2->szName );
 }
 
 static OBJLIST<TConfirmSetting> *confirmSettings;

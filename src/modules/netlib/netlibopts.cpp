@@ -105,7 +105,7 @@ static void CopySettingsStruct(NETLIBUSERSETTINGS *dest, NETLIBUSERSETTINGS *sou
 
 static void CombineSettingsStrings(char **dest, char **source)
 {
-	if (*dest != NULL && (*source == NULL || lstrcmpiA(*dest, *source))) { mir_free(*dest); *dest = NULL; }
+	if (*dest != NULL && (*source == NULL || mir_strcmpi(*dest, *source))) { mir_free(*dest); *dest = NULL; }
 }
 
 static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest, DWORD *destFlags, NETLIBUSERSETTINGS *source, DWORD sourceFlags)

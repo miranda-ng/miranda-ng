@@ -110,7 +110,7 @@ int onContactSettingChanged(WPARAM hContact,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
-	if (hContact != NULL && !lstrcmpA(cws->szModule,"CList") && !lstrcmpA(cws->szSetting,"Rate"))
+	if (hContact != NULL && !mir_strcmp(cws->szModule,"CList") && !mir_strcmp(cws->szSetting,"Rate"))
 		setExtraIcon(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
 
 	return 0;

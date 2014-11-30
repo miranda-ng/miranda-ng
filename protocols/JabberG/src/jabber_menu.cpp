@@ -1031,7 +1031,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 int CJabberProto::OnProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (lstrcmpA(sicd->szModule, m_szModuleName))
+	if (mir_strcmp(sicd->szModule, m_szModuleName))
 		return 0;
 
 	if (!hContact)

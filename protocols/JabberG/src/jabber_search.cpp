@@ -141,7 +141,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 	if (type == NULL)
 		return;
 
-	if (!lstrcmp(type, _T("result"))) {
+	if (!mir_tstrcmp(type, _T("result"))) {
 		HXML queryNode = xmlGetNthChild(iqNode, _T("query"), 1);
 		HXML xNode = xmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 
@@ -183,7 +183,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
 		PostMessage(searchHandleDlg,WM_USER+10,0,0);
 		ShowWindow(searchHandleDlg,SW_SHOW);
 	}
-	else if (!lstrcmp(type, _T("error"))) {
+	else if (!mir_tstrcmp(type, _T("error"))) {
 		const TCHAR *code=NULL;
 		const TCHAR *description=NULL;
 		TCHAR buff[255];
@@ -315,7 +315,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
 		return;
 	}
 
-	if (!lstrcmp(type, _T("result"))) {
+	if (!mir_tstrcmp(type, _T("result"))) {
 		HXML queryNode = xmlGetNthChild(iqNode, _T("query"), 1);
 		HXML xNode = xmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 		if (xNode) {
@@ -375,7 +375,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
 				SearchResults.insert((void*)pUserColumn);
 		}	}
 	}
-	else if (!lstrcmp(type, _T("error"))) {
+	else if (!mir_tstrcmp(type, _T("error"))) {
 		const TCHAR *code = NULL;
 		const TCHAR *description = NULL;
 		TCHAR buff[255];

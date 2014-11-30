@@ -80,7 +80,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
 				if (p != NULL) {
-					if (lstrcmpi(p->path, _T(""))) {
+					if (mir_tstrcmpi(p->path, _T(""))) {
 						TCHAR shortpath[MAX_PATH];
 						PathToRelativeT(p->path, shortpath);
 						db_set_ts(hContact, SETTINGSNAME, SETTINGSKEY, shortpath);

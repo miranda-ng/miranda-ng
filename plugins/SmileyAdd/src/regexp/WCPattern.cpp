@@ -41,7 +41,7 @@ const unsigned long WCPattern::UNIX_LINE_MODE = 0x10;
 #define is_alpha IsCharAlphaW
 
 #if defined(_WIN32)
-#define str_icmp lstrcmpiW
+#define str_icmp mir_wstrcmpi
 #elif defined(__CYGWIN__) || defined(__APPLE__)
 #include <wctype.h>
 static inline int str_icmp(const wchar_t * a, const wchar_t * b)

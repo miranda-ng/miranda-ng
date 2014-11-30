@@ -105,7 +105,7 @@ int fnCompareContacts(const ClcContact* c1, const ClcContact* c2)
 		}
 		/* both are online, now check protocols */
 		if (c1->proto != NULL && c2->proto != NULL) {
-			rc = lstrcmpA(c1->proto, c2->proto);
+			rc = mir_strcmp(c1->proto, c2->proto);
 			if (rc != 0)
 				return rc;
 		}

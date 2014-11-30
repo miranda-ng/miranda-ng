@@ -34,7 +34,7 @@
 
 int CompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2)
 {
-	return lstrcmpA(p1->szName, p2->szName);
+	return mir_strcmp(p1->szName, p2->szName);
 }
 
 TAAAProtoSettingList autoAwaySettings(10, CompareSettings);
@@ -198,7 +198,7 @@ int OnAccChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_REMOVED:
 		for (int i = 0; i < autoAwaySettings.getCount(); i++) {
-			if (!lstrcmpA(autoAwaySettings[i].szName, pa->szModuleName)) {
+			if (!mir_strcmp(autoAwaySettings[i].szName, pa->szModuleName)) {
 				autoAwaySettings.remove(i);
 				break;
 			}

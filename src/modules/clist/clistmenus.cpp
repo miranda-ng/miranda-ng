@@ -242,7 +242,7 @@ INT_PTR MainMenuExecService(WPARAM wParam, LPARAM lParam)
 	lpMainMenuExecParam mmep = (lpMainMenuExecParam)wParam;
 	if (mmep != NULL) {
 		// bug in help.c, it used wparam as parent window handle without reason.
-		if (!lstrcmpA(mmep->szServiceName, "Help/AboutCommand"))
+		if (!mir_strcmp(mmep->szServiceName, "Help/AboutCommand"))
 			mmep->Param1 = 0;
 
 		CallService(mmep->szServiceName, mmep->Param1, lParam);
@@ -796,7 +796,7 @@ int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos)
 	DBVARIANT dbv;
 	if (!db_get_s(NULL, "Protocols", buf, &dbv)) {
 		for (int p=0; p < protoCnt; p++) {
-			if (lstrcmpA(proto[p]->szName, dbv.pszVal) == 0) {
+			if (mir_strcmp(proto[p]->szName, dbv.pszVal) == 0) {
 				db_free(&dbv);
 				return p;
 			}
@@ -1078,7 +1078,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	}
 
 	for (int i=0; i < accounts.getCount(); i++) {
-		if (!lstrcmpA(accounts[i]->szModuleName, ack->szModule)) {
+		if (!mir_strcmp(accounts[i]->szModuleName, ack->szModule)) {
 			if (((int)ack->hProcess >= ID_STATUS_OFFLINE || (int)ack->hProcess == 0) && (int)ack->hProcess < ID_STATUS_OFFLINE + SIZEOF(statusModeList)) {
 				int pos = statustopos((int)ack->hProcess);
 				if (pos == -1)
@@ -1131,11 +1131,11 @@ int fnConvertMenu(CLISTMENUITEM* mi, TMO_MenuItem* pmi)
 static MenuProto* FindProtocolMenu(const char* proto)
 {
 	for (int i=0; i < cli.menuProtoCount; i++)
-		if (cli.menuProtos[i].pMenu && !lstrcmpiA(cli.menuProtos[i].szProto, proto))
+		if (cli.menuProtos[i].pMenu && !mir_strcmpi(cli.menuProtos[i].szProto, proto))
 			return &cli.menuProtos[i];
 
 	if (cli.menuProtoCount == 1)
-		if (!lstrcmpiA(cli.menuProtos[0].szProto, proto))
+		if (!mir_strcmpi(cli.menuProtos[0].szProto, proto))
 			return &cli.menuProtos[0];
 
 	return NULL;

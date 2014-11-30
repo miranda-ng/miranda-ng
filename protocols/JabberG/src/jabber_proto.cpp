@@ -43,12 +43,12 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 	// resource must be used in the comparison
 	if ((p1->list == LIST_ROSTER && (p1->bUseResource == TRUE || p2->bUseResource == TRUE))
 		|| (p1->list == LIST_BOOKMARK) || (p1->list == LIST_VCARD_TEMP))
-		return lstrcmpi(p1->jid, p2->jid);
+		return mir_tstrcmpi(p1->jid, p2->jid);
 
 	TCHAR szp1[JABBER_MAX_JID_LEN], szp2[JABBER_MAX_JID_LEN];
 	JabberStripJid(p1->jid, szp1, SIZEOF(szp1));
 	JabberStripJid(p2->jid, szp2, SIZEOF(szp2));
-	return lstrcmpi(szp1, szp2);
+	return mir_tstrcmpi(szp1, szp2);
 }
 
 CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
@@ -1068,11 +1068,11 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int flags, const char* pszS
 		// if client knows nothing about delivery
 		!(jcb & (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_RECEIPTS)) ||
 		// if message sent to groupchat
-		!lstrcmp(msgType, _T("groupchat")) ||
+		!mir_tstrcmp(msgType, _T("groupchat")) ||
 		// if message delivery check disabled in settings
 		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE))
 	{
-		if (!lstrcmp(msgType, _T("groupchat")))
+		if (!mir_tstrcmp(msgType, _T("groupchat")))
 			xmlAddAttr(m, _T("to"), szClientJid);
 		else {
 			id = SerialNext();
@@ -1294,7 +1294,7 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 		return 1;
 	}
 
-	if ((*szMsg == NULL && msg == NULL) || (*szMsg != NULL && msg != NULL && !lstrcmp(*szMsg, msg)))
+	if ((*szMsg == NULL && msg == NULL) || (*szMsg != NULL && msg != NULL && !mir_tstrcmp(*szMsg, msg)))
 		return 0; // Message is the same, no update needed
 
 	// Update with the new mode message

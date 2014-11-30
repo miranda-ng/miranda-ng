@@ -89,7 +89,7 @@ static CMString FormatOutput(const CIrcMessage* pmsg)
 			tempstr.Delete(0, 1);
 			tempstr.Delete(tempstr.GetLength() - 1, 1);
 			CMString type = GetWord(tempstr.c_str(), 0);
-			if (lstrcmpi(type.c_str(), _T("ping")) == 0)
+			if (mir_tstrcmpi(type.c_str(), _T("ping")) == 0)
 				mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP %s reply sent to %s"), type.c_str(), pmsg->parameters[0].c_str());
 			else
 				mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP %s reply sent to %s: %s"), type.c_str(), pmsg->parameters[0].c_str(), GetWordAddress(tempstr.c_str(), 1));

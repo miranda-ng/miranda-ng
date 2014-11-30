@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int ActionsSortFunc(const POPUPACTION *p1, const POPUPACTION *p2)
 {
-	return lstrcmpA(p1->lpzTitle, p2->lpzTitle);
+	return mir_strcmp(p1->lpzTitle, p2->lpzTitle);
 }
 
 static LIST<POPUPACTION> gActions(3, ActionsSortFunc);

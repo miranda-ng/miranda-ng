@@ -163,7 +163,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					reconnectRequired = true;
 				}
 				else {
-					if(lstrcmpA(text, dbv.pszVal))
+					if(mir_strcmp(text, dbv.pszVal))
 						reconnectRequired = true;
 					db_free(&dbv);
 				}
@@ -175,7 +175,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						reconnectRequired = true;
 					}
 					else {
-						if(lstrcmpA(text, dbv.pszVal))
+						if(mir_strcmp(text, dbv.pszVal))
 							reconnectRequired = true;
 						db_free(&dbv);
 					}
@@ -307,7 +307,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 					reconnectRequired = true;
 				}
 				else {
-					if(lstrcmpA(text, dbv.pszVal))
+					if(mir_strcmp(text, dbv.pszVal))
 						reconnectRequired = true;
 					db_free(&dbv);
 				}
@@ -319,7 +319,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 						reconnectRequired = true;
 					}
 					else {
-						if(lstrcmpA(text, dbv.pszVal))
+						if(mir_strcmp(text, dbv.pszVal))
 							reconnectRequired = true;
 						db_free(&dbv);
 					}
@@ -532,7 +532,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				reconnectRequired = true;
 			}
 			else {
-				if(lstrcmpA(text, dbv.pszVal))
+				if(mir_strcmp(text, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}
@@ -543,7 +543,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				reconnectRequired = true;
 			}
 			else {
-				if(lstrcmpA(text, dbv.pszVal))
+				if(mir_strcmp(text, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}

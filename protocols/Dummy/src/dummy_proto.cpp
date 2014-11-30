@@ -26,7 +26,7 @@ void CDummyProto::SendMsgAck(void *param)
 
 static int sttCompareProtocols(const CDummyProto *p1, const CDummyProto *p2)
 {
-	return lstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 LIST<CDummyProto> dummy_Instances(1, sttCompareProtocols);

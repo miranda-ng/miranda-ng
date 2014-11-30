@@ -60,31 +60,31 @@ INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM lParam)
 	register int i;
 
 	for (i=0;i<sizeof(ProtoPluginExportedFcn)/sizeof(ProtoPluginExportedFcn[0]);i++)
-		if (0==lstrcmpA((char *)wParam, ProtoPluginExportedFcn[i].ID))
+		if (0==mir_strcmp((char *)wParam, ProtoPluginExportedFcn[i].ID))
 			return (INT_PTR)ProtoPluginExportedFcn[i].Ptr;
 	for (i=0;i<sizeof(ProtoPluginExportedSvc)/sizeof(ProtoPluginExportedSvc[0]);i++)
-		if (0==lstrcmpA((char *)wParam, ProtoPluginExportedSvc[i].ID))
+		if (0==mir_strcmp((char *)wParam, ProtoPluginExportedSvc[i].ID))
 			return (INT_PTR)ProtoPluginExportedSvc[i].Ptr;
 	for (i=0;i<sizeof(SynchroExportedFcn)/sizeof(SynchroExportedFcn[0]);i++)
-		if (0==lstrcmpA((char *)wParam, SynchroExportedFcn[i].ID))
+		if (0==mir_strcmp((char *)wParam, SynchroExportedFcn[i].ID))
 			return (INT_PTR)SynchroExportedFcn[i].Ptr;
 	for (i=0;i<sizeof(AccountExportedFcn)/sizeof(AccountExportedFcn[0]);i++)
-		if (0==lstrcmpA((char *)wParam, AccountExportedFcn[i].ID))
+		if (0==mir_strcmp((char *)wParam, AccountExportedFcn[i].ID))
 			return (INT_PTR)AccountExportedFcn[i].Ptr;
 	for (i=0;i<sizeof(AccountExportedSvc)/sizeof(AccountExportedSvc[0]);i++)
-		if (0==lstrcmpA((char *)wParam, AccountExportedSvc[i].ID))
+		if (0==mir_strcmp((char *)wParam, AccountExportedSvc[i].ID))
 			return (INT_PTR)AccountExportedSvc[i].Ptr;
 	for (i=0;i<sizeof(MailExportedFcn)/sizeof(MailExportedFcn[0]);i++)
-		if (0==lstrcmpA((char *)wParam, MailExportedFcn[i].ID))
+		if (0==mir_strcmp((char *)wParam, MailExportedFcn[i].ID))
 			return (INT_PTR)MailExportedFcn[i].Ptr;
 	for (i=0;i<sizeof(MailExportedSvc)/sizeof(MailExportedSvc[0]);i++)
-		if (0==lstrcmpA((char *)wParam, MailExportedSvc[i].ID))
+		if (0==mir_strcmp((char *)wParam, MailExportedSvc[i].ID))
 			return (INT_PTR)MailExportedSvc[i].Ptr;
 	for (i=0;i<sizeof(FilterPluginExportedFcn)/sizeof(FilterPluginExportedFcn[0]);i++)
-		if (0==lstrcmpA((char *)wParam, FilterPluginExportedFcn[i].ID))
+		if (0==mir_strcmp((char *)wParam, FilterPluginExportedFcn[i].ID))
 			return (INT_PTR)FilterPluginExportedFcn[i].Ptr;
 	for (i=0;i<sizeof(FilterPluginExportedSvc)/sizeof(FilterPluginExportedSvc[0]);i++)
-		if (0==lstrcmpA((char *)wParam, FilterPluginExportedSvc[i].ID))
+		if (0==mir_strcmp((char *)wParam, FilterPluginExportedSvc[i].ID))
 			return (INT_PTR)FilterPluginExportedSvc[i].Ptr;
 	return (INT_PTR)NULL;
 }

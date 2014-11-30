@@ -162,7 +162,7 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 		if (ack->result == ACKRESULT_SUCCESS) {
 			for (int i=0; i < cli.hClcProtoCount; i++) {
-				if (!lstrcmpA(cli.clcProto[i].szProto, ack->szModule)) {
+				if (!mir_strcmp(cli.clcProto[i].szProto, ack->szModule)) {
 					cli.clcProto[i].dwStatus = (WORD) ack->lParam;
 					break;
 				}
@@ -432,14 +432,14 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 					if (dbcws->value.type == DBVT_ASCIIZ) {
 						WCHAR* wszGrpName = mir_a2u(dbcws->value.pszVal+1);
-						eq = !lstrcmp(szFullName, wszGrpName);
+						eq = !mir_tstrcmp(szFullName, wszGrpName);
 						mir_free(wszGrpName);
 					}
 					else {
 						char* szGrpName = NEWSTR_ALLOCA(dbcws->value.pszVal+1);
 						WCHAR* wszGrpName;
 						Utf8Decode(szGrpName, &wszGrpName);
-						eq = !lstrcmp(szFullName, wszGrpName);
+						eq = !mir_tstrcmp(szFullName, wszGrpName);
 						mir_free(wszGrpName);
 					}
 					if (eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))

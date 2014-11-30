@@ -130,7 +130,7 @@ static void WinNT_PollThread(void *vparam)
 							pPerfInstance=(PERF_INSTANCE_DEFINITION*)((BYTE*)pPerfObj+pPerfObj->DefinitionLength);
 							for(lCount=0;lCount<(pPerfObj->NumInstances);++lCount) {
 								pPerfCounterBlock=(PERF_COUNTER_BLOCK*)((BYTE*)pPerfInstance+pPerfInstance->ByteLength);
-								if (!lstrcmpiW(pwszInstanceName,(WCHAR*)((BYTE*)pPerfInstance+pPerfInstance->NameOffset))) {
+								if (!mir_wstrcmpi(pwszInstanceName,(WCHAR*)((BYTE*)pPerfInstance+pPerfInstance->NameOffset))) {
 									liCurrentCounterValue=*(LARGE_INTEGER*)((BYTE*)pPerfCounterBlock+pPerfCounter->CounterOffset);
 									fFound=TRUE;
 									break;

@@ -399,7 +399,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 			LOG(("[ext_yahoo_got_picture] My Checksum: %d", mcksum));
 
 			if (!getString("AvatarURL", &dbv)) {
-					if (lstrcmpiA(pic_url, dbv.pszVal) == 0) {
+					if (mir_strcmpi(pic_url, dbv.pszVal) == 0) {
 						DBVARIANT dbv2;
 						/*time_t  ts;
 						DWORD	ae;*/

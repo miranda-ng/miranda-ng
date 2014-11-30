@@ -448,7 +448,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 	TCHAR *labelStr, *valueStr;
 	RECT frameRect;
 
-	if (xNode == NULL || xmlGetName(xNode) == NULL || lstrcmp(xmlGetName(xNode), _T("x")) || hwndStatic == NULL)
+	if (xNode == NULL || xmlGetName(xNode) == NULL || mir_tstrcmp(xmlGetName(xNode), _T("x")) || hwndStatic == NULL)
 		return;
 
 	GetClientRect(hwndStatic, &frameRect);
@@ -468,7 +468,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 		if (!n)
 			break;
 
-		if (lstrcmp(xmlGetName(n), _T("field")))
+		if (mir_tstrcmp(xmlGetName(n), _T("field")))
 			continue;
 				
 		varStr = xmlGetAttrValue(n, _T("var"));
@@ -492,7 +492,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 					v = xmlGetChild(n, j);
 					if (!v)
 						break;
-					if (xmlGetName(v) && !lstrcmp(xmlGetName(v), _T("value")) && xmlGetText(v))
+					if (xmlGetName(v) && !mir_tstrcmp(xmlGetName(v), _T("value")) && xmlGetText(v))
 						size += _tcslen(xmlGetText(v)) + 2;
 				}
 				valueStr = (TCHAR*)mir_alloc(sizeof(TCHAR)*size);
@@ -501,7 +501,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 					v = xmlGetChild(n, j);
 					if (!v)
 						break;
-					if (xmlGetName(v) && !lstrcmp(xmlGetName(v), _T("value")) && xmlGetText(v)) {
+					if (xmlGetName(v) && !mir_tstrcmp(xmlGetName(v), _T("value")) && xmlGetText(v)) {
 						if (valueStr[0])
 							_tcscat(valueStr, _T("\r\n"));
 						_tcscat(valueStr, xmlGetText(v));
@@ -522,7 +522,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 				if (o == NULL)
 					break;
 				
-				if (lstrcmp(xmlGetName(o), _T("option")))
+				if (mir_tstrcmp(xmlGetName(o), _T("option")))
 					continue;
 				if ((v = xmlGetChild(o, "value")) == NULL || xmlGetText(v) == NULL)
 					continue;
@@ -531,7 +531,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 				if (str == NULL)
 					continue;
 
-				bool selected = !lstrcmp(valueText, xmlGetText(v));
+				bool selected = !mir_tstrcmp(valueText, xmlGetText(v));
 				JabberFormAddListItem(item, str, selected);
 			}
 		}
@@ -541,7 +541,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 				if (o == NULL)
 					break;
 
-				if (lstrcmp(xmlGetName(o), _T("option")))
+				if (mir_tstrcmp(xmlGetName(o), _T("option")))
 					continue;
 				if ((v = xmlGetChild(o, "value")) == NULL || xmlGetText(v) == NULL)
 					continue;
@@ -555,7 +555,7 @@ void JabberFormCreateUI(HWND hwndStatic, HXML xNode, int *formHeight, BOOL bComp
 					vs = xmlGetChild(n, k);
 					if (!vs)
 						break;
-					if (!lstrcmp(xmlGetName(vs), _T("value")) && !lstrcmp(xmlGetText(vs), xmlGetText(v))) {
+					if (!mir_tstrcmp(xmlGetName(vs), _T("value")) && !mir_tstrcmp(xmlGetText(vs), xmlGetText(v))) {
 						selected = true;
 						break;
 					}
@@ -587,7 +587,7 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
 	const TCHAR *varName, *type, *fieldStr, *labelText, *str2;
 	TCHAR *p, *q, *str;
 
-	if (xNode == NULL || xmlGetName(xNode) == NULL || lstrcmp(xmlGetName(xNode), _T("x")) || hwndStatic == NULL)
+	if (xNode == NULL || xmlGetName(xNode) == NULL || mir_tstrcmp(xmlGetName(xNode), _T("x")) || hwndStatic == NULL)
 		return NULL;
 
 	hFrame = hwndStatic;
@@ -601,7 +601,7 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
 			break;
 
 		fieldStr = NULL;
-		if (lstrcmp(xmlGetName(n), _T("field")))
+		if (mir_tstrcmp(xmlGetName(n), _T("field")))
 			continue;
 
 		if ((varName = xmlGetAttrValue(n, _T("var"))) == NULL || (type = xmlGetAttrValue(n, _T("type"))) == NULL)
@@ -640,11 +640,11 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
 				if (!o)
 					break;
 
-				if (!lstrcmp(xmlGetName(o), _T("option"))) {
+				if (!mir_tstrcmp(xmlGetName(o), _T("option"))) {
 					if ((v = xmlGetChild(o , "value")) != NULL && xmlGetText(v)) {
 						if ((str2 = xmlGetAttrValue(o, _T("label"))) == NULL)
 							str2 = xmlGetText(v);
-						if (!lstrcmp(str2, str))
+						if (!mir_tstrcmp(str2, str))
 							break;
 			}	}	}
 
@@ -667,12 +667,12 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
 							if (!o)
 								break;
 
-							if (xmlGetName(o) && !lstrcmp(xmlGetName(o), _T("option"))) {
+							if (xmlGetName(o) && !mir_tstrcmp(xmlGetName(o), _T("option"))) {
 								if ((v = xmlGetChild(o , "value")) != NULL && xmlGetText(v)) {
 									if ((labelText = xmlGetAttrValue(o, _T("label"))) == NULL)
 										labelText = xmlGetText(v);
 
-									if (!lstrcmp(labelText, str))
+									if (!mir_tstrcmp(labelText, str))
 										field << XCHILD(_T("value"), xmlGetText(v));
 						}	}	}
 						mir_free(str);

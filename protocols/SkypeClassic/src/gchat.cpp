@@ -775,7 +775,7 @@ int __cdecl  GCMenuHook(WPARAM,LPARAM lParam) {
 				break;
 			case MENU_ON_NICKLIST:
 				if (db_get_ts(NULL, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
-				if (!lstrcmp(dbv.ptszVal, gcmi->pszUID)) {
+				if (!mir_tstrcmp(dbv.ptszVal, gcmi->pszUID)) {
 					gcmi->nItems = sizeof(Item_nicklist_me)/sizeof(Item_nicklist_me[0]);
 					gcmi->Item = &Item_nicklist_me[0];
 				} else {

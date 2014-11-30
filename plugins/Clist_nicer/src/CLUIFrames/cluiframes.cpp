@@ -480,7 +480,7 @@ int LocateStorePosition(int Frameid, int maxstored)
 		mir_snprintf(settingname, sizeof(settingname), "Name%d", i);
 		ptrT frmname(db_get_tsa(0, CLUIFrameModule, settingname));
 		if (frmname == NULL) continue;
-		if (lstrcmpi(frmname, Frames[Frameid].name) == 0)
+		if (mir_tstrcmpi(frmname, Frames[Frameid].name) == 0)
 			return i;
 	}
 	return -1;
@@ -1149,7 +1149,7 @@ INT_PTR CLUIFramesShowHideFrame(WPARAM wParam, LPARAM lParam)
 	{
 		mir_cslock lck(csFrameHook);
 		pos = id2pos((INT_PTR)wParam);
-		if (pos >= 0 && !lstrcmp(Frames[pos].name, _T("My contacts")))
+		if (pos >= 0 && !mir_tstrcmp(Frames[pos].name, _T("My contacts")))
 			Frames[pos].visible = 1;
 		else {
 			if (pos >= 0 && (int)pos < nFramescount)

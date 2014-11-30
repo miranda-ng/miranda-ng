@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static int sttCompareProtocols(const CVkProto *p1, const CVkProto *p2)
 {
-	return lstrcmp(p1->m_tszUserName, p2->m_tszUserName);
+	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
 LIST<CVkProto> vk_Instances(1, sttCompareProtocols);

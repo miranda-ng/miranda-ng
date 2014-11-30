@@ -468,12 +468,12 @@ BOOL TreeList_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, UINT id
 }
 
 ///////////////////////////////////////////////////////////////////////////
-static int sttTreeList_SortItems_Cmp0(const void *p1, const void *p2) { return  lstrcmp((*(HTREELISTITEM *)p1)->text[0], (*(HTREELISTITEM *)p2)->text[0]); }
-static int sttTreeList_SortItems_Cmp1(const void *p1, const void *p2) { return -lstrcmp((*(HTREELISTITEM *)p1)->text[0], (*(HTREELISTITEM *)p2)->text[0]); }
-static int sttTreeList_SortItems_Cmp2(const void *p1, const void *p2) { return  lstrcmp((*(HTREELISTITEM *)p1)->text[1], (*(HTREELISTITEM *)p2)->text[1]); }
-static int sttTreeList_SortItems_Cmp3(const void *p1, const void *p2) { return -lstrcmp((*(HTREELISTITEM *)p1)->text[1], (*(HTREELISTITEM *)p2)->text[1]); }
-static int sttTreeList_SortItems_Cmp4(const void *p1, const void *p2) { return  lstrcmp((*(HTREELISTITEM *)p1)->text[2], (*(HTREELISTITEM *)p2)->text[2]); }
-static int sttTreeList_SortItems_Cmp5(const void *p1, const void *p2) { return -lstrcmp((*(HTREELISTITEM *)p1)->text[2], (*(HTREELISTITEM *)p2)->text[2]); }
+static int sttTreeList_SortItems_Cmp0(const void *p1, const void *p2) { return  mir_tstrcmp((*(HTREELISTITEM *)p1)->text[0], (*(HTREELISTITEM *)p2)->text[0]); }
+static int sttTreeList_SortItems_Cmp1(const void *p1, const void *p2) { return -mir_tstrcmp((*(HTREELISTITEM *)p1)->text[0], (*(HTREELISTITEM *)p2)->text[0]); }
+static int sttTreeList_SortItems_Cmp2(const void *p1, const void *p2) { return  mir_tstrcmp((*(HTREELISTITEM *)p1)->text[1], (*(HTREELISTITEM *)p2)->text[1]); }
+static int sttTreeList_SortItems_Cmp3(const void *p1, const void *p2) { return -mir_tstrcmp((*(HTREELISTITEM *)p1)->text[1], (*(HTREELISTITEM *)p2)->text[1]); }
+static int sttTreeList_SortItems_Cmp4(const void *p1, const void *p2) { return  mir_tstrcmp((*(HTREELISTITEM *)p1)->text[2], (*(HTREELISTITEM *)p2)->text[2]); }
+static int sttTreeList_SortItems_Cmp5(const void *p1, const void *p2) { return -mir_tstrcmp((*(HTREELISTITEM *)p1)->text[2], (*(HTREELISTITEM *)p2)->text[2]); }
 
 static void sttTreeList_SortItems(HTREELISTITEM hItem, LPARAM data)
 {

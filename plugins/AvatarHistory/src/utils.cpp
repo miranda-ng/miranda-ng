@@ -219,11 +219,11 @@ TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 	{
 		size_t len = mir_tstrlen(finddata.cFileName);
 		if (len > 4 
-			&& (!lstrcmpi(&finddata.cFileName[len-4], _T(".png"))
-				|| !lstrcmpi(&finddata.cFileName[len-4], _T(".bmp"))
-				|| !lstrcmpi(&finddata.cFileName[len-4], _T(".gif"))
-				|| !lstrcmpi(&finddata.cFileName[len-4], _T(".jpg"))
-				|| !lstrcmpi(&finddata.cFileName[len-5], _T(".jpeg"))))
+			&& (!mir_tstrcmpi(&finddata.cFileName[len-4], _T(".png"))
+				|| !mir_tstrcmpi(&finddata.cFileName[len-4], _T(".bmp"))
+				|| !mir_tstrcmpi(&finddata.cFileName[len-4], _T(".gif"))
+				|| !mir_tstrcmpi(&finddata.cFileName[len-4], _T(".jpg"))
+				|| !mir_tstrcmpi(&finddata.cFileName[len-5], _T(".jpeg"))))
 		{
 			mir_sntprintf(file, SIZEOF(file), _T("%s\\%s"), file, finddata.cFileName);
 			ret = mir_tstrdup(file);

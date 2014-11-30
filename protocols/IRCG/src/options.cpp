@@ -1303,7 +1303,7 @@ static int CALLBACK IgnoreListSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParam
 	hwndDlg->m_list.GetItem(&lvm);
 
 	if (temp1[0] && temp2[0])
-		return lstrcmpi(temp1, temp2);
+		return mir_tstrcmpi(temp1, temp2);
 
 	return (temp1[0] == 0) ? 1 : -1;
 }

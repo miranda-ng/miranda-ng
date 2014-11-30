@@ -1250,7 +1250,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 	for (int k = 0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
 		res.AppendChar('\t');
 		ptrT ptszType(json_as_string(json_get(pAttach, "type")));
-		if (!lstrcmp(ptszType, L"photo")) {
+		if (!mir_tstrcmp(ptszType, L"photo")) {
 			JSONNODE *pPhoto = json_get(pAttach, "photo");
 			if (pPhoto == NULL) 
 				continue;
@@ -1270,7 +1270,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			if (m_bAddImgBbc)
 				res.AppendFormat(L"\n\t[img]%s[/img]", ptszLink);
 		}
-		else if (!lstrcmp(ptszType, L"audio")) {
+		else if (!mir_tstrcmp(ptszType, L"audio")) {
 			JSONNODE *pAudio = json_get(pAttach, "audio");
 			if (pAudio == NULL) 
 				continue;
@@ -1281,7 +1281,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			res.AppendFormat(L"%s: (%s - %s) - %s",
 				TranslateT("Audio"), ptszArtist, ptszTitle, ptszUrl);
 		}
-		else if (!lstrcmp(ptszType, L"video")) {
+		else if (!mir_tstrcmp(ptszType, L"video")) {
 			JSONNODE *pVideo = json_get(pAttach, "video");
 			if (pVideo == NULL) 
 				continue;
@@ -1291,7 +1291,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			int  ownerID = json_as_int(json_get(pVideo, "owner_id"));
 			res.AppendFormat(L"%s: %s - http://vk.com/video%d_%d", TranslateT("Video"), ptszTitle, ownerID, vid);
 		}
-		else if (!lstrcmp(ptszType, L"doc")) {
+		else if (!mir_tstrcmp(ptszType, L"doc")) {
 			JSONNODE *pDoc = json_get(pAttach, "doc");
 			if (pDoc == NULL) 
 				continue;
@@ -1300,7 +1300,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszUrl(json_as_string(json_get(pDoc, "url")));
 			res.AppendFormat(L"%s: (%s) - %s", TranslateT("Document"), ptszTitle, ptszUrl);
 		}
-		else if (!lstrcmp(ptszType, L"wall")) {
+		else if (!mir_tstrcmp(ptszType, L"wall")) {
 			JSONNODE *pWall = json_get(pAttach, "wall");
 			if (pWall == NULL) 
 				continue;
@@ -1310,7 +1310,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			int  fromID = json_as_int(json_get(pWall, "from_id"));
 			res.AppendFormat(L"%s: %s - http://vk.com/wall%d_%d", TranslateT("Wall post"), ptszText ? ptszText : L" ", fromID, id);
 		}
-		else if (!lstrcmp(ptszType, _T("sticker"))) {
+		else if (!mir_tstrcmp(ptszType, _T("sticker"))) {
 			JSONNODE *pSticker = json_get(pAttach, "sticker");
 			if (pSticker == NULL) 
 				continue;

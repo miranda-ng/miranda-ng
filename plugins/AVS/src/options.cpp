@@ -53,7 +53,7 @@ static void RemoveProtoPic(const char *szProto)
 	if (szProto == NULL)
 		return;
 
-	if (!lstrcmpA(AVS_DEFAULT, szProto)) {
+	if (!mir_strcmp(AVS_DEFAULT, szProto)) {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry &p = g_ProtoPictures[i];
 			if (p.szProtoname == NULL)
@@ -76,10 +76,10 @@ static void RemoveProtoPic(const char *szProto)
 			if (p.szProtoname == NULL)
 				continue;
 			PROTOACCOUNT *pdescr = ProtoGetAccount(p.szProtoname);
-			if (pdescr == NULL && lstrcmpA(p.szProtoname, szProto))
+			if (pdescr == NULL && mir_strcmp(p.szProtoname, szProto))
 				continue;
 
-			if (!lstrcmpA(p.szProtoname, szProto) || !lstrcmpA(pdescr->szProtoName, szProtoname)) {
+			if (!mir_strcmp(p.szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
 				p.clear();
 				CreateAvatarInCache(0, &p, (char*)p.szProtoname);
 				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
@@ -90,7 +90,7 @@ static void RemoveProtoPic(const char *szProto)
 
 	for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 		protoPicCacheEntry& p = g_ProtoPictures[i];
-		if (!lstrcmpA(p.szProtoname, szProto)) {
+		if (!mir_strcmp(p.szProtoname, szProto)) {
 			p.clear();
 			NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
 		}
@@ -126,13 +126,13 @@ static void SetProtoPic(char *szProto)
 	PathToRelativeT(FileName, szNewPath, g_szDataPath);
 	db_set_ts(NULL, PPICT_MODULE, szProto, szNewPath);
 
-	if (!lstrcmpA(AVS_DEFAULT, szProto)) {
+	if (!mir_strcmp(AVS_DEFAULT, szProto)) {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
 			if (mir_strlen(p.szProtoname) == 0)
 				continue;
 
-			if (p.hbmPic == 0 || !lstrcmpA(p.szProtoname, AVS_DEFAULT)) {
+			if (p.hbmPic == 0 || !mir_strcmp(p.szProtoname, AVS_DEFAULT)) {
 				CreateAvatarInCache(0, &p, szProto);
 				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
 			}
@@ -144,10 +144,10 @@ static void SetProtoPic(char *szProto)
 		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)g_ProtoPictures[i].szProtoname);
-			if (pdescr == NULL && lstrcmpA(g_ProtoPictures[i].szProtoname, szProto))
+			if (pdescr == NULL && mir_strcmp(g_ProtoPictures[i].szProtoname, szProto))
 				continue;
 
-			if (!lstrcmpA(g_ProtoPictures[i].szProtoname, szProto) || !lstrcmpA(pdescr->szProtoName, szProtoname)) {
+			if (!mir_strcmp(g_ProtoPictures[i].szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
 				protoPicCacheEntry& p = g_ProtoPictures[i];
 				if (mir_strlen(p.szProtoname) != 0) {
 					if (p.hbmPic == 0) {

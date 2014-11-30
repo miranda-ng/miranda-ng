@@ -124,7 +124,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		|| !gch->pDest
 		|| !gch->pDest->ptszID
 		|| !gch->pDest->pszModule
-		|| lstrcmpiA(gch->pDest->pszModule, m_szModuleName)
+		|| mir_strcmpi(gch->pDest->pszModule, m_szModuleName)
 		|| !(uin = getDword(GG_KEY_UIN, 0))
 		|| !(chat = gc_lookup(gch->pDest->ptszID)))
 		return 0;
@@ -392,12 +392,12 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 static MCONTACT gg_getsubcontact(GGPROTO* gg, MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
-	if (szProto && !lstrcmpA(szProto, META_PROTO)) {
+	if (szProto && !mir_strcmp(szProto, META_PROTO)) {
 		int nSubContacts = db_mc_getSubCount(hContact), i;
 		for (i = 0; i < nSubContacts; i++) {
 			MCONTACT hMetaContact = db_mc_getSub(hContact, i);
 			szProto = GetContactProto(hMetaContact);
-			if (szProto && !lstrcmpA(szProto, gg->m_szModuleName))
+			if (szProto && !mir_strcmp(szProto, gg->m_szModuleName))
 				return hMetaContact;
 		}
 	}
@@ -526,7 +526,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 										uin = (uin_t)gg->getDword(hContact, GG_KEY_UIN, 0);
 									}
 
-									if (szProto == NULL || lstrcmpA(szProto, gg->m_szModuleName) || !uin || uin == gg->getDword(GG_KEY_UIN, 0))
+									if (szProto == NULL || mir_strcmp(szProto, gg->m_szModuleName) || !uin || uin == gg->getDword(GG_KEY_UIN, 0))
 										SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_DELETEITEM, (WPARAM)hItem, 0);
 								}
 							}

@@ -264,7 +264,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			GetDlgItemTextA(hwndDlg, IDC_LOGIN, login, SIZEOF(login));
 			dbv.pszVal = NULL;
-			if (db_get(NULL, protocolname, "login", &dbv) || lstrcmpA(login, dbv.pszVal))
+			if (db_get(NULL, protocolname, "login", &dbv) || mir_strcmp(login, dbv.pszVal))
 				reconnectRequired = 1;
 			if (dbv.pszVal != NULL)
 				db_free(&dbv);
@@ -289,7 +289,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			//nur wenn der nick erfolgreich übertragen wurde
 			GetDlgItemTextA(hwndDlg, IDC_NICK, login, SIZEOF(login));
 			dbv.pszVal = NULL;
-			if (db_get(NULL, protocolname, "Nick", &dbv) || lstrcmpA(login, dbv.pszVal))
+			if (db_get(NULL, protocolname, "Nick", &dbv) || mir_strcmp(login, dbv.pszVal))
 			{
 				if (CallService(XFIRE_SET_NICK, 0, (WPARAM)login))
 					db_set_s(NULL, protocolname, "Nick", login);
@@ -299,7 +299,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
 			dbv.pszVal = NULL;
-			if (db_get(NULL, protocolname, "password", &dbv) || lstrcmpA(str, dbv.pszVal))
+			if (db_get(NULL, protocolname, "password", &dbv) || mir_strcmp(str, dbv.pszVal))
 				reconnectRequired = 1;
 			if (dbv.pszVal != NULL)
 				db_free(&dbv);

@@ -84,7 +84,7 @@ static int skinStatusToJabberStatus[] = {0,1,2,3,4,4,6,7,2,2};
 
 int CIconPool::CPoolItem::cmp(const CPoolItem *p1, const CPoolItem *p2)
 {
-	return lstrcmpA(p1->m_name, p2->m_name);
+	return mir_strcmp(p1->m_name, p2->m_name);
 }
 
 CIconPool::CPoolItem::CPoolItem():

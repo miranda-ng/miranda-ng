@@ -63,7 +63,7 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 		if (_tcslen(dbv.ptszVal) > 0) {
 			TCHAR *ext = _tcsrchr(dbv.ptszVal, '.');
-			if (ext && lstrcmpi(ext, _T(".xml")) == 0)
+			if (ext && mir_tstrcmpi(ext, _T(".xml")) == 0)
 				result = (TCHAR*)getFlashAvatar(dbv.ptszVal, (hContact == NULL) ? 1 : 0);
 			else {
 				if (result == NULL) {

@@ -414,7 +414,7 @@ void CJabberProto::IqResultStreamActivate(HXML iqNode, CJabberIqInfo*)
 	if (item == NULL)
 		return;
 
-	if (!lstrcmp(xmlGetAttrValue(iqNode, _T("type")), _T("result")))
+	if (!mir_tstrcmp(xmlGetAttrValue(iqNode, _T("type")), _T("result")))
 		item->jbt->bStreamActivated = TRUE;
 
 	if (item->jbt->hProxyEvent)

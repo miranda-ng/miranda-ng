@@ -47,7 +47,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		param->ppro->m_hwndJabberAddBookmark = hwndDlg;
 		TranslateDialogDefault(hwndDlg);
 		if (item = param->m_item) {
-			if (!lstrcmp(item->type, _T("conference"))) {
+			if (!mir_tstrcmp(item->type, _T("conference"))) {
 				if (!_tcschr(item->jid, _T('@'))) {	  //no room name - consider it is transport
 					SendDlgItemMessage(hwndDlg, IDC_AGENT_RADIO, BM_SETCHECK, BST_CHECKED, 0);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
@@ -329,7 +329,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 	JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
 	if (item == NULL) return;
 
-	if (!lstrcmpi(item->type, _T("conference"))) {
+	if (!mir_tstrcmpi(item->type, _T("conference"))) {
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
 		/* some hack for using bookmark to transport not under XEP-0048 */
@@ -391,7 +391,7 @@ void CJabberDlgBookmarks::OnProtoRefresh(WPARAM, LPARAM)
 	LISTFOREACH(i, m_proto, LIST_BOOKMARK)
 	{
 		if (item = m_proto->ListGetItemPtrFromIndex(i)) {
-			int itemType = lstrcmpi(item->type, _T("conference")) ? 1 : 0;
+			int itemType = mir_tstrcmpi(item->type, _T("conference")) ? 1 : 0;
 			int iItem = m_lvBookmarks.AddItem(item->name, itemType, (LPARAM)item->jid, itemType);
 			m_lvBookmarks.SetItem(iItem, 1, item->jid);
 			if (itemType == 0)

@@ -153,7 +153,7 @@ BOOL MailListHandler(IJabberInterface *ji, HXML node, void *pUserData)
 {
 	LPCTSTR jidWithRes = xi.getAttrValue(node, ATTRNAME_TO);
 	__try {
-		if (!node || lstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT)) return TRUE;
+		if (!node || mir_tstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT)) return TRUE;
 
 		LPCTSTR jid = xi.getAttrValue(node, ATTRNAME_FROM);
 		assert(jid);
@@ -298,7 +298,7 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 	 		ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, _ttoi(ptszId+4), NULL, RESPONSE_TIMEOUT, 500);
 	}
 
-	if ( !lstrcmp(xi.getName(node), _T("presence")) && xi.getAttrValue(node, ATTRNAME_TO) == 0) {
+	if ( !mir_tstrcmp(xi.getName(node), _T("presence")) && xi.getAttrValue(node, ATTRNAME_TO) == 0) {
 		if (!gta->m_bGoogleSharedStatus)
 			return FALSE;
 
@@ -321,7 +321,7 @@ BOOL OnIqResultGoogleSharedStatus(IJabberInterface *ji, HXML node, void *pUserDa
 {
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta != NULL) {
-		gta->m_bGoogleSharedStatus = lstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT) == 0;
+		gta->m_bGoogleSharedStatus = mir_tstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_RESULT) == 0;
 		gta->m_bGoogleSharedStatusLock = FALSE;
 	}
 	return FALSE;
@@ -332,7 +332,7 @@ BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *pUserDat
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta == NULL)
 		return FALSE;
-	if (lstrcmp(xi.getAttrValue(iqNode, ATTRNAME_TYPE), IQTYPE_SET))
+	if (mir_tstrcmp(xi.getAttrValue(iqNode, ATTRNAME_TYPE), IQTYPE_SET))
 		return FALSE;
 	if (gta->m_bGoogleSharedStatusLock)
 		return TRUE;
@@ -368,12 +368,12 @@ void GoogleTalkAcc::SendIqGoogleSharedStatus(LPCTSTR status, LPCTSTR msg)
 	xi.addAttrInt(query, _T("version"), 2);
 
 	HXML statNode = xi.addChild(query, _T("status"), msg);
-	if ( !lstrcmp(status, _T("invisible"))) {
+	if ( !mir_tstrcmp(status, _T("invisible"))) {
 		xi.addChild(query, _T("show"), _T("default"));
 		xi.addAttr( xi.addChild(query, _T("invisible"), 0), _T("value"), _T("true"));
 	}
 	else {
-		if ( !lstrcmp(status, _T("dnd")))
+		if ( !mir_tstrcmp(status, _T("dnd")))
 			xi.addChild(query, _T("show"), _T("dnd"));
 		else
 			xi.addChild(query, _T("show"), _T("default"));
@@ -394,7 +394,7 @@ int OnServerDiscoInfo(WPARAM wParam, LPARAM lParam)
 	// m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
 
 	JABBER_DISCO_FIELD *fld = (JABBER_DISCO_FIELD*)wParam;
-	if ( !lstrcmp(fld->category, _T("server")) && !lstrcmp(fld->type, _T("im")) && !lstrcmp(fld->name, _T("Google Talk"))) {
+	if ( !mir_tstrcmp(fld->category, _T("server")) && !mir_tstrcmp(fld->type, _T("im")) && !mir_tstrcmp(fld->name, _T("Google Talk"))) {
 		HXML iq = xi.createNode(NODENAME_IQ, NULL, FALSE);
 		xi.addAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
 

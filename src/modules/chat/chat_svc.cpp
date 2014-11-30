@@ -498,7 +498,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	}
 	else if (gcd->iType == GC_EVENT_NOTICE || gcd->iType == GC_EVENT_INFORMATION) {
 		si = ci.GetActiveSession();
-		if (si && !lstrcmpA(si->pszModule, gcd->pszModule)) {
+		if (si && !mir_strcmp(si->pszModule, gcd->pszModule)) {
 			pWnd = si->ptszID;
 			pMod = si->pszModule;
 		}

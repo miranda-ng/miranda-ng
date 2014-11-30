@@ -473,18 +473,18 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	ARGUMENTSINFO *ai = (ARGUMENTSINFO*)lParam;
 	ai->flags = AIF_DONTPARSE;
 	TCString Result;
-	if (!lstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
+	if (!mir_tstrcmp(ai->targv[0], VAR_AWAYSINCE_TIME)) {
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : _T("H:mm"), Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
+	else if (!mir_tstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
 		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].AwaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : NULL, Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], VAR_STATDESC)) {
+	else if (!mir_tstrcmp(ai->targv[0], VAR_STATDESC)) {
 		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : pcli->pfnGetStatusModeDescription(g_ProtoStates[VarParseData.szProto].Status, 0);
 	}
-	else if (!lstrcmp(ai->targv[0], VAR_MYNICK)) {
+	else if (!mir_tstrcmp(ai->targv[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
 			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (TCHAR*)NULL);
 
@@ -494,15 +494,15 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		if (Result == NULL)
 			Result = TranslateT("Stranger");
 	}
-	else if (!lstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
+	else if (!mir_tstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
 		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), db_get_w(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], VAR_MESSAGENUM)) {
+	else if (!mir_tstrcmp(ai->targv[0], VAR_MESSAGENUM)) {
 		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), db_get_w(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], VAR_TIMEPASSED)) {
+	else if (!mir_tstrcmp(ai->targv[0], VAR_TIMEPASSED)) {
 		ULARGE_INTEGER ul_AwaySince, ul_Now;
 		SYSTEMTIME st;
 		GetLocalTime(&st);
@@ -519,7 +519,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 			mir_sntprintf(Result, 256, TranslateT("%d seconds"), ul_Now.LowPart);
 		Result.ReleaseBuffer();
 	}
-	else if (!lstrcmp(ai->targv[0], VAR_PREDEFINEDMESSAGE)) {
+	else if (!mir_tstrcmp(ai->targv[0], VAR_PREDEFINEDMESSAGE)) {
 		ai->flags = 0; // reset AIF_DONTPARSE flag
 		if (ai->argc != 2)
 			return NULL;
@@ -537,7 +537,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		if (Result == NULL) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}
-	else if (!lstrcmp(ai->targv[0], VAR_PROTOCOL)) {
+	else if (!mir_tstrcmp(ai->targv[0], VAR_PROTOCOL)) {
 		if (VarParseData.szProto) {
 			CString AnsiResult;
 			CallProtoService(VarParseData.szProto, PS_GETNAME, 256, (LPARAM)AnsiResult.GetBuffer(256));

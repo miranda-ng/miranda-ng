@@ -120,9 +120,9 @@ bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 
 bool CJabberProto::FilterXml(HXML node, DWORD flags)
 {
-	if (!m_filterInfo.msg && !lstrcmp(xmlGetName(node), _T("message"))) return false;
-	if (!m_filterInfo.presence && !lstrcmp(xmlGetName(node), _T("presence"))) return false;
-	if (!m_filterInfo.iq && !lstrcmp(xmlGetName(node), _T("iq"))) return false;
+	if (!m_filterInfo.msg && !mir_tstrcmp(xmlGetName(node), _T("message"))) return false;
+	if (!m_filterInfo.presence && !mir_tstrcmp(xmlGetName(node), _T("presence"))) return false;
+	if (!m_filterInfo.iq && !mir_tstrcmp(xmlGetName(node), _T("iq"))) return false;
 	if (m_filterInfo.type == TFilterInfo::T_OFF) return true;
 
 	mir_cslock lck(m_filterInfo.csPatternLock);

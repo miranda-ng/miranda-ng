@@ -270,7 +270,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					int i;
 					for (i = 0; i < count; i++) {
 						TCHAR *id = (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)i, 0);
-						if (lstrcmp(id, tmp) == 0)
+						if (mir_tstrcmp(id, tmp) == 0)
 							break;
 					}
 					if (i < count)

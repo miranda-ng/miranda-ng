@@ -89,7 +89,7 @@ y_filetransfer* find_ft(const char *ft_token, const char *who)
 	
 	for(l = file_transfers; l; l = y_list_next(l)) {
 		f = (y_filetransfer* )l->data;
-		if (lstrcmpA(f->ftoken, ft_token) == 0 && lstrcmpA(f->who, who) == 0) {
+		if (mir_strcmp(f->ftoken, ft_token) == 0 && mir_strcmp(f->who, who) == 0) {
 			LOG(("[find_ft] Got it!"));
 			return f;
 		}

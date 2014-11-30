@@ -444,7 +444,7 @@ void importSettings(MCONTACT hContact, char *importstring )
 
 				// get the type
 				type = *(end+1);
-				if (lstrcmp(module, "CList") == 0 && lstrcmp(setting, "Group") == 0)
+				if (mir_tstrcmp(module, "CList") == 0 && mir_tstrcmp(setting, "Group") == 0)
 				{
 					WCHAR* GroupName = mir_a2u(end+2);
 					if (!GroupName)
@@ -649,7 +649,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 	HANDLE hFile, hMap;
 	PBYTE pFile = NULL;
 	DWORD offset = 0;
-	if (lstrcmp(FilePath, "") == 0)
+	if (mir_tstrcmp(FilePath, "") == 0)
 		offset = Openfile2Import(szFileNames);
 	else
 	{
@@ -659,7 +659,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 			mir_tstrcpy(szFileNames, "");
 	}
 
-	if (!lstrcmp(szFileNames, "") == 0)
+	if (!mir_tstrcmp(szFileNames, "") == 0)
 	{
 		if ((DWORD)mir_strlen(szFileNames) < offset)
 		{
@@ -698,7 +698,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 				break;
 
 		}
-		if (lstrcmp(FilePath, "") == 0)
+		if (mir_tstrcmp(FilePath, "") == 0)
 			refreshTree(1);
 	}
 }

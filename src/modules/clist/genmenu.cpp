@@ -51,7 +51,7 @@ static void DumpMenuItem(TMO_IntMenuItem* pParent, int level = 0)
 
 static int CompareMenus(const TIntMenuObject* p1, const TIntMenuObject* p2)
 {
-	return lstrcmpA(p1->pszName, p2->pszName);
+	return mir_strcmp(p1->pszName, p2->pszName);
 }
 
 LIST<TIntMenuObject> g_menus(10, CompareMenus);
@@ -249,7 +249,7 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM lParam)
 
 	TIntMenuObject* pmo = g_menus[objidx];
 	for (PMO_IntMenuItem p = pmo->m_items.first; p != NULL; p = p->next)
-		if (!lstrcmpA(p->UniqName, szProto))
+		if (!mir_strcmp(p->UniqName, szProto))
 			return (INT_PTR)p;
 
 	return NULL;

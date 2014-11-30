@@ -148,7 +148,7 @@ HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL 
 	shortPt.y = pt.y;
 	hwnd = WindowFromPoint(shortPt);
 	GetClassName(hwnd, szWindowClass, SIZEOF(szWindowClass));
-	if (!lstrcmp(szWindowClass, _T(CLISTCONTROL_CLASS))) {
+	if (!mir_tstrcmp(szWindowClass, _T(CLISTCONTROL_CLASS))) {
 		struct ClcData *dat;
 		hwndCurrentDrag = hwnd;
 		dat = (struct ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
@@ -188,7 +188,7 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR *szFil
 		mir_tstrcat(szPath, _T("\\*"));
 		if (hFind = FindFirstFile(szPath, &fd)) {
 			do {
-				if (!lstrcmp(fd.cFileName, _T(".")) || !lstrcmp(fd.cFileName, _T("..")))
+				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T("..")))
 					continue;
 				mir_tstrcpy(szPath, szFilename);
 				mir_tstrcat(szPath, _T("\\"));

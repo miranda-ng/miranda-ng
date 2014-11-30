@@ -147,17 +147,17 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 		switch(sortCol)
 		{
 		case COLUMNID_PROTO:
-			return lstrcmpA(lsr1->szProto, lsr2->szProto)*sortMultiplier;
+			return mir_strcmp(lsr1->szProto, lsr2->szProto)*sortMultiplier;
 		case COLUMNID_HANDLE:
-			return lstrcmpi(lsr1->psr.id, lsr2->psr.id)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.id, lsr2->psr.id)*sortMultiplier;
 		case COLUMNID_NICK:
-			return lstrcmpi(lsr1->psr.nick, lsr2->psr.nick)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.nick, lsr2->psr.nick)*sortMultiplier;
 		case COLUMNID_FIRST:
-			return lstrcmpi(lsr1->psr.firstName, lsr2->psr.firstName)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.firstName, lsr2->psr.firstName)*sortMultiplier;
 		case COLUMNID_LAST:
-			return lstrcmpi(lsr1->psr.lastName, lsr2->psr.lastName)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.lastName, lsr2->psr.lastName)*sortMultiplier;
 		case COLUMNID_EMAIL:
-			return lstrcmpi(lsr1->psr.email, lsr2->psr.email)*sortMultiplier;
+			return mir_tstrcmpi(lsr1->psr.email, lsr2->psr.email)*sortMultiplier;
 		}
 	}
 	else

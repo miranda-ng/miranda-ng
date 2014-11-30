@@ -75,7 +75,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		{
 			if((lpcle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, hContact, indx)) == NULL)
 				break;
-			if(lstrcmp(lpcle->pszService, SERVICE_NAME "/FERecvFile") == 0)
+			if(mir_tstrcmp(lpcle->pszService, SERVICE_NAME "/FERecvFile") == 0)
 			{
 				lpcle->lParam = (LPARAM)hWnd;
 				break;

@@ -289,7 +289,7 @@ MCONTACT CYahooProto::getbuddyH(const char *yahoo_id)
 		if (getString(hContact, YAHOO_LOGINID, &dbv))
 			continue;
 
-		int tCompareResult = lstrcmpiA( dbv.pszVal, yahoo_id );
+		int tCompareResult = mir_strcmpi( dbv.pszVal, yahoo_id );
 		db_free(&dbv);
 		if ( tCompareResult )
 			continue;
@@ -609,7 +609,7 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 
 		for(s = stealth; s && *s; s++) {
 
-			if (lstrcmpiA(*s, dbv.pszVal) == 0) {
+			if (mir_strcmpi(*s, dbv.pszVal) == 0) {
 				debugLogA("GOT id = %s", dbv.pszVal);
 				found = 1;
 				break;
@@ -1240,9 +1240,9 @@ INT_PTR CYahooProto::ext_connect(const char *h, int p, int type)
 void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const char *method, const char *url, 
 		const char *cookies, long content_length, yahoo_get_fd_callback callback, void *callback_data)
 {
-/*	if (lstrcmpiA(method, "GET") == 0) 
+/*	if (mir_strcmpi(method, "GET") == 0) 
 		yahoo_http_get(id, url, cookies, callback, callback_data);
-	else if (lstrcmpiA(method, "POST") == 0) 
+	else if (mir_strcmpi(method, "POST") == 0) 
 		yahoo_http_post(id, url, cookies, content_length, callback, callback_data);
 	else 
 		LOG(("ERROR: Unknown method: %s", method));
@@ -1269,7 +1269,7 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
 		//return;
 	} else {
 		nlhr.cbSize=sizeof(nlhr);
-		nlhr.requestType=(lstrcmpiA(method, "GET") == 0) ? REQUEST_GET : REQUEST_POST;
+		nlhr.requestType=(mir_strcmpi(method, "GET") == 0) ? REQUEST_GET : REQUEST_POST;
 		nlhr.flags=NLHRF_DUMPASTEXT|NLHRF_HTTP11;
 		nlhr.szUrl=(char *)path;
 		nlhr.headers = httpHeaders;
@@ -1471,7 +1471,7 @@ char * CYahooProto::ext_send_https_request(struct yahoo_data *yd, const char *ho
 		for (i=0; i < nlhrReply->headersCount; i++) {
 			//LOG(("%s: %s", nlhrReply->headers[i].szName, nlhrReply->headers[i].szValue));
 			
-			if (lstrcmpiA(nlhrReply->headers[i].szName, "Set-Cookie") == 0) {
+			if (mir_strcmpi(nlhrReply->headers[i].szName, "Set-Cookie") == 0) {
 				//LOG(("Found Cookie... Yum yum..."));
 				
 				if (nlhrReply->headers[i].szValue[0] == 'B' && nlhrReply->headers[i].szValue[1] == '=') {

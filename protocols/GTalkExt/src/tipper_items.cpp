@@ -82,7 +82,7 @@ void SetLabelProp(int index, LPSTR setting)
 	if (tszLastWritten == NULL)
 		return;
 
-	if ( !lstrcmp(tszProp, tszLastWritten)) {
+	if ( !mir_tstrcmp(tszProp, tszLastWritten)) {
 		LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
 		db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
 		db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, label);
@@ -105,7 +105,7 @@ void AddTipperItem()
 		mir_snprintf(setting, l, VALUE_SETTING_PROP, i);
 		ptrT tszSetting( db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
 		if (tszSetting) {
-			if ( !lstrcmp(UNREAD_THREADS_RAW, tszSetting)) {
+			if ( !mir_tstrcmp(UNREAD_THREADS_RAW, tszSetting)) {
 				SetLabelProp(i, setting);
 				return;
 			}

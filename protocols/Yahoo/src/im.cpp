@@ -212,7 +212,7 @@ int __cdecl CYahooProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 	db_unset(hContact, "CList", "Hidden");
 
 	// NUDGES
-	if (!lstrcmpA(pre->szMessage, "<ding>") && ServiceExists("NUDGE/Send")) {
+	if (!mir_strcmp(pre->szMessage, "<ding>") && ServiceExists("NUDGE/Send")) {
 		debugLogA("[YahooRecvMessage] Doing Nudge Service!");
 		NotifyEventHooks(hYahooNudge, hContact, pre->timestamp);
 		return 0;

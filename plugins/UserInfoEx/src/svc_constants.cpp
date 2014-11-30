@@ -254,7 +254,7 @@ static UINT MyCountriesCount = 0;
 
 static int __cdecl ListSortProc(const LPIDSTRLIST p1, const LPIDSTRLIST p2)
 {
-	return lstrcmpi(p1->ptszTranslated, p2->ptszTranslated);
+	return mir_tstrcmpi(p1->ptszTranslated, p2->ptszTranslated);
 }
 
 /**

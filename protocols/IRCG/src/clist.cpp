@@ -182,24 +182,24 @@ MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 		if (DBWildcard)
 			CharLower(DBWildcard);
 		if (IsChannel(user->name)) {
-			if (DBDefault && !lstrcmpi(DBDefault, user->name))
+			if (DBDefault && !mir_tstrcmpi(DBDefault, user->name))
 				hContact_temp = (MCONTACT)-1;
 		}
-		else if (user->ExactNick && DBNick && !lstrcmpi(DBNick, user->name))
+		else if (user->ExactNick && DBNick && !mir_tstrcmpi(DBNick, user->name))
 			hContact_temp = hContact;
 
-		else if (user->ExactOnly && DBDefault && !lstrcmpi(DBDefault, user->name))
+		else if (user->ExactOnly && DBDefault && !mir_tstrcmpi(DBDefault, user->name))
 			hContact_temp = hContact;
 
 		else if (user->ExactWCOnly) {
-			if (DBWildcard && !lstrcmpi(DBWildcard, lowercasename)
-				|| (DBWildcard && !lstrcmpi(DBNick, lowercasename) && !WCCmp(DBWildcard, lowercasename))
-				|| (!DBWildcard && !lstrcmpi(DBNick, lowercasename))) {
+			if (DBWildcard && !mir_tstrcmpi(DBWildcard, lowercasename)
+				|| (DBWildcard && !mir_tstrcmpi(DBNick, lowercasename) && !WCCmp(DBWildcard, lowercasename))
+				|| (!DBWildcard && !mir_tstrcmpi(DBNick, lowercasename))) {
 				hContact_temp = hContact;
 			}
 		}
 		else if (_tcschr(user->name, ' ') == 0) {
-			if ((DBDefault && !lstrcmpi(DBDefault, user->name) || DBNick && !lstrcmpi(DBNick, user->name) ||
+			if ((DBDefault && !mir_tstrcmpi(DBDefault, user->name) || DBNick && !mir_tstrcmpi(DBNick, user->name) ||
 				DBWildcard && WCCmp(DBWildcard, lowercasename))
 				&& (WCCmp(DBUser, user->user) && WCCmp(DBHost, user->host))) {
 				hContact_temp = hContact;

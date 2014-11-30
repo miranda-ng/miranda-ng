@@ -1341,7 +1341,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
 	{
 		GetItem(&tvi);
 
-		if (!lstrcmp(tvi.pszText, name))
+		if (!mir_tstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = GetNextSibling(tvi.hItem);

@@ -121,7 +121,7 @@ static int ModernOptionsObject_Comparator(const ModernOptionsObject *ptr1, const
 
 	if (obj1->optObject.lptzSubsection && obj2->optObject.lptzSubsection)
 	{
-		int c = lstrcmp(obj1->optObject.lptzSubsection, obj2->optObject.lptzSubsection);
+		int c = mir_tstrcmp(obj1->optObject.lptzSubsection, obj2->optObject.lptzSubsection);
 		if (c) return c;
 	}
 
@@ -378,7 +378,7 @@ static int lstrcmp_null(TCHAR *p1, TCHAR *p2)
 	if (!p1 && !p2) return 0;
 	if (!p1) return -1;
 	if (!p2) return 1;
-	return lstrcmp(p1, p2);
+	return mir_tstrcmp(p1, p2);
 }
 
 static void ModernOptUI_ShowPage(HWND hwndDlg, struct ModernOptionsData *dat, int iPage)

@@ -312,7 +312,7 @@ static INT_PTR GetCountryByNumber(WPARAM wParam, LPARAM)
 static INT_PTR GetCountryByISOCode(WPARAM wParam, LPARAM)
 {
 	for (int i = 0; i < SIZEOF(countries); i++)
-		if ( lstrcmpiA((char*)wParam, countries[i].ISOcode) == 0)
+		if ( mir_strcmpi((char*)wParam, countries[i].ISOcode) == 0)
 			return (INT_PTR)countries[i].szName;
 
 	return NULL;

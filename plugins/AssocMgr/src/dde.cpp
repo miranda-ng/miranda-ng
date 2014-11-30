@@ -120,9 +120,9 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 						if(pszArg!=NULL) {
 							/* we are inside miranda here, we make it async so the shell does
 							 * not timeout regardless what the plugins try to do. */
-							if (!lstrcmpi(pszAction,_T("file")))
+							if (!mir_tstrcmpi(pszAction,_T("file")))
 								CallFunctionAsync(FileActionAsync,pszArg);
-							else if (!lstrcmpi(pszAction,_T("url")))
+							else if (!mir_tstrcmpi(pszAction,_T("url")))
 								CallFunctionAsync(UrlActionAsync,pszArg);
 						}
 						GlobalUnlock(hCommand);

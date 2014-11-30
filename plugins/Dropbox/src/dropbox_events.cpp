@@ -58,7 +58,7 @@ int CDropbox::OnContactDeleted(void *obj, WPARAM hContact, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
-	if (lstrcmpiA(GetContactProto(hContact), MODULE) == 0)
+	if (mir_strcmpi(GetContactProto(hContact), MODULE) == 0)
 	{
 		if (instance->HasAccessToken())
 			instance->DestroyAcceessToken();

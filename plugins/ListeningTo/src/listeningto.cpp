@@ -174,7 +174,7 @@ struct compareFunc : std::binary_function<const ProtocolInfo, const ProtocolInfo
 {
 	bool operator()(const ProtocolInfo &one, const ProtocolInfo &two) const
 	{
-		return lstrcmp(one.account, two.account) < 0;
+		return mir_tstrcmp(one.account, two.account) < 0;
 	}
 };
 

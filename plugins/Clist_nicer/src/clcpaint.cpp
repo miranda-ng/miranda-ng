@@ -165,7 +165,7 @@ static int __fastcall GetRealStatus(ClcContact *contact, int status)
 		return status;
 
 	for (int i = 0; i < pcli->hClcProtoCount; i++)
-		if ( !lstrcmpA(pcli->clcProto[i].szProto, szProto))
+		if ( !mir_strcmp(pcli->clcProto[i].szProto, szProto))
 			return pcli->clcProto[i].dwStatus;
 
 	return status;

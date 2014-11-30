@@ -172,7 +172,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 					gci.pszModule = m_szModuleName;
 					gci.iItem = j;
 					if (!CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci)) {
-						if (lstrcmpi(gci.pszID, SERVERWINDOW)) {
+						if (mir_tstrcmpi(gci.pszID, SERVERWINDOW)) {
 							CMString S1 = gci.pszID;
 							int k = S1.Find(_T(" "));
 							if (k != -1)

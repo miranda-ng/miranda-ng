@@ -93,7 +93,7 @@ HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHA
 	{
 		TreeView_GetItem(hwndTree, &tvi);
 
-		if (!lstrcmp(tvi.pszText, name))
+		if (!mir_tstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -368,7 +368,7 @@ DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int op
 	for (i = 0; i < optionCount; ++i)
 	{
 		if ((!options[i].szSettingName && !szSettingName) ||
-			(options[i].szSettingName && szSettingName && !lstrcmpA(options[i].szSettingName, szSettingName)))
+			(options[i].szSettingName && szSettingName && !mir_strcmp(options[i].szSettingName, szSettingName)))
 		{
 			TVITEM tvi;
 			tvi.mask = TVIF_HANDLE|TVIF_IMAGE;
@@ -390,7 +390,7 @@ void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int opt
 	for (i = 0; i < optionCount; ++i)
 	{
 		if ((!options[i].szSettingName && !szSettingName) ||
-			(options[i].szSettingName && szSettingName && !lstrcmpA(options[i].szSettingName, szSettingName)))
+			(options[i].szSettingName && szSettingName && !mir_strcmp(options[i].szSettingName, szSettingName)))
 		{
 			TVITEM tvi;
 			tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;

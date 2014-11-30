@@ -684,7 +684,7 @@ int GetClosestLanguage(TCHAR *lang_name)
 
 	// Search the language by name
 	for (i = 0; i < languages.getCount(); i++)
-		if (lstrcmpi(languages[i]->language, lang_name) == 0)
+		if (mir_tstrcmpi(languages[i]->language, lang_name) == 0)
 			return i;
 
 	// Try searching by the prefix only
@@ -697,7 +697,7 @@ int GetClosestLanguage(TCHAR *lang_name)
 
 	// First check if there is a language that is only the prefix
 	for (i = 0; i < languages.getCount(); i++)
-		if (lstrcmpi(languages[i]->language, lang) == 0)
+		if (mir_tstrcmpi(languages[i]->language, lang) == 0)
 			return i;
 
 	// Now try any suffix
@@ -744,9 +744,9 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 
 		for (int i = 0; i < languages.getCount(); i++) {
 			Dictionary *dict = languages[i];
-			if (lstrcmpi(dict->localized_name, lang) == 0
-				 || lstrcmpi(dict->english_name, lang) == 0
-				 || lstrcmpi(dict->language, lang) == 0) {
+			if (mir_tstrcmpi(dict->localized_name, lang) == 0
+				 || mir_tstrcmpi(dict->english_name, lang) == 0
+				 || mir_tstrcmpi(dict->language, lang) == 0) {
 				mir_tstrncpy(dlg->lang_name, dict->language, SIZEOF(dlg->lang_name));
 				break;
 			}

@@ -69,7 +69,7 @@ HICON LoadIconEx(const char* name)
 HANDLE GetIconHandle(const char* name)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
-		if (lstrcmpA(iconList[i].szName, name) == 0)
+		if (mir_strcmp(iconList[i].szName, name) == 0)
 			return hIconLibItem[i];
 
 	return NULL;

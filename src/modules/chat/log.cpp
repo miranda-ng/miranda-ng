@@ -386,7 +386,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 				mir_tstrncpy(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
 				mir_tstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
-				if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
+				if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
 				}

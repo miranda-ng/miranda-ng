@@ -154,7 +154,7 @@ static BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hwnd, LPARAM lParam)
 	TCHAR szClass[64];
 	GetClassName(hwnd, szClass, SIZEOF(szClass));
 
-	if (!lstrcmp(szClass, _T("Button")) && (GetWindowLongPtr(hwnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
+	if (!mir_tstrcmp(szClass, _T("Button")) && (GetWindowLongPtr(hwnd, GWL_STYLE) & 0x0F) == BS_GROUPBOX)
 		SendMessage(hwnd, WM_SETFONT, lParam, 0);
 	return TRUE;
 }
@@ -198,7 +198,7 @@ static int lstrcmpnull(TCHAR *str1, TCHAR *str2)
 	if (str1 == NULL && str2 != NULL)
 		return -1;
 
-	return lstrcmp(str1, str2);
+	return mir_tstrcmp(str1, str2);
 }
 
 static TCHAR* GetPluginName(HINSTANCE hInstance, TCHAR *buffer, int size)
@@ -688,7 +688,7 @@ static BOOL IsInsideTab(HWND hdlg, OptionsDlgData *dat, int i)
 		for (int j = 0; j < dat->arOpd.getCount() && pages < 2; j++) {
 			OptionsPageData* opd2 = dat->arOpd[j];
 			if (!CheckPageShow(hdlg, dat, j)) continue;
-			if (lstrcmp(opd2->ptszTitle, opd->ptszTitle) || lstrcmpnull(opd2->ptszGroup, opd->ptszGroup))
+			if (mir_tstrcmp(opd2->ptszTitle, opd->ptszTitle) || lstrcmpnull(opd2->ptszGroup, opd->ptszGroup))
 				continue;
 			pages++;
 		}
@@ -873,7 +873,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				}
 				dat->arOpd.insert(opd);
 
-				if (!lstrcmp(lastPage, odp->ptszTitle) && !lstrcmpnull(lastGroup, odp->ptszGroup))
+				if (!mir_tstrcmp(lastPage, odp->ptszTitle) && !lstrcmpnull(lastGroup, odp->ptszGroup))
 					if ((ood->pszTab == NULL && dat->currentPage == -1) || !lstrcmpnull(lastTab, odp->ptszTab))
 						dat->currentPage = (int)i;
 			}
@@ -1029,13 +1029,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								continue;
 
 							OptionsPageData *p = dat->arOpd[i];
-							if (lstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
+							if (mir_tstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
 								continue;
 
 							tie.pszText = TranslateTH(p->hLangpack, p->ptszTab);
 							tie.lParam = i;
 							TabCtrl_InsertItem(hwndTab, pages, &tie);
-							if (!lstrcmp(opd->ptszTab, p->ptszTab))
+							if (!mir_tstrcmp(opd->ptszTab, p->ptszTab))
 								sel = pages;
 							pages++;
 						}

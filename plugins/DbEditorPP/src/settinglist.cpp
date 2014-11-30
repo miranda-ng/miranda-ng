@@ -1005,7 +1005,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd her
 	///////////////////////// convert to submenu
 	case MENU_VIEWDECRYPT:
 		if (!db_get(hContact, module, setting, &dbv) && dbv.type == DBVT_ASCIIZ) {
-			if (lstrcmpA(setting, "LoginPassword"))
+			if (mir_strcmp(setting, "LoginPassword"))
 				msg(dbv.pszVal, Translate("Decoded string.."));
 			else {
 				char *str = mir_strdup(dbv.pszVal);

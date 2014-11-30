@@ -199,7 +199,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 	HWND hwndClist = GetFocus();
 	TCHAR cls[128];
 	GetClassName(hwndClist, cls, SIZEOF(cls));
-	if (lstrcmp(_T(CLISTCONTROL_CLASS), cls))
+	if (mir_tstrcmp(_T(CLISTCONTROL_CLASS), cls))
 		hwndClist = pcli->hwndContactList;
 
 	MCONTACT hItem = (MCONTACT)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);

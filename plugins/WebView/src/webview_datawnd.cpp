@@ -132,7 +132,7 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 		ptrT db1( db_get_tsa(hContact, MODULENAME, URL_KEY));
 		ptrT db2( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 
-		if (!lstrcmp(urltext, db1) && !lstrcmp(titlebartxt, db2)) {
+		if (!mir_tstrcmp(urltext, db1) && !mir_tstrcmp(titlebartxt, db2)) {
 			contactcount++;
 			if (contactcount > 1) {
 				MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);

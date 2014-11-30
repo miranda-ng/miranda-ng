@@ -996,7 +996,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			while (hItem = CList->GetNextItem(MCLGN_NEXT | MCLGN_CONTACT | MCLGN_INFO | MCLGN_MULTILEVEL, hItem)) {
 				if (CList->GetItemType(hItem) == MCLCIT_INFO) {
 					char *szProto = (char*)CList->GetItemParam(hItem);
-					if (!wParam || !lstrcmpA(szProto, (char*)wParam)) {
+					if (!wParam || !mir_strcmp(szProto, (char*)wParam)) {
 						CList->SetInfoIcon(hItem, LoadSkinnedProtoIcon(szProto, g_ProtoStates[szProto].Status));
 					}
 				}

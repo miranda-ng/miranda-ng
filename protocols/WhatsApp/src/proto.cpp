@@ -209,9 +209,9 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 
 	// Status = fail
 	JSONNODE *val = json_get(resp, "status");
-	if (!lstrcmp(ptrT(json_as_string(val)), _T("fail"))) {
+	if (!mir_tstrcmp(ptrT(json_as_string(val)), _T("fail"))) {
 		JSONNODE *tmpVal = json_get(resp, "reason");
-		if (!lstrcmp(ptrT(json_as_string(tmpVal)), _T("stale")))
+		if (!mir_tstrcmp(ptrT(json_as_string(tmpVal)), _T("stale")))
 			this->NotifyEvent(ptszTitle, TranslateT("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
 		else
 			this->NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
@@ -229,7 +229,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 		val = json_get(resp, "pw");
 		if (val != NULL)
 			ret = _T2A(ptrT(json_as_string(val)));
-		else if (!lstrcmp(ptrT(json_as_string(val)), _T("sent")))
+		else if (!mir_tstrcmp(ptrT(json_as_string(val)), _T("sent")))
 			this->NotifyEvent(ptszTitle, TranslateT("Registration code has been sent to your phone."), NULL, WHATSAPP_EVENT_OTHER);
 		return true;
 	}

@@ -258,11 +258,11 @@ public:
 	}
 	__forceinline bool operator== (TCHAR *str)
 	{
-		return !lstrcmp((LPCTSTR)*this, str);
+		return !mir_tstrcmp((LPCTSTR)*this, str);
 	}
 	__forceinline bool operator!= (TCHAR *str)
 	{
-		return lstrcmp((LPCTSTR)*this, str) ? true : false;
+		return mir_tstrcmp((LPCTSTR)*this, str) ? true : false;
 	}
 	HXML operator[] (int idx)
 	{

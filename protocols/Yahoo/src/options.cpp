@@ -102,7 +102,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				reconnectRequired = true;
 			}
 			else {
-				if(lstrcmpA(str, dbv.pszVal))
+				if(mir_strcmp(str, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}
@@ -113,7 +113,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				reconnectRequired = true;
 			}
 			else {
-				if(lstrcmpA(str, dbv.pszVal))
+				if(mir_strcmp(str, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}
@@ -220,7 +220,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 				reconnectRequired = true;
 			}
 			else {
-				if(lstrcmpA(str, dbv.pszVal))
+				if(mir_strcmp(str, dbv.pszVal))
 					reconnectRequired = true;
 				db_free(&dbv);
 			}

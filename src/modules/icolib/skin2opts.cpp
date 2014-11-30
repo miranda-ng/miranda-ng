@@ -354,7 +354,7 @@ static HTREEITEM FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR
 	{
 		TreeView_GetItem(hwndTree, &tvi);
 
-		if (!lstrcmp(tvi.pszText, name))
+		if (!mir_tstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -611,7 +611,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 static int CALLBACK DoSortIconsFunc(LPARAM lParam1, LPARAM lParam2, LPARAM)
 {
-	return lstrcmpi(iconList[lParam1]->getDescr(), iconList[lParam2]->getDescr());
+	return mir_tstrcmpi(iconList[lParam1]->getDescr(), iconList[lParam2]->getDescr());
 }
 
 static int CALLBACK DoSortIconsFuncByOrder(LPARAM lParam1, LPARAM lParam2, LPARAM)

@@ -35,17 +35,17 @@ TCHAR* CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 		if (hXml != NULL) {
 			int childcount = 0;
 			HXML node;
-			if (!lstrcmpi(xi.getName(hXml), _T("xml")))
+			if (!mir_tstrcmpi(xi.getName(hXml), _T("xml")))
 				node = xi.getChild(hXml, childcount);
 			else
 				node = hXml;
 			while (node) {
 				LPCTSTR szNodeName = xi.getName(node);
-				if (!lstrcmpi(szNodeName, _T("rss")) || !lstrcmpi(szNodeName, _T("rdf"))) {
+				if (!mir_tstrcmpi(szNodeName, _T("rss")) || !mir_tstrcmpi(szNodeName, _T("rdf"))) {
 					HXML chan = xi.getChild(node, 0);
 					for (int j = 0; j < xi.getChildCount(chan); j++) {
 						HXML child = xi.getChild(chan, j);
-						if (!lstrcmpi(xi.getName(child), _T("title"))) {
+						if (!mir_tstrcmpi(xi.getName(child), _T("title"))) {
 							TCHAR mes[MAX_PATH];
 							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
@@ -54,10 +54,10 @@ TCHAR* CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 						}
 					}
 				}
-				else if (!lstrcmpi(szNodeName, _T("feed"))) {
+				else if (!mir_tstrcmpi(szNodeName, _T("feed"))) {
 					for (int j = 0; j < xi.getChildCount(node); j++) {
 						HXML child = xi.getChild(node, j);
-						if (!lstrcmpi(xi.getName(child), _T("title"))) {
+						if (!mir_tstrcmpi(xi.getName(child), _T("title"))) {
 							TCHAR mes[MAX_PATH];
 							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
@@ -140,7 +140,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		if (olddbei.timestamp < (DWORD)stamp)
 			break;
 
-		if (strlen((char*)olddbei.pBlob) == cbOrigLen && !lstrcmpA((char*)olddbei.pBlob, pszTemp)) {
+		if (strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
 			MesExist = true;
 			break;
 		}
@@ -186,18 +186,18 @@ void CheckCurrentFeed(MCONTACT hContact)
 		if (hXml != NULL) {
 			int childcount = 0;
 			HXML node;
-			if (!lstrcmpi(xi.getName(hXml), _T("xml")))
+			if (!mir_tstrcmpi(xi.getName(hXml), _T("xml")))
 				node = xi.getChild(hXml, childcount);
 			else
 				node = hXml;
 			while (node) {
 				LPCTSTR szNodeName = xi.getName(node);
-				bool isRSS = !lstrcmpi(szNodeName, _T("rss")), isAtom = !lstrcmpi(szNodeName, _T("rdf"));
+				bool isRSS = !mir_tstrcmpi(szNodeName, _T("rss")), isAtom = !mir_tstrcmpi(szNodeName, _T("rdf"));
 				if (isRSS || isAtom) {
 					if (isRSS) {
 						for (int i = 0; i < xi.getAttrCount(node); i++) {
 							LPCTSTR szAttrName = xi.getAttrName(node, i);
-							if (!lstrcmpi(szAttrName, _T("version"))) {
+							if (!mir_tstrcmpi(szAttrName, _T("version"))) {
 								TCHAR ver[MAX_PATH];
 								mir_sntprintf(ver, SIZEOF(ver), _T("RSS %s"), xi.getAttrValue(node, szAttrName));
 								db_set_ts(hContact, MODULE, "MirVer", ver);
@@ -212,17 +212,17 @@ void CheckCurrentFeed(MCONTACT hContact)
 					for (int j = 0; j < xi.getChildCount(chan); j++) {
 						HXML child = xi.getChild(chan, j);
 						LPCTSTR childName = xi.getName(child);
-						if (!lstrcmpi(childName, _T("title"))) {
+						if (!mir_tstrcmpi(childName, _T("title"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "FirstName", ClearText(szValue, szChildText));
 						}
-						else if (!lstrcmpi(childName, _T("link"))) {
+						else if (!mir_tstrcmpi(childName, _T("link"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "Homepage", ClearText(szValue, szChildText));
 						}
-						else if (!lstrcmpi(childName, _T("description"))) {
+						else if (!mir_tstrcmpi(childName, _T("description"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText) {
 								ClearText(szValue, szChildText);
@@ -230,30 +230,30 @@ void CheckCurrentFeed(MCONTACT hContact)
 								db_set_ts(hContact, "CList", "StatusMsg", szValue);
 							}
 						}
-						else if (!lstrcmpi(childName, _T("language"))) {
+						else if (!mir_tstrcmpi(childName, _T("language"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "Language1", ClearText(szValue, szChildText));
 						}
-						else if (!lstrcmpi(childName, _T("managingEditor"))) {
+						else if (!mir_tstrcmpi(childName, _T("managingEditor"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "e-mail", ClearText(szValue, szChildText));
 						}
-						else if (!lstrcmpi(childName, _T("category"))) {
+						else if (!mir_tstrcmpi(childName, _T("category"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "Interest0Text", ClearText(szValue, szChildText));
 						}
-						else if (!lstrcmpi(childName, _T("copyright"))) {
+						else if (!mir_tstrcmpi(childName, _T("copyright"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_s(hContact, "UserInfo", "MyNotes", _T2A(ClearText(szValue, szChildText)));
 						}
-						else if (!lstrcmpi(childName, _T("image"))) {
+						else if (!mir_tstrcmpi(childName, _T("image"))) {
 							for (int x = 0; x < xi.getChildCount(child); x++) {
 								HXML imageval = xi.getChild(child, x);
-								if (!lstrcmpi(xi.getName(imageval), _T("url"))) {
+								if (!mir_tstrcmpi(xi.getName(imageval), _T("url"))) {
 									LPCTSTR url = xi.getText(imageval);
 									db_set_ts(hContact, MODULE, "ImageURL", url);
 
@@ -281,7 +281,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								}
 							}
 						}
-						else if (!lstrcmpi(childName, _T("lastBuildDate"))) {
+						else if (!mir_tstrcmpi(childName, _T("lastBuildDate"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText) {
 								TCHAR *lastupdtime = (TCHAR *)xi.getText(child);
@@ -295,36 +295,36 @@ void CheckCurrentFeed(MCONTACT hContact)
 								}
 							}
 						}
-						else if (!lstrcmpi(childName, _T("item"))) {
+						else if (!mir_tstrcmpi(childName, _T("item"))) {
 							CMString title, link, descr, author, comments, guid, category;
 							time_t stamp = 0;
 							for (int z = 0; z < xi.getChildCount(child); z++) {
 								HXML itemval = xi.getChild(child, z);
 								LPCTSTR itemName = xi.getName(itemval);
 								// We only use the first tag for now and ignore the rest.
-								if (!lstrcmpi(itemName, _T("title")))
+								if (!mir_tstrcmpi(itemName, _T("title")))
 									ClearText(title, xi.getText(itemval));
 
-								else if (!lstrcmpi(itemName, _T("link")))
+								else if (!mir_tstrcmpi(itemName, _T("link")))
 									ClearText(link, xi.getText(itemval));
 
-								else if (!lstrcmpi(itemName, _T("pubDate")) || !lstrcmpi(itemName, _T("date"))) {
+								else if (!mir_tstrcmpi(itemName, _T("pubDate")) || !mir_tstrcmpi(itemName, _T("date"))) {
 									if (stamp == 0)
 										stamp = DateToUnixTime(xi.getText(itemval), 0);
 								}
-								else if (!lstrcmpi(itemName, _T("description")) || !lstrcmpi(itemName, _T("encoded")))
+								else if (!mir_tstrcmpi(itemName, _T("description")) || !mir_tstrcmpi(itemName, _T("encoded")))
 									ClearText(descr, xi.getText(itemval));
 
-								else if (!lstrcmpi(itemName, _T("author")) || !lstrcmpi(itemName, _T("creator")))
+								else if (!mir_tstrcmpi(itemName, _T("author")) || !mir_tstrcmpi(itemName, _T("creator")))
 									ClearText(author, xi.getText(itemval));
 
-								else if (!lstrcmpi(itemName, _T("comments")))
+								else if (!mir_tstrcmpi(itemName, _T("comments")))
 									ClearText(comments, xi.getText(itemval));
 
-								else if (!lstrcmpi(itemName, _T("guid")))
+								else if (!mir_tstrcmpi(itemName, _T("guid")))
 									ClearText(guid, xi.getText(itemval));
 
-								else if (!lstrcmpi(itemName, _T("category")))
+								else if (!mir_tstrcmpi(itemName, _T("category")))
 									ClearText(category, xi.getText(itemval));
 							}
 
@@ -332,27 +332,27 @@ void CheckCurrentFeed(MCONTACT hContact)
 						}
 					}
 				}
-				else if (!lstrcmpi(szNodeName, _T("feed"))) {
+				else if (!mir_tstrcmpi(szNodeName, _T("feed"))) {
 					db_set_ts(hContact, MODULE, "MirVer", _T("Atom 3"));
 					for (int j = 0; j < xi.getChildCount(node); j++) {
 						HXML child = xi.getChild(node, j);
 						LPCTSTR szChildName = xi.getName(child);
-						if (!lstrcmpi(szChildName, _T("title"))) {
+						if (!mir_tstrcmpi(szChildName, _T("title"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "FirstName", ClearText(szValue, szChildText));
 						}
-						else if (!lstrcmpi(szChildName, _T("link"))) {
+						else if (!mir_tstrcmpi(szChildName, _T("link"))) {
 							for (int x = 0; x < xi.getAttrCount(child); x++) {
-								if (!lstrcmpi(xi.getAttrName(child, x), _T("rel")))
-									if (!lstrcmpi(xi.getAttrValue(child, xi.getAttrName(child, x)), _T("self")))
+								if (!mir_tstrcmpi(xi.getAttrName(child, x), _T("rel")))
+									if (!mir_tstrcmpi(xi.getAttrValue(child, xi.getAttrName(child, x)), _T("self")))
 										break;
 
-								if (!lstrcmpi(xi.getAttrName(child, x), _T("href")))
+								if (!mir_tstrcmpi(xi.getAttrName(child, x), _T("href")))
 									db_set_ts(hContact, MODULE, "Homepage", xi.getAttrValue(child, xi.getAttrName(child, x)));
 							}
 						}
-						else if (!lstrcmpi(szChildName, _T("subtitle"))) {
+						else if (!mir_tstrcmpi(szChildName, _T("subtitle"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText) {
 								ClearText(szValue, szChildText);
@@ -360,29 +360,29 @@ void CheckCurrentFeed(MCONTACT hContact)
 								db_set_ts(hContact, "CList", "StatusMsg", szValue);
 							}
 						}
-						else if (!lstrcmpi(szChildName, _T("language"))) {
+						else if (!mir_tstrcmpi(szChildName, _T("language"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "Language1", ClearText(szValue, szChildText));
 						}
-						else if (!lstrcmpi(szChildName, _T("author"))) {
+						else if (!mir_tstrcmpi(szChildName, _T("author"))) {
 							for (int x = 0; x < xi.getChildCount(child); x++) {
 								HXML authorval = xi.getChild(child, x);
-								if (!lstrcmpi(xi.getName(authorval), _T("email"))) {
+								if (!mir_tstrcmpi(xi.getName(authorval), _T("email"))) {
 									db_set_ts(hContact, MODULE, "e-mail", xi.getText(authorval));
 									break;
 								}
 							}
 						}
-						else if (!lstrcmpi(szChildName, _T("category"))) {
+						else if (!mir_tstrcmpi(szChildName, _T("category"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText)
 								db_set_ts(hContact, MODULE, "Interest0Text", ClearText(szValue, szChildText));
 						}
-						else if (!lstrcmpi(szChildName, _T("icon"))) {
+						else if (!mir_tstrcmpi(szChildName, _T("icon"))) {
 							for (int x = 0; x < xi.getChildCount(child); x++) {
 								HXML imageval = xi.getChild(child, x);
-								if (!lstrcmpi(xi.getName(imageval), _T("url"))) {
+								if (!mir_tstrcmpi(xi.getName(imageval), _T("url"))) {
 									LPCTSTR url = xi.getText(imageval);
 									db_set_ts(hContact, MODULE, "ImageURL", url);
 
@@ -407,7 +407,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								}
 							}
 						}
-						else if (!lstrcmpi(szChildName, _T("updated"))) {
+						else if (!mir_tstrcmpi(szChildName, _T("updated"))) {
 							LPCTSTR szChildText = xi.getText(child);
 							if (szChildText) {
 								TCHAR *lastupdtime = (TCHAR *)szChildText;
@@ -421,57 +421,57 @@ void CheckCurrentFeed(MCONTACT hContact)
 								}
 							}
 						}
-						else if (!lstrcmpi(szChildName, _T("entry"))) {
+						else if (!mir_tstrcmpi(szChildName, _T("entry"))) {
 							CMString title, link, descr, author, comments, guid, category;
 							time_t stamp = 0;
 							for (int z = 0; z < xi.getChildCount(child); z++) {
 								HXML itemval = xi.getChild(child, z);
 								LPCTSTR szItemName = xi.getName(itemval);
-								if (!lstrcmpi(szItemName, _T("title"))) {
+								if (!mir_tstrcmpi(szItemName, _T("title"))) {
 									LPCTSTR szItemText = xi.getText(itemval);
 									if (szItemText)
 										ClearText(title, szItemText);
 								}
-								else if (!lstrcmpi(szItemName, _T("link"))) {
+								else if (!mir_tstrcmpi(szItemName, _T("link"))) {
 									for (int x = 0; x < xi.getAttrCount(itemval); x++) {
-										if (!lstrcmpi(xi.getAttrName(itemval, x), _T("href"))) {
+										if (!mir_tstrcmpi(xi.getAttrName(itemval, x), _T("href"))) {
 											ClearText(link, xi.getAttrValue(itemval, xi.getAttrName(itemval, x)));
 											break;
 										}
 									}
 								}
-								else if (!lstrcmpi(szItemName, _T("updated"))) {
+								else if (!mir_tstrcmpi(szItemName, _T("updated"))) {
 									if (stamp == 0)
 										stamp = DateToUnixTime(xi.getText(itemval), 0);
 								}
-								else if (!lstrcmpi(szItemName, _T("summary")) || !lstrcmpi(szItemName, _T("content"))) {
+								else if (!mir_tstrcmpi(szItemName, _T("summary")) || !mir_tstrcmpi(szItemName, _T("content"))) {
 									LPCTSTR szItemText = xi.getText(itemval);
 									if (szItemText)
 										ClearText(descr, szItemText);
 								}
-								else if (!lstrcmpi(szItemName, _T("author"))) {
+								else if (!mir_tstrcmpi(szItemName, _T("author"))) {
 									for (int x = 0; x < xi.getChildCount(itemval); x++) {
 										HXML authorval = xi.getChild(itemval, x);
-										if (!lstrcmpi(xi.getName(authorval), _T("name")) && xi.getText(authorval)) {
+										if (!mir_tstrcmpi(xi.getName(authorval), _T("name")) && xi.getText(authorval)) {
 											ClearText(author, xi.getText(authorval));
 											break;
 										}
 									}
 								}
-								else if (!lstrcmpi(szItemName, _T("comments"))) {
+								else if (!mir_tstrcmpi(szItemName, _T("comments"))) {
 									LPCTSTR szItemText = xi.getText(itemval);
 									if (szItemText)
 										ClearText(comments, szItemText);
 								}
-								else if (!lstrcmpi(szItemName, _T("id"))) {
+								else if (!mir_tstrcmpi(szItemName, _T("id"))) {
 									LPCTSTR szItemText = xi.getText(itemval);
 									if (szItemText)
 										ClearText(guid, xi.getText(itemval));
 								}
-								else if (!lstrcmpi(szItemName, _T("category"))) {
+								else if (!mir_tstrcmpi(szItemName, _T("category"))) {
 									for (int x = 0; x < xi.getAttrCount(itemval); x++) {
 										LPCTSTR szAttrName = xi.getAttrName(itemval, x);
-										if (!lstrcmpi(szAttrName, _T("term")) && xi.getText(itemval)) {
+										if (!mir_tstrcmpi(szAttrName, _T("term")) && xi.getText(itemval)) {
 											ClearText(category, xi.getAttrValue(itemval, szAttrName));
 											break;
 										}
@@ -521,14 +521,14 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 	HXML node = xi.getChild(hXml, childcount);
 	while (node) {
 		LPCTSTR szNodeName = xi.getName(node);
-		if (!lstrcmpi(szNodeName, _T("rss")) || !lstrcmpi(szNodeName, _T("rdf"))) {
+		if (!mir_tstrcmpi(szNodeName, _T("rss")) || !mir_tstrcmpi(szNodeName, _T("rdf"))) {
 			HXML chan = xi.getChild(node, 0);
 			for (int j = 0; j < xi.getChildCount(chan); j++) {
 				HXML child = xi.getChild(chan, j);
-				if (!lstrcmpi(xi.getName(child), _T("image"))) {
+				if (!mir_tstrcmpi(xi.getName(child), _T("image"))) {
 					for (int x = 0; x < xi.getChildCount(child); x++) {
 						HXML imageval = xi.getChild(child, x);
-						if (!lstrcmpi(xi.getName(imageval), _T("url"))) {
+						if (!mir_tstrcmpi(xi.getName(imageval), _T("url"))) {
 							LPCTSTR url = xi.getText(imageval);
 							db_set_ts(hContact, MODULE, "ImageURL", url);
 
@@ -556,13 +556,13 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 				}
 			}
 		}
-		else if (!lstrcmpi(szNodeName, _T("feed"))) {
+		else if (!mir_tstrcmpi(szNodeName, _T("feed"))) {
 			for (int j = 0; j < xi.getChildCount(node); j++) {
 				HXML child = xi.getChild(node, j);
-				if (!lstrcmpi(xi.getName(child), _T("icon"))) {
+				if (!mir_tstrcmpi(xi.getName(child), _T("icon"))) {
 					for (int x = 0; x < xi.getChildCount(child); x++) {
 						HXML imageval = xi.getChild(child, x);
-						if (!lstrcmpi(xi.getName(imageval), _T("url"))) {
+						if (!mir_tstrcmpi(xi.getName(imageval), _T("url"))) {
 							LPCTSTR url = xi.getText(imageval);
 							db_set_ts(hContact, MODULE, "ImageURL", url);
 

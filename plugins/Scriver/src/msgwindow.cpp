@@ -1262,7 +1262,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (tbd->iFlags & TBDF_TEXT) {
 					TCHAR oldtitle[256];
 					GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));
-					if (lstrcmp(tbd->pszText, oldtitle))
+					if (mir_tstrcmp(tbd->pszText, oldtitle))
 						SetWindowText(hwndDlg, tbd->pszText);
 				}
 				if (tbd->iFlags & TBDF_ICON) {

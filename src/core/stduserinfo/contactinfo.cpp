@@ -68,7 +68,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 			if (szText[0]) SetWindowText(hwndDlg, TranslateT("Edit phone number"));
 			TranslateDialogDefault(hwndDlg);
-			if (mir_strlen(szText)>4 && !lstrcmpA(szText+mir_strlen(szText)-4, " SMS")) {
+			if (mir_strlen(szText)>4 && !mir_strcmp(szText+mir_strlen(szText)-4, " SMS")) {
 				CheckDlgButton(hwndDlg, IDC_SMS, BST_CHECKED);
 				szText[mir_strlen(szText)-4] = '\0';
 			}
@@ -328,7 +328,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if ( !db_get_ts(hContact, szProto, "Cellular", &dbv)) {
 					lvi.pszText = TranslateT("Mobile");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					if (mir_strlen(dbv.pszVal)>4 && !lstrcmpA(dbv.pszVal+mir_strlen(dbv.pszVal)-4, " SMS")) {
+					if (mir_strlen(dbv.pszVal)>4 && !mir_strcmp(dbv.pszVal+mir_strlen(dbv.pszVal)-4, " SMS")) {
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, _T("y"));
 						dbv.ptszVal[mir_tstrlen(dbv.ptszVal)-4] = '\0';
 					}
@@ -359,7 +359,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.pszText = idstr2;
 					mir_sntprintf(idstr2, SIZEOF(idstr2), TranslateT("Custom %d"), i+1);
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					if (mir_tstrlen(dbv.ptszVal)>4 && !lstrcmp(dbv.ptszVal+mir_tstrlen(dbv.ptszVal)-4, _T(" SMS"))) {
+					if (mir_tstrlen(dbv.ptszVal)>4 && !mir_tstrcmp(dbv.ptszVal+mir_tstrlen(dbv.ptszVal)-4, _T(" SMS"))) {
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, _T("y"));
 						dbv.ptszVal[mir_tstrlen(dbv.ptszVal)-4] = '\0';
 					}

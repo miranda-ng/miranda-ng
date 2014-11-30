@@ -115,18 +115,18 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 			bool bHasLoad = false, bHasUnload = false, bHasInfo = false, bHasMuuids = false;
 			for (size_t i=0; i < pED->NumberOfNames; i++, ptrRVA++, ptrOrdRVA++) {
 				char *szName = (char*)&pSecStart[*ptrRVA];
-				if (!lstrcmpA(szName, "Load"))
+				if (!mir_strcmp(szName, "Load"))
 					bHasLoad = true;
-				if (!lstrcmpA(szName, "MirandaPluginInfoEx"))
+				if (!mir_strcmp(szName, "MirandaPluginInfoEx"))
 					bHasInfo = true;
-				else if (!lstrcmpA(szName, "Unload"))
+				else if (!mir_strcmp(szName, "Unload"))
 					bHasUnload = true;
-				else if (!lstrcmpA(szName, "MirandaInterfaces")) {
+				else if (!mir_strcmp(szName, "MirandaInterfaces")) {
 					bHasMuuids = true;
 					pIds = (MUUID*)&pSecStart[ ptrFuncList[*ptrOrdRVA]];
 				}
 				// old plugin, skip it
-				else if (!lstrcmpA(szName, "MirandaPluginInterfaces"))
+				else if (!mir_strcmp(szName, "MirandaPluginInterfaces"))
 					__leave;
 			}
 

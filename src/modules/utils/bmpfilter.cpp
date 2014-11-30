@@ -48,12 +48,12 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 		if (ServiceExists(MS_IMG_LOAD))
 			return CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_TCHAR);
 
-		if (!lstrcmpi(pszExt, _T(".bmp")) || !lstrcmpi(pszExt, _T(".rle"))) {
+		if (!mir_tstrcmpi(pszExt, _T(".bmp")) || !mir_tstrcmpi(pszExt, _T(".rle"))) {
 			//LoadImage can do this much faster
 			return (INT_PTR)LoadImage(hInst, szFilename, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		}
 
-		if (!lstrcmpi(pszExt, _T(".png"))) {
+		if (!mir_tstrcmpi(pszExt, _T(".png"))) {
 			HANDLE hFile, hMap = NULL;
 			BYTE* ppMap = NULL;
 			INT_PTR  cbFileSize = 0;

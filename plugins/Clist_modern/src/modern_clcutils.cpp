@@ -745,7 +745,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 				TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 				found = _tcsstr(lowered_szText, lowered_text) != NULL;
 			}
-			else found = (prefixOk && !_tcsnicmp(text, contact->szText, testlen)) || (!prefixOk && !lstrcmpi(text, contact->szText));
+			else found = (prefixOk && !_tcsnicmp(text, contact->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, contact->szText));
 
 			if (found) {
 				ClcGroup *contactGroup = group;
@@ -775,7 +775,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 						TCHAR *lowered_text = CharLowerW(NEWTSTR_ALLOCA(text));
 						found = _tcsstr(lowered_szText, lowered_text) != NULL;
 					}
-					else found = (prefixOk && !_tcsnicmp(text, subcontact->szText, testlen)) || (!prefixOk && !lstrcmpi(text, subcontact->szText));
+					else found = (prefixOk && !_tcsnicmp(text, subcontact->szText, testlen)) || (!prefixOk && !mir_tstrcmpi(text, subcontact->szText));
 
 					if (found) {
 						ClcGroup *contactGroup = group;

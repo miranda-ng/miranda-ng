@@ -161,7 +161,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		SetDlgItemText(info->hwndDlg, IDC_NEWTYPE, fileInfo.szTypeName);
 		SendDlgItemMessage(info->hwndDlg, IDC_EXISTINGICON, STM_SETICON, (WPARAM)fileInfo.hIcon, 0);
 		szIconFile[0] = '\0';
-		if (!lstrcmp(szExtension, _T("EXE")))
+		if (!mir_tstrcmp(szExtension, _T("EXE")))
 			SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("2"), szIconFile, SIZEOF(szIconFile));
 		else {
 			TCHAR szTypeName[MAX_PATH];

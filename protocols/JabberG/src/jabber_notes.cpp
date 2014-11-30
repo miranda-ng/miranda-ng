@@ -109,7 +109,7 @@ bool CNoteItem::HasTag(const TCHAR *szTag)
 		return true;
 
 	for (TCHAR *p = m_szTags; p && *p; p = p + mir_tstrlen(p) + 1)
-		if (!lstrcmp(p, szTag))
+		if (!mir_tstrcmp(p, szTag))
 			return true;
 
 	return false;
@@ -118,9 +118,9 @@ bool CNoteItem::HasTag(const TCHAR *szTag)
 int CNoteItem::cmp(const CNoteItem *p1, const CNoteItem *p2)
 {
 	int ret = 0;
-	if (ret = lstrcmp(p1->m_szTitle, p2->m_szTitle)) return ret;
-	if (ret = lstrcmp(p1->m_szText, p2->m_szText)) return ret;
-	if (ret = lstrcmp(p1->m_szTagsStr, p2->m_szTagsStr)) return ret;
+	if (ret = mir_tstrcmp(p1->m_szTitle, p2->m_szTitle)) return ret;
+	if (ret = mir_tstrcmp(p1->m_szText, p2->m_szText)) return ret;
+	if (ret = mir_tstrcmp(p1->m_szTagsStr, p2->m_szTagsStr)) return ret;
 	if (p1 < p2) return -1;
 	if (p1 > p2) return 1;
 	return 0;
@@ -486,7 +486,7 @@ private:
 
 		bool selected = false;
 		for (int j = 0; j < tagSet.getCount(); ++j) {
-			bool select = !lstrcmp(szActiveTag, tagSet[j]);
+			bool select = !mir_tstrcmp(szActiveTag, tagSet[j]);
 			selected |= select;
 			InsertTag(htiRoot, tagSet[j], select);
 		}

@@ -254,7 +254,7 @@ HXML __fastcall xmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
 		HXML n = xi.getChild(hXml, i);
 		if (!n)
 			break;
-		if (!lstrcmp(tag, xmlGetName(n))) {
+		if (!mir_tstrcmp(tag, xmlGetName(n))) {
 			if (num == nth)
 				return n;
 
@@ -294,7 +294,7 @@ void XPath::ProcessPath(LookupInfo &info, bool bCreate)
 	}
 	else if (info.nodeIndex) {
 		int idx = _ttoi(info.nodeIndex.p);
-		m_hXml = lstrcmp(nodeName, _T("*")) ? xmlGetNthChild(m_hXml, nodeName, idx) : xmlGetChild(m_hXml, idx - 1);
+		m_hXml = mir_tstrcmp(nodeName, _T("*")) ? xmlGetNthChild(m_hXml, nodeName, idx) : xmlGetChild(m_hXml, idx - 1);
 	}
 	else {
 		HXML hXml = xmlGetChild(m_hXml, nodeName);

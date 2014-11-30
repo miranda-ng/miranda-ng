@@ -178,7 +178,7 @@ int Doubleclick(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
 	char *szProto = GetContactProto(hContact);
-	if ( lstrcmpA(MODULENAME, szProto))
+	if ( mir_strcmp(MODULENAME, szProto))
 		return 0;
 
 	int action = db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1);

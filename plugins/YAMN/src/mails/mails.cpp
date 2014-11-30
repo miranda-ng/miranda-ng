@@ -362,7 +362,7 @@ HYAMNMAIL WINAPI FindMessageByIDFcn(HYAMNMAIL From,char *ID)
 	HYAMNMAIL Browser;
 
 	for (Browser=From;Browser != NULL;Browser=Browser->Next)
-		if (0==lstrcmpA(Browser->ID,ID))
+		if (0==mir_strcmp(Browser->ID,ID))
 			break;
 	return Browser;
 }

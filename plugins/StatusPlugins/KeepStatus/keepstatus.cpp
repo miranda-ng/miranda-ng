@@ -42,7 +42,7 @@ static HWND hMessageWindow = NULL;
 
 static int CompareConnections( const TConnectionSettings *p1, const TConnectionSettings *p2 )
 {
-	return lstrcmpA( p1->szName, p2->szName );
+	return mir_strcmp( p1->szName, p2->szName );
 }
 
 static OBJLIST<TConnectionSettings> connectionSettings( 10, CompareConnections );
@@ -226,7 +226,7 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 
 	log_infoA("KeepStatus: assigning status %d to %s", cs->status, cs->szName);
 
-	if ( szMsg != NULL && lstrcmp(szMsg, cs->szMsg)) {
+	if ( szMsg != NULL && mir_tstrcmp(szMsg, cs->szMsg)) {
 		if ( cs->szMsg != NULL )
 			free(cs->szMsg);
 
@@ -1107,7 +1107,7 @@ INT_PTR AnnounceStatusChangeService(WPARAM wParam, LPARAM lParam)
 
 	for ( int i=0; i < connectionSettings.getCount(); i++ ) {
 		TConnectionSettings& cs = connectionSettings[i];
-		if ( !lstrcmpA( cs.szName, newSituation->szName ))
+		if ( !mir_strcmp( cs.szName, newSituation->szName ))
 			AssignStatus(&cs, newSituation->status, newSituation->lastStatus, newSituation->szMsg);
 	}
 
@@ -1174,7 +1174,7 @@ int OnAccChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_REMOVED:
 		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			if (!lstrcmpA(connectionSettings[i].szName, pa->szModuleName)) {
+			if (!mir_strcmp(connectionSettings[i].szName, pa->szModuleName)) {
 				connectionSettings.remove(i);
 				break;
 			}

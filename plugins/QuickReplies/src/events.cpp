@@ -117,7 +117,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 			else
 				replyList.insert(variables_parsedup(value, 0, wParam));
 
-			if (!lstrcmp(value, _T("---")))
+			if (!mir_tstrcmp(value, _T("---")))
 				AppendMenu((HMENU)hMenu, MF_SEPARATOR, i + 1, NULL);
 			else
 				AppendMenu((HMENU)hMenu, MF_STRING, i + 1, replyList[i]);
@@ -130,7 +130,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
 		if (index > 0)
 		{
-			if (lstrcmp(replyList[index - 1], _T("")))
+			if (mir_tstrcmp(replyList[index - 1], _T("")))
 			{
 				HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
 				if (!hEdit) hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);

@@ -377,35 +377,35 @@ MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t le
 MIR_CORE_DLL(int) mir_strcmp(const char *p1, const char *p2)
 {
 	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : 1;
+		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
-		return -1;
+		return 1;
 	return strcmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_wstrcmp(const wchar_t *p1, const wchar_t *p2)
 {
 	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : 1;
+		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
-		return -1;
+		return 1;
 	return wcscmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_strcmpi(const char *p1, const char *p2)
 {
 	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : 1;
+		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
-		return -1;
+		return 1;
 	return stricmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2)
 {
 	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : 1;
+		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
-		return -1;
+		return 1;
 	return wcsicmp(p1, p2);
 }

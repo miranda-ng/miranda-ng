@@ -113,8 +113,8 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	char *proto = GetContactProto((MCONTACT)hContact);
 	if (!proto) return 0;
 
-	if (!lstrcmpA(cws->szModule, proto))
-		if (!lstrcmpA(cws->szSetting, "Auth") || !lstrcmpA(cws->szSetting, "Grant") || !lstrcmpA(cws->szSetting, "ServerId") || !lstrcmpA(cws->szSetting, "ContactType"))
+	if (!mir_strcmp(cws->szModule, proto))
+		if (!mir_strcmp(cws->szSetting, "Auth") || !mir_strcmp(cws->szSetting, "Grant") || !mir_strcmp(cws->szSetting, "ServerId") || !mir_strcmp(cws->szSetting, "ContactType"))
 			onExtraImageApplying(hContact, 1);
 
 	return 0;

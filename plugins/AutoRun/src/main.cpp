@@ -70,7 +70,7 @@ static BOOL CmpCurrentAndRegistry()
 		return FALSE;
 	
 	GetProfilePath(result, SIZEOF(result));
-	return lstrcmpi(result, dbpath) == 0;
+	return mir_tstrcmpi(result, dbpath) == 0;
 }
 
 static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

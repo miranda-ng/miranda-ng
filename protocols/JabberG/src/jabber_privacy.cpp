@@ -629,7 +629,7 @@ protected:
 			HANDLE hItem;
 			TCHAR *jid;
 
-			static int cmp(const TJidData *p1, const TJidData *p2) { return lstrcmp(p1->jid, p2->jid); }
+			static int cmp(const TJidData *p1, const TJidData *p2) { return mir_tstrcmp(p1->jid, p2->jid); }
 		};
 
 		HANDLE hItemDefault;
@@ -1244,8 +1244,8 @@ void CJabberDlgPrivacyLists::DrawLists(LPDRAWITEMSTRUCT lpdis)
 		szName = TranslateT("<none>");
 	}
 	else {
-		if (!lstrcmp(pList->GetListName(), szActive)) bActive = true;
-		if (!lstrcmp(pList->GetListName(), szDefault)) bDefault = true;
+		if (!mir_tstrcmp(pList->GetListName(), szActive)) bActive = true;
+		if (!mir_tstrcmp(pList->GetListName(), szDefault)) bDefault = true;
 		szName = pList->GetListName();
 	}
 
@@ -1302,7 +1302,7 @@ void CJabberDlgPrivacyLists::CListFilter(HWND)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
-		if (!proto || lstrcmpA(proto, m_proto->m_szModuleName))
+		if (!proto || mir_strcmp(proto, m_proto->m_szModuleName))
 			if (HANDLE hItem = m_clcClist.FindContact(hContact))
 				m_clcClist.DeleteItem(hItem);
 	}
@@ -1381,10 +1381,10 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 			break;
 
 		case Subscription:
-			if (!lstrcmp(pRule->GetValue(), _T("none")))	hItem = clc_info.hItemSubNone;
-			else if (!lstrcmp(pRule->GetValue(), _T("from")))	hItem = clc_info.hItemSubFrom;
-			else if (!lstrcmp(pRule->GetValue(), _T("to")))		hItem = clc_info.hItemSubTo;
-			else if (!lstrcmp(pRule->GetValue(), _T("both")))	hItem = clc_info.hItemSubBoth;
+			if (!mir_tstrcmp(pRule->GetValue(), _T("none")))	hItem = clc_info.hItemSubNone;
+			else if (!mir_tstrcmp(pRule->GetValue(), _T("from")))	hItem = clc_info.hItemSubFrom;
+			else if (!mir_tstrcmp(pRule->GetValue(), _T("to")))		hItem = clc_info.hItemSubTo;
+			else if (!mir_tstrcmp(pRule->GetValue(), _T("both")))	hItem = clc_info.hItemSubBoth;
 			break;
 
 		case Else:
@@ -2147,7 +2147,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 		mi.position++;
 		mi.icolibItem = LoadSkinnedIconHandle(
-			lstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ?
+			mir_tstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ?
 				SKINICON_OTHER_SMALLDOT :
 				SKINICON_OTHER_EMPTYBLOB);
 		mi.ptszName = pList->GetListName();

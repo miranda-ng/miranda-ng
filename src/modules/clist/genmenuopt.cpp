@@ -108,7 +108,7 @@ static int SaveTree(HWND hwndDlg)
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
 			if (iod->name != NULL && iod->defname != NULL &&
-			    lstrcmp(iod->name, iod->defname) != 0)
+			    mir_tstrcmp(iod->name, iod->defname) != 0)
 				db_set_ts(NULL, MenuNameItems, DBString, iod->name);
 			else
 				db_unset(NULL, MenuNameItems, DBString);
@@ -718,7 +718,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (iod->pimi->submenu.first == NULL && iod->uniqname)
 					SetDlgItemTextA(hwndDlg, IDC_GENMENU_SERVICE, iod->uniqname);
 
-				EnableWindow( GetDlgItem(hwndDlg, IDC_GENMENU_DEFAULT), lstrcmp(iod->name, iod->defname) != 0);
+				EnableWindow( GetDlgItem(hwndDlg, IDC_GENMENU_DEFAULT), mir_tstrcmp(iod->name, iod->defname) != 0);
 				EnableWindow( GetDlgItem(hwndDlg, IDC_GENMENU_SET), TRUE);
 				EnableWindow( GetDlgItem(hwndDlg, IDC_GENMENU_CUSTOMNAME), TRUE);
 				break;

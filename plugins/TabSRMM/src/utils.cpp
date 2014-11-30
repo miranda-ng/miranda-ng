@@ -1106,7 +1106,7 @@ void Utils::AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename
 		mir_tstrcat(szPath, _T("\\*"));
 		if ((hFind = FindFirstFile(szPath, &fd)) != INVALID_HANDLE_VALUE) {
 			do {
-				if (!lstrcmp(fd.cFileName, _T(".")) || !lstrcmp(fd.cFileName, _T("..")))
+				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T("..")))
 					continue;
 				mir_tstrcpy(szPath, szFilename);
 				mir_tstrcat(szPath, _T("\\"));

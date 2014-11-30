@@ -246,23 +246,23 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 		item2 = (THotkeyItem *)lvi.lParam;
 
 	if (!item1 && !item2)
-		return lstrcmp(title1, title2);
+		return mir_tstrcmp(title1, title2);
 
 	if (!item1 && item2) {
-		if (res = lstrcmp(title1, item2->getSection()))
+		if (res = mir_tstrcmp(title1, item2->getSection()))
 			return res;
 		return -1;
 	}
 
 	if (!item2 && item1) {
-		if (res = lstrcmp(item1->getSection(), title2))
+		if (res = mir_tstrcmp(item1->getSection(), title2))
 			return res;
 		return 1;
 	}
 	/* item1 != NULL && item2 != NULL */
 
-	if (res = lstrcmp(item1->getSection(), item2->getSection())) return res;
-	if (res = lstrcmp(item1->getDescr(), item2->getDescr())) return res;
+	if (res = mir_tstrcmp(item1->getSection(), item2->getSection())) return res;
+	if (res = mir_tstrcmp(item1->getDescr(), item2->getDescr())) return res;
 	if (!item1->rootHotkey && item2->rootHotkey) return -1;
 	if (item1->rootHotkey && !item2->rootHotkey) return 1;
 	return 0;
@@ -357,7 +357,7 @@ static void sttBuildHotkeyList(HWND hwndList)
 		if (item->OptDeleted)
 			continue;
 
-		if (!i || lstrcmp(item->ptszSection, hotkeys[i-1]->ptszSection)) {
+		if (!i || mir_tstrcmp(item->ptszSection, hotkeys[i-1]->ptszSection)) {
 			lvi.mask = LVIF_TEXT|LVIF_PARAM;
 			lvi.iItem = nItems++;
 			lvi.iSubItem = 0;
@@ -872,7 +872,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 									ListView_GetItem(lpnmhdr->hwndFrom, &lvi);
 									item = (THotkeyItem *)lvi.lParam;
 									if (!item) continue;
-									if (!lstrcmp( item->getSection(), buf)) {
+									if (!mir_tstrcmp( item->getSection(), buf)) {
 										ListView_DeleteItem(lpnmhdr->hwndFrom, lvi.iItem);
 										--lvi.iItem;
 										--count;
@@ -887,7 +887,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 									if (item->OptDeleted)
 										continue;
-									if ( lstrcmp(buf, item->getSection()))
+									if ( mir_tstrcmp(buf, item->getSection()))
 										continue;
 
 									lvi.mask = LVIF_PARAM|LVIF_INDENT;

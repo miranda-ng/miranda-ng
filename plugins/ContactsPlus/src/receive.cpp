@@ -143,7 +143,7 @@ static MCONTACT CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData *w
 	wndData->rhSearch = (HANDLE)CallProtoService(szProto, PS_BASICSEARCH, 0, (LPARAM)caUIN); // find it
 	replaceStrT(wndData->haUin, caUIN);
 	for (int j = 0; j < wndData->cbReceived; j++)
-		if (!lstrcmp(wndData->maReceived[j]->mcaUIN, caUIN))
+		if (!mir_tstrcmp(wndData->maReceived[j]->mcaUIN, caUIN))
 			return (MCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(PALF_TEMPORARY, j), (LPARAM)wndData->mhDbEvent);
 	return NULL;
 }
@@ -315,7 +315,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							// found checked contact item, add it
 							TCHAR *caUIN = ListView_GetItemTextEx(hLV, i, 0);
 							for (int j = 0; j < wndData->cbReceived; j++)   // determine item index in packet
-								if (!lstrcmp(wndData->maReceived[j]->mcaUIN, caUIN)) {
+								if (!mir_tstrcmp(wndData->maReceived[j]->mcaUIN, caUIN)) {
 									char *szProto =GetContactProto(wndData->mhContact);
 									hContact = (MCONTACT)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(0, j), (LPARAM)wndData->mhDbEvent);
 									if (hContact && caGroup) {
@@ -434,7 +434,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				fi.psz = wndData->haUin;
 				int iLPos = ListView_FindItem(hLV, -1, &fi);
 				if (iLPos == -1) iLPos = 0;
-				if (lstrcmp(psr->nick, _T("")) && psr->nick)
+				if (mir_tstrcmp(psr->nick, _T("")) && psr->nick)
 					ListView_SetItemText(hLV, iLPos, 1, psr->nick);
 				ListView_SetItemText(hLV, iLPos, 2, psr->firstName);
 				ListView_SetItemText(hLV, iLPos, 3, psr->lastName);

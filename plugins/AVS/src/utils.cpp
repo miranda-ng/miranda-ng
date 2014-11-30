@@ -98,7 +98,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 		if (hContact == 0) {				// create a protocol picture in the proto picture cache
 			if (tszValue = db_get_tsa(NULL, PPICT_MODULE, szProto))
 				MyPathToAbsolute(tszValue, tszFilename);
-			else if (lstrcmpA(szProto, AVS_DEFAULT)) {
+			else if (mir_strcmp(szProto, AVS_DEFAULT)) {
 				if (tszValue = db_get_tsa(NULL, PPICT_MODULE, AVS_DEFAULT))
 					MyPathToAbsolute(tszValue, tszFilename);
 
@@ -388,7 +388,7 @@ protoPicCacheEntry* GetProtoDefaultAvatar(MCONTACT hContact)
 	if (szProto) {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (!lstrcmpA(p.szProtoname, szProto) && p.hbmPic != NULL)
+			if (!mir_strcmp(p.szProtoname, szProto) && p.hbmPic != NULL)
 				return &g_ProtoPictures[i];
 		}
 	}
@@ -448,7 +448,7 @@ void DeleteGlobalUserAvatar()
 void SetIgnoreNotify(char *protocol, BOOL ignore)
 {
 	for (int i = 0; i < g_MyAvatars.getCount(); i++) {
-		if (protocol == NULL || !lstrcmpA(g_MyAvatars[i].szProtoname, protocol)) {
+		if (protocol == NULL || !mir_strcmp(g_MyAvatars[i].szProtoname, protocol)) {
 			if (ignore)
 				g_MyAvatars[i].dwFlags |= AVS_IGNORENOTIFY;
 			else

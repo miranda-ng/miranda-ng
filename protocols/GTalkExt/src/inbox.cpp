@@ -221,7 +221,7 @@ void OpenContactInbox(LPCSTR szModuleName)
 	*host++ = 0;
 
 	TCHAR buf[1024];
-	if (lstrcmpi(host, COMMON_GMAIL_HOST1) && lstrcmpi(host, COMMON_GMAIL_HOST2))
+	if (mir_tstrcmpi(host, COMMON_GMAIL_HOST1) && mir_tstrcmpi(host, COMMON_GMAIL_HOST2))
 		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T("a/"), host);   // hosted
 	else
 		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T(""), _T("mail")); // common

@@ -52,7 +52,7 @@ int OnIconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
-	if (!(sicd->flags & MBCF_RIGHTBUTTON) && !lstrcmpA(sicd->szModule, ModuleName) && db_get_b(NULL, ModuleName, "ChangeInMW", 0)) {
+	if (!(sicd->flags & MBCF_RIGHTBUTTON) && !mir_strcmp(sicd->szModule, ModuleName) && db_get_b(NULL, ModuleName, "ChangeInMW", 0)) {
 		int nh = sicd->dwId;
 
 		StatusIconData sid = { sizeof(sid) };

@@ -178,7 +178,7 @@ static BOOL IsValidRunCommand(const TCHAR *pszRunCmd)
 	}
 	if (SearchPath(NULL,pexe,_T(".exe"),SIZEOF(szFullExe),szFullExe,&pszFilePart)) {
 		if (pszFilePart!=NULL)
-			if (!lstrcmpi(pszFilePart,_T("rundll32.exe")) || !lstrcmpi(pszFilePart,_T("rundll.exe"))) {
+			if (!mir_tstrcmpi(pszFilePart,_T("rundll32.exe")) || !mir_tstrcmpi(pszFilePart,_T("rundll.exe"))) {
 				/* split into dll path and arguments */
 				if (pargs[0]==_T('\"')) {
 					++pargs;
@@ -306,7 +306,7 @@ static BOOL IsRegStrValue(HKEY hKey,const TCHAR *pszValName,const TCHAR *pszCmpV
 	BOOL fSame=FALSE;
 	TCHAR *pszVal=GetRegStrValue(hKey,pszValName);
 	if (pszVal!=NULL) {
-		fSame=!lstrcmp(pszVal,pszCmpVal);
+		fSame=!mir_tstrcmp(pszVal,pszCmpVal);
 		mir_free(pszVal);
 	}
 	return fSame;
@@ -321,7 +321,7 @@ static BOOL IsRegStrValueA(HKEY hKey,const TCHAR *pszValName,const char *pszCmpV
 	if (pszVal!=NULL) {
 		pszValA=t2a(pszVal);
 		if (pszValA!=NULL)
-			fSame=!lstrcmpA(pszValA,pszCmpVal);
+			fSame=!mir_strcmp(pszValA,pszCmpVal);
 		mir_free(pszValA); /* does NULL check */
 		mir_free(pszVal);
 	}
@@ -546,7 +546,7 @@ void CleanupRegTreeBackupSettings(void)
 				for(int j=i+1; j < nSettingsCount; ++j) {
 					pszBuf = strchr(&ppszSettings[j][4],'\\');
 					if (pszBuf != NULL) *pszBuf='\0';
-					if (lstrcmpA(pszClassName, &ppszSettings[j][4])){
+					if (mir_strcmp(pszClassName, &ppszSettings[j][4])){
 						if (pszBuf != NULL) *pszBuf='\\';
 						continue;
 					}

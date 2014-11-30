@@ -386,10 +386,10 @@ VOID SwitchLayout(bool lastword)
 			TCHAR szClassName[MAX_PATH];
 
 			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
-			if ((lstrcmp(szClassName, _T("THppRichEdit.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("THistoryGrid.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("TExtHistoryGrid.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE)) {	// make popup here
+			if ((mir_tstrcmp(szClassName, _T("THppRichEdit.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("THistoryGrid.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("TExtHistoryGrid.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE)) {	// make popup here
 				TCHAR buf[2048];
 
-				if (lstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) {
+				if (mir_tstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) {
 					TCHAR *selected = 0;
 					IEVIEWEVENT event;
 					HWND hwnd3 = GetParent(GetParent(hwnd2));
@@ -447,7 +447,7 @@ VOID SwitchLayout(bool lastword)
 					PUAddPopupT(&pd);
 				}
 			}
-			else if (lstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
+			else if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
 				DWORD dwStart, dwEnd;
 				size_t i, slen, start = 0, end = 0;
 				TCHAR *sel, tchr;
@@ -539,7 +539,7 @@ void TranslitLayout(bool lastword)
 
 			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
 
-			if (lstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
+			if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
 				DWORD dwStart, dwEnd;
 				size_t slen, start = 0, end = 0;
 				TCHAR *sel, *boo = NULL;
@@ -618,7 +618,7 @@ void InvertCase(bool lastword)
 
 			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
 
-			if (lstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
+			if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
 				DWORD dwStart, dwEnd;
 				size_t slen, start = 0, end = 0;
 				TCHAR *sel, *boo = NULL;
@@ -686,7 +686,7 @@ void InvertCase(bool lastword)
 int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
-	if (lstrcmpA(cbcd->pszModule, "Switch Layout and Send") == 0) {
+	if (mir_strcmp(cbcd->pszModule, "Switch Layout and Send") == 0) {
 		HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
 		if (!hEdit)
 			hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
@@ -760,7 +760,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		mir_free(sel);
 		return 1;
 	}
-	if (lstrcmpA(cbcd->pszModule, "Translit and Send") == 0) {
+	if (mir_strcmp(cbcd->pszModule, "Translit and Send") == 0) {
 		HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
 		if (!hEdit)
 			hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
@@ -802,7 +802,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		mir_free(sel);
 		return 1;
 	}
-	if (lstrcmpA(cbcd->pszModule, "Invert Case and Send") == 0) {
+	if (mir_strcmp(cbcd->pszModule, "Invert Case and Send") == 0) {
 		HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
 		if (!hEdit)
 			hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);

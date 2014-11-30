@@ -678,7 +678,7 @@ void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szTe
 		char* p = mir_t2a(szMood);
 
 		for (int i = 1; i < SIZEOF(g_arrMoods); i++)
-			if (!lstrcmpA(g_arrMoods[i].szTag, p)) {
+			if (!mir_strcmp(g_arrMoods[i].szTag, p)) {
 				mood = i;
 				break;
 			}
@@ -931,9 +931,9 @@ char *ActivityGetFirst(char *szId)
 	bool found_second = false;
 
 	while (id >= 0) {
-		if (g_arrActivities[id].szFirst && (found_second || !lstrcmpA(g_arrActivities[id].szFirst, szId)))
+		if (g_arrActivities[id].szFirst && (found_second || !mir_strcmp(g_arrActivities[id].szFirst, szId)))
 			return g_arrActivities[id].szFirst;
-		if (g_arrActivities[id].szSecond && !found_second && !lstrcmpA(g_arrActivities[id].szSecond, szId))
+		if (g_arrActivities[id].szSecond && !found_second && !mir_strcmp(g_arrActivities[id].szSecond, szId))
 			found_second = true;
 		--id;
 	}
@@ -1017,7 +1017,7 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 
 	HXML n;
 	for (int i=0; n = xmlGetChild(actNode, i); i++) {
-		if (lstrcmp(xmlGetName(n), _T("text"))) {
+		if (mir_tstrcmp(xmlGetName(n), _T("text"))) {
 			szFirstNode = xmlGetName(n);
 			HXML secondNode = xmlGetChild(n, 0);
 			if (szFirstNode && secondNode && xmlGetName(secondNode))

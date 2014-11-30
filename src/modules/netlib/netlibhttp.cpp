@@ -53,7 +53,7 @@ struct ProxyAuth
 		mir_free(szMethod);
 	}
 	static int Compare(const ProxyAuth* p1, const ProxyAuth* p2)
-	{ return lstrcmpiA(p1->szServer, p2->szServer); }
+	{ return mir_strcmpi(p1->szServer, p2->szServer); }
 };
 
 struct ProxyAuthList : OBJLIST<ProxyAuth>
@@ -202,7 +202,7 @@ static NetlibConnection* NetlibHttpProcessUrl(NETLIBHTTPREQUEST *nlhr, NetlibUse
 
 	if (nlc != NULL) {
 		bool httpProxy = !(nloc.flags & NLOCF_SSL) && nlc->proxyType == PROXYTYPE_HTTP;
-		bool sameHost = lstrcmpA(nlc->nloc.szHost, nloc.szHost) == 0 && nlc->nloc.wPort == nloc.wPort;
+		bool sameHost = mir_strcmp(nlc->nloc.szHost, nloc.szHost) == 0 && nlc->nloc.wPort == nloc.wPort;
 
 		if (!httpProxy && !sameHost) {
 			NetlibDoClose(nlc);
@@ -503,11 +503,11 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 		doneHostHeader = doneContentLengthHeader = doneProxyAuthHeader = doneAuthHeader = 0;
 		for (i=0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER &p = nlhr->headers[i];
-			if (!lstrcmpiA(p.szName, "Host")) doneHostHeader = 1;
-			else if (!lstrcmpiA(p.szName, "Content-Length")) doneContentLengthHeader = 1;
-			else if (!lstrcmpiA(p.szName, "Proxy-Authorization")) doneProxyAuthHeader = 1;
-			else if (!lstrcmpiA(p.szName, "Authorization")) doneAuthHeader = 1;
-			else if (!lstrcmpiA(p.szName, "Connection")) continue;
+			if (!mir_strcmpi(p.szName, "Host")) doneHostHeader = 1;
+			else if (!mir_strcmpi(p.szName, "Content-Length")) doneContentLengthHeader = 1;
+			else if (!mir_strcmpi(p.szName, "Proxy-Authorization")) doneProxyAuthHeader = 1;
+			else if (!mir_strcmpi(p.szName, "Authorization")) doneAuthHeader = 1;
+			else if (!mir_strcmpi(p.szName, "Connection")) continue;
 			if (p.szValue == NULL) continue;
 			AppendToCharBuffer(&httpRequest, "%s: %s\r\n", p.szName, p.szValue);
 		}
@@ -1029,10 +1029,10 @@ next:
 
 	for (i=0; i<nlhrReply->headersCount; i++) {
 		NETLIBHTTPHEADER &p = nlhrReply->headers[i];
-		if (!lstrcmpiA(p.szName, "Content-Length"))
+		if (!mir_strcmpi(p.szName, "Content-Length"))
 			dataLen = atoi(p.szValue);
 
-		if (!lstrcmpiA(p.szName, "Content-Encoding")) {
+		if (!mir_strcmpi(p.szName, "Content-Encoding")) {
 			cenc = i;
 			if (strstr(p.szValue, "gzip"))
 				cenctype = 1;
@@ -1040,11 +1040,11 @@ next:
 				cenctype = 2;
 		}
 
-		if (!lstrcmpiA(p.szName, "Connection"))
-			close = !lstrcmpiA(p.szValue, "close");
+		if (!mir_strcmpi(p.szName, "Connection"))
+			close = !mir_strcmpi(p.szValue, "close");
 
-		if (!lstrcmpiA(p.szName, "Transfer-Encoding") &&
-			!lstrcmpiA(p.szValue, "chunked"))
+		if (!mir_strcmpi(p.szName, "Transfer-Encoding") &&
+			!mir_strcmpi(p.szValue, "chunked"))
 		{
 			chunked = true;
 			chunkhdr = i;

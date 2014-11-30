@@ -290,7 +290,7 @@ static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 
 	for (int i=0; i < font_id_list.getCount(); i++) {
 		FontInternal& F = font_id_list[i];
-		if (!lstrcmp(F.group, font_id->group) && !lstrcmp(F.name, font_id->name) && !(F.flags & FIDF_ALLOWREREGISTER))
+		if (!mir_tstrcmp(F.group, font_id->group) && !mir_tstrcmp(F.name, font_id->name) && !(F.flags & FIDF_ALLOWREREGISTER))
 			return 1;
 	}
 
@@ -303,7 +303,7 @@ static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 	memcpy(newItem, font_id, font_id->cbSize);
 	newItem->hLangpack = hLangpack;
 
-	if (!lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
+	if (!mir_tstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
 		LOGFONT lf;
 		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
 		mir_tstrncpy(newItem->deffontsettings.szFace, lf.lfFaceName, SIZEOF(newItem->deffontsettings.szFace));

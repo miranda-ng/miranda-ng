@@ -56,7 +56,7 @@ static void fillProfileName(const TCHAR* ptszFileName)
 
 	_tcsncpy_s(g_shortProfileName, p, _TRUNCATE);
 	TCHAR *pos = _tcsrchr(g_shortProfileName, '.');
-	if (lstrcmpi(pos, _T(".dat")) == 0)
+	if (mir_tstrcmpi(pos, _T(".dat")) == 0)
 		*pos = 0;
 }
 
@@ -456,7 +456,7 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 	TCHAR classname[256];
 	ENUMMIRANDAWINDOW *x = (ENUMMIRANDAWINDOW *)lParam;
 	DWORD_PTR res = 0;
-	if (GetClassName(hwnd, classname, SIZEOF(classname)) && lstrcmp(_T("Miranda"), classname) == 0) {
+	if (GetClassName(hwnd, classname, SIZEOF(classname)) && mir_tstrcmp(_T("Miranda"), classname) == 0) {
 		if (SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res) {
 			x->found++;
 			return FALSE;

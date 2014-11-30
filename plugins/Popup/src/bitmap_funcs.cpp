@@ -833,7 +833,7 @@ bool MyBitmap::loadFromFile(const TCHAR *fn, const TCHAR *fnAlpha)
 
 	TCHAR ext[5];
 	_tcsncpy_s(ext, fn + (_tcslen(fn) - 4), _TRUNCATE);
-	if (!lstrcmpi(ext, _T(".png")))
+	if (!mir_tstrcmpi(ext, _T(".png")))
 		return loadFromFile_png(fn, fnAlpha);
 
 	return loadFromFile_default(fn, fnAlpha);

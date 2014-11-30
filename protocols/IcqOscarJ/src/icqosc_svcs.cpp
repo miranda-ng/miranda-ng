@@ -501,7 +501,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		TCHAR tszMyFile[MAX_PATH + 1];
 		GetFullAvatarFileName(0, NULL, dwPaFormat, tszMyFile, MAX_PATH);
 		// if not in our storage, copy
-		if (lstrcmp(tszFile, tszMyFile) && !CopyFile(tszFile, tszMyFile, FALSE)) {
+		if (mir_tstrcmp(tszFile, tszMyFile) && !CopyFile(tszFile, tszMyFile, FALSE)) {
 			debugLogA("Failed to copy our avatar to local storage.");
 			return iRet;
 		}

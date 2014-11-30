@@ -211,9 +211,9 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	
 	bool idle = false;
-	if (lstrcmpA(cws->szSetting,"Status")==0)
+	if (mir_strcmp(cws->szSetting,"Status")==0)
 		idle = false;
-	else if (lstrcmpA(cws->szSetting,"IdleTS")==0)
+	else if (mir_strcmp(cws->szSetting,"IdleTS")==0)
 		idle = true;
 	else return 0;
 	

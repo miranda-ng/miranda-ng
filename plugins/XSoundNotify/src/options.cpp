@@ -215,7 +215,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		switch (hdr->code) {
 		case PSN_APPLY:
 			for (int i = 0; i < XSN_Users.getCount(); i++) {
-				if (lstrcmpi(XSN_Users[i]->path, _T(""))) {
+				if (mir_tstrcmpi(XSN_Users[i]->path, _T(""))) {
 					TCHAR shortpath[MAX_PATH];
 					PathToRelativeT(XSN_Users[i]->path, shortpath);
 					db_set_ts(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);

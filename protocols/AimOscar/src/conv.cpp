@@ -703,7 +703,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 				}
 			}
 		}
-		if ( Size != isSize || Color != isColor || BackColor != isBackColor || lstrcmpA( Face, cfOld.szFaceName ))
+		if ( Size != isSize || Color != isColor || BackColor != isBackColor || mir_strcmp( Face, cfOld.szFaceName ))
 		{
 			Size=isSize;
 			Color=isColor;

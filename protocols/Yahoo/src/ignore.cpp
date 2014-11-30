@@ -37,7 +37,7 @@ int CYahooProto::BuddyIgnored(const char *who)
 	while (l != NULL) {
 		struct yahoo_buddy *b = (struct yahoo_buddy *) l->data;
 			
-		if (lstrcmpiA(b->id, who) == 0) {
+		if (mir_strcmpi(b->id, who) == 0) {
 			//LOG(("User '%s' on our Ignore List. Dropping Message.", who));
 			return 1;
 		}

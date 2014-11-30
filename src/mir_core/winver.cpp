@@ -80,7 +80,7 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
 
 	TCHAR tszName[100];
 	DWORD cbName;
-	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, SIZEOF(tszName), &cbName) || lstrcmpi(tszName,_T("default")) != 0);
+	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, SIZEOF(tszName), &cbName) || mir_tstrcmpi(tszName,_T("default")) != 0);
 	CloseDesktop(hDesk);
 	return bLocked;
 }

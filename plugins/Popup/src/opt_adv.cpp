@@ -213,7 +213,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				for (int i = 0; i < g_lstPopupVfx.getCount(); ++i) {
 					dwItem = ComboBox_AddString(hCtrl, TranslateTS(g_lstPopupVfx[i]));
 					ComboBox_SetItemData(hCtrl, dwItem, i);
-					if (PopupOptions.UseEffect && !lstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
+					if (PopupOptions.UseEffect && !mir_tstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
 						dwActiveItem = dwItem;
 				}
 				SendDlgItemMessage(hwnd, IDC_EFFECT, CB_SETCURSEL, dwActiveItem, 0);

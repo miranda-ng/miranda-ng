@@ -200,7 +200,7 @@ void fnTrayIconRemove(HWND hwnd, const char *szProto)
 	mir_cslock lck(trayLockCS);
 	for (int i = 0; i < cli.trayIconCount; i++) {
 		struct trayIconInfo_t* pii = &cli.trayIcon[i];
-		if (pii->id != 0 && !lstrcmpA(szProto, pii->szProto)) {
+		if (pii->id != 0 && !mir_strcmp(szProto, pii->szProto)) {
 			NOTIFYICONDATA nid = { SIZEOFNID };
 			nid.hWnd = hwnd;
 			nid.uID = pii->id;
@@ -334,7 +334,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 	for (i = 0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
-		if (lstrcmpA(cli.trayIcon[i].szProto, szPreferredProto))
+		if (mir_strcmp(cli.trayIcon[i].szProto, szPreferredProto))
 			continue;
 
 		nid.uID = cli.trayIcon[i].id;
@@ -402,7 +402,7 @@ LBL_Error:
 		for (int i = 0; i < cli.trayIconCount; i++) {
 			if (cli.trayIcon[i].id == 0)
 				continue;
-			if (lstrcmpA(cli.trayIcon[i].szProto, szPreferredProto))
+			if (mir_strcmp(cli.trayIcon[i].szProto, szPreferredProto))
 				continue;
 
 			DestroyIcon(cli.trayIcon[i].hBaseIcon);
@@ -473,7 +473,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 	}
 
 	for (int i = 0; i < accounts.getCount(); i++)
-		if (!lstrcmpA(szChangedProto, accounts[i]->szModuleName))
+		if (!mir_strcmp(szChangedProto, accounts[i]->szModuleName))
 			cli.cycleStep = i;
 
 	int changed = cli.pfnTrayCalcChanged(szChangedProto, averageMode, netProtoCount);
@@ -540,7 +540,7 @@ void fnTrayIconSetToBase(char *szPreferredProto)
 	for (i = 0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
-		if (lstrcmpA(cli.trayIcon[i].szProto, szPreferredProto))
+		if (mir_strcmp(cli.trayIcon[i].szProto, szPreferredProto))
 			continue;
 		cli.pfnTrayIconUpdate(cli.trayIcon[i].hBaseIcon, NULL, szPreferredProto, 1);
 		return;

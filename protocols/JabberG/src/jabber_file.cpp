@@ -391,7 +391,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				else
 					t = ft->std.ptszFiles[currentFile];
 
-				if (ft->httpPath == NULL || lstrcmp(ft->httpPath, t)) {
+				if (ft->httpPath == NULL || mir_tstrcmp(ft->httpPath, t)) {
 					if (ft->httpPath == NULL)
 						debugLogA("Requested file name does not matched (httpPath == NULL)");
 					else

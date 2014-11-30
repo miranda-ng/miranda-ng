@@ -308,7 +308,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 		memmove(line, line + 3, lineLen - 2);
 
 	lrtrim(line);
-	if (lstrcmpA(line, "Miranda Language Pack Version 1"))
+	if (mir_strcmp(line, "Miranda Language Pack Version 1"))
 		return 2;
 
 	// headers
@@ -329,24 +329,24 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 			return 3;
 
 		*pszColon++ = 0;
-		if (!lstrcmpA(line, "Language")) { 
+		if (!mir_strcmp(line, "Language")) { 
 			mir_snprintf(szLanguage, sizeof(szLanguage), "%s", pszColon); 
 			lrtrim(szLanguage);
 		}
-		else if (!lstrcmpA(line, "Last-Modified-Using")) {
+		else if (!mir_strcmp(line, "Last-Modified-Using")) {
 			lpinfo.szLastModifiedUsing = pszColon;
 			lpinfo.szLastModifiedUsing.Trim();
 		}
-		else if (!lstrcmpA(line, "Authors")) {
+		else if (!mir_strcmp(line, "Authors")) {
 			if (!szAuthors.IsEmpty())
 				szAuthors.AppendChar(' ');
 			szAuthors.Append(lrtrim(pszColon));
 		}
-		else if (!lstrcmpA(line, "Author-email")) {
+		else if (!mir_strcmp(line, "Author-email")) {
 			lpinfo.szAuthorEmail = pszColon;
 			lpinfo.szAuthorEmail.Trim();
 		}
-		else if (!lstrcmpA(line, "Locale")) {
+		else if (!mir_strcmp(line, "Locale")) {
 			char szBuf[20], *stopped;
 
 			lrtrim(pszColon + 1);
@@ -373,7 +373,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 {
-	if (ptszLangPack == NULL || !lstrcmpi(ptszLangPack, _T("")))
+	if (ptszLangPack == NULL || !mir_tstrcmpi(ptszLangPack, _T("")))
 		return 1;
 
 	// ensure that a lang's name is a full file name
@@ -384,7 +384,7 @@ MIR_CORE_DLL(int) LoadLangPack(const TCHAR *ptszLangPack)
 		_tcsncpy_s(tszFullPath, ptszLangPack, _TRUNCATE);
 
 	// this lang is already loaded? nothing to do then
-	if (!lstrcmp(tszFullPath, langPack.tszFullPath))
+	if (!mir_tstrcmp(tszFullPath, langPack.tszFullPath))
 		return 0;
 
 	// ok... loading a new langpack. remove the old one if needed
@@ -568,9 +568,9 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 	MUUID *uuid = Langpack_LookupUuid(hLangpack);
 
 	GetClassName(hwnd, szClass, SIZEOF(szClass));
-	if (!lstrcmpi(szClass, _T("static")) || !lstrcmpi(szClass, _T("hyperlink")) || !lstrcmpi(szClass, _T("button")) || !lstrcmpi(szClass, _T("MButtonClass")) || !lstrcmpi(szClass, _T("MHeaderbarCtrl")))
+	if (!mir_tstrcmpi(szClass, _T("static")) || !mir_tstrcmpi(szClass, _T("hyperlink")) || !mir_tstrcmpi(szClass, _T("button")) || !mir_tstrcmpi(szClass, _T("MButtonClass")) || !mir_tstrcmpi(szClass, _T("MHeaderbarCtrl")))
 		TranslateWindow(uuid, hwnd);
-	else if (!lstrcmpi(szClass, _T("edit"))) {
+	else if (!mir_tstrcmpi(szClass, _T("edit"))) {
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY)
 			TranslateWindow(uuid, hwnd);
 	}
@@ -648,7 +648,7 @@ void GetDefaultLang()
 	PathToAbsoluteT(_T("\\mirandaboot.ini"), tszPath);
 	GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), tszPath);
 
-	if (!lstrcmpi(tszDefaultLang, _T("default"))) {
+	if (!mir_tstrcmpi(tszDefaultLang, _T("default"))) {
 		db_set_ts(NULL, "Langpack", "Current", _T("default"));
 		return;
 	}

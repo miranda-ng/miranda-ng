@@ -309,7 +309,7 @@ BOOL EnumProfilesForList(TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam)
 	}
 
 	int iItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
-	if (lstrcmpi(ped->szProfile, tszFullPath) == 0)
+	if (mir_tstrcmpi(ped->szProfile, tszFullPath) == 0)
 		ListView_SetItemState(hwndList, iItem, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 
 	item.iItem = iItem;
