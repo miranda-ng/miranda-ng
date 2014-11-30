@@ -116,12 +116,12 @@ WORD CIcqProto::getContactStatus(MCONTACT hContact)
 	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
-int CIcqProto::getSettingStringStatic(MCONTACT hContact, const char *szSetting, char *dest, int dest_len)
+int CIcqProto::getSettingStringStatic(MCONTACT hContact, const char *szSetting, char *dest, size_t dest_len)
 {
-	if (!db_get_static(hContact, m_szModuleName, szSetting, dest, dest_len))
+	if (!db_get_static(hContact, m_szModuleName, szSetting, dest, (int)dest_len))
 		return 0;
 
-	return db_get_static_utf(hContact, m_szModuleName, szSetting, dest, dest_len);
+	return db_get_static_utf(hContact, m_szModuleName, szSetting, dest, (int)dest_len);
 }
 
 int CIcqProto::setSettingDouble(MCONTACT hContact, const char *szSetting, double dValue)
@@ -129,9 +129,9 @@ int CIcqProto::setSettingDouble(MCONTACT hContact, const char *szSetting, double
 	return setSettingBlob(hContact, szSetting, (BYTE*)&dValue, sizeof(double));
 }
 
-int CIcqProto::setSettingBlob(MCONTACT hContact, const char *szSetting, const BYTE *pValue, const int cbValue)
+int CIcqProto::setSettingBlob(MCONTACT hContact, const char *szSetting, const BYTE *pValue, size_t cbValue)
 {
-	return db_set_blob(hContact, m_szModuleName, szSetting, (void*)pValue, cbValue);
+	return db_set_blob(hContact, m_szModuleName, szSetting, (void*)pValue, (unsigned)cbValue);
 }
 
 int CIcqProto::setContactHidden(MCONTACT hContact, BYTE bHidden)

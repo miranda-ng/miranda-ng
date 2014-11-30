@@ -392,18 +392,18 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   requestAvatarConnection();
 	void   __cdecl AvatarThread(avatars_server_connection *pInfo);
 
-	void   handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BYTE nDataLen);
-	void   handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hContact, BYTE *pHash, int nHashLen, WORD wOldStatus);
+	void   handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, size_t nDataLen);
+	void   handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hContact, BYTE *pHash, size_t nHashLen, WORD wOldStatus);
 
 	avatars_request *ReleaseAvatarRequestInQueue(avatars_request *request);
 
 	TCHAR* GetOwnAvatarFileName();
-	void   GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, TCHAR *pszDest, int cbLen);
-	void   GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, int cbLen);
-	int    IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, int nHashLen);
+	void   GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, TCHAR *pszDest, size_t cbLen);
+	void   GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, size_t cbLen);
+	int    IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, size_t nHashLen);
 
-	int    GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, unsigned int hashlen, const TCHAR *file);
-	int    SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, unsigned int datalen);
+	int    GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file);
+	int    SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen);
 
 	void   StartAvatarThread(HANDLE hConn, char* cookie, size_t cookieLen);
 	void   StopAvatarThread();
@@ -417,7 +417,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	int    getSetting(MCONTACT hContact, const char *szSetting, DBVARIANT *dbv);
 	double getSettingDouble(MCONTACT hContact, const char *szSetting, double dDef);
-	int    getSettingStringStatic(MCONTACT hContact, const char *szSetting, char *dest, int dest_len);
+	int    getSettingStringStatic(MCONTACT hContact, const char *szSetting, char *dest, size_t dest_len);
 	char*  getSettingStringUtf(MCONTACT hContact, const char *szModule, const char *szSetting, char *szDef);
 	char*  getSettingStringUtf(MCONTACT hContact, const char *szSetting, char *szDef);
 	int    getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid);
@@ -426,7 +426,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	char*  getContactCListGroup(MCONTACT hContact);
 
 	int    setSettingDouble(MCONTACT hContact, const char *szSetting, double dValue);
-	int    setSettingBlob(MCONTACT hContact, const char *szSetting, const BYTE *pValue, const int cbValue);
+	int    setSettingBlob(MCONTACT hContact, const char *szSetting, const BYTE *pValue, size_t cbValue);
 	int    setContactHidden(MCONTACT hContact, BYTE bHidden);
 	void   setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAnsi);
 
@@ -846,9 +846,9 @@ struct CIcqProto : public PROTO<CIcqProto>
 	//----| stdpackets.cpp |--------------------------------------------------------------
 	void   __cdecl oft_connectionThread(struct oscarthreadstartinfo *otsi);
 
-	int    oft_handlePackets(oscar_connection *oc, BYTE *buf, int len);
-	int    oft_handleFileData(oscar_connection *oc, BYTE *buf, int len);
-	int    oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len);
+	int    oft_handlePackets(oscar_connection *oc, BYTE *buf, size_t len);
+	int    oft_handleFileData(oscar_connection *oc, BYTE *buf, size_t len);
+	int    oft_handleProxyData(oscar_connection *oc, BYTE *buf, size_t len);
 	void   oft_sendFileData(oscar_connection *oc);
 	void   oft_sendPeerInit(oscar_connection *oc);
 	void   oft_sendFileReply(DWORD dwUin, char *szUid, oscar_filetransfer *ft, WORD wResult);
@@ -859,7 +859,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	//----| utilities.cpp |---------------------------------------------------------------
 	char*  ConvertMsgToUserSpecificAnsi(MCONTACT hContact, const char* szMsg);
 
-	char*  GetUserStoredPassword(char *szBuffer, int cbSize);
+	char*  GetUserStoredPassword(char *szBuffer, size_t cbSize);
 	char*  GetUserPassword(BOOL bAlways);
 	WORD   GetMyStatusFlags();
 

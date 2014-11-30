@@ -336,7 +336,6 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 				oscar_filetransfer *ft = CreateOscarTransfer();
 				char *pszFileName = NULL;
 				char *pszDescription = NULL;
-				WORD wFilenameLength;
 
 				debugLogA("This is a file request");
 
@@ -435,7 +434,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 					}
 
 					BYTE* tBuf = tlv->pData;
-					WORD tLen = tlv->wLen;
+					size_t tLen = tlv->wLen;
 					WORD wFlag;
 
 					unpackWord(&tBuf, &wFlag); // FT flag
@@ -444,7 +443,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 					tLen -= 8;
 					// Filename / Directory Name
 					if (tLen) { // some filename specified, unpack
-						wFilenameLength = tLen - 1;
+						size_t wFilenameLength = tLen - 1;
 						pszFileName = (char*)_alloca(tLen);
 						unpackString(&tBuf, (char*)pszFileName, wFilenameLength);
 						pszFileName[wFilenameLength] = '\0';
@@ -622,10 +621,10 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 
 void CIcqProto::handleRecvServResponseOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, void* ft)
 {
-	WORD wDataLen;
+	if (wLen < 2)
+		return;
 
-	if (wLen < 2) return;
-
+	size_t wDataLen;
 	unpackWord(&buf, &wDataLen);
 
 	if (wDataLen == 2) {
@@ -1384,9 +1383,9 @@ void CIcqProto::sendOscarPacket(oscar_connection *oc, icq_packet *packet)
 	SAFE_FREE((void**)&packet->pData);
 }
 
-int CIcqProto::oft_handlePackets(oscar_connection *oc, BYTE *buf, int len)
+int CIcqProto::oft_handlePackets(oscar_connection *oc, BYTE *buf, size_t len)
 {
-	int bytesUsed = 0;
+	size_t bytesUsed = 0;
 
 	while (len > 0) {
 		if (oc->status == OCS_DATA && (oc->ft->flags & OFTF_FILE_RECEIVING))
@@ -1408,7 +1407,7 @@ int CIcqProto::oft_handlePackets(oscar_connection *oc, BYTE *buf, int len)
 			break;
 		}
 
-		WORD datalen;
+		size_t datalen;
 		unpackWord(&pBuf, &datalen);
 
 		if (len < datalen) // wait for whole packet
@@ -1427,19 +1426,16 @@ int CIcqProto::oft_handlePackets(oscar_connection *oc, BYTE *buf, int len)
 		bytesUsed += datalen;
 	}
 
-	return bytesUsed;
+	return (int)bytesUsed;
 }
 
-int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
+int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, size_t len)
 {
 	oscar_filetransfer *ft = oc->ft;
-	BYTE *pBuf;
-	WORD datalen;
-	WORD wCommand;
-	int bytesUsed = 0;
+	size_t datalen, bytesUsed = 0;
 
 	while (len > 2) {
-		pBuf = buf;
+		BYTE *pBuf = buf;
 
 		unpackWord(&pBuf, &datalen);
 		datalen += 2;
@@ -1452,68 +1448,67 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 			break;
 		}
 		pBuf += 2; // packet version
+
+		WORD wCommand;
 		unpackWord(&pBuf, &wCommand);
 		pBuf += 6;
+
 		// handle packet
 		switch (wCommand) {
 		case 0x01: // Error
-			{
-				WORD wError;
-				char* szError;
+			WORD wError;
+			char* szError;
 
-				unpackWord(&pBuf, &wError);
-				switch (wError) {
-				case 0x0D:
-					szError = "Bad request";
-					break;
-				case 0x0E:
-					szError = "Malformed packet";
-					break;
-				case 0x10:
-					szError = "Initial request timeout";
-					break;
-				case 0x1A:
-					szError = "Accept period timeout";
-					break;
-				case 0x1C:
-					szError = "Invalid data";
-					break;
+			unpackWord(&pBuf, &wError);
+			switch (wError) {
+			case 0x0D:
+				szError = "Bad request";
+				break;
+			case 0x0E:
+				szError = "Malformed packet";
+				break;
+			case 0x10:
+				szError = "Initial request timeout";
+				break;
+			case 0x1A:
+				szError = "Accept period timeout";
+				break;
+			case 0x1C:
+				szError = "Invalid data";
+				break;
 
-				default:
-					szError = "Unknown";
-				}
-				// Notify peer
-				oft_sendFileResponse(oc->dwUin, oc->szUid, oc->ft, 0x06);
-
-				debugLogA("Proxy Error: %s (0x%x)", szError, wError);
-				// Notify UI
-				ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc->ft, 0);
-				// Release structure
-				SafeReleaseFileTransfer((void**)&oc->ft);
+			default:
+				szError = "Unknown";
 			}
+			// Notify peer
+			oft_sendFileResponse(oc->dwUin, oc->szUid, oc->ft, 0x06);
+
+			debugLogA("Proxy Error: %s (0x%x)", szError, wError);
+			// Notify UI
+			ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, oc->ft, 0);
+			// Release structure
+			SafeReleaseFileTransfer((void**)&oc->ft);
 			break;
 
 		case 0x03: // Tunnel created
-			{
-				WORD wCode;
-				DWORD dwIP;
+			WORD wCode;
+			DWORD dwIP;
 
-				unpackWord(&pBuf, &wCode);
-				unpackDWord(&pBuf, &dwIP);
+			unpackWord(&pBuf, &wCode);
+			unpackDWord(&pBuf, &dwIP);
 
-				if (oc->type == OCT_PROXY_INIT) { // Proxy ready, send Stage 1 Request
-					ft->bUseProxy = 1;
-					ft->wRemotePort = wCode;
-					ft->dwProxyIP = dwIP;
-					oft_sendFileRequest(oc->dwUin, oc->szUid, ft, ft->szThisFile, 0);
-					SAFE_FREE(&ft->szThisFile);
-					// Notify UI
-					ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, oc->ft, 0);
-				}
-				else {
-					debugLogA("Proxy Tunnel ready, notify peer.");
-					oft_sendFileRedirect(oc->dwUin, oc->szUid, ft, dwIP, wCode, TRUE);
-				}
+			if (oc->type == OCT_PROXY_INIT) { // Proxy ready, send Stage 1 Request
+				ft->bUseProxy = 1;
+				ft->wRemotePort = wCode;
+				ft->dwProxyIP = dwIP;
+				oft_sendFileRequest(oc->dwUin, oc->szUid, ft, ft->szThisFile, 0);
+				SAFE_FREE(&ft->szThisFile);
+				// Notify UI
+				ProtoBroadcastAck(oc->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, oc->ft, 0);
+			}
+			else {
+				debugLogA("Proxy Tunnel ready, notify peer.");
+				oft_sendFileRedirect(oc->dwUin, oc->szUid, ft, dwIP, wCode, TRUE);
 			}
 			break;
 
@@ -1546,14 +1541,13 @@ int CIcqProto::oft_handleProxyData(oscar_connection *oc, BYTE *buf, int len)
 		bytesUsed += datalen;
 	}
 
-	return bytesUsed;
+	return (int)bytesUsed;
 }
 
-int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, int len)
+int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, size_t len)
 {
 	oscar_filetransfer *ft = oc->ft;
-	DWORD dwLen = len;
-	int bytesUsed = 0;
+	size_t dwLen = len, bytesUsed = 0;
 
 	// do not accept more data than expected
 	if (ft->qwThisFileSize - ft->qwFileBytesDone < dwLen)
@@ -1564,9 +1558,9 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, int len)
 		return 0;
 	}
 
-	_write(ft->fileId, buf, dwLen);
+	_write(ft->fileId, buf, (unsigned)dwLen);
 	// update checksum
-	ft->dwRecvFileCheck = oft_calc_checksum((int)ft->qwFileBytesDone, buf, dwLen, ft->dwRecvFileCheck);
+	ft->dwRecvFileCheck = oft_calc_checksum((int)ft->qwFileBytesDone, buf, (unsigned)dwLen, ft->dwRecvFileCheck);
 	bytesUsed += dwLen;
 	ft->qwBytesDone += dwLen;
 	ft->qwFileBytesDone += dwLen;
@@ -1619,7 +1613,7 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, int len)
 			oc->status = OCS_NEGOTIATION;
 		}
 	}
-	return bytesUsed;
+	return (int)bytesUsed;
 }
 
 void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE *pBuffer, size_t wLen)
