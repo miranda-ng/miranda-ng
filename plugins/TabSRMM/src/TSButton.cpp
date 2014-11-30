@@ -279,7 +279,7 @@ nonflat_themed:
 		CopyRect(&rcText, &rcClient);
 
 		TCHAR szText[MAX_PATH];
-		GetWindowText(ctl->hwnd, szText, MAX_PATH - 1);
+		GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
 		SetBkMode(hdcMem, TRANSPARENT);
 		HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 		if (ctl->pContainer && CSkin::m_skinEnabled)

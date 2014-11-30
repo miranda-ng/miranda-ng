@@ -171,7 +171,7 @@ namespace
 		LPTSTR p = pszBuffer;
 		LPCTSTR pszXml = TranslateT("XML File (*.xml)");
 		lstrcpyn(p,pszXml, (int)cBuffer);
-		size_t nLen = (int)lstrlen(pszXml)+1;
+		size_t nLen = lstrlen(pszXml)+1;
 		p+= nLen;
 		if(nLen < cBuffer)
 		{

@@ -259,7 +259,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				TCHAR newTemplate[TEMPLATE_LENGTH + 2];
 
-				GetWindowText(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), newTemplate, TEMPLATE_LENGTH);
+				GetWindowText(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), newTemplate, SIZEOF(newTemplate));
 				CopyMemory(tSet->szTemplates[teInfo->inEdit], newTemplate, sizeof(TCHAR) * TEMPLATE_LENGTH);
 				teInfo->changed = FALSE;
 				teInfo->updateInfo[teInfo->inEdit] = FALSE;

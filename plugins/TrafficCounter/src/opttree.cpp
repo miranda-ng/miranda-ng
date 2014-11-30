@@ -39,7 +39,6 @@ static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 	// Проверим, надо ли переводить.
 	if ((tvi.lParam != -1) && (pOptions[tvi.lParam].dwFlag & OPTTREE_NOTRANSLATE)) return;
 	tvi.pszText = TranslateTS(tvi.pszText);
-	tvi.cchTextMax = lstrlen(tvi.pszText);
 	SendMessage(hwndTree, TVM_SETITEM, 0, (LPARAM)&tvi);
 }
 
@@ -88,7 +87,7 @@ HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHA
 
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
-	tvi.cchTextMax = MAX_PATH;
+	tvi.cchTextMax = SIZEOF(str);
 
 	while (tvi.hItem)
 	{

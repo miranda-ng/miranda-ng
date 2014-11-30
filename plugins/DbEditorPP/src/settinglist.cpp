@@ -83,7 +83,7 @@ void DeleteSettingsFromList(HWND hSettings, MCONTACT hContact, char *module, cha
 		char text[265];
 		item.mask = TVIF_PARAM | TVIF_TEXT;
 		item.pszText = text;
-		item.cchTextMax = 264;
+		item.cchTextMax = SIZEOF(text);
 		item.hItem = (HTREEITEM)findItemInTree(hModules, hContact, module);
 		if ((int)item.hItem != -1)
 			if (TreeView_GetItem(hModules, &item) && item.lParam) {
@@ -286,7 +286,6 @@ void settingChanged(HWND hwnd2Settings, MCONTACT hContact, char* module, char* s
 	if (lvItem.iItem == -1) {
 		lvItem.iItem = 0;
 		lvItem.pszText = setting;
-		lvItem.cchTextMax = mir_strlen(setting);
 		lvItem.iItem = ListView_InsertItem(hwnd2Settings, &lvItem);
 	}
 	additem(hwnd2Settings, hContact, module, setting, lvItem.iItem);
@@ -557,7 +556,7 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 	lvi.iItem = item;
 	lvi.iSubItem = 0;
 	lvi.pszText = setting;
-	lvi.cchTextMax = 256;
+	lvi.cchTextMax = SIZEOF(setting);
 	if (!ListView_GetItem(hwnd2List, &lvi) ||
 		!ListView_GetSubItemRect
 		(hwnd2List, item, subitem, LVIR_LABEL, &rc) ||
@@ -837,7 +836,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd her
 	lvi.iItem = hti.iItem;
 	lvi.iSubItem = 0;
 	lvi.pszText = setting;
-	lvi.cchTextMax = 256;
+	lvi.cchTextMax = SIZEOF(setting);
 
 	ListView_GetItem(hSettings, &lvi);
 	ListView_GetItemText(hSettings, hti.iItem, 2, type, 8);

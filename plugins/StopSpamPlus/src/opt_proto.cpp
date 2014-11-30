@@ -80,7 +80,6 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				
 				TVITEM tvi;
 				tvi.hItem = TreeView_GetRoot(hwndProto);
-				tvi.cchTextMax = 32;
 				tvi.mask = TVIF_PARAM | TVIF_HANDLE;
 
 				while ( tvi.hItem != NULL ) {

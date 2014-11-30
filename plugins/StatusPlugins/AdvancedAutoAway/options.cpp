@@ -181,7 +181,6 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 				LVITEM lvItem = { 0 };
 				lvItem.mask = LVIF_TEXT | LVIF_PARAM;
-				lvItem.cchTextMax = 256;
 				lvItem.iItem = 0;
 				lvItem.iSubItem = 0;
 				for (int i = 0; i < SIZEOF(statusModeList); i++) {

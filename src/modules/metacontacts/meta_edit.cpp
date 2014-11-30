@@ -48,7 +48,6 @@ static void FillContactList(HWND hList)
 
 	LVITEM LvItem = { 0 };
 	LvItem.mask = LVIF_TEXT;   // Text Style
-	LvItem.cchTextMax = 256; // Max size of test
 
 	for (int i = 0; i < g_data.num_contacts; i++) {
 		LvItem.iItem = i;

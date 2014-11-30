@@ -119,7 +119,6 @@ void addToList(HWND listbox, MCONTACT hContact, char*key, char*val)
 	if (!db_get_s(hContact, protocolname, val, &dbv)) {
 		LVITEMA lvitem = { 0 };
 		lvitem.mask = LVIF_TEXT;
-		lvitem.cchTextMax = 255;
 		lvitem.pszText = key;
 		SendMessageA(listbox, LVM_INSERTITEM, 0, (LPARAM)&lvitem);
 
@@ -140,7 +139,6 @@ void setGameInfo(HWND listbox, char *mbuf)
 	LVITEMA lvitem;
 	memset(&lvitem, 0, sizeof(lvitem));
 	lvitem.mask = LVIF_TEXT;
-	lvitem.cchTextMax = 255;
 
 	while (*mbuf2 != 0)
 	{

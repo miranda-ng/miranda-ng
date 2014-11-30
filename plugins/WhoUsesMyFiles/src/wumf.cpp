@@ -28,7 +28,6 @@ void AddToList(HWND hList, PWumf w)
 	lvi.iItem = ListView_GetItemCount(hList)+1;
 	lvi.mask = LVIF_PARAM|LVIF_TEXT;
 	lvi.pszText = w->szID;
-	lvi.cchTextMax = (int)_tcslen(w->szID);
 	lvi.lParam = (LPARAM)w;
 	ListView_InsertItem(hList,&lvi);
 }

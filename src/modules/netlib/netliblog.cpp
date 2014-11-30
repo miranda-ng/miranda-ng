@@ -148,7 +148,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					CheckDlgButton(hwndDlg, IDC_TOFILE, BST_CHECKED);
 
 				TCHAR path[MAX_PATH];
-				GetWindowText((HWND)lParam, path, MAX_PATH);
+				GetWindowText((HWND)lParam, path, SIZEOF(path));
 
 				PathToAbsoluteT(VARST(path), path);
 				SetDlgItemText(hwndDlg, IDC_PATH, path);
@@ -209,11 +209,11 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			db_set_ts(NULL, "Netlib", "RunAtStart", str);
 			db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
-			GetWindowText(GetDlgItem(hwndDlg, IDC_FILENAME), str, MAX_PATH);
+			GetWindowText(GetDlgItem(hwndDlg, IDC_FILENAME), str, SIZEOF(str));
 			logOptions.tszUserFile = rtrimt(str);
 			db_set_ts(NULL, "Netlib", "File", str);
 
-			GetWindowText(GetDlgItem(hwndDlg, IDC_PATH), str, MAX_PATH);
+			GetWindowText(GetDlgItem(hwndDlg, IDC_PATH), str, SIZEOF(str));
 			logOptions.tszFile = rtrimt(str);
 
 			db_set_b(NULL, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV));

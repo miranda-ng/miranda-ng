@@ -172,7 +172,7 @@ int CALLBACK ListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		for (int i = 0; i < count; i++) {
 			if (ListView_GetItemState(hWnd, i, LVIS_SELECTED)) {
 				TCHAR emailID[4096]; //uhh
-				ListView_GetItemText(hWnd, i, 2, emailID, sizeof(emailID));
+				ListView_GetItemText(hWnd, i, 2, emailID, SIZEOF(emailID));
 				exchangeServer.OpenMessage(emailID);
 			}
 		}
@@ -197,16 +197,13 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.cx = 100;
 			col.pszText = TranslateT("Entry ID");
-			col.cchTextMax = (int)_tcslen(col.pszText) + 1;
 			ListView_InsertColumn(hList, 0, &col);
 			col.pszText = TranslateT("Subject");
 			col.cx = 300;
-			col.cchTextMax = (int)_tcslen(col.pszText) + 1;
 			ListView_InsertColumn(hList, 0, &col);
 			col.cx = 200;
 			col.iSubItem = 1;
 			col.pszText = TranslateT("Sender");
-			col.cchTextMax = (int)_tcslen(col.pszText) + 1;
 			ListView_InsertColumn(hList, 0, &col);
 		}
 		return TRUE;
@@ -304,7 +301,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 					item.iItem = i;
 					item.mask = LVIF_TEXT;
 					item.iSubItem = 2;
-					item.cchTextMax = sizeof(emailID);
+					item.cchTextMax = SIZEOF(emailID);
 					item.pszText = emailID;
 					ListView_GetItem(hList, &item);
 					exchangeServer.MarkEmailAsRead(emailID);

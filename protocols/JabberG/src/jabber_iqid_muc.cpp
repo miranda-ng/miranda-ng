@@ -333,7 +333,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 					lvi.iItem = hti.iItem;
 					lvi.iSubItem = 0;
 					lvi.pszText = text;
-					lvi.cchTextMax = sizeof(text);
+					lvi.cchTextMax = SIZEOF(text);
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
 					if (lvi.lParam == (LPARAM)(-1)) {
 						CMString szBuffer(dat->type2str());

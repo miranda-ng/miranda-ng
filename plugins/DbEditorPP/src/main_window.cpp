@@ -109,7 +109,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = TreeView_GetSelection(hwnd);
 			tvi.pszText = module;
-			tvi.cchTextMax = 255;
+			tvi.cchTextMax = SIZEOF(module);
 			if (TreeView_GetItem(hwnd, &tvi) && tvi.lParam) {
 				ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 				MCONTACT hContact = mtis->hContact;
@@ -166,7 +166,7 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				break;
 			hContact = sli->hContact;
 			module = sli->module;
-			ListView_GetItemText(hwnd, ListView_GetSelectionMark(hwnd), 0, setting, 256);
+			ListView_GetItemText(hwnd, ListView_GetSelectionMark(hwnd), 0, setting, SIZEOF(setting));
 
 			if (wParam == VK_F2)
 				editSetting(hContact, module, setting);
@@ -373,7 +373,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				TVITEM tvi = { 0 };
 				tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 				tvi.pszText = module;
-				tvi.cchTextMax = 255;
+				tvi.cchTextMax = SIZEOF(module);
 				tvi.hItem = item;
 				if (TreeView_GetItem(hwnd2Tree, &tvi)) {
 					MCONTACT hContact = 0;
@@ -452,7 +452,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = TreeView_GetSelection(GetDlgItem(hwnd, IDC_MODULES));
 			tvi.pszText = module;
-			tvi.cchTextMax = 255;
+			tvi.cchTextMax = SIZEOF(module);
 			if (!TreeView_GetItem(GetDlgItem(hwnd, IDC_MODULES), &tvi)) break;
 			if (tvi.lParam) {
 				mtis = (ModuleTreeInfoStruct *)tvi.lParam;

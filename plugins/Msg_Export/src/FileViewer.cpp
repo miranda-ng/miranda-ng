@@ -1023,7 +1023,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			TCHAR szFormat[200];
 			TCHAR szTitle[200];
-			if (GetWindowText(hwndDlg, szFormat, sizeof( szFormat))) {
+			if (GetWindowText(hwndDlg, szFormat, SIZEOF(szFormat))) {
 				const TCHAR *pszNick = NickFromHandle( pclDlg->hContact);
 				tstring sPath = pclDlg->sPath;
 				string::size_type n = sPath.find_last_of( '\\');

@@ -54,7 +54,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		tokenLen[1] = lstrlen(tokens[1]);
 		tokens[2] = db_get_tsa(hContact, "CList", "StatusMsg");
 		if (tokens[2] != NULL) {
-			tokenLen[2] = (int)lstrlen(tokens[2]);
+			tokenLen[2] = lstrlen(tokens[2]);
 			for (i = j = 0; i < tokenLen[2]; i++) {
 				if (tokens[2][i] == '\r')
 					continue;

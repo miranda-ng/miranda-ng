@@ -322,7 +322,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			LVITEM lvm;
 			TCHAR text[255];
 			lvm.pszText = text;	// Set buffer for texts
-			lvm.cchTextMax = 128;
+			lvm.cchTextMax = SIZEOF(text);
 			lvm.mask = LVIF_TEXT;
 			for (int i = 0; i < j; i++) {
 				lvm.iSubItem = 0;	// First column
@@ -332,13 +332,6 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				// Match the text?
 				TCHAR* t = _tcsstr(lvm.pszText, strFilterText);
 				if (t == NULL)	{ // If no, then Check if in the topics
-					LVITEM lvm2;		// To avoid to overwrite the external lvm
-					TCHAR text[300];
-					lvm2.pszText = text;	// Set buffer for texts
-					lvm2.cchTextMax = SIZEOF(text);
-					lvm2.mask = LVIF_TEXT;
-					lvm2.iSubItem = 3;	// Topic column
-					lvm2.iItem = i;
 					m_list.GetItem(&lvm);
 
 					// Match the text?
@@ -434,7 +427,7 @@ static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSo
 	lvm.iItem = lParam1;
 	lvm.iSubItem = param->iSubItem;
 	lvm.pszText = temp1;
-	lvm.cchTextMax = 511;
+	lvm.cchTextMax = SIZEOF(temp1);
 	param->pList->GetItem(&lvm);
 	lvm.iItem = lParam2;
 	lvm.pszText = temp2;
@@ -643,7 +636,7 @@ void CQuickDlg::OnOk(CCtrlButton*)
 	}
 
 	TCHAR windowname[20];
-	GetWindowText(m_hwnd, windowname, 20);
+	GetWindowText(m_hwnd, windowname, SIZEOF(windowname));
 	if (lstrcmpi(windowname, _T("Miranda IRC")) == 0) {
 		m_proto->m_serverComboSelection = m_serverCombo.GetCurSel() - 1;
 		m_proto->setDword("ServerComboSelection", m_proto->m_serverComboSelection);

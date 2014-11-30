@@ -172,7 +172,7 @@ void DialogConfigEngine::updateVoices(HWND window)
 	else
 	{
 		// select the saved voice
-		SendDlgItemMessage(window, IDC_SELECT_VOICE, CB_SELECTSTRING, 0, (long)voice.c_str());
+		SendDlgItemMessage(window, IDC_SELECT_VOICE, CB_SELECTSTRING, 0, (LPARAM)voice.c_str());
 	}
 }
 

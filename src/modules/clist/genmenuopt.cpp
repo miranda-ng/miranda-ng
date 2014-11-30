@@ -78,7 +78,7 @@ static int SaveTree(HWND hwndDlg)
 
 	TVITEM tvi;
 	tvi.hItem = TreeView_GetRoot(hTree);
-	tvi.cchTextMax = 99;
+	tvi.cchTextMax = SIZEOF(idstr);
 	tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE;
 	tvi.pszText = idstr;
 
@@ -360,7 +360,7 @@ static HTREEITEM MoveItemAbove(HWND hTreeWnd, HTREEITEM hItem, HTREEITEM hInsert
 		tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvis.item.stateMask = 0xFFFFFFFF;
 		tvis.item.pszText = name;
-		tvis.item.cchTextMax = sizeof(name);
+		tvis.item.cchTextMax = SIZEOF(name);
 		tvis.item.hItem = hItem;
 		tvis.item.iImage = tvis.item.iSelectedImage = ((MenuItemOptData*)tvi.lParam)->bShow;
 		if (!SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvis.item))

@@ -913,7 +913,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 
 				if (!PtrIsValid(pList = (LPLISTCTRL)GetUserData(hwnd)))
 					break;
-				GetWindowText(pList->labelEdit.hEdit, szEdit, MAX_PATH);
+				GetWindowText(pList->labelEdit.hEdit, szEdit, SIZEOF(szEdit));
 
 				// need to create the dropdown list?
 				if (pList->labelEdit.dropDown.hDrop == NULL) {
@@ -1193,7 +1193,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						*szGroup = 0;
 						lvi.mask = LVIF_TEXT | LVIF_PARAM;
 						lvi.pszText = szGroup;
-						lvi.cchTextMax = MAX_PATH;
+						lvi.cchTextMax = SIZEOF(szGroup);
 
 						for (iItem = lvi.iItem = lvi.iSubItem = 0; ListView_GetItem(hList, &lvi); lvi.iItem++) {
 							if (!PtrIsValid(pItem = (LPLCITEM)lvi.lParam)) {

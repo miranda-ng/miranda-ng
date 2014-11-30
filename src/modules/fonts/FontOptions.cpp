@@ -326,7 +326,7 @@ static HTREEITEM sttFindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TC
 
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = str;
-	tvi.cchTextMax = MAX_PATH;
+	tvi.cchTextMax = SIZEOF(str);
 
 	while (tvi.hItem)
 	{

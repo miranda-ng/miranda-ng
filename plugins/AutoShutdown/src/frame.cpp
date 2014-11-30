@@ -449,7 +449,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			HFONT hFontPrev=NULL;
 			TCHAR szOutput[256];
 			dat->flags&=~FWPDF_TIMEISCLIPPED;
-			if (GetWindowText(dat->hwndTime,szOutput,SIZEOF(szOutput)-1))
+			if (GetWindowText(dat->hwndTime,szOutput,SIZEOF(szOutput)))
 				if (GetClientRect(dat->hwndTime,&rc)) {
 					hdc=GetDC(dat->hwndTime);
 					if (hdc != NULL) {
@@ -490,7 +490,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					case TTN_NEEDTEXT:
 					{	NMTTDISPINFO *ttdi=(NMTTDISPINFO*)lParam;
 						if (dat->flags&FWPDF_TIMEISCLIPPED && (HWND)wParam==dat->hwndTime) {
-							if (GetWindowText(dat->hwndTime,ttdi->szText,SIZEOF(ttdi->szText)-1))
+							if (GetWindowText(dat->hwndTime,ttdi->szText,SIZEOF(ttdi->szText)))
 								ttdi->lpszText=ttdi->szText;
 						}
 						else if ((HWND)wParam==dat->hwndIcon)

@@ -2041,7 +2041,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				TCITEM item = { 0 };
 				item.mask = TCIF_TEXT;
 				item.pszText = dat->newtitle;
-				item.cchTextMax = 120;
 				TabCtrl_SetItem(hwndTab, dat->iTabID, &item);
 			}
 			SetWindowText(hwndDlg, szTemp);

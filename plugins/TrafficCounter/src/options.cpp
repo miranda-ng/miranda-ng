@@ -310,9 +310,9 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			unOptions.ShowOverall = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowOverall");
 
 			// Формат счётчиков
-			GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), Traffic_CounterFormat, 512);
+			GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), Traffic_CounterFormat, SIZEOF(Traffic_CounterFormat));
 			// Формат всплывающей подсказки
-			GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat, 512);
+			GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat, SIZEOF(Traffic_TooltipFormat));
 
 			// Ключевой цвет
 			UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);

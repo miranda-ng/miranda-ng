@@ -728,7 +728,7 @@ void SendSMSWindowAsSentSet(HWND hWndDlg)
 //	lvi.mask=LVIF_TEXT|LVIF_IMAGE;
 //	lvi.iItem=GetSendSMSWindowSMSSend(hWndDlg) - 1;
 //	lvi.iSubItem=0;
-//	ListView_GetItemText(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),GetSendSMSWindowSMSSend(hWndDlg) - 1,0,szPhone,sizeof(szPhone));
+//	ListView_GetItemText(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),GetSendSMSWindowSMSSend(hWndDlg) - 1,0,szPhone,SIZEOF(szPhone));
 //	lvi.pszText=szPhone;
 //	lvi.iImage=2;
 //	ListView_SetItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&lvi);

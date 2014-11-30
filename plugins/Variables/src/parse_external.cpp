@@ -28,11 +28,12 @@ static TCHAR *getFullWinampTitleText()
 	if (hwndWinamp == NULL)
 		return NULL;
 
-	TCHAR *szWinText = (TCHAR*)mir_alloc((GetWindowTextLength(hwndWinamp) + 1)*sizeof(TCHAR));
+	SIZE_T dwWinTextLength = (GetWindowTextLength(hwndWinamp) + 1);
+	TCHAR *szWinText = (TCHAR*)mir_alloc(dwWinTextLength * sizeof(TCHAR));
 	if (szWinText == NULL)
 		return NULL;
 
-	if (GetWindowText(hwndWinamp, szWinText, GetWindowTextLength(hwndWinamp) + 1) == 0) {
+	if (GetWindowText(hwndWinamp, szWinText, dwWinTextLength) == 0) {
 		mir_free(szWinText);
 		return NULL;
 	}

@@ -630,7 +630,6 @@ void CSListView::addItem( StatusItem* item, int itemNumber )
 {
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_IMAGE | LVIF_GROUPID | LVIF_PARAM;
-	lvi.cchTextMax = 256;
 	lvi.iItem = ListView_GetItemCount( m_handle );
 	lvi.lParam = itemNumber;
 	lvi.iGroupId = item->m_bFavourite ? 0 : 1;

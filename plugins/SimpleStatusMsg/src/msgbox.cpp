@@ -121,7 +121,6 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		status_desc = (TCHAR *)TranslateT("<current>");
 	cbei.iItem = j;
 	cbei.pszText = (LPTSTR)status_desc;
-	cbei.cchTextMax = sizeof(status_desc);
 
 	if (data->m_szProto || data->m_iStatus == ID_STATUS_CURRENT) {
 		if (data->m_bOnStartup)
@@ -153,7 +152,6 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 			status_desc = pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
 			cbei.iItem = j;
 			cbei.pszText = (LPTSTR)status_desc;
-			cbei.cchTextMax = sizeof(status_desc);
 			if (data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS) {
 				cbei.iImage = j - 1;
 				cbei.iSelectedImage = j - 1;
@@ -179,7 +177,6 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 
 			cbei.iItem = j;
 			cbei.pszText = (LPTSTR)tszProfileName;
-			cbei.cchTextMax = SIZEOF(tszProfileName);
 			if (data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS) {
 				int k = GetCurrentStatus(NULL) - ID_STATUS_OFFLINE;
 				if (k < 0 || k > 9)
@@ -248,7 +245,6 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 				found = TRUE;
 				cbei.iItem = -1;
 				cbei.pszText = (LPTSTR)dbv.ptszVal;
-				cbei.cchTextMax = sizeof(dbv.ptszVal);
 				if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
 					cbei.iImage = I_ICON_HIST;
 					cbei.iSelectedImage = I_ICON_HIST;
@@ -346,7 +342,6 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 
 				cbei.iItem = -1;
 				cbei.pszText = (LPTSTR)dbv.ptszVal;
-				cbei.cchTextMax = sizeof(dbv.ptszVal);
 				if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
 					cbei.iImage = I_ICON_MSG;
 					cbei.iSelectedImage = I_ICON_MSG;
@@ -365,7 +360,6 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	if (db_get_b(NULL, "SimpleStatusMsg", "PutDefInList", 0)) {
 		cbei.iItem = -1;
 		cbei.pszText = (LPTSTR)GetDefaultMessage(data->m_iStatus);
-		cbei.cchTextMax = sizeof(GetDefaultMessage(data->m_iStatus));
 		if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS) {
 			cbei.iImage = I_ICON_MSG;
 			cbei.iSelectedImage = I_ICON_MSG;

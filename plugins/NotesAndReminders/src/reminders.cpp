@@ -2247,14 +2247,12 @@ static void InitListView(HWND AHLV)
 		lvTIt.iItem = I;
 		lvTIt.iSubItem = 0;
 		lvTIt.pszText = S1;
-		lvTIt.cchTextMax = (int)strlen(S1);
 		ListView_InsertItem(AHLV,&lvTIt);
 		lvTIt.mask = LVIF_TEXT;
 		S = GetPreviewString(pReminder->Reminder);
 		lvTIt.iItem = I;
 		lvTIt.iSubItem = 1;
 		lvTIt.pszText = S;
-		lvTIt.cchTextMax = (int)strlen(S);
 		ListView_SetItem(AHLV,&lvTIt);
 
 		I++;
@@ -2425,13 +2423,11 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 			S = Translate("Reminder text");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = (int)strlen(S);
 			lvCol.cx = g_reminderListColGeom[1];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 			S = Translate("Date of activation");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = (int)strlen(S);
 			lvCol.cx = g_reminderListColGeom[0];
 			ListView_InsertColumn(H,0,&lvCol);
 			InitListView(H);

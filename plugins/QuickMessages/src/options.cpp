@@ -123,7 +123,7 @@ void SetMenuEntryProperties(HWND hdlg)
 		{
 			ListData* ld = ( ListData* )tvi.lParam;
 			TCHAR szValue[256];
-			GetWindowText(GetDlgItem(hdlg,IDC_RCLICKVALUE), szValue, sizeof(szValue));
+			GetWindowText(GetDlgItem(hdlg,IDC_RCLICKVALUE), szValue, SIZEOF(szValue));
 			if(_tcslen(szValue))
 			{
 				if(ld->ptszOPQValue&&(ld->ptszOPQValue!=ld->ptszQValue))
@@ -144,7 +144,7 @@ void SetMenuEntryProperties(HWND hdlg)
 		{
 			ButtonData* bd = ( ButtonData* )tvi.lParam;
 			TCHAR szValue[256];
-			GetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE), szValue, sizeof(szValue));
+			GetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE), szValue, SIZEOF(szValue));
 			if(_tcslen(szValue))
 			{
 				if(_tcslen(bd->pszOpValue)&&(bd->pszOpValue!=bd->pszValue))
@@ -213,7 +213,7 @@ void SaveMenuTree(HWND hdlg)
 	g_iButtonsCount=TreeView_GetCount(hButtonsList);
 
 	tvi.pszText = strbuf;
-	tvi.cchTextMax = 256;
+	tvi.cchTextMax = SIZEOF(strbuf);
 	tvi.mask=TVIF_HANDLE|TVIF_TEXT ;
 	tvi.hItem=TreeView_GetRoot(hButtonsList);
 
@@ -492,7 +492,7 @@ void MoveItem( HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild )
 		tvis.item.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT;
 
 		tvis.item.pszText=strbuf;
-		tvis.item.cchTextMax=sizeof(strbuf);
+		tvis.item.cchTextMax=SIZEOF(strbuf);
 		tvis.item.hItem=hItem;
 		TreeView_GetItem(hMenuTree,&tvis.item);				
 	}
@@ -768,12 +768,12 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					TCHAR szLabel[256];
 
 					tvi.pszText = strbuf;
-					tvi.cchTextMax = sizeof(strbuf);
+					tvi.cchTextMax = SIZEOF(strbuf);
 					tvi.mask=TVIF_TEXT |TVIF_HANDLE|TVIF_PARAM;
 					tvi.hItem=TreeView_GetSelection(hMenuTree);
 					TreeView_GetItem(hMenuTree,&tvi);
 
-					GetWindowText(hwndEdit, szLabel, sizeof(szLabel));
+					GetWindowText(hwndEdit, szLabel, SIZEOF(szLabel));
 					hwndEdit=NULL;
 					if (!_tcslen(szLabel)) break;
 					if (bd = (ButtonData*)tvi.lParam){
@@ -836,7 +836,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					bd = ( ButtonData* )tvi.lParam;
 					if (bd) {
 						TCHAR szValue[256];
-						GetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE), szValue, sizeof(szValue));
+						GetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE), szValue, SIZEOF(szValue));
 						if(_tcslen(szValue))
 						{
 							if(bd->pszOpValue&&(bd->pszOpValue!=bd->pszValue))
@@ -912,12 +912,12 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					TCHAR szLabel[128];
 
 					tvi.pszText = strbuf;
-					tvi.cchTextMax = sizeof(strbuf);
+					tvi.cchTextMax = SIZEOF(strbuf);
 					tvi.mask=TVIF_TEXT |TVIF_HANDLE|TVIF_PARAM;
 					tvi.hItem=TreeView_GetSelection(hButtonsList);
 					TreeView_GetItem(hButtonsList,&tvi);
 
-					GetWindowText(hwndEdit, szLabel, sizeof(szLabel));
+					GetWindowText(hwndEdit, szLabel, SIZEOF(szLabel));
 					hwndEdit=NULL;
 					if (!_tcslen(szLabel)) break;
 
@@ -1005,7 +1005,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
 
-				GetWindowText(GetDlgItem(hdlg,IDC_BUTTONNAME),namebuff,MAX_PATH);
+				GetWindowText(GetDlgItem(hdlg,IDC_BUTTONNAME),namebuff,SIZEOF(namebuff));
 
 				tvis.item.mask=TVIF_PARAM|TVIF_TEXT;
 				tvis.item.pszText=(_tcslen(namebuff))?namebuff:TranslateT("New Button");
@@ -1055,7 +1055,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				bd = (ButtonData *)mir_alloc(sizeof(ButtonData));
 				memset(bd,0,sizeof(ButtonData));
 
-				GetWindowText(GetDlgItem(hdlg,IDC_MENUNAME),namebuff,MAX_PATH);
+				GetWindowText(GetDlgItem(hdlg,IDC_MENUNAME),namebuff,SIZEOF(namebuff));
 
 				bd->dwOPPos=TreeView_GetCount(hMenuTree)-1;
 				bd->pszOpName=_tcslen(namebuff)?mir_tstrdup(namebuff):mir_tstrdup(TranslateT("New Menu Entry"));
@@ -1102,7 +1102,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					while(tvi.hItem){
 						tvis.hInsertAfter=hti;
 						tvi.pszText = strbuf;
-						tvi.cchTextMax = sizeof(strbuf);
+						tvi.cchTextMax = SIZEOF(strbuf);
 						tvi.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT;
 
 						TreeView_GetItem(hMenuTree,&tvi); 

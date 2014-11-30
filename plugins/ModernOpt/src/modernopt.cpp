@@ -431,7 +431,6 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 			tvis.hInsertAfter = TVI_LAST;
 			tvis.item.mask = TVIF_IMAGE|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
 			tvis.item.pszText = TranslateTS(obj->optObject.lptzSubsection);
-			tvis.item.cchTextMax = lstrlen(tvis.item.pszText);
 			tvis.item.iImage = tvis.item.iSelectedImage = obj->iTreeImageIndex;
 			tvis.item.lParam = i;
 			TreeView_InsertItem(hwndTree, &tvis);

@@ -984,7 +984,7 @@ static int SaveTree(HWND hToolBarTree)
 	tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE;
 	tvi.hItem = TreeView_GetRoot(hToolBarTree);
 	tvi.pszText = strbuf;
-	tvi.cchTextMax = sizeof(strbuf);
+	tvi.cchTextMax = SIZEOF(strbuf);
 	{
 		mir_cslock lck(ToolBarCS);
 
@@ -1188,7 +1188,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 				tvis.item.stateMask = 0xFFFFFFFF;
 				tvis.item.pszText = strbuf;
-				tvis.item.cchTextMax = sizeof(strbuf);
+				tvis.item.cchTextMax = SIZEOF(strbuf);
 				tvis.item.hItem = (HTREEITEM)hDragItem;
 				TreeView_GetItem(hToolBarTree, &tvis.item);
 				TreeView_DeleteItem(hToolBarTree, hDragItem);
@@ -1329,7 +1329,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					TVITEM tvi;
 					tvi.hItem = hti;
 					tvi.pszText = strbuf;
-					tvi.cchTextMax = sizeof(strbuf);
+					tvi.cchTextMax = SIZEOF(strbuf);
 					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
 					TreeView_GetItem(hToolBarTree, &tvi);
 
@@ -1357,7 +1357,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					TVITEM tvi;
 					tvi.pszText = strbuf;
-					tvi.cchTextMax = sizeof(strbuf);
+					tvi.cchTextMax = SIZEOF(strbuf);
 					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
 					tvi.hItem = hti;
 					TreeView_GetItem(hToolBarTree, &tvi);

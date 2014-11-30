@@ -1799,7 +1799,6 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			item.pszText = newtitle;
 			_tcsncpy(dat->newtitle, newtitle, SIZEOF(dat->newtitle));
 			dat->newtitle[127] = 0;
-			item.cchTextMax = 127;
 			if (dat->pWnd)
 				dat->pWnd->updateTitle(dat->cache->getNick());
 		}

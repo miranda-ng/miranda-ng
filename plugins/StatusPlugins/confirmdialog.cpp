@@ -110,7 +110,6 @@ static int SetStatusList(HWND hwndDlg)
 	// create items
 	LVITEM lvItem = { 0 };
 	lvItem.mask = LVIF_TEXT | LVIF_PARAM;
-	lvItem.cchTextMax = 256;
 
 	for ( int i=0; i < confirmSettings->getCount(); i++ ) {
 		lvItem.pszText = (*confirmSettings)[i].tszAccName;

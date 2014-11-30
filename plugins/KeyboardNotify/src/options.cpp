@@ -221,7 +221,6 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				// fill
 				memset(&lvItem, 0, sizeof(lvItem));
 				lvItem.mask = LVIF_TEXT|LVIF_PARAM;
-				lvItem.cchTextMax = 256;
 				lvItem.iItem = 0;
 				lvItem.iSubItem = 0;
 				for (int i=0; i < ProtoList.protoCount; i++) {
