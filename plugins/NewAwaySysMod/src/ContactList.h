@@ -33,7 +33,7 @@ typedef TREEITEMARRAY* PTREEITEMARRAY;
 class CCLItemData // internal CCList's class
 {
 public:
-	CCLItemData(MCONTACT hContact = INVALID_CONTACT_ID): hContact(hContact) {FillMemory(ExtraIcons, sizeof(ExtraIcons), CLC_EXTRAICON_EMPTY);};
+	CCLItemData(MCONTACT hContact = INVALID_CONTACT_ID): hContact(hContact) {memset(ExtraIcons, CLC_EXTRAICON_EMPTY, sizeof(ExtraIcons));};
 
 	BYTE ExtraIcons[MAXEXTRAICONS];
 	MCONTACT hContact;
