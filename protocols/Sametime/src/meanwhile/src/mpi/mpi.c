@@ -1644,7 +1644,7 @@ mw_mp_err mw_mp_exptmod(mw_mp_int *a, mw_mp_int *b, mw_mp_int *m, mw_mp_int *c)
   mw_mp_int   s, x, mu;
   mw_mp_err   res;
   mw_mp_digit d, *db;
-  mw_mp_size  ub = USED(b);
+  mw_mp_size  ub;
   /// Miranda NG adaptation start - MSVC
   ///int      dig, bit;
   int bit;
@@ -1674,6 +1674,7 @@ mw_mp_err mw_mp_exptmod(mw_mp_int *a, mw_mp_int *b, mw_mp_int *m, mw_mp_int *c)
 
   /* Loop over digits of b in ascending order, except highest order */
   db = DIGITS(b);
+  ub = USED(b);
   for(dig = 0; dig < (ub - 1); dig++) {
     d = *db++;
 
