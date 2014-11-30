@@ -10,6 +10,9 @@
     <Filter Include="Resource files">
       <UniqueIdentifier>{bd7eb20f-c543-40d6-9556-32b3c127a442}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource files\Icons">
+      <UniqueIdentifier>{3f25d4df-9d63-4d91-955f-04d8f3279908}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">
@@ -78,13 +81,13 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\mail.ico">
-      <Filter>Resource files</Filter>
-    </None>
-    <None Include="res\unread.ico">
-      <Filter>Resource files</Filter>
-    </None>
     <None Include="docs\exchange_readme.txt" />
     <None Include="docs\exchange_readme_NG.txt" />
+    <None Include="res\unread.ico">
+      <Filter>Resource files\Icons</Filter>
+    </None>
+    <None Include="res\mail.ico">
+      <Filter>Resource files\Icons</Filter>
+    </None>
   </ItemGroup>
 </Project>

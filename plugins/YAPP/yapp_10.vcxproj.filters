@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{3c29ebac-bd66-463e-a010-9a1a520fa214}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\message_pump.cpp">
@@ -87,14 +90,14 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\popup.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\popup_no.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\popup.ico">
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\popup_history.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>
 </Project>
