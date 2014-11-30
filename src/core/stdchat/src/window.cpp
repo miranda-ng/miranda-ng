@@ -393,10 +393,10 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 						end ++;
 
 					if ( dat->szTabSave[0] =='\0')
-						lstrcpyn( dat->szTabSave, pszText+start, end-start+1 );
+						mir_tstrncpy( dat->szTabSave, pszText+start, end-start+1 );
 
 					pszSelName = (TCHAR *)mir_alloc( sizeof(TCHAR)*( end-start+1 ));
-					lstrcpyn( pszSelName, pszText+start, end-start+1);
+					mir_tstrncpy( pszSelName, pszText+start, end-start+1);
 					pszName = pci->UM_FindUserAutoComplete(Parentsi->pUsers, dat->szTabSave, pszSelName);
 					if (pszName == NULL) {
 						pszName = dat->szTabSave;
@@ -1543,9 +1543,9 @@ END_REMOVETAB:
 				int insertat;
 				TCHAR szTemp [30];
 
-				lstrcpyn(szTemp, s1->ptszName, 21);
-				if (lstrlen(s1->ptszName) >20)
-					lstrcpyn(szTemp+20, _T("..."), 4);
+				mir_tstrncpy(szTemp, s1->ptszName, 21);
+				if (mir_tstrlen(s1->ptszName) >20)
+					mir_tstrncpy(szTemp+20, _T("..."), 4);
 
 				tci.mask = TCIF_TEXT|TCIF_PARAM ;
 				tci.pszText = szTemp;
@@ -1790,7 +1790,7 @@ END_REMOVETAB:
 					}
 
 					SetTextColor(dis->hDC, ui->iStatusEx == 0?g_Settings.crUserListColor:g_Settings.crUserListHeadingsColor);
-					TextOut(dis->hDC, dis->rcItem.left+x_offset, dis->rcItem.top, ui->pszNick, lstrlen(ui->pszNick));
+					TextOut(dis->hDC, dis->rcItem.left+x_offset, dis->rcItem.top, ui->pszNick, (int)mir_tstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 
 					if (si->pAccPropServicesForNickList) {
@@ -2136,9 +2136,9 @@ LABEL_SHOWWINDOW:
 					tr.lpstrText = pszWord;
 					long iRes = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					if (iRes > 0) {
-						int iLen = lstrlen(pszWord) - 1;
+						int iLen = (int)mir_tstrlen(pszWord)-1;
 						while (iLen >= 0 && _tcschr(szTrimString, pszWord[iLen])) {
-							pszWord[iLen] = _T('\0');
+							pszWord[iLen] = 0;
 							iLen--;
 				}	}	}
 
@@ -2240,8 +2240,8 @@ LABEL_SHOWWINDOW:
 									if (!OpenClipboard(hwndDlg))
 										break;
 									EmptyClipboard();
-									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
-									lstrcpy(( TCHAR* )GlobalLock(hData), tr.lpstrText);
+									hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tr.lpstrText) + 1));
+									mir_tstrcpy(( TCHAR* )GlobalLock(hData), tr.lpstrText);
 									GlobalUnlock(hData);
 									SetClipboardData(CF_UNICODETEXT, hData);
 									CloseClipboard();
@@ -2295,11 +2295,11 @@ LABEL_SHOWWINDOW:
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
 						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR)*(lstrlen(ui->pszUID) + 3));
+						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR)*(mir_tstrlen(ui->pszUID) + 3));
 						if (start == 0)
-							mir_sntprintf(pszName, lstrlen(ui->pszUID) + 3, _T("%s: "), ui->pszUID);
+							mir_sntprintf(pszName, mir_tstrlen(ui->pszUID) + 3, _T("%s: "), ui->pszUID);
 						else
-							mir_sntprintf(pszName, lstrlen(ui->pszUID) + 2, _T("%s "), ui->pszUID);
+							mir_sntprintf(pszName, mir_tstrlen(ui->pszUID) + 2, _T("%s "), ui->pszUID);
 
 						SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);

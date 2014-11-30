@@ -217,7 +217,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 				TCHAR find[256];
 				if (data->findReadOnly)
-					lstrcpyn(find, data->find.c_str(), SIZEOF(find));
+					mir_tstrncpy(find, data->find.c_str(), SIZEOF(find));
 				else {
 					GetDlgItemText(hwndDlg, IDC_OLD, find, SIZEOF(find));
 					lstrtrim(find);

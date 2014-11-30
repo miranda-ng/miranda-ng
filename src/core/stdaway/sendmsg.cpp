@@ -131,10 +131,10 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, SIZEOF(substituteStr));
 			else continue;
 
-			if (lstrlen(substituteStr) > 6)
-				dbv.ptszVal = (TCHAR*)mir_realloc(dbv.ptszVal, (lstrlen(dbv.ptszVal) + 1 + lstrlen(substituteStr) - 6) * sizeof(TCHAR));
-			MoveMemory(dbv.ptszVal + i + lstrlen(substituteStr), dbv.ptszVal + i + 6, (lstrlen(dbv.ptszVal) - i - 5) * sizeof(TCHAR));
-			CopyMemory(dbv.ptszVal+i, substituteStr, lstrlen(substituteStr) * sizeof(TCHAR));
+			if (mir_tstrlen(substituteStr) > 6)
+				dbv.ptszVal = (TCHAR*)mir_realloc(dbv.ptszVal, (mir_tstrlen(dbv.ptszVal) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
+			MoveMemory(dbv.ptszVal + i + mir_tstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_tstrlen(dbv.ptszVal) - i - 5) * sizeof(TCHAR));
+			CopyMemory(dbv.ptszVal+i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 	}
 	return dbv.ptszVal;
@@ -408,7 +408,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Default"), &dbv))
 					if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Msg"), &dbv))
 						dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusModes[i]));
-				lstrcpy(dat->info[j].msg, dbv.ptszVal);
+				mir_tstrcpy(dat->info[j].msg, dbv.ptszVal);
 				mir_free(dbv.ptszVal);
 			}
 			if (hLst)

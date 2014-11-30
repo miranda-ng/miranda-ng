@@ -549,11 +549,11 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	else {
 		DBVARIANT dbv;
 		if ( db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
-			lstrcpyn(CurrBassPath, VARST( _T("Plugins\\Bass\\bass.dll")), SIZEOF(CurrBassPath));
+			mir_tstrncpy(CurrBassPath, VARST( _T("Plugins\\Bass\\bass.dll")), SIZEOF(CurrBassPath));
 			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
 		}
 		else {
-			lstrcpy(CurrBassPath, dbv.ptszVal);
+			mir_tstrcpy(CurrBassPath, dbv.ptszVal);
 			db_free(&dbv);
 		}
 	}

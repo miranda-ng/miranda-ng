@@ -198,7 +198,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			}
 
 			if (szTemp[0]) {
-				int iLen = lstrlenA(szTemp);
+				int iLen = mir_strlen(szTemp);
 				memcpy(d, szTemp, iLen);
 				d += iLen;
 			}
@@ -226,11 +226,11 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 	TCHAR szTemp[512], szTemp2[512];
 	TCHAR* pszNick = NULL;
 	if (streamData->lin->ptszNick) {
-		if (g_Settings->bLogLimitNames && lstrlen(streamData->lin->ptszNick) > 20) {
-			lstrcpyn(szTemp2, streamData->lin->ptszNick, 20);
-			lstrcpyn(szTemp2 + 20, _T("..."), 4);
+		if (g_Settings->bLogLimitNames && mir_tstrlen(streamData->lin->ptszNick) > 20) {
+			mir_tstrncpy(szTemp2, streamData->lin->ptszNick, 20);
+			mir_tstrncpy(szTemp2 + 20, _T("..."), 4);
 		}
-		else lstrcpyn(szTemp2, streamData->lin->ptszNick, 511);
+		else mir_tstrncpy(szTemp2, streamData->lin->ptszNick, 511);
 
 		if (streamData->lin->ptszUserInfo)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo);
@@ -384,8 +384,8 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			if (g_Settings->bShowTime) {
 				TCHAR szTimeStamp[30], szOldTimeStamp[30];
 
-				lstrcpyn(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
-				lstrcpyn(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
+				mir_tstrncpy(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
+				mir_tstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
 				if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || lstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
@@ -398,7 +398,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				TCHAR pszTemp[300], *p1;
 
 				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
-				lstrcpyn(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
+				mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
 				p1 = _tcsstr(pszTemp, _T("%n"));
 				if (p1)
 					p1[1] = 's';

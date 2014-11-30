@@ -334,7 +334,7 @@ static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlC
 {
 	TCHAR *user = txtUsername.GetText();
 	TCHAR *server = cbServer.GetText();
-	int len = lstrlen(user) + lstrlen(server) + 2;
+	int len = mir_tstrlen(user) + mir_tstrlen(server) + 2;
 	TCHAR *jid = (TCHAR *)mir_alloc(len * sizeof(TCHAR));
 	mir_sntprintf(jid, len, _T("%s@%s"), user, server);
 	ppro->setTString("jid", jid);
@@ -1327,7 +1327,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 							if (Data)
 							{
 								jid=xmlGetText(Data);
-								if (!jid || lstrlen(jid)==0) continue;
+								if (!jid || mir_tstrlen(jid)==0) continue;
 							}
 
 							Cell=xmlGetNthChild(Row,_T("Cell"),3);
@@ -1654,7 +1654,7 @@ protected:
 		m_cbServer.GetTextA(server, SIZEOF(server));
 		ptrA dbManualServer( db_get_sa(NULL, m_proto->m_szModuleName, "ManualHost"));
 		if (dbManualServer != NULL)
-			lstrcpynA(manualServer, dbManualServer, SIZEOF(manualServer));
+			mir_strncpy(manualServer, dbManualServer, SIZEOF(manualServer));
 
 		m_canregister = true;
 		if (!lstrcmpA(manualServer, "talk.google.com")) {

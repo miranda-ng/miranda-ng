@@ -177,7 +177,7 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 	// SetAvatar(hContact);
 
 	if (displayName == NULL) {
-		TCHAR *tszTemp = (TCHAR*)alloca((lstrlen(jid) + lstrlen(unreadCount) + 3 + 1) * sizeof(TCHAR));
+		TCHAR *tszTemp = (TCHAR*)alloca((mir_tstrlen(jid) + mir_tstrlen(unreadCount) + 3 + 1) * sizeof(TCHAR));
 		FormatPseudocontactDisplayName(tszTemp, jid, unreadCount);
 		db_set_ts(hContact, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, tszTemp);
 	}
@@ -231,8 +231,8 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 	}
 
 	data->PluginWindowProc = PopupProc;
-	int lurl = (lstrlen(url) + 1) * sizeof(TCHAR);
-	int ljid = (lstrlen(jid) + 1) * sizeof(TCHAR);
+	int lurl = (mir_tstrlen(url) + 1) * sizeof(TCHAR);
+	int ljid = (mir_tstrlen(jid) + 1) * sizeof(TCHAR);
 
 	POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)malloc(sizeof(POPUP_DATA_HEADER) + lurl + ljid);
 	ppdh->MarkRead = FALSE;
@@ -272,7 +272,7 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 			mir_sntprintf(currSender, SENDER_COUNT * 100, _T("    %s <%s>\n"), mtn->senders[i].name, mtn->senders[i].addr);
 		else
 			mir_sntprintf(currSender, SENDER_COUNT * 100, _T("    %s\n"), mtn->senders[i].addr);
-		currSender += lstrlen(currSender);
+		currSender += mir_tstrlen(currSender);
 	}
 
 	if ( ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))

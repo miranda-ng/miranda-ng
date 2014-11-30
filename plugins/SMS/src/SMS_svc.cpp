@@ -10,7 +10,7 @@ int LoadServices(void)
 	// Service creation
 	for (size_t i=0;i<SIZEOF(siPluginServices);i++)
 	{
-		CopyMemory(pszServiceFunctionName,siPluginServices[i].lpszName,(lstrlenA(siPluginServices[i].lpszName)+1));
+		CopyMemory(pszServiceFunctionName,siPluginServices[i].lpszName,(mir_strlen(siPluginServices[i].lpszName)+1));
 		CreateServiceFunction(szServiceFunction,(MIRANDASERVICE)siPluginServices[i].lpFunc);
 	}
 	return 0;

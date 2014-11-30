@@ -86,12 +86,12 @@ private :
 
 struct CIrcSessionInfo
 {
-	String  sServer;
+	CMStringA  sServer;
 	CMString sServerName;
 	CMString sNick;
 	CMString sUserID;
 	CMString sFullName;
-	String  sPassword;
+	CMStringA  sPassword;
 	CMString sIdentServerType;
 	CMString sNetwork;
 	bool bIdentServer;

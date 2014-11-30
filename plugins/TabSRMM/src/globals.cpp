@@ -429,7 +429,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 			fChanged = c->updateStatus();
 			fNickChanged = c->updateNick();
 		}
-		if (lstrlenA(setting) > 6 && lstrlenA(setting) < 9 && !strncmp(setting, "Status", 6)) {
+		if (mir_strlen(setting) > 6 && mir_strlen(setting) < 9 && !strncmp(setting, "Status", 6)) {
 			fChanged = true;
 			if (c) {
 				c->updateMeta();
@@ -443,7 +443,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 				c->updateUIN();
 			PostMessage(hwnd, DM_UPDATEUIN, 0, 0);
 		}
-		else if (lstrlenA(setting) > 6 && strstr("StatusMsg,XStatusMsg,XStatusName,XStatusId,ListeningTo", setting)) {
+		else if (mir_strlen(setting) > 6 && strstr("StatusMsg,XStatusMsg,XStatusName,XStatusId,ListeningTo", setting)) {
 			if (c) {
 				c->updateStatusMsg(setting);
 				fExtendedStatusChange = true;
@@ -624,7 +624,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	ptrA szMsg(mir_utf8encodeT(text));
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.pBlob = (PBYTE)(char*)szMsg;
-	dbei.cbBlob = lstrlenA(szMsg) + 1;
+	dbei.cbBlob = mir_strlen(szMsg) + 1;
 	dbei.flags = DBEF_UTF | DBEF_READ;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(NULL);

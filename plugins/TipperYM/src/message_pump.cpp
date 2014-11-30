@@ -327,7 +327,7 @@ int ProtoAck(WPARAM wParam, LPARAM lParam)
 
 	if (ack->type == ACKTYPE_AWAYMSG) {
 		TCHAR *tszMsg = (TCHAR*)ack->lParam;
-		if (lstrlen(tszMsg))
+		if (mir_tstrlen(tszMsg))
 			PostMPMessage(MUM_GOTSTATUS, (WPARAM)ack->hContact, (LPARAM)mir_tstrdup(tszMsg));
 	}
 	else if (ack->type == ICQACKTYPE_XSTATUS_RESPONSE)

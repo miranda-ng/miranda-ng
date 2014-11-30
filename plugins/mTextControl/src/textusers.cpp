@@ -44,8 +44,8 @@ HANDLE DLL_CALLCONV
 MTI_TextUserAdd(const char *userTitle, DWORD options)
 {
 	TextUser *textUserNew = new TextUser;
-	textUserNew->name = new char [lstrlenA(userTitle)+1];
-	lstrcpyA(textUserNew->name, userTitle);
+	textUserNew->name = new char [mir_strlen(userTitle)+1];
+	mir_strcpy(textUserNew->name, userTitle);
 	textUserNew->options =
 		(db_get_dw(0, MODULNAME, userTitle, options)&MTEXT_FANCY_MASK) | (textUserNew->options&MTEXT_SYSTEM_MASK);
 	db_set_dw(0, MODULNAME, userTitle, textUserNew->options);

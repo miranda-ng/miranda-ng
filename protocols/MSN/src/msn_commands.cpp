@@ -292,7 +292,7 @@ void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, i
 			size_t slen = strlen(lastsml);
 			ptrA buf(mir_base64_encode((PBYTE)lastsml, (unsigned)slen));
 			ptrA smileyName(mir_urlEncode(buf));
-			int rlen = lstrlenA(buf);
+			int rlen = mir_strlen(buf);
 
 			TCHAR path[MAX_PATH];
 			MSN_GetCustomSmileyFileName(hContact, path, SIZEOF(path), smileyName, iSmileyType);

@@ -49,7 +49,7 @@ static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
 	if (!path)
 		return (HICON)NULL;
 
-	lstrcpyn(file, path, SIZEOF(file));
+	mir_tstrncpy(file, path, SIZEOF(file));
 	comma = _tcsrchr(file, ',');
 	if (!comma)
 		n = 0;
@@ -150,7 +150,7 @@ static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 {
 	TCHAR path[ MAX_PATH ];
 	mir_sntprintf(path, SIZEOF(path), _T("%s,"), filename);
-	int suffIndx = lstrlen(path);
+	int suffIndx = mir_tstrlen(path);
 
 	mir_cslock lck(csIconList);
 
@@ -259,29 +259,29 @@ static TCHAR* OpenFileDlg(HWND hParent, const TCHAR* szFile, BOOL bAll)
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hParent;
 
-	lstrcpy(filter, TranslateT("Icon sets"));
+	mir_tstrcpy(filter, TranslateT("Icon sets"));
 	if (bAll)
-		lstrcat(filter, _T(" (*.dll;*.icl;*.exe;*.ico)"));
+		mir_tstrcat(filter, _T(" (*.dll;*.icl;*.exe;*.ico)"));
 	else
-		lstrcat(filter, _T(" (*.dll)"));
+		mir_tstrcat(filter, _T(" (*.dll)"));
 
-	pfilter = filter+lstrlen(filter)+1;
+	pfilter = filter+mir_tstrlen(filter)+1;
 	if (bAll)
-		lstrcpy(pfilter, _T("*.DLL;*.ICL;*.EXE;*.ICO"));
+		mir_tstrcpy(pfilter, _T("*.DLL;*.ICL;*.EXE;*.ICO"));
 	else
-		lstrcpy(pfilter, _T("*.DLL"));
+		mir_tstrcpy(pfilter, _T("*.DLL"));
 
-	pfilter += lstrlen(pfilter) + 1;
-	lstrcpy(pfilter, TranslateT("All files"));
-	lstrcat(pfilter, _T(" (*)"));
-	pfilter += lstrlen(pfilter) + 1;
-	lstrcpy(pfilter, _T("*"));
-	pfilter += lstrlen(pfilter) + 1;
+	pfilter += mir_tstrlen(pfilter) + 1;
+	mir_tstrcpy(pfilter, TranslateT("All files"));
+	mir_tstrcat(pfilter, _T(" (*)"));
+	pfilter += mir_tstrlen(pfilter) + 1;
+	mir_tstrcpy(pfilter, _T("*"));
+	pfilter += mir_tstrlen(pfilter) + 1;
 	*pfilter = '\0';
 
 	ofn.lpstrFilter = filter;
 	ofn.lpstrDefExt = _T("dll");
-	lstrcpyn(file, szFile, SIZEOF(file));
+	mir_tstrncpy(file, szFile, SIZEOF(file));
 	ofn.lpstrFile = file;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
 	ofn.nMaxFile = MAX_PATH*2;
@@ -707,7 +707,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				int sectionLevel = 0;
 
 				hSection = NULL;
-				lstrcpy(itemName, sectionList[indx]->name);
+				mir_tstrcpy(itemName, sectionList[indx]->name);
 				sectionName = itemName;
 
 				while (sectionName) {

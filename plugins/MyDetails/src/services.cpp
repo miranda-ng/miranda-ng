@@ -60,7 +60,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 
 					if (foundDefNick)
 						if (_tcsicmp(protocols->default_nick, nick) != 0)
-							lstrcpy(protocols->default_nick, nick);
+							mir_tstrcpy(protocols->default_nick, nick);
 				}
 
 				SetDlgItemText(hwndDlg, IDC_NICKNAME, protocols->default_nick);
@@ -189,7 +189,7 @@ INT_PTR PluginCommand_GetMyNickname(WPARAM wParam, LPARAM lParam)
 	char *proto = (char *)wParam;
 	if (proto == NULL) {
 		if (protocols->default_nick != NULL)
-			lstrcpyn(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
+			mir_tstrncpy(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
 		else
 			ret[0] = '\0';
 
@@ -198,7 +198,7 @@ INT_PTR PluginCommand_GetMyNickname(WPARAM wParam, LPARAM lParam)
 	else {
 		Protocol *protocol = protocols->Get(proto);
 		if (protocol != NULL) {
-			lstrcpyn(ret, protocol->nickname, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
+			mir_tstrncpy(ret, protocol->nickname, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
 			return 0;
 		}
 
@@ -268,7 +268,7 @@ INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 	if (proto == NULL) {
 		if (protocols->default_avatar_file != NULL)
-			lstrcpyn(ret, protocols->default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
+			mir_tstrncpy(ret, protocols->default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 		else
 			ret[0] = '\0';
 
@@ -283,7 +283,7 @@ INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 			protocols->Get(i)->GetAvatar();
 
 			if (protocols->Get(i)->avatar_file != NULL)
-				lstrcpyn(ret, protocols->Get(i)->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
+				mir_tstrncpy(ret, protocols->Get(i)->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 			else
 				ret[0] = '\0';
 

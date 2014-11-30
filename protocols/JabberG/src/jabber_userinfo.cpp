@@ -47,12 +47,12 @@ struct UserInfoStringBuf
 	void append(TCHAR *str) {
 		if (!str) return;
 
-		int length = lstrlen(str);
+		int length = mir_tstrlen(str);
 		if (size - offset < length + 1) {
 			size += (length + STRINGBUF_INCREMENT);
 			buf = (TCHAR *)mir_realloc(buf, size * sizeof(TCHAR));
 		}
-		lstrcpy(buf + offset, str);
+		mir_tstrcpy(buf + offset, str);
 		offset += length;
 	}
 
@@ -65,7 +65,7 @@ struct UserInfoStringBuf
 	}
 
 	void actualize() {
-		if (buf) offset = lstrlen(buf);
+		if (buf) offset = mir_tstrlen(buf);
 	}
 };
 
@@ -177,7 +177,7 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 	if (title)
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s"), title, value);
 	else
-		lstrcpyn(buf, value, SIZEOF(buf));
+		mir_tstrncpy(buf, value, SIZEOF(buf));
 
 	TVINSERTSTRUCT tvis = {0};
 	tvis.hParent = htiRoot;
@@ -257,14 +257,14 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 
 	// Idle
 	if (r->m_dwIdleStartTime > 0) {
-		lstrcpyn(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
-		int len = lstrlen(buf);
+		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
+		int len = mir_tstrlen(buf);
 		if (len > 0) buf[len-1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("unknown"), SIZEOF(buf));
 	else
-		lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("<not specified>"), SIZEOF(buf));
 
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 
@@ -365,14 +365,14 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	// logoff
 	JABBER_RESOURCE_STATUS *r = item->getTemp();
 	if (r->m_dwIdleStartTime > 0) {
-		lstrcpyn(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
-		int len = lstrlen(buf);
+		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
+		int len = mir_tstrlen(buf);
 		if (len > 0) buf[len-1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
-		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("unknown"), SIZEOF(buf));
 	else
-		lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("<not specified>"), SIZEOF(buf));
 
 	sttFillInfoLine(hwndTree, htiRoot, NULL,
 		(item->jid && _tcschr(item->jid, _T('@'))) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
@@ -383,9 +383,9 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// activity
 	if (item->m_pLastSeenResource)
-		lstrcpyn(buf, item->m_pLastSeenResource->m_tszResourceName, SIZEOF(buf));
+		mir_tstrncpy(buf, item->m_pLastSeenResource->m_tszResourceName, SIZEOF(buf));
 	else
-		lstrcpyn(buf, TranslateT("<no information available>"), SIZEOF(buf));
+		mir_tstrncpy(buf, TranslateT("<no information available>"), SIZEOF(buf));
 
 	sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Last active resource"), buf,
 		sttInfoLineId(0, INFOLINE_LASTACTIVE));

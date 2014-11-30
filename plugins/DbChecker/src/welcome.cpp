@@ -42,7 +42,7 @@ INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM l
 			SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &ncm, 0);
 			LOGFONT TitleLogFont = ncm.lfMessageFont;
 			TitleLogFont.lfWeight = FW_BOLD;
-			lstrcpy(TitleLogFont.lfFaceName, TEXT("Verdana Bold"));
+			mir_tstrcpy(TitleLogFont.lfFaceName, TEXT("Verdana Bold"));
 
 			HDC hdc = GetDC(NULL);
 			INT FontSize = 12;

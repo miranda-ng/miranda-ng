@@ -80,7 +80,7 @@ static TCHAR* GetExecuteParam(TCHAR **ppszString)
 	if(p!=NULL) {
 		*(p++)=0;
 		if(fQuoted && *p==_T(',')) p++;
-	} else p=&pszParam[lstrlen(pszParam)];
+	} else p=&pszParam[mir_tstrlen(pszParam)];
 	*ppszString=p;
 	return pszParam;
 }
@@ -173,7 +173,7 @@ static HANDLE StartupMainProcess(TCHAR *pszDatabasePath)
 	p=_tcsrchr(szPath,_T('\\'));
 	if(p!=NULL) {	*p=0; p=_tcsrchr(szPath,_T('\\')); }
 	if(p==NULL) return NULL;
-	lstrcpy(++p,_T("miranda32.exe"));
+	mir_tstrcpy(++p,_T("miranda32.exe"));
 
 	/* inherit startup data from RunDll32 process */
 	STARTUPINFO si;

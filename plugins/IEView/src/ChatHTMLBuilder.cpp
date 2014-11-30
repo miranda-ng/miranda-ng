@@ -74,9 +74,9 @@ void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, SIZEOF(str), "Font%d", i);
 		if (db_get(NULL, CHATFONTMOD, str, &dbv))
-			lstrcpyA(lf->lfFaceName, "Verdana");
+			mir_strcpy(lf->lfFaceName, "Verdana");
 		else {
-			lstrcpynA(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
+			mir_strncpy(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
 			db_free(&dbv);
 		}
 	}
@@ -89,7 +89,7 @@ char *ChatHTMLBuilder::timestampToString(time_t time)
 	char *pszStamp = "[%H:%M]";
 	//InitSetting( &g_Settings.pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
 	strftime(str, 79, pszStamp, localtime(&time));
-	lstrcpynA(szResult, ptrA(mir_utf8encode(str)), 500);
+	mir_strncpy(szResult, ptrA(mir_utf8encode(str)), 500);
 	return szResult;
 }
 

@@ -1810,7 +1810,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 	};
 	g_pfwFrames[g_nFramesCount].dwFlags = clfrm->Flags;
 
-    if (clfrm->name == NULL || ((clfrm->Flags&F_UNICODE) ? lstrlenW(clfrm->wname) : lstrlenA(clfrm->name)) == 0) {
+    if (clfrm->name == NULL || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->wname) : mir_strlen(clfrm->name)) == 0) {
         g_pfwFrames[g_nFramesCount].name = (LPTSTR)mir_alloc(255 * sizeof(TCHAR));
         GetClassName(g_pfwFrames[g_nFramesCount].hWnd,g_pfwFrames[g_nFramesCount].name,255);
     }
@@ -1820,7 +1820,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 	}
 	g_pfwFrames[g_nFramesCount].szName = mir_t2a(g_pfwFrames[g_nFramesCount].name);
     if (IsBadCodePtr((FARPROC)clfrm->TBname) || clfrm->TBname == NULL
-        || ((clfrm->Flags&F_UNICODE) ? lstrlenW(clfrm->TBwname) : lstrlenA(clfrm->TBname)) == 0)
+        || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->TBwname) : mir_strlen(clfrm->TBname)) == 0)
         g_pfwFrames[g_nFramesCount].TitleBar.tbname = mir_tstrdup(g_pfwFrames[g_nFramesCount].name);
     else
         g_pfwFrames[g_nFramesCount].TitleBar.tbname = (clfrm->Flags&F_UNICODE) ? mir_u2t(clfrm->TBwname) : mir_a2t(clfrm->TBname);
@@ -2873,7 +2873,7 @@ int DrawTitleBar(HDC hdcMem2,RECT *rect,int Frameid)
 				textrc.left += GetSystemMetrics(SM_CXSMICON)+2;
 				textrc.top += 2;
 			}
-			ske_TextOut(hdcMem,textrc.left,textrc.top,g_pfwFrames[pos].TitleBar.tbname,lstrlen(g_pfwFrames[pos].TitleBar.tbname));
+			ske_TextOut(hdcMem,textrc.left,textrc.top,g_pfwFrames[pos].TitleBar.tbname,mir_tstrlen(g_pfwFrames[pos].TitleBar.tbname));
 
 		}
 		if (!AlignCOLLIconToLeft)

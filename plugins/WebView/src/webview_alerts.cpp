@@ -116,10 +116,10 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	if( ((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
 		db_get_ts(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
-		lstrcpyn(ppd.lptzContactName, dbv.ptszVal, SIZEOF(ppd.lptzContactName));
+		mir_tstrncpy(ppd.lptzContactName, dbv.ptszVal, SIZEOF(ppd.lptzContactName));
 		db_free(&dbv);
 	}
-	else lstrcpy(ppd.lptzContactName, _T(MODULENAME));
+	else mir_tstrcpy(ppd.lptzContactName, _T(MODULENAME));
 
 	ppd.lchContact = wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));

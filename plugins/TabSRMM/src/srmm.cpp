@@ -152,7 +152,7 @@ int _DebugTraceA(const char *fmt, ...)
 	va_list va;
 	va_start(va, fmt);
 
-	lstrcpyA(debug, "TABSRMM: ");
+	mir_strcpy(debug, "TABSRMM: ");
 	mir_vsnprintf(&debug[9], ibsize - 10, fmt, va);
 #ifdef _DEBUG
  	OutputDebugStringA(debug);

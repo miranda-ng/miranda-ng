@@ -534,7 +534,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 		if (ptszStatusMsg && *ptszStatusMsg) {
 			TCHAR *bufPtr = url_buf;
 			for (TCHAR *p = _tcsstr(ptszStatusMsg, _T("http://")); p && *p; p = _tcsstr(p+1, _T("http://"))) {
-				lstrcpyn(bufPtr, p, SIZEOF(url_buf) - (bufPtr - url_buf));
+				mir_tstrncpy(bufPtr, p, SIZEOF(url_buf) - (bufPtr - url_buf));
 				gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
 				pItem->pszDesc = bufPtr;
 				pItem->uType = MENU_POPUPITEM;
@@ -754,7 +754,7 @@ public:
 			return;
 
 		JabberGcLogInviteDlgJidData *jidData = (JabberGcLogInviteDlgJidData *)mir_alloc(sizeof(JabberGcLogInviteDlgJidData));
-		lstrcpy(jidData->jid, buf);
+		mir_tstrcpy(jidData->jid, buf);
 		CLCINFOITEM cii = { 0 };
 		cii.cbSize = sizeof(cii);
 		cii.flags = CLCIIF_CHECKBOX;
@@ -1018,7 +1018,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 				*p = 0;
 				mir_sntprintf(buf, SIZEOF(buf), _T("%s%s%s"), szMessage, him->m_tszResourceName, p + 2);
 			}
-			else lstrcpyn(buf, szMessage, SIZEOF(buf));
+			else mir_tstrncpy(buf, szMessage, SIZEOF(buf));
 			UnEscapeChatTags(buf);
 
 			ppro->m_ThreadInfo->send(
@@ -1397,7 +1397,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
-		if (gch->ptszText && lstrlen(gch->ptszText) > 0) {
+		if (gch->ptszText && mir_tstrlen(gch->ptszText) > 0) {
 			rtrimt(gch->ptszText);
 
 			if (m_bJabberOnline) {

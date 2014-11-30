@@ -1,9 +1,9 @@
 /*
  * $Id: proto.cpp 9802 2009-05-18 03:03:48Z gena01 $
  *
- * myYahoo Miranda Plugin 
+ * myYahoo Miranda Plugin
  *
- * Authors: Gennady Feldman (aka Gena01) 
+ * Authors: Gennady Feldman (aka Gena01)
  *          Laurent Marechal (aka Peorth)
  *
  * This code is under GPL and is based on AIM, MSN and Miranda source code.
@@ -30,7 +30,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 
 		//SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
 
-		
+
 		break;
 
 	case WM_NOTIFY:
@@ -61,39 +61,39 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 					if (hContact) {
 						DBVARIANT dbv;
 						char z[128];
-						
+
 						if (ppro->getString( hContact,  YAHOO_LOGINID, &dbv) == 0) {
-							strcpy(z, dbv.pszVal);
+							mir_strcpy(z, dbv.pszVal);
 							db_free(&dbv);
 						} else {
-							strcpy(z, "???");
+							mir_strcpy(z, "???");
 						}
-						
+
 						SetDlgItemTextA(hwndDlg, IDC_SEARCH_ID, z);
-						
+
 						if (ppro->getString( hContact,  "Transport", &dbv) == 0) {
-							strcpy(z, dbv.pszVal);
+							mir_strcpy(z, dbv.pszVal);
 							db_free(&dbv);
 						} else {
-							strcpy(z, "Yahoo");
+							mir_strcpy(z, "Yahoo");
 						}
-						
+
 						SetDlgItemTextA(hwndDlg, IDC_SEARCH_PROTOCOL, z);
-						
+
 						if (ppro->getString( hContact,  "MirVer", &dbv) == 0) {
-							strcpy(z, dbv.pszVal);
+							mir_strcpy(z, dbv.pszVal);
 							db_free(&dbv);
 						} else {
-							strcpy(z, "???");
+							mir_strcpy(z, "???");
 						}
-						
+
 						SetDlgItemTextA(hwndDlg, IDC_NFO_CLIENT, z);
-						
+
 					} else {
 					}
 				}
 				break;
-			}	
+			}
 		}
 		break;
 
@@ -102,7 +102,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 		break;
 
 	case WM_DESTROY:
-		
+
 		break;
 	}
 	return FALSE;
@@ -125,7 +125,6 @@ int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 		odp.pszTemplate = MAKEINTRESOURCEA( IDD_USER_INFO );
 		odp.ptszTitle = m_tszUserName;
 		UserInfo_AddPage(wParam, &odp);
-	} 
+	}
 	return 0;
 }
-

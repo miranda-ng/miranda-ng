@@ -211,10 +211,10 @@ static void CheckUpdates(void *)
 	}
 	// Download version info
 	pFileUrl = (FILEURL *)mir_alloc(sizeof(*pFileUrl));
-	lstrcpyn(pFileUrl->tszDownloadURL, dbVar.ptszVal, SIZEOF(pFileUrl->tszDownloadURL));
+	mir_tstrncpy(pFileUrl->tszDownloadURL, dbVar.ptszVal, SIZEOF(pFileUrl->tszDownloadURL));
 	mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("%s\\tmp.ini"), tszRoot);
-	lstrcpyn(pFileUrl->tszDiskPath, tszBuff, SIZEOF(pFileUrl->tszDiskPath));
-	lstrcpyn(tszTmpIni, tszBuff, SIZEOF(tszTmpIni));
+	mir_tstrncpy(pFileUrl->tszDiskPath, tszBuff, SIZEOF(pFileUrl->tszDiskPath));
+	mir_tstrncpy(tszTmpIni, tszBuff, SIZEOF(tszTmpIni));
 	Title = TranslateT("Pack Updater");
 	Text = TranslateT("Downloading version info...");
 	DlgDownloadProc();
@@ -232,18 +232,18 @@ static void CheckUpdates(void *)
 		db_get_ts(NULL, MODNAME, szKey, &dbVar);
 		if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
 			db_free(&dbVar);
-			lstrcpyn(FileInfo.tszCurVer, _T(""), SIZEOF(FileInfo.tszCurVer));
+			mir_tstrncpy(FileInfo.tszCurVer, _T(""), SIZEOF(FileInfo.tszCurVer));
 		}
-		else lstrcpyn(FileInfo.tszCurVer, dbVar.ptszVal, SIZEOF(FileInfo.tszCurVer));
+		else mir_tstrncpy(FileInfo.tszCurVer, dbVar.ptszVal, SIZEOF(FileInfo.tszCurVer));
 
 		dbVar.ptszVal = NULL;
 		mir_snprintf(szKey, SIZEOF(szKey), "File_%d_LastVersion", CurrentFile + 1);
 		db_get_ts(NULL, MODNAME, szKey, &dbVar);
 		if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
 			db_free(&dbVar);
-			lstrcpyn(FileInfo.tszLastVer, _T(""), SIZEOF(FileInfo.tszLastVer));
+			mir_tstrncpy(FileInfo.tszLastVer, _T(""), SIZEOF(FileInfo.tszLastVer));
 		}
-		else lstrcpyn(FileInfo.tszLastVer, dbVar.ptszVal, SIZEOF(FileInfo.tszLastVer));
+		else mir_tstrncpy(FileInfo.tszLastVer, dbVar.ptszVal, SIZEOF(FileInfo.tszLastVer));
 
 		Files.push_back(FileInfo);
 
@@ -267,7 +267,7 @@ static void CheckUpdates(void *)
 				MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 			continue;
 		} // end check update name
-		lstrcpyn(Files[CurrentFile].File.tszDiskPath, tszBuff, SIZEOF(Files[CurrentFile].File.tszDiskPath));
+		mir_tstrncpy(Files[CurrentFile].File.tszDiskPath, tszBuff, SIZEOF(Files[CurrentFile].File.tszDiskPath));
 		GetPrivateProfileString(tszFileInfo, _T("InfoURL"), _T(""), Files[CurrentFile].tszInfoURL, SIZEOF(Files[CurrentFile].tszInfoURL), tszTmpIni);
 		Files[CurrentFile].FileType = GetPrivateProfileInt(tszFileInfo, _T("FileType"), 0, tszTmpIni);
 		Files[CurrentFile].Force = GetPrivateProfileInt(tszFileInfo, _T("Force"), 0, tszTmpIni);
@@ -335,7 +335,7 @@ static void CheckUpdates(void *)
 			if (Files[CurrentFile].Force || Exists(tszFilePathDest))
 				UpdateFiles.push_back(Files[CurrentFile]);
 			// Save last version
-			lstrcpyn(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, SIZEOF(Files[CurrentFile].tszLastVer));
+			mir_tstrncpy(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, SIZEOF(Files[CurrentFile].tszLastVer));
 			mir_snprintf(szKey, SIZEOF(szKey), "File_%d_LastVersion", CurrentFile + 1);
 			db_set_ts(NULL, MODNAME, szKey, Files[CurrentFile].tszLastVer);
 

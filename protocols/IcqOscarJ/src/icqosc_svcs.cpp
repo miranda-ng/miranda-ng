@@ -352,7 +352,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 		GetFullAvatarFileName(dwUIN, szUID, dwPaFormat, tszFile, MAX_PATH * 2);
 
-		lstrcpyn(pai->filename, tszFile, SIZEOF(pai->filename)); // Avatar API does not support unicode :-(
+		mir_tstrncpy(pai->filename, tszFile, SIZEOF(pai->filename)); // Avatar API does not support unicode :-(
 		pai->format = dwPaFormat;
 
 		if (!IsAvatarChanged(pai->hContact, dbv.pbVal, dbv.cpbVal)) { // hashes are the same
@@ -370,7 +370,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 			GetAvatarFileName(dwUIN, szUID, tszFile, MAX_PATH * 2);
 			GetAvatarData(pai->hContact, dwUIN, szUID, dbv.pbVal, dbv.cpbVal, tszFile);
-			lstrcpyn(pai->filename, tszFile, SIZEOF(pai->filename)); // Avatar API does not support unicode :-(
+			mir_tstrncpy(pai->filename, tszFile, SIZEOF(pai->filename)); // Avatar API does not support unicode :-(
 
 			db_free(&dbv);
 

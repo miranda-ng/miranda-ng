@@ -374,7 +374,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		else if (dbei.eventType == EVENTTYPE_FILE) {
 			//blob is: sequenceid(DWORD),filename(ASCIIZ),description(ASCIIZ)
 			char* filename = ((char *)dbei.pBlob) + sizeof(DWORD);
-			char* descr = filename + lstrlenA(filename) + 1;
+			char* descr = filename + mir_strlen(filename) + 1;
 			eventData->ptszText = DbGetEventStringT(&dbei, filename);
 			if (*descr != '\0')
 				eventData->ptszText2 = DbGetEventStringT(&dbei, descr);

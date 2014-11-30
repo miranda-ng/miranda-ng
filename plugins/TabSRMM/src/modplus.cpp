@@ -122,7 +122,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 			if (res == 0)
 				break;
 
-			bufSize = textlenght + lstrlen(pszMenu[res - 1]) + 2;
+			bufSize = textlenght + mir_tstrlen(pszMenu[res - 1]) + 2;
 			pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
 			mir_sntprintf(pszFormatedText, bufSize, pszMenu[res-1], pszText);
 		}

@@ -65,7 +65,7 @@ int Openfile(char *outputFile, int saveOpen) //0=save, 1=open
 		r = GetSaveFileNameA(&ofn);
 	if (!r)
 		return 0;
-	lstrcpyA(outputFile,filename);
+	mir_strcpy(outputFile,filename);
 	return 1;
 }
 

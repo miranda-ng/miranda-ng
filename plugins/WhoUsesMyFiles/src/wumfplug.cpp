@@ -137,8 +137,8 @@ void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 	else if (WumfOptions.DelaySet)
 		ppd.iSeconds = WumfOptions.DelaySec;
 
-	lstrcpyn(ppd.lptzContactName, title, MAX_CONTACTNAME);
-	lstrcpyn(ppd.lptzText, text, MAX_SECONDLINE);
+	mir_tstrncpy(ppd.lptzContactName, title, MAX_CONTACTNAME);
+	mir_tstrncpy(ppd.lptzText, text, MAX_SECONDLINE);
 	if (WumfOptions.UseWinColor) {
 		ppd.colorBack = GetSysColor(COLOR_WINDOW);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -275,7 +275,7 @@ void ChooseFile(HWND hDlg)
 		HANDLE hf = CreateFile(szFile,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hf != INVALID_HANDLE_VALUE) {
 			SetDlgItemText(hDlg,IDC_FILE,szFile);
-			lstrcpyn(WumfOptions.LogFile, szFile, MAX_PATH);
+			mir_tstrncpy(WumfOptions.LogFile, szFile, MAX_PATH);
 			CloseHandle(hf);
 		}
 	}

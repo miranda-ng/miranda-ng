@@ -286,7 +286,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 						tvi.pszText=tszPhone;
 						tvi.cchTextMax=SIZEOF(tszPhone);
 						TreeView_GetItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&tvi);
-						dwPhoneSize=lstrlen(tszPhone);
+						dwPhoneSize=mir_tstrlen(tszPhone);
 					}else{
 						dwPhoneSize=GetDlgItemText(hWndDlg,IDC_ADDRESS,tszPhone,SIZEOF(tszPhone));
 					}
@@ -409,7 +409,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 				{
 					if (IsContactPhone(psswdWindowData->hMyContact,tszPhone,dwPhoneSize)==FALSE)
 					{
-						lstrcat(tszPhone, _T(" SMS"));
+						mir_tstrcat(tszPhone, _T(" SMS"));
 						for(DWORD i=0;bCont;i++)
 						{
 							mir_snprintf(szBuff,SIZEOF(szBuff),"MyPhone%d",i);
@@ -883,7 +883,7 @@ void SendSMSWindowNext(HWND hWndDlg)
 	tvi.cchTextMax=SIZEOF(tszPhone);
 	TreeView_GetItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&tvi);
 	TreeView_SelectItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),tvi.hItem);
-	dwPhoneSize=lstrlenW(tszPhone);
+	dwPhoneSize=mir_wstrlen(tszPhone);
 	SendSMSWindowNumberSet(hWndDlg,tszPhone,dwPhoneSize);
 	StartSmsSend(hWndDlg,SendDlgItemMessage(hWndDlg,IDC_ACCOUNTS,CB_GETCURSEL,0,0),tszPhone,dwPhoneSize,lptszMessage,dwMessageSize);
 	SetTimer(hWndDlg,TIMERID_MSGSEND,TIMEOUT_MSGSEND,NULL);

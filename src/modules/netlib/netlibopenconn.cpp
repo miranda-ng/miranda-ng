@@ -185,8 +185,8 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		int nUserLen, nPassLen;
 		PBYTE pAuthBuf;
 
-		nUserLen = lstrlenA(nlu->settings.szProxyAuthUser);
-		nPassLen = lstrlenA(nlu->settings.szProxyAuthPassword);
+		nUserLen = mir_strlen(nlu->settings.szProxyAuthUser);
+		nPassLen = mir_strlen(nlu->settings.szProxyAuthPassword);
 		pAuthBuf = (PBYTE)mir_alloc(3+nUserLen+nPassLen);
 		pAuthBuf[0] = 1;		//auth version
 		pAuthBuf[1] = nUserLen;
@@ -218,7 +218,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	if (nlc->dnsThroughProxy) {
 		hostIP = inet_addr(nloc->szHost);
 		if (hostIP == INADDR_NONE)
-			nHostLen = lstrlenA(nloc->szHost)+1;
+			nHostLen = mir_strlen(nloc->szHost)+1;
 		else nHostLen = 4;
 	}
 	else {

@@ -298,7 +298,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 
 				mir_free(pFileName);
 
-				int len = lstrlen(ptszResource) + lstrlen(ft->jid) + 2;
+				int len = mir_tstrlen(ptszResource) + mir_tstrlen(ft->jid) + 2;
 				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);
 				mir_sntprintf(fulljid, len, _T("%s/%s"), ft->jid, ptszResource);
 

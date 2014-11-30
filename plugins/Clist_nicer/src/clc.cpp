@@ -161,7 +161,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 					ReloadExtraInfo(hContact);
 
 				if (!(cfg::dat.dwFlags & CLUI_USEMETAICONS) && !__strcmp(szProto, META_PROTO))
-					if ((lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 6)) || strstr("Default,ForceSend,Nick", cws->szSetting))
+					if ((mir_strlen(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 6)) || strstr("Default,ForceSend,Nick", cws->szSetting))
 						pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, hContact, lParam);
 			}
 			if (cfg::dat.bMetaEnabled && !__strcmp(cws->szModule, META_PROTO) && !__strcmp(cws->szSetting, "IsSubcontact"))
@@ -420,7 +420,7 @@ LBL_Def:
 		ClcContact *contact;
 		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
-		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
+		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
 
@@ -504,7 +504,7 @@ LBL_Def:
 
 		contact->proto = GetContactProto(wParam);
 		CallService(MS_CLIST_INVALIDATEDISPLAYNAME, wParam, 0);
-		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
+		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
 

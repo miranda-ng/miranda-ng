@@ -624,7 +624,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		if (OpenClipboard(hwnd)) {
 			HANDLE hClip = GetClipboardData(CF_TEXT);
 			if (hClip) {
-				if (lstrlenA((char*)hClip) > mwdat->nMax) {
+				if (mir_strlen((char*)hClip) > mwdat->nMax) {
 					TCHAR szBuffer[512];
 					if (M.GetByte("autosplit", 0))
 						mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
@@ -2112,9 +2112,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								break;
 
 							EmptyClipboard();
-							HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
+							HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tr.lpstrText) + 1));
 							TCHAR *buf = (TCHAR*)GlobalLock(hData);
-							lstrcpy(buf, tr.lpstrText);
+							mir_tstrcpy(buf, tr.lpstrText);
 							GlobalUnlock(hData);
 							SetClipboardData(CF_UNICODETEXT, hData);
 							CloseClipboard();
@@ -2751,7 +2751,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				int memRequired = 0, flags = 0;
 				if (!IsUtfSendAvailable(dat->hContact)) {
 					flags |= PREF_UNICODE;
-					memRequired = bufSize + ((lstrlenW(decoded) + 1) * sizeof(WCHAR));
+					memRequired = bufSize + ((mir_wstrlen(decoded) + 1) * sizeof(WCHAR));
 				}
 				else {
 					flags |= PREF_UTF;
@@ -2788,7 +2788,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				else {
 					WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, bufSize, 0, 0);
 					if (flags & PREF_UNICODE)
-						CopyMemory(&dat->sendBuffer[bufSize], decoded, (lstrlenW(decoded) + 1) * sizeof(WCHAR));
+						CopyMemory(&dat->sendBuffer[bufSize], decoded, (mir_wstrlen(decoded) + 1) * sizeof(WCHAR));
 				}
 
 				if (memRequired == 0 || dat->sendBuffer[0] == 0)
@@ -2896,13 +2896,13 @@ quote_from_last:
 						}
 					}
 					if (dbei.eventType == EVENTTYPE_FILE) {
-						int iDescr = lstrlenA((char *)(szText + sizeof(DWORD)));
+						int iDescr = mir_strlen((char *)(szText + sizeof(DWORD)));
 						MoveMemory(szText, szText + sizeof(DWORD), iDescr);
 						MoveMemory(szText + iDescr + 2, szText + sizeof(DWORD)+iDescr, dbei.cbBlob - iDescr - sizeof(DWORD)-1);
 						szText[iDescr] = '\r';
 						szText[iDescr + 1] = '\n';
-						szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR)* (1 + lstrlenA((char *)szText)));
-						MultiByteToWideChar(CP_ACP, 0, (char *)szText, -1, szConverted, 1 + lstrlenA((char *)szText));
+						szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR)* (1 + mir_strlen((char *)szText)));
+						MultiByteToWideChar(CP_ACP, 0, (char *)szText, -1, szConverted, 1 + mir_strlen((char *)szText));
 						iAlloced = true;
 					}
 					ptrT szQuoted(QuoteText(szConverted, iCharsPerLine, 0));
@@ -3078,7 +3078,7 @@ quote_from_last:
 	case DM_MYAVATARCHANGED:
 		{
 			const char *szProto = dat->cache->getActiveProto();
-			if (!strcmp((char *)wParam, szProto) && lstrlenA(szProto) == lstrlenA((char *)wParam))
+			if (!strcmp((char *)wParam, szProto) && mir_strlen(szProto) == mir_strlen((char *)wParam))
 				LoadOwnAvatar(dat);
 		}
 		break;

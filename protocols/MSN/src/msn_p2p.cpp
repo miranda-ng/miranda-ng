@@ -2129,7 +2129,7 @@ void CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 		ft->p2p_sessionid = MSN_GenRandom();
 
 	ptrA szContextEnc(mir_base64_encode((PBYTE)pContext, (unsigned)cbContext));
-	int cbContextEnc = lstrlenA(szContextEnc);
+	int cbContextEnc = mir_strlen(szContextEnc);
 
 	MimeHeaders chdrs(10);
 	chdrs.addString("EUF-GUID", szAppID);

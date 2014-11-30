@@ -187,8 +187,8 @@ int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 			options[pos].iconIndex		= 0;
 			options[pos].pszSettingName	= mir_tstrdup(_T("Skin options"));
 			options[pos].pszOptionName	= (LPTSTR)mir_alloc(sizeof(TCHAR)*(
-				lstrlen(options[pos].pszSettingName)+
-				lstrlenA(skin->getFlagName(i)) +10 ));
+				mir_tstrlen(options[pos].pszSettingName)+
+				mir_strlen(skin->getFlagName(i)) +10 ));
 			wsprintf(options[pos].pszOptionName, _T("%s/%hs"), options[pos].pszSettingName, skin->getFlagName(i)); //!!!!!!!!!!!!!
 			options[pos].bState			= skin->getFlag(i) ? TRUE : FALSE;
 			options[pos].Data			= i;	//skin flag index
@@ -248,8 +248,8 @@ int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos,
 		options[pos].iconIndex	= 0;
 		options[pos].pszSettingName = mir_tstrdup(LPGENT("Global settings"));
 		options[pos].pszOptionName	= (LPTSTR)mir_alloc(sizeof(TCHAR)*(
-			lstrlen(options[pos].pszSettingName)+
-			lstrlen(mainOption[i]) + 10));
+			mir_tstrlen(options[pos].pszSettingName)+
+			mir_tstrlen(mainOption[i]) + 10));
 		wsprintf(options[pos].pszOptionName, _T("%s/%s"), options[pos].pszSettingName, mainOption[i]); //!!!!!!!!!!!!!
 		options[pos].bState			= bCheck;
 		pos++;
@@ -559,12 +559,12 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 			rc.left += 30; // 10+16+4 -- icon
 			rc.right -= (rc.right-rc.left)/3;
 			rc.bottom -= (rc.bottom-rc.top)/3;
-			DrawText(mydc, _T(MODULNAME_LONG), lstrlen(_T(MODULNAME_LONG)), &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
+			DrawText(mydc, _T(MODULNAME_LONG), mir_tstrlen(_T(MODULNAME_LONG)), &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
 			GetClientRect(hwnd, &rc);
 			rc.left += 30; // 10+16+4 -- icon
 			rc.left += (rc.right-rc.left)/3;
 			rc.top += (rc.bottom-rc.top)/3;
-			DrawText(mydc, _T(MODULNAME_LONG), lstrlen(_T(MODULNAME_LONG)), &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
+			DrawText(mydc, _T(MODULNAME_LONG), mir_tstrlen(_T(MODULNAME_LONG)), &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
 			GetClientRect(hwnd, &rc);
 			FrameRect(mydc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 			SelectObject(mydc, hfnt);

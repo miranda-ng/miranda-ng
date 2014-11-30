@@ -466,9 +466,9 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM hContact, LPARAM lParam)
 				return 1;
 
 			if (pData->flags & CSSF_UNICODE)
-				lstrcpyn(pData->ptszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX + 1));
+				mir_tstrncpy(pData->ptszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX + 1));
 			else {
-				size_t dwStatusTitleSize = lstrlen(lpcszXStatusNameDef[dwXStatus]);
+				size_t dwStatusTitleSize = mir_tstrlen(lpcszXStatusNameDef[dwXStatus]);
 				if (dwStatusTitleSize > STATUS_TITLE_MAX)
 					dwStatusTitleSize = STATUS_TITLE_MAX;
 
@@ -631,7 +631,7 @@ INT_PTR CMraProto::MraGetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	CMStringW wszFileName;
 	if (MraAvatarsGetFileName(hAvatarsQueueHandle, NULL, GetContactAvatarFormat(NULL, PA_FORMAT_DEFAULT), wszFileName) == NO_ERROR) {
-		lstrcpyn((LPTSTR)wParam, wszFileName, (size_t)lParam);
+		mir_tstrncpy((LPTSTR)wParam, wszFileName, (size_t)lParam);
 		return 0;
 	}
 	return 1;

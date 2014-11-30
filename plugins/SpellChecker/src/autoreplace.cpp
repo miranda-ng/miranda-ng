@@ -33,7 +33,7 @@ AutoReplacement::AutoReplacement(const TCHAR *replace, BOOL useVariables)
 AutoReplaceMap::AutoReplaceMap(TCHAR *aFilename, Dictionary *dict)
 {
 	this->dict = dict;
-	lstrcpyn(filename, aFilename, SIZEOF(filename));
+	mir_tstrncpy(filename, aFilename, SIZEOF(filename));
 	loadAutoReplaceMap();
 }
 
@@ -145,7 +145,7 @@ TCHAR* AutoReplaceMap::autoReplace(const TCHAR * word)
 		to = _tcsdup(ar.replace.c_str());
 
 	// Wich case to use?
-	size_t len = lstrlen(word);
+	size_t len = mir_tstrlen(word);
 	size_t i;
 	for (i = 0; i < len; i++)
 		if (IsCharLower(word[i]))
@@ -169,7 +169,7 @@ TCHAR* AutoReplaceMap::autoReplace(const TCHAR * word)
 TCHAR* AutoReplaceMap::filterText(const TCHAR *find)
 {
 	TCHAR *ret = _tcsdup(find);
-	int len = lstrlen(ret);
+	int len = mir_tstrlen(ret);
 	int pos = 0;
 	for (int i = 0; i < len; i++)
 		if (isWordChar(find[i]))

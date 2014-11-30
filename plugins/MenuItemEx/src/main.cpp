@@ -245,9 +245,9 @@ void CopyToClipboard(HWND hwnd,LPSTR pszMsg, LPTSTR ptszMsg)
 	if (buf == 0)
 		return;
 
-	hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(buf)+1)*sizeof(TCHAR));
+	hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_tstrlen(buf)+1)*sizeof(TCHAR));
 	lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-	lstrcpy(lptstrCopy, buf);
+	mir_tstrcpy(lptstrCopy, buf);
 	mir_free(buf);
 	GlobalUnlock(hglbCopy);
 
@@ -336,7 +336,7 @@ BOOL MirVerExists(MCONTACT hContact)
 		return 0;
 
 	ptrT msg(db_get_tsa(hContact, szProto, "MirVer"));
-	return lstrlen(msg) != 0;
+	return mir_tstrlen(msg) != 0;
 }
 
 void getIP(MCONTACT hContact,LPSTR szProto,LPSTR szIP)

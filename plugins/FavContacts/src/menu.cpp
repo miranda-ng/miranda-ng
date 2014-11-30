@@ -47,7 +47,7 @@ static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
 		SelectObject(hdc, g_Options.hfntName);
 
 	SIZE sz;
-	GetTextExtentPoint32(hdc, name, lstrlen(name), &sz);
+	GetTextExtentPoint32(hdc, name, mir_tstrlen(name), &sz);
 	lpmis->itemHeight = sz.cy + 8;
 	lpmis->itemWidth = sz.cx + 10;
 	SelectObject(hdc, hfntSave);
@@ -81,7 +81,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 
 		if (!options->bSysColors)
 			SelectObject(hdc, g_Options.hfntSecond);
-		GetTextExtentPoint32(hdc, title, lstrlen(title), &sz);
+		GetTextExtentPoint32(hdc, title, mir_tstrlen(title), &sz);
 		textWidth = sz.cx;
 		lpmis->itemHeight += sz.cy + 3;
 
@@ -92,7 +92,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 
 	if (!options->bSysColors) SelectObject(hdc, g_Options.hfntName);
-	GetTextExtentPoint32(hdc, name, lstrlen(name), &sz);
+	GetTextExtentPoint32(hdc, name, mir_tstrlen(name), &sz);
 	textWidth = max(textWidth, sz.cx);
 
 	SelectObject(hdc, hfntSave);
@@ -158,7 +158,7 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	TCHAR *name = sttGetGroupName(-INT_PTR(lpdis->itemData));
 	if (!options->bSysColors)
 		SelectObject(lpdis->hDC, g_Options.hfntName);
-	DrawText(lpdis->hDC, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_CENTER);
+	DrawText(lpdis->hDC, name, mir_tstrlen(name), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_CENTER);
 
 	SelectObject(lpdis->hDC, hfntSave);
 
@@ -306,10 +306,10 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		if (!options->bSysColors)
 			SelectObject(hdcTemp, g_Options.hfntName);
 		SetTextColor(hdcTemp, clLine1);
-		DrawText(hdcTemp, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
+		DrawText(hdcTemp, name, mir_tstrlen(name), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
 
 		SIZE sz;
-		GetTextExtentPoint32(hdcTemp, name, lstrlen(name), &sz);
+		GetTextExtentPoint32(hdcTemp, name, mir_tstrlen(name), &sz);
 		lpdis->rcItem.top += sz.cy + 3;
 	}
 
@@ -324,7 +324,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 		if (!options->bSysColors) SelectObject(hdcTemp, g_Options.hfntSecond);
 		SetTextColor(hdcTemp, clLine2);
-		DrawText(hdcTemp, title, lstrlen(title), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
+		DrawText(hdcTemp, title, mir_tstrlen(title), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
 
 		if (bFree) mir_free(title);
 	}
@@ -390,13 +390,13 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 			RemoveMenu((HMENU)lParam, 1, MF_BYPOSITION);
 
 		if (LOWORD(wParam) == VK_BACK) {
-			if (int l = lstrlen(g_filter))
+			if (int l = mir_tstrlen(g_filter))
 				g_filter[l - 1] = 0;
 		}
 		else if (_istalnum(LOWORD(wParam))) {
-			if (lstrlen(g_filter) < SIZEOF(g_filter) - 1) {
+			if (mir_tstrlen(g_filter) < SIZEOF(g_filter) - 1) {
 				TCHAR s[] = { LOWORD(wParam), 0 };
-				lstrcat(g_filter, s);
+				mir_tstrcat(g_filter, s);
 			}
 		}
 		{

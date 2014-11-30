@@ -44,7 +44,7 @@ static char *StrNormNewlineA(char *szStr)
 	if (!nCR)
 		return mir_strdup(szStr);
 
-	char *szNewStr = (char *)mir_alloc(lstrlenA(szStr) + nCR + 1), *pszStr = szNewStr;
+	char *szNewStr = (char *)mir_alloc(mir_strlen(szStr) + nCR + 1), *pszStr = szNewStr;
 	while (*szStr) {
 		if (*szStr == 0x0A)
 			*pszStr++ = 0x0D;
@@ -69,7 +69,7 @@ static TCHAR *StrNormNewline(TCHAR *tszStr)
 	if (!nCR)
 		return mir_tstrdup(tszStr);
 
-	TCHAR *tszNewStr = (TCHAR *)mir_alloc((lstrlen(tszStr) + nCR + 1) * sizeof(TCHAR)), *ptszStr = tszNewStr;
+	TCHAR *tszNewStr = (TCHAR *)mir_alloc((mir_tstrlen(tszStr) + nCR + 1) * sizeof(TCHAR)), *ptszStr = tszNewStr;
 	while (*tszStr) {
 		if (*tszStr == 0x0A)
 			*ptszStr++ = 0x0D;
@@ -268,7 +268,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				TCHAR *tszMsg = StrNormNewline((TCHAR *)ack->lParam);
 				mir_sntprintf(msg, SIZEOF(msg), _T("%s"), tszMsg);
 				mir_free(tszMsg);
-				size_t len = lstrlen(msg);
+				size_t len = mir_tstrlen(msg);
 				if (len) {
 					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(TCHAR));
@@ -351,7 +351,7 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 
 		char *szMsgURL = (char *)mir_alloc(i + 1);
 		if (szMsgURL) {
-			lstrcpynA(szMsgURL, szURL, i + 1);
+			mir_strncpy(szMsgURL, szURL, i + 1);
 			CallService(MS_UTILS_OPENURL, 1, (LPARAM)szMsgURL);
 			mir_free(szMsgURL);
 		}

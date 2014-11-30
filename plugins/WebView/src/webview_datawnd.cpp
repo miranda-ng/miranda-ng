@@ -62,10 +62,10 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				free(tempbuffer);
 
 				Filter(buff);
-				CharUpperBuffA(buff, lstrlenA(buff));
+				CharUpperBuffA(buff, mir_strlen(buff));
 
 				GetDlgItemTextA(hwndDlg, IDC_FINDWHAT, NewSearchstr, SIZEOF(NewSearchstr));
-				CharUpperBuffA(NewSearchstr, lstrlenA(NewSearchstr));
+				CharUpperBuffA(NewSearchstr, mir_strlen(NewSearchstr));
 
 				OLDstartposition = startposition;
 

@@ -247,7 +247,7 @@ static char *StatusModeToDbSetting(int status,const char *suffix)
 		case ID_STATUS_IDLE:       prefix="Idl";      break;
 		default: return NULL;
 	}
-	lstrcpyA(str,prefix); lstrcatA(str,suffix);
+	mir_strcpy(str,prefix); mir_strcat(str,suffix);
 	return str;
 }
 

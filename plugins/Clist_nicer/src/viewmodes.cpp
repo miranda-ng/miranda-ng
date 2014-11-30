@@ -663,7 +663,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							mir_snprintf(szSetting, 256, "%c%s_SSM", 246, szBuf);
 							db_unset(NULL, CLVM_MODULE, szSetting);
 							db_unset(NULL, CLVM_MODULE, szBuf);
-							if (!strcmp(cfg::dat.current_viewmode, szBuf) && lstrlenA(szBuf) == lstrlenA(cfg::dat.current_viewmode)) {
+							if (!strcmp(cfg::dat.current_viewmode, szBuf) && mir_strlen(szBuf) == mir_strlen(cfg::dat.current_viewmode)) {
 								cfg::dat.bFilterEffective = 0;
 								pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 								SetWindowTextA(hwndSelector, Translate("No view mode"));
@@ -693,7 +693,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				GetDlgItemTextA(hwndDlg, IDC_NEWVIEMODE, szBuf, SIZEOF(szBuf));
 				szBuf[255] = 0;
 
-				if (lstrlenA(szBuf) > 2) {
+				if (mir_strlen(szBuf) > 2) {
 					if (cfg::getDword(CLVM_MODULE, szBuf, -1) != -1)
 						MessageBox(0, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
 					else {
@@ -1050,7 +1050,7 @@ void ApplyViewMode(const char *name)
 
 	mir_snprintf(szSetting, 256, "%c%s_PF", 246, name);
 	if (!cfg::getString(NULL, CLVM_MODULE, szSetting, &dbv)) {
-		if (lstrlenA(dbv.pszVal) >= 2) {
+		if (mir_strlen(dbv.pszVal) >= 2) {
 			strncpy(cfg::dat.protoFilter, dbv.pszVal, sizeof(cfg::dat.protoFilter));
 			cfg::dat.protoFilter[sizeof(cfg::dat.protoFilter) - 1] = 0;
 			cfg::dat.bFilterEffective |= CLVM_FILTER_PROTOS;
@@ -1059,7 +1059,7 @@ void ApplyViewMode(const char *name)
 	}
 	mir_snprintf(szSetting, 256, "%c%s_GF", 246, name);
 	if (!cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
-		if (lstrlen(dbv.ptszVal) >= 2) {
+		if (mir_tstrlen(dbv.ptszVal) >= 2) {
 			_tcsncpy(cfg::dat.groupFilter, dbv.ptszVal, SIZEOF(cfg::dat.groupFilter));
 			cfg::dat.groupFilter[SIZEOF(cfg::dat.groupFilter) - 1] = 0;
 			cfg::dat.bFilterEffective |= CLVM_FILTER_GROUPS;

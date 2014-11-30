@@ -375,7 +375,7 @@ namespace
 // 	{
 // 		if(lParam)
 // 		{
-// 			lstrcpynA(reinterpret_cast<char*>(lParam),QUOTES_PROTOCOL_NAME,wParam);
+// 			mir_strncpy(reinterpret_cast<char*>(lParam),QUOTES_PROTOCOL_NAME,wParam);
 // 			return 0;
 // 		}
 // 		else

@@ -53,7 +53,7 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 	if (ppro->m_forceVisible)
 		ppro->PostIrcMessage(_T("/MODE %s -i"), ppro->m_info.sNick.c_str());
 
-	if (lstrlenA(ppro->m_myHost) == 0 && ppro->IsConnected())
+	if (mir_strlen(ppro->m_myHost) == 0 && ppro->IsConnected())
 		ppro->DoUserhostWithReason(2, (_T("S") + ppro->m_info.sNick).c_str(), true, _T("%s"), ppro->m_info.sNick.c_str());
 }
 
@@ -240,7 +240,7 @@ void __cdecl CIrcProto::ResolveIPThread(LPVOID di)
 	{
 		mir_cslock lock(m_resolve);
 
-		if (ipr != NULL && (ipr->iType == IP_AUTO && lstrlenA(m_myHost) == 0 || ipr->iType == IP_MANUAL)) {
+		if (ipr != NULL && (ipr->iType == IP_AUTO && mir_strlen(m_myHost) == 0 || ipr->iType == IP_MANUAL)) {
 			hostent* myhost = gethostbyname(ipr->sAddr.c_str());
 			if (myhost) {
 				IN_ADDR in;
@@ -275,7 +275,7 @@ bool CIrcProto::OnIrc_WELCOME(const CIrcMessage* pmsg)
 		CMString word = GetWord(pmsg->parameters[1].c_str(), i);
 		while (!word.IsEmpty()) {
 			if (_tcschr(word.c_str(), '!') && _tcschr(word.c_str(), '@')) {
-				lstrcpyn(host, word.c_str(), SIZEOF(host));
+				mir_tstrncpy(host, word.c_str(), SIZEOF(host));
 				TCHAR* p1 = _tcschr(host, '@');
 				if (p1)
 					ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(_T2A(p1 + 1), IP_AUTO));
@@ -717,7 +717,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage* pmsg)
 		if (bIsChannel) {
 			if (!(pmsg->m_bIncoming && m_ignore && IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'm'))) {
 				if (!pmsg->m_bIncoming)
-					ReplaceString(mess, _T("%%"), _T("%"));
+					mess.Replace(_T("%%"), _T("%"));
 				DoEvent(GC_EVENT_MESSAGE, pmsg->parameters[0].c_str(), pmsg->m_bIncoming ? pmsg->prefix.sNick.c_str() : m_info.sNick.c_str(), mess.c_str(), NULL, NULL, NULL, true, pmsg->m_bIncoming ? false : true);
 			}
 			return true;
@@ -781,7 +781,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 				if (mess.GetLength() > 1) {
 					mess.Delete(0, 1);
 					if (!pmsg->m_bIncoming)
-						ReplaceString(mess, _T("%%"), _T("%"));
+						mess.Replace(_T("%%"), _T("%"));
 
 					DoEvent(GC_EVENT_ACTION, pmsg->parameters[0].c_str(), pmsg->m_bIncoming ? pmsg->prefix.sNick.c_str() : m_info.sNick.c_str(), mess.c_str(), NULL, NULL, NULL, true, pmsg->m_bIncoming ? false : true);
 				}
@@ -844,7 +844,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 		else if (pmsg->m_bIncoming && command == _T("time")) {
 			TCHAR temp[300];
 			time_t tim = time(NULL);
-			lstrcpyn(temp, _tctime(&tim), 25);
+			mir_tstrncpy(temp, _tctime(&tim), 25);
 			PostIrcMessage(_T("/NOTICE %s \001TIME %s\001"), pmsg->prefix.sNick.c_str(), temp);
 
 			mir_sntprintf(temp, SIZEOF(temp), TranslateT("CTCP TIME requested by %s"), pmsg->prefix.sNick.c_str());
@@ -1518,7 +1518,7 @@ bool CIrcProto::OnIrc_LIST(const CIrcMessage* pmsg)
 		TCHAR* save = temp;
 		if (find == temp && find2 != NULL && find + 8 >= find2) {
 			temp = _tcsstr(temp, _T("]"));
-			if (lstrlen(temp) > 1) {
+			if (mir_tstrlen(temp) > 1) {
 				temp++;
 				temp[0] = '\0';
 				lvItem.iSubItem = 2;
@@ -1568,8 +1568,8 @@ bool CIrcProto::OnIrc_LISTEND(const CIrcMessage* pmsg)
 		if (m_noOfChannels > 0)
 			percent = (int)(m_channelNumber * 100) / m_noOfChannels;
 		if (percent < 70) {
-			lstrcat(text, _T(" "));
-			lstrcat(text, TranslateT("(probably truncated by server)"));
+			mir_tstrcat(text, _T(" "));
+			mir_tstrcat(text, TranslateT("(probably truncated by server)"));
 		}
 		SetDlgItemText(m_listDlg->GetHwnd(), IDC_TEXT, text);
 	}
@@ -1593,7 +1593,7 @@ bool CIrcProto::OnIrc_BANLIST(const CIrcMessage* pmsg)
 					S += _T(" -  ( ");
 					time_t time = StrToInt(pmsg->parameters[4].c_str());
 					S += _tctime(&time);
-					ReplaceString(S, _T("\n"), _T(" "));
+					S.Replace(_T("\n"), _T(" "));
 					S += _T(")");
 				}
 			}
@@ -1676,7 +1676,7 @@ bool CIrcProto::OnIrc_WHOIS_OTHER(const CIrcMessage* pmsg)
 	if (pmsg->m_bIncoming && m_whoisDlg && pmsg->parameters.getCount() > 2 && m_manualWhoisCount > 0) {
 		TCHAR temp[1024], temp2[1024];
 		m_whoisDlg->m_InfoOther.GetText(temp, 1000);
-		lstrcat(temp, _T("%s\r\n"));
+		mir_tstrcat(temp, _T("%s\r\n"));
 		mir_sntprintf(temp2, 1020, temp, pmsg->parameters[2].c_str());
 		m_whoisDlg->m_InfoOther.SetText(temp2);
 	}
@@ -2016,7 +2016,7 @@ bool CIrcProto::OnIrc_WHO_REPLY(const CIrcMessage* pmsg)
 		m_whoReply.AppendFormat(_T("%s %s %s %s "), pmsg->parameters[5].c_str(), pmsg->parameters[2].c_str(), pmsg->parameters[3].c_str(), pmsg->parameters[6].c_str());
 		if (lstrcmpi(pmsg->parameters[5].c_str(), m_info.sNick.c_str()) == 0) {
 			TCHAR host[1024];
-			lstrcpyn(host, pmsg->parameters[3].c_str(), 1024);
+			mir_tstrncpy(host, pmsg->parameters[3].c_str(), 1024);
 			ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(_T2A(host), IP_AUTO));
 		}
 	}
@@ -2187,8 +2187,8 @@ bool CIrcProto::OnIrc_SUPPORT(const CIrcMessage* pmsg)
 	TCHAR szAltPort[20];
 	if (pmsg->parameters.getCount() > 1 && _stscanf(pmsg->parameters[1].c_str(), lpszFmt, &szAltServer, &szAltPort) == 2) {
 		ShowMessage(pmsg);
-		lstrcpynA(m_serverName, _T2A(szAltServer), 99);
-		lstrcpynA(m_portStart, _T2A(szAltPort), 9);
+		mir_strncpy(m_serverName, _T2A(szAltServer), 99);
+		mir_strncpy(m_portStart, _T2A(szAltPort), 9);
 
 		m_noOfChannels = 0;
 		ConnectToServer();
@@ -2205,13 +2205,13 @@ bool CIrcProto::OnIrc_SUPPORT(const CIrcMessage* pmsg)
 			if (_tcsstr(temp, _T("CHANTYPES="))) {
 				TCHAR* p1 = _tcschr(temp, '=');
 				p1++;
-				if (lstrlen(p1) > 0)
+				if (mir_tstrlen(p1) > 0)
 					sChannelPrefixes = p1;
 			}
 			if (_tcsstr(temp, _T("CHANMODES="))) {
 				TCHAR* p1 = _tcschr(temp, '=');
 				p1++;
-				if (lstrlen(p1) > 0)
+				if (mir_tstrlen(p1) > 0)
 					sChannelModes = (char*)_T2A(p1);
 			}
 			if (_tcsstr(temp, _T("PREFIX="))) {
@@ -2390,7 +2390,7 @@ static void __cdecl AwayWarningThread(LPVOID)
 
 int CIrcProto::DoPerform(const char* event)
 {
-	String sSetting = String("PERFORM:") + event;
+	CMStringA sSetting = CMStringA("PERFORM:") + event;
 	sSetting.MakeUpper();
 
 	DBVARIANT dbv;

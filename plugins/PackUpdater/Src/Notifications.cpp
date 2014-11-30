@@ -115,8 +115,8 @@ VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType)
 	pd.cbSize = sizeof(pd);
 	pd.lchContact = NULL; //(HANDLE)wParam;
 	pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
-	lstrcpyn(pd.lptzText, Text, SIZEOF(pd.lptzText));
-	lstrcpyn(pd.lptzContactName, Title, SIZEOF(pd.lptzContactName));
+	mir_tstrncpy(pd.lptzText, Text, SIZEOF(pd.lptzText));
+	mir_tstrncpy(pd.lptzContactName, Title, SIZEOF(pd.lptzContactName));
 	switch (MyOptions.DefColors) {
 	case byCOLOR_WINDOWS:
 		pd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -179,7 +179,7 @@ static void __stdcall CreateDownloadDialog(void*)
 	if ( ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL,MODNAME, "Popups3", DEFAULT_POPUP_ENABLED))
 		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgDownloadPop);
 	else if (db_get_b(NULL,MODNAME, "Popups3M", DEFAULT_MESSAGE_ENABLED)) {
-		lstrcpyn(tszDialogMsg, Text, SIZEOF(tszDialogMsg));
+		mir_tstrncpy(tszDialogMsg, Text, SIZEOF(tszDialogMsg));
 		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), NULL, DlgDownload);
 	}
 }
@@ -369,16 +369,16 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								CreateDirectory(tszFileDest, NULL);
 								break;
 							default:
-								lstrcpyn(tszFileDest, tszRoot, SIZEOF(tszFileDest));
+								mir_tstrncpy(tszFileDest, tszRoot, SIZEOF(tszFileDest));
 								break;
 							}
 							mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("%s\\Backups"), tszRoot);
 							CreateDirectory(tszBuff, NULL);
-							lstrcpyn(tszFileName, todo[i].File.tszDiskPath, SIZEOF(tszFileName));
+							mir_tstrncpy(tszFileName, todo[i].File.tszDiskPath, SIZEOF(tszFileName));
 							mir_sntprintf(todo[i].File.tszDiskPath, SIZEOF(todo[i].File.tszDiskPath), _T("%s\\%s"), tszFileDest, tszFileName);
 							UpdatesCount++;
 
-							tszExt = &todo[i].File.tszDownloadURL[lstrlen(todo[i].File.tszDownloadURL)-5];
+							tszExt = &todo[i].File.tszDownloadURL[mir_tstrlen(todo[i].File.tszDownloadURL)-5];
 							if (lstrcmp(tszExt, _T(".html")) == 0) {
 								char* szUrl = mir_t2a(todo[i].File.tszDownloadURL);
 								CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szUrl);
@@ -399,7 +399,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									continue;
 								}
 							}
-							lstrcpyn(todo[i].tszCurVer, todo[i].tszNewVer, SIZEOF(todo[i].tszCurVer));
+							mir_tstrncpy(todo[i].tszCurVer, todo[i].tszNewVer, SIZEOF(todo[i].tszCurVer));
 							mir_snprintf(szKey, SIZEOF(szKey), "File_%d_CurrentVersion", todo[i].FileNum);
 							db_set_ts(NULL, MODNAME, szKey, todo[i].tszCurVer);
 							arFileType.push_back(todo[i].FileType);
@@ -413,9 +413,9 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 					}
 
 					if (UpdatesCount > 1 && lstrcmp(arExt[0].c_str(), _T(".html")) != 0)
-						lstrcpyn(tszBuff, TranslateT("Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
+						mir_tstrncpy(tszBuff, TranslateT("Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
 					else if (UpdatesCount == 1 && lstrcmp(arExt[0].c_str(), _T(".html")) != 0)
-						lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
+						mir_tstrncpy(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
 					if (UpdatesCount > 0 && lstrcmp(arExt[0].c_str(), _T(".html")) != 0) {
 						INT rc = -1;
 						Title = TranslateT("Pack Updater");

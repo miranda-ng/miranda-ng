@@ -41,7 +41,7 @@ static inline size_t __blen<char>(const char *str)
 template<>
 static inline size_t __blen<wchar_t>(const wchar_t *str)
 {
-	return lstrlenW(str);
+	return mir_wstrlen(str);
 }
 
 template<class T>
@@ -479,7 +479,7 @@ static void ReplaceVars(Buffer<TCHAR> *buffer, MCONTACT hContact, TCHAR **variab
 				{
 					for(int k = 0; k < numVariables; k += 2)
 					{
-						size_t len = lstrlen(variables[k]);
+						size_t len = mir_tstrlen(variables[k]);
 						if (foundLen == len + 2 && _tcsncmp(&buffer->str[j]+1, variables[k], len) == 0)
 						{
 							buffer->replace(j, i + 1, variables[k + 1]);

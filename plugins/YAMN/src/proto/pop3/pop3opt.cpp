@@ -684,7 +684,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 			SendDlgItemMessage(hDlg, IDC_COMBOCP, CB_ADDSTRING, 0, (LPARAM)TranslateT("Default"));
 			for (i=1; i < CPLENSUPP; i++) {
 				CPINFOEX info; GetCPInfoEx(CodePageNamesSupp[i].CP,0,&info);
-				size_t len = lstrlen(info.CodePageName+7);
+				size_t len = mir_tstrlen(info.CodePageName+7);
 				info.CodePageName[len+6]=0;
 				SendDlgItemMessage(hDlg,IDC_COMBOCP,CB_ADDSTRING,0,(LPARAM)(info.CodePageName+7));
 			}
@@ -745,7 +745,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					if (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))) {
 						DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
 						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
-						if (lstrlenA(DlgInput))
+						if (mir_strlen(DlgInput))
 							DlgEnableAccount(hDlg,TRUE,TRUE);
 						else
 							DlgEnableAccount(hDlg,FALSE,FALSE);
@@ -1262,7 +1262,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 							if (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput)))
 							{
 								DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
-								if (lstrlenA(DlgInput))
+								if (mir_strlen(DlgInput))
 									DlgEnableAccountPopup(hDlg,TRUE,TRUE);
 								else
 									DlgEnableAccountPopup(hDlg,FALSE,FALSE);
@@ -1339,12 +1339,12 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					TesterF.lchIcon=g_LoadIconEx(3);
 					TesterN.lchIcon=g_LoadIconEx(1);
 
-					lstrcpyn(Tester.lptzContactName,TranslateT("Account Test"),MAX_CONTACTNAME);
-					lstrcpyn(TesterF.lptzContactName,TranslateT("Account Test (failed)"),MAX_CONTACTNAME);
-					lstrcpyn(TesterN.lptzContactName,TranslateT("Account Test"),MAX_CONTACTNAME);
-					lstrcpyn(Tester.lptzText,TranslateT("You have N new mail messages"),MAX_SECONDLINE);
-					lstrcpyn(TesterF.lptzText,TranslateT("Connection failed message"),MAX_SECONDLINE);
-					lstrcpyn(TesterN.lptzText,TranslateT("No new mail message"),MAX_SECONDLINE);
+					mir_tstrncpy(Tester.lptzContactName,TranslateT("Account Test"),MAX_CONTACTNAME);
+					mir_tstrncpy(TesterF.lptzContactName,TranslateT("Account Test (failed)"),MAX_CONTACTNAME);
+					mir_tstrncpy(TesterN.lptzContactName,TranslateT("Account Test"),MAX_CONTACTNAME);
+					mir_tstrncpy(Tester.lptzText,TranslateT("You have N new mail messages"),MAX_SECONDLINE);
+					mir_tstrncpy(TesterF.lptzText,TranslateT("Connection failed message"),MAX_SECONDLINE);
+					mir_tstrncpy(TesterN.lptzText,TranslateT("No new mail message"),MAX_SECONDLINE);
 					if (TesterC)
 					{
 						Tester.colorBack=SendDlgItemMessage(hDlg,IDC_CPB,CPM_GETCOLOUR,0,0);

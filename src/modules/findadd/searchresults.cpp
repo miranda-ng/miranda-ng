@@ -202,7 +202,7 @@ static void BeginSearchFailed(void * arg)
 			protoName, protoName);
 		mir_free((char*)arg);
 	}
-	else lstrcpyn(buf, TranslateT("Could not search on any of the protocols, are you online?"), SIZEOF(buf));
+	else mir_tstrncpy(buf, TranslateT("Could not search on any of the protocols, are you online?"), SIZEOF(buf));
 	MessageBox(0, buf, TranslateT("Problem with search"), MB_OK | MB_ICONERROR);
 }
 
@@ -258,17 +258,17 @@ void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 	if (dat->searchCount != 0) {
 		int i;
 
-		lstrcpy(str, TranslateT("Searching"));
+		mir_tstrcpy(str, TranslateT("Searching"));
 		for (i=0; i < dat->searchCount; i++) {
 			PROTOACCOUNT *pa = Proto_GetAccount(dat->search[i].szProto);
 			if (!pa)
 				continue;
 
-			lstrcat(str, i ? _T(", ") : _T(" "));
-			lstrcat(str, pa->tszAccountName);
+			mir_tstrcat(str, i ? _T(", ") : _T(" "));
+			mir_tstrcat(str, pa->tszAccountName);
 		}
 	}
-	else lstrcpy(str, TranslateT("Idle"));
+	else mir_tstrcpy(str, TranslateT("Idle"));
 
 	SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)str);
 }
@@ -322,16 +322,16 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 				if (i) {
 					if ((pa = Proto_GetAccount(subtotal[i].szProto)) == NULL)
 						return;
-					lstrcat(str, _T(", "));
+					mir_tstrcat(str, _T(", "));
 				}
 				mir_sntprintf(substr, SIZEOF(substr), _T("%d %s"), subtotal[i].count, pa->tszAccountName);
-				lstrcat(str, substr);
+				mir_tstrcat(str, substr);
 			}
-			lstrcat(str, _T(")"));
+			mir_tstrcat(str, _T(")"));
 		}
 		mir_free(subtotal);
 	}
-	else lstrcpy(str, TranslateT("No users found"));
+	else mir_tstrcpy(str, TranslateT("No users found"));
 	SendMessage(hwndStatus, SB_SETTEXT, 2, (LPARAM)str);
 }
 

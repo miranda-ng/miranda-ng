@@ -42,9 +42,9 @@ static INT_PTR SendEMailCommand(WPARAM hContact, LPARAM lParam)
 			return 1;
 		}
 	}
-	char *szUrl = (char*)mir_alloc(lstrlenA(dbv.pszVal)+8);
-	lstrcpyA(szUrl, "mailto:");
-	lstrcatA(szUrl, dbv.pszVal);
+	char *szUrl = (char*)mir_alloc(mir_strlen(dbv.pszVal)+8);
+	mir_strcpy(szUrl, "mailto:");
+	mir_strcat(szUrl, dbv.pszVal);
 	mir_free(dbv.pszVal);
 	forkthread(SendEmailThread, 0, szUrl);
 	return 0;

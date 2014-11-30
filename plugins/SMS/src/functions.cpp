@@ -7,7 +7,7 @@ BOOL DB_GetStaticStringW(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,
 	DBVARIANT dbv={0};
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv)==0)
 	{
-		dwReadedStringLen=lstrlenW(dbv.pwszVal);
+		dwReadedStringLen=mir_wstrlen(dbv.pwszVal);
 		if (lpwszRetBuff && (dwRetBuffSize>dwReadedStringLen))
 		{
 			CopyMemory(lpwszRetBuff,dbv.pszVal,(dwReadedStringLen*sizeof(WCHAR)));//include null terminated
@@ -455,9 +455,9 @@ void LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour)
 	{
 		if (db_get(NULL,SRMMMOD,str,&dbv))
 		{
-			lstrcpyn(lf->lfFaceName,fontOptionsList[0].szDefFace,SIZEOF(lf->lfFaceName));
+			mir_tstrncpy(lf->lfFaceName,fontOptionsList[0].szDefFace,SIZEOF(lf->lfFaceName));
 		}else{
-			lstrcpyn(lf->lfFaceName,dbv.ptszVal,SIZEOF(lf->lfFaceName));
+			mir_tstrncpy(lf->lfFaceName,dbv.ptszVal,SIZEOF(lf->lfFaceName));
 			db_free(&dbv);
 		}
 

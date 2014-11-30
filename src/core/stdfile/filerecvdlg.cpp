@@ -38,7 +38,7 @@ static void GetLowestExistingDirName(const TCHAR *szTestDir, TCHAR *szExistingDi
 	DWORD dwAttributes;
 	TCHAR *pszLastBackslash;
 
-	lstrcpyn(szExistingDir, szTestDir, cchExistingDir);
+	mir_tstrncpy(szExistingDir, szTestDir, cchExistingDir);
 	while ((dwAttributes = GetFileAttributes(szExistingDir)) != INVALID_FILE_ATTRIBUTES && !(dwAttributes&FILE_ATTRIBUTE_DIRECTORY)) {
 		pszLastBackslash = _tcsrchr(szExistingDir, '\\');
 		if (pszLastBackslash == NULL) { *szExistingDir = '\0'; break; }
@@ -96,7 +96,7 @@ int BrowseForFolder(HWND hwnd, TCHAR *szPath)
 	LPITEMIDLIST pidlResult = SHBrowseForFolder(&bi);
 	if (pidlResult) {
 		SHGetPathFromIDList(pidlResult, szPath);
-		lstrcat(szPath, _T("\\"));
+		mir_tstrcat(szPath, _T("\\"));
 		CoTaskMemFree(pidlResult);
 	}
 	return pidlResult != NULL;
@@ -123,9 +123,9 @@ static void patchDir(TCHAR *str, size_t strSize)
 		mir_free(result);
 	}
 
-	size_t len = lstrlen(str);
+	size_t len = mir_tstrlen(str);
 	if (len + 1 < strSize && str[len - 1] != '\\')
-		lstrcpy(str + len, _T("\\"));
+		mir_tstrcpy(str + len, _T("\\"));
 }
 
 void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOOL patchVars)
@@ -170,7 +170,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, TCHAR *szDir, int cchDir, BOO
 	if (patchVars)
 		patchDir(tszTemp, SIZEOF(tszTemp));
 	RemoveInvalidPathChars(tszTemp);
-	lstrcpyn(szDir, tszTemp, cchDir);
+	mir_tstrncpy(szDir, tszTemp, cchDir);
 }
 
 void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
@@ -185,7 +185,7 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 
 	patchDir(tszTemp, SIZEOF(tszTemp));
 	RemoveInvalidPathChars(tszTemp);
-	lstrcpyn(szDir, tszTemp, cchDir);
+	mir_tstrncpy(szDir, tszTemp, cchDir);
 }
 
 INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -341,7 +341,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetDlgItemText(hwndDlg, IDC_FILEDIR, szRecvDir, SIZEOF(szRecvDir));
 				RemoveInvalidPathChars(szRecvDir);
 				GetContactReceivedFilesDir(NULL, szDefaultRecvDir, SIZEOF(szDefaultRecvDir), TRUE);
-				if (_tcsnicmp(szRecvDir, szDefaultRecvDir, lstrlen(szDefaultRecvDir))) {
+				if (_tcsnicmp(szRecvDir, szDefaultRecvDir, mir_tstrlen(szDefaultRecvDir))) {
 					char idstr[32];
 					int i;
 					DBVARIANT dbv;

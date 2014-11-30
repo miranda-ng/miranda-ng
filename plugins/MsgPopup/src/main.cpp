@@ -87,8 +87,8 @@ void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 	ppd.iSeconds  = options.Timeout[indx];
 
 	ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
-	lstrcpy(ppd.lptzContactName, lpCaption);
-	lstrcpy(ppd.lptzText, lpText);
+	mir_tstrcpy(ppd.lptzContactName, lpCaption);
+	mir_tstrcpy(ppd.lptzText, lpText);
 	PUAddPopupT(&ppd);
 	if(options.Sound)
 		MessageBeep(uType);

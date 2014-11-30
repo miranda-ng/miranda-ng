@@ -39,9 +39,9 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawOut( WPARAM, LPARAM lParam )
 {
 	char* pszRaw = (char*)lParam;
 	if (m_scriptingEnabled && pszRaw && IsConnected()) {
-		String S = pszRaw;
-		ReplaceString(S, "%", "%%%%");
-		NLSendNoScript((const unsigned char *)S.c_str(), lstrlenA(S.c_str()));
+		CMStringA S = pszRaw;
+		S.Replace("%", "%%%%");
+		NLSendNoScript((const unsigned char *)S.c_str(), (int)mir_strlen(S.c_str()));
 		return 0;
 	}
 
@@ -110,7 +110,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 {
 	if (m_scriptingEnabled && lparam) {
-		String sString = (char*)lparam, sRequest;
+		CMStringA sString = (char*)lparam, sRequest;
 		CMString sOutput, sChannel;
 
 		int i = sString.Find("|");

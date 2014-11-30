@@ -122,7 +122,7 @@ void CCtrlTreeOpts::OnInit()
 		int sectionLevel = 0;
 
 		HTREEITEM hSection = NULL;
-		lstrcpy(itemName, m_options[i]->m_szOptionName);
+		mir_tstrcpy(itemName, m_options[i]->m_szOptionName);
 		sectionName = itemName;
 
 		while (sectionName) {

@@ -346,9 +346,9 @@ void CConfig::LoadFontSettings(int iFont)
 	mir_snprintf(szSetting,SIZEOF(szSetting),"Font%dName",iFont);
 	DBVARIANT dbv;
 	if (db_get_ts(NULL, "MirandaG15", szSetting, &dbv))
-        lstrcpy(m_logfont[iFont].lfFaceName,_T("Small Fonts"));
+        mir_tstrcpy(m_logfont[iFont].lfFaceName,_T("Small Fonts"));
     else {
-		lstrcpy(m_logfont[iFont].lfFaceName, dbv.ptszVal);
+		mir_tstrcpy(m_logfont[iFont].lfFaceName, dbv.ptszVal);
        db_free(&dbv);
     }
 

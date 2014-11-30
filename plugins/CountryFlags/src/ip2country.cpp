@@ -210,19 +210,19 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 			if (!lstrcmpi(pszCountry,"ANTARCTICA")) continue;
 			if (!lstrcmpi(pszCountry,"TIMOR-LESTE")) continue;
 			if (!lstrcmpi(pszCountry,"PALESTINIAN TERRITORY, OCCUPIED"))
-				lstrcpy(pszCountry,"ISRAEL");
+				mir_tstrcpy(pszCountry,"ISRAEL");
 			else if (!lstrcmpi(pszCountry,"UNITED STATES MINOR OUTLYING ISLANDS"))
-				lstrcpy(pszCountry,"UNITED STATES");
+				mir_tstrcpy(pszCountry,"UNITED STATES");
 			else if (!lstrcmpi(pszCountry,"SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"))
-				lstrcpy(pszCountry,"UNITED KINGDOM");
+				mir_tstrcpy(pszCountry,"UNITED KINGDOM");
 			else if (!lstrcmpi(pszTwo,"JE")) /* map error */
-				lstrcpy(pszCountry,"UNITED KINGDOM");
+				mir_tstrcpy(pszCountry,"UNITED KINGDOM");
 			else if (!lstrcmpi(pszTwo,"AX")) /* Åland Island belongs to Finland */
-				lstrcpy(pszCountry,"FINLAND");
+				mir_tstrcpy(pszCountry,"FINLAND");
 			else if (!lstrcmpi(pszTwo,"ME"))
-				lstrcpy(pszCountry,"MONTENEGRO");
+				mir_tstrcpy(pszCountry,"MONTENEGRO");
 			else if (!lstrcmpi(pszTwo,"RS") || !lstrcmpi(pszTwo,"CS"))
-				lstrcpy(pszCountry,"SERBIA");
+				mir_tstrcpy(pszCountry,"SERBIA");
 			/* convert */
 			for(i=0;i<nCountriesCount;i++) {
 				/* map different writings */

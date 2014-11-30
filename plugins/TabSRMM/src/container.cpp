@@ -1865,7 +1865,7 @@ panel_found:
 
 						char szCName[40];
 						mir_snprintf(szCName, 40, "%s_theme", CONTAINER_PREFIX);
-						if (lstrlen(pContainer->szRelThemeFile) > 1) {
+						if (mir_tstrlen(pContainer->szRelThemeFile) > 1) {
 							if (pContainer->fPrivateThemeChanged == TRUE) {
 								PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
 								db_set_ts(hContact, SRMSGMOD_T, szCName, pContainer->szRelThemeFile);
@@ -1990,8 +1990,8 @@ int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, unsigned int size
 {
 	int cutMax = PluginConfig.m_CutContactNameTo;
 
-	if (lstrlen(oldname) <= cutMax) {
-		lstrcpyn(newname, oldname, size);
+	if (mir_tstrlen(oldname) <= cutMax) {
+		mir_tstrncpy(newname, oldname, size);
 		newname[size - 1] = 0;
 	}
 	else {
@@ -2023,7 +2023,7 @@ static TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer)
 
 TContainerData* TSAPI FindContainerByName(const TCHAR *name)
 {
-	if (name == NULL || lstrlen(name) == 0)
+	if (name == NULL || mir_tstrlen(name) == 0)
 		return 0;
 
 	if (M.GetByte("singlewinmode", 0)) // single window mode - always return 0 and force a new container
@@ -2188,7 +2188,7 @@ void TSAPI DeleteContainer(int iIndex)
 
 void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 {
-	if (lstrlen(szNew) == 0)
+	if (mir_tstrlen(szNew) == 0)
 		return;
 	
 	char szIndex[10];

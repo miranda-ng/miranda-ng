@@ -210,7 +210,7 @@ void GetSmileyCacheFolder(void)
 		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 	}
-	else lstrcpyn(cachepath, VARST( _T("%miranda_userdata%\\SmileyCache")), MAX_PATH);
+	else mir_tstrncpy(cachepath, VARST( _T("%miranda_userdata%\\SmileyCache")), MAX_PATH);
 }
 
 void DownloadInit(void)

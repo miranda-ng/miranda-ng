@@ -452,10 +452,10 @@ void Nudge_ShowPopup(CNudgeElement n, MCONTACT hContact, TCHAR * Message)
 		NudgePopup.PluginWindowProc = NudgePopupProc;
 		NudgePopup.PluginData = (void *)1;
 
-		//lstrcpy(NudgePopup.lpzText, Translate(Message));
-		lstrcpy(NudgePopup.lptzText, Message);
+		//mir_tstrcpy(NudgePopup.lpzText, Translate(Message));
+		mir_tstrcpy(NudgePopup.lptzText, Message);
 
-		lstrcpy(NudgePopup.lptzContactName, lpzContactName);
+		mir_tstrcpy(NudgePopup.lptzContactName, lpzContactName);
 
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&NudgePopup, 0);
 	}

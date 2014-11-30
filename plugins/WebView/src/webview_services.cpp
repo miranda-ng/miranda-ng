@@ -225,7 +225,7 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM)
 
 INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 {
-	lstrcpynA((char*) lParam, MODULENAME, wParam);
+	mir_strncpy((char*) lParam, MODULENAME, wParam);
 	return 0;
 }
 
@@ -319,12 +319,12 @@ INT_PTR BasicSearch(WPARAM wParam, LPARAM lParam)
 	static TCHAR buf[300];
 
 	if (lParam)
-		lstrcpyn(buf, (const TCHAR*) lParam, 256);
+		mir_tstrncpy(buf, (const TCHAR*) lParam, 256);
 
 	if (searchId != -1)
 		return 0; // only one search at a time
 
-	lstrcpyn(sID, (TCHAR*)lParam, SIZEOF(sID));
+	mir_tstrncpy(sID, (TCHAR*)lParam, SIZEOF(sID));
 	searchId = 1;
 
 	// create a thread for the ID search

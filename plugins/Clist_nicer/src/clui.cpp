@@ -885,7 +885,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		if (cfg::getByte("CList", "AutoApplyLastViewMode", 0)) {
 			DBVARIANT dbv = {0};
 			if (!db_get(NULL, "CList", "LastViewMode", &dbv)) {
-				if (lstrlenA(dbv.pszVal) > 2) {
+				if (mir_strlen(dbv.pszVal) > 2) {
 					if (cfg::getDword(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
 						ApplyViewMode((char *)dbv.pszVal);
 				}
@@ -1765,22 +1765,22 @@ buttons_done:
 					TCHAR szName[64];
 					PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 					if (pa) {
-						lstrcpyn(szName, pa->tszAccountName, SIZEOF(szName));
+						mir_tstrncpy(szName, pa->tszAccountName, SIZEOF(szName));
 						szName[SIZEOF(szName) - 1] = 0;
 					}
 					else
 						szName[0] = 0;
 
-					if (lstrlen(szName) < sizeof(szName) - 1)
-						lstrcat(szName, _T(" "));
-					GetTextExtentPoint32(dis->hDC, szName, lstrlen(szName), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szName, lstrlen(szName));
+					if (mir_tstrlen(szName) < sizeof(szName) - 1)
+						mir_tstrcat(szName, _T(" "));
+					GetTextExtentPoint32(dis->hDC, szName, mir_tstrlen(szName), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szName, mir_tstrlen(szName));
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
 					TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
-					GetTextExtentPoint32(dis->hDC, szStatus, lstrlen(szStatus), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, lstrlen(szStatus));
+					GetTextExtentPoint32(dis->hDC, szStatus, mir_tstrlen(szStatus), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, mir_tstrlen(szStatus));
 				}
 			}
 			else if (dis->CtlType == ODT_MENU) {

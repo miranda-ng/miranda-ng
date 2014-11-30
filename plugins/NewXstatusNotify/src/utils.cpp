@@ -111,24 +111,24 @@ WCHAR *mir_dupToUnicodeEx(char *ptr, UINT CodePage)
 TCHAR *AddCR(const TCHAR *stzText)
 {
 	const TCHAR *found;
-	int i = 0, len = lstrlen(stzText), j;
+	int i = 0, len = mir_tstrlen(stzText), j;
 	TCHAR *tmp = (TCHAR *)mir_alloc(1024 * sizeof(TCHAR));
 	*tmp = _T('\0');
 	while ((found = _tcsstr((stzText + i), _T("\n"))) != NULL && _tcslen(tmp) + 1 < 1024) {
 		j = (int)(found - stzText);
-		if (lstrlen(tmp) + j - i + 2 < 1024)
+		if (mir_tstrlen(tmp) + j - i + 2 < 1024)
 			tmp = _tcsncat(tmp, stzText + i, j - i);
 		else
 			break;
 
 		if (j == 0 || *(stzText + j - 1) != _T('\r'))
-			tmp = lstrcat(tmp, _T("\r"));
+			tmp = mir_tstrcat(tmp, _T("\r"));
 
-		tmp = lstrcat(tmp, _T("\n"));
+		tmp = mir_tstrcat(tmp, _T("\n"));
 		i = j + 1;
 	}
-	if (lstrlen(tmp) + len - i + 1 < 1024)
-		tmp = lstrcat(tmp, stzText + i);
+	if (mir_tstrlen(tmp) + len - i + 1 < 1024)
+		tmp = mir_tstrcat(tmp, stzText + i);
 
 	return tmp;
 }

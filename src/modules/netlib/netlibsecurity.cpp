@@ -331,11 +331,11 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				const TCHAR* loginName = login;
 				const TCHAR* domainName = _tcschr(login, '\\');
 				int domainLen = 0;
-				int loginLen = lstrlen(loginName);
+				int loginLen = mir_tstrlen(loginName);
 				if (domainName != NULL)
 				{
 					loginName = domainName + 1;
-					loginLen = lstrlen(loginName);
+					loginLen = mir_tstrlen(loginName);
 					domainLen = domainName - login;
 					domainName = login;
 				}
@@ -343,13 +343,13 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				{
 					loginName = login;
 					loginLen = domainName - login;
-					domainLen = lstrlen(++domainName);
+					domainLen = mir_tstrlen(++domainName);
 				}
 
 				auth.User = (PWORD)loginName;
 				auth.UserLength = loginLen;
 				auth.Password = (PWORD)psw;
-				auth.PasswordLength = lstrlen(psw);
+				auth.PasswordLength = mir_tstrlen(psw);
 				auth.Domain = (PWORD)domainName;
 				auth.DomainLength = domainLen;
 				auth.Flags = SEC_WINNT_AUTH_IDENTITY_UNICODE;

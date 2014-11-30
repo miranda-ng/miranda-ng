@@ -84,7 +84,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 		if (db_get_ts(NULL, SRMMMOD, str, &dbv))
 			_tcscpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else {
-			lstrcpyn(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
+			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
 			db_free(&dbv);
 		}
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSet", i);

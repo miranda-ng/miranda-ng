@@ -41,7 +41,7 @@ INT_PTR GetLCCaps(WPARAM wParam,LPARAM lParam)
 //=======================================================
 INT_PTR GetLCName(WPARAM wParam,LPARAM lParam)
 {
-	lstrcpynA((char*)lParam, MODNAME, wParam);
+	mir_strncpy((char*)lParam, MODNAME, wParam);
 	return 0;
 }
 

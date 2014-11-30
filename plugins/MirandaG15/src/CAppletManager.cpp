@@ -801,7 +801,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact,bool bEnable)
 HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage)
 {
 	tstring strAscii = _A2T(toNarrowString(strMessage).c_str());
-	int bufSize = lstrlen(strAscii.c_str())+1;
+	int bufSize = mir_tstrlen(strAscii.c_str())+1;
 	SMessageJob *pJob = new SMessageJob();
 	pJob->dwTimestamp = GetTickCount();
 	pJob->hContact = hContact;
@@ -849,7 +849,7 @@ HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage
 			memcpy(pJob->pcBuffer,szMsgUtf,pJob->iBufferSize);
 			mir_free(szMsgUtf);
 		} else {
-			bIsUnicode = !IsUnicodeAscii(strMessage.c_str(),lstrlen(strMessage.c_str()));
+			bIsUnicode = !IsUnicodeAscii(strMessage.c_str(),mir_tstrlen(strMessage.c_str()));
 			if(bIsUnicode) {
 				pref = PREF_UNICODE;
 				pJob->iBufferSize = bufSize * (sizeof(TCHAR) + 1);

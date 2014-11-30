@@ -256,9 +256,9 @@ void CMraProto::MraPopupShowW(MCONTACT hContact, DWORD dwType, DWORD dwFlags, LP
 
 		ppd.lchContact = hContact;
 		if (lpszTitle)
-			lstrcpyn(ppd.lptzContactName, lpszTitle, MAX_CONTACTNAME);
+			mir_tstrncpy(ppd.lptzContactName, lpszTitle, MAX_CONTACTNAME);
 		if (lpszMessage)
-			lstrcpyn(ppd.lptzText, lpszMessage, MAX_SECONDLINE);
+			mir_tstrncpy(ppd.lptzText, lpszMessage, MAX_SECONDLINE);
 		ppd.PluginWindowProc = MraPopupDlgProc;
 		ppd.PluginData = dat;
 

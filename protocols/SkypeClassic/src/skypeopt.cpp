@@ -169,9 +169,9 @@ INT_PTR CALLBACK OptPopupDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					InCallPopup.iSeconds = popupTimeSec;
 					InCallPopup.PluginData = (void *)1;
 					
-					lstrcpy(InCallPopup.lptzText, TranslateT("Incoming Skype Call"));
+					mir_tstrcpy(InCallPopup.lptzText, TranslateT("Incoming Skype Call"));
 
-					lstrcpy(InCallPopup.lptzContactName, lpzContactName);
+					mir_tstrcpy(InCallPopup.lptzContactName, lpzContactName);
 
 					CallService(MS_POPUP_ADDPOPUPT,(WPARAM)&InCallPopup,0);
 
@@ -186,9 +186,9 @@ INT_PTR CALLBACK OptPopupDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					ErrorPopup.iSeconds = popupTimeSecErr;
 					ErrorPopup.PluginData = (void *)1;
 					
-					lstrcpy(ErrorPopup.lptzText, TranslateT("Preview Error Message"));
+					mir_tstrcpy(ErrorPopup.lptzText, TranslateT("Preview Error Message"));
 
-					lstrcpy(ErrorPopup.lptzContactName, _T("Error Message"));
+					mir_tstrcpy(ErrorPopup.lptzContactName, _T("Error Message"));
 
 
 					CallService(MS_POPUP_ADDPOPUPT,(WPARAM)&ErrorPopup,0);

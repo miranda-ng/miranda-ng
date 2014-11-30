@@ -455,7 +455,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					if (hdc != NULL) {
 						if (dat->hFont != NULL)
 							hFontPrev = (HFONT)SelectObject(hdc,dat->hFont);
-						if (GetTextExtentPoint32(hdc,szOutput,lstrlen(szOutput),&size))
+						if (GetTextExtentPoint32(hdc,szOutput,mir_tstrlen(szOutput),&size))
 							if (size.cx>=(rc.right-rc.left))
 								dat->flags&=FWPDF_TIMEISCLIPPED;
 						if (dat->hFont != NULL)

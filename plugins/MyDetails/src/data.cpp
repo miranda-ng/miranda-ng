@@ -54,8 +54,8 @@ void DeInitProtocolData()
 
 Protocol::Protocol(const char *aName, const TCHAR *descr)
 {
-	lstrcpynA(name, aName, SIZEOF(name));
-	lstrcpyn(description, descr, SIZEOF(description));
+	mir_strncpy(name, aName, SIZEOF(name));
+	mir_tstrncpy(description, descr, SIZEOF(description));
 
 	data_changed = true;
 
@@ -88,7 +88,7 @@ void Protocol::lcopystr(TCHAR *dest, TCHAR *src, size_t maxlen)
 {
 	if (lstrcmp(dest, src) != 0) {
 		data_changed = true;
-		lstrcpyn(dest, src, (DWORD)maxlen);
+		mir_tstrncpy(dest, src, (DWORD)maxlen);
 	}
 }
 
@@ -485,7 +485,7 @@ void ProtocolArray::SetNicks(const TCHAR *nick)
 	if (nick == NULL || nick[0] == '\0')
 		return;
 
-	lstrcpyn(default_nick, nick, SIZEOF(default_nick));
+	mir_tstrncpy(default_nick, nick, SIZEOF(default_nick));
 
 	db_set_ts(0, MODULE_NAME, SETTING_DEFAULT_NICK, nick);
 
@@ -550,7 +550,7 @@ TCHAR *ProtocolArray::GetDefaultStatusMsg(int status)
 
 	TCHAR *tmp = (TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)status, 0);
 	if (tmp != NULL) {
-		lstrcpyn(default_status_message, tmp, SIZEOF(default_status_message));
+		mir_tstrncpy(default_status_message, tmp, SIZEOF(default_status_message));
 		mir_free(tmp);
 	}
 
@@ -590,7 +590,7 @@ static char *StatusModeToDbSetting(int status, const char *suffix)
 		case ID_STATUS_IDLE: prefix = "Idl"; break;
 		default: return NULL;
 	}
-	lstrcpyA(str, prefix);
-	lstrcatA(str, suffix);
+	mir_strcpy(str, prefix);
+	mir_strcat(str, suffix);
 	return str;
 }

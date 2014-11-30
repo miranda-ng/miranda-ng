@@ -95,7 +95,7 @@ void LoadOptions()
 
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, MODULE_NAME, "DefaultLanguage", &dbv)) {
-		lstrcpyn(opts.default_language, dbv.ptszVal, SIZEOF(opts.default_language));
+		mir_tstrncpy(opts.default_language, dbv.ptszVal, SIZEOF(opts.default_language));
 		db_free(&dbv);
 	}
 
@@ -105,7 +105,7 @@ void LoadOptions()
 			break;
 
 	if (i >= languages.getCount())
-		lstrcpy(opts.default_language, languages[0]->language);
+		mir_tstrcpy(opts.default_language, languages[0]->language);
 }
 
 static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict) 
@@ -152,7 +152,7 @@ static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
 	rc.right = lpdis->rcItem.right - 2;
 	rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - tm.tmHeight) / 2;
 	rc.bottom = rc.top + tm.tmHeight;
-	DrawText(lpdis->hDC, dict->full_name, lstrlen(dict->full_name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
+	DrawText(lpdis->hDC, dict->full_name, mir_tstrlen(dict->full_name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 
 	// Restore old colors
 	SetTextColor(lpdis->hDC, clrfore);
@@ -215,7 +215,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					sel = 0;
 				db_set_ts(NULL, MODULE_NAME, "DefaultLanguage", 
 					(TCHAR *) languages[sel]->language);
-				lstrcpy(opts.default_language, languages[sel]->language);
+				mir_tstrcpy(opts.default_language, languages[sel]->language);
 			}
 		}
 		break;
@@ -329,7 +329,7 @@ static void SaveNewReplacements(BOOL canceled, Dictionary *dict,
 
 	AutoreplaceData *data = (AutoreplaceData *) param;
 
-	if (lstrlen(original_find) > 0)
+	if (mir_tstrlen(original_find) > 0)
 		data->RemoveWord(original_find);
 
 	data->AddWord(find, replace, useVariables);
@@ -352,7 +352,7 @@ static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 	else
 		ListView_GetItemText(GetDlgItem(hwndDlg, IDC_REPLACEMENTS), item, 0, find, SIZEOF(find));
 
-	if (lstrlen(find) > 0) {
+	if (mir_tstrlen(find) > 0) {
 		AutoReplacement &ar = data->autoReplaceMap[find];
 		replace = ar.replace.c_str();
 		useVariables = ar.useVariables;

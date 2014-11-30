@@ -789,7 +789,7 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 //slightly modified and integrated to MyBitmap class
 void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 {
-	SIZE sz; GetTextExtentPoint32(this->getDC(), str, lstrlen(str), &sz);
+	SIZE sz; GetTextExtentPoint32(this->getDC(), str, mir_tstrlen(str), &sz);
 	sz.cx += (blur+2)*2; sz.cy += (blur+2)*2;
 	x -= blur+2; y -= blur+2;
 
@@ -819,7 +819,7 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 	SetTextColor(tmp.getDC(), RGB(255,255,255));
 	SetBkColor(tmp.getDC(), RGB(0,0,0));
 	ExtTextOutA(tmp.getDC(), 0, 0, ETO_OPAQUE, &rc, "", 0, NULL);
-	::DrawText(tmp.getDC(), str, lstrlen(str), &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
+	::DrawText(tmp.getDC(), str, mir_tstrlen(str), &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
 	SelectObject(tmp.getDC(), hfnTmp);
 
 	GdiFlush();
@@ -997,7 +997,7 @@ bool MyBitmap::loadFromFile_pixel(const char *fn, const char *fnAlpha)
 {
 	allocate(1,1);
 	int r, g, b, a = 255;
-	const char *p = fn + lstrlenA("pixel:");
+	const char *p = fn + mir_strlen("pixel:");
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
 	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
 	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
@@ -1007,7 +1007,7 @@ bool MyBitmap::loadFromFile_pixel(const char *fn, const char *fnAlpha)
 
 bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
 {
-	const char *p = fn + lstrlenA("gradient:");
+	const char *p = fn + mir_strlen("gradient:");
 
 	if (*p == 'h') allocate(256,1);
 	else allocate(1,256);
@@ -1153,11 +1153,11 @@ bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
 {
 	if (bits) free();
 
-	if (!strncmp(fn, "pixel:", lstrlenA("pixel:")))
+	if (!strncmp(fn, "pixel:", mir_strlen("pixel:")))
 	{
 		return loadFromFile_pixel(fn, fnAlpha);
 	} else
-	if (!strncmp(fn, "gradient:", lstrlenA("gradient:")))
+	if (!strncmp(fn, "gradient:", mir_strlen("gradient:")))
 	{
 		return loadFromFile_gradient(fn, fnAlpha);
 	} else

@@ -54,7 +54,7 @@ char *StatusModeToDbSetting(int status,const char *suffix)
 		case ID_STATUS_OUTTOLUNCH: prefix="Otl"; break;
 		default: return NULL;
 	}
-	lstrcpyA(str,prefix); lstrcatA(str,suffix);
+	mir_strcpy(str,prefix); mir_strcat(str,suffix);
 	return str;
 }
 
@@ -183,10 +183,10 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 			else
 				continue;
 
-			if (lstrlen(substituteStr) > 6)
-				tszMsg = (TCHAR*)mir_realloc(tszMsg, sizeof(TCHAR)*(lstrlen(tszMsg) + 1 + lstrlen(substituteStr) - 6));
-			MoveMemory(tszMsg + j + lstrlen(substituteStr), tszMsg + j + 6, sizeof(TCHAR)*(lstrlen(tszMsg) - j - 5));
-			CopyMemory(tszMsg + j, substituteStr, sizeof(TCHAR)*lstrlen(substituteStr));
+			if (mir_tstrlen(substituteStr) > 6)
+				tszMsg = (TCHAR*)mir_realloc(tszMsg, sizeof(TCHAR)*(mir_tstrlen(tszMsg) + 1 + mir_tstrlen(substituteStr) - 6));
+			MoveMemory(tszMsg + j + mir_tstrlen(substituteStr), tszMsg + j + 6, sizeof(TCHAR)*(mir_tstrlen(tszMsg) - j - 5));
+			CopyMemory(tszMsg + j, substituteStr, sizeof(TCHAR)*mir_tstrlen(substituteStr));
 		}
 
 		TCHAR *szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);

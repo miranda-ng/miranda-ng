@@ -289,10 +289,10 @@ void LoadExtBkSettingsFromDB()
 
 		mir_snprintf(p->szDBname, 30, "EXBK_%s", accs[i]->szModuleName);
 		if (i == 0) {
-			lstrcpynA(p->szName, "{-}", 30);
+			mir_strncpy(p->szName, "{-}", 30);
 			strncat(p->szName, accs[i]->szModuleName, 30);
 		}
-		else lstrcpynA(p->szName, accs[i]->szModuleName, 30);
+		else mir_strncpy(p->szName, accs[i]->szModuleName, 30);
 		p->statusID = ID_EXTBK_LAST;
 		arStatusItems.insert(p);
 	}
@@ -1202,17 +1202,17 @@ void IMG_LoadItems()
 
 	szSections[3001] = szSections[3000] = 0;
 	char *p = szSections;
-	while (lstrlenA(p) > 1) {
+	while (mir_strlen(p) > 1) {
 		if (p[0] == '$' || p[0] == '@')
 			IMG_ReadItem(p, szFileName);
-		p += (lstrlenA(p) + 1);
+		p += (mir_strlen(p) + 1);
 	}
 	nextButtonID = IDC_TBFIRSTUID;
 	p = szSections;
-	while (lstrlenA(p) > 1) {
+	while (mir_strlen(p) > 1) {
 		if (p[0] == '!')
 			BTN_ReadItem(p, szFileName);
-		p += (lstrlenA(p) + 1);
+		p += (mir_strlen(p) + 1);
 	}
 	if (pcli && pcli->hwndContactList)
 		SetButtonStates(pcli->hwndContactList);
@@ -1251,9 +1251,9 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 	GetPrivateProfileSectionNamesA(szSections, 3000, file);
 	szSections[3001] = szSections[3000] = 0;
 	p = szSections;
-	while (lstrlenA(p) > 1) {
+	while (mir_strlen(p) > 1) {
 		if (p[0] == '%') {
-			p += (lstrlenA(p) + 1);
+			p += (mir_strlen(p) + 1);
 			continue;
 		}
 		items = reinterpret_cast<StatusItems_t *>(realloc(items, i * sizeof(StatusItems_t)));
@@ -1268,7 +1268,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 		szItem[99] = 0;
 		//_DebugPopup(0, "Section: %s -> %s", p, szItem);
 		ReadItem(this_item, szItem, file);
-		p += (lstrlenA(p) + 1);
+		p += (mir_strlen(p) + 1);
 		i++;
 	}
 
@@ -1300,7 +1300,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 				int j;
 				for (j = 0; j < i - 1; j++) {
 					if (!strcmp(szProto, items[j].szName) && !strcmp(UIN, items[j].szDBname) &&
-							lstrlenA(szProto) == lstrlenA(items[j].szName) && lstrlenA(UIN) == lstrlenA(items[j].szDBname)) {
+							mir_strlen(szProto) == mir_strlen(items[j].szName) && mir_strlen(UIN) == mir_strlen(items[j].szDBname)) {
 						cfg::writeDword(hContact, "EXTBK", "TEXT", items[j].TEXTCOLOR);
 						cfg::writeDword(hContact, "EXTBK", "COLOR1", items[j].COLOR);
 						cfg::writeDword(hContact, "EXTBK", "COLOR2", items[j].COLOR2);

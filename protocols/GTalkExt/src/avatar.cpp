@@ -39,7 +39,7 @@ LPTSTR CreateAvaFile(HANDLE *hFile)
 	if (CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(name), (LPARAM)&name))
 		return NULL;
 
-	for (int i = lstrlen(name); i >= 0; i--)
+	for (int i = mir_tstrlen(name); i >= 0; i--)
 		if ('.' == name[i]) {
 			name[i] = 0;
 			break;

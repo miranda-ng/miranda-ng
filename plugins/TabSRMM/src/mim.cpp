@@ -133,9 +133,9 @@ const TCHAR* CMimAPI::getUserDir()
 {
 	if (m_userDir[0] == 0) {
 		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-			lstrcpyn(m_userDir, L"%miranda_userdata%", SIZEOF(m_userDir));
+			mir_tstrncpy(m_userDir, L"%miranda_userdata%", SIZEOF(m_userDir));
 		else
-			lstrcpyn(m_userDir, VARST(_T("%miranda_userdata%")), SIZEOF(m_userDir));
+			mir_tstrncpy(m_userDir, VARST(_T("%miranda_userdata%")), SIZEOF(m_userDir));
 
 		Utils::ensureTralingBackslash(m_userDir);
 	}
@@ -152,12 +152,12 @@ void CMimAPI::InitPaths()
 
 	mir_sntprintf(m_szProfilePath, MAX_PATH, _T("%stabSRMM"), szUserdataDir);
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		lstrcpyn(m_szChatLogsPath, _T("%miranda_logpath%"), MAX_PATH);
-		lstrcpyn(m_szSkinsPath, _T("%miranda_path%\\Skins\\TabSRMM"), MAX_PATH);
+		mir_tstrncpy(m_szChatLogsPath, _T("%miranda_logpath%"), MAX_PATH);
+		mir_tstrncpy(m_szSkinsPath, _T("%miranda_path%\\Skins\\TabSRMM"), MAX_PATH);
 	}
 	else {
-		lstrcpyn(m_szChatLogsPath, VARST(_T("%miranda_logpath%")), MAX_PATH);
-		lstrcpyn(m_szSkinsPath, VARST(_T("%miranda_path%\\Skins\\TabSRMM")), MAX_PATH);
+		mir_tstrncpy(m_szChatLogsPath, VARST(_T("%miranda_logpath%")), MAX_PATH);
+		mir_tstrncpy(m_szSkinsPath, VARST(_T("%miranda_path%\\Skins\\TabSRMM")), MAX_PATH);
 	}
 
 	Utils::ensureTralingBackslash(m_szChatLogsPath);

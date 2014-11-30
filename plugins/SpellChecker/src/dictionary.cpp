@@ -443,13 +443,13 @@ protected:
 public:
 	HunspellDictionary(TCHAR *aLanguage, TCHAR *aFileWithoutExtension, TCHAR *anUserPath, TCHAR *aSource)
 	{
-		lstrcpyn(language, aLanguage, SIZEOF(language));
-		lstrcpyn(fileWithoutExtension, aFileWithoutExtension, SIZEOF(fileWithoutExtension));
-		lstrcpyn(userPath, anUserPath, SIZEOF(userPath));
+		mir_tstrncpy(language, aLanguage, SIZEOF(language));
+		mir_tstrncpy(fileWithoutExtension, aFileWithoutExtension, SIZEOF(fileWithoutExtension));
+		mir_tstrncpy(userPath, anUserPath, SIZEOF(userPath));
 		if (aSource == NULL)
 			source[0] = _T('\0');
 		else
-			lstrcpyn(source, aSource, SIZEOF(source));
+			mir_tstrncpy(source, aSource, SIZEOF(source));
 
 		loaded = LANGUAGE_NOT_LOADED;
 		localized_name[0] = _T('\0');
@@ -471,14 +471,14 @@ public:
 
 	TCHAR * merge(TCHAR * s1, TCHAR *s2)
 	{
-		int len1 = (s1 == NULL ? 0 : lstrlen(s1));
-		int len2 = (s2 == NULL ? 0 : lstrlen(s2));
+		int len1 = (s1 == NULL ? 0 : mir_tstrlen(s1));
+		int len2 = (s2 == NULL ? 0 : mir_tstrlen(s2));
 
 		TCHAR *ret;
 		if (len1 > 0 && len2 > 0) {
 			ret = (TCHAR *)malloc(sizeof(TCHAR) * (len1 + len2 + 1));
-			lstrcpyn(ret, s1, len1 + 1);
-			lstrcpyn(&ret[len1], s2, len2 + 1);
+			mir_tstrncpy(ret, s1, len1 + 1);
+			mir_tstrncpy(&ret[len1], s2, len2 + 1);
 
 			FREE(s1);
 			FREE(s2);
@@ -500,7 +500,7 @@ public:
 		}
 
 		// Remove duplicated chars
-		int last = lstrlen(ret) - 1;
+		int last = mir_tstrlen(ret) - 1;
 		for (int i = 0; i <= last; i++) {
 			TCHAR c = ret[i];
 			for (int j = last; j > i; j--) {
@@ -757,9 +757,9 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 				if (country[0] != 0)
 					mir_sntprintf(name, SIZEOF(name), _T("%s (%s)"), dict->english_name, country);
 				else
-					lstrcpyn(name, dict->english_name, SIZEOF(name));
+					mir_tstrncpy(name, dict->english_name, SIZEOF(name));
 
-				lstrcpyn(dict->localized_name, TranslateTS(name), SIZEOF(dict->localized_name));
+				mir_tstrncpy(dict->localized_name, TranslateTS(name), SIZEOF(dict->localized_name));
 			}
 
 			if (dict->localized_name[0] != 0) {
@@ -787,14 +787,14 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 			char lang[128];
 			WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), NULL, NULL);
 			if (!db_get_ts(NULL, MODULE_NAME, lang, &dbv)) {
-				lstrcpyn(dict->localized_name, dbv.ptszVal, SIZEOF(dict->localized_name));
+				mir_tstrncpy(dict->localized_name, dbv.ptszVal, SIZEOF(dict->localized_name));
 				db_free(&dbv);
 			}
 
 			if (dict->localized_name[0] == _T('\0')) {
 				for (size_t j = 0; j < SIZEOF(aditionalLanguages); j++) {
 					if (!lstrcmp(aditionalLanguages[j].language, dict->language)) {
-						lstrcpyn(dict->localized_name, TranslateTS(aditionalLanguages[j].localized_name), SIZEOF(dict->localized_name));
+						mir_tstrncpy(dict->localized_name, TranslateTS(aditionalLanguages[j].localized_name), SIZEOF(dict->localized_name));
 						break;
 					}
 				}
@@ -804,7 +804,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 				mir_sntprintf(dict->full_name, SIZEOF(dict->full_name), _T("%s [%s]"), dict->localized_name, dict->language);
 			}
 			else {
-				lstrcpyn(dict->full_name, dict->language, SIZEOF(dict->full_name));
+				mir_tstrncpy(dict->full_name, dict->language, SIZEOF(dict->full_name));
 			}
 		}
 	}
@@ -831,17 +831,17 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 				continue;
 
 			// See if .aff exists too
-			lstrcpy(&file[lstrlen(file) - 4], _T(".aff"));
+			mir_tstrcpy(&file[mir_tstrlen(file) - 4], _T(".aff"));
 			attrib = GetFileAttributes(file);
 			if (attrib == 0xFFFFFFFF || (attrib & FILE_ATTRIBUTE_DIRECTORY))
 				continue;
 
-			ffd.cFileName[lstrlen(ffd.cFileName) - 4] = _T('\0');
+			ffd.cFileName[mir_tstrlen(ffd.cFileName) - 4] = _T('\0');
 
 			TCHAR *lang = ffd.cFileName;
 
 			// Replace - for _
-			for (int i = 0; i < lstrlen(lang); i++)
+			for (int i = 0; i < mir_tstrlen(lang); i++)
 				if (lang[i] == _T('-'))
 					lang[i] = _T('_');
 
@@ -853,7 +853,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 
 			if (!exists) {
 				found = TRUE;
-				file[lstrlen(file) - 4] = _T('\0');
+				file[mir_tstrlen(file) - 4] = _T('\0');
 				dicts.insert(new HunspellDictionary(lang, file, user_path, source));
 			}
 		}

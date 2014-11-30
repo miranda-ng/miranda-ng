@@ -80,7 +80,7 @@ void NotifyUser(Account *curAcc)
 
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < newMails; i++) {
-				dbei.cbBlob = lstrlenA(prst->content) + 1;
+				dbei.cbBlob = mir_strlen(prst->content) + 1;
 				dbei.pBlob = (PBYTE)prst->content;
 				db_event_add(curAcc->hContact, &dbei);
 				prst = prst->next;
@@ -103,7 +103,7 @@ void NotifyUser(Account *curAcc)
 
 			ppd.lchContact = curAcc->hContact;
 			ppd.lchIcon = LoadSkinnedProtoIcon(pluginName, ID_STATUS_OCCUPIED);
-			lstrcpyA(ppd.lpzContactName, curAcc->results.content);
+			mir_strcpy(ppd.lpzContactName, curAcc->results.content);
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < 5 && i < newMails; i++) {
 				strcat(ppd.lpzText, prst->content);
@@ -151,12 +151,12 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 	if (GetBrowser(lpPathBuffer)) {
 		if (opt.AutoLogin == 0) {
 			if (curAcc->hosted[0]) {
-				lstrcatA(lpPathBuffer, "https://mail.google.com/a/");
-				lstrcatA(lpPathBuffer, curAcc->hosted);
-				lstrcatA(lpPathBuffer, "/?logout");
+				mir_strcat(lpPathBuffer, "https://mail.google.com/a/");
+				mir_strcat(lpPathBuffer, curAcc->hosted);
+				mir_strcat(lpPathBuffer, "/?logout");
 			}
 			else {
-				lstrcatA(lpPathBuffer, "https://mail.google.com/mail/?logout");
+				mir_strcat(lpPathBuffer, "https://mail.google.com/mail/?logout");
 			}
 		}
 		else {
@@ -165,29 +165,29 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 				GetTempFileNameA(buffer, "gmail", 0, szTempName);
 
 				hTempFile = CreateFileA(szTempName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-				lstrcpyA(buffer, FORMDATA1);
-				lstrcatA(buffer, curAcc->hosted);
-				lstrcatA(buffer, FORMDATA2);
-				lstrcatA(buffer, curAcc->hosted);
-				lstrcatA(buffer, FORMDATA3);
-				lstrcatA(buffer, "<input type=hidden name=userName value=");
-				lstrcatA(buffer, curAcc->name);
+				mir_strcpy(buffer, FORMDATA1);
+				mir_strcat(buffer, curAcc->hosted);
+				mir_strcat(buffer, FORMDATA2);
+				mir_strcat(buffer, curAcc->hosted);
+				mir_strcat(buffer, FORMDATA3);
+				mir_strcat(buffer, "<input type=hidden name=userName value=");
+				mir_strcat(buffer, curAcc->name);
 				if ((str_temp = strstr(buffer, "@")) != NULL)
 					*str_temp = '\0';
-				lstrcatA(buffer, "><input type=hidden name=password value=");
-				lstrcatA(buffer, curAcc->pass);
-				lstrcatA(buffer, "></form></body>");
-				WriteFile(hTempFile, buffer, lstrlenA(buffer), &dwBytesWritten, NULL);
+				mir_strcat(buffer, "><input type=hidden name=password value=");
+				mir_strcat(buffer, curAcc->pass);
+				mir_strcat(buffer, "></form></body>");
+				WriteFile(hTempFile, buffer, mir_strlen(buffer), &dwBytesWritten, NULL);
 				CloseHandle(hTempFile);
-				lstrcatA(lpPathBuffer, szTempName);
+				mir_strcat(lpPathBuffer, szTempName);
 			}
 			else {
-				lstrcatA(lpPathBuffer, LINK);
-				lstrcatA(lpPathBuffer, mir_urlEncode(curAcc->name));
-				lstrcatA(lpPathBuffer, "&Passwd=");
-				lstrcatA(lpPathBuffer, mir_urlEncode(curAcc->pass));
+				mir_strcat(lpPathBuffer, LINK);
+				mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->name));
+				mir_strcat(lpPathBuffer, "&Passwd=");
+				mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->pass));
 				if (opt.AutoLogin == 1)
-					lstrcatA(lpPathBuffer, "&PersistentCookie=yes");
+					mir_strcat(lpPathBuffer, "&PersistentCookie=yes");
 			}
 		}
 	}

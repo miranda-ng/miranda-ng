@@ -701,9 +701,9 @@ void CLUI_ChangeWindowMode()
 	TCHAR titleText[255] = { 0 };
 	DBVARIANT dbv;
 	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
-		lstrcpyn(titleText, _T(MIRANDANAME), SIZEOF(titleText));
+		mir_tstrncpy(titleText, _T(MIRANDANAME), SIZEOF(titleText));
 	else {
-		lstrcpyn(titleText, dbv.ptszVal, SIZEOF(titleText));
+		mir_tstrncpy(titleText, dbv.ptszVal, SIZEOF(titleText));
 		db_free(&dbv);
 	}
 	SetWindowText(pcli->hwndContactList, titleText);
@@ -994,7 +994,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 	}
 
 	// third try global
-	lstrcpyn(szFullPath, _T("proto_conn.dll"), SIZEOF(szFullPath));
+	mir_tstrncpy(szFullPath, _T("proto_conn.dll"), SIZEOF(szFullPath));
 	if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
 		return hIcon;
 
@@ -2511,7 +2511,7 @@ LRESULT CLUI::OnMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam)
 		HDC hdc = GetDC(m_hWnd);
 		TCHAR *ptszStr = TranslateT("Status");
 		SIZE textSize;
-		GetTextExtentPoint32(hdc, ptszStr, lstrlen(ptszStr), &textSize);
+		GetTextExtentPoint32(hdc, ptszStr, mir_tstrlen(ptszStr), &textSize);
 		pmis->itemWidth = textSize.cx;
 		pmis->itemHeight = 0;
 		ReleaseDC(m_hWnd, hdc);
@@ -2572,7 +2572,7 @@ LRESULT CLUI::OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam)
 			mir_snprintf(buf, SIZEOF(buf), "Main,ID=StatusMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
 			SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
 			SetTextColor(dis->hDC, (dis->itemState&ODS_SELECTED/*|dis->itemState&ODS_HOTLIGHT*/) ? dat->MenuTextHiColor : dat->MenuTextColor);
-			DrawText(dis->hDC, TranslateT("Status"), lstrlen(TranslateT("Status")), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			DrawText(dis->hDC, TranslateT("Status"), mir_tstrlen(TranslateT("Status")), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			nStatusMenuState = dis->itemState;
 		}
 		else {

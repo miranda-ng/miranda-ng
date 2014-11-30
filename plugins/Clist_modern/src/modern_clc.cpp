@@ -298,7 +298,7 @@ static int clcProceedDragToScroll(HWND hwnd, int Y)
 static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR *text, int prefixOk, BOOL fSearchUp)
 {
 	ClcGroup *group = &dat->list;
-	int testlen = lstrlen(text);
+	int testlen = mir_tstrlen(text);
 	BOOL fReturnAsFound = FALSE;
 	int	 nLastFound = -1;
 	if (index == -1) fReturnAsFound = TRUE;
@@ -1595,7 +1595,7 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 		return ret;
 
 	if (contact) {
-		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
+		mir_tstrncpy(contact->szText, pcli->pfnGetContactDisplayName(wParam, 0), SIZEOF(contact->szText));
 		Cache_GetText(dat, contact, 1);
 		cliRecalcScrollBar(hwnd, dat);
 	}

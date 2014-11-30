@@ -1248,7 +1248,7 @@ void CreatePath(const TCHAR *szDir)
 	DWORD dwAttributes;
 	TCHAR *pszLastBackslash, szTestDir[ MAX_PATH ];
 
-	lstrcpyn( szTestDir, szDir, SIZEOF( szTestDir ));
+	mir_tstrncpy( szTestDir, szDir, SIZEOF( szTestDir ));
 	if (( dwAttributes = GetFileAttributes( szTestDir )) != INVALID_FILE_ATTRIBUTES && ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ))
 		return;
 

@@ -1868,8 +1868,8 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 
 	BITMAP bmpInfo;
 	{
-		int l = lstrlen(tszFileName);
-		lstrcpyn(ext, tszFileName+(l-4),5);
+		int l = mir_tstrlen(tszFileName);
+		mir_tstrncpy(ext, tszFileName+(l-4),5);
 	}
 	if (!_tcschr(tszFileName,'%') && !PathFileExists(tszFileName))
 		return NULL;
@@ -2552,7 +2552,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 
 	// Calc len of input string
 	if (nCount == -1)
-		nCount = lstrlen(lpString);
+		nCount = mir_tstrlen(lpString);
 
 	// retrieve destination bitmap bits
 	HBITMAP hDestBitmap = (HBITMAP)GetCurrentObject(hDC, OBJ_BITMAP);
@@ -3669,8 +3669,8 @@ static DWORD ske_HexToARGB(char * Hex)
 
 static TCHAR *ske_ReAppend(TCHAR *lfirst, TCHAR * lsecond, int len)
 {
-	int l1 = lfirst?lstrlen(lfirst):0;
-	int l2 = (len?len:(lstrlen(lsecond)+1));
+	int l1 = lfirst?mir_tstrlen(lfirst):0;
+	int l2 = (len?len:(mir_tstrlen(lsecond)+1));
 	TCHAR *buf = (TCHAR *)mir_alloc((l1+l2+1)*sizeof(TCHAR));
 	if (lfirst) memmove(buf,lfirst,l1*sizeof(TCHAR));
 	memmove(buf+l1,lsecond,l2*sizeof(TCHAR));
@@ -3700,7 +3700,7 @@ TCHAR* ske_ReplaceVar(TCHAR *var)
 
 TCHAR *ske_ParseText(TCHAR *stzText)
 {
-	int len = lstrlen(stzText);
+	int len = mir_tstrlen(stzText);
 	TCHAR *result = NULL;
 	int stpos = 0;
 	int curpos = 0;

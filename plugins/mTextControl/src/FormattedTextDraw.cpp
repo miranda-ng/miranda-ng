@@ -67,7 +67,7 @@ HRESULT CFormattedTextDraw::putRTFTextA(char *newVal)
 
 	m_editCookie.isUnicode = false;
 	m_editCookie.ansi = newVal;
-	m_editCookie.dwSize = lstrlenA(m_editCookie.ansi);
+	m_editCookie.dwSize = mir_strlen(m_editCookie.ansi);
 	m_editCookie.dwCount = 0;
 	editStream.dwCookie = (DWORD_PTR) &m_editCookie;
 	editStream.dwError = 0;
@@ -88,7 +88,7 @@ HRESULT CFormattedTextDraw::putRTFTextW(WCHAR *newVal)
 
 	m_editCookie.isUnicode = true;
 	m_editCookie.unicode = newVal;
-	m_editCookie.dwSize = lstrlenW(m_editCookie.unicode);
+	m_editCookie.dwSize = mir_wstrlen(m_editCookie.unicode);
 	m_editCookie.dwCount = 0;
 	editStream.dwCookie = (DWORD_PTR) &m_editCookie;
 	editStream.dwError = 0;
@@ -109,7 +109,7 @@ HRESULT CFormattedTextDraw::putTextA(char *newVal)
 
 	m_editCookie.isUnicode = false;
 	m_editCookie.ansi = newVal;
-	m_editCookie.dwSize = lstrlenA(m_editCookie.ansi);
+	m_editCookie.dwSize = mir_strlen(m_editCookie.ansi);
 	m_editCookie.dwCount = 0;
 	editStream.dwCookie = (DWORD_PTR) &m_editCookie;
 	editStream.dwError = 0;
@@ -138,7 +138,7 @@ HRESULT CFormattedTextDraw::putTextW(WCHAR *newVal)
 
 	m_editCookie.isUnicode = true;
 	m_editCookie.unicode = newVal;
-	m_editCookie.dwSize = lstrlenW(m_editCookie.unicode);
+	m_editCookie.dwSize = mir_wstrlen(m_editCookie.unicode);
 	m_editCookie.dwCount = 0;
 	editStream.dwCookie = (DWORD_PTR) &m_editCookie;
 	editStream.dwError = 0;
@@ -507,7 +507,7 @@ HRESULT CFormattedTextDraw::CharFormatFromHFONT(CHARFORMAT2W* pCF, HFONT hFont)
 	pCF->bPitchAndFamily = lf.lfPitchAndFamily;
 
 
-	lstrcpyW(pCF->szFaceName, lf.lfFaceName);
+	mir_wstrcpy(pCF->szFaceName, lf.lfFaceName);
 
 
 	return S_OK;

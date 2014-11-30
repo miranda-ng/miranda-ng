@@ -214,12 +214,12 @@ int ShowMessage(int iconID, TCHAR *lpzText, int mustShow) {
 		MessagePopup.iSeconds = popupTimeSec;
 		MessagePopup.PluginData = (void *)1;
 
-		lstrcpy(MessagePopup.lptzText, lpzText);
+		mir_tstrcpy(MessagePopup.lptzText, lpzText);
 
 #ifdef _UNICODE
 		mbstowcs(MessagePopup.lptzContactName, SKYPE_PROTONAME, strlen(SKYPE_PROTONAME) + 1);
 #else
-		lstrcpy(MessagePopup.lptzContactName, SKYPE_PROTONAME);
+		mir_tstrcpy(MessagePopup.lptzContactName, SKYPE_PROTONAME);
 #endif
 
 		if (showPopup)
@@ -1548,9 +1548,9 @@ void RingThread(char *szSkypeMsg) {
 			InCallPopup.PluginWindowProc = InCallPopUpProc;
 			InCallPopup.PluginData = (void *)1;
 
-			lstrcpyn(InCallPopup.lptzText, TranslateT("Incoming Skype Call"), MAX_SECONDLINE);
+			mir_tstrncpy(InCallPopup.lptzText, TranslateT("Incoming Skype Call"), MAX_SECONDLINE);
 
-			lstrcpyn(InCallPopup.lptzContactName, lpzContactName, MAX_CONTACTNAME);
+			mir_tstrncpy(InCallPopup.lptzContactName, lpzContactName, MAX_CONTACTNAME);
 
 			if (showPopup)
 				CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&InCallPopup, 0);
@@ -2477,7 +2477,7 @@ INT_PTR SkypeGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	{
 		if (!db_get_s(NULL, SKYPE_PROTONAME, "AvatarFile", &dbv))
 		{
-			lstrcpynA(AI->filename, dbv.pszVal, sizeof(AI->filename));
+			mir_strncpy(AI->filename, dbv.pszVal, sizeof(AI->filename));
 			db_free(&dbv);
 			return GAIR_SUCCESS;
 		}

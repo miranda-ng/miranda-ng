@@ -29,14 +29,14 @@
 #include "m_system.h"
 #include "m_database.h"
 
-__inline int My_lstrlen(LPCSTR lpString) {return lstrlenA(lpString);}
-__inline int My_lstrlen(LPCWSTR lpString) {return lstrlenW(lpString);}
+__inline int My_lstrlen(LPCSTR lpString) {return mir_strlen(lpString);}
+__inline int My_lstrlen(LPCWSTR lpString) {return mir_wstrlen(lpString);}
 __inline int My_lstrcmp(LPCSTR lpString1, LPCSTR lpString2) {return lstrcmpA(lpString1, lpString2);}
 __inline int My_lstrcmp(LPCWSTR lpString1, LPCWSTR lpString2) {return lstrcmpW(lpString1, lpString2);}
 __inline LPCSTR My_strstr(LPCSTR lpString1, LPCSTR lpString2) {return strstr(lpString1, lpString2);}
 __inline LPWSTR My_strstr(LPCWSTR lpString1, LPCWSTR lpString2) {return (LPWSTR)wcsstr(lpString1, lpString2);}
-__inline LPSTR My_lstrcpy(LPSTR lpString1, LPCSTR lpString2) {return lstrcpyA(lpString1, lpString2);}
-__inline LPWSTR My_lstrcpy(LPWSTR lpString1, LPCWSTR lpString2) {return lstrcpyW(lpString1, lpString2);}
+__inline LPSTR My_lstrcpy(LPSTR lpString1, LPCSTR lpString2) {return mir_strcpy(lpString1, lpString2);}
+__inline LPWSTR My_lstrcpy(LPWSTR lpString1, LPCWSTR lpString2) {return mir_wstrcpy(lpString1, lpString2);}
 __inline LPSTR My_strncpy(LPSTR lpString1, LPCSTR lpString2, int Len) {return strncpy(lpString1, lpString2, Len);}
 __inline LPWSTR My_strncpy(LPWSTR lpString1, LPCWSTR lpString2, int Len) {return wcsncpy(lpString1, lpString2, Len);}
 __inline LPSTR My_strlwr(LPSTR lpString) {return _strlwr(lpString);}

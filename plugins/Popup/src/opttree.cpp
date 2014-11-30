@@ -101,7 +101,7 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconInd
 	int sectionLevel = 0;
 
 	HTREEITEM hSection = NULL, result = NULL;
-	lstrcpy(itemName, name);
+	mir_tstrcpy(itemName, name);
 	sectionName = itemName;
 
 	while (sectionName) {
@@ -176,7 +176,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, i
 				int sectionLevel = 0;
 
 				HTREEITEM hSection = NULL;
-				lstrcpy(itemName, options[indx].pszOptionName);
+				mir_tstrcpy(itemName, options[indx].pszOptionName);
 				sectionName = itemName;
 
 				while (sectionName) {

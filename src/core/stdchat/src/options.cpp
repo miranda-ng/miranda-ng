@@ -534,9 +534,9 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 				LPITEMIDLIST idList = SHBrowseForFolder(&bi);
 				if (idList) {
 					SHGetPathFromIDList(idList, szDirectory);
-					lstrcat(szDirectory, _T("\\"));
+					mir_tstrcat(szDirectory, _T("\\"));
 					PathToRelativeT(szDirectory, szTemp);
-					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, lstrlen(szTemp) > 1 ? szTemp : _T("Logs\\"));
+					SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_tstrlen(szTemp) > 1 ? szTemp : _T("Logs\\"));
 					CoTaskMemFree(idList);
 				}
 			}

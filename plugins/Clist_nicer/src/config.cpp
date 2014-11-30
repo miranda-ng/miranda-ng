@@ -353,7 +353,7 @@ HMODULE Utils::loadSystemLibrary(const TCHAR* szFilename, bool useGetHandle)
 		if (_tcslen(sysPathName) + _tcslen(szFilename) >= MAX_PATH)
 			throw(CRTException("Error while loading system library", szFilename));
 
-		lstrcat(sysPathName, szFilename);
+		mir_tstrcat(sysPathName, szFilename);
 		if (useGetHandle)
 			_h = ::GetModuleHandle(sysPathName);
 		else

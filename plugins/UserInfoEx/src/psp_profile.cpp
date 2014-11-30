@@ -826,7 +826,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 					// calculate size of text on the screen
 					if ((hDC = GetDC(GetParent(hwnd)))) {
 						SelectObject(hDC, (HFONT)SendMessage(GetParent(hwnd), WM_GETFONT, NULL, NULL));
-						GetTextExtentPoint32(hDC, pItem->pszText[hi.iSubItem], lstrlen(pItem->pszText[hi.iSubItem]), &textSize);
+						GetTextExtentPoint32(hDC, pItem->pszText[hi.iSubItem], mir_tstrlen(pItem->pszText[hi.iSubItem]), &textSize);
 						ReleaseDC(GetParent(hwnd), hDC);
 					}
 					// show tip only for text that is larger than te listview can display

@@ -26,8 +26,8 @@ __inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = _T(""), bool IsError
 	{
 		POPUPDATAT ppd = {0};
 		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
-		lstrcpy(ppd.lptzContactName, FirstLine);
-		lstrcpy(ppd.lptzText, SecondLine);
+		mir_tstrcpy(ppd.lptzContactName, FirstLine);
+		mir_tstrcpy(ppd.lptzText, SecondLine);
 		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
 		ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
 		ppd.iSeconds = Timeout;

@@ -71,7 +71,7 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 	pa->szProtoName = mir_strdup(szBaseProto);
 
 	// if the internal name is empty, generate new one
-	if (lstrlenA(szModuleName) == 0) {
+	if (mir_strlen(szModuleName) == 0) {
 		char buf[100];
 		int count = 1;
 		while (true) {
@@ -109,7 +109,7 @@ struct AccFormDlgParam
 
 static bool FindAccountByName(const char *szModuleName)
 {
-	if (!lstrlenA(szModuleName))
+	if (!mir_strlen(szModuleName))
 		return false;
 
 	for (int i = 0; i < accounts.getCount(); i++)
@@ -620,7 +620,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			if (lps->itemID == (unsigned)dat->iSelected) {
 				SelectObject(lps->hDC, dat->hfntText);
 				mir_sntprintf(text, size, _T("%s: %S"), TranslateT("Protocol"), acc->szProtoName);
-				length = lstrlen(text);
+				length = mir_tstrlen(text);
 				DrawText(lps->hDC, text, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 				GetTextExtentPoint32(lps->hDC, text, length, &sz);
 				lps->rcItem.top += sz.cy + 2;
@@ -653,7 +653,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				}
 				else mir_sntprintf(text, size, TranslateT("Protocol is not loaded."));
 
-				length = lstrlen(text);
+				length = mir_tstrlen(text);
 				DrawText(lps->hDC, text, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS);
 				GetTextExtentPoint32(lps->hDC, text, length, &sz);
 				lps->rcItem.top += sz.cy + 2;

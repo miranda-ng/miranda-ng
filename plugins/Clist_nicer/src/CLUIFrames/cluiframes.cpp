@@ -1772,7 +1772,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 
 	Frames[nFramescount].dwFlags = clfrm->Flags;
 
-	if (clfrm->name == NULL || ((clfrm->Flags&F_UNICODE) ? lstrlenW(clfrm->wname) : lstrlenA(clfrm->name)) == 0) {
+	if (clfrm->name == NULL || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->wname) : mir_strlen(clfrm->name)) == 0) {
 		TCHAR ptszClassName[256];
 		GetClassName(Frames[nFramescount].hWnd, ptszClassName, SIZEOF(ptszClassName));
 		Frames[nFramescount].name = mir_tstrdup(ptszClassName);
@@ -1780,7 +1780,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 	else Frames[nFramescount].name = (clfrm->Flags & F_UNICODE) ? mir_u2t(clfrm->wname) : mir_a2t(clfrm->name);
 
 	if (IsBadCodePtr((FARPROC)clfrm->TBname) || clfrm->TBname == NULL
-		 || ((clfrm->Flags&F_UNICODE) ? lstrlenW(clfrm->TBwname) : lstrlenA(clfrm->TBname)) == 0)
+		 || ((clfrm->Flags&F_UNICODE) ? mir_wstrlen(clfrm->TBwname) : mir_strlen(clfrm->TBname)) == 0)
 		 Frames[nFramescount].TitleBar.tbname = mir_tstrdup(Frames[nFramescount].name);
 	else
 		Frames[nFramescount].TitleBar.tbname = (clfrm->Flags & F_UNICODE) ? mir_u2t(clfrm->TBwname) : mir_a2t(clfrm->TBname);
@@ -2418,11 +2418,11 @@ static int DrawTitleBar(HDC dc, RECT rect, int Frameid)
 			if (!AlignCOLLIconToLeft) {
 				if (Frames[pos].TitleBar.hicon != NULL) {
 					DrawIconEx(hdcMem, 6 + cfg::dat.bClipBorder, ((TitleBarH >> 1) - 8), Frames[pos].TitleBar.hicon, 16, 16, 0, NULL, DI_NORMAL);
-					TextOut(hdcMem, 24 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, lstrlen(Frames[pos].TitleBar.tbname));
+					TextOut(hdcMem, 24 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, mir_tstrlen(Frames[pos].TitleBar.tbname));
 				}
-				else TextOut(hdcMem, 6 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, lstrlen(Frames[pos].TitleBar.tbname));
+				else TextOut(hdcMem, 6 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, mir_tstrlen(Frames[pos].TitleBar.tbname));
 			}
-			else TextOut(hdcMem, 18 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, lstrlen(Frames[pos].TitleBar.tbname));
+			else TextOut(hdcMem, 18 + cfg::dat.bClipBorder, fontTop, Frames[pos].TitleBar.tbname, mir_tstrlen(Frames[pos].TitleBar.tbname));
 
 			if (!AlignCOLLIconToLeft)
 				DrawIconEx(hdcMem, Frames[pos].TitleBar.wndSize.right - 22, ((TitleBarH >> 1) - 8), Frames[pos].collapsed ? LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN) : LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT), 16, 16, 0, NULL, DI_NORMAL);

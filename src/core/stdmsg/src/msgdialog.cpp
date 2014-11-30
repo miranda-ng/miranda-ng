@@ -550,7 +550,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 			HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendMessage(GetDlgItem(hwndDlg, IDOK), WM_GETFONT, 0, 0));
 
 			SIZE textSize;
-			GetTextExtentPoint32(hdc, buf, lstrlen(buf), &textSize);
+			GetTextExtentPoint32(hdc, buf, (int)mir_tstrlen(buf), &textSize);
 			urc->rcItem.right = urc->rcItem.left + textSize.cx + 10;
 			if ((g_dat.flags&SMF_SHOWBTNS) && urc->rcItem.right > urc->dlgNewSize.cx - dat->nLabelRight)
 				urc->rcItem.right = urc->dlgNewSize.cx - dat->nLabelRight;
@@ -1144,7 +1144,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 			}
 			else
-				lstrcpyn(newtitle, TranslateT("Message session"), SIZEOF(newtitle));
+				mir_tstrncpy(newtitle, TranslateT("Message session"), SIZEOF(newtitle));
 
 			TCHAR oldtitle[256];
 			GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));

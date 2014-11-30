@@ -437,10 +437,10 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 	dbei.szModule = PROTONAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags&PREF_CREATEREAD?DBEF_READ:0;
-	dbei.cbBlob = lstrlen(pre->szMessage)+1;
+	dbei.cbBlob = mir_tstrlen(pre->szMessage)+1;
 	if (!lstrcmpA(ccs->szProtoService, PSR_URL))
 	{
-		dbei.cbBlob += 2+lstrlen(pre->szMessage+dbei.cbBlob+1);
+		dbei.cbBlob += 2+mir_tstrlen(pre->szMessage+dbei.cbBlob+1);
 	}
 	dbei.pBlob = (PBYTE)pre->szMessage;
 
@@ -475,7 +475,7 @@ int CMLan::SendMessageUrl(CCSDATA* ccs, bool isUrl)
 	int len;
 	if (isUrl)
 	{
-		len = lstrlen((char*)ccs->lParam);
+		len = mir_tstrlen((char*)ccs->lParam);
 		((char*)ccs->lParam)[len] = 1;
 	}
 	TDataHolder* hold = new TDataHolder(ccs, cid, isUrl?LEXT_SENDURL:LEXT_SENDMESSAGE, this);
@@ -545,10 +545,10 @@ void CMLan::SearchExt(TDataHolder* hold)
 		if (strcmp(hold->msg, cont->m_nick)==0 || strcmp(hold->msg, "*")==0)
 		{
 			char buf[MAX_HOSTNAME_LEN];
-			lstrcpy(buf, cont->m_nick);
-			int len = lstrlen(buf);
+			mir_tstrcpy(buf, cont->m_nick);
+			int len = mir_tstrlen(buf);
 			buf[len] = '@';
-			lstrcpy(buf+len+1, inet_ntoa(cont->m_addr));
+			mir_tstrcpy(buf+len+1, inet_ntoa(cont->m_addr));
 			psr.hdr.nick = cont->m_nick;
 			psr.hdr.firstName="";
 			psr.hdr.lastName="";
@@ -662,7 +662,7 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 	int nameLen;
 	if (pak.strName)
 	{
-		nameLen = lstrlen(pak.strName);
+		nameLen = mir_tstrlen(pak.strName);
 		len += 1+1+nameLen+1;
 	}
 
@@ -672,9 +672,9 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 	int mesLen = 0;
 	if (pak.strMessage)
 	{
-		mesLen = lstrlen(pak.strMessage);
+		mesLen = mir_tstrlen(pak.strMessage);
 		if (pak.flIsUrl)
-			mesLen += 1+lstrlen(pak.strMessage+mesLen+1);
+			mesLen += 1+mir_tstrlen(pak.strMessage+mesLen+1);
 		len += 3+1+4+mesLen+1;
 	}
 
@@ -687,7 +687,7 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 	int awayLen = 0;
 	if (pak.strAwayMessage)
 	{
-		awayLen = lstrlen(pak.strAwayMessage);
+		awayLen = mir_tstrlen(pak.strAwayMessage);
 		len += 3+1+4+awayLen+1;
 	}
 
@@ -863,9 +863,9 @@ void CMLan::LoadSettings()
 		}
 		if (!dbv.pszVal[0])
 			dbv.pszVal = "EmLan_User";
-		lstrcpy(m_name, dbv.pszVal);
+		mir_tstrcpy(m_name, dbv.pszVal);
 	}
-	m_nameLen = lstrlen(m_name);
+	m_nameLen = mir_tstrlen(m_name);
 
 	if (GetStatus()!=LM_LISTEN)
 	{

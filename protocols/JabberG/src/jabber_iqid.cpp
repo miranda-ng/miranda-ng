@@ -1337,7 +1337,7 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode, CJabberIqInfo*)
 	}
 	
 	TCHAR szJid[JABBER_MAX_JID_LEN];
-	lstrcpyn(szJid, from, SIZEOF(szJid));
+	mir_tstrncpy(szJid, from, SIZEOF(szJid));
 	TCHAR *res = _tcschr(szJid, _T('/'));
 	if (res != NULL)
 		*res = 0;
@@ -1377,7 +1377,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo *pInfo)
 	}
 	
 	TCHAR szJid[JABBER_MAX_JID_LEN];
-	lstrcpyn(szJid, from, SIZEOF(szJid));
+	mir_tstrncpy(szJid, from, SIZEOF(szJid));
 	TCHAR *res = _tcschr(szJid, _T('/'));
 	if (res != NULL)
 		*res = 0;

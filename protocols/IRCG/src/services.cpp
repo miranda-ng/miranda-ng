@@ -328,7 +328,7 @@ INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
 				host = dbv1.pszVal;
 
 			if (host) {
-				String S;
+				CMStringA S;
 				if (m_ignoreChannelDefault)
 					S = "+qnidcm";
 				else
@@ -421,47 +421,47 @@ static void DoChatFormatting(TCHAR* pszText)
 			switch (p1[1]) {
 			case 'B':
 			case 'b':
-				lstrcpy(InsertThis, _T("\002"));
+				mir_tstrcpy(InsertThis, _T("\002"));
 				iRemoveChars = 2;
 				break;
 			case 'I':
 			case 'i':
-				lstrcpy(InsertThis, _T("\026"));
+				mir_tstrcpy(InsertThis, _T("\026"));
 				iRemoveChars = 2;
 				break;
 			case 'U':
 			case 'u':
-				lstrcpy(InsertThis, _T("\037"));
+				mir_tstrcpy(InsertThis, _T("\037"));
 				iRemoveChars = 2;
 				break;
 			case 'c':
 			{
-				lstrcpy(InsertThis, _T("\003"));
+				mir_tstrcpy(InsertThis, _T("\003"));
 				iRemoveChars = 2;
 
 				TCHAR szTemp[3];
-				lstrcpyn(szTemp, p1 + 2, 3);
+				mir_tstrncpy(szTemp, p1 + 2, 3);
 				iFG = _ttoi(szTemp);
 			}
 				break;
 			case 'C':
 				if (p1[2] == '%' && p1[3] == 'F') {
-					lstrcpy(InsertThis, _T("\00399,99"));
+					mir_tstrcpy(InsertThis, _T("\00399,99"));
 					iRemoveChars = 4;
 				}
 				else {
-					lstrcpy(InsertThis, _T("\00399"));
+					mir_tstrcpy(InsertThis, _T("\00399"));
 					iRemoveChars = 2;
 				}
 				iFG = -1;
 				break;
 			case 'f':
 				if (p1 - 3 >= pszText && p1[-3] == '\003')
-					lstrcpy(InsertThis, _T(","));
+					mir_tstrcpy(InsertThis, _T(","));
 				else if (iFG >= 0)
 					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\003%u,"), iFG);
 				else
-					lstrcpy(InsertThis, _T("\00399,"));
+					mir_tstrcpy(InsertThis, _T("\00399,"));
 
 				iRemoveChars = 2;
 				break;
@@ -470,12 +470,12 @@ static void DoChatFormatting(TCHAR* pszText)
 				if (iFG >= 0)
 					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\003%u,99"), iFG);
 				else
-					lstrcpy(InsertThis, _T("\00399,99"));
+					mir_tstrcpy(InsertThis, _T("\00399,99"));
 				iRemoveChars = 2;
 				break;
 
 			case '%':
-				lstrcpy(InsertThis, _T("%"));
+				mir_tstrcpy(InsertThis, _T("%"));
 				iRemoveChars = 2;
 				break;
 
@@ -484,10 +484,10 @@ static void DoChatFormatting(TCHAR* pszText)
 				break;
 			}
 
-			MoveMemory(p1 + lstrlen(InsertThis), p1 + iRemoveChars, sizeof(TCHAR)*(lstrlen(p1) - iRemoveChars + 1));
-			CopyMemory(p1, InsertThis, sizeof(TCHAR)*lstrlen(InsertThis));
-			if (iRemoveChars || lstrlen(InsertThis))
-				p1 += lstrlen(InsertThis);
+			MoveMemory(p1 + mir_tstrlen(InsertThis), p1 + iRemoveChars, sizeof(TCHAR)*(mir_tstrlen(p1) - iRemoveChars + 1));
+			CopyMemory(p1, InsertThis, sizeof(TCHAR)*mir_tstrlen(InsertThis));
+			if (iRemoveChars || mir_tstrlen(InsertThis))
+				p1 += mir_tstrlen(InsertThis);
 			else
 				p1++;
 		}
@@ -517,8 +517,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam, LPARAM lParam)
 
 			case GC_USER_MESSAGE:
 				if (gch && gch->ptszText && *gch->ptszText) {
-					TCHAR* pszText = new TCHAR[lstrlen(gch->ptszText) + 1000];
-					lstrcpy(pszText, gch->ptszText);
+					TCHAR* pszText = new TCHAR[mir_tstrlen(gch->ptszText) + 1000];
+					mir_tstrcpy(pszText, gch->ptszText);
 					DoChatFormatting(pszText);
 					PostIrcMessageWnd(p1, NULL, pszText);
 					delete[]pszText;
@@ -877,8 +877,8 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 
 				TCHAR stzChanName[100];
 				const TCHAR* temp = _tcschr(gcmi->pszID, ' ');
-				int len = min(((temp == NULL) ? lstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), SIZEOF(stzChanName) - 1);
-				lstrcpyn(stzChanName, gcmi->pszID, len);
+				size_t len = min(((temp == NULL) ? mir_tstrlen(gcmi->pszID) : (int)(temp - gcmi->pszID + 1)), SIZEOF(stzChanName) - 1);
+				mir_tstrncpy(stzChanName, gcmi->pszID, len);
 				stzChanName[len] = 0;
 				CHANNELINFO *wi = (CHANNELINFO *)DoEvent(GC_EVENT_GETITEMDATA, stzChanName, NULL, NULL, NULL, NULL, NULL, false, false, 0);
 				BOOL bServOwner = strchr(sUserModes.c_str(), 'q') == NULL ? FALSE : TRUE;

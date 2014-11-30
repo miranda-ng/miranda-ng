@@ -51,7 +51,7 @@ INT_PTR GetStatus(WPARAM wParam, LPARAM lParam)
 
 INT_PTR GetName(WPARAM wParam, LPARAM lParam)
 {
-	lstrcpynA((char*)lParam, pluginName, wParam);
+	mir_strncpy((char*)lParam, pluginName, wParam);
 	return 0;
 }
 

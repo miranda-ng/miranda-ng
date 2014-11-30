@@ -168,7 +168,7 @@ INT_PTR SkypeGetAvatar(WPARAM wParam,LPARAM lParam)
 {
 	DBVARIANT dbv;
 	if (!db_get_s(NULL,SKYPE_PROTONAME, "AvatarFile", &dbv)){
-		lstrcpynA((char*)wParam, dbv.pszVal, (int)lParam);
+		mir_strncpy((char*)wParam, dbv.pszVal, (int)lParam);
 		db_free(&dbv);
 	}
 	return 0;

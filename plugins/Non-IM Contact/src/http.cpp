@@ -57,8 +57,8 @@ int InternetDownloadFile (char *szUrl)
 		else if (nlhrReply->resultCode == 200) 
 		{
 			// allocate memory and save the retrieved data
-			szData = (char *)malloc(lstrlenA(nlhrReply->pData)+2);
-			lstrcpynA(szData, nlhrReply->pData, lstrlenA(nlhrReply->pData));
+			szData = (char *)malloc(mir_strlen(nlhrReply->pData)+2);
+			mir_strncpy(szData, nlhrReply->pData, mir_strlen(nlhrReply->pData));
 		}
 		// if the recieved code is 302 Moved, Found, etc
 		else if (nlhrReply->resultCode == 302) 

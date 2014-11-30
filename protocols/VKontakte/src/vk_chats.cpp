@@ -359,7 +359,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 	switch (gch->pDest->iType) {
 	case GC_USER_MESSAGE:
-		if (IsOnline() && lstrlen(gch->ptszText) > 0) {
+		if (IsOnline() && mir_tstrlen(gch->ptszText) > 0) {
 			TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
 			rtrimt(buf);
 			UnEscapeChatTags(buf);

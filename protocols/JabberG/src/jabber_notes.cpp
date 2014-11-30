@@ -38,7 +38,7 @@ static TCHAR *StrTrimCopy(TCHAR *str)
 	if (!*str) return mir_tstrdup(str);
 
 	TCHAR *res = mir_tstrdup(str);
-	for (TCHAR *p = res + lstrlen(res) - 1; p >= res; --p) {
+	for (TCHAR *p = res + mir_tstrlen(res) - 1; p >= res; --p) {
 		if (_istspace(*p))
 			*p = 0;
 		else
@@ -85,8 +85,8 @@ void CNoteItem::SetData(TCHAR *title, TCHAR *from, TCHAR *text, TCHAR *tags)
 	m_szFrom = StrTrimCopy(from);
 
 	const TCHAR *szTags = tags;
-	TCHAR *p = m_szTags = (TCHAR *)mir_alloc((lstrlen(szTags) + 2 /*for double zero*/) * sizeof(TCHAR));
-	TCHAR *q = m_szTagsStr = (TCHAR *)mir_alloc((lstrlen(szTags) + 1) * sizeof(TCHAR));
+	TCHAR *p = m_szTags = (TCHAR *)mir_alloc((mir_tstrlen(szTags) + 2 /*for double zero*/) * sizeof(TCHAR));
+	TCHAR *q = m_szTagsStr = (TCHAR *)mir_alloc((mir_tstrlen(szTags) + 1) * sizeof(TCHAR));
 	for (; szTags && *szTags; ++szTags) {
 		if (_istspace(*szTags))
 			continue;
@@ -108,7 +108,7 @@ bool CNoteItem::HasTag(const TCHAR *szTag)
 	if (!szTag || !*szTag)
 		return true;
 
-	for (TCHAR *p = m_szTags; p && *p; p = p + lstrlen(p) + 1)
+	for (TCHAR *p = m_szTags; p && *p; p = p + mir_tstrlen(p) + 1)
 		if (!lstrcmp(p, szTag))
 			return true;
 
@@ -479,7 +479,7 @@ private:
 		LIST<TCHAR> tagSet(5, _tcscmp);
 		for (int i = 0; i < m_proto->m_notes.getCount(); i++) {
 			TCHAR *tags = m_proto->m_notes[i].GetTags();
-			for (TCHAR *tag = tags; tag && *tag; tag = tag + lstrlen(tag) + 1)
+			for (TCHAR *tag = tags; tag && *tag; tag = tag + mir_tstrlen(tag) + 1)
 			if (!tagSet.find(tag))
 				tagSet.insert(tag);
 		}

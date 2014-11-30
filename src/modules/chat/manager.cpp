@@ -766,12 +766,12 @@ static char* SM_GetUsers(SESSION_INFO *si)
 	}
 
 	do {
-		int pLen = lstrlenA(p), nameLen = lstrlen(utemp->pszUID);
+		int pLen = mir_strlen(p), nameLen = mir_tstrlen(utemp->pszUID);
 		if (pLen + nameLen + 2 > alloced)
 			p = (char*)mir_realloc(p, alloced += 4096);
 
 		WideCharToMultiByte(CP_ACP, 0, utemp->pszUID, -1, p + pLen, nameLen + 1, 0, 0);
-		lstrcpyA(p + pLen + nameLen, " ");
+		mir_strcpy(p + pLen + nameLen, " ");
 		utemp = utemp->next;
 	}
 		while (utemp != NULL);
@@ -1184,7 +1184,7 @@ static BOOL UM_SetStatusEx(USERINFO* pUserList, const TCHAR* pszText, int flags)
 			if (s) {
 				pTemp->iStatusEx = 0;
 				if (s == pszText || s[-1] == cDelimiter) {
-					int len = lstrlen(pTemp->pszUID);
+					int len = mir_tstrlen(pTemp->pszUID);
 					if (s[len] == cDelimiter || s[len] == '\0')
 						pTemp->iStatusEx = (!bOnlyMe || bSetStatus) ? 1 : 0;
 				}

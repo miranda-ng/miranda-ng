@@ -60,7 +60,7 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 	nlhr.headers = (NETLIBHTTPHEADER*)&HEADER_URL_ENCODED;
 	nlhr.headersCount = 1;
 	nlhr.pData = reqParams;
-	nlhr.dataLength = lstrlenA(reqParams);
+	nlhr.dataLength = mir_strlen(reqParams);
 
 	NETLIBHTTPREQUEST *pResp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hUser, (LPARAM)&nlhr);
 	if (!pResp) return NULL;
@@ -78,7 +78,7 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 LPSTR MakeRequest(HANDLE hUser, LPSTR reqUrl, LPSTR reqParamsFormat, LPSTR p1, LPSTR p2)
 {
 	ptrA encodedP1( mir_urlEncode(p1)), encodedP2( mir_urlEncode(p2));
-	size_t size = lstrlenA(reqParamsFormat) + 1 + lstrlenA(encodedP1) + lstrlenA(encodedP2);
+	size_t size = mir_strlen(reqParamsFormat) + 1 + mir_strlen(encodedP1) + mir_strlen(encodedP2);
 	LPSTR reqParams = (LPSTR)alloca(size);
 	mir_snprintf(reqParams, size, reqParamsFormat, encodedP1, encodedP2);
 	return HttpPost(hUser, reqUrl, reqParams);
@@ -93,11 +93,11 @@ LPSTR FindSid(LPSTR resp, LPSTR *LSID)
 	if (SID - 1 == *LSID) SID = strstr(SID + 1, SID_KEY_NAME);
 	if (!SID) return NULL;
 
-	SID += lstrlenA(SID_KEY_NAME);
+	SID += mir_strlen(SID_KEY_NAME);
 	LPSTR term = strstr(SID, "\n");
 	if (term) term[0] = 0;
 
-	*LSID += lstrlenA(LSID_KEY_NAME);
+	*LSID += mir_strlen(LSID_KEY_NAME);
 	term = strstr(*LSID, "\n");
 	if (term) term[0] = 0;
 
@@ -107,7 +107,7 @@ LPSTR FindSid(LPSTR resp, LPSTR *LSID)
 void DoOpenUrl(LPSTR tokenResp, LPSTR url)
 {
 	ptrA encodedUrl( mir_urlEncode(url)), encodedToken( mir_urlEncode(tokenResp));
-	size_t size = lstrlenA(TOKEN_AUTH_URL) + 1 + lstrlenA(encodedToken) + lstrlenA(encodedUrl);
+	size_t size = mir_strlen(TOKEN_AUTH_URL) + 1 + mir_strlen(encodedToken) + mir_strlen(encodedUrl);
 	LPSTR composedUrl = (LPSTR)alloca(size);
 	mir_snprintf(composedUrl, size, TOKEN_AUTH_URL, encodedToken, encodedUrl);
 	CallService(MS_UTILS_OPENURL, 0, (LPARAM)composedUrl);
@@ -177,8 +177,8 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 	int pwdLen = GetMailboxPwd(acc, mailbox, NULL, 0);
 	if (!pwdLen++) return FALSE;
 
-	int urlLen = lstrlen(url) + 1;
-	int mailboxLen = lstrlen(mailbox) + 1;
+	int urlLen = mir_tstrlen(url) + 1;
+	int mailboxLen = mir_tstrlen(mailbox) + 1;
 
 	OPEN_URL_HEADER *data = (OPEN_URL_HEADER*)malloc(sizeof(OPEN_URL_HEADER) + urlLen + mailboxLen + pwdLen);
 	data->url = (LPSTR)data + sizeof(OPEN_URL_HEADER);

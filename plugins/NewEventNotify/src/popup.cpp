@@ -387,11 +387,11 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 		else commentFix = POPUP_COMMENT_OTHER;
 	}
 
-	if ( lstrlen(comment1) > 0) {
+	if ( mir_tstrlen(comment1) > 0) {
 		mir_free(comment2);
 		return comment1;
 	}
-	if ( lstrlen(comment2) > 0) {
+	if ( mir_tstrlen(comment2) > 0) {
 		mir_free(comment1);
 		return comment2;
 	}

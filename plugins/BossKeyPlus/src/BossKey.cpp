@@ -270,7 +270,7 @@ static void CreateTrayIcon(bool create)
 		db_free(&dbVar);
 	}
 	else
-		lstrcpy(nim.szTip, _T("Miranda NG"));
+		mir_tstrcpy(nim.szTip, _T("Miranda NG"));
 
 	nim.cbSize = sizeof(nim);
 	nim.hWnd = g_hListenWindow;

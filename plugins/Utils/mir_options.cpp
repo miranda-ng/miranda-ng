@@ -40,12 +40,12 @@ static TCHAR* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char
 	out[0] = _T('\0');
 
 	if (!db_get_ts(hContact, module, setting, &dbv)) {
-		lstrcpyn(out, dbv.ptszVal, (int)len);
+		mir_tstrncpy(out, dbv.ptszVal, (int)len);
 		db_free(&dbv);
 	}
 	else {
 		if (def != NULL)
-			lstrcpyn(out, def, (int)len);
+			mir_tstrncpy(out, def, (int)len);
 	}
 
 	return out;
@@ -57,7 +57,7 @@ static TCHAR dbPath[MAX_PATH] = { 0 };		// database profile path (read at startu
 
 static int PathIsAbsolute(const TCHAR *path)
 {
-	if (!path || !(lstrlen(path) > 2))
+	if (!path || !(mir_tstrlen(path) > 2))
 		return 0;
 	if ((path[1] == _T(':') && path[2] == _T('\\')) || (path[0] == _T('\\') && path[1] == _T('\\')))
 		return 1;
@@ -67,7 +67,7 @@ static int PathIsAbsolute(const TCHAR *path)
 static void PathToRelative(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 {
 	if (!PathIsAbsolute(pSrc))
-		lstrcpyn(pOut, pSrc, (int)outSize);
+		mir_tstrncpy(pOut, pSrc, (int)outSize);
 	else {
 		if (dbPath[0] == _T('\0')) {
 			char tmp[1024];
@@ -75,18 +75,18 @@ static void PathToRelative(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 			mir_sntprintf(dbPath, SIZEOF(dbPath), _T("%S\\"), tmp);
 		}
 
-		size_t len = lstrlen(dbPath);
+		size_t len = mir_tstrlen(dbPath);
 		if (_tcsnicmp(pSrc, dbPath, len))
 			mir_sntprintf(pOut, outSize, _T("%s"), pSrc + len);
 		else
-			lstrcpyn(pOut, pSrc, (int)outSize);
+			mir_tstrncpy(pOut, pSrc, (int)outSize);
 	}
 }
 
 static void PathToAbsolute(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 {
 	if (PathIsAbsolute(pSrc) || !isalnum(pSrc[0]))
-		lstrcpyn(pOut, pSrc, (int)outSize);
+		mir_tstrncpy(pOut, pSrc, (int)outSize);
 	else {
 		if (dbPath[0] == _T('\0')) {
 			char tmp[1024];

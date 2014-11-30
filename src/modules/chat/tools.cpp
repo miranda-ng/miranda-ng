@@ -42,7 +42,7 @@ TCHAR* RemoveFormatting(const TCHAR *pszWord)
 		return NULL;
 
 	TCHAR *d = szTemp;
-	int cbLen = lstrlen(pszWord);
+	int cbLen = mir_tstrlen(pszWord);
 	if (cbLen > SIZEOF(szTemp))
 		cbLen = SIZEOF(szTemp)-1;
 
@@ -165,7 +165,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 {
 	static TCHAR szBuf[4 * 1024];
 
-	if (!fmt || fmt[0] == 0 || lstrlen(fmt) > 2000)
+	if (!fmt || fmt[0] == 0 || mir_tstrlen(fmt) > 2000)
 		return 0;
 
 	va_list marker;
@@ -186,7 +186,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
 		cli.pfnGetContactDisplayName(hContact, 0));
 
-	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
+	mir_tstrncpy(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
 	if (g_Settings->iPopupStyle == 2) {
@@ -469,7 +469,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		CreateDirectoryTreeT(tszFolder);
 
 	TCHAR szTime[100];
-	lstrcpyn(szTime, ci.MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time), 99);
+	mir_tstrncpy(szTime, ci.MakeTimeStamp(g_Settings->pszTimeStampLog, gce->time), 99);
 
 	FILE *hFile = _tfopen(si->pszLogFileName, _T("ab+"));
 	if (hFile == NULL)
@@ -480,11 +480,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	if (bFileJustCreated)
 		fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
 	if (gce->ptszNick) {
-		if (g_Settings->bLogLimitNames && lstrlen(gce->ptszNick) > 20) {
-			lstrcpyn(szTemp2, gce->ptszNick, 20);
-			lstrcpyn(szTemp2 + 20, _T("..."), 4);
+		if (g_Settings->bLogLimitNames && mir_tstrlen(gce->ptszNick) > 20) {
+			mir_tstrncpy(szTemp2, gce->ptszNick, 20);
+			mir_tstrncpy(szTemp2 + 20, _T("..."), 4);
 		}
-		else lstrcpyn(szTemp2, gce->ptszNick, 511);
+		else mir_tstrncpy(szTemp2, gce->ptszNick, 511);
 
 		if (gce->ptszUserInfo)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, gce->ptszUserInfo);
@@ -739,7 +739,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		rva[10].lptzValue = NULL;
 
 		TCHAR tszTemp[MAX_PATH], *ptszVarPath;
-		if (g_Settings->pszLogDir[lstrlen(g_Settings->pszLogDir) - 1] == '\\') {
+		if (g_Settings->pszLogDir[mir_tstrlen(g_Settings->pszLogDir) - 1] == '\\') {
 			mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%s%s"), g_Settings->pszLogDir, _T("%userid%.log"));
 			ptszVarPath = tszTemp;
 		}

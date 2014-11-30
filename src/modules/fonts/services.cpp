@@ -306,7 +306,7 @@ static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 	if (!lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
 		LOGFONT lf;
 		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
-		lstrcpyn(newItem->deffontsettings.szFace, lf.lfFaceName, SIZEOF(newItem->deffontsettings.szFace));
+		mir_tstrncpy(newItem->deffontsettings.szFace, lf.lfFaceName, SIZEOF(newItem->deffontsettings.szFace));
 		if (!newItem->deffontsettings.size)
 			newItem->deffontsettings.size = lf.lfHeight;
 	}

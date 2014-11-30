@@ -1408,9 +1408,9 @@ void CSkin::Load(void)
 	GetPrivateProfileSectionNames(szSections, 3000, m_tszFileName);
 	szSections[3001] = szSections[3000] = 0;
 	TCHAR *p = szSections;
-	while (lstrlen(p) > 1) {
+	while (mir_tstrlen(p) > 1) {
 		if (p[0] != '%') {
-			p += (lstrlen(p) + 1);
+			p += (mir_tstrlen(p) + 1);
 			continue;
 		}
 		for (i = 0; i <= ID_EXTBK_LAST; i++) {
@@ -1419,7 +1419,7 @@ void CSkin::Load(void)
 				break;
 			}
 		}
-		p += (lstrlen(p) + 1);
+		p += (mir_tstrlen(p) + 1);
 		j++;
 	}
 
@@ -1543,7 +1543,7 @@ void CSkin::LoadItems()
 	szSections[SECT_BUFFER_SIZE] = 0;
 
 	p = szSections;
-	while (lstrlen(p) > 1) {
+	while (mir_tstrlen(p) > 1) {
 		p1 = _tcschr(p, (int)'=');
 		if (p1)
 			*p1 = 0;
@@ -1553,14 +1553,14 @@ void CSkin::LoadItems()
 				ZeroMemory(&m_skinIcons[m_nrSkinIcons], sizeof(TIconDesc));
 				m_skinIcons[m_nrSkinIcons].uId = tmpIconDesc.uId;
 				m_skinIcons[m_nrSkinIcons].phIcon = (HICON *)(&m_skinIcons[m_nrSkinIcons].uId);
-				m_skinIcons[m_nrSkinIcons].szName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (lstrlen(p) + 1));
-				lstrcpy(m_skinIcons[m_nrSkinIcons].szName, p);
+				m_skinIcons[m_nrSkinIcons].szName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(p) + 1));
+				mir_tstrcpy(m_skinIcons[m_nrSkinIcons].szName, p);
 				m_nrSkinIcons++;
 			}
 		}
 		if (p1)
 			*p1 = '=';
-		p += (lstrlen(p) + 1);
+		p += (mir_tstrlen(p) + 1);
 	}
 
 	ZeroMemory(szSections, (SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
@@ -1568,10 +1568,10 @@ void CSkin::LoadItems()
 	szSections[SECT_BUFFER_SIZE] = 0;
 
 	p = szSections;
-	while (lstrlen(p) > 1) {
+	while (mir_tstrlen(p) > 1) {
 		if (p[0] == '$')
 			ReadImageItem(p);
-		p += (lstrlen(p) + 1);
+		p += (mir_tstrlen(p) + 1);
 	}
 	nextButtonID = IDC_TBFIRSTUID;
 
@@ -1672,7 +1672,7 @@ void CSkin::setupAeroSkins()
 
 	TCHAR	tszFilename[MAX_PATH], tszBasePath[MAX_PATH];
 	_tcsncpy_s(tszBasePath, M.getDataPath(), _TRUNCATE);
-	if (tszBasePath[lstrlen(tszBasePath) - 1] != '\\')
+	if (tszBasePath[mir_tstrlen(tszBasePath) - 1] != '\\')
 		_tcscat(tszBasePath, _T("\\"));
 
 	// load unknown avatar..
@@ -2443,7 +2443,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 {
 	TCHAR tszBasePath[MAX_PATH];
 	mir_sntprintf(tszBasePath, MAX_PATH, _T("%s"), M.getDataPath());
-	if (tszBasePath[lstrlen(tszBasePath) - 1] != '\\')
+	if (tszBasePath[mir_tstrlen(tszBasePath) - 1] != '\\')
 		_tcscat(tszBasePath, _T("\\"));
 
 	CreateDirectoryTreeT(tszBasePath);

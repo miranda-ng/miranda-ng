@@ -154,12 +154,12 @@ static void sttAppendBufRaw(StringBuf *buf, const char *str)
 {
 	if (!str) return;
 
-	int length = lstrlenA(str);
+	int length = mir_strlen(str);
 	if (buf->size - buf->offset < length + 1) {
 		buf->size += (length + STRINGBUF_INCREMENT);
 		buf->buf = (char *)mir_realloc(buf->buf, buf->size);
 	}
-	lstrcpyA(buf->buf + buf->offset, str);
+	mir_strcpy(buf->buf + buf->offset, str);
 	buf->offset += length;
 }
 
@@ -354,7 +354,7 @@ void CJabberDlgConsole::OnInitDialog()
 	*m_proto->m_filterInfo.pattern = 0;
 	ptrT tszPattern( m_proto->getTStringA("consoleWnd_fpattern"));
 	if (tszPattern != NULL)
-		lstrcpyn(m_proto->m_filterInfo.pattern, tszPattern, SIZEOF(m_proto->m_filterInfo.pattern));
+		mir_tstrncpy(m_proto->m_filterInfo.pattern, tszPattern, SIZEOF(m_proto->m_filterInfo.pattern));
 
 	sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
 	SetWindowText(GetDlgItem(m_hwnd, IDC_CB_FILTER), m_proto->m_filterInfo.pattern);
@@ -559,7 +559,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				if (len > SIZEOF(m_proto->m_filterInfo.pattern)) {
 					TCHAR *buf = (TCHAR *)_alloca(len * sizeof(TCHAR));
 					SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)buf);
-					lstrcpyn(m_proto->m_filterInfo.pattern, buf, SIZEOF(m_proto->m_filterInfo.pattern));
+					mir_tstrncpy(m_proto->m_filterInfo.pattern, buf, SIZEOF(m_proto->m_filterInfo.pattern));
 				}
 				else SendDlgItemMessage(m_hwnd, IDC_CB_FILTER, CB_GETLBTEXT, idx, (LPARAM)m_proto->m_filterInfo.pattern);
 			}

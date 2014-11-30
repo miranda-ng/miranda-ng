@@ -576,7 +576,7 @@ namespace
 		dbei.timestamp = static_cast<DWORD>(nTime);
 		dbei.flags = DBEF_READ|DBEF_UTF;
 		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.cbBlob = ::lstrlenA(psz)+1;
+		dbei.cbBlob = ::mir_strlen(psz)+1;
 		dbei.pBlob = (PBYTE)(char*)psz;
 		db_event_add(hContact, &dbei);
 	}
@@ -634,11 +634,11 @@ namespace
 			CQuotesProviderVisitorFormater visitor(hContact,_T('s'),0);
 			pProvider->Accept(visitor);
 			const tstring& sTitle = visitor.GetResult();
-			lstrcpyn(ppd.lptzContactName,sTitle.c_str(),MAX_CONTACTNAME);
+			mir_tstrncpy(ppd.lptzContactName,sTitle.c_str(),MAX_CONTACTNAME);
 
 			mir_safe_string<TCHAR> ss(variables_parsedup((TCHAR*)rsFormat.c_str(), 0, hContact));
 			tstring sText = format_rate(pProvider,hContact,ss.m_p,dRate);
-			lstrcpyn(ppd.lptzText,sText.c_str(),MAX_SECONDLINE);
+			mir_tstrncpy(ppd.lptzText,sText.c_str(),MAX_SECONDLINE);
 
 			if(CPopupSettings::colourDefault == ps.GetColourMode())
 			{

@@ -69,7 +69,7 @@ static void sttUpdateTitle(HWND hwndDlg, MCONTACT hContact)
 			mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s %s (%s)"), pszNewTitleStart, contactName, szStatus);
 		}
 	}
-	else lstrcpyn(newtitle, pszNewTitleStart, SIZEOF(newtitle));
+	else mir_tstrncpy(newtitle, pszNewTitleStart, SIZEOF(newtitle));
 
 	GetWindowText(hwndDlg, oldtitle, SIZEOF(oldtitle));
 
@@ -103,7 +103,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 			db_event_get(dat->hDbEvent, &dbei);
 			SetDlgItemTextA(hwndDlg, IDC_URL, (char*)dbei.pBlob);
-			SetDlgItemTextA(hwndDlg, IDC_MSG, (char*)dbei.pBlob+lstrlenA((char*)dbei.pBlob)+1);
+			SetDlgItemTextA(hwndDlg, IDC_MSG, (char*)dbei.pBlob+mir_strlen((char*)dbei.pBlob)+1);
 			mir_free(dbei.pBlob);
 
 			db_event_markRead(dat->hContact, dat->hDbEvent);
@@ -179,8 +179,8 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					{	HGLOBAL hData;
 						if ( !OpenClipboard(hwndDlg)) break;
 						EmptyClipboard();
-						hData = GlobalAlloc(GMEM_MOVEABLE, lstrlenA(url)+1);
-						lstrcpyA((char*)GlobalLock(hData), url);
+						hData = GlobalAlloc(GMEM_MOVEABLE, mir_strlen(url)+1);
+						mir_strcpy((char*)GlobalLock(hData), url);
 						GlobalUnlock(hData);
 						SetClipboardData(CF_TEXT, hData);
 						CloseClipboard();
@@ -550,9 +550,9 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				body = (char*)mir_alloc(bodySize);
 				GetDlgItemTextA(hwndDlg, IDC_MESSAGE, body, bodySize);
 
-				dat->sendBuffer = (char*)mir_realloc(dat->sendBuffer, lstrlenA(url)+lstrlenA(body)+2);
-				lstrcpyA(dat->sendBuffer, url);
-				lstrcpyA(dat->sendBuffer+lstrlenA(url)+1, body);
+				dat->sendBuffer = (char*)mir_realloc(dat->sendBuffer, mir_strlen(url)+mir_strlen(body)+2);
+				mir_strcpy(dat->sendBuffer, url);
+				mir_strcpy(dat->sendBuffer+mir_strlen(url)+1, body);
 				dat->hAckEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_EVENTSENT);
 				dat->hSendId = (HANDLE)CallContactService(dat->hContact, PSS_URL, 0, (LPARAM)dat->sendBuffer);
 				mir_free(url);

@@ -361,8 +361,8 @@ void WhatsAppProto::NotifyEvent(const TCHAR *title, const TCHAR *info, MCONTACT 
 			pd.lchIcon = Skin_GetIconByHandle(m_hProtoIcon); // TODO: Icon test
 			pd.PluginData = szUrl;
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
-			lstrcpy(pd.lptzContactName, title);
-			lstrcpy(pd.lptzText, info);
+			mir_tstrcpy(pd.lptzContactName, title);
+			mir_tstrcpy(pd.lptzText, info);
 			ret = PUAddPopupT(&pd);
 
 			if (ret == 0)

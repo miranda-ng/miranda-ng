@@ -90,7 +90,7 @@ char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check)
 	dbtts.szFormat = (char *)"d t";
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
 	strncat(szResult, str, 500);
-	lstrcpynA(szResult, ptrA(mir_utf8encode(szResult)), 500);
+	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 
@@ -129,9 +129,9 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, SIZEOF(str), "Font.%s.Name", dbSetting);
 		if (db_get(NULL, HPPMOD, str, &dbv))
-			lstrcpyA(lf->lfFaceName, "Verdana");
+			mir_strcpy(lf->lfFaceName, "Verdana");
 		else {
-			lstrcpynA(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
+			mir_strncpy(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
 			db_free(&dbv);
 		}
 	}

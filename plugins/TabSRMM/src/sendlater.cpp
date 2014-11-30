@@ -131,7 +131,7 @@ CSendLaterJob::~CSendLaterJob()
 				POPUPDATAT ppd = {0};
 				ppd.lchContact = hContact;
 				mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), tszName ? tszName : TranslateT("'(Unknown Contact)'"));
-				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[lstrlenA((char *)pBuf) + 1]), 100);
+				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
 					mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("A send later job completed successfully.\nThe original message: %s"),
 								  msgPreview);
@@ -298,7 +298,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	DBVARIANT dbv = {0};
 	char *szOrig_Utf = 0;
 
-	if (!m_fAvail || !szSetting || !strcmp(szSetting, "count") || lstrlenA(szSetting) < 8)
+	if (!m_fAvail || !szSetting || !strcmp(szSetting, "count") || mir_strlen(szSetting) < 8)
 		return 0;
 
 	if (szSetting[0] != 'S' && szSetting[0] != 'M')
@@ -333,7 +333,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	job->hContact = hContact;
 	job->created = atol(&szSetting[1]);
 
-	int iLen = lstrlenA(szOrig_Utf);
+	int iLen = mir_strlen(szOrig_Utf);
 	job->sendBuffer = reinterpret_cast<char *>(mir_alloc(iLen + 1));
 	strncpy(job->sendBuffer, szOrig_Utf, iLen);
 	job->sendBuffer[iLen] = 0;
@@ -341,17 +341,17 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	// construct conventional send buffer
 	wchar_t *szWchar = 0;
 	char *szAnsi = mir_utf8decodecp(szOrig_Utf, CP_ACP, &szWchar);
-	iLen = lstrlenA(szAnsi);
+	iLen = mir_strlen(szAnsi);
 	UINT required = iLen + 1;
 	if (szWchar)
-		required += ((lstrlenW(szWchar) + 1) * sizeof(wchar_t));
+		required += ((mir_wstrlen(szWchar) + 1) * sizeof(wchar_t));
 
 	job->pBuf = (PBYTE)mir_calloc(required);
 
 	strncpy((char *)job->pBuf, szAnsi, iLen);
 	job->pBuf[iLen] = 0;
 	if (szWchar)
-		wcsncpy((wchar_t *)&job->pBuf[iLen + 1], szWchar, lstrlenW(szWchar));
+		wcsncpy((wchar_t *)&job->pBuf[iLen + 1], szWchar, mir_wstrlen(szWchar));
 
 	if (szSetting[0] == 'S')
 		db_free(&dbv);
@@ -475,7 +475,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 				dbei.flags = DBEF_SENT;
 				dbei.szModule = GetContactProto((p->hContact));
 				dbei.timestamp = time(NULL);
-				dbei.cbBlob = lstrlenA(p->sendBuffer) + 1;
+				dbei.cbBlob = mir_strlen(p->sendBuffer) + 1;
 				dbei.flags |= DBEF_UTF;
 				dbei.pBlob = (PBYTE)(p->sendBuffer);
 				db_event_add(p->hContact, &dbei);

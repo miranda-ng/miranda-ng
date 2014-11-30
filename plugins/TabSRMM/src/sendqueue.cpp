@@ -127,7 +127,7 @@ entry_found:
 
 static int SendChunkW(WCHAR *chunk, MCONTACT hContact, DWORD dwFlags)
 {
-	int wLen = lstrlenW(chunk);
+	int wLen = mir_wstrlen(chunk);
 	DWORD	memRequired = (wLen + 1) * sizeof(WCHAR);
 	DWORD	codePage = db_get_dw(hContact, SRMSGMOD_T, "ANSIcodepage", CP_ACP);
 
@@ -157,10 +157,10 @@ static void DoSplitSendW(LPVOID param)
 	int      chunkSize = job->chunkSize / 2;
 	char    *szProto = GetContactProto(hContact);
 
-	int iLen = lstrlenA(job->szSendBuffer);
+	int iLen = mir_strlen(job->szSendBuffer);
 	WCHAR *wszBegin = (WCHAR*) & job->szSendBuffer[iLen + 1];
-	WCHAR *wszTemp = (WCHAR*)mir_alloc(sizeof(WCHAR) * (lstrlenW(wszBegin) + 1));
-	CopyMemory(wszTemp, wszBegin, sizeof(WCHAR) * (lstrlenW(wszBegin) + 1));
+	WCHAR *wszTemp = (WCHAR*)mir_alloc(sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
+	CopyMemory(wszTemp, wszBegin, sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
 	wszBegin = wszTemp;
 
 	do {
@@ -231,7 +231,7 @@ static void DoSplitSendA(LPVOID param)
 	DWORD    dwFlags = job->dwFlags;
 	int      chunkSize = job->chunkSize;
 
-	iLen = lstrlenA(job->szSendBuffer);
+	iLen = mir_strlen(job->szSendBuffer);
 	szTemp = (char *)mir_alloc(iLen + 1);
 	CopyMemory(szTemp, job->szSendBuffer, iLen + 1);
 	szBegin = szTemp;
@@ -293,15 +293,15 @@ static void DoSplitSendA(LPVOID param)
 int SendQueue::getSendLength(const int iEntry, int sendMode)
 {
 	if (m_jobs[iEntry].dwFlags & PREF_UNICODE && !(sendMode & SMODE_FORCEANSI)) {
-		int iLen = lstrlenA(m_jobs[iEntry].szSendBuffer);
+		int iLen = mir_strlen(m_jobs[iEntry].szSendBuffer);
 		WCHAR *wszBuf = (WCHAR *) & m_jobs[iEntry].szSendBuffer[iLen + 1];
 		char *utf8 = mir_utf8encodeT(wszBuf);
-		m_jobs[iEntry].iSendLength = lstrlenA(utf8);
+		m_jobs[iEntry].iSendLength = mir_strlen(utf8);
 		mir_free(utf8);
 		return(m_jobs[iEntry].iSendLength);
 	}
 	else {
-		m_jobs[iEntry].iSendLength = lstrlenA(m_jobs[iEntry].szSendBuffer);
+		m_jobs[iEntry].iSendLength = mir_strlen(m_jobs[iEntry].szSendBuffer);
 		return(m_jobs[iEntry].iSendLength);
 	}
 }
@@ -487,7 +487,7 @@ void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const TCHAR 
 	dbei.eventType = EVENTTYPE_ERRMSG;
 	if (iSendJobIndex >= 0) {
 		dbei.pBlob = (BYTE *)m_jobs[iSendJobIndex].szSendBuffer;
-		iMsgLen = lstrlenA(m_jobs[iSendJobIndex].szSendBuffer) + 1;
+		iMsgLen = mir_strlen(m_jobs[iSendJobIndex].szSendBuffer) + 1;
 	}
 	else {
 		iMsgLen = 0;
@@ -568,7 +568,7 @@ void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 	/* message area is empty, so we can recall the failed message... */
 	SETTEXTEX stx = {ST_DEFAULT, 1200};
 	if (m_jobs[iEntry].dwFlags & PREF_UNICODE)
-		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)&m_jobs[iEntry].szSendBuffer[lstrlenA(m_jobs[iEntry].szSendBuffer) + 1]);
+		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)&m_jobs[iEntry].szSendBuffer[mir_strlen(m_jobs[iEntry].szSendBuffer) + 1]);
 	else {
 		stx.codepage = (m_jobs[iEntry].dwFlags & PREF_UTF) ? CP_UTF8 : CP_ACP;
 		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
@@ -618,8 +618,8 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = dat->hContact;
-	lstrcpyn(ppd.lptzContactName, dat->cache->getNick(), MAX_CONTACTNAME);
-	lstrcpyn(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), MAX_SECONDLINE);
+	mir_tstrncpy(ppd.lptzContactName, dat->cache->getNick(), MAX_CONTACTNAME);
+	mir_tstrncpy(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), MAX_SECONDLINE);
 
 	if (!(BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
 		ppd.colorText = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
@@ -641,7 +641,7 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 int SendQueue::RTL_Detect(const WCHAR *pszwText)
 {
 	int i, n = 0;
-	int iLen = lstrlenW(pszwText);
+	int iLen = mir_wstrlen(pszwText);
 
 	WORD *infoTypeC2 = (WORD *)mir_alloc(sizeof(WORD) * (iLen + 2));
 	if (infoTypeC2) {
@@ -712,7 +712,7 @@ inform_and_discard:
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = GetContactProto(job.hContact);
 	dbei.timestamp = time(NULL);
-	dbei.cbBlob = lstrlenA(job.szSendBuffer) + 1;
+	dbei.cbBlob = mir_strlen(job.szSendBuffer) + 1;
 
 	if (dat)
 		dat->cache->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
@@ -810,7 +810,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.szModule = GetContactProto(dat->hContact);
 		dbei.timestamp = time(NULL);
-		dbei.cbBlob = lstrlenA(utfText) + 1;
+		dbei.cbBlob = mir_strlen(utfText) + 1;
 		dbei.pBlob = (PBYTE) utfText;
 		StreamInEvents(dat->hwnd,  0, 1, 1, &dbei);
 		if (dat->hDbEventFirst == NULL)
@@ -845,7 +845,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 
 		if (job->dwFlags & PREF_UTF || !(job->dwFlags & PREF_UNICODE)) {
 			char *utf_header = mir_utf8encodeT(tszHeader);
-			UINT required = lstrlenA(utf_header) + lstrlenA(job->szSendBuffer) + 10;
+			UINT required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;
 			char *tszMsg = reinterpret_cast<char *>(mir_alloc(required));
 
 			if (fIsSendLater) {
@@ -860,10 +860,10 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 			mir_free(tszMsg);
 		}
 		else if (job->dwFlags & PREF_UNICODE) {
-			int iLen = lstrlenA(job->szSendBuffer);
+			int iLen = mir_strlen(job->szSendBuffer);
 			wchar_t *wszMsg = (wchar_t *)&job->szSendBuffer[iLen + 1];
 
-			UINT required = sizeof(TCHAR) * (lstrlen(tszHeader) + lstrlenW(wszMsg) + 10);
+			UINT required = sizeof(TCHAR) * (mir_tstrlen(tszHeader) + mir_wstrlen(wszMsg) + 10);
 
 			TCHAR *tszMsg = reinterpret_cast<TCHAR *>(mir_alloc(required));
 			if (fIsSendLater)

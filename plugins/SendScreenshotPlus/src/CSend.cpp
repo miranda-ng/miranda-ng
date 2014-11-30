@@ -233,15 +233,15 @@ void CSend::svcSendMsgExit(const char* szMessage) {
 		Exit(res); return;
 	}else{
 		mir_freeAndNil(m_szEventMsg);
-		m_cbEventMsg=lstrlenA(szMessage)+1;
+		m_cbEventMsg=mir_strlen(szMessage)+1;
 		m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
 		ZeroMemory(m_szEventMsg, m_cbEventMsg);
-		lstrcpyA(m_szEventMsg,szMessage);
+		mir_strcpy(m_szEventMsg,szMessage);
 		if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 			char *temp = mir_t2a(m_pszFileDesc);
 			mir_stradd(m_szEventMsg, "\r\n");
 			mir_stradd(m_szEventMsg, temp);
-			m_cbEventMsg = lstrlenA(m_szEventMsg)+1;
+			m_cbEventMsg = mir_strlen(m_szEventMsg)+1;
 			mir_free(temp);
 		}
 		//create a HookEventObj on ME_PROTO_ACK
@@ -272,15 +272,15 @@ void CSend::svcSendFileExit() {
 	}
 	mir_freeAndNil(m_szEventMsg);
 	char* szFile = mir_t2a(m_pszFile);
-	m_cbEventMsg=lstrlenA(szFile)+2;
+	m_cbEventMsg=mir_strlen(szFile)+2;
 	m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
 	ZeroMemory(m_szEventMsg, m_cbEventMsg);
-	lstrcpyA(m_szEventMsg,szFile);
+	mir_strcpy(m_szEventMsg,szFile);
 	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 		char* temp = mir_t2a(m_pszFileDesc);
-		m_cbEventMsg += lstrlenA(temp);
+		m_cbEventMsg += mir_strlen(temp);
 		m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
-		lstrcpyA(m_szEventMsg+lstrlenA(szFile)+1,temp);
+		mir_strcpy(m_szEventMsg+mir_strlen(szFile)+1,temp);
 		m_szEventMsg[m_cbEventMsg-1] = 0;
 		mir_free(temp);
 	}

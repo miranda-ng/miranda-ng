@@ -843,7 +843,7 @@ int __cdecl CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 {
 	ptrA szResUtf(mir_utf8encodeT((LPCTSTR)evt->lParam));
 	evt->pCustomData = szResUtf;
-	evt->cbCustomDataSize = lstrlenA(szResUtf);
+	evt->cbCustomDataSize = mir_strlen(szResUtf);
 	Proto_RecvMessage(hContact, evt);
 	return 0;
 }

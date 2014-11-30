@@ -343,16 +343,16 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 					break;
 				}
 		}
-		else lstrcpyn(text, mode->m_title, SIZEOF(text));
+		else mir_tstrncpy(text, mode->m_title, SIZEOF(text));
 
 		DrawIconEx(lpdis->hDC, lpdis->rcItem.left+2, (lpdis->rcItem.top+lpdis->rcItem.bottom-16)/2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
-		TextOut(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top+lpdis->rcItem.bottom-tm.tmHeight)/2, text, lstrlen(text));
+		TextOut(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top+lpdis->rcItem.bottom-tm.tmHeight)/2, text, mir_tstrlen(text));
 	}
 	else {
 		TCHAR text[128];
 		mir_sntprintf(text, SIZEOF(text), _T("...%s"), mode->m_title);
 		DrawIconEx(lpdis->hDC, lpdis->rcItem.left+23, (lpdis->rcItem.top+lpdis->rcItem.bottom-16)/2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
-		TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top+lpdis->rcItem.bottom-tm.tmHeight)/2, text, lstrlen(text));
+		TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top+lpdis->rcItem.bottom-tm.tmHeight)/2, text, mir_tstrlen(text));
 	}
 
 	return TRUE;
@@ -702,7 +702,7 @@ void CPepMood::SetMood(MCONTACT hContact, const TCHAR *szMood, const TCHAR *szTe
 				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName));
 			}
 			else {
-				lstrcpy(title, LPGENT("Set mood..."));
+				mir_tstrcpy(title, LPGENT("Set mood..."));
 				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set mood..."));
 			}
 		}
@@ -974,7 +974,7 @@ void ActivityBuildTitle(int id, TCHAR *buf, int size)
 		if (szSecond)
 			mir_sntprintf(buf, size, _T("%s [%s]"), TranslateTS(szFirst), TranslateTS(szSecond));
 		else
-			lstrcpyn(buf, TranslateTS(szFirst), size);
+			mir_tstrncpy(buf, TranslateTS(szFirst), size);
 	}
 	else *buf = 0;
 }
@@ -1088,7 +1088,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", g_ActivityIcons.GetIcolibHandle(returnActivity(activity)), activityTitle);
 			}
 			else {
-				lstrcpy(title, LPGENT("Set activity..."));
+				mir_tstrcpy(title, LPGENT("Set activity..."));
 				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT), TranslateT("Set activity..."));
 			}
 		}
@@ -1354,9 +1354,9 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 				return 1;
 
 			if (pData->flags & CSSF_UNICODE)
-				lstrcpynW(pData->pwszName, g_arrMoods[dwXStatus].szName, (STATUS_TITLE_MAX + 1));
+				mir_wstrncpy(pData->pwszName, g_arrMoods[dwXStatus].szName, (STATUS_TITLE_MAX + 1));
 			else {
-				size_t dwStatusTitleSize = lstrlenW(g_arrMoods[dwXStatus].szName);
+				size_t dwStatusTitleSize = mir_wstrlen(g_arrMoods[dwXStatus].szName);
 				if (dwStatusTitleSize > STATUS_TITLE_MAX)
 					dwStatusTitleSize = STATUS_TITLE_MAX;
 

@@ -506,7 +506,7 @@ WCHAR* GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim
 	DWORD end = 0;
 	DWORD CurentCount = 0;
 	DWORD len;
-	while (i < lstrlen(string))
+	while (i < mir_tstrlen(string))
 	{
 		if (string[i] == Delim)
 		{
@@ -520,7 +520,7 @@ WCHAR* GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim
 	{
 		if (SkipSpaces)
 		{ //remove spaces
-			while (string[start] == ' ' && (int)start < lstrlen(string))
+			while (string[start] == ' ' && (int)start < mir_tstrlen(string))
 				start++;
 			while (i>1 && string[i-1] == ' ' && i>(int)start)
 				i--;

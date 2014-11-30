@@ -400,7 +400,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 			if (db_get_ts(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
 			{
 				if (dbv.ptszVal != NULL)
-					lstrcpyn(contact->szgroup, dbv.ptszVal, SIZEOF(contact->szgroup));
+					mir_tstrncpy(contact->szgroup, dbv.ptszVal, SIZEOF(contact->szgroup));
 
 				db_free(&dbv);
 			}
@@ -408,11 +408,11 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 		// Make contact name
 		TCHAR *tmp = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
-		lstrcpyn(contact->szname, tmp, SIZEOF(contact->szname));
+		mir_tstrncpy(contact->szname, tmp, SIZEOF(contact->szname));
 
 		PROTOACCOUNT *acc = ProtoGetAccount(pszProto);
 		if (acc != NULL)
-			lstrcpyn(contact->proto, acc->tszAccountName, SIZEOF(contact->proto));
+			mir_tstrncpy(contact->proto, acc->tszAccountName, SIZEOF(contact->proto));
 
 		contact->hcontact = hContact;
 		contacts.insert(contact);
@@ -480,7 +480,7 @@ int CheckText(HWND hdlg, TCHAR *sztext, BOOL only_enable = FALSE)
 	if(sztext == NULL || sztext[0] == _T('\0'))
 		return 0;
 
-	int len = lstrlen(sztext);
+	int len = mir_tstrlen(sztext);
 
 	if (only_enable)
 	{
@@ -567,7 +567,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			SendMessage(hdlg,WM_GETTEXT,(WPARAM)SIZEOF(sztext),(LPARAM)sztext);
 
-			BOOL at_end = (lstrlen(sztext) == (int)end);
+			BOOL at_end = (mir_tstrlen(sztext) == (int)end);
 
 			if (ret != -1)
 			{
@@ -1041,7 +1041,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					{
 						RECT rcc = { 0, 0, 0x7FFF, 0x7FFF };
 
-						DrawText(lpdis->hDC, contacts[loop]->proto, lstrlen(contacts[loop]->proto), 
+						DrawText(lpdis->hDC, contacts[loop]->proto, mir_tstrlen(contacts[loop]->proto), 
 							&rcc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_CALCRECT);
 						max_proto_width = max(max_proto_width, rcc.right - rcc.left);
 					}
@@ -1059,7 +1059,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				rc_tmp.left = rc_tmp.right - max_proto_width;
 
-				DrawText(lpdis->hDC, contacts[lpdis->itemData]->proto, lstrlen(contacts[lpdis->itemData]->proto), 
+				DrawText(lpdis->hDC, contacts[lpdis->itemData]->proto, mir_tstrlen(contacts[lpdis->itemData]->proto), 
 					&rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 
 				rc.right = rc_tmp.left - 5;
@@ -1081,7 +1081,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					rc.right = rc_tmp.left - 5;
 				}
 
-				DrawText(lpdis->hDC, contacts[lpdis->itemData]->szgroup, lstrlen(contacts[lpdis->itemData]->szgroup),
+				DrawText(lpdis->hDC, contacts[lpdis->itemData]->szgroup, mir_tstrlen(contacts[lpdis->itemData]->szgroup),
 					&rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 			}
 
@@ -1092,7 +1092,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			else
 				name = contacts[lpdis->itemData]->szname;
 
-			DrawText(lpdis->hDC, name, lstrlen(name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
+			DrawText(lpdis->hDC, name, mir_tstrlen(name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 
 			// Restore old colors
 			SetTextColor(lpdis->hDC, clrfore);

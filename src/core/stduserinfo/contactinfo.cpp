@@ -68,9 +68,9 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 			if (szText[0]) SetWindowText(hwndDlg, TranslateT("Edit phone number"));
 			TranslateDialogDefault(hwndDlg);
-			if (lstrlenA(szText)>4 && !lstrcmpA(szText+lstrlenA(szText)-4, " SMS")) {
+			if (mir_strlen(szText)>4 && !lstrcmpA(szText+mir_strlen(szText)-4, " SMS")) {
 				CheckDlgButton(hwndDlg, IDC_SMS, BST_CHECKED);
-				szText[lstrlenA(szText)-4] = '\0';
+				szText[mir_strlen(szText)-4] = '\0';
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDOK), szText[0]);
 			SendDlgItemMessage(hwndDlg, IDC_AREA, EM_LIMITTEXT, 31, 0);
@@ -91,13 +91,13 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			{	char *szText = (char*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				int isValid = 1;
 				GetDlgItemTextA(hwndDlg, IDC_PHONE, szText, 252);
-				if (lstrlenA(szText)<7 || szText[0] != '+') isValid = 0;
-				if (isValid) isValid = (lstrlenA(szText+1) == (int)strspn(szText+1, "0123456789 ()-"));
+				if (mir_strlen(szText)<7 || szText[0] != '+') isValid = 0;
+				if (isValid) isValid = (mir_strlen(szText+1) == (int)strspn(szText+1, "0123456789 ()-"));
 				if ( !isValid) {
 					MessageBox(hwndDlg, TranslateT("The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only."), TranslateT("Invalid phone number"), MB_OK);
 					break;
 				}
-				if (IsDlgButtonChecked(hwndDlg, IDC_SMS)) lstrcatA(szText, " SMS");
+				if (IsDlgButtonChecked(hwndDlg, IDC_SMS)) mir_strcat(szText, " SMS");
 			}
 			//fall through
 		case IDCANCEL:
@@ -196,11 +196,11 @@ static int IsOverEmail(HWND hwndDlg, TCHAR* szEmail, int cchEmail)
 	SelectObject(hdc, hEmailFont);
 
 	SIZE textSize;
-	GetTextExtentPoint32(hdc, szText, lstrlen(szText), &textSize);
+	GetTextExtentPoint32(hdc, szText, mir_tstrlen(szText), &textSize);
 	ReleaseDC(hwndEmails, hdc);
 	if (hti.pt.x < rc.left+textSize.cx) {
 		if (szEmail && cchEmail)
-			lstrcpyn(szEmail, szText, cchEmail);
+			mir_tstrncpy(szEmail, szText, cchEmail);
 		return 1;
 	}
 	return 0;
@@ -328,9 +328,9 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if ( !db_get_ts(hContact, szProto, "Cellular", &dbv)) {
 					lvi.pszText = TranslateT("Mobile");
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					if (lstrlenA(dbv.pszVal)>4 && !lstrcmpA(dbv.pszVal+lstrlenA(dbv.pszVal)-4, " SMS")) {
+					if (mir_strlen(dbv.pszVal)>4 && !lstrcmpA(dbv.pszVal+mir_strlen(dbv.pszVal)-4, " SMS")) {
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, _T("y"));
-						dbv.ptszVal[lstrlen(dbv.ptszVal)-4] = '\0';
+						dbv.ptszVal[mir_tstrlen(dbv.ptszVal)-4] = '\0';
 					}
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
 					db_free(&dbv);
@@ -359,9 +359,9 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.pszText = idstr2;
 					mir_sntprintf(idstr2, SIZEOF(idstr2), TranslateT("Custom %d"), i+1);
 					ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-					if (lstrlen(dbv.ptszVal)>4 && !lstrcmp(dbv.ptszVal+lstrlen(dbv.ptszVal)-4, _T(" SMS"))) {
+					if (mir_tstrlen(dbv.ptszVal)>4 && !lstrcmp(dbv.ptszVal+mir_tstrlen(dbv.ptszVal)-4, _T(" SMS"))) {
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 2, _T("y"));
-						dbv.ptszVal[lstrlen(dbv.ptszVal)-4] = '\0';
+						dbv.ptszVal[mir_tstrlen(dbv.ptszVal)-4] = '\0';
 					}
 					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, dbv.ptszVal);
 					db_free(&dbv);
@@ -493,7 +493,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						DBVARIANT dbv;
 						mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, lvi.lParam);
 						if (db_get_s(hContact, "UserInfo", idstr, &dbv)) break;
-						lstrcpynA(szText, dbv.pszVal, SIZEOF(szText));
+						mir_strncpy(szText, dbv.pszVal, SIZEOF(szText));
 						db_free(&dbv);
 						if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL), hwndDlg, nm->hdr.idFrom == IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc, (LPARAM)szText))
 							break;

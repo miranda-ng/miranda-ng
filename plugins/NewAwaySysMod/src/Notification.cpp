@@ -26,8 +26,8 @@ void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine, bool IsErrorMsg, int Timeout)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
-		lstrcpyn(ppd.lptzContactName, FirstLine, MAX_CONTACTNAME);
-		lstrcpyn(ppd.lptzText, SecondLine, MAX_SECONDLINE);
+		mir_tstrncpy(ppd.lptzContactName, FirstLine, MAX_CONTACTNAME);
+		mir_tstrncpy(ppd.lptzText, SecondLine, MAX_SECONDLINE);
 		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
 		ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
 		ppd.iSeconds = Timeout;

@@ -149,8 +149,8 @@ void ShowPopup(TCHAR* ptszText, TCHAR* ptszHeader, TCHAR* ptszPath)
 {
 	POPUPDATAT ppd = {0};
 
-	lstrcpy(ppd.lptzText, ptszText);
-	lstrcpy(ppd.lptzContactName, ptszHeader);
+	mir_tstrcpy(ppd.lptzText, ptszText);
+	mir_tstrcpy(ppd.lptzContactName, ptszHeader);
 	if (ptszPath != NULL)
 		ppd.PluginData = (void*)mir_tstrdup(ptszPath);
 	ppd.PluginWindowProc = DlgProcPopup;

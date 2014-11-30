@@ -39,7 +39,7 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai)
 		return NULL;
 
 	pcre16_extra *extra = pcre16_study(ppat, 0, &err);
-	int nmat = pcre16_exec(ppat, extra, ai->targv[2], lstrlen(ai->targv[2]), 0, 0, offsets, 99);
+	int nmat = pcre16_exec(ppat, extra, ai->targv[2], mir_tstrlen(ai->targv[2]), 0, 0, offsets, 99);
 	if (nmat > 0) {
 		ai->flags &= ~AIF_FALSE;
 		_ltoa(nmat, szVal, 10);
@@ -72,7 +72,7 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 		return NULL;
 
 	pcre16_extra *extra = pcre16_study(ppat, 0, &err);
-	int nmat = pcre16_exec(ppat, extra, ai->targv[2], lstrlen(ai->targv[2]), 0, 0, offsets, 99);
+	int nmat = pcre16_exec(ppat, extra, ai->targv[2], mir_tstrlen(ai->targv[2]), 0, 0, offsets, 99);
 	if (nmat >= 0)
 		ai->flags &= ~AIF_FALSE;
 

@@ -650,7 +650,7 @@ void DeleteViewMode( char * szName )
 	db_unset(NULL, CLVM_MODULE, szSetting);
 	db_unset(NULL, CLVM_MODULE, szName);
 
-	if (!strcmp(g_CluiData.current_viewmode, szName) && lstrlenA(szName) == lstrlenA(g_CluiData.current_viewmode)) {
+	if (!strcmp(g_CluiData.current_viewmode, szName) && mir_strlen(szName) == mir_strlen(g_CluiData.current_viewmode)) {
 		g_CluiData.bFilterEffective = 0;
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		SetWindowText(hwndSelector, TranslateT("All contacts"));
@@ -1306,7 +1306,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 	if (!onlySelector) {
 		mir_snprintf(szSetting, 256, "%c%s_PF", 246, Name);
 		if (!db_get_s(NULL, CLVM_MODULE, szSetting, &dbv)) {
-			if (lstrlenA(dbv.pszVal) >= 2) {
+			if (mir_strlen(dbv.pszVal) >= 2) {
 				strncpy(g_CluiData.protoFilter, dbv.pszVal, SIZEOF(g_CluiData.protoFilter));
 				g_CluiData.protoFilter[SIZEOF(g_CluiData.protoFilter) - 1] = 0;
 				g_CluiData.bFilterEffective |= CLVM_FILTER_PROTOS;
@@ -1315,7 +1315,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		}
 		mir_snprintf(szSetting, 256, "%c%s_GF", 246, Name);
 		if (!db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv)) {
-			if (lstrlen(dbv.ptszVal) >= 2) {
+			if (mir_tstrlen(dbv.ptszVal) >= 2) {
 				_tcsncpy(g_CluiData.groupFilter, dbv.ptszVal, SIZEOF(g_CluiData.groupFilter));
 				g_CluiData.groupFilter[SIZEOF(g_CluiData.groupFilter) - 1] = 0;
 				g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;

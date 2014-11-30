@@ -529,7 +529,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			case IDC_PLUGINURL:
 				char buf[512];
 				char *p = &buf[7];
-				lstrcpyA(buf, "mailto:");
+				mir_strcpy(buf, "mailto:");
 				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), p, SIZEOF(buf) - 7))
 					CallService(MS_UTILS_OPENURL, 0, (LPARAM)(LOWORD(wParam) == IDC_PLUGINEMAIL ? buf : p));
 				break;

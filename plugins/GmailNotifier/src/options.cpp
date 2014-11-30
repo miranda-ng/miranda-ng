@@ -87,7 +87,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		{
 			DBVARIANT dbv;
 			if (!db_get_s(NULL, pluginName, "OpenUsePrgPath", &dbv)) {
-				lstrcpyA(str, dbv.pszVal);
+				mir_strcpy(str, dbv.pszVal);
 				db_free(&dbv);
 			}
 		}
@@ -166,7 +166,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, SIZEOF(acc[curIndex].name))) {
 				tail = strstr(acc[curIndex].name, "@");
 				if (tail && lstrcmpA(tail + 1, "gmail.com") != 0)
-					lstrcpyA(acc[curIndex].hosted, tail + 1);
+					mir_strcpy(acc[curIndex].hosted, tail + 1);
 				SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
 				SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LONG_PTR)acc[curIndex].name);
 				SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);

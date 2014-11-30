@@ -142,7 +142,7 @@ static BOOL IsOverAction(HWND hwndDlg)
 	szText[0] = 0;
 	ListView_GetItemText(hList, hti.iItem, hti.iSubItem, szText, SIZEOF(szText));
 	hdc = GetDC(hList);
-	GetTextExtentPoint32(hdc, szText, lstrlen(szText), &textSize);
+	GetTextExtentPoint32(hdc, szText, mir_tstrlen(szText), &textSize);
 	ReleaseDC(hList, hdc);
 	textPosX = rc.left + (((rc.right - rc.left) - textSize.cx) / 2);
 	return (hti.pt.x > textPosX && hti.pt.x < textPosX + textSize.cx);
@@ -250,9 +250,9 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 								GetClientRect(hwndHeader, &rcHeader);
 								rc.top += rcHeader.bottom;
 							}
-							GetTextExtentPoint32(nm->nmcd.hdc, szText, lstrlen(szText), &textSize);
+							GetTextExtentPoint32(nm->nmcd.hdc, szText, mir_tstrlen(szText), &textSize);
 							textPosX = rc.left + (((rc.right - rc.left) - textSize.cx) / 2);
-							ExtTextOut(nm->nmcd.hdc, textPosX, rc.top + textSize.cy, ETO_OPAQUE, &rc, szText, lstrlen(szText), NULL);
+							ExtTextOut(nm->nmcd.hdc, textPosX, rc.top + textSize.cy, ETO_OPAQUE, &rc, szText, mir_tstrlen(szText), NULL);
 						}
 						// FALL THROUGH
 
@@ -332,9 +332,9 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, SIZEOF(szIP));
 						ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, SIZEOF(szLoginTime));
 						mir_sntprintf(szText, SIZEOF(szText), _T("%s\t%s\t%s"), szClientName, szIP, szLoginTime);
-						if ((hData = GlobalAlloc(GMEM_MOVEABLE, lstrlen(szText) + 1)) != NULL)
+						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_tstrlen(szText) + 1)) != NULL)
 						{
-							lstrcpy((TCHAR*)GlobalLock(hData), szText);
+							mir_tstrcpy((TCHAR*)GlobalLock(hData), szText);
 							GlobalUnlock(hData);
 							SetClipboardData(CF_TEXT, hData);
 						}

@@ -39,7 +39,7 @@ static INT_PTR Service_SetStatus(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR Service_GetName(WPARAM wParam, LPARAM lParam)
 {
-	lstrcpynA((char *) lParam, YAMN_DBMODULE, wParam);
+	mir_strncpy((char *) lParam, YAMN_DBMODULE, wParam);
 	return 0;
 }
 
@@ -93,11 +93,11 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 					Command = new WCHAR[wcslen(ActualAccount->NewMailN.App)+6];
 					
 				if (Command != NULL) {
-					lstrcpyW(Command, L"\"");
-					lstrcatW(Command, ActualAccount->NewMailN.App);
-					lstrcatW(Command, L"\" ");
+					mir_wstrcpy(Command, L"\"");
+					mir_wstrcat(Command, ActualAccount->NewMailN.App);
+					mir_wstrcat(Command, L"\" ");
 					if (ActualAccount->NewMailN.AppParam != NULL)
-						lstrcatW(Command, ActualAccount->NewMailN.AppParam);
+						mir_wstrcat(Command, ActualAccount->NewMailN.AppParam);
 
 					PROCESS_INFORMATION pi;
 					CreateProcessW(NULL, Command, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi);

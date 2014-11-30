@@ -210,7 +210,7 @@ DWORD CMraProto::MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMess
 		HDC hDC = GetDC(NULL);// kegl
 		lf.lfCharSet = MRA_DEFAULT_RTF_FONT_CHARSET;
 		lf.lfHeight = -MulDiv(MRA_DEFAULT_RTF_FONT_SIZE, GetDeviceCaps(hDC, LOGPIXELSY), 72);
-		lstrcpyn(lf.lfFaceName, MRA_DEFAULT_RTF_FONT_NAME, LF_FACESIZE);
+		mir_tstrncpy(lf.lfFaceName, MRA_DEFAULT_RTF_FONT_NAME, LF_FACESIZE);
 		ReleaseDC(NULL, hDC);
 	}
 	dwFontSize = ((-lf.lfHeight)+(((-lf.lfHeight)+4)/8));

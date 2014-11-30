@@ -1025,7 +1025,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 			// Add missing file extension
 			const TCHAR *szImgType = gg_img_guessfileextension(dat->lpData);
 			if (*szImgType) {
-				dat->lpszFileName = (TCHAR*)calloc(sizeof(TCHAR), lstrlen(tmpFileName) + lstrlen(szImgType) + 1);
+				dat->lpszFileName = (TCHAR*)calloc(sizeof(TCHAR), mir_tstrlen(tmpFileName) + mir_tstrlen(szImgType) + 1);
 				if (dat->lpszFileName != NULL) {
 					_tcscpy(dat->lpszFileName, tmpFileName);
 					_tcscat(dat->lpszFileName, szImgType);

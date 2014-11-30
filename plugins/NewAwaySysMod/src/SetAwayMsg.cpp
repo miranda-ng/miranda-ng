@@ -369,7 +369,7 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 	HWND hwndDlg = g_SetAwayMsgPage.GetWnd();
 	GetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, Message.GetBuffer(AWAY_MSGDATA_MAX), AWAY_MSGDATA_MAX);
 	Message.ReleaseBuffer();
-	if (!lstrlen(Message))
+	if (!mir_tstrlen(Message))
 		Message = NULL; // delete personal message if it's empty
 
 	if (CList) {

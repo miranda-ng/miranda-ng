@@ -149,7 +149,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 
 		TCHAR *pszExtension = _tcsrchr(pszFilename, '.');
 		if (pszExtension)
-			lstrcpyn(szExtension, pszExtension + 1, SIZEOF(szExtension));
+			mir_tstrncpy(szExtension, pszExtension + 1, SIZEOF(szExtension));
 		else {
 			pszExtension = _T(".");
 			szExtension[0] = '\0';
@@ -166,7 +166,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		else {
 			TCHAR szTypeName[MAX_PATH];
 			if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, pszExtension, NULL, szTypeName, SIZEOF(szTypeName))) {
-				lstrcat(szTypeName, _T("\\DefaultIcon"));
+				mir_tstrcat(szTypeName, _T("\\DefaultIcon"));
 				if (SRFile_GetRegValue(HKEY_CLASSES_ROOT, szTypeName, NULL, szIconFile, SIZEOF(szIconFile))) {
 					if (_tcsstr(szIconFile, _T("%1")))
 						SRFile_GetRegValue(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"), _T("0"), szIconFile, SIZEOF(szIconFile));
@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			case IDC_OPENFOLDER:
 				{
 					TCHAR szFile[MAX_PATH];
-					lstrcpyn(szFile, fts->tszCurrentFile, SIZEOF(szFile));
+					mir_tstrncpy(szFile, fts->tszCurrentFile, SIZEOF(szFile));
 					TCHAR *pszLastBackslash = _tcsrchr(szFile, '\\');
 					if (pszLastBackslash)
 						*pszLastBackslash = '\0';
@@ -277,7 +277,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					TCHAR filter[512], *pfilter;
 					TCHAR str[MAX_PATH];
 
-					lstrcpyn(str, fts->tszCurrentFile, SIZEOF(str));
+					mir_tstrncpy(str, fts->tszCurrentFile, SIZEOF(str));
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;

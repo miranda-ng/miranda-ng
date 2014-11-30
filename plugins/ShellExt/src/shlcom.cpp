@@ -79,21 +79,21 @@ BOOL AddToList(TAddArgList& args)
 
 		if (attr & FILE_ATTRIBUTE_DIRECTORY) {
 			// add the directory
-			lstrcpyA(szBuf, args.szFile);
+			mir_strcpy(szBuf, args.szFile);
 			args.files = (LPSTR*)mir_realloc(args.files, (args.count + 1) * sizeof(LPSTR));
 			char *p = mir_strdup(szBuf);
 			args.files[args.count] = p;
 			args.count++;
 			// tack on ending search token
-			lstrcatA(szBuf, "\\*");
+			mir_strcat(szBuf, "\\*");
 
 			WIN32_FIND_DATAA fd;
 			HANDLE hFind = FindFirstFileA(szBuf, &fd);
 			while (true) {
 				if (fd.cFileName[0] != '.') {
-					lstrcpyA(szBuf, args.szFile);
-					lstrcatA(szBuf, "\\");
-					lstrcatA(szBuf, fd.cFileName);
+					mir_strcpy(szBuf, args.szFile);
+					mir_strcat(szBuf, "\\");
+					mir_strcat(szBuf, fd.cFileName);
 					// keep a copy of the current thing being processed
 					szThis = args.szFile;
 					args.szFile = szBuf;
@@ -200,8 +200,8 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 		spi.pid = GetCurrentProcessId();
 		while (protoCount > 0) {
 			PROTOACCOUNT *pa = *pp;
-			lstrcpyA(szTmp, pa->szModuleName);
-			lstrcatA(szTmp, PS_GETCAPS);
+			mir_strcpy(szTmp, pa->szModuleName);
+			mir_strcat(szTmp, PS_GETCAPS);
 			DWORD dwCaps = CallService(szTmp, PFLAGNUM_1, 0);
 			if (dwCaps & PF1_FILESEND) {
 				TSlotIPC *pct = ipcAlloc(ipch, sizeof(TSlotProtoIcons));
@@ -315,9 +315,9 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			if (bGroupMode) {
 				rc = db_get_s(pContacts[i].hContact, "CList", "Group", &dbv);
 				if (!rc)
-					n = lstrlenA(dbv.pszVal) + 1;
+					n = mir_strlen(dbv.pszVal) + 1;
 			}
-			int cch = lstrlenA(szContact) + 1;
+			int cch = mir_strlen(szContact) + 1;
 			TSlotIPC *pct = ipcAlloc(ipch, cch + 1 + n);
 			if (pct == NULL) {
 				db_free(&dbv);
@@ -326,7 +326,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			// lie about the actual size of the TSlotIPC
 			pct->cbStrSection = cch;
 			LPSTR szSlot = LPSTR(pct) + sizeof(TSlotIPC);
-			lstrcpyA(szSlot, szContact);
+			mir_strcpy(szSlot, szContact);
 			pct->fType = REQUEST_CONTACTS;
 			pct->hContact = pContacts[i].hContact;
 			pct->Status = pContacts[i].dwStatus;
@@ -337,7 +337,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			szSlot += cch + 1;
 			if (rc == 0) {
 				pct->hGroup = murmur_hash(dbv.pszVal);
-				lstrcpyA(szSlot, dbv.pszVal);
+				mir_strcpy(szSlot, dbv.pszVal);
 				db_free(&dbv);
 			}
 			else {
@@ -415,15 +415,15 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 
 		// see if we have a custom string for 'Miranda'
 		szMiranda = "Miranda";
-		lstrcpynA(pMMT->MirandaName, szMiranda, sizeof(pMMT->MirandaName) - 1);
+		mir_strncpy(pMMT->MirandaName, szMiranda, sizeof(pMMT->MirandaName) - 1);
 
 		// for the MRU menu
 		szBuf = Translate("Recently");
-		lstrcpynA(pMMT->MRUMenuName, szBuf, sizeof(pMMT->MRUMenuName) - 1);
+		mir_strncpy(pMMT->MRUMenuName, szBuf, sizeof(pMMT->MRUMenuName) - 1);
 
 		// and a custom string for "clear entries"
 		szBuf = Translate("Clear entries");
-		lstrcpynA(pMMT->ClearEntries, szBuf, sizeof(pMMT->ClearEntries) - 1);
+		mir_strncpy(pMMT->ClearEntries, szBuf, sizeof(pMMT->ClearEntries) - 1);
 
 		// if the group mode is on, check if they want the CList setting
 		bool bGroupMode = (BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED));
@@ -449,7 +449,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 				_itoa(iSlot, szGroupStr, 10);
 				if ( db_get_s(0, "CListGroups", szGroupStr, &dbv) != 0)
 					break;
-				pct = ipcAlloc(pMMT, lstrlenA(dbv.pszVal + 1) + 1);
+				pct = ipcAlloc(pMMT, mir_strlen(dbv.pszVal + 1) + 1);
 				// first byte has flags, need null term
 				if (pct != NULL) {
 					if (pMMT->GroupsBegin == NULL)
@@ -457,7 +457,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 					pct->fType = REQUEST_GROUPS;
 					pct->hContact = 0;
 					szBuf = LPSTR(pct) + sizeof(TSlotIPC); // get the end of the slot
-					lstrcpyA(szBuf, dbv.pszVal + 1);
+					mir_strcpy(szBuf, dbv.pszVal + 1);
 					pct->hGroup = 0;
 					db_free(&dbv); // free the string
 				}

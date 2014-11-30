@@ -80,12 +80,10 @@ void CIcqProto::handleFileAck(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCooki
 		unpackString(&buf, pszFileName, wFilenameLength);
 		pszFileName[wFilenameLength] = '\0';
 	}
-	wLen = wLen - 2 - wFilenameLength;
+	wLen -= wFilenameLength+2;
 
-	if (wLen >= 4) { // Total filesize
+	if (wLen >= 4)
 		unpackLEDWord(&buf, &dwFileSize);
-		wLen -= 4;
-	}
 	else
 		dwFileSize = 0;
 
@@ -111,7 +109,7 @@ filetransfer* CIcqProto::CreateFileTransfer(MCONTACT hContact, DWORD dwUin, int 
 
 // pszDescription points to a string with the reason
 // buf points to the first data after the string
-void CIcqProto::handleFileRequest(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC)
+void CIcqProto::handleFileRequest(PBYTE buf, size_t cbLen, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC)
 {
 	BOOL bEmptyDesc = FALSE;
 	if (mir_strlen(pszDescription) == 0) {
@@ -121,7 +119,6 @@ void CIcqProto::handleFileRequest(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwC
 
 	// Empty port+pad
 	buf += 4;
-	wLen -= 4;
 
 	// Filename
 	size_t wFilenameLength;
@@ -135,12 +132,9 @@ void CIcqProto::handleFileRequest(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwC
 	unpackString(&buf, pszFileName, wFilenameLength);
 	pszFileName[wFilenameLength] = '\0';
 
-	wLen = wLen - 2 - wFilenameLength;
-
 	// Total filesize
 	DWORD dwFileSize;
 	unpackLEDWord(&buf, &dwFileSize);
-	wLen -= 4;
 
 	int bAdded;
 	MCONTACT hContact = HContactFromUIN(dwUin, &bAdded);
@@ -183,7 +177,6 @@ void CIcqProto::handleDirectCancel(directconnect *dc, PBYTE buf, size_t wLen, WO
 void CIcqProto::icq_CancelFileTransfer(MCONTACT hContact, filetransfer* ft)
 {
 	DWORD dwCookie;
-
 	if (FindCookieByData(ft, &dwCookie, NULL))
 		FreeCookie(dwCookie);      /* this bit stops a send that's waiting for acceptance */
 

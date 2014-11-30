@@ -66,7 +66,7 @@ static void __inline ShutdownAndStopWatcher(void)
 static TCHAR* GetMessageText(BYTE **ppBlob,DWORD *pcbBlob)
 {
 	(*ppBlob)[*pcbBlob]=0;
-	DWORD cb = lstrlenA((char*)*ppBlob);
+	DWORD cb = mir_strlen((char*)*ppBlob);
 	/* use Unicode data if present */
 	if (*pcbBlob>(cb+3)) {
 		(*ppBlob)[*pcbBlob-1]=0;

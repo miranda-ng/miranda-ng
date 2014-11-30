@@ -38,11 +38,11 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPa
 						Command = new WCHAR[wcslen(ActualAccount->BadConnectN.App)+6];
 
 					if (Command != NULL) {
-						lstrcpyW(Command,L"\"");
-						lstrcatW(Command,ActualAccount->BadConnectN.App);
-						lstrcatW(Command,L"\" ");
+						mir_wstrcpy(Command,L"\"");
+						mir_wstrcat(Command,ActualAccount->BadConnectN.App);
+						mir_wstrcat(Command,L"\" ");
 						if (ActualAccount->BadConnectN.AppParam != NULL)
-							lstrcatW(Command,ActualAccount->BadConnectN.AppParam);
+							mir_wstrcat(Command,ActualAccount->BadConnectN.AppParam);
 						CreateProcessW(NULL,Command,NULL,NULL,FALSE,NORMAL_PRIORITY_CLASS,NULL,NULL,&si,&pi);
 						delete[] Command;
 					}
@@ -119,13 +119,13 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 
 				BadConnectPopup.PluginWindowProc = BadConnectPopupProc;
 				BadConnectPopup.PluginData = ActualAccount;
-				lstrcpyn(BadConnectPopup.lptzContactName, _A2T(ActualAccount->Name), SIZEOF(BadConnectPopup.lptzContactName));
+				mir_tstrncpy(BadConnectPopup.lptzContactName, _A2T(ActualAccount->Name), SIZEOF(BadConnectPopup.lptzContactName));
 			}
 
 			if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != NULL) {
 				Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				lstrcpyn(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				mir_tstrncpy(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
 				if (ShowPopup)
 					PUAddPopupT(&BadConnectPopup);
 			}
@@ -133,7 +133,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 			{
 				Message1W=ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				lstrcpyn(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				mir_tstrncpy(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
 				if (ShowPopup)
 					PUAddPopupT(&BadConnectPopup);
 			}
@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 			{
 				Message1W=TranslateT("Unknown error");
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				lstrcpyn(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				mir_tstrncpy(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
 				if (ShowPopup)
 					PUAddPopupT(&BadConnectPopup);
 			}

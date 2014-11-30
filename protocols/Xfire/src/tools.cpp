@@ -100,8 +100,8 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, HICON h
 			bIconsNotLoaded = FALSE;
 		}
 
-		lstrcpyn(ppd.lptzContactName, _A2T(lpCaption), SIZEOF(ppd.lptzContactName));
-		lstrcpyn(ppd.lptzText, _A2T(lpText), SIZEOF(ppd.lptzText));
+		mir_tstrncpy(ppd.lptzContactName, _A2T(lpCaption), SIZEOF(ppd.lptzContactName));
+		mir_tstrncpy(ppd.lptzText, _A2T(lpText), SIZEOF(ppd.lptzText));
 
 		if ((uType & MB_ICONMASK) == MB_ICONSTOP) {
 			ppd.lchIcon = hicError;

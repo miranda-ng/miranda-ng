@@ -373,7 +373,7 @@ static INT_PTR stub33(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub41(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	lstrcpynA((char*)lParam, ppi->m_szModuleName, wParam);
+	mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam);
 	return 0;
 }
 

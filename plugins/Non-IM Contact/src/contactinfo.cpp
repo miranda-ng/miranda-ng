@@ -96,7 +96,7 @@ int BrowseForFolder(HWND hwnd,char *szPath)
 			ITEMIDLIST *pidlResult = SHBrowseForFolder(&bi);
 			if (pidlResult) {
 				SHGetPathFromIDListA(pidlResult, szPath);
-				lstrcatA(szPath,"\\");
+				mir_strcat(szPath,"\\");
 				result = 1;
 			}
 			pMalloc->Free(pidlResult);

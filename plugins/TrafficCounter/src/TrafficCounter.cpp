@@ -213,8 +213,8 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// Формат счётчика для каждого активного протокола
 	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0)
 	{
-		if(lstrlen(dbv.ptszVal) > 0)
-			lstrcpyn(Traffic_CounterFormat, dbv.ptszVal, SIZEOF(Traffic_CounterFormat));
+		if(mir_tstrlen(dbv.ptszVal) > 0)
+			mir_tstrncpy(Traffic_CounterFormat, dbv.ptszVal, SIZEOF(Traffic_CounterFormat));
 		//
 		db_free(&dbv);
 	}
@@ -231,8 +231,8 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// Формат всплывающих подсказок
 	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0)
 	{
-		if(lstrlen(dbv.ptszVal) > 0)
-			lstrcpyn(Traffic_TooltipFormat, dbv.ptszVal, SIZEOF(Traffic_TooltipFormat));
+		if(mir_tstrlen(dbv.ptszVal) > 0)
+			mir_tstrncpy(Traffic_TooltipFormat, dbv.ptszVal, SIZEOF(Traffic_TooltipFormat));
 		//
 		db_free(&dbv);
 	}
@@ -392,7 +392,7 @@ int TrafficCounter_Draw(HWND hwnd, HDC hDC)
 
 static void TC_AlphaText(HDC hDC, LPCTSTR lpString, RECT* lpRect, UINT format, BYTE ClistModernPresent)
 {
-	int nCount = lstrlen( lpString );
+	int nCount = mir_tstrlen( lpString );
 
 	if (ClistModernPresent)
 		AlphaText(hDC, lpString, nCount, lpRect, format, Traffic_FontColor);

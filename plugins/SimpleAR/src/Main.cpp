@@ -273,7 +273,7 @@ INT addEvent(WPARAM hContact, LPARAM lParam)
 						dbei.flags = DBEF_UTF | DBEF_SENT; //DBEF_READ;
 						dbei.szModule = pszProto;
 						dbei.timestamp = time(NULL);
-						dbei.cbBlob = lstrlenA(pszUtf) + 1;
+						dbei.cbBlob = mir_strlen(pszUtf) + 1;
 						dbei.pBlob = (PBYTE)pszUtf;
 						db_event_add(hContact, &dbei);
 

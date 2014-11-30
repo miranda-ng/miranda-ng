@@ -112,9 +112,9 @@ void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, SIZEOF(str), "SRMFont%d", i);
 		if (db_get(NULL, SRMMMOD, str, &dbv))
-			lstrcpyA(lf->lfFaceName, "Verdana");
+			mir_strcpy(lf->lfFaceName, "Verdana");
 		else {
-			lstrcpynA(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
+			mir_strncpy(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
 			db_free(&dbv);
 		}
 	}
@@ -172,7 +172,7 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		//_tcsncat(szResult, str, 500);
 		strncat(szResult, str, 500);
 	}
-	lstrcpynA(szResult, ptrA(mir_utf8encode(szResult)), 500);
+	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
 }
 

@@ -163,7 +163,7 @@ LPSTR __cdecl _pgp_encrypt_keydb(LPCSTR szPlainMsg, PVOID pgpKeyID)
 		PGPFindKeyByKeyID(pgpKeyDB, RemoteKeyID, &PublicKey);
 
 		PGPError err = PGPEncode(pgpContext,
-			PGPOInputBuffer(pgpContext, szPlainMsg, lstrlen(szPlainMsg)),
+			PGPOInputBuffer(pgpContext, szPlainMsg, mir_tstrlen(szPlainMsg)),
 			PGPOArmorOutput(pgpContext, TRUE),
 			PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szEncMsg, 16384, &dwEncMsgLen),
 			PGPOEncryptToKeyDBObj(pgpContext, PublicKey),
@@ -206,7 +206,7 @@ LPSTR __cdecl _pgp_decrypt_keydb(LPCSTR szEncMsg)
 			}
 
 			PGPError err = PGPDecode(pgpContext,
-				PGPOInputBuffer(pgpContext, szEncMsg, lstrlen(szEncMsg)),
+				PGPOInputBuffer(pgpContext, szEncMsg, mir_tstrlen(szEncMsg)),
 				PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szPlainMsg, 16384, &dwPlainMsgLen),
 				PGPOKeyDBRef(pgpContext, pgpKeyDB),
 				PGPOPassphrase(pgpContext, pszPassphrase),
@@ -244,7 +244,7 @@ PGPError _pgp_import_key(PGPKeyDBRef *keyDB, LPCSTR pgpKey)
 			keyDB,
 			PGPOInputBuffer( pgpContext,
 			pgpKey,
-			lstrlen(pgpKey) ),
+			mir_tstrlen(pgpKey) ),
 			PGPOLastOption(pgpContext ));
 	#endif
 }
@@ -278,7 +278,7 @@ LPSTR __cdecl _pgp_encrypt_key(LPCSTR szPlainMsg, LPCSTR pgpKey)
 		}
 
 		PGPError err = PGPEncode(pgpContext,
-			PGPOInputBuffer(pgpContext, szPlainMsg, lstrlen(szPlainMsg)),
+			PGPOInputBuffer(pgpContext, szPlainMsg, mir_tstrlen(szPlainMsg)),
 			PGPOArmorOutput(pgpContext, TRUE),
 			PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szEncMsg, 16384, &dwEncMsgLen),
 			PGPOEncryptToKeyDBObj(pgpContext, PublicKey),
@@ -332,7 +332,7 @@ LPSTR __cdecl _pgp_decrypt_key(LPCSTR szEncMsg, LPCSTR pgpKey)
 			}
 
 			PGPError err = PGPDecode(pgpContext,
-				PGPOInputBuffer(pgpContext, szEncMsg, lstrlen(szEncMsg)),
+				PGPOInputBuffer(pgpContext, szEncMsg, mir_tstrlen(szEncMsg)),
 				PGPOAllocatedOutputBuffer(pgpContext, (LPVOID *)&szPlainMsg, 16384, &dwPlainMsgLen),
 				PGPOKeyDBRef(pgpContext, PrivateKeyDB),
 				PGPOPassphrase(pgpContext, pszPassphrase),

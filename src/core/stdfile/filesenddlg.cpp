@@ -53,11 +53,11 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 			mir_sntprintf(str, SIZEOF(str), szFormat, fileCount, dirCount);
 		}
 		else if (fileCount) {
-			lstrcpy(szFormat, TranslateT("%d files"));
+			mir_tstrcpy(szFormat, TranslateT("%d files"));
 			mir_sntprintf(str, SIZEOF(str), szFormat, fileCount);
 		}
 		else {
-			lstrcpy(szFormat, TranslateT("%d directories"));
+			mir_tstrcpy(szFormat, TranslateT("%d directories"));
 			mir_sntprintf(str, SIZEOF(str), szFormat, dirCount);
 		}
 		SetDlgItemText(hwndDlg, IDC_FILE, str);
@@ -88,12 +88,12 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 		// NULL separated list of all files
 
 		// fileOffset is the offset to the first file.
-		fileOffset = lstrlen(buf) + 1;
+		fileOffset = mir_tstrlen(buf) + 1;
 
 		// Count number of files
 		pBuf = buf + fileOffset;
 		while (*pBuf) {
-			pBuf += lstrlen(pBuf) + 1;
+			pBuf += mir_tstrlen(pBuf) + 1;
 			nNumberOfFiles++;
 		}
 
@@ -106,7 +106,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 		nTemp = 0;
 		while (*pBuf) {
 			// Allocate space for path+filename
-			int cbFileNameLen = lstrlen(pBuf);
+			int cbFileNameLen = mir_tstrlen(pBuf);
 			dat->files[nTemp] = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileOffset + cbFileNameLen + 1));
 
 			// Add path to filename and copy into array
@@ -147,11 +147,11 @@ void __cdecl ChooseFilesThread(void* param)
 	}
 
 	TCHAR filter[128];
-	lstrcpy(filter, TranslateT("All files"));
-	lstrcat(filter, _T(" (*)"));
-	TCHAR *pfilter = filter + lstrlen(filter) + 1;
-	lstrcpy(pfilter, _T("*"));
-	pfilter = filter + lstrlen(filter) + 1;
+	mir_tstrcpy(filter, TranslateT("All files"));
+	mir_tstrcat(filter, _T(" (*)"));
+	TCHAR *pfilter = filter + mir_tstrlen(filter) + 1;
+	mir_tstrcpy(pfilter, _T("*"));
+	pfilter = filter + mir_tstrlen(filter) + 1;
 	pfilter[0] = '\0';
 
 	OPENFILENAME ofn = { 0 };

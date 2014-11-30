@@ -117,7 +117,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						if (iItem != LB_ERR) {
 							TCHAR szOldName[CONTAINER_NAMELEN + 1];
 							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szOldName);
-							if (lstrlen(szOldName) == lstrlen(szNewName)) {
+							if (mir_tstrlen(szOldName) == mir_tstrlen(szNewName)) {
 								MessageBox(0, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 								SetFocus(GetDlgItem(hwndDlg, IDC_NEWCONTAINERNAME));
 								break;
@@ -132,7 +132,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								RenameContainer(iIndex, szNewName);
 								SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_RESETCONTENT, 0, 0);
 								for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-									if (!_tcsncmp(p->szName, szName, CONTAINER_NAMELEN) && lstrlen(p->szName) == lstrlen(szName)) {
+									if (!_tcsncmp(p->szName, szName, CONTAINER_NAMELEN) && mir_tstrlen(p->szName) == mir_tstrlen(szName)) {
 										_tcsncpy(p->szName, szNewName, CONTAINER_NAMELEN);
 										SendMessage(p->hwnd, DM_CONFIGURECONTAINER, 0, 0);
 									}
@@ -153,7 +153,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						int iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)- 1, (LPARAM)szNewName);
 						if (iItem != LB_ERR || !_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
 							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
-							if (lstrlen(szName) == lstrlen(szNewName) || !_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
+							if (mir_tstrlen(szName) == mir_tstrlen(szNewName) || !_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
 								MessageBox(0, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 								SetFocus(GetDlgItem(hwndDlg, IDC_NEWCONTAINER));
 								break;

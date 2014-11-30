@@ -287,7 +287,7 @@ static int convert_string(const char *fromcode, const char *tocode,
   size_t fromlen;
   char *s;
 
-  fromlen = lstrlen(from);
+  fromlen = mir_tstrlen(from);
   ret = convert_buffer(fromcode, tocode, from, fromlen, to, 0);
   if (ret == -2)
     return -1;
@@ -297,7 +297,7 @@ static int convert_string(const char *fromcode, const char *tocode,
   s = malloc(fromlen + 1);
   if (!s)
     return -1;
-  lstrcpy(s, from);
+  mir_tstrcpy(s, from);
   *to = s;
   for (; *s; s++)
     if (*s & ~0x7f)

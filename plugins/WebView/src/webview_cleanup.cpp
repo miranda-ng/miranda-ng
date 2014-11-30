@@ -689,10 +689,10 @@ void FastTagFilter(char *truncated)
 	if (truncated)
 		strncpy(tempraw, truncated, MAXSIZE1);
 
-	for (int counter = 0; counter < lstrlenA(tempraw); counter++) {
+	for (int counter = 0; counter < mir_strlen(tempraw); counter++) {
 		if (tempraw[counter] == '<') {
 			while (tempraw[counter] != '>') {
-				if (counter >= lstrlenA(tempraw))
+				if (counter >= mir_strlen(tempraw))
 					break;
 
 				tempraw[counter] = ' ';
@@ -729,7 +729,7 @@ void RemoveInvis(char *truncated, int AmountWspcRem)
 		break;
 	}
 
-	for (int counter = 0; counter < lstrlenA(tempraw); counter++) {
+	for (int counter = 0; counter < mir_strlen(tempraw); counter++) {
 		if (AmountWspcRem != 0 && AmountWspcRem != 4) {
 			if ((tempraw[counter] == '\n') || (tempraw[counter] == ' ') || (tempraw[counter] == '\r'))
 				erase = erase + 1;
@@ -756,7 +756,7 @@ void RemoveTabs(char *truncated)
 	if (truncated)
 		strncpy(tempraw, truncated, MAXSIZE1);
 
-	for (int counter = 0; counter < lstrlenA(tempraw); counter++) 
+	for (int counter = 0; counter < mir_strlen(tempraw); counter++) 
 		if (tempraw[counter] == '\t')
 			tempraw[counter] = ' ';
 
@@ -770,7 +770,7 @@ void Removewhitespace(char *truncated)
 	int counter2 = 0;
 	int pos1 = 0, pos2 = 0;
 
-	for (int counter = 0; counter < lstrlenA(truncated); counter++) {
+	for (int counter = 0; counter < mir_strlen(truncated); counter++) {
 		if (truncated[counter] == ' ' && truncated[counter + 1] == ' ') {
 			pos1 = counter + 1;
 			counter2 = counter;
@@ -790,7 +790,7 @@ void Filter(char *truncated)
 	char tempraw[MAXSIZE1];
 	strncpy(tempraw, truncated, SIZEOF(tempraw));
 
-	for (int counter = 0; counter < lstrlenA(tempraw); counter++)
+	for (int counter = 0; counter < mir_strlen(tempraw); counter++)
 		if ((tempraw[counter] == '\n') || (tempraw[counter] == '\r') || (tempraw[counter] == '\t'))
 			strncpy(&tempraw[counter], &tempraw[counter + 1], strlen(&tempraw[counter]) - 1);
 

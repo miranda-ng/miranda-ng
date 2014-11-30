@@ -256,7 +256,7 @@ LBL_SkipEnd:
 
 	if (dat->szSearchQuery == NULL) {
 		dat->szSearchQuery = (TCHAR*)mir_alloc(sizeof(TCHAR)*(end - start + 1));
-		lstrcpyn(dat->szSearchQuery, pszText + start, end - start + 1);
+		mir_tstrncpy(dat->szSearchQuery, pszText + start, end - start + 1);
 		dat->szSearchResult = mir_tstrdup(dat->szSearchQuery);
 		dat->lastSession = NULL;
 	}
@@ -969,14 +969,14 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			break;
 		}
 		else if (wParam == '\b' && si->szSearch[0])					// backspace
-			si->szSearch[lstrlen(si->szSearch) - 1] = '\0';
+			si->szSearch[mir_tstrlen(si->szSearch) - 1] = '\0';
 		else if (wParam < ' ')
 			break;
 		else {
 			TCHAR szNew[2];
 			szNew[0] = (TCHAR)wParam;
 			szNew[1] = '\0';
-			if (lstrlen(si->szSearch) >= SIZEOF(si->szSearch) - 2) {
+			if (mir_tstrlen(si->szSearch) >= SIZEOF(si->szSearch) - 2) {
 				MessageBeep(MB_OK);
 				break;
 			}
@@ -991,7 +991,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			for (int i = 0; i < iItems; i++) {
 				USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, i);
 				if (ui) {
-					if (!_tcsnicmp(ui->pszNick, si->szSearch, lstrlen(si->szSearch))) {
+					if (!_tcsnicmp(ui->pszNick, si->szSearch, mir_tstrlen(si->szSearch))) {
 						SendMessage(hwnd, LB_SETCURSEL, i, 0);
 						InvalidateRect(hwnd, NULL, FALSE);
 						return 0;
@@ -1000,7 +1000,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			}
 
 			MessageBeep(MB_OK);
-			si->szSearch[lstrlen(si->szSearch) - 1] = '\0';
+			si->szSearch[mir_tstrlen(si->szSearch) - 1] = '\0';
 			return 0;
 		}
 		break;
@@ -1441,7 +1441,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					}
 
 					SetTextColor(dis->hDC, ui->iStatusEx == 0 ? g_Settings.crUserListColor : g_Settings.crUserListHeadingsColor);
-					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, lstrlen(ui->pszNick));
+					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, mir_tstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 				}
 				return TRUE;
@@ -1715,11 +1715,11 @@ LABEL_SHOWWINDOW:
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
 						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR)*(lstrlen(ui->pszUID) + 3));
+						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR)*(mir_tstrlen(ui->pszUID) + 3));
 						if (start == 0)
-							mir_sntprintf(pszName, lstrlen(ui->pszUID) + 3, _T("%s: "), ui->pszUID);
+							mir_sntprintf(pszName, mir_tstrlen(ui->pszUID) + 3, _T("%s: "), ui->pszUID);
 						else
-							mir_sntprintf(pszName, lstrlen(ui->pszUID) + 2, _T("%s "), ui->pszUID);
+							mir_sntprintf(pszName, mir_tstrlen(ui->pszUID) + 2, _T("%s "), ui->pszUID);
 
 						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);

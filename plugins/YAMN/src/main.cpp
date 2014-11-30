@@ -220,7 +220,7 @@ static void LoadPlugins()
 				continue;
 
 			// we have a dot
-			int len = lstrlen(fd.cFileName); // find the length of the string
+			int len = mir_tstrlen(fd.cFileName); // find the length of the string
 			TCHAR* end = fd.cFileName+len; // get a pointer to the NULL
 			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
 

@@ -148,7 +148,7 @@ static void SetSrmmIcon(MCONTACT hContact, LPTSTR ptszMirver)
 	sid.flags = MBF_TCHAR;
 	sid.tszTooltip = ptszMirver;
 
-	if ( lstrlen(ptszMirver))
+	if ( mir_tstrlen(ptszMirver))
 		sid.hIcon = (HICON)ServiceGetClientIconW((WPARAM)ptszMirver, TRUE);
 	else
 		sid.flags |= MBF_HIDDEN;

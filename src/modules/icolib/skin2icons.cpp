@@ -353,7 +353,7 @@ IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyI
 		return NULL;
 
 	TCHAR file[ MAX_PATH ];
-	lstrcpyn(file, path, SIZEOF(file));
+	mir_tstrncpy(file, path, SIZEOF(file));
 	TCHAR *comma = _tcsrchr(file, ',');
 
 	int n;

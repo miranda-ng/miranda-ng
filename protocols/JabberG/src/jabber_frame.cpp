@@ -244,20 +244,20 @@ void CJabberInfoFrame::ReloadFonts()
 
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	lstrcpyn(fontid.group, _T("Jabber"), SIZEOF(fontid.group));
-	lstrcpyn(fontid.name, _T("Frame title"), SIZEOF(fontid.name));
+	mir_tstrncpy(fontid.group, _T("Jabber"), SIZEOF(fontid.group));
+	mir_tstrncpy(fontid.name, _T("Frame title"), SIZEOF(fontid.name));
 	m_clTitle = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntTitle);
 	m_hfntTitle = CreateFontIndirect(&lfFont);
-	lstrcpyn(fontid.name, _T("Frame text"), SIZEOF(fontid.name));
+	mir_tstrncpy(fontid.name, _T("Frame text"), SIZEOF(fontid.name));
 	m_clText = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lfFont);
 	DeleteObject(m_hfntText);
 	m_hfntText = CreateFontIndirect(&lfFont);
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	lstrcpyn(colourid.group, _T("Jabber"), SIZEOF(colourid.group));
-	lstrcpyn(colourid.name, _T("Background"), SIZEOF(colourid.name));
+	mir_tstrncpy(colourid.group, _T("Jabber"), SIZEOF(colourid.group));
+	mir_tstrncpy(colourid.name, _T("Background"), SIZEOF(colourid.name));
 	m_clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	UpdateSize();
@@ -370,7 +370,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 			}
 
 			RECT rcText; SetRect(&rcText, cx_icon + SZ_FRAMEPADDING + SZ_ICONSPACING, 0, rc.right - SZ_FRAMEPADDING, rc.bottom);
-			DrawText(hdc, item.m_pszText, lstrlen(item.m_pszText), &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
+			DrawText(hdc, item.m_pszText, mir_tstrlen(item.m_pszText), &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
 		}
 		else {
 			if (item.m_hIcolibIcon) {
@@ -433,7 +433,7 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 		SetTextColor(hdc, depth ? m_clText : m_clTitle);
 
 		RECT rcText; SetRect(&rcText, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
-		DrawText(hdc, item.m_pszText, lstrlen(item.m_pszText), &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
+		DrawText(hdc, item.m_pszText, mir_tstrlen(item.m_pszText), &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
 
 		RemoveTooltip(item.m_tooltipId);
 

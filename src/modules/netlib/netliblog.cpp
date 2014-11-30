@@ -65,7 +65,7 @@ static void InitLog()
 	}
 
 	ptrT szBuf(db_get_tsa(NULL, "Netlib", "File"));
-	if (lstrlen(szBuf)) {
+	if (mir_tstrlen(szBuf)) {
 		logOptions.tszUserFile = szBuf;
 
 		TCHAR path[MAX_PATH];
@@ -172,9 +172,9 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				}
 				_tcscpy(filter, TranslateT("All files"));
 				_tcscat(filter, _T(" (*)"));
-				TCHAR *pfilter = filter + lstrlen(filter) + 1;
+				TCHAR *pfilter = filter + mir_tstrlen(filter) + 1;
 				_tcscpy(pfilter, _T("*"));
-				pfilter = pfilter + lstrlen(pfilter) + 1;
+				pfilter = pfilter + mir_tstrlen(pfilter) + 1;
 				*pfilter = '\0';
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = str;
@@ -189,7 +189,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str, ' ') != NULL) {
 					MoveMemory(str + 1, str, ((SIZEOF(str) - 2) * sizeof(TCHAR)));
 					str[0] = '"';
-					lstrcat(str, _T("\""));
+					mir_tstrcat(str, _T("\""));
 				}
 				SetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str);
 			}
@@ -466,7 +466,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 					pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line + col], ((col & 3) == 3 && col != 15) ? '-' : ' '); //!!!!!!!!!!
 				// Fill out last line with blanks
 				for (; col < 16; col++) {
-					lstrcpyA(pszBuf, "   ");
+					mir_strcpy(pszBuf, "   ");
 					pszBuf += 3;
 				}
 				*pszBuf++ = ' ';
