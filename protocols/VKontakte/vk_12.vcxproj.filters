@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{3170c791-f9e5-4863-9808-61362fbca167}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -81,35 +84,35 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\notify.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\key.ico">
-      <Filter>Resource Files</Filter>
+    <Image Include="res\report.ico">
+      <Filter>Resource Files\Icons</Filter>
     </Image>
     <Image Include="res\add.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </Image>
     <Image Include="res\ban.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\delete.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\read.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\report.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\home.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\history.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </Image>
     <Image Include="res\broadcast.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\delete.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\history.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\home.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\key.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\notify.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </Image>
+    <Image Include="res\read.ico">
+      <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>
 </Project>

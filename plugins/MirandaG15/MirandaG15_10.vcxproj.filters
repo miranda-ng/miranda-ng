@@ -31,6 +31,9 @@
     <Filter Include="Header Files\LCDframework">
       <UniqueIdentifier>{e90eb6ae-328d-4e9f-9b67-7c3237f9789b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{5ad0b934-b803-4d5c-ba62-d42784de04ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CAppletManager.cpp">
@@ -235,101 +238,101 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\minus.bmp">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
     <None Include="res\status\away.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\back.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\chat.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\clist.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\events\conn.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\events\conn_large.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\status\dnd.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\down.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\edit.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\status\ffc.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\hist.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\events\info.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\events\info_large.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\status\invis.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\minus.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\events\msg.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\events\msg_large.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\status\na.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\next.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\notick.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\status\occ.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\status\off.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\status\on.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\open.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\plus.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\prev.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\plus.bmp">
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\reply.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\send.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tick.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\up.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\events\user.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\events\user_large.bmp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

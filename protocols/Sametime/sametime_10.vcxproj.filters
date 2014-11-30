@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Meanwhile\mpi">
       <UniqueIdentifier>{c23f9d40-96f3-4bce-a8eb-670346163e26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{e4e6cc73-cd22-413b-ae99-57a1a14909e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\conference.cpp">
@@ -197,16 +200,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\announce.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\invite.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\online.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\part.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

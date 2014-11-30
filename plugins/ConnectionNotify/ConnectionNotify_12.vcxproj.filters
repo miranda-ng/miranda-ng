@@ -10,6 +10,9 @@
     <Filter Include="Header files">
       <UniqueIdentifier>{6a763351-ef34-466b-a73f-2ce593c607a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource files\Icons">
+      <UniqueIdentifier>{4a4f9fa3-56b1-4098-bfb6-2f7c63869e0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ConnectionNotify.cpp">
@@ -52,23 +55,23 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\add.ico">
-      <Filter>Resource files</Filter>
+    <None Include="res\arrowup.ico">
+      <Filter>Resource files\Icons</Filter>
     </None>
     <None Include="res\arrowdown.ico">
-      <Filter>Resource files</Filter>
+      <Filter>Resource files\Icons</Filter>
     </None>
-    <None Include="res\arrowup.ico">
-      <Filter>Resource files</Filter>
-    </None>
-    <None Include="res\delete_item.ico">
-      <Filter>Resource files</Filter>
+    <None Include="res\add.ico">
+      <Filter>Resource files\Icons</Filter>
     </None>
     <None Include="res\icon1.ico">
-      <Filter>Resource files</Filter>
+      <Filter>Resource files\Icons</Filter>
+    </None>
+    <None Include="res\delete_item.ico">
+      <Filter>Resource files\Icons</Filter>
     </None>
     <None Include="res\icon2.ico">
-      <Filter>Resource files</Filter>
+      <Filter>Resource files\Icons</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
