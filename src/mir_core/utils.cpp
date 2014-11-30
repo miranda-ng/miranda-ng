@@ -262,7 +262,7 @@ MIR_CORE_DLL(WCHAR*) bin2hexW(const void *pData, size_t len, WCHAR *dest)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma intrinsic(strlen, strcpy, strcat, wcslen, wcscpy, wcscat)
+#pragma intrinsic(strlen, strcpy, strcat, strcmp, wcslen, wcscpy, wcscat, wcscmp)
 
 MIR_CORE_DLL(size_t) mir_strlen(const char *p)
 {
@@ -372,4 +372,40 @@ MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t le
 	else
 		wcsncat_s(dest, len, src, _TRUNCATE);
 	return dest;
+}
+
+MIR_CORE_DLL(int) mir_strcmp(const char *p1, const char *p2)
+{
+	if (p1 == NULL)
+		return (p2 == NULL) ? 0 : 1;
+	if (p2 == NULL)
+		return -1;
+	return strcmp(p1, p2);
+}
+
+MIR_CORE_DLL(int) mir_wstrcmp(const wchar_t *p1, const wchar_t *p2)
+{
+	if (p1 == NULL)
+		return (p2 == NULL) ? 0 : 1;
+	if (p2 == NULL)
+		return -1;
+	return wcscmp(p1, p2);
+}
+
+MIR_CORE_DLL(int) mir_strcmpi(const char *p1, const char *p2)
+{
+	if (p1 == NULL)
+		return (p2 == NULL) ? 0 : 1;
+	if (p2 == NULL)
+		return -1;
+	return stricmp(p1, p2);
+}
+
+MIR_CORE_DLL(int) mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2)
+{
+	if (p1 == NULL)
+		return (p2 == NULL) ? 0 : 1;
+	if (p2 == NULL)
+		return -1;
+	return wcsicmp(p1, p2);
 }

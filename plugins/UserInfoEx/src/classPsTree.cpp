@@ -118,7 +118,7 @@ BYTE CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
  **/
 int CPsTree::AddDummyItem(LPCSTR pszGroup)
 {
-	if (mir_stricmp(pszGroup, TREE_ROOTITEM)) 
+	if (mir_strcmpi(pszGroup, TREE_ROOTITEM)) 
 	{
 		CPsHdr psh;
 		psh._hContact = _pPs->hContact;

@@ -224,7 +224,7 @@ BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 			mir_vsntprintf(buf, SIZEOF(buf), TranslateTS(pszFormat), vl);
 			va_end(vl);
 			GetDlgItemText(_hDlg, TXT_SETTING, tmp, SIZEOF(tmp));
-			if (mir_tcsicmp(tmp,buf))
+			if (mir_tstrcmpi(tmp,buf))
 				SetDlgItemText(_hDlg, TXT_SETTING, buf);
 		}
 		SendMessage(hProg, PBM_SETPOS, (int)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1, 0);

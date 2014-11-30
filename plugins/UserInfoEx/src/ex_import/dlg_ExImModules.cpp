@@ -95,7 +95,7 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
 		tvi.hItem != NULL;
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem))
 	{
-		if (SendMessageA(hTree, TVM_GETITEMA, NULL, (LPARAM)&tvi) && !mir_stricmp(tvi.pszText, pszText))
+		if (SendMessageA(hTree, TVM_GETITEMA, NULL, (LPARAM)&tvi) && !mir_strcmpi(tvi.pszText, pszText))
 			return tvi.hItem;
 	}
 	return NULL;
@@ -318,7 +318,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 											}
 
 											// contact's base protocol is to be added to the treeview uniquely
-											if (!mir_stricmp(p, pszProto))
+											if (!mir_strcmpi(p, pszProto))
 											{
 												if (!ExportTree_FindItem(hTree, hItemEssential, p))
 												{
@@ -329,7 +329,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 											// add optional module, which is valid for at least one contact
 											/*/Filter/*/
-											if (mir_stricmp(p, USERINFO) && mir_stricmp(p, MOD_MBIRTHDAY) && mir_stricmp(p, META_PROTO)) 
+											if (mir_strcmpi(p, USERINFO) && mir_strcmpi(p, MOD_MBIRTHDAY) && mir_strcmpi(p, META_PROTO)) 
 											{
 												ExportTree_AddItem(hTree, hItemOptional, p, bImagesLoaded, 1);
 												break;
@@ -342,10 +342,10 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 								else if (
 									/*Filter/*/
 									!DB::Module::IsEmpty(pDat->ExImContact->hContact, p) &&
-									(!pDat->ExImContact->hContact || mir_stricmp(p, pszProto)) &&
-									//mir_stricmp(p, "Protocol") &&
-									mir_stricmp(p, USERINFO) &&
-									mir_stricmp(p, MOD_MBIRTHDAY))
+									(!pDat->ExImContact->hContact || mir_strcmpi(p, pszProto)) &&
+									//mir_strcmpi(p, "Protocol") &&
+									mir_strcmpi(p, USERINFO) &&
+									mir_strcmpi(p, MOD_MBIRTHDAY))
 								{
 									ExportTree_AddItem(hTree, hItemOptional, (LPSTR)p, bImagesLoaded, 1);
 								}
@@ -401,7 +401,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 						tvi.hItem != NULL && SendMessageA(hTree, TVM_GETITEMA, 0, (LPARAM)&tvi);
 						tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_NEXT, (LPARAM)tvi.hItem))
 					{
-						if (!mir_stricmp(tvi.pszText, pszRoot)) {
+						if (!mir_strcmpi(tvi.pszText, pszRoot)) {
 							tvi.mask = TVIF_STATE;
 							tvi.state = INDEXTOSTATEIMAGEMASK(LOWORD(wParam) == BTN_UNCHECK ? 1 : 2);
 							tvi.stateMask = TVIS_STATEIMAGEMASK;

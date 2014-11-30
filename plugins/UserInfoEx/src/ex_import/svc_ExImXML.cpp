@@ -256,7 +256,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 
 	// import contacts
 	for (xContact = xmlParent->FirstChildElement(); xContact != NULL; xContact = xContact->NextSiblingElement()) {
-		if (!mir_stricmp(xContact->Value(), XKEY_CONTACT)) {
+		if (!mir_strcmpi(xContact->Value(), XKEY_CONTACT)) {
 			// update progressbar and abort if user clicked cancel
 			pszNick = mir_utf8decodeT(xContact->Attribute("nick"));
 			// user clicked abort button
@@ -295,7 +295,7 @@ int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 			if (pszNick) mir_free(pszNick);
 		}
 		// import owner contact
-		else if (_hContactToWorkOn == INVALID_CONTACT_ID && !mir_stricmp(xContact->Value(), XKEY_OWNER) && (vContact = xContact)) {
+		else if (_hContactToWorkOn == INVALID_CONTACT_ID && !mir_strcmpi(xContact->Value(), XKEY_OWNER) && (vContact = xContact)) {
 			result = vContact.Import();
 			switch (result) {
 				case ERROR_OK:
@@ -327,7 +327,7 @@ DWORD CFileXml::CountContacts(TiXmlElement* xmlParent)
 	try {
 		// count contacts in file for progress bar
 		for (xContact = xmlParent->FirstChild(); xContact != NULL; xContact = xContact->NextSibling()) {
-			if (!mir_stricmp(xContact->Value(), XKEY_CONTACT) || !mir_stricmp(xContact->Value(), XKEY_OWNER)) {
+			if (!mir_strcmpi(xContact->Value(), XKEY_CONTACT) || !mir_strcmpi(xContact->Value(), XKEY_OWNER)) {
 				dwCount += CountContacts(xContact->ToElement()) + 1;
 			}
 		}

@@ -1412,7 +1412,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 					{
 						SKINFONT * sf;
 						sf = (SKINFONT*)gl_plSkinFonts->items[j];
-						if (sf->szFontID && !strcmp(sf->szFontID,gt->szFontID))
+						if (sf->szFontID && !mir_strcmp(sf->szFontID,gt->szFontID))
 						{
 							gt->hFont = sf->hFont;
 							break;
@@ -2062,7 +2062,10 @@ static void RegisterMaskByParce(const char * szSetting, char * szValue, SKINOBJE
 {
 	int i;
 	DWORD ID=atoi(szSetting+1);
-	for (i=0; i < mir_strlen(szValue); i++)  if (szValue[i] == ':') break;
+	for (i=0; i < mir_strlen(szValue); i++)
+		if (szValue[i] == ':')
+			break;
+
 	if (i < mir_strlen(szValue))
 	{
 		char * Obj, *Mask;
@@ -2104,7 +2107,7 @@ static int ske_enumdb_SkinObjectsProc (const char *szSetting,LPARAM lParam)
 
 static int ske_SortTextGlyphObjectFunc(void * first, void * second)
 {
-	return strcmp(((GLYPHTEXT*)(((int*)first)[0]))->szGlyphTextID,((GLYPHTEXT*)(((int*)second)[0]))->szGlyphTextID);
+	return mir_strcmp(((GLYPHTEXT*)(((int*)first)[0]))->szGlyphTextID,((GLYPHTEXT*)(((int*)second)[0]))->szGlyphTextID);
 }
 
 static void ske_LinkSkinObjects(SKINOBJECTSLIST * pObjectList)

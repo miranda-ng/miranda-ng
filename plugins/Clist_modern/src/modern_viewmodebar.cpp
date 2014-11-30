@@ -650,7 +650,7 @@ void DeleteViewMode( char * szName )
 	db_unset(NULL, CLVM_MODULE, szSetting);
 	db_unset(NULL, CLVM_MODULE, szName);
 
-	if (!strcmp(g_CluiData.current_viewmode, szName) && mir_strlen(szName) == mir_strlen(g_CluiData.current_viewmode)) {
+	if (!mir_strcmp(g_CluiData.current_viewmode, szName) && mir_strlen(szName) == mir_strlen(g_CluiData.current_viewmode)) {
 		g_CluiData.bFilterEffective = 0;
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		SetWindowText(hwndSelector, TranslateT("All contacts"));

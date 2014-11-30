@@ -650,6 +650,14 @@ function mir_strncat(dst:PAnsiChar; const src:PAnsiChar; len:size_t):PAnsiChar; 
                  external CoreDLL name 'mir_strncat';
 function mir_wstrncat(dst:PWideChar; const src:PWideChar; len:size_t):PWideChar; stdcall;
                  external CoreDLL name 'mir_wstrncat';
+function mir_strcmp(const p1,p2:PAnsiChar):int; stdcall;
+                 external CoreDLL name 'mir_strcmp';
+function mir_wstrcmp(const p1,p2:PWideChar):int; stdcall;
+                 external CoreDLL name 'mir_wstrcmp';
+function mir_strcmpi(const p1,p2:PAnsiChar):int; stdcall;
+                 external CoreDLL name 'mir_strcmpi';
+function mir_wstrcmpi(const p1,p2:PWideChar):int; stdcall;
+                 external CoreDLL name 'mir_wstrcmpi';
 
 ///////////////////////////////////////////////////////////////////////////////
 // modules

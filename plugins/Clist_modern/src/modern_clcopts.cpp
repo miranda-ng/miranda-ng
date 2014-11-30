@@ -783,7 +783,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
 					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM)accs[i]);
-					if ((dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && !strcmp(dbv.pszVal, accs[i]->szModuleName))
+					if ((dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && !mir_strcmp(dbv.pszVal, accs[i]->szModuleName))
 						SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETCURSEL, item, 0);
 				}
 				db_free(&dbv);

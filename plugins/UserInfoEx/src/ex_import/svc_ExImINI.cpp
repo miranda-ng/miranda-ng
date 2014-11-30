@@ -144,7 +144,7 @@ static BYTE ExportContact(MCONTACT hContact, DB::CEnumList* pModules, FILE* file
 				p = (*pModules)[i];
 
 				/*Filter/
-				if (mir_stricmp(p, "Protocol"))*/
+				if (mir_strcmpi(p, "Protocol"))*/
 				{
 					ExportModule(hContact, p, file);
 				}

@@ -409,10 +409,10 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (!strcmp(cws->szModule, pdnce->m_cache_cszProto)) {
+	if (!mir_strcmp(cws->szModule, pdnce->m_cache_cszProto)) {
 		InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
-		if (!strcmp(cws->szSetting, "IsSubcontact"))
+		if (!mir_strcmp(cws->szSetting, "IsSubcontact"))
 			pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 
 		if (!mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
@@ -449,18 +449,18 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		}
 	}
 
-	if (!strcmp(cws->szModule, "CList")) {
+	if (!mir_strcmp(cws->szModule, "CList")) {
 		//name is null or (setting is myhandle)
-		if (!strcmp(cws->szSetting, "Rate"))
+		if (!mir_strcmp(cws->szSetting, "Rate"))
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 
-		else if (pdnce->tszName == NULL || !strcmp(cws->szSetting, "MyHandle"))
+		else if (pdnce->tszName == NULL || !mir_strcmp(cws->szSetting, "MyHandle"))
 			InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
-		else if (!strcmp(cws->szSetting, "Group"))
+		else if (!mir_strcmp(cws->szSetting, "Group"))
 			InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
-		else if (!strcmp(cws->szSetting, "Hidden")) {
+		else if (!mir_strcmp(cws->szSetting, "Hidden")) {
 			InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 				char *szProto = GetContactProto(hContact);
@@ -469,13 +469,13 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			}
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
-		else if (!strcmp(cws->szSetting, "noOffline")) {
+		else if (!mir_strcmp(cws->szSetting, "noOffline")) {
 			InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 	}
-	else if (!strcmp(cws->szModule, "Protocol")) {
-		if (!strcmp(cws->szSetting, "p")) {
+	else if (!mir_strcmp(cws->szModule, "Protocol")) {
+		if (!mir_strcmp(cws->szSetting, "p")) {
 			InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 			char *szProto = (cws->value.type == DBVT_DELETED) ? NULL : cws->value.pszVal;
 			cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto,

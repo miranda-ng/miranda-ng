@@ -205,36 +205,36 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact == NULL) {
 		if (!mir_strcmp(cws->szModule, "CListGroups"))
 			pcli->pfnClcBroadcast(INTM_GROUPSCHANGED, hContact, lParam);
-		else if (!strcmp(cws->szSetting, "XStatusId") || !strcmp(cws->szSetting, "XStatusName"))
+		else if (!mir_strcmp(cws->szSetting, "XStatusId") || !mir_strcmp(cws->szSetting, "XStatusName"))
 			cliCluiProtocolStatusChanged(0, cws->szModule);
 	}
 	else // hContact != NULL
 	{
-		if (!strcmp(cws->szSetting, "TickTS"))
+		if (!mir_strcmp(cws->szSetting, "TickTS"))
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
-		else if (!strcmp(cws->szModule, "UserInfo")) {
-			if (!strcmp(cws->szSetting, "Timezone"))
+		else if (!mir_strcmp(cws->szModule, "UserInfo")) {
+			if (!mir_strcmp(cws->szSetting, "Timezone"))
 				pcli->pfnClcBroadcast(INTM_TIMEZONECHANGED, hContact, 0);
 		}
-		else if (!strcmp(cws->szModule, "CList")) {
-			if (!strcmp(cws->szSetting, "StatusMsg"))
+		else if (!mir_strcmp(cws->szModule, "CList")) {
+			if (!mir_strcmp(cws->szSetting, "StatusMsg"))
 				pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, 0);
 
 		}
-		else if (!strcmp(cws->szModule, "ContactPhoto")) {
-			if (!strcmp(cws->szSetting, "File"))
+		else if (!mir_strcmp(cws->szModule, "ContactPhoto")) {
+			if (!mir_strcmp(cws->szSetting, "File"))
 				pcli->pfnClcBroadcast(INTM_AVATARCHANGED, hContact, 0);
 		}
 		else {
-			if ((!strcmp(cws->szSetting, "XStatusName") || !strcmp(cws->szSetting, "XStatusMsg")))
+			if ((!mir_strcmp(cws->szSetting, "XStatusName") || !mir_strcmp(cws->szSetting, "XStatusMsg")))
 				pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, 0);
-			else if (!strcmp(cws->szSetting, "XStatusId"))
+			else if (!mir_strcmp(cws->szSetting, "XStatusId"))
 				pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
-			else if (!strcmp(cws->szSetting, "Timezone"))
+			else if (!mir_strcmp(cws->szSetting, "Timezone"))
 				pcli->pfnClcBroadcast(INTM_TIMEZONECHANGED, hContact, 0);
-			else if (!strcmp(cws->szSetting, "ListeningTo"))
+			else if (!mir_strcmp(cws->szSetting, "ListeningTo"))
 				pcli->pfnClcBroadcast(INTM_STATUSMSGCHANGED, hContact, 0);
-			else if (!strcmp(cws->szSetting, "Transport") || !strcmp(cws->szSetting, "IsTransported")) {
+			else if (!mir_strcmp(cws->szSetting, "Transport") || !mir_strcmp(cws->szSetting, "IsTransported")) {
 				pcli->pfnInvalidateDisplayNameCacheEntry(hContact);
 				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, hContact, 0);
 			}
@@ -1263,7 +1263,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT) {
-				if (!strcmp(contSour->proto, META_PROTO))
+				if (!mir_strcmp(contSour->proto, META_PROTO))
 					break;
 				if (!contSour->isSubcontact) {
 					MCONTACT hcontact = contSour->hContact;
@@ -1306,7 +1306,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT) {
-				if (!strcmp(contSour->proto, META_PROTO))
+				if (!mir_strcmp(contSour->proto, META_PROTO))
 					break;
 				if (!contSour->isSubcontact) {
 					MCONTACT hcontact = contSour->hContact;
