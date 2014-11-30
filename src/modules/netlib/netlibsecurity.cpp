@@ -330,28 +330,26 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 				const TCHAR* loginName = login;
 				const TCHAR* domainName = _tcschr(login, '\\');
-				int domainLen = 0;
-				int loginLen = mir_tstrlen(loginName);
-				if (domainName != NULL)
-				{
+				size_t domainLen = 0;
+				size_t loginLen = mir_tstrlen(loginName);
+				if (domainName != NULL) {
 					loginName = domainName + 1;
 					loginLen = mir_tstrlen(loginName);
 					domainLen = domainName - login;
 					domainName = login;
 				}
-				else if ((domainName = _tcschr(login, '@')) != NULL)
-				{
+				else if ((domainName = _tcschr(login, '@')) != NULL) {
 					loginName = login;
 					loginLen = domainName - login;
 					domainLen = mir_tstrlen(++domainName);
 				}
 
 				auth.User = (PWORD)loginName;
-				auth.UserLength = loginLen;
+				auth.UserLength = (ULONG)loginLen;
 				auth.Password = (PWORD)psw;
-				auth.PasswordLength = mir_tstrlen(psw);
+				auth.PasswordLength = (ULONG)mir_tstrlen(psw);
 				auth.Domain = (PWORD)domainName;
-				auth.DomainLength = domainLen;
+				auth.DomainLength = (ULONG)domainLen;
 				auth.Flags = SEC_WINNT_AUTH_IDENTITY_UNICODE;
 
 				hNtlm->hasDomain = domainLen != 0;

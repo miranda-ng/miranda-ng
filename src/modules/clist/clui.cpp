@@ -1009,16 +1009,16 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					else
 						tszName[0] = 0;
 
-					GetTextExtentPoint32(dis->hDC, tszName, mir_tstrlen(tszName), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, tszName, mir_tstrlen(tszName));
+					GetTextExtentPoint32(dis->hDC, tszName, (int)mir_tstrlen(tszName), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, tszName, (int)mir_tstrlen(tszName));
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
 					TCHAR* szStatus = cli.pfnGetStatusModeDescription(status, 0);
 					if (!szStatus)
 						szStatus = _T("");
-					GetTextExtentPoint32(dis->hDC, szStatus, mir_tstrlen(szStatus), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, mir_tstrlen(szStatus));
+					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_tstrlen(szStatus), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_tstrlen(szStatus));
 				}
 			}
 			else if (dis->CtlType == ODT_MENU) {

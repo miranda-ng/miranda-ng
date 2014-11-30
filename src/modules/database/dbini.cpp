@@ -74,7 +74,7 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 {
 	const char *szItem, *szEnd;
-	int wordLen = mir_strlen(szWord);
+	size_t wordLen = mir_strlen(szWord);
 
 	for (szItem = szList;;) {
 		szEnd = strchr(szItem, ' ');
@@ -229,7 +229,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		if (fgets(szLine, sizeof(szLine), fp) == NULL)
 			break;
 LBL_NewLine:
-		int lineLength = mir_strlen(szLine);
+		size_t lineLength = mir_strlen(szLine);
 		while (lineLength && (BYTE)(szLine[lineLength - 1]) <= ' ')
 			szLine[--lineLength] = '\0';
 

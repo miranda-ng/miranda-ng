@@ -182,18 +182,15 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	}
 
 	if (buf[1] == 2) {		//rfc1929
-		int nUserLen, nPassLen;
-		PBYTE pAuthBuf;
-
-		nUserLen = mir_strlen(nlu->settings.szProxyAuthUser);
-		nPassLen = mir_strlen(nlu->settings.szProxyAuthPassword);
-		pAuthBuf = (PBYTE)mir_alloc(3+nUserLen+nPassLen);
+		size_t nUserLen = mir_strlen(nlu->settings.szProxyAuthUser);
+		size_t nPassLen = mir_strlen(nlu->settings.szProxyAuthPassword);
+		PBYTE pAuthBuf = (PBYTE)mir_alloc(3 + nUserLen + nPassLen);
 		pAuthBuf[0] = 1;		//auth version
-		pAuthBuf[1] = nUserLen;
-		memcpy(pAuthBuf+2, nlu->settings.szProxyAuthUser, nUserLen);
-		pAuthBuf[2+nUserLen] = nPassLen;
-		memcpy(pAuthBuf+3+nUserLen, nlu->settings.szProxyAuthPassword, nPassLen);
-		if (NLSend(nlc, (char*)pAuthBuf, 3+nUserLen+nPassLen, MSG_DUMPPROXY) == SOCKET_ERROR) {
+		pAuthBuf[1] = (BYTE)nUserLen;
+		memcpy(pAuthBuf + 2, nlu->settings.szProxyAuthUser, nUserLen);
+		pAuthBuf[2 + nUserLen] = (BYTE)nPassLen;
+		memcpy(pAuthBuf + 3 + nUserLen, nlu->settings.szProxyAuthPassword, nPassLen);
+		if (NLSend(nlc, (char*)pAuthBuf, int(3 + nUserLen + nPassLen), MSG_DUMPPROXY) == SOCKET_ERROR) {
 			NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "NLSend", GetLastError());
 			mir_free(pAuthBuf);
 			return 0;
@@ -212,14 +209,12 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	}
 
 	PBYTE pInit;
-	int nHostLen;
+	size_t nHostLen;
 	DWORD hostIP;
 
 	if (nlc->dnsThroughProxy) {
 		hostIP = inet_addr(nloc->szHost);
-		if (hostIP == INADDR_NONE)
-			nHostLen = mir_strlen(nloc->szHost)+1;
-		else nHostLen = 4;
+		nHostLen = (hostIP == INADDR_NONE) ? mir_strlen(nloc->szHost) + 1 : 4;
 	}
 	else {
 		hostIP = DnsLookup(nlu, nloc->szHost);
@@ -227,21 +222,21 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 			return 0;
 		nHostLen = 4;
 	}
-	pInit = (PBYTE)mir_alloc(6+nHostLen);
+	pInit = (PBYTE)mir_alloc(6 + nHostLen);
 	pInit[0] = 5;   //SOCKS5
 	pInit[1] = nloc->flags & NLOCF_UDP ? 3 : 1; //connect or UDP
 	pInit[2] = 0;   //reserved
 	if (hostIP == INADDR_NONE) {		 //DNS lookup through proxy
 		pInit[3] = 3;
-		pInit[4] = nHostLen-1;
-		memcpy(pInit+5, nloc->szHost, nHostLen-1);
+		pInit[4] = BYTE(nHostLen - 1);
+		memcpy(pInit + 5, nloc->szHost, nHostLen - 1);
 	}
 	else {
 		pInit[3] = 1;
-		*(PDWORD)(pInit+4) = hostIP;
+		*(PDWORD)(pInit + 4) = hostIP;
 	}
-	*(PWORD)(pInit+4+nHostLen) = htons(nloc->wPort);
-	if (NLSend(nlc, (char*)pInit, 6+nHostLen, MSG_DUMPPROXY) == SOCKET_ERROR) {
+	*(PWORD)(pInit + 4 + nHostLen) = htons(nloc->wPort);
+	if (NLSend(nlc, (char*)pInit, int(6 + nHostLen), MSG_DUMPPROXY) == SOCKET_ERROR) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "NLSend", GetLastError());
 		mir_free(pInit);
 		return 0;
@@ -258,16 +253,16 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		if (buf[0] != 5)
 			SetLastError(ERROR_BAD_FORMAT);
 		else {
-			switch(buf[1]) {
-				case 1: SetLastError(ERROR_GEN_FAILURE); err = "General failure"; break;
-				case 2: SetLastError(ERROR_ACCESS_DENIED); err = "Connection not allowed by ruleset";  break;
-				case 3: SetLastError(WSAENETUNREACH); err = "Network unreachable"; break;
-				case 4: SetLastError(WSAEHOSTUNREACH); err = "Host unreachable"; break;
-				case 5: SetLastError(WSAECONNREFUSED); err = "Connection refused by destination host"; break;
-				case 6: SetLastError(WSAETIMEDOUT); err = "TTL expired"; break;
-				case 7: SetLastError(ERROR_CALL_NOT_IMPLEMENTED); err = "Command not supported / protocol error"; break;
-				case 8: SetLastError(ERROR_INVALID_ADDRESS); err = "Address type not supported"; break;
-				default: SetLastError(ERROR_INVALID_DATA); break;
+			switch (buf[1]) {
+			case 1: SetLastError(ERROR_GEN_FAILURE); err = "General failure"; break;
+			case 2: SetLastError(ERROR_ACCESS_DENIED); err = "Connection not allowed by ruleset";  break;
+			case 3: SetLastError(WSAENETUNREACH); err = "Network unreachable"; break;
+			case 4: SetLastError(WSAEHOSTUNREACH); err = "Host unreachable"; break;
+			case 5: SetLastError(WSAECONNREFUSED); err = "Connection refused by destination host"; break;
+			case 6: SetLastError(WSAETIMEDOUT); err = "TTL expired"; break;
+			case 7: SetLastError(ERROR_CALL_NOT_IMPLEMENTED); err = "Command not supported / protocol error"; break;
+			case 8: SetLastError(ERROR_INVALID_ADDRESS); err = "Address type not supported"; break;
+			default: SetLastError(ERROR_INVALID_DATA); break;
 			}
 		}
 		NetlibLogf(nlu, "%s %d: Proxy conection failed. %s.", __FILE__, __LINE__, err);
@@ -275,7 +270,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	}
 
 	int nRecvSize = 0;
-	switch(buf[3]) {
+	switch (buf[3]) {
 	case 1:// ipv4 addr
 		nRecvSize = 5;
 		break;
@@ -301,7 +296,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	//rfc2817
-	NETLIBHTTPREQUEST nlhrSend = {0}, *nlhrReply;
+	NETLIBHTTPREQUEST nlhrSend = { 0 }, *nlhrReply;
 	char szUrl[512];
 
 	nlhrSend.cbSize = sizeof(nlhrSend);
@@ -336,7 +331,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		}
 
 		NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
-		NetlibLogf(nlu, "%s %d: %s request failed (%u %s)", __FILE__, __LINE__, nlu->settings.proxyType == PROXYTYPE_HTTP?"HTTP":"HTTPS", nlhrReply->resultCode, nlhrReply->szResultDescr);
+		NetlibLogf(nlu, "%s %d: %s request failed (%u %s)", __FILE__, __LINE__, nlu->settings.proxyType == PROXYTYPE_HTTP ? "HTTP" : "HTTPS", nlhrReply->resultCode, nlhrReply->szResultDescr);
 		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 		return 0;
 	}
@@ -386,7 +381,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 	}
 
 	PHOSTENT he;
-	SOCKADDR_IN sin = {0};
+	SOCKADDR_IN sin = { 0 };
 	sin.sin_family = AF_INET;
 
 	if (nlc->proxyType) {
@@ -453,7 +448,7 @@ retry:
 				break;
 
 			if (rc > 0) {
-				if (FD_ISSET(nlc->s, &w)){
+				if (FD_ISSET(nlc->s, &w)) {
 					// connection was successful
 					rc = 0;
 				}
@@ -529,7 +524,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 	}
 
 	char szPort[6];
-	addrinfo *air = NULL, *ai, hints = {0};
+	addrinfo *air = NULL, *ai, hints = { 0 };
 
 	hints.ai_family = AF_UNSPEC;
 
@@ -569,7 +564,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 	}
 
 	for (ai = air; ai && !Miranda_Terminated(); ai = ai->ai_next) {
-		NetlibLogf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, ptrA( NetlibAddressToString((SOCKADDR_INET_M*)ai->ai_addr)));
+		NetlibLogf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, ptrA(NetlibAddressToString((SOCKADDR_INET_M*)ai->ai_addr)));
 retry:
 		nlc->s = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
 		if (nlc->s == INVALID_SOCKET)
@@ -610,7 +605,7 @@ retry:
 				break;
 
 			if (rc > 0) {
-				if (FD_ISSET(nlc->s, &w)){
+				if (FD_ISSET(nlc->s, &w)) {
 					// connection was successful
 					rc = 0;
 					lasterr = 0;
@@ -625,8 +620,7 @@ retry:
 					int len = sizeof(lasterr);
 					rc = SOCKET_ERROR;
 					getsockopt(nlc->s, SOL_SOCKET, SO_ERROR, (char*)&lasterr, &len);
-					if (lasterr == WSAEADDRINUSE && ++retrycnt <= 2)
-					{
+					if (lasterr == WSAEADDRINUSE && ++retrycnt <= 2) {
 						closesocket(nlc->s);
 						nlc->s = INVALID_SOCKET;
 						goto retry;
@@ -713,7 +707,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		if (usingProxy && (nlc->proxyType == PROXYTYPE_HTTPS || nlc->proxyType == PROXYTYPE_HTTP)) {
 			usingProxy = false;
 			nlc->proxyType = 0;
-			NetlibLogf(nlu,"Fallback to direct connection");
+			NetlibLogf(nlu, "Fallback to direct connection");
 			continue;
 		}
 		if (nlu->settings.useProxy && !usingProxy && nlu->settings.proxyType == PROXYTYPE_IE && !forceHttps) {

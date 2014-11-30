@@ -42,11 +42,11 @@ TCHAR* RemoveFormatting(const TCHAR *pszWord)
 		return NULL;
 
 	TCHAR *d = szTemp;
-	int cbLen = mir_tstrlen(pszWord);
+	size_t cbLen = mir_tstrlen(pszWord);
 	if (cbLen > SIZEOF(szTemp))
 		cbLen = SIZEOF(szTemp)-1;
 
-	for (int i = 0; i < cbLen; ) {
+	for (size_t i = 0; i < cbLen;) {
 		if (pszWord[i] == '%') {
 			switch (pszWord[i+1]) {
 			case '%':

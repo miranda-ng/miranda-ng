@@ -407,7 +407,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
 				int groupId = atoi(dbcws->szSetting) + 1;
 				TCHAR szFullName[512];
-				int i, nameLen, eq;
+				int i, eq;
 				//check name of group and ignore message if just being expanded/collapsed
 				if (cli.pfnFindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group, NULL)) {
 					mir_tstrcpy(szFullName, contact->szText);
@@ -420,7 +420,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 							break;
 						}
 						group = group->parent;
-						nameLen = mir_tstrlen(group->cl.items[i]->szText);
+						size_t nameLen = mir_tstrlen(group->cl.items[i]->szText);
 						if (mir_tstrlen(szFullName) + 1 + nameLen > SIZEOF(szFullName)) {
 							szFullName[0] = '\0';
 							break;
