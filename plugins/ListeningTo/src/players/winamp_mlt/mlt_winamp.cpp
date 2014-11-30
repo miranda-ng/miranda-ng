@@ -442,10 +442,10 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPar
 void quit() 
 {
 	if (oldMainWndProc != NULL)
-		SetWindowLongPtr(plugin.hwndParent, GWLP_WNDPROC, (LONG) oldMainWndProc);
+		SetWindowLongPtr(plugin.hwndParent, GWLP_WNDPROC, (LONG_PTR) oldMainWndProc);
 
 	if (oldWndProc != NULL)
-		SetWindowLongPtr(hPlWnd, GWLP_WNDPROC, (LONG) oldWndProc);
+		SetWindowLongPtr(hPlWnd, GWLP_WNDPROC, (LONG_PTR) oldWndProc);
 
 	if (FindWindow(MIRANDA_WINDOWCLASS, NULL) != NULL)
 		SendData(L"0\\0Winamp\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0");
@@ -457,10 +457,10 @@ int init()
 {
 	KillTimer(hMsgWnd, 0);
 
-	oldMainWndProc = (WNDPROC)SetWindowLongPtr(plugin.hwndParent, GWLP_WNDPROC, (LONG) MainWndProc);
+	oldMainWndProc = (WNDPROC)SetWindowLongPtr(plugin.hwndParent, GWLP_WNDPROC, (LONG_PTR) MainWndProc);
 
 	hPlWnd = (HWND) SendMessage(plugin.hwndParent, WM_WA_IPC, IPC_GETWND_PE, IPC_GETWND);
-	oldWndProc = (WNDPROC) SetWindowLongPtr(hPlWnd, GWLP_WNDPROC, (LONG)WndProc);
+	oldWndProc = (WNDPROC) SetWindowLongPtr(hPlWnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 
 	return 0; 
 } 

@@ -24,7 +24,7 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		if (LOWORD(wParam) == IDOK)
 		{
 			char nick[255];
-			GetDlgItemTextA(hwndDlg, IDC_NICKNAME, nick, sizeof(nick));
+			GetDlgItemTextA(hwndDlg, IDC_NICKNAME, nick, SIZEOF(nick));
 
 			CallService(XFIRE_SET_NICK, 0, (LPARAM)nick);
 

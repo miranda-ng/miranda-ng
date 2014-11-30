@@ -519,7 +519,7 @@ INT_PTR WINAPI SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam 
 						flags = flags | SLL_DEEP;
 
 					length = GetWindowTextLength(GetDlgItem(hDlg, IDC_SEARCHSTRING))+1;
-					buffer = (LPTSTR)malloc( length*sizeof(TCHAR));
+					buffer = (LPTSTR)malloc( (length + 1)*sizeof(TCHAR));
 					GetDlgItemText(hDlg, IDC_SEARCHSTRING, buffer, length);
 					WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);
 					free(buffer);

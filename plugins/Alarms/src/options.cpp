@@ -532,10 +532,10 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDOK: 
 				{
 					TCHAR buff[MAX_PATH];
-					GetDlgItemText(hwndDlg, IDC_TITLE, buff, MAX_PATH);
+					GetDlgItemText(hwndDlg, IDC_TITLE, buff, SIZEOF(buff));
 					replaceStrT(add_edit_alarm->szTitle, buff);
 
-					GetDlgItemText(hwndDlg, IDC_DESC, buff, MAX_PATH);
+					GetDlgItemText(hwndDlg, IDC_DESC, buff, SIZEOF(buff));
 					replaceStrT(add_edit_alarm->szDesc, buff);
 
 					if (add_edit_alarm->szTitle == 0 || add_edit_alarm->szTitle[0] == '\0') {
@@ -562,9 +562,9 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					add_edit_alarm->flags |= IsDlgButtonChecked(hwndDlg, IDC_CHK_NOREMINDER) ? ALF_NOREMINDER: 0;
 
 					if (add_edit_alarm->action & AAF_COMMAND) {
-						GetDlgItemText(hwndDlg, IDC_ED_COMMAND, buff, MAX_PATH);
+						GetDlgItemText(hwndDlg, IDC_ED_COMMAND, buff, SIZEOF(buff));
 						replaceStrT(add_edit_alarm->szCommand, buff);
-						GetDlgItemText(hwndDlg, IDC_ED_PARAMS, buff, MAX_PATH);
+						GetDlgItemText(hwndDlg, IDC_ED_PARAMS, buff, SIZEOF(buff));
 						replaceStrT(add_edit_alarm->szCommandParams, buff);
 					}
 

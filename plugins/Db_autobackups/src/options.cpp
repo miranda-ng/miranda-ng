@@ -294,9 +294,9 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
 			TCHAR buff[10];
-			GetDlgItemText(hwndDlg, IDC_ED_PERIOD, buff, sizeof(buff));
+			GetDlgItemText(hwndDlg, IDC_ED_PERIOD, buff, SIZEOF(buff));
 			new_options.period = _ttoi(buff);
-			GetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, buff, sizeof(buff));
+			GetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, buff, SIZEOF(buff));
 			new_options.num_backups = _ttoi(buff);
 
 			switch(SendDlgItemMessage(hwndDlg, IDC_PT, CB_GETCURSEL, 0, 0)) {
@@ -305,7 +305,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				case 2: new_options.period_type = PT_MINUTES; break;
 			}
 
-			GetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff, MAX_PATH);
+			GetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff, SIZEOF(folder_buff));
 			{
 				TCHAR backupfolder[MAX_PATH] = {0};
 				BOOL folder_ok = TRUE;

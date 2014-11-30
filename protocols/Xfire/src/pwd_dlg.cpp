@@ -20,7 +20,7 @@ INT_PTR CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (LOWORD(wParam) == IDOK)
 		{
-			GetDlgItemTextA(hwndDlg, IDC_NICKNAME, password, sizeof(password));
+			GetDlgItemTextA(hwndDlg, IDC_NICKNAME, password, SIZEOF(password));
 			EndDialog(hwndDlg, TRUE);
 			return TRUE;
 		}

@@ -166,7 +166,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 					memcpy(tmp+len,_T("[/img][/url]"),13*sizeof(TCHAR)); len+=12;
 				}
 			}else
-				len=GetDlgItemText(hwndDlg,edtID,tmp,2048);
+				len=GetDlgItemText(hwndDlg,edtID,tmp,SIZEOF(tmp));
 			int retries=3;
 			do{
 				if(!OpenClipboard(hwndDlg)){

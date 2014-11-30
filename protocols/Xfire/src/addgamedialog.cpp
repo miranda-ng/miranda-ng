@@ -275,7 +275,7 @@ BOOL OpenFileDialog(HWND hwndDlg, OPENFILENAMEA*ofn, char*exe) {
 	ofn->lStructSize = sizeof(OPENFILENAMEA);
 	ofn->hwndOwner = hwndDlg;
 	ofn->lpstrFile = szFile;
-	ofn->nMaxFile = sizeof(szFile);
+	ofn->nMaxFile = SIZEOF(szFile);
 	ofn->lpstrFilter = szFilter;
 	ofn->nFilterIndex = 1;
 	ofn->lpstrFileTitle = exe;
@@ -308,7 +308,7 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg,
 		{
 			char temp[256];
 			//eingabe bei der suche auslesen
-			GetDlgItemTextA(hwndDlg, IDC_SEARCH, temp, 256);
+			GetDlgItemTextA(hwndDlg, IDC_SEARCH, temp, SIZEOF(temp));
 			//eingabe in der liste suchen
 			int idx = SendDlgItemMessageA(hwndDlg, IDC_GAMELIST, LB_FINDSTRING, 0, (LPARAM)temp);
 			//gefunden?
@@ -628,7 +628,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				newgame = new Xfire_game();
 
 			//Spielname
-			GetDlgItemTextA(hwndDlg, IDC_ADD_NAME, temp, 256);
+			GetDlgItemTextA(hwndDlg, IDC_ADD_NAME, temp, SIZEOF(temp));
 			if (!strlen(temp))
 			{
 				if (!editgame) delete newgame;
@@ -643,7 +643,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 			//spielid nur setzen/prüfen, wenn kein editgame
 			if (!editgame) {
-				GetDlgItemTextA(hwndDlg, IDC_ADD_ID, temp, 256);
+				GetDlgItemTextA(hwndDlg, IDC_ADD_ID, temp, SIZEOF(temp));
 				if (!strlen(temp))
 				{
 					if (!editgame) delete newgame;
@@ -671,7 +671,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				}
 			}
 			//zu sendene spielid
-			GetDlgItemTextA(hwndDlg, IDC_ADD_SENDID, temp, 256);
+			GetDlgItemTextA(hwndDlg, IDC_ADD_SENDID, temp, SIZEOF(temp));
 			if (strlen(temp))
 			{
 				//standardmäßig wird bei einem customeintrag keine id versendet
@@ -681,7 +681,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 
 			//launcher exe
-			GetDlgItemTextA(hwndDlg, IDC_ADD_LAUNCHEREXE, temp, 256);
+			GetDlgItemTextA(hwndDlg, IDC_ADD_LAUNCHEREXE, temp, SIZEOF(temp));
 			if (strlen(temp))
 			{
 				//lowercase pfad
@@ -690,7 +690,7 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				newgame->setString(temp, &newgame->launchparams);
 			}
 			//detectexe
-			GetDlgItemTextA(hwndDlg, IDC_ADD_DETECTEXE, temp, 256);
+			GetDlgItemTextA(hwndDlg, IDC_ADD_DETECTEXE, temp, SIZEOF(temp));
 			if (!strlen(temp))
 			{
 				if (!editgame) delete newgame;
@@ -708,13 +708,13 @@ INT_PTR CALLBACK DlgAddGameProc2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			}
 			//mustcontain parameter
-			GetDlgItemTextA(hwndDlg, IDC_ADD_CUSTOMPARAMS, temp, 256);
+			GetDlgItemTextA(hwndDlg, IDC_ADD_CUSTOMPARAMS, temp, SIZEOF(temp));
 			if (strlen(temp))
 			{
 				newgame->setString(temp, &newgame->mustcontain);
 			}
 			//statusmsg speichern
-			GetDlgItemTextA(hwndDlg, IDC_ADD_STATUSMSG, temp, 256);
+			GetDlgItemTextA(hwndDlg, IDC_ADD_STATUSMSG, temp, SIZEOF(temp));
 			if (strlen(temp))
 			{
 				newgame->setString(temp, &newgame->statusmsg);

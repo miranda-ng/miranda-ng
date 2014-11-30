@@ -52,7 +52,7 @@ INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		case IDOK:
 			if (GetWindowTextLength(GetDlgItem(hwnd, IDC_MODNAME))) {
 				char modulename[256];
-				GetDlgItemText(hwnd, IDC_MODNAME, modulename, 256);
+				GetDlgItemText(hwnd, IDC_MODNAME, modulename, SIZEOF(modulename));
 				if (IsDlgButtonChecked(hwnd, CHK_ADD2ALL)) {
 					// null contact
 					db_set_b(NULL, modulename, "(Default)", 0);

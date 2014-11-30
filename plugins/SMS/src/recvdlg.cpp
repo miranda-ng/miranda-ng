@@ -166,7 +166,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 
 //This function create a new SMS receive window, and insert it to the list.
 //The function gets void and return the window HWND
-HWND RecvSMSWindowAdd(MCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPSTR lpszMessage,SIZE_T dwMessageSize)
+HWND RecvSMSWindowAdd(MCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,size_t dwPhoneSize,LPSTR lpszMessage,size_t dwMessageSize)
 {
 	HWND hRet = NULL;
 

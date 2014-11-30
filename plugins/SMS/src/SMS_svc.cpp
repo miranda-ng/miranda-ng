@@ -8,7 +8,7 @@ int LoadServices(void)
 	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
 
 	// Service creation
-	for (SIZE_T i=0;i<SIZEOF(siPluginServices);i++)
+	for (size_t i=0;i<SIZEOF(siPluginServices);i++)
 	{
 		CopyMemory(pszServiceFunctionName,siPluginServices[i].lpszName,(lstrlenA(siPluginServices[i].lpszName)+1));
 		CreateServiceFunction(szServiceFunction,(MIRANDASERVICE)siPluginServices[i].lpFunc);

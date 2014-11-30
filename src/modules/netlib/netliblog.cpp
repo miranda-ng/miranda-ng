@@ -187,7 +187,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					return 1;
 
 				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str, ' ') != NULL) {
-					MoveMemory(str + 1, str, SIZEOF(str) - 2);
+					MoveMemory(str + 1, str, ((SIZEOF(str) - 2) * sizeof(TCHAR)));
 					str[0] = '"';
 					lstrcat(str, _T("\""));
 				}
@@ -196,7 +196,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			break;
 
 		case IDC_RUNNOW:
-			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, MAX_PATH);
+			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, SIZEOF(str));
 			if (str[0]) {
 				STARTUPINFO si = { sizeof(si) };
 				PROCESS_INFORMATION pi;
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			break;
 
 		case IDOK:
-			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, MAX_PATH);
+			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, SIZEOF(str));
 			db_set_ts(NULL, "Netlib", "RunAtStart", str);
 			db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 

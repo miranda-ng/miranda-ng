@@ -53,9 +53,9 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT message, WPARAM wparam, 
 
 			string password;
 			char cc[5];
-			GetDlgItemTextA(hwndDlg, IDC_CC, cc, sizeof(cc));
 			char number[128];
-			GetDlgItemTextA(hwndDlg, IDC_LOGIN, number, sizeof(number));
+			GetDlgItemTextA(hwndDlg, IDC_CC, cc, SIZEOF(cc));
+			GetDlgItemTextA(hwndDlg, IDC_LOGIN, number, SIZEOF(number));
 
 			if (LOWORD(wparam) == IDC_BUTTON_REQUEST_CODE) {
 				if (IDYES == MessageBox(NULL, TranslateT(szAskSendSms), PRODUCT_NAME, MB_YESNO)) {
@@ -107,13 +107,13 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT message, WPARAM wparam, 
 			proto = reinterpret_cast<WhatsAppProto *>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			char str[128];
 
-			GetDlgItemTextA(hwndDlg, IDC_CC, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_CC, str, SIZEOF(str));
 			db_set_s(0, proto->ModuleName(), WHATSAPP_KEY_CC, str);
 
-			GetDlgItemTextA(hwndDlg, IDC_LOGIN, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 			db_set_s(0, proto->ModuleName(), WHATSAPP_KEY_LOGIN, str);
 
-			GetDlgItemTextA(hwndDlg, IDC_NICK, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_NICK, str, SIZEOF(str));
 			db_set_s(0, proto->ModuleName(), WHATSAPP_KEY_NICK, str);
 
 			db_set_b(0, proto->ModuleName(), WHATSAPP_KEY_SSL, IsDlgButtonChecked(hwndDlg, IDC_SSL));

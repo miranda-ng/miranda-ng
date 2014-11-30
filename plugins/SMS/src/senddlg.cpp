@@ -44,14 +44,14 @@ typedef struct
 	MCONTACT hMyContact;
 	HTREEITEM hItemSend;
 	BOOL bMultiple;
-	SIZE_T dwContactsListCount;
+	size_t dwContactsListCount;
 	MCONTACT *phContactsList;
 	DBEVENTINFO *pdbei;
 } SEND_SMS_WINDOW_DATA;
 
 void			AddContactPhonesToCombo		(HWND hWnd,MCONTACT hContact);
 void			SendSMSWindowFillTreeView	(HWND hWnd);
-SIZE_T			GetSMSMessageLenMax			(HWND hWndDlg);
+size_t			GetSMSMessageLenMax			(HWND hWndDlg);
 
 #define GET_WINDOW_DATA(hWndDlg)	((SEND_SMS_WINDOW_DATA*)GetWindowLongPtr(hWndDlg,GWLP_USERDATA))
 
@@ -143,7 +143,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 
 		{	
 			TCHAR tszSign[1024];
-			SIZE_T dwSignLen;
+			size_t dwSignLen;
 
 			if (DB_SMS_GetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE))
 			if (DB_SMS_GetStaticStringW(NULL,"Signature",tszSign,SIZEOF(tszSign),&dwSignLen))
@@ -272,9 +272,9 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 		case TIMEDOUT_RETRY:
 			{
 				TCHAR tszPhone[MAX_PHONE_LEN];
-				SIZE_T dwPhoneSize;
+				size_t dwPhoneSize;
 
-				SIZE_T dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
+				size_t dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
 				LPTSTR lpwszMessage=(LPTSTR)MEMALLOC(((dwMessageSize+4)*sizeof(TCHAR)));
 				if (lpwszMessage)
 				{
@@ -325,7 +325,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			break;
 
 		case IDOK:
-			if ((SIZE_T)GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE) > GetSMSMessageLenMax(hWndDlg))
+			if ((size_t)GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE) > GetSMSMessageLenMax(hWndDlg))
 			{
 				MessageBox(hWndDlg,TranslateT("Message is too long, press OK to continue."),TranslateT("Error - Message too long"),MB_OK);
 			}else{
@@ -351,10 +351,10 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 					}
 				}else{
 					TCHAR tszPhone[MAX_PHONE_LEN];
-					SIZE_T dwPhoneSize=GetDlgItemText(hWndDlg,IDC_ADDRESS,tszPhone,SIZEOF(tszPhone));
+					size_t dwPhoneSize=GetDlgItemText(hWndDlg,IDC_ADDRESS,tszPhone,SIZEOF(tszPhone));
 					if (IsPhoneW(tszPhone,dwPhoneSize))
 					{
-						SIZE_T dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
+						size_t dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
 						LPTSTR lpwszMessage=(LPTSTR)MEMALLOC((dwMessageSize+4)*sizeof(WCHAR));
 						if (lpwszMessage)
 						{
@@ -390,7 +390,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			if (HIWORD(wParam)==EN_CHANGE)
 			{
 				TCHAR tszBuff[MAX_PATH];
-				SIZE_T dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
+				size_t dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
 
 				EnableWindow(GetDlgItem(hWndDlg,IDOK),dwMessageSize);
 				mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("%d/%d"), dwMessageSize,GetSMSMessageLenMax(hWndDlg));
@@ -404,7 +404,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 				TCHAR tszPhone[MAX_PHONE_LEN];
 				DBVARIANT dbv;
 
-				SIZE_T dwPhoneSize=GetDlgItemText(hWndDlg,IDC_ADDRESS,tszPhone,(SIZEOF(tszPhone)-4));
+				size_t dwPhoneSize=GetDlgItemText(hWndDlg,IDC_ADDRESS,tszPhone,(SIZEOF(tszPhone)-4));
 				if (IsPhoneW(tszPhone,dwPhoneSize))
 				{
 					if (IsContactPhone(psswdWindowData->hMyContact,tszPhone,dwPhoneSize)==FALSE)
@@ -707,7 +707,7 @@ void SendSMSWindowMultipleSet(HWND hWndDlg,BOOL bMultiple)
 }
 
 //
-void SendSMSWindowNumberSet(HWND hWndDlg, LPWSTR lpwszPhone, SIZE_T dwPhoneSize)
+void SendSMSWindowNumberSet(HWND hWndDlg, LPWSTR lpwszPhone, size_t dwPhoneSize)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
@@ -866,7 +866,7 @@ return(hRet);
 void SendSMSWindowNext(HWND hWndDlg)
 {
 	TCHAR tszPhone[MAX_PHONE_LEN];
-	SIZE_T dwPhoneSize,dwMessageSize;
+	size_t dwPhoneSize,dwMessageSize;
 	TVITEM tvi={0};
 
 	dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
@@ -913,7 +913,7 @@ void SendSMSWindowSMSContactAdd(HWND hWndDlg,MCONTACT hContact)
 }
 
 //This function gets the number of the given contact in the combo list and return its contact.
-MCONTACT SendSMSWindowSMSContactGet(HWND hWndDlg,SIZE_T iNum)
+MCONTACT SendSMSWindowSMSContactGet(HWND hWndDlg,size_t iNum)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData = GET_WINDOW_DATA(hWndDlg);
 
@@ -938,7 +938,7 @@ void SendSMSWindowUpdateAccountList(HWND hWndDlg)
 {
 	if (ssSMSSettings.ppaSMSAccounts && ssSMSSettings.dwSMSAccountsCount)
 	{
-		SIZE_T i,dwCurSel;
+		size_t i,dwCurSel;
 
 		dwCurSel=SendDlgItemMessage(hWndDlg,IDC_ACCOUNTS,CB_GETCURSEL,0,0);
 		if (dwCurSel==-1) dwCurSel=DB_SMS_GetDword(NULL,"LastProto",0);
@@ -982,7 +982,7 @@ void AddContactPhonesToComboToListParam(MCONTACT hContact,LPSTR lpszModule,LPSTR
 {
 	char szBuff[MAX_PATH];
 	TCHAR tszPhone[MAX_PHONE_LEN],tszPhoneRaw[MAX_PHONE_LEN];
-	SIZE_T i,dwPhoneSize;
+	size_t i,dwPhoneSize;
 
 	if (DB_GetStaticStringW(hContact,lpszModule,lpszValueName,tszPhoneRaw,SIZEOF(tszPhoneRaw),&dwPhoneSize))
 	{
@@ -1037,7 +1037,7 @@ void AddContactPhonesToTreeViewParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lp
 {
 	char szBuff[MAX_PATH];
 	TCHAR tszPhone[MAX_PHONE_LEN],tszPhoneRaw[MAX_PHONE_LEN];
-	SIZE_T i,dwPhoneSize;
+	size_t i,dwPhoneSize;
 	TVINSERTSTRUCT tvis={0};
 
 	if (phParent) tvis.hParent=(*phParent);
@@ -1107,9 +1107,9 @@ void SendSMSWindowFillTreeView(HWND hWnd)
 }
 
 
-SIZE_T GetSMSMessageLenMax(HWND hWndDlg)
+size_t GetSMSMessageLenMax(HWND hWndDlg)
 {
-	SIZE_T dwMessageSize,dwLenght=160;
+	size_t dwMessageSize,dwLenght=160;
 	
 	dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
 	LPTSTR lptszMessage=(LPTSTR)MEMALLOC(((dwMessageSize+4)*sizeof(TCHAR)));

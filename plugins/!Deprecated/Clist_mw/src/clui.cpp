@@ -163,8 +163,8 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 	char szPath[MAX_PATH],szMyPath[MAX_PATH], szFullPath[MAX_PATH],*str;
 	HICON hIcon = NULL;
 
-	memset(szMyPath,0,SIZEOF(szMyPath));
-	memset(szFullPath,0,SIZEOF(szFullPath));
+	memset(szMyPath,0,sizeof(szMyPath));
+	memset(szFullPath,0,sizeof(szFullPath));
 
 	if (filename != NULL)
 	{

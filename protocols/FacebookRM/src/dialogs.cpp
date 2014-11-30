@@ -88,10 +88,10 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		{
 			char str[128];
 
-			GetDlgItemTextA(hwnd, IDC_UN, str, sizeof(str));
+			GetDlgItemTextA(hwnd, IDC_UN, str, SIZEOF(str));
 			db_set_s(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN, str);
 
-			GetDlgItemTextA(hwnd, IDC_PW, str, sizeof(str));
+			GetDlgItemTextA(hwnd, IDC_PW, str, SIZEOF(str));
 			db_set_s(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS, str);
 			return TRUE;
 		}
@@ -395,13 +395,13 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		{
 			char str[128]; TCHAR tstr[128];
 
-			GetDlgItemTextA(hwnd,IDC_UN,str,sizeof(str));
+			GetDlgItemTextA(hwnd,IDC_UN,str,SIZEOF(str));
 			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,str);
 
-			GetDlgItemTextA(hwnd,IDC_PW,str,sizeof(str));
+			GetDlgItemTextA(hwnd,IDC_PW,str,SIZEOF(str));
 			proto->setString(FACEBOOK_KEY_PASS, str);
 
-			GetDlgItemText(hwnd,IDC_GROUP,tstr,sizeof(tstr));
+			GetDlgItemText(hwnd,IDC_GROUP,tstr,SIZEOF(tstr));
 			if (tstr[0] != '\0')
 			{
 				proto->setTString(FACEBOOK_KEY_DEF_GROUP, tstr);

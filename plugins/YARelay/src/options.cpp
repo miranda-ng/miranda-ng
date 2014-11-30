@@ -156,7 +156,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				if (SendMessage(GetDlgItem(hwndDlg, IDC_CHECK6), BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_DND;
 				if (SendMessage(GetDlgItem(hwndDlg, IDC_CHECK7), BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_FREECHAT;
 				if (SendMessage(GetDlgItem(hwndDlg, IDC_CHECK8), BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_INVISIBLE;
-				GetDlgItemText(hwndDlg, IDC_EDIT_TEMPLATE, tszForwardTemplate, MAXTEMPLATESIZE);
+				GetDlgItemText(hwndDlg, IDC_EDIT_TEMPLATE, tszForwardTemplate, SIZEOF(tszForwardTemplate));
 				if (SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_SPLIT), BM_GETCHECK, 0, 0) == BST_CHECKED) iSplit = 1; else iSplit = 0;
 				iSplitMaxSize = GetDlgItemInt(hwndDlg, IDC_EDIT_MAXSIZE, NULL, FALSE);
 				iSendParts = GetDlgItemInt(hwndDlg, IDC_EDIT_SENDPARTS, NULL, FALSE);

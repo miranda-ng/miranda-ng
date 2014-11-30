@@ -203,7 +203,7 @@ std::wstring DialogConfigEngine::getEngine(HWND window)
 {
 	WCHAR *text = Hlp_GetDlgItemText(window, IDC_SELECT_ENGINE);
 	/*char text[100];
-	GetDlgItemText(window, IDC_SELECT_ENGINE, mir_a2u(text), sizeof(text));*/
+	GetDlgItemText(window, IDC_SELECT_ENGINE, mir_a2u(text), SIZEOF(text));*/
 
 	return text;
 }

@@ -437,7 +437,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0;
 			{
 				TCHAR tmp[512];
-				GetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, tmp, 512);
+				GetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szLogFilePath", tmp);
 			}
           return TRUE;
@@ -566,9 +566,9 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
       case PSN_APPLY:
         {
 		  TCHAR tmp[512];
-		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, 512);
+		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, SIZEOF(tmp));
 		  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
+		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
 		  while(tmp[_tcslen(tmp)-1] == '\\')
 			  tmp[_tcslen(tmp)-1] = '\0';
 		  db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
@@ -633,22 +633,22 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			bStripTags = CheckStateStoreDB(hwndDlg, IDC_STRIP_TAGS, "bStripTags") != 0;
 			{
 				TCHAR tmp[128];
-				GetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp, 128);
+				GetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szInOpenTag", tmp);
 				mir_free(inopentag);
 				inopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(inopentag, tmp);
-				GetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp, 128);
+				GetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szInCloseTag", tmp);
 				mir_free(inclosetag);
 				inclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(inclosetag, tmp);
-				GetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp, 128);
+				GetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szOutOpenTag", tmp);
 				mir_free(outopentag);
 				outopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(outopentag, tmp);
-				GetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp, 128);
+				GetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, szGPGModuleName, "szOutCloseTag", tmp);
 				mir_free(outclosetag);
 				outclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(tmp)+1));

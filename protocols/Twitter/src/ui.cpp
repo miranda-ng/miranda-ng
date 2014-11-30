@@ -81,7 +81,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			char str[128];
 			TCHAR tstr[128];
 
-			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, sizeof(str) - 1);
+			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, SIZEOF(str) - 1);
 			if (str[strlen(str) - 1] != '/')
 				strncat(str, "/", sizeof(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
@@ -225,21 +225,21 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			char str[128];
 
-			GetDlgItemTextA(hwndDlg, IDC_UN, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_UN, str, SIZEOF(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_UN, str);
 
-			/*GetDlgItemTextA(hwndDlg,IDC_PW,str,sizeof(str));
+			/*GetDlgItemTextA(hwndDlg,IDC_PW,str,SIZEOF(str));
 			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
 			db_set_s(0,proto->ModuleName(),TWITTER_KEY_PASS,str);*/
 
-			GetDlgItemTextA(hwndDlg, IDC_BASEURL, str, sizeof(str) - 1);
+			GetDlgItemTextA(hwndDlg, IDC_BASEURL, str, SIZEOF(str) - 1);
 			if (str[strlen(str) - 1] != '/')
 				strncat(str, "/", sizeof(str));
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
 
 			db_set_b(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, IsDlgButtonChecked(hwndDlg, IDC_CHATFEED));
 
-			GetDlgItemTextA(hwndDlg, IDC_POLLRATE, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_POLLRATE, str, SIZEOF(str));
 			int rate = atoi(str);
 			if (rate == 0)
 				rate = 80;
@@ -263,7 +263,7 @@ namespace popup_options
 			return -1;
 		else if (IsDlgButtonChecked(hwndDlg, IDC_TIMEOUT_CUSTOM)) {
 			char str[32];
-			GetDlgItemTextA(hwndDlg, IDC_TIMEOUT, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_TIMEOUT, str, SIZEOF(str));
 			return atoi(str);
 		}
 		else // Default checked (probably)
@@ -481,7 +481,7 @@ INT_PTR CALLBACK pin_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			char str[128];
 
-			GetDlgItemTextA(hwndDlg, IDC_PIN, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_PIN, str, SIZEOF(str));
 
 			db_set_s(0, proto->ModuleName(), TWITTER_KEY_OAUTH_PIN, str);
 			EndDialog(hwndDlg, wParam);

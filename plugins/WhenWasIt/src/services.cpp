@@ -230,7 +230,7 @@ INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*") _T(BIRTHDAY_EXTENSION) _T(")%c*") _T(BIRTHDAY_EXTENSION) _T("%c"), TranslateT("Birthdays files"), 0, 0);
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
-	of.nMaxFile = 1024;
+	of.nMaxFile = SIZEOF(fileName);
 	of.lpstrTitle = TranslateT("Please select a file to import birthdays from...");
 	of.Flags = OFN_FILEMUSTEXIST;
 
@@ -255,7 +255,7 @@ INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*") _T(BIRTHDAY_EXTENSION) _T(")%c*") _T(BIRTHDAY_EXTENSION) _T("%c%s (*.*)%c*.*%c"), TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
-	of.nMaxFile = 1024;
+	of.nMaxFile = SIZEOF(fileName);
 	of.lpstrTitle = TranslateT("Please select a file to export birthdays to...");
 
 	if ( GetSaveFileName(&of)) {

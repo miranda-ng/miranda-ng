@@ -373,14 +373,14 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			}
 
 			// get update time and remove the old timer
-			GetDlgItemText(hdlg, IDC_UPDATETIME, str, sizeof(str));
+			GetDlgItemText(hdlg, IDC_UPDATETIME, str, SIZEOF(str));
 			opt.UpdateTime = (WORD)_ttoi(str);
 			if (opt.UpdateTime < 1)	opt.UpdateTime = 1;
 			KillTimer(NULL, timerId);
 			timerId = SetTimer(NULL, 0, opt.UpdateTime * 60000, (TIMERPROC)timerProc);
 
 			// other general options
-			GetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign, sizeof(opt.DegreeSign));
+			GetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign, SIZEOF(opt.DegreeSign));
 			opt.StartupUpdate = IsDlgButtonChecked(hdlg, IDC_STARTUPUPD);
 			opt.AutoUpdate = IsDlgButtonChecked(hdlg, IDC_UPDATE);
 			opt.NoProtoCondition = !IsDlgButtonChecked(hdlg, IDC_PROTOCOND);
@@ -578,21 +578,21 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			// free memory for old settings
 			FreeTextVar();
 			// save new settings to memory
-			GetDlgItemText(hdlg, IDC_CTEXT, textstr, MAX_TEXT_SIZE);
+			GetDlgItemText(hdlg, IDC_CTEXT, textstr, SIZEOF(textstr));
 			wSetData(&opt.cText, textstr);
-			GetDlgItemText(hdlg, IDC_BTEXT, textstr, MAX_TEXT_SIZE);
+			GetDlgItemText(hdlg, IDC_BTEXT, textstr, SIZEOF(textstr));
 			wSetData(&opt.bText, textstr);
-			GetDlgItemText(hdlg, IDC_BTITLE, textstr, MAX_TEXT_SIZE);
+			GetDlgItemText(hdlg, IDC_BTITLE, textstr, SIZEOF(textstr));
 			wSetData(&opt.bTitle, textstr);
-			GetDlgItemText(hdlg, IDC_ETEXT, textstr, MAX_TEXT_SIZE);
+			GetDlgItemText(hdlg, IDC_ETEXT, textstr, SIZEOF(textstr));
 			wSetData(&opt.eText, textstr);
-			GetDlgItemText(hdlg, IDC_NTEXT, textstr, MAX_TEXT_SIZE);
+			GetDlgItemText(hdlg, IDC_NTEXT, textstr, SIZEOF(textstr));
 			wSetData(&opt.nText, textstr);
-			GetDlgItemText(hdlg, IDC_HTEXT, textstr, MAX_TEXT_SIZE);
+			GetDlgItemText(hdlg, IDC_HTEXT, textstr, SIZEOF(textstr));
 			wSetData(&opt.hText, textstr);
-			GetDlgItemText(hdlg, IDC_XTEXT, textstr, MAX_TEXT_SIZE);
+			GetDlgItemText(hdlg, IDC_XTEXT, textstr, SIZEOF(textstr));
 			wSetData(&opt.xText, textstr);
-			GetDlgItemText(hdlg, IDC_BTITLE2, textstr, MAX_TEXT_SIZE);
+			GetDlgItemText(hdlg, IDC_BTITLE2, textstr, SIZEOF(textstr));
 			wSetData(&opt.sText, textstr);
 			SaveOptions();
 			UpdateAllInfo(0, 0);

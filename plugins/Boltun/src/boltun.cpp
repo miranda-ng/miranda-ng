@@ -328,7 +328,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					if (!bTranslated)
 						Config.AnswerThinkTime = 4;
 					TCHAR c[MAX_WARN_TEXT];
-					bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, MAX_WARN_TEXT);
+					bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, SIZEOF(c));
 					if(bTranslated)
 						Config.WarnText = c;
 					else
@@ -464,7 +464,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					Config.EngineUnderstandAlways = IsDlgButtonChecked(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS) == BST_CHECKED ? TRUE : FALSE;
 					UpdateEngine();
 					TCHAR c[MAX_MIND_FILE];
-					bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, MAX_MIND_FILE);
+					bTranslated = GetDlgItemText(hwndDlg, IDC_MINDFILE, c, SIZEOF(c));
 					if (bTranslated)
 						Config.MindFileName = c;
 					else

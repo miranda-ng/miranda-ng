@@ -769,10 +769,10 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						else
 						{
 							ds->type = DVT_DB;
-							GetDlgItemTextA(hwndDlg, IDC_ED_MODULE, ds->szModuleName, MODULE_NAME_LEN);
+							GetDlgItemTextA(hwndDlg, IDC_ED_MODULE, ds->szModuleName, SIZEOF(ds->szModuleName));
 						}
 
-						GetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName, SETTING_NAME_LEN);
+						GetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName, SIZEOF(ds->szSettingName));
 
 						int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETCURSEL, 0, 0);
 						ds->iTranslateFuncId = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETITEMDATA, sel, 0);

@@ -241,14 +241,14 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				TCHAR str[MAX_PATH];
 				OPENFILENAME ofn = {0};
 
-				GetDlgItemText(hwndDlg, IDC_EPATH, str, sizeof(str));
+				GetDlgItemText(hwndDlg, IDC_EPATH, str, SIZEOF(str));
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
 				ofn.lpstrFilter = NULL;
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
-				ofn.nMaxFile = sizeof(str);
+				ofn.nMaxFile = SIZEOF(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = _T("exe");
 				if (!GetOpenFileName(&ofn))
@@ -290,14 +290,14 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						TreeView_SetItem(hTree, &tvi);
 					}
 
-					GetDlgItemText(hwndDlg, IDC_ENAME, buf, 255);
+					GetDlgItemText(hwndDlg, IDC_ENAME, buf, SIZEOF(buf));
 					replaceStr(btn->pszName, _T2A(buf));
 
 					tvi.mask = TVIF_TEXT;
 					tvi.pszText = buf;
 					TreeView_SetItem(hTree, &tvi);
 
-					GetDlgItemText(hwndDlg, IDC_EPATH, buf, 255);
+					GetDlgItemText(hwndDlg, IDC_EPATH, buf, SIZEOF(buf));
 					replaceStrT(btn->ptszProgram, buf);
 				}
 				break;

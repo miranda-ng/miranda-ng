@@ -20,7 +20,7 @@ typedef CONST PLIST_MT_ITEM	PCLIST_MT_ITEM, LPCLIST_MT_ITEM;
 // структура для работы со списком, заголовок списка
 typedef struct _LIST_MT
 {
-	SIZE_T				nCount;			// *колличество элементов в списке
+	size_t				nCount;			// *колличество элементов в списке
 	PLIST_MT_ITEM		plmtiFirst;		// *указывает на первый элемент в списке
 	PLIST_MT_ITEM		plmtiLast;		// *указывает на последний элемент в списке
 	CRITICAL_SECTION	cs;				// *section for exclysive access to List
@@ -92,15 +92,15 @@ __inline void ListMTUnLock(PCLIST_MT pclmtListMT)
 }
 
 
-__inline SIZE_T ListMTGetCount(PCLIST_MT pclmtListMT)
+__inline size_t ListMTGetCount(PCLIST_MT pclmtListMT)
 {
-	return((SIZE_T)InterlockedCompareExchangePointer((LPVOID*)&pclmtListMT->nCount,NULL,NULL));
+	return((size_t)InterlockedCompareExchangePointer((LPVOID*)&pclmtListMT->nCount,NULL,NULL));
 }
 
 
-__inline SIZE_T ListMTItemAdd(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMTItem,LPVOID lpData)
+__inline size_t ListMTItemAdd(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMTItem,LPVOID lpData)
 {
-	SIZE_T dwRet=(SIZE_T)InterlockedIncrementPointer(&pclmtListMT->nCount);//pclmtListMT->nCount++;
+	size_t dwRet=(size_t)InterlockedIncrementPointer(&pclmtListMT->nCount);//pclmtListMT->nCount++;
 	pclmtListMTItem->lpData=lpData;
 	pclmtListMTItem->lpListMT=pclmtListMT;
 

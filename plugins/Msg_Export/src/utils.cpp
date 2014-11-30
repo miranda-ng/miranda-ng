@@ -943,7 +943,7 @@ void DisplayErrorDialog( const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO 
 		ofn.lStructSize = sizeof(OPENFILENAME);
 		//ofn.hwndOwner = NULL;
 		ofn.lpstrFile = szFile;
-		ofn.nMaxFile = sizeof(szFile);
+		ofn.nMaxFile = SIZEOF(szFile);
 		ofn.lpstrFilter = TranslateT("All\0*.*\0Text\0*.TXT\0\0");
 		ofn.nFilterIndex = 1;
 		ofn.lpstrFileTitle = NULL;

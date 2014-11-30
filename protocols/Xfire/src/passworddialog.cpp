@@ -15,7 +15,7 @@ INT_PTR CALLBACK DlgPWProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		GetDlgItemTextA(hwndDlg, IDC_PWSTRING, (LPSTR)pw, 254);
 		if (usenick)
-			GetDlgItemTextA(hwndDlg, IDC_PWNICK, (LPSTR)nick, 254);
+			GetDlgItemTextA(hwndDlg, IDC_PWNICK, (LPSTR)nick, SIZEOF(nick));
 		EndDialog(hwndDlg, (INT_PTR)pw);
 		break;
 	}

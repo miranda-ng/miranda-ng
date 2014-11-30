@@ -716,7 +716,7 @@ void checkthread(void*)
 						  &retNoteOID,		/* out: OID */
 						  &retModified,		/* out:     */
 						  &retNoteClass) ;
-		ZeroMemory(strLink, SIZEOF(strLink));
+		ZeroMemory(strLink, sizeof(strLink));
 		mir_snprintf(strLink, SIZEOF(strLink), "%.8lX%.8lX%.8lX%.8lX",
 						retNoteOID.File.Innards[1],
 						retNoteOID.File.Innards[0],
@@ -1131,7 +1131,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				switch(LOWORD(wParam))
 					{
-						case IDC_DATABASE: GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, sizeof(settingDatabase)); break;
+						case IDC_DATABASE: GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, SIZEOF(settingDatabase)); break;
 						case IDC_SERVER:
 							{
 								switch(HIWORD(wParam))
@@ -1158,13 +1158,13 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 										}
 								}
 							}
-						case IDC_SERVERSEC: GetDlgItemTextA(hwndDlg, IDC_SERVERSEC, settingServerSec, sizeof(settingServerSec)); break;
-						case IDC_PASSWORD: GetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword, sizeof(settingPassword)); break;
+						case IDC_SERVERSEC: GetDlgItemTextA(hwndDlg, IDC_SERVERSEC, settingServerSec, SIZEOF(settingServerSec)); break;
+						case IDC_PASSWORD: GetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword, SIZEOF(settingPassword)); break;
 
 						case IDC_INTERVAL: settingInterval =GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE); break;
 						case IDC_INTERVAL1: settingInterval1 =GetDlgItemInt(hwndDlg, IDC_INTERVAL1, NULL, TRUE); break;
-						case IDC_COMMAND: GetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand, sizeof(settingCommand)); break;
-						case IDC_PARAMETERS: GetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters, sizeof(settingParameters)); break;
+						case IDC_COMMAND: GetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand, SIZEOF(settingCommand)); break;
+						case IDC_PARAMETERS: GetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters, SIZEOF(settingParameters)); break;
 						case IDC_ONCEONLY:
 							{
 								HWND hwnd = GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY);
@@ -1191,8 +1191,8 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						case IDC_BUTTON_DETECT:
 							{
 								lookupLotusDefaultSettings(hwndDlg);
-								GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, sizeof(settingServer));
-								GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, sizeof(settingDatabase));
+								GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, SIZEOF(settingServer));
+								GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, SIZEOF(settingDatabase));
 								break;
 							}
 						case IDC_BUTTON_CLEAR:
@@ -1210,7 +1210,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						case IDC_BUTTON_ADD_SENDER_FILTER:
 							{
 								char tmp[255];
-								GetDlgItemTextA(hwndDlg, IDC_FILTER_SENDER, tmp, sizeof(tmp));
+								GetDlgItemTextA(hwndDlg, IDC_FILTER_SENDER, tmp, SIZEOF(tmp));
 								SendDlgItemMessageA(hwndDlg, IDC_FILTER_SENDER, CB_ADDSTRING, 0, (LPARAM)tmp);
 								break;
 							}
@@ -1222,7 +1222,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						case IDC_BUTTON_ADD_SUBJECT_FILTER:
 							{
 								char tmp[255];
-								GetDlgItemTextA(hwndDlg, IDC_FILTER_SUBJECT, tmp, sizeof(tmp));
+								GetDlgItemTextA(hwndDlg, IDC_FILTER_SUBJECT, tmp, SIZEOF(tmp));
 								SendDlgItemMessageA(hwndDlg, IDC_FILTER_SUBJECT, CB_ADDSTRING, 0, (LPARAM)tmp);
 								break;
 							}
@@ -1234,7 +1234,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						case IDC_BUTTON_ADD_TO_FILTER:
 							{
 								char tmp[255];
-								GetDlgItemTextA(hwndDlg, IDC_FILTER_TO, tmp, sizeof(tmp));
+								GetDlgItemTextA(hwndDlg, IDC_FILTER_TO, tmp, SIZEOF(tmp));
 								SendDlgItemMessageA(hwndDlg, IDC_FILTER_TO, CB_ADDSTRING, 0, (LPARAM)tmp);
 								break;
 							}
@@ -1262,7 +1262,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 							{
 								char buff[128];
-								GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, sizeof(settingServer));
+								GetDlgItemTextA(hwndDlg, IDC_SERVER, settingServer, SIZEOF(settingServer));
 								db_set_s(NULL, PLUGINNAME, "LNServer", settingServer );
 								db_set_s(NULL, PLUGINNAME, "LNServerSec", settingServerSec);
 								db_set_s(NULL, PLUGINNAME, "LNPassword", settingPassword);

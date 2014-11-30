@@ -734,14 +734,14 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					ActualAccount=NULL;
 					DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
 							
-					if (GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput)))
+					if (GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,SIZEOF(DlgInput)))
 						DlgEnableAccount(hDlg,TRUE,FALSE);
 					else
 						DlgEnableAccount(hDlg,FALSE,FALSE);
 					break;
 
 				case CBN_KILLFOCUS:
-					GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput));
+					GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,SIZEOF(DlgInput));
 					if (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))) {
 						DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
 						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
@@ -892,7 +892,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 				break;
 
 			case IDC_BTNDEL:
-				GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput));
+				GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,SIZEOF(DlgInput));
 				EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
 				if ((CB_ERR==(Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
 					|| (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))))
@@ -939,7 +939,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 				size_t Length,index;
 				UINT Port,Interval;
 
-				if ( GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT, Text, sizeof(Text))) {
+				if ( GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT, Text, SIZEOF(Text))) {
 					Check = (IsDlgButtonChecked(hDlg,IDC_CHECK)==BST_CHECKED);
 					CheckSSL = (IsDlgButtonChecked(hDlg,IDC_CHECKSSL)==BST_CHECKED);
 					CheckNoTLS = (IsDlgButtonChecked(hDlg,IDC_CHECKNOTLS)==BST_CHECKED);
@@ -975,15 +975,15 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 						break;
 					}
 
-					GetDlgItemTextA(hDlg, IDC_EDITAPP, Text, sizeof(Text));
+					GetDlgItemTextA(hDlg, IDC_EDITAPP, Text, SIZEOF(Text));
 					if (CheckApp && !(Length = strlen(Text))) {
 						MessageBox(hDlg,TranslateT("Please select application to run"),TranslateT("Input error"),MB_OK);
 						break;
 					}
 
-					GetDlgItemTextA(hDlg, IDC_COMBOACCOUNT, Text, sizeof(Text));
+					GetDlgItemTextA(hDlg, IDC_COMBOACCOUNT, Text, SIZEOF(Text));
 					if ( !( Length = strlen(Text))) {
-						GetDlgItemTextA(hDlg,IDC_EDITNAME, Text, sizeof(Text));
+						GetDlgItemTextA(hDlg,IDC_EDITNAME, Text, SIZEOF(Text));
 						if ( !(Length = strlen( Text )))
 							break;
 					}
@@ -1036,7 +1036,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 						DebugLog(SynchroFile,"Options:APPLY:ActualAccountSO-write enter\n");
 					#endif
 				        
-					GetDlgItemTextA(hDlg, IDC_EDITNAME, Text, sizeof(Text));
+					GetDlgItemTextA(hDlg, IDC_EDITNAME, Text, SIZEOF(Text));
 					if ( !(Length = strlen( Text )))
 						break;
 					if (NULL != ActualAccount->Name)
@@ -1044,19 +1044,19 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					ActualAccount->Name = new char[ strlen(Text)+1];
 					strcpy(ActualAccount->Name,Text);
 				        
-					GetDlgItemTextA(hDlg,IDC_EDITSERVER,Text,sizeof(Text));
+					GetDlgItemTextA(hDlg,IDC_EDITSERVER,Text,SIZEOF(Text));
 					if (NULL != ActualAccount->Server->Name)
 						delete[] ActualAccount->Server->Name;
 					ActualAccount->Server->Name=new char[ strlen(Text)+1];
 					strcpy(ActualAccount->Server->Name,Text);
 				        
-					GetDlgItemTextA(hDlg,IDC_EDITLOGIN,Text,sizeof(Text));
+					GetDlgItemTextA(hDlg,IDC_EDITLOGIN,Text,SIZEOF(Text));
 					if (NULL != ActualAccount->Server->Login)
 						delete[] ActualAccount->Server->Login;
 					ActualAccount->Server->Login=new char[ strlen(Text)+1];
 					strcpy(ActualAccount->Server->Login,Text);
 				        
-					GetDlgItemTextA(hDlg,IDC_EDITPASS,Text,sizeof(Text));
+					GetDlgItemTextA(hDlg,IDC_EDITPASS,Text,SIZEOF(Text));
 					if (NULL != ActualAccount->Server->Passwd)
 						delete[] ActualAccount->Server->Passwd;
 					ActualAccount->Server->Passwd=new char[ strlen(Text)+1];
@@ -1258,7 +1258,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					{
 
 						case CBN_KILLFOCUS:
-							GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput));
+							GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,SIZEOF(DlgInput));
 							if (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput)))
 							{
 								DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,0);
@@ -1437,7 +1437,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 							BOOL CheckPopN;
 							UINT Time,TimeN,TimeF;
 
-							if (GetDlgItemText(hDlg,IDC_COMBOACCOUNT,Text,sizeof(Text)/sizeof(TCHAR)))
+							if (GetDlgItemText(hDlg,IDC_COMBOACCOUNT,Text,SIZEOF(Text)))
 							{
 								CheckPopup = (IsDlgButtonChecked(hDlg,IDC_CHECKPOP)==BST_CHECKED);
 								CheckPopupW = (IsDlgButtonChecked(hDlg,IDC_CHECKCOL)==BST_CHECKED);

@@ -1173,7 +1173,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 
 					ZeroMemory(&ofn, sizeof(ofn));
 					*str = 0;
-					GetDlgItemText(hDlg, IDC_FILENAME, str, sizeof(str));
+					GetDlgItemText(hDlg, IDC_FILENAME, str, SIZEOF(str));
 					//ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.lStructSize = sizeof(ofn);
 					ofn.hwndOwner = hDlg;
@@ -1181,7 +1181,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 					ofn.lpstrFile = str;
 					ofn.Flags = dat->inSend?OFN_FILEMUSTEXIST:0;
 					ofn.lpstrTitle = dat->inSend?Translate("Select a file"):Translate("Save as");
-					ofn.nMaxFile = sizeof(str);
+					ofn.nMaxFile = SIZEOF(str);
 					ofn.nMaxFileTitle = MAX_PATH;
 					if(!GetOpenFileName(&ofn)) break;
 					if(!dat->inSend && dat->iState == STATE_FINISHED) break;

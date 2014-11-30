@@ -119,7 +119,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			UINT uid = LOWORD(wParam);
 			if (uid == IDOK){
 				char password[MAXPASSLEN + 1] = {0};
-				int passlen = GetDlgItemTextA(hDlg,IDC_EDIT1,password,MAXPASSLEN+1);
+				int passlen = GetDlgItemTextA(hDlg,IDC_EDIT1,password,SIZEOF(password));
 
 				if (passlen == 0)
 				{

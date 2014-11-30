@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				TCHAR tmp[5];
 				db_set_b(NULL, MODNAME, "AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (!IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
-					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, 4);
+					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, SIZEOF(tmp));
 					db_set_w(NULL, MODNAME, "Timer",(WORD)_ttoi(tmp));
 				}
 				else db_set_w(NULL, MODNAME, "Timer",0);
@@ -142,7 +142,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				char tmp[MAX_STRING_LENGTH];
 				int i=0,j;
 				if (GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING))) {
-					GetDlgItemTextA(hwnd, IDC_STRING, tmp, MAX_STRING_LENGTH);
+					GetDlgItemTextA(hwnd, IDC_STRING, tmp, SIZEOF(tmp));
 					if (tmp[strlen(tmp)-1] == '(') {
 						for (i=0; i<VARS; i++) 						{
 							if (!strcmp(braceList[i].var,&tmp[strlen(tmp)-strlen(braceList[i].var)])) {
@@ -184,7 +184,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			char str2replace[MAX_STRING_LENGTH], replacedString[MAX_STRING_LENGTH];
 			int error;
 			if (GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING))) {
-				GetDlgItemTextA(hwnd, IDC_STRING, str2replace, MAX_STRING_LENGTH);
+				GetDlgItemTextA(hwnd, IDC_STRING, str2replace, SIZEOF(str2replace));
 				switch (stringReplacer(str2replace, replacedString, NULL)) {
 				case ERROR_NO_LINE_AFTER_VAR_F:
 					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: no %s","%line or %wholeline or %lastline after %fn");

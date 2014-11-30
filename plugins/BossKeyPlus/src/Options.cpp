@@ -80,7 +80,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 				// status msg, if needed
 				if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG))) { // meaning we should save it
 					TCHAR tszMsg[1025];
-					GetDlgItemText(hwndDlg,IDC_MAINOPT_STATMSG,tszMsg,1024);
+					GetDlgItemText(hwndDlg,IDC_MAINOPT_STATMSG,tszMsg,SIZEOF(tszMsg));
 					if (tszMsg[0] != 0)
 						db_set_ts(NULL,MOD_NAME,"statmsg",tszMsg);
 					else // delete current setting
@@ -92,7 +92,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			// checkbox
 			if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_REQPASS) == BST_CHECKED) {
 				char szPass[MAXPASSLEN+1];
-				GetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,szPass,MAXPASSLEN+1);
+				GetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,szPass,SIZEOF(szPass));
 				if (szPass[0] != 0){
 					db_set_s(NULL,MOD_NAME,"password",szPass);
 					wMask |= OPT_REQPASS;
@@ -258,7 +258,7 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 					BossKeyMenuItemUnInit();
 
 				TCHAR szMinutes[4] = {0};
-				GetDlgItemText(hwndDlg,IDC_MAINOPT_TIME,szMinutes,3);
+				GetDlgItemText(hwndDlg,IDC_MAINOPT_TIME,szMinutes,SIZEOF(szMinutes));
 				minutes = _ttoi(szMinutes);
 				if(minutes<1) minutes = 1;
 				db_set_b(NULL,MOD_NAME,"time",minutes);

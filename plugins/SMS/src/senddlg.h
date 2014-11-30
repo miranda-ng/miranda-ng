@@ -19,7 +19,7 @@ HWND     SendSMSWindowHwndByHProcessGet(HANDLE hProcess);
 void     SendSMSWindowHProcessSet(HWND hWndDlg,HANDLE hProcess);
 BOOL     SendSMSWindowMultipleGet(HWND hWndDlg);
 void     SendSMSWindowMultipleSet(HWND hWndDlg,BOOL bMultiple);
-void     SendSMSWindowNumberSet(HWND hWndDlg,LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
+void     SendSMSWindowNumberSet(HWND hWndDlg,LPWSTR lpwszPhone,size_t dwPhoneSize);
 void     SendSMSWindowAsSentSet(HWND hWndDlg);
 void     SendSMSWindowDbeiSet(HWND hWndDlg,DBEVENTINFO *pdbei);
 void     SendSMSWindowDBAdd(HWND hWndDlg);
@@ -28,7 +28,7 @@ HWND     SendSMSWindowIsOtherInstanceHContact(MCONTACT hContact);
 void     SendSMSWindowNext(HWND hWndDlg);
 
 void     SendSMSWindowSMSContactAdd(HWND hWndDlg,MCONTACT hContact);
-MCONTACT SendSMSWindowSMSContactGet(HWND hWndDlg,SIZE_T iNum);
+MCONTACT SendSMSWindowSMSContactGet(HWND hWndDlg,size_t iNum);
 void     SendSMSWindowSMSContactsRemove(HWND hWndDlg);
 void     SendSMSWindowUpdateAccountList(HWND hWndDlg);
 void     SendSMSWindowsUpdateAllAccountLists();

@@ -235,13 +235,13 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					(BYTE) SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(NULL, "CLC", "NoVScrollBar", (BYTE) (IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
 
-				GetDlgItemText(hwndDlg, IDC_T_CONTACT, tmp, 1024);
+				GetDlgItemText(hwndDlg, IDC_T_CONTACT, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, "CLC", "TemplateContact", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_GROUP, tmp, 1024);
+				GetDlgItemText(hwndDlg, IDC_T_GROUP, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, "CLC", "TemplateGroup", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_DIVIDER, tmp, 1024);
+				GetDlgItemText(hwndDlg, IDC_T_DIVIDER, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, "CLC", "TemplateDivider", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_INFO, tmp, 1024);
+				GetDlgItemText(hwndDlg, IDC_T_INFO, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, "CLC", "TemplateInfo", tmp);
 
 				pcli->pfnClcOptionsChanged();

@@ -266,7 +266,7 @@ void ChooseFile(HWND hDlg)
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hDlg;
 	ofn.lpstrFile = szFile;
-	ofn.nMaxFile = 260;
+	ofn.nMaxFile = SIZEOF(szFile);
 	ofn.lpstrFilter = _T("All files (*.*)\0*.*\0Text files (*.txt)\0*.txt\0Log files (*.log)\0*.log\0\0");
 	ofn.nFilterIndex = 2;
 	ofn.Flags = OFN_CREATEPROMPT;

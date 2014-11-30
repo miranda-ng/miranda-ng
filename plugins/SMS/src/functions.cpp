@@ -1,9 +1,9 @@
 #include "common.h"
 
-BOOL DB_GetStaticStringW(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize)
+BOOL DB_GetStaticStringW(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszRetBuff,size_t dwRetBuffSize,size_t *pdwRetBuffSize)
 {// sizes in wchars
 	BOOL bRet=FALSE;
-	SIZE_T dwReadedStringLen;
+	size_t dwReadedStringLen;
 	DBVARIANT dbv={0};
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv)==0)
 	{
@@ -40,18 +40,18 @@ LPSTR GetModuleName(MCONTACT hContact)
 	return lpszRet;
 }
 
-void EnableControlsArray(HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsListCount,BOOL bEnabled)
+void EnableControlsArray(HWND hWndDlg,WORD *pwControlsList,size_t dwControlsListCount,BOOL bEnabled)
 {
-	for(SIZE_T i=0;i<dwControlsListCount;i++) EnableWindow(GetDlgItem(hWndDlg,pwControlsList[i]),bEnabled);
+	for(size_t i=0;i<dwControlsListCount;i++) EnableWindow(GetDlgItem(hWndDlg,pwControlsList[i]),bEnabled);
 }
 
 //This function gets a Cellular string szPhone and clean it from symbools.
-SIZE_T CopyNumberA(LPSTR lpszOutBuff,LPSTR lpszBuff,SIZE_T dwLen)
+size_t CopyNumberA(LPSTR lpszOutBuff,LPSTR lpszBuff,size_t dwLen)
 {
 	BYTE btChar;
 	LPBYTE lpbOutBuff=(LPBYTE)lpszOutBuff,lpbInBuff=(LPBYTE)lpszBuff;
 
-	for(SIZE_T i=0;i<dwLen;i++)
+	for(size_t i=0;i<dwLen;i++)
 	{
 		btChar=(*lpbInBuff++);
 		if (btChar>='0' && btChar<='9') (*lpbOutBuff++)=btChar;
@@ -61,12 +61,12 @@ SIZE_T CopyNumberA(LPSTR lpszOutBuff,LPSTR lpszBuff,SIZE_T dwLen)
 	return((lpbOutBuff-(LPBYTE)lpszOutBuff));
 }
 
-SIZE_T CopyNumberW(LPWSTR lpcOutBuff,LPWSTR lpcBuff,SIZE_T dwLen)
+size_t CopyNumberW(LPWSTR lpcOutBuff,LPWSTR lpcBuff,size_t dwLen)
 {
 	WCHAR wChar;
 	LPWSTR lpwszOutBuff=lpcOutBuff,lpwszInBuff=lpcBuff;
 
-	for(SIZE_T i=0;i<dwLen;i++)
+	for(size_t i=0;i<dwLen;i++)
 	{
 		wChar=(*lpwszInBuff++);
 		if (wChar>='0' && wChar<='9') (*lpwszOutBuff++)=wChar;
@@ -77,12 +77,12 @@ SIZE_T CopyNumberW(LPWSTR lpcOutBuff,LPWSTR lpcBuff,SIZE_T dwLen)
 }
 
 
-bool IsPhoneW(LPWSTR lpwszString,SIZE_T dwStringLen)
+bool IsPhoneW(LPWSTR lpwszString,size_t dwStringLen)
 {
 	if (dwStringLen <= 1)
 		return false;
 
-	for(SIZE_T i=0; i < dwStringLen; i++) {
+	for(size_t i=0; i < dwStringLen; i++) {
 		WCHAR wChar=(*lpwszString++);
 		if (wChar<'0' || wChar>'9')
 			if (wChar!='+' && wChar!='S' && wChar!='M' && wChar!=' ' && wChar!='(' && wChar!=')')
@@ -97,7 +97,7 @@ DWORD GetContactPhonesCountParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszVa
 	DWORD dwRet=0;
 	char szBuff[MAX_PATH];
 	WCHAR wszPhone[MAX_PHONE_LEN];
-	SIZE_T i,dwPhoneSize;
+	size_t i,dwPhoneSize;
 
 	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhone,SIZEOF(wszPhone),&dwPhoneSize))
 		if ( IsPhoneW(wszPhone,dwPhoneSize))
@@ -130,11 +130,11 @@ DWORD GetContactPhonesCount(MCONTACT hContact)
 }
 
 
-BOOL IsContactPhoneParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
+BOOL IsContactPhoneParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszPhone,size_t dwPhoneSize)
 {
 	char szBuff[MAX_PATH];
 	WCHAR wszPhoneLocal[MAX_PHONE_LEN];
-	SIZE_T i,dwPhoneSizeLocal;
+	size_t i,dwPhoneSizeLocal;
 
 	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal))
 		if ( IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
@@ -157,12 +157,12 @@ BOOL IsContactPhoneParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,
 }
 
 
-BOOL IsContactPhone(MCONTACT hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
+BOOL IsContactPhone(MCONTACT hContact,LPWSTR lpwszPhone,size_t dwPhoneSize)
 {
 	BOOL bRet=FALSE;
 	WCHAR wszPhoneLocal[MAX_PHONE_LEN];
 
-	SIZE_T dwPhoneSizeLocal = CopyNumberW(wszPhoneLocal,lpwszPhone,dwPhoneSize);
+	size_t dwPhoneSizeLocal = CopyNumberW(wszPhoneLocal,lpwszPhone,dwPhoneSize);
 	LPSTR lpszProto = GetContactProto(hContact);
 	if (lpszProto) {
 		if (bRet==FALSE) bRet=IsContactPhoneParam(hContact,lpszProto,"Phone",wszPhoneLocal,dwPhoneSizeLocal);
@@ -181,7 +181,7 @@ BOOL IsContactPhone(MCONTACT hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 //This function get a string cellular number and return the HANDLE of the contact that has this
 //number in the miranda phonebook (and marked as an SMS able) at the User Details.
 //If no one has this number function returns NULL.
-MCONTACT HContactFromPhone(LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
+MCONTACT HContactFromPhone(LPWSTR lpwszPhone,size_t dwPhoneSize)
 {
 	if (lpwszPhone && dwPhoneSize) {
 		//check not already on list
@@ -194,12 +194,12 @@ MCONTACT HContactFromPhone(LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 }
 
 
-BOOL GetDataFromMessage(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,SIZE_T *pdwPhoneSizeRet,UINT *piIcon)
+BOOL GetDataFromMessage(LPSTR lpszMessage,size_t dwMessageSize,DWORD *pdwEventType,LPWSTR lpwszPhone,size_t dwPhoneSize,size_t *pdwPhoneSizeRet,UINT *piIcon)
 {
 	BOOL bRet=FALSE;
 
 	DWORD dwEventTypeRet=0;
-	SIZE_T dwPhoneSizeRet=0;
+	size_t dwPhoneSizeRet=0;
 	UINT iIconRet=0;
 
 	if (lpszMessage && dwMessageSize) {
@@ -207,7 +207,7 @@ BOOL GetDataFromMessage(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventTy
 			LPSTR lpsz = (LPSTR)strstr(lpszMessage+10, "\r\n");
 			if (lpsz) {
 				if (lpwszPhone && dwPhoneSize) {
-					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+10),min((SIZE_T)(lpsz-(lpszMessage+10)),dwPhoneSize),lpwszPhone,dwPhoneSize);
+					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+10),min((size_t)(lpsz-(lpszMessage+10)),dwPhoneSize),lpwszPhone,dwPhoneSize);
 					dwPhoneSizeRet = CopyNumberW(lpwszPhone, lpwszPhone, dwPhoneSizeRet);
 				}
 			}
@@ -219,7 +219,7 @@ BOOL GetDataFromMessage(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventTy
 			LPSTR lpsz = (LPSTR)strstr(lpszMessage+23, "\r\n");
 			if (lpsz) {
 				if (lpwszPhone && dwPhoneSize) {
-					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+23),min((SIZE_T)(lpsz-(lpszMessage+23)),dwPhoneSize),lpwszPhone,dwPhoneSize);
+					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+23),min((size_t)(lpsz-(lpszMessage+23)),dwPhoneSize),lpwszPhone,dwPhoneSize);
 					dwPhoneSizeRet = CopyNumberW(lpwszPhone, lpwszPhone, dwPhoneSizeRet);
 				}
 
@@ -241,7 +241,7 @@ BOOL GetDataFromMessage(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventTy
 	return bRet;
 }
 
-BOOL GetXMLFieldEx(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR *plpszData,SIZE_T *pdwDataSize,const char *tag1,...)
+BOOL GetXMLFieldEx(LPSTR lpszXML,size_t dwXMLSize,LPSTR *plpszData,size_t *pdwDataSize,const char *tag1,...)
 {
 	BOOL bRet = FALSE;
 	int thisLevel = 0;
@@ -284,7 +284,7 @@ BOOL GetXMLFieldEx(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR *plpszData,SIZE_T *pdwDa
 }
 
 
-BOOL GetXMLFieldExBuff(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR lpszBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet,const char *tag1,...)
+BOOL GetXMLFieldExBuff(LPSTR lpszXML,size_t dwXMLSize,LPSTR lpszBuff,size_t dwBuffSize,size_t *pdwBuffSizeRet,const char *tag1,...)
 {
 	BOOL bRet=FALSE;
 	int thisLevel=0;
@@ -309,7 +309,7 @@ BOOL GetXMLFieldExBuff(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR lpszBuff,SIZE_T dwBu
 					{
 						if (lpszDataStart)
 						{
-							SIZE_T dwBuffSizeRet=min((dwBuffSize-2),(SIZE_T)((lpszTagStart-1)-lpszDataStart));
+							size_t dwBuffSizeRet=min((dwBuffSize-2),(size_t)((lpszTagStart-1)-lpszDataStart));
 							if (lpszBuff && dwBuffSize) CopyMemory(lpszBuff,lpszDataStart,dwBuffSizeRet);(*((WORD*)(lpszBuff+dwBuffSizeRet)))=0;
 							if (pdwBuffSizeRet) (*pdwBuffSizeRet)=dwBuffSizeRet;
 							bRet=TRUE;
@@ -344,11 +344,11 @@ BOOL GetXMLFieldExBuff(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR lpszBuff,SIZE_T dwBu
 	return(bRet);
 }
 
-DWORD ReplaceInBuff(LPVOID lpInBuff,SIZE_T dwInBuffSize,SIZE_T dwReplaceItemsCount,LPVOID *plpInReplaceItems,SIZE_T *pdwInReplaceItemsCounts,LPVOID *plpOutReplaceItems,SIZE_T *pdwOutReplaceItemsCounts,LPVOID lpOutBuff,SIZE_T dwOutBuffSize,SIZE_T *pdwOutBuffSize)
+DWORD ReplaceInBuff(LPVOID lpInBuff,size_t dwInBuffSize,size_t dwReplaceItemsCount,LPVOID *plpInReplaceItems,size_t *pdwInReplaceItemsCounts,LPVOID *plpOutReplaceItems,size_t *pdwOutReplaceItemsCounts,LPVOID lpOutBuff,size_t dwOutBuffSize,size_t *pdwOutBuffSize)
 {
 	DWORD dwRetErrorCode=NO_ERROR;
 	LPBYTE *plpszFound,lpszMessageConvertedCur,lpszMessageCur,lpszMessageCurPrev,lpszMessageConvertedMax;
-	SIZE_T i,dwFirstFoundedIndex=0,dwFoundedCount=0,dwMemPartToCopy;
+	size_t i,dwFirstFoundedIndex=0,dwFoundedCount=0,dwMemPartToCopy;
 
 	plpszFound=(LPBYTE*)MEMALLOC((sizeof(LPBYTE)*dwReplaceItemsCount));
 
@@ -409,23 +409,23 @@ DWORD ReplaceInBuff(LPVOID lpInBuff,SIZE_T dwInBuffSize,SIZE_T dwReplaceItemsCou
 
 
 static const LPTSTR lpszXMLTags[]		={TEXT("&apos;"),		TEXT("&quot;"),		TEXT("&amp;"),		TEXT("&lt;"),		TEXT("&gt;")};
-static const SIZE_T dwXMLTagsCount[]	={(6*sizeof(TCHAR)),	(6*sizeof(TCHAR)),	(5*sizeof(TCHAR)),	(4*sizeof(TCHAR)),	(4*sizeof(TCHAR))};
+static const size_t dwXMLTagsCount[]	={(6*sizeof(TCHAR)),	(6*sizeof(TCHAR)),	(5*sizeof(TCHAR)),	(4*sizeof(TCHAR)),	(4*sizeof(TCHAR))};
 static const LPTSTR lpszXMLSymbols[]	={TEXT("\'"),			TEXT("\""),			TEXT("&"),			TEXT("<"),			TEXT(">")};
-static const SIZE_T dwXMLSymbolsCount[]	={sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR)};
+static const size_t dwXMLSymbolsCount[]	={sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR),		sizeof(TCHAR)};
 
 //Decode XML coded string. The function translate special xml code into standard characters.
-DWORD DecodeXML(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize)
+DWORD DecodeXML(LPTSTR lptszMessage,size_t dwMessageSize,LPTSTR lptszMessageConverted,size_t dwMessageConvertedBuffSize,size_t *pdwMessageConvertedSize)
 {
-	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLTags,(SIZE_T*)dwXMLTagsCount,(LPVOID*)lpszXMLSymbols,(SIZE_T*)dwXMLSymbolsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
+	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLTags,(size_t*)dwXMLTagsCount,(LPVOID*)lpszXMLSymbols,(size_t*)dwXMLSymbolsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
 
 	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize)/=sizeof(TCHAR);
 	return(dwRet);
 }
 
 //Encode XML coded string. The function translate special saved xml characters into special characters.
-DWORD EncodeXML(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize)
+DWORD EncodeXML(LPTSTR lptszMessage,size_t dwMessageSize,LPTSTR lptszMessageConverted,size_t dwMessageConvertedBuffSize,size_t *pdwMessageConvertedSize)
 {
-	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLSymbols,(SIZE_T*)dwXMLSymbolsCount,(LPVOID*)lpszXMLTags,(SIZE_T*)dwXMLTagsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
+	DWORD dwRet=ReplaceInBuff(lptszMessage,(dwMessageSize*sizeof(TCHAR)),SIZEOF(lpszXMLTags),(LPVOID*)lpszXMLSymbols,(size_t*)dwXMLSymbolsCount,(LPVOID*)lpszXMLTags,(size_t*)dwXMLTagsCount,lptszMessageConverted,(dwMessageConvertedBuffSize*sizeof(TCHAR)),pdwMessageConvertedSize);
 
 	if (pdwMessageConvertedSize) (*pdwMessageConvertedSize)/=sizeof(TCHAR);
 	return(dwRet);

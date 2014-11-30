@@ -786,7 +786,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						return TRUE;
 					str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 					if (str) {
-						GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, customAux, MAX_PATH);
+						GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, customAux, SIZEOF(customAux));
 						if (wcscmp(str, customAux))
 							EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), TRUE);
 						else
@@ -798,7 +798,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 				TCHAR custom[MAX_PATH+1];
 
-				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, MAX_PATH);
+				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, SIZEOF(custom));
 				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(custom));
 				testSequence(custom);
 				}

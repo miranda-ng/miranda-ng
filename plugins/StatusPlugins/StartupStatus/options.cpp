@@ -224,7 +224,7 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				EmptyClipboard();
 
 				char cmdl[2048];
-				GetDlgItemTextA(hwndDlg,IDC_CMDL, cmdl, sizeof(cmdl));
+				GetDlgItemTextA(hwndDlg,IDC_CMDL, cmdl, SIZEOF(cmdl));
 				HGLOBAL cmdlGlob = GlobalAlloc(GMEM_MOVEABLE, sizeof(cmdl));
 				if (cmdlGlob == NULL) {
 					CloseClipboard();
@@ -870,7 +870,7 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 		case WM_COMMAND:
 			if (LOWORD(wParam) == IDC_OK) {
 				TCHAR profileName[128];
-				GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, sizeof(profileName));
+				GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, SIZEOF(profileName));
 				SendMessage(hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName);
 				// done and exit
 				DestroyWindow(hwndDlg);

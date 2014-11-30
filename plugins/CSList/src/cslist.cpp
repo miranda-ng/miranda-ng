@@ -390,7 +390,7 @@ void CSWindow::toggleEmptyListMessage()
 BOOL CSWindow::itemPassedFilter( ListItem< StatusItem >* li )
 {
 	TCHAR filter[MAX_PATH];
-	GetDlgItemText( m_handle, IDC_FILTER_FIELD, filter, MAX_PATH );
+	GetDlgItemText( m_handle, IDC_FILTER_FIELD, filter, SIZEOF(filter) );
 
 	if ( lstrlen( filter ))
 	{
@@ -566,7 +566,7 @@ void CSAMWindow::checkItemValidity()
 
 	TCHAR tszInputMessage[EXTRASTATUS_MESSAGE_LIMIT];
 
-	GetDlgItemText( m_handle, IDC_MESSAGE, tszInputMessage, EXTRASTATUS_MESSAGE_LIMIT );
+	GetDlgItemText( m_handle, IDC_MESSAGE, tszInputMessage, SIZEOF(tszInputMessage) );
 
 	PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_parent->m_protoName);
 	if (pdescr == NULL)

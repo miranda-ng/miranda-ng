@@ -251,20 +251,20 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 				case ID_OK:
 					{
 					TCHAR tmpPort[6];
-					GetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, tmpPort, sizeof(tmpPort));
+					GetDlgItemText(hWnd, ID_TXT_LOCAL_PORT, tmpPort, SIZEOF(tmpPort));
 					if (tmpPort[0]=='*')
 						connCurrentEditModal->intIntPort=-1;
 					else
 						connCurrentEditModal->intIntPort=GetDlgItemInt(hWnd, ID_TXT_LOCAL_PORT, NULL, FALSE);
-					GetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, tmpPort, sizeof(tmpPort));
+					GetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, tmpPort, SIZEOF(tmpPort));
 					if (tmpPort[0]=='*')
 						connCurrentEditModal->intExtPort=-1;
 					else
 						connCurrentEditModal->intExtPort = GetDlgItemInt(hWnd, ID_TXT_REMOTE_PORT, NULL, FALSE);
 					
-					GetDlgItemText(hWnd, ID_TXT_LOCAL_IP, connCurrentEditModal->strIntIp, sizeof(connCurrentEditModal->strIntIp));
-					GetDlgItemText(hWnd, ID_TXT_REMOTE_IP, connCurrentEditModal->strExtIp, sizeof(connCurrentEditModal->strExtIp));
-					GetDlgItemText(hWnd, ID_TEXT_NAME, connCurrentEditModal->PName, sizeof(connCurrentEditModal->PName));
+					GetDlgItemText(hWnd, ID_TXT_LOCAL_IP, connCurrentEditModal->strIntIp, SIZEOF(connCurrentEditModal->strIntIp));
+					GetDlgItemText(hWnd, ID_TXT_REMOTE_IP, connCurrentEditModal->strExtIp, SIZEOF(connCurrentEditModal->strExtIp));
+					GetDlgItemText(hWnd, ID_TEXT_NAME, connCurrentEditModal->PName, SIZEOF(connCurrentEditModal->PName));
 
 					connCurrentEditModal->Pid=!(BOOL)SendMessage(GetDlgItem(hWnd,ID_CBO_ACTION),CB_GETCURSEL, 0, 0);
 					

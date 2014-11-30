@@ -146,7 +146,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			char str[128];
 
 			ppro->setDword(UNIQUEIDSETTING, GetDlgItemInt(hwndDlg, IDC_ICQNUM, NULL, FALSE));
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(ppro->m_szPassword));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(ppro->m_szPassword));
 			if (mir_strlen(str)) {
 				strcpy(ppro->m_szPassword, str);
 				ppro->m_bRememberPwd = true;
@@ -154,7 +154,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else ppro->m_bRememberPwd = ppro->getByte("RememberPass", 0);
 			ppro->setString("Password", str);
 
-			GetDlgItemTextA(hwndDlg, IDC_ICQSERVER, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_ICQSERVER, str, SIZEOF(str));
 			ppro->setString("OscarServer", str);
 
 			ppro->setWord("OscarPort", (WORD)GetDlgItemInt(hwndDlg, IDC_ICQPORT, NULL, FALSE));

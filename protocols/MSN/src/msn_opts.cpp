@@ -174,7 +174,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					HWND tEditField = GetDlgItem(hwndDlg, IDC_MAILER_APP);
 
-					GetWindowTextA(tEditField, szFile, sizeof(szFile));
+					GetWindowTextA(tEditField, szFile, SIZEOF(szFile));
 
 					size_t tSelectLen = 0;
 
@@ -196,7 +196,7 @@ LBL_Continue:
 					OPENFILENAMEA ofn = { 0 };
 					ofn.lStructSize = sizeof(ofn);
 					ofn.hwndOwner = hwndDlg;
-					ofn.nMaxFile = sizeof(szFile);
+					ofn.nMaxFile = SIZEOF(szFile);
 					ofn.lpstrFile = szFile;
 					ofn.Flags = OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 					if (GetOpenFileNameA(&ofn) != TRUE)
@@ -225,14 +225,14 @@ LBL_Continue:
 
 			CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-			GetDlgItemTextA(hwndDlg, IDC_HANDLE, szEmail, sizeof(szEmail));
+			GetDlgItemTextA(hwndDlg, IDC_HANDLE, szEmail, SIZEOF(szEmail));
 			if (strcmp(_strlwr(szEmail), proto->MyOptions.szEmail)) {
 				reconnectRequired = true;
 				strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
 			}
 
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, sizeof(password));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
 			if (!proto->getString("Password", &dbv)) {
 				if (strcmp(password, dbv.pszVal)) {
 					reconnectRequired = true;
@@ -379,13 +379,13 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-			GetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER, str, SIZEOF(str));
 			if (strcmp(str, MSN_DEFAULT_LOGIN_SERVER))
 				proto->setString("DirectServer", str);
 			else
 				proto->delSetting("DirectServer");
 
-			GetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, str, SIZEOF(str));
 			if (strcmp(str, MSN_DEFAULT_GATEWAY))
 				proto->setString("GatewayServer", str);
 			else
@@ -406,7 +406,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			proto->setByte("AutoGetHost", (BYTE)gethst);
 
 			if (gethst == 0) {
-				GetDlgItemTextA(hwndDlg, IDC_YOURHOST, str, sizeof(str));
+				GetDlgItemTextA(hwndDlg, IDC_YOURHOST, str, SIZEOF(str));
 				proto->setString("YourHost", str);
 			}
 			else proto->delSetting("YourHost");
@@ -547,13 +547,13 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-			GetDlgItemTextA(hwndDlg, IDC_HANDLE, szEmail, sizeof(szEmail));
+			GetDlgItemTextA(hwndDlg, IDC_HANDLE, szEmail, SIZEOF(szEmail));
 			if (strcmp(szEmail, proto->MyOptions.szEmail)) {
 				strcpy(proto->MyOptions.szEmail, szEmail);
 				proto->setString("e-mail", szEmail);
 			}
 
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, sizeof(password));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
 			if (!proto->getString("Password", &dbv)) {
 				if (strcmp(password, dbv.pszVal))
 					proto->setString("Password", password);

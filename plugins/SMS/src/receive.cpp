@@ -38,7 +38,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 	char szPhone[MAX_PHONE_LEN] = { 0 };
 	TCHAR tszPhone[MAX_PHONE_LEN] = { 0 };
 	LPSTR lpszXML = (LPSTR)((ACKDATA*)lParam)->lParam, lpszData, lpszPhone;
-	SIZE_T dwXMLSize = 0, dwDataSize, dwPhoneSize;
+	size_t dwXMLSize = 0, dwDataSize, dwPhoneSize;
 	ACKDATA *ack = ((ACKDATA*)lParam);
 
 	if (lpszXML)
@@ -49,7 +49,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 		if (GetXMLFieldEx(lpszXML,dwXMLSize,&lpszPhone,&dwPhoneSize,"sms_message","sender",NULL))
 		{
 			LPSTR lpszMessageUTF;
-			SIZE_T dwBuffLen,dwMessageXMLEncodedSize,dwMessageXMLDecodedSize;
+			size_t dwBuffLen,dwMessageXMLEncodedSize,dwMessageXMLDecodedSize;
 			DBEVENTINFO dbei = { sizeof(dbei) };
 
 			dwBuffLen=(dwDataSize+MAX_PATH);

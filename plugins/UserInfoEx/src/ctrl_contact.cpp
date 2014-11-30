@@ -294,7 +294,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					TCHAR szText[MAXDATASIZE];
 					int errorPos;
 
-					if (!GetDlgItemText(hDlg, EDIT_PHONE, szText, MAXDATASIZE) || !CheckPhoneSyntax(szText, cbi->pszVal, cbi->ccVal, errorPos) || errorPos > -1) {
+					if (!GetDlgItemText(hDlg, EDIT_PHONE, szText, SIZEOF(szText)) || !CheckPhoneSyntax(szText, cbi->pszVal, cbi->ccVal, errorPos) || errorPos > -1) {
 						MsgErr(hDlg, TranslateT("The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only."));
 						break;
 					}

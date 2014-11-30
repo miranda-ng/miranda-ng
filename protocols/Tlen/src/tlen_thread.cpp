@@ -78,7 +78,7 @@ static INT_PTR CALLBACK TlenPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, onlinePassword, sizeof(onlinePassword));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, onlinePassword, SIZEOF(onlinePassword));
 			//EndDialog(hwndDlg, (int) onlinePassword);
 			//return TRUE;
 			// Fall through

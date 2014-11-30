@@ -29,7 +29,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_DISPLAY_NAME))) {
 					char text[512];
-					GetDlgItemTextA(hwnd,IDC_DISPLAY_NAME,text,sizeof(text));
+					GetDlgItemTextA(hwnd,IDC_DISPLAY_NAME,text,SIZEOF(text));
 					db_set_s(hContact, MODNAME, "Name", text);
 					WriteSetting(hContact, MODNAME, "Name", MODNAME, "Nick");
 				}
@@ -40,7 +40,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_TOOLTIP))) {
 					char text[2048];
-					GetDlgItemTextA(hwnd,IDC_TOOLTIP,text,sizeof(text));
+					GetDlgItemTextA(hwnd,IDC_TOOLTIP,text,SIZEOF(text));
 					db_set_s(hContact, MODNAME, "ToolTip", text);
 					WriteSetting(hContact, MODNAME, "ToolTip", "UserInfo", "MyNotes");
 				}
@@ -227,7 +227,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_LINK))) {
 					char text[512];
-					GetDlgItemTextA(hwnd,IDC_LINK,text,sizeof(text));
+					GetDlgItemTextA(hwnd,IDC_LINK,text,SIZEOF(text));
 					db_set_s(hContact, MODNAME, "ProgramString", text);
 					WriteSetting(hContact, MODNAME, "ProgramString", MODNAME, "Program");
 				}
@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_PARAMS))) {
 					char text[512];
-					GetDlgItemTextA(hwnd,IDC_PARAMS,text,sizeof(text));
+					GetDlgItemTextA(hwnd,IDC_PARAMS,text,SIZEOF(text));
 					db_set_s(hContact, MODNAME, "ProgramParamsString", text);
 					WriteSetting(hContact, MODNAME, "ProgramParamsString", MODNAME, "ProgramParams");
 				}

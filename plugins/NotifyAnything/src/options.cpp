@@ -57,7 +57,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case NA_LOG_BROWSE:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				TCHAR szTemp[MAX_PATH + 1], szTemp1[MAX_PATH + 1], szProfileDir[MAX_PATH + 1];
-				GetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp, MAX_PATH);
+				GetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp, SIZEOF(szTemp));
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
 				ofn.lpstrFile = szTemp;

@@ -2084,16 +2084,16 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 			  std::string old_pass, new_pass;
 			  extern TCHAR key_id_global[17];
 			  TCHAR buf[256] = {0};
-			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD1, buf, 255);
+			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD1, buf, SIZEOF(buf));
 			  new_pass = toUTF8(buf);
-			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, 255);
+			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, SIZEOF(buf));
 			  if(new_pass != toUTF8(buf))
 			  {
 				  MessageBox(hwndDlg, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
 				  //key_id_global[0] = 0;
 				  break;
 			  }
-			  GetDlgItemText(hwndDlg, IDC_OLD_PASSWD, buf, 255);
+			  GetDlgItemText(hwndDlg, IDC_OLD_PASSWD, buf, SIZEOF(buf));
 			  old_pass = toUTF8(buf);
 			  bool old_pass_match = false;
 			  TCHAR *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));

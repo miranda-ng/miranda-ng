@@ -219,7 +219,7 @@ void ReadPopupOpt(HWND hdlg)
 	opt.BGColour = SendDlgItemMessage(hdlg,IDC_BGCOLOUR,CPM_GETCOLOUR,0,0);
 
 	// get delay time
-	GetDlgItemText(hdlg, IDC_DELAY, str, sizeof(str));
+	GetDlgItemText(hdlg, IDC_DELAY, str, SIZEOF(str));
 	num = _ttoi(str);
 	opt.pDelay = num;
 
@@ -234,9 +234,9 @@ void ReadPopupOpt(HWND hdlg)
 	// popup texts
 	wfree(&opt.pText);
 	wfree(&opt.pTitle);
-	GetDlgItemText(hdlg, IDC_PText, text, MAX_TEXT_SIZE);
+	GetDlgItemText(hdlg, IDC_PText, text, SIZEOF(text));
 	wSetData(&opt.pText, text);
-	GetDlgItemText(hdlg, IDC_PTitle, text, MAX_TEXT_SIZE);
+	GetDlgItemText(hdlg, IDC_PTitle, text, SIZEOF(text));
 	wSetData(&opt.pTitle, text);
 }
 

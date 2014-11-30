@@ -165,7 +165,7 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 	HWND hwndDlg = (HWND) pHWND;
 
 	TCHAR searchid[128];
-	GetDlgItemText(hwndDlg, IDC_SEARCH_ID, searchid, 128);
+	GetDlgItemText(hwndDlg, IDC_SEARCH_ID, searchid, SIZEOF(searchid));
 
 	if (lstrlen(searchid) == 0) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);

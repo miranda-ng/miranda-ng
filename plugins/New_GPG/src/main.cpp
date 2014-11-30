@@ -322,7 +322,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  boost::algorithm::erase_all(out, "\r");
 			  {
 				  char buf[64];
-				  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, 63);
+				  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
 				  if(!strcmp(buf, Translate("Default")))
 				  {
 					  db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
@@ -351,7 +351,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  }
 			  }
 			  TCHAR passwd[64];
-			  GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, passwd, 64);
+			  GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, passwd, SIZEOF(passwd));
 			  if(passwd[0])
 			  {
 				  string dbsetting = "szKey_";
@@ -497,7 +497,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  }
 		  {
 			  char buf[64];
-			  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, 63);
+			  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
 			  if(!strcmp(buf, Translate("Default")))
 			  {
 				  db_unset(NULL, szGPGModuleName, "GPGPubKey");
@@ -625,7 +625,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  }
 				  {
 					  char buf[64];
-					  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, 63);
+					  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
 					  if(!strcmp(buf, Translate("Default")))
 					  {
 						  db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
@@ -650,7 +650,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  		case IDC_ACCOUNT:
 			{
 				char buf[64];
-				GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, 63);
+				GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, SIZEOF(buf));
 				if(!strcmp(buf, Translate("Default")))
 				{
 					string keyinfo = Translate("key ID");
@@ -1002,7 +1002,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
       case ID_OK:
         {
 		  TCHAR tmp[512];
-		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, 512);
+		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, SIZEOF(tmp));
 		  if(tmp[0])
 		  {
 			  char *mir_path = new char [MAX_PATH];
@@ -1052,7 +1052,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				  MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 		  }
 		  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
+		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
 		  while(tmp[_tcslen(tmp)-1] == '\\')
 			  tmp[_tcslen(tmp)-1] = '\0';
 		  if(!tmp[0])
@@ -1080,7 +1080,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	  case IDC_GENERATE_RANDOM:
         {
 			TCHAR tmp[512];
-			GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, 512);
+			GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, SIZEOF(tmp));
 			if(tmp[0])
 			{
 				char *mir_path = new char [MAX_PATH];
@@ -1130,7 +1130,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended to use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 			}
 			db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
+			GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, SIZEOF(tmp));
 			while(tmp[_tcslen(tmp)-1] == '\\')
 				tmp[_tcslen(tmp)-1] = '\0';
 			if(!tmp[0])

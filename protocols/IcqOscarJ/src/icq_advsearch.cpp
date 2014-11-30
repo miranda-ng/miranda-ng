@@ -72,7 +72,7 @@ static void searchPackTLVLNTS(PBYTE *buf, size_t *buflen, HWND hwndDlg, UINT idC
 {
 	char str[512];
 
-	GetDlgItemTextA(hwndDlg, idControl, str, sizeof(str));
+	GetDlgItemTextA(hwndDlg, idControl, str, SIZEOF(str));
 
 	ppackLETLVLNTS(buf, buflen, str, wType, 0);
 }
@@ -81,7 +81,7 @@ static void searchPackTLVWordLNTS(PBYTE *buf, size_t *buflen, HWND hwndDlg, UINT
 {
 	char str[512];
 
-	GetDlgItemTextA(hwndDlg, idControl, str, sizeof(str));
+	GetDlgItemTextA(hwndDlg, idControl, str, SIZEOF(str));
 
 	ppackLETLVWordLNTS(buf, buflen, w, str, wType, 0);
 }

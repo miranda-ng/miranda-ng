@@ -364,7 +364,7 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = str;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-	ofn.nMaxFile = sizeof(str);
+	ofn.nMaxFile = SIZEOF(str);
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = _T("txt");
 
@@ -429,7 +429,7 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = str;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
-	ofn.nMaxFile = sizeof(str);
+	ofn.nMaxFile = SIZEOF(str);
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = _T("txt");
 

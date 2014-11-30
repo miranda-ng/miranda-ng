@@ -211,7 +211,7 @@ INT_PTR WeatherAdvancedSearch(WPARAM wParam, LPARAM lParam)
 	if (searchId != -1) return 0;   //only one search at a time
 
 	searchId = 1;
-	GetDlgItemText((HWND)lParam, IDC_SEARCHCITY, name1, 256);
+	GetDlgItemText((HWND)lParam, IDC_SEARCHCITY, name1, SIZEOF(name1));
 
 	// search for the weather station using a thread
 	mir_forkthread(NameSearchTimerProc, NULL);

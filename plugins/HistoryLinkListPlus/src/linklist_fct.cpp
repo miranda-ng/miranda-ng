@@ -1283,7 +1283,7 @@ BOOL SaveEditAsStream( HWND hDlg )
 	mir_sntprintf(temp, SIZEOF(temp), _T("%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c"), TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrFile = szFilename;
-	ofn.nMaxFile = _countof(szFilename);
+	ofn.nMaxFile = SIZEOF(szFilename);
 	ofn.lpstrTitle = TranslateT("Save RTF File");
 	ofn.Flags = OFN_OVERWRITEPROMPT;
 	// Get a filename or quit
