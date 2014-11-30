@@ -1214,8 +1214,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					case IDC_TEST_EXTERNALIP: {
 							char szUrl[ 500 ];
 							char szKeyWord[ 1000 ];
-							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szUrl, sizeof(szUrl));
-							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, sizeof(szKeyWord));
+							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szUrl, SIZEOF(szUrl));
+							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, SIZEOF(szKeyWord));
 							DWORD dwExternalIP = GetExternIP(szUrl, szKeyWord);
 
 							mir_snprintf(szKeyWord, sizeof(szKeyWord), Translate("Your external IP was detected as %d.%d.%d.%d\r\nby: %s") ,
@@ -1231,7 +1231,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				switch (p->code) {
 					case PSN_APPLY: {
 							char szTemp[ 500 ];
-							if (GetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, szTemp, sizeof(szTemp)))
+							if (GetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, szTemp, SIZEOF(szTemp)))
 								db_set_s(NULL, MODULE, "ExternalSrvName", szTemp);
 
 							bool b = db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0;
@@ -1254,11 +1254,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							bShowPopups = IsDlgButtonChecked(hwndDlg, IDC_SHOW_POPUPS) == BST_CHECKED;
 							db_set_b(NULL, MODULE, "ShowPopups", bShowPopups);
 
-							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szTemp, sizeof(szTemp));
+							GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szTemp, SIZEOF(szTemp));
 							sUrlAddress = szTemp;
 							db_set_s(NULL, MODULE, "UrlAddress", sUrlAddress.c_str());
 
-							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szTemp, sizeof(szTemp));
+							GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szTemp, SIZEOF(szTemp));
 							sPageKeyword = szTemp;
 							db_set_s(NULL, MODULE, "PageKeyword", sPageKeyword.c_str());
 							dwExternalIpAddress = 0;

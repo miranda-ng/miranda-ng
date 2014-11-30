@@ -158,7 +158,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				bool reconnectRequired = false;
 				DBVARIANT dbv;
 
-				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, sizeof(text));
+				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, SIZEOF(text));
 				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
 					reconnectRequired = true;
 				}
@@ -170,7 +170,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				db_set_s(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
-					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
+					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, SIZEOF(text));
 					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
 						reconnectRequired = true;
 					}
@@ -302,7 +302,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				bool reconnectRequired = false;
 				DBVARIANT dbv;
 
-				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, sizeof(text));
+				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, SIZEOF(text));
 				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
 					reconnectRequired = true;
 				}
@@ -314,7 +314,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				db_set_s(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
-					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
+					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, SIZEOF(text));
 					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
 						reconnectRequired = true;
 					}
@@ -527,7 +527,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			bool reconnectRequired = false;
 			DBVARIANT dbv;
 
-			GetDlgItemTextA(hwndDlg, IDC_EDIT_LOGIN_SERVER, text, sizeof(text));
+			GetDlgItemTextA(hwndDlg, IDC_EDIT_LOGIN_SERVER, text, SIZEOF(text));
 			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 				reconnectRequired = true;
 			}
@@ -538,7 +538,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			db_set_s(NULL, proto->m_szModuleName, "LoginServer", strlwr(text));
 
-			GetDlgItemTextA(hwndDlg, IDC_HOST, text, sizeof(text));
+			GetDlgItemTextA(hwndDlg, IDC_HOST, text, SIZEOF(text));
 			if (db_get(NULL, proto->m_szModuleName, "ManualHost", &dbv)) {
 				reconnectRequired = true;
 			}
@@ -568,16 +568,16 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			db_set_b(NULL, proto->m_szModuleName, "UseFileProxy", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_USE_PROXY));
 			db_set_w(NULL, proto->m_szModuleName, "FileProxyType", (WORD) SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_GETCURSEL, 0, 0));
 
-			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_HOST, text, sizeof(text));
+			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_HOST, text, SIZEOF(text));
 			db_set_s(NULL, proto->m_szModuleName, "FileProxyHost", text);
 
 			db_set_w(NULL, proto->m_szModuleName, "FileProxyPort", (WORD) GetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, NULL, FALSE));
 			db_set_b(NULL, proto->m_szModuleName, "FileProxyAuth", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_PROXY_USE_AUTH));
 
-			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_USER, text, sizeof(text));
+			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_USER, text, SIZEOF(text));
 			db_set_s(NULL, proto->m_szModuleName, "FileProxyUsername", text);
 
-			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_PASSWORD, text, sizeof(text));
+			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_PASSWORD, text, SIZEOF(text));
 			db_set_s(NULL, proto->m_szModuleName, "FileProxyPassword", text);
 
 			if (reconnectRequired && proto->isConnected)

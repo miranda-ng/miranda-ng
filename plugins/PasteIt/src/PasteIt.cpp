@@ -84,7 +84,7 @@ std::wstring GetFile()
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = stzFilePath;
 	ofn.lpstrTitle = TranslateT("Paste It - Select file");
-	ofn.nMaxFile = 1024;
+	ofn.nMaxFile = SIZEOF(stzFilePath);
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
 	if(GetOpenFileName(&ofn))
 	{

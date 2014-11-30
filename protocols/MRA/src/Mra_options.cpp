@@ -42,7 +42,7 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 
 			if (GetDlgItemText(hWndDlg, IDC_PASSWORD, szBuff, SIZEOF(szBuff))) {
 				ppro->setTString("Password", szBuff);
-				SecureZeroMemory(szBuff, SIZEOF(szBuff));
+				SecureZeroMemory(szBuff, sizeof(szBuff));
 			}
 			return TRUE;
 		}

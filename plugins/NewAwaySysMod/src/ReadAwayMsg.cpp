@@ -72,7 +72,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			GetWindowText(hwndDlg, format, SIZEOF(format));
 			_sntprintf(str, SIZEOF(str), format, status, contactName);
 			SetWindowText(hwndDlg, str);
-			GetDlgItemText(hwndDlg, IDC_READAWAYMSG_RETRIEVE, format, sizeof(format));
+			GetDlgItemText(hwndDlg, IDC_READAWAYMSG_RETRIEVE, format, SIZEOF(format));
 			_sntprintf(str, SIZEOF(str), format, status);
 			SetDlgItemText(hwndDlg, IDC_READAWAYMSG_RETRIEVE, str);
 		}

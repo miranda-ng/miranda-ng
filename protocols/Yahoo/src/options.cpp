@@ -97,7 +97,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			bool reconnectRequired = false;
 
 			char str[128];
-			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, sizeof( str ));
+			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, SIZEOF(str));
 			if (ppro->getString(YAHOO_LOGINID, &dbv)) {
 				reconnectRequired = true;
 			}
@@ -108,7 +108,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			ppro->setString( YAHOO_LOGINID, str );
 
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof( str ));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
 			if (ppro->getString(YAHOO_PASSWORD, &dbv)) {
 				reconnectRequired = true;
 			}
@@ -119,7 +119,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 
 			ppro->setString( YAHOO_PASSWORD, str );
-			GetDlgItemTextA(hwndDlg, IDC_NICK, str, sizeof( str ));
+			GetDlgItemTextA(hwndDlg, IDC_NICK, str, SIZEOF(str));
 
 
 			if (str[0] == '\0') {
@@ -213,7 +213,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			bool reconnectRequired = false;
 			char str[128];
-			GetDlgItemTextA(hwndDlg, IDC_LOGINSERVER, str, sizeof( str ));
+			GetDlgItemTextA(hwndDlg, IDC_LOGINSERVER, str, SIZEOF(str));
 			
 			DBVARIANT dbv;
 			if (ppro->getString(YAHOO_LOGINSERVER, &dbv)) {
@@ -303,7 +303,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 				MessageBox(hwndDlg, TranslateT("You need to be connected to Yahoo to add to Ignore List."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
 			else {
 				char id[128];
-				int i = GetDlgItemTextA(hwndDlg, IDC_YIGN_EDIT, id, sizeof( id ));
+				int i = GetDlgItemTextA(hwndDlg, IDC_YIGN_EDIT, id, SIZEOF(id));
 
 				if (i < 3) {
 					MessageBox(hwndDlg, TranslateT("Please enter a valid buddy name to ignore."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);

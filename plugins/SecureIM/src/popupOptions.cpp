@@ -111,19 +111,19 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			break;
 		case IDC_TIMEKEY:
 			//set timeout value
-			GetDlgItemText(hDlg, IDC_TIMEKEY, getTimeout, sizeof(getTimeout));
+			GetDlgItemText(hDlg, IDC_TIMEKEY, getTimeout, SIZEOF(getTimeout));
 			mir_itoa(atoi(getTimeout), getTimeout, 10);
 			db_set_s(0, MODULENAME, "timeoutKey", getTimeout);
 			break;
 		case IDC_TIMESEC:
 			//set timeout value
-			GetDlgItemText(hDlg, IDC_TIMESEC, getTimeout, sizeof(getTimeout));
+			GetDlgItemText(hDlg, IDC_TIMESEC, getTimeout, SIZEOF(getTimeout));
 			mir_itoa(atoi(getTimeout), getTimeout, 10);
 			db_set_s(0, MODULENAME, "timeoutSec", getTimeout);
 			break;
 		case IDC_TIMESR:
 			//set timeout value
-			GetDlgItemText(hDlg, IDC_TIMESR, getTimeout, sizeof(getTimeout));
+			GetDlgItemText(hDlg, IDC_TIMESR, getTimeout, SIZEOF(getTimeout));
 			mir_itoa(atoi(getTimeout), getTimeout, 10);
 			db_set_s(0, MODULENAME, "timeoutSR", getTimeout);
 			break;

@@ -383,7 +383,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					case CONTROL_FILE:
 					{
 						TCHAR tmp[1024];
-						GetDlgItemText(hwndDlg, ctrl->nID, tmp, 1024);
+						GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
 						TCHAR rel[1024];
 						PathToRelative(rel, 1024, tmp);
 						db_set_ts(NULL, module, ctrl->setting, rel);
@@ -392,7 +392,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 					case CONTROL_COMBO_TEXT:
 					{
 						TCHAR tmp[1024];
-						GetDlgItemText(hwndDlg, ctrl->nID, tmp, 1024);
+						GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
 						db_set_ts(NULL, module, ctrl->setting, tmp);
 					}
 						break;

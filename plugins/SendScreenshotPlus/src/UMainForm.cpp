@@ -68,7 +68,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 		if(HIWORD(wParam)==BN_CLICKED && LOWORD(wParam)==ID_btnExplore){ /// local file tab
 			OPENFILENAME ofn={sizeof(OPENFILENAME)};
 			TCHAR filename[MAX_PATH];
-			GetDlgItemText(hDlg,ID_edtSize,filename,MAX_PATH);
+			GetDlgItemText(hDlg,ID_edtSize,filename,SIZEOF(filename));
 			ofn.lStructSize = sizeof(ofn);
 			ofn.hwndOwner = hDlg;
 			ofn.lpstrFilter = _T("Images\0*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff\0");
@@ -781,7 +781,7 @@ void TfrmMain::btnCaptureClick() {
 	if(m_opt_tabCapture==1) m_hTargetWindow=GetDesktopWindow();
 	else if(m_opt_tabCapture==2){
 		TCHAR filename[MAX_PATH];
-		GetDlgItemText(m_hwndTabPage, ID_edtSize, filename, MAX_PATH);
+		GetDlgItemText(m_hwndTabPage, ID_edtSize, filename, SIZEOF(filename));
 		FILE* fp=_wfopen(filename,_T("rb"));
 		if(!fp){
 			TCHAR *err = TranslateT("Select a file");
@@ -959,7 +959,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 		mir_tcsadd(pszFileDesc, TranslateT("for Client area "));
 	}
 	mir_tcsadd(pszFileDesc, TranslateT("of \""));
-	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, 1024);
+	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, SIZEOF(winText));
 	mir_tcsadd(pszFileDesc, winText);
 	if(m_opt_tabCapture==1)
 		mir_tcsadd(pszFileDesc, _T("\""));
@@ -1110,7 +1110,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 void TfrmMain::FormClose() {
 	if(m_opt_tabCapture==2){ /// existing file
 		TCHAR description[1024];
-		GetDlgItemText(m_hwndTabPage, ID_edtCaption, description, 1024);
+		GetDlgItemText(m_hwndTabPage, ID_edtCaption, description, SIZEOF(description));
 		if(!IsWindowEnabled(GetDlgItem(m_hWnd,ID_btnDesc)) || !m_opt_btnDesc)
 			*description='\0';
 		if(m_cSend) {

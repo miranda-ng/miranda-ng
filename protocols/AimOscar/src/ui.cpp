@@ -691,7 +691,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				break;
 
 			char name[64];
-			GetDlgItemTextA(hwndDlg, IDC_FNAME, name, sizeof(name));
+			GetDlgItemTextA(hwndDlg, IDC_FNAME, name, SIZEOF(name));
 			if (strlen(trim_str(name)) > 0 && !ppro->getString(AIM_KEY_SN, &dbv))
 			{
 				if (strcmp(name, dbv.pszVal))
@@ -700,7 +700,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 
 			char email[254];
-			GetDlgItemTextA(hwndDlg, IDC_CEMAIL, email, sizeof(email));
+			GetDlgItemTextA(hwndDlg, IDC_CEMAIL, email, SIZEOF(email));
 			if (strlen(trim_str(email)) > 1 && !ppro->getString(AIM_KEY_EM, &dbv)) // Must be greater than 1 or a SNAC error is thrown.
 			{
 				if (strcmp(email, dbv.pszVal))
@@ -711,9 +711,9 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			ShowWindow(GetDlgItem(hwndDlg, IDC_PINFO), SW_HIDE);
 
 			char cpw[256], npw1[256], npw2[256];
-			GetDlgItemTextA(hwndDlg, IDC_CPW, cpw, sizeof(cpw));
-			GetDlgItemTextA(hwndDlg, IDC_NPW1, npw1, sizeof(npw1));
-			GetDlgItemTextA(hwndDlg, IDC_NPW2, npw2, sizeof(npw2));
+			GetDlgItemTextA(hwndDlg, IDC_CPW, cpw, SIZEOF(cpw));
+			GetDlgItemTextA(hwndDlg, IDC_NPW1, npw1, SIZEOF(npw1));
+			GetDlgItemTextA(hwndDlg, IDC_NPW2, npw2, SIZEOF(npw2));
 			if (cpw[0] != 0 && npw1[0] != 0 && npw2[0] != 0)
 			{
 				// AOL only requires that you send the current password and a (single) new password.
@@ -864,7 +864,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				char str[128];
 				//SN
-				GetDlgItemTextA(hwndDlg, IDC_SN, str, sizeof(str));
+				GetDlgItemTextA(hwndDlg, IDC_SN, str, SIZEOF(str));
 				if (str[0] != 0)
 					ppro->setString(AIM_KEY_SN, str);
 				else
@@ -872,17 +872,17 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				//END SN
 
 				//NK
-				if (GetDlgItemTextA(hwndDlg, IDC_NK, str, sizeof(str)))
+				if (GetDlgItemTextA(hwndDlg, IDC_NK, str, SIZEOF(str)))
 					ppro->setString(AIM_KEY_NK, str);
 				else
 				{
-					GetDlgItemTextA(hwndDlg, IDC_SN, str, sizeof(str));
+					GetDlgItemTextA(hwndDlg, IDC_SN, str, SIZEOF(str));
 					ppro->setString(AIM_KEY_NK, str);
 				}
 				//END NK
 
 				//PW
-				GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(str));
+				GetDlgItemTextA(hwndDlg, IDC_PW, str, SIZEOF(str));
 				if (str[0] != 0)
 					ppro->setString(AIM_KEY_PW, str);
 				else
@@ -890,7 +890,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				//END PW
 
 				//HN
-				GetDlgItemTextA(hwndDlg, IDC_HN, str, sizeof(str));
+				GetDlgItemTextA(hwndDlg, IDC_HN, str, SIZEOF(str));
 				if (str[0] != 0 && strcmp(str, AIM_DEFAULT_SERVER))
 					ppro->setString(AIM_KEY_HN, str);
 				else
@@ -1196,10 +1196,10 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) {
 			char str[128];
-			GetDlgItemTextA(hwndDlg, IDC_SN, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_SN, str, SIZEOF(str));
 			ppro->setString(AIM_KEY_SN, str);
 
-			GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_PW, str, SIZEOF(str));
 			ppro->setString(AIM_KEY_PW, str);
 			return TRUE;
 		}
@@ -1306,7 +1306,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			char room[128];
-			GetDlgItemTextA(hwndDlg, IDC_ROOM, room, sizeof(room));
+			GetDlgItemTextA(hwndDlg, IDC_ROOM, room, SIZEOF(room));
 			if (ppro->state == 1 && room[0] != 0) {
 				chatnav_param* par = new chatnav_param(room, 4);
 				ppro->ForkThread(&CAimProto::chatnav_request_thread, par);
@@ -1461,7 +1461,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (item)
 					{
 						char msg[1024];
-						GetDlgItemTextA(hwndDlg, IDC_MSG, msg, sizeof(msg));
+						GetDlgItemTextA(hwndDlg, IDC_MSG, msg, SIZEOF(msg));
 
 						HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
 						clist_chat_invite_send(NULL, hwndList, item, param->ppro, msg);

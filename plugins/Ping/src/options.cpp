@@ -128,7 +128,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			options.block_reps = IsDlgButtonChecked(hwndDlg, IDC_CHK_BLOCK) == BST_CHECKED;
 			options.logging = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOG) == BST_CHECKED;
 			options.log_csv = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOGCSV) == BST_CHECKED;
-			GetDlgItemText(hwndDlg, IDC_ED_FILENAME, options.log_filename, MAX_PATH);
+			GetDlgItemText(hwndDlg, IDC_ED_FILENAME, options.log_filename, SIZEOF(options.log_filename));
 
 			options.no_test_icon = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOTESTICON) == BST_CHECKED;
 
@@ -232,14 +232,14 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ED_DESTPORT), IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP));
 				break;
 			case IDOK:
-				GetDlgItemText(hwndDlg, IDC_ED_DESTADDR, add_edit_addr.pszName, MAX_PINGADDRESS_STRING_LENGTH);
-				GetDlgItemText(hwndDlg, IDC_ED_DESTLAB, add_edit_addr.pszLabel, MAX_PINGADDRESS_STRING_LENGTH);
-				GetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand, MAX_PATH);
-				GetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams, MAX_PATH);
+				GetDlgItemText(hwndDlg, IDC_ED_DESTADDR, add_edit_addr.pszName, SIZEOF(add_edit_addr.pszName));
+				GetDlgItemText(hwndDlg, IDC_ED_DESTLAB, add_edit_addr.pszLabel, SIZEOF(add_edit_addr.pszLabel));
+				GetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand, SIZEOF(add_edit_addr.pszCommand));
+				GetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams, SIZEOF(add_edit_addr.pszParams));
 
 				if(SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_GETCURSEL, 0, 0) != -1)
 				{
-					GetDlgItemTextA(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, MAX_PINGADDRESS_STRING_LENGTH);
+					GetDlgItemTextA(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, SIZEOF(add_edit_addr.pszProto));
 					if(!strcmp(add_edit_addr.pszProto, Translate("<none>")))
 						add_edit_addr.pszProto[0] = '\0';
 					else {

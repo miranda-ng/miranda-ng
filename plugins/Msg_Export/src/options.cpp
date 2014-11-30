@@ -297,7 +297,7 @@ void SetToDefault( HWND hParent )
 	}
 
 	TCHAR szTemp[ 500 ];
-	if ( !GetDlgItemText( hParent, IDC_DEFAULT_FILE, szTemp, sizeof( szTemp)) )
+	if ( !GetDlgItemText( hParent, IDC_DEFAULT_FILE, szTemp, SIZEOF(szTemp)) )
 		return;
 	
 	LVITEM sItem = { 0 };
@@ -359,16 +359,16 @@ BOOL bApplyChanges( HWND hwndDlg )
 		nMaxLineWidth = nTmp;
 	}
 
-	GetDlgItemText(hwndDlg, IDC_EXPORT_TIMEFORMAT, szTemp, sizeof( szTemp));
+	GetDlgItemText(hwndDlg, IDC_EXPORT_TIMEFORMAT, szTemp, SIZEOF(szTemp));
 	sTimeFormat = szTemp;
 
-	GetDlgItemText(hwndDlg, IDC_EXPORT_DIR, szTemp, sizeof( szTemp));
+	GetDlgItemText(hwndDlg, IDC_EXPORT_DIR, szTemp, SIZEOF(szTemp));
 	sExportDir = szTemp;
 
-	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szTemp, sizeof( szTemp));
+	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szTemp, SIZEOF(szTemp));
 	sDefaultFile = szTemp;
 
-	GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szTemp, sizeof( szTemp));
+	GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szTemp, SIZEOF(szTemp));
 	sFileViewerPrg = szTemp;
 
 	bUseInternalViewer( IsDlgButtonChecked(hwndDlg, IDC_USE_INTERNAL_VIEWER ) == BST_CHECKED);
@@ -469,7 +469,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 {
 	
 	TCHAR szDefaultFile[500];
-	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szDefaultFile, sizeof( szDefaultFile));
+	GetDlgItemText(hwndDlg, IDC_DEFAULT_FILE, szDefaultFile, SIZEOF(szDefaultFile));
 	
 	LVITEM sItem = { 0 };
 
@@ -891,13 +891,13 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					OPENFILENAME ofn = { 0 };       // common dialog box structure
 					TCHAR szFile[260];       // buffer for file name
 
-					GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szFile, sizeof(szFile));
+					GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szFile, SIZEOF(szFile));
 					// Initialize OPENFILENAME
 					//ZeroMemory(&ofn, sizeof(OPENFILENAME));
 					ofn.lStructSize = sizeof(OPENFILENAME);
 					ofn.hwndOwner = hwndDlg;
 					ofn.lpstrFile = szFile;
-					ofn.nMaxFile = sizeof(szFile);
+					ofn.nMaxFile = SIZEOF(szFile);
 					TCHAR buf[MAX_PATH];
 					mir_sntprintf(buf, SIZEOF(buf), _T("%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c"), TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
 					ofn.lpstrFilter = buf;

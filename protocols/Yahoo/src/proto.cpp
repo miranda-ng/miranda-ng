@@ -769,7 +769,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			char str[128];
 			bool reconnectRequired = false;
 
-			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, SIZEOF(str));
 			
 			if (ppro->getString(YAHOO_LOGINID, &dbv)) {
 				reconnectRequired = true;
@@ -781,7 +781,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			ppro->setString(YAHOO_LOGINID, str);
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
 
 			if (ppro->getString(YAHOO_PASSWORD, &dbv)) {
 				reconnectRequired = true;

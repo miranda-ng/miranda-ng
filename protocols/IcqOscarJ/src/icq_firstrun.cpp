@@ -86,10 +86,10 @@ INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			char str[128];
-			GetDlgItemTextA(hwndDlg, IDC_UIN, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_UIN, str, SIZEOF(str));
 			ppro->setDword(UNIQUEIDSETTING, atoi(str));
 
-			GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(ppro->m_szPassword));
+			GetDlgItemTextA(hwndDlg, IDC_PW, str, SIZEOF(ppro->m_szPassword));
 			strcpy(ppro->m_szPassword, str);
 			ppro->setString("Password", str);
 			break;

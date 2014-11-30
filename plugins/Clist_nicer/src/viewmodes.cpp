@@ -690,7 +690,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				char szBuf[256];
 
 				szBuf[0] = 0;
-				GetDlgItemTextA(hwndDlg, IDC_NEWVIEMODE, szBuf, 256);
+				GetDlgItemTextA(hwndDlg, IDC_NEWVIEMODE, szBuf, SIZEOF(szBuf));
 				szBuf[255] = 0;
 
 				if (lstrlenA(szBuf) > 2) {

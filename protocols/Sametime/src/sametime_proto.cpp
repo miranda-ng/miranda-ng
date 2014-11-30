@@ -224,7 +224,7 @@ HWND CSametimeProto::SearchAdvanced(HWND owner)
 {
 	TCHAR buf[512];
 	int ret = 0;
-	if (GetDlgItemText(owner, IDC_EDIT1, buf, 512)) {
+	if (GetDlgItemText(owner, IDC_EDIT1, buf, SIZEOF(buf))) {
 		debugLog(_T("CSametimeProto::SearchAdvanced()  buf:len=[%d]"), buf == NULL ? -1 : _tcslen(buf));
 		char* buf_utf8 = mir_utf8encodeT(buf);
 		ret = SearchForUser(buf_utf8, TRUE);

@@ -1765,7 +1765,7 @@ static HFONT CLUILoadTitleBarFont()
 	HFONT hfont;
 	LOGFONTA logfont;
 	memset(&logfont, 0, sizeof(logfont));
-	memmove(logfont.lfFaceName,facename,sizeof(facename));
+	memcpy(logfont.lfFaceName,facename,sizeof(facename));
 	logfont.lfWeight = FW_NORMAL;
 	logfont.lfHeight = -10;
 	logfont.lfCharSet = DEFAULT_CHARSET;

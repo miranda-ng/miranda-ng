@@ -99,7 +99,7 @@ static void FetchField(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 
 	if (hwndDlg == NULL || fieldName == NULL || str == NULL || strSize == NULL)
 		return;
-	GetDlgItemTextA(hwndDlg, idCtrl, text, sizeof(text));
+	GetDlgItemTextA(hwndDlg, idCtrl, text, SIZEOF(text));
 	if (text[0]) {
 		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
 			if ((localText=TlenTextEncode(text)) != NULL) {

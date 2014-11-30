@@ -911,7 +911,7 @@ void CManagerDlg::OnClose()
 	}
 
 	TCHAR window[256];
-	GetDlgItemText(m_hwnd, IDC_CAPTION, window, 255);
+	GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
 	CMString S = _T("");
 	TCHAR temp[1000];
 	for (int i = 0; i < 5; i++) {
@@ -1246,7 +1246,7 @@ void CManagerDlg::OnRadio(CCtrlData*)
 void CManagerDlg::ApplyQuestion()
 {
 	TCHAR window[256];
-	GetDlgItemText(m_hwnd, IDC_CAPTION, window, 255);
+	GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
 
 	TCHAR mode[3];
 	lstrcpy(mode, _T("+b"));

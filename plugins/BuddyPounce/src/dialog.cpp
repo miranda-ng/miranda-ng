@@ -37,11 +37,11 @@ void saveLastSetting(MCONTACT hContact, HWND hwnd)
 	case 6: // nothing to do...
 		break;
 	case 3: // Reuse Pounce
-		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, 8);
+		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, SIZEOF(number));
 		db_set_b(hContact, modname, "Reuse", (BYTE)_ttoi(number));
 		break;
 	case 4: // Give Up delay
-		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, 8);
+		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, SIZEOF(number));
 		db_set_b(hContact, modname, "GiveUpDays", (BYTE)_ttoi(number));
 		{
 			time_t today = time(NULL);
@@ -49,7 +49,7 @@ void saveLastSetting(MCONTACT hContact, HWND hwnd)
 		}
 		break;
 	case 5:	// confirm window
-		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, 8);
+		GetDlgItemText(hwnd, IDC_SETTINGNUMBER, number, SIZEOF(number));
 		db_set_w(hContact, modname, "ConfirmTimeout", (WORD)_ttoi(number));
 		break;
 	}
@@ -90,7 +90,7 @@ INT_PTR CALLBACK StatusModesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		case IDCANCEL:
 			windowInfo *wi = (windowInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			TCHAR type[32];
-			GetDlgItemText(hwnd, IDC_CHECK1, type, 32);
+			GetDlgItemText(hwnd, IDC_CHECK1, type, SIZEOF(type));
 
 			WORD flag = (IsDlgButtonChecked(hwnd, IDC_CHECK1))
 				|(IsDlgButtonChecked(hwnd, IDC_CHECK2)<<1)

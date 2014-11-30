@@ -248,7 +248,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				OPENFILENAMEA ofn = {0};
 				char filter[512];
 
-				GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, sizeof(str));
+				GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 				ofn.lStructSize = sizeof(OPENFILENAMEA);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
@@ -256,7 +256,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-				ofn.nMaxFile = sizeof(str);
+				ofn.nMaxFile = SIZEOF(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = "bmp";
 				if (!GetOpenFileNameA(&ofn))

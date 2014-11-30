@@ -518,7 +518,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		switch (LOWORD(wParam)) {
 		case IDC_RSA_COPY:
 			char txt[128];
-			GetDlgItemText(hDlg, IDC_RSA_SHA, txt, sizeof(txt));
+			GetDlgItemText(hDlg, IDC_RSA_SHA, txt, SIZEOF(txt));
 			CopyToClipboard(hDlg, txt);
 			return TRUE;
 
@@ -803,7 +803,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		{
 			char gpgexe[256];
 			char filter[128];
-			GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, sizeof(gpgexe));
+			GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, SIZEOF(gpgexe));
 
 			// filter zusammensetzen
 			mir_snprintf(filter, SIZEOF(filter), _T("%s (*.exe)%c*.exe%c%c"), Translate("Executable Files"), 0, 0, 0);
@@ -813,7 +813,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			ofn.hwndOwner = hDlg;
 			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = gpgexe;
-			ofn.nMaxFile = sizeof(gpgexe);
+			ofn.nMaxFile = SIZEOF(gpgexe);
 			ofn.lpstrTitle = Translate("Select GnuPG Executable");
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_HIDEREADONLY;
 
@@ -1327,9 +1327,9 @@ void ApplyGPGSettings(HWND hDlg)
 {
 	char tmp[256];
 
-	GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, tmp, sizeof(tmp));
+	GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgExec", tmp);
-	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, sizeof(tmp));
+	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgHome", tmp);
 
 	bSavePass = (SendMessage(GetDlgItem(hDlg, IDC_SAVEPASS_CBOX), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
@@ -1337,14 +1337,14 @@ void ApplyGPGSettings(HWND hDlg)
 
 	BOOL bgpgLogFlag = (SendMessage(GetDlgItem(hDlg, IDC_LOGGINGON_CBOX), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgLogFlag", bgpgLogFlag);
-	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, sizeof(tmp));
+	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgLog", tmp);
 	if (bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(0);
 
 	BOOL bgpgTmpFlag = (SendMessage(GetDlgItem(hDlg, IDC_TMPPATHON_CBOX), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgTmpFlag", bgpgTmpFlag);
-	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, sizeof(tmp));
+	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgTmp", tmp);
 	if (bgpgTmpFlag)	gpg_set_tmp(tmp);
 	else gpg_set_tmp(0);

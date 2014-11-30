@@ -346,7 +346,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		TCHAR szTemp[TEMPLATE_LENGTH + 2];
 
 		if (teInfo->changed) {
-			CopyMemory(szTemp, tSet->szTemplates[teInfo->inEdit], TEMPLATE_LENGTH * sizeof(TCHAR));
+			CopyMemory(szTemp, tSet->szTemplates[teInfo->inEdit], (TEMPLATE_LENGTH * sizeof(TCHAR)));
 			GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit], TEMPLATE_LENGTH);
 		}
 		dbei.szModule = dat->szProto;

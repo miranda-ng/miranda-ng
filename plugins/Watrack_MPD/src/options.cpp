@@ -47,13 +47,13 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
         
       case PSN_APPLY:
         {
-			TCHAR szText[128];
+			TCHAR szText[256];
 			db_set_w(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
 			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE);
-			GetDlgItemText(hwndDlg, IDC_SERVER, szText, sizeof(szText));
+			GetDlgItemText(hwndDlg, IDC_SERVER, szText, SIZEOF(szText));
 			db_set_ts(NULL, szModuleName, "Server", szText);
 			_tcscpy(gbHost, szText);
-			GetDlgItemText(hwndDlg, IDC_PASSWORD, szText, sizeof(szText));
+			GetDlgItemText(hwndDlg, IDC_PASSWORD, szText, SIZEOF(szText));
 			db_set_ts(NULL, szModuleName, "Password", szText);
 			_tcscpy(gbPassword, szText);
           return TRUE;

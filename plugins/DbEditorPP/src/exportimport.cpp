@@ -550,26 +550,26 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 						GetDlgItemText(hwnd, IDC_TEXT, string, length+1);
 
 						if (Min == -1)
-							memcpy(string, crlf_string, SIZEOF(crlf_string));
+							memcpy(string, crlf_string, sizeof(crlf_string));
 						else
 						if (Max == -1 || Max >= length)
-							memcpy(&string[Min], crlf_string, SIZEOF(crlf_string));
+							memcpy(&string[Min], crlf_string, sizeof(crlf_string));
 						else
 						if (Max-Min > 2)
 						{
-							memcpy(&string[Min], crlf_string, SIZEOF(crlf_string));
+							memcpy(&string[Min], crlf_string, sizeof(crlf_string));
 							memmove(&string[Min+2], &string[Max], length - Max + 1);
 						}
 						else
 						{
 							memmove(&string[Min+2], &string[Max], length - Max + 1);
-							memcpy(&string[Min], crlf_string, SIZEOF(crlf_string));
+							memcpy(&string[Min], crlf_string, sizeof(crlf_string));
 						}
 
 						if (Min) Pos += Min;
 					}
 					else
-						memcpy(string, crlf_string, SIZEOF(crlf_string));
+						memcpy(string, crlf_string, sizeof(crlf_string));
 
 					SetDlgItemText(hwnd, IDC_TEXT, string);
 					SendDlgItemMessage(hwnd,IDC_TEXT,EM_SETSEL,Pos,Pos);

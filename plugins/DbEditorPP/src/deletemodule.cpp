@@ -91,7 +91,7 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		case IDOK:
 			{
 				char text[128];
-				GetDlgItemText(hwnd,IDC_CONTACTS,text,128);
+				GetDlgItemText(hwnd,IDC_CONTACTS,text,SIZEOF(text));
 				SetCursor(LoadCursor(NULL,IDC_WAIT));
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					deleteModule(text,hContact,1);

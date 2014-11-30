@@ -747,7 +747,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			OPENFILENAMEA ofn = { 0 };
 			char filter[512];
 
-			GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
 			ofn.hInstance = NULL;
@@ -755,7 +755,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = str;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-			ofn.nMaxFile = sizeof(str);
+			ofn.nMaxFile = SIZEOF(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			ofn.lpstrDefExt = "bmp";
 			if (!GetOpenFileNameA(&ofn))
@@ -789,7 +789,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				{
 					char str[MAX_PATH], strrel[MAX_PATH];
 
-					GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, sizeof(str));
+					GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 					if ( PathToRelative(str, strrel))
 						cfg::writeString(NULL, "CLC", "BkBitmap", strrel);
 					else

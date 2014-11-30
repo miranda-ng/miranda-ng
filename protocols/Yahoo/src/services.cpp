@@ -147,7 +147,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 				CYahooProto* ppro = ( CYahooProto* )GetWindowLongPtr(hwndDlg, GWLP_USERDATA );
 
 				/* Get String from dialog */
-				GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, sizeof( str ));
+				GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, SIZEOF(str));
 
 				/* Save it for later use */
 				ppro->setString( YAHOO_CUSTSTATDB, str );
@@ -174,7 +174,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				BOOL toSet;
 
-				toSet = GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, sizeof( str )) != 0;
+				toSet = GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, SIZEOF(str)) != 0;
 
 				EnableWindow( GetDlgItem(hwndDlg, IDOK ), toSet );
 			}

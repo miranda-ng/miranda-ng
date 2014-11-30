@@ -262,7 +262,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			char str[128];
 			DBVARIANT dbv;
 
-			GetDlgItemTextA(hwndDlg, IDC_LOGIN, login, sizeof(login));
+			GetDlgItemTextA(hwndDlg, IDC_LOGIN, login, SIZEOF(login));
 			dbv.pszVal = NULL;
 			if (db_get(NULL, protocolname, "login", &dbv) || lstrcmpA(login, dbv.pszVal))
 				reconnectRequired = 1;
@@ -287,7 +287,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			db_set_s(NULL, protocolname, "Username", login);
 
 			//nur wenn der nick erfolgreich übertragen wurde
-			GetDlgItemTextA(hwndDlg, IDC_NICK, login, sizeof(login));
+			GetDlgItemTextA(hwndDlg, IDC_NICK, login, SIZEOF(login));
 			dbv.pszVal = NULL;
 			if (db_get(NULL, protocolname, "Nick", &dbv) || lstrcmpA(login, dbv.pszVal))
 			{
@@ -297,14 +297,14 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (dbv.pszVal != NULL)
 				db_free(&dbv);
 
-			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
 			dbv.pszVal = NULL;
 			if (db_get(NULL, protocolname, "password", &dbv) || lstrcmpA(str, dbv.pszVal))
 				reconnectRequired = 1;
 			if (dbv.pszVal != NULL)
 				db_free(&dbv);
 			db_set_s(NULL, protocolname, "password", str);
-			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, SIZEOF(str));
 
 			//neue preferencen sichern
 			if (bpStatus != ID_STATUS_OFFLINE&&bpStatus != ID_STATUS_CONNECTING)
@@ -331,7 +331,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 
 			//protocolversion wird autoamtisch vergeben
-			//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
+			//GetDlgItemTextA(hwndDlg,IDC_PVER,str,SIZEOF(str));
 			//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
 			if (reconnectRequired)
@@ -558,7 +558,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			db_set_b(NULL, protocolname, "scanalways", (BYTE)ccc);
 
 			//protocolversion wird autoamtisch vergeben
-			//GetDlgItemTextA(hwndDlg,IDC_PVER,str,sizeof(str));
+			//GetDlgItemTextA(hwndDlg,IDC_PVER,str,SIZEOF(str));
 			//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
 			if (reconnectRequired) MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the XFire network before they take effect"), TranslateT("XFire Options"), MB_OK | MB_ICONINFORMATION);
@@ -739,7 +739,7 @@ static INT_PTR CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			int reconnectRequired = 0;
 			char str[512];
 
-			GetDlgItemTextA(hwndDlg, IDC_STATUSMSG, str, sizeof(str));
+			GetDlgItemTextA(hwndDlg, IDC_STATUSMSG, str, SIZEOF(str));
 			db_set_s(NULL, protocolname, "setstatusmsg", str);
 
 			db_set_b(NULL, protocolname, "autosetstatusmsg", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG));
@@ -1053,7 +1053,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 								//extra parameter auslesen und das gameobj schreiben
 								char str[128] = "";
-								GetDlgItemTextA(hwndDlg, IDC_EXTRAPARAMS, str, sizeof(str));
+								GetDlgItemTextA(hwndDlg, IDC_EXTRAPARAMS, str, SIZEOF(str));
 								if (str[0] != 0)
 								{
 									//extra parameter sind gesetzt, zuweisen

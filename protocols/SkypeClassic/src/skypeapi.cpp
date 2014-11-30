@@ -738,7 +738,7 @@ static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			switch (LOWORD(wParam)) {
 				case IDDIAL:
 					EnableWindow(GetDlgItem(hwndDlg, IDDIAL), FALSE);
-					GetDlgItemTextA(hwndDlg, IDC_NUMBER, number, sizeof(number));
+					GetDlgItemTextA(hwndDlg, IDC_NUMBER, number, SIZEOF(number));
 					if (!strncmp(number, "00", 2)) {					
 						memmove(number, number+1, sizeof(number)-1);
 						number[0]='+';
@@ -834,15 +834,15 @@ static INT_PTR CALLBACK CallstatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					TranslateDialogDefault(hwndDlg);
 					SendMessage(hwndDlg, WM_COMMAND, IDC_JOIN, 0);
 
-					GetWindowTextA(hwndDlg, buf, sizeof(buf));
+					GetWindowTextA(hwndDlg, buf, SIZEOF(buf));
 					_snprintf(buf2, sizeof(buf), buf, CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)lParam,0));
 					SetWindowTextA(hwndDlg, buf2);
 					
-					GetDlgItemTextA(hwndDlg, IDC_JOIN, buf, sizeof(buf));
+					GetDlgItemTextA(hwndDlg, IDC_JOIN, buf, SIZEOF(buf));
 					_snprintf(buf2, sizeof(buf), buf, szOtherCaller);
 					SetDlgItemTextA(hwndDlg, IDC_JOIN, buf2);
 
-					GetDlgItemTextA(hwndDlg, IDC_HOLD, buf, sizeof(buf));
+					GetDlgItemTextA(hwndDlg, IDC_HOLD, buf, SIZEOF(buf));
 					_snprintf(buf2, sizeof(buf), buf, szOtherCaller);
 					SetDlgItemTextA(hwndDlg, IDC_HOLD, buf2);
 

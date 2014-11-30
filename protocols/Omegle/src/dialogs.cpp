@@ -50,7 +50,7 @@ static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* sz
 {
 	TCHAR tstr[250+1];
 
-	GetDlgItemText(hwnd, idCtrl, tstr, sizeof(tstr));
+	GetDlgItemText(hwnd, idCtrl, tstr, SIZEOF(tstr));
 	if ( _tcsclen( tstr ) > 0 ) {
 		db_set_ts(NULL, ppro->m_szModuleName, szSetting, tstr);
 	} else {

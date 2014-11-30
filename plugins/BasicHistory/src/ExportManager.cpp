@@ -58,7 +58,7 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = stzFilePath;
 	ofn.lpstrTitle = open ? TranslateT("Import") : TranslateT("Export");
-	ofn.nMaxFile = 1024;
+	ofn.nMaxFile = SIZEOF(stzFilePath);
 	ofn.lpstrDefExt = ext;
 	if (open) {
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;

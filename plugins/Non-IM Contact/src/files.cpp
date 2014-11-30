@@ -183,7 +183,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					char text[512], url[512], fn[10] = "fn0", szFileName[MAX_PATH], temp[512];
 					int i, timer;
-					GetDlgItemTextA(hwnd,IDC_URL,text,sizeof(text));
+					GetDlgItemTextA(hwnd,IDC_URL,text,SIZEOF(text));
 					strcpy(url, text);
 					if (!InternetDownloadFile(text))
 					{
@@ -202,7 +202,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								timer = 60;
 							else
 							{
-								GetDlgItemTextA(hwnd,IDC_WWW_TIMER,text,sizeof(text));
+								GetDlgItemTextA(hwnd,IDC_WWW_TIMER,text,SIZEOF(text));
 								timer = atoi(text);
 							}
 							db_set_w(NULL, MODNAME, strcat(fn, "_timer"), (WORD)timer);

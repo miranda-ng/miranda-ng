@@ -66,7 +66,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			ppro->m_bRememberPwd = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVEPASS);
 			ppro->setByte("RememberPass", ppro->m_bRememberPwd);
 
-			GetDlgItemTextA(hwndDlg, IDC_LOGINPW, ppro->m_szPassword, sizeof(ppro->m_szPassword));
+			GetDlgItemTextA(hwndDlg, IDC_LOGINPW, ppro->m_szPassword, SIZEOF(ppro->m_szPassword));
 
 			ppro->icq_login(ppro->m_szPassword);
 

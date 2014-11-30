@@ -60,8 +60,8 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			if (OpenClipboard(GetDlgItem(hwnd, IDC_TOXID)))
 			{
 				EmptyClipboard();
-				HGLOBAL hMem = GlobalAlloc(GMEM_FIXED, SIZEOF(toxId));
-				memcpy(GlobalLock(hMem), toxId, SIZEOF(toxId));
+				HGLOBAL hMem = GlobalAlloc(GMEM_FIXED, sizeof(toxId));
+				memcpy(GlobalLock(hMem), toxId, sizeof(toxId));
 				GlobalUnlock(hMem);
 				SetClipboardData(CF_TEXT, hMem);
 				CloseClipboard();

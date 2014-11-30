@@ -553,10 +553,10 @@ INT_PTR CALLBACK CConfig::ChatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					m_abBoolSettings[MAXIMIZED_TITLE] =  IsDlgButtonChecked(hwndDlg,IDC_MAXIMIZED_TITLE) == BST_UNCHECKED ? true : false;
 					m_abBoolSettings[MAXIMIZED_LABELS] =  IsDlgButtonChecked(hwndDlg,IDC_MAXIMIZED_LABELS) == BST_UNCHECKED ? true : false;
 
-					GetDlgItemTextA(hwndDlg,IDC_SESSION_LOGSIZE,buf,256);
+					GetDlgItemTextA(hwndDlg,IDC_SESSION_LOGSIZE,buf,SIZEOF(buf));
 					m_aiIntSettings[SESSION_LOGSIZE] = atoi(buf) > 0 ? atoi(buf):1;
 					
-					GetDlgItemTextA(hwndDlg,IDC_SESSION_CLOSETIMER,buf,256);
+					GetDlgItemTextA(hwndDlg,IDC_SESSION_CLOSETIMER,buf,SIZEOF(buf));
 					m_aiIntSettings[SESSION_CLOSETIMER] = atoi(buf) >= 0 ? atoi(buf):1;
 
 					CConfig::SaveSettings();
@@ -709,16 +709,16 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 					m_abBoolSettings[NOTIFY_SKIP_SIGNOFF] =		IsDlgButtonChecked(hwndDlg,IDC_NOTIFY_SKIP_SIGNOFF) == BST_CHECKED ? true : false;
 					m_abBoolSettings[NOTIFY_SKIP_STATUS] =		IsDlgButtonChecked(hwndDlg,IDC_NOTIFY_SKIP_STATUS) == BST_CHECKED ? true : false;
 					
-					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_CHANNELCUTOFF_OFFSET,buf,256);
+					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_CHANNELCUTOFF_OFFSET,buf,SIZEOF(buf));
 					m_aiIntSettings[NOTIFY_CHANNELCUTOFF_OFFSET] = atoi(buf) > 0 ? atoi(buf):1;
 
-					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_NICKCUTOFF_OFFSET,buf,256);
+					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_NICKCUTOFF_OFFSET,buf,SIZEOF(buf));
 					m_aiIntSettings[NOTIFY_NICKCUTOFF_OFFSET] = atoi(buf) > 0 ? atoi(buf):1;
 
-					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_DURATION,buf,256);
+					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_DURATION,buf,SIZEOF(buf));
 					m_aiIntSettings[NOTIFY_DURATION] = atoi(buf) > 0 ? atoi(buf):1;
 
-					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_LOGSIZE,buf,256);
+					GetDlgItemTextA(hwndDlg,IDC_NOTIFY_LOGSIZE,buf,SIZEOF(buf));
 					m_aiIntSettings[NOTIFY_LOGSIZE] = atoi(buf) > 0 ? atoi(buf):1;
 
 					if(IsDlgButtonChecked(hwndDlg,IDC_NOTIFY_TITLEHIDE) == BST_CHECKED)

@@ -192,7 +192,7 @@ static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 		RECT	sizeText;
 		HFONT	hOldFont;
 
-		ccText = GetWindowTextW(ctl->hwnd, wszText, sizeof(wszText) / sizeof(WCHAR));
+		ccText = GetWindowTextW(ctl->hwnd, wszText, SIZEOF(wszText));
 
 		if (ccText > 0) {
 			hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);

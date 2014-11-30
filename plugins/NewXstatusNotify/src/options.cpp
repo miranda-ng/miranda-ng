@@ -249,7 +249,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					TCHAR buff[MAX_PATH];
 					OPENFILENAME ofn = {0};
 
-					GetDlgItemText(hwndDlg, IDC_LOGFILE, buff, MAX_PATH);
+					GetDlgItemText(hwndDlg, IDC_LOGFILE, buff, SIZEOF(buff));
 
 					ofn.lStructSize = sizeof(OPENFILENAME);
 					ofn.lpstrFile = buff;

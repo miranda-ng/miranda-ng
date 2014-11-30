@@ -187,7 +187,7 @@ bool DB_GetStaticStringA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueN
 	
 	DBVARIANT dbv = { 0 };
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0) {
-		int dwRetBuffSizeLocal, dwReadedStringLen = lstrlenW(dbv.pwszVal);
+		size_t dwRetBuffSizeLocal, dwReadedStringLen = mir_wstrlen(dbv.pwszVal);
 		if (lpszRetBuff && (dwRetBuffSize > dwReadedStringLen)) {
 			dwRetBuffSizeLocal = WideCharToMultiByte(MRA_CODE_PAGE, 0, dbv.pwszVal, dwReadedStringLen, lpszRetBuff, dwRetBuffSize, NULL, NULL);
 			(*((CHAR*)(lpszRetBuff + dwRetBuffSizeLocal))) = 0;
@@ -1041,7 +1041,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 		if (dat) { // set our xStatus
 
 			TCHAR szBuff[STATUS_TITLE_MAX + STATUS_DESC_MAX];
-			DWORD dwBuffSize = GetDlgItemText(hWndDlg, IDC_XMSG, szBuff, STATUS_DESC_MAX + 1);
+			DWORD dwBuffSize = GetDlgItemText(hWndDlg, IDC_XMSG, szBuff, (STATUS_DESC_MAX + 1));
 
 			char szValueName[MAX_PATH];
 			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dat->dwXStatus);

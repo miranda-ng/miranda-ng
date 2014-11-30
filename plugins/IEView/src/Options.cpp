@@ -78,11 +78,11 @@ static void SaveSRMMProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
 		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
 		proto->setSRMMFlagsTemp(i);
-		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, SIZEOF(path));
 		proto->setSRMMBackgroundFilenameTemp(path);
-		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, SIZEOF(path));
 		proto->setSRMMCssFilenameTemp(path);
-		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, SIZEOF(path));
 		proto->setSRMMTemplateFilenameTemp(path);
 	}
 }
@@ -108,11 +108,11 @@ static void SaveChatProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
 		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
 		proto->setChatFlagsTemp(i);
-		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, SIZEOF(path));
 		proto->setChatBackgroundFilenameTemp(path);
-		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, SIZEOF(path));
 		proto->setChatCssFilenameTemp(path);
-		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, SIZEOF(path));
 		proto->setChatTemplateFilenameTemp(path);
 	}
 }
@@ -138,11 +138,11 @@ static void SaveHistoryProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_RELATIVE_DATE) ? Options::LOG_RELATIVE_DATE : 0;
 		i |= IsDlgButtonChecked(hwndDlg, IDC_LOG_GROUP_MESSAGES) ? Options::LOG_GROUP_MESSAGES : 0;
 		proto->setHistoryFlagsTemp(i);
-		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, path, SIZEOF(path));
 		proto->setHistoryBackgroundFilenameTemp(path);
-		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, path, SIZEOF(path));
 		proto->setHistoryCssFilenameTemp(path);
-		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, sizeof(path));
+		GetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, path, SIZEOF(path));
 		proto->setHistoryTemplateFilenameTemp(path);
 	}
 }

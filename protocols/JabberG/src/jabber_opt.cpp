@@ -1268,7 +1268,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = filename;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-	ofn.nMaxFile = sizeof(filename);
+	ofn.nMaxFile = SIZEOF(filename);
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = "xml";
 	if (!GetOpenFileNameA(&ofn))

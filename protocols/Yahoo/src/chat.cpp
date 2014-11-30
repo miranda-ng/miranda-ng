@@ -551,7 +551,7 @@ INT_PTR CALLBACK InviteToChatDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case IDOK:
 				{
 					TCHAR msg[1024];
-					GetDlgItemText(hwndDlg, IDC_MSG, msg, sizeof(msg));
+					GetDlgItemText(hwndDlg, IDC_MSG, msg, SIZEOF(msg));
 
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
 					YList *who = NULL;

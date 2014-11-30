@@ -396,13 +396,13 @@ INT_PTR CALLBACK OptionsProxyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 				case PSN_KILLACTIVE:
 				{
 					char buf[1024];
-					GetDlgItemTextA(hwndDlg, IDC_HOST, buf, sizeof(buf));
+					GetDlgItemTextA(hwndDlg, IDC_HOST, buf, SIZEOF(buf));
 					db_set_s(NULL, SKYPE_PROTONAME, "Host", buf);
 					db_set_w(NULL, SKYPE_PROTONAME, "Port", (unsigned short)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
 					db_set_b(NULL, SKYPE_PROTONAME, "RequiresPassword", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_REQPASS), BM_GETCHECK,0,0)));
 					db_set_b (NULL, SKYPE_PROTONAME, "UseSkype2Socket", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_USES2S), BM_GETCHECK,0,0)));
 					ZeroMemory(buf, sizeof(buf));
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, buf, sizeof(buf));
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, buf, SIZEOF(buf));
 					db_set_s(NULL, SKYPE_PROTONAME, "Password", buf);
 					return TRUE;
 				}
@@ -622,22 +622,22 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					db_set_b (NULL, SKYPE_PROTONAME, "removable", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_REMOVEABLE), BM_GETCHECK,0,0)));
 					db_set_b (NULL, SKYPE_PROTONAME, "secondary", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_SECONDARY), BM_GETCHECK,0,0)));
 
-					GetDlgItemTextA(hwndDlg,IDC_COMMANDLINE,text,sizeof(text));
+					GetDlgItemTextA(hwndDlg,IDC_COMMANDLINE,text,SIZEOF(text));
 					strncpy(szRelativePath, text, sizeof(szRelativePath)-1);
 					CallService (MS_UTILS_PATHTORELATIVE, (WPARAM)text, (LPARAM)szRelativePath);
 					db_set_s(NULL, SKYPE_PROTONAME, "CommandLine", szRelativePath);
 
-					GetDlgItemTextA(hwndDlg,IDC_DATAPATH,text,sizeof(text));
+					GetDlgItemTextA(hwndDlg,IDC_DATAPATH,text,SIZEOF(text));
 					strncpy(szRelativePath, text, sizeof(szRelativePath)-1);
 					CallService (MS_UTILS_PATHTORELATIVE, (WPARAM)text, (LPARAM)szRelativePath);
 					db_set_s(NULL, SKYPE_PROTONAME, "datapath", szRelativePath);
                    
                     // LoginUserName
-                    GetDlgItemText(hwndDlg,IDC_USERNAME,wtext,sizeof(wtext)/sizeof(TCHAR));
+                    GetDlgItemText(hwndDlg,IDC_USERNAME,wtext,SIZEOF(wtext));
 					db_set_ts(NULL, SKYPE_PROTONAME, "LoginUserName", wtext);
 
                     // LoginPassword
-                    GetDlgItemText(hwndDlg,IDC_PASSWORD,wtext,sizeof(wtext)/sizeof(TCHAR));
+                    GetDlgItemText(hwndDlg,IDC_PASSWORD,wtext,SIZEOF(wtext));
 					db_set_ts(NULL, SKYPE_PROTONAME, "LoginPassword", wtext);
 
 					return TRUE;
@@ -681,12 +681,12 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					ofn.lStructSize=sizeof(ofn);
 					ofn.hwndOwner=hwndDlg;
 					ofn.lpstrFilter="Executable files (*.exe)\0*.exe\0All files (*.*)\0*.*\0";
-					ofn.nMaxFile=sizeof(szFileName);
+					ofn.nMaxFile=SIZEOF(szFileName);
 					ofn.lpstrDefExt="exe";
 					ofn.lpstrFile=szFileName;
 					ofn.Flags=OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_ENABLESIZING;
 
-					GetDlgItemTextA(hwndDlg,IDC_COMMANDLINE,szFileName,sizeof(szFileName));
+					GetDlgItemTextA(hwndDlg,IDC_COMMANDLINE,szFileName,SIZEOF(szFileName));
 					TranslateMirandaRelativePathToAbsolute(szFileName, szAbsolutePath, FALSE);
 					strcpy (szFileName, szAbsolutePath);
 
@@ -707,7 +707,7 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				{
 					char szFileName[MAX_PATH], szAbsolutePath[MAX_PATH];
 
-					GetDlgItemTextA (hwndDlg, IDC_DATAPATH, szFileName, MAX_PATH);
+					GetDlgItemTextA (hwndDlg, IDC_DATAPATH, szFileName, SIZEOF(szFileName));
 
 					TranslateMirandaRelativePathToAbsolute(szFileName, szAbsolutePath, FALSE);
 					BROWSEINFOA bi={0};
@@ -880,12 +880,12 @@ INT_PTR CALLBACK DetailsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 		if ( HIWORD( wParam ) == BN_CLICKED ) {
 			switch( LOWORD( wParam )) {
 			case IDC_SAVEDETAILS:
-				GetDlgItemText(hwndDlg,IDC_FULLNAME,myProfile.FullName,sizeof(myProfile.FullName)/sizeof(TCHAR));
-				GetDlgItemTextA(hwndDlg,IDC_HOMEPAGE,myProfile.HomePage,sizeof(myProfile.HomePage)/sizeof(TCHAR));
-				GetDlgItemTextA(hwndDlg,IDC_HOMEPHONE,myProfile.HomePhone,sizeof(myProfile.HomePhone)/sizeof(TCHAR));
-				GetDlgItemTextA(hwndDlg,IDC_OFFICEPHONE,myProfile.OfficePhone,sizeof(myProfile.OfficePhone)/sizeof(TCHAR));
-				GetDlgItemText(hwndDlg,IDC_CITY,myProfile.City,sizeof(myProfile.City)/sizeof(TCHAR));
-				GetDlgItemText(hwndDlg,IDC_PROVINCE,myProfile.Province,sizeof(myProfile.Province)/sizeof(TCHAR));
+				GetDlgItemText(hwndDlg,IDC_FULLNAME,myProfile.FullName,SIZEOF(myProfile.FullName));
+				GetDlgItemTextA(hwndDlg,IDC_HOMEPAGE,myProfile.HomePage,SIZEOF(myProfile.HomePage));
+				GetDlgItemTextA(hwndDlg,IDC_HOMEPHONE,myProfile.HomePhone,SIZEOF(myProfile.HomePhone));
+				GetDlgItemTextA(hwndDlg,IDC_OFFICEPHONE,myProfile.OfficePhone,SIZEOF(myProfile.OfficePhone));
+				GetDlgItemText(hwndDlg,IDC_CITY,myProfile.City,SIZEOF(myProfile.City));
+				GetDlgItemText(hwndDlg,IDC_PROVINCE,myProfile.Province,SIZEOF(myProfile.Province));
 				sex = SendMessage(GetDlgItem(hwndDlg,IDC_SEX),CB_GETCURSEL,0,0);
 				
 				myProfile.Sex = 0;

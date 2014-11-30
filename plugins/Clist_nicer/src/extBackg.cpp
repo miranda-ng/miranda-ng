@@ -1564,7 +1564,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				TCHAR tszFilename[MAX_PATH], tszFinalPath[MAX_PATH];
 
-				GetDlgItemText(hwndDlg, IDC_SKINFILE, tszFilename, MAX_PATH);
+				GetDlgItemText(hwndDlg, IDC_SKINFILE, tszFilename, SIZEOF(tszFilename));
 				tszFilename[MAX_PATH - 1] = 0;
 				MY_pathToAbsolute(tszFilename, tszFinalPath);
 				if (PathFileExists(tszFinalPath)) {
@@ -1666,7 +1666,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				ofn.lpstrFilter = "*.clist";
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_HIDEREADONLY;
-				ofn.nMaxFile = sizeof(str);
+				ofn.nMaxFile = SIZEOF(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = "clist";
 				if (!GetSaveFileNameA(&ofn))
@@ -1685,7 +1685,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				ofn.lpstrFilter = "*.clist";
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST;
-				ofn.nMaxFile = sizeof(str);
+				ofn.nMaxFile = SIZEOF(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = "";
 				if (!GetOpenFileNameA(&ofn))

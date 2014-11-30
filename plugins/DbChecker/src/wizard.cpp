@@ -71,7 +71,7 @@ int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam,
 	case WM_CTLCOLORSTATIC:
 		if ((GetWindowLongPtr((HWND)lParam, GWL_STYLE) & 0xFFFF) == 0) {
 			char szText[256];
-			GetWindowTextA((HWND)lParam, szText, sizeof(szText));
+			GetWindowTextA((HWND)lParam, szText, SIZEOF(szText));
 			if (!strcmp(szText, "whiterect")) {
 				SetTextColor((HDC)wParam, RGB(255, 255, 255));
 				SetBkColor((HDC)wParam, RGB(255, 255, 255));

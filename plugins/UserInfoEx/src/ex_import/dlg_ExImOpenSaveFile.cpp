@@ -204,7 +204,7 @@ static void GetInitialDir(LPSTR pszInitialDir)
 {
 	CHAR szRelative[MAX_PATH];
 
-	ZeroMemory(szRelative, SIZEOF(szRelative));
+	ZeroMemory(szRelative, sizeof(szRelative));
 
 	// is some standard path defined
 	if (!db_get_static(0, MODNAME, "vCardPath", szRelative, SIZEOF(szRelative))) {

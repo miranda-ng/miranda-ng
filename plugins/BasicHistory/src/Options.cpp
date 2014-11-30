@@ -842,7 +842,7 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR*
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = stzFilePath;
 	ofn.lpstrTitle = title;
-	ofn.nMaxFile = 1024;
+	ofn.nMaxFile = SIZEOF(stzFilePath);
 	ofn.lpstrDefExt = ext;
 	if (open) {
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
@@ -1767,7 +1767,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				toCp.importType = (enum IImport::ImportType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_IMPORT_TYPE));
 				toCp.compress = Button_GetCheck(GetDlgItem(hwndDlg, IDC_COMPRESS)) != 0;
 				char bufC[100];
-				GetWindowTextA(GetDlgItem(hwndDlg, IDC_PASSWORD), bufC, 100);
+				GetWindowTextA(GetDlgItem(hwndDlg, IDC_PASSWORD), bufC, SIZEOF(bufC));
 				toCp.zipPassword = bufC;
 				HWND exportPath = GetDlgItem(hwndDlg, IDC_EXPORT_PATH);
 				int exLen = Edit_GetTextLength(exportPath);
