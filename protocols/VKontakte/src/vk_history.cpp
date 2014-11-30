@@ -102,7 +102,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 	if (!IsOnline())
 		return;
 
-	UINT iTime = time(0) - 60 * 60 * 24 * NDay;
+	UINT iTime = time(NULL) - 60 * 60 * 24 * NDay;
 	
 	HANDLE hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {

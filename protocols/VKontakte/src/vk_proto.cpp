@@ -310,7 +310,7 @@ void CVkProto::InitPopups(void)
 	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
 
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
+	mir_sntprintf(desc, SIZEOF(desc), L"%s %s", m_tszUserName, TranslateT("Errors"));
 	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
@@ -320,7 +320,7 @@ void CVkProto::InitPopups(void)
 	ppc.iSeconds = 60;
 	m_hPopupClassError = Popup_RegisterClass(&ppc);
 
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Notification"));
+	mir_sntprintf(desc, SIZEOF(desc), L"%s %s", m_tszUserName, TranslateT("Notification"));
 	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;

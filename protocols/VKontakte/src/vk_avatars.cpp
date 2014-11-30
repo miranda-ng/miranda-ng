@@ -131,7 +131,7 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(pszDest);
 
-	pszDest[ tPathLen++ ] = '\\';
+	pszDest[tPathLen++] = '\\';
 
 	const TCHAR* szFileType = L".jpg";
 	ptrT szUrl(getTStringA(hContact, "AvatarUrl"));

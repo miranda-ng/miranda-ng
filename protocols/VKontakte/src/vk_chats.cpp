@@ -48,7 +48,8 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 		c->m_tszTopic = mir_tstrdup((tszTitle != NULL) ? tszTitle : _T(""));
 	}
 
-	CMString sid; sid.Format(_T("%S_%d"), m_szModuleName, id);
+	CMString sid; 
+	sid.Format(L"%S_%d", m_szModuleName, id);
 	c->m_tszId = mir_tstrdup(sid);
 
 	GCSESSION gcw = { sizeof(gcw) };

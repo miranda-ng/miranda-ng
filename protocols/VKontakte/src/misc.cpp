@@ -89,7 +89,7 @@ bool CVkProto::CheckMid(int guid)
 
 LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 {
-	for (int i=0; i < pReq->headersCount; i++)
+	for (int i = 0; i < pReq->headersCount; i++)
 		if (!_stricmp(pReq->headers[i].szName, szField))
 			return pReq->headers[i].szValue;
 
@@ -174,7 +174,7 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	debugLogA("CVkProto::OnReceiveSmth %s", json_as_string(pResponse));
+	debugLog(L"CVkProto::OnReceiveSmth %s", json_as_string(pResponse));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -328,7 +328,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 
 AsyncHttpRequest::~AsyncHttpRequest()
 {
-	for (int i=0; i < headersCount; i++) {
+	for (int i = 0; i < headersCount; i++) {
 		mir_free(headers[i].szName);
 		mir_free(headers[i].szValue);
 	}
@@ -338,7 +338,7 @@ AsyncHttpRequest::~AsyncHttpRequest()
 
 void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
 {
-	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
+	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 	headers[headersCount].szName = mir_strdup(szName);
 	headers[headersCount].szValue = mir_strdup(szValue);
 	headersCount++;
@@ -346,7 +346,7 @@ void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
 
 void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 {
-	for (int i=0; i < nhr->headersCount; i++) {
+	for (int i = 0; i < nhr->headersCount; i++) {
 		LPCSTR szValue = nhr->headers[i].szValue;
 		if (!_stricmp(nhr->headers[i].szName, "Location"))
 			m_szUrl = szValue;
@@ -356,7 +356,7 @@ void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 {
 	debugLogA("CVkProto::GrabCookies");
-	for (int i=0; i < nhr->headersCount; i++) {
+	for (int i = 0; i < nhr->headersCount; i++) {
 		if (_stricmp(nhr->headers[i].szName, "Set-cookie"))
 			continue;
 
@@ -538,8 +538,8 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
 {
 	TCHAR s1[1024], s2[1024];
-	mir_sntprintf(s1, SIZEOF(s1), _T("%s"), _s1);
-	mir_sntprintf(s2, SIZEOF(s2), _T("%s"), _s2);
+	mir_sntprintf(s1, SIZEOF(s1), L"%s", _s1);
+	mir_sntprintf(s2, SIZEOF(s2), L"%s", _s2);
 	CharLowerBuff(s1, SIZEOF(s1));
 	CharLowerBuff(s2, SIZEOF(s2));
 	return _tcsstr(s1, s2) != NULL;
