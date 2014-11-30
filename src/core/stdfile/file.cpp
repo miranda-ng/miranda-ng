@@ -358,9 +358,9 @@ static void sttRecvCreateBlob(DBEVENTINFO &dbei, int fileCount, char **pszFiles,
 	dbei.cbBlob = sizeof(DWORD);
 
 	for (int i = 0; i < fileCount; i++)
-		dbei.cbBlob += mir_strlen(pszFiles[i]) + 1;
+		dbei.cbBlob += (int)mir_strlen(pszFiles[i]) + 1;
 
-	dbei.cbBlob += mir_strlen(szDescr) + 1;
+	dbei.cbBlob += (int)mir_strlen(szDescr) + 1;
 
 	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == 0)
 		return;
