@@ -1107,15 +1107,14 @@ static BOOL GetClipboardText_Title(char *pOut, int size)
 			while (*buffer && isspace(*buffer))
 				buffer++;
 
-			char *p;
-			int n = strlen(buffer);
+			size_t n = strlen(buffer);
 			if (n >= size)
 				n = size-1;
 			memcpy(pOut, buffer, n);
 			pOut[n] = 0;
 
 			// end string on line break and convert tabs to spaces
-			p = pOut;
+			char *p = pOut;
 			while (*p)
 			{
 				if (*p == '\r' || *p == '\n')
@@ -1132,10 +1131,8 @@ static BOOL GetClipboardText_Title(char *pOut, int size)
 			}
 
 			// trim trailing white spaces
-			while  (n && isspace(pOut[n-1]))
-				pOut[--n] = 0;
-
-			if (n)
+			rtrim(pOut);
+			if (pOut[0])
 				bResult = TRUE;
 
 			GlobalUnlock(hData);
