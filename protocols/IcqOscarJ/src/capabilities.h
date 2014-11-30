@@ -36,8 +36,8 @@ typedef BYTE shortcapstr[BINARY_SHORT_CAP_SIZE];
 
 extern const capstr capShortCaps;
 
-capstr* MatchCapability(BYTE *buf, int bufsize, const capstr *cap, int capsize = BINARY_CAP_SIZE);
-capstr* MatchShortCapability(BYTE *buf, int bufsize, const shortcapstr *cap);
+capstr* MatchCapability(BYTE *buf, size_t bufsize, const capstr *cap, size_t capsize = BINARY_CAP_SIZE);
+capstr* MatchShortCapability(BYTE *buf, size_t bufsize, const shortcapstr *cap);
 
 
 #endif /* __CAPABILITIES_H */

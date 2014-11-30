@@ -68,7 +68,7 @@ static DWORD getCurItemData(HWND hwndDlg, UINT iCtrl)
 	return SendDlgItemMessage(hwndDlg, iCtrl, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, iCtrl, CB_GETCURSEL, 0, 0), 0);
 }
 
-static void searchPackTLVLNTS(PBYTE *buf, int *buflen, HWND hwndDlg, UINT idControl, WORD wType)
+static void searchPackTLVLNTS(PBYTE *buf, size_t *buflen, HWND hwndDlg, UINT idControl, WORD wType)
 {
 	char str[512];
 
@@ -77,7 +77,7 @@ static void searchPackTLVLNTS(PBYTE *buf, int *buflen, HWND hwndDlg, UINT idCont
 	ppackLETLVLNTS(buf, buflen, str, wType, 0);
 }
 
-static void searchPackTLVWordLNTS(PBYTE *buf, int *buflen, HWND hwndDlg, UINT idControl, WORD w, WORD wType)
+static void searchPackTLVWordLNTS(PBYTE *buf, size_t *buflen, HWND hwndDlg, UINT idControl, WORD w, WORD wType)
 {
 	char str[512];
 
@@ -86,10 +86,10 @@ static void searchPackTLVWordLNTS(PBYTE *buf, int *buflen, HWND hwndDlg, UINT id
 	ppackLETLVWordLNTS(buf, buflen, w, str, wType, 0);
 }
 
-static PBYTE createAdvancedSearchStructureTLV(HWND hwndDlg, int *length)
+static PBYTE createAdvancedSearchStructureTLV(HWND hwndDlg, size_t *length)
 {
 	PBYTE buf = NULL;
-	int buflen = 0;
+	size_t buflen = 0;
 
 	ppackLEWord(&buf, &buflen, META_SEARCH_GENERIC);       /* subtype: full search */
 
@@ -140,7 +140,7 @@ static PBYTE createAdvancedSearchStructureTLV(HWND hwndDlg, int *length)
 	return buf;
 }
 
-PBYTE createAdvancedSearchStructure(HWND hwndDlg, int *length)
+PBYTE createAdvancedSearchStructure(HWND hwndDlg, size_t *length)
 {
 	if (!hwndDlg)
 		return NULL;

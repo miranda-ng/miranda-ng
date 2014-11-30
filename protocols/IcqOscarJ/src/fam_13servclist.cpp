@@ -25,10 +25,9 @@
 
 #include "icqoscar.h"
 
-static int unpackServerListItem(BYTE **pbuf, WORD *pwLen, char *pszRecordName, WORD *pwGroupId, WORD *pwItemId, WORD *pwItemType, WORD *pwTlvLength);
+static int unpackServerListItem(BYTE **pbuf, size_t *pwLen, char *pszRecordName, WORD *pwGroupId, WORD *pwItemId, WORD *pwItemType, size_t *pwTlvLength);
 
-
-void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_header* pSnacHeader, serverthread_info *info)
+void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_header* pSnacHeader, serverthread_info *info)
 {
 	switch (pSnacHeader->wSubtype) {
 	case ICQ_LISTS_ACK: // UPDATE_ACK
@@ -137,7 +136,8 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 			int nItems = 0;
 
 			while (wBufferLength >= 10) {
-				WORD wGroupId, wItemId, wItemType, wTlvLen;
+				WORD wGroupId, wItemId, wItemType;
+				size_t wTlvLen;
 				uid_str szRecordName;
 
 				if (unpackServerListItem(&pBuffer, &wBufferLength, szRecordName, &wGroupId, &wItemId, &wItemType, &wTlvLen)) {
@@ -231,9 +231,9 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 }
 
 
-static int unpackServerListItem(BYTE **pbuf, WORD *pwLen, char *pszRecordName, WORD *pwGroupId, WORD *pwItemId, WORD *pwItemType, WORD *pwTlvLength)
+static int unpackServerListItem(BYTE **pbuf, size_t *pwLen, char *pszRecordName, WORD *pwGroupId, WORD *pwItemId, WORD *pwItemType, size_t *pwTlvLength)
 {
-	WORD wRecordNameLen;
+	size_t wRecordNameLen;
 
 	// The name of the entry. If this is a group header, then this
 	// is the name of the group. If it is a plain contact list entry,
@@ -267,7 +267,7 @@ static int unpackServerListItem(BYTE **pbuf, WORD *pwLen, char *pszRecordName, W
 }
 
 
-void CIcqProto::handleServerCListRightsReply(BYTE *buf, WORD wLen)
+void CIcqProto::handleServerCListRightsReply(BYTE *buf, size_t wLen)
 {
 	/* received list rights, store the item limits for future use */
 	oscar_tlv_chain* chain;
@@ -694,7 +694,7 @@ int CIcqProto::getServerDataFromItemTLV(oscar_tlv_chain* pChain, unsigned char *
 	return datalen;
 }
 
-void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, serverthread_info *info)
+void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serverthread_info *info)
 {
 	BYTE bySSIVersion;
 	WORD wRecordCount;
@@ -702,14 +702,13 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 	WORD wGroupId;
 	WORD wItemId;
 	WORD wTlvType;
-	WORD wTlvLength;
+	size_t wTlvLength;
 	BOOL bIsLastPacket;
 	uid_str szRecordName;
 	oscar_tlv_chain* pChain = NULL;
 	oscar_tlv* pTLV = NULL;
 	char *szActiveSrvGroup = NULL;
 	WORD wActiveSrvGroupId = -1;
-
 
 	// If flag bit 1 is set, this is not the last
 	// packet. If it is 0, this is the last packet
@@ -804,14 +803,14 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 						}
 						char *szLocalGroup = getContactCListGroup(hContact);
 
-						if (!strlennull(szLocalGroup)) { // no CListGroup
+						if (!mir_strlen(szLocalGroup)) { // no CListGroup
 							SAFE_FREE(&szLocalGroup);
 
 							szLocalGroup = null_strdup(DEFAULT_SS_GROUP);
 						}
 
 						if (strcmpnull(szActiveSrvGroup, szLocalGroup) &&
-							 (strlennull(szActiveSrvGroup) >= strlennull(szLocalGroup) || (szActiveSrvGroup && _strnicmp(szActiveSrvGroup, szLocalGroup, strlennull(szLocalGroup))))) { // contact moved to new group or sub-group or not to master group
+							 (mir_strlen(szActiveSrvGroup) >= mir_strlen(szLocalGroup) || (szActiveSrvGroup && _strnicmp(szActiveSrvGroup, szLocalGroup, mir_strlen(szLocalGroup))))) { // contact moved to new group or sub-group or not to master group
 							bRegroup = 1;
 						}
 						if (bRegroup && !stricmpnull(DEFAULT_SS_GROUP, szActiveSrvGroup)) /// TODO: invent something more clever for "root" group
@@ -855,8 +854,8 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 									char *szOldNick;
 
 									if (szOldNick = getSettingStringUtf(hContact, "CList", "MyHandle", NULL)) {
-										if ((strcmpnull(szOldNick, pszNick)) && (strlennull(pszNick) > 0)) { // check if the truncated nick changed, i.e. do not overwrite locally stored longer nick
-											if (strlennull(szOldNick) <= strlennull(pszNick) || strncmp(szOldNick, pszNick, null_strcut(szOldNick, MAX_SSI_TLV_NAME_SIZE))) {
+										if ((strcmpnull(szOldNick, pszNick)) && (mir_strlen(pszNick) > 0)) { // check if the truncated nick changed, i.e. do not overwrite locally stored longer nick
+											if (mir_strlen(szOldNick) <= mir_strlen(pszNick) || strncmp(szOldNick, pszNick, null_strcut(szOldNick, MAX_SSI_TLV_NAME_SIZE))) {
 												// Yes, we really do need to delete it first. Otherwise the CLUI nick
 												// cache isn't updated (I'll look into it)
 												db_unset(hContact, "CList", "MyHandle");
@@ -865,7 +864,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 										}
 										SAFE_FREE(&szOldNick);
 									}
-									else if (strlennull(pszNick) > 0) {
+									else if (mir_strlen(pszNick) > 0) {
 										db_unset(hContact, "CList", "MyHandle");
 										db_set_utf(hContact, "CList", "MyHandle", pszNick);
 									}
@@ -898,13 +897,13 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 									char *szOldComment;
 
 									if (szOldComment = getSettingStringUtf(hContact, "UserInfo", "MyNotes", NULL)) {
-										if ((strcmpnull(szOldComment, pszComment)) && (strlennull(pszComment) > 0)) // check if the truncated comment changed, i.e. do not overwrite locally stored longer comment
-											if (strlennull(szOldComment) <= strlennull(pszComment) || strncmp((char*)szOldComment, (char*)pszComment, null_strcut(szOldComment, MAX_SSI_TLV_COMMENT_SIZE)))
+										if ((strcmpnull(szOldComment, pszComment)) && (mir_strlen(pszComment) > 0)) // check if the truncated comment changed, i.e. do not overwrite locally stored longer comment
+											if (mir_strlen(szOldComment) <= mir_strlen(pszComment) || strncmp((char*)szOldComment, (char*)pszComment, null_strcut(szOldComment, MAX_SSI_TLV_COMMENT_SIZE)))
 												db_set_utf(hContact, "UserInfo", "MyNotes", pszComment);
 
 										SAFE_FREE((void**)&szOldComment);
 									}
-									else if (strlennull(pszComment) > 0)
+									else if (mir_strlen(pszComment) > 0)
 										db_set_utf(hContact, "UserInfo", "MyNotes", pszComment);
 								}
 								SAFE_FREE((void**)&pszComment);
@@ -1357,7 +1356,7 @@ void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wGrou
 	FreeServerID(wItemId, wItemType == SSI_ITEM_GROUP ? SSIT_GROUP : SSIT_ITEM);
 }
 
-void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
+void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -1387,7 +1386,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	if (szReason) {
 		memcpy(szReason, buf, wReasonLen);
 		szReason[wReasonLen] = '\0';
-		nReasonLen = strlennull(szReason);
+		nReasonLen = (int)mir_strlen(szReason);
 
 		char *temp = (char*)_alloca(nReasonLen + 2);
 		if (!IsUSASCII(szReason, nReasonLen) && UTF8_IsValid(szReason) && utf8_decode_static(szReason, temp, nReasonLen + 1))
@@ -1407,7 +1406,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	}
 	else szNick = null_strdup(szUid);
 
-	int nNickLen = strlennull(szNick);
+	size_t nNickLen = mir_strlen(szNick);
 
 	pre.lParam += nNickLen + nReasonLen;
 
@@ -1441,15 +1440,13 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	SAFE_FREE(&szReason);
 }
 
-void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
+void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
 {
 	DWORD dwUin;
 	uid_str szUid;
-	DWORD cbBlob;
 	PBYTE pBlob, pCurBlob;
 	int bAdded;
 	char* szNick;
-	int nNickLen;
 	DBVARIANT dbv = { 0 };
 
 	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
@@ -1461,17 +1458,17 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 
 	MCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
-	cbBlob = sizeof(DWORD) * 2 + 4;
+	size_t nNickLen, cbBlob = sizeof(DWORD) * 2 + 4;
 
 	if (dwUin) {
 		if (getString(hContact, "Nick", &dbv))
 			nNickLen = 0;
 		else {
 			szNick = dbv.pszVal;
-			nNickLen = strlennull(szNick);
+			nNickLen = mir_strlen(szNick);
 		}
 	}
-	else nNickLen = strlennull(szUid);
+	else nNickLen = mir_strlen(szUid);
 
 	cbBlob += nNickLen;
 
@@ -1496,7 +1493,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, WORD wLen)
 	AddEvent(NULL, EVENTTYPE_ADDED, time(NULL), 0, cbBlob, pBlob);
 }
 
-void CIcqProto::handleRecvAuthResponse(unsigned char *buf, WORD wLen)
+void CIcqProto::handleRecvAuthResponse(unsigned char *buf, size_t wLen)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -1725,7 +1722,7 @@ void CIcqProto::icq_sendServerBeginOperation(int bImport)
 	}
 
 	icq_packet packet;
-	serverPacketInit(&packet, (WORD)(bImport ? 14 : 10));
+	serverPacketInit(&packet, bImport ? 14 : 10);
 	packFNACHeader(&packet, ICQ_LISTS_FAMILY, ICQ_LISTS_CLI_MODIFYSTART);
 	if (bImport)
 		packDWord(&packet, 1 << 0x10);

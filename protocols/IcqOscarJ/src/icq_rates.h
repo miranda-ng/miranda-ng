@@ -56,7 +56,7 @@ private:
 
   rates_group *getGroup(WORD wGroup);
 public:
-  rates(CIcqProto *ppro, BYTE *pBuffer, WORD wLen);
+  rates(CIcqProto *ppro, BYTE *pBuffer, size_t wLen);
   ~rates();
 
   WORD getGroupFromSNAC(WORD wFamily, WORD wCommand);

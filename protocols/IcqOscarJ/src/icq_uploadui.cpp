@@ -140,7 +140,7 @@ static void GetLastUploadLogLine(HWND hwndDlg, char *szBuf, size_t cbBuf)
 static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)
 { 
 	// it is probably server group
-	if (szSetting && strlennull(szSetting) < 5) {
+	if (szSetting && mir_strlen(szSetting) < 5) {
 		char val[MAX_PATH+2]; // dummy
 		if (db_get_static(NULL, (char*)lParam, szSetting, val, MAX_PATH))
 			return 0; // this converts all string types to DBVT_ASCIIZ
@@ -537,7 +537,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 
 							if (isChecked) {  // Queue for uploading
 								pszGroup = ppro->getContactCListGroup(hContact);
-								if (!strlennull(pszGroup))
+								if (!mir_strlen(pszGroup))
 									pszGroup = null_strdup(DEFAULT_SS_GROUP);
 
 								// Get group ID from cache, if not ready use parent group, if still not ready create one
@@ -602,7 +602,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 							WORD wCurrentGroupId = ppro->getWord(hContact, DBSETTING_SERVLIST_GROUP, 0);
 
 							pszGroup = ppro->getContactCListGroup(hContact);
-							if (!strlennull(pszGroup))
+							if (!mir_strlen(pszGroup))
 								pszGroup = null_strdup(DEFAULT_SS_GROUP);
 							wNewGroupId = ppro->getServListGroupLinkID(pszGroup);
 							if (!wNewGroupId && strstrnull(pszGroup, "\\") != NULL) { // if it is sub-group, take master parent

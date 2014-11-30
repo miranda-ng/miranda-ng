@@ -366,7 +366,7 @@ MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 			char *pbOffset = (char*)dbei.pBlob;
 			char *pbEnd = pbOffset + dbei.cbBlob;
 			for (int i = 0; i <= iContact; i++) {
-				pbOffset += strlennull(pbOffset) + 1;  // Nick
+				pbOffset += mir_strlen(pbOffset) + 1;  // Nick
 				if (pbOffset >= pbEnd) break;
 				if (i == iContact) { // we found the contact, get uid
 					if (IsStringUIN((char*)pbOffset))
@@ -376,7 +376,7 @@ MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 						strcpy(uid, (char*)pbOffset);
 					}
 				}
-				pbOffset += strlennull(pbOffset) + 1;  // Uin
+				pbOffset += mir_strlen(pbOffset) + 1;  // Uin
 				if (pbOffset >= pbEnd) break;
 			}
 		}
@@ -395,7 +395,7 @@ MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 		return AddToListByUIN(uin, flags); // Success
 
 	// add aim contact
-	if (strlennull(uid))
+	if (mir_strlen(uid))
 		return AddToListByUID(uid, flags); // Success
 
 	return NULL; // Failure
@@ -768,7 +768,7 @@ void CIcqProto::CheekySearchThread(void*)
 
 HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
 {
-	if (strlennull(pszSearch) == 0)
+	if (mir_wstrlen(pszSearch) == 0)
 		return 0;
 
 	char pszUIN[255];
@@ -776,7 +776,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
 	int i, j;
 
 	if (!m_bAimEnabled) {
-		for (i = j = 0; (i < strlennull(pszSearch)) && (j < 255); i++) { // we take only numbers
+		for (i = j = 0; (i < mir_wstrlen(pszSearch)) && (j < 255); i++) { // we take only numbers
 			if ((pszSearch[i] >= 0x30) && (pszSearch[i] <= 0x39)) {
 				pszUIN[j] = pszSearch[i];
 				j++;
@@ -784,7 +784,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
 		}
 	}
 	else {
-		for (i = j = 0; (i < strlennull(pszSearch)) && (j < 255); i++) { // we remove spaces and slashes
+		for (i = j = 0; (i < mir_wstrlen(pszSearch)) && (j < 255); i++) { // we remove spaces and slashes
 			if ((pszSearch[i] != 0x20) && (pszSearch[i] != '-')) {
 				if (pszSearch[i] >= 0x80) continue;
 				pszUIN[j] = pszSearch[i];
@@ -794,7 +794,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
 	}
 	pszUIN[j] = 0;
 
-	if (strlennull(pszUIN)) {
+	if (mir_strlen(pszUIN)) {
 		DWORD dwUin;
 		if (IsStringUIN(pszUIN))
 			dwUin = atoi(pszUIN);
@@ -826,7 +826,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
 
 HANDLE __cdecl CIcqProto::SearchByEmail(const PROTOCHAR *email)
 {
-	if (email && icqOnline() && strlennull(email) > 0) {
+	if (email && icqOnline() && mir_wstrlen(email) > 0) {
 		char *szEmail = tchar_to_ansi(email);
 
 		// Success
@@ -881,7 +881,7 @@ HWND __cdecl CIcqProto::CreateExtendedSearchUI(HWND parent)
 HWND __cdecl CIcqProto::SearchAdvanced(HWND hwndDlg)
 {
 	if (icqOnline() && IsWindow(hwndDlg)) {
-		int nDataLen;
+		size_t nDataLen;
 		BYTE* bySearchData;
 
 		if (bySearchData = createAdvancedSearchStructure(hwndDlg, &nDataLen)) {
@@ -902,7 +902,7 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	ICQSEARCHRESULT **isrList = (ICQSEARCHRESULT**)pre->szMessage;
 	int i;
-	DWORD cbBlob = 0;
+	size_t cbBlob = 0;
 	DWORD flags = 0;
 
 	if (pre->flags & PREF_UTF || pre->flags & PREF_UNICODE)
@@ -912,13 +912,13 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 		if (pre->flags & PREF_UNICODE)
 			cbBlob += get_utf8_size((WCHAR*)isrList[i]->hdr.nick) + 2;
 		else
-			cbBlob += strlennull((char*)isrList[i]->hdr.nick) + 2; // both trailing zeros
+			cbBlob += mir_strlen((char*)isrList[i]->hdr.nick) + 2; // both trailing zeros
 		if (isrList[i]->uin)
 			cbBlob += getUINLen(isrList[i]->uin);
 		else if (pre->flags & PREF_UNICODE)
-			cbBlob += strlennull((WCHAR*)isrList[i]->hdr.id);
+			cbBlob += mir_wstrlen((WCHAR*)isrList[i]->hdr.id);
 		else
-			cbBlob += strlennull((char*)isrList[i]->hdr.id);
+			cbBlob += mir_strlen((char*)isrList[i]->hdr.id);
 	}
 	PBYTE pBlob = (PBYTE)_alloca(cbBlob), pCurBlob;
 	for (i = 0, pCurBlob = pBlob; i < pre->lParam; i++) {
@@ -926,7 +926,7 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 			make_utf8_string_static((WCHAR*)isrList[i]->hdr.nick, (char*)pCurBlob, cbBlob - (pCurBlob - pBlob));
 		else
 			strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.nick);
-		pCurBlob += strlennull((char*)pCurBlob) + 1;
+		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 		if (isrList[i]->uin) {
 			char szUin[UINMAXLEN];
 			_itoa(isrList[i]->uin, szUin, 10);
@@ -938,7 +938,7 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 			else
 				strcpy((char*)pCurBlob, (char*)isrList[i]->hdr.id);
 		}
-		pCurBlob += strlennull((char*)pCurBlob) + 1;
+		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
 
 	ICQAddRecvEvent(hContact, EVENTTYPE_CONTACTS, pre, cbBlob, pBlob, flags);
@@ -960,15 +960,14 @@ int __cdecl CIcqProto::RecvFile(MCONTACT hContact, PROTORECVFILET* evt)
 
 int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
-	DWORD cbBlob;
 	DWORD flags = 0;
 
-	cbBlob = strlennull(pre->szMessage) + 1;
+	size_t cbBlob = mir_strlen(pre->szMessage) + 1;
 	// process utf-8 encoded messages
-	if ((pre->flags & PREF_UTF) && !IsUSASCII(pre->szMessage, strlennull(pre->szMessage)))
+	if ((pre->flags & PREF_UTF) && !IsUSASCII(pre->szMessage, mir_strlen(pre->szMessage)))
 		flags |= DBEF_UTF;
 	// process unicode ucs-2 messages
-	if ((pre->flags & PREF_UNICODE) && !IsUnicodeAscii((WCHAR*)(pre->szMessage + cbBlob), strlennull((WCHAR*)(pre->szMessage + cbBlob))))
+	if ((pre->flags & PREF_UNICODE) && !IsUnicodeAscii((WCHAR*)(pre->szMessage + cbBlob), mir_wstrlen((WCHAR*)(pre->szMessage + cbBlob))))
 		cbBlob *= (sizeof(WCHAR)+1);
 
 	ICQAddRecvEvent(hContact, EVENTTYPE_MESSAGE, pre, cbBlob, (PBYTE)pre->szMessage, flags);
@@ -1018,7 +1017,6 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 		// OK
 		else {
 			if (CheckContactCapabilities(hContact, CAPF_CONTACTS) && wRecipientStatus != ID_STATUS_OFFLINE) { // Use the new format if possible
-				int nDataLen, nNamesLen;
 				struct icq_contactsend_s* contacts = NULL;
 
 				// Format the data part and the names part
@@ -1026,114 +1024,110 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 				// we need to calculate the length of the packet.
 				contacts = (struct icq_contactsend_s*)_alloca(sizeof(struct icq_contactsend_s)*nContacts);
 				ZeroMemory(contacts, sizeof(struct icq_contactsend_s)*nContacts);
-				{
-					nDataLen = 0; nNamesLen = 0;
+
+				size_t nDataLen = 0, nNamesLen = 0;
+				for (i = 0; i < nContacts; i++) {
+					uid_str szContactUid;
+
+					if (!IsICQContact(hContactsList[i]))
+						break; // Abort if a non icq contact is found
+					if (getContactUid(hContactsList[i], &contacts[i].uin, &szContactUid))
+						break; // Abort if invalid contact
+					contacts[i].uid = contacts[i].uin ? NULL : null_strdup(szContactUid);
+					contacts[i].szNick = NickFromHandleUtf(hContactsList[i]);
+					nDataLen += getUIDLen(contacts[i].uin, contacts[i].uid) + 4;
+					nNamesLen += mir_strlen(contacts[i].szNick) + 8;
+				}
+
+				if (i == nContacts) {
+					debugLogA("Sending contacts to %s.", strUID(dwUin, szUid));
+
+					// Do not calculate the exact size of the data packet - only the maximal size (easier)
+					// Sumarize size of group information
+					// - we do not utilize the full power of the protocol and send all contacts with group "General"
+					//   just like ICQ6 does
+					nDataLen += 9;
+					nNamesLen += 9;
+
+					// Create data structures
+					icq_packet mData, mNames;
+					mData.wPlace = 0;
+					mData.pData = (LPBYTE)SAFE_MALLOC(nDataLen);
+					mData.wLen = WORD(nDataLen);
+					mNames.wPlace = 0;
+					mNames.pData = (LPBYTE)SAFE_MALLOC(nNamesLen);
+
+					// pack Group Name
+					packWord(&mData, 7);
+					packBuffer(&mData, (LPBYTE)"General", 7);
+					packWord(&mNames, 7);
+					packBuffer(&mNames, (LPBYTE)"General", 7);
+
+					// all contacts in one group
+					packWord(&mData, WORD(nContacts));
+					packWord(&mNames, WORD(nContacts));
 					for (i = 0; i < nContacts; i++) {
 						uid_str szContactUid;
+						if (contacts[i].uin)
+							strUID(contacts[i].uin, szContactUid);
+						else
+							strcpy(szContactUid, contacts[i].uid);
 
-						if (!IsICQContact(hContactsList[i]))
-							break; // Abort if a non icq contact is found
-						if (getContactUid(hContactsList[i], &contacts[i].uin, &szContactUid))
-							break; // Abort if invalid contact
-						contacts[i].uid = contacts[i].uin ? NULL : null_strdup(szContactUid);
-						contacts[i].szNick = NickFromHandleUtf(hContactsList[i]);
-						nDataLen += getUIDLen(contacts[i].uin, contacts[i].uid) + 4;
-						nNamesLen += strlennull(contacts[i].szNick) + 8;
+						// prepare UID
+						size_t wLen = mir_strlen(szContactUid);
+						packWord(&mData, WORD(wLen));
+						packBuffer(&mData, (LPBYTE)szContactUid, wLen);
+
+						// prepare Nick
+						wLen = mir_strlen(contacts[i].szNick);
+						packWord(&mNames, WORD(wLen + 4));
+						packTLV(&mNames, 0x01, wLen, (LPBYTE)contacts[i].szNick);
 					}
 
-					if (i == nContacts) {
-						debugLogA("Sending contacts to %s.", strUID(dwUin, szUid));
-
-						// Do not calculate the exact size of the data packet - only the maximal size (easier)
-						// Sumarize size of group information
-						// - we do not utilize the full power of the protocol and send all contacts with group "General"
-						//   just like ICQ6 does
-						nDataLen += 9;
-						nNamesLen += 9;
-
-						// Create data structures
-						icq_packet mData, mNames;
-						mData.wPlace = 0;
-						mData.pData = (LPBYTE)SAFE_MALLOC(nDataLen);
-						mData.wLen = nDataLen;
-						mNames.wPlace = 0;
-						mNames.pData = (LPBYTE)SAFE_MALLOC(nNamesLen);
-
-						// pack Group Name
-						packWord(&mData, 7);
-						packBuffer(&mData, (LPBYTE)"General", 7);
-						packWord(&mNames, 7);
-						packBuffer(&mNames, (LPBYTE)"General", 7);
-
-						// all contacts in one group
-						packWord(&mData, (WORD)nContacts);
-						packWord(&mNames, (WORD)nContacts);
-						for (i = 0; i < nContacts; i++) {
-							uid_str szContactUid;
-							WORD wLen;
-
-							if (contacts[i].uin)
-								strUID(contacts[i].uin, szContactUid);
-							else
-								strcpy(szContactUid, contacts[i].uid);
-
-							// prepare UID
-							wLen = strlennull(szContactUid);
-							packWord(&mData, wLen);
-							packBuffer(&mData, (LPBYTE)szContactUid, wLen);
-
-							// prepare Nick
-							wLen = strlennull(contacts[i].szNick);
-							packWord(&mNames, (WORD)(wLen + 4));
-							packTLV(&mNames, 0x01, wLen, (LPBYTE)contacts[i].szNick);
-						}
-
-						// Cleanup temporary list
-						for (i = 0; i < nContacts; i++) {
-							SAFE_FREE(&contacts[i].szNick);
-							SAFE_FREE(&contacts[i].uid);
-						}
-
-						// Rate check
-						if (IsServerOverRate(ICQ_MSG_FAMILY, ICQ_MSG_SRV_SEND, RML_LIMIT)) { // rate is too high, the message will not go thru...
-							SAFE_FREE((void**)&mData.pData);
-							SAFE_FREE((void**)&mNames.pData);
-
-							return ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "The message could not be delivered. You are sending too fast. Wait a while and try again.");
-						}
-
-						// Set up the ack type
-						cookie_message_data *pCookieData = CreateMessageCookieData(MTYPE_CONTACTS, hContact, dwUin, FALSE);
-
-						// AIM clients do not send acknowledgement
-						if (!dwUin && pCookieData->nAckType == ACKTYPE_CLIENT)
-							pCookieData->nAckType = ACKTYPE_SERVER;
-						// Send the message
-						dwCookie = icq_SendChannel2Contacts(dwUin, szUid, hContact, (char*)mData.pData, mData.wPlace, (char*)mNames.pData, mNames.wPlace, pCookieData);
-
-						// This will stop the message dialog from waiting for the real message delivery ack
-						if (pCookieData->nAckType == ACKTYPE_NONE) {
-							SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_CONTACTS, NULL);
-							// We need to free this here since we will never see the real ack
-							// The actual cookie value will still have to be returned to the message dialog though
-							ReleaseCookie(dwCookie);
-						}
-						// Release our buffers
-						SAFE_FREE((void**)&mData.pData);
-						SAFE_FREE((void**)&mNames.pData);
-					}
-					else {
-						dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "Bad data (internal error #2)");
-					}
-
+					// Cleanup temporary list
 					for (i = 0; i < nContacts; i++) {
 						SAFE_FREE(&contacts[i].szNick);
 						SAFE_FREE(&contacts[i].uid);
 					}
+
+					// Rate check
+					if (IsServerOverRate(ICQ_MSG_FAMILY, ICQ_MSG_SRV_SEND, RML_LIMIT)) { // rate is too high, the message will not go thru...
+						SAFE_FREE((void**)&mData.pData);
+						SAFE_FREE((void**)&mNames.pData);
+
+						return ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "The message could not be delivered. You are sending too fast. Wait a while and try again.");
+					}
+
+					// Set up the ack type
+					cookie_message_data *pCookieData = CreateMessageCookieData(MTYPE_CONTACTS, hContact, dwUin, FALSE);
+
+					// AIM clients do not send acknowledgement
+					if (!dwUin && pCookieData->nAckType == ACKTYPE_CLIENT)
+						pCookieData->nAckType = ACKTYPE_SERVER;
+					// Send the message
+					dwCookie = icq_SendChannel2Contacts(dwUin, szUid, hContact, (char*)mData.pData, mData.wPlace, (char*)mNames.pData, mNames.wPlace, pCookieData);
+
+					// This will stop the message dialog from waiting for the real message delivery ack
+					if (pCookieData->nAckType == ACKTYPE_NONE) {
+						SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_CONTACTS, NULL);
+						// We need to free this here since we will never see the real ack
+						// The actual cookie value will still have to be returned to the message dialog though
+						ReleaseCookie(dwCookie);
+					}
+					// Release our buffers
+					SAFE_FREE((void**)&mData.pData);
+					SAFE_FREE((void**)&mNames.pData);
+				}
+				else {
+					dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "Bad data (internal error #2)");
+				}
+
+				for (i = 0; i < nContacts; i++) {
+					SAFE_FREE(&contacts[i].szNick);
+					SAFE_FREE(&contacts[i].uid);
 				}
 			}
 			else if (dwUin) { // old format is only understood by ICQ clients
-				int nBodyLength;
 				char szContactUin[UINMAXLEN];
 				char szCount[17];
 				struct icq_contactsend_s* contacts = NULL;
@@ -1146,7 +1140,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 				contacts = (struct icq_contactsend_s*)_alloca(sizeof(struct icq_contactsend_s)*nContacts);
 				ZeroMemory(contacts, sizeof(struct icq_contactsend_s)*nContacts);
 				{
-					nBodyLength = 0;
+					size_t nBodyLength = 0;
 					for (i = 0; i < nContacts; i++) {
 						if (!IsICQContact(hContactsList[i]))
 							break; // Abort if a non icq contact is found
@@ -1156,7 +1150,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 						contacts[i].szNick = NickFromHandle(hContactsList[i]);
 						// Compute this contact's length
 						nBodyLength += getUIDLen(contacts[i].uin, contacts[i].uid) + 1;
-						nBodyLength += strlennull(contacts[i].szNick) + 1;
+						nBodyLength += mir_strlen(contacts[i].szNick) + 1;
 					}
 
 					if (i == nContacts) {
@@ -1164,12 +1158,12 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 
 						// Compute count record's length
 						_itoa(nContacts, szCount, 10);
-						nBodyLength += strlennull(szCount) + 1;
+						nBodyLength += mir_strlen(szCount) + 1;
 
 						// Finally we need to copy the contact data into the packet body
 						char *pBody, *pBuffer = pBody = (char *)SAFE_MALLOC(nBodyLength);
 						null_strcpy(pBuffer, szCount, nBodyLength - 1);
-						pBuffer += strlennull(pBuffer);
+						pBuffer += mir_strlen(pBuffer);
 						*pBuffer++ = (char)0xFE;
 						for (i = 0; i < nContacts; i++) {
 							if (contacts[i].uin) {
@@ -1178,10 +1172,10 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 							}
 							else
 								strcpy(pBuffer, contacts[i].uid);
-							pBuffer += strlennull(pBuffer);
+							pBuffer += mir_strlen(pBuffer);
 							*pBuffer++ = (char)0xFE;
 							strcpy(pBuffer, contacts[i].szNick);
-							pBuffer += strlennull(pBuffer);
+							pBuffer += mir_strlen(pBuffer);
 							*pBuffer++ = (char)0xFE;
 						}
 
@@ -1210,24 +1204,15 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 
 							return ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "The message could not be delivered. You are sending too fast. Wait a while and try again.");
 						}
+
 						// Select channel and send
-						/*
-												if (!CheckContactCapabilities(hContact, CAPF_SRV_RELAY) || wRecipientStatus == ID_STATUS_OFFLINE)
-												{
-												dwCookie = icq_SendChannel4Message(dwUin, hContact, MTYPE_CONTACTS, (WORD)nBodyLength, pBody, pCookieData);
-												}
-												else
-												*/
-						{
-							WORD wPriority;
+						WORD wPriority;
+						if (wRecipientStatus == ID_STATUS_ONLINE || wRecipientStatus == ID_STATUS_FREECHAT)
+							wPriority = 0x0001;
+						else
+							wPriority = 0x0021;
 
-							if (wRecipientStatus == ID_STATUS_ONLINE || wRecipientStatus == ID_STATUS_FREECHAT)
-								wPriority = 0x0001;
-							else
-								wPriority = 0x0021;
-
-							dwCookie = icq_SendChannel2Message(dwUin, hContact, pBody, nBodyLength, wPriority, pCookieData, NULL);
-						}
+						dwCookie = icq_SendChannel2Message(dwUin, hContact, pBody, nBodyLength, wPriority, pCookieData, NULL);
 
 						// This will stop the message dialog from waiting for the real message delivery ack
 						if (pCookieData->nAckType == ACKTYPE_NONE) {
@@ -1238,14 +1223,10 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 						}
 						SAFE_FREE((void**)&pBody);
 					}
-					else {
-						dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "Bad data (internal error #2)");
-					}
+					else dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "Bad data (internal error #2)");
 				}
 			}
-			else {
-				dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "The reciever does not support receiving of contacts.");
-			}
+			else dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "The reciever does not support receiving of contacts.");
 		}
 		return dwCookie;
 	}
@@ -1372,7 +1353,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		return ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The receiver has an invalid user ID.");
 
 	if (flags & PREF_UNICODE) {
-		puszText = make_utf8_string((WCHAR*)(pszSrc + strlennull(pszSrc) + 1)); // get the UTF-16 part
+		puszText = make_utf8_string((WCHAR*)(pszSrc + mir_strlen(pszSrc) + 1)); // get the UTF-16 part
 		bNeedFreeU = 1;
 	}
 	else if (flags & PREF_UTF)
@@ -1384,7 +1365,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 
 	WORD wRecipientStatus = getContactStatus(hContact);
 
-	BOOL plain_ascii = IsUSASCII(puszText, strlennull(puszText));
+	BOOL plain_ascii = IsUSASCII(puszText, mir_strlen(puszText));
 
 	BOOL oldAnsi = plain_ascii || !m_bUtfEnabled ||
 		(!(flags & (PREF_UTF | PREF_UNICODE)) && m_bUtfEnabled == 1) ||
@@ -1397,7 +1378,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	// Failure scenarios
 	if (!icqOnline())
 		dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "You cannot send messages when you are offline.");
-	else if ((wRecipientStatus == ID_STATUS_OFFLINE) && (strlennull(puszText) > 4096))
+	else if ((wRecipientStatus == ID_STATUS_OFFLINE) && (mir_strlen(puszText) > 4096))
 		dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "Messages to offline contacts must be shorter than 4096 characters.");
 	// Looks OK
 	else {
@@ -1420,7 +1401,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			// Set up the ack type
 			pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, TRUE);
 			pCookieData->nAckType = ACKTYPE_CLIENT;
-			dwCookie = icq_SendDirectMessage(hContact, dc_msg, strlennull(dc_msg), 1, pCookieData, dc_cap);
+			dwCookie = icq_SendDirectMessage(hContact, dc_msg, mir_strlen(dc_msg), 1, pCookieData, dc_cap);
 
 			SAFE_FREE(&szUserAnsi);
 			if (dwCookie) { // free the buffers if alloced
@@ -1433,8 +1414,8 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 
 		/// TODO: add support for RTL & user customizable font
 		{
-			char *mng = MangleXml(puszText, strlennull(puszText));
-			int len = strlennull(mng);
+			char *mng = MangleXml(puszText, mir_strlen(puszText));
+			size_t len = mir_strlen(mng);
 			mng = (char*)SAFE_REALLOC(mng, len + 28);
 			memmove(mng + 12, mng, len + 1);
 			memcpy(mng, "<HTML><BODY>", 12);
@@ -1445,7 +1426,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		}
 
 		WCHAR *pwszText = plain_ascii ? NULL : make_unicode_string(puszText);
-		if ((plain_ascii ? strlennull(puszText) : strlennull(pwszText) * sizeof(WCHAR)) > MAX_MESSAGESNACSIZE) { // max length check // TLV(2) is currently limited to 0xA00 bytes in online mode
+		if ((plain_ascii ? mir_strlen(puszText) : mir_wstrlen(pwszText) * sizeof(WCHAR)) > MAX_MESSAGESNACSIZE) { // max length check // TLV(2) is currently limited to 0xA00 bytes in online mode
 			// only limit to not get disconnected, all other will be handled by error 0x0A
 			dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The message could not be delivered, it is too long.");
 
@@ -1514,10 +1495,10 @@ int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int flags, const char* url)
 	cookie_message_data *pCookieData = CreateMessageCookieData(MTYPE_URL, hContact, dwUin, TRUE);
 
 	// Format the body
-	int nUrlLen = strlennull(url);
+	size_t nUrlLen = mir_strlen(url);
 	char *szDesc = (char *)url + nUrlLen + 1;
-	int nDescLen = strlennull(szDesc);
-	int nBodyLen = nUrlLen + nDescLen + 2;
+	size_t nDescLen = mir_strlen(szDesc);
+	size_t nBodyLen = nUrlLen + nDescLen + 2;
 	char *szBody = (char *)_alloca(nBodyLen);
 	strcpy(szBody, szDesc);
 	szBody[nDescLen] = (char)0xFE; // Separator
@@ -1573,7 +1554,7 @@ int __cdecl CIcqProto::SetApparentMode(MCONTACT hContact, int mode)
 
 			// Don't send redundant updates
 			if (mode != oldMode) {
-				setWord(hContact, "ApparentMode", (WORD)mode);
+				setWord(hContact, "ApparentMode", WORD(mode));
 
 				// Not being online is only an error when in SS mode. This is not handled
 				// yet so we just ignore this for now.
@@ -1786,7 +1767,7 @@ HANDLE __cdecl CIcqProto::GetAwayMsg(MCONTACT hContact)
 	if (!dwUin || !CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES)) { // No individual status messages, check if the contact has Status Note, if yes give it
 		char *szStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, NULL);
 
-		if (strlennull(szStatusNote) > 0) { // Give Status Note
+		if (mir_strlen(szStatusNote) > 0) { // Give Status Note
 			status_message_thread_data *pThreadData = (status_message_thread_data*)SAFE_MALLOC(sizeof(status_message_thread_data));
 
 			pThreadData->hContact = hContact;
@@ -1927,7 +1908,7 @@ INT_PTR CIcqProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 	if (!ppszMsg || !*ppszMsg)
 		return 0;
 
-	int nMsgLen = strlennull(*ppszMsg) + 1;
+	size_t nMsgLen = mir_strlen(*ppszMsg) + 1;
 
 	if (lParam & SGMA_UNICODE) {
 		WCHAR *szMsg = (WCHAR*)_alloca(nMsgLen * sizeof(WCHAR));

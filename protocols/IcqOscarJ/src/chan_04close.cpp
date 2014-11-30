@@ -24,7 +24,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *info)
+void CIcqProto::handleCloseChannel(BYTE *buf, size_t datalen, serverthread_info *info)
 {
 	oscar_tlv_chain *chain = NULL;
 
@@ -65,7 +65,7 @@ void CIcqProto::handleCloseChannel(BYTE *buf, WORD datalen, serverthread_info *i
 	NetLib_CloseConnection(&hServerConn, TRUE);
 }
 
-void CIcqProto::handleLoginReply(BYTE *buf, WORD datalen, serverthread_info *info)
+void CIcqProto::handleLoginReply(BYTE *buf, size_t datalen, serverthread_info *info)
 {
 	oscar_tlv_chain *chain = NULL;
 

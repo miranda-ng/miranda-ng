@@ -30,8 +30,8 @@
 #ifndef __I18N_H
 #define __I18N_H
 
-BOOL __stdcall IsUSASCII(const char *pBuffer, int nSize);
-BOOL __stdcall IsUnicodeAscii(const WCHAR *pBuffer, int nSize);
+BOOL __stdcall IsUSASCII(const char *pBuffer, size_t nSize);
+BOOL __stdcall IsUnicodeAscii(const WCHAR *pBuffer, size_t nSize);
 int  __stdcall UTF8_IsValid(const char *pszInput);
 
 int __stdcall get_utf8_size(const WCHAR *unicode);
@@ -49,12 +49,12 @@ char*  __stdcall ansi_to_utf8_codepage(const char *ansi, WORD wCp);
 
 WCHAR* __stdcall ansi_to_unicode(const char *ansi);
 char* __stdcall unicode_to_ansi(const WCHAR *unicode);
-char* __stdcall unicode_to_ansi_static(const WCHAR *unicode, char *ansi, int ansi_size);
+char* __stdcall unicode_to_ansi_static(const WCHAR *unicode, char *ansi, size_t ansi_size);
 
 int   __stdcall utf8_encode(const char *from, char **to);
 int   __stdcall utf8_decode(const char *from, char **to);
 int   __stdcall utf8_decode_codepage(const char *from, char **to, WORD wCp);
-int   __stdcall utf8_decode_static(const char *from, char *to, int to_size);
+int   __stdcall utf8_decode_static(const char *from, char *to, size_t to_size);
 
 #define tchar_to_utf8 make_utf8_string
 #define utf8_to_tchar_static make_unicode_string_static

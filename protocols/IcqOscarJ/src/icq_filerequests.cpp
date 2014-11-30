@@ -25,13 +25,12 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleFileAck(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie, WORD wStatus, char* pszText)
+void CIcqProto::handleFileAck(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCookie, WORD wStatus, char* pszText)
 {
 	char* pszFileName = NULL;
 	DWORD dwFileSize;
 	MCONTACT hCookieContact;
 	WORD wPort;
-	WORD wFilenameLength;
 	filetransfer* ft;
 
 	// Find the filetransfer that belongs to this response
@@ -72,6 +71,7 @@ void CIcqProto::handleFileAck(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie,
 	wLen -= 2;
 
 	// Filename
+	size_t wFilenameLength;
 	unpackLEWord(&buf, &wFilenameLength);
 	if (wFilenameLength > 0) {
 		if (wFilenameLength > wLen - 2)
@@ -111,10 +111,10 @@ filetransfer* CIcqProto::CreateFileTransfer(MCONTACT hContact, DWORD dwUin, int 
 
 // pszDescription points to a string with the reason
 // buf points to the first data after the string
-void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC)
+void CIcqProto::handleFileRequest(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC)
 {
 	BOOL bEmptyDesc = FALSE;
-	if (strlennull(pszDescription) == 0) {
+	if (mir_strlen(pszDescription) == 0) {
 		pszDescription = Translate("No description given");
 		bEmptyDesc = TRUE;
 	}
@@ -173,7 +173,7 @@ void CIcqProto::handleFileRequest(PBYTE buf, WORD wLen, DWORD dwUin, DWORD dwCoo
 	mir_free(ptszFileName);
 }
 
-void CIcqProto::handleDirectCancel(directconnect *dc, PBYTE buf, WORD wLen, WORD wCommand, DWORD dwCookie, WORD wMessageType, WORD wStatus, WORD wFlags, char* pszText)
+void CIcqProto::handleDirectCancel(directconnect *dc, PBYTE buf, size_t wLen, WORD wCommand, DWORD dwCookie, WORD wMessageType, WORD wStatus, WORD wFlags, char* pszText)
 {
 	NetLog_Direct("handleDirectCancel: Unhandled cancel");
 }

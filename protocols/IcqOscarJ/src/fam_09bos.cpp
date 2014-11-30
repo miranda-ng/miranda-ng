@@ -25,7 +25,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleBosFam(unsigned char *pBuffer, WORD wBufferLength, snac_header* pSnacHeader)
+void CIcqProto::handleBosFam(unsigned char *pBuffer, size_t wBufferLength, snac_header* pSnacHeader)
 {
 	switch (pSnacHeader->wSubtype) {
 	case ICQ_PRIVACY_RIGHTS_REPLY: // Reply to CLI_REQBOS
@@ -51,7 +51,7 @@ void CIcqProto::handleBosFam(unsigned char *pBuffer, WORD wBufferLength, snac_he
 	}
 }
 
-void CIcqProto::handlePrivacyRightsReply(unsigned char *pBuffer, WORD wBufferLength)
+void CIcqProto::handlePrivacyRightsReply(unsigned char *pBuffer, size_t wBufferLength)
 {
 	if (wBufferLength >= 12) {
 		oscar_tlv_chain* pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0);

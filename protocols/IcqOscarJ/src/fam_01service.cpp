@@ -31,7 +31,7 @@
 
 extern capstr capXStatus[];
 
-void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader, serverthread_info *info)
+void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader, serverthread_info *info)
 {
 	icq_packet packet;
 
@@ -464,7 +464,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 }
 
 
-char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResume)
+char* CIcqProto::buildUinList(int subtype, size_t wMaxLen, MCONTACT *hContactResume)
 {
 	MCONTACT hContact;
 	WORD wCurrentLen = 0;
@@ -484,7 +484,7 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, MCONTACT *hContactResum
 
 	while (hContact != NULL) {
 		if (!getContactUid(hContact, &dwUIN, &szUID)) {
-			szLen[0] = strlennull(strUID(dwUIN, szUID));
+			szLen[0] = (char)mir_strlen(strUID(dwUIN, szUID));
 
 			switch (subtype) {
 			case BUL_VISIBLE:
@@ -546,12 +546,12 @@ void CIcqProto::sendEntireListServ(WORD wFamily, WORD wSubtype, int listType)
 		// send only about 100contacts per packet
 		char *szList = buildUinList(listType, 0x3E8, &hResumeContact);
 
-		int nListLen = strlennull(szList);
+		size_t nListLen = mir_strlen(szList);
 		if (nListLen) {
 			icq_packet packet;
-			serverPacketInit(&packet, (WORD)(nListLen + 10));
+			serverPacketInit(&packet, nListLen + 10);
 			packFNACHeader(&packet, wFamily, wSubtype);
-			packBuffer(&packet, (LPBYTE)szList, (WORD)nListLen);
+			packBuffer(&packet, (LPBYTE)szList, nListLen);
 			sendServPacket(&packet);
 		}
 
@@ -576,7 +576,7 @@ static void packShortCapability(icq_packet *packet, WORD wCapability)
 void CIcqProto::setUserInfo()
 {
 	icq_packet packet;
-	WORD wAdditionalData = 0;
+	size_t wAdditionalData = 0;
 	BYTE bXStatus = getContactXStatus(NULL);
 
 	if (m_bAimEnabled)
@@ -606,7 +606,7 @@ void CIcqProto::setUserInfo()
 	wAdditionalData += 16;
 #endif
 
-	wAdditionalData += (WORD)CustomCapList.getCount() * 16;
+	wAdditionalData += CustomCapList.getCount() * 16;
 
 	//MIM/PackName
 	bool bHasPackName = false;
@@ -617,12 +617,12 @@ void CIcqProto::setUserInfo()
 		wAdditionalData += 16;
 	}
 
-	serverPacketInit(&packet, (WORD)(62 + wAdditionalData));
+	serverPacketInit(&packet, 62 + wAdditionalData);
 	packFNACHeader(&packet, ICQ_LOCATION_FAMILY, ICQ_LOCATION_SET_USER_INFO);
 
 	/* TLV(5): capability data */
 	packWord(&packet, 0x0005);
-	packWord(&packet, (WORD)(48 + wAdditionalData));
+	packWord(&packet, WORD(48 + wAdditionalData));
 
 #ifdef DBG_CAPMTN
 	packDWord(&packet, 0x563FC809); // CAP_TYPING
@@ -744,11 +744,11 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 		//! Tricky code, this ensures that the status note will be saved to the directory
 		SetStatusNote(szStatusNote, m_bGatewayMode ? 5000 : 2500, TRUE);
 
-		WORD wStatusNoteLen = strlennull(szStatusNote);
-		WORD wStatusMoodLen = strlennull(szMoodData);
-		WORD wSessionDataLen = (wStatusNoteLen ? wStatusNoteLen + 4 : 0) + 4 + wStatusMoodLen + 4;
+		size_t wStatusNoteLen = mir_strlen(szStatusNote);
+		size_t wStatusMoodLen = mir_strlen(szMoodData);
+		size_t wSessionDataLen = (wStatusNoteLen ? wStatusNoteLen + 4 : 0) + 4 + wStatusMoodLen + 4;
 
-		serverPacketInit(&packet, (WORD)(71 + (wSessionDataLen ? wSessionDataLen + 4 : 0)));
+		serverPacketInit(&packet, 71 + (wSessionDataLen ? wSessionDataLen + 4 : 0));
 		packFNACHeader(&packet, ICQ_SERVICE_FAMILY, ICQ_CLIENT_SET_STATUS);
 		packDWord(&packet, 0x00060004);             // TLV 6: Status mode and security flags
 		packWord(&packet, GetMyStatusFlags());      // Status flags
@@ -773,18 +773,18 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 
 		if (wSessionDataLen) { // Pack session data
 			packWord(&packet, 0x1D);                  // TLV 1D
-			packWord(&packet, wSessionDataLen);       // TLV length
+			packWord(&packet, WORD(wSessionDataLen));       // TLV length
 			packWord(&packet, 0x02);                  // Item Type
 			if (wStatusNoteLen) {
-				packWord(&packet, 0x400 | (WORD)(wStatusNoteLen + 4)); // Flags + Item Length
-				packWord(&packet, wStatusNoteLen);      // Text Length
+				packWord(&packet, 0x400 | WORD(wStatusNoteLen + 4)); // Flags + Item Length
+				packWord(&packet, WORD(wStatusNoteLen));      // Text Length
 				packBuffer(&packet, (LPBYTE)szStatusNote, wStatusNoteLen);
 				packWord(&packet, 0);                   // Encoding not specified (utf-8 is default)
 			}
 			else
 				packWord(&packet, 0);                   // Flags + Item Length
 			packWord(&packet, 0x0E);                  // Item Type
-			packWord(&packet, wStatusMoodLen);        // Flags + Item Length
+			packWord(&packet, WORD(wStatusMoodLen));        // Flags + Item Length
 			if (wStatusMoodLen)
 				packBuffer(&packet, (LPBYTE)szMoodData, wStatusMoodLen); // Mood
 

@@ -147,7 +147,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			ppro->setDword(UNIQUEIDSETTING, GetDlgItemInt(hwndDlg, IDC_ICQNUM, NULL, FALSE));
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(ppro->m_szPassword));
-			if (strlennull(str)) {
+			if (mir_strlen(str)) {
 				strcpy(ppro->m_szPassword, str);
 				ppro->m_bRememberPwd = true;
 			}
@@ -259,13 +259,13 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			if (ppro->icqOnline()) {
 				PBYTE buf = NULL;
-				int buflen = 0;
+				size_t buflen = 0;
 
 				ppackTLVWord(&buf, &buflen, 0x19A, !ppro->getByte("Auth", 1));
 				ppackTLVByte(&buf, &buflen, 0x212, ppro->getByte("WebAware", 0));
 				ppackTLVWord(&buf, &buflen, 0x1F9, ppro->getByte("PrivacyLevel", 1));
 
-				ppro->icq_changeUserDirectoryInfoServ(buf, (WORD)buflen, DIRECTORYREQUEST_UPDATEPRIVACY);
+				ppro->icq_changeUserDirectoryInfoServ(buf, buflen, DIRECTORYREQUEST_UPDATEPRIVACY);
 
 				SAFE_FREE((void**)&buf);
 

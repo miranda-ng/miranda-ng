@@ -100,7 +100,7 @@ struct oscar_filetransfer: public basic_filetransfer
 	BYTE rawDummy[69];
 	BYTE rawMacInfo[16];
 	WORD wEncoding, wSubEncoding;
-	WORD cbRawFileName;
+	size_t cbRawFileName;
 	char *rawFileName;
 	// helper data
 	DWORD64 qwFileBytesDone;

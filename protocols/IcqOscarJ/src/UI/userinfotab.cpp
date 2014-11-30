@@ -112,7 +112,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 
 				if (bXStatus) {
 					pXName = ppro->getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
-					if (!strlennull(pXName)) { // give default name
+					if (!mir_strlen(pXName)) { // give default name
 						pXName = ICQTranslateUtf(nameXStatus[bXStatus - 1]);
 					}
 					mir_snprintf(str, sizeof(str), "%s (%s)", pszStatus, pXName);

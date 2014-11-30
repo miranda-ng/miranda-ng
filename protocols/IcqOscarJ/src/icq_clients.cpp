@@ -188,7 +188,7 @@ const char* cliSpamBot   = "Spam Bot";
 
 const char* CIcqProto::detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUserClass, DWORD dwOnlineSince, const char *szCurrentClient,
 										WORD wVersion, DWORD dwFT1, DWORD dwFT2, DWORD dwFT3, BYTE bDirectFlag, DWORD dwDirectCookie, DWORD dwWebPort, /* ICQ specific */
-										BYTE *caps, WORD wLen, /* Client capabilities */
+										BYTE *caps, size_t wLen, /* Client capabilities */
 										BYTE *bClientId, /* Output: detected client-type */
 										char *szClientBuf)
 {

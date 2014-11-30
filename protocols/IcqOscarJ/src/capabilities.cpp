@@ -87,7 +87,7 @@ void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCap
 	for (int nIndex = 0; nIndex < SIZEOF(CapabilityNames); nIndex++) {
 		// Check if the current capability is present
 		if ((fdwCapabilities & CapabilityNames[nIndex].capID) == CapabilityNames[nIndex].capID) {
-			if (strlennull(szBuffer))
+			if (mir_strlen(szBuffer))
 				strcat(szBuffer, ", ");
 			strcat(szBuffer, CapabilityNames[nIndex].capName);
 		}
@@ -152,7 +152,7 @@ BOOL CIcqProto::CheckContactCapabilities(MCONTACT hContact, DWORD fdwCapabilitie
 
 
 // Scan capability against the capability buffer
-capstr* MatchCapability(BYTE *buf, int bufsize, const capstr *cap, int capsize)
+capstr* MatchCapability(BYTE *buf, size_t bufsize, const capstr *cap, size_t capsize)
 {
 	while (bufsize >= BINARY_CAP_SIZE) { // search the buffer for a capability
 		if (!memcmp(buf, cap, capsize))
@@ -166,7 +166,7 @@ capstr* MatchCapability(BYTE *buf, int bufsize, const capstr *cap, int capsize)
 
 
 // Scan short capability against the capability buffer
-capstr* MatchShortCapability(BYTE *buf, int bufsize, const shortcapstr *cap)
+capstr* MatchShortCapability(BYTE *buf, size_t bufsize, const shortcapstr *cap)
 {
 	capstr fullCap;
 	memcpy(fullCap, capShortCaps, BINARY_CAP_SIZE);

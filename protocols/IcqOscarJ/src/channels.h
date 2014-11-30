@@ -40,6 +40,6 @@ struct snac_header
   WORD  wVersion;
 };
 
-int unpackSnacHeader(snac_header *pSnacHeader, BYTE **pBuffer, WORD *pwBufferLength);
+int unpackSnacHeader(snac_header *pSnacHeader, BYTE **pBuffer, size_t *pwBufferLength);
 
 #endif /* __CHANNELS_H */

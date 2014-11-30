@@ -67,7 +67,7 @@ int ChangeInfoData::UploadSettings(void)
 	//password
 	char* tmp = ppro->GetUserPassword(TRUE);
 	if (tmp) {
-		if (strlennull(Password) > 0 && strcmpnull(Password, tmp)) {
+		if (mir_strlen(Password) > 0 && strcmpnull(Password, tmp)) {
 			// update password in user info dialog (still open)
 			strcpy(Password, tmp);
 			// update password in protocol

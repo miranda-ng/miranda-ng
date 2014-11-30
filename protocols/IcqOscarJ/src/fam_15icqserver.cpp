@@ -25,7 +25,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleIcqExtensionsFam(BYTE *pBuffer, WORD wBufferLength, snac_header* pSnacHeader)
+void CIcqProto::handleIcqExtensionsFam(BYTE *pBuffer, size_t wBufferLength, snac_header* pSnacHeader)
 {
 	switch (pSnacHeader->wSubtype) {
 	case ICQ_META_ERROR:
@@ -43,7 +43,7 @@ void CIcqProto::handleIcqExtensionsFam(BYTE *pBuffer, WORD wBufferLength, snac_h
 }
 
 
-void CIcqProto::handleExtensionError(BYTE *buf, WORD wPackLen)
+void CIcqProto::handleExtensionError(BYTE *buf, size_t wPackLen)
 {
 	WORD wErrorCode;
 
@@ -112,7 +112,7 @@ void CIcqProto::handleExtensionError(BYTE *buf, WORD wPackLen)
 	LogFamilyError(ICQ_EXTENSIONS_FAMILY, wErrorCode);
 }
 
-void CIcqProto::handleExtensionServerInfo(BYTE *buf, WORD wPackLen, WORD wFlags)
+void CIcqProto::handleExtensionServerInfo(BYTE *buf, size_t wPackLen, WORD wFlags)
 {
 	// The entire packet is encapsulated in a TLV type 1
 	oscar_tlv_chain *chain = readIntoTLVChain(&buf, wPackLen, 0);
@@ -163,7 +163,7 @@ void CIcqProto::handleExtensionServerInfo(BYTE *buf, WORD wPackLen, WORD wFlags)
 }
 
 
-void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, WORD wPacketLen, WORD wCookie, WORD wFlags)
+void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, size_t wPacketLen, WORD wCookie, WORD wFlags)
 {
 	WORD wReplySubtype;
 	BYTE bResultCode;
@@ -298,7 +298,7 @@ void CIcqProto::ReleaseSearchCookie(DWORD dwCookie, cookie_search *pCookie)
 	else ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)dwCookie, 0);
 }
 
-void CIcqProto::parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode)
+void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode)
 {
 	BYTE bParsingOK = FALSE; // For debugging purposes only
 	BOOL bLastUser = FALSE;
@@ -323,7 +323,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD
 			ICQSEARCHRESULT sr = { 0 };
 			DWORD dwUin;
 			char szUin[UINMAXLEN];
-			WORD wLen;
+			size_t wLen;
 
 			sr.hdr.cbSize = sizeof(sr);
 
@@ -446,7 +446,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, WORD wPacketLen, WORD
 	}
 }
 
-void CIcqProto::parseUserInfoUpdateAck(unsigned char *databuf, WORD wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode)
+void CIcqProto::parseUserInfoUpdateAck(unsigned char *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode)
 {
 	switch (wReplySubtype) {
 	case META_SET_PASSWORD_ACK:  // Set user password server ack
@@ -562,7 +562,7 @@ int CIcqProto::parseUserInfoRecord(MCONTACT hContact, oscar_tlv *pData, UserInfo
 }
 
 
-void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WORD wCookie, WORD wReplySubtype, WORD wFlags)
+void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype, WORD wFlags)
 {
 	WORD wBytesRemaining = 0;
 	snac_header requestSnac = { 0 };
@@ -614,7 +614,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, WORD wPacketLen, WOR
 		return;
 	}
 
-	WORD wLen;
+	size_t wLen;
 	unpackWord(&databuf, &wLen);
 	wPacketLen -= 3;
 	if (wLen)
@@ -953,22 +953,22 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 		szData = cDetails->getString(0x50, 1); // Verified e-mail
 	else
 		szData = cDetails->getString(0x55, 1); // Pending e-mail
-	if (strlennull(szData))
+	if (mir_strlen(szData))
 		isr.hdr.email = ansi_to_tchar(szData);
 	SAFE_FREE(&szData);
 
 	szData = cDetails->getString(0x64, 1); // First Name
-	if (strlennull(szData))
+	if (mir_strlen(szData))
 		isr.hdr.firstName = utf8_to_tchar(szData);
 	SAFE_FREE(&szData);
 
 	szData = cDetails->getString(0x6E, 1); // Last Name
-	if (strlennull(szData))
+	if (mir_strlen(szData))
 		isr.hdr.lastName = utf8_to_tchar(szData);
 	SAFE_FREE(&szData);
 
 	szData = cDetails->getString(0x78, 1); // Nick
-	if (strlennull(szData))
+	if (mir_strlen(szData))
 		isr.hdr.nick = utf8_to_tchar(szData);
 	SAFE_FREE(&szData);
 
@@ -1013,7 +1013,7 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 }
 
 
-void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WORD wCookie, WORD wReplySubtype)
+void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype)
 {
 	WORD wBytesRemaining = 0;
 	snac_header requestSnac = { 0 };
@@ -1056,7 +1056,7 @@ void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, WORD wPacketLen, WO
 		ReleaseCookie(wCookie);
 		return;
 	}
-	WORD wLen;
+	size_t wLen;
 
 	unpackWord(&databuf, &wLen);
 	wPacketLen -= 3;

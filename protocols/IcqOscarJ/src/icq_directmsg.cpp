@@ -25,7 +25,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen)
+void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 {
 	WORD wCommand;
 	WORD wCookie;
@@ -198,20 +198,17 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, WORD wLen)
 		NetLog_Direct("Unknown wCommand, packet skipped");
 }
 
-void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD wLen, WORD wCommand, WORD wCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wStatus, WORD wFlags, char* pszText)
+void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t wLen, WORD wCommand, WORD wCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wStatus, WORD wFlags, char* pszText)
 {
-	DWORD dwLengthToEnd;
-	DWORD dwDataLength;
-	char* pszFileName = NULL;
-	int typeId;
-	WORD qt;
-
 	NetLog_Direct("Handling PEER_MSG_GREETING, command %u, cookie %u, messagetype %u, messageflags %u, status %u, flags %u", wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags);
 
+	int typeId;
+	WORD qt;
 	if (!unpackPluginTypeId(&buf, &wLen, &typeId, &qt, TRUE))
 		return;
 
 	// Length of remaining data
+	size_t dwLengthToEnd;
 	unpackLEDWord(&buf, &dwLengthToEnd);
 	if (dwLengthToEnd < 4 || dwLengthToEnd > wLen) {
 		NetLog_Direct("Error: Sanity checking failed (%d) in handleDirectGreetingMessage, datalen %u wLen %u", 2, dwLengthToEnd, wLen);
@@ -219,6 +216,7 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 	}
 
 	// Length of message/reason
+	size_t dwDataLength;
 	unpackLEDWord(&buf, &dwDataLength);
 	wLen -= 4;
 	if (dwDataLength > wLen) {
@@ -229,18 +227,18 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 	if (typeId == MTYPE_FILEREQ && wCommand == DIRECT_MESSAGE) {
 		NetLog_Direct("This is file request");
 		char *szMsg = (char*)_alloca(dwDataLength + 1);
-		unpackString(&buf, szMsg, (WORD)dwDataLength);
+		unpackString(&buf, szMsg, dwDataLength);
 		szMsg[dwDataLength] = '\0';
-		wLen = wLen - (WORD)dwDataLength;
+		wLen -= dwDataLength;
 
 		handleFileRequest(buf, wLen, dc->dwRemoteUin, wCookie, 0, 0, szMsg, 8, TRUE);
 	}
 	else if (typeId == MTYPE_FILEREQ && wCommand == DIRECT_ACK) {
 		NetLog_Direct("This is file ack");
 		char *szMsg = (char*)_alloca(dwDataLength + 1);
-		unpackString(&buf, szMsg, (WORD)dwDataLength);
+		unpackString(&buf, szMsg, dwDataLength);
 		szMsg[dwDataLength] = '\0';
-		wLen = wLen - (WORD)dwDataLength;
+		wLen -= dwDataLength;
 
 		// 50 - file request granted/refused
 		handleFileAck(buf, wLen, dc->dwRemoteUin, wCookie, wStatus, szMsg);
@@ -253,17 +251,17 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, WORD w
 		pMsgAck.pDC = dc;
 		pMsgAck.wCookie = wCookie;
 		pMsgAck.msgType = typeId;
-		handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, typeId, 0, 0, dwLengthToEnd, (WORD)dwDataLength, (char*)buf, MTF_PLUGIN | MTF_DIRECT, &pMsgAck);
+		handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, typeId, 0, 0, dwLengthToEnd, dwDataLength, (char*)buf, MTF_PLUGIN | MTF_DIRECT, &pMsgAck);
 	}
 	else if (typeId == MTYPE_STATUSMSGEXT && wCommand == DIRECT_ACK) { // especially for icq2003b
 		NetLog_Direct("This is extended status reply");
 
 		char *szMsg = (char*)_alloca(dwDataLength + 1);
-		uid_str szUID;
-		unpackString(&buf, szMsg, (WORD)dwDataLength);
+		unpackString(&buf, szMsg, dwDataLength);
 		szMsg[dwDataLength] = '\0';
 
-		handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)(qt + 0xE7), 3, 2, (DWORD)wLen, (WORD)dwDataLength, szMsg, MTF_PLUGIN | MTF_DIRECT, NULL);
+		uid_str szUID;
+		handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)(qt + 0xE7), 3, 2, wLen, dwDataLength, szMsg, MTF_PLUGIN | MTF_DIRECT, NULL);
 	}
 	else if (typeId && wCommand == DIRECT_ACK) {
 		MCONTACT hCookieContact;

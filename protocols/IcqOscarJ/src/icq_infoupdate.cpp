@@ -262,7 +262,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 				userinfo *hContactList[LISTSIZE];
 				int nListIndex = 0;
 				BYTE *pRequestData = NULL;
-				int nRequestSize = 0;
+				size_t nRequestSize = 0;
 
 				infoUpdateMutex->Enter();
 				for (i = 0; i < LISTSIZE; i++) {
@@ -271,7 +271,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 						if (IsMetaInfoChanged(m_infoUpdateList[i].hContact)) {
 							if (m_infoUpdateList[i].queued + 5 < now) {
 								BYTE *pItem = NULL;
-								int nItemSize = 0;
+								size_t nItemSize = 0;
 								DBVARIANT dbv = { DBVT_DELETED };
 
 								if (!getSetting(m_infoUpdateList[i].hContact, DBSETTING_METAINFO_TOKEN, &dbv)) { // retrieve user details using privacy token

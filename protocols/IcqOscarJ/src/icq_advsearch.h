@@ -22,5 +22,5 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // -----------------------------------------------------------------------------
 
-INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM lParam);
-PBYTE createAdvancedSearchStructure(HWND hwndDlg,int *length);
+INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam);
+PBYTE createAdvancedSearchStructure(HWND hwndDlg, size_t *length);

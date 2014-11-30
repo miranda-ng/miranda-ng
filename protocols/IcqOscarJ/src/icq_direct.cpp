@@ -196,7 +196,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 	NETLIBPACKETRECVER packetRecv = { 0 };
 	HANDLE hPacketRecver;
 	BOOL bFirstPacket = TRUE;
-	int nSkipPacketBytes = 0;
+	size_t nSkipPacketBytes = 0;
 	DWORD dwReqMsgID1;
 	DWORD dwReqMsgID2;
 
@@ -377,10 +377,9 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 			packetRecv.bytesUsed = packetRecv.bytesAvailable;
 		}
 		else {
-			int i;
-
+			size_t i;
 			for (i = nSkipPacketBytes, nSkipPacketBytes = 0; i + 2 <= packetRecv.bytesAvailable;) {
-				WORD wLen = *(WORD*)(packetRecv.buffer + i);
+				size_t wLen = *(WORD*)(packetRecv.buffer + i);
 
 				if (bFirstPacket) {
 					if (wLen > 64) { // roughly check first packet size
@@ -394,7 +393,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 					if (packetRecv.bytesAvailable >= i + 2 && wLen > 8190) { // check for too big packages
 						NetLog_Direct("Error: Package too big: %d bytes, skipping.");
 						nSkipPacketBytes = wLen;
-						packetRecv.bytesUsed = i + 2;
+						packetRecv.bytesUsed = int(i + 2);
 						break;
 					}
 				}
@@ -403,7 +402,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 					break;
 
 				if (dc.type == DIRECTCONN_STANDARD && wLen && packetRecv.buffer[i + 2] == 2) {
-					if (!DecryptDirectPacket(&dc, packetRecv.buffer + i + 3, (WORD)(wLen - 1))) {
+					if (!DecryptDirectPacket(&dc, packetRecv.buffer + i + 3, wLen - 1)) {
 						NetLog_Direct("Error: Corrupted packet encryption, ignoring packet");
 						i += wLen + 2;
 						continue;
@@ -417,7 +416,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 
 				i += wLen + 2;
 			}
-			packetRecv.bytesUsed = i;
+			packetRecv.bytesUsed = (int)i;
 		}
 	}
 
@@ -443,7 +442,7 @@ LBL_Exit:
 	directConns.remove(&dc);
 }
 
-void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
+void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 {
 	if (wLen < 1)
 		return;
@@ -633,7 +632,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 		NetLog_Direct("Received PEER_MSG from %u", dc->dwRemoteUin);
 
 		if (dc->initialised)
-			handleDirectMessage(dc, buf + 1, (WORD)(wLen - 1));
+			handleDirectMessage(dc, buf+1, wLen-1);
 		else
 			NetLog_Direct("Received %s on uninitialised DC, ignoring.", "PEER_MSG");
 
@@ -758,7 +757,7 @@ void EncryptDirectPacket(directconnect* dc, icq_packet* p)
 	*(PDWORD)(buf + offset) = check;
 }
 
-int DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
+int DecryptDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 {
 	unsigned long hex;
 	unsigned long B1;
@@ -768,7 +767,7 @@ int DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 	unsigned char X2;
 	unsigned char X3;
 	unsigned char bak[6];
-	unsigned long size = wLen;
+	unsigned long size = (unsigned long)wLen;
 
 	if (dc->wVersion < 4)
 		return 1;  // no decryption necessary.
@@ -944,28 +943,21 @@ void CIcqProto::sendPeerMsgInit(directconnect* dc, DWORD dwSeq)
 
 void CIcqProto::sendPeerFileInit(directconnect* dc)
 {
-	DBVARIANT dbv;
-	char* szNick;
-
-	dbv.type = DBVT_DELETED;
-	if (getString("Nick", &dbv))
-		szNick = "";
-	else
-		szNick = dbv.pszVal;
-	int nNickLen = strlennull(szNick);
+	ptrA tmp(getStringA("Nick"));
+	char *szNick = NEWSTR_ALLOCA((tmp == NULL) ? "" : tmp);
+	size_t nNickLen = mir_strlen(szNick);
 
 	icq_packet packet;
-	directPacketInit(&packet, (WORD)(20 + nNickLen));
+	directPacketInit(&packet, 20 + nNickLen);
 
 	packByte(&packet, PEER_FILE_INIT);  /* packet type */
 	packLEDWord(&packet, 0);            /* unknown */
 	packLEDWord(&packet, dc->ft->dwFileCount);
 	packLEDWord(&packet, dc->ft->dwTotalSize);
 	packLEDWord(&packet, dc->ft->dwTransferSpeed);
-	packLEWord(&packet, (WORD)(nNickLen + 1));
-	packBuffer(&packet, (LPBYTE)szNick, (WORD)(nNickLen + 1));
+	packLEWord(&packet, WORD(nNickLen + 1));
+	packBuffer(&packet, (LPBYTE)szNick, nNickLen + 1);
 	sendDirectPacket(dc, &packet);
-	db_free(&dbv);
 
 	NetLog_Direct("Sent PEER_FILE_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming ? "incoming" : "outgoing");
 }

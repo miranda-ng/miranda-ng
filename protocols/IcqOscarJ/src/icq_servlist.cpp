@@ -178,10 +178,10 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 				// allocate cookie id
 				dwGroupCookie = AllocateCookie(CKT_SERVERLIST, wItemAction, 0, pGroupCookie);
 				// prepare packet data
-				serverPacketInit(&groupPacket, (WORD)(totalSize + 0x0A)); // FLAP size added inside
+				serverPacketInit(&groupPacket, totalSize + 0x0A); // FLAP size added inside
 				packFNACHeader(&groupPacket, ICQ_LISTS_FAMILY, wItemAction, 0, dwGroupCookie);
 				for (i = 0; i < pItem->nItems; i++)
-					packBuffer(&groupPacket, pItem->pItems[i]->packet.pData + 0x10, (WORD)(pItem->pItems[i]->packet.wLen - 0x10));
+					packBuffer(&groupPacket, pItem->pItems[i]->packet.pData + 0x10, pItem->pItems[i]->packet.wLen - 0x10);
 
 				if (bItemDouble) { // prepare second packet
 					wItemAction = ((servlistgroupitemdouble*)(pItem->pItems[0]))->wAction2;
@@ -199,10 +199,10 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 					// allocate cookie id
 					dwGroupCookie = AllocateCookie(CKT_SERVERLIST, wItemAction, 0, pGroupCookie);
 					// prepare packet data
-					serverPacketInit(&groupPacket2, (WORD)(totalSize + 0x0A)); // FLAP size added inside
+					serverPacketInit(&groupPacket2, totalSize + 0x0A); // FLAP size added inside
 					packFNACHeader(&groupPacket2, ICQ_LISTS_FAMILY, wItemAction, 0, dwGroupCookie);
 					for (i = 0; i < pItem->nItems; i++)
-						packBuffer(&groupPacket2, ((servlistgroupitemdouble*)(pItem->pItems[i]))->packet2.pData + 0x10, (WORD)(((servlistgroupitemdouble*)(pItem->pItems[i]))->packet2.wLen - 0x10));
+						packBuffer(&groupPacket2, ((servlistgroupitemdouble*)(pItem->pItems[i]))->packet2.pData + 0x10, ((servlistgroupitemdouble*)(pItem->pItems[i]))->packet2.wLen - 0x10);
 				}
 			}
 			else { // just send the one packet, do not create action group
@@ -815,7 +815,7 @@ struct GroupReserveIdsEnumParam
 
 static int GroupReserveIdsEnumProc(const char *szSetting, LPARAM lParam)
 {
-	if (szSetting && strlennull(szSetting) < 5) {
+	if (szSetting && mir_strlen(szSetting) < 5) {
 		// it is probably server group
 		GroupReserveIdsEnumParam *param = (GroupReserveIdsEnumParam*)lParam;
 		char val[MAX_PATH + 2]; // dummy
@@ -914,7 +914,7 @@ void CIcqProto::LoadServerIDs()
 void CIcqProto::StoreServerIDs() /// TODO: allow delayed
 {
 	BYTE *pUnhandled = NULL;
-	int cbUnhandled = 0;
+	size_t cbUnhandled = 0;
 
 	servlistMutex->Enter();
 	if (pdwServerIDList)
@@ -928,7 +928,7 @@ void CIcqProto::StoreServerIDs() /// TODO: allow delayed
 	servlistMutex->Leave();
 
 	if (pUnhandled)
-		setSettingBlob(NULL, DBSETTING_SERVLIST_UNHANDLED, pUnhandled, cbUnhandled);
+		setSettingBlob(NULL, DBSETTING_SERVLIST_UNHANDLED, pUnhandled, (int)cbUnhandled);
 	else
 		delSetting(DBSETTING_SERVLIST_UNHANDLED);
 
@@ -966,28 +966,24 @@ struct doubleServerItemObject
 	icq_packet packet;
 };
 
-DWORD CIcqProto::icq_sendServerItem(DWORD dwCookie, WORD wAction, WORD wGroupId, WORD wItemId, const char *szName, BYTE *pTLVs, int nTlvLength, WORD wItemType, DWORD dwOperation, DWORD dwTimeout, void **doubleObject)
+DWORD CIcqProto::icq_sendServerItem(DWORD dwCookie, WORD wAction, WORD wGroupId, WORD wItemId, const char *szName, BYTE *pTLVs, size_t nTlvLength, WORD wItemType, DWORD dwOperation, DWORD dwTimeout, void **doubleObject)
 {
-	// generic packet
-	icq_packet packet;
-	int nNameLen;
-	WORD wTLVlen = (WORD)nTlvLength;
-
 	// Prepare item name length
-	nNameLen = strlennull(szName);
+	size_t nNameLen = mir_strlen(szName);
 
 	// Build the packet
-	serverPacketInit(&packet, (WORD)(nNameLen + 20 + wTLVlen));
+	icq_packet packet;
+	serverPacketInit(&packet, nNameLen + 20 + nTlvLength);
 	packFNACHeader(&packet, ICQ_LISTS_FAMILY, wAction, 0, dwCookie);
-	packWord(&packet, (WORD)nNameLen);
+	packWord(&packet, WORD(nNameLen));
 	if (nNameLen)
-		packBuffer(&packet, (LPBYTE)szName, (WORD)nNameLen);
+		packBuffer(&packet, (LPBYTE)szName, nNameLen);
 	packWord(&packet, wGroupId);
 	packWord(&packet, wItemId);
 	packWord(&packet, wItemType);
-	packWord(&packet, wTLVlen);
-	if (wTLVlen)
-		packBuffer(&packet, pTLVs, wTLVlen);
+	packWord(&packet, WORD(nTlvLength));
+	if (nTlvLength)
+		packBuffer(&packet, pTLVs, nTlvLength);
 
 	if (!doubleObject) // Send the packet and return the cookie
 		servlistPostPacket(&packet, dwCookie, dwOperation | wAction, dwTimeout);
@@ -1024,8 +1020,7 @@ DWORD CIcqProto::icq_sendServerContact(MCONTACT hContact, DWORD dwCookie, WORD w
 	icq_packet pBuffer;
 	char *szNick = NULL, *szNote = NULL;
 	BYTE *pData = NULL, *pMetaToken = NULL, *pMetaTime = NULL;
-	int nNickLen, nNoteLen, nDataLen = 0, nMetaTokenLen = 0, nMetaTimeLen = 0;
-	WORD wTLVlen;
+	int nDataLen = 0, nMetaTokenLen = 0, nMetaTimeLen = 0;
 	BYTE bAuth;
 	int bDataTooLong = FALSE;
 
@@ -1065,8 +1060,8 @@ DWORD CIcqProto::icq_sendServerContact(MCONTACT hContact, DWORD dwCookie, WORD w
 		db_free(&dbv);
 	}
 
-	nNickLen = strlennull(szNick);
-	nNoteLen = strlennull(szNote);
+	size_t nNickLen = mir_strlen(szNick);
+	size_t nNoteLen = mir_strlen(szNote);
 
 	// Limit the strings
 	if (nNickLen > MAX_SSI_TLV_NAME_SIZE) {
@@ -1084,27 +1079,27 @@ DWORD CIcqProto::icq_sendServerContact(MCONTACT hContact, DWORD dwCookie, WORD w
 	}
 
 	// Build the packet
-	wTLVlen = (nNickLen ? 4 + nNickLen : 0) + (nNoteLen ? 4 + nNoteLen : 0) + (bAuth ? 4 : 0) + nDataLen + (nMetaTokenLen ? 4 + nMetaTokenLen : 0) + (nMetaTimeLen ? 4 + nMetaTimeLen : 0);
+	size_t wTLVlen = (nNickLen ? 4 + nNickLen : 0) + (nNoteLen ? 4 + nNoteLen : 0) + (bAuth ? 4 : 0) + nDataLen + (nMetaTokenLen ? 4 + nMetaTokenLen : 0) + (nMetaTimeLen ? 4 + nMetaTimeLen : 0);
 
 	// Initialize our handy data buffer
 	pBuffer.wPlace = 0;
 	pBuffer.pData = (BYTE *)_alloca(wTLVlen);
-	pBuffer.wLen = wTLVlen;
+	pBuffer.wLen = (WORD)wTLVlen;
 
 	if (nNickLen)
-		packTLV(&pBuffer, SSI_TLV_NAME, (WORD)nNickLen, (LPBYTE)szNick);  // Nickname TLV
+		packTLV(&pBuffer, SSI_TLV_NAME, nNickLen, (LPBYTE)szNick);  // Nickname TLV
 
 	if (nNoteLen)
-		packTLV(&pBuffer, SSI_TLV_COMMENT, (WORD)nNoteLen, (LPBYTE)szNote);  // Comment TLV
+		packTLV(&pBuffer, SSI_TLV_COMMENT, nNoteLen, (LPBYTE)szNote);  // Comment TLV
 
 	if (nMetaTokenLen)
-		packTLV(&pBuffer, SSI_TLV_METAINFO_TOKEN, (WORD)nMetaTokenLen, pMetaToken);
+		packTLV(&pBuffer, SSI_TLV_METAINFO_TOKEN, nMetaTokenLen, pMetaToken);
 
 	if (nMetaTimeLen)
-		packTLV(&pBuffer, SSI_TLV_METAINFO_TIME, (WORD)nMetaTimeLen, pMetaTime);
+		packTLV(&pBuffer, SSI_TLV_METAINFO_TIME, nMetaTimeLen, pMetaTime);
 
 	if (pData)
-		packBuffer(&pBuffer, pData, (WORD)nDataLen);
+		packBuffer(&pBuffer, pData, nDataLen);
 
 	if (bAuth) // icq5 gives this as last TLV
 		packDWord(&pBuffer, 0x00660000);  // "Still waiting for auth" TLV
@@ -1126,7 +1121,7 @@ DWORD CIcqProto::icq_sendServerGroup(DWORD dwCookie, WORD wAction, WORD wGroupId
 	icq_packet pBuffer; // I reuse the ICQ packet type as a generic buffer
 	// I should be ashamed! ;)
 
-	if (strlennull(szName) == 0 && wGroupId != 0) {
+	if (mir_strlen(szName) == 0 && wGroupId != 0) {
 		debugLogA("Group upload failed (GroupName missing).");
 		return 0; // without name we could not change the group
 	}
@@ -1140,7 +1135,7 @@ DWORD CIcqProto::icq_sendServerGroup(DWORD dwCookie, WORD wAction, WORD wGroupId
 	pBuffer.wLen = wTLVlen;
 
 	if (wTLVlen)
-		packTLV(&pBuffer, SSI_TLV_SUBITEMS, (WORD)cbContent, (LPBYTE)pContent);  // Groups TLV
+		packTLV(&pBuffer, SSI_TLV_SUBITEMS, cbContent, (LPBYTE)pContent);  // Groups TLV
 
 	return icq_sendServerItem(dwCookie, wAction, wGroupId, 0, szName, pBuffer.pData, wTLVlen, SSI_ITEM_GROUP, SSOP_GROUP_ACTION | dwOperationFlags, 400, NULL);
 }
@@ -1385,7 +1380,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 	if (!szGroup)
 		return 0;
 
-	int size = strlennull(szGroup) + 2;
+	size_t size = mir_strlen(szGroup) + 2;
 	TCHAR *tszGroup = (TCHAR*)_alloca(size * sizeof(TCHAR));
 
 	if (utf8_to_tchar_static(szGroup, tszGroup, size))
@@ -1417,24 +1412,21 @@ int CIcqProto::moveContactToCListGroup(MCONTACT hContact, const char *szGroup)
 // utility function which counts > on start of a server group name
 static int countGroupNameLevel(const char *szGroupName)
 {
-	int nNameLen = strlennull(szGroupName);
-	int i = 0;
+	size_t nNameLen = mir_strlen(szGroupName);
 
-	while (i < nNameLen) {
+	for (size_t i=0; i < nNameLen; i++)
 		if (szGroupName[i] != '>')
-			return i;
+			return (int)i;
 
-		i++;
-	}
 	return -1;
 }
 
 static int countCListGroupLevel(const char *szClistName)
 {
-	int nNameLen = strlennull(szClistName);
-	int i, level = 0;
+	size_t nNameLen = mir_strlen(szClistName);
+	int level = 0;
 
-	for (i = 0; i < nNameLen; i++)
+	for (size_t i = 0; i < nNameLen; i++)
 		if (szClistName[i] == '\\') level++;
 
 	return level;
@@ -1496,7 +1488,7 @@ char *CIcqProto::getServListGroupCListPath(WORD wGroupId)
 				char *szParentGroup = getServListGroupCListPath(wParentGroupId);
 
 				/// FIXME: properly handle ~N suffixes
-				szParentGroup = (char*)SAFE_REALLOC(szParentGroup, strlennull(szGroup) + strlennull(szParentGroup) + 2);
+				szParentGroup = (char*)SAFE_REALLOC(szParentGroup, mir_strlen(szGroup) + mir_strlen(szParentGroup) + 2);
 				strcat(szParentGroup, "\\");
 				strcat(szParentGroup, (char*)szGroup + nGroupLevel);
 
@@ -1561,8 +1553,8 @@ char* CIcqProto::getServListUniqueGroupName(const char *szGroupName, int bAlloce
 
 			char szUnique[10];
 			_itoa(uniqueID++, szUnique, 10);
-			null_strcut(szGroupNameBase, m_wServerListRecordNameMaxLength - strlennull(szUnique) - 1);
-			szNewGroupName = (char*)SAFE_MALLOC(strlennull(szUnique) + strlennull(szGroupNameBase) + 2);
+			null_strcut(szGroupNameBase, m_wServerListRecordNameMaxLength - mir_strlen(szUnique) - 1);
+			szNewGroupName = (char*)SAFE_MALLOC(mir_strlen(szUnique) + mir_strlen(szGroupNameBase) + 2);
 			if (szNewGroupName) {
 				strcpy(szNewGroupName, szGroupNameBase);
 				strcat(szNewGroupName, "~");
@@ -1597,7 +1589,7 @@ int CIcqProto::servlistCreateGroup_gotParentGroup(const char *szGroup, WORD wGro
 	if (nResult == PENDING_RESULT_PURGE) // only cleanup
 		return CALLBACK_RESULT_CONTINUE;
 
-	szSubGroup = (char*)SAFE_MALLOC(strlennull(szGroup) + strlennull(szSubGroupName) + 2);
+	szSubGroup = (char*)SAFE_MALLOC(mir_strlen(szGroup) + mir_strlen(szSubGroupName) + 2);
 	if (szSubGroup) {
 		strcpy(szSubGroup, szGroup);
 		strcat(szSubGroup, "\\");
@@ -1624,7 +1616,7 @@ int CIcqProto::servlistCreateGroup_gotParentGroup(const char *szGroup, WORD wGro
 	if (!CheckServerID(wSubGroupID, 0)) { // the next id is free, so create our group with that id
 		cookie_servlist_action *ack;
 		DWORD dwCookie;
-		char *szSubGroupItem = (char*)SAFE_MALLOC(strlennull(szSubGroupName) + wSubGroupLevel + 1);
+		char *szSubGroupItem = (char*)SAFE_MALLOC(mir_strlen(szSubGroupName) + wSubGroupLevel + 1);
 
 		if (szSubGroupItem) {
 			int i;
@@ -1633,7 +1625,7 @@ int CIcqProto::servlistCreateGroup_gotParentGroup(const char *szGroup, WORD wGro
 				szSubGroupItem[i] = '>';
 
 			strcpy(szSubGroupItem + wSubGroupLevel, szSubGroupName);
-			szSubGroupItem[strlennull(szSubGroupName) + wSubGroupLevel] = '\0';
+			szSubGroupItem[mir_strlen(szSubGroupName) + wSubGroupLevel] = '\0';
 			SAFE_FREE((void**)&szSubGroupName);
 			// check and create unique group name (Miranda does allow more subgroups with the same name!)
 			szSubGroupItem = getServListUniqueGroupName(szSubGroupItem, TRUE);
@@ -1730,7 +1722,7 @@ void CIcqProto::servlistCreateGroup(const char *szGroupPath, LPARAM param, PENDI
 {
 	char *szGroup = (char*)szGroupPath;
 
-	if (!strlennull(szGroup)) szGroup = DEFAULT_SS_GROUP;
+	if (!mir_strlen(szGroup)) szGroup = DEFAULT_SS_GROUP;
 
 	servlistPendingAddGroup(szGroup, 0, 0, &CIcqProto::servlistCreateGroup_Ready, TRUE, param, callback);
 }
@@ -2162,7 +2154,7 @@ void CIcqProto::servlistRenameGroup(char *szGroup, WORD wGroupId, char *szNewGro
 		if (!strcmpnull(szGroupName, szNewGroupName)) return;
 
 		szGroupName = szNewGroupName;
-		szNewGroupName = (char*)SAFE_MALLOC(strlennull(szGroupName) + 1 + nGroupLevel);
+		szNewGroupName = (char*)SAFE_MALLOC(mir_strlen(szGroupName) + 1 + nGroupLevel);
 		if (!szNewGroupName) return; // Failure
 
 		for (i = 0; i < nGroupLevel; i++) { // create level prefix

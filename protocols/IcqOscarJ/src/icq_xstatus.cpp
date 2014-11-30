@@ -561,7 +561,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 			SendMessage(hwnd, WM_KEYDOWN, VK_LEFT, 0);
 			SendMessage(hwnd, EM_GETSEL, (WPARAM)&start, (LPARAM) (PDWORD) NULL);
 			WCHAR *text = GetWindowTextUcs(hwnd);
-			MoveMemory(text + start, text + end, sizeof(WCHAR) * (strlennull(text) + 1 - end));
+			MoveMemory(text + start, text + end, sizeof(WCHAR) * (mir_wstrlen(text) + 1 - end));
 			SetWindowTextUcs(hwnd, text);
 			SAFE_FREE(&text);
 			SendMessage(hwnd, EM_SETSEL, start, start);
@@ -837,7 +837,7 @@ INT_PTR CIcqProto::menuXStatus(WPARAM wParam,LPARAM lParam,LPARAM fParam)
 
 void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 {
-	int len = strlennull(m_szModuleName);
+	size_t len = mir_strlen(m_szModuleName);
 	char srvFce[MAX_PATH + 64];
 	char szItem[MAX_PATH + 64];
 	int bXStatusMenuBuilt = 0;
@@ -1053,7 +1053,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 
 		if (pData->wParam) {
 			if (m_bXStatusEnabled && !getString(hContact, DBSETTING_XSTATUS_NAME, &dbv))
-				*pData->wParam = strlennull(dbv.pszVal);
+				*pData->wParam = mir_strlen(dbv.pszVal);
 			else
 				*pData->wParam = 0;
 			db_free(&dbv);
@@ -1061,7 +1061,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 
 		if (pData->lParam) {
 			if (!getString(hContact, CheckContactCapabilities(hContact, CAPF_STATUS_MOOD) ? DBSETTING_STATUS_NOTE : DBSETTING_XSTATUS_MSG, &dbv))
-				*pData->lParam = strlennull(dbv.pszVal);
+				*pData->lParam = mir_strlen(dbv.pszVal);
 			else
 				*pData->lParam = 0;
 			db_free(&dbv);

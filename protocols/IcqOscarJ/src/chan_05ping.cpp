@@ -24,7 +24,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handlePingChannel(BYTE *buf, WORD datalen)
+void CIcqProto::handlePingChannel(BYTE *buf, size_t datalen)
 {
 	debugLogA("Warning: Ignoring server packet on PING channel");
 }

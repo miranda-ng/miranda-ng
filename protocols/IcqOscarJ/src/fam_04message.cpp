@@ -29,7 +29,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleMsgFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader)
+void CIcqProto::handleMsgFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader)
 {
 	switch (pSnacHeader->wSubtype) {
 	case ICQ_MSG_SRV_ERROR:          // SNAC(4, 0x01)
@@ -87,7 +87,7 @@ static void setMsgChannelParams(CIcqProto *ppro, WORD wChan, DWORD dwFlags)
 	ppro->sendServPacket(&packet);
 }
 
-void CIcqProto::handleReplyICBM(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
+void CIcqProto::handleReplyICBM(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef)
 { // we don't care about the stuff, just change the params
 	DWORD dwFlags = 0x00000303;
 
@@ -101,7 +101,7 @@ void CIcqProto::handleReplyICBM(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
 	setMsgChannelParams(this, 0x0000, dwFlags);
 }
 
-void CIcqProto::handleRecvServMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
+void CIcqProto::handleRecvServMsg(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef)
 {
 	DWORD dwUin;
 	DWORD dwMsgID1;
@@ -200,10 +200,10 @@ char* CIcqProto::convertMsgToUserSpecificUtf(MCONTACT hContact, const char *szMs
 	return usMsg;
 }
 
-void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef)
+void CIcqProto::handleRecvServMsgType1(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef)
 {
 	WORD wTLVType;
-	WORD wTLVLen;
+	size_t wTLVLen;
 	BYTE* pMsgTLV;
 
 	if (wLen < 4) { // just perform basic structure check
@@ -278,7 +278,7 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 								usMsgPart[wMsgLen / sizeof(WCHAR)] = 0;
 
 								szMsgPart = make_utf8_string(usMsgPart);
-								if (!IsUSASCII(szMsgPart, strlennull(szMsgPart)))
+								if (!IsUSASCII(szMsgPart, mir_strlen(szMsgPart)))
 									bMsgPartUnicode = TRUE;
 								SAFE_FREE(&usMsgPart);
 							}
@@ -311,18 +311,18 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 							szMsgPart = szUtfPart;
 						}
 						// Append the new message part
-						szMsg = (char*)SAFE_REALLOC(szMsg, strlennull(szMsg) + strlennull(szMsgPart) + 1);
+						szMsg = (char*)SAFE_REALLOC(szMsg, mir_strlen(szMsg) + mir_strlen(szMsgPart) + 1);
 
 						strcat(szMsg, szMsgPart);
 						SAFE_FREE(&szMsgPart);
 					}
 					wMsgPart++;
 				}
-				if (strlennull(szMsg)) {
+				if (mir_strlen(szMsg)) {
 					if (_strnicmp(szMsg, "<html>", 6) == 0) // strip HTML formating from AIM message
-						szMsg = EliminateHtml(szMsg, strlennull(szMsg));
+						szMsg = EliminateHtml(szMsg, mir_strlen(szMsg));
 
-					if (!pre.flags && !IsUSASCII(szMsg, strlennull(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
+					if (!pre.flags && !IsUSASCII(szMsg, mir_strlen(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
 						char *usMsg = convertMsgToUserSpecificUtf(hContact, szMsg);
 						if (usMsg) {
 							SAFE_FREE(&szMsg);
@@ -338,7 +338,8 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 						if (!(dwRef & 0x80000000) && FindCookie(dwRef, NULL, (void**)&cookie)) {
 							cookie->nMessages++;
 
-							WORD wTimeTLVType, wTimeTLVLen;
+							WORD wTimeTLVType;
+							size_t wTimeTLVLen;
 							BYTE *pTimeTLV;
 							unpackTypedTLV(buf, wLen, 0x16, &wTimeTLVType, &wTimeTLVLen, &pTimeTLV);
 							if (pTimeTLV && wTimeTLVType == 0x16 && wTimeTLVLen == 4) { // found Offline timestamp
@@ -375,10 +376,10 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 	SAFE_FREE((void**)&pMsgTLV);
 }
 
-void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef)
+void CIcqProto::handleRecvServMsgType2(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef)
 {
 	WORD wTLVType;
-	WORD wTLVLen;
+	size_t wTLVLen;
 	BYTE *pDataBuf = NULL;
 
 	if (wLen < 4) {
@@ -571,7 +572,7 @@ void CIcqProto::handleRecvServMsgType2(BYTE *buf, WORD wLen, DWORD dwUin, char *
 }
 
 
-void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType)
+void CIcqProto::parseServRelayData(BYTE *pDataBuf, size_t wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType)
 {
 	WORD wId;
 
@@ -775,7 +776,7 @@ void CIcqProto::parseServRelayData(BYTE *pDataBuf, WORD wLen, MCONTACT hContact,
 	else debugLogA("Unknown wId1 (%u) in message (format 2)", wId);
 }
 
-void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion)
+void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, size_t wLen, MCONTACT hContact, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, WORD wAckType, BYTE bFlags, WORD wStatus, WORD wCookie, WORD wVersion)
 {
 	int nTypeId;
 	WORD wFunction;
@@ -786,8 +787,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, MCONTACT hCo
 	if (!unpackPluginTypeId(&pDataBuf, &wLen, &nTypeId, &wFunction, FALSE)) return;
 
 	if (wLen > 8) {
-		DWORD dwLengthToEnd;
-		DWORD dwDataLen;
+		size_t dwLengthToEnd, dwDataLen;
 
 		// Length of remaining data
 		unpackLEDWord(&pDataBuf, &dwLengthToEnd);
@@ -810,7 +810,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, MCONTACT hCo
 			memcpy(szMsg, pDataBuf, dwDataLen);
 			szMsg[dwDataLen] = '\0';
 			pDataBuf += dwDataLen;
-			wLen -= (WORD)dwDataLen;
+			wLen -= dwDataLen;
 
 			handleFileAck(pDataBuf, wLen, dwUin, wCookie, wStatus, szMsg);
 		}
@@ -825,7 +825,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, MCONTACT hCo
 			memcpy(szMsg, pDataBuf, dwDataLen);
 			szMsg[dwDataLen] = '\0';
 			pDataBuf += dwDataLen;
-			wLen -= (WORD)dwDataLen;
+			wLen -= dwDataLen;
 
 			handleFileRequest(pDataBuf, wLen, dwUin, wCookie, dwMsgID1, dwMsgID2, szMsg, 8, FALSE);
 		}
@@ -840,7 +840,7 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, MCONTACT hCo
 			memcpy(szMsg, pDataBuf, dwDataLen);
 			szMsg[dwDataLen] = '\0';
 			pDataBuf += dwDataLen;
-			wLen -= (WORD)dwDataLen;
+			wLen -= dwDataLen;
 
 			//    handleChatRequest(pDataBuf, wLen, dwUin, wCookie, dwMsgID1, dwMsgID2, szMsg, 8);
 		}
@@ -884,14 +884,14 @@ void CIcqProto::parseServRelayPluginData(BYTE *pDataBuf, WORD wLen, MCONTACT hCo
 			pMsgAck.wCookie = wCookie;
 			pMsgAck.msgType = nTypeId;
 			pMsgAck.bFlags = bFlags;
-			handleMessageTypes(dwUin, szUID, time(NULL), dwMsgID1, dwMsgID2, wCookie, wVersion, nTypeId, bFlags, wAckType, dwLengthToEnd, (WORD)dwDataLen, (char*)pDataBuf, MTF_PLUGIN, &pMsgAck);
+			handleMessageTypes(dwUin, szUID, time(NULL), dwMsgID1, dwMsgID2, wCookie, wVersion, nTypeId, bFlags, wAckType, dwLengthToEnd, dwDataLen, (char*)pDataBuf, MTF_PLUGIN, &pMsgAck);
 		}
 		else debugLogA("Unsupported plugin message type %d", nTypeId);
 	}
 	else debugLogA("Error: Malformed server plugin message");
 }
 
-void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand)
+void CIcqProto::handleRecvServMsgContacts(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand)
 {
 	MCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
 
@@ -964,7 +964,7 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 								valid = 0;
 						}
 						else { // aim contact
-							if (!strlennull(szUid))
+							if (!mir_strlen(szUid))
 								valid = 0;
 						}
 						iContact++;
@@ -1016,7 +1016,8 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 						unpackWord(&pBuffer, &wNickLen);
 						nLen -= 2;
 						if (nLen >= wNickLen) {
-							WORD wNickTLV, wNickTLVLen;
+							WORD wNickTLV;
+							size_t wNickTLVLen;
 							char *pNick = NULL;
 
 							unpackTypedTLV(pBuffer, wNickLen, 0x01, &wNickTLV, &wNickTLVLen, (LPBYTE*)&pNick);
@@ -1087,10 +1088,10 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 	}
 }
 
-void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef)
+void CIcqProto::handleRecvServMsgType4(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwMsgID1, DWORD dwMsgID2, DWORD dwRef)
 {
 	WORD wTLVType;
-	WORD wTLVLen;
+	size_t wTLVLen;
 	BYTE* pDataBuf;
 	DWORD dwUin2;
 
@@ -1108,8 +1109,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 		BYTE bMsgType;
 		BYTE bFlags;
 		BYTE* pmsg = pDataBuf;
-		WORD wMsgLen;
-
+		size_t wMsgLen;
 
 		unpackLEDWord(&pmsg, &dwUin2);
 
@@ -1125,7 +1125,8 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 				DWORD dwRecvTime = (DWORD)time(NULL);
 
 				if (!(dwRef & 0x80000000) && FindCookie(dwRef, NULL, (void**)&cookie)) {
-					WORD wTimeTLVType, wTimeTLVLen;
+					WORD wTimeTLVType;
+					size_t wTimeTLVLen;
 					BYTE *pTimeTLV = NULL;
 
 					cookie->nMessages++;
@@ -1140,7 +1141,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 				}
 
 				if (bMsgType == MTYPE_PLUGIN) {
-					WORD wLen = wTLVLen - 8;
+					size_t wLen = wTLVLen - 8;
 					int typeId;
 
 					debugLogA("Parsing Greeting message through server");
@@ -1149,8 +1150,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 					wLen -= wMsgLen;
 
 					if (unpackPluginTypeId(&pmsg, &wLen, &typeId, NULL, FALSE) && wLen > 8) {
-						DWORD dwLengthToEnd;
-						DWORD dwDataLen;
+						size_t dwLengthToEnd, dwDataLen;
 
 						// Length of remaining data
 						unpackLEDWord(&pmsg, &dwLengthToEnd);
@@ -1164,7 +1164,7 @@ void CIcqProto::handleRecvServMsgType4(BYTE *buf, WORD wLen, DWORD dwUin, char *
 
 						if (typeId) {
 							uid_str szUID;
-							handleMessageTypes(dwUin, szUID, dwRecvTime, dwMsgID1, dwMsgID2, 0, 0, typeId, bFlags, 0, dwLengthToEnd, (WORD)dwDataLen, (char*)pmsg, MTF_PLUGIN, NULL);
+							handleMessageTypes(dwUin, szUID, dwRecvTime, dwMsgID1, dwMsgID2, 0, 0, typeId, bFlags, 0, dwLengthToEnd, dwDataLen, (char*)pmsg, MTF_PLUGIN, NULL);
 						}
 						else debugLogA("Unsupported plugin message type %d", typeId);
 					}
@@ -1243,11 +1243,9 @@ static int TypeGUIDToTypeId(DWORD dwGuid1, DWORD dwGuid2, DWORD dwGuid3, DWORD d
 }
 
 
-int CIcqProto::unpackPluginTypeId(BYTE **pBuffer, WORD *pwLen, int *pTypeId, WORD *pFunctionId, BOOL bThruDC)
+int CIcqProto::unpackPluginTypeId(BYTE **pBuffer, size_t *pwLen, int *pTypeId, WORD *pFunctionId, BOOL bThruDC)
 {
-	WORD wLen = *pwLen;
-	WORD wInfoLen;
-	DWORD dwPluginNameLen;
+	size_t wLen = *pwLen, wInfoLen, dwPluginNameLen;
 	DWORD q1, q2, q3, q4;
 	WORD qt;
 
@@ -1275,7 +1273,7 @@ int CIcqProto::unpackPluginTypeId(BYTE **pBuffer, WORD *pwLen, int *pTypeId, WOR
 	char *szPluginName = (char *)_alloca(dwPluginNameLen + 1);
 	memcpy(szPluginName, *pBuffer, dwPluginNameLen);
 	szPluginName[dwPluginNameLen] = '\0';
-	wLen -= (WORD)dwPluginNameLen;
+	wLen -= dwPluginNameLen;
 
 	*pBuffer += dwPluginNameLen;
 
@@ -1284,7 +1282,7 @@ int CIcqProto::unpackPluginTypeId(BYTE **pBuffer, WORD *pwLen, int *pTypeId, WOR
 		NetLog_Uni(bThruDC, "Error: Unknown type {%08x-%08x-%08x-%08x:%04x}: %s", q1, q2, q3, q4, qt, szPluginName);
 
 	if (wInfoLen >= 22 + dwPluginNameLen) { // sanity checking
-		wInfoLen -= (WORD)(22 + dwPluginNameLen);
+		wInfoLen -= 22 + dwPluginNameLen;
 
 		// check if enough data is available - skip remaining bytes of info block
 		if (wLen >= wInfoLen) {
@@ -1443,7 +1441,7 @@ void CIcqProto::handleStatusMsgReply(const char *szPrefix, MCONTACT hContact, DW
 }
 
 
-HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD wVersion, int type, WORD wMsgLen, PBYTE buf, BYTE bFlags, int nMsgFlags)
+HANDLE CIcqProto::handleMessageAck(DWORD dwUin, char *szUID, WORD wCookie, WORD wVersion, int type, size_t wMsgLen, PBYTE buf, BYTE bFlags, int nMsgFlags)
 {
 	if (bFlags == 3) {
 		MCONTACT hCookieContact;
@@ -1495,7 +1493,7 @@ void CIcqProto::sendMessageTypesAck(MCONTACT hContact, int bUnicode, message_ack
 
 /* this function also processes direct packets, so it should be bulletproof */
 /* pMsg points to the beginning of the message */
-void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, DWORD dwMsgID, DWORD dwMsgID2, WORD wCookie, WORD wVersion, int type, int flags, WORD wAckType, DWORD dwDataLen, WORD wMsgLen, char *pMsg, int nMsgFlags, message_ack_params *pAckParams)
+void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, DWORD dwMsgID, DWORD dwMsgID2, WORD wCookie, WORD wVersion, int type, int flags, WORD wAckType, size_t dwDataLen, size_t wMsgLen, char *pMsg, int nMsgFlags, message_ack_params *pAckParams)
 {
 	MCONTACT hContact = INVALID_CONTACT_ID;
 	BOOL bThruDC = (nMsgFlags & MTF_DIRECT) == MTF_DIRECT;
@@ -1588,7 +1586,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			hContact = HContactFromUIN(dwUin, &bAdded);
 			sendMessageTypesAck(hContact, pre.flags & PREF_UTF, pAckParams);
 
-			if (!pre.flags && !IsUSASCII(szMsg, strlennull(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
+			if (!pre.flags && !IsUSASCII(szMsg, mir_strlen(szMsg))) { // message is Ansi and contains national characters, create Unicode part by codepage
 				char *usMsg = convertMsgToUserSpecificUtf(hContact, szMsg);
 				if (usMsg) {
 					SAFE_FREE(&szMsg);
@@ -1615,7 +1613,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			char *szTitle = ICQTranslateUtf(LPGEN("Incoming URL:"));
 			char *szDataDescr = ansi_to_utf8(pszMsgField[0]);
 			char *szDataUrl = ansi_to_utf8(pszMsgField[1]);
-			char *szBlob = (char *)SAFE_MALLOC(strlennull(szTitle) + strlennull(szDataDescr) + strlennull(szDataUrl) + 8);
+			char *szBlob = (char *)SAFE_MALLOC(mir_strlen(szTitle) + mir_strlen(szDataDescr) + mir_strlen(szDataUrl) + 8);
 			strcpy(szBlob, szTitle);
 			strcat(szBlob, " ");
 			strcat(szBlob, szDataDescr); // Description
@@ -1644,16 +1642,16 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 		{
 			PROTORECVEVENT pre = { 0 };
 			pre.timestamp = dwTimestamp;
-			pre.lParam = sizeof(DWORD) * 2 + strlennull(pszMsgField[0]) + strlennull(pszMsgField[1]) + strlennull(pszMsgField[2]) + strlennull(pszMsgField[3]) + strlennull(pszMsgField[5]) + 5;
+			pre.lParam = sizeof(DWORD) * 2 + mir_strlen(pszMsgField[0]) + mir_strlen(pszMsgField[1]) + mir_strlen(pszMsgField[2]) + mir_strlen(pszMsgField[3]) + mir_strlen(pszMsgField[5]) + 5;
 
 			// blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 			char *szBlob, *pCurBlob = szBlob = (char *)_alloca(pre.lParam);
 			*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
 			*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
-			strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += strlennull((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += strlennull((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += strlennull((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[3]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[3]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 			strcpy((char*)pCurBlob, pszMsgField[5]);
 			pre.szMessage = (char *)szBlob;
 			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
@@ -1669,13 +1667,13 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 		hContact = HContactFromUIN(dwUin, &bAdded);
 		{
 			// blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-			DWORD cbBlob = sizeof(DWORD) * 2 + strlennull(pszMsgField[0]) + strlennull(pszMsgField[1]) + strlennull(pszMsgField[2]) + strlennull(pszMsgField[3]) + 4;
+			size_t cbBlob = sizeof(DWORD) * 2 + mir_strlen(pszMsgField[0]) + mir_strlen(pszMsgField[1]) + mir_strlen(pszMsgField[2]) + mir_strlen(pszMsgField[3]) + 4;
 			PBYTE pBlob, pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
 			*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
 			*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
-			strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += strlennull((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += strlennull((char*)pCurBlob) + 1;
-			strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += strlennull((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[1]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
+			strcpy((char*)pCurBlob, pszMsgField[2]); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 			strcpy((char*)pCurBlob, pszMsgField[3]);
 			AddEvent(NULL, EVENTTYPE_ADDED, dwTimestamp, 0, cbBlob, pBlob);
 		}
@@ -1687,7 +1685,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			int nContacts;
 			if (nMsgFields < 3 ||
 				 (nContacts = strtol(pszMsgField[0], &pszNContactsEnd, 10)) == 0 ||
-				 pszNContactsEnd - pszMsgField[0] != (int)strlennull(pszMsgField[0]) ||
+				 pszNContactsEnd - pszMsgField[0] != (int)mir_strlen(pszMsgField[0]) ||
 				 nMsgFields < nContacts * 2 + 1)
 			{
 				NetLog_Uni(bThruDC, "Malformed '%s' message", "contacts");
@@ -1705,7 +1703,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 							valid = 0;
 					}
 					else { // aim contact
-						if (!strlennull(pszMsgField[1 + i * 2]))
+						if (!mir_strlen(pszMsgField[1 + i * 2]))
 							valid = 0;
 					}
 					isrList[i]->hdr.id = ansi_to_tchar(pszMsgField[1 + i * 2]);
@@ -1767,10 +1765,10 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			debugLogA("Malformed '%s' message", "web pager");
 		else {
 			// blob is: body(ASCIIZ), name(ASCIIZ), email(ASCIIZ)
-			DWORD cbBlob = strlennull(pszMsgField[0]) + strlennull(pszMsgField[3]) + strlennull(pszMsgField[5]) + 3;
+			size_t cbBlob = mir_strlen(pszMsgField[0]) + mir_strlen(pszMsgField[3]) + mir_strlen(pszMsgField[5]) + 3;
 			PBYTE pBlob, pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
-			strcpy((char *)pCurBlob, pszMsgField[5]); pCurBlob += strlennull((char *)pCurBlob) + 1;
-			strcpy((char *)pCurBlob, pszMsgField[0]); pCurBlob += strlennull((char *)pCurBlob) + 1;
+			strcpy((char *)pCurBlob, pszMsgField[5]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
+			strcpy((char *)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
 			strcpy((char *)pCurBlob, pszMsgField[3]);
 
 			AddEvent(NULL, ICQEVENTTYPE_WEBPAGER, dwTimestamp, 0, cbBlob, pBlob);
@@ -1783,10 +1781,10 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			debugLogA("Malformed '%s' message", "e-mail express");
 		else {
 			// blob is: body(ASCIIZ), name(ASCIIZ), email(ASCIIZ)
-			DWORD cbBlob = strlennull(pszMsgField[0]) + strlennull(pszMsgField[3]) + strlennull(pszMsgField[5]) + 3;
+			size_t cbBlob = mir_strlen(pszMsgField[0]) + mir_strlen(pszMsgField[3]) + mir_strlen(pszMsgField[5]) + 3;
 			PBYTE pBlob, pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
-			strcpy((char *)pCurBlob, pszMsgField[5]); pCurBlob += strlennull((char *)pCurBlob) + 1;
-			strcpy((char *)pCurBlob, pszMsgField[0]); pCurBlob += strlennull((char *)pCurBlob) + 1;
+			strcpy((char *)pCurBlob, pszMsgField[5]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
+			strcpy((char *)pCurBlob, pszMsgField[0]); pCurBlob += mir_strlen((char *)pCurBlob) + 1;
 			strcpy((char *)pCurBlob, pszMsgField[3]);
 
 			AddEvent(NULL, ICQEVENTTYPE_EMAILEXPRESS, dwTimestamp, 0, cbBlob, pBlob);
@@ -1903,7 +1901,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 }
 
 
-void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
+void CIcqProto::handleRecvMsgResponse(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -2027,7 +2025,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 	}
 
 	if (bFlags == 3)     // A status message reply
-		handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, wVersion, bMsgType, (WORD)dwCookie, (char*)(buf + 2), 0);
+		handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, wVersion, bMsgType, dwCookie, (char*)(buf + 2), 0);
 	else {
 		// An ack of some kind
 		int ackType;
@@ -2119,7 +2117,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 					if (dwDataLen > 0)
 						memcpy(szMsg, buf, dwDataLen);
 					szMsg[dwDataLen] = '\0';
-					handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, wVersion, pCookieData->nAckType, (WORD)dwCookie, szMsg, 0);
+					handleStatusMsgReply("SNAC(4.B) ", hContact, dwUin, wVersion, pCookieData->nAckType, dwCookie, szMsg, 0);
 
 					ReleaseCookie(dwCookie);
 					return;
@@ -2144,7 +2142,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 						memcpy(szMsg, buf, dwDataLen);
 					szMsg[dwDataLen] = '\0';
 					buf += dwDataLen;
-					wLen -= (WORD)dwDataLen;
+					wLen -= dwDataLen;
 
 					handleFileAck(buf, wLen, dwUin, dwCookie, wStatus, szMsg);
 					// No success protoack will be sent here, since all file requests
@@ -2242,7 +2240,7 @@ void CIcqProto::handleRecvMsgResponse(BYTE *buf, WORD wLen, WORD wFlags, DWORD d
 }
 
 // A response to a CLI_SENDMSG
-void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSequence)
+void CIcqProto::handleRecvServMsgError(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwSequence)
 {
 	WORD wError;
 	char *pszErrorMessage;
@@ -2272,7 +2270,7 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 			// we failed to request away message the normal way, try it AIM way
 			icq_packet packet;
 
-			serverPacketInit(&packet, (WORD)(13 + getUINLen(dwUin)));
+			serverPacketInit(&packet, 13 + getUINLen(dwUin));
 			packFNACHeader(&packet, ICQ_LOCATION_FAMILY, ICQ_LOCATION_REQ_USER_INFO, 0, (WORD)dwSequence);
 			packWord(&packet, 0x03);
 			packUIN(&packet, dwUin);
@@ -2392,7 +2390,7 @@ void CIcqProto::handleRecvServMsgError(BYTE *buf, WORD wLen, WORD wFlags, DWORD 
 }
 
 
-void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSequence)
+void CIcqProto::handleServerAck(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwSequence)
 {
 	DWORD dwUin;
 	uid_str szUID;
@@ -2467,7 +2465,7 @@ void CIcqProto::handleServerAck(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwSeque
 }
 
 
-void CIcqProto::handleMissedMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
+void CIcqProto::handleMissedMsg(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -2499,7 +2497,7 @@ void CIcqProto::handleMissedMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
 	wLen -= 2;
 
 	// Read past user info TLVs
-	oscar_tlv_chain *pChain = readIntoTLVChain(&buf, (WORD)(wLen - 4), wTLVCount);
+	oscar_tlv_chain *pChain = readIntoTLVChain(&buf, wLen - 4, wTLVCount);
 	if (pChain)
 		disposeChain(&pChain);
 
@@ -2542,7 +2540,7 @@ void CIcqProto::handleMissedMsg(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
 }
 
 
-void CIcqProto::handleOffineMessagesReply(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
+void CIcqProto::handleOffineMessagesReply(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef)
 {
 	cookie_offline_messages *cookie;
 
@@ -2576,7 +2574,7 @@ void CIcqProto::handleOffineMessagesReply(BYTE *buf, WORD wLen, WORD wFlags, DWO
 }
 
 
-void CIcqProto::handleTypingNotification(BYTE *buf, WORD wLen, WORD wFlags, DWORD dwRef)
+void CIcqProto::handleTypingNotification(BYTE *buf, size_t wLen, WORD wFlags, DWORD dwRef)
 {
 	DWORD dwUin;
 	uid_str szUid;
@@ -2653,7 +2651,7 @@ void CIcqProto::sendTypingNotification(MCONTACT hContact, WORD wMTNCode)
 	if (getContactUid(hContact, &dwUin, &szUid))
 		return; // Invalid contact
 
-	WORD wLen = getUIDLen(dwUin, szUid);
+	size_t wLen = getUIDLen(dwUin, szUid);
 
 	icq_packet packet;
 	serverPacketInit(&packet, 23 + wLen);
