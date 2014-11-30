@@ -83,8 +83,8 @@ static bool NotifyTyping(MCONTACT hContact)
 static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 {
 	DBEVENTINFO ldbei;
-	int size = (int)info->Answer.length() + 1;
-	int bufsize = size;
+	size_t size = info->Answer.length() + 1;
+	size_t bufsize = size;
 	char* msg;
 
 	bufsize *= sizeof(TCHAR) + 1;
@@ -92,7 +92,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	
 	if (!WideCharToMultiByte(CP_ACP, 0, info->Answer.c_str(), -1, msg, size, 
 		NULL, NULL))
-		FillMemory(msg, size - 1, '-'); //In case of fault return "----" in ANSI part
+		memset(msg, '-', (size - 1)); //In case of fault return "----" in ANSI part
 	CopyMemory(msg + size, info->Answer.c_str(), size * 2);
 
 	CallContactService(hContact, PSS_MESSAGE, PREF_TCHAR, (LPARAM)msg);
