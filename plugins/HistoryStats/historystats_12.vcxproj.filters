@@ -29,6 +29,9 @@
       <UniqueIdentifier>{cefdf26c-a770-4d27-b91f-d9bf71151b0e}</UniqueIdentifier>
       <Extensions>h</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{076f3e56-d48d-47a5-86bc-c9abe080b84c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\_globals.cpp">
@@ -347,104 +350,104 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\col_add.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\col_del.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\col_down.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\col_up.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\create.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\create_warning.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\dropdown.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\exclude_no.ico">
-      <Filter>Resource Files</Filter>
+    <None Include="res\myhistory.ico">
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\exclude_yes.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\myhistory.ico">
-      <Filter>Resource Files</Filter>
+    <None Include="res\exclude_no.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\dropdown.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\create_warning.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\create.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\col_up.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\col_down.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\col_del.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\col_add.ico">
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\sett_columns.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\sett_exclude.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\sett_global.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\sett_input.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\sett_output.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_button1.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_button2.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_check1.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_check2.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_check3.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_check4.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_combo1.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_combo2.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_datetime1.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_datetime2.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_edit1.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_edit2.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_folder1.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_folder2.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_radio1.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_radio2.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_radio3.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\tree_radio4.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
