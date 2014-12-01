@@ -777,7 +777,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			if (!hContact) {
 				// hopefully shouldn't happen, but who knows?
-				debugLogA("! ! ! No hContact for %s", messages[i]->user_id);
+				debugLogA("! ! ! No hContact for %s", messages[i]->user_id.c_str());
 				delete messages[i];
 				continue;
 			}

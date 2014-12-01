@@ -1128,7 +1128,7 @@ bool facebook_client::reconnect()
 		//parent->debugLogA("      Got self retry_interval: %s", retry_interval.c_str());
 
 		//std::string visibility = utils::text::source_get_value2(&resp.data, "\"visibility\":", ",}");
-		//parent->debugLogA("      Got self visibility: %s", visibility);
+		//parent->debugLogA("      Got self visibility: %s", visibility.c_str());
 
 		return handle_success("reconnect");
 	}
@@ -1384,7 +1384,7 @@ int facebook_client::send_message(MCONTACT hContact, const std::string &message_
 	}
  
     default: // Other error
-		parent->debugLogA(" !!!  Send message error #%d: %s", resp.error_number, resp.error_text);
+		parent->debugLogA(" !!!  Send message error #%d: %s", resp.error_number, resp.error_text.c_str());
 		return SEND_MESSAGE_ERROR;
  	}
 
