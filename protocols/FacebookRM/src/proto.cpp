@@ -288,16 +288,13 @@ MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		return NULL;
 	}
 
-	MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE);
-	if (hContact) {
-		if (flags & PALF_TEMPORARY) {
-			db_set_b(hContact, "Clist", "Hidden", 1);
-			db_set_b(hContact, "Clist", "NotOnList", 1);
-		}
-		else if (db_get_b(hContact, "CList", "NotOnList", 0)) {
-			db_unset(hContact, "CList", "Hidden");
-			db_unset(hContact, "CList", "NotOnList");
-		}
+	bool add_temporarily = (flags & PALF_TEMPORARY);
+	MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE, false, add_temporarily);
+
+	// Reset NotOnList flag if present and we're adding this contact not temporarily
+	if (hContact && !add_temporarily && db_get_b(hContact, "CList", "NotOnList", 0)) {
+		db_unset(hContact, "CList", "Hidden");
+		db_unset(hContact, "CList", "NotOnList");
 	}
 
 	return hContact;

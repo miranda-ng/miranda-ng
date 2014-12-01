@@ -326,7 +326,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 }
 
-MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool force_add)
+MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool force_add, bool add_temporarily)
 {
 	// First, check if this contact exists (and if does, just return it)
 	if (!force_add) {
@@ -347,6 +347,11 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 	// If we have some contact, we'll save its data
 	if (hContact) {
 		// Save these values only when adding new contact, not when updating existing
+		if (add_temporarily) {
+			db_set_b(hContact, "Clist", "Hidden", 1);
+			db_set_b(hContact, "Clist", "NotOnList", 1);
+		}
+
 		setString(hContact, FACEBOOK_KEY_ID, fbu->user_id.c_str());
 
 		std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
