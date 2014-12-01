@@ -289,7 +289,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  break;
 	  case ID_OK:
 		  {
-			  ListView_GetItemText(hwndList, itemnum, 0, fp, 16);
+			  ListView_GetItemText(hwndList, itemnum, 0, fp, SIZEOF(fp));
 			  TCHAR *name = new TCHAR [64];
 			  ListView_GetItemText(hwndList, itemnum, 2, name, 64);
 			  {
@@ -449,7 +449,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		  }
 		  break;
 	  case IDC_DELETE_KEY:
-		  ListView_GetItemText(hwndList, itemnum, 0, fp, 16);
+		  ListView_GetItemText(hwndList, itemnum, 0, fp, SIZEOF(fp));
 		  {
 			  string out;
 			  DWORD code;
@@ -677,7 +677,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					{
 						if(OpenClipboard(hwndDlg))
 						{
-							ListView_GetItemText(hwndList, itemnum, 0, fp, 16);
+							ListView_GetItemText(hwndList, itemnum, 0, fp, SIZEOF(fp));
 							string out;
 							DWORD code;
 							std::vector<wstring> cmd;
@@ -742,7 +742,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						mir_free(path);
 						if(!file.is_open())
 							break; //TODO: handle error
-						ListView_GetItemText(hwndList, itemnum, 0, fp, 16);
+						ListView_GetItemText(hwndList, itemnum, 0, fp, SIZEOF(fp));
 						string out;
 						DWORD code;
 						std::vector<wstring> cmd;
@@ -768,7 +768,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					}
 					break;
 				case IDC_CHANGE_PASSWD:
-					ListView_GetItemText(hwndList, itemnum, 0, key_id_global, 16);
+					ListView_GetItemText(hwndList, itemnum, 0, key_id_global, SIZEOF(key_id_global));
 //					extern void ShowChangePasswdDlg();
 //					ShowChangePasswdDlg();
 					//temporary code follows
@@ -1804,7 +1804,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
       {
 	  case IDOK:
 		  {
-			  ListView_GetItemText(hwndList, itemnum2, 0, id, 16);
+			  ListView_GetItemText(hwndList, itemnum2, 0, id, SIZEOF(id));
 			  extern HWND hPubKeyEdit;
 			  string out;
 			  DWORD code;

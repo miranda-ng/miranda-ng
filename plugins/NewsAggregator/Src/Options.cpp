@@ -483,8 +483,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			sel = ListView_GetSelectionMark(hwndList);
 			{
 				ItemInfo SelItem = { 0 };
-				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, MAX_PATH);
-				ListView_GetItemText(hwndList, sel, 1, SelItem.url, MAX_PATH);
+				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, SIZEOF(SelItem.nick));
+				ListView_GetItemText(hwndList, sel, 1, SelItem.url, SIZEOF(SelItem.url));
 				SelItem.hwndList = hwndList;
 				SelItem.SelNumber = sel;
 				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);
@@ -495,8 +495,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
 				TCHAR nick[MAX_PATH], url[MAX_PATH];
 				int sel = ListView_GetSelectionMark(hwndList);
-				ListView_GetItemText(hwndList, sel, 0, nick, MAX_PATH);
-				ListView_GetItemText(hwndList, sel, 1, url, MAX_PATH);
+				ListView_GetItemText(hwndList, sel, 0, nick, SIZEOF(nick));
+				ListView_GetItemText(hwndList, sel, 1, url, SIZEOF(url));
 
 				for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 					ptrT dbNick(db_get_tsa(hContact, MODULE, "Nick"));
@@ -554,8 +554,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			sel = ListView_GetHotItem(hwndList);
 			if (sel != -1) {
 				ItemInfo SelItem = { 0 };
-				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, MAX_PATH);
-				ListView_GetItemText(hwndList, sel, 1, SelItem.url, MAX_PATH);
+				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, SIZEOF(SelItem.nick));
+				ListView_GetItemText(hwndList, sel, 1, SelItem.url, SIZEOF(SelItem.url));
 				SelItem.hwndList = hwndList;
 				SelItem.SelNumber = sel;
 				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);

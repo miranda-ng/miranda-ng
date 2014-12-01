@@ -568,7 +568,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 
 					while ((idx = ListView_GetNextItem(dat->hList, idx, flags)) > 0)
 					{
-						ListView_GetItemText(dat->hList, idx, 0, szText, SIZEOF(szText)-1);
+						ListView_GetItemText(dat->hList, idx, 0, szText, SIZEOF(szText));
 						_ftprintf(fp, _T("%s\n"), szText);
 					}
 					fclose(fp);

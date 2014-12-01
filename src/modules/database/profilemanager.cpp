@@ -587,7 +587,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				if (pInfoTip != NULL) {
 					TCHAR profilename[MAX_PATH], tszFullPath[MAX_PATH];
 					struct _stat statbuf;
-					ListView_GetItemText(hwndList, pInfoTip->iItem, 0, profilename, MAX_PATH);
+					ListView_GetItemText(hwndList, pInfoTip->iItem, 0, profilename, SIZEOF(profilename));
 					mir_sntprintf(tszFullPath, SIZEOF(tszFullPath), _T("%s\\%s\\%s.dat"), dat->pd->ptszProfileDir, profilename, profilename);
 					_tstat(tszFullPath, &statbuf);
 					mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s\n%s: %s\n%s: %s"), tszFullPath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));

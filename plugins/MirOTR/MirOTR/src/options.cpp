@@ -402,7 +402,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 							if (sel != -1) {
 								PROTOREGENKEYOPTIONS *opts = new PROTOREGENKEYOPTIONS();
 								opts->refresh = hwndDlg;
-								ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, opts->proto, 128);
+								ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, opts->proto, SIZEOF(opts->proto));
 								CloseHandle((HANDLE)_beginthreadex(0, 0, regen_key_thread, opts, 0, 0));
 							}
 						}break;
@@ -463,7 +463,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_NEWKEY), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_FORGET), TRUE);
 				TCHAR buff[50];
-				ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, sel, 1, buff, 50);
+				ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, sel, 1, buff, SIZEOF(buff));
 				SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTO_POLICY), CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
 			}
 
@@ -473,8 +473,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 			TCHAR proto_t[128], policy[64];
 			char* proto;
 			for (int i = 0; i < cnt; ++i) {
-				ListView_GetItemText(lv, i, 0, proto_t, 128);
-				ListView_GetItemText(lv, i, 1, policy, 64);
+				ListView_GetItemText(lv, i, 0, proto_t, SIZEOF(proto_t));
+				ListView_GetItemText(lv, i, 1, policy, SIZEOF(policy));
 				proto = mir_t2a(proto_t);
 				db_set_dw(0, MODULENAME"_ProtoPol", proto, policy_from_string(policy));
 				mir_free(proto);
@@ -637,7 +637,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 				} else {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), TRUE);
 					TCHAR buff[50];
-					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, sel, 2, buff, 50);
+					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, sel, 2, buff, SIZEOF(buff));
 					SendMessage(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
 				}
 			} else if (code == (UINT) NM_CLICK) {
@@ -652,7 +652,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 					MCONTACT hContact = (MCONTACT)lvi.lParam;
 					ContactPolicyMap *cp = (ContactPolicyMap *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					TCHAR buff[50];
-					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, buff, 50);
+					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, buff, SIZEOF(buff));
 					if (_tcsncmp(buff, TranslateT(LANG_YES), 50)==0){
 						(*cp)[hContact].htmlconv = HTMLCONV_DISABLE;
 						ListView_SetItemText(((LPNMHDR)lParam)->hwndFrom, lvi.iItem, 3, TranslateT(LANG_NO));
