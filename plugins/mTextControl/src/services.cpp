@@ -43,21 +43,23 @@ struct TextObject
 
 //---------------------------------------------------------------------------
 // elper functions
-void MText_InitFormatting0(IFormattedTextDraw *ftd, DWORD options) {
+void MText_InitFormatting0(IFormattedTextDraw *ftd, DWORD options)
+{
 	LRESULT lResult;
 
 	// urls
 	ftd->getTextService()->TxSendMessage(EM_AUTOURLDETECT, TRUE, 0, &lResult);
 }
 
-void MText_InitFormatting1(TextObject *text) {
+void MText_InitFormatting1(TextObject *text)
+{
 	// bbcodes
 	bbCodeParse(text->ftd);
 
 	// smilies
-//	HWND hwnd = (HWND)CallServiceSync(MS_TEXT_CREATEPROXY, (WPARAM)text, 0);
+	//	HWND hwnd = (HWND)CallServiceSync(MS_TEXT_CREATEPROXY, (WPARAM)text, 0);
 	HWND hwnd = CreateProxyWindow(text->ftd->getTextService());
-	SMADD_RICHEDIT3 sm = {0};
+	SMADD_RICHEDIT3 sm = { 0 };
 	sm.cbSize = sizeof(sm);
 	sm.hwndRichEditControl = hwnd;
 	sm.rangeToReplace = 0;
@@ -66,18 +68,18 @@ void MText_InitFormatting1(TextObject *text) {
 	CallService(MS_SMILEYADD_REPLACESMILEYS, RGB(0xff, 0xff, 0xff), (LPARAM)&sm);
 	DestroyWindow(hwnd);
 
-//	text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, -1, &lResult);
-/*
-	// rtl stuff
-	PARAFORMAT2 pf2;
-	pf2.cbSize = sizeof(pf2);
-	pf2.dwMask = PFM_ALIGNMENT|PFM_RTLPARA;
-	pf2.wEffects = PFE_RTLPARA;
-	pf2.wAlignment = PFA_RIGHT;
-	text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, -1, &lResult);
-	text->ftd->getTextService()->TxSendMessage(EM_SETPARAFORMAT, 0, (LPARAM)&pf2, &lResult);
-	text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, 0, &lResult);
-*/
+	//	text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, -1, &lResult);
+	/*
+		// rtl stuff
+		PARAFORMAT2 pf2;
+		pf2.cbSize = sizeof(pf2);
+		pf2.dwMask = PFM_ALIGNMENT|PFM_RTLPARA;
+		pf2.wEffects = PFE_RTLPARA;
+		pf2.wAlignment = PFA_RIGHT;
+		text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, -1, &lResult);
+		text->ftd->getTextService()->TxSendMessage(EM_SETPARAFORMAT, 0, (LPARAM)&pf2, &lResult);
+		text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, 0, &lResult);
+		*/
 }
 
 //---------------------------------------------------------------------------
@@ -118,8 +120,9 @@ INT_PTR MText_Register(WPARAM wParam, LPARAM lParam)
 
 //---------------------------------------------------------------------------
 // allocate text object (unicode)
-HANDLE DLL_CALLCONV 
-MTI_MTextCreateW (HANDLE userHandle, WCHAR *text) {
+HANDLE DLL_CALLCONV
+MTI_MTextCreateW(HANDLE userHandle, WCHAR *text)
+{
 
 	TextObject *result = new TextObject;
 	result->options = TextUserGetOptions(userHandle);
@@ -135,18 +138,20 @@ MTI_MTextCreateW (HANDLE userHandle, WCHAR *text) {
 
 }
 
-INT_PTR MText_CreateW(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_CreateW(WPARAM wParam, LPARAM lParam)
+{
 
 	//HANDLE userHandle = (HANDLE)wParam;
 	//WCHAR *wtext = (WCHAR *)lParam;
-	return (INT_PTR)(HANDLE)MTI_MTextCreateW ((HANDLE)wParam, (WCHAR *)lParam);
+	return (INT_PTR)(HANDLE)MTI_MTextCreateW((HANDLE)wParam, (WCHAR *)lParam);
 
 }
 
 //---------------------------------------------------------------------------
 // allocate text object (advanced)
-HANDLE DLL_CALLCONV 
-MTI_MTextCreateEx (HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags) {
+HANDLE DLL_CALLCONV
+MTI_MTextCreateEx(HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags)
+{
 	TextObject *result = new TextObject;
 	result->options = TextUserGetOptions(userHandle);
 	result->ftd = new CFormattedTextDraw;
@@ -161,47 +166,51 @@ MTI_MTextCreateEx (HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags
 	return 0;
 }
 
-INT_PTR MText_CreateEx(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_CreateEx(WPARAM wParam, LPARAM lParam)
+{
 	HANDLE userHandle = (HANDLE)wParam;
 	MTEXTCREATE *textCreate = (MTEXTCREATE *)lParam;
-	MTI_MTextCreateEx (userHandle, textCreate->hContact, textCreate->text, textCreate->flags);
+	MTI_MTextCreateEx(userHandle, textCreate->hContact, textCreate->text, textCreate->flags);
 	return 0;
 }
 
 //---------------------------------------------------------------------------
 // measure text object
-int DLL_CALLCONV 
-MTI_MTextMeasure (HDC dc, SIZE *sz, HANDLE text) {
+int DLL_CALLCONV
+MTI_MTextMeasure(HDC dc, SIZE *sz, HANDLE text)
+{
 	if (!text) return 0;
 
-	long lWidth=sz->cx, lHeight=sz->cy;
+	long lWidth = sz->cx, lHeight = sz->cy;
 	((TextObject *)text)->ftd->get_NaturalSize(dc, &lWidth, &lHeight);
 	sz->cx = lWidth;
 	sz->cy = lHeight;
-//	FancyMeasure(((TextObject *)text)->fancy, displayInfo);
+	//	FancyMeasure(((TextObject *)text)->fancy, displayInfo);
 
 	return 0;
 }
 
-INT_PTR MText_Measure(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_Measure(WPARAM wParam, LPARAM lParam)
+{
 	LPMTEXTDISPLAY displayInfo = (LPMTEXTDISPLAY)wParam;
 	if (!displayInfo) return 0;
 	if (!(TextObject *)displayInfo->text) return 0;
-	MTI_MTextMeasure (displayInfo->dc, &displayInfo->sz, displayInfo->text);
+	MTI_MTextMeasure(displayInfo->dc, &displayInfo->sz, displayInfo->text);
 	return 0;
 }
 
-int DLL_CALLCONV 
+int DLL_CALLCONV
 //---------------------------------------------------------------------------
 // display text object
-MTI_MTextDisplay (HDC dc, POINT pos, SIZE sz, HANDLE text) {
+MTI_MTextDisplay(HDC dc, POINT pos, SIZE sz, HANDLE text)
+{
 	if (!text) return 0;
 
 	COLORREF cl = GetTextColor(dc);
-//	if (GetTextColor(dc)&0xffffff != 0)
+	//	if (GetTextColor(dc)&0xffffff != 0)
 	{
 		LRESULT lResult;
-		CHARFORMAT cf = {0};
+		CHARFORMAT cf = { 0 };
 		cf.cbSize = sizeof(cf);
 		cf.dwMask = CFM_COLOR;
 		cf.crTextColor = cl;
@@ -210,7 +219,7 @@ MTI_MTextDisplay (HDC dc, POINT pos, SIZE sz, HANDLE text) {
 
 	SetBkMode(dc, TRANSPARENT);
 
-	long lWidth=sz.cx, lHeight;
+	long lWidth = sz.cx, lHeight;
 	((TextObject *)text)->ftd->get_NaturalSize(dc, &lWidth, &lHeight);
 	RECT rt;
 	rt.left = pos.x;
@@ -222,36 +231,40 @@ MTI_MTextDisplay (HDC dc, POINT pos, SIZE sz, HANDLE text) {
 	return 0;
 }
 
-INT_PTR MText_Display(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_Display(WPARAM wParam, LPARAM lParam)
+{
 	LPMTEXTDISPLAY displayInfo = (LPMTEXTDISPLAY)wParam;
 	if (!displayInfo) return 0;
 	if (!displayInfo->text) return 0;
-	MTI_MTextDisplay (displayInfo->dc, displayInfo->pos, displayInfo->sz, displayInfo->text);
+	MTI_MTextDisplay(displayInfo->dc, displayInfo->pos, displayInfo->sz, displayInfo->text);
 	return 0;
 }
 
-int DLL_CALLCONV 
+int DLL_CALLCONV
 //---------------------------------------------------------------------------
 // set parent window for text object (this is required for mouse handling, etc)
-MTI_MTextSetParent (HANDLE text, HWND hwnd, RECT rect) {
+MTI_MTextSetParent(HANDLE text, HWND hwnd, RECT rect)
+{
 	if (!text) return 0;
 	((TextObject *)text)->ftd->setParentWnd(hwnd, rect);
 	return 0;
 }
 
-INT_PTR MText_SetParent(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_SetParent(WPARAM wParam, LPARAM lParam)
+{
 	LPMTEXTSETPARENT info = (LPMTEXTSETPARENT)wParam;
 	//TextObject *text = (TextObject *)info->text;
 	if (!info) return 0;
 	if (!info->text) return 0;
-	MTI_MTextSetParent (info->text, info->hwnd, info->rc);
+	MTI_MTextSetParent(info->text, info->hwnd, info->rc);
 	return 0;
 }
 
 //---------------------------------------------------------------------------
 // send message to an object
-int DLL_CALLCONV 
-MTI_MTextSendMessage (HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lParam) {
+int DLL_CALLCONV
+MTI_MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	LRESULT lResult;
 	if (!text) return 0;
 	((TextObject *)text)->ftd->getTextService()->TxSendMessage(msg, wParam, lParam, &lResult);
@@ -265,37 +278,42 @@ MTI_MTextSendMessage (HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lP
 	return lResult;
 }
 
-INT_PTR MText_SendMessage(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_SendMessage(WPARAM wParam, LPARAM lParam)
+{
 	LPMTEXTMESSAGE message = (LPMTEXTMESSAGE)wParam;
 	TextObject *text = (TextObject *)message->text;
 	if (!message->text) return 0;
-	return (INT_PTR)MTI_MTextSendMessage (message->hwnd, message->text, message->msg, message->wParam, message->lParam);
+	return (INT_PTR)MTI_MTextSendMessage(message->hwnd, message->text, message->msg, message->wParam, message->lParam);
 }
 
 //---------------------------------------------------------------------------
 // create a proxy window
-HWND DLL_CALLCONV 
-MTI_MTextCreateProxy (HANDLE text) {
+HWND DLL_CALLCONV
+MTI_MTextCreateProxy(HANDLE text)
+{
 	if (!text) return 0;
 	return CreateProxyWindow(((TextObject *)text)->ftd->getTextService());
 }
 
-INT_PTR MText_CreateProxy(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_CreateProxy(WPARAM wParam, LPARAM lParam)
+{
 	if (!wParam) return 0;
 	return (INT_PTR)MTI_MTextCreateProxy((HANDLE)wParam);
 }
 
-int DLL_CALLCONV 
+int DLL_CALLCONV
 //---------------------------------------------------------------------------
 // destroy text object
-MTI_MTextDestroy (HANDLE text) {
+MTI_MTextDestroy(HANDLE text)
+{
 	//HANDLE textHandle = (HANDLE)wParam;
 	//TextObject *text = (TextObject *)textHandle;
 	if (text) delete (TextObject *)text;
 	return 0;
 }
 
-INT_PTR MText_Destroy(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_Destroy(WPARAM wParam, LPARAM lParam)
+{
 	HANDLE textHandle = (HANDLE)wParam;
 	TextObject *text = (TextObject *)textHandle;
 	if (text) delete text;
@@ -304,21 +322,22 @@ INT_PTR MText_Destroy(WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------------------
 // populate the interface
-INT_PTR MText_GetInterface(WPARAM wParam, LPARAM lParam) {
+INT_PTR MText_GetInterface(WPARAM wParam, LPARAM lParam)
+{
 	MTEXT_INTERFACE *MText = (MTEXT_INTERFACE *)lParam;
-	if ( MText == NULL )
+	if (MText == NULL)
 		return CALLSERVICE_NOTFOUND;
 
-	MText->version     = pluginInfoEx.version;
-	MText->Register    = MTI_TextUserAdd;
-	MText->Create      = MTI_MTextCreateW;
-	MText->CreateEx    = MTI_MTextCreateEx;
-	MText->Measure     = MTI_MTextMeasure;
-	MText->Display     = MTI_MTextDisplay;
-	MText->SetParent   = MTI_MTextSetParent;
-	MText->SendMsg     = MTI_MTextSendMessage;
+	MText->version = pluginInfoEx.version;
+	MText->Register = MTI_TextUserAdd;
+	MText->Create = MTI_MTextCreateW;
+	MText->CreateEx = MTI_MTextCreateEx;
+	MText->Measure = MTI_MTextMeasure;
+	MText->Display = MTI_MTextDisplay;
+	MText->SetParent = MTI_MTextSetParent;
+	MText->SendMsg = MTI_MTextSendMessage;
 	MText->CreateProxy = MTI_MTextCreateProxy;
-	MText->Destroy     = MTI_MTextDestroy;
+	MText->Destroy = MTI_MTextDestroy;
 
 	return S_OK;
 }

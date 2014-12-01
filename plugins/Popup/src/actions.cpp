@@ -44,7 +44,7 @@ void LoadActions()
 		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0),	"General/Dismiss popup",		0},
 		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_COPY, 0),		"General/Copy to clipboard",	0},
 
-		//remove popup action
+		// remove popup action
 	#if defined(_DEBUG)
 		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_POPUP_ON, 0),		"Popup Plus/Test action",			PAF_ENABLED},
 		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0),	"Popup Plus/Second test action",	0},
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					group.mask = LVGF_HEADER | LVGF_GROUPID;
 					LPTSTR wszGroup = mir_a2t(szGroup);
 					group.pszHeader = TranslateTS(wszGroup);
-					group.cchHeader = mir_tstrlen(wszGroup);
+					group.cchHeader = (int)mir_tstrlen(wszGroup);
 					grpId = group.iGroupId = groups.getCount();
 					int grpId = ListView_InsertGroup(hwndList, -1, &group);
 					mir_free(wszGroup);
@@ -357,7 +357,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					db_set_b(NULL, "PopupActions", gActions[i]->lpzTitle, (gActions[i]->flags & PAF_ENABLED) ? 1 : 0);
 				}
 
-				//overrideActions
+				// overrideActions
 				db_set_dw(NULL, MODULNAME, "OverrideLeft", PopupOptions.overrideLeft);
 				db_set_dw(NULL, MODULNAME, "OverrideMiddle", PopupOptions.overrideMiddle);
 				db_set_dw(NULL, MODULNAME, "OverrideRight", PopupOptions.overrideRight);

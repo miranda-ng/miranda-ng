@@ -416,5 +416,5 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 		}
 	}
-	return FALSE; //DefWindowProc(hwnd, msg, wParam, lParam);
+	return FALSE; // DefWindowProc(hwnd, msg, wParam, lParam);
 }

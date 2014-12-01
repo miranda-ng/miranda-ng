@@ -28,7 +28,7 @@ enum
 	STYLE_FC_BEVELED,
 	STYLE_FC_FLAT,
 
-	//ranges:
+	// ranges:
 	STYLE_FC_MIN = STYLE_FC_BEVELED,
 	STYLE_FC_MAX = STYLE_FC_FLAT
 };
@@ -46,7 +46,7 @@ enum
 //	STYLE_SZ_CLOCKW	= 7,
 //	STYLE_SZ_CLOCK	= 2 + 3 + 4 * STYLE_SZ_CLOCKW + 2,
 
-	//Text and Name are style dependant.
+	// Text and Name are style dependant.
 	STYLE_SZ_TEXTW_FLAT		= 146,
 	STYLE_SZ_NAMEW_FLAT		= 101,
 	STYLE_SZ_TEXTW_BEVELED	= 125,
@@ -66,7 +66,7 @@ enum
 	POS_UPPERRIGHT,
 	POS_CENTER,
 	
-	//ranges
+	// ranges
 	POS_MINVALUE	= POS_UPPERLEFT,
 	POS_MAXVALUE	= POS_CENTER
 };
@@ -92,8 +92,8 @@ enum
 };
 enum
 {
-	TIMER_TIMETOLIVE	= 26378, //My Birthday, send me something 8)
-	TIMER_TESTCHANGE	= 60477, //You know who you are.
+	TIMER_TIMETOLIVE	= 26378, // My Birthday, send me something 8)
+	TIMER_TESTCHANGE	= 60477, // You know who you are.
 
 	ANIM_TIME	= 250,
 	FADE_TIME	= (ANIM_TIME),
@@ -105,7 +105,7 @@ enum
 	UM_SETDLGITEMINT = 5674
 };
 
-//Defaults:
+// Defaults:
 enum
 {
 	SETTING_BACKCOLOUR_DEFAULT	= RGB(173,206,247),

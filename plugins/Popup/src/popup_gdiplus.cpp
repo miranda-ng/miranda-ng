@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #undef Translate
 
-// fix for old SDK and new GDI+
+//  fix for old SDK and new GDI+
 #define ULONG_PTR unsigned long
 
 #include "gdiplus.h"
@@ -56,7 +56,7 @@ void UnloadGDIPlus()
 			Gdiplus::GdiplusShutdown(g_gdiplusToken);
 	}
 	__except ( EXCEPTION_EXECUTE_HANDLER ) {
-		// do nothing
+		//  do nothing
     }
 	gbGdiPlusLoaded = true;
     g_gdiplusToken = 0;
@@ -64,10 +64,10 @@ void UnloadGDIPlus()
 
 using namespace Gdiplus;
 
-/////////////////////////////////////////////////////////////////////////////////
-// GDIPlus_IsAnimatedGIF and GDIPlus_ExtractAnimatedGIF
-// based on routine from http://www.codeproject.com/vcpp/gdiplus/imageexgdi.asp
-//
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+//  GDIPlus_IsAnimatedGIF and GDIPlus_ExtractAnimatedGIF
+//  based on routine from http:// www.codeproject.com/vcpp/gdiplus/imageexgdi.asp
+// 
 
 HBITMAP SkinEngine_CreateDIB32(int cx, int cy)
 {
@@ -78,11 +78,11 @@ HBITMAP SkinEngine_CreateDIB32(int cx, int cy)
     BITMAPINFO RGB32BitsBITMAPINFO; 
     memset(&RGB32BitsBITMAPINFO, 0, sizeof(BITMAPINFO));
     RGB32BitsBITMAPINFO.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
-    RGB32BitsBITMAPINFO.bmiHeader.biWidth=cx;//bm.bmWidth;
-    RGB32BitsBITMAPINFO.bmiHeader.biHeight=cy;//bm.bmHeight;
+    RGB32BitsBITMAPINFO.bmiHeader.biWidth=cx;// bm.bmWidth;
+    RGB32BitsBITMAPINFO.bmiHeader.biHeight=cy;// bm.bmHeight;
     RGB32BitsBITMAPINFO.bmiHeader.biPlanes=1;
     RGB32BitsBITMAPINFO.bmiHeader.biBitCount=32;
-    // pointer used for direct Bitmap pixels access
+    //  pointer used for direct Bitmap pixels access
 
 
     UINT *ptPixels;
@@ -107,10 +107,10 @@ BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName)
 	UINT count = image.GetFrameDimensionsCount();
 	GUID* pDimensionIDs = new GUID[count];
 
-	// Get the list of frame dimensions from the Image object.
+	//  Get the list of frame dimensions from the Image object.
 	image.GetFrameDimensionsList(pDimensionIDs, count);
 
-	// Get the number of frames in the first dimension.
+	//  Get the number of frames in the first dimension.
 	nFrameCount = image.GetFrameCount(&pDimensionIDs[0]);
 
 	delete  []pDimensionIDs;
@@ -137,17 +137,17 @@ void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP *
 	count = image.GetFrameDimensionsCount();
 	GUID* pDimensionIDs = new GUID[count];
 
-	// Get the list of frame dimensions from the Image object.
+	//  Get the list of frame dimensions from the Image object.
 	image.GetFrameDimensionsList(pDimensionIDs, count);
 
-	// Get the number of frames in the first dimension.
+	//  Get the number of frames in the first dimension.
 	nFrameCount = image.GetFrameCount(&pDimensionIDs[0]);
 
-	// Assume that the image has a property item of type PropertyItemEquipMake.
-	// Get the size of that property item.
+	//  Assume that the image has a property item of type PropertyItemEquipMake.
+	//  Get the size of that property item.
 	int nSize = image.GetPropertyItemSize(PropertyTagFrameDelay);
 
-	// Allocate a buffer to receive the property item.
+	//  Allocate a buffer to receive the property item.
 	pPropertyItem = (PropertyItem*) mir_alloc(nSize);
 
 	image.GetPropertyItem(PropertyTagFrameDelay, nSize, pPropertyItem);
@@ -175,7 +175,7 @@ void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP *
 			0.0f, 0.0f, 0.0f, ((float)255)/255, 0.0f,
 			0.0f, 0.0f, 0.0f, 0.0f, 1.0f
 	};
-	//attr.SetColorMatrix(&ClrMatrix, ColorMatrixFlagsDefault,ColorAdjustTypeBitmap);
+	// attr.SetColorMatrix(&ClrMatrix, ColorMatrixFlagsDefault,ColorAdjustTypeBitmap);
 	graphics.SetInterpolationMode(InterpolationModeHighQualityBicubic);
 
 	int * delays=(int*)mir_alloc(nFrameCount*sizeof(int));

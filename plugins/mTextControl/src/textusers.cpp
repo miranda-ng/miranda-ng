@@ -21,8 +21,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 HANDLE htuDefault = 0;
 
-TextUser *textUserFirst=0;
-TextUser *textUserLast=0;
+TextUser *textUserFirst = 0;
+TextUser *textUserLast = 0;
 
 void LoadTextUsers()
 {
@@ -31,34 +31,30 @@ void LoadTextUsers()
 
 void UnloadTextUsers()
 {
-	while (textUserFirst)
-	{
-		delete [] textUserFirst->name;
+	while (textUserFirst) {
+		delete[] textUserFirst->name;
 		TextUser *next = textUserFirst->next;
-		delete [] textUserFirst;
+		delete[] textUserFirst;
 		textUserFirst = next;
 	}
 }
 
-HANDLE DLL_CALLCONV 
-MTI_TextUserAdd(const char *userTitle, DWORD options)
+HANDLE DLL_CALLCONV MTI_TextUserAdd(const char *userTitle, DWORD options)
 {
 	TextUser *textUserNew = new TextUser;
-	textUserNew->name = new char [mir_strlen(userTitle)+1];
+	textUserNew->name = new char[mir_strlen(userTitle) + 1];
 	mir_strcpy(textUserNew->name, userTitle);
 	textUserNew->options =
 		(db_get_dw(0, MODULNAME, userTitle, options)&MTEXT_FANCY_MASK) | (textUserNew->options&MTEXT_SYSTEM_MASK);
 	db_set_dw(0, MODULNAME, userTitle, textUserNew->options);
 	textUserNew->prev = textUserLast;
 	textUserNew->next = 0;
-	if (textUserLast)
-	{
+	if (textUserLast) {
 		textUserLast->next = textUserNew;
 		textUserLast = textUserNew;
-	} else
-	{
-		textUserFirst = textUserLast = textUserNew;
 	}
+	else textUserFirst = textUserLast = textUserNew;
+
 	return (HANDLE)textUserNew;
 }
 
@@ -84,5 +80,5 @@ void TextUsersReset()
 {
 	for (TextUser *textUser = textUserFirst; textUser; textUser = textUser->next)
 		textUser->options =
-			(db_get_dw(0, MODULNAME, textUser->name, 0)&MTEXT_FANCY_MASK) | (textUser->options&MTEXT_SYSTEM_MASK);
+		(db_get_dw(0, MODULNAME, textUser->name, 0)&MTEXT_FANCY_MASK) | (textUser->options&MTEXT_SYSTEM_MASK);
 }

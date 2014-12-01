@@ -23,9 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 #include <process.h>
-//#include <list>
 
-// globals
+//  globals
 static int    gIdleRequests = 0;
 static bool   gTerminating = false;
 static HWND   gHwndManager = 0;
@@ -35,10 +34,10 @@ static HANDLE hThread = 0;
 
 static LIST<PopupWnd2> popupList(3);
 
-// forwards
+//  forwards
 enum
 { 
-	// message id's
+	//  message id's
 	UTM_PT_FIRST = WM_USER+1607,
 	UTM_STOP_THREAD,
 	UTM_ADD_WINDOW,
@@ -62,15 +61,15 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 	if (prev)
 		prevSize = prev->getSize();
 
-	//we have only one monitor (cant check it together with 1.if)
+	// we have only one monitor (cant check it together with 1.if)
 	RECT rc;
 	if ( GetSystemMetrics(SM_CMONITORS) == 1)
 		SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0);
-	else { //Multimonitor stuff (we have more then 1)
+	else { // Multimonitor stuff (we have more then 1)
 		HWND hWnd;
 		if (PopupOptions.Monitor == MN_MIRANDA)
 			hWnd = (HWND)CallService(MS_CLUI_GETHWND,0,0);
-		else // PopupOptions.Monitor == MN_ACTIVE
+		else //  PopupOptions.Monitor == MN_ACTIVE
 			hWnd = GetForegroundWindow();
 
 		HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY);
@@ -202,10 +201,10 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-// thread func
+//  thread func
 static unsigned __stdcall PopupThread(void *arg)
 {
-	// Create manager window
+	//  Create manager window
 	DWORD err;
 	WNDCLASSEX wcl;
 	wcl.cbSize = sizeof(wcl);
@@ -257,7 +256,7 @@ void StopPopupThread()
 
 void UnloadPopupThread()
 {
-	// We won't waint for thread to exit, Miranda's thread unsind mechanism will do that for us.
+	//  We won't waint for thread to exit, Miranda's thread unsind mechanism will do that for us.
 	WaitForSingleObject(hThread, INFINITE);
 	CloseHandle(hThread);
 

@@ -21,7 +21,6 @@
 class CEnumFormatEtc : public IEnumFORMATETC
 {
 public:
-
 	//
 	// IUnknown members
 	//
@@ -56,7 +55,7 @@ private:
 //
 HRESULT CreateEnumFormatEtc(UINT nNumFormats, FORMATETC *pFormatEtc, IEnumFORMATETC **ppEnumFormatEtc)
 {
-	if(nNumFormats == 0 || pFormatEtc == 0 || ppEnumFormatEtc == 0)
+	if (nNumFormats == 0 || pFormatEtc == 0 || ppEnumFormatEtc == 0)
 		return E_INVALIDARG;
 
 	*ppEnumFormatEtc = new CEnumFormatEtc(pFormatEtc, nNumFormats);
@@ -71,9 +70,8 @@ static void DeepCopyFormatEtc(FORMATETC *dest, FORMATETC *source)
 {
 	// copy the source FORMATETC into dest
 	*dest = *source;
-	
-	if(source->ptd)
-	{
+
+	if (source->ptd) {
 		// allocate memory for the DVTARGETDEVICE if necessary
 		dest->ptd = (DVTARGETDEVICE*)CoTaskMemAlloc(sizeof(DVTARGETDEVICE));
 
@@ -87,14 +85,13 @@ static void DeepCopyFormatEtc(FORMATETC *dest, FORMATETC *source)
 //
 CEnumFormatEtc::CEnumFormatEtc(FORMATETC *pFormatEtc, int nNumFormats)
 {
-	m_lRefCount   = 1;
-	m_nIndex      = 0;
+	m_lRefCount = 1;
+	m_nIndex = 0;
 	m_nNumFormats = nNumFormats;
-	m_pFormatEtc  = new FORMATETC[nNumFormats];
-	
+	m_pFormatEtc = new FORMATETC[nNumFormats];
+
 	// copy the FORMATETC structures
-	for(int i = 0; i < nNumFormats; i++)
-	{	
+	for (int i = 0; i < nNumFormats; i++) {
 		DeepCopyFormatEtc(&m_pFormatEtc[i], &pFormatEtc[i]);
 	}
 }
@@ -104,11 +101,9 @@ CEnumFormatEtc::CEnumFormatEtc(FORMATETC *pFormatEtc, int nNumFormats)
 //
 CEnumFormatEtc::~CEnumFormatEtc()
 {
-	if(m_pFormatEtc)
-	{
-		for(ULONG i = 0; i < m_nNumFormats; i++)
-		{
-			if(m_pFormatEtc[i].ptd)
+	if (m_pFormatEtc) {
+		for (ULONG i = 0; i < m_nNumFormats; i++) {
+			if (m_pFormatEtc[i].ptd)
 				CoTaskMemFree(m_pFormatEtc[i].ptd);
 		}
 
@@ -121,8 +116,8 @@ CEnumFormatEtc::~CEnumFormatEtc()
 //
 ULONG __stdcall CEnumFormatEtc::AddRef(void)
 {
-    // increment object reference count
-    return InterlockedIncrement(&m_lRefCount);
+	// increment object reference count
+	return InterlockedIncrement(&m_lRefCount);
 }
 
 //
@@ -130,16 +125,14 @@ ULONG __stdcall CEnumFormatEtc::AddRef(void)
 //
 ULONG __stdcall CEnumFormatEtc::Release(void)
 {
-    // decrement object reference count
+	// decrement object reference count
 	LONG count = InterlockedDecrement(&m_lRefCount);
-		
-	if(count == 0)
-	{
+
+	if (count == 0) {
 		delete this;
 		return 0;
 	}
-	else
-	{
+	else {
 		return count;
 	}
 }
@@ -149,18 +142,16 @@ ULONG __stdcall CEnumFormatEtc::Release(void)
 //
 HRESULT __stdcall CEnumFormatEtc::QueryInterface(REFIID iid, void **ppvObject)
 {
-    // check to see what interface has been requested
-    if(iid == IID_IEnumFORMATETC || iid == IID_IUnknown)
-    {
-        AddRef();
-        *ppvObject = this;
-        return S_OK;
-    }
-    else
-    {
-        *ppvObject = 0;
-        return E_NOINTERFACE;
-    }
+	// check to see what interface has been requested
+	if (iid == IID_IEnumFORMATETC || iid == IID_IUnknown) {
+		AddRef();
+		*ppvObject = this;
+		return S_OK;
+	}
+	else {
+		*ppvObject = 0;
+		return E_NOINTERFACE;
+	}
 }
 
 //
@@ -171,22 +162,21 @@ HRESULT __stdcall CEnumFormatEtc::QueryInterface(REFIID iid, void **ppvObject)
 //
 HRESULT __stdcall CEnumFormatEtc::Next(ULONG celt, FORMATETC *pFormatEtc, ULONG * pceltFetched)
 {
-	ULONG copied  = 0;
+	ULONG copied = 0;
 
 	// validate arguments
-	if(celt == 0 || pFormatEtc == 0)
+	if (celt == 0 || pFormatEtc == 0)
 		return E_INVALIDARG;
 
 	// copy FORMATETC structures into caller's buffer
-	while(m_nIndex < m_nNumFormats && copied < celt)
-	{
+	while (m_nIndex < m_nNumFormats && copied < celt) {
 		DeepCopyFormatEtc(&pFormatEtc[copied], &m_pFormatEtc[m_nIndex]);
 		copied++;
 		m_nIndex++;
 	}
 
 	// store result
-	if(pceltFetched != 0) 
+	if (pceltFetched != 0)
 		*pceltFetched = copied;
 
 	// did we copy all that was requested?
@@ -221,12 +211,10 @@ HRESULT __stdcall CEnumFormatEtc::Clone(IEnumFORMATETC ** ppEnumFormatEtc)
 	// make a duplicate enumerator
 	hResult = CreateEnumFormatEtc(m_nNumFormats, m_pFormatEtc, ppEnumFormatEtc);
 
-	if(hResult == S_OK)
-	{
+	if (hResult == S_OK) {
 		// manually set the index state
-		((CEnumFormatEtc *) *ppEnumFormatEtc)->m_nIndex = m_nIndex;
+		((CEnumFormatEtc *)*ppEnumFormatEtc)->m_nIndex = m_nIndex;
 	}
 
 	return hResult;
 }
-

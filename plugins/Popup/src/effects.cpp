@@ -74,7 +74,6 @@ public:
 	virtual void destroy() { delete this; }
 };
 
-//template<class T> static int svcCreateEffect(WPARAM, LPARAM) { return (int)(new T); }
 static INT_PTR svcCreateEffect_MyTestEffect(WPARAM, LPARAM) { return (INT_PTR)(new MyTestEffect); }
 
 void PopupEfectsInitialize()

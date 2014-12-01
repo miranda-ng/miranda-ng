@@ -105,12 +105,12 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconInd
 	sectionName = itemName;
 
 	while (sectionName) {
-		// allow multi-level tree
+		//  allow multi-level tree
 		TCHAR *pItemName = sectionName;
 		HTREEITEM hItem;
 
 		if (sectionName = _tcschr(sectionName, '/')) {
-			// one level deeper
+			//  one level deeper
 			*sectionName = 0;
 			sectionName++;
 		}
@@ -121,7 +121,7 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconInd
 				TVINSERTSTRUCT tvis = {0};
 
 				tvis.hParent = hSection;
-				tvis.hInsertAfter = TVI_LAST;//TVI_SORT;
+				tvis.hInsertAfter = TVI_LAST;// TVI_SORT;
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 				tvis.item.pszText = pItemName;
 				tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
@@ -180,12 +180,12 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, i
 				sectionName = itemName;
 
 				while (sectionName) {
-					// allow multi-level tree
+					//  allow multi-level tree
 					TCHAR *pItemName = sectionName;
 					HTREEITEM hItem;
 
 					if (sectionName = _tcschr(sectionName, '/')) {
-						// one level deeper
+						//  one level deeper
 						*sectionName = 0;
 						sectionName++;
 					}
@@ -196,7 +196,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, i
 							TVINSERTSTRUCT tvis = {0};
 
 							tvis.hParent = hSection;
-							tvis.hInsertAfter = TVI_LAST;//TVI_SORT;
+							tvis.hInsertAfter = TVI_LAST;// TVI_SORT;
 							tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 							tvis.item.pszText = pItemName;
 							tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
