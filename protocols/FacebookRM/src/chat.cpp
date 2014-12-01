@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright ï¿½ 2011-13 Robert Pï¿½sel
+Copyright © 2011-13 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -168,6 +168,9 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 
 void FacebookProto::AddChatContact(const TCHAR *tchat_id, const char *id, const char *name)
 {
+	if (IsChatContact(tchat_id, id))
+		return;
+
 	ptrT tnick( mir_a2t_cp(name, CP_UTF8));
 	ptrT tid( mir_a2t(id));
 
@@ -272,43 +275,45 @@ void FacebookProto::AddChat(const TCHAR *tid, const TCHAR *tname)
 
 INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM suppress)
 {	
-	// TODO: load info from server + old history,...
+	if (!m_enableChat || IsSpecialChatRoom(hContact))
+		return 0;
 
 	ptrT idT( getTStringA(hContact, "ChatRoomID"));
 	ptrT nameT( getTStringA(hContact, "Nick"));
 
-	if (idT && nameT)
-		AddChat(idT, nameT);
-
-/*	GCSESSION gcw = {sizeof(gcw)};
-
-	// Create the group chat session
-	gcw.dwFlags   = GC_TCHAR;
-	gcw.iType     = GCW_PRIVMESS;
-	gcw.pszModule = m_szModuleName;
-	gcw.ptszName  = m_tszUserName;
-	gcw.ptszID    = m_tszUserName;
-	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
-
-	if(m_iStatus != ID_STATUS_ONLINE)
+	if (!idT || !nameT)
 		return 0;
 
-	// Create a group
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_ADDGROUP };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszStatus = TranslateT("Myself");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = TranslateT("Friend");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
-	gce.ptszStatus = TranslateT("User");
-	CallServiceSync(MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
+	facebook_chatroom *fbc;
+	std::tstring tthread_id = ptrT(getTStringA(hContact, FACEBOOK_KEY_TID));
+	
+	std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(tthread_id);
+	if (it != facy.chat_rooms.end()) {
+		fbc = it->second;
+	} else {
+		// We don't have this chat loaded in memory yet, lets load some info (name, list of users)
+		fbc = new facebook_chatroom(tthread_id);
+		LoadChatInfo(fbc);
+		facy.chat_rooms.insert(std::make_pair(tthread_id, fbc));
+	}
+	
+	// RM TODO: better use check if chatroom exists/is in db/is online... no?
+	// like: if (ChatIDToHContact(tthread_id) == NULL) {
+	ptrA users(GetChatUsers(tthread_id.c_str()));
+	if (users == NULL) {
+		// Add chatroom
+		AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());
 
-	SetTopic("Omegle is a great way of meeting new friends!");
+		// Add chat contacts
+		for (std::map<std::string, std::string>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
+			AddChatContact(fbc->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+		}
 
-	// Note: Initialization will finish up in SetChatStatus, called separately
-	if (!suppress)
-		SetChatStatus(m_iStatus);
-*/
+		// Load last messages
+		delSetting(hContact, FACEBOOK_KEY_MESSAGE_ID); // We're creating new chatroom so we want load all recent messages
+		ForkThread(&FacebookProto::LoadLastMessages, new MCONTACT(hContact));
+	}
+
 	return 0;
 }
 
@@ -324,30 +329,21 @@ INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam,LPARAM)
 
 	CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,  reinterpret_cast<LPARAM>(&gce));
 	CallServiceSync(MS_GC_EVENT,SESSION_TERMINATE,reinterpret_cast<LPARAM>(&gce));
+
+	if (!wParam) {
+		facy.clear_chatrooms();
+	} else if (!IsSpecialChatRoom(wParam)) {
+		std::tstring tthread_id = ptrT(getTStringA(wParam, FACEBOOK_KEY_TID));
+
+		std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(tthread_id);
+		if (it != facy.chat_rooms.end()) {
+			delete it->second;
+			facy.chat_rooms.erase(it);
+		}
+	}
+
 	return 0;
 }
-
-/*
-void FacebookProto::SetChatStatus(int status)
-{
-	GCDEST gcd = { m_szModuleName, m_tszUserName, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.time = ::time(NULL);
-
-	if(status == ID_STATUS_ONLINE)
-	{
-		// Add self contact
-		AddChatContact(facy.nick_.c_str());
-
-		CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
-		CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
-	}
-	else
-	{
-		CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,reinterpret_cast<LPARAM>(&gce));
-	}
-}
-*/
 
 int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 {

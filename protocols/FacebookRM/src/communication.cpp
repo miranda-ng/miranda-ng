@@ -1326,7 +1326,10 @@ int facebook_client::send_message(MCONTACT hContact, const std::string &message_
 		std::string mid = utils::text::source_get_value(&resp.data, 2, "\"message_id\":\"", "\"");
 		if (mid.empty())
 			mid = utils::text::source_get_value(&resp.data, 2, "\"mid\":\"", "\"");
-		parent->setString(hContact, FACEBOOK_KEY_MESSAGE_ID, mid.c_str());
+		
+		// For classic contacts remember last message id
+		if (!parent->isChatRoom(hContact))
+			parent->setString(hContact, FACEBOOK_KEY_MESSAGE_ID, mid.c_str());
 
 		// Remember last action timestamp
 		std::string timestamp = utils::text::source_get_value(&resp.data, 2, "\"timestamp\":", ",");
@@ -1339,9 +1342,7 @@ int facebook_client::send_message(MCONTACT hContact, const std::string &message_
 
 	case 1356003: // Contact is offline
 	{
-		MCONTACT hContact = parent->ContactIDToHContact(message_recipient);
-		if (hContact != NULL)
-  			parent->setWord(hContact, "Status", ID_STATUS_OFFLINE);
+		parent->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		return SEND_MESSAGE_ERROR;
 	}
 

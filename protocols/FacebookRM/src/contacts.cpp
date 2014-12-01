@@ -328,6 +328,10 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool force_add, bool add_temporarily)
 {
+	// Ignore self user completely
+	if (fbu->user_id == facy.self_.user_id)
+		return NULL;
+
 	// First, check if this contact exists (and if does, just return it)
 	if (!force_add) {
 		MCONTACT hContact = ContactIDToHContact(fbu->user_id);

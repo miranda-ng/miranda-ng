@@ -463,10 +463,7 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	bool isChat = isChatRoom(hContact);
 
-	if (IsSpecialChatRoom(hContact)) // e.g. nofitications
-		return;
-
-	if (isChat && !m_enableChat)
+	if (isChat && (!m_enableChat || IsSpecialChatRoom(hContact))) // disabled chats or special chatroom (e.g. nofitications)
 		return;
 
 	ptrA item_id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
@@ -721,9 +718,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				setTString(hChatContact, FACEBOOK_KEY_TID, fbc->thread_id.c_str());
 
 				for (std::map<std::string, std::string>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
-					// If this contact isn't already in chat, add it
-					if (!IsChatContact(fbc->thread_id.c_str(), jt->first.c_str())) // TODO: is this needed?
-						AddChatContact(fbc->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
+					AddChatContact(fbc->thread_id.c_str(), jt->first.c_str(), jt->second.c_str());
 				}
 			}
 
@@ -737,8 +732,8 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				continue;
 			}
 
-			// Save last (this) message ID
-			setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
+			// We don't want to save (this) message ID for chatrooms
+			// setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
 			setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, messages[i]->timestamp.c_str());
 			
 			// Save TID if not exists already
@@ -746,12 +741,18 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			if (!tid || strcmp(tid, messages[i]->thread_id.c_str()))
 				setString(hChatContact, FACEBOOK_KEY_TID, messages[i]->thread_id.c_str());
 
+			// Try to map name of this chat participant to his id
+			std::map<std::string, std::string>::iterator jt = fbc->participants.find(messages[i]->user_id);
+			if (jt != fbc->participants.end()) {
+				messages[i]->sender_name = jt->second;
+			}
+
 			// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?
 			// ... we must add some new "type" field into facebook_message structure and use it also for Pokes and similar)
 			UpdateChat(tthread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), timestamp);
 
 			// Automatically mark message as read because chatroom doesn't support onRead event (yet)
-			ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
+			// ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact); // FIXME: temporary disabled
 		} else {
 			// Single-user message
 			debugLogA("      Got message: %s", messages[i]->message_text.c_str());

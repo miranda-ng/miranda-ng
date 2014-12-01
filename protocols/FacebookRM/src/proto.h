@@ -217,7 +217,6 @@ public:
 	bool IsChatContact(const TCHAR *chat_id, const char *id);
 	void AddChatContact(const TCHAR *chat_id, const char *id, const char *name);
 	void RemoveChatContact(const TCHAR *chat_id, const char *id, const char *name);
-	void SetChatStatus(const char *chat_id, int status);
 	char *GetChatUsers(const TCHAR *chat_id);
 	void ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates = false);
 	void LoadChatInfo(facebook_chatroom* fbc);
