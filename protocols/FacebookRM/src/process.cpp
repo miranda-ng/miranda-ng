@@ -492,9 +492,9 @@ void FacebookProto::LoadLastMessages(void *p)
 		facy.handle_error("LoadLastMessages");
 		return;
 	}
-
+	
 	// Temporarily disable marking messages as read for this contact
-	facy.ignore_read.insert(std::make_pair(hContact, true));
+	facy.ignore_read.insert(hContact);
 
 CODE_BLOCK_TRY
 
@@ -547,11 +547,8 @@ CODE_BLOCK_END
 	facy.handle_success("LoadLastMessages");
 
 	// Enable marking messages as read for this contact
-	std::map<MCONTACT, bool>::iterator it = facy.ignore_read.find(hContact);
-	if (it != facy.ignore_read.end()) {
-		it->second = false;
-	}
-	
+	facy.ignore_read.erase(hContact);
+
 	// And force mark read
 	OnDbEventRead(hContact, NULL);
 }
@@ -676,6 +673,8 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 		}
 	}
 
+	std::set<MCONTACT> *hChatContacts = new std::set<MCONTACT>();
+
 	for(std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
 		DWORD timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
 
@@ -752,7 +751,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			UpdateChat(tthread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), timestamp);
 
 			// Automatically mark message as read because chatroom doesn't support onRead event (yet)
-			ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
+			hChatContacts->insert(hChatContact); // std::set checks duplicates at insert automatically
 		} else {
 			// Single-user message
 			debugLogA("      Got message: %s", messages[i]->message_text.c_str());
@@ -823,6 +822,12 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 		delete messages[i];
 	}
 	messages.clear();
+
+	if (!hChatContacts->empty()) {
+		ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContacts);
+	} else {
+		delete hChatContacts;
+	}
 }
 
 void FacebookProto::ProcessMessages(void* data)

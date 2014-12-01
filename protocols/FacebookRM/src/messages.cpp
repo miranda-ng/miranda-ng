@@ -175,21 +175,36 @@ void FacebookProto::ReadMessageWorker(void *p)
 	if (p == NULL)
 		return;
 	
-	MCONTACT hContact = (MCONTACT)p;
-	
-	if (getBool(FACEBOOK_KEY_KEEP_UNREAD, 0) || getBool(hContact, FACEBOOK_KEY_KEEP_UNREAD, 0))
+	if (getBool(FACEBOOK_KEY_KEEP_UNREAD, 0))
 		return;
 
-	// mark message read (also send seen info)
-	const char *value = (isChatRoom(hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
-	ptrA id( getStringA(hContact, value));
-	if (id == NULL)
-		return;
+	std::set<MCONTACT> *hContacts = (std::set<MCONTACT>*)p;
 
-	std::string data = "ids[" + utils::url::encode(std::string(id)) + "]=true";
-	data += "&fb_dtsg=" + facy.dtsg_;
+	if (hContacts->empty()) {
+		delete hContacts;
+		return;
+	}
+
+	std::string data = "fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
 	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
+	
+	for (std::set<MCONTACT>::iterator it = hContacts->begin(); it != hContacts->end(); ++it) {
+		MCONTACT hContact = *it;
+
+		if (getBool(hContact, FACEBOOK_KEY_KEEP_UNREAD, 0))
+			continue;
+
+		// mark message read (also send seen info)
+		const char *value = (isChatRoom(hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
+		ptrA id(getStringA(hContact, value));
+		if (id == NULL)
+			continue;
+		
+		data += "&ids[" + utils::url::encode(std::string(id)) + "]=true";
+	}
+	hContacts->clear();
+	delete hContacts;
 
 	facy.flap(REQUEST_MARK_READ, &data);
 }
