@@ -46,27 +46,22 @@ void InitFonts() {
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_CLOCK), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, SIZEOF(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_CLOCK);
-	//fid.deffontsettings.style  = DBFONTF_BOLD;
-	//fid.deffontsettings.colour = RGB(0, 0, 0);
 	FontRegisterT(&fid);
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_TEXT), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, SIZEOF(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_TEXT);
-	fid.deffontsettings.style  = 0;
-	//fid.deffontsettings.colour = RGB(0, 0, 0);
+	fid.deffontsettings.style = 0;
 	FontRegisterT(&fid);
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_ACTION), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, SIZEOF(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_ACTION);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
-	//fid.deffontsettings.style = 0;
 	fid.deffontsettings.colour = RGB(0, 0, 255);
 	FontRegisterT(&fid);
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_HOVERED_ACTION), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, SIZEOF(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_HOVERED_ACTION);
 	fid.deffontsettings.style = DBFONTF_UNDERLINE;
-	//fid.deffontsettings.colour = RGB(0, 0, 255);
 	FontRegisterT(&fid);
 
 	ColourIDT cid = {0};
@@ -131,7 +126,7 @@ void ReloadFonts()
 	mir_tstrncpy(cid.name, PU_COL_AVAT_NAME, SIZEOF(cid.name));
 	fonts.clAvatarBorder = (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, (LPARAM)&lf);
 
-	//update class popupps(only temp at this point, must rework)
+	// update class popupps(only temp at this point, must rework)
 	char setting[256];
 	for (int i = 0; i < gTreeData.getCount(); i++) {
 		if (gTreeData[i]->typ == 2) {

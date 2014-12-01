@@ -34,8 +34,8 @@ static void sttSetAllContactIcons(HWND hwndList)
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
 		for (int i = 0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
-			//hIml element [0]    = SKINICON_OTHER_SMALLDOT
-			//hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
+			// hIml element [0]    = SKINICON_OTHER_SMALLDOT
+			// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (dwMode == i) ? i + 1 : 0));
 	}
 }
@@ -87,8 +87,8 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				int iImage = SendDlgItemMessage(hwnd,IDC_LIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
 				if (iImage != EMPTY_EXTRA_ICON) {
 					for (int i=0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
-						//hIml element [0]    = SKINICON_OTHER_SMALLDOT
-							//hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
+						// hIml element [0]    = SKINICON_OTHER_SMALLDOT
+							// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
 								SendDlgItemMessage(hwnd, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (i==nm->iColumn)?i+1:0));
 				}
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

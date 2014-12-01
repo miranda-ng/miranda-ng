@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-int num_classes = 0;			//for core class api support
+int num_classes = 0;			// for core class api support
 
 //===== Popup/AddPopup
 INT_PTR Popup_AddPopup(WPARAM wParam, LPARAM lParam)
@@ -260,7 +260,7 @@ INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 		ppd2.lchNotification	= g_hntfNotification;
 		ppd2.lptzTitle			= TranslateT("Notify");
 		break;
-	default: //No no no... you must give me a good value.
+	default: // No no no... you must give me a good value.
 		return -1;
 	}
 	return Popup_AddPopup2((WPARAM)&ppd2, (LPARAM)((lParam & 0x80000000)?APF_NO_HISTORY:0));
@@ -285,14 +285,14 @@ INT_PTR Popup_Query(WPARAM wParam, LPARAM)
 
 	switch (wParam) {
 		case PUQS_ENABLEPOPUPS: {
-			if (PopupOptions.ModuleIsEnabled) return 1; //They're already ON!!!
-			else { //Module was disabled.
+			if (PopupOptions.ModuleIsEnabled) return 1; // They're already ON!!!
+			else { // Module was disabled.
 				svcEnableDisableMenuCommand(0,0);
 				return 0;
 			}
 		}
 		case PUQS_DISABLEPOPUPS: {
-			if (!(PopupOptions.ModuleIsEnabled)) return 1; //They're already OFF!!!
+			if (!(PopupOptions.ModuleIsEnabled)) return 1; // They're already OFF!!!
 			else {
 				svcEnableDisableMenuCommand(0,0);
 				return 0;
@@ -376,7 +376,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	}
 	LoadClassSettings(ptd, PU_MODULCLASS);
 
-	//we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
+	// we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
 	mir_snprintf(setting, 256, "%s/TextCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
 	FontIDT fid = {0};
@@ -394,7 +394,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	fid.deffontsettings.colour = fonts.clText;
 	FontRegisterT(&fid);
 
-	//we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
+	// we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
 	mir_snprintf(setting, 256, "%s/BgCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 	ColourIDT cid = {0};

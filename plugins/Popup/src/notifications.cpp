@@ -251,14 +251,14 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 	ppd->iSeconds = ptd->timeoutValue;
 	*disableWhen = ptd->enabled ? ptd->disableWhen : 0xFFFFFFFF;
 
-	LOGFONTA lf;						//dummy to make FS happy (use LOGFONTA coz we use MS_FONT_GET)
-	FontID fontid = {0};				//use ansi version of fontID coz POPUPNOTIFICATION use char
+	LOGFONTA lf;						// dummy to make FS happy (use LOGFONTA coz we use MS_FONT_GET)
+	FontID fontid = {0};				// use ansi version of fontID coz POPUPNOTIFICATION use char
 	fontid.cbSize = sizeof(fontid);
 	mir_snprintf(fontid.group, SIZEOF(fontid.group), PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
 	mir_snprintf(fontid.name, SIZEOF(fontid.name), "%s (colors only)", ptd->notification.lpzName);
 	ppd->colorText = (COLORREF)CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lf);
 
-	ColourID colourid = {0};			//use ansi version of ColourID coz POPUPNOTIFICATION use char
+	ColourID colourid = {0};			// use ansi version of ColourID coz POPUPNOTIFICATION use char
 	colourid.cbSize = sizeof(colourid);
 	mir_snprintf(colourid.group, SIZEOF(colourid.group), PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
 	mir_snprintf(colourid.name, SIZEOF(colourid.name), "%s (colors only)", ptd->notification.lpzName);

@@ -86,18 +86,18 @@ bool	LoadPopupWnd2()
 	if (!g_wndClass.cPopupEditBox) {
 		TCHAR msg[2048];
 		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
-			wclw.cbSize,		//UINT        cbSize;
-			wclw.style,			//UINT        style;
-			wclw.lpfnWndProc,	//WNDPROC     lpfnWndProc;
-			wclw.cbClsExtra,	//int         cbClsExtra;
-			wclw.cbWndExtra,	//int         cbWndExtra;
-			wclw.hInstance,		//HINSTANCE   hInstance;
-			wclw.hIcon,			//HICON       hIcon;
-			wclw.hCursor,		//HCURSOR     hCursor;
-			wclw.hbrBackground,	//HBRUSH      hbrBackground;
-			wclw.lpszMenuName,	//LPCWSTR     lpszMenuName;
-			wclw.lpszClassName,	//LPCWSTR     lpszClassName;
-			wclw.hIconSm		//HICON       hIconSm;
+			wclw.cbSize,		// UINT        cbSize;
+			wclw.style,			// UINT        style;
+			wclw.lpfnWndProc,	// WNDPROC     lpfnWndProc;
+			wclw.cbClsExtra,	// int         cbClsExtra;
+			wclw.cbWndExtra,	// int         cbWndExtra;
+			wclw.hInstance,		// HINSTANCE   hInstance;
+			wclw.hIcon,			// HICON       hIcon;
+			wclw.hCursor,		// HCURSOR     hCursor;
+			wclw.hbrBackground,	// HBRUSH      hbrBackground;
+			wclw.lpszMenuName,	// LPCWSTR     lpszMenuName;
+			wclw.lpszClassName,	// LPCWSTR     lpszClassName;
+			wclw.hIconSm		// HICON       hIconSm;
 			);
 
 		MSGERROR(msg);
@@ -183,21 +183,21 @@ void PopupWnd2::startThread()
 void PopupWnd2::create()
 {
 	m_hwnd = CreateWindowEx(
-		WS_EX_TRANSPARENT|					// prevents unwanted clicks
-		WS_EX_TOOLWINDOW|WS_EX_TOPMOST,		// dwStyleEx
-		_T(POPUP_WNDCLASS),					// Class name
-		NULL,								// Title
-		DS_SETFONT|DS_FIXEDSYS|WS_POPUP,	// dwStyle
-		CW_USEDEFAULT,						// x
-		CW_USEDEFAULT,						// y
-		CW_USEDEFAULT,						// Width
-		CW_USEDEFAULT,						// Height
-		HWND_DESKTOP,						// Parent
-		NULL,								// menu handle
-		hInst,								// Instance
+		WS_EX_TRANSPARENT|					//  prevents unwanted clicks
+		WS_EX_TOOLWINDOW|WS_EX_TOPMOST,		//  dwStyleEx
+		_T(POPUP_WNDCLASS),					//  Class name
+		NULL,								//  Title
+		DS_SETFONT|DS_FIXEDSYS|WS_POPUP,	//  dwStyle
+		CW_USEDEFAULT,						//  x
+		CW_USEDEFAULT,						//  y
+		CW_USEDEFAULT,						//  Width
+		CW_USEDEFAULT,						//  Height
+		HWND_DESKTOP,						//  Parent
+		NULL,								//  menu handle
+		hInst,								//  Instance
 		(LPVOID)this);
 
-	// Shadows
+	//  Shadows
 	ULONG_PTR style = GetClassLongPtr(m_hwnd, GCL_STYLE);
 	if (m_options->DropShadow && !(style & CS_DROPSHADOW))
 		style |= CS_DROPSHADOW;
@@ -206,7 +206,7 @@ void PopupWnd2::create()
 
 	SetClassLongPtr(m_hwnd, GCL_STYLE, style);
 
-	// tooltips
+	//  tooltips
 	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -229,7 +229,7 @@ void PopupWnd2::updateLayered(BYTE opacity)
 		BLENDFUNCTION blend;
 		blend.BlendOp =             AC_SRC_OVER;
 		blend.BlendFlags =          0;
-		blend.SourceConstantAlpha = opacity; //m_options->UseTransparency ? opacity : 255;
+		blend.SourceConstantAlpha = opacity; // m_options->UseTransparency ? opacity : 255;
 		blend.AlphaFormat =         AC_SRC_ALPHA;
 
 		UpdateLayeredWindow(m_hwnd, NULL, &ptDst, &m_sz,
@@ -256,22 +256,22 @@ void PopupWnd2::update()
 	const PopupSkin *skin = skins.getSkin(m_lpzSkin?m_lpzSkin:m_options->SkinPack);
 	if (!skin) return;
 
-	// update avatar
+	//  update avatar
 	fixAvatar();
 
-	// destroy content bitmap so animate() can reallocate it if needed
+	//  destroy content bitmap so animate() can reallocate it if needed
 	if (m_bmp) {
 		delete m_bmp;
 		m_bmp = NULL;
 	}
 
-	// measure popup
+	//  measure popup
 	if (m_bmpBase) delete m_bmpBase;
 	if (m_bmpAnimate) delete m_bmpAnimate;
 	m_bmpBase = new MyBitmap(1,1);
 	skin->measure(m_bmpBase->getDC(), this, m_options->UseMaximumWidth ? m_options->MaximumWidth : SETTING_MAXIMUMWIDTH_MAX, m_options);
 
-	// render popup
+	//  render popup
 	m_bmpBase->allocate(m_sz.cx, m_sz.cy);
 	HDC hdc = m_bmpBase->getDC();
 	if (!skin) return;
@@ -282,7 +282,7 @@ void PopupWnd2::update()
 	{
 		SetTextColor(hdc, m_clClock);
 		HFONT hfnSave = (HFONT)SelectObject(m_bmpBase->getDC(), fonts.clock);
-		SIZE sz; GetTextExtentPoint32(m_bmpBase->getDC(), m_time, mir_tstrlen(m_time), &sz);
+		SIZE sz; GetTextExtentPoint32(m_bmpBase->getDC(), m_time, (int)mir_tstrlen(m_time), &sz);
 		m_bmpBase->Draw_Text(m_time, this->m_sz.cx - sz.cx - STYLE_SZ_GAP - skin->getRightGap(), STYLE_SZ_GAP);
 		SelectObject(m_bmpBase->getDC(), hfnSave);
 	}
@@ -310,7 +310,7 @@ void PopupWnd2::animate()
 		m_bmpBase = NULL;
 	}
 
-	// update layered window if supported
+	//  update layered window if supported
 	updateLayered((m_options->UseTransparency && !(m_bIsHovered && m_options->OpaqueOnHover)) ? m_options->Alpha : 255);
 
 	if (m_bReshapeWindow)
@@ -330,7 +330,7 @@ void PopupWnd2::animate()
 			DeleteObject(bb.hRgnBlur);
 		}
 
-		// update tooltips
+		//  update tooltips
 		for (int i=0; i < m_actionCount; ++i) {
 			char *title = strchr(m_actions[i].actionA.lpzTitle, '/');
 			if (title) title++;
@@ -338,8 +338,8 @@ void PopupWnd2::animate()
 			AddTooltipTranslated(m_hwndToolTip, m_hwnd, i, m_actions[i].rc, title);
 		}
 
-//		if (!customPopup && hwnd /*&& IsWindowVisible(hwnd)*/)
-//			PopupThreadUpdateWindow(this);
+// 		if (!customPopup && hwnd /*&& IsWindowVisible(hwnd)*/)
+// 			PopupThreadUpdateWindow(this);
 	}
 }
 
@@ -436,7 +436,7 @@ void PopupWnd2::show()
 	m_bSlide = m_bFade = false;
 
 	updateLayered((m_options->UseTransparency && !(m_bIsHovered && m_options->OpaqueOnHover)) ? m_options->Alpha : 255);
-	//updateLayered(m_options->UseTransparency ? m_options->Alpha : 255);
+	// updateLayered(m_options->UseTransparency ? m_options->Alpha : 255);
 	SetWindowPos(m_hwnd, 0, m_pos.x, m_pos.y, 0, 0, SWP_NOZORDER|SWP_NOSIZE|SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_SHOWWINDOW);
 }
 
@@ -867,7 +867,7 @@ BOOL IsUtfSendAvailable(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL) return FALSE;
-	//check for MetaContact and get szProto from subcontact
+	// check for MetaContact and get szProto from subcontact
 	if (!strcmp(szProto, META_PROTO)) {
 		MCONTACT hSubContact = db_mc_getDefault(hContact);
 		if (!hSubContact)
@@ -886,9 +886,9 @@ void AddMessageToDB(MCONTACT hContact, char *msg, int flag/*bool utf*/)
 	dbei.szModule = GetContactProto(hContact);
 	dbei.timestamp = time(NULL);
 	if ( !((flag & PREF_UTF) == PREF_UTF) && (flag & PREF_UNICODE) == PREF_UNICODE)
-		dbei.cbBlob = (mir_tstrlen((LPTSTR)msg) + 1)*sizeof(TCHAR);
+		dbei.cbBlob = ((int)mir_tstrlen((LPTSTR)msg) + 1)*sizeof(TCHAR);
 	else
-		dbei.cbBlob = mir_strlen(msg) + 1;
+		dbei.cbBlob = (int)mir_strlen(msg) + 1;
 	dbei.pBlob = (PBYTE)msg;
 	db_event_add(hContact, &dbei);
 }
@@ -1005,8 +1005,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		case ACT_DEF_REPLY:
 			{
 				if (!m_customPopup) PopupThreadLock();
-				//RECT rc = renderInfo.textRect;
-				//MapWindowPoints(hwnd, NULL, (LPPOINT)&rc, 2);
+				// RECT rc = renderInfo.textRect;
+				// MapWindowPoints(hwnd, NULL, (LPPOINT)&rc, 2);
 				RECT rc; GetWindowRect(m_hwnd, &rc);
 
 				HWND hwndEditBox = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST,

@@ -63,7 +63,7 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 		SIZE szText, szSpace;
 		LPTSTR wname = mir_a2t(name);
 		TCHAR *str = TranslateTS(wname);
-		GetTextExtentPoint32(hdc, str, mir_tstrlen(str), &szText);
+		GetTextExtentPoint32(hdc, str, (int)mir_tstrlen(str), &szText);
 		mir_free(wname);
 		GetTextExtentPoint32(hdc, _T(" "), 1, &szSpace);
 
@@ -126,7 +126,7 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 
 		LPTSTR wname = mir_a2t(name);
 		TCHAR *str = TranslateTS(wname);
-		GetTextExtentPoint32(bmp->getDC(), str, mir_tstrlen(str), &szText);
+		GetTextExtentPoint32(bmp->getDC(), str, (int)mir_tstrlen(str), &szText);
 		bmp->Draw_Text(str,
 			(PopupOptions.actions&ACT_LARGE) ? (x + szSpace.cx + 32) : (x + szSpace.cx + 16),
 			max(y + 2, y + 2 + (((PopupOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy) / 2));
@@ -180,7 +180,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 			if ((head->type & ST_TYPEMASK) == ST_CLOCK)
 				break;
 
-	if (head && head->myBmp) {//layerd clock
+	if (head && head->myBmp) { // layerd clock
 		SIZE szNew;
 		szNew.cx = head->clocksize[CLOCK_LEFT] + head->clocksize[CLOCK_RIGHT];
 		szNew.cy = head->myBmp->getHeight();
@@ -194,9 +194,9 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 		wnd->getArgs()->add("clock.height", szNew.cy);
 		STYLE_SZ_CLOCK = szNew.cx;
 	}
-	else { //normal clock
+	else { // normal clock
 		HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), mir_tstrlen(wnd->getTime()), &sz);
+		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), (int)mir_tstrlen(wnd->getTime()), &sz);
 		SelectObject(hdc, hfnSave);
 		wnd->getArgs()->add("clock.width", sz.cx + 2 * STYLE_SZ_GAP);
 		wnd->getArgs()->add("clock.height", sz.cy);
@@ -239,7 +239,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 					case PopupWnd2::TT_UNICODE:
 						{
 							RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-							DrawTextEx(hdc, wnd->getText(), mir_tstrlen(wnd->getText()), &rc,
+							DrawTextEx(hdc, wnd->getText(), (int)mir_tstrlen(wnd->getText()), &rc,
 								DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 							szNew.cx = rc.right;
 							szNew.cy = rc.bottom;
@@ -282,7 +282,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 				case PopupWnd2::TT_UNICODE:
 					{
 						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-						DrawTextEx(hdc, wnd->getTitle(), mir_tstrlen(wnd->getTitle()), &rc,
+						DrawTextEx(hdc, wnd->getTitle(), (int)mir_tstrlen(wnd->getTitle()), &rc,
 							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 						szNew.cx = rc.right;
 						szNew.cy = rc.bottom;
@@ -344,7 +344,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 			}
 			else {
 				HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-				SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), mir_tstrlen(wnd->getTime()), &sz);
+				SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), (int)mir_tstrlen(wnd->getTime()), &sz);
 				SelectObject(hdc, hfnSave);
 				wnd->getArgs()->add("clock.width", sz.cx + 2 * STYLE_SZ_GAP);
 				wnd->getArgs()->add("clock.height", sz.cy);
@@ -438,7 +438,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 	}
 	else {
 		HFONT hfnSave = (HFONT)SelectObject(hdc, fonts.clock);
-		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), mir_tstrlen(wnd->getTime()), &sz);
+		SIZE sz; GetTextExtentPoint32(hdc, wnd->getTime(), (int)mir_tstrlen(wnd->getTime()), &sz);
 		SelectObject(hdc, hfnSave);
 		STYLE_SZ_CLOCK = sz.cx + 2 * STYLE_SZ_GAP;
 	}
@@ -502,7 +502,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 					case PopupWnd2::TT_UNICODE:
 					{
 						RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-						DrawTextEx(hdc, wnd->getText(), mir_tstrlen(wnd->getText()), &rc,
+						DrawTextEx(hdc, wnd->getText(), (int)mir_tstrlen(wnd->getText()), &rc,
 							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 					}
 						break;
@@ -551,7 +551,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 				{
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
 					RECT rc; SetRect(&rc, pos.x, pos.y, pos.x + sz.cx, pos.y + sz.cy);
-					DrawTextEx(hdc, wnd->getTitle(), mir_tstrlen(wnd->getTitle()), &rc,
+					DrawTextEx(hdc, wnd->getTitle(), (int)mir_tstrlen(wnd->getTitle()), &rc,
 						DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 					SelectObject(hdc, hFntSave);
 				}
@@ -691,7 +691,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 						SetTextColor(hdc, wnd->getClockColor());
 
 					HFONT hfnSave = (HFONT)SelectObject(bmp->getDC(), fonts.clock);
-					SIZE sz; GetTextExtentPoint32(bmp->getDC(), wnd->getTime(), mir_tstrlen(wnd->getTime()), &sz);
+					SIZE sz; GetTextExtentPoint32(bmp->getDC(), wnd->getTime(), (int)mir_tstrlen(wnd->getTime()), &sz);
 					bmp->Draw_Text(wnd->getTime(), x, y);
 					SelectObject(bmp->getDC(), hfnSave);
 				}

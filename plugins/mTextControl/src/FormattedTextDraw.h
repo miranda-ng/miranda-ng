@@ -11,7 +11,7 @@
 #define HOST_BORDER 0
 #endif
 
-typedef struct tagCOOKIE
+struct COOKIE
 {
 	bool isUnicode;
 	union
@@ -19,9 +19,8 @@ typedef struct tagCOOKIE
 		char *ansi;
 		WCHAR *unicode;
 	};
-	DWORD dwSize;
-	DWORD dwCount;
-} COOKIE, *PCOOKIE;
+	size_t cbSize, cbCount;
+};
 
 extern HRESULT	(WINAPI *MyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
 

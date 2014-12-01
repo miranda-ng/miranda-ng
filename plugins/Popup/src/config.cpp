@@ -23,10 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-//===== General Plugin =====
+// ===== General Plugin =====
 HINSTANCE hInst;
 HANDLE hMainThread;
-//MNOTIFYLINK *notifyLink;	//deprecatet
+// MNOTIFYLINK *notifyLink;	// deprecatet
 
 HANDLE hSemaphore;
 BOOL closing = FALSE;
@@ -35,17 +35,17 @@ HANDLE folderId;
 BOOL gbPopupLoaded  = FALSE;
 BOOL gbHppInstalled = FALSE;
 
-//===== Brushes, Colours and Fonts =====
+// ===== Brushes, Colours and Fonts =====
 HBITMAP hbmNoAvatar;
 
-//===== Options =====
+// ===== Options =====
 POPUPOPTIONS PopupOptions;
-//SKINELEMENT *skin;
-//SKINELEMENT *w_skin;
-//SKINELEMENT *n_skin;
+// SKINELEMENT *skin;
+// SKINELEMENT *w_skin;
+// SKINELEMENT *n_skin;
 
 
-//===== Plugin information =====
+// ===== Plugin information =====
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -58,23 +58,23 @@ PLUGININFOEX pluginInfoEx =
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {26A9125D-7863-4E01-AF0E-D14EF95C5054}
+	//  {26A9125D-7863-4E01-AF0E-D14EF95C5054}
 	{0x26a9125d, 0x7863, 0x4e01, {0xaf, 0xe, 0xd1, 0x4e, 0xf9, 0x5c, 0x50, 0x54}}
 };
 
 
 HRESULT		(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 
-//====== Common Vars ========================
+// ====== Common Vars ========================
 
-// common funcs
+//  common funcs
 void LoadOptions() {
 	memset(&PopupOptions, 0, sizeof(PopupOptions));
 	#if defined(_DEBUG)
 		PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
 	#endif
 
-	//Load Popup Options
+	// Load Popup Options
 	if (!OptionLoaded){
 		LoadOption_General();
 		LoadOption_Skins();
@@ -106,7 +106,7 @@ void PopupPreview()
 	ppd.lptzText	= lptzText1Eng;
 	ppd.lchIcon		= LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); // Pause
 
 	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize		= sizeof(ppd);
@@ -117,13 +117,13 @@ void PopupPreview()
 	ppd.hbmAvatar	= hbmNoAvatar;
 
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); // Pause
 
 	PUShowMessageT(TranslateT("This is a notification message"),	(DWORD)SM_NOTIFY|0x80000000);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); // Pause
 
 	PUShowMessageT(TranslateT("This is a warning message"),			(DWORD)SM_WARNING|0x80000000);
-	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
+	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); // Pause
 
 	PUShowMessageT(TranslateT("This is an error message"),			(DWORD)SM_ERROR|0x80000000);
 }
