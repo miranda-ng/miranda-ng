@@ -482,7 +482,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 			yearFrom = 0;
 		else
 			yearFrom = ay - yearFrom;
-		mir_sntprintf(text, sizeof(text), _T("%d %d"), yearFrom, yearTo);
+		mir_sntprintf(text, SIZEOF(text), _T("%d %d"), yearFrom, yearTo);
 
 		char *age_utf8 = mir_utf8encodeT(text);
 		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);

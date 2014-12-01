@@ -515,7 +515,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	newNudge->item.hEvent = hevent;
 
 	TCHAR soundDesc[MAXMODULELABELLENGTH + 10];
-	mir_sntprintf(soundDesc, sizeof(soundDesc), LPGENT("Nudge for %s"), proto->tszAccountName);
+	mir_sntprintf(soundDesc, SIZEOF(soundDesc), LPGENT("Nudge for %s"), proto->tszAccountName);
 	SkinAddNewSoundExT(newNudge->item.NudgeSoundname, LPGENT("Nudge"), soundDesc);
 
 	newNudge->next = NudgeList;

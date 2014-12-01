@@ -46,7 +46,7 @@ GenericJob::~GenericJob()
 int GenericJob::openFileDialog() 
 {
 	TCHAR temp[MAX_PATH] = _T("");
-	mir_sntprintf(temp, sizeof(temp), _T("%s\0*.*\0"), TranslateT("All Files (*.*)"));
+	mir_sntprintf(temp, SIZEOF(temp), _T("%s\0*.*\0"), TranslateT("All Files (*.*)"));
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = 0;

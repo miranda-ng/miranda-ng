@@ -77,7 +77,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lP
 
 	/* insert */
 	TCHAR tszName[512];
-	mir_sntprintf(tszName, sizeof(tszName), _T("%s [%s]"),
+	mir_sntprintf(tszName, SIZEOF(tszName), _T("%s [%s]"),
 		TranslateTS(pack->tszLanguage),
 		pack->flags & LPF_DEFAULT ? TranslateT("built-in") : pack->tszFileName);
 	UINT message = pack->flags & LPF_DEFAULT ? CB_INSERTSTRING : CB_ADDSTRING;

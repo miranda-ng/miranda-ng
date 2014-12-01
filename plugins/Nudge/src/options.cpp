@@ -128,7 +128,7 @@ static INT_PTR CALLBACK DlgProcShakeOpt(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 		{
 			TCHAR szBuf[20];
 			DWORD dwPos = SendMessage((HWND)lParam, TBM_GETPOS, 0, 0);
-			mir_sntprintf(szBuf, sizeof(szBuf), _T("%d"), dwPos);
+			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%d"), dwPos);
 			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SNUMBER_CLIST))
 				SetDlgItemText(hwnd, IDC_LNUMBER_CLIST, szBuf);
 			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SNUMBER_CHAT))

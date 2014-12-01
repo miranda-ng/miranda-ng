@@ -108,9 +108,9 @@ static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
 		mi.ptszName = FAVMENUROOTNAME;
 	else {
 		TCHAR *str1 = TranslateTS(FAVMENUROOTNAME), *str2 = TranslateTS(rates[bContactRate]);
-		int bufsize = (mir_tstrlen(str1) + mir_tstrlen(str2) + 15) * sizeof(TCHAR);
+		size_t bufsize = (mir_tstrlen(str1) + mir_tstrlen(str2) + 15) * sizeof(TCHAR);
 		TCHAR *name = (TCHAR *)_alloca(bufsize);
-		mir_sntprintf(name, bufsize / sizeof(TCHAR), _T("%s (%s)"), str1, str2);
+		mir_sntprintf(name, (bufsize / sizeof(TCHAR)), _T("%s (%s)"), str1, str2);
 		mi.ptszName = name;
 		mi.flags |= CMIF_KEEPUNTRANSLATED;
 	}

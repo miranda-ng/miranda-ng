@@ -475,7 +475,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				for (done = 0, i = 0; i < SIZEOF(dat->hUpload); i++)
 					done += dat->hUpload[i] == NULL;
 				TCHAR buf[MAX_PATH];
-				mir_sntprintf(buf, sizeof(buf), TranslateT("Upload in progress...%d%%"), 100 * done / (SIZEOF(dat->hUpload)));
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Upload in progress...%d%%"), 100 * done / (SIZEOF(dat->hUpload)));
 				SetDlgItemText(hwndDlg, IDC_UPLOADING, buf);
 				if (done < SIZEOF(dat->hUpload)) break;
 
