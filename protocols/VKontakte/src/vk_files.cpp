@@ -43,8 +43,8 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	if (filetype != typeInvalid)
 		return filetype;
 	
-	TCHAR img[] = L".jpg .jpeg .png .bmp";
-	TCHAR audio[] = L".mp3";
+	TCHAR img[] = _T(".jpg .jpeg .png .bmp");
+	TCHAR audio[] = _T(".mp3");
 	
 	TCHAR  DRIVE[3], DIR[256], FNAME[256], EXT[256];
 	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
@@ -81,7 +81,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const PROTOCHAR *desc, PROTOCHAR **
 
 void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 {
-	debugLog(L"CVkProto::SendFileFiled <%s> Error code <%d>", reason, fup->iErrorCode);
+	debugLog(_T("CVkProto::SendFileFiled <%s> Error code <%d>"), reason, fup->iErrorCode);
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup, 0);
 	CMString tszError;
 	switch (fup->iErrorCode){
@@ -119,13 +119,13 @@ void CVkProto::SendFileFiled(CVkFileUploadParam *fup, TCHAR *reason)
 void CVkProto::SendFileThread(void *p)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)p;
-	debugLog(L"CVkProto::SendFileThread %d %s", fup->GetType(), fup->fileName());
+	debugLog(_T("CVkProto::SendFileThread %d %s"), fup->GetType(), fup->fileName());
 	if (!IsOnline()){
-		SendFileFiled(fup, L"NotOnline");
+		SendFileFiled(fup, _T("NotOnline"));
 		return;
 	}
 	if (!fup->IsAccess()){
-		SendFileFiled(fup, L"FileIsNotAccess");
+		SendFileFiled(fup, _T("FileIsNotAccess"));
 		return;
 	}
 
@@ -144,7 +144,7 @@ void CVkProto::SendFileThread(void *p)
 			<< VER_API;
 		break;
 	default:
-		SendFileFiled(fup, L"FileTypeNotSupported");
+		SendFileFiled(fup, _T("FileTypeNotSupported"));
 		return;
 	}
 	pReq->pUserInfo = p;
@@ -155,13 +155,13 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()){
-		SendFileFiled(fup, L"NotOnline");
+		SendFileFiled(fup, _T("NotOnline"));
 		return;
 	}
 
 	debugLogA("CVkProto::OnReciveUploadServer %d", reply->resultCode);
 	if (reply->resultCode != 200){
-		SendFileFiled(fup, L"NotUploadServer");
+		SendFileFiled(fup, _T("NotUploadServer"));
 		return;
 	}
 
@@ -180,7 +180,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	
 	FILE *pFile = _tfopen(fup->FileName, _T("rb"));
 	if (pFile == NULL){
-		SendFileFiled(fup, L"ErrorOpenFile");
+		SendFileFiled(fup, _T("ErrorOpenFile"));
 		return;
 	}
 
@@ -239,7 +239,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()){
-		SendFileFiled(fup, L"NotOnline");
+		SendFileFiled(fup, _T("NotOnline"));
 		return;
 	}
 
@@ -261,8 +261,8 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	switch (fup->GetType()){
 	case CVkFileUploadParam::typeImg:
 		upload = json_as_string(json_get(pRoot, "photo"));
-		if (upload == L"[]"){
-			SendFileFiled(fup, L"NotUpload Photo");
+		if (upload == _T("[]")){
+			SendFileFiled(fup, _T("NotUpload Photo"));
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile)
 			<< TCHAR_PARAM("server", server)
@@ -272,8 +272,8 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		break;
 	case CVkFileUploadParam::typeAudio:
 		upload = json_as_string(json_get(pRoot, "audio"));
-		if (upload == L"[]"){
-			SendFileFiled(fup, L"NotUpload Audio");
+		if (upload == _T("[]")){
+			SendFileFiled(fup, _T("NotUpload Audio"));
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.save.json", true, &CVkProto::OnReciveUploadFile)
@@ -285,7 +285,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	case CVkFileUploadParam::typeDoc:
 		upload = json_as_string(json_get(pRoot, "file"));
 		if (upload.IsEmpty()){
-			SendFileFiled(fup, L"NotUpload Doc");
+			SendFileFiled(fup, _T("NotUpload Doc"));
 			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.save.json", true, &CVkProto::OnReciveUploadFile)
@@ -306,7 +306,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 {
 	CVkFileUploadParam *fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	if (!IsOnline()){
-		SendFileFiled(fup, L"NotOnline");
+		SendFileFiled(fup, _T("NotOnline"));
 		return;
 	}
 
@@ -334,13 +334,13 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 
 	switch (fup->GetType()){
 	case CVkFileUploadParam::typeImg:
-		Attachment.AppendFormat(L"photo%d_%d", owner_id, id);
+		Attachment.AppendFormat(_T("photo%d_%d"), owner_id, id);
 		break;
 	case CVkFileUploadParam::typeAudio:
-		Attachment.AppendFormat(L"audio%d_%d", owner_id, id);
+		Attachment.AppendFormat(_T("audio%d_%d"), owner_id, id);
 		break;
 	case CVkFileUploadParam::typeDoc:
-		Attachment.AppendFormat(L"doc%d_%d", owner_id, id);
+		Attachment.AppendFormat(_T("doc%d_%d"), owner_id, id);
 		break;
 	default:
 		SendFileFiled(fup);

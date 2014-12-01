@@ -216,7 +216,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		recv.tszMessage = ptszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
-		recv.cbCustomDataSize = (int)strlen(szMid);
+		recv.cbCustomDataSize = (int)mir_strlen(szMid);
 		ProtoChainRecvMsg(hContact, &recv);
 		count++;
 	}
