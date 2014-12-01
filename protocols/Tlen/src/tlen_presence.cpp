@@ -121,17 +121,19 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						status = ID_STATUS_INVISIBLE;
 					}
 					p = TlenTextDecode(statusNode->text);
-					TlenListAddResource(proto, LIST_ROSTER, from, status, p);
-					if ((hContact=TlenHContactFromJID(proto, from)) != NULL) {
-						if (p != NULL && *p) {
-							char* statusMsg_utf8 = mir_utf8encode(p);
-							db_set_utf(hContact, "CList", "StatusMsg", statusMsg_utf8);
-							mir_free(statusMsg_utf8);
-						} else {
-							db_unset(hContact, "CList", "StatusMsg");
-						}
+				}
+				else
+					p = NULL;
+				TlenListAddResource(proto, LIST_ROSTER, from, status, p);
+				if ((hContact=TlenHContactFromJID(proto, from)) != NULL) {
+					if (p != NULL && *p) {
+						char* statusMsg_utf8 = mir_utf8encode(p);
+						db_set_utf(hContact, "CList", "StatusMsg", statusMsg_utf8);
+						mir_free(statusMsg_utf8);
+						mir_free(p);
+					} else {
+						db_unset(hContact, "CList", "StatusMsg");
 					}
-					if (p) mir_free(p);
 				}
 				if ((item=TlenListGetItemPtr(proto, LIST_ROSTER, from)) != NULL) {
 					// Determine status to show for the contact based on the remaining resources
