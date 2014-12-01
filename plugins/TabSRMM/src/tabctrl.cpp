@@ -1,32 +1,31 @@
-/*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * a custom tab control, skinable, aero support, single/multi row, button
- * tabs support, proper rendering for bottom row tabs and more.
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// a custom tab control, skinable, aero support, single/multi row, button
+// tabs support, proper rendering for bottom row tabs and more.
 
 #include "commonheaders.h"
 
@@ -732,7 +731,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 			rcClient.top = rctPage.top;
 		if (PluginConfig.m_fillColor)
 			DrawCustomTabPage(hdc, rcClient);
-		else 
+		else
 			DrawThemesXpTabItem(hdc, -1, &rcClient, uiFlags, tabdat, 0);	// TABP_PANE=9,0,'TAB'
 		if (tabdat->bRefreshWithoutClip)
 			goto skip_tabs;
@@ -1207,7 +1206,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				}
 			}
 		}
-	
+
 		if (tabdat->fCloseButton) {
 			GetCursorPos(&pt);
 			if (TabCtrl_TestForCloseButton(tabdat, hwnd, pt) != -1)
@@ -1303,7 +1302,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				int nItem = GetTabItemFromMouse(hwnd, &pt);
 				if (nItem >= 0 && nItem < TabCtrl_GetItemCount(hwnd)) {
 					TabCtrl_GetItem(hwnd, nItem, &item);
-	
+
 					/*
 					 * get the message window data for the session to which this tab item belongs
 					 */
@@ -1461,7 +1460,7 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					db_set_dw(0, SRMSGMOD_T, "fixedwidth", fixedWidth);
 					FreeTabConfig();
 					ReloadTabConfig();
-			
+
 					for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
 						TabCtrl_SetPadding(GetDlgItem(p->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
 						RedrawWindow(GetDlgItem(p->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);

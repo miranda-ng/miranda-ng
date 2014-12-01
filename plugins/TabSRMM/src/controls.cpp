@@ -1,31 +1,30 @@
-/*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * Menu and status bar control(s) for the container window.
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// Menu and status bar control(s) for the container window.
 
 #include "commonheaders.h"
 
@@ -128,7 +127,7 @@ void CMenuBar::releaseHook()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Retrieve the height of the rebar control
-// 
+//
 // @return LONG: height of the rebar, in pixels
 
 LONG CMenuBar::getHeight() const
@@ -139,11 +138,11 @@ LONG CMenuBar::getHeight() const
 /////////////////////////////////////////////////////////////////////////////////////////
 // process all relevant messages. Must be called by the parent window's
 // window procedure.
-// 
+//
 // @param msg
 // @param wParam
 // @param lParam
-// 
+//
 // @return LRESULT: message processing result. Win32 conform.
 //  -1 means: nothing processed, caller should continue as usual.
 
@@ -212,12 +211,12 @@ LRESULT CALLBACK CMenuBar::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Implements NM_CUSTOMDRAW for the toolbar
-// 
+//
 // @param nm     NMCUSTOMDRAW *: sent via NM_CUSTOMDRAW message
-// 
+//
 // @return LONG_PTR: see Win32 NM_CUSTOMDRAW message. The function must return a valid
 // message return value to indicate how Windows should continue with the drawing process.
-// 
+//
 // It may return zero in which case, the caller should allow default processing for
 // the NM_CUSTOMDRAW message.
 
@@ -267,7 +266,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 				}
 				return CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE;
 			}
-			
+
 			m_hdcDraw = 0;
 			return CDRF_DODEFAULT;
 
@@ -313,13 +312,13 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 
 				if (szText) {
 					COLORREF clr = CSkin::m_skinEnabled ? CSkin::m_DefaultFontColor :
-						(PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor : 
+						(PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor :
 						(uState & (CDIS_SELECTED | CDIS_HOT | CDIS_MARKED)) ? ::GetSysColor(COLOR_HIGHLIGHTTEXT) : ::GetSysColor(COLOR_BTNTEXT));
 
 					::SetBkMode(m_hdcDraw, TRANSPARENT);
 					CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER, CSkin::m_glowSize, clr);
 				}
-				if (iIndex == 0) 
+				if (iIndex == 0)
 					::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,
 					(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
 					16, 16, 0, 0, DI_NORMAL);
@@ -362,9 +361,9 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Handle the TBN_DROPDOWN notification message sent by the
 // toolbar control.
-// 
+//
 // @param nmtb   NMTOOLBAR *: notification message structure
-// 
+//
 // @return LONG_PTR: must be a valid return value. See Win32 API, TBN_DROPDOWN
 
 LONG_PTR CMenuBar::Handle(const NMTOOLBAR *nmtb)
@@ -475,10 +474,10 @@ void CMenuBar::updateState(const HMENU hMenu) const
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// this updates the container menu bar and other window elements depending on the current 
-// child session (IM, chat etc.). It fully supports IEView and will disable/enable the 
+// this updates the container menu bar and other window elements depending on the current
+// child session (IM, chat etc.). It fully supports IEView and will disable/enable the
 // message log menus depending on the configuration of IEView (e.g. when template mode
-// is on, the message log settin menus have no functionality, thus can be disabled to 
+// is on, the message log settin menus have no functionality, thus can be disabled to
 // improve ui feedback quality).
 
 void CMenuBar::configureMenu() const
@@ -590,7 +589,7 @@ void CMenuBar::checkButtons()
 
 		m_buttonsInit = true;
 	}
-	
+
 	::SendMessage(m_hwndToolbar, TB_ADDBUTTONS, SIZEOF(m_TbButtons), (LPARAM)m_TbButtons);
 
 	m_size_y = HIWORD(::SendMessage(m_hwndToolbar, TB_GETBUTTONSIZE, 0, 0));
@@ -614,9 +613,9 @@ void CMenuBar::resetLP()
 // Message hook function, installed by the menu handler to support
 // hot-tracking and keyboard navigation for the menu bar while a modal
 // popup menu is active.
-// 
+//
 // Hook is only active while a (modal) popup menu is processed.
-// 
+//
 // @params See Win32, message hooks
 
 LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
@@ -690,14 +689,14 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		GetClassInfoEx(g_hInst, STATUSCLASSNAME, &wc);
 		OldStatusBarproc = wc.lpfnWndProc;
 	}
-	
+
 	switch (msg) {
 	case WM_CREATE:
 		LRESULT ret;
 		{
 			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
 			HWND hwndParent = GetParent(hWnd);
-			
+
 			// dirty trick to get rid of that annoying sizing gripper
 			SetWindowLongPtr(hwndParent, GWL_STYLE, GetWindowLongPtr(hwndParent, GWL_STYLE) & ~WS_THICKFRAME);
 			SetWindowLongPtr(hwndParent, GWL_EXSTYLE, GetWindowLongPtr(hwndParent, GWL_EXSTYLE) & ~WS_EX_APPWINDOW);
@@ -780,7 +779,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					CSkin::m_switchBarItem->Render(hdcMem, &rcFrame, true);
 				}
 			}
-			
+
 			for (int i = 0; i < nParts; i++) {
 				RECT itemRect;
 				SendMessage(hWnd, SB_GETRECT, (WPARAM)i, (LPARAM)&itemRect);
@@ -795,7 +794,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					if (dat && dat->bType == SESSIONTYPE_IM) {
 						HBRUSH br = CreateSolidBrush(RGB(0, 255, 0));
 						HBRUSH brOld = (HBRUSH)SelectObject(hdcMem, br);
-						
+
 						RECT rc = itemRect;
 						rc.top = rc.bottom - 3;
 						rc.left = 0;

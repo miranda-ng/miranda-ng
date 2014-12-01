@@ -1,31 +1,30 @@
-/*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * generic utility functions
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// generic utility functions
 
 #include "commonheaders.h"
 
@@ -121,7 +120,7 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 					message[beginmark] = ' ';
 					continue;
 				}
-				
+
 				tstring colorname = message.substr(beginmark + 7, 8);
 search_again:
 				bool clr_found = false;
@@ -677,7 +676,7 @@ void Utils::ContainerToSettings(TContainerData *pContainer)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // read settings for a container with private settings enabled.
-// 
+//
 // @param pContainer	container window info struct
 // @param fForce		true -> force them private, even if they were not marked as private in the db
 
@@ -722,7 +721,7 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // calculate new width and height values for a user picture (avatar)
-// 
+//
 // @param: maxHeight -	determines maximum height for the picture, width will
 // 					be scaled accordingly.
 
@@ -754,7 +753,7 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
 /////////////////////////////////////////////////////////////////////////////////////////
 // convert the avatar bitmap to icon format so that it can be used on the task bar
 // tries to keep correct aspect ratio of the avatar image
-// 
+//
 // @param dat: _MessageWindowData* pointer to the window data
 // @return HICON: the icon handle
 
@@ -839,7 +838,7 @@ void Utils::getIconSize(HICON hIcon, int& sizeX, int& sizeY)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // add a menu item to a ownerdrawn menu. mii must be pre-initialized
-// 
+//
 // @param m			menu handle
 // @param mii		menu item info structure
 // @param hIcon		the icon (0 allowed -> no icon)
@@ -946,7 +945,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszNam
 			if (!fForceOverwrite)
 				if (PathFileExists(szFilename))
 					return true;
-			
+
 			HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
 			if (hFile == INVALID_HANDLE_VALUE)
 				return false;
@@ -1011,7 +1010,7 @@ LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, 
 /////////////////////////////////////////////////////////////////////////////////////////
 // filters out invalid characters from a string used as part of a file
 // or folder name. All invalid characters will be replaced by spaces.
-// 
+//
 // @param tszFilename - string to filter.
 
 void Utils::sanitizeFilename(wchar_t* tszFilename)
@@ -1040,7 +1039,7 @@ void Utils::ensureTralingBackslash(wchar_t *szPathname)
 /////////////////////////////////////////////////////////////////////////////////////////
 // load a system library from the Windows system path and return its module
 // handle.
-// 
+//
 // return 0 and throw an exception if something goes wrong.
 
 HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)

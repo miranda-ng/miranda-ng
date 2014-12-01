@@ -1,34 +1,33 @@
-/*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * global/local message log options
- * local (per user) template overrides
- * view mode (ieview/default)
- * text formatting
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// global/local message log options
+// local (per user) template overrides
+// view mode (ieview/default)
+// text formatting
 
 #include "commonheaders.h"
 
@@ -352,7 +351,7 @@ int TSAPI LoadLocalFlags(HWND hwnd, TWindowData *dat)
 //
 // @params: Win32 window procedure conform
 // @return LRESULT
- 
+
 static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -411,7 +410,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 			state = IsDlgButtonChecked(hwndDlg, IDC_UPREFS_LOGSTATUS);
 			if (state != BST_INDETERMINATE)
 				db_set_b(hContact, SRMSGMOD_T, "logstatuschanges", (BYTE)state);
-	
+
 			if (dwMask) {
 				db_set_dw(hContact, SRMSGMOD_T, "mwmask", dwMask);
 				db_set_dw(hContact, SRMSGMOD_T, "mwflags", dwFlags);
@@ -420,7 +419,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 				db_unset(hContact, SRMSGMOD_T, "mwmask");
 				db_unset(hContact, SRMSGMOD_T, "mwflags");
 			}
-			
+
 			if (hwnd && dat) {
 				if (dwMask)
 					*dwActionToTake |= (DWORD)UPREF_ACTION_REMAKELOG;
