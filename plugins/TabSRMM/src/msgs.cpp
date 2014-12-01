@@ -115,6 +115,9 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 // service function. Sets a status bar text for a contact
 static void SetStatusTextWorker(TWindowData *dat, StatusTextData *st)
 {
+	if (!dat)
+		return;
+
 	// delete old custom data
 	if (dat->sbCustom) {
 		delete dat->sbCustom;
