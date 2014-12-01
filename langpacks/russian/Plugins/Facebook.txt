@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.6
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -33,8 +33,14 @@
 Отмена
 [User details]
 О пользователе
-[Contacts Settings]
-Настройки контактов
+[Network]
+Сеть
+[Force secure (HTTPS) connection]
+Безопасное соединение (HTTPS)
+[Use secure connection also for channel requests]
+Безопасное соединение также для запросов канала
+[Contacts]
+Контакты
 [Default group:]
 Группа:
 [Automatically set 'Ignore status change' flag]
@@ -55,52 +61,54 @@
 Другие события
 [Client notifications]
 Уведомления клиента
+[Use this server for opening links:]
+Тип сайта для открытия ссылок:
 [Use balloon notifications in system tray instead of popups]
 Уведомлять подсказкой в трее вместо всплывающих окон
 [Use logging notifications into special chatroom]
 Запись уведомлений в специальную комнату чата
 [Preview]
 Тест
-[Advanced Settings]
-Расширенные параметры
-[Force secure (HTTPS) connection]
-Безопасное соединение (HTTPS)
+[Statuses]
+Статусы
 [Post Miranda statuses to Wall]
 Публиковать статусы Miranda на стену
-[Use secure connection also for channel requests]
-Безопасное соединение также для запросов канала
 [Turn off chat on Facebook when going to offline in Miranda]
 Отключать чат на сайте при уходе в оффлайн в Miranda NG
 [Map unsupported statuses to Invisible (instead of Online)]
 Неподдерживаемые статусы, как Невидимый (вместо 'В сети')
 [Allow posting statuses to my pages (may slow down login)]
 Разрешить публиковать статусы на своих страницах (замедляет вход)
-[Use this server for opening links:]
-Тип сайта для открытия ссылок:
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Стикеры, как пользовательские смайлы (Экспериментально!)
-[Use local time for received messages]
-Локальное время для принятых сообщений
-[Message sessions]
-Беседы
-[Keep messages as unread on server (don't send "seen" info)]
-Не помечать сообщения на сервере как прочитанные
-[Receive messages from "inbox" folder only]
-Принимать сообщения только из папки "входящие"
-[Load last messages on opening message window (EXPERIMENTAL)]
-Подгружать последние сообщения при открытии окна (Экспериментально)
-[Number of messages to load:]
-Количество подгружаемых сообщений:
-[Do not open chat windows on creation]
-Не открывать окна комнат чата при создании
-[Synchronize last 24 hours on login]
-Синхронизировать историю за последние 24 часа при логине
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
 Инструкция:
 [Submit]
 Передать
+[Messages]
+Сообщения
+[Receive messages from "inbox" folder only]
+Принимать сообщения только из папки "входящие"
+[Use local time for received messages]
+Локальное время для принятых сообщений
+[Keep messages as unread on server (don't send "seen" info)]
+Не помечать сообщения на сервере как прочитанные
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Стикеры, как пользовательские смайлы (Экспериментально!)
+[Multi user chats]
+Многопользовательские чаты
+[Enable multi user chats support]
+Включить поддержку многопользовательских чатов
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
+[History synchronization]
+Синхронизация истории
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+Загрузка сообщений за последние 24 часа при логине (Экспериментально)
+[Load last messages on opening message window (EXPERIMENTAL)]
+Подгружать последние сообщения при открытии окна (Экспериментально)
+[Number of messages to load:]
+Количество подгружаемых сообщений:
 [Enter the text you see]
 Введите текст, который видите
 [Myself]
@@ -243,14 +251,12 @@
 Видеовызов
 [Facebook ID must be numeric value.]
 Значение Facebook ID должно быть числовым.
-[Network]
-Сеть
 [Account]
 Учётная запись
 [Events]
 События
-[Advanced]
-Дополнительно
+[Messaging]
+Сообщения
 [Share status...]
 Статус...
 [Own wall]
