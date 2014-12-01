@@ -473,11 +473,13 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 						participant = participants.find(reader_id);
 						if (participant != participants.end()) {
-							MCONTACT hChatContact = proto->ChatIDToHContact(tid);
-
 							if (!chatroom->message_readers.empty())
 								chatroom->message_readers += ", ";
 							chatroom->message_readers += participant->second;
+
+							MCONTACT hChatContact = proto->ChatIDToHContact(tid);
+							if (!hChatContact)
+								continue;
 
 							ptrT readers(mir_utf8decodeT(chatroom->message_readers.c_str()));
 

@@ -563,12 +563,11 @@ int FacebookProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		MessageRead(event->hContact);
 	} else if (event->uType == MSG_WINDOW_EVT_OPEN) {
 		// Check if we have enabled loading messages on open window
-		if (!getBool(FACEBOOK_KEY_MESSAGES_ON_OPEN, DEFAULT_MESSAGES_ON_OPEN))
+		if (!getBool(FACEBOOK_KEY_MESSAGES_ON_OPEN, DEFAULT_MESSAGES_ON_OPEN) || isChatRoom(event->hContact))
 			return 0;
 
 		// Load last messages for this contact
-		if (!isChatRoom(event->hContact))
-			ForkThread(&FacebookProto::LoadLastMessages, new MCONTACT(event->hContact));
+		ForkThread(&FacebookProto::LoadLastMessages, new MCONTACT(event->hContact));
 	}
 
 	return 0;
