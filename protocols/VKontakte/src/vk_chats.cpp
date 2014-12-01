@@ -28,7 +28,7 @@ static LPCTSTR sttStatuses[] = { LPGENT("Participants"), LPGENT("Owners") };
 
 CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 {
-	debugLog(L"CVkProto::AppendChat");
+	debugLog(_T("CVkProto::AppendChat"));
 	if (id == 0)
 		return NULL;
 
@@ -49,7 +49,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	}
 
 	CMString sid; 
-	sid.Format(L"%S_%d", m_szModuleName, id);
+	sid.Format(_T("%S_%d"), m_szModuleName, id);
 	c->m_tszId = mir_tstrdup(sid);
 
 	GCSESSION gcw = { sizeof(gcw) };
@@ -292,7 +292,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime,
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
 	gce.ptszNick = cu->m_tszNick ? mir_tstrdup(cu->m_tszNick) : mir_tstrdup(TranslateT("Unknown"));
-	gce.ptszText = tszBody.IsEmpty() ? mir_tstrdup(L"...") : mir_tstrdup(tszBody.GetBuffer());
+	gce.ptszText = tszBody.IsEmpty() ? mir_tstrdup(_T("...")) : mir_tstrdup(tszBody.GetBuffer());
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 

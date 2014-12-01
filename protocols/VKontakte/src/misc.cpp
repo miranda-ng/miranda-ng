@@ -174,7 +174,7 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	debugLog(L"CVkProto::OnReceiveSmth %s", json_as_string(pResponse));
+	debugLog(_T("CVkProto::OnReceiveSmth %s"), json_as_string(pResponse));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -224,7 +224,7 @@ static CMStringA getAttr(char *szSrc, LPCSTR szAttrName)
 		return "";
 	}
 
-	p1 += strlen(szAttrName);
+	p1 += mir_strlen(szAttrName);
 	if (p1[0] != '=' || p1[1] != '\"'){
 		*pEnd = '>';
 		return "";
@@ -425,7 +425,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + strlen(szNick) + 5);
+	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + 5);
 	
 	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 
@@ -436,7 +436,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	pCurBlob += sizeof(DWORD); // hContact(DWORD)
 
 	strcpy((char*)pCurBlob, szNick); 
-	pCurBlob += strlen(szNick) + 1;
+	pCurBlob += mir_strlen(szNick) + 1;
 
 	*pCurBlob = '\0';	//firstName
 	pCurBlob++;
@@ -538,8 +538,8 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
 {
 	TCHAR s1[1024], s2[1024];
-	mir_sntprintf(s1, SIZEOF(s1), L"%s", _s1);
-	mir_sntprintf(s2, SIZEOF(s2), L"%s", _s2);
+	mir_sntprintf(s1, SIZEOF(s1), _T("%s"), _s1);
+	mir_sntprintf(s2, SIZEOF(s2), _T("%s"), _s2);
 	CharLowerBuff(s1, SIZEOF(s1));
 	CharLowerBuff(s2, SIZEOF(s2));
 	return _tcsstr(s1, s2) != NULL;
@@ -574,7 +574,7 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 		return;
 
 	TCHAR ttime[64];
-	_tcsftime(ttime, SIZEOF(ttime), L"%X", localtime(&time));
+	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&time));
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
@@ -591,8 +591,8 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 	iRes = sscanf(Msg, "[sticker:%d]", &stickerid);
 	if (iRes == 1){
 		mir_snprintf(HeadMsg, 32, "[sticker:%d]", stickerid);
-		size_t retLen = strlen(HeadMsg);
-		if (retLen < strlen(Msg))
+		size_t retLen = mir_strlen(HeadMsg);
+		if (retLen < mir_strlen(Msg))
 			retMsg = mir_strdup(&Msg[retLen]); 
 		return retMsg;
 	}

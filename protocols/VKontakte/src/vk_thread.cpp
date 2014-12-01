@@ -95,7 +95,7 @@ void CVkProto::OnLoggedOut()
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	bool bOnline = false;
-	for (int i=0; i < vk_Instances.getCount(); i++)
+	for (int i = 0; i < vk_Instances.getCount(); i++)
 		bOnline = bOnline || vk_Instances[i]->IsOnline();
 	if(!bOnline)
 		CallFunctionAsync(VKUnsetTimer, this);
@@ -110,8 +110,8 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		return;
 
 	int iOldStatus = m_iStatus;
-	CMString oldStatusMsg = db_get_tsa(0, m_szModuleName, "OldStatusMsg");
-	CMString ListeningToMsg = db_get_tsa(0, m_szModuleName, "ListeningTo");
+	CMString oldStatusMsg = db_get_tsa(NULL, m_szModuleName, "OldStatusMsg");
+	CMString ListeningToMsg = db_get_tsa(NULL, m_szModuleName, "ListeningTo");
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = ID_STATUS_OFFLINE;
@@ -179,7 +179,8 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 				Push(pReq);
 			}
 		}
-		else ConnectionFailed(LOGINERR_NOSERVER);
+		else 
+			ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
 
@@ -297,8 +298,8 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 	tszValue = json_as_string(json_get(pItem, "bdate"));
 	if (!tszValue.IsEmpty()) {
 		int d, m, y, iReadCount;
-		iReadCount = _stscanf(tszValue.GetBuffer(), L"%d.%d.%d", &d, &m, &y);
-		if (iReadCount> 1) {
+		iReadCount = _stscanf(tszValue.GetBuffer(), _T("%d.%d.%d"), &d, &m, &y);
+		if (iReadCount > 1) {
 			setByte(hContact, "BirthDay", d);
 			setByte(hContact, "BirthMonth", m);
 			if (iReadCount == 3)
@@ -336,6 +337,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 	tszValue = json_as_string(json_get(pItem, "mobile_phone"));
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "Cellular", tszValue.GetBuffer());
+	
 	tszValue = json_as_string(json_get(pItem, "home_phone"));
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "Phone", tszValue.GetBuffer());
@@ -374,8 +376,9 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	debugLogA("CVkProto::RetrieveUserInfo (%d)", userID);
 	if (!IsOnline())
 		return;
+	
 	CMString userIDs, code;
-	userIDs.AppendFormat(L"%i", userID);
+	userIDs.AppendFormat(_T("%i"), userID);
 	CMString codeformat("var userIDs=\"%s\";"
 		"return{\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};");
 		
@@ -398,7 +401,7 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 			continue;
 		if (!userIDs.IsEmpty())
 			userIDs.AppendChar(',');
-		userIDs.AppendFormat(L"%i", userID);
+		userIDs.AppendFormat(_T("%i"), userID);
 	}
 
 	CMString codeformat("var userIDs=\"%s\";");
@@ -516,7 +519,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	JSONNODE *pItems = json_get(pResponse, "items");
 
 	if (pItems)
-		for (int i = 0; i<iCount; i++) {
+		for (int i = 0; i < iCount; i++) {
 			MCONTACT hContact = SetContactInfo(json_at(pItems, i), true);
 
 			if (hContact == NULL || hContact == INVALID_CONTACT_ID)
@@ -659,7 +662,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		recv.tszMessage = ptszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;
-		recv.cbCustomDataSize = (int)strlen(szMid);
+		recv.cbCustomDataSize = (int)mir_strlen(szMid);
 		Sleep(100);
 		if (!CheckMid(mid)){
 			ProtoChainRecvMsg(hContact, &recv);
@@ -905,7 +908,7 @@ int CVkProto::PollServer()
 			ShutdownSession();
 			return 0;
 		}	
-	} while (true);
+	} while (iPollConnRetry && !m_bTerminated);
 	
 	mir_free(szUrl);
 
@@ -960,17 +963,17 @@ void CVkProto::PollingThread(void*)
 void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveStatus %d", reply->resultCode);
-	if (reply->resultCode == 200){
-		JSONROOT pRoot;
-		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-		if (pResponse != NULL){
-			JSONNODE *pAudio = json_get(pResponse, "audio");
-			if (pAudio == NULL){
-				CMString StatusText = json_as_string(json_get(pResponse, "text"));
-				if (StatusText.GetBuffer()[0] != TCHAR(9835))
-					setTString("OldStatusMsg", StatusText.GetBuffer());
-			}
-		}
+	if (reply->resultCode != 200)
+		return;
+	JSONROOT pRoot;
+	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+	if (pResponse == NULL)
+		return;
+	JSONNODE *pAudio = json_get(pResponse, "audio");
+	if (pAudio == NULL){
+		CMString StatusText = json_as_string(json_get(pResponse, "text"));
+		if (StatusText.GetBuffer()[0] != TCHAR(9835))
+			setTString("OldStatusMsg", StatusText.GetBuffer());
 	}
 }
 
@@ -979,6 +982,7 @@ void CVkProto::RetrieveStatusMsg(const CMString &StatusMsg)
 	debugLogA("CVkProto::RetrieveStatusMsg");
 	if (!IsOnline())
 		return;
+
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.set.json", true, &CVkProto::OnReceiveSmth)
 		<< TCHAR_PARAM("text", StatusMsg)
 		<< VER_API);
@@ -1003,12 +1007,12 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 	else {
 		if (m_iMusicSendMetod == sendBroadcastOnly){
 			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var OldMsg=API.status.get();"
-				"var Tracks = API.audio.search({\"q\":StatusMsg,\"count\":CntLmt, \"search_own\":1});"
-				"var Cnt=Tracks.count;if (Cnt>CntLmt){Cnt=CntLmt;}"
-				"if (Cnt == 0){API.audio.setBroadcast();}"
-				"else{var i = 0;var j = 0;var Track=\" \";"
-				"while (i<Cnt){Track=Tracks.items[i].artist+\" - \"+Tracks.items[i].title;if(Track == StatusMsg){j = i;}i=i+1;}"
-				"Track=Tracks.items[j].owner_id + \"_\" + Tracks.items[j].id;API.audio.setBroadcast({\"audio\":Track});"
+				"var Tracks=API.audio.search({\"q\":StatusMsg,\"count\":CntLmt,\"search_own\":1});"
+				"var Cnt=Tracks.count;if(Cnt>CntLmt){Cnt=CntLmt;}"
+				"if(Cnt==0){API.audio.setBroadcast();}"
+				"else{var i=0;var j=0;var Track=\" \";"
+				"while (i<Cnt){Track=Tracks.items[i].artist+\" - \"+Tracks.items[i].title;if(Track==StatusMsg){j=i;}i=i+1;}"
+				"Track=Tracks.items[j].owner_id+\"_\"+Tracks.items[j].id;API.audio.setBroadcast({\"audio\":Track});"
 				"};return OldMsg;");
 			code.AppendFormat(codeformat, StatusMsg);
 		}
@@ -1020,14 +1024,14 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		}
 		else if (m_iMusicSendMetod == sendBroadcastAndStatus){
 			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";var OldMsg=API.status.get();"
-				"var Tracks = API.audio.search({\"q\":StatusMsg,\"count\":CntLmt, \"search_own\":1});"
-				"var Cnt=Tracks.count;if (Cnt>CntLmt){Cnt=CntLmt;}"
-				"if (Cnt == 0){Track = \"&#9835; \"+StatusMsg; API.status.set({\"text\":Track});}"
-				"else{var i = 0;var j = -1;"
-				"while (i<Cnt){Track=Tracks.items[i].artist+\" - \"+Tracks.items[i].title;if(Track == StatusMsg){j = i;}i=i+1;}"
-				"if(j==-1) {Track = \"&#9835; \"+StatusMsg; API.status.set({\"text\":Track});} else {"
-				"Track=Tracks.items[j].owner_id + \"_\" + Tracks.items[j].id;};API.audio.setBroadcast({\"audio\":Track});"
-				"}; return OldMsg;");
+				"var Tracks=API.audio.search({\"q\":StatusMsg,\"count\":CntLmt,\"search_own\":1});"
+				"var Cnt=Tracks.count;if(Cnt>CntLmt){Cnt=CntLmt;}"
+				"if(Cnt==0){Track=\"&#9835; \"+StatusMsg;API.status.set({\"text\":Track});}"
+				"else{var i=0;var j=-1;"
+				"while(i<Cnt){Track=Tracks.items[i].artist+\" - \"+Tracks.items[i].title;if(Track==StatusMsg){j=i;}i=i+1;}"
+				"if(j==-1){Track=\"&#9835; \"+StatusMsg;API.status.set({\"text\":Track});}else{"
+				"Track=Tracks.items[j].owner_id+\"_\"+Tracks.items[j].id;};API.audio.setBroadcast({\"audio\":Track});"
+				"};return OldMsg;");
 			code.AppendFormat(codeformat, StatusMsg);
 		}
 	}
@@ -1047,11 +1051,11 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM wParam, LPARAM lParam)
 		db_unset(NULL, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%artist% - %title%", (LPARAM)pliInfo));
+			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%artist% - %title%"), (LPARAM)pliInfo));
 		else
-			wszListeningTo.Format(L"%s - %s",
-			pliInfo->ptszArtist ? pliInfo->ptszArtist : L"",
-			pliInfo->ptszTitle ? pliInfo->ptszTitle : L"");
+			wszListeningTo.Format(_T("%s - %s"),
+			pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""),
+			pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""));
 		setTString("ListeningTo", wszListeningTo);
 	}
 	RetrieveStatusMusic(wszListeningTo);
@@ -1171,8 +1175,8 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 
 	ptszMsg.AppendFormat(formatstr, 
 		tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick.GetBuffer(), 
-		tszVarWarning.IsEmpty() ? L" " : TranslateT("\nIt will also"),
-		tszVarWarning.IsEmpty() ? L"\n" : tszVarWarning.GetBuffer());
+		tszVarWarning.IsEmpty() ? _T(" ") : TranslateT("\nIt will also"),
+		tszVarWarning.IsEmpty() ? _T("\n") : tszVarWarning.GetBuffer());
 
 	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 1;
@@ -1250,7 +1254,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 	for (int k = 0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
 		res.AppendChar('\t');
 		ptrT ptszType(json_as_string(json_get(pAttach, "type")));
-		if (!mir_tstrcmp(ptszType, L"photo")) {
+		if (!mir_tstrcmp(ptszType, _T("photo"))) {
 			JSONNODE *pPhoto = json_get(pAttach, "photo");
 			if (pPhoto == NULL) 
 				continue;
@@ -1268,9 +1272,9 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			int iHeight = json_as_int(json_get(pPhoto, "height"));
 			res.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink, iWidth, iHeight);
 			if (m_bAddImgBbc)
-				res.AppendFormat(L"\n\t[img]%s[/img]", ptszLink);
+				res.AppendFormat(_T("\n\t[img]%s[/img]"), ptszLink);
 		}
-		else if (!mir_tstrcmp(ptszType, L"audio")) {
+		else if (!mir_tstrcmp(ptszType, _T("audio"))) {
 			JSONNODE *pAudio = json_get(pAttach, "audio");
 			if (pAudio == NULL) 
 				continue;
@@ -1278,10 +1282,10 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszArtist(json_as_string(json_get(pAudio, "artist")));
 			ptrT ptszTitle(json_as_string(json_get(pAudio, "title")));
 			ptrT ptszUrl(json_as_string(json_get(pAudio, "url")));
-			res.AppendFormat(L"%s: (%s - %s) - %s",
+			res.AppendFormat(_T("%s: (%s - %s) - %s"),
 				TranslateT("Audio"), ptszArtist, ptszTitle, ptszUrl);
 		}
-		else if (!mir_tstrcmp(ptszType, L"video")) {
+		else if (!mir_tstrcmp(ptszType, _T("video"))) {
 			JSONNODE *pVideo = json_get(pAttach, "video");
 			if (pVideo == NULL) 
 				continue;
@@ -1289,18 +1293,18 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszTitle(json_as_string(json_get(pVideo, "title")));
 			int  vid = json_as_int(json_get(pVideo, "id"));
 			int  ownerID = json_as_int(json_get(pVideo, "owner_id"));
-			res.AppendFormat(L"%s: %s - http://vk.com/video%d_%d", TranslateT("Video"), ptszTitle, ownerID, vid);
+			res.AppendFormat(_T("%s: %s - http://vk.com/video%d_%d"), TranslateT("Video"), ptszTitle, ownerID, vid);
 		}
-		else if (!mir_tstrcmp(ptszType, L"doc")) {
+		else if (!mir_tstrcmp(ptszType, _T("doc"))) {
 			JSONNODE *pDoc = json_get(pAttach, "doc");
 			if (pDoc == NULL) 
 				continue;
 
 			ptrT ptszTitle(json_as_string(json_get(pDoc, "title")));
 			ptrT ptszUrl(json_as_string(json_get(pDoc, "url")));
-			res.AppendFormat(L"%s: (%s) - %s", TranslateT("Document"), ptszTitle, ptszUrl);
+			res.AppendFormat(_T("%s: (%s) - %s"), TranslateT("Document"), ptszTitle, ptszUrl);
 		}
-		else if (!mir_tstrcmp(ptszType, L"wall")) {
+		else if (!mir_tstrcmp(ptszType, _T("wall"))) {
 			JSONNODE *pWall = json_get(pAttach, "wall");
 			if (pWall == NULL) 
 				continue;
@@ -1308,7 +1312,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszText(json_as_string(json_get(pWall, "text")));
 			int  id = json_as_int(json_get(pWall, "id"));
 			int  fromID = json_as_int(json_get(pWall, "from_id"));
-			res.AppendFormat(L"%s: %s - http://vk.com/wall%d_%d", TranslateT("Wall post"), ptszText ? ptszText : L" ", fromID, id);
+			res.AppendFormat(_T("%s: %s - http://vk.com/wall%d_%d"), TranslateT("Wall post"), ptszText ? ptszText : _T(" "), fromID, id);
 		}
 		else if (!mir_tstrcmp(ptszType, _T("sticker"))) {
 			JSONNODE *pSticker = json_get(pAttach, "sticker");
@@ -1318,7 +1322,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			
 			if (m_bStikersAsSmyles){
 				int  id = json_as_int(json_get(pSticker, "id"));
-				res.AppendFormat(L"[sticker:%d]", id);
+				res.AppendFormat(_T("[sticker:%d]"), id);
 			}
 			else {
 				ptrT ptszLink;
@@ -1329,10 +1333,10 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 						break;
 					}
 				}
-				res.AppendFormat(L"%s", ptszLink);
+				res.AppendFormat(_T("%s"), ptszLink);
 
 				if (m_bAddImgBbc)
-					res.AppendFormat(L"[img]%s[/img]", ptszLink);
+					res.AppendFormat(_T("[img]%s[/img]"), ptszLink);
 			}
 		}
 		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
